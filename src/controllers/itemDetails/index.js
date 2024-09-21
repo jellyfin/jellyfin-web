@@ -1,3 +1,4 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
@@ -995,6 +996,9 @@ function renderDirector(page, item, context) {
 }
 
 function renderStudio(page, item, context) {
+    // The list of studios can be massive for collections of items
+    if ([BaseItemKind.BoxSet, BaseItemKind.Playlist].includes(item.Type)) return;
+
     const studios = item.Studios || [];
 
     const html = studios.map(function (studio) {
@@ -1309,8 +1313,12 @@ function renderTags(page, item) {
     }
 
     tags.forEach(tag => {
+        const href = appRouter.getRouteUrl('tag', {
+            tag,
+            serverId: item.ServerId
+        });
         tagElements.push(
-            `<a href="#/search.html?query=${encodeURIComponent(tag)}" class="button-link emby-button" is="emby-linkbutton">`
+            `<a href="${href}" class="button-link" is="emby-linkbutton">`
             + escapeHtml(tag)
             + '</a>'
         );
@@ -1727,7 +1735,7 @@ function renderCollectionItemType(page, parentItem, type, items) {
         items: items,
         shape: shape,
         showTitle: true,
-        showYear: type.mediaType === 'Video' || type.type === 'Series',
+        showYear: type.mediaType === 'Video' || type.type === 'Series' || type.type === 'Movie',
         centerText: true,
         lazy: true,
         showDetailsMenu: true,

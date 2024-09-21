@@ -8,7 +8,6 @@ module.exports = {
         '@typescript-eslint',
         'react',
         'import',
-        'eslint-comments',
         'sonarjs'
     ],
     env: {
@@ -21,7 +20,7 @@ module.exports = {
         'eslint:recommended',
         'plugin:react/recommended',
         'plugin:import/errors',
-        'plugin:eslint-comments/recommended',
+        'plugin:@eslint-community/eslint-comments/recommended',
         'plugin:compat/recommended',
         'plugin:sonarjs/recommended'
     ],
@@ -286,7 +285,7 @@ module.exports = {
                 'eslint:recommended',
                 'plugin:import/typescript',
                 'plugin:@typescript-eslint/recommended',
-                'plugin:eslint-comments/recommended',
+                'plugin:@eslint-community/eslint-comments/recommended',
                 'plugin:react/recommended',
                 'plugin:react-hooks/recommended',
                 'plugin:jsx-a11y/recommended'

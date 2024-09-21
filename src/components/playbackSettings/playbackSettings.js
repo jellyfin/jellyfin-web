@@ -1,5 +1,6 @@
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
+import browser from '../../scripts/browser';
 import focusManager from '../focusManager';
 import qualityoptions from '../qualityOptions';
 import globalize from '../../lib/globalize';
@@ -143,6 +144,10 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
 
     showHideQualityFields(context, user, apiClient);
 
+    if (browser.safari) {
+        context.querySelector('.fldEnableHi10p').classList.remove('hide');
+    }
+
     context.querySelector('#selectAllowedAudioChannels').value = userSettings.allowedAudioChannels();
 
     apiClient.getCultures().then(allCultures => {
@@ -175,6 +180,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
     context.querySelector('.chkEnableDts').checked = appSettings.enableDts();
     context.querySelector('.chkEnableTrueHd').checked = appSettings.enableTrueHd();
+    context.querySelector('.chkEnableHi10p').checked = appSettings.enableHi10p();
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
@@ -184,6 +190,9 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkLimitSupportedVideoResolution').checked = appSettings.limitSupportedVideoResolution();
     context.querySelector('#selectPreferredTranscodeVideoCodec').value = appSettings.preferredTranscodeVideoCodec();
     context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value = appSettings.preferredTranscodeVideoAudioCodec();
+    context.querySelector('.chkDisableVbrAudioEncoding').checked = appSettings.disableVbrAudio();
+    context.querySelector('.chkAlwaysRemuxFlac').checked = appSettings.alwaysRemuxFlac();
+    context.querySelector('.chkAlwaysRemuxMp3').checked = appSettings.alwaysRemuxMp3();
 
     setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -225,6 +234,11 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     appSettings.enableDts(context.querySelector('.chkEnableDts').checked);
     appSettings.enableTrueHd(context.querySelector('.chkEnableTrueHd').checked);
 
+    appSettings.enableHi10p(context.querySelector('.chkEnableHi10p').checked);
+    appSettings.disableVbrAudio(context.querySelector('.chkDisableVbrAudioEncoding').checked);
+    appSettings.alwaysRemuxFlac(context.querySelector('.chkAlwaysRemuxFlac').checked);
+    appSettings.alwaysRemuxMp3(context.querySelector('.chkAlwaysRemuxMp3').checked);
+
     setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
     setMaxBitrateFromField(context.querySelector('.selectMusicInternetQuality'), false, 'Audio');
@@ -263,36 +277,6 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
     });
 }
 
-function setSelectValue(select, value, defaultValue) {
-    select.value = value;
-
-    if (select.selectedIndex < 0) {
-        select.value = defaultValue;
-    }
-}
-
-function onMaxVideoWidthChange(e) {
-    const context = this.options.element;
-
-    const selectVideoInNetworkQuality = context.querySelector('.selectVideoInNetworkQuality');
-    const selectVideoInternetQuality = context.querySelector('.selectVideoInternetQuality');
-    const selectChromecastVideoQuality = context.querySelector('.selectChromecastVideoQuality');
-
-    const selectVideoInNetworkQualityValue = selectVideoInNetworkQuality.value;
-    const selectVideoInternetQualityValue = selectVideoInternetQuality.value;
-    const selectChromecastVideoQualityValue = selectChromecastVideoQuality.value;
-
-    const maxVideoWidth = parseInt(e.target.value || '0', 10) || 0;
-
-    fillQuality(selectVideoInNetworkQuality, true, 'Video', maxVideoWidth);
-    fillQuality(selectVideoInternetQuality, false, 'Video', maxVideoWidth);
-    fillChromecastQuality(selectChromecastVideoQuality, maxVideoWidth);
-
-    setSelectValue(selectVideoInNetworkQuality, selectVideoInNetworkQualityValue, '');
-    setSelectValue(selectVideoInternetQuality, selectVideoInternetQualityValue, '');
-    setSelectValue(selectChromecastVideoQuality, selectChromecastVideoQualityValue, '');
-}
-
 function onSubmit(e) {
     const self = this;
     const apiClient = ServerConnections.getApiClient(self.options.serverId);
@@ -319,8 +303,6 @@ function embed(options, self) {
     if (options.enableSaveButton) {
         options.element.querySelector('.btnSave').classList.remove('hide');
     }
-
-    options.element.querySelector('.selectMaxVideoWidth').addEventListener('change', onMaxVideoWidthChange.bind(self));
 
     self.loadData();
 

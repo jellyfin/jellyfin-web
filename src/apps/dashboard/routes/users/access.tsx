@@ -17,6 +17,7 @@ type ItemsArr = {
     Name?: string | null;
     Id?: string | null;
     AppName?: string | null;
+    CustomName?: string | null;
     checkedAttribute?: string
 };
 
@@ -112,6 +113,7 @@ const UserLibraryAccess = () => {
                 Id: device.Id,
                 Name: device.Name,
                 AppName: device.AppName,
+                CustomName: device.CustomName,
                 checkedAttribute: checkedAttribute
             });
         }
@@ -307,7 +309,7 @@ const UserLibraryAccess = () => {
                                 key={Item.Id}
                                 className='chkDevice'
                                 itemId={Item.Id}
-                                itemName={Item.Name}
+                                itemName={Item.CustomName || Item.Name}
                                 itemAppName={Item.AppName}
                                 itemCheckedAttribute={Item.checkedAttribute}
                             />

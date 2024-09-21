@@ -1893,5 +1893,8 @@
     "SaveLyricsIntoMediaFolders": "Guardar letras em pastas multimédia",
     "LabelSelectPreferredTranscodeVideoCodec": "Codec de vídeo transcodificado preferido",
     "SelectPreferredTranscodeVideoCodecHelp": "Seleccione o codec de vídeo preferido para transcodificar. Se o codec preferido não for suportado, o servidor irá usar o melhor codec disponível a seguir.",
-    "HeaderNextItem": "Seguinte {0}"
+    "HeaderNextItem": "Seguinte {0}",
+    "EditLyrics": "Editar letra",
+    "HeaderAddLyrics": "Adicionar letra",
+    "HeaderPreviewLyrics": "Pré-visualizar letra"
 }

@@ -11,7 +11,7 @@
 
                 <div class="selectContainer">
                     <select is="emby-select" id="selectVideoDecoder" label="${LabelHardwareAccelerationType}">
-                        <option value="">${None}</option>
+                        <option value="none">${None}</option>
                         <option value="amf">AMD AMF</option>
                         <option value="nvenc">Nvidia NVENC</option>
                         <option value="qsv">Intel QuickSync (QSV)</option>
@@ -79,6 +79,16 @@
                             <label>
                                 <input type="checkbox" is="emby-checkbox" id="chkDecodingColorDepth10Vp9" />
                                 <span>VP9 10bit</span>
+                            </label>
+                        </div>
+                        <div class="checkboxList hide fldHevcRextHwDecoding">
+                            <label>
+                                <input type="checkbox" is="emby-checkbox" id="chkDecodingColorDepth10HevcRext" />
+                                <span>HEVC RExt 8/10bit</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" is="emby-checkbox" id="chkDecodingColorDepth12HevcRext" />
+                                <span>HEVC RExt 12bit</span>
                             </label>
                         </div>
                     </div>
@@ -312,7 +322,7 @@
 
                 <div class="selectContainer">
                     <select is="emby-select" id="selectEncoderPreset" label="${LabelEncoderPreset}">
-                        <option value="">${Auto}</option>
+                        <option value="auto">${Auto}</option>
                         <option value="veryslow">veryslow</option>
                         <option value="slower">slower</option>
                         <option value="slow">slow</option>

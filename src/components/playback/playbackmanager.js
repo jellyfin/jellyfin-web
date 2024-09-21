@@ -309,7 +309,8 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
         PlaySessionId: startingPlaySession,
         StartTimeTicks: startPosition || 0,
         EnableRedirection: true,
-        EnableRemoteMedia: appHost.supports('remoteaudio')
+        EnableRemoteMedia: appHost.supports('remoteaudio'),
+        EnableAudioVbrEncoding: transcodingProfile.EnableAudioVbrEncoding
     });
 }
 
@@ -1862,6 +1863,15 @@ class PlaybackManager {
                         SortBy: options.shuffle ? 'Random' : 'SortName',
                         MediaTypes: 'Audio'
                     }, queryOptions));
+                case 'Genre':
+                    return getItemsForPlayback(serverId, mergePlaybackQueries({
+                        GenreIds: firstItem.Id,
+                        ParentId: firstItem.ParentId,
+                        Filters: 'IsNotFolder',
+                        Recursive: true,
+                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        MediaTypes: 'Video'
+                    }, queryOptions));
                 case 'Series':
                 case 'Season':
                     return getSeriesOrSeasonPlaybackPromise(firstItem, options, items);
@@ -1947,7 +1957,7 @@ class PlaybackManager {
                 episodesResult.StartIndex = undefined;
                 let seasonStartIndex;
                 for (const [index, e] of episodesResult.Items.entries()) {
-                    if (startSeasonId) {
+                    if (startSeasonId && items.length != 1) {
                         if (e.SeasonId == startSeasonId) {
                             if (seasonStartIndex === undefined) {
                                 seasonStartIndex = index;

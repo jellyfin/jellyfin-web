@@ -1931,5 +1931,14 @@
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrahiert nur Schlüsselbilder für eine deutlich schnellere Verarbeitung mit weniger genauem Timing. Wenn der konfigurierte Hardware-Decoder diesen Modus nicht unterstützt, wird stattdessen der Software-Decoder verwendet.",
     "Reset": "Zurücksetzen",
     "LibraryInvalidItemIdError": "Die Bibliothek ist in einem ungültigen Zustand und kann nicht verändert werden. Dies ist möglicherweise ein Bug: Der Pfad in der Datenbank ist nicht der richtige Pfad im Dateisystem.",
-    "MediaInfoRotation": "Rotation"
+    "MediaInfoRotation": "Rotation",
+    "EnableHi10p": "H.264 High 10 Profil aktivieren",
+    "EnableHi10pHelp": "Aktivieren, um die Transkodierung von H.264-Videos zu verhindern. Deaktivieren, wenn die Videos nur leere Frames zeigen.",
+    "LabelDisableVbrAudioEncoding": "VBR-Audiocodierung deaktivieren",
+    "AlwaysRemuxFlacAudioFilesHelp": "Wenn du Dateien hast, welche dein Browser verweigert abzuspielen oder ungenaue Zeitstempel berechnet, aktiviere diese Behelfslösung.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Wenn du Dateien hast, bei welchen dein Browser ungenaue Zeitstempel berechnet, aktiviere diese Behelfslösung.",
+    "DisableVbrAudioEncodingHelp": "Verhindern Sie, dass der Server Audio mit VBR für diesen Client kodiert.",
+    "HeaderAudioAdvanced": "Erweiterter Ton",
+    "LabelAlwaysRemuxFlacAudioFiles": "FLAC-Audiodateien immer wieder neu mischen",
+    "LabelAlwaysRemuxMp3AudioFiles": "MP3-Audiodateien immer wieder neu mischen"
 }
