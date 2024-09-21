@@ -405,7 +405,7 @@ function setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositio
 
 async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, liveStreamId, options) {
     if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && !player.useServerPlaybackInfoForAudio) {
-        return Promise.resolve({
+        return {
             MediaSources: [
                 {
                     StreamUrl: getAudioStreamUrlFromDeviceProfile(item, deviceProfile, options.maxBitrate, apiClient, options.startPosition),
@@ -413,7 +413,7 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
                     MediaStreams: [],
                     RunTimeTicks: item.RunTimeTicks
                 }]
-        });
+        };
     }
 
     if (item.PresetMediaSource) {
