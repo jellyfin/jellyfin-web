@@ -1860,7 +1860,7 @@
     "LabelWidthResolutionsHelp": "Elenco separato da virgole delle larghezze (px) con cui saranno generate le immagini di Trickplay. Tutte le immagini devono essere generate in modo proporzionale alla sorgente, quindi una larghezza di 320 su un video 16:9 finisce per essere circa 320x180.",
     "LabelTileHeight": "Altezza Riquadro",
     "LabelTrickplayAccelEncoding": "Abilita l'accelerazione hardware della codifica MJPEG",
-    "LabelTrickplayAccelEncodingHelp": "Disponibile solo per QSV, VAAPI e VideoToolbox. Questa opzione non ha alcun effetto sugli altri metodi di accelerazione hardware.",
+    "LabelTrickplayAccelEncodingHelp": "Disponibile solo per QSV, VAAPI, VideoToolbox e RKMPP. Questa opzione non ha alcun effetto sugli altri metodi di accelerazione hardware.",
     "ConfirmDeleteLyrics": "Cancellare questi testi li rimuoverà sia dalle cartelle del sistema che dalla tua libreria multimediale. Sei sicuro di continuare?",
     "DeleteLyrics": "Cancella testi",
     "ErrorDeletingLyrics": "C'è stato un errore nel cancellare i testi dal server. Perfavore controlla che Jellyfin abbia accesso alla scrittura della cartella dei media e riprova.",
