@@ -1848,5 +1848,22 @@
     "RenderPgsSubtitle": "Eksperimentaalne PGS subtiitrite esitamine",
     "RenderPgsSubtitleHelp": "Määrake, kas klient peaks PGS-subtiitreid renderdama, selle asemel et kasutada sissepõletatud subtiitreid. Sellega saab vältida serveri poolset transkodeerimist, et saavutada tulemuslikum kliendipoolne renderdamine.",
     "Production": "Toodang",
-    "ReleaseGroup": "Väljaandja rühmitus"
+    "ReleaseGroup": "Väljaandja rühmitus",
+    "SubtitleGreen": "Roheline",
+    "SubtitleBlue": "Sinine",
+    "SubtitleCyan": "Tsüüan",
+    "Translator": "Tõlkija",
+    "SubtitleWhite": "Valge",
+    "SubtitleYellow": "Kollane",
+    "UnknownError": "Tekkis tundmatu viga.",
+    "SubtitleLightGray": "Helehall",
+    "SubtitleBlack": "Must",
+    "SubtitleGray": "Hall",
+    "StereoDownmixAlgorithmHelp": "Algoritm, mida kasutatakse mitme kanaliga heli allasegamiseks stereoks.",
+    "StoryArc": "Narratiiv",
+    "SubtitleMagenta": "Magenta",
+    "SelectPreferredTranscodeVideoCodecHelp": "Vali transkodeerimiseks eelistatud videokoodek. Kui eelisatud koodek pole toetatud kasutab server järgmist saadaolevat koodekit.",
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Vali videofailide transkodeerimiseks eelistatud audiokoodek. Kui eelisatud koodek pole toetatud kasutab server järgmist saadaolevat koodekit.",
+    "Studio": "Stuudio",
+    "SubtitleRed": "Punane"
 }
