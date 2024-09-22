@@ -1908,5 +1908,9 @@
     "ForeignPartsOnly": "Ainult sunnitud/võõrosad",
     "LabelVppTonemappingContrast": "VPP toonikaardistamise kontrasti võimendus",
     "LabelVppTonemappingContrastHelp": "Rakendage VPP toonikaardistamisel kontrasti võimendust. Nii soovitatud kui ka vaikimisi väärtus on 1.",
-    "MediaInfoRpuPresentFlag": "DV rpu eelseadistuse lipuke"
+    "MediaInfoRpuPresentFlag": "DV rpu eelseadistuse lipuke",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Eralda ainult põhikaadrid oluliselt kiiremaks töötlemiseks, vähem täpse ajastusega. Kui seadistatud riistvaraline dekooder seda režiimi ei toeta kasutatakse selle asemel tarkvaralist dekooderit.",
+    "LabelScanBehavior": "Skaneerimise käitumine",
+    "NonBlockingScan": "Mitteblokeeriv - ootab genereerimist, seejärel naaseb",
+    "BlockingScan": "Blokeeriv - järjekorras genereerimine, blokeerib skaneerimise kuni selle lõpetamiseni"
 }
