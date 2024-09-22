@@ -1875,7 +1875,7 @@
     "HeaderNextItemPlayingInValue": "Kế tiếp {0} Đang phát trong {1}",
     "PluginLoadRepoError": "Đã xảy ra lỗi khi tải thông tin chi tiết tính năng mở rộng từ kho lưu trữ.",
     "HeaderNextItem": "Kế tiếp {0}",
-    "AirPlay": "Phát qua AirPlay",
+    "AirPlay": "AirPlay",
     "Featurette": "Quảng Bá",
     "LabelSelectPreferredTranscodeVideoCodec": "Bộ mã hóa video chuyển mã ưa thích",
     "Trickplay": "Tua nhanh",
@@ -1915,7 +1915,7 @@
     "ChannelResolutionFullHD": "Full HD",
     "ChannelResolutionSD": "SD",
     "ChannelResolutionHD": "HD",
-    "AllowTonemappingSoftwareHelp": "Tone-mapping có thể chuyển đổi dải động của video từ HDR sang SDR trong khi vẫn giữ được chi tiết hình ảnh và màu sắc, đây là những thông tin rất quan trọng để thể hiện cảnh gốc. Hiện tại, tính năng này chỉ hoạt động với video 10bit HDR10, HLG và HLGDoVi.",
+    "AllowTonemappingSoftwareHelp": "Tone-mapping có thể chuyển đổi dải động của video từ HDR sang SDR trong khi vẫn giữ được chi tiết hình ảnh và màu sắc, đây là những thông tin rất quan trọng để thể hiện cảnh gốc. Hiện chỉ hoạt động với video 10bit HDR10, HLG và DoVi.",
     "MediaInfoRotation": "Xoay",
     "LabelTrickplayKeyFrameOnlyExtraction": "Chỉ tạo hình ảnh từ các khung hình chính",
     "ForeignPartsOnly": "Chỉ phần Ngoài/Bắt buộc",
@@ -1930,5 +1930,11 @@
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Chỉ trích xuất các khung hình chính để xử lý nhanh hơn đáng kể với thời gian kém chính xác hơn. Nếu bộ giải mã phần cứng được cấu hình không hỗ trợ chế độ này, thay vào đó sẽ sử dụng bộ giải mã phần mềm.",
     "LibraryInvalidItemIdError": "Thư viện đang ở trạng thái không hợp lệ và không thể chỉnh sửa. Bạn có thể đang gặp phải lỗi: đường dẫn trong cơ sở dữ liệu không khớp với đường dẫn trên hệ thống tệp.",
     "EnableHi10pHelp": "Bật để tránh chuyển mã video H.264 10-bit. Tắt tùy chọn này nếu video hiển thị khung hình trống.",
-    "EnableHi10p": "Kích hoạt cấu hình H.264 High 10"
+    "EnableHi10p": "Kích hoạt cấu hình H.264 High 10",
+    "AllowFmp4TranscodingContainerHelp": "Cho phép bộ chứa chuyển mã fMP4 cho bộ điều chỉnh này để bật nội dung HEVC và HDR. Không phải tất cả các bộ chỉnh đều tương thích với vùng chứa này. Tắt tính năng này nếu bạn gặp sự cố phát lại.",
+    "AllowStreamSharingHelp": "Cho phép Jellyfin sao chép luồng mpegts từ bộ dò sóng và chia sẻ luồng trùng lặp này với các máy khách của nó. Điều này hữu ích khi bộ dò có tổng giới hạn số lượng luồng nhưng cũng có thể gây ra sự cố phát lại.",
+    "FallbackMaxStreamingBitrateHelp": "Tốc độ bit phát trực tuyến tối đa được sử dụng làm dự phòng khi ffprobe không thể xác định tốc độ bit của luồng nguồn. Điều này giúp ngăn khách hàng yêu cầu tốc độ bit chuyển mã quá cao, điều này có thể khiến trình phát bị lỗi và khiến bộ mã hóa bị quá tải.",
+    "AlwaysRemuxFlacAudioFilesHelp": "Nếu bạn có các tệp mà trình duyệt của bạn từ chối phát hoặc nơi nó tính toán dấu thời gian không chính xác, hãy bật tính năng này như một giải pháp thay thế.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Nếu bạn có các tệp mà trình duyệt của bạn tính toán dấu thời gian không chính xác, hãy kích hoạt tính năng này như một giải pháp thay thế.",
+    "DisableVbrAudioEncodingHelp": "Ngăn máy chủ mã hóa âm thanh bằng VBR cho máy khách này."
 }
