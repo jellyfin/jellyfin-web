@@ -1950,7 +1950,7 @@
     "LabelAllowFmp4TranscodingContainer": "允许 fMP4 转码容器",
     "LabelAllowStreamSharing": "允许流共享",
     "LabelFallbackMaxStreamingBitrate": "回退最大流比特率 (Mbps)",
-    "VideoCodecTagNotSupported": "不支持视频编解码器标签",
+    "VideoCodecTagNotSupported": "视频编码标签不支持",
     "LabelLyricDownloaders": "歌词下载",
     "LyricDownloadersHelp": "启用并按优先级顺序排列您喜欢的下载器。",
     "RenderPgsSubtitle": "实验性 PGS 字幕渲染",
