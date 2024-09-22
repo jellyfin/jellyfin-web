@@ -1588,7 +1588,7 @@ export class HtmlVideoPlayer {
         const player = this;
 
         sessionPromise.then((s) => {
-            if (!s.TranscodingInfo || s.TranscodingInfo?.IsVideoDirect) {
+            if (!s.TranscodingInfo || s.TranscodingInfo.IsVideoDirect) {
                 // restore recorded delivery method if any
                 mediaStreamTextTracks.forEach((t) => {
                     t.DeliveryMethod = t.realDeliveryMethod ?? t.DeliveryMethod;
