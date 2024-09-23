@@ -1182,7 +1182,7 @@
     "ValueCodec": "Codec: {0}",
     "ValueContainer": "Container: {0}",
     "ValueVideoCodec": "Videocodec: {0}",
-    "Whitelist": "Whitelist",
+    "Whitelist": "Positieflijst",
     "MediaInfoCodec": "Codec",
     "Menu": "Menu",
     "LabelTranscodingFramerate": "Verversingssnelheid transcoderen",
@@ -1953,5 +1953,14 @@
     "LabelLyricDownloaders": "Ophalers voor liedteksten",
     "LyricDownloadersHelp": "Rangschik je voorkeursophalers voor liedteksten op volgorde van prioritieit.",
     "RenderPgsSubtitle": "PGS-ondertiteling weergeven (experimenteel)",
-    "RenderPgsSubtitleHelp": "Bepaal of de cliënt PGS-ondertiteling zelf moet weergeven in plaats van ingebrande ondertiteling te gebruiken. Dit voorkomt transcoderen aan de serverkant maar kan de weergaveprestaties aan de cliëntkant beïnvloeden."
+    "RenderPgsSubtitleHelp": "Bepaal of de cliënt PGS-ondertiteling zelf moet weergeven in plaats van ingebrande ondertiteling te gebruiken. Dit voorkomt transcoderen aan de serverkant maar kan de weergaveprestaties aan de cliëntkant beïnvloeden.",
+    "LabelAudioTagSettings": "Instellingen voor geluidstags",
+    "LabelCustomTagDelimiters": "Aangepast scheidingsteken voor tags",
+    "LabelCustomTagDelimitersHelp": "Tekens die als scheidingsteken worden gezien om tags van elkaar te scheiden.",
+    "LabelDelimiterWhitelist": "Positieflijst scheidingstekens",
+    "LabelDelimiterWhitelistHelp": "Items die worden uitgesloten van het splitsen van tags. Eén item per regel.",
+    "UseCustomTagDelimiters": "Aangepast scheidingsteken voor tags gebruiken",
+    "UseCustomTagDelimitersHelp": "Artiest- en genre-tags splitsen met aangepaste tekens.",
+    "PreferNonstandardArtistsTagHelp": "Gebruik de incourante ARTISTS-tag in plaats van de ARTIST-tag indien beschikbaar.",
+    "PreferNonstandardArtistsTag": "ARTISTS-tag verkiezen indien beschikbaar"
 }
