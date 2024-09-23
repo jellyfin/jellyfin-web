@@ -30,12 +30,15 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId
 
             <div className='searchSuggestionsList padded-left padded-right'>
                 {suggestions?.map(item => (
-                    <LinkButton key={item.Id}
-                        className='button-link'
-                        style={{ display: 'inline-block', padding: '0.5em 1em' }}
-                        href={appRouter.getRouteUrl(item)}>
-                        {item.Name}
-                    </LinkButton>
+                    <div key={item.Id}>
+                        <LinkButton
+                            className='button-link'
+                            style={{ display: 'inline-block', padding: '0.5em 1em' }}
+                            href={appRouter.getRouteUrl(item)}
+                        >
+                            {item.Name}
+                        </LinkButton>
+                    </div>
                 ))}
             </div>
         </div>
