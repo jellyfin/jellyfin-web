@@ -1901,5 +1901,6 @@
     "FallbackMaxStreamingBitrateHelp": "Den maksimale strømmingbitraten brukes som en fallback når ffprobe ikke klarer å bestemme kildestrømmens bitrate. Dette bidrar til å forhindre at klienter ber om en for høy transkodingsbitrate, noe som kan føre til at spilleren mislykkes og overbelaste enkoderen.",
     "LabelAllowFmp4TranscodingContainer": "Tillat fMP4 omkoderbeholder",
     "LabelAllowStreamSharing": "Tillat strømdeling",
-    "LabelFallbackMaxStreamingBitrate": "Fallback maksimum strømbitrate (Mb/s)"
+    "LabelFallbackMaxStreamingBitrate": "Fallback maksimum strømbitrate (Mb/s)",
+    "LabelLyricDownloaders": "Sangtekstnedlasetere"
 }
