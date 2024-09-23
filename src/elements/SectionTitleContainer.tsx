@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import IconButtonElement from './IconButtonElement';
 import LinkButton from './emby-button/LinkButton';
-import globalize from '../scripts/globalize';
+import globalize from 'lib/globalize';
 
 type IProps = {
     SectionClassName?: string;
