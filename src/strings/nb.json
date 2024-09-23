@@ -1939,5 +1939,15 @@
     "BlockingScan": "Blocking - generering settes i kø, blokker skanning til den er fullført",
     "LabelProcessPriorityHelp": "Å sette denne lavere eller høyere vil avgjøre hvordan prosessoren prioriterer ffmpeg trickplay generasjonsprosessen i forhold til andre prosesser. Hvis du legger merke til nedgang mens du genererer trickplay-bilder, men ikke ønsker å stoppe generasjonen deres, kan du prøve å senke dette samt antall tråder.",
     "LabelScanBehaviorHelp": "Standardoppførselen er non-blocking, som vil legge til media til biblioteket før trickplay-generering er ferdig. Blocking vil sikre at trickplay-filer genereres før media legges til biblioteket, men vil gjøre skanningene betydelig lengre.",
-    "LabelImageIntervalHelp": "Tidsintervall (ms) mellom hvert nytt trickplay-bilde."
+    "LabelImageIntervalHelp": "Tidsintervall (ms) mellom hvert nytt trickplay-bilde.",
+    "LabelTrickplayThreadsHelp": "Antall tråder som skal passeres til '-threads'-argumentet til ffmpeg.",
+    "ExtractTrickplayImagesHelp": "Trickplay-bilder ligner på kapittelbilder, bortsett fra at de spenner over hele lengden av innholdet og brukes til å vise en forhåndsvisning når du scrubber gjennom videoer.",
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Generer trickplay-bilder når videoer importeres under biblioteksskanningen. Ellers vil de bli trukket ut under den planlagte oppgaven med trickplay-bilder. Hvis generering er satt til non-blocking, vil dette ikke påvirke tiden det tar å fullføre en bibliotekskanning.",
+    "LabelQscaleHelp": "Kvalitetsskalaen til bilder som sendes ut av ffmpeg, med 2 som høyeste kvalitet og 31 er den laveste.",
+    "LabelExtractTrickplayDuringLibraryScan": "Trekk ut trickplay-bilder under skanningen av biblioteket",
+    "OptionExtractTrickplayImage": "Aktiver uttrekking av trickplay-bilde",
+    "LabelWidthResolutionsHelp": "Kommaseparert liste over breddene (px) som trickplay-bilder vil bli generert med. Alle bilder skal genereres proporsjonalt med kilden, så en bredde på 320 på en 16:9-video ender opp på rundt 320x180.",
+    "LabelTileWidthHelp": "Maksimalt antall bilder per rad i X-retningen.",
+    "LabelTileHeightHelp": "Maksimalt antall bilder per kolonne i Y-retningen.",
+    "LabelJpegQualityHelp": "JPEG-komprimeringskvaliteten for trickplay-bilder."
 }
