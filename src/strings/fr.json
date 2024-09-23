@@ -1925,5 +1925,8 @@
     "PreviewLyrics": "Prévisualiser les paroles",
     "SearchForLyrics": "Chercher les paroles",
     "NoLyricsSearchResultsFound": "Pas de paroles trouvées.",
-    "HeaderUploadLyrics": "Téléverser des paroles"
+    "HeaderUploadLyrics": "Téléverser des paroles",
+    "DisableVbrAudioEncodingHelp": "Empêche le serveur d'encoder l'audio avec VBR pour ce client.",
+    "EnableHi10p": "Active le profil H.264 High 10",
+    "EnableHi10pHelp": "Activer pour éviter l'encodage des vidéos H.264 10-bits. Désactiver cette option si la vidéo affiche des images vides."
 }
