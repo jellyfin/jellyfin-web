@@ -1936,5 +1936,8 @@
     "EncodingFormatHelp": "Velg videokodingen som Jellyfin skal omkode til. Jellyfin bruker programvarekoding når maskinvareakselerasjon for valgt format ikke er tilgjengelig. H264-koding vil alltid være aktivert.",
     "LabelTrickplayAccelEncodingHelp": "Foreløpig kun tilgjengelig på QSV, VA-API, VideoToolbox og RKMPP, dette alternativet har ingen effekt på andre maskinvareakselerasjonsmetoder.",
     "NonBlockingScan": "Non Blocking - køgenerering, og returnerer deretter",
-    "BlockingScan": "Blocking - generering settes i kø, blokker skanning til den er fullført"
+    "BlockingScan": "Blocking - generering settes i kø, blokker skanning til den er fullført",
+    "LabelProcessPriorityHelp": "Å sette denne lavere eller høyere vil avgjøre hvordan prosessoren prioriterer ffmpeg trickplay generasjonsprosessen i forhold til andre prosesser. Hvis du legger merke til nedgang mens du genererer trickplay-bilder, men ikke ønsker å stoppe generasjonen deres, kan du prøve å senke dette samt antall tråder.",
+    "LabelScanBehaviorHelp": "Standardoppførselen er non-blocking, som vil legge til media til biblioteket før trickplay-generering er ferdig. Blocking vil sikre at trickplay-filer genereres før media legges til biblioteket, men vil gjøre skanningene betydelig lengre.",
+    "LabelImageIntervalHelp": "Tidsintervall (ms) mellom hvert nytt trickplay-bilde."
 }
