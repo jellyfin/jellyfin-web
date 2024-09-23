@@ -78,7 +78,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                         queryKey: ['Timers'],
                         reloadItems: refetch
                     }}
-                    items={group.timerInfo }
+                    items={group.timerInfo}
                     cardOptions={{
                         queryKey: ['Timers'],
                         shape: CardShape.BackdropOverflow,
