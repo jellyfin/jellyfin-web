@@ -1933,5 +1933,10 @@
     "LabelDisableVbrAudioEncoding": "Inaktivera VBR-ljudkodning",
     "AlwaysRemuxFlacAudioFilesHelp": "Om du har filer som din webbläsare vägrar att spela upp eller där den beräknar tidsstämplar felaktigt, aktivera detta som en lösning.",
     "AlwaysRemuxMp3AudioFilesHelp": "Om du har filer som din webbläsare beräknar tidsstämplar felaktigt, aktivera detta som en lösning.",
-    "DisableVbrAudioEncodingHelp": "Förhindra servern från att koda ljud med VBR för den här klienten."
+    "DisableVbrAudioEncodingHelp": "Förhindra servern från att koda ljud med VBR för den här klienten.",
+    "RenderPgsSubtitle": "Experimental PGS-textrendering",
+    "FallbackMaxStreamingBitrateHelp": "Den högsta uppspelningsbithastigheten används ifall ffprobe inte lyckas fastställa källans bithastighet. Detta gör så att klienter inte efterfrågar en för hög omkodningsbithastighet, vilket kan resultera i att mediespelaren kraschar och överbelastar omkodaren.",
+    "LabelAllowFmp4TranscodingContainer": "Tillåt fMP4 omkodningscontainer",
+    "LabelAlwaysRemuxMp3AudioFiles": "Remux:a alltid MP3-ljudfiler",
+    "LabelAlwaysRemuxFlacAudioFiles": "Remux:a alltid FLAC-ljudfiler"
 }
