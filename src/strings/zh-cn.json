@@ -1957,7 +1957,11 @@
     "RenderPgsSubtitleHelp": "在客户端渲染 PGS 字幕，而不是烧录字幕。这以降低客户端渲染性能为代价来避免服务器端转码。",
     "LabelAudioTagSettings": "音频标签设置",
     "LabelCustomTagDelimiters": "自定义标签分隔符",
-    "LabelCustomTagDelimitersHelp": "作为标签分隔符的字符。",
+    "LabelCustomTagDelimitersHelp": "作为分隔符来分隔标签的字符。",
     "LabelDelimiterWhitelist": "分隔符白名单",
-    "UseCustomTagDelimiters": "使用自定义标签分隔符"
+    "UseCustomTagDelimiters": "使用自定义标签分隔符",
+    "LabelDelimiterWhitelistHelp": "从标签分隔中排除的项目。每行一项。",
+    "PreferNonstandardArtistsTag": "可用时首选的艺术家标签",
+    "PreferNonstandardArtistsTagHelp": "如果可用，使用非标准的艺术家标签代替艺术家标签。",
+    "UseCustomTagDelimitersHelp": "使用自定义字符分割\"艺术家/类型\"标签。"
 }
