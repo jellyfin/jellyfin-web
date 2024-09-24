@@ -1954,5 +1954,14 @@
     "RenderPgsSubtitle": "Experimental PGS subtitle rendering",
     "RenderPgsSubtitleHelp": "Determine if the client should render PGS subtitles instead of using burned in subtitles. This can avoid server-side transcoding in exchange of client-side rendering performance.",
     "LabelLyricDownloaders": "Lyric downloaders",
-    "LyricDownloadersHelp": "Enable and rank your preferred subtitle downloaders in order of priority."
+    "LyricDownloadersHelp": "Enable and rank your preferred subtitle downloaders in order of priority.",
+    "LabelAudioTagSettings": "Audio Tag settings",
+    "LabelCustomTagDelimiters": "Custom Tag Delimiter",
+    "LabelCustomTagDelimitersHelp": "Characters to be treated as delimiters to separate tags.",
+    "LabelDelimiterWhitelist": "Delimiter Whitelist",
+    "LabelDelimiterWhitelistHelp": "Items to be excluded from tag splitting. One item per line.",
+    "PreferNonstandardArtistsTag": "Prefer ARTISTS tag if available",
+    "PreferNonstandardArtistsTagHelp": "Use the non-standard ARTISTS tag instead of ARTIST tag when available.",
+    "UseCustomTagDelimiters": "Use custom tag delimiter",
+    "UseCustomTagDelimitersHelp": "Split artist/genre tags with custom characters."
 }
