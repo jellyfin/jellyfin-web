@@ -1,4 +1,4 @@
-import type { BaseItemDto, DeviceInfo, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import type { BaseItemDto, DeviceInfoDto, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -96,7 +96,7 @@ const UserLibraryAccess = () => {
         triggerChange(chkEnableAllChannels);
     }, []);
 
-    const loadDevices = useCallback((user: UserDto, devices: DeviceInfo[]) => {
+    const loadDevices = useCallback((user: UserDto, devices: DeviceInfoDto[]) => {
         const page = element.current;
 
         if (!page) {
@@ -131,7 +131,7 @@ const UserLibraryAccess = () => {
         }
     }, []);
 
-    const loadUser = useCallback((user: UserDto, mediaFolders: BaseItemDto[], channels: BaseItemDto[], devices: DeviceInfo[]) => {
+    const loadUser = useCallback((user: UserDto, mediaFolders: BaseItemDto[], channels: BaseItemDto[], devices: DeviceInfoDto[]) => {
         setUserName(user.Name || '');
         libraryMenu.setTitle(user.Name);
         loadChannels(user, channels);
