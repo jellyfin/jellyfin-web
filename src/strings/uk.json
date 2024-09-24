@@ -1947,5 +1947,12 @@
     "LabelAllowStreamSharing": "Дозволити спільний доступ до потоку",
     "LabelFallbackMaxStreamingBitrate": "Резервна максимальна швидкість потоку (Мбіт/с)",
     "VideoCodecTagNotSupported": "Тег відеокодека не підтримується",
-    "HeaderAudioAdvanced": "Розширене аудіо"
+    "HeaderAudioAdvanced": "Розширене аудіо",
+    "LabelLyricDownloaders": "Завантажувачі текстів пісень",
+    "LabelAudioTagSettings": "Налаштування аудіотегів",
+    "LabelCustomTagDelimiters": "Користувацький роздільник тегів",
+    "LabelCustomTagDelimitersHelp": "Символи, які слід розглядати як роздільники для розділення тегів.",
+    "LabelDelimiterWhitelist": "Білий список роздільників",
+    "LabelDelimiterWhitelistHelp": "Елементи, які слід виключити з розбиття тегів. По одному елементу в рядку.",
+    "LyricDownloadersHelp": "Увімкніть та розташуйте бажані програми для завантаження субтитрів у порядку пріоритету."
 }
