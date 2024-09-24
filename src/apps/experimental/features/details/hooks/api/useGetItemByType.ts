@@ -13,8 +13,9 @@ const getItemByType = async (
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = apiContext;
-    if (!api) throw new Error('No API instance available');
-    if (!user?.Id) throw new Error('No User ID provided');
+
+    if (!api) throw new Error('[getItemByType] No API instance available');
+    if (!user?.Id) throw new Error('[getItemByType] No User ID provided');
 
     let response;
     switch (itemType) {

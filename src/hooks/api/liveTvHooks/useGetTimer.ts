@@ -10,23 +10,22 @@ const getTimer = async (
     options?: AxiosRequestConfig
 ) => {
     const { api } = currentApi;
-    if (!api) throw new Error('No API instance available');
-    const response = await getLiveTvApi(api).getTimer(
-        params,
-        options
-    );
 
+    if (!api) throw new Error('[getTimer] No API instance available');
+
+    const response = await getLiveTvApi(api).getTimer(params, options);
     return response.data;
 };
 
 export const getTimerQuery = (
     apiContext: JellyfinApiContext,
     params: LiveTvApiGetTimerRequest
-) => queryOptions({
-    queryKey: ['Timer', params.timerId],
-    queryFn: ({ signal }) => getTimer(apiContext, params, { signal }),
-    enabled: !!apiContext.api && !!apiContext.user?.Id && !!params.timerId
-});
+) =>
+    queryOptions({
+        queryKey: ['Timer', params.timerId],
+        queryFn: ({ signal }) => getTimer(apiContext, params, { signal }),
+        enabled: !!apiContext.api && !!apiContext.user?.Id && !!params.timerId
+    });
 
 export const useGetTimer = (requestParameters: LiveTvApiGetTimerRequest) => {
     const apiContext = useApi();

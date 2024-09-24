@@ -8,10 +8,11 @@ const cancelTimer = async (
     params: LiveTvApiCancelTimerRequest
 ) => {
     const { api } = apiContext;
-    if (api) {
-        const response = await getLiveTvApi(api).cancelTimer(params);
-        return response.data;
-    }
+
+    if (!api) throw new Error('[cancelTimer] No API instance available');
+
+    const response = await getLiveTvApi(api).cancelTimer(params);
+    return response.data;
 };
 
 export const useCancelTimer = () => {

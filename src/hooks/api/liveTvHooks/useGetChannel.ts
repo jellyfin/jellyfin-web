@@ -10,8 +10,9 @@ const getChannel = async (
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = apiContext;
-    if (!api) throw new Error('No API instance available');
-    if (!user?.Id) throw new Error('No User ID provided');
+
+    if (!api) throw new Error('[getChannel] No API instance available');
+    if (!user?.Id) throw new Error('[getChannel] No User ID provided');
 
     const response = await getLiveTvApi(api).getChannel(
         {
@@ -26,15 +27,15 @@ const getChannel = async (
 export const getChannelQuery = (
     apiContext: JellyfinApiContext,
     params: LiveTvApiGetChannelRequest
-) => queryOptions({
-    queryKey: ['Channel', params.channelId],
-    queryFn: ({ signal }) => getChannel(apiContext, params, { signal }),
-    enabled: !!apiContext.api && !!apiContext.user?.Id && !!params.channelId
-});
+) =>
+    queryOptions({
+        queryKey: ['Channel', params.channelId],
+        queryFn: ({ signal }) => getChannel(apiContext, params, { signal }),
+        enabled:
+            !!apiContext.api && !!apiContext.user?.Id && !!params.channelId
+    });
 
-export const useGetChannel = (
-    params: LiveTvApiGetChannelRequest
-) => {
+export const useGetChannel = (params: LiveTvApiGetChannelRequest) => {
     const apiContext = useApi();
     return useQuery(getChannelQuery(apiContext, params));
 };
