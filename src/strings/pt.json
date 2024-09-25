@@ -1823,7 +1823,7 @@
     "LimitSupportedVideoResolutionHelp": "Utiliza 'Resolução máxima permitida para transcodificação de vídeo' como resolução máxima de vídeo suportada.",
     "EnableLibraryHelp": "Se desativares a biblioteca, ela será ocultada de todas as visualizações do utilizador.",
     "EnableLibrary": "Ativar a biblioteca",
-    "LabelTrickplayAccelEncodingHelp": "Atualmente apenas disponível em QSV e VAAPI, esta opção não tem efeito noutros métodos de aceleração de hardware.",
+    "LabelTrickplayAccelEncodingHelp": "Atualmente apenas disponível em QSV, VA-API, VideoToolbox e RKMPP, esta opção não tem efeito noutros métodos de aceleração de hardware.",
     "LabelTrickplayAccelEncoding": "Ativar a codificação MJPEG acelerada por hardware",
     "ConfirmDeleteLyrics": "A eliminação destas letras irá apagá-las do sistema de ficheiros e da tua biblioteca multimédia. Tens a certeza de que queres continuar?",
     "ChannelResolutionFullHD": "Full HD",
