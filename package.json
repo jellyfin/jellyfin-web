@@ -127,7 +127,7 @@
     "whatwg-fetch": "3.6.20"
   },
   "optionalDependencies": {
-    "sass-embedded": "1.78.0"
+    "sass-embedded": "1.79.1"
   },
   "browserslist": [
     "last 2 Firefox versions",
