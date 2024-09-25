@@ -36,6 +36,8 @@ export default function (view, params, tabContent, options) {
         const newQuery = { ...query, SortBy: 'Random', Limit: 1 };
         return ApiClient.getItems(ApiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
             playbackManager.shuffle(Items[0]);
+        }).finally(() => {
+            isLoading = false;
         });
     }
 
