@@ -1011,7 +1011,7 @@
     "Filters": "Filtre",
     "HeaderExternalIds": "Eksterne IDer",
     "HeaderFetcherSettings": "Henteinnstillinger",
-    "TabServer": "Server",
+    "TabServer": "Tjener",
     "TabStreaming": "Strømming",
     "TagsValue": "Tagger: {0}",
     "ThemeSongs": "Temamusikk",
@@ -1949,5 +1949,14 @@
     "LabelWidthResolutionsHelp": "Kommaseparert liste over breddene (px) som trickplay-bilder vil bli generert med. Alle bilder skal genereres proporsjonalt med kilden, så en bredde på 320 på en 16:9-video ender opp på rundt 320x180.",
     "LabelTileWidthHelp": "Maksimalt antall bilder per rad i X-retningen.",
     "LabelTileHeightHelp": "Maksimalt antall bilder per kolonne i Y-retningen.",
-    "LabelJpegQualityHelp": "JPEG-komprimeringskvaliteten for trickplay-bilder."
+    "LabelJpegQualityHelp": "JPEG-komprimeringskvaliteten for trickplay-bilder.",
+    "LabelAudioTagSettings": "Innstillinger for lydtager",
+    "LabelCustomTagDelimiters": "Egendefinert skilletegn for tagger",
+    "LabelCustomTagDelimitersHelp": "Tegn som skal behandles som skilletegn for å separere tagger.",
+    "LabelDelimiterWhitelist": "Hviteliste for skilletegn",
+    "LabelDelimiterWhitelistHelp": "Objekter som skal ekskluderes fra tagdeling. Ett objekt per linje.",
+    "PreferNonstandardArtistsTag": "Foretrekk ARTISTER-tag om tilgjengelig",
+    "PreferNonstandardArtistsTagHelp": "Bruk ikke-standard ARTISTS-taggen istedenfor ARTIST-taggen når den er tilgjengelig.",
+    "UseCustomTagDelimiters": "Bruk egendefinert skilletegn for tagger",
+    "UseCustomTagDelimitersHelp": "Del artist- og sjanger-tagger med egendefinert tegn."
 }
