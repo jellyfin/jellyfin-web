@@ -1198,6 +1198,21 @@ export default function (view) {
         }
     }
 
+    function autoSelectSubtitleTrack() {
+        const player = currentPlayer;
+        const streams = playbackManager.subtitleTracks(player);
+        const currentIndex = playbackManager.getSubtitleStreamIndex(player) ?? -1;
+
+        if (currentIndex === -1 && streams.length > 0) {
+            const firstSubtitleIndex = streams[0].Index;
+            playbackManager.setSubtitleStreamIndex(firstSubtitleIndex, player);
+        } else {
+            playbackManager.setSubtitleStreamIndex(-1, player);
+        }
+
+        toggleSubtitleSync();
+    }
+
     /**
          * Clicked element.
          * To skip 'click' handling on Firefox/Edge.
@@ -1411,6 +1426,13 @@ export default function (view) {
                 if (!e.shiftKey) {
                     e.preventDefault();
                     playbackManager.previousChapter(currentPlayer);
+                }
+                break;
+            case 'c':
+            case 'C':
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    autoSelectSubtitleTrack();
                 }
                 break;
             case 'g':
