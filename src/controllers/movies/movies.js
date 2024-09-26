@@ -33,9 +33,12 @@ export default function (view, params, tabContent, options) {
     function shuffle() {
         isLoading = true;
         loading.show();
-        const newQuery = { ...query, SortBy: 'Random', Limit: 1 };
+        const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: 300 };
         return ApiClient.getItems(ApiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
-            playbackManager.shuffle(Items[0]);
+            playbackManager.play({
+                items: Items,
+                autoplay: true
+            });
         }).finally(() => {
             isLoading = false;
         });
