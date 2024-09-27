@@ -1954,5 +1954,11 @@
     "ReplaceTrickplayImages": "Ersetzen vorhandener Trickplay-Bilder",
     "LabelSaveTrickplayLocally": "Trickplay-Bilder bei den Medien speichern",
     "LabelSaveTrickplayLocallyHelp": "Wenn Sie Trickplay-Bilder in Medienordnern speichern, werden sie bei Ihren Medien abgelegt und ermöglichen so eine einfache Migration und den Zugriff.",
-    "RenderPgsSubtitle": "Experimentelles PGS-Untertitel-Rendering"
+    "RenderPgsSubtitle": "Experimentelles PGS-Untertitel-Rendering",
+    "LabelAudioTagSettings": "Audio-Tag Einstellungen",
+    "LabelCustomTagDelimitersHelp": "Zeichen die zur Trennung von Tags verwendet werden sollen.",
+    "LabelDelimiterWhitelistHelp": "Artikel, die vom Tag-Splitting ausgeschlossen werden sollen. Ein Artikel pro Zeile.",
+    "PreferNonstandardArtistsTag": "Bevorzuge KÜNSTLER-Tag, falls vorhanden",
+    "PreferNonstandardArtistsTagHelp": "Verwenden Sie den nicht standardisierten ARTISTS-Tag anstelle des ARTIST-Tags, sofern verfügbar.",
+    "UseCustomTagDelimitersHelp": "Trennen Sie Künstler-/Genre-Tags mit benutzerdefinierten Zeichen."
 }
