@@ -31,11 +31,16 @@ export default function (view, params, tabContent, options) {
     }
 
     function shuffle() {
-        ApiClient.getItem(
-            ApiClient.getCurrentUserId(),
-            params.topParentId
-        ).then((item) => {
-            playbackManager.shuffle(item);
+        isLoading = true;
+        loading.show();
+        const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: 300 };
+        return ApiClient.getItems(ApiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
+            playbackManager.play({
+                items: Items,
+                autoplay: true
+            });
+        }).finally(() => {
+            isLoading = false;
         });
     }
 
