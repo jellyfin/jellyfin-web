@@ -50,7 +50,7 @@
     "postcss-preset-env": "10.0.3",
     "postcss-scss": "4.0.9",
     "sass": "1.79.2",
-    "sass-loader": "16.0.1",
+    "sass-loader": "16.0.2",
     "source-map-loader": "5.0.0",
     "speed-measure-webpack-plugin": "1.5.0",
     "style-loader": "4.0.0",
