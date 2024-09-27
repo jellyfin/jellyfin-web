@@ -1960,5 +1960,8 @@
     "LabelDelimiterWhitelistHelp": "Artikel, die vom Tag-Splitting ausgeschlossen werden sollen. Ein Artikel pro Zeile.",
     "PreferNonstandardArtistsTag": "Bevorzuge KÜNSTLER-Tag, falls vorhanden",
     "PreferNonstandardArtistsTagHelp": "Verwenden Sie den nicht standardisierten ARTISTS-Tag anstelle des ARTIST-Tags, sofern verfügbar.",
-    "UseCustomTagDelimitersHelp": "Trennen Sie Künstler-/Genre-Tags mit benutzerdefinierten Zeichen."
+    "UseCustomTagDelimitersHelp": "Trennen Sie Künstler-/Genre-Tags mit benutzerdefinierten Zeichen.",
+    "LabelCustomTagDelimiters": "Benutzerdefinierte Tag-Begrenzung",
+    "LabelDelimiterWhitelist": "Trennzeichen Whitelist",
+    "UseCustomTagDelimiters": "Benutzerdefinierte Tag-Begrenzung verwenden"
 }
