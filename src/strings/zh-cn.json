@@ -1963,5 +1963,8 @@
     "LabelDelimiterWhitelistHelp": "从标签分隔中排除的项目。每行一项。",
     "PreferNonstandardArtistsTag": "可用时首选的艺术家标签",
     "PreferNonstandardArtistsTagHelp": "如果可用，使用非标准的艺术家标签代替艺术家标签。",
-    "UseCustomTagDelimitersHelp": "使用自定义字符分割\"艺术家/类型\"标签。"
+    "UseCustomTagDelimitersHelp": "使用自定义字符分割\"艺术家/类型\"标签。",
+    "MessageCancelSeriesTimerError": "取消节目计时器时发生错误",
+    "MessageCancelTimerError": "取消计时器时发生错误",
+    "MessageSplitVersionsError": "分割版本时发生错误"
 }
