@@ -386,7 +386,7 @@ const UserParentalControl = () => {
                 setAccessSchedules(newindex);
             });
         }
-    }, [accessSchedules])
+    }, [accessSchedules]);
 
     const optionMaxParentalRating = () => {
         let content = '';
