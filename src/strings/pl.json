@@ -1963,5 +1963,8 @@
     "LabelCustomTagDelimitersHelp": "Znaki, które należy traktować jako ograniczniki oddzielające tagi.",
     "PreferNonstandardArtistsTagHelp": "Jeśli jest dostępny, użyj niestandardowego tagu WYKONAWCY zamiast tagu WYKONAWCA.",
     "UseCustomTagDelimitersHelp": "Podziel tagi wykonawcy/gatunku za pomocą niestandardowych znaków.",
-    "LabelCustomTagDelimiters": "Niestandardowy ogranicznik tagów"
+    "LabelCustomTagDelimiters": "Niestandardowy ogranicznik tagów",
+    "MessageCancelSeriesTimerError": "Wystąpił błąd podczas anulowania timera serialu",
+    "MessageCancelTimerError": "Wystąpił błąd podczas anulowania timera",
+    "MessageSplitVersionsError": "Wystąpił błąd podczas podziału wersji"
 }
