@@ -1962,5 +1962,8 @@
     "UseCustomTagDelimiters": "Aangepast scheidingsteken voor tags gebruiken",
     "UseCustomTagDelimitersHelp": "Artiest- en genre-tags splitsen met aangepaste tekens.",
     "PreferNonstandardArtistsTagHelp": "Gebruik de incourante ARTISTS-tag in plaats van de ARTIST-tag indien beschikbaar.",
-    "PreferNonstandardArtistsTag": "ARTISTS-tag verkiezen indien beschikbaar"
+    "PreferNonstandardArtistsTag": "ARTISTS-tag verkiezen indien beschikbaar",
+    "MessageCancelTimerError": "Er is een fout opgetreden bij het annuleren van de tijdklok",
+    "MessageSplitVersionsError": "Er is een fout opgetreden bij het splitsen van de versies",
+    "MessageCancelSeriesTimerError": "Er is een fout opgetreden bij het annuleren van de serietijdklok"
 }
