@@ -5,7 +5,6 @@ import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
-import LibraryMenu from '../../../../scripts/libraryMenu';
 import { appHost } from '../../../../components/apphost';
 import confirm from '../../../../components/confirm/confirm';
 import ButtonElement from '../../../../elements/ButtonElement';
