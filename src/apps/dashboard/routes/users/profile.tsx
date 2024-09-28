@@ -5,7 +5,6 @@ import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
-import LibraryMenu from '../../../../scripts/libraryMenu';
 import ButtonElement from '../../../../elements/ButtonElement';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import InputElement from '../../../../elements/InputElement';
