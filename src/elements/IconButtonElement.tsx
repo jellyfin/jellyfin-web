@@ -37,7 +37,7 @@ const IconButtonElement: FunctionComponent<IProps> = ({ is, id, className, title
                 className: className,
                 title: title ? `title="${globalize.translate(title)}"` : '',
                 icon: icon,
-                dataIndex: dataIndex != null ? `data-index="${dataIndex}"` : '',
+                dataIndex: (dataIndex || dataIndex === 0) ? `data-index="${dataIndex}"` : '',
                 dataTag: dataTag ? `data-tag="${dataTag}"` : '',
                 dataProfileid: dataProfileid ? `data-profileid="${dataProfileid}"` : ''
             })}
