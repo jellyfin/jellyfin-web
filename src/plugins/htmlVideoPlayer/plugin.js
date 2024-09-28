@@ -1304,6 +1304,7 @@ export class HtmlVideoPlayer {
                         const availableFonts = {};
                         fontFiles.forEach(font => {
                             if (!font.FamilyName) return;
+                            if (font.Size > 20 * 1024 * 1024) return; // max 20 MB for any single font file
                             const familyNameLower = font.FamilyName.trim().toLowerCase();
                             if (!(familyNameLower in availableFonts)) {
                                 const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`, {
