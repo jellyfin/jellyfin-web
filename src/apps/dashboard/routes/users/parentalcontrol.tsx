@@ -381,10 +381,8 @@ const UserParentalControl = () => {
 
         for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
             btnDelete.addEventListener('click', function () {
-                const schedules = [ ...accessSchedules ];
                 const index = parseInt(btnDelete.getAttribute('data-index') ?? '0', 10);
-                schedules.splice(index, 1);
-                const newindex = schedules.filter(i => i != index);
+                const newindex = accessSchedules.filter((_e, i) => i != index);
                 setAccessSchedules(newindex);
             });
         }
