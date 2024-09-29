@@ -1965,5 +1965,6 @@
     "PreferNonstandardArtistsTag": "ARTISTS-tag verkiezen indien beschikbaar",
     "MessageCancelTimerError": "Er is een fout opgetreden bij het annuleren van de tijdklok",
     "MessageSplitVersionsError": "Er is een fout opgetreden bij het splitsen van de versies",
-    "MessageCancelSeriesTimerError": "Er is een fout opgetreden bij het annuleren van de serietijdklok"
+    "MessageCancelSeriesTimerError": "Er is een fout opgetreden bij het annuleren van de serietijdklok",
+    "DateModified": "Datum gewijzigd"
 }
