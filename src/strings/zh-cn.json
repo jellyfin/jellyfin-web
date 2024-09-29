@@ -1966,5 +1966,6 @@
     "UseCustomTagDelimitersHelp": "使用自定义字符分割\"艺术家/类型\"标签。",
     "MessageCancelSeriesTimerError": "取消节目计时器时发生错误",
     "MessageCancelTimerError": "取消计时器时发生错误",
-    "MessageSplitVersionsError": "分割版本时发生错误"
+    "MessageSplitVersionsError": "分割版本时发生错误",
+    "DateModified": "修改日期"
 }
