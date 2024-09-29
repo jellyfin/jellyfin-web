@@ -43,7 +43,7 @@
     "fork-ts-checker-webpack-plugin": "9.0.2",
     "html-loader": "5.1.0",
     "html-webpack-plugin": "5.6.0",
-    "jsdom": "25.0.0",
+    "jsdom": "25.0.1",
     "mini-css-extract-plugin": "2.9.1",
     "postcss": "8.4.47",
     "postcss-loader": "8.1.1",
