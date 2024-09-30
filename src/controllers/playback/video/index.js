@@ -1205,12 +1205,8 @@ export default function (view) {
         const defaultIndex = player?.streamInfo?.mediaSource?.DefaultSubtitleStreamIndex ?? -1;
 
         if (currentIndex === -1 && streams.length > 0) {
-            if (defaultIndex > -1) {
-                playbackManager.setSubtitleStreamIndex(defaultIndex, player);
-            } else {
-                const firstSubtitleIndex = streams[0].Index;
-                playbackManager.setSubtitleStreamIndex(firstSubtitleIndex, player);
-            }
+            const subtitleIndex = defaultIndex != -1 ? defaultIndex : streams[0].Index;
+            playbackManager.setSubtitleStreamIndex(subtitleIndex, player);
         } else {
             playbackManager.setSubtitleStreamIndex(-1, player);
         }
