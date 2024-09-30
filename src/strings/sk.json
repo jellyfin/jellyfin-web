@@ -1947,5 +1947,10 @@
     "AndOtherArtists": "{0} a {1} ďalších umelcov.",
     "AlwaysRemuxMp3AudioFilesHelp": "Ak máte súbory, ktorých časové značky váš prehliadač vypočítava nepresne, povoľte túto možnosť ako dočasné riešenie.",
     "AlwaysRemuxFlacAudioFilesHelp": "Ak máte súbory, ktoré prehliadač odmieta prehrávať alebo pri ktorých nepresne počíta časové značky, povoľte túto funkciu ako dočasné riešenie.",
-    "AllowTonemappingSoftwareHelp": "Mapovanie tónov dokáže transformovať dynamický rozsah videa z HDR na SDR pri zachovaní detailov obrazu a farieb, ktoré sú veľmi dôležitými informáciami na zobrazenie pôvodnej scény. V súčasnosti funguje len s 10bitovými videami HDR10, HLG a DoVi."
+    "AllowTonemappingSoftwareHelp": "Mapovanie tónov dokáže transformovať dynamický rozsah videa z HDR na SDR pri zachovaní detailov obrazu a farieb, ktoré sú veľmi dôležitými informáciami na zobrazenie pôvodnej scény. V súčasnosti funguje len s 10bitovými videami HDR10, HLG a DoVi.",
+    "LabelDropLyricsHere": "Pretiahnite texty piesní sem alebo kliknutím vyberte súbor.",
+    "LabelFallbackMaxStreamingBitrate": "Záložný maximálny dátový tok (Mbps)",
+    "LabelSaveTrickplayLocally": "Uložit obrázky trickplay k médiám",
+    "LabelDelimiterWhitelistHelp": "Položky, ktoré sa majú vylúčiť z oddelovania tagov. Jedna položka na riadok.",
+    "LabelNoChangelog": "Pre túto verziu nie je k dispozícii žiadny zoznam zmien."
 }
