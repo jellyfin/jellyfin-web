@@ -1938,5 +1938,18 @@
     "PriorityNormal": "Normaalväärtus",
     "PriorityAboveNormal": "Üle normaalväärtuse",
     "LabelTileWidthHelp": "Piltide maksimaalne arv ühe ruudu kohta X-suunas.",
-    "ExtractTrickplayImagesHelp": "Trickplay-pildid on sarnased peatükkide piltidega, kuid need hõlmavad kogu sisu. Neid kasutatakse videote skriinimisel eelvaate kuvamiseks."
+    "ExtractTrickplayImagesHelp": "Trickplay-pildid on sarnased peatükkide piltidega, kuid need hõlmavad kogu sisu. Neid kasutatakse videote skriinimisel eelvaate kuvamiseks.",
+    "LabelDelimiterWhitelistHelp": "Üksused, mida siltideks jagamisel ignoreeritakse. Iga üksus omaette real.",
+    "PreferNonstandardArtistsTag": "Eelista ARTISTS silti kui see saadaval on",
+    "LabelAudioTagSettings": "Audiosiltide seadistused",
+    "DateModified": "Muutmiskuupäev",
+    "LabelCustomTagDelimiters": "Kohandatud siltide eraldaja",
+    "LabelCustomTagDelimitersHelp": "Tähemärgid mida kasutatakse siltide eraldajana.",
+    "LabelDelimiterWhitelist": "Lubatud eraldusmärgid",
+    "MessageCancelSeriesTimerError": "Sarja taimeri tühistamisel ilmnes viga",
+    "MessageCancelTimerError": "Taimeri tühistamisel ilmnes viga",
+    "MessageSplitVersionsError": "Versioonideks jagamisel tekkis viga",
+    "PreferNonstandardArtistsTagHelp": "Kasuta ARTIST sildi asemel ebastandartset ARTISTS silti kui see saadaval on.",
+    "UseCustomTagDelimiters": "Kasuta kohandatud siltide eraldajat",
+    "UseCustomTagDelimitersHelp": "Kasuta siltideks jagamisel kohandatud tähemärke."
 }
