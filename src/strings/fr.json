@@ -1930,5 +1930,10 @@
     "EnableHi10p": "Active le profil H.264 High 10",
     "EnableHi10pHelp": "Activer pour éviter l'encodage des vidéos H.264 10-bits. Désactiver cette option si la vidéo affiche des images vides.",
     "AlwaysRemuxFlacAudioFilesHelp": "Si votre navigateur refuse de lire des fichiers ou s'il calcule incorrectement l'horodatage, activer ceci en guise d'alternative.",
-    "AlwaysRemuxMp3AudioFilesHelp": "Si votre navigateur calcule incorrectement l'horodatage de certains fichiers, activer ceci en guise d'alternative."
+    "AlwaysRemuxMp3AudioFilesHelp": "Si votre navigateur calcule incorrectement l'horodatage de certains fichiers, activer ceci en guise d'alternative.",
+    "DateModified": "Date modifiée",
+    "FallbackMaxStreamingBitrateHelp": "Le débit maximum de streaming est utilisé par défaut quand ffprobe ne peut pas déterminer le débit du flux source. Cela aide à éviter que les clients demandent un débit de transcodage excessivement élevé, ce qui pourrait mener le lecteur à échouer et surcharger l'encodeur.",
+    "LabelAlwaysRemuxFlacAudioFiles": "Toujours remultiplexer les fichiers audio FLAC",
+    "LabelAlwaysRemuxMp3AudioFiles": "Toujours remultiplexer les fichiers audio MP3",
+    "LabelAllowStreamSharing": "Autoriser le partage de flux"
 }
