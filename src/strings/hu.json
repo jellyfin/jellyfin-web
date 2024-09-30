@@ -1868,5 +1868,10 @@
     "Creator": "Készítő",
     "Editor": "Szerkesztő",
     "EnableDtsHelp": "Csak akkor engedélyezze, hogyha az eszköze támogatja a DTS-t vagy ha csatlakoztatott egy megfelelő audió vevőkészüléket. Ellenkező esetben visszajátszási problémákat okozhat.",
-    "Author": "Szerző"
+    "Author": "Szerző",
+    "AllowStreamSharingHelp": "Engedélyezés, hogy a Jellyfin megkettőzze a tunerből származó mpegts adatfolyamot, és megossza azt a kliensekkel. Ez akkor hasznos, ha a tuner korlátozott számú adatfolyamot támogat, de ez egyéb lejátszási problémákat okozhat.",
+    "AllowFmp4TranscodingContainerHelp": "Az fMP4 átkódolási konténer engedélyezése ehhez a tunerhez, a HEVC és HDR tartalmak engedélyezéséhez. Nem minden tuner kompatibilis ezzel a tárolóval. Tiltsa le, ha lejátszási problémákat tapasztal.",
+    "Alternate": "Alternatív",
+    "AlternateDVD": "Alternatív DVD",
+    "AllowTonemappingSoftwareHelp": "A tónusleképzés képes a HDR videók dinamika tartományát SDR tartományba átalakítani, miközben megtartja a kép színét és részleteit, ami elengedhetetlen az eredeti jelenet megőrzéséhez. Jelenleg csak 10 bites HDR10, HLG és DoVi tartalmakon működik."
 }
