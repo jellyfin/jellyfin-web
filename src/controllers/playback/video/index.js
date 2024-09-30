@@ -1200,17 +1200,20 @@ export default function (view) {
 
     function autoSelectSubtitleTrack() {
         const player = currentPlayer;
-        const streams = playbackManager.subtitleTracks(player);
+        const streams = playbackManager.subtitleTracks(player) ?? [];
         const currentIndex = playbackManager.getSubtitleStreamIndex(player) ?? -1;
+        const defaultIndex = player?.streamInfo?.mediaSource?.DefaultSubtitleStreamIndex ?? -1;
 
         if (currentIndex === -1 && streams.length > 0) {
-            const firstSubtitleIndex = streams[0].Index;
-            playbackManager.setSubtitleStreamIndex(firstSubtitleIndex, player);
+            if (defaultIndex > -1) {
+                playbackManager.setSubtitleStreamIndex(defaultIndex, player);
+            } else {
+                const firstSubtitleIndex = streams[0].Index;
+                playbackManager.setSubtitleStreamIndex(firstSubtitleIndex, player);
+            }
         } else {
             playbackManager.setSubtitleStreamIndex(-1, player);
         }
-
-        toggleSubtitleSync();
     }
 
     /**
