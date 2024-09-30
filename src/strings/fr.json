@@ -1860,7 +1860,7 @@
     "PlaybackError.NO_MEDIA_ERROR": "Impossible de trouver une source multimédia valide à lire.",
     "PlaybackError.PLAYER_ERROR": "La lecture a échoué en raison d'une erreur fatale du lecteur.",
     "LabelTrickplayAccelEncoding": "Activer l'encodage MJPEG accéléré par le matériel",
-    "LabelTrickplayAccelEncodingHelp": "Actuellement disponible uniquement sur QSV et VAAPI, cette option n'a aucun effet sur les autres méthodes d'accélération matérielle.",
+    "LabelTrickplayAccelEncodingHelp": "Actuellement disponible uniquement avec QSV, VA-API, VideoToolbox et RKMPP, cette option n'a aucun effet sur les autres méthodes d'accélération matérielle.",
     "ErrorDeletingLyrics": "Une erreur est survenu lors de la suppression des paroles du serveur. S'il vous plaît verifier que Jellyfin peut modifier les fichier dans le dossier multimedia et réessayez.",
     "HeaderDeleteLyrics": "Suppression des paroles",
     "ConfirmDeleteLyrics": "En supprimant ces paroles vous les supprimez a la fois de votre systeme de fichier et de votre bibliothèque. Êtes vous sure de vouloir continuez ?",
