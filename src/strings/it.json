@@ -1943,5 +1943,8 @@
     "EnableHi10pHelp": "Abilita per evitare la transcodifica dei video H.264 a 10 bit. Disabilitare quest'opzione se il video mostra fotogrammi vuoti.",
     "LabelSaveTrickplayLocally": "Salva le immagini trickplay accanto ai media",
     "LabelSaveTrickplayLocallyHelp": "Salvare le immagini trickplay nella stessa cartella del video ti permetterà di spostarle e accederle più facilmente.",
-    "ReplaceTrickplayImages": "Sostituisci le immagini trickplay"
+    "ReplaceTrickplayImages": "Sostituisci le immagini trickplay",
+    "FallbackMaxStreamingBitrateHelp": "Il bitrate massimo dello streaming viene utilizzato quando ffprobe non è in grado di determinare il bitrate sorgente. Ciò aiuta a impedire che i client richiedano un bitrate di transcodifica troppo alto che potrebbe causare il fallimento del player e il sovraccarico dell'encoder.",
+    "LabelFallbackMaxStreamingBitrate": "Bitrate massimo di ripiego (Mbps)",
+    "DateModified": "Data di modifica"
 }
