@@ -1928,5 +1928,7 @@
     "HeaderUploadLyrics": "Téléverser des paroles",
     "DisableVbrAudioEncodingHelp": "Empêche le serveur d'encoder l'audio avec VBR pour ce client.",
     "EnableHi10p": "Active le profil H.264 High 10",
-    "EnableHi10pHelp": "Activer pour éviter l'encodage des vidéos H.264 10-bits. Désactiver cette option si la vidéo affiche des images vides."
+    "EnableHi10pHelp": "Activer pour éviter l'encodage des vidéos H.264 10-bits. Désactiver cette option si la vidéo affiche des images vides.",
+    "AlwaysRemuxFlacAudioFilesHelp": "Si votre navigateur refuse de lire des fichiers ou s'il calcule incorrectement l'horodatage, activer ceci en guise d'alternative.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Si votre navigateur calcule incorrectement l'horodatage de certains fichiers, activer ceci en guise d'alternative."
 }
