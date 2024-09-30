@@ -1964,5 +1964,7 @@
     "LabelSaveTrickplayLocallyHelp": "將快轉縮圖儲存在媒體資料夾會將它們放在媒體旁邊，以便遷移和存取。",
     "VideoCodecTagNotSupported": "不支援的視訊編碼標籤",
     "LabelDelimiterWhitelist": "分隔字元白名單",
-    "LabelDelimiterWhitelistHelp": "從標籤分隔中排除的項目。每行一項。"
+    "LabelDelimiterWhitelistHelp": "從標籤分隔中排除的項目。每行一項。",
+    "AllowStreamSharingHelp": "允許 Jellyfin 複製解碼器中的 MPEGTS 串流並共用給多個用戶端。當解碼器有總串流數量限制時很有用，但是可能導致播放問題。",
+    "LabelAllowStreamSharing": "允許串流共用"
 }
