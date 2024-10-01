@@ -1960,5 +1960,9 @@
     "ReplaceTrickplayImages": "Thay thế ảnh tua nhanh hiện có",
     "LabelAlwaysRemuxMp3AudioFiles": "Luôn làm lại các tập tin âm thanh MP3",
     "LabelSaveTrickplayLocally": "Lưu ảnh tua nhanh bên cạnh phương tiện",
-    "LabelSaveTrickplayLocallyHelp": "Việc lưu ảnh tua anh vào thư mục phương tiện sẽ đặt chúng kế bên phương tiện của bạn để dễ di chuyển và truy cập."
+    "LabelSaveTrickplayLocallyHelp": "Việc lưu ảnh tua anh vào thư mục phương tiện sẽ đặt chúng kế bên phương tiện của bạn để dễ di chuyển và truy cập.",
+    "DateModified": "Ngày sửa đổi",
+    "MessageCancelSeriesTimerError": "Đã xảy ra lỗi khi hủy bộ hẹn giờ chuỗi",
+    "MessageCancelTimerError": "Đã xảy ra lỗi khi hủy bộ hẹn giờ",
+    "MessageSplitVersionsError": "Đã xảy ra lỗi khi chia nhỏ các phiên bản"
 }
