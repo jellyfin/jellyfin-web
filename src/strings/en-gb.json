@@ -1963,5 +1963,9 @@
     "PreferNonstandardArtistsTag": "Prefer ARTISTS tag if available",
     "PreferNonstandardArtistsTagHelp": "Use the non-standard ARTISTS tag instead of ARTIST tag when available.",
     "UseCustomTagDelimiters": "Use custom tag delimiter",
-    "UseCustomTagDelimitersHelp": "Split artist/genre tags with custom characters."
+    "UseCustomTagDelimitersHelp": "Split artist/genre tags with custom characters.",
+    "DateModified": "Date modified",
+    "MessageCancelSeriesTimerError": "An error occurred while cancelling the series timer",
+    "MessageCancelTimerError": "An error occurred while cancelling the timer",
+    "MessageSplitVersionsError": "An error occurred while splitting versions"
 }
