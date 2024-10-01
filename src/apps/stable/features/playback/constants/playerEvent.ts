@@ -1,6 +1,6 @@
 /**
  * Events triggered by media player plugins.
- * NOTE: This list is incomplete
+ * TODO: This list is incomplete
  */
 export enum PlayerEvent {
     Error = 'error',
