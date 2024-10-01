@@ -1960,5 +1960,9 @@
     "PreferNonstandardArtistsTag": "Надавати перевагу тегу ARTISTS, якщо він доступний",
     "PreferNonstandardArtistsTagHelp": "Використовувати нестандартний тег ARTISTS замість тега ARTIST, якщо він доступний.",
     "UseCustomTagDelimiters": "Використовувати власний роздільник тегів",
-    "UseCustomTagDelimitersHelp": "Розділіть теги виконавця/жанру за допомогою спеціальних символів."
+    "UseCustomTagDelimitersHelp": "Розділіть теги виконавця/жанру за допомогою спеціальних символів.",
+    "DateModified": "Дату змінено",
+    "MessageCancelSeriesTimerError": "Виникла помилка під час скасування таймера серіалу",
+    "MessageCancelTimerError": "Виникла помилка під час скасування таймера",
+    "MessageSplitVersionsError": "Виникла помилка під час розділення версій"
 }
