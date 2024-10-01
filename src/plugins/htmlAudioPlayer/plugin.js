@@ -128,6 +128,7 @@ class HtmlAudioPlayer {
 
                 if (!self.gainNode) {
                     addGainElement(elem);
+                    if (!self.gainNode) return;
                 }
 
                 if (normalizationGain) {
