@@ -283,8 +283,6 @@ class HtmlAudioPlayer {
 
             self._mediaElement = elem;
 
-            // addGainElement(elem);
-
             return elem;
         }
 
