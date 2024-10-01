@@ -41,7 +41,7 @@ export interface PlaybackSubscriber {
 export abstract class PlaybackSubscriber {
     private player: Plugin | undefined;
 
-    private playbackManagerEvents = {
+    private readonly playbackManagerEvents = {
         [PlaybackManagerEvent.PlaybackCancelled]: this.onPlaybackCancelled,
         [PlaybackManagerEvent.PlaybackError]: this.onPlaybackError,
         [PlaybackManagerEvent.PlaybackStart]: this.onPlaybackStart,
@@ -50,7 +50,7 @@ export abstract class PlaybackSubscriber {
         [PlaybackManagerEvent.ReportPlayback]: this.onReportPlayback
     };
 
-    private playerEvents = {
+    private readonly playerEvents = {
         [PlayerEvent.Error]: this.onPlayerError,
         [PlayerEvent.FullscreenChange]: this.onPlayerFullscreenChange,
         [PlayerEvent.ItemStarted]: this.onPlayerItemStarted,
