@@ -122,7 +122,7 @@ class HtmlAudioPlayer {
                         options.mediaSource.albumNormalizationGain
                         ?? options.item.NormalizationGain;
                 } else {
-                    console.debug('normalization disabled')
+                    console.debug('normalization disabled');
                     return;
                 }
 
