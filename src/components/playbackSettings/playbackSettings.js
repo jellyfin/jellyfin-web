@@ -2,6 +2,7 @@ import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/medi
 import escapeHTML from 'escape-html';
 
 import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
+import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
 
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
@@ -54,18 +55,23 @@ function populateMediaSegments(container, userSettings) {
         })
         .join('');
 
-    const segmentSettings = Object.values(MediaSegmentType)
-        .map(segmentType => {
-            const segmentTypeLabel = globalize.translate('LabelMediaSegmentsType', globalize.translate(`MediaSegmentType.${segmentType}`));
-            const id = `segmentTypeAction__${segmentType}`;
-            selectedValues[id] = userSettings.get(id, false) || MediaSegmentAction.None;
-            return `<div class="selectContainer">
-    <select is="emby-select" id="${id}" class="segmentTypeAction" label="${segmentTypeLabel}">
-        ${actionOptions}
-    </select>
+    const segmentSettings = [
+        // List the types in a logical order (and exclude "Unknown" type)
+        MediaSegmentType.Intro,
+        MediaSegmentType.Preview,
+        MediaSegmentType.Recap,
+        MediaSegmentType.Commercial,
+        MediaSegmentType.Outro
+    ].map(segmentType => {
+        const segmentTypeLabel = globalize.translate('LabelMediaSegmentsType', globalize.translate(`MediaSegmentType.${segmentType}`));
+        const id = getId(segmentType);
+        selectedValues[id] = getMediaSegmentAction(userSettings, segmentType) || MediaSegmentAction.None;
+        return `<div class="selectContainer">
+<select is="emby-select" id="${id}" class="segmentTypeAction" label="${segmentTypeLabel}">
+    ${actionOptions}
+</select>
 </div>`;
-        })
-        .join('');
+    }).join('');
 
     container.innerHTML = segmentSettings;
 
