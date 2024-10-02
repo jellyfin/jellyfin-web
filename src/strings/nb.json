@@ -1958,5 +1958,9 @@
     "PreferNonstandardArtistsTag": "Foretrekk ARTISTER-tag om tilgjengelig",
     "PreferNonstandardArtistsTagHelp": "Bruk ikke-standard ARTISTS-taggen istedenfor ARTIST-taggen når den er tilgjengelig.",
     "UseCustomTagDelimiters": "Bruk egendefinert skilletegn for tagger",
-    "UseCustomTagDelimitersHelp": "Del artist- og sjanger-tagger med egendefinert tegn."
+    "UseCustomTagDelimitersHelp": "Del artist- og sjanger-tagger med egendefinert tegn.",
+    "DateModified": "Data modifisert",
+    "MessageCancelSeriesTimerError": "Det oppstod en feil under avbryting av serietidtakeren",
+    "MessageCancelTimerError": "Det oppstod en feil under avbryting av tidtakeren",
+    "MessageSplitVersionsError": "Det oppsto en feil under oppdeling av versjoner"
 }
