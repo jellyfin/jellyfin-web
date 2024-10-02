@@ -2,7 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>jellyfin/.github//renovate-presets/nodejs",
-    ":semanticCommitsDisabled",
     ":dependencyDashboard"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": [ "@jellyfin/sdk" ],
+      "followTag": "unstable",
+      "minimumReleaseAge": 0,
+      "schedule": [ "after 7:00 am" ]
+    }
   ]
 }
