@@ -1776,7 +1776,7 @@
     "BackdropScreensaver": "Schermbeveiliging met achtergronden",
     "LogoScreensaver": "Schermbeveiliging met logo",
     "LabelIsHearingImpaired": "Voor slechthorenden (ODS)",
-    "SelectAudioNormalizationHelp": "Nummerversterking regelt het volume van elk individueel nummer zodat alle nummers even luid afspelen. Albumversterking regelt het volume van alle nummers op een album, zodat het dynamische bereik van het album behouden blijft.",
+    "SelectAudioNormalizationHelp": "Nummerversterking regelt het volume van elk individueel nummer zodat alle nummers even luid afspelen. Albumversterking regelt het volume van alle nummers op een album, waarbij het dynamische bereik van het album behouden blijft. Na het wisselen tussen deze opties moet het afspelen herstart worden.",
     "LabelAlbumGain": "Albumversterking",
     "LabelSelectAudioNormalization": "Geluidsnormalisatie",
     "LabelTrackGain": "Nummerversterking",
