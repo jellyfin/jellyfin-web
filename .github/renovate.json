@@ -8,7 +8,7 @@
     {
       "matchPackageNames": [ "@jellyfin/sdk" ],
       "followTag": "unstable",
-      "minimumReleaseAge": 0,
+      "minimumReleaseAge": null,
       "schedule": [ "after 7:00 am" ]
     }
   ]
