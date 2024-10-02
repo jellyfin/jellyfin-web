@@ -87,7 +87,7 @@ function getEditorHtml(options, systemInfo) {
     let html = '';
     html += '<div class="formDialogContent scrollY">';
     html += '<div class="dialogContentInner dialog-content-centered" style="padding-top:2em;">';
-    if (!options.pathReadOnly && systemInfo.OperatingSystem) {
+    if (!options.pathReadOnly && (options.instruction || systemInfo.OperatingSystem)) {
         const instruction = options.instruction ? `${escapeHtml(options.instruction)}<br/><br/>` : '';
         html += '<div class="infoBanner" style="margin-bottom:1.5em;">';
         html += instruction;
