@@ -151,6 +151,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         // Check connection status on initial page load
         const firstConnection = ServerConnections.firstConnection;
         console.debug('[ConnectionRequired] connection state', firstConnection?.State);
+        ServerConnections.firstConnection = null;
 
         if (firstConnection && firstConnection.State !== ConnectionState.SignedIn) {
             handleIncompleteWizard(firstConnection)
