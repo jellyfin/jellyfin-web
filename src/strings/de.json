@@ -1963,5 +1963,6 @@
     "UseCustomTagDelimitersHelp": "Trennen Sie Künstler-/Genre-Tags mit benutzerdefinierten Zeichen.",
     "LabelCustomTagDelimiters": "Benutzerdefinierte Tag-Begrenzung",
     "LabelDelimiterWhitelist": "Trennzeichen Whitelist",
-    "UseCustomTagDelimiters": "Benutzerdefinierte Tag-Begrenzung verwenden"
+    "UseCustomTagDelimiters": "Benutzerdefinierte Tag-Begrenzung verwenden",
+    "LabelUnits": "(Sekunden)"
 }

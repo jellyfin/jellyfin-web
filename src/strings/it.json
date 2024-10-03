@@ -1946,5 +1946,6 @@
     "ReplaceTrickplayImages": "Sostituisci le immagini trickplay",
     "FallbackMaxStreamingBitrateHelp": "Il bitrate massimo dello streaming viene utilizzato quando ffprobe non è in grado di determinare il bitrate sorgente. Ciò aiuta a impedire che i client richiedano un bitrate di transcodifica troppo alto che potrebbe causare il fallimento del player e il sovraccarico dell'encoder.",
     "LabelFallbackMaxStreamingBitrate": "Bitrate massimo di ripiego (Mbps)",
-    "DateModified": "Data di modifica"
+    "DateModified": "Data di modifica",
+    "LabelUnits": "(secondi)"
 }

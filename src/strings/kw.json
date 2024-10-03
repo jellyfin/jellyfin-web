@@ -91,5 +91,6 @@
     "HeaderMedia": "Media",
     "HeaderNextItem": "Nessa {0}",
     "LabelMetadata": "Metamanylyon",
-    "Metadata": "Metamanylyon"
+    "Metadata": "Metamanylyon",
+    "LabelUnits": "(seconds)"
 }

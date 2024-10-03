@@ -1854,5 +1854,6 @@
     "PluginEnableError": "Iespējojot spraudni, radās kļūda.",
     "PluginLoadConfigError": "Iegūstot spraudņa konfigurācijas lapas, radās kļūda.",
     "PluginLoadRepoError": "Iegūstot spraudņa informāciju no krātuves, radās kļūda.",
-    "PluginUninstallError": "Atinstalējot spraudni, radās kļūda."
+    "PluginUninstallError": "Atinstalējot spraudni, radās kļūda.",
+    "LabelUnits": "(sekundes)"
 }

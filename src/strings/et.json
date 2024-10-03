@@ -1951,5 +1951,6 @@
     "MessageSplitVersionsError": "Versioonideks jagamisel tekkis viga",
     "PreferNonstandardArtistsTagHelp": "Kasuta ARTIST sildi asemel ebastandartset ARTISTS silti kui see saadaval on.",
     "UseCustomTagDelimiters": "Kasuta kohandatud siltide eraldajat",
-    "UseCustomTagDelimitersHelp": "Kasuta siltideks jagamisel kohandatud tähemärke."
+    "UseCustomTagDelimitersHelp": "Kasuta siltideks jagamisel kohandatud tähemärke.",
+    "LabelUnits": "(sekundit)"
 }

@@ -42,5 +42,6 @@
     "AllowCollectionManagement": "Afaka manamboatra ny fitambarana ity mpampiasa ity",
     "AllowSegmentDeletion": "Vonoy ny sombiny",
     "AllowSegmentDeletionHelp": "Vonoy ny sombiny efa lany andro rehefa lasa any amin'ny mpanjifa. Manampy ity satria tsy mameno ny vata ny sombiny feno. Tsy misy fiantraikany ity rehefa tsy manao throttling. Aza atao ity raha misy olana ny fisosan'ny jery.",
-    "LabelThrottleDelaySeconds": "Amboary ny hafainganan'ny sosa rehefa feno"
+    "LabelThrottleDelaySeconds": "Amboary ny hafainganan'ny sosa rehefa feno",
+    "LabelUnits": "(segondra)"
 }

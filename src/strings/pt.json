@@ -1896,5 +1896,6 @@
     "HeaderNextItem": "Seguinte {0}",
     "EditLyrics": "Editar letra",
     "HeaderAddLyrics": "Adicionar letra",
-    "HeaderPreviewLyrics": "Pré-visualizar letra"
+    "HeaderPreviewLyrics": "Pré-visualizar letra",
+    "LabelUnits": "(segundos)"
 }

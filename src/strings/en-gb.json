@@ -1967,5 +1967,6 @@
     "DateModified": "Date modified",
     "MessageCancelSeriesTimerError": "An error occurred while cancelling the series timer",
     "MessageCancelTimerError": "An error occurred while cancelling the timer",
-    "MessageSplitVersionsError": "An error occurred while splitting versions"
+    "MessageSplitVersionsError": "An error occurred while splitting versions",
+    "LabelUnits": "(seconds)"
 }

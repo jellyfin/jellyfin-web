@@ -1698,5 +1698,6 @@
     "PreferEmbeddedExtrasTitlesOverFileNames": "ایکسٹراز کے لیے فائل کے ناموں پر ایمبیڈڈ ٹائٹلز کو ترجیح دیں",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "ایکسٹراز میں اکثر پئرینٹ جیسا ہی ایمبیڈڈنام ہوتا ہے، بہرحال ان کے لیے ایمبیڈڈ عنوانات استعمال کرنے کے لیے اسے چیک کریں۔",
     "LabelIsHearingImpaired": "سماعت سے محروم افراد کے لئے سب ٹائٹل",
-    "SaveRecordingImagesHelp": "میڈیا کے ساتھ ای پی جی لسٹنگ فراہم کنندہ سے تصاویر محفوظ کریں۔"
+    "SaveRecordingImagesHelp": "میڈیا کے ساتھ ای پی جی لسٹنگ فراہم کنندہ سے تصاویر محفوظ کریں۔",
+    "LabelUnits": "(seconds)"
 }

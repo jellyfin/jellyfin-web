@@ -1563,5 +1563,6 @@
     "Colorist": "Kolorist",
     "CoverArtist": "Ilustrator omota",
     "Creator": "Autor",
-    "MessageImageTypeNotSelected": "Molimo odaberite vrstu slike u padajućem izborniku."
+    "MessageImageTypeNotSelected": "Molimo odaberite vrstu slike u padajućem izborniku.",
+    "LabelUnits": "(sekundi)"
 }

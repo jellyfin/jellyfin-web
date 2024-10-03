@@ -692,5 +692,6 @@
     "EnableAudioNormalization": "Ovozni normallashtirish",
     "HeaderRecordingMetadataSaving": "Metadata yozuvlari",
     "LabelEnableLUFSScanHelp": "Musiqa uchun LUFS scan-ni yoqing (bu ko'proq va ko'proq resurslarni oladi).",
-    "LabelEnableLUFSScan": "LUFS skanerini yoqish"
+    "LabelEnableLUFSScan": "LUFS skanerini yoqish",
+    "LabelUnits": "(soniya)"
 }

@@ -1940,5 +1940,6 @@
     "LabelAlwaysRemuxMp3AudioFiles": "Remux:a alltid MP3-ljudfiler",
     "LabelAlwaysRemuxFlacAudioFiles": "Remux:a alltid FLAC-ljudfiler",
     "AllowFmp4TranscodingContainerHelp": "Tillåt fMP4-omkodande container för denna tuner för att stödja HEVC- och HDR-kodat innehåll. Inte alla tuners är kompatibla med denna sortens container. Avaktivera detta valet ifall du upplever problem med uppspelning.",
-    "AllowStreamSharingHelp": "Tillåt Jellyfin att duplicera MPEG-transportströmmen från tunern, och att dela den duplicerade strömmen till sina klienter. Detta är användbart när tunern har en maxgräns för antalet strömmar, men kan samtidigt orsaka problem med uppspelning."
+    "AllowStreamSharingHelp": "Tillåt Jellyfin att duplicera MPEG-transportströmmen från tunern, och att dela den duplicerade strömmen till sina klienter. Detta är användbart när tunern har en maxgräns för antalet strömmar, men kan samtidigt orsaka problem med uppspelning.",
+    "LabelUnits": "(sekunder)"
 }

@@ -1878,5 +1878,6 @@
     "HeaderNextItem": "Următorul {0}",
     "ConfirmDeleteLyrics": "Versurile vor fi șterse din memoria sistemului și din biblioteca media. Sunteți sigur că vreți să continuați?",
     "ErrorDeletingLyrics": "A apărut o eroare în timpul ștergerii versurilor din server. Verificați dacă Jellyfin are acces de scriere asupra folderului media și încercați din nou.",
-    "HeaderLyricDownloads": "Descărcări Versuri"
+    "HeaderLyricDownloads": "Descărcări Versuri",
+    "LabelUnits": "(secunde)"
 }

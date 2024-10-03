@@ -1660,5 +1660,6 @@
     "RememberSubtitleSelections": "Subtitr jolşyğyn aldyñğy tarmaq negızınde ornatu",
     "RememberAudioSelectionsHelp": "Dybys jolşyğyn soñğy beinege eñ jaqyn säikestıkke ornatuğa tyrysu.",
     "RememberAudioSelections": "Dybys jolşyğyn aldyñğy tarmaq negızınde ornatu",
-    "LabelMaxVideoResolution": "Beinenı qaıta kodtau rūqsat etılgen eñ joğary ajyratymdylığy"
+    "LabelMaxVideoResolution": "Beinenı qaıta kodtau rūqsat etılgen eñ joğary ajyratymdylığy",
+    "LabelUnits": "(секунд)"
 }

@@ -1967,5 +1967,6 @@
     "RenderPgsSubtitle": "Experimentální rendrování titulků ve formátu PGS",
     "RenderPgsSubtitleHelp": "Zda má klient zobrazit titulky ve formátu PGS místo jejich vypálení do obrazu. Můžete se tak vyhnout překódování na serveru výměnou za horší výkon klienta.",
     "UseCustomTagDelimiters": "Použít vlastní oddělovač značek",
-    "UseCustomTagDelimitersHelp": "Rozdělit značky pro umělce a žánry pomocí vlastních znaků."
+    "UseCustomTagDelimitersHelp": "Rozdělit značky pro umělce a žánry pomocí vlastních znaků.",
+    "LabelUnits": "(sekundy)"
 }

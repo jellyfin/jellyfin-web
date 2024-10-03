@@ -1873,5 +1873,6 @@
     "AllowFmp4TranscodingContainerHelp": "Az fMP4 átkódolási konténer engedélyezése ehhez a tunerhez, a HEVC és HDR tartalmak engedélyezéséhez. Nem minden tuner kompatibilis ezzel a tárolóval. Tiltsa le, ha lejátszási problémákat tapasztal.",
     "Alternate": "Alternatív",
     "AlternateDVD": "Alternatív DVD",
-    "AllowTonemappingSoftwareHelp": "A tónusleképzés képes a HDR videók dinamika tartományát SDR tartományba átalakítani, miközben megtartja a kép színét és részleteit, ami elengedhetetlen az eredeti jelenet megőrzéséhez. Jelenleg csak 10 bites HDR10, HLG és DoVi tartalmakon működik."
+    "AllowTonemappingSoftwareHelp": "A tónusleképzés képes a HDR videók dinamika tartományát SDR tartományba átalakítani, miközben megtartja a kép színét és részleteit, ami elengedhetetlen az eredeti jelenet megőrzéséhez. Jelenleg csak 10 bites HDR10, HLG és DoVi tartalmakon működik.",
+    "LabelUnits": "(másodpercig)"
 }

@@ -146,5 +146,6 @@
     "ButtonWebsite": "ვებსაიტი",
     "ChannelResolutionHD": "HD",
     "ChannelResolutionSD": "SD",
-    "ChannelResolutionSDPAL": "SD (PAL)"
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "LabelUnits": "(წამი)"
 }

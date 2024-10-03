@@ -1938,5 +1938,6 @@
     "LabelDisableVbrAudioEncoding": "Desativar a codificação de áudio VBR",
     "LabelSaveTrickplayLocally": "Salvar imagens de trickplay junto à mídia",
     "LabelSaveTrickplayLocallyHelp": "Salvar imagens de trickplay nas pastas de mídia as colocará junto às suas mídias, para fácil migração e acesso.",
-    "ReplaceTrickplayImages": "Substituir imagens de trickplay existentes"
+    "ReplaceTrickplayImages": "Substituir imagens de trickplay existentes",
+    "LabelUnits": "(seconds)"
 }

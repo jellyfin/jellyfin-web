@@ -1967,5 +1967,6 @@
     "MessageCancelSeriesTimerError": "Wystąpił błąd podczas anulowania timera serialu",
     "MessageCancelTimerError": "Wystąpił błąd podczas anulowania timera",
     "MessageSplitVersionsError": "Wystąpił błąd podczas podziału wersji",
-    "DateModified": "Data modyfikacji"
+    "DateModified": "Data modyfikacji",
+    "LabelUnits": "(towary drugiej jakości)"
 }

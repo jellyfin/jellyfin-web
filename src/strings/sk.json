@@ -1952,5 +1952,6 @@
     "LabelFallbackMaxStreamingBitrate": "Záložný maximálny dátový tok (Mbps)",
     "LabelSaveTrickplayLocally": "Uložit obrázky trickplay k médiám",
     "LabelDelimiterWhitelistHelp": "Položky, ktoré sa majú vylúčiť z oddelovania tagov. Jedna položka na riadok.",
-    "LabelNoChangelog": "Pre túto verziu nie je k dispozícii žiadny zoznam zmien."
+    "LabelNoChangelog": "Pre túto verziu nie je k dispozícii žiadny zoznam zmien.",
+    "LabelUnits": "(sekúnd)"
 }

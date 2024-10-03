@@ -1964,5 +1964,6 @@
     "DateModified": "Дату змінено",
     "MessageCancelSeriesTimerError": "Виникла помилка під час скасування таймера серіалу",
     "MessageCancelTimerError": "Виникла помилка під час скасування таймера",
-    "MessageSplitVersionsError": "Виникла помилка під час розділення версій"
+    "MessageSplitVersionsError": "Виникла помилка під час розділення версій",
+    "LabelUnits": "(секунд)"
 }

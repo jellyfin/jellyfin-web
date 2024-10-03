@@ -1894,5 +1894,6 @@
     "SaveLyricsIntoMediaFolders": "Guardar letras em pastas multimédia",
     "Translator": "Tradutor",
     "LabelSelectPreferredTranscodeVideoCodec": "Codec de vídeo transcodificado preferido",
-    "SelectPreferredTranscodeVideoCodecHelp": "Seleccione o codec de vídeo preferido para transcodificar. Se o codec preferido não for suportado, o servidor irá usar o melhor codec disponível a seguir."
+    "SelectPreferredTranscodeVideoCodecHelp": "Seleccione o codec de vídeo preferido para transcodificar. Se o codec preferido não for suportado, o servidor irá usar o melhor codec disponível a seguir.",
+    "LabelUnits": "(seconds)"
 }

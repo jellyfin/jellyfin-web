@@ -1964,5 +1964,6 @@
     "DateModified": "Ngày sửa đổi",
     "MessageCancelSeriesTimerError": "Đã xảy ra lỗi khi hủy bộ hẹn giờ chuỗi",
     "MessageCancelTimerError": "Đã xảy ra lỗi khi hủy bộ hẹn giờ",
-    "MessageSplitVersionsError": "Đã xảy ra lỗi khi chia nhỏ các phiên bản"
+    "MessageSplitVersionsError": "Đã xảy ra lỗi khi chia nhỏ các phiên bản",
+    "LabelUnits": "(giây)"
 }

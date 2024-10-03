@@ -1650,5 +1650,6 @@
     "Bold": "Grasa",
     "LabelTextWeight": "Teksta pezo",
     "EnableSplashScreen": "Ebligi la salutŝildon",
-    "MediaInfoDoViTitle": "DV titolo"
+    "MediaInfoDoViTitle": "DV titolo",
+    "LabelUnits": "(sekundoj)"
 }

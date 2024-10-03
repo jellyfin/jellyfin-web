@@ -1787,5 +1787,6 @@
     "EnableDts": "Omogoči DTS (DCA)",
     "EnableLibrary": "Omogoči knjižnico",
     "Creator": "Ustvarjalec",
-    "Editor": "Urednik"
+    "Editor": "Urednik",
+    "LabelUnits": "(seconds)"
 }

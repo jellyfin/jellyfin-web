@@ -1289,5 +1289,6 @@
     "ConfirmDeleteLyrics": "מחיקת המילים הללו ימחקו גם בקבצים שלך וגם בספריית המדיה שלך. אתה בטוח שברצונך להמשיך?",
     "AirPlay": "AirPlay",
     "Alternate": "אלטרנטיבי",
-    "AlternateDVD": "DVD אלטרנטיבי"
+    "AlternateDVD": "DVD אלטרנטיבי",
+    "LabelUnits": "(seconds)"
 }

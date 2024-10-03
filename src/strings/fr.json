@@ -1966,5 +1966,6 @@
     "LabelAllowFmp4TranscodingContainer": "Autoriser le conteneur de transcodage fMP4",
     "AllowTonemappingSoftwareHelp": "Le tone-mapping peut transformer la plage dynamique d'une vidéo de HDR à SDR tout en conservant les détails et les couleurs de l'image, qui sont des informations très importantes pour représenter la scène originale. Fonctionne uniquement avec les vidéos 10 bits HDR10, HLG et DoVi.",
     "LabelTrickplayKeyFrameOnlyExtraction": "Générer uniquement des images à partir des images clés",
-    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extraire uniquement les images clés pour un traitement beaucoup plus rapide avec un minutage moins précis. Si le décodeur matériel configuré ne prend pas en charge ce mode, il utilisera le décodeur logiciel à la place."
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extraire uniquement les images clés pour un traitement beaucoup plus rapide avec un minutage moins précis. Si le décodeur matériel configuré ne prend pas en charge ce mode, il utilisera le décodeur logiciel à la place.",
+    "LabelUnits": "(secondes)"
 }

@@ -100,5 +100,6 @@
     "AccessRestrictedTryAgainLater": "Одоогоор хандалт хязгаарлагдмал байна. Дараа дахин оролдож үзнэ үү.",
     "Actor": "Жүжигчин",
     "Add": "Нэмэх",
-    "AddedOnValue": "Нэмсэн"
+    "AddedOnValue": "Нэмсэн",
+    "LabelUnits": "(секунд)"
 }

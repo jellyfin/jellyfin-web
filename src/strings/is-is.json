@@ -491,5 +491,6 @@
     "LabelThrottleDelaySeconds": "Takmarka eftir",
     "LabelThrottleDelaySecondsHelp": "Tími í sekúndum þangað til að umkóðarinn verður takmarkaður. Þarf að vera nógu stórt til að viðhalda nægu biðminni í biðlaranum.",
     "LabelSegmentKeepSeconds": "Tími til að halda bútum",
-    "LabelSegmentKeepSecondsHelp": "Tími í sekúndum sem bútum er haldið eftir að biðlarinn halar þeim niður. Virkar einungis ef heimilt er að eyða bútum."
+    "LabelSegmentKeepSecondsHelp": "Tími í sekúndum sem bútum er haldið eftir að biðlarinn halar þeim niður. Virkar einungis ef heimilt er að eyða bútum.",
+    "LabelUnits": "(seconds)"
 }

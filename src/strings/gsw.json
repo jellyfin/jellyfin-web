@@ -125,5 +125,6 @@
     "AllowMediaConversion": "Mediäumwandlig erlaube",
     "MusicVideos": "Musigvideos",
     "AgeValue": "({0} Jahr alt)",
-    "AddToFavorites": "Zu Favorite hinzufüege"
+    "AddToFavorites": "Zu Favorite hinzufüege",
+    "LabelUnits": "(seconds)"
 }

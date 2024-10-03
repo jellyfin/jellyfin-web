@@ -1887,5 +1887,6 @@
     "OptionExtractTrickplayImage": "Aktifkan ekstraksi gambar trickplay",
     "ExtractTrickplayImagesHelp": "Gambar Trickplay mirip dengan gambar bab, hanya saja gambar tersebut mencakup keseluruhan konten dan digunakan untuk menampilkan pratinjau saat menelusuri video.",
     "LabelExtractTrickplayDuringLibraryScan": "Ekstrak gambar trickplay selama pemindaian perpustakaan",
-    "LabelExtractTrickplayDuringLibraryScanHelp": "Hasilkan gambar trik saat video diimpor selama pemindaian perpustakaan. Jika tidak, gambar tersebut akan diekstraksi selama tugas terjadwal gambar trickplay. Jika pembuatan diatur ke non-pemblokiran, hal ini tidak akan memengaruhi waktu yang diperlukan untuk menyelesaikan pemindaian perpustakaan."
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Hasilkan gambar trik saat video diimpor selama pemindaian perpustakaan. Jika tidak, gambar tersebut akan diekstraksi selama tugas terjadwal gambar trickplay. Jika pembuatan diatur ke non-pemblokiran, hal ini tidak akan memengaruhi waktu yang diperlukan untuk menyelesaikan pemindaian perpustakaan.",
+    "LabelUnits": "(detik)"
 }

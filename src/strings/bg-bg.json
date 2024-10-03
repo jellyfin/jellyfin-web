@@ -1502,5 +1502,6 @@
     "LabelSelectAudioNormalization": "Аудио нормализация",
     "LabelBuildVersion": "Софтуерна версия",
     "LabelEnableLUFSScanHelp": "Нормализаране на силата на звука на всички аудио файлове. Това ще увеличи времети за сканиране на библиотеката и ще използва допъкнителни ресурси.",
-    "HeaderGuestCast": "Гостуващи актьори"
+    "HeaderGuestCast": "Гостуващи актьори",
+    "LabelUnits": "(seconds)"
 }

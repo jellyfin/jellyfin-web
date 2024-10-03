@@ -874,5 +874,6 @@
     "ForeignPartsOnly": "Slegs gedwonge/vreemde onderdele",
     "AiTranslated": "AI Vertaal",
     "MachineTranslated": "Masjien Vertaal",
-    "HearingImpairedShort": "HI/SDH"
+    "HearingImpairedShort": "HI/SDH",
+    "LabelUnits": "(sekondes)"
 }

@@ -1932,5 +1932,6 @@
     "MediaInfoRotation": "Döndürme",
     "MoveToBottom": "Aşağıya taşı",
     "MoveToTop": "Yukarıya taşı",
-    "LibraryInvalidItemIdError": "Kütüphane geçersiz bir durumda ve düzenlenemiyor. Muhtemelen bir hatayla karşılaşıyorsunuz: veritabanındaki yol, dosya sistemindeki doğru yol değil."
+    "LibraryInvalidItemIdError": "Kütüphane geçersiz bir durumda ve düzenlenemiyor. Muhtemelen bir hatayla karşılaşıyorsunuz: veritabanındaki yol, dosya sistemindeki doğru yol değil.",
+    "LabelUnits": "(saniyeler)"
 }

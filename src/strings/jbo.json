@@ -72,5 +72,6 @@
     "AddToPlayQueue": "jmina fe lo mencti depypoi",
     "HeaderStartNow": "ca tolsti",
     "LabelDeathDate": "se detri lo nu nunmro",
-    "LabelDeviceDescription": "se velski lo skami"
+    "LabelDeviceDescription": "se velski lo skami",
+    "LabelUnits": "(seconds)"
 }

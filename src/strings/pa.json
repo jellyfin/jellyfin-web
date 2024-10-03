@@ -117,5 +117,6 @@
     "ButtonExitApp": "ਐਪਲੀਕੇਸ਼ਨ ਵਿੱਚੋਂ ਬਾਹਰ ਜਾਓ",
     "ButtonSpace": "ਥਾਂ",
     "DateAdded": "ਜੋੜਨ ਦੀ ਤਾਰੀਖ",
-    "CopyFailed": "ਕਾਪੀ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ"
+    "CopyFailed": "ਕਾਪੀ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ",
+    "LabelUnits": "(ਸਕਿੰਟ)"
 }

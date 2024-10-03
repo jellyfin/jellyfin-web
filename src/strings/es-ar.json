@@ -1736,5 +1736,6 @@
     "AirPlay": "AirPlay",
     "AllowContentWithTagsHelp": "Mostrar solo medios con al menos una de las etiquetas especificadas.",
     "AllowSubtitleManagement": "Permitir que este usuario edite subtítulos",
-    "AllowSegmentDeletionHelp": "Eliminar segmentos antiguos luego de que fueron descargados por el cliente. Esto previene almacenar el archivo transcodificado entero en disco. Apagar esto si experimenta problemas de reproducción."
+    "AllowSegmentDeletionHelp": "Eliminar segmentos antiguos luego de que fueron descargados por el cliente. Esto previene almacenar el archivo transcodificado entero en disco. Apagar esto si experimenta problemas de reproducción.",
+    "LabelUnits": "(seconds)"
 }

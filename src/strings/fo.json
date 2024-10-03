@@ -221,5 +221,6 @@
     "Folders": "Mappur",
     "Collections": "Søvn",
     "Default": "Sjálvgildi",
-    "Genres": "Greinar"
+    "Genres": "Greinar",
+    "LabelUnits": "(seconds)"
 }

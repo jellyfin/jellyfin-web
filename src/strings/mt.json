@@ -45,5 +45,6 @@
     "Songs": "Kanzunetti",
     "Movies": "Films",
     "MusicVideos": "Vidjows tal-Mużika",
-    "ValueSpecialEpisodeName": "Speċjali - {0}"
+    "ValueSpecialEpisodeName": "Speċjali - {0}",
+    "LabelUnits": "(sekondi)"
 }

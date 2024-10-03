@@ -1684,5 +1684,6 @@
     "TonemappingModeHelp": "Piliin ang tone mapping mode. Kung nakakaranas ka ng mga blown out na highlight subukang lumipat sa RGB mode.",
     "Unknown": "Hindi killala",
     "AllowContentWithTagsHelp": "Ipakita lamang ang media na may hindi bababa sa isa sa mga tinukoy na tag.",
-    "AllowSubtitleManagement": "Payagan ang user na mag-palit ng mga subtitle"
+    "AllowSubtitleManagement": "Payagan ang user na mag-palit ng mga subtitle",
+    "LabelUnits": "(seconds)"
 }

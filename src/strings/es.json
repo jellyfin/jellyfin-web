@@ -1942,5 +1942,6 @@
     "LyricDownloadersHelp": "Habilite y clasifique sus descargadores de subtítulos preferidos en orden de prioridad.",
     "DisableVbrAudioEncodingHelp": "Evitar que el servidor codifique audio con VBR para este cliente.",
     "EnableHi10p": "Habilitar perfil H.264 High 10",
-    "EnableHi10pHelp": "Habilite esta opción para evitar la transcodificación de videos H.264 de 10 bits. Desactive esta opción si el video muestra fotogramas en blanco."
+    "EnableHi10pHelp": "Habilite esta opción para evitar la transcodificación de videos H.264 de 10 bits. Desactive esta opción si el video muestra fotogramas en blanco.",
+    "LabelUnits": "(artículos de segunda clase)"
 }

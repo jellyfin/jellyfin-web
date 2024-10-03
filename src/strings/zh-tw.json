@@ -1966,5 +1966,6 @@
     "LabelDelimiterWhitelist": "分隔字元白名單",
     "LabelDelimiterWhitelistHelp": "從標籤分隔中排除的項目。每行一項。",
     "AllowStreamSharingHelp": "允許 Jellyfin 複製解碼器中的 MPEGTS 串流並共用給多個用戶端。當解碼器有總串流數量限制時很有用，但是可能導致播放問題。",
-    "LabelAllowStreamSharing": "允許串流共用"
+    "LabelAllowStreamSharing": "允許串流共用",
+    "LabelUnits": "(seconds)"
 }

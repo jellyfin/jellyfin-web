@@ -1770,5 +1770,6 @@
     "SubtitleBlue": "أزرق",
     "AllowContentWithTagsHelp": "اعرض الوسائط التي تحتوي على الأقل واحدة من الاصناف المحددة.",
     "AirPlay": "ايربلاي",
-    "Author": "الكاتب"
+    "Author": "الكاتب",
+    "LabelUnits": "(ثواني)"
 }

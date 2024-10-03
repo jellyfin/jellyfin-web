@@ -1896,5 +1896,6 @@
     "HeaderAddLyrics": "Añadir letra",
     "LabelIsSynced": "Está sincronizado",
     "LabelDuration": "Duración",
-    "Lyric": "Lírica"
+    "Lyric": "Lírica",
+    "LabelUnits": "(seconds)"
 }

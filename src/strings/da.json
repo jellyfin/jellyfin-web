@@ -1928,5 +1928,6 @@
     "HeaderAddLyrics": "Tilføj sangtekst",
     "LabelNoChangelog": "Ingen ændringer fortaget for denne udgivelse.",
     "LabelSelectPreferredTranscodeVideoCodec": "Fforetrukne video codec til omkodning",
-    "PluginLoadConfigError": "Der opstod en fejl imens vi hentede konfigurationssiderne til pluginet."
+    "PluginLoadConfigError": "Der opstod en fejl imens vi hentede konfigurationssiderne til pluginet.",
+    "LabelUnits": "(sekunder)"
 }

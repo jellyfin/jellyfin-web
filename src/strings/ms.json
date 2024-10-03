@@ -295,5 +295,6 @@
     "EnableCinemaMode": "Mod pawagam",
     "DisableCustomCss": "Lumpuhkan kod CSS kustom yang disediakan oleh pelayan",
     "EnablePlugin": "Dayakan",
-    "DisablePlugin": "Lumpuhkan"
+    "DisablePlugin": "Lumpuhkan",
+    "LabelUnits": "(detik)"
 }

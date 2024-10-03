@@ -1929,5 +1929,6 @@
     "PasswordMissingSaveError": "Новый пароль не может быть пустым.",
     "Inker": "Покраска",
     "Penciller": "Художник",
-    "Reset": "Сбросить"
+    "Reset": "Сбросить",
+    "LabelUnits": "(секунды)"
 }

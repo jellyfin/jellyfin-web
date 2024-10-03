@@ -642,5 +642,6 @@
     "SubtitleYellow": "Melyn",
     "SubtitleGreen": "Gwyrdd",
     "SmallCaps": "Capiau Bach",
-    "ShowAdvancedSettings": "Dangos gosodiadau uwch"
+    "ShowAdvancedSettings": "Dangos gosodiadau uwch",
+    "LabelUnits": "(eiliadau)"
 }

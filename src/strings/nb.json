@@ -1962,5 +1962,6 @@
     "DateModified": "Data modifisert",
     "MessageCancelSeriesTimerError": "Det oppstod en feil under avbryting av serietidtakeren",
     "MessageCancelTimerError": "Det oppstod en feil under avbryting av tidtakeren",
-    "MessageSplitVersionsError": "Det oppsto en feil under oppdeling av versjoner"
+    "MessageSplitVersionsError": "Det oppsto en feil under oppdeling av versjoner",
+    "LabelUnits": "(seconds)"
 }
