@@ -1780,7 +1780,7 @@
     "LabelAlbumGain": "Wzmocnienie albumu",
     "LabelSelectAudioNormalization": "Normalizacja dźwięku",
     "LabelTrackGain": "Wzmocnienie utworu",
-    "SelectAudioNormalizationHelp": "Wzmocnienie utworu – reguluje głośność każdego utworu tak, aby odtwarzał się z tą samą głośnością. Wzmocnienie albumu – reguluje głośność tylko wszystkich utworów w albumie, zachowując zakres dynamiki albumu.",
+    "SelectAudioNormalizationHelp": "Wzmocnienie utworu – reguluje głośność każdego utworu tak, aby odtwarzał się z tą samą głośnością. Wzmocnienie albumu – reguluje głośność tylko wszystkich utworów w albumie, zachowując zakres dynamiki albumu. Przełączanie między opcją \"Wyłączone\" a innymi wymaga ponownego uruchomienia bieżącego odtwarzania.",
     "SearchResultsEmpty": "Wybacz! Nie znaleziono wyników dla „{0}”",
     "HeaderAllRecordings": "Wszystkie nagrania",
     "LabelBuildVersion": "Wersja kompilacji",
