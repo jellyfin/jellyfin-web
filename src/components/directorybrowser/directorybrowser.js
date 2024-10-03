@@ -11,15 +11,6 @@ import '../formdialog.scss';
 import '../../elements/emby-button/emby-button';
 import alert from '../alert';
 
-function getSystemInfo() {
-    return systemInfo ? Promise.resolve(systemInfo) : ApiClient.getPublicSystemInfo().then(
-        info => {
-            systemInfo = info;
-            return info;
-        }
-    );
-}
-
 function onDialogClosed() {
     loading.hide();
 }
@@ -83,25 +74,14 @@ function getItem(cssClass, type, path, name) {
     return html;
 }
 
-function getEditorHtml(options, systemInfo) {
+function getEditorHtml(options) {
     let html = '';
     html += '<div class="formDialogContent scrollY">';
     html += '<div class="dialogContentInner dialog-content-centered" style="padding-top:2em;">';
-    if (!options.pathReadOnly && (options.instruction || systemInfo.OperatingSystem)) {
+    if (!options.pathReadOnly && options.instruction) {
         const instruction = options.instruction ? `${escapeHtml(options.instruction)}<br/><br/>` : '';
         html += '<div class="infoBanner" style="margin-bottom:1.5em;">';
         html += instruction;
-        if (systemInfo.OperatingSystem.toLowerCase() === 'bsd') {
-            html += '<br/>';
-            html += '<br/>';
-            html += globalize.translate('MessageDirectoryPickerBSDInstruction');
-            html += '<br/>';
-        } else if (systemInfo.OperatingSystem.toLowerCase() === 'linux') {
-            html += '<br/>';
-            html += '<br/>';
-            html += globalize.translate('MessageDirectoryPickerLinuxInstruction');
-            html += '<br/>';
-        }
         html += '</div>';
     }
     html += '<form style="margin:auto;">';
@@ -236,7 +216,6 @@ function getDefaultPath(options) {
     }
 }
 
-let systemInfo;
 class DirectoryBrowser {
     currentDialog;
 
@@ -251,10 +230,8 @@ class DirectoryBrowser {
         if (options.includeFiles != null) {
             fileOptions.includeFiles = options.includeFiles;
         }
-        Promise.all([getSystemInfo(), getDefaultPath(options)]).then(
-            responses => {
-                const fetchedSystemInfo = responses[0];
-                const fetchedInitialPath = responses[1];
+        getDefaultPath(options).then(
+            fetchedInitialPath => {
                 const dlg = dialogHelper.createDialog({
                     size: 'small',
                     removeOnClose: true,
@@ -272,7 +249,7 @@ class DirectoryBrowser {
                 html += escapeHtml(options.header || '') || globalize.translate('HeaderSelectPath');
                 html += '</h3>';
                 html += '</div>';
-                html += getEditorHtml(options, fetchedSystemInfo);
+                html += getEditorHtml(options);
                 dlg.innerHTML = html;
                 initEditor(dlg, options, fileOptions);
                 dlg.addEventListener('close', onDialogClosed);
