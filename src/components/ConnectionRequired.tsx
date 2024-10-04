@@ -149,11 +149,12 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
 
     useEffect(() => {
         // Check connection status on initial page load
+        const apiClient = ServerConnections.currentApiClient();
         const firstConnection = ServerConnections.firstConnection;
         console.debug('[ConnectionRequired] connection state', firstConnection?.State);
         ServerConnections.firstConnection = null;
 
-        if (firstConnection && firstConnection.State !== ConnectionState.SignedIn) {
+        if (firstConnection && firstConnection.State !== ConnectionState.SignedIn && !apiClient?.isLoggedIn()) {
             handleIncompleteWizard(firstConnection)
                 .catch(err => {
                     console.error('[ConnectionRequired] could not start wizard', err);
