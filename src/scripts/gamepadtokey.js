@@ -38,7 +38,7 @@ const _GAMEPAD_LEFT_THUMBSTICK_UP_KEY = 'GamepadLeftThumbStickUp';
 const _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY = 'GamepadLeftThumbStickDown';
 const _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY = 'GamepadLeftThumbStickLeft';
 const _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY = 'GamepadLeftThumbStickRight';
-const _GAMEPAD_A_KEYCODE = 0;
+const _GAMEPAD_A_KEYCODE = 13;
 const _GAMEPAD_B_KEYCODE = 27;
 const _GAMEPAD_DPAD_UP_KEYCODE = 38;
 const _GAMEPAD_DPAD_DOWN_KEYCODE = 40;
@@ -190,8 +190,7 @@ function raiseEvent(name, key, keyCode) {
         return;
     }
 
-    const event = document.createEvent('Event');
-    event.initEvent(name, true, true);
+    const event = new Event(name, { bubbles: true, cancelable: true });
     event.key = key;
     event.keyCode = keyCode;
     (document.activeElement || document.body).dispatchEvent(event);
@@ -349,7 +348,7 @@ function isGamepadConnected() {
     const gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
     for (let i = 0, len = gamepads.length; i < len; i++) {
         const gamepad = gamepads[i];
-        if (gamepad && gamepad.connected) {
+        if (gamepad?.connected) {
             return true;
         }
     }

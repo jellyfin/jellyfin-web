@@ -1,40 +1,34 @@
 import escapeHtml from 'escape-html';
-import layoutManager from '../../components/layoutManager';
-import inputManager from '../../scripts/inputManager';
-import * as userSettings from '../../scripts/settings/userSettings';
-import libraryMenu from '../../scripts/libraryMenu';
-import * as mainTabsManager from '../../components/maintabsmanager';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import dom from '../../scripts/dom';
-import imageLoader from '../../components/images/imageLoader';
-import { playbackManager } from '../../components/playback/playbackmanager';
-import globalize from '../../scripts/globalize';
-import { LibraryTab } from '../../types/libraryTab.ts';
-import Dashboard from '../../utils/dashboard';
-import Events from '../../utils/events.ts';
 
-import '../../elements/emby-scroller/emby-scroller';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-tabs/emby-tabs';
-import '../../elements/emby-button/emby-button';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import imageLoader from 'components/images/imageLoader';
+import layoutManager from 'components/layoutManager';
+import * as mainTabsManager from 'components/maintabsmanager';
+import { playbackManager } from 'components/playback/playbackmanager';
+import dom from 'scripts/dom';
+import globalize from 'lib/globalize';
+import inputManager from 'scripts/inputManager';
+import libraryMenu from 'scripts/libraryMenu';
+import * as userSettings from 'scripts/settings/userSettings';
+import { LibraryTab } from 'types/libraryTab';
+import { getBackdropShape, getPortraitShape } from 'utils/card';
+import Dashboard from 'utils/dashboard';
+import Events from 'utils/events';
+
+import 'elements/emby-scroller/emby-scroller';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-tabs/emby-tabs';
+import 'elements/emby-button/emby-button';
 
 function enableScrollX() {
     return !layoutManager.desktop;
-}
-
-function getPortraitShape() {
-    return enableScrollX() ? 'overflowPortrait' : 'portrait';
-}
-
-function getThumbShape() {
-    return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
 }
 
 function loadLatest(page, userId, parentId) {
     const options = {
         IncludeItemTypes: 'Movie',
         Limit: 18,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
         ParentId: parentId,
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
@@ -45,7 +39,7 @@ function loadLatest(page, userId, parentId) {
         const container = page.querySelector('#recentlyAddedItems');
         cardBuilder.buildCards(items, {
             itemsContainer: container,
-            shape: getPortraitShape(),
+            shape: getPortraitShape(enableScrollX()),
             scalable: true,
             overlayPlayButton: true,
             allowBottomPadding: allowBottomPadding,
@@ -68,7 +62,7 @@ function loadResume(page, userId, parentId) {
         Filters: 'IsResumable',
         Limit: screenWidth >= 1600 ? 5 : 3,
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
         CollapseBoxSetItems: false,
         ParentId: parentId,
         ImageTypeLimit: 1,
@@ -87,7 +81,7 @@ function loadResume(page, userId, parentId) {
         cardBuilder.buildCards(result.Items, {
             itemsContainer: container,
             preferThumb: true,
-            shape: getThumbShape(),
+            shape: getBackdropShape(enableScrollX()),
             scalable: true,
             overlayPlayButton: true,
             allowBottomPadding: allowBottomPadding,
@@ -138,7 +132,7 @@ function getRecommendationHtml(recommendation) {
     }
 
     html += cardBuilder.getCardsHtml(recommendation.Items, {
-        shape: getPortraitShape(),
+        shape: getPortraitShape(enableScrollX()),
         scalable: true,
         overlayPlayButton: true,
         allowBottomPadding: allowBottomPadding,
@@ -168,7 +162,7 @@ function loadSuggestions(page, userId) {
         userId: userId,
         categoryLimit: 6,
         ItemLimit: itemLimit,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb'
     });
@@ -314,7 +308,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../movies/${depends}`).then(({ default: controllerFactory }) => {
+        import(`../movies/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index === suggestionsTabIndex) {
@@ -330,11 +324,11 @@ export default function (view, params) {
                 if (index === suggestionsTabIndex) {
                     controller = this;
                 } else if (index == 0 || index == 3) {
-                    controller = new controllerFactory(view, params, tabContent, {
+                    controller = new ControllerFactory(view, params, tabContent, {
                         mode: index ? 'favorites' : 'movies'
                     });
                 } else {
-                    controller = new controllerFactory(view, params, tabContent);
+                    controller = new ControllerFactory(view, params, tabContent);
                 }
 
                 tabControllers[index] = controller;

@@ -1,5 +1,5 @@
 import serverNotifications from '../../scripts/serverNotifications';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import EmbyButtonPrototype from '../../elements/emby-button/emby-button';
 import ServerConnections from '../../components/ServerConnections';
@@ -132,7 +132,7 @@ EmbyPlaystateButtonPrototype.setItem = function (item) {
         this.setAttribute('data-serverid', item.ServerId);
         this.setAttribute('data-type', item.Type);
 
-        const played = item.UserData && item.UserData.Played;
+        const played = item.UserData?.Played;
         setState(this, played);
         bindEvents(this);
     } else {

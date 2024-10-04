@@ -4,7 +4,7 @@ import focusManager from '../focusManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import inputManager from '../../scripts/inputManager';
 import layoutManager from '../layoutManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
@@ -57,7 +57,7 @@ function renderDynamicFilters(context, result, options) {
 
 function setBasicFilter(context, key, elem) {
     let value = elem.checked;
-    value = value ? value : null;
+    value = value || null;
     userSettings.setFilter(key, value);
 }
 function moveCheckboxFocus(elem, offset) {
@@ -102,71 +102,44 @@ function onInputCommand(e) {
             break;
     }
 }
-function saveValues(context, settings, settingsKey, setfilters) {
-    let elems = context.querySelectorAll('.simpleFilter');
+function saveValues(context, settings, settingsKey) {
+    context.querySelectorAll('.simpleFilter').forEach(elem => {
+        if (elem.tagName === 'INPUT') {
+            setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem);
+        } else {
+            setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem.querySelector('input'));
+        }
+    });
 
     // Video type
     const videoTypes = [];
-    elems = context.querySelectorAll('.chkVideoTypeFilter');
-
-    for (let i = 0, length = elems.length; i < length; i++) {
-        if (elems[i].checked) {
-            videoTypes.push(elems[i].getAttribute('data-filter'));
+    context.querySelectorAll('.chkVideoTypeFilter').forEach(elem => {
+        if (elem.checked) {
+            videoTypes.push(elem.getAttribute('data-filter'));
         }
-    }
+    });
+
+    userSettings.setFilter(settingsKey + '-filter-VideoTypes', videoTypes.join(','));
 
     // Series status
     const seriesStatuses = [];
-    elems = context.querySelectorAll('.chkSeriesStatus');
-
-    for (let i = 0, length = elems.length; i < length; i++) {
-        if (elems[i].checked) {
-            seriesStatuses.push(elems[i].getAttribute('data-filter'));
+    context.querySelectorAll('.chkSeriesStatus').forEach(elem => {
+        if (elem.checked) {
+            seriesStatuses.push(elem.getAttribute('data-filter'));
         }
-    }
+    });
+
+    userSettings.setFilter(`${settingsKey}-filter-SeriesStatus`, seriesStatuses.join(','));
 
     // Genres
     const genres = [];
-    elems = context.querySelectorAll('.chkGenreFilter');
-
-    for (let i = 0, length = elems.length; i < length; i++) {
-        if (elems[i].checked) {
-            genres.push(elems[i].getAttribute('data-filter'));
+    context.querySelectorAll('.chkGenreFilter').forEach(elem => {
+        if (elem.checked) {
+            genres.push(elem.getAttribute('data-filter'));
         }
-    }
+    });
 
-    if (setfilters) {
-        setfilters((prevState) => ({
-            ...prevState,
-            StartIndex: 0,
-            IsPlayed: context.querySelector('.chkPlayed').checked,
-            IsUnplayed: context.querySelector('.chkUnplayed').checked,
-            IsFavorite: context.querySelector('.chkFavorite').checked,
-            IsResumable: context.querySelector('.chkResumable').checked,
-            Is4K: context.querySelector('.chk4KFilter').checked,
-            IsHD: context.querySelector('.chkHDFilter').checked,
-            IsSD: context.querySelector('.chkSDFilter').checked,
-            Is3D: context.querySelector('.chk3DFilter').checked,
-            VideoTypes: videoTypes.join(','),
-            SeriesStatus: seriesStatuses.join(','),
-            HasSubtitles: context.querySelector('.chkSubtitle').checked,
-            HasTrailer: context.querySelector('.chkTrailer').checked,
-            HasSpecialFeature: context.querySelector('.chkSpecialFeature').checked,
-            HasThemeSong: context.querySelector('.chkThemeSong').checked,
-            HasThemeVideo: context.querySelector('.chkThemeVideo').checked,
-            GenreIds: genres.join(',')
-        }));
-    } else {
-        for (let i = 0, length = elems.length; i < length; i++) {
-            if (elems[i].tagName === 'INPUT') {
-                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
-            } else {
-                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input'));
-            }
-        }
-
-        userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
-    }
+    userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
 }
 function bindCheckboxInput(context, on) {
     const elems = context.querySelectorAll('.checkboxList-verticalwrap');
@@ -297,7 +270,7 @@ class FilterMenu {
                 }
 
                 if (submitted) {
-                    saveValues(dlg, options.settings, options.settingsKey, options.setfilters);
+                    saveValues(dlg, options.settings, options.settingsKey);
                     return resolve();
                 }
                 return resolve();

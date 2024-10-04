@@ -4,7 +4,7 @@
  * @module components/imageOptionsEditor/imageOptionsEditor
  */
 
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -80,32 +80,28 @@ function saveValues(context, options) {
     });
 }
 
-function showEditor(itemType, options, availableOptions) {
-    const dlg = dialogHelper.createDialog({
-        size: 'small',
-        removeOnClose: true,
-        scrollY: false
-    });
-    dlg.classList.add('formDialog');
-    dlg.innerHTML = globalize.translateHtml(template);
-    dlg.addEventListener('close', function () {
-        saveValues(dlg, options);
-    });
-    loadValues(dlg, itemType, options, availableOptions);
-    dialogHelper.open(dlg).then(() => {
-        return;
-    }).catch(() => {
-        return;
-    });
-    dlg.querySelector('.btnCancel').addEventListener('click', function () {
-        dialogHelper.close(dlg);
-    });
-}
-
-export class editor {
-    constructor() {
-        this.show = showEditor;
+class ImageOptionsEditor {
+    show(itemType, options, availableOptions) {
+        const dlg = dialogHelper.createDialog({
+            size: 'small',
+            removeOnClose: true,
+            scrollY: false
+        });
+        dlg.classList.add('formDialog');
+        dlg.innerHTML = globalize.translateHtml(template);
+        dlg.addEventListener('close', function () {
+            saveValues(dlg, options);
+        });
+        loadValues(dlg, itemType, options, availableOptions);
+        dialogHelper.open(dlg).then(() => {
+            return;
+        }).catch(() => {
+            return;
+        });
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+            dialogHelper.close(dlg);
+        });
     }
 }
 
-export default editor;
+export default ImageOptionsEditor;

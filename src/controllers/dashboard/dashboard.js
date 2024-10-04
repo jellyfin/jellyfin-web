@@ -1,10 +1,11 @@
 import escapeHtml from 'escape-html';
+
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';
 import itemHelper from '../../components/itemHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import dom from '../../scripts/dom';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../utils/dateFnsLocale.ts';
 import loading from '../../components/loading/loading';
@@ -12,17 +13,25 @@ import playMethodHelper from '../../components/playback/playmethodhelper';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
 import ActivityLog from '../../components/activitylog';
-import imageHelper from '../../scripts/imagehelper';
+import imageHelper from '../../utils/image';
 import indicators from '../../components/indicators/indicators';
-import '../../components/listview/listview.scss';
-import '../../elements/emby-button/emby-button';
-import '../../styles/flexstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import taskButton from '../../scripts/taskbutton';
 import Dashboard from '../../utils/dashboard';
 import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
 import confirm from '../../components/confirm/confirm';
+import { getDefaultBackgroundClass } from '../../components/cardbuilder/cardBuilderUtils';
+
+import { getSystemInfoQuery } from 'hooks/useSystemInfo';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
+
+import '../../elements/emby-button/emby-button';
+import '../../elements/emby-itemscontainer/emby-itemscontainer';
+
+import '../../components/listview/listview.scss';
+import '../../styles/flexstyles.scss';
+import './dashboard.scss';
 
 function showPlaybackInfo(btn, session) {
     let title;
@@ -47,7 +56,7 @@ function showPlaybackInfo(btn, session) {
         text.push(globalize.translate('MediaIsBeingConverted'));
         text.push(DashboardPage.getSessionNowPlayingStreamInfo(session));
 
-        if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
+        if (session.TranscodingInfo?.TranscodeReasons?.length) {
             text.push('<br/>');
             text.push(globalize.translate('LabelReasonForTranscoding'));
             session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
@@ -90,7 +99,7 @@ function showOptionsMenu(btn, session) {
             });
         }
 
-        if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
+        if (session.TranscodingInfo?.TranscodeReasons?.length) {
             menuItems.push({
                 name: globalize.translate('ViewPlaybackInfo'),
                 id: 'transcodinginfo'
@@ -198,22 +207,26 @@ function refreshActiveRecordings(view, apiClient) {
 }
 
 function reloadSystemInfo(view, apiClient) {
-    apiClient.getSystemInfo().then(function (systemInfo) {
-        view.querySelector('#serverName').innerText = globalize.translate('DashboardServerName', systemInfo.ServerName);
-        view.querySelector('#versionNumber').innerText = globalize.translate('DashboardVersionNumber', systemInfo.Version);
+    view.querySelector('#buildVersion').innerText = __JF_BUILD_VERSION__;
 
-        if (systemInfo.CanSelfRestart) {
-            view.querySelector('#btnRestartServer').classList.remove('hide');
-        } else {
-            view.querySelector('#btnRestartServer').classList.add('hide');
-        }
+    let webVersion = __PACKAGE_JSON_VERSION__;
+    if (__COMMIT_SHA__) {
+        webVersion += ` (${__COMMIT_SHA__})`;
+    }
+    view.querySelector('#webVersion').innerText = webVersion;
 
-        view.querySelector('#cachePath').innerText = systemInfo.CachePath;
-        view.querySelector('#logPath').innerText = systemInfo.LogPath;
-        view.querySelector('#transcodePath').innerText = systemInfo.TranscodingTempPath;
-        view.querySelector('#metadataPath').innerText = systemInfo.InternalMetadataPath;
-        view.querySelector('#webPath').innerText = systemInfo.WebPath;
-    });
+    queryClient
+        .fetchQuery(getSystemInfoQuery(toApi(apiClient)))
+        .then(systemInfo => {
+            view.querySelector('#serverName').innerText = systemInfo.ServerName;
+            view.querySelector('#versionNumber').innerText = systemInfo.Version;
+
+            view.querySelector('#cachePath').innerText = systemInfo.CachePath;
+            view.querySelector('#logPath').innerText = systemInfo.LogPath;
+            view.querySelector('#transcodePath').innerText = systemInfo.TranscodingTempPath;
+            view.querySelector('#metadataPath').innerText = systemInfo.InternalMetadataPath;
+            view.querySelector('#webPath').innerText = systemInfo.WebPath;
+        });
 }
 
 function renderInfo(view, sessions) {
@@ -259,7 +272,7 @@ function renderActiveConnections(view, sessions) {
             html += '<div class="cardBox visualCardBox">';
             html += '<div class="cardScalable visualCardBox-cardScalable">';
             html += '<div class="cardPadder cardPadder-backdrop"></div>';
-            html += `<div class="cardContent ${cardBuilder.getDefaultBackgroundClass()}">`;
+            html += `<div class="cardContent ${getDefaultBackgroundClass()}">`;
 
             if (imgUrl) {
                 html += '<div class="sessionNowPlayingContent sessionNowPlayingContent-withbackground"';
@@ -311,7 +324,7 @@ function renderActiveConnections(view, sessions) {
             html += '<div class="sessionCardButtons flex align-items-center justify-content-center">';
 
             let btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? '' : ' hide';
-            const playIcon = session.PlayState.IsPaused ? 'pause' : 'play_arrow';
+            const playIcon = session.PlayState.IsPaused ? 'play_arrow' : 'pause';
 
             html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><span class="material-icons ' + playIcon + '" aria-hidden="true"></span></button>';
             html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><span class="material-icons stop" aria-hidden="true"></span></button>';
@@ -402,7 +415,7 @@ window.DashboardPage = {
         } else if (displayPlayMethod === 'DirectStream') {
             html += globalize.translate('DirectStreaming');
         } else if (displayPlayMethod === 'Transcode') {
-            if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
+            if (session.TranscodingInfo?.Framerate) {
                 html += `${globalize.translate('Framerate')}: ${session.TranscodingInfo.Framerate}fps`;
             }
 
@@ -481,19 +494,17 @@ window.DashboardPage = {
         let topText = escapeHtml(itemHelper.getDisplayName(nowPlayingItem));
         let bottomText = '';
 
-        if (nowPlayingItem.Artists && nowPlayingItem.Artists.length) {
+        if (nowPlayingItem.Artists?.length) {
             bottomText = topText;
             topText = escapeHtml(nowPlayingItem.Artists[0]);
-        } else {
-            if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
-                bottomText = topText;
-                topText = escapeHtml(nowPlayingItem.SeriesName || nowPlayingItem.Album);
-            } else if (nowPlayingItem.ProductionYear) {
-                bottomText = nowPlayingItem.ProductionYear;
-            }
+        } else if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
+            bottomText = topText;
+            topText = escapeHtml(nowPlayingItem.SeriesName || nowPlayingItem.Album);
+        } else if (nowPlayingItem.ProductionYear) {
+            bottomText = nowPlayingItem.ProductionYear;
         }
 
-        if (nowPlayingItem.ImageTags && nowPlayingItem.ImageTags.Logo) {
+        if (nowPlayingItem.ImageTags?.Logo) {
             imgUrl = ApiClient.getScaledImageUrl(nowPlayingItem.Id, {
                 tag: nowPlayingItem.ImageTags.Logo,
                 maxHeight: 24,
@@ -571,7 +582,7 @@ window.DashboardPage = {
 
         const btnSessionPlayPauseIcon = btnSessionPlayPause.querySelector('.material-icons');
         btnSessionPlayPauseIcon.classList.remove('play_arrow', 'pause');
-        btnSessionPlayPauseIcon.classList.add(session.PlayState && session.PlayState.IsPaused ? 'play_arrow' : 'pause');
+        btnSessionPlayPauseIcon.classList.add(session.PlayState?.IsPaused ? 'play_arrow' : 'pause');
 
         row.querySelector('.sessionNowPlayingTime').innerText = DashboardPage.getSessionNowPlayingTime(session);
         row.querySelector('.sessionUserName').innerHTML = DashboardPage.getUsersHtml(session);
@@ -620,7 +631,7 @@ window.DashboardPage = {
     getNowPlayingImageUrl: function (item) {
         /* Screen width is multiplied by 0.2, as the there is currently no way to get the width of
             elements that aren't created yet. */
-        if (item && item.BackdropImageTags && item.BackdropImageTags.length) {
+        if (item?.BackdropImageTags?.length) {
             return ApiClient.getScaledImageUrl(item.Id, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Backdrop',
@@ -628,7 +639,7 @@ window.DashboardPage = {
             });
         }
 
-        if (item && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
+        if (item?.ParentBackdropImageTags?.length) {
             return ApiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Backdrop',
@@ -636,7 +647,7 @@ window.DashboardPage = {
             });
         }
 
-        if (item && item.BackdropImageTag) {
+        if (item?.BackdropImageTag) {
             return ApiClient.getScaledImageUrl(item.BackdropItemId, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Backdrop',
@@ -644,7 +655,7 @@ window.DashboardPage = {
             });
         }
 
-        const imageTags = (item || {}).ImageTags || {};
+        const imageTags = item?.ImageTags || {};
 
         if (item && imageTags.Thumb) {
             return ApiClient.getScaledImageUrl(item.Id, {
@@ -654,7 +665,7 @@ window.DashboardPage = {
             });
         }
 
-        if (item && item.ParentThumbImageTag) {
+        if (item?.ParentThumbImageTag) {
             return ApiClient.getScaledImageUrl(item.ParentThumbItemId, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Thumb',
@@ -662,7 +673,7 @@ window.DashboardPage = {
             });
         }
 
-        if (item && item.ThumbImageTag) {
+        if (item?.ThumbImageTag) {
             return ApiClient.getScaledImageUrl(item.ThumbItemId, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Thumb',
@@ -678,7 +689,7 @@ window.DashboardPage = {
             });
         }
 
-        if (item && item.PrimaryImageTag) {
+        if (item?.PrimaryImageTag) {
             return ApiClient.getScaledImageUrl(item.PrimaryImageItemId, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Primary',
@@ -686,7 +697,7 @@ window.DashboardPage = {
             });
         }
 
-        if (item && item.AlbumPrimaryImageTag) {
+        if (item?.AlbumPrimaryImageTag) {
             return ApiClient.getScaledImageUrl(item.AlbumId, {
                 maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                 type: 'Primary',

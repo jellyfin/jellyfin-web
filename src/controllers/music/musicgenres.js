@@ -1,4 +1,4 @@
-import libraryBrowser from '../../scripts/libraryBrowser';
+import * as userSettings from '../../scripts/settings/userSettings';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
 import loading from '../../components/loading/loading';
@@ -17,10 +17,10 @@ export default function (view, params, tabContent) {
                     Fields: 'PrimaryImageAspectRatio,ItemCounts',
                     StartIndex: 0
                 },
-                view: libraryBrowser.getSavedView(key) || 'Poster'
+                view: userSettings.getSavedView(key) || 'Poster'
             };
             pageData.query.ParentId = params.topParentId;
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
+            userSettings.loadQuerySettings(key, pageData.query);
         }
 
         return pageData;
@@ -31,7 +31,7 @@ export default function (view, params, tabContent) {
     }
 
     function getSavedQueryKey() {
-        return libraryBrowser.getSavedQueryKey('genres');
+        return `${params.topParentId}-genres`;
     }
 
     function getPromise() {
@@ -87,7 +87,7 @@ export default function (view, params, tabContent) {
             const elem = context.querySelector('#items');
             elem.innerHTML = html;
             imageLoader.lazyChildren(elem);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
+            userSettings.saveQuerySettings(getSavedQueryKey(), query);
             loading.hide();
 
             import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
@@ -113,7 +113,7 @@ export default function (view, params, tabContent) {
 
     this.setCurrentViewStyle = function (viewStyle) {
         getPageData().view = viewStyle;
-        libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
+        userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);
         fullyReload();
     };
 

@@ -26,7 +26,7 @@ function buildChapterCardsHtml(item, chapters, options) {
         }
     }
 
-    const mediaStreams = ((item.MediaSources || [])[0] || {}).MediaStreams || [];
+    const mediaStreams = (item.MediaSources || [])[0]?.MediaStreams || [];
     const videoStream = mediaStreams.filter(({ Type }) => {
         return Type === 'Video';
     })[0] || {};

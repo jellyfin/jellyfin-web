@@ -35,7 +35,7 @@ function seriesImageUrl(item, options = {}) {
 function imageUrl(item, options = {}) {
     options.type = options.type || 'Primary';
 
-    if (item.ImageTags && item.ImageTags[options.type]) {
+    if (item.ImageTags?.[options.type]) {
         options.tag = item.ImageTags[options.type];
 
         return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);

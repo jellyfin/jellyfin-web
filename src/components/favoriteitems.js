@@ -1,28 +1,20 @@
-import loading from './loading/loading';
-import cardBuilder from './cardbuilder/cardBuilder';
-import dom from '../scripts/dom';
+import dom from 'scripts/dom';
+import globalize from 'lib/globalize';
+import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
+import { getParameterByName } from 'utils/url';
+
 import { appHost } from './apphost';
+import cardBuilder from './cardbuilder/cardBuilder';
 import imageLoader from './images/imageLoader';
-import globalize from '../scripts/globalize';
 import layoutManager from './layoutManager';
-import { getParameterByName } from '../utils/url.ts';
-import '../styles/scrollstyles.scss';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
+import loading from './loading/loading';
+
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+
+import 'styles/scrollstyles.scss';
 
 function enableScrollX() {
     return !layoutManager.desktop;
-}
-
-function getThumbShape() {
-    return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
-}
-
-function getPosterShape() {
-    return enableScrollX() ? 'overflowPortrait' : 'portrait';
-}
-
-function getSquareShape() {
-    return enableScrollX() ? 'overflowSquare' : 'square';
 }
 
 function getSections() {
@@ -30,21 +22,21 @@ function getSections() {
         name: 'Movies',
         types: 'Movie',
         id: 'favoriteMovies',
-        shape: getPosterShape(),
+        shape: getPortraitShape(enableScrollX()),
         showTitle: false,
         overlayPlayButton: true
     }, {
         name: 'Shows',
         types: 'Series',
         id: 'favoriteShows',
-        shape: getPosterShape(),
+        shape: getPortraitShape(enableScrollX()),
         showTitle: false,
         overlayPlayButton: true
     }, {
         name: 'Episodes',
         types: 'Episode',
         id: 'favoriteEpisode',
-        shape: getThumbShape(),
+        shape: getBackdropShape(enableScrollX()),
         preferThumb: false,
         showTitle: true,
         showParentTitle: true,
@@ -55,7 +47,7 @@ function getSections() {
         name: 'Videos',
         types: 'Video,MusicVideo',
         id: 'favoriteVideos',
-        shape: getThumbShape(),
+        shape: getBackdropShape(enableScrollX()),
         preferThumb: true,
         showTitle: true,
         overlayPlayButton: true,
@@ -65,7 +57,7 @@ function getSections() {
         name: 'Artists',
         types: 'MusicArtist',
         id: 'favoriteArtists',
-        shape: getSquareShape(),
+        shape: getSquareShape(enableScrollX()),
         preferThumb: false,
         showTitle: true,
         overlayText: false,
@@ -77,7 +69,7 @@ function getSections() {
         name: 'Albums',
         types: 'MusicAlbum',
         id: 'favoriteAlbums',
-        shape: getSquareShape(),
+        shape: getSquareShape(enableScrollX()),
         preferThumb: false,
         showTitle: true,
         overlayText: false,
@@ -89,7 +81,7 @@ function getSections() {
         name: 'Songs',
         types: 'Audio',
         id: 'favoriteSongs',
-        shape: getSquareShape(),
+        shape: getSquareShape(enableScrollX()),
         preferThumb: false,
         showTitle: true,
         overlayText: false,
@@ -108,7 +100,7 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
         SortOrder: 'Ascending',
         Filters: 'IsFavorite',
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio',
         CollapseBoxSetItems: false,
         ExcludeLocationTypes: 'Virtual',
         EnableTotalRecordCount: false

@@ -9,7 +9,7 @@ import PlaybackCore from './PlaybackCore';
 import QueueCore from './QueueCore';
 import Controller from './Controller';
 import toast from '../../../components/toast/toast';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import Events from '../../../utils/events.ts';
 
 /**
@@ -246,7 +246,7 @@ class Manager {
 
     /**
      * Handles a playback command from the server.
-     * @param {Object} cmd The playback command.
+     * @param {Object|null} cmd The playback command.
      */
     processCommand(cmd) {
         if (cmd === null) return;
@@ -294,7 +294,7 @@ class Manager {
 
     /**
      * Handles a group state change.
-     * @param {Object} update The group state update.
+     * @param {Object|null} update The group state update.
      */
     processStateChange(update) {
         if (update === null || update.State === null || update.Reason === null) return;

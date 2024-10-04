@@ -9,13 +9,16 @@ import itemHelper from '../itemHelper';
 import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';
 import layoutManager from '../layoutManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import datetime from '../../scripts/datetime';
 import cardBuilder from '../cardbuilder/cardBuilder';
 import './listview.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-playstatebutton/emby-playstatebutton';
 import ServerConnections from '../ServerConnections';
+import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import markdownIt from 'markdown-it';
+import DOMPurify from 'dompurify';
 
 function getIndex(item, options) {
     if (options.index === 'disc') {
@@ -86,7 +89,7 @@ function getImageUrl(item, size) {
         type: 'Primary'
     };
 
-    if (item.ImageTags && item.ImageTags.Primary) {
+    if (item.ImageTags?.Primary) {
         options.tag = item.ImageTags.Primary;
         itemId = item.Id;
     } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
@@ -177,7 +180,7 @@ export function getListViewHtml(options) {
     const isLargeStyle = options.imageSize === 'large';
     const enableOverview = options.enableOverview;
 
-    const clickEntireItem = layoutManager.tv ? true : false;
+    const clickEntireItem = layoutManager.tv;
     const outerTagName = clickEntireItem ? 'button' : 'div';
     const enableSideMediaInfo = options.enableSideMediaInfo != null ? options.enableSideMediaInfo : true;
 
@@ -235,7 +238,7 @@ export function getListViewHtml(options) {
 
         const playlistItemId = item.PlaylistItemId ? (` data-playlistitemid="${item.PlaylistItemId}"`) : '';
 
-        const positionTicksData = item.UserData && item.UserData.PlaybackPositionTicks ? (` data-positionticks="${item.UserData.PlaybackPositionTicks}"`) : '';
+        const positionTicksData = item.UserData?.PlaybackPositionTicks ? (` data-positionticks="${item.UserData.PlaybackPositionTicks}"`) : '';
         const collectionIdData = options.collectionId ? (` data-collectionid="${options.collectionId}"`) : '';
         const playlistIdData = options.playlistId ? (` data-playlistid="${options.playlistId}"`) : '';
         const mediaTypeData = item.MediaType ? (` data-mediatype="${item.MediaType}"`) : '';
@@ -279,7 +282,7 @@ export function getListViewHtml(options) {
             if (imgUrl) {
                 html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
             } else {
-                html += '<div class="' + imageClass + ' cardImageContainer ' + cardBuilder.getDefaultBackgroundClass(item.Name) + '">' + cardBuilder.getDefaultText(item, options);
+                html += '<div class="' + imageClass + ' cardImageContainer ' + getDefaultBackgroundClass(item.Name) + '">' + cardBuilder.getDefaultText(item, options);
             }
 
             const mediaSourceCount = item.MediaSourceCount || 1;
@@ -374,14 +377,12 @@ export function getListViewHtml(options) {
             if (options.artist !== false && item.AlbumArtist && item.Type === 'MusicAlbum') {
                 textlines.push(item.AlbumArtist);
             }
-        } else {
-            if (options.artist) {
-                const artistItems = item.ArtistItems;
-                if (artistItems && item.Type !== 'MusicAlbum') {
-                    textlines.push(artistItems.map(a => {
-                        return a.Name;
-                    }).join(', '));
-                }
+        } else if (options.artist) {
+            const artistItems = item.ArtistItems;
+            if (artistItems && item.Type !== 'MusicAlbum') {
+                textlines.push(artistItems.map(a => {
+                    return a.Name;
+                }).join(', '));
             }
         }
 
@@ -416,8 +417,9 @@ export function getListViewHtml(options) {
         }
 
         if (enableOverview && item.Overview) {
+            const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
             html += '<div class="secondary listItem-overview listItemBodyText">';
-            html += '<bdi>' + item.Overview + '</bdi>';
+            html += '<bdi>' + overview + '</bdi>';
             html += '</div>';
         }
 

@@ -5,6 +5,7 @@ import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
+import { MediaError } from 'types/mediaError';
 
 function getDefaultProfile() {
     return profileBuilder({});
@@ -101,6 +102,7 @@ class HtmlAudioPlayer {
             self._currentTime = null;
 
             const elem = createMediaElement();
+
             return setCurrentSrc(elem, options);
         };
 
@@ -110,6 +112,40 @@ class HtmlAudioPlayer {
 
             let val = options.url;
             console.debug('playing url: ' + val);
+            import('../../scripts/settings/userSettings').then((userSettings) => {
+                let normalizationGain;
+                if (userSettings.selectAudioNormalization() == 'TrackGain') {
+                    normalizationGain = options.item.NormalizationGain
+                        ?? options.mediaSource.albumNormalizationGain;
+                } else if (userSettings.selectAudioNormalization() == 'AlbumGain') {
+                    normalizationGain =
+                        options.mediaSource.albumNormalizationGain
+                        ?? options.item.NormalizationGain;
+                } else {
+                    console.debug('normalization disabled');
+                    return;
+                }
+
+                if (!self.gainNode) {
+                    addGainElement(elem);
+                    if (!self.gainNode) return;
+                }
+
+                if (normalizationGain) {
+                    self.normalizationGain = Math.pow(10, normalizationGain / 20);
+                    self.gainNode.gain.value = self.normalizationGain;
+                } else {
+                    self.gainNode.gain.value = 1;
+                    self.normalizationGain = 1;
+                }
+                if (browser.safari) {
+                    // Gain value is absolute in Safari. Add volume from the slider
+                    self.gainNode.gain.value *= elem.volume;
+                }
+                console.debug('gain: ' + self.normalizationGain);
+            }).catch((err) => {
+                console.error('Failed to add/change gainNode', err);
+            });
 
             // Convert to seconds
             const seconds = (options.playerStartPositionTicks || 0) / 10000000;
@@ -241,11 +277,32 @@ class HtmlAudioPlayer {
                 document.body.appendChild(elem);
             }
 
-            elem.volume = htmlMediaHelper.getSavedVolume();
+            // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
+            if (!appHost.supports('physicalvolumecontrol')) {
+                elem.volume = htmlMediaHelper.getSavedVolume();
+            }
 
             self._mediaElement = elem;
 
             return elem;
+        }
+
+        function addGainElement(elem) {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext; /* eslint-disable-line compat/compat */
+
+                const audioCtx = new AudioContext();
+                const source = audioCtx.createMediaElementSource(elem);
+
+                const gainNode = audioCtx.createGain();
+
+                source.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                self.gainNode = gainNode;
+            } catch (e) {
+                console.error('Web Audio API is not supported in this browser', e);
+            }
         }
 
         function onEnded() {
@@ -266,6 +323,9 @@ class HtmlAudioPlayer {
         function onVolumeChange() {
             if (!self._isFadingOut) {
                 htmlMediaHelper.saveVolume(this.volume);
+                if (browser.safari && self.gainNode) {
+                    self.gainNode.gain.value = this.volume * self.normalizationGain;
+                }
                 Events.trigger(self, 'volumechange');
             }
         }
@@ -306,7 +366,7 @@ class HtmlAudioPlayer {
                     return;
                 case 2:
                     // MEDIA_ERR_NETWORK
-                    type = 'network';
+                    type = MediaError.NETWORK_ERROR;
                     break;
                 case 3:
                     // MEDIA_ERR_DECODE
@@ -314,12 +374,12 @@ class HtmlAudioPlayer {
                         htmlMediaHelper.handleHlsJsMediaError(self);
                         return;
                     } else {
-                        type = 'mediadecodeerror';
+                        type = MediaError.MEDIA_DECODE_ERROR;
                     }
                     break;
                 case 4:
                     // MEDIA_ERR_SRC_NOT_SUPPORTED
-                    type = 'medianotsupported';
+                    type = MediaError.MEDIA_NOT_SUPPORTED;
                     break;
                 default:
                     // seeing cases where Edge is firing error events with no error code
@@ -345,6 +405,10 @@ class HtmlAudioPlayer {
         }
 
         return getDefaultProfile();
+    }
+
+    toggleAirPlay() {
+        return this.setAirPlayEnabled(!this.isAirPlayEnabled());
     }
 
     // Save this for when playback stops, because querying the time at that point might return 0
@@ -381,7 +445,7 @@ class HtmlAudioPlayer {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
             const seekable = mediaElement.seekable;
-            if (seekable && seekable.length) {
+            if (seekable?.length) {
                 let start = seekable.start(0);
                 let end = seekable.end(0);
 
@@ -488,6 +552,33 @@ class HtmlAudioPlayer {
         return false;
     }
 
+    isAirPlayEnabled() {
+        if (document.AirPlayEnabled) {
+            return !!document.AirplayElement;
+        }
+        return false;
+    }
+
+    setAirPlayEnabled(isEnabled) {
+        const mediaElement = this._mediaElement;
+
+        if (mediaElement) {
+            if (document.AirPlayEnabled) {
+                if (isEnabled) {
+                    mediaElement.requestAirPlay().catch(function(err) {
+                        console.error('Error requesting AirPlay', err);
+                    });
+                } else {
+                    document.exitAirPLay().catch(function(err) {
+                        console.error('Error exiting AirPlay', err);
+                    });
+                }
+            } else {
+                mediaElement.webkitShowPlaybackTargetPicker();
+            }
+        }
+    }
+
     supports(feature) {
         if (!supportedFeatures) {
             supportedFeatures = getSupportedFeatures();
@@ -505,6 +596,10 @@ function getSupportedFeatures() {
 
     if (typeof audio.playbackRate === 'number') {
         list.push('PlaybackRate');
+    }
+
+    if (browser.safari) {
+        list.push('AirPlay');
     }
 
     return list;

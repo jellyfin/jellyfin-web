@@ -3,11 +3,7 @@ import './viewManager/viewContainer.scss';
 import Dashboard from '../utils/dashboard';
 
 const getMainAnimatedPages = () => {
-    if (!mainAnimatedPages) {
-        mainAnimatedPages = document.querySelector('.mainAnimatedPages');
-    }
-
-    return mainAnimatedPages;
+    return document.querySelector('.mainAnimatedPages');
 };
 
 function setControllerClass(view, options) {
@@ -61,7 +57,9 @@ export function loadView(options) {
 
         view.classList.add('mainAnimatedPage');
 
-        if (!getMainAnimatedPages()) {
+        const mainAnimatedPages = getMainAnimatedPages();
+
+        if (!mainAnimatedPages) {
             console.warn('[viewContainer] main animated pages element is not present');
             return;
         }
@@ -73,12 +71,10 @@ export function loadView(options) {
             } else {
                 mainAnimatedPages.replaceChild(view, currentPage);
             }
+        } else if (newViewInfo.hasScript && window.$) {
+            view = $(view).appendTo(mainAnimatedPages)[0];
         } else {
-            if (newViewInfo.hasScript && window.$) {
-                view = $(view).appendTo(mainAnimatedPages)[0];
-            } else {
-                mainAnimatedPages.appendChild(view);
-            }
+            mainAnimatedPages.appendChild(view);
         }
 
         if (options.type) {
@@ -189,6 +185,7 @@ export function setOnBeforeChange(fn) {
 }
 
 export function tryRestoreView(options) {
+    console.debug('[viewContainer] tryRestoreView', options);
     const url = options.url;
     const index = currentUrls.indexOf(url);
 
@@ -234,14 +231,15 @@ function triggerDestroy(view) {
 }
 
 export function reset() {
+    console.debug('[viewContainer] resetting view cache');
     allPages = [];
     currentUrls = [];
+    const mainAnimatedPages = getMainAnimatedPages();
     if (mainAnimatedPages) mainAnimatedPages.innerHTML = '';
     selectedPageIndex = -1;
 }
 
 let onBeforeChange;
-let mainAnimatedPages;
 let allPages = [];
 let currentUrls = [];
 const pageContainerCount = 3;
@@ -250,8 +248,8 @@ reset();
 getMainAnimatedPages()?.classList.remove('hide');
 
 export default {
-    loadView: loadView,
-    tryRestoreView: tryRestoreView,
-    reset: reset,
-    setOnBeforeChange: setOnBeforeChange
+    loadView,
+    tryRestoreView,
+    reset,
+    setOnBeforeChange
 };

@@ -157,7 +157,7 @@ function subscribeToPlayerUpdates(instance) {
 }
 
 function normalizeImages(state, apiClient) {
-    if (state && state.NowPlayingItem) {
+    if (state?.NowPlayingItem) {
         const item = state.NowPlayingItem;
 
         if (!item.ImageTags || !item.ImageTags.Primary && item.PrimaryImageTag) {
@@ -284,11 +284,11 @@ class SessionPlayer {
     }
 
     queue(options) {
-        sendPlayCommand(getCurrentApiClient(this), options, 'PlayNext');
+        sendPlayCommand(getCurrentApiClient(this), options, 'PlayLast');
     }
 
     queueNext(options) {
-        sendPlayCommand(getCurrentApiClient(this), options, 'PlayLast');
+        sendPlayCommand(getCurrentApiClient(this), options, 'PlayNext');
     }
 
     canPlayMediaType(mediaType) {

@@ -1,7 +1,5 @@
 import 'jquery';
-import libraryMenu from '../../scripts/libraryMenu';
 import loading from '../../components/loading/loading';
-import globalize from '../../scripts/globalize';
 import Dashboard from '../../utils/dashboard';
 
 function loadPage(page, config) {
@@ -20,24 +18,10 @@ function onSubmit() {
     return false;
 }
 
-function getTabs() {
-    return [{
-        href: '#/encodingsettings.html',
-        name: globalize.translate('Transcoding')
-    }, {
-        href: '#/playbackconfiguration.html',
-        name: globalize.translate('ButtonResume')
-    }, {
-        href: '#/streamingsettings.html',
-        name: globalize.translate('TabStreaming')
-    }];
-}
-
 $(document).on('pageinit', '#streamingSettingsPage', function () {
     $('.streamingSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
 }).on('pageshow', '#streamingSettingsPage', function () {
     loading.show();
-    libraryMenu.setTabs('playback', 2, getTabs);
     const page = this;
     ApiClient.getServerConfiguration().then(function (config) {
         loadPage(page, config);

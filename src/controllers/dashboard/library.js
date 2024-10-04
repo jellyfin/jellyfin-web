@@ -2,19 +2,18 @@ import escapeHtml from 'escape-html';
 import 'jquery';
 import taskButton from '../../scripts/taskbutton';
 import loading from '../../components/loading/loading';
-import libraryMenu from '../../scripts/libraryMenu';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
-import imageHelper from '../../scripts/imagehelper';
+import imageHelper from '../../utils/image';
 import '../../components/cardbuilder/card.scss';
 import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
 import Dashboard, { pageClassOn, pageIdOn } from '../../utils/dashboard';
 import confirm from '../../components/confirm/confirm';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import { getDefaultBackgroundClass } from '../../components/cardbuilder/cardBuilderUtils';
 
 function addVirtualFolder(page) {
-    import('../../components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: medialibrarycreator }) => {
-        new medialibrarycreator({
+    import('../../components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }) => {
+        new MediaLibraryCreator({
             collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
                 return !f.hidden;
             }),
@@ -28,8 +27,8 @@ function addVirtualFolder(page) {
 }
 
 function editVirtualFolder(page, virtualFolder) {
-    import('../../components/mediaLibraryEditor/mediaLibraryEditor').then(({ default: medialibraryeditor }) => {
-        new medialibraryeditor({
+    import('../../components/mediaLibraryEditor/mediaLibraryEditor').then(({ default: MediaLibraryEditor }) => {
+        new MediaLibraryEditor({
             refresh: shouldRefreshLibraryAfterChanges(page),
             library: virtualFolder
         }).then(function (hasChanges) {
@@ -62,8 +61,8 @@ function deleteVirtualFolder(page, virtualFolder) {
 }
 
 function refreshVirtualFolder(page, virtualFolder) {
-    import('../../components/refreshdialog/refreshdialog').then(({ default: refreshDialog }) => {
-        new refreshDialog({
+    import('../../components/refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
+        new RefreshDialog({
             itemIds: [virtualFolder.ItemId],
             serverId: ApiClient.serverId(),
             mode: 'scan'
@@ -275,11 +274,11 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     let hasCardImageContainer;
 
     if (imgUrl) {
-        html += `<div class="cardImageContainer editLibrary ${imgUrl ? '' : cardBuilder.getDefaultBackgroundClass()}" style="cursor:pointer">`;
+        html += `<div class="cardImageContainer editLibrary ${imgUrl ? '' : getDefaultBackgroundClass()}" style="cursor:pointer">`;
         html += `<img src="${imgUrl}" style="width:100%" />`;
         hasCardImageContainer = true;
     } else if (!virtualFolder.showNameWithIcon) {
-        html += `<div class="cardImageContainer editLibrary ${cardBuilder.getDefaultBackgroundClass()}" style="cursor:pointer;">`;
+        html += `<div class="cardImageContainer editLibrary ${getDefaultBackgroundClass()}" style="cursor:pointer;">`;
         html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '" aria-hidden="true"></span>';
         hasCardImageContainer = true;
     }
@@ -309,9 +308,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     html += '<div class="cardFooter visualCardBox-cardFooter">'; // always show menu unless explicitly hidden
 
     if (virtualFolder.showMenu !== false) {
-        let dirTextAlign = 'right';
-        if (globalize.getIsRTL())
-            dirTextAlign = 'left';
+        const dirTextAlign = globalize.getIsRTL() ? 'left' : 'right';
         html += '<div style="text-align:' + dirTextAlign + '; float:' + dirTextAlign + ';padding-top:5px;">';
         html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
         html += '</div>';
@@ -360,22 +357,6 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     return html;
 }
 
-function getTabs() {
-    return [{
-        href: '#/library.html',
-        name: globalize.translate('HeaderLibraries')
-    }, {
-        href: '#/librarydisplay.html',
-        name: globalize.translate('Display')
-    }, {
-        href: '#/metadataimages.html',
-        name: globalize.translate('Metadata')
-    }, {
-        href: '#/metadatanfo.html',
-        name: globalize.translate('TabNfoSettings')
-    }];
-}
-
 window.WizardLibraryPage = {
     next: function () {
         Dashboard.navigate('wizardsettings.html');
@@ -385,8 +366,6 @@ pageClassOn('pageshow', 'mediaLibraryPage', function () {
     reloadLibrary(this);
 });
 pageIdOn('pageshow', 'mediaLibraryPage', function () {
-    libraryMenu.setTabs('librarysetup', 0, getTabs);
-
     const page = this;
     taskButton({
         mode: 'on',

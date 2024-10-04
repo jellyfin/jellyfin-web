@@ -9,7 +9,7 @@ worker.addEventListener(
     'message',
     ({ data: { pixels, hsh, width, height } }) => {
         const elems = targetDic[hsh];
-        if (elems && elems.length) {
+        if (elems?.length) {
             for (const elem of elems) {
                 drawBlurhash(elem, pixels, width, height);
             }
@@ -74,7 +74,7 @@ export function fillImage(entry) {
         throw new Error('entry cannot be null');
     }
     const target = entry.target;
-    let source = undefined;
+    let source;
 
     if (target) {
         source = target.getAttribute('data-src');

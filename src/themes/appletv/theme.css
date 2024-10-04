@@ -252,6 +252,10 @@ a[data-role=button] {
     background: none;
 }
 
+.noBackdropTransparency .detailPageSecondaryContainer {
+    background-color: #d5e9f2;
+}
+
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #f8f8f8;
     background: rgba(0, 0, 0, 0.1);

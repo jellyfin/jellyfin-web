@@ -29,7 +29,7 @@
     "AlbumArtist": "อัลบั้มศิลปิน",
     "Album": "อัลบั้ม",
     "AirDate": "วันที่ออกอากาศ",
-    "AddedOnValue": "เพิ่มแล้ว",
+    "AddedOnValue": "เพิ่มแล้ว {0}",
     "Framerate": "เฟรมเรต",
     "Folders": "โฟลเดอร์",
     "FileNotFound": "ไม่พบไฟล์",
@@ -140,5 +140,12 @@
     "BirthDateValue": "เกิด: {0}",
     "AllowMediaConversion": "การอนุญาตการแปลงมีเดีย",
     "AgeValue": "({0} ปี)",
-    "AddToFavorites": "เพิ่มไปยังรายการโปรด"
+    "AddToFavorites": "เพิ่มไปยังรายการโปรด",
+    "Aired": "ออกอากาศ",
+    "AlwaysPlaySubtitles": "แสดงตลอด",
+    "AllowCollectionManagement": "อนุญาตให้ผู้ใช้นี้จัดการคอลเลกชัน",
+    "AllowedRemoteAddressesHelp": "คอมม่าเป็นการแบ่งเลขที่อยู่ IP หรือ การเข้า IP/netmask สำหรับโครงข่ายนั้นที่จะต้องถูกอนุญาตให้เชื่อมต่อระยะไกล  ถ้าเว้นว่างไว้การเชื่อมต่อระยะไกลจะถูกอนุญาตโดยอัตโนมัติ",
+    "AllowFfmpegThrottling": "กำลังเข้ารหัส",
+    "AllowContentWithTagsHelp": "แสดงสื่อที่สอดคล้องกับ Tag เฉพาะทางอย่างน้อย 1 Tag",
+    "AllowSubtitleManagement": "อนุญาติให้ผู้ใช้ท่านนี้แก้ไขคำบรรยายใต้วิดีโอได้"
 }

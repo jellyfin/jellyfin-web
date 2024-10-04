@@ -3,7 +3,7 @@ import loading from '../loading/loading';
 import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import scrollHelper from '../../scripts/scrollHelper';
 import imageLoader from '../images/imageLoader';
 import browser from '../../scripts/browser';
@@ -164,10 +164,8 @@ function getCardHtml(image, apiClient, options) {
             } else {
                 html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveRight') + '"><span class="material-icons chevron_right" aria-hidden="true"></span></button>';
             }
-        } else {
-            if (options.imageProviders.length) {
-                html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><span class="material-icons search" aria-hidden="true"></span></button>';
-            }
+        } else if (options.imageProviders.length) {
+            html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><span class="material-icons search" aria-hidden="true"></span></button>';
         }
 
         html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" data-index="' + (image.ImageIndex != null ? image.ImageIndex : 'null') + '" class="btnDeleteImage autoSize" title="' + globalize.translate('Delete') + '"><span class="material-icons delete" aria-hidden="true"></span></button>';

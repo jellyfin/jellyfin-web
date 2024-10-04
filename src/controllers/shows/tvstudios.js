@@ -1,9 +1,8 @@
 import loading from '../../components/loading/loading';
-import libraryBrowser from '../../scripts/libraryBrowser';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 
 function getQuery(params) {
-    const key = getSavedQueryKey();
+    const key = getSavedQueryKey(params);
     let pageData = data[key];
 
     if (!pageData) {
@@ -23,8 +22,8 @@ function getQuery(params) {
     return pageData.query;
 }
 
-function getSavedQueryKey() {
-    return libraryBrowser.getSavedQueryKey('studios');
+function getSavedQueryKey(params) {
+    return `${params.topParentId}-studios`;
 }
 
 function getPromise(context, params) {

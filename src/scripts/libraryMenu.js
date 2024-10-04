@@ -1,6 +1,10 @@
 import escapeHtml from 'escape-html';
 import Headroom from 'headroom.js';
 
+import { getUserViewsQuery } from 'hooks/useUserViews';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
+
 import dom from './dom';
 import layoutManager from '../components/layoutManager';
 import inputManager from './inputManager';
@@ -11,8 +15,8 @@ import { playbackManager } from '../components/playback/playbackmanager';
 import { pluginManager } from '../components/pluginManager';
 import groupSelectionMenu from '../plugins/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
-import globalize from './globalize';
-import imageHelper from './imagehelper';
+import globalize from 'lib/globalize';
+import imageHelper from '../utils/image';
 import { getMenuLinks } from '../scripts/settings/webSettings';
 import Dashboard, { pageClassOn } from '../utils/dashboard';
 import ServerConnections from '../components/ServerConnections';
@@ -26,6 +30,7 @@ import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../styles/scrollstyles.scss';
 import '../styles/flexstyles.scss';
+import { EventType } from 'types/eventType';
 
 function renderHeader() {
     let html = '';
@@ -71,7 +76,7 @@ function renderHeader() {
 }
 
 function getCurrentApiClient() {
-    if (currentUser && currentUser.localUser) {
+    if (currentUser?.localUser) {
         return ServerConnections.getApiClient(currentUser.localUser.ServerId);
     }
 
@@ -127,7 +132,7 @@ function updateUserInHeader(user) {
 
     let hasImage;
 
-    if (user && user.name) {
+    if (user?.name) {
         if (user.imageUrl) {
             const url = user.imageUrl;
             updateHeaderUserButton(url);
@@ -143,7 +148,7 @@ function updateUserInHeader(user) {
         updateHeaderUserButton(null);
     }
 
-    if (user && user.localUser) {
+    if (user?.localUser) {
         if (headerHomeButton) {
             headerHomeButton.classList.remove('hide');
         }
@@ -322,13 +327,13 @@ function refreshLibraryInfoInDrawer(user) {
     // libraries are added here
     html += '<div class="libraryMenuOptions"></div>';
 
-    if (user.localUser && user.localUser.Policy.IsAdministrator) {
+    if (user.localUser?.Policy.IsAdministrator) {
         html += '<div class="adminMenuOptions">';
         html += '<h3 class="sidebarHeader">';
         html += globalize.translate('HeaderAdmin');
         html += '</h3>';
-        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#/dashboard.html"><span class="material-icons navMenuOptionIcon dashboard" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('TabDashboard')}</span></a>`;
-        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#/edititemmetadata.html"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Metadata')}</span></a>`;
+        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#/dashboard"><span class="material-icons navMenuOptionIcon dashboard" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('TabDashboard')}</span></a>`;
+        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#/metadata"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Metadata')}</span></a>`;
         html += '</div>';
     }
 
@@ -376,250 +381,6 @@ function refreshLibraryInfoInDrawer(user) {
     }
 }
 
-function refreshDashboardInfoInDrawer(page, apiClient) {
-    currentDrawerType = 'admin';
-    loadNavDrawer();
-
-    if (navDrawerScrollContainer.querySelector('.adminDrawerLogo')) {
-        updateDashboardMenuSelectedItem(page);
-    } else {
-        createDashboardMenu(page, apiClient);
-    }
-}
-
-function isUrlInCurrentView(url) {
-    return window.location.href.toString().toLowerCase().indexOf(url.toLowerCase()) !== -1;
-}
-
-function updateDashboardMenuSelectedItem(page) {
-    const links = navDrawerScrollContainer.querySelectorAll('.navMenuOption');
-    const currentViewId = page.id;
-
-    for (let i = 0, length = links.length; i < length; i++) {
-        let link = links[i];
-        let selected = false;
-        let pageIds = link.getAttribute('data-pageids');
-
-        if (pageIds) {
-            pageIds = pageIds.split('|');
-            selected = pageIds.indexOf(currentViewId) != -1;
-        }
-
-        let pageUrls = link.getAttribute('data-pageurls');
-
-        if (pageUrls) {
-            pageUrls = pageUrls.split('|');
-            selected = pageUrls.filter(isUrlInCurrentView).length > 0;
-        }
-
-        if (selected) {
-            link.classList.add('navMenuOption-selected');
-            let title = '';
-            link = link.querySelector('.navMenuOptionText') || link;
-            title += (link.innerText || link.textContent).trim();
-            LibraryMenu.setTitle(title);
-        } else {
-            link.classList.remove('navMenuOption-selected');
-        }
-    }
-}
-
-function createToolsMenuList(pluginItems) {
-    const links = [{
-        name: globalize.translate('TabServer')
-    }, {
-        name: globalize.translate('TabDashboard'),
-        href: '#/dashboard.html',
-        pageIds: ['dashboardPage'],
-        icon: 'dashboard'
-    }, {
-        name: globalize.translate('General'),
-        href: '#/dashboardgeneral.html',
-        pageIds: ['dashboardGeneralPage'],
-        icon: 'settings'
-    }, {
-        name: globalize.translate('HeaderUsers'),
-        href: '#/userprofiles.html',
-        pageIds: ['userProfilesPage', 'newUserPage', 'editUserPage', 'userLibraryAccessPage', 'userParentalControlPage', 'userPasswordPage'],
-        icon: 'people'
-    }, {
-        name: globalize.translate('HeaderLibraries'),
-        href: '#/library.html',
-        pageIds: ['mediaLibraryPage', 'librarySettingsPage', 'libraryDisplayPage', 'metadataImagesConfigurationPage', 'metadataNfoPage'],
-        icon: 'folder'
-    }, {
-        name: globalize.translate('TitlePlayback'),
-        icon: 'play_arrow',
-        href: '#/encodingsettings.html',
-        pageIds: ['encodingSettingsPage', 'playbackConfigurationPage', 'streamingSettingsPage']
-    }];
-    addPluginPagesToMainMenu(links, pluginItems, 'server');
-    links.push({
-        divider: true,
-        name: globalize.translate('HeaderDevices')
-    });
-    links.push({
-        name: globalize.translate('HeaderDevices'),
-        href: '#/devices.html',
-        pageIds: ['devicesPage', 'devicePage'],
-        icon: 'devices'
-    });
-    links.push({
-        name: globalize.translate('HeaderActivity'),
-        href: '#/serveractivity.html',
-        pageIds: ['serverActivityPage'],
-        icon: 'assessment'
-    });
-    links.push({
-        name: globalize.translate('DLNA'),
-        href: '#/dlnasettings.html',
-        pageIds: ['dlnaSettingsPage', 'dlnaProfilesPage', 'dlnaProfilePage'],
-        icon: 'input'
-    });
-    links.push({
-        divider: true,
-        name: globalize.translate('LiveTV')
-    });
-    links.push({
-        name: globalize.translate('LiveTV'),
-        href: '#/livetvstatus.html',
-        pageIds: ['liveTvStatusPage', 'liveTvTunerPage'],
-        icon: 'live_tv'
-    });
-    links.push({
-        name: globalize.translate('HeaderDVR'),
-        href: '#/livetvsettings.html',
-        pageIds: ['liveTvSettingsPage'],
-        icon: 'dvr'
-    });
-    addPluginPagesToMainMenu(links, pluginItems, 'livetv');
-    links.push({
-        divider: true,
-        name: globalize.translate('TabAdvanced')
-    });
-    links.push({
-        name: globalize.translate('TabNetworking'),
-        icon: 'cloud',
-        href: '#/networking.html',
-        pageIds: ['networkingPage']
-    });
-    links.push({
-        name: globalize.translate('HeaderApiKeys'),
-        icon: 'vpn_key',
-        href: '#/apikeys.html',
-        pageIds: ['apiKeysPage']
-    });
-    links.push({
-        name: globalize.translate('TabLogs'),
-        href: '#/log.html',
-        pageIds: ['logPage'],
-        icon: 'bug_report'
-    });
-    links.push({
-        name: globalize.translate('TabNotifications'),
-        icon: 'notifications',
-        href: '#/notificationsettings.html',
-        pageIds: ['notificationSettingsPage', 'notificationSettingPage']
-    });
-    links.push({
-        name: globalize.translate('TabPlugins'),
-        icon: 'shopping_cart',
-        href: '#/installedplugins.html',
-        pageIds: ['pluginsPage', 'pluginCatalogPage']
-    });
-    links.push({
-        name: globalize.translate('TabScheduledTasks'),
-        href: '#/scheduledtasks.html',
-        pageIds: ['scheduledTasksPage', 'scheduledTaskPage'],
-        icon: 'schedule'
-    });
-    if (hasUnsortedPlugins(pluginItems)) {
-        links.push({
-            divider: true,
-            name: globalize.translate('TabPlugins')
-        });
-        addPluginPagesToMainMenu(links, pluginItems);
-    }
-    return links;
-}
-
-function hasUnsortedPlugins(pluginItems) {
-    for (const pluginItem of pluginItems) {
-        if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === undefined) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function addPluginPagesToMainMenu(links, pluginItems, section) {
-    for (const pluginItem of pluginItems) {
-        if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === section) {
-            links.push({
-                name: pluginItem.DisplayName,
-                icon: pluginItem.MenuIcon || 'folder',
-                href: Dashboard.getPluginUrl(pluginItem.Name),
-                pageUrls: [Dashboard.getPluginUrl(pluginItem.Name)]
-            });
-        }
-    }
-}
-
-function getToolsMenuLinks(apiClient) {
-    return apiClient.getJSON(apiClient.getUrl('web/configurationpages') + '?pageType=PluginConfiguration&EnableInMainMenu=true').then(createToolsMenuList, function () {
-        return createToolsMenuList([]);
-    });
-}
-
-function getToolsLinkHtml(item) {
-    let menuHtml = '';
-    let pageIds = item.pageIds ? item.pageIds.join('|') : '';
-    pageIds = pageIds ? ' data-pageids="' + pageIds + '"' : '';
-    let pageUrls = item.pageUrls ? item.pageUrls.join('|') : '';
-    pageUrls = pageUrls ? ' data-pageurls="' + pageUrls + '"' : '';
-    menuHtml += '<a is="emby-linkbutton" class="navMenuOption" href="' + item.href + '"' + pageIds + pageUrls + '>';
-
-    if (item.icon) {
-        menuHtml += '<span class="material-icons navMenuOptionIcon ' + item.icon + '" aria-hidden="true"></span>';
-    }
-
-    menuHtml += '<span class="navMenuOptionText">';
-    menuHtml += escapeHtml(item.name);
-    menuHtml += '</span>';
-    return menuHtml + '</a>';
-}
-
-function getToolsMenuHtml(apiClient) {
-    return getToolsMenuLinks(apiClient).then(function (items) {
-        let menuHtml = '';
-        menuHtml += '<div class="drawerContent">';
-
-        for (const item of items) {
-            if (item.href) {
-                menuHtml += getToolsLinkHtml(item);
-            } else if (item.name) {
-                menuHtml += '<h3 class="sidebarHeader">';
-                menuHtml += escapeHtml(item.name);
-                menuHtml += '</h3>';
-            }
-        }
-
-        return menuHtml + '</div>';
-    });
-}
-
-function createDashboardMenu(page, apiClient) {
-    return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
-        let html = '';
-        html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="#/home.html">';
-        html += '<img src="assets/img/icon-transparent.png" />';
-        html += '</a>';
-        html += toolsMenuHtml;
-        navDrawerScrollContainer.innerHTML = html;
-        updateDashboardMenuSelectedItem(page);
-    });
-}
-
 function onSidebarLinkClick() {
     const section = this.getElementsByClassName('sectionName')[0];
     const text = section ? section.innerHTML : this.innerHTML;
@@ -627,28 +388,29 @@ function onSidebarLinkClick() {
 }
 
 function getUserViews(apiClient, userId) {
-    return apiClient.getUserViews({}, userId).then(function (result) {
-        const items = result.Items;
-        const list = [];
+    return queryClient
+        .fetchQuery(getUserViewsQuery(toApi(apiClient), userId))
+        .then(function (result) {
+            const items = result.Items;
+            const list = [];
 
-        for (let i = 0, length = items.length; i < length; i++) {
-            const view = items[i];
-            list.push(view);
+            for (let i = 0, length = items.length; i < length; i++) {
+                const view = items[i];
+                list.push(view);
 
-            if (view.CollectionType == 'livetv') {
-                view.ImageTags = {};
-                view.icon = 'live_tv';
-                const guideView = Object.assign({}, view);
-                guideView.Name = globalize.translate('Guide');
-                guideView.ImageTags = {};
-                guideView.icon = 'dvr';
-                guideView.url = '#/livetv.html?tab=1';
-                list.push(guideView);
+                if (view.CollectionType == 'livetv') {
+                    view.icon = 'live_tv';
+                    const guideView = Object.assign({}, view);
+                    guideView.Name = globalize.translate('Guide');
+                    guideView.ImageTags = {};
+                    guideView.icon = 'dvr';
+                    guideView.url = '#/livetv.html?tab=1';
+                    list.push(guideView);
+                }
             }
-        }
 
-        return list;
-    });
+            return list;
+        });
 }
 
 function showBySelector(selector, show) {
@@ -665,22 +427,8 @@ function showBySelector(selector, show) {
 
 function updateLibraryMenu(user) {
     if (!user) {
-        showBySelector('.libraryMenuDownloads', false);
-        showBySelector('.lnkSyncToOtherDevices', false);
         showBySelector('.userMenuOptions', false);
         return;
-    }
-
-    if (user.Policy.EnableContentDownloading) {
-        showBySelector('.lnkSyncToOtherDevices', true);
-    } else {
-        showBySelector('.lnkSyncToOtherDevices', false);
-    }
-
-    if (user.Policy.EnableContentDownloading && appHost.supports('sync')) {
-        showBySelector('.libraryMenuDownloads', true);
-    } else {
-        showBySelector('.libraryMenuDownloads', false);
     }
 
     const userId = Dashboard.getCurrentUserId();
@@ -833,29 +581,24 @@ function updateMenuForPageType(isDashboardPage, isLibraryPage) {
 
         if (isLibraryPage) {
             bodyClassList.add('libraryDocument');
-            bodyClassList.remove('dashboardDocument');
+            bodyClassList.remove('hideMainDrawer');
+
+            if (navDrawerInstance) {
+                navDrawerInstance.setEdgeSwipeEnabled(true);
+            }
+        } else if (isDashboardPage) {
+            bodyClassList.remove('libraryDocument');
             bodyClassList.remove('hideMainDrawer');
 
             if (navDrawerInstance) {
                 navDrawerInstance.setEdgeSwipeEnabled(true);
             }
         } else {
-            if (isDashboardPage) {
-                bodyClassList.remove('libraryDocument');
-                bodyClassList.add('dashboardDocument');
-                bodyClassList.remove('hideMainDrawer');
+            bodyClassList.remove('libraryDocument');
+            bodyClassList.add('hideMainDrawer');
 
-                if (navDrawerInstance) {
-                    navDrawerInstance.setEdgeSwipeEnabled(true);
-                }
-            } else {
-                bodyClassList.remove('libraryDocument');
-                bodyClassList.remove('dashboardDocument');
-                bodyClassList.add('hideMainDrawer');
-
-                if (navDrawerInstance) {
-                    navDrawerInstance.setEdgeSwipeEnabled(false);
-                }
+            if (navDrawerInstance) {
+                navDrawerInstance.setEdgeSwipeEnabled(false);
             }
         }
     }
@@ -924,7 +667,7 @@ function loadNavDrawer() {
     navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
     navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
     return new Promise(function (resolve) {
-        import('../libraries/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
+        import('../lib/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
             navDrawerInstance = new NavDrawer(getNavDrawerOptions());
 
             if (!layoutManager.tv) {
@@ -957,6 +700,8 @@ const skinHeader = document.querySelector('.skinHeader');
 let requiresUserRefresh = true;
 
 function setTabs (type, selectedIndex, builder) {
+    Events.trigger(document, EventType.SET_TABS, type ? [ type, selectedIndex, builder()] : []);
+
     import('../components/maintabsmanager').then((mainTabsManager) => {
         if (type) {
             mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
@@ -1029,15 +774,8 @@ pageClassOn('pageshow', 'page', function (e) {
     const isDashboardPage = page.classList.contains('type-interior');
     const isHomePage = page.classList.contains('homePage');
     const isLibraryPage = !isDashboardPage && page.classList.contains('libraryPage');
-    const apiClient = getCurrentApiClient();
 
-    if (isDashboardPage) {
-        if (mainDrawerButton) {
-            mainDrawerButton.classList.remove('hide');
-        }
-
-        refreshDashboardInfoInDrawer(page, apiClient);
-    } else {
+    if (!isDashboardPage) {
         if (mainDrawerButton) {
             if (enableLibraryNavDrawer || (isHomePage && enableLibraryNavDrawerHome)) {
                 mainDrawerButton.classList.remove('hide');

@@ -1,16 +1,16 @@
 import loading from '../components/loading/loading';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import Dashboard, { pageIdOn } from '../utils/dashboard';
 import { getParameterByName } from '../utils/url.ts';
 import Events from '../utils/events.ts';
 
 function onListingsSubmitted() {
-    Dashboard.navigate('livetvstatus.html');
+    Dashboard.navigate('dashboard/livetv');
 }
 
 function init(page, type, providerId) {
-    import(`../components/tvproviders/${type}`).then(({ default: factory }) => {
-        const instance = new factory(page, providerId, {});
+    import(`../components/tvproviders/${type}`).then(({ default: ProviderFactory }) => {
+        const instance = new ProviderFactory(page, providerId, {});
         Events.on(instance, 'submitted', onListingsSubmitted);
         instance.init();
     });

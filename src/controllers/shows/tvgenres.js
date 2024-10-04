@@ -1,12 +1,15 @@
 import escapeHtml from 'escape-html';
-import layoutManager from '../../components/layoutManager';
-import loading from '../../components/loading/loading';
-import libraryBrowser from '../../scripts/libraryBrowser';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import lazyLoader from '../../components/lazyLoader/lazyLoaderIntersectionObserver';
-import globalize from '../../scripts/globalize';
-import { appRouter } from '../../components/router/appRouter';
-import '../../elements/emby-button/emby-button';
+
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import lazyLoader from 'components/lazyLoader/lazyLoaderIntersectionObserver';
+import layoutManager from 'components/layoutManager';
+import loading from 'components/loading/loading';
+import { appRouter } from 'components/router/appRouter';
+import globalize from 'lib/globalize';
+import * as userSettings from 'scripts/settings/userSettings';
+import { getBackdropShape, getPortraitShape } from 'utils/card';
+
+import 'elements/emby-button/emby-button';
 
 export default function (view, params, tabContent) {
     function getPageData() {
@@ -25,7 +28,7 @@ export default function (view, params, tabContent) {
                 view: 'Poster'
             };
             pageData.query.ParentId = params.topParentId;
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
+            userSettings.loadQuerySettings(key, pageData.query);
         }
 
         return pageData;
@@ -36,7 +39,7 @@ export default function (view, params, tabContent) {
     }
 
     function getSavedQueryKey() {
-        return libraryBrowser.getSavedQueryKey('seriesgenres');
+        return `${params.topParentId}-seriesgenres`;
     }
 
     function getPromise() {
@@ -47,14 +50,6 @@ export default function (view, params, tabContent) {
 
     function enableScrollX() {
         return !layoutManager.desktop;
-    }
-
-    function getThumbShape() {
-        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
-    }
-
-    function getPortraitShape() {
-        return enableScrollX() ? 'overflowPortrait' : 'portrait';
     }
 
     function fillItemsContainer(entry) {
@@ -73,7 +68,7 @@ export default function (view, params, tabContent) {
             SortOrder: 'Ascending',
             IncludeItemTypes: 'Series',
             Recursive: true,
-            Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+            Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
             ImageTypeLimit: 1,
             EnableImageTypes: enableImageTypes,
             Limit: limit,
@@ -85,7 +80,7 @@ export default function (view, params, tabContent) {
             if (viewStyle == 'Thumb') {
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,
-                    shape: getThumbShape(),
+                    shape: getBackdropShape(enableScrollX()),
                     preferThumb: true,
                     showTitle: true,
                     scalable: true,
@@ -96,7 +91,7 @@ export default function (view, params, tabContent) {
             } else if (viewStyle == 'ThumbCard') {
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,
-                    shape: getThumbShape(),
+                    shape: getBackdropShape(enableScrollX()),
                     preferThumb: true,
                     showTitle: true,
                     scalable: true,
@@ -107,7 +102,7 @@ export default function (view, params, tabContent) {
             } else if (viewStyle == 'PosterCard') {
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,
-                    shape: getPortraitShape(),
+                    shape: getPortraitShape(enableScrollX()),
                     showTitle: true,
                     scalable: true,
                     centerText: false,
@@ -117,7 +112,7 @@ export default function (view, params, tabContent) {
             } else if (viewStyle == 'Poster') {
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,
-                    shape: getPortraitShape(),
+                    shape: getPortraitShape(enableScrollX()),
                     scalable: true,
                     showTitle: true,
                     centerText: true,
@@ -176,7 +171,7 @@ export default function (view, params, tabContent) {
 
             elem.innerHTML = html;
             lazyLoader.lazyChildren(elem, fillItemsContainer);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
+            userSettings.saveQuerySettings(getSavedQueryKey(), query);
             loading.hide();
         });
     }
@@ -199,7 +194,7 @@ export default function (view, params, tabContent) {
 
     self.setCurrentViewStyle = function (viewStyle) {
         getPageData().view = viewStyle;
-        libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
+        userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);
         fullyReload();
     };
 

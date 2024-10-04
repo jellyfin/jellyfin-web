@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import { appRouter } from '../router/appRouter';
 import itemHelper from '../itemHelper';
 import indicators from '../indicators/indicators';
@@ -183,9 +183,9 @@ export function getMediaInfoHtml(item, options = {}) {
             if (item.EndDate) {
                 try {
                     const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
-
-                    if (endYear !== item.ProductionYear) {
-                        text += `-${endYear}`;
+                    /* At this point, text will contain only the start year */
+                    if (endYear !== text) {
+                        text += ` - ${endYear}`;
                     }
                 } catch (e) {
                     console.error('error parsing date:', item.EndDate);
@@ -271,7 +271,7 @@ export function getMediaInfoHtml(item, options = {}) {
     if (options.officialRating !== false && item.OfficialRating && item.Type !== 'Season' && item.Type !== 'Episode') {
         miscInfo.push({
             text: item.OfficialRating,
-            cssClass: 'mediaInfoOfficialRating'
+            cssClass: 'mediaInfoText mediaInfoOfficialRating'
         });
     }
 

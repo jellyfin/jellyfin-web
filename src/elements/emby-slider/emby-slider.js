@@ -1,3 +1,5 @@
+import isEqual from 'lodash-es/isEqual';
+
 import browser from '../../scripts/browser';
 import dom from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
@@ -5,7 +7,8 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import './emby-slider.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
+import { decimalCount } from '../../utils/number';
 
 const EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
 
@@ -14,9 +17,47 @@ let supportsValueSetOverride = false;
 if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
     const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
     // descriptor returning null in webos
-    if (descriptor && descriptor.configurable) {
+    if (descriptor?.configurable) {
         supportsValueSetOverride = true;
     }
+}
+
+let supportsValueAutoSnap = false;
+{
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.min = '-30';
+    slider.max = '30';
+    slider.step = '0.1';
+
+    slider.value = '0.30000000000000004';
+
+    supportsValueAutoSnap = slider.value === '0.3';
+
+    if (!supportsValueAutoSnap) {
+        console.debug('[EmbySlider] HTMLInputElement doesn\'t snap value - use workaround.');
+    }
+}
+
+/**
+ * Returns normalized slider step.
+ *
+ * @param {HTMLInputElement} range slider itself
+ * @param {number|undefined} step step
+ * @returns {number} normalized slider step.
+ */
+function normalizeSliderStep(range, step) {
+    if (step > 0) {
+        return step;
+    }
+
+    step = parseFloat(range.step);
+
+    if (step > 0) {
+        return step;
+    }
+
+    return 1;
 }
 
 /**
@@ -30,13 +71,14 @@ function mapClientToFraction(range, clientX) {
     const rect = range.sliderBubbleTrack.getBoundingClientRect();
 
     let fraction = (clientX - rect.left) / rect.width;
-    if (globalize.getIsElementRTL(range))
+    if (globalize.getIsElementRTL(range)) {
         fraction = (rect.right - clientX) / rect.width;
+    }
 
     // Snap to step
     const valueRange = range.max - range.min;
     if (range.step !== 'any' && valueRange !== 0) {
-        const step = (range.step || 1) / valueRange;
+        const step = normalizeSliderStep(range) / valueRange;
         fraction = Math.round(fraction / step) * step;
     }
 
@@ -53,13 +95,23 @@ function mapClientToFraction(range, clientX) {
 function mapFractionToValue(range, fraction) {
     let value = (range.max - range.min) * fraction;
 
+    let decimals = null;
+
     // Snap to step
     if (range.step !== 'any') {
-        const step = range.step || 1;
+        const step = normalizeSliderStep(range);
+        decimals = decimalCount(step);
         value = Math.round(value / step) * step;
     }
 
-    value += parseFloat(range.min);
+    const min = parseFloat(range.min);
+
+    value += min;
+
+    if (decimals != null) {
+        decimals = Math.max(decimals, decimalCount(min));
+        value = parseFloat(value.toFixed(decimals));
+    }
 
     return Math.min(Math.max(value, range.min), range.max);
 }
@@ -78,11 +130,44 @@ function mapValueToFraction(range, value) {
 }
 
 /**
+ * Returns value snapped to the slider step.
+ *
+ * @param {HTMLInputElement} range slider itself
+ * @param {number} value slider value
+ * @return {number} value snapped to the slider step
+ */
+function snapValue(range, value) {
+    if (range.step !== 'any') {
+        const min = parseFloat(range.min);
+        const step = normalizeSliderStep(range);
+        const decimals = Math.max(decimalCount(min), decimalCount(step));
+
+        value -= min;
+        value = Math.round(value / step) * step;
+        value += min;
+
+        value = parseFloat(value.toFixed(decimals));
+    }
+
+    return value;
+}
+
+/**
      * Updates progress bar.
      *
      * @param {boolean} [isValueSet] update by 'valueset' event or by timer
      */
 function updateValues(isValueSet) {
+    if (!!isValueSet && !supportsValueAutoSnap) {
+        const value = snapValue(this, parseFloat(this.value)).toString();
+
+        if (this.value !== value) {
+            this.value = value;
+
+            if (supportsValueSetOverride) return;
+        }
+    }
+
     // Do not update values by 'valueset' in case of soft-implemented dragging
     if (!!isValueSet && (!!this.keyboardDragging || !!this.touched)) {
         return;
@@ -105,20 +190,17 @@ function updateValues(isValueSet) {
         }
 
         if (range.markerContainerElement) {
-            if (!range.triedAddingMarkers) {
-                addMarkers(range);
-            }
             updateMarkers(range, value);
         }
     });
 }
 
-function updateBubble(range, value, bubble) {
+function updateBubble(range, percent, value, bubble) {
     requestAnimationFrame(function () {
         const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
         const bubbleRect = bubble.getBoundingClientRect();
 
-        let bubblePos = bubbleTrackRect.width * value / 100;
+        let bubblePos = bubbleTrackRect.width * percent / 100;
         if (globalize.getIsElementRTL(range)) {
             bubblePos = bubbleTrackRect.width - bubblePos;
         }
@@ -126,18 +208,24 @@ function updateBubble(range, value, bubble) {
 
         bubble.style.left = bubblePos + 'px';
 
-        if (range.getBubbleHtml) {
-            value = range.getBubbleHtml(value);
-        } else {
-            if (range.getBubbleText) {
-                value = range.getBubbleText(value);
-            } else {
-                value = mapFractionToValue(range, value / 100).toLocaleString();
-            }
-            value = '<h1 class="sliderBubbleText">' + value + '</h1>';
+        let html;
+
+        if (range.updateBubbleHtml?.(bubble, value)) {
+            return;
         }
 
-        bubble.innerHTML = value;
+        if (range.getBubbleHtml) {
+            html = range.getBubbleHtml(percent, value);
+        } else {
+            if (range.getBubbleText) {
+                html = range.getBubbleText(percent, value);
+            } else {
+                html = value.toLocaleString();
+            }
+            html = '<h1 class="sliderBubbleText">' + html + '</h1>';
+        }
+
+        bubble.innerHTML = html;
     });
 }
 
@@ -151,10 +239,7 @@ function setMarker(range, valueMarker, marker, valueProgress) {
             return;
         }
 
-        let markerPos = (bubbleTrackRect.width * valueMarker / 100) - markerRect.width / 2;
-        markerPos = Math.min(Math.max(markerPos, - markerRect.width / 2), bubbleTrackRect.width - markerRect.width / 2);
-
-        marker.style.left = markerPos + 'px';
+        marker.style.left = `calc(${valueMarker}% - ${markerRect.width / 2}px)`;
 
         if (valueProgress >= valueMarker) {
             marker.classList.remove('unwatched');
@@ -167,42 +252,29 @@ function setMarker(range, valueMarker, marker, valueProgress) {
 }
 
 function updateMarkers(range, currentValue) {
-    if (range.markerInfo && range.markerInfo.length && range.markerElements && range.markerElements.length) {
+    if (range.getMarkerInfo) {
+        const newMarkerInfo = range.getMarkerInfo();
+
+        if (!range.markerInfo || !isEqual(range.markerInfo, newMarkerInfo)) {
+            range.markerInfo = newMarkerInfo;
+
+            let markersHtml = '';
+            range.markerInfo.forEach(() => {
+                markersHtml += '<span class="sliderMarker" aria-hidden="true"></span>';
+            });
+            range.markerContainerElement.innerHTML = markersHtml;
+
+            range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
+        }
+    }
+
+    if (range.markerInfo?.length && range.markerElements?.length) {
         for (let i = 0, length = range.markerElements.length; i < length; i++) {
             if (range.markerInfo.length > i) {
                 setMarker(range, mapFractionToValue(range, range.markerInfo[i].progress), range.markerElements[i], currentValue);
             }
         }
     }
-}
-
-function addMarkers(range) {
-    range.markerInfo = [];
-    if (range.getMarkerInfo) {
-        range.markerInfo = range.getMarkerInfo();
-    }
-
-    function getMarkerHtml(markerInfo) {
-        let markerTypeSpecificClasses = '';
-
-        if (markerInfo.className === 'chapterMarker') {
-            markerTypeSpecificClasses = markerInfo.className;
-
-            if (typeof markerInfo.name === 'string' && markerInfo.name.length) {
-                // limit the class length in case the name contains half a novel
-                markerTypeSpecificClasses = `${markerInfo.className} marker-${markerInfo.name.substring(0, 100).toLowerCase().replace(' ', '-')}`;
-            }
-        }
-
-        return `<span class="material-icons sliderMarker ${markerTypeSpecificClasses}" aria-hidden="true"></span>`;
-    }
-
-    range.markerInfo.forEach(info => {
-        range.markerContainerElement.insertAdjacentHTML('beforeend', getMarkerHtml(info));
-    });
-
-    range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
-    range.triedAddingMarkers = true;
 }
 
 EmbySliderPrototype.attachedCallback = function () {
@@ -273,8 +345,8 @@ EmbySliderPrototype.attachedCallback = function () {
             updateValues.call(this);
         }
 
-        const bubbleValue = mapValueToFraction(this, this.value) * 100;
-        updateBubble(this, bubbleValue, sliderBubble);
+        const percent = mapValueToFraction(this, this.value) * 100;
+        updateBubble(this, percent, parseFloat(this.value), sliderBubble);
 
         if (hasHideBubbleClass) {
             sliderBubble.classList.remove('hide');
@@ -300,9 +372,11 @@ EmbySliderPrototype.attachedCallback = function () {
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
         if (!this.dragging) {
-            const bubbleValue = mapClientToFraction(this, e.clientX) * 100;
+            const fraction = mapClientToFraction(this, e.clientX);
+            const percent = fraction * 100;
+            const value = mapFractionToValue(this, fraction);
 
-            updateBubble(this, bubbleValue, sliderBubble);
+            updateBubble(this, percent, value, sliderBubble);
 
             if (hasHideBubbleClass) {
                 sliderBubble.classList.remove('hide');
@@ -382,6 +456,8 @@ EmbySliderPrototype.attachedCallback = function () {
     } else {
         startInterval(this);
     }
+
+    updateValues.call(this);
 };
 
 /**
@@ -436,7 +512,7 @@ function finishKeyboardDragging(elem) {
 function stepKeyboard(elem, delta) {
     startKeyboardDragging(elem);
 
-    elem.value = Math.max(elem.min, Math.min(elem.max, parseFloat(elem.value) + delta));
+    elem.value = parseFloat(elem.value) + delta;
 
     const event = new Event('input', {
         bubbles: true,
@@ -452,15 +528,22 @@ function onKeyDown(e) {
     switch (keyboardnavigation.getKeyName(e)) {
         case 'ArrowLeft':
         case 'Left':
-            stepKeyboard(this, -this.keyboardStepDown || -1);
+            stepKeyboard(this, -normalizeSliderStep(this, this.keyboardStepDown));
             e.preventDefault();
             e.stopPropagation();
             break;
         case 'ArrowRight':
         case 'Right':
-            stepKeyboard(this, this.keyboardStepUp || 1);
+            stepKeyboard(this, normalizeSliderStep(this, this.keyboardStepUp));
             e.preventDefault();
             e.stopPropagation();
+            break;
+        case 'Enter':
+            if (this.keyboardDragging) {
+                finishKeyboardDragging(this);
+                e.preventDefault();
+                e.stopPropagation();
+            }
             break;
     }
 }
@@ -488,10 +571,11 @@ EmbySliderPrototype.setKeyboardSteps = function (stepDown, stepUp) {
 
 function setRange(elem, startPercent, endPercent) {
     const style = elem.style;
-    if (globalize.getIsRTL())
+    if (globalize.getIsRTL()) {
         style.right = Math.max(startPercent, 0) + '%';
-    else
+    } else {
         style.left = Math.max(startPercent, 0) + '%';
+    }
 
     const widthPercent = endPercent - startPercent;
     style.width = Math.max(Math.min(widthPercent, 100), 0) + '%';

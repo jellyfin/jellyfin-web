@@ -1,4 +1,4 @@
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';
@@ -191,15 +191,13 @@ function onRecordChange(e) {
                 loading.hide();
             });
         }
-    } else {
-        if (hasEnabledTimer) {
-            loading.show();
-            recordingHelper.cancelTimer(apiClient, this.TimerId, true).then(function () {
-                Events.trigger(self, 'recordingchanged');
-                fetchData(self);
-                loading.hide();
-            });
-        }
+    } else if (hasEnabledTimer) {
+        loading.show();
+        recordingHelper.cancelTimer(apiClient, this.TimerId, true).then(function () {
+            Events.trigger(self, 'recordingchanged');
+            fetchData(self);
+            loading.hide();
+        });
     }
 }
 
@@ -223,13 +221,11 @@ function onRecordSeriesChange(e) {
                 fetchData(self);
             });
         }
-    } else {
-        if (this.SeriesTimerId) {
-            apiClient.cancelLiveTvSeriesTimer(this.SeriesTimerId).then(function () {
-                toast(globalize.translate('RecordingCancelled'));
-                fetchData(self);
-            });
-        }
+    } else if (this.SeriesTimerId) {
+        apiClient.cancelLiveTvSeriesTimer(this.SeriesTimerId).then(function () {
+            toast(globalize.translate('RecordingCancelled'));
+            fetchData(self);
+        });
     }
 }
 

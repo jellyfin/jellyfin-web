@@ -1,43 +1,34 @@
 import { appRouter } from './router/appRouter';
 import browser from '../scripts/browser';
 import dialog from './dialog/dialog';
-import globalize from '../scripts/globalize';
-
-function useNativeAlert() {
-    // webOS seems to block modals
-    // Tizen 2.x seems to block modals
-    return !browser.web0s
-            && !(browser.tizenVersion && browser.tizenVersion < 3)
-            && browser.tv
-            && window.alert;
-}
+import globalize from '../lib/globalize';
 
 export default async function (text, title) {
-    let options;
-    if (typeof text === 'string') {
-        options = {
-            title: title,
-            text: text
-        };
-    } else {
-        options = text;
-    }
+    // Modals seem to be blocked on Web OS and Tizen 2.x
+    const canUseNativeAlert = !!(
+        !browser.web0s
+        && !(browser.tizenVersion && browser.tizenVersion < 3)
+        && browser.tv
+        && window.alert
+    );
+
+    const options = typeof text === 'string' ? { title, text } : text;
 
     await appRouter.ready();
 
-    if (useNativeAlert()) {
+    if (canUseNativeAlert) {
         alert((options.text || '').replaceAll('<br/>', '\n'));
-        return Promise.resolve();
-    } else {
-        const items = [];
 
-        items.push({
+        return Promise.resolve();
+    }
+
+    options.buttons = [
+        {
             name: globalize.translate('ButtonGotIt'),
             id: 'ok',
             type: 'submit'
-        });
+        }
+    ];
 
-        options.buttons = items;
-        return dialog.show(options);
-    }
+    return dialog.show(options);
 }

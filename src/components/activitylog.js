@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 import Events from '../utils/events.ts';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import dom from '../scripts/dom';
 import { formatRelative } from 'date-fns';
 import serverNotifications from '../scripts/serverNotifications';

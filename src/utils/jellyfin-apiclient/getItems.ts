@@ -67,7 +67,7 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
 export function getItems(apiClient: ApiClient, userId: string, options?: GetItemsRequest) {
     const ids = options?.Ids?.split(',');
     if (!options || !ids || ids.length <= ITEMS_PER_REQUEST_LIMIT) {
-        return apiClient.getItems(apiClient.getCurrentUserId(), options);
+        return apiClient.getItems(userId, options);
     }
     const results = getItemsSplit(apiClient, userId, options);
 

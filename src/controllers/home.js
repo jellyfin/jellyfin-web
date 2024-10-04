@@ -1,5 +1,5 @@
 import TabbedView from '../components/tabbedview/tabbedview';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import '../elements/emby-tabs/emby-tabs';
 import '../elements/emby-button/emby-button';
 import '../elements/emby-scroller/emby-scroller';
@@ -49,11 +49,11 @@ class HomeView extends TabbedView {
         }
 
         const instance = this;
-        return import(/* webpackChunkName: "[request]" */ `../controllers/${depends}`).then(({ default: controllerFactory }) => {
+        return import(/* webpackChunkName: "[request]" */ `../controllers/${depends}`).then(({ default: ControllerFactory }) => {
             let controller = instance.tabControllers[index];
 
             if (!controller) {
-                controller = new controllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);
+                controller = new ControllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);
                 instance.tabControllers[index] = controller;
             }
 

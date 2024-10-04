@@ -352,10 +352,8 @@ class YoutubePlayer {
             if (currentYoutubePlayer) {
                 currentYoutubePlayer.mute();
             }
-        } else {
-            if (currentYoutubePlayer) {
-                currentYoutubePlayer.unMute();
-            }
+        } else if (currentYoutubePlayer) {
+            currentYoutubePlayer.unMute();
         }
     }
     isMuted() {

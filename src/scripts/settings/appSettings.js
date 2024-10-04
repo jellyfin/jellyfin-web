@@ -1,3 +1,4 @@
+import browser from 'scripts/browser';
 import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
 
@@ -29,6 +30,19 @@ class AppSettings {
         }
 
         return toBoolean(this.get('enableGamepad'), false);
+    }
+
+    /**
+     * Get or set 'Enable smooth scroll' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable smooth scroll' or undefined.
+     * @return {boolean} 'Enable smooth scroll' state.
+     */
+    enableSmoothScroll(val) {
+        if (val !== undefined) {
+            return this.set('enableSmoothScroll', val.toString());
+        }
+
+        return toBoolean(this.get('enableSmoothScroll'), !!browser.tizen);
     }
 
     enableSystemExternalPlayers(val) {
@@ -103,6 +117,121 @@ class AppSettings {
         }
 
         return parseInt(this.get('maxVideoWidth') || '0', 10) || 0;
+    }
+
+    /**
+     * Get or set 'Limit maximum supported video resolution' state.
+     * @param {boolean|undefined} val - Flag to enable 'Limit maximum supported video resolution' or undefined.
+     * @return {boolean} 'Limit maximum supported video resolution' state.
+     */
+    limitSupportedVideoResolution(val) {
+        if (val !== undefined) {
+            return this.set('limitSupportedVideoResolution', val.toString());
+        }
+
+        return toBoolean(this.get('limitSupportedVideoResolution'), false);
+    }
+
+    /**
+     * Get or set preferred transcode video codec.
+     * @param {string|undefined} val - Preferred transcode video codec or undefined.
+     * @return {string} Preferred transcode video codec.
+     */
+    preferredTranscodeVideoCodec(val) {
+        if (val !== undefined) {
+            return this.set('preferredTranscodeVideoCodec', val);
+        }
+        return this.get('preferredTranscodeVideoCodec') || '';
+    }
+
+    /**
+     * Get or set preferred transcode audio codec in video playback.
+     * @param {string|undefined} val - Preferred transcode audio codec or undefined.
+     * @return {string} Preferred transcode audio codec.
+     */
+    preferredTranscodeVideoAudioCodec(val) {
+        if (val !== undefined) {
+            return this.set('preferredTranscodeVideoAudioCodec', val);
+        }
+        return this.get('preferredTranscodeVideoAudioCodec') || '';
+    }
+
+    /**
+     * Get or set 'Enable DTS' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable DTS' or undefined.
+     * @return {boolean} 'Enable DTS' state.
+     */
+    enableDts(val) {
+        if (val !== undefined) {
+            return this.set('enableDts', val.toString());
+        }
+
+        return toBoolean(this.get('enableDts'), false);
+    }
+
+    /**
+     * Get or set 'Enable TrueHD' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable TrueHD' or undefined.
+     * @return {boolean} 'Enable TrueHD' state.
+     */
+    enableTrueHd(val) {
+        if (val !== undefined) {
+            return this.set('enableTrueHd', val.toString());
+        }
+
+        return toBoolean(this.get('enableTrueHd'), false);
+    }
+
+    /**
+     * Get or set 'Enable H.264 High 10 Profile' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable H.264 High 10 Profile' or undefined.
+     * @return {boolean} 'Enable H.264 High 10 Profile' state.
+     */
+    enableHi10p(val) {
+        if (val !== undefined) {
+            return this.set('enableHi10p', val.toString());
+        }
+
+        return toBoolean(this.get('enableHi10p'), false);
+    }
+
+    /**
+     * Get or set 'Disable VBR audio encoding' state.
+     * @param {boolean|undefined} val - Flag to enable 'Disable VBR audio encoding' or undefined.
+     * @return {boolean} 'Disable VBR audio encoding' state.
+     */
+    disableVbrAudio(val) {
+        if (val !== undefined) {
+            return this.set('disableVbrAudio', val.toString());
+        }
+
+        return toBoolean(this.get('disableVbrAudio'), false);
+    }
+
+    /**
+     * Get or set 'Always remux FLAC audio files' state.
+     * @param {boolean|undefined} val - Flag to enable 'Always remux FLAC audio files' or undefined.
+     * @return {boolean} 'Always remux FLAC audio files' state.
+     */
+    alwaysRemuxFlac(val) {
+        if (val !== undefined) {
+            return this.set('alwaysRemuxFlac', val.toString());
+        }
+
+        return toBoolean(this.get('alwaysRemuxFlac'), false);
+    }
+
+    /**
+     * Get or set 'Always remux MP3 audio files' state.
+     * @param {boolean|undefined} val - Flag to enable 'Always remux MP3 audio files' or undefined.
+     * @return {boolean} 'Always remux MP3 audio files' state.
+     */
+    alwaysRemuxMp3(val) {
+        if (val !== undefined) {
+            return this.set('alwaysRemuxMp3', val.toString());
+        }
+
+        return toBoolean(this.get('alwaysRemuxMp3'), false);
     }
 
     set(name, value, userId) {

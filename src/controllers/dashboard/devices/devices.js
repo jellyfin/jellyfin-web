@@ -1,9 +1,8 @@
 import escapeHtml from 'escape-html';
-import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 import loading from '../../../components/loading/loading';
 import dom from '../../../scripts/dom';
-import globalize from '../../../scripts/globalize';
-import imageHelper from '../../../scripts/imagehelper';
+import globalize from '../../../lib/globalize';
+import imageHelper from '../../../utils/image';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale.ts';
 import '../../../elements/emby-button/emby-button';
@@ -11,6 +10,7 @@ import '../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../components/cardbuilder/card.scss';
 import Dashboard from '../../../utils/dashboard';
 import confirm from '../../../components/confirm/confirm';
+import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
 
 // Local cache of loaded
 let deviceIds = [];
@@ -73,7 +73,7 @@ function showDeviceMenu(view, btn, deviceId) {
             callback: function (id) {
                 switch (id) {
                     case 'open':
-                        Dashboard.navigate('device.html?id=' + deviceId);
+                        Dashboard.navigate('dashboard/devices/edit?id=' + deviceId);
                         break;
 
                     case 'delete':
@@ -94,7 +94,7 @@ function load(page, devices) {
         deviceHtml += '<div class="cardBox visualCardBox">';
         deviceHtml += '<div class="cardScalable">';
         deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>';
-        deviceHtml += `<a is="emby-linkbutton" href="#!/device.html?id=${escapeHtml(device.Id)}" class="cardContent cardImageContainer ${cardBuilder.getDefaultBackgroundClass()}">`;
+        deviceHtml += `<a is="emby-linkbutton" href="#/dashboard/devices/edit?id=${escapeHtml(device.Id)}" class="cardContent cardImageContainer ${getDefaultBackgroundClass()}">`;
         // audit note: getDeviceIcon returns static text
         const iconUrl = imageHelper.getDeviceIcon(device);
 
@@ -110,16 +110,17 @@ function load(page, devices) {
         deviceHtml += '<div class="cardFooter">';
 
         if (canDelete(device.Id)) {
-            if (globalize.getIsRTL())
+            if (globalize.getIsRTL()) {
                 deviceHtml += '<div style="text-align:left; float:left;padding-top:5px;">';
-            else
+            } else {
                 deviceHtml += '<div style="text-align:right; float:right;padding-top:5px;">';
+            }
             deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + escapeHtml(device.Id) + '" title="' + globalize.translate('Menu') + '" class="btnDeviceMenu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
             deviceHtml += '</div>';
         }
 
         deviceHtml += "<div class='cardText'>";
-        deviceHtml += escapeHtml(device.Name);
+        deviceHtml += escapeHtml(device.CustomName || device.Name);
         deviceHtml += '</div>';
         deviceHtml += "<div class='cardText cardText-secondary'>";
         deviceHtml += escapeHtml(device.AppName + ' ' + device.AppVersion);

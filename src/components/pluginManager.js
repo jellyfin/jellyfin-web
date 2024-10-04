@@ -1,5 +1,5 @@
 import Events from '../utils/events.ts';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import loading from './loading/loading';
 import appSettings from '../scripts/settings/appSettings';
 import { playbackManager } from './playback/playbackmanager';
@@ -72,13 +72,13 @@ class PluginManager {
                     throw new TypeError('Plugin definitions in window have to be an (async) function returning the plugin class');
                 }
 
-                const pluginClass = await pluginDefinition();
-                if (typeof pluginClass !== 'function') {
+                const PluginClass = await pluginDefinition();
+                if (typeof PluginClass !== 'function') {
                     throw new TypeError(`Plugin definition doesn't return a class for '${pluginSpec}'`);
                 }
 
                 // init plugin and pass basic dependencies
-                plugin = new pluginClass({
+                plugin = new PluginClass({
                     events: Events,
                     loading,
                     appSettings,
@@ -127,22 +127,6 @@ class PluginManager {
         return this.ofType(type)
             // Return the plugin with the "highest" (lowest numeric value) priority
             .sort((p1, p2) => (p1.priority || 0) - (p2.priority || 0))[0];
-    }
-
-    #mapRoute(plugin, route) {
-        if (typeof plugin === 'string') {
-            plugin = this.pluginsList.filter((p) => {
-                return (p.id || p.packageName) === plugin;
-            })[0];
-        }
-
-        route = route.path || route;
-
-        if (route.toLowerCase().startsWith('http')) {
-            return route;
-        }
-
-        return '/plugins/' + plugin.id + '/' + route;
     }
 
     mapPath(plugin, path, addCacheParam) {

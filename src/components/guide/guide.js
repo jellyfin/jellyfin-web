@@ -1,7 +1,7 @@
 import escapeHtml from 'escape-html';
 import inputManager from '../../scripts/inputManager';
 import browser from '../../scripts/browser';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import scrollHelper from '../../scripts/scrollHelper';
 import serverNotifications from '../../scripts/serverNotifications';
@@ -291,7 +291,7 @@ function Guide(options) {
             showPremiereIndicator: allowIndicators && userSettings.get('guide-indicator-premiere') !== 'false',
             showNewIndicator: allowIndicators && userSettings.get('guide-indicator-new') !== 'false',
             showRepeatIndicator: allowIndicators && userSettings.get('guide-indicator-repeat') === 'true',
-            showEpisodeTitle: layoutManager.tv ? false : true
+            showEpisodeTitle: !layoutManager.tv
         };
 
         apiClient.getLiveTvChannels(channelQuery).then(function (channelsResult) {
@@ -675,12 +675,12 @@ function Guide(options) {
         });
 
         const activeElement = document.activeElement;
-        const itemId = activeElement && activeElement.getAttribute ? activeElement.getAttribute('data-id') : null;
+        const itemId = activeElement?.getAttribute ? activeElement.getAttribute('data-id') : null;
         let channelRowId = null;
 
         if (activeElement) {
             channelRowId = dom.parentWithClass(activeElement, 'channelPrograms');
-            channelRowId = channelRowId && channelRowId.getAttribute ? channelRowId.getAttribute('data-channelid') : null;
+            channelRowId = channelRowId?.getAttribute ? channelRowId.getAttribute('data-channelid') : null;
         }
 
         renderChannelHeaders(context, channels, apiClient);
@@ -762,12 +762,10 @@ function Guide(options) {
             } else {
                 container.scrollTo(0, pos);
             }
+        } else if (horizontal) {
+            container.scrollLeft = Math.round(pos);
         } else {
-            if (horizontal) {
-                container.scrollLeft = Math.round(pos);
-            } else {
-                container.scrollTop = Math.round(pos);
-            }
+            container.scrollTop = Math.round(pos);
         }
     }
 

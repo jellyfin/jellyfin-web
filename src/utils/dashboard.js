@@ -4,7 +4,7 @@ import loading from '../components/loading/loading';
 import { appRouter } from '../components/router/appRouter';
 import baseAlert from '../components/alert';
 import baseConfirm from '../components/confirm/confirm';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import * as webSettings from '../scripts/settings/webSettings';
 import datetime from '../scripts/datetime';
 import { setBackdropTransparency } from '../components/backdrop/backdrop';
@@ -12,6 +12,8 @@ import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
 import dialogHelper from '../components/dialogHelper/dialogHelper';
 import itemIdentifier from '../components/itemidentifier/itemidentifier';
 import { getLocationSearch } from './url.ts';
+import { queryClient } from './query/queryClient';
+import viewContainer from 'components/viewContainer';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -50,15 +52,22 @@ export async function serverAddress() {
     console.debug('URL candidates:', urls);
 
     const promises = urls.map(url => {
-        return fetch(`${url}/System/Info/Public`)
+        return fetch(`${url}/System/Info/Public`, { cache: 'no-cache' })
             .then(async resp => {
                 if (!resp.ok) {
                     return;
                 }
 
+                let config;
+                try {
+                    config = await resp.json();
+                } catch (err) {
+                    return;
+                }
+
                 return {
                     url,
-                    config: await resp.json()
+                    config
                 };
             }).catch(error => {
                 console.error(error);
@@ -91,6 +100,10 @@ export function onServerChanged(_userId, _accessToken, apiClient) {
 
 export function logout() {
     ServerConnections.logout().then(function () {
+        // Clear the query cache
+        queryClient.clear();
+        // Reset cached views
+        viewContainer.reset();
         webSettings.getMultiServer().then(multi => {
             multi ? navigate('selectserver.html') : navigate('login.html');
         });

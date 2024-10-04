@@ -1,12 +1,11 @@
 import loading from '../../../../components/loading/loading';
-import libraryMenu from '../../../../scripts/libraryMenu';
 import dom from '../../../../scripts/dom';
-import globalize from '../../../../scripts/globalize';
-import * as cardBuilder from '../../../../components/cardbuilder/cardBuilder.js';
+import globalize from '../../../../lib/globalize';
 import '../../../../components/cardbuilder/card.scss';
 import '../../../../elements/emby-button/emby-button';
 import Dashboard, { pageIdOn } from '../../../../utils/dashboard';
 import confirm from '../../../../components/confirm/confirm';
+import { getDefaultBackgroundClass } from '../../../../components/cardbuilder/cardBuilderUtils';
 
 function deletePlugin(page, uniqueid, version, name) {
     const msg = globalize.translate('UninstallPluginConfirmation', name);
@@ -73,7 +72,7 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
         const imageUrl = ApiClient.getUrl(`/Plugins/${plugin.Id}/${plugin.Version}/Image`);
         html += `<img src="${imageUrl}" style="width:100%" />`;
     } else {
-        html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
+        html += `<div class="cardImage flex align-items-center justify-content-center ${getDefaultBackgroundClass()}">`;
         html += '<span class="cardImageIcon material-icons extension" aria-hidden="true"></span>';
         html += '</div>';
     }
@@ -83,10 +82,11 @@ function getPluginCardHtml(plugin, pluginConfigurationPages) {
     html += '<div class="cardFooter">';
 
     if (configPage || plugin.CanUninstall) {
-        if (globalize.getIsRTL())
+        if (globalize.getIsRTL()) {
             html += '<div style="text-align:left; float:left;padding-top:5px;">';
-        else
+        } else {
             html += '<div style="text-align:right; float:right;padding-top:5px;">';
+        }
         html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
         html += '</div>';
     }
@@ -129,7 +129,7 @@ function populateList(page, plugins, pluginConfigurationPages) {
     } else {
         html += '<div class="centerMessage">';
         html += '<h1>' + globalize.translate('MessageNoPluginsInstalled') + '</h1>';
-        html += '<p><a is="emby-linkbutton" class="button-link" href="#/availableplugins.html">';
+        html += '<p><a is="emby-linkbutton" class="button-link" href="#/dashboard/plugins/catalog">';
         html += globalize.translate('MessageBrowsePluginCatalog');
         html += '</a></p>';
         html += '</div>';
@@ -218,19 +218,6 @@ function reloadList(page) {
     });
 }
 
-function getTabs() {
-    return [{
-        href: '#/installedplugins.html',
-        name: globalize.translate('TabMyPlugins')
-    }, {
-        href: '#/availableplugins.html',
-        name: globalize.translate('TabCatalog')
-    }, {
-        href: '#/repositories.html',
-        name: globalize.translate('TabRepositories')
-    }];
-}
-
 function onInstalledPluginsClick(e) {
     if (dom.parentWithClass(e.target, 'noConfigPluginCard')) {
         showNoConfigurationMessage();
@@ -256,7 +243,6 @@ function onFilterType(page, searchBar) {
 }
 
 pageIdOn('pageshow', 'pluginsPage', function () {
-    libraryMenu.setTabs('plugins', 0, getTabs);
     reloadList(this);
 });
 

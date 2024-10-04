@@ -5,14 +5,17 @@ $mui-bp-md: 900px;
 $mui-bp-lg: 1200px;
 $mui-bp-xl: 1536px;
 
-// Fix main pages layout to work with drawer
-.mainAnimatedPage {
-    position: relative;
+$drawer-width: 240px;
+
+#reactRoot {
+    height: 100%;
 }
 
-// Fix dashboard pages layout to work with drawer
-.dashboardDocument .skinBody {
-    position: unset;
+// Fix main pages layout to work with drawer
+.mainAnimatedPage {
+    @media all and (min-width: $mui-bp-md) {
+        left: $drawer-width;
+    }
 }
 
 // Hide some items from the user "settings" page that are in the drawer
@@ -25,16 +28,24 @@ $mui-bp-xl: 1536px;
 }
 
 // Fix the padding of some pages
-.homePage.libraryPage, // Home page
-.libraryPage:not(.withTabs), // Tabless library pages
-.content-primary.content-primary { // Dashboard pages
+.homePage.libraryPage.withTabs, // Home page
+// Library pages excluding the item details page and tabbed pages
+.libraryPage:not(
+    .itemDetailPage,
+    .withTabs
+) {
     padding-top: 3.25rem !important;
 }
-
+// Tabbed library pages
 .libraryPage.withTabs {
     padding-top: 6.5rem !important;
 
     @media all and (min-width: $mui-bp-lg) {
         padding-top: 3.25rem !important;
     }
+}
+
+// Fix backdrop position on mobile item details page
+.layout-mobile .itemBackdrop {
+    margin-top: 0 !important;
 }

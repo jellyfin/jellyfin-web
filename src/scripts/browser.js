@@ -116,7 +116,11 @@ function web0sVersion(browser) {
 
         // The next is only valid for the app
 
-        if (browser.versionMajor >= 79) {
+        if (browser.versionMajor >= 94) {
+            return 23;
+        } else if (browser.versionMajor >= 87) {
+            return 22;
+        } else if (browser.versionMajor >= 79) {
             return 6;
         } else if (browser.versionMajor >= 68) {
             return 5;
@@ -148,14 +152,11 @@ let _supportsCssAnimation;
 let _supportsCssAnimationWithPrefix;
 function supportsCssAnimation(allowPrefix) {
     // TODO: Assess if this is still needed, as all of our targets should natively support CSS animations.
-    if (allowPrefix) {
-        if (_supportsCssAnimationWithPrefix === true || _supportsCssAnimationWithPrefix === false) {
-            return _supportsCssAnimationWithPrefix;
-        }
-    } else {
-        if (_supportsCssAnimation === true || _supportsCssAnimation === false) {
-            return _supportsCssAnimation;
-        }
+    if (allowPrefix && (_supportsCssAnimationWithPrefix === true || _supportsCssAnimationWithPrefix === false)) {
+        return _supportsCssAnimationWithPrefix;
+    }
+    if (_supportsCssAnimation === true || _supportsCssAnimation === false) {
+        return _supportsCssAnimation;
     }
 
     let animation = false;
@@ -186,6 +187,8 @@ function supportsCssAnimation(allowPrefix) {
 
 const uaMatch = function (ua) {
     ua = ua.toLowerCase();
+
+    ua = ua.replace(/(motorola edge)/, '').trim();
 
     const match = /(edg)[ /]([\w.]+)/.exec(ua)
         || /(edga)[ /]([\w.]+)/.exec(ua)
@@ -290,12 +293,17 @@ browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') 
 
 if (browser.web0s) {
     browser.web0sVersion = web0sVersion(browser);
-} else if (browser.tizen) {
-    // UserAgent string contains 'Safari' and 'safari' is set by matched browser, but we only want 'tizen' to be true
-    delete browser.safari;
 
+    // UserAgent string contains 'Chrome' and 'Safari', but we only want 'web0s' to be true
+    delete browser.chrome;
+    delete browser.safari;
+} else if (browser.tizen) {
     const v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
     browser.tizenVersion = parseInt(v[1], 10);
+
+    // UserAgent string contains 'Chrome' and 'Safari', but we only want 'tizen' to be true
+    delete browser.chrome;
+    delete browser.safari;
 } else {
     browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
 }

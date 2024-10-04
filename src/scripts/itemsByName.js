@@ -1,7 +1,7 @@
 import listView from '../components/listview/listview';
 import cardBuilder from '../components/cardbuilder/cardBuilder';
 import imageLoader from '../components/images/imageLoader';
-import globalize from './globalize';
+import globalize from 'lib/globalize';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-button/emby-button';
 import ServerConnections from '../components/ServerConnections';
@@ -125,7 +125,8 @@ function renderSection(item, element, type) {
                 ArtistIds: '',
                 AlbumArtistIds: '',
                 Limit: 10,
-                SortBy: 'SortName'
+                SortOrder: 'Descending,Descending,Ascending',
+                SortBy: 'PremiereDate,ProductionYear,SortName'
             }, {
                 shape: 'overflowPortrait',
                 showTitle: true,
@@ -194,7 +195,7 @@ function renderSection(item, element, type) {
                 PersonTypes: '',
                 ArtistIds: '',
                 AlbumArtistIds: '',
-                SortOrder: 'Descending',
+                SortOrder: 'Descending,Descending,Ascending',
                 SortBy: 'PremiereDate,ProductionYear,Sortname'
             }, {
                 shape: 'overflowSquare',
@@ -342,7 +343,7 @@ function getQuery(options, item) {
         SortOrder: 'Ascending',
         IncludeItemTypes: '',
         Recursive: true,
-        Fields: 'AudioInfo,ParentId,PrimaryImageAspectRatio,BasicSyncInfo',
+        Fields: 'ParentId,PrimaryImageAspectRatio',
         Limit: 100,
         StartIndex: 0,
         CollapseBoxSetItems: false

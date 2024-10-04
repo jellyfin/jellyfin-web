@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+
 import browser from '../../scripts/browser';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
@@ -10,7 +12,7 @@ import {
     destroyFlvPlayer,
     destroyCastPlayer,
     getCrossOriginValue,
-    enableHlsJsPlayer,
+    enableHlsJsPlayerForCodecs,
     applySrc,
     resetSrc,
     playWithPromise,
@@ -25,7 +27,7 @@ import {
 } from '../../components/htmlMediaHelper';
 import itemHelper from '../../components/itemHelper';
 import Screenfull from 'screenfull';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import ServerConnections from '../../components/ServerConnections';
 import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
@@ -33,7 +35,9 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/ba
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
+import { isHls } from '../../utils/mediaSource.ts';
 import debounce from 'lodash-es/debounce';
+import { MediaError } from 'types/mediaError';
 
 /**
  * Returns resolved URL.
@@ -67,12 +71,12 @@ function tryRemoveElement(elem) {
     }
 }
 
-function enableNativeTrackSupport(currentSrc, track) {
+function enableNativeTrackSupport(mediaSource, track) {
     if (track?.DeliveryMethod === 'Embed') {
         return true;
     }
 
-    if (browser.firefox && (currentSrc || '').toLowerCase().includes('.m3u8')) {
+    if (browser.firefox && isHls(mediaSource)) {
         return false;
     }
 
@@ -96,7 +100,7 @@ function enableNativeTrackSupport(currentSrc, track) {
 
     if (track) {
         const format = (track.Codec || '').toLowerCase();
-        if (format === 'ssa' || format === 'ass') {
+        if (format === 'ssa' || format === 'ass' || format === 'pgssub') {
             return false;
         }
     }
@@ -137,7 +141,12 @@ function zoomIn(elem) {
 }
 
 function normalizeTrackEventText(text, useHtml) {
-    const result = text.replace(/\\N/gi, '\n').replace(/\r/gi, '');
+    const result = text
+        .replace(/\\N/gi, '\n') // Correct newline characters
+        .replace(/\r/gi, '') // Remove carriage return characters
+        .replace(/{\\.*?}/gi, '') // Remove ass/ssa tags
+        // Force LTR as the default direction
+        .split('\n').map(val => `\u200E${val}`).join('\n');
     return useHtml ? result.replace(/\n/gi, '<br>') : result;
 }
 
@@ -163,137 +172,140 @@ const SECONDARY_TEXT_TRACK_INDEX = 1;
 
 export class HtmlVideoPlayer {
     /**
-         * @type {string}
-         */
+     * @type {string}
+     */
     name;
     /**
-         * @type {string}
-         */
+     * @type {string}
+     */
     type = PluginType.MediaPlayer;
     /**
-         * @type {string}
-         */
+     * @type {string}
+     */
     id = 'htmlvideoplayer';
     /**
-         * Let any players created by plugins take priority
-         *
-         * @type {number}
-         */
+     * Let any players created by plugins take priority
+     *
+     * @type {number}
+     */
     priority = 1;
     /**
-         * @type {boolean}
-         */
+     * @type {boolean}
+     */
     isFetching = false;
     /**
-         * @type {HTMLDivElement | null | undefined}
-         */
+     * @type {HTMLDivElement | null | undefined}
+     */
     #videoDialog;
     /**
-         * @type {number | undefined}
-         */
+     * @type {number | undefined}
+     */
     #subtitleTrackIndexToSetOnPlaying;
     /**
-         * @type {number | undefined}
-         */
+     * @type {number | undefined}
+     */
     #secondarySubtitleTrackIndexToSetOnPlaying;
     /**
-         * @type {number | null}
-         */
+     * @type {number | null}
+     */
     #audioTrackIndexToSetOnPlaying;
     /**
-         * @type {null | undefined}
-         */
-    #currentClock;
-    /**
-         * @type {any | null | undefined}
-         */
+     * @type {any | null | undefined}
+     */
     #currentAssRenderer;
     /**
-         * @type {null | undefined}
-         */
+     * @type {any | null | undefined}
+     */
+    #currentPgsRenderer;
+    /**
+     * @type {number | undefined}
+     */
     #customTrackIndex;
     /**
-         * @type {number | undefined}
-         */
+     * @type {number | undefined}
+     */
     #customSecondaryTrackIndex;
     /**
-         * @type {boolean | undefined}
-         */
+     * @type {boolean | undefined}
+     */
     #showTrackOffset;
     /**
-         * @type {number | undefined}
-         */
+     * @type {number | undefined}
+     */
     #currentTrackOffset;
     /**
-         * @type {HTMLElement | null | undefined}
-         */
+     * @type {HTMLElement | null | undefined}
+     */
     #secondaryTrackOffset;
     /**
-         * @type {HTMLElement | null | undefined}
-         */
+     * @type {HTMLElement | null | undefined}
+     */
     #videoSubtitlesElem;
     /**
-         * @type {HTMLElement | null | undefined}
-         */
+     * @type {HTMLElement | null | undefined}
+     */
     #videoSecondarySubtitlesElem;
     /**
-         * @type {any | null | undefined}
-         */
+     * @type {any | null | undefined}
+     */
     #currentTrackEvents;
     /**
-         * @type {any | null | undefined}
-         */
+     * @type {any | null | undefined}
+     */
     #currentSecondaryTrackEvents;
     /**
-         * @type {string[] | undefined}
-         */
+     * @type {string[] | undefined}
+     */
     #supportedFeatures;
     /**
-         * @type {HTMLVideoElement | null | undefined}
-         */
+     * @type {HTMLVideoElement | null | undefined}
+     */
     #mediaElement;
     /**
-         * @type {number}
-         */
+     * @type {number}
+     */
     #fetchQueue = 0;
     /**
-         * @type {string | undefined}
-         */
+     * @type {string | undefined}
+     */
     #currentSrc;
     /**
-         * @type {boolean | undefined}
-         */
+     * @type {boolean | undefined}
+     */
     #started;
     /**
-         * @type {boolean | undefined}
-         */
+     * @type {boolean | undefined}
+     */
     #timeUpdated;
     /**
-         * @type {number | null | undefined}
-         */
+     * @type {number | null | undefined}
+     */
     #currentTime;
+
     /**
-         * @type {any | undefined}
-         */
-    #flvPlayer;
+     * @private (used in other files)
+     * @type {any | undefined}
+     */
+    _flvPlayer;
+
     /**
-         * @private (used in other files)
-         * @type {any | undefined}
-         */
+     * @private (used in other files)
+     * @type {any | undefined}
+     */
     _hlsPlayer;
     /**
-         * @private (used in other files)
-         * @type {any | null | undefined}
-         */
+     * @private (used in other files)
+     * @type {any | null | undefined}
+     */
     _castPlayer;
     /**
-         * @private (used in other files)
-         * @type {any | undefined}
-         */
+     * @private (used in other files)
+     * @type {any | undefined}
+     */
     _currentPlayOptions;
     /**
-         * @type {any | undefined}
-         */
+     * @type {any | undefined}
+     */
     #lastProfile;
 
     constructor() {
@@ -336,15 +348,13 @@ export class HtmlVideoPlayer {
          * @private
          */
     updateVideoUrl(streamInfo) {
-        const isHls = streamInfo.url.toLowerCase().includes('.m3u8');
-
         const mediaSource = streamInfo.mediaSource;
         const item = streamInfo.item;
 
         // Huge hack alert. Safari doesn't seem to like if the segments aren't available right away when playback starts
         // This will start the transcoding process before actually feeding the video url into the player
         // Edit: Also seeing stalls from hls.js
-        if (mediaSource && item && !mediaSource.RunTimeTicks && isHls && streamInfo.playMethod === 'Transcode' && (browser.iOS || browser.osx)) {
+        if (mediaSource && item && !mediaSource.RunTimeTicks && isHls(mediaSource) && streamInfo.playMethod === 'Transcode' && (browser.iOS || browser.osx)) {
             const hlsPlaylistUrl = streamInfo.url.replace('master.m3u8', 'live.m3u8');
 
             loading.show();
@@ -403,7 +413,7 @@ export class HtmlVideoPlayer {
             flvPlayer.attachMediaElement(elem);
             flvPlayer.load();
 
-            this.#flvPlayer = flvPlayer;
+            this._flvPlayer = flvPlayer;
 
             // This is needed in setCurrentTrackElement
             this.#currentSrc = url;
@@ -431,8 +441,10 @@ export class HtmlVideoPlayer {
                 const includeCorsCredentials = await getIncludeCorsCredentials();
 
                 const hls = new Hls({
+                    startPosition: options.playerStartPositionTicks / 10000000,
                     manifestLoadingTimeOut: 20000,
                     maxBufferLength: maxBufferLength,
+                    videoPreference: { preferHDR: true },
                     xhrSetup(xhr) {
                         xhr.withCredentials = includeCorsCredentials;
                     }
@@ -507,9 +519,9 @@ export class HtmlVideoPlayer {
             elem.crossOrigin = crossOrigin;
         }
 
-        if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.includes('.m3u8')) {
+        if (enableHlsJsPlayerForCodecs(options.mediaSource, 'Video') && isHls(options.mediaSource)) {
             return this.setSrcWithHlsJs(elem, options, val);
-        } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
+        } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container?.toUpperCase() === 'FLV') {
             return this.setSrcWithFlvJs(elem, options, val);
         } else {
             elem.autoplay = true;
@@ -582,6 +594,9 @@ export class HtmlVideoPlayer {
         if (this.#currentAssRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
             this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+        } else if (this.#currentPgsRenderer) {
+            this.updateCurrentTrackOffset(offsetValue);
+            this.#currentPgsRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
         } else {
             const trackElements = this.getTextTracks();
             // if .vtt currently rendering
@@ -850,6 +865,8 @@ export class HtmlVideoPlayer {
             videoElement.parentNode.removeChild(videoElement);
         }
 
+        this._currentAspectRatio = null;
+
         const dlg = this.#videoDialog;
         if (dlg) {
             this.#videoDialog = null;
@@ -858,11 +875,9 @@ export class HtmlVideoPlayer {
 
         if (Screenfull.isEnabled) {
             Screenfull.exit();
-        } else {
+        } else if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
             // iOS Safari
-            if (document.webkitIsFullScreen && document.webkitCancelFullscreen) {
-                document.webkitCancelFullscreen();
-            }
+            document.webkitCancelFullscreen();
         }
     }
 
@@ -974,6 +989,8 @@ export class HtmlVideoPlayer {
             seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
                 if (this.#currentAssRenderer) {
                     this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
+                    this.#currentAssRenderer.resize();
+                    this.#currentAssRenderer.resetRenderAheadCache(false);
                 }
             });
 
@@ -1005,12 +1022,12 @@ export class HtmlVideoPlayer {
         }
 
         if (elem.videoWidth === 0 && elem.videoHeight === 0) {
-            const mediaSource = (this._currentPlayOptions || {}).mediaSource;
+            const mediaSource = this._currentPlayOptions?.mediaSource;
 
             // Only trigger this if there is media info
             // Avoid triggering in situations where it might not actually have a video stream (audio only live tv channel)
             if (!mediaSource || mediaSource.RunTimeTicks) {
-                onErrorInternal(this, 'mediadecodeerror');
+                onErrorInternal(this, MediaError.NO_MEDIA_ERROR);
             }
         }
     }
@@ -1062,7 +1079,7 @@ export class HtmlVideoPlayer {
                 return;
             case 2:
                 // MEDIA_ERR_NETWORK
-                type = 'network';
+                type = MediaError.NETWORK_ERROR;
                 break;
             case 3:
                 // MEDIA_ERR_DECODE
@@ -1070,12 +1087,12 @@ export class HtmlVideoPlayer {
                     handleHlsJsMediaError(this);
                     return;
                 } else {
-                    type = 'mediadecodeerror';
+                    type = MediaError.MEDIA_DECODE_ERROR;
                 }
                 break;
             case 4:
                 // MEDIA_ERR_SRC_NOT_SUPPORTED
-                type = 'medianotsupported';
+                type = MediaError.MEDIA_NOT_SUPPORTED;
                 break;
             default:
                 // seeing cases where Edge is firing error events with no error code
@@ -1100,15 +1117,14 @@ export class HtmlVideoPlayer {
                 tryRemoveElement(this.#videoSecondarySubtitlesElem);
                 this.#videoSecondarySubtitlesElem = null;
             }
-        } else { // destroy all
-            if (this.#videoSubtitlesElem) {
-                const subtitlesContainer = this.#videoSubtitlesElem.parentNode;
-                if (subtitlesContainer) {
-                    tryRemoveElement(subtitlesContainer);
-                }
-                this.#videoSubtitlesElem = null;
-                this.#videoSecondarySubtitlesElem = null;
+        } else if (this.#videoSubtitlesElem) {
+            // destroy all
+            const subtitlesContainer = this.#videoSubtitlesElem.parentNode;
+            if (subtitlesContainer) {
+                tryRemoveElement(subtitlesContainer);
             }
+            this.#videoSubtitlesElem = null;
+            this.#videoSecondarySubtitlesElem = null;
         }
     }
 
@@ -1158,14 +1174,17 @@ export class HtmlVideoPlayer {
         this.destroyNativeTracks(videoElement, targetTrackIndex);
         this.destroyStoredTrackInfo(targetTrackIndex);
 
-        this.#currentClock = null;
-        this._currentAspectRatio = null;
-
-        const jassub = this.#currentAssRenderer;
-        if (jassub) {
-            jassub.destroy();
+        const octopus = this.#currentAssRenderer;
+        if (octopus) {
+            octopus.dispose();
         }
         this.#currentAssRenderer = null;
+
+        const pgsRenderer = this.#currentPgsRenderer;
+        if (pgsRenderer) {
+            pgsRenderer.dispose();
+        }
+        this.#currentPgsRenderer = null;
     }
 
     /**
@@ -1239,82 +1258,89 @@ export class HtmlVideoPlayer {
          */
     renderSsaAss(videoElement, track, item) {
         const supportedFonts = ['application/vnd.ms-opentype', 'application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
-        const avaliableFonts = [];
+        const availableFonts = [];
         const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
         const apiClient = ServerConnections.getApiClient(item);
         attachments.forEach(i => {
             // we only require font files and ignore embedded media attachments like covers as there are cases where ffmpeg fails to extract those
             if (supportedFonts.includes(i.MimeType)) {
                 // embedded font url
-                avaliableFonts.push(apiClient.getUrl(i.DeliveryUrl));
+                availableFonts.push(apiClient.getUrl(i.DeliveryUrl));
             }
         });
         const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
             api_key: apiClient.accessToken()
         });
-        const options = {
-            video: videoElement,
-            subUrl: getTextTrackUrl(track, item),
-            fonts: avaliableFonts,
-            fallbackFont: 'liberation sans',
-            availableFonts: { 'liberation sans': `${appRouter.baseUrl()}/default.woff2` },
-            // Disabled eslint compat, but is safe as corejs3 polyfills URL
-            // eslint-disable-next-line compat/compat
-            workerUrl: new URL('jassub/dist/jassub-worker.js', import.meta.url),
-            // eslint-disable-next-line compat/compat
-            legacyWorkerUrl: new URL('jassub/dist/jassub-worker-legacy.js', import.meta.url),
-            timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
-            // new jassub options; override all, even defaults
-            blendMode: 'js',
-            asyncRender: true,
-            // firefox implements offscreen canvas, but not according to spec which causes errors
-            offscreenRender: !browser.firefox,
-            // RVFC is polyfilled everywhere, but webOS 2 reports polyfill API's as functional even tho they aren't
-            onDemandRender: browser.web0sVersion !== 2,
-            useLocalFonts: true,
-            dropAllAnimations: false,
-            libassMemoryLimit: 40,
-            libassGlyphLimit: 40,
-            targetFps: 24,
-            prescaleFactor: 0.8,
-            prescaleHeightLimit: 1080,
-            maxRenderHeight: 2160
-        };
-            // TODO: replace with `event-target-polyfill` once https://github.com/benlesh/event-target-polyfill/pull/12 or 11 is merged
-        import('event-target-polyfill').then(() => {
-            import('jassub').then(({ default: JASSUB }) => {
-                Promise.all([
-                    apiClient.getNamedConfiguration('encoding'),
-                    // Worker in Tizen 5 doesn't resolve relative path with async request
-                    resolveUrl(options.workerUrl),
-                    resolveUrl(options.legacyWorkerUrl)
-                ]).then(([config, workerUrl, legacyWorkerUrl]) => {
-                    options.workerUrl = workerUrl;
-                    options.legacyWorkerUrl = legacyWorkerUrl;
+        const htmlVideoPlayer = this;
+        import('@jellyfin/libass-wasm').then(({ default: SubtitlesOctopus }) => {
+            const options = {
+                video: videoElement,
+                subUrl: getTextTrackUrl(track, item),
+                fonts: availableFonts,
+                workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
+                legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
+                onError() {
+                    // HACK: Clear JavascriptSubtitlesOctopus: it gets disposed when an error occurs
+                    htmlVideoPlayer.#currentAssRenderer = null;
 
-                    const cleanup = () => {
-                        this.#currentAssRenderer.destroy();
-                        this.#currentAssRenderer = null;
-                        onErrorInternal(this, 'mediadecodeerror');
-                    };
+                    // HACK: Give JavascriptSubtitlesOctopus time to dispose itself
+                    setTimeout(() => {
+                        onErrorInternal(this, MediaError.ASS_RENDER_ERROR);
+                    }, 0);
+                },
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
-                    if (config.EnableFallbackFont) {
-                        apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
-                            fontFiles.forEach(font => {
-                                const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${font.Name}`, {
-                                    api_key: apiClient.accessToken()
-                                });
-                                avaliableFonts.push(fontUrl);
+                // new octopus options; override all, even defaults
+                renderMode: 'wasm-blend',
+                dropAllAnimations: false,
+                libassMemoryLimit: 40,
+                libassGlyphLimit: 40,
+                targetFps: 24,
+                prescaleFactor: 0.8,
+                prescaleHeightLimit: 1080,
+                maxRenderHeight: 2160,
+                resizeVariation: 0.2,
+                renderAhead: 90
+            };
+
+            Promise.all([
+                apiClient.getNamedConfiguration('encoding'),
+                // Worker in Tizen 5 doesn't resolve relative path with async request
+                resolveUrl(options.workerUrl),
+                resolveUrl(options.legacyWorkerUrl)
+            ]).then(([config, workerUrl, legacyWorkerUrl]) => {
+                options.workerUrl = workerUrl;
+                options.legacyWorkerUrl = legacyWorkerUrl;
+
+                if (config.EnableFallbackFont) {
+                    apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
+                        fontFiles.forEach(font => {
+                            const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`, {
+                                api_key: apiClient.accessToken()
                             });
-                            this.#currentAssRenderer = new JASSUB(options);
-                            this.#currentAssRenderer.addEventListener('error', cleanup, { once: true });
+                            availableFonts.push(fontUrl);
                         });
-                    } else {
-                        this.#currentAssRenderer = new JASSUB(options);
-                        this.#currentAssRenderer.addEventListener('error', cleanup, { once: true });
-                    }
-                });
+                        this.#currentAssRenderer = new SubtitlesOctopus(options);
+                    });
+                } else {
+                    this.#currentAssRenderer = new SubtitlesOctopus(options);
+                }
             });
+        });
+    }
+
+    /**
+     * @private
+     */
+    renderPgs(videoElement, track, item) {
+        import('libpgs').then((libpgs) => {
+            const options = {
+                video: videoElement,
+                subUrl: getTextTrackUrl(track, item),
+                workerUrl: `${appRouter.baseUrl()}/libraries/libpgs.worker.js`,
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000
+            };
+            this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
         });
     }
 
@@ -1436,6 +1462,10 @@ export class HtmlVideoPlayer {
                 this.renderSsaAss(videoElement, track, item);
                 return;
             }
+            if (format === 'pgssub') {
+                this.renderPgs(videoElement, track, item);
+                return;
+            }
 
             if (this.requiresCustomSubtitlesElement()) {
                 this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
@@ -1477,8 +1507,8 @@ export class HtmlVideoPlayer {
                 // add some cues to show the text
                 // in safari, the cues need to be added before setting the track mode to showing
                 for (const trackEvent of data.TrackEvents) {
-                    const trackCueObject = window.VTTCue || window.TextTrackCue;
-                    const cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+                    const TrackCue = window.VTTCue || window.TextTrackCue;
+                    const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
                     if (cue.line === 'auto') {
                         cue.line = cueLine;
@@ -1496,16 +1526,6 @@ export class HtmlVideoPlayer {
          * @private
          */
     updateSubtitleText(timeMs) {
-        const clock = this.#currentClock;
-        if (clock) {
-            try {
-                clock.seek(timeMs / 1000);
-            } catch (err) {
-                console.error(`error in libjass: ${err}`);
-            }
-            return;
-        }
-
         const allTrackEvents = [this.#currentTrackEvents, this.#currentSecondaryTrackEvents];
         const subtitleTextElements = [this.#videoSubtitlesElem, this.#videoSecondarySubtitlesElem];
 
@@ -1523,8 +1543,9 @@ export class HtmlVideoPlayer {
                     }
                 }
 
-                if (selectedTrackEvent && selectedTrackEvent.Text) {
-                    subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text, true);
+                if (selectedTrackEvent?.Text) {
+                    subtitleTextElement.innerHTML = DOMPurify.sanitize(
+                        normalizeTrackEventText(selectedTrackEvent.Text, true));
                     subtitleTextElement.classList.remove('hide');
                 } else {
                     subtitleTextElement.classList.add('hide');
@@ -1546,7 +1567,7 @@ export class HtmlVideoPlayer {
         })[0];
 
         this.setTrackForDisplay(this.#mediaElement, track, targetTextTrackIndex);
-        if (enableNativeTrackSupport(this.#currentSrc, track)) {
+        if (enableNativeTrackSupport(this._currentPlayOptions?.mediaSource, track)) {
             if (streamIndex !== -1) {
                 this.setCueAppearance();
             }
@@ -1595,7 +1616,11 @@ export class HtmlVideoPlayer {
                 playerDlg.innerHTML = html;
                 const videoElement = playerDlg.querySelector('video');
 
-                videoElement.volume = getSavedVolume();
+                // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
+                if (!appHost.supports('physicalvolumecontrol')) {
+                    videoElement.volume = getSavedVolume();
+                }
+
                 videoElement.addEventListener('timeupdate', this.onTimeUpdate);
                 videoElement.addEventListener('ended', this.onEnded);
                 videoElement.addEventListener('volumechange', this.onVolumeChange);
@@ -1650,7 +1675,13 @@ export class HtmlVideoPlayer {
                 }
             }
 
-            return Promise.resolve(dlg.querySelector('video'));
+            const videoElement = dlg.querySelector('video');
+            if (options.backdropUrl) {
+                // update backdrop image
+                videoElement.poster = options.backdropUrl;
+            }
+
+            return Promise.resolve(videoElement);
         }
     }
 
@@ -1797,10 +1828,8 @@ export class HtmlVideoPlayer {
             } else {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
-        } else {
-            if (video && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
-                video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
-            }
+        } else if (video?.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
+            video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
         }
     }
 
@@ -1877,7 +1906,7 @@ export class HtmlVideoPlayer {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             const seekable = mediaElement.seekable;
-            if (seekable && seekable.length) {
+            if (seekable?.length) {
                 let start = seekable.start(0);
                 let end = seekable.end(0);
 
@@ -1960,6 +1989,18 @@ export class HtmlVideoPlayer {
         }, {
             name: '2x',
             id: 2.0
+        }, {
+            name: '2.5x',
+            id: 2.5
+        }, {
+            name: '3x',
+            id: 3.0
+        }, {
+            name: '3.5x',
+            id: 3.5
+        }, {
+            name: '4.0x',
+            id: 4.0
         }];
     }
 

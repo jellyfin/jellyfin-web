@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import ServerConnections from './ServerConnections';
 import viewManager from './viewManager/viewManager';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import type { RestoreViewFailResponse } from '../types/viewManager';
 
 interface ServerContentPageProps {
@@ -31,7 +31,7 @@ const ServerContentPage: FunctionComponent<ServerContentPageProps> = ({ view }) 
 
             viewManager.tryRestoreView(viewOptions)
                 .catch(async (result?: RestoreViewFailResponse) => {
-                    if (!result || !result.cancelled) {
+                    if (!result?.cancelled) {
                         const apiClient = ServerConnections.currentApiClient();
 
                         // Fetch the view html from the server and translate it
@@ -56,7 +56,7 @@ const ServerContentPage: FunctionComponent<ServerContentPageProps> = ({ view }) 
         location.search
     ]);
 
-    return <></>;
+    return null;
 };
 
 export default ServerContentPage;

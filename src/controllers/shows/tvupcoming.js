@@ -1,11 +1,14 @@
-import layoutManager from '../../components/layoutManager';
-import loading from '../../components/loading/loading';
-import datetime from '../../scripts/datetime';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import imageLoader from '../../components/images/imageLoader';
-import globalize from '../../scripts/globalize';
-import '../../styles/scrollstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import imageLoader from 'components/images/imageLoader';
+import layoutManager from 'components/layoutManager';
+import loading from 'components/loading/loading';
+import datetime from 'scripts/datetime';
+import globalize from 'lib/globalize';
+import { getBackdropShape } from 'utils/card';
+
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+
+import 'styles/scrollstyles.scss';
 
 function getUpcomingPromise(context, params) {
     loading.show();
@@ -38,10 +41,6 @@ function loadUpcoming(context, params, promise) {
 
 function enableScrollX() {
     return !layoutManager.desktop;
-}
-
-function getThumbShape() {
-    return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
 }
 
 function renderUpcoming(elem, items) {
@@ -105,7 +104,7 @@ function renderUpcoming(elem, items) {
         html += cardBuilder.getCardsHtml({
             items: group.items,
             showLocationTypeIndicator: false,
-            shape: getThumbShape(),
+            shape: getBackdropShape(enableScrollX()),
             showTitle: true,
             preferThumb: true,
             lazy: true,

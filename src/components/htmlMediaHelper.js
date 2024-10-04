@@ -1,6 +1,7 @@
 import appSettings from '../scripts/settings/appSettings' ;
 import browser from '../scripts/browser';
 import Events from '../utils/events.ts';
+import { MediaError } from 'types/mediaError';
 
 export function getSavedVolume() {
     return appSettings.get('volume') || 1;
@@ -27,6 +28,16 @@ function canPlayNativeHls() {
             || media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
 }
 
+export function enableHlsJsPlayerForCodecs(mediaSource, mediaType) {
+    // Workaround for VP9 HLS support on desktop Safari
+    // Force using HLS.js because desktop Safari's native HLS player does not play VP9 over HLS
+    // browser.osx will return true on iPad, cannot use
+    if (!browser.iOS && browser.safari && mediaSource.MediaStreams.some(x => x.Codec === 'vp9')) {
+        return true;
+    }
+    return enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType);
+}
+
 export function enableHlsJsPlayer(runTimeTicks, mediaType) {
     if (window.MediaSource == null) {
         return false;
@@ -43,8 +54,8 @@ export function enableHlsJsPlayer(runTimeTicks, mediaType) {
     }
 
     if (canPlayNativeHls()) {
-        // Having trouble with chrome's native support and transcoded music
-        if (browser.android && mediaType === 'Audio') {
+        // Android Webview's native HLS has performance and compatiblity issues
+        if (browser.android && (mediaType === 'Audio' || mediaType === 'Video')) {
             return true;
         }
 
@@ -68,7 +79,7 @@ export function handleHlsJsMediaError(instance, reject) {
 
     let now = Date.now();
 
-    if (window.performance && window.performance.now) {
+    if (window.performance?.now) {
         now = performance.now(); // eslint-disable-line compat/compat
     }
 
@@ -76,20 +87,18 @@ export function handleHlsJsMediaError(instance, reject) {
         recoverDecodingErrorDate = now;
         console.debug('try to recover media Error ...');
         hlsPlayer.recoverMediaError();
+    } else if (!recoverSwapAudioCodecDate || (now - recoverSwapAudioCodecDate) > 3000) {
+        recoverSwapAudioCodecDate = now;
+        console.debug('try to swap Audio Codec and recover media Error ...');
+        hlsPlayer.swapAudioCodec();
+        hlsPlayer.recoverMediaError();
     } else {
-        if (!recoverSwapAudioCodecDate || (now - recoverSwapAudioCodecDate) > 3000) {
-            recoverSwapAudioCodecDate = now;
-            console.debug('try to swap Audio Codec and recover media Error ...');
-            hlsPlayer.swapAudioCodec();
-            hlsPlayer.recoverMediaError();
-        } else {
-            console.error('cannot recover, last media error recovery failed ...');
+        console.error('cannot recover, last media error recovery failed ...');
 
-            if (reject) {
-                reject();
-            } else {
-                onErrorInternal(instance, 'mediadecodeerror');
-            }
+        if (reject) {
+            reject();
+        } else {
+            onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);
         }
     }
 }
@@ -100,11 +109,7 @@ export function onErrorInternal(instance, type) {
         instance.destroyCustomTrack(instance._mediaElement);
     }
 
-    Events.trigger(instance, 'error', [
-        {
-            type: type
-        }
-    ]);
+    Events.trigger(instance, 'error', [{ type }]);
 }
 
 export function isValidDuration(duration) {
@@ -157,7 +162,7 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
 }
 
 export function applySrc(elem, src, options) {
-    if (window.Windows && options.mediaSource && options.mediaSource.IsLocal) {
+    if (window.Windows && options.mediaSource?.IsLocal) {
         return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
             const playlist = new Windows.Media.Playback.MediaPlaybackList();
 
@@ -195,7 +200,7 @@ export function playWithPromise(elem, onErrorFn) {
                     // swallow this error because the user can still click the play button on the video element
                     return Promise.resolve();
                 }
-                return Promise.reject();
+                return Promise.reject(e);
             })
             .then(() => {
                 onSuccessfulPlay(elem, onErrorFn);
@@ -271,10 +276,10 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
             hls.destroy();
 
             if (reject) {
-                reject('servererror');
+                reject(MediaError.SERVER_ERROR);
                 reject = null;
             } else {
-                onErrorInternal(instance, 'servererror');
+                onErrorInternal(instance, MediaError.SERVER_ERROR);
             }
 
             return;
@@ -293,10 +298,10 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                         hls.destroy();
 
                         if (reject) {
-                            reject('network');
+                            reject(MediaError.NETWORK_ERROR);
                             reject = null;
                         } else {
-                            onErrorInternal(instance, 'network');
+                            onErrorInternal(instance, MediaError.NETWORK_ERROR);
                         }
                     } else {
                         console.debug('fatal network error encountered, try to recover');
@@ -320,7 +325,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                         reject();
                         reject = null;
                     } else {
-                        onErrorInternal(instance, 'mediadecodeerror');
+                        onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);
                     }
                     break;
             }

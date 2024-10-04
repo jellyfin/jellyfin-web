@@ -1,7 +1,7 @@
 import dialogHelper from './dialogHelper/dialogHelper';
 import dom from '../scripts/dom';
 import layoutManager from './layoutManager';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import loading from './loading/loading';
 import browser from '../scripts/browser';
 import focusManager from './focusManager';
@@ -120,7 +120,7 @@ function discoverDevices(view) {
     });
 }
 
-function tunerPicker() {
+function TunerPicker() {
     this.show = function () {
         const dialogOptions = {
             removeOnClose: true,
@@ -182,4 +182,4 @@ function tunerPicker() {
 
 let currentDevices = [];
 
-export default tunerPicker;
+export default TunerPicker;

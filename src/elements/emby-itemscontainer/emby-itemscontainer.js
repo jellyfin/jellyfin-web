@@ -37,7 +37,7 @@ function onContextMenu(e) {
     const card = dom.parentWithAttribute(target, 'data-id');
 
     // check for serverId, it won't be present on selectserver
-    if (card && card.getAttribute('data-serverid')) {
+    if (card?.getAttribute('data-serverid')) {
         inputManager.handleCommand('menu', {
             sourceElement: card
         });
@@ -285,10 +285,8 @@ ItemsContainerPrototype.attachedCallback = function () {
 
     if (browser.touch) {
         this.addEventListener('contextmenu', disableEvent);
-    } else {
-        if (this.getAttribute('data-contextmenu') !== 'false') {
-            this.addEventListener('contextmenu', onContextMenu);
-        }
+    } else if (this.getAttribute('data-contextmenu') !== 'false') {
+        this.addEventListener('contextmenu', onContextMenu);
     }
 
     if (layoutManager.desktop || layoutManager.mobile && this.getAttribute('data-multiselect') !== 'false') {
@@ -357,7 +355,7 @@ ItemsContainerPrototype.resume = function (options) {
         }
     }
 
-    if (this.needsRefresh || (options && options.refresh)) {
+    if (this.needsRefresh || (options?.refresh)) {
         return this.refreshItems();
     }
 

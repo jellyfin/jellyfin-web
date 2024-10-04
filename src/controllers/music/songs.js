@@ -5,15 +5,16 @@ import listView from '../../components/listview/listview';
 import loading from '../../components/loading/loading';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import * as userSettings from '../../scripts/settings/userSettings';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Dashboard from '../../utils/dashboard';
 import Events from '../../utils/events.ts';
+import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
-    function getPageData(context) {
-        const key = getSavedQueryKey(context);
+    function getPageData() {
+        const key = getSavedQueryKey();
         let pageData = data[key];
 
         if (!pageData) {
@@ -23,7 +24,7 @@ export default function (view, params, tabContent) {
                     SortOrder: 'Ascending',
                     IncludeItemTypes: 'Audio',
                     Recursive: true,
-                    Fields: 'AudioInfo,ParentId',
+                    Fields: 'ParentId',
                     StartIndex: 0,
                     ImageTypeLimit: 1,
                     EnableImageTypes: 'Primary'
@@ -35,28 +36,26 @@ export default function (view, params, tabContent) {
             }
 
             pageData.query.ParentId = params.topParentId;
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
+            userSettings.loadQuerySettings(key, pageData.query);
         }
 
         return pageData;
     }
 
-    function getQuery(context) {
-        return getPageData(context).query;
+    function getQuery() {
+        return getPageData().query;
     }
 
-    function getSavedQueryKey(context) {
-        if (!context.savedQueryKey) {
-            context.savedQueryKey = libraryBrowser.getSavedQueryKey('songs');
-        }
-
-        return context.savedQueryKey;
+    function getSavedQueryKey() {
+        return `${params.topParentId}-songs`;
     }
 
     function reloadItems(page) {
         loading.show();
         isLoading = true;
-        const query = getQuery(page);
+        const query = getQuery();
+        setFilterStatus(tabContent, query);
+
         ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
             function onNextPageClick() {
                 if (isLoading) {
@@ -117,7 +116,7 @@ export default function (view, params, tabContent) {
             const itemsContainer = tabContent.querySelector('.itemsContainer');
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
+            userSettings.saveQuerySettings(getSavedQueryKey(), query);
 
             tabContent.querySelector('.btnShuffle').classList.toggle('hide', result.TotalRecordCount < 1);
 
@@ -135,15 +134,15 @@ export default function (view, params, tabContent) {
     let isLoading = false;
 
     self.showFilterMenu = function () {
-        import('../../components/filterdialog/filterdialog').then(({ default: filterDialogFactory }) => {
-            const filterDialog = new filterDialogFactory({
-                query: getQuery(tabContent),
+        import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
+            const filterDialog = new FilterDialog({
+                query: getQuery(),
                 mode: 'songs',
                 serverId: ApiClient.serverId()
             });
             Events.on(filterDialog, 'filterchange', function () {
-                getQuery(tabContent).StartIndex = 0;
-                reloadItems(tabContent);
+                getQuery().StartIndex = 0;
+                reloadItems();
             });
             filterDialog.show();
         });
@@ -156,7 +155,7 @@ export default function (view, params, tabContent) {
     }
 
     self.getCurrentViewStyle = function () {
-        return getPageData(tabContent).view;
+        return getPageData().view;
     };
 
     function initPage(tabElement) {
@@ -197,10 +196,10 @@ export default function (view, params, tabContent) {
                     id: 'Random,SortName'
                 }],
                 callback: function () {
-                    getQuery(tabElement).StartIndex = 0;
-                    reloadItems(tabElement);
+                    getQuery().StartIndex = 0;
+                    reloadItems();
                 },
-                query: getQuery(tabElement),
+                query: getQuery(),
                 button: e.target
             });
         });

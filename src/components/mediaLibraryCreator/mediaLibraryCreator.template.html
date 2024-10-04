@@ -1,11 +1,11 @@
-<form class="addLibraryForm" style="max-width:100%;">
-    <div class="formDialogHeader">
-        <button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>
-        <h3 class="formDialogHeaderTitle">${ButtonAddMediaLibrary}</h3>
-    </div>
+<div class="formDialogHeader">
+    <button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>
+    <h3 class="formDialogHeaderTitle">${ButtonAddMediaLibrary}</h3>
+</div>
 
-    <div class="formDialogContent scrollY" style="padding-top:2em;">
-        <div class="dialogContentInner dialog-content-centered">
+<div class="formDialogContent scrollY" style="padding-top:2em;">
+    <div class="dialogContentInner dialog-content-centered">
+        <form class="addLibraryForm" style="max-width:100%;">
 
             <div id="fldCollectionType" class="selectContainer">
                 <select is="emby-select" id="selectCollectionType" data-mini="true" required="required" label="${LabelContentType}"></select>
@@ -28,12 +28,12 @@
             </div>
 
             <div class="libraryOptions"></div>
-        </div>
-    </div>
 
-    <div class="formDialogFooter">
-        <button is="emby-button" type="submit" class="raised btnSubmit button-submit block formDialogFooterItem">
-            <span>${ButtonOk}</span>
-        </button>
+            <div class="formDialogFooter">
+                <button is="emby-button" type="submit" class="raised btnSubmit button-submit block formDialogFooterItem">
+                    <span>${ButtonOk}</span>
+                </button>
+            </div>
+        </form>
     </div>
-</form>
+</div>

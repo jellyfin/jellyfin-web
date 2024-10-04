@@ -1,8 +1,13 @@
 
 import escapeHtml from 'escape-html';
+
+import { getUserViewsQuery } from 'hooks/useUserViews';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
+
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
 import homeSections from '../homesections/homesections';
@@ -15,7 +20,7 @@ import toast from '../toast/toast';
 import template from './homeScreenSettings.template.html';
 import { LibraryTab } from '../../types/libraryTab.ts';
 
-const numConfigurableSections = 7;
+const numConfigurableSections = 10;
 
 function renderViews(page, user, result) {
     let folderHtml = '';
@@ -75,7 +80,7 @@ function getLandingScreenOptions(type) {
     } else if (type === 'tvshows') {
         list.push({
             name: globalize.translate('Shows'),
-            value: LibraryTab.Shows,
+            value: LibraryTab.Series,
             isDefault: true
         });
         list.push({
@@ -152,7 +157,7 @@ function getLandingScreenOptions(type) {
         });
         list.push({
             name: globalize.translate('Series'),
-            value: LibraryTab.Series
+            value: LibraryTab.SeriesTimers
         });
     }
 
@@ -199,15 +204,15 @@ function renderViewOrder(context, user, result) {
 }
 
 function updateHomeSectionValues(context, userSettings) {
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 1; i <= numConfigurableSections; i++) {
         const select = context.querySelector(`#selectHomeSection${i}`);
         const defaultValue = homeSections.getDefaultSection(i - 1);
 
-        const option = select.querySelector(`option[value=${defaultValue}]`) || select.querySelector('option[value=""]');
+        const option = select.querySelector(`option[value="${defaultValue}"]`) || select.querySelector('option[value=""]');
 
         const userValue = userSettings.get(`homesection${i - 1}`);
 
-        option.value = '';
+        if (option) option.value = '';
 
         if (userValue === defaultValue || !userValue) {
             select.value = '';
@@ -291,7 +296,12 @@ function loadForm(context, user, userSettings, apiClient) {
 
     updateHomeSectionValues(context, userSettings);
 
-    const promise1 = apiClient.getUserViews({ IncludeHidden: true }, user.Id);
+    const promise1 = queryClient
+        .fetchQuery(getUserViewsQuery(
+            toApi(apiClient),
+            user.Id,
+            { includeHidden: true }
+        ));
     const promise2 = apiClient.getJSON(apiClient.getUrl(`Users/${user.Id}/GroupingOptions`));
 
     Promise.all([promise1, promise2]).then(responses => {
@@ -380,6 +390,9 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.set('homesection4', context.querySelector('#selectHomeSection5').value);
     userSettingsInstance.set('homesection5', context.querySelector('#selectHomeSection6').value);
     userSettingsInstance.set('homesection6', context.querySelector('#selectHomeSection7').value);
+    userSettingsInstance.set('homesection7', context.querySelector('#selectHomeSection8').value);
+    userSettingsInstance.set('homesection8', context.querySelector('#selectHomeSection9').value);
+    userSettingsInstance.set('homesection9', context.querySelector('#selectHomeSection10').value);
 
     const selectLandings = context.querySelectorAll('.selectLanding');
     for (i = 0, length = selectLandings.length; i < length; i++) {

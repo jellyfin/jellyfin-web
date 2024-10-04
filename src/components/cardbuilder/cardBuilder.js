@@ -4,34 +4,51 @@
  * @module components/cardBuilder/cardBuilder
  */
 
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import escapeHtml from 'escape-html';
-import datetime from '../../scripts/datetime';
-import imageLoader from '../images/imageLoader';
-import itemHelper from '../itemHelper';
+
+import browser from 'scripts/browser';
+import datetime from 'scripts/datetime';
+import dom from 'scripts/dom';
+import globalize from 'lib/globalize';
+import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
+import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
+
 import focusManager from '../focusManager';
+import imageLoader from '../images/imageLoader';
 import indicators from '../indicators/indicators';
-import globalize from '../../scripts/globalize';
+import itemHelper from '../itemHelper';
 import layoutManager from '../layoutManager';
-import dom from '../../scripts/dom';
-import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
-import itemShortcuts from '../shortcuts';
-import imageHelper from '../../scripts/imagehelper';
-import { randomInt } from '../../utils/number.ts';
-import './card.scss';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../guide/programs.scss';
-import ServerConnections from '../ServerConnections';
 import { appRouter } from '../router/appRouter';
+import ServerConnections from '../ServerConnections';
+import itemShortcuts from '../shortcuts';
+
+import 'elements/emby-button/paper-icon-button-light';
+
+import './card.scss';
+import '../guide/programs.scss';
+import {
+    getDesiredAspect,
+    getPostersPerRow,
+    isResizable,
+    isUsingLiveTvNaming,
+    resolveAction,
+    resolveCardBoxCssClasses,
+    resolveCardCssClasses,
+    resolveCardImageContainerCssClasses,
+    resolveMixedShapeByAspectRatio
+} from './cardBuilderUtils';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
 /**
-         * Generate the HTML markup for cards for a set of items.
-         * @param items - The items used to generate cards.
-         * @param options - The options of the cards.
-         * @returns {string} The HTML markup for the cards.
-         */
+ * Generate the HTML markup for cards for a set of items.
+ * @param items - The items used to generate cards.
+ * @param [options] - The options of the cards.
+ * @returns {string} The HTML markup for the cards.
+ */
 export function getCardsHtml(items, options) {
     if (arguments.length === 1) {
         options = arguments[0];
@@ -42,252 +59,23 @@ export function getCardsHtml(items, options) {
 }
 
 /**
-         * Computes the number of posters per row.
-         * @param {string} shape - Shape of the cards.
-         * @param {number} screenWidth - Width of the screen.
-         * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
-         * @returns {number} Number of cards per row for an itemsContainer.
-         */
-function getPostersPerRow(shape, screenWidth, isOrientationLandscape) {
-    switch (shape) {
-        case 'portrait':
-            if (layoutManager.tv) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 2200) {
-                return 100 / 10;
-            }
-            if (screenWidth >= 1920) {
-                return 100 / 11.1111111111;
-            }
-            if (screenWidth >= 1600) {
-                return 100 / 12.5;
-            }
-            if (screenWidth >= 1400) {
-                return 100 / 14.28571428571;
-            }
-            if (screenWidth >= 1200) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 800) {
-                return 5;
-            }
-            if (screenWidth >= 700) {
-                return 4;
-            }
-            if (screenWidth >= 500) {
-                return 100 / 33.33333333;
-            }
-            return 100 / 33.33333333;
-        case 'square':
-            if (layoutManager.tv) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 2200) {
-                return 100 / 10;
-            }
-            if (screenWidth >= 1920) {
-                return 100 / 11.1111111111;
-            }
-            if (screenWidth >= 1600) {
-                return 100 / 12.5;
-            }
-            if (screenWidth >= 1400) {
-                return 100 / 14.28571428571;
-            }
-            if (screenWidth >= 1200) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 800) {
-                return 5;
-            }
-            if (screenWidth >= 700) {
-                return 4;
-            }
-            if (screenWidth >= 500) {
-                return 100 / 33.33333333;
-            }
-            return 2;
-        case 'banner':
-            if (screenWidth >= 2200) {
-                return 100 / 25;
-            }
-            if (screenWidth >= 1200) {
-                return 100 / 33.33333333;
-            }
-            if (screenWidth >= 800) {
-                return 2;
-            }
-            return 1;
-        case 'backdrop':
-            if (layoutManager.tv) {
-                return 100 / 25;
-            }
-            if (screenWidth >= 2500) {
-                return 6;
-            }
-            if (screenWidth >= 1600) {
-                return 5;
-            }
-            if (screenWidth >= 1200) {
-                return 4;
-            }
-            if (screenWidth >= 770) {
-                return 3;
-            }
-            if (screenWidth >= 420) {
-                return 2;
-            }
-            return 1;
-        case 'smallBackdrop':
-            if (screenWidth >= 1600) {
-                return 100 / 12.5;
-            }
-            if (screenWidth >= 1400) {
-                return 100 / 14.2857142857;
-            }
-            if (screenWidth >= 1200) {
-                return 100 / 16.66666667;
-            }
-            if (screenWidth >= 1000) {
-                return 5;
-            }
-            if (screenWidth >= 800) {
-                return 4;
-            }
-            if (screenWidth >= 500) {
-                return 100 / 33.33333333;
-            }
-            return 2;
-        case 'overflowSmallBackdrop':
-            if (layoutManager.tv) {
-                return 100 / 18.9;
-            }
-            if (isOrientationLandscape) {
-                if (screenWidth >= 800) {
-                    return 100 / 15.5;
-                }
-                return 100 / 23.3;
-            } else {
-                if (screenWidth >= 540) {
-                    return 100 / 30;
-                }
-                return 100 / 72;
-            }
-        case 'overflowPortrait':
-
-            if (layoutManager.tv) {
-                return 100 / 15.5;
-            }
-            if (isOrientationLandscape) {
-                if (screenWidth >= 1700) {
-                    return 100 / 11.6;
-                }
-                return 100 / 15.5;
-            } else {
-                if (screenWidth >= 1400) {
-                    return 100 / 15;
-                }
-                if (screenWidth >= 1200) {
-                    return 100 / 18;
-                }
-                if (screenWidth >= 760) {
-                    return 100 / 23;
-                }
-                if (screenWidth >= 400) {
-                    return 100 / 31.5;
-                }
-                return 100 / 42;
-            }
-        case 'overflowSquare':
-            if (layoutManager.tv) {
-                return 100 / 15.5;
-            }
-            if (isOrientationLandscape) {
-                if (screenWidth >= 1700) {
-                    return 100 / 11.6;
-                }
-                return 100 / 15.5;
-            } else {
-                if (screenWidth >= 1400) {
-                    return 100 / 15;
-                }
-                if (screenWidth >= 1200) {
-                    return 100 / 18;
-                }
-                if (screenWidth >= 760) {
-                    return 100 / 23;
-                }
-                if (screenWidth >= 540) {
-                    return 100 / 31.5;
-                }
-                return 100 / 42;
-            }
-        case 'overflowBackdrop':
-            if (layoutManager.tv) {
-                return 100 / 23.3;
-            }
-            if (isOrientationLandscape) {
-                if (screenWidth >= 1700) {
-                    return 100 / 18.5;
-                }
-                return 100 / 23.3;
-            } else {
-                if (screenWidth >= 1800) {
-                    return 100 / 23.5;
-                }
-                if (screenWidth >= 1400) {
-                    return 100 / 30;
-                }
-                if (screenWidth >= 760) {
-                    return 100 / 40;
-                }
-                if (screenWidth >= 640) {
-                    return 100 / 56;
-                }
-                return 100 / 72;
-            }
-        default:
-            return 4;
-    }
-}
-
-/**
-         * Checks if the window is resizable.
-         * @param {number} windowWidth - Width of the device's screen.
-         * @returns {boolean} - Result of the check.
-         */
-function isResizable(windowWidth) {
-    const screen = window.screen;
-    if (screen) {
-        const screenWidth = screen.availWidth;
-
-        if ((screenWidth - windowWidth) > 20) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-/**
-         * Gets the width of a card's image according to the shape and amount of cards per row.
-         * @param {string} shape - Shape of the card.
-         * @param {number} screenWidth - Width of the screen.
-         * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
-         * @returns {number} Width of the image for a card.
-         */
+ * Gets the width of a card's image according to the shape and amount of cards per row.
+ * @param {string} shape - Shape of the card.
+ * @param {number} screenWidth - Width of the screen.
+ * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
+ * @returns {number} Width of the image for a card.
+ */
 function getImageWidth(shape, screenWidth, isOrientationLandscape) {
-    const imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
+    const imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape, layoutManager.tv);
     return Math.round(screenWidth / imagesPerRow);
 }
 
 /**
-         * Normalizes the options for a card.
-         * @param {Object} items - A set of items.
-         * @param {Object} options - Options for handling the items.
-         */
-function setCardData(items, options) {
+ * Normalizes the options for a card.
+ * @param {Object} items - A set of items.
+ * @param {Object} options - Options for handling the items.
+ */
+export function setCardData(items, options) {
     options.shape = options.shape || 'auto';
 
     const primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items);
@@ -301,16 +89,16 @@ function setCardData(items, options) {
                 options.shape = 'banner';
                 options.coverImage = true;
             } else if (primaryImageAspectRatio >= 1.33) {
-                options.shape = requestedShape === 'autooverflow' ? 'overflowBackdrop' : 'backdrop';
-            } else if (primaryImageAspectRatio > 0.71) {
-                options.shape = requestedShape === 'autooverflow' ? 'overflowSquare' : 'square';
+                options.shape = getBackdropShape(requestedShape === 'autooverflow');
+            } else if (primaryImageAspectRatio > 0.8) {
+                options.shape = getSquareShape(requestedShape === 'autooverflow');
             } else {
-                options.shape = requestedShape === 'autooverflow' ? 'overflowPortrait' : 'portrait';
+                options.shape = getPortraitShape(requestedShape === 'autooverflow');
             }
         }
 
         if (!options.shape) {
-            options.shape = options.defaultShape || (requestedShape === 'autooverflow' ? 'overflowSquare' : 'square');
+            options.shape = options.defaultShape || getSquareShape(requestedShape === 'autooverflow');
         }
     }
 
@@ -343,11 +131,11 @@ function setCardData(items, options) {
 }
 
 /**
-         * Generates the internal HTML markup for cards.
-         * @param {Object} items - Items for which to generate the markup.
-         * @param {Object} options - Options for generating the markup.
-         * @returns {string} The internal HTML markup of the cards.
-         */
+ * Generates the internal HTML markup for cards.
+ * @param {Object} items - Items for which to generate the markup.
+ * @param {Object} options - Options for generating the markup.
+ * @returns {string} The internal HTML markup of the cards.
+ */
 function buildCardsHtmlInternal(items, options) {
     let isVertical = false;
 
@@ -461,45 +249,21 @@ function buildCardsHtmlInternal(items, options) {
 }
 
 /**
-         * Computes the aspect ratio for a card given its shape.
-         * @param {string} shape - Shape for which to get the aspect ratio.
-         * @returns {null|number} Ratio of the shape.
-         */
-function getDesiredAspect(shape) {
-    if (shape) {
-        shape = shape.toLowerCase();
-        if (shape.indexOf('portrait') !== -1) {
-            return (2 / 3);
-        }
-        if (shape.indexOf('backdrop') !== -1) {
-            return (16 / 9);
-        }
-        if (shape.indexOf('square') !== -1) {
-            return 1;
-        }
-        if (shape.indexOf('banner') !== -1) {
-            return (1000 / 185);
-        }
-    }
-    return null;
-}
-
-/**
-         * @typedef {Object} CardImageUrl
-         * @property {string} imgUrl - Image URL.
-         * @property {string} blurhash - Image blurhash.
-         * @property {boolean} forceName - Force name.
-         * @property {boolean} coverImage - Use cover style.
-         */
+ * @typedef {Object} CardImageUrl
+ * @property {string} imgUrl - Image URL.
+ * @property {string} blurhash - Image blurhash.
+ * @property {boolean} forceName - Force name.
+ * @property {boolean} coverImage - Use cover style.
+ */
 
 /** Get the URL of the card's image.
-         * @param {Object} item - Item for which to generate a card.
-         * @param {Object} apiClient - API client object.
-         * @param {Object} options - Options of the card.
-         * @param {string} shape - Shape of the desired image.
-         * @returns {CardImageUrl} Object representing the URL of the card's image.
-         */
-function getCardImageUrl(item, apiClient, options, shape) {
+ * @param {Object} item - Item for which to generate a card.
+ * @param {Object} apiClient - API client object.
+ * @param {Object} options - Options of the card.
+ * @param {string} shape - Shape of the desired image.
+ * @returns {CardImageUrl} Object representing the URL of the card's image.
+ */
+export function getCardImageUrl(item, apiClient, options, shape) {
     item = item.ProgramInfo || item;
 
     const width = options.width;
@@ -514,16 +278,16 @@ function getCardImageUrl(item, apiClient, options, shape) {
     let itemId = null;
 
     /* eslint-disable sonarjs/no-duplicated-branches */
-    if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
+    if (options.preferThumb && item.ImageTags?.Thumb) {
         imgType = 'Thumb';
         imgTag = item.ImageTags.Thumb;
-    } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
+    } else if ((options.preferBanner || shape === 'banner') && item.ImageTags?.Banner) {
         imgType = 'Banner';
         imgTag = item.ImageTags.Banner;
-    } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
+    } else if (options.preferDisc && item.ImageTags?.Disc) {
         imgType = 'Disc';
         imgTag = item.ImageTags.Disc;
-    } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
+    } else if (options.preferLogo && item.ImageTags?.Logo) {
         imgType = 'Logo';
         imgTag = item.ImageTags.Logo;
     } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
@@ -538,15 +302,15 @@ function getCardImageUrl(item, apiClient, options, shape) {
         imgType = 'Thumb';
         imgTag = item.ParentThumbImageTag;
         itemId = item.ParentThumbItemId;
-    } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
+    } else if (options.preferThumb && item.BackdropImageTags?.length) {
         imgType = 'Backdrop';
         imgTag = item.BackdropImageTags[0];
         forceName = true;
-    } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
+    } else if (options.preferThumb && item.ParentBackdropImageTags?.length && options.inheritThumb !== false && item.Type === 'Episode') {
         imgType = 'Backdrop';
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;
-    } else if (item.ImageTags && item.ImageTags.Primary && (item.Type !== 'Episode' || item.ChildCount !== 0)) {
+    } else if (item.ImageTags?.Primary && (item.Type !== 'Episode' || item.ChildCount !== 0)) {
         imgType = 'Primary';
         imgTag = item.ImageTags.Primary;
         height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
@@ -588,13 +352,13 @@ function getCardImageUrl(item, apiClient, options, shape) {
         if (primaryImageAspectRatio && uiAspect) {
             coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
         }
-    } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
+    } else if (item.Type === 'Season' && item.ImageTags?.Thumb) {
         imgType = 'Thumb';
         imgTag = item.ImageTags.Thumb;
-    } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
+    } else if (item.BackdropImageTags?.length) {
         imgType = 'Backdrop';
         imgTag = item.BackdropImageTags[0];
-    } else if (item.ImageTags && item.ImageTags.Thumb) {
+    } else if (item.ImageTags?.Thumb) {
         imgType = 'Thumb';
         imgTag = item.ImageTags.Thumb;
     } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
@@ -605,7 +369,7 @@ function getCardImageUrl(item, apiClient, options, shape) {
         imgType = 'Thumb';
         imgTag = item.ParentThumbImageTag;
         itemId = item.ParentThumbItemId;
-    } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
+    } else if (item.ParentBackdropImageTags?.length && options.inheritThumb !== false) {
         imgType = 'Backdrop';
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;
@@ -634,46 +398,23 @@ function getCardImageUrl(item, apiClient, options, shape) {
 
     return {
         imgUrl: imgUrl,
-        blurhash: (blurHashes[imgType] || {})[imgTag],
+        blurhash: blurHashes[imgType]?.[imgTag],
         forceName: forceName,
         coverImage: coverImage
     };
 }
 
 /**
-         * Generates an index used to select the default color of a card based on a string.
-         * @param {?string} [str] - String to use for generating the index.
-         * @returns {number} Index of the color.
-         */
-function getDefaultColorIndex(str) {
-    const numRandomColors = 5;
-
-    if (str) {
-        const charIndex = Math.floor(str.length / 2);
-        const character = String(str.slice(charIndex, charIndex + 1).charCodeAt());
-        let sum = 0;
-        for (let i = 0; i < character.length; i++) {
-            sum += parseInt(character.charAt(i), 10);
-        }
-        const index = String(sum).slice(-1);
-
-        return (index % numRandomColors) + 1;
-    } else {
-        return randomInt(1, numRandomColors);
-    }
-}
-
-/**
-         * Generates the HTML markup for a card's text.
-         * @param {Array} lines - Array containing the text lines.
-         * @param {string} cssClass - Base CSS class to use for the lines.
-         * @param {boolean} forceLines - Flag to force the rendering of all lines.
-         * @param {boolean} isOuterFooter - Flag to mark the text lines as outer footer.
-         * @param {string} cardLayout - DEPRECATED
-         * @param {boolean} addRightMargin - Flag to add a right margin to the text.
-         * @param {number} maxLines - Maximum number of lines to render.
-         * @returns {string} HTML markup for the card's text.
-         */
+ * Generates the HTML markup for a card's text.
+ * @param {Array} lines - Array containing the text lines.
+ * @param {string} cssClass - Base CSS class to use for the lines.
+ * @param {boolean} forceLines - Flag to force the rendering of all lines.
+ * @param {boolean} isOuterFooter - Flag to mark the text lines as outer footer.
+ * @param {string} cardLayout - DEPRECATED
+ * @param {boolean} addRightMargin - Flag to add a right margin to the text.
+ * @param {number} maxLines - Maximum number of lines to render.
+ * @returns {string} HTML markup for the card's text.
+ */
 function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout, addRightMargin, maxLines) {
     let html = '';
 
@@ -717,21 +458,12 @@ function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout
 }
 
 /**
-         * Determines if the item is live TV.
-         * @param {Object} item - Item to use for the check.
-         * @returns {boolean} Flag showing if the item is live TV.
-         */
-function isUsingLiveTvNaming(item) {
-    return item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording';
-}
-
-/**
-         * Returns the air time text for the item based on the given times.
-         * @param {object} item - Item used to generate the air time text.
-         * @param {boolean} showAirDateTime - ISO8601 date for the start of the show.
-         * @param {boolean} showAirEndTime - ISO8601 date for the end of the show.
-         * @returns {string} The air time text for the item based on the given dates.
-         */
+ * Returns the air time text for the item based on the given times.
+ * @param {object} item - Item used to generate the air time text.
+ * @param {boolean} showAirDateTime - ISO8601 date for the start of the show.
+ * @param {boolean} showAirEndTime - ISO8601 date for the end of the show.
+ * @returns {string} The air time text for the item based on the given dates.
+ */
 function getAirTimeText(item, showAirDateTime, showAirEndTime) {
     let airTimeText = '';
 
@@ -758,16 +490,16 @@ function getAirTimeText(item, showAirDateTime, showAirEndTime) {
 }
 
 /**
-         * Generates the HTML markup for the card's footer text.
-         * @param {Object} item - Item used to generate the footer text.
-         * @param {Object} apiClient - API client instance.
-         * @param {Object} options - Options used to generate the footer text.
-         * @param {string} footerClass - CSS classes of the footer element.
-         * @param {string} progressHtml - HTML markup of the progress bar element.
-         * @param {Object} flags - Various flags for the footer
-         * @param {Object} urls - Various urls for the footer
-         * @returns {string} HTML markup of the card's footer text element.
-         */
+ * Generates the HTML markup for the card's footer text.
+ * @param {Object} item - Item used to generate the footer text.
+ * @param {Object} apiClient - API client instance.
+ * @param {Object} options - Options used to generate the footer text.
+ * @param {string} footerClass - CSS classes of the footer element.
+ * @param {string} progressHtml - HTML markup of the progress bar element.
+ * @param {Object} flags - Various flags for the footer
+ * @param {Object} urls - Various urls for the footer
+ * @returns {string} HTML markup of the card's footer text element.
+ */
 function getCardFooterText(item, apiClient, options, footerClass, progressHtml, flags, urls) {
     item = item.ProgramInfo || item;
     let html = '';
@@ -803,19 +535,17 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             } else {
                 lines.push(escapeHtml(item.SeriesName));
             }
+        } else if (isUsingLiveTvNaming(item.Type)) {
+            lines.push(escapeHtml(item.Name));
+
+            if (!item.EpisodeTitle && !item.IndexNumber) {
+                titleAdded = true;
+            }
         } else {
-            if (isUsingLiveTvNaming(item)) {
-                lines.push(escapeHtml(item.Name));
+            const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
 
-                if (!item.EpisodeTitle && !item.IndexNumber) {
-                    titleAdded = true;
-                }
-            } else {
-                const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
-
-                if (parentTitle || showTitle) {
-                    lines.push(escapeHtml(parentTitle));
-                }
+            if (parentTitle || showTitle) {
+                lines.push(escapeHtml(parentTitle));
             }
         }
     }
@@ -842,12 +572,12 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
 
     if (showOtherText) {
         if (options.showParentTitle && parentTitleUnderneath) {
-            if (flags.isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
+            if (flags.isOuterFooter && item.AlbumArtists?.length) {
                 item.AlbumArtists[0].Type = 'MusicArtist';
                 item.AlbumArtists[0].IsFolder = true;
                 lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
             } else {
-                lines.push(escapeHtml(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || '')));
+                lines.push(escapeHtml(isUsingLiveTvNaming(item.Type) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || '')));
             }
         }
 
@@ -898,13 +628,11 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             if (item.Type === 'Series') {
                 if (item.Status === 'Continuing') {
                     lines.push(globalize.translate('SeriesYearToPresent', productionYear || ''));
+                } else if (item.EndDate && item.ProductionYear) {
+                    const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
+                    lines.push(productionYear + ((endYear === productionYear) ? '' : (' - ' + endYear)));
                 } else {
-                    if (item.EndDate && item.ProductionYear) {
-                        const endYear = datetime.toLocaleString(datetime.parseISO8601Date(item.EndDate).getFullYear(), { useGrouping: false });
-                        lines.push(productionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
-                    } else {
-                        lines.push(productionYear || '');
-                    }
+                    lines.push(productionYear || '');
                 }
             } else {
                 lines.push(productionYear || '');
@@ -972,8 +700,26 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             }
         }
 
-        if (options.showPersonRoleOrType && item.Role) {
-            lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
+        if (options.showPersonRoleOrType && item.Type) {
+            if (item.Role) {
+                if ([ PersonKind.Actor, PersonKind.GuestStar ].includes(item.Type)) {
+                    // List actor roles formatted like "as Character Name"
+                    lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
+                } else if (item.Role.toLowerCase() === item.Type.toLowerCase()) {
+                    // Role and Type are the same so use the localized Type
+                    lines.push(escapeHtml(globalize.translate(item.Type)));
+                } else if (item.Role.toLowerCase().includes(item.Type.toLowerCase())) {
+                    // Avoid duplication if the Role includes the Type (i.e. Executive Producer)
+                    lines.push(escapeHtml(item.Role));
+                } else {
+                    // Type and Role are unique so list both (i.e. Writer | Novel)
+                    lines.push(escapeHtml(globalize.translate(item.Type)));
+                    lines.push(escapeHtml(item.Role));
+                }
+            } else {
+                // No Role so use the localized Type
+                lines.push(escapeHtml(globalize.translate(item.Type)));
+            }
         }
     }
 
@@ -1004,12 +750,12 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
 }
 
 /**
-         * Generates the HTML markup for the action button.
-         * @param {Object} item - Item used to generate the action button.
-         * @param {string} text - Text of the action button.
-         * @param {string} serverId - ID of the server.
-         * @returns {string} HTML markup of the action button.
-         */
+ * Generates the HTML markup for the action button.
+ * @param {Object} item - Item used to generate the action button.
+ * @param {string} text - Text of the action button.
+ * @param {string} serverId - ID of the server.
+ * @returns {string} HTML markup of the action button.
+ */
 function getTextActionButton(item, text, serverId) {
     if (!text) {
         text = itemHelper.getDisplayName(item);
@@ -1030,11 +776,11 @@ function getTextActionButton(item, text, serverId) {
 }
 
 /**
-         * Generates HTML markup for the item count indicator.
-         * @param {Object} options - Options used to generate the item count.
-         * @param {Object} item - Item used to generate the item count.
-         * @returns {string} HTML markup for the item count indicator.
-         */
+ * Generates HTML markup for the item count indicator.
+ * @param {Object} options - Options used to generate the item count.
+ * @param {Object} item - Item used to generate the item count.
+ * @returns {string} HTML markup for the item count indicator.
+ */
 function getItemCountsHtml(options, item) {
     const counts = [];
     let childText;
@@ -1112,8 +858,8 @@ function getItemCountsHtml(options, item) {
 let refreshIndicatorLoaded;
 
 /**
-         * Imports the refresh indicator element.
-         */
+ * Imports the refresh indicator element.
+ */
 function importRefreshIndicator() {
     if (!refreshIndicatorLoaded) {
         refreshIndicatorLoaded = true;
@@ -1122,104 +868,40 @@ function importRefreshIndicator() {
 }
 
 /**
-         * Returns the default background class for a card based on a string.
-         * @param {?string} [str] - Text used to generate the background class.
-         * @returns {string} CSS classes for default card backgrounds.
-         */
-export function getDefaultBackgroundClass(str) {
-    return 'defaultCardBackground defaultCardBackground' + getDefaultColorIndex(str);
-}
-
-/**
-         * Builds the HTML markup for an individual card.
-         * @param {number} index - Index of the card
-         * @param {object} item - Item used to generate the card.
-         * @param {object} apiClient - API client instance.
-         * @param {object} options - Options used to generate the card.
-         * @returns {string} HTML markup for the generated card.
-         */
+ * Builds the HTML markup for an individual card.
+ * @param {number} index - Index of the card
+ * @param {object} item - Item used to generate the card.
+ * @param {object} apiClient - API client instance.
+ * @param {object} options - Options used to generate the card.
+ * @returns {string} HTML markup for the generated card.
+ */
 function buildCard(index, item, apiClient, options) {
-    let action = options.action || 'link';
-
-    if (action === 'play' && item.IsFolder) {
-        // If this hard-coding is ever removed make sure to test nested photo albums
-        action = 'link';
-    } else if (item.MediaType === 'Photo') {
-        action = 'play';
-    }
+    const action = resolveAction({
+        defaultAction: options.action || 'link',
+        isFolder: item.IsFolder,
+        isPhoto: item.MediaType === 'Photo'
+    });
 
     let shape = options.shape;
 
     if (shape === 'mixed') {
-        shape = null;
-
-        const primaryImageAspectRatio = item.PrimaryImageAspectRatio;
-
-        if (primaryImageAspectRatio) {
-            if (primaryImageAspectRatio >= 1.33) {
-                shape = 'mixedBackdrop';
-            } else if (primaryImageAspectRatio > 0.71) {
-                shape = 'mixedSquare';
-            } else {
-                shape = 'mixedPortrait';
-            }
-        }
-
-        shape = shape || 'mixedSquare';
+        shape = resolveMixedShapeByAspectRatio(item.PrimaryImageAspectRatio);
     }
 
     // TODO move card creation code to Card component
 
-    let className = 'card';
-
-    if (shape) {
-        className += ' ' + shape + 'Card';
-    }
-
-    if (options.cardCssClass) {
-        className += ' ' + options.cardCssClass;
-    }
-
-    if (options.cardClass) {
-        className += ' ' + options.cardClass;
-    }
-
-    if (layoutManager.desktop) {
-        className += ' card-hoverable';
-    }
-
-    if (layoutManager.tv) {
-        className += ' show-focus';
-
-        if (enableFocusTransform) {
-            className += ' show-animation';
-        }
-    }
-
     const imgInfo = getCardImageUrl(item, apiClient, options, shape);
     const imgUrl = imgInfo.imgUrl;
     const blurhash = imgInfo.blurhash;
-
     const forceName = imgInfo.forceName;
-
     const overlayText = options.overlayText;
 
-    let cardImageContainerClass = 'cardImageContainer';
-    const coveredImage = options.coverImage || imgInfo.coverImage;
-
-    if (coveredImage) {
-        cardImageContainerClass += ' coveredImage';
-
-        if (item.Type === 'TvChannel') {
-            cardImageContainerClass += ' coveredImage-contain';
-        }
-    }
-
-    if (!imgUrl) {
-        cardImageContainerClass += ' ' + getDefaultBackgroundClass(item.Name);
-    }
-
-    let cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
+    const cardImageContainerClasses = resolveCardImageContainerCssClasses({
+        itemType: item.Type,
+        itemName: item.Name,
+        hasCoverImage: options.coverImage || imgInfo.coverImage,
+        imgUrl
+    });
 
     let footerCssClass;
     let progressHtml = indicators.getProgressBarHtml(item);
@@ -1279,9 +961,10 @@ function buildCard(index, item, apiClient, options) {
         outerCardFooter = getCardFooterText(item, apiClient, options, footerCssClass, progressHtml, { forceName, overlayText, isOuterFooter: true }, { imgUrl, logoUrl });
     }
 
-    if (outerCardFooter && !options.cardLayout) {
-        cardBoxClass += ' cardBox-bottompadded';
-    }
+    const cardBoxClass = resolveCardBoxCssClasses({
+        hasOuterCardFooter: outerCardFooter.length > 0,
+        cardLayout: options.cardLayout
+    });
 
     let overlayButtons = '';
     if (layoutManager.mobile) {
@@ -1306,10 +989,6 @@ function buildCard(index, item, apiClient, options) {
         }
     }
 
-    if (options.showChildCountIndicator && item.ChildCount) {
-        className += ' groupedCard';
-    }
-
     // cardBox can be it's own separate element if an outer footer is ever needed
     let cardImageContainerOpen;
     let cardImageContainerClose = '';
@@ -1325,7 +1004,7 @@ function buildCard(index, item, apiClient, options) {
 
     if (layoutManager.tv) {
         // Don't use the IMG tag with safari because it puts a white border around it
-        cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
+        cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClasses + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<div class="' + cardImageContainerClasses + ' ' + cardContentClass + '">');
 
         cardImageContainerClose = '</div>';
     } else {
@@ -1333,7 +1012,7 @@ function buildCard(index, item, apiClient, options) {
 
         const url = appRouter.getRouteUrl(item);
         // Don't use the IMG tag with safari because it puts a white border around it
-        cardImageContainerOpen = imgUrl ? ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + cardImageContainerAriaLabelAttribute + '>') : ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction"' + cardImageContainerAriaLabelAttribute + '>');
+        cardImageContainerOpen = imgUrl ? ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClasses + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + cardImageContainerAriaLabelAttribute + '>') : ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClasses + ' ' + cardContentClass + ' itemAction"' + cardImageContainerAriaLabelAttribute + '>');
 
         cardImageContainerClose = '</a>';
     }
@@ -1375,7 +1054,7 @@ function buildCard(index, item, apiClient, options) {
             indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
         }
 
-        if (item.Type === 'CollectionFolder' || item.CollectionType) {
+        if (item.Type === BaseItemKind.CollectionFolder || item.CollectionType) {
             const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
             indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
             importRefreshIndicator();
@@ -1390,7 +1069,7 @@ function buildCard(index, item, apiClient, options) {
         cardImageContainerOpen += getDefaultText(item, options);
     }
 
-    const tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
+    const tagName = layoutManager.tv && !overlayButtons ? 'button' : 'div';
 
     const nameWithPrefix = (item.SortName || item.Name || '');
     let prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
@@ -1411,18 +1090,26 @@ function buildCard(index, item, apiClient, options) {
     let ariaLabelAttribute = '';
 
     if (tagName === 'button') {
-        className += ' itemAction';
         actionAttribute = ' data-action="' + action + '"';
         ariaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
     } else {
         actionAttribute = '';
     }
 
-    if (item.Type !== 'MusicAlbum' && item.Type !== 'MusicArtist' && item.Type !== 'Audio') {
-        className += ' card-withuserdata';
-    }
+    const className = resolveCardCssClasses({
+        shape: shape,
+        cardCssClass: options.cardCssClass,
+        cardClass: options.cardClass,
+        isTV: layoutManager.tv,
+        enableFocusTransform: enableFocusTransform,
+        isDesktop: layoutManager.desktop,
+        showChildCountIndicator: options.showChildCountIndicator,
+        childCount: item.ChildCount,
+        tagName: tagName,
+        itemType: item.Type
+    });
 
-    const positionTicksData = item.UserData && item.UserData.PlaybackPositionTicks ? (' data-positionticks="' + item.UserData.PlaybackPositionTicks + '"') : '';
+    const positionTicksData = item.UserData?.PlaybackPositionTicks ? (' data-positionticks="' + item.UserData.PlaybackPositionTicks + '"') : '';
     const collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
     const playlistIdData = options.playlistId ? (' data-playlistid="' + options.playlistId + '"') : '';
     const mediaTypeData = item.MediaType ? (' data-mediatype="' + item.MediaType + '"') : '';
@@ -1444,16 +1131,18 @@ function buildCard(index, item, apiClient, options) {
 }
 
 /**
-         * Generates HTML markup for the card overlay.
-         * @param {object} item - Item used to generate the card overlay.
-         * @param {string} action - Action assigned to the overlay.
-         * @returns {string} HTML markup of the card overlay.
-         */
+ * Generates HTML markup for the card overlay.
+ * @param {object} item - Item used to generate the card overlay.
+ * @param {string} action - Action assigned to the overlay.
+ * @returns {string} HTML markup of the card overlay.
+ */
 function getHoverMenuHtml(item, action) {
     let html = '';
 
     html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
-    const url = appRouter.getRouteUrl(item);
+    const url = appRouter.getRouteUrl(item, {
+        serverId: item.ServerId || ServerConnections.currentApiClient().serverId()
+    });
     html += '<a href="' + url + '" class="cardImageContainer"></a>';
 
     const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
@@ -1486,58 +1175,35 @@ function getHoverMenuHtml(item, action) {
 }
 
 /**
-         * Generates the text or icon used for default card backgrounds.
-         * @param {object} item - Item used to generate the card overlay.
-         * @param {object} options - Options used to generate the card overlay.
-         * @returns {string} HTML markup of the card overlay.
-         */
+ * Generates the text or icon used for default card backgrounds.
+ * @param {object} item - Item used to generate the card overlay.
+ * @param {object} options - Options used to generate the card overlay.
+ * @returns {string} HTML markup of the card overlay.
+ */
 export function getDefaultText(item, options) {
-    if (item.CollectionType) {
-        return '<span class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '" aria-hidden="true"></span>';
+    let icon;
+
+    if (item.Type === BaseItemKind.CollectionFolder || item.CollectionType) {
+        icon = getLibraryIcon(item.CollectionType);
     }
 
-    switch (item.Type) {
-        case 'MusicAlbum':
-            return '<span class="cardImageIcon material-icons album" aria-hidden="true"></span>';
-        case 'MusicArtist':
-        case 'Person':
-            return '<span class="cardImageIcon material-icons person" aria-hidden="true"></span>';
-        case 'Audio':
-            return '<span class="cardImageIcon material-icons audiotrack" aria-hidden="true"></span>';
-        case 'Movie':
-            return '<span class="cardImageIcon material-icons movie" aria-hidden="true"></span>';
-        case 'Episode':
-        case 'Series':
-            return '<span class="cardImageIcon material-icons tv" aria-hidden="true"></span>';
-        case 'Program':
-            return '<span class="cardImageIcon material-icons live_tv" aria-hidden="true"></span>';
-        case 'Book':
-            return '<span class="cardImageIcon material-icons book" aria-hidden="true"></span>';
-        case 'Folder':
-            return '<span class="cardImageIcon material-icons folder" aria-hidden="true"></span>';
-        case 'BoxSet':
-            return '<span class="cardImageIcon material-icons collections" aria-hidden="true"></span>';
-        case 'Playlist':
-            return '<span class="cardImageIcon material-icons view_list" aria-hidden="true"></span>';
-        case 'Photo':
-            return '<span class="cardImageIcon material-icons photo" aria-hidden="true"></span>';
-        case 'PhotoAlbum':
-            return '<span class="cardImageIcon material-icons photo_album" aria-hidden="true"></span>';
+    if (!icon) {
+        icon = getItemTypeIcon(item.Type, options?.defaultCardImageIcon);
     }
 
-    if (options?.defaultCardImageIcon) {
-        return '<span class="cardImageIcon material-icons ' + options.defaultCardImageIcon + '" aria-hidden="true"></span>';
+    if (icon) {
+        return `<span class="cardImageIcon material-icons ${icon}" aria-hidden="true"></span>`;
     }
 
-    const defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
+    const defaultName = isUsingLiveTvNaming(item.Type) ? item.Name : itemHelper.getDisplayName(item);
     return '<div class="cardText cardDefaultText">' + escapeHtml(defaultName) + '</div>';
 }
 
 /**
-         * Builds a set of cards and inserts them into the page.
-         * @param {Array} items - Array of items used to build the cards.
-         * @param {options} options - Options of the cards to build.
-         */
+ * Builds a set of cards and inserts them into the page.
+ * @param {Array} items - Array of items used to build the cards.
+ * @param {options} options - Options of the cards to build.
+ */
 export function buildCards(items, options) {
     // Abort if the container has been disposed
     if (!document.body.contains(options.itemsContainer)) {
@@ -1578,11 +1244,11 @@ export function buildCards(items, options) {
 }
 
 /**
-         * Ensures the indicators for a card exist and creates them if they don't exist.
-         * @param {HTMLDivElement} card - DOM element of the card.
-         * @param {HTMLDivElement} indicatorsElem - DOM element of the indicators.
-         * @returns {HTMLDivElement} - DOM element of the indicators.
-         */
+ * Ensures the indicators for a card exist and creates them if they don't exist.
+ * @param {HTMLDivElement} card - DOM element of the card.
+ * @param {HTMLDivElement} indicatorsElem - DOM element of the indicators.
+ * @returns {HTMLDivElement} - DOM element of the indicators.
+ */
 function ensureIndicators(card, indicatorsElem) {
     if (indicatorsElem) {
         return indicatorsElem;
@@ -1601,10 +1267,10 @@ function ensureIndicators(card, indicatorsElem) {
 }
 
 /**
-         * Adds user data to the card such as progress indicators and played status.
-         * @param {HTMLDivElement} card - DOM element of the card.
-         * @param {Object} userData - User data to apply to the card.
-         */
+ * Adds user data to the card such as progress indicators and played status.
+ * @param {HTMLDivElement} card - DOM element of the card.
+ * @param {Object} userData - User data to apply to the card.
+ */
 function updateUserData(card, userData) {
     const type = card.getAttribute('data-type');
     const enableCountIndicator = type === 'Series' || type === 'BoxSet' || type === 'Season';
@@ -1618,8 +1284,7 @@ function updateUserData(card, userData) {
 
         if (!playedIndicator) {
             playedIndicator = document.createElement('div');
-            playedIndicator.classList.add('playedIndicator');
-            playedIndicator.classList.add('indicator');
+            playedIndicator.classList.add('playedIndicator', 'indicator');
             indicatorsElem = ensureIndicators(card, indicatorsElem);
             indicatorsElem.appendChild(playedIndicator);
         }
@@ -1635,7 +1300,7 @@ function updateUserData(card, userData) {
 
         if (!countIndicator) {
             countIndicator = document.createElement('div');
-            countIndicator.classList.add('countIndicator');
+            countIndicator.classList.add('countIndicator', 'indicator');
             indicatorsElem = ensureIndicators(card, indicatorsElem);
             indicatorsElem.appendChild(countIndicator);
         }
@@ -1680,10 +1345,10 @@ function updateUserData(card, userData) {
 }
 
 /**
-         * Handles when user data has changed.
-         * @param {Object} userData - User data to apply to the card.
-         * @param {HTMLElement} scope - DOM element to use as a scope when selecting cards.
-         */
+ * Handles when user data has changed.
+ * @param {Object} userData - User data to apply to the card.
+ * @param {HTMLElement} scope - DOM element to use as a scope when selecting cards.
+ */
 export function onUserDataChanged(userData, scope) {
     const cards = (scope || document.body).querySelectorAll('.card-withuserdata[data-id="' + userData.ItemId + '"]');
 
@@ -1693,11 +1358,11 @@ export function onUserDataChanged(userData, scope) {
 }
 
 /**
-         * Handles when a timer has been created.
-         * @param {string} programId - ID of the program.
-         * @param {string} newTimerId - ID of the new timer.
-         * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
-         */
+ * Handles when a timer has been created.
+ * @param {string} programId - ID of the program.
+ * @param {string} newTimerId - ID of the new timer.
+ * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
+ */
 export function onTimerCreated(programId, newTimerId, itemsContainer) {
     const cells = itemsContainer.querySelectorAll('.card[data-id="' + programId + '"]');
 
@@ -1713,10 +1378,10 @@ export function onTimerCreated(programId, newTimerId, itemsContainer) {
 }
 
 /**
-         * Handles when a timer has been cancelled.
-         * @param {string} timerId - ID of the cancelled timer.
-         * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
-         */
+ * Handles when a timer has been cancelled.
+ * @param {string} timerId - ID of the cancelled timer.
+ * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
+ */
 export function onTimerCancelled(timerId, itemsContainer) {
     const cells = itemsContainer.querySelectorAll('.card[data-timerid="' + timerId + '"]');
 
@@ -1730,10 +1395,10 @@ export function onTimerCancelled(timerId, itemsContainer) {
 }
 
 /**
-         * Handles when a series timer has been cancelled.
-         * @param {string} cancelledTimerId - ID of the cancelled timer.
-         * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
-         */
+ * Handles when a series timer has been cancelled.
+ * @param {string} cancelledTimerId - ID of the cancelled timer.
+ * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
+ */
 export function onSeriesTimerCancelled(cancelledTimerId, itemsContainer) {
     const cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + cancelledTimerId + '"]');
 
@@ -1748,7 +1413,6 @@ export function onSeriesTimerCancelled(cancelledTimerId, itemsContainer) {
 
 export default {
     getCardsHtml: getCardsHtml,
-    getDefaultBackgroundClass: getDefaultBackgroundClass,
     getDefaultText: getDefaultText,
     buildCards: buildCards,
     onUserDataChanged: onUserDataChanged,

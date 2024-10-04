@@ -1,10 +1,11 @@
 
 import ServerConnections from '../../components/ServerConnections';
 import { PluginType } from '../../types/plugin.ts';
+import * as userSettings from '../../scripts/settings/userSettings';
 
 class BackdropScreensaver {
     constructor() {
-        this.name = 'Backdrop ScreenSaver';
+        this.name = 'BackdropScreensaver';
         this.type = PluginType.Screensaver;
         this.id = 'backdropscreensaver';
         this.supportsAnonymous = false;
@@ -17,7 +18,7 @@ class BackdropScreensaver {
             SortBy: 'Random',
             Recursive: true,
             Fields: 'Taglines',
-            ImageTypeLimit: 1,
+            ImageTypeLimit: 10,
             StartIndex: 0,
             Limit: 200
         };
@@ -29,7 +30,10 @@ class BackdropScreensaver {
                     const newSlideShow = new Slideshow({
                         showTitle: true,
                         cover: true,
-                        items: result.Items
+                        items: result.Items,
+                        autoplay: {
+                            delay: userSettings.backdropScreensaverInterval() * 1000
+                        }
                     });
 
                     newSlideShow.show();

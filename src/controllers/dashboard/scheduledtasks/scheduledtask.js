@@ -2,7 +2,7 @@ import 'jquery';
 import loading from '../../../components/loading/loading';
 import datetime from '../../../scripts/datetime';
 import dom from '../../../scripts/dom';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-select/emby-select';
@@ -23,12 +23,6 @@ function fillTimeOfDay(select) {
         return '<option value="' + o.value + '">' + o.name + '</option>';
     }).join('');
 }
-
-Array.prototype.remove = function (from, to) {
-    const rest = this.slice((to || from) + 1 || this.length);
-    this.length = from < 0 ? this.length + from : from;
-    return this.push.apply(this, rest);
-};
 
 const ScheduledTaskPage = {
     refreshScheduledTask: function (view) {
@@ -57,13 +51,13 @@ const ScheduledTaskPage = {
 
             html += '<div class="listItem listItem-border">';
             html += '<span class="material-icons listItemIcon schedule" aria-hidden="true"></span>';
-            if (trigger.MaxRuntimeMs) {
+            if (trigger.MaxRuntimeTicks) {
                 html += '<div class="listItemBody two-line">';
             } else {
                 html += '<div class="listItemBody">';
             }
             html += "<div class='listItemBodyText'>" + ScheduledTaskPage.getTriggerFriendlyName(trigger) + '</div>';
-            if (trigger.MaxRuntimeMs) {
+            if (trigger.MaxRuntimeTicks) {
                 html += '<div class="listItemBodyText secondary">';
                 const hours = trigger.MaxRuntimeTicks / 36e9;
                 if (hours == 1) {
@@ -143,7 +137,7 @@ const ScheduledTaskPage = {
         loading.show();
         const id = getParameterByName('id');
         ApiClient.getScheduledTask(id).then(function (task) {
-            task.Triggers.remove(index);
+            task.Triggers.splice(index, 1);
             ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
                 ScheduledTaskPage.refreshScheduledTask(view);
             });
@@ -201,7 +195,7 @@ const ScheduledTaskPage = {
         let timeLimit = $('#txtTimeLimit', page).val() || '0';
         timeLimit = parseFloat(timeLimit) * 3600000;
 
-        trigger.MaxRuntimeMs = timeLimit || null;
+        trigger.MaxRuntimeTicks = timeLimit * 1e4 || null;
 
         return trigger;
     }

@@ -4,7 +4,7 @@ import imageLoader from '../../components/images/imageLoader';
 import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
@@ -24,7 +24,7 @@ export default function (view, params, tabContent) {
                     EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                     StartIndex: 0
                 },
-                view: libraryBrowser.getSavedView(key) || 'Poster'
+                view: userSettings.getSavedView(key) || 'Poster'
             };
 
             if (userSettings.libraryPageSize() > 0) {
@@ -32,7 +32,7 @@ export default function (view, params, tabContent) {
             }
 
             pageData.query.ParentId = params.topParentId;
-            libraryBrowser.loadSavedQueryValues(key, pageData.query);
+            userSettings.loadQuerySettings(key, pageData.query);
         }
 
         return pageData;
@@ -183,7 +183,7 @@ export default function (view, params, tabContent) {
             const itemsContainer = tabContent.querySelector('.itemsContainer');
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
-            libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
+            userSettings.saveQuerySettings(getSavedQueryKey(), query);
             loading.hide();
             isLoading = false;
 
@@ -207,7 +207,7 @@ export default function (view, params, tabContent) {
                     name: globalize.translate('Name'),
                     id: 'SortName'
                 }, {
-                    name: globalize.translate('OptionImdbRating'),
+                    name: globalize.translate('OptionCommunityRating'),
                     id: 'CommunityRating,SortName'
                 }, {
                     name: globalize.translate('OptionDateAdded'),
@@ -234,7 +234,7 @@ export default function (view, params, tabContent) {
         btnSelectView.addEventListener('layoutchange', function (e) {
             const viewStyle = e.detail.viewStyle;
             getPageData().view = viewStyle;
-            libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
+            userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);
             getQuery().StartIndex = 0;
             onViewStyleChange();
             reloadItems(tabElement);

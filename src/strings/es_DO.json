@@ -3,7 +3,7 @@
     "Actor": "Actor",
     "AccessRestrictedTryAgainLater": "El acceso está restringido actualmente. Inténtelo de nuevo más tarde.",
     "Absolute": "Absoluto",
-    "HeaderAlbumArtists": "Artistas del Álbum",
+    "HeaderAlbumArtists": "Artistas del álbum",
     "HeaderContinueWatching": "Continuar Viendo",
     "Genres": "Géneros",
     "Folders": "Carpetas",
@@ -15,9 +15,16 @@
     "Channels": "Canales",
     "ButtonSyncPlay": "SyncPlay",
     "Aired": "Emitido",
-    "AirDate": "Fecha de Emisión",
+    "AirDate": "Fecha de emisión",
     "AddedOnValue": "Añadido {0}",
     "AddToPlayQueue": "Añadir a la lista de reproducción",
     "AddToCollection": "Añadir a la Colección",
-    "Default": "Predeterminado"
+    "Default": "Predeterminado",
+    "MusicVideos": "Videos musicales",
+    "Movies": "Películas",
+    "Photos": "Fotos",
+    "Playlists": "Listas de reproducción",
+    "Shows": "Series",
+    "Songs": "Canciones",
+    "ValueSpecialEpisodeName": "Especial - {0}"
 }

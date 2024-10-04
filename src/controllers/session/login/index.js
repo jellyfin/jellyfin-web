@@ -1,5 +1,5 @@
 import DOMPurify from 'dompurify';
-import { marked } from 'marked';
+import markdownIt from 'markdown-it';
 import { appHost } from '../../../components/apphost';
 import appSettings from '../../../scripts/settings/appSettings';
 import dom from '../../../scripts/dom';
@@ -7,7 +7,7 @@ import loading from '../../../components/loading/loading';
 import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
 import browser from '../../../scripts/browser';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import Dashboard from '../../../utils/dashboard';
@@ -15,18 +15,18 @@ import ServerConnections from '../../../components/ServerConnections';
 import toast from '../../../components/toast/toast';
 import dialogHelper from '../../../components/dialogHelper/dialogHelper';
 import baseAlert from '../../../components/alert';
-import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 import './login.scss';
+import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
-function authenticateUserByName(page, apiClient, username, password) {
+function authenticateUserByName(page, apiClient, url, username, password) {
     loading.show();
     apiClient.authenticateUserByName(username, password).then(function (result) {
         const user = result.User;
         loading.hide();
 
-        onLoginSuccessful(user.Id, result.AccessToken, apiClient);
+        onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
     }, function (response) {
         page.querySelector('#txtManualPassword').value = '';
         loading.hide();
@@ -44,7 +44,7 @@ function authenticateUserByName(page, apiClient, username, password) {
     });
 }
 
-function authenticateQuickConnect(apiClient) {
+function authenticateQuickConnect(apiClient, targetUrl) {
     const url = apiClient.getUrl('/QuickConnect/Initiate');
     apiClient.ajax({ type: 'POST', url }, true).then(res => res.json()).then(function (json) {
         if (!json.Secret || !json.Code) {
@@ -77,7 +77,7 @@ function authenticateQuickConnect(apiClient) {
                 }
 
                 const result = await apiClient.quickConnect(data.Secret);
-                onLoginSuccessful(result.User.Id, result.AccessToken, apiClient);
+                onLoginSuccessful(result.User.Id, result.AccessToken, apiClient, targetUrl);
             }, function (e) {
                 clearInterval(interval);
 
@@ -108,9 +108,9 @@ function authenticateQuickConnect(apiClient) {
     });
 }
 
-function onLoginSuccessful(id, accessToken, apiClient) {
+function onLoginSuccessful(id, accessToken, apiClient, url) {
     Dashboard.onServerChanged(id, accessToken, apiClient);
-    Dashboard.navigate('home.html');
+    Dashboard.navigate(url || 'home.html');
 }
 
 function showManualForm(context, showCancel, focusPassword) {
@@ -164,7 +164,7 @@ function loadUserList(context, apiClient, users) {
 
             html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');\"></div>";
         } else {
-            html += `<div class="cardImage flex align-items-center justify-content-center ${cardBuilder.getDefaultBackgroundClass()}">`;
+            html += `<div class="cardImage flex align-items-center justify-content-center ${getDefaultBackgroundClass()}">`;
             html += '<span class="material-icons cardImageIcon person" aria-hidden="true"></span>';
             html += '</div>';
         }
@@ -192,6 +192,18 @@ export default function (view, params) {
         return ApiClient;
     }
 
+    function getTargetUrl() {
+        if (params.url) {
+            try {
+                return decodeURIComponent(params.url);
+            } catch (err) {
+                console.warn('[LoginPage] unable to decode url param', params.url, err);
+            }
+        }
+
+        return '/home.html';
+    }
+
     function showVisualForm() {
         view.querySelector('.visualLoginForm').classList.remove('hide');
         view.querySelector('.manualLoginForm').classList.add('hide');
@@ -216,7 +228,7 @@ export default function (view, params) {
                 context.querySelector('#txtManualName').value = '';
                 showManualForm(context, true);
             } else if (haspw == 'false') {
-                authenticateUserByName(context, getApiClient(), name, '');
+                authenticateUserByName(context, getApiClient(), getTargetUrl(), name, '');
             } else {
                 context.querySelector('#txtManualName').value = name;
                 context.querySelector('#txtManualPassword').value = '';
@@ -226,8 +238,7 @@ export default function (view, params) {
     });
     view.querySelector('.manualLoginForm').addEventListener('submit', function (e) {
         appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
-        const apiClient = getApiClient();
-        authenticateUserByName(view, apiClient, view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
+        authenticateUserByName(view, getApiClient(), getTargetUrl(), view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
         e.preventDefault();
         return false;
     });
@@ -236,8 +247,7 @@ export default function (view, params) {
     });
     view.querySelector('.btnCancel').addEventListener('click', showVisualForm);
     view.querySelector('.btnQuick').addEventListener('click', function () {
-        const apiClient = getApiClient();
-        authenticateQuickConnect(apiClient);
+        authenticateQuickConnect(getApiClient(), getTargetUrl());
         return false;
     });
     view.querySelector('.btnManual').addEventListener('click', function () {
@@ -282,7 +292,7 @@ export default function (view, params) {
         apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
             const loginDisclaimer = view.querySelector('.loginDisclaimer');
 
-            loginDisclaimer.innerHTML = DOMPurify.sanitize(marked(options.LoginDisclaimer || ''));
+            loginDisclaimer.innerHTML = DOMPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
 
             for (const elem of loginDisclaimer.querySelectorAll('a')) {
                 elem.rel = 'noopener noreferrer';

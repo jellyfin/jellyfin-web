@@ -3,8 +3,7 @@ import { ImageResolution } from '@jellyfin/sdk/lib/generated-client/models/image
 import 'jquery';
 
 import loading from '../../components/loading/loading';
-import libraryMenu from '../../scripts/libraryMenu';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Dashboard from '../../utils/dashboard';
 
 import '../../components/listview/listview.scss';
@@ -67,8 +66,7 @@ function loadPage(page) {
         const config = responses[0];
         page.querySelector('#selectLanguage').value = config.PreferredMetadataLanguage || '';
         page.querySelector('#selectCountry').value = config.MetadataCountryCode || '';
-        page.querySelector('#valDummyChapterDuration').value = config.DummyChapterDuration || '';
-        page.querySelector('#valDummyChapterCount').value = config.DummyChapterCount || '';
+        page.querySelector('#valDummyChapterDuration').value = config.DummyChapterDuration || '0';
         page.querySelector('#txtChapterImageResolution').value = config.ChapterImageResolution || '';
         loading.hide();
     });
@@ -81,33 +79,15 @@ function onSubmit() {
         config.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value;
         config.MetadataCountryCode = form.querySelector('#selectCountry').value;
         config.DummyChapterDuration = form.querySelector('#valDummyChapterDuration').value;
-        config.DummyChapterCount = form.querySelector('#valDummyChapterCount').value;
         config.ChapterImageResolution = form.querySelector('#txtChapterImageResolution').value;
         ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
     });
     return false;
 }
 
-function getTabs() {
-    return [{
-        href: '#/library.html',
-        name: globalize.translate('HeaderLibraries')
-    }, {
-        href: '#/librarydisplay.html',
-        name: globalize.translate('Display')
-    }, {
-        href: '#/metadataimages.html',
-        name: globalize.translate('Metadata')
-    }, {
-        href: '#/metadatanfo.html',
-        name: globalize.translate('TabNfoSettings')
-    }];
-}
-
 $(document).on('pageinit', '#metadataImagesConfigurationPage', function() {
     $('.metadataImagesConfigurationForm').off('submit', onSubmit).on('submit', onSubmit);
 }).on('pageshow', '#metadataImagesConfigurationPage', function() {
-    libraryMenu.setTabs('metadata', 2, getTabs);
     loading.show();
     loadPage(this);
 });

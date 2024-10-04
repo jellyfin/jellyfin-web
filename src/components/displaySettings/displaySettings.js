@@ -5,7 +5,7 @@ import { pluginManager } from '../pluginManager';
 import { appHost } from '../apphost';
 import focusManager from '../focusManager';
 import datetime from '../../scripts/datetime';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import skinManager from '../../scripts/themeManager';
 import { PluginType } from '../../types/plugin.ts';
@@ -36,7 +36,7 @@ function loadScreensavers(context, userSettings) {
     const selectScreensaver = context.querySelector('.selectScreensaver');
     const options = pluginManager.ofType(PluginType.Screensaver).map(plugin => {
         return {
-            name: plugin.name,
+            name: globalize.translate(plugin.name),
             value: plugin.id
         };
     });
@@ -90,8 +90,10 @@ function loadForm(context, user, userSettings) {
 
     if (appHost.supports('screensaver')) {
         context.querySelector('.selectScreensaverContainer').classList.remove('hide');
+        context.querySelector('.txtBackdropScreensaverIntervalContainer').classList.remove('hide');
     } else {
         context.querySelector('.selectScreensaverContainer').classList.add('hide');
+        context.querySelector('.txtBackdropScreensaverIntervalContainer').classList.add('hide');
     }
 
     if (datetime.supportsLocalization()) {
@@ -104,6 +106,8 @@ function loadForm(context, user, userSettings) {
     fillThemes(context.querySelector('#selectDashboardTheme'), userSettings.dashboardTheme());
 
     loadScreensavers(context, userSettings);
+
+    context.querySelector('#txtBackdropScreensaverInterval').value = userSettings.backdropScreensaverInterval();
 
     context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
 
@@ -147,6 +151,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.theme(context.querySelector('#selectTheme').value);
     userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
     userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
+    userSettingsInstance.backdropScreensaverInterval(context.querySelector('#txtBackdropScreensaverInterval').value);
 
     userSettingsInstance.libraryPageSize(context.querySelector('#txtLibraryPageSize').value);
 

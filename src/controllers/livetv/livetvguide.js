@@ -1,4 +1,4 @@
-import tvguide from '../../components/guide/guide';
+import Guide from '../../components/guide/guide';
 
 export default function (view, params, tabContent) {
     let guideInstance;
@@ -6,7 +6,7 @@ export default function (view, params, tabContent) {
 
     self.renderTab = function () {
         if (!guideInstance) {
-            guideInstance = new tvguide({
+            guideInstance = new Guide({
                 element: tabContent,
                 serverId: ApiClient.serverId()
             });

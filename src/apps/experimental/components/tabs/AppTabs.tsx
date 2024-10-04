@@ -2,21 +2,31 @@ import { Theme } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { FC, useCallback } from 'react';
-import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom';
+import { debounce } from 'lodash-es';
+import React, { FC, useCallback, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-import TabRoutes, { getDefaultTabIndex } from './tabRoutes';
+import TabRoutes from './tabRoutes';
+import useCurrentTab from 'hooks/useCurrentTab';
+import globalize from 'lib/globalize';
 
-const AppTabs: FC = () => {
+interface AppTabsParams {
+    isDrawerOpen: boolean
+}
+
+const handleResize = debounce(() => window.dispatchEvent(new Event('resize')), 100);
+
+const AppTabs: FC<AppTabsParams> = ({
+    isDrawerOpen
+}) => {
     const isBigScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
-    const location = useLocation();
-    const [ searchParams, setSearchParams ] = useSearchParams();
-    const searchParamsTab = searchParams.get('tab');
-    const libraryId = location.pathname === '/livetv.html' ?
-        'livetv' : searchParams.get('topParentId');
-    const activeTab = searchParamsTab !== null ?
-        parseInt(searchParamsTab, 10) :
-        getDefaultTabIndex(location.pathname, libraryId);
+    const { searchParams, setSearchParams, activeTab } = useCurrentTab();
+
+    // HACK: Force resizing to workaround upstream bug with tab resizing
+    // https://github.com/mui/material-ui/issues/24011
+    useEffect(() => {
+        handleResize();
+    }, [ isDrawerOpen ]);
 
     const onTabClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
@@ -56,8 +66,8 @@ const AppTabs: FC = () => {
                                 {
                                     route.tabs.map(({ index, label }) => (
                                         <Tab
-                                            key={`${route}-tab-${index}`}
-                                            label={label}
+                                            key={`${route.path}-tab-${index}`}
+                                            label={globalize.translate(label)}
                                             data-tab-index={`${index}`}
                                             onClick={onTabClick}
                                         />
@@ -68,9 +78,6 @@ const AppTabs: FC = () => {
                     />
                 ))
             }
-
-            {/* Suppress warnings for unhandled routes */}
-            <Route path='*' element={null} />
         </Routes>
     );
 };

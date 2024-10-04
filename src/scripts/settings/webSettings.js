@@ -7,7 +7,7 @@ async function getConfig() {
     if (data) return Promise.resolve(data);
     try {
         const response = await fetchLocal('config.json', {
-            cache: 'no-cache'
+            cache: 'no-store'
         });
 
         if (!response.ok) {
@@ -35,7 +35,7 @@ export function getIncludeCorsCredentials() {
 
 export function getMultiServer() {
     // Enable multi-server support when served by webpack
-    if (__WEBPACK_SERVE__) { // eslint-disable-line no-undef
+    if (__WEBPACK_SERVE__) {
         return Promise.resolve(true);
     }
 

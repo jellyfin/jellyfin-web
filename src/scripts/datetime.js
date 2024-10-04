@@ -1,4 +1,4 @@
-import globalize from './globalize';
+import globalize from 'lib/globalize';
 
 export function parseISO8601Date(s, toLocal) {
     // parenthese matches:
@@ -49,7 +49,7 @@ export function parseISO8601Date(s, toLocal) {
             ms += offset;
         }
     } else if (toLocal === false) {
-        ms += new Date().getTimezoneOffset() * 60000;
+        ms += new Date(ms).getTimezoneOffset() * 60000;
     }
 
     return new Date(ms);
@@ -230,7 +230,6 @@ export function getDisplayTime(date) {
     const timeLower = time.toLowerCase();
 
     if (timeLower.indexOf('am') !== -1 || timeLower.indexOf('pm') !== -1) {
-        time = timeLower;
         let hour = date.getHours() % 12;
         const suffix = date.getHours() > 11 ? 'pm' : 'am';
         if (!hour) {

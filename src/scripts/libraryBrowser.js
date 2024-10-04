@@ -1,42 +1,4 @@
-import * as userSettings from './settings/userSettings';
-import globalize from './globalize';
-
-export function getSavedQueryKey(modifier) {
-    return window.location.href.split('#')[0] + (modifier || '');
-}
-
-export function loadSavedQueryValues(key, query) {
-    let values = userSettings.get(key);
-
-    if (values) {
-        values = JSON.parse(values);
-        return Object.assign(query, values);
-    }
-
-    return query;
-}
-
-export function saveQueryValues(key, query) {
-    const values = {};
-
-    if (query.SortBy) {
-        values.SortBy = query.SortBy;
-    }
-
-    if (query.SortOrder) {
-        values.SortOrder = query.SortOrder;
-    }
-
-    userSettings.set(key, JSON.stringify(values));
-}
-
-export function saveViewSetting (key, value) {
-    userSettings.set(key + '-_view', value);
-}
-
-export function getSavedView (key) {
-    return userSettings.get(key + '-_view');
-}
+import globalize from 'lib/globalize';
 
 export function showLayoutMenu (button, currentLayout, views) {
     let dispatchEvent = true;
@@ -204,11 +166,6 @@ export function showSortMenu (options) {
 }
 
 const libraryBrowser = {
-    getSavedQueryKey,
-    loadSavedQueryValues,
-    saveQueryValues,
-    saveViewSetting,
-    getSavedView,
     showLayoutMenu,
     getQueryPagingHtml,
     showSortMenu

@@ -1,7 +1,8 @@
 import './emby-scrollbuttons.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-button/paper-icon-button-light';
-import globalize from '../../scripts/globalize';
+import globalize from 'lib/globalize';
+import { scrollerItemSlideIntoView } from './utils';
 
 const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
 
@@ -128,26 +129,16 @@ function getScrollSize(elem) {
 }
 
 function onScrollButtonClick() {
-    const scroller = this.parentNode.nextSibling;
-
     const direction = this.getAttribute('data-direction');
-    const scrollSize = getScrollSize(scroller);
-    const scrollPos = getScrollPosition(scroller);
-
-    let newPos;
-    if (direction === 'left') {
-        newPos = Math.max(0, scrollPos - scrollSize);
-    } else {
-        newPos = scrollPos + scrollSize;
-    }
-
-    if (globalize.getIsRTL() && direction === 'left') {
-        newPos = scrollPos + scrollSize;
-    } else if (globalize.getIsRTL()) {
-        newPos = Math.min(0, scrollPos - scrollSize);
-    }
-
-    scroller.scrollToPosition(newPos, false);
+    const scroller = this.parentNode.nextSibling;
+    const scrollPosition = getScrollPosition(scroller);
+    scrollerItemSlideIntoView({
+        direction,
+        scroller,
+        scrollState: {
+            scrollPos: scrollPosition
+        }
+    });
 }
 
 EmbyScrollButtonsPrototype.attachedCallback = function () {

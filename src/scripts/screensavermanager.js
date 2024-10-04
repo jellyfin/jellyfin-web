@@ -94,7 +94,7 @@ function ScreenSaverManager() {
         let isLoggedIn;
         const apiClient = ServerConnections.currentApiClient();
 
-        if (apiClient && apiClient.isLoggedIn()) {
+        if (apiClient?.isLoggedIn()) {
             isLoggedIn = true;
         }
 

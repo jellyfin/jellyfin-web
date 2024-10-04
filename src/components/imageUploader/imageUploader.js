@@ -9,7 +9,7 @@ import dom from '../../scripts/dom';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
 import layoutManager from '../layoutManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-select/emby-select';
 import '../formdialog.scss';
@@ -41,7 +41,7 @@ function onFileReaderError(evt) {
 function setFiles(page, files) {
     const file = files[0];
 
-    if (!file || !file.type.match('image.*')) {
+    if (!file?.type.match('image.*')) {
         page.querySelector('#imageOutput').innerHTML = '';
         page.querySelector('#fldUpload').classList.add('hide');
         currentFile = null;

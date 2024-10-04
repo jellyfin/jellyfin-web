@@ -20,6 +20,12 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'livetv.html'
         }
     }, {
+        path: 'lyrics',
+        pageProps: {
+            controller: 'lyrics',
+            view: 'lyrics.html'
+        }
+    }, {
         path: 'music.html',
         pageProps: {
             controller: 'music/musicrecommended',
@@ -48,12 +54,6 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
         pageProps: {
             controller: 'user/home/index',
             view: 'user/home/index.html'
-        }
-    }, {
-        path: 'mypreferencesquickconnect.html',
-        pageProps: {
-            controller: 'user/quickConnect/index',
-            view: 'user/quickConnect/index.html'
         }
     }, {
         path: 'mypreferencesplayback.html',

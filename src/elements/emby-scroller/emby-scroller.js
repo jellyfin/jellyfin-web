@@ -1,4 +1,4 @@
-import scroller from '../../libraries/scroller';
+import ScrollerFactory from 'lib/scroller';
 import dom from '../../scripts/dom';
 import layoutManager from '../../components/layoutManager';
 import inputManager from '../../scripts/inputManager';
@@ -140,7 +140,7 @@ ScrollerPrototype.attachedCallback = function () {
     };
 
     // If just inserted it might not have any height yet - yes this is a hack
-    this.scroller = new scroller(scrollFrame, options);
+    this.scroller = new ScrollerFactory(scrollFrame, options);
     this.scroller.init();
     this.scroller.reload();
 

@@ -14,16 +14,10 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'list.html'
         }
     }, {
-        path: 'livetv.html',
+        path: 'lyrics',
         pageProps: {
-            controller: 'livetv/livetvsuggested',
-            view: 'livetv.html'
-        }
-    }, {
-        path: 'music.html',
-        pageProps: {
-            controller: 'music/musicrecommended',
-            view: 'music/music.html'
+            controller: 'lyrics',
+            view: 'lyrics.html'
         }
     }, {
         path: 'mypreferencesmenu.html',
@@ -38,22 +32,10 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'user/controls/index.html'
         }
     }, {
-        path: 'mypreferencesdisplay.html',
-        pageProps: {
-            controller: 'user/display/index',
-            view: 'user/display/index.html'
-        }
-    }, {
         path: 'mypreferenceshome.html',
         pageProps: {
             controller: 'user/home/index',
             view: 'user/home/index.html'
-        }
-    }, {
-        path: 'mypreferencesquickconnect.html',
-        pageProps: {
-            controller: 'user/quickConnect/index',
-            view: 'user/quickConnect/index.html'
         }
     }, {
         path: 'mypreferencesplayback.html',
@@ -66,22 +48,6 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
         pageProps: {
             controller: 'user/subtitles/index',
             view: 'user/subtitles/index.html'
-        }
-    }, {
-        path: 'tv.html',
-        pageProps: {
-            controller: 'shows/tvrecommended',
-            view: 'shows/tvrecommended.html'
-        }
-    }, {
-        path: 'video',
-        pageProps: {
-            controller: 'playback/video/index',
-            view: 'playback/video/index.html',
-            type: 'video-osd',
-            isFullscreen: true,
-            isNowPlayingBarEnabled: false,
-            isThemeMediaSupported: true
         }
     }, {
         path: 'queue',

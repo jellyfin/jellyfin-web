@@ -1,25 +1,7 @@
-import globalize from '../../scripts/globalize';
 import loading from '../../components/loading/loading';
-import libraryMenu from '../../scripts/libraryMenu';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
 import Dashboard from '../../utils/dashboard';
-
-function getTabs() {
-    return [{
-        href: '#/library.html',
-        name: globalize.translate('HeaderLibraries')
-    }, {
-        href: '#/librarydisplay.html',
-        name: globalize.translate('Display')
-    }, {
-        href: '#/metadataimages.html',
-        name: globalize.translate('Metadata')
-    }, {
-        href: '#/metadatanfo.html',
-        name: globalize.translate('TabNfoSettings')
-    }];
-}
 
 export default function(view) {
     function loadData() {
@@ -57,7 +39,6 @@ export default function(view) {
     });
 
     view.addEventListener('viewshow', function() {
-        libraryMenu.setTabs('librarysetup', 1, getTabs);
         loadData();
         ApiClient.getSystemInfo().then(function(info) {
             if (info.OperatingSystem === 'Windows') {

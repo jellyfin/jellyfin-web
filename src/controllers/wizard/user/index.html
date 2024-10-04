@@ -11,11 +11,11 @@
                         <div class="fieldDescription">${SelectAdminUsername}</div>
                     </div>
                     <div class="inputContainer">
-                        <input is="emby-input" id="txtManualPassword" type="password" label="${LabelPassword}" />
-                        <div class="fieldDescription">${LeaveBlankToNotSetAPassword}</div>
+                        <input is="emby-input" id="txtManualPassword" type="password" label="${LabelPassword}" required="required" />
+                        <div class="fieldDescription">${PasswordRequiredForAdmin}</div>
                     </div>
                     <div class="inputContainer">
-                        <input is="emby-input" id="txtPasswordConfirm" type="password" label="${LabelPasswordConfirm}" />
+                        <input is="emby-input" id="txtPasswordConfirm" type="password" label="${LabelPasswordConfirm}" required="required" />
                     </div>
                     <p>${MoreUsersCanBeAddedLater}</p>
                 </div>

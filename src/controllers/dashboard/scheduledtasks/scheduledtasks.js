@@ -1,6 +1,6 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
 import { getLocale, getLocaleWithSuffix } from '../../../utils/dateFnsLocale.ts';
@@ -53,14 +53,12 @@ function populateList(page, tasks) {
             html += '<div class="paperList">';
         }
         html += '<div class="listItem listItem-border scheduledTaskPaperIconItem" data-status="' + task.State + '">';
-        html += "<a is='emby-linkbutton' style='margin:0;padding:0;' class='clearLink listItemIconContainer' href='scheduledtask.html?id=" + task.Id + "'>";
+        html += "<a is='emby-linkbutton' style='margin:0;padding:0;' class='clearLink listItemIconContainer' href='/dashboard/tasks/edit?id=" + task.Id + "'>";
         html += '<span class="material-icons listItemIcon schedule" aria-hidden="true"></span>';
         html += '</a>';
         html += '<div class="listItemBody two-line">';
-        let textAlignStyle = 'left';
-        if (globalize.getIsRTL())
-            textAlignStyle = 'right';
-        html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:" + textAlignStyle + ";' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
+        const textAlignStyle = globalize.getIsRTL() ? 'right' : 'left';
+        html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:" + textAlignStyle + ";' is='emby-linkbutton' href='/dashboard/tasks/edit?id=" + task.Id + "'>";
         html += "<h3 class='listItemBodyText'>" + task.Name + '</h3>';
         html += "<div class='secondary listItemBodyText' id='taskProgress" + task.Id + "'>" + getTaskProgressHtml(task) + '</div>';
         html += '</a>';
@@ -134,8 +132,11 @@ function updateTaskButton(elem, state) {
 export default function(view) {
     function updateTasks(tasks) {
         for (const task of tasks) {
-            view.querySelector('#taskProgress' + task.Id).innerHTML = getTaskProgressHtml(task);
-            updateTaskButton(view.querySelector('#btnTask' + task.Id), task.State);
+            const taskProgress = view.querySelector(`#taskProgress${task.Id}`);
+            if (taskProgress) taskProgress.innerHTML = getTaskProgressHtml(task);
+
+            const taskButton = view.querySelector(`#btnTask${task.Id}`);
+            if (taskButton) updateTaskButton(taskButton, task.State);
         }
     }
 

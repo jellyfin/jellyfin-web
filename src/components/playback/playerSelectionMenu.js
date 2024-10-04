@@ -1,43 +1,16 @@
-import appSettings from '../../scripts/settings/appSettings';
 import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import loading from '../loading/loading';
 import { playbackManager } from '../playback/playbackmanager';
 import { pluginManager } from '../pluginManager';
 import { appRouter } from '../router/appRouter';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import { appHost } from '../apphost';
-import { enable, isEnabled, supported } from '../../scripts/autocast';
+import { enable, isEnabled } from '../../scripts/autocast';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
 import dialog from '../dialog/dialog';
 import dialogHelper from '../dialogHelper/dialogHelper';
-
-function mirrorItem(info, player) {
-    const item = info.item;
-
-    playbackManager.displayContent({
-
-        ItemName: item.Name,
-        ItemId: item.Id,
-        ItemType: item.Type,
-        Context: info.context
-    }, player);
-}
-
-function mirrorIfEnabled(info) {
-    if (info && playbackManager.enableDisplayMirroring()) {
-        const getPlayerInfo = playbackManager.getPlayerInfo();
-
-        if (getPlayerInfo && !getPlayerInfo.isLocalPlayer && getPlayerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
-            mirrorItem(info, playbackManager.getCurrentPlayer());
-        }
-    }
-}
-
-function emptyCallback() {
-    // avoid console logs about uncaught promises
-}
 
 function getTargetSecondaryText(target) {
     if (target.user) {
@@ -140,10 +113,14 @@ export function show(button) {
                 })[0];
 
                 playbackManager.trySetActivePlayer(target.playerName, target);
-
-                mirrorIfEnabled();
-            }, emptyCallback);
+            }).catch(() => {
+                // action sheet closed
+            });
+        }).catch(err => {
+            console.error('[playerSelectionMenu] failed to import action sheet', err);
         });
+    }).catch(err => {
+        console.error('[playerSelectionMenu] failed to get playback targets', err);
     });
 }
 
@@ -180,6 +157,8 @@ function disconnectFromPlayer(currentDeviceName) {
                 default:
                     break;
             }
+        }).catch(() => {
+            // dialog closed
         });
     } else {
         playbackManager.setDefaultPlayerActive();
@@ -221,13 +200,11 @@ function showActivePlayerMenuInternal(playerInfo) {
 
     html += '</div>';
 
-    if (supported()) {
-        html += '<div><label class="checkboxContainer">';
-        const checkedHtmlAC = isEnabled() ? ' checked' : '';
-        html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
-        html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
-        html += '</label></div>';
-    }
+    html += '<div><label class="checkboxContainer">';
+    const checkedHtmlAC = isEnabled() ? ' checked' : '';
+    html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
+    html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
+    html += '</label></div>';
 
     html += '<div style="margin-top:1em;display:flex;justify-content: flex-end;">';
 
@@ -272,11 +249,13 @@ function showActivePlayerMenuInternal(playerInfo) {
 
     dialogHelper.open(dlg).then(function () {
         if (destination === 'nowplaying') {
-            appRouter.showNowPlaying();
+            return appRouter.showNowPlaying();
         } else if (destination === 'disconnectFromPlayer') {
             disconnectFromPlayer(currentDeviceName);
         }
-    }, emptyCallback);
+    }).catch(() => {
+        // dialog closed
+    });
 }
 
 function onMirrorChange() {
@@ -286,23 +265,6 @@ function onMirrorChange() {
 function onAutoCastChange() {
     enable(this.checked);
 }
-
-document.addEventListener('viewshow', function (e) {
-    const state = e.detail.state || {};
-    const item = state.item;
-
-    if (item && item.ServerId) {
-        mirrorIfEnabled({
-            item: item
-        });
-    }
-});
-
-Events.on(appSettings, 'change', function (e, name) {
-    if (name === 'displaymirror') {
-        mirrorIfEnabled();
-    }
-});
 
 Events.on(playbackManager, 'pairing', function () {
     loading.show();

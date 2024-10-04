@@ -6,7 +6,7 @@ import imageLoader from '../images/imageLoader';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import scrollHelper from '../../scripts/scrollHelper';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';
@@ -171,14 +171,12 @@ function getRemoteImageHtml(image, imageType) {
         shape = 'banner';
     } else if (imageType === 'Disc') {
         shape = 'square';
+    } else if (currentItemType === 'Episode') {
+        shape = 'backdrop';
+    } else if (currentItemType === 'MusicAlbum' || currentItemType === 'MusicArtist') {
+        shape = 'square';
     } else {
-        if (currentItemType === 'Episode') {
-            shape = 'backdrop';
-        } else if (currentItemType === 'MusicAlbum' || currentItemType === 'MusicArtist') {
-            shape = 'square';
-        } else {
-            shape = 'portrait';
-        }
+        shape = 'portrait';
     }
 
     cssClass += ' ' + shape + 'Card ' + shape + 'Card-scalable';
@@ -230,10 +228,8 @@ function getRemoteImageHtml(image, imageType) {
             if (image.Language) {
                 html += ' • ' + image.Language;
             }
-        } else {
-            if (image.Language) {
-                html += image.Language;
-            }
+        } else if (image.Language) {
+            html += image.Language;
         }
 
         html += '</div>';
@@ -244,16 +240,14 @@ function getRemoteImageHtml(image, imageType) {
 
         if (image.RatingType === 'Likes') {
             html += image.CommunityRating + (image.CommunityRating === 1 ? ' like' : ' likes');
-        } else {
-            if (image.CommunityRating) {
-                html += image.CommunityRating.toFixed(1);
+        } else if (image.CommunityRating) {
+            html += image.CommunityRating.toFixed(1);
 
-                if (image.VoteCount) {
-                    html += ' • ' + image.VoteCount + (image.VoteCount === 1 ? ' vote' : ' votes');
-                }
-            } else {
-                html += 'Unrated';
+            if (image.VoteCount) {
+                html += ' • ' + image.VoteCount + (image.VoteCount === 1 ? ' vote' : ' votes');
             }
+        } else {
+            html += 'Unrated';
         }
 
         html += '</div>';

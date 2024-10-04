@@ -65,7 +65,7 @@ class TabbedView {
             const previousIndex = e.detail.previousIndex;
 
             const previousTabController = previousIndex == null ? null : self.tabControllers[previousIndex];
-            if (previousTabController && previousTabController.onPause) {
+            if (previousTabController?.onPause) {
                 previousTabController.onPause();
             }
 
@@ -93,7 +93,7 @@ class TabbedView {
 
         if (!currentTabController) {
             mainTabsManager.selectedTabIndex(this.initialTabIndex);
-        } else if (currentTabController && currentTabController.onResume) {
+        } else if (currentTabController?.onResume) {
             currentTabController.onResume({});
         }
     }
@@ -101,7 +101,7 @@ class TabbedView {
     onPause() {
         const currentTabController = this.currentTabController;
 
-        if (currentTabController && currentTabController.onPause) {
+        if (currentTabController?.onPause) {
             currentTabController.onPause();
         }
     }

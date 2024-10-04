@@ -596,7 +596,7 @@
     "Artists": "Artistar",
     "Artist": "Artist",
     "Art": "Omslagbilete",
-    "AroundTime": "Rundt",
+    "AroundTime": "Rundt {0}",
     "ApiKeysCaption": "Liste over aktive API-nøklar",
     "Anytime": "Når som helst",
     "AnyLanguage": "Kva som helst språk",

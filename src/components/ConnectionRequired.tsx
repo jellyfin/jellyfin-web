@@ -3,10 +3,9 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { ConnectResponse } from 'jellyfin-apiclient';
 
 import alert from './alert';
-import { appRouter } from './router/appRouter';
 import Loading from './loading/LoadingComponent';
 import ServerConnections from './ServerConnections';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import { ConnectionState } from '../utils/jellyfin-apiclient/ConnectionState';
 
 enum BounceRoutes {
@@ -47,14 +46,19 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                 if (location.pathname === BounceRoutes.Login) {
                     setIsLoading(false);
                 } else {
-                    console.debug('[ConnectionRequired] not logged in, redirecting to login page');
-                    navigate(`${BounceRoutes.Login}?serverid=${connectionResponse.ApiClient.serverId()}`);
+                    console.debug('[ConnectionRequired] not logged in, redirecting to login page', location);
+                    const url = encodeURIComponent(location.pathname + location.search);
+                    navigate(`${BounceRoutes.Login}?serverid=${connectionResponse.ApiClient.serverId()}&url=${url}`);
                 }
                 return;
             case ConnectionState.ServerSelection:
                 // Bounce to select server page
-                console.debug('[ConnectionRequired] redirecting to select server page');
-                navigate(BounceRoutes.SelectServer);
+                if (location.pathname === BounceRoutes.SelectServer) {
+                    setIsLoading(false);
+                } else {
+                    console.debug('[ConnectionRequired] redirecting to select server page');
+                    navigate(BounceRoutes.SelectServer);
+                }
                 return;
             case ConnectionState.ServerUpdateNeeded:
                 // Show update needed message and bounce to select server page
@@ -78,7 +82,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         if (firstConnection.State === ConnectionState.ServerSignIn) {
             // Verify the wizard is complete
             try {
-                const infoResponse = await fetch(`${firstConnection.ApiClient.serverAddress()}/System/Info/Public`);
+                const infoResponse = await fetch(`${firstConnection.ApiClient.serverAddress()}/System/Info/Public`, { cache: 'no-cache' });
                 if (!infoResponse.ok) {
                     throw new Error('Public system info request failed');
                 }
@@ -144,24 +148,20 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
     }, [bounce, isAdminRequired, isUserRequired]);
 
     useEffect(() => {
-        // TODO: appRouter will call appHost.exit() if navigating back when you are already at the default route.
-        // This case will need to be handled elsewhere before appRouter can be killed.
-
         // Check connection status on initial page load
-        const firstConnection = appRouter.firstConnectionResult;
-        appRouter.firstConnectionResult = null;
+        ServerConnections.connect()
+            .then(firstConnection => {
+                console.debug('[ConnectionRequired] connection state', firstConnection?.State);
 
-        if (firstConnection && firstConnection.State !== ConnectionState.SignedIn) {
-            handleIncompleteWizard(firstConnection)
-                .catch(err => {
-                    console.error('[ConnectionRequired] failed to start wizard', err);
-                });
-        } else {
-            validateUserAccess()
-                .catch(err => {
-                    console.error('[ConnectionRequired] failed to validate user access', err);
-                });
-        }
+                if (firstConnection && firstConnection.State !== ConnectionState.SignedIn) {
+                    return handleIncompleteWizard(firstConnection);
+                } else {
+                    return validateUserAccess();
+                }
+            })
+            .catch(err => {
+                console.error('[ConnectionRequired] failed to connect to server', err);
+            });
     }, [handleIncompleteWizard, validateUserAccess]);
 
     if (isLoading) {

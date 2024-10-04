@@ -1,22 +1,24 @@
-import browser from '../../scripts/browser';
-import layoutManager from '../../components/layoutManager';
-import * as userSettings from '../../scripts/settings/userSettings';
-import inputManager from '../../scripts/inputManager';
-import loading from '../../components/loading/loading';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import dom from '../../scripts/dom';
-import imageLoader from '../../components/images/imageLoader';
-import libraryMenu from '../../scripts/libraryMenu';
-import * as mainTabsManager from '../../components/maintabsmanager';
-import globalize from '../../scripts/globalize';
-import { LibraryTab } from '../../types/libraryTab.ts';
-import Dashboard from '../../utils/dashboard';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import imageLoader from 'components/images/imageLoader';
+import layoutManager from 'components/layoutManager';
+import loading from 'components/loading/loading';
+import * as mainTabsManager from 'components/maintabsmanager';
+import browser from 'scripts/browser';
+import dom from 'scripts/dom';
+import globalize from 'lib/globalize';
+import inputManager from 'scripts/inputManager';
+import libraryMenu from 'scripts/libraryMenu';
+import * as userSettings from 'scripts/settings/userSettings';
+import { LibraryTab } from 'types/libraryTab';
+import Dashboard from 'utils/dashboard';
+import { getSquareShape } from 'utils/card';
 
-import '../../styles/scrollstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-tabs/emby-tabs';
-import '../../elements/emby-button/emby-button';
-import '../../styles/flexstyles.scss';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-tabs/emby-tabs';
+import 'elements/emby-button/emby-button';
+
+import 'styles/flexstyles.scss';
+import 'styles/scrollstyles.scss';
 
 function itemsPerRow() {
     const screenWidth = dom.getWindowSize().innerWidth;
@@ -40,17 +42,13 @@ function enableScrollX() {
     return !layoutManager.desktop;
 }
 
-function getSquareShape() {
-    return enableScrollX() ? 'overflowSquare' : 'square';
-}
-
 function loadLatest(page, parentId) {
     loading.show();
     const userId = ApiClient.getCurrentUserId();
     const options = {
         IncludeItemTypes: 'Audio',
         Limit: enableScrollX() ? 3 * itemsPerRow() : 2 * itemsPerRow(),
-        Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio',
         ParentId: parentId,
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
@@ -62,7 +60,7 @@ function loadLatest(page, parentId) {
             items: items,
             showUnplayedIndicator: false,
             showLatestItemsPopup: false,
-            shape: getSquareShape(),
+            shape: getSquareShape(enableScrollX()),
             showTitle: true,
             showParentTitle: true,
             lazy: true,
@@ -88,7 +86,7 @@ function loadRecentlyPlayed(page, parentId) {
         IncludeItemTypes: 'Audio',
         Limit: itemsPerRow(),
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,AudioInfo',
+        Fields: 'PrimaryImageAspectRatio',
         Filters: 'IsPlayed',
         ParentId: parentId,
         ImageTypeLimit: 1,
@@ -108,7 +106,7 @@ function loadRecentlyPlayed(page, parentId) {
         itemsContainer.innerHTML = cardBuilder.getCardsHtml({
             items: result.Items,
             showUnplayedIndicator: false,
-            shape: getSquareShape(),
+            shape: getSquareShape(enableScrollX()),
             showTitle: true,
             showParentTitle: true,
             action: 'instantmix',
@@ -130,7 +128,7 @@ function loadFrequentlyPlayed(page, parentId) {
         IncludeItemTypes: 'Audio',
         Limit: itemsPerRow(),
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,AudioInfo',
+        Fields: 'PrimaryImageAspectRatio',
         Filters: 'IsPlayed',
         ParentId: parentId,
         ImageTypeLimit: 1,
@@ -150,7 +148,7 @@ function loadFrequentlyPlayed(page, parentId) {
         itemsContainer.innerHTML = cardBuilder.getCardsHtml({
             items: result.Items,
             showUnplayedIndicator: false,
-            shape: getSquareShape(),
+            shape: getSquareShape(enableScrollX()),
             showTitle: true,
             showParentTitle: true,
             action: 'instantmix',
@@ -260,6 +258,14 @@ export default function (view, params) {
         mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
     }
 
+    function getMode(index) {
+        if (index === 2) {
+            return 'albumartists';
+        } else if (index === 3) {
+            return 'artists';
+        }
+    }
+
     const getTabController = (page, index, callback) => {
         let depends;
 
@@ -290,7 +296,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../music/${depends}`).then(({ default: controllerFactory }) => {
+        import(`../music/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index == 1) {
@@ -306,13 +312,9 @@ export default function (view, params) {
                 if (index === 1) {
                     controller = this;
                 } else {
-                    controller = new controllerFactory(view, params, tabContent);
-                }
-
-                if (index == 2) {
-                    controller.mode = 'albumartists';
-                } else if (index == 3) {
-                    controller.mode = 'artists';
+                    controller = new ControllerFactory(view, params, tabContent, {
+                        mode: getMode(index)
+                    });
                 }
 
                 tabControllers[index] = controller;
@@ -397,4 +399,3 @@ export default function (view, params) {
         });
     });
 }
-

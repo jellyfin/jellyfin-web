@@ -1,6 +1,6 @@
 import 'webcomponents.js/webcomponents-lite';
 import dom from '../../scripts/dom';
-import scroller from '../../libraries/scroller';
+import ScrollerFactory from 'lib/scroller';
 import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
 import layoutManager from '../../components/layoutManager';
@@ -124,7 +124,7 @@ function initScroller(tabs) {
 
     const contentScrollSlider = tabs.querySelector('.emby-tabs-slider');
     if (contentScrollSlider) {
-        tabs.scroller = new scroller(tabs, {
+        tabs.scroller = new ScrollerFactory(tabs, {
             horizontal: 1,
             itemNav: 0,
             mouseDragging: 1,

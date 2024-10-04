@@ -33,7 +33,7 @@ export default async function fetchLocal(url: string, options?: FetchOptions) {
 
         xhr.open('GET', url);
 
-        if (options && options.cache) {
+        if (options?.cache) {
             xhr.setRequestHeader('Cache-Control', options.cache);
         }
 

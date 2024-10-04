@@ -1,30 +1,31 @@
-import loadable from '@loadable/component';
-import { History } from '@remix-run/router';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
 
-import StableApp from './apps/stable/App';
-import { HistoryRouter } from './components/router/HistoryRouter';
-import { ApiProvider } from './hooks/useApi';
-import { WebConfigProvider } from './hooks/useWebConfig';
+import { ApiProvider } from 'hooks/useApi';
+import { UserSettingsProvider } from 'hooks/useUserSettings';
+import { WebConfigProvider } from 'hooks/useWebConfig';
+import browser from 'scripts/browser';
+import { queryClient } from 'utils/query/queryClient';
 
-const ExperimentalApp = loadable(() => import('./apps/experimental/App'));
+import RootAppRouter from 'RootAppRouter';
 
-const RootApp = ({ history }: { history: History }) => {
-    const layoutMode = localStorage.getItem('layout');
+const useReactQueryDevtools = window.Proxy // '@tanstack/query-devtools' requires 'Proxy', which cannot be polyfilled for legacy browsers
+    && !browser.tv; // Don't use devtools on the TV as the navigation is weird
 
-    return (
+const RootApp = () => (
+    <QueryClientProvider client={queryClient}>
         <ApiProvider>
-            <WebConfigProvider>
-                <HistoryRouter history={history}>
-                    {
-                        layoutMode === 'experimental' ?
-                            <ExperimentalApp /> :
-                            <StableApp />
-                    }
-                </HistoryRouter>
-            </WebConfigProvider>
+            <UserSettingsProvider>
+                <WebConfigProvider>
+                    <RootAppRouter />
+                </WebConfigProvider>
+            </UserSettingsProvider>
         </ApiProvider>
-    );
-};
+        {useReactQueryDevtools && (
+            <ReactQueryDevtools initialIsOpen={false} />
+        )}
+    </QueryClientProvider>
+);
 
 export default RootApp;

@@ -1,21 +1,24 @@
+import autoFocuser from 'components/autoFocuser';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import layoutManager from 'components/layoutManager';
+import loading from 'components/loading/loading';
+import * as mainTabsManager from 'components/maintabsmanager';
+import { playbackManager } from 'components/playback/playbackmanager';
+import dom from 'scripts/dom';
+import globalize from 'lib/globalize';
+import inputManager from 'scripts/inputManager';
+import libraryMenu from 'scripts/libraryMenu';
+import * as userSettings from 'scripts/settings/userSettings';
+import { LibraryTab } from 'types/libraryTab';
+import { getBackdropShape } from 'utils/card';
+import Dashboard from 'utils/dashboard';
+import Events from 'utils/events';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
-import inputManager from '../../scripts/inputManager';
-import libraryMenu from '../../scripts/libraryMenu';
-import layoutManager from '../../components/layoutManager';
-import loading from '../../components/loading/loading';
-import dom from '../../scripts/dom';
-import * as userSettings from '../../scripts/settings/userSettings';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import { playbackManager } from '../../components/playback/playbackmanager';
-import * as mainTabsManager from '../../components/maintabsmanager';
-import globalize from '../../scripts/globalize';
-import '../../styles/scrollstyles.scss';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../elements/emby-button/emby-button';
-import { LibraryTab } from '../../types/libraryTab.ts';
-import Dashboard from '../../utils/dashboard';
-import Events from '../../utils/events.ts';
-import autoFocuser from '../../components/autoFocuser';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-button/emby-button';
+
+import 'styles/scrollstyles.scss';
 
 function getTabs() {
     return [{
@@ -99,7 +102,7 @@ function loadResume(view, userId, parentId) {
         Filters: 'IsResumable',
         Limit: screenWidth >= 1600 ? 5 : 3,
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
         CollapseBoxSetItems: false,
         ParentId: parentId,
         ImageTypeLimit: 1,
@@ -119,7 +122,7 @@ function loadResume(view, userId, parentId) {
             itemsContainer: container,
             preferThumb: true,
             inheritThumb: !userSettings.useEpisodeImagesInNextUpAndResume(),
-            shape: getThumbShape(),
+            shape: getBackdropShape(enableScrollX()),
             scalable: true,
             overlayPlayButton: true,
             allowBottomPadding: allowBottomPadding,
@@ -139,7 +142,7 @@ function loadLatest(view, userId, parentId) {
         userId: userId,
         IncludeItemTypes: 'Episode',
         Limit: 30,
-        Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+        Fields: 'PrimaryImageAspectRatio',
         ParentId: parentId,
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
@@ -177,7 +180,7 @@ function loadNextUp(view, userId, parentId) {
     const query = {
         userId: userId,
         Limit: 24,
-        Fields: 'PrimaryImageAspectRatio,DateCreated,BasicSyncInfo,MediaSourceCount',
+        Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount',
         ParentId: parentId,
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb',
@@ -215,10 +218,6 @@ function loadNextUp(view, userId, parentId) {
 
 function enableScrollX() {
     return !layoutManager.desktop;
-}
-
-function getThumbShape() {
-    return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
 }
 
 export default function (view, params) {
@@ -268,7 +267,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../shows/${depends}`).then(({ default: controllerFactory }) => {
+        import(`../shows/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index === 1) {
@@ -284,7 +283,7 @@ export default function (view, params) {
                 if (index === 1) {
                     controller = self;
                 } else {
-                    controller = new controllerFactory(view, params, tabContent);
+                    controller = new ControllerFactory(view, params, tabContent);
                 }
 
                 tabControllers[index] = controller;
@@ -334,7 +333,7 @@ export default function (view, params) {
     function onInputCommand(e) {
         if (e.detail.command === 'search') {
             e.preventDefault();
-            Dashboard.navigate('search.html?collectionType=tv&parentId=' + params.topParentId);
+            Dashboard.navigate(`search.html?collectionType=${CollectionType.Tvshows}&parentId=${params.topParentId}`);
         }
     }
 

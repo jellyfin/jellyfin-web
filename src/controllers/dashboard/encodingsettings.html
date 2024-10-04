@@ -1,4 +1,4 @@
-<div id="encodingSettingsPage" data-role="page" class="page type-interior playbackConfigurationPage withTabs">
+<div id="encodingSettingsPage" data-role="page" class="page type-interior playbackConfigurationPage" data-title="${TitlePlayback}">
     <div>
         <div class="content-primary">
             <form class="encodingSettingsForm">
@@ -11,11 +11,12 @@
 
                 <div class="selectContainer">
                     <select is="emby-select" id="selectVideoDecoder" label="${LabelHardwareAccelerationType}">
-                        <option value="">${None}</option>
+                        <option value="none">${None}</option>
                         <option value="amf">AMD AMF</option>
                         <option value="nvenc">Nvidia NVENC</option>
                         <option value="qsv">Intel QuickSync (QSV)</option>
                         <option value="vaapi">Video Acceleration API (VAAPI)</option>
+                        <option value="rkmpp">Rockchip MPP (RKMPP)</option>
                         <option value="videotoolbox">Apple VideoToolBox</option>
                         <option value="v4l2m2m">Video4Linux2 (V4L2)</option>
                     </select>
@@ -34,35 +35,39 @@
                         <h3 class="checkboxListLabel">${LabelEnableHardwareDecodingFor}</h3>
                         <div class="checkboxList">
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="h264" data-types="amf,nvenc,qsv,vaapi,videotoolbox,v4l2m2m" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="h264" data-types="amf,nvenc,qsv,vaapi,rkmpp,videotoolbox,v4l2m2m" />
                                 <span>H264</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="hevc" data-types="amf,nvenc,qsv,vaapi,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="hevc" data-types="amf,nvenc,qsv,vaapi,rkmpp,videotoolbox" />
                                 <span>HEVC</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg2video" data-types="amf,nvenc,qsv,vaapi,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg1video" data-types="rkmpp" />
+                                <span>MPEG1</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg2video" data-types="amf,nvenc,qsv,vaapi,rkmpp" />
                                 <span>MPEG2</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg4" data-types="nvenc,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg4" data-types="nvenc,rkmpp" />
                                 <span>MPEG4</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vc1" data-types="amf,nvenc,qsv,vaapi,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vc1" data-types="amf,nvenc,qsv,vaapi" />
                                 <span>VC1</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vp8" data-types="nvenc,qsv,vaapi,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vp8" data-types="nvenc,qsv,vaapi,rkmpp,videotoolbox" />
                                 <span>VP8</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vp9" data-types="amf,nvenc,qsv,vaapi,videotoolbox" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vp9" data-types="amf,nvenc,qsv,vaapi,rkmpp,videotoolbox" />
                                 <span>VP9</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="av1" data-types="amf,nvenc,qsv,vaapi" />
+                                <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="av1" data-types="amf,nvenc,qsv,vaapi,rkmpp" />
                                 <span>AV1</span>
                             </label>
                         </div>
@@ -74,6 +79,16 @@
                             <label>
                                 <input type="checkbox" is="emby-checkbox" id="chkDecodingColorDepth10Vp9" />
                                 <span>VP9 10bit</span>
+                            </label>
+                        </div>
+                        <div class="checkboxList hide fldHevcRextHwDecoding">
+                            <label>
+                                <input type="checkbox" is="emby-checkbox" id="chkDecodingColorDepth10HevcRext" />
+                                <span>HEVC RExt 8/10bit</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" is="emby-checkbox" id="chkDecodingColorDepth12HevcRext" />
+                                <span>HEVC RExt 12bit</span>
                             </label>
                         </div>
                     </div>
@@ -118,10 +133,18 @@
                 </div>
 
                 <div class="checkboxListContainer">
+                    <h3 class="checkboxListLabel">${LabelEncodingFormatOptions}</h3>
+                    <div class="fieldDescription">${EncodingFormatHelp}</div>
                     <div class="checkboxList">
                         <label>
                             <input type="checkbox" is="emby-checkbox" id="chkAllowHevcEncoding" />
                             <span>${AllowHevcEncoding}</span>
+                        </label>
+                    </div>
+                    <div class="checkboxList">
+                        <label>
+                            <input type="checkbox" is="emby-checkbox" id="chkAllowAv1Encoding" />
+                            <span>${AllowAv1Encoding}</span>
                         </label>
                     </div>
                 </div>
@@ -144,13 +167,24 @@
                     </div>
                 </div>
 
+                <div class="videoToolboxTonemappingOptions hide">
+                    <div class="checkboxListContainer checkboxContainer-withDescription">
+                        <label>
+                            <input type="checkbox" is="emby-checkbox" id="chkVideoToolboxTonemapping" />
+                            <span>${EnableVideoToolboxTonemapping}</span>
+                        </label>
+                        <div class="fieldDescription checkboxFieldDescription">${AllowVideoToolboxTonemappingHelp}</div>
+                    </div>
+                </div>
+
                 <div class="tonemappingOptions hide">
                     <div class="checkboxListContainer checkboxContainer-withDescription">
                         <label>
                             <input type="checkbox" is="emby-checkbox" id="chkTonemapping" />
                             <span>${EnableTonemapping}</span>
                         </label>
-                        <div class="fieldDescription checkboxFieldDescription">${AllowTonemappingHelp}</div>
+                        <div class="fieldDescription checkboxFieldDescription allowTonemappingHardwareHelp">${AllowTonemappingHelp}</div>
+                        <div class="fieldDescription checkboxFieldDescription allowTonemappingSoftwareHelp">${AllowTonemappingSoftwareHelp}</div>
                     </div>
                     <div class="selectContainer">
                         <select is="emby-select" id="selectTonemappingAlgorithm" label="${LabelTonemappingAlgorithm}">
@@ -167,11 +201,13 @@
                             <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link" href="http://ffmpeg.org/ffmpeg-all.html#tonemap_005fopencl" target="_blank">${TonemappingAlgorithmHelp}</a>
                         </div>
                     </div>
-                    <div class="selectContainer">
+                    <div class="tonemappingModeOptions selectContainer">
                         <select is="emby-select" id="selectTonemappingMode" label="${LabelTonemappingMode}">
                             <option value="auto">${Auto}</option>
                             <option value="max">MAX</option>
                             <option value="rgb">RGB</option>
+                            <option value="lum">LUM</option>
+                            <option value="itp">ITP</option>
                         </select>
                         <div class="fieldDescription">${TonemappingModeHelp}</div>
                     </div>
@@ -224,9 +260,8 @@
                 <div class="inputContainer fldEncoderPath">
                     <div style="display: flex; align-items: center;">
                         <div style="flex-grow:1;">
-                            <input is="emby-input" class="txtEncoderPath" label="${LabelffmpegPath}" autocomplete="off" dir="ltr" />
+                            <input is="emby-input" class="txtEncoderPath" label="${LabelffmpegPath}" autocomplete="off" dir="ltr" disabled/>
                         </div>
-                        <button type="button" is="paper-icon-button-light" id="btnSelectEncoderPath" class="emby-input-iconbutton"><span class="material-icons search" aria-hidden="true"></span></button>
                     </div>
                     <div class="fieldDescription">
                         <div>${LabelffmpegPathHelp}</div>
@@ -248,7 +283,9 @@
                         </div>
                         <button type="button" is="paper-icon-button-light" id="btnSelectFallbackFontPath" class="emby-input-iconbutton"><span class="material-icons search" aria-hidden="true"></span></button>
                     </div>
-                    <div class="fieldDescription">${LabelFallbackFontPathHelp}</div>
+                    <div class="fieldDescription">
+                        <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link" href="https://jellyfin.org/docs/general/administration/configuration#fonts" target="_blank">${LabelFallbackFontPathHelp}</a>
+                    </div>
                 </div>
                 <div class="checkboxContainer checkboxContainer-withDescription">
                     <label>
@@ -273,6 +310,8 @@
                         <option value="None">${None}</option>
                         <option value="Dave750">Dave750</option>
                         <option value="NightmodeDialogue">NightmodeDialogue</option>
+                        <option value="Rfc7845">RFC7845</option>
+                        <option value="Ac4">AC-4</option>
                     </select>
                     <div class="fieldDescription">${StereoDownmixAlgorithmHelp}</div>
                 </div>
@@ -283,7 +322,7 @@
 
                 <div class="selectContainer">
                     <select is="emby-select" id="selectEncoderPreset" label="${LabelEncoderPreset}">
-                        <option value="">${Auto}</option>
+                        <option value="auto">${Auto}</option>
                         <option value="veryslow">veryslow</option>
                         <option value="slower">slower</option>
                         <option value="slow">slow</option>
@@ -333,6 +372,24 @@
                         <span>${AllowFfmpegThrottling}</span>
                     </label>
                     <div class="fieldDescription checkboxFieldDescription">${AllowFfmpegThrottlingHelp}</div>
+                </div>
+
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkEnableSegmentDeletion" />
+                        <span>${AllowSegmentDeletion}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${AllowSegmentDeletionHelp}</div>
+                </div>
+
+                <div class="inputContainer">
+                    <input is="emby-input" type="number" id="txtThrottleDelaySeconds" pattern="[0-9]*" min="10" max="3600" step="1" label="${LabelThrottleDelaySeconds}" />
+                    <div class="fieldDescription">${LabelThrottleDelaySecondsHelp}</div>
+                </div>
+
+                <div class="inputContainer">
+                    <input is="emby-input" type="number" id="txtSegmentKeepSeconds" pattern="[0-9]*" min="15" max="3600" step="1" label="${LabelSegmentKeepSeconds}" />
+                    <div class="fieldDescription">${LabelSegmentKeepSecondsHelp}</div>
                 </div>
 
                 <div>

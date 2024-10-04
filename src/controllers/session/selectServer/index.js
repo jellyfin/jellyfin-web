@@ -5,7 +5,7 @@ import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
 import appSettings from '../../../scripts/settings/appSettings';
 import focusManager from '../../../components/focusManager';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import actionSheet from '../../../components/actionSheet/actionSheet';
 import dom from '../../../scripts/dom';
 import browser from '../../../scripts/browser';
@@ -18,8 +18,8 @@ import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../utils/dashboard';
 import ServerConnections from '../../../components/ServerConnections';
 import alert from '../../../components/alert';
-import cardBuilder from '../../../components/cardbuilder/cardBuilder';
 import { ConnectionState } from '../../../utils/jellyfin-apiclient/ConnectionState.ts';
+import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -56,7 +56,7 @@ function renderSelectServerItems(view, servers) {
         cardContainer += '<div class="cardPadder cardPadder-square">';
         cardContainer += '</div>';
         cardContainer += '<div class="cardContent">';
-        cardContainer += `<div class="cardImageContainer coveredImage ${cardBuilder.getDefaultBackgroundClass()}">`;
+        cardContainer += `<div class="cardImageContainer coveredImage ${getDefaultBackgroundClass()}">`;
         cardContainer += cardImageContainer;
         cardContainer += '</div>';
         cardContainer += '</div>';

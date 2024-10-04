@@ -2,15 +2,18 @@
  * Module shortcuts.
  * @module components/shortcuts
  */
+import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 
 import { playbackManager } from './playback/playbackmanager';
 import inputManager from '../scripts/inputManager';
 import { appRouter } from './router/appRouter';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import dom from '../scripts/dom';
 import recordingHelper from './recordingcreator/recordinghelper';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
+import * as userSettings from '../scripts/settings/userSettings';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 function playAllFromHere(card, serverId, queue) {
     const parent = card.parentNode;
@@ -33,7 +36,7 @@ function playAllFromHere(card, serverId, queue) {
     }
 
     const itemsContainer = dom.parentWithClass(card, 'itemsContainer');
-    if (itemsContainer && itemsContainer.fetchData) {
+    if (itemsContainer?.fetchData) {
         const queryOptions = queue ? { StartIndex: startIndex } : {};
 
         return itemsContainer.fetchData(queryOptions).then(result => {
@@ -99,7 +102,7 @@ function notifyRefreshNeeded(childElement, itemsContainer) {
     }
 }
 
-function showContextMenu(card, options) {
+function showContextMenu(card, options = {}) {
     getItem(card).then(item => {
         const playlistId = card.getAttribute('data-playlistid');
         const collectionId = card.getAttribute('data-collectionid');
@@ -107,29 +110,71 @@ function showContextMenu(card, options) {
         if (playlistId) {
             const elem = dom.parentWithAttribute(card, 'data-playlistitemid');
             item.PlaylistItemId = elem ? elem.getAttribute('data-playlistitemid') : null;
+
+            const itemsContainer = dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
+            if (itemsContainer) {
+                let index = 0;
+                for (const listItem of itemsContainer.querySelectorAll('.listItem')) {
+                    const playlistItemId = listItem.getAttribute('data-playlistitemid');
+                    if (playlistItemId == item.PlaylistItemId) {
+                        item.PlaylistIndex = index;
+                    }
+                    index++;
+                }
+                item.PlaylistItemCount = index;
+            }
         }
 
-        import('./itemContextMenu').then((itemContextMenu) => {
-            ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(user => {
-                itemContextMenu.show(Object.assign({
-                    item: item,
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
+        const api = toApi(apiClient);
+
+        Promise.all([
+            // Import the item menu component
+            import('./itemContextMenu'),
+            // Fetch the current user
+            apiClient.getCurrentUser(),
+            // Fetch playlist perms if item is a child of a playlist
+            playlistId ?
+                getPlaylistsApi(api)
+                    .getPlaylistUser({
+                        playlistId,
+                        userId: apiClient.getCurrentUserId()
+                    })
+                    .then(({ data }) => data)
+                    .catch(err => {
+                        // If a user doesn't have access, then the request will 404 and throw
+                        console.info('[Shortcuts] Failed to fetch playlist permissions', err);
+                        return { CanEdit: false };
+                    }) :
+                // Not a playlist item
+                Promise.resolve({ CanEdit: false })
+        ])
+            .then(([
+                itemContextMenu,
+                user,
+                playlistPerms
+            ]) => {
+                return itemContextMenu.show({
+                    item,
                     play: true,
                     queue: true,
-                    playAllFromHere: !item.IsFolder,
+                    playAllFromHere: item.Type === 'Season' || !item.IsFolder,
                     queueAllFromHere: !item.IsFolder,
-                    playlistId: playlistId,
-                    collectionId: collectionId,
-                    user: user
-
-                }, options || {})).then(result => {
-                    if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
-                        executeAction(card, options.positionTo, result.command);
-                    } else if (result.updated || result.deleted) {
-                        notifyRefreshNeeded(card, options.itemsContainer);
-                    }
+                    playlistId,
+                    canEditPlaylist: !!playlistPerms.CanEdit,
+                    collectionId,
+                    user,
+                    ...options
                 });
-            });
-        });
+            })
+            .then(result => {
+                if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
+                    executeAction(card, options.positionTo, result.command);
+                } else if (result.updated || result.deleted) {
+                    notifyRefreshNeeded(card, options.itemsContainer);
+                }
+            })
+            .catch(() => { /* no-op */ });
     });
 }
 
@@ -177,6 +222,10 @@ function executeAction(card, target, action) {
 
     const item = getItemInfoFromCard(card);
 
+    const itemsContainer = dom.parentWithClass(card, 'itemsContainer');
+
+    const sortParentId = 'items-' + (item.IsFolder ? item.Id : itemsContainer?.getAttribute('data-parentid')) + '-Folder';
+
     const serverId = item.ServerId;
     const type = item.Type;
 
@@ -200,12 +249,17 @@ function executeAction(card, target, action) {
         });
     } else if (action === 'play' || action === 'resume') {
         const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0', 10);
+        const sortValues = userSettings.getSortValuesLegacy(sortParentId, 'SortName');
 
         if (playbackManager.canPlay(item)) {
             playbackManager.play({
                 ids: [playableItemId],
                 startPositionTicks: startPositionTicks,
-                serverId: serverId
+                serverId: serverId,
+                queryOptions: {
+                    SortBy: sortValues.sortBy,
+                    SortOrder: sortValues.sortOrder
+                }
             });
         } else {
             console.warn('Unable to play item', item);
@@ -270,12 +324,16 @@ function executeAction(card, target, action) {
 }
 
 function addToPlaylist(item) {
-    import('./playlisteditor/playlisteditor').then(({ default: playlistEditor }) => {
-        new playlistEditor().show({
+    import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
+        const playlistEditor = new PlaylistEditor();
+        playlistEditor.show({
             items: [item.Id],
             serverId: item.ServerId
-
+        }).catch(() => {
+            // Dialog closed
         });
+    }).catch(err => {
+        console.error('[addToPlaylist] failed to load playlist editor', err);
     });
 }
 
@@ -391,8 +449,8 @@ export function getShortcutAttributesHtml(item, serverId) {
 }
 
 export default {
-    on: on,
-    off: off,
-    onClick: onClick,
-    getShortcutAttributesHtml: getShortcutAttributesHtml
+    on,
+    off,
+    onClick,
+    getShortcutAttributesHtml
 };
