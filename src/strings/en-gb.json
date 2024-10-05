@@ -1769,8 +1769,6 @@
     "ListView": "List View",
     "LabelBackdropScreensaverInterval": "Backdrop Screensaver Interval",
     "LabelBackdropScreensaverIntervalHelp": "The time in seconds between different backdrops when using the backdrop screensaver.",
-    "LabelScreensaverTimeHelp": "The amount of time in seconds of inactivity required to start the screensaver.",
-    "LabelScreensaverTime": "Screensaver Time",
     "AiTranslated": "AI Translated",
     "MachineTranslated": "Machine Translated",
     "ForeignPartsOnly": "Forced/Foreign parts only",
