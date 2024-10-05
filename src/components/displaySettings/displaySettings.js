@@ -110,7 +110,7 @@ function loadForm(context, user, userSettings) {
     loadScreensavers(context, userSettings);
 
     context.querySelector('#txtBackdropScreensaverInterval').value = userSettings.backdropScreensaverInterval();
-    context.querySelector("#txtScreensaverTime").value = userSettings.screensaverTime();
+    context.querySelector('#txtScreensaverTime').value = userSettings.screensaverTime();
 
     context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
 
