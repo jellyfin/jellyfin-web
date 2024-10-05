@@ -2573,7 +2573,7 @@ export class PlaybackManager {
             }
 
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            const mediaSourceId = playOptions.mediaSourceId;
+            let mediaSourceId = playOptions.mediaSourceId;
             const getMediaStreams = apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id)
                 .then(fullItem => {
                     return fullItem.MediaStreams;
@@ -2611,9 +2611,11 @@ export class PlaybackManager {
                 autoSetNextTracks(prevSource, mediaStreams, trackOptions, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
                 if (trackOptions.DefaultAudioStreamIndex != null) {
                     options.audioStreamIndex = trackOptions.DefaultAudioStreamIndex;
+                    mediaSourceId = mediaSourceId || item.Id;
                 }
                 if (trackOptions.DefaultSubtitleStreamIndex != null) {
                     options.subtitleStreamIndex = trackOptions.DefaultSubtitleStreamIndex;
+                    mediaSourceId = mediaSourceId || item.Id;
                 }
 
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options).then(async (mediaSource) => {
