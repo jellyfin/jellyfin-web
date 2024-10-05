@@ -2573,8 +2573,8 @@ export class PlaybackManager {
             }
 
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            const mediaSourceId = playOptions.mediaSourceId || item.Id;
-            const getMediaStreams = apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId)
+            const mediaSourceId = playOptions.mediaSourceId;
+            const getMediaStreams = apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id)
                 .then(fullItem => {
                     return fullItem.MediaStreams;
                 });
