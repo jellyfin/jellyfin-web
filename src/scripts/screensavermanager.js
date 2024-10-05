@@ -11,7 +11,13 @@ import './screensavermanager.scss';
 function getMinIdleTime() {
     // Returns the minimum amount of idle time required before the screen saver can be displayed
     //time units used Millisecond
-    return 180000;
+    const timeSeconds = userSettings.get('screensaverTime',false);
+    // If it is zero or undefined
+    if (!timeSeconds) {
+        // Defaults to 3 minutes
+        return 180000;
+    }
+    return timeSeconds * 1000;
 }
 
 let lastFunctionalEvent = 0;
@@ -129,7 +135,7 @@ function ScreenSaverManager() {
         this.show();
     };
 
-    setInterval(onInterval, 10000);
+    setInterval(onInterval, 5000);
 }
 
 export default new ScreenSaverManager;
