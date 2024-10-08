@@ -381,8 +381,8 @@ export default function (view, params) {
                     libraryMenu.setTitle(item.Name);
                 });
             } else {
-                view.setAttribute('data-title', globalize.translate('TabMusic'));
-                libraryMenu.setTitle(globalize.translate('TabMusic'));
+                view.setAttribute('data-title', globalize.translate('Music'));
+                libraryMenu.setTitle(globalize.translate('Music'));
             }
         }
 

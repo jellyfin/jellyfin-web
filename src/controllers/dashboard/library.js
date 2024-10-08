@@ -223,7 +223,7 @@ function getCollectionTypeOptions() {
         value: 'movies',
         message: getLink('MovieLibraryHelp', 'https://jellyfin.org/docs/general/server/media/movies')
     }, {
-        name: globalize.translate('TabMusic'),
+        name: globalize.translate('Music'),
         value: 'music',
         message: getLink('MusicLibraryHelp', 'https://jellyfin.org/docs/general/server/media/music')
     }, {

@@ -87,7 +87,7 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
 
             {isUserLoggedIn && isUserMenuAvailable && (
                 <Box sx={{ flexGrow: 0 }}>
-                    <UserMenuButton />
+                    <UserMenuButton userId={user?.Id} />
                 </Box>
             )}
         </Toolbar>
