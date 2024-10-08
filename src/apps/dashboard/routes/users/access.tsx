@@ -1,9 +1,8 @@
 import type { BaseItemDto, DeviceInfoDto, UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import loading from '../../../../components/loading/loading';
-import libraryMenu from '../../../../scripts/libraryMenu';
 import globalize from '../../../../lib/globalize';
 import toast from '../../../../components/toast/toast';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
@@ -28,6 +27,7 @@ const UserLibraryAccess = () => {
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
     const [devicesItems, setDevicesItems] = useState<ItemsArr[]>([]);
+    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -133,7 +133,7 @@ const UserLibraryAccess = () => {
 
     const loadUser = useCallback((user: UserDto, mediaFolders: BaseItemDto[], channels: BaseItemDto[], devices: DeviceInfoDto[]) => {
         setUserName(user.Name || '');
-        libraryMenu.setTitle(user.Name);
+        void libraryMenu.then(menu => menu.setTitle(user.Name));
         loadChannels(user, channels);
         loadMediaFolders(user, mediaFolders);
         loadDevices(user, devices);

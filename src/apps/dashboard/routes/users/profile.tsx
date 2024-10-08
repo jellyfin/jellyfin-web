@@ -1,11 +1,10 @@
 import type { BaseItemDto, NameIdPair, SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import escapeHTML from 'escape-html';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
-import LibraryMenu from '../../../../scripts/libraryMenu';
 import ButtonElement from '../../../../elements/ButtonElement';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import InputElement from '../../../../elements/InputElement';
@@ -42,6 +41,7 @@ const UserEdit = () => {
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
     const [ authProviders, setAuthProviders ] = useState<NameIdPair[]>([]);
     const [ passwordResetProviders, setPasswordResetProviders ] = useState<NameIdPair[]>([]);
+    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const [ authenticationProviderId, setAuthenticationProviderId ] = useState('');
     const [ passwordResetProviderId, setPasswordResetProviderId ] = useState('');
@@ -147,7 +147,8 @@ const UserEdit = () => {
         txtUserName.disabled = false;
         txtUserName.removeAttribute('disabled');
 
-        LibraryMenu.setTitle(user.Name);
+        void libraryMenu.then(menu => menu.setTitle(user.Name));
+
         setUserDto(user);
         (page.querySelector('#txtUserName') as HTMLInputElement).value = user.Name || '';
         (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked = !!user.Policy?.IsAdministrator;

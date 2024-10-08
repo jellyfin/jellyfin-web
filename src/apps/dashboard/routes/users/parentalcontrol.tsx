@@ -2,11 +2,10 @@ import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/
 import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
 import escapeHTML from 'escape-html';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import globalize from '../../../../lib/globalize';
-import LibraryMenu from '../../../../scripts/libraryMenu';
 import AccessScheduleList from '../../../../components/dashboard/users/AccessScheduleList';
 import TagList from '../../../../components/dashboard/users/TagList';
 import ButtonElement from '../../../../elements/ButtonElement';
@@ -69,6 +68,7 @@ const UserParentalControl = () => {
     const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const [ allowedTags, setAllowedTags ] = useState<string[]>([]);
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
+    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -219,7 +219,7 @@ const UserParentalControl = () => {
         }
 
         setUserName(user.Name || '');
-        LibraryMenu.setTitle(user.Name);
+        void libraryMenu.then(menu => menu.setTitle(user.Name));
         loadUnratedItems(user);
 
         loadAllowedTags(user.Policy?.AllowedTags || []);
