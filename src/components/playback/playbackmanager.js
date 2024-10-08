@@ -22,7 +22,7 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/index.js';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind.js';
 
 const UNLIMITED_ITEMS = -1;
 
