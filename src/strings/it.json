@@ -1860,7 +1860,7 @@
     "LabelWidthResolutionsHelp": "Elenco separato da virgole delle larghezze (px) con cui saranno generate le immagini di Trickplay. Tutte le immagini devono essere generate in modo proporzionale alla sorgente, quindi una larghezza di 320 su un video 16:9 finisce per essere circa 320x180.",
     "LabelTileHeight": "Altezza Riquadro",
     "LabelTrickplayAccelEncoding": "Abilita l'accelerazione hardware della codifica MJPEG",
-    "LabelTrickplayAccelEncodingHelp": "Disponibile solo per QSV, VAAPI e VideoToolbox. Questa opzione non ha alcun effetto sugli altri metodi di accelerazione hardware.",
+    "LabelTrickplayAccelEncodingHelp": "Disponibile solo per QSV, VAAPI, VideoToolbox e RKMPP. Questa opzione non ha alcun effetto sugli altri metodi di accelerazione hardware.",
     "ConfirmDeleteLyrics": "Cancellare questi testi li rimuoverà sia dalle cartelle del sistema che dalla tua libreria multimediale. Sei sicuro di continuare?",
     "DeleteLyrics": "Cancella testi",
     "ErrorDeletingLyrics": "C'è stato un errore nel cancellare i testi dal server. Perfavore controlla che Jellyfin abbia accesso alla scrittura della cartella dei media e riprova.",
@@ -1943,5 +1943,8 @@
     "EnableHi10pHelp": "Abilita per evitare la transcodifica dei video H.264 a 10 bit. Disabilitare quest'opzione se il video mostra fotogrammi vuoti.",
     "LabelSaveTrickplayLocally": "Salva le immagini trickplay accanto ai media",
     "LabelSaveTrickplayLocallyHelp": "Salvare le immagini trickplay nella stessa cartella del video ti permetterà di spostarle e accederle più facilmente.",
-    "ReplaceTrickplayImages": "Sostituisci le immagini trickplay"
+    "ReplaceTrickplayImages": "Sostituisci le immagini trickplay",
+    "FallbackMaxStreamingBitrateHelp": "Il bitrate massimo dello streaming viene utilizzato quando ffprobe non è in grado di determinare il bitrate sorgente. Ciò aiuta a impedire che i client richiedano un bitrate di transcodifica troppo alto che potrebbe causare il fallimento del player e il sovraccarico dell'encoder.",
+    "LabelFallbackMaxStreamingBitrate": "Bitrate massimo di ripiego (Mbps)",
+    "DateModified": "Data di modifica"
 }

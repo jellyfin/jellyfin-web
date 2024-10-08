@@ -20,7 +20,7 @@ function loadPage(page, config, systemInfo) {
     page.querySelector('#chkHardwareEncoding').checked = config.EnableHardwareEncoding;
     page.querySelector('#chkAllowHevcEncoding').checked = config.AllowHevcEncoding;
     page.querySelector('#chkAllowAv1Encoding').checked = config.AllowAv1Encoding;
-    $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
+    $('#selectVideoDecoder', page).val(config.HardwareAccelerationType || 'none');
     $('#selectThreadCount', page).val(config.EncodingThreadCount);
     page.querySelector('#chkEnableAudioVbr').checked = config.EnableAudioVbr;
     $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
@@ -34,18 +34,18 @@ function loadPage(page, config, systemInfo) {
     page.querySelector('#chkTonemapping').checked = config.EnableTonemapping;
     page.querySelector('#chkVppTonemapping').checked = config.EnableVppTonemapping;
     page.querySelector('#chkVideoToolboxTonemapping').checked = config.EnableVideoToolboxTonemapping;
-    page.querySelector('#selectTonemappingAlgorithm').value = config.TonemappingAlgorithm;
-    page.querySelector('#selectTonemappingMode').value = config.TonemappingMode;
-    page.querySelector('#selectTonemappingRange').value = config.TonemappingRange;
+    page.querySelector('#selectTonemappingAlgorithm').value = config.TonemappingAlgorithm || 'none';
+    page.querySelector('#selectTonemappingMode').value = config.TonemappingMode || 'auto';
+    page.querySelector('#selectTonemappingRange').value = config.TonemappingRange || 'auto';
     page.querySelector('#txtTonemappingDesat').value = config.TonemappingDesat;
     page.querySelector('#txtTonemappingPeak').value = config.TonemappingPeak;
     page.querySelector('#txtTonemappingParam').value = config.TonemappingParam || '';
     page.querySelector('#txtVppTonemappingBrightness').value = config.VppTonemappingBrightness;
     page.querySelector('#txtVppTonemappingContrast').value = config.VppTonemappingContrast;
-    page.querySelector('#selectEncoderPreset').value = config.EncoderPreset || '';
+    page.querySelector('#selectEncoderPreset').value = config.EncoderPreset || 'auto';
     page.querySelector('#txtH264Crf').value = config.H264Crf || '';
     page.querySelector('#txtH265Crf').value = config.H265Crf || '';
-    page.querySelector('#selectDeinterlaceMethod').value = config.DeinterlaceMethod || '';
+    page.querySelector('#selectDeinterlaceMethod').value = config.DeinterlaceMethod || 'yadif';
     page.querySelector('#chkDoubleRateDeinterlacing').checked = config.DeinterlaceDoubleRate;
     page.querySelector('#chkEnableSubtitleExtraction').checked = config.EnableSubtitleExtraction || false;
     page.querySelector('#chkEnableThrottling').checked = config.EnableThrottling || false;
@@ -139,7 +139,7 @@ function onSubmit() {
         });
     };
 
-    if ($('#selectVideoDecoder', form).val()) {
+    if ($('#selectVideoDecoder', form).val() !== 'none') {
         alert({
             title: globalize.translate('TitleHardwareAcceleration'),
             text: globalize.translate('HardwareAccelerationWarning')
@@ -205,7 +205,7 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
         }
 
         const isHwaSelected = [ 'amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox' ].includes(this.value);
-        if (this.value === '' || isHwaSelected) {
+        if (this.value === 'none' || isHwaSelected) {
             page.querySelector('.tonemappingOptions').classList.remove('hide');
         } else {
             page.querySelector('.tonemappingOptions').classList.add('hide');
@@ -245,7 +245,7 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('.fldEnhancedNvdec').classList.add('hide');
         }
 
-        if (this.value) {
+        if (this.value !== 'none') {
             page.querySelector('.hardwareAccelerationOptions').classList.remove('hide');
         } else {
             page.querySelector('.hardwareAccelerationOptions').classList.add('hide');

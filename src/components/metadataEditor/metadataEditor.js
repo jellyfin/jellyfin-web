@@ -21,7 +21,8 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
-import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
 
 let currentContext;
 let metadataEditorInfo;
@@ -541,7 +542,7 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldPath', context);
     }
 
-    if (item.Type === 'Series' || item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Person') {
+    if ([BaseItemKind.Series, BaseItemKind.Season, BaseItemKind.Episode, BaseItemKind.Movie, BaseItemKind.Trailer, BaseItemKind.Person].includes(item.Type)) {
         showElement('#fldOriginalName', context);
     } else {
         hideElement('#fldOriginalName', context);
@@ -717,7 +718,7 @@ function setFieldVisibilities(context, item) {
         showElement('#fldDisplayOrder', context);
         hideElement('.seriesDisplayOrderDescription', context);
 
-        context.querySelector('#selectDisplayOrder').innerHTML = '<option value="SortName">' + globalize.translate('SortName') + '</option><option value="PremiereDate">' + globalize.translate('ReleaseDate') + '</option>';
+        context.querySelector('#selectDisplayOrder').innerHTML = '<option value="Default">' + globalize.translate('DateModified') + '<option value="SortName">' + globalize.translate('SortName') + '</option><option value="PremiereDate">' + globalize.translate('ReleaseDate') + '</option>';
     } else if (item.Type === 'Series') {
         showElement('#fldDisplayOrder', context);
         showElement('.seriesDisplayOrderDescription', context);

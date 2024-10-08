@@ -1107,16 +1107,28 @@ export default function (options) {
     let vp9VideoRangeTypes = 'SDR';
     let av1VideoRangeTypes = 'SDR';
 
+    if (browser.tizenVersion >= 3) {
+        hevcVideoRangeTypes += '|DOVIWithSDR';
+    }
+
     if (supportsHdr10(options)) {
         hevcVideoRangeTypes += '|HDR10';
         vp9VideoRangeTypes += '|HDR10';
         av1VideoRangeTypes += '|HDR10';
+
+        if (browser.tizenVersion >= 3) {
+            hevcVideoRangeTypes += '|DOVIWithHDR10';
+        }
     }
 
     if (supportsHlg(options)) {
         hevcVideoRangeTypes += '|HLG';
         vp9VideoRangeTypes += '|HLG';
         av1VideoRangeTypes += '|HLG';
+
+        if (browser.tizenVersion >= 3) {
+            hevcVideoRangeTypes += '|DOVIWithHLG';
+        }
     }
 
     if (supportsDolbyVision(options)) {

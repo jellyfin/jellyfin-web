@@ -1935,5 +1935,12 @@
     "AlwaysRemuxMp3AudioFilesHelp": "Si tienes archivos en los que tu navegador calcula incorrectamente las marcas de tiempo, habilita esta opción como solución temporal.",
     "AllowFmp4TranscodingContainerHelp": "Permitir el contenedor de transcodificación fMP4 para este sintonizador para habilitar contenidos HEVC y HDR. No todos los sintonizadores son compatibles con este contenedor. Deshabilítelo si experimenta problemas de reproducción.",
     "AllowStreamSharingHelp": "Permitir que Jellyfin duplique la transmisión mpegts del sintonizador y comparta esta transmisión duplicada con sus clientes. Esto es útil cuando el sintonizador tiene un límite en la cantidad total de transmisiones, pero también puede causar problemas de reproducción.",
-    "AlwaysRemuxFlacAudioFilesHelp": "Si tienes archivos que tu navegador rechaza reproducir o en los que calcula incorrectamente las marcas de tiempo, habilita esta opción como solución temporal."
+    "AlwaysRemuxFlacAudioFilesHelp": "Si tienes archivos que tu navegador rechaza reproducir o en los que calcula incorrectamente las marcas de tiempo, habilita esta opción como solución temporal.",
+    "LabelDisableVbrAudioEncoding": "Deshabilitar la codificación de audio VBR",
+    "LabelAllowStreamSharing": "Permitir compartir transmisión",
+    "LabelLyricDownloaders": "Descargar letras",
+    "LyricDownloadersHelp": "Habilite y clasifique sus descargadores de subtítulos preferidos en orden de prioridad.",
+    "DisableVbrAudioEncodingHelp": "Evitar que el servidor codifique audio con VBR para este cliente.",
+    "EnableHi10p": "Habilitar perfil H.264 High 10",
+    "EnableHi10pHelp": "Habilite esta opción para evitar la transcodificación de videos H.264 de 10 bits. Desactive esta opción si el video muestra fotogramas en blanco."
 }

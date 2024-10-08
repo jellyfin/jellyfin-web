@@ -1821,7 +1821,7 @@
     "EnableLibraryHelp": "Se desativares a biblioteca, ela será ocultada de todas as visualizações do utilizador.",
     "EnableLibrary": "Ativar a biblioteca",
     "LabelTrickplayAccelEncoding": "Ativar a codificação MJPEG acelerada por hardware",
-    "LabelTrickplayAccelEncodingHelp": "Atualmente apenas disponível em QSV e VAAPI, esta opção não tem efeito noutros métodos de aceleração de hardware.",
+    "LabelTrickplayAccelEncodingHelp": "Atualmente apenas disponível em QSV, VA-API, VideoToolbox e RKMPP, esta opção não tem efeito noutros métodos de aceleração de hardware.",
     "ChannelResolutionUHD4K": "UHD (4K)",
     "Lyrics": "Letras",
     "DeleteLyrics": "Eliminar letras",

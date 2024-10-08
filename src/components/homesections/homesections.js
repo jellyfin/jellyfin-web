@@ -61,7 +61,7 @@ export function loadSections(elem, apiClient, user, userSettings) {
             let html = '';
 
             if (userViews.length) {
-                const userSectionCount = 7;
+                const userSectionCount = 10;
                 // TV layout can have an extra section to ensure libraries are visible
                 const totalSectionCount = layoutManager.tv ? userSectionCount + 1 : userSectionCount;
                 for (let i = 0; i < totalSectionCount; i++) {
