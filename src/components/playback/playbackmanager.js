@@ -2576,7 +2576,7 @@ export class PlaybackManager {
             const apiClient = ServerConnections.getApiClient(item.ServerId);
             let mediaSourceId;
 
-            const isLiveTv = [BaseItemKind.TvChannel, BaseItemKind.Channel, BaseItemKind.LiveTvChannel].includes(item.Type);
+            const isLiveTv = [BaseItemKind.TvChannel, BaseItemKind.LiveTvChannel].includes(item.Type);
 
             if (!isLiveTv) {
                 mediaSourceId = playOptions.mediaSourceId || item.Id;
