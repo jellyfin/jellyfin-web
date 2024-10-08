@@ -22,6 +22,7 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/index.js';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -2573,8 +2574,15 @@ export class PlaybackManager {
             }
 
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            let mediaSourceId = playOptions.mediaSourceId;
-            const getMediaStreams = apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id)
+            let mediaSourceId;
+
+            const isLiveTv = [BaseItemKind.TvChannel, BaseItemKind.Channel, BaseItemKind.LiveTvChannel].includes(item.Type);
+
+            if (!isLiveTv) {
+                mediaSourceId = playOptions.mediaSourceId || item.Id;
+            }
+
+            const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId)
                 .then(fullItem => {
                     return fullItem.MediaStreams;
                 });
@@ -2611,11 +2619,9 @@ export class PlaybackManager {
                 autoSetNextTracks(prevSource, mediaStreams, trackOptions, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
                 if (trackOptions.DefaultAudioStreamIndex != null) {
                     options.audioStreamIndex = trackOptions.DefaultAudioStreamIndex;
-                    mediaSourceId = mediaSourceId || item.Id;
                 }
                 if (trackOptions.DefaultSubtitleStreamIndex != null) {
                     options.subtitleStreamIndex = trackOptions.DefaultSubtitleStreamIndex;
-                    mediaSourceId = mediaSourceId || item.Id;
                 }
 
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options).then(async (mediaSource) => {
