@@ -79,7 +79,7 @@
     "@fontsource/noto-sans-sc": "5.1.0",
     "@fontsource/noto-sans-tc": "5.1.0",
     "@jellyfin/libass-wasm": "4.2.3",
-    "@jellyfin/sdk": "0.0.0-unstable.202410020501",
+    "@jellyfin/sdk": "0.0.0-unstable.202410080502",
     "@mui/icons-material": "5.16.7",
     "@mui/material": "5.16.7",
     "@mui/x-date-pickers": "7.18.0",
