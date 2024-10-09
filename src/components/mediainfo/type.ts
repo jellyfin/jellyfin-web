@@ -1,4 +1,7 @@
+import type { MediaSourceInfo } from '@jellyfin/sdk/lib/generated-client/models/media-source-info';
+
 export interface PrimaryInfoOpts {
+    mediaSourceInfo?: MediaSourceInfo
     showYearInfo?: boolean;
     showAudioContainerInfo?: boolean;
     showEpisodeTitleInfo?: boolean;
