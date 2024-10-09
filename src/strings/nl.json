@@ -46,7 +46,7 @@
     "BoxRear": "Hoes (achterkant)",
     "Browse": "Bladeren",
     "MessageBrowsePluginCatalog": "Bekijk de plug-in-catalogus voor beschikbare plug-ins.",
-    "BurnSubtitlesHelp": "Bepaal of de server ondertiteling moet inbranden bij het transcoderen van video's. Dit heeft een nadelig effect op de systeemprestaties. Selecteer Automatisch om afbeelding-gebaseerde formaten (VobSub, PGS, SUB, IDX etc.) en bepaalde ASS- of SSA-ondertiteling in te branden.",
+    "BurnSubtitlesHelp": "Bepaal of de server ondertiteling moet inbranden. Dit heeft een nadelig effect op de systeemprestaties. Selecteer Automatisch om op afbeeldingen gebaseerde formaten (VobSub, PGS, SUB, IDX etc.) en bepaalde ASS- of SSA-ondertiteling in te branden.",
     "ButtonAddMediaLibrary": "Mediabibliotheek toevoegen",
     "ButtonAddScheduledTaskTrigger": "Trigger toevoegen",
     "ButtonAddServer": "Server toevoegen",
