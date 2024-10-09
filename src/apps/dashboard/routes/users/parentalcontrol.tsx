@@ -188,28 +188,6 @@ const UserParentalControl = () => {
         }
     }, []);
 
-    const renderAccessSchedule = useCallback((schedules: AccessSchedule[]) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('[userparentalcontrol] Unexpected null page reference');
-            return;
-        }
-
-        setAccessSchedules(schedules);
-
-        const accessScheduleList = page.querySelector('.accessScheduleList') as HTMLDivElement;
-
-        for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
-            btnDelete.addEventListener('click', function () {
-                const index = parseInt(btnDelete.getAttribute('data-index') ?? '0', 10);
-                schedules.splice(index, 1);
-                const newindex = schedules.filter((_, i) => i != index);
-                renderAccessSchedule(newindex);
-            });
-        }
-    }, []);
-
     const loadUser = useCallback((user: UserDto, allParentalRatings: ParentalRating[]) => {
         const page = element.current;
 
@@ -242,9 +220,9 @@ const UserParentalControl = () => {
         } else {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.remove('hide');
         }
-        renderAccessSchedule(user.Policy?.AccessSchedules || []);
+        setAccessSchedules(user.Policy?.AccessSchedules || []);
         loading.hide();
-    }, [loadAllowedTags, loadBlockedTags, loadUnratedItems, populateRatings, renderAccessSchedule]);
+    }, [loadAllowedTags, loadBlockedTags, loadUnratedItems, populateRatings]);
 
     const loadData = useCallback(() => {
         if (!userId) {
@@ -285,7 +263,7 @@ const UserParentalControl = () => {
                     }
 
                     schedules[index] = updatedSchedule;
-                    renderAccessSchedule(schedules);
+                    setAccessSchedules(schedules);
                 }).catch(() => {
                     // access schedule closed
                 });
@@ -389,7 +367,26 @@ const UserParentalControl = () => {
         });
 
         (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-    }, [loadAllowedTags, loadBlockedTags, loadData, renderAccessSchedule]);
+    }, [loadAllowedTags, loadBlockedTags, loadData, userId]);
+
+    useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('[userparentalcontrol] Unexpected null page reference');
+            return;
+        }
+
+        const accessScheduleList = page.querySelector('.accessScheduleList') as HTMLDivElement;
+
+        for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
+            btnDelete.addEventListener('click', function () {
+                const index = parseInt(btnDelete.getAttribute('data-index') ?? '0', 10);
+                const newindex = accessSchedules.filter((_e, i) => i != index);
+                setAccessSchedules(newindex);
+            });
+        }
+    }, [accessSchedules]);
 
     const optionMaxParentalRating = () => {
         let content = '';
