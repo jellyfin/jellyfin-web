@@ -1966,5 +1966,7 @@
     "MessageCancelTimerError": "Er is een fout opgetreden bij het annuleren van de tijdklok",
     "MessageSplitVersionsError": "Er is een fout opgetreden bij het splitsen van de versies",
     "MessageCancelSeriesTimerError": "Er is een fout opgetreden bij het annuleren van de serietijdklok",
-    "DateModified": "Datum gewijzigd"
+    "DateModified": "Datum gewijzigd",
+    "LabelScreensaverTimeHelp": "Het aantal seconden inactiviteit waarna de schermbeveiliging gestart wordt.",
+    "LabelScreensaverTime": "Wachttijd schermbeveiliging"
 }
