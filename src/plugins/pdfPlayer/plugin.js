@@ -293,7 +293,7 @@ export class PdfPlayer {
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.book.getPage(number).then(page => {
             const original = page.getViewport({ scale: 1 });
-            const scale = Math.max((window.screen.height / original.height),(window.screen.width / original.width)) * devicePixelRatio;
+            const scale = Math.max((window.screen.height / original.height), (window.screen.width / original.width)) * devicePixelRatio;
             const viewport = page.getViewport({ scale });
 
             canvas.width = viewport.width;
