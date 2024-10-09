@@ -367,7 +367,7 @@ const UserParentalControl = () => {
         });
 
         (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-    }, [loadAllowedTags, loadBlockedTags, loadData]);
+    }, [loadAllowedTags, loadBlockedTags, loadData, userId]);
 
     useEffect(() => {
         const page = element.current;
