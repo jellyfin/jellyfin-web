@@ -39,35 +39,35 @@ export interface PlaybackSubscriber {
 }
 
 export abstract class PlaybackSubscriber {
-    private player: Plugin | undefined;
+    protected player: Plugin | undefined;
 
     private readonly playbackManagerEvents = {
-        [PlaybackManagerEvent.PlaybackCancelled]: this.onPlaybackCancelled,
-        [PlaybackManagerEvent.PlaybackError]: this.onPlaybackError,
-        [PlaybackManagerEvent.PlaybackStart]: this.onPlaybackStart,
-        [PlaybackManagerEvent.PlaybackStop]: this.onPlaybackStop,
-        [PlaybackManagerEvent.PlayerChange]: this.onPlayerChange,
-        [PlaybackManagerEvent.ReportPlayback]: this.onReportPlayback
+        [PlaybackManagerEvent.PlaybackCancelled]: this.onPlaybackCancelled?.bind(this),
+        [PlaybackManagerEvent.PlaybackError]: this.onPlaybackError?.bind(this),
+        [PlaybackManagerEvent.PlaybackStart]: this.onPlaybackStart?.bind(this),
+        [PlaybackManagerEvent.PlaybackStop]: this.onPlaybackStop?.bind(this),
+        [PlaybackManagerEvent.PlayerChange]: this.onPlayerChange?.bind(this),
+        [PlaybackManagerEvent.ReportPlayback]: this.onReportPlayback?.bind(this)
     };
 
     private readonly playerEvents = {
-        [PlayerEvent.Error]: this.onPlayerError,
-        [PlayerEvent.FullscreenChange]: this.onPlayerFullscreenChange,
-        [PlayerEvent.ItemStarted]: this.onPlayerItemStarted,
-        [PlayerEvent.ItemStopped]: this.onPlayerItemStopped,
-        [PlayerEvent.MediaStreamsChange]: this.onPlayerMediaStreamsChange,
-        [PlayerEvent.Pause]: this.onPlayerPause,
-        [PlayerEvent.PlaybackStart]: this.onPlayerPlaybackStart,
-        [PlayerEvent.PlaybackStop]: this.onPlayerPlaybackStop,
-        [PlayerEvent.PlaylistItemAdd]: this.onPlayerPlaylistItemAdd,
-        [PlayerEvent.PlaylistItemMove]: this.onPlayerPlaylistItemMove,
-        [PlayerEvent.PlaylistItemRemove]: this.onPlayerPlaylistItemRemove,
-        [PlayerEvent.RepeatModeChange]: this.onPlayerRepeatModeChange,
-        [PlayerEvent.ShuffleModeChange]: this.onPlayerShuffleModeChange,
-        [PlayerEvent.Stopped]: this.onPlayerStopped,
-        [PlayerEvent.TimeUpdate]: this.onPlayerTimeUpdate,
-        [PlayerEvent.Unpause]: this.onPlayerUnpause,
-        [PlayerEvent.VolumeChange]: this.onPlayerVolumeChange
+        [PlayerEvent.Error]: this.onPlayerError?.bind(this),
+        [PlayerEvent.FullscreenChange]: this.onPlayerFullscreenChange?.bind(this),
+        [PlayerEvent.ItemStarted]: this.onPlayerItemStarted?.bind(this),
+        [PlayerEvent.ItemStopped]: this.onPlayerItemStopped?.bind(this),
+        [PlayerEvent.MediaStreamsChange]: this.onPlayerMediaStreamsChange?.bind(this),
+        [PlayerEvent.Pause]: this.onPlayerPause?.bind(this),
+        [PlayerEvent.PlaybackStart]: this.onPlayerPlaybackStart?.bind(this),
+        [PlayerEvent.PlaybackStop]: this.onPlayerPlaybackStop?.bind(this),
+        [PlayerEvent.PlaylistItemAdd]: this.onPlayerPlaylistItemAdd?.bind(this),
+        [PlayerEvent.PlaylistItemMove]: this.onPlayerPlaylistItemMove?.bind(this),
+        [PlayerEvent.PlaylistItemRemove]: this.onPlayerPlaylistItemRemove?.bind(this),
+        [PlayerEvent.RepeatModeChange]: this.onPlayerRepeatModeChange?.bind(this),
+        [PlayerEvent.ShuffleModeChange]: this.onPlayerShuffleModeChange?.bind(this),
+        [PlayerEvent.Stopped]: this.onPlayerStopped?.bind(this),
+        [PlayerEvent.TimeUpdate]: this.onPlayerTimeUpdate?.bind(this),
+        [PlayerEvent.Unpause]: this.onPlayerUnpause?.bind(this),
+        [PlayerEvent.VolumeChange]: this.onPlayerVolumeChange?.bind(this)
     };
 
     constructor(
