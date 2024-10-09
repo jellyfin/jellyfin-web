@@ -1968,5 +1968,7 @@
     "MessageCancelSeriesTimerError": "Er is een fout opgetreden bij het annuleren van de serietijdklok",
     "DateModified": "Datum gewijzigd",
     "LabelScreensaverTimeHelp": "Het aantal seconden inactiviteit waarna de schermbeveiliging gestart wordt.",
-    "LabelScreensaverTime": "Wachttijd schermbeveiliging"
+    "LabelScreensaverTime": "Wachttijd schermbeveiliging",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Ondertiteling altijd inbranden bij transcoderen",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Alle ondertiteling inbranden wanneer er getranscodeerd wordt. Dit verzekert dat ondertiteling gelijkloopt, maar verlaagt de transcodeersnelheid."
 }
