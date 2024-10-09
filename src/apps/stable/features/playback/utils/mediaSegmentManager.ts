@@ -5,6 +5,7 @@ import { MediaSegmentsApi } from '@jellyfin/sdk/lib/generated-client/api/media-s
 
 import type { PlaybackManager } from 'components/playback/playbackmanager';
 import ServerConnections from 'components/ServerConnections';
+import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import type { PlayerState } from 'types/playbackStopInfo';
 import type { Event } from 'utils/events';
@@ -44,7 +45,13 @@ class MediaSegmentManager extends PlaybackSubscriber {
         if (action === MediaSegmentAction.Skip) {
             // Perform skip
             if (mediaSegment.EndTicks) {
-                console.debug('[MediaSegmentManager] skipping to %s ms', mediaSegment.EndTicks / 10000);
+                // Do not skip if duration < 1s to avoid slow stream changes
+                if (mediaSegment.StartTicks && mediaSegment.EndTicks - mediaSegment.StartTicks < TICKS_PER_SECOND) {
+                    console.info('[MediaSegmentManager] ignoring skipping segment with duration <1s', mediaSegment);
+                    return;
+                }
+
+                console.debug('[MediaSegmentManager] skipping to %s ms', mediaSegment.EndTicks / TICKS_PER_MILLISECOND);
                 this.playbackManager.seek(mediaSegment.EndTicks, this.player);
             } else {
                 console.debug('[MediaSegmentManager] skipping to next item in queue');
@@ -88,10 +95,14 @@ class MediaSegmentManager extends PlaybackSubscriber {
 
     onPlayerTimeUpdate() {
         if (this.hasSegments && this.mediaSegments.length) {
-            const time = this.playbackManager.currentTime(this.player) * 10000;
+            const time = this.playbackManager.currentTime(this.player) * TICKS_PER_MILLISECOND;
             const currentSegmentDetails = findCurrentSegment(this.mediaSegments, time, this.lastIndex);
             if (currentSegmentDetails) {
-                console.debug('[MediaSegmentManager] found %s segment at %s ms', currentSegmentDetails.segment.Type, time / 10000, currentSegmentDetails);
+                console.debug(
+                    '[MediaSegmentManager] found %s segment at %s ms',
+                    currentSegmentDetails.segment.Type,
+                    time / TICKS_PER_MILLISECOND,
+                    currentSegmentDetails);
                 this.performAction(currentSegmentDetails.segment);
                 this.lastIndex = currentSegmentDetails.index;
             }
