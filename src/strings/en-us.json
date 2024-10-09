@@ -861,6 +861,8 @@
     "LabelSaveTrickplayLocallyHelp": "Saving trickplay images into media folders will put them next to your media for easy migration and access.",
     "LabelScheduledTaskLastRan": "Last ran {0}, taking {1}.",
     "LabelScreensaver": "Screensaver",
+    "LabelScreensaverTime": "Screensaver Time",
+    "LabelScreensaverTimeHelp": "The amount of time in seconds of inactivity required to start the screensaver.",
     "LabelSeasonNumber": "Season number",
     "LabelSelectFolderGroups": "Automatically group content from the following folders into views such as 'Movies', 'Music' and 'TV'",
     "LabelSelectFolderGroupsHelp": "Folders that are unchecked will be displayed by themselves in their own view.",
