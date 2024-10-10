@@ -181,6 +181,21 @@ function loadUserList(context, apiClient, users) {
     context.querySelector('#divUsers').innerHTML = html;
 }
 
+function togglePassword() {
+    const input = document.querySelector('.inputContainer #txtManualPassword');
+    const icon = document.querySelector('.inputContainer .passwordToggle .material-icons');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('visibility');
+        icon.classList.add('visibility_off');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('visibility_off');
+        icon.classList.add('visibility');
+    }
+}
+
 export default function (view, params) {
     function getApiClient() {
         const serverId = params.serverid;
@@ -310,5 +325,6 @@ export default function (view, params) {
     view.addEventListener('viewhide', function () {
         libraryMenu.setTransparentMenu(false);
     });
+    view.querySelector('.passwordToggle').addEventListener('click', togglePassword);
 }
 
