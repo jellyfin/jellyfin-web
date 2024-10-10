@@ -44,7 +44,7 @@
     "BoxRear": "Box (Rückseite)",
     "Browse": "Durchsuchen",
     "MessageBrowsePluginCatalog": "Durchsuche unseren Katalog, um alle verfügbaren Plugins anzuzeigen.",
-    "BurnSubtitlesHelp": "Legt fest, ob der Server die Untertitel während der Videotranskodierung einbrennen soll. Deaktivieren verbessert die Serverperformance immens. Wähle Auto, um bildbasierte Formate (z.B. VobSub, PGS, SUB, IDX, etc.) sowie bestimmte ASS- oder SSA-Untertitel einbrennen zu lassen.",
+    "BurnSubtitlesHelp": "Legt fest, ob der Server die Untertitel einbrennen soll. Deaktivieren verbessert die Serverperformance immens. Wähle Auto, um bildbasierte Formate (z.B. VobSub, PGS, SUB, IDX, etc.) sowie bestimmte ASS- oder SSA-Untertitel einbrennen zu lassen.",
     "ButtonAddMediaLibrary": "Medienbibliothek hinzufügen",
     "ButtonAddScheduledTaskTrigger": "Auslöser hinzufügen",
     "ButtonAddServer": "Server hinzufügen",
@@ -1963,5 +1963,7 @@
     "UseCustomTagDelimitersHelp": "Trennen Sie Künstler-/Genre-Tags mit benutzerdefinierten Zeichen.",
     "LabelCustomTagDelimiters": "Benutzerdefinierte Tag-Begrenzung",
     "LabelDelimiterWhitelist": "Trennzeichen Whitelist",
-    "UseCustomTagDelimiters": "Benutzerdefinierte Tag-Begrenzung verwenden"
+    "UseCustomTagDelimiters": "Benutzerdefinierte Tag-Begrenzung verwenden",
+    "DateModified": "Datum verändert",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Beim Transkodieren immer Untertitel einbrennen"
 }
