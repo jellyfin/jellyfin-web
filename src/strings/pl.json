@@ -1422,7 +1422,7 @@
     "QuickConnectAuthorizeFail": "Nieznany kod szybkiego łączenia",
     "QuickConnect": "Szybkie łączenie",
     "LabelQuickConnectCode": "Kod szybkiego łączenia",
-    "LabelPublishedServerUriHelp": "Nadpisz URI używane przez Jellyfin bazując na interfejsie lub adresie IP klienta.",
+    "LabelPublishedServerUriHelp": "Zastąp URI używany przez Jellyfin na podstawie interfejsu lub adresu IP klienta. Na przykład: internal=http://jellyfin.example.com, external=https://jellyfin.example.comm lub all=https://jellyfin.example.com",
     "LabelPublishedServerUri": "Publiczne URI serwera",
     "LabelMinAudiobookResumeHelp": "Tytuły są uważane za nieodtworzone jeśli zostały zatrzymane przed tym czasem.",
     "LabelMinAudiobookResume": "Minimalne wznowienie audiobooka w minutach",
