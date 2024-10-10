@@ -36,7 +36,7 @@ function getShortcutOptions() {
     };
 }
 
-interface ItemsContainerProps {
+export interface ItemsContainerProps {
     className?: string;
     isContextMenuEnabled?: boolean;
     isMultiSelectEnabled?: boolean;
@@ -136,14 +136,13 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             }
 
             if (!itemId) throw new Error('null itemId');
-            if (!newIndex) throw new Error('null newIndex');
 
             try {
                 loading.show();
                 await playlistsMoveItemMutation({
                     playlistId,
                     itemId,
-                    newIndex
+                    newIndex: newIndex || 0
                 });
                 loading.hide();
             } catch (error) {
