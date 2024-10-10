@@ -7,10 +7,10 @@ import '../card.scss';
 
 interface CardsProps {
     items: ItemDto[];
-    cardOptions: CardOptions;
+    cardOptions?: CardOptions;
 }
 
-const Cards: FC<CardsProps> = ({ items, cardOptions }) => {
+const Cards: FC<CardsProps> = ({ items, cardOptions = {} }) => {
     setCardData(items, cardOptions);
 
     const renderCards = () =>
