@@ -84,6 +84,66 @@ function unsubscribeFromPlayerUpdates(instance) {
     }
 }
 
+async function updatePlaylist(instance, queue) {
+    instance.playlist = [];
+    const max = 100;
+    const apiClient = getCurrentApiClient(instance);
+
+    const fetch = async (newQueue) => {
+        const options = {
+            ids: newQueue.map(i => i.Id ),
+            serverId: apiClient.serverId()
+        };
+
+        const result = await playbackManager.getItemsForPlayback(options.serverId, {
+            Ids: options.ids.join(',')
+        });
+
+        const items = await playbackManager.translateItemsForPlayback(result.Items, options);
+
+        for (let i = 0, length = items.length; i < length; i++) {
+            items[i].PlaylistItemId = newQueue[i].PlaylistItemId;
+        }
+        return items;
+    };
+
+    const n = Math.floor(queue.length / max) + 1;
+
+    for (let i = 0; i < n; i++) {
+        instance.playlist.push(...await fetch(queue.slice(max * i, max * (i + 1))));
+    }
+}
+
+function compareQueues(q1, q2) {
+    if (q1.length !== q2.length)
+        return true;
+
+    for (let i = 0, length = q1.length; i < length; i++) {
+        if (q1[i].Id !== q2[i].Id || q1[i].PlaylistItemId !== q2[i].PlaylistItemId) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function updateCurrentQueue(instance, session) {
+    const current = session.NowPlayingQueue;
+    if (instance.updating_playlist)
+        return;
+
+    if (instance.lastPlayerData && !compareQueues(current, instance.playlist))
+        return;
+
+    instance.updating_playlist = true;
+
+    const finish = () => {
+        instance.updating_playlist = false;
+        instance.render_playlist = true;
+    };
+
+    updatePlaylist(instance, current).then(finish, finish);
+}
+
 function processUpdatedSessions(instance, sessions, apiClient) {
     const serverId = apiClient.serverId();
 
@@ -103,6 +163,8 @@ function processUpdatedSessions(instance, sessions, apiClient) {
         normalizeImages(session, apiClient);
 
         const eventNames = getChangedEvents(instance.lastPlayerData);
+        updateCurrentQueue(instance, session);
+
         instance.lastPlayerData = session;
 
         for (let i = 0, length = eventNames.length; i < length; i++) {
@@ -185,6 +247,11 @@ class SessionPlayer {
         this.type = PluginType.MediaPlayer;
         this.isLocalPlayer = false;
         this.id = 'remoteplayer';
+
+        this.playlist = [];
+        this.render_playlist = true;
+        this.updating_playlist = false;
+        this.last_song_playlist_id = 0;
 
         Events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
             processUpdatedSessions(self, data, apiClient);
@@ -484,16 +551,83 @@ class SessionPlayer {
         return state.MediaType === 'Audio';
     }
 
+    getTrackIndex(PlaylistItemId) {
+        for (let i = 0, length = this.playlist.length; i < length; i++) {
+            if (this.playlist[i].PlaylistItemId === PlaylistItemId) {
+                return i;
+            }
+        }
+    }
+
     getPlaylist() {
+        let song_id = 0;
+
+        if (this.lastPlayerData) {
+            song_id = this.lastPlayerData.PlaylistItemId;
+        }
+
+        if (this.playlist.length > 0 && (this.render_playlist || song_id !== this.last_song_playlist_id)) {
+            this.render_playlist = false;
+            this.last_song_playlist_id = song_id;
+            return Promise.resolve(this.playlist);
+        }
         return Promise.resolve([]);
     }
 
+    movePlaylistItem(playlistItemId, newIndex) {
+        const index = this.getTrackIndex(playlistItemId);
+        if (index === newIndex)
+            return;
+
+        const current = this.getCurrentPlaylistItemId();
+        let current_pos = 0;
+
+        if (current === playlistItemId)
+            current_pos = newIndex;
+
+        const append = (newIndex + 1 >= this.playlist.length);
+
+        if (newIndex > index)
+            newIndex++;
+
+        const ids = [];
+        const item = this.playlist[index];
+
+        for (let i = 0, length = this.playlist.length; i < length; i++) {
+            if (i === index)
+                continue;
+
+            if (i === newIndex)
+                ids.push(item.Id);
+
+            if (this.playlist[i].PlaylistItemId === current)
+                current_pos = ids.length;
+
+            ids.push(this.playlist[i].Id);
+        }
+
+        if (append)
+            ids.push(item.Id);
+
+        const options = {
+            ids: ids,
+            startIndex: current_pos
+        };
+
+        return sendPlayCommand(getCurrentApiClient(this), options, 'PlayNow');
+    }
+
     getCurrentPlaylistItemId() {
+        return this.lastPlayerData.PlaylistItemId;
         // not supported?
     }
 
-    setCurrentPlaylistItem() {
-        return Promise.resolve();
+    setCurrentPlaylistItem(PlaylistItemId) {
+        const options = {
+            ids: this.playlist.map(i => i.Id),
+            startIndex: this.getTrackIndex(PlaylistItemId)
+        };
+        return sendPlayCommand(getCurrentApiClient(this), options, 'PlayNow');
     }
 
     removeFromPlaylist() {
