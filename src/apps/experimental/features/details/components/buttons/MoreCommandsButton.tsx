@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useQueryClient } from '@tanstack/react-query';
@@ -113,6 +113,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
         itemId: selectedItemId || itemId || ''
     });
     const parentId = item?.SeasonId || item?.SeriesId || item?.ParentId;
+    const [ hasCommands, setHasCommands ] = useState(false);
 
     const playlistItem = useMemo(() => {
         let PlaylistItemId: string | null = null;
@@ -198,10 +199,15 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
         [defaultMenuOptions, item, itemId, items, parentId, queryClient, queryKey]
     );
 
-    if (
-        item
-        && itemContextMenu.getCommands(defaultMenuOptions).length
-    ) {
+    useEffect(() => {
+        const getCommands = async () => {
+            const commands = await itemContextMenu.getCommands(defaultMenuOptions);
+            setHasCommands(commands.length > 0);
+        };
+        void getCommands();
+    }, [ defaultMenuOptions ]);
+
+    if (item && hasCommands) {
         return (
             <IconButton
                 className='button-flat btnMoreCommands'
