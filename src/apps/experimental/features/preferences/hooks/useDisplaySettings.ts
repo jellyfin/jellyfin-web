@@ -96,6 +96,8 @@ async function loadDisplaySettings({
         maxDaysForNextUp: settings.maxDaysForNextUp(),
         screensaver: settings.screensaver() || 'none',
         screensaverInterval: settings.backdropScreensaverInterval(),
+        libraryThemeMediaSortBy:  settings.themeMediaSortBy(),
+        libraryThemeMediaSortOrder:  settings.themeMediaSortOrder(),
         theme: settings.theme()
     };
 
@@ -138,6 +140,8 @@ async function saveDisplaySettings({
     userSettings.libraryPageSize(newDisplaySettings.libraryPageSize);
     userSettings.maxDaysForNextUp(newDisplaySettings.maxDaysForNextUp);
     userSettings.screensaver(normalizeValue(newDisplaySettings.screensaver));
+    userSettings.themeMediaSortBy(newDisplaySettings.libraryThemeMediaSortBy);
+    userSettings.themeMediaSortOrder(newDisplaySettings.libraryThemeMediaSortOrder);
     userSettings.backdropScreensaverInterval(newDisplaySettings.screensaverInterval);
     userSettings.theme(newDisplaySettings.theme);
 
