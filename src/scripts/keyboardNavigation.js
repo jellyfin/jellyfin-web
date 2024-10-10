@@ -16,6 +16,8 @@ const KeyNames = {
     19: 'Pause',
     27: 'Escape',
     32: 'Space',
+    35: 'End',
+    36: 'Home',
     37: 'ArrowLeft',
     38: 'ArrowUp',
     39: 'ArrowRight',
