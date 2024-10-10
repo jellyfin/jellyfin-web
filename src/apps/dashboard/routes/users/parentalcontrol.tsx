@@ -2,11 +2,10 @@ import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/
 import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
 import escapeHTML from 'escape-html';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import globalize from '../../../../lib/globalize';
-import LibraryMenu from '../../../../scripts/libraryMenu';
 import AccessScheduleList from '../../../../components/dashboard/users/AccessScheduleList';
 import TagList from '../../../../components/dashboard/users/TagList';
 import ButtonElement from '../../../../elements/ButtonElement';
@@ -69,6 +68,7 @@ const UserParentalControl = () => {
     const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const [ allowedTags, setAllowedTags ] = useState<string[]>([]);
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
+    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -188,28 +188,6 @@ const UserParentalControl = () => {
         }
     }, []);
 
-    const renderAccessSchedule = useCallback((schedules: AccessSchedule[]) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('[userparentalcontrol] Unexpected null page reference');
-            return;
-        }
-
-        setAccessSchedules(schedules);
-
-        const accessScheduleList = page.querySelector('.accessScheduleList') as HTMLDivElement;
-
-        for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
-            btnDelete.addEventListener('click', function () {
-                const index = parseInt(btnDelete.getAttribute('data-index') ?? '0', 10);
-                schedules.splice(index, 1);
-                const newindex = schedules.filter((_, i) => i != index);
-                renderAccessSchedule(newindex);
-            });
-        }
-    }, []);
-
     const loadUser = useCallback((user: UserDto, allParentalRatings: ParentalRating[]) => {
         const page = element.current;
 
@@ -219,7 +197,7 @@ const UserParentalControl = () => {
         }
 
         setUserName(user.Name || '');
-        LibraryMenu.setTitle(user.Name);
+        void libraryMenu.then(menu => menu.setTitle(user.Name));
         loadUnratedItems(user);
 
         loadAllowedTags(user.Policy?.AllowedTags || []);
@@ -242,9 +220,9 @@ const UserParentalControl = () => {
         } else {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.remove('hide');
         }
-        renderAccessSchedule(user.Policy?.AccessSchedules || []);
+        setAccessSchedules(user.Policy?.AccessSchedules || []);
         loading.hide();
-    }, [loadAllowedTags, loadBlockedTags, loadUnratedItems, populateRatings, renderAccessSchedule]);
+    }, [loadAllowedTags, loadBlockedTags, loadUnratedItems, populateRatings]);
 
     const loadData = useCallback(() => {
         if (!userId) {
@@ -285,7 +263,7 @@ const UserParentalControl = () => {
                     }
 
                     schedules[index] = updatedSchedule;
-                    renderAccessSchedule(schedules);
+                    setAccessSchedules(schedules);
                 }).catch(() => {
                     // access schedule closed
                 });
@@ -389,7 +367,26 @@ const UserParentalControl = () => {
         });
 
         (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-    }, [loadAllowedTags, loadBlockedTags, loadData, renderAccessSchedule]);
+    }, [loadAllowedTags, loadBlockedTags, loadData, userId]);
+
+    useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('[userparentalcontrol] Unexpected null page reference');
+            return;
+        }
+
+        const accessScheduleList = page.querySelector('.accessScheduleList') as HTMLDivElement;
+
+        for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
+            btnDelete.addEventListener('click', function () {
+                const index = parseInt(btnDelete.getAttribute('data-index') ?? '0', 10);
+                const newindex = accessSchedules.filter((_e, i) => i != index);
+                setAccessSchedules(newindex);
+            });
+        }
+    }, [accessSchedules]);
 
     const optionMaxParentalRating = () => {
         let content = '';

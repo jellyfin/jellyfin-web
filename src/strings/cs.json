@@ -1023,7 +1023,7 @@
     "Banner": "Výřez plakátu",
     "Blacklist": "Zakázat vše kromě výjimek",
     "Browse": "Procházet",
-    "BurnSubtitlesHelp": "Zda má server při překódování videa vypálit titulky do obrazu. Tato funkce má velký negativní vliv na výkon. Chcete-li vypálit grafické formáty titulků (VobSub, PGS, SUB, IDX, atd.) a některé titulky ASS nebo SSA, vyberte možnost Automaticky.",
+    "BurnSubtitlesHelp": "Zda má server vypálit titulky do obrazu. Tato funkce má velký negativní vliv na výkon. Chcete-li vypálit grafické formáty titulků (VobSub, PGS, SUB, IDX, atd.) a některé titulky ASS nebo SSA, vyberte možnost Automaticky.",
     "ButtonInfo": "Info",
     "ButtonOk": "Ok",
     "ButtonScanAllLibraries": "Skenovat všechny knihovny",
@@ -1780,7 +1780,7 @@
     "LabelSelectAudioNormalization": "Normalizace hlasitosti",
     "LabelAlbumGain": "Na úrovni alba",
     "LabelTrackGain": "Na úrovni skladby",
-    "SelectAudioNormalizationHelp": "Normalizace na úrovni skladby upraví hlasitost všech skladeb tak, aby byla všude stejná. Normalizace na úrovni alba upraví hlasitost všech skladeb tak, aby byla hlasitost stejná v rámci jednotlivých alb.",
+    "SelectAudioNormalizationHelp": "Normalizace na úrovni skladby upraví hlasitost všech skladeb tak, aby byla všude stejná. Normalizace na úrovni alba upraví hlasitost všech skladeb tak, aby byla hlasitost stejná v rámci jednotlivých alb. Vypnutí a následné zapnutí vyžaduje restart aktuálně hrající skladby.",
     "SearchResultsEmpty": "Pro “{0}” nebylo nic nalezeno",
     "HeaderAllRecordings": "Všechny nahrávky",
     "LabelBuildVersion": "Verze sestavení",
@@ -1967,5 +1967,9 @@
     "RenderPgsSubtitle": "Experimentální rendrování titulků ve formátu PGS",
     "RenderPgsSubtitleHelp": "Zda má klient zobrazit titulky ve formátu PGS místo jejich vypálení do obrazu. Můžete se tak vyhnout překódování na serveru výměnou za horší výkon klienta.",
     "UseCustomTagDelimiters": "Použít vlastní oddělovač značek",
-    "UseCustomTagDelimitersHelp": "Rozdělit značky pro umělce a žánry pomocí vlastních znaků."
+    "UseCustomTagDelimitersHelp": "Rozdělit značky pro umělce a žánry pomocí vlastních znaků.",
+    "LabelScreensaverTime": "Prodleva spořiče obrazovky",
+    "LabelScreensaverTimeHelp": "Po jak dlouhé neaktivitě (v sekundách) se má spustit spořič obrazovky.",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Vždy vypálit titulky do obrazu při překódování",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Vypálit všechny titulky do obrazu při překódování. To zaručí, že budou titulky po překódování synchronizovány, ale překódování bude pomalejší."
 }
