@@ -1428,7 +1428,7 @@
     "LabelSSDPTracingFilterHelp": "Voliteľná IP adresa, pomocou ktorej sa má filtrovať logovaná SSDP komunikácia.",
     "LabelSSDPTracingFilter": "SSDP filter",
     "LabelQuickConnectCode": "Kód pre Rýchle pripojenie",
-    "LabelPublishedServerUriHelp": "Prepíšte URI požadovaným serverom Jellyfin v závislosti na rozhraní alebo IP adrese klienta.",
+    "LabelPublishedServerUriHelp": "Prepíšte URI požadovaným serverom Jellyfin v závislosti na rozhraní alebo IP adrese klienta. Napríklad: internal=http://jellyfin.example.com, external=https://jellyfin.example.com alebo all=https://jellyfin.example.com",
     "LabelPublishedServerUri": "Verejné URI serveru",
     "LabelOpenclDeviceHelp": "Zariadenie OpenCL použité pre mapovanie tónov. Naľavo od bodky je číslo platformy, napravo je číslo zariadenia na tejto platforme. Predvolená hodnota je 0.0. Je vyžadovaný súbor aplikácie FFmpeg obsahujúci metódu hardvérovej akcelerácie OpenCL.",
     "LabelOpenclDevice": "Zariadenie OpenCL",
