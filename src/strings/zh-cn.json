@@ -1467,7 +1467,7 @@
     "LabelUDPPortRangeHelp": "进行UDP连接时，限制 Jellyfin 使用此端口范围。（默认值为 1024 - 65535）。<br/> 注意：某些功能需要固定端口，这些端口可能不在此范围内。",
     "LabelUDPPortRange": "UDP 通信范围",
     "LabelSSDPTracingFilterHelp": "筛选记录的 SSDP 流量所依据的可选 IP 地址。",
-    "LabelPublishedServerUriHelp": "根据接口或客户端 IP 地址覆盖 Jellyfin 使用的 URI。",
+    "LabelPublishedServerUriHelp": "根据接口或客户端 IP 地址覆盖 Jellyfin 使用的 URI。例如：internal=http://jellyfin.example.com、external=https://jellyfin.example.com 或 all=https://jellyfin.example.com",
     "LabelIsForced": "强制的",
     "LabelHDHomerunPortRangeHelp": "将 HD Homerun 的 UDP 端口范围限制为该值。（默认值为 1024 - 65535）。",
     "LabelHDHomerunPortRange": "HDHomeRun 端口范围",
