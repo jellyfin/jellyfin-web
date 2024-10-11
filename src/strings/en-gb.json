@@ -1455,7 +1455,7 @@
     "LabelHDHomerunPortRange": "HDHomeRun port range",
     "LabelHDHomerunPortRangeHelp": "Restricts the HDHomeRun UDP port range to this value. (Default is 1024 - 65535).",
     "LabelPublishedServerUri": "Published Server URIs",
-    "LabelPublishedServerUriHelp": "Override the URI used by Jellyfin, based on the interface, or client IP address.",
+    "LabelPublishedServerUriHelp": "Override the URI used by Jellyfin, based on the interface, or client IP address. For example: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, or all=https://jellyfin.example.com",
     "HeaderDebugging": "Debugging and Tracing",
     "LabelEnableSSDPTracing": "Enable SSDP Tracing",
     "LabelEnableSSDPTracingHelp": "Enable details SSDP network tracing to be logged.<br/><b>WARNING:</b> This will cause serious performance degradation.",
