@@ -1462,7 +1462,7 @@
     "LabelUDPPortRange": "Rozsah pro komunikaci UDP",
     "LabelSSDPTracingFilterHelp": "Nepovinná IP adresa, pomocí které se má filtrovat zaznamenaná komunikace SSDP.",
     "LabelSSDPTracingFilter": "Filtr SSDP",
-    "LabelPublishedServerUriHelp": "Přepíše URI používanou serverem Jellyfin v závislosti na rozhraní nebo IP adrese klienta.",
+    "LabelPublishedServerUriHelp": "Přepíše URI používanou serverem Jellyfin v závislosti na rozhraní nebo IP adrese klienta. Například: internal=http://jellyfin.example.com, external=https://jellyfin.example.com nebo all=https://jellyfin.example.com",
     "LabelPublishedServerUri": "Veřejné URI serveru",
     "LabelIsForced": "Vynucené",
     "LabelHDHomerunPortRangeHelp": "Omezí rozsah UDP portů HDHomeRun na tuto hodnotu. (Výchozí hodnota je 1024-65535).",
