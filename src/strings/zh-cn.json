@@ -45,7 +45,7 @@
     "Books": "书籍",
     "Browse": "浏览",
     "MessageBrowsePluginCatalog": "浏览我们的插件目录来查看现有插件。",
-    "BurnSubtitlesHelp": "确定服务器是否应该在转码视频时刻录字幕。 避免这种情况将大大提高性能。 选择自动刻录基于图像的格式（VobSub、PGS、SUB、IDX 等）和某些 ASS 或 SSA 字幕。",
+    "BurnSubtitlesHelp": "确定服务器是否应该烧录字幕。 避免这种情况将大大提高性能。 选择自动烧录基于图像的格式（VobSub、PGS、SUB、IDX 等）和某些 ASS 或 SSA 字幕。",
     "ButtonAddMediaLibrary": "添加媒体库",
     "ButtonAddScheduledTaskTrigger": "添加触发器",
     "ButtonAddServer": "添加服务器",
@@ -1467,7 +1467,7 @@
     "LabelUDPPortRangeHelp": "进行UDP连接时，限制 Jellyfin 使用此端口范围。（默认值为 1024 - 65535）。<br/> 注意：某些功能需要固定端口，这些端口可能不在此范围内。",
     "LabelUDPPortRange": "UDP 通信范围",
     "LabelSSDPTracingFilterHelp": "筛选记录的 SSDP 流量所依据的可选 IP 地址。",
-    "LabelPublishedServerUriHelp": "根据接口或客户端 IP 地址覆盖 Jellyfin 使用的 URI。",
+    "LabelPublishedServerUriHelp": "根据接口或客户端 IP 地址覆盖 Jellyfin 使用的 URI。例如：internal=http://jellyfin.example.com、external=https://jellyfin.example.com 或 all=https://jellyfin.example.com",
     "LabelIsForced": "强制的",
     "LabelHDHomerunPortRangeHelp": "将 HD Homerun 的 UDP 端口范围限制为该值。（默认值为 1024 - 65535）。",
     "LabelHDHomerunPortRange": "HDHomeRun 端口范围",
@@ -1967,5 +1967,9 @@
     "MessageCancelSeriesTimerError": "取消节目计时器时发生错误",
     "MessageCancelTimerError": "取消计时器时发生错误",
     "MessageSplitVersionsError": "分割版本时发生错误",
-    "DateModified": "修改日期"
+    "DateModified": "修改日期",
+    "AlwaysBurnInSubtitleWhenTranscoding": "转码时总是烧录字幕",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "当转码触发时烧录所有字幕。 这样可以保证转码后的字幕同步，但转码速度会降低。",
+    "LabelScreensaverTime": "屏幕保护时间",
+    "LabelScreensaverTimeHelp": "启动屏幕保护程序所需的无活动时间（以秒为单位）。"
 }

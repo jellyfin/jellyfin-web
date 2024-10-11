@@ -42,7 +42,7 @@
     "BoxRear": "Box (retro)",
     "Browse": "Esplora",
     "MessageBrowsePluginCatalog": "Sfoglia il catalogo dei Plugins.",
-    "BurnSubtitlesHelp": "Determina se il server deve imprimere i sottotitoli quando i video vengono convertiti. Evitare ciò migliorerà di molto le prestazioni. Selezionare Auto per imprimere formati basati sull'immagine (VobSub, PGS, SUB, IDX, ecc.) e alcuni sottotitoli ASS o SSA.",
+    "BurnSubtitlesHelp": "Determina se il server deve imprimere i sottotitoli. Evitare ciò migliorerà di molto le prestazioni. Selezionare Auto per imprimere formati basati sull'immagine (VobSub, PGS, SUB, IDX, ecc.) e alcuni sottotitoli ASS o SSA.",
     "ButtonAddMediaLibrary": "Aggiungi raccolta multimediale",
     "ButtonAddScheduledTaskTrigger": "Aggiungi operazione",
     "ButtonAddServer": "Aggiungi server",
@@ -1424,7 +1424,7 @@
     "YoutubePlaybackError": "Il video richiesto non può essere riprodotto.",
     "YoutubeBadRequest": "Richiesta non valida.",
     "PluginFromRepo": "{0} dal repository {1}",
-    "LabelPublishedServerUriHelp": "Sovrascrivi l'URI utilizzata da Jellyfin basandosi sull'interfaccia o sull'indirizzo IP del client.",
+    "LabelPublishedServerUriHelp": "Sovrascrivi l'URI utilizzata da Jellyfin basandosi sull'interfaccia o sull'indirizzo IP del client, ad esempio: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, oppure all=https://jellyfin.example.com",
     "LabelMaxMuxingQueueSizeHelp": "Massimo numero di pacchetti che possono essere bufferizzati prima che tutti gli stream vengano inizializzati. Prova ad incrementare il numero se si nota nei messaggi di errore di FFmpeg il messaggio \"Too many packets buffered for output stream\". Il valore raccomandato è 2048.",
     "LabelEnableIP6Help": "Abilita la funzionalità IPv6.",
     "LabelEnableIP6": "Abilita IPv6",
@@ -1946,5 +1946,7 @@
     "ReplaceTrickplayImages": "Sostituisci le immagini trickplay",
     "FallbackMaxStreamingBitrateHelp": "Il bitrate massimo dello streaming viene utilizzato quando ffprobe non è in grado di determinare il bitrate sorgente. Ciò aiuta a impedire che i client richiedano un bitrate di transcodifica troppo alto che potrebbe causare il fallimento del player e il sovraccarico dell'encoder.",
     "LabelFallbackMaxStreamingBitrate": "Bitrate massimo di ripiego (Mbps)",
-    "DateModified": "Data di modifica"
+    "DateModified": "Data di modifica",
+    "LabelScreensaverTimeHelp": "Tempo di inattività in secondi per l'avvio dello screensaver.",
+    "LabelLyricDownloaders": "Scaricatori di testi"
 }

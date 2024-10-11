@@ -984,7 +984,7 @@
     "CancelSeries": "Ukončiť seriál",
     "ButtonSplit": "Rozdeliť",
     "ButtonAddImage": "Pridať obrázok",
-    "BurnSubtitlesHelp": "Určuje, či má server pri prekódovaní videa vypáliť titulky do obrazu. Vynechanie tejto možnosti výrazne zvýši výkon. Vyberte možnosť Automaticky, pokiaľ chcete vypáliť do obrazu titulky v grafickom formáte (VobSub, PGS, SUB, IDX, atd.) a niektoré ASS alebo SSA titulky.",
+    "BurnSubtitlesHelp": "Určuje, či má server vypáliť titulky do videa. Vynechanie tejto možnosti výrazne zvýši výkon. Vyberte možnosť Automaticky, pokiaľ chcete vypáliť do obrazu titulky v grafickom formáte (VobSub, PGS, SUB, IDX, atd.) a niektoré ASS alebo SSA titulky.",
     "MessageBrowsePluginCatalog": "Prehliadnite si náš katalóg dostupných zásuvných modulov.",
     "Browse": "Prechádzať",
     "Blacklist": "Blacklist",
@@ -1428,7 +1428,7 @@
     "LabelSSDPTracingFilterHelp": "Voliteľná IP adresa, pomocou ktorej sa má filtrovať logovaná SSDP komunikácia.",
     "LabelSSDPTracingFilter": "SSDP filter",
     "LabelQuickConnectCode": "Kód pre Rýchle pripojenie",
-    "LabelPublishedServerUriHelp": "Prepíšte URI požadovaným serverom Jellyfin v závislosti na rozhraní alebo IP adrese klienta.",
+    "LabelPublishedServerUriHelp": "Prepíšte URI požadovaným serverom Jellyfin v závislosti na rozhraní alebo IP adrese klienta. Napríklad: internal=http://jellyfin.example.com, external=https://jellyfin.example.com alebo all=https://jellyfin.example.com",
     "LabelPublishedServerUri": "Verejné URI serveru",
     "LabelOpenclDeviceHelp": "Zariadenie OpenCL použité pre mapovanie tónov. Naľavo od bodky je číslo platformy, napravo je číslo zariadenia na tejto platforme. Predvolená hodnota je 0.0. Je vyžadovaný súbor aplikácie FFmpeg obsahujúci metódu hardvérovej akcelerácie OpenCL.",
     "LabelOpenclDevice": "Zariadenie OpenCL",
@@ -1967,5 +1967,9 @@
     "PluginUninstallError": "Pri odinštalovaní zásuvného modulu došlo k chybe.",
     "PreferNonstandardArtistsTag": "Preferovať tag ARTISTS, ak je k dispozícii",
     "RenderPgsSubtitle": "Experimentálne vykresľovanie titulkov formátu PGS",
-    "VideoCodecTagNotSupported": "Tag video kodeku nie je podporovaný"
+    "VideoCodecTagNotSupported": "Tag video kodeku nie je podporovaný",
+    "LabelScreensaverTimeHelp": "Čas v sekundách nečinnosti potrebný na spustenie šetriča obrazovky.",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Vpálenie všetkých titulkov pri prekódovaní. Tým sa zabezpečí synchronizácia titulkov po prekódovaní za cenu zníženia rýchlosti prekódovania.",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Pri prekódovaní vždy vpáliť titulky do videa",
+    "LabelScreensaverTime": "Čas šetriča obrazovky"
 }

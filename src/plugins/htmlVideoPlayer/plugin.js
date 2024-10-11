@@ -1,6 +1,7 @@
 import DOMPurify from 'dompurify';
 
 import browser from '../../scripts/browser';
+import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
@@ -1566,16 +1567,53 @@ export class HtmlVideoPlayer {
             return t.Index === streamIndex;
         })[0];
 
-        this.setTrackForDisplay(this.#mediaElement, track, targetTextTrackIndex);
-        if (enableNativeTrackSupport(this._currentPlayOptions?.mediaSource, track)) {
-            if (streamIndex !== -1) {
-                this.setCueAppearance();
-            }
+        // This play method can only check if it is real direct play, and will mark Remux as Transcode as well
+        const isDirectPlay = this._currentPlayOptions.playMethod === 'DirectPlay';
+        const burnInWhenTranscoding = appSettings.alwaysBurnInSubtitleWhenTranscoding();
+
+        let sessionPromise;
+        if (!isDirectPlay && burnInWhenTranscoding) {
+            const apiClient = ServerConnections.getApiClient(this._currentPlayOptions.item.ServerId);
+            sessionPromise = apiClient.getSessions({
+                deviceId: apiClient.deviceId()
+            }).then(function (sessions) {
+                return sessions[0] || {};
+            }, function () {
+                return Promise.resolve({});
+            });
         } else {
-            // null these out to disable the player's native display (handled below)
-            streamIndex = -1;
-            track = null;
+            sessionPromise = Promise.resolve({});
         }
+
+        const player = this;
+
+        sessionPromise.then((s) => {
+            if (!s.TranscodingInfo || s.TranscodingInfo.IsVideoDirect) {
+                // restore recorded delivery method if any
+                mediaStreamTextTracks.forEach((t) => {
+                    t.DeliveryMethod = t.realDeliveryMethod ?? t.DeliveryMethod;
+                });
+                player.setTrackForDisplay(player.#mediaElement, track, targetTextTrackIndex);
+                if (enableNativeTrackSupport(player._currentPlayOptions?.mediaSource, track)) {
+                    if (streamIndex !== -1) {
+                        player.setCueAppearance();
+                    }
+                } else {
+                    // null these out to disable the player's native display (handled below)
+                    streamIndex = -1;
+                    track = null;
+                }
+            } else {
+                // record the original delivery method and set all delivery method to encode
+                // this is needed for subtitle track switching to properly reload the video stream
+                mediaStreamTextTracks.forEach((t) => {
+                    t.realDeliveryMethod = t.DeliveryMethod;
+                    t.DeliveryMethod = 'Encode';
+                });
+                // unset stream when switching to transcode
+                player.setTrackForDisplay(player.#mediaElement, null, -1);
+            }
+        });
     }
 
     /**

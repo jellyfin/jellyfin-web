@@ -110,6 +110,9 @@ build: ${__JF_BUILD_VERSION__}`);
         Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
     });
 
+    // Connect to server
+    ServerConnections.firstConnection = await ServerConnections.connect();
+
     // Render the app
     await renderApp();
 

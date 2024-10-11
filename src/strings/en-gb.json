@@ -94,7 +94,7 @@
     "Box": "Box",
     "BoxRear": "Box (rear)",
     "Browse": "Browse",
-    "BurnSubtitlesHelp": "Determine if the server should burn in subtitles while transcoding videos. Avoiding this will greatly improve performance. Select Auto to burn image based formats (VobSub, PGS, SUB, IDX, etc.) and certain ASS or SSA subtitles.",
+    "BurnSubtitlesHelp": "Determine if the server should burn in subtitles. Avoiding this will greatly improve performance. Select Auto to burn image-based formats (VobSub, PGS, SUB, IDX, etc.) and certain ASS or SSA subtitles.",
     "ButtonAddMediaLibrary": "Add Media Library",
     "ButtonAddScheduledTaskTrigger": "Add Trigger",
     "ButtonAddServer": "Add Server",
@@ -1967,5 +1967,9 @@
     "DateModified": "Date modified",
     "MessageCancelSeriesTimerError": "An error occurred while cancelling the series timer",
     "MessageCancelTimerError": "An error occurred while cancelling the timer",
-    "MessageSplitVersionsError": "An error occurred while splitting versions"
+    "MessageSplitVersionsError": "An error occurred while splitting versions",
+    "LabelScreensaverTime": "Screensaver Time",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Always burn in subtitle when transcoding",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronisation after transcoding at the cost of reduced transcoding speed.",
+    "LabelScreensaverTimeHelp": "The amount of time in seconds of inactivity required to start the screensaver."
 }

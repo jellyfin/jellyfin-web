@@ -51,7 +51,7 @@
     "BoxRear": "Pudełko (tył)",
     "Browse": "Przeglądaj",
     "MessageBrowsePluginCatalog": "Przejrzyj nasz katalog wtyczek żeby zobaczyć dostępne wtyczki.",
-    "BurnSubtitlesHelp": "Określ czy serwer powinien wypalać napisy podczas konwersji wideo. Unikanie wypalania napisów znacząco poprawia wydajność. Wybierz Automatycznie, w celu wypalania zarówno napisów w formatach graficznych (VobSub, PGS, SUB, IDX, itd.), jak i pewnych napisów ASS lub SSA.",
+    "BurnSubtitlesHelp": "Określ, czy serwer powinien wypalać napisy. Unikanie wypalania napisów znacząco poprawia wydajność. Wybierz Automatycznie w celu wypalania napisów w formatach graficznych (VobSub, PGS, SUB, IDX itp.) oraz niektórych napisów ASS lub SSA.",
     "ButtonAddMediaLibrary": "Dodaj media do biblioteki",
     "ButtonAddScheduledTaskTrigger": "Dodaj wyzwalacz",
     "ButtonAddServer": "Dodaj serwer",
@@ -1422,7 +1422,7 @@
     "QuickConnectAuthorizeFail": "Nieznany kod szybkiego łączenia",
     "QuickConnect": "Szybkie łączenie",
     "LabelQuickConnectCode": "Kod szybkiego łączenia",
-    "LabelPublishedServerUriHelp": "Nadpisz URI używane przez Jellyfin bazując na interfejsie lub adresie IP klienta.",
+    "LabelPublishedServerUriHelp": "Zastąp URI używany przez Jellyfin na podstawie interfejsu lub adresu IP klienta. Na przykład: internal=http://jellyfin.example.com, external=https://jellyfin.example.comm lub all=https://jellyfin.example.com",
     "LabelPublishedServerUri": "Publiczne URI serwera",
     "LabelMinAudiobookResumeHelp": "Tytuły są uważane za nieodtworzone jeśli zostały zatrzymane przed tym czasem.",
     "LabelMinAudiobookResume": "Minimalne wznowienie audiobooka w minutach",
@@ -1969,5 +1969,7 @@
     "MessageSplitVersionsError": "Wystąpił błąd podczas podziału wersji",
     "DateModified": "Data modyfikacji",
     "LabelScreensaverTime": "Czas wygaszacza ekranu",
-    "LabelScreensaverTimeHelp": "Ilość czasu bezczynności w sekundach, potrzebna do uruchomienia wygaszacza ekranu."
+    "LabelScreensaverTimeHelp": "Ilość czasu bezczynności w sekundach, potrzebna do uruchomienia wygaszacza ekranu.",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Zawsze wypalaj napisy podczas transkodowania",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Wypal wszystkie napisy, gdy zostanie wyzwolone transkodowanie. Zapewnia to synchronizację napisów po transkodowaniu kosztem zmniejszonej prędkości transkodowania."
 }
