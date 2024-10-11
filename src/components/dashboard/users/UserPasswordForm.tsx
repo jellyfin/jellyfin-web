@@ -1,8 +1,7 @@
-import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import Dashboard from '../../../utils/dashboard';
 import globalize from '../../../lib/globalize';
-import LibraryMenu from '../../../scripts/libraryMenu';
 import confirm from '../../confirm/confirm';
 import loading from '../../loading/loading';
 import toast from '../../toast/toast';
@@ -16,6 +15,7 @@ type IProps = {
 const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
     const element = useRef<HTMLDivElement>(null);
     const user = useRef<UserDto>();
+    const libraryMenu = useMemo(async () => ((await import('../../../scripts/libraryMenu')).default), []);
 
     const loadUser = useCallback(async () => {
         const page = element.current;
@@ -37,7 +37,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             throw new Error('Unexpected null user policy or configuration');
         }
 
-        LibraryMenu.setTitle(user.current.Name);
+        (await libraryMenu).setTitle(user.current.Name);
 
         if (user.current.HasConfiguredPassword) {
             if (!user.current.Policy?.IsAdministrator) {

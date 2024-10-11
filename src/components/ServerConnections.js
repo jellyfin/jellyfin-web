@@ -33,6 +33,7 @@ class ServerConnections extends ConnectionManager {
     constructor() {
         super(...arguments);
         this.localApiClient = null;
+        this.firstConnection = null;
 
         // Set the apiclient minimum version to match the SDK
         this._minServerVersion = MINIMUM_VERSION;

@@ -64,6 +64,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#chkSubtitleRenderPgs').checked = appSettings.get('subtitlerenderpgs') === 'true';
 
         context.querySelector('#selectSubtitleBurnIn').dispatchEvent(new CustomEvent('change', {}));
+        context.querySelector('#chkAlwaysBurnInSubtitleWhenTranscoding').checked = appSettings.alwaysBurnInSubtitleWhenTranscoding();
 
         onAppearanceFieldChange({
             target: context.querySelector('#selectTextSize')
@@ -90,6 +91,7 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
 
     appSettings.set('subtitleburnin', context.querySelector('#selectSubtitleBurnIn').value);
     appSettings.set('subtitlerenderpgs', context.querySelector('#chkSubtitleRenderPgs').checked);
+    appSettings.alwaysBurnInSubtitleWhenTranscoding(context.querySelector('#chkAlwaysBurnInSubtitleWhenTranscoding').checked);
 
     apiClient.getUser(userId).then(function (user) {
         saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(function () {

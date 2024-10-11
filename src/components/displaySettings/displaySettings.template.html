@@ -203,6 +203,12 @@
         <select is="emby-select" class="selectScreensaver" label="${LabelScreensaver}"></select>
     </div>
 
+    <div class="inputContainer hide txtScreensaverTimeContainer inputContainer-withDescription">
+        <input is="emby-input" type="number" id="txtScreensaverTime" pattern="[0-9]*" required="required" min="5" max="86400" step="1"
+            label="${LabelScreensaverTime}" />
+        <div class="fieldDescription">${LabelScreensaverTimeHelp}</div>
+    </div>
+
     <div class="inputContainer hide txtBackdropScreensaverIntervalContainer inputContainer-withDescription">
         <input is="emby-input" type="number" id="txtBackdropScreensaverInterval" pattern="[0-9]*" required="required" min="1" max="3600" step="1" label="${LabelBackdropScreensaverInterval}" />
         <div class="fieldDescription">${LabelBackdropScreensaverIntervalHelp}</div>

@@ -91,7 +91,7 @@ const ServerDrawerSection = () => {
                         <ListItemText inset primary={globalize.translate('Display')} />
                     </ListItemLink>
                     <ListItemLink to='/dashboard/libraries/metadata' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('Metadata')} />
+                        <ListItemText inset primary={globalize.translate('MetadataManager')} />
                     </ListItemLink>
                     <ListItemLink to='/dashboard/libraries/nfo' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('TabNfoSettings')} />

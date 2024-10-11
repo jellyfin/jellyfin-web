@@ -6,7 +6,7 @@ import Dashboard from '../../../utils/dashboard';
 import { getParameterByName } from '../../../utils/url.ts';
 
 function load(page, device, deviceOptions) {
-    page.querySelector('#txtCustomName', page).value = deviceOptions.CustomName || '';
+    page.querySelector('#txtCustomName', page).value = deviceOptions?.CustomName || '';
     page.querySelector('.reportedName', page).innerText = device.Name || '';
 }
 
@@ -14,13 +14,13 @@ function loadData() {
     const page = this;
     loading.show();
     const id = getParameterByName('id');
-    const promise1 = ApiClient.getJSON(ApiClient.getUrl('Devices/Info', {
+    const device = ApiClient.getJSON(ApiClient.getUrl('Devices/Info', {
         Id: id
     }));
-    const promise2 = ApiClient.getJSON(ApiClient.getUrl('Devices/Options', {
+    const deviceOptions = ApiClient.getJSON(ApiClient.getUrl('Devices/Options', {
         Id: id
-    }));
-    Promise.all([promise1, promise2]).then(function (responses) {
+    })).catch(() => undefined);
+    Promise.all([device, deviceOptions]).then(function (responses) {
         load(page, responses[0], responses[1]);
         loading.hide();
     });

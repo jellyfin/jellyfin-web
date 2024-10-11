@@ -1926,5 +1926,6 @@
     "LabelTrickplayAccelEncoding": "Käyttöönota rautakiihdytetty MJPEG enkoodaus",
     "LabelTrickplayAccelEncodingHelp": "Tällä hetkellä ainoastaan käytettävissä QSV, VAAPI ja VideoToolbox, tällä valinnalla ei ole vaikutusta muihin rautakiihdytysmetodeihin.",
     "HeaderVideoAdvanced": "Edistynyt video",
-    "PlaylistPublicDescription": "Salli tämän soittolistan katsominen jokaiselle kirjautuneelle käyttäjälle."
+    "PlaylistPublicDescription": "Salli tämän soittolistan katsominen jokaiselle kirjautuneelle käyttäjälle.",
+    "DateModified": "Muokkauspäivämäärä"
 }

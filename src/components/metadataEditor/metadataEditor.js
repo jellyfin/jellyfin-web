@@ -718,7 +718,7 @@ function setFieldVisibilities(context, item) {
         showElement('#fldDisplayOrder', context);
         hideElement('.seriesDisplayOrderDescription', context);
 
-        context.querySelector('#selectDisplayOrder').innerHTML = '<option value="SortName">' + globalize.translate('SortName') + '</option><option value="PremiereDate">' + globalize.translate('ReleaseDate') + '</option>';
+        context.querySelector('#selectDisplayOrder').innerHTML = '<option value="Default">' + globalize.translate('DateModified') + '<option value="SortName">' + globalize.translate('SortName') + '</option><option value="PremiereDate">' + globalize.translate('ReleaseDate') + '</option>';
     } else if (item.Type === 'Series') {
         showElement('#fldDisplayOrder', context);
         showElement('.seriesDisplayOrderDescription', context);
