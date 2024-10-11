@@ -1303,5 +1303,6 @@
     "AndOtherArtists": "{0} ו-{1} אומנים נוספים.",
     "AllowTonemappingSoftwareHelp": "מיפוי טונים יכול להמיר שת הטווח הדינמי של וידיאו מ-HDR ל-SDR תוך כדי שמירה על איכות וצבע התמונות, שהם חשובים להצגה. כרגע עובד רק עם סרטונים בפורמט 10bit HDR10, HLG, ו-DoVi.",
     "EditLyrics": "עריכת מילות השיר",
-    "EnableDts": "הפעלת DTS (DCA)"
+    "EnableDts": "הפעלת DTS (DCA)",
+    "AlwaysBurnInSubtitleWhenTranscoding": "צרוב כתוביות תמיד בעת המרת קידוד"
 }
