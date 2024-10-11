@@ -1459,7 +1459,7 @@
     "LabelUDPPortRange": "UDP-communicatiebereik",
     "LabelSSDPTracingFilterHelp": "Optioneel IP-adres waarop het geregistreerde SSDP-verkeer wordt gefilterd.",
     "LabelSSDPTracingFilter": "SSDP-filter",
-    "LabelPublishedServerUriHelp": "Overschrijf de URI die door Jellyfin wordt gebruikt, op basis van de interface of het IP-adres van de client. Bijvoorbeeld: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, of all=https://jellyfin.example.com",
+    "LabelPublishedServerUriHelp": "Overschrijf de URI die door Jellyfin wordt gebruikt, op basis van de interface of het IP-adres van de cliënt. Bijvoorbeeld: internal=http://jellyfin.example.com, external=https://jellyfin.example.com of all=https://jellyfin.example.com",
     "LabelPublishedServerUri": "Gepubliceerde server-URI's",
     "LabelIsForced": "Geforceerd",
     "LabelHDHomerunPortRangeHelp": "Beperkt het UDP-poortbereik van HDHomeRun tot deze waarde. (Standaard is 1024 - 65535).",
