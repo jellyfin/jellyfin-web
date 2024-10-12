@@ -109,7 +109,7 @@
     "ButtonAddScheduledTaskTrigger": "Thêm kích hoạt",
     "ButtonAddMediaLibrary": "Thêm Thư Viện Phương Tiện",
     "ButtonAddImage": "Thêm hình ảnh",
-    "BurnSubtitlesHelp": "Xác định xem máy chủ có nên ghi phụ đề khi chuyển mã video hay không. Tránh việc này sẽ cải thiện đáng kể hiệu suất. Chọn Tự động để ghi các định dạng dựa trên hình ảnh (VobSub, PGS, SUB, IDX, v.v.) và phụ đề ASS hoặc SSA nhất định.",
+    "BurnSubtitlesHelp": "Xác định xem máy chủ có nên ghi phụ đề hay không. Tránh việc này sẽ cải thiện đáng kể hiệu suất. Chọn Tự động để ghi các định dạng dựa trên hình ảnh (VobSub, PGS, SUB, IDX, v.v.) và phụ đề ASS hoặc SSA nhất định.",
     "Browse": "Duyệt",
     "BoxRear": "Hộp (mặt sau)",
     "Books": "Sách",
@@ -1484,7 +1484,7 @@
     "LabelUDPPortRange": "Phạm Vi Giao Tiếp UDP",
     "LabelSSDPTracingFilterHelp": "Địa chỉ IP tùy chọn để lọc lưu lượng SSDP đã ghi nhật ký.",
     "LabelSSDPTracingFilter": "Bộ Lọc SSDP",
-    "LabelPublishedServerUriHelp": "Ghi đè URI được Jellyfin dùng, dựa trên giao diện hoặc địa chỉ IP của máy khách.",
+    "LabelPublishedServerUriHelp": "Ghi đè URI được Jellyfin dùng, dựa trên giao diện hoặc địa chỉ IP của máy khách. Ví dụ: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, hoặc all=https://jellyfin.example.com",
     "LabelPublishedServerUri": "URI Máy Chủ Đã Công Bố",
     "LabelHDHomerunPortRangeHelp": "Giới hạn phạm vi cổng HDHomeRun UDP ở giá trị này. (Mặc định là 1024 - 65535).",
     "LabelHDHomerunPortRange": "Phạm vi cổng HDHomeRun",
@@ -1964,5 +1964,9 @@
     "DateModified": "Ngày sửa đổi",
     "MessageCancelSeriesTimerError": "Đã xảy ra lỗi khi hủy bộ hẹn giờ chuỗi",
     "MessageCancelTimerError": "Đã xảy ra lỗi khi hủy bộ hẹn giờ",
-    "MessageSplitVersionsError": "Đã xảy ra lỗi khi chia nhỏ các phiên bản"
+    "MessageSplitVersionsError": "Đã xảy ra lỗi khi chia nhỏ các phiên bản",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Luôn ghi phụ đề khi chuyển mã",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Ghi tất cả phụ đề khi chuyển mã được kích hoạt. Điều này đảm bảo đồng bộ hóa phụ đề sau khi chuyển mã nhưng phải trả giá bằng việc giảm tốc độ chuyển mã.",
+    "LabelScreensaverTime": "Thời Gian Bảo Vệ Màn Hình",
+    "LabelScreensaverTimeHelp": "Lượng thời gian tính bằng giây không hoạt động cần thiết để khởi động trình bảo vệ màn hình."
 }
