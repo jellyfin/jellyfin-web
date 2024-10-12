@@ -66,6 +66,8 @@ class MediaSegmentManager extends PlaybackSubscriber {
                 console.debug('[MediaSegmentManager] skipping to next item in queue');
                 this.playbackManager.nextTrack(this.player);
             }
+        } else if (action === MediaSegmentAction.PromptToSkip) {
+            this.playbackManager.promptToSkip(mediaSegment);
         }
     }
 
