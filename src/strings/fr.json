@@ -1486,7 +1486,7 @@
     "LabelHDHomerunPortRangeHelp": "Restreint la plage de ports UDP pour HDHomeRun à cette valeur. (La plage par défaut est 1024 - 65535).",
     "LabelHDHomerunPortRange": "Plage de ports HDHomeRun",
     "PreferFmp4HlsContainerHelp": "Préférer l'utilisation de fMP4 comme conteneur pour HLS rendant ainsi possible la lecture directe des flux HEVC et AV1 sur les appareils compatibles.",
-    "LabelPublishedServerUriHelp": "Remplacer l'URI utilisée par Jellyfin selon l'interface ou l'adresse IP du client.",
+    "LabelPublishedServerUriHelp": "Remplacer l'URI utilisée par Jellyfin selon l'interface ou l'adresse IP du client. Par exemple: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, or all=https://jellyfin.example.com",
     "LabelPublishedServerUri": "URIs du serveur publiées",
     "LabelSyncPlayHaltPlayback": "Arrêter la lecture locale",
     "SyncPlayGroupDefaultTitle": "Groupe de {0}",
@@ -1968,5 +1968,8 @@
     "LabelTrickplayKeyFrameOnlyExtraction": "Générer uniquement des images à partir des images clés",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extraire uniquement les images clés pour un traitement beaucoup plus rapide avec un minutage moins précis. Si le décodeur matériel configuré ne prend pas en charge ce mode, il utilisera le décodeur logiciel à la place.",
     "AllowFmp4TranscodingContainerHelp": "Autoriser le conteneur de transcodage fMP4 pour ce tuner afin d'activer les contenus HEVC et HDR. Tous les tuners ne sont pas compatibles avec ce conteneur. Désactivez ceci si vous rencontrez des problèmes de lecture.",
-    "LabelScreensaverTimeHelp": "La durée en secondes d'inactivité requise pour démarrer l'économiseur d'écran."
+    "LabelScreensaverTimeHelp": "La durée en secondes d'inactivité requise pour démarrer l'économiseur d'écran.",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Toujours incruster les sous-titres lors du transcodage",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Incruster tous les sous-titres lorsque le transcodage se déclenche. Cela garantit la synchronisation des sous-titres après le transcodage au prix d'une vitesse de transcodage réduite.",
+    "LabelScreensaverTime": "Délai de l'économiseur d'écran"
 }
