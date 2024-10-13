@@ -4,7 +4,7 @@ const isBeforeSegment = (segment: MediaSegmentDto, time: number, direction: numb
     if (direction === -1) {
         return (
             typeof segment.EndTicks !== 'undefined'
-            && segment.EndTicks < time
+            && segment.EndTicks <= time
         );
     }
     return (
@@ -15,7 +15,7 @@ const isBeforeSegment = (segment: MediaSegmentDto, time: number, direction: numb
 
 const isInSegment = (segment: MediaSegmentDto, time: number) => (
     typeof segment.StartTicks !== 'undefined'
-    && segment.StartTicks < time
+    && segment.StartTicks <= time
     && (typeof segment.EndTicks === 'undefined' || segment.EndTicks > time)
 );
 
