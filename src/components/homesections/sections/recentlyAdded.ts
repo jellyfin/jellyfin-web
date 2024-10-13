@@ -18,7 +18,8 @@ function getFetchLatestItemsFn(
     serverId: string,
     parentId: string | undefined,
     collectionType: string | null | undefined,
-    { enableOverflow }: SectionOptions
+    { enableOverflow }: SectionOptions,
+    sortByDateAdded: boolean
 ) {
     return function () {
         const apiClient = ServerConnections.getApiClient(serverId);
@@ -41,10 +42,16 @@ function getFetchLatestItemsFn(
             Fields: 'PrimaryImageAspectRatio,Path',
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Thumb',
-            ParentId: parentId
+            ParentId: parentId,
+            UserId: apiClient.getCurrentUserId(),
+            SortByDateAdded: sortByDateAdded
         };
 
-        return apiClient.getLatestItems(options);
+        return apiClient.ajax({
+            url : apiClient.getUrl('/Items/Latest', options),
+            type: 'GET',
+            dataType: 'json'
+        });
     };
 }
 
@@ -89,7 +96,8 @@ function renderLatestSection(
     apiClient: ApiClient,
     user: UserDto,
     parent: BaseItemDto,
-    options: SectionOptions
+    options: SectionOptions,
+    sortByDateAdded: boolean
 ) {
     let html = '';
 
@@ -99,12 +107,12 @@ function renderLatestSection(
             section: 'latest'
         }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
         html += '<h2 class="sectionTitle sectionTitle-cards">';
-        html += globalize.translate('LatestFromLibrary', escapeHtml(parent.Name));
+        html += globalize.translate( sortByDateAdded ? 'LatestFromLibrary' : 'NewReleasesIn', escapeHtml(parent.Name));
         html += '</h2>';
         html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
         html += '</a>';
     } else {
-        html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LatestFromLibrary', escapeHtml(parent.Name)) + '</h2>';
+        html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(sortByDateAdded ? 'LatestFromLibrary' : 'NewReleasesIn', escapeHtml(parent.Name)) + '</h2>';
     }
     html += '</div>';
 
@@ -124,7 +132,7 @@ function renderLatestSection(
 
     const itemsContainer: SectionContainerElement | null = elem.querySelector('.itemsContainer');
     if (!itemsContainer) return;
-    itemsContainer.fetchData = getFetchLatestItemsFn(apiClient.serverId(), parent.Id, parent.CollectionType, options);
+    itemsContainer.fetchData = getFetchLatestItemsFn(apiClient.serverId(), parent.Id, parent.CollectionType, options, sortByDateAdded);
     itemsContainer.getItemsHtml = getLatestItemsHtmlFn(parent.Type, parent.CollectionType, options);
     itemsContainer.parentContainer = elem;
 }
@@ -154,6 +162,35 @@ export function loadRecentlyAdded(
         frag.classList.add('hide');
         elem.appendChild(frag);
 
-        renderLatestSection(frag, apiClient, user, item, options);
+        renderLatestSection(frag, apiClient, user, item, options, true);
+    });
+}
+
+export function loadRecentlyPremiered(
+    elem: HTMLElement,
+    apiClient: ApiClient,
+    user: UserDto,
+    userViews: BaseItemDto[],
+    options: SectionOptions
+) {
+    elem.classList.remove('verticalSection');
+    const excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels'];
+    const userExcludeItems = user.Configuration?.LatestItemsExcludes ?? [];
+
+    userViews.forEach(item => {
+        if (!item.Id || userExcludeItems.indexOf(item.Id) !== -1) {
+            return;
+        }
+
+        if (!item.CollectionType || excludeViewTypes.indexOf(item.CollectionType) !== -1) {
+            return;
+        }
+
+        const frag = document.createElement('div');
+        frag.classList.add('verticalSection');
+        frag.classList.add('hide');
+        elem.appendChild(frag);
+
+        renderLatestSection(frag, apiClient, user, item, options, false);
     });
 }
