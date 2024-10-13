@@ -43,7 +43,7 @@ jobs:
     uses: ./.github/workflows/__quality_checks.yml
     permissions: {}
     with:
-      commit: ${{ github.event.pull_request.head.ref }}
+      commit: ${{ github.event.pull_request.head.sha }}
 
   codeql:
     name: GitHub CodeQL 🔬
