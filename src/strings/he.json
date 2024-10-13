@@ -1343,5 +1343,15 @@
     "LabelLyricDownloaders": "תוכנות הורדת מילים לשירים",
     "LabelMaxMuxingQueueSizeHelp": "מספר החבילות המקסימלי שניתן לאגור בזמן המתנה שכל ההזרמות יאותחלו. ניתן להגדיל זאת אם התקלת בשגיאת \"יותר מדי חבילות נאגרו לזרם הפלט\" בלוגים של FFmpeg. הערך המומלץ הוא 2048.",
     "Inker": "דית",
-    "HeaderAddLyrics": "הוספת מילים לשיר"
+    "HeaderAddLyrics": "הוספת מילים לשיר",
+    "LabelMetadataDownloadersHelp": "הפעל ודרג את תוכנות הורדת המטא-דאטה לפי סדר עדיפות. תוכנות הורדת בעדיפות נמוכה יהיו בשימוש כדי למלא מידע חסר.",
+    "LabelMetadataPathHelp": "הגדרת מקום מוגדר אישית להורדת תמונות ומטה-דאטה.",
+    "LabelMetadataReadersHelp": "ניתן לדרג את מקורות המטה-דאטה המועדפים עליך לפי סדר העדפה. הקובץ הקיים הראשון ייקרא.",
+    "LabelMetadataSaversHelp": "בחירת פורמט הקובץ שישמש לשמירת המטה-דאטה.",
+    "LabelMinAudiobookResume": "מינימום דקות בספר-שמע כדי לאפשר המשך",
+    "LabelMinAudiobookResumeHelp": "כותרים נחשבים כלא-מנוגנים לפני זמן זה.",
+    "LabelNoChangelog": "לא סופק תיעוד שינויים לשחרור זה.",
+    "LabelNotInstalled": "לא מותקן",
+    "HeaderMediaSegmentActions": "פעולות על מקטע מדיה",
+    "LabelMediaSegmentsType": "{0} מקטעים"
 }
