@@ -18,7 +18,9 @@ import { MediaSegmentAction } from '../constants/mediaSegmentAction';
 
 class MediaSegmentManager extends PlaybackSubscriber {
     private hasSegments = false;
-    private lastIndex = 0;
+    private isLastSegmentIgnored = false;
+    private lastSegmentIndex = 0;
+    private lastTime = -1;
     private mediaSegmentTypeActions: Record<Partial<MediaSegmentType>, MediaSegmentAction> | undefined;
     private mediaSegments: MediaSegmentDto[] = [];
 
@@ -43,17 +45,24 @@ class MediaSegmentManager extends PlaybackSubscriber {
 
         const action = this.mediaSegmentTypeActions[mediaSegment.Type];
         if (action === MediaSegmentAction.Skip) {
-            // Perform skip
-            if (mediaSegment.EndTicks) {
+            // Ignore segment if playback progress has passed the segment's start time
+            if (mediaSegment.StartTicks !== undefined && this.lastTime > mediaSegment.StartTicks) {
+                console.info('[MediaSegmentManager] ignoring skipping segment that has been seeked back into', mediaSegment);
+                this.isLastSegmentIgnored = true;
+                return;
+            } else if (mediaSegment.EndTicks) {
+                // If there is an end time, seek to it
                 // Do not skip if duration < 1s to avoid slow stream changes
                 if (mediaSegment.StartTicks && mediaSegment.EndTicks - mediaSegment.StartTicks < TICKS_PER_SECOND) {
                     console.info('[MediaSegmentManager] ignoring skipping segment with duration <1s', mediaSegment);
+                    this.isLastSegmentIgnored = true;
                     return;
                 }
 
                 console.debug('[MediaSegmentManager] skipping to %s ms', mediaSegment.EndTicks / TICKS_PER_MILLISECOND);
                 this.playbackManager.seek(mediaSegment.EndTicks, this.player);
             } else {
+                // If there is no end time, skip to the next track
                 console.debug('[MediaSegmentManager] skipping to next item in queue');
                 this.playbackManager.nextTrack(this.player);
             }
@@ -61,7 +70,9 @@ class MediaSegmentManager extends PlaybackSubscriber {
     }
 
     onPlayerPlaybackStart(_e: Event, state: PlayerState) {
-        this.lastIndex = 0;
+        this.isLastSegmentIgnored = false;
+        this.lastSegmentIndex = 0;
+        this.lastTime = -1;
         this.hasSegments = !!state.MediaSource?.HasSegments;
 
         const itemId = state.MediaSource?.Id;
@@ -96,16 +107,23 @@ class MediaSegmentManager extends PlaybackSubscriber {
     onPlayerTimeUpdate() {
         if (this.hasSegments && this.mediaSegments.length) {
             const time = this.playbackManager.currentTime(this.player) * TICKS_PER_MILLISECOND;
-            const currentSegmentDetails = findCurrentSegment(this.mediaSegments, time, this.lastIndex);
-            if (currentSegmentDetails) {
+            const currentSegmentDetails = findCurrentSegment(this.mediaSegments, time, this.lastSegmentIndex);
+            if (
+                // The current time falls within a segment
+                currentSegmentDetails
+                // and the last segment is not ignored or the segment index has changed
+                && (!this.isLastSegmentIgnored || this.lastSegmentIndex !== currentSegmentDetails.index)
+            ) {
                 console.debug(
                     '[MediaSegmentManager] found %s segment at %s ms',
                     currentSegmentDetails.segment.Type,
                     time / TICKS_PER_MILLISECOND,
                     currentSegmentDetails);
+                this.isLastSegmentIgnored = false;
                 this.performAction(currentSegmentDetails.segment);
-                this.lastIndex = currentSegmentDetails.index;
+                this.lastSegmentIndex = currentSegmentDetails.index;
             }
+            this.lastTime = time;
         }
     }
 }
