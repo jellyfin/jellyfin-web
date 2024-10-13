@@ -84,11 +84,11 @@ function onSubmit(this: HTMLElement, e: Event) {
 }
 
 function createPlaylist(dlg: DialogElement) {
-    const apiClient = ServerConnections.getApiClient(currentServerId);
-    const api = toApi(apiClient);
-
     const name = dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value;
     if (isBlank(name)) return Promise.reject(new Error('Playlist name should not be blank'));
+
+    const apiClient = ServerConnections.getApiClient(currentServerId);
+    const api = toApi(apiClient);
 
     const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || undefined;
 
@@ -114,13 +114,13 @@ function redirectToPlaylist(id: string | undefined) {
 }
 
 function updatePlaylist(dlg: DialogElement) {
-    const apiClient = ServerConnections.getApiClient(currentServerId);
-    const api = toApi(apiClient);
-
     if (!dlg.playlistId) return Promise.reject(new Error('Missing playlist ID'));
 
     const name = dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value;
     if (isBlank(name)) return Promise.reject(new Error('Playlist name should not be blank'));
+
+    const apiClient = ServerConnections.getApiClient(currentServerId);
+    const api = toApi(apiClient);
 
     return getPlaylistsApi(api)
         .updatePlaylist({
