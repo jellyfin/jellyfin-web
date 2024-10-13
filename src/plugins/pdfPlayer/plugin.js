@@ -18,8 +18,10 @@ export class PdfPlayer {
         this.priority = 1;
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
+        this.onScreenResize = this.onScreenResize.bind(this);
+        this.onFullPage = this.onFullPage.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
-        this.onTouchStart = this.onTouchStart.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
     play(options) {
@@ -113,16 +115,30 @@ export class PdfPlayer {
                 e.preventDefault();
                 this.stop();
                 break;
+            case 'Home':
+                this.setPage(1);
+                break;
+            case 'End':
+                this.setPage(-1);
+                break;
         }
     }
 
-    onTouchStart(e) {
-        if (!this.loaded || !e.touches || e.touches.length === 0) return;
-        if (e.touches[0].clientX < dom.getWindowSize().innerWidth / 2) {
+    onClick(e) {
+        if (!this.loaded) return;
+        if (e.clientX < dom.getWindowSize().innerWidth / 2) {
             this.previous();
         } else {
             this.next();
         }
+    }
+
+    onFullPage() {
+        this.mediaElement.querySelector('#pdfContainer').classList.toggle('fullPage');
+    }
+
+    onScreenResize() {
+        this.reloadPage();
     }
 
     onDialogClosed() {
@@ -133,21 +149,26 @@ export class PdfPlayer {
         const elem = this.mediaElement;
 
         elem.addEventListener('close', this.onDialogClosed, { once: true });
+        elem.querySelector('#pdfContainer').addEventListener('click', this.onClick);
         elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
+        elem.querySelector('.btnFull').addEventListener('click', this.onFullPage);
     }
 
     bindEvents() {
         this.bindMediaElementEvents();
 
         document.addEventListener('keydown', this.onWindowKeyDown);
-        document.addEventListener('touchstart', this.onTouchStart);
+        if ('screen' in window) window.screen.orientation.addEventListener('change', this.onScreenResize);
+        else document.addEventListener('orientationchange', this.onScreenResize);
     }
 
     unbindMediaElementEvents() {
         const elem = this.mediaElement;
 
         elem.removeEventListener('close', this.onDialogClosed);
+        elem.querySelector('#pdfContainer').removeEventListener('click', this.onClick);
         elem.querySelector('.btnExit').removeEventListener('click', this.onDialogClosed);
+        elem.querySelector('.btnFull').removeEventListener('click', this.onFullPage);
     }
 
     unbindEvents() {
@@ -156,7 +177,8 @@ export class PdfPlayer {
         }
 
         document.removeEventListener('keydown', this.onWindowKeyDown);
-        document.removeEventListener('touchstart', this.onTouchStart);
+        if ('screen' in window) window.screen.orientation.removeEventListener('change', this.onScreenResize);
+        else document.removeEventListener('orientationchange', this.onScreenResize);
     }
 
     createMediaElement() {
@@ -177,8 +199,9 @@ export class PdfPlayer {
             });
 
             let html = '';
-            html += '<canvas id="canvas"></canvas>';
+            html += '<div id="pdfContainer" class="fullPage"></div>';
             html += '<div class="actionButtons">';
+            html += '<button is="paper-icon-button-light" class="autoSize btnFull" tabindex="-1"><span class="material-icons actionButtonIcon fullscreen" aria-hidden="true"></span></button>';
             html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
             html += '</div>';
 
@@ -237,31 +260,47 @@ export class PdfPlayer {
     }
 
     next() {
-        if (this.progress === this.duration() - 1) return;
-        this.loadPage(this.progress + 2);
-        this.progress = this.progress + 1;
-
-        Events.trigger(this, 'pause');
+        const visiblePages = this.mediaElement.querySelector('#pdfContainer').childElementCount;
+        const newPage = 1 + Math.min(this.progress + visiblePages, this.duration() - 1);
+        this.setPage(newPage);
     }
 
     previous() {
-        if (this.progress === 0) return;
-        this.loadPage(this.progress);
-        this.progress = this.progress - 1;
+        const visiblePages = this.mediaElement.querySelector('#pdfContainer').childElementCount;
+        const newPage = 1 + Math.max(this.progress - visiblePages, 0);
+        this.setPage(newPage);
+    }
+
+    reloadPage() {
+        this.loadPage(this.progress + 1);
+    }
+
+    setPage(pageNumber) {
+        if (pageNumber < 0) pageNumber = this.duration - pageNumber;
+
+        let newProgress = pageNumber - 1;
+        newProgress = Math.max(newProgress, 0);
+        newProgress = Math.min(newProgress, this.duration() - 1);
+        if (newProgress === this.progress) return;
+
+        this.loadPage(newProgress + 1);
+        this.progress = newProgress;
 
         Events.trigger(this, 'pause');
     }
 
-    replaceCanvas(canvas) {
-        const old = document.getElementById('canvas');
-
-        canvas.id = 'canvas';
-        old.parentNode.replaceChild(canvas, old);
+    replaceCanvas(...canvas) {
+        const container = this.mediaElement.querySelector('#pdfContainer');
+        container.replaceChildren(...canvas.filter(item => item !== undefined));
     }
 
     loadPage(number) {
+        const bookMode = (window.innerWidth >= window.innerHeight && number != 1);
         const prefix = 'page';
-        const pad = 2;
+        const pad = 3;
+
+        // correctly show double pages in bookmode
+        if (bookMode) number = Math.floor(number / 2) * 2;
 
         // generate list of cached pages by padding the requested page on both sides
         const pages = [prefix + number];
@@ -274,12 +313,13 @@ export class PdfPlayer {
         for (const page of pages) {
             if (!this.pages[page]) {
                 this.pages[page] = document.createElement('canvas');
-                this.renderPage(this.pages[page], parseInt(page.slice(4), 10));
+                this.renderPage(this.pages[page], parseInt(page.slice(4), 10), bookMode);
             }
         }
 
         // show the requested page
-        this.replaceCanvas(this.pages[prefix + number], number);
+        if (bookMode) this.replaceCanvas(this.pages[prefix + (number)], this.pages[prefix + (number + 1)]);
+        else this.replaceCanvas(this.pages[prefix + number]);
 
         // delete all pages outside the cache area
         for (const page in this.pages) {
@@ -289,23 +329,17 @@ export class PdfPlayer {
         }
     }
 
-    renderPage(canvas, number) {
+    renderPage(canvas, number, bookMode) {
+        const devicePixelRatio = window.devicePixelRatio || 1;
         this.book.getPage(number).then(page => {
-            const width = dom.getWindowSize().innerWidth;
-            const height = dom.getWindowSize().innerHeight;
-            const scale = Math.ceil(window.devicePixelRatio || 1);
+            const original = page.getViewport({ scale: 1 });
+            const widthFactor = (bookMode) ? 0.5 : 1;
+            const scale = Math.max((window.screen.height / original.height), (window.screen.width * widthFactor / original.width)) * devicePixelRatio;
             const viewport = page.getViewport({ scale });
-            const context = canvas.getContext('2d');
+
             canvas.width = viewport.width;
             canvas.height = viewport.height;
-
-            if (width < height) {
-                canvas.style.width = '100%';
-                canvas.style.height = 'auto';
-            } else {
-                canvas.style.height = '100%';
-                canvas.style.width = 'auto';
-            }
+            const context = canvas.getContext('2d');
 
             const renderContext = {
                 canvasContext: context,

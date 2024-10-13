@@ -499,6 +499,7 @@ html {
 #comicsPlayer .actionButtonIcon,
 #pdfPlayer .actionButtonIcon {
     color: #fff;
+    text-shadow: #000 0 0 5px;
 }
 
 #dialogToc {
