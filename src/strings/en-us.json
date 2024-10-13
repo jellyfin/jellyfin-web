@@ -840,6 +840,8 @@
     "LabelPublicHttpsPortHelp": "The public port number that should be mapped to the local HTTPS port.",
     "LabelPublishedServerUri": "Published Server URIs",
     "LabelPublishedServerUriHelp": "Override the URI used by Jellyfin, based on the interface, or client IP address. For example: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, or all=https://jellyfin.example.com",
+    "LabelQsvDevice": "QSV Device",
+    "LabelQsvDeviceHelp": "Specify the device for Intel QSV on a multi-GPU system. On Linux, this is the render node, e.g., /dev/dri/renderD128. On Windows, this is the device index starting from 0. Leave blank unless you know what you are doing.",
     "LabelQuickConnectCode": "Quick Connect code",
     "LabelReasonForTranscoding": "Reason for transcoding",
     "LabelRecord": "Record",
