@@ -11,6 +11,7 @@ import globalize from 'lib/globalize';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import { PluginType } from 'types/plugin';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { isBlank } from 'utils/string';
 
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
@@ -86,12 +87,15 @@ function createPlaylist(dlg: DialogElement) {
     const apiClient = ServerConnections.getApiClient(currentServerId);
     const api = toApi(apiClient);
 
+    const name = dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value;
+    if (isBlank(name)) return Promise.reject(new Error('Playlist name should not be blank'));
+
     const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || undefined;
 
     return getPlaylistsApi(api)
         .createPlaylist({
             createPlaylistDto: {
-                Name: dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value,
+                Name: name,
                 IsPublic: dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')?.checked,
                 Ids: itemIds?.split(','),
                 UserId: apiClient.getCurrentUserId()
@@ -115,11 +119,14 @@ function updatePlaylist(dlg: DialogElement) {
 
     if (!dlg.playlistId) return Promise.reject(new Error('Missing playlist ID'));
 
+    const name = dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value;
+    if (isBlank(name)) return Promise.reject(new Error('Playlist name should not be blank'));
+
     return getPlaylistsApi(api)
         .updatePlaylist({
             playlistId: dlg.playlistId,
             updatePlaylistDto: {
-                Name: dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value,
+                Name: name,
                 IsPublic: dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')?.checked
             }
         })
