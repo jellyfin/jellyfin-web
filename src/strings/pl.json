@@ -1971,5 +1971,7 @@
     "LabelScreensaverTime": "Czas wygaszacza ekranu",
     "LabelScreensaverTimeHelp": "Ilość czasu bezczynności w sekundach, potrzebna do uruchomienia wygaszacza ekranu.",
     "AlwaysBurnInSubtitleWhenTranscoding": "Zawsze wypalaj napisy podczas transkodowania",
-    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Wypal wszystkie napisy, gdy zostanie wyzwolone transkodowanie. Zapewnia to synchronizację napisów po transkodowaniu kosztem zmniejszonej prędkości transkodowania."
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Wypal wszystkie napisy, gdy zostanie wyzwolone transkodowanie. Zapewnia to synchronizację napisów po transkodowaniu kosztem zmniejszonej prędkości transkodowania.",
+    "LabelQsvDevice": "Urządzenie QSV",
+    "LabelQsvDeviceHelp": "Określ urządzenie dla Intel QSV w systemie z wieloma GPU. W systemie Linux jest to węzeł renderowania, np. /dev/dri/renderD128. W systemie Windows jest to indeks urządzenia zaczynający się od 0. Pozostaw puste, chyba że wiesz, co robisz."
 }
