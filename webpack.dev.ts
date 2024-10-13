@@ -1,7 +1,10 @@
-const common = require('./webpack.common');
-const { merge } = require('webpack-merge');
+import { Configuration } from 'webpack';
+import { merge } from 'webpack-merge';
+import 'webpack-dev-server';
 
-module.exports = merge(common, {
+import commonConfig from './webpack.common';
+
+const devConfig: Configuration = {
     // In order for live reload to work we must use "web" as the target not "browserslist"
     target: process.env.WEBPACK_SERVE ? 'web' : 'browserslist',
     mode: 'development',
@@ -26,4 +29,6 @@ module.exports = merge(common, {
             }
         }
     }
-});
+};
+
+export default merge(commonConfig, devConfig);
