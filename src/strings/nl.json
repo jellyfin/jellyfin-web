@@ -1970,5 +1970,7 @@
     "LabelScreensaverTimeHelp": "Het aantal seconden inactiviteit waarna de schermbeveiliging gestart wordt.",
     "LabelScreensaverTime": "Wachttijd schermbeveiliging",
     "AlwaysBurnInSubtitleWhenTranscoding": "Ondertiteling altijd inbranden bij transcoderen",
-    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Alle ondertiteling inbranden wanneer er getranscodeerd wordt. Dit verzekert dat ondertiteling gelijkloopt, maar verlaagt de transcodeersnelheid."
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Alle ondertiteling inbranden wanneer er getranscodeerd wordt. Dit verzekert dat ondertiteling gelijkloopt, maar verlaagt de transcodeersnelheid.",
+    "LabelQsvDevice": "QSV-apparaat",
+    "LabelQsvDeviceHelp": "Op een systeem met meerdere GPU's is dit het apparaat dat gebruikt moet worden voor Intel QSV. Op Linux is dit de render-node, bijvoorbeeld /dev/dri/renderD128. Op Windows is dit de apparaatindex startend bij 0. Laat dit leeg tenzij je weet wat je doet."
 }
