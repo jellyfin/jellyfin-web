@@ -91,7 +91,7 @@ export class UserSettings {
      * Get value of setting.
      * @param {string} name - Name of setting.
      * @param {boolean} [enableOnServer] - Flag to return preferences from server (cached).
-     * @return {string} Value of setting.
+     * @return {string | null} Value of setting.
      */
     get(name, enableOnServer) {
         const userId = this.currentUserId;
