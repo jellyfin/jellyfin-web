@@ -1973,5 +1973,6 @@
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "Incruster tous les sous-titres lorsque le transcodage se déclenche. Cela garantit la synchronisation des sous-titres après le transcodage au prix d'une vitesse de transcodage réduite.",
     "LabelScreensaverTime": "Délai de l'économiseur d'écran",
     "LabelQsvDevice": "Appareil QSV",
-    "LabelQsvDeviceHelp": "Spécifiez l'appareil pour Intel QSV sur un système multi-GPU. Sous Linux, il s'agit du nœud de rendu, par exemple, /dev/dri/renderD128. Sous Windows, il s'agit de l'indice de l'appareil commençant à 0. Laissez vide à moins que vous ne sachiez ce que vous faites."
+    "LabelQsvDeviceHelp": "Spécifiez l'appareil pour Intel QSV sur un système multi-GPU. Sous Linux, il s'agit du nœud de rendu, par exemple, /dev/dri/renderD128. Sous Windows, il s'agit de l'indice de l'appareil commençant à 0. Laissez vide à moins que vous ne sachiez ce que vous faites.",
+    "HeaderMediaSegmentActions": "Actions sur les segments du média"
 }
