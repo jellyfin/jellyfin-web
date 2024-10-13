@@ -1973,5 +1973,17 @@
     "AlwaysBurnInSubtitleWhenTranscoding": "Pri prekódovaní vždy vpáliť titulky do videa",
     "LabelScreensaverTime": "Čas šetriča obrazovky",
     "LabelQsvDevice": "QSV zariadenie",
-    "LabelQsvDeviceHelp": "Špecifikujte zariadenie pre Intel QSV v systéme s viacerými grafickými procesormi. V Linuxe je to renderovací uzol, napr. /dev/dri/renderD128. Vo Windowse je to index zariadenia začínajúci od 0. Nechajte prázdne, ak neviete, čo robíte."
+    "LabelQsvDeviceHelp": "Špecifikujte zariadenie pre Intel QSV v systéme s viacerými grafickými procesormi. V Linuxe je to renderovací uzol, napr. /dev/dri/renderD128. Vo Windowse je to index zariadenia začínajúci od 0. Nechajte prázdne, ak neviete, čo robíte.",
+    "HeaderMediaSegmentActions": "Akcie segmentu médií",
+    "LabelMediaSegmentsType": "{0} segmenty",
+    "MediaSegmentAction.None": "Žiadne",
+    "MediaSegmentAction.Skip": "Preskočiť",
+    "MediaSegmentType.Commercial": "Komerčné",
+    "MediaSegmentType.Intro": "Úvod",
+    "MediaSegmentType.Outro": "Záverečné titulky",
+    "MediaSegmentType.Preview": "Ukážka",
+    "MediaSegmentType.Recap": "Rekapitulácia",
+    "PlaylistError.UpdateFailed": "Chyba pri aktualizácii playlistu",
+    "HeaderEditPlaylist": "Upraviť playlist",
+    "HeaderNewPlaylist": "Nový playlist"
 }
