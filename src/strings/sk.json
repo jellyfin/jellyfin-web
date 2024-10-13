@@ -1971,5 +1971,7 @@
     "LabelScreensaverTimeHelp": "Čas v sekundách nečinnosti potrebný na spustenie šetriča obrazovky.",
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "Vpálenie všetkých titulkov pri prekódovaní. Tým sa zabezpečí synchronizácia titulkov po prekódovaní za cenu zníženia rýchlosti prekódovania.",
     "AlwaysBurnInSubtitleWhenTranscoding": "Pri prekódovaní vždy vpáliť titulky do videa",
-    "LabelScreensaverTime": "Čas šetriča obrazovky"
+    "LabelScreensaverTime": "Čas šetriča obrazovky",
+    "LabelQsvDevice": "QSV zariadenie",
+    "LabelQsvDeviceHelp": "Špecifikujte zariadenie pre Intel QSV v systéme s viacerými grafickými procesormi. V Linuxe je to renderovací uzol, napr. /dev/dri/renderD128. Vo Windowse je to index zariadenia začínajúci od 0. Nechajte prázdne, ak neviete, čo robíte."
 }
