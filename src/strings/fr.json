@@ -1486,7 +1486,7 @@
     "LabelHDHomerunPortRangeHelp": "Restreint la plage de ports UDP pour HDHomeRun à cette valeur. (La plage par défaut est 1024 - 65535).",
     "LabelHDHomerunPortRange": "Plage de ports HDHomeRun",
     "PreferFmp4HlsContainerHelp": "Préférer l'utilisation de fMP4 comme conteneur pour HLS rendant ainsi possible la lecture directe des flux HEVC et AV1 sur les appareils compatibles.",
-    "LabelPublishedServerUriHelp": "Remplacer l'URI utilisée par Jellyfin selon l'interface ou l'adresse IP du client. Par exemple: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, or all=https://jellyfin.example.com",
+    "LabelPublishedServerUriHelp": "Remplacer l'URI utilisée par Jellyfin selon l'interface ou l'adresse IP du client. Par exemple : internal=http://jellyfin.example.com, external=https://jellyfin.example.com, or all=https://jellyfin.example.com",
     "LabelPublishedServerUri": "URIs du serveur publiées",
     "LabelSyncPlayHaltPlayback": "Arrêter la lecture locale",
     "SyncPlayGroupDefaultTitle": "Groupe de {0}",
@@ -1769,7 +1769,7 @@
     "ListView": "Vue en liste",
     "GridView": "Vue en grille",
     "BackdropScreensaver": "Écran de veille Diaporama",
-    "LogoScreensaver": "Écran de veille Logo",
+    "LogoScreensaver": "Logo de l'écran de veille",
     "UnknownError": "Une erreur inconnue s’est produite.",
     "MachineTranslated": "Traduction automatique",
     "AiTranslated": "Traduction par IA",
@@ -1971,5 +1971,7 @@
     "LabelScreensaverTimeHelp": "La durée en secondes d'inactivité requise pour démarrer l'économiseur d'écran.",
     "AlwaysBurnInSubtitleWhenTranscoding": "Toujours incruster les sous-titres lors du transcodage",
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "Incruster tous les sous-titres lorsque le transcodage se déclenche. Cela garantit la synchronisation des sous-titres après le transcodage au prix d'une vitesse de transcodage réduite.",
-    "LabelScreensaverTime": "Délai de l'économiseur d'écran"
+    "LabelScreensaverTime": "Délai de l'économiseur d'écran",
+    "LabelQsvDevice": "Appareil QSV",
+    "LabelQsvDeviceHelp": "Spécifiez l'appareil pour Intel QSV sur un système multi-GPU. Sous Linux, il s'agit du nœud de rendu, par exemple, /dev/dri/renderD128. Sous Windows, il s'agit de l'indice de l'appareil commençant à 0. Laissez vide à moins que vous ne sachiez ce que vous faites."
 }
