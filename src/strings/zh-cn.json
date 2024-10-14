@@ -1973,5 +1973,17 @@
     "LabelScreensaverTime": "屏幕保护时间",
     "LabelScreensaverTimeHelp": "启动屏幕保护程序所需的无活动时间（以秒为单位）。",
     "LabelQsvDeviceHelp": "为多 GPU 系统上的 Intel QSV 指定设备。在 Linux 上，这是渲染节点，例如 /dev/dri/renderD128。在 Windows 上，这是从 0 开始的设备序号。除非您知道自己在做什么，否则请留空。",
-    "LabelQsvDevice": "QSV 设备"
+    "LabelQsvDevice": "QSV 设备",
+    "HeaderEditPlaylist": "编辑播放列表",
+    "LabelMediaSegmentsType": "{0} 片段",
+    "HeaderMediaSegmentActions": "媒体片段操作",
+    "MediaSegmentAction.None": "无",
+    "MediaSegmentAction.Skip": "跳过",
+    "MediaSegmentType.Commercial": "广告",
+    "MediaSegmentType.Intro": "片头",
+    "MediaSegmentType.Outro": "片尾",
+    "MediaSegmentType.Preview": "预告",
+    "MediaSegmentType.Recap": "回顾",
+    "HeaderNewPlaylist": "新建播放列表",
+    "PlaylistError.UpdateFailed": "更新播放列表时出错"
 }
