@@ -368,7 +368,7 @@ export class UserSettings {
 
     /**
      * Get or set amount of time played at the start of a segment.
-     * @param {number|undefined} val - Amount of time played at the start of a segment.
+     * @param {number|undefined} [val] - Amount of time played at the start of a segment.
      * @return {number} Amount of time played at the end of a segment.
      */
     mediaSegmentStartToPlay(val) {
@@ -381,7 +381,7 @@ export class UserSettings {
 
     /**
      * Get or set amount of time played at the end of a segment.
-     * @param {number|undefined} val - Amount of time played at the start of a segment.
+     * @param {number|undefined} [val] - Amount of time played at the start of a segment.
      * @return {number} Amount of time played at the end of a segment.
      */
     mediaSegmentEndToPlay(val) {
