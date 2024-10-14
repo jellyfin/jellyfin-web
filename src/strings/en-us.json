@@ -754,6 +754,8 @@
     "LabelMaxDaysForNextUpHelp": "Set the maximum amount of days a show should stay in the 'Next Up' list without watching it.",
     "LabelMaxVideoResolution": "Maximum Allowed Video Transcoding Resolution",
     "LabelMediaDetails": "Media details",
+    "LabelMediaSegmentEndToPlay": "Play segment end (seconds)",
+    "LabelMediaSegmentStartToPlay": "Play segment start (seconds)",
     "LabelMediaSegmentsType": "{0} Segments",
     "LabelLineup": "Lineup",
     "LabelLocalCustomCss": "Custom CSS code for styling which applies to this client only. You may want to disable server custom CSS code.",

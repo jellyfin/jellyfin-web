@@ -30,11 +30,22 @@ class MediaSegmentManager extends PlaybackSubscriber {
 
         try {
             const { data: mediaSegments } = await mediaSegmentsApi.getItemSegments({ itemId, includeSegmentTypes });
-            this.mediaSegments = mediaSegments.Items || [];
+            this.mediaSegments = this.adjustMediaSegments(mediaSegments.Items || []);
         } catch (err) {
             console.error('[MediaSegmentManager] failed to fetch segments', err);
             this.mediaSegments = [];
         }
+    }
+
+    private adjustMediaSegments(segments: MediaSegmentDto[]): MediaSegmentDto[] {
+        const startPlayTime = userSettings.mediaSegmentStartToPlay(undefined) * TICKS_PER_SECOND;
+        const endPlayTime = userSettings.mediaSegmentEndToPlay(undefined) * TICKS_PER_SECOND;
+
+        return segments.map(segment => ({
+            ...segment,
+            StartTicks: segment.StartTicks !== undefined ? segment.StartTicks + startPlayTime : undefined,
+            EndTicks: segment.EndTicks !== undefined ? segment.EndTicks - endPlayTime : undefined
+        }));
     }
 
     private performAction(mediaSegment: MediaSegmentDto) {

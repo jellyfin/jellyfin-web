@@ -367,6 +367,32 @@ export class UserSettings {
     }
 
     /**
+     * Get or set amount of time played at the start of a segment.
+     * @param {number|undefined} val - Amount of time played at the start of a segment.
+     * @return {number} Amount of time played at the end of a segment.
+     */
+    mediaSegmentStartToPlay(val) {
+        if (val !== undefined) {
+            return this.set('mediaSegmentStartToPlay', val.toString());
+        }
+
+        return parseInt(this.get('mediaSegmentStartToPlay') || '0', 10);
+    }
+
+    /**
+     * Get or set amount of time played at the end of a segment.
+     * @param {number|undefined} val - Amount of time played at the start of a segment.
+     * @return {number} Amount of time played at the end of a segment.
+     */
+    mediaSegmentEndToPlay(val) {
+        if (val !== undefined) {
+            return this.set('mediaSegmentEndToPlay', val.toString());
+        }
+
+        return parseInt(this.get('mediaSegmentEndToPlay') || '0', 10);
+    }
+
+    /**
      * Get or set theme for Dashboard.
      * @param {string|undefined} [val] - Theme for Dashboard.
      * @return {string} Theme for Dashboard.
@@ -658,6 +684,8 @@ export const language = currentSettings.language.bind(currentSettings);
 export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
 export const skipBackLength = currentSettings.skipBackLength.bind(currentSettings);
 export const skipForwardLength = currentSettings.skipForwardLength.bind(currentSettings);
+export const mediaSegmentStartToPlay = currentSettings.mediaSegmentStartToPlay.bind(currentSettings);
+export const mediaSegmentEndToPlay = currentSettings.mediaSegmentEndToPlay.bind(currentSettings);
 export const dashboardTheme = currentSettings.dashboardTheme.bind(currentSettings);
 export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);
