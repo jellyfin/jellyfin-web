@@ -238,11 +238,9 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
         if (this.value == 'qsv') {
             page.querySelector('.fldSysNativeHwDecoder').classList.remove('hide');
             page.querySelector('.fldQsvDevice').classList.remove('hide');
-            page.querySelector('#txtQsvDevice').setAttribute('required', 'required');
         } else {
             page.querySelector('.fldSysNativeHwDecoder').classList.add('hide');
             page.querySelector('.fldQsvDevice').classList.add('hide');
-            page.querySelector('#txtQsvDevice').removeAttribute('required');
         }
 
         if (this.value == 'nvenc') {
