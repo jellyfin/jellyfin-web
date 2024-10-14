@@ -1973,5 +1973,17 @@
     "AlwaysBurnInSubtitleWhenTranscoding": "Zawsze wypalaj napisy podczas transkodowania",
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "Wypal wszystkie napisy, gdy zostanie wyzwolone transkodowanie. Zapewnia to synchronizację napisów po transkodowaniu kosztem zmniejszonej prędkości transkodowania.",
     "LabelQsvDevice": "Urządzenie QSV",
-    "LabelQsvDeviceHelp": "Określ urządzenie dla Intel QSV w systemie z wieloma GPU. W systemie Linux jest to węzeł renderowania, np. /dev/dri/renderD128. W systemie Windows jest to indeks urządzenia zaczynający się od 0. Pozostaw puste, chyba że wiesz, co robisz."
+    "LabelQsvDeviceHelp": "Określ urządzenie dla Intel QSV w systemie z wieloma GPU. W systemie Linux jest to węzeł renderowania, np. /dev/dri/renderD128. W systemie Windows jest to indeks urządzenia zaczynający się od 0. Pozostaw puste, chyba że wiesz, co robisz.",
+    "HeaderEditPlaylist": "Edytuj listę odtwarzania",
+    "HeaderNewPlaylist": "Nowa lista odtwarzania",
+    "LabelMediaSegmentsType": "Segmenty: {0}",
+    "MediaSegmentAction.None": "Brak",
+    "MediaSegmentAction.Skip": "Pomiń",
+    "MediaSegmentType.Commercial": "Reklama",
+    "MediaSegmentType.Intro": "Wstęp",
+    "MediaSegmentType.Outro": "Zakończenie",
+    "PlaylistError.UpdateFailed": "Błąd podczas aktualizacji listy odtwarzania",
+    "MediaSegmentType.Preview": "Zapowiedź",
+    "MediaSegmentType.Recap": "Podsumowanie",
+    "HeaderMediaSegmentActions": "Działania segmentu mediów"
 }
