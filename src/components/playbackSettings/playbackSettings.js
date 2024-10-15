@@ -264,7 +264,6 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     const mediaSegmentContainer = context.querySelector('.mediaSegmentActionContainer');
     populateMediaSegments(mediaSegmentContainer, userSettings);
 
-    context.querySelector('#txtMediaSegmentStartToPlay').value = userSettings.mediaSegmentStartToPlay();
     context.querySelector('#txtMediaSegmentEndToPlay').value = userSettings.mediaSegmentEndToPlay();
 
     loading.hide();
@@ -310,7 +309,6 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
         userSettingsInstance.set(actionEl.id, actionEl.value, false);
     });
 
-    userSettingsInstance.mediaSegmentStartToPlay(context.querySelector('#txtMediaSegmentStartToPlay').value);
     userSettingsInstance.mediaSegmentEndToPlay(context.querySelector('#txtMediaSegmentEndToPlay').value);
 
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);

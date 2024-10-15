@@ -3758,7 +3758,10 @@ export class PlaybackManager {
         })[0];
 
         if (nextChapter) {
-            this.seek(nextChapter.StartPositionTicks, player);
+            const seekPosition = nextChapter.StartPositionTicks - userSettings.mediaSegmentEndToPlay() * 10000000;
+            // If current position is past the calculated seek position,
+            // set seek position to the start of the next chapter
+            this.seek(ticks < seekPosition ? seekPosition : nextChapter.StartPositionTicks, player);
         } else {
             this.nextTrack(player);
         }

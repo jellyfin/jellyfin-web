@@ -755,7 +755,7 @@
     "LabelMaxVideoResolution": "Maximum Allowed Video Transcoding Resolution",
     "LabelMediaDetails": "Media details",
     "LabelMediaSegmentEndToPlay": "Play segment end (seconds)",
-    "LabelMediaSegmentStartToPlay": "Play segment start (seconds)",
+    "LabelMediaSegmentEndToPlayHelp": "Seconds of segment or chapter ending that should be played.",
     "LabelMediaSegmentsType": "{0} Segments",
     "LabelLineup": "Lineup",
     "LabelLocalCustomCss": "Custom CSS code for styling which applies to this client only. You may want to disable server custom CSS code.",

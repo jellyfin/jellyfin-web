@@ -38,19 +38,17 @@ class MediaSegmentManager extends PlaybackSubscriber {
     }
 
     private adjustMediaSegments(segments: MediaSegmentDto[]): MediaSegmentDto[] {
-        const startPlayTime = userSettings.mediaSegmentStartToPlay() * TICKS_PER_SECOND;
         const endPlayTime = userSettings.mediaSegmentEndToPlay() * TICKS_PER_SECOND;
 
         return segments.flatMap(segment => {
-            const adjustedStart = segment.StartTicks !== undefined ? segment.StartTicks + startPlayTime : undefined;
             const adjustedEnd = segment.EndTicks !== undefined ? segment.EndTicks - endPlayTime : undefined;
 
-            if (adjustedStart !== undefined && adjustedEnd !== undefined && adjustedStart >= adjustedEnd) {
-                console.debug(`Skipping segment with StartTicks (${adjustedStart}) >= EndTicks (${adjustedEnd})`);
+            if (segment.StartTicks !== undefined && adjustedEnd !== undefined && segment.StartTicks >= adjustedEnd) {
+                console.debug(`Skipping segment with StartTicks (${segment.StartTicks}) >= EndTicks (${adjustedEnd})`);
                 return [];
             }
 
-            return [{ ...segment, StartTicks: adjustedStart, EndTicks: adjustedEnd }];
+            return [{ ...segment, EndTicks: adjustedEnd }];
         });
     }
 
