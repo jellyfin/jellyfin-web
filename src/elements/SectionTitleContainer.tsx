@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import IconButtonElement from './IconButtonElement';
-import SectionTitleLinkElement from './SectionTitleLinkElement';
+import LinkButton from './emby-button/LinkButton';
+import globalize from 'lib/globalize';
 
 type IProps = {
     SectionClassName?: string;
@@ -28,11 +29,13 @@ const SectionTitleContainer: FunctionComponent<IProps> = ({ SectionClassName, ti
                 icon={btnIcon}
             />}
 
-            {isLinkVisible && <SectionTitleLinkElement
+            {isLinkVisible && <LinkButton
                 className='raised button-alt headerHelpButton'
-                title='Help'
-                url={url}
-            />}
+                target='_blank'
+                rel='noopener noreferrer'
+                href={url}>
+                {globalize.translate('Help')}
+            </LinkButton>}
 
         </div>
     );

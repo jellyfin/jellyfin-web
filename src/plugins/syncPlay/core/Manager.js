@@ -9,7 +9,7 @@ import PlaybackCore from './PlaybackCore';
 import QueueCore from './QueueCore';
 import Controller from './Controller';
 import toast from '../../../components/toast/toast';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import Events from '../../../utils/events.ts';
 
 /**

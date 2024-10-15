@@ -5,7 +5,7 @@ import Events from '../../utils/events.ts';
 import itemHelper from '../../components/itemHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import dom from '../../scripts/dom';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../utils/dateFnsLocale.ts';
 import loading from '../../components/loading/loading';
@@ -208,7 +208,12 @@ function refreshActiveRecordings(view, apiClient) {
 
 function reloadSystemInfo(view, apiClient) {
     view.querySelector('#buildVersion').innerText = __JF_BUILD_VERSION__;
-    view.querySelector('#webVersion').innerText = __PACKAGE_JSON_VERSION__;
+
+    let webVersion = __PACKAGE_JSON_VERSION__;
+    if (__COMMIT_SHA__) {
+        webVersion += ` (${__COMMIT_SHA__})`;
+    }
+    view.querySelector('#webVersion').innerText = webVersion;
 
     queryClient
         .fetchQuery(getSystemInfoQuery(toApi(apiClient)))
@@ -319,7 +324,7 @@ function renderActiveConnections(view, sessions) {
             html += '<div class="sessionCardButtons flex align-items-center justify-content-center">';
 
             let btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? '' : ' hide';
-            const playIcon = session.PlayState.IsPaused ? 'pause' : 'play_arrow';
+            const playIcon = session.PlayState.IsPaused ? 'play_arrow' : 'pause';
 
             html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><span class="material-icons ' + playIcon + '" aria-hidden="true"></span></button>';
             html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><span class="material-icons stop" aria-hidden="true"></span></button>';

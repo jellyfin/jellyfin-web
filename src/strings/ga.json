@@ -18,9 +18,15 @@
     "AccessRestrictedTryAgainLater": "Tá rochtain srianta faoi láthair. Bain triail eile as ar ball.",
     "All": "Uilig",
     "Album": "Albam",
-    "AddToCollection": "Cur le bailiúcháin",
+    "AddToCollection": "Cur le bailiúchán",
     "AddToPlaylist": "Cur le seinnliosta",
     "AddToPlayQueue": "Cur le scuaine seinnteoir",
     "AllComplexFormats": "Gach formáid chasta (ASS, SSA, VobSub, PGS, SUB, IDX, ...)",
-    "AllowedRemoteAddressesHelp": "Liosta scartha camóg de seoltaí IP nó iontráil IP/netmask do líonraí a ligfear nascadh go cianda. Má fhágtar folamh é, ceadófar gach ciansheoladh."
+    "AllowedRemoteAddressesHelp": "Liosta scartha camóg de seoltaí IP nó iontráil IP/netmask do líonraí a ligfear nascadh go cianda. Má fhágtar folamh é, ceadófar gach ciansheoladh.",
+    "Favorites": "Ceanáin",
+    "Artists": "Ealaíontóir",
+    "Books": "leabhair",
+    "Channels": "Cainéil",
+    "Collections": "Bailiúcháin",
+    "Default": "Mainneachtain"
 }

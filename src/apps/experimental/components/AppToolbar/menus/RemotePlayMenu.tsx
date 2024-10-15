@@ -6,7 +6,7 @@ import Menu, { type MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import React, { FC, useEffect, useState } from 'react';
 
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { pluginManager } from 'components/pluginManager';
 import type { PlayTarget } from 'types/playTarget';

@@ -1,9 +1,11 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { useApi } from 'hooks/useApi';
 import { getDesiredAspect } from '../cardBuilderUtils';
 import { CardShape } from 'utils/card';
+
+import { ItemKind } from 'types/base/models/item-kind';
+import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
@@ -25,7 +27,7 @@ function getPreferThumbInfo(item: ItemDto, cardOptions: CardOptions) {
     } else if (
         item.ParentThumbItemId
         && cardOptions.inheritThumb !== false
-        && item.MediaType !== 'Photo'
+        && item.MediaType !== ItemMediaKind.Photo
     ) {
         imgType = ImageType.Thumb;
         imgTag = item.ParentThumbImageTag;
@@ -38,12 +40,12 @@ function getPreferThumbInfo(item: ItemDto, cardOptions: CardOptions) {
     } else if (
         item.ParentBackdropImageTags?.length
         && cardOptions.inheritThumb !== false
-        && item.Type === BaseItemKind.Episode
     ) {
         imgType = ImageType.Backdrop;
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;
     }
+
     return {
         itemId: itemId,
         imgTag: imgTag,
@@ -117,12 +119,12 @@ function shouldShowPreferDisc(
 
 function shouldShowImageTagsPrimary(item: ItemDto): boolean {
     return (
-        Boolean(item.ImageTags?.Primary) && (item.Type !== BaseItemKind.Episode || item.ChildCount !== 0)
+        Boolean(item.ImageTags?.Primary) && (item.Type !== ItemKind.Episode || item.ChildCount !== 0)
     );
 }
 
 function shouldShowImageTagsThumb(item: ItemDto): boolean {
-    return item.Type === BaseItemKind.Season && Boolean(item.ImageTags?.Thumb);
+    return item.Type === ItemKind.Season && Boolean(item.ImageTags?.Thumb);
 }
 
 function shouldShowSeriesThumbImageTag(
@@ -139,16 +141,16 @@ function shouldShowParentThumbImageTag(
     cardOptions: CardOptions
 ): boolean {
     return (
-        Boolean(itemParentThumbItemId) && cardOptions.inheritThumb !== false
+        Boolean(itemParentThumbItemId) && Boolean(cardOptions.inheritThumb)
     );
 }
 
-function shouldShowParentBackdropImageTags(item: ItemDto): boolean {
+function shouldShowAlbumPrimaryImageTag(item: ItemDto): boolean {
     return Boolean(item.AlbumId) && Boolean(item.AlbumPrimaryImageTag);
 }
 
-function shouldShowPreferThumb(itemType: NullableString, cardOptions: CardOptions): boolean {
-    return Boolean(cardOptions.preferThumb) && !(itemType === BaseItemKind.Program || itemType === BaseItemKind.Episode);
+function shouldShowPreferThumb(itemType: ItemKind, cardOptions: CardOptions): boolean {
+    return Boolean(cardOptions.preferThumb) && !(itemType === ItemKind.Program || itemType === ItemKind.Episode);
 }
 
 function getCardImageInfo(
@@ -185,6 +187,10 @@ function getCardImageInfo(
         imgType = preferLogoInfo.imgType;
         imgTag = preferLogoInfo.imgType;
         itemId = preferLogoInfo.itemId;
+    } else if (shouldShowParentThumbImageTag(item.ParentThumbItemId, cardOptions)) {
+        imgType = ImageType.Thumb;
+        imgTag = item.ParentThumbImageTag;
+        itemId = item.ParentThumbItemId;
     } else if (shouldShowImageTagsPrimary(item)) {
         imgType = ImageType.Primary;
         imgTag = item.ImageTags?.Primary;
@@ -207,7 +213,7 @@ function getCardImageInfo(
         imgType = ImageType.Primary;
         imgTag = item.ParentPrimaryImageTag;
         itemId = item.ParentPrimaryImageItemId;
-    } else if (shouldShowParentBackdropImageTags(item)) {
+    } else if (shouldShowAlbumPrimaryImageTag(item)) {
         imgType = ImageType.Primary;
         imgTag = item.AlbumPrimaryImageTag;
         itemId = item.AlbumId;
@@ -226,10 +232,6 @@ function getCardImageInfo(
         imgType = ImageType.Thumb;
         imgTag = item.SeriesThumbImageTag;
         itemId = item.SeriesId;
-    } else if (shouldShowParentThumbImageTag(item.ParentThumbItemId, cardOptions)) {
-        imgType = ImageType.Thumb;
-        imgTag = item.ParentThumbImageTag;
-        itemId = item.ParentThumbItemId;
     } else if (
         item.ParentBackdropImageTags?.length
         && cardOptions.inheritThumb !== false

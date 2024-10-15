@@ -4,15 +4,16 @@
  * @module components/cardBuilder/cardBuilder
  */
 
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import escapeHtml from 'escape-html';
 
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'scripts/dom';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
-import imageHelper from 'utils/image';
+import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
 
 import focusManager from '../focusManager';
 import imageLoader from '../images/imageLoader';
@@ -277,16 +278,16 @@ export function getCardImageUrl(item, apiClient, options, shape) {
     let itemId = null;
 
     /* eslint-disable sonarjs/no-duplicated-branches */
-    if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
+    if (options.preferThumb && item.ImageTags?.Thumb) {
         imgType = 'Thumb';
         imgTag = item.ImageTags.Thumb;
-    } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
+    } else if ((options.preferBanner || shape === 'banner') && item.ImageTags?.Banner) {
         imgType = 'Banner';
         imgTag = item.ImageTags.Banner;
-    } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
+    } else if (options.preferDisc && item.ImageTags?.Disc) {
         imgType = 'Disc';
         imgTag = item.ImageTags.Disc;
-    } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
+    } else if (options.preferLogo && item.ImageTags?.Logo) {
         imgType = 'Logo';
         imgTag = item.ImageTags.Logo;
     } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
@@ -301,11 +302,11 @@ export function getCardImageUrl(item, apiClient, options, shape) {
         imgType = 'Thumb';
         imgTag = item.ParentThumbImageTag;
         itemId = item.ParentThumbItemId;
-    } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
+    } else if (options.preferThumb && item.BackdropImageTags?.length) {
         imgType = 'Backdrop';
         imgTag = item.BackdropImageTags[0];
         forceName = true;
-    } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
+    } else if (options.preferThumb && item.ParentBackdropImageTags?.length && options.inheritThumb !== false && item.Type === 'Episode') {
         imgType = 'Backdrop';
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;
@@ -351,7 +352,7 @@ export function getCardImageUrl(item, apiClient, options, shape) {
         if (primaryImageAspectRatio && uiAspect) {
             coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
         }
-    } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
+    } else if (item.Type === 'Season' && item.ImageTags?.Thumb) {
         imgType = 'Thumb';
         imgTag = item.ImageTags.Thumb;
     } else if (item.BackdropImageTags?.length) {
@@ -571,7 +572,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
 
     if (showOtherText) {
         if (options.showParentTitle && parentTitleUnderneath) {
-            if (flags.isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
+            if (flags.isOuterFooter && item.AlbumArtists?.length) {
                 item.AlbumArtists[0].Type = 'MusicArtist';
                 item.AlbumArtists[0].IsFolder = true;
                 lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
@@ -1053,7 +1054,7 @@ function buildCard(index, item, apiClient, options) {
             indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
         }
 
-        if (item.Type === 'CollectionFolder' || item.CollectionType) {
+        if (item.Type === BaseItemKind.CollectionFolder || item.CollectionType) {
             const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
             indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
             importRefreshIndicator();
@@ -1139,7 +1140,9 @@ function getHoverMenuHtml(item, action) {
     let html = '';
 
     html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
-    const url = appRouter.getRouteUrl(item);
+    const url = appRouter.getRouteUrl(item, {
+        serverId: item.ServerId || ServerConnections.currentApiClient().serverId()
+    });
     html += '<a href="' + url + '" class="cardImageContainer"></a>';
 
     const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
@@ -1178,41 +1181,18 @@ function getHoverMenuHtml(item, action) {
  * @returns {string} HTML markup of the card overlay.
  */
 export function getDefaultText(item, options) {
-    if (item.CollectionType) {
-        return '<span class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '" aria-hidden="true"></span>';
+    let icon;
+
+    if (item.Type === BaseItemKind.CollectionFolder || item.CollectionType) {
+        icon = getLibraryIcon(item.CollectionType);
     }
 
-    switch (item.Type) {
-        case 'MusicAlbum':
-            return '<span class="cardImageIcon material-icons album" aria-hidden="true"></span>';
-        case 'MusicArtist':
-        case 'Person':
-            return '<span class="cardImageIcon material-icons person" aria-hidden="true"></span>';
-        case 'Audio':
-            return '<span class="cardImageIcon material-icons audiotrack" aria-hidden="true"></span>';
-        case 'Movie':
-            return '<span class="cardImageIcon material-icons movie" aria-hidden="true"></span>';
-        case 'Episode':
-        case 'Series':
-            return '<span class="cardImageIcon material-icons tv" aria-hidden="true"></span>';
-        case 'Program':
-            return '<span class="cardImageIcon material-icons live_tv" aria-hidden="true"></span>';
-        case 'Book':
-            return '<span class="cardImageIcon material-icons book" aria-hidden="true"></span>';
-        case 'Folder':
-            return '<span class="cardImageIcon material-icons folder" aria-hidden="true"></span>';
-        case 'BoxSet':
-            return '<span class="cardImageIcon material-icons collections" aria-hidden="true"></span>';
-        case 'Playlist':
-            return '<span class="cardImageIcon material-icons view_list" aria-hidden="true"></span>';
-        case 'Photo':
-            return '<span class="cardImageIcon material-icons photo" aria-hidden="true"></span>';
-        case 'PhotoAlbum':
-            return '<span class="cardImageIcon material-icons photo_album" aria-hidden="true"></span>';
+    if (!icon) {
+        icon = getItemTypeIcon(item.Type, options?.defaultCardImageIcon);
     }
 
-    if (options?.defaultCardImageIcon) {
-        return '<span class="cardImageIcon material-icons ' + options.defaultCardImageIcon + '" aria-hidden="true"></span>';
+    if (icon) {
+        return `<span class="cardImageIcon material-icons ${icon}" aria-hidden="true"></span>`;
     }
 
     const defaultName = isUsingLiveTvNaming(item.Type) ? item.Name : itemHelper.getDisplayName(item);

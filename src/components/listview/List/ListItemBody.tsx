@@ -1,7 +1,8 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
-import useListTextlines from './useListTextlines';
+
+import TextLines from 'components/common/textLines/TextLines';
 import PrimaryMediaInfo from '../../mediainfo/PrimaryMediaInfo';
 
 import type { ItemDto } from 'types/base/models/item-dto';
@@ -30,7 +31,6 @@ const ListItemBody: FC<ListItemBodyProps> = ({
     enableSideMediaInfo,
     getMissingIndicator
 }) => {
-    const { listTextLines } = useListTextlines({ item, listOptions, isLargeStyle });
     const cssClass = classNames(
         'listItemBody',
         { 'itemAction': !clickEntireItem },
@@ -40,15 +40,32 @@ const ListItemBody: FC<ListItemBodyProps> = ({
     return (
         <Box data-action={action} className={cssClass}>
 
-            {listTextLines}
+            <TextLines
+                item={item}
+                textClassName='listItemBodyText'
+                textLineOpts={{
+                    showProgramDateTime: listOptions.showProgramDateTime,
+                    showProgramTime: listOptions.showProgramTime,
+                    showChannel: listOptions.showChannel,
+                    showParentTitle: listOptions.showParentTitle,
+                    showIndexNumber: listOptions.showIndexNumber,
+                    parentTitleWithTitle: listOptions.parentTitleWithTitle,
+                    showArtist: listOptions.showArtist,
+                    includeParentInfoInTitle: listOptions.includeParentInfoInTitle,
+                    includeIndexNumber: listOptions.includeIndexNumber,
+                    showCurrentProgram: listOptions.showCurrentProgram
+                }}
+                isLargeStyle={isLargeStyle}
+            />
 
-            {listOptions.mediaInfo !== false && !enableSideMediaInfo && (
+            {listOptions.showMediaInfo !== false && !enableSideMediaInfo && (
                 <PrimaryMediaInfo
                     className='secondary listItemMediaInfo listItemBodyText'
+                    infoclass='mediaInfoText'
                     item={item}
-                    isEpisodeTitleEnabled={true}
-                    isOriginalAirDateEnabled={true}
-                    isCaptionIndicatorEnabled={true}
+                    showEpisodeTitleInfo
+                    showOriginalAirDateInfo
+                    showCaptionIndicatorInfo
                     getMissingIndicator={getMissingIndicator}
                 />
             )}

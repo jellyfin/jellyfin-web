@@ -1,6 +1,6 @@
 import 'jquery';
 import loading from '../components/loading/loading';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import '../elements/emby-button/emby-button';
 import Dashboard from '../utils/dashboard';
 import alert from '../components/alert';

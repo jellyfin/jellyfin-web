@@ -5,7 +5,7 @@ import { pluginManager } from '../pluginManager';
 import { appHost } from '../apphost';
 import focusManager from '../focusManager';
 import datetime from '../../scripts/datetime';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import skinManager from '../../scripts/themeManager';
 import { PluginType } from '../../types/plugin.ts';
@@ -91,9 +91,11 @@ function loadForm(context, user, userSettings) {
     if (appHost.supports('screensaver')) {
         context.querySelector('.selectScreensaverContainer').classList.remove('hide');
         context.querySelector('.txtBackdropScreensaverIntervalContainer').classList.remove('hide');
+        context.querySelector('.txtScreensaverTimeContainer').classList.remove('hide');
     } else {
         context.querySelector('.selectScreensaverContainer').classList.add('hide');
         context.querySelector('.txtBackdropScreensaverIntervalContainer').classList.add('hide');
+        context.querySelector('.txtScreensaverTimeContainer').classList.add('hide');
     }
 
     if (datetime.supportsLocalization()) {
@@ -108,6 +110,7 @@ function loadForm(context, user, userSettings) {
     loadScreensavers(context, userSettings);
 
     context.querySelector('#txtBackdropScreensaverInterval').value = userSettings.backdropScreensaverInterval();
+    context.querySelector('#txtScreensaverTime').value = userSettings.screensaverTime();
 
     context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
 
@@ -152,6 +155,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
     userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
     userSettingsInstance.backdropScreensaverInterval(context.querySelector('#txtBackdropScreensaverInterval').value);
+    userSettingsInstance.screensaverTime(context.querySelector('#txtScreensaverTime').value);
 
     userSettingsInstance.libraryPageSize(context.querySelector('#txtLibraryPageSize').value);
 

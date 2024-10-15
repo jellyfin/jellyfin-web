@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { LibraryViewSettings } from 'types/library';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client';
 import { LibraryTab } from 'types/libraryTab';
@@ -56,6 +56,8 @@ const FiltersStatus: FC<FiltersStatusProps> = ({
             && viewType !== LibraryTab.AlbumArtists
             && viewType !== LibraryTab.Songs
             && viewType !== LibraryTab.Channels
+            && viewType !== LibraryTab.PhotoAlbums
+            && viewType !== LibraryTab.Photos
         ) {
             visibleFiltersStatus.push(ItemFilter.IsUnplayed);
             visibleFiltersStatus.push(ItemFilter.IsPlayed);

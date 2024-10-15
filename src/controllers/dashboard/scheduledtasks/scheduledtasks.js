@@ -1,6 +1,6 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
 import { getLocale, getLocaleWithSuffix } from '../../../utils/dateFnsLocale.ts';
@@ -132,8 +132,11 @@ function updateTaskButton(elem, state) {
 export default function(view) {
     function updateTasks(tasks) {
         for (const task of tasks) {
-            view.querySelector('#taskProgress' + task.Id).innerHTML = getTaskProgressHtml(task);
-            updateTaskButton(view.querySelector('#btnTask' + task.Id), task.State);
+            const taskProgress = view.querySelector(`#taskProgress${task.Id}`);
+            if (taskProgress) taskProgress.innerHTML = getTaskProgressHtml(task);
+
+            const taskButton = view.querySelector(`#btnTask${task.Id}`);
+            if (taskButton) updateTaskButton(taskButton, task.State);
         }
     }
 

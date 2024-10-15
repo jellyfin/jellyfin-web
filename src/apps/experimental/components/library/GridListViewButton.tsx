@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react';
 import { ButtonGroup, IconButton } from '@mui/material';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ViewListIcon from '@mui/icons-material/ViewList';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { LibraryViewSettings, ViewMode } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import ViewSettingsButton from './ViewSettingsButton';

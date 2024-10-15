@@ -92,7 +92,7 @@ function getImgUrl(item, user) {
     if (item.BackdropImageTags?.length) {
         return getBackdropImageUrl(item, imageOptions, apiClient);
     } else {
-        if (item.MediaType === 'Photo' && user && user.Policy.EnableContentDownloading) {
+        if (item.MediaType === 'Photo' && user?.Policy.EnableContentDownloading) {
             return apiClient.getItemDownloadUrl(item.Id);
         }
         imageOptions.type = 'Primary';
@@ -171,7 +171,7 @@ export default function (options) {
             if (actionButtonsOnTop) {
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true);
 
-                if (appHost.supports('filedownload') && slideshowOptions.user && slideshowOptions.user.Policy.EnableContentDownloading) {
+                if (appHost.supports('filedownload') && slideshowOptions.user?.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
                 if (appHost.supports('sharing')) {
@@ -189,7 +189,7 @@ export default function (options) {
                 html += '<div class="slideshowBottomBar hide">';
 
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
-                if (appHost.supports('filedownload') && slideshowOptions.user && slideshowOptions.user.Policy.EnableContentDownloading) {
+                if (appHost.supports('filedownload') && slideshowOptions?.user.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
                 if (appHost.supports('sharing')) {
@@ -732,9 +732,8 @@ export default function (options) {
 
             obj.x = eventX;
             obj.y = eventY;
-
-            showOsd();
         }
+        showOsd();
     }
 
     /**

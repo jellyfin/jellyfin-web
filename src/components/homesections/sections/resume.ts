@@ -4,7 +4,7 @@ import type { ApiClient } from 'jellyfin-apiclient';
 
 import ServerConnections from 'components/ServerConnections';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import type { UserSettings } from 'scripts/settings/userSettings';
 import { getBackdropShape, getPortraitShape } from 'utils/card';
 

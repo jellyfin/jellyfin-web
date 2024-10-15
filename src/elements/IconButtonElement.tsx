@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import globalize from '../scripts/globalize';
+
+import globalize from 'lib/globalize';
 
 type IProps = {
     is?: string;
@@ -36,7 +37,7 @@ const IconButtonElement: FunctionComponent<IProps> = ({ is, id, className, title
                 className: className,
                 title: title ? `title="${globalize.translate(title)}"` : '',
                 icon: icon,
-                dataIndex: dataIndex ? `data-index="${dataIndex}"` : '',
+                dataIndex: (dataIndex || dataIndex === 0) ? `data-index="${dataIndex}"` : '',
                 dataTag: dataTag ? `data-tag="${dataTag}"` : '',
                 dataProfileid: dataProfileid ? `data-profileid="${dataProfileid}"` : ''
             })}

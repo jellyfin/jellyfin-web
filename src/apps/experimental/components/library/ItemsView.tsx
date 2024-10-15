@@ -72,7 +72,7 @@ const ItemsView: FC<ItemsViewProps> = ({
     const {
         isLoading,
         data: itemsResult,
-        isPreviousData,
+        isPlaceholderData,
         refetch
     } = useGetItemsViewByType(
         viewType,
@@ -92,7 +92,7 @@ const ItemsView: FC<ItemsViewProps> = ({
             listOptions.showParentTitle = true;
             listOptions.action = 'playallfromhere';
             listOptions.smallIcon = true;
-            listOptions.artist = true;
+            listOptions.showArtist = true;
             listOptions.addToListButton = true;
         } else if (viewType === LibraryTab.Albums) {
             listOptions.sortBy = libraryViewSettings.SortBy;
@@ -181,7 +181,7 @@ const ItemsView: FC<ItemsViewProps> = ({
 
     const getItems = useCallback(() => {
         if (!itemsResult?.Items?.length) {
-            return <NoItemsMessage noItemsMessage={noItemsMessage} />;
+            return <NoItemsMessage message={noItemsMessage} />;
         }
 
         if (libraryViewSettings.ViewMode === ViewMode.ListView) {
@@ -228,7 +228,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                     <Pagination
                         totalRecordCount={totalRecordCount}
                         libraryViewSettings={libraryViewSettings}
-                        isPreviousData={isPreviousData}
+                        isPlaceholderData={isPlaceholderData}
                         setLibraryViewSettings={setLibraryViewSettings}
                     />
                 )}
@@ -312,7 +312,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                     <Pagination
                         totalRecordCount={totalRecordCount}
                         libraryViewSettings={libraryViewSettings}
-                        isPreviousData={isPreviousData}
+                        isPlaceholderData={isPlaceholderData}
                         setLibraryViewSettings={setLibraryViewSettings}
                     />
                 </Box>
