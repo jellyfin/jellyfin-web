@@ -1072,7 +1072,7 @@
     "MediaInfoVideoRange": "Video range",
     "MediaIsBeingConverted": "The media is being converted into a format that is compatible with the device that is playing the media.",
     "MediaSegmentAction.None": "None",
-    "MediaSegmentAction.PromptToSkip": "Prompt To Skip",
+    "MediaSegmentAction.AskToSkip": "Ask To Skip",
     "MediaSegmentAction.Skip": "Skip",
     "MediaSegmentNextEpisode": "Next Episode",
     "MediaSegmentSkipPrompt": "Skip {0}",

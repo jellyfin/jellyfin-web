@@ -78,7 +78,7 @@ class MediaSegmentManager extends PlaybackSubscriber {
         const action = this.mediaSegmentTypeActions[mediaSegment.Type];
         if (action === MediaSegmentAction.Skip) {
             this.skipSegment(mediaSegment);
-        } else if (action === MediaSegmentAction.PromptToSkip) {
+        } else if (action === MediaSegmentAction.AskToSkip) {
             this.promptToSkip(mediaSegment);
         }
     }
