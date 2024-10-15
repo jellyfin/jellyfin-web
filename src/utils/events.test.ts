@@ -55,16 +55,21 @@ describe('Utils: events', () => {
         it('should not remove callback if it is not registered for the given event', () => {
             eventsUtils.off(obj, 'otherEvent', initialCallback);
 
-            expect(obj).toHaveProperty('_callbacks', { testEvent: [initialCallback], otherEvent: [] });
+            expect(obj).toHaveProperty('_callbacks', {
+                testEvent: [initialCallback],
+                otherEvent: []
+            });
         });
         it('should not remove callback if it is not registered', () => {
             const callbackToRemove = vi.fn();
 
             eventsUtils.off(obj, 'testEvent', callbackToRemove);
 
-            expect(obj).toHaveProperty('_callbacks', { testEvent: [initialCallback] });
+            expect(obj).toHaveProperty('_callbacks', {
+                testEvent: [initialCallback]
+            });
         });
-    })
+    });
 
     describe('Method: trigger', () => {
         it('should trigger registered callback with given parameters', () => {
@@ -74,7 +79,11 @@ describe('Utils: events', () => {
 
             eventsUtils.trigger(obj, 'testEvent', ['testValue1', 'testValue2']);
 
-            expect(callback).toHaveBeenCalledWith({type: 'testEvent'}, 'testValue1', 'testValue2');
+            expect(callback).toHaveBeenCalledWith(
+                { type: 'testEvent' },
+                'testValue1',
+                'testValue2'
+            );
         });
     });
 });
