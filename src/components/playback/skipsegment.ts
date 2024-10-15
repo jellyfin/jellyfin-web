@@ -85,7 +85,7 @@ class SkipSegment extends PlaybackSubscriber {
                 elem.classList.remove('skip-button-hidden');
 
                 if (!options.keep) {
-                    this.hideTimeout = setTimeout(this.hideSkipButton.bind(this), 6000);
+                    this.hideTimeout = setTimeout(this.hideSkipButton.bind(this), 8000);
                 }
             });
         }
