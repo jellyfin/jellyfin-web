@@ -3,6 +3,6 @@
  */
 export enum MediaSegmentAction {
     None = 'None',
-    PromptToSkip = 'PromptToSkip',
+    AskToSkip = 'AskToSkip',
     Skip = 'Skip'
 }
