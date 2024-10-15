@@ -60,7 +60,7 @@ export const resolveMixedShapeByAspectRatio = (primaryImageAspectRatio: number |
 
     if (primaryImageAspectRatio >= 1.33) {
         return CardShape.MixedBackdrop;
-    } else if (primaryImageAspectRatio > 0.71) {
+    } else if (primaryImageAspectRatio > 0.8) {
         return CardShape.MixedSquare;
     } else {
         return CardShape.MixedPortrait;
@@ -103,7 +103,7 @@ export const resolveCardCssClasses = (opts: CardCssClassOpts): string => {
  * Resolves applicable Card Image container CSS classes
  * @param opts options for determining which CSS classes are applicable
  */
-export const resolveCardImageContainerCssClasses = (opts: { itemType: string, hasCoverImage: boolean, itemName?: string, imgUrl?: string}): string => {
+export const resolveCardImageContainerCssClasses = (opts: { itemType: string, hasCoverImage: boolean, itemName?: string, imgUrl?: string }): string => {
     return classNames({
         'cardImageContainer': true,
         'coveredImage': opts.hasCoverImage,

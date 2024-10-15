@@ -2,14 +2,15 @@ import { Dashboard, ExpandLess, ExpandMore, LibraryAdd, People, PlayCircle, Sett
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import ListItemLink from 'components/ListItemLink';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 const LIBRARY_PATHS = [
     '/dashboard/libraries',
@@ -28,8 +29,16 @@ const PLAYBACK_PATHS = [
 const ServerDrawerSection = () => {
     const location = useLocation();
 
-    const isLibrarySectionOpen = LIBRARY_PATHS.includes(location.pathname);
-    const isPlaybackSectionOpen = PLAYBACK_PATHS.includes(location.pathname);
+    const [ isLibrarySectionOpen, setIsLibrarySectionOpen ] = useState(LIBRARY_PATHS.includes(location.pathname));
+    const [ isPlaybackSectionOpen, setIsPlaybackSectionOpen ] = useState(PLAYBACK_PATHS.includes(location.pathname));
+
+    const onLibrarySectionClick = useCallback(() => {
+        setIsLibrarySectionOpen(isOpen => !isOpen);
+    }, []);
+
+    const onPlaybackSectionClick = useCallback(() => {
+        setIsPlaybackSectionOpen(isOpen => !isOpen);
+    }, []);
 
     return (
         <List
@@ -65,13 +74,13 @@ const ServerDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard/libraries' selected={false}>
+                <ListItemButton onClick={onLibrarySectionClick}>
                     <ListItemIcon>
                         <LibraryAdd />
                     </ListItemIcon>
                     <ListItemText primary={globalize.translate('HeaderLibraries')} />
                     {isLibrarySectionOpen ? <ExpandLess /> : <ExpandMore />}
-                </ListItemLink>
+                </ListItemButton>
             </ListItem>
             <Collapse in={isLibrarySectionOpen} timeout='auto' unmountOnExit>
                 <List component='div' disablePadding>
@@ -82,7 +91,7 @@ const ServerDrawerSection = () => {
                         <ListItemText inset primary={globalize.translate('Display')} />
                     </ListItemLink>
                     <ListItemLink to='/dashboard/libraries/metadata' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('Metadata')} />
+                        <ListItemText inset primary={globalize.translate('MetadataManager')} />
                     </ListItemLink>
                     <ListItemLink to='/dashboard/libraries/nfo' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('TabNfoSettings')} />
@@ -90,13 +99,13 @@ const ServerDrawerSection = () => {
                 </List>
             </Collapse>
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard/playback/transcoding' selected={false}>
+                <ListItemButton onClick={onPlaybackSectionClick}>
                     <ListItemIcon>
                         <PlayCircle />
                     </ListItemIcon>
                     <ListItemText primary={globalize.translate('TitlePlayback')} />
                     {isPlaybackSectionOpen ? <ExpandLess /> : <ExpandMore />}
-                </ListItemLink>
+                </ListItemButton>
             </ListItem>
             <Collapse in={isPlaybackSectionOpen} timeout='auto' unmountOnExit>
                 <List component='div' disablePadding>

@@ -4,25 +4,31 @@ const CopyPlugin = require('copy-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { DefinePlugin } = require('webpack');
+const { DefinePlugin, IgnorePlugin } = require('webpack');
 const packageJson = require('./package.json');
 
 const Assets = [
     'native-promise-only/npo.js',
     'libarchive.js/dist/worker-bundle.js',
+    'libarchive.js/dist/libarchive.wasm',
     '@jellyfin/libass-wasm/dist/js/default.woff2',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
-    'pdfjs-dist/build/pdf.worker.js'
-];
-
-const LibarchiveWasm = [
-    'libarchive.js/dist/wasm-gen/libarchive.js',
-    'libarchive.js/dist/wasm-gen/libarchive.wasm'
+    'pdfjs-dist/build/pdf.worker.js',
+    'libpgs/dist/libpgs.worker.js'
 ];
 
 const DEV_MODE = process.env.NODE_ENV !== 'production';
+let COMMIT_SHA = '';
+try {
+    COMMIT_SHA = require('child_process')
+        .execSync('git describe --always --dirty')
+        .toString()
+        .trim();
+} catch (err) {
+    console.warn('Failed to get commit sha. Is git installed?', err);
+}
 
 const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
 
@@ -42,20 +48,20 @@ const config = {
             '@mui/private-theming': '@mui/private-theming/legacy',
             '@mui/styled-engine': '@mui/styled-engine/legacy',
             '@mui/system': '@mui/system/legacy',
-            '@mui/utils': '@mui/utils/legacy',
-            '@mui/x-data-grid': '@mui/x-data-grid/legacy'
+            '@mui/utils': '@mui/utils/legacy'
         }
     },
     plugins: [
         new DefinePlugin({
+            __COMMIT_SHA__: JSON.stringify(COMMIT_SHA),
             __JF_BUILD_VERSION__: JSON.stringify(
                 process.env.WEBPACK_SERVE ?
                     'Dev Server' :
                     process.env.JELLYFIN_VERSION || 'Release'),
             __PACKAGE_JSON_NAME__: JSON.stringify(packageJson.name),
             __PACKAGE_JSON_VERSION__: JSON.stringify(packageJson.version),
-            __USE_SYSTEM_FONTS__: JSON.stringify(!!process.env.USE_SYSTEM_FONTS),
-            __WEBPACK_SERVE__: JSON.stringify(!!process.env.WEBPACK_SERVE)
+            __USE_SYSTEM_FONTS__: !!JSON.parse(process.env.USE_SYSTEM_FONTS || '0'),
+            __WEBPACK_SERVE__: !!JSON.parse(process.env.WEBPACK_SERVE || '0')
         }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
@@ -94,13 +100,11 @@ const config = {
                 };
             })
         }),
-        new CopyPlugin({
-            patterns: LibarchiveWasm.map(asset => {
-                return {
-                    from: path.resolve(__dirname, `./node_modules/${asset}`),
-                    to: path.resolve(__dirname, './dist/libraries/wasm-gen')
-                };
-            })
+        // The libarchive.js worker-bundle is copied manually.
+        // If it is automatically bundled, escheck will fail since it uses import.meta.url.
+        new IgnorePlugin({
+            resourceRegExp: /worker-bundle\.js$/,
+            contextRegExp: /libarchive.js/
         }),
         new ForkTsCheckerWebpackPlugin({
             typescript: {
@@ -176,6 +180,7 @@ const config = {
                 include: [
                     path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
+                    path.resolve(__dirname, 'node_modules/@mui/x-date-pickers'),
                     path.resolve(__dirname, 'node_modules/@react-hook/latest'),
                     path.resolve(__dirname, 'node_modules/@react-hook/passive-layout-effect'),
                     path.resolve(__dirname, 'node_modules/@react-hook/resize-observer'),
@@ -183,30 +188,52 @@ const config = {
                     path.resolve(__dirname, 'node_modules/@tanstack/match-sorter-utils'),
                     path.resolve(__dirname, 'node_modules/@tanstack/query-core'),
                     path.resolve(__dirname, 'node_modules/@tanstack/react-query'),
+                    path.resolve(__dirname, 'node_modules/@tanstack/react-table'),
+                    path.resolve(__dirname, 'node_modules/@tanstack/react-virtual'),
+                    path.resolve(__dirname, 'node_modules/@tanstack/table-core'),
+                    path.resolve(__dirname, 'node_modules/@tanstack/virtual-core'),
                     path.resolve(__dirname, 'node_modules/@uupaa/dynamic-import-polyfill'),
                     path.resolve(__dirname, 'node_modules/axios'),
                     path.resolve(__dirname, 'node_modules/blurhash'),
                     path.resolve(__dirname, 'node_modules/compare-versions'),
-                    path.resolve(__dirname, 'node_modules/copy-anything'),
                     path.resolve(__dirname, 'node_modules/date-fns'),
                     path.resolve(__dirname, 'node_modules/dom7'),
                     path.resolve(__dirname, 'node_modules/epubjs'),
                     path.resolve(__dirname, 'node_modules/flv.js'),
-                    path.resolve(__dirname, 'node_modules/is-what'),
+                    path.resolve(__dirname, 'node_modules/highlight-words'),
                     path.resolve(__dirname, 'node_modules/libarchive.js'),
                     path.resolve(__dirname, 'node_modules/linkify-it'),
                     path.resolve(__dirname, 'node_modules/markdown-it'),
+                    path.resolve(__dirname, 'node_modules/material-react-table'),
                     path.resolve(__dirname, 'node_modules/mdurl'),
                     path.resolve(__dirname, 'node_modules/punycode'),
                     path.resolve(__dirname, 'node_modules/react-blurhash'),
                     path.resolve(__dirname, 'node_modules/react-lazy-load-image-component'),
                     path.resolve(__dirname, 'node_modules/react-router'),
+                    path.resolve(__dirname, 'node_modules/remove-accents'),
                     path.resolve(__dirname, 'node_modules/screenfull'),
                     path.resolve(__dirname, 'node_modules/ssr-window'),
                     path.resolve(__dirname, 'node_modules/swiper'),
                     path.resolve(__dirname, 'node_modules/usehooks-ts'),
                     path.resolve(__dirname, 'src')
                 ],
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        cacheCompression: false,
+                        cacheDirectory: true
+                    }
+                }]
+            },
+            // Strict EcmaScript modules require additional flags
+            {
+                test: /\.(js|jsx|mjs)$/,
+                include: [
+                    path.resolve(__dirname, 'node_modules/@tanstack/query-devtools')
+                ],
+                resolve: {
+                    fullySpecified: false
+                },
                 use: [{
                     loader: 'babel-loader',
                     options: {

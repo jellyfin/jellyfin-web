@@ -1,10 +1,11 @@
 import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
-import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 import escapeHTML from 'escape-html';
+import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
-import globalize from '../../../../scripts/globalize';
-import LibraryMenu from '../../../../scripts/libraryMenu';
+import globalize from '../../../../lib/globalize';
 import AccessScheduleList from '../../../../components/dashboard/users/AccessScheduleList';
 import TagList from '../../../../components/dashboard/users/TagList';
 import ButtonElement from '../../../../elements/ButtonElement';
@@ -12,16 +13,18 @@ import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
-import { getParameterByName } from '../../../../utils/url';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
 import prompt from '../../../../components/prompt/prompt';
 import ServerConnections from 'components/ServerConnections';
 
-type UnratedItem = {
+type NamedItem = {
     name: string;
-    value: string;
+    value: UnratedItem;
+};
+
+type UnratedNamedItem = NamedItem & {
     checkedAttribute: string
 };
 
@@ -56,17 +59,20 @@ function handleSaveUser(
     };
 }
 
-const UserParentalControl: FunctionComponent = () => {
+const UserParentalControl = () => {
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId');
     const [ userName, setUserName ] = useState('');
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
-    const [ unratedItems, setUnratedItems ] = useState<UnratedItem[]>([]);
+    const [ unratedItems, setUnratedItems ] = useState<UnratedNamedItem[]>([]);
     const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const [ allowedTags, setAllowedTags ] = useState<string[]>([]);
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
+    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 
-    const populateRatings = useCallback((allParentalRatings) => {
+    const populateRatings = useCallback((allParentalRatings: ParentalRating[]) => {
         let rating;
         const ratings: ParentalRating[] = [];
 
@@ -91,50 +97,50 @@ const UserParentalControl: FunctionComponent = () => {
         setParentalRatings(ratings);
     }, []);
 
-    const loadUnratedItems = useCallback((user) => {
+    const loadUnratedItems = useCallback((user: UserDto) => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
-        const items = [{
+        const items: NamedItem[] = [{
             name: globalize.translate('Books'),
-            value: 'Book'
+            value: UnratedItem.Book
         }, {
             name: globalize.translate('Channels'),
-            value: 'ChannelContent'
+            value: UnratedItem.ChannelContent
         }, {
             name: globalize.translate('LiveTV'),
-            value: 'LiveTvChannel'
+            value: UnratedItem.LiveTvChannel
         }, {
             name: globalize.translate('Movies'),
-            value: 'Movie'
+            value: UnratedItem.Movie
         }, {
             name: globalize.translate('Music'),
-            value: 'Music'
+            value: UnratedItem.Music
         }, {
             name: globalize.translate('Trailers'),
-            value: 'Trailer'
+            value: UnratedItem.Trailer
         }, {
             name: globalize.translate('Shows'),
-            value: 'Series'
+            value: UnratedItem.Series
         }];
 
-        const itemsArr: UnratedItem[] = [];
+        const unratedNamedItem: UnratedNamedItem[] = [];
 
         for (const item of items) {
-            const isChecked = user.Policy.BlockUnratedItems.indexOf(item.value) != -1;
+            const isChecked = user.Policy?.BlockUnratedItems?.indexOf(item.value) != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
-            itemsArr.push({
+            unratedNamedItem.push({
                 value: item.value,
                 name: item.name,
                 checkedAttribute: checkedAttribute
             });
         }
 
-        setUnratedItems(itemsArr);
+        setUnratedItems(unratedNamedItem);
 
         const blockUnratedItems = page.querySelector('.blockUnratedItems') as HTMLDivElement;
         blockUnratedItems.dispatchEvent(new CustomEvent('create'));
@@ -144,7 +150,7 @@ const UserParentalControl: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
@@ -165,7 +171,7 @@ const UserParentalControl: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
@@ -182,38 +188,16 @@ const UserParentalControl: FunctionComponent = () => {
         }
     }, []);
 
-    const renderAccessSchedule = useCallback((schedules) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
-        setAccessSchedules(schedules);
-
-        const accessScheduleList = page.querySelector('.accessScheduleList') as HTMLDivElement;
-
-        for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
-            btnDelete.addEventListener('click', function () {
-                const index = parseInt(btnDelete.getAttribute('data-index') ?? '0', 10);
-                schedules.splice(index, 1);
-                const newindex = schedules.filter((i: number) => i != index);
-                renderAccessSchedule(newindex);
-            });
-        }
-    }, []);
-
     const loadUser = useCallback((user: UserDto, allParentalRatings: ParentalRating[]) => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
         setUserName(user.Name || '');
-        LibraryMenu.setTitle(user.Name);
+        void libraryMenu.then(menu => menu.setTitle(user.Name));
         loadUnratedItems(user);
 
         loadAllowedTags(user.Policy?.AllowedTags || []);
@@ -229,20 +213,24 @@ const UserParentalControl: FunctionComponent = () => {
             });
         }
 
-        (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value = ratingValue;
+        (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value = String(ratingValue);
 
         if (user.Policy?.IsAdministrator) {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
         } else {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.remove('hide');
         }
-        renderAccessSchedule(user.Policy?.AccessSchedules || []);
+        setAccessSchedules(user.Policy?.AccessSchedules || []);
         loading.hide();
-    }, [loadAllowedTags, loadBlockedTags, loadUnratedItems, populateRatings, renderAccessSchedule]);
+    }, [loadAllowedTags, loadBlockedTags, loadUnratedItems, populateRatings]);
 
     const loadData = useCallback(() => {
+        if (!userId) {
+            console.error('[userparentalcontrol.loadData] missing user id');
+            return;
+        }
+
         loading.show();
-        const userId = getParameterByName('userId');
         const promise1 = window.ApiClient.getUser(userId);
         const promise2 = window.ApiClient.getParentalRatings();
         Promise.all([promise1, promise2]).then(function (responses) {
@@ -250,13 +238,13 @@ const UserParentalControl: FunctionComponent = () => {
         }).catch(err => {
             console.error('[userparentalcontrol] failed to load data', err);
         });
-    }, [loadUser]);
+    }, [loadUser, userId]);
 
     useEffect(() => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
@@ -275,7 +263,7 @@ const UserParentalControl: FunctionComponent = () => {
                     }
 
                     schedules[index] = updatedSchedule;
-                    renderAccessSchedule(schedules);
+                    setAccessSchedules(schedules);
                 }).catch(() => {
                     // access schedule closed
                 });
@@ -344,8 +332,12 @@ const UserParentalControl: FunctionComponent = () => {
         const saveUser = handleSaveUser(page, getSchedulesFromPage, getAllowedTagsFromPage, getBlockedTagsFromPage, onSaveComplete);
 
         const onSubmit = (e: Event) => {
+            if (!userId) {
+                console.error('[userparentalcontrol.onSubmit] missing user id');
+                return;
+            }
+
             loading.show();
-            const userId = getParameterByName('userId');
             window.ApiClient.getUser(userId).then(function (result) {
                 saveUser(result);
             }).catch(err => {
@@ -375,7 +367,26 @@ const UserParentalControl: FunctionComponent = () => {
         });
 
         (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-    }, [loadAllowedTags, loadBlockedTags, loadData, renderAccessSchedule]);
+    }, [loadAllowedTags, loadBlockedTags, loadData, userId]);
+
+    useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('[userparentalcontrol] Unexpected null page reference');
+            return;
+        }
+
+        const accessScheduleList = page.querySelector('.accessScheduleList') as HTMLDivElement;
+
+        for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
+            btnDelete.addEventListener('click', function () {
+                const index = parseInt(btnDelete.getAttribute('data-index') ?? '0', 10);
+                const newindex = accessSchedules.filter((_e, i) => i != index);
+                setAccessSchedules(newindex);
+            });
+        }
+    }, [accessSchedules]);
 
     const optionMaxParentalRating = () => {
         let content = '';

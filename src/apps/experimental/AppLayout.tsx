@@ -15,7 +15,7 @@ import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
 
 import './AppOverrides.scss';
 
-const AppLayout = () => {
+export const Component = () => {
     const [ isDrawerActive, setIsDrawerActive ] = useState(false);
     const { user } = useApi();
     const location = useLocation();
@@ -29,7 +29,7 @@ const AppLayout = () => {
     }, [ isDrawerActive, setIsDrawerActive ]);
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ position: 'relative', display: 'flex', height: '100%' }}>
             <ElevationScroll elevate={false}>
                 <AppBar
                     position='fixed'
@@ -76,5 +76,3 @@ const AppLayout = () => {
         </Box>
     );
 };
-
-export default AppLayout;

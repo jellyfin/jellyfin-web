@@ -1,5 +1,5 @@
 import dialogHelper from '../dialogHelper/dialogHelper';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import layoutManager from '../layoutManager';
 import mediaInfo from '../mediainfo/mediainfo';
 import loading from '../loading/loading';

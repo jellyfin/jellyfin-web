@@ -3,8 +3,7 @@ import { ImageResolution } from '@jellyfin/sdk/lib/generated-client/models/image
 import 'jquery';
 
 import loading from '../../components/loading/loading';
-import libraryMenu from '../../scripts/libraryMenu';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Dashboard from '../../utils/dashboard';
 
 import '../../components/listview/listview.scss';
@@ -86,26 +85,9 @@ function onSubmit() {
     return false;
 }
 
-function getTabs() {
-    return [{
-        href: '#/dashboard/libraries',
-        name: globalize.translate('HeaderLibraries')
-    }, {
-        href: '#/dashboard/libraries/display',
-        name: globalize.translate('Display')
-    }, {
-        href: '#/dashboard/libraries/metadata',
-        name: globalize.translate('Metadata')
-    }, {
-        href: '#/dashboard/libraries/nfo',
-        name: globalize.translate('TabNfoSettings')
-    }];
-}
-
 $(document).on('pageinit', '#metadataImagesConfigurationPage', function() {
     $('.metadataImagesConfigurationForm').off('submit', onSubmit).on('submit', onSubmit);
 }).on('pageshow', '#metadataImagesConfigurationPage', function() {
-    libraryMenu.setTabs('metadata', 2, getTabs);
     loading.show();
     loadPage(this);
 });

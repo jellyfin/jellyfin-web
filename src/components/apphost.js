@@ -3,7 +3,7 @@ import browser from '../scripts/browser';
 import Events from '../utils/events.ts';
 import * as htmlMediaHelper from '../components/htmlMediaHelper';
 import * as webSettings from '../scripts/settings/webSettings';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import profileBuilder from '../scripts/browserDeviceProfile';
 
 const appName = 'Jellyfin Web';
@@ -66,6 +66,36 @@ function getDeviceProfile(item) {
                     });
 
                     transcodingProfile.Conditions.push(conditionWidth);
+                }
+            });
+        }
+
+        const preferredTranscodeVideoCodec = appSettings.preferredTranscodeVideoCodec();
+        if (preferredTranscodeVideoCodec) {
+            profile.TranscodingProfiles.forEach((transcodingProfile) => {
+                if (transcodingProfile.Type === 'Video') {
+                    const videoCodecs = transcodingProfile.VideoCodec.split(',');
+                    const index = videoCodecs.indexOf(preferredTranscodeVideoCodec);
+                    if (index !== -1) {
+                        videoCodecs.splice(index, 1);
+                        videoCodecs.unshift(preferredTranscodeVideoCodec);
+                        transcodingProfile.VideoCodec = videoCodecs.join(',');
+                    }
+                }
+            });
+        }
+
+        const preferredTranscodeVideoAudioCodec = appSettings.preferredTranscodeVideoAudioCodec();
+        if (preferredTranscodeVideoAudioCodec) {
+            profile.TranscodingProfiles.forEach((transcodingProfile) => {
+                if (transcodingProfile.Type === 'Video') {
+                    const audioCodecs = transcodingProfile.AudioCodec.split(',');
+                    const index = audioCodecs.indexOf(preferredTranscodeVideoAudioCodec);
+                    if (index !== -1) {
+                        audioCodecs.splice(index, 1);
+                        audioCodecs.unshift(preferredTranscodeVideoAudioCodec);
+                        transcodingProfile.AudioCodec = audioCodecs.join(',');
+                    }
                 }
             });
         }
@@ -155,7 +185,7 @@ function supportsFullscreen() {
     }
 
     const element = document.documentElement;
-    return (element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen) || document.createElement('video').webkitEnterFullscreen;
+    return !!(element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen || document.createElement('video').webkitEnterFullscreen);
 }
 
 function getDefaultLayout() {
@@ -242,7 +272,7 @@ const supportedFeatures = function () {
         features.push('fullscreenchange');
     }
 
-    if (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile) {
+    if (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile || browser.ipad) {
         features.push('physicalvolumecontrol');
     }
 

@@ -67,11 +67,21 @@ const DEFAULT_LOCALE = 'en-US';
 let localeString = DEFAULT_LOCALE;
 let locale = enUS;
 
+export function fetchLocale(localeName: string) {
+    return import(`date-fns/locale/${localeName}/index.js`);
+}
+
+export function normalizeLocale(localeName: string) {
+    return LOCALE_MAP[localeName]
+        || LOCALE_MAP[localeName.replace(/-.*/, '')]
+        || DEFAULT_LOCALE;
+}
+
 export async function updateLocale(newLocale: string) {
     console.debug('[dateFnsLocale] updating date-fns locale', newLocale);
-    localeString = LOCALE_MAP[newLocale] || LOCALE_MAP[newLocale.replace(/-.*/, '')] || DEFAULT_LOCALE;
+    localeString = normalizeLocale(newLocale);
     console.debug('[dateFnsLocale] mapped to date-fns locale', localeString);
-    locale = await import(`date-fns/locale/${localeString}/index.js`);
+    locale = await fetchLocale(localeString);
 }
 
 export function getLocale() {

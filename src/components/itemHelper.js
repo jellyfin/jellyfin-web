@@ -1,10 +1,14 @@
-import { appHost } from './apphost';
-import globalize from '../scripts/globalize';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
 import { RecordingStatus } from '@jellyfin/sdk/lib/generated-client/models/recording-status';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
+import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
+
+import { appHost } from './apphost';
+import globalize from 'lib/globalize';
+import ServerConnections from './ServerConnections';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 export function getDisplayName(item, options = {}) {
     if (!item) {
@@ -159,6 +163,25 @@ export function canEditImages (user, item) {
     return itemType !== 'Timer' && itemType !== 'SeriesTimer' && canEdit(user, item) && !isLocalItem(item);
 }
 
+export async function canEditPlaylist(user, item) {
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+    const api = toApi(apiClient);
+
+    try {
+        const { data: permissions } = await getPlaylistsApi(api)
+            .getPlaylistUser({
+                userId: user.Id,
+                playlistId: item.Id
+            });
+
+        return !!permissions.CanEdit;
+    } catch (err) {
+        console.error('Failed to get playlist permissions', err);
+    }
+
+    return false;
+}
+
 export function canEditSubtitles (user, item) {
     if (item.MediaType !== MediaType.Video) {
         return false;
@@ -184,6 +207,16 @@ export function canEditSubtitles (user, item) {
     }
     return user.Policy.EnableSubtitleManagement
            || user.Policy.IsAdministrator;
+}
+
+export function canEditLyrics (user, item) {
+    if (item.MediaType !== MediaType.Audio) {
+        return false;
+    }
+    if (isLocalItem(item)) {
+        return false;
+    }
+    return user.Policy.IsAdministrator;
 }
 
 export function canShare (item, user) {
@@ -332,6 +365,7 @@ export default {
     canEdit: canEdit,
     canEditImages: canEditImages,
     canEditSubtitles,
+    canEditLyrics,
     canShare: canShare,
     enableDateAddedDisplay: enableDateAddedDisplay,
     canMarkPlayed: canMarkPlayed,

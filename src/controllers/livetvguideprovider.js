@@ -1,5 +1,5 @@
 import loading from '../components/loading/loading';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import Dashboard, { pageIdOn } from '../utils/dashboard';
 import { getParameterByName } from '../utils/url.ts';
 import Events from '../utils/events.ts';

@@ -10,7 +10,7 @@ import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../scripts/dom';
 import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import '../../elements/emby-button/emby-button';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -18,6 +18,7 @@ import '../formdialog.scss';
 import '../../elements/emby-toggle/emby-toggle';
 import '../../styles/flexstyles.scss';
 import './style.scss';
+import alert from '../alert';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
 import template from './mediaLibraryEditor.template.html';
@@ -30,6 +31,16 @@ function onEditLibrary() {
     isCreating = true;
     loading.show();
     const dlg = dom.parentWithClass(this, 'dlg-libraryeditor');
+    // when the library has moved or symlinked, the ItemId is not correct anymore
+    // this can lead to a forever spinning value on edit the library parameters
+    if (!currentOptions.library.ItemId) {
+        loading.hide();
+        dialogHelper.close(dlg);
+        alert({
+            text: globalize.translate('LibraryInvalidItemIdError')
+        });
+        return false;
+    }
     let libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
     libraryOptions = Object.assign(currentOptions.library.LibraryOptions || {}, libraryOptions);
     ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(() => {

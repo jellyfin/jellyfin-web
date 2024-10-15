@@ -1,7 +1,7 @@
 import { appRouter } from '../router/appRouter';
 import browser from '../../scripts/browser';
 import dialog from '../dialog/dialog';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 
 function useNativeConfirm() {
     // webOS seems to block modals

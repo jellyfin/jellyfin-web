@@ -13,16 +13,18 @@ const StarIcons: FC<StarIconsProps> = ({ className, communityRating }) => {
     const theme = useTheme();
     const cssClass = classNames(
         'mediaInfoItem',
-        'mediaInfoText',
         'starRatingContainer',
         className
     );
 
     return (
         <Box className={cssClass}>
-            <StarIcon fontSize={'small'} sx={{
-                color: theme.palette.starIcon.main
-            }} />
+            <StarIcon
+                fontSize={'small'}
+                sx={{
+                    color: theme.palette.starIcon.main
+                }}
+            />
             {communityRating.toFixed(1)}
         </Box>
     );

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { FC } from 'react';
+import React, { type FC, type PropsWithChildren } from 'react';
 
 import browser from 'scripts/browser';
 
@@ -15,7 +15,7 @@ export interface ResponsiveDrawerProps {
     onOpen: () => void
 }
 
-const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
+const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
     children,
     open = false,
     onClose,
@@ -31,6 +31,7 @@ const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
                 flexShrink: 0,
                 '& .MuiDrawer-paper': {
                     width: DRAWER_WIDTH,
+                    paddingBottom: '4.2rem', // Padding for now playing bar
                     boxSizing: 'border-box'
                 }
             }}
