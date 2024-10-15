@@ -23,21 +23,6 @@ class SkipSegment extends PlaybackSubscriber {
         super(playbackManager);
 
         this.onOsdChanged = this.onOsdChanged.bind(this);
-
-        Events.on(document, EventType.SHOW_VIDEO_OSD, this.onOsdChanged);
-    }
-
-    onOsdChanged(_e: Event, isOpen: boolean) {
-        if (this.currentSegment) {
-            if (isOpen) {
-                this.showSkipButton({
-                    animate: false,
-                    keep: true
-                });
-            } else if (!this.hideTimeout) {
-                this.hideSkipButton();
-            }
-        }
     }
 
     onHideComplete() {
@@ -129,6 +114,19 @@ class SkipSegment extends PlaybackSubscriber {
         }
     }
 
+    onOsdChanged(_e: Event, isOpen: boolean) {
+        if (this.currentSegment) {
+            if (isOpen) {
+                this.showSkipButton({
+                    animate: false,
+                    keep: true
+                });
+            } else if (!this.hideTimeout) {
+                this.hideSkipButton();
+            }
+        }
+    }
+
     onPromptSkip(segment: MediaSegmentDto) {
         if (!this.currentSegment) {
             this.currentSegment = segment;
@@ -149,6 +147,13 @@ class SkipSegment extends PlaybackSubscriber {
                 this.currentSegment = null;
                 this.hideSkipButton();
             }
+        }
+    }
+
+    onPlayerChange(): void {
+        if (this.playbackManager.getCurrentPlayer()) {
+            Events.off(document, EventType.SHOW_VIDEO_OSD, this.onOsdChanged);
+            Events.on(document, EventType.SHOW_VIDEO_OSD, this.onOsdChanged);
         }
     }
 
