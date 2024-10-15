@@ -1,5 +1,5 @@
 import { PlaybackManager } from './playbackmanager';
-import { TICKS_PER_MILLISECOND } from 'constants/time';
+import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
 import { MediaSegmentDto, MediaSegmentType } from '@jellyfin/sdk/lib/generated-client';
 import { PlaybackSubscriber } from 'apps/stable/features/playback/utils/playbackSubscriber';
 import { isInSegment } from 'apps/stable/features/playback/utils/mediaSegments';
@@ -39,8 +39,13 @@ class SkipSegment extends PlaybackSubscriber {
             elem.classList.add('skip-button-hidden');
 
             elem.addEventListener('click', () => {
-                if (this.currentSegment) {
-                    this.playbackManager.seek(this.currentSegment.EndTicks);
+                const time = this.playbackManager.currentTime() * TICKS_PER_MILLISECOND;
+                if (this.currentSegment?.EndTicks) {
+                    if (time < this.currentSegment.EndTicks - TICKS_PER_SECOND) {
+                        this.playbackManager.seek(this.currentSegment.EndTicks);
+                    } else {
+                        this.hideSkipButton();
+                    }
                 }
             });
 
