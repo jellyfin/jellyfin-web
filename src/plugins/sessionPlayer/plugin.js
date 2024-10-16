@@ -85,33 +85,22 @@ function unsubscribeFromPlayerUpdates(instance) {
 }
 
 async function updatePlaylist(instance, queue) {
-    instance.playlist = [];
-    const max = 100;
-    const apiClient = getCurrentApiClient(instance);
-
-    const fetch = async (newQueue) => {
-        const options = {
-            ids: newQueue.map(i => i.Id ),
-            serverId: apiClient.serverId()
-        };
-
-        const result = await playbackManager.getItemsForPlayback(options.serverId, {
-            Ids: options.ids.join(',')
-        });
-
-        const items = await playbackManager.translateItemsForPlayback(result.Items, options);
-
-        for (let i = 0, length = items.length; i < length; i++) {
-            items[i].PlaylistItemId = newQueue[i].PlaylistItemId;
-        }
-        return items;
+    const options = {
+        ids: queue.map(i => i.Id),
+        serverId: getCurrentApiClient(instance).serverId()
     };
 
-    const n = Math.floor(queue.length / max) + 1;
+    const result = await playbackManager.getItemsForPlayback(options.serverId, {
+        Ids: options.ids.join(',')
+    });
 
-    for (let i = 0; i < n; i++) {
-        instance.playlist.push(...await fetch(queue.slice(max * i, max * (i + 1))));
+    const items = await playbackManager.translateItemsForPlayback(result.Items, options);
+
+    for (let i = 0; i < items.length; i++) {
+        items[i].PlaylistItemId = queue[i].PlaylistItemId;
     }
+
+    instance.playlist = items;
 }
 
 function compareQueues(q1, q2) {
