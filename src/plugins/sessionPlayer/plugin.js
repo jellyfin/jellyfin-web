@@ -108,7 +108,7 @@ function compareQueues(q1, q2) {
         return true;
     }
 
-    for (let i = 0, length = q1.length; i < length; i++) {
+    for (let i = 0; i < q1.length; i++) {
         if (q1[i].Id !== q2[i].Id || q1[i].PlaylistItemId !== q2[i].PlaylistItemId) {
             return true;
         }
@@ -159,9 +159,9 @@ function processUpdatedSessions(instance, sessions, apiClient) {
 
         instance.lastPlayerData = session;
 
-        for (let i = 0, length = eventNames.length; i < length; i++) {
-            Events.trigger(instance, eventNames[i], [session]);
-        }
+        eventNames.forEach(eventName => {
+            Events.trigger(instance, eventName, [session]);
+        });
     } else {
         instance.lastPlayerData = session;
 
@@ -545,7 +545,7 @@ class SessionPlayer {
     }
 
     getTrackIndex(PlaylistItemId) {
-        for (let i = 0, length = this.playlist.length; i < length; i++) {
+        for (let i = 0; i < this.playlist.length; i++) {
             if (this.playlist[i].PlaylistItemId === PlaylistItemId) {
                 return i;
             }
@@ -585,7 +585,7 @@ class SessionPlayer {
         const ids = [];
         const item = this.playlist[index];
 
-        for (let i = 0, length = this.playlist.length; i < length; i++) {
+        for (let i = 0; i < this.playlist.length; i++) {
             if (i === index) continue;
 
             if (i === newIndex) {
