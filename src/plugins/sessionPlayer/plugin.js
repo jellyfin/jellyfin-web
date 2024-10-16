@@ -544,9 +544,9 @@ class SessionPlayer {
         return state.MediaType === 'Audio';
     }
 
-    getTrackIndex(PlaylistItemId) {
+    getTrackIndex(playlistItemId) {
         for (let i = 0; i < this.playlist.length; i++) {
-            if (this.playlist[i].PlaylistItemId === PlaylistItemId) {
+            if (this.playlist[i].PlaylistItemId === playlistItemId) {
                 return i;
             }
         }
@@ -615,10 +615,10 @@ class SessionPlayer {
         return this.lastPlayerData.PlaylistItemId;
     }
 
-    setCurrentPlaylistItem(PlaylistItemId) {
+    setCurrentPlaylistItem(playlistItemId) {
         const options = {
             ids: this.playlist.map(i => i.Id),
-            startIndex: this.getTrackIndex(PlaylistItemId)
+            startIndex: this.getTrackIndex(playlistItemId)
         };
         return sendPlayCommand(getCurrentApiClient(this), options, 'PlayNow');
     }
