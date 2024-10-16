@@ -115,8 +115,9 @@ async function updatePlaylist(instance, queue) {
 }
 
 function compareQueues(q1, q2) {
-    if (q1.length !== q2.length)
+    if (q1.length !== q2.length) {
         return true;
+    }
 
     for (let i = 0, length = q1.length; i < length; i++) {
         if (q1[i].Id !== q2[i].Id || q1[i].PlaylistItemId !== q2[i].PlaylistItemId) {
@@ -128,11 +129,13 @@ function compareQueues(q1, q2) {
 
 function updateCurrentQueue(instance, session) {
     const current = session.NowPlayingQueue;
-    if (instance.updating_playlist)
+    if (instance.updating_playlist) {
         return;
+    }
 
-    if (instance.lastPlayerData && !compareQueues(current, instance.playlist))
+    if (instance.lastPlayerData && !compareQueues(current, instance.playlist)) {
         return;
+    }
 
     instance.updating_playlist = true;
 
@@ -576,38 +579,39 @@ class SessionPlayer {
 
     movePlaylistItem(playlistItemId, newIndex) {
         const index = this.getTrackIndex(playlistItemId);
-        if (index === newIndex)
-            return;
+        if (index === newIndex) return;
 
         const current = this.getCurrentPlaylistItemId();
         let current_pos = 0;
 
-        if (current === playlistItemId)
+        if (current === playlistItemId) {
             current_pos = newIndex;
+        }
 
         const append = (newIndex + 1 >= this.playlist.length);
 
-        if (newIndex > index)
-            newIndex++;
+        if (newIndex > index) newIndex++;
 
         const ids = [];
         const item = this.playlist[index];
 
         for (let i = 0, length = this.playlist.length; i < length; i++) {
-            if (i === index)
-                continue;
+            if (i === index) continue;
 
-            if (i === newIndex)
+            if (i === newIndex) {
                 ids.push(item.Id);
+            }
 
-            if (this.playlist[i].PlaylistItemId === current)
+            if (this.playlist[i].PlaylistItemId === current) {
                 current_pos = ids.length;
+            }
 
             ids.push(this.playlist[i].Id);
         }
 
-        if (append)
+        if (append) {
             ids.push(item.Id);
+        }
 
         const options = {
             ids: ids,
