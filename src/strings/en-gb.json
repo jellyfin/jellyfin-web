@@ -1980,5 +1980,10 @@
     "MediaSegmentAction.None": "None",
     "MediaSegmentAction.Skip": "Skip",
     "MediaSegmentType.Commercial": "Ad",
-    "HeaderMediaSegmentActions": "Media Segment Actions"
+    "HeaderMediaSegmentActions": "Media Segment Actions",
+    "MediaSegmentType.Intro": "Intro",
+    "MediaSegmentType.Outro": "Outro",
+    "MediaSegmentType.Preview": "Preview",
+    "MediaSegmentType.Recap": "Recap",
+    "PlaylistError.UpdateFailed": "Error updating playlist"
 }
