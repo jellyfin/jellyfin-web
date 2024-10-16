@@ -129,7 +129,7 @@ function compareQueues(q1, q2) {
 
 function updateCurrentQueue(instance, session) {
     const current = session.NowPlayingQueue;
-    if (instance.updating_playlist) {
+    if (instance.isUpdatingPlaylist) {
         return;
     }
 
@@ -137,11 +137,11 @@ function updateCurrentQueue(instance, session) {
         return;
     }
 
-    instance.updating_playlist = true;
+    instance.isUpdatingPlaylist = true;
 
     const finish = () => {
-        instance.updating_playlist = false;
-        instance.render_playlist = true;
+        instance.isUpdatingPlaylist = false;
+        instance.isPlaylistRendered = true;
     };
 
     updatePlaylist(instance, current).then(finish, finish);
@@ -243,6 +243,8 @@ function normalizeImages(state, apiClient) {
 }
 
 class SessionPlayer {
+    lastPlaylistItemId;
+
     constructor() {
         const self = this;
 
@@ -252,9 +254,8 @@ class SessionPlayer {
         this.id = 'remoteplayer';
 
         this.playlist = [];
-        this.render_playlist = true;
-        this.updating_playlist = false;
-        this.last_song_playlist_id = 0;
+        this.isPlaylistRendered = true;
+        this.isUpdatingPlaylist = false;
 
         Events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
             processUpdatedSessions(self, data, apiClient);
@@ -563,15 +564,15 @@ class SessionPlayer {
     }
 
     getPlaylist() {
-        let song_id = 0;
+        let itemId;
 
         if (this.lastPlayerData) {
-            song_id = this.lastPlayerData.PlaylistItemId;
+            itemId = this.lastPlayerData.PlaylistItemId;
         }
 
-        if (this.playlist.length > 0 && (this.render_playlist || song_id !== this.last_song_playlist_id)) {
-            this.render_playlist = false;
-            this.last_song_playlist_id = song_id;
+        if (this.playlist.length > 0 && (this.isPlaylistRendered || itemId !== this.lastPlaylistItemId)) {
+            this.isPlaylistRendered = false;
+            this.lastPlaylistItemId = itemId;
             return Promise.resolve(this.playlist);
         }
         return Promise.resolve([]);
@@ -582,10 +583,10 @@ class SessionPlayer {
         if (index === newIndex) return;
 
         const current = this.getCurrentPlaylistItemId();
-        let current_pos = 0;
+        let currentIndex = 0;
 
         if (current === playlistItemId) {
-            current_pos = newIndex;
+            currentIndex = newIndex;
         }
 
         const append = (newIndex + 1 >= this.playlist.length);
@@ -603,7 +604,7 @@ class SessionPlayer {
             }
 
             if (this.playlist[i].PlaylistItemId === current) {
-                current_pos = ids.length;
+                currentIndex = ids.length;
             }
 
             ids.push(this.playlist[i].Id);
@@ -614,8 +615,8 @@ class SessionPlayer {
         }
 
         const options = {
-            ids: ids,
-            startIndex: current_pos
+            ids,
+            startIndex: currentIndex
         };
 
         return sendPlayCommand(getCurrentApiClient(this), options, 'PlayNow');
@@ -623,7 +624,6 @@ class SessionPlayer {
 
     getCurrentPlaylistItemId() {
         return this.lastPlayerData.PlaylistItemId;
-        // not supported?
     }
 
     setCurrentPlaylistItem(PlaylistItemId) {
