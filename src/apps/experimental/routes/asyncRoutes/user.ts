@@ -11,5 +11,6 @@ export const ASYNC_USER_ROUTES: AsyncRoute[] = [
     { path: 'livetv.html', page: 'livetv', type: AsyncRouteType.Experimental },
     { path: 'mypreferencesdisplay.html', page: 'user/display', type: AsyncRouteType.Experimental },
 
-    { path: 'homevideos.html', page: 'homevideos', type: AsyncRouteType.Experimental }
+    { path: 'homevideos.html', page: 'homevideos', type: AsyncRouteType.Experimental },
+    { path: 'details', page: 'details', type: AsyncRouteType.Experimental }
 ];
