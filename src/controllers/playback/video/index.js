@@ -95,18 +95,6 @@ export default function (view) {
         }
 
         setTitle(displayItem, parentName);
-        ratingsText.innerHTML = mediaInfo.getPrimaryMediaInfoHtml(displayItem, {
-            officialRating: false,
-            criticRating: true,
-            starRating: true,
-            endsAt: false,
-            year: false,
-            programIndicator: false,
-            runtime: false,
-            subtitles: false,
-            originalAirDate: false,
-            episodeTitle: false
-        });
 
         const secondaryMediaInfo = view.querySelector('.osdSecondaryMediaInfo');
         const secondaryMediaInfoHtml = mediaInfo.getSecondaryMediaInfoHtml(displayItem, {
@@ -1624,7 +1612,6 @@ export default function (view) {
     const startTimeText = view.querySelector('.startTimeText');
     const endTimeText = view.querySelector('.endTimeText');
     const endsAtText = view.querySelector('.endsAtText');
-    const ratingsText = view.querySelector('.osdRatingsText');
     const btnRewind = view.querySelector('.btnRewind');
     const btnFastForward = view.querySelector('.btnFastForward');
     const transitionEndEventName = dom.whichTransitionEvent();
