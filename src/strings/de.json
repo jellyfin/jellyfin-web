@@ -1971,5 +1971,19 @@
     "MessageCancelSeriesTimerError": "Beim Abbrechen des Serien-Timers ist ein Fehler aufgetreten",
     "MessageCancelTimerError": "Beim Abbrechen des Timers ist ein Fehler aufgetreten",
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "Brenne alle Untertitel ein, wenn die Transcodierung ausgelöst wird. Dies gewährleistet die Synchronisierung der Untertitel nach der Transcodierung auf Kosten einer geringeren Transcodierungsgeschwindigkeit.",
-    "LabelScreensaverTimeHelp": "Die Zeitspanne in Sekunden der Inaktivität, die zum Starten des Bildschirmschoners erforderlich ist."
+    "LabelScreensaverTimeHelp": "Die Zeitspanne in Sekunden der Inaktivität, die zum Starten des Bildschirmschoners erforderlich ist.",
+    "HeaderEditPlaylist": "Wiedergabeliste bearbeiten",
+    "HeaderMediaSegmentActions": "Medien-Segmentierungs-Aktionen",
+    "HeaderNewPlaylist": "Neue Wiedergabeliste",
+    "LabelMediaSegmentsType": "{0} Segmente",
+    "LabelQsvDevice": "QSV Gerät",
+    "LabelQsvDeviceHelp": "Wählt das Gerät für Intel QSV auf einem multi-GPU System aus. Unter Linux ist dies der Renderknoten, z.B. /dev/dri/renderD128. Unter Windows ist dies der Geräte-Index, beginnend bei 0. Leerlassen, außer du weißt was du tust.",
+    "MediaSegmentAction.None": "Keine",
+    "MediaSegmentAction.Skip": "Überspringen",
+    "MediaSegmentType.Commercial": "Werbung",
+    "MediaSegmentType.Outro": "Abspann",
+    "MediaSegmentType.Intro": "Vorspann",
+    "MediaSegmentType.Preview": "Vorschau",
+    "PlaylistError.UpdateFailed": "Fehler beim Aktualisieren der Wiedergabeliste",
+    "MediaSegmentType.Recap": "Rückblick"
 }
