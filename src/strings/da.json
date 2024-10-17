@@ -1931,5 +1931,6 @@
     "PluginLoadConfigError": "Der opstod en fejl imens vi hentede konfigurationssiderne til pluginet.",
     "AllowFmp4TranscodingContainerHelp": "Tillad fMP4-transkodningscontainer for denne tuner for at aktivere HEVC og HDR-indhold. Ikke alle tunere er kompatible med denne container. Deaktiver dette, hvis du oplever afspilningsproblemer.",
     "AllowStreamSharingHelp": "Tillad Jellyfin at kopiere mpegts-streamen fra tuner og dele denne kopierede stream til dens klienter. Dette er brugbart når tunerens totale stream-antal er begrænset, men kan også skabe afspilningsproblemer.",
-    "AlwaysBurnInSubtitleWhenTranscoding": "Brænd altid undertekster ind under transkodning"
+    "AlwaysBurnInSubtitleWhenTranscoding": "Brænd altid undertekster ind under transkodning",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Brænd alle undertekster fast når transkodning aktiveres. Dette sikre synkronisering af undertekster efter transkodning, på bekostning af reduceret transkodningshastighed."
 }
