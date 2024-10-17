@@ -1971,5 +1971,19 @@
     "LabelScreensaverTime": "Screensaver Time",
     "AlwaysBurnInSubtitleWhenTranscoding": "Always burn in subtitle when transcoding",
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "Burn in all subtitles when transcoding is triggered. This ensures subtitle synchronisation after transcoding at the cost of reduced transcoding speed.",
-    "LabelScreensaverTimeHelp": "The amount of time in seconds of inactivity required to start the screensaver."
+    "LabelScreensaverTimeHelp": "The amount of time in seconds of inactivity required to start the screensaver.",
+    "LabelQsvDevice": "QSV Device",
+    "HeaderEditPlaylist": "Edit Playlist",
+    "HeaderNewPlaylist": "New Playlist",
+    "LabelMediaSegmentsType": "{0} Segments",
+    "LabelQsvDeviceHelp": "Specify the device for Intel QSV on a multi-GPU system. On Linux, this is the render node, e.g., /dev/dri/renderD128. On Windows, this is the device index starting from 0. Leave blank unless you know what you are doing.",
+    "MediaSegmentAction.None": "None",
+    "MediaSegmentAction.Skip": "Skip",
+    "MediaSegmentType.Commercial": "Ad",
+    "HeaderMediaSegmentActions": "Media Segment Actions",
+    "MediaSegmentType.Intro": "Intro",
+    "MediaSegmentType.Outro": "Outro",
+    "MediaSegmentType.Preview": "Preview",
+    "MediaSegmentType.Recap": "Recap",
+    "PlaylistError.UpdateFailed": "Error updating playlist"
 }

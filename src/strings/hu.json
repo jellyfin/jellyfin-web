@@ -1906,5 +1906,7 @@
     "LabelAudioTagSettings": "Hangcímke-beállítások",
     "LabelDelimiterWhitelist": "Elválasztók engedélyezési listája",
     "LabelDelimiterWhitelistHelp": "Elemek, melyek nem lesznek figyelembe véve a címkefelosztásnál. Soronként egy elem.",
-    "LabelDisableVbrAudioEncoding": "Változó bitsebességű hangfelvétel letiltása"
+    "LabelDisableVbrAudioEncoding": "Változó bitsebességű hangfelvétel letiltása",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Mindig égesse be a feliratot átkódoláskor",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Minden felirat beégetése átkódolás aktiválásakor. Ez biztosítja a feliratok szinkronját átkodólás után a kódolás sebességének rovására."
 }
