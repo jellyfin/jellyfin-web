@@ -17,14 +17,14 @@ import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api'
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { getPlaystateApi } from '@jellyfin/sdk/lib/utils/api/playstate-api';
+import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
 
 import { type JellyfinApiContext, useApi } from './useApi';
 import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
-import { getProgramSections, getSuggestionSections } from 'utils/sections';
-
+import { getFavoriteSections, getProgramSections, getSuggestionSections } from 'utils/sections';
 import type { LibraryViewSettings, ParentId } from 'types/library';
 import { type Section, type SectionType, SectionApiMethod } from 'types/sections';
 import { LibraryTab } from 'types/libraryTab';
@@ -78,13 +78,13 @@ const fetchGetMovieRecommendations = async (
         const response = await getMoviesApi(api).getMovieRecommendations(
             {
                 userId: user.Id,
+                parentId: parentId ?? undefined,
                 fields: [
                     ItemFields.PrimaryImageAspectRatio,
                     ItemFields.MediaSourceCount
                 ],
-                parentId: parentId ?? undefined,
                 categoryLimit: 6,
-                itemLimit: 20
+                itemLimit: 10
             },
             {
                 signal: options?.signal
@@ -324,7 +324,6 @@ const fetchGetItemsViewByType = async (
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        isFavorite: viewType === LibraryTab.Favorites ? true : undefined,
                         sortBy: [libraryViewSettings.SortBy],
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
@@ -372,7 +371,6 @@ export const useGetItemsViewByType = (
         enabled: !!currentApi.api && !!currentApi.user?.Id
             && [
                 LibraryTab.Movies,
-                LibraryTab.Favorites,
                 LibraryTab.Collections,
                 LibraryTab.Trailers,
                 LibraryTab.Series,
@@ -822,15 +820,41 @@ const fetchGetSectionItems = async (
                 ).data;
                 break;
             }
+            case SectionApiMethod.Artists: {
+                response = (
+                    await getArtistsApi(api).getArtists(
+                        {
+                            userId: user.Id,
+                            parentId: parentId ?? undefined,
+                            ...section.parametersOptions
+                        },
+                        {
+                            signal: options?.signal
+                        }
+                    )
+                ).data.Items;
+                break;
+            }
+            case SectionApiMethod.Persons: {
+                response = (
+                    await getPersonsApi(api).getPersons(
+                        {
+                            userId: user.Id,
+                            ...section.parametersOptions
+                        },
+                        {
+                            signal: options?.signal
+                        }
+                    )
+                ).data.Items;
+                break;
+            }
             default: {
                 response = (
                     await getItemsApi(api).getItems(
                         {
                             userId: user.Id,
                             parentId: parentId ?? undefined,
-                            recursive: true,
-                            limit: 25,
-                            enableTotalRecordCount: false,
                             ...section.parametersOptions
                         },
                         {
@@ -903,5 +927,17 @@ export const useGetProgramsSectionsWithItems = (
         queryKey: ['ProgramSectionWithItems', { programSectionType }],
         queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, programSectionType, { signal }),
         enabled: !!currentApi.api && !!currentApi.user?.Id
+    });
+};
+
+export const useGetFavoritesSectionsWithItems = (
+    parentId?: ParentId,
+    favoriteSectionType?: SectionType[]
+) => {
+    const currentApi = useApi();
+    const sections = getFavoriteSections();
+    return useQuery({
+        queryKey: ['FavoriteSectionWithItems', { favoriteSectionType }],
+        queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, favoriteSectionType, { signal })
     });
 };
