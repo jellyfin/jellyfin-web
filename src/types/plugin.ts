@@ -11,3 +11,11 @@ export interface Plugin {
     type: PluginType | string
     priority?: number
 }
+
+export interface PlayerPlugin extends Plugin {
+    play: (options: unknown) => void;
+    canPlayMediaType: (mediaType?: string) => boolean;
+    isLocalPlayer?: boolean;
+    isMuted?: () => boolean;
+    getVolume?: () => number;
+}
