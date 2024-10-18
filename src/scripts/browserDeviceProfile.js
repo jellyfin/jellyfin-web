@@ -197,6 +197,10 @@ function canPlayAudioFormat(format) {
 }
 
 function testCanPlayMkv(videoTestElement) {
+    if (browser.vidaa) {
+        return false;
+    }
+
     if (browser.tizen || browser.web0s) {
         return true;
     }
@@ -658,7 +662,7 @@ export default function (options) {
 
     if (canPlayHevc(videoTestElement, options)) {
         mp4VideoCodecs.push('hevc');
-        if (browser.tizen || browser.web0s) {
+        if (browser.tizen || browser.web0s || browser.vidaa) {
             hlsInTsVideoCodecs.push('hevc');
         }
     }
