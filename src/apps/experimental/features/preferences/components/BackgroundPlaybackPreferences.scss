@@ -1,0 +1,79 @@
+.backgroundPlaybackDialog {
+    display: inherit;
+    margin-bottom: 0;
+    align-items: center;
+    position: relative;
+    min-width: 300px;
+}
+
+.backgroundPlaybackPopover {
+    display: inherit;
+    margin-bottom: 0;
+    align-items: center;
+    position: relative;
+    min-width: 300px;
+}
+
+.backgroundPlaybackStack {
+    position: relative;
+    min-width: 300px;
+}
+
+#background-playback-settings-header {
+    margin-bottom: 1em;
+}
+
+#background-playback-settings-play-theme-media-label {
+    margin-left: 9px;
+    margin-top: 0.5em;
+    position: relative;
+    max-width: calc(100% - 24px);
+}
+
+#background-playback-sort-by-select-stack {
+    margin-left: 9px;
+    margin-bottom: 1.5em;
+}
+
+#background-playback-sort-by-select-container {
+    display: inline-flex;
+    margin-bottom: 0;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+
+#background-playback-sort-by-select-dropdown {
+    min-width: 100px;
+}
+
+#background-playback-sort-order-icon-button {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0;
+    text-align: center;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+
+    /* These are getting an outline in opera tv browsers, which run chrome 30 */
+    outline: none !important;
+    outline-width: 0;
+    user-select: none;
+    cursor: pointer;
+    z-index: 0;
+    vertical-align: middle;
+    border: 0;
+    border-radius: 0.2em;
+    font-weight: 600;
+
+    /* Disable webkit tap highlighting */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    text-decoration: none;
+
+    /* Not crazy about this but it normalizes heights between anchors and buttons */
+    line-height: 1.35;
+    transform-origin: center;
+    transition: 0.2s;
+}
