@@ -5,6 +5,7 @@ import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../utils/dashboard';
 import toast from '../../../components/toast/toast';
+import './user.scss';
 
 function getApiClient() {
     return ApiClient;
@@ -71,6 +72,23 @@ function onViewShow() {
     });
 }
 
+function togglePassword() {
+    const inputIds = ['txtManualPassword', 'txtPasswordConfirm'];
+    inputIds.forEach(id => {
+        const input = document.getElementById(id);
+        input.type = (input.type === 'password') ? 'text' : 'password';
+    });
+    document.querySelectorAll('.passwordToggle .material-icons').forEach(icon => {
+        if (icon.classList.contains('visibility')) {
+            icon.classList.remove('visibility');
+            icon.classList.add('visibility_off');
+        } else {
+            icon.classList.remove('visibility_off');
+            icon.classList.add('visibility');
+        }
+    });
+}
+
 export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
     view.addEventListener('viewshow', function () {
@@ -80,4 +98,7 @@ export default function (view) {
         document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
     });
     view.addEventListener('viewshow', onViewShow);
+    view.querySelectorAll('.passwordToggle').forEach(button => {
+        button.addEventListener('click', togglePassword);
+    });
 }
