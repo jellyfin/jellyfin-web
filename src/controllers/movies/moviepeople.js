@@ -36,7 +36,7 @@ export default function (view, params, tabContent) {
     }
 
     function getSavedQueryKey() {
-        return params.topParentId + '-' + 'moviepeople';
+        return params.topParentId + '-' + 'movieperson';
     }
 
     function getPromise() {
