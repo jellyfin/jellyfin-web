@@ -1377,5 +1377,15 @@
     "LabelRepository": "מאגר",
     "LabelSaveTrickplayLocally": "שמירת תמונות trickplay ליד המדיה",
     "LabelSaveTrickplayLocallyHelp": "שמירת תמונות trickplay בתיקיית המדיה תשים אותם ליד המדיה שלך למיגרציה וגישה קלה.",
-    "LabelRemoteClientBitrateLimit": "גבול קצב הזרמת רשת (Mbps)"
+    "LabelRemoteClientBitrateLimit": "גבול קצב הזרמת רשת (Mbps)",
+    "LabelOptionalNetworkPathHelp": "אם תיקייה זו משותפת ברשת, הגדרת הכתובת המשותפת תאפשר ללקוחות אחרים לגשת לקבצי המדיה ישירות. למשל {0} או {1}.",
+    "LabelOpenclDeviceHelp": "התקן OpenCL זה משמש למיפוי גוונים. משמאל לנקודה מופיע מספר הפלטפורמה, ומימינה מספר הרכיב בפלטפורמה. ערך ברירת המחדל הוא 0.0. נדרשת תוכנת FFmpeg המכילה את שיטת האצת החומרה OpenCL.",
+    "LabelSelectFolderGroups": "קבץ באופן אוטומטי תוכן מהתיקיות הבאות לתצוגות כגון 'סרטים', 'מוזיקה' ו-'טלויזיה'",
+    "LabelSelectFolderGroupsHelp": "תיקיות שאינן מסומנות יוצגו לחוד בתצוגה משלהן.",
+    "LabelSeriesRecordingPath": "כתובת הקלטת סדרות",
+    "LabelServerHostHelp": "192.168.1.100:8096 או https://myserver.com",
+    "LabelRemoteClientBitrateLimitHelp": "אופציונלי, גבול קצב ביטים לכל זרם לכל הרכיבים מעבר לרשת המקומית. שימוש בזה יעזור למנוע מרכיבים לבקש קצב ביטים יותר גבוה מיכולות חיבור האינטרנט שלך. עלול לגרום לעומס על מעבד השרת על מנת להמיר את קידוד הוידיאו לקצב ביטים נמוך יותר.",
+    "LabelRepositoryNameHelp": "שם מוגדר אישית להבדלת הרפוזיטורי הזה משאר הרפוזיטורים שנוספו לשרת שלך.",
+    "LabelRepositoryUrlHelp": "כתובת המניפסט של הרפוזיטורי שברצונך להוסיף.",
+    "LabelRequireHttpsHelp": "אם סומן, השרת יפנה בקשות HTTP ל-HTTPS אוטומטית. אין לכך השפעה אם השרת לא מאזין ל-HTTPS."
 }
