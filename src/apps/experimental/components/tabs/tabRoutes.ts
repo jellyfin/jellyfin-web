@@ -145,6 +145,11 @@ const TabRoutes: TabRoute[] = [
                 index: 6,
                 label: 'Genres',
                 value: LibraryTab.Genres
+            },
+            {
+                index: 7,
+                label: globalize.translate('Favorites'),
+                value: LibraryTab.Favorites
             }
         ]
     },
@@ -181,6 +186,11 @@ const TabRoutes: TabRoute[] = [
                 index: 5,
                 label: 'Episodes',
                 value: LibraryTab.Episodes
+            },
+            {
+                index: 6,
+                label: globalize.translate('Favorites'),
+                value: LibraryTab.Favorites
             }
         ]
     },
