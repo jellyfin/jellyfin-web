@@ -645,7 +645,7 @@ export default function (options) {
     }
 
     if (canPlayHevc(videoTestElement, options)
-        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile))) {
+        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile) || (browser.firefox && browser.versionMajor >= 121))) {
         // Chromium used to support HEVC on Android but not via MSE
         hlsInFmp4VideoCodecs.push('hevc');
     }
@@ -1073,6 +1073,12 @@ export default function (options) {
             || videoTestElement.canPlayType('video/mp4; codecs="hev1.2.4.L183"').replace(/no/, '')) {
         maxHevcLevel = 183;
         hevcProfiles = 'main|main 10';
+    }
+
+    // Firefox does not support 10-bit HEVC, but is lying about it's capabilities
+    if (browser.firefox) {
+        maxHevcLevel = 123;
+        hevcProfiles = 'main';
     }
 
     let maxAv1Level = 15; // level 5.3
