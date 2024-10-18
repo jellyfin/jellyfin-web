@@ -234,7 +234,7 @@
     "LabelCustomCertificatePath": "Localização do certificado SSL personalizado",
     "LabelCustomCertificatePathHelp": "Localização do ficheiro PKCS #12 que contém um certificado e uma chave privada para ativar o suporte TLS num domínio personalizado.",
     "LabelCustomCss": "Código CSS personalizado",
-    "LabelCustomCssHelp": "Aplique o seu código CSS personalizado ao interface web.",
+    "LabelCustomCssHelp": "Aplica o teu código CSS personalizado à interface web.",
     "LabelCustomDeviceDisplayNameHelp": "Forneça um nome a ser mostrado, ou deixe em branco para utilizar o nome reportado pelo dispositivo.",
     "LabelCustomRating": "Classificação personalizada",
     "LabelDateAdded": "Adicionado em",
@@ -1894,6 +1894,6 @@
     "SaveLyricsIntoMediaFolders": "Guardar letras em pastas multimédia",
     "Translator": "Tradutor",
     "LabelSelectPreferredTranscodeVideoCodec": "Codec de vídeo transcodificado preferido",
-    "SelectPreferredTranscodeVideoCodecHelp": "Seleccione o codec de vídeo preferido para transcodificar. Se o codec preferido não for suportado, o servidor irá usar o melhor codec disponível a seguir.",
+    "SelectPreferredTranscodeVideoCodecHelp": "Seleciona o codec de vídeo preferido para transcodificar. Se o codec preferido não for suportado, o servidor utilizará o próximo melhor codec disponível.",
     "LabelScreensaverTimeHelp": "A quantidade de tempo, em segundos, de inatividade necessária para iniciar a proteção de ecrã."
 }
