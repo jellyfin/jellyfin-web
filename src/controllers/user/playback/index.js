@@ -19,7 +19,7 @@ export default function (view, params) {
         } else {
             settingsInstance = new PlaybackSettings({
                 serverId: ApiClient.serverId(),
-                userId: userId,
+                userId,
                 element: view.querySelector('.settingsContainer'),
                 userSettings: currentSettings,
                 enableSaveButton: true,

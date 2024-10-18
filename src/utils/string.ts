@@ -1,4 +1,13 @@
 /**
+ * Checks if a string is empty or contains only whitespace.
+ * @param {string} value The string to test.
+ * @returns {boolean} True if the string is blank.
+ */
+export function isBlank(value: string | undefined | null) {
+    return !value?.trim().length;
+}
+
+/**
  * Gets the value of a string as boolean.
  * @param {string} name The value as a string.
  * @param {boolean} defaultValue The default value if the string is invalid.

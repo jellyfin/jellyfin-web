@@ -1709,5 +1709,7 @@
     "RemuxHelp2": "Remultiplexer utilise une très faible puissance de calcul sans aucune perte de qualité du média.",
     "LabelPlaybackInfo": "Informations de lecture",
     "LabelAudioInfo": "Informations audio",
-    "LabelTranscodingInfo": "Informations de transcodage"
+    "LabelTranscodingInfo": "Informations de transcodage",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Toujours incruster les sous-titres lors du transcodage",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Incruster tous les sous-titres lorsque le transcodage se déclenche. Cela garantit la synchronisation des sous-titres après le transcodage, au prix d'une vitesse de transcodage réduite."
 }

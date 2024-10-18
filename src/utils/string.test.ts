@@ -1,6 +1,24 @@
 import { describe, expect, it } from 'vitest';
 
-import { toBoolean, toFloat } from './string';
+import { isBlank, toBoolean, toFloat } from './string';
+
+describe('isBlank', () => {
+    it('Should return true if the string is blank', () => {
+        let check = isBlank(undefined);
+        expect(check).toBe(true);
+        check = isBlank(null);
+        expect(check).toBe(true);
+        check = isBlank('');
+        expect(check).toBe(true);
+        check = isBlank(' \t\t   ');
+        expect(check).toBe(true);
+    });
+
+    it('Should return false if the string is not blank', () => {
+        const check = isBlank('not an empty string');
+        expect(check).toBe(false);
+    });
+});
 
 describe('toBoolean', () => {
     it('Should return the boolean represented by the string', () => {

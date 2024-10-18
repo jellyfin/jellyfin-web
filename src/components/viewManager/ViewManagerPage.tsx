@@ -1,5 +1,5 @@
 import { Action } from 'history';
-import { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent, useEffect, useRef } from 'react';
 import { useLocation, useNavigationType } from 'react-router-dom';
 
 import globalize from 'lib/globalize';
@@ -58,6 +58,13 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
     isThemeMediaSupported = false,
     transition
 }) => {
+    /**
+     * HACK: This is a hack to workaround intentional behavior in React strict mode when running in development.
+     * Legacy views will break if loaded twice so we need to avoid that. This will likely stop working in React 19.
+     * refs: https://stackoverflow.com/a/72238236
+     */
+    const isLoaded = useRef(false);
+
     const location = useLocation();
     const navigationType = useNavigationType();
 
@@ -91,9 +98,13 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
                 });
         };
 
-        loadPage();
+        if (!isLoaded.current) loadPage();
+
+        return () => {
+            isLoaded.current = true;
+        };
     },
-    // location.state and navigationType are  NOT included as dependencies here since dialogs will update state while the current view stays the same
+    // location.state and navigationType are NOT included as dependencies here since dialogs will update state while the current view stays the same
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
         controller,
