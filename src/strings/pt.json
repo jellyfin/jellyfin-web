@@ -87,7 +87,7 @@
     "SaveSubtitlesIntoMediaFolders": "Guardar legendas em pastas multimédia",
     "Save": "Guardar",
     "Saturday": "Sábado",
-    "Runtime": "Duração",
+    "Runtime": "Tempo de execução",
     "Rewind": "Retroceder",
     "ResumeAt": "Retomar a partir de {0}",
     "ReplaceExistingImages": "Substituir imagens existentes",
@@ -1897,5 +1897,6 @@
     "EditLyrics": "Editar letra",
     "HeaderAddLyrics": "Adicionar letra",
     "HeaderPreviewLyrics": "Pré-visualizar letra",
-    "LabelScreensaverTimeHelp": "A quantidade de tempo, em segundos, de inatividade necessária para iniciar a proteção de ecrã."
+    "LabelScreensaverTimeHelp": "A quantidade de tempo, em segundos, de inatividade necessária para iniciar a proteção de ecrã.",
+    "LabelDuration": "Duração"
 }
