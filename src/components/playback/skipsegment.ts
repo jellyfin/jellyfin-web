@@ -56,16 +56,7 @@ class SkipSegment extends PlaybackSubscriber {
 
     setButtonText() {
         if (this.skipElement && this.currentSegment) {
-            if (this.player && this.currentSegment.EndTicks
-                && this.currentSegment.Type === MediaSegmentType.Outro
-                && this.currentSegment.EndTicks >= this.playbackManager.currentItem(this.player).RunTimeTicks
-                && this.playbackManager.getNextItem()
-            ) {
-                // Display "Next Episode" if it's an outro segment, exceeds or is equal to the runtime, and if there is a next track.
-                this.skipElement.innerHTML += globalize.translate('MediaSegmentNextEpisode');
-            } else {
-                this.skipElement.innerHTML = globalize.translate('MediaSegmentSkipPrompt', globalize.translate(`MediaSegmentType.${this.currentSegment.Type}`));
-            }
+            this.skipElement.innerHTML = globalize.translate('MediaSegmentSkipPrompt', globalize.translate(`MediaSegmentType.${this.currentSegment.Type}`));
             this.skipElement.innerHTML += '<span class="material-icons skip_next" aria-hidden="true"></span>';
         }
     }
@@ -132,7 +123,15 @@ class SkipSegment extends PlaybackSubscriber {
         }
     }
 
-    onPromptSkip(segment: MediaSegmentDto) {
+    onPromptSkip(e: Event, segment: MediaSegmentDto) {
+        if (this.player && segment.EndTicks != null
+            && segment.Type === MediaSegmentType.Outro
+            && segment.EndTicks >= this.playbackManager.currentItem(this.player).RunTimeTicks
+            && this.playbackManager.getNextItem()
+        ) {
+            // Don't display button when UpNextDialog is expected.
+            return;
+        }
         if (!this.currentSegment) {
             this.currentSegment = segment;
 

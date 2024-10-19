@@ -935,9 +935,11 @@ export class PlaybackManager {
             return Promise.resolve(self._playQueueManager.getPlaylist());
         };
 
-        self.promptToSkip = function (mediaSegment) {
+        self.promptToSkip = function (mediaSegment, player) {
+            player = player || self._currentPlayer;
+
             if (mediaSegment && this._skipSegment) {
-                this._skipSegment.onPromptSkip(mediaSegment);
+                Events.trigger(player, 'promptskip', [mediaSegment]);
             }
         };
 

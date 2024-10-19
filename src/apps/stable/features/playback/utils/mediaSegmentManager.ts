@@ -62,7 +62,7 @@ class MediaSegmentManager extends PlaybackSubscriber {
     promptToSkip(mediaSegment: MediaSegmentDto) {
         if (mediaSegment.StartTicks && mediaSegment.EndTicks
             && mediaSegment.EndTicks - mediaSegment.StartTicks < TICKS_PER_SECOND * 3) {
-            console.info('[MediaSegmentManager] ignoring skipping segment with duration <3s', mediaSegment);
+            console.info('[MediaSegmentManager] ignoring segment prompt with duration <3s', mediaSegment);
             this.isLastSegmentIgnored = true;
             return;
         }

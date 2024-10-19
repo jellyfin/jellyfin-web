@@ -1074,7 +1074,6 @@
     "MediaSegmentAction.None": "None",
     "MediaSegmentAction.AskToSkip": "Ask To Skip",
     "MediaSegmentAction.Skip": "Skip",
-    "MediaSegmentNextEpisode": "Next Episode",
     "MediaSegmentSkipPrompt": "Skip {0}",
     "MediaSegmentType.Commercial": "Commercial",
     "MediaSegmentType.Intro": "Intro",
