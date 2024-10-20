@@ -307,11 +307,7 @@ const UserParentalControl = () => {
         };
 
         // The following is still hacky and should migrate to pure react implementation for callbacks in the future
-        let allowedTagsPopupCallback: (() => void) | null = null;
-        let blockedTagsPopupCallback: (() => void) | null = null;
-        let accessSchedulesPopupCallback: (() => void) | null = null;
-        let formSubmissionCallback: ((e: Event) => void) | null = null;
-        accessSchedulesPopupCallback = function () {
+        const accessSchedulesPopupCallback = function () {
             showSchedulePopup({
                 Id: 0,
                 UserId: '',
@@ -321,11 +317,11 @@ const UserParentalControl = () => {
             }, -1);
         };
         (page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', accessSchedulesPopupCallback);
-        allowedTagsPopupCallback = showAllowedTagPopup;
+        const allowedTagsPopupCallback = showAllowedTagPopup;
         (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).addEventListener('click', allowedTagsPopupCallback);
-        blockedTagsPopupCallback = showBlockedTagPopup;
+        const blockedTagsPopupCallback = showBlockedTagPopup;
         (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', blockedTagsPopupCallback);
-        formSubmissionCallback = onSubmit;
+        const formSubmissionCallback = onSubmit;
         (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', formSubmissionCallback);
 
         return () => {
@@ -333,7 +329,7 @@ const UserParentalControl = () => {
             (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).removeEventListener('click', allowedTagsPopupCallback);
             (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).removeEventListener('click', blockedTagsPopupCallback);
             (page.querySelector('.userParentalControlForm') as HTMLFormElement).removeEventListener('submit', formSubmissionCallback);
-        }
+        };
     }, [setAllowedTags, setBlockedTags, loadData, userId]);
 
     const optionMaxParentalRating = () => {
