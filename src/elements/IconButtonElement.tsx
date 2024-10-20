@@ -44,6 +44,7 @@ const IconButtonElement: FunctionComponent<IProps> = ({ is, id, className, title
     if (onClick !== undefined) {
         return (
             <button
+                style={{all: 'unset'}}
                 dangerouslySetInnerHTML={button}
                 onClick={onClick}
             />
