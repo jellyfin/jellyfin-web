@@ -11,6 +11,7 @@ type IProps = {
     dataIndex?: string | number;
     dataTag?: string | number;
     dataProfileid?: string | number;
+    onClick?: () => void;
 };
 
 const createIconButtonElement = ({ is, id, className, title, icon, dataIndex, dataTag, dataProfileid }: IProps) => ({
@@ -28,7 +29,7 @@ const createIconButtonElement = ({ is, id, className, title, icon, dataIndex, da
     </button>`
 });
 
-const IconButtonElement: FunctionComponent<IProps> = ({ is, id, className, title, icon, dataIndex, dataTag, dataProfileid }: IProps) => {
+const IconButtonElement: FunctionComponent<IProps> = ({ is, id, className, title, icon, dataIndex, dataTag, dataProfileid, onClick }: IProps) => {
     return (
         <div
             dangerouslySetInnerHTML={createIconButtonElement({
@@ -41,6 +42,7 @@ const IconButtonElement: FunctionComponent<IProps> = ({ is, id, className, title
                 dataTag: dataTag ? `data-tag="${dataTag}"` : '',
                 dataProfileid: dataProfileid ? `data-profileid="${dataProfileid}"` : ''
             })}
+            onClick={onClick}
         />
     );
 };

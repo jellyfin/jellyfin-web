@@ -70,6 +70,13 @@ const UserParentalControl = () => {
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
     const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
+    // The following are meant to be reset on each render.
+    // These are to prevent multiple callbacks to be added to a single element in one render as useEffect may be executed multiple times in each render.
+    let allowedTagsPopupCallback: (() => void) | null = null;
+    let blockedTagsPopupCallback: (() => void) | null = null;
+    let accessSchedulesPopupCallback: (() => void) | null = null;
+    let formSubmissionCallback: ((e: Event) => void) | null = null;
+
     const element = useRef<HTMLDivElement>(null);
 
     const populateRatings = useCallback((allParentalRatings: ParentalRating[]) => {
@@ -146,48 +153,6 @@ const UserParentalControl = () => {
         blockUnratedItems.dispatchEvent(new CustomEvent('create'));
     }, []);
 
-    const loadAllowedTags = useCallback((tags: string[]) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('[userparentalcontrol] Unexpected null page reference');
-            return;
-        }
-
-        setAllowedTags(tags);
-
-        const allowedTagsElem = page.querySelector('.allowedTags') as HTMLDivElement;
-
-        for (const btnDeleteTag of allowedTagsElem.querySelectorAll('.btnDeleteTag')) {
-            btnDeleteTag.addEventListener('click', function () {
-                const tag = btnDeleteTag.getAttribute('data-tag');
-                const newTags = tags.filter(t => t !== tag);
-                loadAllowedTags(newTags);
-            });
-        }
-    }, []);
-
-    const loadBlockedTags = useCallback((tags: string[]) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('[userparentalcontrol] Unexpected null page reference');
-            return;
-        }
-
-        setBlockedTags(tags);
-
-        const blockedTagsElem = page.querySelector('.blockedTags') as HTMLDivElement;
-
-        for (const btnDeleteTag of blockedTagsElem.querySelectorAll('.btnDeleteTag')) {
-            btnDeleteTag.addEventListener('click', function () {
-                const tag = btnDeleteTag.getAttribute('data-tag');
-                const newTags = tags.filter(t => t !== tag);
-                loadBlockedTags(newTags);
-            });
-        }
-    }, []);
-
     const loadUser = useCallback((user: UserDto, allParentalRatings: ParentalRating[]) => {
         const page = element.current;
 
@@ -200,8 +165,8 @@ const UserParentalControl = () => {
         void libraryMenu.then(menu => menu.setTitle(user.Name));
         loadUnratedItems(user);
 
-        loadAllowedTags(user.Policy?.AllowedTags || []);
-        loadBlockedTags(user.Policy?.BlockedTags || []);
+        setAllowedTags(user.Policy?.AllowedTags || []);
+        setBlockedTags(user.Policy?.BlockedTags || []);
         populateRatings(allParentalRatings);
 
         let ratingValue = '';
@@ -222,7 +187,7 @@ const UserParentalControl = () => {
         }
         setAccessSchedules(user.Policy?.AccessSchedules || []);
         loading.hide();
-    }, [loadAllowedTags, loadBlockedTags, loadUnratedItems, populateRatings]);
+    }, [setAllowedTags, setBlockedTags, loadUnratedItems, populateRatings]);
 
     const loadData = useCallback(() => {
         if (!userId) {
@@ -296,7 +261,7 @@ const UserParentalControl = () => {
 
                 if (tags.indexOf(value) == -1) {
                     tags.push(value);
-                    loadAllowedTags(tags);
+                    setAllowedTags(tags);
                 }
             }).catch(() => {
                 // prompt closed
@@ -317,7 +282,7 @@ const UserParentalControl = () => {
 
                 if (tags.indexOf(value) == -1) {
                     tags.push(value);
-                    loadBlockedTags(tags);
+                    setBlockedTags(tags);
                 }
             }).catch(() => {
                 // prompt closed
@@ -348,7 +313,11 @@ const UserParentalControl = () => {
             return false;
         };
 
-        (page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', function () {
+        // FIXME: The following is still hacky and should migrate to pure react implementation for callbacks in the future
+        if (accessSchedulesPopupCallback) {
+            (page.querySelector('#btnAddSchedule') as HTMLButtonElement).removeEventListener('click', accessSchedulesPopupCallback);
+        }
+        accessSchedulesPopupCallback = function () {
             showSchedulePopup({
                 Id: 0,
                 UserId: '',
@@ -356,37 +325,27 @@ const UserParentalControl = () => {
                 StartHour: 0,
                 EndHour: 0
             }, -1);
-        });
+        };
+        (page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', accessSchedulesPopupCallback);
 
-        (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).addEventListener('click', function () {
-            showAllowedTagPopup();
-        });
-
-        (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', function () {
-            showBlockedTagPopup();
-        });
-
-        (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-    }, [loadAllowedTags, loadBlockedTags, loadData, userId]);
-
-    useEffect(() => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('[userparentalcontrol] Unexpected null page reference');
-            return;
+        if (allowedTagsPopupCallback) {
+            (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).removeEventListener('click', allowedTagsPopupCallback);
         }
+        allowedTagsPopupCallback = showAllowedTagPopup;
+        (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).addEventListener('click', allowedTagsPopupCallback);
 
-        const accessScheduleList = page.querySelector('.accessScheduleList') as HTMLDivElement;
-
-        for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
-            btnDelete.addEventListener('click', function () {
-                const index = parseInt(btnDelete.getAttribute('data-index') ?? '0', 10);
-                const newindex = accessSchedules.filter((_e, i) => i != index);
-                setAccessSchedules(newindex);
-            });
+        if (blockedTagsPopupCallback) {
+            (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).removeEventListener('click', blockedTagsPopupCallback);
         }
-    }, [accessSchedules]);
+        blockedTagsPopupCallback = showBlockedTagPopup;
+        (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', blockedTagsPopupCallback);
+
+        if (formSubmissionCallback) {
+            (page.querySelector('.userParentalControlForm') as HTMLFormElement).removeEventListener('submit', formSubmissionCallback);
+        }
+        formSubmissionCallback = onSubmit;
+        (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', formSubmissionCallback);
+    }, [setAllowedTags, setBlockedTags, loadData, userId]);
 
     const optionMaxParentalRating = () => {
         let content = '';
@@ -396,6 +355,21 @@ const UserParentalControl = () => {
         }
         return content;
     };
+
+    const removeAllowedTagsCallback = useCallback((tag: string) => {
+        const newTags = allowedTags.filter(t => t !== tag);
+        setAllowedTags(newTags);
+    }, [allowedTags, setAllowedTags]);
+
+    const removeBlockedTagsTagsCallback = useCallback((tag: string) => {
+        const newTags = blockedTags.filter(t => t !== tag);
+        setBlockedTags(newTags);
+    }, [blockedTags, setBlockedTags]);
+
+    const removeScheduleCallback = useCallback((index: number) => {
+        const newSchedules = accessSchedules.filter((_e, i) => i != index);
+        setAccessSchedules(newSchedules);
+    }, [accessSchedules, setAccessSchedules]);
 
     return (
         <Page
@@ -461,6 +435,7 @@ const UserParentalControl = () => {
                                     key={tag}
                                     tag={tag}
                                     tagType='allowedTag'
+                                    removeTagCallback={removeAllowedTagsCallback}
                                 />;
                             })}
                         </div>
@@ -485,6 +460,7 @@ const UserParentalControl = () => {
                                     key={tag}
                                     tag={tag}
                                     tagType='blockedTag'
+                                    removeTagCallback={removeBlockedTagsTagsCallback}
                                 />;
                             })}
                         </div>
@@ -508,6 +484,7 @@ const UserParentalControl = () => {
                                     DayOfWeek={accessSchedule.DayOfWeek}
                                     StartHour={accessSchedule.StartHour}
                                     EndHour={accessSchedule.EndHour}
+                                    removeScheduleCallback={removeScheduleCallback}
                                 />;
                             })}
                         </div>
