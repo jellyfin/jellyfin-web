@@ -43,7 +43,7 @@ const IconButtonElement: FunctionComponent<IProps> = ({ is, id, className, title
 
     if (onClick !== undefined) {
         return (
-            <a
+            <button
                 dangerouslySetInnerHTML={button}
                 onClick={onClick}
             />
