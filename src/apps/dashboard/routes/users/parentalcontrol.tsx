@@ -317,18 +317,15 @@ const UserParentalControl = () => {
             }, -1);
         };
         (page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', accessSchedulesPopupCallback);
-        const allowedTagsPopupCallback = showAllowedTagPopup;
-        (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).addEventListener('click', allowedTagsPopupCallback);
-        const blockedTagsPopupCallback = showBlockedTagPopup;
-        (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', blockedTagsPopupCallback);
-        const formSubmissionCallback = onSubmit;
-        (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', formSubmissionCallback);
+        (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).addEventListener('click', showAllowedTagPopup);
+        (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', showBlockedTagPopup);
+        (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
 
         return () => {
             (page.querySelector('#btnAddSchedule') as HTMLButtonElement).removeEventListener('click', accessSchedulesPopupCallback);
-            (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).removeEventListener('click', allowedTagsPopupCallback);
-            (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).removeEventListener('click', blockedTagsPopupCallback);
-            (page.querySelector('.userParentalControlForm') as HTMLFormElement).removeEventListener('submit', formSubmissionCallback);
+            (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).removeEventListener('click', showAllowedTagPopup);
+            (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).removeEventListener('click', showBlockedTagPopup);
+            (page.querySelector('.userParentalControlForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
         };
     }, [setAllowedTags, setBlockedTags, loadData, userId]);
 
