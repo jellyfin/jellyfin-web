@@ -187,7 +187,7 @@ const UserParentalControl = () => {
         }
         setAccessSchedules(user.Policy?.AccessSchedules || []);
         loading.hide();
-    }, [setAllowedTags, setBlockedTags, loadUnratedItems, populateRatings]);
+    }, [libraryMenu, setAllowedTags, setBlockedTags, loadUnratedItems, populateRatings]);
 
     const loadData = useCallback(() => {
         if (!userId) {
