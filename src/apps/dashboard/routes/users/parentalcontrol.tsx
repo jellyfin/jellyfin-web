@@ -70,13 +70,6 @@ const UserParentalControl = () => {
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
     const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
-    // The following are meant to be reset on each render.
-    // These are to prevent multiple callbacks to be added to a single element in one render as useEffect may be executed multiple times in each render.
-    let allowedTagsPopupCallback: (() => void) | null = null;
-    let blockedTagsPopupCallback: (() => void) | null = null;
-    let accessSchedulesPopupCallback: (() => void) | null = null;
-    let formSubmissionCallback: ((e: Event) => void) | null = null;
-
     const element = useRef<HTMLDivElement>(null);
 
     const populateRatings = useCallback((allParentalRatings: ParentalRating[]) => {
@@ -314,9 +307,10 @@ const UserParentalControl = () => {
         };
 
         // The following is still hacky and should migrate to pure react implementation for callbacks in the future
-        if (accessSchedulesPopupCallback) {
-            (page.querySelector('#btnAddSchedule') as HTMLButtonElement).removeEventListener('click', accessSchedulesPopupCallback);
-        }
+        let allowedTagsPopupCallback: (() => void) | null = null;
+        let blockedTagsPopupCallback: (() => void) | null = null;
+        let accessSchedulesPopupCallback: (() => void) | null = null;
+        let formSubmissionCallback: ((e: Event) => void) | null = null;
         accessSchedulesPopupCallback = function () {
             showSchedulePopup({
                 Id: 0,
@@ -327,24 +321,19 @@ const UserParentalControl = () => {
             }, -1);
         };
         (page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', accessSchedulesPopupCallback);
-
-        if (allowedTagsPopupCallback) {
-            (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).removeEventListener('click', allowedTagsPopupCallback);
-        }
         allowedTagsPopupCallback = showAllowedTagPopup;
         (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).addEventListener('click', allowedTagsPopupCallback);
-
-        if (blockedTagsPopupCallback) {
-            (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).removeEventListener('click', blockedTagsPopupCallback);
-        }
         blockedTagsPopupCallback = showBlockedTagPopup;
         (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', blockedTagsPopupCallback);
-
-        if (formSubmissionCallback) {
-            (page.querySelector('.userParentalControlForm') as HTMLFormElement).removeEventListener('submit', formSubmissionCallback);
-        }
         formSubmissionCallback = onSubmit;
         (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', formSubmissionCallback);
+
+        return () => {
+            (page.querySelector('#btnAddSchedule') as HTMLButtonElement).removeEventListener('click', accessSchedulesPopupCallback);
+            (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).removeEventListener('click', allowedTagsPopupCallback);
+            (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).removeEventListener('click', blockedTagsPopupCallback);
+            (page.querySelector('.userParentalControlForm') as HTMLFormElement).removeEventListener('submit', formSubmissionCallback);
+        }
     }, [setAllowedTags, setBlockedTags, loadData, userId]);
 
     const optionMaxParentalRating = () => {
