@@ -479,7 +479,7 @@ const UserParentalControl = () => {
                         <div className='accessScheduleList paperList'>
                             {accessSchedules.map((accessSchedule, index) => {
                                 return <AccessScheduleList
-                                    key={index}
+                                    key={`${accessSchedule.DayOfWeek}${accessSchedule.StartHour}${accessSchedule.EndHour}`}
                                     index={index}
                                     DayOfWeek={accessSchedule.DayOfWeek}
                                     StartHour={accessSchedule.StartHour}
