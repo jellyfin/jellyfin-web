@@ -30,19 +30,29 @@ const createIconButtonElement = ({ is, id, className, title, icon, dataIndex, da
 });
 
 const IconButtonElement: FunctionComponent<IProps> = ({ is, id, className, title, icon, dataIndex, dataTag, dataProfileid, onClick }: IProps) => {
+    const button = createIconButtonElement({
+        is: is,
+        id: id ? `id="${id}"` : '',
+        className: className,
+        title: title ? `title="${globalize.translate(title)}"` : '',
+        icon: icon,
+        dataIndex: (dataIndex || dataIndex === 0) ? `data-index="${dataIndex}"` : '',
+        dataTag: dataTag ? `data-tag="${dataTag}"` : '',
+        dataProfileid: dataProfileid ? `data-profileid="${dataProfileid}"` : ''
+    });
+
+    if (onClick !== undefined) {
+        return (
+            <a
+                dangerouslySetInnerHTML={button}
+                onClick={onClick}
+            />
+        )
+    }
+
     return (
         <div
-            dangerouslySetInnerHTML={createIconButtonElement({
-                is: is,
-                id: id ? `id="${id}"` : '',
-                className: className,
-                title: title ? `title="${globalize.translate(title)}"` : '',
-                icon: icon,
-                dataIndex: (dataIndex || dataIndex === 0) ? `data-index="${dataIndex}"` : '',
-                dataTag: dataTag ? `data-tag="${dataTag}"` : '',
-                dataProfileid: dataProfileid ? `data-profileid="${dataProfileid}"` : ''
-            })}
-            onClick={onClick}
+            dangerouslySetInnerHTML={button}
         />
     );
 };
