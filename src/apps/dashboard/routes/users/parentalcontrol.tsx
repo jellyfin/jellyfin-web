@@ -313,7 +313,7 @@ const UserParentalControl = () => {
             return false;
         };
 
-        // FIXME: The following is still hacky and should migrate to pure react implementation for callbacks in the future
+        // The following is still hacky and should migrate to pure react implementation for callbacks in the future
         if (accessSchedulesPopupCallback) {
             (page.querySelector('#btnAddSchedule') as HTMLButtonElement).removeEventListener('click', accessSchedulesPopupCallback);
         }
