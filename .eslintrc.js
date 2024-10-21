@@ -215,7 +215,7 @@ module.exports = {
                 './babel.config.js',
                 './.eslintrc.js',
                 './postcss.config.js',
-                './webpack.*.js',
+                './webpack.*.ts',
                 './scripts/**/*.js'
             ]
         },
