@@ -134,7 +134,7 @@ EmbySelectPrototype.attachedCallback = function () {
     this.parentNode?.insertBefore(label, this);
 
     if (this.classList.contains('emby-select-withcolor')) {
-        this.parentNode?.insertAdjacentHTML('beforeend', '<div class="selectArrowContainer"><div style="visibility:hidden;display:none;">0</div><span class="selectArrow material-icons keyboard_arrow_down" aria-hidden="true"></span></div>');
+        this.insertAdjacentHTML('afterend', '<div class="selectArrowContainer"><div style="visibility:hidden;display:none;">0</div><span class="selectArrow material-icons keyboard_arrow_down" aria-hidden="true"></span></div>');
     }
 };
 
