@@ -1,0 +1,60 @@
+.item-backdrop {
+    position: relative;
+    width: 100%;
+    height: 40vh;
+
+    @media all and (max-height: 31.25em) {
+        height: 52vh;
+    }
+}
+
+.item-logo {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 7vh;
+    display: flex;
+    margin: auto;
+    width: 19vw;
+    height: 16vh;
+
+    @media all and (max-width: 68.75em) {
+        display: none;
+    }
+}
+
+.item-backdrop__container,
+.item-logo__container {
+    .lazy-image {
+        object-position: center center;
+        animation: backdrop-fadein 800ms ease-in normal both;
+    }
+}
+
+.layout-desktop {
+    .item-backdrop {
+        @media all and (max-width: 62.5em) {
+            height: 40vh;
+        }
+    }
+}
+
+.layout-mobile {
+    .item-backdrop {
+        margin-top: 0;
+
+        @media all and (orientation: portrait) and (max-width: 40em) {
+            height: 30vh;
+        }
+
+        &__container {
+            .lazy-image {
+                object-position: top center;
+            }
+        }
+    }
+
+    .item-logo {
+        display: none;
+    }
+}
