@@ -1,12 +1,12 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import useCurrentTab from 'hooks/useCurrentTab';
 import Page from 'components/Page';
 import PageTabContent from '../../components/library/PageTabContent';
 import { LibraryTab } from 'types/libraryTab';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
-import { MovieSuggestionsSectionsView } from 'types/sections';
+import { MovieFavoritesSectionsView, MovieSuggestionsSectionsView } from 'types/sections';
 
 const moviesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Movies,
@@ -28,7 +28,7 @@ const collectionsTabContent: LibraryTabContent = {
 const favoritesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Favorites,
     collectionType: CollectionType.Movies,
-    itemType: [BaseItemKind.Movie]
+    sectionsView: MovieFavoritesSectionsView
 };
 
 const trailersTabContent: LibraryTabContent = {
