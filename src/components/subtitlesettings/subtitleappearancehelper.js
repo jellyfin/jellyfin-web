@@ -6,25 +6,34 @@
 function getTextStyles(settings, preview) {
     const list = [];
 
+    let scale = 1;
+    if (window.screen.height > 1080) {
+        scale = (window.screen.height / 1080);
+    }
+
+    const scaledFontSizeEm = (val) => {
+        list.push({ name: 'font-size', value: (scale * val).toString() + 'em' });
+    };
+
     switch (settings.textSize || '') {
         case 'smaller':
-            list.push({ name: 'font-size', value: '.8em' });
+            scaledFontSizeEm(0.8);
             break;
         case 'small':
-            list.push({ name: 'font-size', value: 'inherit' });
-            break;
-        case 'larger':
-            list.push({ name: 'font-size', value: '2em' });
-            break;
-        case 'extralarge':
-            list.push({ name: 'font-size', value: '2.2em' });
+            scaledFontSizeEm(1);
             break;
         case 'large':
-            list.push({ name: 'font-size', value: '1.72em' });
+            scaledFontSizeEm(1.72);
+            break;
+        case 'larger':
+            scaledFontSizeEm(2.1);
+            break;
+        case 'extralarge':
+            scaledFontSizeEm(2.5);
             break;
         case 'medium':
         default:
-            list.push({ name: 'font-size', value: '1.36em' });
+            scaledFontSizeEm(1.36);
             break;
     }
 
