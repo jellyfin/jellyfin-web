@@ -887,12 +887,17 @@ export default function (view) {
     }
 
     function updatePlaylist() {
-        const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
-        const btnNextTrack = view.querySelector('.btnNextTrack');
-        btnPreviousTrack.classList.remove('hide');
-        btnNextTrack.classList.remove('hide');
-        btnNextTrack.disabled = false;
-        btnPreviousTrack.disabled = false;
+        playbackManager.getPlaylist()
+            .then(playlist => {
+                if (playlist && playlist.length > 1) {
+                    const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
+                    const btnNextTrack = view.querySelector('.btnNextTrack');
+                    btnPreviousTrack.classList.remove('hide');
+                    btnNextTrack.classList.remove('hide');
+                    btnNextTrack.disabled = false;
+                    btnPreviousTrack.disabled = false;
+                }
+            });
     }
 
     function updateTimeText(elem, ticks, divider) {
