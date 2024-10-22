@@ -891,10 +891,10 @@ export default function (view) {
             .then(playlist => {
                 if (playlist && playlist.length > 1) {
                     const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
-                    btnPreviousTrack.classList.remove('hide');
-                    btnPreviousTrack.disabled = false;
                     const btnNextTrack = view.querySelector('.btnNextTrack');
+                    btnPreviousTrack.classList.remove('hide');
                     btnNextTrack.classList.remove('hide');
+                    btnPreviousTrack.disabled = false;
                     btnNextTrack.disabled = false;
                 }
             });
