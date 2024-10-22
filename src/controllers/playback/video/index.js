@@ -891,11 +891,11 @@ export default function (view) {
             .then(playlist => {
                 if (playlist && playlist.length > 1) {
                     const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
-                    const btnNextTrack = view.querySelector('.btnNextTrack');
                     btnPreviousTrack.classList.remove('hide');
+                    btnPreviousTrack.disabled = false;
+                    const btnNextTrack = view.querySelector('.btnNextTrack');
                     btnNextTrack.classList.remove('hide');
                     btnNextTrack.disabled = false;
-                    btnPreviousTrack.disabled = false;
                 }
             });
     }
