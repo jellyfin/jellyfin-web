@@ -1,4 +1,9 @@
 export declare global {
+    declare module '*.png' {
+        const value: any;
+        export = value;
+    }
+
     import { ApiClient, Events } from 'jellyfin-apiclient';
 
     interface Window {

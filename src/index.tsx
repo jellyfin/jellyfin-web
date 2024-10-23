@@ -15,16 +15,15 @@ import { appRouter } from './components/router/appRouter';
 import globalize from './lib/globalize';
 import { loadCoreDictionary } from 'lib/globalize/loader';
 import { initialize as initializeAutoCast } from 'scripts/autocast';
-import browser from './scripts/browser';
+import browser from 'scripts/browser';
 import keyboardNavigation from './scripts/keyboardNavigation';
 import { currentSettings } from './scripts/settings/userSettings';
-import { getPlugins } from './scripts/settings/webSettings';
+import { getPlugins } from 'scripts/settings/webSettings';
 import taskButton from './scripts/taskbutton';
 import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
 
 import RootApp from './RootApp';
-import { history } from 'RootAppRouter';
 
 // Import the button webcomponent for use throughout the site
 // NOTE: This is a bit of a hack, files should ensure the component is imported before use
@@ -61,10 +60,16 @@ build: ${__JF_BUILD_VERSION__}`);
 
     // Register handlers to update header classes
     pageClassOn('viewshow', 'standalonePage', function () {
-        document.querySelector('.skinHeader').classList.add('noHeaderRight');
+        const skinHeaderElement = document.querySelector('.skinHeader');
+        if (skinHeaderElement) {
+            skinHeaderElement.classList.add('noHeaderRight');
+        }
     });
     pageClassOn('viewhide', 'standalonePage', function () {
-        document.querySelector('.skinHeader').classList.remove('noHeaderRight');
+        const skinHeaderElement = document.querySelector('.skinHeader');
+        if (skinHeaderElement) {
+            skinHeaderElement.classList.remove('noHeaderRight');
+        }
     });
 
     // Initialize the api client
@@ -120,7 +125,7 @@ build: ${__JF_BUILD_VERSION__}`);
     loadPlatformFeatures();
 
     // Load custom CSS styles
-    loadCustomCss();
+    await loadCustomCss();
 
     // Enable navigation controls
     keyboardNavigation.enable();
@@ -148,7 +153,7 @@ async function loadPlugins() {
     let list = await getPlugins();
     if (!appHost.supports('remotecontrol')) {
         // Disable remote player plugins if not supported
-        list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
+        list = list.filter((plugin: string) => !plugin.startsWith('sessionPlayer')
             && !plugin.startsWith('chromecastPlayer'));
     } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
         // Disable chromecast player in unsupported browsers
@@ -167,7 +172,7 @@ async function loadPlugins() {
         console.warn('failed loading plugins', e);
     }
 
-    console.groupEnd('loading installed plugins');
+    console.groupEnd();
 }
 
 function loadPlatformFeatures() {
@@ -204,13 +209,13 @@ function loadCustomCss() {
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) {
         const brandingCss = fetch(apiClient.getUrl('Branding/Css'))
-            .then(function(response) {
+            .then(function (response) {
                 if (!response.ok) {
                     throw new Error(response.status + ' ' + response.statusText);
                 }
                 return response.text();
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 console.warn('Error applying custom css', err);
             });
 
@@ -235,13 +240,13 @@ function loadCustomCss() {
 
         Events.on(ServerConnections, 'localusersignedin', handleStyleChange);
         Events.on(ServerConnections, 'localusersignedout', handleStyleChange);
-        Events.on(currentSettings, 'change', (e, prop) => {
+        Events.on(currentSettings, 'change', async (e, prop) => {
             if (prop == 'disableCustomCss' || prop == 'customCss') {
-                handleStyleChange();
+                await handleStyleChange();
             }
         });
 
-        handleStyleChange();
+        return handleStyleChange();
     }
 }
 
@@ -261,6 +266,9 @@ function registerServiceWorker() {
 
 async function renderApp() {
     const container = document.getElementById('reactRoot');
+
+    if (container === null) throw new Error('Container not available');
+
     // Remove the splash logo
     container.innerHTML = '';
 
@@ -268,8 +276,10 @@ async function renderApp() {
 
     const root = createRoot(container);
     root.render(
-        <RootApp history={history} />
+        <RootApp/>
     );
 }
 
-init();
+init()
+    .then(()=>console.log('Initialized'))
+    .catch((error)=>console.error('Error:', error));
