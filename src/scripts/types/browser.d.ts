@@ -1,5 +1,5 @@
 // browser.d.ts
-declare module 'scripts/browser' {
+declare module '@scripts/browser' {
     interface Browser {
         tv: boolean;
         [key: string]: boolean;
