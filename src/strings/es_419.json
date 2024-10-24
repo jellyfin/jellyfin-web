@@ -1666,5 +1666,12 @@
     "ChannelResolutionSDPAL": "SD (PAL)",
     "ChannelResolutionHD": "HD",
     "ChannelResolutionFullHD": "Full HD",
-    "ChannelResolutionUHD4K": "UHD (4K)"
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Incrusta todos los subtítulos cuando se activa la transcodificación. Esto asegura la sincronización de los subtítulos después de la transcodificación, a costa de una velocidad de transcodificación reducida.",
+    "AllowFmp4TranscodingContainerHelp": "Permite el contenedor de transcodificación fMP4 para este sintonizador para habilitar contenido HEVC y HDR. No todos los sintonizadores son compatibles con este contenedor. Desactívalo si experimentas problemas de reproducción.",
+    "AllowStreamSharingHelp": "Permite que Jellyfin duplique el flujo mpegts desde el sintonizador y comparta este flujo duplicado con sus clientes. Esto es útil cuando el sintonizador tiene un límite total de conteo de flujos, pero también puede causar problemas de reproducción.",
+    "AlwaysRemuxFlacAudioFilesHelp": "Si tienes archivos que tu navegador rechaza reproducir o en los que calcula los tiempos de manera incorrecta, habilita esta opción como solución alternativa.",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Incrustar siempre los subtítulos al transcodificar",
+    "AlwaysRemuxMp3AudioFilesHelp": "Si tienes archivos en los que tu navegador calcula los tiempos de manera incorrecta, habilita esta opción como solución alternativa.",
+    "AndOtherArtists": "{0} y {1} otros artistas."
 }
