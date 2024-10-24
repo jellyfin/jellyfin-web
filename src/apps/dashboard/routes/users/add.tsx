@@ -12,7 +12,7 @@ import AccessContainer from '../../../../components/dashboard/users/AccessContai
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import Page from '../../../../components/Page';
 
-type userInput = {
+type UserInput = {
     Name?: string;
     Password?: string;
 };
@@ -110,7 +110,7 @@ const UserNew = () => {
         loadUser();
 
         const saveUser = () => {
-            const userInput: userInput = {};
+            const userInput: UserInput = {};
             userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value;
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
             window.ApiClient.createUser(userInput).then(function (user) {
