@@ -29,9 +29,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
 import { EventType } from 'types/eventType';
-
-const TICKS_PER_MINUTE = 600000000;
-const TICKS_PER_SECOND = 10000000;
+import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
