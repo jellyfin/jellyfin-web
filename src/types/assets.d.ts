@@ -1,6 +1,6 @@
 export declare global {
     declare module '*.png' {
-        const value: any;
+        const value: never;
         export = value;
     }
     declare module '*.scss' {
