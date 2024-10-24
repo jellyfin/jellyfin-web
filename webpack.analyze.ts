@@ -1,12 +1,13 @@
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const { merge } = require('webpack-merge');
+import { Configuration } from 'webpack';
+import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { merge } from 'webpack-merge';
 
-const prod = require('./webpack.prod');
+import prodConfig from './webpack.prod';
 
 const smp = new SpeedMeasurePlugin();
 
-const config = merge(prod, {
+const config: Configuration = merge(prodConfig, {
     plugins: [
         new BundleAnalyzerPlugin({
             excludeAssets: /-json\..*\.chunk\.js$/
@@ -25,4 +26,4 @@ const exportedConfig = smp.wrap(config);
 
 exportedConfig.plugins[miniCssPluginIndex] = miniCssPlugin;
 
-module.exports = exportedConfig;
+export default exportedConfig;
