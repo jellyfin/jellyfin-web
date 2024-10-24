@@ -11,7 +11,7 @@ import Events, { type Event } from 'utils/events';
 import { PlaybackManagerEvent } from '../constants/playbackManagerEvent';
 import { PlayerEvent } from '../constants/playerEvent';
 import type { ManagedPlayerStopInfo, MovedItem, PlayerError, PlayerErrorCode, PlayerStopInfo, RemovedItems } from '../types/callbacks';
-import { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client';
+import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 
 export interface PlaybackSubscriber {
     onPlaybackCancelled?(e: Event): void
