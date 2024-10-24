@@ -3113,11 +3113,11 @@ export class PlaybackManager {
         };
 
         self.queue = function (options, player = this._currentPlayer) {
-            queue(options, '', player);
+            return queue(options, '', player);
         };
 
         self.queueNext = function (options, player = this._currentPlayer) {
-            queue(options, 'next', player);
+            return queue(options, 'next', player);
         };
 
         function queue(options, mode, player) {

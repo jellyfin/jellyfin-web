@@ -27,10 +27,12 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({ item, items, viewType, hasFilte
                     SortBy: [libraryViewSettings.SortBy],
                     SortOrder: [libraryViewSettings.SortOrder]
                 }
+            }).catch(err => {
+                console.error('[PlayAllButton] failed to play', err);
             });
         } else {
             playbackManager.play({
-                items: items,
+                items,
                 autoplay: true,
                 queryOptions: {
                     ParentId: item?.Id ?? undefined,
@@ -38,7 +40,8 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({ item, items, viewType, hasFilte
                     SortBy: [libraryViewSettings.SortBy],
                     SortOrder: [libraryViewSettings.SortOrder]
                 }
-
+            }).catch(err => {
+                console.error('[PlayAllButton] failed to play', err);
             });
         }
     }, [hasFilters, item, items, libraryViewSettings, viewType]);
