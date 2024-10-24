@@ -9,6 +9,7 @@ import { LibraryPreferences } from 'apps/experimental/features/preferences/compo
 import { useDisplaySettingForm } from 'apps/experimental/features/preferences/hooks/useDisplaySettingForm';
 import { LocalizationPreferences } from 'apps/experimental/features/preferences/components/LocalizationPreferences';
 import { NextUpPreferences } from 'apps/experimental/features/preferences/components/NextUpPreferences';
+import { BackgroundPlaybackPreferences } from 'apps/experimental/features/preferences/components/BackgroundPlaybackPreferences';
 import type { DisplaySettingsValues } from 'apps/experimental/features/preferences/types/displaySettingsValues';
 import LoadingComponent from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
@@ -73,6 +74,10 @@ export default function UserDisplayPreferences() {
                             values={values}
                         />
                         <ItemDetailPreferences
+                            onChange={handleFieldChange}
+                            values={values}
+                        />
+                        <BackgroundPlaybackPreferences
                             onChange={handleFieldChange}
                             values={values}
                         />

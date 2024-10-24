@@ -45,57 +45,6 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
 
             <FormControl fullWidth>
                 <FormControlLabel
-                    aria-describedby='display-settings-lib-backdrops-description'
-                    control={
-                        <Checkbox
-                            checked={values.enableLibraryBackdrops}
-                            onChange={onChange}
-                        />
-                    }
-                    label={globalize.translate('Backdrops')}
-                    name='enableLibraryBackdrops'
-                />
-                <FormHelperText id='display-settings-lib-backdrops-description'>
-                    {globalize.translate('EnableBackdropsHelp')}
-                </FormHelperText>
-            </FormControl>
-
-            <FormControl fullWidth>
-                <FormControlLabel
-                    aria-describedby='display-settings-lib-theme-songs-description'
-                    control={
-                        <Checkbox
-                            checked={values.enableLibraryThemeSongs}
-                            onChange={onChange}
-                        />
-                    }
-                    label={globalize.translate('ThemeSongs')}
-                    name='enableLibraryThemeSongs'
-                />
-                <FormHelperText id='display-settings-lib-theme-songs-description'>
-                    {globalize.translate('EnableThemeSongsHelp')}
-                </FormHelperText>
-            </FormControl>
-
-            <FormControl fullWidth>
-                <FormControlLabel
-                    aria-describedby='display-settings-lib-theme-videos-description'
-                    control={
-                        <Checkbox
-                            checked={values.enableLibraryThemeVideos}
-                            onChange={onChange}
-                        />
-                    }
-                    label={globalize.translate('ThemeVideos')}
-                    name='enableLibraryThemeVideos'
-                />
-                <FormHelperText id='display-settings-lib-theme-videos-description'>
-                    {globalize.translate('EnableThemeVideosHelp')}
-                </FormHelperText>
-            </FormControl>
-
-            <FormControl fullWidth>
-                <FormControlLabel
                     aria-describedby='display-settings-show-missing-episodes-description'
                     control={
                         <Checkbox
