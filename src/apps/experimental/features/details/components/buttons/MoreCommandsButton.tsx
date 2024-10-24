@@ -39,7 +39,7 @@ function playAllFromHere(opts: PlayAllFromHereOptions) {
     }
 
     if (!ids.length) {
-        return;
+        return Promise.resolve();
     }
 
     if (queue) {
@@ -168,6 +168,8 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                             item: item || {},
                             items: items || [],
                             serverId: item?.ServerId
+                        }).catch(err => {
+                            console.error('[MoreCommandsButton] failed to play', err);
                         });
                     } else if (result.command === 'queueallfromhere') {
                         playAllFromHere({
@@ -175,6 +177,8 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                             items: items || [],
                             serverId: item?.ServerId,
                             queue: true
+                        }).catch(err => {
+                            console.error('[MoreCommandsButton] failed to play', err);
                         });
                     } else if (result.deleted) {
                         if (result?.itemId !== itemId) {
