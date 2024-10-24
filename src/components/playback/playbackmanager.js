@@ -22,6 +22,7 @@ import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
 
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
+import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
@@ -939,7 +940,7 @@ export class PlaybackManager {
             player = player || self._currentPlayer;
 
             if (mediaSegment && this._skipSegment) {
-                Events.trigger(player, 'promptskip', [mediaSegment]);
+                Events.trigger(player, PlayerEvent.PromptSkip, [mediaSegment]);
             }
         };
 

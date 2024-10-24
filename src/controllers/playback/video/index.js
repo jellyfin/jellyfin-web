@@ -31,6 +31,7 @@ import { PluginType } from '../../../types/plugin.ts';
 import { EventType } from 'types/eventType';
 import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client';
 import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
+import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
@@ -578,7 +579,7 @@ export default function (view) {
         }, state);
         Events.on(player, 'playbackstart', onPlaybackStart);
         Events.on(player, 'playbackstop', onPlaybackStopped);
-        Events.on(player, 'promptskip', onPromptSkip);
+        Events.on(player, PlayerEvent.PromptSkip, onPromptSkip);
         Events.on(player, 'volumechange', onVolumeChanged);
         Events.on(player, 'pause', onPlayPauseStateChanged);
         Events.on(player, 'unpause', onPlayPauseStateChanged);
@@ -603,7 +604,7 @@ export default function (view) {
         if (player) {
             Events.off(player, 'playbackstart', onPlaybackStart);
             Events.off(player, 'playbackstop', onPlaybackStopped);
-            Events.off(player, 'promptskip', onPromptSkip);
+            Events.off(player, PlayerEvent.PromptSkip, onPromptSkip);
             Events.off(player, 'volumechange', onVolumeChanged);
             Events.off(player, 'pause', onPlayPauseStateChanged);
             Events.off(player, 'unpause', onPlayPauseStateChanged);
