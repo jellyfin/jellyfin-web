@@ -326,6 +326,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
     return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
         StartIndex: startIndex,
         Limit: limit,
+        IsFavorite: params.IsFavorite === 'true' || null,
         Fields: 'PrimaryImageAspectRatio,SortName,Path,ChildCount,MediaSourceCount',
         ImageTypeLimit: 1,
         ParentId: item.Id,
