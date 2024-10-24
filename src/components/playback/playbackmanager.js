@@ -2651,7 +2651,9 @@ export class PlaybackManager {
                     }
 
                     if (mediaSource.DefaultSubtitleStreamIndex == null || mediaSource.DefaultSubtitleStreamIndex < 0) {
-                        mediaSource.DefaultSubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
+                        if (mediaSource.DefaultSecondarySubtitleStreamIndex != null) {
+                            mediaSource.DefaultSubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
+                        }
                         mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
                     }
 

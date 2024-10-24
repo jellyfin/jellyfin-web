@@ -898,13 +898,21 @@ export default function (view) {
         }
     }
 
-    function updatePlaylist() {
-        const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
-        const btnNextTrack = view.querySelector('.btnNextTrack');
-        btnPreviousTrack.classList.remove('hide');
-        btnNextTrack.classList.remove('hide');
-        btnNextTrack.disabled = false;
-        btnPreviousTrack.disabled = false;
+    async function updatePlaylist() {
+        try {
+            const playlist = await playbackManager.getPlaylist();
+
+            if (playlist && playlist.length > 1) {
+                const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
+                const btnNextTrack = view.querySelector('.btnNextTrack');
+                btnPreviousTrack.classList.remove('hide');
+                btnNextTrack.classList.remove('hide');
+                btnPreviousTrack.disabled = false;
+                btnNextTrack.disabled = false;
+            }
+        } catch (err) {
+            console.error('[VideoPlayer] failed to get playlist', err);
+        }
     }
 
     function updateTimeText(elem, ticks, divider) {
