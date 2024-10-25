@@ -1968,5 +1968,6 @@
     "MessageSplitVersionsError": "Um erro ocorreu enquanto separava as versões",
     "AlwaysBurnInSubtitleWhenTranscoding": "Sempre incorporar legendas durante a transcodificação",
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "Incorporar todas as legendas quando a transcodificação for iniciada. Isso garante a sincronização das legendas após a transcodificação, ao custo de uma redução na velocidade de transcodificação.",
-    "HeaderMediaSegmentActions": "Ações de Segmento de Mídia"
+    "HeaderMediaSegmentActions": "Ações de Segmento de Mídia",
+    "AllowFmp4TranscodingContainerHelp": "Permitir o contêiner de transcodificação fMP4 para este sintonizador para habilitar conteúdos HEVC e HDR. Nem todos os sintonizadores são compatíveis com este contêiner. Desative se você encontrar problemas de reprodução."
 }
