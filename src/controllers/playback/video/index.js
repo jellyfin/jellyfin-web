@@ -29,7 +29,6 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
 import { EventType } from 'types/eventType';
-import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client';
 import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
 import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 
