@@ -1,7 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import IconButtonElement from './IconButtonElement';
-import LinkButton from './emby-button/LinkButton';
-import globalize from 'lib/globalize';
 
 type IProps = {
     SectionClassName?: string;
@@ -11,10 +9,8 @@ type IProps = {
     btnClassName?: string;
     btnTitle?: string;
     btnIcon?: string;
-    isLinkVisible?: boolean;
-    url?: string;
 };
-const SectionTitleContainer: FunctionComponent<IProps> = ({ SectionClassName, title, isBtnVisible = false, btnId, btnClassName, btnTitle, btnIcon, isLinkVisible = true, url }: IProps) => {
+const SectionTitleContainer: FunctionComponent<IProps> = ({ SectionClassName, title, isBtnVisible = false, btnId, btnClassName, btnTitle, btnIcon }: IProps) => {
     return (
         <div className={`${SectionClassName} sectionTitleContainer flex align-items-center`}>
             <h2 className='sectionTitle'>
@@ -28,14 +24,6 @@ const SectionTitleContainer: FunctionComponent<IProps> = ({ SectionClassName, ti
                 title={btnTitle}
                 icon={btnIcon}
             />}
-
-            {isLinkVisible && <LinkButton
-                className='raised button-alt headerHelpButton'
-                target='_blank'
-                rel='noopener noreferrer'
-                href={url}>
-                {globalize.translate('Help')}
-            </LinkButton>}
 
         </div>
     );
