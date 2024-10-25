@@ -636,7 +636,6 @@ export default function (view) {
     function onPromptSkip(e, mediaSegment) {
         const player = this;
         if (mediaSegment && player && mediaSegment.EndTicks != null
-            && mediaSegment.Type === MediaSegmentType.Outro
             && mediaSegment.EndTicks >= playbackManager.duration(player)
             && playbackManager.getNextItem()
         ) {
