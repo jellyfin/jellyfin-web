@@ -164,6 +164,27 @@ function getTextTrackUrl(track, item, format) {
     return url;
 }
 
+function getSubtitlesFontsUrl(track, item) {
+    if (itemHelper.isLocalItem(item) && track.Path) {
+        return false;
+    }
+
+    if (!track.IsExternal || track.IsExternalUrl) {
+        return false;
+    }
+
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+
+    const replacementRegex = /(.*Videos\/[0-9a-f-]+\/[0-9a-f]+\/Subtitles\/[0-9]+(?:\/[0-9]+)\/)(Stream\.[^?]*)(.*)/;
+    if (!replacementRegex.test(track.DeliveryUrl)) {
+        return false;
+    }
+
+    return apiClient.getUrl(track.DeliveryUrl.replace(replacementRegex, '$1Fonts$3'), {
+        api_key: apiClient.accessToken()
+    });
+}
+
 function getDefaultProfile() {
     return profileBuilder({});
 }
@@ -1258,28 +1279,49 @@ export class HtmlVideoPlayer {
          * @private
          */
     renderSsaAss(videoElement, track, item) {
-        const supportedFonts = ['application/vnd.ms-opentype', 'application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
-        const availableFonts = [];
+        const workerUrl = `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`;
+        const legacyWorkerUrl = `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`;
+        const supportedFontMimeTypes = ['application/vnd.ms-opentype', 'application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
+        const fontsToPreload = [];
         const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
         const apiClient = ServerConnections.getApiClient(item);
         attachments.forEach(i => {
             // we only require font files and ignore embedded media attachments like covers as there are cases where ffmpeg fails to extract those
-            if (supportedFonts.includes(i.MimeType)) {
+            if (supportedFontMimeTypes.includes(i.MimeType)) {
                 // embedded font url
-                availableFonts.push(apiClient.getUrl(i.DeliveryUrl));
+                fontsToPreload.push(apiClient.getUrl(i.DeliveryUrl));
             }
         });
-        const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
+        const subtitlesFontListUrl = getSubtitlesFontsUrl(track, item); // will return false if we shouldn't request this
+        const fallbackFontListUrl = apiClient.getUrl('/FallbackFont/Fonts', {
             api_key: apiClient.accessToken()
         });
         const htmlVideoPlayer = this;
-        import('@jellyfin/libass-wasm').then(({ default: SubtitlesOctopus }) => {
+
+        const fallbackFontListPromise = apiClient.getNamedConfiguration('encoding').then(encodingOptions => {
+            return encodingOptions.EnableFallbackFont ? apiClient.getJSON(fallbackFontListUrl) : null;
+        });
+
+        Promise.all([
+            import('@jellyfin/libass-wasm'),
+            // Worker in Tizen 5 doesn't resolve relative path with async request
+            resolveUrl(workerUrl),
+            resolveUrl(legacyWorkerUrl),
+            subtitlesFontListUrl ? apiClient.getJSON(subtitlesFontListUrl) : null,
+            fallbackFontListPromise
+        ]).then(([
+            { default: SubtitlesOctopus },
+            workerUrlResolved,
+            legacyWorkerUrlResolved,
+            subtitlesFontFiles,
+            fallbackFontFiles
+        ]) => {
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
-                fonts: availableFonts,
-                workerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker.js`,
-                legacyWorkerUrl: `${appRouter.baseUrl()}/libraries/subtitles-octopus-worker-legacy.js`,
+                fonts: fontsToPreload,
+                workerUrl: workerUrlResolved,
+                legacyWorkerUrl: legacyWorkerUrlResolved,
                 onError() {
                     // HACK: Clear JavascriptSubtitlesOctopus: it gets disposed when an error occurs
                     htmlVideoPlayer.#currentAssRenderer = null;
@@ -1304,29 +1346,25 @@ export class HtmlVideoPlayer {
                 renderAhead: 90
             };
 
-            Promise.all([
-                apiClient.getNamedConfiguration('encoding'),
-                // Worker in Tizen 5 doesn't resolve relative path with async request
-                resolveUrl(options.workerUrl),
-                resolveUrl(options.legacyWorkerUrl)
-            ]).then(([config, workerUrl, legacyWorkerUrl]) => {
-                options.workerUrl = workerUrl;
-                options.legacyWorkerUrl = legacyWorkerUrl;
-
-                if (config.EnableFallbackFont) {
-                    apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
-                        fontFiles.forEach(font => {
-                            const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`, {
-                                api_key: apiClient.accessToken()
-                            });
-                            availableFonts.push(fontUrl);
-                        });
-                        this.#currentAssRenderer = new SubtitlesOctopus(options);
+            if (subtitlesFontFiles) {
+                subtitlesFontFiles.forEach(font => {
+                    const fontUrl = apiClient.getUrl(`/Fonts/${encodeURIComponent(font.Key)}`, {
+                        api_key: apiClient.accessToken()
                     });
-                } else {
-                    this.#currentAssRenderer = new SubtitlesOctopus(options);
-                }
-            });
+                    fontsToPreload.push(fontUrl);
+                });
+            }
+
+            if (fallbackFontFiles) {
+                fallbackFontFiles.forEach(font => {
+                    const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`, {
+                        api_key: apiClient.accessToken()
+                    });
+                    fontsToPreload.push(fontUrl);
+                });
+            }
+
+            this.#currentAssRenderer = new SubtitlesOctopus(options);
         });
     }
 
