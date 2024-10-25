@@ -29,9 +29,8 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
 import { EventType } from 'types/eventType';
-
-const TICKS_PER_MINUTE = 600000000;
-const TICKS_PER_SECOND = 10000000;
+import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
+import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
@@ -579,6 +578,7 @@ export default function (view) {
         }, state);
         Events.on(player, 'playbackstart', onPlaybackStart);
         Events.on(player, 'playbackstop', onPlaybackStopped);
+        Events.on(player, PlayerEvent.PromptSkip, onPromptSkip);
         Events.on(player, 'volumechange', onVolumeChanged);
         Events.on(player, 'pause', onPlayPauseStateChanged);
         Events.on(player, 'unpause', onPlayPauseStateChanged);
@@ -603,6 +603,7 @@ export default function (view) {
         if (player) {
             Events.off(player, 'playbackstart', onPlaybackStart);
             Events.off(player, 'playbackstop', onPlaybackStopped);
+            Events.off(player, PlayerEvent.PromptSkip, onPromptSkip);
             Events.off(player, 'volumechange', onVolumeChanged);
             Events.off(player, 'pause', onPlayPauseStateChanged);
             Events.off(player, 'unpause', onPlayPauseStateChanged);
@@ -628,6 +629,16 @@ export default function (view) {
                 refreshProgramInfoIfNeeded(player, item);
                 showComingUpNextIfNeeded(player, item, currentTime, currentRuntimeTicks);
             }
+        }
+    }
+
+    function onPromptSkip(e, mediaSegment) {
+        const player = this;
+        if (mediaSegment && player && mediaSegment.EndTicks != null
+            && mediaSegment.EndTicks >= playbackManager.duration(player)
+            && playbackManager.getNextItem()
+        ) {
+            showComingUpNext(player);
         }
     }
 
