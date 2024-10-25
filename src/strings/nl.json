@@ -1984,5 +1984,7 @@
     "MediaSegmentType.Preview": "Voorvertoning",
     "MediaSegmentType.Recap": "Terugblik",
     "PlaylistError.UpdateFailed": "Fout bij bijwerken afspeellijst",
-    "HeaderMediaSegmentActions": "Acties voor mediasegmenten"
+    "HeaderMediaSegmentActions": "Acties voor mediasegmenten",
+    "MediaSegmentSkipPrompt": "{0} overslaan",
+    "MediaSegmentAction.AskToSkip": "Vragen om over te slaan"
 }
