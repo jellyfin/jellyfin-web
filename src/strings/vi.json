@@ -1968,5 +1968,19 @@
     "AlwaysBurnInSubtitleWhenTranscoding": "Luôn ghi phụ đề khi chuyển mã",
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "Ghi tất cả phụ đề khi chuyển mã được kích hoạt. Điều này đảm bảo đồng bộ hóa phụ đề sau khi chuyển mã nhưng phải trả giá bằng việc giảm tốc độ chuyển mã.",
     "LabelScreensaverTime": "Thời Gian Bảo Vệ Màn Hình",
-    "LabelScreensaverTimeHelp": "Lượng thời gian tính bằng giây không hoạt động cần thiết để khởi động trình bảo vệ màn hình."
+    "LabelScreensaverTimeHelp": "Lượng thời gian tính bằng giây không hoạt động cần thiết để khởi động trình bảo vệ màn hình.",
+    "MediaSegmentType.Outro": "Đoạn kết",
+    "MediaSegmentType.Preview": "Xem thử",
+    "MediaSegmentType.Recap": "Tóm lại",
+    "HeaderMediaSegmentActions": "Hành Động Chia Đoạn Phương Tiện",
+    "LabelMediaSegmentsType": "{0} Phân đoạn",
+    "MediaSegmentType.Commercial": "Thương mại",
+    "MediaSegmentType.Intro": "Giới thiệu",
+    "HeaderEditPlaylist": "Sửa Danh Sách Phát",
+    "HeaderNewPlaylist": "Danh Sách Phát Mới",
+    "MediaSegmentAction.None": "Không",
+    "MediaSegmentAction.Skip": "Bỏ qua",
+    "PlaylistError.UpdateFailed": "Lỗi cập nhật danh sách phát",
+    "LabelQsvDevice": "Thiết bị QSV",
+    "LabelQsvDeviceHelp": "Chỉ định thiết bị cho Intel QSV trên hệ thống nhiều GPU. Trên Linux, đây là nút kết xuất, ví dụ: /dev/dri/renderD128. Trên Windows, đây là chỉ số thiết bị bắt đầu từ 0. Để trống trừ khi bạn biết mình đang làm gì."
 }
