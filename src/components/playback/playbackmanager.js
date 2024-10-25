@@ -2039,12 +2039,12 @@ export class PlaybackManager {
         self.translateItemsForPlayback = translateItemsForPlayback;
         self.getItemsForPlayback = getItemsForPlayback;
 
-        self.play = function (options) {
+        self.play = async function (options) {
             normalizePlayOptions(options);
 
             if (self._currentPlayer) {
                 if (options.enableRemotePlayers === false && !self._currentPlayer.isLocalPlayer) {
-                    return Promise.reject();
+                    throw new Error('Remote players are disabled');
                 }
 
                 if (!self._currentPlayer.isLocalPlayer) {
@@ -2056,29 +2056,35 @@ export class PlaybackManager {
                 loading.show();
             }
 
-            if (options.items) {
-                return translateItemsForPlayback(options.items, options)
-                    .then((items) => getAdditionalParts(items))
-                    .then(function (allItems) {
-                        const flattened = allItems.flatMap(i => i);
-                        return playWithIntros(flattened, options);
-                    });
-            } else {
+            let { items } = options;
+            // If items were not passed directly, fetch them by ID
+            if (!items) {
                 if (!options.serverId) {
                     throw new Error('serverId required!');
                 }
 
-                return getItemsForPlayback(options.serverId, {
+                items = (await getItemsForPlayback(options.serverId, {
                     Ids: options.ids.join(',')
-                }).then(function (result) {
-                    return translateItemsForPlayback(result.Items, options)
-                        .then((items) => getAdditionalParts(items))
-                        .then(function (allItems) {
-                            const flattened = allItems.flatMap(i => i);
-                            return playWithIntros(flattened, options);
-                        });
-                });
+                })).Items;
             }
+
+            // Prepare the list of items
+            items = await translateItemsForPlayback(items, options);
+            // Add any additional parts for movies or episodes
+            items = await getAdditionalParts(items);
+            // Adjust the start index for additional parts added to the queue
+            if (options.startIndex) {
+                let adjustedStartIndex = 0;
+                for (let i = 0; i < options.startIndex; i++) {
+                    adjustedStartIndex += items[i].length;
+                }
+
+                options.startIndex = adjustedStartIndex;
+            }
+            // getAdditionalParts returns an array of arrays of items, so flatten it
+            items = items.flat();
+
+            return playWithIntros(items, options);
         };
 
         function getPlayerData(player) {
@@ -2217,20 +2223,22 @@ export class PlaybackManager {
         }
 
         const getAdditionalParts = async (items) => {
-            const getOneAdditionalPart = async function (item) {
-                let retVal = [item];
-                if (item.PartCount && item.PartCount > 1 && (item.Type === 'Movie' || item.Type === 'Episode')) {
+            const getItemAndParts = async function (item) {
+                if (
+                    item.PartCount && item.PartCount > 1
+                    && [ BaseItemKind.Episode, BaseItemKind.Movie ].includes(item.Type)
+                ) {
                     const client = ServerConnections.getApiClient(item.ServerId);
                     const user = await client.getCurrentUser();
                     const additionalParts = await client.getAdditionalVideoParts(user.Id, item.Id);
                     if (additionalParts.Items.length) {
-                        retVal = [item, ...additionalParts.Items];
+                        return [ item, ...additionalParts.Items ];
                     }
                 }
-                return retVal;
+                return [ item ];
             };
 
-            return Promise.all(items.flatMap(async (item) => getOneAdditionalPart(item)));
+            return Promise.all(items.map(getItemAndParts));
         };
 
         function playWithIntros(items, options) {
@@ -3105,11 +3113,11 @@ export class PlaybackManager {
         };
 
         self.queue = function (options, player = this._currentPlayer) {
-            queue(options, '', player);
+            return queue(options, '', player);
         };
 
         self.queueNext = function (options, player = this._currentPlayer) {
-            queue(options, 'next', player);
+            return queue(options, 'next', player);
         };
 
         function queue(options, mode, player) {
