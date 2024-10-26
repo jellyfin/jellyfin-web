@@ -1985,5 +1985,7 @@
     "MediaSegmentType.Recap": "Rekapitulácia",
     "PlaylistError.UpdateFailed": "Chyba pri aktualizácii playlistu",
     "HeaderEditPlaylist": "Upraviť playlist",
-    "HeaderNewPlaylist": "Nový playlist"
+    "HeaderNewPlaylist": "Nový playlist",
+    "MediaSegmentAction.AskToSkip": "Opýtať sa na preskočenie",
+    "MediaSegmentSkipPrompt": "Preskočiť {0}"
 }
