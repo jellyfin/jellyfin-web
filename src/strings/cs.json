@@ -1985,5 +1985,7 @@
     "MediaSegmentType.Recap": "Rekapitulace",
     "PlaylistError.UpdateFailed": "Aktualizace seznamu skladeb se nezdařila",
     "HeaderMediaSegmentActions": "Akce segmentu médií",
-    "LabelMediaSegmentsType": "{0} segmentů"
+    "LabelMediaSegmentsType": "{0} segmentů",
+    "MediaSegmentSkipPrompt": "Přeskočit",
+    "MediaSegmentAction.AskToSkip": "Zeptat se, zda přeskočit"
 }
