@@ -1982,5 +1982,7 @@
     "MediaSegmentAction.Skip": "Bỏ qua",
     "PlaylistError.UpdateFailed": "Lỗi cập nhật danh sách phát",
     "LabelQsvDevice": "Thiết bị QSV",
-    "LabelQsvDeviceHelp": "Chỉ định thiết bị cho Intel QSV trên hệ thống nhiều GPU. Trên Linux, đây là nút kết xuất, ví dụ: /dev/dri/renderD128. Trên Windows, đây là chỉ số thiết bị bắt đầu từ 0. Để trống trừ khi bạn biết mình đang làm gì."
+    "LabelQsvDeviceHelp": "Chỉ định thiết bị cho Intel QSV trên hệ thống nhiều GPU. Trên Linux, đây là nút kết xuất, ví dụ: /dev/dri/renderD128. Trên Windows, đây là chỉ số thiết bị bắt đầu từ 0. Để trống trừ khi bạn biết mình đang làm gì.",
+    "MediaSegmentAction.AskToSkip": "Yêu Cầu Bỏ Qua",
+    "MediaSegmentSkipPrompt": "Bỏ qua {0}"
 }
