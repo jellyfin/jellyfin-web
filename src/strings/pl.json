@@ -1985,5 +1985,7 @@
     "PlaylistError.UpdateFailed": "Błąd podczas aktualizacji listy odtwarzania",
     "MediaSegmentType.Preview": "Zapowiedź",
     "MediaSegmentType.Recap": "Podsumowanie",
-    "HeaderMediaSegmentActions": "Działania segmentu mediów"
+    "HeaderMediaSegmentActions": "Działania segmentu mediów",
+    "MediaSegmentSkipPrompt": "Pomiń {0}",
+    "MediaSegmentAction.AskToSkip": "Pytaj o pominięcie"
 }
