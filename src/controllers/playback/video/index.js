@@ -636,7 +636,7 @@ export default function (view) {
         const player = this;
         if (mediaSegment && player && mediaSegment.EndTicks != null
             && mediaSegment.EndTicks >= playbackManager.duration(player)
-            && playbackManager.getNextItem()
+            && playbackManager.getNextItem() && userSettings.enableNextVideoInfoOverlay()
         ) {
             showComingUpNext(player);
         }

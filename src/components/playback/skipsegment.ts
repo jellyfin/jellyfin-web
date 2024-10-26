@@ -8,6 +8,7 @@ import { EventType } from 'types/eventType';
 import './skipbutton.scss';
 import dom from 'scripts/dom';
 import globalize from 'lib/globalize';
+import * as userSettings from '../../scripts/settings/userSettings';
 
 interface ShowOptions {
     animate?: boolean;
@@ -126,7 +127,7 @@ class SkipSegment extends PlaybackSubscriber {
     onPromptSkip(e: Event, segment: MediaSegmentDto) {
         if (this.player && segment.EndTicks != null
             && segment.EndTicks >= this.playbackManager.currentItem(this.player).RunTimeTicks
-            && this.playbackManager.getNextItem()
+            && this.playbackManager.getNextItem() && userSettings.enableNextVideoInfoOverlay()
         ) {
             // Don't display button when UpNextDialog is expected.
             return;
