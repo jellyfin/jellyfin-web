@@ -107,11 +107,11 @@
     "CommunityRating": "Note de la communauté",
     "Composer": "Compositeur",
     "ConfigureDateAdded": "Définir comment la métadonnée 'Date d'ajout' est déterminée dans 'Tableau de bord' > 'Médiathèques' > 'Paramètres NFO'",
-    "ConfirmDeleteImage": "Supprimer l'image ?",
-    "ConfirmDeleteItem": "Supprimer cet élément l'effacera à la fois du système de fichiers et de votre médiathèque. Voulez-vous vraiment continuer ?",
-    "ConfirmDeleteItems": "Supprimer ces éléments les effacera à la fois du système de fichiers et de votre médiathèque. Voulez-vous vraiment continuer ?",
+    "ConfirmDeleteImage": "Supprimer l'image ?",
+    "ConfirmDeleteItem": "Supprimer cet élément l'effacera à la fois du système de fichiers et de votre médiathèque. Voulez-vous vraiment continuer ?",
+    "ConfirmDeleteItems": "Supprimer ces éléments les effacera à la fois du système de fichiers et de votre médiathèque. Voulez-vous vraiment continuer ?",
     "ConfirmDeletion": "Confirmer la suppression",
-    "ConfirmEndPlayerSession": "Voulez-vous arrêter Jellyfin sur {0} ?",
+    "ConfirmEndPlayerSession": "Voulez-vous arrêter Jellyfin sur {0} ?",
     "Connect": "Se connecter",
     "ContinueWatching": "Reprendre le visionnage",
     "Continuing": "En cours",
@@ -1863,7 +1863,7 @@
     "LabelTrickplayAccelEncodingHelp": "Actuellement disponible uniquement avec QSV, VA-API, VideoToolbox et RKMPP, cette option n'a aucun effet sur les autres méthodes d'accélération matérielle.",
     "ErrorDeletingLyrics": "Une erreur est survenu lors de la suppression des paroles du serveur. S'il vous plaît verifier que Jellyfin peut modifier les fichier dans le dossier multimedia et réessayez.",
     "HeaderDeleteLyrics": "Suppression des paroles",
-    "ConfirmDeleteLyrics": "En supprimant ces paroles vous les supprimez a la fois de votre systeme de fichier et de votre bibliothèque. Êtes vous sure de vouloir continuez ?",
+    "ConfirmDeleteLyrics": "En supprimant ces paroles vous les supprimez à la fois de votre système de fichier et de votre bibliothèque. Êtes-vous sûr de vouloir continuer ?",
     "DeleteLyrics": "Supprimer ces paroles",
     "HeaderNoLyrics": "Aucune parole trouvée",
     "Lyrics": "Paroles",
@@ -1985,5 +1985,7 @@
     "MediaSegmentType.Preview": "Prévisualisation",
     "MediaSegmentType.Recap": "Récapitulatif",
     "MediaSegmentType.Intro": "Générique de début",
-    "PlaylistError.UpdateFailed": "Erreur lors de la mise à jour de la liste de lecture"
+    "PlaylistError.UpdateFailed": "Erreur lors de la mise à jour de la liste de lecture",
+    "MediaSegmentAction.AskToSkip": "Demander à passer",
+    "MediaSegmentSkipPrompt": "{0} Passer"
 }
