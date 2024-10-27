@@ -534,7 +534,7 @@
     "LabelPath": "Cesta k souboru",
     "LabelPersonRoleHelp": "Příklad: Řidič kamiónu se zmrzlinou",
     "LabelPlaceOfBirth": "Místo narození",
-    "LabelPlayDefaultAudioTrack": "Přehrávat defaultní audio stopu bez ohledu na jazyk",
+    "LabelPlayDefaultAudioTrack": "Přehrávat výchozí zvukovou stopu bez ohledu na jazyk",
     "LabelPostProcessor": "Aplikace pro následné zpracování",
     "LabelPostProcessorArguments": "Argumenty příkazové řádky pro následné zpracování",
     "LabelPostProcessorArgumentsHelp": "Použij {path} jako cestu k nahrávanému souboru.",
