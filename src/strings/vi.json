@@ -621,7 +621,7 @@
     "LabelKodiMetadataSaveImagePaths": "Lưu đường dẫn ảnh trong tệp NFO",
     "LabelKodiMetadataEnablePathSubstitutionHelp": "Bật thay thế đường dẫn của đường dẫn hình ảnh bằng cách sử dụng cài đặt thay thế đường dẫn của máy chủ.",
     "LabelKodiMetadataEnablePathSubstitution": "Kích hoạt thay thế đường dẫn",
-    "LabelKodiMetadataEnableExtraThumbsHelp": "Khi tải hình ảnh, chúng có thể được lưu vào cả extrafanart và extrathumbs để tối ưu hoá khả năng tương thích với giao diện Kodi.",
+    "LabelKodiMetadataEnableExtraThumbsHelp": "Khi tải ảnh xuống, chúng có thể được lưu vào cả extrafanart và extrathumbs để có thể tương thích tối đa với giao diện Kodi.",
     "LabelKodiMetadataEnableExtraThumbs": "Sao chép extrafanart vào mục extrathumbs",
     "LabelKodiMetadataDateFormatHelp": "Tất cả ngày trong tệp NFO sẽ được phân tích cú pháp sử dụng định dạng này.",
     "LabelKodiMetadataDateFormat": "Định dạng của ngày phát hành",
