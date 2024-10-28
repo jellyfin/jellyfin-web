@@ -885,7 +885,7 @@ class ChromecastPlayer {
         return state.ShuffleMode;
     }
 
-    playTrailers(item) {
+    playTrailers() {
         console.warn('[chromecastPlayer] Playing trailers is not supported.');
     }
 
@@ -898,7 +898,7 @@ class ChromecastPlayer {
         });
     }
 
-    setQueueShuffleMode(value) {
+    setQueueShuffleMode() {
         console.warn('[chromecastPlayer] Setting shuffle queue mode is not supported.');
     }
 
