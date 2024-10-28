@@ -1915,5 +1915,9 @@
     "AlwaysRemuxMp3AudioFilesHelp": "Se tiveres ficheiros que o teu navegador calcula de forma imprecisa os registos de data/hora, ativa esta opção como solução alternativa.",
     "AlwaysRemuxFlacAudioFilesHelp": "Se tiveres ficheiros que o teu navegador recusar reproduzir ou em que calcula incorretamente os registos de data/hora, ativa esta opção como solução alternativa.",
     "HeaderNextItemPlayingInValue": "{0} seguinte em {1}",
-    "HeaderNewPlaylist": "Nova playlist"
+    "HeaderNewPlaylist": "Nova playlist",
+    "UseCustomTagDelimiters": "Usar delimitador de tag personalizado",
+    "UseCustomTagDelimitersHelp": "Separar tags de artista/gênero com caracteres personalizados.",
+    "LabelTrickplayKeyFrameOnlyExtraction": "Gerar imagens apenas de quadros-chave",
+    "VideoCodecTagNotSupported": "A tag do codec de vídeo não é suportada"
 }
