@@ -1430,5 +1430,8 @@
     "LabelTranscodes": "ממיר קידוד",
     "LabelTonemappingThresholdHelp": "אלגוריתם מיפוי הגוונים מכוון לכל סצינה. מוגדר סף לזיהוי האם הסצינה השתנתה או לא. אם הפרש הבהירות הממוצעת של הפריים הנוכחי מממוצע נע עובר סף מסוים, נחשב מחדש ממוצע סצינה ובהירות שיא. הערכים המומלצים והדיפולטיים אצ 0.8 ו-0.2.",
     "LabelTranscodingProgress": "התקדמות המרת קידוד",
-    "LabelTranscodingFramerate": "קצב הפריימים של המרת קידוד"
+    "LabelTranscodingFramerate": "קצב הפריימים של המרת קידוד",
+    "TypeOptionPluralBoxSet": "מארזי מדיה",
+    "LabelTonemappingParam": "פרמטר מיפוי גוונים",
+    "LabelTonemappingParamHelp": "נא לכוון אצ מיפוי הגוונים. הערכים המומלצים והדיפולטיים הם NaN. בכללי מומלץ להשאיר אותם ריקים."
 }
