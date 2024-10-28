@@ -1567,7 +1567,7 @@
     "RemuxHelp1": "A mídia está em um contêiner de arquivo incompatível (MKV, AVI, WMV, etc.), mas tanto o fluxo de vídeo quanto o fluxo de áudio são compatíveis com o dispositivo. A mídia será reembalada sem perdas imediatamente antes de ser enviada ao dispositivo.",
     "PreferFmp4HlsContainer": "Prefira o contêiner de mídia fMP4-HLS",
     "LabelSyncPlayInfo": "Informações de Sincronização",
-    "PreferFmp4HlsContainerHelp": "Prefira usar fMP4 como contêiner padrão para HLS, tornando possível transmitir diretamente conteúdo HEVC e AV1 em dispositivos suportados.",
+    "PreferFmp4HlsContainerHelp": "Utiliza o fMP4 como container predefinido para HLS, tornando possível a transmissão direta de conteúdos HEVC e AV1 em dispositivos suportados.",
     "LabelSelectAudioChannels": "Canais",
     "LabelSelectStereo": "Estéreo",
     "ContainerNotSupported": "O contêiner não é compatível",
