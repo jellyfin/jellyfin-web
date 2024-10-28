@@ -8,7 +8,11 @@ const PREFIX = 'segmentTypeAction';
 
 export const getId = (type: MediaSegmentType) => `${PREFIX}__${type}`;
 
-export function getMediaSegmentAction(userSettings: UserSettings, type: MediaSegmentType): MediaSegmentAction | undefined {
+export function getMediaSegmentAction(userSettings: UserSettings, type: MediaSegmentType): MediaSegmentAction {
     const action = userSettings.get(getId(type), false);
-    return action ? action as MediaSegmentAction : undefined;
+    let defaultAction = MediaSegmentAction.None;
+    if (type === MediaSegmentType.Intro || type === MediaSegmentType.Outro) {
+        defaultAction = MediaSegmentAction.AskToSkip;
+    }
+    return action ? action as MediaSegmentAction : defaultAction;
 }
