@@ -678,11 +678,7 @@ class ChromecastPlayer {
                 'SetAudioStreamIndex',
                 'SetSubtitleStreamIndex',
                 'DisplayContent',
-                'SetRepeatMode',
-                'SetShuffleQueue',
-                'EndSession',
-                'PlayMediaSource',
-                'PlayTrailers'
+                'SetRepeatMode'
             ]
         };
     }
@@ -890,13 +886,7 @@ class ChromecastPlayer {
     }
 
     playTrailers(item) {
-        this._castPlayer.sendMessage({
-            options: {
-                ItemId: item.Id,
-                ServerId: item.ServerId
-            },
-            command: 'PlayTrailers'
-        });
+        console.warn('[chromecastPlayer] Playing trailers is not supported.');
     }
 
     setRepeatMode(mode) {
@@ -909,12 +899,7 @@ class ChromecastPlayer {
     }
 
     setQueueShuffleMode(value) {
-        this._castPlayer.sendMessage({
-            options: {
-                ShuffleMode: value
-            },
-            command: 'SetShuffleQueue'
-        });
+        console.warn('[chromecastPlayer] Setting shuffle queue mode is not supported.');
     }
 
     toggleMute() {
