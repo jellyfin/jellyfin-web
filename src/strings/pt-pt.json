@@ -1494,7 +1494,7 @@
     "MessagePlaybackError": "Ocorreu um erro na reprodução deste ficheiro no se recetor Google Cast.",
     "MessageChromecastConnectionError": "O seu recetor Google Cast não pode contatar o servidor Jellyfin. Por favor, verifique a ligação e tente de novo.",
     "YoutubeDenied": "Não é permitida a reprodução do vídeo solicitado em reprodutores embutidos.",
-    "PreferFmp4HlsContainerHelp": "Preferir utilizar fMP4 como o contentor padrão para HLS, que torna possível a transmissão direta do conteúdo HEVC e AV1 em dispositivos que os suportam.",
+    "PreferFmp4HlsContainerHelp": "Utiliza o fMP4 como container predefinido para HLS, tornando possível a transmissão direta de conteúdos HEVC e AV1 em dispositivos suportados.",
     "PreferFmp4HlsContainer": "Preferir o Contentor da Multimédia fMP4-HLS",
     "LabelSyncPlayInfo": "Info do SyncPlay",
     "LabelRemuxingInfo": "Info da Remuxing",
