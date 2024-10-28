@@ -1985,5 +1985,7 @@
     "MediaSegmentType.Intro": "Vorspann",
     "MediaSegmentType.Preview": "Vorschau",
     "PlaylistError.UpdateFailed": "Fehler beim Aktualisieren der Wiedergabeliste",
-    "MediaSegmentType.Recap": "Rückblick"
+    "MediaSegmentType.Recap": "Rückblick",
+    "MediaSegmentSkipPrompt": "{0} überspringen",
+    "MediaSegmentAction.AskToSkip": "Vor dem Überspringen nachfragen"
 }
