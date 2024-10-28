@@ -524,6 +524,8 @@ export class UserSettings {
         let values = this.get(key);
         if (values) {
             values = JSON.parse(values);
+            delete values.NameStartsWith;
+            delete values.NameLessThan;
             return Object.assign(query, values);
         }
 
