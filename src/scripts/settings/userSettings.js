@@ -536,7 +536,10 @@ export class UserSettings {
      * @param {Object} query - Query.
      */
     saveQuerySettings(key, query) {
-        return this.set(key, JSON.stringify(query));
+        const newQuery = { ...query };
+        delete newQuery.NameStartsWith;
+        delete newQuery.NameLessThan;
+        return this.set(key, JSON.stringify(newQuery));
     }
 
     /**
