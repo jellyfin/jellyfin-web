@@ -47,7 +47,7 @@
     "BoxRear": "Caixa (traseira)",
     "Browse": "Navegar",
     "MessageBrowsePluginCatalog": "Navegue pelo nosso catálogo de plugins para ver os plugins disponíveis.",
-    "BurnSubtitlesHelp": "Determina se o servidor deveria gravar as legendas no vídeo ao convertê-lo. Evitar a gravação da legenda irá melhorar em muito a performance. Selecione Auto para gravar legendas baseados em imagem (VobSub, PGS, SUB, IDX, etc.) e algumas legendas dos tipos ASS e SSA.",
+    "BurnSubtitlesHelp": "Determina se o servidor deveria incorporar a legenda. Evitar isso melhorará significativamente a performance. Selecione Auto para incorporar as legendas baseadas em imagem (VobSub, PGS, SUB, IDX, etc.) e algumas legendas dos tipos ASS e SSA.",
     "ButtonAddMediaLibrary": "Adicionar Biblioteca de Mídia",
     "ButtonAddScheduledTaskTrigger": "Adicionar Gatilho",
     "ButtonAddServer": "Adicionar Servidor",
@@ -1943,7 +1943,7 @@
     "DateModified": "Data de modificação",
     "MessageCancelSeriesTimerError": "Um erro ocorreu enquanto cancelava o temporizador das séries",
     "MessageCancelTimerError": "Um erro ocorreu enquanto cancelava o temporizador",
-    "UseCustomTagDelimiters": "Usar delimitador de tag customizado",
+    "UseCustomTagDelimiters": "Usar delimitador de tag personalizado",
     "LabelLyricDownloaders": "Baixador de legenda",
     "LyricDownloadersHelp": "Habilitar e ranquear seus baixadores de legenda favoritos em ordem de prioridade.",
     "LabelAudioTagSettings": "Configurações de etiqueta de áudio",
@@ -1969,5 +1969,12 @@
     "AlwaysBurnInSubtitleWhenTranscoding": "Sempre incorporar legendas durante a transcodificação",
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "Incorporar todas as legendas quando a transcodificação for iniciada. Isso garante a sincronização das legendas após a transcodificação, ao custo de uma redução na velocidade de transcodificação.",
     "HeaderMediaSegmentActions": "Ações de Segmento de Mídia",
-    "AllowFmp4TranscodingContainerHelp": "Permitir o contêiner de transcodificação fMP4 para este sintonizador para habilitar conteúdos HEVC e HDR. Nem todos os sintonizadores são compatíveis com este contêiner. Desative se você encontrar problemas de reprodução."
+    "AllowFmp4TranscodingContainerHelp": "Permitir o contêiner de transcodificação fMP4 para este sintonizador para habilitar conteúdos HEVC e HDR. Nem todos os sintonizadores são compatíveis com este contêiner. Desative se você encontrar problemas de reprodução.",
+    "RenderPgsSubtitle": "Renderização experimental de legendas PGS",
+    "MediaSegmentSkipPrompt": "Pular {0}",
+    "MediaSegmentAction.AskToSkip": "Perguntar para Pular",
+    "MediaSegmentType.Recap": "Resumo",
+    "MediaSegmentType.Outro": "Créditos",
+    "VideoCodecTagNotSupported": "A tag do codec de vídeo não é suportada",
+    "RenderPgsSubtitleHelp": "Determina se o cliente deve renderizar legendas PGS em vez de incorpora-las. Isso pode evitar a transcodificação no servidor em troca do desempenho de renderização no cliente."
 }
