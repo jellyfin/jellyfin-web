@@ -538,9 +538,21 @@ export class UserSettings {
      * @param {Object} query - Query.
      */
     saveQuerySettings(key, query) {
-        const newQuery = { ...query };
-        delete newQuery.NameStartsWith;
-        delete newQuery.NameLessThan;
+        const allowedFields = [
+            'SortBy', 'SortOrder', 'Filters', 'HasSubtitles',
+            'HasTrailer', 'HasSpecialFeature', 'HasThemeSong',
+            'HasThemeVideo', 'Genres', 'OfficialRatings',
+            'Tags', 'VideoTypes', 'IsHD', 'Is4K', 'Is3D',
+            'Years'
+        ];
+
+        const newQuery = Object.keys(query)
+            .filter(field => allowedFields.includes(field))
+            .reduce((acc, field) => {
+                acc[field] = query[field];
+                return acc;
+            }, {});
+
         return this.set(key, JSON.stringify(newQuery));
     }
 
