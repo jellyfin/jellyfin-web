@@ -1271,6 +1271,7 @@
     "OptionMax": "Max",
     "OptionMaxActiveSessions": "Set the maximum number of simultaneous user sessions.",
     "OptionMaxActiveSessionsHelp": "A value of 0 will disable the feature.",
+    "OptionMinSongCount": "Minimum Song Count",
     "OptionMissingEpisode": "Missing Episodes",
     "OptionNew": "New…",
     "OptionOnInterval": "On an interval",

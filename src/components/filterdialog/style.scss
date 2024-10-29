@@ -10,6 +10,16 @@
     max-width: none !important;
 }
 
+.filterRow {
+    display: flex;
+    align-items: center;
+}
+
+.numMinSongCountFilter {
+    width: 33%;
+    margin-right: 1em;
+}
+
 @media all and (min-height: 600px) {
     .dynamicFilterDialog {
         top: 10% !important;
