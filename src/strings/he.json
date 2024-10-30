@@ -1520,5 +1520,16 @@
     "MessageConfirmRemoveMediaLocation": "למחוק את מיקום זה?",
     "MessageConfirmRevokeApiKey": "לבטל את מפתח ה-API הזה? החיבור של אפליקציות לשרת זה יסתיימו באופן פתאומי.",
     "MessageDirectoryPickerBSDInstruction": "עבור BSD, עליך להגדיר אחסון בתוך 'FreeNAS Jail' שלך כדי ש-Jellyfin יוכל לגשת למדיה שלך.",
-    "MessageDirectoryPickerLinuxInstruction": "עבור לינוקס על Arch Linux, CentOS, Debian, Fedora, openSUSE, או Ubuntu, יש לתת למשתמש השירות גישת קריאה למקומות האחסון לכל הפחות."
+    "MessageDirectoryPickerLinuxInstruction": "עבור לינוקס על Arch Linux, CentOS, Debian, Fedora, openSUSE, או Ubuntu, יש לתת למשתמש השירות גישת קריאה למקומות האחסון לכל הפחות.",
+    "MessageForgotPasswordFileCreated": "הקובץ הבא נוצר בשרת שלך ומסביר כיצד להמשיך",
+    "MessageNoItemsAvailable": "אין פריטים זמינים כעת.",
+    "MessageNoFavoritesAvailable": "אין פריטים מועדפים זמינים כעת.",
+    "MessageEnablingOptionLongerScans": "הפעלת אפשרות זו עלולה לגרום לסריקות ספרייה להיות ארוכות משמעותית.",
+    "MessageFileReadError": "אירעה שגיאה בקריאת הקובץ, נא לנסות שוב.",
+    "MessageForgotPasswordInNetworkRequired": "יש לנסות שוב מהרשת הביתית שלך כדי להתחיל בתהליך איפוס סיסמה.",
+    "MessageGetInstalledPluginsError": "אירעה שגיאה במהלך איסוף הפלאגינים המותקנים.",
+    "MessageImageTypeNotSelected": "נא לבחור סוג תמונה מהרשימה.",
+    "MessageInvalidForgotPasswordPin": "הוכנס קוד PIN לא תקין או לא תקף. נא לנסות שוב.",
+    "MessageImageFileTypeAllowed": "רק קבצי JPEG ו-PNG נתמכים.",
+    "MessageInvalidUser": "שם משתמש או סיסמה לא תקינים. נא לנסות שוב."
 }
