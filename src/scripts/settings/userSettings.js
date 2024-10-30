@@ -173,7 +173,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Next Video Info Overlay' state.
-     * @param {boolean|undefined} val - Flag to enable 'Next Video Info Overlay' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Next Video Info Overlay' or undefined.
      * @return {boolean} 'Next Video Info Overlay' state.
      */
     enableNextVideoInfoOverlay(val) {
