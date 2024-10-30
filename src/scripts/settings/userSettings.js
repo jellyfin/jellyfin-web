@@ -23,7 +23,9 @@ const filterSettingsPostfix = '-filter';
 const allowedFilterSettings = [
     'Filters', 'HasSubtitles', 'HasTrailer', 'HasSpecialFeature',
     'HasThemeSong', 'HasThemeVideo', 'Genres', 'OfficialRatings',
-    'Tags', 'VideoTypes', 'IsHD', 'Is4K', 'Is3D', 'Years'
+    'Tags', 'VideoTypes', 'IsSD', 'IsHD', 'Is4K', 'Is3D',
+    'IsFavorite', 'IsMissing', 'IsUnaired', 'ParentIndexNumber',
+    'SeriesStatus', 'Years'
 ];
 
 function filterQuerySettings(query, allowedItems) {
