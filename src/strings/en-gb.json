@@ -1985,5 +1985,7 @@
     "MediaSegmentType.Outro": "Outro",
     "MediaSegmentType.Preview": "Preview",
     "MediaSegmentType.Recap": "Recap",
-    "PlaylistError.UpdateFailed": "Error updating playlist"
+    "PlaylistError.UpdateFailed": "Error updating playlist",
+    "MediaSegmentAction.AskToSkip": "Ask To Skip",
+    "MediaSegmentSkipPrompt": "Skip {0}"
 }
