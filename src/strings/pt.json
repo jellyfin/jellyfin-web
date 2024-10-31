@@ -1919,5 +1919,6 @@
     "UseCustomTagDelimiters": "Usar delimitador de tag personalizado",
     "UseCustomTagDelimitersHelp": "Separar tags de artista/gênero com caracteres personalizados.",
     "LabelTrickplayKeyFrameOnlyExtraction": "Gerar imagens apenas de quadros-chave",
-    "VideoCodecTagNotSupported": "A tag do codec de vídeo não é suportada"
+    "VideoCodecTagNotSupported": "A tag do codec de vídeo não é suportada",
+    "AndOtherArtists": "{0} e {1} outros artistas."
 }
