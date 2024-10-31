@@ -55,9 +55,13 @@ export function getDeviceIcon(info: DeviceInfo | SessionInfo) {
         case 'Jellyfin Mobile (iPadOS)':
         case 'Jellyfin iOS':
         case 'Infuse':
+        case 'Infuse-Direct':
+        case 'Infuse-Library':
             return BASE_DEVICE_IMAGE_URL + 'apple.svg';
         case 'Home Assistant':
             return BASE_DEVICE_IMAGE_URL + 'home-assistant.svg';
+        case 'LG Smart TV':
+            return BASE_DEVICE_IMAGE_URL + 'webos.svg';
         case 'Jellyfin Roku':
             return BASE_DEVICE_IMAGE_URL + 'roku.svg';
         case 'Finamp':
