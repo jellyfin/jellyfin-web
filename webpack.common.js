@@ -338,7 +338,9 @@ const config = {
 };
 
 if (!DEV_MODE) {
-    config.plugins.push(new MiniCssExtractPlugin());
+    config.plugins.push(new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].css'
+    }));
 }
 
 module.exports = config;
