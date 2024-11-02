@@ -1764,5 +1764,8 @@
     "UserMenu": "תפריט משתמש",
     "UserAgentHelp": "ניתן לספק שדה 'User-Agent' מוגדר אישית.",
     "UserProfilesIntro": "ג'ליפין כולל תמיכה בפרופילי משתמש עם הגדרות צפייה, מצב ניגון, ובקרת הורים לכל אחד.",
-    "ValueSeconds": "{0} שניות"
+    "ValueSeconds": "{0} שניות",
+    "ValueTimeLimitMultiHour": "הגבלת זמן: {0} שעות",
+    "ValueTimeLimitSingleHour": "הגבלת זמן: שעה אחת",
+    "VideoAudio": "שמע הוידיאו"
 }
