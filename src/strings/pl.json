@@ -1987,5 +1987,7 @@
     "MediaSegmentType.Recap": "Podsumowanie",
     "HeaderMediaSegmentActions": "Działania segmentu mediów",
     "MediaSegmentSkipPrompt": "Pomiń {0}",
-    "MediaSegmentAction.AskToSkip": "Pytaj o pominięcie"
+    "MediaSegmentAction.AskToSkip": "Pytaj o pominięcie",
+    "Anime": "Anime",
+    "MoviesAndShows": "Filmy i seriale"
 }
