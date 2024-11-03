@@ -465,7 +465,7 @@
     "LabelEmbedAlbumArtDidl": "Albumcover in DIDL einbetten",
     "LabelEmbedAlbumArtDidlHelp": "Einige Geräte bevorzugen diese Methode um Albumcover ermitteln zu können. Andere wiederum können evtl. nichts abspielen, wenn diese Funktion aktiviert ist.",
     "LabelEnableAutomaticPortMap": "Automatisches Port-Mapping aktivieren",
-    "LabelEnableAutomaticPortMapHelp": "Konfiguriert deinen Router mittels UPnP automatisch so, dass öffentliche Ports an die lokalen Ports des Servers weitergeleitet werden. Dies funktionier bei einigen Router-Modellen oder Netzwerk-Konfigurationen eventuell nicht. Die Änderungen werden erst nach einem Neustart des Server aktiv.",
+    "LabelEnableAutomaticPortMapHelp": "Konfiguriert deinen Router mittels UPnP automatisch so, dass öffentliche Ports an die lokalen Ports des Servers weitergeleitet werden. Dies funktioniert bei einigen Router-Modellen oder Netzwerk-Konfigurationen eventuell nicht. Die Änderungen werden erst nach einem Neustart des Server aktiv.",
     "LabelEnableBlastAliveMessages": "Aktivmeldungen erzeugen",
     "LabelEnableBlastAliveMessagesHelp": "Aktiviere diese Option, wenn der Server nicht zuverlässig von anderen UPnP-Geräten in deinem Netzwerk erkannt wird.",
     "LabelEnableDlnaClientDiscoveryInterval": "Intervall für die Clienterkennung",
@@ -1985,5 +1985,7 @@
     "MediaSegmentType.Intro": "Vorspann",
     "MediaSegmentType.Preview": "Vorschau",
     "PlaylistError.UpdateFailed": "Fehler beim Aktualisieren der Wiedergabeliste",
-    "MediaSegmentType.Recap": "Rückblick"
+    "MediaSegmentType.Recap": "Rückblick",
+    "MediaSegmentSkipPrompt": "{0} überspringen",
+    "MediaSegmentAction.AskToSkip": "Vor dem Überspringen nachfragen"
 }
