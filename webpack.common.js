@@ -73,8 +73,7 @@ const config = {
         new CopyPlugin({
             patterns: [
                 {
-                    from: 'themes/',
-                    to: 'themes/'
+                    from: 'themes/**/*.css'
                 },
                 {
                     from: 'assets/**',
@@ -87,7 +86,13 @@ const config = {
                     from: '*.*',
                     globOptions: {
                         dot: true,
-                        ignore: ['**.js', '**.html']
+                        ignore: [
+                            '**.js',
+                            '**.jsx',
+                            '**.html',
+                            '**.ts',
+                            '**.tsx'
+                        ]
                     }
                 }
             ]
