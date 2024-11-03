@@ -1614,7 +1614,7 @@
     "AllowEmbeddedSubtitlesHelp": "Schakel ondertiteling uit die is verpakt in mediacontainers. Vereist een volledige vernieuwing van de bibliotheek.",
     "AllowEmbeddedSubtitles": "Verschillende typen ingesloten ondertiteling uitschakelen",
     "OriginalAirDate": "Oorspronkelijke uitzenddatum",
-    "MixedMoviesShows": "Gemengde films en programma's",
+    "MixedMoviesShows": "Films en series gemengd",
     "MessageUnauthorizedUser": "Je hebt op dit moment geen toegang tot de server. Neem contact op met je serverbeheerder voor meer informatie.",
     "Localization": "Lokalisatie",
     "GoogleCastUnsupported": "Google Cast niet ondersteund",
@@ -1986,5 +1986,7 @@
     "PlaylistError.UpdateFailed": "Fout bij bijwerken afspeellijst",
     "HeaderMediaSegmentActions": "Acties voor mediasegmenten",
     "MediaSegmentSkipPrompt": "{0} overslaan",
-    "MediaSegmentAction.AskToSkip": "Vragen om over te slaan"
+    "MediaSegmentAction.AskToSkip": "Vragen om over te slaan",
+    "Anime": "Anime",
+    "MoviesAndShows": "Films en series"
 }
