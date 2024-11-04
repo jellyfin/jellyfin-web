@@ -50,7 +50,7 @@ class SkipSegment extends PlaybackSubscriber {
                 }
             });
 
-            document.body.appendChild(elem);
+            document.querySelector('#videoOsdPage')?.appendChild(elem);
             this.skipElement = elem;
         }
     }
