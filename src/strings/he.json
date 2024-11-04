@@ -1919,5 +1919,7 @@
     "LabelTrickplayThreads": "חוטי FFmpeg",
     "LabelQscaleHelp": "דרגת האיכות של תמונות שייצאו מ-ffmpeg, כאשר האיכות הכי גבוהה היא 2 והאיכות הכי נמוכה היא 31.",
     "LabelTrickplayThreadsHelp": "מספר החוטים שיעברו ל-ffmpeg.",
-    "OptionExtractTrickplayImage": "הפעלת חילוץ תמונות של טריקפליי"
+    "OptionExtractTrickplayImage": "הפעלת חילוץ תמונות של טריקפליי",
+    "Anime": "אנימה",
+    "MoviesAndShows": "סרטים וסדרות"
 }
