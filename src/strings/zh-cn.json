@@ -1987,5 +1987,7 @@
     "HeaderNewPlaylist": "新建播放列表",
     "PlaylistError.UpdateFailed": "更新播放列表时出错",
     "MediaSegmentAction.AskToSkip": "询问是否跳过",
-    "MediaSegmentSkipPrompt": "跳过{0}"
+    "MediaSegmentSkipPrompt": "跳过{0}",
+    "Anime": "动漫",
+    "MoviesAndShows": "电影和节目"
 }
