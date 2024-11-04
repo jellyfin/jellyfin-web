@@ -1987,5 +1987,7 @@
     "MediaSegmentType.Intro": "Générique de début",
     "PlaylistError.UpdateFailed": "Erreur lors de la mise à jour de la liste de lecture",
     "MediaSegmentAction.AskToSkip": "Demander à passer",
-    "MediaSegmentSkipPrompt": "{0} Passer"
+    "MediaSegmentSkipPrompt": "{0} Passer",
+    "Anime": "Anime",
+    "MoviesAndShows": "Films et Séries"
 }
