@@ -73,7 +73,7 @@ const config = {
         new CopyPlugin({
             patterns: [
                 {
-                    from: 'themes/**/*.css'
+                    from: 'themes/**/*.{css,jpg}'
                 },
                 {
                     from: 'assets/**',
