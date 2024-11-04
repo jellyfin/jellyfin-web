@@ -1985,5 +1985,7 @@
     "UseCustomTagDelimiters": "Brug brugerdefineret mærkat-afgrænser",
     "UseCustomTagDelimitersHelp": "Opdel kunstner- og genre-mærkater med brugerdefinerede tegn.",
     "VideoCodecTagNotSupported": "Videokodek-mærkatet understøttes ikke",
-    "HeaderMediaSegmentActions": "Mediesegmenthandlinger"
+    "HeaderMediaSegmentActions": "Mediesegmenthandlinger",
+    "Anime": "Anime",
+    "MoviesAndShows": "Film og TV-serier"
 }
