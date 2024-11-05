@@ -1987,5 +1987,6 @@
     "MediaSegmentType.Recap": "Recap",
     "PlaylistError.UpdateFailed": "Error updating playlist",
     "MediaSegmentAction.AskToSkip": "Ask To Skip",
-    "MediaSegmentSkipPrompt": "Skip {0}"
+    "MediaSegmentSkipPrompt": "Skip {0}",
+    "Anime": "Anime"
 }
