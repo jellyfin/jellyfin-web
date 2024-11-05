@@ -1259,7 +1259,7 @@
     "DailyAt": "Ежедневно в {0}",
     "PersonRole": "в роли {0}",
     "ListPaging": "{0}-{1} из {2}",
-    "Yadif": "Фильтр Yet Another DeInterlacing Filter (YADIF)",
+    "Yadif": "Yet Another DeInterlacing Filter (YADIF)",
     "Season": "Сезон",
     "Person": "Персональный",
     "Movie": "Фильм",
@@ -1356,7 +1356,7 @@
     "MessageGetInstalledPluginsError": "Произошла ошибка при получении текущего списка установленных плагинов.",
     "MessagePluginInstallError": "Во время установки плагина произошла ошибка.",
     "PlaybackRate": "Скорость воспроизведения",
-    "Bwdif": "Фильтр Bob Weaver DeInterlacing Filter (BWDIF)",
+    "Bwdif": "Bob Weaver DeInterlacing Filter (BWDIF)",
     "VideoAudio": "Видео Аудио",
     "Video": "Видео",
     "UseDoubleRateDeinterlacingHelp": "Этот параметр использует частоту полей при устранении гребёнки, часто называемом \"bob\", который удваивает частоту кадров видео, чтобы обеспечить полное движение, подобное просмотру чересстрочного видео на телевизоре.",
@@ -1985,5 +1985,9 @@
     "MessageCancelTimerError": "Произошла ошибка во время отмены таймера",
     "PlaylistError.UpdateFailed": "Ошибка обновления плей-листа",
     "PreferNonstandardArtistsTagHelp": "Использовать нестандартный тэг ARTISTS вместо тэга ARTIST при наличии.",
-    "HeaderMediaSegmentActions": "Действия с медиасегментами"
+    "HeaderMediaSegmentActions": "Действия с медиасегментами",
+    "Anime": "Аниме",
+    "MediaSegmentAction.AskToSkip": "Спрашивать прежде чем пропускать",
+    "MediaSegmentSkipPrompt": "Пропустить {0}",
+    "MoviesAndShows": "Фильмы и Сериалы"
 }
