@@ -1863,5 +1863,18 @@
     "NonBlockingScan": "비차단 - 생성 작업을 큐에 추가한 후 반환합니다",
     "LabelExtractTrickplayDuringLibraryScanHelp": "라이브러리 스캔 중에 비디오가 가져올 때 트릭플레이 이미지를 생성합니다. 그렇지 않으면 트릭플레이 이미지 예약 작업 중에 추출됩니다. 생성이 비차단 방식으로 설정된 경우, 이는 라이브러리 스캔 완료 시간에 영향을 미치지 않습니다.",
     "LabelImageInterval": "이미지 간격",
-    "LabelProcessPriorityHelp": "이 값을 낮추거나 높이면 CPU가 다른 프로세스에 비해 ffmpeg 트릭플레이 생성 프로세스를 얼마나 우선시할지를 결정하게 됩니다. 트릭플레이 이미지를 생성하는 동안 속도가 느려지는 것을 느낀다면, 생성 자체를 완전히 중단하고 싶지 않다면, 이 값을 낮추고 스레드 수를 줄여보세요."
+    "LabelProcessPriorityHelp": "이 값을 낮추거나 높이면 CPU가 다른 프로세스에 비해 ffmpeg 트릭플레이 생성 프로세스를 얼마나 우선시할지를 결정하게 됩니다. 트릭플레이 이미지를 생성하는 동안 속도가 느려지는 것을 느낀다면, 생성 자체를 완전히 중단하고 싶지 않다면, 이 값을 낮추고 스레드 수를 줄여보세요.",
+    "AllowFmp4TranscodingContainerHelp": "HEVC 및 HDR 콘텐츠를 활성화하려면 이 튜너에 대한 fMP4 트랜스코딩 컨테이너를 허용하세요. 모든 튜너가 이 컨테이너와 호환되는 것은 아닙니다. 재생 문제가 발생하면 이 기능을 비활성화하십시오.",
+    "AllowStreamSharingHelp": "Jellyfin이 튜너에서 mpegts 스트림을 복제하고 이 복제된 스트림을 클라이언트에 공유하도록 허용합니다. 이는 튜너에 총 스트림 수 제한이 있지만 재생 문제가 발생할 수도 있는 경우에 유용합니다.",
+    "LabelMediaSegmentsType": "{0} 세그먼트",
+    "MediaSegmentAction.Skip": "건너뛰기",
+    "MediaSegmentType.Commercial": "광고",
+    "MediaSegmentType.Intro": "오프닝",
+    "MediaSegmentType.Outro": "엔딩",
+    "MediaSegmentType.Preview": "미리보기",
+    "MediaSegmentType.Recap": "요약",
+    "MediaSegmentAction.AskToSkip": "물어보기",
+    "MediaSegmentSkipPrompt": "{0} 건너뛰기",
+    "MediaSegmentAction.None": "없음",
+    "HeaderMediaSegmentActions": "미디어 세그먼트 작업"
 }
