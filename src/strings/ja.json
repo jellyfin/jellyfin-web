@@ -1867,5 +1867,6 @@
     "HeaderLyricDownloads": "歌詞のダウンロード",
     "SaveLyricsIntoMediaFolders": "歌詞をメディアフォルダーに保存",
     "SaveLyricsIntoMediaFoldersHelp": "歌詞をオーディオファイルの隣に保存すると、歌詞の管理がより簡単になります。",
-    "LabelWidthResolutions": "横の解像度"
+    "LabelWidthResolutions": "横の解像度",
+    "Anime": "アニメ"
 }
