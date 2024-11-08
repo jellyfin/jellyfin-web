@@ -57,13 +57,13 @@ function setNextVideoText() {
 
     let nextVideoText;
     if (instance.itemType === 'Episode') {
-        nextVideoText = instance.showStaticNextText
-            ? globalize.translate('HeaderNextEpisode')
-            : globalize.translate('HeaderNextEpisodePlayingInValue', timeText);
+        nextVideoText = instance.showStaticNextText ?
+            globalize.translate('HeaderNextEpisode') :
+            globalize.translate('HeaderNextEpisodePlayingInValue', timeText);
     } else {
-        nextVideoText = instance.showStaticNextText
-            ? globalize.translate('HeaderNextVideo')
-            : globalize.translate('HeaderNextVideoPlayingInValue', timeText);
+        nextVideoText = instance.showStaticNextText ?
+            globalize.translate('HeaderNextVideo') :
+            globalize.translate('HeaderNextVideoPlayingInValue', timeText);
     }
 
     elem.querySelector('.upNextDialog-nextVideoText').innerHTML = nextVideoText;
