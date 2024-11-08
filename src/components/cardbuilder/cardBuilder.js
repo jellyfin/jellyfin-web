@@ -1224,12 +1224,7 @@ export function buildCards(items, options) {
     if (html) {
         if (options.itemsContainer.cardBuilderHtml !== html) {
             options.itemsContainer.innerHTML = html;
-
-            if (items.length < 50) {
-                options.itemsContainer.cardBuilderHtml = html;
-            } else {
-                options.itemsContainer.cardBuilderHtml = null;
-            }
+            options.itemsContainer.cardBuilderHtml = html;
         }
 
         imageLoader.lazyChildren(options.itemsContainer);
