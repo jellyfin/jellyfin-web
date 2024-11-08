@@ -1,15 +1,19 @@
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import React, { useCallback, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 
 import UserAvatar from 'components/UserAvatar';
-import { useApi } from 'hooks/useApi';
+import { userHooks } from 'hooks/api';
 import globalize from 'lib/globalize';
 
 import AppUserMenu, { ID } from './AppUserMenu';
 
-const UserMenuButton = () => {
-    const { user } = useApi();
+interface UserMenuButtonProps {
+    userId?: string
+}
+
+const UserMenuButton: FC<UserMenuButtonProps> = ({ userId }) => {
+    const { data: user } = userHooks.useGetUserById(userId);
 
     const [ userMenuAnchorEl, setUserMenuAnchorEl ] = useState<null | HTMLElement>(null);
     const isUserMenuOpen = Boolean(userMenuAnchorEl);
