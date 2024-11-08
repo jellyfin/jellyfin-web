@@ -1900,7 +1900,7 @@
     "Regional": "Regional",
     "LabelSelectPreferredTranscodeVideoCodec": "Bevorzugter transkodierter Videocodec",
     "SelectPreferredTranscodeVideoCodecHelp": "Wähle den bevorzugten Videocodec für die Transkodierung aus. Wenn der bevorzugte Codec nicht unterstützt wird, verwendet der Server den nächstbesten verfügbaren Codec.",
-    "HeaderNextItemPlayingInValue": "Nächster/s {0} wird in {1} abgespielt",
+    "HeaderNextItemPlayingInValue": "Nächste {0} wird in {1} abgespielt",
     "HeaderNextItem": "Nächster/s {0}",
     "LabelEnablePlugin": "Plugin aktivieren",
     "LabelInstalled": "Installiert",
