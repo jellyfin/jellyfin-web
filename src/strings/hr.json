@@ -1417,7 +1417,7 @@
     "PreferSystemNativeHwDecoder": "Preferiraj izvorne DXVA ili VA-API hardverske dekodere operativnog sustava",
     "EnableSplashScreen": "Omogući početni ekran",
     "AllowSegmentDeletion": "Obriši segmente",
-    "AllowSegmentDeletionHelp": "Obriši stare segmente nakon što su poslani klijentu. Ovo sprječava spremanje cijele transkodirane datoteke na disku. Raditi će samo ako je prigušivanje uključeno. Isključiti ovo u slučaju problema s reprodukcijom.",
+    "AllowSegmentDeletionHelp": "Obriši stare segmente nakon što ih preuzme klijentu. Ovo sprječava spremanje cijele transkodirane datoteke na disku. Time se sprječava pohranjivanje cijele transkodirane datoteke na disk. Isključiti ovo u slučaju problema s reprodukcijom.",
     "LabelThrottleDelaySeconds": "Priguši nakon",
     "LabelThrottleDelaySecondsHelp": "Vrijeme u sekundama nakon kojega će transkoder početi s prigušivanjem. Mora biti dovoljno veliko da klijent uspije održati zdravo spremanje u međuspremnik. Radi samo ako je prigušivanje uključeno.",
     "LabelSegmentKeepSeconds": "Vrijeme zadržavanja segmenata",
@@ -1563,5 +1563,6 @@
     "Colorist": "Kolorist",
     "CoverArtist": "Ilustrator omota",
     "Creator": "Autor",
-    "MessageImageTypeNotSelected": "Molimo odaberite vrstu slike u padajućem izborniku."
+    "MessageImageTypeNotSelected": "Molimo odaberite vrstu slike u padajućem izborniku.",
+    "AllowFmp4TranscodingContainerHelp": "Dopusti fMP4 spremnik transkodiranja za ovaj tuner za omogućavanje HEVC i HDR sadržaja. Nisu svi tuneri kompatibilni s ovim spremnikom. Isključite ovu opciju ako imate problema s reprodukcijom."
 }
