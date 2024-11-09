@@ -1456,7 +1456,7 @@
     "OptionPlainStorageFoldersHelp": "Visas mapes tiek attēlotas iekš DIDL kā \"object.container.storageFolder\", nevis kā specifiskāks veids, piemēram, \"object.container.person.musicArtist\".",
     "OptionPlainVideoItems": "Rādīt visus videoklipus kā vienkāršus video vienumus",
     "OptionPlainVideoItemsHelp": "Visi video ir attēloti iekš DIDL kā \"object.item.videoItem\", nevis kā specifiskāks veids, piemēram, \"object.item.videoItem.movie\".",
-    "PersonRole": "kā {0}",
+    "PersonRole": "{0} lomā",
     "OptionReportByteRangeSeekingWhenTranscodingHelp": "Tas ir nepieciešams dažās ierīcēs, kas neveic laika meklēšanu ļoti labi.",
     "OptionSaveMetadataAsHiddenHelp": "Izmaiņas attieksies uz jauniem metadatiem, kas tiks saglabāti turpmāk. Esošie metadatu faili tiks atjaunināti nākamajā reizē, kad tos saglabās serveris.",
     "Premiere": "Pirmizrāde",

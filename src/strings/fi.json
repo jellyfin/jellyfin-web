@@ -1938,5 +1938,6 @@
     "MediaSegmentType.Intro": "Intro",
     "MediaSegmentType.Outro": "Lopputekstit",
     "MediaSegmentType.Preview": "Esikatselu",
-    "MediaSegmentType.Recap": "Kertaus"
+    "MediaSegmentType.Recap": "Kertaus",
+    "AllowFmp4TranscodingContainerHelp": "Salli tämän virittimen fMP4-transkoodaussäiliön tukea HEVC- ja HDR-koodattua sisältöä. Kaikki virittimet eivät ole yhteensopivia tämän tyyppisten säiliöiden kanssa. Poista tämä vaihtoehto käytöstä, jos sinulla on toistoongelmia."
 }

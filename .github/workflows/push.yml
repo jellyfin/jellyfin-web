@@ -55,4 +55,4 @@ jobs:
     secrets: inherit
     with:
       branch: ${{ github.ref_name }}
-      comment: 
+      comment: false

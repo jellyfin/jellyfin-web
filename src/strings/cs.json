@@ -534,7 +534,7 @@
     "LabelPath": "Cesta k souboru",
     "LabelPersonRoleHelp": "Příklad: Řidič kamiónu se zmrzlinou",
     "LabelPlaceOfBirth": "Místo narození",
-    "LabelPlayDefaultAudioTrack": "Přehrávat defaultní audio stopu bez ohledu na jazyk",
+    "LabelPlayDefaultAudioTrack": "Přehrávat výchozí zvukovou stopu bez ohledu na jazyk",
     "LabelPostProcessor": "Aplikace pro následné zpracování",
     "LabelPostProcessorArguments": "Argumenty příkazové řádky pro následné zpracování",
     "LabelPostProcessorArgumentsHelp": "Použij {path} jako cestu k nahrávanému souboru.",
@@ -1985,5 +1985,9 @@
     "MediaSegmentType.Recap": "Rekapitulace",
     "PlaylistError.UpdateFailed": "Aktualizace seznamu skladeb se nezdařila",
     "HeaderMediaSegmentActions": "Akce segmentu médií",
-    "LabelMediaSegmentsType": "{0} segmentů"
+    "LabelMediaSegmentsType": "{0} segmentů",
+    "MediaSegmentSkipPrompt": "Přeskočit",
+    "MediaSegmentAction.AskToSkip": "Zeptat se, zda přeskočit",
+    "Anime": "Anime",
+    "MoviesAndShows": "Filmy a seriály"
 }

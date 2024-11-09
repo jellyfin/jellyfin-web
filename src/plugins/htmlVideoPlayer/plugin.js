@@ -1355,7 +1355,8 @@ export class HtmlVideoPlayer {
             return true;
         }
 
-        if (browser.web0s) {
+        // Tizen 5 doesn't support displaying secondary subtitles
+        if (browser.tizenVersion >= 5 || browser.web0s) {
             return true;
         }
 

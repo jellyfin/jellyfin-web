@@ -1981,5 +1981,10 @@
     "LabelScreensaverTime": "Час заставки",
     "LabelScreensaverTimeHelp": "Час бездіяльності у секундах, необхідний для запуску заставки.",
     "LabelQsvDevice": "QSV-пристрій",
-    "LabelQsvDeviceHelp": "Вкажіть пристрій для Intel QSV у багатопроцесорній системі. У Linux це вузол рендеру, наприклад, /dev/dri/renderD128. У Windows це індекс пристрою, починаючи з 0. Залиште поле порожнім, якщо ви не знаєте, що робите."
+    "LabelQsvDeviceHelp": "Вкажіть пристрій для Intel QSV у багатопроцесорній системі. У Linux це вузол рендеру, наприклад, /dev/dri/renderD128. У Windows це індекс пристрою, починаючи з 0. Залиште поле порожнім, якщо ви не знаєте, що робите.",
+    "HeaderMediaSegmentActions": "Дії медіа сегменту",
+    "MediaSegmentAction.AskToSkip": "Попросити пропустити",
+    "MediaSegmentSkipPrompt": "Пропустити {0}",
+    "Anime": "Аніме",
+    "MoviesAndShows": "Фільми та серіали"
 }
