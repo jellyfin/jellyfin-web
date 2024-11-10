@@ -271,6 +271,10 @@ class AppRouter {
         if (item === 'list') {
             let urlForList = '#/list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
 
+            if (options.parentId) {
+                urlForList += `&parentId=${options.parentId}`;
+            }
+
             if (options.isFavorite) {
                 urlForList += '&IsFavorite=true';
             }

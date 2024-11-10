@@ -6,7 +6,7 @@ import PageTabContent from '../../components/library/PageTabContent';
 import { LibraryTab } from 'types/libraryTab';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
-import { MusicFavoritesSectionsView, MusicSuggestionsSectionsView } from 'types/sections';
+import { MusicSuggestionsSectionsView } from 'types/sections';
 
 const albumArtistsTabContent: LibraryTabContent = {
     viewType: LibraryTab.AlbumArtists,
@@ -56,12 +56,6 @@ const genresTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.MusicAlbum]
 };
 
-const favoritesTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Favorites,
-    collectionType: CollectionType.Music,
-    sectionsView: MusicFavoritesSectionsView
-};
-
 const musicTabMapping: LibraryTabMapping = {
     0: albumsTabContent,
     1: suggestionsTabContent,
@@ -69,8 +63,7 @@ const musicTabMapping: LibraryTabMapping = {
     3: artistsTabContent,
     4: playlistsTabContent,
     5: songsTabContent,
-    6: genresTabContent,
-    7: favoritesTabContent
+    6: genresTabContent
 };
 
 const Music: FC = () => {

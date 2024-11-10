@@ -1,7 +1,6 @@
 import React, { type FC } from 'react';
 import SuggestionsSectionView from './SuggestionsSectionView';
 import UpcomingView from './UpcomingView';
-import FavoritesSectionView from './FavoritesSectionView';
 import GenresView from './GenresView';
 import ItemsView from './ItemsView';
 import GuideView from './GuideView';
@@ -23,14 +22,6 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
                     parentId={parentId}
                     sectionType={currentTab.sectionsView?.suggestionSections ?? []}
                     isMovieRecommendationEnabled={currentTab.sectionsView?.isMovieRecommendations}
-                />
-            );
-        }
-        case LibraryTab.Favorites: {
-            return (
-                <FavoritesSectionView
-                    parentId={parentId}
-                    sectionType={currentTab.sectionsView?.favoriteSections ?? []}
                 />
             );
         }

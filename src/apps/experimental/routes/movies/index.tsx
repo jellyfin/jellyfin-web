@@ -6,7 +6,7 @@ import PageTabContent from '../../components/library/PageTabContent';
 import { LibraryTab } from 'types/libraryTab';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
-import { MovieFavoritesSectionsView, MovieSuggestionsSectionsView } from 'types/sections';
+import { MovieSuggestionsSectionsView } from 'types/sections';
 
 const moviesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Movies,
@@ -23,12 +23,6 @@ const collectionsTabContent: LibraryTabContent = {
     isAlphabetPickerEnabled: false,
     itemType: [BaseItemKind.BoxSet],
     noItemsMessage: 'MessageNoCollectionsAvailable'
-};
-
-const favoritesTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Favorites,
-    collectionType: CollectionType.Movies,
-    sectionsView: MovieFavoritesSectionsView
 };
 
 const trailersTabContent: LibraryTabContent = {
@@ -53,9 +47,8 @@ const moviesTabMapping: LibraryTabMapping = {
     0: moviesTabContent,
     1: suggestionsTabContent,
     2: trailersTabContent,
-    3: favoritesTabContent,
-    4: collectionsTabContent,
-    5: genresTabContent
+    3: collectionsTabContent,
+    4: genresTabContent
 };
 
 const Movies: FC = () => {

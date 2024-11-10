@@ -90,13 +90,6 @@ export const MovieSuggestionsSectionsView: SectionsView = {
     isMovieRecommendations: true
 };
 
-export const MovieFavoritesSectionsView: SectionsView = {
-    favoriteSections: [
-        FavoriteSectionType.FavoriteMovies,
-        FavoriteSectionType.FavoriteCollections
-    ]
-};
-
 export const TvShowSuggestionsSectionsView: SectionsView = {
     suggestionSections: [
         SuggestionSectionType.ContinueWatchingEpisode,
@@ -105,26 +98,11 @@ export const TvShowSuggestionsSectionsView: SectionsView = {
     ]
 };
 
-export const TvShowFavoritesSectionsView: SectionsView = {
-    favoriteSections: [
-        FavoriteSectionType.FavoriteShows,
-        FavoriteSectionType.FavoriteEpisode
-    ]
-};
-
 export const MusicSuggestionsSectionsView: SectionsView = {
     suggestionSections: [
         SuggestionSectionType.LatestMusic,
         SuggestionSectionType.FrequentlyPlayedMusic,
         SuggestionSectionType.RecentlyPlayedMusic
-    ]
-};
-
-export const MusicFavoritesSectionsView: SectionsView = {
-    favoriteSections: [
-        FavoriteSectionType.FavoriteArtists,
-        FavoriteSectionType.FavoriteAlbums,
-        FavoriteSectionType.FavoriteSongs
     ]
 };
 

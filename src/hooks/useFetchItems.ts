@@ -881,7 +881,7 @@ const getSectionsWithItems = async (
     sectionType?: SectionType[],
     options?: AxiosRequestConfig
 ) => {
-    if (sectionType) {
+    if (sectionType?.length) {
         sections = sections.filter((section) => sectionType.includes(section.type));
     }
 
@@ -937,7 +937,8 @@ export const useGetFavoritesSectionsWithItems = (
     const currentApi = useApi();
     const sections = getFavoriteSections();
     return useQuery({
-        queryKey: ['FavoriteSectionWithItems', { favoriteSectionType }],
-        queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, favoriteSectionType, { signal })
+        queryKey: ['FavoriteSectionWithItems', parentId, { favoriteSectionType }],
+        queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, favoriteSectionType, { signal }),
+        enabled: !!currentApi.api && !!currentApi.user?.Id
     });
 };
