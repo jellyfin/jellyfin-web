@@ -1,7 +1,7 @@
 {
     "Absolute": "Absolu",
-    "AccessRestrictedTryAgainLater": "L'accès est actuellement restreint. Merci de réessayer plus tard.",
-    "Actor": "Acteur",
+    "AccessRestrictedTryAgainLater": "L'accès est actuellement restreint. Veuillez réessayer plus tard.",
+    "Actor": "Acteur(trice)",
     "Add": "Ajouter",
     "AddToCollection": "Ajouter à la collection",
     "AddToPlayQueue": "Ajouter à la file d'attente",
@@ -1984,8 +1984,10 @@
     "MediaSegmentType.Commercial": "Commercial",
     "MediaSegmentType.Preview": "Prévisualisation",
     "MediaSegmentType.Recap": "Récapitulatif",
-    "MediaSegmentType.Intro": "Générique de début",
+    "MediaSegmentType.Intro": "Générique",
     "PlaylistError.UpdateFailed": "Erreur lors de la mise à jour de la liste de lecture",
     "MediaSegmentAction.AskToSkip": "Demander à passer",
-    "MediaSegmentSkipPrompt": "{0} Passer"
+    "MediaSegmentSkipPrompt": "Passer {0}",
+    "Anime": "Anime",
+    "MoviesAndShows": "Films et Séries"
 }

@@ -859,7 +859,7 @@
     "LabelPasswordResetProvider": "Cách Đặt lại Mật khẩu",
     "LabelParentalRating": "Đánh giá phụ huynh",
     "LabelParentNumber": "Số Phụ Huynh",
-    "LabelOverview": "Tổng quát",
+    "LabelOverview": "Tổng quan",
     "LabelOriginalTitle": "Tiêu đề gốc",
     "LabelOriginalAspectRatio": "Tỷ lệ khung hình gốc",
     "LabelOptionalNetworkPathHelp": "Nếu thư mục này được chia sẻ trong mạng của bạn, cung cấp đường dẫn chia sẻ mạng có thể cho phép ứng dụng khách trên các thiết bị khác truy cập trực tiếp vào các tệp phương tiện. Ví dụ: {0} hoặc {1}.",
@@ -1008,7 +1008,7 @@
     "LabelTextSize": "Cỡ chữ",
     "LabelTextColor": "Màu văn bản",
     "LabelTextBackgroundColor": "Màu nền văn bản",
-    "LabelTagline": "Thông Điệp",
+    "LabelTagline": "Giới thiệu",
     "LabelTag": "Nhãn",
     "LabelSyncPlayAccess": "Quyền truy cập SyncPlay",
     "LabelSyncPlayAccessNone": "Đã tắt cho người dùng này",
@@ -1156,7 +1156,7 @@
     "PackageInstallFailed": "Cài đặt {0} (phiên bản {1}) không thành công.",
     "PackageInstallCompleted": "Đã hoàn tất cài đặt {0} (phiên bản {1}).",
     "PackageInstallCancelled": "Đã hủy cài đặt {0} (phiên bản {1}).",
-    "Overview": "Tổng Quát",
+    "Overview": "Tổng Quan",
     "OriginalAirDateValue": "Ngày phát sóng ban đầu: {0}",
     "OptionWeekly": "Hàng tuần",
     "OptionWeekends": "Ngày cuối tuần",
@@ -1984,5 +1984,7 @@
     "LabelQsvDevice": "Thiết bị QSV",
     "LabelQsvDeviceHelp": "Chỉ định thiết bị cho Intel QSV trên hệ thống nhiều GPU. Trên Linux, đây là nút kết xuất, ví dụ: /dev/dri/renderD128. Trên Windows, đây là chỉ số thiết bị bắt đầu từ 0. Để trống trừ khi bạn biết mình đang làm gì.",
     "MediaSegmentAction.AskToSkip": "Yêu Cầu Bỏ Qua",
-    "MediaSegmentSkipPrompt": "Bỏ qua {0}"
+    "MediaSegmentSkipPrompt": "Bỏ qua {0}",
+    "MoviesAndShows": "Phim và Chương trình",
+    "Anime": "Anime"
 }
