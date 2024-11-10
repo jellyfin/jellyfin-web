@@ -547,7 +547,7 @@ function updateNowPlayingInfo(state) {
         if (textLines[0].text) {
             const text = document.createElement('a');
             text.innerText = textLines[0].text;
-            if(documentTitle != "Jellyfin"){
+            if (documentTitle != "Jellyfin"){
                 documentTitle +=' - ';
             }
             documentTitle += text.innerText;
