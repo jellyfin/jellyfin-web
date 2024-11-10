@@ -527,7 +527,7 @@ function imageUrl(item, options) {
 
 function updateNowPlayingInfo(state) {
     const nowPlayingItem = state.NowPlayingItem;
-    let documentTitle = "Jellyfin";
+    let documentTitle = 'Jellyfin';
     const textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
     nowPlayingTextElement.innerHTML = '';
     if (textLines) {
