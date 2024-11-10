@@ -24,9 +24,20 @@
     "AllComplexFormats": "Gach formáid chasta (ASS, SSA, VobSub, PGS, SUB, IDX, ...)",
     "AllowedRemoteAddressesHelp": "Liosta scartha camóg de seoltaí IP nó iontráil IP/netmask do líonraí a ligfear nascadh go cianda. Má fhágtar folamh é, ceadófar gach ciansheoladh.",
     "Favorites": "Ceanáin",
-    "Artists": "Ealaíontóir",
-    "Books": "leabhair",
+    "Artists": "Ealaíontóirí",
+    "Books": "Leabhair",
     "Channels": "Cainéil",
     "Collections": "Bailiúcháin",
-    "Default": "Mainneachtain"
+    "Default": "Réamhshocrú",
+    "Playlists": "Seinmliostaí",
+    "Folders": "Fillteáin",
+    "Movies": "Scannáin",
+    "MusicVideos": "Físeáin Ceoil",
+    "Photos": "Grianghraif",
+    "ValueSpecialEpisodeName": "Speisialta - {0}",
+    "Shows": "Seónna",
+    "Songs": "Amhráin",
+    "Genres": "Seánraí",
+    "HeaderAlbumArtists": "Ealaíontóirí albam",
+    "HeaderContinueWatching": "Leanúint ar aghaidh ag Breathnú"
 }
