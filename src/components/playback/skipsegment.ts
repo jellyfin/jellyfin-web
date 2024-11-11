@@ -9,14 +9,16 @@ import './skipbutton.scss';
 import dom from 'scripts/dom';
 import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
+import focusManager from 'components/focusManager';
 
 interface ShowOptions {
     animate?: boolean;
     keep?: boolean;
+    focus?: boolean;
 }
 
 class SkipSegment extends PlaybackSubscriber {
-    private skipElement: HTMLButtonElement | undefined;
+    private skipElement: HTMLButtonElement | null | undefined;
     private currentSegment: MediaSegmentDto | null | undefined;
     private hideTimeout: ReturnType<typeof setTimeout> | null | undefined;
 
@@ -78,6 +80,10 @@ class SkipSegment extends PlaybackSubscriber {
 
             void elem.offsetWidth;
 
+            if (options.focus) {
+                focusManager.focus(elem);
+            }
+
             requestAnimationFrame(() => {
                 elem.classList.remove('skip-button-hidden');
 
@@ -116,7 +122,8 @@ class SkipSegment extends PlaybackSubscriber {
             if (isOpen) {
                 this.showSkipButton({
                     animate: false,
-                    keep: true
+                    keep: true,
+                    focus: false
                 });
             } else if (!this.hideTimeout) {
                 this.hideSkipButton();
@@ -140,7 +147,7 @@ class SkipSegment extends PlaybackSubscriber {
 
             this.setButtonText();
 
-            this.showSkipButton({ animate: true });
+            this.showSkipButton({ animate: true, focus: true });
         }
     }
 
@@ -165,6 +172,7 @@ class SkipSegment extends PlaybackSubscriber {
     onPlaybackStop() {
         this.currentSegment = null;
         this.hideSkipButton();
+        this.skipElement = null;
         Events.off(document, EventType.SHOW_VIDEO_OSD, this.onOsdChanged);
     }
 }
