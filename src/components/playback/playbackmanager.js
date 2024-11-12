@@ -1965,10 +1965,14 @@ export class PlaybackManager {
             const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
             const startSeasonId = firstItem.Type === 'Season' ? items[options.startIndex || 0].Id : undefined;
 
+            const seasonId = (startSeasonId && items.length === 1) ? startSeasonId : undefined;
+
             const episodesResult = await apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
                 IsVirtualUnaired: false,
                 IsMissing: false,
-                SeasonId: (startSeasonId && items.length === 1) ? startSeasonId : undefined,
+                SeasonId: seasonId,
+                // default to first 100 episodes if no season was specified to avoid loading too large payloads
+                limit: seasonId ? undefined : 100,
                 SortBy: options.shuffle ? 'Random' : undefined,
                 UserId: apiClient.getCurrentUserId(),
                 Fields: ['Chapters', 'Trickplay']
