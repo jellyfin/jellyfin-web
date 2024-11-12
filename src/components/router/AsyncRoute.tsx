@@ -1,3 +1,4 @@
+import React, { StrictMode } from 'react';
 import type { RouteObject } from 'react-router-dom';
 
 export enum AsyncRouteType {
@@ -39,7 +40,11 @@ export const toAsyncPageRoute = ({
         lazy: async () => {
             const { default: Page } = await importPage(page ?? path, type);
             return {
-                Component: Page
+                element: (
+                    <StrictMode>
+                        <Page />
+                    </StrictMode>
+                )
             };
         }
     };

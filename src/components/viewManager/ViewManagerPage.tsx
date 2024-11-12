@@ -93,7 +93,7 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
 
         loadPage();
     },
-    // location.state and navigationType are  NOT included as dependencies here since dialogs will update state while the current view stays the same
+    // location.state and navigationType are NOT included as dependencies here since dialogs will update state while the current view stays the same
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
         controller,

@@ -171,9 +171,7 @@ const UserEdit = () => {
             (user.Policy?.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 }) : '';
         (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value = String(user.Policy?.LoginAttemptsBeforeLockout) || '-1';
         (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = String(user.Policy?.MaxActiveSessions) || '0';
-        if (window.ApiClient.isMinServerVersion('10.6.0')) {
-            (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value = String(user.Policy?.SyncPlayAccess);
-        }
+        (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value = String(user.Policy?.SyncPlayAccess);
         loading.hide();
     }, [loadAuthProviders, loadPasswordResetProviders, loadDeleteFolders ]);
 

@@ -1927,5 +1927,6 @@
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Només extreure fotogrames clau per a un processament significativament més ràpid amb una sincronització menys precisa. Si el descodificador de maquinari configurat no admet aquest mode, en el seu lloc s'utilitzarà el descodificador per programari.",
     "AllowTonemappingSoftwareHelp": "El mapatge de tons pot transformar el rang dinàmic d'un vídeo d'HDR a SDR mentre que manté els detalls i els colors de la imatge, que són informació molt important per representar l'escena original. Actualment, només funciona amb vídeos HDR10, HLG i DoVi de 10 bits.",
     "LabelDuration": "Duració",
-    "LabelDropLyricsHere": "Arrossega i deixa anar les lletres aquí, o fes clic aquí per cercar-les."
+    "LabelDropLyricsHere": "Arrossega i deixa anar les lletres aquí, o fes clic aquí per cercar-les.",
+    "AllowFmp4TranscodingContainerHelp": "sintonitzador reproducció"
 }

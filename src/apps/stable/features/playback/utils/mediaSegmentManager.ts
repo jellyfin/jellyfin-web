@@ -37,6 +37,38 @@ class MediaSegmentManager extends PlaybackSubscriber {
         }
     }
 
+    skipSegment(mediaSegment: MediaSegmentDto) {
+        // Ignore segment if playback progress has passed the segment's start time
+        if (mediaSegment.StartTicks !== undefined && this.lastTime > mediaSegment.StartTicks) {
+            console.info('[MediaSegmentManager] ignoring skipping segment that has been seeked back into', mediaSegment);
+            this.isLastSegmentIgnored = true;
+        } else if (mediaSegment.EndTicks) {
+            // If there is an end time, seek to it
+            // Do not skip if duration < 1s to avoid slow stream changes
+            if (mediaSegment.StartTicks && mediaSegment.EndTicks - mediaSegment.StartTicks < TICKS_PER_SECOND) {
+                console.info('[MediaSegmentManager] ignoring skipping segment with duration <1s', mediaSegment);
+                this.isLastSegmentIgnored = true;
+                return;
+            }
+            console.debug('[MediaSegmentManager] skipping to %s ms', mediaSegment.EndTicks / TICKS_PER_MILLISECOND);
+            this.playbackManager.seek(mediaSegment.EndTicks, this.player);
+        } else {
+            // If there is no end time, skip to the next track
+            console.debug('[MediaSegmentManager] skipping to next item in queue');
+            this.playbackManager.nextTrack(this.player);
+        }
+    }
+
+    promptToSkip(mediaSegment: MediaSegmentDto) {
+        if (mediaSegment.StartTicks && mediaSegment.EndTicks
+            && mediaSegment.EndTicks - mediaSegment.StartTicks < TICKS_PER_SECOND * 3) {
+            console.info('[MediaSegmentManager] ignoring segment prompt with duration <3s', mediaSegment);
+            this.isLastSegmentIgnored = true;
+            return;
+        }
+        this.playbackManager.promptToSkip(mediaSegment);
+    }
+
     private performAction(mediaSegment: MediaSegmentDto) {
         if (!this.mediaSegmentTypeActions || !mediaSegment.Type || !this.mediaSegmentTypeActions[mediaSegment.Type]) {
             console.error('[MediaSegmentManager] segment type missing from action map', mediaSegment, this.mediaSegmentTypeActions);
@@ -45,27 +77,9 @@ class MediaSegmentManager extends PlaybackSubscriber {
 
         const action = this.mediaSegmentTypeActions[mediaSegment.Type];
         if (action === MediaSegmentAction.Skip) {
-            // Ignore segment if playback progress has passed the segment's start time
-            if (mediaSegment.StartTicks !== undefined && this.lastTime > mediaSegment.StartTicks) {
-                console.info('[MediaSegmentManager] ignoring skipping segment that has been seeked back into', mediaSegment);
-                this.isLastSegmentIgnored = true;
-                return;
-            } else if (mediaSegment.EndTicks) {
-                // If there is an end time, seek to it
-                // Do not skip if duration < 1s to avoid slow stream changes
-                if (mediaSegment.StartTicks && mediaSegment.EndTicks - mediaSegment.StartTicks < TICKS_PER_SECOND) {
-                    console.info('[MediaSegmentManager] ignoring skipping segment with duration <1s', mediaSegment);
-                    this.isLastSegmentIgnored = true;
-                    return;
-                }
-
-                console.debug('[MediaSegmentManager] skipping to %s ms', mediaSegment.EndTicks / TICKS_PER_MILLISECOND);
-                this.playbackManager.seek(mediaSegment.EndTicks, this.player);
-            } else {
-                // If there is no end time, skip to the next track
-                console.debug('[MediaSegmentManager] skipping to next item in queue');
-                this.playbackManager.nextTrack(this.player);
-            }
+            this.skipSegment(mediaSegment);
+        } else if (action === MediaSegmentAction.AskToSkip) {
+            this.promptToSkip(mediaSegment);
         }
     }
 

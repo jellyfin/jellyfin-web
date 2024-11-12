@@ -1,6 +1,7 @@
 import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';
+import union from 'lodash-es/union';
 import Events from '../../utils/events.ts';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
@@ -8,6 +9,13 @@ import './style.scss';
 import ServerConnections from '../ServerConnections';
 import template from './filterdialog.template.html';
 import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
+
+function merge(resultItems, queryItems, delimiter) {
+    if (!queryItems) {
+        return resultItems;
+    }
+    return union(resultItems, queryItems.split(delimiter)).sort();
+}
 
 function renderOptions(context, selector, cssClass, items, isCheckedFn) {
     const elem = context.querySelector(selector);
@@ -32,19 +40,19 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 }
 
 function renderFilters(context, result, query) {
-    renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
+    renderOptions(context, '.genreFilters', 'chkGenreFilter', merge(result.Genres, query.Genres, '|'), function (i) {
         const delimeter = '|';
         return (delimeter + (query.Genres || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', result.OfficialRatings, function (i) {
+    renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', merge(result.OfficialRatings, query.OfficialRatings, '|'), function (i) {
         const delimeter = '|';
         return (delimeter + (query.OfficialRatings || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.tagFilters', 'chkTagFilter', result.Tags, function (i) {
+    renderOptions(context, '.tagFilters', 'chkTagFilter', merge(result.Tags, query.Tags, '|'), function (i) {
         const delimeter = '|';
         return (delimeter + (query.Tags || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.yearFilters', 'chkYearFilter', result.Years, function (i) {
+    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years, query.Years, ','), function (i) {
         const delimeter = ',';
         return (delimeter + (query.Years || '') + delimeter).includes(delimeter + i + delimeter);
     });

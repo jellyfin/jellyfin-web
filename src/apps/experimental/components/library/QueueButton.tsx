@@ -17,10 +17,14 @@ const QueueButton: FC<QueueButtonProps> = ({ item, items, hasFilters }) => {
         if (item && !hasFilters) {
             playbackManager.queue({
                 items: [item]
+            }).catch(err => {
+                console.error('[QueueButton] failed to add to queue', err);
             });
         } else {
             playbackManager.queue({
-                items: items
+                items
+            }).catch(err => {
+                console.error('[QueueButton] failed to add to queue', err);
             });
         }
     }, [hasFilters, item, items]);

@@ -404,8 +404,9 @@ function executeCommand(item, id, options) {
                     const downloadHref = apiClient.getItemDownloadUrl(itemId);
                     fileDownloader.download([{
                         url: downloadHref,
-                        itemId: itemId,
-                        serverId: serverId,
+                        item,
+                        itemId,
+                        serverId,
                         title: item.Name,
                         filename: item.Path.replace(/^.*[\\/]/, '')
                     }]);
@@ -419,6 +420,7 @@ function executeCommand(item, id, options) {
                             const downloadHref = apiClient.getItemDownloadUrl(episode.Id);
                             return {
                                 url: downloadHref,
+                                item: episode,
                                 itemId: episode.Id,
                                 serverId: serverId,
                                 title: episode.Name,

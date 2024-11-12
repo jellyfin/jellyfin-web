@@ -4,7 +4,7 @@ import { type Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, StrictMode, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import AppBody from 'components/AppBody';
@@ -49,39 +49,41 @@ export const Component: FC = () => {
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={dateFnsLocale}>
             <Box sx={{ display: 'flex' }}>
-                <ElevationScroll elevate={false}>
-                    <AppBar
-                        position='fixed'
-                        sx={{
-                            width: {
-                                xs: '100%',
-                                md: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
-                            },
-                            ml: {
-                                xs: 0,
-                                md: isDrawerAvailable ? DRAWER_WIDTH : 0
-                            }
-                        }}
-                    >
-                        <AppToolbar
-                            isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
-                            isDrawerOpen={isDrawerOpen}
-                            onDrawerButtonClick={onToggleDrawer}
+                <StrictMode>
+                    <ElevationScroll elevate={false}>
+                        <AppBar
+                            position='fixed'
+                            sx={{
+                                width: {
+                                    xs: '100%',
+                                    md: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
+                                },
+                                ml: {
+                                    xs: 0,
+                                    md: isDrawerAvailable ? DRAWER_WIDTH : 0
+                                }
+                            }}
                         >
-                            <AppTabs isDrawerOpen={isDrawerOpen} />
-                        </AppToolbar>
-                    </AppBar>
-                </ElevationScroll>
+                            <AppToolbar
+                                isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
+                                isDrawerOpen={isDrawerOpen}
+                                onDrawerButtonClick={onToggleDrawer}
+                            >
+                                <AppTabs isDrawerOpen={isDrawerOpen} />
+                            </AppToolbar>
+                        </AppBar>
+                    </ElevationScroll>
 
-                {
-                    isDrawerAvailable && (
-                        <AppDrawer
-                            open={isDrawerOpen}
-                            onClose={onToggleDrawer}
-                            onOpen={onToggleDrawer}
-                        />
-                    )
-                }
+                    {
+                        isDrawerAvailable && (
+                            <AppDrawer
+                                open={isDrawerOpen}
+                                onClose={onToggleDrawer}
+                                onOpen={onToggleDrawer}
+                            />
+                        )
+                    }
+                </StrictMode>
 
                 <Box
                     component='main'

@@ -58,6 +58,8 @@ const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
             );
             playbackManager.play({
                 items: [channel]
+            }).catch(err => {
+                console.error('[PlayOrResumeButton] failed to play', err);
             });
             return;
         }
@@ -65,6 +67,8 @@ const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
         playbackManager.play({
             items: [item],
             ...playOptions
+        }).catch(err => {
+            console.error('[PlayOrResumeButton] failed to play', err);
         });
     }, [apiContext, item, playOptions, queryClient]);
 

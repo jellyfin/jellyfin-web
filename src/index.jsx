@@ -1,7 +1,7 @@
 // Import legacy browser polyfills
 import 'lib/legacy';
 
-import React, { StrictMode } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 // NOTE: We need to import this first to initialize the connection
@@ -268,9 +268,7 @@ async function renderApp() {
 
     const root = createRoot(container);
     root.render(
-        <StrictMode>
-            <RootApp history={history} />
-        </StrictMode>
+        <RootApp history={history} />
     );
 }
 
