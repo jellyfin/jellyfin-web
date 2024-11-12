@@ -2032,6 +2032,7 @@ export class PlaybackManager {
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
                     Fields: ['Chapters', 'Trickplay'],
+                    // limit loading episodes of the current season to avoid loading too large payload
                     SeasonId
                 }).then(function (episodesResult) {
                     resolve(filterEpisodes(episodesResult, firstItem, options));
