@@ -2017,17 +2017,18 @@ export class PlaybackManager {
             return new Promise(function (resolve, reject) {
                 const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
-                const { id } = firstItem;
-                if (!id) {
+                const { SeriesId, SeasonId } = firstItem;
+                if (!SeriesId) {
                     resolve(null);
                     return;
                 }
 
-                apiClient.getEpisodes(id, {
+                apiClient.getEpisodes(SeriesId, {
                     IsVirtualUnaired: false,
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
-                    Fields: ['Chapters', 'Trickplay']
+                    Fields: ['Chapters', 'Trickplay'],
+                    SeasonId
                 }).then(function (episodesResult) {
                     resolve(filterEpisodes(episodesResult, firstItem, options));
                 }, reject);
