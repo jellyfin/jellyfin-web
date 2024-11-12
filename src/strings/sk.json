@@ -1987,5 +1987,7 @@
     "HeaderEditPlaylist": "Upraviť playlist",
     "HeaderNewPlaylist": "Nový playlist",
     "MediaSegmentAction.AskToSkip": "Opýtať sa na preskočenie",
-    "MediaSegmentSkipPrompt": "Preskočiť {0}"
+    "MediaSegmentSkipPrompt": "Preskočiť {0}",
+    "Anime": "Anime",
+    "MoviesAndShows": "Filmy a seriály"
 }
