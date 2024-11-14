@@ -132,42 +132,41 @@ function getDeviceId() {
 }
 
 function getDeviceName() {
-    if (!deviceName) {
-        if (browser.tizen) {
-            deviceName = 'Samsung Smart TV';
-        } else if (browser.web0s) {
-            deviceName = 'LG Smart TV';
-        } else if (browser.operaTv) {
-            deviceName = 'Opera TV';
-        } else if (browser.xboxOne) {
-            deviceName = 'Xbox One';
-        } else if (browser.ps4) {
-            deviceName = 'Sony PS4';
-        } else if (browser.chrome) {
-            deviceName = 'Chrome';
-        } else if (browser.edgeChromium) {
-            deviceName = 'Edge Chromium';
-        } else if (browser.edge) {
-            deviceName = 'Edge';
-        } else if (browser.firefox) {
-            deviceName = 'Firefox';
-        } else if (browser.opera) {
-            deviceName = 'Opera';
-        } else if (browser.safari) {
-            deviceName = 'Safari';
-        } else {
-            deviceName = 'Web Browser';
-        }
+    if (deviceName) {
+        return deviceName;
+    }
+    
+    const deviceMappings = {
+        tizen: 'Samsung Smart TV',
+        web0s: 'LG Smart TV',
+        operaTv: 'Opera TV',
+        xboxOne: 'Xbox One',
+        ps4: 'Sony PS4',
+        chrome: 'Chrome',
+        edgeChromium: 'Edge Chromium',
+        edge: 'Edge',
+        firefox: 'Firefox',
+        opera: 'Opera',
+        safari: 'Safari',
+    };
 
-        if (browser.ipad) {
-            deviceName += ' iPad';
-        } else if (browser.iphone) {
-            deviceName += ' iPhone';
-        } else if (browser.android) {
-            deviceName += ' Android';
+    deviceName = 'Web Browser'; // Default device name
+
+    for (const key in deviceMappings) {
+        if (browser[key]) {
+            deviceName = deviceMappings[key];
+            break;
         }
     }
 
+    if (browser.ipad) {
+        deviceName += ' iPad';
+    } else if (browser.iphone) {
+        deviceName += ' iPhone';
+    } else if (browser.android) {
+        deviceName += ' Android';
+    }
+    
     return deviceName;
 }
 
