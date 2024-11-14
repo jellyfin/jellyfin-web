@@ -135,7 +135,6 @@ function getDeviceName() {
     if (deviceName) {
         return deviceName;
     }
-    
     const deviceMappings = {
         tizen: 'Samsung Smart TV',
         web0s: 'LG Smart TV',
@@ -147,7 +146,7 @@ function getDeviceName() {
         edge: 'Edge',
         firefox: 'Firefox',
         opera: 'Opera',
-        safari: 'Safari',
+        safari: 'Safari'
     };
 
     deviceName = 'Web Browser'; // Default device name
@@ -166,7 +165,6 @@ function getDeviceName() {
     } else if (browser.android) {
         deviceName += ' Android';
     }
-    
     return deviceName;
 }
 
