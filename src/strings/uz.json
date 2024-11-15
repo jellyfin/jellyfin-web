@@ -694,5 +694,10 @@
     "LabelEnableLUFSScanHelp": "Musiqa uchun LUFS scan-ni yoqing (bu ko'proq va ko'proq resurslarni oladi).",
     "LabelEnableLUFSScan": "LUFS skanerini yoqish",
     "MusicVideos": "Musiqali videolar",
-    "Movies": "Kinolar"
+    "Movies": "Kinolar",
+    "ValueSpecialEpisodeName": "Maxsus qism – {0}",
+    "Playlists": "Pleylistlar",
+    "Photos": "Surat",
+    "Shows": "Teleko'rsatuv",
+    "Songs": "Kompozitsiyalar"
 }
