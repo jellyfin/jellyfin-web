@@ -277,7 +277,7 @@
     "EnableLibrary": "Enable the library",
     "EnableLibraryHelp": "Disabling the library will hide it from all user views.",
     "EnableNextVideoInfoOverlay": "Show next video info during playback",
-    "EnableNextVideoInfoOverlayHelp": "At the end of a video, display info about the next video coming up in the current playlist.",
+    "EnableNextVideoInfoOverlayHelp": "At the end of a video, display info about the next video coming up in the current playlist. This supersedes any overlapping segment prompts.",
     "EnablePhotos": "Display the photos",
     "EnablePhotosHelp": "Images will be detected and displayed alongside other media files.",
     "EnableCardLayout": "Display visual CardBox",
