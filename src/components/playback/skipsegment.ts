@@ -10,6 +10,7 @@ import dom from 'scripts/dom';
 import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
 import focusManager from 'components/focusManager';
+import browser from 'scripts/browser';
 
 interface ShowOptions {
     animate?: boolean;
@@ -147,7 +148,10 @@ class SkipSegment extends PlaybackSubscriber {
 
             this.setButtonText();
 
-            this.showSkipButton({ animate: true, focus: true });
+            this.showSkipButton({
+                animate: true,
+                focus: browser.tv || browser.xboxOne || browser.ps4
+            });
         }
     }
 
