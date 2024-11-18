@@ -3,6 +3,27 @@
     margin-top: 2em;
 }
 
+.inputInner {
+    position: relative;
+    height: fit-content;
+
+    label {
+        display: none;
+    }
+
+    .togglePasswordVisibility {
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        bottom: 0;
+        display: flex;
+        height: fit-content;
+        align-items: center;
+        cursor: pointer;
+    }
+}
+
 .loginDisclaimer {
     margin: 0 auto;
 
