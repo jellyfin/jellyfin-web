@@ -1946,7 +1946,7 @@
     "MediaSegmentType.Commercial": "Reklam",
     "MediaSegmentType.Intro": "Intro",
     "MessageCancelTimerError": "Ett fel uppstod när timern avbröts",
-    "MessageSplitVersionsError": "Ett fel uppstod när versionerna delades",
+    "MessageSplitVersionsError": "Ett fel inträffade vid delning av versioner",
     "PreferNonstandardArtistsTag": "Föredra ARTISTS-taggen om den är tillgänglig",
     "MediaSegmentAction.Skip": "Hoppa över",
     "MediaSegmentType.Outro": "Outro",
@@ -1980,5 +1980,9 @@
     "MediaSegmentAction.AskToSkip": "Be om att hoppa över",
     "MediaSegmentSkipPrompt": "Hoppa över {0}",
     "LabelMediaSegmentsType": "{0} Segment",
-    "MoviesAndShows": "Filmer och Serier"
+    "MoviesAndShows": "Filmer och Serier",
+    "HeaderMediaSegmentActions": "Åtgärder inom mediesegmentet",
+    "UseCustomTagDelimiters": "Använd anpassad taggavgränsare",
+    "UseCustomTagDelimitersHelp": "Dela upp artist/genre-taggar med egna tecken.",
+    "LabelDelimiterWhitelist": "Avgränsare Vitlista"
 }
