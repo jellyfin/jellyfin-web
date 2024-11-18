@@ -22,7 +22,7 @@ function getNextUpFetchFn(
         oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
         return apiClient.getNextUpEpisodes({
             Limit: enableOverflow ? 24 : 15,
-            Fields: 'PrimaryImageAspectRatio,DateCreated,Path,MediaSourceCount',
+            Fields: 'PrimaryImageAspectRatio,DateCreated,Path,MediaSourceCount,SpecialFeatureCount',
             UserId: apiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
