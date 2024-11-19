@@ -1,4 +1,3 @@
-import React, { StrictMode } from 'react';
 import type { RouteObject } from 'react-router-dom';
 
 export enum AsyncRouteType {
@@ -19,7 +18,7 @@ export interface AsyncRoute {
     type?: AsyncRouteType
 }
 
-const importPage = (page: string, type: AsyncRouteType) => {
+const importRoute = (page: string, type: AsyncRouteType) => {
     switch (type) {
         case AsyncRouteType.Dashboard:
             return import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${page}`);
@@ -38,14 +37,16 @@ export const toAsyncPageRoute = ({
     return {
         path,
         lazy: async () => {
-            const { default: Page } = await importPage(page ?? path, type);
-            return {
-                element: (
-                    <StrictMode>
-                        <Page />
-                    </StrictMode>
-                )
-            };
+            const { default: route } = await importRoute(page ?? path, type);
+
+            // If route is not a RouteObject, use it as the Component
+            if (!route.Component) {
+                return {
+                    Component: route
+                };
+            }
+
+            return route;
         }
     };
 };
