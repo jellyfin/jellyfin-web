@@ -1,11 +1,13 @@
-const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { DefinePlugin, IgnorePlugin } = require('webpack');
-const packageJson = require('./package.json');
+import * as path from 'node:path';
+import * as child_process from 'node:child_process';
+import { Configuration, DefinePlugin, IgnorePlugin, PathData } from 'webpack';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import { default as CopyPlugin } from 'copy-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
+import packageJson from './package.json';
 
 const Assets = [
     'native-promise-only/npo.js',
@@ -22,7 +24,7 @@ const Assets = [
 const DEV_MODE = process.env.NODE_ENV !== 'production';
 let COMMIT_SHA = '';
 try {
-    COMMIT_SHA = require('child_process')
+    COMMIT_SHA = child_process
         .execSync('git describe --always --dirty')
         .toString()
         .trim();
@@ -32,7 +34,7 @@ try {
 
 const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
 
-const config = {
+const config: Configuration = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
     resolve: {
@@ -118,8 +120,8 @@ const config = {
         })
     ],
     output: {
-        filename: pathData => (
-            pathData.chunk.name === 'serviceworker' ? '[name].js' : '[name].bundle.js'
+        filename: (pathData: PathData) => (
+            pathData.chunk?.name === 'serviceworker' ? '[name].js' : '[name].bundle.js'
         ),
         chunkFilename: '[name].[contenthash].chunk.js',
         path: path.resolve(__dirname, 'dist'),
@@ -134,10 +136,10 @@ const config = {
             maxInitialRequests: Infinity,
             cacheGroups: {
                 node_modules: {
-                    test(module) {
+                    test(module: any) {
                         return NODE_MODULES_REGEX.test(module.context);
                     },
-                    name(module) {
+                    name(module: any) {
                         // get the name. E.g. node_modules/packageName/not/this/part.js
                         // or node_modules/packageName
                         const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
@@ -343,9 +345,9 @@ const config = {
 };
 
 if (!DEV_MODE) {
-    config.plugins.push(new MiniCssExtractPlugin({
+    config.plugins!.push(new MiniCssExtractPlugin({
         filename: '[name].[contenthash].css'
     }));
 }
 
-module.exports = config;
+export default config;
