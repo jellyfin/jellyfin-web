@@ -3,6 +3,7 @@ import loading from '../../../components/loading/loading';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-select/emby-select';
 import Dashboard from '../../../utils/dashboard';
+import dom from 'scripts/dom';
 
 function loadPage(page, config, languageOptions) {
     $('#selectLocalizationLanguage', page).html(languageOptions.map(function (l) {
@@ -28,7 +29,7 @@ function save(page) {
 }
 
 function onSubmit() {
-    save($(this).parents('.page'));
+    save(dom.parentWithClass(this, 'page'));
     return false;
 }
 

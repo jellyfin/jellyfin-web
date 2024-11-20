@@ -74,7 +74,7 @@ function getCollectionTypeOptionsHtml(collectionTypeOptions) {
 function initEditor(page, collectionTypeOptions) {
     $('#selectCollectionType', page).html(getCollectionTypeOptionsHtml(collectionTypeOptions)).val('').on('change', function () {
         const value = this.value;
-        const dlg = $(this).parents('.dialog')[0];
+        const dlg = dom.parentWithClass(this, 'dialog');
         libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value);
 
         if (value) {

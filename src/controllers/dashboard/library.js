@@ -188,7 +188,7 @@ function reloadVirtualFolders(page, virtualFolders) {
         addVirtualFolder(page);
     });
     $('.editLibrary', divVirtualFolders).on('click', function () {
-        const card = $(this).parents('.card')[0];
+        const card = dom.parentWithClass(this, 'card');
         const index = parseInt(card.getAttribute('data-index'), 10);
         const virtualFolder = virtualFolders[index];
 
