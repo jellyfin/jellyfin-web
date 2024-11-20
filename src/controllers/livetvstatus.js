@@ -137,8 +137,8 @@ function renderProviders(page, providers) {
             btn.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 showProviderOptions(page, id, btn);
-            })
-        })
+            });
+        });
     }
 }
 
@@ -308,9 +308,9 @@ $(document).on('pageinit', '#liveTvStatusPage', function () {
     });
     if (page.querySelector('.formAddDevice')) {
         // unused?
-        page.querySelector('.formAddDevice').addEventListener('submit', function () {
+        page.querySelector('.formAddDevice').addEventListener('submit', function (e) {
+            e.preventDefault();
             submitAddDeviceForm(page);
-            return false;
         });
     }
     page.querySelector('.btnAddProvider').addEventListener('click', function () {

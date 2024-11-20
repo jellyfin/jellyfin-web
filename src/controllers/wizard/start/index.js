@@ -30,9 +30,9 @@ function save(page) {
     });
 }
 
-function onSubmit() {
+function onSubmit(e) {
+    e.preventDefault();
     save(dom.parentWithClass(this, 'page'));
-    return false;
 }
 
 export default function (view) {

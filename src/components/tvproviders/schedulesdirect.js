@@ -223,7 +223,7 @@ export default function (page, providerId, options) {
         }).then(function (result) {
             page.querySelector('#selectListing').innerHTML = result.map(function (o) {
                 return '<option value="' + o.Id + '">' + o.Name + '</option>';
-            });
+            }).join('');
 
             if (listingsId) {
                 page.querySelector('#selectListing').value = listingsId;
@@ -257,14 +257,14 @@ export default function (page, providerId, options) {
         const hideSubmitButton = options.showSubmitButton === false;
         page.querySelector('.btnSubmitListings').classList.toggle('hide', hideSubmitButton);
 
-        page.querySelector('.formLogin').addEventListener('submit', function () {
+        page.querySelector('.formLogin').addEventListener('submit', function (e) {
+            e.preventDefault();
             submitLoginForm();
-            return false;
         });
 
-        page.querySelector('.formListings').addEventListener('submit', function () {
+        page.querySelector('.formListings').addEventListener('submit', function (e) {
+            e.preventDefault();
             submitListingsForm();
-                return false;
         });
 
         page.querySelector('.txtZipCode').addEventListener('change', function () {
