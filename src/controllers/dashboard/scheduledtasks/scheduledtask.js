@@ -126,7 +126,7 @@ const ScheduledTaskPage = {
     showAddTriggerPopup: function (view) {
         view.querySelector('#selectTriggerType').value = 'DailyTrigger';
         view.querySelector('#selectTriggerType').dispatchEvent(new CustomEvent('change', {}));
-        $('#popupAddTrigger', view).removeClass('hide');
+        view.querySelector('#popupAddTrigger').classList.remove('hide');
     },
     confirmDeleteTrigger: function (view, index) {
         confirm(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
@@ -207,7 +207,7 @@ export default function (view) {
         ApiClient.getScheduledTask(id).then(function (task) {
             task.Triggers.push(ScheduledTaskPage.getTriggerToAdd(view));
             ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
-                $('#popupAddTrigger').addClass('hide');
+                document.querySelector('#popupAddTrigger').classList.add('hide');
                 ScheduledTaskPage.refreshScheduledTask(view);
             });
         });
@@ -216,7 +216,7 @@ export default function (view) {
 
     view.querySelector('.addTriggerForm').addEventListener('submit', onSubmit);
     fillTimeOfDay(view.querySelector('#selectTimeOfDay'));
-    $(view.querySelector('#popupAddTrigger').parentNode).trigger('create');
+    view.querySelector('#popupAddTrigger').parentNode.trigger(new Event('create'));
     view.querySelector('.selectTriggerType').addEventListener('change', function () {
         ScheduledTaskPage.refreshTriggerFields(view, this.value);
     });

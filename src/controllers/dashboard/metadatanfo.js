@@ -10,8 +10,10 @@ function loadPage(page, config, users) {
     html += users.map(function (user) {
         return '<option value="' + user.Id + '">' + escapeHtml(user.Name) + '</option>';
     }).join('');
-    $('#selectUser', page).html(html).val(config.UserId || '');
-    $('#selectReleaseDateFormat', page).val(config.ReleaseDateFormat);
+    const elem = page.querySelector('#selectUser');
+    elem.innerHTML = html;
+    elem.value = config.UserId || '';
+    page.querySelector('#selectReleaseDateFormat').value = config.ReleaseDateFormat;
     page.querySelector('#chkSaveImagePaths').checked = config.SaveImagePathsInNfo;
     page.querySelector('#chkEnablePathSubstitution').checked = config.EnablePathSubstitution;
     page.querySelector('#chkEnableExtraThumbs').checked = config.EnableExtraThumbsDuplication;

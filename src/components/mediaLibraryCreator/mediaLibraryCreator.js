@@ -72,7 +72,10 @@ function getCollectionTypeOptionsHtml(collectionTypeOptions) {
 }
 
 function initEditor(page, collectionTypeOptions) {
-    $('#selectCollectionType', page).html(getCollectionTypeOptionsHtml(collectionTypeOptions)).val('').on('change', function () {
+    const selectCollectionType = page.querySelector('#selectCollectionType');
+    selectCollectionType.innerHTML = getCollectionTypeOptionsHtml(collectionTypeOptions);
+    selectCollectionType.value = '';
+    selectCollectionType.addEventListener('change', function () {
         const value = this.value;
         const dlg = dom.parentWithClass(this, 'dialog');
         libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value);

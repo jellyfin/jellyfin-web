@@ -6,9 +6,11 @@ import Dashboard from '../../../utils/dashboard';
 import dom from 'scripts/dom';
 
 function loadPage(page, config, languageOptions) {
-    $('#selectLocalizationLanguage', page).html(languageOptions.map(function (l) {
+    const elem = page.querySelector('#selectLocalizationLanguage');
+    elem.innerHTML = languageOptions.map(function (l) {
         return '<option value="' + l.Value + '">' + l.Name + '</option>';
-    })).val(config.UICulture);
+    }).join('');
+    elem.value = config.UICulture;
     loading.hide();
 }
 
@@ -34,7 +36,7 @@ function onSubmit() {
 }
 
 export default function (view) {
-    $('.wizardStartForm', view).on('submit', onSubmit);
+    view.querySelector('.wizardStartForm').addEventListener('submit', onSubmit);
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
         loading.show();
