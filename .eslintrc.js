@@ -8,8 +8,7 @@ module.exports = {
         '@typescript-eslint',
         'react',
         'import',
-        'sonarjs',
-        'jquery'
+        'sonarjs'
     ],
     env: {
         node: true,
@@ -100,8 +99,7 @@ module.exports = {
         '@stylistic/quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         '@stylistic/semi': ['error'],
         '@stylistic/space-before-blocks': ['error'],
-        '@stylistic/space-infix-ops': ['error'],
-        'jquery/no-val': ['error']
+        '@stylistic/space-infix-ops': ['error']
     },
     settings: {
         react: {

@@ -114,7 +114,7 @@ export default function (page, providerId, options) {
             $('#selectCountry', page).html(countryList.map(function (c) {
                 return '<option value="' + c.value + '">' + c.name + '</option>';
             }).join('')).val(info.Country || '');
-            $(page.querySelector('.txtZipCode')).trigger('change');
+            page.querySelector('.txtZipCode').dispatchEvent(new Event('change'));
         }, function () { // ApiClient.getJSON() error handler
             Dashboard.alert({
                 message: globalize.translate('ErrorGettingTvLineups')
