@@ -28,7 +28,6 @@ function loadPage(page, config, languageOptions, systemInfo) {
 function onSubmit() {
     loading.show();
     const form = this;
-    $(form).parents('.page');
     ApiClient.getServerConfiguration().then(function (config) {
         config.ServerName = form.querySelector('#txtServerName').value;
         config.UICulture = form.querySelector('#selectLocalizationLanguage',).value;
