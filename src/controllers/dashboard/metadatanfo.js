@@ -22,8 +22,8 @@ function onSubmit() {
     loading.show();
     const form = this;
     ApiClient.getNamedConfiguration(metadataKey).then(function (config) {
-        config.UserId = $('#selectUser', form).val() || null;
-        config.ReleaseDateFormat = $('#selectReleaseDateFormat', form).val();
+        config.UserId = form.querySelector('#selectUser').value || null;
+        config.ReleaseDateFormat = form.querySelector('#selectReleaseDateFormat').value;
         config.SaveImagePathsInNfo = form.querySelector('#chkSaveImagePaths').checked;
         config.EnablePathSubstitution = form.querySelector('#chkEnablePathSubstitution').checked;
         config.EnableExtraThumbsDuplication = form.querySelector('#chkEnableExtraThumbs').checked;
