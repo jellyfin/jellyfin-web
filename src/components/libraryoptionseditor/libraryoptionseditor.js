@@ -394,6 +394,7 @@ function bindEvents(parent) {
     parent.querySelector('.metadataReaders').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.subtitleFetchers').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.metadataFetchers').addEventListener('click', onSortableContainerClick);
+    parent.querySelector('.lyricFetchers').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.imageFetchers').addEventListener('click', onImageFetchersContainerClick);
 
     parent.querySelector('#chkEnableEmbeddedTitles').addEventListener('change', (e) => {
