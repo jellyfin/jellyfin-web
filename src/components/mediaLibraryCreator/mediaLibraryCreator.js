@@ -95,7 +95,7 @@ function initEditor(page, collectionTypeOptions) {
         }
 
         const folderOption = collectionTypeOptions.find(i => i.value === value);
-        $('.collectionTypeFieldDescription', dlg).html(folderOption?.message || '');
+        dlg.querySelector('.collectionTypeFieldDescription').innerHTML = folderOption?.message || '';
     });
     page.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
     page.querySelector('.addLibraryForm').addEventListener('submit', onAddLibrary);

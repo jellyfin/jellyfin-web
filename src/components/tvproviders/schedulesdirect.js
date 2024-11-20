@@ -207,7 +207,7 @@ export default function (page, providerId, options) {
 
     function refreshListings(value) {
         if (!value) {
-            $('#selectListing', page).html('');
+            page.querySelector('#selectListing').innerHTML = '';
             return;
         }
 
@@ -221,9 +221,9 @@ export default function (page, providerId, options) {
             }),
             dataType: 'json'
         }).then(function (result) {
-            $('#selectListing', page).html(result.map(function (o) {
+            page.querySelector('#selectListing').innerHTML = result.map(function (o) {
                 return '<option value="' + o.Id + '">' + o.Name + '</option>';
-            }));
+            });
 
             if (listingsId) {
                 page.querySelector('#selectListing').value = listingsId;
