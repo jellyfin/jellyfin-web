@@ -89,8 +89,8 @@ function submitAddDeviceForm(page) {
         type: 'POST',
         url: ApiClient.getUrl('LiveTv/TunerHosts'),
         data: JSON.stringify({
-            Type: $('#selectTunerDeviceType', page).val(),
-            Url: $('#txtDevicePath', page).val()
+            Type: page.querySelector('#selectTunerDeviceType').value,
+            Url: page.querySelector('#txtDevicePath').value
         }),
         contentType: 'application/json'
     }).then(function () {

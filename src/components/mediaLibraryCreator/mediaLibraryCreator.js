@@ -43,8 +43,8 @@ function onAddLibrary(e) {
     isCreating = true;
     loading.show();
     const dlg = dom.parentWithClass(this, 'dlg-librarycreator');
-    const name = $('#txtValue', dlg).val();
-    let type = $('#selectCollectionType', dlg).val();
+    const name = dlg.querySelector('#txtValue').value;
+    let type = dlg.querySelector('#selectCollectionType').value;
 
     if (type == 'mixed') {
         type = null;
@@ -90,7 +90,7 @@ function initEditor(page, collectionTypeOptions) {
                 const name = this.options[index].innerHTML
                     .replaceAll('*', '')
                     .replaceAll('&amp;', '&');
-                $('#txtValue', dlg).val(name);
+                dlg.querySelector('#txtValue').value = name;
             }
         }
 

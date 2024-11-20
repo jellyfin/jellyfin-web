@@ -57,7 +57,7 @@ export default function (page, providerId, options) {
                 return i.Id === providerId;
             })[0] || {};
             listingsId = info.ListingsId;
-            $('#selectListing', page).val(info.ListingsId || '');
+            page.querySelector('#selectListing').value = info.ListingsId || '';
             page.querySelector('.txtUser').value = info.Username || '';
             page.querySelector('.txtPass').value = '';
             page.querySelector('.txtZipCode').value = info.ZipCode || '';
@@ -157,7 +157,7 @@ export default function (page, providerId, options) {
     }
 
     function submitListingsForm() {
-        const selectedListingsId = $('#selectListing', page).val();
+        const selectedListingsId = page.querySelector('#selectListing').value;
 
         if (!selectedListingsId) {
             Dashboard.alert({
@@ -173,7 +173,7 @@ export default function (page, providerId, options) {
                 return i.Id === id;
             })[0];
             info.ZipCode = page.querySelector('.txtZipCode').value;
-            info.Country = $('#selectCountry', page).val();
+            info.Country = page.querySelector('#selectCountry').value;
             info.ListingsId = selectedListingsId;
             info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
             info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (i) {
@@ -217,7 +217,7 @@ export default function (page, providerId, options) {
             url: ApiClient.getUrl('LiveTv/ListingProviders/Lineups', {
                 Id: providerId,
                 Location: value,
-                Country: $('#selectCountry', page).val()
+                Country: page.querySelector('#selectCountry').value
             }),
             dataType: 'json'
         }).then(function (result) {
@@ -226,7 +226,7 @@ export default function (page, providerId, options) {
             }));
 
             if (listingsId) {
-                $('#selectListing', page).val(listingsId);
+                page.querySelector('#selectListing').value = listingsId;
             }
 
             loading.hide();
