@@ -11,7 +11,7 @@ function onSubmit() {
     loading.show();
     const form = this;
     ApiClient.getServerConfiguration().then(function (config) {
-        config.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat(form.querySelector('#txtRemoteClientBitrateLimit', form).value || '0'), 10);
+        config.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat(form.querySelector('#txtRemoteClientBitrateLimit').value || '0'), 10);
         ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
     });
 

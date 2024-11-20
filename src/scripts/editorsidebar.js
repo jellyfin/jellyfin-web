@@ -5,7 +5,6 @@ import 'material-design-icons-iconfont';
 import globalize from 'lib/globalize';
 import Dashboard from 'utils/dashboard';
 import { getParameterByName } from 'utils/url';
-import dom from './dom';
 
 function getNode(item, folderState, selected) {
     const htmlName = getNodeInnerHtml(item);
@@ -216,7 +215,7 @@ function onNodeSelect(event, data) {
 }
 
 function onNodeOpen(_, data) {
-    const page = dom.parentWithClass(this, 'page');
+    const page = $(this).parents('.page')[0];
     const node = data.node;
     if (node.children) {
         loadNodesToLoad(page, node);

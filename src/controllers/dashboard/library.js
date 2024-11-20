@@ -185,8 +185,8 @@ function reloadVirtualFolders(page, virtualFolders) {
     btnCardMenuElements.forEach(function (btn) {
         btn.addEventListener('click', function () {
             showCardMenu(page, btn, virtualFolders);
-        })
-    })
+        });
+    });
     divVirtualFolders.querySelector('#addLibrary').addEventListener('click', function () {
         addVirtualFolder(page);
     });
@@ -201,8 +201,8 @@ function reloadVirtualFolders(page, virtualFolders) {
             if (virtualFolder.ItemId) {
                 editVirtualFolder(page, virtualFolder);
             }
-        })
-    })
+        });
+    });
     loading.hide();
 }
 
