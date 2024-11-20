@@ -6,8 +6,8 @@ import Dashboard from '../utils/dashboard';
 import alert from '../components/alert';
 
 function loadPage(page, config) {
-    $('.liveTvSettingsForm', page).show();
-    $('.noLiveTvServices', page).hide();
+    page.querySelector('.liveTvSettingsForm').classList.remove('hide');
+    page.querySelector('.noLiveTvServices').classList.add('hide');
     page.querySelector('#selectGuideDays',).value = config.GuideDays || '';
     page.querySelector('#txtPrePaddingMinutes').value = config.PrePaddingSeconds / 60;
     page.querySelector('#txtPostPaddingMinutes').value = config.PostPaddingSeconds / 60;
