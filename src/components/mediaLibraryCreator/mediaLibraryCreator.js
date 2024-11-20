@@ -184,7 +184,7 @@ function onDialogClosed() {
 
 function initLibraryOptions(dlg) {
     libraryoptionseditor.embed(dlg.querySelector('.libraryOptions')).then(() => {
-        $('#selectCollectionType', dlg).trigger('change');
+        dlg.querySelector('#selectCollectionType').dispatchEvent(new Event('change'));
     });
 }
 
