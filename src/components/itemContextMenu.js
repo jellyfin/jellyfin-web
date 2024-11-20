@@ -302,7 +302,6 @@ export async function getCommands(options) {
         });
     }
 
-
     if (item.PlaylistItemId && options.playlistId && options.canEditPlaylist) {
         commands.push({
             name: globalize.translate('RemoveFromPlaylist'),
