@@ -33,8 +33,8 @@ const ScheduledTaskPage = {
         });
     },
     loadScheduledTask: function (view, task) {
-        $('.taskName', view).html(task.Name);
-        $('#pTaskDescription', view).html(task.Description);
+        view.querySelector('.taskName').innerHTML = task.Name;
+        view.querySelector('#pTaskDescription').innerHTML = task.Description;
 
         import('../../../components/listview/listview.scss').then(() => {
             ScheduledTaskPage.loadTaskTriggers(view, task);

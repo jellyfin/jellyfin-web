@@ -129,7 +129,8 @@ function renderProviders(page, providers) {
         html += '</div>';
     }
 
-    const elem = $('.providerList', page).html(html);
+    const elem = page.querySelector('.providerList');
+    elem.innerHTML = html
     $('.btnOptions', elem).on('click', function () {
         const id = this.getAttribute('data-id');
         showProviderOptions(page, id, this);
