@@ -16,9 +16,11 @@ function loadPage(page, config, languageOptions, systemInfo) {
     page.querySelector('#chkQuickConnectAvailable').checked = config.QuickConnectAvailable === true;
     page.querySelector('#txtMetadataPath').value = systemInfo.InternalMetadataPath || '';
     page.querySelector('#txtMetadataNetworkPath').value = systemInfo.MetadataNetworkPath || '';
-    $('#selectLocalizationLanguage', page).html(languageOptions.map(function (language) {
+    const localizationLanguageElem = page.querySelector('#selectLocalizationLanguage');
+    localizationLanguageElem.innerHTML = languageOptions.map(function (language) {
         return '<option value="' + language.Value + '">' + language.Name + '</option>';
-    })).val(config.UICulture);
+    }).join('');
+    localizationLanguageElem.value = config.UICulture;
     page.querySelector('#txtLibraryScanFanoutConcurrency').value = config.LibraryScanFanoutConcurrency || '';
     page.querySelector('#txtParallelImageEncodingLimit').value = config.ParallelImageEncodingLimit || '';
 
@@ -30,7 +32,7 @@ function onSubmit() {
     const form = this;
     ApiClient.getServerConfiguration().then(function (config) {
         config.ServerName = form.querySelector('#txtServerName').value;
-        config.UICulture = form.querySelector('#selectLocalizationLanguage',).value;
+        config.UICulture = form.querySelector('#selectLocalizationLanguage').value;
         config.CachePath = form.querySelector('#txtCachePath').value;
         config.MetadataPath = form.querySelector('#txtMetadataPath').value;
         config.MetadataNetworkPath = form.querySelector('#txtMetadataNetworkPath').value;

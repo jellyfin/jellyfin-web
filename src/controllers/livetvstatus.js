@@ -130,11 +130,16 @@ function renderProviders(page, providers) {
     }
 
     const elem = page.querySelector('.providerList');
-    elem.innerHTML = html
-    $('.btnOptions', elem).on('click', function () {
-        const id = this.getAttribute('data-id');
-        showProviderOptions(page, id, this);
-    });
+    elem.innerHTML = html;
+    if (elem.querySelector('.btnOptions')) {
+        const btnOptionElements = elem.querySelectorAll('.btnOptions');
+        btnOptionElements.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                showProviderOptions(page, id, btn);
+            })
+        })
+    }
 }
 
 function showProviderOptions(page, providerId, button) {
@@ -298,14 +303,17 @@ function onDevicesListClick(e) {
 
 $(document).on('pageinit', '#liveTvStatusPage', function () {
     const page = this;
-    $('.btnAddDevice', page).on('click', function () {
+    page.querySelector('.btnAddDevice').addEventListener('click', function () {
         addDevice();
     });
-    $('.formAddDevice', page).on('submit', function () {
-        submitAddDeviceForm(page);
-        return false;
-    });
-    $('.btnAddProvider', page).on('click', function () {
+    if (page.querySelector('.formAddDevice')) {
+        // unused?
+        page.querySelector('.formAddDevice').addEventListener('submit', function () {
+            submitAddDeviceForm(page);
+            return false;
+        });
+    }
+    page.querySelector('.btnAddProvider').addEventListener('click', function () {
         addProvider(this);
     });
     page.querySelector('.devicesList').addEventListener('click', onDevicesListClick);

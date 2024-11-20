@@ -257,15 +257,17 @@ export default function (page, providerId, options) {
         const hideSubmitButton = options.showSubmitButton === false;
         page.querySelector('.btnSubmitListings').classList.toggle('hide', hideSubmitButton);
 
-        $('.formLogin', page).on('submit', function () {
+        page.querySelector('.formLogin').addEventListener('submit', function () {
             submitLoginForm();
             return false;
         });
-        $('.formListings', page).on('submit', function () {
+
+        page.querySelector('.formListings').addEventListener('submit', function () {
             submitListingsForm();
-            return false;
+                return false;
         });
-        $('.txtZipCode', page).on('change', function () {
+
+        page.querySelector('.txtZipCode').addEventListener('change', function () {
             refreshListings(this.value);
         });
         page.querySelector('.chkAllTuners').addEventListener('change', function (e) {
