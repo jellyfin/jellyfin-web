@@ -6,7 +6,7 @@
     /* Remove select styling */
 
     /* Font size must the 16px or larger to prevent iOS page zoom on focus */
-    font-size: inherit;
+    font-size: 110%;
 
     /* General select styles: change as needed */
     font-family: inherit;
@@ -19,6 +19,9 @@
     outline: none !important;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     width: 100%;
+
+    /* Make the height at least as tall as inputs */
+    min-height: 2.5em;
 }
 
 .emby-textarea::-moz-focus-inner {
