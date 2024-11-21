@@ -188,7 +188,6 @@ const UserNew = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={globalize.translate('HeaderAddUser')}
-                        url='https://jellyfin.org/docs/general/server/users/'
                     />
                 </div>
 
