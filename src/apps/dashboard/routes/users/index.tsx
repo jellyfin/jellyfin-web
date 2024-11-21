@@ -1,159 +1,29 @@
-import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { type FC, useCallback } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
+import { userHooks } from 'hooks/api';
+import Loading from 'components/loading/LoadingComponent';
+import globalize from 'lib/globalize';
+import Page from 'components/Page';
+import UserCardBox from 'apps/dashboard/features/users/components/UserCardBox';
+import 'components/cardbuilder/card.scss';
+import 'components/indicators/indicators.scss';
+import 'styles/flexstyles.scss';
 
-import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../lib/globalize';
-import loading from '../../../../components/loading/loading';
-import dom from '../../../../scripts/dom';
-import confirm from '../../../../components/confirm/confirm';
-import UserCardBox from '../../../../components/dashboard/users/UserCardBox';
-import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
-import '../../../../elements/emby-button/emby-button';
-import '../../../../elements/emby-button/paper-icon-button-light';
-import '../../../../components/cardbuilder/card.scss';
-import '../../../../components/indicators/indicators.scss';
-import '../../../../styles/flexstyles.scss';
-import Page from '../../../../components/Page';
+const UserProfiles: FC = () => {
+    const navigate = useNavigate();
+    const { isLoading, data: users } = userHooks.useGetUsers({});
 
-type MenuEntry = {
-    name?: string;
-    id?: string;
-    icon?: string;
-};
+    const onBtnAddUserClick = useCallback(() => {
+        navigate('/dashboard/users/add');
+    }, [navigate]);
 
-const UserProfiles = () => {
-    const [ users, setUsers ] = useState<UserDto[]>([]);
-
-    const element = useRef<HTMLDivElement>(null);
-
-    const loadData = () => {
-        loading.show();
-        window.ApiClient.getUsers().then(function (result) {
-            setUsers(result);
-            loading.hide();
-        }).catch(err => {
-            console.error('[userprofiles] failed to fetch users', err);
-        });
-    };
-
-    useEffect(() => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
-        loadData();
-
-        const showUserMenu = (elem: HTMLElement) => {
-            const card = dom.parentWithClass(elem, 'card');
-            const userId = card?.getAttribute('data-userid');
-            const username = card?.getAttribute('data-username');
-
-            if (!userId) {
-                console.error('Unexpected null user id');
-                return;
-            }
-
-            const menuItems: MenuEntry[] = [];
-
-            menuItems.push({
-                name: globalize.translate('ButtonEditUser'),
-                id: 'open',
-                icon: 'mode_edit'
-            });
-            menuItems.push({
-                name: globalize.translate('ButtonLibraryAccess'),
-                id: 'access',
-                icon: 'lock'
-            });
-            menuItems.push({
-                name: globalize.translate('ButtonParentalControl'),
-                id: 'parentalcontrol',
-                icon: 'person'
-            });
-            menuItems.push({
-                name: globalize.translate('Delete'),
-                id: 'delete',
-                icon: 'delete'
-            });
-
-            import('../../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
-                actionsheet.show({
-                    items: menuItems,
-                    positionTo: card,
-                    callback: function (id: string) {
-                        switch (id) {
-                            case 'open':
-                                Dashboard.navigate('/dashboard/users/profile?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to user edit page', err);
-                                    });
-                                break;
-
-                            case 'access':
-                                Dashboard.navigate('/dashboard/users/access?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to user library page', err);
-                                    });
-                                break;
-
-                            case 'parentalcontrol':
-                                Dashboard.navigate('/dashboard/users/parentalcontrol?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to parental control page', err);
-                                    });
-                                break;
-
-                            case 'delete':
-                                deleteUser(userId, username);
-                        }
-                    }
-                }).catch(() => {
-                    // action sheet closed
-                });
-            }).catch(err => {
-                console.error('[userprofiles] failed to load action sheet', err);
-            });
-        };
-
-        const deleteUser = (id: string, username?: string | null) => {
-            const title = username ? globalize.translate('DeleteName', username) : globalize.translate('DeleteUser');
-            const text = globalize.translate('DeleteUserConfirmation');
-
-            confirm({
-                title,
-                text,
-                confirmText: globalize.translate('Delete'),
-                primary: 'delete'
-            }).then(function () {
-                loading.show();
-                window.ApiClient.deleteUser(id).then(function () {
-                    loadData();
-                }).catch(err => {
-                    console.error('[userprofiles] failed to delete user', err);
-                });
-            }).catch(() => {
-                // confirm dialog closed
-            });
-        };
-
-        page.addEventListener('click', function (e) {
-            const btnUserMenu = dom.parentWithClass(e.target as HTMLElement, 'btnUserMenu');
-
-            if (btnUserMenu) {
-                showUserMenu(btnUserMenu);
-            }
-        });
-
-        (page.querySelector('#btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
-            Dashboard.navigate('/dashboard/users/add')
-                .catch(err => {
-                    console.error('[userprofiles] failed to navigate to new user page', err);
-                });
-        });
-    }, []);
+    if (isLoading) return <Loading />;
 
     return (
         <Page
@@ -161,27 +31,46 @@ const UserProfiles = () => {
             className='mainAnimatedPage type-interior userProfilesPage fullWidthContent'
             title={globalize.translate('HeaderUsers')}
         >
-            <div ref={element} className='content-primary'>
-                <div className='verticalSection'>
-                    <SectionTitleContainer
-                        title={globalize.translate('HeaderUsers')}
-                        isBtnVisible={true}
-                        btnId='btnAddUser'
-                        btnClassName='fab submit sectionTitleButton'
-                        btnTitle='ButtonAddUser'
-                        btnIcon='add'
-                        url='https://jellyfin.org/docs/general/server/users/adding-managing-users'
-                    />
-                </div>
+            <Box className='content-primary padded-left padded-right'>
+                <Box mb={3}>
+                    <Stack
+                        direction='row'
+                        alignItems='center'
+                        spacing={1}
+                        useFlexGap
+                    >
+                        <Typography variant='h2'>
+                            {globalize.translate('HeaderUsers')}
+                        </Typography>
 
-                <div className='localUsers itemsContainer vertical-wrap'>
-                    {users.map(user => {
-                        return <UserCardBox key={user.Id} user={user} />;
-                    })}
-                </div>
-            </div>
+                        <IconButton
+                            title={globalize.translate('ButtonAddUser')}
+                            className='emby-button fab submit'
+                            onClick={onBtnAddUserClick}
+                        >
+                            <AddIcon />
+                        </IconButton>
+
+                        <Link
+                            className='emby-button raised button-alt'
+                            href='https://jellyfin.org/docs/general/server/users/adding-managing-users'
+                            underline='hover'
+                            sx={{
+                                py: '0.4em !important'
+                            }}
+                        >
+                            {globalize.translate('Help')}
+                        </Link>
+                    </Stack>
+                </Box>
+
+                <Box className='localUsers itemsContainer vertical-wrap'>
+                    {users?.map((user) => (
+                        <UserCardBox key={user.Id} user={user} />
+                    ))}
+                </Box>
+            </Box>
         </Page>
-
     );
 };
 

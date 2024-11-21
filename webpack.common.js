@@ -183,6 +183,7 @@ const config = {
             {
                 test: /\.(js|jsx|mjs)$/,
                 include: [
+                    path.resolve(__dirname, 'node_modules/@hookform/resolvers'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
                     path.resolve(__dirname, 'node_modules/@mui/x-date-pickers'),
@@ -213,6 +214,8 @@ const config = {
                     path.resolve(__dirname, 'node_modules/mdurl'),
                     path.resolve(__dirname, 'node_modules/punycode'),
                     path.resolve(__dirname, 'node_modules/react-blurhash'),
+                    path.resolve(__dirname, 'node_modules/react-hook-form'),
+                    path.resolve(__dirname, 'node_modules/react-hook-form-mui'),
                     path.resolve(__dirname, 'node_modules/react-lazy-load-image-component'),
                     path.resolve(__dirname, 'node_modules/react-router'),
                     path.resolve(__dirname, 'node_modules/remove-accents'),
@@ -220,6 +223,7 @@ const config = {
                     path.resolve(__dirname, 'node_modules/ssr-window'),
                     path.resolve(__dirname, 'node_modules/swiper'),
                     path.resolve(__dirname, 'node_modules/usehooks-ts'),
+                    path.resolve(__dirname, 'node_modules/zod'),
                     path.resolve(__dirname, 'src')
                 ],
                 use: [{
