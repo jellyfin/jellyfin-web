@@ -133,6 +133,7 @@ export const Component = () => {
                         <TextField
                             fullWidth
                             multiline
+                            minRows={5}
                             maxRows={5}
                             InputProps={{
                                 className: 'textarea-mono'
@@ -147,6 +148,7 @@ export const Component = () => {
                         <TextField
                             fullWidth
                             multiline
+                            minRows={5}
                             maxRows={20}
                             InputProps={{
                                 className: 'textarea-mono'
