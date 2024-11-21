@@ -23,17 +23,21 @@ h3 {
 }
 
 .textarea-mono {
-    font-family: ui-monospace,
-        Menlo, Monaco,
-        "Cascadia Mono", "Segoe UI Mono",
+    font-family:
+        ui-monospace,
+        Menlo,
+        Monaco,
+        "Cascadia Mono",
+        "Segoe UI Mono",
         "Roboto Mono",
         "Oxygen Mono",
         "Ubuntu Mono",
         "Source Code Pro",
         "Fira Mono",
         "Droid Sans Mono",
-        "Consolas", "Courier New", monospace
-        !important;
+        "Consolas",
+        "Courier New",
+        monospace !important;
 }
 
 .layout-tv {
