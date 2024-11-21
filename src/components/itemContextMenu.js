@@ -297,7 +297,7 @@ export async function getCommands(options) {
     if (canPlay) {
         commands.push({
             name: globalize.translate('ShowDetails'),
-            id: 'navigatetodetailpage',
+            id: 'itemdetails',
             icon: 'remove_red_eye'
         });
     }
@@ -639,7 +639,7 @@ function executeCommand(item, id, options) {
             case 'cancelseriestimer':
                 deleteSeriesTimer(apiClient, item, resolve, id);
                 break;
-            case 'navigatetodetailpage':
+            case 'itemdetails':
                 appRouter.showItem(item, item.ServerId);
                 getResolveFunction(resolve, id)();
                 break;
