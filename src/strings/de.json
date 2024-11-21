@@ -1890,7 +1890,7 @@
     "SaveLyricsIntoMediaFolders": "Liedtexte in Medienordnern speichern",
     "SaveLyricsIntoMediaFoldersHelp": "Das Speichern von Liedtexten zusammen mit den Audiodateien ermöglicht eine einfachere Verwaltung.",
     "PlaylistPublic": "Erlaube öffentlichen Zugriff",
-    "Colorist": "Colorist",
+    "Colorist": "Kolorist",
     "Penciller": "Bleistiftzeichner",
     "Inker": "Inker",
     "Letterer": "Beschreiber",
@@ -1989,5 +1989,5 @@
     "MediaSegmentSkipPrompt": "{0} überspringen",
     "MediaSegmentAction.AskToSkip": "Vor dem Überspringen nachfragen",
     "Anime": "Anime",
-    "MoviesAndShows": "Fime und Serien"
+    "MoviesAndShows": "Filme und Serien"
 }
