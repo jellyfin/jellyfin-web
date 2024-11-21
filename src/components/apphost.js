@@ -8,6 +8,20 @@ import profileBuilder from '../scripts/browserDeviceProfile';
 
 const appName = 'Jellyfin Web';
 
+const BrowserName = {
+    tizen: 'Samsung Smart TV',
+    web0s: 'LG Smart TV',
+    operaTv: 'Opera TV',
+    xboxOne: 'Xbox One',
+    ps4: 'Sony PS4',
+    chrome: 'Chrome',
+    edgeChromium: 'Edge Chromium',
+    edge: 'Edge',
+    firefox: 'Firefox',
+    opera: 'Opera',
+    safari: 'Safari'
+};
+
 function getBaseProfileOptions(item) {
     const disableHlsVideoAudioCodecs = [];
 
@@ -135,25 +149,12 @@ function getDeviceName() {
     if (deviceName) {
         return deviceName;
     }
-    const deviceMappings = {
-        tizen: 'Samsung Smart TV',
-        web0s: 'LG Smart TV',
-        operaTv: 'Opera TV',
-        xboxOne: 'Xbox One',
-        ps4: 'Sony PS4',
-        chrome: 'Chrome',
-        edgeChromium: 'Edge Chromium',
-        edge: 'Edge',
-        firefox: 'Firefox',
-        opera: 'Opera',
-        safari: 'Safari'
-    };
 
     deviceName = 'Web Browser'; // Default device name
 
-    for (const key in deviceMappings) {
+    for (const key in BrowserName) {
         if (browser[key]) {
-            deviceName = deviceMappings[key];
+            deviceName = BrowserName[key];
             break;
         }
     }
