@@ -294,7 +294,7 @@ export async function getCommands(options) {
         });
     }
 
-    if (canPlay) {
+    if (canPlay && document.location.hash !== appRouter.getRouteUrl(item, options)) {
         commands.push({
             name: globalize.translate('ShowDetails'),
             id: 'itemdetails',
