@@ -31,7 +31,10 @@ export const HelpLinks = [
         paths: ['/dashboard/plugins/repositories'],
         url: 'https://jellyfin.org/docs/general/server/plugins/#repositories'
     }, {
-        paths: ['/dashboard/settings'],
+        paths: [
+            '/dashboard/branding',
+            '/dashboard/settings'
+        ],
         url: 'https://jellyfin.org/docs/general/server/settings'
     }, {
         paths: ['/dashboard/tasks'],
