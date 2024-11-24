@@ -172,14 +172,8 @@
     margin-left: auto;
 }
 
-@keyframes spin {
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
 .osdMediaStatus .animate {
-    animation: spin 4s linear infinite;
+    animation: spin-clockwise 4s linear infinite;
 }
 
 @media all and (max-width: 30em) {
@@ -236,7 +230,7 @@
 
 .primary-icon.spin {
     font-size: 76px !important;
-    animation: spin 2s linear infinite;
+    animation: spin-counterclockwise 2s linear infinite;
 }
 
 .secondary-icon {
@@ -326,8 +320,14 @@
     }
 }
 
-@keyframes spin {
+@keyframes spin-counterclockwise {
     100% {
         transform: rotate(-360deg);
+    }
+}
+
+@keyframes spin-clockwise {
+    100% {
+        transform: rotate(360deg);
     }
 }
