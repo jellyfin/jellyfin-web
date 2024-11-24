@@ -661,7 +661,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;
     parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !options.EnableEmbeddedTitles);
     parent.querySelector('#chkEnableEmbeddedExtrasTitles').checked = options.EnableEmbeddedExtrasTitles;
-    parent.querySelector('#chkEnableEmbeddedEpisodeInfos').value = options.EnableEmbeddedEpisodeInfos;
+    parent.querySelector('#chkEnableEmbeddedEpisodeInfos').checked = options.EnableEmbeddedEpisodeInfos;
     parent.querySelector('#selectAllowEmbeddedSubtitles').value = options.AllowEmbeddedSubtitles;
     parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked = options.SkipSubtitlesIfEmbeddedSubtitlesPresent;
     parent.querySelector('#chkSaveSubtitlesLocally').checked = options.SaveSubtitlesWithMedia;
