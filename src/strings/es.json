@@ -1971,5 +1971,16 @@
     "MessageSplitVersionsError": "Ocurrió un error al dividir las versiones",
     "UseCustomTagDelimiters": "Usar delimitador de etiqueta personalizado",
     "UseCustomTagDelimitersHelp": "Separar etiquetas de artista/género con caracteres personalizados.",
-    "VideoCodecTagNotSupported": "La etiqueta del códec de video no es compatible"
+    "VideoCodecTagNotSupported": "La etiqueta del códec de video no es compatible",
+    "MediaSegmentAction.AskToSkip": "Solicitar saltar",
+    "HeaderEditPlaylist": "Editar lista de reproducción",
+    "LabelMediaSegmentsType": "{0} Segmentos",
+    "LabelQsvDevice": "Dispositivo QSV",
+    "MediaSegmentType.Intro": "Introducción",
+    "Anime": "Anime",
+    "HeaderNewPlaylist": "Nueva lista de reproducción",
+    "MediaSegmentAction.Skip": "Saltar",
+    "MediaSegmentSkipPrompt": "Saltar {0}",
+    "MediaSegmentType.Commercial": "Comercial",
+    "MediaSegmentType.Preview": "Adelanto"
 }
