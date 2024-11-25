@@ -1,5 +1,6 @@
 import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
+import { getFilterStatus } from './filterIndicator';
 import globalize from '../../lib/globalize';
 import union from 'lodash-es/union';
 import Events from '../../utils/events.ts';
@@ -58,6 +59,15 @@ function renderFilters(context, result, query) {
     });
 }
 
+function renderResetButton(context, query) {
+    const elem = context.querySelector('.btnResetAllFilters');
+    if (getFilterStatus(query) === true) {
+        elem.classList.remove('hide');
+        return;
+    }
+    elem.classList.add('hide');
+}
+
 function loadDynamicFilters(context, apiClient, userId, itemQuery) {
     return apiClient.getJSON(apiClient.getUrl('Items/Filters', {
         UserId: userId,
@@ -65,6 +75,7 @@ function loadDynamicFilters(context, apiClient, userId, itemQuery) {
         IncludeItemTypes: itemQuery.IncludeItemTypes
     })).then(function (result) {
         renderFilters(context, result, itemQuery);
+        renderResetButton(context, itemQuery);
     });
 }
 
@@ -115,6 +126,13 @@ function updateFilterControls(context, options) {
 function triggerChange(instance) {
     stopMultiSelect();
     Events.trigger(instance, 'filterchange');
+    // show or hide reset filter button on any filter change
+    const elem = document.querySelector('.btnResetAllFilters');
+    if (getFilterStatus(instance.options.query) === true) {
+        elem.classList.remove('hide');
+        return;
+    }
+    elem.classList.add('hide');
 }
 
 function setVisibility(context, options) {
@@ -231,6 +249,39 @@ class FilterDialog {
 
         query.SeriesStatus = filters;
         query.StartIndex = 0;
+        triggerChange(this);
+    }
+
+    /**
+         * @private
+         */
+    onResetAllFilters(context) {
+        const query = this.options.query;
+        query.Filters = null;
+        query.IsFavorite = null;
+        query.VideoTypes = null;
+        query.SeriesStatus = null;
+        query.Is4K = null;
+        query.IsHD = null;
+        query.IsSD = null;
+        query.Is3D = null;
+        query.HasSubtitles = null;
+        query.HasTrailer = null;
+        query.HasSpecialFeature = null;
+        query.HasThemeSong = null;
+        query.HasThemeVideo = null;
+        query.IsMissing = null;
+        query.ParentIndexNumber = null;
+        query.Genres = null;
+        query.Tags = null;
+        query.Years = null;
+        query.OfficialRatings = null;
+        query.IsUnaired = null;
+        query.SeriesStatus = null;
+        query.StartIndex = 0;
+        for (const elem of context.querySelectorAll('input[type=checkbox]')) {
+            elem.checked = false;
+        }
         triggerChange(this);
     }
 
@@ -401,6 +452,8 @@ class FilterDialog {
                 triggerChange(this);
             }
         });
+        const btnResetAllFilters = context.querySelector('.btnResetAllFilters');
+        btnResetAllFilters.addEventListener('click', () => this.onResetAllFilters(context));
     }
 
     show() {
