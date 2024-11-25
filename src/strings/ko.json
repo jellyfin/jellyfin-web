@@ -1973,5 +1973,6 @@
     "MoviesAndShows": "영화 및 쇼",
     "PasswordMissingSaveError": "새 비밀번호는 공백일 수 없습니다.",
     "LabelDuration": "길이",
-    "LabelSaveTrickplayLocallyHelp": "쉬운 마이그레이션과 관리를 위해 트릭플레이 이미지를 미디어 폴더에 미디어와 함께 저장합니다."
+    "LabelSaveTrickplayLocallyHelp": "쉬운 마이그레이션과 관리를 위해 트릭플레이 이미지를 미디어 폴더에 미디어와 함께 저장합니다.",
+    "HeaderAudioAdvanced": "오디오 고급"
 }

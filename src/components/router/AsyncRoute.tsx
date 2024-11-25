@@ -37,16 +37,16 @@ export const toAsyncPageRoute = ({
     return {
         path,
         lazy: async () => {
-            const { default: route } = await importRoute(page ?? path, type);
+            const {
+                // If there is a default export, use it as the Component for compatibility
+                default: Component,
+                ...route
+            } = await importRoute(page ?? path, type);
 
-            // If route is not a RouteObject, use it as the Component
-            if (!route.Component) {
-                return {
-                    Component: route
-                };
-            }
-
-            return route;
+            return {
+                Component,
+                ...route
+            };
         }
     };
 };

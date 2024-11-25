@@ -1886,7 +1886,7 @@
     "LabelTileHeight": "Altura del Mosaico",
     "LabelTileHeightHelp": "Número máximo de imágenes por mosaico en la dirección Y.",
     "Reset": "Reinicializar",
-    "HeaderNextItemPlayingInValue": "Siguiente {0} Jugando en {1}",
+    "HeaderNextItemPlayingInValue": "Siguiente {0} Reproduciendo en {1}",
     "HeaderUploadLyrics": "Subir Letra",
     "HeaderNextItem": "Siguiente {0}",
     "NoLyricsSearchResultsFound": "No se encontraron letras.",

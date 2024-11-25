@@ -170,7 +170,6 @@ const UserProfiles = () => {
                         btnClassName='fab submit sectionTitleButton'
                         btnTitle='ButtonAddUser'
                         btnIcon='add'
-                        url='https://jellyfin.org/docs/general/server/users/adding-managing-users'
                     />
                 </div>
 
