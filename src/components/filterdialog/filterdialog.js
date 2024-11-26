@@ -61,7 +61,7 @@ function renderFilters(context, result, query) {
 
 function renderResetButton(context, query) {
     const elem = context.querySelector('.btnResetAllFilters');
-    if (getFilterStatus(query) === true) {
+    if (getFilterStatus(query)) {
         elem.classList.remove('hide');
         return;
     }
