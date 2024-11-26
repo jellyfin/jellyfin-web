@@ -128,7 +128,7 @@ function triggerChange(instance) {
     Events.trigger(instance, 'filterchange');
     // show or hide reset filter button on any filter change
     const elem = document.querySelector('.btnResetAllFilters');
-    if (getFilterStatus(instance.options.query) === true) {
+    if (getFilterStatus(instance.options.query)) {
         elem.classList.remove('hide');
         return;
     }
