@@ -1,8 +1,8 @@
 import './filterIndicator.scss';
-import { ALLOWED_FILTER_SETTINGS } from '../../constants/allowedFilterSettings';
+import { FILTER_SETTINGS } from '../../constants/filterSettings';
 
 export function getFilterStatus(query) {
-    return ALLOWED_FILTER_SETTINGS.some(setting => {
+    return FILTER_SETTINGS.some(setting => {
         return query[setting] !== undefined && query[setting] !== null;
     });
 }

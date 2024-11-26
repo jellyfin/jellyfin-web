@@ -2,7 +2,7 @@ import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
 import browser from '../browser';
 import appSettings from './appSettings';
-import { ALLOWED_FILTER_SETTINGS } from '../../constants/allowedFilterSettings';
+import { FILTER_SETTINGS } from '../../constants/filterSettings';
 
 function onSaveTimeout() {
     const self = this;
@@ -542,7 +542,7 @@ export class UserSettings {
             sortSettings = filterQuerySettings(JSON.parse(sortSettings), allowedSortSettings);
         }
         if (filterSettings) {
-            filterSettings = filterQuerySettings(JSON.parse(filterSettings), ALLOWED_FILTER_SETTINGS);
+            filterSettings = filterQuerySettings(JSON.parse(filterSettings), FILTER_SETTINGS);
         }
 
         return Object.assign(query, sortSettings, filterSettings);
@@ -555,7 +555,7 @@ export class UserSettings {
      */
     saveQuerySettings(key, query) {
         const sortSettings = filterQuerySettings(query, allowedSortSettings);
-        const filterSettings = filterQuerySettings(query, ALLOWED_FILTER_SETTINGS);
+        const filterSettings = filterQuerySettings(query, FILTER_SETTINGS);
 
         this.set(key, JSON.stringify(sortSettings));
         this.set(key + filterSettingsPostfix, JSON.stringify(filterSettings), false);

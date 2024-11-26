@@ -10,7 +10,7 @@ import './style.scss';
 import ServerConnections from '../ServerConnections';
 import template from './filterdialog.template.html';
 import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
-import { ALLOWED_FILTER_SETTINGS } from '../../constants/allowedFilterSettings';
+import { FILTER_SETTINGS } from '../../constants/filterSettings';
 
 function merge(resultItems, queryItems, delimiter) {
     if (!queryItems) {
@@ -249,7 +249,7 @@ class FilterDialog {
          */
     onResetAllFilters(context) {
         const query = this.options.query;
-        ALLOWED_FILTER_SETTINGS.forEach(setting => {
+        FILTER_SETTINGS.forEach(setting => {
             query[setting] = null;
         });
         query.StartIndex = 0;
