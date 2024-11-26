@@ -1476,21 +1476,21 @@ export class HtmlVideoPlayer {
          * @private
          */
     renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+        if (!itemHelper.isLocalItem(item) || track.IsExternal) {
+            const format = (track.Codec || '').toLowerCase();
+            if (format === 'ssa' || format === 'ass') {
+                this.renderSsaAss(videoElement, track, item);
+                return;
+            }
+            if (format === 'pgssub') {
+                this.renderPgs(videoElement, track, item);
+                return;
+            }
+        }
         import('../../scripts/settings/userSettings').then((userSettings) => {
-            if (!itemHelper.isLocalItem(item) || track.IsExternal) {
-                const format = (track.Codec || '').toLowerCase();
-                if (format === 'ssa' || format === 'ass') {
-                    this.renderSsaAss(videoElement, track, item);
-                    return;
-                }
-                if (format === 'pgssub') {
-                    this.renderPgs(videoElement, track, item);
-                    return;
-                }
-                if (this.requiresCustomSubtitlesElement(userSettings)) {
-                    this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
-                    return;
-                }
+            if ((!itemHelper.isLocalItem(item) || track.IsExternal) && this.requiresCustomSubtitlesElement(userSettings)) {
+                this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
+                return;
             }
 
             let trackElement = null;
