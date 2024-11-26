@@ -33,6 +33,8 @@ import { getPortraitShape, getSquareShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+import { copy } from 'scripts/clipboard';
+import toast from 'components/toast/toast';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -184,6 +186,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
     if (!item.MediaSources || !itemHelper.supportsMediaSourceSelection(item) || playbackManager.getSupportedCommands().indexOf('PlayMediaSource') === -1 || !playbackManager.canPlay(item)) {
         page.querySelector('.trackSelections').classList.add('hide');
         select.innerHTML = '';
+        page.querySelector('.sourcePath').innerHTML = '';
         page.querySelector('.selectVideo').innerHTML = '';
         page.querySelector('.selectAudio').innerHTML = '';
         page.querySelector('.selectSubtitles').innerHTML = '';
@@ -211,9 +214,61 @@ function renderTrackSelections(page, instance, item, forceReload) {
     }
 
     if (select.value !== currentValue || forceReload) {
+        renderSourcePaths(page, mediaSources);
         renderVideoSelections(page, mediaSources);
         renderAudioSelections(page, mediaSources);
         renderSubtitleSelections(page, mediaSources);
+    }
+}
+
+function renderSourcePaths(page, mediaSources) {
+    let itemPath = '';
+    let itemSize = 0;
+    try {
+        if (mediaSources[0].MediaStreams[0].Codec === 'dvd_nav_packet') {
+            // DVD (VIDEO_TS) items does not have filename within .Path property
+            itemPath = mediaSources[0].Path;
+        } else {
+            mediaSources.forEach((item) => {
+                console.log('item', item);
+                // remove filename or last subdir
+                itemPath = item.Path.slice(0, item.Path.lastIndexOf('/'));
+                itemSize = (item.Size / (1024 * 1024 * 1024)).toFixed(1);
+            });
+
+        }
+    } catch (e) {
+
+    }
+    if (itemPath === '') {
+        return;
+    }
+    const sourcePathElement = page.querySelector('.sourcePath');
+
+    const copyButtonHtml = layoutManager.tv ? '' :
+    `<button is="paper-icon-button-light" class="btnCopy" title="${globalize.translate('CopyDirectoryPath')}" aria-label="${globalize.translate('CopyDirectoryPath')}"
+        ><span class="material-icons content_copy" aria-hidden="true"></span></button>`;
+
+    // TODO: where to put those inline styles? maybe `theme.css`?
+    sourcePathElement.innerHTML = `<span style="
+        border-radius: .25em;
+        padding: .22em .5em;
+        background:rgba(170, 170, 190, 0.2);
+        margin-right: 0.5em; display:
+        inline-block;">${itemSize} GB</span><span>${itemPath}</span>` + copyButtonHtml;
+    const copyButton = sourcePathElement.querySelector('.btnCopy');
+
+    if (copyButton) {
+        copyButton.addEventListener('click', () => {
+            copy(itemPath).then(() => {
+                toast(globalize.translate('CopyDirectoryPathSuccess'));
+            }).catch(() => {
+                console.error('Could not copy directory path');
+                toast(globalize.translate('CopyDirectoryPathFailed'));
+            });
+        });
+    } else {
+        console.error('Copy button not found');
     }
 }
 

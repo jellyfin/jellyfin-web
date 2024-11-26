@@ -42,6 +42,7 @@ function renderHeader() {
     html += '<h3 class="pageTitle" aria-hidden="true"></h3>';
     html += '</div>';
     html += '<div class="headerRight">';
+    html += '<button is="paper-icon-button-light" class="headerShowPathsButton headerButton headerButtonRight hide"><span class="material-icons folder" aria-hidden="true"></span></button>';
     html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups" aria-hidden="true"></span></button>';
     html += '<span class="headerSelectedPlayer"></span>';
     html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note" aria-hidden="true"></span></button>';
@@ -66,6 +67,7 @@ function renderHeader() {
     headerAudioPlayerButton = skinHeader.querySelector('.headerAudioPlayerButton');
     headerSearchButton = skinHeader.querySelector('.headerSearchButton');
     headerSyncButton = skinHeader.querySelector('.headerSyncButton');
+    headerShowPathsButton = skinHeader.querySelector('.headerShowPathsButton');
     currentTimeText = skinHeader.querySelector('.currentTimeText');
 
     retranslateUi();
@@ -104,6 +106,10 @@ function retranslateUi() {
 
     if (mainDrawerButton) {
         mainDrawerButton.title = globalize.translate('Menu');
+    }
+
+    if (headerShowPathsButton) {
+        headerShowPathsButton.title = globalize.translate('ShowPaths');
     }
 
     if (headerSyncButton) {
@@ -173,10 +179,19 @@ function updateUserInHeader(user) {
         ) {
             headerSyncButton.classList.remove('hide');
         }
+
+        // TODO: should this be limited to desktop only?
+        // TODO: move policy to server side
+        // for now allow toggle path mode by default to all users
+        // or consider to chain condition with ` && policy?.IsAdministrator`
+        if (headerShowPathsButton) {
+            headerShowPathsButton.classList.remove('hide');
+        }
     } else {
         headerHomeButton.classList.add('hide');
         headerCastButton.classList.add('hide');
         headerSyncButton.classList.add('hide');
+        headerShowPathsButton.classList.add('hide');
 
         if (headerSearchButton) {
             headerSearchButton.classList.add('hide');
@@ -223,6 +238,17 @@ function showAudioPlayer() {
     return appRouter.showNowPlaying();
 }
 
+function toggleShowPathsMode(forcePathsMode = null) {
+    const currentMode = parseInt(localStorage.getItem('showPathsMode'), 10) || 0;
+    const newMode = forcePathsMode !== null ? forcePathsMode : (currentMode === 1 ? 0 : 1);
+
+    document.body.classList.toggle('show-paths', newMode === 1);
+    const btn = document.querySelector('.headerShowPathsButton');
+    if (btn) btn.classList.toggle('raised', newMode === 1);
+
+    localStorage.setItem('showPathsMode', newMode);
+}
+
 function bindMenuEvents() {
     if (mainDrawerButton) {
         mainDrawerButton.addEventListener('click', toggleMainDrawer);
@@ -245,6 +271,7 @@ function bindMenuEvents() {
 
     headerAudioPlayerButton.addEventListener('click', showAudioPlayer);
     headerSyncButton.addEventListener('click', onSyncButtonClicked);
+    headerShowPathsButton.addEventListener('click', onShowPathsButtonClicked);
 
     if (layoutManager.mobile) {
         initHeadRoom(skinHeader);
@@ -278,6 +305,10 @@ function onCastButtonClicked() {
 function onSyncButtonClicked() {
     const btn = this;
     groupSelectionMenu.show(btn);
+}
+
+function onShowPathsButtonClicked() {
+    toggleShowPathsMode();
 }
 
 function getItemHref(item, context) {
@@ -692,6 +723,7 @@ let currentUser;
 let headerCastButton;
 let headerSearchButton;
 let headerAudioPlayerButton;
+let headerShowPathsButton;
 let headerSyncButton;
 let currentTimeText;
 const enableLibraryNavDrawer = layoutManager.desktop;
@@ -819,6 +851,7 @@ Events.on(ServerConnections, 'localusersignedin', function (e, user) {
 
 Events.on(ServerConnections, 'localusersignedout', function () {
     currentUser = {};
+    toggleShowPathsMode(0);
     updateUserInHeader();
 });
 
@@ -839,6 +872,7 @@ const LibraryMenu = {
 
 window.LibraryMenu = LibraryMenu;
 renderHeader();
+toggleShowPathsMode(parseInt(localStorage.getItem('showPathsMode'), 10) || 0);
 
 export default LibraryMenu;
 

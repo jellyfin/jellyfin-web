@@ -151,7 +151,7 @@ function getTextLinesHtml(textlines, isLargeStyle) {
 
         elem.classList.add('listItemBodyText');
 
-        elem.innerHTML = '<bdi>' + escapeHtml(text) + '</bdi>';
+        elem.innerHTML = '<bdi>' + text + '</bdi>';
 
         html += elem.outerHTML;
     }
@@ -169,6 +169,25 @@ function getRightButtonsHtml(options) {
     }
 
     return html;
+}
+
+function normalizeText(text) {
+    // TODO: which regex shold be applied to support multi language?
+    return text.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function highlightMatches(displayName, itemFilePath) {
+    const normalizedFilePath = normalizeText(itemFilePath);
+    return displayName
+        .split(/(\s+|\W+)/)
+        .map(chunk => {
+            const normalizedChunk = normalizeText(chunk);
+            if (normalizedChunk && normalizedFilePath.includes(normalizedChunk)) {
+                return `<span style="color:#65f365;">${escapeHtml(chunk)}</span>`;
+            }
+            return escapeHtml(chunk);
+        })
+        .join('');
 }
 
 export function getListViewHtml(options) {
@@ -320,22 +339,21 @@ export function getListViewHtml(options) {
         const textlines = [];
 
         if (options.showProgramDateTime) {
-            textlines.push(datetime.toLocaleString(datetime.parseISO8601Date(item.StartDate), {
-
+            textlines.push(htmlEscape(datetime.toLocaleString(datetime.parseISO8601Date(item.StartDate), {
                 weekday: 'long',
                 month: 'short',
                 day: 'numeric',
                 hour: 'numeric',
                 minute: '2-digit'
-            }));
+            })));
         }
 
         if (options.showProgramTime) {
-            textlines.push(datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate)));
+            textlines.push(htmlEscape(datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate))));
         }
 
         if (options.showChannel && item.ChannelName) {
-            textlines.push(item.ChannelName);
+            textlines.push(htmlEscape(item.ChannelName));
         }
 
         let parentTitle = null;
@@ -363,31 +381,43 @@ export function getListViewHtml(options) {
                 }
                 parentTitle = (parentTitle || '') + displayName;
             }
-
-            textlines.push(parentTitle || '');
+            textlines.push(htmlEscape(parentTitle || ''));
         } else if (options.showParentTitle) {
-            textlines.push(parentTitle || '');
+            textlines.push(htmlEscape(parentTitle || ''));
         }
 
+        let displayNameShowPathsMode = displayName;
+        if (item.ProductionYear) {
+            displayNameShowPathsMode += ` (${item.ProductionYear})`;
+        }
+        let itemFilePath = '';
+        if (item.Path) {
+            const pathSegments = item.Path.split('/');
+            const lastTwoSegments = pathSegments.slice(-2);
+            itemFilePath = lastTwoSegments.join('/');
+        }
+
+        // colorize matching chunks within parent title
         if (displayName && !options.parentTitleWithTitle) {
-            textlines.push(displayName);
+            textlines.push(`<span class="hide-paths-mode-only">${escapeHtml(displayName)}</span>`);
+            textlines.push(`<span class="show-paths-mode-only">${highlightMatches(displayNameShowPathsMode, itemFilePath)}</span>`);
         }
 
         if (item.IsFolder) {
             if (options.artist !== false && item.AlbumArtist && item.Type === 'MusicAlbum') {
-                textlines.push(item.AlbumArtist);
+                textlines.push(htmlEscape(item.AlbumArtist));
             }
         } else if (options.artist) {
             const artistItems = item.ArtistItems;
             if (artistItems && item.Type !== 'MusicAlbum') {
-                textlines.push(artistItems.map(a => {
+                textlines.push(htmlEscape(artistItems.map(a => {
                     return a.Name;
-                }).join(', '));
+                }).join(', ')));
             }
         }
 
         if (item.Type === 'TvChannel' && item.CurrentProgram) {
-            textlines.push(itemHelper.getDisplayName(item.CurrentProgram));
+            textlines.push(htmlEscape(itemHelper.getDisplayName(item.CurrentProgram)));
         }
 
         cssClass = 'listItemBody';
@@ -402,6 +432,19 @@ export function getListViewHtml(options) {
         html += `<div class="${cssClass}">`;
 
         html += getTextLinesHtml(textlines, isLargeStyle);
+
+        if (item.Path) {
+            const pathSegments = item.Path.split('/');
+            let pathChunk = `<span class="show-paths-mode-only" style="font-size: 0.7em" title="${escapeHtml(item.Path)}">`;
+            const lastTwoSegments = pathSegments.slice(-2);
+            lastTwoSegments.forEach((segment, index) => {
+                pathChunk += `<span style="color: rgba(255, 255, 255, 0.5)">${segment}</span>`;
+                if (index < lastTwoSegments.length - 1) {
+                    pathChunk += `<span style="color: rgba(255, 255, 255, 0.8); margin: 0,5px; display:inline-block;">/</span>`;
+                }
+            });
+            html += pathChunk + '</span>';
+        }
 
         if (options.mediaInfo !== false && !enableSideMediaInfo) {
             const mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';

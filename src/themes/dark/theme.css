@@ -161,6 +161,10 @@ html {
     color: rgba(255, 255, 255, 0.5);
 }
 
+.listItem .secondary .show-paths-mode-only {
+    color: rgba(255, 255, 255, 0.8);
+}
+
 .actionsheetDivider {
     background: #444;
     background: rgba(255, 255, 255, 0.14);
@@ -520,4 +524,23 @@ html {
 #dialogToc .toc li a:active,
 #dialogToc .toc li a:hover {
     color: #00a4dc;
+}
+
+.show-paths-mode-only {
+    visibility: hidden;
+    display: none;
+}
+
+.hide-paths-mode-only {
+    visibility: visible;
+}
+
+body.show-paths .show-paths-mode-only {
+    visibility: visible;
+    display: unset;
+}
+
+body.show-paths .hide-paths-mode-only {
+    visibility: hidden;
+    display: none !important;
 }
