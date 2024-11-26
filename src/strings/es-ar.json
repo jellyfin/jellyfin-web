@@ -1877,5 +1877,22 @@
     "PlaybackError.NotAllowed": "La reproducción de este medio no está permitida.",
     "PlaybackError.RateLimitExceeded": "Este medio no puede reproducirse en este momento debído a límites de tasa.",
     "PleaseConfirmRepositoryInstallation": "Por favor, haga clic en OK para confirmar que ha leído lo anterior y desea continuar con la instalación del repositorio de complementos.",
-    "PluginEnableError": "Un error ha ocurrido mientras se habilitaba el complemento."
+    "PluginEnableError": "Un error ha ocurrido mientras se habilitaba el complemento.",
+    "LabelTrickplayAccel": "Habilitar decodificación por hardware",
+    "HearingImpairedShort": "HI/SDH",
+    "EnableVideoToolboxTonemapping": "Habilitar el mapeo de tonos de VideoToolbox",
+    "VideoCodecTagNotSupported": "La etiqueta del códec de video no es compatible",
+    "AllowAv1Encoding": "Permitir encodificación en formato AV1",
+    "EncodingFormatHelp": "Selecciona la codificación de vídeo a la que Jellyfin debe transcodificar. Jellyfin usará codificación por software cuando la aceleración por hardware no esté disponible. La codificación H264 estará siempre habilitada.",
+    "Unknown": "Desconocido",
+    "AiTranslated": "Traducido por IA",
+    "LabelIsHearingImpaired": "Para personas con discapacidad auditiva (SDH)",
+    "Trickplay": "Trickplay",
+    "LabelTrickplayAccelEncoding": "Habilita codificación MJPEG acelerada por hardware",
+    "LabelTrickplayAccelEncodingHelp": "Actualmente disponible solo en QSV, VA-API, VideoToolbox y RKMPP. Esta opción no tiene efecto en otros métodos de aceleración de hardware.",
+    "LabelEncodingFormatOptions": "Opciones de formato de codificación",
+    "MachineTranslated": "Traducido por Máquina",
+    "ForeignPartsOnly": "Partes Forzadas/Foráneas solamente",
+    "LabelTrickplayKeyFrameOnlyExtraction": "Solamente generar imágenes de los fotogramas clave",
+    "AllowVideoToolboxTonemappingHelp": "Aceleración por hardware en mapeo de tonos por VideoToolbox. Funciona con la mayoría de los formatos HDR, incluidos HDR10, HDR10+ y HLG, pero no funciona con Dolby Vision Profile 5. Esto tiene una prioridad más alta en comparación con otra implementación de OpenCL."
 }
