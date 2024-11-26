@@ -61,11 +61,7 @@ function renderFilters(context, result, query) {
 
 function renderResetButton(context, query) {
     const elem = context.querySelector('.btnResetAllFilters');
-    if (getFilterStatus(query)) {
-        elem.classList.remove('hide');
-        return;
-    }
-    elem.classList.add('hide');
+    elem.classList.toggle('hide', !getFilterStatus(query));
 }
 
 function loadDynamicFilters(context, apiClient, userId, itemQuery) {
@@ -127,12 +123,7 @@ function triggerChange(instance) {
     stopMultiSelect();
     Events.trigger(instance, 'filterchange');
     // show or hide reset filter button on any filter change
-    const elem = document.querySelector('.btnResetAllFilters');
-    if (getFilterStatus(instance.options.query)) {
-        elem.classList.remove('hide');
-        return;
-    }
-    elem.classList.add('hide');
+    renderResetButton(document.querySelector('.filterDialog'), instance.options.query);
 }
 
 function setVisibility(context, options) {
