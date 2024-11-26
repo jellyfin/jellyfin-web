@@ -150,7 +150,6 @@ const PlaybackTrickplay: FC = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={globalize.translate('Trickplay')}
-                        isLinkVisible={false}
                     />
                 </div>
 

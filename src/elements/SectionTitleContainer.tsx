@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import IconButtonElement from './IconButtonElement';
-import SectionTitleLinkElement from './SectionTitleLinkElement';
 
 type IProps = {
     SectionClassName?: string;
@@ -10,10 +9,8 @@ type IProps = {
     btnClassName?: string;
     btnTitle?: string;
     btnIcon?: string;
-    isLinkVisible?: boolean;
-    url?: string;
 };
-const SectionTitleContainer: FunctionComponent<IProps> = ({ SectionClassName, title, isBtnVisible = false, btnId, btnClassName, btnTitle, btnIcon, isLinkVisible = true, url }: IProps) => {
+const SectionTitleContainer: FunctionComponent<IProps> = ({ SectionClassName, title, isBtnVisible = false, btnId, btnClassName, btnTitle, btnIcon }: IProps) => {
     return (
         <div className={`${SectionClassName} sectionTitleContainer flex align-items-center`}>
             <h2 className='sectionTitle'>
@@ -26,12 +23,6 @@ const SectionTitleContainer: FunctionComponent<IProps> = ({ SectionClassName, ti
                 className={btnClassName}
                 title={btnTitle}
                 icon={btnIcon}
-            />}
-
-            {isLinkVisible && <SectionTitleLinkElement
-                className='raised button-alt headerHelpButton'
-                title='Help'
-                url={url}
             />}
 
         </div>

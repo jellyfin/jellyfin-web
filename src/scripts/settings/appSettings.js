@@ -157,6 +157,19 @@ class AppSettings {
     }
 
     /**
+     * Get or set 'Always burn in subtitle when transcoding' state.
+     * @param {boolean|undefined} val - Flag to enable 'Always burn in subtitle when transcoding' or undefined.
+     * @return {boolean} 'Always burn in subtitle when transcoding' state.
+     */
+    alwaysBurnInSubtitleWhenTranscoding(val) {
+        if (val !== undefined) {
+            return this.set('alwaysBurnInSubtitleWhenTranscoding', val.toString());
+        }
+
+        return toBoolean(this.get('alwaysBurnInSubtitleWhenTranscoding'), false);
+    }
+
+    /**
      * Get or set 'Enable DTS' state.
      * @param {boolean|undefined} val - Flag to enable 'Enable DTS' or undefined.
      * @return {boolean} 'Enable DTS' state.
@@ -180,6 +193,58 @@ class AppSettings {
         }
 
         return toBoolean(this.get('enableTrueHd'), false);
+    }
+
+    /**
+     * Get or set 'Enable H.264 High 10 Profile' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable H.264 High 10 Profile' or undefined.
+     * @return {boolean} 'Enable H.264 High 10 Profile' state.
+     */
+    enableHi10p(val) {
+        if (val !== undefined) {
+            return this.set('enableHi10p', val.toString());
+        }
+
+        return toBoolean(this.get('enableHi10p'), false);
+    }
+
+    /**
+     * Get or set 'Disable VBR audio encoding' state.
+     * @param {boolean|undefined} val - Flag to enable 'Disable VBR audio encoding' or undefined.
+     * @return {boolean} 'Disable VBR audio encoding' state.
+     */
+    disableVbrAudio(val) {
+        if (val !== undefined) {
+            return this.set('disableVbrAudio', val.toString());
+        }
+
+        return toBoolean(this.get('disableVbrAudio'), false);
+    }
+
+    /**
+     * Get or set 'Always remux FLAC audio files' state.
+     * @param {boolean|undefined} val - Flag to enable 'Always remux FLAC audio files' or undefined.
+     * @return {boolean} 'Always remux FLAC audio files' state.
+     */
+    alwaysRemuxFlac(val) {
+        if (val !== undefined) {
+            return this.set('alwaysRemuxFlac', val.toString());
+        }
+
+        return toBoolean(this.get('alwaysRemuxFlac'), false);
+    }
+
+    /**
+     * Get or set 'Always remux MP3 audio files' state.
+     * @param {boolean|undefined} val - Flag to enable 'Always remux MP3 audio files' or undefined.
+     * @return {boolean} 'Always remux MP3 audio files' state.
+     */
+    alwaysRemuxMp3(val) {
+        if (val !== undefined) {
+            return this.set('alwaysRemuxMp3', val.toString());
+        }
+
+        return toBoolean(this.get('alwaysRemuxMp3'), false);
     }
 
     set(name, value, userId) {

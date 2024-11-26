@@ -4,22 +4,19 @@ const CopyPlugin = require('copy-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { DefinePlugin } = require('webpack');
+const { DefinePlugin, IgnorePlugin } = require('webpack');
 const packageJson = require('./package.json');
 
 const Assets = [
     'native-promise-only/npo.js',
     'libarchive.js/dist/worker-bundle.js',
+    'libarchive.js/dist/libarchive.wasm',
     '@jellyfin/libass-wasm/dist/js/default.woff2',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
-    'pdfjs-dist/build/pdf.worker.js'
-];
-
-const LibarchiveWasm = [
-    'libarchive.js/dist/wasm-gen/libarchive.js',
-    'libarchive.js/dist/wasm-gen/libarchive.wasm'
+    'pdfjs-dist/build/pdf.worker.js',
+    'libpgs/dist/libpgs.worker.js'
 ];
 
 const DEV_MODE = process.env.NODE_ENV !== 'production';
@@ -76,8 +73,7 @@ const config = {
         new CopyPlugin({
             patterns: [
                 {
-                    from: 'themes/',
-                    to: 'themes/'
+                    from: 'themes/**/*.{css,jpg}'
                 },
                 {
                     from: 'assets/**',
@@ -90,7 +86,13 @@ const config = {
                     from: '*.*',
                     globOptions: {
                         dot: true,
-                        ignore: ['**.js', '**.html']
+                        ignore: [
+                            '**.js',
+                            '**.jsx',
+                            '**.html',
+                            '**.ts',
+                            '**.tsx'
+                        ]
                     }
                 }
             ]
@@ -103,13 +105,11 @@ const config = {
                 };
             })
         }),
-        new CopyPlugin({
-            patterns: LibarchiveWasm.map(asset => {
-                return {
-                    from: path.resolve(__dirname, `./node_modules/${asset}`),
-                    to: path.resolve(__dirname, './dist/libraries/wasm-gen')
-                };
-            })
+        // The libarchive.js worker-bundle is copied manually.
+        // If it is automatically bundled, escheck will fail since it uses import.meta.url.
+        new IgnorePlugin({
+            resourceRegExp: /worker-bundle\.js$/,
+            contextRegExp: /libarchive.js/
         }),
         new ForkTsCheckerWebpackPlugin({
             typescript: {
@@ -230,6 +230,23 @@ const config = {
                     }
                 }]
             },
+            // Strict EcmaScript modules require additional flags
+            {
+                test: /\.(js|jsx|mjs)$/,
+                include: [
+                    path.resolve(__dirname, 'node_modules/@tanstack/query-devtools')
+                ],
+                resolve: {
+                    fullySpecified: false
+                },
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        cacheCompression: false,
+                        cacheDirectory: true
+                    }
+                }]
+            },
             {
                 test: /\.worker\.ts$/,
                 exclude: /node_modules/,
@@ -326,7 +343,9 @@ const config = {
 };
 
 if (!DEV_MODE) {
-    config.plugins.push(new MiniCssExtractPlugin());
+    config.plugins.push(new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].css'
+    }));
 }
 
 module.exports = config;

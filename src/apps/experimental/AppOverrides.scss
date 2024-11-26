@@ -7,6 +7,10 @@ $mui-bp-xl: 1536px;
 
 $drawer-width: 240px;
 
+#reactRoot {
+    height: 100%;
+}
+
 // Fix main pages layout to work with drawer
 .mainAnimatedPage {
     @media all and (min-width: $mui-bp-md) {

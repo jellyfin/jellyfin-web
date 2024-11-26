@@ -24,13 +24,15 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({ item, items, viewType, hasFilte
             playbackManager.shuffle(item);
         } else {
             playbackManager.play({
-                items: items,
+                items,
                 autoplay: true,
                 queryOptions: {
                     ParentId: item?.Id ?? undefined,
                     ...getFiltersQuery(viewType, libraryViewSettings),
                     SortBy: [ItemSortBy.Random]
                 }
+            }).catch(err => {
+                console.error('[ShuffleButton] failed to play', err);
             });
         }
     }, [hasFilters, item, items, libraryViewSettings, viewType]);

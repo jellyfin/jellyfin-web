@@ -48,6 +48,15 @@ function supportsTextTracks() {
     return _supportsTextTracks;
 }
 
+let _supportsCanvas2D;
+function supportsCanvas2D() {
+    if (_supportsCanvas2D == null) {
+        _supportsCanvas2D = document.createElement('canvas').getContext('2d') != null;
+    }
+
+    return _supportsCanvas2D;
+}
+
 let _canPlayHls;
 function canPlayHls() {
     if (_canPlayHls == null) {
@@ -188,6 +197,10 @@ function canPlayAudioFormat(format) {
 }
 
 function testCanPlayMkv(videoTestElement) {
+    if (browser.vidaa) {
+        return false;
+    }
+
     if (browser.tizen || browser.web0s) {
         return true;
     }
@@ -225,6 +238,12 @@ function supportsHdr10(options) {
             // Edge Chromium 121+ fixed the tone-mapping color issue on Nvidia
             || browser.edgeChromium && (browser.versionMajor >= 121)
             || browser.chrome && !browser.mobile
+            // Firefox 100+ has support for HDR on macOS/OS X. It requires OS support, which was
+            // added in macOS 10.15 Catalina. If enabling HDR on other platforms, be careful about
+            // allowing HDR VP9 in mp4 containers.
+            //  * https://www.mozilla.org/en-US/firefox/100.0/releasenotes/
+            //  * https://bugzilla.mozilla.org/show_bug.cgi?id=1915265
+            || browser.firefox && browser.osx && (!browser.iphone && !browser.ipod && !browser.ipad) && (browser.versionMajor >= 100)
     );
 }
 
@@ -242,16 +261,16 @@ function supportedDolbyVisionProfilesHevc(videoTestElement) {
     if (browser.xboxOne) return [5, 8];
 
     const supportedProfiles = [];
-    // Profiles 5/8 4k@60fps
+    // Profiles 5/8 4k@24fps
     if (videoTestElement.canPlayType) {
         if (videoTestElement
-            .canPlayType('video/mp4; codecs="dvh1.05.09"')
+            .canPlayType('video/mp4; codecs="dvh1.05.06"')
             .replace(/no/, '')) {
             supportedProfiles.push(5);
         }
         if (
             videoTestElement
-                .canPlayType('video/mp4; codecs="dvh1.08.09"')
+                .canPlayType('video/mp4; codecs="dvh1.08.06"')
                 .replace(/no/, '')
             // LG TVs from at least 2020 onwards should support profile 8, but they don't report it.
             || (browser.web0sVersion >= 4)
@@ -260,6 +279,11 @@ function supportedDolbyVisionProfilesHevc(videoTestElement) {
         }
     }
     return supportedProfiles;
+}
+
+function supportedDolbyVisionProfileAv1(videoTestElement) {
+    // Profile 10 4k@24fps
+    return videoTestElement.canPlayType?.('video/mp4; codecs="dav1.10.06"').replace(/no/, '');
 }
 
 function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
@@ -638,7 +662,7 @@ export default function (options) {
 
     if (canPlayHevc(videoTestElement, options)) {
         mp4VideoCodecs.push('hevc');
-        if (browser.tizen || browser.web0s) {
+        if (browser.tizen || browser.web0s || browser.vidaa) {
             hlsInTsVideoCodecs.push('hevc');
         }
     }
@@ -660,14 +684,18 @@ export default function (options) {
     }
 
     if (canPlayVp9) {
-        if (!browser.iOS) {
+        if (!browser.iOS && !(browser.firefox && browser.osx)) {
             // iOS safari may fail to direct play vp9 in mp4 container
+            //
+            // Firefox can play vp9 in mp4 container but fails to detect HDR. Since HDR is
+            // unsupported for all other non-Mac platforms, it's fine to allow vp9 in mp4 for them.
+            //   * https://bugzilla.mozilla.org/show_bug.cgi?id=1915265
             mp4VideoCodecs.push('vp9');
         }
         // Only iOS Safari's native HLS player understands vp9 in fmp4
         // This should be used in conjunction with forcing
         // using HLS.js for VP9 remuxing on desktop Safari.
-        if (browser.safari) {
+        if (browser.safari || browser.edgeChromium || browser.chrome || browser.firefox) {
             hlsInFmp4VideoCodecs.push('vp9');
         }
         // webm support is unreliable on safari 17
@@ -738,10 +766,19 @@ export default function (options) {
             });
         }
 
-        profile.DirectPlayProfiles.push({
-            Container: audioFormat,
-            Type: 'Audio'
-        });
+        if (audioFormat === 'flac' && appSettings.alwaysRemuxFlac()) {
+            // force remux flac in fmp4. Clients not supporting this configuration should disable this option
+            profile.DirectPlayProfiles.push({
+                Container: 'mp4',
+                AudioCodec: 'flac',
+                Type: 'Audio'
+            });
+        } else if (audioFormat !== 'mp3' || !appSettings.alwaysRemuxMp3()) { // mp3 remux profile is already injected
+            profile.DirectPlayProfiles.push({
+                Container: audioFormat,
+                Type: 'Audio'
+            });
+        }
 
         // https://www.webmproject.org/about/faq/
         if (audioFormat === 'opus' || audioFormat === 'webma') {
@@ -794,7 +831,8 @@ export default function (options) {
             Protocol: 'hls',
             MaxAudioChannels: physicalAudioChannels.toString(),
             MinSegments: browser.iOS || browser.osx ? '2' : '1',
-            BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
+            BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
+            EnableAudioVbrEncoding: !appSettings.disableVbrAudio()
         });
     }
 
@@ -906,17 +944,45 @@ export default function (options) {
         });
     }
 
+    const globalAudioCodecProfileConditions = [];
+    const globalVideoAudioCodecProfileConditions = [];
+
+    if (parseInt(userSettings.allowedAudioChannels(), 10) > 0) {
+        globalAudioCodecProfileConditions.push({
+            Condition: 'LessThanEqual',
+            Property: 'AudioChannels',
+            Value: physicalAudioChannels.toString(),
+            IsRequired: false
+        });
+
+        globalVideoAudioCodecProfileConditions.push({
+            Condition: 'LessThanEqual',
+            Property: 'AudioChannels',
+            Value: physicalAudioChannels.toString(),
+            IsRequired: false
+        });
+    }
+
     if (!supportsSecondaryAudio) {
+        globalVideoAudioCodecProfileConditions.push({
+            Condition: 'Equals',
+            Property: 'IsSecondaryAudio',
+            Value: 'false',
+            IsRequired: false
+        });
+    }
+
+    if (globalAudioCodecProfileConditions.length) {
+        profile.CodecProfiles.push({
+            Type: 'Audio',
+            Conditions: globalAudioCodecProfileConditions
+        });
+    }
+
+    if (globalVideoAudioCodecProfileConditions.length) {
         profile.CodecProfiles.push({
             Type: 'VideoAudio',
-            Conditions: [
-                {
-                    Condition: 'Equals',
-                    Property: 'IsSecondaryAudio',
-                    Value: 'false',
-                    IsRequired: false
-                }
-            ]
+            Conditions: globalVideoAudioCodecProfileConditions
         });
     }
 
@@ -1045,16 +1111,28 @@ export default function (options) {
     let vp9VideoRangeTypes = 'SDR';
     let av1VideoRangeTypes = 'SDR';
 
+    if (browser.tizenVersion >= 3) {
+        hevcVideoRangeTypes += '|DOVIWithSDR';
+    }
+
     if (supportsHdr10(options)) {
         hevcVideoRangeTypes += '|HDR10';
         vp9VideoRangeTypes += '|HDR10';
         av1VideoRangeTypes += '|HDR10';
+
+        if (browser.tizenVersion >= 3) {
+            hevcVideoRangeTypes += '|DOVIWithHDR10';
+        }
     }
 
     if (supportsHlg(options)) {
         hevcVideoRangeTypes += '|HLG';
         vp9VideoRangeTypes += '|HLG';
         av1VideoRangeTypes += '|HLG';
+
+        if (browser.tizenVersion >= 3) {
+            hevcVideoRangeTypes += '|DOVIWithHLG';
+        }
     }
 
     if (supportsDolbyVision(options)) {
@@ -1064,6 +1142,10 @@ export default function (options) {
         }
         if (profiles.includes(8)) {
             hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR';
+        }
+
+        if (supportedDolbyVisionProfileAv1(videoTestElement)) {
+            av1VideoRangeTypes += '|DOVI|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR';
         }
     }
 
@@ -1289,6 +1371,23 @@ export default function (options) {
         profile.CodecProfiles.push(codecProfileMp4);
     }
 
+    if (browser.safari && appSettings.enableHi10p()) {
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Container: 'hls',
+            SubContainer: 'mp4',
+            Codec: 'h264',
+            Conditions: [
+                {
+                    Condition: 'EqualsAny',
+                    Property: 'VideoProfile',
+                    Value: h264Profiles + '|high 10',
+                    IsRequired: false
+                }
+            ]
+        });
+    }
+
     profile.CodecProfiles.push({
         Type: 'Video',
         Codec: 'h264',
@@ -1360,6 +1459,7 @@ export default function (options) {
     // External vtt or burn in
     profile.SubtitleProfiles = [];
     const subtitleBurninSetting = appSettings.get('subtitleburnin');
+    const subtitleRenderPgsSetting = appSettings.get('subtitlerenderpgs') === 'true';
     if (subtitleBurninSetting !== 'all') {
         if (supportsTextTracks()) {
             profile.SubtitleProfiles.push({
@@ -1374,6 +1474,14 @@ export default function (options) {
             });
             profile.SubtitleProfiles.push({
                 Format: 'ssa',
+                Method: 'External'
+            });
+        }
+
+        if (supportsCanvas2D() && options.enablePgsRender !== false && !options.isRetry && subtitleRenderPgsSetting
+            && subtitleBurninSetting !== 'allcomplexformats' && subtitleBurninSetting !== 'onlyimageformats') {
+            profile.SubtitleProfiles.push({
+                Format: 'pgssub',
                 Method: 'External'
             });
         }

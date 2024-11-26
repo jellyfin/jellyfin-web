@@ -1,0 +1,45 @@
+name: Packaging 📦
+
+on:
+  workflow_call:
+    inputs:
+      commit:
+        required: false
+        type: string
+
+jobs:
+  run-build-prod:
+    name: Run production build 🏗️
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ inputs.commit || github.sha }}
+
+      - name: Setup node environment
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: 20
+          cache: npm
+          check-latest: true
+
+      - name: Install Node.js dependencies
+        run: npm ci --no-audit
+
+      - name: Run a production build
+        env:
+          JELLYFIN_VERSION: ${{ inputs.commit || github.sha }}
+        run: npm run build:production
+
+      - name: Update config.json for testing
+        run: |
+          jq '.multiserver=true | .servers=["https://demo.jellyfin.org/unstable"]' dist/config.json > dist/config.tmp.json
+          mv dist/config.tmp.json dist/config.json
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+        with:
+          name: frontend
+          path: dist

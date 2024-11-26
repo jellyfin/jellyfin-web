@@ -1,12 +1,16 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useCallback } from 'react';
 import IconButtonElement from '../../../elements/IconButtonElement';
 
 type IProps = {
     tag?: string,
     tagType?: string;
+    removeTagCallback?: (tag: string) => void;
 };
 
-const TagList: FunctionComponent<IProps> = ({ tag, tagType }: IProps) => {
+const TagList: FunctionComponent<IProps> = ({ tag, tagType, removeTagCallback }: IProps) => {
+    const onClick = useCallback(() => {
+        tag !== undefined && removeTagCallback !== undefined && removeTagCallback(tag);
+    }, [tag, removeTagCallback]);
     return (
         <div className='paperList'>
             <div className='listItem'>
@@ -21,6 +25,7 @@ const TagList: FunctionComponent<IProps> = ({ tag, tagType }: IProps) => {
                     title='Delete'
                     icon='delete'
                     dataTag={tag}
+                    onClick={onClick}
                 />
             </div>
         </div>

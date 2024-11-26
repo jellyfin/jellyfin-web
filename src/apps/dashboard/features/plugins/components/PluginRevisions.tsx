@@ -9,7 +9,7 @@ import Stack from '@mui/material/Stack/Stack';
 import React, { type FC } from 'react';
 
 import MarkdownBox from 'components/MarkdownBox';
-import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
+import { getDisplayDateTime } from 'scripts/datetime';
 import globalize from 'lib/globalize';
 
 import type { PluginDetails } from '../types/PluginDetails';
@@ -32,7 +32,7 @@ const PluginRevisions: FC<PluginRevisionsProps> = ({
                 {version.version}
                 {version.timestamp && (<>
                     &nbsp;&mdash;&nbsp;
-                    {toLocaleString(parseISO8601Date(version.timestamp))}
+                    {getDisplayDateTime(version.timestamp)}
                 </>)}
             </AccordionSummary>
             <AccordionDetails>

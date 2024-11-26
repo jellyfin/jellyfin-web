@@ -204,7 +204,7 @@ const uaMatch = function (ua) {
 
     const versionMatch = /(version)[ /]([\w.]+)/.exec(ua);
 
-    let platform_match = /(ipad)/.exec(ua)
+    let platformMatch = /(ipad)/.exec(ua)
         || /(iphone)/.exec(ua)
         || /(windows)/.exec(ua)
         || /(android)/.exec(ua)
@@ -213,7 +213,7 @@ const uaMatch = function (ua) {
     let browser = match[1] || '';
 
     if (browser === 'edge') {
-        platform_match = [''];
+        platformMatch = [''];
     }
 
     if (browser === 'opr') {
@@ -236,7 +236,7 @@ const uaMatch = function (ua) {
     return {
         browser: browser,
         version: version,
-        platform: platform_match[0] || '',
+        platform: platformMatch[0] || '',
         versionMajor: versionMajor
     };
 };
@@ -293,12 +293,17 @@ browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') 
 
 if (browser.web0s) {
     browser.web0sVersion = web0sVersion(browser);
-} else if (browser.tizen) {
-    // UserAgent string contains 'Safari' and 'safari' is set by matched browser, but we only want 'tizen' to be true
-    delete browser.safari;
 
+    // UserAgent string contains 'Chrome' and 'Safari', but we only want 'web0s' to be true
+    delete browser.chrome;
+    delete browser.safari;
+} else if (browser.tizen) {
     const v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
     browser.tizenVersion = parseInt(v[1], 10);
+
+    // UserAgent string contains 'Chrome' and 'Safari', but we only want 'tizen' to be true
+    delete browser.chrome;
+    delete browser.safari;
 } else {
     browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
 }

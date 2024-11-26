@@ -1,7 +1,7 @@
 // Import legacy browser polyfills
 import 'lib/legacy';
 
-import React, { StrictMode } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 // NOTE: We need to import this first to initialize the connection
@@ -9,6 +9,7 @@ import ServerConnections from './components/ServerConnections';
 
 import { appHost } from './components/apphost';
 import autoFocuser from './components/autoFocuser';
+import loading from 'components/loading/loading';
 import { pluginManager } from './components/pluginManager';
 import { appRouter } from './components/router/appRouter';
 import globalize from './lib/globalize';
@@ -73,7 +74,7 @@ build: ${__JF_BUILD_VERSION__}`);
     }
 
     // Initialize automatic (default) cast target
-    initializeAutoCast(ServerConnections.currentApiClient());
+    initializeAutoCast();
 
     // Load the translation dictionary
     await loadCoreDictionary();
@@ -98,6 +99,19 @@ build: ${__JF_BUILD_VERSION__}`);
     Events.on(appHost, 'resume', () => {
         ServerConnections.currentApiClient()?.ensureWebSocket();
     });
+
+    // Register API request error handlers
+    ServerConnections.getApiClients().forEach(apiClient => {
+        Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
+        Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
+    });
+    Events.on(ServerConnections, 'apiclientcreated', (_e, apiClient) => {
+        Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
+        Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
+    });
+
+    // Connect to server
+    ServerConnections.firstConnection = await ServerConnections.connect();
 
     // Render the app
     await renderApp();
@@ -250,13 +264,11 @@ async function renderApp() {
     // Remove the splash logo
     container.innerHTML = '';
 
-    await appRouter.start();
+    loading.show();
 
     const root = createRoot(container);
     root.render(
-        <StrictMode>
-            <RootApp history={history} />
-        </StrictMode>
+        <RootApp history={history} />
     );
 }
 

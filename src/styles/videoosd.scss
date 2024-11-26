@@ -136,17 +136,9 @@
     align-items: center;
 }
 
-.osdRatingsText {
-    display: flex;
-    align-items: center;
-    margin-left: 1em;
-    margin-right: auto;
-    user-select: none;
-}
-
 .osdTimeText {
     margin-left: 1em;
-    margin-right: 1em;
+    margin-right: auto;
     user-select: none;
 }
 
@@ -191,6 +183,7 @@
 }
 
 @media all and (max-width: 30em) {
+    .btnUserRating,
     .osdMediaInfo,
     .osdPoster {
         display: none !important;
@@ -219,14 +212,6 @@
 
 @media all and (max-width: 75em) {
     .videoOsdBottom .endsAtText {
-        display: none !important;
-    }
-
-    .videoOsdBottom .osdRatingsText .starRatingContainer {
-        display: none !important;
-    }
-
-    .videoOsdBottom .osdRatingsText .mediaInfoCriticRating {
         display: none !important;
     }
 }

@@ -32,6 +32,22 @@
             </select>
             <div class="fieldDescription">${BurnSubtitlesHelp}</div>
         </div>
+
+        <div class="checkboxContainer checkboxContainer-withDescription fldRenderPgs hide">
+            <label>
+                <input is="emby-checkbox" type="checkbox" id="chkSubtitleRenderPgs" />
+                <span>${RenderPgsSubtitle}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${RenderPgsSubtitleHelp}</div>
+        </div>
+    </div>
+
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input is="emby-checkbox" type="checkbox" id="chkAlwaysBurnInSubtitleWhenTranscoding" />
+            <span>${AlwaysBurnInSubtitleWhenTranscoding}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${AlwaysBurnInSubtitleWhenTranscodingHelp}</div>
     </div>
 
     <div class="verticalSection subtitleAppearanceSection hide">

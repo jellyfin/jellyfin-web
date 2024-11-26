@@ -12,6 +12,7 @@ import { EXPERIMENTAL_APP_ROUTES } from 'apps/experimental/routes/routes';
 import { STABLE_APP_ROUTES } from 'apps/stable/routes/routes';
 import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
+import BangRedirect from 'components/router/BangRedirect';
 import { createRouterHistory } from 'components/router/routerHistory';
 import UserThemeProvider from 'themes/UserThemeProvider';
 
@@ -23,7 +24,11 @@ const router = createHashRouter([
         element: <RootAppLayout />,
         children: [
             ...(isExperimentalLayout ? EXPERIMENTAL_APP_ROUTES : STABLE_APP_ROUTES),
-            ...DASHBOARD_APP_ROUTES
+            ...DASHBOARD_APP_ROUTES,
+            {
+                path: '!/*',
+                Component: BangRedirect
+            }
         ]
     }
 ]);
