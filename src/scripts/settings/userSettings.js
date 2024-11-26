@@ -2,6 +2,7 @@ import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
 import browser from '../browser';
 import appSettings from './appSettings';
+import { ALLOWED_FILTER_SETTINGS } from '../../constants/allowedFilterSettings';
 
 function onSaveTimeout() {
     const self = this;
@@ -20,13 +21,6 @@ function saveServerPreferences(instance) {
 const allowedSortSettings = ['SortBy', 'SortOrder'];
 
 const filterSettingsPostfix = '-filter';
-const allowedFilterSettings = [
-    'Filters', 'HasSubtitles', 'HasTrailer', 'HasSpecialFeature',
-    'HasThemeSong', 'HasThemeVideo', 'Genres', 'OfficialRatings',
-    'Tags', 'VideoTypes', 'IsSD', 'IsHD', 'Is4K', 'Is3D',
-    'IsFavorite', 'IsMissing', 'IsUnaired', 'ParentIndexNumber',
-    'SeriesStatus', 'Years'
-];
 
 function filterQuerySettings(query, allowedItems) {
     return Object.keys(query)
@@ -548,7 +542,7 @@ export class UserSettings {
             sortSettings = filterQuerySettings(JSON.parse(sortSettings), allowedSortSettings);
         }
         if (filterSettings) {
-            filterSettings = filterQuerySettings(JSON.parse(filterSettings), allowedFilterSettings);
+            filterSettings = filterQuerySettings(JSON.parse(filterSettings), ALLOWED_FILTER_SETTINGS);
         }
 
         return Object.assign(query, sortSettings, filterSettings);
@@ -561,7 +555,7 @@ export class UserSettings {
      */
     saveQuerySettings(key, query) {
         const sortSettings = filterQuerySettings(query, allowedSortSettings);
-        const filterSettings = filterQuerySettings(query, allowedFilterSettings);
+        const filterSettings = filterQuerySettings(query, ALLOWED_FILTER_SETTINGS);
 
         this.set(key, JSON.stringify(sortSettings));
         this.set(key + filterSettingsPostfix, JSON.stringify(filterSettings), false);

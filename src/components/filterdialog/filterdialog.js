@@ -10,6 +10,7 @@ import './style.scss';
 import ServerConnections from '../ServerConnections';
 import template from './filterdialog.template.html';
 import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
+import { ALLOWED_FILTER_SETTINGS } from '../../constants/allowedFilterSettings';
 
 function merge(resultItems, queryItems, delimiter) {
     if (!queryItems) {
@@ -248,27 +249,9 @@ class FilterDialog {
          */
     onResetAllFilters(context) {
         const query = this.options.query;
-        query.Filters = null;
-        query.IsFavorite = null;
-        query.VideoTypes = null;
-        query.SeriesStatus = null;
-        query.Is4K = null;
-        query.IsHD = null;
-        query.IsSD = null;
-        query.Is3D = null;
-        query.HasSubtitles = null;
-        query.HasTrailer = null;
-        query.HasSpecialFeature = null;
-        query.HasThemeSong = null;
-        query.HasThemeVideo = null;
-        query.IsMissing = null;
-        query.ParentIndexNumber = null;
-        query.Genres = null;
-        query.Tags = null;
-        query.Years = null;
-        query.OfficialRatings = null;
-        query.IsUnaired = null;
-        query.SeriesStatus = null;
+        ALLOWED_FILTER_SETTINGS.forEach(setting => {
+            query[setting] = null;
+        });
         query.StartIndex = 0;
         for (const elem of context.querySelectorAll('input[type=checkbox]')) {
             elem.checked = false;
