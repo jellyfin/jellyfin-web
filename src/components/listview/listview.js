@@ -339,7 +339,7 @@ export function getListViewHtml(options) {
         const textlines = [];
 
         if (options.showProgramDateTime) {
-            textlines.push(htmlEscape(datetime.toLocaleString(datetime.parseISO8601Date(item.StartDate), {
+            textlines.push(escapeHtml(datetime.toLocaleString(datetime.parseISO8601Date(item.StartDate), {
                 weekday: 'long',
                 month: 'short',
                 day: 'numeric',
@@ -349,11 +349,11 @@ export function getListViewHtml(options) {
         }
 
         if (options.showProgramTime) {
-            textlines.push(htmlEscape(datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate))));
+            textlines.push(escapeHtml(datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate))));
         }
 
         if (options.showChannel && item.ChannelName) {
-            textlines.push(htmlEscape(item.ChannelName));
+            textlines.push(escapeHtml(item.ChannelName));
         }
 
         let parentTitle = null;
@@ -381,9 +381,9 @@ export function getListViewHtml(options) {
                 }
                 parentTitle = (parentTitle || '') + displayName;
             }
-            textlines.push(htmlEscape(parentTitle || ''));
+            textlines.push(escapeHtml(parentTitle || ''));
         } else if (options.showParentTitle) {
-            textlines.push(htmlEscape(parentTitle || ''));
+            textlines.push(escapeHtml(parentTitle || ''));
         }
 
         let displayNameShowPathsMode = displayName;
@@ -405,19 +405,19 @@ export function getListViewHtml(options) {
 
         if (item.IsFolder) {
             if (options.artist !== false && item.AlbumArtist && item.Type === 'MusicAlbum') {
-                textlines.push(htmlEscape(item.AlbumArtist));
+                textlines.push(escapeHtml(item.AlbumArtist));
             }
         } else if (options.artist) {
             const artistItems = item.ArtistItems;
             if (artistItems && item.Type !== 'MusicAlbum') {
-                textlines.push(htmlEscape(artistItems.map(a => {
+                textlines.push(escapeHtml(artistItems.map(a => {
                     return a.Name;
                 }).join(', ')));
             }
         }
 
         if (item.Type === 'TvChannel' && item.CurrentProgram) {
-            textlines.push(htmlEscape(itemHelper.getDisplayName(item.CurrentProgram)));
+            textlines.push(escapeHtml(itemHelper.getDisplayName(item.CurrentProgram)));
         }
 
         cssClass = 'listItemBody';
