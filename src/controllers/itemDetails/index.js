@@ -236,9 +236,7 @@ function renderSourcePaths(page, mediaSources) {
                 itemSize = (item.Size / (1024 * 1024 * 1024)).toFixed(1);
             });
         }
-    } catch (e) {
-
-    }
+    } catch (e) { /* empty */ }
     if (itemPath === '') {
         return;
     }
