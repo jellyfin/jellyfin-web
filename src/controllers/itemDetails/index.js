@@ -235,7 +235,6 @@ function renderSourcePaths(page, mediaSources) {
                 itemPath = item.Path.slice(0, item.Path.lastIndexOf('/'));
                 itemSize = (item.Size / (1024 * 1024 * 1024)).toFixed(1);
             });
-
         }
     } catch (e) {
 
