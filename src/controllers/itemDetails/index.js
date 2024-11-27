@@ -243,7 +243,7 @@ function renderSourcePaths(page, mediaSources) {
     const sourcePathElement = page.querySelector('.sourcePath');
 
     const copyButtonHtml = layoutManager.tv ? '' :
-    `<button is="paper-icon-button-light" class="btnCopy" title="${globalize.translate('CopyDirectoryPath')}" aria-label="${globalize.translate('CopyDirectoryPath')}"
+        `<button is="paper-icon-button-light" class="btnCopy" title="${globalize.translate('CopyDirectoryPath')}" aria-label="${globalize.translate('CopyDirectoryPath')}"
         ><span class="material-icons content_copy" aria-hidden="true"></span></button>`;
 
     // TODO: where to put those inline styles? maybe `theme.css`?
