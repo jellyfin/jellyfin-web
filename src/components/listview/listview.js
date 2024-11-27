@@ -440,7 +440,7 @@ export function getListViewHtml(options) {
             lastTwoSegments.forEach((segment, index) => {
                 pathChunk += `<span style="color: rgba(255, 255, 255, 0.5)">${segment}</span>`;
                 if (index < lastTwoSegments.length - 1) {
-                    pathChunk += `<span style="color: rgba(255, 255, 255, 0.8); margin: 0,5px; display:inline-block;">/</span>`;
+                    pathChunk += '<span style="color: rgba(255, 255, 255, 0.8); margin: 0,5px; display:inline-block;">/</span>';
                 }
             });
             html += pathChunk + '</span>';
