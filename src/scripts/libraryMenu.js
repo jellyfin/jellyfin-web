@@ -240,7 +240,13 @@ function showAudioPlayer() {
 
 function toggleShowPathsMode(forcePathsMode = null) {
     const currentMode = parseInt(localStorage.getItem('showPathsMode'), 10) || 0;
-    const newMode = forcePathsMode !== null ? forcePathsMode : (currentMode === 1 ? 0 : 1);
+    let newMode;
+
+    if (forcePathsMode !== null) {
+        newMode = forcePathsMode;
+    } else {
+        newMode = currentMode === 1 ? 0 : 1;
+    }
 
     document.body.classList.toggle('show-paths', newMode === 1);
     const btn = document.querySelector('.headerShowPathsButton');
