@@ -462,7 +462,8 @@ export function canPlaySecondaryAudio(videoTestElement) {
         // It doesn't work in Firefox 108 even with "media.track.enabled" enabled (it only sees the first audio track)
         && !browser.firefox
         // It seems to work on Tizen 5.5+ (2020, Chrome 69+). See https://developer.tizen.org/forums/web-application-development/video-tag-not-work-audiotracks
-        && (browser.tizenVersion >= 5.5 || !browser.tizen)
+        // There are reports that additional audio track (AudioTrack API) doesn't work on Tizen 8.
+        && (browser.tizenVersion >= 5.5 && browser.tizenVersion < 8 || !browser.tizen)
         && (browser.web0sVersion >= 4.0 || !browser.web0sVersion);
 }
 
