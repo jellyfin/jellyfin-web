@@ -1889,7 +1889,7 @@
     "Illustrator": "插画师",
     "Inker": "着墨师",
     "Letterer": "文字书写员",
-    "Penciller": "铅笔师",
+    "Penciller": "线稿师",
     "Translator": "译者",
     "LibraryScanFanoutConcurrency": "并行媒体库扫描任务限制",
     "LibraryScanFanoutConcurrencyHelp": "媒体库扫描期间并行任务的最大数量。将其设置为 0 将根据您的系统核心数量选择限制。警告：将此数字设置得太高可能会导致网络文件系统出现问题； 如果您遇到问题，请降低此数字。",
