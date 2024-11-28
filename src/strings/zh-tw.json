@@ -783,7 +783,7 @@
     "OptionRegex": "正則表達式",
     "RecommendationBecauseYouWatched": "因為您看過 {0}",
     "RepeatMode": "重複模式",
-    "Runtime": "運行時間",
+    "Runtime": "播放時間",
     "TV": "電視",
     "Trailers": "預告",
     "LabelImageFetchersHelp": "啟用並按優先順序排序您的首選圖片擷取器。",
