@@ -1363,10 +1363,6 @@ export class HtmlVideoPlayer {
                     return true;
                 }
 
-                if (browser.web0s) {
-                    return true;
-                }
-
                 // Tizen 5 doesn't support displaying secondary subtitles
                 if (browser.tizenVersion >= 5 || browser.web0s) {
                     return true;
@@ -1475,7 +1471,9 @@ export class HtmlVideoPlayer {
     /**
          * @private
          */
-    renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+    async renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+        const { userSettings } = await import('../../scripts/settings/userSettings');
+
         if (!itemHelper.isLocalItem(item) || track.IsExternal) {
             const format = (track.Codec || '').toLowerCase();
             if (format === 'ssa' || format === 'ass') {
@@ -1486,57 +1484,56 @@ export class HtmlVideoPlayer {
                 this.renderPgs(videoElement, track, item);
                 return;
             }
-        }
-        import('../../scripts/settings/userSettings').then((userSettings) => {
-            if ((!itemHelper.isLocalItem(item) || track.IsExternal) && this.requiresCustomSubtitlesElement(userSettings)) {
+
+            if (this.requiresCustomSubtitlesElement(userSettings)) {
                 this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
                 return;
             }
+        }
 
-            let trackElement = null;
-            const updatingTrack = videoElement.textTracks && videoElement.textTracks.length > (this.isSecondaryTrack(targetTextTrackIndex) ? 1 : 0);
-            if (updatingTrack) {
-                trackElement = videoElement.textTracks[targetTextTrackIndex];
-                // This throws an error in IE, but is fine in chrome
-                // In IE it's not necessary anyway because changing the src seems to be enough
-                try {
-                    trackElement.mode = 'showing';
-                    while (trackElement.cues.length) {
-                        trackElement.removeCue(trackElement.cues[0]);
-                    }
-                } catch (e) {
-                    console.error('error removing cue from textTrack');
+        let trackElement = null;
+        const updatingTrack = videoElement.textTracks && videoElement.textTracks.length > (this.isSecondaryTrack(targetTextTrackIndex) ? 1 : 0);
+        if (updatingTrack) {
+            trackElement = videoElement.textTracks[targetTextTrackIndex];
+            // This throws an error in IE, but is fine in chrome
+            // In IE it's not necessary anyway because changing the src seems to be enough
+            try {
+                trackElement.mode = 'showing';
+                while (trackElement.cues.length) {
+                    trackElement.removeCue(trackElement.cues[0]);
                 }
-
-                trackElement.mode = 'disabled';
-            } else {
-                // There is a function addTextTrack but no function for removeTextTrack
-                // Therefore we add ONE element and replace its cue data
-                trackElement = videoElement.addTextTrack('subtitles', 'manualTrack', 'und');
+            } catch (e) {
+                console.error('error removing cue from textTrack');
             }
 
-            // download the track json
-            this.fetchSubtitles(track, item).then(function (data) {
-                console.debug(`downloaded ${data.TrackEvents.length} track events`);
+            trackElement.mode = 'disabled';
+        } else {
+            // There is a function addTextTrack but no function for removeTextTrack
+            // Therefore we add ONE element and replace its cue data
+            trackElement = videoElement.addTextTrack('subtitles', 'manualTrack', 'und');
+        }
 
-                const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
-                const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
+        // download the track json
+        this.fetchSubtitles(track, item).then(function (data) {
+            console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
-                // add some cues to show the text
-                // in safari, the cues need to be added before setting the track mode to showing
-                for (const trackEvent of data.TrackEvents) {
-                    const TrackCue = window.VTTCue || window.TextTrackCue;
-                    const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+            const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+            const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
 
-                    if (cue.line === 'auto') {
-                        cue.line = cueLine;
-                    }
+            // add some cues to show the text
+            // in safari, the cues need to be added before setting the track mode to showing
+            for (const trackEvent of data.TrackEvents) {
+                const TrackCue = window.VTTCue || window.TextTrackCue;
+                const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
-                    trackElement.addCue(cue);
+                if (cue.line === 'auto') {
+                    cue.line = cueLine;
                 }
 
-                trackElement.mode = 'showing';
-            });
+                trackElement.addCue(cue);
+            }
+
+            trackElement.mode = 'showing';
         });
     }
 

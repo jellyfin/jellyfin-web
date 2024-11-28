@@ -128,9 +128,6 @@ function onSubtitleStyleChange(e) {
         elem.classList.add('hide');
     });
     view.querySelector(`.subtitleStyling${this.value}Help`).classList.remove('hide');
-    if (this.value !== 'Native') {
-        onAppearanceFieldChange(e);
-    }
 }
 
 function onSubtitleBurnInChange(e) {
