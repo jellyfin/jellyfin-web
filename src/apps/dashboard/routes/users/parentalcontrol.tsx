@@ -164,13 +164,11 @@ const UserParentalControl = () => {
         populateRatings(allParentalRatings);
 
         let ratingValue = '';
-        if (user.Policy?.MaxParentalRating != null) {
-            allParentalRatings.forEach(rating => {
-                if (rating.Value != null && user.Policy?.MaxParentalRating != null && user.Policy.MaxParentalRating >= rating.Value) {
-                    ratingValue = `${rating.Value}`;
-                }
-            });
-        }
+        allParentalRatings.forEach(rating => {
+            if (rating.Value != null && user.Policy?.MaxParentalRating != null && user.Policy.MaxParentalRating >= rating.Value) {
+                ratingValue = `${rating.Value}`;
+            }
+        });
 
         setMaxParentalRating(ratingValue);
 
