@@ -1472,7 +1472,7 @@ export class HtmlVideoPlayer {
          * @private
          */
     async renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
-        const { userSettings } = await import('../../scripts/settings/userSettings');
+        const { currentSettings: userSettings } = await import('../../scripts/settings/userSettings');
 
         if (!itemHelper.isLocalItem(item) || track.IsExternal) {
             const format = (track.Codec || '').toLowerCase();
