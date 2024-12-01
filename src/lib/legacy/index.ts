@@ -9,6 +9,7 @@ import 'abortcontroller-polyfill'; // requires fetch
 import 'resize-observer-polyfill';
 
 import './domParserTextHtml';
+import './elementAppendPrepend';
 import './focusPreventScroll';
 import './htmlMediaElement';
 import './keyboardEvent';
