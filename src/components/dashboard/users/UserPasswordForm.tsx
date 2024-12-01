@@ -78,7 +78,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         const onSubmit = (e: Event) => {
             if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value != (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value) {
                 toast(globalize.translate('PasswordMatchError'));
-            } else if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value == '' && user.current?.Policy?.IsAdministrator) {
+            } else if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value == '' && (user.current?.Policy?.IsAdministrator || !user.current?.Policy?.EnableNoPassword)) {
                 toast(globalize.translate('PasswordMissingSaveError'));
             } else {
                 loading.show();
