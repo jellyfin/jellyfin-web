@@ -99,6 +99,7 @@
     "core-js": "3.41.0",
     "date-fns": "2.30.0",
     "dompurify": "2.5.8",
+    "element-closest-polyfill": "1.0.7",
     "epubjs": "0.3.93",
     "escape-html": "1.0.3",
     "fast-text-encoding": "1.0.6",
