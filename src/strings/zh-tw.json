@@ -1951,7 +1951,7 @@
     "MessageCancelTimerError": "取消計時器時發生錯誤",
     "MessageSplitVersionsError": "分割版本時發生錯誤",
     "LabelLyricDownloaders": "歌詞下載器",
-    "LyricDownloadersHelp": "啟用並依照偏好排序字幕下載器。",
+    "LyricDownloadersHelp": "啟用並依照偏好排序歌詞下載器。",
     "RenderPgsSubtitle": "實驗性 PGS 字幕渲染",
     "RenderPgsSubtitleHelp": "在用戶端渲染 PGS 字幕，代替伺服器端燒錄字幕。以降低用戶端效能為代價避免伺服器端轉檔。",
     "PreferNonstandardArtistsTag": "可用時偏好 ARTISTS 標籤",
