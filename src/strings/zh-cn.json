@@ -1952,7 +1952,7 @@
     "LabelFallbackMaxStreamingBitrate": "回退最大流比特率 (Mbps)",
     "VideoCodecTagNotSupported": "视频编码标签不支持",
     "LabelLyricDownloaders": "歌词下载",
-    "LyricDownloadersHelp": "启用并按优先级顺序排列您喜欢的下载器。",
+    "LyricDownloadersHelp": "启用并按优先级顺序排列您喜欢的歌词下载器。",
     "RenderPgsSubtitle": "实验性 PGS 字幕渲染",
     "RenderPgsSubtitleHelp": "在客户端渲染 PGS 字幕，而不是烧录字幕。这以降低客户端渲染性能为代价来避免服务器端转码。",
     "LabelAudioTagSettings": "音频标签设置",
