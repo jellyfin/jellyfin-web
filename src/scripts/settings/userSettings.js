@@ -17,6 +17,26 @@ function saveServerPreferences(instance) {
     instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
 }
 
+const allowedSortSettings = ['SortBy', 'SortOrder'];
+
+const filterSettingsPostfix = '-filter';
+const allowedFilterSettings = [
+    'Filters', 'HasSubtitles', 'HasTrailer', 'HasSpecialFeature',
+    'HasThemeSong', 'HasThemeVideo', 'Genres', 'OfficialRatings',
+    'Tags', 'VideoTypes', 'IsSD', 'IsHD', 'Is4K', 'Is3D',
+    'IsFavorite', 'IsMissing', 'IsUnaired', 'ParentIndexNumber',
+    'SeriesStatus', 'Years'
+];
+
+function filterQuerySettings(query, allowedItems) {
+    return Object.keys(query)
+        .filter(field => allowedItems.includes(field))
+        .reduce((acc, field) => {
+            acc[field] = query[field];
+            return acc;
+        }, {});
+}
+
 const defaultSubtitleAppearanceSettings = {
     verticalPosition: -3
 };
@@ -173,7 +193,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Next Video Info Overlay' state.
-     * @param {boolean|undefined} val - Flag to enable 'Next Video Info Overlay' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Next Video Info Overlay' or undefined.
      * @return {boolean} 'Next Video Info Overlay' state.
      */
     enableNextVideoInfoOverlay(val) {
@@ -521,13 +541,17 @@ export class UserSettings {
      * @return {Query} Query.
      */
     loadQuerySettings(key, query) {
-        let values = this.get(key);
-        if (values) {
-            values = JSON.parse(values);
-            return Object.assign(query, values);
+        let sortSettings = this.get(key);
+        let filterSettings = this.get(key + filterSettingsPostfix, false);
+
+        if (sortSettings) {
+            sortSettings = filterQuerySettings(JSON.parse(sortSettings), allowedSortSettings);
+        }
+        if (filterSettings) {
+            filterSettings = filterQuerySettings(JSON.parse(filterSettings), allowedFilterSettings);
         }
 
-        return query;
+        return Object.assign(query, sortSettings, filterSettings);
     }
 
     /**
@@ -536,7 +560,11 @@ export class UserSettings {
      * @param {Object} query - Query.
      */
     saveQuerySettings(key, query) {
-        return this.set(key, JSON.stringify(query));
+        const sortSettings = filterQuerySettings(query, allowedSortSettings);
+        const filterSettings = filterQuerySettings(query, allowedFilterSettings);
+
+        this.set(key, JSON.stringify(sortSettings));
+        this.set(key + filterSettingsPostfix, JSON.stringify(filterSettings), false);
     }
 
     /**

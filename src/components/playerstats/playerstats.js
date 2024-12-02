@@ -200,7 +200,7 @@ function getDisplayTranscodeFps(session, player) {
     const mediaSource = playbackManager.currentMediaSource(player) || {};
     const videoStream = (mediaSource.MediaStreams || []).find((s) => s.Type === 'Video') || {};
 
-    const originalFramerate = videoStream.AverageFrameRate;
+    const originalFramerate = videoStream.ReferenceFrameRate || videoStream.RealFrameRate;
     const transcodeFramerate = session.TranscodingInfo.Framerate;
 
     if (!originalFramerate) {

@@ -669,7 +669,7 @@
     "LabelSerialNumber": "Numer seryjny",
     "LabelSeriesRecordingPath": "Folder nagrywania seriali",
     "LabelServerHost": "Serwer",
-    "LabelServerHostHelp": "192.168.1.100:8096 or https://myserver.com",
+    "LabelServerHostHelp": "192.168.1.100:8096 lub https://mojserwer.pl",
     "LabelSimultaneousConnectionLimit": "Limit jednoczesnych transmisji",
     "LabelSkipBackLength": "Długość skoku wstecz",
     "LabelSkipForwardLength": "Długość skoku wprzód",
@@ -1952,7 +1952,7 @@
     "LabelFallbackMaxStreamingBitrate": "Zastępcze maksimum przepływności strumienia (Mbps)",
     "VideoCodecTagNotSupported": "Tag kodeka wideo nie jest obsługiwany",
     "LabelLyricDownloaders": "Dostawcy słów",
-    "LyricDownloadersHelp": "Umożliwia aktywowanie i używanie dostawców napisów w preferowanej kolejności.",
+    "LyricDownloadersHelp": "Umożliwia aktywowanie i używanie dostawców tekstów w preferowanej kolejności.",
     "RenderPgsSubtitle": "Eksperymentalne renderowanie napisów PGS",
     "RenderPgsSubtitleHelp": "Określ, czy klient powinien renderować napisy PGS zamiast używać wypalonych napisów. Dzięki temu można uniknąć transkodowania po stronie serwera w zamian za wydajność renderowania po stronie klienta.",
     "LabelAudioTagSettings": "Ustawienia tagów audio",
@@ -1987,5 +1987,7 @@
     "MediaSegmentType.Recap": "Podsumowanie",
     "HeaderMediaSegmentActions": "Działania segmentu mediów",
     "MediaSegmentSkipPrompt": "Pomiń {0}",
-    "MediaSegmentAction.AskToSkip": "Pytaj o pominięcie"
+    "MediaSegmentAction.AskToSkip": "Pytaj o pominięcie",
+    "Anime": "Anime",
+    "MoviesAndShows": "Filmy i seriale"
 }

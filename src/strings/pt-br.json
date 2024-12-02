@@ -1982,5 +1982,7 @@
     "PreferNonstandardArtistsTagHelp": "Use a tag ARTISTAS não padrão em vez da tag ARTISTA quando disponível.",
     "AllowStreamSharingHelp": "Permita que o Jellyfin duplique o fluxo mpegts do afinador e compartilhe esse fluxo duplicado com seus clientes. Isso é útil quando o afinador tem um limite total de contagem de streams, mas também pode causar problemas de Reprodução.",
     "LabelQsvDeviceHelp": "Especifique o dispositivo para Intel QSV em um sistema multi-GPU. No Linux, este é o nó de renderização, por exemplo, /dev/dri/renderD128. No Windows, este é o índice do dispositivo começando em 0. Deixe em branco, a menos que você saiba o que está fazendo.",
-    "FallbackMaxStreamingBitrateHelp": "A taxa de bits máxima da transmissão é usada como alternativa quando o ffprobe não consegue determinar a taxa de bits do stream da fonte. Isso ajuda a evitar que os clientes solicitem uma taxa de bits de transcodificação excessivamente alta, o que pode causar falha no reprodutor e sobrecarregar o codificador."
+    "FallbackMaxStreamingBitrateHelp": "A taxa de bits máxima da transmissão é usada como alternativa quando o ffprobe não consegue determinar a taxa de bits do stream da fonte. Isso ajuda a evitar que os clientes solicitem uma taxa de bits de transcodificação excessivamente alta, o que pode causar falha no reprodutor e sobrecarregar o codificador.",
+    "Anime": "Anime",
+    "MoviesAndShows": "Filmes e Séries"
 }

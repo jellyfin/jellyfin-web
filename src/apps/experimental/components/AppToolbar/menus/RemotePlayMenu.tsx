@@ -65,17 +65,20 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
             open={open}
             onClose={onMenuClose}
         >
-            {!isChromecastPluginLoaded && ([
-                <MenuItem key='cast-unsupported-item' disabled>
+            {!isChromecastPluginLoaded && (
+                <MenuItem disabled>
                     <ListItemIcon>
                         <Warning />
                     </ListItemIcon>
                     <ListItemText>
                         {globalize.translate('GoogleCastUnsupported')}
                     </ListItemText>
-                </MenuItem>,
-                <Divider key='cast-unsupported-divider' />
-            ])}
+                </MenuItem>
+            )}
+
+            {!isChromecastPluginLoaded && playbackTargets.length > 0 && (
+                <Divider />
+            )}
 
             {playbackTargets.map(target => (
                 <MenuItem

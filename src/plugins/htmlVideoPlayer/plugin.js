@@ -1339,7 +1339,8 @@ export class HtmlVideoPlayer {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
                 workerUrl: `${appRouter.baseUrl()}/libraries/libpgs.worker.js`,
-                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+                aspectRatio: this._currentAspectRatio === 'auto' ? 'contain' : this._currentAspectRatio
             };
             this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
         });
@@ -1355,7 +1356,8 @@ export class HtmlVideoPlayer {
             return true;
         }
 
-        if (browser.web0s) {
+        // Tizen 5 doesn't support displaying secondary subtitles
+        if (browser.tizenVersion >= 5 || browser.web0s) {
             return true;
         }
 
@@ -2086,6 +2088,14 @@ export class HtmlVideoPlayer {
                 mediaElement.style.removeProperty('object-fit');
             } else {
                 mediaElement.style['object-fit'] = val;
+            }
+        }
+        const pgsRenderer = this.#currentPgsRenderer;
+        if (pgsRenderer) {
+            if (val === 'auto') {
+                pgsRenderer.aspectRatio = 'contain';
+            } else {
+                pgsRenderer.aspectRatio = val;
             }
         }
         this._currentAspectRatio = val;

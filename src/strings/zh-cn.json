@@ -1889,7 +1889,7 @@
     "Illustrator": "插画师",
     "Inker": "着墨师",
     "Letterer": "文字书写员",
-    "Penciller": "铅笔师",
+    "Penciller": "线稿师",
     "Translator": "译者",
     "LibraryScanFanoutConcurrency": "并行媒体库扫描任务限制",
     "LibraryScanFanoutConcurrencyHelp": "媒体库扫描期间并行任务的最大数量。将其设置为 0 将根据您的系统核心数量选择限制。警告：将此数字设置得太高可能会导致网络文件系统出现问题； 如果您遇到问题，请降低此数字。",
@@ -1952,7 +1952,7 @@
     "LabelFallbackMaxStreamingBitrate": "回退最大流比特率 (Mbps)",
     "VideoCodecTagNotSupported": "视频编码标签不支持",
     "LabelLyricDownloaders": "歌词下载",
-    "LyricDownloadersHelp": "启用并按优先级顺序排列您喜欢的下载器。",
+    "LyricDownloadersHelp": "启用并按优先级顺序排列您喜欢的歌词下载器。",
     "RenderPgsSubtitle": "实验性 PGS 字幕渲染",
     "RenderPgsSubtitleHelp": "在客户端渲染 PGS 字幕，而不是烧录字幕。这以降低客户端渲染性能为代价来避免服务器端转码。",
     "LabelAudioTagSettings": "音频标签设置",
@@ -1987,5 +1987,7 @@
     "HeaderNewPlaylist": "新建播放列表",
     "PlaylistError.UpdateFailed": "更新播放列表时出错",
     "MediaSegmentAction.AskToSkip": "询问是否跳过",
-    "MediaSegmentSkipPrompt": "跳过{0}"
+    "MediaSegmentSkipPrompt": "跳过{0}",
+    "Anime": "动漫",
+    "MoviesAndShows": "电影和节目"
 }

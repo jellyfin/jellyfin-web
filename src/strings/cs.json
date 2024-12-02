@@ -1987,5 +1987,7 @@
     "HeaderMediaSegmentActions": "Akce segmentu médií",
     "LabelMediaSegmentsType": "{0} segmentů",
     "MediaSegmentSkipPrompt": "Přeskočit",
-    "MediaSegmentAction.AskToSkip": "Zeptat se, zda přeskočit"
+    "MediaSegmentAction.AskToSkip": "Zeptat se, zda přeskočit",
+    "Anime": "Anime",
+    "MoviesAndShows": "Filmy a seriály"
 }

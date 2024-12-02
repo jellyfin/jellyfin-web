@@ -1,7 +1,7 @@
 {
     "Absolute": "Absolu",
-    "AccessRestrictedTryAgainLater": "L'accès est actuellement restreint. Merci de réessayer plus tard.",
-    "Actor": "Acteur",
+    "AccessRestrictedTryAgainLater": "L'accès est actuellement restreint. Veuillez réessayer plus tard.",
+    "Actor": "Acteur(trice)",
     "Add": "Ajouter",
     "AddToCollection": "Ajouter à la collection",
     "AddToPlayQueue": "Ajouter à la file d'attente",
@@ -738,7 +738,7 @@
     "Live": "En direct",
     "LiveBroadcasts": "Diffusions en direct",
     "LiveTV": "TV en direct",
-    "ManageLibrary": "Gérer la librairie",
+    "ManageLibrary": "Gérer la médiathèque",
     "ManageRecording": "Gérer l'enregistrement",
     "MapChannels": "Carte des chaînes",
     "MarkPlayed": "Marquer comme lu",
@@ -1962,7 +1962,7 @@
     "UseCustomTagDelimiters": "Utiliser un délimiteur de balise personnalisé",
     "VideoCodecTagNotSupported": "La balise de codec vidéo n'est pas prise en charge",
     "LabelFallbackMaxStreamingBitrate": "Bitrate de flux maximum de repli (Mbps)",
-    "LyricDownloadersHelp": "Activez et classez vos téléchargeurs de sous-titres préférés par ordre de priorité.",
+    "LyricDownloadersHelp": "Activez et classez vos téléchargeurs de paroles préférés par ordre de priorité.",
     "LabelAllowFmp4TranscodingContainer": "Autoriser le conteneur de transcodage fMP4",
     "AllowTonemappingSoftwareHelp": "Le tone-mapping peut transformer la plage dynamique d'une vidéo de HDR à SDR tout en conservant les détails et les couleurs de l'image, qui sont des informations très importantes pour représenter la scène originale. Fonctionne uniquement avec les vidéos 10 bits HDR10, HLG et DoVi.",
     "LabelTrickplayKeyFrameOnlyExtraction": "Générer uniquement des images à partir des images clés",
@@ -1984,8 +1984,10 @@
     "MediaSegmentType.Commercial": "Commercial",
     "MediaSegmentType.Preview": "Prévisualisation",
     "MediaSegmentType.Recap": "Récapitulatif",
-    "MediaSegmentType.Intro": "Générique de début",
+    "MediaSegmentType.Intro": "Générique",
     "PlaylistError.UpdateFailed": "Erreur lors de la mise à jour de la liste de lecture",
     "MediaSegmentAction.AskToSkip": "Demander à passer",
-    "MediaSegmentSkipPrompt": "{0} Passer"
+    "MediaSegmentSkipPrompt": "Passer {0}",
+    "Anime": "Anime",
+    "MoviesAndShows": "Films et Séries"
 }

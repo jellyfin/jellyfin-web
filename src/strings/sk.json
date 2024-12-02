@@ -673,7 +673,7 @@
     "TabScheduledTasks": "Naplánované úlohy",
     "TabUpcoming": "Čoskoro",
     "TellUsAboutYourself": "Povedzte nám niečo o sebe",
-    "ThisWizardWillGuideYou": "Tento sprievodca Vám pomôže prejsť inštalačným procesom. Pre začatie zvoľte preferovaný jazyk.",
+    "ThisWizardWillGuideYou": "Tento sprievodca Vám pomôže dokončiť proces inštalácie. Na úvod vyberte Vami preferovaný jazyk.",
     "Thursday": "Štvrtok",
     "TitleHardwareAcceleration": "Hardvérová akcelerácia",
     "TrackCount": "{0} stôp",
@@ -711,7 +711,7 @@
     "Vertical": "Vertikálne",
     "ViewAlbum": "Zobraziť album",
     "Wednesday": "Streda",
-    "WelcomeToProject": "Vitajte v Jellyfine!",
+    "WelcomeToProject": "Víta Vás Jellyfin!",
     "WizardCompleted": "To je zatiaľ všetko, čo potrebujeme. Jellyfin začal zhromažďovať údaje o vašej multimediálnej knižnici. Pozrite si niektoré z našich aplikácií a potom kliknite na <b>Dokončiť</b> pre zobrazenie <b>Dashboardu</b>.",
     "Yes": "Áno",
     "Yesterday": "Včera",
@@ -1394,7 +1394,7 @@
     "EnableTonemapping": "Zapnúť mapovanie tónov",
     "Subtitle": "Titulky",
     "SpecialFeatures": "Bonusový materiál",
-    "SelectServer": "Vybrať server",
+    "SelectServer": "Vyberte server",
     "Restart": "Reštartovať",
     "ResetPassword": "Obnoviť heslo",
     "QuickConnectAuthorizeSuccess": "Úspešne ste overili vaše zariadenie!",
@@ -1987,5 +1987,7 @@
     "HeaderEditPlaylist": "Upraviť playlist",
     "HeaderNewPlaylist": "Nový playlist",
     "MediaSegmentAction.AskToSkip": "Opýtať sa na preskočenie",
-    "MediaSegmentSkipPrompt": "Preskočiť {0}"
+    "MediaSegmentSkipPrompt": "Preskočiť {0}",
+    "Anime": "Anime",
+    "MoviesAndShows": "Filmy a seriály"
 }

@@ -1,3 +1,6 @@
+// NOTE: This is used for jsdoc return type
+// eslint-disable-next-line no-unused-vars
+import { Api } from '@jellyfin/sdk';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { ConnectionManager, Credentials, ApiClient } from 'jellyfin-apiclient';
 
@@ -6,6 +9,7 @@ import Dashboard from '../utils/dashboard';
 import Events from '../utils/events.ts';
 import { setUserInfo } from '../scripts/settings/userSettings';
 import appSettings from '../scripts/settings/appSettings';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 const normalizeImageOptions = options => {
     if (!options.quality && (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight)) {
@@ -109,6 +113,17 @@ class ServerConnections extends ConnectionManager {
         }
 
         return apiClient;
+    }
+
+    /**
+     * Gets the Api that is currently connected.
+     * @returns {Api|undefined} The current Api instance.
+     */
+    getCurrentApi() {
+        const apiClient = this.currentApiClient();
+        if (!apiClient) return;
+
+        return toApi(apiClient);
     }
 
     /**

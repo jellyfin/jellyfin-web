@@ -290,7 +290,6 @@ const UserEdit = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={userDto?.Name || ''}
-                        url='https://jellyfin.org/docs/general/server/users/'
                     />
                 </div>
 

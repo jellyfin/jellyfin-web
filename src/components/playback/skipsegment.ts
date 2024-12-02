@@ -3,11 +3,12 @@ import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 import { PlaybackSubscriber } from 'apps/stable/features/playback/utils/playbackSubscriber';
 import { isInSegment } from 'apps/stable/features/playback/utils/mediaSegments';
-import Events, { type Event } from '../../utils/events';
+import Events, { type Event } from 'utils/events';
 import { EventType } from 'types/eventType';
 import './skipbutton.scss';
 import dom from 'scripts/dom';
 import globalize from 'lib/globalize';
+import * as userSettings from 'scripts/settings/userSettings';
 
 interface ShowOptions {
     animate?: boolean;
@@ -127,6 +128,7 @@ class SkipSegment extends PlaybackSubscriber {
         if (this.player && segment.EndTicks != null
             && segment.EndTicks >= this.playbackManager.currentItem(this.player).RunTimeTicks
             && this.playbackManager.getNextItem()
+            && userSettings.enableNextVideoInfoOverlay()
         ) {
             // Don't display button when UpNextDialog is expected.
             return;

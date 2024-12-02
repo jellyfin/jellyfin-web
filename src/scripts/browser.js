@@ -204,7 +204,7 @@ const uaMatch = function (ua) {
 
     const versionMatch = /(version)[ /]([\w.]+)/.exec(ua);
 
-    let platform_match = /(ipad)/.exec(ua)
+    let platformMatch = /(ipad)/.exec(ua)
         || /(iphone)/.exec(ua)
         || /(windows)/.exec(ua)
         || /(android)/.exec(ua)
@@ -213,7 +213,7 @@ const uaMatch = function (ua) {
     let browser = match[1] || '';
 
     if (browser === 'edge') {
-        platform_match = [''];
+        platformMatch = [''];
     }
 
     if (browser === 'opr') {
@@ -236,7 +236,7 @@ const uaMatch = function (ua) {
     return {
         browser: browser,
         version: version,
-        platform: platform_match[0] || '',
+        platform: platformMatch[0] || '',
         versionMajor: versionMajor
     };
 };
