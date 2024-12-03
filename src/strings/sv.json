@@ -1960,7 +1960,7 @@
     "LabelFallbackMaxStreamingBitrate": "Maximal strömningsbitrate för fallback (Mbps)",
     "MessageCancelSeriesTimerError": "Ett fel uppstod när serietimern avbröts",
     "LabelLyricDownloaders": "Sångtext-nerladdare",
-    "LyricDownloadersHelp": "Aktivera och rangordna dina föredragna undertextnedladdare i prioritetsordning.",
+    "LyricDownloadersHelp": "Aktivera och rangordna dina föredragna sångtext-nedladdare i prioritetsordning.",
     "RenderPgsSubtitleHelp": "Avgör om klienten ska rendera PGS-undertexter istället för att använda inbrända undertexter. Detta kan undvika serverbaserad omkodning i utbyte mot klientens renderingsprestanda.",
     "LabelCustomTagDelimitersHelp": "Tecken som ska behandlas som avgränsare för att separera taggar.",
     "LabelScreensaverTime": "Skärmsläckar-tid",
