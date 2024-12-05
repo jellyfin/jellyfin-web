@@ -18,6 +18,12 @@ interface ShowOptions {
     focus?: boolean;
 }
 
+function onHideComplete(this: HTMLButtonElement) {
+    if (this) {
+        this.classList.add('hide');
+    }
+}
+
 class SkipSegment extends PlaybackSubscriber {
     private skipElement: HTMLButtonElement | null | undefined;
     private currentSegment: MediaSegmentDto | null | undefined;
@@ -29,18 +35,9 @@ class SkipSegment extends PlaybackSubscriber {
         this.onOsdChanged = this.onOsdChanged.bind(this);
     }
 
-    onHideComplete() {
-        if (this.skipElement) {
-            this.skipElement.classList.add('hide');
-        }
-    }
-
     createSkipElement() {
         if (!this.skipElement && this.currentSegment) {
-            const elem = document.createElement('button');
-            elem.classList.add('skip-button');
-            elem.classList.add('hide');
-            elem.classList.add('skip-button-hidden');
+            const elem = document.querySelector('.skip-button') as HTMLButtonElement;
 
             elem.addEventListener('click', () => {
                 const time = this.playbackManager.currentTime() * TICKS_PER_MILLISECOND;
@@ -53,15 +50,16 @@ class SkipSegment extends PlaybackSubscriber {
                 }
             });
 
-            document.querySelector('#videoOsdPage')?.appendChild(elem);
             this.skipElement = elem;
         }
     }
 
     setButtonText() {
         if (this.skipElement && this.currentSegment) {
-            this.skipElement.innerHTML = globalize.translate('MediaSegmentSkipPrompt', globalize.translate(`MediaSegmentType.${this.currentSegment.Type}`));
-            this.skipElement.innerHTML += '<span class="material-icons skip_next" aria-hidden="true"></span>';
+            const textElem = this.skipElement.querySelector('#skip-button-text');
+            if (textElem) {
+                textElem.innerHTML = globalize.translate('MediaSegmentSkipPrompt', globalize.translate(`MediaSegmentType.${this.currentSegment.Type}`));
+            }
         }
     }
 
@@ -69,7 +67,7 @@ class SkipSegment extends PlaybackSubscriber {
         const elem = this.skipElement;
         if (elem) {
             this.clearHideTimeout();
-            dom.removeEventListener(elem, dom.whichTransitionEvent(), this.onHideComplete, {
+            dom.removeEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
                 once: true
             });
             elem.classList.remove('hide');
@@ -81,7 +79,8 @@ class SkipSegment extends PlaybackSubscriber {
 
             void elem.offsetWidth;
 
-            if (options.focus) {
+            const osdVisible = !document.querySelector('.videoOsdBottom')?.classList.contains('hide');
+            if (options.focus && !osdVisible) {
                 focusManager.focus(elem);
             }
 
@@ -104,7 +103,7 @@ class SkipSegment extends PlaybackSubscriber {
             requestAnimationFrame(() => {
                 elem.classList.add('skip-button-hidden');
 
-                dom.addEventListener(elem, dom.whichTransitionEvent(), this.onHideComplete, {
+                dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
                     once: true
                 });
             });
@@ -176,7 +175,6 @@ class SkipSegment extends PlaybackSubscriber {
     onPlaybackStop() {
         this.currentSegment = null;
         this.hideSkipButton();
-        this.skipElement = null;
         Events.off(document, EventType.SHOW_VIDEO_OSD, this.onOsdChanged);
     }
 }
