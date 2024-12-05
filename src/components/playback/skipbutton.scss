@@ -1,20 +1,24 @@
 .skip-button {
     display: flex;
     align-items: center;
-    position: fixed;
-    bottom: 18%;
-    right: 16%;
-    z-index: 10000;
+    position: absolute;
+    bottom: 7.5em;
+    right: 5em;
     padding: 12px 20px;
-    color: black;
-    border: none;
-    border-radius: 100px;
-    font-weight: bold;
+    color: #ffffff;
+    background-color: #000000b3;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
     font-size: 1.2em;
-    transition: opacity 200ms ease-out;
-    gap: 3px;
-    box-shadow: 7px 6px 15px -14px rgba(0, 0, 0, 0.65);
+    font-weight: bold;
     cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.skip-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 12px #00a4dc66;
+    border-color: #00a4dc;
 }
 
 @media (orientation: landscape) and (max-height: 500px) {
