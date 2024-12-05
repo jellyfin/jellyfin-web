@@ -1778,6 +1778,10 @@ export default function (view) {
     let lastPointerDown = 0;
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', function (e) {
+        if (dom.parentWithClass(e.target, ['skip-button'])) {
+            return;
+        }
+
         if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer'])) {
             showOsd();
             return;
