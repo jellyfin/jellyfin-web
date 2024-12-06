@@ -1950,7 +1950,7 @@
     "LabelFallbackMaxStreamingBitrate": "Maximale Fallback-Stream-Bitrate (Mbps)",
     "VideoCodecTagNotSupported": "Das Video-Codec-Tag wird nicht unterstützt",
     "LabelLyricDownloaders": "Songtext-Downloader",
-    "LyricDownloadersHelp": "Aktivieren und ordnen Sie Ihre bevorzugten Untertitel-Downloader nach der Priorität.",
+    "LyricDownloadersHelp": "Aktivieren und ordnen Sie Ihre bevorzugten Songtext-Downloader nach der Priorität.",
     "ReplaceTrickplayImages": "Ersetzen vorhandener Trickplay-Bilder",
     "LabelSaveTrickplayLocally": "Trickplay-Bilder bei den Medien speichern",
     "LabelSaveTrickplayLocallyHelp": "Wenn Sie Trickplay-Bilder in Medienordnern speichern, werden sie bei Ihren Medien abgelegt und ermöglichen so eine einfache Migration und den Zugriff.",
