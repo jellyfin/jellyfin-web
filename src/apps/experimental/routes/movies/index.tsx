@@ -1,5 +1,5 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import useCurrentTab from 'hooks/useCurrentTab';
 import Page from 'components/Page';
 import PageTabContent from '../../components/library/PageTabContent';
@@ -25,12 +25,6 @@ const collectionsTabContent: LibraryTabContent = {
     noItemsMessage: 'MessageNoCollectionsAvailable'
 };
 
-const favoritesTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Favorites,
-    collectionType: CollectionType.Movies,
-    itemType: [BaseItemKind.Movie]
-};
-
 const trailersTabContent: LibraryTabContent = {
     viewType: LibraryTab.Trailers,
     itemType: [BaseItemKind.Trailer],
@@ -53,9 +47,8 @@ const moviesTabMapping: LibraryTabMapping = {
     0: moviesTabContent,
     1: suggestionsTabContent,
     2: trailersTabContent,
-    3: favoritesTabContent,
-    4: collectionsTabContent,
-    5: genresTabContent
+    3: collectionsTabContent,
+    4: genresTabContent
 };
 
 const Movies: FC = () => {

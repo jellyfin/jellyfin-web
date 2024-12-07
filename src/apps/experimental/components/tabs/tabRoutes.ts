@@ -92,16 +92,11 @@ const TabRoutes: TabRoute[] = [
             },
             {
                 index: 3,
-                label: 'Favorites',
-                value: LibraryTab.Favorites
-            },
-            {
-                index: 4,
                 label: 'Collections',
                 value: LibraryTab.Collections
             },
             {
-                index: 5,
+                index: 4,
                 label: 'Genres',
                 value: LibraryTab.Genres
             }
