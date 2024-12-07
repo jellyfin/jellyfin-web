@@ -1148,7 +1148,14 @@ function getHoverMenuHtml(item, action) {
     const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
     if (playbackManager.canPlay(item)) {
-        html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>';
+        // Only TvChannel navigation into the current page is currently supported
+        action = item.Type == 'TvChannel' ? 'playallfromhere' : 'resume';
+        html
+            += '<button is="paper-icon-button-light" class="'
+            + btnCssClass
+            + ' cardOverlayFab-primary" data-action="'
+            + action
+            + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>';
     }
 
     html += '<div class="cardOverlayButton-br flex">';

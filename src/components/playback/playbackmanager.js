@@ -4187,6 +4187,12 @@ export class PlaybackManager {
             case 'VolumeDown':
                 this.volumeDown(player);
                 break;
+            case 'ChannelUp':
+                this.nextTrack(player);
+                break;
+            case 'ChannelDown':
+                this.previousTrack(player);
+                break;
             case 'Mute':
                 this.setMute(true, player);
                 break;
@@ -4209,13 +4215,22 @@ export class PlaybackManager {
                 this.setBrightness(cmd.Arguments.Brightness, player);
                 break;
             case 'SetAudioStreamIndex':
-                this.setAudioStreamIndex(parseInt(cmd.Arguments.Index, 10), player);
+                this.setAudioStreamIndex(
+                    parseInt(cmd.Arguments.Index, 10),
+                    player
+                );
                 break;
             case 'SetSubtitleStreamIndex':
-                this.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index, 10), player);
+                this.setSubtitleStreamIndex(
+                    parseInt(cmd.Arguments.Index, 10),
+                    player
+                );
                 break;
             case 'SetMaxStreamingBitrate':
-                this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate, 10), player);
+                this.setMaxStreamingBitrate(
+                    parseInt(cmd.Arguments.Bitrate, 10),
+                    player
+                );
                 break;
             case 'ToggleFullscreen':
                 this.toggleFullscreen(player);
