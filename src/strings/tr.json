@@ -1932,5 +1932,10 @@
     "MediaInfoRotation": "Döndürme",
     "MoveToBottom": "Aşağıya taşı",
     "MoveToTop": "Yukarıya taşı",
-    "LibraryInvalidItemIdError": "Kütüphane geçersiz bir durumda ve düzenlenemiyor. Muhtemelen bir hatayla karşılaşıyorsunuz: veritabanındaki yol, dosya sistemindeki doğru yol değil."
+    "LibraryInvalidItemIdError": "Kütüphane geçersiz bir durumda ve düzenlenemiyor. Muhtemelen bir hatayla karşılaşıyorsunuz: veritabanındaki yol, dosya sistemindeki doğru yol değil.",
+    "LabelSaveTrickplayLocally": "Trickplay görsellerini medyanın yanına kaydet",
+    "LabelSaveTrickplayLocallyHelp": "Trickplay görsellerini medya klasörlerine kaydetmek, kolay taşıma ve erişim için bunları medyanızın yanına koyacaktır.",
+    "ReplaceTrickplayImages": "Mevcut trickplay görsellerini değiştirin",
+    "AllowFmp4TranscodingContainerHelp": "HEVC ve HDR içeriklerini etkinleştirmek için bu alıcının fMP4 kod dönüştürme kapsayıcısına izin verin. Tüm alıcılar bu kapsayıcı ile uyumlu değildir. Oynatma sorunları yaşarsanız bunu devre dışı bırakın.",
+    "AllowStreamSharingHelp": "Jellyfin'in alıcıdan gelen mpegts akışını çoğaltmasına ve bu çoğaltılmış akışı istemcileriyle paylaşmasına izin verin. Bu, alıcının toplam akış sayısı sınırına sahip olduğunda kullanışlıdır, ancak oynatma sorunlarına da neden olabilir."
 }
