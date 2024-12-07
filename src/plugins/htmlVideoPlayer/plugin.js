@@ -1349,31 +1349,44 @@ export class HtmlVideoPlayer {
     /**
          * @private
          */
-    requiresCustomSubtitlesElement() {
-        // after a system update, ps4 isn't showing anything when creating a track element dynamically
-        // going to have to do it ourselves
-        if (browser.ps4) {
-            return true;
-        }
-
-        // Tizen 5 doesn't support displaying secondary subtitles
-        if (browser.tizenVersion >= 5 || browser.web0s) {
-            return true;
-        }
-
-        if (browser.edge) {
-            return true;
-        }
-
-        if (browser.iOS) {
-            const userAgent = navigator.userAgent.toLowerCase();
-            // works in the browser but not the native app
-            if ((userAgent.includes('os 9') || userAgent.includes('os 8')) && !userAgent.includes('safari')) {
+    requiresCustomSubtitlesElement(userSettings) {
+        const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+        switch (subtitleAppearance.subtitleStyling) {
+            case 'Native':
+                return false;
+            case 'Custom':
                 return true;
-            }
-        }
+            default:
+                // after a system update, ps4 isn't showing anything when creating a track element dynamically
+                // going to have to do it ourselves
+                if (browser.ps4) {
+                    return true;
+                }
 
-        return false;
+                // Tizen 5 doesn't support displaying secondary subtitles
+                if (browser.tizenVersion >= 5 || browser.web0s) {
+                    return true;
+                }
+
+                if (browser.edge) {
+                    return true;
+                }
+
+                // font-size styling does not seem to work natively in firefox. Switching to custom subtitles element for firefox.
+                if (browser.firefox) {
+                    return true;
+                }
+
+                if (browser.iOS) {
+                    const userAgent = navigator.userAgent.toLowerCase();
+                    // works in the browser but not the native app
+                    if ((userAgent.includes('os 9') || userAgent.includes('os 8')) && !userAgent.includes('safari')) {
+                        return true;
+                    }
+                }
+
+                return false;
+        }
     }
 
     /**
@@ -1458,7 +1471,9 @@ export class HtmlVideoPlayer {
     /**
          * @private
          */
-    renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+    async renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+        const { currentSettings: userSettings } = await import('../../scripts/settings/userSettings');
+
         if (!itemHelper.isLocalItem(item) || track.IsExternal) {
             const format = (track.Codec || '').toLowerCase();
             if (format === 'ssa' || format === 'ass') {
@@ -1470,7 +1485,7 @@ export class HtmlVideoPlayer {
                 return;
             }
 
-            if (this.requiresCustomSubtitlesElement()) {
+            if (this.requiresCustomSubtitlesElement(userSettings)) {
                 this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
                 return;
             }
@@ -1500,28 +1515,25 @@ export class HtmlVideoPlayer {
 
         // download the track json
         this.fetchSubtitles(track, item).then(function (data) {
-            import('../../scripts/settings/userSettings').then((userSettings) => {
-                // show in ui
-                console.debug(`downloaded ${data.TrackEvents.length} track events`);
+            console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
-                const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
-                const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
+            const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+            const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
 
-                // add some cues to show the text
-                // in safari, the cues need to be added before setting the track mode to showing
-                for (const trackEvent of data.TrackEvents) {
-                    const TrackCue = window.VTTCue || window.TextTrackCue;
-                    const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+            // add some cues to show the text
+            // in safari, the cues need to be added before setting the track mode to showing
+            for (const trackEvent of data.TrackEvents) {
+                const TrackCue = window.VTTCue || window.TextTrackCue;
+                const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
-                    if (cue.line === 'auto') {
-                        cue.line = cueLine;
-                    }
-
-                    trackElement.addCue(cue);
+                if (cue.line === 'auto') {
+                    cue.line = cueLine;
                 }
 
-                trackElement.mode = 'showing';
-            });
+                trackElement.addCue(cue);
+            }
+
+            trackElement.mode = 'showing';
         });
     }
 
