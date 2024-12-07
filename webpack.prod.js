@@ -4,7 +4,7 @@ const { merge } = require('webpack-merge');
 module.exports = merge(common, {
     mode: 'production',
     entry: {
-        'main.jellyfin': './index.jsx',
+        'main.jellyfin': './index.tsx',
         'serviceworker': './serviceworker.js'
     }
 });
