@@ -218,6 +218,7 @@
     "DeleteName": "Delete {0}",
     "DeleteUser": "Delete User",
     "DeleteUserConfirmation": "Are you sure you wish to delete this user?",
+    "DeleteServerConfirmation": "Are you sure you wish to delete this server?",
     "Depressed": "Depressed",
     "Descending": "Descending",
     "Desktop": "Desktop",
