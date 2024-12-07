@@ -239,6 +239,8 @@ function getTabs() {
         name: globalize.translate('Collections')
     }, {
         name: globalize.translate('Genres')
+    }, {
+        name: globalize.translate('People')
     }];
 }
 
@@ -305,6 +307,10 @@ export default function (view, params) {
 
             case 5:
                 depends = 'moviegenres';
+                break;
+
+            case 6:
+                depends = 'moviepeople';
                 break;
         }
 
