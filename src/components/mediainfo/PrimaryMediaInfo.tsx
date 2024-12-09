@@ -29,6 +29,7 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
     className,
     infoclass,
     item,
+    mediaSourceInfo,
     showYearInfo,
     showAudioContainerInfo,
     showEpisodeTitleInfo,
@@ -51,6 +52,7 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
 }) => {
     const miscInfo = usePrimaryMediaInfo({
         item,
+        mediaSourceInfo,
         showYearInfo,
         showAudioContainerInfo,
         showEpisodeTitleInfo,
@@ -74,6 +76,8 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
         CommunityRating,
         CriticRating
     } = item;
+
+    const itemRunTimeTicks = mediaSourceInfo?.RunTimeTicks || RunTimeTicks;
 
     const cssClass = classNames(className);
 
@@ -105,9 +109,9 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
 
             {showEndsAtInfo
                 && MediaType === ItemMediaKind.Video
-                && RunTimeTicks
+                && itemRunTimeTicks
                 && !StartDate && (
-                <EndsAt className={infoclass} runTimeTicks={RunTimeTicks} />
+                <EndsAt className={infoclass} runTimeTicks={itemRunTimeTicks} />
             )}
 
             {getMissingIndicator?.()}

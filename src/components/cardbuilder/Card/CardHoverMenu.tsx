@@ -36,17 +36,19 @@ const CardHoverMenu: FC<CardHoverMenuProps> = ({
         'cardOverlayFab-primary'
     );
     const { IsFavorite, Played } = item.UserData ?? {};
+    const isEditAction = action === 'edit';
 
     return (
-        <Box
-            className='cardOverlayContainer itemAction'
-            data-action={action}
-        >
-            <a
-                href={url}
-                aria-label={item.Name || ''}
-                className='cardImageContainer'
-            ></a>
+        <Box className='cardOverlayContainer'>
+            <Box
+                component={isEditAction ? 'div' : 'a'}
+                className={classNames('cardImageContainer', {
+                    'itemAction': isEditAction
+                })}
+                {...(isEditAction ?
+                    { 'data-action': action } :
+                    { href: url, 'aria-label': item.Name || '' })}
+            />
 
             {playbackManager.canPlay(item) && (
                 <PlayArrowIconButton
