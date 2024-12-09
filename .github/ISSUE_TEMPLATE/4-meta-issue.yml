@@ -1,0 +1,16 @@
+name: Meta Issue
+description: You want to track a number of other issues as part of a larger project
+labels:
+  - meta
+body:
+  - type: textarea
+    id: meta
+    validations:
+      required: true
+    attributes:
+      label: Meta description
+      description: You want to track a number of other issues as part of a larger project
+      placeholder: |
+        * [ ] Issue 1 [#123]
+        * [ ] Issue 2 [#456]
+        * [ ] ...
