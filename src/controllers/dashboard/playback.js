@@ -3,11 +3,11 @@ import loading from '../../components/loading/loading';
 import Dashboard from '../../utils/dashboard';
 
 function loadPage(page, config) {
-    $('#txtMinResumePct', page).val(config.MinResumePct);
-    $('#txtMaxResumePct', page).val(config.MaxResumePct);
-    $('#txtMinAudiobookResume', page).val(config.MinAudiobookResume);
-    $('#txtMaxAudiobookResume', page).val(config.MaxAudiobookResume);
-    $('#txtMinResumeDuration', page).val(config.MinResumeDurationSeconds);
+    page.querySelector('#txtMinResumePct').value = config.MinResumePct;
+    page.querySelector('#txtMaxResumePct').value = config.MaxResumePct;
+    page.querySelector('#txtMinAudiobookResume').value = config.MinAudiobookResume;
+    page.querySelector('#txtMaxAudiobookResume').value = config.MaxAudiobookResume;
+    page.querySelector('#txtMinResumeDuration').value = config.MinResumeDurationSeconds;
     loading.hide();
 }
 
@@ -15,11 +15,11 @@ function onSubmit() {
     loading.show();
     const form = this;
     ApiClient.getServerConfiguration().then(function (config) {
-        config.MinResumePct = $('#txtMinResumePct', form).val();
-        config.MaxResumePct = $('#txtMaxResumePct', form).val();
-        config.MinAudiobookResume = $('#txtMinAudiobookResume', form).val();
-        config.MaxAudiobookResume = $('#txtMaxAudiobookResume', form).val();
-        config.MinResumeDurationSeconds = $('#txtMinResumeDuration', form).val();
+        config.MinResumePct = form.querySelector('#txtMinResumePct').value;
+        config.MaxResumePct = form.querySelector('#txtMaxResumePct').value;
+        config.MinAudiobookResume = form.querySelector('#txtMinAudiobookResume').value;
+        config.MaxAudiobookResume = form.querySelector('#txtMaxAudiobookResume').value;
+        config.MinResumeDurationSeconds = form.querySelector('#txtMinResumeDuration').value;
 
         ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
     });
