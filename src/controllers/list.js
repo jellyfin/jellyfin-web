@@ -255,7 +255,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
     if (params.type === 'nextup') {
         return apiClient.getNextUpEpisodes(modifyQueryWithFilters(instance, {
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount',
+            Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount,Chapters,Trickplay',
             UserId: apiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Thumb',
@@ -278,7 +278,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         return apiClient[method](apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
             StartIndex: startIndex,
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,SortName',
+            Fields: 'PrimaryImageAspectRatio,SortName,Chapters,Trickplay',
             ImageTypeLimit: 1,
             IncludeItemTypes: params.type === 'MusicArtist' || params.type === 'Person' ? null : params.type,
             Recursive: true,
