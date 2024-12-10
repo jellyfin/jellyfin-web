@@ -13,6 +13,7 @@ import { PlayerEvent } from '../constants/playerEvent';
 import type { ManagedPlayerStopInfo, MovedItem, PlayerError, PlayerErrorCode, PlayerStopInfo, RemovedItems } from '../types/callbacks';
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface PlaybackSubscriber {
     onPlaybackCancelled?(e: Event): void
     onPlaybackError?(e: Event, errorType: MediaError): void
@@ -40,6 +41,7 @@ export interface PlaybackSubscriber {
     onReportPlayback?(e: Event, isServerItem: boolean): void
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export abstract class PlaybackSubscriber {
     protected player: Plugin | undefined;
 
