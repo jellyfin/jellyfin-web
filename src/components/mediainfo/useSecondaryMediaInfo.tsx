@@ -36,7 +36,7 @@ function addProgramTime(
                 programTimeText += ` - ${datetime.getDisplayTime(date)}`;
             }
             addMiscInfo({ text: programTimeText });
-        } catch (e) {
+        } catch {
             console.error('error parsing date:', itemStartDate);
         }
     }
