@@ -9,6 +9,10 @@ export default function (view, params) {
         Dashboard.logout();
     });
 
+    view.querySelector('.btnSwitchUser').addEventListener('click', function () {
+        Dashboard.navigate("login.html");
+    });
+
     view.querySelector('.selectServer').addEventListener('click', function () {
         Dashboard.selectServer();
     });
