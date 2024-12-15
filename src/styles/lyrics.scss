@@ -13,10 +13,16 @@
 .lyricsLine {
     display: inline-block;
     width: fit-content;
-    margin: 0.1em;
-    font-size: 30px;
+    padding: 0 2rem;
+    font-size: 1.5rem;
+    line-height: 2;
     color: inherit;
-    min-height: 2em;
+
+    .layout-desktop & {
+        @media (min-width: 50em) {
+            font-size: 2rem;
+        }
+    }
 }
 
 .futureLyric {
