@@ -1,5 +1,5 @@
 .lyricPage {
-    padding-top: 4.2em !important;
+    padding-top: 6rem !important;
     display: flex;
     justify-content: center;
 }
@@ -7,6 +7,7 @@
 .dynamicLyricsContainer {
     display: flex;
     flex-direction: column;
+    max-width: 50rem;
 }
 
 .lyricsLine {
