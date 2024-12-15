@@ -26,6 +26,12 @@
             font-size: 2rem;
         }
     }
+
+    &:empty {
+        padding: 0;
+        height: 0.75em;
+        pointer-events: none;
+    }
 }
 
 .futureLyric {
