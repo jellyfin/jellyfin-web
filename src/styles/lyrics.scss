@@ -17,6 +17,9 @@
     font-size: 1.5rem;
     line-height: 2;
     color: inherit;
+    transition-property: color, text-shadow, opacity;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
 
     .layout-desktop & {
         @media (min-width: 50em) {
@@ -35,4 +38,9 @@
 
 .dynamicLyric {
     cursor: pointer;
+
+    &:hover {
+        opacity: 1;
+        text-shadow: 0 0 0.25em rgba(white, 0.25);
+    }
 }
