@@ -38,25 +38,25 @@ class SkipSegment extends PlaybackSubscriber {
 
     createSkipElement() {
         if (!this.skipElement && this.currentSegment) {
-            let buttonHtml = '';
+            const elem = document.createElement('button');
+            elem.classList.add('skip-button');
+            elem.classList.add('hide');
+            elem.classList.add('skip-button-hidden');
+            elem.setAttribute('is', 'emby-button');
 
-            buttonHtml += '<button is="emby-button" class="skip-button hide skip-button-hidden"></button>';
-
-            document.body.insertAdjacentHTML('beforeend', buttonHtml);
-
-            this.skipElement = document.body.querySelector('.skip-button');
-            if (this.skipElement) {
-                this.skipElement.addEventListener('click', () => {
-                    const time = this.playbackManager.currentTime() * TICKS_PER_MILLISECOND;
-                    if (this.currentSegment?.EndTicks) {
-                        if (time < this.currentSegment.EndTicks - TICKS_PER_SECOND) {
-                            this.playbackManager.seek(this.currentSegment.EndTicks);
-                        } else {
-                            this.hideSkipButton();
-                        }
+            elem.addEventListener('click', () => {
+                const time = this.playbackManager.currentTime() * TICKS_PER_MILLISECOND;
+                if (this.currentSegment?.EndTicks) {
+                    if (time < this.currentSegment.EndTicks - TICKS_PER_SECOND) {
+                        this.playbackManager.seek(this.currentSegment.EndTicks);
+                    } else {
+                        this.hideSkipButton();
                     }
-                });
-            }
+                }
+            });
+
+            document.body.appendChild(elem);
+            this.skipElement = elem;
         }
     }
 
@@ -83,8 +83,8 @@ class SkipSegment extends PlaybackSubscriber {
 
             void elem.offsetWidth;
 
-            const osdVisible = document.activeElement && focusManager.isCurrentlyFocusable(document.activeElement);
-            if (options.focus && !osdVisible) {
+            const hasFocus = document.activeElement && focusManager.isCurrentlyFocusable(document.activeElement);
+            if (options.focus && !hasFocus) {
                 focusManager.focus(elem);
             }
 
