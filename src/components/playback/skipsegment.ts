@@ -25,41 +25,45 @@ function onHideComplete(this: HTMLButtonElement) {
 }
 
 class SkipSegment extends PlaybackSubscriber {
-    private skipElement: HTMLButtonElement | null | undefined;
+    private skipElement: HTMLButtonElement | null;
     private currentSegment: MediaSegmentDto | null | undefined;
     private hideTimeout: ReturnType<typeof setTimeout> | null | undefined;
 
     constructor(playbackManager: PlaybackManager) {
         super(playbackManager);
 
+        this.skipElement = null;
         this.onOsdChanged = this.onOsdChanged.bind(this);
     }
 
     createSkipElement() {
         if (!this.skipElement && this.currentSegment) {
-            const elem = document.querySelector('.skip-button') as HTMLButtonElement;
+            let buttonHtml = '';
 
-            elem.addEventListener('click', () => {
-                const time = this.playbackManager.currentTime() * TICKS_PER_MILLISECOND;
-                if (this.currentSegment?.EndTicks) {
-                    if (time < this.currentSegment.EndTicks - TICKS_PER_SECOND) {
-                        this.playbackManager.seek(this.currentSegment.EndTicks);
-                    } else {
-                        this.hideSkipButton();
+            buttonHtml += '<button is="emby-button" class="skip-button hide skip-button-hidden"></button>';
+
+            document.body.insertAdjacentHTML('beforeend', buttonHtml);
+
+            this.skipElement = document.body.querySelector('.skip-button');
+            if (this.skipElement) {
+                this.skipElement.addEventListener('click', () => {
+                    const time = this.playbackManager.currentTime() * TICKS_PER_MILLISECOND;
+                    if (this.currentSegment?.EndTicks) {
+                        if (time < this.currentSegment.EndTicks - TICKS_PER_SECOND) {
+                            this.playbackManager.seek(this.currentSegment.EndTicks);
+                        } else {
+                            this.hideSkipButton();
+                        }
                     }
-                }
-            });
-
-            this.skipElement = elem;
+                });
+            }
         }
     }
 
     setButtonText() {
         if (this.skipElement && this.currentSegment) {
-            const textElem = this.skipElement.querySelector('#skip-button-text');
-            if (textElem) {
-                textElem.innerHTML = globalize.translate('MediaSegmentSkipPrompt', globalize.translate(`MediaSegmentType.${this.currentSegment.Type}`));
-            }
+            this.skipElement.innerHTML = globalize.translate('MediaSegmentSkipPrompt', globalize.translate(`MediaSegmentType.${this.currentSegment.Type}`));
+            this.skipElement.innerHTML += '<span class="material-icons skip_next" aria-hidden="true"></span>';
         }
     }
 
