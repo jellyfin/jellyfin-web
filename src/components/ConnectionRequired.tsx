@@ -150,21 +150,25 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
     useEffect(() => {
         // Check connection status on initial page load
         const apiClient = ServerConnections.currentApiClient();
-        const firstConnection = ServerConnections.firstConnection;
-        console.debug('[ConnectionRequired] connection state', firstConnection?.State);
-        ServerConnections.firstConnection = null;
+        const connection = Promise.resolve(ServerConnections.firstConnection ? null : ServerConnections.connect());
+        connection.then(firstConnection => {
+            console.debug('[ConnectionRequired] connection state', firstConnection?.State);
+            ServerConnections.firstConnection = true;
 
-        if (firstConnection && firstConnection.State !== ConnectionState.SignedIn && !apiClient?.isLoggedIn()) {
-            handleIncompleteWizard(firstConnection)
-                .catch(err => {
-                    console.error('[ConnectionRequired] could not start wizard', err);
-                });
-        } else {
-            validateUserAccess()
-                .catch(err => {
-                    console.error('[ConnectionRequired] could not validate user access', err);
-                });
-        }
+            if (firstConnection && firstConnection.State !== ConnectionState.SignedIn && !apiClient?.isLoggedIn()) {
+                handleIncompleteWizard(firstConnection)
+                    .catch(err => {
+                        console.error('[ConnectionRequired] could not start wizard', err);
+                    });
+            } else {
+                validateUserAccess()
+                    .catch(err => {
+                        console.error('[ConnectionRequired] could not validate user access', err);
+                    });
+            }
+        }).catch(err => {
+            console.error('[ConnectionRequired] failed to connect', err);
+        });
     }, [handleIncompleteWizard, validateUserAccess]);
 
     if (isLoading) {
