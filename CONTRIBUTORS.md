@@ -93,6 +93,7 @@
 - [Connor Smith](https://github.com/ConnorS1110)
 - [iFraan](https://github.com/iFraan)
 - [Ali](https://github.com/bu3alwa)
+- [Alexis Queen](https://github.com/lxqueen)
 
 ## Emby Contributors
 
