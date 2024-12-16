@@ -2,7 +2,7 @@ import Page from 'components/Page';
 import SectionTitleContainer from 'elements/SectionTitleContainer';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getApiKeyApi } from '@jellyfin/sdk/lib/utils/api/api-key-api';
 import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/models/authentication-info';
 import Loading from 'components/loading/LoadingComponent';
@@ -13,7 +13,6 @@ const ApiKeys = () => {
     const { api } = useApi();
     const [ keys, setKeys ] = useState<AuthenticationInfo[]>([]);
     const [ loading, setLoading ] = useState(true);
-    const element = useRef<HTMLDivElement>(null);
 
     const loadKeys = useCallback(() => {
         if (!api) return;
@@ -92,7 +91,7 @@ const ApiKeys = () => {
             title={globalize.translate('HeaderApiKeys')}
             className='mainAnimatedPage type-interior'
         >
-            <div ref={element} className='content-primary'>
+            <div className='content-primary'>
                 <SectionTitleContainer
                     title={globalize.translate('HeaderApiKeys')}
                     isBtnVisible={true}
