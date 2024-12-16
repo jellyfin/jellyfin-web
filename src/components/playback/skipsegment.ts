@@ -83,8 +83,8 @@ class SkipSegment extends PlaybackSubscriber {
 
             void elem.offsetWidth;
 
-            const osdVisible = document.activeElement && focusManager.isCurrentlyFocusable(document.activeElement);
-            if (options.focus && !osdVisible) {
+            const hasFocus = document.activeElement && focusManager.isCurrentlyFocusable(document.activeElement);
+            if (options.focus && !hasFocus) {
                 focusManager.focus(elem);
             }
 
