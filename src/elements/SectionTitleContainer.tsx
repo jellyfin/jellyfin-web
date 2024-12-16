@@ -9,8 +9,9 @@ type IProps = {
     btnClassName?: string;
     btnTitle?: string;
     btnIcon?: string;
+    onClick?: () => void;
 };
-const SectionTitleContainer: FunctionComponent<IProps> = ({ SectionClassName, title, isBtnVisible = false, btnId, btnClassName, btnTitle, btnIcon }: IProps) => {
+const SectionTitleContainer: FunctionComponent<IProps> = ({ SectionClassName, title, isBtnVisible = false, btnId, btnClassName, btnTitle, btnIcon, onClick }: IProps) => {
     return (
         <div className={`${SectionClassName} sectionTitleContainer flex align-items-center`}>
             <h2 className='sectionTitle'>
@@ -23,6 +24,7 @@ const SectionTitleContainer: FunctionComponent<IProps> = ({ SectionClassName, ti
                 className={btnClassName}
                 title={btnTitle}
                 icon={btnIcon}
+                onClick={onClick}
             />}
 
         </div>

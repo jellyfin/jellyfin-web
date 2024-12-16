@@ -30,20 +30,43 @@ const ApiKeys = () => {
     };
 
     const revokeKey = useCallback((accessToken: string) => {
-        if (api) {
-            confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
-                setLoading(true);
+        if (!api) return;
+
+        confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
+            setLoading(true);
+            getApiKeyApi(api)
+                .revokeKey({ key: accessToken })
+                .then(() => loadKeys(api))
+                .then(() => setLoading(false))
+                .catch(err => {
+                    console.error('[apikeys] failed to revoke key', err);
+                });
+        }).catch(err => {
+            console.error('[apikeys] failed to show confirmation dialog', err);
+        });
+    }, [api]);
+
+    const showNewKeyPopup = useCallback(() => {
+        if (!api) return;
+
+        import('../../../components/prompt/prompt').then(({ default: prompt }) => {
+            prompt({
+                title: globalize.translate('HeaderNewApiKey'),
+                label: globalize.translate('LabelAppName'),
+                description: globalize.translate('LabelAppNameExample')
+            }).then((value) => {
                 getApiKeyApi(api)
-                    .revokeKey({ key: accessToken })
+                    .createKey({ app: value })
                     .then(() => loadKeys(api))
-                    .then(() => setLoading(false))
                     .catch(err => {
-                        console.error('[apikeys] failed to revoke key', err);
+                        console.error('[apikeys] failed to create api key', err);
                     });
-            }).catch(err => {
-                console.error('[apikeys] failed to show confirmation dialog', err);
+            }).catch(() => {
+                // popup closed
             });
-        }
+        }).catch(err => {
+            console.error('[apikeys] failed to load api key popup', err);
+        });
     }, [api]);
 
     useEffect(() => {
@@ -56,45 +79,7 @@ const ApiKeys = () => {
         }).catch(err => {
             console.error('[apikeys] failed to load api keys', err);
         });
-
-        if (loading) {
-            return;
-        }
-
-        const page = element.current;
-
-        if (!page) {
-            console.error('[apikeys] Unexpected null page reference');
-            return;
-        }
-
-        const showNewKeyPopup = () => {
-            import('../../../components/prompt/prompt').then(({ default: prompt }) => {
-                prompt({
-                    title: globalize.translate('HeaderNewApiKey'),
-                    label: globalize.translate('LabelAppName'),
-                    description: globalize.translate('LabelAppNameExample')
-                }).then((value) => {
-                    getApiKeyApi(api)
-                        .createKey({ app: value })
-                        .then(() => loadKeys(api))
-                        .catch(err => {
-                            console.error('[apikeys] failed to create api key', err);
-                        });
-                }).catch(() => {
-                    // popup closed
-                });
-            }).catch(err => {
-                console.error('[apikeys] failed to load api key popup', err);
-            });
-        };
-
-        (page.querySelector('.btnNewKey') as HTMLButtonElement).addEventListener('click', showNewKeyPopup);
-
-        return () => {
-            (page.querySelector('.btnNewKey') as HTMLButtonElement).removeEventListener('click', showNewKeyPopup);
-        };
-    }, [api, loading]);
+    }, [api]);
 
     if (loading) {
         return <Loading />;
@@ -114,6 +99,7 @@ const ApiKeys = () => {
                     btnClassName='fab submit sectionTitleButton btnNewKey'
                     btnTitle={globalize.translate('Add')}
                     btnIcon='add'
+                    onClick={showNewKeyPopup}
                 />
                 <p>{globalize.translate('HeaderApiKeysHelp')}</p>
                 <br />
