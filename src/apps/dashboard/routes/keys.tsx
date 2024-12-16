@@ -6,7 +6,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { getApiKeyApi } from '@jellyfin/sdk/lib/utils/api/api-key-api';
 import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/models/authentication-info';
 import Loading from 'components/loading/LoadingComponent';
-import { Api } from '@jellyfin/sdk';
 import confirm from 'components/confirm/confirm';
 import ApiKeyCell from 'components/dashboard/apikeys/ApiKeyCell';
 
@@ -16,8 +15,10 @@ const ApiKeys = () => {
     const [ loading, setLoading ] = useState(true);
     const element = useRef<HTMLDivElement>(null);
 
-    const loadKeys = (currentApi: Api) => {
-        return getApiKeyApi(currentApi)
+    const loadKeys = useCallback(() => {
+        if (!api) return;
+
+        return getApiKeyApi(api)
             .getKeys()
             .then(({ data }) => {
                 if (data.Items) {
@@ -27,7 +28,7 @@ const ApiKeys = () => {
             .catch((err) => {
                 console.error('[apikeys] failed to load api keys', err);
             });
-    };
+    }, [api]);
 
     const revokeKey = useCallback((accessToken: string) => {
         if (!api) return;
@@ -36,7 +37,7 @@ const ApiKeys = () => {
             setLoading(true);
             getApiKeyApi(api)
                 .revokeKey({ key: accessToken })
-                .then(() => loadKeys(api))
+                .then(loadKeys)
                 .then(() => setLoading(false))
                 .catch(err => {
                     console.error('[apikeys] failed to revoke key', err);
@@ -44,7 +45,7 @@ const ApiKeys = () => {
         }).catch(err => {
             console.error('[apikeys] failed to show confirmation dialog', err);
         });
-    }, [api]);
+    }, [api, loadKeys]);
 
     const showNewKeyPopup = useCallback(() => {
         if (!api) return;
@@ -57,7 +58,7 @@ const ApiKeys = () => {
             }).then((value) => {
                 getApiKeyApi(api)
                     .createKey({ app: value })
-                    .then(() => loadKeys(api))
+                    .then(loadKeys)
                     .catch(err => {
                         console.error('[apikeys] failed to create api key', err);
                     });
@@ -67,19 +68,19 @@ const ApiKeys = () => {
         }).catch(err => {
             console.error('[apikeys] failed to load api key popup', err);
         });
-    }, [api]);
+    }, [api, loadKeys]);
 
     useEffect(() => {
         if (!api) {
             return;
         }
 
-        loadKeys(api).then(() => {
+        loadKeys()?.then(() => {
             setLoading(false);
         }).catch(err => {
             console.error('[apikeys] failed to load api keys', err);
         });
-    }, [api]);
+    }, [api, loadKeys]);
 
     if (loading) {
         return <Loading />;
