@@ -1237,7 +1237,9 @@ export default function (view) {
                     }
                     return;
                 case 'Enter':
-                    playbackManager.playPause(currentPlayer);
+                    if (e.target.tagName !== 'BUTTON') {
+                        playbackManager.playPause(currentPlayer);
+                    }
                     showOsd(btnPlayPause);
                     return;
             }
