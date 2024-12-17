@@ -5,6 +5,7 @@ export const ASYNC_ADMIN_ROUTES: AsyncRoute[] = [
     { path: 'branding', type: AsyncRouteType.Dashboard },
     { path: 'playback/trickplay', type: AsyncRouteType.Dashboard },
     { path: 'plugins/:pluginId', page: 'plugins/plugin', type: AsyncRouteType.Dashboard },
+    { path: 'logs', type: AsyncRouteType.Dashboard },
     { path: 'users', type: AsyncRouteType.Dashboard },
     { path: 'users/access', type: AsyncRouteType.Dashboard },
     { path: 'users/add', type: AsyncRouteType.Dashboard },
