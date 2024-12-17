@@ -1,15 +1,15 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import type { LogFile } from '@jellyfin/sdk/lib/generated-client/models/log-file';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import LogItem from 'components/dashboard/logs/LogItem';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 import { Alert, Box, Button, FormControlLabel, Stack, Switch, TextField, Typography } from '@mui/material';
-import { type ActionFunctionArgs, type LoaderFunctionArgs, Form, useActionData } from 'react-router-dom';
+import { type ActionFunctionArgs, Form, useActionData } from 'react-router-dom';
 import ServerConnections from 'components/ServerConnections';
+import { useLogEntries } from 'apps/dashboard/features/logs/api/useLogEntries';
+import { useLogOptions } from 'apps/dashboard/features/logs/api/useLogOptions';
+import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
 
 interface ActionData {
     isSaved: boolean;
@@ -37,64 +37,41 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     };
 };
 
-export const Logs = () => {
+const Logs = () => {
     const actionData = useActionData() as ActionData | undefined;
-    const { api } = useApi();
-    const [ logs, setLogs ] = useState<LogFile[]>([]);
-    const [ logsLoading, setLogsLoading ] = useState<boolean>(true);
-    const [ configLoading, setConfigLoading ] = useState<boolean>(true);
-    const [ logWarningMessageChecked, setLogWarningMessageChecked ] = useState<boolean>(false);
-    const [ slowResponseTime, setSlowResponseTime ] = useState<string>('');
     const [ isSubmitting, setIsSubmitting ] = useState(false);
 
+    const { isPending: isLogEntriesPending, data: logs } = useLogEntries();
+    const { isPending: isLogOptionsPending, data: defaultLogOptions } = useLogOptions();
+    const [ loading, setLoading ] = useState(true);
+    const [ logOptions, setLogOptions ] = useState<ServerConfiguration>( {} );
+
+    useEffect(() => {
+        if (!isLogOptionsPending && defaultLogOptions) {
+            setLogOptions(defaultLogOptions);
+            setLoading(false);
+        }
+    }, [isLogOptionsPending, defaultLogOptions]);
+
     const setLogWarningMessage = useCallback((_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
-        setLogWarningMessageChecked(checked);
-    }, []);
+        setLogOptions({
+            ...logOptions,
+            EnableSlowResponseWarning: checked
+        });
+    }, [logOptions]);
 
     const onResponseTimeChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
-        setSlowResponseTime(event.target.value);
-    }, []);
-
-    const loadLogs = useCallback(() => {
-        if (!api) return;
-
-        return getSystemApi(api)
-            .getServerLogs()
-            .then(({ data }) => {
-                setLogs(data);
-            });
-    }, [api]);
+        setLogOptions({
+            ...logOptions,
+            SlowResponseThresholdMs: parseInt(event.target.value, 10)
+        });
+    }, [logOptions]);
 
     const onSubmit = useCallback(() => {
         setIsSubmitting(true);
     }, []);
 
-    useEffect(() => {
-        if (!api) return;
-
-        loadLogs()?.then(() => {
-            setLogsLoading(false);
-        }).catch(err => {
-            console.error('[logs] An error occurred while fetching logs', err);
-        });
-
-        getConfigurationApi(api)
-            .getConfiguration()
-            .then(({ data: config }) => {
-                if (config.EnableSlowResponseWarning) {
-                    setLogWarningMessageChecked(config.EnableSlowResponseWarning);
-                }
-                if (config.SlowResponseThresholdMs != null) {
-                    setSlowResponseTime(String(config.SlowResponseThresholdMs));
-                }
-                setConfigLoading(false);
-            })
-            .catch(err => {
-                console.error('[logs] An error occurred while fetching system config', err);
-            });
-    }, [logsLoading, configLoading, api, loadLogs]);
-
-    if (logsLoading || configLoading) {
+    if (isLogEntriesPending || isLogOptionsPending || loading) {
         return <Loading />;
     }
 
@@ -120,7 +97,7 @@ export const Logs = () => {
                         <FormControlLabel
                             control={
                                 <Switch
-                                    checked={logWarningMessageChecked}
+                                    checked={logOptions?.EnableSlowResponseWarning}
                                     onChange={setLogWarningMessage}
                                     name={'EnableWarningMessage'}
                                 />
@@ -133,7 +110,7 @@ export const Logs = () => {
                             type='number'
                             name={'SlowResponseTime'}
                             label={globalize.translate('LabelSlowResponseTime')}
-                            value={slowResponseTime}
+                            value={logOptions?.SlowResponseThresholdMs}
                             onChange={onResponseTimeChange}
                         />
 
@@ -147,7 +124,7 @@ export const Logs = () => {
                 </Form>
                 <div className='serverLogs readOnlyContent'>
                     <div className='paperList'>
-                        {logs.map(log => {
+                        {logs?.map(log => {
                             return <LogItem
                                 key={log.Name}
                                 logFile={log}
