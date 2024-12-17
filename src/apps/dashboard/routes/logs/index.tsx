@@ -19,7 +19,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
     const { data: config } = await getConfigurationApi(api).getConfiguration();
 
-    config.EnableSlowResponseWarning = formData.get('EnableWarningMessage') === 'on';
+    const enableWarningMessage = formData.get('EnableWarningMessage');
+    if (enableWarningMessage) {
+        config.EnableSlowResponseWarning = formData.get('EnableWarningMessage') === 'on';
+    }
 
     const responseTime = formData.get('SlowResponseTime');
     if (responseTime) {
