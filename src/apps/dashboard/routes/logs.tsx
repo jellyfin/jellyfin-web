@@ -1,23 +1,31 @@
-import React, { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import type { LogFile } from '@jellyfin/sdk/lib/generated-client/models/log-file';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import LogItem from 'components/dashboard/logs/LogItem';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import ButtonElement from 'elements/ButtonElement';
-import CheckBoxElement from 'elements/CheckBoxElement';
-import InputElement from 'elements/InputElement';
-import SectionTitleContainer from 'elements/SectionTitleContainer';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
-import toast from 'components/toast/toast';
+import { Alert, Box, Button, FormControlLabel, Stack, Switch, TextField, Typography } from '@mui/material';
+import { Form } from 'react-router-dom';
 
 const Logs = () => {
     const { api } = useApi();
     const [ logs, setLogs ] = useState<LogFile[]>([]);
-    const [ loading, setLoading ] = useState(false);
-    const element = useRef<HTMLDivElement>(null);
+    const [ logsLoading, setLogsLoading ] = useState<boolean>(true);
+    const [ configLoading, setConfigLoading ] = useState<boolean>(true);
+    const [ logWarningMessageChecked, setLogWarningMessageChecked ] = useState<boolean>(false);
+    const [ slowResponseTime, setSlowResponseTime ] = useState<string>('');
+    const [ submitted, setSubmitted ] = useState<boolean>(false);
+
+    const setLogWarningMessage = useCallback((_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
+        setLogWarningMessageChecked(checked);
+    }, []);
+
+    const onResponseTimeChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+        setSlowResponseTime(event.target.value);
+    }, []);
 
     const loadLogs = useCallback(() => {
         if (!api) return;
@@ -33,18 +41,14 @@ const Logs = () => {
         e.preventDefault();
         if (!api) return;
 
-        const page = element.current;
-
-        if (!page) return;
-
         getConfigurationApi(api)
             .getConfiguration()
             .then(({ data: config }) => {
-                config.EnableSlowResponseWarning = (page.querySelector('.chkSlowResponseWarning') as HTMLInputElement).checked;
-                config.SlowResponseThresholdMs = parseInt((page.querySelector('#txtSlowResponseWarning') as HTMLInputElement).value, 10);
+                config.EnableSlowResponseWarning = logWarningMessageChecked;
+                config.SlowResponseThresholdMs = parseInt(slowResponseTime, 10);
                 getConfigurationApi(api)
                     .updateConfiguration({ serverConfiguration: config })
-                    .then(() => toast(globalize.translate('SettingsSaved')))
+                    .then(() => setSubmitted(true))
                     .catch(err => {
                         console.error('[logs] failed to update configuration data', err);
                     });
@@ -52,37 +56,34 @@ const Logs = () => {
             .catch(err => {
                 console.error('[logs] failed to get configuration data', err);
             });
-    }, [api]);
+    }, [api, logWarningMessageChecked, slowResponseTime]);
 
     useEffect(() => {
         if (!api) return;
 
         loadLogs()?.then(() => {
-            setLoading(false);
+            setLogsLoading(false);
         }).catch(err => {
             console.error('[logs] An error occurred while fetching logs', err);
         });
-
-        const page = element.current;
-
-        if (!page || loading) return;
 
         getConfigurationApi(api)
             .getConfiguration()
             .then(({ data: config }) => {
                 if (config.EnableSlowResponseWarning) {
-                    (page.querySelector('.chkSlowResponseWarning') as HTMLInputElement).checked = config.EnableSlowResponseWarning;
+                    setLogWarningMessageChecked(config.EnableSlowResponseWarning);
                 }
                 if (config.SlowResponseThresholdMs != null) {
-                    (page.querySelector('#txtSlowResponseWarning') as HTMLInputElement).value = String(config.SlowResponseThresholdMs);
+                    setSlowResponseTime(String(config.SlowResponseThresholdMs));
                 }
+                setConfigLoading(false);
             })
             .catch(err => {
                 console.error('[logs] An error occurred while fetching system config', err);
             });
-    }, [loading, api, loadLogs]);
+    }, [logsLoading, configLoading, api, loadLogs]);
 
-    if (loading) {
+    if (logsLoading || configLoading) {
         return <Loading />;
     }
 
@@ -92,38 +93,45 @@ const Logs = () => {
             title={globalize.translate('TabLogs')}
             className='mainAnimatedPage type-interior'
         >
-            <div ref={element} className='content-primary'>
-                <form className='logsForm' onSubmit={onSubmit}>
-                    <div className='verticalSection'>
-                        <SectionTitleContainer
-                            title={globalize.translate('TabLogs')}
-                        />
-                    </div>
+            <Box className='content-primary'>
+                <Form className='logsForm' method='POST' onSubmit={onSubmit}>
+                    <Stack spacing={3}>
+                        <Typography variant='h1'>
+                            {globalize.translate('TabLogs')}
+                        </Typography>
 
-                    <div className='verticalSection'>
-                        <div className='checkboxContainer checkboxContainer-withDescription'>
-                            <CheckBoxElement
-                                className='chkSlowResponseWarning'
-                                title='LabelSlowResponseEnabled'
-                            />
-                        </div>
-                        <div className='inputContainer'>
-                            <InputElement
-                                type='number'
-                                id='txtSlowResponseWarning'
-                                label='LabelSlowResponseTime'
-                            />
-                        </div>
-                        <br />
-                        <div>
-                            <ButtonElement
-                                type='submit'
-                                className='raised button-submit block'
-                                title='Save'
-                            />
-                        </div>
-                    </div>
-                </form>
+                        {submitted && (
+                            <Alert severity='success'>
+                                {globalize.translate('SettingsSaved')}
+                            </Alert>
+                        )}
+
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={logWarningMessageChecked}
+                                    onChange={setLogWarningMessage}
+                                />
+                            }
+                            label={globalize.translate('LabelSlowResponseEnabled')}
+                        />
+
+                        <TextField
+                            fullWidth
+                            type='number'
+                            label={globalize.translate('LabelSlowResponseTime')}
+                            value={slowResponseTime}
+                            onChange={onResponseTimeChange}
+                        />
+
+                        <Button
+                            type='submit'
+                            size='large'
+                        >
+                            {globalize.translate('Save')}
+                        </Button>
+                    </Stack>
+                </Form>
                 <div className='serverLogs readOnlyContent'>
                     <div className='paperList'>
                         {logs.map(log => {
@@ -134,7 +142,7 @@ const Logs = () => {
                         })}
                     </div>
                 </div>
-            </div>
+            </Box>
         </Page>
     );
 };
