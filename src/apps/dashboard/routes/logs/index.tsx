@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import LogItem from 'components/dashboard/logs/LogItem';
+import LogItem from 'apps/dashboard/features/logs/components/LogItem';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
