@@ -10,10 +10,7 @@ import ServerConnections from 'components/ServerConnections';
 import { useLogEntries } from 'apps/dashboard/features/logs/api/useLogEntries';
 import { useLogOptions } from 'apps/dashboard/features/logs/api/useLogOptions';
 import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
-
-interface ActionData {
-    isSaved: boolean;
-}
+import { ActionData } from 'types/actionData';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();
