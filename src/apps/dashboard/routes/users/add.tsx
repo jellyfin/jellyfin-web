@@ -148,9 +148,17 @@ const UserNew = () => {
                 }).catch(err => {
                     console.error('[usernew] failed to update user policy', err);
                 });
-            }, function () {
-                toast(globalize.translate('ErrorDefault'));
-                loading.hide();
+            }, function (error) {
+                try {
+                    console.error('[usernew] failed to create new user', error);
+                    error.text().then((errorMessage: string) => {
+                        toast(errorMessage);
+                        loading.hide();
+                    });
+                } catch {
+                    toast(globalize.translate('ErrorDefault'));
+                    loading.hide();
+                }
             });
         };
 
