@@ -230,7 +230,16 @@ const UserEdit = () => {
             )).then(() => {
                 onSaveComplete();
             }).catch(err => {
-                console.error('[useredit] failed to update user', err);
+                try {
+                    console.error('[useredit] failed to update user', err);
+                    err.text().then((errorMessage: string) => {
+                        toast(errorMessage);
+                        loading.hide();
+                    });
+                } catch {
+                    toast(globalize.translate('ErrorDefault'));
+                    loading.hide();
+                }
             });
         };
 
