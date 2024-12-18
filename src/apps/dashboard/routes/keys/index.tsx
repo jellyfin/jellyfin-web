@@ -8,11 +8,12 @@ import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/mode
 import Loading from 'components/loading/LoadingComponent';
 import confirm from 'components/confirm/confirm';
 import ApiKeyCell from 'apps/dashboard/features/keys/components/ApiKeyCell';
-import { useApiKeys } from 'apps/dashboard/features/keys/api/useApiKeys';
+import { useApiKeys, QUERY_KEY } from 'apps/dashboard/features/keys/api/useApiKeys';
+import { queryClient } from 'utils/query/queryClient';
 
 const ApiKeys = () => {
     const { api } = useApi();
-    const { data: keys, refetch, isLoading } = useApiKeys();
+    const { data: keys, isLoading } = useApiKeys();
 
     const revokeKey = useCallback((accessToken: string) => {
         if (!api) return;
@@ -20,14 +21,14 @@ const ApiKeys = () => {
         confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
             getApiKeyApi(api)
                 .revokeKey({ key: accessToken })
-                .then(() => refetch())
+                .then(() => queryClient.invalidateQueries({ queryKey: [ QUERY_KEY ] }))
                 .catch(err => {
                     console.error('[apikeys] failed to revoke key', err);
                 });
         }).catch(err => {
             console.error('[apikeys] failed to show confirmation dialog', err);
         });
-    }, [api, refetch]);
+    }, [api]);
 
     const showNewKeyPopup = useCallback(() => {
         if (!api) return;
@@ -40,7 +41,7 @@ const ApiKeys = () => {
             }).then((value) => {
                 getApiKeyApi(api)
                     .createKey({ app: value })
-                    .then(() => refetch())
+                    .then(() => queryClient.invalidateQueries({ queryKey: [ QUERY_KEY ] }))
                     .catch(err => {
                         console.error('[apikeys] failed to create api key', err);
                     });
@@ -50,7 +51,7 @@ const ApiKeys = () => {
         }).catch(err => {
             console.error('[apikeys] failed to load api key popup', err);
         });
-    }, [api, refetch]);
+    }, [api]);
 
     if (isLoading) {
         return <Loading />;
