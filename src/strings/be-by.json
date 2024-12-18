@@ -1925,5 +1925,12 @@
     "AlwaysBurnInSubtitleWhenTranscoding": "Заўсёды запісваць субтытры пры перакадзіраванні",
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "Запісваць усе субтытры пры запуску перакадзіравання. Гэта забяспечвае сінхранізацыю субтытраў пасля перакадзіравання за кошт зніжэння хуткасці перакадзіравання.",
     "AlwaysRemuxMp3AudioFilesHelp": "Калі ў вас ёсць файлы, для якіх ваш браўзер няправільна разлічвае пазнакі часу, уключыце гэта ў якасці абыходнага шляху.",
-    "HeaderMediaSegmentActions": "Дзеянні з медыясегментамі"
+    "HeaderMediaSegmentActions": "Дзеянні з медыясегментамі",
+    "MoveToBottom": "Перайсці ўніз",
+    "VideoCodecTagNotSupported": "Тэг відэакодэка не падтрымліваецца",
+    "MessageSplitVersionsError": "Падчас падзелу версій адбылася памылка",
+    "MoveToTop": "Перайсці ўверх",
+    "PasswordMissingSaveError": "Новы пароль не можа быць пустым.",
+    "LabelTrickplayKeyFrameOnlyExtraction": "Стварэнне малюнкаў толькі на аснове ключавых кадраў",
+    "UseCustomTagDelimiters": "Выкарыстоўвайце карыстацкі падзельнік тэгаў"
 }
