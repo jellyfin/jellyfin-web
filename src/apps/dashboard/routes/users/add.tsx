@@ -205,6 +205,7 @@ const UserNew = () => {
                             type='text'
                             id='txtUsername'
                             label='LabelName'
+                            validator={{ pattern: '^([\\w \\-\'._@+]*)([\\w\\-\'._@+])([\\w \\-\'._@+]*)$', errMessage: 'Username must not be empty and contain only numbers, letters, spaces, or the following symbols -\'._@+' }}
                             options={'required'}
                         />
                     </div>

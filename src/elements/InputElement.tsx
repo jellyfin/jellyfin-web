@@ -2,23 +2,30 @@ import React, { type FC, useCallback, useEffect, useMemo, useRef } from 'react';
 
 import globalize from 'lib/globalize';
 
+import './InputElement.scss';
+
 interface CreateInputElementParams {
     type?: string
     id?: string
     label?: string
     initialValue?: string
+    validator?: { pattern: string, errMessage: string }
     options?: string
 }
 
-const createInputElement = ({ type, id, label, initialValue, options }: CreateInputElementParams) => ({
+const createInputElement = ({ type, id, label, initialValue, validator, options }: CreateInputElementParams) => ({
     __html: `<input
         is="emby-input"
         type="${type}"
         id="${id}"
         label="${label}"
         value="${initialValue}"
+        ${validator ? 'pattern="' + validator.pattern + '"' : ''}
         ${options}
-    />`
+    />
+    <div class="inputElementInvalidMessage">
+        ${validator?.errMessage || ''}
+    </div>`
 });
 
 type InputElementProps = {
@@ -33,7 +40,9 @@ const InputElement: FC<InputElementProps> = ({
     type,
     id,
     label,
+    validator,
     options = ''
+
 }) => {
     const container = useRef<HTMLDivElement>(null);
 
@@ -44,14 +53,16 @@ const InputElement: FC<InputElementProps> = ({
             id,
             label: globalize.translate(label),
             initialValue,
+            validator,
             options
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     ), []);
 
     const onInput = useCallback((e: Event) => {
+        if (validator) (e.target as HTMLElement).parentElement?.querySelector('.inputElementInvalidMessage')?.classList.add('inputReadyForValidation');
         onChange((e.target as HTMLInputElement).value);
-    }, [ onChange ]);
+    }, [ onChange, validator ]);
 
     useEffect(() => {
         const inputElement = container?.current?.querySelector<HTMLInputElement>('input');
