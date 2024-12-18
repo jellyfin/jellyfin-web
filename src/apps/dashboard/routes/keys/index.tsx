@@ -49,7 +49,7 @@ const ApiKeys = () => {
     const showNewKeyPopup = useCallback(() => {
         if (!api) return;
 
-        import('../../../components/prompt/prompt').then(({ default: prompt }) => {
+        import('../../../../components/prompt/prompt').then(({ default: prompt }) => {
             prompt({
                 title: globalize.translate('HeaderNewApiKey'),
                 label: globalize.translate('LabelAppName'),
