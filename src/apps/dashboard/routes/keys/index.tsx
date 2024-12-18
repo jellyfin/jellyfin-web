@@ -2,49 +2,32 @@ import Page from 'components/Page';
 import SectionTitleContainer from 'elements/SectionTitleContainer';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { getApiKeyApi } from '@jellyfin/sdk/lib/utils/api/api-key-api';
 import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/models/authentication-info';
 import Loading from 'components/loading/LoadingComponent';
 import confirm from 'components/confirm/confirm';
-import ApiKeyCell from 'components/dashboard/apikeys/ApiKeyCell';
+import ApiKeyCell from 'apps/dashboard/features/keys/components/ApiKeyCell';
+import { useApiKeys } from 'apps/dashboard/features/keys/api/useApiKeys';
 
 const ApiKeys = () => {
     const { api } = useApi();
-    const [ keys, setKeys ] = useState<AuthenticationInfo[]>([]);
-    const [ loading, setLoading ] = useState(true);
-
-    const loadKeys = useCallback(() => {
-        if (!api) return;
-
-        return getApiKeyApi(api)
-            .getKeys()
-            .then(({ data }) => {
-                if (data.Items) {
-                    setKeys(data.Items);
-                }
-            })
-            .catch((err) => {
-                console.error('[apikeys] failed to load api keys', err);
-            });
-    }, [api]);
+    const { data: keys, refetch, isLoading } = useApiKeys();
 
     const revokeKey = useCallback((accessToken: string) => {
         if (!api) return;
 
         confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
-            setLoading(true);
             getApiKeyApi(api)
                 .revokeKey({ key: accessToken })
-                .then(loadKeys)
-                .then(() => setLoading(false))
+                .then(() => refetch())
                 .catch(err => {
                     console.error('[apikeys] failed to revoke key', err);
                 });
         }).catch(err => {
             console.error('[apikeys] failed to show confirmation dialog', err);
         });
-    }, [api, loadKeys]);
+    }, [api, refetch]);
 
     const showNewKeyPopup = useCallback(() => {
         if (!api) return;
@@ -57,7 +40,7 @@ const ApiKeys = () => {
             }).then((value) => {
                 getApiKeyApi(api)
                     .createKey({ app: value })
-                    .then(loadKeys)
+                    .then(() => refetch())
                     .catch(err => {
                         console.error('[apikeys] failed to create api key', err);
                     });
@@ -67,21 +50,9 @@ const ApiKeys = () => {
         }).catch(err => {
             console.error('[apikeys] failed to load api key popup', err);
         });
-    }, [api, loadKeys]);
+    }, [api, refetch]);
 
-    useEffect(() => {
-        if (!api) {
-            return;
-        }
-
-        loadKeys()?.then(() => {
-            setLoading(false);
-        }).catch(err => {
-            console.error('[apikeys] failed to load api keys', err);
-        });
-    }, [api, loadKeys]);
-
-    if (loading) {
+    if (isLoading) {
         return <Loading />;
     }
 
@@ -114,7 +85,7 @@ const ApiKeys = () => {
                         </tr>
                     </thead>
                     <tbody className='resultBody'>
-                        {keys.map(key => {
+                        {keys?.Items?.map((key: AuthenticationInfo) => {
                             return <ApiKeyCell key={key.AccessToken} apiKey={key} revokeKey={revokeKey} />;
                         })}
                     </tbody>
