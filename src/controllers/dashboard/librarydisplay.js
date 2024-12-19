@@ -29,7 +29,7 @@ export default function(view) {
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
         });
         ApiClient.getNamedConfiguration('metadata').then(function(config) {
-            config.UseFileCreationTimeForDateAdded = $('#selectDateAdded', form).val() === '1';
+            config.UseFileCreationTimeForDateAdded = form.querySelector('#selectDateAdded').value === '1';
             ApiClient.updateNamedConfiguration('metadata', config);
         });
 

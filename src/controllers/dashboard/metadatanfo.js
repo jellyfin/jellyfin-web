@@ -10,8 +10,10 @@ function loadPage(page, config, users) {
     html += users.map(function (user) {
         return '<option value="' + user.Id + '">' + escapeHtml(user.Name) + '</option>';
     }).join('');
-    $('#selectUser', page).html(html).val(config.UserId || '');
-    $('#selectReleaseDateFormat', page).val(config.ReleaseDateFormat);
+    const elem = page.querySelector('#selectUser');
+    elem.innerHTML = html;
+    elem.value = config.UserId || '';
+    page.querySelector('#selectReleaseDateFormat').value = config.ReleaseDateFormat;
     page.querySelector('#chkSaveImagePaths').checked = config.SaveImagePathsInNfo;
     page.querySelector('#chkEnablePathSubstitution').checked = config.EnablePathSubstitution;
     page.querySelector('#chkEnableExtraThumbs').checked = config.EnableExtraThumbsDuplication;
@@ -22,8 +24,8 @@ function onSubmit() {
     loading.show();
     const form = this;
     ApiClient.getNamedConfiguration(metadataKey).then(function (config) {
-        config.UserId = $('#selectUser', form).val() || null;
-        config.ReleaseDateFormat = $('#selectReleaseDateFormat', form).val();
+        config.UserId = form.querySelector('#selectUser').value || null;
+        config.ReleaseDateFormat = form.querySelector('#selectReleaseDateFormat').value;
         config.SaveImagePathsInNfo = form.querySelector('#chkSaveImagePaths').checked;
         config.EnablePathSubstitution = form.querySelector('#chkEnablePathSubstitution').checked;
         config.EnableExtraThumbsDuplication = form.querySelector('#chkEnableExtraThumbs').checked;
