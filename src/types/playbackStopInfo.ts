@@ -6,6 +6,8 @@ import type {
     PlayerStateInfo
 } from '@jellyfin/sdk/lib/generated-client';
 
+import type { ItemDto } from 'types/base/models/item-dto';
+
 export interface BufferedRange {
     start?: number;
     end?: number;
@@ -31,7 +33,7 @@ export interface MediaSource extends MediaSourceInfo {
 
 export interface PlayerState {
     PlayState: PlayState;
-    NowPlayingItem: BaseItemDto | null;
+    NowPlayingItem: ItemDto | null;
     NextItem: BaseItemDto | null;
     NextMediaType: MediaType | null;
     MediaSource: MediaSource | null;

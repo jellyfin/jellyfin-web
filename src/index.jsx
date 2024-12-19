@@ -184,11 +184,6 @@ function loadPlatformFeatures() {
         import('./components/playback/volumeosd');
     }
 
-    /* eslint-disable-next-line compat/compat */
-    if (navigator.mediaSession || window.NativeShell) {
-        import('./components/playback/mediasession');
-    }
-
     if (!browser.tv && !browser.xboxOne) {
         import('./components/playback/playbackorientation');
         registerServiceWorker();

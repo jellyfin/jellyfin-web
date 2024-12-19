@@ -1,24 +1,23 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 import type { MediaSourceInfo } from '@jellyfin/sdk/lib/generated-client/models/media-source-info';
 
+import { PlaybackManagerEvent } from 'apps/stable/features/playback/constants/playbackManagerEvent';
+import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
+import type { ManagedPlayerStopInfo, MovedItem, PlayerError, PlayerErrorCode, PlayerStopInfo, RemovedItems } from 'apps/stable/features/playback/types/callbacks';
 import type { PlaybackManager } from 'components/playback/playbackmanager';
 import type { MediaError } from 'types/mediaError';
 import type { PlayTarget } from 'types/playTarget';
 import type { PlaybackStopInfo, PlayerState } from 'types/playbackStopInfo';
-import type { Plugin } from 'types/plugin';
+import type { PlayerPlugin } from 'types/plugin';
 import Events, { type Event } from 'utils/events';
-
-import { PlaybackManagerEvent } from '../constants/playbackManagerEvent';
-import { PlayerEvent } from '../constants/playerEvent';
-import type { ManagedPlayerStopInfo, MovedItem, PlayerError, PlayerErrorCode, PlayerStopInfo, RemovedItems } from '../types/callbacks';
-import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 
 export interface PlaybackSubscriber {
     onPlaybackCancelled?(e: Event): void
     onPlaybackError?(e: Event, errorType: MediaError): void
-    onPlaybackStart?(e: Event, player: Plugin, state: PlayerState): void
+    onPlaybackStart?(e: Event, player: PlayerPlugin, state: PlayerState): void
     onPlaybackStop?(e: Event, info: PlaybackStopInfo): void
-    onPlayerChange?(e: Event, player: Plugin, target: PlayTarget, previousPlayer: Plugin): void
+    onPlayerChange?(e: Event, player: PlayerPlugin, target: PlayTarget, previousPlayer: PlayerPlugin): void
     onPromptSkip?(e: Event, mediaSegment: MediaSegmentDto): void
     onPlayerError?(e: Event, error: PlayerError): void
     onPlayerFullscreenChange?(e: Event): void
@@ -34,6 +33,7 @@ export interface PlaybackSubscriber {
     onPlayerRepeatModeChange?(e: Event): void
     onPlayerShuffleModeChange?(e: Event): void
     onPlayerStopped?(e: Event, info?: PlayerStopInfo | PlayerErrorCode): void
+    onPlayerStateChange?(e: Event, state: PlayerState): void
     onPlayerTimeUpdate?(e: Event): void
     onPlayerUnpause?(e: Event): void
     onPlayerVolumeChange?(e: Event): void
@@ -41,7 +41,7 @@ export interface PlaybackSubscriber {
 }
 
 export abstract class PlaybackSubscriber {
-    protected player: Plugin | undefined;
+    protected player: PlayerPlugin | undefined;
 
     private readonly playbackManagerEvents = {
         [PlaybackManagerEvent.PlaybackCancelled]: this.onPlaybackCancelled?.bind(this),
@@ -67,6 +67,7 @@ export abstract class PlaybackSubscriber {
         [PlayerEvent.PromptSkip]: this.onPromptSkip?.bind(this),
         [PlayerEvent.RepeatModeChange]: this.onPlayerRepeatModeChange?.bind(this),
         [PlayerEvent.ShuffleModeChange]: this.onPlayerShuffleModeChange?.bind(this),
+        [PlayerEvent.StateChange]: this.onPlayerStateChange?.bind(this),
         [PlayerEvent.Stopped]: this.onPlayerStopped?.bind(this),
         [PlayerEvent.TimeUpdate]: this.onPlayerTimeUpdate?.bind(this),
         [PlayerEvent.Unpause]: this.onPlayerUnpause?.bind(this),
