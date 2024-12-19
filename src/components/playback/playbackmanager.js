@@ -2580,16 +2580,15 @@ export class PlaybackManager {
                 });
             }
 
-            const apiClient = ServerConnections.getApiClient(item.ServerId);
-            let mediaSourceId;
-
-            const isLiveTv = [BaseItemKind.TvChannel, BaseItemKind.LiveTvChannel].includes(item.Type);
-
-            if (!isLiveTv) {
-                mediaSourceId = playOptions.mediaSourceId || item.Id;
+            let mediaSourceId = playOptions.mediaSourceId;
+            const needsTrackWorkaround = (playOptions.audioStreamIndex || playOptions.subtitleStreamIndex);
+            if (needsTrackWorkaround) {
+                mediaSourceId ||= item.Id;
             }
 
-            const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId)
+            const apiClient = ServerConnections.getApiClient(item.ServerId);
+            const isLiveTv = [BaseItemKind.TvChannel, BaseItemKind.LiveTvChannel].includes(item.Type);
+            const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id)
                 .then(fullItem => {
                     return fullItem.MediaStreams;
                 });
