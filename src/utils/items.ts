@@ -35,6 +35,9 @@ export const getFeatureFilters = (libraryViewSettings: LibraryViewSettings) => {
         hasSubtitles: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasSubtitles) ?
             true :
             undefined,
+        noSubtitles: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.NoSubtitles) ?
+            true :
+            undefined,
         hasTrailer: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasTrailer) ?
             true :
             undefined,
