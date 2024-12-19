@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { type MRT_ColumnDef, MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 import { useSearchParams } from 'react-router-dom';
 
-import { useLogEntires } from 'apps/dashboard/features/activity/api/useLogEntries';
+import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
 import ActionsCell from 'apps/dashboard/features/activity/components/ActionsCell';
 import LogLevelCell from 'apps/dashboard/features/activity/components/LogLevelCell';
 import OverviewCell from 'apps/dashboard/features/activity/components/OverviewCell';
@@ -87,7 +87,7 @@ const Activity = () => {
         hasUserId: activityView !== ActivityView.All ? activityView === ActivityView.User : undefined
     }), [activityView, pagination.pageIndex, pagination.pageSize]);
 
-    const { data: logEntries, isLoading: isLogEntriesLoading } = useLogEntires(activityParams);
+    const { data: logEntries, isLoading: isLogEntriesLoading } = useLogEntries(activityParams);
 
     const isLoading = isUsersLoading || isLogEntriesLoading;
 
