@@ -13,6 +13,7 @@ const styles = layoutManager.experimental ? {
 const Backdrop = () => {
     useEffect(() => {
         // Initialize the UI components after first render
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         import('../scripts/autoBackdrops');
     }, []);
 
