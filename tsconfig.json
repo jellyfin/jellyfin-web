@@ -16,9 +16,25 @@
     "checkJs": false,
     "strictNullChecks": true,
     "jsx": "react-jsx",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "paths": {
+      "@components/*": ["components/*"],
+      "@apps/*": ["apps/*"],
+      "@assets/*": ["assets/*"],
+      "@constants/*": ["constants/*"],
+      "@controllers/*": ["controllers/*"],
+      "@elements/*": ["elements/*"],
+      "@hooks/*": ["hooks/*"],
+      "@lib/*": ["lib/*"],
+      "@plugins/*": ["plugins/*"],
+      "@scripts/*": ["scripts/*"],
+      "@strings/*": ["strings/*"],
+      "@styles/*": ["styles/*"],
+      "@themes/*": ["themes/*"],
+      "@types/*": ["types/*"],
+      "@utils/*": ["utils/*"],
+    }
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "src/**/*.js", "src/**/*.jsx"],
+  "exclude": ["node_modules", "dist", "**/*.spec.js"]
 }
