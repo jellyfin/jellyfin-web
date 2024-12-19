@@ -67,6 +67,10 @@ function showOrHideMissingEpisodesField(context) {
     context.querySelector('.fldDisplayMissingEpisodes').classList.remove('hide');
 }
 
+function showBackgroundPlaybackSection(context, user) {
+    context.querySelector('.lnkBackgroundPlaybackPreferences').setAttribute('href', '#/mypreferencesbackgroundplayback.html?userId=' + user.Id);
+}
+
 function loadForm(context, user, userSettings) {
     if (appHost.supports('displaylanguage')) {
         context.querySelector('.languageSection').classList.remove('hide');
@@ -114,11 +118,8 @@ function loadForm(context, user, userSettings) {
 
     context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
 
-    context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
-    context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
     context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
     context.querySelector('#chkBlurhash').checked = userSettings.enableBlurhash();
-    context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
     context.querySelector('#chkDetailsBanner').checked = userSettings.detailsBanner();
 
     context.querySelector('#chkDisableCustomCss').checked = userSettings.disableCustomCss();
@@ -137,6 +138,8 @@ function loadForm(context, user, userSettings) {
 
     showOrHideMissingEpisodesField(context);
 
+    showBackgroundPlaybackSection(context, user);
+
     loading.hide();
 }
 
@@ -149,8 +152,6 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
 
     userSettingsInstance.dateTimeLocale(context.querySelector('.selectDateTimeLocale').value);
 
-    userSettingsInstance.enableThemeSongs(context.querySelector('#chkThemeSong').checked);
-    userSettingsInstance.enableThemeVideos(context.querySelector('#chkThemeVideo').checked);
     userSettingsInstance.theme(context.querySelector('#selectTheme').value);
     userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
     userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
@@ -165,7 +166,6 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
 
     userSettingsInstance.enableFastFadein(context.querySelector('#chkFadein').checked);
     userSettingsInstance.enableBlurhash(context.querySelector('#chkBlurhash').checked);
-    userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
     userSettingsInstance.detailsBanner(context.querySelector('#chkDetailsBanner').checked);
 
     userSettingsInstance.disableCustomCss(context.querySelector('#chkDisableCustomCss').checked);

@@ -18,5 +18,7 @@ export interface DisplaySettingsValues {
     maxDaysForNextUp: number;
     screensaver: string;
     screensaverInterval: number;
+    libraryThemeMediaSortBy: string;
+    libraryThemeMediaSortOrder: string;
     theme: string;
 }
