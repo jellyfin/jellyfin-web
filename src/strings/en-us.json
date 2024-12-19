@@ -682,8 +682,6 @@
     "LabelDynamicExternalId": "{0} Id",
     "LabelEnableAudioVbr": "Enable VBR audio encoding",
     "LabelEnableAudioVbrHelp": "Variable bitrate offers better quality to average bitrate ratio, but in some rare cases may cause buffering and compatibility issues.",
-    "LabelEnableAutomaticPortMap": "Enable automatic port mapping",
-    "LabelEnableAutomaticPortMapHelp": "Automatically forward public ports on your router to local ports on your server via UPnP. This may not work with some router models or network configurations. Changes will not apply until after a server restart.",
     "LabelEnableHardwareDecodingFor": "Enable hardware decoding for",
     "LabelEnableHttps": "Enable HTTPS",
     "LabelEnableHttpsHelp": "Listen on the configured HTTPS port. A valid certificate must also be supplied for this to take effect.",
