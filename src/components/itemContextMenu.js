@@ -294,6 +294,14 @@ export async function getCommands(options) {
         });
     }
 
+    if (canPlay && document.location.hash !== appRouter.getRouteUrl(item, options)) {
+        commands.push({
+            name: globalize.translate('ShowDetails'),
+            id: 'itemdetails',
+            icon: 'remove_red_eye'
+        });
+    }
+
     if (item.PlaylistItemId && options.playlistId && options.canEditPlaylist) {
         commands.push({
             name: globalize.translate('RemoveFromPlaylist'),
@@ -630,6 +638,10 @@ function executeCommand(item, id, options) {
                 break;
             case 'cancelseriestimer':
                 deleteSeriesTimer(apiClient, item, resolve, id);
+                break;
+            case 'itemdetails':
+                appRouter.showItem(item, item.ServerId);
+                getResolveFunction(resolve, id)();
                 break;
             default:
                 reject();
