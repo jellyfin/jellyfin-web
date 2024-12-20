@@ -3,14 +3,15 @@ import { LibraryApiGetMediaFoldersRequest } from '@jellyfin/sdk/lib/generated-cl
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
+import type { AxiosRequestConfig } from 'axios';
 
-const fetchLibraryMediaFolders = async (api?: Api, params?: LibraryApiGetMediaFoldersRequest) => {
+const fetchLibraryMediaFolders = async (api?: Api, params?: LibraryApiGetMediaFoldersRequest, options?: AxiosRequestConfig) => {
     if (!api) {
         console.error('[useLibraryMediaFolders] no Api instance available');
         return;
     }
 
-    const response = await getLibraryApi(api).getMediaFolders(params);
+    const response = await getLibraryApi(api).getMediaFolders(params, options);
 
     return response.data;
 };
@@ -20,7 +21,7 @@ export const useLibraryMediaFolders = (params?: LibraryApiGetMediaFoldersRequest
 
     return useQuery({
         queryKey: ['LibraryMediaFolders'],
-        queryFn: () => fetchLibraryMediaFolders(api, params),
+        queryFn: ({ signal }) => fetchLibraryMediaFolders(api, params, { signal }),
         enabled: !!api
     });
 };
