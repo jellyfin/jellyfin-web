@@ -63,7 +63,7 @@ const UserProfile: FunctionComponent = () => {
         }).catch(err => {
             console.error('[userprofile] failed to get current user', err);
         });
-    }, [user]);
+    }, [user, libraryMenu]);
 
     useEffect(() => {
         const page = element.current;
