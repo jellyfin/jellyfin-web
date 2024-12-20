@@ -2,14 +2,15 @@ import { Api } from '@jellyfin/sdk';
 import { getLocalizationApi } from '@jellyfin/sdk/lib/utils/api/localization-api';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
+import type { AxiosRequestConfig } from 'axios';
 
-const fetchParentalRatings = async (api?: Api) => {
+const fetchParentalRatings = async (api?: Api, options?: AxiosRequestConfig) => {
     if (!api) {
         console.error('[useLibraryMediaFolders] no Api instance available');
         return;
     }
 
-    const response = await getLocalizationApi(api).getParentalRatings();
+    const response = await getLocalizationApi(api).getParentalRatings(options);
 
     return response.data;
 };
@@ -19,7 +20,7 @@ export const useParentalRatings = () => {
 
     return useQuery({
         queryKey: ['ParentalRatings'],
-        queryFn: () => fetchParentalRatings(api),
+        queryFn: ({ signal }) => fetchParentalRatings(api, { signal }),
         enabled: !!api
     });
 };
