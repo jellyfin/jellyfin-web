@@ -54,7 +54,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
         (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value = '';
         (page.querySelector('#txtNewPassword') as HTMLInputElement).value = '';
         (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value = '';
-    }, [user]);
+    }, [user, libraryMenu]);
 
     useEffect(() => {
         const page = element.current;

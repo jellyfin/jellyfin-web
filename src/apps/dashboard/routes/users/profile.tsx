@@ -198,7 +198,7 @@ const UserEdit = () => {
         (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = String(user.Policy?.MaxActiveSessions) || '0';
         (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value = String(user.Policy?.SyncPlayAccess);
         loading.hide();
-    }, [ userDto, loadAuthProviders, loadPasswordResetProviders, loadDeleteFolders ]);
+    }, [ libraryMenu ]);
 
     const loadData = useCallback(() => {
         if (!userDto) {
