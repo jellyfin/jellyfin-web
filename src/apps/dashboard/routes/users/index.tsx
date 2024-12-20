@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
-import dom from 'utils/dom';
 import confirm from '../../../../components/confirm/confirm';
 import UserCardBox from '../../../../components/dashboard/users/UserCardBox';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
@@ -16,6 +15,7 @@ import Toast from 'apps/dashboard/components/Toast';
 import { useUsers } from 'hooks/useUsers';
 import Loading from 'components/loading/LoadingComponent';
 import { useDeleteUser } from 'apps/dashboard/features/users/api/useDeleteUser';
+import dom from 'utils/dom';
 
 type MenuEntry = {
     name?: string;
