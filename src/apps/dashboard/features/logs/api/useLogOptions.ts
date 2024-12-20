@@ -2,14 +2,15 @@ import { Api } from '@jellyfin/sdk';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
+import type { AxiosRequestConfig } from 'axios';
 
-export const fetchLogOptions = async (api?: Api) => {
+export const fetchLogOptions = async (api?: Api, options?: AxiosRequestConfig) => {
     if (!api) {
         console.error('[useLogOptions] No API instance available');
         return;
     }
 
-    const response = await getConfigurationApi(api).getConfiguration();
+    const response = await getConfigurationApi(api).getConfiguration(options);
 
     return response.data;
 };
@@ -19,7 +20,7 @@ export const useLogOptions = () => {
 
     return useQuery({
         queryKey: ['LogOptions'],
-        queryFn: () => fetchLogOptions(api),
+        queryFn: ({ signal }) => fetchLogOptions(api, { signal }),
         enabled: !!api
     });
 };
