@@ -1,12 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
-<<<<<<< HEAD
-import loading from '../../../../components/loading/loading';
-import dom from '../../../../utils/dom';
-=======
-import dom from '../../../../scripts/dom';
->>>>>>> 9445839e9 (Move user pages to TS SDK)
 import confirm from '../../../../components/confirm/confirm';
 import UserCardBox from '../../../../components/dashboard/users/UserCardBox';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
@@ -19,6 +13,7 @@ import Page from '../../../../components/Page';
 import { useUsers } from 'hooks/useUsers';
 import Loading from 'components/loading/LoadingComponent';
 import { useDeleteUser } from 'apps/dashboard/features/users/api/useDeleteUser';
+import dom from 'utils/dom';
 
 type MenuEntry = {
     name?: string;

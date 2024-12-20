@@ -114,16 +114,6 @@ const UserNew = () => {
         }
 
         const saveUser = () => {
-<<<<<<< HEAD
-            const userInput: UserInput = {};
-            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value.trim();
-            userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
-
-            window.ApiClient.createUser(userInput).then(function (user) {
-                if (!user.Id || !user.Policy) {
-                    throw new Error('Unexpected null user id or policy');
-                }
-=======
             const userInput: CreateUserByName = {
                 Name: (page.querySelector('#txtUsername') as HTMLInputElement).value,
                 Password: (page.querySelector('#txtPassword') as HTMLInputElement).value
@@ -131,7 +121,6 @@ const UserNew = () => {
             createUser.mutate({ createUserByName: userInput }, {
                 onSuccess: (response) => {
                     const user = response.data;
->>>>>>> 9445839e9 (Move user pages to TS SDK)
 
                     if (!user.Id || !user.Policy) {
                         throw new Error('Unexpected null user id or policy');
@@ -229,26 +218,15 @@ const UserNew = () => {
                         <Input
                             type='text'
                             id='txtUsername'
-<<<<<<< HEAD
                             label={globalize.translate('LabelName')}
                             required
-=======
-                            label='LabelName'
-                            options={'required'}
-                            initialValue=''
->>>>>>> 9445839e9 (Move user pages to TS SDK)
                         />
                     </div>
                     <div className='inputContainer'>
                         <Input
                             type='password'
                             id='txtPassword'
-<<<<<<< HEAD
                             label={globalize.translate('LabelPassword')}
-=======
-                            label='LabelPassword'
-                            initialValue=''
->>>>>>> 9445839e9 (Move user pages to TS SDK)
                         />
                     </div>
                     <AccessContainer
