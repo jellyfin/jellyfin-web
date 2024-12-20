@@ -1642,5 +1642,6 @@
     "LabelThrottleDelaySeconds": "Пригуши након",
     "LabelSegmentKeepSeconds": "Време за чување сегмената",
     "LabelSegmentKeepSecondsHelp": "Време у секундама за чување сегмената пре него што буду преснимљени. Мора бити веће од “Пригуши након”. Функционише само ако је омогућемо брисање сегмената.",
-    "AirPlay": "AirPlay"
+    "AirPlay": "AirPlay",
+    "AiTranslated": "AI Преведено"
 }
