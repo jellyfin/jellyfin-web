@@ -231,6 +231,7 @@ function supportsVc1(videoTestElement) {
 
 function supportsHdr10(options) {
     return options.supportsHdr10 ?? (false // eslint-disable-line sonarjs/no-redundant-boolean
+            || browser.vidaa
             || browser.tizen
             || browser.web0s
             || browser.safari && ((browser.iOS && browser.iOSVersion >= 11) || browser.osx)
@@ -1120,7 +1121,7 @@ export default function (options) {
         vp9VideoRangeTypes += '|HDR10';
         av1VideoRangeTypes += '|HDR10';
 
-        if (browser.tizenVersion >= 3) {
+        if (browser.tizenVersion >= 3 || browser.vidaa) {
             hevcVideoRangeTypes += '|DOVIWithHDR10';
         }
     }
