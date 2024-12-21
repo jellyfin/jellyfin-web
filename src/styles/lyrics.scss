@@ -1,5 +1,5 @@
 .lyricPage {
-    padding-top: 4.2em !important;
+    padding-top: 6rem !important;
     display: flex;
     justify-content: center;
 }
@@ -7,19 +7,35 @@
 .dynamicLyricsContainer {
     display: flex;
     flex-direction: column;
+    max-width: 50rem;
 }
 
 .lyricsLine {
     display: inline-block;
     width: fit-content;
-    margin: 0.1em;
-    font-size: 30px;
+    padding: 0 2rem;
+    font-size: 1.5rem;
+    line-height: 2;
     color: inherit;
-    min-height: 2em;
+    transition-property: color, text-shadow, opacity;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+
+    .layout-desktop & {
+        @media (min-width: 50em) {
+            font-size: 2rem;
+        }
+    }
+
+    &:empty {
+        padding: 0;
+        height: 0.75em;
+        pointer-events: none;
+    }
 }
 
 .futureLyric {
-    opacity: 0.3;
+    opacity: 0.45;
 }
 
 .pastLyric {
@@ -28,4 +44,9 @@
 
 .dynamicLyric {
     cursor: pointer;
+
+    &:hover {
+        opacity: 1;
+        text-shadow: 0 0 0.25em rgba(white, 0.25);
+    }
 }
