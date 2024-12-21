@@ -15,11 +15,13 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
 interface CardHoverMenuProps {
-	item: ItemDto;
-	cardOptions: CardOptions;
+    action: string,
+    item: ItemDto;
+    cardOptions: CardOptions;
 }
 
 const CardHoverMenu: FC<CardHoverMenuProps> = ({
+    action,
     item,
     cardOptions
 }) => {
@@ -37,7 +39,8 @@ const CardHoverMenu: FC<CardHoverMenuProps> = ({
 
     return (
         <Box
-            className='cardOverlayContainer'
+            className='cardOverlayContainer itemAction'
+            data-action={action}
         >
             <a
                 href={url}

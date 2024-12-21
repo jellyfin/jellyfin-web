@@ -1,6 +1,6 @@
 import layoutManager from 'components/layoutManager';
 import toast from '../../../components/toast/toast';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import appSettings from '../../../scripts/settings/appSettings';
 import Events from '../../../utils/events.ts';
 

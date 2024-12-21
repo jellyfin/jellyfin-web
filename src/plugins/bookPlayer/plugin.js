@@ -6,7 +6,7 @@ import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import ServerConnections from '../../components/ServerConnections';
 import Screenfull from 'screenfull';
 import TableOfContents from './tableOfContents';
-import { translateHtml } from '../../scripts/globalize';
+import { translateHtml } from '../../lib/globalize';
 import browser from 'scripts/browser';
 import * as userSettings from '../../scripts/settings/userSettings';
 import TouchHelper from 'scripts/touchHelper';
@@ -45,7 +45,7 @@ export class BookPlayer {
         this.decreaseFontSize = this.decreaseFontSize.bind(this);
         this.previous = this.previous.bind(this);
         this.next = this.next.bind(this);
-        this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
+        this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.addSwipeGestures = this.addSwipeGestures.bind(this);
     }
 
@@ -130,7 +130,10 @@ export class BookPlayer {
         return true;
     }
 
-    onWindowKeyUp(e) {
+    onWindowKeyDown(e) {
+        // Skip modified keys
+        if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+
         const key = keyboardnavigation.getKeyName(e);
 
         if (!this.loaded) return;
@@ -138,14 +141,17 @@ export class BookPlayer {
             case 'l':
             case 'ArrowRight':
             case 'Right':
+                e.preventDefault();
                 this.next();
                 break;
             case 'j':
             case 'ArrowLeft':
             case 'Left':
+                e.preventDefault();
                 this.previous();
                 break;
             case 'Escape':
+                e.preventDefault();
                 if (this.tocElement) {
                     // Close table of contents on ESC if it is open
                     this.tocElement.destroy();
@@ -184,8 +190,8 @@ export class BookPlayer {
     bindEvents() {
         this.bindMediaElementEvents();
 
-        document.addEventListener('keyup', this.onWindowKeyUp);
-        this.rendition?.on('keyup', this.onWindowKeyUp);
+        document.addEventListener('keydown', this.onWindowKeyDown);
+        this.rendition?.on('keydown', this.onWindowKeyDown);
 
         if (browser.safari) {
             const player = document.getElementById('bookPlayerContainer');
@@ -214,8 +220,8 @@ export class BookPlayer {
             this.unbindMediaElementEvents();
         }
 
-        document.removeEventListener('keyup', this.onWindowKeyUp);
-        this.rendition?.off('keyup', this.onWindowKeyUp);
+        document.removeEventListener('keydown', this.onWindowKeyDown);
+        this.rendition?.off('keydown', this.onWindowKeyDown);
 
         if (!browser.safari) {
             this.rendition?.off('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));

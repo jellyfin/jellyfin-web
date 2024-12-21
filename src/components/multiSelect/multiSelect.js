@@ -1,7 +1,7 @@
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
 import loading from '../loading/loading';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
 import './multiSelect.scss';
 import ServerConnections from '../ServerConnections';
@@ -87,7 +87,7 @@ function onSelectionChange() {
     updateItemSelection(this, this.checked);
 }
 
-function showSelection(item, isChecked) {
+function showSelection(item, isChecked, addInitialCheck) {
     let itemSelectionPanel = item.querySelector('.itemSelectionPanel');
 
     if (!itemSelectionPanel) {
@@ -99,7 +99,7 @@ function showSelection(item, isChecked) {
         parent.appendChild(itemSelectionPanel);
 
         let cssClass = 'chkItemSelect';
-        if (isChecked) {
+        if (isChecked && addInitialCheck) {
             cssClass += ' checkedInitial';
         }
         const checkedAttribute = isChecked ? ' checked' : '';
@@ -361,11 +361,11 @@ function combineVersions(apiClient, selection) {
     });
 }
 
-function showSelections(initialCard) {
+function showSelections(initialCard, addInitialCheck) {
     import('../../elements/emby-checkbox/emby-checkbox').then(() => {
         const cards = document.querySelectorAll('.card');
         for (let i = 0, length = cards.length; i < length; i++) {
-            showSelection(cards[i], initialCard === cards[i]);
+            showSelection(cards[i], initialCard === cards[i], addInitialCheck);
         }
 
         showSelectionCommands();
@@ -402,7 +402,7 @@ export default function (options) {
         const card = dom.parentWithClass(e.target, 'card');
 
         if (card) {
-            showSelections(card);
+            showSelections(card, true);
         }
 
         e.preventDefault();
@@ -500,7 +500,7 @@ export default function (options) {
         touchTarget = null;
 
         if (card) {
-            showSelections(card);
+            showSelections(card, true);
         }
     }
 
@@ -569,7 +569,7 @@ export default function (options) {
 }
 
 export const startMultiSelect = (card) => {
-    showSelections(card);
+    showSelections(card, false);
 };
 
 export const stopMultiSelect = () => {

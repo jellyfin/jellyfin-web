@@ -3,7 +3,7 @@ import type { RouteObject } from 'react-router-dom';
 export enum AsyncRouteType {
     Stable,
     Experimental,
-    Dashboard,
+    Dashboard
 }
 
 export interface AsyncRoute {
@@ -18,7 +18,7 @@ export interface AsyncRoute {
     type?: AsyncRouteType
 }
 
-const importPage = (page: string, type: AsyncRouteType) => {
+const importRoute = (page: string, type: AsyncRouteType) => {
     switch (type) {
         case AsyncRouteType.Dashboard:
             return import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${page}`);
@@ -37,9 +37,15 @@ export const toAsyncPageRoute = ({
     return {
         path,
         lazy: async () => {
-            const { default: Page } = await importPage(page ?? path, type);
+            const {
+                // If there is a default export, use it as the Component for compatibility
+                default: Component,
+                ...route
+            } = await importRoute(page ?? path, type);
+
             return {
-                Component: Page
+                Component,
+                ...route
             };
         }
     };

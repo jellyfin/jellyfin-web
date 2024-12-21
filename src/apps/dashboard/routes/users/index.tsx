@@ -2,7 +2,7 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { useEffect, useState, useRef } from 'react';
 
 import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
 import dom from '../../../../scripts/dom';
 import confirm from '../../../../components/confirm/confirm';
@@ -170,7 +170,6 @@ const UserProfiles = () => {
                         btnClassName='fab submit sectionTitleButton'
                         btnTitle='ButtonAddUser'
                         btnIcon='add'
-                        url='https://jellyfin.org/docs/general/server/users/adding-managing-users'
                     />
                 </div>
 

@@ -9,9 +9,9 @@ import scrollManager from 'components/scrollManager';
 import focusManager from 'components/focusManager';
 
 import keyboardNavigation from 'scripts/keyboardNavigation';
-import globalize from '../scripts/globalize';
-import LibraryMenu from '../scripts/libraryMenu';
-import Events from '../utils/events.ts';
+import globalize from 'lib/globalize';
+import LibraryMenu from 'scripts/libraryMenu';
+import Events from 'utils/events';
 
 import '../styles/lyrics.scss';
 import { AutoScroll } from './lyrics.types';

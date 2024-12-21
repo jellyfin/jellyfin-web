@@ -1,10 +1,9 @@
-import type { BaseItemDto, DeviceInfo, UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import type { BaseItemDto, DeviceInfoDto, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import loading from '../../../../components/loading/loading';
-import libraryMenu from '../../../../scripts/libraryMenu';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import toast from '../../../../components/toast/toast';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import ButtonElement from '../../../../elements/ButtonElement';
@@ -17,6 +16,7 @@ type ItemsArr = {
     Name?: string | null;
     Id?: string | null;
     AppName?: string | null;
+    CustomName?: string | null;
     checkedAttribute?: string
 };
 
@@ -27,6 +27,7 @@ const UserLibraryAccess = () => {
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
     const [devicesItems, setDevicesItems] = useState<ItemsArr[]>([]);
+    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -95,7 +96,7 @@ const UserLibraryAccess = () => {
         triggerChange(chkEnableAllChannels);
     }, []);
 
-    const loadDevices = useCallback((user: UserDto, devices: DeviceInfo[]) => {
+    const loadDevices = useCallback((user: UserDto, devices: DeviceInfoDto[]) => {
         const page = element.current;
 
         if (!page) {
@@ -112,6 +113,7 @@ const UserLibraryAccess = () => {
                 Id: device.Id,
                 Name: device.Name,
                 AppName: device.AppName,
+                CustomName: device.CustomName,
                 checkedAttribute: checkedAttribute
             });
         }
@@ -129,9 +131,9 @@ const UserLibraryAccess = () => {
         }
     }, []);
 
-    const loadUser = useCallback((user: UserDto, mediaFolders: BaseItemDto[], channels: BaseItemDto[], devices: DeviceInfo[]) => {
+    const loadUser = useCallback((user: UserDto, mediaFolders: BaseItemDto[], channels: BaseItemDto[], devices: DeviceInfoDto[]) => {
         setUserName(user.Name || '');
-        libraryMenu.setTitle(user.Name);
+        void libraryMenu.then(menu => menu.setTitle(user.Name));
         loadChannels(user, channels);
         loadMediaFolders(user, mediaFolders);
         loadDevices(user, devices);
@@ -245,7 +247,6 @@ const UserLibraryAccess = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={userName}
-                        url='https://jellyfin.org/docs/general/server/users/'
                     />
                 </div>
                 <SectionTabs activeTab='userlibraryaccess'/>
@@ -307,7 +308,7 @@ const UserLibraryAccess = () => {
                                 key={Item.Id}
                                 className='chkDevice'
                                 itemId={Item.Id}
-                                itemName={Item.Name}
+                                itemName={Item.CustomName || Item.Name}
                                 itemAppName={Item.AppName}
                                 itemCheckedAttribute={Item.checkedAttribute}
                             />

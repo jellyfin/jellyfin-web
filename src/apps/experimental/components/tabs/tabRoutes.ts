@@ -1,4 +1,3 @@
-import globalize from 'scripts/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
 
@@ -41,33 +40,33 @@ const TabRoutes: TabRoute[] = [
         tabs: [
             {
                 index: 0,
-                label: globalize.translate('Programs'),
+                label: 'Programs',
                 value: LibraryTab.Programs,
                 isDefault: true
             },
             {
                 index: 1,
-                label: globalize.translate('Guide'),
+                label: 'Guide',
                 value: LibraryTab.Guide
             },
             {
                 index: 2,
-                label: globalize.translate('Channels'),
+                label: 'Channels',
                 value: LibraryTab.Channels
             },
             {
                 index: 3,
-                label: globalize.translate('Recordings'),
+                label: 'Recordings',
                 value: LibraryTab.Recordings
             },
             {
                 index: 4,
-                label: globalize.translate('Schedule'),
+                label: 'Schedule',
                 value: LibraryTab.Schedule
             },
             {
                 index: 5,
-                label: globalize.translate('Series'),
+                label: 'Series',
                 value: LibraryTab.SeriesTimers
             }
         ]
@@ -77,33 +76,33 @@ const TabRoutes: TabRoute[] = [
         tabs: [
             {
                 index: 0,
-                label: globalize.translate('Movies'),
+                label: 'Movies',
                 value: LibraryTab.Movies,
                 isDefault: true
             },
             {
                 index: 1,
-                label: globalize.translate('Suggestions'),
+                label: 'Suggestions',
                 value: LibraryTab.Suggestions
             },
             {
                 index: 2,
-                label: globalize.translate('Trailers'),
+                label: 'Trailers',
                 value: LibraryTab.Trailers
             },
             {
                 index: 3,
-                label: globalize.translate('Favorites'),
+                label: 'Favorites',
                 value: LibraryTab.Favorites
             },
             {
                 index: 4,
-                label: globalize.translate('Collections'),
+                label: 'Collections',
                 value: LibraryTab.Collections
             },
             {
                 index: 5,
-                label: globalize.translate('Genres'),
+                label: 'Genres',
                 value: LibraryTab.Genres
             }
         ]
@@ -113,38 +112,38 @@ const TabRoutes: TabRoute[] = [
         tabs: [
             {
                 index: 0,
-                label: globalize.translate('Albums'),
+                label: 'Albums',
                 value: LibraryTab.Albums,
                 isDefault: true
             },
             {
                 index: 1,
-                label: globalize.translate('Suggestions'),
+                label: 'Suggestions',
                 value: LibraryTab.Suggestions
             },
             {
                 index: 2,
-                label: globalize.translate('HeaderAlbumArtists'),
+                label: 'HeaderAlbumArtists',
                 value: LibraryTab.AlbumArtists
             },
             {
                 index: 3,
-                label: globalize.translate('Artists'),
+                label: 'Artists',
                 value: LibraryTab.Artists
             },
             {
                 index: 4,
-                label: globalize.translate('Playlists'),
+                label: 'Playlists',
                 value: LibraryTab.Playlists
             },
             {
                 index: 5,
-                label: globalize.translate('Songs'),
+                label: 'Songs',
                 value: LibraryTab.Songs
             },
             {
                 index: 6,
-                label: globalize.translate('Genres'),
+                label: 'Genres',
                 value: LibraryTab.Genres
             }
         ]
@@ -154,33 +153,33 @@ const TabRoutes: TabRoute[] = [
         tabs: [
             {
                 index: 0,
-                label: globalize.translate('Shows'),
+                label: 'Shows',
                 value: LibraryTab.Series,
                 isDefault: true
             },
             {
                 index: 1,
-                label: globalize.translate('Suggestions'),
+                label: 'Suggestions',
                 value: LibraryTab.Suggestions
             },
             {
                 index: 2,
-                label: globalize.translate('TabUpcoming'),
+                label: 'TabUpcoming',
                 value: LibraryTab.Upcoming
             },
             {
                 index: 3,
-                label: globalize.translate('Genres'),
+                label: 'Genres',
                 value: LibraryTab.Genres
             },
             {
                 index: 4,
-                label: globalize.translate('TabNetworks'),
+                label: 'TabNetworks',
                 value: LibraryTab.Networks
             },
             {
                 index: 5,
-                label: globalize.translate('Episodes'),
+                label: 'Episodes',
                 value: LibraryTab.Episodes
             }
         ]
@@ -190,19 +189,19 @@ const TabRoutes: TabRoute[] = [
         tabs: [
             {
                 index: 0,
-                label: globalize.translate('Photos'),
+                label: 'Photos',
                 value: LibraryTab.Photos,
                 isDefault: true
             },
             {
                 index: 1,
-                label: globalize.translate('HeaderPhotoAlbums'),
+                label: 'HeaderPhotoAlbums',
                 value: LibraryTab.PhotoAlbums,
                 isDefault: true
             },
             {
                 index: 2,
-                label: globalize.translate('HeaderVideos'),
+                label: 'HeaderVideos',
                 value: LibraryTab.Videos
             }
         ]

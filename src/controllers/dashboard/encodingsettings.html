@@ -5,13 +5,12 @@
                 <div class="verticalSection">
                     <div class="sectionTitleContainer flex align-items-center">
                         <h2 class="sectionTitle">${Transcoding}</h2>
-                        <a is="emby-linkbutton" rel="noopener noreferrer" class="raised button-alt headerHelpButton" target="_blank" href="https://jellyfin.org/docs/general/server/transcoding">${Help}</a>
                     </div>
                 </div>
 
                 <div class="selectContainer">
                     <select is="emby-select" id="selectVideoDecoder" label="${LabelHardwareAccelerationType}">
-                        <option value="">${None}</option>
+                        <option value="none">${None}</option>
                         <option value="amf">AMD AMF</option>
                         <option value="nvenc">Nvidia NVENC</option>
                         <option value="qsv">Intel QuickSync (QSV)</option>
@@ -28,6 +27,11 @@
                 <div class="inputContainer hide fldVaapiDevice">
                     <input is="emby-input" type="text" id="txtVaapiDevice" label="${LabelVaapiDevice}" />
                     <div class="fieldDescription">${LabelVaapiDeviceHelp}</div>
+                </div>
+
+                <div class="inputContainer hide fldQsvDevice">
+                    <input is="emby-input" type="text" id="txtQsvDevice" label="${LabelQsvDevice}" />
+                    <div class="fieldDescription">${LabelQsvDeviceHelp}</div>
                 </div>
 
                 <div class="hardwareAccelerationOptions hide">
@@ -79,6 +83,16 @@
                             <label>
                                 <input type="checkbox" is="emby-checkbox" id="chkDecodingColorDepth10Vp9" />
                                 <span>VP9 10bit</span>
+                            </label>
+                        </div>
+                        <div class="checkboxList hide fldHevcRextHwDecoding">
+                            <label>
+                                <input type="checkbox" is="emby-checkbox" id="chkDecodingColorDepth10HevcRext" />
+                                <span>HEVC RExt 8/10bit</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" is="emby-checkbox" id="chkDecodingColorDepth12HevcRext" />
+                                <span>HEVC RExt 12bit</span>
                             </label>
                         </div>
                     </div>
@@ -173,7 +187,8 @@
                             <input type="checkbox" is="emby-checkbox" id="chkTonemapping" />
                             <span>${EnableTonemapping}</span>
                         </label>
-                        <div class="fieldDescription checkboxFieldDescription">${AllowTonemappingHelp}</div>
+                        <div class="fieldDescription checkboxFieldDescription allowTonemappingHardwareHelp">${AllowTonemappingHelp}</div>
+                        <div class="fieldDescription checkboxFieldDescription allowTonemappingSoftwareHelp">${AllowTonemappingSoftwareHelp}</div>
                     </div>
                     <div class="selectContainer">
                         <select is="emby-select" id="selectTonemappingAlgorithm" label="${LabelTonemappingAlgorithm}">
@@ -190,11 +205,13 @@
                             <a is="emby-linkbutton" rel="noopener noreferrer" class="button-link" href="http://ffmpeg.org/ffmpeg-all.html#tonemap_005fopencl" target="_blank">${TonemappingAlgorithmHelp}</a>
                         </div>
                     </div>
-                    <div class="selectContainer">
+                    <div class="tonemappingModeOptions selectContainer">
                         <select is="emby-select" id="selectTonemappingMode" label="${LabelTonemappingMode}">
                             <option value="auto">${Auto}</option>
                             <option value="max">MAX</option>
                             <option value="rgb">RGB</option>
+                            <option value="lum">LUM</option>
+                            <option value="itp">ITP</option>
                         </select>
                         <div class="fieldDescription">${TonemappingModeHelp}</div>
                     </div>
@@ -309,7 +326,7 @@
 
                 <div class="selectContainer">
                     <select is="emby-select" id="selectEncoderPreset" label="${LabelEncoderPreset}">
-                        <option value="">${Auto}</option>
+                        <option value="auto">${Auto}</option>
                         <option value="veryslow">veryslow</option>
                         <option value="slower">slower</option>
                         <option value="slow">slow</option>

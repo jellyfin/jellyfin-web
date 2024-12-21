@@ -1,18 +1,18 @@
-import type { BaseItemDto, SeriesTimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import React, { FC, useCallback } from 'react';
 import { IconButton } from '@mui/material';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 
 import { playbackManager } from 'components/playback/playbackmanager';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { getFiltersQuery } from 'utils/items';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 interface ShuffleButtonProps {
-    item: BaseItemDto | null | undefined;
-    items: BaseItemDto[] | SeriesTimerInfoDto[];
+    item: ItemDto | undefined;
+    items: ItemDto[];
     viewType: LibraryTab
     hasFilters: boolean;
     libraryViewSettings: LibraryViewSettings
@@ -24,13 +24,15 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({ item, items, viewType, hasFilte
             playbackManager.shuffle(item);
         } else {
             playbackManager.play({
-                items: items,
+                items,
                 autoplay: true,
                 queryOptions: {
                     ParentId: item?.Id ?? undefined,
                     ...getFiltersQuery(viewType, libraryViewSettings),
                     SortBy: [ItemSortBy.Random]
                 }
+            }).catch(err => {
+                console.error('[ShuffleButton] failed to play', err);
             });
         }
     }, [hasFilters, item, items, libraryViewSettings, viewType]);

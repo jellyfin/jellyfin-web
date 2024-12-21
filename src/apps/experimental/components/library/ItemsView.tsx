@@ -92,7 +92,7 @@ const ItemsView: FC<ItemsViewProps> = ({
             listOptions.showParentTitle = true;
             listOptions.action = 'playallfromhere';
             listOptions.smallIcon = true;
-            listOptions.artist = true;
+            listOptions.showArtist = true;
             listOptions.addToListButton = true;
         } else if (viewType === LibraryTab.Albums) {
             listOptions.sortBy = libraryViewSettings.SortBy;
@@ -181,7 +181,7 @@ const ItemsView: FC<ItemsViewProps> = ({
 
     const getItems = useCallback(() => {
         if (!itemsResult?.Items?.length) {
-            return <NoItemsMessage noItemsMessage={noItemsMessage} />;
+            return <NoItemsMessage message={noItemsMessage} />;
         }
 
         if (libraryViewSettings.ViewMode === ViewMode.ListView) {

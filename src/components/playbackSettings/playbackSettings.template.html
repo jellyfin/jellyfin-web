@@ -22,6 +22,14 @@
             <input type="checkbox" is="emby-checkbox" class="chkPlayDefaultAudioTrack" />
             <span>${LabelPlayDefaultAudioTrack}</span>
         </label>
+
+        <div class="checkboxContainer checkboxContainer-withDescription">
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkDisableVbrAudioEncoding" />
+                <span>${LabelDisableVbrAudioEncoding}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${DisableVbrAudioEncodingHelp}</div>
+        </div>
     </div>
 
     <div class="qualitySections hide">
@@ -79,15 +87,6 @@
         <h2 class="sectionTitle">
             ${TabAdvanced}
         </h2>
-
-        <div class="selectContainer">
-            <select is="emby-select" id="selectAudioNormalization" label="${LabelSelectAudioNormalization}">
-                <option value="Off">${Off}</option>
-                <option value="TrackGain">${LabelTrackGain}</option>
-                <option value="AlbumGain">${LabelAlbumGain}</option>
-            </select>
-            <div class="fieldDescription">${SelectAudioNormalizationHelp}</div>
-        </div>
 
         <div class="checkboxContainer checkboxContainer-withDescription">
             <label>
@@ -157,6 +156,9 @@
         <div class="selectContainer">
             <select is="emby-select" class="selectSkipBackLength" label="${LabelSkipBackLength}"></select>
         </div>
+
+        <h3 class="sectionTitle">${HeaderMediaSegmentActions}</h3>
+        <div class="mediaSegmentActionContainer"></div>
     </div>
 
     <div class="verticalSection verticalSection-extrabottompadding">
@@ -180,6 +182,14 @@
             <div class="fieldDescription checkboxFieldDescription">${EnableTrueHdHelp}</div>
         </div>
 
+        <div class="checkboxContainer checkboxContainer-withDescription fldEnableHi10p hide">
+             <label>
+                 <input type="checkbox" is="emby-checkbox" class="chkEnableHi10p" />
+                 <span>${EnableHi10p}</span>
+             </label>
+             <div class="fieldDescription checkboxFieldDescription">${EnableHi10pHelp}</div>
+        </div>
+
         <div class="selectContainer">
             <select is="emby-select" id="selectPreferredTranscodeVideoCodec" label="${LabelSelectPreferredTranscodeVideoCodec}">
                 <option value="">${Auto}</option>
@@ -201,6 +211,37 @@
                 <option value="opus">Opus</option>
             </select>
             <div class="fieldDescription">${SelectPreferredTranscodeVideoAudioCodecHelp}</div>
+        </div>
+    </div>
+
+    <div class="verticalSection verticalSection-extrabottompadding">
+        <h2 class="sectionTitle">
+            ${HeaderAudioAdvanced}
+        </h2>
+
+        <div class="selectContainer">
+            <select is="emby-select" id="selectAudioNormalization" label="${LabelSelectAudioNormalization}">
+                <option value="Off">${Off}</option>
+                <option value="TrackGain">${LabelTrackGain}</option>
+                <option value="AlbumGain">${LabelAlbumGain}</option>
+            </select>
+            <div class="fieldDescription">${SelectAudioNormalizationHelp}</div>
+        </div>
+
+        <div class="checkboxContainer checkboxContainer-withDescription">
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkAlwaysRemuxFlac" />
+                <span>${LabelAlwaysRemuxFlacAudioFiles}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${AlwaysRemuxFlacAudioFilesHelp}</div>
+        </div>
+
+        <div class="checkboxContainer checkboxContainer-withDescription">
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkAlwaysRemuxMp3" />
+                <span>${LabelAlwaysRemuxMp3AudioFiles}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${AlwaysRemuxMp3AudioFilesHelp}</div>
         </div>
     </div>
 

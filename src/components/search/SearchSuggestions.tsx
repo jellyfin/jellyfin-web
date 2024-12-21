@@ -1,17 +1,19 @@
-import React, { type FC } from 'react';
-import { useSearchSuggestions } from 'hooks/searchHook';
+import React, { FunctionComponent } from 'react';
+
 import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from '../router/appRouter';
-import globalize from '../../scripts/globalize';
-import LinkButton from 'elements/emby-button/LinkButton';
+import { useSearchSuggestions } from 'hooks/searchHook/useSearchSuggestions';
+import globalize from 'lib/globalize';
+import LinkButton from '../../elements/emby-button/LinkButton';
+
 import '../../elements/emby-button/emby-button';
 
-interface SearchSuggestionsProps {
-    parentId?: string;
-}
+type SearchSuggestionsProps = {
+    parentId?: string | null;
+};
 
-const SearchSuggestions: FC<SearchSuggestionsProps> = ({ parentId }) => {
-    const { isLoading, data: suggestions } = useSearchSuggestions(parentId);
+const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId }) => {
+    const { isLoading, data: suggestions } = useSearchSuggestions(parentId || undefined);
 
     if (isLoading) return <Loading />;
 
@@ -27,15 +29,12 @@ const SearchSuggestions: FC<SearchSuggestionsProps> = ({ parentId }) => {
             </div>
 
             <div className='searchSuggestionsList padded-left padded-right'>
-                {suggestions?.map((item) => (
-                    <div key={`suggestion-${item.Id}`}>
+                {suggestions?.map(item => (
+                    <div key={item.Id}>
                         <LinkButton
                             className='button-link'
+                            style={{ display: 'inline-block', padding: '0.5em 1em' }}
                             href={appRouter.getRouteUrl(item)}
-                            style={{
-                                display: 'inline-block',
-                                padding: '0.5em 1em'
-                            }}
                         >
                             {item.Name}
                         </LinkButton>

@@ -16,20 +16,20 @@ export enum FeatureFilters {
     HasTrailer = 'HasTrailer',
     HasSpecialFeature = 'HasSpecialFeature',
     HasThemeSong = 'HasThemeSong',
-    HasThemeVideo = 'HasThemeVideo',
+    HasThemeVideo = 'HasThemeVideo'
 }
 
 export enum EpisodeFilter {
     ParentIndexNumber = 'ParentIndexNumber',
     IsMissing = 'IsMissing',
-    IsUnaired = 'IsUnaired',
+    IsUnaired = 'IsUnaired'
 }
 
 export enum VideoBasicFilter {
     IsSD = 'IsSD',
     IsHD = 'IsHD',
     Is4K = 'Is4K',
-    Is3D = 'Is3D',
+    Is3D = 'Is3D'
 }
 
 export interface Filters {
@@ -49,7 +49,7 @@ export interface Filters {
 
 export enum ViewMode {
     GridView = 'grid',
-    ListView = 'list',
+    ListView = 'list'
 }
 
 export interface LibraryViewSettings {

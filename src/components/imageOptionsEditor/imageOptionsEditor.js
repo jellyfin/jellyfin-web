@@ -4,7 +4,7 @@
  * @module components/imageOptionsEditor/imageOptionsEditor
  */
 
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import '../../elements/emby-checkbox/emby-checkbox';

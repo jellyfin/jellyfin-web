@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 
 import { appHost } from 'components/apphost';
 import { useApi } from 'hooks/useApi';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import Dashboard from 'utils/dashboard';
 import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
 

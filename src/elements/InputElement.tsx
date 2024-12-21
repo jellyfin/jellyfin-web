@@ -1,6 +1,6 @@
 import React, { type FC, useCallback, useEffect, useMemo, useRef } from 'react';
 
-import globalize from '../scripts/globalize';
+import globalize from 'lib/globalize';
 
 interface CreateInputElementParams {
     type?: string

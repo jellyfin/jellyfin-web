@@ -1,11 +1,10 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import React, { FunctionComponent, useEffect, useState, useRef, useCallback } from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../scripts/globalize';
-import LibraryMenu from '../../../../scripts/libraryMenu';
+import globalize from '../../../../lib/globalize';
 import { appHost } from '../../../../components/apphost';
 import confirm from '../../../../components/confirm/confirm';
 import ButtonElement from '../../../../elements/ButtonElement';
@@ -18,6 +17,7 @@ const UserProfile: FunctionComponent = () => {
     const [ searchParams ] = useSearchParams();
     const userId = searchParams.get('userId');
     const [ userName, setUserName ] = useState('');
+    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -41,7 +41,7 @@ const UserProfile: FunctionComponent = () => {
             }
 
             setUserName(user.Name);
-            LibraryMenu.setTitle(user.Name);
+            void libraryMenu.then(menu => menu.setTitle(user.Name));
 
             let imageUrl = 'assets/img/avatar.png';
             if (user.PrimaryImageTag) {

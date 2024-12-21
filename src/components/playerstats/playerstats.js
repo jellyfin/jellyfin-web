@@ -1,5 +1,5 @@
 import '../../elements/emby-button/paper-icon-button-light';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
@@ -172,12 +172,17 @@ function getTranscodingStats(session, player, displayPlayMethod) {
                 value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')
             });
         }
-        if (session.TranscodingInfo.HardwareAccelerationType) {
-            sessionStats.push({
-                label: globalize.translate('LabelHardwareEncoding'),
-                value: session.TranscodingInfo.HardwareAccelerationType
-            });
-        }
+        // Hide this for now because it is not useful in its current state.
+        // This only reflects the configuration in the dashboard, but the actual
+        // decoder/encoder selection is more complex. As a result, the hardware
+        // encoder may not be used even if hardware acceleration is configured,
+        // making the display of hardware acceleration misleading.
+        // if (session.TranscodingInfo.HardwareAccelerationType) {
+        //     sessionStats.push({
+        //         label: globalize.translate('LabelHardwareEncoding'),
+        //         value: session.TranscodingInfo.HardwareAccelerationType
+        //     });
+        // }
     }
 
     return sessionStats;
@@ -195,14 +200,14 @@ function getDisplayTranscodeFps(session, player) {
     const mediaSource = playbackManager.currentMediaSource(player) || {};
     const videoStream = (mediaSource.MediaStreams || []).find((s) => s.Type === 'Video') || {};
 
-    const originalFramerate = videoStream.AverageFrameRate;
+    const originalFramerate = videoStream.ReferenceFrameRate || videoStream.RealFrameRate;
     const transcodeFramerate = session.TranscodingInfo.Framerate;
 
     if (!originalFramerate) {
         return `${transcodeFramerate} fps`;
     }
 
-    return `${(transcodeFramerate / originalFramerate).toFixed(2)}x (${transcodeFramerate} fps)`;
+    return `${transcodeFramerate} fps (${(transcodeFramerate / originalFramerate).toFixed(2)}x)`;
 }
 
 function getReadableSize(size) {

@@ -1,6 +1,7 @@
 import DOMPurify from 'dompurify';
 
 import browser from '../../scripts/browser';
+import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import dom from '../../scripts/dom';
@@ -12,7 +13,7 @@ import {
     destroyFlvPlayer,
     destroyCastPlayer,
     getCrossOriginValue,
-    enableHlsJsPlayer,
+    enableHlsJsPlayerForCodecs,
     applySrc,
     resetSrc,
     playWithPromise,
@@ -27,7 +28,7 @@ import {
 } from '../../components/htmlMediaHelper';
 import itemHelper from '../../components/itemHelper';
 import Screenfull from 'screenfull';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import ServerConnections from '../../components/ServerConnections';
 import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
@@ -100,7 +101,7 @@ function enableNativeTrackSupport(mediaSource, track) {
 
     if (track) {
         const format = (track.Codec || '').toLowerCase();
-        if (format === 'ssa' || format === 'ass') {
+        if (format === 'ssa' || format === 'ass' || format === 'pgssub') {
             return false;
         }
     }
@@ -213,6 +214,10 @@ export class HtmlVideoPlayer {
      * @type {any | null | undefined}
      */
     #currentAssRenderer;
+    /**
+     * @type {any | null | undefined}
+     */
+    #currentPgsRenderer;
     /**
      * @type {number | undefined}
      */
@@ -515,7 +520,7 @@ export class HtmlVideoPlayer {
             elem.crossOrigin = crossOrigin;
         }
 
-        if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && isHls(options.mediaSource)) {
+        if (enableHlsJsPlayerForCodecs(options.mediaSource, 'Video') && isHls(options.mediaSource)) {
             return this.setSrcWithHlsJs(elem, options, val);
         } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container?.toUpperCase() === 'FLV') {
             return this.setSrcWithFlvJs(elem, options, val);
@@ -590,6 +595,9 @@ export class HtmlVideoPlayer {
         if (this.#currentAssRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
             this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+        } else if (this.#currentPgsRenderer) {
+            this.updateCurrentTrackOffset(offsetValue);
+            this.#currentPgsRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
         } else {
             const trackElements = this.getTextTracks();
             // if .vtt currently rendering
@@ -1172,6 +1180,12 @@ export class HtmlVideoPlayer {
             octopus.dispose();
         }
         this.#currentAssRenderer = null;
+
+        const pgsRenderer = this.#currentPgsRenderer;
+        if (pgsRenderer) {
+            pgsRenderer.dispose();
+        }
+        this.#currentPgsRenderer = null;
     }
 
     /**
@@ -1317,6 +1331,22 @@ export class HtmlVideoPlayer {
     }
 
     /**
+     * @private
+     */
+    renderPgs(videoElement, track, item) {
+        import('libpgs').then((libpgs) => {
+            const options = {
+                video: videoElement,
+                subUrl: getTextTrackUrl(track, item),
+                workerUrl: `${appRouter.baseUrl()}/libraries/libpgs.worker.js`,
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+                aspectRatio: this._currentAspectRatio === 'auto' ? 'contain' : this._currentAspectRatio
+            };
+            this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
+        });
+    }
+
+    /**
          * @private
          */
     requiresCustomSubtitlesElement() {
@@ -1326,7 +1356,8 @@ export class HtmlVideoPlayer {
             return true;
         }
 
-        if (browser.web0s) {
+        // Tizen 5 doesn't support displaying secondary subtitles
+        if (browser.tizenVersion >= 5 || browser.web0s) {
             return true;
         }
 
@@ -1434,6 +1465,10 @@ export class HtmlVideoPlayer {
                 this.renderSsaAss(videoElement, track, item);
                 return;
             }
+            if (format === 'pgssub') {
+                this.renderPgs(videoElement, track, item);
+                return;
+            }
 
             if (this.requiresCustomSubtitlesElement()) {
                 this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
@@ -1534,16 +1569,53 @@ export class HtmlVideoPlayer {
             return t.Index === streamIndex;
         })[0];
 
-        this.setTrackForDisplay(this.#mediaElement, track, targetTextTrackIndex);
-        if (enableNativeTrackSupport(this._currentPlayOptions?.mediaSource, track)) {
-            if (streamIndex !== -1) {
-                this.setCueAppearance();
-            }
+        // This play method can only check if it is real direct play, and will mark Remux as Transcode as well
+        const isDirectPlay = this._currentPlayOptions.playMethod === 'DirectPlay';
+        const burnInWhenTranscoding = appSettings.alwaysBurnInSubtitleWhenTranscoding();
+
+        let sessionPromise;
+        if (!isDirectPlay && burnInWhenTranscoding) {
+            const apiClient = ServerConnections.getApiClient(this._currentPlayOptions.item.ServerId);
+            sessionPromise = apiClient.getSessions({
+                deviceId: apiClient.deviceId()
+            }).then(function (sessions) {
+                return sessions[0] || {};
+            }, function () {
+                return Promise.resolve({});
+            });
         } else {
-            // null these out to disable the player's native display (handled below)
-            streamIndex = -1;
-            track = null;
+            sessionPromise = Promise.resolve({});
         }
+
+        const player = this;
+
+        sessionPromise.then((s) => {
+            if (!s.TranscodingInfo || s.TranscodingInfo.IsVideoDirect) {
+                // restore recorded delivery method if any
+                mediaStreamTextTracks.forEach((t) => {
+                    t.DeliveryMethod = t.realDeliveryMethod ?? t.DeliveryMethod;
+                });
+                player.setTrackForDisplay(player.#mediaElement, track, targetTextTrackIndex);
+                if (enableNativeTrackSupport(player._currentPlayOptions?.mediaSource, track)) {
+                    if (streamIndex !== -1) {
+                        player.setCueAppearance();
+                    }
+                } else {
+                    // null these out to disable the player's native display (handled below)
+                    streamIndex = -1;
+                    track = null;
+                }
+            } else {
+                // record the original delivery method and set all delivery method to encode
+                // this is needed for subtitle track switching to properly reload the video stream
+                mediaStreamTextTracks.forEach((t) => {
+                    t.realDeliveryMethod = t.DeliveryMethod;
+                    t.DeliveryMethod = 'Encode';
+                });
+                // unset stream when switching to transcode
+                player.setTrackForDisplay(player.#mediaElement, null, -1);
+            }
+        });
     }
 
     /**
@@ -2016,6 +2088,14 @@ export class HtmlVideoPlayer {
                 mediaElement.style.removeProperty('object-fit');
             } else {
                 mediaElement.style['object-fit'] = val;
+            }
+        }
+        const pgsRenderer = this.#currentPgsRenderer;
+        if (pgsRenderer) {
+            if (val === 'auto') {
+                pgsRenderer.aspectRatio = 'contain';
+            } else {
+                pgsRenderer.aspectRatio = val;
             }
         }
         this._currentAspectRatio = val;

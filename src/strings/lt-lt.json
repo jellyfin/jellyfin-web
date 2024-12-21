@@ -18,7 +18,7 @@
     "ButtonBack": "Atgal",
     "ButtonCancel": "Atšaukti",
     "ButtonGotIt": "Supratau",
-    "ButtonManualLogin": "Rankinis prisijungimas",
+    "ButtonManualLogin": "Rankinis Prisijungimas",
     "ButtonNextTrack": "Kitas takelis",
     "ButtonOk": "OK",
     "ButtonPause": "Pauzė",
@@ -553,7 +553,7 @@
     "HeaderConfigureRemoteAccess": "Nuotolinės prieigos nustatymai",
     "HeaderConfirmProfileDeletion": "Patvirtinti vartotojo ištrynimą",
     "HeaderConfirmRevokeApiKey": "Panaikinti API raktą",
-    "HeaderConnectToServer": "Prisijungti prie serverio",
+    "HeaderConnectToServer": "Prisijungti prie Serverio",
     "HeaderConnectionFailure": "Prisijungimo klaida",
     "HeaderContinueListening": "Klausytis toliau",
     "OptionAutomaticallyGroupSeries": "Leisti sujungti serijas, kurios yra atskiruose aplankaluose",
@@ -1164,5 +1164,10 @@
     "LabelKodiMetadataEnablePathSubstitutionHelp": "Įjungti kelio pakeitimą nuotraukoms naudojant serverio kelio pakeitimo nustatymus.",
     "LabelKodiMetadataDateFormatHelp": "Visos datos iš NFO failų bus ištraukiamos šiuo formatu.",
     "AllowSegmentDeletion": "Ištrinti segmentus",
-    "AllowSegmentDeletionHelp": "Ištrinkite senus segmentus, kai jie buvo išsiųsti klientui. Taip išvengiama viso perkoduoto failo saugojimo diske. Veiks tik su įjungtu droseliu. Išjunkite tai, jei kyla atkūrimo problemų."
+    "AllowSegmentDeletionHelp": "Ištrinkite senus segmentus, kai jie buvo išsiųsti klientui. Taip išvengiama viso perkoduoto failo saugojimo diske. Veiks tik su įjungtu droseliu. Išjunkite tai, jei kyla atkūrimo problemų.",
+    "AirPlay": "AirPlay",
+    "AllowSubtitleManagement": "Leisti šiam vartotojui keisti subtitrus",
+    "Alternate": "Pakaitinis",
+    "AlternateDVD": "Pakaitinis DVD",
+    "Large": "Didelis"
 }

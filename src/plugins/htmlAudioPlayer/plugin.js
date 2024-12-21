@@ -121,14 +121,28 @@ class HtmlAudioPlayer {
                     normalizationGain =
                         options.mediaSource.albumNormalizationGain
                         ?? options.item.NormalizationGain;
+                } else {
+                    console.debug('normalization disabled');
+                    return;
+                }
+
+                if (!self.gainNode) {
+                    addGainElement(elem);
+                    if (!self.gainNode) return;
                 }
 
                 if (normalizationGain) {
-                    self.gainNode.gain.value = Math.pow(10, normalizationGain / 20);
+                    self.normalizationGain = Math.pow(10, normalizationGain / 20);
+                    self.gainNode.gain.value = self.normalizationGain;
                 } else {
                     self.gainNode.gain.value = 1;
+                    self.normalizationGain = 1;
                 }
-                console.debug('gain: ' + self.gainNode.gain.value);
+                if (browser.safari) {
+                    // Gain value is absolute in Safari. Add volume from the slider
+                    self.gainNode.gain.value *= elem.volume;
+                }
+                console.debug('gain: ' + self.normalizationGain);
             }).catch((err) => {
                 console.error('Failed to add/change gainNode', err);
             });
@@ -270,8 +284,6 @@ class HtmlAudioPlayer {
 
             self._mediaElement = elem;
 
-            addGainElement(elem);
-
             return elem;
         }
 
@@ -311,6 +323,9 @@ class HtmlAudioPlayer {
         function onVolumeChange() {
             if (!self._isFadingOut) {
                 htmlMediaHelper.saveVolume(this.volume);
+                if (browser.safari && self.gainNode) {
+                    self.gainNode.gain.value = this.volume * self.normalizationGain;
+                }
                 Events.trigger(self, 'volumechange');
             }
         }

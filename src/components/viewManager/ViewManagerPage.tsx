@@ -2,8 +2,9 @@ import { Action } from 'history';
 import { FunctionComponent, useEffect } from 'react';
 import { useLocation, useNavigationType } from 'react-router-dom';
 
-import globalize from '../../scripts/globalize';
-import type { RestoreViewFailResponse } from '../../types/viewManager';
+import globalize from 'lib/globalize';
+import type { RestoreViewFailResponse } from 'types/viewManager';
+
 import viewManager from './viewManager';
 
 export interface ViewManagerPageProps {
@@ -92,7 +93,7 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
 
         loadPage();
     },
-    // location.state and navigationType are  NOT included as dependencies here since dialogs will update state while the current view stays the same
+    // location.state and navigationType are NOT included as dependencies here since dialogs will update state while the current view stays the same
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
         controller,

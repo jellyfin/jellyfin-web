@@ -1,0 +1,32 @@
+.skip-button {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 18%;
+    right: 16%;
+    z-index: 10000;
+    padding: 12px 20px;
+    color: black;
+    border: none;
+    border-radius: 100px;
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: opacity 200ms ease-out;
+    gap: 3px;
+    box-shadow: 7px 6px 15px -14px rgba(0, 0, 0, 0.65);
+    cursor: pointer;
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+    .skip-button {
+        bottom: 27%;
+    }
+}
+
+.no-transition {
+    transition: none;
+}
+
+.skip-button-hidden {
+    opacity: 0;
+}

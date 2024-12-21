@@ -1,6 +1,6 @@
 import 'jquery';
 import loading from '../../../components/loading/loading';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
 import { getLocale, getLocaleWithSuffix } from '../../../utils/dateFnsLocale.ts';
@@ -33,8 +33,7 @@ function populateList(page, tasks) {
 
     let currentCategory;
     let html = '';
-    for (let i = 0; i < tasks.length; i++) {
-        const task = tasks[i];
+    for (const task of tasks) {
         if (task.Category != currentCategory) {
             currentCategory = task.Category;
             if (currentCategory) {
@@ -46,9 +45,6 @@ function populateList(page, tasks) {
             html += '<h2 class="sectionTitle">';
             html += currentCategory;
             html += '</h2>';
-            if (i === 0) {
-                html += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://jellyfin.org/docs/general/server/tasks">' + globalize.translate('Help') + '</a>';
-            }
             html += '</div>';
             html += '<div class="paperList">';
         }
@@ -132,8 +128,11 @@ function updateTaskButton(elem, state) {
 export default function(view) {
     function updateTasks(tasks) {
         for (const task of tasks) {
-            view.querySelector('#taskProgress' + task.Id).innerHTML = getTaskProgressHtml(task);
-            updateTaskButton(view.querySelector('#btnTask' + task.Id), task.State);
+            const taskProgress = view.querySelector(`#taskProgress${task.Id}`);
+            if (taskProgress) taskProgress.innerHTML = getTaskProgressHtml(task);
+
+            const taskButton = view.querySelector(`#btnTask${task.Id}`);
+            if (taskButton) updateTaskButton(taskButton, task.State);
         }
     }
 

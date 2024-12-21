@@ -5,11 +5,11 @@ import layoutManager from '../../components/layoutManager';
 import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
-import ScrollerFactory from '../../libraries/scroller';
+import ScrollerFactory from 'lib/scroller';
 import ScrollButtons from '../emby-scrollbuttons/ScrollButtons';
 import './emby-scroller.scss';
 
-interface ScrollerProps {
+export interface ScrollerProps {
     className?: string;
     isHorizontalEnabled?: boolean;
     isMouseWheelEnabled?: boolean;
@@ -23,14 +23,14 @@ interface ScrollerProps {
 
 const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
     className,
-    isHorizontalEnabled,
-    isMouseWheelEnabled,
-    isCenterFocusEnabled,
-    isScrollButtonsEnabled,
-    isSkipFocusWhenVisibleEnabled,
-    isScrollEventEnabled,
-    isHideScrollbarEnabled,
-    isAllowNativeSmoothScrollEnabled,
+    isHorizontalEnabled = true,
+    isMouseWheelEnabled = false,
+    isCenterFocusEnabled = false,
+    isScrollButtonsEnabled = true,
+    isSkipFocusWhenVisibleEnabled = false,
+    isScrollEventEnabled = false,
+    isHideScrollbarEnabled = false,
+    isAllowNativeSmoothScrollEnabled = false,
     children
 }) => {
     const [scrollRef, size] = useElementSize();
@@ -158,27 +158,23 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
             return;
         }
 
-        const horizontal = isHorizontalEnabled !== false;
-        const scrollbuttons = isScrollButtonsEnabled !== false;
-        const mousewheel = isMouseWheelEnabled !== false;
-
-        const enableScrollButtons = layoutManager.desktop && horizontal && scrollbuttons;
+        const enableScrollButtons = layoutManager.desktop && isHorizontalEnabled && isScrollButtonsEnabled;
 
         const options = {
-            horizontal: horizontal,
+            horizontal: isHorizontalEnabled,
             mouseDragging: 1,
-            mouseWheel: mousewheel,
+            mouseWheel: isMouseWheelEnabled,
             touchDragging: 1,
             slidee: scrollRef.current?.querySelector('.scrollSlider'),
             scrollBy: 200,
-            speed: horizontal ? 270 : 240,
+            speed: isHorizontalEnabled ? 270 : 240,
             elasticBounds: 1,
             dragHandle: 1,
             autoImmediate: true,
-            skipSlideToWhenVisible: isSkipFocusWhenVisibleEnabled === true,
-            dispatchScrollEvent: enableScrollButtons || isScrollEventEnabled === true,
-            hideScrollbar: enableScrollButtons || isHideScrollbarEnabled === true,
-            allowNativeSmoothScroll: isAllowNativeSmoothScrollEnabled === true && !enableScrollButtons,
+            skipSlideToWhenVisible: isSkipFocusWhenVisibleEnabled,
+            dispatchScrollEvent: enableScrollButtons || isScrollEventEnabled,
+            hideScrollbar: enableScrollButtons || isHideScrollbarEnabled,
+            allowNativeSmoothScroll: isAllowNativeSmoothScrollEnabled && !enableScrollButtons,
             allowNativeScroll: !enableScrollButtons,
             forceHideScrollbars: enableScrollButtons,
             // In edge, with the native scroll, the content jumps around when hovering over the buttons
