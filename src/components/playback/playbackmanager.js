@@ -1942,10 +1942,14 @@ export class PlaybackManager {
             const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
             const startSeasonId = firstItem.Type === 'Season' ? items[options.startIndex || 0].Id : undefined;
 
+            const seasonId = (startSeasonId && items.length === 1) ? startSeasonId : undefined;
+
             const episodesResult = await apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
                 IsVirtualUnaired: false,
                 IsMissing: false,
-                SeasonId: (startSeasonId && items.length === 1) ? startSeasonId : undefined,
+                SeasonId: seasonId,
+                // default to first 100 episodes if no season was specified to avoid loading too large payloads
+                limit: seasonId ? undefined : 100,
                 SortBy: options.shuffle ? 'Random' : undefined,
                 UserId: apiClient.getCurrentUserId(),
                 Fields: ['Chapters', 'Trickplay']
@@ -1994,16 +1998,19 @@ export class PlaybackManager {
             return new Promise(function (resolve, reject) {
                 const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
-                if (!firstItem.SeriesId) {
+                const { SeriesId, SeasonId } = firstItem;
+                if (!SeriesId) {
                     resolve(null);
                     return;
                 }
 
-                apiClient.getEpisodes(firstItem.SeriesId, {
+                apiClient.getEpisodes(SeriesId, {
                     IsVirtualUnaired: false,
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
-                    Fields: ['Chapters', 'Trickplay']
+                    Fields: ['Chapters', 'Trickplay'],
+                    // limit loading episodes of the current season to avoid loading too large payload
+                    SeasonId
                 }).then(function (episodesResult) {
                     resolve(filterEpisodes(episodesResult, firstItem, options));
                 }, reject);
