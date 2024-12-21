@@ -7,7 +7,8 @@ export default function(view) {
     function loadData() {
         ApiClient.getServerConfiguration().then(function(config) {
             view.querySelector('.chkFolderView').checked = config.EnableFolderView;
-            view.querySelector('.chkGroupMoviesIntoCollections').checked = config.EnableGroupingIntoCollections;
+            view.querySelector('.chkGroupMoviesIntoCollections').checked = config.EnableGroupingMoviesIntoCollections;
+            view.querySelector('.chkGroupShowsIntoCollections').checked = config.EnableGroupingShowsIntoCollections;
             view.querySelector('.chkDisplaySpecialsWithinSeasons').checked = config.DisplaySpecialsWithinSeasons;
             view.querySelector('.chkExternalContentInSuggestions').checked = config.EnableExternalContentInSuggestions;
             view.querySelector('#chkSaveMetadataHidden').checked = config.SaveMetadataHidden;
@@ -22,7 +23,8 @@ export default function(view) {
         const form = this;
         ApiClient.getServerConfiguration().then(function(config) {
             config.EnableFolderView = form.querySelector('.chkFolderView').checked;
-            config.EnableGroupingIntoCollections = form.querySelector('.chkGroupMoviesIntoCollections').checked;
+            config.EnableGroupingMoviesIntoCollections = form.querySelector('.chkGroupMoviesIntoCollections').checked;
+            config.EnableGroupingShowsIntoCollections = form.querySelector('.chkGroupShowsIntoCollections').checked;
             config.DisplaySpecialsWithinSeasons = form.querySelector('.chkDisplaySpecialsWithinSeasons').checked;
             config.EnableExternalContentInSuggestions = form.querySelector('.chkExternalContentInSuggestions').checked;
             config.SaveMetadataHidden = form.querySelector('#chkSaveMetadataHidden').checked;
