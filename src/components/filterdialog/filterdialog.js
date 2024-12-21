@@ -8,7 +8,7 @@ import '../../elements/emby-collapse/emby-collapse';
 import './style.scss';
 import ServerConnections from '../ServerConnections';
 import template from './filterdialog.template.html';
-import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
+import { stopMultiSelect } from '../multiSelect/multiSelect';
 
 function merge(resultItems, queryItems, delimiter) {
     if (!queryItems) {
@@ -90,6 +90,7 @@ function updateFilterControls(context, options) {
         const filterName = elem.getAttribute('data-filter');
         elem.checked = filters.includes(`,${filterName}`);
     }
+    context.querySelector('.numMinSongCountFilter').value = query.MinSongCount || '0';
     context.querySelector('.chk3DFilter').checked = query.Is3D === true;
     context.querySelector('.chkHDFilter').checked = query.IsHD === true;
     context.querySelector('.chk4KFilter').checked = query.Is4K === true;
@@ -144,6 +145,10 @@ function setVisibility(context, options) {
     if (options.mode === 'episodes') {
         showByClass(context, 'episodeFilter');
     }
+
+    if (options.mode === 'artists') {
+        showByClass(context, 'artistFilter');
+    }
 }
 
 function showByClass(context, className) {
@@ -177,6 +182,21 @@ class FilterDialog {
         const query = this.options.query;
         query.StartIndex = 0;
         query.IsFavorite = !!elem.checked || null;
+        triggerChange(this);
+    }
+
+    /**
+         * @private
+         */
+    onMinSongCountChange(elem) {
+        const query = this.options.query;
+
+        // Make sure the value is a number
+        let val = Number(elem.value);
+        val = isNaN(val) ? 0 : val;
+
+        query.StartIndex = 0;
+        query.MinSongCount = val > 0 ? val : undefined;
         triggerChange(this);
     }
 
@@ -250,6 +270,9 @@ class FilterDialog {
             }
         }
 
+        for (const elem of context.querySelectorAll('.numMinSongCountFilter')) {
+            elem.addEventListener('change', () => this.onMinSongCountChange(elem));
+        }
         for (const elem of context.querySelectorAll('.chkVideoTypeFilter')) {
             elem.addEventListener('change', () => this.onVideoTypeFilterChange(elem));
         }
