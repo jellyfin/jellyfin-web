@@ -96,8 +96,13 @@ async function loadThemeMedia(serverId, itemId) {
             return;
         }
 
-        const { data: themeMedia } = await getLibraryApi(api)
-            .getThemeMedia({ userId, itemId: item.Id, inheritFromParent: true });
+        const { data: themeMedia } = await getLibraryApi(api).getThemeMedia({
+            userId,
+            itemId: item.Id,
+            inheritFromParent: true,
+            sortBy: [userSettings.themeMediaSortBy()],
+            sortOrder: [userSettings.themeMediaSortOrder()]
+        });
 
         const result = userSettings.enableThemeVideos() && themeMedia.ThemeVideosResult?.Items?.length ? themeMedia.ThemeVideosResult : themeMedia.ThemeSongsResult;
 
