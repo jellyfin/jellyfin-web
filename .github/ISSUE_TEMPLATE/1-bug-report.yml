@@ -84,7 +84,7 @@ body:
       options:
         - Firefox-ESR
         - Firefox
-        - Chrome based (Chromium, Edge)
+        - Chromium based (Chrome, Edge)
         - Navigator
         - Other (Write which above)
 
