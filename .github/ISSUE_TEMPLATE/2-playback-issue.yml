@@ -35,7 +35,7 @@ body:
       required: true
     attributes:
       label: Your OS
-      description: please complete the following information
+      description: Please complete the following information
       multiple: true
       options:
         - Linux
