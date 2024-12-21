@@ -7,6 +7,7 @@ import { FeatureFilters, LibraryViewSettings } from 'types/library';
 
 const featuresOptions = [
     { label: 'Subtitles', value: FeatureFilters.HasSubtitles },
+    { label: 'No Subtitles', value: FeatureFilters.NoSubtitles },
     { label: 'Trailers', value: FeatureFilters.HasTrailer },
     { label: 'Extras', value: FeatureFilters.HasSpecialFeature },
     { label: 'ThemeSongs', value: FeatureFilters.HasThemeSong },
