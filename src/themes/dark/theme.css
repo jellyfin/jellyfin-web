@@ -150,6 +150,25 @@ html {
     background-color: #007ea8;
 }
 
+.show-paths-mode-only {
+    visibility: hidden;
+    display: none;
+}
+
+.hide-paths-mode-only {
+    visibility: visible;
+}
+
+body.show-paths .show-paths-mode-only {
+    visibility: visible;
+    display: unset;
+}
+
+body.show-paths .hide-paths-mode-only {
+    visibility: hidden;
+    display: none !important;
+}
+
 .cardText-secondary,
 .fieldDescription,
 .guide-programNameCaret,
@@ -159,6 +178,10 @@ html {
 .secondaryText {
     color: #999;
     color: rgba(255, 255, 255, 0.5);
+}
+
+.listItem .secondary .show-paths-mode-only {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .actionsheetDivider {
