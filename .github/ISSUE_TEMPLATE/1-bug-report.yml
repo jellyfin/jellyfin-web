@@ -94,7 +94,7 @@ body:
       required: true
     attributes:
       label: Jellyfin Version
-      description: Please tell us which version of Jellyfin you are using when this happen
+      description: Please tell us which version of Jellyfin you are using when the issue happens
       multiple: true
       options:
         - 10.9.0
