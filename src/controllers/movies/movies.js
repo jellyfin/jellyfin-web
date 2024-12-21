@@ -34,6 +34,7 @@ export default function (view, params, tabContent, options) {
         isLoading = true;
         loading.show();
         const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: 300 };
+        newQuery.Fields = [...new Set(query.Fields.split(',').concat(['Chapters', 'Trickplay']))].join(',');
         return ApiClient.getItems(ApiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
             playbackManager.play({
                 items: Items,
