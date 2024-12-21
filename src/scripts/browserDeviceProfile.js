@@ -1057,7 +1057,6 @@ export default function (options) {
 
             const opusTranscodingProfile = { ...transcodingProfile };
             opusTranscodingProfile.AudioCodec = 'opus';
-            opusTranscodingProfile.MaxAudioChannels = '2';
             opusTranscodingProfile.ApplyConditions = [
                 ...opusTranscodingProfile.ApplyConditions || [],
                 ...opusConditions
