@@ -51,17 +51,17 @@ interface UseTextLinesProps {
 
 function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
     const {
-        showTitle,
-        showProgramDateTime,
-        showProgramTime,
-        showChannel,
-        showParentTitle,
-        showIndexNumber,
-        parentTitleWithTitle,
-        showArtist,
-        showCurrentProgram,
-        includeParentInfoInTitle,
-        includeIndexNumber
+        showTitle = true,
+        showProgramDateTime = false,
+        showProgramTime = false,
+        showChannel = false,
+        showParentTitle = false,
+        showIndexNumber = false,
+        parentTitleWithTitle = false,
+        showArtist = true,
+        showCurrentProgram = true,
+        includeParentInfoInTitle = true,
+        includeIndexNumber = true
     } = textLineOpts;
 
     const textLines: TextLine[] = [];
@@ -114,13 +114,13 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
     };
 
     const addDisplayName = () => {
-        if (displayName && !parentTitleWithTitle && showTitle !== false) {
+        if (displayName && !parentTitleWithTitle && showTitle) {
             addTextLine({ title: displayName });
         }
     };
 
     const addAlbumArtistOrArtists = () => {
-        if (item.IsFolder && showArtist !== false) {
+        if (item.IsFolder && showArtist) {
             if (item.AlbumArtist && item.Type === ItemKind.MusicAlbum) {
                 addTextLine({ title: item.AlbumArtist });
             }
@@ -134,7 +134,7 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
     };
 
     const addCurrentProgram = () => {
-        if (item.Type === ItemKind.TvChannel && item.CurrentProgram && showCurrentProgram !== false) {
+        if (item.Type === ItemKind.TvChannel && item.CurrentProgram && showCurrentProgram) {
             const currentProgram = itemHelper.getDisplayName(item.CurrentProgram, {
                 includeParentInfo: includeParentInfoInTitle,
                 includeIndexNumber
