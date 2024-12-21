@@ -93,7 +93,8 @@
 .formDialogFooterItem {
     margin: 0.5em !important;
     text-align: center;
-    flex-basis: 12em;
+    flex-basis: fit-content;
+    display: flex;
 }
 
 .formDialogFooterItem-vertical {
