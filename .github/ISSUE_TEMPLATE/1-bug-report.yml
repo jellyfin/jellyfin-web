@@ -1,5 +1,5 @@
 name: Bug Report
-description: 'You have noticed a general issue or regression, and would like to report it'
+description: 'You have noticed a general issue or regression, that you would like to report'
 projects:
   - jellyfin/jellyfin-web
 labels:
