@@ -955,7 +955,7 @@
     "LabelTitle": "Title",
     "LabelTonemappingAlgorithm": "Select the Tone mapping algorithm to use",
     "LabelTonemappingDesat": "Tone mapping desat",
-    "LabelTonemappingDesatHelp": "Apply desaturation for highlights that exceed this level of brightness. The higher the parameter, the more color information will be preserved. This setting helps prevent unnaturally blown-out colors for super-highlights, by (smoothly) turning into white instead. This makes images feel more natural, at the cost of reducing information about out-of-range colors. The recommended value is 0.",
+    "LabelTonemappingDesatHelp": "Apply desaturation for highlights that exceed this level of brightness. The recommended value is 0 (disable).",
     "LabelTonemappingParam": "Tone mapping param",
     "LabelTonemappingParamHelp": "Tune the tone mapping algorithm. The recommended and default values are NaN. Generally leave it blank.",
     "LabelTonemappingPeak": "Tone mapping peak",
