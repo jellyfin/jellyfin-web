@@ -959,7 +959,7 @@
     "LabelTonemappingParam": "Tone mapping param",
     "LabelTonemappingParamHelp": "Tune the tone mapping algorithm. The recommended and default values are NaN. Generally leave it blank.",
     "LabelTonemappingPeak": "Tone mapping peak",
-    "LabelTonemappingPeakHelp": "Override signal/nominal/reference peak with this value. Useful when the embedded peak information in display metadata is not reliable or when tone mapping from a lower range to a higher range. The recommended value is 100.",
+    "LabelTonemappingPeakHelp": "Override the embedded metadata value for the input signal with this peak value instead. The default value is 100 (1000nit).",
     "LabelTonemappingRange": "Tone mapping range",
     "LabelTonemappingThreshold": "Tone mapping threshold",
     "LabelTrackNumber": "Track number",
