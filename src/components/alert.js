@@ -6,7 +6,8 @@ import globalize from '../lib/globalize';
 export default async function (text, title) {
     // Modals seem to be blocked on Web OS and Tizen 2.x
     const canUseNativeAlert = !!(
-        !browser.web0s
+        !(browser.tizenVersion && browser.tizenVersion >= 8)
+        && !browser.web0s
         && !(browser.tizenVersion && browser.tizenVersion < 3)
         && browser.tv
         && window.alert
