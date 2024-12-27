@@ -826,7 +826,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
 
     renderScenes(page, item);
 
-    if (item.SpecialFeatureCount > 0 || item.Type == 'MusicArtist') {
+    if (item.SpecialFeatureCount > 0 || item.Type === 'MusicArtist') {
         page.querySelector('#specialsCollapsible').classList.remove('hide');
         renderSpecials(page, item, user);
     } else {
@@ -1861,7 +1861,7 @@ function renderArtistTrackList(page, item, user) {
 }
 
 function renderSpecials(page, item, user) {
-    if ( item.Type == 'MusicArtist' ) {
+    if ( item.Type === 'MusicArtist' ) {
         renderArtistTrackList(page, item, user);
     } else {
         ServerConnections.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
