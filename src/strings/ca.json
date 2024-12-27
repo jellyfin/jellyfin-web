@@ -1928,5 +1928,6 @@
     "AllowTonemappingSoftwareHelp": "El mapatge de tons pot transformar el rang dinàmic d'un vídeo d'HDR a SDR mentre que manté els detalls i els colors de la imatge, que són informació molt important per representar l'escena original. Actualment, només funciona amb vídeos HDR10, HLG i DoVi de 10 bits.",
     "LabelDuration": "Duració",
     "LabelDropLyricsHere": "Arrossega i deixa anar les lletres aquí, o fes clic aquí per cercar-les.",
-    "AllowFmp4TranscodingContainerHelp": "sintonitzador reproducció"
+    "AllowFmp4TranscodingContainerHelp": "sintonitzador reproducció",
+    "AllowStreamSharingHelp": "Permet que Jellyfin dupliqui el flux mpegts del sintonitzador i comparteixi aquest flux duplicat amb els seus clients. Això és útil quan el sintonitzador té un límit de recompte total de reproduccions, però també pot causar problemes de reproducció."
 }
