@@ -1951,5 +1951,8 @@
     "LabelFallbackMaxStreamingBitrate": "Vara-asetus striimin enimmäisbittinopeudelle (Mbps)",
     "AllowStreamSharingHelp": "Salli Jellyfinin kopioida sama mpegts striimi virittimeltä usealle käyttäjälle. Tämä on hyödyllistä jos virittimeltä saatava striimien määrä ei riitä, mutta voi myös aiheuttaa toisto-ongelmia.",
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "Polta tekstitykset kiinteästi kuvaan aina transkoodatessa. Tämä varmistaa tekstitysten oikean ajoituksen, mutta transkoodausnopeus kärsii.",
-    "AlwaysRemuxFlacAudioFilesHelp": "Jos selaimesi ei toista tiedostoa, tai aikaleimat ovat väärin, tämä asetus voi auttaa."
+    "AlwaysRemuxFlacAudioFilesHelp": "Jos selaimesi ei toista tiedostoa, tai aikaleimat ovat väärin, tämä asetus voi auttaa.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Jos selaimesi laskee aikaleimat väärin, tämän valitseminen voi auttaa.",
+    "Anime": "Anime",
+    "EnableHi10p": "Salli H.264 high 10 profiili"
 }
