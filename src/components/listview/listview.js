@@ -385,7 +385,7 @@ export function getListViewHtml(options) {
                 }).join(', '));
             }
         }
-        if (options.album && item.Type === 'Audio' && item.Album)  {
+        if (options.album && item.Type === 'Audio' && item.Album) {
             textlines.push(item.Album);
         }
 
