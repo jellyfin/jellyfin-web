@@ -826,7 +826,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
 
     renderScenes(page, item);
 
-    if (item.SpecialFeatureCount > 0) {
+    if (item.SpecialFeatureCount > 0 || item.Type == 'MusicArtist') {
         page.querySelector('#specialsCollapsible').classList.remove('hide');
         renderSpecials(page, item, user);
     } else {
@@ -1754,6 +1754,7 @@ function renderCollectionItemType(page, parentItem, type, items) {
 }
 
 function renderMusicVideos(page, item, user) {
+
     const request = {
         SortBy: 'SortName',
         SortOrder: 'Ascending',
@@ -1778,6 +1779,7 @@ function renderMusicVideos(page, item, user) {
             page.querySelector('#musicVideosCollapsible').classList.add('hide');
         }
     });
+
 }
 
 function renderAdditionalParts(page, item, user) {
@@ -1829,12 +1831,48 @@ function getVideosHtml(items) {
     });
 }
 
-function renderSpecials(page, item, user) {
-    ServerConnections.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
-        const specialsContent = page.querySelector('#specialsContent');
-        specialsContent.innerHTML = getVideosHtml(specials);
-        imageLoader.lazyChildren(specialsContent);
+function renderArtistTrackList(page, item, user) {
+    const request = {
+        SortBy: 'Name',
+        SortOrder: 'Ascending',
+        IncludeItemTypes: 'Audio',
+        Recursive: true,
+        ArtistIds: item.Id,
+    };
+
+    ServerConnections.getApiClient(item.ServerId).getItems(user.Id, request).then(function (result) {
+        if (result.Items.length) {
+            page.querySelector('#specialsCollapsible').classList.remove('hide');
+            page.querySelector('#specialsCollapsible').classList.add('verticalSection-extrabottompadding');
+            page.querySelector('#specialsCollapsible>.sectionTitle').innerHTML = 'Songs'
+            const specialsContent = page.querySelector('#specialsContent');
+            specialsContent.classList.remove('itemsContainer');
+            specialsContent.innerHTML = listView.getListViewHtml({
+                items: result.Items,
+                smallIcon: true,
+                showIndexNumberLeft: false,
+                playFromHere: true,
+                action: 'play',
+                album: true,
+            });
+            imageLoader.lazyChildren(specialsContent);
+        } else {
+            page.querySelector('#specialsCollapsible').classList.add('hide');
+        }
     });
+}
+
+
+function renderSpecials(page, item, user) {
+    if ( item.Type == 'MusicArtist' ) {
+      renderArtistTrackList(page, item, user);
+    } else {
+      ServerConnections.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
+          const specialsContent = page.querySelector('#specialsContent');
+          specialsContent.innerHTML = getVideosHtml(specials);
+          imageLoader.lazyChildren(specialsContent);
+      });
+    }
 }
 
 function renderCast(page, item, people) {

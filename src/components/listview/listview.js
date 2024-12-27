@@ -385,6 +385,9 @@ export function getListViewHtml(options) {
                 }).join(', '));
             }
         }
+        if (options.album && item.Type === 'Audio' && item.Album)  {
+            textlines.push(item.Album);
+        }
 
         if (item.Type === 'TvChannel' && item.CurrentProgram) {
             textlines.push(itemHelper.getDisplayName(item.CurrentProgram));
