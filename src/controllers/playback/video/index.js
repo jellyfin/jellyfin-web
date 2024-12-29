@@ -354,7 +354,7 @@ export default function (view) {
             toggleSubtitleSync('hide');
 
             // Firefox does not blur by itself
-            if (document.activeElement) {
+            if (osdBottomElement.contains(document.activeElement)) {
                 document.activeElement.blur();
             }
         }
@@ -1252,7 +1252,7 @@ export default function (view) {
 
         switch (key) {
             case 'Enter':
-                showOsd();
+                showOsd(e.target.classList.contains('skip-button') ? btnPlayPause : undefined);
                 break;
             case 'Escape':
             case 'Back':
