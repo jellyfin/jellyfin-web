@@ -1881,7 +1881,7 @@
     "EnableDtsHelp": "Ota käyttöön ainoastaan, jos laitteesi tukee DTS ääniä, tai on kytkettynä yhteensopivaan vastaanottimeen. Median toisto saattaa muutoin epäonnistua.",
     "EnableTrueHd": "Ota TrueHD käyttöön",
     "HeaderNextItem": "Seuraava {0}",
-    "HeaderNextItemPlayingInValue": "Seuraavaksi {0} joka soi {1}",
+    "HeaderNextItemPlayingInValue": "Seuraavaksi {0} jonka alkuun {1}",
     "LabelTrickplayKeyFrameOnlyExtraction": "Luo kuvia ainoastaan avainkehyksistä",
     "PasswordMissingSaveError": "Uusi salasana ei voi olla tyhjä.",
     "SearchForLyrics": "Etsi sanoituksia",
