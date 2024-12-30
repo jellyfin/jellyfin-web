@@ -338,8 +338,17 @@ export default function (view) {
                 _focus(focusElement);
             }
             toggleSubtitleSync();
-        } else if (currentVisibleMenu === 'osd' && focusElement && !layoutManager.mobile) {
-            _focus(focusElement);
+        } else if (currentVisibleMenu === 'osd' && !layoutManager.mobile) {
+            // If no focus element is provided, try to keep current focus if it's valid,
+            // otherwise default to pause button
+            if (!focusElement) {
+                const currentFocus = document.activeElement;
+                if (!currentFocus || !focusManager.isCurrentlyFocusable(currentFocus)) {
+                    focusElement = osdBottomElement.querySelector('.btnPause');
+                }
+            }
+
+            if (focusElement) _focus(focusElement);
         }
     }
 
@@ -1252,7 +1261,7 @@ export default function (view) {
 
         switch (key) {
             case 'Enter':
-                showOsd(e.target.classList.contains('skip-button') ? btnPlayPause : undefined);
+                showOsd();
                 break;
             case 'Escape':
             case 'Back':
