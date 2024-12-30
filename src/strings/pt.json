@@ -901,7 +901,7 @@
     "ButtonAddScheduledTaskTrigger": "Adicionar tarefa agendada",
     "ButtonAddMediaLibrary": "Adicionar Biblioteca de Multimédia",
     "ButtonAddImage": "Adicionar Imagem",
-    "BurnSubtitlesHelp": "Determina se o servidor deve integrar as legendas durante a conversão de vídeo, dependendo do formato da legenda. Evitar a integração de legendas melhora o desempenho do servidor. Selecione Automático para que legendas baseadas em imagem (VOBSUB, PGS, SUB/IDX) e certos formatos ASS/SSA sejam integrados.",
+    "BurnSubtitlesHelp": "Determina se o servidor deve integrar as legendas. Evitar a integração de legendas melhora o desempenho do servidor. Selecione Automático para que legendas baseadas em imagem (VOBSUB, PGS, SUB/IDX) e certos formatos ASS/SSA sejam integrados.",
     "MessageBrowsePluginCatalog": "Explora as extensões disponíveis no nosso catálogo.",
     "Browse": "Explorar",
     "BoxRear": "Caixa (verso)",
@@ -1693,7 +1693,7 @@
     "MessageSyncPlayErrorMissingSession": "Falha ao ativar o Sincronização! Sessão perdida.",
     "MessageSyncPlayPlaybackPermissionRequired": "É necessária permissão de reprodução.",
     "OriginalAirDate": "Data de transmissão original",
-    "SelectAudioNormalizationHelp": "Ganho de faixa - ajusta o volume de cada faixa para que sejam reproduzidas com o mesmo volume. Ganho do álbum - ajusta o volume de todas as faixas apenas de um álbum, mantendo a faixa dinâmica do álbum.",
+    "SelectAudioNormalizationHelp": "Ganho de faixa - ajusta o volume de cada faixa para que sejam reproduzidas com o mesmo volume. Ganho do álbum - ajusta o volume de todas as faixas apenas de um álbum, mantendo a faixa dinâmica do álbum. Alternar entre \"Desativado\" e outras opções requer o reinício da reprodução atual.",
     "LabelSyncPlaySettingsSyncCorrectionHelp": "Permite que a reprodução seja acelerada ou que o leitor salte para a posição estimada. Desativa caso esteja com paragens de reprodução frequentes.",
     "Larger": "Maior",
     "LogLevel.Error": "Erro",
@@ -1922,5 +1922,13 @@
     "VideoCodecTagNotSupported": "A tag do codec de vídeo não é suportada",
     "AndOtherArtists": "{0} e {1} outros artistas.",
     "MoviesAndShows": "Filmes e séries",
-    "Anime": "Animé"
+    "Anime": "Animé",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Embeber todas as legendas quando a transcodificação for provocada. Isto garante a sincronização das legendas após transcodificar, ao custo da velocidade de transcodificação diminuída.",
+    "AllowTonemappingSoftwareHelp": "Mapear os tons pode transformar a gama dinâmica de um vídeo de HDR a SDR mantendo os detalhes e cores da imagens, que são informação muito importante para representar a cena original. De momento funciona apenas com vídeos HDR10 de 10 bits, HLG e DoVi.",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Embeber sempre legendas durante a transcodificação",
+    "DateModified": "Data de modificação",
+    "AllowFmp4TranscodingContainerHelp": "Permitir o contentor de transcodificação fMP4 para este sintonizador para habilitar conteúdos HEVC e HDR. Nem todos os sintonizadores são compatíveis com este contentor. Desabilite isto se tiver problemas de reprodução.",
+    "AllowStreamSharingHelp": "Permitir que o Jellyfin duplique a transmissão mpegts do sintonizador e partilhe esta transmissão duplicada aos seus clientes. Isto é útil quando o sintonizador tem um limite de contagens de transmissões totais mas pode também causar problemas de reprodução.",
+    "EnableHi10p": "Habilitar o perfil H.264 High 10",
+    "DisableVbrAudioEncodingHelp": "Impedir que o servidor codifique o áudio com VBR para este cliente."
 }
