@@ -1929,5 +1929,19 @@
     "LabelDuration": "Duració",
     "LabelDropLyricsHere": "Arrossega i deixa anar les lletres aquí, o fes clic aquí per cercar-les.",
     "AllowFmp4TranscodingContainerHelp": "sintonitzador reproducció",
-    "AllowStreamSharingHelp": "Permet que Jellyfin dupliqui el flux mpegts del sintonitzador i comparteixi aquest flux duplicat amb els seus clients. Això és útil quan el sintonitzador té un límit de recompte total de reproduccions, però també pot causar problemes de reproducció."
+    "AllowStreamSharingHelp": "Permet que Jellyfin dupliqui el flux mpegts del sintonitzador i comparteixi aquest flux duplicat amb els seus clients. Això és útil quan el sintonitzador té un límit de recompte total de reproduccions, però també pot causar problemes de reproducció.",
+    "LabelCustomTagDelimiters": "Limitador d'etiquetes personalitzat",
+    "Anime": "Anime",
+    "DisableVbrAudioEncodingHelp": "Evita que el servidor codifiqui àudio en VBR per a aquest client.",
+    "EnableHi10p": "Activar perfil H.264 High 10",
+    "HeaderEditPlaylist": "Edita la llista de reproducció",
+    "HeaderNewPlaylist": "Llista de reproducció nova",
+    "AlwaysRemuxFlacAudioFilesHelp": "Si el teu navegador es nega a reproduir certs tipus de fitxers o calcula erròniament les marques de temps, activa-ho per solucionar el problema.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Si el navegador calcula erròniament les marques de temps de certs fitxers, activa això per solucionar-ho.",
+    "EnableHi10pHelp": "Activar per evitar transcodificació de vídeos en H.264 10-bits. Desactivar-ho si la reproducció del vídeo mostra fotogrames buits.",
+    "DateModified": "Data de modificació",
+    "HeaderAudioAdvanced": "Àudio avançat",
+    "LabelAllowFmp4TranscodingContainer": "Permet el contenidor de transcodificació fMP4",
+    "LabelAudioTagSettings": "Configuració de les etiquetes d'àudio",
+    "LabelCustomTagDelimitersHelp": "Caràcters que es consideraran delimitadors per separar etiquetes."
 }
