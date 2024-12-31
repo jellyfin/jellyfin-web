@@ -363,7 +363,7 @@ export default function (view) {
             toggleSubtitleSync('hide');
 
             // Firefox does not blur by itself
-            if (osdBottomElement.contains(document.activeElement)) {
+            if (document.activeElement) {
                 document.activeElement.blur();
             }
         }
