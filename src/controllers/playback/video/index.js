@@ -304,11 +304,13 @@ export default function (view) {
     }
 
     function slideDownToShow(elem) {
+        elem.classList.remove('hide');
         elem.classList.remove('osdHeader-hidden');
     }
 
     function slideUpToHide(elem) {
         elem.classList.add('osdHeader-hidden');
+        elem.addEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
     function clearHideAnimationEventListeners(elem) {
@@ -317,7 +319,7 @@ export default function (view) {
 
     function onHideAnimationComplete(e) {
         const elem = e.target;
-        if (elem != osdBottomElement) return;
+        if (elem !== osdBottomElement && elem !== headerElement) return;
         elem.classList.add('hide');
         elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
     }
@@ -363,7 +365,7 @@ export default function (view) {
             toggleSubtitleSync('hide');
 
             // Firefox does not blur by itself
-            if (document.activeElement) {
+            if (document.activeElement && !focusManager.isCurrentlyFocusable(document.activeElement)) {
                 document.activeElement.blur();
             }
         }
