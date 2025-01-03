@@ -4,9 +4,6 @@ import dialog from '../dialog/dialog';
 import globalize from '../../lib/globalize';
 
 function useNativeConfirm() {
-    if (browser.tizenVersion && browser.tizenVersion >= 8) {
-        return false;
-    }
     // webOS seems to block modals
     // Tizen 2.x seems to block modals
     return !browser.web0s
