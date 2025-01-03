@@ -20,6 +20,15 @@ interface ShowOptions {
 
 function onHideComplete(this: HTMLButtonElement) {
     if (this) {
+        // Handle focus after the hide transition completes
+        if (document.activeElement === this) {
+            this.blur();
+            const pauseButton = document.querySelector('.btnPause');
+            if (pauseButton && focusManager.isCurrentlyFocusable(pauseButton)) {
+                focusManager.focus(pauseButton);
+            }
+        }
+
         this.classList.add('hide');
     }
 }

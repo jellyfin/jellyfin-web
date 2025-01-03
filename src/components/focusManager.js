@@ -103,9 +103,6 @@ function isCurrentlyFocusable(elem) {
 
     if (elem.tagName === 'INPUT') {
         const type = elem.type;
-        if (type === 'range') {
-            return false;
-        }
         if (type === 'file') {
             return false;
         }
