@@ -70,6 +70,7 @@ export interface CardOptions {
     showSeriesTimerChannel?: boolean;
     showSongCount?: boolean;
     width?: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     widths?: any;
     showChannelLogo?: boolean;
     showLogo?: boolean;

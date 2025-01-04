@@ -7,7 +7,7 @@ type AlphaPickerProps = {
 };
 
 // React compatibility wrapper component for alphaPicker.js
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+// eslint-disable-next-line no-empty-function
 const AlphaPickerComponent: FunctionComponent<AlphaPickerProps> = ({ onAlphaPicked = () => {} }: AlphaPickerProps) => {
     const [ alphaPicker, setAlphaPicker ] = useState<AlphaPicker>();
     const element = useRef<HTMLDivElement>(null);

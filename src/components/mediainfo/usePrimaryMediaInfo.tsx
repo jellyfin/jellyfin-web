@@ -80,7 +80,7 @@ function addOriginalAirDateInfo(
                 itemType !== ItemKind.Episode
             );
             addMiscInfo({ text: datetime.toLocaleDateString(date) });
-        } catch (e) {
+        } catch {
             console.error('error parsing date:', itemPremiereDate);
         }
     }
@@ -212,7 +212,7 @@ function addProgramTextInfo(
                 datetime.toLocaleDateString(date)
             );
             addMiscInfo({ text: text });
-        } catch (e) {
+        } catch {
             console.error('error parsing date:', program.PremiereDate);
         }
     }
@@ -238,7 +238,7 @@ function addStartDateInfo(
             if (itemType !== ItemKind.Recording) {
                 addMiscInfo({ text: datetime.getDisplayTime(date) });
             }
-        } catch (e) {
+        } catch {
             console.error('error parsing date:', itemStartDate);
         }
     }
@@ -291,7 +291,7 @@ function addproductionYearWithEndDate(
             if (endYear !== itemProductionYear) {
                 productionYear += `-${endYear}`;
             }
-        } catch (e) {
+        } catch {
             console.error('error parsing date:', itemEndDate);
         }
     }
@@ -324,7 +324,7 @@ function addYearInfo(
                     { useGrouping: false }
                 );
                 addMiscInfo({ text: text });
-            } catch (e) {
+            } catch {
                 console.error('error parsing date:', itemPremiereDate);
             }
         }

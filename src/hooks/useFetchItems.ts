@@ -440,7 +440,7 @@ function groupsUpcomingEpisodes(items: ItemDto[]) {
                         month: 'short',
                         day: 'numeric'
                     });
-            } catch (err) {
+            } catch {
                 console.error('error parsing timestamp for upcoming tv shows');
             }
         }
