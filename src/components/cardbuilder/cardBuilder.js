@@ -942,8 +942,19 @@ function buildCard(index, item, apiClient, options) {
     }
 
     const mediaSourceCount = item.MediaSourceCount || 1;
-    if (mediaSourceCount > 1 && options.disableIndicators !== true) {
-        innerCardFooter += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
+    const specialFeatureCount = item.SpecialFeatureCount || 0;
+
+    if ((mediaSourceCount > 1 || specialFeatureCount > 0) && options.disableIndicators !== true) {
+        innerCardFooter += '<div class="cardMediaIndicators">';
+        if (mediaSourceCount > 1) {
+            innerCardFooter += '<div class="indicator countIndicator mediaSourceIndicator">' + mediaSourceCount + '</div>';
+        }
+
+        if (specialFeatureCount > 0) {
+            // countIndicator specialFeatureIndicator
+            innerCardFooter += '<div class="indicator specialFeatureIndicator"><span class="material-icons indicatorIcon movie" aria-hidden="true"></span></div>';
+        }
+        innerCardFooter += '</div>';
     }
 
     let outerCardFooter = '';
