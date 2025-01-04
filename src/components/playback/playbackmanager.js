@@ -29,6 +29,8 @@ import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind.js';
 import browser from 'scripts/browser.js';
 import { bindSkipSegment } from './skipsegment.ts';
+import OpenSubtitlesManager from '../../scripts/opensubtitles/opensubtitles';
+
 
 const UNLIMITED_ITEMS = -1;
 
@@ -1252,6 +1254,7 @@ export class PlaybackManager {
                     mediaStreams.push(currentMediaSource.MediaStreams[i]);
                 }
             }
+            OpenSubtitlesManager.appendSubtitleTracks( mediaStreams, currentMediaSource );
 
             // No known streams, nothing to change
             if (!mediaStreams.length) {
@@ -2591,7 +2594,7 @@ export class PlaybackManager {
 
             const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId)
                 .then(fullItem => {
-                    return fullItem.MediaStreams;
+                    return OpenSubtitlesManager.appendSubtitleTracks( fullItem.MediaStreams, fullItem );
                 });
 
             return Promise.all([promise, player.getDeviceProfile(item), apiClient.getCurrentUser(), getMediaStreams]).then(function (responses) {
@@ -2643,8 +2646,16 @@ export class PlaybackManager {
                         mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
                     }
 
-                    const subtitleTrack1 = mediaSource.MediaStreams[mediaSource.DefaultSubtitleStreamIndex];
-                    const subtitleTrack2 = mediaSource.MediaStreams[mediaSource.DefaultSecondarySubtitleStreamIndex];
+                    // Append web subtitles
+                    if ( mediaSource.DefaultSubtitleStreamIndex >= mediaSource.MediaStreams.length ) {
+                        OpenSubtitlesManager.appendSubtitleTracks( mediaSource.MediaStreams, mediaSource );
+                    }
+                    const subtitleTrack1 = mediaSource.MediaStreams.filter(function (t) {
+                        return t.Index === mediaSource.DefaultSubtitleStreamIndex;
+                    })[0];
+                    const subtitleTrack2 = mediaSource.MediaStreams.filter(function (t) {
+                        return t.Index === mediaSource.DefaultSecondarySubtitleStreamIndex;
+                    })[0];
 
                     if (!self.trackHasSecondarySubtitleSupport(subtitleTrack1, player)
                         || !self.trackHasSecondarySubtitleSupport(subtitleTrack2, player)) {
@@ -2874,6 +2885,7 @@ export class PlaybackManager {
                     format: textStream.Codec
                 });
             }
+            OpenSubtitlesManager.appendSubtitleTracks( tracks, mediaSource );
 
             return tracks;
         }
@@ -3866,9 +3878,13 @@ export class PlaybackManager {
         return Promise.reject();
     }
 
-    getSubtitleUrl(textStream, serverId) {
+    async getSubtitleUrl(textStream, serverId) {
         const apiClient = ServerConnections.getApiClient(serverId);
-
+        if ( textStream?.OpenSubstitlesFileId ) {
+            // This is an opensubtitles item
+            await OpenSubtitlesManager.getDownloadLink( textStream.OpenSubstitlesFileId );
+            return OpenSubtitlesManager.downloadData.link;
+        }
         return !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
     }
 
@@ -3997,8 +4013,8 @@ export class PlaybackManager {
         }
 
         const mediaSource = this.currentMediaSource(player);
-
         const mediaStreams = mediaSource?.MediaStreams || [];
+        OpenSubtitlesManager.appendSubtitleTracks( mediaStreams, mediaSource );
         return mediaStreams.filter(function (s) {
             return s.Type === 'Subtitle';
         }).sort(itemHelper.sortTracks);

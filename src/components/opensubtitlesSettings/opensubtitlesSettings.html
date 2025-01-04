@@ -1,0 +1,37 @@
+<form style="margin:0 auto;">
+    <div class="verticalSection">
+        <h2 class="sectionTitle">
+            ${Settings}
+        </h2>
+        <div class="checkboxContainer checkboxContainer-withDescription fldEnableOpenSubtitles">
+            <label>
+                <input is="emby-checkbox" type="checkbox" id="chkEnableOpenSubtitles"/>
+                <span>${EnablePlugin}</span>
+            </label>
+        </div>
+        <div id="OpenSubtitlesContainerOnlyIfAvailable" class="hide">
+            <div class="inputContainer">
+                <input is="emby-input" type="text" id="txtOpenSubtitlesUser" required="required" label="${LabelUser}" autocomplete="username" autocapitalize="off" />
+            </div>
+            <div class="inputContainer">
+                <input is="emby-input" id="txtOpenSubtitlesPassword" type="password" label="${LabelPassword}" autocomplete="current-password" />
+            </div>
+            <div class="selectContainer">
+                <select is="emby-select" id="selectPrimarySubtitleLanguage" label="${LabelPreferredSubtitleLanguage}" class="selectPreferredSubtitleLanguage"></select>
+            </div>
+            <div class="selectContainer">
+                <select is="emby-select" id="selectSecondarySubtitleLanguage" label="${LabelSecondarySubtitleLanguage}" class="selectPreferredSubtitleLanguage"></select>
+            </div>
+            <div class="selectContainer">
+                <select is="emby-select" id="selectTertiarySubtitleLanguage" label="${LabelTertiarySubtitleLanguage}" class="selectPreferredSubtitleLanguage"></select>
+            </div>
+            <div class="inputContainer hide">
+                <input is="emby-input" type="text" id="txtOpenSubtitlesApiToken" label="API Token" placeholder="Check opensubtitles.com/users/profile"/>
+            </div>
+        </div>
+        <div class="loginStatus hide"></div>
+    </div>
+    <button is="emby-button" type="submit" class="raised button-submit block btnSave">
+        <span>${Save}</span>
+    </button>
+</form>

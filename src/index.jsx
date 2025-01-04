@@ -39,6 +39,7 @@ import './scripts/autoThemes';
 import './scripts/mouseManager';
 import './scripts/screensavermanager';
 import './scripts/serverNotifications';
+import OpenSubtitlesManager from './scripts/opensubtitles/opensubtitles';
 
 // Import site styles
 import './styles/site.scss';
@@ -112,6 +113,9 @@ build: ${__JF_BUILD_VERSION__}`);
 
     // Connect to server
     ServerConnections.firstConnection = await ServerConnections.connect();
+	
+    // Start OpenSubtitlesManager
+    OpenSubtitlesManager.start();
 
     // Render the app
     await renderApp();

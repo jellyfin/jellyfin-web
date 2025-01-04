@@ -1093,6 +1093,8 @@ export default function (view) {
         const streams = playbackManager.subtitleTracks(player);
         const secondaryStreams = playbackManager.secondarySubtitleTracks(player);
         let currentIndex = playbackManager.getSubtitleStreamIndex(player);
+		
+        playbackManager.pause(player);
 
         if (currentIndex == null) {
             currentIndex = -1;

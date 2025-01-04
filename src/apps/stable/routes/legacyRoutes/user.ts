@@ -68,6 +68,12 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'user/subtitles/index.html'
         }
     }, {
+        path: 'mypreferencesopensubtitles.html',
+        pageProps: {
+            controller: 'user/opensubtitles/index',
+            view: 'user/opensubtitles/index.html'
+        }
+    }, {
         path: 'tv.html',
         pageProps: {
             controller: 'shows/tvrecommended',

@@ -39,6 +39,7 @@ import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
 import debounce from 'lodash-es/debounce';
 import { MediaError } from 'types/mediaError';
+import OpenSubtitlesManager from 'scripts/opensubtitles/opensubtitles';
 
 /**
  * Returns resolved URL.
@@ -151,12 +152,12 @@ function normalizeTrackEventText(text, useHtml) {
     return useHtml ? result.replace(/\n/gi, '<br>') : result;
 }
 
-function getTextTrackUrl(track, item, format) {
+async function getTextTrackUrl(track, item, format) {
     if (itemHelper.isLocalItem(item) && track.Path) {
         return track.Path;
     }
 
-    let url = playbackManager.getSubtitleUrl(track, item.ServerId);
+    let url = await playbackManager.getSubtitleUrl(track, item.ServerId);
     if (format) {
         url = url.replace('.vtt', format);
     }
@@ -483,10 +484,14 @@ export class HtmlVideoPlayer {
         destroyCastPlayer(this);
 
         let secondaryTrackValid = true;
-
-        this.#subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSubtitleStreamIndex;
+		
+        const subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSubtitleStreamIndex;
+        this.#subtitleTrackIndexToSetOnPlaying = subtitleTrackIndexToSetOnPlaying;
         if (this.#subtitleTrackIndexToSetOnPlaying != null && this.#subtitleTrackIndexToSetOnPlaying >= 0) {
-            const initialSubtitleStream = options.mediaSource.MediaStreams[this.#subtitleTrackIndexToSetOnPlaying];
+            // web subtitles uses out of range indexes, so we need to filter by property `Index`
+            const initialSubtitleStream = options.mediaSource.MediaStreams.filter(function (t) {
+                return t.Index === subtitleTrackIndexToSetOnPlaying;
+            })[0];
             if (!initialSubtitleStream || initialSubtitleStream.DeliveryMethod === 'Encode') {
                 this.#subtitleTrackIndexToSetOnPlaying = -1;
                 secondaryTrackValid = false;
@@ -1209,7 +1214,25 @@ export class HtmlVideoPlayer {
 
         this.incrementFetchQueue();
         try {
-            const response = await fetch(getTextTrackUrl(track, item, '.js'));
+            const textTrackUrl = await getTextTrackUrl(track, item, '.js');
+            console.debug('[fetchSubtitles] textTrackUrl', textTrackUrl);
+			
+            if ( textTrackUrl.includes('opensubtitles.com') ) {
+                const response = await fetch(textTrackUrl);
+                if (!response.ok) {
+                    throw new Error(response);
+                }
+                console.debug('[opensubtitles] fetch(textTrackUrl)', response );
+                const srtText = await response.text();
+				// Special handling of the SRT file from opensubtitles
+                return OpenSubtitlesManager.utils.srtToJson( srtText );
+            } else {
+                const response = await fetch(textTrackUrl);
+                if (!response.ok) {
+                    throw new Error(response);
+                }
+                return response.json();
+            }
 
             if (!response.ok) {
                 throw new Error(response);
