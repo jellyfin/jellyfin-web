@@ -26,6 +26,12 @@ function authenticateUserByName(page, apiClient, url, username, password) {
         const user = result.User;
         loading.hide();
 
+        // store this user/access token in local storage
+        // TODO: make this not suck so much
+        let users =  JSON.parse(localStorage.getItem('users')) || [];
+        users = users.concat({PrimaryImageTag: user.PrimaryImageTag, HasPassword: user.HasPassword, Name: user.Name, Id: user.Id, AccessToken: result.AccessToken});
+        localStorage.setItem('users', JSON.stringify(users))
+
         onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
     }, function (response) {
         page.querySelector('#txtManualPassword').value = '';
@@ -132,7 +138,7 @@ function showManualForm(context, showCancel, focusPassword) {
     }
 }
 
-function loadUserList(context, apiClient, users) {
+function loadUserList(context, apiClient, users, target) {
     let html = '';
 
     for (const user of users) {
@@ -152,7 +158,7 @@ function loadUserList(context, apiClient, users) {
         html += '<div class="' + cardBoxCssClass + '">';
         html += '<div class="cardScalable">';
         html += '<div class="cardPadder cardPadder-square"></div>';
-        html += `<div class="cardContent" data-haspw="${user.HasPassword}" data-username="${user.Name}" data-userid="${user.Id}">`;
+        html += `<div class="cardContent" data-accesstoken="${user.AccessToken}" data-haspw="${user.HasPassword}" data-username="${user.Name}" data-userid="${user.Id}">`;
         let imgUrl;
 
         if (user.PrimaryImageTag) {
@@ -178,7 +184,7 @@ function loadUserList(context, apiClient, users) {
         html += '</button>';
     }
 
-    context.querySelector('#divUsers').innerHTML = html;
+    target.innerHTML = html;
 }
 
 export default function (view, params) {
@@ -214,7 +220,7 @@ export default function (view, params) {
         });
     }
 
-    view.querySelector('#divUsers').addEventListener('click', function (e) {
+    view.querySelectorAll('#divUsers,#divSignedInUsers').forEach(el => el.addEventListener('click', function (e) {
         const card = dom.parentWithClass(e.target, 'card');
         const cardContent = card ? card.querySelector('.cardContent') : null;
 
@@ -223,8 +229,12 @@ export default function (view, params) {
             const id = cardContent.getAttribute('data-userid');
             const name = cardContent.getAttribute('data-username');
             const haspw = cardContent.getAttribute('data-haspw');
-
-            if (id === 'manual') {
+            const accessToken = cardContent.getAttribute('data-accesstoken');
+            // if the clicked card has an accessToken attached we can just log
+            // in right away...
+            if (accessToken) {
+                onLoginSuccessful(id, accessToken, getApiClient(), getTargetUrl());
+            } else if (id === 'manual') {
                 context.querySelector('#txtManualName').value = '';
                 showManualForm(context, true);
             } else if (haspw == 'false') {
@@ -235,7 +245,7 @@ export default function (view, params) {
                 showManualForm(context, true, true);
             }
         }
-    });
+    }));
     view.querySelector('.manualLoginForm').addEventListener('submit', function (e) {
         appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
         authenticateUserByName(view, getApiClient(), getTargetUrl(), view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
@@ -278,10 +288,16 @@ export default function (view, params) {
                 console.debug('Failed to get QuickConnect status');
             });
 
+        // TODO: this shouldn't suck
+        const loggedInUsers = JSON.parse(window.localStorage.getItem('users') || "[]");
+        if (loggedInUsers && loggedInUsers.length) {
+            loadUserList(view, apiClient, loggedInUsers, view.querySelector('#divSignedInUsers'));
+        }
+
         apiClient.getPublicUsers().then(function (users) {
             if (users.length) {
                 showVisualForm();
-                loadUserList(view, apiClient, users);
+                loadUserList(view, apiClient, users, context.querySelector('#divUsers'));
             } else {
                 view.querySelector('#txtManualName').value = '';
                 showManualForm(view, false, false);

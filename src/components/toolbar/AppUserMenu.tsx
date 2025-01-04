@@ -45,6 +45,11 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
         onMenuClose();
     }, [ onMenuClose ]);
 
+    const onSwitchUserClick = useCallback(() => {
+        Dashboard.navigate('login.html')
+        onMenuClose();
+    }, [ onMenuClose ]);
+
     const onLogoutClick = useCallback(() => {
         Dashboard.logout();
         onMenuClose();
@@ -167,6 +172,17 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     </ListItemText>
                 </MenuItem>
             )}
+
+            <MenuItem
+                onClick={onSwitchUserClick}
+            >
+                <ListItemIcon>
+                    <Logout />
+                </ListItemIcon>
+                <ListItemText>
+                    {globalize.translate('SwitchUser')}
+                </ListItemText>
+            </MenuItem>
 
             <MenuItem
                 onClick={onLogoutClick}
