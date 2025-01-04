@@ -18,12 +18,12 @@
 .itemsContainer > .card > .cardBox {
     [dir="ltr"] & {
         margin-left: 0;
-        margin-right: 1.2em;
+        margin-right: 0;
     }
 
     [dir="rtl"] & {
         margin-right: 0;
-        margin-left: 1.2em;
+        margin-left: 0;
     }
 }
 
