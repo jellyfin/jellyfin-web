@@ -953,7 +953,7 @@
     "LabelVersionInstalled": "{0} instalado",
     "LabelVersion": "Versión",
     "LabelValue": "Valor",
-    "LabelVaapiDeviceHelp": "Este es el nodo de representación que se utiliza para la aceleración por hardware.",
+    "LabelVaapiDeviceHelp": "Este es el nodo de renderizado que se utiliza para la aceleración por hardware.",
     "LabelUsername": "Nombre de usuario",
     "LabelUserRemoteClientBitrateLimitHelp": "Anular el valor global predeterminado establecido en la configuración del servidor. Consultá en Tablero > Reproducción > Transmisión.",
     "LabelUserLoginAttemptsBeforeLockout": "Intentos de inicio de sesión fallidos antes de que el usuario quede bloqueado",
