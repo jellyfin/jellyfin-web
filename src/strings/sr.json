@@ -563,7 +563,7 @@
     "LabelAudioBitDepth": "Дубина аудио бита",
     "LabelArtistsHelp": "Одвојите више уметника тачком и зарезом.",
     "LabelArtists": "Извођачи",
-    "LabelAppNameExample": "Пример: Sickbeard, Sonarr",
+    "LabelAppNameExample": "Лако читљиво име за идентификовање API кључева. Ово подешавање неће утицати на функционалност.",
     "LabelAppName": "Назив аликације",
     "LabelAllowHWTranscoding": "Дозволи хардверско прекодирање",
     "LabelAllowedRemoteAddressesMode": "Даљински режим филтрирања ИП адреса",
@@ -1738,5 +1738,7 @@
     "LabelDeveloper": "Програмер",
     "LabelStereoDownmixAlgorithm": "Алгоритам конверзије аудио сигнала у стерео",
     "LabelDropLyricsHere": "Превуците текст песме овде или кликните да изаберете датотеке.",
-    "LabelDuration": "Трајање"
+    "LabelDuration": "Трајање",
+    "LabelDummyChapterDuration": "Интервал",
+    "LabelDummyChapterDurationHelp": "Интервал између фиктивних поглавља. Поставите на 0 да онемогућите генерисање фиктивних поглавља. Промена овог подешавања неће имати утицаја на постојећа фиктивна поглавља."
 }
