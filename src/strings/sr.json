@@ -1729,5 +1729,9 @@
     "LabelCustomTagDelimiters": "Делимитар прилагођених ознака",
     "LabelBuildVersion": "Верзија израде",
     "LabelBackdropScreensaverInterval": "Интервал чувара екрана са позадинама",
-    "LabelBackdropScreensaverIntervalHelp": "Време у секундама између различитих позадина при коришћењу чувара екрана са позадинама."
+    "LabelBackdropScreensaverIntervalHelp": "Време у секундама између различитих позадина при коришћењу чувара екрана са позадинама.",
+    "LabelDelimiterWhitelist": "Дозвољени делимитери",
+    "LabelDelimiterWhitelistHelp": "Ставке које треба искључити из раздвајања ознака. Једна ставка по реду.",
+    "LabelCustomTagDelimitersHelp": "Знакови који ће се третирати као делимитери за одвајање ознака.",
+    "LabelDate": "Датум"
 }
