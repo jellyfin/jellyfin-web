@@ -1958,7 +1958,7 @@
     "LabelSelectPreferredTranscodeVideoCodec": "Códec de transcodificación de vídeo preferido",
     "LabelWebVersion": "Versión web",
     "LibraryInvalidItemIdError": "La biblioteca está en un estado no válido y no se puede ser modificada. Es posible que hayas encontrado un error: la ruta en la base de datos no es la ruta correcta en el sistema de archivos.",
-    "ListView": "Vista en Lista",
+    "ListView": "Vista en lista",
     "LimitSupportedVideoResolution": "Limitar la resolución máxima de video soportada",
     "LimitSupportedVideoResolutionHelp": "Utilizar \"Máxima resolución de transcodificación de vídeo permitida\" como resolución máxima de vídeo soportada.",
     "LogLevel.Debug": "Depurar",
