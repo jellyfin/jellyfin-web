@@ -1742,5 +1742,6 @@
     "LabelDummyChapterDuration": "Интервал",
     "LabelDummyChapterDurationHelp": "Интервал између фиктивних поглавља. Поставите на 0 да онемогућите генерисање фиктивних поглавља. Промена овог подешавања неће имати утицаја на постојећа фиктивна поглавља.",
     "PreferSystemNativeHwDecoder": "Преферирајте нативне DXVA или VA-API хардверске декодере операционог система",
-    "LabelTrickplayAccelEncodingHelp": "Тренутно је доступно само за QSV, VA-API, VideoToolbox и RKMPP, ова опција нема ефекта на друге методе хардверске акцелерације."
+    "LabelTrickplayAccelEncodingHelp": "Тренутно је доступно само за QSV, VA-API, VideoToolbox и RKMPP, ова опција нема ефекта на друге методе хардверске акцелерације.",
+    "Alternate": "Алтернативно"
 }
