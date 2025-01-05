@@ -1733,5 +1733,7 @@
     "LabelDelimiterWhitelist": "Дозвољени делимитери",
     "LabelDelimiterWhitelistHelp": "Ставке које треба искључити из раздвајања ознака. Једна ставка по реду.",
     "LabelCustomTagDelimitersHelp": "Знакови који ће се третирати као делимитери за одвајање ознака.",
-    "LabelDate": "Датум"
+    "LabelDate": "Датум",
+    "LabelDisableVbrAudioEncoding": "Онемогући VBR аудио кодирање",
+    "LabelDeveloper": "Програмер"
 }
