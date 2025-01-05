@@ -1915,7 +1915,7 @@
     "LabelImageInterval": "Intervalo de imágenes",
     "LabelImageIntervalHelp": "Intervalo de tiempo (ms) entre cada nueva imagen de trickplay.",
     "LabelTileWidthHelp": "Máximo número de imágenes por pieza en la dirección X.",
-    "LibraryScanFanoutConcurrency": "Limite de tareas de escaneo de biblioteca paralelas",
+    "LibraryScanFanoutConcurrency": "Límite de tareas de escaneo de bibliotecas paralelas",
     "MediaInfoRotation": "Rotación",
     "MediaSegmentAction.None": "Ningun",
     "MediaSegmentType.Outro": "Cierre",
