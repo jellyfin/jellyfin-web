@@ -1721,5 +1721,13 @@
     "LabelAlbumGain": "Појачање албума",
     "LabelAllowContentWithTags": "Омогући ставке са ознакама",
     "HeaderNoLyrics": "Текст песме није пронађен",
-    "HeaderAddLyrics": "Додај текст песме"
+    "HeaderAddLyrics": "Додај текст песме",
+    "LabelAudioTagSettings": "Подешавања аудио ознака",
+    "LabelSelectAudioNormalization": "Нормализација звука",
+    "LabelSelectPreferredTranscodeVideoAudioCodec": "Препоручени аудио кодек за транскодирање при репродукцији видеа",
+    "LabelAllowStreamSharing": "Омогући дељење стрима",
+    "LabelCustomTagDelimiters": "Делимитар прилагођених ознака",
+    "LabelBuildVersion": "Верзија израде",
+    "LabelBackdropScreensaverInterval": "Интервал чувара екрана са позадинама",
+    "LabelBackdropScreensaverIntervalHelp": "Време у секундама између различитих позадина при коришћењу чувара екрана са позадинама."
 }
