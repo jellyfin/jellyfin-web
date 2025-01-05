@@ -1735,5 +1735,8 @@
     "LabelCustomTagDelimitersHelp": "Знакови који ће се третирати као делимитери за одвајање ознака.",
     "LabelDate": "Датум",
     "LabelDisableVbrAudioEncoding": "Онемогући VBR аудио кодирање",
-    "LabelDeveloper": "Програмер"
+    "LabelDeveloper": "Програмер",
+    "LabelStereoDownmixAlgorithm": "Алгоритам конверзије аудио сигнала у стерео",
+    "LabelDropLyricsHere": "Превуците текст песме овде или кликните да изаберете датотеке.",
+    "LabelDuration": "Трајање"
 }
