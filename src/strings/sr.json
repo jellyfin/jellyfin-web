@@ -563,7 +563,7 @@
     "LabelAudioBitDepth": "Дубина аудио бита",
     "LabelArtistsHelp": "Одвојите више уметника тачком и зарезом.",
     "LabelArtists": "Извођачи",
-    "LabelAppNameExample": "Лако читљиво име за идентификовање API кључева. Ово подешавање неће утицати на функционалност.",
+    "LabelAppNameExample": "Лако читљиво име за идентификовање АПИ кључева. Ово подешавање неће утицати на функционалност.",
     "LabelAppName": "Назив аликације",
     "LabelAllowHWTranscoding": "Дозволи хардверско прекодирање",
     "LabelAllowedRemoteAddressesMode": "Даљински режим филтрирања ИП адреса",
@@ -904,7 +904,7 @@
     "LabelScheduledTaskLastRan": "Последњи пута покренуто {0}, узимајући {1}.",
     "LabelReasonForTranscoding": "Разлог за прекодирање",
     "LabelQuickConnectCode": "Код за брзо повезивање",
-    "LabelPublishedServerUriHelp": "Замените URI који користи Jellyfin, на основу интерфејса или ИП адресе клијента.",
+    "LabelPublishedServerUriHelp": "Замените URI који користи Jellyfin, на основу интерфејса или ИП адресе клијента. На пример: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, или all=https://jellyfin.example.com",
     "LabelPublishedServerUri": "Објављени URI сервера",
     "LabelPostProcessorArgumentsHelp": "Користите {path} као путању до датотеке снимка.",
     "LabelPostProcessorArguments": "Аргументи командне линије за накнадно процесирање",
@@ -1209,7 +1209,7 @@
     "QuickConnectInvalidCode": "Неважећи код за брзо повезивање",
     "QuickConnectDescription": "Да бисте се пријавили брзом везом, изаберите дугме брзо повезивање на уређају са којег се пријављујете и унесите приказани код испод.",
     "QuickConnectDeactivated": "Брзо повезивање је било деактивирано пре него што је захтев за пријаву могао да буде одобрен",
-    "QuickConnectAuthorizeSuccess": "Захтев одобрен",
+    "QuickConnectAuthorizeSuccess": "Успешно сте аутентификовали свој уређај!",
     "QuickConnectAuthorizeFail": "Непознати код за брзо повезивање",
     "QuickConnectAuthorizeCode": "Унесите код {0} да бисте се пријавили",
     "PluginFromRepo": "{0} из спремишта {1}",
@@ -1740,5 +1740,7 @@
     "LabelDropLyricsHere": "Превуците текст песме овде или кликните да изаберете датотеке.",
     "LabelDuration": "Трајање",
     "LabelDummyChapterDuration": "Интервал",
-    "LabelDummyChapterDurationHelp": "Интервал између фиктивних поглавља. Поставите на 0 да онемогућите генерисање фиктивних поглавља. Промена овог подешавања неће имати утицаја на постојећа фиктивна поглавља."
+    "LabelDummyChapterDurationHelp": "Интервал између фиктивних поглавља. Поставите на 0 да онемогућите генерисање фиктивних поглавља. Промена овог подешавања неће имати утицаја на постојећа фиктивна поглавља.",
+    "PreferSystemNativeHwDecoder": "Преферирајте нативне DXVA или VA-API хардверске декодере операционог система",
+    "LabelTrickplayAccelEncodingHelp": "Тренутно је доступно само за QSV, VA-API, VideoToolbox и RKMPP, ова опција нема ефекта на друге методе хардверске акцелерације."
 }
