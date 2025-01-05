@@ -1677,5 +1677,6 @@
     "Creator": "Креатор",
     "DeleteSeries": "Избриши серију",
     "DeleteEpisode": "Избриши епизоду",
-    "DlnaMovedMessage": "DLNA функционалност је премештена у додатак."
+    "DlnaMovedMessage": "DLNA функционалност је премештена у додатак.",
+    "EditLyrics": "Уреди текст песме"
 }
