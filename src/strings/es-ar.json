@@ -934,7 +934,7 @@
     "LiveBroadcasts": "Transmisiones en vivo",
     "Live": "En vivo",
     "List": "Lista",
-    "LeaveBlankToNotSetAPassword": "Puede dejar este campo en blanco para no establecer una contraseña.",
+    "LeaveBlankToNotSetAPassword": "Podés dejar este campo en blanco para no establecer una contraseña.",
     "LearnHowYouCanContribute": "Aprendé cómo podés contribuir.",
     "LatestFromLibrary": "Agregado recientemente en {0}",
     "Large": "Grande",
@@ -1019,7 +1019,7 @@
     "OptionBluray": "Blu-ray",
     "MusicLibraryHelp": "Revise la {0}guía de nomenclatura musical{1}.",
     "MovieLibraryHelp": "Revise la {0}guía de nombres de películas{1}.",
-    "LibraryAccessHelp": "Seleccione las bibliotecas para compartir con este usuario. Los administradores podrán editar todas las carpetas con el administrador de metadatos.",
+    "LibraryAccessHelp": "Seleccioná las bibliotecas para compartir con este usuario. Los administradores van a poder editar todas las carpetas con el administrador de metadatos.",
     "LanNetworksHelp": "Lista separada por comas de las direcciones IP o entradas de IP/máscara de red para redes que se van a considerar en la red local cuando se impongan restricciones de ancho de banda. Si se establece, todas las demás direcciones IP se van a considerar en la red externa y van a estar sujetas a las restricciones de ancho de banda externo. Si se deja en blanco, solo se considera que la subred del servidor está en la red local.",
     "LabelXDlnaDocHelp": "Determina el contenido del elemento X_DLNADOC en el espacio de nombres urn:schemas-dlna-org:device-1-0.",
     "LabelXDlnaDoc": "Doc. X-DLNA",
@@ -1978,5 +1978,6 @@
     "PlaybackError.MEDIA_DECODE_ERROR": "Reproducción fallida debido a un error en la decodificación del contenido.",
     "LabelWidthResolutions": "Resoluciones de ancho",
     "HeaderMediaSegmentActions": "Acciones del segmento de medios",
-    "LabelQsvDeviceHelp": "Especificá el dispositivo para Intel QSV en un sistema con varias GPU. En Linux, este es el nodo de renderización, p. ej., /dev/dri/renderD128. En Windows, este es el índice del dispositivo que comienza desde 0. Dejá en blanco a menos que sepas lo que estás haciendo."
+    "LabelQsvDeviceHelp": "Especificá el dispositivo para Intel QSV en un sistema con varias GPU. En Linux, este es el nodo de renderización, p. ej., /dev/dri/renderD128. En Windows, este es el índice del dispositivo que comienza desde 0. Dejá en blanco a menos que sepas lo que estás haciendo.",
+    "Letterer": "Letrista"
 }
