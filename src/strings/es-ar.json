@@ -1935,7 +1935,7 @@
     "LabelJpegQuality": "Calidad JPEG",
     "LabelJpegQualityHelp": "Calidad de compresión de JPEG para las imágenes de trickplay.",
     "LabelTrickplayThreads": "Hilos FFmpeg",
-    "LogLevel.Trace": "Traza",
+    "LogLevel.Trace": "Rastro",
     "LabelSyncPlayNoGroups": "No hay grupos disponibles",
     "LibraryScanFanoutConcurrencyHelp": "Número máximo de tareas de escaneos en biblioteca paralelas. Definir esta opción en 0 va a escoger un límite basado en la cantidad de núcleos (CPU) en tus sistema. ADVERTENCIA: Ajustar este número demasiado alto puede causar problemas con sistemas de archivos en red; si encontrás problemas reducí este número.",
     "MessageCancelSeriesTimerError": "Ocurrió un error al cancelar el temporizador de la serie",
