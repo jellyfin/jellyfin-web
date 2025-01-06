@@ -1714,7 +1714,7 @@
     "LabelAlwaysRemuxMp3AudioFiles": "Увек ремуксуј MP3 аудио фајлове",
     "HeaderVideoAdvanced": "Напредна подешавања видеа",
     "Illustrator": "Илустратор",
-    "Inker": "Инкер",
+    "Inker": "Тушер",
     "HeaderEditPlaylist": "Уреди плејлисту",
     "HeaderGuestCast": "Гостујуће звезде",
     "HeaderLyricDownloads": "Преузимање текстова песама",
@@ -1743,5 +1743,8 @@
     "LabelDummyChapterDurationHelp": "Интервал између фиктивних поглавља. Поставите на 0 да онемогућите генерисање фиктивних поглавља. Промена овог подешавања неће имати утицаја на постојећа фиктивна поглавља.",
     "PreferSystemNativeHwDecoder": "Преферирајте нативне DXVA или VA-API хардверске декодере операционог система",
     "LabelTrickplayAccelEncodingHelp": "Тренутно је доступно само за QSV, VA-API, VideoToolbox и RKMPP, ова опција нема ефекта на друге методе хардверске акцелерације.",
-    "Alternate": "Алтернативно"
+    "Alternate": "Алтернативно",
+    "LabelChapterImageResolution": "Резолуција",
+    "AndOtherArtists": "{0} и {1} других уметника.",
+    "AlternateDVD": "Алтернативни ДВД"
 }
