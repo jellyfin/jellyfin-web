@@ -1918,15 +1918,15 @@
     "LibraryScanFanoutConcurrency": "Límite de tareas de escaneo de bibliotecas paralelas",
     "MediaInfoRotation": "Rotación",
     "MediaSegmentAction.None": "Ninguno",
-    "MediaSegmentType.Outro": "Cierre",
+    "MediaSegmentType.Outro": "Final",
     "MediaSegmentAction.Skip": "Saltar",
-    "MediaSegmentType.Preview": "Vista Previa",
+    "MediaSegmentType.Preview": "Vista previa",
     "PasswordRequiredForAdmin": "Se requiere contraseña para las cuentas de administrador.",
     "LabelQscale": "Qscale",
     "LabelQscaleHelp": "Escala de calidad de imágenes de la salida de ffmpeg, siendo 2 la mayor calidad y 31 la peor.",
     "MediaSegmentAction.AskToSkip": "Solicitar saltar",
     "MediaSegmentType.Commercial": "Comercial",
-    "MediaSegmentType.Intro": "Introducción",
+    "MediaSegmentType.Intro": "Intro",
     "MediaSegmentSkipPrompt": "Saltar {0}",
     "MessageSplitVersionsError": "Ocurrió un error al dividir las versiones",
     "LabelScanBehaviorHelp": "El comportamiento por defecto es no bloqueante, el cual añadirá los medios a la biblioteca antes de que la generación trickplay se complete. El comportamiento bloqueante se asegurará de que los archivos de trickplay hayan sido generados antes de que los medios se añadan a la biblioteca, pero hará los escaneos significativamente más largos.",
@@ -1979,5 +1979,6 @@
     "LabelWidthResolutions": "Resoluciones de ancho",
     "HeaderMediaSegmentActions": "Acciones del segmento de medios",
     "LabelQsvDeviceHelp": "Especificá el dispositivo para Intel QSV en un sistema con varias GPU. En Linux, este es el nodo de renderización, p. ej., /dev/dri/renderD128. En Windows, este es el índice del dispositivo que comienza desde 0. Dejá en blanco a menos que sepas lo que estás haciendo.",
-    "Letterer": "Letrista"
+    "Letterer": "Letrista",
+    "MediaSegmentType.Recap": "Resumen"
 }
