@@ -1989,5 +1989,7 @@
     "MediaSegmentSkipPrompt": "{0} überspringen",
     "MediaSegmentAction.AskToSkip": "Vor dem Überspringen nachfragen",
     "Anime": "Anime",
-    "MoviesAndShows": "Filme und Serien"
+    "MoviesAndShows": "Filme und Serien",
+    "HeaderNextEpisode": "Nächste Episode",
+    "HeaderNextVideo": "Nächstes Video"
 }
