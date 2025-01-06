@@ -26,6 +26,7 @@ function getSeriesImageUrl(item: ItemDto, options: ImageOptions = {}) {
 
             return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
+
         if (item.ParentThumbItemId && item.ParentThumbImageTag) {
             options.tag = item.ParentThumbImageTag;
 

@@ -2,7 +2,7 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 
 import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 import { PlaybackSubscriber } from 'apps/stable/features/playback/utils/playbackSubscriber';
-import nowplayinghelper from 'components/playback/nowplayinghelper';
+import { getNowPlayingNames } from 'components/playback/nowplayinghelper';
 import type { PlaybackManager } from 'components/playback/playbackmanager';
 import { MILLISECONDS_PER_SECOND, TICKS_PER_MILLISECOND } from 'constants/time';
 import browser from 'scripts/browser';
@@ -110,9 +110,11 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
         }
 
         const album = item.Album || undefined;
-        const names = nowplayinghelper.getNowPlayingNames(item);
-        const artist = names[names.length - 1].text;
-        const title = names.length === 1 ? undefined : names[0].text;
+        const [ line1, line2 ] = getNowPlayingNames(item, false) || [];
+        // The artist will be the second line if present or the first line otherwise
+        const artist = (line2 || line1)?.text;
+        // The title will be the first line if there are two lines
+        const title = (line2 && line1)?.text;
 
         if (hasNavigatorSession) {
             if (
