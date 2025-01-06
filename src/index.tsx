@@ -5,46 +5,46 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 // NOTE: We need to import this first to initialize the connection
-import ServerConnections from '@components/ServerConnections';
+import ServerConnections from '@/components/ServerConnections';
 
-import { appHost } from '@components/apphost';
-import autoFocuser from '@components/autoFocuser';
-import loading from '@components/loading/loading';
-import { pluginManager } from '@components/pluginManager';
-import { appRouter } from '@components/router/appRouter';
-import globalize from '@lib/globalize';
-import { loadCoreDictionary } from '@lib/globalize/loader';
-import { initialize as initializeAutoCast } from '@scripts/autocast';
-import browser from '@scripts/browser';
-import keyboardNavigation from '@scripts/keyboardNavigation';
-import { currentSettings } from '@scripts/settings/userSettings';
-import { getPlugins } from '@scripts/settings/webSettings';
-import taskButton from '@scripts/taskbutton';
-import { pageClassOn, serverAddress } from '@utils/dashboard';
-import Events from '@utils/events';
+import { appHost } from '@/components/apphost';
+import autoFocuser from '@/components/autoFocuser';
+import loading from '@/components/loading/loading';
+import { pluginManager } from '@/components/pluginManager';
+import { appRouter } from '@/components/router/appRouter';
+import globalize from '@/lib/globalize';
+import { loadCoreDictionary } from '@/lib/globalize/loader';
+import { initialize as initializeAutoCast } from '@/scripts/autocast';
+import browser from '@/scripts/browser';
+import keyboardNavigation from '@/scripts/keyboardNavigation';
+import { currentSettings } from '@/scripts/settings/userSettings';
+import { getPlugins } from '@/scripts/settings/webSettings';
+import taskButton from '@/scripts/taskbutton';
+import { pageClassOn, serverAddress } from '@/utils/dashboard';
+import Events from '@/utils/events';
 
 import RootApp from 'RootApp';
 
 // Import the button webcomponent for use throughout the site
 // NOTE: This is a bit of a hack, files should ensure the component is imported before use
-import '@elements/emby-button/emby-button';
+import '@/elements/emby-button/emby-button';
 
 // Import auto-running components
 // NOTE: This is an anti-pattern
-import '@components/playback/displayMirrorManager';
-import '@components/playback/playerSelectionMenu';
-import '@components/themeMediaPlayer';
-import '@scripts/autoThemes';
-import '@scripts/mouseManager';
-import '@scripts/screensavermanager';
-import '@scripts/serverNotifications';
+import '@/components/playback/displayMirrorManager';
+import '@/components/playback/playerSelectionMenu';
+import '@/components/themeMediaPlayer';
+import '@/scripts/autoThemes';
+import '@/scripts/mouseManager';
+import '@/scripts/screensavermanager';
+import '@/scripts/serverNotifications';
 
 // Import site styles
-import '@styles/site.scss';
-import '@styles/livetv.scss';
-import '@styles/dashboard.scss';
-import '@styles/detailtable.scss';
-import '@styles/librarybrowser.scss';
+import '@/styles/site.scss';
+import '@/styles/livetv.scss';
+import '@/styles/dashboard.scss';
+import '@/styles/detailtable.scss';
+import '@/styles/librarybrowser.scss';
 
 async function init() {
     // Log current version to console to help out with issue triage and debugging
@@ -157,7 +157,7 @@ async function loadPlugins() {
             && !plugin.startsWith('chromecastPlayer'));
     } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
         // Disable chromecast player in unsupported browsers
-        list = list.filter(plugin => !plugin.startsWith('chromecastPlayer'));
+        list = list.filter((plugin: string) => !plugin.startsWith('chromecastPlayer'));
     }
 
     // add any native plugins
@@ -166,7 +166,7 @@ async function loadPlugins() {
     }
 
     try {
-        await Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)));
+        await Promise.all(list.map((plugin: any) => pluginManager.loadPlugin(plugin)));
         console.debug('finished loading plugins');
     } catch (e) {
         console.warn('failed loading plugins', e);

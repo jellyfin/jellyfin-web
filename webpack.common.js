@@ -51,21 +51,7 @@ const config = {
             '@mui/utils': '@mui/utils/legacy',
 
             // Sync with tsconfig.json
-            '@components': path.resolve(__dirname, 'src/components'),
-            '@apps': path.resolve(__dirname, 'src/apps'),
-            '@assets': path.resolve(__dirname, 'src/assets'),
-            '@constants': path.resolve(__dirname, 'src/constants'),
-            '@controllers': path.resolve(__dirname, 'src/controllers'),
-            '@elements': path.resolve(__dirname, 'src/elements'),
-            '@hooks': path.resolve(__dirname, 'src/hooks'),
-            '@lib': path.resolve(__dirname, 'src/lib'),
-            '@plugins': path.resolve(__dirname, 'src/plugins'),
-            '@scripts': path.resolve(__dirname, 'src/scripts'),
-            '@strings': path.resolve(__dirname, 'src/strings'),
-            '@styles': path.resolve(__dirname, 'src/styles'),
-            '@themes': path.resolve(__dirname, 'src/themes'),
-            '@types': path.resolve(__dirname, 'src/types'),
-            '@utils': path.resolve(__dirname, 'src/utils')
+            '@': path.resolve(__dirname, 'src')
         }
     },
     plugins: [
