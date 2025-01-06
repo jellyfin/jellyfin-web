@@ -1,4 +1,3 @@
-import 'jquery';
 import loading from '../../../components/loading/loading';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-select/emby-select';

@@ -1,5 +1,4 @@
 import escapeHtml from 'escape-html';
-import 'jquery';
 import taskButton from '../../scripts/taskbutton';
 import loading from '../../components/loading/loading';
 import globalize from '../../lib/globalize';

@@ -1,4 +1,3 @@
-import 'jquery';
 import loading from '../../../components/loading/loading';
 import datetime from '../../../scripts/datetime';
 import dom from '../../../scripts/dom';
