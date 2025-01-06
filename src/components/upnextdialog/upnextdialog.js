@@ -55,9 +55,16 @@ function setNextVideoText() {
 
     const timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('HeaderSecondsValue', secondsRemaining) + '</span>';
 
-    const nextVideoText = instance.showStaticNextText ?
-        globalize.translate('HeaderNextItem', globalize.translate(instance.itemType)) :
-        globalize.translate('HeaderNextItemPlayingInValue', globalize.translate(instance.itemType), timeText);
+    let nextVideoText;
+    if (instance.itemType === 'Episode') {
+        nextVideoText = instance.showStaticNextText ?
+            globalize.translate('HeaderNextEpisode') :
+            globalize.translate('HeaderNextEpisodePlayingInValue', timeText);
+    } else {
+        nextVideoText = instance.showStaticNextText ?
+            globalize.translate('HeaderNextVideo') :
+            globalize.translate('HeaderNextVideoPlayingInValue', timeText);
+    }
 
     elem.querySelector('.upNextDialog-nextVideoText').innerHTML = nextVideoText;
 }
