@@ -862,7 +862,7 @@
     "MessageNoMovieSuggestionsAvailable": "Actualmente no hay sugerencias de películas disponibles. Comienza a ver y calificar tus películas y luego vuelve a ver tus recomendaciones.",
     "MessageNoGenresAvailable": "Permitir a algunos proveedores de metadatos extraer géneros de Internet.",
     "MessageNoCollectionsAvailable": "Las colecciones le permiten disfrutar de agrupaciones personalizadas de películas, series y álbumes. Haga clic en el botón + para comenzar a crear colecciones.",
-    "MessageAddRepository": "Si desea agregar un repositorio, haga clic en el botón al lado del encabezado y complete la información solicitada.",
+    "MessageAddRepository": "Si deseás agregar un repositorio, hacé clic en el botón al lado del encabezado y completá la información solicitada.",
     "LabelRepositoryNameHelp": "Un nombre personalizado para distinguir este repositorio de cualquier otro agregado a tu servidor.",
     "LabelRepositoryName": "Nombre del repositorio",
     "LabelRepositoryUrlHelp": "La ubicación del manifiesto del repositorio que deseás incluir.",
