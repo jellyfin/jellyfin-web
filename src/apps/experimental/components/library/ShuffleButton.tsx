@@ -1,4 +1,4 @@
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import React, { FC, useCallback } from 'react';
 import { IconButton } from '@mui/material';
 import ShuffleIcon from '@mui/icons-material/Shuffle';

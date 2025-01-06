@@ -1989,5 +1989,7 @@
     "MediaSegmentSkipPrompt": "Pomiń {0}",
     "MediaSegmentAction.AskToSkip": "Pytaj o pominięcie",
     "Anime": "Anime",
-    "MoviesAndShows": "Filmy i seriale"
+    "MoviesAndShows": "Filmy i seriale",
+    "HeaderNextEpisode": "Następny odcinek",
+    "HeaderNextVideo": "Następne wideo"
 }

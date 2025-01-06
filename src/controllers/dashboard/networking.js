@@ -8,8 +8,7 @@ import alert from '../../components/alert';
 function onSubmit(e) {
     const form = this;
     const localAddress = form.querySelector('#txtLocalAddress').value;
-    const enableUpnp = form.querySelector('#chkEnableUpnp').checked;
-    confirmSelections(localAddress, enableUpnp, function () {
+    confirmSelections(localAddress, function () {
         const validationResult = getValidationAlert(form);
 
         if (validationResult) {
@@ -54,7 +53,6 @@ function onSubmit(e) {
                 config.InternalHttpsPort = form.querySelector('#txtHttpsPort').value;
                 config.EnableHttps = form.querySelector('#chkEnableHttps').checked;
                 config.RequireHttps = form.querySelector('#chkRequireHttps').checked;
-                config.EnableUPnP = enableUpnp;
                 config.BaseUrl = form.querySelector('#txtBaseUrl').value;
                 config.EnableRemoteAccess = form.querySelector('#chkRemoteAccess').checked;
                 config.CertificatePath = form.querySelector('#txtCertificatePath').value || null;
@@ -110,8 +108,8 @@ function showAlertText(options) {
     });
 }
 
-function confirmSelections(localAddress, enableUpnp, callback) {
-    if (localAddress || !enableUpnp) {
+function confirmSelections(localAddress, callback) {
+    if (localAddress) {
         showAlertText({
             title: globalize.translate('TitleHostingSettings'),
             text: globalize.translate('SettingsWarning')
@@ -139,7 +137,6 @@ export default function (view) {
         const txtCertificatePath = page.querySelector('#txtCertificatePath');
         txtCertificatePath.value = config.CertificatePath || '';
         page.querySelector('#txtCertPassword').value = config.CertificatePassword || '';
-        page.querySelector('#chkEnableUpnp').checked = config.EnableUPnP;
         triggerChange(page.querySelector('#chkRemoteAccess'));
         page.querySelector('#chkAutodiscovery').checked = config.AutoDiscovery;
         page.querySelector('#chkEnableIP6').checked = config.EnableIPv6;
@@ -154,13 +151,11 @@ export default function (view) {
             view.querySelector('.fldExternalAddressFilterMode').classList.remove('hide');
             view.querySelector('.fldPublicHttpPort').classList.remove('hide');
             view.querySelector('.fldPublicHttpsPort').classList.remove('hide');
-            view.querySelector('.fldEnableUpnp').classList.remove('hide');
         } else {
             view.querySelector('.fldExternalAddressFilter').classList.add('hide');
             view.querySelector('.fldExternalAddressFilterMode').classList.add('hide');
             view.querySelector('.fldPublicHttpPort').classList.add('hide');
             view.querySelector('.fldPublicHttpsPort').classList.add('hide');
-            view.querySelector('.fldEnableUpnp').classList.add('hide');
         }
     });
     view.querySelector('#btnSelectCertPath').addEventListener('click', function () {

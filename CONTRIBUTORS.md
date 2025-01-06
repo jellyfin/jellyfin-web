@@ -94,6 +94,7 @@
 - [iFraan](https://github.com/iFraan)
 - [Ali](https://github.com/bu3alwa)
 - [Heni FAZZANI](https://github.com/fazzani)
+- [K. Kyle Puchkov](https://github.com/kepper104)
 
 ## Emby Contributors
 
