@@ -6,6 +6,8 @@ import globalize from 'lib/globalize';
 import Dashboard from 'utils/dashboard';
 import { getParameterByName } from 'utils/url';
 
+// Disable the naming rules since jstree requires snake_case variables
+/* eslint-disable @typescript-eslint/naming-convention */
 function getNode(item, folderState, selected) {
     const htmlName = getNodeInnerHtml(item);
     const node = {
@@ -336,4 +338,4 @@ window.MetadataEditor = {
     getCurrentItemId: getCurrentItemId,
     setCurrentItemId: setCurrentItemId
 };
-
+/* eslint-enable @typescript-eslint/naming-convention */

@@ -11,6 +11,7 @@ import Events, { type Event } from 'utils/events';
 import { PlaybackManagerEvent } from '../constants/playbackManagerEvent';
 import { PlayerEvent } from '../constants/playerEvent';
 import type { ManagedPlayerStopInfo, MovedItem, PlayerError, PlayerErrorCode, PlayerStopInfo, RemovedItems } from '../types/callbacks';
+import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 
 export interface PlaybackSubscriber {
     onPlaybackCancelled?(e: Event): void
@@ -18,6 +19,7 @@ export interface PlaybackSubscriber {
     onPlaybackStart?(e: Event, player: Plugin, state: PlayerState): void
     onPlaybackStop?(e: Event, info: PlaybackStopInfo): void
     onPlayerChange?(e: Event, player: Plugin, target: PlayTarget, previousPlayer: Plugin): void
+    onPromptSkip?(e: Event, mediaSegment: MediaSegmentDto): void
     onPlayerError?(e: Event, error: PlayerError): void
     onPlayerFullscreenChange?(e: Event): void
     onPlayerItemStarted?(e: Event, item?: BaseItemDto, mediaSource?: MediaSourceInfo): void
@@ -62,6 +64,7 @@ export abstract class PlaybackSubscriber {
         [PlayerEvent.PlaylistItemAdd]: this.onPlayerPlaylistItemAdd?.bind(this),
         [PlayerEvent.PlaylistItemMove]: this.onPlayerPlaylistItemMove?.bind(this),
         [PlayerEvent.PlaylistItemRemove]: this.onPlayerPlaylistItemRemove?.bind(this),
+        [PlayerEvent.PromptSkip]: this.onPromptSkip?.bind(this),
         [PlayerEvent.RepeatModeChange]: this.onPlayerRepeatModeChange?.bind(this),
         [PlayerEvent.ShuffleModeChange]: this.onPlayerShuffleModeChange?.bind(this),
         [PlayerEvent.Stopped]: this.onPlayerStopped?.bind(this),

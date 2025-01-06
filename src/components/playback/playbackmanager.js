@@ -22,10 +22,13 @@ import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
 
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
+import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind.js';
+import browser from 'scripts/browser.js';
+import { bindSkipSegment } from './skipsegment.ts';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -849,31 +852,8 @@ export class PlaybackManager {
         self.getTargets = function () {
             const promises = players.filter(displayPlayerIndividually).map(getPlayerTargets);
 
-            return Promise.all(promises).then(function (responses) {
-                return ServerConnections.currentApiClient().getCurrentUser().then(function (user) {
-                    const targets = [];
-
-                    targets.push({
-                        name: globalize.translate('HeaderMyDevice'),
-                        id: 'localplayer',
-                        playerName: 'localplayer',
-                        playableMediaTypes: ['Audio', 'Video', 'Photo', 'Book'],
-                        isLocalPlayer: true,
-                        supportedCommands: self.getSupportedCommands({
-                            isLocalPlayer: true
-                        }),
-                        user: user
-                    });
-
-                    for (const subTargets of responses) {
-                        for (const subTarget of subTargets) {
-                            targets.push(subTarget);
-                        }
-                    }
-
-                    return targets.sort(sortPlayerTargets);
-                });
-            });
+            return Promise.all(promises)
+                .then(responses => responses.flat().sort(sortPlayerTargets));
         };
 
         self.playerHasSecondarySubtitleSupport = function (player = self._currentPlayer) {
@@ -931,6 +911,14 @@ export class PlaybackManager {
             }
 
             return Promise.resolve(self._playQueueManager.getPlaylist());
+        };
+
+        self.promptToSkip = function (mediaSegment, player) {
+            player = player || self._currentPlayer;
+
+            if (mediaSegment && this._skipSegment) {
+                Events.trigger(player, PlayerEvent.PromptSkip, [mediaSegment]);
+            }
         };
 
         function removeCurrentPlayer(player) {
@@ -3676,6 +3664,9 @@ export class PlaybackManager {
         }
 
         bindMediaSegmentManager(self);
+        if (!browser.tv && !browser.xboxOne && !browser.ps4) {
+            this._skipSegment = bindSkipSegment(self);
+        }
     }
 
     getCurrentPlayer() {
@@ -3688,6 +3679,10 @@ export class PlaybackManager {
         }
 
         return this.getCurrentTicks(player) / 10000;
+    }
+
+    getNextItem() {
+        return this._playQueueManager.getNextItemInfo();
     }
 
     nextItem(player = this._currentPlayer) {

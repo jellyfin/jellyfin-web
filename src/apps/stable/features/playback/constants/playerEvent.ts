@@ -14,6 +14,7 @@ export enum PlayerEvent {
     PlaylistItemAdd = 'playlistitemadd',
     PlaylistItemMove = 'playlistitemmove',
     PlaylistItemRemove = 'playlistitemremove',
+    PromptSkip = 'promptskip',
     RepeatModeChange = 'repeatmodechange',
     ShuffleModeChange = 'shufflequeuemodechange',
     Stopped = 'stopped',

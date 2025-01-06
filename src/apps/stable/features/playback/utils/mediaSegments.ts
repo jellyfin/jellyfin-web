@@ -13,7 +13,7 @@ const isBeforeSegment = (segment: MediaSegmentDto, time: number, direction: numb
     );
 };
 
-const isInSegment = (segment: MediaSegmentDto, time: number) => (
+export const isInSegment = (segment: MediaSegmentDto, time: number) => (
     typeof segment.StartTicks !== 'undefined'
     && segment.StartTicks <= time
     && (typeof segment.EndTicks === 'undefined' || segment.EndTicks > time)

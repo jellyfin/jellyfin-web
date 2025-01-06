@@ -65,7 +65,7 @@ function populateMediaSegments(container, userSettings) {
     ].map(segmentType => {
         const segmentTypeLabel = globalize.translate('LabelMediaSegmentsType', globalize.translate(`MediaSegmentType.${segmentType}`));
         const id = getId(segmentType);
-        selectedValues[id] = getMediaSegmentAction(userSettings, segmentType) || MediaSegmentAction.None;
+        selectedValues[id] = getMediaSegmentAction(userSettings, segmentType);
         return `<div class="selectContainer">
 <select is="emby-select" id="${id}" class="segmentTypeAction" label="${segmentTypeLabel}">
     ${actionOptions}

@@ -29,9 +29,8 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
 import { EventType } from 'types/eventType';
-
-const TICKS_PER_MINUTE = 600000000;
-const TICKS_PER_SECOND = 10000000;
+import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
+import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
@@ -579,6 +578,7 @@ export default function (view) {
         }, state);
         Events.on(player, 'playbackstart', onPlaybackStart);
         Events.on(player, 'playbackstop', onPlaybackStopped);
+        Events.on(player, PlayerEvent.PromptSkip, onPromptSkip);
         Events.on(player, 'volumechange', onVolumeChanged);
         Events.on(player, 'pause', onPlayPauseStateChanged);
         Events.on(player, 'unpause', onPlayPauseStateChanged);
@@ -603,6 +603,7 @@ export default function (view) {
         if (player) {
             Events.off(player, 'playbackstart', onPlaybackStart);
             Events.off(player, 'playbackstop', onPlaybackStopped);
+            Events.off(player, PlayerEvent.PromptSkip, onPromptSkip);
             Events.off(player, 'volumechange', onVolumeChanged);
             Events.off(player, 'pause', onPlayPauseStateChanged);
             Events.off(player, 'unpause', onPlayPauseStateChanged);
@@ -628,6 +629,17 @@ export default function (view) {
                 refreshProgramInfoIfNeeded(player, item);
                 showComingUpNextIfNeeded(player, item, currentTime, currentRuntimeTicks);
             }
+        }
+    }
+
+    function onPromptSkip(e, mediaSegment) {
+        const player = this;
+        if (mediaSegment && player && mediaSegment.EndTicks != null
+            && mediaSegment.EndTicks >= playbackManager.duration(player)
+            && playbackManager.getNextItem()
+            && userSettings.enableNextVideoInfoOverlay()
+        ) {
+            showComingUpNext(player);
         }
     }
 
@@ -1936,47 +1948,47 @@ export default function (view) {
 
     // Register to SyncPlay playback events and show big animated icon
     const showIcon = (action) => {
-        let primary_icon_name = '';
-        let secondary_icon_name = '';
-        let animation_class = 'oneShotPulse';
+        let primaryIconName = '';
+        let secondaryIconName = '';
+        let animationClass = 'oneShotPulse';
         let iconVisibilityTime = 1500;
         const syncPlayIcon = view.querySelector('#syncPlayIcon');
 
         switch (action) {
             case 'schedule-play':
-                primary_icon_name = 'sync spin';
-                secondary_icon_name = 'play_arrow centered';
-                animation_class = 'infinitePulse';
+                primaryIconName = 'sync spin';
+                secondaryIconName = 'play_arrow centered';
+                animationClass = 'infinitePulse';
                 iconVisibilityTime = -1;
                 hideOsd();
                 break;
             case 'unpause':
-                primary_icon_name = 'play_circle_outline';
+                primaryIconName = 'play_circle_outline';
                 break;
             case 'pause':
-                primary_icon_name = 'pause_circle_outline';
+                primaryIconName = 'pause_circle_outline';
                 showOsd();
                 break;
             case 'seek':
-                primary_icon_name = 'update';
-                animation_class = 'infinitePulse';
+                primaryIconName = 'update';
+                animationClass = 'infinitePulse';
                 iconVisibilityTime = -1;
                 break;
             case 'buffering':
-                primary_icon_name = 'schedule';
-                animation_class = 'infinitePulse';
+                primaryIconName = 'schedule';
+                animationClass = 'infinitePulse';
                 iconVisibilityTime = -1;
                 break;
             case 'wait-pause':
-                primary_icon_name = 'schedule';
-                secondary_icon_name = 'pause shifted';
-                animation_class = 'infinitePulse';
+                primaryIconName = 'schedule';
+                secondaryIconName = 'pause shifted';
+                animationClass = 'infinitePulse';
                 iconVisibilityTime = -1;
                 break;
             case 'wait-unpause':
-                primary_icon_name = 'schedule';
-                secondary_icon_name = 'play_arrow shifted';
-                animation_class = 'infinitePulse';
+                primaryIconName = 'schedule';
+                secondaryIconName = 'play_arrow shifted';
+                animationClass = 'infinitePulse';
                 iconVisibilityTime = -1;
                 break;
             default: {
@@ -1985,13 +1997,13 @@ export default function (view) {
             }
         }
 
-        syncPlayIcon.setAttribute('class', 'syncPlayIconCircle ' + animation_class);
+        syncPlayIcon.setAttribute('class', 'syncPlayIconCircle ' + animationClass);
 
         const primaryIcon = syncPlayIcon.querySelector('.primary-icon');
-        primaryIcon.setAttribute('class', 'primary-icon material-icons ' + primary_icon_name);
+        primaryIcon.setAttribute('class', 'primary-icon material-icons ' + primaryIconName);
 
         const secondaryIcon = syncPlayIcon.querySelector('.secondary-icon');
-        secondaryIcon.setAttribute('class', 'secondary-icon material-icons ' + secondary_icon_name);
+        secondaryIcon.setAttribute('class', 'secondary-icon material-icons ' + secondaryIconName);
 
         const clone = syncPlayIcon.cloneNode(true);
         clone.style.visibility = 'visible';

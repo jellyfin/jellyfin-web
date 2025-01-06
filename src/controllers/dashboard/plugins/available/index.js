@@ -1,12 +1,14 @@
 import escapeHTML from 'escape-html';
 
-import loading from '../../../../components/loading/loading';
-import globalize from '../../../../lib/globalize';
-import '../../../../components/cardbuilder/card.scss';
-import '../../../../elements/emby-button/emby-button';
-import '../../../../elements/emby-checkbox/emby-checkbox';
-import '../../../../elements/emby-select/emby-select';
-import { getDefaultBackgroundClass } from '../../../../components/cardbuilder/cardBuilderUtils';
+import { CATEGORY_LABELS } from 'apps/dashboard/features/plugins/constants/categoryLabels';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
+import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
+
+import 'components/cardbuilder/card.scss';
+import 'elements/emby-button/emby-button';
+import 'elements/emby-checkbox/emby-checkbox';
+import 'elements/emby-select/emby-select';
 
 function reloadList(page) {
     loading.show();
@@ -23,19 +25,14 @@ function reloadList(page) {
 }
 
 function getHeaderText(category) {
-    category = category.replace(' ', '');
-    // TODO: Replace with switch
-    if (category === 'Channel') {
-        category = 'Channels';
-    } else if (category === 'Theme') {
-        category = 'Themes';
-    } else if (category === 'LiveTV') {
-        category = 'LiveTV';
-    } else if (category === 'ScreenSaver') {
-        category = 'HeaderScreenSavers';
+    const categoryKey = category.replaceAll(' ', '');
+
+    if (CATEGORY_LABELS[categoryKey]) {
+        return globalize.translate(CATEGORY_LABELS[categoryKey]);
     }
 
-    return globalize.translate(category);
+    console.warn('[AvailablePlugins] unmapped category label', category);
+    return category;
 }
 
 function populateList(options) {
@@ -43,7 +40,7 @@ function populateList(options) {
     const installedPlugins = options.installedPlugins;
 
     availablePlugins.forEach(function (plugin, index, array) {
-        plugin.category = plugin.category || 'General';
+        plugin.category = plugin.category || 'Other';
         plugin.categoryDisplayName = getHeaderText(plugin.category);
         array[index] = plugin;
     });
