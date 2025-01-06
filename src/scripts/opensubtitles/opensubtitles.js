@@ -371,7 +371,7 @@ class OpenSubtitlesManagerClass {
 
         if ( mediaSource ) {
             // OpenSubtitles is only for videos
-            if ( !Object.prototype.hasOwnProperty.call(mediaSource, 'VideoType') ) {
+            if ( !Object.hasOwn(mediaSource, 'VideoType') ) {
                 return streams;
             }
 

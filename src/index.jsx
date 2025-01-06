@@ -113,7 +113,7 @@ build: ${__JF_BUILD_VERSION__}`);
 
     // Connect to server
     ServerConnections.firstConnection = await ServerConnections.connect();
-	
+
     // Start OpenSubtitlesManager
     OpenSubtitlesManager.start();
 

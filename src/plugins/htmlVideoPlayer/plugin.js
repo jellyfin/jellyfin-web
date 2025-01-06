@@ -484,7 +484,7 @@ export class HtmlVideoPlayer {
         destroyCastPlayer(this);
 
         let secondaryTrackValid = true;
-		
+
         const subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSubtitleStreamIndex;
         this.#subtitleTrackIndexToSetOnPlaying = subtitleTrackIndexToSetOnPlaying;
         if (this.#subtitleTrackIndexToSetOnPlaying != null && this.#subtitleTrackIndexToSetOnPlaying >= 0) {
@@ -1216,7 +1216,7 @@ export class HtmlVideoPlayer {
         try {
             const textTrackUrl = await getTextTrackUrl(track, item, '.js');
             console.debug('[fetchSubtitles] textTrackUrl', textTrackUrl);
-			
+
             if ( textTrackUrl.includes('opensubtitles.com') ) {
                 const response = await fetch(textTrackUrl);
                 if (!response.ok) {
@@ -1224,20 +1224,13 @@ export class HtmlVideoPlayer {
                 }
                 console.debug('[opensubtitles] fetch(textTrackUrl)', response );
                 const srtText = await response.text();
-				// Special handling of the SRT file from opensubtitles
+                // Special handling of the SRT file from opensubtitles
                 return OpenSubtitlesManager.utils.srtToJson( srtText );
-            } else {
-                const response = await fetch(textTrackUrl);
-                if (!response.ok) {
-                    throw new Error(response);
-                }
-                return response.json();
             }
-
+            const response = await fetch(textTrackUrl);
             if (!response.ok) {
                 throw new Error(response);
             }
-
             return response.json();
         } finally {
             this.decrementFetchQueue();

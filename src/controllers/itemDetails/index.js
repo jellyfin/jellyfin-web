@@ -288,7 +288,7 @@ async function renderSubtitleSelections(page, mediaSources) {
         return m.Type === 'Subtitle';
     });
     tracks.sort(itemHelper.sortTracks);
-	
+
     const select = page.querySelector('.selectSubtitles');
     select.setLabel(globalize.translate('Subtitles'));
     const selectedId = mediaSource.DefaultSubtitleStreamIndex == null ? -1 : mediaSource.DefaultSubtitleStreamIndex;
@@ -297,7 +297,7 @@ async function renderSubtitleSelections(page, mediaSources) {
     select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
         selected = v.Index === selectedId ? ' selected' : '';
         let out = '<option value="' + v.Index + '" ' + selected;
-        if ( Object.prototype.hasOwnProperty.call(v, 'OpenSubstitlesFileId') ) {
+        if ( Object.hasOwn(v, 'OpenSubstitlesFileId') ) {
             out += ' data-OpenSubstitlesFileId=' + v.OpenSubstitlesFileId;
         }
         out += '>' + v.DisplayTitle + '</option>';
@@ -1991,17 +1991,15 @@ export default function (view, params) {
             if ( currentItem?.MediaType === 'Video' ) {
                 const select = view.querySelector('.selectSubtitles');
                 const selectedSubtitleOption = select.options[ select.selectedIndex ];
-                if ( Object.prototype.hasOwnProperty.call(selectedSubtitleOption.dataset, 'OpenSubstitlesFileId') ) {
+                if ( Object.hasOwn(selectedSubtitleOption.dataset, 'OpenSubstitlesFileId') ) {
                     OpenSubtitlesManager.appendSubtitleTracks( currentItem.MediaStreams, currentItem );
                     await OpenSubtitlesManager.getDownloadLink( selectedSubtitleOption.dataset.OpenSubstitlesFileId );
-                    //await fetch( OpenSubtitlesManager.downloadData.link );
                 }
             }
         } catch (err) {
             console.error( err );
         }
         //-----------------
-
 
         playCurrentItem(actionElem, action);
     }

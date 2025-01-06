@@ -3,7 +3,7 @@ const languages = require('./languages.json');
 /**
  * OpenSubtitles supported languages and codes
  */
-const Languages = languages.data.sort( function(a, b) {
+const Languages = languages.data.toSorted( function(a, b) {
     if (a.language_code < b.language_code) {
         return -1;
     } else if (a.language_code > b.language_code) {
@@ -22,8 +22,8 @@ function srtToJson( srt ) {
     const out = { TrackEvents: [] };
     let obj = { Text: '' };
     try {
-        for (let line of data) {
-            line = line.trim();
+        for (const dataLine of data) {
+            const line = dataLine.trim();
             if ( !line.length && obj.EndPositionTicks && obj.StartPositionTicks && obj.Text ) {
                 if ( !obj.Id ) {
                     obj.Id = 1 + out.TrackEvents.length;

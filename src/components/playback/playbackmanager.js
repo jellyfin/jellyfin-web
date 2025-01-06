@@ -31,7 +31,6 @@ import browser from 'scripts/browser.js';
 import { bindSkipSegment } from './skipsegment.ts';
 import OpenSubtitlesManager from '../../scripts/opensubtitles/opensubtitles';
 
-
 const UNLIMITED_ITEMS = -1;
 
 function enableLocalPlaylistManagement(player) {

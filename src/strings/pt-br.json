@@ -1900,7 +1900,7 @@
     "Penciller": "Lápis",
     "LabelSelectPreferredTranscodeVideoCodec": "Codec de vídeo transcodificado preferido",
     "SelectPreferredTranscodeVideoCodecHelp": "Seleccione o codec de vídeo preferido para transcodificar. Se o codec preferido não for suportado, o servidor irá usar o melhor codec disponível a seguir.",
-    "HeaderNextItemPlayingInValue": "Próximo{0} Tocando em {1}",
+    "HeaderNextItemPlayingInValue": "Próximo {0} Tocando em {1}",
     "LibraryInvalidItemIdError": "A biblioteca está em um estado inválido e não pode ser editada. Você possivelmente está encontrando um bug: o caminho no banco de dados não é o caminho correto no sistema de arquivos.",
     "Reset": "Resetar",
     "PasswordMissingSaveError": "A nova senha não pode ser em branco.",
