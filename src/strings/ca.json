@@ -1985,5 +1985,7 @@
     "RenderPgsSubtitle": "Renderitzat experimental de subtitols PGS",
     "VideoCodecTagNotSupported": "L'etiqueta del còdec de vídeo no és compatible",
     "RenderPgsSubtitleHelp": "Determina si el client ha de renderitzar els subtítols PGS en lloc d'usar els subtítols incrustats. Això pot evitar la transcodificació de part del servidor a canvi del rendiment de renderitzat de part del client.",
-    "FallbackMaxStreamingBitrateHelp": "El bitrate màxim s'usa com a alternativa quan ffprobe no pot determinar el flux de l'origen. Això ajuda a prevenir que els clients sol·licitin un bitrate de transcodificació excessivament alt, el qual provocaria errors en el reproductor o sobrecarregar el codificador."
+    "FallbackMaxStreamingBitrateHelp": "El bitrate màxim s'usa com a alternativa quan ffprobe no pot determinar el flux de l'origen. Això ajuda a prevenir que els clients sol·licitin un bitrate de transcodificació excessivament alt, el qual provocaria errors en el reproductor o sobrecarregar el codificador.",
+    "HeaderNextEpisode": "Pròxim Episodi",
+    "HeaderNextVideo": "Pròxim Vídeo"
 }
