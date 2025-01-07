@@ -1988,5 +1988,7 @@
     "MediaSegmentSkipPrompt": "{0} overslaan",
     "MediaSegmentAction.AskToSkip": "Vragen om over te slaan",
     "Anime": "Anime",
-    "MoviesAndShows": "Films en series"
+    "MoviesAndShows": "Films en series",
+    "HeaderNextEpisode": "Volgende aflevering",
+    "HeaderNextVideo": "Volgende video"
 }
