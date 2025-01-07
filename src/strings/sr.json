@@ -1746,5 +1746,18 @@
     "Alternate": "Алтернативно",
     "LabelChapterImageResolution": "Резолуција",
     "AndOtherArtists": "{0} и {1} других уметника.",
-    "AlternateDVD": "Алтернативни ДВД"
+    "AlternateDVD": "Алтернативни ДВД",
+    "LabelIsSynced": "Синхронизовано је",
+    "LabelEnableLUFSScan": "Омогући LUFS скенирање",
+    "LabelEnableAudioVbrHelp": "Променљиви битрејт нуди бољи однос квалитета и просечног битрејта, али у неким ретким случајевима може изазвати проблеме са баферовањем и компатибилношћу.",
+    "LabelInstalled": "Инсталирано",
+    "LabelEnablePlugin": "Омогући додатак",
+    "LabelFallbackMaxStreamingBitrate": "Резервни максимални битрејт стрима (Mbps)",
+    "LabelChapterImageResolutionHelp": "Резолуција сличица поглавља. Промена овога неће имати утицаја на постојећа фиктивна поглавља.",
+    "LabelEnableAudioVbr": "Омогући VBR аудио кодирање",
+    "LabelLevel": "Ниво",
+    "LabelMediaDetails": "Детаљи медија",
+    "HeaderNextEpisode": "Следећа епизода",
+    "HeaderNextVideo": "Следећи видео",
+    "LabelEnableLUFSScanHelp": "Клијенти могу нормализовати репродукцију звука како би постигли исту гласност између нумера. Ово ће продужити време скенирања библиотеке и захтевати више ресурса."
 }
