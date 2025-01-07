@@ -1,21 +1,94 @@
 import Page from 'components/Page';
-import SectionTitleContainer from 'elements/SectionTitleContainer';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/models/authentication-info';
-import Loading from 'components/loading/LoadingComponent';
 import confirm from 'components/confirm/confirm';
-import ApiKeyCell from 'apps/dashboard/features/keys/components/ApiKeyCell';
 import { useApiKeys } from 'apps/dashboard/features/keys/api/useApiKeys';
 import { useRevokeKey } from 'apps/dashboard/features/keys/api/useRevokeKey';
 import { useCreateKey } from 'apps/dashboard/features/keys/api/useCreateKey';
+import { Box, Button, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { MaterialReactTable, MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
+import { getDisplayTime, parseISO8601Date, toLocaleDateString } from 'scripts/datetime';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ApiKeys = () => {
     const { api } = useApi();
     const { data: keys, isLoading } = useApiKeys();
     const revokeKey = useRevokeKey();
     const createKey = useCreateKey();
+
+    const columns = useMemo<MRT_ColumnDef<AuthenticationInfo>[]>(() => [
+        {
+            id: 'ApiKey',
+            accessorKey: 'AccessToken',
+            header: globalize.translate('HeaderApiKey'),
+            size: 300
+        },
+        {
+            id: 'AppName',
+            accessorKey: 'AppName',
+            header: globalize.translate('HeaderApp')
+        },
+        {
+            id: 'DateIssued',
+            accessorFn: item => parseISO8601Date(item.DateCreated),
+            Cell: ({ cell }) => toLocaleDateString(cell.getValue<Date>()) + ' ' + getDisplayTime(cell.getValue<Date>()),
+            header: globalize.translate('HeaderDateIssued'),
+            filterVariant: 'datetime-range'
+        }
+    ], []);
+
+    const table = useMaterialReactTable({
+        columns,
+        data: keys?.Items || [],
+
+        state: {
+            isLoading
+        },
+
+        rowCount: keys?.TotalRecordCount || 0,
+
+        enableColumnPinning: true,
+        enableColumnResizing: true,
+
+        enableStickyFooter: true,
+        enableStickyHeader: true,
+        muiTableContainerProps: {
+            sx: {
+                maxHeight: 'calc(100% - 7rem)' // 2 x 3.5rem for header and footer
+            }
+        },
+
+        // Enable (delete) row actions
+        enableRowActions: true,
+        displayColumnDefOptions: {
+            'mrt-row-actions': {
+                header: '',
+                size: 25
+            }
+        },
+
+        renderTopToolbarCustomActions: () => (
+            <Button onClick={showNewKeyPopup}>{globalize.translate('HeaderNewApiKey')}</Button>
+        ),
+
+        renderRowActions: ({ row }) => {
+            return (
+                <Box sx={{ display: 'flex' }}>
+                    <Tooltip title={globalize.translate('ButtonRevoke')}>
+                        <IconButton
+                            color='error'
+                            // eslint-disable-next-line react/jsx-no-bind
+                            onClick={() => row.original?.AccessToken && onRevokeKey(row.original.AccessToken)}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+            );
+        }
+    });
 
     const onRevokeKey = useCallback((accessToken: string) => {
         if (!api) return;
@@ -49,45 +122,34 @@ const ApiKeys = () => {
         });
     }, [api, createKey]);
 
-    if (isLoading) {
-        return <Loading />;
-    }
-
     return (
         <Page
             id='apiKeysPage'
             title={globalize.translate('HeaderApiKeys')}
             className='mainAnimatedPage type-interior'
         >
-            <div className='content-primary'>
-                <SectionTitleContainer
-                    title={globalize.translate('HeaderApiKeys')}
-                    isBtnVisible={true}
-                    btnId='btnAddSchedule'
-                    btnClassName='fab submit sectionTitleButton btnNewKey'
-                    btnTitle={globalize.translate('Add')}
-                    btnIcon='add'
-                    onClick={showNewKeyPopup}
-                />
-                <p>{globalize.translate('HeaderApiKeysHelp')}</p>
-                <br />
-                <table className='tblApiKeys detailTable'>
-                    <caption className='clipForScreenReader'>{globalize.translate('ApiKeysCaption')}</caption>
-                    <thead>
-                        <tr>
-                            <th scope='col' className='detailTableHeaderCell'></th>
-                            <th scope='col' className='detailTableHeaderCell'>{globalize.translate('HeaderApiKey')}</th>
-                            <th scope='col' className='detailTableHeaderCell'>{globalize.translate('HeaderApp')}</th>
-                            <th scope='col' className='detailTableHeaderCell'>{globalize.translate('HeaderDateIssued')}</th>
-                        </tr>
-                    </thead>
-                    <tbody className='resultBody'>
-                        {keys?.Items?.map((key: AuthenticationInfo) => {
-                            return <ApiKeyCell key={key.AccessToken} apiKey={key} revokeKey={onRevokeKey} />;
-                        })}
-                    </tbody>
-                </table>
-            </div>
+            <Box
+                className='content-primary'
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%'
+                }}
+            >
+                <Box
+                    sx={{
+                        marginBottom: 1
+                    }}
+                >
+                    <Stack spacing={2}>
+                        <Typography variant='h2'>
+                            {globalize.translate('HeaderApiKeys')}
+                        </Typography>
+                        <Typography>{globalize.translate('HeaderApiKeysHelp')}</Typography>
+                    </Stack>
+                </Box>
+                <MaterialReactTable table={table} />
+            </Box>
         </Page>
     );
 };
