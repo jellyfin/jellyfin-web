@@ -1,3 +1,5 @@
+@import 'mixins';
+
 .chapterThumbTextContainer,
 .videoOsdBottom {
     user-select: none;
@@ -12,8 +14,6 @@
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
     padding-top: 7.5em;
-    padding-bottom: 1.75em;
-    padding-bottom: max(env(safe-area-inset-bottom), 1.75em);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -23,6 +23,8 @@
     user-select: none;
     -webkit-touch-callout: none;
     pointer-events: none;
+
+    @include conditional-max(padding-bottom, 1.75em, env(safe-area-inset-bottom));
 }
 
 .skinHeader-withBackground.osdHeader {
