@@ -1921,5 +1921,7 @@
     "LabelTrickplayThreadsHelp": "מספר החוטים שיעברו ל-ffmpeg.",
     "OptionExtractTrickplayImage": "הפעלת חילוץ תמונות של טריקפליי",
     "Anime": "אנימה",
-    "MoviesAndShows": "סרטים וסדרות"
+    "MoviesAndShows": "סרטים וסדרות",
+    "HeaderNextEpisode": "הפרק הבא",
+    "HeaderNextVideo": "הוידאו הבא"
 }
