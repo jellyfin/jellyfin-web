@@ -36,9 +36,9 @@ const MainDrawerContent = () => {
         <>
             {/* MAIN LINKS */}
             <List sx={{ paddingTop: 0 }}>
-                <ListItem disablePadding>
+                {/* <ListItem disablePadding>
                     <DrawerHeaderLink />
-                </ListItem>
+                </ListItem> */}
                 <ListItem disablePadding>
                     <ListItemLink to='/home.html' selected={isHomeSelected}>
                         <ListItemIcon>

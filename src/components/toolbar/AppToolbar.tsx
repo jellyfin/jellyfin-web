@@ -12,6 +12,12 @@ import globalize from 'lib/globalize';
 
 import UserMenuButton from './UserMenuButton';
 
+import appIcon from 'assets/img/icon-transparent.png';
+import { Button } from '@mui/material';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import { ExpandLess } from '@mui/icons-material';
+import { useSystemInfo } from 'hooks/useSystemInfo';
+
 interface AppToolbarProps {
     buttons?: ReactNode
     isDrawerAvailable: boolean
@@ -35,10 +41,12 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
     onDrawerButtonClick = () => { /* no-op */ },
     isUserMenuAvailable = true
 }) => {
+    const { data: systemInfo } = useSystemInfo();
     const { user } = useApi();
     const isUserLoggedIn = Boolean(user);
 
-    const isBackButtonAvailable = appRouter.canGoBack();
+    const isBackButtonAvailable = false;
+    // const isBackButtonAvailable = appRouter.canGoBack();
 
     return (
         <Toolbar
@@ -52,7 +60,7 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
         >
             {isUserLoggedIn && isDrawerAvailable && (
                 <Tooltip title={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')}>
-                    <IconButton
+                    {/* <IconButton
                         size='large'
                         edge='start'
                         color='inherit'
@@ -60,7 +68,49 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
                         onClick={onDrawerButtonClick}
                     >
                         <MenuIcon />
-                    </IconButton>
+                    </IconButton> */}
+                    <Button
+                        variant='text'
+                        size='large'
+                        startIcon={
+                            <Box
+                                component='img'
+                                src={appIcon}
+                                sx={{
+                                    height: '2rem'
+                                }}
+                            />
+                        }
+                        endIcon={isDrawerOpen ? <ExpandLess /> : <ExpandMore />}
+                        color='inherit'
+                        onClick={onDrawerButtonClick}
+                        sx={{
+                            fontWeight: 'normal',
+                            fontSize: '1.5rem',
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                            height: '3rem',
+                            flexShrink: 0,
+                            '& .MuiButton-startIcon': {
+                                marginRight: {
+                                    xs: 0,
+                                    sm: '1rem'
+                                }
+                            }
+                        }}
+                    >
+                        <Box
+                            component='span'
+                            sx={{
+                                display: {
+                                    xs: 'none',
+                                    sm: 'initial'
+                                }
+                            }}
+                        >
+                            {systemInfo?.ServerName || 'Jellyfin'}
+                        </Box>
+                    </Button>
                 </Tooltip>
             )}
 

@@ -1,8 +1,6 @@
 import React, { StrictMode, useCallback, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import { type Theme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import AppBody from 'components/AppBody';
@@ -20,7 +18,6 @@ export const Component = () => {
     const { user } = useApi();
     const location = useLocation();
 
-    const isMediumScreen = useMediaQuery((t: Theme) => t.breakpoints.up('md'));
     const isDrawerAvailable = isDrawerPath(location.pathname) && Boolean(user);
     const isDrawerOpen = isDrawerActive && isDrawerAvailable;
 
@@ -31,22 +28,23 @@ export const Component = () => {
     return (
         <Box sx={{ position: 'relative', display: 'flex', height: '100%' }}>
             <StrictMode>
-                <ElevationScroll elevate={false}>
+                <ElevationScroll elevate={isDrawerOpen}>
                     <AppBar
                         position='fixed'
                         sx={{
-                            width: {
-                                xs: '100%',
-                                md: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
-                            },
-                            ml: {
-                                xs: 0,
-                                md: isDrawerAvailable ? DRAWER_WIDTH : 0
-                            }
+                            // width: {
+                            //     xs: '100%'
+                            //     // md: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
+                            // },
+                            // ml: {
+                            //     xs: 0
+                            //     // md: isDrawerAvailable ? DRAWER_WIDTH : 0
+                            // }
+                            zIndex: theme => theme.zIndex.drawer + 1
                         }}
                     >
                         <AppToolbar
-                            isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
+                            isDrawerAvailable={isDrawerAvailable}
                             isDrawerOpen={isDrawerOpen}
                             onDrawerButtonClick={onToggleDrawer}
                         />

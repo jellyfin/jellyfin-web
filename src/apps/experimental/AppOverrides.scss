@@ -11,13 +11,6 @@ $drawer-width: 240px;
     height: 100%;
 }
 
-// Fix main pages layout to work with drawer
-.mainAnimatedPage {
-    @media all and (min-width: $mui-bp-md) {
-        left: $drawer-width;
-    }
-}
-
 // Hide some items from the user "settings" page that are in the drawer
 #myPreferencesMenuPage {
     .lnkQuickConnectPreferences,
