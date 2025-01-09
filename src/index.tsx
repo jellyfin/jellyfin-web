@@ -166,7 +166,7 @@ async function loadPlugins() {
     }
 
     try {
-        await Promise.all(list.map((plugin: any) => pluginManager.loadPlugin(plugin)));
+        await Promise.all(list.map((plugin: unknown) => pluginManager.loadPlugin(plugin)));
         console.debug('finished loading plugins');
     } catch (e) {
         console.warn('failed loading plugins', e);
