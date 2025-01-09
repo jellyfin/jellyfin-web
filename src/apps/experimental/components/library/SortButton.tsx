@@ -13,7 +13,7 @@ import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 import globalize from 'lib/globalize';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client';
 
 type SortOption = {

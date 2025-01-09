@@ -1455,7 +1455,7 @@
     "LabelSSDPTracingFilterHelp": "Valfri IP-adress som den loggade SSDP-trafiken kan filtreras på.",
     "LabelSSDPTracingFilter": "SSDP-filter",
     "LabelPublishedServerUriHelp": "Åsidosätt URI:n som används av Jellyfin, baserad på gränssnittet eller klientens IP-adress. Till exempel: intern=http://jellyfin.example.com, extern=https://jellyfin.example.com, eller alla=https://jellyfin.example.com",
-    "TonemappingAlgorithmHelp": "Tonmappningen kan finjusteras. Om du inte är bekant med dessa värden, så behåll de förvalda värdena. Det rekommenderade värdet är 'BT.2390'.",
+    "TonemappingAlgorithmHelp": "Tonmappningen kan finjusteras. Behåll de förvalda värdena om du inte är bekant med deras innebörd. Det rekommenderade värdet är 'BT.2390'.",
     "SyncPlayGroupDefaultTitle": "{0}s grupp",
     "SubtitleVerticalPositionHelp": "Radnummer där texten syns. Positiva tal är uppifrån och ner och negativa tal är nedifrån och upp.",
     "PluginFromRepo": "{0} från repository {1}",
@@ -1984,5 +1984,7 @@
     "HeaderMediaSegmentActions": "Åtgärder inom mediesegmentet",
     "UseCustomTagDelimiters": "Använd anpassad taggavgränsare",
     "UseCustomTagDelimitersHelp": "Dela upp artist/genre-taggar med egna tecken.",
-    "LabelDelimiterWhitelist": "Avgränsare Vitlista"
+    "LabelDelimiterWhitelist": "Avgränsare Vitlista",
+    "HeaderNextEpisode": "Nästa avsnitt",
+    "HeaderNextVideo": "Nästa video"
 }

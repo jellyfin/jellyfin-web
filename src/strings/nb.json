@@ -1981,5 +1981,10 @@
     "MediaSegmentType.Recap": "Sammendrag",
     "LabelQsvDevice": "QSV-enhet",
     "LabelQsvDeviceHelp": "Velg enhet for Intel QSV på multi-GPU system. På Linux skriver du renderingsnoden, f.eks. /dev/dri/renderD128. På Windows skriver du enhetens index, som starter fra 0. La feltet stå blankt hvis du ikke vet hva du driver med.",
-    "HeaderMediaSegmentActions": "Mediasegment-handlinger"
+    "HeaderMediaSegmentActions": "Mediasegment-handlinger",
+    "MediaSegmentType.Intro": "Intro",
+    "MediaSegmentType.Outro": "outro",
+    "Anime": "Anime",
+    "HeaderNextEpisode": "Neste episode",
+    "HeaderNextVideo": "Neste video"
 }
