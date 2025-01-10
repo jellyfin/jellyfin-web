@@ -1989,5 +1989,7 @@
     "MediaSegmentSkipPrompt": "Přeskočit {0}",
     "MediaSegmentAction.AskToSkip": "Zeptat se, zda přeskočit",
     "Anime": "Anime",
-    "MoviesAndShows": "Filmy a seriály"
+    "MoviesAndShows": "Filmy a seriály",
+    "HeaderNextEpisode": "Další díl",
+    "HeaderNextVideo": "Další video"
 }
