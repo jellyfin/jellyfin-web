@@ -3,25 +3,51 @@
  * @module components/syncPlay/core/QueueCore
  */
 
-import globalize from '../../../lib/globalize';
-import toast from '../../../components/toast/toast';
-import * as Helper from './Helper';
+import globalize from '@/lib/globalize';
+import toast from '@/components/toast/toast';
+import * as Helper from '@/plugins/syncPlay/core/Helper';
+import Manager from '@/plugins/syncPlay/core/Manager';
+import { ApiClient } from 'jellyfin-apiclient';
+import type { getItems } from '@/utils/jellyfin-apiclient/getItems';
 
+interface ApiClientPlayMessageData {
+    LastUpdate: Date;
+    Playlist: Playlist
+    PlayingItemIndex: number
+    Reason: 'NewPlaylist' | 'SetCurrentItem' | 'NextItem' | 'PreviousItem' | 'RemoveItems' | 'MoveItem' | 'Queue' | 'QueueNext' | 'RepeatMode' | 'ShuffleMode' | string
+    StartPositionTicks: number
+    RepeatMode: 'shuffle' | string
+    ShuffleMode: 'RepeatNone' | string
+}
+type Playlist = {
+    PlaylistItemId: string
+    ItemId: string
+}[];
+
+type PlaybackCommand = {
+    EmittedAt: Date
+    PositionTicks: number
+    When: Date
+};
 /**
  * Class that manages the queue of SyncPlay.
  */
 class QueueCore {
+    private manager: null | Manager;
+    private lastPlayQueueUpdate: null | ApiClientPlayMessageData;
+    private playlist: any[];
     constructor() {
         this.manager = null;
         this.lastPlayQueueUpdate = null;
         this.playlist = [];
+        console.log('constructing');
     }
 
     /**
      * Initializes the core.
      * @param {Manager} syncPlayManager The SyncPlay manager.
      */
-    init(syncPlayManager) {
+    init(syncPlayManager: Manager) {
         this.manager = syncPlayManager;
     }
 
@@ -30,7 +56,7 @@ class QueueCore {
      * @param {Object} apiClient The ApiClient.
      * @param {Object} newPlayQueue The new play queue.
      */
-    updatePlayQueue(apiClient, newPlayQueue) {
+    updatePlayQueue(apiClient: ApiClient, newPlayQueue: ApiClientPlayMessageData) {
         newPlayQueue.LastUpdate = new Date(newPlayQueue.LastUpdate);
 
         if (newPlayQueue.LastUpdate.getTime() <= this.getLastUpdateTime()) {
@@ -43,6 +69,10 @@ class QueueCore {
         const serverId = apiClient.serverInfo().Id;
 
         this.onPlayQueueUpdate(apiClient, newPlayQueue, serverId).then((previous) => {
+            if (!this.manager) {
+                throw new Error('Failed to call init()');
+            }
+
             if (newPlayQueue.LastUpdate.getTime() < this.getLastUpdateTime()) {
                 console.warn('SyncPlay updatePlayQueue: trying to apply old update.', newPlayQueue);
                 throw new Error('Trying to apply old update');
@@ -59,11 +89,11 @@ class QueueCore {
             switch (newPlayQueue.Reason) {
                 case 'NewPlaylist': {
                     if (!this.manager.isFollowingGroupPlayback()) {
-                        this.manager.followGroupPlayback(apiClient).then(() => {
-                            this.startPlayback(apiClient);
+                        void this.manager.followGroupPlayback(apiClient).then(() => {
+                            void this.startPlayback(apiClient);
                         });
                     } else {
-                        this.startPlayback(apiClient);
+                        void this.startPlayback(apiClient);
                     }
                     break;
                 }
@@ -79,8 +109,8 @@ class QueueCore {
                 case 'RemoveItems': {
                     playerWrapper.onQueueUpdate();
 
-                    const index = previous.playQueueUpdate.PlayingItemIndex;
-                    const oldPlaylistItemId = index === -1 ? null : previous.playlist[index].PlaylistItemId;
+                    const index = previous.playQueueUpdate?.PlayingItemIndex;
+                    const oldPlaylistItemId = (index === -1 || typeof index === 'undefined') ? null : previous.playlist[index].PlaylistItemId;
                     const playlistItemId = this.getCurrentPlaylistItemId();
                     if (oldPlaylistItemId !== playlistItemId) {
                         this.setCurrentPlaylistItem(apiClient, playlistItemId);
@@ -110,14 +140,14 @@ class QueueCore {
 
     /**
      * Called when a play queue update needs to be applied.
-     * @param {Object} apiClient The ApiClient.
-     * @param {Object} playQueueUpdate The play queue update.
+     * @param {ApiClient} apiClient The ApiClient.
+     * @param {ApiClientPlayMessageData} playQueueUpdate The play queue update.
      * @param {string} serverId The server identifier.
      * @returns {Promise} A promise that gets resolved when update is applied.
      */
-    onPlayQueueUpdate(apiClient, playQueueUpdate, serverId) {
-        const oldPlayQueueUpdate = this.lastPlayQueueUpdate;
-        const oldPlaylist = this.playlist;
+    onPlayQueueUpdate(apiClient: ApiClient, playQueueUpdate: ApiClientPlayMessageData, serverId: string): Promise<{ playQueueUpdate: ApiClientPlayMessageData | null, playlist: Playlist }> {
+        const oldPlayQueueUpdate: ApiClientPlayMessageData | null = this.lastPlayQueueUpdate;
+        const oldPlaylist: Playlist = this.playlist;
 
         const itemIds = playQueueUpdate.Playlist.map(queueItem => queueItem.ItemId);
 
@@ -137,11 +167,11 @@ class QueueCore {
 
         return Helper.getItemsForPlayback(apiClient, {
             Ids: itemIds.join(',')
-        }).then((result) => {
+        }).then((result: Awaited<ReturnType<typeof getItems>>) => {
             return Helper.translateItemsForPlayback(apiClient, result.Items, {
                 ids: itemIds,
                 serverId: serverId
-            }).then((items) => {
+            }).then((items: any[]) => {
                 if (this.lastPlayQueueUpdate && playQueueUpdate.LastUpdate.getTime() <= this.getLastUpdateTime()) {
                     throw new Error('Trying to apply old update');
                 }
@@ -163,24 +193,28 @@ class QueueCore {
 
     /**
      * Sends a SyncPlayBuffering request on playback start.
-     * @param {Object} apiClient The ApiClient.
+     * @param {ApiClient} apiClient The ApiClient.
      * @param {string} origin The origin of the wait call, used for debug.
      */
-    scheduleReadyRequestOnPlaybackStart(apiClient, origin) {
+    scheduleReadyRequestOnPlaybackStart(apiClient: ApiClient, origin: string) {
+        if (!this.manager) {
+            throw new Error('Failed to call init()');
+        }
+        const manager = this.manager;
         Helper.waitForEventOnce(this.manager, 'playbackstart', Helper.WaitForEventDefaultTimeout, ['playbackerror']).then(async () => {
             console.debug('SyncPlay scheduleReadyRequestOnPlaybackStart: local pause and notify server.');
-            const playerWrapper = this.manager.getPlayerWrapper();
+            const playerWrapper = manager.getPlayerWrapper();
             playerWrapper.localPause();
 
             const currentTime = new Date();
-            const now = this.manager.timeSyncCore.localDateToRemote(currentTime);
+            const now = manager.timeSyncCore.localDateToRemote(currentTime);
             const currentPosition = (playerWrapper.currentTimeAsync ?
                 await playerWrapper.currentTimeAsync() :
                 playerWrapper.currentTime());
             const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
             const isPlaying = playerWrapper.isPlaying();
 
-            apiClient.requestSyncPlayReady({
+            await apiClient.requestSyncPlayReady({
                 When: now.toISOString(),
                 PositionTicks: currentPositionTicks,
                 IsPlaying: isPlaying,
@@ -188,19 +222,23 @@ class QueueCore {
             });
         }).catch((error) => {
             console.error('Error while waiting for `playbackstart` event!', origin, error);
-            if (!this.manager.isSyncPlayEnabled()) {
+            if (!manager.isSyncPlayEnabled()) {
                 toast(globalize.translate('MessageSyncPlayErrorMedia'));
             }
 
-            this.manager.haltGroupPlayback(apiClient);
+            manager.haltGroupPlayback(apiClient);
         });
     }
 
     /**
      * Prepares this client for playback by loading the group's content.
-     * @param {Object} apiClient The ApiClient.
+     * @param {ApiClient} apiClient The ApiClient.
      */
-    startPlayback(apiClient) {
+    startPlayback(apiClient: ApiClient) {
+        if (!this.manager) {
+            throw new Error('Failed to call init()');
+        }
+
         if (!this.manager.isFollowingGroupPlayback()) {
             console.debug('SyncPlay startPlayback: ignoring, not following playback.');
             return Promise.reject();
@@ -212,7 +250,7 @@ class QueueCore {
         }
 
         // Estimate start position ticks from last playback command, if available.
-        const playbackCommand = this.manager.getLastPlaybackCommand();
+        const playbackCommand = this.manager.getLastPlaybackCommand() as PlaybackCommand;
         let startPositionTicks = 0;
 
         if (playbackCommand && playbackCommand.EmittedAt.getTime() >= this.getLastUpdateTime()) {
@@ -222,7 +260,7 @@ class QueueCore {
             // A PlayQueueUpdate is emited only on queue changes so it's less reliable for playback position syncing.
             const oldStartPositionTicks = this.getStartPositionTicks();
             const lastQueueUpdateDate = this.getLastUpdate();
-            startPositionTicks = this.manager.getPlaybackCore().estimateCurrentTicks(oldStartPositionTicks, lastQueueUpdateDate);
+            startPositionTicks = this.manager.getPlaybackCore().estimateCurrentTicks(oldStartPositionTicks, lastQueueUpdateDate || new Date());
         }
 
         const serverId = apiClient.serverInfo().Id;
@@ -235,7 +273,7 @@ class QueueCore {
             startPositionTicks: startPositionTicks,
             startIndex: this.getCurrentPlaylistIndex(),
             serverId: serverId
-        }).catch((error) => {
+        }).catch((error: Error) => {
             console.error(error);
             toast(globalize.translate('MessageSyncPlayErrorMedia'));
         });
@@ -243,10 +281,14 @@ class QueueCore {
 
     /**
      * Sets the current playing item.
-     * @param {Object} apiClient The ApiClient.
+     * @param {ApiClient} apiClient The ApiClient.
      * @param {string} playlistItemId The playlist id of the item to play.
      */
-    setCurrentPlaylistItem(apiClient, playlistItemId) {
+    setCurrentPlaylistItem(apiClient: ApiClient, playlistItemId: string) {
+        if (!this.manager) {
+            throw new Error('Failed to call init()');
+        }
+
         if (!this.manager.isFollowingGroupPlayback()) {
             console.debug('SyncPlay setCurrentPlaylistItem: ignoring, not following playback.');
             return;
