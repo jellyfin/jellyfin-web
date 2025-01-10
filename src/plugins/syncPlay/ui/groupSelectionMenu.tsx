@@ -1,20 +1,31 @@
-import SyncPlaySettingsEditor from './settings/SettingsEditor';
-import loading from '../../../components/loading/loading';
-import toast from '../../../components/toast/toast';
-import actionsheet from '../../../components/actionSheet/actionSheet';
-import globalize from '../../../lib/globalize';
-import playbackPermissionManager from './playbackPermissionManager';
-import { pluginManager } from '../../../components/pluginManager';
-import ServerConnections from '../../../components/ServerConnections';
-import { PluginType } from '../../../types/plugin.ts';
-import Events from '../../../utils/events.ts';
+import SyncPlaySettingsEditor from '@/plugins/syncPlay/ui/settings/SettingsEditor';
+import loading from '@/components/loading/loading';
+import toast from '@/components/toast/toast';
+import actionsheet from '@/components/actionSheet/actionSheet';
+import globalize from '@/lib/globalize';
+import playbackPermissionManager from '@/plugins/syncPlay/ui/playbackPermissionManager';
+import { pluginManager } from '@/components/pluginManager';
+import ServerConnections from '@/components/ServerConnections';
+import { PluginType } from '@/types/plugin';
+import Events from '@/utils/events';
 
-import './groupSelectionMenu.scss';
+import '@/plugins/syncPlay/ui/groupSelectionMenu.scss';
+import { ApiClient } from 'jellyfin-apiclient';
+
+interface User {
+    localUser: { Policy: UserPolicy, Name: string }
+}
+
+interface UserPolicy {
+    SyncPlayAccess: 'CreateAndJoinGroups' | string
+}
 
 /**
  * Class that manages the SyncPlay group selection menu.
  */
 class GroupSelectionMenu {
+    private syncPlayEnabled: boolean;
+    private SyncPlay: any;
     constructor() {
         // Register to SyncPlay events.
         this.syncPlayEnabled = false;
@@ -41,24 +52,24 @@ class GroupSelectionMenu {
      * Used when user needs to join a group.
      * @param {HTMLElement} button - Element where to place the menu.
      * @param {Object} user - Current user.
-     * @param {Object} apiClient - ApiClient.
+     * @param {ApiClient} apiClient - ApiClient.
      */
-    showNewJoinGroupSelection(button, user, apiClient) {
-        const policy = user.localUser ? user.localUser.Policy : {};
+    showNewJoinGroupSelection(button: HTMLElement, user: User, apiClient: ApiClient) {
+        const policy: UserPolicy | null = user.localUser ? user.localUser.Policy : null;
 
         apiClient.getSyncPlayGroups().then(function (response) {
-            response.json().then(function (groups) {
+            void response.json().then(function (groups) {
                 const menuItems = groups.map(function (group) {
                     return {
                         name: group.GroupName,
                         icon: 'person',
                         id: group.GroupId,
                         selected: false,
-                        secondaryText: group.Participants.join(', ')
+                        secondaryText: group.Participants?.join(', ')
                     };
                 });
 
-                if (policy.SyncPlayAccess === 'CreateAndJoinGroups') {
+                if (policy?.SyncPlayAccess === 'CreateAndJoinGroups') {
                     menuItems.push({
                         name: globalize.translate('LabelSyncPlayNewGroup'),
                         icon: 'add',
@@ -68,7 +79,7 @@ class GroupSelectionMenu {
                     });
                 }
 
-                if (menuItems.length === 0 && policy.SyncPlayAccess === 'JoinGroups') {
+                if (menuItems.length === 0 && policy?.SyncPlayAccess === 'JoinGroups') {
                     toast({
                         text: globalize.translate('MessageSyncPlayCreateGroupDenied')
                     });
@@ -86,11 +97,11 @@ class GroupSelectionMenu {
 
                 actionsheet.show(menuOptions).then(function (id) {
                     if (id == 'new-group') {
-                        apiClient.createSyncPlayGroup({
+                        void apiClient.createSyncPlayGroup({
                             GroupName: globalize.translate('SyncPlayGroupDefaultTitle', user.localUser.Name)
                         });
                     } else if (id) {
-                        apiClient.joinSyncPlayGroup({
+                        void apiClient.joinSyncPlayGroup({
                             GroupId: id
                         });
                     }
@@ -114,10 +125,10 @@ class GroupSelectionMenu {
     /**
      * Used when user has joined a group.
      * @param {HTMLElement} button - Element where to place the menu.
-     * @param {Object} user - Current user.
-     * @param {Object} apiClient - ApiClient.
+     * @param {User} user - Current user.
+     * @param {ApiClient} apiClient - ApiClient.
      */
-    showLeaveGroupSelection(button, user, apiClient) {
+    showLeaveGroupSelection(button: HTMLElement, user: User, apiClient: ApiClient) {
         const groupInfo = this.SyncPlay?.Manager.getGroupInfo();
         const menuItems = [];
 
@@ -171,7 +182,7 @@ class GroupSelectionMenu {
             } else if (id == 'halt-playback') {
                 this.SyncPlay?.Manager.haltGroupPlayback(apiClient);
             } else if (id == 'leave-group') {
-                apiClient.leaveSyncPlayGroup();
+                void apiClient.leaveSyncPlayGroup();
             } else if (id == 'settings') {
                 new SyncPlaySettingsEditor(apiClient, this.SyncPlay?.Manager.getTimeSyncCore(), { groupInfo: groupInfo })
                     .embed()
@@ -194,7 +205,7 @@ class GroupSelectionMenu {
      * Shows a menu to handle SyncPlay groups.
      * @param {HTMLElement} button - Element where to place the menu.
      */
-    show(button) {
+    show(button: HTMLElement) {
         loading.show();
 
         // TODO: should feature be disabled if playback permission is missing?
@@ -208,6 +219,11 @@ class GroupSelectionMenu {
         });
 
         const apiClient = ServerConnections.currentApiClient();
+
+        if (typeof apiClient === 'undefined') {
+            throw new Error('Could not accessing current API client');
+        }
+
         ServerConnections.user(apiClient).then((user) => {
             if (this.syncPlayEnabled) {
                 this.showLeaveGroupSelection(button, user, apiClient);

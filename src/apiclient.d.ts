@@ -202,7 +202,7 @@ declare module 'jellyfin-apiclient' {
         getSpecialFeatures(userId: string, itemId: string): Promise<BaseItemDto[]>;
         getStudio(name: string, userId?: string): Promise<BaseItemDto>;
         getStudios(userId: string, options?: any): Promise<BaseItemDtoQueryResult>;
-        getSyncPlayGroups(): Promise<GroupInfoDto[]>;
+        getSyncPlayGroups(): Promise<{ json(): Promise<GroupInfoDto[]> }>;
         getSyncStatus(itemId: string): Promise<any>;
         getSystemInfo(): Promise<SystemInfo>;
         getThemeMedia(userId?: string, itemId: string, inherit?: boolean): Promise<AllThemeMediaResult>;
@@ -294,6 +294,7 @@ declare module 'jellyfin-apiclient' {
         updateScheduledTaskTriggers(id: string, triggers: TaskTriggerInfo[]): Promise<void>;
         updateServerConfiguration(configuration: ServerConfiguration): Promise<void>;
         updateServerInfo(server: any, serverUrl: string): void;
+        serverInfo(): { Id: string };
         updateUserConfiguration(userId: string, configuration: UserConfiguration): Promise<void>;
         updateUserItemRating(userId: string, itemId: string, likes: boolean): Promise<UserItemDataDto>;
         updateUserPassword(userId: string, currentPassword: string, newPassword: string): Promise<void>;
