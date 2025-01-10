@@ -1989,5 +1989,7 @@
     "MediaSegmentAction.AskToSkip": "询问是否跳过",
     "MediaSegmentSkipPrompt": "跳过{0}",
     "Anime": "动漫",
-    "MoviesAndShows": "电影和节目"
+    "MoviesAndShows": "电影和节目",
+    "HeaderNextEpisode": "下一集",
+    "HeaderNextVideo": "下一个视频"
 }
