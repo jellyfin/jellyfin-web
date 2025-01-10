@@ -1,10 +1,9 @@
-name: Stale Check
+name: Scheduled tasks 🕑
 
 on:
   schedule:
     - cron: '30 1 * * *'
   workflow_dispatch:
-
 permissions:
   issues: write
   pull-requests: write

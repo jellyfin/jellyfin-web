@@ -8,8 +8,7 @@ function save(page) {
     loading.show();
     const apiClient = ApiClient;
     const config = {
-        EnableRemoteAccess: page.querySelector('#chkRemoteAccess').checked,
-        EnableAutomaticPortMapping: page.querySelector('#chkEnableUpnp').checked
+        EnableRemoteAccess: page.querySelector('#chkRemoteAccess').checked
     };
 
     apiClient.ajax({

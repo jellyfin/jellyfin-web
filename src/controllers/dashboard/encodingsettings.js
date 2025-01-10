@@ -31,6 +31,7 @@ function loadPage(page, config, systemInfo) {
     page.querySelector('#txtFallbackFontPath').value = config.FallbackFontPath || '';
     page.querySelector('#chkEnableFallbackFont').checked = config.EnableFallbackFont;
     $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
+    page.querySelector('#txtQsvDevice').value = config.QsvDevice || '';
     page.querySelector('#chkTonemapping').checked = config.EnableTonemapping;
     page.querySelector('#chkVppTonemapping').checked = config.EnableVppTonemapping;
     page.querySelector('#chkVideoToolboxTonemapping').checked = config.EnableVideoToolboxTonemapping;
@@ -93,6 +94,7 @@ function onSubmit() {
             config.EncodingThreadCount = $('#selectThreadCount', form).val();
             config.HardwareAccelerationType = $('#selectVideoDecoder', form).val();
             config.VaapiDevice = $('#txtVaapiDevice', form).val();
+            config.QsvDevice = form.querySelector('#txtQsvDevice').value;
             config.EnableTonemapping = form.querySelector('#chkTonemapping').checked;
             config.EnableVppTonemapping = form.querySelector('#chkVppTonemapping').checked;
             config.EnableVideoToolboxTonemapping = form.querySelector('#chkVideoToolboxTonemapping').checked;
@@ -235,8 +237,10 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
 
         if (this.value == 'qsv') {
             page.querySelector('.fldSysNativeHwDecoder').classList.remove('hide');
+            page.querySelector('.fldQsvDevice').classList.remove('hide');
         } else {
             page.querySelector('.fldSysNativeHwDecoder').classList.add('hide');
+            page.querySelector('.fldQsvDevice').classList.add('hide');
         }
 
         if (this.value == 'nvenc') {

@@ -5,7 +5,7 @@ import globalize from '../lib/globalize';
 import actionsheet from './actionSheet/actionSheet';
 import { appHost } from './apphost';
 import { appRouter } from './router/appRouter';
-import itemHelper from './itemHelper';
+import itemHelper, { canEditPlaylist } from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
@@ -29,7 +29,7 @@ function getDeleteLabel(type) {
     }
 }
 
-export function getCommands(options) {
+export async function getCommands(options) {
     const item = options.item;
     const user = options.user;
 
@@ -207,6 +207,17 @@ export function getCommands(options) {
         commands.push({
             divider: true
         });
+    }
+
+    if (item.Type === BaseItemKind.Playlist) {
+        const _canEditPlaylist = await canEditPlaylist(user, item);
+        if (_canEditPlaylist) {
+            commands.push({
+                name: globalize.translate('Edit'),
+                id: 'editplaylist',
+                icon: 'edit'
+            });
+        }
     }
 
     const canEdit = itemHelper.canEdit(user, item);
@@ -393,8 +404,9 @@ function executeCommand(item, id, options) {
                     const downloadHref = apiClient.getItemDownloadUrl(itemId);
                     fileDownloader.download([{
                         url: downloadHref,
-                        itemId: itemId,
-                        serverId: serverId,
+                        item,
+                        itemId,
+                        serverId,
                         title: item.Name,
                         filename: item.Path.replace(/^.*[\\/]/, '')
                     }]);
@@ -408,6 +420,7 @@ function executeCommand(item, id, options) {
                             const downloadHref = apiClient.getItemDownloadUrl(episode.Id);
                             return {
                                 url: downloadHref,
+                                item: episode,
                                 itemId: episode.Id,
                                 serverId: serverId,
                                 title: episode.Name,
@@ -465,6 +478,15 @@ function executeCommand(item, id, options) {
                 break;
             case 'edit':
                 editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                break;
+            case 'editplaylist':
+                import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
+                    const playlistEditor = new PlaylistEditor();
+                    playlistEditor.show({
+                        id: itemId,
+                        serverId
+                    }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                });
                 break;
             case 'editimages':
                 import('./imageeditor/imageeditor').then((imageEditor) => {
@@ -712,19 +734,19 @@ function refresh(apiClient, item) {
     });
 }
 
-export function show(options) {
-    const commands = getCommands(options);
+export async function show(options) {
+    const commands = await getCommands(options);
     if (!commands.length) {
-        return Promise.reject();
+        throw new Error('No item commands present');
     }
 
-    return actionsheet.show({
+    const id = await actionsheet.show({
         items: commands,
         positionTo: options.positionTo,
         resolveOnClick: ['share']
-    }).then(function (id) {
-        return executeCommand(options.item, id, options);
     });
+
+    return executeCommand(options.item, id, options);
 }
 
 export default {

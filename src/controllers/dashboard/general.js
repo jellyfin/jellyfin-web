@@ -39,25 +39,17 @@ function onSubmit() {
         config.LibraryScanFanoutConcurrency = parseInt(form.querySelector('#txtLibraryScanFanoutConcurrency').value || '0', 10);
         config.ParallelImageEncodingLimit = parseInt(form.querySelector('#txtParallelImageEncodingLimit').value || '0', 10);
 
-        ApiClient.updateServerConfiguration(config).then(function() {
-            ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
-                brandingConfig.LoginDisclaimer = form.querySelector('#txtLoginDisclaimer').value;
-                brandingConfig.CustomCss = form.querySelector('#txtCustomCss').value;
-                brandingConfig.SplashscreenEnabled = form.querySelector('#chkSplashScreenAvailable').checked;
-
-                ApiClient.updateNamedConfiguration(brandingConfigKey, brandingConfig).then(function () {
-                    Dashboard.processServerConfigurationUpdateResult();
-                });
+        return ApiClient.updateServerConfiguration(config)
+            .then(() => {
+                Dashboard.processServerConfigurationUpdateResult();
+            }).catch(() => {
+                loading.hide();
+                alert(globalize.translate('ErrorDefault'));
             });
-        }, function () {
-            alert(globalize.translate('ErrorDefault'));
-            Dashboard.processServerConfigurationUpdateResult();
-        });
     });
     return false;
 }
 
-const brandingConfigKey = 'branding';
 export default function (view) {
     $('#btnSelectCachePath', view).on('click.selectDirectory', function () {
         import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
@@ -106,11 +98,6 @@ export default function (view) {
         const promiseSystemInfo = ApiClient.getSystemInfo();
         Promise.all([promiseConfig, promiseLanguageOptions, promiseSystemInfo]).then(function (responses) {
             loadPage(view, responses[0], responses[1], responses[2]);
-        });
-        ApiClient.getNamedConfiguration(brandingConfigKey).then(function (config) {
-            view.querySelector('#txtLoginDisclaimer').value = config.LoginDisclaimer || '';
-            view.querySelector('#txtCustomCss').value = config.CustomCss || '';
-            view.querySelector('#chkSplashScreenAvailable').checked = config.SplashscreenEnabled === true;
         });
     });
 }

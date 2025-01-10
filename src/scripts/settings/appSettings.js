@@ -157,6 +157,19 @@ class AppSettings {
     }
 
     /**
+     * Get or set 'Always burn in subtitle when transcoding' state.
+     * @param {boolean|undefined} val - Flag to enable 'Always burn in subtitle when transcoding' or undefined.
+     * @return {boolean} 'Always burn in subtitle when transcoding' state.
+     */
+    alwaysBurnInSubtitleWhenTranscoding(val) {
+        if (val !== undefined) {
+            return this.set('alwaysBurnInSubtitleWhenTranscoding', val.toString());
+        }
+
+        return toBoolean(this.get('alwaysBurnInSubtitleWhenTranscoding'), false);
+    }
+
+    /**
      * Get or set 'Enable DTS' state.
      * @param {boolean|undefined} val - Flag to enable 'Enable DTS' or undefined.
      * @return {boolean} 'Enable DTS' state.

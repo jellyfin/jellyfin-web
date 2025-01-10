@@ -10,6 +10,11 @@
       "followTag": "unstable",
       "minimumReleaseAge": null,
       "schedule": [ "after 7:00 am" ]
+    },
+    {
+      "matchPackageNames": ["dompurify"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     }
   ]
 }

@@ -1,4 +1,5 @@
 import { Dashboard, ExpandLess, ExpandMore, LibraryAdd, People, PlayCircle, Settings } from '@mui/icons-material';
+import Palette from '@mui/icons-material/Palette';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -65,6 +66,12 @@ const ServerDrawerSection = () => {
                     <ListItemText primary={globalize.translate('General')} />
                 </ListItemLink>
             </ListItem>
+            <ListItemLink to='/dashboard/branding'>
+                <ListItemIcon>
+                    <Palette />
+                </ListItemIcon>
+                <ListItemText primary={globalize.translate('HeaderBranding')} />
+            </ListItemLink>
             <ListItem disablePadding>
                 <ListItemLink to='/dashboard/users'>
                     <ListItemIcon>
@@ -91,7 +98,7 @@ const ServerDrawerSection = () => {
                         <ListItemText inset primary={globalize.translate('Display')} />
                     </ListItemLink>
                     <ListItemLink to='/dashboard/libraries/metadata' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('Metadata')} />
+                        <ListItemText inset primary={globalize.translate('LabelMetadata')} />
                     </ListItemLink>
                     <ListItemLink to='/dashboard/libraries/nfo' sx={{ pl: 4 }}>
                         <ListItemText inset primary={globalize.translate('TabNfoSettings')} />

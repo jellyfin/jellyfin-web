@@ -1,5 +1,5 @@
 import { BaseItemKind, SortOrder } from '@jellyfin/sdk/lib/generated-client';
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { CardOptions } from './cardOptions';
 import { SectionsView } from './libraryTabContent';
 

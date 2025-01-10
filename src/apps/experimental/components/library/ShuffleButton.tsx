@@ -1,4 +1,4 @@
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import React, { FC, useCallback } from 'react';
 import { IconButton } from '@mui/material';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
@@ -24,13 +24,15 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({ item, items, viewType, hasFilte
             playbackManager.shuffle(item);
         } else {
             playbackManager.play({
-                items: items,
+                items,
                 autoplay: true,
                 queryOptions: {
                     ParentId: item?.Id ?? undefined,
                     ...getFiltersQuery(viewType, libraryViewSettings),
                     SortBy: [ItemSortBy.Random]
                 }
+            }).catch(err => {
+                console.error('[ShuffleButton] failed to play', err);
             });
         }
     }, [hasFilters, item, items, libraryViewSettings, viewType]);
