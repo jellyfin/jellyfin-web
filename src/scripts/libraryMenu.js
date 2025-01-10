@@ -58,6 +58,8 @@ function renderHeader() {
     skinHeader.classList.add('skinHeader-blurred');
     skinHeader.innerHTML = html;
 
+    Events.trigger(document, EventType.HEADER_RENDERED);
+
     headerBackButton = skinHeader.querySelector('.headerBackButton');
     headerHomeButton = skinHeader.querySelector('.headerHomeButton');
     mainDrawerButton = skinHeader.querySelector('.mainDrawerButton');
