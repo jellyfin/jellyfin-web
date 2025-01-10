@@ -28,10 +28,18 @@ const KeyNames = {
     415: 'MediaPlay',
     // MediaFastForward (Tizen/WebOS)
     417: 'MediaFastForward',
+    // ChannelUp (Tizen)
+    427: 'ChannelUp',
+    // ChannelDown (Tizen)
+    428: 'ChannelDown',
     // Back (WebOS)
     461: 'Back',
     // Back (Tizen)
     10009: 'Back',
+    // ChannelList (Tizen)
+    10073: 'ChannelList',
+    // Tools (Tizen) => shows settings
+    10135: 'Tools',
     // MediaTrackPrevious (Tizen)
     10232: 'MediaTrackPrevious',
     // MediaTrackNext (Tizen)
@@ -43,12 +51,27 @@ const KeyNames = {
 /**
  * Keys used for keyboard navigation.
  */
-const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'BrowserHome', 'Find'];
+const NavigationKeys = [
+    'ArrowLeft',
+    'ArrowRight',
+    'ArrowUp',
+    'ArrowDown',
+    'BrowserHome',
+    'Find'
+];
 
 /**
  * Keys used for media playback control.
  */
-const MediaKeys = ['MediaRewind', 'MediaStop', 'MediaPlay', 'MediaFastForward', 'MediaTrackPrevious', 'MediaTrackNext', 'MediaPlayPause'];
+const MediaKeys = [
+    'MediaRewind',
+    'MediaStop',
+    'MediaPlay',
+    'MediaFastForward',
+    'MediaTrackPrevious',
+    'MediaTrackNext',
+    'MediaPlayPause'
+];
 
 /**
  * Elements for which navigation should be constrained.
@@ -58,7 +81,17 @@ const InteractiveElements = ['INPUT', 'TEXTAREA'];
 /**
  * Types of INPUT element for which navigation shouldn't be constrained.
  */
-const NonInteractiveInputElements = ['button', 'checkbox', 'color', 'file', 'hidden', 'image', 'radio', 'reset', 'submit'];
+const NonInteractiveInputElements = [
+    'button',
+    'checkbox',
+    'color',
+    'file',
+    'hidden',
+    'image',
+    'radio',
+    'reset',
+    'submit'
+];
 
 let hasFieldKey = false;
 try {
@@ -216,6 +249,18 @@ export function enable() {
             case 'MediaTrackNext':
                 inputManager.handleCommand('nexttrack');
                 break;
+            case 'ChannelUp':
+                inputManager.handleCommand('channelup');
+                break;
+            case 'ChannelDown':
+                inputManager.handleCommand('channeldown');
+                break;
+            case 'ChannelList':
+                inputManager.handleCommand('livetv');
+                break;
+            case 'Tools':
+                inputManager.handleCommand('settings');
+                break;
 
             default:
                 capture = false;
@@ -237,7 +282,8 @@ function attachGamepadScript() {
 }
 
 // No need to check for gamepads manually at load time, the eventhandler will be fired for that
-if (navigator.getGamepads && appSettings.enableGamepad()) { /* eslint-disable-line compat/compat */
+if (navigator.getGamepads && appSettings.enableGamepad()) {
+    /* eslint-disable-line compat/compat */
     window.addEventListener('gamepadconnected', attachGamepadScript);
 }
 
