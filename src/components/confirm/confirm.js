@@ -7,7 +7,7 @@ function useNativeConfirm() {
     // webOS seems to block modals
     // Tizen 2.x seems to block modals
     return !browser.web0s
-        && !(browser.tizenVersion && browser.tizenVersion < 3)
+        && !(browser.tizenVersion && (browser.tizenVersion < 3 || browser.tizenVersion >= 8))
         && browser.tv
         && window.confirm;
 }
