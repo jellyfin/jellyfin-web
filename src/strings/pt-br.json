@@ -1945,7 +1945,7 @@
     "MessageCancelTimerError": "Um erro ocorreu enquanto cancelava o temporizador",
     "UseCustomTagDelimiters": "Usar delimitador de tag personalizado",
     "LabelLyricDownloaders": "Baixador de legenda",
-    "LyricDownloadersHelp": "Habilitar e ranquear seus baixadores de legenda favoritos em ordem de prioridade.",
+    "LyricDownloadersHelp": "Habilitar e ranquear suas fontes de letras favoritas em ordem de prioridade.",
     "LabelAudioTagSettings": "Configurações de etiqueta de áudio",
     "LabelCustomTagDelimiters": "Delimitador Customizado de Tag",
     "LabelCustomTagDelimitersHelp": "Caracteres para serem tratados como delimitadores para separar tags.",

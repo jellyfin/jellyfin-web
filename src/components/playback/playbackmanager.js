@@ -852,31 +852,8 @@ export class PlaybackManager {
         self.getTargets = function () {
             const promises = players.filter(displayPlayerIndividually).map(getPlayerTargets);
 
-            return Promise.all(promises).then(function (responses) {
-                return ServerConnections.currentApiClient().getCurrentUser().then(function (user) {
-                    const targets = [];
-
-                    targets.push({
-                        name: globalize.translate('HeaderMyDevice'),
-                        id: 'localplayer',
-                        playerName: 'localplayer',
-                        playableMediaTypes: ['Audio', 'Video', 'Photo', 'Book'],
-                        isLocalPlayer: true,
-                        supportedCommands: self.getSupportedCommands({
-                            isLocalPlayer: true
-                        }),
-                        user: user
-                    });
-
-                    for (const subTargets of responses) {
-                        for (const subTarget of subTargets) {
-                            targets.push(subTarget);
-                        }
-                    }
-
-                    return targets.sort(sortPlayerTargets);
-                });
-            });
+            return Promise.all(promises)
+                .then(responses => responses.flat().sort(sortPlayerTargets));
         };
 
         self.playerHasSecondarySubtitleSupport = function (player = self._currentPlayer) {

@@ -1829,9 +1829,9 @@
     "DeleteLyrics": "Xóa lời bài hát",
     "ErrorDeletingLyrics": "Đã xảy ra lỗi khi xóa lời bài hát khỏi máy chủ. Vui lòng kiểm tra xem Jellyfin có quyền ghi vào thư mục phương tiện hay không và thử lại.",
     "HeaderNoLyrics": "Không tìm thấy lời bài hát",
-    "LabelExtractTrickplayDuringLibraryScan": "Trích xuất ảnh tua nhanh trong quá trình quét thư viện",
+    "LabelExtractTrickplayDuringLibraryScan": "Trích xuất ảnh tua nhanh trong khi quét thư viện",
     "HeaderVideoAdvanced": "Video Nâng Cao",
-    "LabelExtractTrickplayDuringLibraryScanHelp": "Tạo ảnh tua nhanh khi video được nhập trong quá trình quét thư viện. Nếu không, nó sẽ được trích xuất trong khi chạy theo lịch trình hình ảnh tua nhanh. Nếu việc tạo được đặt là không chặn thì điều này sẽ không ảnh hưởng đến thời gian hoàn tất quá trình quét thư viện.",
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Tạo ảnh tua nhanh khi video được nhập trong khi quét thư viện. Nếu không, nó sẽ được trích xuất trong khi chạy theo lịch trình hình ảnh tua nhanh. Nếu việc tạo được đặt là không chặn thì điều này sẽ không ảnh hưởng đến thời gian hoàn tất khi quét thư viện.",
     "EnableTrueHd": "Bật TrueHD",
     "EnableDts": "Bật DTS (DCA)",
     "EncodingFormatHelp": "Chọn mã hóa video mà Jellyfin sẽ chuyển mã sang. Jellyfin sẽ sử dụng mã hóa phần mềm khi không thể tăng tốc phần cứng cho định dạng đã chọn. Mã hóa H264 sẽ luôn được bật.",
@@ -1937,7 +1937,7 @@
     "AlwaysRemuxFlacAudioFilesHelp": "Nếu bạn có các tệp mà trình duyệt của bạn từ chối phát hoặc nơi nó tính toán dấu thời gian không chính xác, hãy bật tính năng này như một giải pháp thay thế.",
     "AlwaysRemuxMp3AudioFilesHelp": "Nếu bạn có các tệp mà trình duyệt của bạn tính toán dấu thời gian không chính xác, hãy kích hoạt tính năng này như một giải pháp thay thế.",
     "DisableVbrAudioEncodingHelp": "Ngăn máy chủ mã hóa âm thanh bằng VBR cho máy khách này.",
-    "LyricDownloadersHelp": "Kích hoạt và xếp hạng các trình tải xuống phụ đề ưa thích của bạn theo thứ tự ưu tiên.",
+    "LyricDownloadersHelp": "Bật và xếp hạng ưu tiên các trình tải về lời bài hát ưa thích của bạn.",
     "RenderPgsSubtitle": "Kết xuất phụ đề PGS thử nghiệm",
     "RenderPgsSubtitleHelp": "Xác định xem khách hàng có nên hiển thị phụ đề PGS thay vì sử dụng phụ đề ghi sẵn hay không. Điều này có thể tránh việc chuyển mã phía máy chủ để đổi lấy hiệu suất hiển thị phía máy khách.",
     "LabelLyricDownloaders": "Trình tải lời bài hát",
@@ -1986,5 +1986,7 @@
     "MediaSegmentAction.AskToSkip": "Yêu Cầu Bỏ Qua",
     "MediaSegmentSkipPrompt": "Bỏ qua {0}",
     "MoviesAndShows": "Phim và Chương trình",
-    "Anime": "Anime"
+    "Anime": "Anime",
+    "HeaderNextEpisode": "Tập Kế Tiếp",
+    "HeaderNextVideo": "Video Kế Tiếp"
 }

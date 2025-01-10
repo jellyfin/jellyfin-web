@@ -1954,7 +1954,7 @@
     "RenderPgsSubtitle": "Experimental PGS subtitle rendering",
     "RenderPgsSubtitleHelp": "Determine if the client should render PGS subtitles instead of using burned in subtitles. This can avoid server-side transcoding in exchange of client-side rendering performance.",
     "LabelLyricDownloaders": "Lyric downloaders",
-    "LyricDownloadersHelp": "Enable and rank your preferred subtitle downloaders in order of priority.",
+    "LyricDownloadersHelp": "Enable and rank your preferred lyric downloaders in order of priority.",
     "LabelAudioTagSettings": "Audio Tag settings",
     "LabelCustomTagDelimiters": "Custom Tag Delimiter",
     "LabelCustomTagDelimitersHelp": "Characters to be treated as delimiters to separate tags.",
@@ -1988,5 +1988,6 @@
     "PlaylistError.UpdateFailed": "Error updating playlist",
     "MediaSegmentAction.AskToSkip": "Ask To Skip",
     "MediaSegmentSkipPrompt": "Skip {0}",
-    "Anime": "Anime"
+    "Anime": "Anime",
+    "MoviesAndShows": "Films and Programmes"
 }

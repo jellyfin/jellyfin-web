@@ -1760,7 +1760,7 @@
     "LabelThrottleDelaySecondsHelp": "Tiempo en segundos después de que la transcodificación entre en aceleración. Deben ser los suficientes para que el buffer del cliente siga operando. Unicamente funciona si la aceleración está habilitada.",
     "LabelSegmentKeepSeconds": "Tiempo para guardar segmentos",
     "LabelSegmentKeepSecondsHelp": "Tiempo en segundos durante el cual se deben conservar los segmentos antes de que se sobrescriban. Debe ser mayor que \"Aceleración después\" de la descarga por parte del cliente. Solo funciona si la eliminación de segmentos está habilitada.",
-    "AllowAv1Encoding": "Permitir encodificación en formato AV1",
+    "AllowAv1Encoding": "Permitir la codificación en formato AV1",
     "GoHome": "Ir a Inicio",
     "UnknownError": "Un error desconocido ocurrió.",
     "GridView": "Vista en Cuadrícula",
@@ -1886,7 +1886,7 @@
     "LabelTileHeight": "Altura del Mosaico",
     "LabelTileHeightHelp": "Número máximo de imágenes por mosaico en la dirección Y.",
     "Reset": "Reinicializar",
-    "HeaderNextItemPlayingInValue": "Siguiente {0} Jugando en {1}",
+    "HeaderNextItemPlayingInValue": "Siguiente {0} Reproduciendo en {1}",
     "HeaderUploadLyrics": "Subir Letra",
     "HeaderNextItem": "Siguiente {0}",
     "NoLyricsSearchResultsFound": "No se encontraron letras.",
@@ -1965,5 +1965,13 @@
     "UseCustomTagDelimiters": "Usar delimitador de etiquetas personalizado",
     "UseCustomTagDelimitersHelp": "Divida etiquetas de artista/género con caracteres personalizados.",
     "Trickplay": "truco",
-    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extraiga fotogramas clave solo para un procesamiento significativamente más rápido con una sincronización menos precisa. Si el decodificador de hardware configurado no admite este modo, utilizará el decodificador de software en su lugar."
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extraiga fotogramas clave solo para un procesamiento significativamente más rápido con una sincronización menos precisa. Si el decodificador de hardware configurado no admite este modo, utilizará el decodificador de software en su lugar.",
+    "HeaderNewPlaylist": "Nueva lista de reproducción",
+    "LabelQsvDeviceHelp": "Especifique el dispositivo para Intel QSV en un sistema con múltiples GPU. En Linux, este es el nodo de renderizado, por ejemplo, /dev/dri/renderD128. En Windows, este es el índice del dispositivo comenzando desde 0. Déjelo en blanco a menos que sepa lo que está haciendo.",
+    "MediaSegmentSkipPrompt": "Saltar {0}",
+    "LabelMediaSegmentsType": "{0} Segmentos",
+    "HeaderEditPlaylist": "Editar lista de reproducción",
+    "LabelQsvDevice": "Dispositivo QSV",
+    "MediaSegmentAction.Skip": "Saltar",
+    "MediaSegmentType.Commercial": "Comercial"
 }

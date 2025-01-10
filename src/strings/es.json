@@ -1764,7 +1764,7 @@
     "LabelSegmentKeepSecondsHelp": "Tiempo en segundos durante el cual se deben conservar los segmentos después de que el cliente los descarga. Solo funciona si la eliminación de segmentos está habilitada.",
     "LabelBackdropScreensaverInterval": "Intervalo del fondo protector de pantalla",
     "LabelBackdropScreensaverIntervalHelp": "El tiempo en segundos entre diferentes fondos cuando se utiliza el fondo protector de pantalla.",
-    "AllowAv1Encoding": "Permitir encodificación en formato AV1",
+    "AllowAv1Encoding": "Permitir la codificación en formato AV1",
     "GoHome": "Ir a Inicio",
     "UnknownError": "Un error desconocido ocurrió.",
     "GridView": "Vista en Cuadrícula",
@@ -1971,5 +1971,16 @@
     "MessageSplitVersionsError": "Ocurrió un error al dividir las versiones",
     "UseCustomTagDelimiters": "Usar delimitador de etiqueta personalizado",
     "UseCustomTagDelimitersHelp": "Separar etiquetas de artista/género con caracteres personalizados.",
-    "VideoCodecTagNotSupported": "La etiqueta del códec de video no es compatible"
+    "VideoCodecTagNotSupported": "La etiqueta del códec de video no es compatible",
+    "MediaSegmentAction.AskToSkip": "Solicitar saltar",
+    "HeaderEditPlaylist": "Editar lista de reproducción",
+    "LabelMediaSegmentsType": "{0} Segmentos",
+    "LabelQsvDevice": "Dispositivo QSV",
+    "MediaSegmentType.Intro": "Introducción",
+    "Anime": "Anime",
+    "HeaderNewPlaylist": "Nueva lista de reproducción",
+    "MediaSegmentAction.Skip": "Saltar",
+    "MediaSegmentSkipPrompt": "Saltar {0}",
+    "MediaSegmentType.Commercial": "Comercial",
+    "MediaSegmentType.Preview": "Adelanto"
 }

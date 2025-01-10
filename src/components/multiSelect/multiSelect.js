@@ -222,7 +222,7 @@ function showMenuForSelectedItems(e) {
                 icon: 'check_box_outline_blank'
             });
 
-            // this assues that if the user can refresh metadata for the first item
+            // this assures that if the user can refresh metadata for the first item
             // they can refresh metadata for all items
             if (itemHelper.canRefreshMetadata(firstItem, user)) {
                 menuItems.push({

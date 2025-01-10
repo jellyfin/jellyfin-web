@@ -273,6 +273,44 @@ module.exports = {
                 __WEBPACK_SERVE__: 'readonly'
             },
             rules: {
+                '@typescript-eslint/naming-convention': [
+                    'error',
+                    {
+                        selector: 'default',
+                        format: [ 'camelCase', 'PascalCase' ],
+                        leadingUnderscore: 'allow'
+                    },
+                    {
+                        selector: 'variable',
+                        format: [ 'camelCase', 'PascalCase', 'UPPER_CASE' ],
+                        leadingUnderscore: 'allowSingleOrDouble',
+                        trailingUnderscore: 'allowSingleOrDouble'
+                    },
+                    {
+                        selector: 'typeLike',
+                        format: [ 'PascalCase' ]
+                    },
+                    {
+                        selector: 'enumMember',
+                        format: [ 'PascalCase', 'UPPER_CASE' ]
+                    },
+                    {
+                        selector: [ 'objectLiteralProperty', 'typeProperty' ],
+                        format: [ 'camelCase', 'PascalCase' ],
+                        leadingUnderscore: 'allowSingleOrDouble',
+                        trailingUnderscore: 'allowSingleOrDouble'
+                    },
+                    // Ignore numbers, locale strings (en-us), aria/data attributes, CSS selectors,
+                    // and api_key parameter
+                    {
+                        selector: [ 'objectLiteralProperty', 'typeProperty' ],
+                        format: null,
+                        filter: {
+                            regex: '[ &\\-]|^([0-9]+)$|^api_key$',
+                            match: true
+                        }
+                    }
+                ],
                 '@typescript-eslint/prefer-string-starts-ends-with': ['error']
             }
         },
