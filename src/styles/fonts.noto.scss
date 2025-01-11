@@ -1,25 +1,29 @@
 @import "../styles/noto-sans/index.scss";
 
+$font-override-var: --jf-font-override;
+$current-font: --jf-current-font;
+
 html {
-    font-family: "Noto Sans", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC", sans-serif;
+    #{$current-font}: var(#{$font-override-var}, "Noto Sans", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC"), sans-serif;
+    font-family: var($current-font);
 }
 
 html[lang|="ja"] {
-    font-family: "Noto Sans", "Noto Sans JP", "Noto Sans HK", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC", sans-serif;
+    #{$current-font}: var($font-override-var + "--ja", var($font-override-var, "Noto Sans", "Noto Sans JP", "Noto Sans HK", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC")), sans-serif;
 }
 
 html[lang|="ko"] {
-    font-family: "Noto Sans", "Noto Sans KR", "Noto Sans HK", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC", sans-serif;
+    #{$current-font}: var($font-override-var + "--ko", var($font-override-var, "Noto Sans", "Noto Sans KR", "Noto Sans HK", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC")), sans-serif;
 }
 
 html[lang|="zh-CN"] {
-    font-family: "Noto Sans", "Noto Sans SC", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans TC", sans-serif;
+    #{$current-font}: var($font-override-var + "--zh-CN", var($font-override-var, "Noto Sans", "Noto Sans SC", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans TC")), sans-serif;
 }
 
 html[lang|="zh-TW"] {
-    font-family: "Noto Sans", "Noto Sans TC", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", sans-serif;
+    #{$current-font}: var($font-override-var + "--zh-TW", var($font-override-var, "Noto Sans", "Noto Sans TC", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC")), sans-serif;
 }
 
 html[lang|="zh-HK"] {
-    font-family: "Noto Sans", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC", sans-serif;
+    #{$current-font}: var($font-override-var + "--zh-HK", var($font-override-var, "Noto Sans", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC")), sans-serif;
 }

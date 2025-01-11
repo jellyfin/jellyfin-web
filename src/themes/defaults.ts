@@ -26,7 +26,7 @@ export const DEFAULT_THEME_OPTIONS: ThemeOptions = {
         }
     },
     typography: {
-        fontFamily: '"Noto Sans", sans-serif',
+        fontFamily: 'var(--jf-current-font)',
         button: {
             textTransform: 'none'
         },
