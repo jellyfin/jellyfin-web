@@ -1178,7 +1178,7 @@
     "OptionMax": "Maximum",
     "OptionSubstring": "Teilzeichenfolge",
     "Premiere": "Premiere",
-    "Smart": "Schlau",
+    "Smart": "Smart",
     "Tags": "Markierungen",
     "TagsValue": "Markierungen: {0}",
     "Thumb": "Miniaturansicht",
@@ -1362,7 +1362,7 @@
     "MusicVideos": "Musikvideos",
     "Image": "Bild",
     "Data": "Daten",
-    "SpecialFeatures": "Besonderheiten",
+    "SpecialFeatures": "Bonusmaterial",
     "Poster": "Poster",
     "Photo": "Foto",
     "Other": "Sonstiges",
@@ -1989,5 +1989,7 @@
     "MediaSegmentSkipPrompt": "{0} überspringen",
     "MediaSegmentAction.AskToSkip": "Vor dem Überspringen nachfragen",
     "Anime": "Anime",
-    "MoviesAndShows": "Filme und Serien"
+    "MoviesAndShows": "Filme und Serien",
+    "HeaderNextEpisode": "Nächste Episode",
+    "HeaderNextVideo": "Nächstes Video"
 }

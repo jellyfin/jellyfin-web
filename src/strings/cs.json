@@ -1986,8 +1986,10 @@
     "PlaylistError.UpdateFailed": "Aktualizace seznamu skladeb se nezdařila",
     "HeaderMediaSegmentActions": "Akce segmentu médií",
     "LabelMediaSegmentsType": "{0} segmentů",
-    "MediaSegmentSkipPrompt": "Přeskočit",
+    "MediaSegmentSkipPrompt": "Přeskočit {0}",
     "MediaSegmentAction.AskToSkip": "Zeptat se, zda přeskočit",
     "Anime": "Anime",
-    "MoviesAndShows": "Filmy a seriály"
+    "MoviesAndShows": "Filmy a seriály",
+    "HeaderNextEpisode": "Další díl",
+    "HeaderNextVideo": "Další video"
 }
