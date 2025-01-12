@@ -9,8 +9,7 @@ const AppHeader: FC<AppHeaderParams> = ({
 }) => {
     useEffect(() => {
         // Initialize the UI components after first render
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        import('../scripts/libraryMenu');
+        void import('../scripts/libraryMenu');
     }, []);
 
     return (
