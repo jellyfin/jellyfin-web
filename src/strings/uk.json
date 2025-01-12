@@ -1986,5 +1986,7 @@
     "MediaSegmentAction.AskToSkip": "Запитати про пропуск",
     "MediaSegmentSkipPrompt": "Пропустити {0}",
     "Anime": "Аніме",
-    "MoviesAndShows": "Фільми та серіали"
+    "MoviesAndShows": "Фільми та серіали",
+    "HeaderNextEpisode": "Наступний епізод",
+    "HeaderNextVideo": "Наступне відео"
 }

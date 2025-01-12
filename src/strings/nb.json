@@ -1984,5 +1984,7 @@
     "HeaderMediaSegmentActions": "Mediasegment-handlinger",
     "MediaSegmentType.Intro": "Intro",
     "MediaSegmentType.Outro": "outro",
-    "Anime": "Anime"
+    "Anime": "Anime",
+    "HeaderNextEpisode": "Neste episode",
+    "HeaderNextVideo": "Neste video"
 }

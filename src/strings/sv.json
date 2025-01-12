@@ -1984,5 +1984,7 @@
     "HeaderMediaSegmentActions": "Åtgärder inom mediesegmentet",
     "UseCustomTagDelimiters": "Använd anpassad taggavgränsare",
     "UseCustomTagDelimitersHelp": "Dela upp artist/genre-taggar med egna tecken.",
-    "LabelDelimiterWhitelist": "Avgränsare Vitlista"
+    "LabelDelimiterWhitelist": "Avgränsare Vitlista",
+    "HeaderNextEpisode": "Nästa avsnitt",
+    "HeaderNextVideo": "Nästa video"
 }

@@ -1164,10 +1164,12 @@
     "LabelKodiMetadataEnablePathSubstitutionHelp": "Įjungti kelio pakeitimą nuotraukoms naudojant serverio kelio pakeitimo nustatymus.",
     "LabelKodiMetadataDateFormatHelp": "Visos datos iš NFO failų bus ištraukiamos šiuo formatu.",
     "AllowSegmentDeletion": "Ištrinti segmentus",
-    "AllowSegmentDeletionHelp": "Ištrinkite senus segmentus, kai jie buvo išsiųsti klientui. Taip išvengiama viso perkoduoto failo saugojimo diske. Veiks tik su įjungtu droseliu. Išjunkite tai, jei kyla atkūrimo problemų.",
+    "AllowSegmentDeletionHelp": "Ištrinti senus segmentus, kai jie buvo atsisiųsti kliento. Taip išvengiama viso perkoduoto failo saugojimo diske. Išjunkite šią funkciją, jei kyla atkūrimo problemų.",
     "AirPlay": "AirPlay",
     "AllowSubtitleManagement": "Leisti šiam vartotojui keisti subtitrus",
     "Alternate": "Pakaitinis",
     "AlternateDVD": "Pakaitinis DVD",
-    "Large": "Didelis"
+    "Large": "Didelis",
+    "AllowContentWithTagsHelp": "Rodyti tik mediją su bent viena pasirinkta žyma.",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Visada perkoduojant įrašyti subtitrus"
 }
