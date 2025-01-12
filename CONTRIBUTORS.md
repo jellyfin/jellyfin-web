@@ -93,6 +93,7 @@
 - [Connor Smith](https://github.com/ConnorS1110)
 - [iFraan](https://github.com/iFraan)
 - [Ali](https://github.com/bu3alwa)
+- [K. Kyle Puchkov](https://github.com/kepper104)
 
 ## Emby Contributors
 
