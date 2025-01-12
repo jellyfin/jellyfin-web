@@ -67,15 +67,13 @@ const Home = () => {
         }
 
         return import(/* webpackChunkName: "[request]" */ `../../../controllers/${depends}`).then(({ default: ControllerFactory }) => {
-            let controller = tabControllers[index];
+            const controller = tabControllers[index];
+            if (controller) return controller;
 
-            if (!controller) {
-                const tabContent = element.current?.querySelector(".tabContent[data-index='" + index + "']");
-                controller = new ControllerFactory(tabContent, null);
-                tabControllers[index] = controller;
-            }
-
-            return controller;
+            const tabContent = element.current?.querySelector(".tabContent[data-index='" + index + "']");
+            const newController = new ControllerFactory(tabContent, null);
+            tabControllers[index] = newController;
+            return newController;
         });
     }, [ tabControllers ]);
 

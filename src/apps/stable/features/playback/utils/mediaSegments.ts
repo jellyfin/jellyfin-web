@@ -1,20 +1,20 @@
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 
-const isBeforeSegment = (segment: MediaSegmentDto, time: number, direction: number) => {
+const isBeforeSegment = (segment: MediaSegmentDto | undefined, time: number, direction: number) => {
     if (direction === -1) {
         return (
-            typeof segment.EndTicks !== 'undefined'
+            typeof segment?.EndTicks !== 'undefined'
             && segment.EndTicks <= time
         );
     }
     return (
-        typeof segment.StartTicks !== 'undefined'
+        typeof segment?.StartTicks !== 'undefined'
         && segment.StartTicks > time
     );
 };
 
-export const isInSegment = (segment: MediaSegmentDto, time: number) => (
-    typeof segment.StartTicks !== 'undefined'
+export const isInSegment = (segment: MediaSegmentDto | undefined, time: number) => (
+    typeof segment?.StartTicks !== 'undefined'
     && segment.StartTicks <= time
     && (typeof segment.EndTicks === 'undefined' || segment.EndTicks > time)
 );
@@ -26,7 +26,7 @@ export const findCurrentSegment = (segments: MediaSegmentDto[], time: number, la
     }
 
     let direction = 1;
-    if (lastIndex > 0 && lastSegment.StartTicks && lastSegment.StartTicks > time) {
+    if (lastIndex > 0 && lastSegment?.StartTicks && lastSegment.StartTicks > time) {
         direction = -1;
     }
 

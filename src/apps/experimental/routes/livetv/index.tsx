@@ -52,7 +52,7 @@ const liveTvTabMapping: LibraryTabMapping = {
 
 const LiveTv: FC = () => {
     const { libraryId, activeTab } = useCurrentTab();
-    const currentTab = liveTvTabMapping[activeTab];
+    const currentTab = liveTvTabMapping[activeTab] || programsTabContent;
 
     return (
         <Page

@@ -59,7 +59,7 @@ const tvShowsTabMapping: LibraryTabMapping = {
 
 const Shows: FC = () => {
     const { libraryId, activeTab } = useCurrentTab();
-    const currentTab = tvShowsTabMapping[activeTab];
+    const currentTab = tvShowsTabMapping[activeTab] || seriesTabContent;
 
     return (
         <Page

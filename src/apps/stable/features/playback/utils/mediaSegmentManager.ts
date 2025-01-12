@@ -124,7 +124,7 @@ class MediaSegmentManager extends PlaybackSubscriber {
             const currentSegmentDetails = findCurrentSegment(this.mediaSegments, time, this.lastSegmentIndex);
             if (
                 // The current time falls within a segment
-                currentSegmentDetails
+                currentSegmentDetails?.segment
                 // and the last segment is not ignored or the segment index has changed
                 && (!this.isLastSegmentIgnored || this.lastSegmentIndex !== currentSegmentDetails.index)
             ) {
