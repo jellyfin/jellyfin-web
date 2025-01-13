@@ -7,7 +7,7 @@ import globalize from 'lib/globalize';
 import { Alert, Box, Button, FormControlLabel, Stack, Switch, TextField, Typography } from '@mui/material';
 import { type ActionFunctionArgs, Form, useActionData } from 'react-router-dom';
 import ServerConnections from 'components/ServerConnections';
-import { useLogEntries } from 'apps/dashboard/features/logs/api/useLogEntries';
+import { useServerLogs } from 'apps/dashboard/features/logs/api/useServerLogs';
 import { useLogOptions } from 'apps/dashboard/features/logs/api/useLogOptions';
 import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
 import { ActionData } from 'types/actionData';
@@ -41,7 +41,7 @@ const Logs = () => {
     const actionData = useActionData() as ActionData | undefined;
     const [ isSubmitting, setIsSubmitting ] = useState(false);
 
-    const { isPending: isLogEntriesPending, data: logs } = useLogEntries();
+    const { isPending: isLogEntriesPending, data: logs } = useServerLogs();
     const { isPending: isLogOptionsPending, data: defaultLogOptions } = useLogOptions();
     const [ loading, setLoading ] = useState(true);
     const [ logOptions, setLogOptions ] = useState<ServerConfiguration>( {} );
