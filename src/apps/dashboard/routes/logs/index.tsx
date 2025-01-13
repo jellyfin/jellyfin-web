@@ -20,9 +20,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const { data: config } = await getConfigurationApi(api).getConfiguration();
 
     const enableWarningMessage = formData.get('EnableWarningMessage');
-    if (enableWarningMessage) {
-        config.EnableSlowResponseWarning = formData.get('EnableWarningMessage') === 'on';
-    }
+    config.EnableSlowResponseWarning = enableWarningMessage === 'on';
 
     const responseTime = formData.get('SlowResponseTime');
     if (responseTime) {
@@ -44,28 +42,28 @@ const Logs = () => {
     const { isPending: isLogEntriesPending, data: logs } = useServerLogs();
     const { isPending: isConfigurationPending, data: defaultConfiguration } = useConfiguration();
     const [ loading, setLoading ] = useState(true);
-    const [ logOptions, setLogOptions ] = useState<ServerConfiguration>( {} );
+    const [ configuration, setConfiguration ] = useState<ServerConfiguration>( {} );
 
     useEffect(() => {
         if (!isConfigurationPending && defaultConfiguration) {
-            setLogOptions(defaultConfiguration);
+            setConfiguration(defaultConfiguration);
             setLoading(false);
         }
     }, [isConfigurationPending, defaultConfiguration]);
 
     const setLogWarningMessage = useCallback((_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
-        setLogOptions({
-            ...logOptions,
+        setConfiguration({
+            ...configuration,
             EnableSlowResponseWarning: checked
         });
-    }, [logOptions]);
+    }, [configuration]);
 
     const onResponseTimeChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
-        setLogOptions({
-            ...logOptions,
+        setConfiguration({
+            ...configuration,
             SlowResponseThresholdMs: parseInt(event.target.value, 10)
         });
-    }, [logOptions]);
+    }, [configuration]);
 
     const onSubmit = useCallback(() => {
         setIsSubmitting(true);
@@ -97,7 +95,7 @@ const Logs = () => {
                         <FormControlLabel
                             control={
                                 <Switch
-                                    checked={logOptions?.EnableSlowResponseWarning}
+                                    checked={configuration?.EnableSlowResponseWarning}
                                     onChange={setLogWarningMessage}
                                     name={'EnableWarningMessage'}
                                 />
@@ -110,7 +108,8 @@ const Logs = () => {
                             type='number'
                             name={'SlowResponseTime'}
                             label={globalize.translate('LabelSlowResponseTime')}
-                            value={logOptions?.SlowResponseThresholdMs}
+                            value={configuration?.SlowResponseThresholdMs}
+                            disabled={!configuration?.EnableSlowResponseWarning}
                             onChange={onResponseTimeChange}
                         />
 
