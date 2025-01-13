@@ -9,7 +9,7 @@ const AppHeader: FC<AppHeaderParams> = ({
 }) => {
     useEffect(() => {
         // Initialize the UI components after first render
-        import('../scripts/libraryMenu');
+        void import('../scripts/libraryMenu');
     }, []);
 
     return (

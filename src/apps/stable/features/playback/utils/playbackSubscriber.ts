@@ -1,9 +1,6 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 import type { MediaSourceInfo } from '@jellyfin/sdk/lib/generated-client/models/media-source-info';
-
-import { PlaybackManagerEvent } from 'apps/stable/features/playback/constants/playbackManagerEvent';
-import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import type { ManagedPlayerStopInfo, MovedItem, PlayerError, PlayerErrorCode, PlayerStopInfo, RemovedItems } from 'apps/stable/features/playback/types/callbacks';
 import type { PlaybackManager } from 'components/playback/playbackmanager';
 import type { MediaError } from 'types/mediaError';
@@ -11,7 +8,10 @@ import type { PlayTarget } from 'types/playTarget';
 import type { PlaybackStopInfo, PlayerState } from 'types/playbackStopInfo';
 import type { PlayerPlugin } from 'types/plugin';
 import Events, { type Event } from 'utils/events';
+import { PlaybackManagerEvent } from '../constants/playbackManagerEvent';
+import { PlayerEvent } from '../constants/playerEvent';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface PlaybackSubscriber {
     onPlaybackCancelled?(e: Event): void
     onPlaybackError?(e: Event, errorType: MediaError): void
@@ -40,6 +40,7 @@ export interface PlaybackSubscriber {
     onReportPlayback?(e: Event, isServerItem: boolean): void
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export abstract class PlaybackSubscriber {
     protected player: PlayerPlugin | undefined;
 
