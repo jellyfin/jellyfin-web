@@ -307,7 +307,7 @@ $(document).on('pageinit', '#liveTvStatusPage', function () {
         addDevice();
     });
     if (page.querySelector('.formAddDevice')) {
-        // unused?
+        // NOTE: unused?
         page.querySelector('.formAddDevice').addEventListener('submit', function (e) {
             e.preventDefault();
             submitAddDeviceForm(page);
