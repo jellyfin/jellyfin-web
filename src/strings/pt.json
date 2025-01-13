@@ -71,7 +71,7 @@
     "SettingsSaved": "Definições guardadas.",
     "Settings": "Definições",
     "ServerUpdateNeeded": "Este servidor precisa de ser atualizado. Para transferir a versão mais recente, visite {0}",
-    "ServerRestartNeededAfterPluginInstall": "O Servidor Jellyfin terá de reiniciar depois de instalar uma extensão.",
+    "ServerRestartNeededAfterPluginInstall": "O Servidor Jellyfin terá de reiniciar depois de instalar a extensão.",
     "SeriesDisplayOrderHelp": "Ordenar episódios por data de estreia, ordem no DVD ou numeração absoluta.",
     "Series": "Séries",
     "SendMessage": "Enviar mensagem",
@@ -1977,5 +1977,11 @@
     "PluginLoadConfigError": "Ocorrreu um erro ao abrir a página de configurações do plugin.",
     "PluginLoadRepoError": "Ocorreu um erro ao obter os detalhes do plugin do repositório.",
     "PlaylistError.UpdateFailed": "Erro ao actulizar a playlist",
-    "MessageCancelTimerError": "Ocorreu um erro enquanto cancelava o temporizador"
+    "MessageCancelTimerError": "Ocorreu um erro enquanto cancelava o temporizador",
+    "ReplaceTrickplayImages": "Substituir images the trickplay existentes",
+    "Reset": "Repor",
+    "PreferNonstandardArtistsTagHelp": "Utilizar tags ARTITS não-padrão em vez da tag ARTIST quando disponível.",
+    "RenderPgsSubtitle": "Renderização de legenda PGS experimental",
+    "PreviewLyrics": "Prévisualizar Letra",
+    "RenderPgsSubtitleHelp": "Determina se o cliente deve renderizar legendas PGS em vez de legendas embutidas. Pode evitar transcodificação no servidor em troca de performance de renderização no cliente."
 }
