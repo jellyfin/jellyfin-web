@@ -1394,11 +1394,11 @@
     "MediaInfoColorPrimaries": "Primaire kleuren",
     "LabelTonemappingParamHelp": "Stem het toonmapping-algoritme af. De aanbevolen en standaardwaarden zijn NaN. Laat het in het algemeen leeg.",
     "LabelTonemappingParam": "Tonemapping-parameter",
-    "LabelTonemappingPeakHelp": "Overschrijf signaal-/nominaal-/referentiepiek met deze waarde. Nuttig wanneer de ingesloten piekinformatie in de weergave-metadata niet betrouwbaar is of bij tonemapping van een lager naar een hoger bereik. De aanbevolen en standaardwaarden zijn 100 en 0.",
+    "LabelTonemappingPeakHelp": "Gebruik deze piekwaarde voor het ingangssignaal in plaats van de waarde in de ingesloten metadata. De standaardwaarde is 100 (1000 nit).",
     "LabelTonemappingPeak": "Tonemapping-piek",
     "LabelTonemappingThresholdHelp": "De parameters van het tonemapping-algoritme worden voor elke scène nauwkeurig afgesteld. En een drempel wordt gebruikt om te detecteren of de scène is veranderd of niet. Als de afstand tussen de huidige gemiddelde helderheid van het frame en het huidige lopende gemiddelde een drempelwaarde overschrijdt, zouden we het scènegemiddelde en de piekhelderheid opnieuw berekenen. De aanbevolen en standaardwaarden zijn 0,8 en 0,2.",
     "LabelTonemappingThreshold": "Tonemapping-drempel",
-    "LabelTonemappingDesatHelp": "Pas desaturatie toe voor highlights die dit helderheidsniveau overschrijden. Hoe hoger de parameter, hoe meer kleurinformatie behouden blijft. Deze instelling helpt om onnatuurlijk uitgeblazen kleuren voor super-highlights te voorkomen door (vloeiend) in wit over te gaan. Hierdoor voelen beelden natuurlijker aan, wat ten koste gaat van informatie over kleuren die buiten het bereik vallen. De aanbevolen en standaardwaarden zijn 0 en 0,5.",
+    "LabelTonemappingDesatHelp": "Pas desaturatie toe voor highlights die dit helderheidsniveau overschrijden. De aanbevolen waarde is 0 (uitschakelen).",
     "LabelTonemappingDesat": "Tonemapping-desat",
     "TonemappingRangeHelp": "Selecteer het uitvoerkleurbereik. Auto is hetzelfde als het invoerbereik.",
     "LabelTonemappingRange": "Tonemapping-bereik",
@@ -1660,9 +1660,9 @@
     "MediaInfoVideoRangeType": "Bereiktype beeld",
     "LabelVideoRangeType": "Bereiktype beeld",
     "VideoRangeTypeNotSupported": "Het bereiktype van het beeld wordt niet ondersteund",
-    "LabelVppTonemappingContrastHelp": "Pas contrastversterking toe in VPP-tonemapping. De aanbevolen en standaardwaarden zijn 1.",
+    "LabelVppTonemappingContrastHelp": "Pas contrastversterking toe in VPP-tonemapping. De aanbevolen waarde is 1.",
     "LabelVppTonemappingContrast": "Contrastversterking VPP-tonemapping",
-    "LabelVppTonemappingBrightnessHelp": "Pas helderheidsversterking toe bij VPP-tonemapping. De aanbevolen en standaardwaarden zijn 16 en 0.",
+    "LabelVppTonemappingBrightnessHelp": "Pas helderheidsversterking toe bij VPP-tonemapping. De aanbevolen waarde is 16.",
     "LabelVppTonemappingBrightness": "Helderheidsversterking VPP-tonemapping",
     "EnableSplashScreen": "Opstartscherm inschakelen",
     "EnableEnhancedNvdecDecoderHelp": "Verbeterde NVDEC-implementatie; schakel deze instelling uit om CUVID te gebruiken indien je decoderingsfouten tegenkomt.",
@@ -1991,5 +1991,6 @@
     "MoviesAndShows": "Films en series",
     "HeaderNextEpisode": "Volgende aflevering",
     "HeaderNextVideo": "Volgende video",
-    "LabelMediaSegmentProviders": "Aanbieders van mediasegmenten"
+    "LabelMediaSegmentProviders": "Aanbieders van mediasegmenten",
+    "MediaSegmentProvidersHelp": "Rangschik je voorkeursaanbieders van mediasegmenten op volgorde van prioriteit."
 }
