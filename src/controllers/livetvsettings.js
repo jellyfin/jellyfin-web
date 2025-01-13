@@ -7,9 +7,7 @@ import alert from '../components/alert';
 
 function loadPage(page, config) {
     page.querySelector('.liveTvSettingsForm').classList.remove('hide');
-    if (page.querySelector('.noLiveTvServices')) {
-        page.querySelector('.noLiveTvServices').classList.add('hide');
-    }
+    page.querySelector('.noLiveTvServices')?.classList.add('hide');
     page.querySelector('#selectGuideDays').value = config.GuideDays || '';
     page.querySelector('#txtPrePaddingMinutes').value = config.PrePaddingSeconds / 60;
     page.querySelector('#txtPostPaddingMinutes').value = config.PostPaddingSeconds / 60;
