@@ -1940,5 +1940,10 @@
     "MoviesAndShows": "Film dan Serial",
     "LabelTrickplayKeyFrameOnlyExtraction": "Hanya hasilkan gambar dari keyframe",
     "DateModified": "Tanggal diubah",
-    "LabelRepository": "Repositori"
+    "LabelRepository": "Repositori",
+    "HeaderNextEpisode": "Episode Selanjutnya",
+    "HeaderNextVideo": "Video Selanjutnya",
+    "AndOtherArtists": "{0} dan {1} artis lainnya.",
+    "LabelAllowStreamSharing": "Mengizinkan berbagi stream",
+    "LabelAudioTagSettings": "Pengaturan Tag Audio"
 }
