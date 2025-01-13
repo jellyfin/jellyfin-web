@@ -961,7 +961,6 @@
     "LabelTonemappingPeak": "Tone mapping peak",
     "LabelTonemappingPeakHelp": "Override the embedded metadata value for the input signal with this peak value instead. The default value is 100 (1000nit).",
     "LabelTonemappingRange": "Tone mapping range",
-    "LabelTonemappingThreshold": "Tone mapping threshold",
     "LabelTrackNumber": "Track number",
     "LabelTranscodePath": "Transcode path",
     "LabelTranscodes": "Transcodes",
