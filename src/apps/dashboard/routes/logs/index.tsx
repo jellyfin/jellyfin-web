@@ -121,16 +121,14 @@ const Logs = () => {
                         </Button>
                     </Stack>
                 </Form>
-                <div className='serverLogs readOnlyContent'>
-                    <div className='paperList'>
-                        {logs?.map(log => {
-                            return <LogItem
-                                key={log.Name}
-                                logFile={log}
-                            />;
-                        })}
-                    </div>
-                </div>
+                <Stack className='serverLogs readOnlyContent' spacing={1} sx={{ mt: 1 }}>
+                    {logs?.map(log => {
+                        return <LogItem
+                            key={log.Name}
+                            logFile={log}
+                        />;
+                    })}
+                </Stack>
             </Box>
         </Page>
     );

@@ -1,7 +1,7 @@
-import type { LogFile } from '@jellyfin/sdk/lib/generated-client/models/log-file';
-import LinkButton from 'elements/emby-button/LinkButton';
-import { useApi } from 'hooks/useApi';
 import React, { FunctionComponent } from 'react';
+import type { LogFile } from '@jellyfin/sdk/lib/generated-client/models/log-file';
+import { Card, CardActionArea, CardContent, ListItemText } from '@mui/material';
+import { useApi } from 'hooks/useApi';
 import datetime from 'scripts/datetime';
 
 type LogItemProps = {
@@ -12,7 +12,7 @@ const LogItem: FunctionComponent<LogItemProps> = ({ logFile }: LogItemProps) => 
     const { api } = useApi();
 
     const getLogFileUrl = () => {
-        if (!api) return;
+        if (!api) return '';
 
         let url = api.basePath + '/System/Logs/Log';
 
@@ -28,12 +28,18 @@ const LogItem: FunctionComponent<LogItemProps> = ({ logFile }: LogItemProps) => 
     };
 
     return (
-        <LinkButton href={getLogFileUrl()} target='_blank' rel='noreferrer' className='listItem listItem-border' style={{ color: 'inherit' }}>
-            <div className='listItemBody two-line'>
-                <h3 className='listItemBodyText' dir='ltr' style={{ textAlign: 'left' }}>{logFile.Name}</h3>
-                <div className='listItemBodyText secondary'>{getDate()}</div>
-            </div>
-        </LinkButton>
+        <Card>
+            <CardActionArea href={getLogFileUrl()} target='_blank'>
+                <CardContent>
+                    <ListItemText
+                        primary={logFile.Name}
+                        primaryTypographyProps={{ variant: 'h3' }}
+                        secondary={getDate()}
+                        secondaryTypographyProps={{ variant: 'body1' }}
+                    />
+                </CardContent>
+            </CardActionArea>
+        </Card>
     );
 };
 

@@ -6,7 +6,7 @@ import type { AxiosRequestConfig } from 'axios';
 
 const fetchServerLogs = async (api?: Api, options?: AxiosRequestConfig) => {
     if (!api) {
-        console.error('[useLogEntries] No API instance available');
+        console.error('[useServerLogs] No API instance available');
         return;
     }
 
@@ -19,7 +19,7 @@ export const useServerLogs = () => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ 'LogEntries' ],
+        queryKey: [ 'ServerLogs' ],
         queryFn: ({ signal }) => fetchServerLogs(api, { signal }),
         enabled: !!api
     });
