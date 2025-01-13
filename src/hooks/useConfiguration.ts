@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
 import type { AxiosRequestConfig } from 'axios';
 
-export const fetchLogOptions = async (api?: Api, options?: AxiosRequestConfig) => {
+export const fetchConfiguration = async (api?: Api, options?: AxiosRequestConfig) => {
     if (!api) {
         console.error('[useLogOptions] No API instance available');
         return;
@@ -15,12 +15,12 @@ export const fetchLogOptions = async (api?: Api, options?: AxiosRequestConfig) =
     return response.data;
 };
 
-export const useLogOptions = () => {
+export const useConfiguration = () => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: ['LogOptions'],
-        queryFn: ({ signal }) => fetchLogOptions(api, { signal }),
+        queryKey: ['Configuration'],
+        queryFn: ({ signal }) => fetchConfiguration(api, { signal }),
         enabled: !!api
     });
 };

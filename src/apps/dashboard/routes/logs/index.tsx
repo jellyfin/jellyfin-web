@@ -8,7 +8,7 @@ import { Alert, Box, Button, FormControlLabel, Stack, Switch, TextField, Typogra
 import { type ActionFunctionArgs, Form, useActionData } from 'react-router-dom';
 import ServerConnections from 'components/ServerConnections';
 import { useServerLogs } from 'apps/dashboard/features/logs/api/useServerLogs';
-import { useLogOptions } from 'apps/dashboard/features/logs/api/useLogOptions';
+import { useConfiguration } from 'hooks/useConfiguration';
 import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
 import { ActionData } from 'types/actionData';
 
@@ -42,16 +42,16 @@ const Logs = () => {
     const [ isSubmitting, setIsSubmitting ] = useState(false);
 
     const { isPending: isLogEntriesPending, data: logs } = useServerLogs();
-    const { isPending: isLogOptionsPending, data: defaultLogOptions } = useLogOptions();
+    const { isPending: isConfigurationPending, data: defaultConfiguration } = useConfiguration();
     const [ loading, setLoading ] = useState(true);
     const [ logOptions, setLogOptions ] = useState<ServerConfiguration>( {} );
 
     useEffect(() => {
-        if (!isLogOptionsPending && defaultLogOptions) {
-            setLogOptions(defaultLogOptions);
+        if (!isConfigurationPending && defaultConfiguration) {
+            setLogOptions(defaultConfiguration);
             setLoading(false);
         }
-    }, [isLogOptionsPending, defaultLogOptions]);
+    }, [isConfigurationPending, defaultConfiguration]);
 
     const setLogWarningMessage = useCallback((_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
         setLogOptions({
@@ -71,7 +71,7 @@ const Logs = () => {
         setIsSubmitting(true);
     }, []);
 
-    if (isLogEntriesPending || isLogOptionsPending || loading) {
+    if (isLogEntriesPending || isConfigurationPending || loading) {
         return <Loading />;
     }
 
