@@ -8,6 +8,7 @@ import Events from '../../../utils/events.ts';
 
 import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/emby-button';
+import dom from 'scripts/dom';
 
 function reloadList(page) {
     ApiClient.getScheduledTasks({
@@ -122,7 +123,7 @@ function updateTaskButton(elem, state) {
         setTaskButtonIcon(elem, 'play_arrow');
         elem.title = globalize.translate('ButtonStart');
     }
-    $(elem).parents('.listItem')[0].setAttribute('data-status', state);
+    dom.parentWithClass(elem, 'listItem').setAttribute('data-status', state);
 }
 
 export default function(view) {
