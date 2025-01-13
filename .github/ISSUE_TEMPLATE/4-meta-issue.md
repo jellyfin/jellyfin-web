@@ -1,5 +1,5 @@
 ---
-name: Meta Issue
+name: Meta Issue [legacy]
 about: You want to track a number of other issues as part of a larger project
 labels: meta
 ---

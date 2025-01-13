@@ -1,5 +1,5 @@
 ---
-name: Bug Report
+name: Bug Report [legacy]
 about: You have noticed a general issue or regression, and would like to report it
 labels: bug
 ---

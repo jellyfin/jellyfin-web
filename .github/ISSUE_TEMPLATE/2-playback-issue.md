@@ -1,5 +1,5 @@
 ---
-name: Playback Issue
+name: Playback Issue [legacy]
 about: You have playback issues with some files
 labels: playback
 ---
