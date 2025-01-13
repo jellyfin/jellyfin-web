@@ -70,6 +70,7 @@ export interface CardOptions {
     showSeriesTimerChannel?: boolean;
     showSongCount?: boolean;
     width?: number;
+    height?: number;
     widths?: any;
     showChannelLogo?: boolean;
     showLogo?: boolean;
@@ -122,6 +123,9 @@ export interface CardOptions {
     primaryImageAspectRatio?: number | null;
     rows?: number | null;
     imageType?: ImageType;
+    disableOverlayButtons?: boolean;
+    disableFooter?: boolean;
+    disableClasses?: boolean;
     queryKey?: string[]
 }
 
