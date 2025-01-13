@@ -1990,5 +1990,6 @@
     "Anime": "Anime",
     "MoviesAndShows": "Films en series",
     "HeaderNextEpisode": "Volgende aflevering",
-    "HeaderNextVideo": "Volgende video"
+    "HeaderNextVideo": "Volgende video",
+    "LabelMediaSegmentProviders": "Aanbieders van mediasegmenten"
 }
