@@ -27,8 +27,6 @@ body:
       description: |
         A clear and concise description of the bug.
         You can also attach screenshots or screen recordings here to help explain your issue.
-      placeholder: |
-        HERE is a new placeholder needed
     validations:
       required: true
   - type: textarea
