@@ -71,7 +71,7 @@
     "SettingsSaved": "Definições guardadas.",
     "Settings": "Definições",
     "ServerUpdateNeeded": "Este servidor precisa de ser atualizado. Para transferir a versão mais recente, visite {0}",
-    "ServerRestartNeededAfterPluginInstall": "O Servidor Jellyfin terá de reiniciar depois de instalar a extensão.",
+    "ServerRestartNeededAfterPluginInstall": "O Jellyfin terá que reiniciar após instalar a extensão.",
     "SeriesDisplayOrderHelp": "Ordenar episódios por data de estreia, ordem no DVD ou numeração absoluta.",
     "Series": "Séries",
     "SendMessage": "Enviar mensagem",
@@ -928,7 +928,7 @@
     "AllowedRemoteAddressesHelp": "Lista separada por vírgula de endereços IP ou entradas de máscara de IP/rede para redes que terão permissão para se conectar remotamente. Se deixado em branco, todos os endereços remotos serão permitidos.",
     "AllowRemoteAccessHelp": "Se desmarcada, todas as conexões remotas serão bloqueadas.",
     "AllowRemoteAccess": "Permitir conexões remotas a este servidor",
-    "AllowOnTheFlySubtitleExtractionHelp": "Legendas integradas podem ser extraídas do vídeo e enviadas como texto simples para os clientes de forma a evitar transcodificação. Em certos dispositivos, esta operação pode demorar algum tempo e causar paragens de reprodução durante o processo de extração. Desative esta opção para que as legendas sejam integradas no vídeo durante a conversão para um formato suportado pelo dispositivo de destino.",
+    "AllowOnTheFlySubtitleExtractionHelp": "Legendas integradas podem ser extraídas do vídeo e enviadas como texto simples para os clientes para evitar transcodificação. Em certos dispositivos, esta poderá ser uma operação demorada e pode causar interrupções de reprodução durante o processo de extração. Desative esta opção para que as legendas sejam integradas no vídeo durante a conversão para um formato suportado pelo dispositivo de destino.",
     "AllowOnTheFlySubtitleExtraction": "Permitir a extração de legendas em tempo real",
     "AllowHWTranscodingHelp": "Permite ao sintonizador converter emissões em tempo real. Poderá reduzir a necessidade de conversão a fazer pelo servidor.",
     "AllLibraries": "Todas as bibliotecas",
@@ -1978,10 +1978,10 @@
     "PluginLoadRepoError": "Ocorreu um erro ao obter os detalhes da extensão a partir do repositório.",
     "PlaylistError.UpdateFailed": "Erro ao atualizar a playlist",
     "MessageCancelTimerError": "Ocorreu um erro ao cancelar o temporizador",
-    "ReplaceTrickplayImages": "Substituir images the trickplay existentes",
-    "Reset": "Repor",
+    "ReplaceTrickplayImages": "Substituir imagens de trickplay existentes",
+    "Reset": "Redefinir",
     "PreferNonstandardArtistsTagHelp": "Utiliza a etiqueta não normalizada ARTISTS em vez da etiqueta ARTIST quando disponível.",
     "RenderPgsSubtitle": "Renderização experimental de legendas PGS",
     "PreviewLyrics": "Pré-visualizar letra",
-    "RenderPgsSubtitleHelp": "Determina se o cliente deve renderizar legendas PGS em vez de legendas embutidas. Pode evitar transcodificação no servidor em troca de performance de renderização no cliente."
+    "RenderPgsSubtitleHelp": "Determina se o cliente deve renderizar legendas PGS em vez de utilizar legendas embebidas. Isto pode evitar a transcodificação do lado do servidor em troca de desempenho de renderização do lado do cliente."
 }
