@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import LogItem from 'apps/dashboard/features/logs/components/LogItem';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
@@ -11,6 +10,7 @@ import { useServerLogs } from 'apps/dashboard/features/logs/api/useServerLogs';
 import { useConfiguration } from 'hooks/useConfiguration';
 import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
 import { ActionData } from 'types/actionData';
+import LogItemList from 'apps/dashboard/features/logs/components/LogItemList';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();
@@ -69,7 +69,7 @@ const Logs = () => {
         setIsSubmitting(true);
     }, []);
 
-    if (isLogEntriesPending || isConfigurationPending || loading) {
+    if (isLogEntriesPending || isConfigurationPending || loading || !logs) {
         return <Loading />;
     }
 
@@ -122,12 +122,7 @@ const Logs = () => {
                     </Stack>
                 </Form>
                 <Stack className='serverLogs readOnlyContent' spacing={1} sx={{ mt: 1 }}>
-                    {logs?.map(log => {
-                        return <LogItem
-                            key={log.Name}
-                            logFile={log}
-                        />;
-                    })}
+                    <LogItemList logs={logs} />
                 </Stack>
             </Box>
         </Page>
