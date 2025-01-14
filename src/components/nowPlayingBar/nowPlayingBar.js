@@ -1,11 +1,13 @@
+import { getImageUrl } from 'apps/stable/features/playback/utils/image';
+import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { appRouter, isLyricsPage } from 'components/router/appRouter';
+
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
-import nowPlayingHelper from '../playback/nowplayinghelper';
 import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
 import globalize from 'lib/globalize';
@@ -17,7 +19,6 @@ import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
 import '../../elements/emby-slider/emby-slider';
-import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 
 let currentPlayer;
 let currentPlayerSupportedCommands = [];
@@ -474,24 +475,21 @@ function setLyricButtonActiveStatus() {
 function updateNowPlayingInfo(state) {
     const nowPlayingItem = state.NowPlayingItem;
 
-    const textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
+    const textLines = nowPlayingItem ? getItemTextLines(nowPlayingItem) : undefined;
     nowPlayingTextElement.innerHTML = '';
     if (textLines) {
         const itemText = document.createElement('div');
         const secondaryText = document.createElement('div');
         secondaryText.classList.add('nowPlayingBarSecondaryText');
-        if (textLines.length > 1) {
-            textLines[1].secondary = true;
-            if (textLines[1].text) {
-                const text = document.createElement('a');
-                text.innerText = textLines[1].text;
-                secondaryText.appendChild(text);
-            }
+        if (textLines.length > 1 && textLines[1]) {
+            const text = document.createElement('a');
+            text.innerText = textLines[1];
+            secondaryText.appendChild(text);
         }
 
-        if (textLines[0].text) {
+        if (textLines[0]) {
             const text = document.createElement('a');
-            text.innerText = textLines[0].text;
+            text.innerText = textLines[0];
             itemText.appendChild(text);
         }
         nowPlayingTextElement.appendChild(itemText);

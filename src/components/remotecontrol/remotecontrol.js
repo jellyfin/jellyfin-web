@@ -1,10 +1,13 @@
 import escapeHtml from 'escape-html';
+
+import { getImageUrl } from 'apps/stable/features/playback/utils/image';
+import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
+
 import datetime from '../../scripts/datetime';
 import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
 import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
 import { playbackManager } from '../playback/playbackmanager';
-import nowPlayingHelper from '../playback/nowplayinghelper';
 import Events from '../../utils/events.ts';
 import { appHost } from '../apphost';
 import globalize from '../../lib/globalize';
@@ -22,7 +25,6 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
-import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -86,15 +88,11 @@ function showSubtitleMenu(context, player, button) {
     });
 }
 
-function getNowPlayingNameHtml(nowPlayingItem, includeNonNameInfo) {
-    return nowPlayingHelper.getNowPlayingNames(nowPlayingItem, includeNonNameInfo).map(function (i) {
-        return escapeHtml(i.text);
-    }).join('<br/>');
-}
-
 function updateNowPlayingInfo(context, state, serverId) {
     const item = state.NowPlayingItem;
-    const displayName = item ? getNowPlayingNameHtml(item).replace('<br/>', ' - ') : '';
+    const displayName = item ?
+        getItemTextLines(item).map(escapeHtml).join(' - ') :
+        '';
     if (item) {
         const nowPlayingServerId = (item.ServerId || serverId);
         if (item.Type == 'AudioBook' || item.Type == 'Audio' || item.MediaStreams[0].Type == 'Audio') {
