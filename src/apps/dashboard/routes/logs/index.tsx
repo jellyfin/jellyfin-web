@@ -121,9 +121,9 @@ const Logs = () => {
                         </Button>
                     </Stack>
                 </Form>
-                <Stack className='serverLogs readOnlyContent' spacing={1} sx={{ mt: 1 }}>
+                <Box className='serverLogs readOnlyContent' sx={{ mt: 1 }}>
                     <LogItemList logs={logs} />
-                </Stack>
+                </Box>
             </Box>
         </Page>
     );
