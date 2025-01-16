@@ -1988,5 +1988,7 @@
     "LabelQsvDevice": "QSV 裝置",
     "LabelQsvDeviceHelp": "在有多個 GPU 的系統上指定 Intel QSV 使用的裝置。在 Linux 上，這是渲染節點，例如 /dev/dri/renderD128。在 Windows 上，這是從 0 開始的設備編號。除非你理解此設定，不然請將此選項留空。",
     "MoviesAndShows": "電影和節目",
-    "Anime": "動漫"
+    "Anime": "動漫",
+    "HeaderNextEpisode": "下一集",
+    "HeaderNextVideo": "下一個視頻"
 }

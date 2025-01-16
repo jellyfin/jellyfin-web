@@ -1988,5 +1988,7 @@
     "Anime": "Аніме",
     "MoviesAndShows": "Фільми та серіали",
     "HeaderNextEpisode": "Наступний епізод",
-    "HeaderNextVideo": "Наступне відео"
+    "HeaderNextVideo": "Наступне відео",
+    "LabelMediaSegmentProviders": "Провайдери медіа сегментів",
+    "MediaSegmentProvidersHelp": "Увімкніть та розташуйте бажаних провайдерів медіа сегментів у порядку пріоритетності."
 }
