@@ -1944,6 +1944,7 @@ export class PlaybackManager {
 
             const seasonId = (startSeasonId && items.length === 1) ? startSeasonId : undefined;
             const seriesId = firstItem.SeriesId || firstItem.Id;
+            const UserId = apiClient.getCurrentUserId();
 
             let startItemId;
 
@@ -1951,9 +1952,8 @@ export class PlaybackManager {
             if (!options.shuffle && !seasonId ) {
                 const initialUnplayedEpisode = await apiClient.getNextUpEpisodes({
                     seriesId,
-                    SeasonId: seasonId,
                     limit: 1,
-                    UserId: apiClient.getCurrentUserId()
+                    UserId
                 });
 
                 startItemId = initialUnplayedEpisode?.Items?.at(0)?.Id;
@@ -1966,7 +1966,7 @@ export class PlaybackManager {
                 // default to first 100 episodes if no season was specified to avoid loading too large payloads
                 limit: seasonId ? undefined : 100,
                 SortBy: options.shuffle ? 'Random' : undefined,
-                UserId: apiClient.getCurrentUserId(),
+                UserId,
                 Fields: ['Chapters', 'Trickplay'],
                 startItemId
             });
