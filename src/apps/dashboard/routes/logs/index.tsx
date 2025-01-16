@@ -3,7 +3,14 @@ import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-a
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import { Alert, Box, Button, FormControlLabel, Stack, Switch, TextField, Typography } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Stack from '@mui/material/Stack';
+import Switch from '@mui/material/Switch';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import { type ActionFunctionArgs, Form, useActionData } from 'react-router-dom';
 import ServerConnections from 'components/ServerConnections';
 import { useServerLogs } from 'apps/dashboard/features/logs/api/useServerLogs';
@@ -121,7 +128,7 @@ const Logs = () => {
                         </Button>
                     </Stack>
                 </Form>
-                <Box className='serverLogs readOnlyContent' sx={{ mt: 1 }}>
+                <Box className='serverLogs readOnlyContent' sx={{ mt: 3 }}>
                     <LogItemList logs={logs} />
                 </Box>
             </Box>

@@ -1,6 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import type { LogFile } from '@jellyfin/sdk/lib/generated-client/models/log-file';
-import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { useApi } from 'hooks/useApi';
 import datetime from 'scripts/datetime';
 
@@ -11,6 +15,7 @@ type LogItemProps = {
 const LogItemList: FunctionComponent<LogItemProps> = ({ logs }: LogItemProps) => {
     const { api } = useApi();
 
+    // TODO: Use getUri from TS SDK once available.
     const getLogFileUrl = (logFile: LogFile) => {
         if (!api) return '';
 
@@ -39,6 +44,7 @@ const LogItemList: FunctionComponent<LogItemProps> = ({ logs }: LogItemProps) =>
                                 secondary={getDate(log)}
                                 secondaryTypographyProps={{ variant: 'body1' }}
                             />
+                            <OpenInNewIcon />
                         </ListItemButton>
                     </ListItem>
                 );
