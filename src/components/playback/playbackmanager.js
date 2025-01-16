@@ -1943,8 +1943,23 @@ export class PlaybackManager {
             const startSeasonId = firstItem.Type === 'Season' ? items[options.startIndex || 0].Id : undefined;
 
             const seasonId = (startSeasonId && items.length === 1) ? startSeasonId : undefined;
+            const seriesId = firstItem.SeriesId || firstItem.Id;
 
-            const episodesResult = await apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
+            let startItemId;
+
+            // Start from a specific (the next unwatched) episode if we want to watch in order and have not chosen a specific season
+            if (!options.shuffle && !seasonId ) {
+                const initialUnplayedEpisode = await apiClient.getNextUpEpisodes({
+                    seriesId,
+                    SeasonId: seasonId,
+                    limit: 1,
+                    UserId: apiClient.getCurrentUserId()
+                });
+
+                startItemId = initialUnplayedEpisode?.Items?.at(0)?.Id;
+            }
+
+            const episodesResult = await apiClient.getEpisodes(seriesId, {
                 IsVirtualUnaired: false,
                 IsMissing: false,
                 SeasonId: seasonId,
@@ -1952,7 +1967,8 @@ export class PlaybackManager {
                 limit: seasonId ? undefined : 100,
                 SortBy: options.shuffle ? 'Random' : undefined,
                 UserId: apiClient.getCurrentUserId(),
-                Fields: ['Chapters', 'Trickplay']
+                Fields: ['Chapters', 'Trickplay'],
+                startItemId
             });
 
             if (options.shuffle) {
@@ -1998,7 +2014,7 @@ export class PlaybackManager {
             return new Promise(function (resolve, reject) {
                 const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
-                const { SeriesId, SeasonId } = firstItem;
+                const { SeriesId, Id } = firstItem;
                 if (!SeriesId) {
                     resolve(null);
                     return;
@@ -2009,8 +2025,8 @@ export class PlaybackManager {
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
                     Fields: ['Chapters', 'Trickplay'],
-                    // limit loading episodes of the current season to avoid loading too large payload
-                    SeasonId
+                    // limit to loading 100 episodes to avoid loading too large payload
+                    startItemId: Id
                 }).then(function (episodesResult) {
                     resolve(filterEpisodes(episodesResult, firstItem, options));
                 }, reject);
