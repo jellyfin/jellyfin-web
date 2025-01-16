@@ -6,7 +6,7 @@ import ListItemButton from '@mui/material/ListItemButton/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import React, { useCallback, useState } from 'react';
+import React, { type MouseEvent, useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import ListItemLink from 'components/ListItemLink';
@@ -32,11 +32,15 @@ const ServerDrawerSection = () => {
     const [ isLibrarySectionOpen, setIsLibrarySectionOpen ] = useState(LIBRARY_PATHS.includes(location.pathname));
     const [ isPlaybackSectionOpen, setIsPlaybackSectionOpen ] = useState(PLAYBACK_PATHS.includes(location.pathname));
 
-    const onLibrarySectionClick = useCallback(() => {
+    const onLibrarySectionClick = useCallback((e: MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
         setIsLibrarySectionOpen(isOpen => !isOpen);
     }, []);
 
-    const onPlaybackSectionClick = useCallback(() => {
+    const onPlaybackSectionClick = useCallback((e: MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
         setIsPlaybackSectionOpen(isOpen => !isOpen);
     }, []);
 
