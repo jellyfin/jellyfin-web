@@ -132,7 +132,7 @@ export function getAirTimeText(
                 date = datetime.parseISO8601Date(item.EndDate);
                 airTimeText += ' - ' + datetime.getDisplayTime(date);
             }
-        } catch (e) {
+        } catch {
             console.error('error parsing date: ' + item.StartDate);
         }
     }
@@ -521,7 +521,7 @@ function getPremiereDate(PremiereDate: string | null | undefined) {
                 datetime.parseISO8601Date(PremiereDate),
                 { weekday: 'long', month: 'long', day: 'numeric' }
             );
-        } catch (err) {
+        } catch {
             return '';
         }
     } else {

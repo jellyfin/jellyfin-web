@@ -1,5 +1,4 @@
 import escapeHtml from 'escape-html';
-import 'jquery';
 import taskButton from '../../scripts/taskbutton';
 import loading from '../../components/loading/loading';
 import globalize from '../../lib/globalize';
@@ -181,20 +180,27 @@ function reloadVirtualFolders(page, virtualFolders) {
     divVirtualFolders.innerHTML = html;
     divVirtualFolders.classList.add('itemsContainer');
     divVirtualFolders.classList.add('vertical-wrap');
-    $('.btnCardMenu', divVirtualFolders).on('click', function () {
-        showCardMenu(page, this, virtualFolders);
+    const btnCardMenuElements = divVirtualFolders.querySelectorAll('.btnCardMenu');
+    btnCardMenuElements.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            showCardMenu(page, btn, virtualFolders);
+        });
     });
     divVirtualFolders.querySelector('#addLibrary').addEventListener('click', function () {
         addVirtualFolder(page);
     });
-    $('.editLibrary', divVirtualFolders).on('click', function () {
-        const card = $(this).parents('.card')[0];
-        const index = parseInt(card.getAttribute('data-index'), 10);
-        const virtualFolder = virtualFolders[index];
 
-        if (virtualFolder.ItemId) {
-            editVirtualFolder(page, virtualFolder);
-        }
+    const libraryEditElements = divVirtualFolders.querySelectorAll('.editLibrary');
+    libraryEditElements.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const card = dom.parentWithClass(btn, 'card');
+            const index = parseInt(card.getAttribute('data-index'), 10);
+            const virtualFolder = virtualFolders[index];
+
+            if (virtualFolder.ItemId) {
+                editVirtualFolder(page, virtualFolder);
+            }
+        });
     });
     loading.hide();
 }

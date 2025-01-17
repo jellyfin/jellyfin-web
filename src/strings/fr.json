@@ -713,7 +713,7 @@
     "LabelUserAgent": "User-Agent",
     "LabelUserLibrary": "Médiathèque de l'utilisateur",
     "LabelUserLibraryHelp": "Sélectionner quelle médiathèque afficher sur l'appareil. Laisser vide pour hériter du paramètre par défaut.",
-    "LabelUserRemoteClientBitrateLimitHelp": "Écraser la valeur par défaut configurée dans les paramètres du serveur ; voir 'Tableau de bord' > 'Lecture' > 'Streaming'.",
+    "LabelUserRemoteClientBitrateLimitHelp": "Écraser la valeur par défaut configurée dans les paramètres du serveur ; voir 'Tableau de bord' > 'Lecture' > 'Streaming'.",
     "LabelUsername": "Nom d'utilisateur",
     "LabelVaapiDevice": "Appareil VA-API",
     "LabelVaapiDeviceHelp": "Ceci est le nœud de rendu qui est utilisé pour l'accélération matérielle.",
@@ -1990,6 +1990,6 @@
     "MediaSegmentSkipPrompt": "Passer {0}",
     "Anime": "Anime",
     "MoviesAndShows": "Films et Séries",
-    "HeaderNextEpisode": "Prochain Episode",
+    "HeaderNextEpisode": "Épisode suivant",
     "HeaderNextVideo": "Prochaine Vidéo"
 }
