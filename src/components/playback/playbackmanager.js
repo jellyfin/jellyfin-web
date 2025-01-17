@@ -2027,6 +2027,7 @@ export class PlaybackManager {
                     UserId: apiClient.getCurrentUserId(),
                     Fields: ['Chapters', 'Trickplay'],
                     // limit to loading 100 episodes to avoid loading too large payload
+                    limit: 100,
                     startItemId: Id
                 }).then(function (episodesResult) {
                     resolve(filterEpisodes(episodesResult, firstItem, options));
