@@ -90,11 +90,11 @@ build: ${__JF_BUILD_VERSION__}`);
     document.title = globalize.translateHtml(document.title, 'core');
 
     // Load the font styles
-    loadFonts();
+    await loadFonts();
 
     // Load iOS specific styles
     if (browser.iOS) {
-        import('./styles/ios.scss');
+        await import('./styles/ios.scss');
     }
 
     // Load frontend plugins
@@ -122,7 +122,7 @@ build: ${__JF_BUILD_VERSION__}`);
     await renderApp();
 
     // Load platform specific features
-    loadPlatformFeatures();
+    await loadPlatformFeatures();
 
     // Load custom CSS styles
     await loadCustomCss();
@@ -132,17 +132,17 @@ build: ${__JF_BUILD_VERSION__}`);
     autoFocuser.enable();
 }
 
-function loadFonts() {
+async function loadFonts() {
     if (browser.tv && !browser.android) {
         console.debug('using system fonts with explicit sizes');
-        import('./styles/fonts.sized.scss');
+        await import('./styles/fonts.sized.scss');
     } else if (__USE_SYSTEM_FONTS__) {
         console.debug('using system fonts');
-        import('./styles/fonts.scss');
+        await import('./styles/fonts.scss');
     } else {
         console.debug('using default fonts');
-        import('./styles/fonts.scss');
-        import('./styles/fonts.noto.scss');
+        await import('./styles/fonts.scss');
+        await import('./styles/fonts.noto.scss');
     }
 }
 
@@ -175,26 +175,26 @@ async function loadPlugins() {
     console.groupEnd();
 }
 
-function loadPlatformFeatures() {
+async function loadPlatformFeatures() {
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-        import('./components/nowPlayingBar/nowPlayingBar');
+        await import('./components/nowPlayingBar/nowPlayingBar');
     }
 
     if (appHost.supports('remotecontrol')) {
-        import('./components/playback/playerSelectionMenu');
-        import('./components/playback/remotecontrolautoplay');
+        await import('./components/playback/playerSelectionMenu');
+        await import('./components/playback/remotecontrolautoplay');
     }
 
     if (!appHost.supports('physicalvolumecontrol') || browser.touch) {
-        import('./components/playback/volumeosd');
+        await import('./components/playback/volumeosd');
     }
 
     if (!browser.tv && !browser.xboxOne) {
-        import('./components/playback/playbackorientation');
+        await import('./components/playback/playbackorientation');
         registerServiceWorker();
 
         if (window.Notification) {
-            import('./components/notifications/notifications');
+            await import('./components/notifications/notifications');
         }
     }
 }
