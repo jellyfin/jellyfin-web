@@ -1954,7 +1954,8 @@ export class PlaybackManager {
                 const initialUnplayedEpisode = await apiClient.getNextUpEpisodes({
                     seriesId,
                     limit: 1,
-                    UserId
+                    UserId,
+                    enableRewatching: true
                 });
 
                 startItemId = initialUnplayedEpisode?.Items?.at(0)?.Id;
