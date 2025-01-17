@@ -923,7 +923,7 @@
     "LabelMatchType": "Match type",
     "LabelManufacturerUrl": "Manufacturer URL",
     "LabelLoginDisclaimerHelp": "A message that will be displayed at the bottom of the login page.",
-    "LabelLockItemToPreventChanges": "Lock this item to prevent future changes",
+    "LabelLockItemToPreventChanges": "Lock this item to prevent future metadata changes",
     "LabelLocalHttpServerPortNumberHelp": "The TCP port number for the HTTP server.",
     "LabelLineup": "Lineup",
     "LabelLanguage": "Language",
