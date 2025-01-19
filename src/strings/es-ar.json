@@ -1981,5 +1981,9 @@
     "LabelQsvDeviceHelp": "Especificá el dispositivo para Intel QSV en un sistema con varias GPU. En Linux, este es el nodo de renderización, p. ej., /dev/dri/renderD128. En Windows, este es el índice del dispositivo que comienza desde 0. Dejá en blanco a menos que sepas lo que estás haciendo.",
     "Letterer": "Letrista",
     "MediaSegmentType.Recap": "Resumen",
-    "Penciller": "Dibujante"
+    "Penciller": "Dibujante",
+    "LabelMediaSegmentProviders": "Proveedores del segmento de medios",
+    "MediaSegmentProvidersHelp": "Habilitá y clasificá a tus proveedores de segmentos de medios preferidos en orden de prioridad.",
+    "HeaderNextEpisode": "Siguiente capítulo",
+    "HeaderNextVideo": "Siguiente video"
 }

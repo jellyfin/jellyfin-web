@@ -1973,5 +1973,6 @@
     "HeaderEditPlaylist": "Editar lista de reproducción",
     "LabelQsvDevice": "Dispositivo QSV",
     "MediaSegmentAction.Skip": "Saltar",
-    "MediaSegmentType.Commercial": "Comercial"
+    "MediaSegmentType.Commercial": "Comercial",
+    "Anime": "Anime"
 }

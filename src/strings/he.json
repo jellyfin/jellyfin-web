@@ -1420,9 +1420,9 @@
     "LabelSyncPlaySettingsSpeedToSyncHelp": "טכניקת תיקון סנכרון שמאיצה את הניגון. תיקון סנכרון חייב להיות מאופשר.",
     "LabelSyncPlaySettingsSkipToSyncHelp": "טכניקת תיקון סנכרון שמדלגת למקום המשוער. תיקון סנכרון חייב להיות מאופשר.",
     "LabelTonemappingAlgorithm": "בחירת אלגוריתם מיפוי הגוונים",
-    "LabelTonemappingDesatHelp": "החסרת רוויה לאורות שעוברים רמת בהירות זו. ככל שהפרמטר גבוה יותר, כך יותר צבעים יישמקו. הגדרה זו עוזרת במניעת צבעים חזקים באופן לא טהעי ואורות גבוהים מדי ע\"י החלקתם ללבן במקום. התמונה תיראה טבעית יותר, במחיר של איבוד מידע על צבעים מחוץ לטווח. הערכים המומלצים וברירת המחדל הם 0 ו-0.5.",
+    "LabelTonemappingDesatHelp": "החסרת רוויה לאורות שעוברים רמת בהירות זו. הערך המומלץ הוא 0 (ביטול).",
     "LabelTonemappingDesat": "מיפוי גוונים חוסר רוויה",
-    "LabelTonemappingPeakHelp": "ערך זה ידרוס את שיא הסיגנל. שימושי כאשר המידע המוטמע על השיא אינו אמין או במיפוי גוונים מטווח נמוך לגבוה. הערכים המומלצים והדיפולטיים הם 100 ו-0.",
+    "LabelTonemappingPeakHelp": "דריסת ערך המטא-דאטה המוטמע לסיגנל הקלט עם ערך שיא זה. הערך הדיפולטי הוא 100 (1000ניט).",
     "LabelTonemappingPeak": "מיפוי גוונים - שיא",
     "LabelTonemappingRange": "טווח מיפוי גוונים",
     "LabelTonemappingThreshold": "סף מיפוי גוונים",
@@ -1879,7 +1879,7 @@
     "LabelJpegQualityHelp": "איכות כיוו. JPEG בתמונות טריקפליי.",
     "LabelQscale": "דרגת איכות התמונה",
     "LabelVppTonemappingContrast": "עוצמת ניגודיות במיפוי גוונים של VPP",
-    "LabelVppTonemappingContrastHelp": "הגדרת עוצמת הניגודיות במיפוי גוונים ב-VPP. הערך המומלץ וברירת המחדל הוא 1.",
+    "LabelVppTonemappingContrastHelp": "הגדרת עוצמת הניגודיות במיפוי גוונים ב-VPP. הערך המומלץ הוא 1.",
     "MediaInfoDoViTitle": "כותרת דולבי ויז'ן",
     "MediaInfoDvVersionMinor": "מספר גרסא משני של דולבי ויז'ן",
     "MediaInfoDvProfile": "פרופיל דולבי ויז'ן",
@@ -1903,7 +1903,7 @@
     "LabelExtractTrickplayDuringLibraryScan": "חילוץ תמונות טריקפליי במהלך סריקות ספרייה",
     "MediaInfoVideoRangeType": "סוג טווח וידיאו",
     "LabelIsHearingImpaired": "כתוביות לחירשים וכבדי שמיעה (SDH)",
-    "LabelVppTonemappingBrightnessHelp": "הגדרת עוצמת בהירות במיפוי גוונים ב-VPP. הערכים המומלצים הם 16 ו-0.",
+    "LabelVppTonemappingBrightnessHelp": "הגדרת עוצמת בהירות במיפוי גוונים ב-VPP. הערך המומלץ הוא 16.",
     "Trickplay": "טריקפליי",
     "LabelTrickplayKeyFrameOnlyExtraction": "יצירת תמונות ממסגרות מפתח בלבד",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "הוצאת מסגרות המפתח בלבד תספק עיבוד מהיר בהרבה עם תזמון פחות מדויק. אם מפענח החומרה המוגדר לא תומך במצב זה, ייעשה שימוש במפענח תוכנה במקום.",
@@ -1923,5 +1923,7 @@
     "Anime": "אנימה",
     "MoviesAndShows": "סרטים וסדרות",
     "HeaderNextEpisode": "הפרק הבא",
-    "HeaderNextVideo": "הוידאו הבא"
+    "HeaderNextVideo": "הוידאו הבא",
+    "LabelMediaSegmentProviders": "ספקי קטע מדיה",
+    "MediaSegmentProvidersHelp": "הפעלת ודירוג ספקי קטעי המדיה המועדפים עליך בסדר עדיפות."
 }
