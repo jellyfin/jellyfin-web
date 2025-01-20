@@ -1580,7 +1580,7 @@
     "SetUsingLastTracks": "Sæt undertekster/lydspor via tidligere element",
     "AllowEmbeddedSubtitles": "Deaktiver forskellige typer af indlejrede undertekster",
     "PlaybackErrorPlaceHolder": "Dette er en pladsholder for fysisk medie som Jellyfin ikke kan afspille. Indsæt disketten for at afspille.",
-    "LabelTonemappingDesatHelp": "Aktiver desaturering for højdepunkter som overstiger dette niveau af lysstyrke. Anbefalet indstilling er 0 (deaktivert).",
+    "LabelTonemappingDesatHelp": "Reducer mætning for lyse partier som overstiger denne lysstyrke. Anbefalet værdi er 0 (deaktiveret).",
     "ItemDetails": "Element detaljer",
     "AudioCodecNotSupported": "Lydkodekset er ikke understøttet",
     "EnableGamepadHelp": "Lyt efter input fra enhver tilsluttet controller. (Kræver: 'TV' visetilstand)",
