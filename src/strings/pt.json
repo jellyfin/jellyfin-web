@@ -1916,10 +1916,10 @@
     "AlwaysRemuxFlacAudioFilesHelp": "Se tiveres ficheiros que o teu navegador recusar reproduzir ou em que calcula incorretamente os registos de data/hora, ativa esta opção como solução alternativa.",
     "HeaderNextItemPlayingInValue": "{0} seguinte em {1}",
     "HeaderNewPlaylist": "Nova playlist",
-    "UseCustomTagDelimiters": "Usar delimitador de tag personalizado",
-    "UseCustomTagDelimitersHelp": "Separar tags de artista/gênero com caracteres personalizados.",
-    "LabelTrickplayKeyFrameOnlyExtraction": "Gerar imagens apenas de quadros-chave",
-    "VideoCodecTagNotSupported": "A tag do codec de vídeo não é suportada",
+    "UseCustomTagDelimiters": "Utilizar delimitador de etiquetas personalizado",
+    "UseCustomTagDelimitersHelp": "Divide etiquetas de artistas/género com carateres personalizados.",
+    "LabelTrickplayKeyFrameOnlyExtraction": "Gerar imagens apenas de fotogramas-chave",
+    "VideoCodecTagNotSupported": "A etiqueta do codec de vídeo não é suportada",
     "AndOtherArtists": "{0} e {1} outros artistas.",
     "MoviesAndShows": "Filmes e séries",
     "Anime": "Animé",
@@ -1984,7 +1984,7 @@
     "RenderPgsSubtitle": "Renderização experimental de legendas PGS",
     "PreviewLyrics": "Pré-visualizar letra",
     "RenderPgsSubtitleHelp": "Determina se o cliente deve renderizar legendas PGS em vez de utilizar legendas embebidas. Isto pode evitar a transcodificação do lado do servidor em troca de desempenho de renderização do lado do cliente.",
-    "LabelMediaSegmentProviders": "Provedores de segmento de mídia",
-    "MediaSegmentProvidersHelp": "Habilite e classifique seus provedores de segmentos de mídia preferidos em ordem de prioridade.",
-    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extraia somente os quadros-chave para um processamento significativamente mais rápido com temporização menos precisa. Se o decodificador de hardware configurado não suportar esse modo, será utilizado o decodificador de software."
+    "LabelMediaSegmentProviders": "Fornecedores de segmentos de multimédia",
+    "MediaSegmentProvidersHelp": "Ativa e classifica os teus fornecedores de segmentos de multimédia preferidos por ordem de prioridade.",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrai somente os fotogramas-chave para um processamento significativamente mais rápido com temporização menos precisa. Se o descodificador de hardware configurado não suportar esse modo, será utilizado o descodificador de software."
 }
