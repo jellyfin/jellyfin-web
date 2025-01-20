@@ -1983,5 +1983,8 @@
     "PreferNonstandardArtistsTagHelp": "Utiliza a etiqueta não normalizada ARTISTS em vez da etiqueta ARTIST quando disponível.",
     "RenderPgsSubtitle": "Renderização experimental de legendas PGS",
     "PreviewLyrics": "Pré-visualizar letra",
-    "RenderPgsSubtitleHelp": "Determina se o cliente deve renderizar legendas PGS em vez de utilizar legendas embebidas. Isto pode evitar a transcodificação do lado do servidor em troca de desempenho de renderização do lado do cliente."
+    "RenderPgsSubtitleHelp": "Determina se o cliente deve renderizar legendas PGS em vez de utilizar legendas embebidas. Isto pode evitar a transcodificação do lado do servidor em troca de desempenho de renderização do lado do cliente.",
+    "LabelMediaSegmentProviders": "Provedores de segmento de mídia",
+    "MediaSegmentProvidersHelp": "Habilite e classifique seus provedores de segmentos de mídia preferidos em ordem de prioridade.",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extraia somente os quadros-chave para um processamento significativamente mais rápido com temporização menos precisa. Se o decodificador de hardware configurado não suportar esse modo, será utilizado o decodificador de software."
 }
