@@ -489,7 +489,7 @@ function getOptimalMediaSource(apiClient, item, versions) {
     });
 
     if (!promises.length) {
-        return Promise.reject();
+        return Promise.reject(new Error('GetOptimalMediaSourceError'));
     }
 
     return Promise.all(promises).then(function (results) {
@@ -2032,7 +2032,7 @@ class PlaybackManager {
 
             if (self._currentPlayer) {
                 if (options.enableRemotePlayers === false && !self._currentPlayer.isLocalPlayer) {
-                    return Promise.reject();
+                    return Promise.reject(new Error('PlayError'));
                 }
 
                 if (!self._currentPlayer.isLocalPlayer) {
@@ -2234,7 +2234,7 @@ class PlaybackManager {
             // If it's still null then there's nothing to play
             if (!firstItem) {
                 showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
-                return Promise.reject();
+                return Promise.reject(new Error(MediaError.NO_MEDIA_ERROR));
             }
 
             if (firstItem.MediaType === 'Photo' || firstItem.MediaType === 'Book') {
@@ -2283,7 +2283,7 @@ class PlaybackManager {
             if (item.IsPlaceHolder) {
                 loading.hide();
                 showPlaybackInfoErrorMessage(self, 'PlaybackErrorPlaceHolder');
-                return Promise.reject();
+                return Promise.reject(new Error('PlaybackInfoError'));
             }
 
             // Normalize defaults to simplfy checks throughout the process
@@ -2332,7 +2332,7 @@ class PlaybackManager {
         function onInterceptorRejection() {
             cancelPlayback();
 
-            return Promise.reject();
+            return Promise.reject(new Error('InterceptorRejectionError'));
         }
 
         function onPlaybackRejection(e) {
@@ -2350,7 +2350,7 @@ class PlaybackManager {
 
             showPlaybackInfoErrorMessage(self, displayErrorCode);
 
-            return Promise.reject();
+            return Promise.reject(new Error('PlaybackRejectionError'));
         }
 
         function destroyPlayer(player) {

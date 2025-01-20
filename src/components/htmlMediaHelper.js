@@ -96,7 +96,7 @@ export function handleHlsJsMediaError(instance, reject) {
         console.error('cannot recover, last media error recovery failed ...');
 
         if (reject) {
-            reject();
+            reject(new Error('HlsJsMediaError'));
         } else {
             onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);
         }
@@ -200,7 +200,7 @@ export function playWithPromise(elem, onErrorFn) {
                     // swallow this error because the user can still click the play button on the video element
                     return Promise.resolve();
                 }
-                return Promise.reject(e);
+                return Promise.reject(new Error(e));
             })
             .then(() => {
                 onSuccessfulPlay(elem, onErrorFn);
@@ -208,7 +208,7 @@ export function playWithPromise(elem, onErrorFn) {
             });
     } catch (err) {
         console.error('error calling video.play: ' + err);
-        return Promise.reject();
+        return Promise.reject(new Error('VideoPlayError'));
     }
 }
 
@@ -257,7 +257,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
     hls.on(Hls.Events.MANIFEST_PARSED, function () {
         playWithPromise(elem, onErrorFn).then(resolve, function () {
             if (reject) {
-                reject();
+                reject(new Error('BindEventsToHlsPlayerError'));
                 reject = null;
             }
         });
@@ -276,7 +276,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
             hls.destroy();
 
             if (reject) {
-                reject(MediaError.SERVER_ERROR);
+                reject(new Error(MediaError.SERVER_ERROR));
                 reject = null;
             } else {
                 onErrorInternal(instance, MediaError.SERVER_ERROR);
@@ -298,7 +298,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                         hls.destroy();
 
                         if (reject) {
-                            reject(MediaError.NETWORK_ERROR);
+                            reject(new Error(MediaError.NETWORK_ERROR));
                             reject = null;
                         } else {
                             onErrorInternal(instance, MediaError.NETWORK_ERROR);
@@ -322,7 +322,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                     hls.destroy();
 
                     if (reject) {
-                        reject();
+                        reject(new Error('HlsError'));
                         reject = null;
                     } else {
                         onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);

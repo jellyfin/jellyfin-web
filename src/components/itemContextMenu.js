@@ -609,7 +609,7 @@ function executeCommand(item, id, options) {
                 deleteSeriesTimer(apiClient, item, resolve, id);
                 break;
             default:
-                reject();
+                reject(new Error('ExecuteCommandError'));
                 break;
         }
     });
@@ -714,7 +714,7 @@ function refresh(apiClient, item) {
 export function show(options) {
     const commands = getCommands(options);
     if (!commands.length) {
-        return Promise.reject();
+        return Promise.reject(new Error('ItemContextMenuError'));
     }
 
     return actionsheet.show({

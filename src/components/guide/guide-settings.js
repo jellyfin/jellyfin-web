@@ -125,7 +125,7 @@ function showEditor(options) {
             if (settingsChanged) {
                 resolve();
             } else {
-                reject();
+                reject(new Error('ShowEditorError'));
             }
         });
 
