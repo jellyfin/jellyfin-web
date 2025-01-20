@@ -429,7 +429,7 @@ export class PlaylistEditor {
                 return Promise.resolve();
             }
 
-            return Promise.reject(new Error());
+            return Promise.reject(new Error('ShowPlaylistEditorError'));
         });
     }
 }
