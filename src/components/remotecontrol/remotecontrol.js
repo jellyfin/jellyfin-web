@@ -22,6 +22,7 @@ import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -91,50 +92,6 @@ function getNowPlayingNameHtml(nowPlayingItem, includeNonNameInfo) {
     }).join('<br/>');
 }
 
-function seriesImageUrl(item, options) {
-    if (item.Type !== 'Episode') {
-        return null;
-    }
-
-    options = options || {};
-    options.type = options.type || 'Primary';
-    if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
-        options.tag = item.SeriesPrimaryImageTag;
-        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-    }
-
-    if (options.type === 'Thumb') {
-        if (item.SeriesThumbImageTag) {
-            options.tag = item.SeriesThumbImageTag;
-            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-        }
-
-        if (item.ParentThumbImageTag) {
-            options.tag = item.ParentThumbImageTag;
-            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
-        }
-    }
-
-    return null;
-}
-
-function imageUrl(item, options) {
-    options = options || {};
-    options.type = options.type || 'Primary';
-
-    if (item.ImageTags?.[options.type]) {
-        options.tag = item.ImageTags[options.type];
-        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
-    }
-
-    if (item.AlbumId && item.AlbumPrimaryImageTag) {
-        options.tag = item.AlbumPrimaryImageTag;
-        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
-    }
-
-    return null;
-}
-
 function updateNowPlayingInfo(context, state, serverId) {
     const item = state.NowPlayingItem;
     const displayName = item ? getNowPlayingNameHtml(item).replace('<br/>', ' - ') : '';
@@ -193,9 +150,7 @@ function updateNowPlayingInfo(context, state, serverId) {
             context.querySelector('.nowPlayingPageTitle').classList.add('hide');
         }
 
-        const url = seriesImageUrl(item, {
-            maxHeight: 300
-        }) || imageUrl(item, {
+        const url = getImageUrl(item, {
             maxHeight: 300
         });
 
@@ -493,6 +448,10 @@ export default function () {
 
     function loadPlaylist(context, player) {
         getPlaylistItems(player).then(function (items) {
+            if (items.length === 0) {
+                return;
+            }
+
             let html = '';
             let favoritesEnabled = true;
             if (layoutManager.mobile) {

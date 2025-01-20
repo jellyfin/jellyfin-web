@@ -582,11 +582,13 @@ function reloadFromItem(instance, page, params, item, user) {
         page.querySelector('.btnSplitVersions').classList.add('hide');
     }
 
-    if (itemContextMenu.getCommands(getContextMenuOptions(item, user)).length) {
-        hideAll(page, 'btnMoreCommands', true);
-    } else {
-        hideAll(page, 'btnMoreCommands');
-    }
+    itemContextMenu.getCommands(getContextMenuOptions(item, user)).then(commands => {
+        if (commands.length) {
+            hideAll(page, 'btnMoreCommands', true);
+        } else {
+            hideAll(page, 'btnMoreCommands');
+        }
+    });
 
     const itemBirthday = page.querySelector('#itemBirthday');
 
@@ -1490,6 +1492,9 @@ function renderChildren(page, item) {
             }, {
                 name: globalize.translate('Books'),
                 type: 'Book'
+            }, {
+                name: globalize.translate('Collections'),
+                type: 'BoxSet'
             }];
             renderCollectionItems(page, item, collectionItemTypes, result.Items);
         }
@@ -2009,6 +2014,7 @@ export default function (view, params) {
         const downloadHref = getApiClient().getItemDownloadUrl(currentItem.Id);
         download([{
             url: downloadHref,
+            item: currentItem,
             itemId: currentItem.Id,
             serverId: currentItem.ServerId,
             title: currentItem.Name,

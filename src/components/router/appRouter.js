@@ -39,6 +39,9 @@ class AppRouter {
     constructor() {
         document.addEventListener('viewshow', () => this.onViewShow());
 
+        this.lastPath = history.location.pathname + history.location.search;
+        this.listen();
+
         // TODO: Can this baseRoute logic be simplified?
         this.baseRoute = window.location.href.split('?')[0].replace(this.#getRequestFile(), '');
         // support hashbang
@@ -98,6 +101,20 @@ class AppRouter {
         });
 
         return this.promiseShow;
+    }
+
+    listen() {
+        history.listen(({ location }) => {
+            const normalizedPath = location.pathname.replace(/^!/, '');
+            const fullPath = normalizedPath + location.search;
+
+            if (fullPath === this.lastPath) {
+                console.debug('[appRouter] path did not change, resolving promise');
+                this.onViewShow();
+            }
+
+            this.lastPath = fullPath;
+        });
     }
 
     baseUrl() {

@@ -460,7 +460,7 @@
     "LabelAllowedRemoteAddresses": "Filter oddaljenih IP naslovov",
     "LabelAllowedRemoteAddressesMode": "Način filtra oddaljenih IP naslovov",
     "LabelAppName": "Ime aplikacije",
-    "LabelAppNameExample": "Primer: Sickbeard, Sonarr",
+    "LabelAppNameExample": "Človeku berljivo ime za identifikacijo ključev API. Ta nastavitev ne vpliva na funkcionalnost.",
     "LabelArtistsHelp": "Loči več izvajalcev s podpičjem.",
     "LabelAudioBitrate": "Bitna hitrost zvoka",
     "LabelAudioChannels": "Kanali zvoka",

@@ -1,3 +1,9 @@
+import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
+import escapeHTML from 'escape-html';
+
+import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
+import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
+
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
 import browser from '../../scripts/browser';
@@ -6,12 +12,12 @@ import qualityoptions from '../qualityOptions';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-checkbox/emby-checkbox';
 import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './playbackSettings.template.html';
-import escapeHTML from 'escape-html';
+
+import '../../elements/emby-select/emby-select';
+import '../../elements/emby-checkbox/emby-checkbox';
 
 function fillSkipLengths(select) {
     const options = [5, 10, 15, 20, 25, 30];
@@ -38,6 +44,42 @@ function populateLanguages(select, languages) {
     }
 
     select.innerHTML = html;
+}
+
+function populateMediaSegments(container, userSettings) {
+    const selectedValues = {};
+    const actionOptions = Object.values(MediaSegmentAction)
+        .map(action => {
+            const actionLabel = globalize.translate(`MediaSegmentAction.${action}`);
+            return `<option value='${action}'>${actionLabel}</option>`;
+        })
+        .join('');
+
+    const segmentSettings = [
+        // List the types in a logical order (and exclude "Unknown" type)
+        MediaSegmentType.Intro,
+        MediaSegmentType.Preview,
+        MediaSegmentType.Recap,
+        MediaSegmentType.Commercial,
+        MediaSegmentType.Outro
+    ].map(segmentType => {
+        const segmentTypeLabel = globalize.translate('LabelMediaSegmentsType', globalize.translate(`MediaSegmentType.${segmentType}`));
+        const id = getId(segmentType);
+        selectedValues[id] = getMediaSegmentAction(userSettings, segmentType);
+        return `<div class="selectContainer">
+<select is="emby-select" id="${id}" class="segmentTypeAction" label="${segmentTypeLabel}">
+    ${actionOptions}
+</select>
+</div>`;
+    }).join('');
+
+    container.innerHTML = segmentSettings;
+
+    Object.entries(selectedValues)
+        .forEach(([id, value]) => {
+            const field = container.querySelector(`#${id}`);
+            if (field) field.value = value;
+        });
 }
 
 function fillQuality(select, isInNetwork, mediatype, maxVideoWidth) {
@@ -219,6 +261,9 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     fillSkipLengths(selectSkipBackLength);
     selectSkipBackLength.value = userSettings.skipBackLength();
 
+    const mediaSegmentContainer = context.querySelector('.mediaSegmentActionContainer');
+    populateMediaSegments(mediaSegmentContainer, userSettings);
+
     loading.hide();
 }
 
@@ -256,6 +301,11 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.CastReceiverId = context.querySelector('.selectChromecastVersion').value;
     userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
     userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
+
+    const segmentTypeActions = context.querySelectorAll('.segmentTypeAction') || [];
+    Array.prototype.forEach.call(segmentTypeActions, actionEl => {
+        userSettingsInstance.set(actionEl.id, actionEl.value, false);
+    });
 
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);
 }

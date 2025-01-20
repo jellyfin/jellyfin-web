@@ -8,6 +8,7 @@ import Events from '../../../utils/events.ts';
 
 import '../../../components/listview/listview.scss';
 import '../../../elements/emby-button/emby-button';
+import dom from 'scripts/dom';
 
 function reloadList(page) {
     ApiClient.getScheduledTasks({
@@ -33,8 +34,7 @@ function populateList(page, tasks) {
 
     let currentCategory;
     let html = '';
-    for (let i = 0; i < tasks.length; i++) {
-        const task = tasks[i];
+    for (const task of tasks) {
         if (task.Category != currentCategory) {
             currentCategory = task.Category;
             if (currentCategory) {
@@ -46,9 +46,6 @@ function populateList(page, tasks) {
             html += '<h2 class="sectionTitle">';
             html += currentCategory;
             html += '</h2>';
-            if (i === 0) {
-                html += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://jellyfin.org/docs/general/server/tasks">' + globalize.translate('Help') + '</a>';
-            }
             html += '</div>';
             html += '<div class="paperList">';
         }
@@ -126,7 +123,7 @@ function updateTaskButton(elem, state) {
         setTaskButtonIcon(elem, 'play_arrow');
         elem.title = globalize.translate('ButtonStart');
     }
-    $(elem).parents('.listItem')[0].setAttribute('data-status', state);
+    dom.parentWithClass(elem, 'listItem').setAttribute('data-status', state);
 }
 
 export default function(view) {
