@@ -1988,5 +1988,7 @@
     "MoviesAndShows": "Phim và Chương trình",
     "Anime": "Anime",
     "HeaderNextEpisode": "Tập Kế Tiếp",
-    "HeaderNextVideo": "Video Kế Tiếp"
+    "HeaderNextVideo": "Video Kế Tiếp",
+    "LabelMediaSegmentProviders": "Nhà cung cấp phân đoạn phương tiện",
+    "MediaSegmentProvidersHelp": "Kích hoạt và xếp hạng các nhà cung cấp phân đoạn phương tiện truyền thông ưa thích của bạn theo thứ tự ưu tiên."
 }
