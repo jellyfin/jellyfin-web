@@ -88,7 +88,7 @@
     "@react-hook/resize-observer": "2.0.2",
     "@tanstack/react-query": "5.62.16",
     "@tanstack/react-query-devtools": "5.62.16",
-    "abortcontroller-polyfill": "1.7.5",
+    "abortcontroller-polyfill": "1.7.8",
     "blurhash": "2.0.5",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
     "classnames": "2.5.1",
