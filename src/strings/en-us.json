@@ -1113,6 +1113,7 @@
     "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
     "MessageInvalidForgotPasswordPin": "An invalid or expired PIN code was entered. Please try again.",
     "MessageInvalidUser": "Invalid username or password. Please try again.",
+    "MessageInvalidUsernameFormat": "Username must not be empty and contain only numbers, letters, spaces, or the following symbols -'._@+",
     "MessageItemsAdded": "Items added.",
     "MessageItemSaved": "Item saved.",
     "MessageLeaveEmptyToInherit": "Leave empty to inherit settings from a parent item or the global default value.",
