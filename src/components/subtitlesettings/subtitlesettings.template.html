@@ -78,6 +78,17 @@
         </div>
 
         <div class="selectContainer">
+            <select is="emby-select" id="selectSubtitleStyling" label="${LabelSubtitleStyling}">
+                <option value="Auto">${Auto}</option>
+                <option value="Custom">${Custom}</option>
+                <option value="Native">${Native}</option>
+            </select>
+            <div class="fieldDescription subtitleStylingAutoHelp subtitleStylingHelp hide">${AutoSubtitleStylingHelp}</div>
+            <div class="fieldDescription subtitleStylingCustomHelp subtitleStylingHelp hide">${CustomSubtitleStylingHelp}</div>
+            <div class="fieldDescription subtitleStylingNativeHelp subtitleStylingHelp hide">${NativeSubtitleStylingHelp}</div>
+        </div>
+
+        <div class="selectContainer">
             <select is="emby-select" id="selectTextSize" label="${LabelTextSize}">
                 <option value="smaller">${Smaller}</option>
                 <option value="small">${Small}</option>
