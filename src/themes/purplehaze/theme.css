@@ -435,6 +435,10 @@ a[data-role=button] {
     background: rgb(12, 232, 214);
 }
 
+.specialFeatureIndicator {
+    color: rgb(12, 232, 214);
+}
+
 .fullSyncIndicator {
     color: #fff;
 }
