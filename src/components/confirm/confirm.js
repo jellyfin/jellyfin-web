@@ -27,7 +27,7 @@ async function nativeConfirm(options) {
     if (result) {
         return Promise.resolve();
     } else {
-        return Promise.reject();
+        return Promise.reject(new Error('UseNativeConfirmError'));
     }
 }
 
@@ -65,7 +65,7 @@ async function customConfirm(text, title) {
             return Promise.resolve();
         }
 
-        return Promise.reject();
+        return Promise.reject(new Error('CustomConfirmError'));
     });
 }
 
