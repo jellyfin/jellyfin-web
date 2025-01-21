@@ -31,6 +31,7 @@ export default function (view, params) {
         page.querySelector('.lnkHomePreferences').setAttribute('href', '#/mypreferenceshome.html?userId=' + userId);
         page.querySelector('.lnkPlaybackPreferences').setAttribute('href', '#/mypreferencesplayback.html?userId=' + userId);
         page.querySelector('.lnkSubtitlePreferences').setAttribute('href', '#/mypreferencessubtitles.html?userId=' + userId);
+        page.querySelector('.lnkOpenSubtitlePreferences').setAttribute('href', '#/mypreferencesopensubtitles.html?userId=' + userId);
         page.querySelector('.lnkQuickConnectPreferences').setAttribute('href', '#/quickconnect?userId=' + userId);
         page.querySelector('.lnkControlsPreferences').setAttribute('href', '#/mypreferencescontrols.html?userId=' + userId);
 

@@ -1,0 +1,75 @@
+{
+  "/infos/formats": {
+    "url": "/infos/formats",
+    "method": "GET"
+  },
+  "/infos/user": {
+    "opts": {
+      "auth": true
+    },
+    "url": "/infos/user",
+    "method": "GET"
+  },
+  "infos/languages": {
+    "url": "/infos/languages",
+    "method": "GET"
+  },
+  "/user/login": {
+    "url": "/login",
+    "method": "POST",
+    "body": {
+      "username": null,
+      "password": null
+    }
+  },
+  "/user/logout": {
+    "url": "/logout",
+    "method": "DELETE"
+  },
+  "/discover/popular": {
+    "url": "/discover/popular?languages=&type=",
+    "optional": ["languages", "type"],
+    "method": "GET"
+  },
+  "/discover/latest": {
+    "url": "/discover/latest?languages=&type=",
+    "optional": ["languages", "type"],
+    "method": "GET"
+  },
+  "/discover/most_downloaded": {
+    "url": "/discover/most_downloaded?languages=&type=",
+    "optional": ["languages", "type"],
+    "method": "GET"
+  },
+  "/download": {
+    "opts": {
+      "auth": true
+    },
+    "url": "/download",
+    "method": "POST",
+    "body": {
+      "file_id": null,
+      "sub_format": "srt",
+      "file_name": null,
+      "in_fps": null,
+      "out_fps": null,
+      "timeshift": null,
+      "force_download": null
+    }
+  }, 
+  "/subtitles": {
+    "url": "/subtitles?ai_translated=&episode_number=&foreign_parts_only=&hearing_impaired=&id=&imdb_id=&languages=&machine_translated=&moviehash=&moviehash_match=&order_by=&order_direction=&page=&parent_feature_id=&parent_imdb_id=&parent_tmdb_id=&query=&season_number=&tmdb_id=&trusted_sources=&type=&user_id=&year=",
+    "optional": ["ai_translated", "episode_number", "foreign_parts_only", "hearing_impaired", "id", "imdb_id", "languages", "machine_translated", "moviehash", "moviehash_match", "order_by", "order_direction", "page", "parent_feature_id", "parent_imdb_id", "parent_tmdb_id", "query", "season_number", "tmdb_id", "trusted_sources", "type", "user_id", "year"],
+    "method": "GET"
+  }, 
+  "/features": {
+    "url": "/features?query=&feature_id=&imdb_id=&tmdb_id=&type=&year=",
+    "optional": ["feature_id", "imdb_id", "tmdb_id", "type", "year"],
+    "method": "GET"
+  },
+  "/guessit": {
+    "url": "/guessit?filename=", 
+    "optional": ["filename"],
+    "method": "GET"
+  }
+}
