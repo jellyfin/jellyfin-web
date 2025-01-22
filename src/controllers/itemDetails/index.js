@@ -33,6 +33,7 @@ import { getPortraitShape, getSquareShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+import OpenSubtitlesManager from '../../scripts/opensubtitles/opensubtitles';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -279,13 +280,15 @@ function renderAudioSelections(page, mediaSources) {
     }
 }
 
-function renderSubtitleSelections(page, mediaSources) {
+async function renderSubtitleSelections(page, mediaSources) {
     const mediaSource = getSelectedMediaSource(page, mediaSources);
-
+    // Append web subtitles to the mediaSource
+    await OpenSubtitlesManager.appendSubtitleTracks(mediaSource.MediaStreams, mediaSource);
     const tracks = mediaSource.MediaStreams.filter(function (m) {
         return m.Type === 'Subtitle';
     });
     tracks.sort(itemHelper.sortTracks);
+
     const select = page.querySelector('.selectSubtitles');
     select.setLabel(globalize.translate('Subtitles'));
     const selectedId = mediaSource.DefaultSubtitleStreamIndex == null ? -1 : mediaSource.DefaultSubtitleStreamIndex;
@@ -293,7 +296,12 @@ function renderSubtitleSelections(page, mediaSources) {
     let selected = selectedId === -1 ? ' selected' : '';
     select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
         selected = v.Index === selectedId ? ' selected' : '';
-        return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
+        let out = '<option value="' + v.Index + '" ' + selected;
+        if ( Object.hasOwn(v, 'OpenSubstitlesFileId') ) {
+            out += ' data-OpenSubstitlesFileId=' + v.OpenSubstitlesFileId;
+        }
+        out += '>' + v.DisplayTitle + '</option>';
+        return out;
     }).join('');
 
     if (tracks.length > 0) {
@@ -1067,6 +1075,7 @@ function renderTagline(page, item) {
 }
 
 function renderDetails(page, item, apiClient, context) {
+    OpenSubtitlesManager.mediaItem = item; // This object may have `ProviderIds`
     renderSimilarItems(page, item, context);
     renderMoreFromSeason(page, item, apiClient);
     renderMoreFromArtist(page, item, apiClient);
@@ -1915,6 +1924,7 @@ export default function (view, params) {
 
         Promise.all([getPromise(apiClient, pageParams), apiClient.getCurrentUser()]).then(([item, user]) => {
             currentItem = item;
+            OpenSubtitlesManager.mediaItem = item; // This object may have `ProviderIds`
             reloadFromItem(instance, page, pageParams, item, user);
         }).catch((error) => {
             console.error('failed to get item or current user: ', error);
@@ -1970,7 +1980,7 @@ export default function (view, params) {
         playItem(item, item.UserData && mode === 'resume' ? item.UserData.PlaybackPositionTicks : 0);
     }
 
-    function onPlayClick() {
+    async function onPlayClick() {
         let actionElem = this;
         let action = actionElem.getAttribute('data-action');
 
@@ -1978,6 +1988,21 @@ export default function (view, params) {
             actionElem = actionElem.querySelector('[data-action]') || actionElem;
             action = actionElem.getAttribute('data-action');
         }
+        //-----------------
+        // Make sure the opensubtitle url is ready for the player
+        try {
+            if ( currentItem?.MediaType === 'Video' ) {
+                const select = view.querySelector('.selectSubtitles');
+                const selectedSubtitleOption = select.options[ select.selectedIndex ];
+                if ( Object.hasOwn(selectedSubtitleOption.dataset, 'OpenSubstitlesFileId') ) {
+                    OpenSubtitlesManager.appendSubtitleTracks( currentItem.MediaStreams, currentItem );
+                    await OpenSubtitlesManager.getDownloadLink( selectedSubtitleOption.dataset.OpenSubstitlesFileId );
+                }
+            }
+        } catch (err) {
+            console.error( err );
+        }
+        //-----------------
 
         playCurrentItem(actionElem, action);
     }
@@ -2096,8 +2121,8 @@ export default function (view, params) {
         view.querySelector('.selectSource').addEventListener('change', function () {
             renderVideoSelections(view, self._currentPlaybackMediaSources);
             renderAudioSelections(view, self._currentPlaybackMediaSources);
-            renderSubtitleSelections(view, self._currentPlaybackMediaSources);
             updateMiscInfo();
+            renderSubtitleSelections(view, self._currentPlaybackMediaSources);
         });
         view.addEventListener('viewshow', function (e) {
             const page = this;
