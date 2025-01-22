@@ -15,16 +15,13 @@ type LogItemProps = {
 const LogItemList: FunctionComponent<LogItemProps> = ({ logs }: LogItemProps) => {
     const { api } = useApi();
 
-    // TODO: Use getUri from TS SDK once available.
     const getLogFileUrl = (logFile: LogFile) => {
         if (!api) return '';
 
-        let url = api.basePath + '/System/Logs/Log';
-
-        url += '?name=' + encodeURIComponent(String(logFile.Name));
-        url += '&api_key=' + encodeURIComponent(api.accessToken);
-
-        return url;
+        return api.getUri('/System/Logs/Log', {
+            name: logFile.Name,
+            api_key: api.accessToken
+        });
     };
 
     const getDate = (logFile: LogFile) => {
