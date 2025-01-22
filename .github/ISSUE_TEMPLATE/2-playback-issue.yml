@@ -85,14 +85,37 @@ body:
     attributes:
       value: |
         ## Environment
+  - type: markdown
+    attributes:
+      value: |
+        ### Server
+        You will find theese values in your Admin Dashboard
   - type: input
     id: server-version
     attributes:
-      label: Jellyfin server version
-      description: If on unstable, please specify the commit hash.
+      label: Server version
       placeholder: 10.10.2
     validations:
       required: true
+  - type: input
+    id: web-version
+    attributes:
+      label: Web version
+      placeholder: 10.10.2
+    validations:
+      required: true
+  - type: input
+    id: build-version
+    attributes:
+      label: Build version
+      placeholder: 10.10.2
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ### Client
+        Information about the Device you are seeing the issue on
   - type: input
     id: platform
     attributes:
