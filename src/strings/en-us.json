@@ -760,7 +760,7 @@
     "LabelLocalCustomCss": "Custom CSS code for styling which applies to this client only. You may want to disable server custom CSS code.",
     "LabelLocalHttpServerPortNumber": "Local HTTP port number",
     "LabelLocalHttpServerPortNumberHelp": "The TCP port number for the HTTP server.",
-    "LabelLockItemToPreventChanges": "Lock this item to prevent future changes",
+    "LabelLockItemToPreventChanges": "Lock this item to prevent future metadata changes",
     "LabelLoginDisclaimer": "Login disclaimer",
     "LabelLoginDisclaimerHelp": "A message that will be displayed at the bottom of the login page.",
     "LabelLogs": "Logs",
