@@ -1816,7 +1816,7 @@
     "LimitSupportedVideoResolutionHelp": "Utiliser la 'Résolution de transcodage vidéo maximale autorisée' comme résolution vidéo maximale prise en charge.",
     "EnableLibrary": "Activer la médiathèque",
     "EnableLibraryHelp": "La désactivation de la médiathèque la masquera de toutes les vues utilisateur.",
-    "AirPlay": "Diffusion",
+    "AirPlay": "AirPlay",
     "LabelEncodingFormatOptions": "Options de format d'encodage",
     "AllowMjpegEncoding": "Autoriser l'encodage au format MJPEG (utilisé lors de la génération trickplay)",
     "EncodingFormatHelp": "Sélectionnez l'encodage vidéo vers lequel Jellyfin doit transcoder. Jellyfin utilisera le codage logiciel lorsque l'accélération matérielle pour le format sélectionné n'est pas disponible. L’encodage H264 sera toujours activé.",
