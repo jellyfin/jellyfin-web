@@ -48,7 +48,10 @@ const config = {
             '@mui/private-theming': '@mui/private-theming/legacy',
             '@mui/styled-engine': '@mui/styled-engine/legacy',
             '@mui/system': '@mui/system/legacy',
-            '@mui/utils': '@mui/utils/legacy'
+            '@mui/utils': '@mui/utils/legacy',
+
+            // Sync with tsconfig.json
+            '@': path.resolve(__dirname, 'src')
         }
     },
     plugins: [
