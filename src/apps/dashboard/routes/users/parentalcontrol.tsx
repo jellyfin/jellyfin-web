@@ -65,6 +65,7 @@ const UserParentalControl = () => {
     const [ userName, setUserName ] = useState('');
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
     const [ unratedItems, setUnratedItems ] = useState<UnratedNamedItem[]>([]);
+    const [ maxParentalRating, setMaxParentalRating ] = useState<string>();
     const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const [ allowedTags, setAllowedTags ] = useState<string[]>([]);
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
@@ -163,15 +164,13 @@ const UserParentalControl = () => {
         populateRatings(allParentalRatings);
 
         let ratingValue = '';
-        if (user.Policy?.MaxParentalRating) {
-            allParentalRatings.forEach(rating => {
-                if (rating.Value && user.Policy?.MaxParentalRating && user.Policy.MaxParentalRating >= rating.Value) {
-                    ratingValue = `${rating.Value}`;
-                }
-            });
-        }
+        allParentalRatings.forEach(rating => {
+            if (rating.Value != null && user.Policy?.MaxParentalRating != null && user.Policy.MaxParentalRating >= rating.Value) {
+                ratingValue = `${rating.Value}`;
+            }
+        });
 
-        (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value = String(ratingValue);
+        setMaxParentalRating(ratingValue);
 
         if (user.Policy?.IsAdministrator) {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
@@ -329,11 +328,24 @@ const UserParentalControl = () => {
         };
     }, [setAllowedTags, setBlockedTags, loadData, userId]);
 
+    useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('[userparentalcontrol] Unexpected null page reference');
+            return;
+        }
+
+        (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value = String(maxParentalRating);
+    }, [maxParentalRating, parentalRatings]);
+
     const optionMaxParentalRating = () => {
         let content = '';
         content += '<option value=\'\'></option>';
         for (const rating of parentalRatings) {
-            content += `<option value='${rating.Value}'>${escapeHTML(rating.Name)}</option>`;
+            if (rating.Value != null) {
+                content += `<option value='${rating.Value}'>${escapeHTML(rating.Name)}</option>`;
+            }
         }
         return content;
     };
