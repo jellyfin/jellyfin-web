@@ -1,11 +1,6 @@
 import { type Theme } from '@mui/material/styles';
 
-import appletv from './appletv';
-import blueradiance from './blueradiance';
-import dark from './dark';
-import light from './light';
-import purplehaze from './purplehaze';
-import wmc from './wmc';
+import isweetav from './isweetav';
 
 declare module '@mui/material/styles' {
     interface Palette {
@@ -18,16 +13,11 @@ declare module '@mui/material/styles' {
 }
 
 const ALL_THEMES = {
-    appletv,
-    blueradiance,
-    dark,
-    light,
-    purplehaze,
-    wmc
+    isweetav
 };
 
 /** The default theme if a user has not selected a preferred theme. */
-export const DEFAULT_THEME = dark;
+export const DEFAULT_THEME = isweetav;
 
 /**
  * Gets a MUI Theme by its string id. Returns the default theme if no matching theme is found.

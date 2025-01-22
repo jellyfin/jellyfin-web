@@ -1,8 +1,8 @@
 {
-    "name": "Jellyfin",
-    "description": "The Free Software Media System",
+    "name": "iSweeTav",
+    "description": "Sweet • Sexy • Secret",
     "lang": "en-US",
-    "short_name": "Jellyfin",
+    "short_name": "iSweeTav",
     "start_url": "index.html#/home.html",
     "theme_color": "#101010",
     "background_color": "#101010",

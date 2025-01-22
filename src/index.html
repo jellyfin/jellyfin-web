@@ -1,67 +1,108 @@
 <!DOCTYPE html>
 <html class="preload" dir="ltr">
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <link rel="manifest" href="manifest.json">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta http-equiv="X-UA-Compatibility" content="IE=Edge">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Jellyfin">
+    <meta name="application-name" content="iSweeTav">
     <meta name="robots" content="noindex, nofollow, noarchive">
     <meta name="referrer" content="no-referrer">
-
-    <meta id="themeColor" name="theme-color" content="#202020">
-
+    <meta name="theme-color" content="#5033cc" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#3f2266" media="(prefers-color-scheme: dark)">
     <link rel="apple-touch-icon" sizes="180x180" href="touchicon.png">
 
     <!-- iPhone 5 -->
-    <link href="assets/splash/iphone5_splash.png" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/iphone5_splash_l.png" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
+    <link href="assets/splash/iphone5_splash.png"
+        media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        rel="apple-touch-startup-image" />
+    <link href="assets/splash/iphone5_splash_l.png"
+        media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        rel="apple-touch-startup-image" />
 
     <!-- iPhone 6, 6S, 7 and 8 -->
-    <link href="assets/splash/iphone6_splash.png" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/iphone6_splash_l.png" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
+    <link href="assets/splash/iphone6_splash.png"
+        media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        rel="apple-touch-startup-image" />
+    <link href="assets/splash/iphone6_splash_l.png"
+        media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        rel="apple-touch-startup-image" />
 
     <!-- iPhone 6+, 7+ and 8+ -->
-    <link href="assets/splash/iphoneplus_splash.png" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/iphoneplus_splash_l.png" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" rel="apple-touch-startup-image" />
+    <link href="assets/splash/iphoneplus_splash.png"
+        media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        rel="apple-touch-startup-image" />
+    <link href="assets/splash/iphoneplus_splash_l.png"
+        media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+        rel="apple-touch-startup-image" />
 
     <!-- iPhone X -->
-    <link href="assets/splash/iphonex_splash.png" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/iphonex_splash_l.png" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" rel="apple-touch-startup-image" />
+    <link href="assets/splash/iphonex_splash.png"
+        media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        rel="apple-touch-startup-image" />
+    <link href="assets/splash/iphonex_splash_l.png"
+        media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+        rel="apple-touch-startup-image" />
 
     <!-- iPhone Xr -->
-    <link href="assets/splash/iphonexr_splash.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/iphonexr_splash_l.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
+    <link href="assets/splash/iphonexr_splash.png"
+        media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        rel="apple-touch-startup-image" />
+    <link href="assets/splash/iphonexr_splash_l.png"
+        media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        rel="apple-touch-startup-image" />
 
     <!-- iPhone Xs -->
-    <link href="assets/splash/iphonexsmax_splash.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/iphonexsmax_splash_l.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" rel="apple-touch-startup-image" />
+    <link href="assets/splash/iphonexsmax_splash.png"
+        media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        rel="apple-touch-startup-image" />
+    <link href="assets/splash/iphonexsmax_splash_l.png"
+        media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+        rel="apple-touch-startup-image" />
 
     <!-- iPad -->
-    <link href="assets/splash/ipad_splash.png" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/ipad_splash_l.png" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
+    <link href="assets/splash/ipad_splash.png"
+        media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        rel="apple-touch-startup-image" />
+    <link href="assets/splash/ipad_splash_l.png"
+        media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        rel="apple-touch-startup-image" />
 
     <!-- iPad Pro 1 -->
-    <link href="assets/splash/ipadpro1_splash.png" media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/ipadpro1_splash_l.png" media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
+    <link href="assets/splash/ipadpro1_splash.png"
+        media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        rel="apple-touch-startup-image" />
+    <link href="assets/splash/ipadpro1_splash_l.png"
+        media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        rel="apple-touch-startup-image" />
 
     <!-- iPad Pro 3 -->
-    <link href="assets/splash/ipadpro3_splash.png" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/ipadpro3_splash_l.png" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
+    <link href="assets/splash/ipadpro3_splash.png"
+        media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        rel="apple-touch-startup-image" />
+    <link href="assets/splash/ipadpro3_splash_l.png"
+        media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        rel="apple-touch-startup-image" />
 
     <!-- iPad Pro 2 -->
-    <link href="assets/splash/ipadpro2_splash.png" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/ipadpro2_splash_l.png" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
+    <link href="assets/splash/ipadpro2_splash.png"
+        media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        rel="apple-touch-startup-image" />
+    <link href="assets/splash/ipadpro2_splash_l.png"
+        media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+        rel="apple-touch-startup-image" />
 
     <link rel="shortcut icon" href="favicon.ico">
     <meta name="msapplication-TileImage" content="touchicon144.png">
     <meta name="msapplication-TileColor" content="#333333">
 
-    <title>Jellyfin</title>
+    <title>iSweeTav</title>
 
     <style>
         .transparentDocument,
@@ -95,7 +136,13 @@
         }
 
         .preload {
-            background-color: #101010;
+            background-color: #5033cc;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .preload {
+                background-color: #3f2266;
+            }
         }
 
         .hide,
@@ -146,17 +193,238 @@
             transform: translate(-50%, -50%);
         }
 
-        @media screen
-            and (min-device-width: 992px) {
+        @media screen and (min-device-width: 992px) {
             .splashLogo {
                 background-image: url(assets/img/banner-light.png);
             }
         }
     </style>
+    <script defer="defer">
+        (function () {
+            'use strict';
+            let observer
+            let root
+            function init() {
+                observer?.disconnect();
+                root?.unmount();
+                let app;
+                const targetNode = document.querySelector(".mainAnimatedPages");
+                const config = { attributes: false, childList: true, subtree: true };
+                const callback = (mutationsList, observer) => {
+                    if (document.querySelector("#castCollapsible")) {
+                        observer?.disconnect();
+                        try {
+                            loadPlayer()
+                        } catch (error) {
+                            observer.observe(targetNode, config);
+                            console.log(error);
+                        }
+                    }
+                };
+                observer = new MutationObserver(callback);
+                observer.observe(targetNode, config);
+            }
+            window.addEventListener("viewshow", (event) => {
+                init();
+            });
+
+            function loadPlayer() {
+                let potplayer = document.querySelectorAll("div#itemDetailPage:not(.hide) #embyPot")[0];
+                if (!potplayer) {
+                    let mainDetailButtons = document.querySelectorAll("div#itemDetailPage:not(.hide) .detailPageContent")[0];
+                    if (mainDetailButtons) {
+                        let buttonhtml = `<div style="display:flex;flex-wrap:wrap;justify-content: center;">
+        <a id="embyInfuse" type="button" class="button-flat btnPlay-infuse detailButton emby-button" title="使用 Infuse 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-infuse"></span></div></a>
+        <a id="embyNPlayer" type="button" class="button-flat btnPlay-nplayer detailButton emby-button" title="使用 NPlayer 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-NPlayer"></span></div></a>
+        <a id="embyPot" type="button" class="button-flat btnPlay-pot detailButton emby-button" title="使用 Potplayer 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-PotPlayer"></span></div></a>
+        <a id="embyVlc" type="button" class="button-flat btnPlay-vlc detailButton emby-button" title="使用 VLC 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-VLC"></span></div></a>
+        <a id="embyIINA" type="button" class="button-flat btnPlay-iina detailButton emby-button" title="使用 IINA 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-IINA"></span></div></a>
+    </div>
+    `
+                        mainDetailButtons.insertAdjacentHTML('afterbegin', buttonhtml)
+                        document.querySelector("div#itemDetailPage:not(.hide) #embyPot").onclick = embyPot;
+                        document.querySelector("div#itemDetailPage:not(.hide) #embyIINA").onclick = embyIINA;
+                        document.querySelector("div#itemDetailPage:not(.hide) #embyNPlayer").onclick = embyNPlayer;
+                        document.querySelector("div#itemDetailPage:not(.hide) #embyVlc").onclick = embyVlc;
+                        document.querySelector("div#itemDetailPage:not(.hide) #embyInfuse").onclick = embyInfuse;
+                        document.querySelector("div#itemDetailPage:not(.hide) .icon-PotPlayer").style.cssText += 'background: url(./assets/img/PotPlayer.webp)no-repeat;background-size: 100% 100%';
+                        document.querySelector("div#itemDetailPage:not(.hide) .icon-VLC").style.cssText += 'background: url(./assets/img/VLC.webp)no-repeat;background-size: 100% 100%';
+                        document.querySelector("div#itemDetailPage:not(.hide) .icon-IINA").style.cssText += 'background: url(./assets/img/IINA.webp)no-repeat;background-size: 100% 100%';
+                        document.querySelector("div#itemDetailPage:not(.hide) .icon-NPlayer").style.cssText += 'background: url(./assets/img/NPlayer.webp)no-repeat;background-size: 100% 100%';
+                        document.querySelector("div#itemDetailPage:not(.hide) .icon-infuse").style.cssText += 'background: url(./assets/img/infuse.webp)no-repeat;background-size: 100% 100%';
+                    }
+                }
+            }
+
+            async function getItemInfo() {
+                let userId = ApiClient._serverInfo.UserId;
+                let itemId = /\?id=(\w*)/.exec(window.location.hash)[1];
+                let response = await ApiClient.getItem(userId, itemId);
+                if (response.Type == "Series") {
+                    let seriesNextUpItems = await ApiClient.getNextUpEpisodes({ SeriesId: itemId, UserId: userId });
+                    console.log("nextUpItemId: " + seriesNextUpItems.Items[0].Id);
+                    return await ApiClient.getItem(userId, seriesNextUpItems.Items[0].Id);
+                }
+                if (response.Type == "Season") {
+                    let seasonItems = await ApiClient.getItems(userId, { parentId: itemId });
+                    console.log("seasonItemId: " + seasonItems.Items[0].Id);
+                    return await ApiClient.getItem(userId, seasonItems.Items[0].Id);
+                }
+                console.log("itemId:  " + itemId);
+                return response;
+            }
+
+            function getSeek(position) {
+                let ticks = position * 10000;
+                let parts = []
+                    , hours = ticks / 36e9;
+                (hours = Math.floor(hours)) && parts.push(hours);
+                let minutes = (ticks -= 36e9 * hours) / 6e8;
+                ticks -= 6e8 * (minutes = Math.floor(minutes)),
+                    minutes < 10 && hours && (minutes = "0" + minutes),
+                    parts.push(minutes);
+                let seconds = ticks / 1e7;
+                return (seconds = Math.floor(seconds)) < 10 && (seconds = "0" + seconds),
+                    parts.push(seconds),
+                    parts.join(":")
+            }
+
+            function getSubPath(mediaSource) {
+                let selectSubtitles = document.querySelector("select[is='emby-select']:not(.hide).selectSubtitles");
+                let subTitlePath = '';
+                if (selectSubtitles && selectSubtitles.value > 0) {
+                    let SubIndex = mediaSource.MediaStreams.findIndex(m => m.Index == selectSubtitles.value && m.IsExternal);
+                    if (SubIndex > -1) {
+                        let subtitleCodec = mediaSource.MediaStreams[SubIndex].Codec;
+                        subTitlePath = `/${mediaSource.Id}/Subtitles/${selectSubtitles.value}/Stream.${subtitleCodec}`;
+                    }
+                }
+                else {
+                    let chiSubIndex = mediaSource.MediaStreams.findIndex(m => m.Language == "chi" && m.IsExternal);
+                    if (chiSubIndex > -1) {
+                        let subtitleCodec = mediaSource.MediaStreams[chiSubIndex].Codec;
+                        subTitlePath = `/${mediaSource.Id}/Subtitles/${chiSubIndex}/Stream.${subtitleCodec}`;
+                    } else {
+                        let externalSubIndex = mediaSource.MediaStreams.findIndex(m => m.IsExternal);
+                        if (externalSubIndex > -1) {
+                            let subtitleCodec = mediaSource.MediaStreams[externalSubIndex].Codec;
+                            subTitlePath = `/${mediaSource.Id}/Subtitles/${externalSubIndex}/Stream.${subtitleCodec}`;
+                        }
+                    }
+                }
+                return subTitlePath;
+            }
+
+            async function getEmbyMediaInfo() {
+                let itemInfo = await getItemInfo();
+                let mediaSourceId = itemInfo.MediaSources[0].Id;
+                let selectSource = document.querySelector("select[is='emby-select']:not(.hide).selectSource");
+                if (selectSource && selectSource.value.length > 0) {
+                    mediaSourceId = selectSource.value;
+                }
+                let mediaSource = itemInfo.MediaSources.find(m => m.Id == mediaSourceId);
+                let domain = `${ApiClient._serverAddress}/emby/videos/${itemInfo.Id}`;
+                let subPath = getSubPath(mediaSource);
+                let subUrl = subPath.length > 0 ? `${domain}${subPath}?api_key=${ApiClient.accessToken()}` : '';
+                let streamUrl = `${domain}/stream.${mediaSource.Container}?api_key=${ApiClient.accessToken()}&Static=true&MediaSourceId=${mediaSourceId}`;
+                let position = parseInt(itemInfo.UserData.PlaybackPositionTicks / 10000);
+                let intent = await getIntent(mediaSource, position);
+                console.log(streamUrl, subUrl, intent);
+                return {
+                    streamUrl: streamUrl,
+                    subUrl: subUrl,
+                    intent: intent,
+                }
+            }
+
+            async function getIntent(mediaSource, position) {
+                let title = mediaSource.Path.split('/').pop();
+                let externalSubs = mediaSource.MediaStreams.filter(m => m.IsExternal == true);
+                let subs = '';
+                let subs_name = '';
+                let subs_filename = '';
+                let subs_enable = '';
+                if (externalSubs) {
+                    subs_name = externalSubs.map(s => s.DisplayTitle);
+                    subs_filename = externalSubs.map(s => s.Path.split('/').pop());
+                }
+                return {
+                    title: title,
+                    position: position,
+                    subs: subs,
+                    subs_name: subs_name,
+                    subs_filename: subs_filename,
+                    subs_enable: subs_enable
+                };
+            }
+
+            async function embyPot() {
+                let mediaInfo = await getEmbyMediaInfo();
+                let intent = mediaInfo.intent;
+                let poturl = `potplayer://${encodeURI(mediaInfo.streamUrl)} /sub=${encodeURI(mediaInfo.subUrl)} /current /title="${intent.title}" /seek=${getSeek(intent.position)}`;
+                console.log(poturl);
+                location.href = poturl
+            }
+
+            async function embyVlc() {
+                let mediaInfo = await getEmbyMediaInfo();
+                let intent = mediaInfo.intent;
+                let vlcUrl = `intent:${encodeURI(mediaInfo.streamUrl)}#Intent;package=org.videolan.vlc;type=video/*;S.subtitles_location=${encodeURI(mediaInfo.subUrl)};S.title=${encodeURI(intent.title)};i.position=${intent.position};end`;
+                if (getOS() == "windows") {
+                    vlcUrl = `vlc://${encodeURI(mediaInfo.streamUrl)}`;
+                }
+                if (getOS() == 'ios') {
+                    vlcUrl = `vlc-x-callback://x-callback-url/stream?url=${encodeURIComponent(mediaInfo.streamUrl)}&sub=${encodeURIComponent(mediaInfo.subUrl)}`;
+                }
+                console.log(vlcUrl);
+                location.href = vlcUrl
+            }
+
+            async function embyIINA() {
+                let mediaInfo = await getEmbyMediaInfo();
+                let iinaUrl = `iina://weblink?url=${encodeURIComponent(mediaInfo.streamUrl)}&new_window=1`;
+                console.log(`iinaUrl= ${iinaUrl}`);
+                location.href = iinaUrl
+            }
+
+            async function embyNPlayer() {
+                let mediaInfo = await getEmbyMediaInfo();
+                let nUrl = getOS() == 'macOS' ? `nplayer-mac://weblink?url=${encodeURIComponent(mediaInfo.streamUrl)}&new_window=1` : `nplayer-${encodeURI(mediaInfo.streamUrl)}`;
+                console.log(nUrl);
+                location.href = nUrl
+            }
+
+            async function embyInfuse() {
+                let mediaInfo = await getEmbyMediaInfo();
+                let infuseUrl = `infuse://x-callback-url/play?url=${encodeURIComponent(mediaInfo.streamUrl)}`;
+                console.log(`infuseUrl= ${infuseUrl}`);
+                location.href = infuseUrl
+            }
+
+            function getOS() {
+                let u = navigator.userAgent
+                if (!!u.match(/compatible/i) || u.match(/Windows/i)) {
+                    return 'windows'
+                } else if (!!u.match(/Macintosh/i) || u.match(/MacIntel/i)) {
+                    return 'macOS'
+                } else if (!!u.match(/iphone/i) || u.match(/Ipad/i)) {
+                    return 'ios'
+                } else if (u.match(/android/i)) {
+                    return 'android'
+                } else if (u.match(/Ubuntu/i)) {
+                    return 'Ubuntu'
+                } else {
+                    return 'other'
+                }
+            }
+        })();
+    </script>
 </head>
+
 <body dir="ltr">
     <div id="reactRoot">
         <div class="splashLogo"></div>
     </div>
 </body>
+
 </html>

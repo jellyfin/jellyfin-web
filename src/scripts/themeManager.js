@@ -75,8 +75,6 @@ function setTheme(id) {
             link.setAttribute('href', linkUrl);
             themeStyleElement = link;
             currentThemeId = info.themeId;
-
-            document.getElementById('themeColor').content = info.color;
         });
     });
 }

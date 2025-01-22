@@ -313,7 +313,7 @@
         transition: right ease-in-out 0.3s, padding ease-in-out 0.3s;
     }
 
-    > .page {
+    >.page {
         // Fix pointer events being swallowed by the react root when a dashboard page is not rendered by react
         pointer-events: all;
     }
@@ -331,6 +331,7 @@
 }
 
 @media all and (min-width: 40em) {
+
     .dashboardDocument .adminDrawerLogo,
     .dashboardDocument .mainDrawerButton {
         display: none !important;
@@ -467,7 +468,7 @@
     display: inline-block;
 }
 
-.viewControls + .listTopPaging {
+.viewControls+.listTopPaging {
     [dir="ltr"] & {
         margin-left: 0.5em !important;
     }
@@ -954,18 +955,18 @@ div.itemDetailGalleryLink.defaultCardBackground {
     height: 23vw;
 }
 
-.sectionTitleTextButton > .material-icons {
+.sectionTitleTextButton>.material-icons {
     font-size: 1.5em;
     margin-bottom: 0.35em;
     margin-top: 0;
 }
 
-.layout-mobile .sectionTitleTextButton > .material-icons {
+.layout-mobile .sectionTitleTextButton>.material-icons {
     margin-bottom: 0;
     padding-top: 0.5em;
 }
 
-.itemDetailGalleryLink.defaultCardBackground > .material-icons {
+.itemDetailGalleryLink.defaultCardBackground>.material-icons {
     font-size: 15vw;
     margin-top: 50%;
     transform: translateY(-50%);
@@ -1037,7 +1038,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     margin: 0;
 }
 
-.detailCollapsibleSection:not(.hide) + .detailCollapsibleSection {
+.detailCollapsibleSection:not(.hide)+.detailCollapsibleSection {
     margin-top: -2em;
 }
 
@@ -1059,7 +1060,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     }
 }
 
-.mainDetailButtons.hide + .recordingFields {
+.mainDetailButtons.hide+.recordingFields {
     margin-top: 1.5em !important;
 }
 
@@ -1182,7 +1183,8 @@ div.itemDetailGalleryLink.defaultCardBackground {
 
 .mediaInfoStreamType {
     display: block;
-    margin: 0.622em 0; /* copy button height compensation */
+    margin: 0.622em 0;
+    /* copy button height compensation */
 }
 
 .layout-tv .mediaInfoStreamType {
@@ -1269,7 +1271,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     margin: 1.25em 0;
 }
 
-.sectionTitleContainer > .sectionTitle {
+.sectionTitleContainer>.sectionTitle {
     margin: 0;
     display: inline-block;
     vertical-align: middle;
@@ -1281,13 +1283,13 @@ div.itemDetailGalleryLink.defaultCardBackground {
     padding-top: 1.25em;
 }
 
-div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
+div:not(.sectionTitleContainer-cards)>.sectionTitle-cards {
     margin: 0;
     padding-top: 0.5em;
     padding-bottom: 0.2em;
 }
 
-.layout-mobile :not(.sectionTitleContainer-cards) > .sectionTitle-cards {
+.layout-mobile :not(.sectionTitleContainer-cards)>.sectionTitle-cards {
     margin: 0;
     padding-top: 0.5em;
 }
@@ -1304,7 +1306,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     }
 }
 
-.sectionTitleButton + .sectionTitleButton {
+.sectionTitleButton+.sectionTitleButton {
     [dir="ltr"] & {
         margin-left: 0.5em !important;
     }
@@ -1348,7 +1350,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     padding-top: 0 !important;
 }
 
-.sectionTitleTextButton > .sectionTitle {
+.sectionTitleTextButton>.sectionTitle {
     margin-bottom: 0.35em;
     margin-top: 0;
 }
@@ -1432,7 +1434,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     }
 }
 
-.itemsViewSettingsContainer > .button-flat {
+.itemsViewSettingsContainer>.button-flat {
     margin: 0;
 }
 
@@ -1498,14 +1500,17 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     overflow: hidden;
 
     /* NOTE: line clamping is non-standard and requires vendor-prefixed rules to function */
-    display: -webkit-box; /* stylelint-disable-line value-no-vendor-prefix */
+    display: -webkit-box;
+    /* stylelint-disable-line value-no-vendor-prefix */
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 12;
+    line-clamp: 12;
 }
 
 @media all and (min-width: 40em) {
     .detail-clamp-text {
         -webkit-line-clamp: 6;
+        line-clamp: 6;
     }
 }
 

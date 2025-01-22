@@ -727,7 +727,7 @@ function setDefaultTitle () {
         pageTitleElement.innerHTML = '';
     }
 
-    document.title = 'Jellyfin';
+    document.title = 'iSweeTav';
 }
 
 function setTitle (title) {
@@ -753,7 +753,7 @@ function setTitle (title) {
         pageTitleElement.innerText = html || '';
     }
 
-    document.title = title || 'Jellyfin';
+    document.title = title || 'iSweeTav';
 }
 
 function setTransparentMenu (transparent) {

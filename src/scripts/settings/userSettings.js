@@ -73,17 +73,14 @@ export class UserSettings {
         });
     }
 
-    // FIXME: Seems unused
     getData() {
         return this.displayPrefs;
     }
 
-    // FIXME: Seems unused
     importFrom(instance) {
         this.displayPrefs = instance.getData();
     }
 
-    // FIXME: 'appSettings.set' doesn't return any value
     /**
      * Set value of setting.
      * @param {string} name - Name of setting.
@@ -158,11 +155,11 @@ export class UserSettings {
      */
     preferFmp4HlsContainer(val) {
         if (val !== undefined) {
-            return this.set('preferFmp4HlsContainer', val.toString(), false);
+            return this.set('preferFmp4HlsContainer', val.toString(), true);
         }
 
         // Enable it by default only for the platforms that play fMP4 for sure.
-        return toBoolean(this.get('preferFmp4HlsContainer', false), browser.safari || browser.firefox || browser.chrome || browser.edgeChromium);
+        return toBoolean(this.get('preferFmp4HlsContainer', true), browser.safari || browser.firefox || browser.chrome || browser.edgeChromium);
     }
 
     /**
@@ -279,7 +276,7 @@ export class UserSettings {
             return this.set('enableBackdrops', val.toString(), false);
         }
 
-        return toBoolean(this.get('enableBackdrops', false), false);
+        return toBoolean(this.get('enableBackdrops', false), true);
     }
 
     /**

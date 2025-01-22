@@ -16,3 +16,4 @@ config.json
 # vim
 *.sw?
 
+*.DS_Store

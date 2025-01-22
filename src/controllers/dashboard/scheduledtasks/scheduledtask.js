@@ -215,7 +215,7 @@ export default function (view) {
 
     view.querySelector('.addTriggerForm').addEventListener('submit', onSubmit);
     fillTimeOfDay(view.querySelector('#selectTimeOfDay'));
-    view.querySelector('#popupAddTrigger').parentNode.trigger(new Event('create'));
+    $(view.querySelector('#popupAddTrigger').parentNode).trigger('create');
     view.querySelector('.selectTriggerType').addEventListener('change', function () {
         ScheduledTaskPage.refreshTriggerFields(view, this.value);
     });

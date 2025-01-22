@@ -1364,7 +1364,7 @@
     "LabelPublicHttpsPort": "מספר פורט HTTPS פומבי",
     "LabelPublicHttpsPortHelp": "מספר הפורט הפומבי אשר ימופה לפורט HTTPS המקומי.",
     "LabelPublishedServerUri": "כתובות URI של השרת שיפורסמו",
-    "LabelPublishedServerUriHelp": "יש לדרוס את ה-URI שבשימוש ג'ליפין, בהתבסס על כרטיס הרשת, או כתובת IP של הלקוח. למשל: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, או all=https://jellyfin.example.com",
+    "LabelPublishedServerUriHelp": "יש לדרוס את ה-URI שבשימוש ג'ליפין, בהתבסס על כרטיס הרשת, או כתובת IP של הלקוח. למשל: internal=http://iSweeTav.example.com, external=https://iSweeTav.example.com, או all=https://iSweeTav.example.com",
     "LabelParallelImageEncodingLimit": "גבול קידוד תמונות במקביל",
     "LabelParallelImageEncodingLimitHelp": "המספר המקסימלי של קידודי תמונות שירוצו במקביל. הגדרה של 0 תבחר ערך בהתאם למספר המעבדים במערכת שלך.",
     "LabelPlayDefaultAudioTrack": "ניגון פס הקול הדיפולטי ללא תלות בשפה",
