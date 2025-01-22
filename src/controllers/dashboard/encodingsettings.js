@@ -207,10 +207,15 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
         }
 
         const isHwaSelected = [ 'amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox' ].includes(this.value);
-        if (this.value === 'none' || isHwaSelected) {
+        if (this.value === 'none') {
             page.querySelector('.tonemappingOptions').classList.remove('hide');
+            page.querySelector('.fldTonemapCheckbox').classList.add('hide');
+        } else if (isHwaSelected) {
+            page.querySelector('.tonemappingOptions').classList.remove('hide');
+            page.querySelector('.fldTonemapCheckbox').classList.remove('hide');
         } else {
             page.querySelector('.tonemappingOptions').classList.add('hide');
+            page.querySelector('.fldTonemapCheckbox').classList.add('hide');
         }
 
         page.querySelector('.tonemappingModeOptions').classList.toggle('hide', !isHwaSelected);
