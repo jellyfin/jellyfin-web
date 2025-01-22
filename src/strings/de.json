@@ -529,7 +529,7 @@
     "LabelLineup": "TV-Programm",
     "LabelLocalHttpServerPortNumber": "Lokale HTTP-Portnummer",
     "LabelLocalHttpServerPortNumberHelp": "Die TCP-Portnummer für den HTTP-Server.",
-    "LabelLockItemToPreventChanges": "Dieses Objekt sperren, um zukünftige Änderungen zu verhindern",
+    "LabelLockItemToPreventChanges": "Dieses Objekt sperren, um zukünftige Änderungen an Metadateien zu verhindern",
     "LabelLoginDisclaimer": "Haftungsausschluss bei der Anmeldung",
     "LabelLoginDisclaimerHelp": "Diese Nachricht wird am unteren Ende des Anmeldebildschirms angezeigt.",
     "LabelManufacturer": "Hersteller",
