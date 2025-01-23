@@ -33,17 +33,33 @@ interface ViewOptions {
     }
 }
 
+const importController = (
+    appType: AppType,
+    controller: string,
+    view: string
+) => {
+    if (appType === AppType.Dashboard) {
+        return Promise.all([
+            import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/controllers/${controller}`),
+            import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/controllers/${view}`)
+                .then(html => globalize.translateHtml(html))
+        ]);
+    }
+
+    return Promise.all([
+        import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
+        import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
+            .then(html => globalize.translateHtml(html))
+    ]);
+};
+
 const loadView = async (
     appType: AppType,
     controller: string,
     view: string,
     viewOptions: ViewOptions
 ) => {
-    const [ controllerFactory, viewHtml ] = await Promise.all([
-        import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
-        import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
-            .then(html => globalize.translateHtml(html))
-    ]);
+    const [ controllerFactory, viewHtml ] = await importController(appType, controller, view);
 
     viewManager.loadView({
         ...viewOptions,

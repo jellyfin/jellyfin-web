@@ -1,36 +1,36 @@
 import escapeHtml from 'escape-html';
 
-import datetime from '../../scripts/datetime';
-import Events from '../../utils/events.ts';
-import itemHelper from '../../components/itemHelper';
-import serverNotifications from '../../scripts/serverNotifications';
-import dom from '../../scripts/dom';
-import globalize from '../../lib/globalize';
+import datetime from 'scripts/datetime';
+import Events from 'utils/events.ts';
+import itemHelper from 'components/itemHelper';
+import serverNotifications from 'scripts/serverNotifications';
+import dom from 'scripts/dom';
+import globalize from 'lib/globalize';
 import { formatDistanceToNow } from 'date-fns';
-import { getLocaleWithSuffix } from '../../utils/dateFnsLocale.ts';
-import loading from '../../components/loading/loading';
-import playMethodHelper from '../../components/playback/playmethodhelper';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import imageLoader from '../../components/images/imageLoader';
-import ActivityLog from '../../components/activitylog';
-import imageHelper from '../../utils/image';
-import indicators from '../../components/indicators/indicators';
-import taskButton from '../../scripts/taskbutton';
-import Dashboard from '../../utils/dashboard';
-import ServerConnections from '../../components/ServerConnections';
-import alert from '../../components/alert';
-import confirm from '../../components/confirm/confirm';
-import { getDefaultBackgroundClass } from '../../components/cardbuilder/cardBuilderUtils';
+import { getLocaleWithSuffix } from 'utils/dateFnsLocale.ts';
+import loading from 'components/loading/loading';
+import playMethodHelper from 'components/playback/playmethodhelper';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import imageLoader from 'components/images/imageLoader';
+import ActivityLog from 'components/activitylog';
+import imageHelper from 'utils/image';
+import indicators from 'components/indicators/indicators';
+import taskButton from 'scripts/taskbutton';
+import Dashboard from 'utils/dashboard';
+import ServerConnections from 'components/ServerConnections';
+import alert from 'components/alert';
+import confirm from 'components/confirm/confirm';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 
 import { getSystemInfoQuery } from 'hooks/useSystemInfo';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-button/emby-button';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
 
-import '../../components/listview/listview.scss';
-import '../../styles/flexstyles.scss';
+import 'components/listview/listview.scss';
+import 'styles/flexstyles.scss';
 import './dashboard.scss';
 
 function showPlaybackInfo(btn, session) {
@@ -72,7 +72,7 @@ function showPlaybackInfo(btn, session) {
 }
 
 function showSendMessageForm(btn, session) {
-    import('../../components/prompt/prompt').then(({ default: prompt }) => {
+    import('components/prompt/prompt').then(({ default: prompt }) => {
         prompt({
             title: globalize.translate('HeaderSendMessage'),
             label: globalize.translate('LabelMessageText'),
@@ -89,7 +89,7 @@ function showSendMessageForm(btn, session) {
 }
 
 function showOptionsMenu(btn, session) {
-    import('../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
+    import('components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
         const menuItems = [];
 
         if (session.ServerId && session.DeviceId !== ServerConnections.deviceId()) {

@@ -1,11 +1,11 @@
-import loading from '../../../../components/loading/loading';
-import dom from '../../../../scripts/dom';
-import globalize from '../../../../lib/globalize';
-import '../../../../components/cardbuilder/card.scss';
-import '../../../../elements/emby-button/emby-button';
-import Dashboard, { pageIdOn } from '../../../../utils/dashboard';
-import confirm from '../../../../components/confirm/confirm';
-import { getDefaultBackgroundClass } from '../../../../components/cardbuilder/cardBuilderUtils';
+import loading from 'components/loading/loading';
+import dom from 'scripts/dom';
+import globalize from 'lib/globalize';
+import 'components/cardbuilder/card.scss';
+import 'elements/emby-button/emby-button';
+import Dashboard, { pageIdOn } from 'utils/dashboard';
+import confirm from 'components/confirm/confirm';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 
 function deletePlugin(page, uniqueid, version, name) {
     const msg = globalize.translate('UninstallPluginConfirmation', name);
@@ -187,7 +187,7 @@ function showPluginMenu(page, elem) {
         });
     }
 
-    import('../../../../components/actionSheet/actionSheet').then((actionsheet) => {
+    import('components/actionSheet/actionSheet').then((actionsheet) => {
         actionsheet.show({
             items: menuItems,
             positionTo: elem,

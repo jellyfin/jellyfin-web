@@ -1,12 +1,12 @@
-import loading from '../../../components/loading/loading';
-import datetime from '../../../scripts/datetime';
-import dom from '../../../scripts/dom';
-import globalize from '../../../lib/globalize';
-import '../../../elements/emby-input/emby-input';
-import '../../../elements/emby-button/emby-button';
-import '../../../elements/emby-select/emby-select';
-import confirm from '../../../components/confirm/confirm';
-import { getParameterByName } from '../../../utils/url.ts';
+import loading from 'components/loading/loading';
+import datetime from 'scripts/datetime';
+import dom from 'scripts/dom';
+import globalize from 'lib/globalize';
+import 'elements/emby-input/emby-input';
+import 'elements/emby-button/emby-button';
+import 'elements/emby-select/emby-select';
+import confirm from 'components/confirm/confirm';
+import { getParameterByName } from 'utils/url.ts';
 
 function fillTimeOfDay(select) {
     const options = [];
@@ -35,7 +35,7 @@ const ScheduledTaskPage = {
         view.querySelector('.taskName').innerHTML = task.Name;
         view.querySelector('#pTaskDescription').innerHTML = task.Description;
 
-        import('../../../components/listview/listview.scss').then(() => {
+        import('components/listview/listview.scss').then(() => {
             ScheduledTaskPage.loadTaskTriggers(view, task);
         });
 

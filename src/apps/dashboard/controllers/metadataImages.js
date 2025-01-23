@@ -2,11 +2,11 @@ import { ImageResolution } from '@jellyfin/sdk/lib/generated-client/models/image
 
 import 'jquery';
 
-import loading from '../../components/loading/loading';
-import globalize from '../../lib/globalize';
-import Dashboard from '../../utils/dashboard';
+import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
+import Dashboard from 'utils/dashboard';
 
-import '../../components/listview/listview.scss';
+import 'components/listview/listview.scss';
 
 function populateImageResolutionOptions(select) {
     let html = '';

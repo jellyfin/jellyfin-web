@@ -1,7 +1,7 @@
-import loading from '../../components/loading/loading';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-button/emby-button';
-import Dashboard from '../../utils/dashboard';
+import loading from 'components/loading/loading';
+import 'elements/emby-checkbox/emby-checkbox';
+import 'elements/emby-button/emby-button';
+import Dashboard from 'utils/dashboard';
 
 export default function(view) {
     function loadData() {

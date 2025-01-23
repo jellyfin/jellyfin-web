@@ -1,14 +1,15 @@
-import 'jquery';
-import loading from '../../../components/loading/loading';
-import globalize from '../../../lib/globalize';
-import serverNotifications from '../../../scripts/serverNotifications';
 import { formatDistance, formatDistanceToNow } from 'date-fns';
-import { getLocale, getLocaleWithSuffix } from '../../../utils/dateFnsLocale.ts';
-import Events from '../../../utils/events.ts';
+import 'jquery';
 
-import '../../../components/listview/listview.scss';
-import '../../../elements/emby-button/emby-button';
+import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
 import dom from 'scripts/dom';
+import serverNotifications from 'scripts/serverNotifications';
+import { getLocale, getLocaleWithSuffix } from 'utils/dateFnsLocale.ts';
+import Events from 'utils/events.ts';
+
+import 'components/listview/listview.scss';
+import 'elements/emby-button/emby-button';
 
 function reloadList(page) {
     ApiClient.getScheduledTasks({
