@@ -28,7 +28,6 @@ import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind.js';
-import browser from 'scripts/browser.js';
 import { bindSkipSegment } from './skipsegment.ts';
 
 const UNLIMITED_ITEMS = -1;
@@ -3693,9 +3692,8 @@ export class PlaybackManager {
             });
         }
 
-        if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-            this._skipSegment = bindSkipSegment(self);
-        }
+        bindMediaSegmentManager(self);
+        this._skipSegment = bindSkipSegment(self);
     }
 
     getCurrentPlayer() {

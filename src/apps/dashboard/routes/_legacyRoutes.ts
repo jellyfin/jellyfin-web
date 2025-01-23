@@ -50,12 +50,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'dashboard/encodingsettings.html'
         }
     }, {
-        path: 'logs',
-        pageProps: {
-            controller: 'dashboard/logs',
-            view: 'dashboard/logs.html'
-        }
-    }, {
         path: 'libraries/metadata',
         pageProps: {
             controller: 'dashboard/metadataImages',

@@ -43,7 +43,7 @@ function tryRemoveElement(elem) {
     }
 }
 
-function DialogHashHandler(dlg, hash, resolve, dlgOptions) {
+function DialogHashHandler(dlg, hash, resolve) {
     const self = this;
     self.originalUrl = window.location.href;
     const activeElement = document.activeElement;
@@ -158,7 +158,7 @@ function DialogHashHandler(dlg, hash, resolve, dlgOptions) {
 
     dlg.classList.remove('hide');
 
-    addBackdropOverlay(dlg, dlgOptions);
+    addBackdropOverlay(dlg);
 
     dlg.classList.add('opened');
     dlg.dispatchEvent(new CustomEvent('open', {
@@ -193,7 +193,7 @@ function DialogHashHandler(dlg, hash, resolve, dlgOptions) {
     }
 }
 
-function addBackdropOverlay(dlg, dlgOptions = {}) {
+function addBackdropOverlay(dlg) {
     const backdrop = document.createElement('div');
     backdrop.classList.add('dialogBackdrop');
 
@@ -205,33 +205,35 @@ function addBackdropOverlay(dlg, dlgOptions = {}) {
     void backdrop.offsetWidth;
     backdrop.classList.add('dialogBackdropOpened');
 
-    if (!dlgOptions.preventCloseOnClick) {
-        dom.addEventListener((dlg.dialogContainer || backdrop), 'click', e => {
-            if (e.target === dlg.dialogContainer) {
-                close(dlg);
-            }
-        }, {
-            passive: true
-        });
-    }
+    let clickedElement;
 
-    if (!dlgOptions.preventCloseOnRightClick) {
-        dom.addEventListener((dlg.dialogContainer || backdrop), 'contextmenu', e => {
-            if (e.target === dlg.dialogContainer) {
-                // Close the application dialog menu
-                close(dlg);
-                // Prevent the default browser context menu from appearing
-                e.preventDefault();
-            }
-        });
-    }
+    dom.addEventListener((dlg.dialogContainer || backdrop), 'mousedown', e => {
+        clickedElement = e.target;
+    });
+
+    dom.addEventListener((dlg.dialogContainer || backdrop), 'click', e => {
+        if (e.target === dlg.dialogContainer && e.target == clickedElement) {
+            close(dlg);
+        }
+    }, {
+        passive: true
+    });
+
+    dom.addEventListener((dlg.dialogContainer || backdrop), 'contextmenu', e => {
+        if (e.target === dlg.dialogContainer) {
+            // Close the application dialog menu
+            close(dlg);
+            // Prevent the default browser context menu from appearing
+            e.preventDefault();
+        }
+    });
 }
 
 function isHistoryEnabled(dlg) {
     return dlg.getAttribute('data-history') === 'true';
 }
 
-export function open(dlg, dlgOptions) {
+export function open(dlg) {
     if (globalOnOpenCallback) {
         globalOnOpenCallback(dlg);
     }
@@ -248,7 +250,7 @@ export function open(dlg, dlgOptions) {
     document.body.appendChild(dialogContainer);
 
     return new Promise((resolve) => {
-        new DialogHashHandler(dlg, `dlg${new Date().getTime()}`, resolve, dlgOptions);
+        new DialogHashHandler(dlg, `dlg${new Date().getTime()}`, resolve);
     });
 }
 
