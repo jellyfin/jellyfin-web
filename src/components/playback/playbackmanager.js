@@ -1951,11 +1951,15 @@ export class PlaybackManager {
 
             // Start from a specific (the next unwatched) episode if we want to watch in order and have not chosen a specific season
             if (!options.shuffle && !seasonId ) {
-                const initialUnplayedEpisode = await apiClient.getNextUpEpisodes({
-                    seriesId,
+                const initialUnplayedEpisode = await getItems(apiClient, UserId, {
+                    SortBy: 'SeriesSortName,SortName',
+                    SortOrder: 'Ascending',
+                    IncludeItemTypes: 'Episode',
+                    Recursive: true,
+                    IsMissing: false,
+                    ParentId: seriesId,
                     limit: 1,
-                    UserId,
-                    enableRewatching: true
+                    Filters: 'IsUnplayed'
                 });
 
                 startItemId = initialUnplayedEpisode?.Items?.at(0)?.Id;
