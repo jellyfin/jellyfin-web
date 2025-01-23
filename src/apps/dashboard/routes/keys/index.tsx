@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import { MaterialReactTable, MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
 import { getDisplayTime, parseISO8601Date, toLocaleDateString } from 'scripts/datetime';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 const ApiKeys = () => {
     const { api } = useApi();
@@ -67,6 +68,7 @@ const ApiKeys = () => {
 
         // Enable (delete) row actions
         enableRowActions: true,
+        positionActionsColumn: 'last',
         displayColumnDefOptions: {
             'mrt-row-actions': {
                 header: '',
@@ -75,7 +77,10 @@ const ApiKeys = () => {
         },
 
         renderTopToolbarCustomActions: () => (
-            <Button onClick={showNewKeyPopup}>{globalize.translate('HeaderNewApiKey')}</Button>
+            <Button onClick={showNewKeyPopup}>
+                <AddIcon />
+                {globalize.translate('HeaderNewApiKey')}
+            </Button>
         ),
 
         renderRowActions: ({ row }) => {

@@ -22,32 +22,19 @@ type IProps = {
     title?: string;
     leftIcon?: string;
     rightIcon?: string;
-    onClick?: () => void;
 };
 
-const ButtonElement: FunctionComponent<IProps> = ({ type, id, className, title, leftIcon, rightIcon, onClick }: IProps) => {
-    const button = createButtonElement({
-        type: type,
-        id: id ? `id="${id}"` : '',
-        className: className,
-        title: globalize.translate(title),
-        leftIcon: leftIcon ? `<span class="material-icons ${leftIcon}" aria-hidden="true"></span>` : '',
-        rightIcon: rightIcon ? `<span class="material-icons ${rightIcon}" aria-hidden="true"></span>` : ''
-    });
-
-    if (onClick !== undefined) {
-        return (
-            <button
-                style={{ all: 'unset' }}
-                dangerouslySetInnerHTML={button}
-                onClick={onClick}
-            />
-        );
-    }
-
+const ButtonElement: FunctionComponent<IProps> = ({ type, id, className, title, leftIcon, rightIcon }: IProps) => {
     return (
         <div
-            dangerouslySetInnerHTML={button}
+            dangerouslySetInnerHTML={createButtonElement({
+                type: type,
+                id: id ? `id="${id}"` : '',
+                className: className,
+                title: globalize.translate(title),
+                leftIcon: leftIcon ? `<span class="material-icons ${leftIcon}" aria-hidden="true"></span>` : '',
+                rightIcon: rightIcon ? `<span class="material-icons ${rightIcon}" aria-hidden="true"></span>` : ''
+            })}
         />
     );
 };
