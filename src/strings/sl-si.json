@@ -941,7 +941,7 @@
     "LabelRemoteClientBitrateLimit": "Omejitev bitne hitrosti pretakanja preko interneta (Mbps)",
     "LabelRecordingPathHelp": "Določite privzeto lokacijo za shranjevanje posnetkov. Če pustite prazno, bo uporabljena mapa namestitve strežnika.",
     "LabelRecordingPath": "Privzeta pot posnetkov",
-    "LabelRecord": "Snemaj",
+    "LabelRecord": "Zapis",
     "LabelReasonForTranscoding": "Razlog za prekodiranje",
     "LabelPublicHttpsPortHelp": "Številka javnih vrat ki bodo povezana na lokalna HTTPS vrata.",
     "LabelPublicHttpsPort": "Številka javnih HTTPS vrat",
