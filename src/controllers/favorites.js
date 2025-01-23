@@ -127,6 +127,14 @@ function getSections() {
         overlayPlayButton: true,
         overlayText: false,
         centerText: true
+    }, {
+        name: 'Live TV Channels',
+        types: 'LiveTVChannel',
+        shape: getBackdropShape(enableScrollX()),
+        showTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
     }];
 }
 
