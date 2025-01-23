@@ -15,7 +15,14 @@ export interface AsyncRoute {
 }
 
 const importRoute = (page: string, type: AppType) => {
-    return import(/* webpackChunkName: "[request]" */ `../../apps/${type}/routes/${page}`);
+    switch (type) {
+        case AppType.Dashboard:
+            return import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${page}`);
+        case AppType.Experimental:
+            return import(/* webpackChunkName: "[request]" */ `../../apps/experimental/routes/${page}`);
+        case AppType.Stable:
+            return import(/* webpackChunkName: "[request]" */ `../../apps/stable/routes/${page}`);
+    }
 };
 
 export const toAsyncPageRoute = ({
