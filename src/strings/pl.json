@@ -560,7 +560,7 @@
     "LabelLineup": "Kolejka",
     "LabelLocalHttpServerPortNumber": "Lokalny numer portu HTTP",
     "LabelLocalHttpServerPortNumberHelp": "Numer portu TCP dla serwera HTTP.",
-    "LabelLockItemToPreventChanges": "Zablokuj tę pozycję, aby zapobiec przyszłym zmianom",
+    "LabelLockItemToPreventChanges": "Zablokuj tę pozycję, aby zapobiec przyszłym zmianom metadanych",
     "LabelLoginDisclaimer": "Zastrzeżenie odpowiedzialności",
     "LabelLoginDisclaimerHelp": "Wiadomość będzie wyświetlona na dole strony logowania.",
     "LabelLogs": "Dziennik zdarzeń",
