@@ -117,5 +117,20 @@
     "ButtonExitApp": "ਐਪਲੀਕੇਸ਼ਨ ਵਿੱਚੋਂ ਬਾਹਰ ਜਾਓ",
     "ButtonSpace": "ਥਾਂ",
     "DateAdded": "ਜੋੜਨ ਦੀ ਤਾਰੀਖ",
-    "CopyFailed": "ਕਾਪੀ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ"
+    "CopyFailed": "ਕਾਪੀ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ",
+    "AllowedRemoteAddressesHelp": "ਆਈਪੀ ਐਡਰੈੱਸਾਂ ਜਾਂ ਨੈਟਵਰਕਾਂ ਲਈ ਆਈਪੀ/ਨੈੱਟਮਾਸਕ ਐਨਟ੍ਰੀਆਂ ਦੀ ਕਾਮਾ-ਵੱਖਰੀ ਸੂਚੀ, ਜਿਹਨਾਂ ਨੂੰ ਦੂਰੋਂ ਕਨੈਕਟ ਕਰਨ ਦੀ ਆਗਿਆ ਹੋਵੇਗੀ। ਜੇ ਖਾਲੀ ਛੱਡ ਦਿੱਤਾ ਗਿਆ, ਤਾਂ ਸਾਰੇ ਰਿਮੋਟ ਐਡਰੈੱਸਾਂ ਨੂੰ ਆਗਿਆ ਹੋਵੇਗੀ।",
+    "AirPlay": "ਏਅਰਪਲੇ",
+    "AllowContentWithTagsHelp": "ਕੇਵਲ ਉਹ ਮੀਡੀਆ ਦਿਖਾਓ ਜਿਸ ਵਿੱਚ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਨਿਰਧਾਰਤ ਟੈਗ ਹੋਵੇ।",
+    "AccessRestrictedTryAgainLater": "ਪਹੁੰਚ ਇਸ ਸਮੇਂ ਸੀਮਿਤ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+    "AddedOnValue": "ਜੋੜਿਆ ਗਿਆ {0}",
+    "AddToPlaylist": "ਪਲੇਲਿਸਟ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ",
+    "AddToPlayQueue": "ਚਲ ਰਹੀ ਕਤਾਰ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ",
+    "AgeValue": "({0} ਸਾਲ ਪੁਰਾਣਾ)",
+    "AlbumArtist": "ਅਲਬਮ ਕਲਾਕਾਰ",
+    "AllComplexFormats": "ਸਾਰੇ ਜਟਿਲ ਫਾਰਮੈਟ (ASS, SSA, VobSub, PGS, SUB, IDX, …)",
+    "AllChannels": "ਸਾਰੇ ਚੈਨਲ",
+    "AllEpisodes": "ਸਾਰੇ ਐਪਿਸੋਡ",
+    "AllLanguages": "ਸਭ ਭਾਸ਼ਾਵਾਂ",
+    "AirDate": "ਪ੍ਰਸਾਰਣ ਦੀ ਮਿਤੀ",
+    "AllowCollectionManagement": "ਇਸ ਉਪਭੋਗਤਾ ਨੂੰ ਕਲੈਕਸ਼ਨ ਪ੍ਰਬੰਧਿਤ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿਓ"
 }

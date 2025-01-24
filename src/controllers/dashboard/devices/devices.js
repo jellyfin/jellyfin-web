@@ -99,7 +99,7 @@ function load(page, devices) {
         const iconUrl = imageHelper.getDeviceIcon(device);
 
         if (iconUrl) {
-            deviceHtml += '<div class="cardImage" style="background-image:url(\'' + iconUrl + "');background-size: auto 64%;background-position:center center;\">";
+            deviceHtml += '<div class="cardImage" style="background-image:url(\'' + iconUrl + "');background-size:contain;background-position:center center;background-origin:content-box;padding:1em;\">";
             deviceHtml += '</div>';
         } else {
             deviceHtml += '<span class="cardImageIcon material-icons tablet_android" aria-hidden="true"></span>';

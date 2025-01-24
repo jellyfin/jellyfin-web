@@ -3,7 +3,7 @@ import type { VideoType } from '@jellyfin/sdk/lib/generated-client/models/video-
 import type { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import type { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
 import type { ImageType } from '@jellyfin/sdk/lib/generated-client';
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 
 export type ParentId = string | null | undefined;
 

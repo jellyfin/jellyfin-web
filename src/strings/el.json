@@ -1851,5 +1851,12 @@
     "LabelCustomTagDelimitersHelp": "Χαρακτήρες που διαχωρίζουν ετικέτες.",
     "LabelServerVersion": "Έκδοση διακομιστή",
     "LabelDelimiterWhitelistHelp": "Στοιχεία που εξαιρούνται από τον διαχωρισμό ετικετών. Ένα στοιχείο ανά γραμμή.",
-    "LabelDropLyricsHere": "Σύρε τους στίχους εδώ, ή κάνε κλικ για περιήγηση."
+    "LabelDropLyricsHere": "Σύρε τους στίχους εδώ, ή κάνε κλικ για περιήγηση.",
+    "HeaderNextEpisode": "Επόμενο Επεισόδιο",
+    "HeaderNextVideo": "Επόμενο Βίντεο",
+    "LabelDuration": "Διάρκεια",
+    "LabelDisableVbrAudioEncoding": "Απενεργοποίηση αποκωδικοποίησης ήχου VBR",
+    "LabelInstalled": "Εγκατεστημένο",
+    "LabelDelimiterWhitelist": "Λίστα επιτρεπόμενων οριοθετών",
+    "LabelIsSynced": "Είναι Συγχρονισμένο"
 }

@@ -110,9 +110,6 @@ build: ${__JF_BUILD_VERSION__}`);
         Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
     });
 
-    // Connect to server
-    ServerConnections.firstConnection = await ServerConnections.connect();
-
     // Render the app
     await renderApp();
 
@@ -182,11 +179,6 @@ function loadPlatformFeatures() {
 
     if (!appHost.supports('physicalvolumecontrol') || browser.touch) {
         import('./components/playback/volumeosd');
-    }
-
-    /* eslint-disable-next-line compat/compat */
-    if (navigator.mediaSession || window.NativeShell) {
-        import('./components/playback/mediasession');
     }
 
     if (!browser.tv && !browser.xboxOne) {

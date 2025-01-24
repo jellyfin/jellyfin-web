@@ -1926,7 +1926,7 @@
     "NoLyricsSearchResultsFound": "Nenašli sa žiadne texty piesní.",
     "PluginLoadRepoError": "Pri získavaní údajov o zásuvnom module z repozitáru došlo k chybe.",
     "LabelAudioTagSettings": "Nastavenia zvukových štítkov",
-    "LyricDownloadersHelp": "Povoliť a zoradiť preferované sťahovače titulkov podľa priority.",
+    "LyricDownloadersHelp": "Povoliť a zoradiť preferované sťahovače textov piesní podľa priority.",
     "SearchForLyrics": "Vyhľadávať texty piesní",
     "EnableHi10pHelp": "Povoľte, aby ste zabránili prekódovaniu 10-bitových videí kodeku H.264. Túto možnosť zakážte, ak sa vo videu zobrazujú prázdne snímky.",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrahovať iba kľúčové snímky pre výrazne rýchlejšie spracovanie na úkor presnosti časovania. Ak nakonfigurovaný hardvérový dekodér nepodporuje tento režim, použije sa namiesto neho softvérový dekodér.",

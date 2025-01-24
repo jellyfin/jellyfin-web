@@ -9,49 +9,63 @@ import './skipbutton.scss';
 import dom from 'scripts/dom';
 import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
+import focusManager from 'components/focusManager';
+import layoutManager from 'components/layoutManager';
 
 interface ShowOptions {
     animate?: boolean;
     keep?: boolean;
+    focus?: boolean;
+}
+
+function onHideComplete(this: HTMLButtonElement) {
+    if (this) {
+        // Handle focus after the hide transition completes
+        if (document.activeElement === this) {
+            this.blur();
+            const pauseButton = document.querySelector('.btnPause');
+            if (pauseButton && focusManager.isCurrentlyFocusable(pauseButton)) {
+                focusManager.focus(pauseButton);
+            }
+        }
+
+        this.classList.add('hide');
+    }
 }
 
 class SkipSegment extends PlaybackSubscriber {
-    private skipElement: HTMLButtonElement | undefined;
+    private skipElement: HTMLButtonElement | null;
     private currentSegment: MediaSegmentDto | null | undefined;
     private hideTimeout: ReturnType<typeof setTimeout> | null | undefined;
 
     constructor(playbackManager: PlaybackManager) {
         super(playbackManager);
 
+        this.skipElement = null;
         this.onOsdChanged = this.onOsdChanged.bind(this);
-    }
-
-    onHideComplete() {
-        if (this.skipElement) {
-            this.skipElement.classList.add('hide');
-        }
     }
 
     createSkipElement() {
         if (!this.skipElement && this.currentSegment) {
-            const elem = document.createElement('button');
-            elem.classList.add('skip-button');
-            elem.classList.add('hide');
-            elem.classList.add('skip-button-hidden');
+            let buttonHtml = '';
 
-            elem.addEventListener('click', () => {
-                const time = this.playbackManager.currentTime() * TICKS_PER_MILLISECOND;
-                if (this.currentSegment?.EndTicks) {
-                    if (time < this.currentSegment.EndTicks - TICKS_PER_SECOND) {
-                        this.playbackManager.seek(this.currentSegment.EndTicks);
-                    } else {
-                        this.hideSkipButton();
+            buttonHtml += '<button is="emby-button" class="skip-button hide skip-button-hidden"></button>';
+
+            document.body.insertAdjacentHTML('beforeend', buttonHtml);
+
+            this.skipElement = document.body.querySelector('.skip-button');
+            if (this.skipElement) {
+                this.skipElement.addEventListener('click', () => {
+                    const time = this.playbackManager.currentTime() * TICKS_PER_MILLISECOND;
+                    if (this.currentSegment?.EndTicks) {
+                        if (time < this.currentSegment.EndTicks - TICKS_PER_SECOND) {
+                            this.playbackManager.seek(this.currentSegment.EndTicks);
+                        } else {
+                            this.hideSkipButton();
+                        }
                     }
-                }
-            });
-
-            document.body.appendChild(elem);
-            this.skipElement = elem;
+                });
+            }
         }
     }
 
@@ -66,7 +80,7 @@ class SkipSegment extends PlaybackSubscriber {
         const elem = this.skipElement;
         if (elem) {
             this.clearHideTimeout();
-            dom.removeEventListener(elem, dom.whichTransitionEvent(), this.onHideComplete, {
+            dom.removeEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
                 once: true
             });
             elem.classList.remove('hide');
@@ -77,6 +91,11 @@ class SkipSegment extends PlaybackSubscriber {
             }
 
             void elem.offsetWidth;
+
+            const hasFocus = document.activeElement && focusManager.isCurrentlyFocusable(document.activeElement);
+            if (options.focus && !hasFocus) {
+                focusManager.focus(elem);
+            }
 
             requestAnimationFrame(() => {
                 elem.classList.remove('skip-button-hidden');
@@ -97,7 +116,7 @@ class SkipSegment extends PlaybackSubscriber {
             requestAnimationFrame(() => {
                 elem.classList.add('skip-button-hidden');
 
-                dom.addEventListener(elem, dom.whichTransitionEvent(), this.onHideComplete, {
+                dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
                     once: true
                 });
             });
@@ -116,7 +135,8 @@ class SkipSegment extends PlaybackSubscriber {
             if (isOpen) {
                 this.showSkipButton({
                     animate: false,
-                    keep: true
+                    keep: true,
+                    focus: false
                 });
             } else if (!this.hideTimeout) {
                 this.hideSkipButton();
@@ -140,7 +160,10 @@ class SkipSegment extends PlaybackSubscriber {
 
             this.setButtonText();
 
-            this.showSkipButton({ animate: true });
+            this.showSkipButton({
+                animate: true,
+                focus: layoutManager.tv
+            });
         }
     }
 

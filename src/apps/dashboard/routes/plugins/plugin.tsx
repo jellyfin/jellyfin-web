@@ -35,7 +35,6 @@ import Page from 'components/Page';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 import { getPluginUrl } from 'utils/dashboard';
-import { getUri } from 'utils/api';
 
 interface AlertMessage {
     severity?: 'success' | 'info' | 'warning' | 'error'
@@ -104,7 +103,7 @@ const PluginPage: FC = () => {
 
             let imageUrl;
             if (pluginInfo?.HasImage) {
-                imageUrl = getUri(`/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`, api);
+                imageUrl = api?.getUri(`/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`);
             }
 
             return {

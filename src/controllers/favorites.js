@@ -46,7 +46,7 @@ function getSections() {
         overlayText: false,
         centerText: true
     }, {
-        name: 'Videos',
+        name: 'HeaderVideos',
         types: 'Video',
         shape: getBackdropShape(enableScrollX()),
         preferThumb: true,
@@ -124,6 +124,14 @@ function getSections() {
         shape: getPortraitShape(enableScrollX()),
         showTitle: true,
         showYear: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
+    }, {
+        name: 'Channels',
+        types: 'LiveTVChannel',
+        shape: getBackdropShape(enableScrollX()),
+        showTitle: true,
         overlayPlayButton: true,
         overlayText: false,
         centerText: true
