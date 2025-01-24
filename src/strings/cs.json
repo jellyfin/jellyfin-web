@@ -471,7 +471,7 @@
     "LabelLineup": "V pořadí",
     "LabelLocalHttpServerPortNumber": "Lokální HTTP port",
     "LabelLocalHttpServerPortNumberHelp": "Číslo portu TCP HTTP serveru.",
-    "LabelLockItemToPreventChanges": "Uzamknout položku pro zabránění budoucích změn",
+    "LabelLockItemToPreventChanges": "Uzamknout položku pro zabránění budoucích změn v metadatech",
     "LabelLoginDisclaimer": "Zřeknutí se zodpovědnosti při přihlášení",
     "LabelLoginDisclaimerHelp": "Zpráva, která se zobrazí v dolní části přihlašovací stránky.",
     "LabelLogs": "Záznamy",
