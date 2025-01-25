@@ -1992,5 +1992,6 @@
     "HeaderNextEpisode": "Volgende aflevering",
     "HeaderNextVideo": "Volgende video",
     "LabelMediaSegmentProviders": "Aanbieders van mediasegmenten",
-    "MediaSegmentProvidersHelp": "Rangschik je voorkeursaanbieders van mediasegmenten op volgorde van prioriteit."
+    "MediaSegmentProvidersHelp": "Rangschik je voorkeursaanbieders van mediasegmenten op volgorde van prioriteit.",
+    "Custom": "Aangepast"
 }
