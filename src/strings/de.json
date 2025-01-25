@@ -1997,5 +1997,7 @@
     "CustomSubtitleStylingHelp": "Dieser Modus wechselt je nach Gerätetyp automatisch zwischen den nativen und benutzerdefinierten Untertitel-Styling-Mechanismen.",
     "LabelSubtitleStyling": "Untertitelstil",
     "Native": "Nativ",
-    "NativeSubtitleStylingHelp": "Das Untertitel-Styling funktioniert auf einigen Geräten nicht. Allerdings ist damit kein Leistungsaufwand verbunden."
+    "NativeSubtitleStylingHelp": "Das Untertitel-Styling funktioniert auf einigen Geräten nicht. Allerdings ist damit kein Leistungsaufwand verbunden.",
+    "AutoSubtitleStylingHelp": "In diesem Modus wird je nach Gerätetyp automatisch zwischen dem nativen und dem benutzerdefinierten Untertitel-Styling umgeschaltet.",
+    "Custom": "benutzerdefiniert"
 }
