@@ -1985,5 +1985,11 @@
     "SaveLyricsIntoMediaFolders": "Shranite besedila v medijske mape",
     "SaveLyricsIntoMediaFoldersHelp": "Shranjevanje besedil poleg zvočnih datotek bo omogočilo lažje upravljanje z njimi.",
     "PriorityHigh": "Visoko",
-    "MoviesAndShows": "Filmi in Oddaje"
+    "MoviesAndShows": "Filmi in Oddaje",
+    "AutoSubtitleStylingHelp": "Ta način bo samodejno preklapljal med izvornimi in prilagojenimi mehanizmi oblikovanja podnapisov glede na vrsto vaše naprave.",
+    "Custom": "Po meri",
+    "CustomSubtitleStylingHelp": "Oblikovanje podnapisov bo delovalo na večini naprav, vendar prinaša dodatne stroške delovanja.",
+    "LabelSubtitleStyling": "Oblikovanje podnapisov",
+    "Native": "Prvotno",
+    "NativeSubtitleStylingHelp": "Oblikovanje podnapisov ne bo delovalo na nekaterih napravah. Vendar pa ne prinaša dodatnih stroškov glede zmogljivosti."
 }
