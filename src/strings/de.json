@@ -1993,5 +1993,9 @@
     "HeaderNextEpisode": "Nächste Episode",
     "HeaderNextVideo": "Nächstes Video",
     "LabelMediaSegmentProviders": "Mediensegment Providers",
-    "MediaSegmentProvidersHelp": "Aktiviere und Ordne die Mediensegmentanbieter in einer Benutzerdefinierten Reihenfolge."
+    "MediaSegmentProvidersHelp": "Aktiviere und Ordne die Mediensegmentanbieter in einer Benutzerdefinierten Reihenfolge.",
+    "CustomSubtitleStylingHelp": "Dieser Modus wechselt je nach Gerätetyp automatisch zwischen den nativen und benutzerdefinierten Untertitel-Styling-Mechanismen.",
+    "LabelSubtitleStyling": "Untertitelstil",
+    "Native": "Nativ",
+    "NativeSubtitleStylingHelp": "Das Untertitel-Styling funktioniert auf einigen Geräten nicht. Allerdings ist damit kein Leistungsaufwand verbunden."
 }
