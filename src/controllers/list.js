@@ -1,4 +1,4 @@
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import listView from '../components/listview/listview';
 import * as userSettings from '../scripts/settings/userSettings';
 import focusManager from '../components/focusManager';
@@ -13,6 +13,8 @@ import '../elements/emby-scroller/emby-scroller';
 import ServerConnections from '../components/ServerConnections';
 import LibraryMenu from '../scripts/libraryMenu';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { stopMultiSelect } from 'components/multiSelect/multiSelect';
 
 function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
     const query = {
@@ -223,7 +225,7 @@ function updateAlphaPickerState(instance) {
         if (alphaPicker) {
             const values = instance.getSortValues();
 
-            if (values.sortBy.indexOf('SortName') !== -1) {
+            if (values.sortBy.indexOf(ItemSortBy.SortName) !== -1) {
                 alphaPicker.classList.remove('hide');
                 instance.itemsContainer.parentNode.classList.add('padded-right-withalphapicker');
             } else {
@@ -282,7 +284,8 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
             Recursive: true,
             IsFavorite: params.IsFavorite === 'true' || null,
             ArtistIds: params.artistId || null,
-            SortBy: sortBy
+            SortBy: sortBy,
+            Tags: params.tag || null
         }));
     }
 
@@ -331,7 +334,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
 }
 
 function getItem(params) {
-    if (params.type === 'Recordings' || params.type === 'Programs' || params.type === 'nextup') {
+    if ([ 'Recordings', 'Programs', 'nextup', 'tag' ].includes(params.type)) {
         return Promise.resolve(null);
     }
 
@@ -724,6 +727,10 @@ class ItemsView {
             if (params.type === 'Video') {
                 return globalize.translate('Videos');
             }
+
+            if (params.tag) {
+                return params.tag;
+            }
         }
 
         function play() {
@@ -849,6 +856,10 @@ class ItemsView {
             setTitle(null);
             getItem(params).then(function (item) {
                 setTitle(item);
+                if (item && item.Type == 'Genre') {
+                    item.ParentId = params.parentId;
+                }
+
                 self.currentItem = item;
                 const refresh = !isRestored;
                 self.itemsContainer.resume({
@@ -981,7 +992,7 @@ class ItemsView {
             return sortNameOption.value;
         }
 
-        return 'IsFolder,' + sortNameOption.value;
+        return `${ItemSortBy.IsFolder},${sortNameOption.value}`;
     }
 
     getSortMenuOptions() {
@@ -990,7 +1001,7 @@ class ItemsView {
         if (this.params.type === 'Programs') {
             sortBy.push({
                 name: globalize.translate('AirDate'),
-                value: 'StartDate,SortName'
+                value: [ItemSortBy.StartDate, ItemSortBy.SortName].join(',')
             });
         }
 
@@ -1015,7 +1026,7 @@ class ItemsView {
         if (this.params.type !== 'Programs') {
             sortBy.push({
                 name: globalize.translate('DateAdded'),
-                value: 'DateCreated,SortName'
+                value: [ItemSortBy.DateCreated, ItemSortBy.SortName].join(',')
             });
         }
 
@@ -1029,13 +1040,13 @@ class ItemsView {
             option = this.getNameSortOption(this.params);
             sortBy.push({
                 name: globalize.translate('Folders'),
-                value: 'IsFolder,' + option.value
+                value: `${ItemSortBy.IsFolder},${option.value}`
             });
         }
 
         sortBy.push({
             name: globalize.translate('ParentalRating'),
-            value: 'OfficialRating,SortName'
+            value: [ItemSortBy.OfficialRating, ItemSortBy.SortName].join(',')
         });
         option = this.getPlayCountSortOption();
 
@@ -1045,11 +1056,11 @@ class ItemsView {
 
         sortBy.push({
             name: globalize.translate('ReleaseDate'),
-            value: 'ProductionYear,PremiereDate,SortName'
+            value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName].join(',')
         });
         sortBy.push({
             name: globalize.translate('Runtime'),
-            value: 'Runtime,SortName'
+            value: [ItemSortBy.Runtime, ItemSortBy.SortName].join(',')
         });
         return sortBy;
     }
@@ -1058,13 +1069,13 @@ class ItemsView {
         if (params.type === 'Episode') {
             return {
                 name: globalize.translate('Name'),
-                value: 'SeriesName,SortName'
+                value: [ItemSortBy.SeriesSortName, ItemSortBy.SortName].join(',')
             };
         }
 
         return {
             name: globalize.translate('Name'),
-            value: 'SortName'
+            value: ItemSortBy.SortName
         };
     }
 
@@ -1075,7 +1086,7 @@ class ItemsView {
 
         return {
             name: globalize.translate('PlayCount'),
-            value: 'PlayCount,SortName'
+            value: [ItemSortBy.PlayCount, ItemSortBy.SortName].join(',')
         };
     }
 
@@ -1086,7 +1097,7 @@ class ItemsView {
 
         return {
             name: globalize.translate('DatePlayed'),
-            value: 'DatePlayed,SortName'
+            value: [ItemSortBy.DatePlayed, ItemSortBy.SortName].join(',')
         };
     }
 
@@ -1097,14 +1108,14 @@ class ItemsView {
 
         return {
             name: globalize.translate('CriticRating'),
-            value: 'CriticRating,SortName'
+            value: [ItemSortBy.CriticRating, ItemSortBy.SortName].join(',')
         };
     }
 
     getCommunityRatingSortOption() {
         return {
             name: globalize.translate('CommunityRating'),
-            value: 'CommunityRating,SortName'
+            value: [ItemSortBy.CommunityRating, ItemSortBy.SortName].join(',')
         };
     }
 
@@ -1138,6 +1149,9 @@ class ItemsView {
 
     setFilterStatus(hasFilters) {
         this.hasFilters = hasFilters;
+        if (this.hasFilters) {
+            stopMultiSelect();
+        }
         const filterButtons = this.filterButtons;
 
         if (filterButtons.length) {
@@ -1198,7 +1212,7 @@ class ItemsView {
             showTitle = true;
         } else if (showTitle === 'false') {
             showTitle = false;
-        } else if (params.type === 'Programs' || params.type === 'Recordings' || params.type === 'Person' || params.type === 'nextup' || params.type === 'Audio' || params.type === 'MusicAlbum' || params.type === 'MusicArtist') {
+        } else if ([ 'Audio', 'MusicAlbum', 'MusicArtist', 'Person', 'Programs', 'Recordings', 'nextup', 'tag' ].includes(params.type)) {
             showTitle = true;
         } else if (item && item.Type !== 'PhotoAlbum') {
             showTitle = true;
@@ -1215,7 +1229,7 @@ class ItemsView {
         }
 
         return {
-            showTitle: showTitle,
+            showTitle,
             showYear: userSettings.get(basekey + '-showYear') !== 'false',
             imageType: imageType || 'primary',
             viewType: userSettings.get(basekey + '-viewType') || 'images'
@@ -1300,4 +1314,3 @@ class ItemsView {
 }
 
 export default ItemsView;
-

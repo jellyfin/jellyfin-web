@@ -1,8 +1,7 @@
-import 'jquery';
 import loading from '../../../components/loading/loading';
 import datetime from '../../../scripts/datetime';
 import dom from '../../../scripts/dom';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-select/emby-select';
@@ -33,8 +32,8 @@ const ScheduledTaskPage = {
         });
     },
     loadScheduledTask: function (view, task) {
-        $('.taskName', view).html(task.Name);
-        $('#pTaskDescription', view).html(task.Description);
+        view.querySelector('.taskName').innerHTML = task.Name;
+        view.querySelector('#pTaskDescription').innerHTML = task.Description;
 
         import('../../../components/listview/listview.scss').then(() => {
             ScheduledTaskPage.loadTaskTriggers(view, task);
@@ -124,9 +123,9 @@ const ScheduledTaskPage = {
         return datetime.getDisplayTime(now);
     },
     showAddTriggerPopup: function (view) {
-        $('#selectTriggerType', view).val('DailyTrigger');
+        view.querySelector('#selectTriggerType').value = 'DailyTrigger';
         view.querySelector('#selectTriggerType').dispatchEvent(new CustomEvent('change', {}));
-        $('#popupAddTrigger', view).removeClass('hide');
+        view.querySelector('#popupAddTrigger').classList.remove('hide');
     },
     confirmDeleteTrigger: function (view, index) {
         confirm(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
@@ -145,54 +144,54 @@ const ScheduledTaskPage = {
     },
     refreshTriggerFields: function (page, triggerType) {
         if (triggerType == 'DailyTrigger') {
-            $('#fldTimeOfDay', page).show();
-            $('#fldDayOfWeek', page).hide();
-            $('#fldSelectSystemEvent', page).hide();
-            $('#fldSelectInterval', page).hide();
-            $('#selectTimeOfDay', page).attr('required', 'required');
+            page.querySelector('#fldTimeOfDay').classList.remove('hide');
+            page.querySelector('#fldDayOfWeek').classList.add('hide');
+            page.querySelector('#fldSelectSystemEvent').classList.add('hide');
+            page.querySelector('#fldSelectInterval').classList.add('hide');
+            page.querySelector('#selectTimeOfDay').setAttribute('required', 'required');
         } else if (triggerType == 'WeeklyTrigger') {
-            $('#fldTimeOfDay', page).show();
-            $('#fldDayOfWeek', page).show();
-            $('#fldSelectSystemEvent', page).hide();
-            $('#fldSelectInterval', page).hide();
-            $('#selectTimeOfDay', page).attr('required', 'required');
+            page.querySelector('#fldTimeOfDay').classList.remove('hide');
+            page.querySelector('#fldDayOfWeek').classList.remove('hide');
+            page.querySelector('#fldSelectSystemEvent').classList.add('hide');
+            page.querySelector('#fldSelectInterval').classList.add('hide');
+            page.querySelector('#selectTimeOfDay').setAttribute('required', 'required');
         } else if (triggerType == 'SystemEventTrigger') {
-            $('#fldTimeOfDay', page).hide();
-            $('#fldDayOfWeek', page).hide();
-            $('#fldSelectSystemEvent', page).show();
-            $('#fldSelectInterval', page).hide();
-            $('#selectTimeOfDay', page).removeAttr('required');
+            page.querySelector('#fldTimeOfDay').classList.add('hide');
+            page.querySelector('#fldDayOfWeek').classList.add('hide');
+            page.querySelector('#fldSelectSystemEvent').classList.remove('hide');
+            page.querySelector('#fldSelectInterval').classList.add('hide');
+            page.querySelector('#selectTimeOfDay').removeAttribute('required');
         } else if (triggerType == 'IntervalTrigger') {
-            $('#fldTimeOfDay', page).hide();
-            $('#fldDayOfWeek', page).hide();
-            $('#fldSelectSystemEvent', page).hide();
-            $('#fldSelectInterval', page).show();
-            $('#selectTimeOfDay', page).removeAttr('required');
+            page.querySelector('#fldTimeOfDay').classList.add('hide');
+            page.querySelector('#fldDayOfWeek').classList.add('hide');
+            page.querySelector('#fldSelectSystemEvent').classList.add('hide');
+            page.querySelector('#fldSelectInterval').classList.remove('hide');
+            page.querySelector('#selectTimeOfDay').removeAttribute('required');
         } else if (triggerType == 'StartupTrigger') {
-            $('#fldTimeOfDay', page).hide();
-            $('#fldDayOfWeek', page).hide();
-            $('#fldSelectSystemEvent', page).hide();
-            $('#fldSelectInterval', page).hide();
-            $('#selectTimeOfDay', page).removeAttr('required');
+            page.querySelector('#fldTimeOfDay').classList.add('hide');
+            page.querySelector('#fldDayOfWeek').classList.add('hide');
+            page.querySelector('#fldSelectSystemEvent').classList.add('hide');
+            page.querySelector('#fldSelectInterval').classList.add('hide');
+            page.querySelector('#selectTimeOfDay').removeAttribute('required');
         }
     },
     getTriggerToAdd: function (page) {
         const trigger = {
-            Type: $('#selectTriggerType', page).val()
+            Type: page.querySelector('#selectTriggerType').value
         };
 
         if (trigger.Type == 'DailyTrigger') {
-            trigger.TimeOfDayTicks = $('#selectTimeOfDay', page).val();
+            trigger.TimeOfDayTicks = page.querySelector('#selectTimeOfDay').value;
         } else if (trigger.Type == 'WeeklyTrigger') {
-            trigger.DayOfWeek = $('#selectDayOfWeek', page).val();
-            trigger.TimeOfDayTicks = $('#selectTimeOfDay', page).val();
+            trigger.DayOfWeek = page.querySelector('#selectDayOfWeek').value;
+            trigger.TimeOfDayTicks = page.querySelector('#selectTimeOfDay').value;
         } else if (trigger.Type == 'SystemEventTrigger') {
-            trigger.SystemEvent = $('#selectSystemEvent', page).val();
+            trigger.SystemEvent = page.querySelector('#selectSystemEvent').value;
         } else if (trigger.Type == 'IntervalTrigger') {
-            trigger.IntervalTicks = $('#selectInterval', page).val();
+            trigger.IntervalTicks = page.querySelector('#selectInterval').value;
         }
 
-        let timeLimit = $('#txtTimeLimit', page).val() || '0';
+        let timeLimit = page.querySelector('#txtTimeLimit').value || '0';
         timeLimit = parseFloat(timeLimit) * 3600000;
 
         trigger.MaxRuntimeTicks = timeLimit * 1e4 || null;
@@ -207,7 +206,7 @@ export default function (view) {
         ApiClient.getScheduledTask(id).then(function (task) {
             task.Triggers.push(ScheduledTaskPage.getTriggerToAdd(view));
             ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
-                $('#popupAddTrigger').addClass('hide');
+                document.querySelector('#popupAddTrigger').classList.add('hide');
                 ScheduledTaskPage.refreshScheduledTask(view);
             });
         });
@@ -216,7 +215,7 @@ export default function (view) {
 
     view.querySelector('.addTriggerForm').addEventListener('submit', onSubmit);
     fillTimeOfDay(view.querySelector('#selectTimeOfDay'));
-    $(view.querySelector('#popupAddTrigger').parentNode).trigger('create');
+    view.querySelector('#popupAddTrigger').parentNode.trigger(new Event('create'));
     view.querySelector('.selectTriggerType').addEventListener('change', function () {
         ScheduledTaskPage.refreshTriggerFields(view, this.value);
     });

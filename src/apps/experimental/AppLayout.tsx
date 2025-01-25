@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { StrictMode, useCallback, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import { type Theme } from '@mui/material/styles';
@@ -15,7 +15,7 @@ import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
 
 import './AppOverrides.scss';
 
-const AppLayout = () => {
+export const Component = () => {
     const [ isDrawerActive, setIsDrawerActive ] = useState(false);
     const { user } = useApi();
     const location = useLocation();
@@ -29,38 +29,40 @@ const AppLayout = () => {
     }, [ isDrawerActive, setIsDrawerActive ]);
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            <ElevationScroll elevate={false}>
-                <AppBar
-                    position='fixed'
-                    sx={{
-                        width: {
-                            xs: '100%',
-                            md: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
-                        },
-                        ml: {
-                            xs: 0,
-                            md: isDrawerAvailable ? DRAWER_WIDTH : 0
-                        }
-                    }}
-                >
-                    <AppToolbar
-                        isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
-                        isDrawerOpen={isDrawerOpen}
-                        onDrawerButtonClick={onToggleDrawer}
-                    />
-                </AppBar>
-            </ElevationScroll>
+        <Box sx={{ position: 'relative', display: 'flex', height: '100%' }}>
+            <StrictMode>
+                <ElevationScroll elevate={false}>
+                    <AppBar
+                        position='fixed'
+                        sx={{
+                            width: {
+                                xs: '100%',
+                                md: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
+                            },
+                            ml: {
+                                xs: 0,
+                                md: isDrawerAvailable ? DRAWER_WIDTH : 0
+                            }
+                        }}
+                    >
+                        <AppToolbar
+                            isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
+                            isDrawerOpen={isDrawerOpen}
+                            onDrawerButtonClick={onToggleDrawer}
+                        />
+                    </AppBar>
+                </ElevationScroll>
 
-            {
-                isDrawerAvailable && (
-                    <AppDrawer
-                        open={isDrawerOpen}
-                        onClose={onToggleDrawer}
-                        onOpen={onToggleDrawer}
-                    />
-                )
-            }
+                {
+                    isDrawerAvailable && (
+                        <AppDrawer
+                            open={isDrawerOpen}
+                            onClose={onToggleDrawer}
+                            onOpen={onToggleDrawer}
+                        />
+                    )
+                }
+            </StrictMode>
 
             <Box
                 component='main'
@@ -76,5 +78,3 @@ const AppLayout = () => {
         </Box>
     );
 };
-
-export default AppLayout;

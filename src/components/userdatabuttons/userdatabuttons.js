@@ -1,4 +1,4 @@
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
 import itemHelper from '../itemHelper';
 import '../../elements/emby-button/paper-icon-button-light';

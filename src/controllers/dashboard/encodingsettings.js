@@ -1,8 +1,7 @@
 import 'jquery';
 import loading from '../../components/loading/loading';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
-import libraryMenu from '../../scripts/libraryMenu';
 import Dashboard from '../../utils/dashboard';
 import alert from '../../components/alert';
 
@@ -12,6 +11,8 @@ function loadPage(page, config, systemInfo) {
     });
     page.querySelector('#chkDecodingColorDepth10Hevc').checked = config.EnableDecodingColorDepth10Hevc;
     page.querySelector('#chkDecodingColorDepth10Vp9').checked = config.EnableDecodingColorDepth10Vp9;
+    page.querySelector('#chkDecodingColorDepth10HevcRext').checked = config.EnableDecodingColorDepth10HevcRext;
+    page.querySelector('#chkDecodingColorDepth12HevcRext').checked = config.EnableDecodingColorDepth12HevcRext;
     page.querySelector('#chkEnhancedNvdecDecoder').checked = config.EnableEnhancedNvdecDecoder;
     page.querySelector('#chkSystemNativeHwDecoder').checked = config.PreferSystemNativeHwDecoder;
     page.querySelector('#chkIntelLpH264HwEncoder').checked = config.EnableIntelLowPowerH264HwEncoder;
@@ -19,33 +20,33 @@ function loadPage(page, config, systemInfo) {
     page.querySelector('#chkHardwareEncoding').checked = config.EnableHardwareEncoding;
     page.querySelector('#chkAllowHevcEncoding').checked = config.AllowHevcEncoding;
     page.querySelector('#chkAllowAv1Encoding').checked = config.AllowAv1Encoding;
-    page.querySelector('#chkAllowMjpegEncoding').checked = config.AllowMjpegEncoding;
-    $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
-    $('#selectThreadCount', page).val(config.EncodingThreadCount);
+    page.querySelector('#selectVideoDecoder').value = config.HardwareAccelerationType || 'none';
+    page.querySelector('#selectThreadCount').value = config.EncodingThreadCount;
     page.querySelector('#chkEnableAudioVbr').checked = config.EnableAudioVbr;
-    $('#txtDownMixAudioBoost', page).val(config.DownMixAudioBoost);
-    $('#selectStereoDownmixAlgorithm').val(config.DownMixStereoAlgorithm || 'None');
+    page.querySelector('#txtDownMixAudioBoost').value = config.DownMixAudioBoost;
+    page.querySelector('#selectStereoDownmixAlgorithm').value = config.DownMixStereoAlgorithm || 'None';
     page.querySelector('#txtMaxMuxingQueueSize').value = config.MaxMuxingQueueSize || '';
     page.querySelector('.txtEncoderPath').value = config.EncoderAppPathDisplay || '';
-    $('#txtTranscodingTempPath', page).val(systemInfo.TranscodingTempPath || '');
+    page.querySelector('#txtTranscodingTempPath').value = systemInfo.TranscodingTempPath || '';
     page.querySelector('#txtFallbackFontPath').value = config.FallbackFontPath || '';
     page.querySelector('#chkEnableFallbackFont').checked = config.EnableFallbackFont;
-    $('#txtVaapiDevice', page).val(config.VaapiDevice || '');
+    page.querySelector('#txtVaapiDevice').value = config.VaapiDevice || '';
+    page.querySelector('#txtQsvDevice').value = config.QsvDevice || '';
     page.querySelector('#chkTonemapping').checked = config.EnableTonemapping;
     page.querySelector('#chkVppTonemapping').checked = config.EnableVppTonemapping;
     page.querySelector('#chkVideoToolboxTonemapping').checked = config.EnableVideoToolboxTonemapping;
-    page.querySelector('#selectTonemappingAlgorithm').value = config.TonemappingAlgorithm;
-    page.querySelector('#selectTonemappingMode').value = config.TonemappingMode;
-    page.querySelector('#selectTonemappingRange').value = config.TonemappingRange;
+    page.querySelector('#selectTonemappingAlgorithm').value = config.TonemappingAlgorithm || 'none';
+    page.querySelector('#selectTonemappingMode').value = config.TonemappingMode || 'auto';
+    page.querySelector('#selectTonemappingRange').value = config.TonemappingRange || 'auto';
     page.querySelector('#txtTonemappingDesat').value = config.TonemappingDesat;
     page.querySelector('#txtTonemappingPeak').value = config.TonemappingPeak;
     page.querySelector('#txtTonemappingParam').value = config.TonemappingParam || '';
     page.querySelector('#txtVppTonemappingBrightness').value = config.VppTonemappingBrightness;
     page.querySelector('#txtVppTonemappingContrast').value = config.VppTonemappingContrast;
-    page.querySelector('#selectEncoderPreset').value = config.EncoderPreset || '';
+    page.querySelector('#selectEncoderPreset').value = config.EncoderPreset || 'auto';
     page.querySelector('#txtH264Crf').value = config.H264Crf || '';
     page.querySelector('#txtH265Crf').value = config.H265Crf || '';
-    page.querySelector('#selectDeinterlaceMethod').value = config.DeinterlaceMethod || '';
+    page.querySelector('#selectDeinterlaceMethod').value = config.DeinterlaceMethod || 'yadif';
     page.querySelector('#chkDoubleRateDeinterlacing').checked = config.DeinterlaceDoubleRate;
     page.querySelector('#chkEnableSubtitleExtraction').checked = config.EnableSubtitleExtraction || false;
     page.querySelector('#chkEnableThrottling').checked = config.EnableThrottling || false;
@@ -84,15 +85,16 @@ function onSubmit() {
         loading.show();
         ApiClient.getNamedConfiguration('encoding').then(function (config) {
             config.EnableAudioVbr = form.querySelector('#chkEnableAudioVbr').checked;
-            config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
-            config.DownMixStereoAlgorithm = $('#selectStereoDownmixAlgorithm', form).val() || 'None';
+            config.DownMixAudioBoost = form.querySelector('#txtDownMixAudioBoost').value;
+            config.DownMixStereoAlgorithm = form.querySelector('#selectStereoDownmixAlgorithm').value || 'None';
             config.MaxMuxingQueueSize = form.querySelector('#txtMaxMuxingQueueSize').value;
-            config.TranscodingTempPath = $('#txtTranscodingTempPath', form).val();
+            config.TranscodingTempPath = form.querySelector('#txtTranscodingTempPath').value;
             config.FallbackFontPath = form.querySelector('#txtFallbackFontPath').value;
             config.EnableFallbackFont = form.querySelector('#txtFallbackFontPath').value ? form.querySelector('#chkEnableFallbackFont').checked : false;
-            config.EncodingThreadCount = $('#selectThreadCount', form).val();
-            config.HardwareAccelerationType = $('#selectVideoDecoder', form).val();
-            config.VaapiDevice = $('#txtVaapiDevice', form).val();
+            config.EncodingThreadCount = form.querySelector('#selectThreadCount').value;
+            config.HardwareAccelerationType = form.querySelector('#selectVideoDecoder').value;
+            config.VaapiDevice = form.querySelector('#txtVaapiDevice').value;
+            config.QsvDevice = form.querySelector('#txtQsvDevice').value;
             config.EnableTonemapping = form.querySelector('#chkTonemapping').checked;
             config.EnableVppTonemapping = form.querySelector('#chkVppTonemapping').checked;
             config.EnableVideoToolboxTonemapping = form.querySelector('#chkVideoToolboxTonemapping').checked;
@@ -121,6 +123,8 @@ function onSubmit() {
             });
             config.EnableDecodingColorDepth10Hevc = form.querySelector('#chkDecodingColorDepth10Hevc').checked;
             config.EnableDecodingColorDepth10Vp9 = form.querySelector('#chkDecodingColorDepth10Vp9').checked;
+            config.EnableDecodingColorDepth10HevcRext = form.querySelector('#chkDecodingColorDepth10HevcRext').checked;
+            config.EnableDecodingColorDepth12HevcRext = form.querySelector('#chkDecodingColorDepth12HevcRext').checked;
             config.EnableEnhancedNvdecDecoder = form.querySelector('#chkEnhancedNvdecDecoder').checked;
             config.PreferSystemNativeHwDecoder = form.querySelector('#chkSystemNativeHwDecoder').checked;
             config.EnableIntelLowPowerH264HwEncoder = form.querySelector('#chkIntelLpH264HwEncoder').checked;
@@ -128,7 +132,6 @@ function onSubmit() {
             config.EnableHardwareEncoding = form.querySelector('#chkHardwareEncoding').checked;
             config.AllowHevcEncoding = form.querySelector('#chkAllowHevcEncoding').checked;
             config.AllowAv1Encoding = form.querySelector('#chkAllowAv1Encoding').checked;
-            config.AllowMjpegEncoding = form.querySelector('#chkAllowMjpegEncoding').checked;
             ApiClient.updateNamedConfiguration('encoding', config).then(function () {
                 updateEncoder(form);
             }, function () {
@@ -138,7 +141,7 @@ function onSubmit() {
         });
     };
 
-    if ($('#selectVideoDecoder', form).val()) {
+    if (form.querySelector('#selectVideoDecoder').value !== 'none') {
         alert({
             title: globalize.translate('TitleHardwareAcceleration'),
             text: globalize.translate('HardwareAccelerationWarning')
@@ -169,22 +172,6 @@ function setDecodingCodecsVisible(context, value) {
     }
 }
 
-function getTabs() {
-    return [{
-        href: '#/dashboard/playback/transcoding',
-        name: globalize.translate('Transcoding')
-    }, {
-        href: '#/dashboard/playback/resume',
-        name: globalize.translate('ButtonResume')
-    }, {
-        href: '#/dashboard/playback/streaming',
-        name: globalize.translate('TabStreaming')
-    }, {
-        href: '#/dashboard/playback/trickplay',
-        name: globalize.translate('Trickplay')
-    }];
-}
-
 let systemInfo;
 function getSystemInfo() {
     return systemInfo ? Promise.resolve(systemInfo) : ApiClient.getPublicSystemInfo().then(
@@ -207,17 +194,33 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('#txtVaapiDevice').removeAttribute('required');
         }
 
-        if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'rkmpp' || this.value == 'videotoolbox') {
+        if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'rkmpp') {
             page.querySelector('.fld10bitHevcVp9HwDecoding').classList.remove('hide');
         } else {
             page.querySelector('.fld10bitHevcVp9HwDecoding').classList.add('hide');
         }
 
-        if (this.value == 'amf' || this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi' || this.value == 'rkmpp' || this.value == 'videotoolbox') {
+        if (this.value == 'nvenc' || this.value == 'qsv' || this.value == 'vaapi') {
+            page.querySelector('.fldHevcRextHwDecoding').classList.remove('hide');
+        } else {
+            page.querySelector('.fldHevcRextHwDecoding').classList.add('hide');
+        }
+
+        const isHwaSelected = [ 'amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox' ].includes(this.value);
+        if (this.value === 'none') {
             page.querySelector('.tonemappingOptions').classList.remove('hide');
+            page.querySelector('.fldTonemapCheckbox').classList.add('hide');
+        } else if (isHwaSelected) {
+            page.querySelector('.tonemappingOptions').classList.remove('hide');
+            page.querySelector('.fldTonemapCheckbox').classList.remove('hide');
         } else {
             page.querySelector('.tonemappingOptions').classList.add('hide');
+            page.querySelector('.fldTonemapCheckbox').classList.add('hide');
         }
+
+        page.querySelector('.tonemappingModeOptions').classList.toggle('hide', !isHwaSelected);
+        page.querySelector('.allowTonemappingHardwareHelp').classList.toggle('hide', !isHwaSelected);
+        page.querySelector('.allowTonemappingSoftwareHelp').classList.toggle('hide', isHwaSelected);
 
         if (this.value == 'qsv' || this.value == 'vaapi') {
             page.querySelector('.fldIntelLp').classList.remove('hide');
@@ -227,13 +230,11 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
 
         if (this.value === 'videotoolbox') {
             page.querySelector('.videoToolboxTonemappingOptions').classList.remove('hide');
-            page.querySelector('.allowAv1EncodingOption').classList.add('hide');
         } else {
             page.querySelector('.videoToolboxTonemappingOptions').classList.add('hide');
-            page.querySelector('.allowAv1EncodingOption').classList.remove('hide');
         }
 
-        if (systemInfo.OperatingSystem.toLowerCase() === 'linux' && (this.value == 'qsv' || this.value == 'vaapi')) {
+        if (this.value == 'qsv' || this.value == 'vaapi') {
             page.querySelector('.vppTonemappingOptions').classList.remove('hide');
         } else {
             page.querySelector('.vppTonemappingOptions').classList.add('hide');
@@ -241,8 +242,10 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
 
         if (this.value == 'qsv') {
             page.querySelector('.fldSysNativeHwDecoder').classList.remove('hide');
+            page.querySelector('.fldQsvDevice').classList.remove('hide');
         } else {
             page.querySelector('.fldSysNativeHwDecoder').classList.add('hide');
+            page.querySelector('.fldQsvDevice').classList.add('hide');
         }
 
         if (this.value == 'nvenc') {
@@ -251,7 +254,7 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
             page.querySelector('.fldEnhancedNvdec').classList.add('hide');
         }
 
-        if (this.value) {
+        if (this.value !== 'none') {
             page.querySelector('.hardwareAccelerationOptions').classList.remove('hide');
         } else {
             page.querySelector('.hardwareAccelerationOptions').classList.add('hide');
@@ -259,28 +262,13 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
 
         setDecodingCodecsVisible(page, this.value);
     });
-    $('#btnSelectEncoderPath', page).on('click.selectDirectory', function () {
-        import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
-            const picker = new DirectoryBrowser();
-            picker.show({
-                includeFiles: true,
-                callback: function (path) {
-                    if (path) {
-                        $('.txtEncoderPath', page).val(path);
-                    }
-
-                    picker.close();
-                }
-            });
-        });
-    });
     $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
         import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 callback: function (path) {
                     if (path) {
-                        $('#txtTranscodingTempPath', page).val(path);
+                        page.querySelector('#txtTranscodingTempPath').value = path;
                     }
 
                     picker.close();
@@ -311,7 +299,6 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
     $('.encodingSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
 }).on('pageshow', '#encodingSettingsPage', function () {
     loading.show();
-    libraryMenu.setTabs('playback', 0, getTabs);
     const page = this;
     ApiClient.getNamedConfiguration('encoding').then(function (config) {
         ApiClient.getSystemInfo().then(function (fetchedSystemInfo) {

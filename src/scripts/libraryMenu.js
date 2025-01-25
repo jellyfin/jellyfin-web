@@ -15,7 +15,7 @@ import { playbackManager } from '../components/playback/playbackmanager';
 import { pluginManager } from '../components/pluginManager';
 import groupSelectionMenu from '../plugins/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
-import globalize from './globalize';
+import globalize from 'lib/globalize';
 import imageHelper from '../utils/image';
 import { getMenuLinks } from '../scripts/settings/webSettings';
 import Dashboard, { pageClassOn } from '../utils/dashboard';
@@ -30,6 +30,7 @@ import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../styles/scrollstyles.scss';
 import '../styles/flexstyles.scss';
+import { EventType } from 'types/eventType';
 
 function renderHeader() {
     let html = '';
@@ -56,6 +57,8 @@ function renderHeader() {
     skinHeader.classList.add('skinHeader-withBackground');
     skinHeader.classList.add('skinHeader-blurred');
     skinHeader.innerHTML = html;
+
+    Events.trigger(document, EventType.HEADER_RENDERED);
 
     headerBackButton = skinHeader.querySelector('.headerBackButton');
     headerHomeButton = skinHeader.querySelector('.headerHomeButton');
@@ -332,7 +335,7 @@ function refreshLibraryInfoInDrawer(user) {
         html += globalize.translate('HeaderAdmin');
         html += '</h3>';
         html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#/dashboard"><span class="material-icons navMenuOptionIcon dashboard" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('TabDashboard')}</span></a>`;
-        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#/metadata"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Metadata')}</span></a>`;
+        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#/metadata"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('MetadataManager')}</span></a>`;
         html += '</div>';
     }
 
@@ -398,7 +401,6 @@ function getUserViews(apiClient, userId) {
                 list.push(view);
 
                 if (view.CollectionType == 'livetv') {
-                    view.ImageTags = {};
                     view.icon = 'live_tv';
                     const guideView = Object.assign({}, view);
                     guideView.Name = globalize.translate('Guide');
@@ -581,7 +583,6 @@ function updateMenuForPageType(isDashboardPage, isLibraryPage) {
 
         if (isLibraryPage) {
             bodyClassList.add('libraryDocument');
-            bodyClassList.remove('dashboardDocument');
             bodyClassList.remove('hideMainDrawer');
 
             if (navDrawerInstance) {
@@ -589,7 +590,6 @@ function updateMenuForPageType(isDashboardPage, isLibraryPage) {
             }
         } else if (isDashboardPage) {
             bodyClassList.remove('libraryDocument');
-            bodyClassList.add('dashboardDocument');
             bodyClassList.remove('hideMainDrawer');
 
             if (navDrawerInstance) {
@@ -597,7 +597,6 @@ function updateMenuForPageType(isDashboardPage, isLibraryPage) {
             }
         } else {
             bodyClassList.remove('libraryDocument');
-            bodyClassList.remove('dashboardDocument');
             bodyClassList.add('hideMainDrawer');
 
             if (navDrawerInstance) {
@@ -670,7 +669,7 @@ function loadNavDrawer() {
     navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
     navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
     return new Promise(function (resolve) {
-        import('../libraries/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
+        import('../lib/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
             navDrawerInstance = new NavDrawer(getNavDrawerOptions());
 
             if (!layoutManager.tv) {
@@ -703,6 +702,8 @@ const skinHeader = document.querySelector('.skinHeader');
 let requiresUserRefresh = true;
 
 function setTabs (type, selectedIndex, builder) {
+    Events.trigger(document, EventType.SET_TABS, type ? [ type, selectedIndex, builder()] : []);
+
     import('../components/maintabsmanager').then((mainTabsManager) => {
         if (type) {
             mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {

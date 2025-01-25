@@ -1,7 +1,9 @@
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import type { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import type { ItemDto } from './base/models/item-dto';
-export interface ListOptions {
+import type { TextLineOpts } from 'components/common/textLines/types';
+
+export interface ListOptions extends TextLineOpts {
     items?: ItemDto[] | null;
     index?: string;
     showIndex?: boolean;
@@ -17,21 +19,13 @@ export interface ListOptions {
     highlight?: boolean;
     dragHandle?: boolean;
     showIndexNumberLeft?: boolean;
-    mediaInfo?: boolean;
+    showMediaInfo?: boolean;
     recordButton?: boolean;
     image?: boolean;
     imageSource?: string;
     defaultCardImageIcon?: string;
     disableIndicators?: boolean;
     imagePlayButton?: boolean;
-    showProgramDateTime?: boolean;
-    showProgramTime?: boolean;
-    showChannel?: boolean;
-    showParentTitle?: boolean;
-    showIndexNumber?: boolean;
-    parentTitleWithTitle?: boolean;
-    artist?: boolean;
-    includeParentInfoInTitle?: boolean;
     addToListButton?: boolean;
     infoButton?: boolean;
     enableUserDataButtons?: boolean;

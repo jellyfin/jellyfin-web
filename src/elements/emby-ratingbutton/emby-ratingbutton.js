@@ -1,5 +1,5 @@
 import serverNotifications from '../../scripts/serverNotifications';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import EmbyButtonPrototype from '../emby-button/emby-button';
 import ServerConnections from '../../components/ServerConnections';

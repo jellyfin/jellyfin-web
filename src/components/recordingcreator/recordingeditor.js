@@ -1,6 +1,6 @@
 
 import dialogHelper from '../dialogHelper/dialogHelper';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import layoutManager from '../layoutManager';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';

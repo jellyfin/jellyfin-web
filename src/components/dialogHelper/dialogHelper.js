@@ -1,10 +1,11 @@
-import { history } from '../router/appRouter';
 import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import inputManager from '../../scripts/inputManager';
 import { toBoolean } from '../../utils/string.ts';
 import dom from '../../scripts/dom';
+
+import { history } from 'RootAppRouter';
 
 import './dialoghelper.scss';
 import '../../styles/scrollstyles.scss';
@@ -204,8 +205,14 @@ function addBackdropOverlay(dlg) {
     void backdrop.offsetWidth;
     backdrop.classList.add('dialogBackdropOpened');
 
+    let clickedElement;
+
+    dom.addEventListener((dlg.dialogContainer || backdrop), 'mousedown', e => {
+        clickedElement = e.target;
+    });
+
     dom.addEventListener((dlg.dialogContainer || backdrop), 'click', e => {
-        if (e.target === dlg.dialogContainer) {
+        if (e.target === dlg.dialogContainer && e.target == clickedElement) {
             close(dlg);
         }
     }, {

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, HTMLAttributes, useEffect, useRef } from 'react';
+import React, { type FC, type PropsWithChildren, type HTMLAttributes, useEffect, useRef, StrictMode } from 'react';
 
 import viewManager from './viewManager/viewManager';
 
@@ -9,14 +9,14 @@ type PageProps = {
     isMenuButtonEnabled?: boolean,
     isNowPlayingBarEnabled?: boolean,
     isThemeMediaSupported?: boolean,
-    backDropType?: string
+    backDropType?: string,
 };
 
 /**
  * Page component that handles hiding active non-react views, triggering the required events for
  * navigation and appRouter state updates, and setting the correct classes and data attributes.
  */
-const Page: FunctionComponent<PageProps & HTMLAttributes<HTMLDivElement>> = ({
+const Page: FC<PropsWithChildren<PageProps & HTMLAttributes<HTMLDivElement>>> = ({
     children,
     id,
     className = '',
@@ -57,18 +57,20 @@ const Page: FunctionComponent<PageProps & HTMLAttributes<HTMLDivElement>> = ({
     }, [ element, isNowPlayingBarEnabled, isThemeMediaSupported ]);
 
     return (
-        <div
-            ref={element}
-            id={id}
-            data-role='page'
-            className={`page ${className}`}
-            data-title={title}
-            data-backbutton={isBackButtonEnabled}
-            data-menubutton={isMenuButtonEnabled}
-            data-backdroptype={backDropType}
-        >
-            {children}
-        </div>
+        <StrictMode>
+            <div
+                ref={element}
+                id={id}
+                data-role='page'
+                className={`page ${className}`}
+                data-title={title}
+                data-backbutton={isBackButtonEnabled}
+                data-menubutton={isMenuButtonEnabled}
+                data-backdroptype={backDropType}
+            >
+                {children}
+            </div>
+        </StrictMode>
     );
 };
 

@@ -4,10 +4,10 @@ module.exports = {
     root: true,
     parser: '@typescript-eslint/parser',
     plugins: [
+        '@stylistic',
         '@typescript-eslint',
         'react',
         'import',
-        'eslint-comments',
         'sonarjs'
     ],
     env: {
@@ -20,23 +20,14 @@ module.exports = {
         'eslint:recommended',
         'plugin:react/recommended',
         'plugin:import/errors',
-        'plugin:eslint-comments/recommended',
+        'plugin:@eslint-community/eslint-comments/recommended',
         'plugin:compat/recommended',
         'plugin:sonarjs/recommended'
     ],
     rules: {
         'array-callback-return': ['error', { 'checkForEach': true }],
-        'block-spacing': ['error'],
-        'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
-        'comma-dangle': ['error', 'never'],
-        'comma-spacing': ['error'],
         'curly': ['error', 'multi-line', 'consistent'],
         'default-case-last': ['error'],
-        'eol-last': ['error'],
-        'indent': ['error', 4, { 'SwitchCase': 1 }],
-        'jsx-quotes': ['error', 'prefer-single'],
-        'keyword-spacing': ['error'],
-        'max-statements-per-line': ['error'],
         'max-params': ['error', 7],
         'new-cap': [
             'error',
@@ -48,10 +39,7 @@ module.exports = {
         'no-duplicate-imports': ['error'],
         'no-empty-function': ['error'],
         'no-extend-native': ['error'],
-        'no-floating-decimal': ['error'],
         'no-lonely-if': ['error'],
-        'no-multi-spaces': ['error'],
-        'no-multiple-empty-lines': ['error', { 'max': 1 }],
         'no-nested-ternary': ['error'],
         'no-redeclare': ['off'],
         '@typescript-eslint/no-redeclare': ['error', { builtinGlobals: false }],
@@ -62,7 +50,6 @@ module.exports = {
         'no-shadow': ['off'],
         '@typescript-eslint/no-shadow': ['error'],
         'no-throw-literal': ['error'],
-        'no-trailing-spaces': ['error'],
         'no-undef-init': ['error'],
         'no-unneeded-ternary': ['error'],
         'no-unused-expressions': ['off'],
@@ -74,18 +61,11 @@ module.exports = {
         'no-var': ['error'],
         'no-void': ['error', { 'allowAsStatement': true }],
         'no-warning-comments': ['warn', { 'terms': ['fixme', 'hack', 'xxx'] }],
-        'object-curly-spacing': ['error', 'always'],
         'one-var': ['error', 'never'],
-        'operator-linebreak': ['error', 'before', { overrides: { '?': 'after', ':': 'after', '=': 'after' } }],
-        'padded-blocks': ['error', 'never'],
         'prefer-const': ['error', { 'destructuring': 'all' }],
+        'prefer-promise-reject-errors': ['warn', { 'allowEmptyReject': true }],
         '@typescript-eslint/prefer-for-of': ['error'],
-        '@typescript-eslint/prefer-optional-chain': ['error'],
-        'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
         'radix': ['error'],
-        '@typescript-eslint/semi': ['error'],
-        'space-before-blocks': ['error'],
-        'space-infix-ops': 'error',
         'yoda': 'error',
 
         'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }],
@@ -97,7 +77,28 @@ module.exports = {
         'sonarjs/no-inverted-boolean-check': ['error'],
         // TODO: Enable the following rules and fix issues
         'sonarjs/cognitive-complexity': ['off'],
-        'sonarjs/no-duplicate-string': ['off']
+        'sonarjs/no-duplicate-string': ['off'],
+
+        '@stylistic/block-spacing': ['error'],
+        '@stylistic/brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
+        '@stylistic/comma-dangle': ['error', 'never'],
+        '@stylistic/comma-spacing': ['error'],
+        '@stylistic/eol-last': ['error'],
+        '@stylistic/indent': ['error', 4, { 'SwitchCase': 1 }],
+        '@stylistic/jsx-quotes': ['error', 'prefer-single'],
+        '@stylistic/keyword-spacing': ['error'],
+        '@stylistic/max-statements-per-line': ['error'],
+        '@stylistic/no-floating-decimal': ['error'],
+        '@stylistic/no-multi-spaces': ['error'],
+        '@stylistic/no-multiple-empty-lines': ['error', { 'max': 1 }],
+        '@stylistic/no-trailing-spaces': ['error'],
+        '@stylistic/object-curly-spacing': ['error', 'always'],
+        '@stylistic/operator-linebreak': ['error', 'before', { overrides: { '?': 'after', ':': 'after', '=': 'after' } }],
+        '@stylistic/padded-blocks': ['error', 'never'],
+        '@stylistic/quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
+        '@stylistic/semi': ['error'],
+        '@stylistic/space-before-blocks': ['error'],
+        '@stylistic/space-infix-ops': ['error']
     },
     settings: {
         react: {
@@ -263,6 +264,7 @@ module.exports = {
                 'UserParentalControlPage': 'writable',
                 'Windows': 'readonly',
                 // Build time definitions
+                __COMMIT_SHA__: 'readonly',
                 __JF_BUILD_VERSION__: 'readonly',
                 __PACKAGE_JSON_NAME__: 'readonly',
                 __PACKAGE_JSON_VERSION__: 'readonly',
@@ -270,6 +272,44 @@ module.exports = {
                 __WEBPACK_SERVE__: 'readonly'
             },
             rules: {
+                '@typescript-eslint/naming-convention': [
+                    'error',
+                    {
+                        selector: 'default',
+                        format: [ 'camelCase', 'PascalCase' ],
+                        leadingUnderscore: 'allow'
+                    },
+                    {
+                        selector: 'variable',
+                        format: [ 'camelCase', 'PascalCase', 'UPPER_CASE' ],
+                        leadingUnderscore: 'allowSingleOrDouble',
+                        trailingUnderscore: 'allowSingleOrDouble'
+                    },
+                    {
+                        selector: 'typeLike',
+                        format: [ 'PascalCase' ]
+                    },
+                    {
+                        selector: 'enumMember',
+                        format: [ 'PascalCase', 'UPPER_CASE' ]
+                    },
+                    {
+                        selector: [ 'objectLiteralProperty', 'typeProperty' ],
+                        format: [ 'camelCase', 'PascalCase' ],
+                        leadingUnderscore: 'allowSingleOrDouble',
+                        trailingUnderscore: 'allowSingleOrDouble'
+                    },
+                    // Ignore numbers, locale strings (en-us), aria/data attributes, CSS selectors,
+                    // and api_key parameter
+                    {
+                        selector: [ 'objectLiteralProperty', 'typeProperty' ],
+                        format: null,
+                        filter: {
+                            regex: '[ &\\-]|^([0-9]+)$|^api_key$',
+                            match: true
+                        }
+                    }
+                ],
                 '@typescript-eslint/prefer-string-starts-ends-with': ['error']
             }
         },
@@ -282,7 +322,7 @@ module.exports = {
                 'eslint:recommended',
                 'plugin:import/typescript',
                 'plugin:@typescript-eslint/recommended',
-                'plugin:eslint-comments/recommended',
+                'plugin:@eslint-community/eslint-comments/recommended',
                 'plugin:react/recommended',
                 'plugin:react-hooks/recommended',
                 'plugin:jsx-a11y/recommended'

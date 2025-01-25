@@ -1,7 +1,7 @@
 import 'jquery';
 
 import loading from '../../components/loading/loading';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-textarea/emby-textarea';
 import '../../elements/emby-input/emby-input';
@@ -14,11 +14,14 @@ function loadPage(page, config, languageOptions, systemInfo) {
     page.querySelector('#txtServerName').value = systemInfo.ServerName;
     page.querySelector('#txtCachePath').value = systemInfo.CachePath || '';
     page.querySelector('#chkQuickConnectAvailable').checked = config.QuickConnectAvailable === true;
-    $('#txtMetadataPath', page).val(systemInfo.InternalMetadataPath || '');
-    $('#txtMetadataNetworkPath', page).val(systemInfo.MetadataNetworkPath || '');
-    $('#selectLocalizationLanguage', page).html(languageOptions.map(function (language) {
+    page.querySelector('#txtMetadataPath').value = systemInfo.InternalMetadataPath || '';
+    page.querySelector('#txtMetadataNetworkPath').value = systemInfo.MetadataNetworkPath || '';
+    const localizationLanguageElem = page.querySelector('#selectLocalizationLanguage');
+    localizationLanguageElem.innerHTML = languageOptions.map(function (language) {
         return '<option value="' + language.Value + '">' + language.Name + '</option>';
-    })).val(config.UICulture);
+    }).join('');
+    localizationLanguageElem.value = config.UICulture;
+    page.querySelector('#txtLibraryScanFanoutConcurrency').value = config.LibraryScanFanoutConcurrency || '';
     page.querySelector('#txtParallelImageEncodingLimit').value = config.ParallelImageEncodingLimit || '';
 
     loading.hide();
@@ -27,35 +30,27 @@ function loadPage(page, config, languageOptions, systemInfo) {
 function onSubmit() {
     loading.show();
     const form = this;
-    $(form).parents('.page');
     ApiClient.getServerConfiguration().then(function (config) {
-        config.ServerName = $('#txtServerName', form).val();
-        config.UICulture = $('#selectLocalizationLanguage', form).val();
+        config.ServerName = form.querySelector('#txtServerName').value;
+        config.UICulture = form.querySelector('#selectLocalizationLanguage').value;
         config.CachePath = form.querySelector('#txtCachePath').value;
-        config.MetadataPath = $('#txtMetadataPath', form).val();
-        config.MetadataNetworkPath = $('#txtMetadataNetworkPath', form).val();
+        config.MetadataPath = form.querySelector('#txtMetadataPath').value;
+        config.MetadataNetworkPath = form.querySelector('#txtMetadataNetworkPath').value;
         config.QuickConnectAvailable = form.querySelector('#chkQuickConnectAvailable').checked;
+        config.LibraryScanFanoutConcurrency = parseInt(form.querySelector('#txtLibraryScanFanoutConcurrency').value || '0', 10);
         config.ParallelImageEncodingLimit = parseInt(form.querySelector('#txtParallelImageEncodingLimit').value || '0', 10);
 
-        ApiClient.updateServerConfiguration(config).then(function() {
-            ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
-                brandingConfig.LoginDisclaimer = form.querySelector('#txtLoginDisclaimer').value;
-                brandingConfig.CustomCss = form.querySelector('#txtCustomCss').value;
-                brandingConfig.SplashscreenEnabled = form.querySelector('#chkSplashScreenAvailable').checked;
-
-                ApiClient.updateNamedConfiguration(brandingConfigKey, brandingConfig).then(function () {
-                    Dashboard.processServerConfigurationUpdateResult();
-                });
+        return ApiClient.updateServerConfiguration(config)
+            .then(() => {
+                Dashboard.processServerConfigurationUpdateResult();
+            }).catch(() => {
+                loading.hide();
+                alert(globalize.translate('ErrorDefault'));
             });
-        }, function () {
-            alert(globalize.translate('ErrorDefault'));
-            Dashboard.processServerConfigurationUpdateResult();
-        });
     });
     return false;
 }
 
-const brandingConfigKey = 'branding';
 export default function (view) {
     $('#btnSelectCachePath', view).on('click.selectDirectory', function () {
         import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
@@ -78,15 +73,15 @@ export default function (view) {
         import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
-                path: $('#txtMetadataPath', view).val(),
-                networkSharePath: $('#txtMetadataNetworkPath', view).val(),
+                path: view.querySelector('#txtMetadataPath').value,
+                networkSharePath: view.querySelector('#txtMetadataNetworkPath').value,
                 callback: function (path, networkPath) {
                     if (path) {
-                        $('#txtMetadataPath', view).val(path);
+                        view.querySelector('#txtMetadataPath').value = path;
                     }
 
                     if (networkPath) {
-                        $('#txtMetadataNetworkPath', view).val(networkPath);
+                        view.querySelector('#txtMetadataNetworkPath').value = networkPath;
                     }
 
                     picker.close();
@@ -104,11 +99,6 @@ export default function (view) {
         const promiseSystemInfo = ApiClient.getSystemInfo();
         Promise.all([promiseConfig, promiseLanguageOptions, promiseSystemInfo]).then(function (responses) {
             loadPage(view, responses[0], responses[1], responses[2]);
-        });
-        ApiClient.getNamedConfiguration(brandingConfigKey).then(function (config) {
-            view.querySelector('#txtLoginDisclaimer').value = config.LoginDisclaimer || '';
-            view.querySelector('#txtCustomCss').value = config.CustomCss || '';
-            view.querySelector('#chkSplashScreenAvailable').checked = config.SplashscreenEnabled === true;
         });
     });
 }

@@ -1,9 +1,7 @@
 import escapeHtml from 'escape-html';
-import 'jquery';
 import taskButton from '../../scripts/taskbutton';
 import loading from '../../components/loading/loading';
-import libraryMenu from '../../scripts/libraryMenu';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import dom from '../../scripts/dom';
 import imageHelper from '../../utils/image';
 import '../../components/cardbuilder/card.scss';
@@ -182,20 +180,27 @@ function reloadVirtualFolders(page, virtualFolders) {
     divVirtualFolders.innerHTML = html;
     divVirtualFolders.classList.add('itemsContainer');
     divVirtualFolders.classList.add('vertical-wrap');
-    $('.btnCardMenu', divVirtualFolders).on('click', function () {
-        showCardMenu(page, this, virtualFolders);
+    const btnCardMenuElements = divVirtualFolders.querySelectorAll('.btnCardMenu');
+    btnCardMenuElements.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            showCardMenu(page, btn, virtualFolders);
+        });
     });
     divVirtualFolders.querySelector('#addLibrary').addEventListener('click', function () {
         addVirtualFolder(page);
     });
-    $('.editLibrary', divVirtualFolders).on('click', function () {
-        const card = $(this).parents('.card')[0];
-        const index = parseInt(card.getAttribute('data-index'), 10);
-        const virtualFolder = virtualFolders[index];
 
-        if (virtualFolder.ItemId) {
-            editVirtualFolder(page, virtualFolder);
-        }
+    const libraryEditElements = divVirtualFolders.querySelectorAll('.editLibrary');
+    libraryEditElements.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const card = dom.parentWithClass(btn, 'card');
+            const index = parseInt(card.getAttribute('data-index'), 10);
+            const virtualFolder = virtualFolders[index];
+
+            if (virtualFolder.ItemId) {
+                editVirtualFolder(page, virtualFolder);
+            }
+        });
     });
     loading.hide();
 }
@@ -358,22 +363,6 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     return html;
 }
 
-function getTabs() {
-    return [{
-        href: '#/dashboard/libraries',
-        name: globalize.translate('HeaderLibraries')
-    }, {
-        href: '#/dashboard/libraries/display',
-        name: globalize.translate('Display')
-    }, {
-        href: '#/dashboard/libraries/metadata',
-        name: globalize.translate('Metadata')
-    }, {
-        href: '#/dashboard/libraries/nfo',
-        name: globalize.translate('TabNfoSettings')
-    }];
-}
-
 window.WizardLibraryPage = {
     next: function () {
         Dashboard.navigate('wizardsettings.html');
@@ -383,8 +372,6 @@ pageClassOn('pageshow', 'mediaLibraryPage', function () {
     reloadLibrary(this);
 });
 pageIdOn('pageshow', 'mediaLibraryPage', function () {
-    libraryMenu.setTabs('librarysetup', 0, getTabs);
-
     const page = this;
     taskButton({
         mode: 'on',

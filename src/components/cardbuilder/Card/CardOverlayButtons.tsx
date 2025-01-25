@@ -1,4 +1,3 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
 import React, { type FC } from 'react';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -7,6 +6,8 @@ import { appRouter } from 'components/router/appRouter';
 import PlayArrowIconButton from '../../common/PlayArrowIconButton';
 import MoreVertIconButton from '../../common/MoreVertIconButton';
 
+import { ItemKind } from 'types/base/models/item-kind';
+import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
@@ -19,8 +20,8 @@ const sholudShowOverlayPlayButton = (
         && !item.IsPlaceHolder
         && (item.LocationType !== LocationType.Virtual
             || !item.MediaType
-            || item.Type === BaseItemKind.Program)
-        && item.Type !== BaseItemKind.Person
+            || item.Type === ItemKind.Program)
+        && item.Type !== ItemKind.Person
     );
 };
 
@@ -41,7 +42,7 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
         && !cardOptions.overlayInfoButton
         && !cardOptions.cardLayout
     ) {
-        overlayPlayButton = item.MediaType === 'Video';
+        overlayPlayButton = item.MediaType === ItemMediaKind.Video;
     }
 
     const url = appRouter.getRouteUrl(item, {

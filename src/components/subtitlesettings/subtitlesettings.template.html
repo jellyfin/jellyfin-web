@@ -32,6 +32,22 @@
             </select>
             <div class="fieldDescription">${BurnSubtitlesHelp}</div>
         </div>
+
+        <div class="checkboxContainer checkboxContainer-withDescription fldRenderPgs hide">
+            <label>
+                <input is="emby-checkbox" type="checkbox" id="chkSubtitleRenderPgs" />
+                <span>${RenderPgsSubtitle}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${RenderPgsSubtitleHelp}</div>
+        </div>
+    </div>
+
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input is="emby-checkbox" type="checkbox" id="chkAlwaysBurnInSubtitleWhenTranscoding" />
+            <span>${AlwaysBurnInSubtitleWhenTranscoding}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${AlwaysBurnInSubtitleWhenTranscodingHelp}</div>
     </div>
 
     <div class="verticalSection subtitleAppearanceSection hide">
@@ -59,6 +75,17 @@
             </div>
             <div class="fieldDescription">${SubtitleAppearanceSettingsDisclaimer}</div>
             <div class="fieldDescription">${SubtitleAppearanceSettingsAlsoPassedToCastDevices}</div>
+        </div>
+
+        <div class="selectContainer">
+            <select is="emby-select" id="selectSubtitleStyling" label="${LabelSubtitleStyling}">
+                <option value="Auto">${Auto}</option>
+                <option value="Custom">${Custom}</option>
+                <option value="Native">${Native}</option>
+            </select>
+            <div class="fieldDescription subtitleStylingAutoHelp subtitleStylingHelp hide">${AutoSubtitleStylingHelp}</div>
+            <div class="fieldDescription subtitleStylingCustomHelp subtitleStylingHelp hide">${CustomSubtitleStylingHelp}</div>
+            <div class="fieldDescription subtitleStylingNativeHelp subtitleStylingHelp hide">${NativeSubtitleStylingHelp}</div>
         </div>
 
         <div class="selectContainer">

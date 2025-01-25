@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 import IconButton from '@mui/material/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 interface PlayArrowIconButtonProps {
     className: string;

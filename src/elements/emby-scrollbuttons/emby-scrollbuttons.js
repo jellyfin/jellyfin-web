@@ -1,7 +1,7 @@
 import './emby-scrollbuttons.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-button/paper-icon-button-light';
-import globalize from '../../scripts/globalize';
+import globalize from 'lib/globalize';
 import { scrollerItemSlideIntoView } from './utils';
 
 const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);

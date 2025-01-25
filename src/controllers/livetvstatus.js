@@ -1,5 +1,5 @@
 import 'jquery';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import taskButton from '../scripts/taskbutton';
 import dom from '../scripts/dom';
 import layoutManager from '../components/layoutManager';
@@ -89,8 +89,8 @@ function submitAddDeviceForm(page) {
         type: 'POST',
         url: ApiClient.getUrl('LiveTv/TunerHosts'),
         data: JSON.stringify({
-            Type: $('#selectTunerDeviceType', page).val(),
-            Url: $('#txtDevicePath', page).val()
+            Type: page.querySelector('#selectTunerDeviceType').value,
+            Url: page.querySelector('#txtDevicePath').value
         }),
         contentType: 'application/json'
     }).then(function () {
@@ -129,11 +129,17 @@ function renderProviders(page, providers) {
         html += '</div>';
     }
 
-    const elem = $('.providerList', page).html(html);
-    $('.btnOptions', elem).on('click', function () {
-        const id = this.getAttribute('data-id');
-        showProviderOptions(page, id, this);
-    });
+    const elem = page.querySelector('.providerList');
+    elem.innerHTML = html;
+    if (elem.querySelector('.btnOptions')) {
+        const btnOptionElements = elem.querySelectorAll('.btnOptions');
+        btnOptionElements.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                showProviderOptions(page, id, btn);
+            });
+        });
+    }
 }
 
 function showProviderOptions(page, providerId, button) {
@@ -297,14 +303,17 @@ function onDevicesListClick(e) {
 
 $(document).on('pageinit', '#liveTvStatusPage', function () {
     const page = this;
-    $('.btnAddDevice', page).on('click', function () {
+    page.querySelector('.btnAddDevice').addEventListener('click', function () {
         addDevice();
     });
-    $('.formAddDevice', page).on('submit', function () {
-        submitAddDeviceForm(page);
-        return false;
-    });
-    $('.btnAddProvider', page).on('click', function () {
+    if (page.querySelector('.formAddDevice')) {
+        // NOTE: unused?
+        page.querySelector('.formAddDevice').addEventListener('submit', function (e) {
+            e.preventDefault();
+            submitAddDeviceForm(page);
+        });
+    }
+    page.querySelector('.btnAddProvider').addEventListener('click', function () {
         addProvider(this);
     });
     page.querySelector('.devicesList').addEventListener('click', onDevicesListClick);

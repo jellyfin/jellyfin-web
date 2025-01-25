@@ -8,6 +8,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import TabRoutes from './tabRoutes';
 import useCurrentTab from 'hooks/useCurrentTab';
+import globalize from 'lib/globalize';
 
 interface AppTabsParams {
     isDrawerOpen: boolean
@@ -66,7 +67,7 @@ const AppTabs: FC<AppTabsParams> = ({
                                     route.tabs.map(({ index, label }) => (
                                         <Tab
                                             key={`${route.path}-tab-${index}`}
-                                            label={label}
+                                            label={globalize.translate(label)}
                                             data-tab-index={`${index}`}
                                             onClick={onTabClick}
                                         />

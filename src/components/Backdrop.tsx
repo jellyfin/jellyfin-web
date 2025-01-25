@@ -13,7 +13,7 @@ const styles = layoutManager.experimental ? {
 const Backdrop = () => {
     useEffect(() => {
         // Initialize the UI components after first render
-        import('../scripts/autoBackdrops');
+        void import('../scripts/autoBackdrops');
     }, []);
 
     return (

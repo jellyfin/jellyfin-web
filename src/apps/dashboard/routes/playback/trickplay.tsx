@@ -1,14 +1,15 @@
-import type { ProcessPriorityClass, ServerConfiguration, TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client';
-import React, { type FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
+import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models/trickplay-scan-behavior';
+import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';
+import React, { type FC, useCallback, useEffect, useRef } from 'react';
 
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import Page from '../../../../components/Page';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import ButtonElement from '../../../../elements/ButtonElement';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import SelectElement from '../../../../elements/SelectElement';
 import InputElement from '../../../../elements/InputElement';
-import LinkTrickplayAcceleration from '../../../../components/dashboard/playback/trickplay/LinkTrickplayAcceleration';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import ServerConnections from '../../../../components/ServerConnections';
@@ -18,10 +19,10 @@ function onSaveComplete() {
     toast(globalize.translate('SettingsSaved'));
 }
 
-const PlaybackTrickplay: FunctionComponent = () => {
+const PlaybackTrickplay: FC = () => {
     const element = useRef<HTMLDivElement>(null);
 
-    const loadConfig = useCallback((config) => {
+    const loadConfig = useCallback((config: ServerConfiguration) => {
         const page = element.current;
         const options = config.TrickplayOptions;
 
@@ -30,16 +31,18 @@ const PlaybackTrickplay: FunctionComponent = () => {
             return;
         }
 
-        (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked = options.EnableHwAcceleration;
-        (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value = options.ScanBehavior;
-        (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value = options.ProcessPriority;
-        (page.querySelector('#txtInterval') as HTMLInputElement).value = options.Interval;
-        (page.querySelector('#txtWidthResolutions') as HTMLInputElement).value = options.WidthResolutions.join(',');
-        (page.querySelector('#txtTileWidth') as HTMLInputElement).value = options.TileWidth;
-        (page.querySelector('#txtTileHeight') as HTMLInputElement).value = options.TileHeight;
-        (page.querySelector('#txtQscale') as HTMLInputElement).value = options.Qscale;
-        (page.querySelector('#txtJpegQuality') as HTMLInputElement).value = options.JpegQuality;
-        (page.querySelector('#txtProcessThreads') as HTMLInputElement).value = options.ProcessThreads;
+        (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked = options?.EnableHwAcceleration || false;
+        (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked = options?.EnableHwEncoding || false;
+        (page.querySelector('.chkEnableKeyFrameOnlyExtraction') as HTMLInputElement).checked = options?.EnableKeyFrameOnlyExtraction || false;
+        (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value = (options?.ScanBehavior || TrickplayScanBehavior.NonBlocking);
+        (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value = (options?.ProcessPriority || ProcessPriorityClass.Normal);
+        (page.querySelector('#txtInterval') as HTMLInputElement).value = options?.Interval?.toString() || '10000';
+        (page.querySelector('#txtWidthResolutions') as HTMLInputElement).value = options?.WidthResolutions?.join(',') || '';
+        (page.querySelector('#txtTileWidth') as HTMLInputElement).value = options?.TileWidth?.toString() || '10';
+        (page.querySelector('#txtTileHeight') as HTMLInputElement).value = options?.TileHeight?.toString() || '10';
+        (page.querySelector('#txtQscale') as HTMLInputElement).value = options?.Qscale?.toString() || '4';
+        (page.querySelector('#txtJpegQuality') as HTMLInputElement).value = options?.JpegQuality?.toString() || '90';
+        (page.querySelector('#txtProcessThreads') as HTMLInputElement).value = options?.ProcessThreads?.toString() || '1';
 
         loading.hide();
     }, []);
@@ -76,6 +79,8 @@ const PlaybackTrickplay: FunctionComponent = () => {
 
             const options = config.TrickplayOptions;
             options.EnableHwAcceleration = (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked;
+            options.EnableHwEncoding = (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked;
+            options.EnableKeyFrameOnlyExtraction = (page.querySelector('.chkEnableKeyFrameOnlyExtraction') as HTMLInputElement).checked;
             options.ScanBehavior = (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value as TrickplayScanBehavior;
             options.ProcessPriority = (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value as ProcessPriorityClass;
             options.Interval = Math.max(1, parseInt((page.querySelector('#txtInterval') as HTMLInputElement).value || '10000', 10));
@@ -139,12 +144,12 @@ const PlaybackTrickplay: FunctionComponent = () => {
         <Page
             id='trickplayConfigurationPage'
             className='mainAnimatedPage type-interior playbackConfigurationPage'
+            title={globalize.translate('Trickplay')}
         >
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={globalize.translate('Trickplay')}
-                        isLinkVisible={false}
                     />
                 </div>
 
@@ -154,12 +159,27 @@ const PlaybackTrickplay: FunctionComponent = () => {
                             className='chkEnableHwAcceleration'
                             title='LabelTrickplayAccel'
                         />
+                    </div>
+                    <div className='checkboxContainer checkboxContainer-withDescription'>
+                        <CheckBoxElement
+                            className='chkEnableHwEncoding'
+                            title='LabelTrickplayAccelEncoding'
+                        />
                         <div className='fieldDescription checkboxFieldDescription'>
-                            <LinkTrickplayAcceleration
-                                title='LabelTrickplayAccelHelp'
-                                href='#/dashboard/playback/transcoding'
-                                className='button-link'
-                            />
+                            <div className='fieldDescription'>
+                                {globalize.translate('LabelTrickplayAccelEncodingHelp')}
+                            </div>
+                        </div>
+                    </div>
+                    <div className='checkboxContainer checkboxContainer-withDescription'>
+                        <CheckBoxElement
+                            className='chkEnableKeyFrameOnlyExtraction'
+                            title='LabelTrickplayKeyFrameOnlyExtraction'
+                        />
+                        <div className='fieldDescription checkboxFieldDescription'>
+                            <div className='fieldDescription'>
+                                {globalize.translate('LabelTrickplayKeyFrameOnlyExtractionHelp')}
+                            </div>
                         </div>
                     </div>
 

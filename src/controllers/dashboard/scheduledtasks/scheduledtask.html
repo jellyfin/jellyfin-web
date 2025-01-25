@@ -4,7 +4,6 @@
             <div class="verticalSection">
                 <div class="sectionTitleContainer flex align-items-center">
                     <h2 class="sectionTitle taskName"></h2>
-                    <a is="emby-linkbutton" rel="noopener noreferrer" class="raised button-alt headerHelpButton" target="_blank" href="https://jellyfin.org/docs/general/server/tasks">${Help}</a>
                 </div>
                 <p id="pTaskDescription"></p>
             </div>
@@ -20,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div data-role="popup" id="popupAddTrigger" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%;">
+    <div data-role="popup" id="popupAddTrigger" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%; z-index: 999999;">
         <form class="addTriggerForm" style="padding:1em;">
             <div class="ui-bar-a">
                 <h3>${ButtonAddScheduledTaskTrigger}</h3>

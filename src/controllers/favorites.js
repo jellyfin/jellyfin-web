@@ -5,8 +5,9 @@ import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import ServerConnections from 'components/ServerConnections';
 import dom from 'scripts/dom';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-scroller/emby-scroller';
@@ -45,7 +46,7 @@ function getSections() {
         overlayText: false,
         centerText: true
     }, {
-        name: 'Videos',
+        name: 'HeaderVideos',
         types: 'Video',
         shape: getBackdropShape(enableScrollX()),
         preferThumb: true,
@@ -126,6 +127,14 @@ function getSections() {
         overlayPlayButton: true,
         overlayText: false,
         centerText: true
+    }, {
+        name: 'Channels',
+        types: 'LiveTVChannel',
+        shape: getBackdropShape(enableScrollX()),
+        showTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
     }];
 }
 
@@ -133,7 +142,7 @@ function getFetchDataFn(section) {
     return function () {
         const apiClient = this.apiClient;
         const options = {
-            SortBy: 'SeriesName,SortName',
+            SortBy: [ItemSortBy.SeriesSortName, ItemSortBy.SortName].join(','),
             SortOrder: 'Ascending',
             Filters: 'IsFavorite',
             Recursive: true,

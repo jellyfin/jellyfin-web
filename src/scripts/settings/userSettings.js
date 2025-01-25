@@ -1,7 +1,7 @@
-import appSettings from './appSettings';
-import browser from '../browser';
 import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
+import browser from '../browser';
+import appSettings from './appSettings';
 
 function onSaveTimeout() {
     const self = this;
@@ -15,6 +15,26 @@ function saveServerPreferences(instance) {
     }
 
     instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
+}
+
+const allowedSortSettings = ['SortBy', 'SortOrder'];
+
+const filterSettingsPostfix = '-filter';
+const allowedFilterSettings = [
+    'Filters', 'HasSubtitles', 'HasTrailer', 'HasSpecialFeature',
+    'HasThemeSong', 'HasThemeVideo', 'Genres', 'OfficialRatings',
+    'Tags', 'VideoTypes', 'IsSD', 'IsHD', 'Is4K', 'Is3D',
+    'IsFavorite', 'IsMissing', 'IsUnaired', 'ParentIndexNumber',
+    'SeriesStatus', 'Years'
+];
+
+function filterQuerySettings(query, allowedItems) {
+    return Object.keys(query)
+        .filter(field => allowedItems.includes(field))
+        .reduce((acc, field) => {
+            acc[field] = query[field];
+            return acc;
+        }, {});
 }
 
 const defaultSubtitleAppearanceSettings = {
@@ -68,7 +88,7 @@ export class UserSettings {
      * Set value of setting.
      * @param {string} name - Name of setting.
      * @param {mixed} value - Value of setting.
-     * @param {boolean} enableOnServer - Flag to save preferences on server.
+     * @param {boolean} [enableOnServer] - Flag to save preferences on server.
      */
     set(name, value, enableOnServer) {
         const userId = this.currentUserId;
@@ -90,8 +110,8 @@ export class UserSettings {
     /**
      * Get value of setting.
      * @param {string} name - Name of setting.
-     * @param {boolean} enableOnServer - Flag to return preferences from server (cached).
-     * @return {string} Value of setting.
+     * @param {boolean} [enableOnServer] - Flag to return preferences from server (cached).
+     * @return {string | null} Value of setting.
      */
     get(name, enableOnServer) {
         const userId = this.currentUserId;
@@ -173,7 +193,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Next Video Info Overlay' state.
-     * @param {boolean|undefined} val - Flag to enable 'Next Video Info Overlay' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Next Video Info Overlay' or undefined.
      * @return {boolean} 'Next Video Info Overlay' state.
      */
     enableNextVideoInfoOverlay(val) {
@@ -199,7 +219,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Theme Songs' state.
-     * @param {boolean|undefined} val - Flag to enable 'Theme Songs' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Theme Songs' or undefined.
      * @return {boolean} 'Theme Songs' state.
      */
     enableThemeSongs(val) {
@@ -212,7 +232,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Theme Videos' state.
-     * @param {boolean|undefined} val - Flag to enable 'Theme Videos' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Theme Videos' or undefined.
      * @return {boolean} 'Theme Videos' state.
      */
     enableThemeVideos(val) {
@@ -225,7 +245,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Fast Fade-in' state.
-     * @param {boolean|undefined} val - Flag to enable 'Fast Fade-in' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Fast Fade-in' or undefined.
      * @return {boolean} 'Fast Fade-in' state.
      */
     enableFastFadein(val) {
@@ -238,7 +258,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Blurhash' state.
-     * @param {boolean|undefined} val - Flag to enable 'Blurhash' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Blurhash' or undefined.
      * @return {boolean} 'Blurhash' state.
      */
     enableBlurhash(val) {
@@ -251,7 +271,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Backdrops' state.
-     * @param {boolean|undefined} val - Flag to enable 'Backdrops' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Backdrops' or undefined.
      * @return {boolean} 'Backdrops' state.
      */
     enableBackdrops(val) {
@@ -264,7 +284,7 @@ export class UserSettings {
 
     /**
      * Get or set 'disableCustomCss' state.
-     * @param {boolean|undefined} val - Flag to enable 'disableCustomCss' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'disableCustomCss' or undefined.
      * @return {boolean} 'disableCustomCss' state.
      */
     disableCustomCss(val) {
@@ -277,7 +297,7 @@ export class UserSettings {
 
     /**
      * Get or set customCss.
-     * @param {string|undefined} val - Language.
+     * @param {string|undefined} [val] - Language.
      * @return {string} Language.
      */
     customCss(val) {
@@ -290,7 +310,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Details Banner' state.
-     * @param {boolean|undefined} val - Flag to enable 'Details Banner' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Details Banner' or undefined.
      * @return {boolean} 'Details Banner' state.
      */
     detailsBanner(val) {
@@ -316,7 +336,7 @@ export class UserSettings {
 
     /**
      * Get or set language.
-     * @param {string|undefined} val - Language.
+     * @param {string|undefined} [val] - Language.
      * @return {string} Language.
      */
     language(val) {
@@ -329,7 +349,7 @@ export class UserSettings {
 
     /**
      * Get or set datetime locale.
-     * @param {string|undefined} val - Datetime locale.
+     * @param {string|undefined} [val] - Datetime locale.
      * @return {string} Datetime locale.
      */
     dateTimeLocale(val) {
@@ -368,7 +388,7 @@ export class UserSettings {
 
     /**
      * Get or set theme for Dashboard.
-     * @param {string|undefined} val - Theme for Dashboard.
+     * @param {string|undefined} [val] - Theme for Dashboard.
      * @return {string} Theme for Dashboard.
      */
     dashboardTheme(val) {
@@ -394,7 +414,7 @@ export class UserSettings {
 
     /**
      * Get or set main theme.
-     * @param {string|undefined} val - Main theme.
+     * @param {string|undefined} [val] - Main theme.
      * @return {string} Main theme.
      */
     theme(val) {
@@ -407,7 +427,7 @@ export class UserSettings {
 
     /**
      * Get or set screensaver.
-     * @param {string|undefined} val - Screensaver.
+     * @param {string|undefined} [val] - Screensaver.
      * @return {string} Screensaver.
      */
     screensaver(val) {
@@ -420,7 +440,7 @@ export class UserSettings {
 
     /**
      * Get or set the interval between backdrops when using the backdrop screensaver.
-     * @param {number|undefined} val - The interval between backdrops in seconds.
+     * @param {number|undefined} [val] - The interval between backdrops in seconds.
      * @return {number} The interval between backdrops in seconds.
      */
     backdropScreensaverInterval(val) {
@@ -432,8 +452,21 @@ export class UserSettings {
     }
 
     /**
+     * Get or set the amount of time it takes to activate the screensaver in seconds. Default 3 minutes.
+     * @param {number|undefined} [val] - The amount of time it takes to activate the screensaver in seconds.
+     * @return {number} The amount of time it takes to activate the screensaver in seconds.
+     */
+    screensaverTime(val) {
+        if (val !== undefined) {
+            return this.set('screensaverTime', val.toString(), false);
+        }
+
+        return parseInt(this.get('screensaverTime', false), 10) || 180;
+    }
+
+    /**
      * Get or set library page size.
-     * @param {number|undefined} val - Library page size.
+     * @param {number|undefined} [val] - Library page size.
      * @return {number} Library page size.
      */
     libraryPageSize(val) {
@@ -508,13 +541,17 @@ export class UserSettings {
      * @return {Query} Query.
      */
     loadQuerySettings(key, query) {
-        let values = this.get(key);
-        if (values) {
-            values = JSON.parse(values);
-            return Object.assign(query, values);
+        let sortSettings = this.get(key);
+        let filterSettings = this.get(key + filterSettingsPostfix, false);
+
+        if (sortSettings) {
+            sortSettings = filterQuerySettings(JSON.parse(sortSettings), allowedSortSettings);
+        }
+        if (filterSettings) {
+            filterSettings = filterQuerySettings(JSON.parse(filterSettings), allowedFilterSettings);
         }
 
-        return query;
+        return Object.assign(query, sortSettings, filterSettings);
     }
 
     /**
@@ -523,16 +560,11 @@ export class UserSettings {
      * @param {Object} query - Query.
      */
     saveQuerySettings(key, query) {
-        const values = {};
-        if (query.SortBy) {
-            values.SortBy = query.SortBy;
-        }
+        const sortSettings = filterQuerySettings(query, allowedSortSettings);
+        const filterSettings = filterQuerySettings(query, allowedFilterSettings);
 
-        if (query.SortOrder) {
-            values.SortOrder = query.SortOrder;
-        }
-
-        return this.set(key, JSON.stringify(values));
+        this.set(key, JSON.stringify(sortSettings));
+        this.set(key + filterSettingsPostfix, JSON.stringify(filterSettings), false);
     }
 
     /**
@@ -659,6 +691,7 @@ export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);
 export const screensaver = currentSettings.screensaver.bind(currentSettings);
 export const backdropScreensaverInterval = currentSettings.backdropScreensaverInterval.bind(currentSettings);
+export const screensaverTime = currentSettings.screensaverTime.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
 export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);

@@ -1,13 +1,14 @@
 import escapeHTML from 'escape-html';
 
-import loading from '../../../../components/loading/loading';
-import libraryMenu from '../../../../scripts/libraryMenu';
-import globalize from '../../../../scripts/globalize';
-import '../../../../components/cardbuilder/card.scss';
-import '../../../../elements/emby-button/emby-button';
-import '../../../../elements/emby-checkbox/emby-checkbox';
-import '../../../../elements/emby-select/emby-select';
-import { getDefaultBackgroundClass } from '../../../../components/cardbuilder/cardBuilderUtils';
+import { CATEGORY_LABELS } from 'apps/dashboard/features/plugins/constants/categoryLabels';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
+import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
+
+import 'components/cardbuilder/card.scss';
+import 'elements/emby-button/emby-button';
+import 'elements/emby-checkbox/emby-checkbox';
+import 'elements/emby-select/emby-select';
 
 function reloadList(page) {
     loading.show();
@@ -24,19 +25,14 @@ function reloadList(page) {
 }
 
 function getHeaderText(category) {
-    category = category.replace(' ', '');
-    // TODO: Replace with switch
-    if (category === 'Channel') {
-        category = 'Channels';
-    } else if (category === 'Theme') {
-        category = 'Themes';
-    } else if (category === 'LiveTV') {
-        category = 'LiveTV';
-    } else if (category === 'ScreenSaver') {
-        category = 'HeaderScreenSavers';
+    const categoryKey = category.replaceAll(' ', '');
+
+    if (CATEGORY_LABELS[categoryKey]) {
+        return globalize.translate(CATEGORY_LABELS[categoryKey]);
     }
 
-    return globalize.translate(category);
+    console.warn('[AvailablePlugins] unmapped category label', category);
+    return category;
 }
 
 function populateList(options) {
@@ -44,7 +40,7 @@ function populateList(options) {
     const installedPlugins = options.installedPlugins;
 
     availablePlugins.forEach(function (plugin, index, array) {
-        plugin.category = plugin.category || 'General';
+        plugin.category = plugin.category || 'Other';
         plugin.categoryDisplayName = getHeaderText(plugin.category);
         array[index] = plugin;
     });
@@ -120,7 +116,8 @@ function onSearchBarType(searchBar) {
 
 function getPluginHtml(plugin, options, installedPlugins) {
     let html = '';
-    let href = plugin.externalUrl ? plugin.externalUrl : '#/dashboard/plugins/add?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
+    let href = plugin.externalUrl ? plugin.externalUrl :
+        `#/dashboard/plugins/${plugin.guid}?name=${encodeURIComponent(plugin.name)}`;
 
     if (options.context) {
         href += '&context=' + options.context;
@@ -159,22 +156,8 @@ function getPluginHtml(plugin, options, installedPlugins) {
     return html;
 }
 
-function getTabs() {
-    return [{
-        href: '#/dashboard/plugins',
-        name: globalize.translate('TabMyPlugins')
-    }, {
-        href: '#/dashboard/plugins/catalog',
-        name: globalize.translate('TabCatalog')
-    }, {
-        href: '#/dashboard/plugins/repositories',
-        name: globalize.translate('TabRepositories')
-    }];
-}
-
 export default function (view) {
     view.addEventListener('viewshow', function () {
-        libraryMenu.setTabs('plugins', 1, getTabs);
         reloadList(this);
     });
 }

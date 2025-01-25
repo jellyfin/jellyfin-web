@@ -3,10 +3,24 @@ import browser from '../scripts/browser';
 import Events from '../utils/events.ts';
 import * as htmlMediaHelper from '../components/htmlMediaHelper';
 import * as webSettings from '../scripts/settings/webSettings';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import profileBuilder from '../scripts/browserDeviceProfile';
 
 const appName = 'Jellyfin Web';
+
+const BrowserName = {
+    tizen: 'Samsung Smart TV',
+    web0s: 'LG Smart TV',
+    operaTv: 'Opera TV',
+    xboxOne: 'Xbox One',
+    ps4: 'Sony PS4',
+    chrome: 'Chrome',
+    edgeChromium: 'Edge Chromium',
+    edge: 'Edge',
+    firefox: 'Firefox',
+    opera: 'Opera',
+    safari: 'Safari'
+};
 
 function getBaseProfileOptions(item) {
     const disableHlsVideoAudioCodecs = [];
@@ -45,18 +59,57 @@ function getDeviceProfile(item) {
         const maxTranscodingVideoWidth = maxVideoWidth < 0 ? appHost.screen()?.maxAllowedWidth : maxVideoWidth;
 
         if (maxTranscodingVideoWidth) {
+            const conditionWidth = {
+                Condition: 'LessThanEqual',
+                Property: 'Width',
+                Value: maxTranscodingVideoWidth.toString(),
+                IsRequired: false
+            };
+
+            if (appSettings.limitSupportedVideoResolution()) {
+                profile.CodecProfiles.push({
+                    Type: 'Video',
+                    Conditions: [conditionWidth]
+                });
+            }
+
             profile.TranscodingProfiles.forEach((transcodingProfile) => {
                 if (transcodingProfile.Type === 'Video') {
                     transcodingProfile.Conditions = (transcodingProfile.Conditions || []).filter((condition) => {
                         return condition.Property !== 'Width';
                     });
 
-                    transcodingProfile.Conditions.push({
-                        Condition: 'LessThanEqual',
-                        Property: 'Width',
-                        Value: maxTranscodingVideoWidth.toString(),
-                        IsRequired: false
-                    });
+                    transcodingProfile.Conditions.push(conditionWidth);
+                }
+            });
+        }
+
+        const preferredTranscodeVideoCodec = appSettings.preferredTranscodeVideoCodec();
+        if (preferredTranscodeVideoCodec) {
+            profile.TranscodingProfiles.forEach((transcodingProfile) => {
+                if (transcodingProfile.Type === 'Video') {
+                    const videoCodecs = transcodingProfile.VideoCodec.split(',');
+                    const index = videoCodecs.indexOf(preferredTranscodeVideoCodec);
+                    if (index !== -1) {
+                        videoCodecs.splice(index, 1);
+                        videoCodecs.unshift(preferredTranscodeVideoCodec);
+                        transcodingProfile.VideoCodec = videoCodecs.join(',');
+                    }
+                }
+            });
+        }
+
+        const preferredTranscodeVideoAudioCodec = appSettings.preferredTranscodeVideoAudioCodec();
+        if (preferredTranscodeVideoAudioCodec) {
+            profile.TranscodingProfiles.forEach((transcodingProfile) => {
+                if (transcodingProfile.Type === 'Video') {
+                    const audioCodecs = transcodingProfile.AudioCodec.split(',');
+                    const index = audioCodecs.indexOf(preferredTranscodeVideoAudioCodec);
+                    if (index !== -1) {
+                        audioCodecs.splice(index, 1);
+                        audioCodecs.unshift(preferredTranscodeVideoAudioCodec);
+                        transcodingProfile.AudioCodec = audioCodecs.join(',');
+                    }
                 }
             });
         }
@@ -93,42 +146,26 @@ function getDeviceId() {
 }
 
 function getDeviceName() {
-    if (!deviceName) {
-        if (browser.tizen) {
-            deviceName = 'Samsung Smart TV';
-        } else if (browser.web0s) {
-            deviceName = 'LG Smart TV';
-        } else if (browser.operaTv) {
-            deviceName = 'Opera TV';
-        } else if (browser.xboxOne) {
-            deviceName = 'Xbox One';
-        } else if (browser.ps4) {
-            deviceName = 'Sony PS4';
-        } else if (browser.chrome) {
-            deviceName = 'Chrome';
-        } else if (browser.edgeChromium) {
-            deviceName = 'Edge Chromium';
-        } else if (browser.edge) {
-            deviceName = 'Edge';
-        } else if (browser.firefox) {
-            deviceName = 'Firefox';
-        } else if (browser.opera) {
-            deviceName = 'Opera';
-        } else if (browser.safari) {
-            deviceName = 'Safari';
-        } else {
-            deviceName = 'Web Browser';
-        }
+    if (deviceName) {
+        return deviceName;
+    }
 
-        if (browser.ipad) {
-            deviceName += ' iPad';
-        } else if (browser.iphone) {
-            deviceName += ' iPhone';
-        } else if (browser.android) {
-            deviceName += ' Android';
+    deviceName = 'Web Browser'; // Default device name
+
+    for (const key in BrowserName) {
+        if (browser[key]) {
+            deviceName = BrowserName[key];
+            break;
         }
     }
 
+    if (browser.ipad) {
+        deviceName += ' iPad';
+    } else if (browser.iphone) {
+        deviceName += ' iPhone';
+    } else if (browser.android) {
+        deviceName += ' Android';
+    }
     return deviceName;
 }
 
@@ -146,7 +183,7 @@ function supportsFullscreen() {
     }
 
     const element = document.documentElement;
-    return (element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen) || document.createElement('video').webkitEnterFullscreen;
+    return !!(element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen || document.createElement('video').webkitEnterFullscreen);
 }
 
 function getDefaultLayout() {
@@ -233,7 +270,7 @@ const supportedFeatures = function () {
         features.push('fullscreenchange');
     }
 
-    if (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile) {
+    if (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile || browser.ipad) {
         features.push('physicalvolumecontrol');
     }
 

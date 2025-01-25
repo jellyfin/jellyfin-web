@@ -5,6 +5,7 @@ import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
+import { MediaError } from 'types/mediaError';
 
 function getDefaultProfile() {
     return profileBuilder({});
@@ -112,18 +113,36 @@ class HtmlAudioPlayer {
             let val = options.url;
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
-                if (userSettings.selectAudioNormalization() == 'TrackGain' && options.item.LUFS != null) {
-                    const dbGain = -18 - options.item.LUFS;
-                    self.gainNode.gain.value = Math.pow(10, (dbGain / 20));
-                    console.debug('[HtmlAudioPlayer] Using track gain');
-                } else if (userSettings.selectAudioNormalization() == 'AlbumGain' && options.mediaSource.albumLUFS != null) {
-                    const dbGain = -18 - options.mediaSource.albumLUFS;
-                    self.gainNode.gain.value = Math.pow(10, (dbGain / 20));
-                    console.debug('[HtmlAudioPlayer] Using album gain');
+                let normalizationGain;
+                if (userSettings.selectAudioNormalization() == 'TrackGain') {
+                    normalizationGain = options.item.NormalizationGain
+                        ?? options.mediaSource.albumNormalizationGain;
+                } else if (userSettings.selectAudioNormalization() == 'AlbumGain') {
+                    normalizationGain =
+                        options.mediaSource.albumNormalizationGain
+                        ?? options.item.NormalizationGain;
+                } else {
+                    console.debug('normalization disabled');
+                    return;
+                }
+
+                if (!self.gainNode) {
+                    addGainElement(elem);
+                    if (!self.gainNode) return;
+                }
+
+                if (normalizationGain) {
+                    self.normalizationGain = Math.pow(10, normalizationGain / 20);
+                    self.gainNode.gain.value = self.normalizationGain;
                 } else {
                     self.gainNode.gain.value = 1;
+                    self.normalizationGain = 1;
                 }
-                console.debug('gain:' + self.gainNode.gain.value);
+                if (browser.safari) {
+                    // Gain value is absolute in Safari. Add volume from the slider
+                    self.gainNode.gain.value *= elem.volume;
+                }
+                console.debug('gain: ' + self.normalizationGain);
             }).catch((err) => {
                 console.error('Failed to add/change gainNode', err);
             });
@@ -258,11 +277,12 @@ class HtmlAudioPlayer {
                 document.body.appendChild(elem);
             }
 
-            elem.volume = htmlMediaHelper.getSavedVolume();
+            // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
+            if (!appHost.supports('physicalvolumecontrol')) {
+                elem.volume = htmlMediaHelper.getSavedVolume();
+            }
 
             self._mediaElement = elem;
-
-            addGainElement(elem);
 
             return elem;
         }
@@ -303,6 +323,9 @@ class HtmlAudioPlayer {
         function onVolumeChange() {
             if (!self._isFadingOut) {
                 htmlMediaHelper.saveVolume(this.volume);
+                if (browser.safari && self.gainNode) {
+                    self.gainNode.gain.value = this.volume * self.normalizationGain;
+                }
                 Events.trigger(self, 'volumechange');
             }
         }
@@ -343,7 +366,7 @@ class HtmlAudioPlayer {
                     return;
                 case 2:
                     // MEDIA_ERR_NETWORK
-                    type = 'network';
+                    type = MediaError.NETWORK_ERROR;
                     break;
                 case 3:
                     // MEDIA_ERR_DECODE
@@ -351,12 +374,12 @@ class HtmlAudioPlayer {
                         htmlMediaHelper.handleHlsJsMediaError(self);
                         return;
                     } else {
-                        type = 'mediadecodeerror';
+                        type = MediaError.MEDIA_DECODE_ERROR;
                     }
                     break;
                 case 4:
                     // MEDIA_ERR_SRC_NOT_SUPPORTED
-                    type = 'medianotsupported';
+                    type = MediaError.MEDIA_NOT_SUPPORTED;
                     break;
                 default:
                     // seeing cases where Edge is firing error events with no error code

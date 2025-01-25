@@ -1,12 +1,12 @@
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client';
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import React, { type FC, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
 import { useLocalStorage } from 'hooks/useLocalStorage';
-import { useGetItem, useGetItemsViewByType } from 'hooks/useFetchItems';
+import { useGetItemsViewByType } from 'hooks/useFetchItems';
 import { getDefaultLibraryViewSettings, getSettingsKey } from 'utils/items';
 import { CardShape } from 'utils/card';
 import Loading from 'components/loading/LoadingComponent';
@@ -28,6 +28,7 @@ import { LibraryTab } from 'types/libraryTab';
 import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library';
 import type { CardOptions } from 'types/cardOptions';
 import type { ListOptions } from 'types/listOptions';
+import { useItem } from 'hooks/useItem';
 
 interface ItemsViewProps {
     viewType: LibraryTab;
@@ -71,7 +72,7 @@ const ItemsView: FC<ItemsViewProps> = ({
     const {
         isLoading,
         data: itemsResult,
-        isPreviousData,
+        isPlaceholderData,
         refetch
     } = useGetItemsViewByType(
         viewType,
@@ -79,7 +80,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         itemType,
         libraryViewSettings
     );
-    const { data: item } = useGetItem(parentId);
+    const { data: item } = useItem(parentId || undefined);
 
     const getListOptions = useCallback(() => {
         const listOptions: ListOptions = {
@@ -91,7 +92,7 @@ const ItemsView: FC<ItemsViewProps> = ({
             listOptions.showParentTitle = true;
             listOptions.action = 'playallfromhere';
             listOptions.smallIcon = true;
-            listOptions.artist = true;
+            listOptions.showArtist = true;
             listOptions.addToListButton = true;
         } else if (viewType === LibraryTab.Albums) {
             listOptions.sortBy = libraryViewSettings.SortBy;
@@ -180,7 +181,7 @@ const ItemsView: FC<ItemsViewProps> = ({
 
     const getItems = useCallback(() => {
         if (!itemsResult?.Items?.length) {
-            return <NoItemsMessage noItemsMessage={noItemsMessage} />;
+            return <NoItemsMessage message={noItemsMessage} />;
         }
 
         if (libraryViewSettings.ViewMode === ViewMode.ListView) {
@@ -227,7 +228,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                     <Pagination
                         totalRecordCount={totalRecordCount}
                         libraryViewSettings={libraryViewSettings}
-                        isPreviousData={isPreviousData}
+                        isPlaceholderData={isPlaceholderData}
                         setLibraryViewSettings={setLibraryViewSettings}
                     />
                 )}
@@ -311,7 +312,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                     <Pagination
                         totalRecordCount={totalRecordCount}
                         libraryViewSettings={libraryViewSettings}
-                        isPreviousData={isPreviousData}
+                        isPlaceholderData={isPlaceholderData}
                         setLibraryViewSettings={setLibraryViewSettings}
                     />
                 </Box>
