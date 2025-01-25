@@ -1993,5 +1993,11 @@
     "HeaderNextEpisode": "Następny odcinek",
     "HeaderNextVideo": "Następne wideo",
     "LabelMediaSegmentProviders": "Dostawcy segmentów mediów",
-    "MediaSegmentProvidersHelp": "Włącz i uszereguj preferowanych dostawców segmentów mediów według priorytetu."
+    "MediaSegmentProvidersHelp": "Włącz i uszereguj preferowanych dostawców segmentów mediów według priorytetu.",
+    "AutoSubtitleStylingHelp": "Ten tryb automatycznie przełącza między natywnym i niestandardowym mechanizmem stylów napisów zależnie od typu urządzenia.",
+    "CustomSubtitleStylingHelp": "Stylizacja napisów będzie działać na większości urządzeń, ale wiąże się z dodatkowym obciążeniem wydajności.",
+    "Custom": "Niestandardowa",
+    "LabelSubtitleStyling": "Stylizacja napisów",
+    "NativeSubtitleStylingHelp": "Stylizacja napisów nie będzie działał na niektórych urządzeniach. Nie wiąże się to jednak z żadnym obciążeniem wydajności.",
+    "Native": "Natywna"
 }
