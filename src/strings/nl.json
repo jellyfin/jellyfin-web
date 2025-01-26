@@ -1976,7 +1976,7 @@
     "HeaderEditPlaylist": "Afspeellijst bewerken",
     "HeaderNewPlaylist": "Nieuwe afspeellijst",
     "LabelMediaSegmentsType": "{0}segmenten",
-    "MediaSegmentAction.None": "Geen",
+    "MediaSegmentAction.None": "Niets doen",
     "MediaSegmentAction.Skip": "Overslaan",
     "MediaSegmentType.Commercial": "Reclame",
     "MediaSegmentType.Intro": "Intro",
@@ -1993,5 +1993,10 @@
     "HeaderNextVideo": "Volgende video",
     "LabelMediaSegmentProviders": "Aanbieders van mediasegmenten",
     "MediaSegmentProvidersHelp": "Rangschik je voorkeursaanbieders van mediasegmenten op volgorde van prioriteit.",
-    "Custom": "Aangepast"
+    "Custom": "Aangepast",
+    "AutoSubtitleStylingHelp": "Deze stand zal automatisch wisselen tussen de ingebouwde en aangepaste opmaakmechanismen voor ondertiteling, naar gelang je apparaattype.",
+    "CustomSubtitleStylingHelp": "Ondertitelingsopmaak zal op de meeste apparaten werken, maar heeft invloed op de systeemprestaties.",
+    "LabelSubtitleStyling": "Ondertitelingsopmaak",
+    "Native": "Ingebouwd",
+    "NativeSubtitleStylingHelp": "Ondertitelingsopmaak zal niet op alle apparaten werken, maar de prestaties worden niet negatief beïnvloed."
 }
