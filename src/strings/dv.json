@@ -1,1 +1,12 @@
-{}
+{
+    "Absolute": "މުޅިން",
+    "AccessRestrictedTryAgainLater": "މިހާރު ވަދެވޭނެ ގޮތް ހަނިކޮށްފައި. ފަހުން އަނެއްކާވެސް މަސައްކަތް ކުރައްވާ.",
+    "Actor": "އެކްޓަރު",
+    "AddedOnValue": "{0} ލައިފި",
+    "Add": "ލާ",
+    "AddToPlayQueue": "ޕްލޭ ކިއު އަށް ލާ",
+    "AgeValue": "({0} އަހަރު ވެއްޖެ)",
+    "AddToCollection": "ކަލެކްޝަން އަށް ލާ",
+    "AddToFavorites": "ފެވަރިޓްސް އަށް ލާ",
+    "AddToPlaylist": "ޕްލޭލިސްޓަށް ލާ"
+}
