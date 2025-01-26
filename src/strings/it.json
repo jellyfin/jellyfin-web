@@ -1992,5 +1992,8 @@
     "HeaderMediaSegmentActions": "Media Segment Actions",
     "HeaderNextEpisode": "Prossimo Episodio",
     "HeaderNextVideo": "Prossimo Video",
-    "MediaSegmentProvidersHelp": "Abilita e classifica i tuoi provider di segmenti multimediali preferiti in ordine di priorità."
+    "MediaSegmentProvidersHelp": "Abilita e classifica i tuoi provider di segmenti multimediali preferiti in ordine di priorità.",
+    "AutoSubtitleStylingHelp": "Questa modalità passerà automaticamente dal meccanismo di stile dei sottotitoli nativo a quello personalizzato in base al tipo di dispositivo.",
+    "Custom": "Funzioni",
+    "CustomSubtitleStylingHelp": "Lo stile dei sottotitoli funzionerà sulla maggior parte dei dispositivi, ma comporta un ulteriore sovraccarico in termini di prestazioni."
 }
