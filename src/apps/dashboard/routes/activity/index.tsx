@@ -7,6 +7,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
 import { useSearchParams } from 'react-router-dom';
 
+import TablePage from 'apps/dashboard/components/TablePage';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
 import ActionsCell from 'apps/dashboard/features/activity/components/ActionsCell';
 import LogLevelCell from 'apps/dashboard/features/activity/components/LogLevelCell';
@@ -17,8 +18,6 @@ import { useUsers } from 'hooks/useUsers';
 import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
 import globalize from 'lib/globalize';
 import { toBoolean } from 'utils/string';
-
-import TablePage from '../components/TablePage';
 
 type UsersRecords = Record<string, UserDto>;
 
