@@ -1990,5 +1990,9 @@
     "MoviesAndShows": "電影和節目",
     "Anime": "動漫",
     "HeaderNextEpisode": "下一集",
-    "HeaderNextVideo": "下一個視頻"
+    "HeaderNextVideo": "下一個視頻",
+    "AutoSubtitleStylingHelp": "此模式將依裝置類別自動切換原生字幕或自訂字幕樣式。",
+    "LabelMediaSegmentProviders": "媒體片段提供者",
+    "Custom": "自訂",
+    "CustomSubtitleStylingHelp": "字幕會在大部分裝置上運作，但會增加額外的效能損失。"
 }
