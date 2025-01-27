@@ -1,16 +1,26 @@
 :root {
     --rounding: 0.5em;
     --card-rounding: 0.5em 0.5em 0 0;
-    --accent: rgba(255, 0, 0, 0.75);
-    --accent-text: white;
-    --accent-icon: white;
+    --accent: rgb(255, 0, 0);
+    --accent-text: #fcfcfc;
+    --accent-icon: #fcfcfc;
     --accent-indicator: rgba(0, 255, 0, 0.6);
+}
+
+::placeholder {
+    color: rgb(200, 200, 200);
+    padding-left: 0.3em;
 }
 
 .skinHeader,
 html {
-    color: #f8f8ff;
-    color: rgba(255, 255, 255, 0.9);
+    color: #fcfcfc;
+}
+
+.MuiListItem-root,
+.MuiListItem-gutters {
+    color: #fcfcfc;
+    padding-top: 0.5em;
 }
 
 h1 {
@@ -69,7 +79,7 @@ progress::-webkit-progress-value {
 .fab,
 .raised {
     border-radius: var(--rounding);
-    color: rgba(255, 255, 255, 0.87);
+    color: #fcfcfc;
     background: rgba(0, 0, 0, 0.5);
 }
 
@@ -80,13 +90,13 @@ progress::-webkit-progress-value {
 
 div[data-role=controlgroup] .controlGroupButton.ui-btn-active,
 div[data-role=controlgroup] a.ui-btn-active {
-    color: #e1e5f2 !important;
-    background: #55828b !important;
+    color: #1c1c1c !important;
+    background: #fcfcfc !important;
 }
 
 .controlGroupButton,
 a[data-role=button] {
-    background: rgba(2, 43, 58, 0.521) !important;
+    background: rgba(0, 0, 0, 0.2) !important;
 }
 
 #btnDeleteImage,
@@ -102,14 +112,6 @@ a[data-role=button] {
     border-radius: var(--rounding);
     color: rgb(225, 229, 242);
     background: rgb(72, 195, 200);
-}
-
-#btnResetPassword,
-.btnForgotPassword,
-.btnCancel,
-.button-cancel {
-    color: rgba(255, 255, 255, 0.87);
-    background: rgba(0, 0, 0, 0.5);
 }
 
 .alphaPickerButton {
@@ -157,13 +159,14 @@ a[data-role=button] {
 .sectionTitle,
 .fieldDescription,
 .checkboxLabel {
-    color: #f1f7ee;
+    color: #fcfcfc;
 }
 
 .checkboxLabel {
     color: inherit;
 }
 
+/* 输入框文字 */
 .selectLabel,
 .checkboxLabel,
 .checkboxListLabel,
@@ -171,25 +174,29 @@ a[data-role=button] {
 .inputLabelUnfocused,
 .paperListLabel,
 .textareaLabelUnfocused {
-    color: rgb(191, 219, 247);
+    color: #fcfcfc;
 }
 
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: #77ffa0;
+    color: #fcfcfc;
 }
 
-.collapseContent,
 .visualCardBox {
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.3);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
+.formDialogHeader {
+    background-color: #000;
+}
+
 .dialog {
     border-radius: var(--rounding) !important;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px #fff;
     -webkit-backdrop-filter: blur(15px) !important;
     -o-backdrop-filter: blur(15px) !important;
     backdrop-filter: blur(15px) !important;
@@ -202,13 +209,47 @@ a[data-role=button] {
     margin: 6em 2em !important;
 }
 
-.formDialogFooter:not(.formDialogFooter-clear),
+/* .formDialogFooter:not(.formDialogFooter-clear),
 .formDialogHeader:not(.formDialogHeader-clear) {
-    background: rgb(0, 0, 0);
+    background: rgb(255, 255, 255);
+} */
+
+.button-accent-flat {
+    color: #fcfcfc !important;
+}
+
+.btnHeaderSave {
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+    border-radius: var(--rounding);
+    font-size: 0.8em;
+}
+
+.btnHeaderSave:hover {
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+    color: #000 !important;
+    background-color: #fff;
+}
+
+.headerTop {
+    padding: 0 0.5em;
+}
+
+.libraryPage:not(.noSecondaryNavPage) {
+    padding-top: 8em !important;
+}
+
+.padded-top {
+    padding-top: 0.5em;
+}
+
+.MuiToolbar-root,
+.MuiToolbar-gutters,
+.MuiToolbar-dense.headerTop {
+    padding: 0 0.5em;
 }
 
 .layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
-    background: rgb(0, 0, 0);
+    background: rgb(255, 255, 255);
 }
 
 .defaultCardBackground1 {
@@ -238,8 +279,7 @@ a[data-role=button] {
 .nowPlayingBarSecondaryText,
 .programSecondaryTitle,
 .secondaryText {
-    color: #999;
-    color: rgba(255, 255, 255, 0.75);
+    color: #fcfcfc;
 }
 
 .actionsheetDivider {
@@ -299,12 +339,11 @@ a[data-role=button] {
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
-    background: #1c1c1c;
-    background: rgba(30, 30, 30, 0.9);
+    background: #fcfcfc;
 }
 
 .listItem-border {
-    border-color: rgba(0, 0, 0, 0) !important;
+    border-color: rgba(255, 255, 255, 0) !important;
 }
 
 .listItem {
@@ -312,27 +351,26 @@ a[data-role=button] {
 }
 
 .listItem:focus {
-    background: rgba(0, 180, 0);
+    background: rgb(255, 255, 255);
 }
 
 .listItem:hover {
-    background: rgb(0, 180, 0);
+    box-shadow: 0 0 10px #fff;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.actionSheetMenuItem {
+    color: #fcfcfc;
 }
 
 .actionSheetMenuItem:hover {
-    background-color: rgb(0, 180, 0);
+    color: rgb(0, 0, 0);
+    background: #fcfcfc;
+    box-shadow: unset;
 }
 
 .progressring-spiner {
-    border-color: rgba(0, 255, 0, 0.6);
-}
-
-.button-flat:hover {
-    color: rgb(255, 0, 0);
-}
-
-.button-link {
-    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.6);
 }
 
 .mediaInfoText {
@@ -342,7 +380,7 @@ a[data-role=button] {
 
 .emby-input:focus,
 .emby-textarea:focus {
-    border-color: rgb(0, 196, 0);
+    border-color: rgb(255, 128, 0);
 }
 
 .emby-checkbox:checked+span+.checkboxOutline {
@@ -351,7 +389,7 @@ a[data-role=button] {
 }
 
 .emby-checkbox:checked+span+.checkboxOutline>.checkboxIcon-checked {
-    color: rgb(255, 255, 255);
+    color: #fcfcfc;
 }
 
 .emby-checkbox:focus+span+.checkboxOutline {
@@ -382,18 +420,20 @@ a[data-role=button] {
 }
 
 .navMenuOption {
-    margin: 0 0.3em !important;
+    margin: 0 0.5em !important;
     border-radius: var(--rounding) !important;
 }
 
 .navMenuOption:hover {
-    background: rgb(0, 180, 0);
+    background: rgba(255, 255, 255);
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+    color: rgb(28, 28, 28);
 }
 
 .navMenuOption-selected {
     border-radius: var(--rounding) !important;
-    color: #f8f8fe;
-    background: green !important;
+    color: #1c1c1c;
+    background: #fcfcfc !important;
 }
 
 .emby-button.show-focus:focus {
@@ -411,20 +451,31 @@ a[data-role=button] {
 }
 
 .emby-tab-button {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: medium;
+    color: rgba(255, 255, 255, 0.9);
+    border-radius: 2em;
+    line-height: 2em;
+    margin: 1em 0.5em;
+    min-width: 5em;
+    padding: 0em 0em;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
 }
 
 .emby-tab-button-active {
-    color: rgba(255, 128, 0, 0.8) !important;
+    color: rgb(28, 28, 28) !important;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 5px rgb(255, 255, 255);
 }
 
 .emby-tab-button.show-focus:focus {
-    color: rgba(255, 0, 0, 0.8) !important;
+    color: rgb(28, 28, 28) !important;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 5px rgb(255, 255, 255);
 }
 
 .emby-tab-button:hover {
-    color: rgba(0, 255, 0, 0.8) !important;
+    color: rgb(28, 28, 28) !important;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 5px rgb(255, 255, 255);
 }
 
 .channelPrograms,
@@ -491,7 +542,7 @@ a[data-role=button] {
 }
 
 .ratingbutton-icon-withrating {
-    color: #c33;
+    color: var(--accent);
 }
 
 .downloadbutton-icon-complete,
@@ -500,11 +551,17 @@ a[data-role=button] {
 }
 
 .playstatebutton-icon-played {
-    color: #c33;
+    color: var(--accent);
 }
 
 .buttonActive {
-    color: #00ff00 !important;
+    color: #000 !important;
+    box-shadow: 0 0 30px rgb(255, 255, 255) inset;
+}
+
+.mediaButton {
+    font-size: 100%;
+    margin: 0 0.2em;
 }
 
 .cardBox:not(.visualCardBox) .cardPadder {
@@ -590,7 +647,7 @@ a[data-role=button] {
     max-width: 35em;
     padding: 1em;
     border-radius: var(--rounding);
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.3);
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
 }
@@ -606,7 +663,7 @@ a[data-role=button] {
     border: 0.07em solid transparent;
     border-radius: var(--rounding);
     color: inherit;
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .emby-select-withcolor>option {
@@ -641,14 +698,17 @@ a[data-role=button] {
 /* start 透明顶部背景 */
 .skinHeader-withBackground {
     background: none;
+    padding-top: 0.5em;
 }
 
 .skinHeader.semiTransparent {
     background: none;
+    padding-top: 0.5em;
 }
 
 .layout-tv .skinHeader.semiTransparent {
     background: none;
+    padding-top: 0.5em;
 }
 
 /* end 透明顶部背景 */
@@ -669,17 +729,9 @@ a[data-role=button] {
 
 /* 影片详情页标题栏透明 */
 .detailRibbon {
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.2);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-}
-
-/* 卡片文字 */
-.cardText,
-.cardText-first,
-.cardText-secondary {
-    background-color: transparent;
-    box-shadow: unset;
 }
 
 /* 海报图文字上下间距微调 */
@@ -727,18 +779,9 @@ a[data-role=button] {
 .btnOption:hover,
 .btnManual:hover,
 .block:hover {
-    background: rgb(0, 180, 0);
-}
-
-/* 输入框文字 */
-.selectLabel,
-.checkboxLabel,
-.checkboxListLabel,
-.inputLabel,
-.inputLabelUnfocused,
-.paperListLabel,
-.textareaLabelUnfocused {
-    color: rgb(255, 255, 255);
+    color: rgb(28, 28, 28);
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 5px rgb(255, 255, 255);
 }
 
 /* 输入框圆角 */
@@ -747,20 +790,30 @@ a[data-role=button] {
     border: 0.1em solid transparent;
     border-radius: var(--rounding);
     color: inherit;
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.4em 0.5em;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
+    box-shadow: 0 0 5px rgb(255, 255, 255) inset;
+}
+
+.MuiSwitch-switchBase {
+    color: #ff8d52 !important;
+}
+
+.MuiSwitch-track {
+    background-color: #ffffff !important;
 }
 
 /* 勾选框 */
 .checkboxOutline {
-    border-color: rgb(255, 255, 255);
+    border-color: #fcfcfc;
     border-radius: var(--rounding);
 }
 
 .emby-checkbox:checked+span+.checkboxOutline {
-    border: 0.14em solid rgb(255, 255, 255);
-    background-color: rgba(0, 0, 0, 0);
+    border: 0.14em solid #fcfcfc;
+    background-color: transparent;
 }
 
 /* 取消按钮 */
@@ -768,14 +821,14 @@ a[data-role=button] {
 .btnForgotPassword,
 .btnCancel,
 .button-cancel {
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.5);
 }
 
 /* 音乐播放器 */
 .nowPlayingPlaylist,
 .nowPlayingContextMenu {
     border-radius: var(--rounding) !important;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     -webkit-backdrop-filter: blur(15px) !important;
     -o-backdrop-filter: blur(15px) !important;
     backdrop-filter: blur(15px) !important;
@@ -807,7 +860,7 @@ a[data-role=button] {
 
 .cardOverlayContainer {
     border-radius: var(--rounding) !important;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .card-hoverable:hover .cardOverlayContainer {
@@ -816,7 +869,7 @@ a[data-role=button] {
     -ms-border-radius: var(--card-rounding) !important;
     -o-border-radius: var(--card-rounding) !important;
     border-radius: var(--card-rounding) !important;
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.3);
 }
 
 a.listItem-border {
@@ -833,23 +886,10 @@ a.listItem-border {
     border-radius: var(--card-rounding);
 }
 
-.nowPlayingPageImage,
-.toast,
-.fab,
-.multiSelectCheckboxOutline,
-.itemSelectionPanel,
-.cardContent-button,
-.cardContent-shadow,
-.itemDetailImage,
-.listItemImageButton,
-.listItemButton,
-.headerButton,
-.paper-icon-button-light,
-.button-flat,
-.visualCardBox,
-.chapterThumbContainer,
-.subtitleappearance-preview.flex.align-items-center.justify-content-center {
+.headerButton {
+    box-shadow: 0 0 5px rgb(255, 255, 255);
     border-radius: var(--rounding) !important;
+    margin: 0.3em;
 }
 
 .card:hover .cardBox,
@@ -874,11 +914,16 @@ a.listItem-border {
     font-size: 1.5em !important;
 }
 
+.searchfields-icon {
+    font-size: 2.5em !important;
+    margin-bottom: 0em;
+}
+
 .listItemIcon.material-icons {
-    color: transparent;
-    background: var(--accent-icon);
+    background: unset;
     -webkit-background-clip: text;
     background-clip: text;
+    color: unset;
 }
 
 .dashboardSection .sectionTitleTextButton>.material-icons {
@@ -903,27 +948,41 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .paper-icon-button-light:active:not(:disabled) {
-    color: rgb(255, 255, 255);
-    background-color: rgba(0, 0, 0, 0.5);
+    color: #fcfcfc;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .paper-icon-button-light.show-focus:focus {
     color: #ff77f1;
 }
 
-.paper-icon-button-light:hover {
-    background-color: rgb(0, 180, 0);
+.headerButton.headerButtonRight.paper-icon-button-light.headerUserButtonRound:hover {
+    box-shadow: 0 0 5px rgb(255, 255, 255) !important;
+}
+
+.paper-icon-button-light {
+    border-radius: var(--rounding);
 }
 
 @media (hover: hover) and (pointer: fine) {
     .paper-icon-button-light:hover:not(:disabled) {
-        color: rgb(255, 255, 255);
-        background-color: rgb(0, 180, 0);
+        color: rgb(0, 0, 0);
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 0 5px rgb(255, 255, 255);
     }
 }
 
 .detailButton {
-    padding: .5em 0.5em !important;
+    padding: 0.5em !important;
+    margin: 0 0.3em !important;
+    border-radius: var(--rounding);
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+}
+
+.detailButton:hover {
+    color: rgb(0, 0, 0);
+    background-color: #fcfcfc;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
 }
 
 .cardOverlayButton,
@@ -940,6 +999,12 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     background-color: rgba(0, 255, 0, 0.15) !important;
 }
 
+.btnCardOptions {
+    right: 0.5em;
+    bottom: 0.5em;
+    font-size: 0.8em;
+}
+
 .layout-mobile .detailImageContainer .card,
 .layout-mobile .detailImageContainer .card.backdropCard,
 .layout-mobile .detailImageContainer .card.squareCard {
@@ -953,6 +1018,8 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .detailImageContainer .card {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 1);
+
     .layout-mobile & {
         filter: drop-shadow(0 0 0rem #00000000);
     }
@@ -961,12 +1028,12 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 /* 图片背景 */
 .itemBackdrop {
     height: 50vh !important;
-    margin-top: 3.5rem;
+    margin-top: 4.5rem;
     background-position: center;
 }
 
 .layout-mobile .itemBackdrop {
-    margin-top: 3.5rem;
+    margin-top: 4.5rem;
     background-position: center;
 }
 
@@ -1000,12 +1067,12 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 /* 海报右下角图标稍微上移以适应播放进度条 */
 .cardOverlayButton-br {
-    bottom: 0.3em;
+    bottom: 0.1em;
 }
 
 /* 播放进度条 */
 .itemProgressBarForeground {
-    background-color: rgba(0, 255, 0, 0.6);
+    background-color: rgba(255, 128, 0, 0.75);
 }
 
 .dialogBackdropOpened {
@@ -1017,7 +1084,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     overflow: hidden;
     flex-flow: column;
     border-radius: var(--rounding);
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.3);
     -webkit-transition: background 0.15s ease-in-out;
     -moz-transition: background 0.15s ease-in-out;
     -ms-transition: background 0.15s ease-in-out;
@@ -1027,11 +1094,16 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     backdrop-filter: blur(10px);
 }
 
+.editPageSidebar,
+.editPageSidebar-withcontent {
+    padding-top: 1em;
+}
+
 .mainDrawer {
     width: 240px !important;
     color: #f8f8fe;
-    background: rgba(0, 0, 0, 0.1) !important;
-    background-color: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.1);
     box-shadow: none;
     -webkit-transition: all 0.2s !important;
     -moz-transition: all 0.2s !important;
@@ -1045,7 +1117,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .upNextDialog {
-    box-shadow: 0 0 8px 5px black;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
@@ -1059,10 +1131,10 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .playerStats {
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.3);
     /* backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px); */
-    box-shadow: 0 0 8px black;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
 }
 
 .backdropImage {
@@ -1090,26 +1162,67 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .backgroundContainer.withBackdrop {
-    opacity: 0.2;
+    opacity: 0;
 }
 
 /* 后台左侧面板 */
 .MuiDrawer-paper {
     overflow: auto;
     width: 240px !important;
-    color: rgb(255, 255, 255);
-    background: rgba(0, 0, 0, 0.15);
+    color: #fcfcfc;
+    background: rgba(0, 0, 0, 0.3);
     background-image: unset;
     box-shadow: unset;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
+.MuiListItemText-primary,
+.MuiListItemText-secondary,
+.MuiListSubheader-root,
+.MuiListSubheader-gutters,
+.MuiListSubheader-sticky {
+    color: #fcfcfc;
+}
+
 /* 后台左侧面板已选择项 */
 .Mui-selected {
+    background-color: rgba(0, 0, 0, 0.2) !important;
     margin: 0 0.8em 0 0.5em;
     border-radius: var(--rounding);
-    background-color: rgba(0, 180, 0) !important;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+}
+
+.MuiListItemIcon-root {
+    color: #fcfcfc;
+}
+
+.MuiListItemIcon-root:hover {
+    color: rgb(0, 0, 0);
+}
+
+.MuiIconButton-root,
+.MuiIconButton-colorInherit,
+.MuiIconButton-sizeLarge {
+    margin: 0 0.5em;
+    border-radius: var(--rounding);
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+}
+
+.MuiIconButton-root:hover,
+.MuiIconButton-colorInherit:hover,
+.MuiIconButton-sizeLarge:hover {
+    background-color: white !important;
+    color: rgb(0, 0, 0);
+    box-shadow: 0 0 10px rgb(255, 255, 255);
+}
+
+
+.MuiListItemButton-root,
+.MuiListItemButton-gutters,
+.MuiListItemButton-root,
+.MuiListItemButton-gutters {
+    margin: 0 0.5em;
 }
 
 /* 后台左侧面板鼠标hover */
@@ -1117,27 +1230,29 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .MuiListItemButton-gutters:hover,
 .MuiListItemButton-root:hover,
 .MuiListItemButton-gutters:hover {
-    margin: 0 0.8em 0 0.5em;
+    margin: 0 0.5em;
     border-radius: var(--rounding);
-    background-color: rgb(0, 180, 0);
-    text-decoration-line: none;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.2) !important;
 }
 
-.MuiButtonBase-root:hover {
+/* .MuiButtonBase-root:hover {
     border-radius: var(--rounding);
-    background-color: rgb(0, 180, 0);
-}
+    background-color: rgb(0, 0, 0);
+    box-shadow: 0 0 5px rgb(0, 0, 0);
+} */
 
 .MuiMenuItem-root:hover,
 .MuiMenuItem-gutters:hover {
     border-radius: var(--rounding);
-    background-color: rgb(0, 180, 0);
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 /* 头像 */
 .MuiAvatar-root,
 .MuiAvatar-circular {
-    border-radius: 2em !important;
+    border-radius: 0.5em !important;
     background-color: white;
 }
 
@@ -1146,11 +1261,23 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     background-color: white;
 }
 
+.itemProgressBar {
+    background: rgba(0, 0, 0, 0);
+    height: .15em;
+}
+
+用户代理样式表 .headerButton {
+    margin: 0.5em;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+}
+
 /* 顶部横条 */
 .MuiPaper-root,
 .MuiPaper-elevation {
+    background-color: unset;
+    background-image: none;
     width: 100%;
-    background: rgba(0, 0, 0, 0.15);
+    padding: 0.3em 0;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
@@ -1159,7 +1286,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .MuiPaper-elevation2 {
     overflow: hidden !important;
     width: 100% !important;
-    background: rgba(0, 0, 0, 0.15);
+    background: none;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
@@ -1176,7 +1303,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 /* 后台服务器信息栏 */
 .serverInfo {
     border-radius: var(--rounding);
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.3);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
@@ -1185,16 +1312,14 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .userActivityItems,
 .activityLogListWidget {
     border-radius: var(--rounding);
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.3);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
 .paperList {
     border-radius: var(--rounding);
-    background: rgba(0, 0, 0, 0.15);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .MuiPaper-elevation8,
@@ -1205,10 +1330,9 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     overflow: auto;
     width: 200px !important;
     border-radius: var(--rounding);
-    color: rgb(255, 255, 255);
-    background: rgba(0, 0, 0, 0.15);
+    color: #fcfcfc;
+    background: rgba(0, 0, 0, 0.3);
     background-image: unset;
-    box-shadow: unset;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     padding: 0 0.5em;
@@ -1218,47 +1342,43 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .MuiModal-backdrop {
     overflow: auto;
     width: 240px;
-    color: rgb(255, 255, 255);
+    color: #fcfcfc;
     background: rgba(0, 0, 0, 0.15);
-    background-image: unset;
-    box-shadow: unset;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
 }
 
 /* 播放按钮 */
 .btnPlay {
     background-color: white;
     color: red;
-    border-radius: 2em !important;
+    border-radius: var(--rounding) !important;
     min-width: 5em !important;
     margin: 0 0.5em !important;
 }
 
 .btnPlay:hover {
-    background-color: rgb(0, 180, 0);
+    background-color: rgb(0, 255, 0);
     color: white;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
 }
 
 /* 外部播放器按钮 */
-.btnPlay-infuse {
-    font-size: 1.3em;
-}
-
-.btnPlay-pot {
-    font-size: 1em;
-}
-
-.btnPlay-nplayer {
-    font-size: 1em;
-}
-
-.btnPlay-vlc {
-    font-size: 1em;
-}
-
+.btnPlay-infuse,
+.btnPlay-pot,
+.btnPlay-nplayer,
+.btnPlay-vlc,
 .btnPlay-iina {
-    font-size: 1.1em;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+    margin: 0.5em !important;
+    min-width: 4em;
+}
+
+.btnPlay-infuse:hover,
+.btnPlay-pot:hover,
+.btnPlay-nplayer:hover,
+.btnPlay-vlc:hover,
+.btnPlay-iina:hover {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 5px rgb(255, 255, 255);
 }
 
 .detailPageSecondaryContainer {
@@ -1269,6 +1389,13 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     .detailButton {
         padding-left: 0.75em !important;
         padding-right: 0.75em !important;
+    }
+}
+
+/* Mobile 设备标题栏稍微右移 */
+@media (min-width:43.75em) {
+    .layout-mobile [dir=ltr] .infoWrapper {
+        padding-left: 31% !important;
     }
 }
 
@@ -1283,13 +1410,6 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     }
 }
 
-/* Mobile 设备标题栏稍微右移 */
-@media (min-width:43.75em) {
-    .layout-mobile [dir=ltr] .infoWrapper {
-        padding-left: 31% !important;
-    }
-}
-
 @media (min-width: 55em) {
     .detailButton {
         padding-left: 1.25em !important;
@@ -1300,7 +1420,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 @media (min-width: 60em) {
     .emby-tab-button {
         color: rgba(255, 255, 255, 0.8);
-        font-size: large;
+        font-size: medium;
     }
 }
 
@@ -1320,7 +1440,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     }
 
     .cardOverlayContainer {
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(255, 255, 255, 0.7);
     }
 
     .cardOverlayButton {
@@ -1358,10 +1478,29 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 @media all and (min-width: 100em) {
+    .emby-tabs-slider {
+        padding-top: 1em;
+    }
+
     .emby-tab-button {
         color: rgba(255, 255, 255, 0.8);
-        font-size: x-large;
+        font-size: large;
     }
 }
 
 /* end custom css */
+.itemsContainer>.card>.cardBox {
+    margin: 0.5em !important;
+}
+
+.itemsContainer>.card>.cardBox:hover {
+    box-shadow: 0 0 5px #ffffff;
+}
+
+.MuiTableRow-root {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.MuiTableRow-head {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+}
