@@ -81,7 +81,7 @@ progress::-webkit-progress-value {
 .raised {
     border-radius: var(--rounding);
     color: #fafafa;
-    background: #06060680;
+    background: #060606cc;
 }
 
 .fab:focus,
@@ -98,21 +98,6 @@ div[data-role=controlgroup] a.ui-btn-active {
 .controlGroupButton,
 a[data-role=button] {
     background: #06060633 !important;
-}
-
-#btnDeleteImage,
-.submit,
-.btnBrowse,
-.mini,
-.btnRefresh,
-.btnManual,
-.button-submit,
-.viewTabButton,
-.button-alt,
-.btnOption {
-    border-radius: var(--rounding);
-    color: #e1e5f2;
-    background: #48c3c8;
 }
 
 .alphaPickerButton {
@@ -141,6 +126,16 @@ a[data-role=button] {
 .block:hover {
     color: #fafafade;
     background: #06b406;
+}
+
+.MuiButtonBase-root:hover,
+.MuiButton-root:hover,
+.MuiButton-contained:hover,
+.MuiButton-containedPrimary:hover,
+.MuiButton-sizeLarge:hover,
+.MuiButton-containedSizeLarge:hover,
+.MuiButton-colorPrimary:hover {
+    background-color: white;
 }
 
 .button-submit:focus {
@@ -758,7 +753,7 @@ a[data-role=button] {
 }
 
 /* 鼠标hover颜色 */
-#btnResetPassword:hover,
+#ƒ:hover,
 #btnRestart:hover,
 #btnDeleteImage:hover,
 #btnShutdown:hover,
@@ -1005,8 +1000,6 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     transition: .2s;
 }
 
-
-
 .btnCardOptions {
     right: 0.5em;
     bottom: 0.5em;
@@ -1119,7 +1112,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .formDialogFooterItem {
-    margin: .5em 0 !important;
+    margin: 0.5em !important;
     max-width: 100%;
 }
 
@@ -1237,7 +1230,6 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     color: #060606;
     box-shadow: 0 0 10px #fafafa;
 }
-
 
 .MuiListItemButton-root,
 .MuiListItemButton-gutters,
