@@ -46,7 +46,7 @@ export function deleteItem(options) {
             }
         }, function (err) {
             const result = function () {
-                return Promise.reject(err);
+                return Promise.reject(new Error(err));
             };
 
             return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
@@ -67,7 +67,7 @@ export function deleteLyrics (item) {
             type: 'DELETE'
         }).catch((err) => {
             const result = function () {
-                return Promise.reject(err);
+                return Promise.reject(new Error(err));
             };
 
             return alertText(globalize.translate('ErrorDeletingLyrics')).then(result, result);
