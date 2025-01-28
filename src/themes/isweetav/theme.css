@@ -191,7 +191,11 @@ a[data-role=button] {
 }
 
 .formDialogHeader {
-    background-color: #121212;
+    background-color: #000000;
+}
+
+.formDialogHeader-clear {
+    background-color: #00000000;
 }
 
 .dialog {
@@ -640,7 +644,7 @@ a[data-role=button] {
     max-width: 35em;
     padding: 1em;
     border-radius: var(--rounding);
-    background: #ffffff4d;
+    background: #0000004d;
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
 }
@@ -956,7 +960,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 @media (hover: hover) and (pointer: fine) {
     .paper-icon-button-light:hover:not(:disabled) {
-        color: #000000;
+        color: #121212;
         background-color: #fafafa;
         box-shadow: 0 0 5px #fafafa;
     }
@@ -970,7 +974,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .detailButton:hover {
-    color: #000000;
+    color: #121212;
     background-color: #fafafa;
     box-shadow: 0 0 5px #fafafa;
 }
@@ -1084,9 +1088,25 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     backdrop-filter: blur(10px);
 }
 
+.dashboardDocument .metadataEditorPage {
+    padding-top: 4rem !important;
+}
+
 .editPageSidebar,
 .editPageSidebar-withcontent {
     padding-top: 1em;
+    width: 25%;
+}
+
+@media (min-width:50em) {
+    .editPageInnerContent {
+        width: 75%;
+    }
+}
+
+.formDialogFooterItem {
+    margin: .5em 0 !important;
+    max-width: 100%;
 }
 
 .mainDrawer {
