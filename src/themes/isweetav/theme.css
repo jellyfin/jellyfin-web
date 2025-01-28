@@ -1434,7 +1434,6 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 @media (min-width: 60em) {
     .emby-tab-button {
-        color: #fafafacc;
         font-size: medium;
     }
 }
@@ -1448,10 +1447,6 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 @media all and (min-width: 80em) {
     .cardOverlayFab-primary {
         background-color: #06060600;
-    }
-
-    .cardOverlayContainer {
-        background-color: #fafafab3;
     }
 
     .cardOverlayButton {
@@ -1474,10 +1469,6 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 @media all and (max-width: 80em) {
-    .cardOverlayButtonIcon {
-        border-radius: 50% !important;
-    }
-
     .cardOverlayButton {
         font-size: 75%;
     }
@@ -1489,7 +1480,6 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     }
 
     .emby-tab-button {
-        color: #fafafacc;
         font-size: large;
     }
 }
