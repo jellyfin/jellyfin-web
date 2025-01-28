@@ -493,7 +493,7 @@
     "LabelLineup": "Reparto",
     "LabelLocalHttpServerPortNumber": "Puerto local HTTP",
     "LabelLocalHttpServerPortNumberHelp": "El número de puerto TCP para el servidor HTTP.",
-    "LabelLockItemToPreventChanges": "Bloquear este elemento para evitar futuros cambios",
+    "LabelLockItemToPreventChanges": "Bloquear este elemento para evitar futuros cambios en los metadatos",
     "LabelLoginDisclaimer": "Descargo de responsabilidad de inicio de sesión",
     "LabelLoginDisclaimerHelp": "Mensaje que se mostrará en la parte inferior de la página de inicio de sesión.",
     "LabelLogs": "Registros",
@@ -1982,5 +1982,14 @@
     "MediaSegmentAction.Skip": "Saltar",
     "MediaSegmentSkipPrompt": "Saltar {0}",
     "MediaSegmentType.Commercial": "Comercial",
-    "MediaSegmentType.Preview": "Adelanto"
+    "MediaSegmentType.Preview": "Adelanto",
+    "LabelMediaSegmentProviders": "Proveedores de segmentos de medios",
+    "MediaSegmentProvidersHelp": "Habilite y clasifique por orden de prioridad a sus proveedores de segmentos de medios preferidos.",
+    "HeaderNextEpisode": "Próximo episodio",
+    "HeaderNextVideo": "Próximo video",
+    "CustomSubtitleStylingHelp": "El estilo de los subtítulos funcionará en la mayoría de los dispositivos, pero conlleva una sobrecarga adicional de rendimiento.",
+    "Custom": "Personalizado",
+    "LabelSubtitleStyling": "Estilo de subtítulos",
+    "Native": "Nativo",
+    "NativeSubtitleStylingHelp": "El estilo de los subtítulos no funcionará en algunos dispositivos. Sin embargo, no conlleva ninguna sobrecarga de rendimiento."
 }

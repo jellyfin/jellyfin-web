@@ -1973,5 +1973,21 @@
     "HeaderEditPlaylist": "Editar lista de reproducción",
     "LabelQsvDevice": "Dispositivo QSV",
     "MediaSegmentAction.Skip": "Saltar",
-    "MediaSegmentType.Commercial": "Comercial"
+    "MediaSegmentType.Commercial": "Comercial",
+    "Anime": "Anime",
+    "Native": "Nativo",
+    "LabelSubtitleStyling": "Estilo de Subtítulos",
+    "AutoSubtitleStylingHelp": "Este modo cambiará automáticamente entre los mecanismos de estilo de subtítulos nativos y personalizados según el tipo de tu dispositivo.",
+    "Custom": "Personalizado",
+    "CustomSubtitleStylingHelp": "El estilo de subtítulos funcionará en la mayoría de los dispositivos, pero conlleva un costo adicional en el rendimiento.",
+    "HeaderNextEpisode": "Siguiente Episodio",
+    "HeaderNextVideo": "Siguiente Video",
+    "MediaSegmentType.Preview": "Vista Previa",
+    "MediaSegmentType.Outro": "Final",
+    "MediaSegmentAction.None": "Ninguno",
+    "MediaSegmentAction.AskToSkip": "Preguntar para Omitir",
+    "MediaSegmentType.Intro": "Introducción",
+    "PlaylistError.UpdateFailed": "Error al Actualizar la Lista de Reproducción",
+    "MoviesAndShows": "Películas y Series",
+    "MediaSegmentType.Recap": "Resumen"
 }

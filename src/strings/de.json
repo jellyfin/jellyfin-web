@@ -529,7 +529,7 @@
     "LabelLineup": "TV-Programm",
     "LabelLocalHttpServerPortNumber": "Lokale HTTP-Portnummer",
     "LabelLocalHttpServerPortNumberHelp": "Die TCP-Portnummer für den HTTP-Server.",
-    "LabelLockItemToPreventChanges": "Dieses Objekt sperren, um zukünftige Änderungen zu verhindern",
+    "LabelLockItemToPreventChanges": "Dieses Objekt sperren, um zukünftige Änderungen an Metadateien zu verhindern",
     "LabelLoginDisclaimer": "Haftungsausschluss bei der Anmeldung",
     "LabelLoginDisclaimerHelp": "Diese Nachricht wird am unteren Ende des Anmeldebildschirms angezeigt.",
     "LabelManufacturer": "Hersteller",
@@ -1993,5 +1993,11 @@
     "HeaderNextEpisode": "Nächste Episode",
     "HeaderNextVideo": "Nächstes Video",
     "LabelMediaSegmentProviders": "Mediensegment Providers",
-    "MediaSegmentProvidersHelp": "Aktiviere und Ordne die Mediensegmentanbieter in einer Benutzerdefinierten Reihenfolge."
+    "MediaSegmentProvidersHelp": "Aktiviere und Ordne die Mediensegmentanbieter in einer Benutzerdefinierten Reihenfolge.",
+    "CustomSubtitleStylingHelp": "Dieser Modus wechselt je nach Gerätetyp automatisch zwischen den nativen und benutzerdefinierten Untertitel-Styling-Mechanismen.",
+    "LabelSubtitleStyling": "Untertitelstil",
+    "Native": "Nativ",
+    "NativeSubtitleStylingHelp": "Das Untertitel-Styling funktioniert auf einigen Geräten nicht. Allerdings ist damit kein Leistungsaufwand verbunden.",
+    "AutoSubtitleStylingHelp": "In diesem Modus wird je nach Gerätetyp automatisch zwischen dem nativen und dem benutzerdefinierten Untertitel-Styling umgeschaltet.",
+    "Custom": "benutzerdefiniert"
 }
