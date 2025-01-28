@@ -1159,8 +1159,12 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .backdropImage {
-    -webkit-filter: blur(5px) saturate(110%) contrast(110%) brightness(95%);
-    filter: blur(5px) saturate(110%) contrast(110%) brightness(95%);
+    -webkit-filter: blur(5px) saturate(110%) contrast(110%) brightness(80%);
+    filter: blur(5px) saturate(110%) contrast(110%) brightness(80%);
+}
+
+.backgroundContainer.withBackdrop {
+    opacity: 0;
 }
 
 /* 登录页面背景图 */
@@ -1180,10 +1184,6 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .backgroundContainer {
     background-image: url("../../assets/img/isweetav-bg.svg");
     background-size: cover;
-}
-
-.backgroundContainer.withBackdrop {
-    opacity: 0;
 }
 
 /* 后台左侧面板 */
@@ -1281,7 +1281,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     height: .15em;
 }
 
-用户代理样式表 .headerButton {
+.headerButton {
     margin: 0.5em;
     box-shadow: 0 0 5px #ffffff;
 }
