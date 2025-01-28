@@ -1,9 +1,10 @@
 import escapeHtml from 'escape-html';
 import 'jquery';
-import loading from '../../components/loading/loading';
-import globalize from '../../lib/globalize';
-import Dashboard from '../../utils/dashboard';
-import alert from '../../components/alert';
+
+import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
+import Dashboard from 'utils/dashboard';
+import alert from 'components/alert';
 
 function loadPage(page, config, users) {
     let html = '<option value="" selected="selected">' + globalize.translate('None') + '</option>';

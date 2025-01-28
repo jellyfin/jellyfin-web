@@ -1,16 +1,17 @@
-import escapeHtml from 'escape-html';
-import loading from '../../../components/loading/loading';
-import dom from '../../../scripts/dom';
-import globalize from '../../../lib/globalize';
-import imageHelper from '../../../utils/image';
 import { formatDistanceToNow } from 'date-fns';
-import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale.ts';
-import '../../../elements/emby-button/emby-button';
-import '../../../elements/emby-itemscontainer/emby-itemscontainer';
-import '../../../components/cardbuilder/card.scss';
-import Dashboard from '../../../utils/dashboard';
-import confirm from '../../../components/confirm/confirm';
-import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
+import escapeHtml from 'escape-html';
+
+import loading from 'components/loading/loading';
+import dom from 'scripts/dom';
+import globalize from 'lib/globalize';
+import imageHelper from 'utils/image';
+import { getLocaleWithSuffix } from 'utils/dateFnsLocale.ts';
+import 'elements/emby-button/emby-button';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'components/cardbuilder/card.scss';
+import Dashboard from 'utils/dashboard';
+import confirm from 'components/confirm/confirm';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 
 // Local cache of loaded
 let deviceIds = [];
@@ -66,7 +67,7 @@ function showDeviceMenu(view, btn, deviceId) {
         });
     }
 
-    import('../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
+    import('components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
         actionsheet.show({
             items: menuItems,
             positionTo: btn,

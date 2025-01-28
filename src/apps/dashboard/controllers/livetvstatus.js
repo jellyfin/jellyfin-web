@@ -1,19 +1,20 @@
 import 'jquery';
-import globalize from '../lib/globalize';
-import taskButton from '../scripts/taskbutton';
-import dom from '../scripts/dom';
-import layoutManager from '../components/layoutManager';
-import loading from '../components/loading/loading';
-import browser from '../scripts/browser';
-import '../components/listview/listview.scss';
-import '../styles/flexstyles.scss';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
-import '../components/cardbuilder/card.scss';
+
+import globalize from 'lib/globalize';
+import taskButton from 'scripts/taskbutton';
+import dom from 'scripts/dom';
+import layoutManager from 'components/layoutManager';
+import loading from 'components/loading/loading';
+import browser from 'scripts/browser';
+import 'components/listview/listview.scss';
+import 'styles/flexstyles.scss';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'components/cardbuilder/card.scss';
 import 'material-design-icons-iconfont';
-import '../elements/emby-button/emby-button';
-import Dashboard from '../utils/dashboard';
-import confirm from '../components/confirm/confirm';
-import { getDefaultBackgroundClass } from '../components/cardbuilder/cardBuilderUtils';
+import 'elements/emby-button/emby-button';
+import Dashboard from 'utils/dashboard';
+import confirm from 'components/confirm/confirm';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -153,7 +154,7 @@ function showProviderOptions(page, providerId, button) {
         id: 'map'
     });
 
-    import('../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
+    import('components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
         actionsheet.show({
             items: items,
             positionTo: button
@@ -171,7 +172,7 @@ function showProviderOptions(page, providerId, button) {
 }
 
 function mapChannels(page, providerId) {
-    import('../components/channelMapper/channelMapper').then(({ default: ChannelMapper }) => {
+    import('components/channelMapper/channelMapper').then(({ default: ChannelMapper }) => {
         new ChannelMapper({
             serverId: ApiClient.serverInfo().Id,
             providerId: providerId
@@ -243,7 +244,7 @@ function addProvider(button) {
         id: 'xmltv'
     });
 
-    import('../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
+    import('components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
@@ -269,7 +270,7 @@ function showDeviceMenu(button, tunerDeviceId) {
         id: 'edit'
     });
 
-    import('../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
+    import('components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
         actionsheet.show({
             items: items,
             positionTo: button

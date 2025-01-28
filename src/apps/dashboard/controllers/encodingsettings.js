@@ -1,9 +1,9 @@
 import 'jquery';
-import loading from '../../components/loading/loading';
-import globalize from '../../lib/globalize';
-import dom from '../../scripts/dom';
-import Dashboard from '../../utils/dashboard';
-import alert from '../../components/alert';
+import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
+import dom from 'scripts/dom';
+import Dashboard from 'utils/dashboard';
+import alert from 'components/alert';
 
 function loadPage(page, config, systemInfo) {
     Array.prototype.forEach.call(page.querySelectorAll('.chkDecodeCodec'), function (c) {
@@ -263,7 +263,7 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
         setDecodingCodecsVisible(page, this.value);
     });
     $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
-        import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
+        import('components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 callback: function (path) {
@@ -280,7 +280,7 @@ $(document).on('pageinit', '#encodingSettingsPage', function () {
         });
     });
     $('#btnSelectFallbackFontPath', page).on('click.selectDirectory', function () {
-        import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
+        import('components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 includeDirectories: true,

@@ -1,14 +1,14 @@
 import 'jquery';
 
-import loading from '../../components/loading/loading';
-import globalize from '../../lib/globalize';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-textarea/emby-textarea';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-button/emby-button';
-import Dashboard from '../../utils/dashboard';
-import alert from '../../components/alert';
+import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
+import 'elements/emby-checkbox/emby-checkbox';
+import 'elements/emby-textarea/emby-textarea';
+import 'elements/emby-input/emby-input';
+import 'elements/emby-select/emby-select';
+import 'elements/emby-button/emby-button';
+import Dashboard from 'utils/dashboard';
+import alert from 'components/alert';
 
 function loadPage(page, config, languageOptions, systemInfo) {
     page.querySelector('#txtServerName').value = systemInfo.ServerName;
@@ -53,7 +53,7 @@ function onSubmit() {
 
 export default function (view) {
     $('#btnSelectCachePath', view).on('click.selectDirectory', function () {
-        import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
+        import('components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 callback: function (path) {
@@ -70,7 +70,7 @@ export default function (view) {
         });
     });
     $('#btnSelectMetadataPath', view).on('click.selectDirectory', function () {
-        import('../../components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
+        import('components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 path: view.querySelector('#txtMetadataPath').value,
