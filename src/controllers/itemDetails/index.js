@@ -718,7 +718,11 @@ function renderLinks(page, item) {
 
     if (item.ExternalUrls) {
         for (const url of item.ExternalUrls) {
-            links.push(`<a is="emby-linkbutton" class="button-link" href="${url.Url}" target="_blank">${escapeHtml(url.Name)}</a>`);
+            let linkText = escapeHtml(url.Name);
+            if (url.Url.includes('themoviedb.org/collection/')) {
+                linkText = `${linkText} (${globalize.translate('BoxSet')})`;
+            }
+            links.push(`<a is="emby-linkbutton" class="button-link" href="${url.Url}" target="_blank">${linkText}</a>`);
         }
     }
 
