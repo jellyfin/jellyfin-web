@@ -42,7 +42,7 @@
     "Add": "Lisää",
     "AddToCollection": "Lisää kokoelmaan",
     "AddToPlayQueue": "Lisää toistojonoon",
-    "AddToPlaylist": "Lisää toistolistalle",
+    "AddToPlaylist": "Lisää soittolistalle",
     "AddedOnValue": "Lisätty {0}",
     "AdditionalNotificationServices": "Selaa lisäosavalikoimaa asentaaksesi muita ilmoituspalveluita.",
     "AirDate": "Ensiesityspäivä",
@@ -1973,5 +1973,13 @@
     "LabelSaveTrickplayLocallyHelp": "Trickplay kuvien tallentaminen median kanssa samaan sijaintiin helpottaa järjestelmien muutoksia, ja käsiksi pääsyä kuviin.",
     "LabelScreensaverTimeHelp": "Käyttämättömyyden aika sekunteina, joka vaaditaan näytönsäästäjän aktivoitumiseen.",
     "LyricDownloadersHelp": "Valitse, ja järjestele prioriteetin mukaan käytettävät sanoituksien lataajat.",
-    "HeaderMediaSegmentActions": "Toimintatapa osioissa"
+    "HeaderMediaSegmentActions": "Toimintatapa osioissa",
+    "MoviesAndShows": "Elokuvat ja sarjat",
+    "HeaderNextEpisode": "Seuraava jakso",
+    "HeaderNextVideo": "Seuraava video",
+    "MediaSegmentAction.None": "Ei mitään",
+    "MessageSplitVersionsError": "Tapahtui virhe jaettaessa versioita",
+    "MediaInfoRotation": "Kääntö",
+    "MediaSegmentAction.AskToSkip": "Pyydä ohittamaan",
+    "MediaSegmentSkipPrompt": "Ohita {0}"
 }

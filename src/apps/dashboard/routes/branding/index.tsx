@@ -17,10 +17,7 @@ import Page from 'components/Page';
 import ServerConnections from 'components/ServerConnections';
 import globalize from 'lib/globalize';
 import { queryClient } from 'utils/query/queryClient';
-
-interface ActionData {
-    isSaved: boolean
-}
+import { ActionData } from 'types/actionData';
 
 const BRANDING_CONFIG_KEY = 'branding';
 const BrandingOption = {

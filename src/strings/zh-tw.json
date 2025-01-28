@@ -1988,5 +1988,11 @@
     "LabelQsvDevice": "QSV 裝置",
     "LabelQsvDeviceHelp": "在有多個 GPU 的系統上指定 Intel QSV 使用的裝置。在 Linux 上，這是渲染節點，例如 /dev/dri/renderD128。在 Windows 上，這是從 0 開始的設備編號。除非你理解此設定，不然請將此選項留空。",
     "MoviesAndShows": "電影和節目",
-    "Anime": "動漫"
+    "Anime": "動漫",
+    "HeaderNextEpisode": "下一集",
+    "HeaderNextVideo": "下一個視頻",
+    "AutoSubtitleStylingHelp": "此模式將依裝置類別自動切換原生字幕或自訂字幕樣式。",
+    "LabelMediaSegmentProviders": "媒體片段提供者",
+    "Custom": "自訂",
+    "CustomSubtitleStylingHelp": "字幕會在大部分裝置上運作，但會增加額外的效能損失。"
 }

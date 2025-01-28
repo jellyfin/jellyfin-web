@@ -1,13 +1,15 @@
-import 'jquery';
 import loading from '../../../components/loading/loading';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-select/emby-select';
 import Dashboard from '../../../utils/dashboard';
+import dom from 'scripts/dom';
 
 function loadPage(page, config, languageOptions) {
-    $('#selectLocalizationLanguage', page).html(languageOptions.map(function (l) {
+    const elem = page.querySelector('#selectLocalizationLanguage');
+    elem.innerHTML = languageOptions.map(function (l) {
         return '<option value="' + l.Value + '">' + l.Name + '</option>';
-    })).val(config.UICulture);
+    }).join('');
+    elem.value = config.UICulture;
     loading.hide();
 }
 
@@ -15,7 +17,7 @@ function save(page) {
     loading.show();
     const apiClient = ApiClient;
     apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
-        config.UICulture = $('#selectLocalizationLanguage', page).val();
+        config.UICulture = page.querySelector('#selectLocalizationLanguage').value;
         apiClient.ajax({
             type: 'POST',
             data: JSON.stringify(config),
@@ -27,13 +29,13 @@ function save(page) {
     });
 }
 
-function onSubmit() {
-    save($(this).parents('.page'));
-    return false;
+function onSubmit(e) {
+    e.preventDefault();
+    save(dom.parentWithClass(this, 'page'));
 }
 
 export default function (view) {
-    $('.wizardStartForm', view).on('submit', onSubmit);
+    view.querySelector('.wizardStartForm').addEventListener('submit', onSubmit);
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
         loading.show();
