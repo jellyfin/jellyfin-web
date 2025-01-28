@@ -946,7 +946,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 @media (hover: hover) and (pointer: fine) {
     .paper-icon-button-light:hover:not(:disabled) {
         color: #060606;
-        background-color: #fafafa;
+        background-color: #fafafa !important;
         box-shadow: 0 0 5px #ffffff;
     }
 }
@@ -1392,6 +1392,22 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     padding-top: 0em !important;
 }
 
+.itemsContainer>.card>.cardBox {
+    margin: 0.5em !important;
+}
+
+.itemsContainer>.card>.cardBox:hover {
+    box-shadow: 0 0 5px #ffffff;
+}
+
+.MuiTableRow-root {
+    background-color: #0606061a !important;
+}
+
+.MuiTableRow-head {
+    background-color: #0606064d !important;
+}
+
 @media (min-width: 35em) {
     .detailButton {
         padding-left: 0.75em !important;
@@ -1476,20 +1492,10 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     }
 }
 
-.itemsContainer>.card>.cardBox {
-    margin: 0.5em !important;
-}
-
-.itemsContainer>.card>.cardBox:hover {
-    box-shadow: 0 0 5px #ffffff;
-}
-
-.MuiTableRow-root {
-    background-color: #0606061a !important;
-}
-
-.MuiTableRow-head {
-    background-color: #0606064d !important;
+@media (orientation: portrait) and (max-width: 43em) {
+    .nowPlayingInfoButtons {
+        padding-bottom: 0.5em;
+    }
 }
 
 /* end custom css */
