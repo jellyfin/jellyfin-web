@@ -168,7 +168,7 @@
     "LabelKeepUpTo": "שמור עד ל",
     "LabelLanguage": "שפה",
     "LabelLocalHttpServerPortNumber": "מספר פורט HTTP מקומי",
-    "LabelLockItemToPreventChanges": "נעל פריט זה כדי למנוע שינויים עתידיים",
+    "LabelLockItemToPreventChanges": "נעל פריט זה כדי למנוע שינויי מטא-דאטה עתידיים",
     "LabelMaxBackdropsPerItem": "מספר תמונות רקע מקסימאלי לפריט",
     "LabelMaxParentalRating": "דירוג הורים מקסימאלי",
     "LabelMaxResumePercentage": "אחוזי המשכה מקסימאלים",
@@ -1925,5 +1925,11 @@
     "HeaderNextEpisode": "הפרק הבא",
     "HeaderNextVideo": "הוידאו הבא",
     "LabelMediaSegmentProviders": "ספקי קטע מדיה",
-    "MediaSegmentProvidersHelp": "הפעלת ודירוג ספקי קטעי המדיה המועדפים עליך בסדר עדיפות."
+    "MediaSegmentProvidersHelp": "הפעלת ודירוג ספקי קטעי המדיה המועדפים עליך בסדר עדיפות.",
+    "AutoSubtitleStylingHelp": "מוד זה יחליף אוטומטית בין עיצוב הכתוביות המקורי והמותאם בהתאם לסוג המכשיר שלך.",
+    "Custom": "מותאם",
+    "CustomSubtitleStylingHelp": "עיצוב הכתוביות עובד ברוב המכשירים, אך גורר פגיעה נוספת בביצועים.",
+    "LabelSubtitleStyling": "עיצוב כתוביות",
+    "Native": "מקורי",
+    "NativeSubtitleStylingHelp": "עיצוב הכתוביות לא יעבוד על מכשירים מסוימים. עם זאת, לא תהיה פגיעה בביצועים."
 }
