@@ -1,25 +1,26 @@
+/* start custom css by PeiFeng.Li */
 :root {
     --rounding: 0.5em;
     --card-rounding: 0.5em 0.5em 0 0;
-    --accent: rgb(255, 0, 0);
-    --accent-text: #fcfcfc;
-    --accent-icon: #fcfcfc;
-    --accent-indicator: rgba(0, 255, 0, 0.6);
+    --accent: red;
+    --accent-text: #fafafa;
+    --accent-icon: #fafafa;
+    --accent-indicator: #00ff0099;
 }
 
 ::placeholder {
-    color: rgb(200, 200, 200);
+    color: #c8c8c8;
     padding-left: 0.3em;
 }
 
 .skinHeader,
 html {
-    color: #fcfcfc;
+    color: #fafafa;
 }
 
 .MuiListItem-root,
 .MuiListItem-gutters {
-    color: #fcfcfc;
+    color: #fafafa;
     padding-top: 0.5em;
 }
 
@@ -44,12 +45,12 @@ h3 {
 .wizardStartForm,
 .ui-corner-all,
 .ui-shadow {
-    background-color: rgb(48, 48, 48);
+    background-color: #121212;
 }
 
 .emby-collapsible-button {
-    border-color: rgb(56, 56, 56);
-    border-color: rgba(255, 255, 255, 0.135);
+    border-color: #121212;
+    border-color: #ffffff22;
 }
 
 .pageTitleWithDefaultLogo {
@@ -79,8 +80,8 @@ progress::-webkit-progress-value {
 .fab,
 .raised {
     border-radius: var(--rounding);
-    color: #fcfcfc;
-    background: rgba(0, 0, 0, 0.5);
+    color: #fafafa;
+    background: #00000080;
 }
 
 .fab:focus,
@@ -90,13 +91,13 @@ progress::-webkit-progress-value {
 
 div[data-role=controlgroup] .controlGroupButton.ui-btn-active,
 div[data-role=controlgroup] a.ui-btn-active {
-    color: #1c1c1c !important;
-    background: #fcfcfc !important;
+    color: #121212 !important;
+    background: #fafafa !important;
 }
 
 .controlGroupButton,
 a[data-role=button] {
-    background: rgba(0, 0, 0, 0.2) !important;
+    background: #00000033 !important;
 }
 
 #btnDeleteImage,
@@ -110,13 +111,13 @@ a[data-role=button] {
 .button-alt,
 .btnOption {
     border-radius: var(--rounding);
-    color: rgb(225, 229, 242);
-    background: rgb(72, 195, 200);
+    color: #e1e5f2;
+    background: #48c3c8;
 }
 
 .alphaPickerButton {
-    color: #999;
-    color: rgba(255, 255, 255, 0.5);
+    color: #999999;
+    color: #ffffff80;
     background-color: transparent;
 }
 
@@ -138,8 +139,8 @@ a[data-role=button] {
 .btnOption:hover,
 .btnManual:hover,
 .block:hover {
-    color: rgba(255, 255, 255, 0.87);
-    background: rgb(0, 180, 0);
+    color: #ffffffde;
+    background: #00b400;
 }
 
 .button-submit:focus {
@@ -147,8 +148,8 @@ a[data-role=button] {
 }
 
 .button-delete {
-    color: rgba(255, 255, 255, 0.87);
-    background: rgb(247, 0, 0);
+    color: #ffffffde;
+    background: #f70000;
 }
 
 .itemName {
@@ -159,7 +160,7 @@ a[data-role=button] {
 .sectionTitle,
 .fieldDescription,
 .checkboxLabel {
-    color: #fcfcfc;
+    color: #fafafa;
 }
 
 .checkboxLabel {
@@ -174,29 +175,29 @@ a[data-role=button] {
 .inputLabelUnfocused,
 .paperListLabel,
 .textareaLabelUnfocused {
-    color: #fcfcfc;
+    color: #fafafa;
 }
 
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: #fcfcfc;
+    color: #fafafa;
 }
 
 .visualCardBox {
-    background: rgba(255, 255, 255, 0.3);
+    background: #ffffff4d;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
 .formDialogHeader {
-    background-color: #000;
+    background-color: #121212;
 }
 
 .dialog {
     border-radius: var(--rounding) !important;
-    background-color: rgba(0, 0, 0, 0.3);
-    box-shadow: 0 0 10px #fff;
+    background-color: #0000004d;
+    box-shadow: 0 0 10px #fafafa;
     -webkit-backdrop-filter: blur(15px) !important;
     -o-backdrop-filter: blur(15px) !important;
     backdrop-filter: blur(15px) !important;
@@ -209,25 +210,20 @@ a[data-role=button] {
     margin: 6em 2em !important;
 }
 
-/* .formDialogFooter:not(.formDialogFooter-clear),
-.formDialogHeader:not(.formDialogHeader-clear) {
-    background: rgb(255, 255, 255);
-} */
-
 .button-accent-flat {
-    color: #fcfcfc !important;
+    color: #fafafa !important;
 }
 
 .btnHeaderSave {
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    box-shadow: 0 0 5px #fafafa;
     border-radius: var(--rounding);
     font-size: 0.8em;
 }
 
 .btnHeaderSave:hover {
-    box-shadow: 0 0 5px rgb(255, 255, 255);
-    color: #000 !important;
-    background-color: #fff;
+    box-shadow: 0 0 5px #fafafa;
+    color: #121212 !important;
+    background-color: #fafafa;
 }
 
 .headerTop {
@@ -249,27 +245,27 @@ a[data-role=button] {
 }
 
 .layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
-    background: rgb(255, 255, 255);
+    background: #fafafa;
 }
 
 .defaultCardBackground1 {
-    background-color: rgba(38, 255, 129, 0.3);
+    background-color: #26ff814d;
 }
 
 .defaultCardBackground2 {
-    background-color: rgba(240, 152, 152, 0.3);
+    background-color: #f098984d;
 }
 
 .defaultCardBackground3 {
-    background-color: rgba(144, 196, 255, 0.3);
+    background-color: #90c4ff4d;
 }
 
 .defaultCardBackground4 {
-    background-color: rgba(228, 156, 255, 0.3);
+    background-color: #e49cff4d;
 }
 
 .defaultCardBackground5 {
-    background-color: rgba(255, 208, 108, 0.3);
+    background-color: #ffd06c4d;
 }
 
 .cardText-secondary,
@@ -279,12 +275,12 @@ a[data-role=button] {
 .nowPlayingBarSecondaryText,
 .programSecondaryTitle,
 .secondaryText {
-    color: #fcfcfc;
+    color: #fafafa;
 }
 
 .actionsheetDivider {
-    background: #444;
-    background: rgba(255, 255, 255, 0.14);
+    background: #444444;
+    background: #ffffff26;
 }
 
 .cardFooter-vibrant .cardText-secondary {
@@ -293,21 +289,20 @@ a[data-role=button] {
 }
 
 .toast {
-    color: #f8f8fe;
-    color: rgba(255, 255, 255, 0.87);
+    color: #ffffffe6;
     background: #303030;
 }
 
 .appfooter,
 .playlistSectionButton {
-    color: #ccc;
-    color: rgba(255, 255, 255, 0.78);
+    color: #cccccc;
+    color: #ffffffc7;
     background: #06256f;
 }
 
 @supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
     .appfooter {
-        background: rgba(6, 37, 111, 0.7);
+        background: #06256fb3;
         backdrop-filter: blur(15px);
     }
 }
@@ -339,11 +334,11 @@ a[data-role=button] {
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
-    background: #fcfcfc;
+    background: #fafafa;
 }
 
 .listItem-border {
-    border-color: rgba(255, 255, 255, 0) !important;
+    border-color: #ffffff00 !important;
 }
 
 .listItem {
@@ -351,53 +346,53 @@ a[data-role=button] {
 }
 
 .listItem:focus {
-    background: rgb(255, 255, 255);
+    background: #fafafa;
 }
 
 .listItem:hover {
-    box-shadow: 0 0 10px #fff;
-    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px #fafafa;
+    background-color: #00000033;
 }
 
 .actionSheetMenuItem {
-    color: #fcfcfc;
+    color: #fafafa;
 }
 
 .actionSheetMenuItem:hover {
-    color: rgb(0, 0, 0);
-    background: #fcfcfc;
+    color: #121212;
+    background: #fafafa;
     box-shadow: unset;
 }
 
 .progressring-spiner {
-    border-color: rgba(255, 255, 255, 0.6);
+    border-color: #ffffff99;
 }
 
 .mediaInfoText {
     color: #f8f8fe;
-    background: rgba(170, 170, 190, 0.2);
+    background: #aaaabe33;
 }
 
 .emby-input:focus,
 .emby-textarea:focus {
-    border-color: rgb(255, 128, 0);
+    border-color: #ff8000;
 }
 
 .emby-checkbox:checked+span+.checkboxOutline {
-    border: 0.14em solid rgb(72, 195, 200);
+    border: 0.14em solid #48c3c8;
     background-color: #030322;
 }
 
 .emby-checkbox:checked+span+.checkboxOutline>.checkboxIcon-checked {
-    color: #fcfcfc;
+    color: #fafafa;
 }
 
 .emby-checkbox:focus+span+.checkboxOutline {
-    border-color: rgb(0, 180, 0);
+    border-color: #00b400;
 }
 
 .emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
-    border: 0.14em solid rgb(0, 180, 0);
+    border: 0.14em solid #00b400;
 }
 
 .itemProgressBarForeground-recording {
@@ -412,11 +407,11 @@ a[data-role=button] {
 }
 
 .fullSyncIndicator {
-    color: #fff;
+    color: #fafafa;
 }
 
 .drawer-open {
-    background-color: #030322;
+    background-color: #121212;
 }
 
 .navMenuOption {
@@ -425,20 +420,20 @@ a[data-role=button] {
 }
 
 .navMenuOption:hover {
-    background: rgba(255, 255, 255);
-    box-shadow: 0 0 5px rgb(255, 255, 255);
-    color: rgb(28, 28, 28);
+    background: #fafafa;
+    box-shadow: 0 0 5px #fafafa;
+    color: #121212;
 }
 
 .navMenuOption-selected {
     border-radius: var(--rounding) !important;
-    color: #1c1c1c;
-    background: #fcfcfc !important;
+    color: #121212;
+    background: #fafafa !important;
 }
 
 .emby-button.show-focus:focus {
-    color: #f8f8fe;
-    background: rgb(0, 180, 0);
+    color: #fafafa;
+    background: #00b400;
 }
 
 .mdl-radio.show-focus .mdl-radio__button:focus+.mdl-radio__circles svg .mdl-radio__outer-circle,
@@ -451,37 +446,37 @@ a[data-role=button] {
 }
 
 .emby-tab-button {
-    color: rgba(255, 255, 255, 0.9);
+    color: #ffffffe6;
     border-radius: 2em;
     line-height: 2em;
     margin: 1em 0.5em;
     min-width: 5em;
     padding: 0em 0em;
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    box-shadow: 0 0 5px #fafafa;
 }
 
 .emby-tab-button-active {
-    color: rgb(28, 28, 28) !important;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    color: #121212 !important;
+    background-color: #fafafa;
+    box-shadow: 0 0 5px #fafafa;
 }
 
 .emby-tab-button.show-focus:focus {
-    color: rgb(28, 28, 28) !important;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    color: #121212 !important;
+    background-color: #fafafa;
+    box-shadow: 0 0 5px #fafafa;
 }
 
 .emby-tab-button:hover {
-    color: rgb(28, 28, 28) !important;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    color: #121212 !important;
+    background-color: #fafafa;
+    box-shadow: 0 0 5px #fafafa;
 }
 
 .channelPrograms,
 .guide-channelHeaderCell,
 .programCell {
-    border-color: rgba(255, 255, 255, 0.05);
+    border-color: #ffffff0d;
 }
 
 .programCell-sports {
@@ -501,18 +496,18 @@ a[data-role=button] {
 }
 
 .programCell-active {
-    background: rgba(0, 0, 0, 0.4) !important;
+    background: #00000066 !important;
 }
 
 .guide-channelHeaderCell:focus,
 .programCell:focus {
-    color: #fff !important;
+    color: #fafafa !important;
     background-color: #48c3c8 !important;
 }
 
 .guide-programTextIcon {
-    color: #1e1e1e;
-    background: #555;
+    color: #bababa;
+    background: #555555;
 }
 
 .guide-headerTimeslots {
@@ -520,8 +515,8 @@ a[data-role=button] {
 }
 
 .guide-date-tab-button {
-    color: #555;
-    color: rgba(255, 255, 255, 0.3);
+    color: #555555;
+    color: #ffffff4d;
 }
 
 .guide-date-tab-button.emby-tab-button-active,
@@ -530,7 +525,7 @@ a[data-role=button] {
 }
 
 .guide-date-tab-button.show-focus:focus {
-    color: #fff;
+    color: #fafafa;
     background-color: #48c3c8;
 }
 
@@ -555,8 +550,8 @@ a[data-role=button] {
 }
 
 .buttonActive {
-    color: #000 !important;
-    box-shadow: 0 0 30px rgb(255, 255, 255) inset;
+    color: #121212 !important;
+    box-shadow: 0 0 30px #fafafa inset;
 }
 
 .mediaButton {
@@ -566,11 +561,11 @@ a[data-role=button] {
 
 .cardBox:not(.visualCardBox) .cardPadder {
     border-radius: var(--card-rounding);
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #00000080;
 }
 
 .cardPadder .cardImageIcon {
-    color: rgba(0, 0, 0, 0.5);
+    color: #00000080;
 }
 
 .card.show-focus:not(.show-animation) .cardBox.visualCardBox,
@@ -581,15 +576,15 @@ a[data-role=button] {
 .layout-desktop,
 .scrollY {
     scrollbar-width: thin;
-    scrollbar-color: #888 rgba(59, 59, 59, 0.5);
+    scrollbar-color: #888888 #3b3b3b80;
 }
 
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 6px #0000004d;
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: rgba(59, 59, 59, 0.5);
+    background-color: #3b3b3b80;
 }
 
 .layout-desktop ::-webkit-scrollbar,
@@ -601,7 +596,7 @@ a[data-role=button] {
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
     border-radius: 2px;
-    background: center no-repeat #888;
+    background: center no-repeat #888888;
 }
 
 .timeslotHeaders-desktop::-webkit-scrollbar {
@@ -621,8 +616,6 @@ a[data-role=button] {
 .personCard .overflowPortraitCard {
     width: 40vw;
 }
-
-/* start custom css */
 
 /* 隐藏请登录字样 */
 #loginPage h1 {
@@ -647,7 +640,7 @@ a[data-role=button] {
     max-width: 35em;
     padding: 1em;
     border-radius: var(--rounding);
-    background: rgba(255, 255, 255, 0.3);
+    background: #ffffff4d;
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
 }
@@ -663,7 +656,7 @@ a[data-role=button] {
     border: 0.07em solid transparent;
     border-radius: var(--rounding);
     color: inherit;
-    background: rgba(0, 0, 0, 0.2);
+    background: #00000033;
 }
 
 .emby-select-withcolor>option {
@@ -676,7 +669,7 @@ a[data-role=button] {
 }
 
 .emby-select-tv-withcolor:focus {
-    color: #fff !important;
+    color: #fafafa !important;
     background-color: #88af1e !important;
 }
 
@@ -729,7 +722,7 @@ a[data-role=button] {
 
 /* 影片详情页标题栏透明 */
 .detailRibbon {
-    background: rgba(0, 0, 0, 0.2);
+    background: #00000033;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
@@ -757,7 +750,7 @@ a[data-role=button] {
 .button-alt,
 .btnOption {
     border-radius: var(--rounding);
-    background: rgba(72, 196, 200, 0.75);
+    background: #48c4c8bf;
 }
 
 /* 鼠标hover颜色 */
@@ -779,22 +772,19 @@ a[data-role=button] {
 .btnOption:hover,
 .btnManual:hover,
 .block:hover {
-    color: rgb(28, 28, 28);
-    background: rgb(255, 255, 255);
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    color: #121212;
+    background: #fafafa;
+    box-shadow: 0 0 5px #fafafa;
 }
 
 /* 输入框圆角 */
 .emby-input,
 .emby-textarea {
+    color: #fafafa;
     border: 0.1em solid transparent;
     border-radius: var(--rounding);
-    color: inherit;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 0.4em 0.5em;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 5px rgb(255, 255, 255) inset;
+    padding: 0.5em;
+    background: #00000033;
 }
 
 .MuiSwitch-switchBase {
@@ -802,17 +792,17 @@ a[data-role=button] {
 }
 
 .MuiSwitch-track {
-    background-color: #ffffff !important;
+    background-color: #fafafa !important;
 }
 
 /* 勾选框 */
 .checkboxOutline {
-    border-color: #fcfcfc;
+    border-color: #fafafa;
     border-radius: var(--rounding);
 }
 
 .emby-checkbox:checked+span+.checkboxOutline {
-    border: 0.14em solid #fcfcfc;
+    border: 0.14em solid #fafafa;
     background-color: transparent;
 }
 
@@ -821,14 +811,14 @@ a[data-role=button] {
 .btnForgotPassword,
 .btnCancel,
 .button-cancel {
-    background: rgba(0, 0, 0, 0.5);
+    background: #00000080;
 }
 
 /* 音乐播放器 */
 .nowPlayingPlaylist,
 .nowPlayingContextMenu {
     border-radius: var(--rounding) !important;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: #ffffff1a;
     -webkit-backdrop-filter: blur(15px) !important;
     -o-backdrop-filter: blur(15px) !important;
     backdrop-filter: blur(15px) !important;
@@ -860,7 +850,7 @@ a[data-role=button] {
 
 .cardOverlayContainer {
     border-radius: var(--rounding) !important;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #ffffffcc;
 }
 
 .card-hoverable:hover .cardOverlayContainer {
@@ -869,7 +859,7 @@ a[data-role=button] {
     -ms-border-radius: var(--card-rounding) !important;
     -o-border-radius: var(--card-rounding) !important;
     border-radius: var(--card-rounding) !important;
-    background: rgba(0, 0, 0, 0.3);
+    background: #0000004d;
 }
 
 a.listItem-border {
@@ -887,20 +877,20 @@ a.listItem-border {
 }
 
 .headerButton {
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    box-shadow: 0 0 5px #fafafa;
     border-radius: var(--rounding) !important;
     margin: 0.3em;
 }
 
 .card:hover .cardBox,
 .card:focus .cardBox {
-    background: rgba(0, 0, 0, 0.5);
+    background: #00000080;
     box-shadow: unset;
 }
 
 .cardBox {
     border-radius: var(--rounding) !important;
-    background: rgba(0, 0, 0, 0.3);
+    background: #0000004d;
     transition: background 0.15s ease-out, box-shadow 0.15s ease-out;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
@@ -948,8 +938,8 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .paper-icon-button-light:active:not(:disabled) {
-    color: #fcfcfc;
-    background-color: rgba(255, 255, 255, 0.5);
+    color: #fafafa;
+    background-color: #ffffff80;
 }
 
 .paper-icon-button-light.show-focus:focus {
@@ -957,7 +947,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .headerButton.headerButtonRight.paper-icon-button-light.headerUserButtonRound:hover {
-    box-shadow: 0 0 5px rgb(255, 255, 255) !important;
+    box-shadow: 0 0 5px #fafafa !important;
 }
 
 .paper-icon-button-light {
@@ -966,9 +956,9 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 @media (hover: hover) and (pointer: fine) {
     .paper-icon-button-light:hover:not(:disabled) {
-        color: rgb(0, 0, 0);
-        background-color: rgb(255, 255, 255);
-        box-shadow: 0 0 5px rgb(255, 255, 255);
+        color: #000000;
+        background-color: #fafafa;
+        box-shadow: 0 0 5px #fafafa;
     }
 }
 
@@ -976,13 +966,13 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     padding: 0.5em !important;
     margin: 0 0.3em !important;
     border-radius: var(--rounding);
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    box-shadow: 0 0 5px #fafafa;
 }
 
 .detailButton:hover {
-    color: rgb(0, 0, 0);
-    background-color: #fcfcfc;
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    color: #000000;
+    background-color: #fafafa;
+    box-shadow: 0 0 5px #fafafa;
 }
 
 .cardOverlayButton,
@@ -992,11 +982,11 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .cardOverlayButtonIcon-hover {
-    background-color: rgba(0, 255, 0, 0.6) !important;
+    background-color: #00ff0099 !important;
 }
 
 .cardOverlayContainer>.cardOverlayFab-primary {
-    background-color: rgba(0, 255, 0, 0.15) !important;
+    background-color: #00ff0026 !important;
 }
 
 .btnCardOptions {
@@ -1018,10 +1008,10 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .detailImageContainer .card {
-    box-shadow: 0 0 10px rgba(255, 255, 255, 1);
+    box-shadow: 0 0 10px #fafafa;
 
     .layout-mobile & {
-        filter: drop-shadow(0 0 0rem #00000000);
+        filter: drop-shadow(0 0 0rem black);
     }
 }
 
@@ -1072,7 +1062,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 /* 播放进度条 */
 .itemProgressBarForeground {
-    background-color: rgba(255, 128, 0, 0.75);
+    background-color: #ff8000bf;
 }
 
 .dialogBackdropOpened {
@@ -1084,7 +1074,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     overflow: hidden;
     flex-flow: column;
     border-radius: var(--rounding);
-    background: rgba(255, 255, 255, 0.3);
+    background: #ffffff4d;
     -webkit-transition: background 0.15s ease-in-out;
     -moz-transition: background 0.15s ease-in-out;
     -ms-transition: background 0.15s ease-in-out;
@@ -1101,9 +1091,9 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 .mainDrawer {
     width: 240px !important;
-    color: #f8f8fe;
-    background: rgba(255, 255, 255, 0.1) !important;
-    background-color: rgba(255, 255, 255, 0.1);
+    color: #fafafa;
+    background: #ffffff1a !important;
+    background-color: #ffffff1a;
     box-shadow: none;
     -webkit-transition: all 0.2s !important;
     -moz-transition: all 0.2s !important;
@@ -1117,7 +1107,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .upNextDialog {
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    box-shadow: 0 0 5px #fafafa;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
@@ -1126,15 +1116,11 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .appfooter,
 .playlistSectionButton {
     background: transparent !important;
-    /*    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px); */
 }
 
 .playerStats {
-    background: rgba(255, 255, 255, 0.3);
-    /* backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); */
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    background: #ffffff4d;
+    box-shadow: 0 0 5px #fafafa;
 }
 
 .backdropImage {
@@ -1169,8 +1155,8 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .MuiDrawer-paper {
     overflow: auto;
     width: 240px !important;
-    color: #fcfcfc;
-    background: rgba(0, 0, 0, 0.3);
+    color: #fafafa;
+    background: #0000004d;
     background-image: unset;
     box-shadow: unset;
     -webkit-backdrop-filter: blur(10px);
@@ -1182,23 +1168,23 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .MuiListSubheader-root,
 .MuiListSubheader-gutters,
 .MuiListSubheader-sticky {
-    color: #fcfcfc;
+    color: #fafafa;
 }
 
 /* 后台左侧面板已选择项 */
 .Mui-selected {
-    background-color: rgba(0, 0, 0, 0.2) !important;
+    background-color: #00000033 !important;
     margin: 0 0.8em 0 0.5em;
     border-radius: var(--rounding);
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    box-shadow: 0 0 5px #fafafa;
 }
 
 .MuiListItemIcon-root {
-    color: #fcfcfc;
+    color: #fafafa;
 }
 
 .MuiListItemIcon-root:hover {
-    color: rgb(0, 0, 0);
+    color: #121212;
 }
 
 .MuiIconButton-root,
@@ -1206,15 +1192,15 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .MuiIconButton-sizeLarge {
     margin: 0 0.5em;
     border-radius: var(--rounding);
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    box-shadow: 0 0 5px #fafafa;
 }
 
 .MuiIconButton-root:hover,
 .MuiIconButton-colorInherit:hover,
 .MuiIconButton-sizeLarge:hover {
-    background-color: white !important;
-    color: rgb(0, 0, 0);
-    box-shadow: 0 0 10px rgb(255, 255, 255);
+    background-color: #fafafa !important;
+    color: #121212;
+    box-shadow: 0 0 10px #fafafa;
 }
 
 
@@ -1232,43 +1218,37 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .MuiListItemButton-gutters:hover {
     margin: 0 0.5em;
     border-radius: var(--rounding);
-    box-shadow: 0 0 5px rgb(255, 255, 255);
-    background-color: rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 0 5px #fafafa;
+    background-color: #00000033 !important;
 }
-
-/* .MuiButtonBase-root:hover {
-    border-radius: var(--rounding);
-    background-color: rgb(0, 0, 0);
-    box-shadow: 0 0 5px rgb(0, 0, 0);
-} */
 
 .MuiMenuItem-root:hover,
 .MuiMenuItem-gutters:hover {
     border-radius: var(--rounding);
-    box-shadow: 0 0 5px rgb(255, 255, 255);
-    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 5px #fafafa;
+    background-color: #00000033;
 }
 
 /* 头像 */
 .MuiAvatar-root,
 .MuiAvatar-circular {
     border-radius: 0.5em !important;
-    background-color: white;
+    background-color: #fafafa;
 }
 
 .headerButton.headerButtonRight.paper-icon-button-light.headerUserButtonRound {
     border-radius: 2em !important;
-    background-color: white;
+    background-color: #fafafa;
 }
 
 .itemProgressBar {
-    background: rgba(0, 0, 0, 0);
+    background: #00000000;
     height: .15em;
 }
 
 用户代理样式表 .headerButton {
     margin: 0.5em;
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    box-shadow: 0 0 5px #fafafa;
 }
 
 /* 顶部横条 */
@@ -1303,7 +1283,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 /* 后台服务器信息栏 */
 .serverInfo {
     border-radius: var(--rounding);
-    background: rgba(255, 255, 255, 0.3);
+    background: #ffffff4d;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
@@ -1312,14 +1292,14 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .userActivityItems,
 .activityLogListWidget {
     border-radius: var(--rounding);
-    background: rgba(0, 0, 0, 0.3);
+    background: #0000004d;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
 .paperList {
     border-radius: var(--rounding);
-    background: rgba(0, 0, 0, 0.2);
+    background: #00000033;
 }
 
 .MuiPaper-elevation8,
@@ -1330,8 +1310,8 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     overflow: auto;
     width: 200px !important;
     border-radius: var(--rounding);
-    color: #fcfcfc;
-    background: rgba(0, 0, 0, 0.3);
+    color: #fafafa;
+    background: #0000004d;
     background-image: unset;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
@@ -1342,13 +1322,13 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .MuiModal-backdrop {
     overflow: auto;
     width: 240px;
-    color: #fcfcfc;
-    background: rgba(0, 0, 0, 0.15);
+    color: #fafafa;
+    background: #00000026;
 }
 
 /* 播放按钮 */
 .btnPlay {
-    background-color: white;
+    background-color: #fafafa;
     color: red;
     border-radius: var(--rounding) !important;
     min-width: 5em !important;
@@ -1356,9 +1336,9 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .btnPlay:hover {
-    background-color: rgb(0, 255, 0);
-    color: white;
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    background-color: #00ff00;
+    color: #fafafa;
+    box-shadow: 0 0 5px #fafafa;
 }
 
 /* 外部播放器按钮 */
@@ -1367,7 +1347,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .btnPlay-nplayer,
 .btnPlay-vlc,
 .btnPlay-iina {
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    box-shadow: 0 0 5px #fafafa;
     margin: 0.5em !important;
     min-width: 4em;
 }
@@ -1377,8 +1357,8 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .btnPlay-nplayer:hover,
 .btnPlay-vlc:hover,
 .btnPlay-iina:hover {
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0 0 5px rgb(255, 255, 255);
+    background-color: #fafafa;
+    box-shadow: 0 0 5px #fafafa;
 }
 
 .detailPageSecondaryContainer {
@@ -1419,7 +1399,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 @media (min-width: 60em) {
     .emby-tab-button {
-        color: rgba(255, 255, 255, 0.8);
+        color: #ffffffcc;
         font-size: medium;
     }
 }
@@ -1436,11 +1416,11 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     }
 
     .cardOverlayButtonIcon {
-        background-color: rgba(0, 180, 0, 0.6) !important;
+        background-color: #00b40099 !important;
     }
 
     .cardOverlayContainer {
-        background-color: rgba(255, 255, 255, 0.7);
+        background-color: #ffffffb3;
     }
 
     .cardOverlayButton {
@@ -1468,7 +1448,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     }
 
     .layout-mobile .cardOverlayButtonIcon {
-        background-color: rgba(0, 180, 0, 0.6) !important;
+        background-color: #00b40099 !important;
     }
 
     .cardOverlayButton {
@@ -1483,24 +1463,25 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     }
 
     .emby-tab-button {
-        color: rgba(255, 255, 255, 0.8);
+        color: #ffffffcc;
         font-size: large;
     }
 }
 
-/* end custom css */
 .itemsContainer>.card>.cardBox {
     margin: 0.5em !important;
 }
 
 .itemsContainer>.card>.cardBox:hover {
-    box-shadow: 0 0 5px #ffffff;
+    box-shadow: 0 0 5px #fafafa;
 }
 
 .MuiTableRow-root {
-    background-color: rgba(0, 0, 0, 0.1) !important;
+    background-color: #0000001a !important;
 }
 
 .MuiTableRow-head {
-    background-color: rgba(0, 0, 0, 0.3) !important;
+    background-color: #0000004d !important;
 }
+
+/* end custom css */
