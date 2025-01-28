@@ -135,6 +135,22 @@ function getSections() {
         overlayPlayButton: true,
         overlayText: false,
         centerText: true
+    }, {
+        name: 'HeaderPhotoAlbums',
+        types: 'PhotoAlbum',
+        shape: getBackdropShape(enableScrollX()),
+        showTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
+    }, {
+        name: 'Photos',
+        types: 'Photo',
+        shape: getBackdropShape(enableScrollX()),
+        showTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
     }];
 }
 
