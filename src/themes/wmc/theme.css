@@ -326,6 +326,10 @@ a[data-role=button] {
     background: #00a4dc;
 }
 
+.specialFeatureIndicator {
+    color: #00a4dc;
+}
+
 .fullSyncIndicator {
     color: #fff;
 }
