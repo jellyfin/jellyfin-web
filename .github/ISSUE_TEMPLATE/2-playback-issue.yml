@@ -10,7 +10,7 @@ body:
       label: "This issue respects the following points:"
       description: All conditions are **required**.
       options:
-        - label: This issue is **not** already reported on [GitHub](https://github.com/jellyfin/jellyfin-web/issues?q=is%3Aopen+is%3Aissue) _(I've searched it)_.
+        - label: This issue is **not** already reported on [GitHub](https://github.com/jellyfin/jellyfin-web/issues?q=is%3Aissue) _(I've searched it)_.
           required: true
         - label: I agree to follow Jellyfin's [Code of Conduct](https://jellyfin.org/docs/general/community-standards.html#code-of-conduct).
           required: true
