@@ -159,7 +159,7 @@ export class UserSettings {
         }
 
         // Enable it by default only for the platforms that play fMP4 for sure.
-        return toBoolean(this.get('preferFmp4HlsContainer', true), browser.safari || browser.iOS || browser.firefox || browser.chrome || browser.edgeChromium);
+        return toBoolean(this.get('preferFmp4HlsContainer', true), browser.safari || browser.osx || browser.iOS || browser.firefox || browser.chrome || browser.edgeChromium);
     }
 
     /**
