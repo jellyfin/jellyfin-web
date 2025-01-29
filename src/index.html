@@ -148,27 +148,21 @@
             });
 
             function loadPlayer() {
-                let potplayer = document.querySelectorAll("div#itemDetailPage:not(.hide) #embyPot")[0];
-                if (!potplayer) {
+                let isweetav = document.querySelectorAll("div#itemDetailPage:not(.hide) #embyPot")[0];
+                if (!isweetav) {
                     let mainDetailButtons = document.querySelectorAll("div#itemDetailPage:not(.hide) .detailPageContent")[0];
                     if (mainDetailButtons) {
                         let buttonhtml = `<div style="display:flex;flex-wrap:wrap;justify-content: center;">
-        <a id="embyInfuse" type="button" class="button-flat btnPlay-infuse detailButton emby-button" title="使用 Infuse 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-infuse"></span></div></a>
-        <a id="embyNPlayer" type="button" class="button-flat btnPlay-nplayer detailButton emby-button" title="使用 NPlayer 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-NPlayer"></span></div></a>
-        <a id="embyVlc" type="button" class="button-flat btnPlay-vlc detailButton emby-button" title="使用 VLC 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-VLC"></span></div></a>
-        <a id="embyPot" type="button" class="button-flat btnPlay-pot detailButton emby-button" title="使用 Potplayer 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-PotPlayer"></span></div></a>
-        <a id="embyIINA" type="button" class="button-flat btnPlay-iina detailButton emby-button" title="使用 IINA 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-IINA"></span></div></a>
+        <a id="Infuse" type="button" class="button-flat btnPlay-infuse detailButton emby-button" title="使用 Infuse 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-infuse"></span></div></a>
+        <a id="NPlayer" type="button" class="button-flat btnPlay-nplayer detailButton emby-button" title="使用 NPlayer 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-NPlayer"></span></div></a>
+        <a id="Vlc" type="button" class="button-flat btnPlay-vlc detailButton emby-button" title="使用 VLC 播放视频"><div class="detailButton-content"><span class="material-icons detailButton-icon icon-VLC"></span></div></a>
     </div>
     `
                         mainDetailButtons.insertAdjacentHTML('afterbegin', buttonhtml)
-                        document.querySelector("div#itemDetailPage:not(.hide) #embyPot").onclick = embyPot;
-                        document.querySelector("div#itemDetailPage:not(.hide) #embyIINA").onclick = embyIINA;
-                        document.querySelector("div#itemDetailPage:not(.hide) #embyNPlayer").onclick = embyNPlayer;
-                        document.querySelector("div#itemDetailPage:not(.hide) #embyVlc").onclick = embyVlc;
-                        document.querySelector("div#itemDetailPage:not(.hide) #embyInfuse").onclick = embyInfuse;
-                        document.querySelector("div#itemDetailPage:not(.hide) .icon-PotPlayer").style.cssText += 'background: url(./assets/img/PotPlayer.webp)no-repeat;background-size: 100% 100%';
+                        document.querySelector("div#itemDetailPage:not(.hide) #NPlayer").onclick = NPlayer;
+                        document.querySelector("div#itemDetailPage:not(.hide) #Vlc").onclick = Vlc;
+                        document.querySelector("div#itemDetailPage:not(.hide) #Infuse").onclick = Infuse;
                         document.querySelector("div#itemDetailPage:not(.hide) .icon-VLC").style.cssText += 'background: url(./assets/img/VLC.webp)no-repeat;background-size: 100% 100%';
-                        document.querySelector("div#itemDetailPage:not(.hide) .icon-IINA").style.cssText += 'background: url(./assets/img/IINA.webp)no-repeat;background-size: 100% 100%';
                         document.querySelector("div#itemDetailPage:not(.hide) .icon-NPlayer").style.cssText += 'background: url(./assets/img/NPlayer.webp)no-repeat;background-size: 100% 100%';
                         document.querySelector("div#itemDetailPage:not(.hide) .icon-infuse").style.cssText += 'background: url(./assets/img/infuse.webp)no-repeat;background-size: 100% 100%';
                     }
@@ -277,15 +271,7 @@
                 };
             }
 
-            async function embyPot() {
-                let mediaInfo = await getEmbyMediaInfo();
-                let intent = mediaInfo.intent;
-                let poturl = `potplayer://${encodeURI(mediaInfo.streamUrl)} /sub=${encodeURI(mediaInfo.subUrl)} /current /title="${intent.title}" /seek=${getSeek(intent.position)}`;
-                console.log(poturl);
-                location.href = poturl
-            }
-
-            async function embyVlc() {
+            async function Vlc() {
                 let mediaInfo = await getEmbyMediaInfo();
                 let intent = mediaInfo.intent;
                 let vlcUrl = `intent:${encodeURI(mediaInfo.streamUrl)}#Intent;package=org.videolan.vlc;type=video/*;S.subtitles_location=${encodeURI(mediaInfo.subUrl)};S.title=${encodeURI(intent.title)};i.position=${intent.position};end`;
@@ -299,21 +285,14 @@
                 location.href = vlcUrl
             }
 
-            async function embyIINA() {
-                let mediaInfo = await getEmbyMediaInfo();
-                let iinaUrl = `iina://weblink?url=${encodeURIComponent(mediaInfo.streamUrl)}&new_window=1`;
-                console.log(`iinaUrl= ${iinaUrl}`);
-                location.href = iinaUrl
-            }
-
-            async function embyNPlayer() {
+            async function NPlayer() {
                 let mediaInfo = await getEmbyMediaInfo();
                 let nUrl = getOS() == 'macOS' ? `nplayer-mac://weblink?url=${encodeURIComponent(mediaInfo.streamUrl)}&new_window=1` : `nplayer-${encodeURI(mediaInfo.streamUrl)}`;
                 console.log(nUrl);
                 location.href = nUrl
             }
 
-            async function embyInfuse() {
+            async function Infuse() {
                 let mediaInfo = await getEmbyMediaInfo();
                 let infuseUrl = `infuse://x-callback-url/play?url=${encodeURIComponent(mediaInfo.streamUrl)}`;
                 console.log(`infuseUrl= ${infuseUrl}`);
