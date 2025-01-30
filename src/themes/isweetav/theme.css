@@ -1396,6 +1396,10 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     background: #00000026;
 }
 
+.nowPlayingButtonsContainer {
+    padding-top: 0.5em;
+}
+
 /* 播放按钮 */
 .btnPlay {
     background-color: #ffffff;
