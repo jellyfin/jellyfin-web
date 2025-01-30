@@ -10,9 +10,25 @@ interface TablePageProps<T extends MRT_RowData> extends PageProps {
     table: MRT_TableInstance<T>
 }
 
+export const DEFAULT_TABLE_OPTIONS = {
+    // Enable custom features
+    enableColumnPinning: true,
+    enableColumnResizing: true,
+
+    // Sticky header/footer
+    enableStickyFooter: true,
+    enableStickyHeader: true,
+    muiTableContainerProps: {
+        sx: {
+            maxHeight: 'calc(100% - 7rem)' // 2 x 3.5rem for header and footer
+        }
+    }
+};
+
 const TablePage = <T extends MRT_RowData>({
     title,
     table,
+    children,
     ...pageProps
 }: TablePageProps<T>) => {
     return (
@@ -39,6 +55,7 @@ const TablePage = <T extends MRT_RowData>({
                 </Box>
                 <MaterialReactTable table={table} />
             </Box>
+            {children}
         </Page>
     );
 };

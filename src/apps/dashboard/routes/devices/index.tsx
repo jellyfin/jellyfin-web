@@ -5,41 +5,113 @@ import Box from '@mui/material/Box/Box';
 import Button from '@mui/material/Button/Button';
 import IconButton from '@mui/material/IconButton/IconButton';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
-import React, { useMemo } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 
-import TablePage from 'apps/dashboard/components/TablePage';
+import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/TablePage';
 import { useDevices } from 'apps/dashboard/features/devices/api/useDevices';
 import globalize from 'lib/globalize';
-import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
+import { type MRT_ColumnDef, MRT_Row, useMaterialReactTable } from 'material-react-table';
 import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
 import { useApi } from 'hooks/useApi';
 import { getDeviceIcon } from 'utils/image';
 import UserAvatarButton from 'apps/dashboard/features/activity/components/UserAvatarButton';
-import { useUsers } from 'hooks/useUsers';
-import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
+import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
+import { useUpdateDevice } from 'apps/dashboard/features/devices/api/useUpdateDevice';
+import { useDeleteDevice } from 'apps/dashboard/features/devices/api/useDeleteDevice';
+import ConfirmDialog from 'components/ConfirmDialog';
 
-type UsersRecords = Record<string, UserDto>;
+interface DeviceInfoCell {
+    renderedCellValue: React.ReactNode
+    row: MRT_Row<DeviceInfoDto>
+}
+
+const DeviceNameCell: FC<DeviceInfoCell> = ({ row, renderedCellValue }) => (
+    <>
+        <img
+            alt={row.original.AppName || undefined}
+            src={getDeviceIcon(row.original)}
+            style={{
+                display: 'inline-block',
+                maxWidth: '1.5em',
+                maxHeight: '1.5em',
+                marginRight: '1rem'
+            }}
+        />
+        {renderedCellValue}
+    </>
+);
+
+const getUserCell = (users: UsersRecords) => function UserCell({ renderedCellValue, row }: DeviceInfoCell) {
+    return (
+        <>
+            <UserAvatarButton
+                user={row.original.LastUserId && users[row.original.LastUserId] || undefined}
+                sx={{ mr: '1rem' }}
+            />
+            {renderedCellValue}
+        </>
+    );
+};
 
 const DevicesPage = () => {
     const { api } = useApi();
     const { data: devices, isLoading: isDevicesLoading } = useDevices({});
-    const { data: usersData, isLoading: isUsersLoading } = useUsers();
+    const { usersById: users, names: userNames, isLoading: isUsersLoading } = useUsersDetails();
+
+    const [ isDeleteConfirmOpen, setIsDeleteConfirmOpen ] = useState(false);
+    const [ isDeleteAllConfirmOpen, setIsDeleteAllConfirmOpen ] = useState(false);
+    const [ pendingDeleteDeviceId, setPendingDeleteDeviceId ] = useState<string>();
+    const deleteDevice = useDeleteDevice();
+    const updateDevice = useUpdateDevice();
 
     const isLoading = isDevicesLoading || isUsersLoading;
 
-    const users: UsersRecords = useMemo(() => {
-        if (!usersData) return {};
+    const onDeleteDevice = useCallback((id: string | null | undefined) => () => {
+        if (id) {
+            setPendingDeleteDeviceId(id);
+            setIsDeleteConfirmOpen(true);
+        }
+    }, []);
 
-        return usersData.reduce<UsersRecords>((acc, user) => {
-            const userId = user.Id;
-            if (!userId) return acc;
+    const onCloseDeleteConfirmDialog = useCallback(() => {
+        setPendingDeleteDeviceId(undefined);
+        setIsDeleteConfirmOpen(false);
+    }, []);
 
-            return {
-                ...acc,
-                [userId]: user
-            };
-        }, {});
-    }, [ usersData ]);
+    const onConfirmDelete = useCallback(() => {
+        if (pendingDeleteDeviceId) {
+            deleteDevice.mutate({
+                id: pendingDeleteDeviceId
+            }, {
+                onSettled: onCloseDeleteConfirmDialog
+            });
+        }
+    }, [ deleteDevice, onCloseDeleteConfirmDialog, pendingDeleteDeviceId ]);
+
+    const onDeleteAll = useCallback(() => {
+        setIsDeleteAllConfirmOpen(true);
+    }, []);
+
+    const onCloseDeleteAllConfirmDialog = useCallback(() => {
+        setIsDeleteAllConfirmOpen(false);
+    }, []);
+
+    const onConfirmDeleteAll = useCallback(() => {
+        if (devices?.Items) {
+            Promise
+                .all(devices.Items.map(item => {
+                    if (api && item.Id && api.deviceInfo.id === item.Id) {
+                        return deleteDevice.mutateAsync({ id: item.Id });
+                    }
+                    return Promise.resolve();
+                }))
+                .finally(() => {
+                    onCloseDeleteAllConfirmDialog();
+                });
+        }
+    }, [ api, deleteDevice, devices?.Items, onCloseDeleteAllConfirmDialog ]);
+
+    const UserCell = getUserCell(users);
 
     const columns = useMemo<MRT_ColumnDef<DeviceInfoDto>[]>(() => [
         {
@@ -56,21 +128,7 @@ const DevicesPage = () => {
             accessorFn: row => row.CustomName || row.Name,
             header: globalize.translate('LabelDevice'),
             size: 200,
-            Cell: ({ row, renderedCellValue }) => (
-                <>
-                    <img
-                        alt={row.original.AppName || undefined}
-                        src={getDeviceIcon(row.original)}
-                        style={{
-                            display: 'inline-block',
-                            maxWidth: '1.5em',
-                            maxHeight: '1.5em',
-                            marginRight: '1rem'
-                        }}
-                    />
-                    {renderedCellValue}
-                </>
-            )
+            Cell: DeviceNameCell
         },
         {
             id: 'App',
@@ -86,35 +144,21 @@ const DevicesPage = () => {
             header: globalize.translate('LabelUser'),
             size: 120,
             enableEditing: false,
-            Cell: ({ row, renderedCellValue }) => (
-                <>
-                    <UserAvatarButton user={row.original.LastUserId && users[row.original.LastUserId] || undefined} />
-                    {renderedCellValue}
-                </>
-            )
+            Cell: UserCell,
+            filterVariant: 'multi-select',
+            filterSelectOptions: userNames
         }
-    ], [ users ]);
+    ], [ UserCell, userNames ]);
 
     const mrTable = useMaterialReactTable({
+        ...DEFAULT_TABLE_OPTIONS,
+
         columns,
         data: devices?.Items || [],
 
-        // Enable custom features
-        enableColumnPinning: true,
-        enableColumnResizing: true,
-        enableEditing: true,
-
-        // Sticky header/footer
-        enableStickyFooter: true,
-        enableStickyHeader: true,
-        muiTableContainerProps: {
-            sx: {
-                maxHeight: 'calc(100% - 7rem)' // 2 x 3.5rem for header and footer
-            }
-        },
-
         // State
         initialState: {
+            density: 'compact',
             pagination: {
                 pageIndex: 0,
                 pageSize: 25
@@ -124,32 +168,73 @@ const DevicesPage = () => {
             isLoading
         },
 
+        // Editing device name
+        enableEditing: true,
+        onEditingRowSave: ({ table, row, values }) => {
+            const newName = values.Name?.trim();
+            const hasChanged = row.original.CustomName ?
+                newName !== row.original.CustomName :
+                newName !== row.original.Name;
+
+            // If the name has changed, save it as the custom name
+            if (row.original.Id && hasChanged) {
+                updateDevice.mutate({
+                    id: row.original.Id,
+                    deviceOptionsDto: {
+                        CustomName: newName || undefined
+                    }
+                });
+            }
+
+            table.setEditingRow(null); //exit editing mode
+        },
+
         // Custom actions
         enableRowActions: true,
         positionActionsColumn: 'last',
-        renderRowActions: ({ row, table }) => (
-            <Box sx={{ display: 'flex', gap: 1 }}>
-                <Tooltip title={globalize.translate('Edit')}>
-                    <IconButton
-                        onClick={() => table.setEditingRow(row)}
-                    >
-                        <Edit />
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={globalize.translate('Delete')}>
-                    <IconButton
-                        color='error'
-                        disabled={api && api.deviceInfo.id === row.original.Id}
-                    >
-                        <Delete />
-                    </IconButton>
-                </Tooltip>
-            </Box>
-        ),
+        renderRowActions: ({ row, table }) => {
+            const isDeletable = api && row.original.Id && api.deviceInfo.id === row.original.Id;
+            return (
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Tooltip title={globalize.translate('Edit')}>
+                        <IconButton
+                        // eslint-disable-next-line react/jsx-no-bind
+                            onClick={() => table.setEditingRow(row)}
+                        >
+                            <Edit />
+                        </IconButton>
+                    </Tooltip>
+                    {/* Don't include Tooltip when disabled */}
+                    {isDeletable ? (
+                        <IconButton
+                            color='error'
+                            disabled
+                        >
+                            <Delete />
+                        </IconButton>
+                    ) : (
+                        <Tooltip title={globalize.translate('Delete')}>
+                            <IconButton
+                                color='error'
+                                onClick={onDeleteDevice(row.original.Id)}
+                            >
+                                <Delete />
+                            </IconButton>
+                        </Tooltip>
+                    )}
+                </Box>
+            );
+        },
 
         // Custom toolbar contents
         renderTopToolbarCustomActions: () => (
-            <Button color='error'>{globalize.translate('DeleteAll')}</Button>
+            <Button
+                color='error'
+                startIcon={<Delete />}
+                onClick={onDeleteAll}
+            >
+                {globalize.translate('DeleteAll')}
+            </Button>
         )
     });
 
@@ -159,7 +244,26 @@ const DevicesPage = () => {
             title={globalize.translate('HeaderDevices')}
             className='mainAnimatedPage type-interior'
             table={mrTable}
-        />
+        >
+            <ConfirmDialog
+                open={isDeleteConfirmOpen}
+                title={globalize.translate('HeaderDeleteDevice')}
+                text={globalize.translate('DeleteDeviceConfirmation')}
+                onCancel={onCloseDeleteConfirmDialog}
+                onConfirm={onConfirmDelete}
+                confirmButtonColor='error'
+                confirmButtonText={globalize.translate('Delete')}
+            />
+            <ConfirmDialog
+                open={isDeleteAllConfirmOpen}
+                title={globalize.translate('HeaderDeleteDevices')}
+                text={globalize.translate('DeleteDevicesConfirmation')}
+                onCancel={onCloseDeleteAllConfirmDialog}
+                onConfirm={onConfirmDeleteAll}
+                confirmButtonColor='error'
+                confirmButtonText={globalize.translate('Delete')}
+            />
+        </TablePage>
     );
 };
 

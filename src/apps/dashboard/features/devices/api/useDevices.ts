@@ -6,6 +6,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useApi } from 'hooks/useApi';
 
+export const QUERY_KEY = 'Devices';
+
 const fetchDevices = async (
     api?: Api,
     requestParams?: DevicesApiGetDevicesRequest,
@@ -28,7 +30,7 @@ export const useDevices = (
 ) => {
     const { api } = useApi();
     return useQuery({
-        queryKey: ['Devices', requestParams],
+        queryKey: [QUERY_KEY, requestParams],
         queryFn: ({ signal }) =>
             fetchDevices(api, requestParams, { signal }),
         enabled: !!api
