@@ -5,41 +5,21 @@ import Box from '@mui/material/Box/Box';
 import Button from '@mui/material/Button/Button';
 import IconButton from '@mui/material/IconButton/IconButton';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/TablePage';
-import { useDevices } from 'apps/dashboard/features/devices/api/useDevices';
-import globalize from 'lib/globalize';
-import { type MRT_ColumnDef, MRT_Row, useMaterialReactTable } from 'material-react-table';
-import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
-import { useApi } from 'hooks/useApi';
-import { getDeviceIcon } from 'utils/image';
 import UserAvatarButton from 'apps/dashboard/components/UserAvatarButton';
-import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
-import { useUpdateDevice } from 'apps/dashboard/features/devices/api/useUpdateDevice';
 import { useDeleteDevice } from 'apps/dashboard/features/devices/api/useDeleteDevice';
+import { useDevices } from 'apps/dashboard/features/devices/api/useDevices';
+import { useUpdateDevice } from 'apps/dashboard/features/devices/api/useUpdateDevice';
+import DeviceNameCell from 'apps/dashboard/features/devices/components/DeviceNameCell';
+import type { DeviceInfoCell } from 'apps/dashboard/features/devices/types/deviceInfoCell';
 import ConfirmDialog from 'components/ConfirmDialog';
-
-interface DeviceInfoCell {
-    renderedCellValue: React.ReactNode
-    row: MRT_Row<DeviceInfoDto>
-}
-
-const DeviceNameCell: FC<DeviceInfoCell> = ({ row, renderedCellValue }) => (
-    <>
-        <img
-            alt={row.original.AppName || undefined}
-            src={getDeviceIcon(row.original)}
-            style={{
-                display: 'inline-block',
-                maxWidth: '1.5em',
-                maxHeight: '1.5em',
-                marginRight: '1rem'
-            }}
-        />
-        {renderedCellValue}
-    </>
-);
+import { useApi } from 'hooks/useApi';
+import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
+import globalize from 'lib/globalize';
+import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
 
 const getUserCell = (users: UsersRecords) => function UserCell({ renderedCellValue, row }: DeviceInfoCell) {
     return (
@@ -53,7 +33,7 @@ const getUserCell = (users: UsersRecords) => function UserCell({ renderedCellVal
     );
 };
 
-const DevicesPage = () => {
+export const Component = () => {
     const { api } = useApi();
     const { data: devices, isLoading: isDevicesLoading } = useDevices({});
     const { usersById: users, names: userNames, isLoading: isUsersLoading } = useUsersDetails();
@@ -267,4 +247,4 @@ const DevicesPage = () => {
     );
 };
 
-export default DevicesPage;
+Component.displayName = 'DevicesPage';
