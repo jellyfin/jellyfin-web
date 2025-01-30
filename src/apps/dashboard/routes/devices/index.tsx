@@ -85,6 +85,9 @@ export const Component = () => {
                     }
                     return Promise.resolve();
                 }))
+                .catch(err => {
+                    console.error('[DevicesPage] failed deleting all devices', err);
+                })
                 .finally(() => {
                     onCloseDeleteAllConfirmDialog();
                 });
