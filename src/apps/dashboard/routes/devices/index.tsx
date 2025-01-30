@@ -5,6 +5,8 @@ import Box from '@mui/material/Box/Box';
 import Button from '@mui/material/Button/Button';
 import IconButton from '@mui/material/IconButton/IconButton';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
+import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
 import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
 import React, { useCallback, useMemo, useState } from 'react';
 
@@ -17,9 +19,9 @@ import DeviceNameCell from 'apps/dashboard/features/devices/components/DeviceNam
 import type { DeviceInfoCell } from 'apps/dashboard/features/devices/types/deviceInfoCell';
 import ConfirmDialog from 'components/ConfirmDialog';
 import { useApi } from 'hooks/useApi';
+import { useLocale } from 'hooks/useLocale';
 import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
-import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
 
 const getUserCell = (users: UsersRecords) => function UserCell({ renderedCellValue, row }: DeviceInfoCell) {
     return (
@@ -36,6 +38,7 @@ const getUserCell = (users: UsersRecords) => function UserCell({ renderedCellVal
 export const Component = () => {
     const { api } = useApi();
     const { data: devices, isLoading: isDevicesLoading } = useDevices({});
+    const { dateFnsLocale } = useLocale();
     const { usersById: users, names: userNames, isLoading: isUsersLoading } = useUsersDetails();
 
     const [ isDeleteConfirmOpen, setIsDeleteConfirmOpen ] = useState(false);
@@ -99,10 +102,10 @@ export const Component = () => {
     const columns = useMemo<MRT_ColumnDef<DeviceInfoDto>[]>(() => [
         {
             id: 'DateLastActivity',
-            accessorFn: row => parseISO8601Date(row.DateLastActivity),
-            header: globalize.translate('LabelTime'),
+            accessorFn: row => row.DateLastActivity ? parseISO(row.DateLastActivity) : undefined,
+            header: globalize.translate('LastActive'),
             size: 160,
-            Cell: ({ cell }) => toLocaleString(cell.getValue<Date>()),
+            Cell: ({ cell }) => format(cell.getValue<Date>(), 'Ppp', { locale: dateFnsLocale }),
             filterVariant: 'datetime-range',
             enableEditing: false
         },
