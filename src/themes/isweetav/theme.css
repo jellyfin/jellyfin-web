@@ -1,4 +1,4 @@
-/* start custom css by PeiFeng.Li */
+/* start custom css by PeiFeng.Li v2.05 2025-01-30*/
 :root {
     --rounding: 0.5em;
     --card-rounding: 0.5em 0.5em 0 0;
@@ -978,6 +978,10 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     background-color: #fafafa !important;
     color: #06fa06;
 }
+
+.ratingbutton-icon-withrating{
+        color: #fa0606;
+    }
 
 .layout-mobile .cardOverlayButtonIcon {
     background-color: rgba(6, 250, 6, 0.8) !important;
