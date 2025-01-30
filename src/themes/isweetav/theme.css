@@ -1374,14 +1374,14 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 /* 播放按钮 */
 .btnPlay {
     background-color: #fafafa;
-    color: #fa0606;
+    color: #fa0000;
     border-radius: var(--rounding) !important;
     min-width: 5em !important;
     margin: 0 0.5em !important;
 }
 
 .btnPlay:hover {
-    background-color: #06fa06;
+    background-color: #fa0000;
     color: #fafafa;
     box-shadow: 0 0 5px #ffffff;
 }
