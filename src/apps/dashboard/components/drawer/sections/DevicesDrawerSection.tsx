@@ -1,4 +1,4 @@
-import { Devices, Analytics } from '@mui/icons-material';
+import { Devices } from '@mui/icons-material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -25,14 +25,6 @@ const DevicesDrawerSection = () => {
                         <Devices />
                     </ListItemIcon>
                     <ListItemText primary={globalize.translate('HeaderDevices')} />
-                </ListItemLink>
-            </ListItem>
-            <ListItem disablePadding>
-                <ListItemLink to='/dashboard/activity'>
-                    <ListItemIcon>
-                        <Analytics />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('HeaderActivity')} />
                 </ListItemLink>
             </ListItem>
         </List>

@@ -1,6 +1,5 @@
 import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
-import browser from '../browser';
 import appSettings from './appSettings';
 
 function onSaveTimeout() {
@@ -157,9 +156,7 @@ export class UserSettings {
         if (val !== undefined) {
             return this.set('preferFmp4HlsContainer', val.toString(), true);
         }
-
-        // Enable it by default only for the platforms that play fMP4 for sure.
-        return toBoolean(this.get('preferFmp4HlsContainer', true), browser.safari || browser.osx || browser.iOS || browser.firefox || browser.chrome || browser.edgeChromium);
+        return toBoolean(this.get('preferFmp4HlsContainer', true), true);
     }
 
     /**
@@ -273,10 +270,10 @@ export class UserSettings {
      */
     enableBackdrops(val) {
         if (val !== undefined) {
-            return this.set('enableBackdrops', val.toString(), false);
+            return this.set('enableBackdrops', val.toString(), true);
         }
 
-        return toBoolean(this.get('enableBackdrops', false), true);
+        return toBoolean(this.get('enableBackdrops', true), true);
     }
 
     /**

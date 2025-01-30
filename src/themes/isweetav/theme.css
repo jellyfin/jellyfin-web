@@ -229,10 +229,6 @@ a[data-role=button] {
     padding: 0 0.5em;
 }
 
-.libraryPage:not(.noSecondaryNavPage) {
-    padding-top: 8em !important;
-}
-
 .padded-top {
     padding-top: 0.5em;
 }
@@ -642,6 +638,14 @@ a[data-role=button] {
     background: #0606064d;
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
+}
+
+.readOnlyContent, form {
+    max-width: 100%;
+}
+
+.mainAnimatedPage {
+    top: 1.5em;
 }
 
 /* 删除“我的媒体”部分标题 */
@@ -1296,10 +1300,15 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     background: none;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
+    box-shadow: 0 0 5px;
+}
+
+.MuiTableFooter-root {
+    outline: solid 1px #fafafa80;
 }
 
 .content-primary {
-    padding-top: 4em !important;
+    padding-top: 5em !important;
 }
 
 /* 隐藏左侧不可见 */
@@ -1405,7 +1414,13 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .MuiTableRow-head {
-    background-color: #0606064d !important;
+    background-color: #00000000 !important;
+}
+
+/* 日志背景 */
+.MuiList-root,
+.MuiBox-root {
+    background: none;
 }
 
 @media (min-width: 35em) {
