@@ -1481,14 +1481,23 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 @media (min-width: 55em) {
     .detailButton {
-        padding-left: 1.5em !important;
-        padding-right: 1.5em !important;
+        padding-left: 1.25em !important;
+        padding-right: 1.25em !important;
+        margin: 1em 0.5em !important;
     }
 }
 
 @media (min-width: 60em) {
     .emby-tab-button {
         font-size: medium;
+    }
+}
+
+@media (min-width: 70em) {
+    .detailButton {
+        padding-left: 1.5em !important;
+        padding-right: 1.5em !important;
+        margin: 1.25em 0.75em !important;
     }
 }
 
@@ -1499,6 +1508,12 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 @media all and (min-width: 80em) {
+    .detailButton {
+        padding-left: 1.75em !important;
+        padding-right: 1.75em !important;
+        margin: 1.5em 0.75em !important;
+    }
+
     .cardOverlayFab-primary {
         background-color: #06060600;
     }
