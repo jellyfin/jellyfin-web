@@ -21,7 +21,7 @@ html {
 .MuiListItem-root,
 .MuiListItem-gutters {
     color: #fafafa;
-    padding-top: 0.5em;
+    padding-top: 0.6em;
 }
 
 h1 {
@@ -82,6 +82,17 @@ progress::-webkit-progress-value {
     border-radius: var(--rounding);
     color: #fafafa;
     background: #060606cc;
+}
+
+.mini:hover {
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transition: 0.2s;
+}
+
+.btnSearchImages,
+.btnDeleteImage {
+    margin: 0.6em;
 }
 
 .fab:focus,
@@ -228,20 +239,22 @@ a[data-role=button] {
     color: #060606 !important;
     background-color: #fafafa;
     transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transition: 0.2s;
 }
 
 .headerTop {
-    padding: 0 0.5em;
+    padding: 0 0.6em;
 }
 
 .padded-top {
-    padding-top: 0.5em;
+    padding-top: 0.6em;
 }
 
 .MuiToolbar-root,
 .MuiToolbar-gutters,
 .MuiToolbar-dense.headerTop {
-    padding: 0 0.5em;
+    padding: 0 0.6em;
 }
 
 .layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
@@ -336,7 +349,7 @@ a[data-role=button] {
 
 .listItem {
     border-radius: var(--rounding);
-    padding: 0.25em 0.5em 0.25em 1em !important;
+    padding: 0.25em 0.6em 0.25em 1em !important;
 }
 
 .listItem:focus {
@@ -409,7 +422,7 @@ a[data-role=button] {
 }
 
 .navMenuOption {
-    margin: 0 0.5em !important;
+    margin: 0 0.6em !important;
     border-radius: var(--rounding) !important;
 }
 
@@ -443,7 +456,7 @@ a[data-role=button] {
     color: #fafafae6;
     border-radius: 2em;
     line-height: 2em;
-    margin: 1em 0.5em;
+    margin: 1em 0.6em;
     min-width: 5em;
     padding: 0em 0em;
     box-shadow: 0 0 5px #ffffff;
@@ -466,6 +479,8 @@ a[data-role=button] {
     background-color: #fafafa;
     box-shadow: 0 0 5px #ffffff;
     transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transition: 0.2s;
 }
 
 .channelPrograms,
@@ -695,17 +710,17 @@ form {
 /* start 透明顶部背景 */
 .skinHeader-withBackground {
     background: none;
-    padding-top: 0.5em;
+    padding-top: 0.6em;
 }
 
 .skinHeader.semiTransparent {
     background: none;
-    padding-top: 0.5em;
+    padding-top: 0.6em;
 }
 
 .layout-tv .skinHeader.semiTransparent {
     background: none;
-    padding-top: 0.5em;
+    padding-top: 0.6em;
 }
 
 /* end 透明顶部背景 */
@@ -787,7 +802,7 @@ form {
     color: #fafafa;
     border: 0.1em solid transparent;
     border-radius: var(--rounding);
-    padding: 0.5em;
+    padding: 0.6em;
     background: #06060633;
 }
 
@@ -911,7 +926,7 @@ a.listItem-border {
 }
 
 .dashboardSection .sectionTitleTextButton>.material-icons {
-    margin-left: 0.5em;
+    margin-left: 0.6em;
 }
 
 span.material-icons.detailButton-icon.check.playstatebutton-icon-played,
@@ -940,7 +955,11 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     color: #fa77f1;
 }
 
-.headerButton.headerButtonRight.paper-icon-button-light.headerUserButtonRound:hover {
+.headerUserButtonRound {
+    font-size: 1.12em;
+}
+
+.headerUserButtonRound:hover {
     box-shadow: 0 0 5px #fafafa !important;
 }
 
@@ -954,11 +973,13 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
         background-color: #fafafa !important;
         box-shadow: 0 0 5px #ffffff;
         transform: scale(1.2);
+        -webkit-transform: scale(1.2);
+        transition: 0.2s;
     }
 }
 
 .detailButton {
-    padding: 0.5em !important;
+    padding: 0.6em !important;
     margin: 0 0.3em !important;
     border-radius: var(--rounding);
     box-shadow: 0 0 5px #ffffff;
@@ -969,6 +990,8 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     background-color: #fafafa;
     box-shadow: 0 0 5px #ffffff;
     transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transition: 0.2s;
 }
 
 .cardOverlayButton,
@@ -1011,13 +1034,14 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     background-color: #00ff001a !important;
     box-shadow: 0 0 10px rgb(0, 255, 0);
     border-radius: 50%;
-    transform: scale(1.4);
-    transition: .2s;
+    transform: scale(1.3);
+    -webkit-transform: scale(1.3);
+    transition: 0.2s;
 }
 
 .btnCardOptions {
-    right: 0.5em;
-    bottom: 0.5em;
+    right: 0.6em;
+    bottom: 0.6em;
     font-size: 0.8em;
 }
 
@@ -1127,7 +1151,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .formDialogFooterItem {
-    margin: 0.5em !important;
+    margin: 0.6em !important;
     max-width: 100%;
 }
 
@@ -1156,7 +1180,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 /* Music Player */
 .playlistSectionButton {
-    padding-bottom: 0.5em;
+    padding-bottom: 0.6em;
 }
 
 .playerStats {
@@ -1216,7 +1240,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 /* 后台左侧面板已选择项 */
 .Mui-selected {
     background-color: #06060633 !important;
-    margin: 0 0.8em 0 0.5em;
+    margin: 0 0.8em 0 0.6em;
     border-radius: var(--rounding);
     box-shadow: 0 0 5px #ffffff;
 }
@@ -1232,7 +1256,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .MuiIconButton-root,
 .MuiIconButton-colorInherit,
 .MuiIconButton-sizeLarge {
-    margin: 0 0.5em;
+    margin: 0 0.6em;
     border-radius: var(--rounding);
     box-shadow: 0 0 5px #ffffff;
 }
@@ -1249,7 +1273,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .MuiListItemButton-gutters,
 .MuiListItemButton-root,
 .MuiListItemButton-gutters {
-    margin: 0 0.5em;
+    margin: 0 0.6em;
 }
 
 /* 后台左侧面板鼠标hover */
@@ -1257,7 +1281,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .MuiListItemButton-gutters:hover,
 .MuiListItemButton-root:hover,
 .MuiListItemButton-gutters:hover {
-    margin: 0 0.5em;
+    margin: 0 0.6em;
     border-radius: var(--rounding);
     box-shadow: 0 0 5px #ffffff;
     background-color: #06060633 !important;
@@ -1277,18 +1301,13 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     background-color: #fafafa;
 }
 
-.headerButton.headerButtonRight.paper-icon-button-light.headerUserButtonRound {
-    border-radius: 2em !important;
-    background-color: #fafafa;
-}
-
 .itemProgressBar {
     background: #06060600;
     height: .15em;
 }
 
 .headerButton {
-    margin: 0.5em;
+    margin: 0.6em;
     box-shadow: 0 0 5px #ffffff;
 }
 
@@ -1361,7 +1380,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     background-image: unset;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-    padding: 0 0.5em;
+    padding: 0 0.6em;
 }
 
 .MuiBackdrop-root,
@@ -1378,7 +1397,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     color: #fa0000;
     border-radius: var(--rounding) !important;
     min-width: 4.5em !important;
-    margin: 0 0.5em !important;
+    margin: 0 0.6em !important;
 }
 
 .btnPlay:hover {
@@ -1386,27 +1405,27 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     color: #fafafa;
     box-shadow: 0 0 10px #ffffff;
     transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transition: 0.2s;
 }
 
 /* 外部播放器按钮 */
 .btnPlay-infuse,
-.btnPlay-pot,
 .btnPlay-nplayer,
-.btnPlay-vlc,
-.btnPlay-iina {
+.btnPlay-vlc {
     box-shadow: 0 0 5px #ffffff;
-    margin: 0.5em !important;
+    margin: 0.6em !important;
     min-width: 4em;
 }
 
 .btnPlay-infuse:hover,
-.btnPlay-pot:hover,
 .btnPlay-nplayer:hover,
-.btnPlay-vlc:hover,
-.btnPlay-iina:hover {
+.btnPlay-vlc:hover {
     background-color: #fafafa;
     box-shadow: 0 0 5px #ffffff;
     transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transition: 0.2s;
 }
 
 .detailPageSecondaryContainer {
@@ -1414,7 +1433,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .itemsContainer>.card>.cardBox {
-    margin: 0.5em !important;
+    margin: 0.6em !important;
 }
 
 .itemsContainer>.card>.cardBox:hover {
@@ -1462,8 +1481,8 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 @media (min-width: 55em) {
     .detailButton {
-        padding-left: 1.25em !important;
-        padding-right: 1.25em !important;
+        padding-left: 1.5em !important;
+        padding-right: 1.5em !important;
     }
 }
 
@@ -1521,7 +1540,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 @media (orientation: portrait) and (max-width: 43em) {
     .nowPlayingInfoButtons {
-        padding-bottom: 0.5em;
+        padding-bottom: 0.6em;
     }
 }
 
