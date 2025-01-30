@@ -14,7 +14,7 @@ import { type MRT_ColumnDef, MRT_Row, useMaterialReactTable } from 'material-rea
 import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
 import { useApi } from 'hooks/useApi';
 import { getDeviceIcon } from 'utils/image';
-import UserAvatarButton from 'apps/dashboard/features/activity/components/UserAvatarButton';
+import UserAvatarButton from 'apps/dashboard/components/UserAvatarButton';
 import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
 import { useUpdateDevice } from 'apps/dashboard/features/devices/api/useUpdateDevice';
 import { useDeleteDevice } from 'apps/dashboard/features/devices/api/useDeleteDevice';

@@ -11,7 +11,7 @@ import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntrie
 import ActionsCell from 'apps/dashboard/features/activity/components/ActionsCell';
 import LogLevelCell from 'apps/dashboard/features/activity/components/LogLevelCell';
 import OverviewCell from 'apps/dashboard/features/activity/components/OverviewCell';
-import UserAvatarButton from 'apps/dashboard/features/activity/components/UserAvatarButton';
+import UserAvatarButton from 'apps/dashboard/components/UserAvatarButton';
 import type { ActivityLogEntryCell } from 'apps/dashboard/features/activity/types/ActivityLogEntryCell';
 import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
 import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
