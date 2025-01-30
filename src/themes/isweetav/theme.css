@@ -128,6 +128,10 @@ a[data-role=button] {
     background: #06b406;
 }
 
+.MuiButton-colorPrimary {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
 .MuiButtonBase-root:hover,
 .MuiButton-root:hover,
 .MuiButton-contained:hover,
@@ -223,6 +227,7 @@ a[data-role=button] {
     box-shadow: 0 0 5px #ffffff;
     color: #060606 !important;
     background-color: #fafafa;
+    transform: scale(1.2);
 }
 
 .headerTop {
@@ -288,17 +293,10 @@ a[data-role=button] {
     background: #303030;
 }
 
-.appfooter,
-.playlistSectionButton {
-    color: #cccccc;
-    color: #fafafac7;
-    background: #06256f;
-}
-
 @supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
     .appfooter {
-        background: #06256fb3;
-        backdrop-filter: blur(15px);
+        background: rgba(6, 6, 6, 0.2);
+        backdrop-filter: blur(10px);
     }
 }
 
@@ -338,6 +336,7 @@ a[data-role=button] {
 
 .listItem {
     border-radius: var(--rounding);
+    padding: 0.25em 0.5em 0.25em 1em !important;
 }
 
 .listItem:focus {
@@ -466,6 +465,7 @@ a[data-role=button] {
     color: #060606 !important;
     background-color: #fafafa;
     box-shadow: 0 0 5px #ffffff;
+    transform: scale(1.2);
 }
 
 .channelPrograms,
@@ -953,6 +953,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
         color: #060606;
         background-color: #fafafa !important;
         box-shadow: 0 0 5px #ffffff;
+        transform: scale(1.2);
     }
 }
 
@@ -967,6 +968,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     color: #060606;
     background-color: #fafafa;
     box-shadow: 0 0 5px #ffffff;
+    transform: scale(1.2);
 }
 
 .cardOverlayButton,
@@ -1153,9 +1155,8 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 /* Music Player */
-.appfooter,
 .playlistSectionButton {
-    background: transparent !important;
+    padding-bottom: 0.5em;
 }
 
 .playerStats {
@@ -1376,14 +1377,15 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     background-color: #fafafa;
     color: #fa0000;
     border-radius: var(--rounding) !important;
-    min-width: 5em !important;
+    min-width: 4.5em !important;
     margin: 0 0.5em !important;
 }
 
 .btnPlay:hover {
     background-color: #fa0000;
     color: #fafafa;
-    box-shadow: 0 0 5px #ffffff;
+    box-shadow: 0 0 10px #ffffff;
+    transform: scale(1.2);
 }
 
 /* 外部播放器按钮 */
@@ -1404,6 +1406,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .btnPlay-iina:hover {
     background-color: #fafafa;
     box-shadow: 0 0 5px #ffffff;
+    transform: scale(1.2);
 }
 
 .detailPageSecondaryContainer {
