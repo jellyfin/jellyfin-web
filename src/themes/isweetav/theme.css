@@ -640,7 +640,8 @@ a[data-role=button] {
     backdrop-filter: blur(5px);
 }
 
-.readOnlyContent, form {
+.readOnlyContent,
+form {
     max-width: 100%;
 }
 
@@ -979,9 +980,13 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     color: #06fa06;
 }
 
-.ratingbutton-icon-withrating{
-        color: #fa0606;
-    }
+.playstatebutton-icon-played {
+    color: rgb(250, 128, 6);
+}
+
+.ratingbutton-icon-withrating {
+    color: #fa0606;
+}
 
 .layout-mobile .cardOverlayButtonIcon {
     background-color: rgba(6, 250, 6, 0.8) !important;
