@@ -172,6 +172,11 @@ export const Component = () => {
         // Custom actions
         enableRowActions: true,
         positionActionsColumn: 'last',
+        displayColumnDefOptions: {
+            'mrt-row-actions': {
+                header: ''
+            }
+        },
         renderRowActions: ({ row, table }) => {
             const isDeletable = api && row.original.Id && api.deviceInfo.id === row.original.Id;
             return (
