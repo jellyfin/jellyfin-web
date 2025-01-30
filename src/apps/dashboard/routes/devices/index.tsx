@@ -134,7 +134,7 @@ export const Component = () => {
             filterVariant: 'multi-select',
             filterSelectOptions: userNames
         }
-    ], [ UserCell, userNames ]);
+    ], [ UserCell, dateFnsLocale, userNames ]);
 
     const mrTable = useMaterialReactTable({
         ...DEFAULT_TABLE_OPTIONS,
