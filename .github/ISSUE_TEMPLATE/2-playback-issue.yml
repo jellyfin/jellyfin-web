@@ -45,7 +45,7 @@ body:
   - type: textarea
     id: behaviour
     attributes:
-      label: Expected/ Actual behaviour
+      label: Expected/Actual behaviour
       description: |
         Describe the behavior you were expecting versus what actually occurred.
       placeholder: |
@@ -89,7 +89,7 @@ body:
     attributes:
       value: |
         ### Server
-        You will find theese values in your Admin Dashboard
+        You will find these values in your Admin Dashboard
   - type: input
     id: server-version
     attributes:
@@ -115,7 +115,7 @@ body:
     attributes:
       value: |
         ### Client
-        Information about the Device you are seeing the issue on
+        Information about the device you are seeing the issue on
   - type: input
     id: platform
     attributes:
