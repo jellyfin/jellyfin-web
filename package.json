@@ -121,7 +121,7 @@
     "react-router-dom": "6.27.0",
     "resize-observer-polyfill": "1.5.1",
     "screenfull": "6.0.2",
-    "sortablejs": "1.15.3",
+    "sortablejs": "1.15.6",
     "swiper": "11.2.1",
     "usehooks-ts": "3.1.0",
     "webcomponents.js": "0.7.24",
