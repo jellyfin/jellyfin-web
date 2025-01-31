@@ -1175,13 +1175,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .editPageSidebar,
 .editPageSidebar-withcontent {
     padding-top: 1em;
-    width: 25%;
-}
-
-@media (min-width:50em) {
-    .editPageInnerContent {
-        width: 75%;
-    }
+    width: 100%;
 }
 
 .formDialogFooterItem {
