@@ -1,3 +1,6 @@
+import parseISO from 'date-fns/parseISO';
+
+import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
 import Page from 'components/Page';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
@@ -14,7 +17,6 @@ import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { MaterialReactTable, MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
-import { getDisplayTime, parseISO8601Date, toLocaleDateString } from 'scripts/datetime';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -38,8 +40,8 @@ const ApiKeys = () => {
         },
         {
             id: 'DateIssued',
-            accessorFn: item => parseISO8601Date(item.DateCreated),
-            Cell: ({ cell }) => toLocaleDateString(cell.getValue<Date>()) + ' ' + getDisplayTime(cell.getValue<Date>()),
+            accessorFn: item => item.DateCreated ? parseISO(item.DateCreated) : undefined,
+            Cell: DateTimeCell,
             header: globalize.translate('HeaderDateIssued'),
             filterVariant: 'datetime-range'
         }
@@ -77,8 +79,10 @@ const ApiKeys = () => {
         },
 
         renderTopToolbarCustomActions: () => (
-            <Button onClick={showNewKeyPopup}>
-                <AddIcon />
+            <Button
+                startIcon={<AddIcon />}
+                onClick={showNewKeyPopup}
+            >
                 {globalize.translate('HeaderNewApiKey')}
             </Button>
         ),

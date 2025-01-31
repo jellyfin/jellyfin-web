@@ -5,12 +5,12 @@ import Box from '@mui/material/Box/Box';
 import Button from '@mui/material/Button/Button';
 import IconButton from '@mui/material/IconButton/IconButton';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
-import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/TablePage';
+import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
+import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
 import UserAvatarButton from 'apps/dashboard/components/UserAvatarButton';
 import { useDeleteDevice } from 'apps/dashboard/features/devices/api/useDeleteDevice';
 import { useDevices } from 'apps/dashboard/features/devices/api/useDevices';
@@ -19,7 +19,6 @@ import DeviceNameCell from 'apps/dashboard/features/devices/components/DeviceNam
 import type { DeviceInfoCell } from 'apps/dashboard/features/devices/types/deviceInfoCell';
 import ConfirmDialog from 'components/ConfirmDialog';
 import { useApi } from 'hooks/useApi';
-import { useLocale } from 'hooks/useLocale';
 import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
 
@@ -38,7 +37,6 @@ const getUserCell = (users: UsersRecords) => function UserCell({ renderedCellVal
 export const Component = () => {
     const { api } = useApi();
     const { data: devices, isLoading: isDevicesLoading } = useDevices({});
-    const { dateFnsLocale } = useLocale();
     const { usersById: users, names: userNames, isLoading: isUsersLoading } = useUsersDetails();
 
     const [ isDeleteConfirmOpen, setIsDeleteConfirmOpen ] = useState(false);
@@ -105,7 +103,7 @@ export const Component = () => {
             accessorFn: row => row.DateLastActivity ? parseISO(row.DateLastActivity) : undefined,
             header: globalize.translate('LastActive'),
             size: 160,
-            Cell: ({ cell }) => format(cell.getValue<Date>(), 'Pp', { locale: dateFnsLocale }),
+            Cell: DateTimeCell,
             filterVariant: 'datetime-range',
             enableEditing: false
         },
@@ -134,7 +132,7 @@ export const Component = () => {
             filterVariant: 'multi-select',
             filterSelectOptions: userNames
         }
-    ], [ UserCell, dateFnsLocale, userNames ]);
+    ], [ UserCell, userNames ]);
 
     const mrTable = useMaterialReactTable({
         ...DEFAULT_TABLE_OPTIONS,
