@@ -1,11 +1,11 @@
-/* start custom css by PeiFeng.Li v2.05 2025-01-30*/
+/* start custom css by PeiFeng.Li v2.08 2025-01-31*/
 :root {
     --rounding: 0.5em;
     --card-rounding: 0.5em 0.5em 0 0;
     --accent: red;
     --accent-text: #ffffff;
     --accent-icon: #ffffff;
-    --accent-indicator: rgba(6, 250, 6, 0.9);
+    --accent-indicator: #00ff00cc;
 }
 
 ::placeholder {
@@ -16,12 +16,6 @@
 .skinHeader,
 html {
     color: #ffffff;
-}
-
-.MuiListItem-root,
-.MuiListItem-gutters {
-    color: #ffffff;
-    padding-top: 0.6em;
 }
 
 h1 {
@@ -94,11 +88,6 @@ progress::-webkit-progress-value {
     transition: 0.2s;
 }
 
-.btnSearchImages,
-.btnDeleteImage {
-    margin: 0.6em;
-}
-
 .fab:focus,
 .raised:focus {
     background: #ff77f1;
@@ -121,53 +110,31 @@ a[data-role=button] {
     background-color: transparent;
 }
 
-#btnResetPassword:hover,
-#btnRestart:hover,
-#btnDeleteImage:hover,
-#btnShutdown:hover,
-.button-cancel:hover,
-.fab:hover,
-.raised:hover,
-.alphaPickerButton:hover,
-.submit:hover,
-.btnBrowse:hover,
-.mini:hover,
-.btnRefresh:hover,
-.button-submit:hover,
-.viewTabButton:hover,
-.button-alt:hover,
-.btnOption:hover,
-.btnManual:hover,
-.block:hover {
-    color: #ffffffde;
-    background: #00b400;
-}
-
 .MuiButton-colorPrimary {
-    background-color: rgba(255, 255, 255, 0.6);
+    color: #ffffff;
+    background-color: #5ac5ff;
 }
 
-.MuiButtonBase-root:hover,
-.MuiButton-root:hover,
-.MuiButton-contained:hover,
-.MuiButton-containedPrimary:hover,
-.MuiButton-sizeLarge:hover,
-.MuiButton-containedSizeLarge:hover,
 .MuiButton-colorPrimary:hover {
-    background-color: white;
+    color: #000000;
+    background-color: #ffffff;
 }
 
 .MuiAccordionSummary-root:hover {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #00000080;
+}
+
+.MuiButton-colorError {
+    background-color: #a00000cc;
+}
+
+.MuiButton-colorError:hover {
+    background-color: #ff0000;
+    box-shadow: 0 0 5px #ff0000;
 }
 
 .button-submit:focus {
     background: #ff77f1;
-}
-
-.button-delete {
-    color: #ffffffde;
-    background: #f70000;
 }
 
 .itemName {
@@ -316,7 +283,7 @@ a[data-role=button] {
 
 @supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
     .appfooter {
-        background: rgba(6, 6, 6, 0.2);
+        background: #00000033;
         backdrop-filter: blur(10px);
     }
 }
@@ -770,34 +737,15 @@ form {
     border-radius: var(--rounding);
 }
 
-/* 按钮颜色 */
-#btnDeleteImage,
-.submit,
-.btnBrowse,
-.mini,
-.btnRefresh,
-.btnManual,
-.button-submit,
-.viewTabButton,
-.button-alt,
-.btnOption {
-    border-radius: var(--rounding);
-    background: #13dae0bf;
-}
-
 /* 鼠标hover颜色 */
 #ƒ:hover,
 #btnRestart:hover,
-#btnDeleteImage:hover,
-#btnShutdown:hover,
-.button-cancel:hover,
 .fab:hover,
 .raised:hover,
 .alphaPickerButton:hover,
 .submit:hover,
 .btnBrowse:hover,
 .mini:hover,
-.btnRefresh:hover,
 .button-submit:hover,
 .viewTabButton:hover,
 .button-alt:hover,
@@ -807,6 +755,79 @@ form {
     color: #000000;
     background: #ffffff;
     box-shadow: 0 0 5px #ffffff;
+}
+
+/* 按钮颜色 */
+.submit,
+.btnBrowse,
+.mini,
+.btnManual,
+.button-submit,
+.viewTabButton,
+.button-alt,
+.btnOption {
+    border-radius: var(--rounding);
+    background: #13dae0bf;
+}
+
+.button-cancel {
+    color: #ffffff !important;
+    background: #00000080 !important;
+}
+
+.button-cancel:hover {
+    color: #ffffff !important;
+    background: #00c300 !important;
+    box-shadow: 0 0 5px #00c300;
+}
+
+.button-delete {
+    color: #ff0000 !important;
+    border-radius: var(--rounding);
+    background: #00000080 !important;
+}
+
+#btnRestartServer {
+    color: #ffffff !important;
+    background: #8000ff80 !important;
+}
+
+#btnRestartServer:hover {
+    color: #8000ff !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 5px #ffffff !important;
+}
+
+#btnDeleteImage,
+#btnShutdown,
+#btnResetPassword {
+    color: #ffffff !important;
+    background: #ff00004d !important;
+}
+
+#btnDeleteImage:hover,
+#btnShutdown:hover,
+#btnResetPassword:hover,
+.button-delete:hover {
+    color: #ffffff !important;
+    background: #ff0000 !important;
+    box-shadow: 0 0 5px #ff0000 !important;
+}
+
+.btnRefresh {
+    border-radius: var(--rounding);
+    background: #00ff0080 !important;
+}
+
+.btnRefresh:hover {
+    color: #ff0000;
+    background: #ffffff !important;
+    box-shadow: 0 0 5px #ffffff !important;
+}
+
+.btnSearchImages,
+.btnDeleteImage {
+    margin: 0.6em;
 }
 
 /* 输入框圆角 */
@@ -1019,7 +1040,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .playstatebutton-icon-played {
-    color: rgb(250, 128, 6);
+    color: #fa8000;
 }
 
 .ratingbutton-icon-withrating {
@@ -1027,7 +1048,7 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 }
 
 .layout-mobile .cardOverlayButtonIcon {
-    background-color: rgba(6, 250, 6, 0.8) !important;
+    background-color: #00ff00cc !important;
     color: #ffffff;
 }
 
@@ -1038,14 +1059,14 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 .cardOverlayContainer>.cardOverlayFab-primary {
     background-color: #00ff001a !important;
-    box-shadow: 0 0 10px rgb(0, 255, 0);
+    box-shadow: 0 0 10px #00ff00;
     border-radius: 50%;
 }
 
 .cardOverlayContainer>.cardOverlayFab-primary:hover {
     color: #ffffff;
     background-color: #00ff001a !important;
-    box-shadow: 0 0 10px rgb(0, 255, 0);
+    box-shadow: 0 0 10px #00ff00;
     border-radius: 50%;
     transform: scale(1.3);
     -webkit-transform: scale(1.3);
@@ -1250,9 +1271,14 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     color: #ffffff;
 }
 
+.MuiListItem-root,
+.MuiListItem-gutters {
+    color: #ffffff;
+    padding-top: 0.6em;
+}
+
 /* 后台左侧面板已选择项 */
 .Mui-selected {
-    background-color: #00000033 !important;
     margin: 0 0.8em 0 0.6em;
     border-radius: var(--rounding);
     box-shadow: 0 0 5px #ffffff;
@@ -1260,10 +1286,6 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
 .MuiListItemIcon-root {
     color: #ffffff;
-}
-
-.MuiListItemIcon-root:hover {
-    color: #000000;
 }
 
 .MuiIconButton-root,
@@ -1297,7 +1319,6 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     margin: 0 0.6em;
     border-radius: var(--rounding);
     box-shadow: 0 0 5px #ffffff;
-    background-color: #00000033 !important;
 }
 
 .MuiMenuItem-root:hover,
@@ -1476,6 +1497,23 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 .MuiList-root,
 .MuiBox-root {
     background: none;
+}
+
+.MuiLink-underlineAlways {
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
+.MuiLink-underlineAlways:hover {
+    -webkit-text-decoration: underline !important;
+    text-decoration: underline !important;
+}
+
+.button-link:hover {
+    -webkit-text-decoration: underline;
+    text-decoration: underline;
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
 }
 
 @media (min-width:31.25em) {
