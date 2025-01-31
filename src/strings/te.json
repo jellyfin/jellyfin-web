@@ -1531,5 +1531,12 @@
     "BackdropScreensaver": "నేపథ్యానికి స్క్రీన్‌సేవర్",
     "BlockContentWithTagsHelp": "పేర్కొన్న ట్యాగ్‌లలో కనీసం ఒకదానితో ఇద్దరు మాధ్యమంను దాచు.",
     "ButtonBackspace": "పునర్వృద్ధి",
-    "AutoSubtitleStylingHelp": "ఈ మోడ్ మీ పరికర రకాన్ని బట్టి స్థానిక మరియు అనుకూల ఉపశీర్షిక పద్దతి విధానాల మధ్య స్వయంచాలకంగా మారుతుంది."
+    "AutoSubtitleStylingHelp": "ఈ మోడ్ మీ పరికర రకాన్ని బట్టి స్థానిక మరియు అనుకూల ఉపశీర్షిక పద్దతి విధానాల మధ్య స్వయంచాలకంగా మారుతుంది.",
+    "ChannelResolutionHD": "హెచ్‌డి",
+    "ChannelResolutionFullHD": "పూర్తిగా హెచ్‌డి",
+    "ChannelResolutionUHD4K": "యుహెచ్డి (4కె )",
+    "ButtonSpace": "స్థలం",
+    "ChannelResolutionSDPAL": "ఎస్డి (పాల్ )",
+    "ChannelResolutionSD": "ఎస్డీ",
+    "Casual": "సాధారణ"
 }
