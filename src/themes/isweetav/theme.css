@@ -80,8 +80,12 @@ progress::-webkit-progress-value {
 .fab,
 .raised {
     border-radius: var(--rounding);
-    color: #ffffff;
-    background: #000000cc;
+    background: #00000080;
+}
+
+.MuiAlert-icon {
+    color: #ffff00 !important;
+    margin-left: 0.5em;
 }
 
 .mini:hover {
@@ -151,6 +155,10 @@ a[data-role=button] {
 .MuiButton-containedSizeLarge:hover,
 .MuiButton-colorPrimary:hover {
     background-color: white;
+}
+
+.MuiAccordionSummary-root:hover {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .button-submit:focus {
@@ -1306,6 +1314,13 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     background-color: #ffffff;
 }
 
+.MuiAvatar-root:hover,
+.MuiAvatar-circular:hover {
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transition: 0.2s;
+}
+
 .itemProgressBar {
     background: #00000000;
     height: .15em;
@@ -1463,6 +1478,15 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     background: none;
 }
 
+@media (min-width:31.25em) {
+
+    .portraitCard,
+    .smallBackdropCard,
+    .squareCard {
+        width: 33%;
+    }
+}
+
 @media (min-width: 35em) {
     .detailButton {
         padding-left: 0.75em !important;
@@ -1470,10 +1494,21 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     }
 }
 
+@media (orientation: portrait) and (max-width: 43em) {
+    .nowPlayingInfoButtons {
+        padding-bottom: 0.6em;
+    }
+}
+
 /* Mobile 设备标题栏稍微右移 */
 @media (min-width:43.75em) {
     .layout-mobile [dir=ltr] .infoWrapper {
         padding-left: 31% !important;
+    }
+
+    .portraitCard,
+    .squareCard {
+        width: 25%;
     }
 }
 
@@ -1485,6 +1520,14 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 
     .btnPlay {
         margin: 0 1em !important;
+    }
+}
+
+@media (min-width: 50em) {
+
+    .portraitCard,
+    .squareCard {
+        width: 25%;
     }
 }
 
@@ -1513,6 +1556,14 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
 @media all and (max-width: 68.75em) {
     .detailLogo {
         display: unset;
+    }
+}
+
+@media (min-width:75em) {
+
+    .portraitCard,
+    .squareCard {
+        width: 20%;
     }
 }
 
@@ -1546,6 +1597,15 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     }
 }
 
+@media (min-width:87.5em) {
+
+    .portraitCard,
+    .smallBackdropCard,
+    .squareCard {
+        width: 16%;
+    }
+}
+
 @media all and (max-width: 80em) {
     .cardOverlayButton {
         font-size: 75%;
@@ -1560,11 +1620,26 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     .emby-tab-button {
         font-size: large;
     }
+
+    .portraitCard,
+    .squareCard {
+        width: 14%;
+    }
 }
 
-@media (orientation: portrait) and (max-width: 43em) {
-    .nowPlayingInfoButtons {
-        padding-bottom: 0.6em;
+@media (min-width:120em) {
+
+    .portraitCard,
+    .squareCard {
+        width: 13%;
+    }
+}
+
+@media (min-width:131.25em) {
+
+    .portraitCard,
+    .squareCard {
+        width: 12%;
     }
 }
 
