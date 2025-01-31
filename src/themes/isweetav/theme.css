@@ -1177,6 +1177,11 @@ span.material-icons.detailButton-icon.favorite.ratingbutton-icon-withrating {
     padding-top: 1em;
 }
 
+.editorNode {
+    display: flex;
+    align-items: center;
+}
+
 .formDialogFooterItem {
     margin: 0.6em !important;
     max-width: 100%;
