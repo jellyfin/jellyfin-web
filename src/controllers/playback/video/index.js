@@ -1246,12 +1246,14 @@ export default function (view) {
                 case 'ArrowLeft':
                 case 'ArrowRight':
                     if (!e.shiftKey) {
+                        e.preventDefault();
                         showOsd(nowPlayingPositionSlider);
                         nowPlayingPositionSlider.dispatchEvent(new KeyboardEvent(e.type, e));
                     }
                     return;
                 case 'Enter':
                     if (e.target.tagName !== 'BUTTON') {
+                        e.preventDefault();
                         playbackManager.playPause(currentPlayer);
                         showOsd(btnPlayPause);
                     }
