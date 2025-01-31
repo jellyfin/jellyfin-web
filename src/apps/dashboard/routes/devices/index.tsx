@@ -105,7 +105,7 @@ export const Component = () => {
             accessorFn: row => row.DateLastActivity ? parseISO(row.DateLastActivity) : undefined,
             header: globalize.translate('LastActive'),
             size: 160,
-            Cell: ({ cell }) => format(cell.getValue<Date>(), 'Ppp', { locale: dateFnsLocale }),
+            Cell: ({ cell }) => format(cell.getValue<Date>(), 'Pp', { locale: dateFnsLocale }),
             filterVariant: 'datetime-range',
             enableEditing: false
         },
