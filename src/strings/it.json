@@ -1998,6 +1998,6 @@
     "CustomSubtitleStylingHelp": "Lo stile dei sottotitoli funzionerà sulla maggior parte dei dispositivi, ma comporta un ulteriore sovraccarico in termini di prestazioni.",
     "LabelMediaSegmentProviders": "Provider di segmenti multimediali",
     "LabelSubtitleStyling": "Stile dei sottotitoli",
-    "Native": "Predefinito",
+    "Native": "Nativo",
     "NativeSubtitleStylingHelp": "La formattazione dei sottotitoli potrebbe non funzionare su alcuni dispositivi. Tuttavia, non comporta alcun impatto sulle prestazioni."
 }
