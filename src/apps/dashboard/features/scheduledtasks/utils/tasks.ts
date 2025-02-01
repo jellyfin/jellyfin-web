@@ -11,11 +11,17 @@ export function getCategories(tasks: TaskInfo[] | undefined) {
         }
     }
 
-    return categories.sort();
+    return categories.sort((a, b) => a.localeCompare(b));
 }
 
 export function getTasksByCategory(tasks: TaskInfo[] | undefined, category: string) {
     if (!tasks) return [];
 
-    return tasks.filter(task => task.Category == category).sort();
+    return tasks.filter(task => task.Category == category).sort((a, b) => {
+        if (a.Name && b.Name) {
+            return a.Name?.localeCompare(b.Name);
+        } else {
+            return 0;
+        }
+    });
 }
