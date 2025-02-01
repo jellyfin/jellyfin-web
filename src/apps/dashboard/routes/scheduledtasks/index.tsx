@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import Page from '../../../../components/Page';
-import globalize from '../../../../lib/globalize';
+import Page from 'components/Page';
+import globalize from 'lib/globalize';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { useTasks } from '../../features/scheduledtasks/api/useTasks';
 import { getCategories, getTasksByCategory } from '../../features/scheduledtasks/utils/tasks';
-import Loading from '../../../../components/loading/LoadingComponent';
+import Loading from 'components/loading/LoadingComponent';
 import Tasks from '../../features/scheduledtasks/components/Tasks';
 import type { TaskInfo } from '@jellyfin/sdk/lib/generated-client/models/task-info';
-import serverNotifications from '../../../../scripts/serverNotifications';
-import Events, { Event } from '../../../../utils/events';
-import ServerConnections from '../../../../components/ServerConnections';
+import serverNotifications from 'scripts/serverNotifications';
+import Events, { Event } from 'utils/events';
+import ServerConnections from 'components/ServerConnections';
 import { ApiClient } from 'jellyfin-apiclient';
 
 const ScheduledTasks = () => {
