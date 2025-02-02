@@ -403,6 +403,17 @@ export default function (view) {
         return debounced;
     }();
 
+    const _focus2 = function (focusElement) {
+        // If no focus element is provided, try to keep current focus if it's valid,
+        // otherwise default to pause button
+        const currentFocus = focusElement || document.activeElement;
+        if (!currentFocus || !focusManager.isCurrentlyFocusable(currentFocus)) {
+            focusElement = osdBottomElement.querySelector('.btnPause');
+        }
+
+        if (focusElement) focusManager.focus(focusElement);
+    };
+
     function showMainOsdControls(focusElement) {
         if (!currentVisibleMenu) {
             const elem = osdBottomElement;
@@ -412,11 +423,11 @@ export default function (view) {
             elem.classList.remove('videoOsdBottom-hidden');
 
             if (!layoutManager.mobile) {
-                _focus(focusElement);
+                _focus2(focusElement);
             }
             toggleSubtitleSync();
         } else if (currentVisibleMenu === 'osd' && !layoutManager.mobile) {
-            _focus(focusElement);
+            _focus2(focusElement);
         }
     }
 
