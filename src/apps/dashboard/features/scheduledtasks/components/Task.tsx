@@ -5,6 +5,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
 import Dashboard from 'utils/dashboard';
 import { TaskProps } from '../types/taskProps';
 import TaskProgress from './TaskProgress';
@@ -54,9 +55,9 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                    primary={task.Name}
-                    primaryTypographyProps={{ variant: 'h3' }}
+                    primary={<Typography variant='h3'>{task.Name}</Typography>}
                     secondary={task.State == 'Running' ? <TaskProgress task={task} /> : <TaskLastRan task={task} />}
+                    disableTypography
                 />
             </ListItemButton>
         </ListItem>

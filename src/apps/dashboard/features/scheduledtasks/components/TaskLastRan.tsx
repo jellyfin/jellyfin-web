@@ -19,7 +19,7 @@ const TaskLastRan: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
             const lastResultStatus = task.LastExecutionResult.Status;
 
             return (
-                <Typography sx={{ lineHeight: '1.2rem' }} variant='body1'>
+                <Typography sx={{ lineHeight: '1.2rem', color: 'text.secondary' }} variant='body1'>
                     {globalize.translate('LabelScheduledTaskLastRan', lastRan, timeTaken)}
 
                     {lastResultStatus == 'Failed' && <Typography display='inline' color='error'>{` (${globalize.translate('LabelFailed')})`}</Typography>}
@@ -30,7 +30,7 @@ const TaskLastRan: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
         }
     } else {
         return (
-            <Typography>{globalize.translate('LabelStopping')}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>{globalize.translate('LabelStopping')}</Typography>
         );
     }
 };
