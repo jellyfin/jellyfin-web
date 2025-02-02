@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import Box from '@mui/material/Box';
@@ -16,12 +16,13 @@ import { queryClient } from '../../../../utils/query/queryClient';
 
 const ScheduledTasks = () => {
     const { __legacyApiClient__ } = useApi();
-    const { data: initialTasks, isLoading } = useTasks({ isHidden: false });
-    const [tasks, setTasks] = useState<TaskInfo[] | null>(null);
+    const { data: tasks, isLoading } = useTasks({ isHidden: false });
 
     // TODO: Replace usage of the legacy apiclient when websocket support is added to the TS SDK.
     useEffect(() => {
-        __legacyApiClient__?.sendMessage('ScheduledTasksInfoStart', '1000,1000');
+        const onScheduledTasksUpdate = (_e: Event, _apiClient: ApiClient, info: TaskInfo[]) => {
+            queryClient.setQueryData([QUERY_KEY], info);
+        };
 
         const fallbackInterval = setInterval(() => {
             if (!__legacyApiClient__?.isMessageChannelOpen()) {
@@ -31,27 +32,15 @@ const ScheduledTasks = () => {
             }
         }, 1e4);
 
-        return () => {
-            __legacyApiClient__?.sendMessage('ScheduledTasksInfoStop', null);
-            clearInterval(fallbackInterval);
-        };
-    }, [__legacyApiClient__]);
-
-    useEffect(() => {
-        const onScheduledTasksUpdate = (_e: Event, _apiClient: ApiClient, info: TaskInfo[]) => {
-            setTasks(info);
-        };
-
-        if (initialTasks && ((!isLoading && !tasks) || !__legacyApiClient__?.isMessageChannelOpen())) {
-            setTasks(initialTasks);
-        }
-
+        __legacyApiClient__?.sendMessage('ScheduledTasksInfoStart', '1000,1000');
         Events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
 
         return () => {
+            clearInterval(fallbackInterval);
+            __legacyApiClient__?.sendMessage('ScheduledTasksInfoStop', null);
             Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
         };
-    }, [isLoading, initialTasks, tasks, __legacyApiClient__]);
+    }, [__legacyApiClient__]);
 
     if (isLoading || !tasks) {
         return <Loading />;
