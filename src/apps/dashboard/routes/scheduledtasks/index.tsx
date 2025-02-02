@@ -10,22 +10,22 @@ import Tasks from '../../features/scheduledtasks/components/Tasks';
 import type { TaskInfo } from '@jellyfin/sdk/lib/generated-client/models/task-info';
 import serverNotifications from 'scripts/serverNotifications';
 import Events, { Event } from 'utils/events';
-import ServerConnections from 'components/ServerConnections';
 import { ApiClient } from 'jellyfin-apiclient';
+import { useApi } from 'hooks/useApi';
 
 const ScheduledTasks = () => {
+    const { __legacyApiClient__ } = useApi();
     const { data: initialTasks, isLoading } = useTasks({ isHidden: false });
     const [tasks, setTasks] = useState<TaskInfo[] | null>(null);
 
     // TODO: Replace usage of the legacy apiclient when websocket support is added to the TS SDK.
     useEffect(() => {
-        const apiClient = ServerConnections.currentApiClient();
-        apiClient?.sendMessage('ScheduledTasksInfoStart', '1000,1000');
+        __legacyApiClient__?.sendMessage('ScheduledTasksInfoStart', '1000,1000');
 
         return () => {
-            apiClient?.sendMessage('ScheduledTasksInfoStop', null);
+            __legacyApiClient__?.sendMessage('ScheduledTasksInfoStop', null);
         };
-    }, []);
+    }, [__legacyApiClient__]);
 
     useEffect(() => {
         const onScheduledTasksUpdate = (_e: Event, _apiClient: ApiClient, info: TaskInfo[]) => {
