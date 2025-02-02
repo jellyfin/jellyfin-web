@@ -3,7 +3,7 @@ import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { useTasks } from '../../features/scheduledtasks/api/useTasks';
+import { QUERY_KEY, useTasks } from '../../features/scheduledtasks/api/useTasks';
 import { getCategories, getTasksByCategory } from '../../features/scheduledtasks/utils/tasks';
 import Loading from 'components/loading/LoadingComponent';
 import Tasks from '../../features/scheduledtasks/components/Tasks';
@@ -12,6 +12,7 @@ import serverNotifications from 'scripts/serverNotifications';
 import Events, { Event } from 'utils/events';
 import { ApiClient } from 'jellyfin-apiclient';
 import { useApi } from 'hooks/useApi';
+import { queryClient } from '../../../../utils/query/queryClient';
 
 const ScheduledTasks = () => {
     const { __legacyApiClient__ } = useApi();
@@ -22,8 +23,17 @@ const ScheduledTasks = () => {
     useEffect(() => {
         __legacyApiClient__?.sendMessage('ScheduledTasksInfoStart', '1000,1000');
 
+        const fallbackInterval = setInterval(() => {
+            if (!__legacyApiClient__?.isMessageChannelOpen()) {
+                void queryClient.invalidateQueries({
+                    queryKey: [QUERY_KEY]
+                });
+            }
+        }, 1e4);
+
         return () => {
             __legacyApiClient__?.sendMessage('ScheduledTasksInfoStop', null);
+            clearInterval(fallbackInterval);
         };
     }, [__legacyApiClient__]);
 
@@ -32,7 +42,7 @@ const ScheduledTasks = () => {
             setTasks(info);
         };
 
-        if (!isLoading && !tasks && initialTasks) {
+        if (initialTasks && ((!isLoading && !tasks) || !__legacyApiClient__?.isMessageChannelOpen())) {
             setTasks(initialTasks);
         }
 
@@ -41,7 +51,7 @@ const ScheduledTasks = () => {
         return () => {
             Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
         };
-    }, [isLoading, initialTasks, tasks]);
+    }, [isLoading, initialTasks, tasks, __legacyApiClient__]);
 
     if (isLoading || !tasks) {
         return <Loading />;
