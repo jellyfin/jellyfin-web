@@ -1,4 +1,4 @@
-import type { ScheduledTasksApiGetTasksRequest } from '@jellyfin/sdk/lib/generated-client';
+import type { ScheduledTasksApiGetTasksRequest } from '@jellyfin/sdk/lib/generated-client/api/scheduled-tasks-api';
 import type { AxiosRequestConfig } from 'axios';
 import type { Api } from '@jellyfin/sdk';
 import { getScheduledTasksApi } from '@jellyfin/sdk/lib/utils/api/scheduled-tasks-api';
