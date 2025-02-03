@@ -125,6 +125,8 @@ export function isInteractiveElement(element) {
 export function enable() {
     const hasMediaSession = 'mediaSession' in navigator;
     window.addEventListener('keydown', function (e) {
+        if (e.defaultPrevented) return;
+
         // Skip modified keys
         if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
 
