@@ -2609,16 +2609,11 @@ export class PlaybackManager {
                 });
             }
 
+            let mediaSourceId = playOptions.mediaSourceId;
+
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            let mediaSourceId;
-
             const isLiveTv = [BaseItemKind.TvChannel, BaseItemKind.LiveTvChannel].includes(item.Type);
-
-            if (!isLiveTv) {
-                mediaSourceId = playOptions.mediaSourceId || item.Id;
-            }
-
-            const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId)
+            const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id)
                 .then(fullItem => {
                     return fullItem.MediaStreams;
                 });
@@ -2651,13 +2646,20 @@ export class PlaybackManager {
                 playOptions.items = null;
 
                 const trackOptions = {};
+                let isIdFallbackNeeded = false;
 
                 autoSetNextTracks(prevSource, mediaStreams, trackOptions, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
                 if (trackOptions.DefaultAudioStreamIndex != null) {
                     options.audioStreamIndex = trackOptions.DefaultAudioStreamIndex;
+                    isIdFallbackNeeded = true;
                 }
                 if (trackOptions.DefaultSubtitleStreamIndex != null) {
                     options.subtitleStreamIndex = trackOptions.DefaultSubtitleStreamIndex;
+                    isIdFallbackNeeded = true;
+                }
+
+                if (isIdFallbackNeeded) {
+                    mediaSourceId ||= item.Id;
                 }
 
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options).then(async (mediaSource) => {
