@@ -1160,7 +1160,7 @@
     "AllowSegmentDeletion": "移除轉碼暫存檔",
     "AiTranslated": "AI 翻譯",
     "BackdropScreensaver": "背景螢幕保護程式",
-    "AllowSegmentDeletionHelp": "將已經傳送給用戶端的轉碼檔案刪除，這樣可以減少轉碼暫存檔佔用的空間。只有在轉碼限速啟用時生效。如果播放出現問題，請關閉此選項。",
+    "AllowSegmentDeletionHelp": "將用戶端已經下載的轉碼檔案刪除，這樣可以減少轉碼暫存檔佔用的空間。只有在轉碼限速啟用時生效。如果播放出現問題，請關閉此選項。",
     "LabelThrottleDelaySeconds": "轉碼限速時間",
     "LabelThrottleDelaySecondsHelp": "轉碼限速器啟動時間（秒）。為確保客戶端能夠取得足夠的緩衝，啟動時間越長越好。只有在轉碼限速啟用時生效。",
     "LabelSegmentKeepSeconds": "轉碼暫存檔保存時間",
@@ -1268,5 +1268,6 @@
     "LabelSelectStereo": "雙聲道",
     "ConfirmDeleteLyrics": "刪除這些歌詞將會同時從媒體庫中移除它們並從伺服器上刪除相關檔案。您是否確定刪除？",
     "Anime": "動漫",
-    "ChannelResolutionSDPAL": "SD（PAL 格式）"
+    "ChannelResolutionSDPAL": "SD（PAL 格式）",
+    "AllowContentWithTagsHelp": "僅顯示至少有一個指定標籤的媒體。"
 }

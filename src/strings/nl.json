@@ -532,7 +532,7 @@
     "LabelLanguage": "Taal",
     "LabelLocalHttpServerPortNumber": "Lokaal HTTP-poortnummer",
     "LabelLocalHttpServerPortNumberHelp": "Het TCP-poortnummer voor de HTTP-server.",
-    "LabelLockItemToPreventChanges": "Vergrendel dit item om toekomstige wijzigingen te voorkomen",
+    "LabelLockItemToPreventChanges": "Dit item vergrendelen om toekomstige wijzigingen in metadata te voorkomen",
     "LabelLoginDisclaimer": "Disclaimer aanmeldscherm",
     "LabelLoginDisclaimerHelp": "Een bericht dat onderaan de aanmeldpagina wordt weergegeven.",
     "LabelLogs": "Logboeken",
@@ -1976,7 +1976,7 @@
     "HeaderEditPlaylist": "Afspeellijst bewerken",
     "HeaderNewPlaylist": "Nieuwe afspeellijst",
     "LabelMediaSegmentsType": "{0}segmenten",
-    "MediaSegmentAction.None": "Geen",
+    "MediaSegmentAction.None": "Niets doen",
     "MediaSegmentAction.Skip": "Overslaan",
     "MediaSegmentType.Commercial": "Reclame",
     "MediaSegmentType.Intro": "Intro",
@@ -1992,5 +1992,11 @@
     "HeaderNextEpisode": "Volgende aflevering",
     "HeaderNextVideo": "Volgende video",
     "LabelMediaSegmentProviders": "Aanbieders van mediasegmenten",
-    "MediaSegmentProvidersHelp": "Rangschik je voorkeursaanbieders van mediasegmenten op volgorde van prioriteit."
+    "MediaSegmentProvidersHelp": "Rangschik je voorkeursaanbieders van mediasegmenten op volgorde van prioriteit.",
+    "Custom": "Aangepast",
+    "AutoSubtitleStylingHelp": "Deze stand zal automatisch wisselen tussen de ingebouwde en aangepaste opmaakmechanismen voor ondertiteling, naar gelang je apparaattype.",
+    "CustomSubtitleStylingHelp": "Ondertitelingsopmaak zal op de meeste apparaten werken, maar heeft invloed op de systeemprestaties.",
+    "LabelSubtitleStyling": "Ondertitelingsopmaak",
+    "Native": "Ingebouwd",
+    "NativeSubtitleStylingHelp": "Ondertitelingsopmaak zal niet op alle apparaten werken, maar de prestaties worden niet negatief beïnvloed."
 }

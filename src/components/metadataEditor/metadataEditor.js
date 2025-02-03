@@ -1099,10 +1099,7 @@ function show(itemId, serverId, resolve) {
         centerFocus(dlg.querySelector('.formDialogContent'), false, true);
     }
 
-    dialogHelper.open(dlg, {
-        preventCloseOnClick : true,
-        preventCloseOnRightClick : true
-    });
+    dialogHelper.open(dlg);
 
     dlg.addEventListener('close', function () {
         if (layoutManager.tv) {

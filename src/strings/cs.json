@@ -471,7 +471,7 @@
     "LabelLineup": "V pořadí",
     "LabelLocalHttpServerPortNumber": "Lokální HTTP port",
     "LabelLocalHttpServerPortNumberHelp": "Číslo portu TCP HTTP serveru.",
-    "LabelLockItemToPreventChanges": "Uzamknout položku pro zabránění budoucích změn",
+    "LabelLockItemToPreventChanges": "Uzamknout položku pro zabránění budoucích změn v metadatech",
     "LabelLoginDisclaimer": "Zřeknutí se zodpovědnosti při přihlášení",
     "LabelLoginDisclaimerHelp": "Zpráva, která se zobrazí v dolní části přihlašovací stránky.",
     "LabelLogs": "Záznamy",
@@ -1993,5 +1993,11 @@
     "HeaderNextEpisode": "Další díl",
     "HeaderNextVideo": "Další video",
     "LabelMediaSegmentProviders": "Poskytovatelé segmentů médií",
-    "MediaSegmentProvidersHelp": "Povolit a seřadit preferované poskytovatele segmentů médií podle priority."
+    "MediaSegmentProvidersHelp": "Povolit a seřadit preferované poskytovatele segmentů médií podle priority.",
+    "AutoSubtitleStylingHelp": "Tento režim přepíná mezi nativním a vlastním zobrazením stylu titulků podle typu zařízení.",
+    "Custom": "Vlastní",
+    "CustomSubtitleStylingHelp": "Zobrazení stylu titulků bude fungovat na většině zařízeních, ale vyžaduje výkon navíc.",
+    "LabelSubtitleStyling": "Styl titulků",
+    "Native": "Nativní",
+    "NativeSubtitleStylingHelp": "Zobrazení stylu titulků nebude na některých zařízeních fungovat, ale nevyžaduje žádný výkon navíc."
 }
