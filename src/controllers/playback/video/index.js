@@ -326,7 +326,93 @@ export default function (view) {
         elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
-    const _focus = debounce((focusElement) => focusManager.focus(focusElement), 50);
+    /*const _focus = function () {
+        let lastFocusElement;
+        let timerId;
+
+        function invokeFunc() {
+            // If no focus element is provided, try to keep current focus if it's valid,
+            // otherwise default to pause button
+            const currentFocus = lastFocusElement || document.activeElement;
+            if (!currentFocus || !focusManager.isCurrentlyFocusable(currentFocus)) {
+                lastFocusElement = osdBottomElement.querySelector('.btnPause');
+            }
+
+            if (lastFocusElement) focusManager.focus(lastFocusElement);
+
+            lastFocusElement = undefined;
+            timerId = undefined;
+        }
+
+        const debounced = function (focusElement) {
+            if (focusElement) lastFocusElement = focusElement;
+
+            if (timerId === undefined) {
+                timerId = setTimeout(invokeFunc, 50);
+            }
+        };
+
+        function cancel() {
+            if (timerId !== undefined) {
+                clearTimeout(timerId);
+            }
+            lastFocusElement = undefined;
+            timerId = undefined;
+        }
+
+        debounced.cancel = cancel;
+
+        return debounced;
+    }();*/
+    const _focus = function () {
+        let lastFocusElement;
+
+        const debouncedInternal = debounce(() => {
+            // If no focus element is provided, try to keep current focus if it's valid,
+            // otherwise default to pause button
+            const currentFocus = lastFocusElement || document.activeElement;
+            if (!currentFocus || !focusManager.isCurrentlyFocusable(currentFocus)) {
+                lastFocusElement = osdBottomElement.querySelector('.btnPause');
+            }
+
+            if (lastFocusElement) focusManager.focus(lastFocusElement);
+
+            lastFocusElement = undefined;
+        }, 50);
+
+        const debounced = function (focusElement) {
+            if (focusElement) lastFocusElement = focusElement;
+
+            debouncedInternal();
+        };
+
+        function cancel() {
+            debouncedInternal.cancel();
+            lastFocusElement = undefined;
+        }
+
+        function flush() {
+            const result = debouncedInternal.flush();
+            lastFocusElement = undefined;
+            return result;
+        }
+
+        debounced.cancel = cancel;
+        debounced.flush = flush;
+
+        return debounced;
+    }();
+
+    const _focus2 = function (focusElement) {
+        // If no focus element is provided, try to keep current focus if it's valid,
+        // otherwise default to pause button
+        const currentFocus = focusElement || document.activeElement;
+        if (!currentFocus || !focusManager.isCurrentlyFocusable(currentFocus)) {
+            focusElement = osdBottomElement.querySelector('.btnPause');
+        }
+
+        if (focusElement) focusManager.focus(focusElement);
+    };
 
     function showMainOsdControls(focusElement) {
         if (!currentVisibleMenu) {
@@ -336,23 +422,12 @@ export default function (view) {
             elem.classList.remove('hide');
             elem.classList.remove('videoOsdBottom-hidden');
 
-            focusElement ||= elem.querySelector('.btnPause');
-
             if (!layoutManager.mobile) {
-                _focus(focusElement);
+                _focus2(focusElement);
             }
             toggleSubtitleSync();
         } else if (currentVisibleMenu === 'osd' && !layoutManager.mobile) {
-            // If no focus element is provided, try to keep current focus if it's valid,
-            // otherwise default to pause button
-            if (!focusElement) {
-                const currentFocus = document.activeElement;
-                if (!currentFocus || !focusManager.isCurrentlyFocusable(currentFocus)) {
-                    focusElement = osdBottomElement.querySelector('.btnPause');
-                }
-            }
-
-            if (focusElement) _focus(focusElement);
+            _focus2(focusElement);
         }
     }
 
