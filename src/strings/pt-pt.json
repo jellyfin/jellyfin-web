@@ -1989,10 +1989,10 @@
     "HeaderNextEpisode": "Próximo episódio",
     "LabelMediaSegmentProviders": "Fornecedores de segmentos de multimédia",
     "MediaSegmentProvidersHelp": "Ativa e classifica os teus fornecedores de segmentos de multimédia preferidos por ordem de prioridade.",
-    "AutoSubtitleStylingHelp": "Este modo mudará automaticamente entre mecanismos de estilos de legendas nativos e personalizados com base no tipo do teu dispositivo.",
+    "AutoSubtitleStylingHelp": "Este modo alterna automaticamente entre os mecanismos de estilo de legendas nativo e personalizado com base no teu tipo de dispositivo.",
     "Custom": "Personalizado",
-    "CustomSubtitleStylingHelp": "Estilos de legendas funcionarão na maioria dos dispositivos, mas com carga de rendimento adicional.",
+    "CustomSubtitleStylingHelp": "O estilo de legendas funciona na maioria dos dispositivos, mas tem uma sobrecarga de desempenho adicional.",
     "LabelSubtitleStyling": "Estilo de legendas",
     "Native": "Nativo",
-    "NativeSubtitleStylingHelp": "Estilos de legendas não funcionarão na maioria dos dispositivos. Contudo, não causa carga de rendimento adicional."
+    "NativeSubtitleStylingHelp": "O estilo de legenda não funcionará em alguns dispositivos. No entanto, não tem qualquer sobrecarga de desempenho."
 }
