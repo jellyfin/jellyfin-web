@@ -1987,6 +1987,10 @@
     "LabelMediaSegmentProviders": "Fornecedores de segmentos de multimédia",
     "MediaSegmentProvidersHelp": "Ativa e classifica os teus fornecedores de segmentos de multimédia preferidos por ordem de prioridade.",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrai somente os fotogramas-chave para um processamento significativamente mais rápido com temporização menos precisa. Se o descodificador de hardware configurado não suportar esse modo, será utilizado o descodificador de software.",
-    "AutoSubtitleStylingHelp": "Este modo mudará automaticamente entre mecanismos de estilos de legendas nativos e personalizados com base no tipo do teu dispositivo.",
-    "Custom": "Personalizado"
+    "AutoSubtitleStylingHelp": "Este modo alterna automaticamente entre os mecanismos de estilo de legendas nativo e personalizado com base no teu tipo de dispositivo.",
+    "Custom": "Personalizado",
+    "CustomSubtitleStylingHelp": "O estilo de legendas funciona na maioria dos dispositivos, mas tem uma sobrecarga de desempenho adicional.",
+    "LabelSubtitleStyling": "Estilo de legendas",
+    "Native": "Nativo",
+    "NativeSubtitleStylingHelp": "O estilo de legenda não funcionará em alguns dispositivos. No entanto, não tem qualquer sobrecarga de desempenho."
 }
