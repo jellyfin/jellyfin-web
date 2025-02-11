@@ -55,6 +55,15 @@ function getSections() {
         overlayText: false,
         centerText: true
     }, {
+        name: 'MusicVideos',
+        types: 'MusicVideo',
+        shape: getBackdropShape(enableScrollX()),
+        preferThumb: true,
+        showTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
+    }, {
         name: 'Collections',
         types: 'BoxSet',
         shape: getPortraitShape(enableScrollX()),
