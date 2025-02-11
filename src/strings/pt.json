@@ -1986,5 +1986,7 @@
     "RenderPgsSubtitleHelp": "Determina se o cliente deve renderizar legendas PGS em vez de utilizar legendas embebidas. Isto pode evitar a transcodificação do lado do servidor em troca de desempenho de renderização do lado do cliente.",
     "LabelMediaSegmentProviders": "Fornecedores de segmentos de multimédia",
     "MediaSegmentProvidersHelp": "Ativa e classifica os teus fornecedores de segmentos de multimédia preferidos por ordem de prioridade.",
-    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrai somente os fotogramas-chave para um processamento significativamente mais rápido com temporização menos precisa. Se o descodificador de hardware configurado não suportar esse modo, será utilizado o descodificador de software."
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Extrai somente os fotogramas-chave para um processamento significativamente mais rápido com temporização menos precisa. Se o descodificador de hardware configurado não suportar esse modo, será utilizado o descodificador de software.",
+    "AutoSubtitleStylingHelp": "Este modo mudará automaticamente entre mecanismos de estilos de legendas nativos e personalizados com base no tipo do teu dispositivo.",
+    "Custom": "Personalizado"
 }
