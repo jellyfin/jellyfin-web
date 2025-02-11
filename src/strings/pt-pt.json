@@ -1988,5 +1988,11 @@
     "HeaderNextVideo": "Próximo vídeo",
     "HeaderNextEpisode": "Próximo episódio",
     "LabelMediaSegmentProviders": "Fornecedores de segmentos de multimédia",
-    "MediaSegmentProvidersHelp": "Ativa e classifica os teus fornecedores de segmentos de multimédia preferidos por ordem de prioridade."
+    "MediaSegmentProvidersHelp": "Ativa e classifica os teus fornecedores de segmentos de multimédia preferidos por ordem de prioridade.",
+    "AutoSubtitleStylingHelp": "Este modo mudará automaticamente entre mecanismos de estilos de legendas nativos e personalizados com base no tipo do teu dispositivo.",
+    "Custom": "Personalizado",
+    "CustomSubtitleStylingHelp": "Estilos de legendas funcionarão na maioria dos dispositivos, mas com carga de rendimento adicional.",
+    "LabelSubtitleStyling": "Estilo de legendas",
+    "Native": "Nativo",
+    "NativeSubtitleStylingHelp": "Estilos de legendas não funcionarão na maioria dos dispositivos. Contudo, não causa carga de rendimento adicional."
 }
