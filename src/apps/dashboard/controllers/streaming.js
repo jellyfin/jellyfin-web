@@ -1,6 +1,7 @@
 import 'jquery';
-import loading from '../../components/loading/loading';
-import Dashboard from '../../utils/dashboard';
+
+import loading from 'components/loading/loading';
+import Dashboard from 'utils/dashboard';
 
 function loadPage(page, config) {
     page.querySelector('#txtRemoteClientBitrateLimit').value = config.RemoteClientBitrateLimit / 1e6 || '';
