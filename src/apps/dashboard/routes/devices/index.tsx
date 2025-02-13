@@ -36,7 +36,10 @@ const getUserCell = (users: UsersRecords) => function UserCell({ renderedCellVal
 
 export const Component = () => {
     const { api } = useApi();
-    const { data: devices, isLoading: isDevicesLoading } = useDevices({});
+    const { data, isLoading: isDevicesLoading, isRefetching } = useDevices({});
+    const devices = useMemo(() => (
+        data?.Items || []
+    ), [ data ]);
     const { usersById: users, names: userNames, isLoading: isUsersLoading } = useUsersDetails();
 
     const [ isDeleteConfirmOpen, setIsDeleteConfirmOpen ] = useState(false);
@@ -78,9 +81,9 @@ export const Component = () => {
     }, []);
 
     const onConfirmDeleteAll = useCallback(() => {
-        if (devices?.Items) {
+        if (devices) {
             Promise
-                .all(devices.Items.map(item => {
+                .all(devices.map(item => {
                     if (api && item.Id && api.deviceInfo.id === item.Id) {
                         return deleteDevice.mutateAsync({ id: item.Id });
                     }
@@ -93,7 +96,7 @@ export const Component = () => {
                     onCloseDeleteAllConfirmDialog();
                 });
         }
-    }, [ api, deleteDevice, devices?.Items, onCloseDeleteAllConfirmDialog ]);
+    }, [ api, deleteDevice, devices, onCloseDeleteAllConfirmDialog ]);
 
     const UserCell = getUserCell(users);
 
@@ -138,7 +141,7 @@ export const Component = () => {
         ...DEFAULT_TABLE_OPTIONS,
 
         columns,
-        data: devices?.Items || [],
+        data: devices,
 
         // State
         initialState: {
@@ -151,6 +154,9 @@ export const Component = () => {
         state: {
             isLoading
         },
+
+        // Do not reset the page index when refetching data
+        autoResetPageIndex: !isRefetching,
 
         // Editing device name
         enableEditing: true,
