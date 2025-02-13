@@ -473,7 +473,7 @@ function setLyricButtonActiveStatus() {
 
 function updateNowPlayingInfo(state) {
     const nowPlayingItem = state.NowPlayingItem;
-
+    let documentTitle = 'Jellyfin';
     const textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
     nowPlayingTextElement.innerHTML = '';
     if (textLines) {
@@ -485,6 +485,7 @@ function updateNowPlayingInfo(state) {
             if (textLines[1].text) {
                 const text = document.createElement('a');
                 text.innerText = textLines[1].text;
+                documentTitle = text.innerText;
                 secondaryText.appendChild(text);
             }
         }
@@ -492,11 +493,18 @@ function updateNowPlayingInfo(state) {
         if (textLines[0].text) {
             const text = document.createElement('a');
             text.innerText = textLines[0].text;
+            if (documentTitle != 'Jellyfin') {
+                documentTitle += ' - ';
+            }
+            documentTitle += text.innerText;
             itemText.appendChild(text);
         }
+
         nowPlayingTextElement.appendChild(itemText);
         nowPlayingTextElement.appendChild(secondaryText);
     }
+
+    document.title = documentTitle;
 
     const imgHeight = 70;
 
