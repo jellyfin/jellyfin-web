@@ -146,7 +146,7 @@ function getFetchDataFn(section) {
             SortOrder: 'Ascending',
             Filters: 'IsFavorite',
             Recursive: true,
-            Fields: 'PrimaryImageAspectRatio',
+            Fields: 'PrimaryImageAspectRatio,MediaSourceCount,SpecialFeatureCount',
             CollapseBoxSetItems: false,
             ExcludeLocationTypes: 'Virtual',
             EnableTotalRecordCount: false
