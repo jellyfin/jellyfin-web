@@ -1,27 +1,23 @@
+import parseISO from 'date-fns/parseISO';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
-import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
-import Box from '@mui/material/Box';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Typography from '@mui/material/Typography';
-import { type MRT_ColumnDef, MaterialReactTable, useMaterialReactTable } from 'material-react-table';
+import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
 import { useSearchParams } from 'react-router-dom';
 
+import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
+import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
 import ActionsCell from 'apps/dashboard/features/activity/components/ActionsCell';
 import LogLevelCell from 'apps/dashboard/features/activity/components/LogLevelCell';
 import OverviewCell from 'apps/dashboard/features/activity/components/OverviewCell';
-import UserAvatarButton from 'apps/dashboard/features/activity/components/UserAvatarButton';
+import UserAvatarButton from 'apps/dashboard/components/UserAvatarButton';
 import type { ActivityLogEntryCell } from 'apps/dashboard/features/activity/types/ActivityLogEntryCell';
-import Page from 'components/Page';
-import { useUsers } from 'hooks/useUsers';
-import { parseISO8601Date, toLocaleString } from 'scripts/datetime';
+import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
 import { toBoolean } from 'utils/string';
-
-type UsersRecords = Record<string, UserDto>;
 
 const DEFAULT_PAGE_SIZE = 25;
 const VIEW_PARAM = 'useractivity';
@@ -55,29 +51,7 @@ const Activity = () => {
         pageSize: DEFAULT_PAGE_SIZE
     });
 
-    const { data: usersData, isLoading: isUsersLoading } = useUsers();
-
-    const users: UsersRecords = useMemo(() => {
-        if (!usersData) return {};
-
-        return usersData.reduce<UsersRecords>((acc, user) => {
-            const userId = user.Id;
-            if (!userId) return acc;
-
-            return {
-                ...acc,
-                [userId]: user
-            };
-        }, {});
-    }, [ usersData ]);
-
-    const userNames = useMemo(() => {
-        const names: string[] = [];
-        usersData?.forEach(user => {
-            if (user.Name) names.push(user.Name);
-        });
-        return names;
-    }, [ usersData ]);
+    const { usersById: users, names: userNames, isLoading: isUsersLoading } = useUsersDetails();
 
     const UserCell = getUserCell(users);
 
@@ -109,10 +83,10 @@ const Activity = () => {
     const columns = useMemo<MRT_ColumnDef<ActivityLogEntry>[]>(() => [
         {
             id: 'Date',
-            accessorFn: row => parseISO8601Date(row.Date),
+            accessorFn: row => row.Date ? parseISO(row.Date) : undefined,
             header: globalize.translate('LabelTime'),
             size: 160,
-            Cell: ({ cell }) => toLocaleString(cell.getValue<Date>()),
+            Cell: DateTimeCell,
             filterVariant: 'datetime-range'
         },
         {
@@ -177,21 +151,10 @@ const Activity = () => {
     }, [ activityView, searchParams, setSearchParams ]);
 
     const table = useMaterialReactTable({
+        ...DEFAULT_TABLE_OPTIONS,
+
         columns,
         data: logEntries?.Items || [],
-
-        // Enable custom features
-        enableColumnPinning: true,
-        enableColumnResizing: true,
-
-        // Sticky header/footer
-        enableStickyFooter: true,
-        enableStickyHeader: true,
-        muiTableContainerProps: {
-            sx: {
-                maxHeight: 'calc(100% - 7rem)' // 2 x 3.5rem for header and footer
-            }
-        },
 
         // State
         initialState: {
@@ -229,31 +192,12 @@ const Activity = () => {
     });
 
     return (
-        <Page
+        <TablePage
             id='serverActivityPage'
             title={globalize.translate('HeaderActivity')}
             className='mainAnimatedPage type-interior'
-        >
-            <Box
-                className='content-primary'
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100%'
-                }}
-            >
-                <Box
-                    sx={{
-                        marginBottom: 1
-                    }}
-                >
-                    <Typography variant='h2'>
-                        {globalize.translate('HeaderActivity')}
-                    </Typography>
-                </Box>
-                <MaterialReactTable table={table} />
-            </Box>
-        </Page>
+            table={table}
+        />
     );
 };
 
