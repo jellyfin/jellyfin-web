@@ -394,7 +394,7 @@ function renderRunningTasks(view, tasks) {
     view.querySelector('#divRunningTasks').innerHTML = html;
 }
 
-window.DashboardPage = {
+const DashboardPage = {
     startInterval: function (apiClient) {
         apiClient.sendMessage('SessionsStart', '0,1500');
         apiClient.sendMessage('ScheduledTasksInfoStart', '0,1000');
@@ -741,6 +741,7 @@ window.DashboardPage = {
         });
     }
 };
+
 export default function (view) {
     function onRestartRequired(evt, apiClient) {
         console.debug('onRestartRequired not implemented', evt, apiClient);

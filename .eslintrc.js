@@ -246,7 +246,6 @@ module.exports = {
                 'ApiClient': 'writable',
                 'Events': 'writable',
                 'chrome': 'writable',
-                'DashboardPage': 'writable',
                 'Emby': 'readonly',
                 'Hls': 'writable',
                 'LibraryMenu': 'writable',
