@@ -249,7 +249,6 @@ module.exports = {
                 'Emby': 'readonly',
                 'Hls': 'writable',
                 'LibraryMenu': 'writable',
-                'MetadataEditor': 'writable',
                 'Windows': 'readonly',
                 // Build time definitions
                 __COMMIT_SHA__: 'readonly',
