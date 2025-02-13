@@ -228,15 +228,12 @@ module.exports = {
             },
             env: {
                 node: false,
-                amd: true,
                 browser: true,
                 es6: true,
                 es2017: true,
                 es2020: true
             },
             globals: {
-                // Browser globals
-                'MediaMetadata': 'readonly',
                 // Tizen globals
                 'tizen': 'readonly',
                 'webapis': 'readonly',
@@ -249,19 +246,9 @@ module.exports = {
                 'ApiClient': 'writable',
                 'Events': 'writable',
                 'chrome': 'writable',
-                'DlnaProfilePage': 'writable',
-                'DashboardPage': 'writable',
                 'Emby': 'readonly',
-                'Globalize': 'writable',
                 'Hls': 'writable',
                 'LibraryMenu': 'writable',
-                'LinkParser': 'writable',
-                'LiveTvHelpers': 'writable',
-                'Loading': 'writable',
-                'MetadataEditor': 'writable',
-                'ServerNotifications': 'writable',
-                'TaskButton': 'writable',
-                'UserParentalControlPage': 'writable',
                 'Windows': 'readonly',
                 // Build time definitions
                 __COMMIT_SHA__: 'readonly',
