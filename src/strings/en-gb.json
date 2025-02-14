@@ -150,7 +150,7 @@
     "ChannelNumber": "Channel number",
     "CommunityRating": "Community rating",
     "Composer": "Composer",
-    "ConfigureDateAdded": "Set up how metadata for 'Date added' is determined in the Dashboard > Libraries > Display",
+    "ConfigureDateAdded": "Set up how metadata for 'Date added' is determined in the Dashboard > Libraries > NFO Settings",
     "ConfirmDeleteImage": "Delete image?",
     "ConfirmDeleteItem": "Deleting this item will delete it from both the file system and your media library. Are you sure you wish to continue?",
     "ConfirmDeleteItems": "Deleting these items will delete them from both the file system and your media library. Are you sure you wish to continue?",
