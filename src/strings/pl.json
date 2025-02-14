@@ -110,7 +110,7 @@
     "ColorTransfer": "Transfer kolorów",
     "CommunityRating": "Ocena społeczności",
     "Composer": "Kompozytor",
-    "ConfigureDateAdded": "Ustaw sposób określania daty dodania w Kokpit > Biblioteki > Ustawienia NFO",
+    "ConfigureDateAdded": "Ustaw sposób określania daty dodania w Kokpit > Biblioteki > Wyświetlanie",
     "ConfirmDeleteImage": "Usunąć obraz?",
     "ConfirmDeleteItem": "Usunięcie tej pozycji usunie ją zarówno z systemu plików jak i z biblioteki mediów. Czy chcesz kontynuować?",
     "ConfirmDeleteItems": "Usunięcie tej pozycji usunie ją zarówno z systemu plików jak i z biblioteki mediów. Czy chcesz kontynuować?",
@@ -2001,5 +2001,6 @@
     "NativeSubtitleStylingHelp": "Stylizacja napisów nie będzie działał na niektórych urządzeniach. Nie wiąże się to jednak z żadnym obciążeniem wydajności.",
     "Native": "Natywna",
     "LabelDevice": "Urządzenie",
-    "LastActive": "Ostatnio aktywne"
+    "LastActive": "Ostatnio aktywne",
+    "DeleteServerConfirmation": "Czy na pewno chcesz usunąć ten serwer?"
 }
