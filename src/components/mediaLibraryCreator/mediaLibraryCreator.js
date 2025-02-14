@@ -45,6 +45,18 @@ function onAddLibrary(e) {
     const name = dlg.querySelector('#txtValue').value;
     let type = dlg.querySelector('#selectCollectionType').value;
 
+    if (name.length == 0 || name.trim().length !== name.length) {
+        alert({
+            text: globalize.translate('LibraryNameInvalid'),
+            type: 'error'
+        });
+
+        isCreating = false;
+        loading.hide();
+
+        return false;
+    }
+
     if (type == 'mixed') {
         type = null;
     }
