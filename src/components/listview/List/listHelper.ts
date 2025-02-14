@@ -12,7 +12,9 @@ const sortBySortName = (item: ItemDto): string => {
     }
 
     // SortName
-    const name = (item.SortName ?? item.Name ?? '?')[0].toUpperCase();
+    const name = (item.SortName ?? item.Name ?? '?')[0]?.toUpperCase();
+
+    if (!name) return '';
 
     const code = name.charCodeAt(0);
     if (code < 65 || code > 90) {
@@ -48,7 +50,9 @@ const sortByAlbumArtist = (item: ItemDto): string => {
         return '';
     }
 
-    const name = item.AlbumArtist[0].toUpperCase();
+    const name = item.AlbumArtist[0]?.toUpperCase();
+
+    if (!name) return '';
 
     const code = name.charCodeAt(0);
     if (code < 65 || code > 90) {
