@@ -173,7 +173,7 @@ function showEditor(itemId, serverId) {
             if (currentRecordingFields?.hasChanged()) {
                 resolve();
             } else {
-                reject();
+                reject(new Error('CurrentRecordingFieldsError'));
             }
         });
 

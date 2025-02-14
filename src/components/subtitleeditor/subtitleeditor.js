@@ -465,7 +465,7 @@ function showEditorInternal(itemId, serverId) {
                 if (hasChanges) {
                     resolve();
                 } else {
-                    reject();
+                    reject(new Error('SubtitleEditorError'));
                 }
             });
 
