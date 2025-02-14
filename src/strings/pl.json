@@ -1999,5 +1999,7 @@
     "Custom": "Niestandardowa",
     "LabelSubtitleStyling": "Stylizacja napisów",
     "NativeSubtitleStylingHelp": "Stylizacja napisów nie będzie działał na niektórych urządzeniach. Nie wiąże się to jednak z żadnym obciążeniem wydajności.",
-    "Native": "Natywna"
+    "Native": "Natywna",
+    "LabelDevice": "Urządzenie",
+    "LastActive": "Ostatnio aktywne"
 }
