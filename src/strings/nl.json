@@ -2000,5 +2000,6 @@
     "Native": "Ingebouwd",
     "NativeSubtitleStylingHelp": "Ondertitelingsopmaak zal niet op alle apparaten werken, maar de prestaties worden niet negatief beïnvloed.",
     "LabelDevice": "Apparaat",
-    "LastActive": "Laatst actief"
+    "LastActive": "Laatst actief",
+    "DeleteServerConfirmation": "Weet je zeker dat je deze server wilt verwijderen?"
 }
