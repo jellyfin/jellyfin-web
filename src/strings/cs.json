@@ -1999,5 +1999,7 @@
     "CustomSubtitleStylingHelp": "Zobrazení stylu titulků bude fungovat na většině zařízeních, ale vyžaduje výkon navíc.",
     "LabelSubtitleStyling": "Styl titulků",
     "Native": "Nativní",
-    "NativeSubtitleStylingHelp": "Zobrazení stylu titulků nebude na některých zařízeních fungovat, ale nevyžaduje žádný výkon navíc."
+    "NativeSubtitleStylingHelp": "Zobrazení stylu titulků nebude na některých zařízeních fungovat, ale nevyžaduje žádný výkon navíc.",
+    "LabelDevice": "Zařízení",
+    "LastActive": "Naposledy aktivní"
 }
