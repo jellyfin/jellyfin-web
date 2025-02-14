@@ -114,7 +114,7 @@ const UserNew = () => {
             userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value;
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
 
-            if (/^\s|\s$/.test(userInput.Name)) {
+            if (/^(?:\s.*|.*\s)$/.test(userInput.Name)) {
                 toast(globalize.translate('UsernameCannotHaveWhiteSpaces'));
                 loading.hide();
                 return;
