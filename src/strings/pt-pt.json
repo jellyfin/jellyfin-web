@@ -1994,5 +1994,8 @@
     "CustomSubtitleStylingHelp": "O estilo de legendas funciona na maioria dos dispositivos, mas tem uma sobrecarga de desempenho adicional.",
     "LabelSubtitleStyling": "Estilo de legendas",
     "Native": "Nativo",
-    "NativeSubtitleStylingHelp": "O estilo de legenda não funcionará em alguns dispositivos. No entanto, não tem qualquer sobrecarga de desempenho."
+    "NativeSubtitleStylingHelp": "O estilo de legenda não funcionará em alguns dispositivos. No entanto, não tem qualquer sobrecarga de desempenho.",
+    "LabelDevice": "Dispositivo",
+    "LastActive": "Última atividade",
+    "DeleteServerConfirmation": "Tens a certeza de que queres eliminar este servidor?"
 }
