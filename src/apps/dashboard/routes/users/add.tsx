@@ -113,6 +113,13 @@ const UserNew = () => {
             const userInput: UserInput = {};
             userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value;
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
+
+            if (/^\s|\s$/.test(userInput.Name)) {
+                toast(globalize.translate('UsernameCannotHaveWhiteSpaces'));
+                loading.hide();
+                return;
+            }
+
             window.ApiClient.createUser(userInput).then(function (user) {
                 if (!user.Id || !user.Policy) {
                     throw new Error('Unexpected null user id or policy');
