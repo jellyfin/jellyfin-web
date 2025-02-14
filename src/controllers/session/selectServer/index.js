@@ -7,6 +7,7 @@ import appSettings from '../../../scripts/settings/appSettings';
 import focusManager from '../../../components/focusManager';
 import globalize from '../../../lib/globalize';
 import actionSheet from '../../../components/actionSheet/actionSheet';
+import confirm from '../../../components/confirm/confirm';
 import dom from '../../../scripts/dom';
 import browser from '../../../scripts/browser';
 import 'material-design-icons-iconfont';
@@ -136,10 +137,21 @@ export default function (view, params) {
     }
 
     function deleteServer(server) {
-        loading.show();
-        ServerConnections.deleteServer(server.Id).then(function () {
-            loading.hide();
-            loadServers();
+        confirm({
+            title: globalize.translate('DeleteName', server.Name),
+            text: globalize.translate('DeleteServerConfirmation'),
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        }).then(function () {
+            loading.show();
+            ServerConnections.deleteServer(server.Id).then(function () {
+                loading.hide();
+                loadServers();
+            }).catch(err => {
+                console.error('[selectServer] failed to delete server', err);
+            });
+        }).catch(() => {
+            // confirm dialog closed
         });
     }
 
