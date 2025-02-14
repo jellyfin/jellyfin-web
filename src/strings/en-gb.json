@@ -1989,6 +1989,5 @@
     "MediaSegmentAction.AskToSkip": "Ask To Skip",
     "MediaSegmentSkipPrompt": "Skip {0}",
     "Anime": "Anime",
-    "MoviesAndShows": "Films and Programmes",
-    "UsernameCannotHaveWhiteSpaces": "Username cannot begin or end with whitespaces."
+    "MoviesAndShows": "Films and Programmes"
 }
