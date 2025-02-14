@@ -40,7 +40,7 @@ const getUserCell = (users: UsersRecords) => function UserCell({ row }: Activity
     );
 };
 
-const Activity = () => {
+export const Component = () => {
     const [ searchParams, setSearchParams ] = useSearchParams();
 
     const [ activityView, setActivityView ] = useState(
@@ -201,4 +201,4 @@ const Activity = () => {
     );
 };
 
-export default Activity;
+Component.displayName = 'ActivityPage';
