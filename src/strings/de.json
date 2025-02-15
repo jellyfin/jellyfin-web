@@ -1999,5 +1999,9 @@
     "Native": "Nativ",
     "NativeSubtitleStylingHelp": "Das Untertitel-Styling funktioniert auf einigen Geräten nicht. Allerdings ist damit kein Leistungsaufwand verbunden.",
     "AutoSubtitleStylingHelp": "In diesem Modus wird je nach Gerätetyp automatisch zwischen dem nativen und dem benutzerdefinierten Untertitel-Styling umgeschaltet.",
-    "Custom": "benutzerdefiniert"
+    "Custom": "benutzerdefiniert",
+    "LibraryNameInvalid": "Der Bibliotheksname darf nicht leer sein oder voran-/nachgestellte Leerzeichen haben.",
+    "DeleteServerConfirmation": "Bist du sicher, dass du diesen Server löschen möchtest?",
+    "LabelDevice": "Gerät",
+    "LastActive": "Zuletzt aktiv"
 }
