@@ -2002,5 +2002,6 @@
     "Native": "Natywna",
     "LabelDevice": "Urządzenie",
     "LastActive": "Ostatnio aktywne",
-    "DeleteServerConfirmation": "Czy na pewno chcesz usunąć ten serwer?"
+    "DeleteServerConfirmation": "Czy na pewno chcesz usunąć ten serwer?",
+    "LibraryNameInvalid": "Nazwa biblioteki nie może być pusta ani zaczynać się lub kończyć spacją."
 }
