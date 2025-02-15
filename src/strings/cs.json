@@ -84,7 +84,7 @@
     "Collections": "Kolekce",
     "CommunityRating": "Hodnocení komunity",
     "Composer": "Skladatel",
-    "ConfigureDateAdded": "Nastavení způsobu, jakým je určeno datum přidání v nastavení knihovny v sekci Nástěnka > Knihovny > Nastavení NFO",
+    "ConfigureDateAdded": "Nastavení způsobu, jakým jsou určena metadata pro \"Datum přidání\" v sekci Nástěnka > Knihovny > Zobrazení",
     "ConfirmDeleteImage": "Odstranit obrázek?",
     "ConfirmDeleteItem": "Smazáním položky odstraníte soubor jak z knihovny médií tak ze souborového systému. Opravdu chcete pokračovat?",
     "ConfirmDeleteItems": "Odstraněním těchto položek odstraníte vaše média jak z knihovny médií, tak i ze souborového systému. Opravdu chcete pokračovat?",
@@ -2001,5 +2001,7 @@
     "Native": "Nativní",
     "NativeSubtitleStylingHelp": "Zobrazení stylu titulků nebude na některých zařízeních fungovat, ale nevyžaduje žádný výkon navíc.",
     "LabelDevice": "Zařízení",
-    "LastActive": "Naposledy aktivní"
+    "LastActive": "Naposledy aktivní",
+    "DeleteServerConfirmation": "Opravdu chcete odstranit tento server?",
+    "LibraryNameInvalid": "Název knihovny nesmí být prázdný nebo mít kolem sebe mezery."
 }
