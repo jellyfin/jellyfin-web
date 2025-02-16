@@ -1171,5 +1171,19 @@
     "AlternateDVD": "Pakaitinis DVD",
     "Large": "Didelis",
     "AllowContentWithTagsHelp": "Rodyti tik mediją su bent viena pasirinkta žyma.",
-    "AlwaysBurnInSubtitleWhenTranscoding": "Visada perkoduojant įrašyti subtitrus"
+    "AlwaysBurnInSubtitleWhenTranscoding": "Visada perkoduojant įrašyti subtitrus",
+    "LabelSegmentKeepSecondsHelp": "Segmentų saugojimo laikas po atsiuntimo iš kliento. Veikia tik tada, kai segmentų trynimas yra įjungtas.",
+    "LabelSegmentKeepSeconds": "Segmentų saugojimo laikas",
+    "BlockContentWithTagsHelp": "Slėpti mediją atitinkančią bent vieną nurodytą žymą.",
+    "Author": "Autorius",
+    "CustomSubtitleStylingHelp": "Subtitrų stilius veiks ant daugumos įrenginių, bet našumas gali būt mažesnis.",
+    "DeleteName": "Ištrinti {0}",
+    "DeleteSeries": "Ištrinti serialą",
+    "DeleteEpisode": "Ištrinti epizodą",
+    "AndOtherArtists": "{0} ir {1} kiti atlikėjai.",
+    "ButtonEditUser": "Redaguoti vartotoją",
+    "DeleteEntireSeries": "Ištrinti {0} epizodus",
+    "DeleteLyrics": "Ištrinti žodžius",
+    "DeleteServerConfirmation": "Ar tikrai ištrinti šį serverį?",
+    "Anime": "Anime"
 }
