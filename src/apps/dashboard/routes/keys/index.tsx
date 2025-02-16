@@ -10,7 +10,7 @@ import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table'
 import React, { useCallback, useMemo } from 'react';
 
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
-import TablePage from 'apps/dashboard/components/table/TablePage';
+import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
 import { useApiKeys } from 'apps/dashboard/features/keys/api/useApiKeys';
 import { useRevokeKey } from 'apps/dashboard/features/keys/api/useRevokeKey';
 import { useCreateKey } from 'apps/dashboard/features/keys/api/useCreateKey';
@@ -21,7 +21,10 @@ import globalize from 'lib/globalize';
 
 export const Component = () => {
     const { api } = useApi();
-    const { data: keys, isLoading } = useApiKeys();
+    const { data, isLoading } = useApiKeys();
+    const keys = useMemo(() => (
+        data?.Items || []
+    ), [ data ]);
     const revokeKey = useRevokeKey();
     const createKey = useCreateKey();
 
@@ -47,24 +50,13 @@ export const Component = () => {
     ], []);
 
     const table = useMaterialReactTable({
+        ...DEFAULT_TABLE_OPTIONS,
+
         columns,
-        data: keys?.Items || [],
+        data: keys,
 
         state: {
             isLoading
-        },
-
-        rowCount: keys?.TotalRecordCount || 0,
-
-        enableColumnPinning: true,
-        enableColumnResizing: true,
-
-        enableStickyFooter: true,
-        enableStickyHeader: true,
-        muiTableContainerProps: {
-            sx: {
-                maxHeight: 'calc(100% - 7rem)' // 2 x 3.5rem for header and footer
-            }
         },
 
         // Enable (delete) row actions
