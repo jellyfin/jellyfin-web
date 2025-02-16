@@ -96,7 +96,7 @@
     "Collections": "Samlingar",
     "CommunityRating": "Användaromdöme",
     "Composer": "Kompositör",
-    "ConfigureDateAdded": "Konfigurera hur tillagt datum bestäms på bibliotek > NFO-inställningar",
+    "ConfigureDateAdded": "Konfigurera hur metadatat för 'Lades till datum' avgörs i Kontrollpanelen > Bibliotek > Skärm",
     "ConfirmDeleteImage": "Ta bort bild?",
     "ConfirmDeleteItem": "Tar du bort det här objektet tas det bort från både ditt filsystem och mediabibliotek. Är du säker på att du vill fortsätta?",
     "ConfirmDeleteItems": "Tar du bort dessa objekt tas dem också bort ifrån både ditt filsystem och mediabibliotek. Är du säker på att du vill fortsätta?",
@@ -1994,5 +1994,9 @@
     "AutoSubtitleStylingHelp": "Detta läge kommer automatiskt att byta mellan native och anpassade stilmekanismer baserat på din enhetstyp.",
     "Custom": "Anpassad",
     "LabelSubtitleStyling": "Styling av undertexter",
-    "Native": "Native"
+    "Native": "Native",
+    "LibraryNameInvalid": "Biblioteksnamnet kan inte vara tomt eller börja/sluta med mellanslag.",
+    "LabelDevice": "Enhet",
+    "LastActive": "Senast aktiv",
+    "DeleteServerConfirmation": "Är du säker på att du vill ta bort den här servern?"
 }
