@@ -1443,7 +1443,7 @@
     "DeleteMedia": "Scrios meáin",
     "DeleteSeries": "Scrios Sraith",
     "DeleteEpisode": "Scrios Eipeasóid",
-    "ConfigureDateAdded": "Socraigh conas a chinntear meiteashonraí le haghaidh 'Dáta curtha leis' sa Phainéal > Leabharlanna > Socruithe NFO",
+    "ConfigureDateAdded": "Socraigh conas a chinntear meiteashonraí do 'Dáta curtha leis' ar an Deais > Leabharlanna > Scáthlán",
     "DeleteUser": "Scrios Úsáideoir",
     "DeleteUserConfirmation": "An bhfuil tú cinnte gur mian leat an t-úsáideoir seo a scriosadh?",
     "DetectingDevices": "Gléasanna a bhrath",
@@ -1811,5 +1811,9 @@
     "CustomSubtitleStylingHelp": "Oibreoidh stíliú fotheideal ar fhormhór na bhfeistí, ach tagann forchostas feidhmíochta breise leis.",
     "LabelSubtitleStyling": "Stíleáil fotheideal",
     "Native": "Dúchasach",
-    "NativeSubtitleStylingHelp": "Ní oibreoidh stíliú fotheideal ar ghléasanna áirithe. Mar sin féin, ní thagann sé le haon forchostais feidhmíochta."
+    "NativeSubtitleStylingHelp": "Ní oibreoidh stíliú fotheideal ar ghléasanna áirithe. Mar sin féin, ní thagann sé le haon forchostais feidhmíochta.",
+    "LibraryNameInvalid": "Ní féidir le hainm na leabharlainne a bheith folamh ná spásanna tosaigh/rianta a bheith ann.",
+    "DeleteServerConfirmation": "An bhfuil tú cinnte gur mian leat an freastalaí seo a scriosadh?",
+    "LastActive": "Gníomhach seo caite",
+    "LabelDevice": "Gléas"
 }
