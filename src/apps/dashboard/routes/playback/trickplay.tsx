@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import React from 'react';
 
 import globalize from 'lib/globalize';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
@@ -55,7 +55,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     };
 };
 
-const PlaybackTrickplay: FC = () => {
+export const Component = () => {
     const navigation = useNavigation();
     const actionData = useActionData() as ActionData | undefined;
     const { data: defaultConfig, isPending } = useConfiguration();
@@ -251,4 +251,4 @@ const PlaybackTrickplay: FC = () => {
     );
 };
 
-export default PlaybackTrickplay;
+Component.displayName = 'TrickplayPage';
