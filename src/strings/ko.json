@@ -1512,6 +1512,8 @@
     "LabelAllowedAudioChannels": "최대 허용 오디오 채널",
     "PreferFmp4HlsContainerHelp": "fMP4를 HLS의 기본 컨테이너로 사용하여 지원되는 장치에서 HEVC 및 AV1 콘텐츠를 직접 스트리밍할 수 있도록 합니다.",
     "PreferFmp4HlsContainer": "fMP4-HLS 미디어 컨테이너 선호",
+    "LimitSegmentLengthHelp": "이 설정은 일부 장치에서의 호환성을 향상시킬 수 있습니다. 예를 들어, Jellyfin WebOS에서 재생 중에 세그먼트가 일치하지 않으면 재생이 중지될 수 있습니다. hls_time 값을 1초로 짧게 설정하면 FFmpeg가 생성한 재생 목록이 재생 전에 생성된 재생 목록과 일치하게 됩니다.",
+    "LimitSegmentLength": "세그먼트 길이를 1초로 제한 (hls_time).",
     "LabelSyncPlayInfo": "SyncPlay 정보",
     "LabelOriginalMediaInfo": "원본 미디어 정보",
     "LabelRemuxingInfo": "Remuxing 정보",

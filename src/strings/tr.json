@@ -1620,6 +1620,8 @@
     "EnableEnhancedNvdecDecoder": "Gelişmiş NVDEC kod çözücüyü etkinleştir",
     "PreferFmp4HlsContainerHelp": "HLS için varsayılan kapsayıcı olarak fMP4'ü kullanmayı tercih etmek, HEVC ve AV1 içeriğini destekleyen cihazlara doğrudan akışı mümkün kılar.",
     "PreferFmp4HlsContainer": "fMP4-HLS Medya Kapsayıcısını tercih edin",
+    "LimitSegmentLengthHelp": "Bu, bazı cihazlarda uyumluluğa yardımcı olabilir. Örneğin, Jellyfin WebOS'ta oynatma sırasında uyumsuz bir segmente ulaşıldığında oynatma dururdu. 1 saniyelik daha kısa bir hls_time değeri kullanmak, FFmpeg tarafından oluşturulan oynatma listesinin oynatma öncesinde oluşturulan listeyle eşleşmesini sağlar.",
+    "LimitSegmentLength": "Segment uzunluğunu 1 saniye ile sınırla (hls_time).",
     "LabelSyncPlayInfo": "SyncPlay Bilgisi",
     "LabelOriginalMediaInfo": "Orijinal Medya Bilgisi",
     "LabelRemuxingInfo": "Yeniden birleştirme bilgisi",

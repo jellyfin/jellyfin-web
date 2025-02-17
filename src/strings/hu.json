@@ -1429,6 +1429,8 @@
     "AllowHevcEncoding": "HEVC formátumú kódolás engedélyezése",
     "PreferFmp4HlsContainerHelp": "Inkább az fMP4-et használja alapértelmezett tárolóként a HLS számára, lehetővé téve a HEVC és AV1-tartalom közvetlen irányítását a támogatott eszközökön.",
     "PreferFmp4HlsContainer": "Inkább az fMP4-HLS adattárolót részesítsd előnyben",
+    "LimitSegmentLengthHelp": "Ez segíthet a kompatibilitási problémák megoldásában néhány eszközön. Például, amikor a Jellyfin WebOS lejátszása egy nem megfelelő szegmenshez érkezett, a lejátszás leállt. Az 1 másodperces hls_time érték használata biztosítja, hogy az FFmpeg által generált lejátszási lista megegyezzen az előre létrehozottal.",
+    "LimitSegmentLength": "Szegmens hosszának korlátozása 1 másodpercre (hls_time).",
     "LabelSyncPlayInfo": "SyncPlay információ",
     "LabelOriginalMediaInfo": "Eredeti média információ",
     "LabelRemuxingInfo": "Remuxing információ",

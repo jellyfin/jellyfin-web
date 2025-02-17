@@ -1447,6 +1447,8 @@
     "AllowHevcEncoding": "允許以 HEVC 格式編碼",
     "PreferFmp4HlsContainerHelp": "優先使用 fMP4 作為 HLS 的預設容器，以便在支援的裝置上直接串流 HEVC 和 AV1 內容。",
     "PreferFmp4HlsContainer": "偏好 fMP4-HLS Media Container",
+    "LimitSegmentLengthHelp": "這可以幫助某些設備的相容性。例如，當在 Jellyfin WebOS 上播放到不匹配的片段時，播放會停止。使用 1 秒的較短 hls_time 值可確保 FFmpeg 生成的播放列表與播放前創建的播放列表匹配。",
+    "LimitSegmentLength": "將片段長度限制為 1 秒 (hls_time)。",
     "RemuxHelp2": "Remux使用最低的處理能力，達到完全無損的媒體品質。",
     "RemuxHelp1": "不相容的影片格式(MKV、AVI、WMV等)，但視訊和音訊都與裝置相容。在發送到裝置之前，媒體將被無損地重新打包。",
     "AspectRatioFill": "填滿",

@@ -1840,6 +1840,8 @@
     "LabelTrackGain": "עוצמת רצועה",
     "PreferFmp4HlsContainer": "העדף אריזת מדיה כ-fMP4-HLS",
     "PreferFmp4HlsContainerHelp": "העדף להשתמש ב-fMP4 כאריזת ברירת המחדל עבור HLS, זה יאפשר להזרים תוכן HEVC ו-AV1 ישירות למכשירים תומכים.",
+    "LimitSegmentLengthHelp": "זה יכול לעזור עם תאימות במכשירים מסוימים. לדוגמה, כאשר הניגון ב-Jellyfin WebOS הגיע למקטע לא תואם, הניגון היה נעצר. שימוש בערך hls_time קצר יותר של שנייה אחת מבטיח שהפלייליסט שנוצר על ידי FFmpeg יתאים לזה שנוצר לפני הניגון.",
+    "LimitSegmentLength": "הגבל את אורך המקטע לשנייה אחת (hls_time).",
     "VideoBitrateNotSupported": "קצב הביטים של הוידיאו אינו נתמך",
     "UnknownVideoStreamInfo": "מידע הזרמת הוידיאו אינו ידוע",
     "EnableSplashScreen": "הפעלת מסך הפתיחה",

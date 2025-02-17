@@ -1444,6 +1444,8 @@
     "AllowHevcEncoding": "Povolit kódování do formátu HEVC",
     "PreferFmp4HlsContainerHelp": "Preferovat fMP4 jako výchozí kontejner pro HLS, což umožňuje na podporovaných zařízeních přímo streamovat obsah ve formátu HEVC a AV1.",
     "PreferFmp4HlsContainer": "Preferovat kontejner fMP4-HLS",
+    "LimitSegmentLengthHelp": "Toto může pomoci s kompatibilitou na některých zařízeních. Například při přehrávání na Jellyfin WebOS by se přehrávání zastavilo, když by dosáhlo nesouladného segmentu. Použití kratší hodnoty hls_time 1 sekundy zajišťuje, že seznam skladeb generovaný FFmpeg odpovídá tomu, který byl vytvořen před přehráváním.",
+    "LimitSegmentLength": "Omezit délku segmentu na 1 sekundu (hls_time).",
     "LabelSyncPlayInfo": "Informace o SyncPlay",
     "LabelOriginalMediaInfo": "Informace o původním médiu",
     "LabelRemuxingInfo": "Informace o remuxování",

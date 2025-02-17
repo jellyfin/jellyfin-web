@@ -1496,6 +1496,8 @@
     "YoutubeDenied": "Não é permitida a reprodução do vídeo solicitado em reprodutores embutidos.",
     "PreferFmp4HlsContainerHelp": "Utiliza o fMP4 como container predefinido para HLS, tornando possível a transmissão direta de conteúdos HEVC e AV1 em dispositivos suportados.",
     "PreferFmp4HlsContainer": "Preferir o container multimédia fMP4-HLS",
+    "LimitSegmentLengthHelp": "Isto pode ajudar na compatibilidade em alguns dispositivos. Por exemplo, quando a reprodução no Jellyfin WebOS atingia um segmento incompatível, a reprodução parava. Usar um valor hls_time mais curto de 1 segundo garante que a lista de reprodução gerada pelo FFmpeg corresponde à criada antes da reprodução.",
+    "LimitSegmentLength": "Limitar o comprimento do segmento a 1 segundo (hls_time).",
     "LabelSyncPlayInfo": "Info do SyncPlay",
     "LabelRemuxingInfo": "Info da Remuxing",
     "LabelDirectStreamingInfo": "Informações de transmissão direta",

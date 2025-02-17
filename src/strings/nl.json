@@ -1441,6 +1441,8 @@
     "AllowHevcEncoding": "Coderen in HEVC-formaat toestaan",
     "PreferFmp4HlsContainerHelp": "Gebruik fMP4 als de standaardcontainer voor HLS, waardoor direct streamen van HEVC- en AV1-inhoud op ondersteunde apparaten mogelijk wordt.",
     "PreferFmp4HlsContainer": "fMP4-HLS-mediacontainer verkiezen",
+    "LimitSegmentLengthHelp": "Dit kan helpen met compatibiliteit op sommige apparaten. Bijvoorbeeld, wanneer afspelen op Jellyfin WebOS een niet-overeenkomend segment bereikte, zou het afspelen stoppen. Het gebruik van een kortere hls_time waarde van 1 seconde zorgt ervoor dat de afspeellijst die door FFmpeg wordt gegenereerd overeenkomt met degene die voorafgaand aan het afspelen is gemaakt.",
+    "LimitSegmentLength": "Segmentlengte beperken tot 1 seconde (hls_time).",
     "LabelSyncPlayInfo": "SyncPlay-informatie",
     "LabelOriginalMediaInfo": "Informatie oorspronkelijke media",
     "LabelRemuxingInfo": "Remux-informatie",

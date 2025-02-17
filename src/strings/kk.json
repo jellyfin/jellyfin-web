@@ -1402,6 +1402,8 @@
     "YoutubePlaybackError": "Saual salynğan beinenı oinatu mümkın emes.",
     "AllowHevcEncoding": "HEVC pışımınde kodtauğa rūqsat etu",
     "PreferFmp4HlsContainer": "FMP4-HLS tasyğyş konteinerın qalau",
+    "LimitSegmentLengthHelp": "Būl keibır qūrylğylarda üilesımdılıqpen kömektesuı mümkın. Mysaly, Jellyfin WebOS oinatu kezınde säikestendırılmegen segmentke jetkende, oinatu toqtaydy. 1 sekundtıq qısqa hls_time mänderın paydalanu FFmpeg arqyly jasalğan oinatu tızımı men oinatu aldında jasalğan tızımnıñ säikestıgın qamtamasyz etedı.",
+    "LimitSegmentLength": "Segment ūzaqtyğın 1 sekundqa şekteu (hls_time).",
     "Preview": "Aldyn-ala qarau",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Fail ataulary ornyna endırılgen telebölım aqparatyn qalau",
     "PosterCard": "Poster kartasy",

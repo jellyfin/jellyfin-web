@@ -1808,6 +1808,8 @@
     "Remuxing": "Transformācija",
     "LabelRemuxingInfo": "",
     "PreferFmp4HlsContainer": "Dod Priekšroku fMP4-HLS Multivides Konteineram",
+    "LimitSegmentLengthHelp": "Tas var palīdzēt ar saderību dažās ierīcēs. Piemēram, kad Jellyfin WebOS atskaņošana sasniedza nesaderīgu segmentu, atskaņošana apstājās. Izmantojot īsāku hls_time vērtību 1 sekunde, tiek nodrošināts, ka FFmpeg ģenerētais atskaņošanas saraksts atbilst tam, kas izveidots pirms atskaņošanas.",
+    "LimitSegmentLength": "Ierobežot segmenta garumu līdz 1 sekundei (hls_time).",
     "Remixer": "Remiksētājs",
     "ResolutionMatchSource": "Kā avotam",
     "Runtime": "Ilgums",

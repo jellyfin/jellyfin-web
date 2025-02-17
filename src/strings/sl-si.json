@@ -1455,6 +1455,8 @@
     "AllowHevcEncoding": "Dovoli kodiranje v HEVC format",
     "PreferFmp4HlsContainerHelp": "Prioritiziraj uporabo fMP4 kot privzeti kontejner za HLS. Omogoča neposredno pretakanje HEVC in AV1 vsebin na podprtih napravah.",
     "PreferFmp4HlsContainer": "Prioritiziraj fMP4-HLS kontejner",
+    "LimitSegmentLengthHelp": "To lahko pomaga pri združljivosti na nekaterih napravah. Na primer, ko je predvajanje na Jellyfin WebOS doseglo neusklajen segment, se je predvajanje ustavilo. Uporaba krajše vrednosti hls_time 1 sekunde zagotavlja, da se seznam predvajanja, ki ga ustvari FFmpeg, ujema s tistim, ki je ustvarjen pred predvajanjem.",
+    "LimitSegmentLength": "Omeji dolžino segmenta na 1 sekundo (hls_time).",
     "LabelSyncPlayInfo": "Informacije o SyncPlay",
     "LabelOriginalMediaInfo": "Informacije o izvorni predstavnosti",
     "LabelDirectStreamingInfo": "Informacije o neposrednem pretakanju",

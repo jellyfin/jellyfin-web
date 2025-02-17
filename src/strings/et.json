@@ -1478,6 +1478,8 @@
     "AllowHevcEncoding": "Luba kodeerimine HEVC vormingusse",
     "PreferFmp4HlsContainerHelp": "Eelistage HLS-i vaikekonteinerina kasutada fMP4, mis võimaldab toetatud seadmetes HEVC- ja AV1-sisu voogesituse.",
     "PreferFmp4HlsContainer": "Eelista fMP4-HLS meediakonteinerit",
+    "LimitSegmentLengthHelp": "See võib aidata mõne seadme ühilduvusega. Näiteks kui Jellyfin WebOS-i taasesitus jõudis mittevastava segmendini, siis taasesitus peatus. Lühema hls_time väärtuse 1 sekund kasutamine tagab, et FFmpeg-i loodud esitusloend vastab sellele, mis loodi enne taasesitust.",
+    "LimitSegmentLength": "Piira segmendi pikkus 1 sekundile (hls_time).",
     "LabelSyncPlayInfo": "SyncPlay teave",
     "LabelRemuxingInfo": "Remuksimise teave",
     "LabelDirectStreamingInfo": "Otseesituse teave",

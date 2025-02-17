@@ -1291,6 +1291,8 @@
     "LabelDirectStreamingInfo": "Direkte afspillings information",
     "PreferFmp4HlsContainer": "Foretræk fMP4-HLS Media Container",
     "AllowHevcEncoding": "Tillad indkodning i HEVC format",
+    "LimitSegmentLengthHelp": "Dette kan hjælpe med kompatibilitet på nogle enheder. For eksempel, når afspilning på Jellyfin WebOS nåede et segment med uoverensstemmelse, ville afspilningen stoppe. Brug af en kortere hls_time værdi på 1 sekund sikrer, at afspilningslisten genereret af FFmpeg matcher den, der blev oprettet før afspilning.",
+    "LimitSegmentLength": "Begræns segmentlængde til 1 sekund (hls_time).",
     "LabelSelectAudioChannels": "Kanaler",
     "LabelAllowedAudioChannels": "Maks. tilladte lydkanaler",
     "LabelSelectMono": "Mono",

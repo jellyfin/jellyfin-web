@@ -823,6 +823,7 @@ export default function (options) {
     if ((browser.safari || browser.tizen || browser.web0s) && !canPlayNativeHlsInFmp4()) {
         enableFmp4Hls = false;
     }
+    const enableLimitedSegmentLength = userSettings.limitSegmentLength();
 
     if (canPlayHls() && browser.enableHlsAudio !== false) {
         profile.TranscodingProfiles.push({
@@ -883,7 +884,8 @@ export default function (options) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
+                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
+                SegmentLength: enableLimitedSegmentLength ? 1 : undefined
             });
         }
 
@@ -906,7 +908,8 @@ export default function (options) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
+                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
+                SegmentLength: enableLimitedSegmentLength ? 1 : undefined
             });
         }
     }

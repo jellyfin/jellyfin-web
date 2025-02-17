@@ -1100,6 +1100,8 @@
     "AllowHevcEncoding": "Izinkan encoding dalam format HEVC",
     "PreferFmp4HlsContainerHelp": "Lebih suka menggunakan fMP4 sebagai wadah default untuk HLS, sehingga memungkinkan streaming langsung konten HEVC dan AV1 pada perangkat yang didukung.",
     "PreferFmp4HlsContainer": "Pilih fMP4-HLS Media Container",
+    "LimitSegmentLengthHelp": "Ini dapat membantu kompatibilitas pada beberapa perangkat. Misalnya, ketika pemutaran di Jellyfin WebOS mencapai segmen yang tidak cocok, pemutaran akan berhenti. Menggunakan nilai hls_time yang lebih pendek yaitu 1 detik memastikan bahwa daftar putar yang dihasilkan oleh FFmpeg sesuai dengan yang dibuat sebelum pemutaran.",
+    "LimitSegmentLength": "Batasi panjang segmen menjadi 1 detik (hls_time).",
     "LabelSyncPlayInfo": "Info SyncPlay",
     "LabelOriginalMediaInfo": "Info media asli",
     "LabelRemuxingInfo": "Info remuxing",

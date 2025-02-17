@@ -1440,6 +1440,8 @@
     "AllowHevcEncoding": "Cho phép mã hóa ở định dạng HEVC",
     "PreferFmp4HlsContainerHelp": "Ưu tiên fMP4 làm vùng chứa mặc định cho HLS, giúp bạn có thể truyền trực tiếp nội dung HEVC và AV1 trên thiết bị hỗ trợ.",
     "PreferFmp4HlsContainer": "Ưu tiên vùng chứa phương tiện fMP4-HLS",
+    "LimitSegmentLengthHelp": "Điều này có thể giúp tương thích trên một số thiết bị. Ví dụ: khi phát lại trên Jellyfin WebOS gặp phải đoạn không khớp, phát lại sẽ dừng. Sử dụng giá trị hls_time ngắn hơn là 1 giây đảm bảo rằng danh sách phát được tạo bởi FFmpeg khớp với danh sách được tạo trước khi phát lại.",
+    "LimitSegmentLength": "Giới hạn độ dài đoạn thành 1 giây (hls_time).",
     "LabelH265Crf": "CRF mã hóa H.265",
     "LabelSyncPlayInfo": "Thông Tin Phát Đồng Bộ",
     "LabelOriginalMediaInfo": "Thông Tin Phương Tiện Gốc",
