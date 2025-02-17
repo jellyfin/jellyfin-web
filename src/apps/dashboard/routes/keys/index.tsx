@@ -1,28 +1,30 @@
-import parseISO from 'date-fns/parseISO';
-
-import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
-import Page from 'components/Page';
-import { useApi } from 'hooks/useApi';
-import globalize from 'lib/globalize';
-import React, { useCallback, useMemo } from 'react';
 import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/models/authentication-info';
-import confirm from 'components/confirm/confirm';
-import { useApiKeys } from 'apps/dashboard/features/keys/api/useApiKeys';
-import { useRevokeKey } from 'apps/dashboard/features/keys/api/useRevokeKey';
-import { useCreateKey } from 'apps/dashboard/features/keys/api/useCreateKey';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import { MaterialReactTable, MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import parseISO from 'date-fns/parseISO';
+import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
+import React, { useCallback, useMemo } from 'react';
 
-const ApiKeys = () => {
+import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
+import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
+import { useApiKeys } from 'apps/dashboard/features/keys/api/useApiKeys';
+import { useRevokeKey } from 'apps/dashboard/features/keys/api/useRevokeKey';
+import { useCreateKey } from 'apps/dashboard/features/keys/api/useCreateKey';
+import confirm from 'components/confirm/confirm';
+import prompt from 'components/prompt/prompt';
+import { useApi } from 'hooks/useApi';
+import globalize from 'lib/globalize';
+
+export const Component = () => {
     const { api } = useApi();
-    const { data: keys, isLoading } = useApiKeys();
+    const { data, isLoading } = useApiKeys();
+    const keys = useMemo(() => (
+        data?.Items || []
+    ), [ data ]);
     const revokeKey = useRevokeKey();
     const createKey = useCreateKey();
 
@@ -48,24 +50,13 @@ const ApiKeys = () => {
     ], []);
 
     const table = useMaterialReactTable({
+        ...DEFAULT_TABLE_OPTIONS,
+
         columns,
-        data: keys?.Items || [],
+        data: keys,
 
         state: {
             isLoading
-        },
-
-        rowCount: keys?.TotalRecordCount || 0,
-
-        enableColumnPinning: true,
-        enableColumnResizing: true,
-
-        enableStickyFooter: true,
-        enableStickyHeader: true,
-        muiTableContainerProps: {
-            sx: {
-                maxHeight: 'calc(100% - 7rem)' // 2 x 3.5rem for header and footer
-            }
         },
 
         // Enable (delete) row actions
@@ -119,53 +110,28 @@ const ApiKeys = () => {
     const showNewKeyPopup = useCallback(() => {
         if (!api) return;
 
-        import('../../../../components/prompt/prompt').then(({ default: prompt }) => {
-            prompt({
-                title: globalize.translate('HeaderNewApiKey'),
-                label: globalize.translate('LabelAppName'),
-                description: globalize.translate('LabelAppNameExample')
-            }).then((value) => {
-                createKey.mutate({
-                    app: value
-                });
-            }).catch(() => {
-                // popup closed
+        prompt({
+            title: globalize.translate('HeaderNewApiKey'),
+            label: globalize.translate('LabelAppName'),
+            description: globalize.translate('LabelAppNameExample')
+        }).then((value) => {
+            createKey.mutate({
+                app: value
             });
-        }).catch(err => {
-            console.error('[apikeys] failed to load api key popup', err);
+        }).catch(() => {
+            // popup closed
         });
     }, [api, createKey]);
 
     return (
-        <Page
+        <TablePage
             id='apiKeysPage'
             title={globalize.translate('HeaderApiKeys')}
+            subtitle={globalize.translate('HeaderApiKeysHelp')}
             className='mainAnimatedPage type-interior'
-        >
-            <Box
-                className='content-primary'
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100%'
-                }}
-            >
-                <Box
-                    sx={{
-                        marginBottom: 1
-                    }}
-                >
-                    <Stack spacing={2}>
-                        <Typography variant='h2'>
-                            {globalize.translate('HeaderApiKeys')}
-                        </Typography>
-                        <Typography>{globalize.translate('HeaderApiKeysHelp')}</Typography>
-                    </Stack>
-                </Box>
-                <MaterialReactTable table={table} />
-            </Box>
-        </Page>
+            table={table}
+        />
     );
 };
 
-export default ApiKeys;
+Component.displayName = 'ApiKeysPage';
