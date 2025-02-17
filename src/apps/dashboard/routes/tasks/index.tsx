@@ -14,7 +14,7 @@ import { ApiClient } from 'jellyfin-apiclient';
 import { useApi } from 'hooks/useApi';
 import { queryClient } from '../../../../utils/query/queryClient';
 
-const ScheduledTasks = () => {
+export const Component = () => {
     const { __legacyApiClient__ } = useApi();
     const { data: tasks, isLoading } = useTasks({ isHidden: false });
 
@@ -71,4 +71,4 @@ const ScheduledTasks = () => {
     );
 };
 
-export default ScheduledTasks;
+Component.displayName = 'TasksPage';
