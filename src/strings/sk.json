@@ -976,7 +976,7 @@
     "CustomDlnaProfilesHelp": "Vytvorte si vlastný profil pre nové zariadenie alebo pre prepísanie systémového profilu.",
     "CopyStreamURLSuccess": "URL úspešne skopírovaná.",
     "CopyStreamURL": "Kopírovať URL adresu streamu",
-    "ConfigureDateAdded": "Nastavenie spôsobu, akým sa určuje dátum pridania v sekcií Dashboard > Knižnica > NFO nastavenia",
+    "ConfigureDateAdded": "Nastavenie spôsobu, akým sa určujú metadáta pre \"Dátum pridania\" v sekcií Dashboard > Knižnica > Zobrazenie",
     "ColorTransfer": "Prenos farieb",
     "ColorPrimaries": "Primárna farba",
     "CinemaModeConfigurationHelp": "Kino režim prináša zážitok ako z kina priamo do vašej obývačky s možnosťou prehrať trailery a vlastné intrá pred hlavným programom.",
@@ -1999,5 +1999,9 @@
     "CustomSubtitleStylingHelp": "Štylizácia titulkov bude fungovať na väčšine zariadení, ale vyžaduje vačší výkon.",
     "LabelSubtitleStyling": "Štylizácia titulkov",
     "Native": "Natívne",
-    "NativeSubtitleStylingHelp": "Štylizácia titulkov nebude na niektorých zariadeniach fungovať, ale nevyžaduje žiadny výkon naviac."
+    "NativeSubtitleStylingHelp": "Štylizácia titulkov nebude na niektorých zariadeniach fungovať, ale nevyžaduje žiadny výkon naviac.",
+    "LibraryNameInvalid": "Názov knižnice nesmie byť prázdny ani obsahovať medzery na začiatku alebo konci.",
+    "LabelDevice": "Zariadenie",
+    "LastActive": "Naposledy aktívny",
+    "DeleteServerConfirmation": "Ste si istí, že chcete odstrániť tento server?"
 }
