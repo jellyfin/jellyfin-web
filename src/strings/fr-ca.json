@@ -1689,8 +1689,6 @@
     "Writer": "Scénariste",
     "LabelFallbackFontPath": "Chemin du dossier de secours des polices",
     "PreferFmp4HlsContainer": "Préférer le conteneur fMP4-HLS",
-    "LimitSegmentLengthHelp": "Cela peut aider à la compatibilité sur certains appareils. Par exemple, lorsque la lecture sur Jellyfin WebOS atteignait un segment non correspondant, la lecture s'arrêtait. Utiliser une valeur hls_time plus courte de 1 seconde garantit que la playlist générée par FFmpeg correspond à celle créée avant la lecture.",
-    "LimitSegmentLength": "Limiter la longueur du segment à 1 seconde (hls_time).",
     "XmlTvKidsCategoriesHelp": "Les émissions dans ces catégories seront affichés comme des émissions pour enfants. S'il y en a plusieurs, les séparer à l'aide du caractère \"|\".",
     "XmlTvMovieCategoriesHelp": "Les émissions dans ces catégories seront affichés commes films. S'il y en a plusieurs, les séparer à l'aide du caractère \"|\".",
     "YoutubePlaybackError": "La vidéo demandée ne peut pas être jouée.",

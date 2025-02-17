@@ -1473,8 +1473,6 @@
     "AspectRatioCover": "Couvrir",
     "AllowHevcEncoding": "Autoriser l'encodage au format HEVC",
     "PreferFmp4HlsContainer": "Préférer le conteneur de média fMP4-HLS",
-    "LimitSegmentLengthHelp": "Cela peut aider à la compatibilité sur certains appareils. Par exemple, lorsque la lecture sur Jellyfin WebOS atteignait un segment non correspondant, la lecture s'arrêtait. Utiliser une valeur hls_time plus courte de 1 seconde garantit que la playlist générée par FFmpeg correspond à celle créée avant la lecture.",
-    "LimitSegmentLength": "Limiter la longueur des segments à 1 seconde (hls_time).",
     "LabelSyncPlayInfo": "Informations SyncPlay",
     "LabelRemuxingInfo": "Informations de remultiplexage",
     "LabelDirectStreamingInfo": "Informations de streaming direct",

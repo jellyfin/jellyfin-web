@@ -67,8 +67,6 @@
     "AllowHevcEncoding": "HEVC formatuan kodetzea baimentzea",
     "PreferFmp4HlsContainerHelp": "Hobetsi fMP4 erabiltzea HLSrako edukiontzi lehenetsi gisa, HEVC eduki zuzena gailu bateragarrietan transmititu ahal izateko.",
     "PreferFmp4HlsContainer": "Hobetsi fMP4-HLS multimedia-edukiontzia",
-    "LimitSegmentLengthHelp": "Honek bateragarritasuna hobetzen lagun dezake gailu batzuetan. Adibidez, Jellyfin WebOS-en erreprodukzioa segmentu desegoki batera iristen zenean, erreprodukzioa gelditu egiten zen. 1 segundoko hls_time balio laburrago bat erabiliz, FFmpeg-ek sortutako erreprodukzio-zerrenda erreprodukzioaren aurretik sortutakoarekin bat datorrela ziurtatzen da.",
-    "LimitSegmentLength": "Mugatu segmentuaren luzera 1 segundora (hls_time).",
     "LabelSyncPlayInfo": "SyncPlay informazioa",
     "LabelOriginalMediaInfo": "Jatorrizko multimedia informazioa",
     "LabelRemuxingInfo": "Remuxing informazioa",

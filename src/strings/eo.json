@@ -1277,8 +1277,6 @@
     "AllowHevcEncoding": "Permesi kodadon en HEVC-formato",
     "PreferFmp4HlsContainerHelp": "Prefere uzi fMP4 kiel la defaŭltan ujon por HLS, ebligante direkti elsendfluon de HEVC-enhavo sur subtenataj aparatoj.",
     "PreferFmp4HlsContainer": "Preferi plurmediujon fMP4-HLS",
-    "LimitSegmentLengthHelp": "Ĉi tio povas helpi kun kongrueco sur iuj aparatoj. Ekzemple, kiam ludado sur Jellyfin WebOS atingis malkongruan segmenton, ludado haltus. Uzante pli mallongan hls_time valoron de 1 sekundo certigas, ke la ludlisto generita de FFmpeg kongruas kun tiu kreita antaŭ ludado.",
-    "LimitSegmentLength": "Limigi segmentan longecon al 1 sekundo (hls_time).",
     "XmlTvSportsCategoriesHelp": "Programoj kun ĉi tiuj kategorioj estos montrataj kiel sportaj programoj. Apartigu plurajn per '|'.",
     "XmlTvNewsCategoriesHelp": "Programoj kun ĉi tiuj kategorioj estos montrataj kiel novaĵaj programoj. Apartigu plurajn per '|'.",
     "XmlTvMovieCategoriesHelp": "Programoj kun ĉi tiuj kategorioj estos montrataj kiel filmoj. Apartigu plurajn per '|'.",

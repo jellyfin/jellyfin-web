@@ -1625,8 +1625,6 @@
     "LabelOriginalMediaInfo": "オリジナルメディア情報",
     "PreferFmp4HlsContainer": "fMP4-HLSメディアコンテナを優先する",
     "PreferFmp4HlsContainerHelp": "HLSのデフォルトコンテナとしてfMP4を優先的に使用し、対応デバイスでHEVCとAV1コンテンツのダイレクトストリーミングを可能にします。",
-    "LimitSegmentLengthHelp": "これは一部のデバイスでの互換性を向上させるのに役立ちます。例えば、Jellyfin WebOSで再生中にセグメントが一致しない場合、再生が停止することがあります。FFmpegによって生成されたプレイリストが再生前に作成されたプレイリストと一致するように、hls_timeの値を1秒に短縮します。",
-    "LimitSegmentLength": "セグメントの長さを1秒に制限する (hls_time)。",
     "AllowHevcEncoding": "HEVCフォーマットでのエンコードを可能にする",
     "LabelAllowedAudioChannels": "最大許容オーディオチャンネル数",
     "LabelSelectAudioChannels": "チャンネル",

@@ -1494,8 +1494,6 @@
     "EnableEnhancedNvdecDecoder": "Abilita l'enhanced NVDEC decoder",
     "PreferFmp4HlsContainerHelp": "Preferisco l'utilizzo di fMP4 come contenitore predefinito per HLS, permettendo lo streaming diretto di contenuti HEVC e AV1 nei dispositivi che lo supportano.",
     "PreferFmp4HlsContainer": "Preferisci fMP4-HLS Media Container",
-    "LimitSegmentLengthHelp": "Questo può aiutare con la compatibilità su alcuni dispositivi. Ad esempio, quando la riproduzione su Jellyfin WebOS raggiungeva un segmento non corrispondente, la riproduzione si fermava. Utilizzando un valore hls_time più breve di 1 secondo si garantisce che la playlist generata da FFmpeg corrisponda a quella creata prima della riproduzione.",
-    "LimitSegmentLength": "Limita la lunghezza del segmento a 1 secondo (hls_time).",
     "LabelOriginalMediaInfo": "Info Contenuti Originali",
     "LabelRemuxingInfo": "Info Remuxing",
     "LabelDirectStreamingInfo": "Info Direct Stream",

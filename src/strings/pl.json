@@ -1400,8 +1400,6 @@
     "TonemappingAlgorithmHelp": "Mapowanie tonów może zostać dostrojone. Jeśli nie znasz tych opcji, pozostaw domyślne wartości. Domyślna wartość to 'BT.2390'.",
     "PreferFmp4HlsContainerHelp": "Preferuj fMP4 jako domyślny kontener dla HLS, pozwalając na bezpośrednie odtwarzanie zawartości HEVC i AV1 na wspieranych urządzeniach.",
     "PreferFmp4HlsContainer": "Preferuj kontener fMP4-HLS",
-    "LimitSegmentLengthHelp": "Może to pomóc w kompatybilności na niektórych urządzeniach. Na przykład, gdy odtwarzanie na Jellyfin WebOS osiągnęło niezgodny segment, odtwarzanie zatrzymywało się. Użycie krótszej wartości hls_time wynoszącej 1 sekundę zapewnia, że lista odtwarzania generowana przez FFmpeg odpowiada tej utworzonej przed odtwarzaniem.",
-    "LimitSegmentLength": "Ogranicz długość segmentu do 1 sekundy (hls_time).",
     "LabelRemuxingInfo": "Informacje o remuksowaniu",
     "RemuxHelp2": "Remuksowanie zużywa bardzo mało zasobów z kompletnie bezstratną jakością multimediów.",
     "TonemappingRangeHelp": "Wybierz wyjściowy zakres kolorów. Automatycznie ustawia się na zakres wejściowy.",

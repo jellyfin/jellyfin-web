@@ -1633,8 +1633,6 @@
     "LabelSyncPlayInfo": "SyncPlay-Info",
     "PreferFmp4HlsContainer": "fMP4-HLS Container bevorzugen",
     "PreferFmp4HlsContainerHelp": "Hëllef zum Bevorzugen vum fMP4-HLS Container",
-    "LimitSegmentLengthHelp": "Бұл кейбір құрылғылардағы үйлесімділікке көмектеседі. Мысалы, Jellyfin WebOS-та ойнату сәйкес келмейтін сегментке жеткенде, ойнату тоқтайтын еді. FFmpeg жасаған ойнату тізімі ойнатудан бұрын жасалған тізімге сәйкес келуін қамтамасыз ету үшін 1 секундтық қысқа hls_time мәнін пайдалану.",
-    "LimitSegmentLength": "Сегмент ұзындығын 1 секундқа дейін шектеу (hls_time).",
     "AllowHevcEncoding": "HEVC-Codéierung erlaaben",
     "LabelAllowedAudioChannels": "Erlaabte Audio-Kanäl",
     "LabelSelectAudioChannels": "Audio-Kanäl auswielen",

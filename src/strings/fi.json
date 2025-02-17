@@ -1538,8 +1538,6 @@
     "LabelSelectAudioChannels": "Kanavat",
     "AllowHevcEncoding": "Salli HEVC-enkoodaus",
     "PreferFmp4HlsContainer": "Suosi fMP4-HLS-mediasäiliötä",
-    "LimitSegmentLengthHelp": "Tämä voi auttaa joidenkin laitteiden yhteensopivuudessa. Esimerkiksi, kun Jellyfin WebOS -toistossa saavutettiin yhteensopimaton segmentti, toisto pysähtyi. Käyttämällä lyhyempää hls_time-arvoa, kuten 1 sekunti, varmistetaan, että FFmpeg:n luoma soittolista vastaa toistoa edeltävää soittolistaa.",
-    "LimitSegmentLength": "Rajoita segmentin pituus 1 sekuntiin (hls_time).",
     "LabelSyncPlayInfo": "SyncPlay-tiedot",
     "LabelOriginalMediaInfo": "Alkuperäisen median tiedot",
     "LabelDirectStreamingInfo": "Muuntamattoman toiston tiedot",

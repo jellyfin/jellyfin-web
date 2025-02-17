@@ -1302,8 +1302,6 @@
     "AllowHevcEncoding": "للسماح بالترميز باستخدام خوارزمية (HEVC)",
     "PreferFmp4HlsContainerHelp": "يُفضل استخدام fMP4 كحاوية افتراضية ل HLS ، مما يجعل من الممكن توجيه محتوى HEVC على الأجهزة المدعومة.",
     "PreferFmp4HlsContainer": "يُفضل حاوية وسائط fMP4-HLS",
-    "LimitSegmentLengthHelp": "يمكن أن يساعد هذا في التوافق على بعض الأجهزة. على سبيل المثال، عندما يصل التشغيل على Jellyfin WebOS إلى مقطع غير متطابق، يتوقف التشغيل. استخدام قيمة hls_time أقصر تبلغ 1 ثانية يضمن أن قائمة التشغيل التي تم إنشاؤها بواسطة FFmpeg تتطابق مع تلك التي تم إنشاؤها قبل التشغيل.",
-    "LimitSegmentLength": "حدد طول المقطع إلى 1 ثانية (hls_time).",
     "LabelSyncPlayInfo": "معلومات SyncPlay",
     "LabelOriginalMediaInfo": "معلومات الوسائط الأصلية",
     "LabelDirectStreamingInfo": "معلومات البث المباشر",

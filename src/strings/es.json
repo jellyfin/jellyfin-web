@@ -1439,8 +1439,6 @@
     "AllowHevcEncoding": "Permitir la codificación en formato HEVC",
     "PreferFmp4HlsContainerHelp": "Preferir usar fMP4 como contenedor predeterminado para HLS, haciendo posible transmitir contenido HEVC y AV1 directo en dispositivos compatibles.",
     "PreferFmp4HlsContainer": "Preferir contenedor de medios fMP4-HLS",
-    "LimitSegmentLengthHelp": "Esto puede ayudar con la compatibilidad en algunos dispositivos. Por ejemplo, cuando la reproducción en Jellyfin WebOS llegaba a un segmento desajustado, la reproducción se detenía. Usar un valor de hls_time más corto de 1 segundo asegura que la lista de reproducción generada por FFmpeg coincida con la creada antes de la reproducción.",
-    "LimitSegmentLength": "Limitar la longitud del segmento a 1 segundo (hls_time).",
     "LabelH265Crf": "CRF de la codificación H.265",
     "LabelSelectStereo": "Estéreo",
     "LabelSyncPlayInfo": "Información de SyncPlay",

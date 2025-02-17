@@ -470,8 +470,6 @@
     "AllowHevcEncoding": "Payagan ang pag-encode sa HEVC na format",
     "PreferFmp4HlsContainerHelp": "Mas gustong gamitin ang fMP4 bilang default na lalagyan para sa HLS, na ginagawang posible na idirekta ang pag-stream ng HEVC at AV1 na nilalaman sa mga sinusuportahang device.",
     "PreferFmp4HlsContainer": "Mas gusto ang fMP4-HLS Media Container",
-    "LimitSegmentLengthHelp": "Makakatulong ito sa pagiging tugma sa ilang mga device. Halimbawa, kapag ang pag-playback sa Jellyfin WebOS ay umabot sa isang hindi tugmang segment, titigil ang pag-playback. Ang paggamit ng mas maikling hls_time value na 1 segundo ay nagsisiguro na ang playlist na nabuo ng FFmpeg ay tumutugma sa ginawa bago ang pag-playback.",
-    "LimitSegmentLength": "Limitahan ang haba ng segment sa 1 segundo (hls_time).",
     "LabelSyncPlayInfo": "Impormasyon ng SyncPlay",
     "LabelOriginalMediaInfo": "Orihinal na Impormasyon ng Media",
     "LabelRemuxingInfo": "Impormasyon sa Remuxing",

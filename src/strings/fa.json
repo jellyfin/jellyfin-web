@@ -1349,8 +1349,6 @@
     "AllowHevcEncoding": "کدگذاری در قالب HEVC را مجاز کنید",
     "PreferFmp4HlsContainerHelp": "ترجیح می دهید از fMP4 به عنوان ظرف پیش فرض HLS استفاده کنید ، این امکان را می دهد محتوای HEVC جریان را روی دستگاه های پشتیبانی شده هدایت کنید.",
     "PreferFmp4HlsContainer": "محفظه رسانه fMP4-HLS را ترجیح دهید",
-    "LimitSegmentLengthHelp": "این می‌تواند به سازگاری در برخی دستگاه‌ها کمک کند. به عنوان مثال، زمانی که پخش در Jellyfin WebOS به یک بخش نامتناسب رسید، پخش متوقف می‌شد. استفاده از مقدار hls_time کوتاه‌تر 1 ثانیه اطمینان می‌دهد که لیست پخش تولید شده توسط FFmpeg با لیست پخش ایجاد شده قبل از پخش مطابقت دارد.",
-    "LimitSegmentLength": "محدود کردن طول بخش به 1 ثانیه (hls_time).",
     "LabelSyncPlayInfo": "اطلاعات SyncPlay",
     "LabelOriginalMediaInfo": "اطلاعات اصلی رسانه",
     "LabelRemuxingInfo": "اطلاعات در حال بازسازی",

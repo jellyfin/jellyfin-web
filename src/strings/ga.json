@@ -952,8 +952,6 @@
     "ValueSeriesCount": "{0} sraith",
     "ViewLyrics": "Féach ar liricí",
     "PreferFmp4HlsContainer": "Is fearr fMP4-HLS Media Container",
-    "LimitSegmentLengthHelp": "Is féidir leis seo cabhrú le comhoiriúnacht ar roinnt gléasanna. Mar shampla, nuair a shroich athsheinm ar Jellyfin WebOS deighleog neamh-mheaitseáilte, stopfadh an athsheinm. Trí úsáid a bhaint as luach hls_time níos giorra de 1 soicind cinntítear go n-oireann an seinmliosta a ghineann FFmpeg leis an gceann a cruthaíodh roimh athsheinm.",
-    "LimitSegmentLength": "Teorainn fad deighleog go 1 soicind (hls_time).",
     "VideoCodecTagNotSupported": "Ní thacaítear leis an gclib codec físe",
     "PreferSystemNativeHwDecoder": "Is fearr le díchódóirí crua-earraí OS dúchais DXVA nó VA-API",
     "EnableIntelLowPowerHevcHwEncoder": "Cumasaigh ionchódóir crua-earraí Intel Low-Power HEVC",
