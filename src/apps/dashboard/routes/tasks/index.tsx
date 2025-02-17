@@ -8,11 +8,12 @@ import { getCategories, getTasksByCategory } from '../../features/scheduledtasks
 import Loading from 'components/loading/LoadingComponent';
 import Tasks from '../../features/scheduledtasks/components/Tasks';
 import type { TaskInfo } from '@jellyfin/sdk/lib/generated-client/models/task-info';
+import { SessionMessageType } from '@jellyfin/sdk/lib/generated-client/models/session-message-type';
 import serverNotifications from 'scripts/serverNotifications';
 import Events, { Event } from 'utils/events';
 import { ApiClient } from 'jellyfin-apiclient';
 import { useApi } from 'hooks/useApi';
-import { queryClient } from '../../../../utils/query/queryClient';
+import { queryClient } from 'utils/query/queryClient';
 
 export const Component = () => {
     const { __legacyApiClient__ } = useApi();
@@ -32,13 +33,13 @@ export const Component = () => {
             }
         }, 1e4);
 
-        __legacyApiClient__?.sendMessage('ScheduledTasksInfoStart', '1000,1000');
-        Events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+        __legacyApiClient__?.sendMessage(SessionMessageType.ScheduledTasksInfoStart, '1000,1000');
+        Events.on(serverNotifications, SessionMessageType.ScheduledTasksInfo, onScheduledTasksUpdate);
 
         return () => {
             clearInterval(fallbackInterval);
-            __legacyApiClient__?.sendMessage('ScheduledTasksInfoStop', null);
-            Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+            __legacyApiClient__?.sendMessage(SessionMessageType.ScheduledTasksInfoStop, null);
+            Events.off(serverNotifications, SessionMessageType.ScheduledTasksInfo, onScheduledTasksUpdate);
         };
     }, [__legacyApiClient__]);
 
