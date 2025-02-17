@@ -187,7 +187,7 @@
     "ConfirmDeleteItems": "Xoá những mục này sẽ xoá chúng khỏi ổ cứng và thư viện của bạn. Bạn có chắc chắn muốn tiếp tục?",
     "ConfirmDeleteItem": "Xoá mục này sẽ xoá nó khỏi ổ cứng và thư viện của bạn. Bạn có chắc chắn muốn tiếp tục?",
     "ConfirmDeleteImage": "Bạn có chắc chắn xoá ảnh này?",
-    "ConfigureDateAdded": "Cài đặt xác định dữ liệu mô tả 'Ngày thêm' trong Trang tổng quan > Thư viện > Cài đặt NFO",
+    "ConfigureDateAdded": "Cài đặt cách xác định dữ liệu mô tả 'Ngày thêm' trong Trang tổng quan > Thư viện > Hiển thị",
     "Composer": "Tác giả",
     "CommunityRating": "Đánh giá cộng đồng",
     "ColorTransfer": "Chuyển đổi màu",
@@ -1996,5 +1996,9 @@
     "Custom": "Tùy chọn",
     "CustomSubtitleStylingHelp": "Kiểu phụ đề sẽ hoạt động trên hầu hết các thiết bị nhưng đi kèm với chi phí hiệu suất bổ sung.",
     "LabelSubtitleStyling": "Kiểu phụ đề",
-    "Native": "Gốc"
+    "Native": "Gốc",
+    "LibraryNameInvalid": "Tên thư viện không thể trống hoặc có khoảng trống ở đầu/cuối.",
+    "LabelDevice": "Thiết bị",
+    "LastActive": "Hoạt động cuối",
+    "DeleteServerConfirmation": "Bạn có chắc bạn muốn xóa máy chủ này không?"
 }
