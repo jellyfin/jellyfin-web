@@ -492,7 +492,7 @@
     "ColorSpace": "Színtér",
     "ColorTransfer": "Színátvitel",
     "Composer": "Zeneszerző",
-    "ConfigureDateAdded": "Állítsa be, hogy a „Hozzáadás Dátuma” metaadatok hogyan legyenek meghatározva az Irányítópult > Könyvtárak > NFO-beállítások menüpontban",
+    "ConfigureDateAdded": "Állítsa be, hogy a „Hozzáadás Dátuma” metaadatok hogyan legyenek meghatározva az Irányítópult > Könyvtárak > Kijelző menüpontban",
     "ConfirmDeleteImage": "Kép törlése?",
     "ConfirmDeleteItem": "Az elem törlésével az törlődni fog a fájlrendszerből és a médiakönyvtárból is. Biztosan folytatni akarod?",
     "ConfirmDeleteItems": "Az elemek törlésével azok törlődni fognak a fájlrendszerből és a médiakönyvtárból is. Biztosan folytatni akarod?",
@@ -1966,5 +1966,7 @@
     "LabelScreensaverTime": "Képernyőkíméjő Idő",
     "LibraryInvalidItemIdError": "Ez a könyvtár egy érvénytelen állapotban van, és nem lehet szerkeszteni. Valószínűleg egy bugot tapasztalsz: az útvonal az adatbázisban nem a megfelelő útvonal a fájlrendszerben.",
     "MoviesAndShows": "Filmek és Sorozatok",
-    "HeaderMediaSegmentActions": "Média Szegmens műveletek"
+    "HeaderMediaSegmentActions": "Média Szegmens műveletek",
+    "AutoSubtitleStylingHelp": "Ez a mód automatikusan vált a natív és egyéni feliratstílus között az eszköz típusod alapjáb.",
+    "Custom": "Egyéni"
 }
