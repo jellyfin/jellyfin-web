@@ -32,7 +32,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     };
 };
 
-const Streaming = () => {
+export const Component = () => {
     const navigation = useNavigation();
     const actionData = useActionData() as ActionData | undefined;
     const isSubmitting = navigation.state === 'submitting';
@@ -87,4 +87,4 @@ const Streaming = () => {
     );
 };
 
-export default Streaming;
+Component.displayName = 'StreamingPage';

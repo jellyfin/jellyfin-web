@@ -42,7 +42,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     };
 };
 
-const Logs = () => {
+export const Component = () => {
     const navigation = useNavigation();
     const actionData = useActionData() as ActionData | undefined;
     const isSubmitting = navigation.state === 'submitting';
@@ -133,4 +133,4 @@ const Logs = () => {
     );
 };
 
-export default Logs;
+Component.displayName = 'LogsPage';

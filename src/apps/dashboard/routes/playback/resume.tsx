@@ -41,7 +41,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     };
 };
 
-const Resume = () => {
+export const Component = () => {
     const navigation = useNavigation();
     const actionData = useActionData() as ActionData | undefined;
     const isSubmitting = navigation.state === 'submitting';
@@ -148,4 +148,4 @@ const Resume = () => {
     );
 };
 
-export default Resume;
+Component.displayName = 'ResumePage';
