@@ -97,7 +97,7 @@
     "ColorTransfer": "Trasferimento Colore",
     "CommunityRating": "Voto del pubblico",
     "Composer": "Compositore",
-    "ConfigureDateAdded": "Scegli come determinare la Data di Aggiunta dal Pannello di Controllo -> Librerie -> Impostazioni NFO",
+    "ConfigureDateAdded": "Scegli come determinare la Data di Aggiunta dal Pannello di Controllo -> Librerie -> Display",
     "ConfirmDeleteImage": "Elimina immagine?",
     "ConfirmDeleteItem": "L'eliminazione di questo elemento lo cancellerà sia dal disco che dalla libreria multimediale. Sei sicuro di voler continuare?",
     "ConfirmDeleteItems": "L'eliminazione di questi elementi li cancellerà sia dal disco che dalla tua libreria multimediale. Sei sicuro di voler continuare?",
@@ -1988,7 +1988,7 @@
     "LyricDownloadersHelp": "Abilita e classifica i tuoi downloader di testi preferiti in ordine di priorità.",
     "MediaSegmentAction.None": "Niente",
     "MediaSegmentAction.Skip": "Salta",
-    "MoviesAndShows": "Movies and Shows",
+    "MoviesAndShows": "Film e Serie",
     "HeaderMediaSegmentActions": "Media Segment Actions",
     "HeaderNextEpisode": "Prossimo Episodio",
     "HeaderNextVideo": "Prossimo Video",
@@ -1999,5 +1999,9 @@
     "LabelMediaSegmentProviders": "Provider di segmenti multimediali",
     "LabelSubtitleStyling": "Stile dei sottotitoli",
     "Native": "Nativo",
-    "NativeSubtitleStylingHelp": "La formattazione dei sottotitoli potrebbe non funzionare su alcuni dispositivi. Tuttavia, non comporta alcun impatto sulle prestazioni."
+    "NativeSubtitleStylingHelp": "La formattazione dei sottotitoli potrebbe non funzionare su alcuni dispositivi. Tuttavia, non comporta alcun impatto sulle prestazioni.",
+    "LabelDevice": "Dispositivo",
+    "DeleteServerConfirmation": "Sei sicuro di voler eliminare questo server?",
+    "LastActive": "Ultimo accesso",
+    "LibraryNameInvalid": "Il nome della libreria non può essere vuoto o avere spazi iniziali o finali."
 }
