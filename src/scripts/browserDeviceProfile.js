@@ -823,7 +823,6 @@ export default function (options) {
     if ((browser.safari || browser.tizen || browser.web0s) && !canPlayNativeHlsInFmp4()) {
         enableFmp4Hls = false;
     }
-    const enableLimitedSegmentLength = userSettings.limitSegmentLength();
 
     if (canPlayHls() && browser.enableHlsAudio !== false) {
         profile.TranscodingProfiles.push({
@@ -865,6 +864,7 @@ export default function (options) {
     });
 
     if (canPlayHls() && options.enableHls !== false) {
+        const enableLimitedSegmentLength = userSettings.limitSegmentLength();
         if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length && enableFmp4Hls) {
             // HACK: Since there is no filter for TS/MP4 in the API, specify HLS support in general and rely on retry after DirectPlay error
             // FIXME: Need support for {Container: 'mp4', Protocol: 'hls'} or {Container: 'hls', SubContainer: 'mp4'}
