@@ -191,7 +191,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     }
 
     //Show hls segment length setting for Web0s only, as the setting only aims to fix an issue on that platform.
-    if (browser.isWeb0s) {
+    if (browser.web0s) {
         context.querySelector('.fldLimitSegmentLength').classList.remove('hide');
     }
 
