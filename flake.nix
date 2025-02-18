@@ -22,6 +22,12 @@
             buildInputs = [
               nodejs_20
             ];
+
+            shellHook = ''
+              # Also see: https://github.com/sass/embedded-host-node/issues/334
+              echo "Removing sass-embedded from node-modules as its broken on NixOS."
+              rm -rf node_modules/sass-embedded*
+            '';
           };
       }
     );
