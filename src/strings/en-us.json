@@ -1531,6 +1531,7 @@
     "StoryArc": "Story Arc",
     "StopPlayback": "Stop playback",
     "StopRecording": "Stop recording",
+    "StreamCountExceedsLimit": "The number of streams exceeds the limit",
     "Studio": "Studio",
     "Studios": "Studios",
     "Subtitle": "Subtitle",
