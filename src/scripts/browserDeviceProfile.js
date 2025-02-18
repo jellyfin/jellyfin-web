@@ -913,6 +913,19 @@ export default function (options) {
 
     profile.ContainerProfiles = [];
 
+    if (browser.tizen) {
+        // Tizen doesn't support more than 32 streams in a single file
+        profile.ContainerProfiles.push({
+            Type: 'Video',
+            Conditions: [{
+                Condition: 'LessThanEqual',
+                Property: 'NumStreams',
+                Value: '32',
+                IsRequired: false
+            }]
+        });
+    }
+
     profile.CodecProfiles = [];
 
     const supportsSecondaryAudio = canPlaySecondaryAudio(videoTestElement);
