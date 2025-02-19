@@ -17,18 +17,18 @@ import { queryClient } from 'utils/query/queryClient';
 
 export const Component = () => {
     const { __legacyApiClient__ } = useApi();
-    const { data: tasks, isLoading } = useTasks({ isHidden: false });
+    const { data: tasks, isPending } = useTasks({ isHidden: false });
 
     // TODO: Replace usage of the legacy apiclient when websocket support is added to the TS SDK.
     useEffect(() => {
         const onScheduledTasksUpdate = (_e: Event, _apiClient: ApiClient, info: TaskInfo[]) => {
-            queryClient.setQueryData([QUERY_KEY], info);
+            queryClient.setQueryData([ QUERY_KEY ], info);
         };
 
         const fallbackInterval = setInterval(() => {
             if (!__legacyApiClient__?.isMessageChannelOpen()) {
                 void queryClient.invalidateQueries({
-                    queryKey: [QUERY_KEY]
+                    queryKey: [ QUERY_KEY ]
                 });
             }
         }, 1e4);
@@ -43,7 +43,7 @@ export const Component = () => {
         };
     }, [__legacyApiClient__]);
 
-    if (isLoading || !tasks) {
+    if (isPending || !tasks) {
         return <Loading />;
     }
 
