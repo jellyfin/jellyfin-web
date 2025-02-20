@@ -195,6 +195,7 @@ function buildCardsHtmlInternal(items, options) {
                     if (isVertical) {
                         html += '</div>';
                     }
+                    // eslint-disable-next-line sonarjs/no-dead-store
                     hasOpenSection = false;
                 }
 
@@ -215,6 +216,7 @@ function buildCardsHtmlInternal(items, options) {
         if (options.rows && itemsInRow === 0) {
             if (hasOpenRow) {
                 html += '</div>';
+                // eslint-disable-next-line sonarjs/no-dead-store
                 hasOpenRow = false;
             }
 
