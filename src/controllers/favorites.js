@@ -1,4 +1,3 @@
-import { appHost } from 'components/apphost';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import focusManager from 'components/focusManager';
 import layoutManager from 'components/layoutManager';
@@ -202,8 +201,9 @@ function getRouteUrl(section, serverId) {
 
 function getItemsHtmlFn(section) {
     return function (items) {
-        let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
-        cardLayout = false;
+        // NOTE: Why is card layout always disabled?
+        // let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
+        const cardLayout = false;
         const serverId = this.apiClient.serverId();
         const leadingButtons = layoutManager.tv ? [{
             name: globalize.translate('All'),

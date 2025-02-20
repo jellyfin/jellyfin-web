@@ -13,6 +13,7 @@ interface MediaInfoItemProps {
 const MediaInfoItem: FC<MediaInfoItemProps> = ({ className, miscInfo }) => {
     const { text, textAction, cssClass, type } = miscInfo;
 
+    // eslint-disable-next-line sonarjs/function-return-type
     const renderText = () => {
         if (textAction) {
             return (
