@@ -1015,7 +1015,7 @@
     "LeaveBlankToNotSetAPassword": "You can leave this field blank to set no password.",
     "Letterer": "Letterer",
     "LibraryAccessHelp": "Select the libraries to share with this user. Administrators will be able to edit all folders using the metadata manager.",
-    "LibraryNameInvalid": "Library name cannot be empty or have leading/trailing spaces.",
+    "LibraryNameInvalid": "Library name cannot be empty.",
     "LibraryScanFanoutConcurrency": "Parallel library scan tasks limit",
     "LibraryScanFanoutConcurrencyHelp": "Maximum number of parallel tasks during library scans. Setting this to 0 will choose a limit based on your systems core count. WARNING: Setting this number too high may cause issues with network file systems; if you encounter problems lower this number.",
     "LibraryInvalidItemIdError": "The library is in an invalid state and cannot be edited. You are possibly encountering a bug: the path in the database is not the correct path on the filesystem.",
