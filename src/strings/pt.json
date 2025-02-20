@@ -1622,7 +1622,7 @@
     "XmlTvNewsCategoriesHelp": "Os programas com estas categorias serão exibidos como programas de notícias. Separe múltiplos com '|'.",
     "LabelOriginalMediaInfo": "Informações da mídia original",
     "YoutubeBadRequest": "Requisição ruim.",
-    "YoutubeDenied": "O vídeo solicitado não pode ser reproduzido em players incorporados.",
+    "YoutubeDenied": "O vídeo solicitado não pode ser reproduzido em leitores incorporados.",
     "TypeOptionPluralBoxSet": "Conjuntos de caixas",
     "LabelBackdropScreensaverInterval": "Intervalo do fundo do protetor de ecrã",
     "UseDoubleRateDeinterlacingHelp": "Esta definição utiliza a taxa de campo durante o desentrelaçamento, muitas vezes referido como desentrelaçamento bob, que duplica a taxa de fotogramas do vídeo para proporcionar movimento fluído, como o que verias ao ver vídeo entrelaçado numa televisão.",
