@@ -1493,7 +1493,7 @@
     "LabelMaxAudiobookResume": "Minutos do áudio-livro em falta para retomar",
     "MessagePlaybackError": "Ocorreu um erro ao reproduzir este ficheiro no teu recetor Google Cast.",
     "MessageChromecastConnectionError": "O seu recetor Google Cast não pode contatar o servidor Jellyfin. Por favor, verifique a ligação e tente de novo.",
-    "YoutubeDenied": "Não é permitida a reprodução do vídeo solicitado em reprodutores embutidos.",
+    "YoutubeDenied": "O vídeo solicitado não pode ser reproduzido em leitores incorporados.",
     "PreferFmp4HlsContainerHelp": "Utiliza o fMP4 como container predefinido para HLS, tornando possível a transmissão direta de conteúdos HEVC e AV1 em dispositivos suportados.",
     "PreferFmp4HlsContainer": "Preferir o container multimédia fMP4-HLS",
     "LabelSyncPlayInfo": "Info do SyncPlay",
