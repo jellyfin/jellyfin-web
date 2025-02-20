@@ -1,7 +1,9 @@
+@use "../font";
+
 $scFamily: "Noto Sans SC";
 
 /* noto-sans-sc-[4]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-4-700-normal.woff2",
@@ -9,7 +11,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[5]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-5-700-normal.woff2",
@@ -17,7 +19,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[6]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-6-700-normal.woff2",
@@ -25,7 +27,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[21]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-21-700-normal.woff2",
@@ -33,7 +35,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[22]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-22-700-normal.woff2",
@@ -41,7 +43,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[23]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-23-700-normal.woff2",
@@ -49,7 +51,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[24]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-24-700-normal.woff2",
@@ -57,7 +59,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[25]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-25-700-normal.woff2",
@@ -65,7 +67,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[26]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-26-700-normal.woff2",
@@ -73,7 +75,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[27]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-27-700-normal.woff2",
@@ -81,7 +83,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[28]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-28-700-normal.woff2",
@@ -89,7 +91,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[29]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-29-700-normal.woff2",
@@ -97,7 +99,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[30]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-30-700-normal.woff2",
@@ -105,7 +107,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[31]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-31-700-normal.woff2",
@@ -113,7 +115,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[32]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-32-700-normal.woff2",
@@ -121,7 +123,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[33]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-33-700-normal.woff2",
@@ -129,7 +131,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[34]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-34-700-normal.woff2",
@@ -137,7 +139,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[35]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-35-700-normal.woff2",
@@ -145,7 +147,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[36]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-36-700-normal.woff2",
@@ -153,7 +155,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[37]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-37-700-normal.woff2",
@@ -161,7 +163,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[38]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-38-700-normal.woff2",
@@ -169,7 +171,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[39]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-39-700-normal.woff2",
@@ -177,7 +179,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[40]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-40-700-normal.woff2",
@@ -185,7 +187,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[41]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-41-700-normal.woff2",
@@ -193,7 +195,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[42]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-42-700-normal.woff2",
@@ -201,7 +203,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[43]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-43-700-normal.woff2",
@@ -209,7 +211,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[44]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-44-700-normal.woff2",
@@ -217,7 +219,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[45]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-45-700-normal.woff2",
@@ -225,7 +227,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[46]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-46-700-normal.woff2",
@@ -233,7 +235,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[47]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-47-700-normal.woff2",
@@ -241,7 +243,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[48]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-48-700-normal.woff2",
@@ -249,7 +251,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[49]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-49-700-normal.woff2",
@@ -257,7 +259,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[50]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-50-700-normal.woff2",
@@ -265,7 +267,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[51]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-51-700-normal.woff2",
@@ -273,7 +275,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[52]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-52-700-normal.woff2",
@@ -281,7 +283,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[53]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-53-700-normal.woff2",
@@ -289,7 +291,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[54]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-54-700-normal.woff2",
@@ -297,7 +299,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[55]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-55-700-normal.woff2",
@@ -305,7 +307,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[56]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-56-700-normal.woff2",
@@ -313,7 +315,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[57]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-57-700-normal.woff2",
@@ -321,7 +323,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[58]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-58-700-normal.woff2",
@@ -329,7 +331,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[59]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-59-700-normal.woff2",
@@ -337,7 +339,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[60]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-60-700-normal.woff2",
@@ -345,7 +347,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[61]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-61-700-normal.woff2",
@@ -353,7 +355,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[62]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-62-700-normal.woff2",
@@ -361,7 +363,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[63]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-63-700-normal.woff2",
@@ -369,7 +371,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[64]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-64-700-normal.woff2",
@@ -377,7 +379,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[65]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-65-700-normal.woff2",
@@ -385,7 +387,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[66]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-66-700-normal.woff2",
@@ -393,7 +395,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[67]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-67-700-normal.woff2",
@@ -401,7 +403,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[68]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-68-700-normal.woff2",
@@ -409,7 +411,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[69]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-69-700-normal.woff2",
@@ -417,7 +419,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[70]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-70-700-normal.woff2",
@@ -425,7 +427,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[71]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-71-700-normal.woff2",
@@ -433,7 +435,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[72]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-72-700-normal.woff2",
@@ -441,7 +443,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[73]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-73-700-normal.woff2",
@@ -449,7 +451,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[74]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-74-700-normal.woff2",
@@ -457,7 +459,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[75]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-75-700-normal.woff2",
@@ -465,7 +467,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[76]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-76-700-normal.woff2",
@@ -473,7 +475,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[77]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-77-700-normal.woff2",
@@ -481,7 +483,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[78]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-78-700-normal.woff2",
@@ -489,7 +491,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[79]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-79-700-normal.woff2",
@@ -497,7 +499,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[80]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-80-700-normal.woff2",
@@ -505,7 +507,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[81]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-81-700-normal.woff2",
@@ -513,7 +515,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[82]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-82-700-normal.woff2",
@@ -521,7 +523,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[83]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-83-700-normal.woff2",
@@ -529,7 +531,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[84]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-84-700-normal.woff2",
@@ -537,7 +539,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[85]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-85-700-normal.woff2",
@@ -545,7 +547,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[86]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-86-700-normal.woff2",
@@ -553,7 +555,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[87]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-87-700-normal.woff2",
@@ -561,7 +563,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[88]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-88-700-normal.woff2",
@@ -569,7 +571,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[89]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-89-700-normal.woff2",
@@ -577,7 +579,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[90]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-90-700-normal.woff2",
@@ -585,7 +587,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[91]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-91-700-normal.woff2",
@@ -593,7 +595,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[97]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-97-700-normal.woff2",
@@ -601,7 +603,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[98]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-98-700-normal.woff2",
@@ -609,7 +611,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[99]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-99-700-normal.woff2",
@@ -617,7 +619,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[100]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-100-700-normal.woff2",
@@ -625,7 +627,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[101]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-101-700-normal.woff2",
@@ -633,7 +635,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[102]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-102-700-normal.woff2",
@@ -641,7 +643,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[103]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-103-700-normal.woff2",
@@ -649,7 +651,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[104]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-104-700-normal.woff2",
@@ -657,7 +659,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[105]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-105-700-normal.woff2",
@@ -665,7 +667,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[106]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-106-700-normal.woff2",
@@ -673,7 +675,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[107]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-107-700-normal.woff2",
@@ -681,7 +683,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[108]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-108-700-normal.woff2",
@@ -689,7 +691,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[109]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-109-700-normal.woff2",
@@ -697,7 +699,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[110]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-110-700-normal.woff2",
@@ -705,7 +707,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[111]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-111-700-normal.woff2",
@@ -713,7 +715,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[112]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-112-700-normal.woff2",
@@ -721,7 +723,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[113]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-113-700-normal.woff2",
@@ -729,7 +731,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[114]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-114-700-normal.woff2",
@@ -737,7 +739,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[115]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-115-700-normal.woff2",
@@ -745,7 +747,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[116]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-116-700-normal.woff2",
@@ -753,7 +755,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[117]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-117-700-normal.woff2",
@@ -761,7 +763,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[118]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-118-700-normal.woff2",
@@ -769,7 +771,7 @@ $scFamily: "Noto Sans SC";
 );
 
 /* noto-sans-sc-[119]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $scFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-sc/files/noto-sans-sc-119-700-normal.woff2",
