@@ -706,7 +706,8 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             if (item.Role) {
                 if ([ PersonKind.Actor, PersonKind.GuestStar ].includes(item.Type)) {
                     // List actor roles formatted like "as Character Name"
-                    lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
+                    const roleText = globalize.translate('PersonRole', escapeHtml(item.Role));
+                    lines.push(`<span title="${roleText}">${roleText}</span>`);
                 } else if (item.Role.toLowerCase() === item.Type.toLowerCase()) {
                     // Role and Type are the same so use the localized Type
                     lines.push(escapeHtml(globalize.translate(item.Type)));
