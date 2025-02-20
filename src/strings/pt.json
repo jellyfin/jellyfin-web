@@ -1674,7 +1674,7 @@
     "ValueAlbumCount": "{0} álbuns",
     "ValueOneAlbum": "1 álbum",
     "ValueSongCount": "{0} músicas",
-    "Controls": "Controles",
+    "Controls": "Comandos",
     "LabelSyncPlaySettingsSpeedToSyncDuration": "Duração da Velocidade de sincronização",
     "EnableFallbackFontHelp": "Ative fontes alternativas personalizadas. Isso pode evitar o problema de renderização incorreta de legendas.",
     "MessagePlaybackError": "Ocorreu um erro ao reproduzir este ficheiro no teu recetor Google Cast.",
