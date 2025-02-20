@@ -2,7 +2,7 @@ import React from 'react';
 
 import globalize from 'lib/globalize';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import { useConfiguration } from 'hooks/useConfiguration';
+import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Page from 'components/Page';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -21,6 +21,7 @@ import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-a
 import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models/trickplay-scan-behavior';
 import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';
 import { ActionData } from 'types/actionData';
+import { queryClient } from 'utils/query/queryClient';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();
@@ -49,6 +50,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     await getConfigurationApi(api)
         .updateConfiguration({ serverConfiguration: config });
+
+    void queryClient.invalidateQueries({
+        queryKey: [ QUERY_KEY ]
+    });
 
     return {
         isSaved: true
