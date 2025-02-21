@@ -74,8 +74,8 @@
     "worker-loader": "3.0.8"
   },
   "dependencies": {
-    "@emotion/react": "11.13.3",
-    "@emotion/styled": "11.13.0",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.0",
     "@fontsource/noto-sans": "5.1.1",
     "@fontsource/noto-sans-hk": "5.1.1",
     "@fontsource/noto-sans-jp": "5.1.1",
