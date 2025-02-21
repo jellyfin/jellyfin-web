@@ -42,10 +42,10 @@ function onAddLibrary(e) {
     isCreating = true;
     loading.show();
     const dlg = dom.parentWithClass(this, 'dlg-librarycreator');
-    const name = dlg.querySelector('#txtValue').value;
+    const name = dlg.querySelector('#txtValue').value.trim();
     let type = dlg.querySelector('#selectCollectionType').value;
 
-    if (name.length == 0 || name.trim().length !== name.length) {
+    if (name.length === 0) {
         alert({
             text: globalize.translate('LibraryNameInvalid'),
             type: 'error'
