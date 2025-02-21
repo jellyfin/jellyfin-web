@@ -12,7 +12,7 @@
     "@eslint-community/eslint-plugin-eslint-comments": "4.4.1",
     "@eslint/js": "9.20.0",
     "@stylistic/eslint-plugin": "3.1.0",
-    "@stylistic/stylelint-plugin": "3.1.1",
+    "@stylistic/stylelint-plugin": "3.1.2",
     "@types/dompurify": "3.0.5",
     "@types/escape-html": "1.0.4",
     "@types/loadable__component": "5.13.9",
