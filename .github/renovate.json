@@ -4,6 +4,9 @@
     "github>jellyfin/.github//renovate-presets/nodejs",
     ":dependencyDashboard"
   ],
+  "lockFileMaintenance": {
+    "enabled": false
+  },
   "packageRules": [
     {
       "matchPackageNames": [ "@jellyfin/sdk" ],

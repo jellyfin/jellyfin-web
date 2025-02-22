@@ -90,6 +90,7 @@ class SkipSegment extends PlaybackSubscriber {
                 elem.classList.remove('no-transition');
             }
 
+            // eslint-disable-next-line sonarjs/void-use
             void elem.offsetWidth;
 
             const hasFocus = document.activeElement && focusManager.isCurrentlyFocusable(document.activeElement);
@@ -111,6 +112,7 @@ class SkipSegment extends PlaybackSubscriber {
         const elem = this.skipElement;
         if (elem) {
             elem.classList.remove('no-transition');
+            // eslint-disable-next-line sonarjs/void-use
             void elem.offsetWidth;
 
             requestAnimationFrame(() => {

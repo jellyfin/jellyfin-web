@@ -74,6 +74,7 @@ function fetchWithTimeout(url, options, timeoutMs) {
      */
 function paramsToString(params) {
     return Object.entries(params)
+        // eslint-disable-next-line sonarjs/different-types-comparison
         .filter(([, v]) => v !== null && v !== undefined && v !== '')
         .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
         .join('&');

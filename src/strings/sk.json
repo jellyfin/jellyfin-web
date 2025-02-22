@@ -2000,7 +2000,7 @@
     "LabelSubtitleStyling": "Štylizácia titulkov",
     "Native": "Natívne",
     "NativeSubtitleStylingHelp": "Štylizácia titulkov nebude na niektorých zariadeniach fungovať, ale nevyžaduje žiadny výkon naviac.",
-    "LibraryNameInvalid": "Názov knižnice nesmie byť prázdny ani obsahovať medzery na začiatku alebo konci.",
+    "LibraryNameInvalid": "Názov knižnice nesmie byť prázdny.",
     "LabelDevice": "Zariadenie",
     "LastActive": "Naposledy aktívny",
     "DeleteServerConfirmation": "Ste si istí, že chcete odstrániť tento server?"
