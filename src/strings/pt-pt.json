@@ -1998,5 +1998,5 @@
     "LabelDevice": "Dispositivo",
     "LastActive": "Última atividade",
     "DeleteServerConfirmation": "Tens a certeza de que queres eliminar este servidor?",
-    "LibraryNameInvalid": "O nome da biblioteca multimédia não pode estar vazio ou ter espaços à esquerda, ou à direita."
+    "LibraryNameInvalid": "O nome da biblioteca não pode estar vazio."
 }
