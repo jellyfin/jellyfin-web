@@ -1,7 +1,7 @@
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
 import { format, formatDistanceStrict, Locale, parse } from 'date-fns';
 import globalize from 'lib/globalize';
-import { INTERVAL_DURATION } from '../constants/intervalDuration';
+import { INTERVAL_DURATIONS } from '../constants/intervalDurations';
 
 function getDisplayTime(ticks: number, locale: Locale) {
     const ms = ticks / 1e4;
@@ -27,7 +27,7 @@ export function getTimeOfDayOptions(locale: Locale) {
 export function getIntervalOptions(locale: Locale) {
     const options = [];
 
-    for (const ticksDuration of INTERVAL_DURATION) {
+    for (const ticksDuration of INTERVAL_DURATIONS) {
         const durationMs = Math.floor(ticksDuration / 1e4);
         const unit = durationMs < 36e5 ? 'minute' : 'hour';
         options.push({

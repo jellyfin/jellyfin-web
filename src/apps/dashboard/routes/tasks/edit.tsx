@@ -60,7 +60,7 @@ const TaskEdit = () => {
         setIsAddTriggerDialogOpen(false);
     }, []);
 
-    const onNewTriggerSubmit = useCallback((trigger: TaskTriggerInfo) => {
+    const onNewTriggerAdd = useCallback((trigger: TaskTriggerInfo) => {
         if (task?.Triggers && task?.Id) {
             const triggers = [...task.Triggers, trigger];
 
@@ -150,7 +150,7 @@ const TaskEdit = () => {
                 open={isAddTriggerDialogOpen}
                 title={globalize.translate('ButtonAddScheduledTaskTrigger')}
                 onClose={handleNewTriggerDialogClose}
-                onSubmit={onNewTriggerSubmit}
+                onAdd={onNewTriggerAdd}
             />
             <Box className='content-primary'>
                 <Box className='readOnlyContent'>

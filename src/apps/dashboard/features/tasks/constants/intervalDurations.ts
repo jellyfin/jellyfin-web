@@ -1,4 +1,4 @@
-export const INTERVAL_DURATION: number[] = [
+export const INTERVAL_DURATIONS: number[] = [
     9000000000, // 15 minutes
     18000000000, // 30 minutes
     27000000000, // 45 minutes

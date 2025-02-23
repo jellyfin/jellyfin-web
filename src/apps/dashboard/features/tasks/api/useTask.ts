@@ -13,11 +13,6 @@ const fetchTask = async (
     params: ScheduledTasksApiGetTaskRequest,
     options?: AxiosRequestConfig
 ) => {
-    if (!api) {
-        console.warn('[fetchTasks] No API instance available');
-        return;
-    }
-
     const response = await getScheduledTasksApi(api).getTask(params, options);
 
     return response.data;
