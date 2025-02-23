@@ -38,35 +38,32 @@ function closeDialog() {
     }
 }
 
-function submitUpdatedItem(form, item) {
-    function afterContentTypeUpdated() {
+async function submitUpdatedItem(form, item) {
+    const afterContentTypeUpdated = () => {
         toast(globalize.translate('MessageItemSaved'));
 
         loading.hide();
         closeDialog();
-    }
-
+    };
     const apiClient = getApiClient();
 
-    apiClient.updateItem(item).then(function () {
-        const newContentType = form.querySelector('#selectContentType').value || '';
+    try {
+        await apiClient.updateItem(item);
+        const newContentType = form.querySelector('#selectContentType')?.value || '';
 
-        if ((metadataEditorInfo.ContentType || '') !== newContentType) {
-            apiClient.ajax({
+        await apiClient.ajax({
+            url: apiClient.getUrl(`Items/${item.Id}/ContentType`, {
+                ContentType: newContentType
+            }),
 
-                url: apiClient.getUrl('Items/' + item.Id + '/ContentType', {
-                    ContentType: newContentType
-                }),
+            type: 'POST'
+        });
 
-                type: 'POST'
-
-            }).then(function () {
-                afterContentTypeUpdated();
-            });
-        } else {
-            afterContentTypeUpdated();
-        }
-    });
+        afterContentTypeUpdated();
+    } catch {
+        toast(globalize.translate('MessageItemSaveFailed'));
+        loading.hide();
+    }
 }
 
 function getSelectedAirDays(form) {
