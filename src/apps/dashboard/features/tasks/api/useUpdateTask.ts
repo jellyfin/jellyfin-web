@@ -13,9 +13,9 @@ export const useUpdateTask = () => {
             getScheduledTasksApi(api!)
                 .updateTask(params)
         ),
-        onSuccess: () => {
+        onSuccess: (_data, params) => {
             void queryClient.invalidateQueries({
-                queryKey: [ QUERY_KEY ]
+                queryKey: [ QUERY_KEY, params.taskId ]
             });
         }
     });
