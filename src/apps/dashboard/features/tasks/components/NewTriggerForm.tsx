@@ -11,7 +11,7 @@ import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/
 import { TaskTriggerInfoType } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info-type';
 import { DayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/day-of-week';
 import globalize from 'lib/globalize';
-import { getTimeOfDayOptions } from '../utils/edit';
+import { getIntervalOptions, getTimeOfDayOptions } from '../utils/edit';
 import { useLocale } from 'hooks/useLocale';
 
 type IProps = {
@@ -26,6 +26,8 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onSub
     const [triggerType, setTriggerType] = useState('DailyTrigger');
 
     const timeOfDayOptions = useMemo(() => getTimeOfDayOptions(dateFnsLocale), [dateFnsLocale]);
+
+    const intervalOptions = useMemo(() => getIntervalOptions(dateFnsLocale), [dateFnsLocale]);
 
     const onTriggerTypeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setTriggerType(e.target.value);
@@ -124,20 +126,12 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onSub
                             name='Interval'
                             select
                             fullWidth
-                            defaultValue={'9000000000'}
+                            defaultValue={intervalOptions[0].value}
                             label={globalize.translate('LabelEveryXMinutes')}
                         >
-                            <MenuItem value='9000000000'>15 minutes</MenuItem>
-                            <MenuItem value='18000000000'>30 minutes</MenuItem>
-                            <MenuItem value='27000000000'>45 minutes</MenuItem>
-                            <MenuItem value='36000000000'>1 hour</MenuItem>
-                            <MenuItem value='72000000000'>2 hours</MenuItem>
-                            <MenuItem value='108000000000'>3 hours</MenuItem>
-                            <MenuItem value='144000000000'>4 hours</MenuItem>
-                            <MenuItem value='216000000000'>6 hours</MenuItem>
-                            <MenuItem value='288000000000'>8 hours</MenuItem>
-                            <MenuItem value='432000000000'>12 hours</MenuItem>
-                            <MenuItem value='864000000000'>24 hours</MenuItem>
+                            {intervalOptions.map((option) => {
+                                return <MenuItem key={option.value} value={option.value}>{option.name}</MenuItem>;
+                            })}
                         </TextField>
                     )}
 
