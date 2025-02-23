@@ -5,8 +5,7 @@ import { getScheduledTasksApi } from '@jellyfin/sdk/lib/utils/api/scheduled-task
 import { useQuery } from '@tanstack/react-query';
 
 import { useApi } from 'hooks/useApi';
-
-export const QUERY_KEY = 'Tasks';
+import { QueryKey } from './queryKey';
 
 const fetchTasks = async (
     api: Api,
@@ -22,7 +21,7 @@ export const useTasks = (params?: ScheduledTasksApiGetTasksRequest) => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ QUERY_KEY ],
+        queryKey: [ QueryKey.Tasks ],
         queryFn: ({ signal }) =>
             fetchTasks(api!, params, { signal }),
         enabled: !!api

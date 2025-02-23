@@ -3,7 +3,7 @@ import { getScheduledTasksApi } from '@jellyfin/sdk/lib/utils/api/scheduled-task
 import { useMutation } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
 import { queryClient } from 'utils/query/queryClient';
-import { QUERY_KEY } from './useTask';
+import { QueryKey } from './queryKey';
 
 export const useUpdateTask = () => {
     const { api } = useApi();
@@ -15,7 +15,7 @@ export const useUpdateTask = () => {
         ),
         onSuccess: (_data, params) => {
             void queryClient.invalidateQueries({
-                queryKey: [ QUERY_KEY, params.taskId ]
+                queryKey: [ QueryKey.Task, params.taskId ]
             });
         }
     });
