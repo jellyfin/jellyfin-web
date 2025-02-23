@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { ContentCopy, FileDownload } from '@mui/icons-material';
 import globalize from 'lib/globalize';
+import toast from 'components/toast/toast';
 
 export const Component = () => {
     const { file: fileName } = useParams();
@@ -30,6 +31,7 @@ export const Component = () => {
     const copyToClipboard = useCallback(async () => {
         if ('clipboard' in navigator && log) {
             await navigator.clipboard.writeText(log);
+            toast({ text: globalize.translate('CopyLogSuccess') });
         }
     }, [log]);
 

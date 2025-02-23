@@ -188,6 +188,7 @@
     "CopyFailed": "Could not copy",
     "CopyStreamURL": "Copy Stream URL",
     "CopyStreamURLSuccess": "URL copied successfully.",
+    "CopyLogSuccess": "Log contents copied successfully.",
     "CoverArtist": "Cover artist",
     "Creator": "Creator",
     "CriticRating": "Critics rating",
