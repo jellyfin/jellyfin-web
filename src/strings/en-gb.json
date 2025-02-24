@@ -2003,5 +2003,5 @@
     "LastActive": "Last active",
     "NativeSubtitleStylingHelp": "Subtitle styling will not work on some devices. However, it does not come with any performance overhead.",
     "MediaSegmentProvidersHelp": "Enable and rank your preferred media segment providers in order of priority.",
-    "LibraryNameInvalid": "Library name cannot be empty or have leading/trailing spaces."
+    "LibraryNameInvalid": "Library name cannot be empty."
 }
