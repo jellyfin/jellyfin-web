@@ -1270,7 +1270,7 @@
     "Anime": "動漫",
     "ChannelResolutionSDPAL": "SD（PAL 格式）",
     "AllowContentWithTagsHelp": "僅顯示至少有一個指定標籤的媒體。",
-    "LibraryNameInvalid": "媒體庫名稱不可為空，或有前置/後置的空格。",
+    "LibraryNameInvalid": "媒體庫名稱不可為空。",
     "LabelDevice": "裝置",
     "LastActive": "最後活躍",
     "DeleteServerConfirmation": "你確定要刪除此伺服器？",
