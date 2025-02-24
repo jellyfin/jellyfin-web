@@ -1140,7 +1140,7 @@
     "LabelTranscodes": "转码",
     "AuthProviderHelp": "选择用于验证此用户密码的身份验证提供者。",
     "ColorPrimaries": "原色",
-    "ConfigureDateAdded": "设置如何在仪表板 > 库 > NFO 设置中确定“添加日期”的元数据",
+    "ConfigureDateAdded": "设置如何在仪表板 > 库 > 显示 中确定“添加日期”的元数据",
     "DisplayModeHelp": "选择您想要的界面布局风格。",
     "EnableColorCodedBackgrounds": "彩色背景",
     "ErrorDeletingItem": "从服务器删除项目时出错。请检查Jellyfin是否拥有对媒体目录的写权限，然后重试。",
@@ -1999,5 +1999,9 @@
     "Custom": "自定义",
     "LabelSubtitleStyling": "字幕样式",
     "Native": "原生",
-    "NativeSubtitleStylingHelp": "字幕样式在一些设备上不工作。自然也不会增加功耗。"
+    "NativeSubtitleStylingHelp": "字幕样式在一些设备上不工作。自然也不会增加功耗。",
+    "LabelDevice": "设备",
+    "LastActive": "上次活跃",
+    "DeleteServerConfirmation": "您确定要删除此服务器吗？",
+    "LibraryNameInvalid": "媒体库名称不能为空。"
 }
