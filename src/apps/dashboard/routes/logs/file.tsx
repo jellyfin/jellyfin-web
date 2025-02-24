@@ -3,16 +3,14 @@ import Page from 'components/Page';
 import React, { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useServerLog } from 'apps/dashboard/features/logs/api/useServerLog';
-import {
-    Alert,
-    Box,
-    Button,
-    ButtonGroup,
-    Card,
-    CardContent,
-    Container,
-    Typography
-} from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 import { ContentCopy, FileDownload } from '@mui/icons-material';
 import globalize from 'lib/globalize';
 import toast from 'components/toast/toast';

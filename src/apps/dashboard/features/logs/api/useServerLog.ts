@@ -5,7 +5,7 @@ import { useApi } from 'hooks/useApi';
 import type { AxiosRequestConfig } from 'axios';
 
 const fetchServerLog = async (
-    api: Api | undefined,
+    api: Api,
     name: string,
     options?: AxiosRequestConfig
 ) => {
@@ -23,7 +23,7 @@ export const useServerLog = (name: string) => {
 
     return useQuery({
         queryKey: ['ServerLog', name],
-        queryFn: ({ signal }) => fetchServerLog(api, name, { signal }),
+        queryFn: ({ signal }) => fetchServerLog(api!, name, { signal }),
         enabled: !!api
     });
 };
