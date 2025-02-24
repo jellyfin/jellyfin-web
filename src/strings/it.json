@@ -1886,7 +1886,7 @@
     "PlaylistPublic": "Consenti accesso pubblico",
     "PlaylistPublicDescription": "Consenti che questa playlist sia visibile ad ogni utente loggato.",
     "HeaderLyricDownloads": "Scarica testi",
-    "LibraryScanFanoutConcurrencyHelp": "Massimo numero di task paralleli durante la scansione delle librerie. Se impostato a 0 sarà utilizzato il numero di core del sistema. ATTENZIONE: impostare un numero alto potrebbe causare problemi sui network filesystem. In caso di problemi ridurre il numero.",
+    "LibraryScanFanoutConcurrencyHelp": "Massimo numero di task parallele durante la scansione delle librerie. Se impostato a 0 sarà utilizzato il numero di core del sistema. ATTENZIONE: impostare un numero troppo alto potrebbe causare problemi sui network filesystem. In caso di problemi ridurre il numero.",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Codec audio preferito per la transcodica durante la riproduzione video",
     "LibraryScanFanoutConcurrency": "Massimo numero di task durante la scansione",
     "Colorist": "Colorista",
