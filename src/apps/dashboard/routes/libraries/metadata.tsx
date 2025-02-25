@@ -13,11 +13,12 @@ import { getImageResolutionOptions } from 'apps/dashboard/features/libraries/uti
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import ServerConnections from 'components/ServerConnections';
-import { useConfiguration } from 'hooks/useConfiguration';
+import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import globalize from 'lib/globalize';
 import React from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { ActionData } from 'types/actionData';
+import { queryClient } from 'utils/query/queryClient';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();
@@ -35,6 +36,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     await getConfigurationApi(api)
         .updateConfiguration({ serverConfiguration: config });
+
+    void queryClient.invalidateQueries({
+        queryKey: [ QUERY_KEY ]
+    });
 
     return {
         isSaved: true
