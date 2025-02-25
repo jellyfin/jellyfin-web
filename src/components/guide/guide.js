@@ -232,7 +232,7 @@ function Guide(options) {
         channelQuery.Limit = channelLimit;
         channelQuery.AddCurrentProgram = false;
         channelQuery.EnableUserData = false;
-        channelQuery.EnableImageTypes = 'Logo';
+        channelQuery.EnableImageTypes = 'Primary,Logo';
 
         const categories = self.categoryOptions.categories || [];
         const displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
@@ -591,7 +591,8 @@ function Guide(options) {
         let html = '';
 
         for (const channel of channels) {
-            const hasChannelImage = channel.ImageTags.Logo;
+            const hasChannelLogo = channel.ImageTags.Logo;
+            const hasChannelPrimary = channel.ImageTags.Primary;
 
             let cssClass = 'guide-channelHeaderCell itemAction';
 
@@ -609,11 +610,14 @@ function Guide(options) {
 
             html += '<button title="' + escapeHtml(title.join(' ')) + '" type="button" class="' + cssClass + '"' + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
 
+            const hasChannelImage = hasChannelLogo || hasChannelPrimary;
             if (hasChannelImage) {
+                const imgType = hasChannelLogo ? 'Logo' : 'Primary';
+                const imgTag = hasChannelLogo ? channel.ImageTags.Logo : channel.ImageTags.Primary;
                 const url = apiClient.getScaledImageUrl(channel.Id, {
                     maxHeight: 220,
-                    tag: channel.ImageTags.Logo,
-                    type: 'Logo'
+                    tag: imgTag,
+                    type: imgType
                 });
 
                 html += '<div class="guideChannelImage lazy" data-src="' + url + '"></div>';
