@@ -66,7 +66,7 @@ export const Component = () => {
                                     size='small'
                                     onClick={retry}
                                 >
-                                    Retry
+                                    {globalize.translate('Retry')}
                                 </Button>
                             }
                         >

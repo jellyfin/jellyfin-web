@@ -9,10 +9,6 @@ const fetchServerLog = async (
     name: string,
     options?: AxiosRequestConfig
 ) => {
-    if (!api) {
-        console.error('[useServerLog] No API instance available');
-        return;
-    }
     const response = await getSystemApi(api).getLogFile({ name }, options);
 
     // FIXME: TypeScript SDK thinks it is returning a File but in reality it is a string
