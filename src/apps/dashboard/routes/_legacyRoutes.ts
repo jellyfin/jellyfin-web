@@ -38,13 +38,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'encodingsettings.html'
         }
     }, {
-        path: 'libraries/metadata',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'metadataImages',
-            view: 'metadataimages.html'
-        }
-    }, {
         path: 'libraries/nfo',
         pageProps: {
             appType: AppType.Dashboard,
