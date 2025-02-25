@@ -241,6 +241,7 @@
     "Display": "Display",
     "DisplayInMyMedia": "Display on home screen",
     "DisplayInOtherHomeScreenSections": "Display in home screen sections such as 'Recently Added Media' and 'Continue Watching'",
+    "DisplayLoadError": "An error occurred while loading display configuration data.",
     "DisplayMissingEpisodesWithinSeasons": "Display missing episodes within seasons",
     "DisplayMissingEpisodesWithinSeasonsHelp": "This must also be enabled for TV libraries in the server configuration.",
     "DisplayModeHelp": "Select the layout style you want for the interface.",
