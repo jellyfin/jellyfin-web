@@ -14,11 +14,12 @@ import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import ServerConnections from 'components/ServerConnections';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import { useConfiguration } from 'hooks/useConfiguration';
-import { fetchNamedConfiguration, useNamedConfiguration } from 'hooks/useNamedConfiguration';
+import { QUERY_KEY as CONFIG_QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
+import { fetchNamedConfiguration, QUERY_KEY as NAMED_CONFIG_QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import globalize from 'lib/globalize';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { ActionData } from 'types/actionData';
+import { queryClient } from 'utils/query/queryClient';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();
@@ -41,6 +42,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     await getConfigurationApi(api)
         .updateNamedConfiguration({ key: 'metadata', body: namedConfig });
+
+    void queryClient.invalidateQueries({
+        queryKey: [ CONFIG_QUERY_KEY ]
+    });
+    void queryClient.invalidateQueries({
+        queryKey: [ NAMED_CONFIG_QUERY_KEY ]
+    });
 
     return {
         isSaved: true
