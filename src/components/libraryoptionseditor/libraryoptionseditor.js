@@ -241,7 +241,7 @@ function renderSubtitleFetchers(page, availableOptions, libraryOptions) {
     plugins = getOrderedPlugins(plugins, libraryOptions.SubtitleFetcherOrder || []);
     if (!plugins.length) return html;
 
-    html += `<h3 class="checkboxListLabel">${globalize.translate('LabelSubtitleResolvers')}</h3>`;
+    html += `<h3 class="checkboxListLabel">${globalize.translate('LabelSubtitleDownloaders')}</h3>`;
     html += '<div class="checkboxList paperList checkboxList-paperList">';
     for (let i = 0; i < plugins.length; i++) {
         const plugin = plugins[i];
@@ -726,11 +726,6 @@ export function getLibraryOptions(parent) {
         PreferNonstandardArtistsTag: parent.querySelector('#chkPreferNonstandardArtistsTag').checked,
         UseCustomTagDelimiters: parent.querySelector('#chkUseCustomTagDelimiters').checked,
         MetadataSavers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
-            return elem.checked;
-        }), elem => {
-            return elem.getAttribute('data-pluginname');
-        }),
-        MetadataResolvers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMetadataResolver'), elem => {
             return elem.checked;
         }), elem => {
             return elem.getAttribute('data-pluginname');
