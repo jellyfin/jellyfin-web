@@ -232,7 +232,7 @@ function Guide(options) {
         channelQuery.Limit = channelLimit;
         channelQuery.AddCurrentProgram = false;
         channelQuery.EnableUserData = false;
-        channelQuery.EnableImageTypes = 'Primary';
+        channelQuery.EnableImageTypes = 'Logo';
 
         const categories = self.categoryOptions.categories || [];
         const displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
@@ -591,7 +591,7 @@ function Guide(options) {
         let html = '';
 
         for (const channel of channels) {
-            const hasChannelImage = channel.ImageTags.Primary;
+            const hasChannelImage = channel.ImageTags.Logo;
 
             let cssClass = 'guide-channelHeaderCell itemAction';
 
@@ -612,8 +612,8 @@ function Guide(options) {
             if (hasChannelImage) {
                 const url = apiClient.getScaledImageUrl(channel.Id, {
                     maxHeight: 220,
-                    tag: channel.ImageTags.Primary,
-                    type: 'Primary'
+                    tag: channel.ImageTags.Logo,
+                    type: 'Logo'
                 });
 
                 html += '<div class="guideChannelImage lazy" data-src="' + url + '"></div>';
