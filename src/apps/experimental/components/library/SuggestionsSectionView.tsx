@@ -1,6 +1,8 @@
 import type { RecommendationDto } from '@jellyfin/sdk/lib/generated-client/models/recommendation-dto';
 import { RecommendationType } from '@jellyfin/sdk/lib/generated-client/models/recommendation-type';
 import React, { type FC } from 'react';
+
+import { useApi } from 'hooks/useApi';
 import {
     useGetMovieRecommendations,
     useGetSuggestionSectionsWithItems
@@ -26,6 +28,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
     sectionType,
     isMovieRecommendationEnabled = false
 }) => {
+    const { __legacyApiClient__ } = useApi();
     const { isLoading, data: sectionsWithItems } =
         useGetSuggestionSectionsWithItems(parentId, sectionType);
 
@@ -106,7 +109,8 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                         showTitle: true,
                         centerText: true,
                         cardLayout: false,
-                        overlayText: false
+                        overlayText: false,
+                        serverId: __legacyApiClient__?.serverId()
                     }}
                 />
             ))}
@@ -130,7 +134,8 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                         overlayPlayButton: true,
                         showTitle: true,
                         centerText: true,
-                        cardLayout: false
+                        cardLayout: false,
+                        serverId: __legacyApiClient__?.serverId()
                     }}
                 />
             ))}
