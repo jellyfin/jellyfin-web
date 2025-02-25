@@ -262,7 +262,7 @@ function renderSubtitleFetchers(page, availableOptions, libraryOptions) {
         html += '</div>';
     }
     html += '</div>';
-    html += `<div class="fieldDescription">${globalize.translate('SubtitleResolversHelp')}</div>`;
+    html += `<div class="fieldDescription">${globalize.translate('SubtitleDownloadersHelp')}</div>`;
     elem.innerHTML = html;
 }
 
