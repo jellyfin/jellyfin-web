@@ -74,90 +74,88 @@ export const Component = () => {
             className='mainAnimatedPage type-interior'
         >
             <Box className='content-primary'>
-                <Form method='POST'>
-                    <Stack spacing={3}>
-                        {isConfigError || isNamedConfigError ? (
-                            <Alert severity='error'>{globalize.translate('DisplayLoadError')}</Alert>
-                        ) : (
-                            <>
-                                {!isSubmitting && actionData?.isSaved && (
-                                    <Alert severity='success'>
-                                        {globalize.translate('SettingsSaved')}
-                                    </Alert>
-                                )}
-                                <Typography variant='h2'>{globalize.translate('Display')}</Typography>
-                                <TextField
-                                    name={'DateAddedBehavior'}
-                                    label={globalize.translate('LabelDateAddedBehavior')}
-                                    select
-                                    defaultValue={namedConfig.UseFileCreationTimeForDateAdded ? '1' : '0'}
-                                    helperText={globalize.translate('LabelDateAddedBehaviorHelp')}
-                                >
-                                    <MenuItem value={'0'}>{globalize.translate('OptionDateAddedImportTime')}</MenuItem>
-                                    <MenuItem value={'1'}>{globalize.translate('OptionDateAddedFileTime')}</MenuItem>
-                                </TextField>
+                {isConfigError || isNamedConfigError ? (
+                    <Alert severity='error'>{globalize.translate('DisplayLoadError')}</Alert>
+                ) : (
+                    <Form method='POST'>
+                        <Stack spacing={3}>
+                            {!isSubmitting && actionData?.isSaved && (
+                                <Alert severity='success'>
+                                    {globalize.translate('SettingsSaved')}
+                                </Alert>
+                            )}
+                            <Typography variant='h2'>{globalize.translate('Display')}</Typography>
+                            <TextField
+                                name={'DateAddedBehavior'}
+                                label={globalize.translate('LabelDateAddedBehavior')}
+                                select
+                                defaultValue={namedConfig.UseFileCreationTimeForDateAdded ? '1' : '0'}
+                                helperText={globalize.translate('LabelDateAddedBehaviorHelp')}
+                            >
+                                <MenuItem value={'0'}>{globalize.translate('OptionDateAddedImportTime')}</MenuItem>
+                                <MenuItem value={'1'}>{globalize.translate('OptionDateAddedFileTime')}</MenuItem>
+                            </TextField>
 
-                                <FormControl>
-                                    <FormControlLabel
-                                        control={
-                                            <Switch
-                                                name={'DisplayFolderView'}
-                                                defaultChecked={config.EnableFolderView}
-                                            />
-                                        }
-                                        label={globalize.translate('OptionDisplayFolderView')}
-                                    />
-                                    <FormHelperText>{globalize.translate('OptionDisplayFolderViewHelp')}</FormHelperText>
-                                </FormControl>
+                            <FormControl>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            name={'DisplayFolderView'}
+                                            defaultChecked={config.EnableFolderView}
+                                        />
+                                    }
+                                    label={globalize.translate('OptionDisplayFolderView')}
+                                />
+                                <FormHelperText>{globalize.translate('OptionDisplayFolderViewHelp')}</FormHelperText>
+                            </FormControl>
 
-                                <FormControl>
-                                    <FormControlLabel
-                                        control={
-                                            <Switch
-                                                name={'DisplaySpecialsWithinSeasons'}
-                                                defaultChecked={config.DisplaySpecialsWithinSeasons}
-                                            />
-                                        }
-                                        label={globalize.translate('LabelDisplaySpecialsWithinSeasons')}
-                                    />
-                                </FormControl>
+                            <FormControl>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            name={'DisplaySpecialsWithinSeasons'}
+                                            defaultChecked={config.DisplaySpecialsWithinSeasons}
+                                        />
+                                    }
+                                    label={globalize.translate('LabelDisplaySpecialsWithinSeasons')}
+                                />
+                            </FormControl>
 
-                                <FormControl>
-                                    <FormControlLabel
-                                        control={
-                                            <Switch
-                                                name={'GroupMoviesIntoCollections'}
-                                                defaultChecked={config.EnableGroupingIntoCollections}
-                                            />
-                                        }
-                                        label={globalize.translate('LabelGroupMoviesIntoCollections')}
-                                    />
-                                    <FormHelperText>{globalize.translate('LabelGroupMoviesIntoCollectionsHelp')}</FormHelperText>
-                                </FormControl>
+                            <FormControl>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            name={'GroupMoviesIntoCollections'}
+                                            defaultChecked={config.EnableGroupingIntoCollections}
+                                        />
+                                    }
+                                    label={globalize.translate('LabelGroupMoviesIntoCollections')}
+                                />
+                                <FormHelperText>{globalize.translate('LabelGroupMoviesIntoCollectionsHelp')}</FormHelperText>
+                            </FormControl>
 
-                                <FormControl>
-                                    <FormControlLabel
-                                        control={
-                                            <Switch
-                                                name={'EnableExternalContentInSuggestions'}
-                                                defaultChecked={config.EnableExternalContentInSuggestions}
-                                            />
-                                        }
-                                        label={globalize.translate('OptionEnableExternalContentInSuggestions')}
-                                    />
-                                    <FormHelperText>{globalize.translate('OptionEnableExternalContentInSuggestionsHelp')}</FormHelperText>
-                                </FormControl>
+                            <FormControl>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            name={'EnableExternalContentInSuggestions'}
+                                            defaultChecked={config.EnableExternalContentInSuggestions}
+                                        />
+                                    }
+                                    label={globalize.translate('OptionEnableExternalContentInSuggestions')}
+                                />
+                                <FormHelperText>{globalize.translate('OptionEnableExternalContentInSuggestionsHelp')}</FormHelperText>
+                            </FormControl>
 
-                                <Button
-                                    type='submit'
-                                    size='large'
-                                >
-                                    {globalize.translate('Save')}
-                                </Button>
-                            </>
-                        )}
-                    </Stack>
-                </Form>
+                            <Button
+                                type='submit'
+                                size='large'
+                            >
+                                {globalize.translate('Save')}
+                            </Button>
+                        </Stack>
+                    </Form>
+                )}
             </Box>
         </Page>
     );
