@@ -304,6 +304,7 @@ const PluginPage: FC = () => {
     return (
         <Page
             id='addPluginPage'
+            title={pluginDetails?.name || pluginName}
             className='mainAnimatedPage type-interior'
         >
             <Container className='content-primary'>
