@@ -7,13 +7,13 @@ import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { ContentCopy, FileDownload } from '@mui/icons-material';
 import globalize from 'lib/globalize';
 import toast from 'components/toast/toast';
+import { copy } from 'scripts/clipboard';
 
 export const Component = () => {
     const { file: fileName } = useParams();
@@ -27,8 +27,8 @@ export const Component = () => {
     const retry = useCallback(() => refetch(), [refetch]);
 
     const copyToClipboard = useCallback(async () => {
-        if ('clipboard' in navigator && log) {
-            await navigator.clipboard.writeText(log);
+        if (log) {
+            await copy(log);
             toast({ text: globalize.translate('CopyLogSuccess') });
         }
     }, [log]);
@@ -94,13 +94,11 @@ export const Component = () => {
                                 </Button>
                             </ButtonGroup>
 
-                            <Card sx={{ mt: 2 }}>
-                                <CardContent>
-                                    <code>
-                                        <pre style={{ margin: 0 }}>{log}</pre>
-                                    </code>
-                                </CardContent>
-                            </Card>
+                            <Paper sx={{ mt: 2 }}>
+                                <code>
+                                    <pre style={{ overflow:'auto', margin: 0, padding: '16px' }}>{log}</pre>
+                                </code>
+                            </Paper>
                         </>
                     )}
                 </Box>
