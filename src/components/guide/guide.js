@@ -591,9 +591,6 @@ function Guide(options) {
         let html = '';
 
         for (const channel of channels) {
-            const hasChannelLogo = channel.ImageTags.Logo;
-            const hasChannelPrimary = channel.ImageTags.Primary;
-
             let cssClass = 'guide-channelHeaderCell itemAction';
 
             if (layoutManager.tv) {
@@ -610,24 +607,16 @@ function Guide(options) {
 
             html += '<button title="' + escapeHtml(title.join(' ')) + '" type="button" class="' + cssClass + '"' + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
 
-            const hasChannelImage = hasChannelLogo || hasChannelPrimary;
-            if (hasChannelImage) {
-                const imgType = hasChannelLogo ? 'Logo' : 'Primary';
-                const imgTag = hasChannelLogo ? channel.ImageTags.Logo : channel.ImageTags.Primary;
-                const url = apiClient.getScaledImageUrl(channel.Id, {
-                    maxHeight: 220,
-                    tag: imgTag,
-                    type: imgType
-                });
-
-                html += '<div class="guideChannelImage lazy" data-src="' + url + '"></div>';
+            const channelImageUrl = renderChannelImageUrl(channel, apiClient);
+            if (channelImageUrl) {
+                html += '<div class="guideChannelImage lazy" data-src="' + channelImageUrl + '"></div>';
             }
 
             if (channel.ChannelNumber) {
                 html += '<h3 class="guideChannelNumber">' + channel.ChannelNumber + '</h3>';
             }
 
-            if (!hasChannelImage && channel.Name) {
+            if (!channelImageUrl && channel.Name) {
                 html += '<div class="guideChannelName">' + escapeHtml(channel.Name) + '</div>';
             }
 
@@ -637,6 +626,25 @@ function Guide(options) {
         const channelList = context.querySelector('.channelsContainer');
         channelList.innerHTML = html;
         imageLoader.lazyChildren(channelList);
+    }
+
+    function renderChannelImageUrl(channel, apiClient) {
+        const hasChannelLogo = channel.ImageTags.Logo;
+        const hasChannelPrimary = channel.ImageTags.Primary;
+
+        if (!hasChannelLogo && !hasChannelPrimary) {
+            return false;
+        }
+
+        const imgType = hasChannelLogo ? 'Logo' : 'Primary';
+        const imgTag = hasChannelLogo ? channel.ImageTags.Logo : channel.ImageTags.Primary;
+        const url = apiClient.getScaledImageUrl(channel.Id, {
+            maxHeight: 220,
+            tag: imgTag,
+            type: imgType
+        });
+
+        return url;
     }
 
     function renderPrograms(context, date, channels, programs, programOptions) {
