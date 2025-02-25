@@ -10,7 +10,6 @@ export const useRevokeKey = () => {
 
     return useMutation({
         mutationFn: (params: ApiKeyApiRevokeKeyRequest) => (
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             getApiKeyApi(api!)
                 .revokeKey(params)
         ),

@@ -1,17 +1,13 @@
 import { Api } from '@jellyfin/sdk';
 import { getApiKeyApi } from '@jellyfin/sdk/lib/utils/api/api-key-api';
 import { useQuery } from '@tanstack/react-query';
+import { AxiosRequestConfig } from 'axios';
 import { useApi } from 'hooks/useApi';
 
 export const QUERY_KEY = 'ApiKeys';
 
-const fetchApiKeys = async (api?: Api) => {
-    if (!api) {
-        console.error('[useApiKeys] Failed to create Api instance');
-        return;
-    }
-
-    const response = await getApiKeyApi(api).getKeys();
+const fetchApiKeys = async (api: Api, options?: AxiosRequestConfig) => {
+    const response = await getApiKeyApi(api).getKeys(options);
 
     return response.data;
 };
@@ -21,7 +17,7 @@ export const useApiKeys = () => {
 
     return useQuery({
         queryKey: [ QUERY_KEY ],
-        queryFn: () => fetchApiKeys(api),
+        queryFn: ({ signal }) => fetchApiKeys(api!, { signal }),
         enabled: !!api
     });
 };

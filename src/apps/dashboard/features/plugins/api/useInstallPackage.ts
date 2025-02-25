@@ -11,7 +11,6 @@ export const useInstallPackage = () => {
     const { api } = useApi();
     return useMutation({
         mutationFn: (params: PackageApiInstallPackageRequest) => (
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             getPackageApi(api!)
                 .installPackage(params)
         ),
