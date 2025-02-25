@@ -17,7 +17,7 @@ import { createRouterHistory } from 'components/router/routerHistory';
 import UserThemeProvider from 'themes/UserThemeProvider';
 
 const layoutMode = localStorage.getItem('layout');
-const isExperimentalLayout = layoutMode === 'experimental';
+const isExperimentalLayout = layoutMode === 'experimental' || !layoutMode;
 
 const router = createHashRouter([
     {
