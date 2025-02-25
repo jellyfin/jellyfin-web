@@ -17,8 +17,8 @@ async function mirrorIfEnabled(serverId: string, itemId: string) {
             try {
                 const item = await queryClient.fetchQuery(getItemQuery(
                     api,
-                    userId,
-                    itemId));
+                    itemId,
+                    userId));
 
                 playbackManager.displayContent({
                     ItemName: item.Name,

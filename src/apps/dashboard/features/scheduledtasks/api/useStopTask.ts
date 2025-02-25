@@ -10,7 +10,6 @@ export const useStopTask = () => {
 
     return useMutation({
         mutationFn: (params: ScheduledTasksApiStartTaskRequest) => (
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             getScheduledTasksApi(api!)
                 .stopTask(params)
         ),
