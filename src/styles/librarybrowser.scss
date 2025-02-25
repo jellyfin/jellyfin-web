@@ -1,4 +1,4 @@
-@import 'mixins';
+@use 'mixins' as *;
 
 // The padding of the header content on mobile needs to be adjusted
 // based on the size of the poster card (values from card.scss)

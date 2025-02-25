@@ -33,7 +33,7 @@ function textAreaCopy(text) {
         } else {
             ret = Promise.reject();
         }
-    } catch (_) {
+    } catch {
         ret = Promise.reject();
     }
 
@@ -48,11 +48,10 @@ function textAreaCopy(text) {
  * @returns {Promise<void>} Promise.
  */
 export function copy(text) {
-    /* eslint-disable-next-line compat/compat */
+    // eslint-disable-next-line sonarjs/different-types-comparison
     if (navigator.clipboard === undefined) {
         return textAreaCopy(text);
     } else {
-        /* eslint-disable-next-line compat/compat */
         return navigator.clipboard.writeText(text).catch(() => {
             return textAreaCopy(text);
         });

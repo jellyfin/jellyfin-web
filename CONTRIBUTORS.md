@@ -95,6 +95,7 @@
 - [Ali](https://github.com/bu3alwa)
 - [K. Kyle Puchkov](https://github.com/kepper104)
 - [ItsAllAboutTheCode](https://github.com/ItsAllAboutTheCode)
+- [Jxiced](https://github.com/Jxiced)
 
 ## Emby Contributors
 

@@ -2002,5 +2002,5 @@
     "LabelDevice": "Apparaat",
     "LastActive": "Laatst actief",
     "DeleteServerConfirmation": "Weet je zeker dat je deze server wilt verwijderen?",
-    "LibraryNameInvalid": "De naam van de bibliotheek kan niet leeg zijn of beginnen of eindigen met een spatie."
+    "LibraryNameInvalid": "Bibliotheeknaam kan niet leeg zijn."
 }

@@ -2003,5 +2003,5 @@
     "LabelDevice": "Zařízení",
     "LastActive": "Naposledy aktivní",
     "DeleteServerConfirmation": "Opravdu chcete odstranit tento server?",
-    "LibraryNameInvalid": "Název knihovny nesmí být prázdný nebo mít kolem sebe mezery."
+    "LibraryNameInvalid": "Název knihovny nesmí být prázdný."
 }

@@ -111,8 +111,9 @@ const UserNew = () => {
 
         const saveUser = () => {
             const userInput: UserInput = {};
-            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value;
+            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value.trim();
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
+
             window.ApiClient.createUser(userInput).then(function (user) {
                 if (!user.Id || !user.Policy) {
                     throw new Error('Unexpected null user id or policy');

@@ -31,7 +31,7 @@
     "Artists": "Artisti",
     "AsManyAsPossible": "Tutto il possibile",
     "Ascending": "Crescente",
-    "AspectRatio": "Rapporto d'Aspetto",
+    "AspectRatio": "Rapporto d'aspetto",
     "Backdrop": "Sfondo",
     "Backdrops": "Sfondi",
     "BirthDateValue": "Nato il: {0}",
@@ -1125,7 +1125,7 @@
     "HeaderCastAndCrew": "Cast",
     "HeaderMedia": "Media",
     "HeaderPassword": "Password",
-    "AuthProviderHelp": "Selezionare un provider di autenticazione da utilizzare per autenticare la password dell'utente.",
+    "AuthProviderHelp": "Selezionare un provider di autenticazione da utilizzare per chiedere la password utente.",
     "HeaderFetcherSettings": "Impostazioni del Fetcher",
     "HeaderImageOptions": "Opzioni Immagine",
     "Home": "Home",
@@ -1760,7 +1760,7 @@
     "AllowSegmentDeletionHelp": "Elimina i vecchi segmenti dopo che sono stati scaricati dal client. In questo modo si evita di dover memorizzare l'intero file transcodificato su disco. Disattiva questa funzione se si verificano problemi di riproduzione.",
     "LabelThrottleDelaySeconds": "Limita dopo",
     "LabelThrottleDelaySecondsHelp": "Tempo in secondi dopo cui il transcodificatore verrà messo in pausa. Deve essere sufficientemente grande perché il client mantenga un buon buffer. Funziona solo se il throttling è abilitato.",
-    "LabelSegmentKeepSeconds": "Il tempo per cui tenere i segmenti",
+    "LabelSegmentKeepSeconds": "Tempo di durata dei segmenti",
     "LabelSegmentKeepSecondsHelp": "Tempo in secondi per cui i segmenti devono essere conservati dopo essere stati scaricati dal client. Funziona solo se l'eliminazione dei segmenti è abilitata.",
     "AllowAv1Encoding": "Permetti la codifica nel formato AV1",
     "GoHome": "Vai alla Home",
@@ -1886,7 +1886,7 @@
     "PlaylistPublic": "Consenti accesso pubblico",
     "PlaylistPublicDescription": "Consenti che questa playlist sia visibile ad ogni utente loggato.",
     "HeaderLyricDownloads": "Scarica testi",
-    "LibraryScanFanoutConcurrencyHelp": "Massimo numero di task paralleli durante la scansione delle librerie. Se impostato a 0 sarà utilizzato il numero di core del sistema. ATTENZIONE: impostare un numero alto potrebbe causare problemi sui network filesystem. In caso di problemi ridurre il numero.",
+    "LibraryScanFanoutConcurrencyHelp": "Massimo numero di task parallele durante la scansione delle librerie. Se impostato a 0 sarà utilizzato il numero di core del sistema. ATTENZIONE: impostare un numero troppo alto potrebbe causare problemi sui network filesystem. In caso di problemi ridurre il numero.",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Codec audio preferito per la transcodica durante la riproduzione video",
     "LibraryScanFanoutConcurrency": "Massimo numero di task durante la scansione",
     "Colorist": "Colorista",
@@ -2003,5 +2003,5 @@
     "LabelDevice": "Dispositivo",
     "DeleteServerConfirmation": "Sei sicuro di voler eliminare questo server?",
     "LastActive": "Ultimo accesso",
-    "LibraryNameInvalid": "Il nome della libreria non può essere vuoto o avere spazi iniziali o finali."
+    "LibraryNameInvalid": "Il nome della libreria non può essere vuoto."
 }

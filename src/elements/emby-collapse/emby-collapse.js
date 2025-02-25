@@ -13,7 +13,8 @@ function slideDownToShow(button, elem) {
         elem.style.height = '0';
         // trigger reflow
         // TODO: Find a better way to do this
-        const newHeight = elem.offsetHeight; /* eslint-disable-line no-unused-vars */
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, sonarjs/no-unused-vars, sonarjs/no-dead-store
+        const newHeight = elem.offsetHeight;
         elem.style.height = height;
 
         setTimeout(function () {
@@ -35,7 +36,8 @@ function slideUpToHide(button, elem) {
         elem.style.height = elem.offsetHeight + 'px';
         // trigger reflow
         // TODO: Find a better way to do this
-        const newHeight = elem.offsetHeight; /* eslint-disable-line no-unused-vars */
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, sonarjs/no-unused-vars, sonarjs/no-dead-store
+        const newHeight = elem.offsetHeight;
         elem.classList.remove('expanded');
         elem.style.height = '0';
 

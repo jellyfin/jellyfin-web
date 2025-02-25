@@ -1622,7 +1622,7 @@
     "XmlTvNewsCategoriesHelp": "Os programas com estas categorias serão exibidos como programas de notícias. Separe múltiplos com '|'.",
     "LabelOriginalMediaInfo": "Informações da mídia original",
     "YoutubeBadRequest": "Requisição ruim.",
-    "YoutubeDenied": "O vídeo solicitado não pode ser reproduzido em players incorporados.",
+    "YoutubeDenied": "O vídeo solicitado não pode ser reproduzido em leitores incorporados.",
     "TypeOptionPluralBoxSet": "Conjuntos de caixas",
     "LabelBackdropScreensaverInterval": "Intervalo do fundo do protetor de ecrã",
     "UseDoubleRateDeinterlacingHelp": "Esta definição utiliza a taxa de campo durante o desentrelaçamento, muitas vezes referido como desentrelaçamento bob, que duplica a taxa de fotogramas do vídeo para proporcionar movimento fluído, como o que verias ao ver vídeo entrelaçado numa televisão.",
@@ -1674,7 +1674,7 @@
     "ValueAlbumCount": "{0} álbuns",
     "ValueOneAlbum": "1 álbum",
     "ValueSongCount": "{0} músicas",
-    "Controls": "Controles",
+    "Controls": "Comandos",
     "LabelSyncPlaySettingsSpeedToSyncDuration": "Duração da Velocidade de sincronização",
     "EnableFallbackFontHelp": "Ative fontes alternativas personalizadas. Isso pode evitar o problema de renderização incorreta de legendas.",
     "MessagePlaybackError": "Ocorreu um erro ao reproduzir este ficheiro no teu recetor Google Cast.",
@@ -1996,5 +1996,5 @@
     "LabelDevice": "Dispositivo",
     "LastActive": "Última atividade",
     "DeleteServerConfirmation": "Tens a certeza de que queres eliminar este servidor?",
-    "LibraryNameInvalid": "O nome da biblioteca multimédia não pode estar vazio ou ter espaços à esquerda, ou à direita."
+    "LibraryNameInvalid": "O nome da biblioteca não pode estar vazio."
 }

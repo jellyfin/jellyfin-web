@@ -3,7 +3,6 @@ import globalize from 'lib/globalize';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 import { getParameterByName } from 'utils/url';
 
-import { appHost } from './apphost';
 import cardBuilder from './cardbuilder/cardBuilder';
 import imageLoader from './images/imageLoader';
 import layoutManager from './layoutManager';
@@ -160,8 +159,10 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
                 html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
             }
 
-            let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
-            cardLayout = false;
+            // NOTE: Why is card layout always disabled?
+            // let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
+            const cardLayout = false;
+
             html += cardBuilder.getCardsHtml(result.Items, {
                 preferThumb: section.preferThumb,
                 shape: section.shape,

@@ -9,10 +9,11 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { ActionData } from 'types/actionData';
-import { useConfiguration } from 'hooks/useConfiguration';
+import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Loading from 'components/loading/LoadingComponent';
 import ServerConnections from 'components/ServerConnections';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { queryClient } from 'utils/query/queryClient';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();
@@ -35,6 +36,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     await getConfigurationApi(api)
         .updateConfiguration({ serverConfiguration: config });
+
+    void queryClient.invalidateQueries({
+        queryKey: [ QUERY_KEY ]
+    });
 
     return {
         isSaved: true

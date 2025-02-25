@@ -208,6 +208,7 @@ function getMimeType(type, container) {
 }
 
 function getParam(name, url) {
+    // eslint-disable-next-line sonarjs/single-char-in-character-classes
     name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
     const regexS = '[\\?&]' + name + '=([^&#]*)';
     const regex = new RegExp(regexS, 'i');
@@ -2115,6 +2116,7 @@ export class PlaybackManager {
 
             if (!state) {
                 playerStates[player.name] = {};
+                // eslint-disable-next-line sonarjs/no-dead-store
                 state = playerStates[player.name];
             }
 

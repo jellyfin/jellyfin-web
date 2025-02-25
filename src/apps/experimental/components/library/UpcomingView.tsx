@@ -6,6 +6,7 @@ import SectionContainer from 'components/common/SectionContainer';
 import { CardShape } from 'utils/card';
 import type { LibraryViewProps } from 'types/library';
 
+// eslint-disable-next-line sonarjs/function-return-type
 const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
     const { isLoading, data: groupsUpcomingEpisodes } =
         useGetGroupsUpcomingEpisodes(parentId);

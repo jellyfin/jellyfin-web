@@ -1,7 +1,9 @@
+@use "../font";
+
 $jpFamily: "Noto Sans JP";
 
 /* noto-sans-jp-[0]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-0-700-normal.woff2",
@@ -9,7 +11,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[1]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-1-700-normal.woff2",
@@ -17,7 +19,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[2]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-2-700-normal.woff2",
@@ -25,7 +27,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[3]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-3-700-normal.woff2",
@@ -33,7 +35,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[4]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-4-700-normal.woff2",
@@ -41,7 +43,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[5]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-5-700-normal.woff2",
@@ -49,7 +51,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[6]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-6-700-normal.woff2",
@@ -57,7 +59,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[7]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-7-700-normal.woff2",
@@ -65,7 +67,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[8]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-8-700-normal.woff2",
@@ -73,7 +75,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[9]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-9-700-normal.woff2",
@@ -81,7 +83,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[10]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-10-700-normal.woff2",
@@ -89,7 +91,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[11]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-11-700-normal.woff2",
@@ -97,7 +99,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[12]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-12-700-normal.woff2",
@@ -105,7 +107,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[13]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-13-700-normal.woff2",
@@ -113,7 +115,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[14]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-14-700-normal.woff2",
@@ -121,7 +123,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[15]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-15-700-normal.woff2",
@@ -129,7 +131,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[16]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-16-700-normal.woff2",
@@ -137,7 +139,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[17]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-17-700-normal.woff2",
@@ -145,7 +147,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[18]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-18-700-normal.woff2",
@@ -153,7 +155,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[19]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-19-700-normal.woff2",
@@ -161,7 +163,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[20]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-20-700-normal.woff2",
@@ -169,7 +171,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[21]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-21-700-normal.woff2",
@@ -177,7 +179,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[22]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-22-700-normal.woff2",
@@ -185,7 +187,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[23]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-23-700-normal.woff2",
@@ -193,7 +195,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[24]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-24-700-normal.woff2",
@@ -201,7 +203,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[25]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-25-700-normal.woff2",
@@ -209,7 +211,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[26]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-26-700-normal.woff2",
@@ -217,7 +219,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[27]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-27-700-normal.woff2",
@@ -225,7 +227,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[28]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-28-700-normal.woff2",
@@ -233,7 +235,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[29]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-29-700-normal.woff2",
@@ -241,7 +243,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[30]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-30-700-normal.woff2",
@@ -249,7 +251,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[31]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-31-700-normal.woff2",
@@ -257,7 +259,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[32]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-32-700-normal.woff2",
@@ -265,7 +267,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[33]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-33-700-normal.woff2",
@@ -273,7 +275,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[34]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-34-700-normal.woff2",
@@ -281,7 +283,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[35]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-35-700-normal.woff2",
@@ -289,7 +291,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[36]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-36-700-normal.woff2",
@@ -297,7 +299,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[37]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-37-700-normal.woff2",
@@ -305,7 +307,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[38]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-38-700-normal.woff2",
@@ -313,7 +315,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[39]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-39-700-normal.woff2",
@@ -321,7 +323,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[40]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-40-700-normal.woff2",
@@ -329,7 +331,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[41]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-41-700-normal.woff2",
@@ -337,7 +339,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[42]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-42-700-normal.woff2",
@@ -345,7 +347,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[43]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-43-700-normal.woff2",
@@ -353,7 +355,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[44]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-44-700-normal.woff2",
@@ -361,7 +363,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[45]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-45-700-normal.woff2",
@@ -369,7 +371,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[46]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-46-700-normal.woff2",
@@ -377,7 +379,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[47]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-47-700-normal.woff2",
@@ -385,7 +387,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[48]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-48-700-normal.woff2",
@@ -393,7 +395,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[49]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-49-700-normal.woff2",
@@ -401,7 +403,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[50]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-50-700-normal.woff2",
@@ -409,7 +411,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[51]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-51-700-normal.woff2",
@@ -417,7 +419,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[52]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-52-700-normal.woff2",
@@ -425,7 +427,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[53]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-53-700-normal.woff2",
@@ -433,7 +435,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[54]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-54-700-normal.woff2",
@@ -441,7 +443,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[55]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-55-700-normal.woff2",
@@ -449,7 +451,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[56]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-56-700-normal.woff2",
@@ -457,7 +459,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[57]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-57-700-normal.woff2",
@@ -465,7 +467,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[58]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-58-700-normal.woff2",
@@ -473,7 +475,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[59]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-59-700-normal.woff2",
@@ -481,7 +483,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[60]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-60-700-normal.woff2",
@@ -489,7 +491,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[61]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-61-700-normal.woff2",
@@ -497,7 +499,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[62]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-62-700-normal.woff2",
@@ -505,7 +507,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[63]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-63-700-normal.woff2",
@@ -513,7 +515,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[64]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-64-700-normal.woff2",
@@ -521,7 +523,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[65]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-65-700-normal.woff2",
@@ -529,7 +531,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[66]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-66-700-normal.woff2",
@@ -537,7 +539,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[67]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-67-700-normal.woff2",
@@ -545,7 +547,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[68]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-68-700-normal.woff2",
@@ -553,7 +555,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[69]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-69-700-normal.woff2",
@@ -561,7 +563,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[70]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-70-700-normal.woff2",
@@ -569,7 +571,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[71]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-71-700-normal.woff2",
@@ -577,7 +579,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[72]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-72-700-normal.woff2",
@@ -585,7 +587,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[73]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-73-700-normal.woff2",
@@ -593,7 +595,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[74]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-74-700-normal.woff2",
@@ -601,7 +603,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[75]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-75-700-normal.woff2",
@@ -609,7 +611,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[76]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-76-700-normal.woff2",
@@ -617,7 +619,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[77]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-77-700-normal.woff2",
@@ -625,7 +627,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[78]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-78-700-normal.woff2",
@@ -633,7 +635,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[79]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-79-700-normal.woff2",
@@ -641,7 +643,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[80]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-80-700-normal.woff2",
@@ -649,7 +651,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[81]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-81-700-normal.woff2",
@@ -657,7 +659,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[82]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-82-700-normal.woff2",
@@ -665,7 +667,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[83]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-83-700-normal.woff2",
@@ -673,7 +675,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[84]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-84-700-normal.woff2",
@@ -681,7 +683,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[85]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-85-700-normal.woff2",
@@ -689,7 +691,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[86]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-86-700-normal.woff2",
@@ -697,7 +699,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[87]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-87-700-normal.woff2",
@@ -705,7 +707,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[88]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-88-700-normal.woff2",
@@ -713,7 +715,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[89]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-89-700-normal.woff2",
@@ -721,7 +723,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[90]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-90-700-normal.woff2",
@@ -729,7 +731,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[91]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-91-700-normal.woff2",
@@ -737,7 +739,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[92]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-92-700-normal.woff2",
@@ -745,7 +747,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[93]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-93-700-normal.woff2",
@@ -753,7 +755,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[94]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-94-700-normal.woff2",
@@ -761,7 +763,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[95]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-95-700-normal.woff2",
@@ -769,7 +771,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[96]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-96-700-normal.woff2",
@@ -777,7 +779,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[97]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-97-700-normal.woff2",
@@ -785,7 +787,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[98]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-98-700-normal.woff2",
@@ -793,7 +795,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[99]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-99-700-normal.woff2",
@@ -801,7 +803,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[100]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-100-700-normal.woff2",
@@ -809,7 +811,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[101]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-101-700-normal.woff2",
@@ -817,7 +819,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[102]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-102-700-normal.woff2",
@@ -825,7 +827,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[103]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-103-700-normal.woff2",
@@ -833,7 +835,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[104]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-104-700-normal.woff2",
@@ -841,7 +843,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[105]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-105-700-normal.woff2",
@@ -849,7 +851,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[106]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-106-700-normal.woff2",
@@ -857,7 +859,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[107]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-107-700-normal.woff2",
@@ -865,7 +867,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[108]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-108-700-normal.woff2",
@@ -873,7 +875,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[109]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-109-700-normal.woff2",
@@ -881,7 +883,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[110]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-110-700-normal.woff2",
@@ -889,7 +891,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[111]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-111-700-normal.woff2",
@@ -897,7 +899,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[112]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-112-700-normal.woff2",
@@ -905,7 +907,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[113]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-113-700-normal.woff2",
@@ -913,7 +915,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[114]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-114-700-normal.woff2",
@@ -921,7 +923,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[115]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-115-700-normal.woff2",
@@ -929,7 +931,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[116]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-116-700-normal.woff2",
@@ -937,7 +939,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[117]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-117-700-normal.woff2",
@@ -945,7 +947,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[118]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-118-700-normal.woff2",
@@ -953,7 +955,7 @@ $jpFamily: "Noto Sans JP";
 );
 
 /* noto-sans-jp-[119]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $jpFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-jp/files/noto-sans-jp-119-700-normal.woff2",
