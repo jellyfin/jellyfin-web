@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import Page from 'components/Page';
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -19,10 +19,9 @@ import ConfirmDialog from 'components/ConfirmDialog';
 import TaskTriggerCell from 'apps/dashboard/features/tasks/components/TaskTriggerCell';
 import NewTriggerForm from 'apps/dashboard/features/tasks/components/NewTriggerForm';
 
-const TaskEdit = () => {
-    const [ searchParams ] = useSearchParams();
+export const Component = () => {
+    const { id: taskId } = useParams();
     const updateTask = useUpdateTask();
-    const taskId = searchParams.get('id');
     const { data: task, isLoading } = useTask({ taskId: taskId || '' });
     const [ isAddTriggerDialogOpen, setIsAddTriggerDialogOpen ] = useState(false);
     const [ isRemoveConfirmOpen, setIsRemoveConfirmOpen ] = useState(false);
@@ -170,4 +169,4 @@ const TaskEdit = () => {
     );
 };
 
-export default TaskEdit;
+Component.displayName = 'TaskPage';
