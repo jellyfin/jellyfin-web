@@ -80,7 +80,6 @@ export const Component = () => {
                         <>
                             <ButtonGroup variant='contained' sx={{ mt: 2 }}>
                                 <Button
-                                    disabled={!('clipboard' in navigator)}
                                     startIcon={<ContentCopy />}
                                     onClick={copyToClipboard}
                                 >
