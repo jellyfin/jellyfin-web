@@ -1995,5 +1995,12 @@
     "DeleteServerConfirmation": "¿Estás seguro de que deseas eliminar este servidor?",
     "LabelDevice": "Dispositivo",
     "LastActive": "Último activo",
-    "LibraryNameInvalid": "El nombre de la biblioteca no puede estar vacío."
+    "LibraryNameInvalid": "El nombre de la biblioteca no puede estar vacío.",
+    "AutoSubtitleStylingHelp": "Este modo cambiará automáticamente entre los mecanismos de estilo nativo y personalizado de subtítulos basándose en el tipo de su dispositivo.",
+    "LabelQsvDeviceHelp": "Especifica el dispositivo para Intel QSV en un sistema multi-GPU. En Linux, es el nódo de render, ej., /dev/dri/renderD128. En Windows, es el índice del dispositivo empezando desde 0. Déjalo en blanco a menos que sepa lo que está haciendo.",
+    "MediaSegmentType.Recap": "Recapitulación",
+    "PlaylistError.UpdateFailed": "Error actualizando la lista de reproducción",
+    "MediaSegmentAction.None": "Ninguno",
+    "MediaSegmentType.Outro": "Outro",
+    "MoviesAndShows": "Películas y Programas"
 }
