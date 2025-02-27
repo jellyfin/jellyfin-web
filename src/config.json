@@ -1,6 +1,6 @@
 {
   "includeCorsCredentials": false,
-  "multiserver": false,
+  "multiserver": true,
   "themes": [
     {
       "name": "Apple TV",
@@ -30,7 +30,7 @@
     }
   ],
   "menuLinks": [],
-  "servers": [],
+  "servers": ["https://fin.lucastream.com"],
   "plugins": [
     "playAccessValidation/plugin",
     "experimentalWarnings/plugin",
