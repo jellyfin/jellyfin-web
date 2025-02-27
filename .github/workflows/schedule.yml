@@ -30,10 +30,9 @@ jobs:
 
             This bot exists to prevent issues from becoming stale and forgotten. Jellyfin is always moving forward, and bugs are often fixed as side effects of other changes. We therefore ask that bug report authors remain vigilant about their issues to ensure they are closed if fixed, or re-confirmed - perhaps with fresh logs or reproduction examples - regularly. If you have any questions you can reach us on [Matrix or Social Media](https://jellyfin.org/contact).
           # PRs are closed after having unresolved merge conflicts for 90 days
-          days-before-pr-stale: -1
+          days-before-pr-stale: 0
           days-before-pr-close: 90
-          stale-pr-label: merge conflict
-          # The merge conflict action will remove the label when updated
-          remove-pr-stale-when-updated: false
+          only-pr-labels: merge conflict
+          stale-pr-label: stale
           close-pr-message: |-
             This PR has been closed due to having unresolved merge conflicts.
