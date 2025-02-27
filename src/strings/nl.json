@@ -2002,5 +2002,8 @@
     "LabelDevice": "Apparaat",
     "LastActive": "Laatst actief",
     "DeleteServerConfirmation": "Weet je zeker dat je deze server wilt verwijderen?",
-    "LibraryNameInvalid": "Bibliotheeknaam kan niet leeg zijn."
+    "LibraryNameInvalid": "Bibliotheeknaam kan niet leeg zijn.",
+    "CopyLogSuccess": "Logboekinhoud gekopieerd.",
+    "Retry": "Opnieuw proberen",
+    "LogLoadFailure": "Laden van logboekbestand mislukt. Mogelijk wordt er nog actief naar geschreven."
 }
