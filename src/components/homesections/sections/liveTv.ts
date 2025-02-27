@@ -6,7 +6,7 @@ import { appRouter } from 'components/router/appRouter';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import layoutManager from 'components/layoutManager';
 import ServerConnections from 'components/ServerConnections';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { getBackdropShape } from 'utils/card';
 
 import type { SectionContainerElement, SectionOptions } from './section';

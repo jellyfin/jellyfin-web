@@ -93,21 +93,23 @@ function isCurrentlyFocusableInternal(elem) {
 
 // Determines if a focusable element can be focused at a given point in time
 function isCurrentlyFocusable(elem) {
-    if (elem.disabled) {
-        return false;
-    }
-
-    if (elem.getAttribute('tabindex') === '-1') {
-        return false;
-    }
-
-    if (elem.tagName === 'INPUT') {
-        const type = elem.type;
-        if (type === 'range') {
+    if (!elem.classList?.contains('focusable')) {
+        if (elem.disabled) {
             return false;
         }
-        if (type === 'file') {
+
+        if (elem.getAttribute('tabindex') === '-1') {
             return false;
+        }
+
+        if (elem.tagName === 'INPUT') {
+            const type = elem.type;
+            if (type === 'range') {
+                return false;
+            }
+            if (type === 'file') {
+                return false;
+            }
         }
     }
 
@@ -387,6 +389,7 @@ function intersectsInternal(a1, a2, b1, b2) {
 }
 
 function intersects(a1, a2, b1, b2) {
+    // eslint-disable-next-line sonarjs/arguments-order
     return intersectsInternal(a1, a2, b1, b2) || intersectsInternal(b1, b2, a1, a2);
 }
 

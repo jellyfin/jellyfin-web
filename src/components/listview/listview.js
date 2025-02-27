@@ -9,7 +9,7 @@ import itemHelper from '../itemHelper';
 import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';
 import layoutManager from '../layoutManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import datetime from '../../scripts/datetime';
 import cardBuilder from '../cardbuilder/cardBuilder';
 import './listview.scss';
@@ -17,6 +17,8 @@ import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-playstatebutton/emby-playstatebutton';
 import ServerConnections from '../ServerConnections';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import markdownIt from 'markdown-it';
+import DOMPurify from 'dompurify';
 
 function getIndex(item, options) {
     if (options.index === 'disc') {
@@ -415,8 +417,10 @@ export function getListViewHtml(options) {
         }
 
         if (enableOverview && item.Overview) {
+            // eslint-disable-next-line sonarjs/disabled-auto-escaping
+            const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
             html += '<div class="secondary listItem-overview listItemBodyText">';
-            html += '<bdi>' + item.Overview + '</bdi>';
+            html += '<bdi>' + overview + '</bdi>';
             html += '</div>';
         }
 

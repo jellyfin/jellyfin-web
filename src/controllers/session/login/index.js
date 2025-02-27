@@ -7,7 +7,7 @@ import loading from '../../../components/loading/loading';
 import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
 import browser from '../../../scripts/browser';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import Dashboard from '../../../utils/dashboard';
@@ -292,6 +292,7 @@ export default function (view, params) {
         apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
             const loginDisclaimer = view.querySelector('.loginDisclaimer');
 
+            // eslint-disable-next-line sonarjs/disabled-auto-escaping
             loginDisclaimer.innerHTML = DOMPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
 
             for (const elem of loginDisclaimer.querySelectorAll('a')) {

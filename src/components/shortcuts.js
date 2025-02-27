@@ -7,7 +7,7 @@ import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import { playbackManager } from './playback/playbackmanager';
 import inputManager from '../scripts/inputManager';
 import { appRouter } from './router/appRouter';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import dom from '../scripts/dom';
 import recordingHelper from './recordingcreator/recordinghelper';
 import ServerConnections from './ServerConnections';
@@ -110,6 +110,19 @@ function showContextMenu(card, options = {}) {
         if (playlistId) {
             const elem = dom.parentWithAttribute(card, 'data-playlistitemid');
             item.PlaylistItemId = elem ? elem.getAttribute('data-playlistitemid') : null;
+
+            const itemsContainer = dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
+            if (itemsContainer) {
+                let index = 0;
+                for (const listItem of itemsContainer.querySelectorAll('.listItem')) {
+                    const playlistItemId = listItem.getAttribute('data-playlistitemid');
+                    if (playlistItemId == item.PlaylistItemId) {
+                        item.PlaylistIndex = index;
+                    }
+                    index++;
+                }
+                item.PlaylistItemCount = index;
+            }
         }
 
         const apiClient = ServerConnections.getApiClient(item.ServerId);

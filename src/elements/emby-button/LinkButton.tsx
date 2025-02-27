@@ -8,11 +8,11 @@ import './emby-button.scss';
 
 interface LinkButtonProps extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>,
     HTMLAnchorElement
-  > {
-  className?: string;
-  isAutoHideEnabled?: boolean;
-  href?: string;
-  target?: string;
+> {
+    className?: string;
+    isAutoHideEnabled?: boolean;
+    href?: string;
+    target?: string;
 }
 
 const LinkButton: React.FC<LinkButtonProps> = ({
@@ -20,6 +20,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
     isAutoHideEnabled,
     href,
     target,
+    onClick,
     children,
     ...rest
 }) => {
@@ -41,7 +42,8 @@ const LinkButton: React.FC<LinkButtonProps> = ({
         } else {
             e.preventDefault();
         }
-    }, [ href, target ]);
+        onClick?.(e);
+    }, [ href, target, onClick ]);
 
     if (isAutoHideEnabled === true && !appHost.supports('externallinks')) {
         return null;

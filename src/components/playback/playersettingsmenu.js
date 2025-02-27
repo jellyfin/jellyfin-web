@@ -1,6 +1,6 @@
 import actionsheet from '../actionSheet/actionSheet';
 import { playbackManager } from '../playback/playbackmanager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import qualityoptions from '../qualityOptions';
 import ServerConnections from '../ServerConnections';
 
@@ -8,14 +8,15 @@ function showQualityMenu(player, btn) {
     const videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
         return stream.Type === 'Video';
     })[0];
-    const videoWidth = videoStream ? videoStream.Width : null;
-    const videoHeight = videoStream ? videoStream.Height : null;
+
+    const videoCodec = videoStream ? videoStream.Codec : null;
+    const videoBitRate = videoStream ? videoStream.BitRate : null;
 
     const options = qualityoptions.getVideoQualityOptions({
         currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
         isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
-        videoWidth: videoWidth,
-        videoHeight: videoHeight,
+        videoCodec,
+        videoBitRate,
         enableAuto: true
     });
 

@@ -2,7 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import * as userSettings from 'scripts/settings/userSettings';
 import { CardShape } from 'utils/card';

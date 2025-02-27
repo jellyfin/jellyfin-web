@@ -1,13 +1,14 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useCallback } from 'react';
 import datetime from '../../../scripts/datetime';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
 
 type AccessScheduleListProps = {
-    index: number;
+    index?: number;
     DayOfWeek?: string;
     StartHour?: number ;
     EndHour?: number;
+    removeScheduleCallback?: (index: number) => void;
 };
 
 function getDisplayTime(hours = 0) {
@@ -21,7 +22,10 @@ function getDisplayTime(hours = 0) {
     return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
 }
 
-const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({ index, DayOfWeek, StartHour, EndHour }: AccessScheduleListProps) => {
+const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({ index, DayOfWeek, StartHour, EndHour, removeScheduleCallback }: AccessScheduleListProps) => {
+    const onClick = useCallback(() => {
+        index !== undefined && removeScheduleCallback !== undefined && removeScheduleCallback(index);
+    }, [index, removeScheduleCallback]);
     return (
         <div
             className='liSchedule listItem'
@@ -43,6 +47,7 @@ const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({ index,
                 title='Delete'
                 icon='delete'
                 dataIndex={index}
+                onClick={onClick}
             />
         </div>
     );

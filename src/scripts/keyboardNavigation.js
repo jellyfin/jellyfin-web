@@ -43,7 +43,12 @@ const KeyNames = {
 /**
  * Keys used for keyboard navigation.
  */
-const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'BrowserHome', 'Find'];
+
+/**
+ * Keys used for media playback control.
+ */
+const MediaKeys = ['MediaRewind', 'MediaStop', 'MediaPlay', 'MediaFastForward', 'MediaTrackPrevious', 'MediaTrackNext', 'MediaPlayPause'];
 
 /**
  * Elements for which navigation should be constrained.
@@ -90,6 +95,16 @@ export function isNavigationKey(key) {
 }
 
 /**
+ * Returns _true_ if key is used for media playback control.
+ *
+ * @param {string} key - Key name.
+ * @return {boolean} _true_ if key is used for media playback control.
+ */
+export function isMediaKey(key) {
+    return MediaKeys.includes(key);
+}
+
+/**
  * Returns _true_ if the element is interactive.
  *
  * @param {Element} element - Element.
@@ -108,11 +123,22 @@ export function isInteractiveElement(element) {
 }
 
 export function enable() {
+    const hasMediaSession = 'mediaSession' in navigator;
     window.addEventListener('keydown', function (e) {
+        if (e.defaultPrevented) return;
+
+        // Skip modified keys
+        if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+
         const key = getKeyName(e);
 
         // Ignore navigation keys for non-TV
         if (!layoutManager.tv && isNavigationKey(key)) {
+            return;
+        }
+
+        // Ignore Media Keys for non-TV platform having MediaSession API
+        if (!browser.tv && isMediaKey(key) && hasMediaSession) {
             return;
         }
 
@@ -159,6 +185,13 @@ export function enable() {
                 } else {
                     capture = false;
                 }
+                break;
+
+            case 'Find':
+                inputManager.handleCommand('search');
+                break;
+            case 'BrowserHome':
+                inputManager.handleCommand('home');
                 break;
 
             case 'MediaPlay':

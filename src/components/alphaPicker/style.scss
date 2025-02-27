@@ -1,3 +1,5 @@
+@use '../../styles/mixins' as *;
+
 .alphaPicker {
     text-align: center;
     display: flex;
@@ -11,8 +13,8 @@
 
 .alphaPicker-fixed {
     position: fixed;
-    bottom: 5.5em;
-    bottom: max(env(safe-area-inset-bottom), 5.5em);
+
+    @include conditional-max(bottom, 5.5em, env(safe-area-inset-bottom));
 }
 
 .alphaPickerRow {
@@ -45,8 +47,7 @@
 
 @media all and (max-height: 50em) {
     .alphaPicker-fixed {
-        bottom: 5em;
-        bottom: max(env(safe-area-inset-bottom), 5em);
+        @include conditional-max(bottom, 5em, env(safe-area-inset-bottom));
     }
 
     .alphaPickerButton-vertical {
@@ -105,32 +106,27 @@
 }
 
 .alphaPicker-fixed.alphaPicker-tv {
-    bottom: 1%;
-    bottom: max(env(safe-area-inset-bottom), 1%);
+    @include conditional-max(bottom, 1%, env(safe-area-inset-bottom));
 }
 
 .alphaPicker-fixed-right {
     [dir="ltr"] & {
-        right: 0.4em;
-        right: max(env(safe-area-inset-right), 0.4em);
+        @include conditional-max(right, 0.4em, env(safe-area-inset-right));
     }
 
     [dir="rtl"] & {
-        left: 0.4em;
-        left: max(env(safe-area-inset-left), 0.4em);
+        @include conditional-max(left, 0.4em, env(safe-area-inset-left));
     }
 }
 
 @media all and (min-width: 62.5em) {
     .alphaPicker-fixed-right {
         [dir="ltr"] & {
-            right: 1em;
-            right: max(env(safe-area-inset-right), 1em);
+            @include conditional-max(right, 1em, env(safe-area-inset-right));
         }
 
         [dir="rtl"] & {
-            left: 1em;
-            left: max(env(safe-area-inset-left), 1em);
+            @include conditional-max(left, 1em, env(safe-area-inset-left));
         }
     }
 }

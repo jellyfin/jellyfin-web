@@ -3,10 +3,9 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { ConnectResponse } from 'jellyfin-apiclient';
 
 import alert from './alert';
-import { appRouter } from './router/appRouter';
 import Loading from './loading/LoadingComponent';
 import ServerConnections from './ServerConnections';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import { ConnectionState } from '../utils/jellyfin-apiclient/ConnectionState';
 
 enum BounceRoutes {
@@ -83,7 +82,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         if (firstConnection.State === ConnectionState.ServerSignIn) {
             // Verify the wizard is complete
             try {
-                const infoResponse = await fetch(`${firstConnection.ApiClient.serverAddress()}/System/Info/Public`);
+                const infoResponse = await fetch(`${firstConnection.ApiClient.serverAddress()}/System/Info/Public`, { cache: 'no-cache' });
                 if (!infoResponse.ok) {
                     throw new Error('Public system info request failed');
                 }
@@ -149,24 +148,27 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
     }, [bounce, isAdminRequired, isUserRequired]);
 
     useEffect(() => {
-        // TODO: appRouter will call appHost.exit() if navigating back when you are already at the default route.
-        // This case will need to be handled elsewhere before appRouter can be killed.
-
         // Check connection status on initial page load
-        const firstConnection = appRouter.firstConnectionResult;
-        appRouter.firstConnectionResult = null;
+        const apiClient = ServerConnections.currentApiClient();
+        const connection = Promise.resolve(ServerConnections.firstConnection ? null : ServerConnections.connect());
+        connection.then(firstConnection => {
+            console.debug('[ConnectionRequired] connection state', firstConnection?.State);
+            ServerConnections.firstConnection = true;
 
-        if (firstConnection && firstConnection.State !== ConnectionState.SignedIn) {
-            handleIncompleteWizard(firstConnection)
-                .catch(err => {
-                    console.error('[ConnectionRequired] failed to start wizard', err);
-                });
-        } else {
-            validateUserAccess()
-                .catch(err => {
-                    console.error('[ConnectionRequired] failed to validate user access', err);
-                });
-        }
+            if (firstConnection && firstConnection.State !== ConnectionState.SignedIn && !apiClient?.isLoggedIn()) {
+                handleIncompleteWizard(firstConnection)
+                    .catch(err => {
+                        console.error('[ConnectionRequired] could not start wizard', err);
+                    });
+            } else {
+                validateUserAccess()
+                    .catch(err => {
+                        console.error('[ConnectionRequired] could not validate user access', err);
+                    });
+            }
+        }).catch(err => {
+            console.error('[ConnectionRequired] failed to connect', err);
+        });
     }, [handleIncompleteWizard, validateUserAccess]);
 
     if (isLoading) {

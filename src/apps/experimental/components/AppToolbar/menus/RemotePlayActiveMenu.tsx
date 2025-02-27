@@ -12,8 +12,8 @@ import { playbackManager } from 'components/playback/playbackmanager';
 import React, { FC, useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { enable, isEnabled, supported } from 'scripts/autocast';
-import globalize from 'scripts/globalize';
+import { enable, isEnabled } from 'scripts/autocast';
+import globalize from 'lib/globalize';
 
 interface RemotePlayActiveMenuProps extends MenuProps {
     onMenuClose: () => void
@@ -43,11 +43,10 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
     }, [ isDisplayMirrorEnabled, setIsDisplayMirrorEnabled ]);
 
     const [ isAutoCastEnabled, setIsAutoCastEnabled ] = useState(isEnabled());
-    const isAutoCastSupported = supported();
     const toggleAutoCast = useCallback(() => {
         enable(!isAutoCastEnabled);
         setIsAutoCastEnabled(!isAutoCastEnabled);
-    }, [ isAutoCastEnabled, setIsAutoCastEnabled ]);
+    }, [ isAutoCastEnabled ]);
 
     const remotePlayerName = playerInfo?.deviceName || playerInfo?.name;
 
@@ -117,20 +116,18 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
                 </MenuItem>
             )}
 
-            {isAutoCastSupported && (
-                <MenuItem onClick={toggleAutoCast}>
-                    {isAutoCastEnabled && (
-                        <ListItemIcon>
-                            <Check />
-                        </ListItemIcon>
-                    )}
-                    <ListItemText inset={!isAutoCastEnabled}>
-                        {globalize.translate('EnableAutoCast')}
-                    </ListItemText>
-                </MenuItem>
-            )}
+            <MenuItem onClick={toggleAutoCast}>
+                {isAutoCastEnabled && (
+                    <ListItemIcon>
+                        <Check />
+                    </ListItemIcon>
+                )}
+                <ListItemText inset={!isAutoCastEnabled}>
+                    {globalize.translate('EnableAutoCast')}
+                </ListItemText>
+            </MenuItem>
 
-            {(isDisplayMirrorSupported || isAutoCastSupported) && <Divider />}
+            <Divider />
 
             <MenuItem
                 component={Link}

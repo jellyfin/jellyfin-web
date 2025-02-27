@@ -1,22 +1,23 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import React, { FunctionComponent, useEffect, useState, useRef, useCallback } from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef, useCallback, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../scripts/globalize';
-import LibraryMenu from '../../../../scripts/libraryMenu';
+import globalize from '../../../../lib/globalize';
 import { appHost } from '../../../../components/apphost';
 import confirm from '../../../../components/confirm/confirm';
 import ButtonElement from '../../../../elements/ButtonElement';
 import UserPasswordForm from '../../../../components/dashboard/users/UserPasswordForm';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
-import { getParameterByName } from '../../../../utils/url';
 import Page from '../../../../components/Page';
 
 const UserProfile: FunctionComponent = () => {
-    const userId = getParameterByName('userId');
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId');
     const [ userName, setUserName ] = useState('');
+    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -24,7 +25,12 @@ const UserProfile: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userprofile] Unexpected null page reference');
+            return;
+        }
+
+        if (!userId) {
+            console.error('[userprofile] missing user id');
             return;
         }
 
@@ -35,7 +41,7 @@ const UserProfile: FunctionComponent = () => {
             }
 
             setUserName(user.Name);
-            LibraryMenu.setTitle(user.Name);
+            void libraryMenu.then(menu => menu.setTitle(user.Name));
 
             let imageUrl = 'assets/img/avatar.png';
             if (user.PrimaryImageTag) {
@@ -72,7 +78,7 @@ const UserProfile: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userprofile] Unexpected null page reference');
             return;
         }
 
@@ -110,6 +116,11 @@ const UserProfile: FunctionComponent = () => {
             reader.onerror = onFileReaderError;
             reader.onabort = onFileReaderAbort;
             reader.onload = () => {
+                if (!userId) {
+                    console.error('[userprofile] missing user id');
+                    return;
+                }
+
                 userImage.style.backgroundImage = 'url(' + reader.result + ')';
                 window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(function () {
                     loading.hide();
@@ -123,6 +134,11 @@ const UserProfile: FunctionComponent = () => {
         };
 
         (page.querySelector('#btnDeleteImage') as HTMLButtonElement).addEventListener('click', function () {
+            if (!userId) {
+                console.error('[userprofile] missing user id');
+                return;
+            }
+
             confirm(
                 globalize.translate('DeleteImageConfirmation'),
                 globalize.translate('DeleteImage')

@@ -1,3 +1,4 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
@@ -25,7 +26,7 @@ import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'scripts/dom';
 import { download } from 'scripts/fileDownloader';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import { getPortraitShape, getSquareShape } from 'utils/card';
@@ -386,17 +387,25 @@ function reloadUserDataButtons(page, item) {
 
 function getArtistLinksHtml(artists, serverId, context) {
     const html = [];
+    const numberOfArtists = artists.length;
 
-    for (const artist of artists) {
+    for (let i = 0; i < Math.min(numberOfArtists, 10); i++) {
+        const artist = artists[i];
         const href = appRouter.getRouteUrl(artist, {
-            context: context,
+            context,
             itemType: 'MusicArtist',
-            serverId: serverId
+            serverId
         });
         html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(artist.Name) + '</a>');
     }
 
-    return html.join(' / ');
+    let fullHtml = html.join(' / ');
+
+    if (numberOfArtists > 10) {
+        fullHtml = globalize.translate('AndOtherArtists', fullHtml, numberOfArtists - 10);
+    }
+
+    return fullHtml;
 }
 
 /**
@@ -533,10 +542,9 @@ function reloadFromItem(instance, page, params, item, user) {
 
     // Start rendering the artwork first
     renderImage(page, item, apiClient);
-    // Save some screen real estate in TV mode
-    if (!layoutManager.tv) {
-        renderLogo(page, item, apiClient);
-    }
+
+    renderLogo(page, item, apiClient);
+
     // Render the mobile header backdrop
     if (layoutManager.mobile) {
         renderHeaderBackdrop(page, item, apiClient);
@@ -574,11 +582,13 @@ function reloadFromItem(instance, page, params, item, user) {
         page.querySelector('.btnSplitVersions').classList.add('hide');
     }
 
-    if (itemContextMenu.getCommands(getContextMenuOptions(item, user)).length) {
-        hideAll(page, 'btnMoreCommands', true);
-    } else {
-        hideAll(page, 'btnMoreCommands');
-    }
+    itemContextMenu.getCommands(getContextMenuOptions(item, user)).then(commands => {
+        if (commands.length) {
+            hideAll(page, 'btnMoreCommands', true);
+        } else {
+            hideAll(page, 'btnMoreCommands');
+        }
+    });
 
     const itemBirthday = page.querySelector('#itemBirthday');
 
@@ -867,6 +877,7 @@ function renderOverview(page, item) {
     const overviewElements = page.querySelectorAll('.overview');
 
     if (overviewElements.length > 0) {
+        // eslint-disable-next-line sonarjs/disabled-auto-escaping
         const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
 
         if (overview) {
@@ -988,6 +999,9 @@ function renderDirector(page, item, context) {
 }
 
 function renderStudio(page, item, context) {
+    // The list of studios can be massive for collections of items
+    if ([BaseItemKind.BoxSet, BaseItemKind.Playlist].includes(item.Type)) return;
+
     const studios = item.Studios || [];
 
     const html = studios.map(function (studio) {
@@ -1302,8 +1316,12 @@ function renderTags(page, item) {
     }
 
     tags.forEach(tag => {
+        const href = appRouter.getRouteUrl('tag', {
+            tag,
+            serverId: item.ServerId
+        });
         tagElements.push(
-            `<a href="#/search.html?query=${encodeURIComponent(tag)}" class="button-link emby-button" is="emby-linkbutton">`
+            `<a href="${href}" class="button-link" is="emby-linkbutton">`
             + escapeHtml(tag)
             + '</a>'
         );
@@ -1361,6 +1379,7 @@ function renderChildren(page, item) {
         if (item.Type == 'MusicAlbum') {
             let showArtist = false;
             for (const track of result.Items) {
+                // eslint-disable-next-line sonarjs/no-alphabetical-sort
                 if (!isEqual(track.ArtistItems.map(x => x.Id).sort(), track.AlbumArtists.map(x => x.Id).sort())) {
                     showArtist = true;
                     break;
@@ -1458,17 +1477,26 @@ function renderChildren(page, item) {
         imageLoader.lazyChildren(childrenItemsContainer);
         if (item.Type == 'BoxSet') {
             const collectionItemTypes = [{
-                name: globalize.translate('HeaderVideos'),
-                mediaType: 'Video'
+                name: globalize.translate('Movies'),
+                type: 'Movie'
             }, {
                 name: globalize.translate('Series'),
                 type: 'Series'
+            }, {
+                name: globalize.translate('Episodes'),
+                type: 'Episode'
+            }, {
+                name: globalize.translate('HeaderVideos'),
+                mediaType: 'Video'
             }, {
                 name: globalize.translate('Albums'),
                 type: 'MusicAlbum'
             }, {
                 name: globalize.translate('Books'),
                 type: 'Book'
+            }, {
+                name: globalize.translate('Collections'),
+                type: 'BoxSet'
             }];
             renderCollectionItems(page, item, collectionItemTypes, result.Items);
         }
@@ -1627,13 +1655,16 @@ function inferContext(item) {
 }
 
 function filterItemsByCollectionItemType(items, typeInfo) {
-    return items.filter(function (item) {
-        if (typeInfo.mediaType) {
-            return item.MediaType == typeInfo.mediaType;
+    const filteredItems = [];
+    const leftoverItems = [];
+    items.forEach(function(item) {
+        if ((typeInfo.mediaType && item.MediaType == typeInfo.mediaType) || (item.Type == typeInfo.type)) {
+            filteredItems.push(item);
+        } else {
+            leftoverItems.push(item);
         }
-
-        return item.Type == typeInfo.type;
     });
+    return [filteredItems, leftoverItems];
 }
 
 function canPlaySomeItemInCollection(items) {
@@ -1652,31 +1683,28 @@ function renderCollectionItems(page, parentItem, types, items) {
     page.querySelector('.collectionItems').classList.remove('hide');
     page.querySelector('.collectionItems').innerHTML = '';
 
-    for (const type of types) {
-        const typeItems = filterItemsByCollectionItemType(items, type);
-
-        if (typeItems.length) {
-            renderCollectionItemType(page, parentItem, type, typeItems);
-        }
-    }
-
-    const otherType = {
-        name: globalize.translate('HeaderOtherItems')
-    };
-    const otherTypeItems = items.filter(function (curr) {
-        return !types.filter(function (t) {
-            return filterItemsByCollectionItemType([curr], t).length > 0;
-        }).length;
-    });
-
-    if (otherTypeItems.length) {
-        renderCollectionItemType(page, parentItem, otherType, otherTypeItems);
-    }
-
     if (!items.length) {
         renderCollectionItemType(page, parentItem, {
             name: globalize.translate('Items')
         }, items);
+    } else {
+        let typeItems = [];
+        let otherTypeItems = items;
+
+        for (const type of types) {
+            [typeItems, otherTypeItems] = filterItemsByCollectionItemType(otherTypeItems, type);
+
+            if (typeItems.length) {
+                renderCollectionItemType(page, parentItem, type, typeItems);
+            }
+        }
+
+        if (otherTypeItems.length) {
+            const otherType = {
+                name: globalize.translate('HeaderOtherItems')
+            };
+            renderCollectionItemType(page, parentItem, otherType, otherTypeItems);
+        }
     }
 
     const containers = page.querySelectorAll('.collectionItemsContainer');
@@ -1714,7 +1742,7 @@ function renderCollectionItemType(page, parentItem, type, items) {
         items: items,
         shape: shape,
         showTitle: true,
-        showYear: type.mediaType === 'Video' || type.type === 'Series',
+        showYear: type.mediaType === 'Video' || type.type === 'Series' || type.type === 'Movie',
         centerText: true,
         lazy: true,
         showDetailsMenu: true,
@@ -1988,6 +2016,7 @@ export default function (view, params) {
         const downloadHref = getApiClient().getItemDownloadUrl(currentItem.Id);
         download([{
             url: downloadHref,
+            item: currentItem,
             itemId: currentItem.Id,
             serverId: currentItem.ServerId,
             title: currentItem.Name,
@@ -2008,7 +2037,13 @@ export default function (view, params) {
                 itemContextMenu.show(getContextMenuOptions(selectedItem, user, button))
                     .then(function (result) {
                         if (result.deleted) {
-                            appRouter.goHome();
+                            const parentId = selectedItem.SeasonId || selectedItem.SeriesId || selectedItem.ParentId;
+
+                            if (parentId) {
+                                appRouter.showItem(parentId, item.ServerId);
+                            } else {
+                                appRouter.goHome();
+                            }
                         } else if (result.updated) {
                             reload(self, view, params);
                         }

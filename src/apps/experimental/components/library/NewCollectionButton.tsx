@@ -1,7 +1,7 @@
 import React, { FC, useCallback } from 'react';
 import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 const NewCollectionButton: FC = () => {
     const showCollectionEditor = useCallback(() => {

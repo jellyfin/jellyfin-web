@@ -1,4 +1,4 @@
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';

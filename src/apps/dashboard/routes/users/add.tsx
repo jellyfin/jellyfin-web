@@ -1,7 +1,8 @@
-import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 
 import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
@@ -11,22 +12,22 @@ import AccessContainer from '../../../../components/dashboard/users/AccessContai
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import Page from '../../../../components/Page';
 
-type userInput = {
+type UserInput = {
     Name?: string;
     Password?: string;
 };
 
 type ItemsArr = {
-    Name?: string;
+    Name?: string | null;
     Id?: string;
 };
 
-const UserNew: FunctionComponent = () => {
+const UserNew = () => {
     const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
     const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
     const element = useRef<HTMLDivElement>(null);
 
-    const getItemsResult = (items: ItemsArr[]) => {
+    const getItemsResult = (items: BaseItemDto[]) => {
         return items.map(item =>
             ({
                 Id: item.Id,
@@ -35,7 +36,7 @@ const UserNew: FunctionComponent = () => {
         );
     };
 
-    const loadMediaFolders = useCallback((result) => {
+    const loadMediaFolders = useCallback((result: BaseItemDto[]) => {
         const page = element.current;
 
         if (!page) {
@@ -53,7 +54,7 @@ const UserNew: FunctionComponent = () => {
         (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).checked = false;
     }, []);
 
-    const loadChannels = useCallback((result) => {
+    const loadChannels = useCallback((result: BaseItemDto[]) => {
         const page = element.current;
 
         if (!page) {
@@ -109,9 +110,10 @@ const UserNew: FunctionComponent = () => {
         loadUser();
 
         const saveUser = () => {
-            const userInput: userInput = {};
-            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value;
+            const userInput: UserInput = {};
+            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value.trim();
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
+
             window.ApiClient.createUser(userInput).then(function (user) {
                 if (!user.Id || !user.Policy) {
                     throw new Error('Unexpected null user id or policy');
@@ -187,7 +189,6 @@ const UserNew: FunctionComponent = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={globalize.translate('HeaderAddUser')}
-                        url='https://jellyfin.org/docs/general/server/users/'
                     />
                 </div>
 

@@ -24,7 +24,8 @@ function getItemsHtmlFn(playlistId, isEditable = false) {
             action: 'playallfromhere',
             smallIcon: true,
             dragHandle: isEditable,
-            playlistId
+            playlistId,
+            showParentTitle: true
         });
     };
 }

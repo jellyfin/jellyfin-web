@@ -1,5 +1,5 @@
 import loading from '../../../components/loading/loading';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import '../../../styles/dashboard.scss';
 import '../../../elements/emby-input/emby-input';
 import '../../../elements/emby-button/emby-button';
@@ -37,7 +37,7 @@ function submit(form) {
         .ajax({
             type: 'POST',
             data: JSON.stringify({
-                Name: form.querySelector('#txtUsername').value,
+                Name: form.querySelector('#txtUsername').value.trim(),
                 Password: form.querySelector('#txtManualPassword').value
             }),
             url: apiClient.getUrl('Startup/User'),

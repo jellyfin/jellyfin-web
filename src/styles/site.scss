@@ -39,7 +39,6 @@ body {
     right: 0;
     bottom: 0;
     contain: strict;
-    z-index: -1;
 }
 
 .layout-mobile,
@@ -98,12 +97,6 @@ form {
     @media all and (min-width: 50em) {
         max-width: 54em;
     }
-}
-
-.headerHelpButton {
-    margin-left: 1.25em !important;
-    padding-bottom: 0.4em !important;
-    padding-top: 0.4em !important;
 }
 
 .mediaInfoContent {

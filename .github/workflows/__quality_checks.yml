@@ -1,0 +1,61 @@
+name: Quality checks 👌🧪
+
+on:
+  workflow_call:
+    inputs:
+      commit:
+        required: true
+        type: string
+  workflow_dispatch:
+
+jobs:
+  dependency-review:
+    name: Vulnerable dependencies 🔎
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ inputs.commit }}
+          show-progress: false
+
+      - name: Scan
+        uses: actions/dependency-review-action@3b139cfc5fae8b618d3eae3675e383bb1769c019 # v4.5.0
+        with:
+          ## Workaround from https://github.com/actions/dependency-review-action/issues/456
+          ## TODO: Remove when necessary
+          base-ref: ${{ github.event.pull_request.base.sha || 'master' }}
+          head-ref: ${{ github.event.pull_request.head.sha || github.ref }}
+
+  quality:
+    name: Run ${{ matrix.command }} 🕵️‍♂️
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        command:
+          - build:es-check
+          - lint
+          - stylelint
+          - build:check
+          - test
+
+    steps:
+      - name: Checkout ⬇️
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ inputs.commit }}
+          show-progress: false
+
+      - name: Setup node environment ⚙️
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: 20
+          cache: npm
+          check-latest: true
+
+      - name: Install dependencies 📦
+        run: npm ci --no-audit
+
+      - name: Run ${{ matrix.command }} ⚙️
+        run: npm run ${{ matrix.command }}

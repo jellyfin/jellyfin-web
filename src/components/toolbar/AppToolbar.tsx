@@ -4,11 +4,11 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
-import React, { FC, ReactNode } from 'react';
+import React, { type FC, type PropsWithChildren, ReactNode } from 'react';
 
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 import UserMenuButton from './UserMenuButton';
 
@@ -17,6 +17,7 @@ interface AppToolbarProps {
     isDrawerAvailable: boolean
     isDrawerOpen: boolean
     onDrawerButtonClick?: (event: React.MouseEvent<HTMLElement>) => void,
+    isFullscreen?: boolean,
     isUserMenuAvailable?: boolean
 }
 
@@ -27,18 +28,22 @@ const onBackButtonClick = () => {
         });
 };
 
-const AppToolbar: FC<AppToolbarProps> = ({
+const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
     buttons,
     children,
     isDrawerAvailable,
     isDrawerOpen,
     onDrawerButtonClick = () => { /* no-op */ },
+    isFullscreen = false,
     isUserMenuAvailable = true
 }) => {
     const { user } = useApi();
     const isUserLoggedIn = Boolean(user);
 
     const isBackButtonAvailable = appRouter.canGoBack();
+
+    // Only use the left safe area padding when the drawer is not pinned or in a fullscreen view
+    const useSafeAreaLeft = isDrawerAvailable || isFullscreen;
 
     return (
         <Toolbar
@@ -47,6 +52,16 @@ const AppToolbar: FC<AppToolbarProps> = ({
                 flexWrap: {
                     xs: 'wrap',
                     lg: 'nowrap'
+                },
+                ...(useSafeAreaLeft && {
+                    pl: {
+                        xs: 'max(16px, env(safe-area-inset-left))',
+                        sm: 'max(24px, env(safe-area-inset-left))'
+                    }
+                }),
+                pr: {
+                    xs: 'max(16px, env(safe-area-inset-left))',
+                    sm: 'max(24px, env(safe-area-inset-left))'
                 }
             }}
         >

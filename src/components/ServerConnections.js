@@ -1,3 +1,6 @@
+// NOTE: This is used for jsdoc return type
+// eslint-disable-next-line no-unused-vars
+import { Api } from '@jellyfin/sdk';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { ConnectionManager, Credentials, ApiClient } from 'jellyfin-apiclient';
 
@@ -6,6 +9,7 @@ import Dashboard from '../utils/dashboard';
 import Events from '../utils/events.ts';
 import { setUserInfo } from '../scripts/settings/userSettings';
 import appSettings from '../scripts/settings/appSettings';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 const normalizeImageOptions = options => {
     if (!options.quality && (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight)) {
@@ -33,6 +37,7 @@ class ServerConnections extends ConnectionManager {
     constructor() {
         super(...arguments);
         this.localApiClient = null;
+        this.firstConnection = null;
 
         // Set the apiclient minimum version to match the SDK
         this._minServerVersion = MINIMUM_VERSION;
@@ -65,7 +70,7 @@ class ServerConnections extends ConnectionManager {
         );
 
         apiClient.enableAutomaticNetworking = false;
-        apiClient.manualAddressOnly = false;
+        apiClient.manualAddressOnly = true;
 
         this.addApiClient(apiClient);
 
@@ -108,6 +113,17 @@ class ServerConnections extends ConnectionManager {
         }
 
         return apiClient;
+    }
+
+    /**
+     * Gets the Api that is currently connected.
+     * @returns {Api|undefined} The current Api instance.
+     */
+    getCurrentApi() {
+        const apiClient = this.currentApiClient();
+        if (!apiClient) return;
+
+        return toApi(apiClient);
     }
 
     /**

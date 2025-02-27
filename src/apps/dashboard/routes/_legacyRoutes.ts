@@ -1,149 +1,118 @@
 import type { LegacyRoute } from 'components/router/LegacyRoute';
+import { AppType } from 'constants/appType';
 
 export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
     {
         path: '/dashboard',
         pageProps: {
-            controller: 'dashboard/dashboard',
-            view: 'dashboard/dashboard.html'
+            appType: AppType.Dashboard,
+            controller: 'dashboard',
+            view: 'dashboard.html'
         }
     }, {
         path: 'settings',
         pageProps: {
-            controller: 'dashboard/general',
-            view: 'dashboard/general.html'
+            appType: AppType.Dashboard,
+            controller: 'general',
+            view: 'general.html'
         }
     }, {
         path: 'networking',
         pageProps: {
-            controller: 'dashboard/networking',
-            view: 'dashboard/networking.html'
-        }
-    }, {
-        path: 'devices',
-        pageProps: {
-            controller: 'dashboard/devices/devices',
-            view: 'dashboard/devices/devices.html'
-        }
-    }, {
-        path: 'devices/edit',
-        pageProps: {
-            controller: 'dashboard/devices/device',
-            view: 'dashboard/devices/device.html'
-        }
-    }, {
-        path: 'plugins/add',
-        pageProps: {
-            controller: 'dashboard/plugins/add/index',
-            view: 'dashboard/plugins/add/index.html'
+            appType: AppType.Dashboard,
+            controller: 'networking',
+            view: 'networking.html'
         }
     }, {
         path: 'libraries',
         pageProps: {
-            controller: 'dashboard/library',
-            view: 'dashboard/library.html'
+            appType: AppType.Dashboard,
+            controller: 'library',
+            view: 'library.html'
         }
     }, {
         path: 'libraries/display',
         pageProps: {
-            controller: 'dashboard/librarydisplay',
-            view: 'dashboard/librarydisplay.html'
+            appType: AppType.Dashboard,
+            controller: 'librarydisplay',
+            view: 'librarydisplay.html'
         }
     }, {
         path: 'playback/transcoding',
         pageProps: {
-            controller: 'dashboard/encodingsettings',
-            view: 'dashboard/encodingsettings.html'
-        }
-    }, {
-        path: 'logs',
-        pageProps: {
-            controller: 'dashboard/logs',
-            view: 'dashboard/logs.html'
+            appType: AppType.Dashboard,
+            controller: 'encodingsettings',
+            view: 'encodingsettings.html'
         }
     }, {
         path: 'libraries/metadata',
         pageProps: {
-            controller: 'dashboard/metadataImages',
-            view: 'dashboard/metadataimages.html'
+            appType: AppType.Dashboard,
+            controller: 'metadataImages',
+            view: 'metadataimages.html'
         }
     }, {
         path: 'libraries/nfo',
         pageProps: {
-            controller: 'dashboard/metadatanfo',
-            view: 'dashboard/metadatanfo.html'
-        }
-    }, {
-        path: 'playback/resume',
-        pageProps: {
-            controller: 'dashboard/playback',
-            view: 'dashboard/playback.html'
+            appType: AppType.Dashboard,
+            controller: 'metadatanfo',
+            view: 'metadatanfo.html'
         }
     }, {
         path: 'plugins/catalog',
         pageProps: {
-            controller: 'dashboard/plugins/available/index',
-            view: 'dashboard/plugins/available/index.html'
+            appType: AppType.Dashboard,
+            controller: 'plugins/available/index',
+            view: 'plugins/available/index.html'
         }
     }, {
         path: 'plugins/repositories',
         pageProps: {
-            controller: 'dashboard/plugins/repositories/index',
-            view: 'dashboard/plugins/repositories/index.html'
+            appType: AppType.Dashboard,
+            controller: 'plugins/repositories/index',
+            view: 'plugins/repositories/index.html'
         }
     }, {
         path: 'livetv/guide',
         pageProps: {
+            appType: AppType.Dashboard,
             controller: 'livetvguideprovider',
             view: 'livetvguideprovider.html'
         }
     }, {
         path: 'recordings',
         pageProps: {
+            appType: AppType.Dashboard,
             controller: 'livetvsettings',
             view: 'livetvsettings.html'
         }
     }, {
         path: 'livetv',
         pageProps: {
+            appType: AppType.Dashboard,
             controller: 'livetvstatus',
             view: 'livetvstatus.html'
         }
     }, {
         path: 'livetv/tuner',
         pageProps: {
+            appType: AppType.Dashboard,
             controller: 'livetvtuner',
             view: 'livetvtuner.html'
         }
     }, {
         path: 'plugins',
         pageProps: {
-            controller: 'dashboard/plugins/installed/index',
-            view: 'dashboard/plugins/installed/index.html'
+            appType: AppType.Dashboard,
+            controller: 'plugins/installed/index',
+            view: 'plugins/installed/index.html'
         }
     }, {
         path: 'tasks/edit',
         pageProps: {
-            controller: 'dashboard/scheduledtasks/scheduledtask',
-            view: 'dashboard/scheduledtasks/scheduledtask.html'
-        }
-    }, {
-        path: 'tasks',
-        pageProps: {
-            controller: 'dashboard/scheduledtasks/scheduledtasks',
-            view: 'dashboard/scheduledtasks/scheduledtasks.html'
-        }
-    }, {
-        path: 'keys',
-        pageProps: {
-            controller: 'dashboard/apikeys',
-            view: 'dashboard/apikeys.html'
-        }
-    }, {
-        path: 'playback/streaming',
-        pageProps: {
-            view: 'dashboard/streaming.html',
-            controller: 'dashboard/streaming'
+            appType: AppType.Dashboard,
+            controller: 'scheduledtasks/scheduledtask',
+            view: 'scheduledtasks/scheduledtask.html'
         }
     }
 ];
