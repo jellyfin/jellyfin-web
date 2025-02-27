@@ -9,6 +9,7 @@ interface CardTextProps {
 
 const CardText: FC<CardTextProps> = ({ className, textLine }) => {
     const { title, titleAction } = textLine;
+    // eslint-disable-next-line sonarjs/function-return-type
     const renderCardText = () => {
         if (titleAction) {
             return (

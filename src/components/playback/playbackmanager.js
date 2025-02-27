@@ -208,6 +208,7 @@ function getMimeType(type, container) {
 }
 
 function getParam(name, url) {
+    // eslint-disable-next-line sonarjs/single-char-in-character-classes
     name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
     const regexS = '[\\?&]' + name + '=([^&#]*)';
     const regex = new RegExp(regexS, 'i');
@@ -1942,13 +1943,38 @@ export class PlaybackManager {
             const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
             const startSeasonId = firstItem.Type === 'Season' ? items[options.startIndex || 0].Id : undefined;
 
-            const episodesResult = await apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
+            const seasonId = (startSeasonId && items.length === 1) ? startSeasonId : undefined;
+            const seriesId = firstItem.SeriesId || firstItem.Id;
+            const UserId = apiClient.getCurrentUserId();
+
+            let startItemId;
+
+            // Start from a specific (the next unwatched) episode if we want to watch in order and have not chosen a specific season
+            if (!options.shuffle && !seasonId) {
+                const initialUnplayedEpisode = await getItems(apiClient, UserId, {
+                    SortBy: 'SeriesSortName,SortName',
+                    SortOrder: 'Ascending',
+                    IncludeItemTypes: 'Episode',
+                    Recursive: true,
+                    IsMissing: false,
+                    ParentId: seriesId,
+                    limit: 1,
+                    Filters: 'IsUnplayed'
+                });
+
+                startItemId = initialUnplayedEpisode?.Items?.at(0)?.Id;
+            }
+
+            const episodesResult = await apiClient.getEpisodes(seriesId, {
                 IsVirtualUnaired: false,
                 IsMissing: false,
-                SeasonId: (startSeasonId && items.length === 1) ? startSeasonId : undefined,
+                SeasonId: seasonId,
+                // default to first 100 episodes if no season was specified to avoid loading too large payloads
+                limit: seasonId ? undefined : 100,
                 SortBy: options.shuffle ? 'Random' : undefined,
-                UserId: apiClient.getCurrentUserId(),
-                Fields: ['Chapters', 'Trickplay']
+                UserId,
+                Fields: ['Chapters', 'Trickplay'],
+                startItemId
             });
 
             if (options.shuffle) {
@@ -1994,16 +2020,20 @@ export class PlaybackManager {
             return new Promise(function (resolve, reject) {
                 const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
-                if (!firstItem.SeriesId) {
+                const { SeriesId, Id } = firstItem;
+                if (!SeriesId) {
                     resolve(null);
                     return;
                 }
 
-                apiClient.getEpisodes(firstItem.SeriesId, {
+                apiClient.getEpisodes(SeriesId, {
                     IsVirtualUnaired: false,
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
-                    Fields: ['Chapters', 'Trickplay']
+                    Fields: ['Chapters', 'Trickplay'],
+                    // limit to loading 100 episodes to avoid loading too large payload
+                    limit: 100,
+                    startItemId: Id
                 }).then(function (episodesResult) {
                     resolve(filterEpisodes(episodesResult, firstItem, options));
                 }, reject);
@@ -2086,6 +2116,7 @@ export class PlaybackManager {
 
             if (!state) {
                 playerStates[player.name] = {};
+                // eslint-disable-next-line sonarjs/no-dead-store
                 state = playerStates[player.name];
             }
 
@@ -2580,16 +2611,11 @@ export class PlaybackManager {
                 });
             }
 
+            let mediaSourceId = playOptions.mediaSourceId;
+
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            let mediaSourceId;
-
             const isLiveTv = [BaseItemKind.TvChannel, BaseItemKind.LiveTvChannel].includes(item.Type);
-
-            if (!isLiveTv) {
-                mediaSourceId = playOptions.mediaSourceId || item.Id;
-            }
-
-            const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId)
+            const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id)
                 .then(fullItem => {
                     return fullItem.MediaStreams;
                 });
@@ -2622,13 +2648,20 @@ export class PlaybackManager {
                 playOptions.items = null;
 
                 const trackOptions = {};
+                let isIdFallbackNeeded = false;
 
                 autoSetNextTracks(prevSource, mediaStreams, trackOptions, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
                 if (trackOptions.DefaultAudioStreamIndex != null) {
                     options.audioStreamIndex = trackOptions.DefaultAudioStreamIndex;
+                    isIdFallbackNeeded = true;
                 }
                 if (trackOptions.DefaultSubtitleStreamIndex != null) {
                     options.subtitleStreamIndex = trackOptions.DefaultSubtitleStreamIndex;
+                    isIdFallbackNeeded = true;
+                }
+
+                if (isIdFallbackNeeded) {
+                    mediaSourceId ||= item.Id;
                 }
 
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options).then(async (mediaSource) => {

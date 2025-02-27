@@ -1420,7 +1420,7 @@
     "ButtonActivate": "Activer",
     "Authorize": "Autoriser",
     "LabelTonemappingParam": "Paramètre de mappage tonal",
-    "LabelTonemappingPeakHelp": "Redéfinir la valeur crête de référence. Utile lorsque la valeur crête intégrée dans les métadonnées d'affichage n'est pas fiable ou lors du mappage tonal d'une gamme inférieure vers une gamme supérieure. La valeur recommandée est 100, la valeur par défaut est 0.",
+    "LabelTonemappingPeakHelp": "Remplacer la valeur des métadonnées intégrées pour le signal d'entrée par cette valeur maximale. La valeur par défaut est 100 (1000nit).",
     "EnableAutoCast": "Définir comme valeur par défaut",
     "LabelMaxMuxingQueueSizeHelp": "Nombre maximal de paquets pouvant être mis en mémoire tampon lors de l'initialisation des flux. Augmenter la valeur si des messages \"Trop de paquets en mémoire tampon pour le flux de sortie\" apparaissent dans les journaux FFmpeg. La valeur recommandée est 2048.",
     "LabelMaxMuxingQueueSize": "Taille maximale de la queue de multiplexage",
@@ -1993,5 +1993,14 @@
     "HeaderNextEpisode": "Épisode suivant",
     "HeaderNextVideo": "Prochaine Vidéo",
     "LabelMediaSegmentProviders": "Fournisseurs de segments média",
-    "MediaSegmentProvidersHelp": "Activez et classez vos fournisseurs de segments multimédias préférés par ordre de priorité."
+    "MediaSegmentProvidersHelp": "Activez et classez vos fournisseurs de segments multimédias préférés par ordre de priorité.",
+    "AutoSubtitleStylingHelp": "Ce mode basculera automatiquement entre les mécanismes de style de sous-titres natifs et personnalisés en fonction du type de votre appareil.",
+    "Custom": "Personnalisation",
+    "CustomSubtitleStylingHelp": "Le style des sous-titres fonctionnera sur la plupart des appareils, mais entraîne une perte de performances.",
+    "LabelSubtitleStyling": "Style des sous-titres",
+    "Native": "Natif",
+    "NativeSubtitleStylingHelp": "Le style des sous-titres ne fonctionne pas sur certains appareils. Cependant, cela n'entraîne aucune perte de performances.",
+    "DeleteServerConfirmation": "Êtes-vous sûr de vouloir supprimer ce serveur ?",
+    "LastActive": "Dernière activation",
+    "LabelDevice": "Appareil"
 }
