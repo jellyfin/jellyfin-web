@@ -2003,5 +2003,8 @@
     "LabelDevice": "Zařízení",
     "LastActive": "Naposledy aktivní",
     "DeleteServerConfirmation": "Opravdu chcete odstranit tento server?",
-    "LibraryNameInvalid": "Název knihovny nesmí být prázdný."
+    "LibraryNameInvalid": "Název knihovny nesmí být prázdný.",
+    "CopyLogSuccess": "Obsah logu byl úspěšně zkopírován.",
+    "Retry": "Opakovat",
+    "LogLoadFailure": "Načtení souboru logu se nezdařilo. Možná se do něj právě zapisuje."
 }
