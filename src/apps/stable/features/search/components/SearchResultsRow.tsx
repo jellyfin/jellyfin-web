@@ -1,10 +1,10 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { type FC, useEffect, useRef } from 'react';
 
-import cardBuilder from '../cardbuilder/cardBuilder';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
 import type { CardOptions } from 'types/cardOptions';
-import '../../elements/emby-scroller/emby-scroller';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-scroller/emby-scroller';
+import 'elements/emby-itemscontainer/emby-itemscontainer';
 
 // There seems to be some compatibility issues here between
 // React and our legacy web components, so we need to inject

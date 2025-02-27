@@ -14,7 +14,7 @@ import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 import { getArtistsApi } from '@jellyfin/sdk/lib/utils/api/artists-api';
 import { useQuery } from '@tanstack/react-query';
-import { useApi } from '../useApi';
+import { useApi } from '../../../../../hooks/useApi';
 import type { CardOptions } from 'types/cardOptions';
 import { CardShape } from 'utils/card';
 

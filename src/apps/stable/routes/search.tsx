@@ -4,9 +4,9 @@ import { useDebounceValue } from 'usehooks-ts';
 import { usePrevious } from 'hooks/usePrevious';
 import globalize from 'lib/globalize';
 import Page from 'components/Page';
-import SearchFields from 'components/search/SearchFields';
-import SearchSuggestions from 'components/search/SearchSuggestions';
-import SearchResults from 'components/search/SearchResults';
+import SearchFields from 'apps/stable/features/search/components/SearchFields';
+import SearchSuggestions from 'apps/stable/features/search/components/SearchSuggestions';
+import SearchResults from 'apps/stable/features/search/components/SearchResults';
 
 const COLLECTION_TYPE_PARAM = 'collectionType';
 const PARENT_ID_PARAM = 'parentId';
