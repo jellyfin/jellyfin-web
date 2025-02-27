@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
-import { Section, useSearchItems } from 'hooks/searchHook';
-import globalize from '../../lib/globalize';
-import Loading from '../loading/LoadingComponent';
+import { Section, useSearchItems } from '../api/useSearchItems';
+import globalize from '../../../../../lib/globalize';
+import Loading from '../../../../../components/loading/LoadingComponent';
 import SearchResultsRow from './SearchResultsRow';
 import { CardShape } from 'utils/card';
 
