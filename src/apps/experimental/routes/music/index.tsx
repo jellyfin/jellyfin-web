@@ -68,7 +68,7 @@ const musicTabMapping: LibraryTabMapping = {
 
 const Music: FC = () => {
     const { libraryId, activeTab } = useCurrentTab();
-    const currentTab = musicTabMapping[activeTab];
+    const currentTab = musicTabMapping[activeTab] || albumsTabContent;
 
     return (
         <Page
