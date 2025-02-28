@@ -27,7 +27,7 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
     onConfirm,
     ...dialogProps
 }) => (
-    <Dialog {...dialogProps}>
+    <Dialog onClose={onCancel} {...dialogProps}>
         <DialogTitle>
             {title}
         </DialogTitle>
