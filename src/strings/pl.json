@@ -2003,5 +2003,8 @@
     "LabelDevice": "Urządzenie",
     "LastActive": "Ostatnio aktywne",
     "DeleteServerConfirmation": "Czy na pewno chcesz usunąć ten serwer?",
-    "LibraryNameInvalid": "Nazwa biblioteki nie może być pusta."
+    "LibraryNameInvalid": "Nazwa biblioteki nie może być pusta.",
+    "CopyLogSuccess": "Zawartość dziennika została pomyślnie skopiowana.",
+    "Retry": "Ponów",
+    "LogLoadFailure": "Nie udało się załadować pliku dziennika. Nadal może być aktywnie zapisywany."
 }

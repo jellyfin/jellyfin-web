@@ -2002,5 +2002,9 @@
     "PlaylistError.UpdateFailed": "Error actualizando la lista de reproducción",
     "MediaSegmentAction.None": "Ninguno",
     "MediaSegmentType.Outro": "Outro",
-    "MoviesAndShows": "Películas y Programas"
+    "MoviesAndShows": "Películas y Programas",
+    "CopyLogSuccess": "El contenido del registro se ha copiado satisfactoriamente.",
+    "Retry": "Reintentar",
+    "LogLoadFailure": "Fallo al cargar el archivo de registro. Es posible que siga siendo activamente escrito.",
+    "HeaderMediaSegmentActions": "Acciones del segmento de medios"
 }

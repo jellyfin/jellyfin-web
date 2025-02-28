@@ -2002,5 +2002,6 @@
     "LastActive": "最後活動",
     "Native": "原生",
     "NativeSubtitleStylingHelp": "字幕樣式在部分裝置上不被支援。在這些裝置上不會造成額外的負載。",
-    "LibraryNameInvalid": "媒體庫名稱不可為空，或以空白開始/結尾。"
+    "LibraryNameInvalid": "媒體庫名稱不可為空，或以空白開始/結尾。",
+    "Retry": "重試"
 }

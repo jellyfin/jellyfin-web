@@ -1271,7 +1271,7 @@
     "LabelLibraryPageSize": "Elementi nella paginazione della libreria",
     "Episode": "Episodio",
     "BoxSet": "Cofanetto",
-    "AlbumArtist": "Artisti dell'Album",
+    "AlbumArtist": "Artista dell'Album",
     "UnsupportedPlayback": "Jellyfin non è in grado di decriptare i contenuti protetti da DRM ma tutti i contenuti verranno tentati a prescindere, compresi quelli protetti. Alcuni file potrebbero apparire completamente neri a causa della crittografia o di altre funzionalità non supportate, come i titoli interattivi.",
     "ButtonTogglePlaylist": "Playlist",
     "Filter": "Filtro",
@@ -1833,7 +1833,7 @@
     "PlaybackError.NotAllowed": "La riproduzione di questo file non è consentita.",
     "LabelScanBehaviorHelp": "Il comportamento predefinito è quello non bloccante, che aggiunge i media alla libreria prima che venga generato il Trickplay. Il blocco assicura che i file di trickplay siano generati prima che i media siano aggiunti alla libreria, ma rende le scansioni significativamente più lunghe.",
     "AllowContentWithTagsHelp": "Mostra solo i media con almeno uno dei tag specificati.",
-    "AirPlay": "AirPlay",
+    "AirPlay": "Messa in onda",
     "BlockContentWithTagsHelp": "Nascondi i media con almeno uno dei tag specificati.",
     "LimitSupportedVideoResolution": "Limitare la risoluzione video massima supportata",
     "LimitSupportedVideoResolutionHelp": "Utilizzare 'Risoluzione massima consentita per la transcodifica video' come risoluzione video massima supportata.",
@@ -2003,5 +2003,8 @@
     "LabelDevice": "Dispositivo",
     "DeleteServerConfirmation": "Sei sicuro di voler eliminare questo server?",
     "LastActive": "Ultimo accesso",
-    "LibraryNameInvalid": "Il nome della libreria non può essere vuoto."
+    "LibraryNameInvalid": "Il nome della libreria non può essere vuoto.",
+    "CopyLogSuccess": "Contenuti dei log copiati con successo.",
+    "Retry": "Riprova",
+    "LogLoadFailure": "Non sono riuscito a caricare il file di log. Potrebbe essere tutt'ora in fase di scrittura."
 }
