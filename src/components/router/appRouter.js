@@ -142,7 +142,7 @@ class AppRouter {
             const userId = apiClient.getCurrentUserId();
 
             queryClient
-                .fetchQuery(getItemQuery(api, userId, item))
+                .fetchQuery(getItemQuery(api, item, userId))
                 .then(itemObject => {
                     this.showItem(itemObject, options);
                 })

@@ -11,7 +11,6 @@ export const useUpdateDevice = () => {
 
     return useMutation({
         mutationFn: (params: DevicesApiUpdateDeviceOptionsRequest) => (
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             getDevicesApi(api!)
                 .updateDeviceOptions(params)
         ),

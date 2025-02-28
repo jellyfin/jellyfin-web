@@ -10,7 +10,6 @@ export const useCreateKey = () => {
 
     return useMutation({
         mutationFn: (params: ApiKeyApiCreateKeyRequest) => (
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             getApiKeyApi(api!)
                 .createKey(params)
         ),
