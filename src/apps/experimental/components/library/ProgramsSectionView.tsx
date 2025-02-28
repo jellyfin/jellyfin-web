@@ -1,4 +1,5 @@
 import React, { type FC } from 'react';
+import { useApi } from 'hooks/useApi';
 import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
@@ -20,6 +21,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
     sectionType,
     isUpcomingRecordingsEnabled = false
 }) => {
+    const { __legacyApiClient__ } = useApi();
     const { isLoading, data: sectionsWithItems, refetch } = useGetProgramsSectionsWithItems(parentId, sectionType);
     const {
         isLoading: isUpcomingRecordingsLoading,
@@ -63,7 +65,8 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                     items={items}
                     cardOptions={{
                         ...section.cardOptions,
-                        queryKey: ['ProgramSectionWithItems']
+                        queryKey: ['ProgramSectionWithItems'],
+                        serverId: __legacyApiClient__?.serverId()
                     }}
                 />
             ))}
@@ -95,7 +98,8 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                         coverImage: true,
                         allowBottomPadding: false,
                         overlayText: false,
-                        showChannelLogo: true
+                        showChannelLogo: true,
+                        serverId: __legacyApiClient__?.serverId()
                     }}
                 />
             ))}
