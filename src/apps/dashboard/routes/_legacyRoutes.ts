@@ -31,13 +31,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'library.html'
         }
     }, {
-        path: 'libraries/display',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'librarydisplay',
-            view: 'librarydisplay.html'
-        }
-    }, {
         path: 'playback/transcoding',
         pageProps: {
             appType: AppType.Dashboard,
