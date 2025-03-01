@@ -15,7 +15,7 @@ import Page from 'components/Page';
 import ServerConnections from 'components/ServerConnections';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { QUERY_KEY as CONFIG_QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
-import { fetchNamedConfiguration, QUERY_KEY as NAMED_CONFIG_QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
+import { QUERY_KEY as NAMED_CONFIG_QUERY_KEY, NamedConfiguration, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import globalize from 'lib/globalize';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { ActionData } from 'types/actionData';
@@ -29,9 +29,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const data = Object.fromEntries(formData);
 
     const { data: config } = await getConfigurationApi(api).getConfiguration();
-    const namedConfig = await fetchNamedConfiguration(api, 'metadata');
 
-    namedConfig.UseFileCreationTimeForDateAdded = data.DateAddedBehavior.toString() === '1';
+    const metadataConfig: NamedConfiguration = {
+        UseFileCreationTimeForDateAdded: data.DateAddedBehavior.toString() === '1'
+    };
+
     config.EnableFolderView = data.DisplayFolderView?.toString() === 'on';
     config.DisplaySpecialsWithinSeasons = data.DisplaySpecialsWithinSeasons?.toString() === 'on';
     config.EnableGroupingIntoCollections = data.GroupMoviesIntoCollections?.toString() === 'on';
@@ -41,13 +43,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         .updateConfiguration({ serverConfiguration: config });
 
     await getConfigurationApi(api)
-        .updateNamedConfiguration({ key: 'metadata', body: namedConfig });
+        .updateNamedConfiguration({ key: 'metadata', body: metadataConfig });
 
     void queryClient.invalidateQueries({
         queryKey: [ CONFIG_QUERY_KEY ]
     });
     void queryClient.invalidateQueries({
-        queryKey: [ NAMED_CONFIG_QUERY_KEY ]
+        queryKey: [ NAMED_CONFIG_QUERY_KEY, 'metadata' ]
     });
 
     return {

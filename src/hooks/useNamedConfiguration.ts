@@ -6,11 +6,11 @@ import type { AxiosRequestConfig } from 'axios';
 
 export const QUERY_KEY = 'NamedConfiguration';
 
-interface NamedConfiguration {
+export interface NamedConfiguration {
     [key: string]: unknown;
 }
 
-export const fetchNamedConfiguration = async (api: Api, key: string, options?: AxiosRequestConfig) => {
+const fetchNamedConfiguration = async (api: Api, key: string, options?: AxiosRequestConfig) => {
     const response = await getConfigurationApi(api).getNamedConfiguration({ key }, options);
 
     return response.data as unknown as NamedConfiguration;
@@ -20,7 +20,7 @@ export const useNamedConfiguration = (key: string) => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ QUERY_KEY ],
+        queryKey: [ QUERY_KEY, key ],
         queryFn: ({ signal }) => fetchNamedConfiguration(api!, key, { signal }),
         enabled: !!api
     });
