@@ -48,7 +48,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
             .updateConfiguration({ serverConfiguration: config })
     ]);
 
-
     void queryClient.invalidateQueries({
         queryKey: [ QUERY_KEY ]
     });
