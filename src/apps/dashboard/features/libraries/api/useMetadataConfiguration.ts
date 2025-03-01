@@ -8,7 +8,7 @@ export const QUERY_KEY = 'MetadataConfiguration';
 
 type MetadataConfiguration = {
     UseFileCreationTimeForDateAdded: boolean;
-}
+};
 
 const fetchMetadataConfiguration = async(
     api?: Api,
