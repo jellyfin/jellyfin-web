@@ -45,7 +45,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
                 body: JSON.stringify(metadataConfiguration)
             }),
         getConfigurationApi(api)
-            .updateConfiguration({ serverConfiguration: config }),
+            .updateConfiguration({ serverConfiguration: config })
     ]);
 
 
