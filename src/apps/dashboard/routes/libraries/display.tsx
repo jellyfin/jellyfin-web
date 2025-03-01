@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { ActionFunctionArgs, Form, useActionData, useNavigation} from 'react-router-dom';
+import { ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import globalize from 'lib/globalize';
