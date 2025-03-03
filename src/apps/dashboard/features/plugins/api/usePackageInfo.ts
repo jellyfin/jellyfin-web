@@ -9,34 +9,24 @@ import { useApi } from 'hooks/useApi';
 import { QueryKey } from './queryKey';
 
 const fetchPackageInfo = async (
-    api?: Api,
-    params?: PackageApiGetPackageInfoRequest,
+    api: Api,
+    params: PackageApiGetPackageInfoRequest,
     options?: AxiosRequestConfig
 ) => {
-    if (!api) {
-        console.warn('[fetchPackageInfo] No API instance available');
-        return;
-    }
-
-    if (!params) {
-        console.warn('[fetchPackageInfo] Missing request params');
-        return;
-    }
-
     const response = await getPackageApi(api)
         .getPackageInfo(params, options);
     return response.data;
 };
 
 const getPackageInfoQuery = (
-    api?: Api,
+    api: Api | undefined,
     params?: PackageApiGetPackageInfoRequest
 ) => queryOptions({
     // Don't retry since requests for plugins not available in repos fail
     retry: false,
     queryKey: [ QueryKey.PackageInfo, params?.name, params?.assemblyGuid ],
-    queryFn: ({ signal }) => fetchPackageInfo(api, params, { signal }),
-    enabled: !!api && !!params?.name
+    queryFn: ({ signal }) => fetchPackageInfo(api!, params!, { signal }),
+    enabled: !!params && !!api && !!params.name
 });
 
 export const usePackageInfo = (

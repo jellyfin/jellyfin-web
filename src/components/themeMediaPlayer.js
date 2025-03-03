@@ -84,8 +84,9 @@ async function loadThemeMedia(serverId, itemId) {
     try {
         const item = await queryClient.fetchQuery(getItemQuery(
             api,
-            userId,
-            itemId));
+            itemId,
+            userId
+        ));
 
         if (item.CollectionType) {
             stopIfPlaying();

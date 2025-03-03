@@ -11,7 +11,6 @@ export const useDeleteDevice = () => {
 
     return useMutation({
         mutationFn: (params: DevicesApiDeleteDeviceRequest) => (
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             getDevicesApi(api!)
                 .deleteDevice(params)
         ),
