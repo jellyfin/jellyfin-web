@@ -1999,5 +1999,7 @@
     "LabelSubtitleStyling": "Undertekst Styling",
     "LabelDevice": "Enhed",
     "LastActive": "Sidste aktiv",
-    "LibraryNameInvalid": "Bibloteks navn kan ikke være tom eller starte/slutte med mellemrun."
+    "LibraryNameInvalid": "Bibloteks navn kan ikke være tom eller starte/slutte med mellemrun.",
+    "CopyLogSuccess": "Logindhold blev kopieret korrekt.",
+    "NativeSubtitleStylingHelp": "Underteksters styling vil ikke virke på nogle enheder. Dog, vil der ikke være nogen forringelse af ydeevnen."
 }
