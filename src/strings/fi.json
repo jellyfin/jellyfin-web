@@ -1981,5 +1981,8 @@
     "MessageSplitVersionsError": "Tapahtui virhe jaettaessa versioita",
     "MediaInfoRotation": "Kääntö",
     "MediaSegmentAction.AskToSkip": "Pyydä ohittamaan",
-    "MediaSegmentSkipPrompt": "Ohita {0}"
+    "MediaSegmentSkipPrompt": "Ohita {0}",
+    "Retry": "Yritä uudelleen",
+    "Reset": "Nollaa",
+    "ReplaceTrickplayImages": "Korvaa nykyiset trickplay kuvat"
 }
