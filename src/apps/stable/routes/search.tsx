@@ -7,6 +7,7 @@ import Page from 'components/Page';
 import SearchFields from 'apps/stable/features/search/components/SearchFields';
 import SearchSuggestions from 'apps/stable/features/search/components/SearchSuggestions';
 import SearchResults from 'apps/stable/features/search/components/SearchResults';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 const COLLECTION_TYPE_PARAM = 'collectionType';
 const PARENT_ID_PARAM = 'parentId';
@@ -15,7 +16,7 @@ const QUERY_PARAM = 'query';
 const Search: FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const parentIdQuery = searchParams.get(PARENT_ID_PARAM) || undefined;
-    const collectionTypeQuery = searchParams.get(COLLECTION_TYPE_PARAM) || undefined;
+    const collectionTypeQuery = (searchParams.get(COLLECTION_TYPE_PARAM) || undefined) as CollectionType | undefined;
     const urlQuery = searchParams.get(QUERY_PARAM) || '';
     const [query, setQuery] = useState(urlQuery);
     const prevQuery = usePrevious(query, '');
