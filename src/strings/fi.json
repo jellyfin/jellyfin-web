@@ -1683,7 +1683,7 @@
     "LabelStereoDownmixAlgorithm": "Stereoäänen alasmiksausalgoritmi",
     "StereoDownmixAlgorithmHelp": "Algoritmi, jonka perusteella monikanavaääni alasmiksataan steroääneksi.",
     "HeaderRecordingMetadataSaving": "Tallenteen metatiedot",
-    "SaveRecordingNFO": "Tallenna tallenteen ohjelmaoppaan metatiedot NFO-tiedostoon",
+    "SaveRecordingNFO": "Tallenna nauhoituksien ohjelmaoppaan metatiedot NFO-tiedostoon",
     "SaveRecordingNFOHelp": "Tallenna ohjelmaoppaan tietolähteen metatiedot mediatiedoston oheen.",
     "SaveRecordingImages": "Tallenna tallenteen ohjelmaoppaan kuvat",
     "SaveRecordingImagesHelp": "Tallenna ohjelmaoppaan tietolähteen kuvat mediatiedoston oheen.",
@@ -1921,7 +1921,7 @@
     "Editor": "Ohjaus",
     "Letterer": "Kirjoittaja",
     "LibraryScanFanoutConcurrencyHelp": "Samanaikaisten suoritettavien kirjastoskannausten maksimimäärä. Mikäli tämä arvo on asetettu 0, määrä valitaan järjestelmän prosessorin säikeiden lukumäärän mukaan. VAROITUS: Tämän arvon asettaminen liian korkeaksi voi aiheuttaa ongelmia verkkotiedostojärjestelmissä. Jos koet ongelmatilanteista, laske tätä numeroa.",
-    "SaveLyricsIntoMediaFoldersHelp": "Kappaleen sanojen tallentaminen kappaleen tiedostojen kanssa tekee sanoituksista helpommin hallittavan.",
+    "SaveLyricsIntoMediaFoldersHelp": "Sanoitusten tallentaminen äänitiedoston kanssa samaan sijaintiin helpottaa niiden hallintaa.",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Valitse ensisijainen äänikoodekki videomateriaalin transkoodaamiseen. Jos ensisijainen koodekki ei ole tuettu, serveri käyttää seuraavaksi parasta koodekkia.",
     "LabelTrickplayAccelEncoding": "Käyttöönota rautakiihdytetty MJPEG enkoodaus",
     "LabelTrickplayAccelEncodingHelp": "Tällä hetkellä ainoastaan käytettävissä QSV, VAAPI ja VideoToolbox, tällä valinnalla ei ole vaikutusta muihin rautakiihdytysmetodeihin.",
@@ -1984,5 +1984,6 @@
     "MediaSegmentSkipPrompt": "Ohita {0}",
     "Retry": "Yritä uudelleen",
     "Reset": "Nollaa",
-    "ReplaceTrickplayImages": "Korvaa nykyiset trickplay kuvat"
+    "ReplaceTrickplayImages": "Korvaa nykyiset trickplay kuvat",
+    "RenderPgsSubtitleHelp": "Renderöidäänkö PGS tekstitykset laitteen toimesta. Tällä voidaan välttää raskas tekstitysten poltto kiinteästi kuvaan palvelimen toimesta, mutta lisätään laitteen renderöintikuormaa."
 }
