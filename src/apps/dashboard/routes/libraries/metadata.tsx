@@ -96,7 +96,7 @@ export const Component = () => {
                             <TextField
                                 name={'Language'}
                                 label={globalize.translate('LabelLanguage')}
-                                defaultValue={config?.PreferredMetadataLanguage}
+                                defaultValue={config.PreferredMetadataLanguage}
                                 select
                             >
                                 {cultures.map(culture => {
@@ -110,7 +110,7 @@ export const Component = () => {
                             <TextField
                                 name={'Country'}
                                 label={globalize.translate('LabelCountry')}
-                                defaultValue={config?.MetadataCountryCode}
+                                defaultValue={config.MetadataCountryCode}
                                 select
                             >
                                 {countries.map(country => {
@@ -125,7 +125,7 @@ export const Component = () => {
 
                             <TextField
                                 name={'DummyChapterDuration'}
-                                defaultValue={config?.DummyChapterDuration}
+                                defaultValue={config.DummyChapterDuration}
                                 type='number'
                                 inputProps={{
                                     min: 0,
@@ -138,7 +138,7 @@ export const Component = () => {
                             <TextField
                                 name={'ChapterImageResolution'}
                                 select
-                                defaultValue={config?.ChapterImageResolution}
+                                defaultValue={config.ChapterImageResolution}
                                 label={globalize.translate('LabelChapterImageResolution')}
                                 helperText={globalize.translate('LabelChapterImageResolutionHelp')}
                             >
