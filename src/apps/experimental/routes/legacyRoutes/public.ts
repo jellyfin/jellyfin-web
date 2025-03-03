@@ -53,7 +53,7 @@ export const LEGACY_PUBLIC_ROUTES: LegacyRoute[] = [
     {
         path: 'wizardlibrary.html',
         pageProps: {
-            controller: 'dashboard/library',
+            controller: 'wizard/library',
             view: 'wizard/library.html'
         }
     },

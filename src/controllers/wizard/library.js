@@ -7,7 +7,7 @@ import dom from 'scripts/dom';
 import imageHelper from 'utils/image';
 import 'components/cardbuilder/card.scss';
 import 'elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
-import { pageClassOn, pageIdOn } from 'utils/dashboard';
+import Dashboard, { pageClassOn, pageIdOn } from 'utils/dashboard';
 import confirm from 'components/confirm/confirm';
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 
@@ -258,7 +258,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     let html = '';
 
     const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}" ` : '';
-    html += '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
+    html += '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" style="min-width:33.3%;" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
 
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable visualCardBox-cardScalable">';
@@ -359,6 +359,11 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     return html;
 }
 
+window.WizardLibraryPage = {
+    next: function () {
+        Dashboard.navigate('wizardsettings.html');
+    }
+};
 pageClassOn('pageshow', 'mediaLibraryPage', function () {
     reloadLibrary(this);
 });
