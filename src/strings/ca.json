@@ -1996,8 +1996,11 @@
     "LabelSubtitleStyling": "Estilització de subtítols",
     "Native": "Nadiu",
     "NativeSubtitleStylingHelp": "L'estilització de subtítols no funcionarà en alguns dispositius. Tot i això, no suposa cap sobrecàrrega de rendiment.",
-    "LibraryNameInvalid": "El nom de la biblioteca no pot estar buit ni tenir espais inicials/finals.",
+    "LibraryNameInvalid": "El nom de la biblioteca no pot estar buit.",
     "DeleteServerConfirmation": "De veritat vols eliminar aquest servidor?",
     "LabelDevice": "Dispositiu",
-    "LastActive": "Últim actiu"
+    "LastActive": "Últim actiu",
+    "CopyLogSuccess": "Registres copiats satisfactòriament.",
+    "Retry": "Tronar a provar",
+    "LogLoadFailure": "Error al carregar el registre. És probable que encara s'estigui escrivint en ell."
 }
