@@ -1995,8 +1995,12 @@
     "Custom": "Anpassad",
     "LabelSubtitleStyling": "Styling av undertexter",
     "Native": "Native",
-    "LibraryNameInvalid": "Biblioteksnamnet kan inte vara tomt eller börja/sluta med mellanslag.",
+    "LibraryNameInvalid": "Biblioteksnamnet kan inte vara tomt.",
     "LabelDevice": "Enhet",
     "LastActive": "Senast aktiv",
-    "DeleteServerConfirmation": "Är du säker på att du vill ta bort den här servern?"
+    "DeleteServerConfirmation": "Är du säker på att du vill ta bort den här servern?",
+    "CopyLogSuccess": "Kopieringen av loggens innehåll lyckades.",
+    "DisplayLoadError": "Ett fel inträffade när skärmens konfigurationsdata skulle laddas.",
+    "MetadataImagesLoadError": "Laddningen av inställningarna för metadatan misslyckades",
+    "Retry": "Försök igen"
 }
