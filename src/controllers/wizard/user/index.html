@@ -12,10 +12,16 @@
                     </div>
                     <div class="inputContainer">
                         <input is="emby-input" id="txtManualPassword" type="password" label="${LabelPassword}" required="required" />
+                        <button is="paper-icon-button-light" class="passwordToggle" type="button">
+                            <span class="material-icons visibility"></span>
+                        </button>
                         <div class="fieldDescription">${PasswordRequiredForAdmin}</div>
                     </div>
                     <div class="inputContainer">
                         <input is="emby-input" id="txtPasswordConfirm" type="password" label="${LabelPasswordConfirm}" required="required" />
+                        <button is="paper-icon-button-light" class="passwordToggle" type="button">
+                            <span class="material-icons visibility"></span>
+                        </button>
                     </div>
                     <p>${MoreUsersCanBeAddedLater}</p>
                 </div>
