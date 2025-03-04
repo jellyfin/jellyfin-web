@@ -2006,5 +2006,6 @@
     "CopyLogSuccess": "Logboekinhoud gekopieerd.",
     "Retry": "Opnieuw proberen",
     "LogLoadFailure": "Laden van logboekbestand mislukt. Mogelijk wordt er nog actief naar geschreven.",
-    "DisplayLoadError": "Er is een fout opgetreden bij het laden van de weergaveconfiguratiegegevens."
+    "DisplayLoadError": "Er is een fout opgetreden bij het laden van de weergaveconfiguratiegegevens.",
+    "MetadataImagesLoadError": "Laden van metadata-instellingen mislukt"
 }
