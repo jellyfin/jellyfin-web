@@ -1,0 +1,8 @@
+.inputElementInvalidMessage {
+    color: red;
+    display: none;
+}
+
+.emby-input:invalid + .inputElementInvalidMessage.inputReadyForValidation {
+    display: block;
+}
