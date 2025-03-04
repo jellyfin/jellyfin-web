@@ -1,18 +1,10 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { CardShape } from 'utils/card';
-
-const LIVETV_CARD_OPTIONS = {
-    preferThumb: true,
-    inheritThumb: false,
-    showParentTitleOrTitle: true,
-    showTitle: false,
-    coverImage: true,
-    overlayMoreButton: true,
-    showAirTime: true,
-    showAirDateTime: true,
-    showChannelName: true
-};
+import { Section } from '../types';
+import { CardOptions } from 'types/cardOptions';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
 
 export const isMovies = (collectionType: string) =>
     collectionType === CollectionType.Movies;
@@ -25,6 +17,17 @@ export const isMusic = (collectionType: string) =>
 
 export const isLivetv = (collectionType: string) =>
     collectionType === CollectionType.Livetv;
+
+export function addSection(
+    sections: Section[],
+    title: string,
+    items: BaseItemDto[] | null | undefined,
+    cardOptions?: CardOptions
+) {
+    if (items && items?.length > 0) {
+        sections.push({ title, items, cardOptions });
+    }
+}
 
 export function getCardOptionsFromType(type: BaseItemKind) {
     switch (type) {

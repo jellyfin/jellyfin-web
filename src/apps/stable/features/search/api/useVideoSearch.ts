@@ -20,6 +20,12 @@ const fetchPeople = async (
             ...QUERY_OPTIONS,
             userId: userId,
             recursive: true,
+            mediaTypes: [MediaType.Video],
+            excludeItemTypes: [
+                BaseItemKind.Movie,
+                BaseItemKind.Episode,
+                BaseItemKind.TvChannel
+            ],
             ...params
         },
         options
@@ -42,12 +48,6 @@ export const useVideoSearch = (
                 api!,
                 userId!,
                 {
-                    mediaTypes: [MediaType.Video],
-                    excludeItemTypes: [
-                        BaseItemKind.Movie,
-                        BaseItemKind.Episode,
-                        BaseItemKind.TvChannel
-                    ],
                     parentId: parentId,
                     searchTerm: searchTerm
                 },

@@ -6,27 +6,17 @@ import type {
 } from '@jellyfin/sdk/lib/generated-client';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from '../../../../../hooks/useApi';
 import type { CardOptions } from 'types/cardOptions';
 import { CardShape } from 'utils/card';
-import { getCardOptionsFromType, getItemTypesFromCollectionType, getTitleFromType, isMusic } from '../utils/search';
+import { addSection, getCardOptionsFromType, getItemTypesFromCollectionType, getTitleFromType, isLivetv, isMovies, isMusic, isTVShows } from '../utils/search';
 import { useArtistsSearch } from './useArtistsSearch';
 import { usePeopleSearch } from './usePeopleSearch';
 import { useVideoSearch } from './useVideoSearch';
-
-const QUERY_OPTIONS = {
-    limit: 100,
-    fields: [
-        ItemFields.PrimaryImageAspectRatio,
-        ItemFields.CanDelete,
-        ItemFields.MediaSourceCount
-    ],
-    enableTotalRecordCount: false,
-    imageTypeLimit: 1
-};
+import { QUERY_OPTIONS } from '../constants/queryOptions';
+import { Section } from '../types';
 
 const fetchItemsByType = async (
     api: Api,
@@ -46,15 +36,6 @@ const fetchItemsByType = async (
     return response.data;
 };
 
-const isMovies = (collectionType: string) =>
-    collectionType === CollectionType.Movies;
-
-const isTVShows = (collectionType: string) =>
-    collectionType === CollectionType.Tvshows;
-
-const isLivetv = (collectionType: string) =>
-    collectionType === CollectionType.Livetv;
-
 const LIVETV_CARD_OPTIONS = {
     preferThumb: true,
     inheritThumb: false,
@@ -66,12 +47,6 @@ const LIVETV_CARD_OPTIONS = {
     showAirDateTime: true,
     showChannelName: true
 };
-
-export interface Section {
-    title: string
-    items: BaseItemDto[];
-    cardOptions?: CardOptions;
-}
 
 type AddSectionFunction = (
     title: string,
@@ -203,9 +178,9 @@ export const useSearchItems = (
     const { api, user } = useApi();
     const userId = user?.Id;
 
-    const isArtistsEnabled = !!(!isArtistsPending || (collectionType && !isMusic(collectionType)));
-    const isPeopleEnabled = !!(!isPeoplePending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType)));
-    const isVideosEnabled = !!(!isVideosPending || collectionType);
+    const isArtistsEnabled = !isArtistsPending || (collectionType && !isMusic(collectionType));
+    const isPeopleEnabled = !isPeoplePending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType));
+    const isVideosEnabled = !isVideosPending || collectionType;
 
     return useQuery({
         queryKey: ['SearchItems', collectionType, parentId, searchTerm],
@@ -215,25 +190,15 @@ export const useSearchItems = (
 
             const sections: Section[] = [];
 
-            const addSection = (
-                title: string,
-                items: BaseItemDto[] | null | undefined,
-                cardOptions?: CardOptions
-            ) => {
-                if (items && items?.length > 0) {
-                    sections.push({ title, items, cardOptions });
-                }
-            };
-
-            addSection('Artists', artists?.Items, {
+            addSection(sections, 'Artists', artists?.Items, {
                 coverImage: true
             });
 
-            addSection('People', people?.Items, {
+            addSection(sections, 'People', people?.Items, {
                 coverImage: true
             });
 
-            addSection('HeaderVideos', videos?.Items, {
+            addSection(sections, 'HeaderVideos', videos?.Items, {
                 showParentTitle: true
             });
 
@@ -246,7 +211,7 @@ export const useSearchItems = (
                     includeItemTypes: itemTypes,
                     parentId: parentId,
                     searchTerm: searchTerm,
-                    limit: itemTypes.length * 24
+                    limit: itemTypes.length * 24 // TODO: temp
                 },
                 { signal }
             );
@@ -259,17 +224,17 @@ export const useSearchItems = (
                             items.push(searchItem);
                         }
                     }
-                    addSection(getTitleFromType(itemType), items, getCardOptionsFromType(itemType));
+                    addSection(sections, getTitleFromType(itemType), items, getCardOptionsFromType(itemType));
                 }
             }
 
             // Livetv libraries
             if (collectionType && isLivetv(collectionType)) {
-                await fetchLiveTv(api, userId, searchTerm, signal, addSection);
+                //await fetchLiveTv(api, userId, searchTerm, signal, addSection);
             }
 
             return sections;
         },
-        enabled: !!api && !!userId && isArtistsEnabled && isPeopleEnabled && isVideosEnabled
+        enabled: !!api && !!userId && !!isArtistsEnabled && !!isPeopleEnabled && !!isVideosEnabled
     });
 };

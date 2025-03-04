@@ -1,10 +1,11 @@
 import React, { type FC } from 'react';
-import { Section, useSearchItems } from '../api/useSearchItems';
+import { useSearchItems } from '../api/useSearchItems';
 import globalize from '../../../../../lib/globalize';
 import Loading from '../../../../../components/loading/LoadingComponent';
 import SearchResultsRow from './SearchResultsRow';
 import { CardShape } from 'utils/card';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { Section } from '../types';
 
 interface SearchResultsProps {
     parentId?: string;
