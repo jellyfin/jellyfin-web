@@ -21,7 +21,7 @@ const SearchResults: FC<SearchResultsProps> = ({
     collectionType,
     query
 }) => {
-    const { data, isPending } = useSearchItems(parentId, collectionType, query);
+    const { data, isPending } = useSearchItems(parentId, collectionType, query?.trim());
 
     if (isPending) return <Loading />;
 
