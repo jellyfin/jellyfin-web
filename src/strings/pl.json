@@ -2006,5 +2006,7 @@
     "LibraryNameInvalid": "Nazwa biblioteki nie może być pusta.",
     "CopyLogSuccess": "Zawartość dziennika została pomyślnie skopiowana.",
     "Retry": "Ponów",
-    "LogLoadFailure": "Nie udało się załadować pliku dziennika. Nadal może być aktywnie zapisywany."
+    "LogLoadFailure": "Nie udało się załadować pliku dziennika. Nadal może być aktywnie zapisywany.",
+    "DisplayLoadError": "Wystąpił błąd podczas ładowania danych konfiguracji wyświetlania.",
+    "MetadataImagesLoadError": "Nie udało się załadować ustawień metadanych"
 }
