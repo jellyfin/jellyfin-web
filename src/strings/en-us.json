@@ -1174,6 +1174,7 @@
     "MessageUnsetContentHelp": "Content will be displayed as plain folders. For best results use the metadata manager to set the content types of sub-folders.",
     "MetadataImagesLoadError": "Failed to load metadata settings",
     "MetadataManager": "Metadata Manager",
+    "MetadataNfoLoadError": "Failed to load metadata NFO settings",
     "MetadataSettingChangeHelp": "Changing metadata settings will affect new content added going forward. To refresh existing content, open the detail screen and click the 'Refresh' button, or do bulk refreshes using the 'Metadata Manager'.",
     "MillisecondsUnit": "ms",
     "MinutesAfter": "minutes after",
