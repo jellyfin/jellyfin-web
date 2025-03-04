@@ -93,12 +93,5 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             controller: 'plugins/installed/index',
             view: 'plugins/installed/index.html'
         }
-    }, {
-        path: 'tasks/edit',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'scheduledtasks/scheduledtask',
-            view: 'scheduledtasks/scheduledtask.html'
-        }
     }
 ];
