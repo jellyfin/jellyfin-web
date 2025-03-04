@@ -2006,5 +2006,7 @@
     "LibraryNameInvalid": "Il nome della libreria non può essere vuoto.",
     "CopyLogSuccess": "Contenuti dei log copiati con successo.",
     "Retry": "Riprova",
-    "LogLoadFailure": "Non sono riuscito a caricare il file di log. Potrebbe essere tutt'ora in fase di scrittura."
+    "LogLoadFailure": "Non sono riuscito a caricare il file di log. Potrebbe essere tutt'ora in fase di scrittura.",
+    "DisplayLoadError": "Errore durante il caricamento dei dati di configurazione del display.",
+    "MetadataImagesLoadError": "Caricamento metadati delle immagini fallito"
 }
