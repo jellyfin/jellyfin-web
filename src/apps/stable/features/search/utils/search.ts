@@ -5,6 +5,7 @@ import { Section } from '../types';
 import { CardOptions } from 'types/cardOptions';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
+import { SEARCH_SECTIONS_SORT_ORDER } from '../constants/sectionSortOrder';
 
 export const isMovies = (collectionType: string) =>
     collectionType === CollectionType.Movies;
@@ -24,9 +25,24 @@ export function addSection(
     items: BaseItemDto[] | null | undefined,
     cardOptions?: CardOptions
 ) {
-    if (items && items?.length > 0) {
-        sections.push({ title, items, cardOptions });
+    if (items && items?.length > 0 && items[0].Type) {
+        sections.push({ title, items, sectionType: items[0].Type, cardOptions });
     }
+}
+
+export function sortSections(sections: Section[]) {
+    return sections.sort((a, b) => {
+        const indexA = SEARCH_SECTIONS_SORT_ORDER.indexOf(a.sectionType);
+        const indexB = SEARCH_SECTIONS_SORT_ORDER.indexOf(b.sectionType);
+
+        if (indexA > indexB) {
+            return 1;
+        } else if (indexA < indexB) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
 }
 
 export function getCardOptionsFromType(type: BaseItemKind) {

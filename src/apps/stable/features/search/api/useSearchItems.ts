@@ -2,21 +2,20 @@ import type { AxiosRequestConfig } from 'axios';
 import type { Api } from '@jellyfin/sdk';
 import type {
     BaseItemDto,
+    BaseItemKind,
     ItemsApiGetItemsRequest
 } from '@jellyfin/sdk/lib/generated-client';
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from '../../../../../hooks/useApi';
-import type { CardOptions } from 'types/cardOptions';
-import { CardShape } from 'utils/card';
-import { addSection, getCardOptionsFromType, getItemTypesFromCollectionType, getTitleFromType, isLivetv, isMovies, isMusic, isTVShows } from '../utils/search';
+import { addSection, getCardOptionsFromType, getItemTypesFromCollectionType, getTitleFromType, isLivetv, isMovies, isMusic, isTVShows, sortSections } from '../utils/search';
 import { useArtistsSearch } from './useArtistsSearch';
 import { usePeopleSearch } from './usePeopleSearch';
 import { useVideoSearch } from './useVideoSearch';
 import { QUERY_OPTIONS } from '../constants/queryOptions';
 import { Section } from '../types';
+import { useLiveTvSearch } from './useLiveTvSearch';
 
 const fetchItemsByType = async (
     api: Api,
@@ -36,137 +35,6 @@ const fetchItemsByType = async (
     return response.data;
 };
 
-const LIVETV_CARD_OPTIONS = {
-    preferThumb: true,
-    inheritThumb: false,
-    showParentTitleOrTitle: true,
-    showTitle: false,
-    coverImage: true,
-    overlayMoreButton: true,
-    showAirTime: true,
-    showAirDateTime: true,
-    showChannelName: true
-};
-
-type AddSectionFunction = (
-    title: string,
-    items: BaseItemDto[] | null | undefined,
-    cardOptions?: CardOptions
-) => void;
-
-const fetchLiveTv = async (api: Api, userId: string | undefined, searchTerm: string | undefined, signal: AbortSignal, addSection: AddSectionFunction) => {
-    // Movies row
-    const moviesData = await fetchItemsByType(
-        api,
-        userId,
-        {
-            includeItemTypes: [BaseItemKind.LiveTvProgram],
-            isMovie: true,
-            searchTerm: searchTerm
-        },
-        { signal }
-    );
-    addSection('Movies', moviesData.Items, {
-        ...LIVETV_CARD_OPTIONS,
-        shape: CardShape.PortraitOverflow
-    });
-
-    // Episodes row
-    const episodesData = await fetchItemsByType(
-        api,
-        userId,
-        {
-            includeItemTypes: [BaseItemKind.LiveTvProgram],
-            isMovie: false,
-            isSeries: true,
-            isSports: false,
-            isKids: false,
-            isNews: false,
-            searchTerm: searchTerm
-        },
-        { signal }
-    );
-    addSection('Episodes', episodesData.Items, {
-        ...LIVETV_CARD_OPTIONS
-    });
-
-    // Sports row
-    const sportsData = await fetchItemsByType(
-        api,
-        userId,
-        {
-            includeItemTypes: [BaseItemKind.LiveTvProgram],
-            isSports: true,
-            searchTerm: searchTerm
-        },
-        { signal }
-    );
-    addSection('Sports', sportsData.Items, {
-        ...LIVETV_CARD_OPTIONS
-    });
-
-    // Kids row
-    const kidsData = await fetchItemsByType(
-        api,
-        userId,
-        {
-            includeItemTypes: [BaseItemKind.LiveTvProgram],
-            isKids: true,
-            searchTerm: searchTerm
-        },
-        { signal }
-    );
-    addSection('Kids', kidsData.Items, {
-        ...LIVETV_CARD_OPTIONS
-    });
-
-    // News row
-    const newsData = await fetchItemsByType(
-        api,
-        userId,
-        {
-            includeItemTypes: [BaseItemKind.LiveTvProgram],
-            isNews: true,
-            searchTerm: searchTerm
-        },
-        { signal }
-    );
-    addSection('News', newsData.Items, {
-        ...LIVETV_CARD_OPTIONS
-    });
-
-    // Programs row
-    const programsData = await fetchItemsByType(
-        api,
-        userId,
-        {
-            includeItemTypes: [BaseItemKind.LiveTvProgram],
-            isMovie: false,
-            isSeries: false,
-            isSports: false,
-            isKids: false,
-            isNews: false,
-            searchTerm: searchTerm
-        },
-        { signal }
-    );
-    addSection('Programs', programsData.Items, {
-        ...LIVETV_CARD_OPTIONS
-    });
-
-    // Channels row
-    const channelsData = await fetchItemsByType(
-        api,
-        userId,
-        {
-            includeItemTypes: [BaseItemKind.TvChannel],
-            searchTerm: searchTerm
-        },
-        { signal }
-    );
-    addSection('Channels', channelsData.Items);
-};
-
 export const useSearchItems = (
     parentId?: string,
     collectionType?: CollectionType,
@@ -175,19 +43,18 @@ export const useSearchItems = (
     const { data: artists, isPending: isArtistsPending } = useArtistsSearch(parentId, collectionType, searchTerm);
     const { data: people, isPending: isPeoplePending } = usePeopleSearch(parentId, collectionType, searchTerm);
     const { data: videos, isPending: isVideosPending } = useVideoSearch(parentId, collectionType, searchTerm);
+    const { data: liveTvSections, isPending: isLiveTvPending } = useLiveTvSearch(parentId, collectionType, searchTerm);
     const { api, user } = useApi();
     const userId = user?.Id;
 
     const isArtistsEnabled = !isArtistsPending || (collectionType && !isMusic(collectionType));
     const isPeopleEnabled = !isPeoplePending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType));
     const isVideosEnabled = !isVideosPending || collectionType;
+    const isLiveTvEnabled = !isLiveTvPending || !collectionType || !isLivetv(collectionType);
 
     return useQuery({
         queryKey: ['SearchItems', collectionType, parentId, searchTerm],
         queryFn: async ({ signal }) => {
-            if (!api) throw new Error('No API instance available');
-            if (!userId) throw new Error('No User ID provided');
-
             const sections: Section[] = [];
 
             addSection(sections, 'Artists', artists?.Items, {
@@ -202,16 +69,20 @@ export const useSearchItems = (
                 showParentTitle: true
             });
 
-            const itemTypes = getItemTypesFromCollectionType(collectionType);
+            if (liveTvSections) {
+                sections.push(...liveTvSections);
+            }
+
+            const itemTypes: BaseItemKind[] = getItemTypesFromCollectionType(collectionType);
 
             const searchData = await fetchItemsByType(
-                api,
+                api!,
                 userId,
                 {
                     includeItemTypes: itemTypes,
                     parentId: parentId,
                     searchTerm: searchTerm,
-                    limit: itemTypes.length * 24 // TODO: temp
+                    limit: 800
                 },
                 { signal }
             );
@@ -228,13 +99,8 @@ export const useSearchItems = (
                 }
             }
 
-            // Livetv libraries
-            if (collectionType && isLivetv(collectionType)) {
-                //await fetchLiveTv(api, userId, searchTerm, signal, addSection);
-            }
-
-            return sections;
+            return sortSections(sections);
         },
-        enabled: !!api && !!userId && !!isArtistsEnabled && !!isPeopleEnabled && !!isVideosEnabled
+        enabled: !!api && !!userId && !!isArtistsEnabled && !!isPeopleEnabled && !!isVideosEnabled && !!isLiveTvEnabled
     });
 };
