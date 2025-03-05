@@ -2003,5 +2003,7 @@
     "DeleteServerConfirmation": "Bạn có chắc bạn muốn xóa máy chủ này không?",
     "CopyLogSuccess": "Sao chép nội dung nhật ký thành công.",
     "Retry": "Thử lại",
-    "LogLoadFailure": "Không tải được tệp nhật ký. Nó vẫn có thể được viết tích cực."
+    "LogLoadFailure": "Không tải được tệp nhật ký. Nó vẫn có thể được viết tích cực.",
+    "DisplayLoadError": "Đã xảy ra lỗi trong khi tải dữ liệu cấu hình hiển thị.",
+    "MetadataImagesLoadError": "Không tải được cài đặt dữ liệu mô tả"
 }
