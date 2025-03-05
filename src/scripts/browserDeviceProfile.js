@@ -11,7 +11,7 @@ function canPlayHevc(videoTestElement, options) {
         return true;
     }
 
-    if (browser.ps4) {
+    if (browser.ps4 || browser.vidaa) {
         return false;
     }
 
