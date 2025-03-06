@@ -2003,5 +2003,9 @@
     "LabelDevice": "设备",
     "LastActive": "上次活跃",
     "DeleteServerConfirmation": "您确定要删除此服务器吗？",
-    "LibraryNameInvalid": "媒体库名称不能为空。"
+    "LibraryNameInvalid": "媒体库名称不能为空。",
+    "CopyLogSuccess": "已成功复制日志内容。",
+    "Retry": "重试",
+    "DisplayLoadError": "加载显示配置时发生错误。",
+    "MetadataImagesLoadError": "加载元数据设置时发生错误"
 }
