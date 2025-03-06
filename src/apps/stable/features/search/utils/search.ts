@@ -110,7 +110,7 @@ export function getTitleFromType(type: BaseItemKind) {
 export function getItemTypesFromCollectionType(collectionType: CollectionType | undefined) {
     switch (collectionType) {
         case CollectionType.Movies:
-            return [BaseItemKind.Movie];
+            return [ BaseItemKind.Movie ];
         case CollectionType.Tvshows:
             return [
                 BaseItemKind.Series,
@@ -122,8 +122,6 @@ export function getItemTypesFromCollectionType(collectionType: CollectionType | 
                 BaseItemKind.MusicAlbum,
                 BaseItemKind.Audio
             ];
-        case CollectionType.Livetv:
-            return [];
         default:
             return [
                 BaseItemKind.Movie,
