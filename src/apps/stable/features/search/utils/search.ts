@@ -25,15 +25,15 @@ export function addSection(
     items: BaseItemDto[] | null | undefined,
     cardOptions?: CardOptions
 ) {
-    if (items && items?.length > 0 && items[0].Type) {
-        sections.push({ title, items, sectionType: items[0].Type, cardOptions });
+    if (items && items?.length > 0) {
+        sections.push({ title, items, cardOptions });
     }
 }
 
 export function sortSections(sections: Section[]) {
     return sections.sort((a, b) => {
-        const indexA = SEARCH_SECTIONS_SORT_ORDER.indexOf(a.sectionType);
-        const indexB = SEARCH_SECTIONS_SORT_ORDER.indexOf(b.sectionType);
+        const indexA = SEARCH_SECTIONS_SORT_ORDER.indexOf(a.title);
+        const indexB = SEARCH_SECTIONS_SORT_ORDER.indexOf(b.title);
 
         if (indexA > indexB) {
             return 1;
