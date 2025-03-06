@@ -1641,5 +1641,6 @@
     "AllowContentWithTagsHelp": "Erakutsi zehaztutako etiketetik gutxienez bat duen serieen media.",
     "AllowSubtitleManagement": "Baimendu erabiltzaile honek azpitituluak editatzea",
     "SelectAudioNormalizationHelp": "Pista irabazia - pista bakoitzaren bolumena doitzen du ozentasun berarekin erreproduzitu daitezen. Album irabazia - pista bakoitzaren bolumena doitzen du album batean soilik, albumaren eremu dinamikoa mantentzeko. \"Itzalita\" eta beste aukeren artean aldatzeak uneko erreproduzkzioa berrabiaraztea behar du.",
-    "LabelProcessPriorityHelp": "Handiago edo txikiago ezartzeak PUZ-ak ffmpeg trickplay sortzeko prozesua beste prozesu batzuekin alderatuta nola lehenesten duen zehaztuko du. Trickplay irudiak sortzen dituzun bitartean moteltzea nabaritzen baduzu, baina ez duzu sorpena erabat gelditu nahi, saiatu hau eta hari kopurua ere jaisten."
+    "LabelProcessPriorityHelp": "Handiago edo txikiago ezartzeak PUZ-ak ffmpeg trickplay sortzeko prozesua beste prozesu batzuekin alderatuta nola lehenesten duen zehaztuko du. Trickplay irudiak sortzen dituzun bitartean moteltzea nabaritzen baduzu, baina ez duzu sorpena erabat gelditu nahi, saiatu hau eta hari kopurua ere jaisten.",
+    "LibraryScanFanoutConcurrencyHelp": "Liburutegiko azterketarako gehienezko zeregin paraleloen kopurua. 0 ezartzean, zure sistemako nukleoen kopuruan oinarritutako muga bat aukeratuko da. KONTUZ: Hau altuegi ezartzeak arazoak sor ditzake sareko fitxategi-sistemekin; arazorik baduzu, murriztu zenbaki hau."
 }
