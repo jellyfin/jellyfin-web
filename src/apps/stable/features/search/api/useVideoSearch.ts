@@ -9,7 +9,7 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ItemsApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/items-api';
 
-const fetchPeople = async (
+const fetchVideos = async (
     api: Api,
     userId: string,
     params?: ItemsApiGetItemsRequest,
@@ -43,7 +43,7 @@ export const useVideoSearch = (
 
     return useQuery({
         queryKey: ['VideoSearch', collectionType, parentId, searchTerm],
-        queryFn: ({ signal }) => fetchPeople(
+        queryFn: ({ signal }) => fetchVideos(
             api!,
             userId!,
             {

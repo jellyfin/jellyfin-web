@@ -1,4 +1,4 @@
-import React, { useCallback, type FC } from 'react';
+import React, { type FC } from 'react';
 import { useSearchItems } from '../api/useSearchItems';
 import globalize from '../../../../../lib/globalize';
 import Loading from '../../../../../components/loading/LoadingComponent';
@@ -6,8 +6,7 @@ import SearchResultsRow from './SearchResultsRow';
 import { CardShape } from 'utils/card';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { Section } from '../types';
-import LinkButton from 'elements/emby-button/LinkButton';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface SearchResultsProps {
     parentId?: string;
@@ -24,13 +23,6 @@ const SearchResults: FC<SearchResultsProps> = ({
     query
 }) => {
     const { data, isPending } = useSearchItems(parentId, collectionType, query?.trim());
-    const location = useLocation();
-    const [ searchParams ] = useSearchParams();
-
-    const getUri = useCallback(() => {
-        searchParams.delete('collectionType');
-        return `${location.pathname}?${searchParams.toString()}`;
-    }, [ searchParams, location.pathname ]);
 
     if (isPending) return <Loading />;
 
@@ -40,7 +32,10 @@ const SearchResults: FC<SearchResultsProps> = ({
                 {globalize.translate('SearchResultsEmpty', query)}
                 {collectionType && (
                     <div>
-                        <LinkButton href={getUri()}>{globalize.translate('RetryWithGlobalSearch')}</LinkButton>
+                        <Link
+                            className='emby-button'
+                            to={`/search.html?query=${encodeURIComponent(query || '')}`}
+                        >{globalize.translate('RetryWithGlobalSearch')}</Link>
                     </div>
                 )}
             </div>
