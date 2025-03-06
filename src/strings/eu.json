@@ -1253,7 +1253,7 @@
     "AnyLanguage": "Edozein hizkuntza",
     "AlwaysPlaySubtitlesHelp": "Hizkuntza-lehentasunarekin bat datozen azpitituluak kargatu egingo dira, audio-hizkuntza edozein dela ere.",
     "AlwaysPlaySubtitles": "Beti erakutsi azpitituluak",
-    "AllowTonemappingHelp": "Tonuen mapaketak HDR bideo baten maila dinamikoa SDR bihur dezake irudian xehetasunak eta koloreak mantentzen diren bitartean; beraz, garrantzitsua da jatorrizko eszena irudikatzeko. Une honetan txertatutako HDR10 edo HLG metadatuekin bideoak transkodetzen direnean bakarrik funtzionatzen du. Erreprodukzioa arina ez bada edo huts egiten badu, kontuan hartu dagokion hardware bidezko deskodegailua desaktibatu behar dela.",
+    "AllowTonemappingHelp": "Tonu-mapaketak bideo baten barruti dinamikoa eraldatu dezake HDRtik SDR-ra, jatorrizko eszena irudikatzeko informazio oso garrantzitsuak diren irudien xehetasunak eta koloreak mantenduz. Gaur egun 10bit HDR10, HLG eta DoVi bideoekin bakarrik funtzionatzen du. Honek dagokion GPGPU exekuzio-denbora behar du.",
     "AllowRemoteAccessHelp": "Aktibatuta ez badago, urruneko konexio guztiak blokeatu egingo dira.",
     "AllowRemoteAccess": "Baimendu zerbitzari honetarako urrutiko konexioak",
     "AllowOnTheFlySubtitleExtractionHelp": "Bezeroa bateragarria denean, azpitituluak erreprodukzioan zehar atera daitezke, bideoa ez bihurtzeko. Hala ere, eta zerbitzari batzuetan, honek denbora asko behar izan dezake eta erreprodukzioak ebakiak izan ditzake prozesuan zehar. Aukera hau desgaitzen du azpitituluak zuzenean bideoan grabatzeko, bezeroarekin berez bateragarriak ez direnean.",
@@ -1639,5 +1639,7 @@
     "LabelSegmentKeepSeconds": "Segmentuak gordetzeko denbora..",
     "AirPlay": "AirPlay",
     "AllowContentWithTagsHelp": "Erakutsi zehaztutako etiketetik gutxienez bat duen serieen media.",
-    "AllowSubtitleManagement": "Baimendu erabiltzaile honek azpitituluak editatzea"
+    "AllowSubtitleManagement": "Baimendu erabiltzaile honek azpitituluak editatzea",
+    "SelectAudioNormalizationHelp": "Pista irabazia - pista bakoitzaren bolumena doitzen du ozentasun berarekin erreproduzitu daitezen. Album irabazia - pista bakoitzaren bolumena doitzen du album batean soilik, albumaren eremu dinamikoa mantentzeko. \"Itzalita\" eta beste aukeren artean aldatzeak uneko erreproduzkzioa berrabiaraztea behar du.",
+    "LabelProcessPriorityHelp": "Handiago edo txikiago ezartzeak PUZ-ak ffmpeg trickplay sortzeko prozesua beste prozesu batzuekin alderatuta nola lehenesten duen zehaztuko du. Trickplay irudiak sortzen dituzun bitartean moteltzea nabaritzen baduzu, baina ez duzu sorpena erabat gelditu nahi, saiatu hau eta hari kopurua ere jaisten."
 }
