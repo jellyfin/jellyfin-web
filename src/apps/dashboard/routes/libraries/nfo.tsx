@@ -41,7 +41,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     const newConfig: NFOSettingsConfig = {
         UserId: data.UserId?.toString(),
-        ReleaseDateFormat: data.ReleaseDateFormat?.toString(),
+        ReleaseDateFormat: 'yyyy-MM-dd',
         SaveImagePathsInNfo: data.SaveImagePathsInNfo?.toString() === 'on',
         EnablePathSubstitution: data.EnablePathSubstitution?.toString() === 'on',
         EnableExtraThumbsDuplication: data.EnableExtraThumbsDuplication?.toString() === 'on'
@@ -131,16 +131,6 @@ export const Component = () => {
                                 {users.map(user =>
                                     <MenuItem key={user.Id} value={user.Id}>{user.Name}</MenuItem>
                                 )}
-                            </TextField>
-
-                            <TextField
-                                name={'ReleaseDateFormat'}
-                                label={globalize.translate('LabelKodiMetadataDateFormat')}
-                                defaultValue={nfoConfig.ReleaseDateFormat}
-                                select
-                                helperText={globalize.translate('LabelKodiMetadataDateFormatHelp')}
-                            >
-                                <MenuItem value='yyyy-MM-dd'>yyyy-MM-dd</MenuItem>
                             </TextField>
 
                             <FormControl>
