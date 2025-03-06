@@ -17,6 +17,7 @@ export const ASYNC_ADMIN_ROUTES: AsyncRoute[] = [
     { path: 'livetv/recordings', type: AppType.Dashboard },
     { path: 'logs', type: AppType.Dashboard },
     { path: 'logs/:file', page: 'logs/file', type: AppType.Dashboard },
+    { path: 'networking', type: AppType.Dashboard },
     { path: 'playback/resume', type: AppType.Dashboard },
     { path: 'playback/streaming', type: AppType.Dashboard },
     { path: 'playback/transcoding', type: AppType.Dashboard },
