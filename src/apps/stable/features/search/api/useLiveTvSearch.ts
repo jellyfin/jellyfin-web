@@ -17,7 +17,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
         api,
         userId,
         {
-            includeItemTypes: [BaseItemKind.LiveTvProgram],
+            includeItemTypes: [ BaseItemKind.LiveTvProgram ],
             isMovie: true,
             searchTerm: searchTerm
         },
@@ -34,7 +34,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
         api,
         userId,
         {
-            includeItemTypes: [BaseItemKind.LiveTvProgram],
+            includeItemTypes: [ BaseItemKind.LiveTvProgram ],
             isMovie: false,
             isSeries: true,
             isSports: false,
@@ -54,7 +54,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
         api,
         userId,
         {
-            includeItemTypes: [BaseItemKind.LiveTvProgram],
+            includeItemTypes: [ BaseItemKind.LiveTvProgram ],
             isSports: true,
             searchTerm: searchTerm
         },
@@ -70,7 +70,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
         api,
         userId,
         {
-            includeItemTypes: [BaseItemKind.LiveTvProgram],
+            includeItemTypes: [ BaseItemKind.LiveTvProgram ],
             isKids: true,
             searchTerm: searchTerm
         },
@@ -86,7 +86,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
         api,
         userId,
         {
-            includeItemTypes: [BaseItemKind.LiveTvProgram],
+            includeItemTypes: [ BaseItemKind.LiveTvProgram ],
             isNews: true,
             searchTerm: searchTerm
         },
@@ -102,7 +102,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
         api,
         userId,
         {
-            includeItemTypes: [BaseItemKind.LiveTvProgram],
+            includeItemTypes: [ BaseItemKind.LiveTvProgram ],
             isMovie: false,
             isSeries: false,
             isSports: false,
@@ -122,7 +122,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
         api,
         userId,
         {
-            includeItemTypes: [BaseItemKind.TvChannel],
+            includeItemTypes: [ BaseItemKind.TvChannel ],
             searchTerm: searchTerm
         },
         { signal }
