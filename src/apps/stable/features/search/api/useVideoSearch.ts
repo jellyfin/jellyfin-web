@@ -43,19 +43,15 @@ export const useVideoSearch = (
 
     return useQuery({
         queryKey: ['VideoSearch', collectionType, parentId, searchTerm],
-        queryFn: async ({ signal }) => {
-            const videosData = await fetchPeople(
-                api!,
-                userId!,
-                {
-                    parentId: parentId,
-                    searchTerm: searchTerm
-                },
-                { signal }
-            );
-
-            return videosData;
-        },
+        queryFn: ({ signal }) => fetchPeople(
+            api!,
+            userId!,
+            {
+                parentId: parentId,
+                searchTerm: searchTerm
+            },
+            { signal }
+        ),
         enabled: !!api && !!userId && !collectionType
     });
 };

@@ -35,19 +35,15 @@ export const useArtistsSearch = (
 
     return useQuery({
         queryKey: ['ArtistsSearch', collectionType, parentId, searchTerm],
-        queryFn: async ({ signal }) => {
-            const artistsData = await fetchArtists(
-                api!,
-                userId!,
-                {
-                    parentId: parentId,
-                    searchTerm: searchTerm
-                },
-                { signal }
-            );
-
-            return artistsData;
-        },
+        queryFn: ({ signal }) => fetchArtists(
+            api!,
+            userId!,
+            {
+                parentId: parentId,
+                searchTerm: searchTerm
+            },
+            { signal }
+        ),
         enabled: !!api && !!userId && (!collectionType || isMusic(collectionType))
     });
 };
