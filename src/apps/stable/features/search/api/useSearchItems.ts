@@ -33,7 +33,7 @@ export const useSearchItems = (
     return useQuery({
         queryKey: ['SearchItems', collectionType, parentId, searchTerm],
         queryFn: async ({ signal }) => {
-            if (liveTvSections) {
+            if (liveTvSections && collectionType && isLivetv(collectionType)) {
                 return sortSections(liveTvSections);
             }
 
