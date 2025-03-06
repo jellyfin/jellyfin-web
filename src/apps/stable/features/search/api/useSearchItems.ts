@@ -33,6 +33,10 @@ export const useSearchItems = (
     return useQuery({
         queryKey: ['SearchItems', collectionType, parentId, searchTerm],
         queryFn: async ({ signal }) => {
+            if (liveTvSections) {
+                return sortSections(liveTvSections);
+            }
+
             const sections: Section[] = [];
 
             addSection(sections, 'Artists', artists?.Items, {
@@ -46,10 +50,6 @@ export const useSearchItems = (
             addSection(sections, 'HeaderVideos', videos?.Items, {
                 showParentTitle: true
             });
-
-            if (liveTvSections) {
-                sections.push(...liveTvSections);
-            }
 
             const itemTypes: BaseItemKind[] = getItemTypesFromCollectionType(collectionType);
 

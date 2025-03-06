@@ -9,11 +9,11 @@ import { CardShape } from 'utils/card';
 import { Section } from '../types';
 import { fetchItemsByType } from './fetchItemsByType';
 
-const fetchLiveTv = async (api: Api, userId: string | undefined, searchTerm: string | undefined, signal: AbortSignal) => {
+const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | undefined, signal: AbortSignal) => {
     const sections: Section[] = [];
 
     // Movies row
-    const moviesData = await fetchItemsByType(
+    const movies = fetchItemsByType(
         api,
         userId,
         {
@@ -22,14 +22,15 @@ const fetchLiveTv = async (api: Api, userId: string | undefined, searchTerm: str
             searchTerm: searchTerm
         },
         { signal }
-    );
-    addSection(sections, 'Movies', moviesData.Items, {
-        ...LIVETV_CARD_OPTIONS,
-        shape: CardShape.PortraitOverflow
+    ).then(moviesData => {
+        addSection(sections, 'Movies', moviesData.Items, {
+            ...LIVETV_CARD_OPTIONS,
+            shape: CardShape.PortraitOverflow
+        });
     });
 
     // Episodes row
-    const episodesData = await fetchItemsByType(
+    const episodes = fetchItemsByType(
         api,
         userId,
         {
@@ -42,13 +43,14 @@ const fetchLiveTv = async (api: Api, userId: string | undefined, searchTerm: str
             searchTerm: searchTerm
         },
         { signal }
-    );
-    addSection(sections, 'Episodes', episodesData.Items, {
-        ...LIVETV_CARD_OPTIONS
+    ).then(episodesData => {
+        addSection(sections, 'Episodes', episodesData.Items, {
+            ...LIVETV_CARD_OPTIONS
+        });
     });
 
     // Sports row
-    const sportsData = await fetchItemsByType(
+    const sports = fetchItemsByType(
         api,
         userId,
         {
@@ -57,13 +59,14 @@ const fetchLiveTv = async (api: Api, userId: string | undefined, searchTerm: str
             searchTerm: searchTerm
         },
         { signal }
-    );
-    addSection(sections, 'Sports', sportsData.Items, {
-        ...LIVETV_CARD_OPTIONS
+    ).then(sportsData => {
+        addSection(sections, 'Sports', sportsData.Items, {
+            ...LIVETV_CARD_OPTIONS
+        });
     });
 
     // Kids row
-    const kidsData = await fetchItemsByType(
+    const kids = fetchItemsByType(
         api,
         userId,
         {
@@ -72,13 +75,14 @@ const fetchLiveTv = async (api: Api, userId: string | undefined, searchTerm: str
             searchTerm: searchTerm
         },
         { signal }
-    );
-    addSection(sections, 'Kids', kidsData.Items, {
-        ...LIVETV_CARD_OPTIONS
+    ).then(kidsData => {
+        addSection(sections, 'Kids', kidsData.Items, {
+            ...LIVETV_CARD_OPTIONS
+        });
     });
 
     // News row
-    const newsData = await fetchItemsByType(
+    const news = fetchItemsByType(
         api,
         userId,
         {
@@ -87,13 +91,14 @@ const fetchLiveTv = async (api: Api, userId: string | undefined, searchTerm: str
             searchTerm: searchTerm
         },
         { signal }
-    );
-    addSection(sections, 'News', newsData.Items, {
-        ...LIVETV_CARD_OPTIONS
+    ).then(newsData => {
+        addSection(sections, 'News', newsData.Items, {
+            ...LIVETV_CARD_OPTIONS
+        });
     });
 
     // Programs row
-    const programsData = await fetchItemsByType(
+    const programs = fetchItemsByType(
         api,
         userId,
         {
@@ -106,13 +111,14 @@ const fetchLiveTv = async (api: Api, userId: string | undefined, searchTerm: str
             searchTerm: searchTerm
         },
         { signal }
-    );
-    addSection(sections, 'Programs', programsData.Items, {
-        ...LIVETV_CARD_OPTIONS
+    ).then(programsData => {
+        addSection(sections, 'Programs', programsData.Items, {
+            ...LIVETV_CARD_OPTIONS
+        });
     });
 
     // Channels row
-    const channelsData = await fetchItemsByType(
+    const channels = fetchItemsByType(
         api,
         userId,
         {
@@ -120,10 +126,11 @@ const fetchLiveTv = async (api: Api, userId: string | undefined, searchTerm: str
             searchTerm: searchTerm
         },
         { signal }
-    );
-    addSection(sections, 'Channels', channelsData.Items);
+    ).then(channelsData => {
+        addSection(sections, 'Channels', channelsData.Items);
+    });
 
-    return sections;
+    return Promise.all([ movies, episodes, sports, kids, news, programs, channels ]).then(() => sections);
 };
 
 export const useLiveTvSearch = (
@@ -136,7 +143,7 @@ export const useLiveTvSearch = (
 
     return useQuery({
         queryKey: ['LiveTv', collectionType, parentId, searchTerm],
-        queryFn: async ({ signal }) =>
+        queryFn: ({ signal }) =>
             fetchLiveTv(api!, userId!, searchTerm, signal),
         enabled: !!api && !!userId && !!collectionType && !!isLivetv(collectionType)
     });
