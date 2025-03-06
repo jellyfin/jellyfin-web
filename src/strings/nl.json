@@ -98,7 +98,7 @@
     "ColorPrimaries": "Primaire kleuren",
     "ColorSpace": "Kleurbereik",
     "ColorTransfer": "Kleuroverdracht",
-    "CommunityRating": "Beoordeling gemeenschap",
+    "CommunityRating": "Beoordeling publiek",
     "Composer": "Componist",
     "ConfigureDateAdded": "Stel in hoe de metadata voor 'Datum toegevoegd' wordt bepaald in Controlepaneel > Bibliotheken > Weergave",
     "ConfirmDeleteImage": "Afbeelding verwijderen?",
@@ -430,7 +430,7 @@
     "LabelCertificatePasswordHelp": "Als je certificaat een wachtwoord vereist, vul het dan hier in.",
     "LabelChannels": "Kanalen",
     "LabelCollection": "Collectie",
-    "LabelCommunityRating": "Beoordeling gemeenschap",
+    "LabelCommunityRating": "Beoordeling publiek",
     "LabelContentType": "Inhoudstype",
     "LabelCountry": "Land/regio",
     "LabelCriticRating": "Beoordeling critici",
@@ -821,7 +821,7 @@
     "OptionAutomaticallyGroupSeries": "Automatisch series samenvoegen die over meerdere mappen zijn verspreid",
     "OptionAutomaticallyGroupSeriesHelp": "Series die verspreid zijn over meerdere mappen binnen deze bibliotheek worden automatisch samengevoegd tot één serie.",
     "OptionBluray": "BD",
-    "OptionCommunityRating": "Beoordeling gemeenschap",
+    "OptionCommunityRating": "Beoordeling publiek",
     "OptionCriticRating": "Beoordeling critici",
     "OptionCustomUsers": "Aangepast",
     "OptionDaily": "Dagelijks",
@@ -2007,5 +2007,6 @@
     "Retry": "Opnieuw proberen",
     "LogLoadFailure": "Laden van logboekbestand mislukt. Mogelijk wordt er nog actief naar geschreven.",
     "DisplayLoadError": "Er is een fout opgetreden bij het laden van de weergaveconfiguratiegegevens.",
-    "MetadataImagesLoadError": "Laden van metadata-instellingen mislukt"
+    "MetadataImagesLoadError": "Laden van metadata-instellingen mislukt",
+    "MetadataNfoLoadError": "Laden van metadata-NFO-instellingen mislukt"
 }
