@@ -37,18 +37,14 @@ export const usePeopleSearch = (
 
     return useQuery({
         queryKey: ['PeopleSearch', collectionType, parentId, searchTerm],
-        queryFn: async ({ signal }) => {
-            const peopleData = await fetchPeople(
-                api!,
-                userId!,
-                {
-                    searchTerm: searchTerm
-                },
-                { signal }
-            );
-
-            return peopleData;
-        },
+        queryFn: ({ signal }) => fetchPeople(
+            api!,
+            userId!,
+            {
+                searchTerm: searchTerm
+            },
+            { signal }
+        ),
         enabled: !!api && !!userId && isPeopleEnabled
     });
 };
