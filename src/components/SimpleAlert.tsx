@@ -8,7 +8,7 @@ import globalize from 'lib/globalize';
 import React from 'react';
 
 interface SimpleAlertDialog extends DialogProps {
-    title: string;
+    title?: string;
     text: string;
     onClose: () => void
 };
@@ -16,9 +16,11 @@ interface SimpleAlertDialog extends DialogProps {
 const SimpleAlert = ({ open, title, text, onClose }: SimpleAlertDialog) => {
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>
-                {title}
-            </DialogTitle>
+            {title && (
+                <DialogTitle>
+                    {title}
+                </DialogTitle>
+            )}
             <DialogContent>
                 <DialogContentText>
                     {text}

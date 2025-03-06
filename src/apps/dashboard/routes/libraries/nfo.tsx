@@ -97,7 +97,6 @@ export const Component = () => {
         >
             <SimpleAlert
                 open={isAlertOpen}
-                title={''}
                 text={globalize.translate('MetadataSettingChangeHelp')}
                 onClose={onAlertClose}
             />
