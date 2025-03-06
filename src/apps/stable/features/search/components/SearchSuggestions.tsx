@@ -1,21 +1,21 @@
 import React, { FunctionComponent } from 'react';
 
 import Loading from 'components/loading/LoadingComponent';
-import { appRouter } from '../../../../../components/router/appRouter';
+import { appRouter } from 'components/router/appRouter';
 import { useSearchSuggestions } from '../api/useSearchSuggestions';
 import globalize from 'lib/globalize';
-import LinkButton from '../../../../../elements/emby-button/LinkButton';
+import LinkButton from 'elements/emby-button/LinkButton';
 
-import '../../../../../elements/emby-button/emby-button';
+import 'elements/emby-button/emby-button';
 
 type SearchSuggestionsProps = {
     parentId?: string | null;
 };
 
 const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId }) => {
-    const { isLoading, data: suggestions } = useSearchSuggestions(parentId || undefined);
+    const { data: suggestions, isPending } = useSearchSuggestions(parentId || undefined);
 
-    if (isLoading) return <Loading />;
+    if (isPending) return <Loading />;
 
     return (
         <div
