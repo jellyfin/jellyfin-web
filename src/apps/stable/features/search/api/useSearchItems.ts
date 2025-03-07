@@ -29,7 +29,7 @@ export const useSearchItems = (
     const isLiveTvEnabled = !isLiveTvPending || !collectionType || !isLivetv(collectionType);
 
     return useQuery({
-        queryKey: ['SearchItems', collectionType, parentId, searchTerm],
+        queryKey: ['Search', 'Items', collectionType, parentId, searchTerm],
         queryFn: async ({ signal }) => {
             if (liveTvSections && collectionType && isLivetv(collectionType)) {
                 return sortSections(liveTvSections);
