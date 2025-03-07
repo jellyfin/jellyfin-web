@@ -1996,5 +1996,6 @@
     "LabelDevice": "Dispositivo",
     "LastActive": "Última atividade",
     "DeleteServerConfirmation": "Tens a certeza de que queres eliminar este servidor?",
-    "LibraryNameInvalid": "O nome da biblioteca não pode estar vazio."
+    "LibraryNameInvalid": "O nome da biblioteca não pode estar vazio.",
+    "MetadataNfoLoadError": "Falha ao carregar as definições de metadados NFO"
 }
