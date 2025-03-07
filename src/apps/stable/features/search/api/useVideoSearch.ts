@@ -42,7 +42,7 @@ export const useVideoSearch = (
     const userId = user?.Id;
 
     return useQuery({
-        queryKey: ['VideoSearch', collectionType, parentId, searchTerm],
+        queryKey: ['Search', 'Video', collectionType, parentId, searchTerm],
         queryFn: ({ signal }) => fetchVideos(
             api!,
             userId!,
