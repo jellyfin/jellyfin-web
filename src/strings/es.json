@@ -1756,7 +1756,7 @@
     "LabelDeveloper": "Desarrollador",
     "MessageRepositoryInstallDisclaimer": "ADVERTENCIA: Instalar un complemento de terceros conlleva riesgos. Puede contener código inestable o malicioso, y puede cambiar en cualquier momento. Solo instale complementos de autores en los que confíe.",
     "HeaderEpisodesStatus": "Estado de los episodios",
-    "AllowSegmentDeletion": "No Permitir Ninguno",
+    "AllowSegmentDeletion": "Borrar segmentos",
     "AllowSegmentDeletionHelp": "Elimine segmentos antiguos después de que el cliente los haya descargado. Esto evita tener que almacenar todo el archivo transcodificado en el disco. Desactívelo si tiene problemas de reproducción.",
     "LabelThrottleDelaySecondsHelp": "Tiempo en segundos después del cual se acelerará el transcodificador. Debe ser lo suficientemente grande para que el cliente mantenga un búfer saludable. Solo funciona si el estrangulamiento \"throttling\" está habilitada.",
     "LabelSegmentKeepSeconds": "Tiempo que se mantendrán los segmentos",
@@ -1987,7 +1987,7 @@
     "MediaSegmentProvidersHelp": "Habilite y clasifique por orden de prioridad a sus proveedores de segmentos de medios preferidos.",
     "HeaderNextEpisode": "Próximo episodio",
     "HeaderNextVideo": "Próximo video",
-    "CustomSubtitleStylingHelp": "El estilo de los subtítulos funcionará en la mayoría de los dispositivos, pero conlleva una sobrecarga adicional de rendimiento.",
+    "CustomSubtitleStylingHelp": "El estilo en los subtítulos funcionará en la mayoría de los dispositivos, pero tendrá una sobrecarga adicional de rendimiento.",
     "Custom": "Personalizado",
     "LabelSubtitleStyling": "Estilo de subtítulos",
     "Native": "Nativo",
@@ -2006,5 +2006,8 @@
     "CopyLogSuccess": "El contenido del registro se ha copiado satisfactoriamente.",
     "Retry": "Reintentar",
     "LogLoadFailure": "Fallo al cargar el archivo de registro. Es posible que siga siendo activamente escrito.",
-    "HeaderMediaSegmentActions": "Acciones del segmento de medios"
+    "HeaderMediaSegmentActions": "Acciones del segmento de medios",
+    "MetadataNfoLoadError": "Error al cargar la configuración de metadatos NFO",
+    "DisplayLoadError": "Un error ocurrió mientras se cargaba la configuración de visualización.",
+    "MetadataImagesLoadError": "Error al cargar la configuración de metadatos"
 }
