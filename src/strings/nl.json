@@ -1980,7 +1980,7 @@
     "MediaSegmentAction.Skip": "Overslaan",
     "MediaSegmentType.Commercial": "Reclame",
     "MediaSegmentType.Intro": "Intro",
-    "MediaSegmentType.Outro": "Outro",
+    "MediaSegmentType.Outro": "Aftiteling",
     "MediaSegmentType.Preview": "Vooruitblik",
     "MediaSegmentType.Recap": "Terugblik",
     "PlaylistError.UpdateFailed": "Fout bij bijwerken afspeellijst",
