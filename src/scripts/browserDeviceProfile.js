@@ -230,7 +230,8 @@ function supportsVc1(videoTestElement) {
 }
 
 function supportsHdr10(options) {
-    return options.supportsHdr10 ?? (false // eslint-disable-line sonarjs/no-redundant-boolean
+    // eslint-disable-next-line no-constant-binary-expression, sonarjs/no-redundant-boolean
+    return options.supportsHdr10 ?? (false
             || browser.vidaa
             || browser.tizen
             || browser.web0s
@@ -253,7 +254,8 @@ function supportsHlg(options) {
 }
 
 function supportsDolbyVision(options) {
-    return options.supportsDolbyVision ?? (false // eslint-disable-line sonarjs/no-redundant-boolean
+    // eslint-disable-next-line no-constant-binary-expression, sonarjs/no-redundant-boolean
+    return options.supportsDolbyVision ?? (false
             || browser.safari && ((browser.iOS && browser.iOSVersion >= 13) || browser.osx)
     );
 }
@@ -512,10 +514,8 @@ export default function (options) {
         }
     }
 
-    /* eslint-disable compat/compat */
     let maxVideoWidth = browser.xboxOne ? window.screen?.width : null;
 
-    /* eslint-enable compat/compat */
     if (options.maxVideoWidth) {
         maxVideoWidth = options.maxVideoWidth;
     }
@@ -651,7 +651,7 @@ export default function (options) {
     }
 
     if (canPlayHevc(videoTestElement, options)
-        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile))) {
+        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile) || (browser.firefox && browser.versionMajor >= 134))) {
         // Chromium used to support HEVC on Android but not via MSE
         hlsInFmp4VideoCodecs.push('hevc');
     }

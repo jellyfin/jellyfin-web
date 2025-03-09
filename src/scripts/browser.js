@@ -86,7 +86,7 @@ function iOSversion() {
             /Version\/(\d+)/
         ];
         for (const test of tests) {
-            const matches = (navigator.appVersion).match(test);
+            const matches = RegExp(test).exec(navigator.appVersion);
             if (matches) {
                 return [
                     parseInt(matches[1], 10),
@@ -163,6 +163,7 @@ function supportsCssAnimation(allowPrefix) {
     const domPrefixes = ['Webkit', 'O', 'Moz'];
     const elm = document.createElement('div');
 
+    // eslint-disable-next-line sonarjs/different-types-comparison
     if (elm.style.animationName !== undefined) {
         animation = true;
     }
@@ -298,7 +299,7 @@ if (browser.web0s) {
     delete browser.chrome;
     delete browser.safari;
 } else if (browser.tizen) {
-    const v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
+    const v = RegExp(/Tizen (\d+).(\d+)/).exec(navigator.appVersion);
     browser.tizenVersion = parseInt(v[1], 10);
 
     // UserAgent string contains 'Chrome' and 'Safari', but we only want 'tizen' to be true
@@ -319,7 +320,6 @@ if (browser.mobile || browser.tv) {
     browser.slow = true;
 }
 
-/* eslint-disable-next-line compat/compat */
 if (typeof document !== 'undefined' && ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
     browser.touch = true;
 }

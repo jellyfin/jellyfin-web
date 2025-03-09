@@ -1,4 +1,3 @@
-import { appHost } from 'components/apphost';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import focusManager from 'components/focusManager';
 import layoutManager from 'components/layoutManager';
@@ -48,6 +47,15 @@ function getSections() {
     }, {
         name: 'HeaderVideos',
         types: 'Video',
+        shape: getBackdropShape(enableScrollX()),
+        preferThumb: true,
+        showTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
+    }, {
+        name: 'MusicVideos',
+        types: 'MusicVideo',
         shape: getBackdropShape(enableScrollX()),
         preferThumb: true,
         showTitle: true,
@@ -135,6 +143,22 @@ function getSections() {
         overlayPlayButton: true,
         overlayText: false,
         centerText: true
+    }, {
+        name: 'HeaderPhotoAlbums',
+        types: 'PhotoAlbum',
+        shape: getBackdropShape(enableScrollX()),
+        showTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
+    }, {
+        name: 'Photos',
+        types: 'Photo',
+        shape: getBackdropShape(enableScrollX()),
+        showTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
     }];
 }
 
@@ -177,8 +201,9 @@ function getRouteUrl(section, serverId) {
 
 function getItemsHtmlFn(section) {
     return function (items) {
-        let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
-        cardLayout = false;
+        // NOTE: Why is card layout always disabled?
+        // let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
+        const cardLayout = false;
         const serverId = this.apiClient.serverId();
         const leadingButtons = layoutManager.tv ? [{
             name: globalize.translate('All'),

@@ -46,6 +46,7 @@ const VideoPage: FC = () => {
                     <AppToolbar
                         isDrawerAvailable={false}
                         isDrawerOpen={false}
+                        isFullscreen
                         isUserMenuAvailable={false}
                         buttons={
                             <>

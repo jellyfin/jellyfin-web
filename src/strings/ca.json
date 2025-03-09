@@ -111,7 +111,7 @@
     "HeaderContainerProfile": "Perfil del contenidor",
     "HeaderContainerProfileHelp": "Els perfils del contenidor indiquen limitacions d'un dispositiu en reproduir formats específics. Si la limitació és aplicable, llavors els mitjans es transcodificaran fins i tot si el format ha estat configurat per a reproducció directa.",
     "HeaderContinueListening": "Continuar escoltant",
-    "HeaderContinueWatching": "Continuar veient",
+    "HeaderContinueWatching": "Continua veient",
     "HeaderCustomDlnaProfiles": "Perfils personalitzats",
     "HeaderDateIssued": "Data d'emissió",
     "HeaderDefaultRecordingSettings": "Preferències d'enregistrament per defecte",
@@ -665,7 +665,7 @@
     "ConfirmEndPlayerSession": "Vols tancar Jellyfin a {0}?",
     "ConfirmDeleteItems": "L'esborrat d'aquests elements els eliminarà del sistema de fitxers i de la biblioteca de mitjans. Esteu segurs que voleu continuar?",
     "ConfirmDeleteItem": "L'esborrat d'aquest element l'eliminarà del sistema de fitxers i de la biblioteca multimèdia. Esteu segurs que voleu continuar?",
-    "ConfigureDateAdded": "Configureu com es determinen les metadades de la \"Data d'afegit\" al Tauler > Biblioteques > Configuració de l'NFO",
+    "ConfigureDateAdded": "Configureu com es determinen les metadades de la \"Data d'afegit\" al Tauler > Biblioteques > Visualització",
     "CommunityRating": "Ràting comunitari",
     "ColorTransfer": "Transferència de color",
     "ColorSpace": "Espai de color",
@@ -1995,5 +1995,12 @@
     "CustomSubtitleStylingHelp": "L'estilització de subtítols funciona en la majoria dels dispositius, però suposa un cost addicional de rendiment.",
     "LabelSubtitleStyling": "Estilització de subtítols",
     "Native": "Nadiu",
-    "NativeSubtitleStylingHelp": "L'estilització de subtítols no funcionarà en alguns dispositius. Tot i això, no suposa cap sobrecàrrega de rendiment."
+    "NativeSubtitleStylingHelp": "L'estilització de subtítols no funcionarà en alguns dispositius. Tot i això, no suposa cap sobrecàrrega de rendiment.",
+    "LibraryNameInvalid": "El nom de la biblioteca no pot estar buit.",
+    "DeleteServerConfirmation": "De veritat vols eliminar aquest servidor?",
+    "LabelDevice": "Dispositiu",
+    "LastActive": "Últim actiu",
+    "CopyLogSuccess": "Registres copiats satisfactòriament.",
+    "Retry": "Tronar a provar",
+    "LogLoadFailure": "Error al carregar el registre. És probable que encara s'estigui escrivint en ell."
 }

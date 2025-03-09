@@ -5,6 +5,8 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import React, { type FC, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
+
+import { useApi } from 'hooks/useApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { useGetItemsViewByType } from 'hooks/useFetchItems';
 import { getDefaultLibraryViewSettings, getSettingsKey } from 'utils/items';
@@ -69,6 +71,7 @@ const ItemsView: FC<ItemsViewProps> = ({
             getDefaultLibraryViewSettings(viewType)
         );
 
+    const { __legacyApiClient__ } = useApi();
     const {
         isLoading,
         data: itemsResult,
@@ -138,7 +141,8 @@ const ItemsView: FC<ItemsViewProps> = ({
             preferLogo: preferLogo,
             overlayText: !libraryViewSettings.ShowTitle,
             imageType: libraryViewSettings.ImageType,
-            queryKey: ['ItemsViewByType']
+            queryKey: ['ItemsViewByType'],
+            serverId: __legacyApiClient__?.serverId()
         };
 
         if (

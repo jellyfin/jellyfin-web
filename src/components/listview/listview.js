@@ -417,6 +417,7 @@ export function getListViewHtml(options) {
         }
 
         if (enableOverview && item.Overview) {
+            // eslint-disable-next-line sonarjs/disabled-auto-escaping
             const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
             html += '<div class="secondary listItem-overview listItemBodyText">';
             html += '<bdi>' + overview + '</bdi>';

@@ -1988,5 +1988,9 @@
     "HeaderNextEpisode": "Neste episode",
     "HeaderNextVideo": "Neste video",
     "LabelMediaSegmentProviders": "Mediasegment tilbydere",
-    "MediaSegmentProvidersHelp": "Aktiver og arranger dine foretrukne tilbydere av mediasegmenter i prioritert rekkefølge."
+    "MediaSegmentProvidersHelp": "Aktiver og arranger dine foretrukne tilbydere av mediasegmenter i prioritert rekkefølge.",
+    "LabelDevice": "Enhet",
+    "LastActive": "Sist aktiv",
+    "DeleteServerConfirmation": "Er du sikker på du ønsker å fjerne denne tjeneren?",
+    "LibraryNameInvalid": "Biblioteksnavn kan ikke være tom eller inneholde mellomrom."
 }

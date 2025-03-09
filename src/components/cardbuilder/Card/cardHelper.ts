@@ -82,7 +82,7 @@ export function getTextActionButton(
         };
     }
 
-    const url = appRouter.getRouteUrl(item);
+    const url = appRouter.getRouteUrl(item, { serverId });
 
     const dataAttributes = getDataAttributes(
         {
@@ -323,7 +323,7 @@ function shouldShowMediaTitle(
 }
 
 function shouldShowExtraType(itemExtraType: NullableString) {
-    return itemExtraType && itemExtraType !== 'Unknown';
+    return !!(itemExtraType && itemExtraType !== 'Unknown');
 }
 
 function shouldShowSeriesYearOrYear(
@@ -351,7 +351,7 @@ function shouldShowPersonRoleOrType(
     showPersonRoleOrType: boolean | undefined,
     item: ItemDto
 ) {
-    return showPersonRoleOrType && (item as BaseItemPerson).Role;
+    return !!(showPersonRoleOrType && (item as BaseItemPerson).Role);
 }
 
 function shouldShowParentTitle(

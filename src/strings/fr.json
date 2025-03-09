@@ -1999,5 +1999,8 @@
     "CustomSubtitleStylingHelp": "Le style des sous-titres fonctionnera sur la plupart des appareils, mais entraîne une perte de performances.",
     "LabelSubtitleStyling": "Style des sous-titres",
     "Native": "Natif",
-    "NativeSubtitleStylingHelp": "Le style des sous-titres ne fonctionne pas sur certains appareils. Cependant, cela n'entraîne aucune perte de performances."
+    "NativeSubtitleStylingHelp": "Le style des sous-titres ne fonctionne pas sur certains appareils. Cependant, cela n'entraîne aucune perte de performances.",
+    "DeleteServerConfirmation": "Êtes-vous sûr de vouloir supprimer ce serveur ?",
+    "LastActive": "Dernière activation",
+    "LabelDevice": "Appareil"
 }

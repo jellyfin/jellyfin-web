@@ -84,7 +84,7 @@
     "Collections": "Kolekce",
     "CommunityRating": "Hodnocení komunity",
     "Composer": "Skladatel",
-    "ConfigureDateAdded": "Nastavení způsobu, jakým je určeno datum přidání v nastavení knihovny v sekci Nástěnka > Knihovny > Nastavení NFO",
+    "ConfigureDateAdded": "Nastavení způsobu, jakým jsou určena metadata pro \"Datum přidání\" v sekci Nástěnka > Knihovny > Zobrazení",
     "ConfirmDeleteImage": "Odstranit obrázek?",
     "ConfirmDeleteItem": "Smazáním položky odstraníte soubor jak z knihovny médií tak ze souborového systému. Opravdu chcete pokračovat?",
     "ConfirmDeleteItems": "Odstraněním těchto položek odstraníte vaše média jak z knihovny médií, tak i ze souborového systému. Opravdu chcete pokračovat?",
@@ -1999,5 +1999,15 @@
     "CustomSubtitleStylingHelp": "Zobrazení stylu titulků bude fungovat na většině zařízeních, ale vyžaduje výkon navíc.",
     "LabelSubtitleStyling": "Styl titulků",
     "Native": "Nativní",
-    "NativeSubtitleStylingHelp": "Zobrazení stylu titulků nebude na některých zařízeních fungovat, ale nevyžaduje žádný výkon navíc."
+    "NativeSubtitleStylingHelp": "Zobrazení stylu titulků nebude na některých zařízeních fungovat, ale nevyžaduje žádný výkon navíc.",
+    "LabelDevice": "Zařízení",
+    "LastActive": "Naposledy aktivní",
+    "DeleteServerConfirmation": "Opravdu chcete odstranit tento server?",
+    "LibraryNameInvalid": "Název knihovny nesmí být prázdný.",
+    "CopyLogSuccess": "Obsah logu byl úspěšně zkopírován.",
+    "Retry": "Zkusit znovu",
+    "LogLoadFailure": "Načtení souboru logu se nezdařilo. Možná se do něj právě zapisuje.",
+    "DisplayLoadError": "Načítání konfiguračních dat zobrazení se nezdařilo.",
+    "MetadataImagesLoadError": "Načítání nastavení metadat se nezdařilo",
+    "MetadataNfoLoadError": "Načtení nastavení metadat v souborech NFO se nezdařilo"
 }

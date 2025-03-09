@@ -10,6 +10,7 @@ import { queryClient } from 'utils/query/queryClient';
 
 import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client';
 
 let currentOwnerId;
 let currentThemeIds = [];
@@ -83,8 +84,9 @@ async function loadThemeMedia(serverId, itemId) {
     try {
         const item = await queryClient.fetchQuery(getItemQuery(
             api,
-            userId,
-            itemId));
+            itemId,
+            userId
+        ));
 
         if (item.CollectionType) {
             stopIfPlaying();
@@ -96,8 +98,12 @@ async function loadThemeMedia(serverId, itemId) {
             return;
         }
 
-        const { data: themeMedia } = await getLibraryApi(api)
-            .getThemeMedia({ userId, itemId: item.Id, inheritFromParent: true });
+        const { data: themeMedia } = await getLibraryApi(api).getThemeMedia({
+            userId,
+            itemId: item.Id,
+            inheritFromParent: true,
+            sortBy: [ItemSortBy.Random]
+        });
 
         const result = userSettings.enableThemeVideos() && themeMedia.ThemeVideosResult?.Items?.length ? themeMedia.ThemeVideosResult : themeMedia.ThemeSongsResult;
 
