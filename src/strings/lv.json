@@ -1941,5 +1941,10 @@
     "LabelScanBehavior": "Skenēšanas uzvedība",
     "LabelWidthResolutions": "Izķirtspējas platums",
     "LabelTrickplayKeyFrameOnlyExtraction": "Ģenerēt attēlus tikai no atslēg-kadriem",
-    "LabelScanBehaviorHelp": "Noklusējuma uzvedība nebloķē media pievienošanu bibliotēkai pirms trickplay ģenerēšana ir pabeigta. Bloķēšana nodrošinās trickplay failu izveidošanu pirms media ir pievienota bibliotēkai, bet tas padarīs skenēšanu stipri ilgāku."
+    "LabelScanBehaviorHelp": "Noklusējuma uzvedība nebloķē media pievienošanu bibliotēkai pirms trickplay ģenerēšana ir pabeigta. Bloķēšana nodrošinās trickplay failu izveidošanu pirms media ir pievienota bibliotēkai, bet tas padarīs skenēšanu stipri ilgāku.",
+    "OptionExtractTrickplayImage": "Iespējot trickplay attēlu izvilkšanu",
+    "ExtractTrickplayImagesHelp": "Trickplay attēli līdzinās sadaļu attēliem, bet tie tiek saģenerēti visam satura garumam un tiek lietoti kā priekšskatījums kad ātri ritina cauri video.",
+    "LabelExtractTrickplayDuringLibraryScan": "Izgūt trickplay attēlus bibliotēkas skenēšanas laikā",
+    "LabelJpegQualityHelp": "Trickplay attēlu JPEG kompresijas kvalitātes lielums.",
+    "LogLoadFailure": "Neizdevās ielādēt žurnālfailu. Iespējams tas tiek aizvien izmantots žurnāla ierakstu saglabāšanai."
 }
