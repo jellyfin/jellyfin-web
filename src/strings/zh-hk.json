@@ -1279,5 +1279,6 @@
     "LogLoadFailure": "無法載入日誌檔。其他程序可能仍在寫入中。",
     "CoverArtist": "翻唱藝人",
     "Creator": "創作者",
-    "CopyLogSuccess": "已複製日誌內容。"
+    "CopyLogSuccess": "已複製日誌內容。",
+    "DisplayLoadError": "載入顯示配置時發生錯誤。"
 }
