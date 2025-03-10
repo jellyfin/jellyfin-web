@@ -7,6 +7,8 @@ import loading from '../../loading/loading';
 import toast from '../../toast/toast';
 import ButtonElement from '../../../elements/ButtonElement';
 import InputElement from '../../../elements/InputElement';
+import IconButtonElement from 'elements/IconButtonElement';
+import './UserPasswordForm.scss';
 
 type IProps = {
     userId: string | null;
@@ -146,8 +148,30 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             });
         };
 
+        const togglePassword = () => {
+            const inputIds = ['#txtCurrentPassword', '#txtNewPassword', '#txtNewPasswordConfirm'];
+            inputIds.forEach(id => {
+                const input = page.querySelector(id) as HTMLInputElement;
+                if (input) {
+                    input.type = (input.type === 'password') ? 'text' : 'password';
+                }
+            });
+            page.querySelectorAll('.passwordToggle .material-icons').forEach(icon => {
+                if (icon.classList.contains('visibility')) {
+                    icon.classList.remove('visibility');
+                    icon.classList.add('visibility_off');
+                } else {
+                    icon.classList.remove('visibility_off');
+                    icon.classList.add('visibility');
+                }
+            });
+        };
+
         (page.querySelector('.updatePasswordForm') as HTMLFormElement).addEventListener('submit', onSubmit);
         (page.querySelector('#btnResetPassword') as HTMLButtonElement).addEventListener('click', resetPassword);
+        page.querySelectorAll('.passwordToggle').forEach(button => {
+            button.addEventListener('click', togglePassword);
+        });
     }, [loadUser, userId]);
 
     return (
@@ -164,6 +188,11 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                             label='LabelCurrentPassword'
                             options={'autoComplete="off"'}
                         />
+                        <IconButtonElement
+                            is='paper-icon-button-light'
+                            className='passwordToggle'
+                            icon='visibility'
+                        />
                     </div>
                     <div className='inputContainer'>
                         <InputElement
@@ -172,6 +201,11 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                             label='LabelNewPassword'
                             options={'autoComplete="off"'}
                         />
+                        <IconButtonElement
+                            is='paper-icon-button-light'
+                            className='passwordToggle'
+                            icon='visibility'
+                        />
                     </div>
                     <div className='inputContainer'>
                         <InputElement
@@ -179,6 +213,11 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                             id='txtNewPasswordConfirm'
                             label='LabelNewPasswordConfirm'
                             options={'autoComplete="off"'}
+                        />
+                        <IconButtonElement
+                            is='paper-icon-button-light'
+                            className='passwordToggle'
+                            icon='visibility'
                         />
                     </div>
                     <br />
