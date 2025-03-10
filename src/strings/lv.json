@@ -1929,5 +1929,11 @@
     "RenderPgsSubtitle": "Eksperimentāla PGS subtitru renderēšana",
     "PreviewLyrics": "Apskatīt vārdus",
     "MetadataImagesLoadError": "Neizdevās ielādēt metadatu iestatījumus",
-    "LibraryNameInvalid": "Bibliotēkas nosaukumu nevar atstāt tukšu."
+    "LibraryNameInvalid": "Bibliotēkas nosaukumu nevar atstāt tukšu.",
+    "MediaInfoDoViTitle": "DV nosaukums",
+    "MediaInfoDvVersionMinor": "DV papildversija",
+    "MediaInfoDvLevel": "DV līmenis",
+    "Trickplay": "Trickplay",
+    "MediaInfoDvProfile": "DV profils",
+    "MediaInfoDvVersionMajor": "DV pamatversija"
 }
