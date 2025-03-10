@@ -1286,5 +1286,6 @@
     "MetadataSettingChangeHelp": "更改元數據設定將會影響之後新增的內容。若要更新現有內容，請打開詳細資訊頁面並點擊「刷新」按鈕，或使用「元數據管理器」進行批量刷新。",
     "MoreFromValue": "更多來自 {0} 的內容",
     "MixedMoviesShows": "混合的電影和節目",
-    "MetadataImagesLoadError": "無法載入元數據設定"
+    "MetadataImagesLoadError": "無法載入元數據設定",
+    "MoreMediaInfo": "媒體資訊"
 }
