@@ -1912,5 +1912,13 @@
     "MediaSegmentType.Preview": "Priekšskatījums",
     "MediaSegmentType.Recap": "Iepr. kopsavilkums",
     "MoviesAndShows": "Filmas un seriāli",
-    "HeaderMediaSegmentActions": "Darbības ar multivides segmentiem"
+    "HeaderMediaSegmentActions": "Darbības ar multivides segmentiem",
+    "CopyLogSuccess": "Žurnāla saturs pārkopēts veiksmīgi.",
+    "LastActive": "Pēdējo reizi redzēts",
+    "DisplayLoadError": "Ielādējot displeja konfigurācijas datus radās kļūda.",
+    "LabelSaveTrickplayLocally": "Saglabāt trickplay attēlus kopā ar media failu(-iem)",
+    "LabelDevice": "Ierīce",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Iemontēt visus subtitrus pie transkodēšanas. Tas nodrošinās subtitru sinhronizāciju pēc transkodēšanas, bet transkodēšana notiks lēnāk.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Ja eksistē faili, kuriem pārlūkprogramma nepareizi kalkulē laikspiedolus, iespējojiet šo kā alternatīvu risinājumu.",
+    "DeleteServerConfirmation": "Vai tiešām vēlaties nodzēst šo serveri?"
 }
