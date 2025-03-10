@@ -1935,5 +1935,11 @@
     "MediaInfoDvLevel": "DV līmenis",
     "Trickplay": "Trickplay",
     "MediaInfoDvProfile": "DV profils",
-    "MediaInfoDvVersionMajor": "DV pamatversija"
+    "MediaInfoDvVersionMajor": "DV pamatversija",
+    "LabelImageIntervalHelp": "Intervāli milisekundēs starp katriem jaunajiem trickplay attēliem.",
+    "LabelImageInterval": "Attēlu intervāli",
+    "LabelScanBehavior": "Skenēšanas uzvedība",
+    "LabelWidthResolutions": "Izķirtspējas platums",
+    "LabelTrickplayKeyFrameOnlyExtraction": "Ģenerēt attēlus tikai no atslēg-kadriem",
+    "LabelScanBehaviorHelp": "Noklusējuma uzvedība nebloķē media pievienošanu bibliotēkai pirms trickplay ģenerēšana ir pabeigta. Bloķēšana nodrošinās trickplay failu izveidošanu pirms media ir pievienota bibliotēkai, bet tas padarīs skenēšanu stipri ilgāku."
 }
