@@ -2008,5 +2008,6 @@
     "Retry": "Opakovať",
     "LogLoadFailure": "Nepodarilo sa načítať súbor logu. Je možné, že sa do neho práve aktívne zapisuje.",
     "MetadataImagesLoadError": "Nepodarilo sa načítať nastavenia metadát",
-    "DisplayLoadError": "Pri načítavaní konfiguračných údajov displeja došlo k chybe."
+    "DisplayLoadError": "Pri načítavaní konfiguračných údajov displeja došlo k chybe.",
+    "MetadataNfoLoadError": "Nepodarilo sa načítať nastavenia NFO metadát"
 }
