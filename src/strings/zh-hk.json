@@ -1280,5 +1280,11 @@
     "CoverArtist": "翻唱藝人",
     "Creator": "創作者",
     "CopyLogSuccess": "已複製日誌內容。",
-    "DisplayLoadError": "載入顯示配置時發生錯誤。"
+    "DisplayLoadError": "載入顯示配置時發生錯誤。",
+    "MetadataNfoLoadError": "無法載入 NFO 元數據設定",
+    "Mixer": "混合器",
+    "MetadataSettingChangeHelp": "更改元數據設定將會影響之後新增的內容。若要更新現有內容，請打開詳細資訊頁面並點擊「刷新」按鈕，或使用「元數據管理器」進行批量刷新。",
+    "MoreFromValue": "更多來自 {0} 的內容",
+    "MixedMoviesShows": "混合的電影和節目",
+    "MetadataImagesLoadError": "無法載入元數據設定"
 }
