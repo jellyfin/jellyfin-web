@@ -1089,7 +1089,7 @@
     "HeaderUpcomingOnTV": "방송 예정",
     "HeaderTranscodingProfileHelp": "트랜스코딩이 필요할 때 사용될 포맷을 지정하기 위해 트랜스코딩 프로필을 추가합니다.",
     "HeaderResponseProfileHelp": "응답 프로파일을 통해 특정 미디어를 재생했을 때 장치로 전송되는 정보를 사용자화할 수 있습니다.",
-    "HeaderPlayOn": "여기부터 재생",
+    "HeaderPlayOn": "재생 기기",
     "HeaderNavigation": "탐색",
     "HeaderKeepSeries": "시리즈 유지",
     "HeaderEnabledFieldsHelp": "데이터 변경을 방지하기 위해서는 필드를 비활성화하여 잠그세요.",
