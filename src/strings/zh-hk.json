@@ -1287,5 +1287,12 @@
     "MoreFromValue": "更多來自 {0} 的內容",
     "MixedMoviesShows": "混合的電影和節目",
     "MetadataImagesLoadError": "無法載入元數據設定",
-    "MoreMediaInfo": "媒體資訊"
+    "MoreMediaInfo": "媒體資訊",
+    "MoveToTop": "移至頂部",
+    "MoviesAndShows": "電影及節目",
+    "MusicArtist": "音樂藝人",
+    "MusicAlbum": "音樂專輯",
+    "MoveRight": "向右移動",
+    "MoveToBottom": "移至底部",
+    "MoveLeft": "向左移動"
 }
