@@ -2006,5 +2006,8 @@
     "LastActive": "Zuletzt aktiv",
     "CopyLogSuccess": "Protokollinhalte erfolgreich kopiert.",
     "Retry": "Erneut Versuchen",
-    "LogLoadFailure": "Fehler beim Laden der Protokolldatei. Sie wird möglicherweise noch beschrieben."
+    "LogLoadFailure": "Fehler beim Laden der Protokolldatei. Sie wird möglicherweise noch beschrieben.",
+    "MetadataNfoLoadError": "NFO-Einstellungen für Metadaten konnten nicht geladen werden",
+    "DisplayLoadError": "Ein Fehler trat während des Ladens der Konfigurationsdaten auf.",
+    "MetadataImagesLoadError": "Einstellungen für Metadaten konnten nicht geladen werden"
 }
