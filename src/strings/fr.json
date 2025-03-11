@@ -106,7 +106,7 @@
     "ColorTransfer": "Transfert de couleur",
     "CommunityRating": "Note de la communauté",
     "Composer": "Compositeur",
-    "ConfigureDateAdded": "Définir comment la métadonnée 'Date d'ajout' est déterminée dans 'Tableau de bord' > 'Médiathèques' > 'Paramètres NFO'",
+    "ConfigureDateAdded": "Définir comment la métadonnée 'Date d'ajout' est déterminée dans 'Tableau de bord' > 'Médiathèques' > 'Affichage'",
     "ConfirmDeleteImage": "Supprimer l'image ?",
     "ConfirmDeleteItem": "Supprimer cet élément l'effacera à la fois du système de fichiers et de votre médiathèque. Voulez-vous vraiment continuer ?",
     "ConfirmDeleteItems": "Supprimer ces éléments les effacera à la fois du système de fichiers et de votre médiathèque. Voulez-vous vraiment continuer ?",
@@ -2002,5 +2002,12 @@
     "NativeSubtitleStylingHelp": "Le style des sous-titres ne fonctionne pas sur certains appareils. Cependant, cela n'entraîne aucune perte de performances.",
     "DeleteServerConfirmation": "Êtes-vous sûr de vouloir supprimer ce serveur ?",
     "LastActive": "Dernière activation",
-    "LabelDevice": "Appareil"
+    "LabelDevice": "Appareil",
+    "MetadataNfoLoadError": "Échec du chargement des paramètres NFO des métadonnées",
+    "CopyLogSuccess": "Le contenu des journaux a été copié avec succès.",
+    "Retry": "Réessayer",
+    "LogLoadFailure": "Échec du chargement du fichier journal. Il est possible qu'il soit encore en cours d'écriture.",
+    "DisplayLoadError": "Une erreur est survenue lors du chargement des données de configuration d'affichage.",
+    "MetadataImagesLoadError": "Échec du chargement des paramètres de métadonnées",
+    "LibraryNameInvalid": "Le nom de la bibliothèque ne peut pas être vide."
 }
