@@ -72,12 +72,5 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             controller: 'livetvtuner',
             view: 'livetvtuner.html'
         }
-    }, {
-        path: 'plugins',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'plugins/installed/index',
-            view: 'plugins/installed/index.html'
-        }
     }
 ];
