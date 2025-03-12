@@ -1356,7 +1356,7 @@
     "LabelPostProcessorArguments": "Ορίσματα γραμμής εντολών Μετα-επεξεργαστη",
     "LabelPostProcessorArgumentsHelp": "Χρησιμοποιήστε το {path} ως διαδρομή προς το αρχείο εγγραφής.",
     "LabelRepositoryNameHelp": "Ένα προσαρμοσμένο όνομα για να διακρίνει αυτό το αποθετήριο από οποιοδήποτε άλλο προστεθεί στον διακομιστή σας.",
-    "LabelScheduledTaskLastRan": "Τελευταίο τρέξιμο {0}, λαμβάνοντας {1}.",
+    "LabelScheduledTaskLastRan": "Τελευταία εκτέλεση {0}, πήρε {1}.",
     "LabelSlowResponseTime": "Χρόνος σε ms μετά τον οποίο μια απόκριση θεωρείται αργή",
     "LabelSortName": "Ταξινόμηση ονόματος",
     "LabelSubtitleDownloaders": "Πρόγραμμα λήψης υποτίτλων",
