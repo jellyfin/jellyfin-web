@@ -17,9 +17,11 @@ export const STABLE_APP_ROUTES: RouteObject[] = [
         path: '/*',
         Component: AppLayout,
         children: [
+            { index: true, element: <Navigate replace to='/home.html' /> },
+
             {
                 /* User routes */
-                element: <ConnectionRequired isUserRequired />,
+                Component: ConnectionRequired,
                 children: [
                     ...ASYNC_USER_ROUTES.map(toAsyncPageRoute),
                     ...LEGACY_USER_ROUTES.map(toViewManagerPageRoute)
@@ -27,15 +29,19 @@ export const STABLE_APP_ROUTES: RouteObject[] = [
                 ErrorBoundary
             },
 
-            /* Public routes */
-            { index: true, element: <Navigate replace to='/home.html' /> },
-            ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute),
-
-            /* Fallback route for invalid paths */
             {
-                path: '*',
-                Component: FallbackRoute
+                /* Public routes */
+                element: <ConnectionRequired isUserRequired={false} />,
+                children: [
+                    ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute),
+                    /* Fallback route for invalid paths */
+                    {
+                        path: '*',
+                        Component: FallbackRoute
+                    }
+                ]
             }
+
         ]
     }
 ];

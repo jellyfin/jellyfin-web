@@ -16,9 +16,11 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
         path: '/*',
         lazy: () => import('../AppLayout'),
         children: [
+            { index: true, element: <Navigate replace to='/home.html' /> },
+
             {
-                /* User routes: Any child route of this layout is authenticated */
-                element: <ConnectionRequired isUserRequired />,
+                /* User routes */
+                Component: ConnectionRequired,
                 children: [
                     ...ASYNC_USER_ROUTES.map(toAsyncPageRoute),
                     ...LEGACY_USER_ROUTES.map(toViewManagerPageRoute),
@@ -26,21 +28,26 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
                     // The video page is special since it combines new controls with the legacy view
                     {
                         path: 'video',
-                        element: <VideoPage />
+                        Component: VideoPage
                     }
                 ],
                 ErrorBoundary
             },
 
-            /* Public routes */
-            { index: true, element: <Navigate replace to='/home.html' /> },
-            ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute),
-
-            /* Fallback route for invalid paths */
             {
-                path: '*',
-                Component: FallbackRoute
+                /* Public routes */
+                element: <ConnectionRequired isUserRequired={false} />,
+                children: [
+                    ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute),
+
+                    /* Fallback route for invalid paths */
+                    {
+                        path: '*',
+                        Component: FallbackRoute
+                    }
+                ]
             }
+
         ]
     }
 ];
