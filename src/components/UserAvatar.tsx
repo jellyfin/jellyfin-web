@@ -22,7 +22,9 @@ const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
                     undefined
             }
             sx={{
-                bgcolor: theme.palette.primary.dark,
+                bgcolor: api && user.Id && user.PrimaryImageTag ?
+                    theme.palette.background.paper :
+                    theme.palette.primary.dark,
                 color: 'inherit'
             }}
         />
