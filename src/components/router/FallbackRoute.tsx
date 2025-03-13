@@ -35,6 +35,7 @@ const FallbackRoute = () => {
     return (
         <Page
             id='fallbackPage'
+            title={globalize.translate('HeaderPageNotFound')}
             className='mainAnimatedPage libraryPage'
         >
             <div className='padded-left padded-right'>
