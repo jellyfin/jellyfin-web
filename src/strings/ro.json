@@ -2002,5 +2002,13 @@
     "LabelTrickplayAccelEncodingHelp": "În prezent, această opțiune este disponibilă doar pe QSV, VA-API, VideoToolbox și RKMPP; nu are efect asupra altor metode de accelerare hardware.",
     "SaveLyricsIntoMediaFolders": "Salvează versurile în folderele media",
     "RenderPgsSubtitleHelp": "Determină dacă clientul ar trebui să redea subtitrările PGS în locul subtitrărilor încorporate. Aceasta poate evita transcodarea pe server, în schimbul performanței de redare pe client.",
-    "SelectPreferredTranscodeVideoAudioCodecHelp": "Selectează codec-ul audio preferat pentru transcodare pentru conținutul video. Dacă codec-ul preferat nu este suportat, serverul va utiliza următorul codec disponibil."
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Selectează codec-ul audio preferat pentru transcodare pentru conținutul video. Dacă codec-ul preferat nu este suportat, serverul va utiliza următorul codec disponibil.",
+    "MetadataNfoLoadError": "Nu s-au putut încărca setările metadata NFO",
+    "MessageSplitVersionsError": "A apărut o eroare în timpul divizării versiunilor",
+    "HeaderPageNotFound": "Pagina nu a fost găsită",
+    "PageNotFound": "Aceasta nu este pagina pe care o cauți.",
+    "NativeSubtitleStylingHelp": "Stilizarea subtitrărilor nu va funcționa pe unele dispozitive. Totuși, acest lucru nu afectează performanța.",
+    "DisplayLoadError": "A apărut o eroare în timpul încărcării datelor de configurare a afișajului.",
+    "Penciller": "Creionist",
+    "MetadataImagesLoadError": "Nu s-au putut încărca setările metadata"
 }
