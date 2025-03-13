@@ -17,6 +17,10 @@ $drawer-width: 240px;
         left: $drawer-width;
     }
 }
+// The fallback page has no drawer
+#fallbackPage {
+    left: 0;
+}
 
 // Hide some items from the user "settings" page that are in the drawer
 #myPreferencesMenuPage {
