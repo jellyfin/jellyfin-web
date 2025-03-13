@@ -215,19 +215,17 @@ export const Component = () => {
 
                             <Typography variant='h2'>{globalize.translate('QuickConnect')}</Typography>
 
-                            <Paper sx={{ p: 2 }}>
-                                <FormControl>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                name='QuickConnectAvailable'
-                                                defaultChecked={config.QuickConnectAvailable}
-                                            />
-                                        }
-                                        label={globalize.translate('EnableQuickConnect')}
-                                    />
-                                </FormControl>
-                            </Paper>
+                            <FormControl>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name='QuickConnectAvailable'
+                                            defaultChecked={config.QuickConnectAvailable}
+                                        />
+                                    }
+                                    label={globalize.translate('EnableQuickConnect')}
+                                />
+                            </FormControl>
 
                             <Typography variant='h2'>{globalize.translate('HeaderPerformance')}</Typography>
 
