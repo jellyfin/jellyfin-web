@@ -161,13 +161,14 @@ export const Component = () => {
                                 select
                                 name='UICulture'
                                 label={globalize.translate('LabelPreferredDisplayLanguage')}
+                                FormHelperTextProps={{ component: Stack }}
                                 helperText={(
-                                    <Stack>
+                                    <>
                                         <span>{globalize.translate('LabelDisplayLanguageHelp')}</span>
                                         <Link href='https://jellyfin.org/docs/general/contributing/#translating'>
                                             {globalize.translate('LearnHowYouCanContribute')}
                                         </Link>
-                                    </Stack>
+                                    </>
                                 )}
                                 defaultValue={config.UICulture}
                             >
