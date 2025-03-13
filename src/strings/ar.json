@@ -1819,5 +1819,12 @@
     "AlwaysBurnInSubtitleWhenTranscoding": "انسخ الترجمة دائماً عند تحويل الترميز",
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "نسخ جميع العناوين الفرعية عند تشغيل تحويل الترميز. يضمن ذلك مزامنة الترجمة بعد تحويل الترميز على حساب انخفاض سرعة التحويل.",
     "ChannelResolutionSDPAL": "SD (PAL)",
-    "EnableTrueHdHelp": "لا تفعّلها إلا إذا كان جهازك يدعم TrueHD أو كان متصلاً بجهاز استقبال صوتي متوافق، وإلا فقد يتسبب ذلك في فشل التشغيل."
+    "EnableTrueHdHelp": "لا تفعّلها إلا إذا كان جهازك يدعم TrueHD أو كان متصلاً بجهاز استقبال صوتي متوافق، وإلا فقد يتسبب ذلك في فشل التشغيل.",
+    "HeaderPageNotFound": "لم يتم العثور على الصفحة",
+    "HeaderNextEpisode": "حلقة جديدة",
+    "LabelDuration": "المدة",
+    "LabelDisableVbrAudioEncoding": "تعطيل VBR لترميز الصوت",
+    "HeaderNextVideo": "الفيديو التالي",
+    "LabelDevice": "الجهاز",
+    "LabelEnablePlugin": "تفعيل البرنامج الإضافي"
 }
