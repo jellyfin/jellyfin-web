@@ -2009,5 +2009,7 @@
     "LogLoadFailure": "Non sono riuscito a caricare il file di log. Potrebbe essere tutt'ora in fase di scrittura.",
     "DisplayLoadError": "Errore durante il caricamento dei dati di configurazione del display.",
     "MetadataImagesLoadError": "Caricamento metadati delle immagini fallito",
-    "MetadataNfoLoadError": "Errore nel caricamento dei metadati NFO"
+    "MetadataNfoLoadError": "Errore nel caricamento dei metadati NFO",
+    "HeaderPageNotFound": "Pagina non trovata",
+    "PageNotFound": "Questa non è la pagina che stai cercando."
 }
