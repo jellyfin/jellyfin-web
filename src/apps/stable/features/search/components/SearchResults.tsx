@@ -62,7 +62,7 @@ const SearchResults: FC<SearchResultsProps> = ({
     };
 
     return (
-        <div className={'searchResults, padded-top, padded-bottom-page'}>
+        <div className={'searchResults padded-top padded-bottom-page'}>
             {data.map((section, index) => renderSection(section, index))}
         </div>
     );
