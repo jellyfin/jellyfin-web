@@ -5,6 +5,8 @@ import { RecordingStatus } from '@jellyfin/sdk/lib/generated-client/models/recor
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 
+import datetime from 'scripts/datetime';
+
 import { appHost } from './apphost';
 import globalize from 'lib/globalize';
 import ServerConnections from './ServerConnections';
@@ -34,7 +36,7 @@ export function getDisplayName(item, options = {}) {
 
         let number = displayIndexNumber;
         let nameSeparator = ' - ';
-
+        let date = 0;
         if (options.includeParentInfo !== false) {
             number = 'S' + item.ParentIndexNumber + ':E' + number;
         } else {
@@ -45,7 +47,16 @@ export function getDisplayName(item, options = {}) {
             displayIndexNumber = item.IndexNumberEnd;
             number += '-' + displayIndexNumber;
         }
-
+        if (item.PremiereDate) {
+			date = datetime.parseISO8601Date(item.PremiereDate).toLocaleDateString(undefined, {
+                    weekday: 'short',
+					year: "numeric",
+                    month: 'short',
+                    day: 'numeric',
+					timeZone: "UTC"
+                });
+			name = date + nameSeparator + name;
+		}
         if (number) {
             name = name ? (number + nameSeparator + name) : number;
         }
