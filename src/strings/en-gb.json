@@ -2006,5 +2006,10 @@
     "LibraryNameInvalid": "Library name cannot be empty.",
     "CopyLogSuccess": "Log contents copied successfully.",
     "Retry": "Retry",
-    "LogLoadFailure": "Failed to load the log file. It may still be actively written to."
+    "LogLoadFailure": "Failed to load the log file. It may still be actively written to.",
+    "MetadataNfoLoadError": "Failed to load metadata NFO settings",
+    "DisplayLoadError": "An error occurred while loading display configuration data.",
+    "HeaderPageNotFound": "Page not found",
+    "PageNotFound": "This is not the page you are looking for.",
+    "MetadataImagesLoadError": "Failed to load metadata settings"
 }
