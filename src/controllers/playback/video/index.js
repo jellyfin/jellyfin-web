@@ -250,27 +250,27 @@ export default function (view) {
         if (item.Type == 'Movie' && item.ProductionYear) {
             title += ` (${datetime.toLocaleString(item.ProductionYear, { useGrouping: false })})`;
         } else if (item.PremiereDate) {
-			if ((item.Type === 'Episode' || item.Type === 'Program' || item.Type === 'Recording')) {
-				try {
-					let date = datetime.parseISO8601Date(item.PremiereDate).toLocaleDateString(undefined, {
-						weekday: 'short',
+            if ((item.Type === 'Episode' || item.Type === 'Program' || item.Type === 'Recording')) {
+                try {
+                    const date = datetime.parseISO8601Date(item.PremiereDate).toLocaleDateString(undefined, {
+                        weekday: 'short',
 						month: 'short',
 						year: 'numeric',
 						day: 'numeric',
 						timeZone: 'UTC'
 					});
-					title += ` (${date})`;
-				} catch (e) {
-					console.error(e);
-				}
+                    title += ` (${date})`;
+                } catch (e) {
+                    console.error(e);
+                }
             } else {
 				try {
-					const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
-					title += ` (${year})`;
-				} catch (e) {
-					console.error(e);
-				}
-			}
+                    const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
+                    title += ` (${year})`;
+                } catch (e) {
+                    console.error(e);
+                }
+            }
         }
 
         LibraryMenu.setTitle(title);
