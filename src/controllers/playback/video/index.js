@@ -254,17 +254,17 @@ export default function (view) {
                 try {
                     const date = datetime.parseISO8601Date(item.PremiereDate).toLocaleDateString(undefined, {
                         weekday: 'short',
-						month: 'short',
-						year: 'numeric',
-						day: 'numeric',
-						timeZone: 'UTC'
-					});
+                        month: 'short',
+                        year: 'numeric',
+                        day: 'numeric',
+                        timeZone: 'UTC'
+                    });
                     title += ` (${date})`;
                 } catch (e) {
                     console.error(e);
                 }
             } else {
-				try {
+                try {
                     const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
                     title += ` (${year})`;
                 } catch (e) {
