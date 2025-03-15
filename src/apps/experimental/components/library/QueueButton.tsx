@@ -34,6 +34,12 @@ const QueueButton: FC<QueueButtonProps> = ({ item, items, hasFilters }) => {
             title={globalize.translate('AddToPlayQueue')}
             className='paper-icon-button-light btnQueue autoSize'
             onClick={queue}
+            sx={{
+                order: {
+                    xs: 3,
+                    sm: 'unset'
+                }
+            }}
         >
             <QueueIcon />
         </IconButton>
