@@ -48,15 +48,15 @@ export function getDisplayName(item, options = {}) {
             number += '-' + displayIndexNumber;
         }
         if (item.PremiereDate) {
-			date = datetime.parseISO8601Date(item.PremiereDate).toLocaleDateString(undefined, {
-                    weekday: 'short',
-					year: "numeric",
-                    month: 'short',
-                    day: 'numeric',
-					timeZone: "UTC"
-                });
-			name = date + nameSeparator + name;
-		}
+            date = datetime.parseISO8601Date(item.PremiereDate).toLocaleDateString(undefined, {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                timeZone: 'UTC'
+            });
+            name = date + nameSeparator + name;
+        }
         if (number) {
             name = name ? (number + nameSeparator + name) : number;
         }
