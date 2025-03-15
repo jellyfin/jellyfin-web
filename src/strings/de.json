@@ -2009,5 +2009,7 @@
     "LogLoadFailure": "Fehler beim Laden der Protokolldatei. Sie wird möglicherweise noch beschrieben.",
     "MetadataNfoLoadError": "NFO-Einstellungen für Metadaten konnten nicht geladen werden",
     "DisplayLoadError": "Ein Fehler trat während des Ladens der Konfigurationsdaten auf.",
-    "MetadataImagesLoadError": "Einstellungen für Metadaten konnten nicht geladen werden"
+    "MetadataImagesLoadError": "Einstellungen für Metadaten konnten nicht geladen werden",
+    "HeaderPageNotFound": "Seite nicht gefunden",
+    "PageNotFound": "Dies ist nicht die Seite, die Sie suchen."
 }
