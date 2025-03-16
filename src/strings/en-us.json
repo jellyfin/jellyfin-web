@@ -1318,6 +1318,7 @@
     "PackageInstallFailed": "{0} (version {1}) installation failed.",
     "PageNotFound": "This is not the page you are looking for.",
     "ParentalRating": "Parental rating",
+    "PasswordAdminRequired": "The user must have a password set before marking them as admin.",
     "PasswordMatchError": "Password and password confirmation must match.",
     "PasswordRequiredForAdmin": "A password is required for admin accounts.",
     "PasswordResetComplete": "The password has been reset.",

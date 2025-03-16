@@ -199,6 +199,8 @@ const UserEdit = () => {
                 throw new Error('Unexpected null user id or policy');
             }
 
+            const isPreviouslyAdmin = user.Policy.IsAdministrator;
+
             user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value.trim();
             user.Policy.IsAdministrator = (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked;
             user.Policy.IsHidden = (page.querySelector('.chkIsHidden') as HTMLInputElement).checked;
@@ -224,6 +226,12 @@ const UserEdit = () => {
             user.Policy.EnableContentDeletion = (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).checked;
             user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
             user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
+
+            if (!user.HasPassword && user.Policy.IsAdministrator && !isPreviouslyAdmin) {
+                toast(globalize.translate('PasswordAdminRequired'));
+                loading.hide();
+                return;
+            }
 
             window.ApiClient.updateUser(user).then(() => (
                 window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' })
