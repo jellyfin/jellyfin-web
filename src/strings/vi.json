@@ -2006,5 +2006,7 @@
     "LogLoadFailure": "Không tải được tệp nhật ký. Nó vẫn có thể được viết tích cực.",
     "DisplayLoadError": "Đã xảy ra lỗi trong khi tải dữ liệu cấu hình hiển thị.",
     "MetadataImagesLoadError": "Không tải được cài đặt dữ liệu mô tả",
-    "MetadataNfoLoadError": "Tải cài đặt dữ liệu mô tả NFO thất bại"
+    "MetadataNfoLoadError": "Tải cài đặt dữ liệu mô tả NFO thất bại",
+    "PageNotFound": "Đây không phải là trang bạn đang tìm kiếm.",
+    "HeaderPageNotFound": "Không tìm thấy trang"
 }
