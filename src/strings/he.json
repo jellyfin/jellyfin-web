@@ -33,7 +33,7 @@
     "ChannelNameOnly": "ערוץ {0} בלבד",
     "ChannelNumber": "מספר ערוץ",
     "Composer": "מלחין",
-    "ConfigureDateAdded": "‫הגדר כיצד תאריך ההוספה נקבע בלוח המחוונים ב- Dashboard > Libraries > NFO Settings",
+    "ConfigureDateAdded": "‫הגדר כיצד תאריך ההוספה נקבע בלוח המחוונים ב- Dashboard > Libraries > Display",
     "ConfirmDeleteImage": "למחוק את התמונה?",
     "ConfirmDeleteItem": "מחיקת פריט זה תמחק אותו הן ממערכת הקבצים והן מספריית המדיה שלך. האם אתה בטוח שברצונך להמשיך?",
     "ConfirmDeleteItems": "מחיקת פריטים אלה תמחק אותם הן ממערכת הקבצים והן מספריית המדיה שלך. האם אתה בטוח שברצונך להמשיך?",
@@ -1931,5 +1931,17 @@
     "CustomSubtitleStylingHelp": "עיצוב הכתוביות עובד ברוב המכשירים, אך גורר פגיעה נוספת בביצועים.",
     "LabelSubtitleStyling": "עיצוב כתוביות",
     "Native": "מקורי",
-    "NativeSubtitleStylingHelp": "עיצוב הכתוביות לא יעבוד על מכשירים מסוימים. עם זאת, לא תהיה פגיעה בביצועים."
+    "NativeSubtitleStylingHelp": "עיצוב הכתוביות לא יעבוד על מכשירים מסוימים. עם זאת, לא תהיה פגיעה בביצועים.",
+    "MetadataNfoLoadError": "קרתה שגיאה בתהליך טעינת הגדרות הNFO מטא-דאטה",
+    "HeaderPageNotFound": "דף זה לא נמצא",
+    "PageNotFound": "זה לא הדף שחיפשתם.",
+    "CopyLogSuccess": "תוכן הלוג הועתק ללוח בהצלחה.",
+    "LogLoadFailure": "נכשל בטעינת קובץ הלוג. ייתכן שעדיין ממשיך להיכתב לקובץ זה.",
+    "DisplayLoadError": "קרתה שגיאה בתהליך טעינת נתוני הגדרות התצוגה.",
+    "Retry": "נסה שנית",
+    "DeleteServerConfirmation": "האם אתה בטוח שברצונך למחוק שרת זה?",
+    "LabelDevice": "מכשיר",
+    "LastActive": "פעילות אחרונה",
+    "MetadataImagesLoadError": "קרתה שגיאה בתהליך טעינת הגדרות המטא-דאטה",
+    "LibraryNameInvalid": "שם הספרייה לא יכול להיות ריק."
 }
