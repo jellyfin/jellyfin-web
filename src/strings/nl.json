@@ -1717,7 +1717,7 @@
     "Featurette": "Featurette",
     "Short": "Korte film",
     "HeaderPerformance": "Prestaties",
-    "LabelParallelImageEncodingLimitHelp": "Maximaal aantal afbeeldingscoderingen dat tegelijkertijd mag lopen. Bij een instelling van 0 wordt een limiet gekozen gebaseerd op het aantal processorkernen in je systeem.",
+    "LabelParallelImageEncodingLimitHelp": "Maximaal aantal afbeeldingscoderingen dat tegelijkertijd mag lopen. Wanneer leeg gelaten wordt er een limiet gekozen gebaseerd op het aantal processorkernen in je systeem.",
     "LabelParallelImageEncodingLimit": "Limiet gelijktijdige afbeeldingscoderingen",
     "LabelEnableAudioVbr": "VBR-audiocodering inschakelen",
     "LabelEnableAudioVbrHelp": "Een variabele bitsnelheid biedt een betere verhouding tussen kwaliteit en gemiddelde bitsnelheid, maar kan in zeldzame gevallen tot bufferen of compatibiliteitsproblemen leiden.",
@@ -1890,7 +1890,7 @@
     "Letterer": "Beletteraar",
     "Penciller": "Schetser",
     "Translator": "Vertaler",
-    "LibraryScanFanoutConcurrencyHelp": "Maximaal aantal gelijktijdige taken tijdens bibliotheekscans. Bij een instelling van 0 wordt een limiet gekozen gebaseerd op het aantal processorkernen in je systeem. WAARSCHUWING: een te hoge instelling kan problemen veroorzaken met netwerkbestandssystemen; verlaag dit getal als je problemen tegenkomt.",
+    "LibraryScanFanoutConcurrencyHelp": "Maximaal aantal gelijktijdige taken tijdens bibliotheekscans. Wanneer leeg gelaten wordt er een limiet gekozen gebaseerd op het aantal processorkernen in je systeem. WAARSCHUWING: een te hoge instelling kan problemen veroorzaken met netwerkbestandssystemen; verlaag dit getal als je problemen tegenkomt.",
     "LibraryScanFanoutConcurrency": "Limiet gelijktijdige bibiotheekscantaken",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Gewenste geluidscodec bij afspelen video",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Selecteer de gewenste geluidscodec om naartoe te transcoderen bij video-inhoud. Als de voorkeurscodec niet wordt ondersteund, gebruikt de server de beste codec die wel beschikbaar is.",
@@ -2010,5 +2010,6 @@
     "MetadataImagesLoadError": "Laden van metadata-instellingen mislukt",
     "MetadataNfoLoadError": "Laden van metadata-NFO-instellingen mislukt",
     "PageNotFound": "Dit is niet de pagina die je zoekt.",
-    "HeaderPageNotFound": "Pagina niet gevonden"
+    "HeaderPageNotFound": "Pagina niet gevonden",
+    "SettingsPageLoadError": "Laden van instellingenpagina mislukt"
 }
