@@ -2009,5 +2009,7 @@
     "LogLoadFailure": "Échec du chargement du fichier journal. Il est possible qu'il soit encore en cours d'écriture.",
     "DisplayLoadError": "Une erreur est survenue lors du chargement des données de configuration d'affichage.",
     "MetadataImagesLoadError": "Échec du chargement des paramètres de métadonnées",
-    "LibraryNameInvalid": "Le nom de la bibliothèque ne peut pas être vide."
+    "LibraryNameInvalid": "Le nom de la bibliothèque ne peut pas être vide.",
+    "HeaderPageNotFound": "Page introuvable",
+    "PageNotFound": "Ceci n'est pas la page que vous cherchez."
 }
