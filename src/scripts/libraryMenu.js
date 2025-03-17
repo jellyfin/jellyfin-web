@@ -214,11 +214,11 @@ function showSearch() {
 }
 
 function onHeaderUserButtonClick() {
-    Dashboard.navigate('mypreferencesmenu.html');
+    Dashboard.navigate('mypreferencesmenu');
 }
 
 function onHeaderHomeButtonClick() {
-    Dashboard.navigate('home.html');
+    Dashboard.navigate('home');
 }
 
 function showAudioPlayer() {
@@ -321,7 +321,7 @@ function onMainDrawerSelect() {
 function refreshLibraryInfoInDrawer(user) {
     let html = '';
     html += '<div style="height:.5em;"></div>';
-    html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#/home.html"><span class="material-icons navMenuOptionIcon home" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Home')}</span></a>`;
+    html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#/home"><span class="material-icons navMenuOptionIcon home" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Home')}</span></a>`;
 
     // placeholder for custom menu links
     html += '<div class="customMenuOptions"></div>';
@@ -406,7 +406,7 @@ function getUserViews(apiClient, userId) {
                     guideView.Name = globalize.translate('Guide');
                     guideView.ImageTags = {};
                     guideView.icon = 'dvr';
-                    guideView.url = '#/livetv.html?tab=1';
+                    guideView.url = '#/livetv?tab=1';
                     list.push(guideView);
                 }
             }
@@ -503,7 +503,7 @@ function onSelectServerClick() {
 }
 
 function onSettingsClick() {
-    Dashboard.navigate('mypreferencesmenu.html');
+    Dashboard.navigate('mypreferencesmenu');
 }
 
 function onExitAppClick() {

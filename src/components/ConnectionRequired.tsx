@@ -9,10 +9,10 @@ import globalize from '../lib/globalize';
 import { ConnectionState } from '../utils/jellyfin-apiclient/ConnectionState';
 
 enum BounceRoutes {
-    Home = '/home.html',
-    Login = '/login.html',
-    SelectServer = '/selectserver.html',
-    StartWizard = '/wizardstart.html'
+    Home = '/home',
+    Login = '/login',
+    SelectServer = '/selectserver',
+    StartWizard = '/wizardstart'
 }
 
 type ConnectionRequiredProps = {
