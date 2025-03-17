@@ -774,7 +774,7 @@
     "MediaInfoLayout": "Компоновка",
     "MediaInfoLevel": "Уровень",
     "MediaInfoPath": "Путь",
-    "MediaInfoPixelFormat": "Пикс. формат",
+    "MediaInfoPixelFormat": "Формат пикселей",
     "MediaInfoProfile": "Профиль",
     "MediaInfoRefFrames": "Опорные кадры",
     "MediaInfoResolution": "Разрешение",
@@ -2009,5 +2009,7 @@
     "Retry": "Повторить",
     "MetadataNfoLoadError": "Не удалось загрузить настройки NFO метаданных",
     "DisplayLoadError": "Произошла ошибка при загрузке данных конфигурации дисплея.",
-    "MetadataImagesLoadError": "Не удалось загрузить настройки метаданных"
+    "MetadataImagesLoadError": "Не удалось загрузить настройки метаданных",
+    "HeaderPageNotFound": "Станица не найдена",
+    "PageNotFound": "Это не та страница, которую вы искали."
 }
