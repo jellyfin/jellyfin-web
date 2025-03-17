@@ -12,6 +12,7 @@ import Switch from '@mui/material/Switch/Switch';
 import Typography from '@mui/material/Typography/Typography';
 import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
+import Extension from '@mui/icons-material/Extension';
 import Settings from '@mui/icons-material/Settings';
 import React, { type FC, useState, useCallback, useMemo } from 'react';
 import { useSearchParams, Link as RouterLink, useParams } from 'react-router-dom';
@@ -25,12 +26,12 @@ import { useInstallPackage } from 'apps/dashboard/features/plugins/api/useInstal
 import { usePackageInfo } from 'apps/dashboard/features/plugins/api/usePackageInfo';
 import { usePlugins } from 'apps/dashboard/features/plugins/api/usePlugins';
 import { useUninstallPlugin } from 'apps/dashboard/features/plugins/api/useUninstallPlugin';
-import PluginImage from 'apps/dashboard/features/plugins/components/PluginImage';
 import PluginDetailsTable from 'apps/dashboard/features/plugins/components/PluginDetailsTable';
 import PluginRevisions from 'apps/dashboard/features/plugins/components/PluginRevisions';
 import type { PluginDetails } from 'apps/dashboard/features/plugins/types/PluginDetails';
 
 import ConfirmDialog from 'components/ConfirmDialog';
+import Image from 'components/Image';
 import Page from 'components/Page';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
@@ -332,10 +333,11 @@ const PluginPage: FC = () => {
                     </Grid>
 
                     <Grid item lg={4} sx={{ display: { xs: 'none', lg: 'initial' } }}>
-                        <PluginImage
+                        <Image
                             isLoading={isLoading}
                             alt={pluginDetails?.name}
                             url={pluginDetails?.imageUrl}
+                            FallbackIcon={Extension}
                         />
                     </Grid>
 
