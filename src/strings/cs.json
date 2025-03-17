@@ -2009,5 +2009,7 @@
     "LogLoadFailure": "Načtení souboru logu se nezdařilo. Možná se do něj právě zapisuje.",
     "DisplayLoadError": "Načítání konfiguračních dat zobrazení se nezdařilo.",
     "MetadataImagesLoadError": "Načítání nastavení metadat se nezdařilo",
-    "MetadataNfoLoadError": "Načtení nastavení metadat v souborech NFO se nezdařilo"
+    "MetadataNfoLoadError": "Načtení nastavení metadat v souborech NFO se nezdařilo",
+    "HeaderPageNotFound": "Stránka nebyla nalezena",
+    "PageNotFound": "Toto není stránka, kterou hledáš."
 }
