@@ -110,7 +110,7 @@ function authenticateQuickConnect(apiClient, targetUrl) {
 
 function onLoginSuccessful(id, accessToken, apiClient, url) {
     Dashboard.onServerChanged(id, accessToken, apiClient);
-    Dashboard.navigate(url || 'home.html');
+    Dashboard.navigate(url || 'home');
 }
 
 function showManualForm(context, showCancel, focusPassword) {
@@ -201,7 +201,7 @@ export default function (view, params) {
             }
         }
 
-        return '/home.html';
+        return '/home';
     }
 
     function showVisualForm() {
@@ -243,7 +243,7 @@ export default function (view, params) {
         return false;
     });
     view.querySelector('.btnForgotPassword').addEventListener('click', function () {
-        Dashboard.navigate('forgotpassword.html');
+        Dashboard.navigate('forgotpassword');
     });
     view.querySelector('.btnCancel').addEventListener('click', showVisualForm);
     view.querySelector('.btnQuick').addEventListener('click', function () {

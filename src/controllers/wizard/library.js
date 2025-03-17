@@ -361,7 +361,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
 
 window.WizardLibraryPage = {
     next: function () {
-        Dashboard.navigate('wizardsettings.html');
+        Dashboard.navigate('wizardsettings');
     }
 };
 pageClassOn('pageshow', 'mediaLibraryPage', function () {

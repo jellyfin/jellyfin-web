@@ -11,7 +11,7 @@ function getApiClient() {
 }
 
 function nextWizardPage() {
-    Dashboard.navigate('wizardlibrary.html')
+    Dashboard.navigate('wizardlibrary')
         .catch(err => {
             console.error('[Wizard > User] error navigating to library setup', err);
         });

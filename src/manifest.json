@@ -3,7 +3,7 @@
     "description": "The Free Software Media System",
     "lang": "en-US",
     "short_name": "Jellyfin",
-    "start_url": "index.html#/home.html",
+    "start_url": "index.html#/home",
     "theme_color": "#101010",
     "background_color": "#101010",
     "display": "standalone",

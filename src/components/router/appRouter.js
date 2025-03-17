@@ -13,21 +13,21 @@ import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { history } from 'RootAppRouter';
 
 /** Pages of "no return" (when "Go back" should behave differently, probably quitting the application). */
-const START_PAGE_PATHS = ['/home.html', '/login.html', '/selectserver.html'];
+const START_PAGE_PATHS = ['/home', '/login', '/selectserver'];
 
 /** Pages that do not require a user to be logged in to view. */
 const PUBLIC_PATHS = [
-    '/addserver.html',
-    '/selectserver.html',
-    '/login.html',
-    '/forgotpassword.html',
-    '/forgotpasswordpin.html',
-    '/wizardremoteaccess.html',
-    '/wizardfinish.html',
-    '/wizardlibrary.html',
-    '/wizardsettings.html',
-    '/wizardstart.html',
-    '/wizarduser.html'
+    '/addserver',
+    '/selectserver',
+    '/login',
+    '/forgotpassword',
+    '/forgotpasswordpin',
+    '/wizardremoteaccess',
+    '/wizardfinish',
+    '/wizardlibrary',
+    '/wizardsettings',
+    '/wizardstart',
+    '/wizarduser'
 ];
 
 class AppRouter {
@@ -89,7 +89,7 @@ class AppRouter {
         path = path.replace(this.baseUrl(), '');
 
         // can't use this with home right now due to the back menu
-        if (history.location.pathname === path && path !== '/home.html') {
+        if (history.location.pathname === path && path !== '/home') {
             loading.hide();
             return Promise.resolve();
         }
@@ -249,11 +249,11 @@ class AppRouter {
         const serverId = item.ServerId || options.serverId;
 
         if (item === 'settings') {
-            return '#/mypreferencesmenu.html';
+            return '#/mypreferencesmenu';
         }
 
         if (item === 'wizard') {
-            return '#/wizardstart.html';
+            return '#/wizardstart';
         }
 
         if (item === 'manageserver') {
@@ -261,15 +261,15 @@ class AppRouter {
         }
 
         if (item === 'recordedtv') {
-            return '#/livetv.html?tab=3&serverId=' + options.serverId;
+            return '#/livetv?tab=3&serverId=' + options.serverId;
         }
 
         if (item === 'nextup') {
-            return '#/list.html?type=nextup&serverId=' + options.serverId;
+            return '#/list?type=nextup&serverId=' + options.serverId;
         }
 
         if (item === 'list') {
-            let urlForList = '#/list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
+            let urlForList = '#/list?serverId=' + options.serverId + '&type=' + options.itemTypes;
 
             if (options.isFavorite) {
                 urlForList += '&IsFavorite=true';
@@ -304,49 +304,49 @@ class AppRouter {
 
         if (item === 'livetv') {
             if (options.section === 'programs') {
-                return '#/livetv.html?tab=0&serverId=' + options.serverId;
+                return '#/livetv?tab=0&serverId=' + options.serverId;
             }
             if (options.section === 'guide') {
-                return '#/livetv.html?tab=1&serverId=' + options.serverId;
+                return '#/livetv?tab=1&serverId=' + options.serverId;
             }
 
             if (options.section === 'movies') {
-                return '#/list.html?type=Programs&IsMovie=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsMovie=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'shows') {
-                return '#/list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
             }
 
             if (options.section === 'sports') {
-                return '#/list.html?type=Programs&IsSports=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsSports=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'kids') {
-                return '#/list.html?type=Programs&IsKids=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsKids=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'news') {
-                return '#/list.html?type=Programs&IsNews=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsNews=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'onnow') {
-                return '#/list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsAiring=true&serverId=' + options.serverId;
             }
 
             if (options.section === 'channels') {
-                return '#/livetv.html?tab=2&serverId=' + options.serverId;
+                return '#/livetv?tab=2&serverId=' + options.serverId;
             }
 
             if (options.section === 'dvrschedule') {
-                return '#/livetv.html?tab=4&serverId=' + options.serverId;
+                return '#/livetv?tab=4&serverId=' + options.serverId;
             }
 
             if (options.section === 'seriesrecording') {
-                return '#/livetv.html?tab=5&serverId=' + options.serverId;
+                return '#/livetv?tab=5&serverId=' + options.serverId;
             }
 
-            return '#/livetv.html?serverId=' + options.serverId;
+            return '#/livetv?serverId=' + options.serverId;
         }
 
         if (itemType == 'SeriesTimer') {
@@ -354,11 +354,11 @@ class AppRouter {
         }
 
         if (item.CollectionType == CollectionType.Livetv) {
-            return `#/livetv.html?collectionType=${item.CollectionType}`;
+            return `#/livetv?collectionType=${item.CollectionType}`;
         }
 
         if (item.Type === 'Genre') {
-            url = '#/list.html?genreId=' + item.Id + '&serverId=' + serverId;
+            url = '#/list?genreId=' + item.Id + '&serverId=' + serverId;
 
             if (context === 'livetv') {
                 url += '&type=Programs';
@@ -372,7 +372,7 @@ class AppRouter {
         }
 
         if (item.Type === 'MusicGenre') {
-            url = '#/list.html?musicGenreId=' + item.Id + '&serverId=' + serverId;
+            url = '#/list?musicGenreId=' + item.Id + '&serverId=' + serverId;
 
             if (options.parentId) {
                 url += '&parentId=' + options.parentId;
@@ -382,7 +382,7 @@ class AppRouter {
         }
 
         if (item.Type === 'Studio') {
-            url = '#/list.html?studioId=' + item.Id + '&serverId=' + serverId;
+            url = '#/list?studioId=' + item.Id + '&serverId=' + serverId;
 
             if (options.parentId) {
                 url += '&parentId=' + options.parentId;
@@ -392,7 +392,7 @@ class AppRouter {
         }
 
         if (item === 'tag') {
-            url = `#/list.html?type=tag&tag=${encodeURIComponent(options.tag)}&serverId=${serverId}`;
+            url = `#/list?type=tag&tag=${encodeURIComponent(options.tag)}&serverId=${serverId}`;
 
             if (options.parentId) {
                 url += '&parentId=' + options.parentId;
@@ -403,7 +403,7 @@ class AppRouter {
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
             if (item.CollectionType == CollectionType.Movies) {
-                url = `#/movies.html?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+                url = `#/movies?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options && options.section === 'latest') {
                     url += '&tab=1';
@@ -413,7 +413,7 @@ class AppRouter {
             }
 
             if (item.CollectionType == CollectionType.Tvshows) {
-                url = `#/tv.html?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+                url = `#/tv?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options && options.section === 'latest') {
                     url += '&tab=1';
@@ -423,7 +423,7 @@ class AppRouter {
             }
 
             if (item.CollectionType == CollectionType.Music) {
-                url = `#/music.html?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+                url = `#/music?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options?.section === 'latest') {
                     url += '&tab=1';
@@ -435,7 +435,7 @@ class AppRouter {
             const layoutMode = localStorage.getItem('layout');
 
             if (layoutMode === 'experimental' && item.CollectionType == CollectionType.Homevideos) {
-                url = '#/homevideos.html?topParentId=' + item.Id;
+                url = '#/homevideos?topParentId=' + item.Id;
 
                 return url;
             }
@@ -455,7 +455,7 @@ class AppRouter {
 
         if (item.IsFolder) {
             if (id) {
-                return '#/list.html?parentId=' + id + '&serverId=' + serverId;
+                return '#/list?parentId=' + id + '&serverId=' + serverId;
             }
 
             return '#';
@@ -465,7 +465,7 @@ class AppRouter {
     }
 
     showLocalLogin(serverId) {
-        return this.show('login.html?serverid=' + serverId);
+        return this.show('login?serverid=' + serverId);
     }
 
     showVideoOsd() {
@@ -473,11 +473,11 @@ class AppRouter {
     }
 
     showSelectServer() {
-        return this.show('selectserver.html');
+        return this.show('selectserver');
     }
 
     showSettings() {
-        return this.show('mypreferencesmenu.html');
+        return this.show('mypreferencesmenu');
     }
 
     showNowPlaying() {
@@ -485,27 +485,27 @@ class AppRouter {
     }
 
     showGuide() {
-        return this.show('livetv.html?tab=1');
+        return this.show('livetv?tab=1');
     }
 
     goHome() {
-        return this.show('home.html');
+        return this.show('home');
     }
 
     showSearch() {
-        return this.show('search.html');
+        return this.show('search');
     }
 
     showLiveTV() {
-        return this.show('livetv.html');
+        return this.show('livetv');
     }
 
     showRecordedTV() {
-        return this.show('livetv.html?tab=3');
+        return this.show('livetv?tab=3');
     }
 
     showFavorites() {
-        return this.show('home.html?tab=1');
+        return this.show('home?tab=1');
     }
 }
 

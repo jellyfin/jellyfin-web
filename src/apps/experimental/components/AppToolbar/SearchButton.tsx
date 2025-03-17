@@ -35,13 +35,13 @@ const SearchButton: FC<SearchButtonProps> = ({ isTabsAvailable }) => {
     const location = useLocation();
     const [searchParams] = useSearchParams();
 
-    const isSearchPath = location.pathname === '/search.html';
+    const isSearchPath = location.pathname === '/search';
     const createSearchLink = isTabsAvailable ?
         {
-            pathname: '/search.html',
+            pathname: '/search',
             search: `?${createSearchParams(getUrlParams(searchParams))}`
         } :
-        '/search.html';
+        '/search';
 
     return (
         <Tooltip title={globalize.translate('Search')}>

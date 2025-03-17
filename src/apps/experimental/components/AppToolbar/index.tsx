@@ -14,11 +14,11 @@ interface AppToolbarProps {
 }
 
 const PUBLIC_PATHS = [
-    '/addserver.html',
-    '/selectserver.html',
-    '/login.html',
-    '/forgotpassword.html',
-    '/forgotpasswordpin.html'
+    '/addserver',
+    '/selectserver',
+    '/login',
+    '/forgotpassword',
+    '/forgotpasswordpin'
 ];
 
 const ExperimentalAppToolbar: FC<AppToolbarProps> = ({

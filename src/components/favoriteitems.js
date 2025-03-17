@@ -137,7 +137,7 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
             html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
             if (!layoutManager.tv && options.Limit && result.Items.length >= options.Limit) {
-                html += '<a is="emby-linkbutton" href="' + ('#/list.html?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+                html += '<a is="emby-linkbutton" href="' + ('#/list?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
                 html += globalize.translate(section.name);
                 html += '</h2>';

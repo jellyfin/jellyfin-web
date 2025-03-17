@@ -1995,7 +1995,7 @@ export default function (view, params) {
     function onCancelSeriesTimerClick() {
         import('../../components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
             recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(function () {
-                Dashboard.navigate('livetv.html');
+                Dashboard.navigate('livetv');
             });
         });
     }

@@ -8,13 +8,13 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'itemDetails/index.html'
         }
     }, {
-        path: 'list.html',
+        path: 'list',
         pageProps: {
             controller: 'list',
             view: 'list.html'
         }
     }, {
-        path: 'livetv.html',
+        path: 'livetv',
         pageProps: {
             controller: 'livetv/livetvsuggested',
             view: 'livetv.html'
@@ -26,49 +26,49 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             view: 'lyrics.html'
         }
     }, {
-        path: 'music.html',
+        path: 'music',
         pageProps: {
             controller: 'music/musicrecommended',
             view: 'music/music.html'
         }
     }, {
-        path: 'mypreferencesmenu.html',
+        path: 'mypreferencesmenu',
         pageProps: {
             controller: 'user/menu/index',
             view: 'user/menu/index.html'
         }
     }, {
-        path: 'mypreferencescontrols.html',
+        path: 'mypreferencescontrols',
         pageProps: {
             controller: 'user/controls/index',
             view: 'user/controls/index.html'
         }
     }, {
-        path: 'mypreferencesdisplay.html',
+        path: 'mypreferencesdisplay',
         pageProps: {
             controller: 'user/display/index',
             view: 'user/display/index.html'
         }
     }, {
-        path: 'mypreferenceshome.html',
+        path: 'mypreferenceshome',
         pageProps: {
             controller: 'user/home/index',
             view: 'user/home/index.html'
         }
     }, {
-        path: 'mypreferencesplayback.html',
+        path: 'mypreferencesplayback',
         pageProps: {
             controller: 'user/playback/index',
             view: 'user/playback/index.html'
         }
     }, {
-        path: 'mypreferencessubtitles.html',
+        path: 'mypreferencessubtitles',
         pageProps: {
             controller: 'user/subtitles/index',
             view: 'user/subtitles/index.html'
         }
     }, {
-        path: 'tv.html',
+        path: 'tv',
         pageProps: {
             controller: 'shows/tvrecommended',
             view: 'shows/tvrecommended.html'
@@ -93,13 +93,13 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             isThemeMediaSupported: true
         }
     }, {
-        path: 'home.html',
+        path: 'home',
         pageProps: {
             controller: 'home',
             view: 'home.html'
         }
     }, {
-        path: 'movies.html',
+        path: 'movies',
         pageProps: {
             controller: 'movies/moviesrecommended',
             view: 'movies/movies.html'

@@ -36,7 +36,7 @@ const CancelSeriesTimerButton: FC<CancelSeriesTimerButtonProps> = ({
                         onSuccess: async () => {
                             toast(globalize.translate('SeriesCancelled'));
                             loading.hide();
-                            navigate('/livetv.html');
+                            navigate('/livetv');
                         },
                         onError: (err: unknown) => {
                             loading.hide();
