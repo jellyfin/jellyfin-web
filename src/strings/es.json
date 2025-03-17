@@ -2009,5 +2009,7 @@
     "HeaderMediaSegmentActions": "Acciones del segmento de medios",
     "MetadataNfoLoadError": "Error al cargar la configuración de metadatos NFO",
     "DisplayLoadError": "Un error ocurrió mientras se cargaba la configuración de visualización.",
-    "MetadataImagesLoadError": "Error al cargar la configuración de metadatos"
+    "MetadataImagesLoadError": "Error al cargar la configuración de metadatos",
+    "HeaderPageNotFound": "Página no encontrada",
+    "PageNotFound": "Esta no es la página que está buscando."
 }
