@@ -2007,5 +2007,9 @@
     "CopyLogSuccess": "已成功复制日志内容。",
     "Retry": "重试",
     "DisplayLoadError": "加载显示配置时发生错误。",
-    "MetadataImagesLoadError": "加载元数据设置时发生错误"
+    "MetadataImagesLoadError": "加载元数据设置时发生错误",
+    "MetadataNfoLoadError": "无法加载元数据 NFO 设置",
+    "HeaderPageNotFound": "未找到页面",
+    "PageNotFound": "这不是您正在寻找的页面。",
+    "LogLoadFailure": "无法加载日志文件，可能正在被写入中。"
 }
