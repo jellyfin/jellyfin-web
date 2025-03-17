@@ -10,13 +10,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'dashboard.html'
         }
     }, {
-        path: 'settings',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'general',
-            view: 'general.html'
-        }
-    }, {
         path: 'networking',
         pageProps: {
             appType: AppType.Dashboard,
