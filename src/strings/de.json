@@ -1718,7 +1718,7 @@
     "Featurette": "Hinter den Kulissen",
     "Short": "Kurzfilm",
     "LabelParallelImageEncodingLimit": "Limit der parallelen Bildkodierung",
-    "LabelParallelImageEncodingLimitHelp": "Maximale Anzahl von Bildkodierungen, die parallel ausgeführt werden dürfen. Wenn Sie diesen Wert auf 0 setzen, wird eine Grenze auf der Grundlage der Kernanzahl Ihres Systems festgelegt.",
+    "LabelParallelImageEncodingLimitHelp": "Maximale Anzahl von Bildkodierungen, die parallel ausgeführt werden dürfen. Wenn Sie diesen Wert auf 0 lassen, wird ein Limit auf Grundlage der Kernanzahl Ihres Systems festgelegt.",
     "HeaderPerformance": "Leistung",
     "LabelEnableAudioVbr": "Aktiviere Audiokodierung mit variabler Bitrate (VBR)",
     "LabelEnableAudioVbrHelp": "Eine variable Bitrate bietet bessere Qualität im Vergleich zu einer konstanten, kann jedoch in manchen Fällen zu Problemen beim Buffering und der Kompatibilität führen.",
@@ -1881,7 +1881,7 @@
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Bevorzugter Transcode-Audiocodec bei der Videowiedergabe",
     "Translator": "Übersetzer",
     "LibraryScanFanoutConcurrency": "Limit der Parallelen Aufgaben für das Scanen der Bibliotheken",
-    "LibraryScanFanoutConcurrencyHelp": "Anzahl der Maximalen parallelen Aufgaben während des Bibliotheksscans. Wenn sie diesen Wert auf 0 Setzten werden soviele parallelen Aufgaben gestartet wie dieser Instanz/auf diesem System vorhanden sind. WARNUNG: Wenn Sie diese Zahl zu hoch einstellen, kann es zu Problemen mit Bibliotheken die über das Netzwerk verbunden sind kommen; wenn dies der fall ist, senken Sie diese Zahl.",
+    "LibraryScanFanoutConcurrencyHelp": "Anzahl der Maximalen parallelen Aufgaben während des Bibliotheksscans. Wenn Sie diesen Wert auf 0 lassen, wird ein Limit auf Grundlage der Kernanzahl Ihres Systems festgelegt. WARNUNG: Wenn Sie diese Zahl zu hoch einstellen, kann es zu Problemen mit Bibliotheken, die über das Netzwerk verbunden sind, kommen; wenn dies der Fall ist, senken Sie diese Zahl.",
     "PlaylistError.AddFailed": "Fehler beim Hinzufügen zur Wiedergabeliste",
     "PlaylistError.CreateFailed": "Fehler beim Erstellen der Wiedergabeliste",
     "SavePassword": "Passwort speichern",
@@ -2011,5 +2011,6 @@
     "DisplayLoadError": "Ein Fehler trat während des Ladens der Konfigurationsdaten auf.",
     "MetadataImagesLoadError": "Einstellungen für Metadaten konnten nicht geladen werden",
     "HeaderPageNotFound": "Seite nicht gefunden",
-    "PageNotFound": "Dies ist nicht die Seite, die Sie suchen."
+    "PageNotFound": "Dies ist nicht die Seite, die Sie suchen.",
+    "SettingsPageLoadError": "Einstellungsseite konnte nicht geladen werden"
 }
