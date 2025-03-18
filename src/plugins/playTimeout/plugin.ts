@@ -1,6 +1,6 @@
 import globalize from "../../lib/globalize"; // globalized strings for UI elements
-import * as userSettings from "../../scripts/settings/userSettings";
-import alert from "../../components/alert";
+import * as userSettings from "../../scripts/settings/userSettings"; // grab user settings (e.g. playtimeoutEnabled)
+import alert from "../../components/alert"; // show an alert message to the user if they have been inactive for too long
 import { PluginType } from "../../types/plugin.ts";
 
 function showErrorMessage() {
