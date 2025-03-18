@@ -9,7 +9,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import Switch from '@mui/material/Switch';
+import Checkbox from '@mui/material/Checkbox';
 import Loading from 'components/loading/LoadingComponent';
 import FormHelperText from '@mui/material/FormHelperText';
 import MenuItem from '@mui/material/MenuItem';
@@ -92,7 +92,7 @@ export const Component = () => {
                         <FormControl>
                             <FormControlLabel
                                 control={
-                                    <Switch
+                                    <Checkbox
                                         name='HwAcceleration'
                                         defaultChecked={defaultConfig.TrickplayOptions?.EnableHwAcceleration}
                                     />
@@ -104,7 +104,7 @@ export const Component = () => {
                         <FormControl>
                             <FormControlLabel
                                 control={
-                                    <Switch
+                                    <Checkbox
                                         name='HwEncoding'
                                         defaultChecked={defaultConfig.TrickplayOptions?.EnableHwEncoding}
                                     />
@@ -117,7 +117,7 @@ export const Component = () => {
                         <FormControl>
                             <FormControlLabel
                                 control={
-                                    <Switch
+                                    <Checkbox
                                         name='KeyFrameOnlyExtraction'
                                         defaultChecked={defaultConfig.TrickplayOptions?.EnableKeyFrameOnlyExtraction}
                                     />

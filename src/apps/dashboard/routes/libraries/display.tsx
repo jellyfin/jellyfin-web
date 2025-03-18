@@ -7,7 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
+import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Loading from 'components/loading/LoadingComponent';
@@ -111,7 +111,7 @@ export const Component = () => {
                             <FormControl>
                                 <FormControlLabel
                                     control={
-                                        <Switch
+                                        <Checkbox
                                             name={'DisplayFolderView'}
                                             defaultChecked={config.EnableFolderView}
                                         />
@@ -124,7 +124,7 @@ export const Component = () => {
                             <FormControl>
                                 <FormControlLabel
                                     control={
-                                        <Switch
+                                        <Checkbox
                                             name={'DisplaySpecialsWithinSeasons'}
                                             defaultChecked={config.DisplaySpecialsWithinSeasons}
                                         />
@@ -136,7 +136,7 @@ export const Component = () => {
                             <FormControl>
                                 <FormControlLabel
                                     control={
-                                        <Switch
+                                        <Checkbox
                                             name={'GroupMoviesIntoCollections'}
                                             defaultChecked={config.EnableGroupingIntoCollections}
                                         />
@@ -149,7 +149,7 @@ export const Component = () => {
                             <FormControl>
                                 <FormControlLabel
                                     control={
-                                        <Switch
+                                        <Checkbox
                                             name={'EnableExternalContentInSuggestions'}
                                             defaultChecked={config.EnableExternalContentInSuggestions}
                                         />
