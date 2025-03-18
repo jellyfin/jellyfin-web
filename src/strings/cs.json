@@ -1719,7 +1719,7 @@
     "Short": "Krátký film",
     "HeaderPerformance": "Výkon",
     "LabelParallelImageEncodingLimit": "Počet paralelních kódování obrázků",
-    "LabelParallelImageEncodingLimitHelp": "Maximální počet kódování obrázků, které mohou běžet zároveň. Nastavením na 0 bude limit nastaven dle počtu jader CPU.",
+    "LabelParallelImageEncodingLimitHelp": "Maximální počet kódování obrázků, které mohou běžet zároveň. Ponecháním prázdné hodnoty bude limit nastaven dle počtu jader CPU.",
     "LabelEnableAudioVbr": "Povolit kódování zvuku VBR",
     "LabelEnableAudioVbrHelp": "Proměnlivý bitový tok (VBR) nabízí lepší poměr mezi kvalitou a průměrným bitovým tokem, ale někdy může způsobit dodatečné načítání či problémy s kompatibilitou.",
     "Select": "Vybrat",
@@ -1891,7 +1891,7 @@
     "Letterer": "Lettrista",
     "Penciller": "Výtvarník",
     "Translator": "Překladatel",
-    "LibraryScanFanoutConcurrencyHelp": "Maximální počet souběžných úloh skenování knihovny. Nastavením na 0 bude počet dán počtem jader CPU. UPOZORNĚNÍ: Příliš vyskoý počet může způsobit problémy se síťovými souborými systémy. V takovém případě počet snižte.",
+    "LibraryScanFanoutConcurrencyHelp": "Maximální počet souběžných úloh skenování knihovny. Ponecháním prázdné hodnoty bude počet dán počtem jader CPU. UPOZORNĚNÍ: Příliš vyskoý počet může způsobit problémy se síťovými souborými systémy. V takovém případě počet snižte.",
     "LibraryScanFanoutConcurrency": "Maximální počet souběžných skenování knihovny",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Preferovaný audio kodek pro překódovaní při přehrávání videí",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Vybrat preferovaný audio kodek pro překódovaní při přehrávání videí. Pokud preferovaný kodek není podporován, server vybere jiný dostupný kodek.",
@@ -2011,5 +2011,6 @@
     "MetadataImagesLoadError": "Načítání nastavení metadat se nezdařilo",
     "MetadataNfoLoadError": "Načtení nastavení metadat v souborech NFO se nezdařilo",
     "HeaderPageNotFound": "Stránka nebyla nalezena",
-    "PageNotFound": "Toto není stránka, kterou hledáš."
+    "PageNotFound": "Toto není stránka, kterou hledáš.",
+    "SettingsPageLoadError": "Načtení stránky nastavení se nezdařilo"
 }
