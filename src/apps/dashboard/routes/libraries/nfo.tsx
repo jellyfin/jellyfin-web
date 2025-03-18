@@ -7,7 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
+import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Loading from 'components/loading/LoadingComponent';
@@ -136,7 +136,7 @@ export const Component = () => {
                             <FormControl>
                                 <FormControlLabel
                                     control={
-                                        <Switch
+                                        <Checkbox
                                             name={'SaveImagePathsInNfo'}
                                             defaultChecked={nfoConfig.SaveImagePathsInNfo}
                                         />
@@ -149,7 +149,7 @@ export const Component = () => {
                             <FormControl>
                                 <FormControlLabel
                                     control={
-                                        <Switch
+                                        <Checkbox
                                             name={'EnablePathSubstitution'}
                                             defaultChecked={nfoConfig.EnablePathSubstitution}
                                         />
@@ -162,7 +162,7 @@ export const Component = () => {
                             <FormControl>
                                 <FormControlLabel
                                     control={
-                                        <Switch
+                                        <Checkbox
                                             name={'EnableExtraThumbsDuplication'}
                                             defaultChecked={nfoConfig.EnableExtraThumbsDuplication}
                                         />
