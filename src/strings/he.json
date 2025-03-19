@@ -1366,7 +1366,7 @@
     "LabelPublishedServerUri": "כתובות URI של השרת שיפורסמו",
     "LabelPublishedServerUriHelp": "יש לדרוס את ה-URI שבשימוש ג'ליפין, בהתבסס על כרטיס הרשת, או כתובת IP של הלקוח. למשל: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, או all=https://jellyfin.example.com",
     "LabelParallelImageEncodingLimit": "גבול קידוד תמונות במקביל",
-    "LabelParallelImageEncodingLimitHelp": "המספר המקסימלי של קידודי תמונות שירוצו במקביל. הגדרה של 0 תבחר ערך בהתאם למספר המעבדים במערכת שלך.",
+    "LabelParallelImageEncodingLimitHelp": "המספר המקסימלי של קידודי תמונות שירוצו במקביל. השארת ערך זה ריק תקבע מגבלה בהתאם למספר המעבדים במערכת שלך.",
     "LabelPlayDefaultAudioTrack": "ניגון פס הקול הדיפולטי ללא תלות בשפה",
     "LabelPublicHttpPortHelp": "מספר הפורט הפומבי אשר ימופה לפורט HTTP המקומי.",
     "LabelQsvDevice": "רכיב QSV",
@@ -1472,7 +1472,7 @@
     "LeaveBlankToNotSetAPassword": "ניתן להשאיר ריק כדי להימנע מהגדרת סיסמה.",
     "Letterer": "מכתב/ת",
     "LibraryScanFanoutConcurrency": "הגבלת מספר סריקות הספרייה המקבילות",
-    "LibraryScanFanoutConcurrencyHelp": "המספר המירבי של משימות מקבילות במהלך סריקת ספריות. הגדרה כ-0 תבחר גבול בהתבסס על מספר המעבדים במערכת שלך. אזהרה: הגדרת מספר גבוה מדי עלולה לגרום לבעיות עם מערכות קבצים ברשת. אם נתקלת בבעיה יש להוריד את המספר.",
+    "LibraryScanFanoutConcurrencyHelp": "המספר המירבי של משימות מקבילות במהלך סריקת ספריות. השארת ערך זה ריק תקבע גבול בהתבסס על מספר המעבדים במערכת שלך. אזהרה: הגדרת מספר גבוה מדי עלולה לגרום לבעיות עם מערכות קבצים ברשת. אם נתקלת בבעיה יש להוריד את המספר.",
     "LogLevel.Information": "מידע",
     "LogLevel.Warning": "אזהרה",
     "LogLevel.Error": "שגיאה",
@@ -1943,5 +1943,6 @@
     "LabelDevice": "מכשיר",
     "LastActive": "פעילות אחרונה",
     "MetadataImagesLoadError": "קרתה שגיאה בתהליך טעינת הגדרות המטא-דאטה",
-    "LibraryNameInvalid": "שם הספרייה לא יכול להיות ריק."
+    "LibraryNameInvalid": "שם הספרייה לא יכול להיות ריק.",
+    "SettingsPageLoadError": "נכשל בטעינת דף ההגדרות"
 }
