@@ -1706,7 +1706,7 @@
     "LabelEnableAudioVbr": "Povoliť kódovanie zvuku VBR",
     "HeaderPerformance": "Výkon",
     "AllowCollectionManagement": "Povoliť tomuto používateľovi spravovať kolekcie",
-    "LabelParallelImageEncodingLimitHelp": "Maximálny počet kódovaní obrázkov, ktoré môžu bežať paralelne. Nastavením tejto hodnoty na 0 sa zvolí limit na základe špecifikácie vášho systému.",
+    "LabelParallelImageEncodingLimitHelp": "Maximálny počet kódovaní obrázkov, ktoré môžu bežať paralelne. Ak túto položku necháte prázdnu, zvolí sa limit na základe počtu CPU jadier vášho systému.",
     "TonemappingModeHelp": "Vyberte režim mapovania tónov. Ak sa vyskytnú preexponované svetlé miesta, skúste prepnúť na režim RGB.",
     "Featurette": "Stredne dlhý film",
     "Short": "Krátky film",
@@ -1891,7 +1891,7 @@
     "SaveLyricsIntoMediaFoldersHelp": "Uloženie textov piesní k zvukovým súborom umožní ich jednoduchšie spravovanie.",
     "Translator": "Prekladateľ",
     "PlaylistPublicDescription": "Povoliť zobrazenie tohto playlistu každému prihlásenému používateľovi.",
-    "LibraryScanFanoutConcurrencyHelp": "Maximálny počet paralelných úloh počas skenovania knižnice. Nastavením tejto hodnoty na 0 sa zvolí limit na základe počtu jadier CPU vášho systému. UPOZORNENIE: Nastavenie príliš vysokého čísla môže spôsobiť problémy so sieťovými súborovými systémami, Ak sa vyskytnú problémy, znížte toto číslo.",
+    "LibraryScanFanoutConcurrencyHelp": "Maximálny počet paralelných úloh počas skenovania knižnice. Ak túto položku necháte prázdnu, zvolí sa limit na základe počtu CPU jadier vášho systému. UPOZORNENIE: Nastavenie príliš vysokého čísla môže spôsobiť problémy so sieťovými súborovými systémami, Ak sa vyskytnú problémy, znížte toto číslo.",
     "LibraryScanFanoutConcurrency": "Limit úloh paralelného skenovania knižnice",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Preferovaný zvukový kodek pre prekódovanie počas prehrávania videa",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Vyberte preferovaný zvukový kodek pre prekódovanie počas prehrávania videa. Ak preferovaný kodek nie je podporovaný, server použije ďalší najlepší dostupný kodek.",
@@ -2011,5 +2011,6 @@
     "DisplayLoadError": "Pri načítavaní konfiguračných údajov displeja došlo k chybe.",
     "MetadataNfoLoadError": "Nepodarilo sa načítať nastavenia NFO metadát",
     "HeaderPageNotFound": "Stránka nebola nájdená",
-    "PageNotFound": "Toto nie je stránka, ktorú hľadáš."
+    "PageNotFound": "Toto nie je stránka, ktorú hľadáš.",
+    "SettingsPageLoadError": "Nepodarilo sa načítať stránku s nastaveniami"
 }
