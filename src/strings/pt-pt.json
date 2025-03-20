@@ -1702,7 +1702,7 @@
     "LabelChapterImageResolution": "Resolução",
     "LabelChapterImageResolutionHelp": "A resolução das imagens do capítulo extraídas. Alterar isso não terá efeito nos capítulos fictícios existentes.",
     "LabelParallelImageEncodingLimit": "Limite de codificação paralela de imagens",
-    "LabelParallelImageEncodingLimitHelp": "Número máximo de codificações de imagem permitidas para execução em paralelo. Definir como 0 escolherá um limite com base nas especificações do sistema.",
+    "LabelParallelImageEncodingLimitHelp": "Número máximo de codificações de imagem permitidas para execução em paralelo. Se deixares este campo vazio, será escolhido um limite baseado na contagem de núcleos do teu sistema.",
     "GetThePlugin": "Obter Plugin",
     "Notifications": "Notificações",
     "NotificationsMovedMessage": "A funcionalidade de notificações foi movida para o plugin Webhook.",
@@ -2002,5 +2002,6 @@
     "CopyLogSuccess": "Conteúdos do registo copiados com sucesso.",
     "Retry": "Tentar novamente",
     "LogLoadFailure": "Falha ao carregar o ficheiro de registos. É possível que atualmente esteja a ser escrito.",
-    "MetadataNfoLoadError": "Falha ao carregar as definições de metadados NFO"
+    "MetadataNfoLoadError": "Falha ao carregar as definições de metadados NFO",
+    "SettingsPageLoadError": "Falha ao carregar a página de definições"
 }
