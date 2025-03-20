@@ -1708,7 +1708,7 @@
     "PreferEmbeddedExtrasTitlesOverFileNames": "Prefiere títulos incrustados sobre nombres de archivo para extras",
     "LabelDummyChapterCountHelp": "Número máximo de imágenes de capítulos que se extraerán para cada archivo multimedia.",
     "LabelEnableAudioVbrHelp": "La tasa de bits variable ofrece una mejor relación entre calidad y tasa de bits promedio, pero en algunos casos raros puede causar problemas de almacenamiento de búfer y compatibilidad.",
-    "LabelParallelImageEncodingLimitHelp": "Cantidad máxima de codificaciones de imágenes que pueden ejecutarse en paralelo. Establecer esto en 0 elegirá un límite basado en la cantidad de nucleos (CPU) en su sistema.",
+    "LabelParallelImageEncodingLimitHelp": "Cantidad máxima de codificaciones de imágenes que pueden ejecutarse en paralelo. Dejando vacío el valor elegirá un límite basado en la cantidad de nucleos (CPU) en su sistema.",
     "ResolutionMatchSource": "Coincidir fuente",
     "SubtitleMagenta": "Magenta",
     "SubtitleWhite": "Blanco",
@@ -1870,7 +1870,7 @@
     "OptionExtractTrickplayImage": "Habilitar la extracción de imágenes de trickplay",
     "LabelExtractTrickplayDuringLibraryScanHelp": "Generar imágenes de trickplay cuando los vídeos se importan durante el escaneo de la biblioteca. De lo contrario se extraerán durante la tarea programada de extracción de imágenes de trickplay. Si la generación es no bloqueante esto no afectará al tiempo que la biblioteca tarda en escanearse.",
     "Author": "Autor",
-    "LibraryScanFanoutConcurrencyHelp": "Número máximo de tareas en paralelo durante los escaneos de la biblioteca. Configurar este valor en 0 seleccionará un límite basado en la cantidad de núcleos de tu sistema. ADVERTENCIA: Configurar un número demasiado alto puede causar problemas con sistemas de archivos en red; si experimentas inconvenientes, reduce este valor.",
+    "LibraryScanFanoutConcurrencyHelp": "Número máximo de tareas en paralelo durante los escaneos de la biblioteca. Dejar el campo vacío seleccionará un límite basado en la cantidad de núcleos de tu sistema. ADVERTENCIA: Configurar un número demasiado alto puede causar problemas con sistemas de archivos en red; si experimentas inconvenientes, reduce este valor.",
     "LibraryScanFanoutConcurrency": "Límite de tareas de escaneo en paralelo de la biblioteca",
     "Penciller": "Lapicista",
     "PlaylistError.CreateFailed": "Error creando lista de reproduccion",
@@ -2011,5 +2011,6 @@
     "DisplayLoadError": "Un error ocurrió mientras se cargaba la configuración de visualización.",
     "MetadataImagesLoadError": "Error al cargar la configuración de metadatos",
     "HeaderPageNotFound": "Página no encontrada",
-    "PageNotFound": "Esta no es la página que está buscando."
+    "PageNotFound": "Esta no es la página que está buscando.",
+    "SettingsPageLoadError": "Fallo al cargar la página de configuraciones"
 }
