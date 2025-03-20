@@ -1702,7 +1702,7 @@
     "HeaderPerformance": "Rendiment",
     "LabelDummyChapterCountHelp": "El nombre màxim d'imatges del capítol que s'extreuran per a cada fitxer multimèdia.",
     "LabelParallelImageEncodingLimit": "Límit de codificació paral·lela d'imatges",
-    "LabelParallelImageEncodingLimitHelp": "Número màxim de codificacions d'imatge que es poden executar en paral·lel. Si s'estableix a 0, es triarà un límit en funció del número de nuclis.",
+    "LabelParallelImageEncodingLimitHelp": "Número màxim de codificacions d'imatge que es poden executar en paral·lel. Si es deixa buit, es triarà un límit en funció del número de nuclis.",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Els extres sovint tenen el mateix nom incrustat que el principal, marqueu-ho per utilitzar-los títols incrustats de totes maneres.",
     "SaveRecordingNFO": "Desa les metadades EPG d'enregistrament a NFO",
     "SaveRecordingImages": "Guarda les imatges d'enregistrament EPG",
@@ -1885,7 +1885,7 @@
     "SaveLyricsIntoMediaFolders": "Desa la lletra a les carpetes multimèdia",
     "SaveLyricsIntoMediaFoldersHelp": "Emmagatzemar les lletres al costat dels fitxers d'àudio permetrà gestionar-les més fàcilment.",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Còdec d'àudio de transcodificació preferit en la reproducció de vídeo",
-    "LibraryScanFanoutConcurrencyHelp": "Nombre màxim de tasques paral·leles durant les exploracions de la biblioteca. Si s'estableix a 0, es triarà un límit basat en el nombre de nuclis del vostre sistema. ADVERTÈNCIA: establir aquest número massa alt pot causar problemes amb els sistemes de fitxers de xarxa; si trobeu problemes, baixeu aquest número.",
+    "LibraryScanFanoutConcurrencyHelp": "Nombre màxim de tasques paral·leles durant les exploracions de la biblioteca. Si es deixa buit, es triarà un límit basat en el nombre de nuclis del vostre sistema. ADVERTÈNCIA: establir aquest número massa alt pot causar problemes amb els sistemes de fitxers de xarxa; si trobeu problemes, baixeu aquest número.",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Seleccioneu el còdec d'àudio preferit per transcodificar per al contingut de vídeo. Si el còdec preferit no és compatible, el servidor utilitzarà el següent millor còdec disponible.",
     "LibraryScanFanoutConcurrency": "Límit de tasques d'exploració paral·leles per a les biblioteques",
     "Penciller": "Dibuixant",
@@ -2002,5 +2002,11 @@
     "LastActive": "Últim actiu",
     "CopyLogSuccess": "Registres copiats satisfactòriament.",
     "Retry": "Tronar a provar",
-    "LogLoadFailure": "Error al carregar el registre. És probable que encara s'estigui escrivint en ell."
+    "LogLoadFailure": "Error al carregar el registre. És probable que encara s'estigui escrivint en ell.",
+    "MetadataNfoLoadError": "No s'han pogut carregar les configuracions de metadades NFO",
+    "SettingsPageLoadError": "No s'ha pogut carregar la pàgina de configuracions",
+    "DisplayLoadError": "S'ha produït un error en carregar les dades de configuració de la pantalla.",
+    "HeaderPageNotFound": "Pàgina no trobada",
+    "PageNotFound": "Aquesta no és la pàgina que estàs buscant.",
+    "MetadataImagesLoadError": "No s'han pogut carregar les configuracions de metadades"
 }
