@@ -1421,7 +1421,7 @@
     "LabelParallelImageEncodingLimit": "Limite de codificação de imagens em paralelo",
     "LabelEnableLUFSScan": "Ativar a verificação LUFS",
     "LabelEnableLUFSScanHelp": "Os clientes podem normalizar a reprodução de áudio para obter o mesmo volume entre as faixas. Isso fará com que as varreduras da biblioteca sejam mais longas e consumam mais recursos.",
-    "LabelParallelImageEncodingLimitHelp": "Número máxima de imagens codificadas que são permitidas rodar em paralelo. Ajustar este valor para 0 irá selecionar um limite baseado no número de núcleos do seu sistema.",
+    "LabelParallelImageEncodingLimitHelp": "Número máximo de codificações de imagem permitidas para execução em paralelo. Se deixares este campo vazio, será escolhido um limite baseado na contagem de núcleos do teu sistema.",
     "GoHome": "Ir ao início",
     "GridView": "Vista em grelha",
     "HeaderConfirmRepositoryInstallation": "Confirmar a instalação do repositório de extensões",
@@ -1997,5 +1997,6 @@
     "LastActive": "Última atividade",
     "DeleteServerConfirmation": "Tens a certeza de que queres eliminar este servidor?",
     "LibraryNameInvalid": "O nome da biblioteca não pode estar vazio.",
-    "MetadataNfoLoadError": "Falha ao carregar as definições de metadados NFO"
+    "MetadataNfoLoadError": "Falha ao carregar as definições de metadados NFO",
+    "SettingsPageLoadError": "Falha ao carregar a página de definições"
 }
