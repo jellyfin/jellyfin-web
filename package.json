@@ -33,7 +33,7 @@
     "cross-env": "7.0.3",
     "css-loader": "7.1.2",
     "cssnano": "7.0.6",
-    "es-check": "7.2.1",
+    "es-check": "8.0.2",
     "eslint": "9.22.0",
     "eslint-plugin-compat": "6.0.2",
     "eslint-plugin-import": "2.31.0",
