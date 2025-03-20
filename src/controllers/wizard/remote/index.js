@@ -23,7 +23,7 @@ function save(page) {
 }
 
 function navigateToNextPage() {
-    Dashboard.navigate('wizardfinish.html');
+    Dashboard.navigate('wizardfinish');
 }
 
 function onSubmit(e) {

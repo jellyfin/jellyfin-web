@@ -1718,7 +1718,7 @@
     "HeaderPerformance": "Wydajność",
     "Featurette": "Film średniometrażowy",
     "Short": "Film krótkometrażowy",
-    "LabelParallelImageEncodingLimitHelp": "Maksymalna liczba kodowań obrazów, które mogą być uruchomione równolegle. Ustawienie wartości na 0 spowoduje wybór limitu w oparciu o specyfikacje Twojego systemu.",
+    "LabelParallelImageEncodingLimitHelp": "Maksymalna liczba kodowań obrazów, które mogą być uruchomione równolegle. Pozostawienie tego pola pustego spowoduje wybór limitu w oparciu o specyfikacje Twojego systemu.",
     "LabelParallelImageEncodingLimit": "Limit kodowań obrazów, które mogą być uruchomione równolegle",
     "LabelEnableAudioVbrHelp": "Zmienna przepływność bitów oferuje lepsze proporcje jakości do przepustowości w porównaniu z przepływnością średnią, ale w niektórych rzadkich przypadkach może powodować problemy z buforowaniem i zgodnością.",
     "LabelEnableAudioVbr": "Włącz kodowanie audio VBR",
@@ -1892,7 +1892,7 @@
     "Penciller": "Rysownik",
     "Translator": "Tłumacz",
     "LibraryScanFanoutConcurrency": "Limit zadań równoległego skanowania bibliotek",
-    "LibraryScanFanoutConcurrencyHelp": "Maksymalna liczba zadań równoległych podczas skanowania bibliotek. Ustawienie tej opcji na 0 spowoduje wybranie limitu na podstawie liczby rdzeni systemu. OSTRZEŻENIE: ustawienie zbyt dużej liczby może powodować problemy z sieciowymi systemami plików; jeśli napotkasz problemy, obniż tę liczbę.",
+    "LibraryScanFanoutConcurrencyHelp": "Maksymalna liczba zadań równoległych podczas skanowania bibliotek. Pozostawienie tego pola pustego spowoduje wybranie limitu na podstawie liczby rdzeni systemu. OSTRZEŻENIE: ustawienie zbyt dużej liczby może powodować problemy z sieciowymi systemami plików; jeśli napotkasz problemy, obniż tę liczbę.",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Preferowany transkodowany kodek audio podczas odtwarzania wideo",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Wybierz preferowany kodek audio, na który chcesz transkodować zawartość wideo. Jeśli preferowany kodek nie jest obsługiwany, serwer użyje następnego najlepszego dostępnego kodeka.",
     "Alternate": "Alternatywne",
@@ -2011,5 +2011,6 @@
     "MetadataImagesLoadError": "Nie udało się załadować ustawień metadanych",
     "MetadataNfoLoadError": "Nie udało się załadować ustawień metadanych NFO",
     "HeaderPageNotFound": "Nie znaleziono strony",
-    "PageNotFound": "To nie jest strona, której szukasz."
+    "PageNotFound": "To nie jest strona, której szukasz.",
+    "SettingsPageLoadError": "Nie udało się załadować strony ustawień"
 }

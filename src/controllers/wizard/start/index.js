@@ -24,7 +24,7 @@ function save(page) {
             url: apiClient.getUrl('Startup/Configuration'),
             contentType: 'application/json'
         }).then(function () {
-            Dashboard.navigate('wizarduser.html');
+            Dashboard.navigate('wizarduser');
         });
     });
 }

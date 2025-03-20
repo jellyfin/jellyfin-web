@@ -70,7 +70,7 @@ function onMoreClick() {
     const type = this.getAttribute('data-type');
 
     if (type === 'latest') {
-        Dashboard.navigate('list.html?type=Recordings&serverId=' + ApiClient.serverId());
+        Dashboard.navigate('list?type=Recordings&serverId=' + ApiClient.serverId());
     }
 }
 

@@ -66,7 +66,7 @@ function reload(page) {
 }
 
 function navigateToNextPage() {
-    Dashboard.navigate('wizardremoteaccess.html');
+    Dashboard.navigate('wizardremoteaccess');
 }
 
 function onSubmit(e) {

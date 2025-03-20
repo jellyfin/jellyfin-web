@@ -298,7 +298,7 @@ const UserEdit = () => {
                     className='lnkEditUserPreferencesContainer'
                     style={{ paddingBottom: '1em' }}
                 >
-                    <LinkButton className='lnkEditUserPreferences button-link' href={userDto?.Id ? `mypreferencesmenu.html?userId=${userDto.Id}` : undefined}>
+                    <LinkButton className='lnkEditUserPreferences button-link' href={userDto?.Id ? `mypreferencesmenu?userId=${userDto.Id}` : undefined}>
                         {globalize.translate('ButtonEditOtherUserPreferences')}
                     </LinkButton>
                 </div>

@@ -36,7 +36,7 @@ export const getDefaultTabIndex = (path: string, libraryId?: string | null) => {
 
 const TabRoutes: TabRoute[] = [
     {
-        path: '/livetv.html',
+        path: '/livetv',
         tabs: [
             {
                 index: 0,
@@ -72,7 +72,7 @@ const TabRoutes: TabRoute[] = [
         ]
     },
     {
-        path: '/movies.html',
+        path: '/movies',
         tabs: [
             {
                 index: 0,
@@ -108,7 +108,7 @@ const TabRoutes: TabRoute[] = [
         ]
     },
     {
-        path: '/music.html',
+        path: '/music',
         tabs: [
             {
                 index: 0,
@@ -149,7 +149,7 @@ const TabRoutes: TabRoute[] = [
         ]
     },
     {
-        path: '/tv.html',
+        path: '/tv',
         tabs: [
             {
                 index: 0,
@@ -185,7 +185,7 @@ const TabRoutes: TabRoute[] = [
         ]
     },
     {
-        path: '/homevideos.html',
+        path: '/homevideos',
         tabs: [
             {
                 index: 0,

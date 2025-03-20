@@ -1721,7 +1721,7 @@
     "LabelEnableAudioVbr": "Abilita codifica audio VBR",
     "LabelEnableAudioVbrHelp": "Il bitrate variabile offre una migliore qualità rispetto al rapporto bitrate medio, ma in alcuni rari casi può causare problemi di buffering e compatibilità.",
     "LabelParallelImageEncodingLimit": "Limite codifica parallela delle immagini",
-    "LabelParallelImageEncodingLimitHelp": "Numero massimo di codifiche di immagini che possono essere eseguite in parallelo. Impostandolo su 0 sceglierai un limite basato sul numero di core del sistema.",
+    "LabelParallelImageEncodingLimitHelp": "Numero massimo di codifiche di immagini che possono essere eseguite in parallelo. Se vuoto sceglierai un limite basato sul numero di core del sistema.",
     "PreferEmbeddedExtrasTitlesOverFileNames": "Preferisci i titoli incorporati ai nomi dei file per gli extra",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Gli extra hanno spesso lo stesso nome incorporato del parent, controlla questo per usare comunque titoli incorporati per loro.",
     "SaveRecordingImagesHelp": "Salva le immagini dal fornitore di elenchi EPG insieme ai media.",
@@ -1886,7 +1886,7 @@
     "PlaylistPublic": "Consenti accesso pubblico",
     "PlaylistPublicDescription": "Consenti che questa playlist sia visibile ad ogni utente loggato.",
     "HeaderLyricDownloads": "Scarica testi",
-    "LibraryScanFanoutConcurrencyHelp": "Massimo numero di task parallele durante la scansione delle librerie. Se impostato a 0 sarà utilizzato il numero di core del sistema. ATTENZIONE: impostare un numero troppo alto potrebbe causare problemi sui network filesystem. In caso di problemi ridurre il numero.",
+    "LibraryScanFanoutConcurrencyHelp": "Massimo numero di task parallele durante la scansione delle librerie. Se vuoto sarà utilizzato il numero di core del sistema. ATTENZIONE: impostare un numero troppo alto potrebbe causare problemi sui network filesystem. In caso di problemi ridurre il numero.",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Codec audio preferito per la transcodica durante la riproduzione video",
     "LibraryScanFanoutConcurrency": "Massimo numero di task durante la scansione",
     "Colorist": "Colorista",
@@ -2011,5 +2011,6 @@
     "MetadataImagesLoadError": "Caricamento metadati delle immagini fallito",
     "MetadataNfoLoadError": "Errore nel caricamento dei metadati NFO",
     "HeaderPageNotFound": "Pagina non trovata",
-    "PageNotFound": "Questa non è la pagina che stai cercando."
+    "PageNotFound": "Questa non è la pagina che stai cercando.",
+    "SettingsPageLoadError": "Errore nel caricamento della pagina di configurazione"
 }

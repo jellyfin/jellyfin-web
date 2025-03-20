@@ -12,14 +12,14 @@ function handleConnectionResult(page, result) {
         case ConnectionState.SignedIn: {
             const apiClient = result.ApiClient;
             Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
-            Dashboard.navigate('home.html');
+            Dashboard.navigate('home');
             break;
         }
         case ConnectionState.ServerSignIn:
-            Dashboard.navigate('login.html?serverid=' + result.Servers[0].Id, false, 'none');
+            Dashboard.navigate('login?serverid=' + result.Servers[0].Id, false, 'none');
             break;
         case ConnectionState.ServerSelection:
-            Dashboard.navigate('selectserver.html', false, 'none');
+            Dashboard.navigate('selectserver', false, 'none');
             break;
         case ConnectionState.ServerUpdateNeeded:
             Dashboard.alert({
