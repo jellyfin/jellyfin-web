@@ -73,7 +73,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
         >
             <MenuItem
                 component={Link}
-                to={`/userprofile.html?userId=${user?.Id}`}
+                to={`/userprofile?userId=${user?.Id}`}
                 onClick={onMenuClose}
             >
                 <ListItemIcon>
@@ -85,7 +85,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
             </MenuItem>
             <MenuItem
                 component={Link}
-                to='/mypreferencesmenu.html'
+                to='/mypreferencesmenu'
                 onClick={onMenuClose}
             >
                 <ListItemIcon>

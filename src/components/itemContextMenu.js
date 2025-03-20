@@ -562,7 +562,7 @@ function executeCommand(item, id, options) {
                 navigator.share({
                     title: item.Name,
                     text: item.Overview,
-                    url: `${apiClient.serverAddress()}/web/index.html${appRouter.getRouteUrl(item)}`
+                    url: `${apiClient.serverAddress()}/web/${appRouter.getRouteUrl(item)}`
                 });
                 break;
             case 'album':

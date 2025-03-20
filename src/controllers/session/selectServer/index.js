@@ -115,12 +115,12 @@ export default function (view, params) {
             switch (result.State) {
                 case ConnectionState.SignedIn:
                     Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
-                    Dashboard.navigate('home.html');
+                    Dashboard.navigate('home');
                     break;
 
                 case ConnectionState.ServerSignIn:
                     Dashboard.onServerChanged(null, null, apiClient);
-                    Dashboard.navigate('login.html?serverid=' + result.Servers[0].Id);
+                    Dashboard.navigate('login?serverid=' + result.Servers[0].Id);
                     break;
 
                 case ConnectionState.ServerUpdateNeeded:
