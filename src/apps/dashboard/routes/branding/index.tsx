@@ -124,7 +124,7 @@ export const Component = () => {
         reader.onload = () => {
             if (!reader.result) return;
 
-            const dataUrl = reader.result.toString();
+            const dataUrl = reader.result as string; // readAsDataURL produces a string
             // FIXME: TypeScript SDK thinks body should be a File but in reality it is a Base64 string
             const body = dataUrl.split(',')[1] as never;
             getImageApi(api)
