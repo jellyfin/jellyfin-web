@@ -1706,7 +1706,7 @@
     "SubtitleMagenta": "Đỏ Sậm",
     "SubtitleRed": "Đỏ",
     "SubtitleWhite": "Trắng",
-    "LabelParallelImageEncodingLimitHelp": "Số lượng mã hóa hình ảnh tối đa được phép chạy song song. Đặt giá trị này thành 0 sẽ chọn giới hạn dựa trên thông số kỹ thuật hệ thống của bạn.",
+    "LabelParallelImageEncodingLimitHelp": "Số lượng mã hóa hình ảnh tối đa được phép chạy song song. Để trống sẽ chọn giới hạn dựa trên số lõi hệ thống của bạn.",
     "SecondarySubtitles": "Phụ đề phụ",
     "HeaderPerformance": "Hiệu suất",
     "LabelParallelImageEncodingLimit": "Giới hạn mã hóa hình ảnh song song",
@@ -1797,7 +1797,7 @@
     "HeaderLyricDownloads": "Tải Xuống Lời Bài Hát",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Bộ giải mã âm thanh chuyển mã ưa thích khi phát lại video",
     "LibraryScanFanoutConcurrency": "Giới hạn tác vụ quét thư viện song song",
-    "LibraryScanFanoutConcurrencyHelp": "Số lượng tác vụ song song tối đa trong quá trình quét thư viện. Đặt là 0 sẽ chọn một giới hạn dựa trên số lõi trên hệ thống của bạn. CẢNH BÁO: Đặt số này quá cao có thể gây ra vấn đề với hệ thống tệp mạng; nếu gặp sự cố, hãy giảm số này xuống thấp.",
+    "LibraryScanFanoutConcurrencyHelp": "Số lượng tác vụ song song tối đa lúc quét thư viện. Để trống sẽ chọn một giới hạn dựa trên số lõi trên hệ thống của bạn. CẢNH BÁO: Đặt số này quá cao có thể gây ra vấn đề với hệ thống tệp mạng; nếu gặp sự cố, hãy giảm số này xuống thấp.",
     "Lyrics": "Lời bài hát",
     "PlaybackError.ASS_RENDER_ERROR": "Đã xảy ra lỗi trong trình kết xuất phụ đề ASS/SSA.",
     "PlaybackError.FATAL_HLS_ERROR": "Đã xảy ra lỗi nghiêm trọng trong luồng HLS.",
@@ -2008,5 +2008,6 @@
     "MetadataImagesLoadError": "Không tải được cài đặt dữ liệu mô tả",
     "MetadataNfoLoadError": "Tải cài đặt dữ liệu mô tả NFO thất bại",
     "PageNotFound": "Đây không phải là trang bạn đang tìm kiếm.",
-    "HeaderPageNotFound": "Không tìm thấy trang"
+    "HeaderPageNotFound": "Không tìm thấy trang",
+    "SettingsPageLoadError": "Tải trang cài đặt thất bại"
 }
