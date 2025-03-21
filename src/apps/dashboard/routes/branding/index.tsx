@@ -12,7 +12,7 @@ import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import React, { useCallback, useEffect, useState } from 'react';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation, useSubmit } from 'react-router-dom';
+import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 
 import { getBrandingOptionsQuery, QUERY_KEY, useBrandingOptions } from 'apps/dashboard/features/branding/api/useBrandingOptions';
 import Loading from 'components/loading/LoadingComponent';
@@ -25,6 +25,7 @@ import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
 
 const BRANDING_CONFIG_KEY = 'branding';
+const ENABLE_CUSTOM_IMAGE = false;
 const SPLASHSCREEN_URL = '/Branding/Splashscreen';
 const BrandingOption = {
     CustomCss: 'CustomCss',
@@ -70,7 +71,6 @@ export const Component = () => {
     const navigation = useNavigation();
     const actionData = useActionData() as ActionData | undefined;
     const isSubmitting = navigation.state === 'submitting';
-    const submit = useSubmit();
 
     const {
         data: defaultBrandingOptions,
@@ -80,6 +80,7 @@ export const Component = () => {
 
     const [ error, setError ] = useState<string>();
 
+    const [ isSplashscreenEnabled, setIsSplashscreenEnabled ] = useState(brandingOptions.SplashscreenEnabled ?? false);
     const [ splashscreenUrl, setSplashscreenUrl ] = useState<string>();
     useEffect(() => {
         if (!api || isSubmitting) return;
@@ -143,14 +144,22 @@ export const Component = () => {
         reader.readAsDataURL(file);
     }, [ api ]);
 
-    const setSplashscreenEnabled = useCallback((event: React.ChangeEvent<HTMLInputElement>, isEnabled: boolean) => {
-        setBrandingOptions({
-            ...brandingOptions,
-            [BrandingOption.SplashscreenEnabled]: isEnabled
-        });
+    const setSplashscreenEnabled = useCallback(async (_: React.ChangeEvent<HTMLInputElement>, isEnabled: boolean) => {
+        setIsSplashscreenEnabled(isEnabled);
 
-        submit(event.target.form);
-    }, [ brandingOptions, submit ]);
+        await getConfigurationApi(api!)
+            .updateNamedConfiguration({
+                key: BRANDING_CONFIG_KEY,
+                body: JSON.stringify({
+                    ...defaultBrandingOptions,
+                    SplashscreenEnabled: isEnabled
+                })
+            });
+
+        void queryClient.invalidateQueries({
+            queryKey: [ QUERY_KEY ]
+        });
+    }, [ api, defaultBrandingOptions ]);
 
     const setBrandingOption = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         if (Object.keys(BrandingOption).includes(event.target.name)) {
@@ -206,7 +215,7 @@ export const Component = () => {
                                 <Image
                                     isLoading={false}
                                     url={
-                                        brandingOptions.SplashscreenEnabled ?
+                                        isSplashscreenEnabled ?
                                             splashscreenUrl :
                                             undefined
                                     }
@@ -221,41 +230,46 @@ export const Component = () => {
                                     control={
                                         <Switch
                                             name={BrandingOption.SplashscreenEnabled}
-                                            checked={brandingOptions?.SplashscreenEnabled}
+                                            checked={isSplashscreenEnabled}
                                             onChange={setSplashscreenEnabled}
                                         />
                                     }
                                     label={globalize.translate('EnableSplashScreen')}
                                 />
 
-                                <Typography variant='body2'>
-                                    {globalize.translate('CustomSplashScreenSize')}
-                                </Typography>
+                                {/* FIXME: Disabled due to https://github.com/jellyfin/jellyfin/issues/13744 */}
+                                {ENABLE_CUSTOM_IMAGE && (
+                                    <>
+                                        <Typography variant='body2'>
+                                            {globalize.translate('CustomSplashScreenSize')}
+                                        </Typography>
 
-                                <Button
-                                    component='label'
-                                    variant='outlined'
-                                    startIcon={<Upload />}
-                                    disabled={!brandingOptions.SplashscreenEnabled}
-                                >
-                                    <input
-                                        type='file'
-                                        accept='image/*'
-                                        hidden
-                                        onChange={onSplashscreenUpload}
-                                    />
-                                    {globalize.translate('UploadCustomImage')}
-                                </Button>
+                                        <Button
+                                            component='label'
+                                            variant='outlined'
+                                            startIcon={<Upload />}
+                                            disabled={!isSplashscreenEnabled}
+                                        >
+                                            <input
+                                                type='file'
+                                                accept='image/*'
+                                                hidden
+                                                onChange={onSplashscreenUpload}
+                                            />
+                                            {globalize.translate('UploadCustomImage')}
+                                        </Button>
 
-                                <Button
-                                    variant='outlined'
-                                    color='error'
-                                    startIcon={<Delete />}
-                                    disabled={!brandingOptions.SplashscreenEnabled}
-                                    onClick={onSplashscreenDelete}
-                                >
-                                    {globalize.translate('DeleteCustomImage')}
-                                </Button>
+                                        <Button
+                                            variant='outlined'
+                                            color='error'
+                                            startIcon={<Delete />}
+                                            disabled={!isSplashscreenEnabled}
+                                            onClick={onSplashscreenDelete}
+                                        >
+                                            {globalize.translate('DeleteCustomImage')}
+                                        </Button>
+                                    </>
+                                )}
                             </Stack>
                         </Stack>
 
