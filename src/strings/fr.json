@@ -1719,7 +1719,7 @@
     "Short": "Court-métrage",
     "HeaderPerformance": "Performance",
     "LabelParallelImageEncodingLimit": "Limite de parallélisation de l'encodage d'image",
-    "LabelParallelImageEncodingLimitHelp": "Nombre maximal d’encodages d’image autorisés à s’exécuter en parallèle. Si vous définissez cette valeur sur 0, la limite sera choisie en fonction du nombre de cœurs de votre système.",
+    "LabelParallelImageEncodingLimitHelp": "Nombre maximal d’encodages d’image autorisés à s’exécuter en parallèle. Si vous laissez cette valeur vide, la limite sera choisie en fonction du nombre de cœurs de votre système.",
     "LabelEnableAudioVbr": "Activer l’encodage audio VBR",
     "LabelEnableAudioVbrHelp": "Le débit binaire variable offre une qualité supérieure à la moyenne mais peut, dans de rares cas, causer des problèmes de mise en mémoire tampon et de compatibilité.",
     "LabelTonemappingMode": "Mode de mappage tonal",
@@ -1883,7 +1883,7 @@
     "HeaderLyricDownloads": "Téléchargements des paroles",
     "Illustrator": "Illustrateur",
     "Author": "Auteur",
-    "LibraryScanFanoutConcurrencyHelp": "Nombre maximal de tâches en parallèle pour les scans de bibliothèque. Si vous définissez cette valeur à 0, la limite sera choisie en fonction du nombre de cœurs de votre système. ATTENTION : Définir une valeur trop élevée peut causer des problèmes avec les systèmes de fichiers en réseau ; si vous rencontrez des problèmes, diminuez cette valeur.",
+    "LibraryScanFanoutConcurrencyHelp": "Nombre maximal de tâches en parallèle pour les scans de bibliothèque. Si vous laissez cette valeur vide, la limite sera choisie en fonction du nombre de cœurs de votre système. ATTENTION : Définir une valeur trop élevée peut causer des problèmes avec les systèmes de fichiers en réseau ; si vous rencontrez des problèmes, diminuez cette valeur.",
     "Colorist": "Coloriste",
     "Creator": "Créateur",
     "LibraryScanFanoutConcurrency": "Limite de tâches de scan de bibliothèque en parallèle",
@@ -2011,5 +2011,6 @@
     "MetadataImagesLoadError": "Échec du chargement des paramètres de métadonnées",
     "LibraryNameInvalid": "Le nom de la bibliothèque ne peut pas être vide.",
     "HeaderPageNotFound": "Page introuvable",
-    "PageNotFound": "Ceci n'est pas la page que vous cherchez."
+    "PageNotFound": "Ceci n'est pas la page que vous cherchez.",
+    "SettingsPageLoadError": "Échec du chargement de la page des paramètres"
 }
