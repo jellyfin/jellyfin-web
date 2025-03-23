@@ -41,16 +41,7 @@ const config = {
         modules: [
             path.resolve(__dirname, 'src'),
             path.resolve(__dirname, 'node_modules')
-        ],
-        alias: {
-            '@mui/base': '@mui/base/legacy',
-            '@mui/lab': '@mui/lab/legacy',
-            '@mui/material': '@mui/material/legacy',
-            '@mui/private-theming': '@mui/private-theming/legacy',
-            '@mui/styled-engine': '@mui/styled-engine/legacy',
-            '@mui/system': '@mui/system/legacy',
-            '@mui/utils': '@mui/utils/legacy'
-        }
+        ]
     },
     plugins: [
         new DefinePlugin({
@@ -186,6 +177,13 @@ const config = {
                 include: [
                     path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
+                    path.resolve(__dirname, 'node_modules/@mui/base'),
+                    path.resolve(__dirname, 'node_modules/@mui/lab'),
+                    path.resolve(__dirname, 'node_modules/@mui/material'),
+                    path.resolve(__dirname, 'node_modules/@mui/private-theming'),
+                    path.resolve(__dirname, 'node_modules/@mui/styled-engine'),
+                    path.resolve(__dirname, 'node_modules/@mui/system'),
+                    path.resolve(__dirname, 'node_modules/@mui/utils'),
                     path.resolve(__dirname, 'node_modules/@mui/x-date-pickers'),
                     path.resolve(__dirname, 'node_modules/@react-hook/latest'),
                     path.resolve(__dirname, 'node_modules/@react-hook/passive-layout-effect'),
