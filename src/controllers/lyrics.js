@@ -237,17 +237,15 @@ export default function (view) {
             currentItem = state.NowPlayingItem;
 
             // set the song title, artist name, album name, and album primary image
-            document.getElementById('songTitle').textContent = currentItem.Name || "Unknown Title";
-            document.getElementById('artistName').textContent = currentItem.Artists?.join(", ") || "Unknown Artist";
-            document.getElementById('albumName').textContent = currentItem.Album || "Unknown Album";
-            const albumArtUrl = currentItem.ImageTags?.Primary
-                ? ServerConnections.getApiClient(currentItem.ServerId).getImageUrl(currentItem.Id, {
-                      type: 'Primary',
-                      maxWidth: 300,
-                      maxHeight: 300,
-                  })
-                : "assets/img/avatar.png";
-                
+            document.getElementById('songTitle').textContent = currentItem.Name || 'Unknown Title';
+            document.getElementById('artistName').textContent = currentItem.Artists?.join(', ') || 'Unknown Artist';
+            document.getElementById('albumName').textContent = currentItem.Album || 'Unknown Album';
+            const albumArtUrl = currentItem.ImageTags?.Primary ? ServerConnections.getApiClient(currentItem.ServerId).getImageUrl(currentItem.Id, {
+                type: 'Primary',
+                maxWidth: 300,
+                maxHeight: 300
+            }) : 'assets/img/avatar.png';
+
             document.getElementById('albumArt').src = albumArtUrl;
 
             const serverId = state.NowPlayingItem.ServerId;
