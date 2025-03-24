@@ -118,6 +118,7 @@ function loadForm(context, user, userSettings) {
     context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
     context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
     context.querySelector('#chkBlurhash').checked = userSettings.enableBlurhash();
+    context.querySelector('#infscroll').checked = userSettings.enableInfiniteScroll();
     context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
     context.querySelector('#chkDetailsBanner').checked = userSettings.detailsBanner();
 
@@ -158,6 +159,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.screensaverTime(context.querySelector('#txtScreensaverTime').value);
 
     userSettingsInstance.libraryPageSize(context.querySelector('#txtLibraryPageSize').value);
+    userSettingsInstance.enableInfiniteScroll(context.querySelector('#infscroll').checked);
 
     userSettingsInstance.maxDaysForNextUp(context.querySelector('#txtMaxDaysForNextUp').value);
     userSettingsInstance.enableRewatchingInNextUp(context.querySelector('#chkRewatchingNextUp').checked);
