@@ -1976,5 +1976,21 @@
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Csak kulcsképkockák kinyerése a jelentősen gyorsabb számítás érdekében, de kevésbé pontos időzítéssel. Ha a beállított hardveres dekódoló nem támogatja ezt a módot, akkor a szoftveres dekódoló lesz használva.",
     "DeleteServerConfirmation": "Biztos, hogy törli ezt a kiszolgálót?",
     "VideoCodecTagNotSupported": "A videókodek-címke nem támogatott",
-    "LabelTrickplayKeyFrameOnlyExtraction": "Képek előállítása csak kulcsképkockákból"
+    "LabelTrickplayKeyFrameOnlyExtraction": "Képek előállítása csak kulcsképkockákból",
+    "HeaderPageNotFound": "Az oldal nem található",
+    "LabelMediaSegmentProviders": "Médiaszegmens szolgáltatók",
+    "MediaSegmentProvidersHelp": "Engedélyezd és tedd sorba a médiaszegmens szolgáltatókat preferencia (prioritás) alapján.",
+    "MetadataNfoLoadError": "Nem sikerült a metaadat NFO beállításokat betölteni",
+    "PageNotFound": "Ez nem az oldal, amit keresel.",
+    "SettingsPageLoadError": "Nem sikerült betölteni a beállítások oldalt",
+    "CustomSubtitleStylingHelp": "A feliratstílus működni fog a legtöbb eszközön, de további teljesítményt igényel.",
+    "LabelSubtitleStyling": "Feliratstílus",
+    "CopyLogSuccess": "A napló tartalma sikeresen másolva lett.",
+    "DisplayLoadError": "Egy hibába ütköztünk a kijelző beállításainak betöltése közben.",
+    "LabelDevice": "Eszköz",
+    "LastActive": "Legutóbb aktív",
+    "PreferNonstandardArtistsTagHelp": "Használja a nem szabványos ARTISTS címkét az ARTIST címke helyett, ha elérhető.",
+    "Penciller": "Grafikus",
+    "MetadataImagesLoadError": "Nem sikerült betölteni a metaadat beállításokat",
+    "LibraryNameInvalid": "A könyvtár neve nem lehet üres."
 }
