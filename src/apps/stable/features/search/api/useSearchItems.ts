@@ -85,6 +85,14 @@ export const useSearchItems = (
 
             return sortSections(sections);
         },
-        enabled: !!api && !!userId && !!isArtistsEnabled && !!isPeopleEnabled && !!isVideosEnabled && !!isLiveTvEnabled && !!isProgramsEnabled
+        enabled: (
+            !!api
+            && !!userId
+            && !!isArtistsEnabled
+            && !!isPeopleEnabled
+            && !!isVideosEnabled
+            && !!isLiveTvEnabled
+            && !!isProgramsEnabled
+        )
     });
 };
