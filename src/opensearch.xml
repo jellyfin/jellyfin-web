@@ -1,0 +1,9 @@
+<OpenSearchDescription
+  xmlns="http://a9.com/-/spec/opensearch/1.1/"
+  xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>Jellyfin</ShortName>
+  <Description>Jellyfin Media Server</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Image width="256" height="256" type="image/x-icon">favicon.png</Image>
+  <Url type="text/html" template="http://localhost:8080/#/search?query={searchTerms}" />
+</OpenSearchDescription>
