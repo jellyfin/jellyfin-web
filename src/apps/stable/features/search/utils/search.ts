@@ -130,7 +130,6 @@ export function getItemTypesFromCollectionType(collectionType: CollectionType | 
                 BaseItemKind.Playlist,
                 BaseItemKind.MusicAlbum,
                 BaseItemKind.Audio,
-                BaseItemKind.LiveTvProgram,
                 BaseItemKind.TvChannel,
                 BaseItemKind.PhotoAlbum,
                 BaseItemKind.Photo,
