@@ -266,7 +266,7 @@ function showImageDownloader(page, imageType) {
             reload(page);
         }).catch(function () {
             // image downloader closed
-        });;
+        });
     });
 }
 
