@@ -10,6 +10,8 @@ import { useVideoSearch } from './useVideoSearch';
 import { Section } from '../types';
 import { useLiveTvSearch } from './useLiveTvSearch';
 import { fetchItemsByType } from './fetchItemsByType';
+import { useProgramsSearch } from './useProgramsSearch';
+import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
 
 export const useSearchItems = (
     parentId?: string,
@@ -19,6 +21,7 @@ export const useSearchItems = (
     const { data: artists, isPending: isArtistsPending } = useArtistsSearch(parentId, collectionType, searchTerm);
     const { data: people, isPending: isPeoplePending } = usePeopleSearch(parentId, collectionType, searchTerm);
     const { data: videos, isPending: isVideosPending } = useVideoSearch(parentId, collectionType, searchTerm);
+    const { data: programs, isPending: isProgramsPending } = useProgramsSearch(parentId, collectionType, searchTerm);
     const { data: liveTvSections, isPending: isLiveTvPending } = useLiveTvSearch(parentId, collectionType, searchTerm);
     const { api, user } = useApi();
     const userId = user?.Id;
@@ -26,6 +29,7 @@ export const useSearchItems = (
     const isArtistsEnabled = !isArtistsPending || (collectionType && !isMusic(collectionType));
     const isPeopleEnabled = !isPeoplePending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType));
     const isVideosEnabled = !isVideosPending || collectionType;
+    const isProgramsEnabled = !isProgramsPending || collectionType;
     const isLiveTvEnabled = !isLiveTvPending || !collectionType || !isLivetv(collectionType);
 
     return useQuery({
@@ -39,6 +43,10 @@ export const useSearchItems = (
 
             addSection(sections, 'Artists', artists?.Items, {
                 coverImage: true
+            });
+
+            addSection(sections, 'Programs', programs?.Items, {
+                ...LIVETV_CARD_OPTIONS
             });
 
             addSection(sections, 'People', people?.Items, {
@@ -77,6 +85,6 @@ export const useSearchItems = (
 
             return sortSections(sections);
         },
-        enabled: !!api && !!userId && !!isArtistsEnabled && !!isPeopleEnabled && !!isVideosEnabled && !!isLiveTvEnabled
+        enabled: !!api && !!userId && !!isArtistsEnabled && !!isPeopleEnabled && !!isVideosEnabled && !!isLiveTvEnabled && !!isProgramsEnabled
     });
 };
