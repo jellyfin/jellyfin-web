@@ -265,7 +265,7 @@ function showImageDownloader(page, imageType) {
             hasChanges = true;
             reload(page);
         }).catch(function () {
-            console.debug('No changes were made.');
+            // image downloader closed
         });;
     });
 }
