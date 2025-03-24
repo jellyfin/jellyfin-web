@@ -1,29 +1,18 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { type FC } from 'react';
 
-import { useApi } from 'hooks/useApi';
 import { useUserSettings } from 'hooks/useUserSettings';
+import { useBrandingOptions } from 'apps/dashboard/features/branding/api/useBrandingOptions';
 
 const CustomCss: FC = () => {
-    const { api } = useApi();
+    const { data: brandingOptions } = useBrandingOptions();
     const { customCss: userCustomCss, disableCustomCss } = useUserSettings();
-    const [ brandingCssUrl, setBrandingCssUrl ] = useState<string>();
-
-    useEffect(() => {
-        if (!api) return;
-
-        setBrandingCssUrl(api.getUri('/Branding/Css.css'));
-    }, [ api ]);
-
-    if (!api) return null;
 
     return (
         <>
-            {!disableCustomCss && brandingCssUrl && (
-                <link
-                    rel='stylesheet'
-                    type='text/css'
-                    href={brandingCssUrl}
-                />
+            {!disableCustomCss && brandingOptions?.CustomCss && (
+                <style>
+                    {brandingOptions.CustomCss}
+                </style>
             )}
             {userCustomCss && (
                 <style>
