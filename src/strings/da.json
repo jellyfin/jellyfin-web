@@ -1993,7 +1993,7 @@
     "LabelMediaSegmentProviders": "Mediesegment tilbydere",
     "MediaSegmentProvidersHelp": "Aktiver og arranger dine foretrukne mediesegment-tilbydere efter prioritering.",
     "DeleteServerConfirmation": "Er du sikker på at du ønsker slette denne server?",
-    "AutoSubtitleStylingHelp": "Denne tilstand vil automatisk skifte mellem oprindelig og brugerdefineret stylings-mekanismer baseret på din enheds type.",
+    "AutoSubtitleStylingHelp": "Denne tilstand vil automatisk skifte mellem oprindelig og brugerdefineret undertekst stylings-mekanismer baseret på din enheds type.",
     "Custom": "Brugerdefineret",
     "CustomSubtitleStylingHelp": "Undertekse styling vil virke på de fleste enheder, men kommer med en præstations pris.",
     "LabelSubtitleStyling": "Undertekst Styling",
