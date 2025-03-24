@@ -2,17 +2,28 @@
     padding-top: 4.2em !important;
     display: flex;
     justify-content: center;
+    margin: 2%;
+}
+
+.lyricWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 5em;
 }
 
 .dynamicLyricsContainer {
+    flex: 2;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .lyricsLine {
     display: inline-block;
     width: fit-content;
-    margin: 0.1em;
+    margin: 0.3em;
     font-size: 30px;
     color: inherit;
     min-height: 2em;
@@ -28,4 +39,82 @@
 
 .dynamicLyric {
     cursor: pointer;
+}
+
+.songDetails {
+    position: fixed;
+    right: 1%;
+    top: 40%;
+    transform: translateY(-50%);
+    max-width: 20%;
+    text-align: center;
+}
+
+#albumArt {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.songInfo {
+    margin-top: 10px;
+    color: #ffffff;
+}
+
+.songInfo h2 {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.songInfo h3 {
+    font-size: 18px;
+}
+
+.songInfo p {
+    font-size: 16px;
+    color: #bbbbbb;
+    margin-top: -5px;
+
+}
+
+/* move info to the top and allow lyrics to overlap */
+@media screen and (max-width: 1380px) {
+    .lyricWrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .songDetails {
+        right: auto;
+        max-width: 80%;
+        opacity: 20%;
+        margin-top: -20px;
+    }
+
+    #albumArt {
+        width: 70%;
+    }
+
+    .songInfo h2 {
+        font-size: 25px;
+    }
+
+    .songInfo h3 {
+        font-size: 16px;
+    }
+
+    .songInfo p {
+        font-size: 14px;
+        color: #bbbbbb;
+        margin-top: -5px;
+    }
+
+    .dynamicLyricsContainer {
+        position: absolute;
+        top: 40px;
+        width: 100%;
+    }
 }
