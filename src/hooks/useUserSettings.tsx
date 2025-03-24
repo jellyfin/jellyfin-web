@@ -7,6 +7,8 @@ import Events, { type Event } from 'utils/events';
 import { useApi } from './useApi';
 
 interface UserSettings {
+    customCss?: string
+    disableCustomCss: boolean
     theme?: string
     dashboardTheme?: string
     dateTimeLocale?: string
@@ -15,6 +17,9 @@ interface UserSettings {
 
 // NOTE: This is an incomplete list of only the settings that are currently being used
 const UserSettingField = {
+    // Custom CSS
+    CustomCss: 'customCss',
+    DisableCustomCss: 'disableCustomCss',
     // Theme settings
     Theme: 'appTheme',
     DashboardTheme: 'dashboardTheme',
@@ -23,11 +28,15 @@ const UserSettingField = {
     Language: 'language'
 };
 
-const UserSettingsContext = createContext<UserSettings>({});
+const UserSettingsContext = createContext<UserSettings>({
+    disableCustomCss: false
+});
 
 export const useUserSettings = () => useContext(UserSettingsContext);
 
 export const UserSettingsProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
+    const [ customCss, setCustomCss ] = useState<string>();
+    const [ disableCustomCss, setDisableCustomCss ] = useState(false);
     const [ theme, setTheme ] = useState<string>();
     const [ dashboardTheme, setDashboardTheme ] = useState<string>();
     const [ dateTimeLocale, setDateTimeLocale ] = useState<string>();
@@ -36,14 +45,25 @@ export const UserSettingsProvider: FC<PropsWithChildren<unknown>> = ({ children 
     const { user } = useApi();
 
     const context = useMemo<UserSettings>(() => ({
+        customCss,
+        disableCustomCss,
         theme,
         dashboardTheme,
         dateTimeLocale,
         locale: language
-    }), [ theme, dashboardTheme, dateTimeLocale, language ]);
+    }), [
+        customCss,
+        disableCustomCss,
+        theme,
+        dashboardTheme,
+        dateTimeLocale,
+        language
+    ]);
 
     // Update the values of the user settings
     const updateUserSettings = useCallback(() => {
+        setCustomCss(userSettings.customCss());
+        setDisableCustomCss(userSettings.disableCustomCss());
         setTheme(userSettings.theme());
         setDashboardTheme(userSettings.dashboardTheme());
         setDateTimeLocale(userSettings.dateTimeLocale());
