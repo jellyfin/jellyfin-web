@@ -189,7 +189,9 @@ class SkipSegment extends PlaybackSubscriber {
     onPlaybackStop() {
         this.currentSegment = null;
         this.hideSkipButton();
-        Events.off(document, EventType.SHOW_VIDEO_OSD, this.onOsdChanged);
+        if (!this.playbackManager.getCurrentPlayer()) {
+            Events.off(document, EventType.SHOW_VIDEO_OSD, this.onOsdChanged);
+        }
     }
 }
 
