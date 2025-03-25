@@ -52,7 +52,7 @@
     "postcss-loader": "8.1.1",
     "postcss-preset-env": "10.1.5",
     "postcss-scss": "4.0.9",
-    "sass": "1.85.1",
+    "sass": "1.86.0",
     "sass-loader": "16.0.5",
     "source-map-loader": "5.0.0",
     "speed-measure-webpack-plugin": "1.5.0",
@@ -130,7 +130,7 @@
     "whatwg-fetch": "3.6.20"
   },
   "optionalDependencies": {
-    "sass-embedded": "1.85.1"
+    "sass-embedded": "1.86.0"
   },
   "browserslist": [
     "last 2 Firefox versions",
