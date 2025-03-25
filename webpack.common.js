@@ -135,6 +135,12 @@ const config = {
             pathData.chunk.name === 'serviceworker' ? '[name].js' : '[name].bundle.js'
         ),
         chunkFilename: '[name].[contenthash].chunk.js',
+        assetModuleFilename: pathData => {
+            if (pathData.filename.startsWith('assets/') || pathData.filename.startsWith('themes/')) {
+                return '[path][base][query]';
+            }
+            return '[hash][ext][query]';
+        },
         path: path.resolve(__dirname, 'dist'),
         publicPath: ''
     },
@@ -317,7 +323,12 @@ const config = {
                             path.resolve(__dirname, 'src/themes/')
                         ],
                         use: [
-                            MiniCssExtractPlugin.loader,
+                            {
+                                loader: MiniCssExtractPlugin.loader,
+                                options: {
+                                    publicPath: '/'
+                                }
+                            },
                             'css-loader',
                             {
                                 loader: 'postcss-loader',
