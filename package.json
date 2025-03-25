@@ -42,6 +42,7 @@
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-sonarjs": "3.0.2",
     "expose-loader": "5.0.1",
+    "fast-glob": "3.3.3",
     "fork-ts-checker-webpack-plugin": "9.0.2",
     "globals": "16.0.0",
     "html-loader": "5.1.0",

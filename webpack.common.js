@@ -1,3 +1,4 @@
+const fg = require('fast-glob');
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -33,9 +34,19 @@ try {
 
 const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
 
+const THEMES = fg.globSync('themes/**/*.scss', { cwd: path.resolve(__dirname, 'src') });
+const THEMES_BY_ID = THEMES.reduce((acc, theme) => {
+    acc[theme.substring(0, theme.lastIndexOf('/'))] = `./${theme}`;
+    return acc;
+}, {});
+
 const config = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
+    entry: {
+        'main.jellyfin': './index.jsx',
+        ...THEMES_BY_ID
+    },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
         modules: [
