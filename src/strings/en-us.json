@@ -1360,6 +1360,8 @@
     "Playlists": "Playlists",
     "PlayNext": "Play next",
     "PlayNextEpisodeAutomatically": "Play next episode automatically",
+    "AreYouStillWatching": "Are you still watching?",
+    "NumEpisodes": "Episodes to play before still watching prompt",
     "PleaseAddAtLeastOneFolder": "Please add at least one folder to this library by clicking the '+' button in 'Folders' section.",
     "PleaseConfirmRepositoryInstallation": "Please click OK to confirm you've read the above and wish to proceed with the plugin repository installation.",
     "PleaseEnterNameOrId": "Please enter a name or an external ID.",

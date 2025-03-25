@@ -499,6 +499,8 @@
     "PleaseAddAtLeastOneFolder": "Please add at least one folder to this library by clicking the '+' button in 'Folders' section.",
     "Played": "Played",
     "PlayNextEpisodeAutomatically": "Play next episode automatically",
+    "AreYouStillWatching": "Are you still watching?",
+    "NumEpisodes": "Episodes to play before still watching prompt",
     "PlayNext": "Play next",
     "PlayFromBeginning": "Play from beginning",
     "PlayCount": "Play count",
