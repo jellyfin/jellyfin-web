@@ -60,13 +60,14 @@ const config = {
             filename: 'index.html',
             template: 'index.html',
             // Append file hashes to bundle urls for cache busting
-            hash: true
+            hash: true,
+            chunks: [
+                'main.jellyfin',
+                'serviceworker'
+            ]
         }),
         new CopyPlugin({
             patterns: [
-                {
-                    from: 'themes/**/*.{css,jpg}'
-                },
                 {
                     from: 'assets/**',
                     globOptions: {
@@ -107,6 +108,15 @@ const config = {
             typescript: {
                 configFile: path.resolve(__dirname, 'tsconfig.json')
             }
+        }),
+        new MiniCssExtractPlugin({
+            filename: pathData => {
+                if (pathData.chunk?.name?.startsWith('themes/')) {
+                    return '[name]/theme.css';
+                }
+                return '[name].[contenthash].css';
+            },
+            chunkFilename: '[name].[contenthash].css'
         })
     ],
     output: {
@@ -288,33 +298,41 @@ const config = {
                 }]
             },
             {
-                test: /\.s[ac]ss$/i,
-                use: [
-                    DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
-                    'css-loader',
+                test: /\.(sa|sc|c)ss$/i,
+                oneOf: [
                     {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                config: path.resolve(__dirname, 'postcss.config.js')
-                            }
-                        }
+                        // Themes always need to use the MiniCssExtractPlugin since they are loaded directly
+                        include: [
+                            path.resolve(__dirname, 'src/themes/')
+                        ],
+                        use: [
+                            MiniCssExtractPlugin.loader,
+                            'css-loader',
+                            {
+                                loader: 'postcss-loader',
+                                options: {
+                                    postcssOptions: {
+                                        config: path.resolve(__dirname, 'postcss.config.js')
+                                    }
+                                }
+                            },
+                            'sass-loader'
+                        ]
                     },
-                    'sass-loader'
-                ]
-            },
-            {
-                test: /\.css$/i,
-                use: [
-                    DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
-                    'css-loader',
                     {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                config: path.resolve(__dirname, 'postcss.config.js')
-                            }
-                        }
+                        use: [
+                            DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
+                            'css-loader',
+                            {
+                                loader: 'postcss-loader',
+                                options: {
+                                    postcssOptions: {
+                                        config: path.resolve(__dirname, 'postcss.config.js')
+                                    }
+                                }
+                            },
+                            'sass-loader'
+                        ]
                     }
                 ]
             },
@@ -340,11 +358,5 @@ const config = {
         ]
     }
 };
-
-if (!DEV_MODE) {
-    config.plugins.push(new MiniCssExtractPlugin({
-        filename: '[name].[contenthash].css'
-    }));
-}
 
 module.exports = config;
