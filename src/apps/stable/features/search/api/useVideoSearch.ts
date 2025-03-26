@@ -18,7 +18,7 @@ const fetchVideos = async (
     const response = await getItemsApi(api).getItems(
         {
             ...QUERY_OPTIONS,
-            userId: userId,
+            userId,
             recursive: true,
             mediaTypes: [MediaType.Video],
             excludeItemTypes: [
@@ -47,8 +47,8 @@ export const useVideoSearch = (
             api!,
             userId!,
             {
-                parentId: parentId,
-                searchTerm: searchTerm
+                parentId,
+                searchTerm
             },
             { signal }
         ),

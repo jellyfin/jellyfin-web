@@ -17,7 +17,7 @@ const fetchArtists = async (
     const response = await getArtistsApi(api).getArtists(
         {
             ...QUERY_OPTIONS,
-            userId: userId,
+            userId,
             ...params
         },
         options
@@ -39,8 +39,8 @@ export const useArtistsSearch = (
             api!,
             userId!,
             {
-                parentId: parentId,
-                searchTerm: searchTerm
+                parentId,
+                searchTerm
             },
             { signal }
         ),

@@ -40,8 +40,8 @@ export const useProgramsSearch = (
             api!,
             userId!,
             {
-                parentId: parentId,
-                searchTerm: searchTerm
+                parentId,
+                searchTerm
             },
             { signal }
         ),
