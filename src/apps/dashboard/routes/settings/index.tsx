@@ -161,7 +161,6 @@ export const Component = () => {
                                 select
                                 name='UICulture'
                                 label={globalize.translate('LabelPreferredDisplayLanguage')}
-                                FormHelperTextProps={{ component: Stack }}
                                 helperText={(
                                     <>
                                         <span>{globalize.translate('LabelDisplayLanguageHelp')}</span>
@@ -171,6 +170,9 @@ export const Component = () => {
                                     </>
                                 )}
                                 defaultValue={config.UICulture}
+                                slotProps={{
+                                    formHelperText: { component: Stack }
+                                }}
                             >
                                 {languageOptions.map((language) =>
                                     <MenuItem key={language.Name} value={language.Value || ''}>{language.Name}</MenuItem>
@@ -185,14 +187,16 @@ export const Component = () => {
                                 helperText={globalize.translate('LabelCachePathHelp')}
                                 value={cachePath}
                                 onChange={onCachePathChange}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <IconButton edge='end' onClick={showCachePathPicker}>
-                                                <SearchIcon />
-                                            </IconButton>
-                                        </InputAdornment>
-                                    )
+                                slotProps={{
+                                    input: {
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <IconButton edge='end' onClick={showCachePathPicker}>
+                                                    <SearchIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }
                                 }}
                             />
 
@@ -202,14 +206,16 @@ export const Component = () => {
                                 helperText={globalize.translate('LabelMetadataPathHelp')}
                                 value={metadataPath}
                                 onChange={onMetadataPathChange}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <IconButton edge='end' onClick={showMetadataPathPicker}>
-                                                <SearchIcon />
-                                            </IconButton>
-                                        </InputAdornment>
-                                    )
+                                slotProps={{
+                                    input: {
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <IconButton edge='end' onClick={showMetadataPathPicker}>
+                                                    <SearchIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }
                                 }}
                             />
 
@@ -232,25 +238,29 @@ export const Component = () => {
                             <TextField
                                 name='LibraryScanFanoutConcurrency'
                                 type='number'
-                                inputProps={{
-                                    min: 0,
-                                    step: 1
-                                }}
                                 label={globalize.translate('LibraryScanFanoutConcurrency')}
                                 helperText={globalize.translate('LibraryScanFanoutConcurrencyHelp')}
                                 defaultValue={config.LibraryScanFanoutConcurrency || ''}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        step: 1
+                                    }
+                                }}
                             />
 
                             <TextField
                                 name='ParallelImageEncodingLimit'
                                 type='number'
-                                inputProps={{
-                                    min: 0,
-                                    step: 1
-                                }}
                                 label={globalize.translate('LabelParallelImageEncodingLimit')}
                                 helperText={globalize.translate('LabelParallelImageEncodingLimitHelp')}
                                 defaultValue={config.ParallelImageEncodingLimit || ''}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        step: 1
+                                    }
+                                }}
                             />
 
                             <Button type='submit' size='large'>
