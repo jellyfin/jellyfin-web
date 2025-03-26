@@ -14,7 +14,7 @@ const fetchGetItems = async (
 ) => {
     const response = await getItemsApi(api).getItems(
         {
-            userId: userId,
+            userId,
             sortBy: [ItemSortBy.IsFavoriteOrLiked, ItemSortBy.Random],
             includeItemTypes: [
                 BaseItemKind.Movie,
@@ -25,7 +25,7 @@ const fetchGetItems = async (
             recursive: true,
             imageTypeLimit: 0,
             enableImages: false,
-            parentId: parentId,
+            parentId,
             enableTotalRecordCount: false
         },
         options

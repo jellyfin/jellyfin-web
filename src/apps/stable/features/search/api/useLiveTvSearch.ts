@@ -19,7 +19,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
         {
             includeItemTypes: [ BaseItemKind.LiveTvProgram ],
             isMovie: true,
-            searchTerm: searchTerm
+            searchTerm
         },
         { signal }
     ).then(moviesData => {
@@ -40,7 +40,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
             isSports: false,
             isKids: false,
             isNews: false,
-            searchTerm: searchTerm
+            searchTerm
         },
         { signal }
     ).then(episodesData => {
@@ -56,7 +56,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
         {
             includeItemTypes: [ BaseItemKind.LiveTvProgram ],
             isSports: true,
-            searchTerm: searchTerm
+            searchTerm
         },
         { signal }
     ).then(sportsData => {
@@ -72,7 +72,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
         {
             includeItemTypes: [ BaseItemKind.LiveTvProgram ],
             isKids: true,
-            searchTerm: searchTerm
+            searchTerm
         },
         { signal }
     ).then(kidsData => {
@@ -88,7 +88,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
         {
             includeItemTypes: [ BaseItemKind.LiveTvProgram ],
             isNews: true,
-            searchTerm: searchTerm
+            searchTerm
         },
         { signal }
     ).then(newsData => {
@@ -108,7 +108,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
             isSports: false,
             isKids: false,
             isNews: false,
-            searchTerm: searchTerm
+            searchTerm
         },
         { signal }
     ).then(programsData => {
@@ -123,7 +123,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
         userId,
         {
             includeItemTypes: [ BaseItemKind.TvChannel ],
-            searchTerm: searchTerm
+            searchTerm
         },
         { signal }
     ).then(channelsData => {

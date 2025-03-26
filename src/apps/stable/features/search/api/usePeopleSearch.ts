@@ -17,7 +17,7 @@ const fetchPeople = async (
     const response = await getPersonsApi(api).getPersons(
         {
             ...QUERY_OPTIONS,
-            userId: userId,
+            userId,
             ...params
         },
         options
@@ -41,7 +41,7 @@ export const usePeopleSearch = (
             api!,
             userId!,
             {
-                searchTerm: searchTerm
+                searchTerm
             },
             { signal }
         ),

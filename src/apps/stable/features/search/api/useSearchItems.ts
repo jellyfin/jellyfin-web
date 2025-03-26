@@ -64,8 +64,8 @@ export const useSearchItems = (
                 userId,
                 {
                     includeItemTypes: itemTypes,
-                    parentId: parentId,
-                    searchTerm: searchTerm,
+                    parentId,
+                    searchTerm,
                     limit: 800
                 },
                 { signal }

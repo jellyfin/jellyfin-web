@@ -13,7 +13,7 @@ export const fetchItemsByType = async (
     const response = await getItemsApi(api).getItems(
         {
             ...QUERY_OPTIONS,
-            userId: userId,
+            userId,
             recursive: true,
             ...params
         },
