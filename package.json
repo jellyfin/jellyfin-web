@@ -114,7 +114,7 @@
     "lodash-es": "4.17.21",
     "markdown-it": "14.1.0",
     "material-design-icons-iconfont": "6.7.0",
-    "material-react-table": "2.13.3",
+    "material-react-table": "3.2.1",
     "native-promise-only": "0.8.1",
     "pdfjs-dist": "3.11.174",
     "react": "18.3.1",
