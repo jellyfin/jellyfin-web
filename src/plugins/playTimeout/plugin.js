@@ -134,9 +134,10 @@ class PlayTimeout extends PlaybackSubscriber {
     /*
         Name: getCurEpisodeTime
         Description: gets the current time of the episode in milliseconds
+        Returns: int - the the current time of the episode in milliseconds, defaulting to zero
     */
     getCurEpisodeTime() {
-        return this.playbackManager.currentTime(this.player) || null;
+        return this.playbackManager.currentTime(this.player) || 0;
     }
 
     /*
@@ -154,7 +155,7 @@ class PlayTimeout extends PlaybackSubscriber {
     */
     onPlayerPlaybackStart() {
         // check if video
-        if (this.playbackManager.isPlayingMediaType(MediaType.Video) && this.isTimeoutEpisodeActive && this.isTimeoutTimeActive()) {
+        if (this.playbackManager.isPlayingMediaType(MediaType.Video) && (this.isTimeoutEpisodeActive() || this.isTimeoutTimeActive())) {
             // enable feature on videos
             this.enable();
         } else {
@@ -195,7 +196,7 @@ class PlayTimeout extends PlaybackSubscriber {
         if (this.enabled) {
             if (this.timeout) {
                 this.timeoutHandler();
-            } else {
+            } else if (this.isTimeoutTimeActive()) {
                 const time = this.getCurEpisodeTime();
                 if (time) {
                     if (this.getTimeoutTime() && this.watchtime + time > this.getTimeoutTime() && this.episodeCnt > 0) {
