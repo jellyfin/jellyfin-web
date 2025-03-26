@@ -127,12 +127,14 @@ export const Component = () => {
                                 name={'DummyChapterDuration'}
                                 defaultValue={config.DummyChapterDuration}
                                 type='number'
-                                inputProps={{
-                                    min: 0,
-                                    required: true
-                                }}
                                 label={globalize.translate('LabelDummyChapterDuration')}
                                 helperText={globalize.translate('LabelDummyChapterDurationHelp')}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        required: true
+                                    }
+                                }}
                             />
 
                             <TextField

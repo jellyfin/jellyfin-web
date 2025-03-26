@@ -70,14 +70,16 @@ export const Component = () => {
                         <TextField
                             type='number'
                             inputMode='decimal'
-                            inputProps={{
-                                min: 0,
-                                step: 0.25
-                            }}
                             name='StreamingBitrateLimit'
                             label={globalize.translate('LabelRemoteClientBitrateLimit')}
                             helperText={globalize.translate('LabelRemoteClientBitrateLimitHelp')}
                             defaultValue={defaultConfiguration?.RemoteClientBitrateLimit ? defaultConfiguration?.RemoteClientBitrateLimit / 1e6 : ''}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 0,
+                                    step: 0.25
+                                }
+                            }}
                         />
                         <Button
                             type='submit'
