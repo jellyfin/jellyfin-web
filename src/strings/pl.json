@@ -2012,5 +2012,6 @@
     "MetadataNfoLoadError": "Nie udało się załadować ustawień metadanych NFO",
     "HeaderPageNotFound": "Nie znaleziono strony",
     "PageNotFound": "To nie jest strona, której szukasz.",
-    "SettingsPageLoadError": "Nie udało się załadować strony ustawień"
+    "SettingsPageLoadError": "Nie udało się załadować strony ustawień",
+    "RetryWithGlobalSearch": "Ponów, korzystając z wyszukiwania globalnego"
 }
