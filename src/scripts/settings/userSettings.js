@@ -17,6 +17,16 @@ function saveServerPreferences(instance) {
     instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
 }
 
+// function afterHowMany() {
+//     console.log("in afterhowmany");
+    
+//     var checkBox = document.getElementById("AreYouStillWatchingBox");
+//     var num = document.getElementById("episodes");
+
+//     // Change display from "none" to "block" when checked
+//     num.style.display = checkBox.checked ? "block" : "none";
+// }
+
 const allowedSortSettings = ['SortBy', 'SortOrder'];
 
 const filterSettingsPostfix = '-filter';
