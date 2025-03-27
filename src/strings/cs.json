@@ -2012,5 +2012,6 @@
     "MetadataNfoLoadError": "Načtení nastavení metadat v souborech NFO se nezdařilo",
     "HeaderPageNotFound": "Stránka nebyla nalezena",
     "PageNotFound": "Toto není stránka, kterou hledáš.",
-    "SettingsPageLoadError": "Načtení stránky nastavení se nezdařilo"
+    "SettingsPageLoadError": "Načtení stránky nastavení se nezdařilo",
+    "RetryWithGlobalSearch": "Zkusit hledat globálně"
 }
