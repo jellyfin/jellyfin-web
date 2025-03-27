@@ -25,18 +25,20 @@ export function NextUpPreferences({ onChange, values }: Readonly<NextUpPreferenc
                 <TextField
                     aria-describedby='display-settings-max-days-next-up-description'
                     value={values.maxDaysForNextUp}
-                    inputProps={{
-                        type: 'number',
-                        inputMode: 'numeric',
-                        max: '1000',
-                        min: '0',
-                        pattern: '[0-9]',
-                        required: true,
-                        step: '1'
-                    }}
                     label={globalize.translate('LabelMaxDaysForNextUp')}
                     name='maxDaysForNextUp'
                     onChange={onChange}
+                    slotProps={{
+                        htmlInput: {
+                            type: 'number',
+                            inputMode: 'numeric',
+                            max: '1000',
+                            min: '0',
+                            pattern: '[0-9]',
+                            required: true,
+                            step: '1'
+                        }
+                    }}
                 />
                 <FormHelperText id='display-settings-max-days-next-up-description'>
                     {globalize.translate('LabelMaxDaysForNextUpHelp')}
