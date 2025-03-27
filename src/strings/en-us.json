@@ -1052,6 +1052,7 @@
     "Live": "Live",
     "LiveBroadcasts": "Live broadcasts",
     "LiveTV": "Live TV",
+    "LiveTVPageLoadError": "Failed to load recordings page",
     "Localization": "Localization",
     "LogLevel.Trace": "Trace",
     "LogLevel.Debug": "Debug",
