@@ -14,6 +14,7 @@ export const ASYNC_ADMIN_ROUTES: AsyncRoute[] = [
     { path: 'logs/:file', page: 'logs/file', type: AppType.Dashboard },
     { path: 'playback/resume', type: AppType.Dashboard },
     { path: 'playback/streaming', type: AppType.Dashboard },
+    { path: 'playback/transcoding', type: AppType.Dashboard },
     { path: 'playback/trickplay', type: AppType.Dashboard },
     { path: 'plugins/:pluginId', page: 'plugins/plugin', type: AppType.Dashboard },
     { path: 'tasks', type: AppType.Dashboard },
