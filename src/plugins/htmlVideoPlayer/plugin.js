@@ -1512,7 +1512,7 @@ export class HtmlVideoPlayer {
                     trackElement.removeCue(trackElement.cues[0]);
                 }
             } catch (e) {
-                console.error('error removing cue from textTrack');
+                console.error('error removing cue from textTrack', e);
             }
 
             trackElement.mode = 'disabled';

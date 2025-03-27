@@ -8,7 +8,7 @@
 
     try {
         new window.KeyboardEvent('event', { bubbles: true, cancelable: true });
-    } catch (e) {
+    } catch {
         // We can't use `KeyboardEvent` in old WebKit because `initKeyboardEvent`
         // doesn't seem to populate some properties (`keyCode`, `which`) that
         // are read-only.

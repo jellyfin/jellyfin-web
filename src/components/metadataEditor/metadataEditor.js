@@ -821,7 +821,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
             date = datetime.parseISO8601Date(item.DateCreated, true);
 
             context.querySelector('#txtDateAdded').value = date.toISOString().slice(0, 10);
-        } catch (e) {
+        } catch {
             context.querySelector('#txtDateAdded').value = '';
         }
     } else {
@@ -833,7 +833,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
             date = datetime.parseISO8601Date(item.PremiereDate, true);
 
             context.querySelector('#txtPremiereDate').value = date.toISOString().slice(0, 10);
-        } catch (e) {
+        } catch {
             context.querySelector('#txtPremiereDate').value = '';
         }
     } else {
@@ -845,7 +845,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
             date = datetime.parseISO8601Date(item.EndDate, true);
 
             context.querySelector('#txtEndDate').value = date.toISOString().slice(0, 10);
-        } catch (e) {
+        } catch {
             context.querySelector('#txtEndDate').value = '';
         }
     } else {

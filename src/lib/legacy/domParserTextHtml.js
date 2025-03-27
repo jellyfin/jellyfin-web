@@ -22,7 +22,7 @@
             // text/html parsing is natively supported
             return;
         }
-    } catch (ex) { /* noop */ }
+    } catch { /* noop */ }
 
     DOMParserPrototype.parseFromString = function (markup, type) {
         if (/^\s*text\/html\s*(?:;|$)/i.test(type)) {

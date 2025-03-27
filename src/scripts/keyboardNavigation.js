@@ -64,7 +64,7 @@ let hasFieldKey = false;
 try {
     hasFieldKey = 'key' in new KeyboardEvent('keydown');
 } catch (e) {
-    console.error("error checking 'key' field");
+    console.error("error checking 'key' field", e);
 }
 
 if (!hasFieldKey) {

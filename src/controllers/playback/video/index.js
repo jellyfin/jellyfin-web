@@ -713,7 +713,7 @@ export default function (view) {
                         }, state);
                     }
                 } catch (e) {
-                    console.error('error parsing date: ' + program.EndDate);
+                    console.error('error parsing date: ' + program.EndDate, e);
                 }
             }
         }
@@ -1712,7 +1712,7 @@ export default function (view) {
             if (browser.firefox || browser.edge) {
                 dom.addEventListener(document, 'click', onClickCapture, { capture: true });
             }
-        } catch (e) {
+        } catch {
             setBackdropTransparency(TRANSPARENCY_LEVEL.None); // reset state set in viewbeforeshow
             appRouter.goHome();
         }
