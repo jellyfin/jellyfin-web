@@ -24,13 +24,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'library.html'
         }
     }, {
-        path: 'playback/transcoding',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'encodingsettings',
-            view: 'encodingsettings.html'
-        }
-    }, {
         path: 'plugins/catalog',
         pageProps: {
             appType: AppType.Dashboard,

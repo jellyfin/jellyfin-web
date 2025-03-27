@@ -57,7 +57,7 @@ export const Component = () => {
             <Box className='content-primary'>
                 <Form method='POST'>
                     <Stack spacing={3}>
-                        <Typography variant='h2'>
+                        <Typography variant='h1'>
                             {globalize.translate('TabStreaming')}
                         </Typography>
 
