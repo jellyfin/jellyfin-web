@@ -2003,5 +2003,6 @@
     "Retry": "Tentar novamente",
     "LogLoadFailure": "Falha ao carregar o ficheiro de registos. É possível que atualmente esteja a ser escrito.",
     "MetadataNfoLoadError": "Falha ao carregar as definições de metadados NFO",
-    "SettingsPageLoadError": "Falha ao carregar a página de definições"
+    "SettingsPageLoadError": "Falha ao carregar a página de definições",
+    "RetryWithGlobalSearch": "Tentar novamente com uma pesquisa global"
 }
