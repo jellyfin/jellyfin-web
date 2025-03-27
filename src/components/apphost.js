@@ -452,7 +452,7 @@ let isHidden = false;
 let hidden;
 let visibilityChange;
 
-if (typeof document.hidden !== 'undefined') { /* eslint-disable-line compat/compat */
+if (typeof document.hidden !== 'undefined') {
     hidden = 'hidden';
     visibilityChange = 'visibilitychange';
 } else if (typeof document.webkitHidden !== 'undefined') {
@@ -461,7 +461,6 @@ if (typeof document.hidden !== 'undefined') { /* eslint-disable-line compat/comp
 }
 
 document.addEventListener(visibilityChange, function () {
-    /* eslint-disable-next-line compat/compat */
     if (document[hidden]) {
         onAppHidden();
     } else {

@@ -1109,7 +1109,8 @@ class ChromecastPlayer {
         return this.getPlayerStateInternal()?.NowPlayingItem?.IndexNumber;
     }
 
-    clearQueue(currentTime) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    clearQueue(currentTime) {
         // not supported yet
     }
 }
