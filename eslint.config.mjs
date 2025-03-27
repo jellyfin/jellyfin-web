@@ -367,7 +367,6 @@ export default tseslint.config(
         rules: {
             '@typescript-eslint/no-floating-promises': 'off',
             '@typescript-eslint/no-this-alias': 'off',
-            '@typescript-eslint/no-unused-vars': 'warn',
 
             'sonarjs/public-static-readonly': 'off',
 
