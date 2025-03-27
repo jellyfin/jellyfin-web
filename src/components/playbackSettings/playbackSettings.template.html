@@ -113,14 +113,14 @@
 
         <div class="checkboxContainer">
             <label>
-                <input id="AreYouStillWatchingBox" type="checkbox" onclick="afterHowMany()" is="emby-checkbox" class="chkStillWatching" />
+                <input id="AreYouStillWatchingBox" type="checkbox" is="emby-checkbox" class="chkStillWatching" />
                 <span>${AreYouStillWatching}</span>
             </label>
         </div>
 
-        <div class="inputContainer" id="episodes" style ="display:none">
+        <div class="inputContainer episodeContainer hide">
             <label> 
-                <input type="number" class="emby-input"  min="1" max="100" />
+                <input type="number"  id = "episodes" class="emby-input"  min="1" max="100"/>
                 <span>${NumEpisodes}</span>
             </label>
         </div>

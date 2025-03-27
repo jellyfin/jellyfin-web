@@ -17,15 +17,7 @@ function saveServerPreferences(instance) {
     instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
 }
 
-// function afterHowMany() {
-//     console.log("in afterhowmany");
-    
-//     var checkBox = document.getElementById("AreYouStillWatchingBox");
-//     var num = document.getElementById("episodes");
 
-//     // Change display from "none" to "block" when checked
-//     num.style.display = checkBox.checked ? "block" : "none";
-// }
 
 const allowedSortSettings = ['SortBy', 'SortOrder'];
 
@@ -188,6 +180,9 @@ export class UserSettings {
         return toBoolean(this.get('enableCinemaMode', false), true);
     }
 
+
+
+
     /**
      * Get or set 'Enable Audio Normalization' state.
      * @param {string|undefined} val - Flag to enable 'Enable Audio Normalization' or undefined.
@@ -212,6 +207,32 @@ export class UserSettings {
         }
 
         return toBoolean(this.get('enableNextVideoInfoOverlay', false), true);
+    }
+
+    /**
+     * Get or set 'still watching prompt' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'still watching' or undefined.
+     * @return {boolean} 'Still watching' state.
+     */
+        enableStillWatching(val) {
+            if (val !== undefined) {
+                return this.set('enableStillWatching', val.toString(), false);
+            }
+    
+            return toBoolean(this.get('enableStillWatching', false), false);
+        }
+
+    /**
+     * Get or set 'numepisodes' state.
+     * @param {number|undefined} val -  number of episodes before "are you still watching" prompt.
+     * @return {number} 'num_videos' state.
+     */
+    askAfterNumEpisodes(val) {
+        if (val !== undefined) {
+            return this.set('askAfterNumEpisodes', val.toString());
+        }
+        
+          return parseInt(this.get('askAfterNumEpisodes') || '0', 1);
     }
 
     /**
@@ -682,6 +703,8 @@ export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
 export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(currentSettings);
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
+export const enableStillWatching = currentSettings.enableStillWatching.bind(currentSettings);
+export const askAfterNumEpisodes = currentSettings.askAfterNumEpisodes.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);

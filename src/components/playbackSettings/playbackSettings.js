@@ -82,21 +82,7 @@ function populateMediaSegments(container, userSettings) {
         });
 }
 
-function afterHowMany() {
-    var checkBox = document.getElementById("AreYouStillWatchingBox");
-        var num = document.getElementById("episodes");
 
-        //Change display from "none" to "block" when checked
-       num.style.display = checkBox.checked ? "block" : "none";
-    // const context = this.options.element;
-    // const checkbox = context.getElementByClass('chkStillWatching');
-    // const settingsElement = context.getElementById('episodes');
-    // if (checkbox && checkbox.checked) {
-    //     settingsElement.classList.remove('hide');
-    // } else if (checkbox) {
-    //     settingsElement.classList.add('hide');
-    // }
-} 
 
 function fillQuality(select, isInNetwork, mediatype, maxVideoWidth) {
     const options = mediatype === 'Audio' ? qualityoptions.getAudioQualityOptions({
@@ -155,6 +141,18 @@ function setMaxBitrateFromField(select, isInNetwork, mediatype) {
         appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype, true);
     }
 }
+function showHideHowManyEpisodes(context, userSettings) {
+    // const checkBox = document.getElementById('AreYouStillWatchingBox');
+    // const num = document.getElementById('episodes');
+    // //Change display from "none" to "block" when checked
+    // num.style.display = checkBox.checked ? 'block' : 'none';
+    if (userSettings.enableStillWatching()) {
+        context.querySelector('.episodeContainer').classList.remove('hide');
+    } else {
+        context.querySelector('.episodeContainer').classList.add('hide');
+    }
+    return;
+} 
 
 function showHideQualityFields(context, user, apiClient) {
     if (user.Policy.EnableVideoPlaybackTranscoding) {
@@ -196,11 +194,13 @@ function showHideQualityFields(context, user, apiClient) {
     });
 }
 
+
 function loadForm(context, user, userSettings, systemInfo, apiClient) {
     const loggedInUserId = apiClient.getCurrentUserId();
     const userId = user.Id;
 
     showHideQualityFields(context, user, apiClient);
+    showHideHowManyEpisodes(context, userSettings);
 
     if (browser.safari) {
         context.querySelector('.fldEnableHi10p').classList.remove('hide');
@@ -213,8 +213,6 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
 
         context.querySelector('#selectAudioLanguage', context).value = user.Configuration.AudioLanguagePreference || '';
         context.querySelector('.chkEpisodeAutoPlay').checked = user.Configuration.EnableNextEpisodeAutoPlay || false;
-        context.querySelector('.chkStillWatching').checked = user.Configuration.EnableStillWatching || false;
-        context.querySelector('#episodes', context).value = user.Configuration.AskAfterNumEpisodes || 0;
     });
 
     if (appHost.supports('externalplayerintent') && userId === loggedInUserId) {
@@ -243,6 +241,11 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkEnableHi10p').checked = appSettings.enableHi10p();
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
+
+    context.querySelector('.chkStillWatching').checked = userSettings.enableStillWatching() || false;
+    //context.querySelector('#episodes').value = userSettings.askAfterNumEpisodes() || 1;
+    context.querySelector('#episodes').value = user.Configuration.AskAfterNumEpisodes || 1;
+
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
     context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
@@ -311,8 +314,13 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.AudioLanguagePreference = context.querySelector('#selectAudioLanguage').value;
     user.Configuration.PlayDefaultAudioTrack = context.querySelector('.chkPlayDefaultAudioTrack').checked;
     user.Configuration.EnableNextEpisodeAutoPlay = context.querySelector('.chkEpisodeAutoPlay').checked;
+
     user.Configuration.EnableStillWatching = context.querySelector('.chkStillWatching').checked;
     user.Configuration.AskAfterNumEpisodes = context.querySelector('#episodes').value;
+
+    userSettingsInstance.enableStillWatching(context.querySelector('.chkStillWatching').checked);
+    userSettingsInstance.askAfterNumEpisodes(context.querySelector('#episodes').value);
+
     userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
     userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
     userSettingsInstance.selectAudioNormalization(context.querySelector('#selectAudioNormalization').value);
@@ -370,10 +378,13 @@ function embed(options, self) {
     options.element.innerHTML = globalize.translateHtml(template, 'core');
     options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
 
-    options.element.querySelector('.chkStillWatching').addEventListener('click', afterHowMany.bind(self));
+    //
+    options.element.querySelector('.chkStillWatching').addEventListener('click', showHideHowManyEpisodes(options.element, options.userSettings));
+
 
     if (options.enableSaveButton) {
-        options.element.querySelector('.btnSave').classList.remove('hide');
+        options.element.querySelector('.btnSave').classList.
+        remove('hide');
     }
 
     self.loadData();
@@ -411,10 +422,6 @@ class PlaybackSettings {
                 });
             });
         });
-    }
-
-    click() {
-        afterHowMany.call(this)
     }
 
     submit() {
