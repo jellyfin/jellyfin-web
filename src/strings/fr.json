@@ -2012,5 +2012,6 @@
     "LibraryNameInvalid": "Le nom de la bibliothèque ne peut pas être vide.",
     "HeaderPageNotFound": "Page introuvable",
     "PageNotFound": "Ceci n'est pas la page que vous cherchez.",
-    "SettingsPageLoadError": "Échec du chargement de la page des paramètres"
+    "SettingsPageLoadError": "Échec du chargement de la page des paramètres",
+    "RetryWithGlobalSearch": "Réessayez avec une recherche globale"
 }
