@@ -83,19 +83,19 @@ function populateMediaSegments(container, userSettings) {
 }
 
 function afterHowMany() {
-    // var checkBox = document.getElementById("AreYouStillWatchingBox");
-    //     var num = document.getElementById("episodes");
+    var checkBox = document.getElementById("AreYouStillWatchingBox");
+        var num = document.getElementById("episodes");
 
-    //     Change display from "none" to "block" when checked
-       // num.style.display = checkBox.checked ? "block" : "none";
-    const context = this.options.element;
-    const checkbox = context.getElementByClass('checkboxClass');
-    const settingsElement = context.getElementByClass('moreSettingsDivClass');
-    if (checkbox && checkbox.checked) {
-        settingsElement.classList.remove('hide');
-    } else if (checkbox) {
-        settingsElement.classList.add('hide');
-    }
+        //Change display from "none" to "block" when checked
+       num.style.display = checkBox.checked ? "block" : "none";
+    // const context = this.options.element;
+    // const checkbox = context.getElementByClass('chkStillWatching');
+    // const settingsElement = context.getElementById('episodes');
+    // if (checkbox && checkbox.checked) {
+    //     settingsElement.classList.remove('hide');
+    // } else if (checkbox) {
+    //     settingsElement.classList.add('hide');
+    // }
 } 
 
 function fillQuality(select, isInNetwork, mediatype, maxVideoWidth) {
@@ -370,7 +370,7 @@ function embed(options, self) {
     options.element.innerHTML = globalize.translateHtml(template, 'core');
     options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
 
-    options.element.querySelector('.chkStillWatching').addEventListener('onclick', afterHowMany.bind(self));
+    options.element.querySelector('.chkStillWatching').addEventListener('click', afterHowMany.bind(self));
 
     if (options.enableSaveButton) {
         options.element.querySelector('.btnSave').classList.remove('hide');
@@ -411,6 +411,10 @@ class PlaybackSettings {
                 });
             });
         });
+    }
+
+    click() {
+        afterHowMany.call(this)
     }
 
     submit() {
