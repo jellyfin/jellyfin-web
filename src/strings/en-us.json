@@ -724,6 +724,8 @@
     "LabelFriendlyName": "Friendly name",
     "LabelGroupMoviesIntoCollections": "Group movies into collections",
     "LabelGroupMoviesIntoCollectionsHelp": "Movies in a collection will be displayed as one grouped item when displaying movie lists.",
+    "LabelGroupShowsIntoCollections": "Group shows into collections",
+    "LabelGroupShowsIntoCollectionsHelp": "Shows in a collection will be displayed as one grouped item when displaying show lists.",
     "LabelH264Crf": "H.264 encoding CRF",
     "LabelH265Crf": "H.265 encoding CRF",
     "LabelHardwareAccelerationType": "Hardware acceleration",
