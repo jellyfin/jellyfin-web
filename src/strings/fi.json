@@ -1920,7 +1920,7 @@
     "AllowTonemappingSoftwareHelp": "Sävykartoitus voi muuttaa videon dynaamista aluetta HDR:stä SDR:ään säilyttäen silti kuvan yksityiskohdat ja värin, jotka ovat erittäin tärkeitä alkuperäisen kohtauksen tiedon säilyttämiseksi. Tällä hetkellä se toimii ainoastaan 10bit HDR10, -HLG, ja DoVi-videoiden kanssa.",
     "Editor": "Ohjaus",
     "Letterer": "Kirjoittaja",
-    "LibraryScanFanoutConcurrencyHelp": "Samanaikaisten suoritettavien kirjastoskannausten maksimimäärä. Mikäli tämä arvo on asetettu 0, määrä valitaan järjestelmän prosessorin säikeiden lukumäärän mukaan. VAROITUS: Tämän arvon asettaminen liian korkeaksi voi aiheuttaa ongelmia verkkotiedostojärjestelmissä. Jos koet ongelmatilanteista, laske tätä numeroa.",
+    "LibraryScanFanoutConcurrencyHelp": "Samanaikaisten suoritettavien kirjastoskannausten maksimimäärä. Mikäli tämä arvo on jätetty tyhjäksi, määrä valitaan järjestelmän prosessorin säikeiden lukumäärän mukaan. VAROITUS: Tämän arvon asettaminen liian korkeaksi voi aiheuttaa ongelmia verkkotiedostojärjestelmissä. Jos koet ongelmatilanteista, laske tätä numeroa.",
     "SaveLyricsIntoMediaFoldersHelp": "Sanoitusten tallentaminen äänitiedoston kanssa samaan sijaintiin helpottaa niiden hallintaa.",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Valitse ensisijainen äänikoodekki videomateriaalin transkoodaamiseen. Jos ensisijainen koodekki ei ole tuettu, serveri käyttää seuraavaksi parasta koodekkia.",
     "LabelTrickplayAccelEncoding": "Käyttöönota rautakiihdytetty MJPEG enkoodaus",
