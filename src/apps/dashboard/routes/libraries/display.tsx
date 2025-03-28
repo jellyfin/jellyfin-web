@@ -38,7 +38,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     config.EnableFolderView = data.DisplayFolderView?.toString() === 'on';
     config.DisplaySpecialsWithinSeasons = data.DisplaySpecialsWithinSeasons?.toString() === 'on';
-    config.EnableGroupingIntoCollections = data.GroupMoviesIntoCollections?.toString() === 'on';
+    config.EnableGroupingMoviesIntoCollections = data.GroupMoviesIntoCollections?.toString() === 'on';
+    config.EnableGroupingShowsIntoCollections = data.GroupShowsIntoCollections?.toString() === 'on';
     config.EnableExternalContentInSuggestions = data.EnableExternalContentInSuggestions?.toString() === 'on';
 
     await getConfigurationApi(api)
@@ -138,12 +139,25 @@ export const Component = () => {
                                     control={
                                         <Checkbox
                                             name={'GroupMoviesIntoCollections'}
-                                            defaultChecked={config.EnableGroupingIntoCollections}
+                                            defaultChecked={config.EnableGroupingMoviesIntoCollections}
                                         />
                                     }
                                     label={globalize.translate('LabelGroupMoviesIntoCollections')}
                                 />
                                 <FormHelperText>{globalize.translate('LabelGroupMoviesIntoCollectionsHelp')}</FormHelperText>
+                            </FormControl>
+
+                            <FormControl>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name={'GroupShowsIntoCollections'}
+                                            defaultChecked={config.EnableGroupingShowsIntoCollections}
+                                        />
+                                    }
+                                    label={globalize.translate('LabelGroupShowsIntoCollections')}
+                                />
+                                <FormHelperText>{globalize.translate('LabelGroupShowsIntoCollectionsHelp')}</FormHelperText>
                             </FormControl>
 
                             <FormControl>
