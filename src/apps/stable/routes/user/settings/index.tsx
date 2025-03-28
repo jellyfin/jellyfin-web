@@ -182,7 +182,6 @@ const UserSettingsPage: FC = () => {
 
                         {appHost.supports('clientsettings') && (
                             <LinkButton
-                                href='#' // Required for focus in TV layout
                                 onClick={shell.openClientSettings}
                                 className='clientSettings listItem-border'
                                 style={{
@@ -288,7 +287,6 @@ const UserSettingsPage: FC = () => {
 
                             {appHost.supports('multiserver') && (
                                 <LinkButton
-                                    href='#' // Required for focus in TV layout
                                     onClick={Dashboard.selectServer}
                                     className='selectServer listItem-border'
                                     style={{
@@ -309,7 +307,6 @@ const UserSettingsPage: FC = () => {
                             )}
 
                             <LinkButton
-                                href='#' // Required for focus in TV layout
                                 onClick={Dashboard.logout}
                                 className='btnLogout listItem-border'
                                 style={{
@@ -330,7 +327,6 @@ const UserSettingsPage: FC = () => {
 
                             {appHost.supports('exitmenu') && (
                                 <LinkButton
-                                    href='#' // Required for focus in TV layout
                                     onClick={appHost.exit}
                                     className='exitApp listItem-border'
                                     style={{
