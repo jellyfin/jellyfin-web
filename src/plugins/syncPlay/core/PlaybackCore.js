@@ -221,6 +221,7 @@ class PlaybackCore {
                             // Account for player imperfections, we got half a second of tollerance we can play with
                             // (the server tollerates a range of values when client reports that is ready).
                             const rangeWidth = 100; // In milliseconds.
+                            // eslint-disable-next-line sonarjs/pseudo-random
                             const randomOffsetTicks = Math.round((Math.random() - 0.5) * rangeWidth) * Helper.TicksPerMillisecond;
                             this.scheduleSeek(command.When, command.PositionTicks + randomOffsetTicks);
                             console.debug('SyncPlay applyCommand: adding random offset to force seek:', randomOffsetTicks, command);
