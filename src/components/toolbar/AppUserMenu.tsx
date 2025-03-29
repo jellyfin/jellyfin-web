@@ -17,9 +17,10 @@ import { Link } from 'react-router-dom';
 
 import { appHost } from 'components/apphost';
 import { useApi } from 'hooks/useApi';
-import globalize from 'lib/globalize';
-import Dashboard from 'utils/dashboard';
 import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
+import globalize from 'lib/globalize';
+import shell from 'scripts/shell';
+import Dashboard from 'utils/dashboard';
 
 export const ID = 'app-user-menu';
 
@@ -36,7 +37,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
     const { data: isQuickConnectEnabled } = useQuickConnectEnabled();
 
     const onClientSettingsClick = useCallback(() => {
-        window.NativeShell?.openClientSettings();
+        shell.openClientSettings();
         onMenuClose();
     }, [ onMenuClose ]);
 
