@@ -1999,5 +1999,6 @@
     "LibraryNameInvalid": "O nome da biblioteca não pode estar vazio.",
     "MetadataNfoLoadError": "Falha ao carregar as definições de metadados NFO",
     "SettingsPageLoadError": "Falha ao carregar a página de definições",
-    "RetryWithGlobalSearch": "Tentar novamente com uma pesquisa global"
+    "RetryWithGlobalSearch": "Tentar novamente com uma pesquisa global",
+    "StreamCountExceedsLimit": "O número de transmissões excede o limite"
 }
