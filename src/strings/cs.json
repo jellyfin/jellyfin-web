@@ -2013,5 +2013,6 @@
     "HeaderPageNotFound": "Stránka nebyla nalezena",
     "PageNotFound": "Toto není stránka, kterou hledáš.",
     "SettingsPageLoadError": "Načtení stránky nastavení se nezdařilo",
-    "RetryWithGlobalSearch": "Zkusit hledat globálně"
+    "RetryWithGlobalSearch": "Zkusit hledat globálně",
+    "StreamCountExceedsLimit": "Počet streamů překračuje limit"
 }
