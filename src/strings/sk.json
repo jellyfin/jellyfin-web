@@ -2012,5 +2012,7 @@
     "MetadataNfoLoadError": "Nepodarilo sa načítať nastavenia NFO metadát",
     "HeaderPageNotFound": "Stránka nebola nájdená",
     "PageNotFound": "Toto nie je stránka, ktorú hľadáš.",
-    "SettingsPageLoadError": "Nepodarilo sa načítať stránku s nastaveniami"
+    "SettingsPageLoadError": "Nepodarilo sa načítať stránku s nastaveniami",
+    "StreamCountExceedsLimit": "Počet streamov prekračuje limit",
+    "RetryWithGlobalSearch": "Skúsiť globálne vyhľadávanie"
 }
