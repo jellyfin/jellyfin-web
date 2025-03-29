@@ -2013,5 +2013,6 @@
     "HeaderPageNotFound": "Page introuvable",
     "PageNotFound": "Ceci n'est pas la page que vous cherchez.",
     "SettingsPageLoadError": "Échec du chargement de la page des paramètres",
-    "RetryWithGlobalSearch": "Réessayez avec une recherche globale"
+    "RetryWithGlobalSearch": "Réessayez avec une recherche globale",
+    "StreamCountExceedsLimit": "Le nombre de flux dépasse la limite"
 }
