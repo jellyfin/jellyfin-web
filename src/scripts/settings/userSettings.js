@@ -17,8 +17,6 @@ function saveServerPreferences(instance) {
     instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
 }
 
-
-
 const allowedSortSettings = ['SortBy', 'SortOrder'];
 
 const filterSettingsPostfix = '-filter';
@@ -180,9 +178,6 @@ export class UserSettings {
         return toBoolean(this.get('enableCinemaMode', false), true);
     }
 
-
-
-
     /**
      * Get or set 'Enable Audio Normalization' state.
      * @param {string|undefined} val - Flag to enable 'Enable Audio Normalization' or undefined.
@@ -214,13 +209,13 @@ export class UserSettings {
      * @param {boolean|undefined} [val] - Flag to enable 'still watching' or undefined.
      * @return {boolean} 'Still watching' state.
      */
-        enableStillWatching(val) {
-            if (val !== undefined) {
-                return this.set('enableStillWatching', val.toString(), false);
-            }
-    
-            return toBoolean(this.get('enableStillWatching', false), false);
+    enableStillWatching(val) {
+        if (val !== undefined) {
+            return this.set('enableStillWatching', val.toString(), false);
         }
+
+        return toBoolean(this.get('enableStillWatching', false), false);
+    }
 
     /**
      * Get or set 'numepisodes' state.
@@ -231,8 +226,32 @@ export class UserSettings {
         if (val !== undefined) {
             return this.set('askAfterNumEpisodes', val.toString());
         }
-        
-          return parseInt(this.get('askAfterNumEpisodes') || '0', 1);
+
+        return parseInt(this.get('askAfterNumEpisodes') || '0', 10);
+    }
+
+    /**
+     * Get or set 'timeBasedStillWatching' state.
+     * @param {boolean|undefined} val - Flag to enable 'still watching' or undefined.
+     * @return {boolean} 'Still watching' state.
+     */
+    timeBasedStillWatching(val) {
+        if (val !== undefined) {
+            return this.set('timeBasedStillWatching', val.toString(), false);
+        }
+        return toBoolean(this.get('timeBasedStillWatching', false), false);
+    }
+
+    /**
+     * Get or set 'stillWatchingTimeout' state.
+     * @param {number|undefined} val - Timeout in seconds before "are you still watching" prompt.
+     * @return {number} 'stillWatchingTimeout' state.
+     */
+    stillWatchingTimeout(val) {
+        if (val !== undefined) {
+            return this.set('stillWatchingTimeout', val.toString());
+        }
+        return parseInt(this.get('stillWatchingTimeout') || '60', 10);
     }
 
     /**
@@ -705,6 +724,8 @@ export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bin
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
 export const enableStillWatching = currentSettings.enableStillWatching.bind(currentSettings);
 export const askAfterNumEpisodes = currentSettings.askAfterNumEpisodes.bind(currentSettings);
+export const timeBasedStillWatching = currentSettings.timeBasedStillWatching.bind(currentSettings);
+export const stillWatchingTimeout = currentSettings.stillWatchingTimeout.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);

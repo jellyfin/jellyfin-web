@@ -82,8 +82,6 @@ function populateMediaSegments(container, userSettings) {
         });
 }
 
-
-
 function fillQuality(select, isInNetwork, mediatype, maxVideoWidth) {
     const options = mediatype === 'Audio' ? qualityoptions.getAudioQualityOptions({
 
@@ -141,18 +139,29 @@ function setMaxBitrateFromField(select, isInNetwork, mediatype) {
         appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype, true);
     }
 }
-function showHideHowManyEpisodes(context, userSettings) {
-    // const checkBox = document.getElementById('AreYouStillWatchingBox');
-    // const num = document.getElementById('episodes');
-    // //Change display from "none" to "block" when checked
-    // num.style.display = checkBox.checked ? 'block' : 'none';
-    if (userSettings.enableStillWatching()) {
-        context.querySelector('.episodeContainer').classList.remove('hide');
+
+function showHideStillWatchingOptions(context) {
+    const stillWatchingEnabled = context.querySelector('.chkStillWatching').checked;
+    const optionsContainer = context.querySelector('.stillWatchingOptions');
+
+    if (stillWatchingEnabled) {
+        optionsContainer.classList.remove('hide');
     } else {
-        context.querySelector('.episodeContainer').classList.add('hide');
+        optionsContainer.classList.add('hide');
     }
-    return;
-} 
+}
+
+function initStillWatchingControls(context) {
+    const modeSelect = context.querySelector('#selectStillWatchingMode');
+    const episodeContainer = context.querySelector('.episodeContainer');
+    const timeContainer = context.querySelector('.timeContainer');
+
+    modeSelect.addEventListener('change', () => {
+        const isTimeMode = modeSelect.value === 'time';
+        episodeContainer.classList.toggle('hide', isTimeMode);
+        timeContainer.classList.toggle('hide', !isTimeMode);
+    });
+}
 
 function showHideQualityFields(context, user, apiClient) {
     if (user.Policy.EnableVideoPlaybackTranscoding) {
@@ -194,13 +203,12 @@ function showHideQualityFields(context, user, apiClient) {
     });
 }
 
-
 function loadForm(context, user, userSettings, systemInfo, apiClient) {
     const loggedInUserId = apiClient.getCurrentUserId();
     const userId = user.Id;
 
     showHideQualityFields(context, user, apiClient);
-    showHideHowManyEpisodes(context, userSettings);
+    showHideStillWatchingOptions(context);
 
     if (browser.safari) {
         context.querySelector('.fldEnableHi10p').classList.remove('hide');
@@ -242,9 +250,12 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
 
-    context.querySelector('.chkStillWatching').checked = userSettings.enableStillWatching() || false;
-    //context.querySelector('#episodes').value = userSettings.askAfterNumEpisodes() || 1;
-    context.querySelector('#episodes').value = user.Configuration.AskAfterNumEpisodes || 1;
+    context.querySelector('.chkStillWatching').checked = userSettings.enableStillWatching();
+    context.querySelector('#stillWatchingEpisodeCount').value = userSettings.askAfterNumEpisodes() || 1;
+    context.querySelector('#selectStillWatchingMode').value = userSettings.timeBasedStillWatching() ? 'time' : 'episodes';
+    context.querySelector('#stillWatchingTime').value = userSettings.stillWatchingTimeout();
+
+    showHideStillWatchingOptions(context);
 
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
     context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
@@ -256,7 +267,6 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkDisableVbrAudioEncoding').checked = appSettings.disableVbrAudio();
     context.querySelector('.chkAlwaysRemuxFlac').checked = appSettings.alwaysRemuxFlac();
     context.querySelector('.chkAlwaysRemuxMp3').checked = appSettings.alwaysRemuxMp3();
-    
 
     setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -319,7 +329,9 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.AskAfterNumEpisodes = context.querySelector('#episodes').value;
 
     userSettingsInstance.enableStillWatching(context.querySelector('.chkStillWatching').checked);
-    userSettingsInstance.askAfterNumEpisodes(context.querySelector('#episodes').value);
+    userSettingsInstance.timeBasedStillWatching(context.querySelector('#selectStillWatchingMode').value === 'time');
+    userSettingsInstance.askAfterNumEpisodes(context.querySelector('#stillWatchingEpisodeCount').value);
+    userSettingsInstance.stillWatchingTimeout(context.querySelector('#stillWatchingTime').value);
 
     userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
     userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
@@ -378,13 +390,13 @@ function embed(options, self) {
     options.element.innerHTML = globalize.translateHtml(template, 'core');
     options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
 
-    //
-    options.element.querySelector('.chkStillWatching').addEventListener('click', showHideHowManyEpisodes(options.element, options.userSettings));
-
+    const stillWatchingCheckbox = options.element.querySelector('.chkStillWatching');
+    stillWatchingCheckbox.addEventListener('change', () => {
+        showHideStillWatchingOptions(options.element);
+    });
 
     if (options.enableSaveButton) {
-        options.element.querySelector('.btnSave').classList.
-        remove('hide');
+        options.element.querySelector('.btnSave').classList.remove('hide');
     }
 
     self.loadData();
@@ -393,9 +405,6 @@ function embed(options, self) {
         focusManager.autoFocus(options.element);
     }
 }
-
-
-
 
 class PlaybackSettings {
     constructor(options) {
