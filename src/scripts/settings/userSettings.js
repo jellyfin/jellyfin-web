@@ -244,7 +244,7 @@ export class UserSettings {
 
     /**
      * Get or set 'stillWatchingTimeout' state.
-     * @param {number|undefined} val - Timeout in seconds before "are you still watching" prompt.
+     * @param {number|undefined} val - Timeout in minutes before "are you still watching" prompt.
      * @return {number} 'stillWatchingTimeout' state.
      */
     stillWatchingTimeout(val) {
