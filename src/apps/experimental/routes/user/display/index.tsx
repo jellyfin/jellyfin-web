@@ -40,6 +40,19 @@ export default function UserDisplayPreferences() {
         }
     }, [updateField, values]);
 
+    const handleSliderChange = useCallback(() => (e: Event, newValue: number | number[]) => {
+        const target = e.target as HTMLInputElement;
+        const fieldName = target.name as keyof DisplaySettingsValues;
+        const value = Array.isArray(newValue) ? newValue[0] : newValue;
+
+        if (values?.[fieldName] !== value) {
+            updateField({
+                name: fieldName,
+                value: value.toString()
+            });
+        }
+    }, [updateField, values]);
+
     if (loading || !values) {
         return <LoadingComponent />;
     }
@@ -66,6 +79,7 @@ export default function UserDisplayPreferences() {
                         />
                         <LibraryPreferences
                             onChange={handleFieldChange}
+                            onSliderChange={handleSliderChange}
                             values={values}
                         />
                         <NextUpPreferences
