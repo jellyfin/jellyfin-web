@@ -225,6 +225,12 @@ const UserEdit = () => {
             user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
             user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
 
+            if (!user.HasPassword && user.Policy.IsAdministrator) {
+                toast(globalize.translate('PasswordAdminRequired'));
+                loading.hide();
+                return;
+            }
+
             window.ApiClient.updateUser(user).then(() => (
                 window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' })
             )).then(() => {
