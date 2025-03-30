@@ -2012,5 +2012,7 @@
     "MetadataImagesLoadError": "Einstellungen für Metadaten konnten nicht geladen werden",
     "HeaderPageNotFound": "Seite nicht gefunden",
     "PageNotFound": "Dies ist nicht die Seite, die Sie suchen.",
-    "SettingsPageLoadError": "Einstellungsseite konnte nicht geladen werden"
+    "SettingsPageLoadError": "Einstellungsseite konnte nicht geladen werden",
+    "StreamCountExceedsLimit": "Die Anzahl der Streams überschreitet das Limit",
+    "RetryWithGlobalSearch": "Erneuter Versuch mit einer globalen Suche"
 }
