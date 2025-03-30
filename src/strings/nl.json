@@ -2012,5 +2012,6 @@
     "PageNotFound": "Dit is niet de pagina die je zoekt.",
     "HeaderPageNotFound": "Pagina niet gevonden",
     "SettingsPageLoadError": "Laden van instellingenpagina mislukt",
-    "RetryWithGlobalSearch": "Alles doorzoeken"
+    "RetryWithGlobalSearch": "Alles doorzoeken",
+    "StreamCountExceedsLimit": "Het aantal streams overschrijdt de limiet"
 }
