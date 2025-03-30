@@ -1,40 +1,38 @@
-import globalize from '../../lib/globalize'; // globalized strings for UI elements
-import * as userSettings from '../../scripts/settings/userSettings'; // grab user settings (e.g. playtimeoutEnabled)
-import alert from '../../components/alert'; // show an alert message to the user if they have been inactive for too long
+import globalize from '../../lib/globalize';
+import * as userSettings from '../../scripts/settings/userSettings';
+import alert from '../../components/alert';
 import { PluginType } from '../../types/plugin';
 import { PlaybackSubscriber } from '../../apps/stable/features/playback/utils/playbackSubscriber';
-import { PlayerEvent } from '../../apps/stable/features/playback/constants/playerEvent';
-import { PlaybackManagerEvent } from '../../apps/stable/features/playback/constants/playbackManagerEvent';
 import { PlaybackManager } from '../../components/playback/playbackmanager';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
-import { ItemMediaKind } from '../../types/base/models/item-media-kind';
-
-function showErrorMessage() {
-    return alert(globalize.translate('MessagePlayAccessRestricted'));
-}
 
 function showTimeoutMessage() {
     // TODO: add globalized message, something like:
-    // return alert(globalize.translate('MessagePlayTimeout'));
-
+    //return alert(globalize.translate('MessagePlayTimeout'));
     return alert('Are you still there?');
 }
 
-/*
-    TODO:
-          Change to typescript.
-*/
 class PlayTimeout extends PlaybackSubscriber {
-    constructor(playbackManager) {
+    protected name: string;
+    protected type: string;
+    protected id: string;
+
+    protected episodeCnt: number; // the current consecutive episodes watched without interaction - updates at the end of a video
+    protected watchtime: number; // the current consecutive time spent watching without interaction - updates at the end of a video
+    protected enabled: boolean; // this attribute has no bearing on whether the user has the feature enabled; it tracks the state of the feature
+    protected timeout: boolean; // flag that gets set when a timeout is pending
+    protected timeCache: number; // stores time within the same episode where activity was detected
+    constructor(protected readonly playbackManager: PlaybackManager) {
         super(playbackManager);
         this.name = 'Playback timeout';
         this.type = PluginType.PreplayIntercept;
         this.id = 'playtimeout';
 
-        this.episodeCnt = 0; // the current consecutive episodes watched without interaction - updates at the end of a video
-        this.watchtime = 0; // the current consecutive time spent watching without interaction - updates at the end of a video
-        this.enabled = false; // this attribute has no bearing on whether the user has the feature enabled; it tracks the state of the feature
-        this.timeout = false; // flag that gets set when a timeout is pending
+        this.episodeCnt = 0;
+        this.watchtime = 0;
+        this.enabled = false;
+        this.timeout = false;
+        this.timeCache = 0;
 
         // set up basic interaction event listeners
         this.interactionHandler = this.interactionHandler.bind(this);
@@ -47,11 +45,11 @@ class PlayTimeout extends PlaybackSubscriber {
         document.addEventListener('focusout', this.interactionHandler);
     }
 
-    enable() {
+    private enable(): void {
         this.enabled = true;
     }
 
-    disable() {
+    private disable(): void {
         this.enabled = false;
     }
 
@@ -59,7 +57,7 @@ class PlayTimeout extends PlaybackSubscriber {
         Name: resetAttributes
         Description: Resets attributes that track timeouts.
     */
-    resetAttributes() {
+    private resetAttributes(): void {
         this.timeout = false;
         this.episodeCnt = 0;
         this.watchtime = 0;
@@ -69,10 +67,11 @@ class PlayTimeout extends PlaybackSubscriber {
         Name: interactionHandler
         Description: Handles the logic when a user interacts with the media player.
     */
-    interactionHandler() {
+    private interactionHandler(): void {
         // events sometimes happen between videos (e.g. unpause), so this check is required
         if (this.enabled) {
             this.resetAttributes();
+            this.timeCache = this.getCurEpisodeTime();
         }
     }
 
@@ -80,15 +79,25 @@ class PlayTimeout extends PlaybackSubscriber {
         Name: timeoutHandler
         Description: Handles the logic when a timeout is triggered.
     */
-    timeoutHandler() {
+    private async timeoutHandler() {
         // reset timeout flag and tracker attributes
         this.resetAttributes();
+        this.timeCache = this.getCurEpisodeTime();
 
         // pause the current player
-        this.player.pause();
+        this.playbackManager.pause();
 
         // show message
-        showTimeoutMessage();
+        await showTimeoutMessage();
+    }
+
+    /*
+    Name: isTimeoutActive
+    Description: checks whether timeouts are enabled - defaults to episodal timeouts unless isTimeoutTimeActive is true
+    Returns: boolean - true if episode-based timeouts are enabled, false otherwise
+    */
+    private isTimeoutActive(): boolean {
+        return userSettings.get('enableStillWatching')?.toLowerCase() === 'true';
     }
 
     /*
@@ -96,19 +105,8 @@ class PlayTimeout extends PlaybackSubscriber {
         Description: checks whether timeouts should occur after a certain amount of time
         Returns: boolean - true if time-based timeouts are enabled, false otherwise
     */
-    isTimeoutTimeActive() {
-        // return userSettings.get('playtimeoutTimeActive');
-        return true;
-    }
-
-    /*
-        Name: isTimeoutEpisodeActive
-        Description: checks whether timeouts should occur after a certain amount of episodes
-        Returns: boolean - true if episode-based timeouts are enabled, false otherwise
-    */
-    isTimeoutEpisodeActive() {
-        // return userSettings.get('playtimeoutEpisodeActive');
-        return true;
+    private isTimeoutTimeActive(): boolean {
+        return userSettings.get('timeBasedStillWatching')?.toLowerCase() === 'true';
     }
 
     /*
@@ -116,9 +114,8 @@ class PlayTimeout extends PlaybackSubscriber {
         Description: retrieves the amount of consecutive milliseconds watching before a timeout should occur
         Returns: int - time in milliseconds after which a timeout should occur
     */
-    getTimeoutTime() {
-        // return userSettings.get('playtimeoutTime');
-        return 10000;
+    private getTimeoutTime(): number {
+        return Number(userSettings.get('stillWatchingTimout')) * 6 * (10 ** 4); // convert from minutes to milliseconds
     }
 
     /*
@@ -126,9 +123,8 @@ class PlayTimeout extends PlaybackSubscriber {
         Description: retrieves the amount of consecutive episodes before a timeout should occur
         Returns: int - number of episodes after which a timeout should occur (e.g. 3 means after 3 consectutive episodes)
     */
-    getTimeoutEpisodes() {
-        // return userSettings.get('playtimeoutEpisodes');
-        return 3;
+    private getTimeoutEpisodes(): number {
+        return Number(userSettings.get('askAfterNumEpisodes'));
     }
 
     /*
@@ -136,15 +132,15 @@ class PlayTimeout extends PlaybackSubscriber {
         Description: gets the current time of the episode in milliseconds
         Returns: int - the the current time of the episode in milliseconds, defaulting to zero
     */
-    getCurEpisodeTime() {
-        return this.playbackManager.currentTime(this.player) || 0;
+    private getCurEpisodeTime(): number {
+        return this.playbackManager.currentTime() || 0;
     }
 
     /*
         Name: onPlayerChange
         Description: Disables this plugin feature.
     */
-    onPlayerChange() {
+    onPlayerChange(): void {
         this.resetAttributes();
         this.disable();
     }
@@ -155,9 +151,10 @@ class PlayTimeout extends PlaybackSubscriber {
     */
     onPlayerPlaybackStart() {
         // check if video
-        if (this.playbackManager.isPlayingMediaType(MediaType.Video) && (this.isTimeoutEpisodeActive() || this.isTimeoutTimeActive())) {
+        if (this.playbackManager.isPlayingMediaType(MediaType.Video) && this.isTimeoutActive()) {
             // enable feature on videos
             this.enable();
+            this.timeCache = 0;
         } else {
             // disable feature on non-videos
             this.disable();
@@ -172,13 +169,12 @@ class PlayTimeout extends PlaybackSubscriber {
     onPlayerPlaybackStop() {
         if (this.enabled) {
             this.episodeCnt++;
-            if (this.isTimeoutTimeActive()) {
+            if (this.isTimeoutActive() && this.isTimeoutTimeActive()) {
                 const time = this.getCurEpisodeTime();
                 if (time) {
                     this.watchtime += time;
                 }
-            }
-            if (this.isTimeoutEpisodeActive()) {
+            } else if (this.isTimeoutActive()) {
                 if (this.getTimeoutEpisodes() && this.episodeCnt >= this.getTimeoutEpisodes()) {
                     this.timeout = true;
                 }
@@ -192,14 +188,14 @@ class PlayTimeout extends PlaybackSubscriber {
         Name: onPlayerTimeUpdate
         Description: Checks whether watch time timeout should trigger and handles calling timeout handler.
     */
-    onPlayerTimeUpdate() {
+    async onPlayerTimeUpdate() {
         if (this.enabled) {
             if (this.timeout) {
-                this.timeoutHandler();
-            } else if (this.isTimeoutTimeActive()) {
+                await this.timeoutHandler();
+            } else if (this.isTimeoutActive() && this.isTimeoutTimeActive()) {
                 const time = this.getCurEpisodeTime();
                 if (time) {
-                    if (this.getTimeoutTime() && this.watchtime + time > this.getTimeoutTime() && this.episodeCnt > 0) {
+                    if (this.getTimeoutTime() && (this.watchtime - this.timeCache + time) > this.getTimeoutTime() && this.episodeCnt > 0) {
                         this.timeout = true;
                     }
                 }
@@ -207,57 +203,6 @@ class PlayTimeout extends PlaybackSubscriber {
         }
     }
 
-    /*
-    intercept(options) {
-        // in here, we'll need to handle the logic for checking if the user has been inactive for a certain period of time
-        const item = options.item;
-
-        if (!item) {
-            return Promise.resolve();
-        }
-
-        // just spitballing here, this isn't accurate for determining if the user is still active
-        // but the general flow is to check if the user has been inactive for a certain period of time
-        // then show a message to the user if they have been inactive for too long
-        // lemme know if you have any ideas on how to change this
-        // - simon
-
-        const playtimeoutEnabled = userSettings.get('playtimeoutEnabled');
-        if (!playtimeoutEnabled) {
-            return Promise.resolve();
-        }
-
-        const timeoutType = userSettings.get('playtimeoutType');
-        if (timeoutType === 'inactive') {
-            const timeout = userSettings.get('playtimeoutInactive');
-            const lastActive = userSettings.get('lastInteraction'); // note: this metric won't be here (obviously), but we'll need to get it somewhere (@matt)
-            if (!lastActive) {
-                return Promise.resolve();
-            }
-
-            const now = Date.now();
-            const diff = now - lastActive;
-            if (diff > timeout) {
-                return showTimeoutMessage();
-            }
-        } else if (timeoutType === 'episodes') {
-            const episodeLimit = userSettings.get('playtimeoutEpisodes');
-            const lastInteraction = userSettings.get('lastInteraction'); // same note as in the inactive case
-            const episodeCount = userSettings.get('episodesWatched');
-            if (!lastInteraction) {
-                return Promise.resolve();
-            }
-
-            const now = Date.now();
-            const timeSinceInteraction = now - lastInteraction;
-            if (episodeCount >= episodeLimit && timeSinceInteraction > 0) {
-                return showTimeoutMessage();
-            }
-        }
-
-        return Promise.resolve();
-    }
-    */
     /*
         Events that denote user interaction in @playbackSubscriber are used here. The events suppliment the javascript event listeners defined in the constructor.
 
@@ -315,4 +260,4 @@ class PlayTimeout extends PlaybackSubscriber {
 }
 
 export default PlayTimeout;
-export const bindPlayTimeout = (playbackManager) => new PlayTimeout(playbackManager);
+export const bindPlayTimeout = (playbackManager: PlaybackManager) => new PlayTimeout(playbackManager);
