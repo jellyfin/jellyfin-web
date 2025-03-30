@@ -1,5 +1,5 @@
 // NOTE: This is used for jsdoc return type
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Api } from '@jellyfin/sdk';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { ConnectionManager, Credentials, ApiClient } from 'jellyfin-apiclient';
@@ -18,7 +18,6 @@ const normalizeImageOptions = options => {
 };
 
 const getMaxBandwidth = () => {
-    /* eslint-disable compat/compat */
     if (navigator.connection) {
         let max = navigator.connection.downlinkMax;
         if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
@@ -28,7 +27,6 @@ const getMaxBandwidth = () => {
             return parseInt(max, 10);
         }
     }
-    /* eslint-enable compat/compat */
 
     return null;
 };

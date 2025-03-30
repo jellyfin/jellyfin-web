@@ -61,7 +61,7 @@ export async function serverAddress() {
                 let config;
                 try {
                     config = await resp.json();
-                } catch (err) {
+                } catch {
                     return;
                 }
 

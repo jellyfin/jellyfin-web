@@ -713,7 +713,7 @@ export default function (view) {
                         }, state);
                     }
                 } catch (e) {
-                    console.error('error parsing date: ' + program.EndDate);
+                    console.error('error parsing date: ' + program.EndDate, e);
                 }
             }
         }
@@ -1352,7 +1352,7 @@ export default function (view) {
             case 'GamepadDPadLeft':
             case 'GamepadLeftThumbstickLeft':
                 // Ignores gamepad events that are always triggered, even when not focused.
-                if (document.hasFocus()) { /* eslint-disable-line compat/compat */
+                if (document.hasFocus()) {
                     playbackManager.rewind(currentPlayer);
                     showOsd(btnRewind);
                 }
@@ -1361,7 +1361,7 @@ export default function (view) {
             case 'GamepadDPadRight':
             case 'GamepadLeftThumbstickRight':
                 // Ignores gamepad events that are always triggered, even when not focused.
-                if (document.hasFocus()) { /* eslint-disable-line compat/compat */
+                if (document.hasFocus()) {
                     playbackManager.fastForward(currentPlayer);
                     showOsd(btnFastForward);
                 }
@@ -1712,7 +1712,7 @@ export default function (view) {
             if (browser.firefox || browser.edge) {
                 dom.addEventListener(document, 'click', onClickCapture, { capture: true });
             }
-        } catch (e) {
+        } catch {
             setBackdropTransparency(TRANSPARENCY_LEVEL.None); // reset state set in viewbeforeshow
             appRouter.goHome();
         }

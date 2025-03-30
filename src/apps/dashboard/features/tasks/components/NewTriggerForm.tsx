@@ -148,11 +148,13 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                         fullWidth
                         defaultValue={''}
                         type='number'
-                        inputProps={{
-                            min: 1,
-                            step: 0.5
-                        }}
                         label={globalize.translate('LabelTimeLimitHours')}
+                        slotProps={{
+                            htmlInput: {
+                                min: 1,
+                                step: 0.5
+                            }
+                        }}
                     />
                 </Stack>
             </DialogContent>

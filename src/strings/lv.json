@@ -689,7 +689,7 @@
     "LabelReleaseDate": "Izlaiduma datums",
     "LabelPreferredSubtitleLanguage": "Ieteicamā subtitru valoda",
     "LabelPlayerDimensions": "Atskaņotāja dimensijas",
-    "LabelParentalRating": "Vecāku reitings",
+    "LabelParentalRating": "Vecuma reitings",
     "LabelMonitorUsers": "Uzraudzīt aktivitāti no",
     "LabelMinResumePercentageHelp": "Vienumi tiek uzskatīti par neatskaņotiem, ja apturēti pirms šī laika.",
     "LabelMinResumePercentage": "Minimālais turpināšanas procents",
@@ -1349,7 +1349,7 @@
     "LabelDummyChapterCountHelp": "Maksimālais nodaļu attēlu skaits, kas tiks ekstraktēts no katra multivides faila.",
     "LabelChapterImageResolutionHelp": "Izvilkto nodaļu attēlu izšķirtspēja. Šīs vērtības maiņa neietekmēs esošās fiktīvās nodaļas.",
     "LabelParallelImageEncodingLimit": "Paralēlas attēlu kodēšanas limits",
-    "LabelParallelImageEncodingLimitHelp": "Maksimālais attēlu kodējumu skaits, kurus atļauts palaist paralēli. Nosakot 0, tiks izvēlēts ierobežojums, kas balstīts uz jūsu sistēmas kodolu skaitu.",
+    "LabelParallelImageEncodingLimitHelp": "Maksimālais attēlu kodējumu skaits, kurus atļauts palaist paralēli. Atstājot tukšu, tiks izvēlēts ierobežojums, kas balstīts uz jūsu sistēmas kodolu skaitu.",
     "HeaderDummyChapter": "Nodaļu attēli",
     "EnableCardLayout": "Padarīt redzamu CardBox",
     "MessageConfirmDeleteGuideProvider": "Vai tiešām vēlaties izdzēst šo ceļveža pakalpojumu sniedzēju?",
@@ -1748,7 +1748,7 @@
     "LabelBuildVersion": "Kompilācijas versija",
     "SelectAudioNormalizationHelp": "Audioceliņa pastiprinājums — pielāgo katra celiņa skaļumu, lai tie tiktu atskaņoti ar tādu pašu skaļumu. Albuma pastiprinājums - pielāgo visus albuma audio, saglabājot albuma dinamisko diapazonu. Pārslēdzoties starp \"Izslēgts\" un pārējām iespējām, ir nepieciešams pārstartēt pašreizējo atskaņošanu.",
     "LibraryScanFanoutConcurrency": "Paralēlās bibliotēkas skenēšanas uzdevumu ierobežojums",
-    "LibraryScanFanoutConcurrencyHelp": "Maksimālais paralēlo uzdevumu skaits bibliotēkas skenēšanas laikā. Iestatot 0, tiks izvēlēts ierobežojums, pamatojoties uz jūsu sistēmas kodolu skaitu. BRĪDINĀJUMS: Pārāk liels skaitlis var radīt problēmas tīkla failu sistēmām. Ja novērojat problēmas, samaziniet šo skaitli.",
+    "LibraryScanFanoutConcurrencyHelp": "Maksimālais paralēlo uzdevumu skaits bibliotēkas skenēšanas laikā. Atstājot tukšu, tiks izvēlēts ierobežojums, pamatojoties uz jūsu sistēmas kodolu skaitu. BRĪDINĀJUMS: Pārāk liels skaitlis var radīt problēmas tīkla failu sistēmām. Ja novērojat problēmas, samaziniet šo skaitli.",
     "PlaylistPublic": "Atļaut publisku piekļuvi",
     "PlaylistPublicDescription": "Ļaut šo atskaņošanas sarakstu skatīt jebkuram autentificētam lietotājam.",
     "Rate": "Vertējums",
@@ -1946,5 +1946,6 @@
     "ExtractTrickplayImagesHelp": "Trickplay attēli līdzinās sadaļu attēliem, bet tie tiek saģenerēti visam satura garumam un tiek lietoti kā priekšskatījums kad ātri ritina cauri video.",
     "LabelExtractTrickplayDuringLibraryScan": "Izgūt trickplay attēlus bibliotēkas skenēšanas laikā",
     "LabelJpegQualityHelp": "Trickplay attēlu JPEG kompresijas kvalitātes lielums.",
-    "LogLoadFailure": "Neizdevās ielādēt žurnālfailu. Iespējams tas tiek aizvien izmantots žurnāla ierakstu saglabāšanai."
+    "LogLoadFailure": "Neizdevās ielādēt žurnālfailu. Iespējams tas tiek aizvien izmantots žurnāla ierakstu saglabāšanai.",
+    "SettingsPageLoadError": "Neizdevās ielādēt iestatījumu lapu"
 }

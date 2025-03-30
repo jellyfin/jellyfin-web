@@ -123,14 +123,16 @@ export const Component = () => {
                             multiline
                             minRows={5}
                             maxRows={5}
-                            InputProps={{
-                                className: 'textarea-mono'
-                            }}
                             name={BrandingOption.LoginDisclaimer}
                             label={globalize.translate('LabelLoginDisclaimer')}
                             helperText={globalize.translate('LabelLoginDisclaimerHelp')}
                             value={brandingOptions?.LoginDisclaimer}
                             onChange={setBrandingOption}
+                            slotProps={{
+                                input: {
+                                    className: 'textarea-mono'
+                                }
+                            }}
                         />
 
                         <TextField
@@ -138,14 +140,16 @@ export const Component = () => {
                             multiline
                             minRows={5}
                             maxRows={20}
-                            InputProps={{
-                                className: 'textarea-mono'
-                            }}
                             name={BrandingOption.CustomCss}
                             label={globalize.translate('LabelCustomCss')}
                             helperText={globalize.translate('LabelCustomCssHelp')}
                             value={brandingOptions?.CustomCss}
                             onChange={setBrandingOption}
+                            slotProps={{
+                                input: {
+                                    className: 'textarea-mono'
+                                }
+                            }}
                         />
 
                         <Button

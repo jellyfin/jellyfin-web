@@ -358,7 +358,7 @@ function Guide(options) {
         if ((typeof date).toString().toLowerCase() === 'string') {
             try {
                 date = datetime.parseISO8601Date(date, { toLocal: true });
-            } catch (err) {
+            } catch {
                 return date;
             }
         }
@@ -392,7 +392,7 @@ function Guide(options) {
             try {
                 program.StartDateLocal = datetime.parseISO8601Date(program.StartDate, { toLocal: true });
             } catch (err) {
-                console.error('error parsing timestamp for start date');
+                console.error('error parsing timestamp for start date', err);
             }
         }
 
@@ -400,7 +400,7 @@ function Guide(options) {
             try {
                 program.EndDateLocal = datetime.parseISO8601Date(program.EndDate, { toLocal: true });
             } catch (err) {
-                console.error('error parsing timestamp for end date');
+                console.error('error parsing timestamp for end date', err);
             }
         }
 

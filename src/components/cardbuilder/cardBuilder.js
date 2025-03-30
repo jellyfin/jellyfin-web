@@ -484,7 +484,7 @@ function getAirTimeText(item, showAirDateTime, showAirEndTime) {
                 airTimeText += ' - ' + datetime.getDisplayTime(date);
             }
         } catch (e) {
-            console.error('error parsing date: ' + item.StartDate);
+            console.error('error parsing date: ' + item.StartDate, e);
         }
     }
 
@@ -617,7 +617,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
                         datetime.parseISO8601Date(item.PremiereDate),
                         { weekday: 'long', month: 'long', day: 'numeric' }
                     ));
-                } catch (err) {
+                } catch {
                     lines.push('');
                 }
             } else {

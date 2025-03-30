@@ -1719,7 +1719,7 @@
     "Short": "Short",
     "HeaderPerformance": "Performance",
     "LabelParallelImageEncodingLimit": "Parallel image encoding limit",
-    "LabelParallelImageEncodingLimitHelp": "Maximum number of image encodings that are allowed to run in parallel. Setting this to 0 will choose a limit based on your systems core count.",
+    "LabelParallelImageEncodingLimitHelp": "Maximum number of image encodings that are allowed to run in parallel. Leaving this empty will choose a limit based on your systems core count.",
     "LabelEnableAudioVbr": "Enable VBR audio encoding",
     "LabelEnableAudioVbrHelp": "Variable bitrate offers better quality to average bitrate ratio, but in some rare cases may cause buffering and compatibility issues.",
     "LabelTonemappingMode": "Tone mapping mode",
@@ -1880,7 +1880,7 @@
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Preferred transcode audio codec in video playback",
     "Letterer": "Letterer",
     "LibraryScanFanoutConcurrency": "Parallel library scan tasks limit",
-    "LibraryScanFanoutConcurrencyHelp": "Maximum number of parallel tasks during library scans. Setting this to 0 will choose a limit based on your systems core count. WARNING: Setting this number too high may cause issues with network file systems; if you encounter problems lower this number.",
+    "LibraryScanFanoutConcurrencyHelp": "Maximum number of parallel tasks during library scans. Leaving this empty will choose a limit based on your system's core count. WARNING: Setting this number too high may cause issues with network file systems; if you encounter problems lower this number.",
     "Penciller": "Penciler",
     "PlaylistError.AddFailed": "Error adding to playlist",
     "PlaylistError.CreateFailed": "Error creating playlist",
@@ -2011,5 +2011,7 @@
     "DisplayLoadError": "An error occurred while loading display configuration data.",
     "HeaderPageNotFound": "Page not found",
     "PageNotFound": "This is not the page you are looking for.",
-    "MetadataImagesLoadError": "Failed to load metadata settings"
+    "MetadataImagesLoadError": "Failed to load metadata settings",
+    "SettingsPageLoadError": "Failed to load settings page",
+    "RetryWithGlobalSearch": "Retry with a global search"
 }

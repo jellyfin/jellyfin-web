@@ -61,7 +61,7 @@ function renderUpcoming(elem, items) {
                     day: 'numeric'
                 });
             } catch (err) {
-                console.error('error parsing timestamp for upcoming tv shows');
+                console.error('error parsing timestamp for upcoming tv shows', err);
             }
         }
 

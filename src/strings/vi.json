@@ -2009,5 +2009,7 @@
     "MetadataNfoLoadError": "Tải cài đặt dữ liệu mô tả NFO thất bại",
     "PageNotFound": "Đây không phải là trang bạn đang tìm kiếm.",
     "HeaderPageNotFound": "Không tìm thấy trang",
-    "SettingsPageLoadError": "Tải trang cài đặt thất bại"
+    "SettingsPageLoadError": "Tải trang cài đặt thất bại",
+    "StreamCountExceedsLimit": "Số lượng luồng vượt quá giới hạn",
+    "RetryWithGlobalSearch": "Thử lại với tìm kiếm toàn hệ thống"
 }

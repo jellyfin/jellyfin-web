@@ -11,6 +11,7 @@ import AppBody from 'components/AppBody';
 import AppToolbar from 'components/toolbar/AppToolbar';
 import ElevationScroll from 'components/ElevationScroll';
 import { DRAWER_WIDTH } from 'components/ResponsiveDrawer';
+import ThemeCss from 'components/ThemeCss';
 import { useApi } from 'hooks/useApi';
 import { useLocale } from 'hooks/useLocale';
 
@@ -101,6 +102,7 @@ export const Component: FC = () => {
                     </AppBody>
                 </Box>
             </Box>
+            <ThemeCss dashboard />
         </LocalizationProvider>
     );
 };

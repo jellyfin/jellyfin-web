@@ -13,7 +13,6 @@ function onOneDocumentClick() {
 
     // don't request notification permissions if they're already granted or denied
     if (window.Notification && window.Notification.permission === 'default') {
-        /* eslint-disable-next-line compat/compat */
         Notification.requestPermission();
     }
 }

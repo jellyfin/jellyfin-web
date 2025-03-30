@@ -2009,5 +2009,7 @@
     "MetadataNfoLoadError": "Не вдалося завантажити налаштування метаданих NFO",
     "HeaderPageNotFound": "Сторінку не знайдено",
     "PageNotFound": "Це не та сторінка, яку ви шукаєте.",
-    "SettingsPageLoadError": "Не вдалося завантажити сторінку налаштувань"
+    "SettingsPageLoadError": "Не вдалося завантажити сторінку налаштувань",
+    "StreamCountExceedsLimit": "Кількість потоків перевищує ліміт",
+    "RetryWithGlobalSearch": "Повторити спробу з глобальним пошуком"
 }

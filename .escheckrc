@@ -1,6 +1,5 @@
 {
     "ecmaVersion": "es5",
-    "modules": "false",
     "files": "./dist/**/*.js",
     "not": [
         "./dist/libraries/pdf.worker.js",
