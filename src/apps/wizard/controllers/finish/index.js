@@ -1,4 +1,4 @@
-import loading from '../../../components/loading/loading';
+import loading from 'components/loading/loading';
 
 function onFinish() {
     loading.show();

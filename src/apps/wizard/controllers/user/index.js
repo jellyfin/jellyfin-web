@@ -1,17 +1,17 @@
-import loading from '../../../components/loading/loading';
-import globalize from '../../../lib/globalize';
-import '../../../styles/dashboard.scss';
-import '../../../elements/emby-input/emby-input';
-import '../../../elements/emby-button/emby-button';
-import Dashboard from '../../../utils/dashboard';
-import toast from '../../../components/toast/toast';
+import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
+import 'styles/dashboard.scss';
+import 'elements/emby-input/emby-input';
+import 'elements/emby-button/emby-button';
+import Dashboard from 'utils/dashboard';
+import toast from 'components/toast/toast';
 
 function getApiClient() {
     return ApiClient;
 }
 
 function nextWizardPage() {
-    Dashboard.navigate('wizardlibrary')
+    Dashboard.navigate('wizard/library')
         .catch(err => {
             console.error('[Wizard > User] error navigating to library setup', err);
         });
