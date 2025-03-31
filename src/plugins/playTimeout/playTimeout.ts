@@ -7,9 +7,7 @@ import { PlaybackManager } from '../../components/playback/playbackmanager';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 
 function showTimeoutMessage() {
-    // TODO: add globalized message, something like:
-    //return alert(globalize.translate('MessagePlayTimeout'));
-    return alert('Are you still there?');
+    return alert(globalize.translate('MessagePlayTimeout'));
 }
 
 class PlayTimeout extends PlaybackSubscriber {
@@ -195,7 +193,7 @@ class PlayTimeout extends PlaybackSubscriber {
             } else if (this.isTimeoutActive() && this.isTimeoutTimeActive()) {
                 const time = this.getCurEpisodeTime();
                 if (time) {
-                    if (this.getTimeoutTime() && (this.watchtime - this.timeCache + time) > this.getTimeoutTime() && this.episodeCnt > 1) {
+                    if (this.getTimeoutTime() && (this.watchtime - this.timeCache + time) > this.getTimeoutTime() && this.episodeCnt > 0) {
                         this.timeout = true;
                     }
                 }
