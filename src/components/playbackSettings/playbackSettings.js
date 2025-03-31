@@ -140,6 +140,29 @@ function setMaxBitrateFromField(select, isInNetwork, mediatype) {
     }
 }
 
+function showHideStillWatchingOptions(context) {
+    const stillWatchingEnabled = context.querySelector('.chkStillWatching').checked;
+    const optionsContainer = context.querySelector('.stillWatchingOptions');
+
+    if (stillWatchingEnabled) {
+        optionsContainer.classList.remove('hide');
+    } else {
+        optionsContainer.classList.add('hide');
+    }
+}
+
+function initStillWatchingControls(context) {
+    const modeSelect = context.querySelector('#selectStillWatchingMode');
+    const episodeContainer = context.querySelector('.episodeContainer');
+    const timeContainer = context.querySelector('.timeContainer');
+
+    modeSelect.addEventListener('change', () => {
+        const isTimeMode = modeSelect.value === 'time';
+        episodeContainer.classList.toggle('hide', isTimeMode);
+        timeContainer.classList.toggle('hide', !isTimeMode);
+    });
+}
+
 function showHideQualityFields(context, user, apiClient) {
     if (user.Policy.EnableVideoPlaybackTranscoding) {
         context.querySelector('.videoQualitySection').classList.remove('hide');
@@ -185,6 +208,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     const userId = user.Id;
 
     showHideQualityFields(context, user, apiClient);
+    showHideStillWatchingOptions(context);
 
     if (browser.safari) {
         context.querySelector('.fldEnableHi10p').classList.remove('hide');
@@ -225,6 +249,12 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkEnableHi10p').checked = appSettings.enableHi10p();
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
+
+    context.querySelector('.chkStillWatching').checked = userSettings.enableStillWatching();
+    context.querySelector('#stillWatchingEpisodeCount').value = userSettings.askAfterNumEpisodes() || 1;
+    displayStillWatchingMode(context, userSettings);
+    showHideStillWatchingOptions(context);
+
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
     context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
@@ -265,6 +295,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     populateMediaSegments(mediaSegmentContainer, userSettings);
 
     loading.hide();
+    initStillWatchingControls(context);
 }
 
 function saveUser(context, user, userSettingsInstance, apiClient) {
@@ -292,6 +323,16 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.AudioLanguagePreference = context.querySelector('#selectAudioLanguage').value;
     user.Configuration.PlayDefaultAudioTrack = context.querySelector('.chkPlayDefaultAudioTrack').checked;
     user.Configuration.EnableNextEpisodeAutoPlay = context.querySelector('.chkEpisodeAutoPlay').checked;
+
+    userSettingsInstance.enableStillWatching(context.querySelector('.chkStillWatching').checked);
+    const mode = context.querySelector('#selectStillWatchingMode').value;
+
+    userSettingsInstance.timeBasedStillWatching(mode === 'time');
+    if (mode === 'time') {
+        userSettingsInstance.stillWatchingTimeout(context.querySelector('#stillWatchingTime').value);
+    } else {
+        userSettingsInstance.askAfterNumEpisodes(context.querySelector('#stillWatchingEpisodeCount').value);
+    }
     userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
     userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
     userSettingsInstance.selectAudioNormalization(context.querySelector('#selectAudioNormalization').value);
@@ -347,8 +388,12 @@ function onSubmit(e) {
 
 function embed(options, self) {
     options.element.innerHTML = globalize.translateHtml(template, 'core');
-
     options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
+
+    const stillWatchingCheckbox = options.element.querySelector('.chkStillWatching');
+    stillWatchingCheckbox.addEventListener('change', () => {
+        showHideStillWatchingOptions(options.element);
+    });
 
     if (options.enableSaveButton) {
         options.element.querySelector('.btnSave').classList.remove('hide');
@@ -358,6 +403,35 @@ function embed(options, self) {
 
     if (options.autoFocus) {
         focusManager.autoFocus(options.element);
+    }
+}
+
+function displayStillWatchingMode(context, userSettings) {
+    // Determine saved mode
+    const isTimeMode = userSettings.timeBasedStillWatching?.() === true;
+    const mode = isTimeMode ? 'time' : 'episodes';
+
+    // Set mode select dropdown
+    const modeSelect = context.querySelector('#selectStillWatchingMode');
+    modeSelect.value = mode;
+
+    // Containers
+    const episodeContainer = context.querySelector('.episodeContainer');
+    const timeContainer = context.querySelector('.timeContainer');
+
+    // Toggle visibility
+    episodeContainer.classList.toggle('hide', isTimeMode);
+    timeContainer.classList.toggle('hide', !isTimeMode);
+
+    // Inputs
+    const timeInput = context.querySelector('#stillWatchingTime');
+    const episodeInput = context.querySelector('#stillWatchingEpisodeCount');
+
+    // Populate only the relevant field
+    if (isTimeMode) {
+        timeInput.value = userSettings.stillWatchingTimeout() || 300;
+    } else {
+        episodeInput.value = userSettings.askAfterNumEpisodes() || 5;
     }
 }
 
