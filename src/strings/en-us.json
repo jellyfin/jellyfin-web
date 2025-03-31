@@ -1363,7 +1363,7 @@
   "AreYouStillWatchingHelp": "This option will prompt you to confirm you are still watching after a certain number of episodes have been played, or a certain amount of time has passed.",
   "AreYouStillWatching": "Inactivity prompt",
   "StillWatchingModeEpisodes": "Episodes",
-  "StillWatchingModeTime": "Time",
+  "StillWatchingModeTime": "Time (Minutes)",
   "NumEpisodes": "Episodes to play before still watching prompt",
   "MinutesBeforePrompt": "Time to play before still watching prompt",
   "PleaseAddAtLeastOneFolder": "Please add at least one folder to this library by clicking the '+' button in 'Folders' section.",
