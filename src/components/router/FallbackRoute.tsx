@@ -15,6 +15,11 @@ const FallbackRoute = () => {
             hash: location.hash
         };
 
+        // Redirect old wizard paths
+        if (RegExp(/^\/wizard[a-z]+\.html/i).test(location.pathname)) {
+            return { ..._to, pathname: `/wizard/${location.pathname.slice(7, -5)}` };
+        }
+
         // If a path ends in ".html", redirect to the path with it removed
         if (location.pathname.endsWith('.html')) {
             return { ..._to, pathname: location.pathname.slice(0, -5) };
