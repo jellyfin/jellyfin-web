@@ -15,6 +15,7 @@ import Backdrop from 'components/Backdrop';
 import BangRedirect from 'components/router/BangRedirect';
 import { createRouterHistory } from 'components/router/routerHistory';
 import UserThemeProvider from 'themes/UserThemeProvider';
+import { WIZARD_APP_ROUTES } from 'apps/wizard/routes/routes';
 
 const layoutMode = localStorage.getItem('layout');
 const isExperimentalLayout = layoutMode === 'experimental';
@@ -25,6 +26,7 @@ const router = createHashRouter([
         children: [
             ...(isExperimentalLayout ? EXPERIMENTAL_APP_ROUTES : STABLE_APP_ROUTES),
             ...DASHBOARD_APP_ROUTES,
+            ...WIZARD_APP_ROUTES,
             {
                 path: '!/*',
                 Component: BangRedirect

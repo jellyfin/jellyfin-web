@@ -1,7 +1,7 @@
-import loading from '../../../components/loading/loading';
-import '../../../elements/emby-button/emby-button';
-import '../../../elements/emby-select/emby-select';
-import Dashboard from '../../../utils/dashboard';
+import loading from 'components/loading/loading';
+import 'elements/emby-button/emby-button';
+import 'elements/emby-select/emby-select';
+import Dashboard from 'utils/dashboard';
 import dom from 'scripts/dom';
 
 function loadPage(page, config, languageOptions) {
@@ -24,7 +24,7 @@ function save(page) {
             url: apiClient.getUrl('Startup/Configuration'),
             contentType: 'application/json'
         }).then(function () {
-            Dashboard.navigate('wizarduser');
+            Dashboard.navigate('wizard/user');
         });
     });
 }
