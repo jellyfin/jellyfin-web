@@ -10,16 +10,52 @@ function showTimeoutMessage() {
     return alert(globalize.translate('MessagePlayTimeout'));
 }
 
+/**
+ * Handles the "Are you still watching?" feature.
+ * @class
+ */
 class PlayTimeout extends PlaybackSubscriber {
     protected name: string;
     protected type: string;
     protected id: string;
 
-    protected episodeCnt: number; // the current consecutive episodes watched without interaction - updates at the end of a video
-    protected watchtime: number; // the current consecutive time spent watching without interaction - updates at the end of a video
-    protected enabled: boolean; // tracks feature state
-    protected timeout: boolean; // flag that gets set when a timeout is pending
-    protected timeCache: number; // stores time within the same episode where activity was detected
+    /**
+     * The current consecutive episodes watched without interaction - updates at the end of a video.
+     * @type {number}
+     */
+    protected episodeCnt: number;
+
+    /**
+     * The current consecutive time spent watching without interaction - updates at the end of a video.
+     * @type {number}
+     */
+    protected watchtime: number;
+
+    /**
+     * Tracks the feature state. When false, many events are skipped. When true, all events are enabled.
+     * Primarily used to disable/enable playback monitoring between episodes or when the feature is disabled in the user settings.
+     * @type {boolean}
+     */
+    protected enabled: boolean;
+
+    /**
+     * Flag that gets set when a timeout is pending.
+     * @type {boolean}
+     */
+    protected timeout: boolean;
+
+    /**
+     * Stores time within the same episode where activity was detected in milliseconds.
+     * Will be zero if no activity has occured.
+     * Will be non-zero if a timeout or activity has occured.
+     * @type {number}
+     */
+    protected timeCache: number;
+
+    /**
+     * Creates an instance of PlayTimeout.
+     * @param {PlaybackManager} playbackManager The playback manager being monitored.
+     */
     constructor(protected readonly playbackManager: PlaybackManager) {
         super(playbackManager);
         this.name = 'Playback timeout';
@@ -43,17 +79,24 @@ class PlayTimeout extends PlaybackSubscriber {
         document.addEventListener('focusout', this.interactionHandler);
     }
 
+    /**
+     * Enables this feature.
+     * @see PlayTimeout#enabled
+     */
     private enable(): void {
         this.enabled = true;
     }
 
+    /**
+     * Disables this feature.
+     * @see PlayTimeout#enabled
+     */
     private disable(): void {
         this.enabled = false;
     }
 
-    /*
-        Name: resetAttributes
-        Description: Resets attributes that track timeouts.
+    /**
+    * Resets attributes that track timeouts.
     */
     private resetAttributes(): void {
         this.timeout = false;
@@ -61,21 +104,18 @@ class PlayTimeout extends PlaybackSubscriber {
         this.watchtime = 0;
     }
 
-    /*
-        Name: interactionHandler
-        Description: Handles the logic when a user interacts with the media player.
+    /**
+    * Handles the logic for when a user interacts with the media player.
     */
     private interactionHandler(): void {
-        // events sometimes happen between videos (e.g. unpause), so this check is required
         if (this.enabled) {
             this.resetAttributes();
             this.timeCache = this.getCurEpisodeTime();
         }
     }
 
-    /*
-        Name: timeoutHandler
-        Description: Handles the logic when a timeout is triggered.
+    /**
+    * Handles the logic when a timeout is triggered.
     */
     private async timeoutHandler() {
         // reset timeout flag and tracker attributes
@@ -89,66 +129,59 @@ class PlayTimeout extends PlaybackSubscriber {
         await showTimeoutMessage();
     }
 
-    /*
-    Name: isTimeoutActive
-    Description: checks whether timeouts are enabled - defaults to episodal timeouts unless isTimeoutTimeActive is true
-    Returns: boolean - true if episode-based timeouts are enabled, false otherwise
+    /**
+    * Checks whether timeouts are enabled - defaults to episodal timeouts unless isTimeoutTimeActive is true.
+    * @returns {boolean} Returns true if episode-based timeouts are enabled, false otherwise.
     */
     private isTimeoutActive(): boolean {
         return userSettings.enableStillWatching(undefined);
     }
 
     /**
-        Name: isTimeoutTimeActive
-        Description: checks whether timeouts should occur after a certain amount of time
-        Returns: boolean - true if time-based timeouts are enabled, false otherwise
+    * Checks whether timeouts should occur after a certain amount of time
+    * @returns {boolean} Returns true if time-based timeouts are enabled, false otherwise.
     */
     private isTimeoutTimeActive(): boolean {
         return userSettings.timeBasedStillWatching(undefined);
     }
 
-    /*
-        Name: getTimeoutTime
-        Description: retrieves the amount of consecutive milliseconds watching before a timeout should occur
-        Returns: int - time in milliseconds after which a timeout should occur
+    /**
+    * Retrieves the amount of consecutive milliseconds watching before a timeout should occur.
+    * @returns {number} Returns the time in milliseconds after which a timeout should occur
     */
     private getTimeoutTime(): number {
         return userSettings.stillWatchingTimeout(undefined) * 6 * (10 ** 4); // convert from minutes to milliseconds
     }
 
-    /*
-        Name: getTimeoutEpisodes
-        Description: retrieves the amount of consecutive episodes before a timeout should occur
-        Returns: int - number of episodes after which a timeout should occur (e.g. 3 means after 3 consectutive episodes)
+    /**
+    * Retrieves the amount of consecutive episodes before a timeout should occur.
+    * @returns {number} The number of episodes after which a timeout should occur.
     */
     private getTimeoutEpisodes(): number {
         return userSettings.askAfterNumEpisodes(undefined);
     }
 
-    /*
-        Name: getCurEpisodeTime
-        Description: gets the current time of the episode in milliseconds
-        Returns: int - the the current time of the episode in milliseconds, defaulting to zero
+    /**
+    * Retrieves the current time of the episode in milliseconds
+    * @returns {number} the the current time of the episode in milliseconds, defaulting to zero
     */
     private getCurEpisodeTime(): number {
         return this.playbackManager.currentTime() || 0;
     }
 
-    /*
-        Name: onPlayerChange
-        Description: Disables this plugin feature.
+    /**
+    * Disables this feature and resets its attributes.
     */
     onPlayerChange(): void {
         this.resetAttributes();
         this.disable();
     }
 
-    /*
-        Name: onPlayerPlaybackStart
-        Description: Enables/disables this plugin feature at start of playback.
+    /**
+    * Enables/disables this feature at start of playback.
     */
     onPlayerPlaybackStart() {
-        // check if video
+        // check if video and enabled in user settings
         if (this.playbackManager.isPlayingMediaType(MediaType.Video) && this.isTimeoutActive()) {
             // enable feature on videos
             this.enable();
@@ -161,9 +194,8 @@ class PlayTimeout extends PlaybackSubscriber {
         }
     }
 
-    /*
-        Name: onPlayerPlaybackStop
-        Description: Updates watch time and checks whether epidsodal timeout should trigger.
+    /**
+    * Updates watch time and checks whether epidsodal timeout should trigger.
     */
     onPlayerPlaybackStop() {
         if (this.enabled) {
@@ -182,9 +214,8 @@ class PlayTimeout extends PlaybackSubscriber {
         }
     }
 
-    /*
-        Name: onPlayerTimeUpdate
-        Description: Checks whether watch time timeout should trigger and handles calling timeout handler.
+    /**
+    * Checks whether watch time timeout should trigger and handles calling timeout handler when a timeout is pending.
     */
     async onPlayerTimeUpdate() {
         if (this.enabled) {
@@ -202,7 +233,7 @@ class PlayTimeout extends PlaybackSubscriber {
     }
 
     /*
-        Events that denote user interaction in @playbackSubscriber are used here. The events suppliment the javascript event listeners defined in the constructor.
+        Events that denote user interaction in @playbackSubscriber are used here. The events suppliment the event listeners defined in the constructor.
 
         TODO: add or remove envents based on how other platforms detect interaction. If just the constructor event listeners are sufficient, remove these.
         If not, there are a lot of interactions missing, like skipping and scrubbing, that should cause the timeout to reset.
