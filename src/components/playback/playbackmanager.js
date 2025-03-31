@@ -29,6 +29,7 @@ import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind.js';
 import { bindSkipSegment } from './skipsegment.ts';
+import { bindPlayTimeout } from '../../plugins/playTimeout/playTimeout.ts';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -3698,6 +3699,7 @@ export class PlaybackManager {
 
         bindMediaSegmentManager(self);
         this._skipSegment = bindSkipSegment(self);
+        this._playTimeout = bindPlayTimeout(self);
     }
 
     getCurrentPlayer() {

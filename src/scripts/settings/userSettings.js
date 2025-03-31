@@ -205,6 +205,56 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'still watching prompt' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'still watching' or undefined.
+     * @return {boolean} 'Still watching' state.
+     */
+    enableStillWatching(val) {
+        if (val !== undefined) {
+            return this.set('enableStillWatching', val.toString(), false);
+        }
+
+        return toBoolean(this.get('enableStillWatching', false), false);
+    }
+
+    /**
+     * Get or set 'numepisodes' state.
+     * @param {number|undefined} val -  number of episodes before "are you still watching" prompt.
+     * @return {number} 'num_videos' state.
+     */
+    askAfterNumEpisodes(val) {
+        if (val !== undefined) {
+            return this.set('askAfterNumEpisodes', val.toString());
+        }
+
+        return parseInt(this.get('askAfterNumEpisodes') || '0', 10);
+    }
+
+    /**
+     * Get or set 'timeBasedStillWatching' state.
+     * @param {boolean|undefined} val - Flag to enable 'still watching' or undefined.
+     * @return {boolean} 'Still watching' state.
+     */
+    timeBasedStillWatching(val) {
+        if (val !== undefined) {
+            return this.set('timeBasedStillWatching', val.toString(), false);
+        }
+        return toBoolean(this.get('timeBasedStillWatching', false), false);
+    }
+
+    /**
+     * Get or set 'stillWatchingTimeout' state.
+     * @param {number|undefined} val - Timeout in minutes before "are you still watching" prompt.
+     * @return {number} 'stillWatchingTimeout' state.
+     */
+    stillWatchingTimeout(val) {
+        if (val !== undefined) {
+            return this.set('stillWatchingTimeout', val.toString());
+        }
+        return parseInt(this.get('stillWatchingTimeout') || '60', 10);
+    }
+
+    /**
      * Get or set 'Video Remaining/Total Time' state.
      * @param {boolean|undefined} val - Flag to enable 'Video Remaining/Total Time' or undefined.
      * @return {boolean} 'Video Remaining/Total Time' state.
@@ -672,6 +722,10 @@ export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
 export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(currentSettings);
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
+export const enableStillWatching = currentSettings.enableStillWatching.bind(currentSettings);
+export const askAfterNumEpisodes = currentSettings.askAfterNumEpisodes.bind(currentSettings);
+export const timeBasedStillWatching = currentSettings.timeBasedStillWatching.bind(currentSettings);
+export const stillWatchingTimeout = currentSettings.stillWatchingTimeout.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
