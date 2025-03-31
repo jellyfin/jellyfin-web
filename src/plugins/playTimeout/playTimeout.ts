@@ -19,7 +19,7 @@ class PlayTimeout extends PlaybackSubscriber {
 
     protected episodeCnt: number; // the current consecutive episodes watched without interaction - updates at the end of a video
     protected watchtime: number; // the current consecutive time spent watching without interaction - updates at the end of a video
-    protected enabled: boolean; // this attribute has no bearing on whether the user has the feature enabled; it tracks the state of the feature
+    protected enabled: boolean; // tracks feature state
     protected timeout: boolean; // flag that gets set when a timeout is pending
     protected timeCache: number; // stores time within the same episode where activity was detected
     constructor(protected readonly playbackManager: PlaybackManager) {
@@ -97,16 +97,16 @@ class PlayTimeout extends PlaybackSubscriber {
     Returns: boolean - true if episode-based timeouts are enabled, false otherwise
     */
     private isTimeoutActive(): boolean {
-        return userSettings.get('enableStillWatching')?.toLowerCase() === 'true';
+        return userSettings.enableStillWatching(undefined);
     }
 
-    /*
+    /**
         Name: isTimeoutTimeActive
         Description: checks whether timeouts should occur after a certain amount of time
         Returns: boolean - true if time-based timeouts are enabled, false otherwise
     */
     private isTimeoutTimeActive(): boolean {
-        return userSettings.get('timeBasedStillWatching')?.toLowerCase() === 'true';
+        return userSettings.timeBasedStillWatching(undefined);
     }
 
     /*
@@ -115,7 +115,7 @@ class PlayTimeout extends PlaybackSubscriber {
         Returns: int - time in milliseconds after which a timeout should occur
     */
     private getTimeoutTime(): number {
-        return Number(userSettings.get('stillWatchingTimout')) * 6 * (10 ** 4); // convert from minutes to milliseconds
+        return userSettings.stillWatchingTimeout(undefined) * 6 * (10 ** 4); // convert from minutes to milliseconds
     }
 
     /*
@@ -124,7 +124,7 @@ class PlayTimeout extends PlaybackSubscriber {
         Returns: int - number of episodes after which a timeout should occur (e.g. 3 means after 3 consectutive episodes)
     */
     private getTimeoutEpisodes(): number {
-        return Number(userSettings.get('askAfterNumEpisodes'));
+        return userSettings.askAfterNumEpisodes(undefined);
     }
 
     /*
@@ -155,6 +155,7 @@ class PlayTimeout extends PlaybackSubscriber {
             // enable feature on videos
             this.enable();
             this.timeCache = 0;
+            this.episodeCnt++;
         } else {
             // disable feature on non-videos
             this.disable();
@@ -168,7 +169,6 @@ class PlayTimeout extends PlaybackSubscriber {
     */
     onPlayerPlaybackStop() {
         if (this.enabled) {
-            this.episodeCnt++;
             if (this.isTimeoutActive() && this.isTimeoutTimeActive()) {
                 const time = this.getCurEpisodeTime();
                 if (time) {
@@ -195,7 +195,7 @@ class PlayTimeout extends PlaybackSubscriber {
             } else if (this.isTimeoutActive() && this.isTimeoutTimeActive()) {
                 const time = this.getCurEpisodeTime();
                 if (time) {
-                    if (this.getTimeoutTime() && (this.watchtime - this.timeCache + time) > this.getTimeoutTime() && this.episodeCnt > 0) {
+                    if (this.getTimeoutTime() && (this.watchtime - this.timeCache + time) > this.getTimeoutTime() && this.episodeCnt > 1) {
                         this.timeout = true;
                     }
                 }
