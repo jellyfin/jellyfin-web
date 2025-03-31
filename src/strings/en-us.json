@@ -1359,6 +1359,7 @@
   "PlaylistPublicDescription": "Allow this playlist to be viewed by any logged in user.",
   "PlayNext": "Play next",
   "PlayNextEpisodeAutomatically": "Play next episode automatically",
+  "MessagePlayTimeoutDescription": "Playback was paused automatically due to inactivity.",
   "MessagePlayTimeout": "Are you still there?",
   "AreYouStillWatchingHelp": "This option will prompt you to confirm you are still watching after a certain number of episodes have been played, or a certain amount of time has passed.",
   "AreYouStillWatching": "Inactivity prompt",

@@ -7,7 +7,7 @@ import { PlaybackManager } from '../../components/playback/playbackmanager';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 
 function showTimeoutMessage() {
-    return alert(globalize.translate('MessagePlayTimeout'));
+    return alert(globalize.translate('MessagePlayTimeoutDescription'), globalize.translate('MessagePlayTimeout'));
 }
 
 /**
