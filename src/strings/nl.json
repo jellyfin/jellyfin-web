@@ -2013,5 +2013,7 @@
     "HeaderPageNotFound": "Pagina niet gevonden",
     "SettingsPageLoadError": "Laden van instellingenpagina mislukt",
     "RetryWithGlobalSearch": "Alles doorzoeken",
-    "StreamCountExceedsLimit": "Het aantal streams overschrijdt de limiet"
+    "StreamCountExceedsLimit": "Het aantal streams overschrijdt de limiet",
+    "LabelGroupShowsIntoCollectionsHelp": "Series in een collectie zullen worden getoond als één gegroepeerd item tijdens het weergeven van serielijsten.",
+    "LabelGroupShowsIntoCollections": "Series in collecties groeperen"
 }
