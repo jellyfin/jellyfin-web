@@ -18,7 +18,7 @@ interface LinkButtonProps extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnc
 const LinkButton: React.FC<LinkButtonProps> = ({
     className,
     isAutoHideEnabled,
-    href,
+    href = '#', // The href must have a value to be focusable in the TV layout
     target,
     onClick,
     children,
