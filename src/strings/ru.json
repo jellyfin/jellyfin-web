@@ -1799,7 +1799,7 @@
     "ChannelResolutionUHD4K": "UHD (4K)",
     "DeleteName": "Удалить {0}",
     "LabelBuildVersion": "Версия сборки",
-    "AirPlay": "Трансляция",
+    "AirPlay": "AirPlay",
     "AllowContentWithTagsHelp": "Отображать контент с хотя бы одним из заданных тэгов.",
     "BlockContentWithTagsHelp": "Скрывать контент с хотя бы одним из заданных тэгов.",
     "ConfirmDeleteSeries": "Удаление сериала приведёт к удалению ВСЕХ {0} эпизодов и из файловой системы, и из вашей библиотеки. Вы уверены, что хотите продолжить?",
