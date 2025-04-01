@@ -60,7 +60,7 @@ const ROUTES: LegacyRoute[] = [
 
 export const WIZARD_APP_ROUTES: RouteObject[] = [
     {
-        element: <ConnectionRequired isUserRequired={false} />,
+        element: <ConnectionRequired level='wizard' />,
         children: [
             {
                 Component: AppLayout,
