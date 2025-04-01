@@ -25,7 +25,6 @@ import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
 
 const BRANDING_CONFIG_KEY = 'branding';
-const ENABLE_CUSTOM_IMAGE = false;
 const SPLASHSCREEN_URL = '/Branding/Splashscreen';
 const BrandingOption = {
     CustomCss: 'CustomCss',
@@ -237,39 +236,34 @@ export const Component = () => {
                                     label={globalize.translate('EnableSplashScreen')}
                                 />
 
-                                {/* FIXME: Disabled due to https://github.com/jellyfin/jellyfin/issues/13744 */}
-                                {ENABLE_CUSTOM_IMAGE && (
-                                    <>
-                                        <Typography variant='body2'>
-                                            {globalize.translate('CustomSplashScreenSize')}
-                                        </Typography>
+                                <Typography variant='body2'>
+                                    {globalize.translate('CustomSplashScreenSize')}
+                                </Typography>
 
-                                        <Button
-                                            component='label'
-                                            variant='outlined'
-                                            startIcon={<Upload />}
-                                            disabled={!isSplashscreenEnabled}
-                                        >
-                                            <input
-                                                type='file'
-                                                accept='image/*'
-                                                hidden
-                                                onChange={onSplashscreenUpload}
-                                            />
-                                            {globalize.translate('UploadCustomImage')}
-                                        </Button>
+                                <Button
+                                    component='label'
+                                    variant='outlined'
+                                    startIcon={<Upload />}
+                                    disabled={!isSplashscreenEnabled}
+                                >
+                                    <input
+                                        type='file'
+                                        accept='image/*'
+                                        hidden
+                                        onChange={onSplashscreenUpload}
+                                    />
+                                    {globalize.translate('UploadCustomImage')}
+                                </Button>
 
-                                        <Button
-                                            variant='outlined'
-                                            color='error'
-                                            startIcon={<Delete />}
-                                            disabled={!isSplashscreenEnabled}
-                                            onClick={onSplashscreenDelete}
-                                        >
-                                            {globalize.translate('DeleteCustomImage')}
-                                        </Button>
-                                    </>
-                                )}
+                                <Button
+                                    variant='outlined'
+                                    color='error'
+                                    startIcon={<Delete />}
+                                    disabled={!isSplashscreenEnabled}
+                                    onClick={onSplashscreenDelete}
+                                >
+                                    {globalize.translate('DeleteCustomImage')}
+                                </Button>
                             </Stack>
                         </Stack>
 
