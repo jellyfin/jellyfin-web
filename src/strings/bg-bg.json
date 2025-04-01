@@ -1631,5 +1631,8 @@
     "DisplayLoadError": "Неочаквана грешка възникна докато данните за конфигуриране на дисплея се зареждаха.",
     "LabelSlowResponseEnabled": "Регистрирай предупредително съобщение ако сървърът реагира бавно",
     "LabelDevice": "Устройство",
-    "LabelSyncPlayNoGroups": "Няма налични групи"
+    "LabelSyncPlayNoGroups": "Няма налични групи",
+    "LabelSyncPlayResumePlaybackDescription": "Включи отново в групово възпроизвеждане",
+    "LabelSortName": "Подреди по име",
+    "LabelSyncPlayResumePlayback": "Възобнови локалното възпроизвеждане"
 }
