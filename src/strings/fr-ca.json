@@ -1958,5 +1958,7 @@
     "LabelDevice": "Appareil",
     "MetadataImagesLoadError": "Échec du chargement des paramètres de métadonnées",
     "LibraryNameInvalid": "Le nom de la bibliothèque ne peut pas être vide.",
-    "StreamCountExceedsLimit": "Le nombre de flux dépasse la limite"
+    "StreamCountExceedsLimit": "Le nombre de flux dépasse la limite",
+    "LabelGroupShowsIntoCollections": "Grouper les émissions dans les collections",
+    "LabelGroupShowsIntoCollectionsHelp": "Les émissions d'une collection seront affichées sous la forme d'un seul élément groupé lors de l'affichage des listes d'émissions."
 }
