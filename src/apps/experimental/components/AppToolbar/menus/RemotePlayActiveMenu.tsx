@@ -94,13 +94,15 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
             keepMounted
             open={open}
             onClose={onMenuClose}
-            MenuListProps={{
-                'aria-labelledby': 'remote-play-active-subheader',
-                subheader: (
-                    <ListSubheader component='div' id='remote-play-active-subheader'>
-                        {remotePlayerName}
-                    </ListSubheader>
-                )
+            slotProps={{
+                list: {
+                    'aria-labelledby': 'remote-play-active-subheader',
+                    subheader: (
+                        <ListSubheader component='div' id='remote-play-active-subheader'>
+                            {remotePlayerName}
+                        </ListSubheader>
+                    )
+                }
             }}
         >
             {isDisplayMirrorSupported && (

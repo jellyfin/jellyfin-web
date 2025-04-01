@@ -68,9 +68,11 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
             maxWidth={'xs'}
             fullWidth
             onClose={onClose}
-            PaperProps={{
-                component: 'form',
-                onSubmit: onSubmit
+            slotProps={{
+                paper: {
+                    component: 'form',
+                    onSubmit
+                }
             }}
         >
             <DialogTitle>{title}</DialogTitle>
