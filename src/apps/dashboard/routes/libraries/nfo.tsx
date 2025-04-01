@@ -119,13 +119,16 @@ export const Component = () => {
                                 label={globalize.translate('LabelKodiMetadataUser')}
                                 defaultValue={nfoConfig.UserId || ''}
                                 select
-                                SelectProps={{
-                                    displayEmpty: true
-                                }}
-                                InputLabelProps={{
-                                    shrink: true
-                                }}
                                 helperText={globalize.translate('LabelKodiMetadataUserHelp')}
+                                slotProps={{
+                                    select: {
+                                        displayEmpty: true
+                                    },
+
+                                    inputLabel: {
+                                        shrink: true
+                                    }
+                                }}
                             >
                                 <MenuItem value=''>{globalize.translate('None')}</MenuItem>
                                 {users.map(user =>
