@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { appHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';
+import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import LinkButton from 'elements/emby-button/LinkButton';
 import { useApi } from 'hooks/useApi';
@@ -38,7 +39,11 @@ const UserSettingsPage: FC = () => {
         }
     }, [ currentUser, userId, users ]);
 
-    if (!userId || !user || isQuickConnectEnabledPending) return null;
+    if (!userId || !user || isQuickConnectEnabledPending) {
+        return (
+            <Loading />
+        );
+    }
 
     return (
         <Page
