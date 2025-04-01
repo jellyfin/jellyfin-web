@@ -2014,5 +2014,7 @@
     "PageNotFound": "Ceci n'est pas la page que vous cherchez.",
     "SettingsPageLoadError": "Échec du chargement de la page des paramètres",
     "RetryWithGlobalSearch": "Réessayez avec une recherche globale",
-    "StreamCountExceedsLimit": "Le nombre de flux dépasse la limite"
+    "StreamCountExceedsLimit": "Le nombre de flux dépasse la limite",
+    "LabelGroupShowsIntoCollections": "Grouper les séries dans les collections",
+    "LabelGroupShowsIntoCollectionsHelp": "Les séries d'une collection seront affichées sous la forme d'un seul élément groupé lors de l'affichage des listes de séries."
 }
