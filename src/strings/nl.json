@@ -1664,7 +1664,7 @@
     "LabelVppTonemappingContrast": "Contrastversterking VPP-tonemapping",
     "LabelVppTonemappingBrightnessHelp": "Pas helderheidsversterking toe bij VPP-tonemapping. De aanbevolen waarde is 16.",
     "LabelVppTonemappingBrightness": "Helderheidsversterking VPP-tonemapping",
-    "EnableSplashScreen": "Opstartscherm inschakelen",
+    "EnableSplashScreen": "Opstartafbeelding inschakelen",
     "EnableEnhancedNvdecDecoderHelp": "Verbeterde NVDEC-implementatie; schakel deze instelling uit om CUVID te gebruiken indien je decoderingsfouten tegenkomt.",
     "ThemeVideo": "Themavideo",
     "ThemeSong": "Themamuziek",
@@ -2018,5 +2018,8 @@
     "LabelGroupShowsIntoCollections": "Series in collecties groeperen",
     "ImageUploadFailed": "Afbeelding uploaden mislukt",
     "ImageDeleteFailed": "Afbeelding verwijderen mislukt",
-    "ImageUploadCancelled": "Uploaden afbeelding geannuleerd"
+    "ImageUploadCancelled": "Uploaden afbeelding geannuleerd",
+    "CustomSplashScreenSize": "De vereiste beeldverhouding van aangepaste afbeeldingen is 16:9 en de minimale grootte is 1920x1080.",
+    "DeleteCustomImage": "Aangepaste afbeelding verwijderen",
+    "UploadCustomImage": "Aangepaste afbeelding uploaden"
 }
