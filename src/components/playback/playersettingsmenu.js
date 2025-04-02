@@ -129,13 +129,12 @@ function getQualitySecondaryText(player) {
 function showAspectRatioMenu(player, btn) {
     // each has a name and id
     const currentId = playbackManager.getAspectRatio(player);
-    const menuItems = playbackManager.getSupportedAspectRatios(player).map(function (i) {
-        return {
-            id: i.id,
-            name: i.name,
-            selected: i.id === currentId
-        };
-    });
+    const menuItems = playbackManager.getSupportedAspectRatios(player)
+        .map(({ id, name }) => ({
+            id,
+            name,
+            selected: id === currentId
+        }));
 
     return actionsheet.show({
         items: menuItems,
