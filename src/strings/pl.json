@@ -1668,7 +1668,7 @@
     "LabelVppTonemappingContrast": "Wzmocnienie kontrastu mapowania tonów VPP",
     "LabelVppTonemappingBrightnessHelp": "Zastosuj wzmocnienie jasności w mapowaniu tonów VPP. Zalecana wartość to 16.",
     "LabelVppTonemappingBrightness": "Wzmocnienie jasności mapowania tonów VPP",
-    "EnableSplashScreen": "Włącz ekran powitalny",
+    "EnableSplashScreen": "Włącz obraz ekranu powitalnego",
     "ScreenResolution": "Rozdzielczość ekranu",
     "RememberSubtitleSelectionsHelp": "Spróbuj ustawić ścieżkę napisów jak najbardziej pasującą do ostatniego filmu.",
     "RememberSubtitleSelections": "Ustaw ścieżkę napisów na podstawie poprzedniego elementu",
@@ -2016,5 +2016,11 @@
     "RetryWithGlobalSearch": "Ponów, korzystając z wyszukiwania globalnego",
     "StreamCountExceedsLimit": "Liczba strumieni przekracza limit",
     "LabelGroupShowsIntoCollections": "Grupuj seriale w kolekcje",
-    "LabelGroupShowsIntoCollectionsHelp": "Seriale w kolekcji będą wyświetlane jako jedna zgrupowana pozycja podczas wyświetlania list seriali."
+    "LabelGroupShowsIntoCollectionsHelp": "Seriale w kolekcji będą wyświetlane jako jedna zgrupowana pozycja podczas wyświetlania list seriali.",
+    "DeleteCustomImage": "Usuń obraz niestandardowy",
+    "ImageDeleteFailed": "Nie udało się usunąć obrazu",
+    "ImageUploadCancelled": "Anulowano przesyłanie obrazu",
+    "ImageUploadFailed": "Nie udało się przesłać obrazu",
+    "UploadCustomImage": "Prześlij obraz niestandardowy",
+    "CustomSplashScreenSize": "Obrazy niestandardowe powinny mieć proporcje 16x9 i minimalny rozmiar 1920x1080."
 }
