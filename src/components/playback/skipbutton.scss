@@ -1,10 +1,17 @@
+.skip-button-container {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 18%;
+    pointer-events: none;
+    z-index: 10000;
+}
+
 .skip-button {
     display: flex;
     align-items: center;
-    position: fixed;
-    bottom: 18%;
-    right: 16%;
-    z-index: 10000;
+    margin-left: auto;
+    margin-right: 16%;
     padding: 12px 20px;
     color: black;
     border: none;
@@ -15,6 +22,7 @@
     gap: 3px;
     box-shadow: 7px 6px 15px -14px rgba(0, 0, 0, 0.65);
     cursor: pointer;
+    pointer-events: auto;
 }
 
 @media (orientation: landscape) and (max-height: 500px) {
