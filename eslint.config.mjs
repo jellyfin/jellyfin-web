@@ -98,7 +98,7 @@ export default tseslint.config(
 
             'sonarjs/fixme-tag': 'warn',
             'sonarjs/todo-tag': 'off',
-            'sonarjs/deprecation': 'warn',
+            'sonarjs/deprecation': 'off',
             'sonarjs/no-alphabetical-sort': 'warn',
             'sonarjs/no-inverted-boolean-check': 'error',
             'sonarjs/no-selector-parameter': 'off',
@@ -329,6 +329,7 @@ export default tseslint.config(
                     }
                 }
             ],
+            '@typescript-eslint/no-deprecated': 'warn',
             '@typescript-eslint/no-floating-promises': 'error',
             '@typescript-eslint/prefer-string-starts-ends-with': 'error'
         }
@@ -366,7 +367,6 @@ export default tseslint.config(
         rules: {
             '@typescript-eslint/no-floating-promises': 'off',
             '@typescript-eslint/no-this-alias': 'off',
-            '@typescript-eslint/no-unused-vars': 'warn',
 
             'sonarjs/public-static-readonly': 'off',
 

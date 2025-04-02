@@ -1955,5 +1955,9 @@
     "LabelMediaSegmentProviders": "Пастаўшчыкі сегментаў медыяфайлаў",
     "MediaSegmentProvidersHelp": "Уключыце і расстаўце вашых пераважных пастаўшчыкоў сегментаў медыяфайлаў у парадку прыярытэту.",
     "MediaSegmentType.Commercial": "Рэклама",
-    "MediaSegmentAction.None": "Няма"
+    "MediaSegmentAction.None": "Няма",
+    "HeaderNextVideo": "Наступнае відэа",
+    "HeaderPageNotFound": "Старонка не знойдзена",
+    "LabelSaveTrickplayLocally": "Захаваць выявы trickplay побач з медыяфайламі",
+    "LabelSaveTrickplayLocallyHelp": "Захаванне выяў trickplay у тэчках з медыяфайламі дазволіць размясціць іх побач з вашымі медыяфайламі для зручнай міграцыі і доступу."
 }

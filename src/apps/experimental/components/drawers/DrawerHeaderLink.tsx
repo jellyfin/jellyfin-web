@@ -22,8 +22,10 @@ const DrawerHeaderLink = () => {
             </ListItemIcon>
             <ListItemText
                 primary={systemInfo?.ServerName || 'Jellyfin'}
-                primaryTypographyProps={{ variant: 'h6' }}
                 secondary={systemInfo?.Version}
+                slotProps={{
+                    primary: { variant: 'h6' }
+                }}
             />
         </ListItemLink>);
 };

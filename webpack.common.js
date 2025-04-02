@@ -1,3 +1,4 @@
+const fg = require('fast-glob');
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -33,24 +34,25 @@ try {
 
 const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
 
+const THEMES = fg.globSync('themes/**/*.scss', { cwd: path.resolve(__dirname, 'src') });
+const THEMES_BY_ID = THEMES.reduce((acc, theme) => {
+    acc[theme.substring(0, theme.lastIndexOf('/'))] = `./${theme}`;
+    return acc;
+}, {});
+
 const config = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
+    entry: {
+        'main.jellyfin': './index.jsx',
+        ...THEMES_BY_ID
+    },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
         modules: [
             path.resolve(__dirname, 'src'),
             path.resolve(__dirname, 'node_modules')
-        ],
-        alias: {
-            '@mui/base': '@mui/base/legacy',
-            '@mui/lab': '@mui/lab/legacy',
-            '@mui/material': '@mui/material/legacy',
-            '@mui/private-theming': '@mui/private-theming/legacy',
-            '@mui/styled-engine': '@mui/styled-engine/legacy',
-            '@mui/system': '@mui/system/legacy',
-            '@mui/utils': '@mui/utils/legacy'
-        }
+        ]
     },
     plugins: [
         new DefinePlugin({
@@ -69,13 +71,14 @@ const config = {
             filename: 'index.html',
             template: 'index.html',
             // Append file hashes to bundle urls for cache busting
-            hash: true
+            hash: true,
+            chunks: [
+                'main.jellyfin',
+                'serviceworker'
+            ]
         }),
         new CopyPlugin({
             patterns: [
-                {
-                    from: 'themes/**/*.{css,jpg}'
-                },
                 {
                     from: 'assets/**',
                     globOptions: {
@@ -116,6 +119,15 @@ const config = {
             typescript: {
                 configFile: path.resolve(__dirname, 'tsconfig.json')
             }
+        }),
+        new MiniCssExtractPlugin({
+            filename: pathData => {
+                if (pathData.chunk?.name?.startsWith('themes/')) {
+                    return '[name]/theme.css';
+                }
+                return '[name].[contenthash].css';
+            },
+            chunkFilename: '[name].[contenthash].css'
         })
     ],
     output: {
@@ -123,6 +135,12 @@ const config = {
             pathData.chunk.name === 'serviceworker' ? '[name].js' : '[name].bundle.js'
         ),
         chunkFilename: '[name].[contenthash].chunk.js',
+        assetModuleFilename: pathData => {
+            if (pathData.filename.startsWith('assets/') || pathData.filename.startsWith('themes/')) {
+                return '[path][base][query]';
+            }
+            return '[hash][ext][query]';
+        },
         path: path.resolve(__dirname, 'dist'),
         publicPath: ''
     },
@@ -186,6 +204,13 @@ const config = {
                 include: [
                     path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
+                    path.resolve(__dirname, 'node_modules/@mui/base'),
+                    path.resolve(__dirname, 'node_modules/@mui/lab'),
+                    path.resolve(__dirname, 'node_modules/@mui/material'),
+                    path.resolve(__dirname, 'node_modules/@mui/private-theming'),
+                    path.resolve(__dirname, 'node_modules/@mui/styled-engine'),
+                    path.resolve(__dirname, 'node_modules/@mui/system'),
+                    path.resolve(__dirname, 'node_modules/@mui/utils'),
                     path.resolve(__dirname, 'node_modules/@mui/x-date-pickers'),
                     path.resolve(__dirname, 'node_modules/@react-hook/latest'),
                     path.resolve(__dirname, 'node_modules/@react-hook/passive-layout-effect'),
@@ -290,33 +315,46 @@ const config = {
                 }]
             },
             {
-                test: /\.s[ac]ss$/i,
-                use: [
-                    DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
-                    'css-loader',
+                test: /\.(sa|sc|c)ss$/i,
+                oneOf: [
                     {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                config: path.resolve(__dirname, 'postcss.config.js')
-                            }
-                        }
+                        // Themes always need to use the MiniCssExtractPlugin since they are loaded directly
+                        include: [
+                            path.resolve(__dirname, 'src/themes/')
+                        ],
+                        use: [
+                            {
+                                loader: MiniCssExtractPlugin.loader,
+                                options: {
+                                    publicPath: '/'
+                                }
+                            },
+                            'css-loader',
+                            {
+                                loader: 'postcss-loader',
+                                options: {
+                                    postcssOptions: {
+                                        config: path.resolve(__dirname, 'postcss.config.js')
+                                    }
+                                }
+                            },
+                            'sass-loader'
+                        ]
                     },
-                    'sass-loader'
-                ]
-            },
-            {
-                test: /\.css$/i,
-                use: [
-                    DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
-                    'css-loader',
                     {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                config: path.resolve(__dirname, 'postcss.config.js')
-                            }
-                        }
+                        use: [
+                            DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
+                            'css-loader',
+                            {
+                                loader: 'postcss-loader',
+                                options: {
+                                    postcssOptions: {
+                                        config: path.resolve(__dirname, 'postcss.config.js')
+                                    }
+                                }
+                            },
+                            'sass-loader'
+                        ]
                     }
                 ]
             },
@@ -342,11 +380,5 @@ const config = {
         ]
     }
 };
-
-if (!DEV_MODE) {
-    config.plugins.push(new MiniCssExtractPlugin({
-        filename: '[name].[contenthash].css'
-    }));
-}
 
 module.exports = config;

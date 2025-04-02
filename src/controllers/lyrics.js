@@ -265,7 +265,7 @@ export default function (view) {
         document.addEventListener('keydown', onKeyDown);
         try {
             onLoad();
-        } catch (e) {
+        } catch {
             appRouter.goHome();
         }
     });

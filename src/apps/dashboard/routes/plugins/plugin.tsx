@@ -5,13 +5,14 @@ import Button from '@mui/material/Button/Button';
 import Container from '@mui/material/Container/Container';
 import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup/FormGroup';
-import Grid from '@mui/material/Grid/Grid';
+import Grid from '@mui/material/Grid2/Grid2';
 import Skeleton from '@mui/material/Skeleton/Skeleton';
 import Stack from '@mui/material/Stack/Stack';
 import Switch from '@mui/material/Switch/Switch';
 import Typography from '@mui/material/Typography/Typography';
 import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
+import Extension from '@mui/icons-material/Extension';
 import Settings from '@mui/icons-material/Settings';
 import React, { type FC, useState, useCallback, useMemo } from 'react';
 import { useSearchParams, Link as RouterLink, useParams } from 'react-router-dom';
@@ -25,12 +26,12 @@ import { useInstallPackage } from 'apps/dashboard/features/plugins/api/useInstal
 import { usePackageInfo } from 'apps/dashboard/features/plugins/api/usePackageInfo';
 import { usePlugins } from 'apps/dashboard/features/plugins/api/usePlugins';
 import { useUninstallPlugin } from 'apps/dashboard/features/plugins/api/useUninstallPlugin';
-import PluginImage from 'apps/dashboard/features/plugins/components/PluginImage';
 import PluginDetailsTable from 'apps/dashboard/features/plugins/components/PluginDetailsTable';
 import PluginRevisions from 'apps/dashboard/features/plugins/components/PluginRevisions';
 import type { PluginDetails } from 'apps/dashboard/features/plugins/types/PluginDetails';
 
 import ConfirmDialog from 'components/ConfirmDialog';
+import Image from 'components/Image';
 import Page from 'components/Page';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
@@ -315,7 +316,7 @@ const PluginPage: FC = () => {
                 ))}
 
                 <Grid container spacing={2} sx={{ marginTop: 0 }}>
-                    <Grid item xs={12} lg={8}>
+                    <Grid size={{ xs: 12, lg: 8 }}>
                         <Stack spacing={2}>
                             <Typography variant='h1'>
                                 {pluginDetails?.name || pluginName}
@@ -331,15 +332,16 @@ const PluginPage: FC = () => {
                         </Stack>
                     </Grid>
 
-                    <Grid item lg={4} sx={{ display: { xs: 'none', lg: 'initial' } }}>
-                        <PluginImage
+                    <Grid size={{ lg: 4 }} sx={{ display: { xs: 'none', lg: 'initial' } }}>
+                        <Image
                             isLoading={isLoading}
                             alt={pluginDetails?.name}
                             url={pluginDetails?.imageUrl}
+                            FallbackIcon={Extension}
                         />
                     </Grid>
 
-                    <Grid item xs={12} lg={8} sx={{ order: { xs: 1, lg: 'initial' } }}>
+                    <Grid size={{ xs: 12, lg: 8 }} sx={{ order: { xs: 1, lg: 'initial' } }}>
                         {!!pluginDetails?.versions.length && (
                             <>
                                 <Typography variant='h3' sx={{ marginBottom: 2 }}>
@@ -353,7 +355,7 @@ const PluginPage: FC = () => {
                         )}
                     </Grid>
 
-                    <Grid item xs={12} lg={4}>
+                    <Grid size={{ xs: 12, lg: 4 }}>
                         <Stack spacing={2} direction={{ xs: 'column', sm: 'row-reverse', lg: 'column' }}>
                             <Stack spacing={1} sx={{ flexBasis: '50%' }}>
                                 {!isLoading && !pluginDetails?.status && (

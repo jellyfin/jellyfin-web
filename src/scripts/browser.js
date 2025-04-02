@@ -299,8 +299,8 @@ if (browser.web0s) {
     delete browser.chrome;
     delete browser.safari;
 } else if (browser.tizen) {
-    const v = RegExp(/Tizen (\d+).(\d+)/).exec(navigator.appVersion);
-    browser.tizenVersion = parseInt(v[1], 10);
+    const v = RegExp(/Tizen (\d+).(\d+)/).exec(userAgent);
+    browser.tizenVersion = parseInt(v[1], 10) + parseInt(v[2], 10) / 10;
 
     // UserAgent string contains 'Chrome' and 'Safari', but we only want 'tizen' to be true
     delete browser.chrome;
