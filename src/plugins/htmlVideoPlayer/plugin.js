@@ -388,7 +388,7 @@ export class HtmlVideoPlayer {
         }
     }
 
-    play(options) {
+    async play(options) {
         this.#started = false;
         this.#timeUpdated = false;
 
@@ -396,11 +396,11 @@ export class HtmlVideoPlayer {
 
         if (options.resetSubtitleOffset !== false) this.resetSubtitleOffset();
 
-        return this.createMediaElement(options).then(elem => {
-            return this.updateVideoUrl(options).then(() => {
-                return this.setCurrentSrc(elem, options);
-            });
-        });
+        const elem = await this.createMediaElement(options);
+        this.#applyAspectRatio();
+
+        await this.updateVideoUrl(options);
+        return this.setCurrentSrc(elem, options);
     }
 
     /**
@@ -872,8 +872,6 @@ export class HtmlVideoPlayer {
             videoElement.parentNode.removeChild(videoElement);
         }
 
-        this._currentAspectRatio = null;
-
         const dlg = this.#videoDialog;
         if (dlg) {
             this.#videoDialog = null;
@@ -1344,12 +1342,13 @@ export class HtmlVideoPlayer {
      */
     renderPgs(videoElement, track, item) {
         import('libpgs').then((libpgs) => {
+            const aspectRatio = this.getAspectRatio() === 'auto' ? 'contain' : this.getAspectRatio();
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
                 workerUrl: `${appRouter.baseUrl()}/libraries/libpgs.worker.js`,
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
-                aspectRatio: this._currentAspectRatio === 'auto' ? 'contain' : this._currentAspectRatio
+                aspectRatio
             };
             this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
         });
@@ -2102,7 +2101,7 @@ export class HtmlVideoPlayer {
         return false;
     }
 
-    setAspectRatio(val) {
+    #applyAspectRatio(val = this.getAspectRatio()) {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             if (val === 'auto') {
@@ -2111,19 +2110,19 @@ export class HtmlVideoPlayer {
                 mediaElement.style['object-fit'] = val;
             }
         }
-        const pgsRenderer = this.#currentPgsRenderer;
-        if (pgsRenderer) {
-            if (val === 'auto') {
-                pgsRenderer.aspectRatio = 'contain';
-            } else {
-                pgsRenderer.aspectRatio = val;
-            }
+
+        if (this.#currentPgsRenderer) {
+            this.#currentPgsRenderer = val === 'auto' ? 'contain' : val;
         }
-        this._currentAspectRatio = val;
+    }
+
+    setAspectRatio(val) {
+        appSettings.aspectRatio(val);
+        this.#applyAspectRatio(val);
     }
 
     getAspectRatio() {
-        return this._currentAspectRatio || 'auto';
+        return appSettings.aspectRatio() || 'auto';
     }
 
     getSupportedAspectRatios() {
