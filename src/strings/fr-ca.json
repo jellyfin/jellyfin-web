@@ -1784,7 +1784,7 @@
     "UseCustomTagDelimiters": "Utiliser un délimiteur de balise personnalisé",
     "AudioIsExternal": "Le flux audio est externe",
     "SelectAll": "Tout sélectionner",
-    "EnableSplashScreen": "Activer l'écran de démarrage",
+    "EnableSplashScreen": "Activer l'image de l'écran de démarrage",
     "AllowFmp4TranscodingContainerHelp": "Autoriser le conteneur de transcodage fMP4 pour ce tuner afin d'activer les contenus HEVC et HDR. Tous les tuners ne sont pas compatibles avec ce conteneur. Désactivez ceci si vous rencontrez des problèmes de lecture.",
     "RenderPgsSubtitle": "Rendu expérimental des sous-titres PGS",
     "AllowStreamSharingHelp": "Autoriser Jellyfin à dupliquer le flux mpegts provenant du tuner et à partager ce flux dupliqué avec ses clients. Cela est utile lorsque le tuner a une limite de nombre total de flux, mais peut également causer des problèmes de lecture.",
@@ -1960,5 +1960,11 @@
     "LibraryNameInvalid": "Le nom de la bibliothèque ne peut pas être vide.",
     "StreamCountExceedsLimit": "Le nombre de flux dépasse la limite",
     "LabelGroupShowsIntoCollections": "Grouper les émissions dans les collections",
-    "LabelGroupShowsIntoCollectionsHelp": "Les émissions d'une collection seront affichées sous la forme d'un seul élément groupé lors de l'affichage des listes d'émissions."
+    "LabelGroupShowsIntoCollectionsHelp": "Les émissions d'une collection seront affichées sous la forme d'un seul élément groupé lors de l'affichage des listes d'émissions.",
+    "CustomSplashScreenSize": "Les images personnalisées doivent être au format 16x9 avec une taille minimale de 1920x1080.",
+    "DeleteCustomImage": "Supprimer l'image personnalisée",
+    "ImageDeleteFailed": "Échec de la suppression de l'image",
+    "ImageUploadCancelled": "Téléversement d'image annulé",
+    "ImageUploadFailed": "Échec du téléversement de l'image",
+    "UploadCustomImage": "Téléversement une image personnalisée"
 }
