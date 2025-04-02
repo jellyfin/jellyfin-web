@@ -2011,5 +2011,13 @@
     "PageNotFound": "Це не та сторінка, яку ви шукаєте.",
     "SettingsPageLoadError": "Не вдалося завантажити сторінку налаштувань",
     "StreamCountExceedsLimit": "Кількість потоків перевищує ліміт",
-    "RetryWithGlobalSearch": "Повторити спробу з глобальним пошуком"
+    "RetryWithGlobalSearch": "Повторити спробу з глобальним пошуком",
+    "DeleteCustomImage": "Видалити користувацьке зображення",
+    "ImageDeleteFailed": "Не вдалося видалити зображення",
+    "ImageUploadCancelled": "Завантаження зображення скасовано",
+    "ImageUploadFailed": "Не вдалося завантажити зображення",
+    "UploadCustomImage": "Завантажити користувацьке зображення",
+    "CustomSplashScreenSize": "Користувацькі зображення повинні мати співвідношення сторін 16x9 при мінімальному розмірі 1920x1080.",
+    "LabelGroupShowsIntoCollections": "Групувати серіали в колекції",
+    "LabelGroupShowsIntoCollectionsHelp": "Під час відображення списків серіалів у колекції вони відображатимуться як один згрупований елемент."
 }
