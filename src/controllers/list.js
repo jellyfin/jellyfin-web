@@ -323,14 +323,22 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
     }
 
-    return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
+    const query = {
         StartIndex: startIndex,
         Limit: limit,
         Fields: 'PrimaryImageAspectRatio,SortName,Path,ChildCount,MediaSourceCount',
         ImageTypeLimit: 1,
         ParentId: item.Id,
         SortBy: sortBy
-    }));
+    };
+
+    if (sortBy === 'Random') {
+        instance.queryRecursive = true;
+        query.IncludeItemTypes = 'Video,Movie,Series,Music';
+        query.Recursive = true;
+    }
+
+    return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
 }
 
 function getItem(params) {
