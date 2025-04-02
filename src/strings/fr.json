@@ -1653,7 +1653,7 @@
     "HomeVideosPhotos": "Vidéos et photos personnelles",
     "LabelTextWeight": "Poids de la police",
     "Bold": "Gras",
-    "EnableSplashScreen": "Activer l'écran de démarrage",
+    "EnableSplashScreen": "Activer l'image de l'écran de démarrage",
     "LabelMaxVideoResolution": "Résolution maximale du transcodage vidéo",
     "MediaInfoDvBlSignalCompatibilityId": "ID de compatibilité du signal DV 'bl'",
     "MediaInfoBlPresentFlag": "Indicateur de préréglage DV 'bl'",
@@ -2016,5 +2016,11 @@
     "RetryWithGlobalSearch": "Réessayez avec une recherche globale",
     "StreamCountExceedsLimit": "Le nombre de flux dépasse la limite",
     "LabelGroupShowsIntoCollections": "Grouper les séries dans les collections",
-    "LabelGroupShowsIntoCollectionsHelp": "Les séries d'une collection seront affichées sous la forme d'un seul élément groupé lors de l'affichage des listes de séries."
+    "LabelGroupShowsIntoCollectionsHelp": "Les séries d'une collection seront affichées sous la forme d'un seul élément groupé lors de l'affichage des listes de séries.",
+    "CustomSplashScreenSize": "Les images personnalisées doivent être au format 16x9 avec une taille minimale de 1920x1080.",
+    "DeleteCustomImage": "Supprimer l'image personnalisée",
+    "ImageDeleteFailed": "Échec de la suppression de l'image",
+    "ImageUploadCancelled": "Téléversement d'image annulé",
+    "ImageUploadFailed": "Échec du téléversement de l'image",
+    "UploadCustomImage": "Téléversement une image personnalisée"
 }
