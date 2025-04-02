@@ -1,23 +1,49 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import type { ConnectResponse } from 'jellyfin-apiclient';
+import type { ApiClient, ConnectResponse } from 'jellyfin-apiclient';
+
+import globalize from 'lib/globalize';
+import { ConnectionState } from 'utils/jellyfin-apiclient/ConnectionState';
 
 import alert from './alert';
 import Loading from './loading/LoadingComponent';
 import ServerConnections from './ServerConnections';
-import globalize from '../lib/globalize';
-import { ConnectionState } from '../utils/jellyfin-apiclient/ConnectionState';
+
+enum AccessLevel {
+    /** Requires a user with administrator access */
+    Admin = 'admin',
+    /** No access restrictions */
+    Public = 'public',
+    /** Requires a valid user session */
+    User = 'user',
+    /** Requires the startup wizard to NOT be completed */
+    Wizard = 'wizard'
+};
+
+type AccessLevelValue = `${AccessLevel}`;
 
 enum BounceRoutes {
     Home = '/home',
     Login = '/login',
     SelectServer = '/selectserver',
-    StartWizard = '/wizardstart'
+    StartWizard = '/wizard/start'
 }
 
 type ConnectionRequiredProps = {
-    isAdminRequired?: boolean,
-    isUserRequired?: boolean
+    level?: AccessLevelValue
+};
+
+const fetchPublicSystemInfo = async (apiClient: ApiClient) => {
+    const infoResponse = await fetch(
+        `${apiClient.serverAddress()}/System/Info/Public`,
+        { cache: 'no-cache' }
+    );
+
+    if (!infoResponse.ok) {
+        throw new Error('Public system info request failed');
+    }
+
+    return infoResponse.json();
 };
 
 /**
@@ -26,8 +52,7 @@ type ConnectionRequiredProps = {
  * If a condition fails, this component will navigate to the appropriate page.
  */
 const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
-    isAdminRequired = false,
-    isUserRequired = true
+    level = 'user'
 }) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -76,17 +101,27 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         }
 
         console.warn('[ConnectionRequired] unhandled connection state', connectionResponse.State);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.pathname, navigate]);
+
+    const handleWizard = useCallback(async (firstConnection: ConnectResponse | null) => {
+        const apiClient = firstConnection?.ApiClient || ServerConnections.currentApiClient();
+        if (!apiClient) {
+            throw new Error('No ApiClient available');
+        }
+
+        const systemInfo = await fetchPublicSystemInfo(apiClient);
+        if (systemInfo?.StartupWizardCompleted) {
+            console.info('[ConnectionRequired] startup wizard is complete, redirecting home');
+            navigate(BounceRoutes.Home);
+        }
+    }, [ navigate ]);
 
     const handleIncompleteWizard = useCallback(async (firstConnection: ConnectResponse) => {
         if (firstConnection.State === ConnectionState.ServerSignIn) {
             // Verify the wizard is complete
             try {
-                const infoResponse = await fetch(`${firstConnection.ApiClient.serverAddress()}/System/Info/Public`, { cache: 'no-cache' });
-                if (!infoResponse.ok) {
-                    throw new Error('Public system info request failed');
-                }
-                const systemInfo = await infoResponse.json();
+                const systemInfo = await fetchPublicSystemInfo(firstConnection.ApiClient);
                 if (!systemInfo?.StartupWizardCompleted) {
                     // Update the current ApiClient
                     // TODO: Is there a better place to handle this?
@@ -113,7 +148,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         const client = ServerConnections.currentApiClient();
 
         // If this is a user route, ensure a user is logged in
-        if ((isAdminRequired || isUserRequired) && !client?.isLoggedIn()) {
+        if ((level === AccessLevel.Admin || level === AccessLevel.User) && !client?.isLoggedIn()) {
             try {
                 console.warn('[ConnectionRequired] unauthenticated user attempted to access user route');
                 bounce(await ServerConnections.connect())
@@ -127,7 +162,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         }
 
         // If this is an admin route, ensure the user has access
-        if (isAdminRequired) {
+        if (level === AccessLevel.Admin) {
             try {
                 const user = await client?.getCurrentUser();
                 if (!user?.Policy?.IsAdministrator) {
@@ -145,7 +180,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         }
 
         setIsLoading(false);
-    }, [bounce, isAdminRequired, isUserRequired]);
+    }, [bounce, level]);
 
     useEffect(() => {
         // Check connection status on initial page load
@@ -155,7 +190,14 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
             console.debug('[ConnectionRequired] connection state', firstConnection?.State);
             ServerConnections.firstConnection = true;
 
-            if (firstConnection && firstConnection.State !== ConnectionState.SignedIn && !apiClient?.isLoggedIn()) {
+            if (level === AccessLevel.Wizard) {
+                handleWizard(firstConnection)
+                    .catch(err => {
+                        console.error('[ConnectionRequired] could not validate wizard status', err);
+                    });
+            } else if (
+                firstConnection && firstConnection.State !== ConnectionState.SignedIn && !apiClient?.isLoggedIn()
+            ) {
                 handleIncompleteWizard(firstConnection)
                     .catch(err => {
                         console.error('[ConnectionRequired] could not start wizard', err);
@@ -169,7 +211,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         }).catch(err => {
             console.error('[ConnectionRequired] failed to connect', err);
         });
-    }, [handleIncompleteWizard, validateUserAccess]);
+    }, [handleIncompleteWizard, handleWizard, level, validateUserAccess]);
 
     if (isLoading) {
         return <Loading />;
