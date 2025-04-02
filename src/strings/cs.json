@@ -1653,7 +1653,7 @@
     "HomeVideosPhotos": "Domácí videa a fotky",
     "Bold": "Tučné",
     "LabelTextWeight": "Tloušťka textu",
-    "EnableSplashScreen": "Povolit úvodní obrazovku",
+    "EnableSplashScreen": "Povolit zobrazení obrázku při spuštění",
     "MediaInfoDvBlSignalCompatibilityId": "ID kompatibility signálu DV Bl",
     "MediaInfoBlPresentFlag": "Natavení předvolby DV Bl",
     "MediaInfoElPresentFlag": "Nastavení předvolby DV El",
@@ -2014,5 +2014,13 @@
     "PageNotFound": "Toto není stránka, kterou hledáš.",
     "SettingsPageLoadError": "Načtení stránky nastavení se nezdařilo",
     "RetryWithGlobalSearch": "Zkusit hledat globálně",
-    "StreamCountExceedsLimit": "Počet streamů překračuje limit"
+    "StreamCountExceedsLimit": "Počet streamů překračuje limit",
+    "LabelGroupShowsIntoCollections": "Seskupit seriály do kolekcí",
+    "LabelGroupShowsIntoCollectionsHelp": "Seriály v kolekci budou zobrazeny jako jedna seskupená položka v seznamech seriálů.",
+    "CustomSplashScreenSize": "Vlastní obrázky by měly mít poměr stran 16:9 a minimální rozlišení 1920x1080.",
+    "DeleteCustomImage": "Odstranit vlastní obrázek",
+    "ImageDeleteFailed": "Odstranění obrázku se nezdařilo",
+    "ImageUploadCancelled": "Nahrávání obrázku bylo zrušeno",
+    "ImageUploadFailed": "Nahrávání obrázku se nezdařilo",
+    "UploadCustomImage": "Nahrát vlastní obrázek"
 }
