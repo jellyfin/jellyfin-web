@@ -2015,5 +2015,8 @@
     "RetryWithGlobalSearch": "Alles doorzoeken",
     "StreamCountExceedsLimit": "Het aantal streams overschrijdt de limiet",
     "LabelGroupShowsIntoCollectionsHelp": "Series in een collectie zullen worden getoond als één gegroepeerd item tijdens het weergeven van serielijsten.",
-    "LabelGroupShowsIntoCollections": "Series in collecties groeperen"
+    "LabelGroupShowsIntoCollections": "Series in collecties groeperen",
+    "ImageUploadFailed": "Afbeelding uploaden mislukt",
+    "ImageDeleteFailed": "Afbeelding verwijderen mislukt",
+    "ImageUploadCancelled": "Uploaden afbeelding geannuleerd"
 }
