@@ -2012,5 +2012,15 @@
     "HeaderPageNotFound": "未找到页面",
     "PageNotFound": "这不是您正在寻找的页面。",
     "LogLoadFailure": "无法加载日志文件，可能正在被写入中。",
-    "SettingsPageLoadError": "加载设置页面时发生错误"
+    "SettingsPageLoadError": "加载设置页面时发生错误",
+    "RetryWithGlobalSearch": "使用全局搜索重试",
+    "StreamCountExceedsLimit": "流数超出限制",
+    "DeleteCustomImage": "删除自定义图片",
+    "CustomSplashScreenSize": "自定义图片的宽高比应为 16x9，最小尺寸为 1920x1080。",
+    "ImageDeleteFailed": "图片删除失败",
+    "ImageUploadCancelled": "图片上传已取消",
+    "ImageUploadFailed": "图片上传失败",
+    "UploadCustomImage": "上传自定义图片",
+    "LabelGroupShowsIntoCollections": "将节目分组到合集中",
+    "LabelGroupShowsIntoCollectionsHelp": "显示节目列表时，集合中的节目将显示为一个分组项目。"
 }
