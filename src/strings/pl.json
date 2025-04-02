@@ -2014,5 +2014,7 @@
     "PageNotFound": "To nie jest strona, której szukasz.",
     "SettingsPageLoadError": "Nie udało się załadować strony ustawień",
     "RetryWithGlobalSearch": "Ponów, korzystając z wyszukiwania globalnego",
-    "StreamCountExceedsLimit": "Liczba strumieni przekracza limit"
+    "StreamCountExceedsLimit": "Liczba strumieni przekracza limit",
+    "LabelGroupShowsIntoCollections": "Grupuj seriale w kolekcje",
+    "LabelGroupShowsIntoCollectionsHelp": "Seriale w kolekcji będą wyświetlane jako jedna zgrupowana pozycja podczas wyświetlania list seriali."
 }
