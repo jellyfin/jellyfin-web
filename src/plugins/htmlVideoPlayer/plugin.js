@@ -2112,7 +2112,7 @@ export class HtmlVideoPlayer {
         }
 
         if (this.#currentPgsRenderer) {
-            this.#currentPgsRenderer = val === 'auto' ? 'contain' : val;
+            this.#currentPgsRenderer.aspectRatio = val === 'auto' ? 'contain' : val;
         }
     }
 
