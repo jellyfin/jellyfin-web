@@ -668,7 +668,7 @@
     "LabelUser": "Användare",
     "LabelUserLibrary": "Användarbibliotek",
     "LabelUserLibraryHelp": "Välj vilken användares bibliotek som skall visas på enheten. Lämna detta tomt för att använda standardbiblioteket.",
-    "LabelUserRemoteClientBitrateLimitHelp": "Kommer att skriva över det globala standard-värdet satt under serverns inställningar, se Kontrollpanel > Uppspelning > Strömning.",
+    "LabelUserRemoteClientBitrateLimitHelp": "Skriver över det globala standard-värdet satt under serverns inställningar, se Kontrollpanel > Uppspelning > Strömning.",
     "LabelUsername": "Användarnamn",
     "LabelVaapiDevice": "VA-API-enhet",
     "LabelVaapiDeviceHelp": "Detta är renderingsnoden som används för hårdvaruacceleration.",
