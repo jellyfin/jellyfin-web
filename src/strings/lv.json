@@ -1806,7 +1806,7 @@
     "TonemappingRangeHelp": "Izvēlieties izejas krāsu diapazonu. Auto ir tāds pats kā ievades diapazons.",
     "AspectRatioFill": "Aizpildīt",
     "Remuxing": "Transformācija",
-    "LabelRemuxingInfo": "",
+    "LabelRemuxingInfo": "Transformācijās Info",
     "PreferFmp4HlsContainer": "Dod Priekšroku fMP4-HLS Multivides Konteineram",
     "Remixer": "Remiksētājs",
     "ResolutionMatchSource": "Kā avotam",
@@ -1947,5 +1947,6 @@
     "LabelExtractTrickplayDuringLibraryScan": "Izgūt trickplay attēlus bibliotēkas skenēšanas laikā",
     "LabelJpegQualityHelp": "Trickplay attēlu JPEG kompresijas kvalitātes lielums.",
     "LogLoadFailure": "Neizdevās ielādēt žurnālfailu. Iespējams tas tiek aizvien izmantots žurnāla ierakstu saglabāšanai.",
-    "SettingsPageLoadError": "Neizdevās ielādēt iestatījumu lapu"
+    "SettingsPageLoadError": "Neizdevās ielādēt iestatījumu lapu",
+    "Retry": "Atkārtot"
 }
