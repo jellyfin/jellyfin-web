@@ -193,11 +193,7 @@ function onTypeChange() {
         view.querySelector('.fldIgnoreDts').classList.add('hide');
     }
 
-    if (supportsReadInputAtNativeFramerate) {
-        view.querySelector('.fldReadInputAtNativeFramerate').classList.remove('hide');
-    } else {
-        view.querySelector('.fldReadInputAtNativeFramerate').classList.add('hide');
-    }
+    view.querySelector('.fldReadInputAtNativeFramerate').classList.toggle('hide', !supportsReadInputAtNativeFramerate);
 
     if (supportsTunerCount) {
         view.querySelector('.fldTunerCount').classList.remove('hide');
