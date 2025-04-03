@@ -44,15 +44,6 @@ const photosOrPhotoAlbumsOptions = [
 
 const sortOptionsMapping: SortOptionsMapping = {
     [LibraryTab.Movies]: movieOrFavoriteOptions,
-    [LibraryTab.Trailers]: [
-        { label: 'Name', value: ItemSortBy.SortName },
-        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
-        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
-        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate }
-    ],
     [LibraryTab.Favorites]: movieOrFavoriteOptions,
     [LibraryTab.Series]: [
         { label: 'Name', value: ItemSortBy.SortName },
