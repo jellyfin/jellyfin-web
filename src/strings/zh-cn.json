@@ -1764,7 +1764,7 @@
     "HeaderEpisodesStatus": "剧集状态",
     "LabelBackdropScreensaverInterval": "屏幕保护程序间隔",
     "LabelBackdropScreensaverIntervalHelp": "不同屏幕保护切换的时间间隔秒数。",
-    "AllowAv1Encoding": "允许以 AV1 格式进行编码",
+    "AllowAv1Encoding": "允许以 AV1 格式编码",
     "HeaderGuestCast": "特邀嘉宾",
     "GridView": "网格视图",
     "ListView": "列表视图",
