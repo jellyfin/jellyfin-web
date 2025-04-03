@@ -1468,7 +1468,7 @@
     "LabelPlaybackInfo": "О воспроизведении",
     "Remuxing": "Ремуксинг",
     "AspectRatioFill": "Заполнение",
-    "AspectRatioCover": "Покрытие",
+    "AspectRatioCover": "Масштабирование",
     "PluginFromRepo": "{0} из репозитория {1}",
     "LabelUDPPortRange": "Диапазон UDP-соединения",
     "LabelSSDPTracingFilter": "Фильтр SSDP",
@@ -2014,5 +2014,13 @@
     "PageNotFound": "Это не та страница, которую вы искали.",
     "SettingsPageLoadError": "Не удалось загрузить страницу параметров",
     "RetryWithGlobalSearch": "Повторите попытку с помощью глобального поиска",
-    "StreamCountExceedsLimit": "Количество потоков превысило лимиты"
+    "StreamCountExceedsLimit": "Количество потоков превысило лимиты",
+    "UploadCustomImage": "Загрузить пользовательское изображение",
+    "CustomSplashScreenSize": "Пользовательские изображения должны быть с соотношением сторон 16 к 9 и минимальным размером 1920 на 1080.",
+    "DeleteCustomImage": "Удалить пользовательское изображение",
+    "ImageDeleteFailed": "Удаление изображения не удалось",
+    "ImageUploadCancelled": "Загрузка изображения отменена",
+    "ImageUploadFailed": "Загрузка изображения не удалась",
+    "LabelGroupShowsIntoCollections": "Сгруппировать шоу в коллекции",
+    "LabelGroupShowsIntoCollectionsHelp": "Показы в коллекции будут отображаться как один элемент в списках."
 }
