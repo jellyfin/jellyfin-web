@@ -1452,7 +1452,7 @@
     "RemuxHelp2": "Remux gebruikt zeer weinig verwerkingskracht met een volledig verliesvrije mediakwaliteit.",
     "RemuxHelp1": "De media bevindt zich in een niet-ondersteunde bestandscontainer (MKV, AVI, WMV, etc.), maar zowel de beeld- als geluidsstream zijn compatibel met het apparaat. De media zal direct zonder kwaliteitsverlies verpakt worden voordat deze naar het apparaat wordt gestuurd.",
     "Remuxing": "Remuxen",
-    "AspectRatioFill": "Vullen",
+    "AspectRatioFill": "Uitrekken",
     "AspectRatioCover": "Bijsnijden",
     "PluginFromRepo": "{0} uit repository {1}",
     "LabelUDPPortRangeHelp": "Beperk Jellyfin om dit poortbereik te gebruiken bij het maken van UDP-verbindingen. (Standaard is 1024 - 65535). <br/> Opmerking: voor bepaalde functies zijn vaste poorten vereist die mogelijk buiten dit bereik vallen.",
