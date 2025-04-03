@@ -169,7 +169,7 @@ function onSubmit(e) {
         })
     };
 
-    item.ProviderIds = Object.assign({}, currentItem.ProviderIds);
+    item.ProviderIds = { ...currentItem.ProviderIds };
 
     const idElements = form.querySelectorAll('.txtExternalId');
     Array.prototype.map.call(idElements, function (idElem) {
