@@ -687,6 +687,7 @@ let navDrawerInstance;
 let mainDrawerButton;
 let headerHomeButton;
 let currentDrawerType;
+let documentTitle = 'Jellyfin';
 let pageTitleElement;
 let headerBackButton;
 let headerUserButton;
@@ -727,7 +728,7 @@ function setDefaultTitle () {
         pageTitleElement.innerHTML = '';
     }
 
-    document.title = 'Jellyfin';
+    document.title = documentTitle;
 }
 
 function setTitle (title) {
@@ -753,7 +754,7 @@ function setTitle (title) {
         pageTitleElement.innerText = html || '';
     }
 
-    document.title = title || 'Jellyfin';
+    document.title = title || documentTitle;
 }
 
 function setTransparentMenu (transparent) {
@@ -803,6 +804,18 @@ pageClassOn('pageshow', 'page', function (e) {
     updateLibraryNavLinks(page);
 });
 
+Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => {
+    newApiClient
+        .getPublicSystemInfo()
+        .then(systemInfo => {
+            documentTitle = systemInfo.ServerName || documentTitle;
+            document.title = documentTitle;
+        })
+        .catch(err => {
+            console.error('[LibraryMenu] failed to fetch system info', err);
+        });
+});
+
 Events.on(ServerConnections, 'localusersignedin', function (e, user) {
     const currentApiClient = ServerConnections.getApiClient(user.ServerId);
 
@@ -829,18 +842,17 @@ Events.on(playbackManager, 'playerchange', updateCastIcon);
 loadNavDrawer();
 
 const LibraryMenu = {
-    getTopParentId: getTopParentId,
+    getTopParentId,
     onHardwareMenuButtonClick: function () {
         toggleMainDrawer();
     },
-    setTabs: setTabs,
-    setDefaultTitle: setDefaultTitle,
-    setTitle: setTitle,
-    setTransparentMenu: setTransparentMenu
+    setTabs,
+    setDefaultTitle,
+    setTitle,
+    setTransparentMenu
 };
 
 window.LibraryMenu = LibraryMenu;
 renderHeader();
 
 export default LibraryMenu;
-
