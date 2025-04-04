@@ -264,6 +264,8 @@ function showImageDownloader(page, imageType) {
         ).then(function () {
             hasChanges = true;
             reload(page);
+        }).catch(function () {
+            // image downloader closed
         });
     });
 }

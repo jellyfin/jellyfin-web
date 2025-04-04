@@ -17,7 +17,7 @@ export const DASHBOARD_APP_PATHS = {
 
 export const DASHBOARD_APP_ROUTES: RouteObject[] = [
     {
-        element: <ConnectionRequired isAdminRequired />,
+        element: <ConnectionRequired level='admin' />,
         children: [
             {
                 lazy: () => import('../AppLayout'),

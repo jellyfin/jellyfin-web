@@ -35,9 +35,11 @@ const Accordion = styled((props: AccordionProps) => (
     <MuiAccordion
         disableGutters
         elevation={0}
-        TransitionProps={{ unmountOnExit: true }}
         square
         {...props}
+        slotProps={{
+            transition: { unmountOnExit: true }
+        }}
     />
 ))(({ theme }) => ({
     border: `1px solid ${theme.palette.divider}`,
@@ -181,10 +183,12 @@ const FilterButton: FC<FilterButtonProps> = ({
                     vertical: 'top',
                     horizontal: 'center'
                 }}
-                PaperProps={{
-                    style: {
-                        maxHeight: '50%',
-                        width: 250
+                slotProps={{
+                    paper: {
+                        style: {
+                            maxHeight: '50%',
+                            width: 250
+                        }
                     }
                 }}
             >

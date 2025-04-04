@@ -2012,5 +2012,7 @@
     "Penciller": "Creionist",
     "MetadataImagesLoadError": "Nu s-au putut încărca setările metadata",
     "SettingsPageLoadError": "Încărcarea paginii de setări a eșuat",
-    "LabelDelimiterWhitelist": "Lista albă de delimitare"
+    "LabelDelimiterWhitelist": "Lista albă de delimitare",
+    "StreamCountExceedsLimit": "Numărul de fluxuri depășește limita",
+    "RetryWithGlobalSearch": "Reîncearcă cu o căutare globală"
 }
