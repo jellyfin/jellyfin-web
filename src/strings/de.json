@@ -115,7 +115,7 @@
     "DefaultMetadataLangaugeDescription": "Das sind deine Standardwerte, die bibliotheksspezifisch verändert werden können.",
     "DefaultSubtitlesHelp": "Untertitel werden gemäß der Standard- und Erzwungen-Optionen aus den eingebetteten Metadaten geladen. Spracheinstellungen werden zur Verfügung gestellt, wenn mehrere Sprachen verfügbar sind.",
     "Delete": "Löschen",
-    "DeleteDeviceConfirmation": "Bist du dir sicher, dass du dieses Gerät löschen willst? Es wird erneut angezeigt, sobald sich ein Benutzer das nächste Mal von ihm einloggt.",
+    "DeleteDeviceConfirmation": "Sind Sie sicher, dass Sie dieses Gerät löschen möchten? Es wird wieder angezeigt, wenn sich ein Benutzer das nächste Mal damit anmeldet.",
     "DeleteImage": "Bild löschen",
     "DeleteImageConfirmation": "Bist du dir sicher, dass du dieses Bild löschen willst?",
     "DeleteMedia": "Medien löschen",
@@ -2014,5 +2014,7 @@
     "PageNotFound": "Dies ist nicht die Seite, die Sie suchen.",
     "SettingsPageLoadError": "Einstellungsseite konnte nicht geladen werden",
     "StreamCountExceedsLimit": "Die Anzahl der Streams überschreitet das Limit",
-    "RetryWithGlobalSearch": "Erneuter Versuch mit einer globalen Suche"
+    "RetryWithGlobalSearch": "Erneuter Versuch mit einer globalen Suche",
+    "CustomSplashScreenSize": "Benutzerdefinierte Bilder sollten das Seitenverhältnis 16x9 und eine Mindestgröße von 1920x1080 haben.",
+    "DeleteCustomImage": "Benutzerdefiniertes Bild gelöscht"
 }
