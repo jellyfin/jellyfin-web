@@ -1,7 +1,11 @@
 import escapeHtml from 'escape-html';
 import Headroom from 'headroom.js';
+// NOTE: Used for jsdoc
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ApiClient } from 'jellyfin-apiclient';
 
 import { getUserViewsQuery } from 'hooks/useUserViews';
+import { EventType } from 'types/eventType';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
@@ -30,7 +34,6 @@ import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../styles/scrollstyles.scss';
 import '../styles/flexstyles.scss';
-import { EventType } from 'types/eventType';
 
 function renderHeader() {
     let html = '';
@@ -716,6 +719,22 @@ function setTabs (type, selectedIndex, builder) {
     });
 }
 
+/**
+ * Fetch the server name and update the document title.
+ * @param {ApiClient} [_apiClient] The current api client.
+ */
+const fetchServerName = (_apiClient) => {
+    _apiClient
+        ?.getPublicSystemInfo()
+        .then(({ ServerName }) => {
+            documentTitle = ServerName || documentTitle;
+            document.title = documentTitle;
+        })
+        .catch(err => {
+            console.error('[LibraryMenu] failed to fetch system info', err);
+        });
+};
+
 function setDefaultTitle () {
     if (!pageTitleElement) {
         pageTitleElement = document.querySelector('.pageTitle');
@@ -805,15 +824,7 @@ pageClassOn('pageshow', 'page', function (e) {
 });
 
 Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => {
-    newApiClient
-        .getPublicSystemInfo()
-        .then(systemInfo => {
-            documentTitle = systemInfo.ServerName || documentTitle;
-            document.title = documentTitle;
-        })
-        .catch(err => {
-            console.error('[LibraryMenu] failed to fetch system info', err);
-        });
+    fetchServerName(newApiClient);
 });
 
 Events.on(ServerConnections, 'localusersignedin', function (e, user) {
@@ -839,6 +850,7 @@ Events.on(ServerConnections, 'localusersignedout', function () {
 
 Events.on(playbackManager, 'playerchange', updateCastIcon);
 
+fetchServerName(getCurrentApiClient());
 loadNavDrawer();
 
 const LibraryMenu = {
