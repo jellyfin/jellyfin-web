@@ -1,14 +1,12 @@
 import loading from 'components/loading/loading';
+import ServerConnections from 'components/ServerConnections';
+import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
+import Dashboard from 'utils/dashboard';
+
 import 'styles/dashboard.scss';
 import 'elements/emby-input/emby-input';
 import 'elements/emby-button/emby-button';
-import Dashboard from 'utils/dashboard';
-import toast from 'components/toast/toast';
-
-function getApiClient() {
-    return ApiClient;
-}
 
 function nextWizardPage() {
     Dashboard.navigate('wizard/library')
@@ -32,7 +30,7 @@ async function onUpdateUserError(result) {
 
 function submit(form) {
     loading.show();
-    const apiClient = getApiClient();
+    const apiClient = ServerConnections.currentApiClient();
     apiClient
         .ajax({
             type: 'POST',
@@ -63,7 +61,7 @@ function onSubmit(e) {
 function onViewShow() {
     loading.show();
     const page = this;
-    const apiClient = getApiClient();
+    const apiClient = ServerConnections.currentApiClient();
     apiClient.getJSON(apiClient.getUrl('Startup/User')).then(function (user) {
         page.querySelector('#txtUsername').value = user.Name || '';
         page.querySelector('#txtManualPassword').value = user.Password || '';
