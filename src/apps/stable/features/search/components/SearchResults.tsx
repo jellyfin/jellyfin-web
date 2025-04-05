@@ -34,7 +34,7 @@ const SearchResults: FC<SearchResultsProps> = ({
                     <div>
                         <Link
                             className='emby-button'
-                            to={`/search.html?query=${encodeURIComponent(query || '')}`}
+                            to={`/search?query=${encodeURIComponent(query || '')}`}
                         >{globalize.translate('RetryWithGlobalSearch')}</Link>
                     </div>
                 )}
