@@ -2021,5 +2021,7 @@
     "ImageUploadCancelled": "Uploaden afbeelding geannuleerd",
     "CustomSplashScreenSize": "De vereiste beeldverhouding van aangepaste afbeeldingen is 16:9 en de minimale grootte is 1920x1080.",
     "DeleteCustomImage": "Aangepaste afbeelding verwijderen",
-    "UploadCustomImage": "Aangepaste afbeelding uploaden"
+    "UploadCustomImage": "Aangepaste afbeelding uploaden",
+    "ReadInputAtNativeFramerate": "Invoer lezen op oorspronkelijke verversingssnelheid",
+    "ReadInputAtNativeFramerateHelp": "Het inschakelen van deze optie kan bepaalde problemen oplossen, zoals het voortijdig stoppen van livestreams."
 }
