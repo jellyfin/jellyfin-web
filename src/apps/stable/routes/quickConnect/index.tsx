@@ -84,7 +84,7 @@ const QuickConnectPage: FC = () => {
                                 <p>
                                     {globalize.translate('QuickConnectAuthorizeSuccess')}
                                 </p>
-                                <Link to='/home.html' className='button-link emby-button'>
+                                <Link to='/home' className='button-link emby-button'>
                                     {globalize.translate('GoHome')}
                                 </Link>
                             </div>

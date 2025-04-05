@@ -1,7 +1,11 @@
 import escapeHtml from 'escape-html';
 import Headroom from 'headroom.js';
+// NOTE: Used for jsdoc
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ApiClient } from 'jellyfin-apiclient';
 
 import { getUserViewsQuery } from 'hooks/useUserViews';
+import { EventType } from 'types/eventType';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
@@ -30,7 +34,6 @@ import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../styles/scrollstyles.scss';
 import '../styles/flexstyles.scss';
-import { EventType } from 'types/eventType';
 
 function renderHeader() {
     let html = '';
@@ -214,11 +217,11 @@ function showSearch() {
 }
 
 function onHeaderUserButtonClick() {
-    Dashboard.navigate('mypreferencesmenu.html');
+    Dashboard.navigate('mypreferencesmenu');
 }
 
 function onHeaderHomeButtonClick() {
-    Dashboard.navigate('home.html');
+    Dashboard.navigate('home');
 }
 
 function showAudioPlayer() {
@@ -321,7 +324,7 @@ function onMainDrawerSelect() {
 function refreshLibraryInfoInDrawer(user) {
     let html = '';
     html += '<div style="height:.5em;"></div>';
-    html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#/home.html"><span class="material-icons navMenuOptionIcon home" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Home')}</span></a>`;
+    html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#/home"><span class="material-icons navMenuOptionIcon home" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Home')}</span></a>`;
 
     // placeholder for custom menu links
     html += '<div class="customMenuOptions"></div>';
@@ -406,7 +409,7 @@ function getUserViews(apiClient, userId) {
                     guideView.Name = globalize.translate('Guide');
                     guideView.ImageTags = {};
                     guideView.icon = 'dvr';
-                    guideView.url = '#/livetv.html?tab=1';
+                    guideView.url = '#/livetv?tab=1';
                     list.push(guideView);
                 }
             }
@@ -503,7 +506,7 @@ function onSelectServerClick() {
 }
 
 function onSettingsClick() {
-    Dashboard.navigate('mypreferencesmenu.html');
+    Dashboard.navigate('mypreferencesmenu');
 }
 
 function onExitAppClick() {
@@ -687,6 +690,7 @@ let navDrawerInstance;
 let mainDrawerButton;
 let headerHomeButton;
 let currentDrawerType;
+let documentTitle = 'Jellyfin';
 let pageTitleElement;
 let headerBackButton;
 let headerUserButton;
@@ -715,6 +719,22 @@ function setTabs (type, selectedIndex, builder) {
     });
 }
 
+/**
+ * Fetch the server name and update the document title.
+ * @param {ApiClient} [_apiClient] The current api client.
+ */
+const fetchServerName = (_apiClient) => {
+    _apiClient
+        ?.getPublicSystemInfo()
+        .then(({ ServerName }) => {
+            documentTitle = ServerName || documentTitle;
+            document.title = documentTitle;
+        })
+        .catch(err => {
+            console.error('[LibraryMenu] failed to fetch system info', err);
+        });
+};
+
 function setDefaultTitle () {
     if (!pageTitleElement) {
         pageTitleElement = document.querySelector('.pageTitle');
@@ -727,7 +747,7 @@ function setDefaultTitle () {
         pageTitleElement.innerHTML = '';
     }
 
-    document.title = 'Jellyfin';
+    document.title = documentTitle;
 }
 
 function setTitle (title) {
@@ -753,7 +773,7 @@ function setTitle (title) {
         pageTitleElement.innerText = html || '';
     }
 
-    document.title = title || 'Jellyfin';
+    document.title = title || documentTitle;
 }
 
 function setTransparentMenu (transparent) {
@@ -803,6 +823,10 @@ pageClassOn('pageshow', 'page', function (e) {
     updateLibraryNavLinks(page);
 });
 
+Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => {
+    fetchServerName(newApiClient);
+});
+
 Events.on(ServerConnections, 'localusersignedin', function (e, user) {
     const currentApiClient = ServerConnections.getApiClient(user.ServerId);
 
@@ -826,21 +850,21 @@ Events.on(ServerConnections, 'localusersignedout', function () {
 
 Events.on(playbackManager, 'playerchange', updateCastIcon);
 
+fetchServerName(getCurrentApiClient());
 loadNavDrawer();
 
 const LibraryMenu = {
-    getTopParentId: getTopParentId,
+    getTopParentId,
     onHardwareMenuButtonClick: function () {
         toggleMainDrawer();
     },
-    setTabs: setTabs,
-    setDefaultTitle: setDefaultTitle,
-    setTitle: setTitle,
-    setTransparentMenu: setTransparentMenu
+    setTabs,
+    setDefaultTitle,
+    setTitle,
+    setTransparentMenu
 };
 
 window.LibraryMenu = LibraryMenu;
 renderHeader();
 
 export default LibraryMenu;
-

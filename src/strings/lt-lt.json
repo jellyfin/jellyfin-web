@@ -1185,5 +1185,7 @@
     "DeleteEntireSeries": "Ištrinti {0} epizodus",
     "DeleteLyrics": "Ištrinti žodžius",
     "DeleteServerConfirmation": "Ar tikrai ištrinti šį serverį?",
-    "Anime": "Anime"
+    "Anime": "Anime",
+    "AllowStreamSharingHelp": "Leiskite „Jellyfin“ dublikuoti MPEG-TS srautą iš imtuvo ir bendrinti šį dublikuotą srautą su klientais. Tai naudinga, kai imtuvas turi bendrą srautų kiekio apribojimą, tačiau tai taip pat gali sukelti atkūrimo problemų.",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Įrašykite visus subtitrus į vaizdą, kai pradedamas transkodavimas. Tai užtikrina subtitrų sinchronizaciją po transkodavimo, tačiau sumažina transkodavimo greitį."
 }

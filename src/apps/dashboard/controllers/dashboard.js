@@ -383,7 +383,7 @@ function renderRunningTasks(view, tasks) {
             html += progress + '%';
             html += '</progress>';
             html += "<span style='color:#00a4dc;margin-left:5px;margin-right:5px;'>" + progress + '%</span>';
-            html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonStop') + '" onclick="DashboardPage.stopTask(this, \'' + task.Id + '\');" class="autoSize"><span class="material-icons cancel" aria-hidden="true"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonStop') + '" data-task-id="' + task.Id + '" class="autoSize btnTaskCancel"><span class="material-icons cancel" aria-hidden="true"></span></button>';
         } else if (task.State === 'Cancelling') {
             html += '<span style="color:#cc0000;">' + globalize.translate('LabelStopping') + '</span>';
         }
@@ -391,7 +391,12 @@ function renderRunningTasks(view, tasks) {
         html += '</p>';
     }
 
-    view.querySelector('#divRunningTasks').innerHTML = html;
+    const runningTasks = view.querySelector('#divRunningTasks');
+
+    runningTasks.innerHTML = html;
+    runningTasks.querySelectorAll('.btnTaskCancel').forEach(function (btn) {
+        btn.addEventListener('click', () => DashboardPage.stopTask(btn, btn.dataset.taskId));
+    });
 }
 
 const DashboardPage = {
@@ -714,30 +719,34 @@ const DashboardPage = {
             pollForInfo(page, ApiClient);
         });
     },
-    restart: function (btn) {
+    restart: function (event) {
         confirm({
             title: globalize.translate('Restart'),
             text: globalize.translate('MessageConfirmRestart'),
             confirmText: globalize.translate('Restart'),
             primary: 'delete'
-        }).then(function () {
-            const page = dom.parentWithClass(btn, 'page');
+        }).then(() => {
+            const page = dom.parentWithClass(event.target, 'page');
             page.querySelector('#btnRestartServer').disabled = true;
             page.querySelector('#btnShutdown').disabled = true;
             ApiClient.restartServer();
+        }).catch(() => {
+            // Confirm dialog closed
         });
     },
-    shutdown: function (btn) {
+    shutdown: function (event) {
         confirm({
             title: globalize.translate('ButtonShutdown'),
             text: globalize.translate('MessageConfirmShutdown'),
             confirmText: globalize.translate('ButtonShutdown'),
             primary: 'delete'
-        }).then(function () {
-            const page = dom.parentWithClass(btn, 'page');
+        }).then(() => {
+            const page = dom.parentWithClass(event.target, 'page');
             page.querySelector('#btnRestartServer').disabled = true;
             page.querySelector('#btnShutdown').disabled = true;
             ApiClient.shutdownServer();
+        }).catch(() => {
+            // Confirm dialog closed
         });
     }
 };
@@ -817,7 +826,11 @@ export default function (view) {
             taskKey: 'RefreshLibrary',
             button: page.querySelector('.btnRefresh')
         });
+
+        page.querySelector('#btnRestartServer').addEventListener('click', DashboardPage.restart);
+        page.querySelector('#btnShutdown').addEventListener('click', DashboardPage.shutdown);
     });
+
     view.addEventListener('viewbeforehide', function () {
         const apiClient = ApiClient;
         const page = this;
@@ -839,6 +852,9 @@ export default function (view) {
             taskKey: 'RefreshLibrary',
             button: page.querySelector('.btnRefresh')
         });
+
+        page.querySelector('#btnRestartServer').removeEventListener('click', DashboardPage.restart);
+        page.querySelector('#btnShutdown').removeEventListener('click', DashboardPage.shutdown);
     });
     view.addEventListener('viewdestroy', function () {
         const page = this;

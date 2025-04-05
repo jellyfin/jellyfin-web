@@ -79,23 +79,9 @@ function onMouseDown(e) {
 }
 
 function onKeyDown(e) {
-    switch (e.keyCode) {
-        case 13:
-            if (!enableNativeMenu()) {
-                e.preventDefault();
-                showActionSheet(this);
-            }
-            return;
-        case 37:
-        case 38:
-        case 39:
-        case 40:
-            if (layoutManager.tv) {
-                e.preventDefault();
-            }
-            return;
-        default:
-            break;
+    if (e.keyCode === 13 && !enableNativeMenu()) {
+        e.preventDefault();
+        showActionSheet(this);
     }
 }
 

@@ -31,7 +31,7 @@ function getScreensaverPlugin(isLoggedIn) {
     let option;
     try {
         option = userSettings.get('screensaver', false);
-    } catch (err) {
+    } catch {
         option = isLoggedIn ? 'backdropscreensaver' : 'logoscreensaver';
     }
 

@@ -1,4 +1,4 @@
-@import "../styles/noto-sans/index.scss";
+@use "../styles/noto-sans/index.scss" as *;
 
 html {
     font-family: "Noto Sans", "Noto Sans HK", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", "Noto Sans TC", sans-serif;

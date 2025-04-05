@@ -10,13 +10,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'dashboard.html'
         }
     }, {
-        path: 'settings',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'general',
-            view: 'general.html'
-        }
-    }, {
         path: 'networking',
         pageProps: {
             appType: AppType.Dashboard,
@@ -31,39 +24,11 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'library.html'
         }
     }, {
-        path: 'libraries/display',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'librarydisplay',
-            view: 'librarydisplay.html'
-        }
-    }, {
         path: 'playback/transcoding',
         pageProps: {
             appType: AppType.Dashboard,
             controller: 'encodingsettings',
             view: 'encodingsettings.html'
-        }
-    }, {
-        path: 'libraries/metadata',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'metadataImages',
-            view: 'metadataimages.html'
-        }
-    }, {
-        path: 'libraries/nfo',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'metadatanfo',
-            view: 'metadatanfo.html'
-        }
-    }, {
-        path: 'playback/resume',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'playback',
-            view: 'playback.html'
         }
     }, {
         path: 'plugins/catalog',
@@ -113,27 +78,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             appType: AppType.Dashboard,
             controller: 'plugins/installed/index',
             view: 'plugins/installed/index.html'
-        }
-    }, {
-        path: 'tasks/edit',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'scheduledtasks/scheduledtask',
-            view: 'scheduledtasks/scheduledtask.html'
-        }
-    }, {
-        path: 'tasks',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'scheduledtasks/scheduledtasks',
-            view: 'scheduledtasks/scheduledtasks.html'
-        }
-    }, {
-        path: 'playback/streaming',
-        pageProps: {
-            appType: AppType.Dashboard,
-            view: 'streaming.html',
-            controller: 'streaming'
         }
     }
 ];

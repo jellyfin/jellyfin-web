@@ -141,7 +141,7 @@
     "ColorTransfer": "Transferencia de color",
     "CommunityRating": "Puntuación de la comunidad",
     "Composer": "Compositor",
-    "ConfigureDateAdded": "Configurá cómo se determinan los metadatos para 'Fecha agregada' en el Panel de Control > Biblioteca > Configuraciones NFO",
+    "ConfigureDateAdded": "Configurá cómo se determinan los metadatos para 'Fecha agregada' en el Panel de Control > Biblioteca > Visualización",
     "ConfirmDeleteImage": "¿Eliminar imágen?",
     "ConfirmDeleteItem": "Eliminar este elemento lo va a eliminar tanto del sistema de archivos como de la biblioteca de medios. ¿Estás seguro que deseás continuar?",
     "ConfirmDeleteItems": "Eliminar estos elementos los va a eliminar tanto del sistema de archivos como de la biblioteca de medios. ¿Estás seguro que deseás continuar?",
@@ -1985,5 +1985,8 @@
     "LabelMediaSegmentProviders": "Proveedores del segmento de medios",
     "MediaSegmentProvidersHelp": "Habilitá y clasificá a tus proveedores de segmentos de medios preferidos en orden de prioridad.",
     "HeaderNextEpisode": "Siguiente capítulo",
-    "HeaderNextVideo": "Siguiente video"
+    "HeaderNextVideo": "Siguiente video",
+    "AutoSubtitleStylingHelp": "Este modo cambiará automáticamente entre los modos de estilo nativo y personalizado de subtítulos basándose en el tipo de su dispositivo.",
+    "CopyLogSuccess": "El contenido del registro se ha copiado satisfactoriamente.",
+    "Custom": "Personalizado"
 }

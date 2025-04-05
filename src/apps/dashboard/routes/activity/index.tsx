@@ -40,7 +40,7 @@ const getUserCell = (users: UsersRecords) => function UserCell({ row }: Activity
     );
 };
 
-const Activity = () => {
+export const Component = () => {
     const [ searchParams, setSearchParams ] = useSearchParams();
 
     const [ activityView, setActivityView ] = useState(
@@ -61,7 +61,13 @@ const Activity = () => {
         hasUserId: activityView !== ActivityView.All ? activityView === ActivityView.User : undefined
     }), [activityView, pagination.pageIndex, pagination.pageSize]);
 
-    const { data: logEntries, isLoading: isLogEntriesLoading } = useLogEntries(activityParams);
+    const { data, isLoading: isLogEntriesLoading } = useLogEntries(activityParams);
+    const logEntries = useMemo(() => (
+        data?.Items || []
+    ), [ data ]);
+    const rowCount = useMemo(() => (
+        data?.TotalRecordCount || 0
+    ), [ data ]);
 
     const isLoading = isUsersLoading || isLogEntriesLoading;
 
@@ -154,7 +160,7 @@ const Activity = () => {
         ...DEFAULT_TABLE_OPTIONS,
 
         columns,
-        data: logEntries?.Items || [],
+        data: logEntries,
 
         // State
         initialState: {
@@ -168,7 +174,7 @@ const Activity = () => {
         // Server pagination
         manualPagination: true,
         onPaginationChange: setPagination,
-        rowCount: logEntries?.TotalRecordCount || 0,
+        rowCount,
 
         // Custom toolbar contents
         renderTopToolbarCustomActions: () => (
@@ -201,4 +207,4 @@ const Activity = () => {
     );
 };
 
-export default Activity;
+Component.displayName = 'ActivityPage';
