@@ -45,7 +45,8 @@ const config = {
     target: 'browserslist',
     entry: {
         'main.jellyfin': './index.jsx',
-        ...THEMES_BY_ID
+        ...THEMES_BY_ID,
+        'crashReporter': './crashReporter/index.ts'
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
@@ -74,7 +75,8 @@ const config = {
             hash: true,
             chunks: [
                 'main.jellyfin',
-                'serviceworker'
+                'serviceworker',
+                'crashReporter'
             ]
         }),
         new CopyPlugin({
