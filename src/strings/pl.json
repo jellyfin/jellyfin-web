@@ -2022,5 +2022,7 @@
     "ImageUploadCancelled": "Anulowano przesyłanie obrazu",
     "ImageUploadFailed": "Nie udało się przesłać obrazu",
     "UploadCustomImage": "Prześlij obraz niestandardowy",
-    "CustomSplashScreenSize": "Obrazy niestandardowe powinny mieć proporcje 16x9 i minimalny rozmiar 1920x1080."
+    "CustomSplashScreenSize": "Obrazy niestandardowe powinny mieć proporcje 16x9 i minimalny rozmiar 1920x1080.",
+    "ReadInputAtNativeFramerate": "Odczytuj dane wejściowe z natywną szybkością klatek",
+    "ReadInputAtNativeFramerateHelp": "Włączenie tej opcji może rozwiązać niektóre problemy, np. przedwczesne kończenie transmisji na żywo."
 }
