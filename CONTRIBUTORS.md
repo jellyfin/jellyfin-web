@@ -97,6 +97,7 @@
 - [ItsAllAboutTheCode](https://github.com/ItsAllAboutTheCode)
 - [Jxiced](https://github.com/Jxiced)
 - [Derek Huber](https://github.com/Derek4aty1)
+- [Lampan-git](https://github.com/Lampan-git)
 
 ## Emby Contributors
 
