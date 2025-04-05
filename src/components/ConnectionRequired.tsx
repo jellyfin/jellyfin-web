@@ -114,7 +114,10 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         if (systemInfo?.StartupWizardCompleted) {
             console.info('[ConnectionRequired] startup wizard is complete, redirecting home');
             navigate(BounceRoutes.Home);
+            return;
         }
+
+        setIsLoading(false);
     }, [ navigate ]);
 
     const handleIncompleteWizard = useCallback(async (firstConnection: ConnectResponse) => {
