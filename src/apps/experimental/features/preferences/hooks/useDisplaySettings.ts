@@ -87,6 +87,7 @@ async function loadDisplaySettings({
         enableItemDetailsBanner: Boolean(settings.detailsBanner()),
         enableLibraryBackdrops: Boolean(settings.enableBackdrops()),
         enableLibraryThemeSongs: Boolean(settings.enableThemeSongs()),
+        libraryThemeSongsVolumeLevel: settings.themeSongsVolumeLevel(),
         enableLibraryThemeVideos: Boolean(settings.enableThemeVideos()),
         enableRewatchingInNextUp: Boolean(settings.enableRewatchingInNextUp()),
         episodeImagesInNextUp: Boolean(settings.useEpisodeImagesInNextUpAndResume()),
@@ -132,6 +133,7 @@ async function saveDisplaySettings({
     userSettings.detailsBanner(newDisplaySettings.enableItemDetailsBanner);
     userSettings.enableBackdrops(newDisplaySettings.enableLibraryBackdrops);
     userSettings.enableThemeSongs(newDisplaySettings.enableLibraryThemeSongs);
+    userSettings.themeSongsVolumeLevel(newDisplaySettings.libraryThemeSongsVolumeLevel);
     userSettings.enableThemeVideos(newDisplaySettings.enableLibraryThemeVideos);
     userSettings.enableRewatchingInNextUp(newDisplaySettings.enableRewatchingInNextUp);
     userSettings.useEpisodeImagesInNextUpAndResume(newDisplaySettings.episodeImagesInNextUp);

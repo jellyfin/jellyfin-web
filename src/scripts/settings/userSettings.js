@@ -231,6 +231,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Theme Songs' volume level.
+     * @param {number|undefined} [val] - Volume level to set.
+     * @return {number} Current volume level.
+     */
+    themeSongsVolumeLevel(val) {
+        if (val !== undefined) {
+            return this.set('themeSongsVolumeLevel', val.toString());
+        }
+
+        return parseInt(this.get('themeSongsVolumeLevel') || '100', 10);
+    }
+
+    /**
      * Get or set 'Theme Videos' state.
      * @param {boolean|undefined} [val] - Flag to enable 'Theme Videos' or undefined.
      * @return {boolean} 'Theme Videos' state.
@@ -676,6 +689,7 @@ export const selectAudioNormalization = currentSettings.selectAudioNormalization
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
+export const themeSongsVolumeLevel = currentSettings.themeSongsVolumeLevel.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
