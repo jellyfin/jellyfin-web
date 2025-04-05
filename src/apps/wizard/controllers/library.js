@@ -1,15 +1,17 @@
 import escapeHtml from 'escape-html';
 
-import taskButton from 'scripts/taskbutton';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
+import confirm from 'components/confirm/confirm';
 import loading from 'components/loading/loading';
+import ServerConnections from 'components/ServerConnections';
 import globalize from 'lib/globalize';
 import dom from 'scripts/dom';
+import taskButton from 'scripts/taskbutton';
+import Dashboard, { pageClassOn, pageIdOn } from 'utils/dashboard';
 import imageHelper from 'utils/image';
+
 import 'components/cardbuilder/card.scss';
 import 'elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
-import Dashboard, { pageClassOn, pageIdOn } from 'utils/dashboard';
-import confirm from 'components/confirm/confirm';
-import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 
 function addVirtualFolder(page) {
     import('components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }) => {
@@ -54,9 +56,11 @@ function deleteVirtualFolder(page, virtualFolder) {
         primary: 'delete'
     }).then(function () {
         const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
-        ApiClient.removeVirtualFolder(virtualFolder.Name, refreshAfterChange).then(function () {
-            reloadLibrary(page);
-        });
+        ServerConnections.currentApiClient()
+            .removeVirtualFolder(virtualFolder.Name, refreshAfterChange)
+            .then(function () {
+                reloadLibrary(page);
+            });
     });
 }
 
@@ -64,7 +68,7 @@ function refreshVirtualFolder(page, virtualFolder) {
     import('components/refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
         new RefreshDialog({
             itemIds: [virtualFolder.ItemId],
-            serverId: ApiClient.serverId(),
+            serverId: ServerConnections.currentApiClient().serverId(),
             mode: 'scan'
         }).show();
     });
@@ -79,9 +83,11 @@ function renameVirtualFolder(page, virtualFolder) {
         }).then(function (newName) {
             if (newName && newName != virtualFolder.Name) {
                 const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
-                ApiClient.renameVirtualFolder(virtualFolder.Name, newName, refreshAfterChange).then(function () {
-                    reloadLibrary(page);
-                });
+                ServerConnections.currentApiClient()
+                    .renameVirtualFolder(virtualFolder.Name, newName, refreshAfterChange)
+                    .then(function () {
+                        reloadLibrary(page);
+                    });
             }
         });
     });
@@ -150,9 +156,11 @@ function showCardMenu(page, elem, virtualFolders) {
 
 function reloadLibrary(page) {
     loading.show();
-    ApiClient.getVirtualFolders().then(function (result) {
-        reloadVirtualFolders(page, result);
-    });
+    ServerConnections.currentApiClient()
+        .getVirtualFolders()
+        .then(function (result) {
+            reloadVirtualFolders(page, result);
+        });
 }
 
 function shouldRefreshLibraryAfterChanges(page) {
@@ -210,7 +218,7 @@ function editImages(page, virtualFolder) {
     import('components/imageeditor/imageeditor').then((imageEditor) => {
         imageEditor.show({
             itemId: virtualFolder.ItemId,
-            serverId: ApiClient.serverId()
+            serverId: ServerConnections.currentApiClient().serverId()
         }).then(function () {
             reloadLibrary(page);
         });
@@ -267,10 +275,11 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     let imgUrl = '';
 
     if (virtualFolder.PrimaryImageItemId) {
-        imgUrl = ApiClient.getScaledImageUrl(virtualFolder.PrimaryImageItemId, {
-            maxWidth: Math.round(dom.getScreenWidth() * 0.40),
-            type: 'Primary'
-        });
+        imgUrl = ServerConnections.currentApiClient()
+            .getScaledImageUrl(virtualFolder.PrimaryImageItemId, {
+                maxWidth: Math.round(dom.getScreenWidth() * 0.40),
+                type: 'Primary'
+            });
     }
 
     let hasCardImageContainer;

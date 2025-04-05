@@ -1,9 +1,11 @@
 import loading from 'components/loading/loading';
+import ServerConnections from 'components/ServerConnections';
 
 function onFinish() {
     loading.show();
-    ApiClient.ajax({
-        url: ApiClient.getUrl('Startup/Complete'),
+    const apiClient = ServerConnections.currentApiClient();
+    apiClient.ajax({
+        url: apiClient.getUrl('Startup/Complete'),
         type: 'POST'
     }).then(function () {
         loading.hide();
