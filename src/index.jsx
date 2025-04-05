@@ -80,8 +80,6 @@ build: ${__JF_BUILD_VERSION__}`);
     // Update localization on user changes
     Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
     Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
-    // Localize the document title
-    document.title = globalize.translateHtml(document.title, 'core');
 
     // Load the font styles
     loadFonts();
