@@ -1,6 +1,6 @@
 {
     "Absolute": "Απόλυτο",
-    "AccessRestrictedTryAgainLater": "Η πρόσβαση είναι περιορισμένη προς το παρόν. Παρακαλώ δοκιμάστε ξανά αργότερα.",
+    "AccessRestrictedTryAgainLater": "Η πρόσβαση είναι προσωρινά περιορισμένη. Παρακαλώ δοκιμάστε ξανά αργότερα.",
     "Actor": "Ηθοποιός",
     "Add": "Προσθήκη",
     "AddToCollection": "Προσθήκη στη συλλογή",
@@ -1964,5 +1964,12 @@
     "PlaybackError.MEDIA_DECODE_ERROR": "Η αναπαραγωγή απέτυχε λόγω σφάλματος στην αποκωδικοποίηση του μέσου.",
     "MetadataImagesLoadError": "Αποτυχία φόρτωσης ρυθμίσεων των μεταδεδομένων",
     "PlaybackError.FATAL_HLS_ERROR": "Παρουσιάστηκε κρίσιμο σφάλμα στην ροή HLS.",
-    "SettingsPageLoadError": "Αποτυχία φόρτωσης σελίδας ρυθμίσεων"
+    "SettingsPageLoadError": "Αποτυχία φόρτωσης σελίδας ρυθμίσεων",
+    "LabelGroupShowsIntoCollections": "Ομαδοποίηση εκπομπών σε συλλογές",
+    "LabelGroupShowsIntoCollectionsHelp": "Οι τηλ. σειρές σε μια συλλογή θα εμφανίζονται ως ένα ομαδοποιημένο στοιχείο κατά την εμφάνιση λιστών σειρών.",
+    "CustomSplashScreenSize": "Οι προσαρμοσμένες εικόνες θα πρέπει να έχουν αναλογία διαστάσεων 16x9 και ελάχιστο μέγεθος 1920x1080.",
+    "DeleteCustomImage": "Διαγραφή προσαρμοσμένης εικόνας",
+    "ImageDeleteFailed": "Η διαγραφή εικόνας απέτυχε",
+    "ImageUploadCancelled": "Η φόρτωση της εικόνας ακυρώθηκε",
+    "ImageUploadFailed": "Η φόρτωση της εικόνας απέτυχε"
 }
