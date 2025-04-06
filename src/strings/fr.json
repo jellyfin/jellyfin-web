@@ -2022,5 +2022,7 @@
     "ImageDeleteFailed": "Échec de la suppression de l'image",
     "ImageUploadCancelled": "Téléversement d'image annulé",
     "ImageUploadFailed": "Échec du téléversement de l'image",
-    "UploadCustomImage": "Téléversement une image personnalisée"
+    "UploadCustomImage": "Téléversement une image personnalisée",
+    "ReadInputAtNativeFramerateHelp": "Activer cette option peut résoudre certains problèmes, par exemple les flux en direct qui s'arrêtent prématurément.",
+    "ReadInputAtNativeFramerate": "Lire l'entrée à la fréquence d'images native"
 }
