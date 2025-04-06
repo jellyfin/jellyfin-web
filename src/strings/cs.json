@@ -2022,5 +2022,7 @@
     "ImageDeleteFailed": "Odstranění obrázku se nezdařilo",
     "ImageUploadCancelled": "Nahrávání obrázku bylo zrušeno",
     "ImageUploadFailed": "Nahrávání obrázku se nezdařilo",
-    "UploadCustomImage": "Nahrát vlastní obrázek"
+    "UploadCustomImage": "Nahrát vlastní obrázek",
+    "ReadInputAtNativeFramerate": "Nativní snímková frekvence při načítání vstupu",
+    "ReadInputAtNativeFramerateHelp": "Zapnutí této možnosti může pomoct s některými problémy, např. s livestreamy, které se nečekaně ukončují."
 }
