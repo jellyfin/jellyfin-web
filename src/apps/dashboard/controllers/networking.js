@@ -46,6 +46,8 @@ function onSubmit(e) {
                     return s.length > 0;
                 });
 
+                const publicUserListing = form.querySelector('#selectPublicUserListing').value;
+
                 config.IsRemoteIPFilterBlacklist = form.querySelector('#selectExternalAddressFilterMode').value === 'blacklist';
                 config.PublicHttpPort = form.querySelector('#txtPublicHttpPort').value;
                 config.PublicHttpsPort = form.querySelector('#txtPublicHttpsPort').value;
@@ -55,7 +57,7 @@ function onSubmit(e) {
                 config.RequireHttps = form.querySelector('#chkRequireHttps').checked;
                 config.BaseUrl = form.querySelector('#txtBaseUrl').value;
                 config.EnableRemoteAccess = form.querySelector('#chkRemoteAccess').checked;
-                config.PublicUserListing = form.querySelector('#selectPublicUserListing').value === 'always' || form.querySelector('#selectPublicUserListing').value === 'local';
+                config.PublicUserListing = publicUserListing === 'always' || publicUserListing === 'local';
                 config.PublicUserListingLocalOnly = form.querySelector('#selectPublicUserListing').value === 'local';
                 config.CertificatePath = form.querySelector('#txtCertificatePath').value || null;
                 config.CertificatePassword = form.querySelector('#txtCertPassword').value || null;
@@ -144,7 +146,13 @@ export default function (view) {
         page.querySelector('#chkEnableIP6').checked = config.EnableIPv6;
         page.querySelector('#chkEnableIP4').checked = config.EnableIPv4;
         page.querySelector('#txtPublishedServer').value = (config.PublishedServerUriBySubnet || []).join(', ');
-        page.querySelector('#selectPublicUserListing').value = config.PublicUserListingLocalOnly && config.PublicUserListing ? 'local' : config.PublicUserListing ? 'always' : 'never';
+        if (config.PublicUserListingLocalOnly && config.PublicUserListing) {
+            page.querySelector('#selectPublicUserListing').value = 'local';
+        } else if (config.PublicUserListing) {
+            page.querySelector('#selectPublicUserListing').value = 'always';
+        } else {
+            page.querySelector('#selectPublicUserListing').value = 'never';
+        }
         loading.hide();
     }
 
