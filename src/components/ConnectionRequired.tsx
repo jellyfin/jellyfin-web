@@ -117,6 +117,8 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
             return;
         }
 
+        // Update the current ApiClient
+        ServerConnections.setLocalApiClient(apiClient);
         setIsLoading(false);
     }, [ navigate ]);
 
