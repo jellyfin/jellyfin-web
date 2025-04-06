@@ -46,7 +46,7 @@ function onSubmit(e) {
                     return s.length > 0;
                 });
 
-                const publicUserListing = form.querySelector('#selectPublicUserListing');
+                const selectPublicUserListing = form.querySelector('#selectPublicUserListing');
 
                 config.IsRemoteIPFilterBlacklist = form.querySelector('#selectExternalAddressFilterMode').value === 'blacklist';
                 config.PublicHttpPort = form.querySelector('#txtPublicHttpPort').value;
@@ -57,8 +57,8 @@ function onSubmit(e) {
                 config.RequireHttps = form.querySelector('#chkRequireHttps').checked;
                 config.BaseUrl = form.querySelector('#txtBaseUrl').value;
                 config.EnableRemoteAccess = form.querySelector('#chkRemoteAccess').checked;
-                config.PublicUserListing = publicUserListing.value === 'always' || publicUserListing.value === 'local';
-                config.PublicUserListingLocalOnly = publicUserListing.value === 'local';
+                config.PublicUserListing = selectPublicUserListing.value === 'always' || selectPublicUserListing.value === 'local';
+                config.PublicUserListingLocalOnly = selectPublicUserListing.value === 'local';
                 config.CertificatePath = form.querySelector('#txtCertificatePath').value || null;
                 config.CertificatePassword = form.querySelector('#txtCertPassword').value || null;
                 config.AutoDiscovery = form.querySelector('#chkAutodiscovery').checked;
