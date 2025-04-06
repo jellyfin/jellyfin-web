@@ -146,7 +146,9 @@ export default function (view) {
         page.querySelector('#chkEnableIP6').checked = config.EnableIPv6;
         page.querySelector('#chkEnableIP4').checked = config.EnableIPv4;
         page.querySelector('#txtPublishedServer').value = (config.PublishedServerUriBySubnet || []).join(', ');
+
         const selectPublicUserListing = page.querySelector('#selectPublicUserListing');
+
         if (config.PublicUserListingLocalOnly && config.PublicUserListing) {
             selectPublicUserListing.value = 'local';
         } else if (config.PublicUserListing) {
@@ -154,6 +156,7 @@ export default function (view) {
         } else {
             selectPublicUserListing.value = 'never';
         }
+
         loading.hide();
     }
 
