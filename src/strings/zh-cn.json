@@ -2022,5 +2022,7 @@
     "ImageUploadFailed": "图片上传失败",
     "UploadCustomImage": "上传自定义图片",
     "LabelGroupShowsIntoCollections": "将节目分组到合集中",
-    "LabelGroupShowsIntoCollectionsHelp": "显示节目列表时，集合中的节目将显示为一个分组项目。"
+    "LabelGroupShowsIntoCollectionsHelp": "显示节目列表时，集合中的节目将显示为一个分组项目。",
+    "ReadInputAtNativeFramerate": "以原始帧率读取输入",
+    "ReadInputAtNativeFramerateHelp": "启用此选项可能会解决一些问题，例如直播流过早停止。"
 }
