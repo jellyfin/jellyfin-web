@@ -1,8 +1,10 @@
 import loading from 'components/loading/loading';
-import 'elements/emby-button/emby-button';
-import 'elements/emby-select/emby-select';
+import ServerConnections from 'components/ServerConnections';
 import Dashboard from 'utils/dashboard';
 import dom from 'scripts/dom';
+
+import 'elements/emby-button/emby-button';
+import 'elements/emby-select/emby-select';
 
 function loadPage(page, config, languageOptions) {
     const elem = page.querySelector('#selectLocalizationLanguage');
@@ -15,7 +17,7 @@ function loadPage(page, config, languageOptions) {
 
 function save(page) {
     loading.show();
-    const apiClient = ApiClient;
+    const apiClient = ServerConnections.currentApiClient();
     apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
         config.UICulture = page.querySelector('#selectLocalizationLanguage').value;
         apiClient.ajax({
@@ -40,7 +42,7 @@ export default function (view) {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
         loading.show();
         const page = this;
-        const apiClient = ApiClient;
+        const apiClient = ServerConnections.currentApiClient();
         const promise1 = apiClient.getJSON(apiClient.getUrl('Startup/Configuration'));
         const promise2 = apiClient.getJSON(apiClient.getUrl('Localization/Options'));
         Promise.all([promise1, promise2]).then(function (responses) {
