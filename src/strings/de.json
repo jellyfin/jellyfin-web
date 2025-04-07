@@ -498,7 +498,7 @@
     "LabelGroupMoviesIntoCollectionsHelp": "Filme in einer Sammlung werden bei der Anzeige von Filmlisten als ein gruppiertes Element angezeigt.",
     "LabelEncoderPreset": "Kodierungsvoreinstellung",
     "LabelHardwareAccelerationType": "Hardwarebeschleunigung",
-    "LabelHardwareAccelerationTypeHelp": "Hardwarebeschleunigung benötigt zusätzliche Konfiguration.",
+    "LabelHardwareAccelerationTypeHelp": "Hardwarebeschleunigung benötigt zusätzliche Einstellungen.",
     "LabelHomeNetworkQuality": "Qualität des Heimnetzwerk",
     "LabelHomeScreenSectionValue": "Startseitenbereich {0}",
     "LabelHttpsPort": "Lokale HTTPS-Portnummer",
@@ -2016,5 +2016,6 @@
     "StreamCountExceedsLimit": "Die Anzahl der Streams überschreitet das Limit",
     "RetryWithGlobalSearch": "Erneuter Versuch mit einer globalen Suche",
     "CustomSplashScreenSize": "Benutzerdefinierte Bilder sollten das Seitenverhältnis 16x9 und eine Mindestgröße von 1920x1080 haben.",
-    "DeleteCustomImage": "Benutzerdefiniertes Bild gelöscht"
+    "DeleteCustomImage": "Benutzerdefiniertes Bild gelöscht",
+    "LabelGroupShowsIntoCollectionsHelp": "Serien in einer Sammlung werden als ein gruppiertes Element bei der Anzeige von Serienlisten dargestellt."
 }
