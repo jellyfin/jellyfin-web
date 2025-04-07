@@ -1520,7 +1520,7 @@
     "ButtonAddMediaLibrary": "Gehitu multimedia liburutegia",
     "ButtonAddImage": "Gehitu irudia",
     "ButtonActivate": "Aktibatu",
-    "BurnSubtitlesHelp": "Zehaztu zerbitzariak transkodifikatzean azpitituluak bideoan grabatu behar dituen. Aukera hau desaktibatzeak errendimendua hobetu dezake. Hautatu 'Auto' irudietan oinarritutako formatuak (VobSub, PGS, SUB, IDX, etab.) eta ASS edo SSA azpititulu batzuk grabatzeko.",
+    "BurnSubtitlesHelp": "Zehaztu zerbitzariak azpitituluak bideoan grabatu behar dituen. Aukera hau desaktibatzeak errendimendua hobetu dezake. Hautatu 'Auto' irudietan oinarritutako formatuak (VobSub, PGS, SUB, IDX, etab.) eta ASS edo SSA azpititulu batzuk grabatzeko.",
     "Browse": "Arakatu",
     "BoxSet": "Box Set",
     "BoxRear": "Kutxa (atzealdea)",
@@ -1646,5 +1646,11 @@
     "LabelQsvDeviceHelp": "Zehaztu Intel QSVrako gailua GPU sistema multi-GPU batean. Linuxen, hau errenderizazio nodoa da adib. /dev/dri/renderD128. Windowsen, hau gailuaren indizea 0tik aurrera da. Utzi zuri zer egiten ari zaren jakin ezean.",
     "AllowVideoToolboxTonemappingHelp": "VideoToolbox-ek emandako hardware bidezko tonu-mapatzea. HDR formatu gehienekin funtzionatzen du, HDR10, HDR10 + eta HLG barne, baina ez du Dolby Vision 5. profilarekin funtzionatzen. Honek lehentasun handiagoa du beste Metal-eko inplementazioarekin alderatuta.",
     "FallbackMaxStreamingBitrateHelp": "Gehieneko streaming bit-tasa erabiltzen da ffprobe-ek ezin duenean iturriaren stream bit-tasa atzeman. Honek bezeroak transkodetze bit-tasa handiegia eskatzea saihesten du, horrek erreproduzitzaileak huts egitea eta kodetzailea gainkargatu dezakelako.",
-    "Retry": "Saiatu berriro"
+    "Retry": "Saiatu berriro",
+    "AllowStreamSharingHelp": "Baimendu Jellyfin-i sintonizatzailetik mpegts stream-a bikoizteko eta bikoiztutako korronte hau bere bezeroekin partekatzeko. Hau erabilgarria da sintonizatzaileak stream muga osoa duenean, baina erreprodukzio-arazoak ere sor ditzake.",
+    "LabelScanBehaviorHelp": "Jokabide lehenetsia blokeatze gabekoa da, hau da, multimedia liburutegira gehitzen da trickplay sortu aurretik. Blokeatzeak trickplay fitxategiak sortuko direla ziurtatuko du multimedia liburutegian gehitu aurretik, baina eskaneatzea askoz luzeagoa izango da.",
+    "LabelWidthResolutionsHelp": "Trickplay irudiak sortuko diren zabalera (px) zerrenda, komaz bereizita. Irudi guztiek iturriarekiko proportzionalki sortu behar dute, beraz 16:9 bideo batean 320-ko zabalera 320x180 inguruan amaitzen da.",
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Sortu trickplay irudiak liburutegia eskaneatzean bideoak inportatzen direnean. Bestela, trickplay irudiak programatutako zeregin bezala erauziko dira. Sorkuntza blokeatzen ez bada, horrek ez du eragingo liburutegiko eskaneatzea burutzeko denboran.",
+    "AllowTonemappingSoftwareHelp": "Tonu-mapatzeak bideo baten barruti dinamikoa HDRtik SDRra alda dezake, irudiaren xehetasunak eta koloreak mantenduz, jatorrizko eszena irudikatzeko oso informazio garrantzitsua baita. Gaur egun 10 biteko HDR10, HLG eta DoVi bideoekin bakarrik funtzionatzen du.",
+    "MessageRepositoryInstallDisclaimer": "OHARRA: hirugarrenen pluginen biltegi bat instalatzeak arriskuak dakartza. Kode ezegonkorra edo gaiztoa izan dezake eta edozein unetan alda daiteke. Instalatu fidagarriak diren egileen biltegiak soilik."
 }
