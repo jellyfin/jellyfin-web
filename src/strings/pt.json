@@ -472,7 +472,7 @@
     "HeaderSelectMetadataPathHelp": "Pesquisa ou introduz a localização que pretendes utilizar para os metadados. O servidor requer permissões de escrita nesta pasta.",
     "HeaderSelectMetadataPath": "Seleciona a localização dos metadados",
     "HeaderSelectCertificatePath": "Seleciona a localização do certificado",
-    "HeaderSecondsValue": "{0} Segundos",
+    "HeaderSecondsValue": "{0} segundos",
     "HeaderSeasons": "Temporadas",
     "HeaderScenes": "Cenas",
     "HeaderRunningTasks": "Tarefas em Execução",
