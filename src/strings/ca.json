@@ -1773,7 +1773,7 @@
     "PasswordRequiredForAdmin": "Es requereix una contrasenya pels comptes d'administrador.",
     "LabelTrackGain": "Guany de pista",
     "AllowAv1Encoding": "Permetre l'encodificació en format AV1",
-    "LabelSegmentKeepSecondsHelp": "Temps en segons durant els quals s'han de conservar els segments després que el client els hagi descarregat. Només funciona si l'esborrat de segments està habilitat.",
+    "LabelSegmentKeepSecondsHelp": "Temps en segons per aquells segments que s'han de mantenir després que el client els hagi descarregat. Només funciona si l'esborrat de segments està habilitat.",
     "AiTranslated": "Traduït per IA",
     "MachineTranslated": "Traduït per Màquina",
     "ForeignPartsOnly": "Només parts Forçades/Forànies",
