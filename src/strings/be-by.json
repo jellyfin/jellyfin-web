@@ -785,7 +785,7 @@
     "LabelPublicHttpPortHelp": "Нумар публічнага порта, які трэба супаставіць з лакальным портам HTTP.",
     "LabelPublicHttpsPortHelp": "Нумар публічнага порта, які трэба супаставіць з лакальным портам HTTPS.",
     "LabelPublishedServerUri": "Апублікаваныя URI сервера",
-    "LabelPublishedServerUriHelp": "Пераазначыць URI для Jellyfin у залежнасці ад інтэрфейсу або IP-адрасу кліента. Напрыклад: internal=http://jellyfin.example.com, external=https://jellyfin.example.com ці all=https://jellyfin.example.com",
+    "LabelPublishedServerUriHelp": "Перавызначыць URI для Jellyfin у залежнасці ад інтэрфейсу або IP-адрасу кліента. Напрыклад: internal=http://jellyfin.example.com, external=https://jellyfin.example.com ці all=https://jellyfin.example.com",
     "LabelQuickConnectCode": "Код Quick Connect",
     "LabelReasonForTranscoding": "Прычына перакадавання",
     "LabelRecordingPath": "Шлях запісу па змаўчанні",
@@ -1983,5 +1983,12 @@
     "LabelQsvDeviceHelp": "Укажыце прыладу для Intel QSV на сістэме з некалькімі GPU. У Linux гэта вузел візуалізацыі (напрыклад, /dev/dri/renderD128). У Windows — індэкс прылады, пачынаючы з 0. Пакіньце поле пустым, калі вы дакладна не ведаеце, што рабіць.",
     "LabelQsvDevice": "Прылада QSV (Quick Sync Video)",
     "LabelScreensaverTimeHelp": "Колькасць часу ў секундах без дзеянняў, неабходная для запуску застаўкі.",
-    "LabelSubtitleStyling": "Стыль субцітраў"
+    "LabelSubtitleStyling": "Стыль субцітраў",
+    "MetadataNfoLoadError": "Не ўдалося загрузіць налады метададзеных NFO",
+    "NativeSubtitleStylingHelp": "Стылізацыя субтытраў на некаторых прыладах не працуе, аднак не нагружае сістэму.",
+    "PageNotFound": "Гэта не тая старонка, якую вы шукаеце.",
+    "MessageCancelTimerError": "Адбылася памылка пры адмене таймера",
+    "Native": "Убудаваны",
+    "MoviesAndShows": "Фільмы і Cерыялы",
+    "PreviewLyrics": "Прадпрагляд тэксту песні"
 }
