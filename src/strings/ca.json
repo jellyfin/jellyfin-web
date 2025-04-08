@@ -626,7 +626,7 @@
     "AllowOnTheFlySubtitleExtraction": "Permetre extreure subtítols sobre la marxa",
     "AllowMediaConversionHelp": "Concedir o denegar l’accés a la funció de mitjans de conversió.",
     "AllowMediaConversion": "Permetre la conversió de mitjans",
-    "AllowHWTranscodingHelp": "Permet al sintonitzador transcodificar streams sobre la marxa. Això pot ajudar a reduir la transcodificació requerida pel servidor.",
+    "AllowHWTranscodingHelp": "Permet al sintonitzador transcodifique els fluxos sobre la marxa.",
     "AllLibraries": "Totes les biblioteques",
     "AllLanguages": "Tots els idiomes",
     "AllComplexFormats": "Tots els formats complexos (ASS, SSA, VobSub, PGS, SUB / IDX, etc.)",
