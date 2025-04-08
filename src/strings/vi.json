@@ -575,7 +575,7 @@
     "LabelDateAddedBehaviorHelp": "Nếu có giá trị dữ liệu mô tả, nó sẽ luôn được sử dụng trước một trong các tùy chọn này.",
     "LabelDateAddedBehavior": "Hành động thêm ngày cho nội dung mới",
     "LabelDateAdded": "Ngày thêm",
-    "LabelDashboardTheme": "Giao diện Bảng Điều Khiển máy chủ",
+    "LabelDashboardTheme": "Giao diện Trang Tổng Quan máy chủ",
     "LabelCustomRating": "Đánh giá tuỳ chọn",
     "ApiKeysCaption": "Danh sách các Khóa API hiện được bật",
     "LabelBaseUrl": "URL cơ bản",
@@ -2019,5 +2019,7 @@
     "ImageUploadFailed": "Tải lên ảnh thất bại",
     "UploadCustomImage": "Tải Lên Hình Ảnh Tùy Chọn",
     "LabelGroupShowsIntoCollectionsHelp": "Các chương trình trong một bộ sưu tập sẽ được hiển thị dưới dạng một mục được nhóm khi hiển thị danh sách hiển thị.",
-    "LabelGroupShowsIntoCollections": "Nhóm chương trình thành bộ sưu tập"
+    "LabelGroupShowsIntoCollections": "Nhóm chương trình thành bộ sưu tập",
+    "ReadInputAtNativeFramerate": "Đọc đầu vào ở tốc độ khung hình gốc",
+    "ReadInputAtNativeFramerateHelp": "Kích hoạt tùy chọn này có thể giải quyết một số vấn đề, ví dụ: Các luồng trực tiếp dừng sớm."
 }
