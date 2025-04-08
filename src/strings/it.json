@@ -1960,7 +1960,7 @@
     "LabelAllowFmp4TranscodingContainer": "Consenti contenitore di transcodifica fMP4",
     "LabelMediaSegmentsType": "{0} Segmenti",
     "MediaSegmentType.Commercial": "Pubblicità",
-    "MediaSegmentType.Outro": "Titoli di Coda",
+    "MediaSegmentType.Outro": "Titoli di coda",
     "MediaSegmentType.Intro": "Intro",
     "MediaSegmentType.Preview": "Anteprima",
     "MediaSegmentType.Recap": "RIassunto",
