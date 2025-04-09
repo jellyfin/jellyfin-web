@@ -1,6 +1,6 @@
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { ImageType } from '@jellyfin/sdk/lib/generated-client';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import React, { type FC, useCallback } from 'react';
 import Box from '@mui/material/Box';

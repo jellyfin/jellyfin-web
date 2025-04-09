@@ -1,8 +1,8 @@
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
-import { PersonKind } from '@jellyfin/sdk/lib/generated-client';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
