@@ -240,7 +240,7 @@ function reloadSystemInfo(view, apiClient) {
                     statusColor = 'text-danger';
                 }
 
-                return pathInfoObject.Path + ' ' + humanize(pathInfoObject.FreeSpace) + '/' + humanize(totalUsed) + `  <span class="${statusColor}">` + percentage + '%</span>';
+                return `${pathInfoObject.Path} ${humanize(pathInfoObject.FreeSpace)} / ${humanize(totalUsed)} <span class="${statusColor}">${percentage}%</span>`;
             }
 
             view.querySelector('#cachePath').innerHTML = formatPathInfo(systemInfo.CacheDirectoryInfo);
