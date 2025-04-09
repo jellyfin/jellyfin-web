@@ -9,8 +9,8 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MuiAccordionSummary, {
     AccordionSummaryProps
 } from '@mui/material/AccordionSummary';
+import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
-import { Badge } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
