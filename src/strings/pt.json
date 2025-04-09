@@ -890,7 +890,7 @@
     "LabelBurnSubtitles": "Integrar legendas",
     "LabelBlockContentWithTags": "Bloquear itens com etiquetas",
     "LabelBlastMessageIntervalHelp": "Determina a duração em segundos entre as mensagens de exploração enviadas pelo servidor.",
-    "LabelBlastMessageInterval": "Intervalo da mensagem Alive",
+    "LabelBlastMessageInterval": "Intervalo para envio de mensagens de reconhecimento",
     "LabelBitrate": "Taxa de bits",
     "LabelBirthYear": "Ano de nascimento",
     "ButtonAudioTracks": "Faixas de Áudio",
