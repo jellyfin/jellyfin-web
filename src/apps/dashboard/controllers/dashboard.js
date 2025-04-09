@@ -221,11 +221,33 @@ function reloadSystemInfo(view, apiClient) {
             view.querySelector('#serverName').innerText = systemInfo.ServerName;
             view.querySelector('#versionNumber').innerText = systemInfo.Version;
 
-            view.querySelector('#cachePath').innerText = systemInfo.CachePath;
-            view.querySelector('#logPath').innerText = systemInfo.LogPath;
-            view.querySelector('#transcodePath').innerText = systemInfo.TranscodingTempPath;
-            view.querySelector('#metadataPath').innerText = systemInfo.InternalMetadataPath;
-            view.querySelector('#webPath').innerText = systemInfo.WebPath;
+            function humanize(value) {
+                const a = a ? [1e3, 'k', 'B'] : [1024, 'K', 'iB'];
+                let d = Math.log(value) / Math.log(a[0]) | 0;
+
+                return (value / Math.pow(a[0], d)).toFixed(2)
+                + ' ' + (d ? (a[1] + 'MGTPEZY')[--d] + a[2] : 'Bytes');
+            }
+
+            function formatPathInfo(pathInfoObject) {
+                if (pathInfoObject.FreeSpace == -1) {
+                    return pathInfoObject.Path;
+                }
+                const totalUsed = pathInfoObject.UsedSpace + pathInfoObject.FreeSpace;
+                const percentage = Math.round(pathInfoObject.FreeSpace / totalUsed * 100);
+                let statusColor = '';
+                if (percentage < 5 || pathInfoObject.FreeSpace < 5000000) {
+                    statusColor = 'text-danger';
+                }
+
+                return pathInfoObject.Path + ' ' + humanize(pathInfoObject.FreeSpace) + '/' + humanize(totalUsed) + `  <span class="${statusColor}">` + percentage + '%</span>';
+            }
+
+            view.querySelector('#cachePath').innerHTML = formatPathInfo(systemInfo.CacheDirectoryInfo);
+            view.querySelector('#logPath').innerHTML = formatPathInfo(systemInfo.LogDirectoryInfo);
+            view.querySelector('#transcodePath').innerHTML = formatPathInfo(systemInfo.TranscodingTempDirectoryInfo);
+            view.querySelector('#metadataPath').innerHTML = formatPathInfo(systemInfo.InternalMetadataDirectoryInfo);
+            view.querySelector('#webPath').innerHTML = formatPathInfo(systemInfo.WebDirectoryInfo);
         });
 }
 
