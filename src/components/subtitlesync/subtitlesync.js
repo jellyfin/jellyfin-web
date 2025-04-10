@@ -32,6 +32,7 @@ class SubtitleSync {
         this.subtitleSyncContainer = parent.querySelector('.subtitleSyncContainer');
         this.timelineRuler = parent.querySelector('.timelineRuler');
         this.subtitleEventsContainer = parent.querySelector('.subtitleEventsContainer');
+        this.subtitleTimelineWrapper = parent.querySelector('.subtitleTimelineWrapper');
 
         this.setupSlider();
         this.setupTextField();
@@ -285,9 +286,14 @@ class SubtitleSync {
 
     // Update the entire timeline visualization
     renderSubtitleTimeline(targetOffset = null) {
-        if (!this.currentTrackEvents) {
+        if (!this.currentTrackEvents || !this.currentTrackEvents.length) {
+            // Hide the timeline wrapper when no events exist
+            this.subtitleTimelineWrapper.style.display = 'none';
             return;
         }
+
+        // Show the timeline wrapper when events exist
+        this.subtitleTimelineWrapper.style.display = '';
 
         // Get the current player time in seconds
         const currentTime = this.getCurrentPlayerTime();

@@ -4,10 +4,11 @@
 }
 
 .subtitleSyncContainer {
-    width: 60%;
-    min-width: 40em;
+    width: 50%;
+    min-width: 24em;
     margin-left: auto;
     margin-right: auto;
+    min-height: 4.2em;
     height: auto;
     background: rgba(28, 28, 28, 0.8);
     border-radius: 0.3em;
@@ -140,8 +141,8 @@
 
 .currentTimeIndicator {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 2em;
+    bottom: 0.5em;
     width: 2px;
     background: rgba(255, 0, 0, 0.8);
     left: 50%;
