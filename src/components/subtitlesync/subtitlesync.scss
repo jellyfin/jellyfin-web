@@ -89,7 +89,7 @@
     margin-left: -1.25em;
 }
 
-.timelineMarker:after {
+.timelineMarker::after {
     content: '';
     position: absolute;
     bottom: -0.3em;
@@ -137,7 +137,6 @@
     z-index: 10;
     background: rgba(16, 85, 178, 0.9);
 }
-
 
 .currentTimeIndicator {
     position: absolute;
