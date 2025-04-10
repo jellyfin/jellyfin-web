@@ -269,15 +269,16 @@ class SubtitleSync {
                     // Reset subtitles data to force fresh load
                     currentTrackEvents = null;
 
+                    const currentOffset = playbackManager.getPlayerSubtitleOffset(player) || 0;
+
                     // if no subtitle offset is defined or element has focus (offset being defined)
-                    if (!(playbackManager.getPlayerSubtitleOffset(player) || subtitleSyncTextField.hasFocus)) {
+                    if (!(currentOffset || subtitleSyncTextField.hasFocus)) {
                         // set default offset to '0' = 0ms
                         subtitleSyncSlider.value = '0';
                         subtitleSyncTextField.textContent = '0s';
                         playbackManager.setSubtitleOffset(0, player);
                     } else {
                         // Make sure slider reflects current offset
-                        const currentOffset = playbackManager.getPlayerSubtitleOffset(player) || 0;
                         subtitleSyncSlider.value = currentOffset.toString();
                         subtitleSyncTextField.updateOffset(currentOffset);
                     }
@@ -285,7 +286,6 @@ class SubtitleSync {
                     subtitleSyncContainer.classList.remove('hide');
 
                     // Initialize the timeline visualization with the current offset
-                    const currentOffset = playbackManager.getPlayerSubtitleOffset(player) || 0;
                     renderSubtitleTimeline(currentOffset);
                     return;
                 }
