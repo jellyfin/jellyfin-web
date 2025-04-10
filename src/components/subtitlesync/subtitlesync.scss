@@ -4,15 +4,16 @@
 }
 
 .subtitleSyncContainer {
-    width: 40%;
-    min-width: 18em;
+    width: 80%;
+    min-width: 40em;
     margin-left: auto;
     margin-right: auto;
-    height: 4.2em;
+    height: auto;
     background: rgba(28, 28, 28, 0.8);
     border-radius: 0.3em;
     color: #fff;
     position: relative;
+    padding-bottom: 1em;
 }
 
 .subtitleSync-closeButton {
@@ -48,5 +49,111 @@
     height: 1.4em;
     flex-grow: 1;
     border-radius: 0.3em;
+    position: relative;
+    z-index: 3;
+}
+
+.subtitleTimelineWrapper {
+    margin-top: 1.8em;
+    position: relative;
+}
+
+/* Timeline view styles */
+.subtitleSyncTimeline {
+    position: relative;
+    width: 98%;
+    height: 7em;
+    margin: 1em auto 0.5em;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0.3em;
+    overflow: hidden;
+}
+
+.timelineRuler {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1.8em;
+    background: rgba(0, 0, 0, 0.2);
     z-index: 1;
+    padding: 0 0.5em;
+}
+
+.timelineMarker {
+    position: absolute;
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    width: 2.5em;
+    margin-left: -1.25em;
+}
+
+.timelineMarker:after {
+    content: '';
+    position: absolute;
+    bottom: -0.3em;
+    left: 50%;
+    width: 1px;
+    height: 0.3em;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.subtitleEventsContainer {
+    position: absolute;
+    top: 2em;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    padding: 0.5em;
+}
+
+.subtitleEvent {
+    position: absolute;
+    background: rgba(16, 85, 178, 0.7);
+    border: 1px solid rgba(30, 159, 255, 0.7);
+    border-radius: 0.3em;
+    padding: 0.3em;
+    color: white;
+    font-size: 0.9em;
+    height: 2.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: transform 0.1s ease-out;
+    top: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.2;
+}
+
+.subtitleEvent:hover {
+    transform: scale(1.02);
+    z-index: 10;
+    background: rgba(16, 85, 178, 0.9);
+}
+
+
+.currentTimeIndicator {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(255, 0, 0, 0.8);
+    left: 50%;
+    z-index: 2;
+}
+
+.noSubtitleEvents {
+    font-style: italic;
+    opacity: 0.7;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
