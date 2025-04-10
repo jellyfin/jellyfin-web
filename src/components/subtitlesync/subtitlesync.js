@@ -12,6 +12,8 @@ let timelineRuler;
 let subtitleEventsContainer;
 let currentTrackEvents = null;
 
+const TIMELINE_RESOLUTION_SECONDS = 10;
+
 function init(instance) {
     const parent = document.createElement('div');
     document.body.appendChild(parent);
@@ -126,10 +128,9 @@ function generateTimeMarkers(currentTime) {
     // Clear existing markers
     timelineRuler.innerHTML = '';
 
-    // Create markers at 1-second intervals, covering 10 seconds
-    // (5 seconds before and 5 seconds after current time)
-    const startTime = Math.max(0, Math.floor(currentTime) - 5);
-    const endTime = startTime + 10;
+    // Create markers at 1-second intervals,
+    const startTime = Math.max(0, Math.floor(currentTime) - (TIMELINE_RESOLUTION_SECONDS / 2));
+    const endTime = startTime + TIMELINE_RESOLUTION_SECONDS;
     const interval = 1; // 1-second intervals for precise timing
 
     for (let time = startTime; time <= endTime; time += interval) {
@@ -137,7 +138,7 @@ function generateTimeMarkers(currentTime) {
         marker.classList.add('timelineMarker');
 
         // Calculate position as percentage
-        const position = ((time - startTime) / 10) * 100;
+        const position = ((time - startTime) / TIMELINE_RESOLUTION_SECONDS) * 100;
         marker.style.left = `${position}%`;
 
         // Format time as MM:SS
@@ -167,8 +168,8 @@ function renderSubtitleEvents(events, currentTime, offset = 0) {
     }
 
     // Define the visible time range (10 seconds centered around current time)
-    const startTime = currentTime - 5;
-    const endTime = startTime + 10;
+    const startTime = currentTime - (TIMELINE_RESOLUTION_SECONDS / 2);
+    const endTime = startTime + TIMELINE_RESOLUTION_SECONDS;
 
     // Create a current time indicator at the center
     const indicator = document.createElement('div');
@@ -200,8 +201,8 @@ function renderSubtitleEvents(events, currentTime, offset = 0) {
 
         // Calculate position and width as percentages exactly proportional to duration
         // Clamp to visible area
-        const leftPos = Math.max(0, ((visualStartSec - startTime) / 10) * 100);
-        const rightPos = Math.min(100, ((visualEndSec - startTime) / 10) * 100);
+        const leftPos = Math.max(0, ((visualStartSec - startTime) / TIMELINE_RESOLUTION_SECONDS) * 100);
+        const rightPos = Math.min(100, ((visualEndSec - startTime) / TIMELINE_RESOLUTION_SECONDS) * 100);
 
         const eventEl = document.createElement('div');
         eventEl.classList.add('subtitleEvent');
