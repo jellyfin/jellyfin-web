@@ -151,13 +151,6 @@ function generateTimeMarkers(currentTime) {
     }
 }
 
-// Remove HTML tags from text safely
-function stripHtmlTags(text) {
-    const tempDiv = document.createElement('div');
-    tempDiv.textContent = text;
-    return tempDiv.textContent;
-}
-
 // Render subtitle events in the timeline
 function renderSubtitleEvents(events, currentTime, offset = 0) {
     // Clear existing events
@@ -214,11 +207,10 @@ function renderSubtitleEvents(events, currentTime, offset = 0) {
         eventEl.style.width = `${rightPos - leftPos}%`;
 
         // Clean and add the text
-        const cleanText = stripHtmlTags(event.Text || '');
-        eventEl.textContent = cleanText;
+        eventEl.textContent = event.Text || '';
 
         // Add a title for the full text on hover
-        eventEl.title = cleanText;
+        eventEl.title = event.Text || '';
 
         subtitleEventsContainer.appendChild(eventEl);
     });
