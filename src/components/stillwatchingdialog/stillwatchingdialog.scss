@@ -1,11 +1,13 @@
-.upNextContainer {
+.stillWatchingContainer {
     position: fixed;
     right: 0;
     bottom: 0;
-    width: 30em;
+    width: 28em;
     padding: 1em;
     display: flex;
     flex-direction: column;
+    justify-content: end;
+    align-content: flex-end;
     will-change: transform, opacity;
     transition: opacity 300ms ease-out;
     background-color: rgba(0, 0, 0, 0.7);
@@ -23,35 +25,34 @@
     }
 }
 
-.upNextDialog-hidden {
+.stillWatchingDialog-hidden {
     opacity: 0;
 }
 
-.upNextDialog-countdownText {
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-.upNextDialog-title {
-    width: 25.5em;
+.stillWatchingDialog-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.upNextDialog-buttons {
-    width: 29.75em;
+.stillWatchingDialog-buttons {
     justify-content: end;
     align-content: flex-end;
 }
 
-.upNextDialog-button {
+.stillWatchingDialog-test {
+    width: 100%;
+    height: 100%;
+    background-color: green;
+}
+
+.stillWatchingDialog-button {
     background: #404040;
     color: #fff;
 }
 
 @media all and (orientation: landscape) {
-    .upNextDialog {
+    .stillWatchingDialog {
         flex-direction: row;
     }
 }

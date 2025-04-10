@@ -2,7 +2,7 @@ import escapeHtml from 'escape-html';
 
 import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { AppFeature } from 'constants/appFeature';
-import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
+import { TICKS_PER_MILLISECOND, TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
 import { EventType } from 'types/eventType';
 
 import { playbackManager } from '../../../components/playback/playbackmanager';
@@ -412,6 +412,8 @@ export default function (view) {
     function onInputCommand(e) {
         const player = currentPlayer;
 
+        playbackManager._idleManager.notifyInteraction(currentItem);
+
         switch (e.detail.command) {
             case 'left':
                 if (currentVisibleMenu === 'osd') {
@@ -541,6 +543,7 @@ export default function (view) {
         const player = this;
         onStateChanged.call(player, e, state);
         resetUpNextDialog();
+        resetStillWatchingDialog();
     }
 
     function resetUpNextDialog() {
@@ -553,12 +556,24 @@ export default function (view) {
         }
     }
 
-    function onPlaybackStopped(e, state) {
+    function resetStillWatchingDialog() {
+        stillWatchingDisplayed = false;
+        const dlg = currentStillWatchingDialog;
+
+        if (dlg) {
+            dlg.destroy();
+            currentStillWatchingDialog = null;
+        }
+    }
+
+    function onPlaybackStopped (e, state) {
+        const stillWatchingWasDisplayed = stillWatchingDisplayed;
         currentRuntimeTicks = null;
         resetUpNextDialog();
+        resetStillWatchingDialog();
         console.debug('nowplaying event: ' + e.type);
 
-        if (state.NextMediaType !== 'Video') {
+        if (state.NextMediaType !== 'Video' || stillWatchingWasDisplayed) {
             view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
             appRouter.back();
         }
@@ -602,6 +617,7 @@ export default function (view) {
         Events.on(player, 'beginFetch', onBeginFetch);
         Events.on(player, 'endFetch', onEndFetch);
         resetUpNextDialog();
+        resetStillWatchingDialog();
 
         if (player.isFetching) {
             onBeginFetch();
@@ -612,6 +628,7 @@ export default function (view) {
         destroyStats();
         destroySubtitleSync();
         resetUpNextDialog();
+        resetStillWatchingDialog();
         const player = currentPlayer;
 
         if (player) {
@@ -637,11 +654,11 @@ export default function (view) {
                 lastUpdateTime = now;
                 const player = this;
                 currentRuntimeTicks = playbackManager.duration(player);
-                const currentTime = playbackManager.currentTime(player) * 10000;
+                const currentTime = playbackManager.currentTime(player) * TICKS_PER_MILLISECOND;
                 updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getPlaybackRate(player), playbackManager.getBufferedRanges(player));
                 const item = currentItem;
                 refreshProgramInfoIfNeeded(player, item);
-                showComingUpNextIfNeeded(player, item, currentTime, currentRuntimeTicks);
+                showDialogIfNeeded(player, item, currentTime, currentRuntimeTicks);
             }
         }
     }
@@ -657,8 +674,8 @@ export default function (view) {
         }
     }
 
-    function showComingUpNextIfNeeded(player, currentItem, currentTimeTicks, runtimeTicks) {
-        if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && currentItem.Type === 'Episode' && userSettings.enableNextVideoInfoOverlay()) {
+    function showDialogIfNeeded(player, currentItem, currentTimeTicks, runtimeTicks) {
+        if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !stillWatchingDisplayed && !currentVisibleMenu && currentItem.Type === 'Episode') {
             let showAtSecondsLeft = 30;
             if (runtimeTicks >= 50 * TICKS_PER_MINUTE) {
                 showAtSecondsLeft = 40;
@@ -669,7 +686,12 @@ export default function (view) {
             const timeRemainingTicks = runtimeTicks - currentTimeTicks;
 
             if (currentTimeTicks >= showAtTicks && runtimeTicks >= (10 * TICKS_PER_MINUTE) && timeRemainingTicks >= (20 * TICKS_PER_SECOND)) {
-                showComingUpNext(player);
+                playbackManager._idleManager.calculateWatchTime();
+                if (playbackManager._idleManager.showStillWatching) {
+                    showStillWatching(player);
+                } else if (userSettings.enableNextVideoInfoOverlay()) {
+                    showComingUpNext(player);
+                }
             }
         }
     }
@@ -693,6 +715,30 @@ export default function (view) {
                     });
                     Events.on(currentUpNextDialog, 'hide', onUpNextHidden);
                 }, onUpNextHidden);
+            }
+        });
+    }
+
+    function onStillWatchingHidden() {
+        if (currentVisibleMenu === 'stillwatching') {
+            currentVisibleMenu = null;
+        }
+    }
+
+    function showStillWatching(player) {
+        import('../../../components/stillwatchingdialog/stillwatchingdialog').then(({ default: StillWatchingDialog }) => {
+            if (!(currentVisibleMenu || currentStillWatchingDialog)) {
+                currentVisibleMenu = 'stillwatching';
+                stillWatchingDisplayed = true;
+                playbackManager.nextItem(player).then(function (nextItem) {
+                    currentStillWatchingDialog = new StillWatchingDialog({
+                        parent: view.querySelector('.stillWatchingContainer'),
+                        player: player,
+                        nextItem: nextItem
+                    });
+                    playbackManager._idleManager.stillWatchingShowing = stillWatchingDisplayed;
+                    Events.on(currentStillWatchingDialog, 'hide', onStillWatchingHidden);
+                }, onStillWatchingHidden);
             }
         });
     }
@@ -1222,6 +1268,8 @@ export default function (view) {
         // Skip modified keys
         if (isKeyModified) return;
 
+        playbackManager._idleManager.notifyInteraction(currentItem);
+
         const key = keyboardnavigation.getKeyName(e);
 
         const btnPlayPause = osdBottomElement.querySelector('.btnPause');
@@ -1625,6 +1673,8 @@ export default function (view) {
     let currentPlayer;
     let comingUpNextDisplayed;
     let currentUpNextDialog;
+    let stillWatchingDisplayed;
+    let currentStillWatchingDialog;
     let isEnabled;
     let currentItem;
     let recordingButtonManager;
@@ -1796,7 +1846,7 @@ export default function (view) {
     let lastPointerDown = 0;
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', function (e) {
-        if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer'])) {
+        if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer', 'stillWatchingContainer'])) {
             showOsd();
             return;
         }
@@ -2070,4 +2120,3 @@ export default function (view) {
         });
     }
 }
-
