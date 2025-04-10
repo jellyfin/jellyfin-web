@@ -51,6 +51,12 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({ item, items, viewType, hasFilte
             title={globalize.translate('HeaderPlayAll')}
             className='paper-icon-button-light btnPlay autoSize'
             onClick={play}
+            sx={{
+                order: {
+                    xs: 1,
+                    sm: 'unset'
+                }
+            }}
         >
             <PlayArrowIcon />
         </IconButton>

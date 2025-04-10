@@ -14,6 +14,15 @@ import { CardShape } from 'utils/card';
 import Loading from 'components/loading/LoadingComponent';
 import { playbackManager } from 'components/playback/playbackmanager';
 import ItemsContainer from 'elements/emby-itemscontainer/ItemsContainer';
+import NoItemsMessage from 'components/common/NoItemsMessage';
+import Lists from 'components/listview/List/Lists';
+import Cards from 'components/cardbuilder/Card/Cards';
+import { LibraryTab } from 'types/libraryTab';
+import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library';
+import type { CardOptions } from 'types/cardOptions';
+import type { ListOptions } from 'types/listOptions';
+import { useItem } from 'hooks/useItem';
+
 import AlphabetPicker from './AlphabetPicker';
 import FilterButton from './filter/FilterButton';
 import NewCollectionButton from './NewCollectionButton';
@@ -23,14 +32,7 @@ import QueueButton from './QueueButton';
 import ShuffleButton from './ShuffleButton';
 import SortButton from './SortButton';
 import GridListViewButton from './GridListViewButton';
-import NoItemsMessage from 'components/common/NoItemsMessage';
-import Lists from 'components/listview/List/Lists';
-import Cards from 'components/cardbuilder/Card/Cards';
-import { LibraryTab } from 'types/libraryTab';
-import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library';
-import type { CardOptions } from 'types/cardOptions';
-import type { ListOptions } from 'types/listOptions';
-import { useItem } from 'hooks/useItem';
+import LibraryViewMenu from './LibraryViewMenu';
 
 interface ItemsViewProps {
     viewType: LibraryTab;
@@ -225,20 +227,33 @@ const ItemsView: FC<ItemsViewProps> = ({
             'vertical-list' :
             'vertical-wrap'
     );
+
     return (
         <Box>
-            <Box className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
-                {isPaginationEnabled && (
-                    <Pagination
-                        totalRecordCount={totalRecordCount}
-                        libraryViewSettings={libraryViewSettings}
-                        isPlaceholderData={isPlaceholderData}
-                        setLibraryViewSettings={setLibraryViewSettings}
-                    />
+            <Box
+                className={classNames(
+                    'padded-top padded-left padded-right padded-bottom',
+                    { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
                 )}
+                sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap'
+                }}
+            >
+
+                <LibraryViewMenu />
 
                 {isBtnPlayAllEnabled && (
                     <PlayAllButton
+                        item={item}
+                        items={items}
+                        viewType={viewType}
+                        hasFilters={hasFilters}
+                        libraryViewSettings={libraryViewSettings}
+                    />
+                )}
+                {isBtnShuffleEnabled && totalRecordCount > 1 && (
+                    <ShuffleButton
                         item={item}
                         items={items}
                         viewType={viewType}
@@ -253,15 +268,6 @@ const ItemsView: FC<ItemsViewProps> = ({
                         item={item}
                         items={items}
                         hasFilters={hasFilters}
-                    />
-                )}
-                {isBtnShuffleEnabled && totalRecordCount > 1 && (
-                    <ShuffleButton
-                        item={item}
-                        items={items}
-                        viewType={viewType}
-                        hasFilters={hasFilters}
-                        libraryViewSettings={libraryViewSettings}
                     />
                 )}
                 {isBtnSortEnabled && (
@@ -289,6 +295,24 @@ const ItemsView: FC<ItemsViewProps> = ({
                         setLibraryViewSettings={setLibraryViewSettings}
                     />
                 )}
+
+                {isPaginationEnabled && (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            flexGrow: 1,
+                            order: 10
+                        }}
+                    >
+                        <Pagination
+                            totalRecordCount={totalRecordCount}
+                            libraryViewSettings={libraryViewSettings}
+                            isPlaceholderData={isPlaceholderData}
+                            setLibraryViewSettings={setLibraryViewSettings}
+                        />
+                    </Box>
+                )}
             </Box>
 
             {isAlphabetPickerEnabled && hasSortName && (
@@ -312,7 +336,16 @@ const ItemsView: FC<ItemsViewProps> = ({
             )}
 
             {isPaginationEnabled && (
-                <Box className='flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x'>
+                <Box
+                    className={classNames(
+                        'padded-top padded-left padded-right padded-bottom',
+                        { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
+                    )}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-end'
+                    }}
+                >
                     <Pagination
                         totalRecordCount={totalRecordCount}
                         libraryViewSettings={libraryViewSettings}
