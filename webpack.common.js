@@ -80,34 +80,23 @@ const config = {
         new CopyPlugin({
             patterns: [
                 {
-                    from: 'assets/**',
-                    globOptions: {
-                        dot: true,
-                        ignore: ['**/css/*']
-                    }
+                    from: 'assets',
+                    to: 'assets'
                 },
+                'config.json',
+                'robots.txt',
                 {
-                    from: '*.*',
-                    globOptions: {
-                        dot: true,
-                        ignore: [
-                            '**.js',
-                            '**.jsx',
-                            '**.html',
-                            '**.ts',
-                            '**.tsx'
-                        ]
-                    }
-                }
+                    from: 'touchicon*.png',
+                    context: path.resolve(__dirname, 'node_modules/@jellyfin/ux-web/favicons'),
+                    to: 'favicons'
+                },
+                ...Assets.map(asset => {
+                    return {
+                        from: path.resolve(__dirname, `node_modules/${asset}`),
+                        to: 'libraries'
+                    };
+                })
             ]
-        }),
-        new CopyPlugin({
-            patterns: Assets.map(asset => {
-                return {
-                    from: path.resolve(__dirname, `./node_modules/${asset}`),
-                    to: path.resolve(__dirname, './dist/libraries')
-                };
-            })
         }),
         // The libarchive.js worker-bundle is copied manually.
         // If it is automatically bundled, escheck will fail since it uses import.meta.url.
@@ -139,7 +128,7 @@ const config = {
             if (pathData.filename.startsWith('assets/') || pathData.filename.startsWith('themes/')) {
                 return '[path][base][query]';
             }
-            return '[hash][ext][query]';
+            return '[name].[hash][ext][query]';
         },
         path: path.resolve(__dirname, 'dist'),
         publicPath: ''
@@ -359,7 +348,7 @@ const config = {
                 ]
             },
             {
-                test: /\.(png|jpg|gif|svg)$/i,
+                test: /\.(ico|png|jpg|gif|svg)$/i,
                 type: 'asset/resource'
             },
             {
