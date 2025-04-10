@@ -654,7 +654,7 @@
     "AllowedRemoteAddressesHelp": "Llista d’adreces IP o d’entrades IP/netmask separades per comes per a xarxes que podran connectar-se de forma remota. Si es deixa en blanc, es permetran totes les adreces remotes.",
     "AllowFfmpegThrottlingHelp": "Quan una transcodificació o un remux estigui prou lluny de la posició de reproducció actual, fer una pausa en el procés de manera que consumeixi menys recursos. Especialment útil si es visualitza sense tirar endavant o endarrere sovint. Desactiveu-la si teniu problemes de reproducció.",
     "AllowFfmpegThrottling": "Regular les transcodificacions",
-    "AllowOnTheFlySubtitleExtractionHelp": "Els subtítols incrustats es poden extreure de vídeos i lliurar-los als clients en text pla, per tal d’evitar la transcodificació de vídeos. En alguns sistemes, això pot trigar molt de temps i fer que la reproducció de vídeo s’aturés durant el procés d’extracció. Desactiveu aquesta opció perquè els subtítols incrustats es gravin amb la transcodificació de vídeo quan el dispositiu client no els admeti de forma nativa.",
+    "AllowOnTheFlySubtitleExtractionHelp": "Els subtítols incrustats es poden extreure de vídeos i lliurar-los als clients en text pla, per tal d’evitar la transcodificació de vídeos. En alguns sistemes, això pot trigar molt de temps i fer que la reproducció de vídeo s'aturi durant el procés d’extracció. Desactiveu aquesta opció perquè els subtítols incrustats es gravin amb la transcodificació de vídeo quan el dispositiu client no els admeti de forma nativa.",
     "AlbumArtist": "Artista de l'àlbum",
     "Album": "Àlbum",
     "ButtonSyncPlay": "Reproducció sincronitzada",
