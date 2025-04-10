@@ -2,6 +2,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import layoutManager from '../layoutManager';
 import template from './subtitlesync.template.html';
 import './subtitlesync.scss';
+import { TICKS_PER_SECOND } from 'constants/time';
 
 let player;
 let subtitleSyncSlider;
@@ -186,8 +187,8 @@ function renderSubtitleEvents(events, currentTime, offset = 0) {
 
     events.forEach(event => {
         // Convert ticks to seconds - these already have the currentPlayerOffset applied by the plugin
-        const startSec = event.StartPositionTicks / 10000000;
-        const endSec = event.EndPositionTicks / 10000000;
+        const startSec = event.StartPositionTicks / TICKS_PER_SECOND;
+        const endSec = event.EndPositionTicks / TICKS_PER_SECOND;
 
         // For visualization, apply just the relative change that hasn't been applied to the events yet
         const visualStartSec = startSec - relativeOffset;
