@@ -9,7 +9,7 @@ function onFinish() {
         type: 'POST'
     }).then(function () {
         loading.hide();
-        window.location.href = 'index.html';
+        window.location.href = '';
     });
 }
 
