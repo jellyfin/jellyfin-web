@@ -3,6 +3,7 @@ import layoutManager from '../layoutManager';
 import template from './subtitlesync.template.html';
 import './subtitlesync.scss';
 import { TICKS_PER_SECOND } from 'constants/time';
+import { PlaybackSubscriber } from '../../apps/stable/features/playback/utils/playbackSubscriber';
 
 // Constants
 const TIMELINE_RESOLUTION_SECONDS = 10;
@@ -11,7 +12,6 @@ const TIME_MARKER_INTERVAL = 1; // 1-second intervals for precise timing
 const DOM_INIT_DELAY = 0; // for Firefox element attach hack
 const PERCENT_MAX = 100;
 
-// Utility functions - moved out of the class since they don't need instance state
 function formatTimeMarker(time) {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
@@ -170,6 +170,7 @@ class OffsetController {
 
         if (layoutManager.tv) {
             slider.classList.add('focusable');
+            // eslint-disable-next-line no-warning-comments
             // HACK: Delay to give time for registered element attach (Firefox)
             setTimeout(() => slider.enableKeyboardDragging(), DOM_INIT_DELAY);
         }
@@ -261,10 +262,12 @@ class OffsetController {
     }
 }
 
-class SubtitleSync {
+class SubtitleSync extends PlaybackSubscriber {
     constructor(currentPlayer) {
+        super(playbackManager);
         this.player = currentPlayer;
         this.currentTrackEvents = null;
+        this.animationFrameId = null;
 
         this._initUI();
 
@@ -282,6 +285,40 @@ class SubtitleSync {
             this.subtitleSyncTextField,
             () => this._handleOffsetChange()
         );
+    }
+
+    onPlayerPlaybackStart() {
+        this._startTimelineUpdates();
+    }
+
+    onPlayerPlaybackStop() {
+        this._stopTimelineUpdates();
+    }
+
+    onPlayerPause() {
+        this._stopTimelineUpdates();
+    }
+
+    onPlayerUnpause() {
+        this._startTimelineUpdates();
+    }
+
+    _startTimelineUpdates() {
+        if (this.animationFrameId) return;
+
+        const updateTimeline = () => {
+            this._updateTimelineVisualization();
+            this.animationFrameId = requestAnimationFrame(updateTimeline);
+        };
+
+        this.animationFrameId = requestAnimationFrame(updateTimeline);
+    }
+
+    _stopTimelineUpdates() {
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+            this.animationFrameId = null;
+        }
     }
 
     _initUI() {
@@ -352,6 +389,7 @@ class SubtitleSync {
     }
 
     destroy() {
+        this._stopTimelineUpdates();
         this.toggle('forceToHide');
         if (this.player) {
             playbackManager.disableShowingSubtitleOffset(this.player);
@@ -365,6 +403,9 @@ class SubtitleSync {
 
         this.currentTrackEvents = null;
         this.player = null;
+
+        // Call parent class destroy to clean up event subscriptions
+        super.destroy?.();
     }
 
     toggle(action) {
