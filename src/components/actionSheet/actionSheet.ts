@@ -86,7 +86,7 @@ function getOffsets(elems: Element[]): Offset[] {
     return results;
 }
 
-function getPosition(positionTo: Element, options: Options, dlg: HTMLElement) {
+export function getPosition(positionTo: Element, options: Options, dlg: HTMLElement) {
     const windowSize = dom.getWindowSize();
     const windowHeight = windowSize.innerHeight;
     const windowWidth = windowSize.innerWidth;
@@ -387,5 +387,6 @@ export function show(options: Options) {
 }
 
 export default {
-    show: show
+    show,
+    getPosition,
 };
