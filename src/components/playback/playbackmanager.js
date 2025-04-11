@@ -1640,6 +1640,17 @@ export class PlaybackManager {
             return index !== -1 && self.isSubtitleStreamExternal(index, player);
         };
 
+        self.getCurrentSubtitleTrackEvents = function (player) {
+            player = player || self._currentPlayer;
+            // Try to get events using the new method
+            if (player && player.getCurrentTrackEvents) {
+                const events = player.getCurrentTrackEvents();
+                if (events && events.length) {
+                    return events;
+                }
+            }
+        };
+
         self.seek = function (ticks, player) {
             ticks = Math.max(0, ticks);
 
