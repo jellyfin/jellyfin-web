@@ -31,12 +31,6 @@ const favoritesTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Movie]
 };
 
-const trailersTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Trailers,
-    itemType: [BaseItemKind.Trailer],
-    noItemsMessage: 'MessageNoTrailersFound'
-};
-
 const suggestionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Suggestions,
     collectionType: CollectionType.Movies,
@@ -52,10 +46,9 @@ const genresTabContent: LibraryTabContent = {
 const moviesTabMapping: LibraryTabMapping = {
     0: moviesTabContent,
     1: suggestionsTabContent,
-    2: trailersTabContent,
-    3: favoritesTabContent,
-    4: collectionsTabContent,
-    5: genresTabContent
+    2: favoritesTabContent,
+    3: collectionsTabContent,
+    4: genresTabContent
 };
 
 const Movies: FC = () => {

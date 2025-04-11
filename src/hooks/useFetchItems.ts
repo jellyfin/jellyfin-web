@@ -374,7 +374,6 @@ export const useGetItemsViewByType = (
                 LibraryTab.Movies,
                 LibraryTab.Favorites,
                 LibraryTab.Collections,
-                LibraryTab.Trailers,
                 LibraryTab.Series,
                 LibraryTab.Episodes,
                 LibraryTab.Networks,
