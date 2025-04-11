@@ -1,7 +1,8 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useQueryClient } from '@tanstack/react-query';
+
 import { useApi } from 'hooks/useApi';
 import { useGetItemByType } from '../../hooks/api/useGetItemByType';
 import globalize from 'lib/globalize';

@@ -1,9 +1,10 @@
 import type { AxiosRequestConfig } from 'axios';
 import type { Api } from '@jellyfin/sdk';
-import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { useQuery } from '@tanstack/react-query';
+
 import { useApi } from 'hooks/useApi';
 
 const fetchGetItems = async (

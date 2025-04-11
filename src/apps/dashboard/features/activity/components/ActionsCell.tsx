@@ -1,4 +1,4 @@
-import IconButton from '@mui/material/IconButton/IconButton';
+import IconButton from '@mui/material/IconButton';
 import PermMedia from '@mui/icons-material/PermMedia';
 import React, { type FC } from 'react';
 import { Link } from 'react-router-dom';

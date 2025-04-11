@@ -3,7 +3,7 @@ import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import Box from '@mui/material/Box/Box';
 import Button from '@mui/material/Button/Button';
-import IconButton from '@mui/material/IconButton/IconButton';
+import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
 import parseISO from 'date-fns/parseISO';
 import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
