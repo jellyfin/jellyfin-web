@@ -11,157 +11,24 @@ const TIME_MARKER_INTERVAL = 1; // 1-second intervals for precise timing
 const DOM_INIT_DELAY = 0; // for Firefox element attach hack
 const PERCENT_MAX = 100;
 
-class SubtitleSync {
-    constructor(currentPlayer) {
-        this.player = currentPlayer;
-        this.currentTrackEvents = null;
+// Utility functions - moved out of the class since they don't need instance state
+function formatTimeMarker(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
 
-        this.initUI();
-    }
+function createSliderBubbleHtml(_, value) {
+    return '<h1 class="sliderBubbleText">'
+        + (value > 0 ? '+' : '') + parseFloat(value) + 's'
+        + '</h1>';
+}
 
-    initUI() {
-        const parent = document.createElement('div');
-        document.body.appendChild(parent);
-        parent.innerHTML = template;
-
-        // Store DOM elements
-        this.element = parent;
-        this.subtitleSyncSlider = parent.querySelector('.subtitleSyncSlider');
-        this.subtitleSyncTextField = parent.querySelector('.subtitleSyncTextField');
-        this.subtitleSyncCloseButton = parent.querySelector('.subtitleSync-closeButton');
-        this.subtitleSyncContainer = parent.querySelector('.subtitleSyncContainer');
-        this.timelineRuler = parent.querySelector('.timelineRuler');
-        this.subtitleEventsContainer = parent.querySelector('.subtitleEventsContainer');
-        this.subtitleTimelineWrapper = parent.querySelector('.subtitleTimelineWrapper');
-
-        this.setupSlider();
-        this.setupTextField();
-        this.setupCloseButton();
-
-        // Initially hide the container
-        this.subtitleSyncContainer.classList.add('hide');
-    }
-
-    setupSlider() {
-        const slider = this.subtitleSyncSlider;
-
-        if (layoutManager.tv) {
-            slider.classList.add('focusable');
-            // HACK: Delay to give time for registered element attach (Firefox)
-            setTimeout(() => slider.enableKeyboardDragging(), DOM_INIT_DELAY);
-        }
-
-        slider.addEventListener('change', () => this.updateSubtitleOffset());
-        slider.getBubbleHtml = this.createSliderBubbleHtml;
-        slider.updateOffset = this.createSliderUpdateOffset();
-    }
-
-    createSliderBubbleHtml(_, value) {
-        return '<h1 class="sliderBubbleText">'
-            + (value > 0 ? '+' : '') + parseFloat(value) + 's'
-            + '</h1>';
-    }
-
-    createSliderUpdateOffset() {
-        return (sliderValue) => {
-            // default value is 0s = 0ms
-            this.subtitleSyncSlider.value = sliderValue === undefined ? DEFAULT_OFFSET : sliderValue;
-            this.updateSubtitleOffset();
-        };
-    }
-
-    setupTextField() {
-        const textField = this.subtitleSyncTextField;
-
-        textField.updateOffset = (offset) => {
-            textField.textContent = offset + 's';
-        };
-
-        textField.addEventListener('click', this.handleTextFieldClick);
-        textField.addEventListener('keydown', this.createTextFieldKeydownHandler());
-        textField.blur = this.createTextFieldBlurHandler();
-    }
-
-    handleTextFieldClick() {
-        // keep focus to prevent fade with osd
-        this.hasFocus = true;
-    }
-
-    createTextFieldKeydownHandler() {
-        return (event) => {
-            if (event.key === 'Enter') {
-                this.handleTextFieldEnter(event);
-            } else {
-                this.handleTextFieldOtherKeys(event);
-            }
-            // FIXME: TV layout will require special handling for navigation keys. But now field is not focusable
-            event.stopPropagation();
-        };
-    }
-
-    handleTextFieldEnter(event) {
-        const textField = this.subtitleSyncTextField;
-        // if input key is enter search for float pattern
-        let inputOffset = /[-+]?\d+\.?\d*/g.exec(textField.textContent);
-        if (inputOffset) {
-            inputOffset = parseFloat(inputOffset[0]);
-            this.subtitleSyncSlider.updateOffset(inputOffset);
-        } else {
-            textField.textContent = (playbackManager.getPlayerSubtitleOffset(this.player) || DEFAULT_OFFSET) + 's';
-        }
-        textField.hasFocus = false;
-        event.preventDefault();
-    }
-
-    handleTextFieldOtherKeys(event) {
-        // keep focus to prevent fade with osd
-        this.subtitleSyncTextField.hasFocus = true;
-        if (event.key.match(/[+-\d.s]/) === null) {
-            event.preventDefault();
-        }
-    }
-
-    createTextFieldBlurHandler() {
-        return function() {
-            // prevent textfield to blur while element has focus
-            if (!this.hasFocus && this.prototype) {
-                this.prototype.blur();
-            }
-        };
-    }
-
-    setupCloseButton() {
-        this.subtitleSyncCloseButton.addEventListener('click', () => {
-            playbackManager.disableShowingSubtitleOffset(this.player);
-            this.toggle('forceToHide');
-        });
-    }
-
-    updateSubtitleOffset() {
-        const value = parseFloat(this.subtitleSyncSlider.value);
-        // set new offset
-        playbackManager.setSubtitleOffset(value, this.player);
-        // synchronize with textField value
-        this.subtitleSyncTextField.updateOffset(value);
-        // update timeline visualization to show what the offset WILL be
-        // even before the plugin has applied it to the internal event data
-        this.renderSubtitleTimeline(value);
-    }
-
-    // Get subtitle track events from the player
-    getSubtitleEvents() {
-        if (!this.player) return null;
-        // Try to get events directly from player via playback manager
-        return playbackManager.getCurrentSubtitleTrackEvents(this.player);
-    }
-
-    // Generate time markers for the timeline ruler
-    generateTimeMarkers(currentTime) {
-        // Clear existing markers
-        this.timelineRuler.innerHTML = '';
-
-        const timeWindow = this.getTimeWindow(currentTime);
-        this.createTimeMarkers(timeWindow.startTime, timeWindow.endTime);
+class SubtitleTimeline {
+    constructor(timelineRuler, eventsContainer, timelineWrapper) {
+        this.timelineRuler = timelineRuler;
+        this.subtitleEventsContainer = eventsContainer;
+        this.subtitleTimelineWrapper = timelineWrapper;
     }
 
     getTimeWindow(currentTime) {
@@ -170,14 +37,22 @@ class SubtitleSync {
         return { startTime, endTime };
     }
 
-    createTimeMarkers(startTime, endTime) {
+    generateTimeMarkers(currentTime) {
+        // Clear existing markers
+        this.timelineRuler.innerHTML = '';
+
+        const timeWindow = this.getTimeWindow(currentTime);
+        this._createTimeMarkers(timeWindow.startTime, timeWindow.endTime);
+    }
+
+    _createTimeMarkers(startTime, endTime) {
         for (let time = startTime; time <= endTime; time += TIME_MARKER_INTERVAL) {
-            const marker = this.createTimeMarker(time, startTime);
+            const marker = this._createTimeMarker(time, startTime);
             this.timelineRuler.appendChild(marker);
         }
     }
 
-    createTimeMarker(time, startTime) {
+    _createTimeMarker(time, startTime) {
         const marker = document.createElement('div');
         marker.classList.add('timelineMarker');
 
@@ -186,56 +61,41 @@ class SubtitleSync {
         marker.style.left = `${position}%`;
 
         // Format time as MM:SS
-        marker.textContent = this.formatTimeMarker(time);
+        marker.textContent = formatTimeMarker(time);
 
         return marker;
     }
 
-    formatTimeMarker(time) {
-        const minutes = Math.floor(time / 60);
-        const seconds = Math.floor(time % 60);
-        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    }
-
-    // Render subtitle events in the timeline
-    renderSubtitleEvents(events, currentTime, offset = 0) {
+    renderEvents(events, currentTime, currentOffset, targetOffset = 0) {
         // Clear existing events
         this.subtitleEventsContainer.innerHTML = '';
 
         if (!events || events.length === 0) {
-            // No subtitle events to display
+            // Hide the timeline wrapper when no events exist
+            this.subtitleTimelineWrapper.style.display = 'none';
             return;
         }
 
+        // Show the timeline wrapper when events exist
+        this.subtitleTimelineWrapper.style.display = '';
+
         const timeWindow = this.getTimeWindow(currentTime);
-
-        // Store the current offset being applied by the player
-        // We need this to correctly position the events in the timeline
-        const currentPlayerOffset = playbackManager.getPlayerSubtitleOffset(this.player) || DEFAULT_OFFSET;
-
-        // Calculate offset visualization adjustment
-        // When showing an offset preview, we need to adjust relative to what's already applied
-        const relativeOffset = offset - currentPlayerOffset;
-
-        this.renderEvents(events, timeWindow, relativeOffset, currentTime);
-    }
-
-    renderEvents(events, timeWindow, relativeOffset, currentTime) {
         const { startTime, endTime } = timeWindow;
 
+        // Calculate offset visualization adjustment
+        const relativeOffset = targetOffset - currentOffset;
+
         events.forEach(event => {
-            const timing = this.calculateEventTiming(event, relativeOffset);
-            const isVisible = this.isEventVisible(timing, startTime, endTime);
+            const timing = this._calculateEventTiming(event, relativeOffset);
+            if (!this._isEventVisible(timing, startTime, endTime)) return;
 
-            if (!isVisible) return;
-
-            const isCurrentEvent = this.isCurrentEvent(timing, currentTime);
-            const eventElement = this.createEventElement(timing, startTime, isCurrentEvent);
+            const isCurrentEvent = this._isCurrentEvent(timing, currentTime);
+            const eventElement = this._createEventElement(timing, startTime, isCurrentEvent);
             this.subtitleEventsContainer.appendChild(eventElement);
         });
     }
 
-    calculateEventTiming(event, relativeOffset) {
+    _calculateEventTiming(event, relativeOffset) {
         // Convert ticks to seconds - these already have the currentPlayerOffset applied by the plugin
         const startSec = event.StartPositionTicks / TICKS_PER_SECOND;
         const endSec = event.EndPositionTicks / TICKS_PER_SECOND;
@@ -248,15 +108,15 @@ class SubtitleSync {
         };
     }
 
-    isEventVisible(timing, startTime, endTime) {
+    _isEventVisible(timing, startTime, endTime) {
         return !(timing.visualEndSec <= startTime || timing.visualStartSec >= endTime);
     }
 
-    isCurrentEvent(timing, currentTime) {
+    _isCurrentEvent(timing, currentTime) {
         return timing.visualStartSec <= currentTime && currentTime <= timing.visualEndSec;
     }
 
-    createEventElement(timing, startTime, isCurrentEvent) {
+    _createEventElement(timing, startTime, isCurrentEvent) {
         const { visualStartSec, visualEndSec, text } = timing;
 
         // Calculate position and width as percentages exactly proportional to duration
@@ -284,37 +144,217 @@ class SubtitleSync {
         return eventEl;
     }
 
-    // Update the entire timeline visualization
-    renderSubtitleTimeline(targetOffset) {
-        if (!this.currentTrackEvents || !this.currentTrackEvents.length) {
-            // Hide the timeline wrapper when no events exist
-            this.subtitleTimelineWrapper.style.display = 'none';
-            return;
-        }
-
-        // Show the timeline wrapper when events exist
-        this.subtitleTimelineWrapper.style.display = '';
-
-        // Get the current player time in seconds
-        const currentTime = this.getCurrentPlayerTime();
-
+    render(events, currentTime, currentOffset, targetOffset) {
         // Generate time markers - the time markers don't shift with offset
         this.generateTimeMarkers(currentTime);
 
         // Render subtitle events with the current offset
-        this.renderSubtitleEvents(this.currentTrackEvents, currentTime, targetOffset);
+        this.renderEvents(events, currentTime, currentOffset, targetOffset);
     }
 
-    getCurrentPlayerTime() {
+    hide() {
+        this.subtitleTimelineWrapper.style.display = 'none';
+    }
+}
+
+class OffsetController {
+    constructor(player, slider, textField, onOffsetChange) {
+        this.player = player;
+        this.slider = slider;
+        this.textField = textField;
+        this.currentOffset = DEFAULT_OFFSET;
+        this.onOffsetChange = onOffsetChange;
+
+        this._initSlider();
+        this._initTextField();
+    }
+
+    _initSlider() {
+        const slider = this.slider;
+
+        if (layoutManager.tv) {
+            slider.classList.add('focusable');
+            // HACK: Delay to give time for registered element attach (Firefox)
+            setTimeout(() => slider.enableKeyboardDragging(), DOM_INIT_DELAY);
+        }
+
+        slider.addEventListener('change', () => this.updateOffset());
+        slider.getBubbleHtml = createSliderBubbleHtml;
+
+        // Simplified slider update method
+        slider.updateOffset = (value) => {
+            this.slider.value = value === undefined ? DEFAULT_OFFSET : value;
+            this.updateOffset();
+        };
+    }
+
+    _initTextField() {
+        const textField = this.textField;
+
+        textField.updateOffset = (offset) => {
+            textField.textContent = offset + 's';
+        };
+
+        textField.addEventListener('click', () => {
+            // keep focus to prevent fade with osd
+            textField.hasFocus = true;
+        });
+
+        textField.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                // if input key is enter search for float pattern
+                let inputOffset = /[-+]?\d+\.?\d*/g.exec(textField.textContent);
+                if (inputOffset) {
+                    inputOffset = parseFloat(inputOffset[0]);
+                    this.slider.updateOffset(inputOffset);
+                } else {
+                    textField.textContent = this.currentOffset + 's';
+                }
+                textField.hasFocus = false;
+                event.preventDefault();
+            } else {
+                // keep focus to prevent fade with osd
+                textField.hasFocus = true;
+                if (event.key.match(/[+-\d.s]/) === null) {
+                    event.preventDefault();
+                }
+            }
+            event.stopPropagation();
+        });
+
+        textField.blur = function() {
+            // prevent textfield to blur while element has focus
+            if (!this.hasFocus && this.prototype) {
+                this.prototype.blur();
+            }
+        };
+    }
+
+    updateOffset() {
+        const value = parseFloat(this.slider.value);
+
+        // set new offset
+        playbackManager.setSubtitleOffset(value, this.player);
+
+        // synchronize with textField value
+        this.textField.updateOffset(value);
+
+        // update current offset
+        this.currentOffset = value;
+
+        // notify listeners
+        if (this.onOffsetChange) {
+            this.onOffsetChange(value);
+        }
+    }
+
+    adjustOffset(delta) {
+        const value = parseFloat(this.slider.value) + delta;
+        this.slider.updateOffset(value);
+    }
+
+    setOffset(offset) {
+        this.currentOffset = offset;
+        this.slider.value = offset.toString();
+        this.textField.updateOffset(offset);
+    }
+
+    reset() {
+        this.setOffset(DEFAULT_OFFSET);
+        playbackManager.setSubtitleOffset(DEFAULT_OFFSET, this.player);
+    }
+}
+
+class SubtitleSync {
+    constructor(currentPlayer) {
+        this.player = currentPlayer;
+        this.currentTrackEvents = null;
+
+        this._initUI();
+
+        // Create the timeline controller
+        this.timeline = new SubtitleTimeline(
+            this.timelineRuler,
+            this.subtitleEventsContainer,
+            this.subtitleTimelineWrapper
+        );
+
+        // Create the offset controller
+        this.offsetController = new OffsetController(
+            this.player,
+            this.subtitleSyncSlider,
+            this.subtitleSyncTextField,
+            (offset) => this._handleOffsetChange(offset)
+        );
+    }
+
+    _initUI() {
+        const parent = document.createElement('div');
+        document.body.appendChild(parent);
+        parent.innerHTML = template;
+
+        // Store DOM elements
+        this.element = parent;
+        this.subtitleSyncSlider = parent.querySelector('.subtitleSyncSlider');
+        this.subtitleSyncTextField = parent.querySelector('.subtitleSyncTextField');
+        this.subtitleSyncCloseButton = parent.querySelector('.subtitleSync-closeButton');
+        this.subtitleSyncContainer = parent.querySelector('.subtitleSyncContainer');
+        this.timelineRuler = parent.querySelector('.timelineRuler');
+        this.subtitleEventsContainer = parent.querySelector('.subtitleEventsContainer');
+        this.subtitleTimelineWrapper = parent.querySelector('.subtitleTimelineWrapper');
+
+        this._setupCloseButton();
+
+        // Initially hide the container
+        this.subtitleSyncContainer.classList.add('hide');
+    }
+
+    _setupCloseButton() {
+        this.subtitleSyncCloseButton.addEventListener('click', () => {
+            playbackManager.disableShowingSubtitleOffset(this.player);
+            this.toggle('forceToHide');
+        });
+    }
+
+    _handleOffsetChange(offset) {
+        // Update timeline visualization with the new offset
+        this._updateTimelineVisualization(offset);
+    }
+
+    _updateTimelineVisualization(targetOffset) {
+        if (!this.currentTrackEvents || !this.currentTrackEvents.length) {
+            this.timeline.hide();
+            return;
+        }
+
+        // Get the current player time in seconds
+        const currentTime = this._getCurrentPlayerTime();
+
+        // Render the timeline with current events and offsets
+        this.timeline.render(
+            this.currentTrackEvents,
+            currentTime,
+            this.offsetController.currentOffset,
+            targetOffset
+        );
+    }
+
+    _getCurrentPlayerTime() {
         return (this.player ? (playbackManager.currentTime(this.player) || 0) : 0) / 1000;
+    }
+
+    // Get subtitle track events from the player
+    _getSubtitleEvents() {
+        if (!this.player) return null;
+        // Try to get events directly from player via playback manager
+        return playbackManager.getCurrentSubtitleTrackEvents(this.player);
     }
 
     destroy() {
         this.toggle('forceToHide');
-        this.releaseCurrentPlayer();
         if (this.player) {
             playbackManager.disableShowingSubtitleOffset(this.player);
-            playbackManager.setSubtitleOffset(DEFAULT_OFFSET, this.player);
+            this.offsetController.reset();
         }
 
         if (this.element) {
@@ -323,6 +363,7 @@ class SubtitleSync {
         }
 
         this.currentTrackEvents = null;
+        this.player = null;
     }
 
     toggle(action) {
@@ -336,7 +377,7 @@ class SubtitleSync {
         }
 
         if (!action) {
-            this.tryShowSubtitleSync();
+            this._tryShowSubtitleSync();
         } else if (action === 'hide' && this.subtitleSyncTextField.hasFocus) {
             // do not hide if element has focus
             return;
@@ -345,57 +386,40 @@ class SubtitleSync {
         }
     }
 
-    tryShowSubtitleSync() {
+    _tryShowSubtitleSync() {
         // if showing subtitle sync is enabled and if there is an external subtitle stream enabled
-        if (!this.canShowSubtitleSync()) {
+        if (!this._canShowSubtitleSync()) {
             this.subtitleSyncContainer.classList.add('hide');
             return;
         }
 
         // Reset subtitles data to force fresh load
-        this.currentTrackEvents = this.getSubtitleEvents();
+        this.currentTrackEvents = this._getSubtitleEvents();
 
+        // Update current offset from player
         const currentOffset = playbackManager.getPlayerSubtitleOffset(this.player) || DEFAULT_OFFSET;
-        this.updateUIWithOffset(currentOffset);
+        this.offsetController.setOffset(currentOffset);
 
         // show subtitle sync
         this.subtitleSyncContainer.classList.remove('hide');
 
         // Initialize the timeline visualization with the current offset
-        this.renderSubtitleTimeline(currentOffset);
+        this._updateTimelineVisualization(currentOffset);
     }
 
-    canShowSubtitleSync() {
+    _canShowSubtitleSync() {
         return playbackManager.isShowingSubtitleOffsetEnabled(this.player)
                && playbackManager.canHandleOffsetOnCurrentSubtitle(this.player);
     }
 
-    updateUIWithOffset(currentOffset) {
-        if (!(currentOffset || this.subtitleSyncTextField.hasFocus)) {
-            // set default offset to '0' = 0ms
-            this.subtitleSyncSlider.value = DEFAULT_OFFSET.toString();
-            this.subtitleSyncTextField.textContent = DEFAULT_OFFSET + 's';
-            playbackManager.setSubtitleOffset(DEFAULT_OFFSET, this.player);
-        } else {
-            // Make sure slider reflects current offset
-            this.subtitleSyncSlider.value = currentOffset.toString();
-            this.subtitleSyncTextField.updateOffset(currentOffset);
-        }
-    }
-
-    update(offset) {
-        this.toggle();
-
-        const value = parseFloat(this.subtitleSyncSlider.value) + offset;
-        this.subtitleSyncSlider.updateOffset(value);
-    }
-
     incrementOffset() {
-        this.update(+this.subtitleSyncSlider.step);
+        this.toggle();
+        this.offsetController.adjustOffset(+this.subtitleSyncSlider.step);
     }
 
     decrementOffset() {
-        this.update(-this.subtitleSyncSlider.step);
+        this.toggle();
+        this.offsetController.adjustOffset(-this.subtitleSyncSlider.step);
     }
 }
 
