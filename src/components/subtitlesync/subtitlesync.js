@@ -285,7 +285,7 @@ class SubtitleSync {
     }
 
     // Update the entire timeline visualization
-    renderSubtitleTimeline(targetOffset = null) {
+    renderSubtitleTimeline(targetOffset) {
         if (!this.currentTrackEvents || !this.currentTrackEvents.length) {
             // Hide the timeline wrapper when no events exist
             this.subtitleTimelineWrapper.style.display = 'none';
@@ -301,11 +301,8 @@ class SubtitleSync {
         // Generate time markers - the time markers don't shift with offset
         this.generateTimeMarkers(currentTime);
 
-        // Use the provided target offset or fall back to the current player offset
-        const offset = targetOffset !== null ? targetOffset : (playbackManager.getPlayerSubtitleOffset(this.player) || DEFAULT_OFFSET);
-
         // Render subtitle events with the current offset
-        this.renderSubtitleEvents(this.currentTrackEvents, currentTime, offset);
+        this.renderSubtitleEvents(this.currentTrackEvents, currentTime, targetOffset);
     }
 
     getCurrentPlayerTime() {
