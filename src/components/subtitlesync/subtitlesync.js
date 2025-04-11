@@ -6,11 +6,11 @@ import { TICKS_PER_SECOND } from 'constants/time';
 import { PlaybackSubscriber } from '../../apps/stable/features/playback/utils/playbackSubscriber';
 
 // Constants
-const TIMELINE_RESOLUTION_SECONDS = 10;
+const TIMELINE_RESOLUTION_SECONDS = 10.0;
 const DEFAULT_OFFSET = 0;
 const TIME_MARKER_INTERVAL = 1; // 1-second intervals for precise timing
 const DOM_INIT_DELAY = 0; // for Firefox element attach hack
-const PERCENT_MAX = 100;
+const PERCENT_MAX = 100.0;
 
 function formatTimeMarker(time) {
     const minutes = Math.floor(time / 60);
@@ -24,15 +24,86 @@ function createSliderBubbleHtml(_, value) {
         + '</h1>';
 }
 
-class SubtitleTimeline {
-    constructor(timelineRuler, eventsContainer, timelineWrapper) {
+class SubtitleTimeline extends PlaybackSubscriber {
+    constructor(timelineRuler, eventsContainer, timelineWrapper, player) {
+        super(playbackManager);
         this.timelineRuler = timelineRuler;
         this.subtitleEventsContainer = eventsContainer;
         this.subtitleTimelineWrapper = timelineWrapper;
+        this.player = player;
+        this.animationFrameId = null;
+        this.currentTrackEvents = null;
+    }
+
+    onPlayerPlaybackStart() {
+        this._startTimelineUpdates();
+    }
+
+    onPlayerPlaybackStop() {
+        this._stopTimelineUpdates();
+    }
+
+    onPlayerPause() {
+        this._stopTimelineUpdates();
+    }
+
+    onPlayerUnpause() {
+        this._startTimelineUpdates();
+    }
+
+    _startTimelineUpdates() {
+        if (this.animationFrameId) return;
+
+        const updateTimeline = () => {
+            this._updateTimelineVisualization();
+            this.animationFrameId = requestAnimationFrame(updateTimeline);
+        };
+
+        this.animationFrameId = requestAnimationFrame(updateTimeline);
+    }
+
+    _stopTimelineUpdates() {
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+            this.animationFrameId = null;
+        }
+    }
+
+    _updateTimelineVisualization() {
+        if (!this.currentTrackEvents || !this.currentTrackEvents.length) {
+            this.hide();
+            return;
+        }
+
+        // Get the current player time in seconds
+        const currentTime = this._getCurrentPlayerTime();
+
+        // Render the timeline with current events
+        this.render(
+            this.currentTrackEvents,
+            currentTime
+        );
+    }
+
+    _getCurrentPlayerTime() {
+        return (this.player ? (playbackManager.currentTime(this.player) || 0) : 0) / 1000.0;
+    }
+
+    // Get subtitle track events from the player
+    _getSubtitleEvents() {
+        if (!this.player) return null;
+        // Try to get events directly from player via playback manager
+        return playbackManager.getCurrentSubtitleTrackEvents(this.player);
+    }
+
+    updateEvents() {
+        // Reload track events
+        this.currentTrackEvents = this._getSubtitleEvents();
+        this._updateTimelineVisualization();
     }
 
     getTimeWindow(currentTime) {
-        const startTime = Math.max(0, Math.floor(currentTime) - (TIMELINE_RESOLUTION_SECONDS / 2));
+        const startTime = Math.max(0, currentTime - (TIMELINE_RESOLUTION_SECONDS / 2));
         const endTime = startTime + TIMELINE_RESOLUTION_SECONDS;
         return { startTime, endTime };
     }
@@ -57,7 +128,7 @@ class SubtitleTimeline {
         marker.classList.add('timelineMarker');
 
         // Calculate position as percentage
-        const position = ((time - startTime) / TIMELINE_RESOLUTION_SECONDS) * PERCENT_MAX;
+        const position = (((time - startTime) / TIMELINE_RESOLUTION_SECONDS) * PERCENT_MAX);
         marker.style.left = `${position}%`;
 
         // Format time as MM:SS
@@ -150,6 +221,14 @@ class SubtitleTimeline {
 
     hide() {
         this.subtitleTimelineWrapper.style.display = 'none';
+    }
+
+    destroy() {
+        this._stopTimelineUpdates();
+        this.currentTrackEvents = null;
+
+        // Call parent class destroy to clean up event subscriptions
+        super.destroy?.();
     }
 }
 
@@ -262,12 +341,9 @@ class OffsetController {
     }
 }
 
-class SubtitleSync extends PlaybackSubscriber {
+class SubtitleSync {
     constructor(currentPlayer) {
-        super(playbackManager);
         this.player = currentPlayer;
-        this.currentTrackEvents = null;
-        this.animationFrameId = null;
 
         this._initUI();
 
@@ -275,7 +351,8 @@ class SubtitleSync extends PlaybackSubscriber {
         this.timeline = new SubtitleTimeline(
             this.timelineRuler,
             this.subtitleEventsContainer,
-            this.subtitleTimelineWrapper
+            this.subtitleTimelineWrapper,
+            this.player
         );
 
         // Create the offset controller
@@ -285,40 +362,6 @@ class SubtitleSync extends PlaybackSubscriber {
             this.subtitleSyncTextField,
             () => this._handleOffsetChange()
         );
-    }
-
-    onPlayerPlaybackStart() {
-        this._startTimelineUpdates();
-    }
-
-    onPlayerPlaybackStop() {
-        this._stopTimelineUpdates();
-    }
-
-    onPlayerPause() {
-        this._stopTimelineUpdates();
-    }
-
-    onPlayerUnpause() {
-        this._startTimelineUpdates();
-    }
-
-    _startTimelineUpdates() {
-        if (this.animationFrameId) return;
-
-        const updateTimeline = () => {
-            this._updateTimelineVisualization();
-            this.animationFrameId = requestAnimationFrame(updateTimeline);
-        };
-
-        this.animationFrameId = requestAnimationFrame(updateTimeline);
-    }
-
-    _stopTimelineUpdates() {
-        if (this.animationFrameId) {
-            cancelAnimationFrame(this.animationFrameId);
-            this.animationFrameId = null;
-        }
     }
 
     _initUI() {
@@ -352,44 +395,50 @@ class SubtitleSync extends PlaybackSubscriber {
     _handleOffsetChange() {
         // Wait a short time for the player to apply the offset to track events
         setTimeout(() => {
-            // Reload track events after offset has been applied
-            this.currentTrackEvents = this._getSubtitleEvents();
-
-            // Update timeline visualization with the fresh events
-            this._updateTimelineVisualization();
+            // Update timeline with fresh events
+            this.timeline.updateEvents();
         }, 150); // Small delay to ensure offset has been applied to events
     }
 
-    _updateTimelineVisualization() {
-        if (!this.currentTrackEvents || !this.currentTrackEvents.length) {
-            this.timeline.hide();
+    _tryShowSubtitleSync() {
+        // if showing subtitle sync is enabled and if there is an external subtitle stream enabled
+        if (!this._canShowSubtitleSync()) {
+            this.subtitleSyncContainer.classList.add('hide');
             return;
         }
 
-        // Get the current player time in seconds
-        const currentTime = this._getCurrentPlayerTime();
+        // Update current offset from player
+        const currentOffset = playbackManager.getPlayerSubtitleOffset(this.player) || DEFAULT_OFFSET;
+        this.offsetController.setOffset(currentOffset);
 
-        // Render the timeline with current events
-        // The events already have the offset applied by the player
-        this.timeline.render(
-            this.currentTrackEvents,
-            currentTime
-        );
+        // show subtitle sync
+        this.subtitleSyncContainer.classList.remove('hide');
+
+        // Initialize the timeline visualization with the current offset
+        this.timeline.updateEvents();
     }
 
-    _getCurrentPlayerTime() {
-        return (this.player ? (playbackManager.currentTime(this.player) || 0) : 0) / 1000;
+    _canShowSubtitleSync() {
+        return playbackManager.isShowingSubtitleOffsetEnabled(this.player)
+               && playbackManager.canHandleOffsetOnCurrentSubtitle(this.player);
     }
 
-    // Get subtitle track events from the player
-    _getSubtitleEvents() {
-        if (!this.player) return null;
-        // Try to get events directly from player via playback manager
-        return playbackManager.getCurrentSubtitleTrackEvents(this.player);
+    incrementOffset() {
+        this.toggle();
+        this.offsetController.adjustOffset(+this.subtitleSyncSlider.step);
+    }
+
+    decrementOffset() {
+        this.toggle();
+        this.offsetController.adjustOffset(-this.subtitleSyncSlider.step);
     }
 
     destroy() {
-        this._stopTimelineUpdates();
+        if (this.timeline) {
+            this.timeline.destroy();
+            this.timeline = null;
+        }
+
         this.toggle('forceToHide');
         if (this.player) {
             playbackManager.disableShowingSubtitleOffset(this.player);
@@ -401,11 +450,7 @@ class SubtitleSync extends PlaybackSubscriber {
             this.element = null;
         }
 
-        this.currentTrackEvents = null;
         this.player = null;
-
-        // Call parent class destroy to clean up event subscriptions
-        super.destroy?.();
     }
 
     toggle(action) {
@@ -426,42 +471,6 @@ class SubtitleSync extends PlaybackSubscriber {
         } else {
             this.subtitleSyncContainer.classList.add('hide');
         }
-    }
-
-    _tryShowSubtitleSync() {
-        // if showing subtitle sync is enabled and if there is an external subtitle stream enabled
-        if (!this._canShowSubtitleSync()) {
-            this.subtitleSyncContainer.classList.add('hide');
-            return;
-        }
-
-        // Reset subtitles data to force fresh load
-        this.currentTrackEvents = this._getSubtitleEvents();
-
-        // Update current offset from player
-        const currentOffset = playbackManager.getPlayerSubtitleOffset(this.player) || DEFAULT_OFFSET;
-        this.offsetController.setOffset(currentOffset);
-
-        // show subtitle sync
-        this.subtitleSyncContainer.classList.remove('hide');
-
-        // Initialize the timeline visualization with the current offset
-        this._updateTimelineVisualization();
-    }
-
-    _canShowSubtitleSync() {
-        return playbackManager.isShowingSubtitleOffsetEnabled(this.player)
-               && playbackManager.canHandleOffsetOnCurrentSubtitle(this.player);
-    }
-
-    incrementOffset() {
-        this.toggle();
-        this.offsetController.adjustOffset(+this.subtitleSyncSlider.step);
-    }
-
-    decrementOffset() {
-        this.toggle();
-        this.offsetController.adjustOffset(-this.subtitleSyncSlider.step);
     }
 }
 
