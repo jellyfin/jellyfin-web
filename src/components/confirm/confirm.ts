@@ -1,7 +1,7 @@
-import { appRouter } from '../router/appRouter';
-import browser from '../../scripts/browser';
-import dialog from '../dialog/dialog';
-import globalize from '../../scripts/globalize';
+import dialog from 'components/dialog/dialog';
+import { appRouter } from 'components/router/appRouter';
+import globalize from 'lib/globalize';
+import browser from 'scripts/browser';
 
 interface OptionItem {
     id: string,
@@ -24,7 +24,7 @@ function shouldUseNativeConfirm() {
     return !browser.web0s
         && !(browser.tizenVersion && browser.tizenVersion < 3)
         && browser.tv
-        && window.confirm;
+        && !!window.confirm;
 }
 
 async function nativeConfirm(options: string | ConfirmOptions) {
@@ -35,7 +35,7 @@ async function nativeConfirm(options: string | ConfirmOptions) {
         } as ConfirmOptions;
     }
 
-    const text = (options.text ?? '').replace(/<br\/>/g, '\n');
+    const text = (options.text || '').replace(/<br\/>/g, '\n');
     await appRouter.ready();
     const result = window.confirm(text);
 
@@ -46,10 +46,10 @@ async function nativeConfirm(options: string | ConfirmOptions) {
     }
 }
 
-async function customConfirm(options: string | ConfirmOptions, title: string) {
+async function customConfirm(options: string | ConfirmOptions, title: string = '') {
     if (typeof options === 'string') {
         options = {
-            title: title,
+            title,
             text: options
         };
     }
@@ -81,9 +81,6 @@ async function customConfirm(options: string | ConfirmOptions, title: string) {
     });
 }
 
-export default function confirm(options: string | ConfirmOptions, title?: string) {
-    if (shouldUseNativeConfirm()) {
-        return nativeConfirm(options);
-    }
-    return customConfirm(options, title ?? '');
-}
+const confirm = shouldUseNativeConfirm() ? nativeConfirm : customConfirm;
+
+export default confirm;
