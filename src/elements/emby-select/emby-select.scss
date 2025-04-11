@@ -75,6 +75,7 @@
 }
 
 .selectContainer-inline {
+    position: relative;
     display: inline-flex;
     margin-bottom: 0;
     align-items: center;
@@ -117,7 +118,7 @@
 
 .selectContainer-inline > .selectArrowContainer {
     top: initial;
-    bottom: 0.24em;
+    bottom: 0.03em;
     font-size: 90%;
 }
 
