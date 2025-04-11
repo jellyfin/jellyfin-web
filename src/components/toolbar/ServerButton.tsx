@@ -1,3 +1,4 @@
+import icon from '@jellyfin/ux-web/icon-transparent.png';
 import Button from '@mui/material/Button/Button';
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
@@ -17,7 +18,7 @@ const ServerButton: FC = () => {
             color='inherit'
             startIcon={
                 <img
-                    src='assets/img/icon-transparent.png'
+                    src={icon}
                     alt=''
                     aria-hidden
                     style={{
