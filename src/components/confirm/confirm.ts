@@ -10,7 +10,7 @@ interface OptionItem {
 }
 
 interface ConfirmOptions {
-    title: string,
+    title?: string,
     text: string
     cancelText?: string,
     confirmText?: string,
@@ -30,7 +30,6 @@ function shouldUseNativeConfirm() {
 async function nativeConfirm(options: string | ConfirmOptions) {
     if (typeof options === 'string') {
         options = {
-            title: '',
             text: options
         } as ConfirmOptions;
     }
