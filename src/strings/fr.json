@@ -2024,5 +2024,7 @@
     "ImageUploadFailed": "Échec du téléversement de l'image",
     "UploadCustomImage": "Téléversement une image personnalisée",
     "ReadInputAtNativeFramerateHelp": "Activer cette option peut résoudre certains problèmes, par exemple les flux en direct qui s'arrêtent prématurément.",
-    "ReadInputAtNativeFramerate": "Lire l'entrée à la fréquence d'images native"
+    "ReadInputAtNativeFramerate": "Lire l'entrée à la fréquence d'images native",
+    "LimitSegmentLengthHelp": "L'activation de cette option peut aider à empêcher le lecteur HLS de se bloquer pendant la recherche sur certains appareils, comme les téléviseurs webOS.",
+    "LimitSegmentLength": "Utiliser des segments HLS plus courts"
 }
