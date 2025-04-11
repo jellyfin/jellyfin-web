@@ -1439,6 +1439,12 @@ export default function (view) {
         if (e.deltaY > 0) {
             playbackManager.volumeDown(currentPlayer);
         }
+        if (e.deltaX < 0) {
+            playbackManager.rewind(currentPlayer);
+        }
+        if (e.deltaX > 0) {
+            playbackManager.fastForward(currentPlayer);
+        }
     }
 
     function onWindowMouseDown(e) {
