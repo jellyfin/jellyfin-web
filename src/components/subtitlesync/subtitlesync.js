@@ -66,7 +66,7 @@ class SubtitleTimeline {
         return marker;
     }
 
-    renderEvents(events, currentTime, currentOffset, targetOffset = 0) {
+    renderEvents(events, currentTime) {
         // Clear existing events
         this.subtitleEventsContainer.innerHTML = '';
 
@@ -82,11 +82,8 @@ class SubtitleTimeline {
         const timeWindow = this.getTimeWindow(currentTime);
         const { startTime, endTime } = timeWindow;
 
-        // Calculate offset visualization adjustment
-        const relativeOffset = targetOffset - currentOffset;
-
         events.forEach(event => {
-            const timing = this._calculateEventTiming(event, relativeOffset);
+            const timing = this._calculateEventTiming(event);
             if (!this._isEventVisible(timing, startTime, endTime)) return;
 
             const isCurrentEvent = this._isCurrentEvent(timing, currentTime);
@@ -95,15 +92,14 @@ class SubtitleTimeline {
         });
     }
 
-    _calculateEventTiming(event, relativeOffset) {
-        // Convert ticks to seconds - these already have the currentPlayerOffset applied by the plugin
+    _calculateEventTiming(event) {
+        // Convert ticks to seconds - these already have the current offset applied by the plugin
         const startSec = event.StartPositionTicks / TICKS_PER_SECOND;
         const endSec = event.EndPositionTicks / TICKS_PER_SECOND;
 
-        // For visualization, apply just the relative change that hasn't been applied to the events yet
         return {
-            visualStartSec: startSec - relativeOffset,
-            visualEndSec: endSec - relativeOffset,
+            visualStartSec: startSec,
+            visualEndSec: endSec,
             text: event.Text || ''
         };
     }
@@ -144,12 +140,12 @@ class SubtitleTimeline {
         return eventEl;
     }
 
-    render(events, currentTime, currentOffset, targetOffset) {
+    render(events, currentTime) {
         // Generate time markers - the time markers don't shift with offset
         this.generateTimeMarkers(currentTime);
 
         // Render subtitle events with the current offset
-        this.renderEvents(events, currentTime, currentOffset, targetOffset);
+        this.renderEvents(events, currentTime);
     }
 
     hide() {
@@ -317,11 +313,17 @@ class SubtitleSync {
     }
 
     _handleOffsetChange(offset) {
-        // Update timeline visualization with the new offset
-        this._updateTimelineVisualization(offset);
+        // Wait a short time for the player to apply the offset to track events
+        setTimeout(() => {
+            // Reload track events after offset has been applied
+            this.currentTrackEvents = this._getSubtitleEvents();
+
+            // Update timeline visualization with the fresh events
+            this._updateTimelineVisualization();
+        }, 150); // Small delay to ensure offset has been applied to events
     }
 
-    _updateTimelineVisualization(targetOffset) {
+    _updateTimelineVisualization() {
         if (!this.currentTrackEvents || !this.currentTrackEvents.length) {
             this.timeline.hide();
             return;
@@ -330,12 +332,11 @@ class SubtitleSync {
         // Get the current player time in seconds
         const currentTime = this._getCurrentPlayerTime();
 
-        // Render the timeline with current events and offsets
+        // Render the timeline with current events
+        // The events already have the offset applied by the player
         this.timeline.render(
             this.currentTrackEvents,
-            currentTime,
-            this.offsetController.currentOffset,
-            targetOffset
+            currentTime
         );
     }
 
@@ -404,7 +405,7 @@ class SubtitleSync {
         this.subtitleSyncContainer.classList.remove('hide');
 
         // Initialize the timeline visualization with the current offset
-        this._updateTimelineVisualization(currentOffset);
+        this._updateTimelineVisualization();
     }
 
     _canShowSubtitleSync() {
