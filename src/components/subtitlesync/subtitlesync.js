@@ -280,7 +280,7 @@ class SubtitleSync {
             this.player,
             this.subtitleSyncSlider,
             this.subtitleSyncTextField,
-            (offset) => this._handleOffsetChange(offset)
+            () => this._handleOffsetChange()
         );
     }
 
@@ -312,7 +312,7 @@ class SubtitleSync {
         });
     }
 
-    _handleOffsetChange(offset) {
+    _handleOffsetChange() {
         // Wait a short time for the player to apply the offset to track events
         setTimeout(() => {
             // Reload track events after offset has been applied
