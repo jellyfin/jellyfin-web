@@ -1,3 +1,5 @@
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { FC, useCallback } from 'react';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,8 +15,6 @@ import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 import globalize from 'lib/globalize';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
-import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import { SortOrder } from '@jellyfin/sdk/lib/generated-client';
 
 type SortOption = {
     label: string;

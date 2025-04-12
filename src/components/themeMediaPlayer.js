@@ -1,3 +1,4 @@
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 
@@ -10,7 +11,6 @@ import { queryClient } from 'utils/query/queryClient';
 
 import { playbackManager } from './playback/playbackmanager';
 import ServerConnections from './ServerConnections';
-import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client';
 
 let currentOwnerId;
 let currentThemeIds = [];
