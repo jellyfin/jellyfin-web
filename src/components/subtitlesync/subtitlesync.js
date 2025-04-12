@@ -85,7 +85,6 @@ class SubtitleTimeline extends PlaybackSubscriber {
             }
         }
 
-
         return null;
     }
 
