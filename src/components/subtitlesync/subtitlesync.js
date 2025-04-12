@@ -35,38 +35,8 @@ class SubtitleTimeline extends PlaybackSubscriber {
         this.currentTrackEvents = null;
     }
 
-    onPlayerPlaybackStart() {
-        this._startTimelineUpdates();
-    }
-
-    onPlayerPlaybackStop() {
-        this._stopTimelineUpdates();
-    }
-
-    onPlayerPause() {
-        this._stopTimelineUpdates();
-    }
-
-    onPlayerUnpause() {
-        this._startTimelineUpdates();
-    }
-
-    _startTimelineUpdates() {
-        if (this.animationFrameId) return;
-
-        const updateTimeline = () => {
-            this._updateTimelineVisualization();
-            this.animationFrameId = requestAnimationFrame(updateTimeline);
-        };
-
-        this.animationFrameId = requestAnimationFrame(updateTimeline);
-    }
-
-    _stopTimelineUpdates() {
-        if (this.animationFrameId) {
-            cancelAnimationFrame(this.animationFrameId);
-            this.animationFrameId = null;
-        }
+    onPlayerTimeUpdate() {
+        this._updateTimelineVisualization();
     }
 
     _updateTimelineVisualization() {
