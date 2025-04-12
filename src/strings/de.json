@@ -2017,5 +2017,13 @@
     "RetryWithGlobalSearch": "Erneuter Versuch mit einer globalen Suche",
     "CustomSplashScreenSize": "Benutzerdefinierte Bilder sollten das Seitenverhältnis 16x9 und eine Mindestgröße von 1920x1080 haben.",
     "DeleteCustomImage": "Benutzerdefiniertes Bild gelöscht",
-    "LabelGroupShowsIntoCollectionsHelp": "Serien in einer Sammlung werden als ein gruppiertes Element bei der Anzeige von Serienlisten dargestellt."
+    "LabelGroupShowsIntoCollectionsHelp": "Serien in einer Sammlung werden als ein gruppiertes Element bei der Anzeige von Serienlisten dargestellt.",
+    "ImageDeleteFailed": "Bild konnte nicht gelöscht werden",
+    "LabelGroupShowsIntoCollections": "Serien in Kollektionen gruppieren",
+    "UploadCustomImage": "Benutzerdefinitiertes Bild hochladen",
+    "ReadInputAtNativeFramerateHelp": "Durch Aktivieren dieser Option können Probleme wie das vorzeitige Stoppen von Live-Streams behoben werden.",
+    "LimitSegmentLength": "Kürzere HLS-Segmente verwenden",
+    "LimitSegmentLengthHelp": "Durch Aktivieren dieser Option kann verhindert werden, dass der HLS-Player während der Suche auf bestimmten Geräten, beispielsweise webOS-Fernsehern, hängen bleibt.",
+    "ImageUploadCancelled": "Bild hochladen abgebrochen",
+    "ImageUploadFailed": "Bild hochladen fehlgeschlagen"
 }
