@@ -127,8 +127,7 @@ class SubtitleTimeline extends PlaybackSubscriber {
             const timing = this._calculateEventTiming(event);
             if (!this._isEventVisible(timing, startTime, endTime)) return;
 
-            const isCurrentEvent = this._isCurrentEvent(timing, currentTime);
-            const eventElement = this._createEventElement(timing, startTime, isCurrentEvent);
+            const eventElement = this._createEventElement(timing, startTime);
             this.subtitleEventsContainer.appendChild(eventElement);
         });
     }
@@ -149,11 +148,7 @@ class SubtitleTimeline extends PlaybackSubscriber {
         return !(timing.visualEndSec <= startTime || timing.visualStartSec >= endTime);
     }
 
-    _isCurrentEvent(timing, currentTime) {
-        return timing.visualStartSec <= currentTime && currentTime <= timing.visualEndSec;
-    }
-
-    _createEventElement(timing, startTime, isCurrentEvent) {
+    _createEventElement(timing, startTime) {
         const { visualStartSec, visualEndSec, text } = timing;
 
         // Calculate position and width as percentages exactly proportional to duration
@@ -163,11 +158,6 @@ class SubtitleTimeline extends PlaybackSubscriber {
 
         const eventEl = document.createElement('div');
         eventEl.classList.add('subtitleEvent');
-
-        // Add class for the current subtitle
-        if (isCurrentEvent) {
-            eventEl.classList.add('currentSubtitleEvent');
-        }
 
         // Apply position and width exactly as calculated
         eventEl.style.left = `${leftPos}%`;
