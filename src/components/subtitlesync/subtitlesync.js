@@ -31,7 +31,7 @@ class SubtitleTimeline extends PlaybackSubscriber {
         this.subtitleEventsContainer = eventsContainer;
         this.subtitleTimelineWrapper = timelineWrapper;
         this.player = player;
-        this.currentTrackEvents = null;
+        this.currentSubtitles = null;
     }
 
     onPlayerTimeUpdate() {
@@ -39,7 +39,7 @@ class SubtitleTimeline extends PlaybackSubscriber {
     }
 
     _updateTimelineVisualization() {
-        if (!this.currentTrackEvents || !this.currentTrackEvents.length) {
+        if (!this.currentSubtitles || !this.currentSubtitles.length) {
             this.hide();
             return;
         }
@@ -47,11 +47,8 @@ class SubtitleTimeline extends PlaybackSubscriber {
         // Get the current player time in seconds
         const currentTime = this._getCurrentPlayerTime();
 
-        // Render the timeline with current events
-        this.render(
-            this.currentTrackEvents,
-            currentTime
-        );
+        // Render the timeline with current subtitles
+        this.render(currentTime);
     }
 
     _getCurrentPlayerTime() {
@@ -60,12 +57,61 @@ class SubtitleTimeline extends PlaybackSubscriber {
 
     _getSubtitleEvents() {
         if (!this.player) return null;
-        return playbackManager.getCurrentSubtitleTrackEvents(this.player);
+
+        // First try to get Jellyfin events and normalize to seconds
+        const jellyfinEvents = playbackManager.getCurrentSubtitleTrackEvents(this.player);
+        if (jellyfinEvents && jellyfinEvents.length) {
+            // Convert ticks to seconds format
+            return jellyfinEvents.map(event => ({
+                startTime: event.StartPositionTicks / TICKS_PER_SECOND,
+                endTime: event.EndPositionTicks / TICKS_PER_SECOND,
+                text: event.Text || ''
+            }));
+        }
+
+        // Try to get text tracks using the player's getTextTracks method
+        if (this.player.getTextTracks) {
+            const textTracks = this.player.getTextTracks();
+            if (textTracks && textTracks.length > 0) {
+                const activeTrack = textTracks[0]; // Get the first active track
+                if (activeTrack && activeTrack.cues && activeTrack.cues.length > 0) {
+                    // Convert VTTCues to our format
+                    return Array.from(activeTrack.cues).map(cue => ({
+                        startTime: cue.startTime,
+                        endTime: cue.endTime,
+                        text: cue.text || ''
+                    }));
+                }
+            }
+        }
+
+        // Fall back to native text tracks if available
+        // Try to get native text tracks directly from the video element
+        const videoElement = this.player && this.player.mediaElement;
+
+        if (videoElement && videoElement.textTracks) {
+            const activeTracks = Array.from(videoElement.textTracks)
+                .filter(track => track.mode === 'showing');
+
+            if (activeTracks.length > 0) {
+                const track = activeTracks[0];
+                if (track.cues && track.cues.length) {
+                    // TextTrackCues already use seconds, just normalize the format
+                    return Array.from(track.cues).map(cue => ({
+                        startTime: cue.startTime,
+                        endTime: cue.endTime,
+                        text: cue.text || ''
+                    }));
+                }
+            }
+        }
+
+        return null;
     }
 
     updateEvents() {
-        // Reload track events
-        this.currentTrackEvents = this._getSubtitleEvents();
+        // Get subtitles in our unified seconds-based format
+        this.currentSubtitles = this._getSubtitleEvents();
         this._updateTimelineVisualization();
     }
 
@@ -104,11 +150,11 @@ class SubtitleTimeline extends PlaybackSubscriber {
         return marker;
     }
 
-    renderEvents(events, currentTime) {
+    renderEvents(currentTime) {
         // Clear existing events
         this.subtitleEventsContainer.innerHTML = '';
 
-        if (!events || events.length === 0) {
+        if (!this.currentSubtitles || this.currentSubtitles.length === 0) {
             // Hide the timeline wrapper when no events exist
             this.subtitleTimelineWrapper.style.display = 'none';
             return;
@@ -120,38 +166,23 @@ class SubtitleTimeline extends PlaybackSubscriber {
         const timeWindow = this.getTimeWindow(currentTime);
         const { startTime, endTime } = timeWindow;
 
-        events.forEach(event => {
-            const timing = this._calculateEventTiming(event);
-            if (!this._isEventVisible(timing, startTime, endTime)) return;
+        this.currentSubtitles.forEach(subtitle => {
+            if (!this._isEventVisible(subtitle, startTime, endTime)) return;
 
-            const eventElement = this._createEventElement(timing, startTime);
+            const eventElement = this._createEventElement(subtitle, startTime);
             this.subtitleEventsContainer.appendChild(eventElement);
         });
     }
 
-    _calculateEventTiming(event) {
-        // Convert ticks to seconds - these already have the current offset applied by the plugin
-        const startSec = event.StartPositionTicks / TICKS_PER_SECOND;
-        const endSec = event.EndPositionTicks / TICKS_PER_SECOND;
-
-        return {
-            visualStartSec: startSec,
-            visualEndSec: endSec,
-            text: event.Text || ''
-        };
+    _isEventVisible(subtitle, startTime, endTime) {
+        return !(subtitle.endTime <= startTime || subtitle.startTime >= endTime);
     }
 
-    _isEventVisible(timing, startTime, endTime) {
-        return !(timing.visualEndSec <= startTime || timing.visualStartSec >= endTime);
-    }
-
-    _createEventElement(timing, startTime) {
-        const { visualStartSec, visualEndSec, text } = timing;
-
+    _createEventElement(subtitle, startTime) {
         // Calculate position and width as percentages exactly proportional to duration
         // Clamp to visible area
-        const leftPos = Math.max(0, ((visualStartSec - startTime) / TIMELINE_RESOLUTION_SECONDS) * PERCENT_MAX);
-        const rightPos = Math.min(PERCENT_MAX, ((visualEndSec - startTime) / TIMELINE_RESOLUTION_SECONDS) * PERCENT_MAX);
+        const leftPos = Math.max(0, ((subtitle.startTime - startTime) / TIMELINE_RESOLUTION_SECONDS) * PERCENT_MAX);
+        const rightPos = Math.min(PERCENT_MAX, ((subtitle.endTime - startTime) / TIMELINE_RESOLUTION_SECONDS) * PERCENT_MAX);
 
         const eventEl = document.createElement('div');
         eventEl.classList.add('subtitleEvent');
@@ -161,19 +192,19 @@ class SubtitleTimeline extends PlaybackSubscriber {
         eventEl.style.width = `${rightPos - leftPos}%`;
 
         // Clean and add the text
-        eventEl.textContent = text;
+        eventEl.textContent = subtitle.text;
         // Add a title for the full text on hover
-        eventEl.title = text;
+        eventEl.title = subtitle.text;
 
         return eventEl;
     }
 
-    render(events, currentTime) {
+    render(currentTime) {
         // Generate time markers - the time markers don't shift with offset
         this.generateTimeMarkers(currentTime);
 
         // Render subtitle events with the current offset
-        this.renderEvents(events, currentTime);
+        this.renderEvents(currentTime);
     }
 
     hide() {
@@ -182,7 +213,7 @@ class SubtitleTimeline extends PlaybackSubscriber {
 
     destroy() {
         this._stopTimelineUpdates();
-        this.currentTrackEvents = null;
+        this.currentSubtitles = null;
 
         // Call parent class destroy to clean up event subscriptions
         super.destroy?.();
