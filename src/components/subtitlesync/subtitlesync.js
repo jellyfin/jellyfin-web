@@ -31,7 +31,6 @@ class SubtitleTimeline extends PlaybackSubscriber {
         this.subtitleEventsContainer = eventsContainer;
         this.subtitleTimelineWrapper = timelineWrapper;
         this.player = player;
-        this.animationFrameId = null;
         this.currentTrackEvents = null;
     }
 
@@ -59,10 +58,8 @@ class SubtitleTimeline extends PlaybackSubscriber {
         return (this.player ? (playbackManager.currentTime(this.player) || 0) : 0) / 1000.0;
     }
 
-    // Get subtitle track events from the player
     _getSubtitleEvents() {
         if (!this.player) return null;
-        // Try to get events directly from player via playback manager
         return playbackManager.getCurrentSubtitleTrackEvents(this.player);
     }
 
