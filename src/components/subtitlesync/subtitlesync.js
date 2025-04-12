@@ -85,26 +85,6 @@ class SubtitleTimeline extends PlaybackSubscriber {
             }
         }
 
-        // Fall back to native text tracks if available
-        // Try to get native text tracks directly from the video element
-        const videoElement = this.player && this.player.mediaElement;
-
-        if (videoElement && videoElement.textTracks) {
-            const activeTracks = Array.from(videoElement.textTracks)
-                .filter(track => track.mode === 'showing');
-
-            if (activeTracks.length > 0) {
-                const track = activeTracks[0];
-                if (track.cues && track.cues.length) {
-                    // TextTrackCues already use seconds, just normalize the format
-                    return Array.from(track.cues).map(cue => ({
-                        startTime: cue.startTime,
-                        endTime: cue.endTime,
-                        text: cue.text || ''
-                    }));
-                }
-            }
-        }
 
         return null;
     }
