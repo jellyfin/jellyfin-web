@@ -1043,7 +1043,7 @@
     "LabelTranscodePath": "Caminho da transcodificação",
     "OnlyImageFormats": "Somente formatos de imagem (VOBSUB, PGS, SUB)",
     "OnlyForcedSubtitlesHelp": "Apenas as legendas marcadas como forçadas serão carregadas.",
-    "OnlyForcedSubtitles": "Somente legendas forçadas",
+    "OnlyForcedSubtitles": "Apenas legendas forçadas",
     "Off": "Desligadas",
     "NumLocationsValue": "{0} pastas",
     "Normal": "Normal",
