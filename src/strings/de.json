@@ -1486,7 +1486,7 @@
     "LabelOriginalMediaInfo": "Originale Medieninformation",
     "Remuxing": "Remuxing",
     "LabelRemuxingInfo": "Remux-Information",
-    "AspectRatioCover": "Bedecken",
+    "AspectRatioCover": "Vergrößern",
     "AspectRatioFill": "Füllen",
     "SyncPlayGroupDefaultTitle": "{0}'s Gruppe",
     "MessageSyncPlayIsDisabled": "Berechtigung erforderlich für die Nutzung von SyncPlay.",
@@ -2025,5 +2025,6 @@
     "LimitSegmentLength": "Kürzere HLS-Segmente verwenden",
     "LimitSegmentLengthHelp": "Durch Aktivieren dieser Option kann verhindert werden, dass der HLS-Player während der Suche auf bestimmten Geräten, beispielsweise webOS-Fernsehern, hängen bleibt.",
     "ImageUploadCancelled": "Bild hochladen abgebrochen",
-    "ImageUploadFailed": "Bild hochladen fehlgeschlagen"
+    "ImageUploadFailed": "Bild hochladen fehlgeschlagen",
+    "ReadInputAtNativeFramerate": "Eingabe mit nativer Framerate lesen"
 }
