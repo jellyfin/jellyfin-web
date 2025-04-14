@@ -2019,5 +2019,7 @@
     "LabelGroupShowsIntoCollections": "Agrupar séries em coleções",
     "LabelGroupShowsIntoCollectionsHelp": "As séries de uma coleção serão apresentadas como um item agrupado quando forem apresentadas listas de séries.",
     "DisplayLoadError": "Ocorreu um erro ao carregar os dados de configuração do ecrã.",
-    "MetadataImagesLoadError": "Falha ao carregar definições de metadados"
+    "MetadataImagesLoadError": "Falha ao carregar definições de metadados",
+    "LimitSegmentLength": "Usar segmentos curtos de HLS",
+    "LimitSegmentLengthHelp": "Ativar esta opção pode prevenir que o player HLS bloqueie durante a procura em certos dispositivos como TVs webOS."
 }
