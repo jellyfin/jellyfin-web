@@ -1067,7 +1067,7 @@
     "ManageLibrary": "Maneig de la biblioteca",
     "Logo": "Logo",
     "LiveTV": "TV en directe",
-    "LiveBroadcasts": "Les emissions en directe",
+    "LiveBroadcasts": "Emissions en directe",
     "ListPaging": "{0} - {1} de {2}",
     "List": "Llista",
     "LeaveBlankToNotSetAPassword": "Podeu deixar aquest camp en blanc per establir cap contrasenya.",
@@ -1821,7 +1821,7 @@
     "EnableLibrary": "Habilitar la biblioteca",
     "EnableLibraryHelp": "Deshabilitar la biblioteca l'amagarà per a tots els usuaris.",
     "LimitSupportedVideoResolution": "Limitar la resolució màxima de vídeo suportada",
-    "LimitSupportedVideoResolutionHelp": "Utilitzi \"Resolució de transcodificació de vídeo màxima permesa\" com a resolució màxima permesa.",
+    "LimitSupportedVideoResolutionHelp": "Utilitzar \"La màxima resolució de transcodificació de vídeo permesa\" com a màxima resolució suportada.",
     "PlaybackError.FATAL_HLS_ERROR": "S'ha produït un error fatal al stream HLS.",
     "PlaybackError.RateLimitExceeded": "Aquest mitjà no es pot reproduir en aquests instants deguts a límits de la xarxa.",
     "EncodingFormatHelp": "Seleccioni la codificació de vídeo a la qual hauria de transcodificar Jellyfin. Jellyfin utilitzarà codificació mitjançant programari quan l'acceleració per maquinari no estigui disponible. La codificació H264 sempre estarà habilitada.",
@@ -2020,5 +2020,7 @@
     "ImageUploadFailed": "Pujada d'imatge fallida",
     "UploadCustomImage": "Pujar imatge personalitzada",
     "ReadInputAtNativeFramerate": "Llegeix l'origen a la velocitat de fotogrames nativa",
-    "ReadInputAtNativeFramerateHelp": "Activant aquesta opció pot solucionar alguns problemes, p. ex. retransmissions en directe que es paren sobtadament."
+    "ReadInputAtNativeFramerateHelp": "Activant aquesta opció pot solucionar alguns problemes, p. ex. retransmissions en directe que es paren sobtadament.",
+    "LimitSegmentLength": "Utilitzar segments HLS escurçats",
+    "LimitSegmentLengthHelp": "Activar aquesta opció pot ajudar a prevenir que el reproductor HLS es pengi durant la cerca en alguns dispositius, com televisors webOS."
 }
