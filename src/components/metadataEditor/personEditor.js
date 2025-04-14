@@ -67,16 +67,15 @@ function show(person) {
             if (type === PersonKind.Unknown) {
                 continue;
             }
-            selectPersonTypeOptions += `<option value="${type}">\${${type}}</option>`;
+            const selected = person.Type === type ? 'selected' : '';
+            selectPersonTypeOptions += `<option value="${type}" ${selected}>\${${type}}</option>`;
         }
         dlg.querySelector('.selectPersonType').innerHTML = globalize.translateHtml(selectPersonTypeOptions);
 
         dlg.querySelector('.selectPersonType').addEventListener('change', function () {
-            if (this.value === 'Actor') {
-                dlg.querySelector('.fldRole').classList.remove('hide');
-            } else {
-                dlg.querySelector('.fldRole').classList.add('hide');
-            }
+            dlg.querySelector('.fldRole').classList.toggle(
+                'hide',
+                ![ PersonKind.Actor, PersonKind.GuestStar ].includes(this.value));
         });
 
         dlg.querySelector('.btnCancel').addEventListener('click', function () {
