@@ -213,19 +213,19 @@ function enabled() {
 let rotationInterval;
 let currentRotatingImages = [];
 let currentRotationIndex = -1;
-export function setBackdrops(items, imageOptions, enableImageRotation, isEnabled = false) {
+export function setBackdrops(items, imageOptions, isEnabled = false) {
     if (isEnabled || enabled()) {
         const images = getImageUrls(items, imageOptions);
 
         if (images.length) {
-            startRotation(images, enableImageRotation);
+            setBackdropImages(images);
         } else {
             clearBackdrop();
         }
     }
 }
 
-function startRotation(images, enableImageRotation) {
+export function setBackdropImages(images) {
     if (isEqual(images, currentRotatingImages)) {
         return;
     }
@@ -235,7 +235,7 @@ function startRotation(images, enableImageRotation) {
     currentRotatingImages = images;
     currentRotationIndex = -1;
 
-    if (images.length > 1 && enableImageRotation !== false && enableRotation()) {
+    if (images.length > 1 && enableRotation()) {
         rotationInterval = setInterval(onRotationInterval, 24000);
     }
 

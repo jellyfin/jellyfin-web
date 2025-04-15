@@ -19,13 +19,13 @@ import Loading from 'components/loading/LoadingComponent';
 import Image from 'components/Image';
 import Page from 'components/Page';
 import ServerConnections from 'components/ServerConnections';
+import { SPLASHSCREEN_URL } from 'constants/branding';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
 
 const BRANDING_CONFIG_KEY = 'branding';
-const SPLASHSCREEN_URL = '/Branding/Splashscreen';
 const BrandingOption = {
     CustomCss: 'CustomCss',
     LoginDisclaimer: 'LoginDisclaimer',
