@@ -1992,5 +1992,12 @@
     "PreferNonstandardArtistsTagHelp": "Használja a nem szabványos ARTISTS címkét az ARTIST címke helyett, ha elérhető.",
     "Penciller": "Grafikus",
     "MetadataImagesLoadError": "Nem sikerült betölteni a metaadat beállításokat",
-    "LibraryNameInvalid": "A könyvtár neve nem lehet üres."
+    "LibraryNameInvalid": "A könyvtár neve nem lehet üres.",
+    "LabelGroupShowsIntoCollections": "Sorozatok csoportosítása kollekcióként",
+    "LabelGroupShowsIntoCollectionsHelp": "Az egy kollekcióban lévő sorozatok egyetlen csoportosított elemként fognak megjelenni a sorozatlistában.",
+    "CustomSplashScreenSize": "Az egyedi képeknek 16:9-es képarányúnak, és legalább 1920x1080 pixel méretűnek kell lenniük.",
+    "DeleteCustomImage": "Egyedi kép törlése",
+    "ImageDeleteFailed": "A kép törlése nem sikerült",
+    "ImageUploadCancelled": "A kép feltöltése megszakítva",
+    "ImageUploadFailed": "A kép feltöltése sikertelen"
 }
