@@ -76,7 +76,7 @@ const ItemsView: FC<ItemsViewProps> = ({
 
     const { __legacyApiClient__ } = useApi();
     const {
-        isLoading,
+        isPending,
         data: itemsResult,
         isPlaceholderData,
         refetch
@@ -258,44 +258,48 @@ const ItemsView: FC<ItemsViewProps> = ({
                         justifyContent: 'end'
                     }}
                 >
-                    <ButtonGroup
-                        variant='contained'
-                        sx={{
-                            marginRight: 0.5
-                        }}
-                    >
-                        {isBtnPlayAllEnabled && (
-                            <PlayAllButton
-                                item={item}
-                                items={items}
-                                viewType={viewType}
-                                hasFilters={hasFilters}
-                                libraryViewSettings={libraryViewSettings}
-                            />
-                        )}
+                    {!isPending && (
+                        <>
+                            <ButtonGroup
+                                variant='contained'
+                                sx={{
+                                    marginRight: 0.5
+                                }}
+                            >
+                                {isBtnPlayAllEnabled && (
+                                    <PlayAllButton
+                                        item={item}
+                                        items={items}
+                                        viewType={viewType}
+                                        hasFilters={hasFilters}
+                                        libraryViewSettings={libraryViewSettings}
+                                    />
+                                )}
 
-                        {isBtnShuffleEnabled && totalRecordCount > 1 && (
-                            <ShuffleButton
-                                item={item}
-                                items={items}
-                                viewType={viewType}
-                                hasFilters={hasFilters}
-                                isTextVisible={!isBtnPlayAllEnabled}
-                                libraryViewSettings={libraryViewSettings}
-                            />
-                        )}
+                                {isBtnShuffleEnabled && totalRecordCount > 1 && (
+                                    <ShuffleButton
+                                        item={item}
+                                        items={items}
+                                        viewType={viewType}
+                                        hasFilters={hasFilters}
+                                        isTextVisible={!isBtnPlayAllEnabled}
+                                        libraryViewSettings={libraryViewSettings}
+                                    />
+                                )}
 
-                        {isBtnQueueEnabled && item && playbackManager.canQueue(item) && (
-                            <QueueButton
-                                item={item}
-                                items={items}
-                                hasFilters={hasFilters}
-                                isTextVisible={!isBtnPlayAllEnabled && !isBtnShuffleEnabled}
-                            />
-                        )}
-                    </ButtonGroup>
+                                {isBtnQueueEnabled && item && playbackManager.canQueue(item) && (
+                                    <QueueButton
+                                        item={item}
+                                        items={items}
+                                        hasFilters={hasFilters}
+                                        isTextVisible={!isBtnPlayAllEnabled && !isBtnShuffleEnabled}
+                                    />
+                                )}
+                            </ButtonGroup>
 
-                    {isBtnNewCollectionEnabled && <NewCollectionButton />}
+                            {isBtnNewCollectionEnabled && <NewCollectionButton />}
+                        </>
+                    )}
                 </Box>
 
                 <Box
@@ -368,7 +372,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                 />
             )}
 
-            {isLoading ? (
+            {isPending ? (
                 <Loading />
             ) : (
                 <ItemsContainer
