@@ -453,7 +453,7 @@
     "HeaderSubtitleProfiles": "Perfis da Legenda",
     "HeaderSubtitleProfile": "Perfil da Legenda",
     "HeaderSubtitleAppearance": "Aparência das Legendas",
-    "HeaderStopRecording": "Parar gravação",
+    "HeaderStopRecording": "Parar Gravação",
     "HeaderStatus": "Estado",
     "HeaderStartNow": "Iniciar",
     "HeaderSpecialEpisodeInfo": "Informação do Episódio Especial",
@@ -489,7 +489,7 @@
     "HeaderProfileInformation": "Informação do Perfil",
     "HeaderPreferredMetadataLanguage": "Idioma Preferido dos Metadados",
     "HeaderPluginInstallation": "Instalar Extensão",
-    "HeaderPleaseSignIn": "Iniciar sessão",
+    "HeaderPleaseSignIn": "Por favor, inicie sessão",
     "HeaderPlaybackError": "Erro na reprodução",
     "HeaderPlayback": "Reprodução de multimédia",
     "HeaderPlayOn": "Reproduzir em",
@@ -822,7 +822,7 @@
     "ChannelAccessHelp": "Seleciona os canais para partilhar com este utilizador. Os administradores poderão editar todos os canais utilizando o gestor de metadados.",
     "ChangingMetadataImageSettingsNewContent": "As alterações às definições de transferência de metadados ou de imagens só se aplicam a novos conteúdos adicionados à tua biblioteca. Para aplicar as alterações aos títulos existentes, terás de atualizar os metadados manualmente.",
     "Categories": "Categorias",
-    "CancelSeries": "Cancelar gravação de série",
+    "CancelSeries": "Cancelar série",
     "CancelRecording": "Cancelar gravação",
     "ButtonWebsite": "Website",
     "ButtonUninstall": "Desinstalar",
@@ -973,7 +973,7 @@
     "HeaderChapterImages": "Imagens dos capítulos",
     "HeaderChannelAccess": "Acesso ao canal",
     "HeaderCancelSeries": "Cancelar gravação de série",
-    "HeaderCancelRecording": "Cancelar gravação",
+    "HeaderCancelRecording": "Cancelar Gravação",
     "HeaderBlockItemsWithNoRating": "Bloquear conteúdo sem informação de classificação etária ou com informação desconhecida",
     "HeaderAudioSettings": "Definições de áudio",
     "HeaderAudioBooks": "Livros de Áudio",
@@ -2018,5 +2018,6 @@
     "MetadataImagesLoadError": "Falha ao carregar definições de metadados",
     "CopyLogSuccess": "Conteúdo do registo copiado com sucesso.",
     "LimitSegmentLength": "Utilizar segmentos HLS mais curtos",
-    "LimitSegmentLengthHelp": "Ativar esta opção pode ajudar a evitar que o leitor HLS bloqueie durante a pesquisa em determinados dispositivos, como as TVs webOS."
+    "LimitSegmentLengthHelp": "Ativar esta opção pode ajudar a evitar que o leitor HLS bloqueie durante a pesquisa em determinados dispositivos, como as TVs webOS.",
+    "Retry": "Tentar de novo"
 }
