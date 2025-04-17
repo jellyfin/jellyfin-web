@@ -1211,6 +1211,10 @@ export default function (view) {
         }
     }
 
+    let spaceKeyTimeout;
+    let isSpaceKeyDown = false;
+    let isSpaceKeyHeld = false;
+
     function onKeyDown(e) {
         clickedElement = e.target;
 
@@ -1225,8 +1229,16 @@ export default function (view) {
 
         if (e.keyCode === 32) {
             if (e.target.tagName !== 'BUTTON' || !layoutManager.tv) {
-                playbackManager.playPause(currentPlayer);
-                showOsd(btnPlayPause);
+                if (!isSpaceKeyDown) {
+                    isSpaceKeyDown = true;
+                    isSpaceKeyHeld = false;
+
+                    spaceKeyTimeout = setTimeout(() => {
+                        isSpaceKeyHeld = true;
+                        playbackManager.setPlaybackRate(2, currentPlayer);
+                    }, 500);
+                }
+
                 e.preventDefault();
                 e.stopPropagation();
                 // Trick Firefox with a null element to skip next click
@@ -1424,6 +1436,27 @@ export default function (view) {
                     subtitleSyncOverlay?.incrementOffset();
                 }
                 break;
+        }
+    }
+
+    function onKeyUp(e) {
+        if (e.keyCode === 32) {
+            if (isSpaceKeyDown) {
+                if (isSpaceKeyHeld) {
+                    playbackManager.setPlaybackRate(1, currentPlayer);
+                } else {
+                    playbackManager.playPause(currentPlayer);
+                    showOsd(osdBottomElement.querySelector('.btnPause'));
+                }
+
+                if (spaceKeyTimeout) {
+                    clearTimeout(spaceKeyTimeout);
+                    spaceKeyTimeout = null;
+                }
+
+                isSpaceKeyDown = false;
+                isSpaceKeyHeld = false;
+            }
         }
     }
 
@@ -1677,6 +1710,7 @@ export default function (view) {
             showOsd();
             inputManager.on(window, onInputCommand);
             document.addEventListener('keydown', onKeyDown);
+            document.addEventListener('keyup', onKeyUp);
             dom.addEventListener(document, 'keydown', onKeyDownCapture, {
                 capture: true,
                 passive: true
@@ -1720,6 +1754,7 @@ export default function (view) {
         }
 
         document.removeEventListener('keydown', onKeyDown);
+        document.removeEventListener('keyup', onKeyUp);
         dom.removeEventListener(document, 'keydown', onKeyDownCapture, {
             capture: true,
             passive: true
