@@ -2022,5 +2022,8 @@
     "ImageDeleteFailed": "Error al eliminar la imagen",
     "ImageUploadCancelled": "Se canceló la carga de la imagen",
     "ImageUploadFailed": "Falló la carga de la imagen",
-    "UploadCustomImage": "Cargar imagen personalizada"
+    "UploadCustomImage": "Cargar imagen personalizada",
+    "RetryWithGlobalSearch": "Reintentar con una búsqueda global",
+    "LimitSegmentLength": "Usar segmentos HLS más pequeños",
+    "LimitSegmentLengthHelp": "Habilitar esta opción puede prevenir que el reproductor HLS se congele mientras se avanza en ciertos dispositivos, como televisores webOS."
 }
