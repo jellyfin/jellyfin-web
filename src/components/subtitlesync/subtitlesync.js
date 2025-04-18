@@ -191,7 +191,6 @@ class SubtitleTimeline extends PlaybackSubscriber {
     }
 
     destroy() {
-        this._stopTimelineUpdates();
         this.currentSubtitles = null;
 
         // Call parent class destroy to clean up event subscriptions
