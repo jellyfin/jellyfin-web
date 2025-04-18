@@ -15,9 +15,9 @@
 
     <meta id="themeColor" name="theme-color" content="#202020">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="touchicon.png">
-    <link rel="shortcut icon" href="favicon.ico">
-    <meta name="msapplication-TileImage" content="touchicon144.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../node_modules/@jellyfin/ux-web/favicons/touchicon.png">
+    <link rel="shortcut icon" href="../node_modules/@jellyfin/ux-web/favicons/favicon.ico">
+    <meta name="msapplication-TileImage" content="../node_modules/@jellyfin/ux-web/favicons/touchicon144.png">
     <meta name="msapplication-TileColor" content="#333333">
 
     <title>Jellyfin</title>
@@ -79,37 +79,6 @@
 
         [dir="rtl"] .mainDrawerHandle {
             left: 0;
-        }
-
-        @keyframes fadein {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .splashLogo {
-            animation: fadein 0.5s;
-            width: 30%;
-            height: 30%;
-            background-image: url(assets/img/icon-transparent.png);
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: contain;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        @media screen
-            and (min-device-width: 992px) {
-            .splashLogo {
-                background-image: url(assets/img/banner-light.png);
-            }
         }
     </style>
 </head>

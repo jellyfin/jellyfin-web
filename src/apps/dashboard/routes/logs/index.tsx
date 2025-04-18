@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Stack from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
+import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
@@ -98,7 +98,7 @@ export const Component = () => {
 
                         <FormControlLabel
                             control={
-                                <Switch
+                                <Checkbox
                                     checked={configuration?.EnableSlowResponseWarning}
                                     onChange={setLogWarningMessage}
                                     name={'EnableWarningMessage'}

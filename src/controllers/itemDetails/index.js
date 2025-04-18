@@ -503,7 +503,7 @@ function renderBackdrop(page, item) {
         // If backdrops are disabled, but the header banner is enabled, add a class to the page to disable the transparency
         page.classList.toggle('noBackdropTransparency', isBannerEnabled && !userSettings.enableBackdrops());
 
-        setBackdrops([item], null, null, isBannerEnabled);
+        setBackdrops([item], null, isBannerEnabled);
     } else {
         clearBackdrop();
     }
@@ -1995,7 +1995,7 @@ export default function (view, params) {
     function onCancelSeriesTimerClick() {
         import('../../components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
             recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(function () {
-                Dashboard.navigate('livetv.html');
+                Dashboard.navigate('livetv');
             });
         });
     }

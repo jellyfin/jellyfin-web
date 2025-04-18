@@ -194,7 +194,7 @@
     "OptionUnairedEpisode": "尚未播放的劇集",
     "OptionWakeFromSleep": "從休眠中恢復",
     "OptionWeekly": "每週",
-    "ParentalRating": "Parental Rating",
+    "ParentalRating": "家長分級",
     "Play": "播放",
     "Record": "錄影",
     "Refresh": "重新整理",
@@ -1294,5 +1294,10 @@
     "MusicAlbum": "音樂專輯",
     "MoveRight": "向右移動",
     "MoveToBottom": "移至底部",
-    "MoveLeft": "向左移動"
+    "MoveLeft": "向左移動",
+    "PasswordResetComplete": "密碼已重設。",
+    "HeaderPageNotFound": "找不到頁面",
+    "PageNotFound": "這不是你要找的頁面。",
+    "PasswordMatchError": "密碼和確認密碼必須一致。",
+    "PasswordRequiredForAdmin": "管理員帳戶必須設定密碼。"
 }

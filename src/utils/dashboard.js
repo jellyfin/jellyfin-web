@@ -61,7 +61,7 @@ export async function serverAddress() {
                 let config;
                 try {
                     config = await resp.json();
-                } catch (err) {
+                } catch {
                     return;
                 }
 
@@ -105,7 +105,7 @@ export function logout() {
         // Reset cached views
         viewContainer.reset();
         webSettings.getMultiServer().then(multi => {
-            multi ? navigate('selectserver.html') : navigate('login.html');
+            multi ? navigate('selectserver') : navigate('login');
         });
     });
 }
@@ -191,7 +191,7 @@ export function selectServer() {
     if (window.NativeShell && typeof window.NativeShell.selectServer === 'function') {
         window.NativeShell.selectServer();
     } else {
-        navigate('selectserver.html');
+        navigate('selectserver');
     }
 }
 

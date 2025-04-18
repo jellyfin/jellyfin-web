@@ -62,10 +62,6 @@ function getLandingScreenOptions(type) {
             value: LibraryTab.Suggestions
         });
         list.push({
-            name: globalize.translate('Trailers'),
-            value: LibraryTab.Trailers
-        });
-        list.push({
             name: globalize.translate('Favorites'),
             value: LibraryTab.Favorites
         });

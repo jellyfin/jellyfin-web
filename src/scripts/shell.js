@@ -10,6 +10,11 @@ export default {
             window.NativeShell.disableFullscreen();
         }
     },
+    openClientSettings: () => {
+        if (window.NativeShell?.openClientSettings) {
+            window.NativeShell.openClientSettings();
+        }
+    },
     openUrl: function(url, target) {
         if (window.NativeShell?.openUrl) {
             window.NativeShell.openUrl(url, target);

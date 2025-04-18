@@ -14,6 +14,7 @@ function merge(resultItems, queryItems, delimiter) {
     if (!queryItems) {
         return resultItems;
     }
+    // eslint-disable-next-line sonarjs/no-alphabetical-sort
     return union(resultItems, queryItems.split(delimiter)).sort();
 }
 
@@ -350,7 +351,10 @@ class FilterDialog {
                 const filterName = chkGenreFilter.getAttribute('data-filter');
                 let filters = query.Genres || '';
                 const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);;
                 if (chkGenreFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -364,7 +368,10 @@ class FilterDialog {
                 const filterName = chkTagFilter.getAttribute('data-filter');
                 let filters = query.Tags || '';
                 const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);;
                 if (chkTagFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -378,7 +385,10 @@ class FilterDialog {
                 const filterName = chkYearFilter.getAttribute('data-filter');
                 let filters = query.Years || '';
                 const delimiter = ',';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);;
                 if (chkYearFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -392,7 +402,10 @@ class FilterDialog {
                 const filterName = chkOfficialRatingFilter.getAttribute('data-filter');
                 let filters = query.OfficialRatings || '';
                 const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);
                 if (chkOfficialRatingFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }

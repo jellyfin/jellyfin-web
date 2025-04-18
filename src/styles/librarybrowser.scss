@@ -581,10 +581,10 @@
             height: 30vh;
         }
     }
-}
 
-.layout-tv .itemBackdrop {
-    display: none;
+    .layout-tv & {
+        display: none;
+    }
 }
 
 .detailPageContent {
@@ -845,10 +845,14 @@
 
 .detailPageSecondaryContainer {
     padding-top: 1.25em;
-}
 
-.layout-mobile .detailPageSecondaryContainer {
-    padding-top: 1em;
+    .layout-desktop & {
+        flex-grow: 1;
+    }
+
+    .layout-mobile & {
+        padding-top: 1em;
+    }
 }
 
 .detailImageContainer .card {
@@ -1168,6 +1172,12 @@ div.itemDetailGalleryLink.defaultCardBackground {
 .detailPageWrapperContainer {
     border-spacing: 0;
     border-collapse: collapse;
+
+    .layout-desktop & {
+        display: flex;
+        flex-direction: column;
+        min-height: 60vh;
+    }
 }
 
 .mediaInfoContent .btnCopy .material-icons {

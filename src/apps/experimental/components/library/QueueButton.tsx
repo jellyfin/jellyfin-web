@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import QueueIcon from '@mui/icons-material/Queue';
 
 import { playbackManager } from 'components/playback/playbackmanager';
@@ -34,6 +34,12 @@ const QueueButton: FC<QueueButtonProps> = ({ item, items, hasFilters }) => {
             title={globalize.translate('AddToPlayQueue')}
             className='paper-icon-button-light btnQueue autoSize'
             onClick={queue}
+            sx={{
+                order: {
+                    xs: 3,
+                    sm: 'unset'
+                }
+            }}
         >
             <QueueIcon />
         </IconButton>

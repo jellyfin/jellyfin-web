@@ -333,7 +333,7 @@ export default function (view, params) {
     function onInputCommand(e) {
         if (e.detail.command === 'search') {
             e.preventDefault();
-            Dashboard.navigate(`search.html?collectionType=${CollectionType.Tvshows}&parentId=${params.topParentId}`);
+            Dashboard.navigate(`search?collectionType=${CollectionType.Tvshows}&parentId=${params.topParentId}`);
         }
     }
 

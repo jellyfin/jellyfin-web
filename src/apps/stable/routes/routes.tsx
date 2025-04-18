@@ -17,7 +17,7 @@ export const STABLE_APP_ROUTES: RouteObject[] = [
         path: '/*',
         Component: AppLayout,
         children: [
-            { index: true, element: <Navigate replace to='/home.html' /> },
+            { index: true, element: <Navigate replace to='/home' /> },
 
             {
                 /* User routes */
@@ -31,7 +31,7 @@ export const STABLE_APP_ROUTES: RouteObject[] = [
 
             {
                 /* Public routes */
-                element: <ConnectionRequired isUserRequired={false} />,
+                element: <ConnectionRequired level='public' />,
                 children: [
                     ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute),
                     /* Fallback route for invalid paths */

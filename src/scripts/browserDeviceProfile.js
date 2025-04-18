@@ -864,6 +864,7 @@ export default function (options) {
     });
 
     if (canPlayHls() && options.enableHls !== false) {
+        const enableLimitedSegmentLength = userSettings.limitSegmentLength();
         if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length && enableFmp4Hls) {
             // HACK: Since there is no filter for TS/MP4 in the API, specify HLS support in general and rely on retry after DirectPlay error
             // FIXME: Need support for {Container: 'mp4', Protocol: 'hls'} or {Container: 'hls', SubContainer: 'mp4'}
@@ -883,7 +884,8 @@ export default function (options) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
+                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
+                SegmentLength: enableLimitedSegmentLength ? 1 : undefined
             });
         }
 
@@ -906,12 +908,26 @@ export default function (options) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
+                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
+                SegmentLength: enableLimitedSegmentLength ? 1 : undefined
             });
         }
     }
 
     profile.ContainerProfiles = [];
+
+    if (browser.tizen) {
+        // Tizen doesn't support more than 32 streams in a single file
+        profile.ContainerProfiles.push({
+            Type: 'Video',
+            Conditions: [{
+                Condition: 'LessThanEqual',
+                Property: 'NumStreams',
+                Value: '32',
+                IsRequired: false
+            }]
+        });
+    }
 
     profile.CodecProfiles = [];
 

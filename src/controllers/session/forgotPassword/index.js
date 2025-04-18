@@ -30,7 +30,7 @@ function processForgotPasswordResult(result) {
             message: msg,
             title: globalize.translate('ButtonForgotPassword'),
             callback: function () {
-                Dashboard.navigate('forgotpasswordpin.html');
+                Dashboard.navigate('forgotpasswordpin');
             }
         });
     }

@@ -383,7 +383,7 @@ function renderRunningTasks(view, tasks) {
             html += progress + '%';
             html += '</progress>';
             html += "<span style='color:#00a4dc;margin-left:5px;margin-right:5px;'>" + progress + '%</span>';
-            html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonStop') + '" onclick="DashboardPage.stopTask(this, \'' + task.Id + '\');" class="autoSize"><span class="material-icons cancel" aria-hidden="true"></span></button>';
+            html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonStop') + '" data-task-id="' + task.Id + '" class="autoSize btnTaskCancel"><span class="material-icons cancel" aria-hidden="true"></span></button>';
         } else if (task.State === 'Cancelling') {
             html += '<span style="color:#cc0000;">' + globalize.translate('LabelStopping') + '</span>';
         }
@@ -391,7 +391,12 @@ function renderRunningTasks(view, tasks) {
         html += '</p>';
     }
 
-    view.querySelector('#divRunningTasks').innerHTML = html;
+    const runningTasks = view.querySelector('#divRunningTasks');
+
+    runningTasks.innerHTML = html;
+    runningTasks.querySelectorAll('.btnTaskCancel').forEach(function (btn) {
+        btn.addEventListener('click', () => DashboardPage.stopTask(btn, btn.dataset.taskId));
+    });
 }
 
 const DashboardPage = {
