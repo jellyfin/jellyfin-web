@@ -503,7 +503,7 @@ function renderBackdrop(page, item) {
         // If backdrops are disabled, but the header banner is enabled, add a class to the page to disable the transparency
         page.classList.toggle('noBackdropTransparency', isBannerEnabled && !userSettings.enableBackdrops());
 
-        setBackdrops([item], null, null, isBannerEnabled);
+        setBackdrops([item], null, isBannerEnabled);
     } else {
         clearBackdrop();
     }
