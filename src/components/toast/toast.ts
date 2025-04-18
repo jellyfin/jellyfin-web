@@ -1,6 +1,10 @@
 import './toast.scss';
 
-let toastContainer;
+interface Toast {
+    text: string
+}
+
+let toastContainer: HTMLDivElement;
 
 function getToastContainer() {
     if (!toastContainer) {
@@ -12,24 +16,24 @@ function getToastContainer() {
     return toastContainer;
 }
 
-function remove(elem) {
+function remove(elem: HTMLElement) {
     setTimeout(function () {
-        elem.parentNode.removeChild(elem);
+        elem.parentNode?.removeChild(elem);
     }, 300);
 }
 
-function animateRemove(elem) {
+function animateRemove(elem: HTMLElement) {
     setTimeout(function () {
         elem.classList.add('toastHide');
         remove(elem);
     }, 3300);
 }
 
-export default function (options) {
+export default function (options: string | Toast) {
     if (typeof options === 'string') {
         options = {
             text: options
-        };
+        } as Toast;
     }
 
     const elem = document.createElement('div');
