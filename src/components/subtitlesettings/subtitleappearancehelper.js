@@ -101,13 +101,14 @@ function getTextStyles(settings, preview) {
     if (!preview) {
         const pos = parseInt(settings.verticalPosition, 10);
         const lineHeight = 1.35; // FIXME: It is better to read this value from element
-        const line = Math.abs(pos * lineHeight);
         if (pos < 0) {
-            list.push({ name: 'margin-bottom', value: `${line - 1}em` });
+            const margin = Math.abs(pos + 1) * lineHeight;
+            list.push({ name: 'margin-bottom', value: `${margin}em` });
             list.push({ name: 'margin-top', value: '' });
         } else {
+            const margin = pos * lineHeight;
             list.push({ name: 'margin-bottom', value: '' });
-            list.push({ name: 'margin-top', value: `${line}em` });
+            list.push({ name: 'margin-top', value: `${margin}em` });
         }
     }
 
