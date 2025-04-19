@@ -11,7 +11,6 @@ import toast from '../toast/toast';
 import { copy } from '../../scripts/clipboard';
 import dom from '../../scripts/dom';
 import globalize from '../../lib/globalize';
-import itemHelper from '../../components/itemHelper';
 import loading from '../loading/loading';
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.scss';
@@ -71,7 +70,7 @@ function getMediaSourceHtml(user, item, version) {
         const size = `${(version.Size / (1024 * 1024)).toFixed(0)} MB`;
         html += `${createAttribute(globalize.translate('MediaInfoSize'), size)}<br/>`;
     }
-    version.MediaStreams.sort(itemHelper.sortTracks);
+
     for (const stream of version.MediaStreams) {
         if (stream.Type === 'Data') {
             continue;
