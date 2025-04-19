@@ -1,6 +1,7 @@
 import React, { FC, useCallback } from 'react';
-import IconButton from '@mui/material/IconButton';
-import AddIcon from '@mui/icons-material/Add';
+import Add from '@mui/icons-material/Add';
+import Button from '@mui/material/Button';
+
 import globalize from 'lib/globalize';
 
 const NewCollectionButton: FC = () => {
@@ -21,13 +22,13 @@ const NewCollectionButton: FC = () => {
     }, []);
 
     return (
-        <IconButton
-            title={globalize.translate('Add')}
-            className='paper-icon-button-light btnNewCollection autoSize'
+        <Button
+            variant='contained'
+            startIcon={<Add />}
             onClick={showCollectionEditor}
         >
-            <AddIcon />
-        </IconButton>
+            {globalize.translate('NewCollection')}
+        </Button>
     );
 };
 

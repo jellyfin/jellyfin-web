@@ -2,9 +2,10 @@ import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/bas
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import React, { type FC, useCallback } from 'react';
 import Box from '@mui/material/Box';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import classNames from 'classnames';
+import React, { type FC, useCallback } from 'react';
 
 import { useApi } from 'hooks/useApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
@@ -31,8 +32,8 @@ import PlayAllButton from './PlayAllButton';
 import QueueButton from './QueueButton';
 import ShuffleButton from './ShuffleButton';
 import SortButton from './SortButton';
-import GridListViewButton from './GridListViewButton';
 import LibraryViewMenu from './LibraryViewMenu';
+import ViewSettingsButton from './ViewSettingsButton';
 
 interface ItemsViewProps {
     viewType: LibraryTab;
@@ -75,7 +76,7 @@ const ItemsView: FC<ItemsViewProps> = ({
 
     const { __legacyApiClient__ } = useApi();
     const {
-        isLoading,
+        isPending,
         data: itemsResult,
         isPlaceholderData,
         refetch
@@ -237,82 +238,131 @@ const ItemsView: FC<ItemsViewProps> = ({
                 )}
                 sx={{
                     display: 'flex',
-                    flexWrap: 'wrap'
+                    flexWrap: 'wrap',
+                    alignItems: 'center'
                 }}
             >
+                <Box
+                    sx={{ marginRight: 0.5 }}
+                >
+                    <LibraryViewMenu />
+                </Box>
 
-                <LibraryViewMenu />
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexGrow: {
+                            xs: 1,
+                            md: 0
+                        },
+                        justifyContent: 'end'
+                    }}
+                >
+                    {!isPending && (
+                        <>
+                            <ButtonGroup
+                                variant='contained'
+                                sx={{
+                                    marginRight: 0.5
+                                }}
+                            >
+                                {isBtnPlayAllEnabled && (
+                                    <PlayAllButton
+                                        item={item}
+                                        items={items}
+                                        viewType={viewType}
+                                        hasFilters={hasFilters}
+                                        libraryViewSettings={libraryViewSettings}
+                                    />
+                                )}
 
-                {isBtnPlayAllEnabled && (
-                    <PlayAllButton
-                        item={item}
-                        items={items}
-                        viewType={viewType}
-                        hasFilters={hasFilters}
-                        libraryViewSettings={libraryViewSettings}
-                    />
-                )}
-                {isBtnShuffleEnabled && totalRecordCount > 1 && (
-                    <ShuffleButton
-                        item={item}
-                        items={items}
-                        viewType={viewType}
-                        hasFilters={hasFilters}
-                        libraryViewSettings={libraryViewSettings}
-                    />
-                )}
-                {isBtnQueueEnabled
-                    && item
-                    && playbackManager.canQueue(item) && (
-                    <QueueButton
-                        item={item}
-                        items={items}
-                        hasFilters={hasFilters}
-                    />
-                )}
-                {isBtnSortEnabled && (
-                    <SortButton
-                        viewType={viewType}
-                        libraryViewSettings={libraryViewSettings}
-                        setLibraryViewSettings={setLibraryViewSettings}
-                    />
-                )}
-                {isBtnFilterEnabled && (
-                    <FilterButton
-                        parentId={parentId}
-                        itemType={itemType}
-                        viewType={viewType}
-                        hasFilters={hasFilters}
-                        libraryViewSettings={libraryViewSettings}
-                        setLibraryViewSettings={setLibraryViewSettings}
-                    />
-                )}
-                {isBtnNewCollectionEnabled && <NewCollectionButton />}
-                {isBtnGridListEnabled && (
-                    <GridListViewButton
-                        viewType={viewType}
-                        libraryViewSettings={libraryViewSettings}
-                        setLibraryViewSettings={setLibraryViewSettings}
-                    />
-                )}
+                                {isBtnShuffleEnabled && totalRecordCount > 1 && (
+                                    <ShuffleButton
+                                        item={item}
+                                        items={items}
+                                        viewType={viewType}
+                                        hasFilters={hasFilters}
+                                        isTextVisible={!isBtnPlayAllEnabled}
+                                        libraryViewSettings={libraryViewSettings}
+                                    />
+                                )}
 
-                {isPaginationEnabled && (
+                                {isBtnQueueEnabled && item && playbackManager.canQueue(item) && (
+                                    <QueueButton
+                                        item={item}
+                                        items={items}
+                                        hasFilters={hasFilters}
+                                        isTextVisible={!isBtnPlayAllEnabled && !isBtnShuffleEnabled}
+                                    />
+                                )}
+                            </ButtonGroup>
+
+                            {isBtnNewCollectionEnabled && <NewCollectionButton />}
+                        </>
+                    )}
+                </Box>
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'end',
+                        flexBasis: {
+                            xs: '100%',
+                            md: 'auto'
+                        },
+                        flexGrow: 1
+                    }}
+                >
                     <Box
                         sx={{
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                            flexGrow: 1,
-                            order: 10
+                            flexGrow: {
+                                xs: 1,
+                                md: 0
+                            }
                         }}
                     >
+                        <ButtonGroup
+                            color='inherit'
+                            variant='text'
+                        >
+                            {isBtnFilterEnabled && (
+                                <FilterButton
+                                    parentId={parentId}
+                                    itemType={itemType}
+                                    viewType={viewType}
+                                    hasFilters={hasFilters}
+                                    libraryViewSettings={libraryViewSettings}
+                                    setLibraryViewSettings={setLibraryViewSettings}
+                                />
+                            )}
+
+                            {isBtnSortEnabled && (
+                                <SortButton
+                                    viewType={viewType}
+                                    libraryViewSettings={libraryViewSettings}
+                                    setLibraryViewSettings={setLibraryViewSettings}
+                                />
+                            )}
+
+                            {isBtnGridListEnabled && (
+                                <ViewSettingsButton
+                                    viewType={viewType}
+                                    libraryViewSettings={libraryViewSettings}
+                                    setLibraryViewSettings={setLibraryViewSettings}
+                                />
+                            )}
+                        </ButtonGroup>
+                    </Box>
+
+                    {isPaginationEnabled && (
                         <Pagination
                             totalRecordCount={totalRecordCount}
                             libraryViewSettings={libraryViewSettings}
                             isPlaceholderData={isPlaceholderData}
                             setLibraryViewSettings={setLibraryViewSettings}
                         />
-                    </Box>
-                )}
+                    )}
+                </Box>
             </Box>
 
             {isAlphabetPickerEnabled && hasSortName && (
@@ -322,7 +372,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                 />
             )}
 
-            {isLoading ? (
+            {isPending ? (
                 <Loading />
             ) : (
                 <ItemsContainer
