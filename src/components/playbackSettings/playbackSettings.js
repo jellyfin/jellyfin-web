@@ -4,6 +4,8 @@ import escapeHTML from 'escape-html';
 import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
 import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
 
+import { StillWatchingAction } from 'apps/stable/features/playback/constants/stillWatchingAction';
+
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
 import browser from '../../scripts/browser';
@@ -80,6 +82,19 @@ function populateMediaSegments(container, userSettings) {
             const field = container.querySelector(`#${id}`);
             if (field) field.value = value;
         });
+}
+
+function populateStillWatching (container) {
+    const actionOptions = Object.values(StillWatchingAction)
+        .map(action => {
+            const actionLabel = globalize.translate(`StillWatchingAction.${action}`);
+            return `<option value='${action}'>${actionLabel}</option>`;
+        })
+        .join('');
+
+    container.innerHTML = `<div class="selectContainer">
+        <select is="emby-select" class="selectStillWatchingBehavior" label="${globalize.translate('StillWatchingLabel')}">${actionOptions}</select>
+    </div>`;
 }
 
 function fillQuality(select, isInNetwork, mediatype, maxVideoWidth) {
@@ -201,7 +216,32 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
         populateLanguages(context.querySelector('#selectAudioLanguage'), allCultures);
 
         context.querySelector('#selectAudioLanguage', context).value = user.Configuration.AudioLanguagePreference || '';
-        context.querySelector('.chkEpisodeAutoPlay').checked = user.Configuration.EnableNextEpisodeAutoPlay || false;
+        const enableNextEpisodeAutoPlay = context.querySelector('.chkEpisodeAutoPlay');
+        enableNextEpisodeAutoPlay.checked = user.Configuration.EnableNextEpisodeAutoPlay || false;
+
+        const stillWatchingContainer = context.querySelector('.stillWatchingSelectContainer');
+        populateStillWatching(stillWatchingContainer);
+        const stillWatchingSelect = context.querySelector('.selectStillWatchingBehavior');
+        stillWatchingSelect.value = userSettings.stillWatchingBehavior();
+
+        if (user.Configuration.EnableNextEpisodeAutoPlay) {
+            requestAnimationFrame(() => {
+                stillWatchingContainer.style.maxHeight = stillWatchingContainer.scrollHeight + 'px';
+                stillWatchingContainer.style.opacity = 1;
+            });
+        }
+
+        enableNextEpisodeAutoPlay.addEventListener('change', function () {
+            if (stillWatchingContainer.style.maxHeight) {
+                stillWatchingContainer.style.maxHeight = null;
+                stillWatchingContainer.style.opacity = 0;
+                stillWatchingSelect.value = StillWatchingAction.Disabled;
+            } else {
+                stillWatchingSelect.value = userSettings.stillWatchingBehavior();
+                stillWatchingContainer.style.maxHeight = stillWatchingContainer.scrollHeight + 'px';
+                stillWatchingContainer.style.opacity = 1;
+            }
+        });
     });
 
     if (appHost.supports('externalplayerintent') && userId === loggedInUserId) {
@@ -298,6 +338,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.AudioLanguagePreference = context.querySelector('#selectAudioLanguage').value;
     user.Configuration.PlayDefaultAudioTrack = context.querySelector('.chkPlayDefaultAudioTrack').checked;
     user.Configuration.EnableNextEpisodeAutoPlay = context.querySelector('.chkEpisodeAutoPlay').checked;
+    userSettingsInstance.stillWatchingBehavior(context.querySelector('.selectStillWatchingBehavior').value);
     userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
     userSettingsInstance.limitSegmentLength(context.querySelector('.chkLimitSegmentLength').checked);
     userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
