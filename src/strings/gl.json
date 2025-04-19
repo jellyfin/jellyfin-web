@@ -1017,5 +1017,6 @@
     "LabelEnableAutomaticPortMapHelp": "Redireccionar automáticamente portos publicos do teu router aos portos locais do teu servidor mediante UPnP. É posible que isto non funcione con algúns modelos de router ou confiugurancións de rede. Os cambios non se aplicarán ata despois de reiniciar o servidor.",
     "LabelEnableAudioVbr": "Activar a codificación de audio VBR",
     "LabelEnableAudioVbrHelp": "A taxa de bits variable ofrece unha mellor relación entre a calidade e a taxa media de bits, pero nalgúns casos raros pode causar problemas de compatibilidade e almacenamento no búfer.",
-    "LabelEnableHardwareDecodingFor": "Activar a decodificación de hardware para"
+    "LabelEnableHardwareDecodingFor": "Activar a decodificación de hardware para",
+    "AirPlay": "AirPlay"
 }
