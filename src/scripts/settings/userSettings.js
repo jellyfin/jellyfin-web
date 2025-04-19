@@ -497,6 +497,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set infinite scroll .
+     * @param {boolean|undefined} [val] - enable infinite scroll
+     * @return {bool} infinite scroll enable.
+     */
+    enableInfiniteScroll(val) {
+        if (val !== undefined) {
+            return this.set('enableInfiniteScroll', val, false);
+        }
+
+        return toBoolean(this.get('enableInfiniteScroll', false), false);
+    }
+
+    /**
      * Get or set max days for next up list.
      * @param {number|undefined} [val] - Max days for next up.
      * @return {number} Max days for a show to stay in next up without being watched.
@@ -717,6 +730,7 @@ export const setSubtitleAppearanceSettings = currentSettings.setSubtitleAppearan
 export const getComicsPlayerSettings = currentSettings.getComicsPlayerSettings.bind(currentSettings);
 export const setComicsPlayerSettings = currentSettings.setComicsPlayerSettings.bind(currentSettings);
 export const setFilter = currentSettings.setFilter.bind(currentSettings);
+export const enableInfiniteScroll = currentSettings.enableInfiniteScroll.bind(currentSettings);
 export const getFilter = currentSettings.getFilter.bind(currentSettings);
 export const customCss = currentSettings.customCss.bind(currentSettings);
 export const disableCustomCss = currentSettings.disableCustomCss.bind(currentSettings);
