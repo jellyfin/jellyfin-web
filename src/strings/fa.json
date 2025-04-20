@@ -743,7 +743,7 @@
     "LabelDisplaySpecialsWithinSeasons": "نمایش قسمت های ویژه در فصل هایی که در آنها پخش شده",
     "LabelDownMixAudioScale": "بهبود صدا هنگام کاهش توزیع کانال های صوتی",
     "LabelDownMixAudioScaleHelp": "بهبود صدا هنگام کاهش توزیع کانال های صوتی. مقدار را روی ۱ تنظیم کنید تا مقدار اصلی صدا حفظ شود.",
-    "LabelDownloadLanguages": "بارگیری زبان های",
+    "LabelDownloadLanguages": "بارگیری زبان ها",
     "LabelDropImageHere": "تصویر را بکشید اینجا، یا برای مرور کلیک کنید.",
     "LabelDroppedFrames": "فریم های از دست رفته",
     "LabelDropShadow": "سایه انداختن",
@@ -1600,7 +1600,7 @@
     "MessageNoFavoritesAvailable": "هیچ مورد علاقه ای در حال حاضر در دسترس نیست.",
     "HeaderPerformance": "کارایی",
     "IgnoreDtsHelp": "غیر فعال کردن این گزینه ممکن است برخی اشکالات را رفع کند، مثل نبودن صدا بر روی کانال هایی که جریان صدا و تصویر جداگانه دارند.",
-    "LabelDummyChapterDurationHelp": "وقفه استخراج تصاویر فصل به ثانیه.",
+    "LabelDummyChapterDurationHelp": "وقفهٔ بین بخش ‌های الکی. برای توقف تولید بخش‌های الکی، به صفر بزارید. عوض کردن این هیچ تاثیری بر بخش‌هایی که تولید شده‌اند نخواهد داشت.",
     "HeaderDummyChapter": "تصاویر فصل",
     "EnableAudioNormalization": "معمول سازی صوت",
     "AllowCollectionManagement": "به این کاربر اجازه مدیریت مجموعه را بده",
@@ -1736,5 +1736,7 @@
     "LabelStereoDownmixAlgorithm": "الگوریتم  کاهش میکس ِ(داون‌میکس) استریو",
     "CustomSplashScreenSize": "تصاویر مخصوص باید به نسبت-تصویر ۱۶x۹ و‌‌ حداقل به اندازهٔ ۱۹۲۰x۱۰۸۰ باشند.",
     "ImageUploadCancelled": "بارگذاری تصویر لغو شد",
-    "ImageUploadFailed": "تصویر بارگذاری نشد"
+    "ImageUploadFailed": "تصویر بارگذاری نشد",
+    "LabelEnableAudioVbr": "فعال‌کردن رمزگذاریِ وی‌بی‌آر(VBR)",
+    "LabelChapterImageResolutionHelp": "وضوح تصویر عکس بخش. عوض کردن این هیچ اثری بر بخش‌هایی که تولیدشده‌اند نخواهد داشت."
 }
