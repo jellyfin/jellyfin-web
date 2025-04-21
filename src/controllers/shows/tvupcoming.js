@@ -66,15 +66,13 @@ function renderUpcoming(elem, items) {
         }
 
         if (dateText != currentGroupName) {
-            if (currentGroup.length) {
-                groups.push({
-                    name: currentGroupName,
-                    items: currentGroup
-                });
-            }
-
             currentGroupName = dateText;
             currentGroup = [item];
+
+            groups.push({
+                name: currentGroupName,
+                items: currentGroup
+            });
         } else {
             currentGroup.push(item);
         }
