@@ -2,9 +2,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Api } from '@jellyfin/sdk';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
-import { ConnectionManager, Credentials, ApiClient } from 'jellyfin-apiclient';
+import { Credentials, ApiClient } from 'jellyfin-apiclient';
 
 import { appHost } from './apphost';
+import ConnectionManager from 'lib/jellyfin-apiclient/connectionManager';
 import Dashboard from '../utils/dashboard';
 import Events from '../utils/events.ts';
 import { setUserInfo } from '../scripts/settings/userSettings';
