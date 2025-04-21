@@ -1,3 +1,4 @@
+import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { ApiClient } from 'jellyfin-apiclient';
 
 import events from 'utils/events';
@@ -53,7 +54,8 @@ export default class ConnectionManager {
         const self = this;
         this._apiClients = [];
 
-        self._minServerVersion = '3.2.33';
+        // Set the minimum version to match the SDK
+        self._minServerVersion = MINIMUM_VERSION;
 
         self.appVersion = () => appVersion;
 
