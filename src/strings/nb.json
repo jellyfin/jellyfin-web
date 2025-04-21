@@ -1590,7 +1590,7 @@
     "Mixer": "Mikser",
     "MediaInfoTitle": "Tittel",
     "Lyricist": "Tekstforfatter",
-    "Larger": "Stor",
+    "Larger": "Større",
     "LabelSyncPlaySettingsSkipToSyncHelp": "Synkroniseringskorrigeringsmetode som består i å søke til den estimerte posisjonen. Synkroniseringskorrigering må være aktivert.",
     "LabelSyncPlaySettingsSkipToSync": "Aktiver SkipToSync",
     "LabelSyncPlaySettingsSpeedToSyncHelp": "Synkroniseringsmetode som består i å øke hastigheten på avspillingen. Synkroniseringskorrigering må være aktivert.",
@@ -2007,5 +2007,6 @@
     "LabelSubtitleStyling": "Undertekstiling",
     "Native": "Innebygd",
     "Retry": "Prøv igjen",
-    "MetadataImagesLoadError": "Kunne ikke laste inn metadata-innstillinger"
+    "MetadataImagesLoadError": "Kunne ikke laste inn metadata-innstillinger",
+    "LimitSegmentLength": "Bruk kortere HLS segmenter"
 }
