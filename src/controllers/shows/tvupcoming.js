@@ -45,7 +45,7 @@ function enableScrollX() {
 
 function renderUpcoming(elem, items) {
     const groups = [];
-    let currentGroupName = '';
+    let currentGroupName;
     let currentGroup = [];
 
     for (let i = 0, length = items.length; i < length; i++) {
