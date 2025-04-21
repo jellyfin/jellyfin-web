@@ -2,13 +2,10 @@ import { ApiClient } from 'jellyfin-apiclient';
 
 import events from 'utils/events';
 
-const defaultTimeout = 20000;
+import { ConnectionMode } from './connectionMode';
+import { ConnectionState } from './connectionState';
 
-const ConnectionMode = {
-    Local: 0,
-    Remote: 1,
-    Manual: 2
-};
+const defaultTimeout = 20000;
 
 function getServerAddress(server, mode) {
     switch (mode) {
@@ -38,7 +35,7 @@ function paramsToString(params) {
 
 function resolveFailure(instance, resolve) {
     resolve({
-        State: 'Unavailable'
+        State: ConnectionState.Unavailable
     });
 }
 
@@ -563,8 +560,8 @@ export default class ConnectionManager {
             // See if we have any saved credentials and can auto sign in
             if (firstServer) {
                 return self.connectToServer(firstServer, options).then((result) => {
-                    if (result.State === 'Unavailable') {
-                        result.State = 'ServerSelection';
+                    if (result.State === ConnectionState.Unavailable) {
+                        result.State = ConnectionState.ServerSelection;
                     }
 
                     console.log('resolving connectToServers with result.State: ' + result.State);
@@ -574,7 +571,7 @@ export default class ConnectionManager {
 
             return Promise.resolve({
                 Servers: servers,
-                State: 'ServerSelection'
+                State: ConnectionState.ServerSelection
             });
         };
 
@@ -684,7 +681,7 @@ export default class ConnectionManager {
                         if (compareVersions(self.minServerVersion(), result.Version) === 1) {
                             console.log('minServerVersion requirement not met. Server version: ' + result.Version);
                             resolve({
-                                State: 'ServerUpdateNeeded',
+                                State: ConnectionState.ServerUpdateNeeded,
                                 Servers: [server]
                             });
                         } else if (server.Id && result.Id !== server.Id) {
@@ -735,7 +732,7 @@ export default class ConnectionManager {
             result.ApiClient.setSystemInfo(systemInfo);
             result.SystemInfo = systemInfo;
 
-            result.State = server.AccessToken && options.enableAutoLogin !== false ? 'SignedIn' : 'ServerSignIn';
+            result.State = server.AccessToken && options.enableAutoLogin !== false ? ConnectionState.SignedIn : ConnectionState.ServerSignIn;
 
             result.Servers.push(server);
 
@@ -751,7 +748,7 @@ export default class ConnectionManager {
                 events.trigger(self, 'connected', [result]);
             };
 
-            if (result.State === 'SignedIn') {
+            if (result.State === ConnectionState.SignedIn) {
                 afterConnected(result.ApiClient, options);
 
                 result.ApiClient.getCurrentUser().then((user) => {
@@ -769,8 +766,8 @@ export default class ConnectionManager {
             };
 
             return self.connectToServer(server, options).then((result) => {
-                // connectToServer never rejects, but resolves with State='Unavailable'
-                if (result.State === 'Unavailable') {
+                // connectToServer never rejects, but resolves with State=ConnectionState.Unavailable
+                if (result.State === ConnectionState.Unavailable) {
                     return Promise.reject();
                 }
                 return result;
@@ -804,7 +801,7 @@ export default class ConnectionManager {
                 }
 
                 return Promise.resolve({
-                    State: 'Unavailable'
+                    State: ConnectionState.Unavailable
                 });
             }
 
@@ -875,6 +872,11 @@ export default class ConnectionManager {
         return this._apiClients;
     }
 
+    /**
+     * Gets the ApiClient for a given BaseItem or ServerId.
+     * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | undefined} item
+     * @returns {ApiClient}
+     */
     getApiClient(item) {
         if (!item) {
             throw new Error('item or serverId cannot be null');

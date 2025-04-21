@@ -3,7 +3,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { ApiClient, ConnectResponse } from 'jellyfin-apiclient';
 
 import globalize from 'lib/globalize';
-import { ConnectionState } from 'utils/jellyfin-apiclient/ConnectionState';
+import { ConnectionState } from 'lib/jellyfin-apiclient/connectionState';
 
 import alert from './alert';
 import Loading from './loading/LoadingComponent';
