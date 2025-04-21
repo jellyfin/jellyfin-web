@@ -1,11 +1,14 @@
 import { ApiClient } from 'jellyfin-apiclient';
 
 import events from 'utils/events';
+import { ajax } from 'utils/fetch';
+import { equalsIgnoreCase } from 'utils/string';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
+import { compareVersions } from './utils/compareVersions';
 
-const defaultTimeout = 20000;
+const DEFAULT_CONNECTION_TIMEOUT = 20000;
 
 function getServerAddress(server, mode) {
     switch (mode) {
@@ -20,145 +23,16 @@ function getServerAddress(server, mode) {
     }
 }
 
-function paramsToString(params) {
-    const values = [];
-
-    for (const key in params) {
-        const value = params[key];
-
-        if (value !== null && value !== undefined && value !== '') {
-            values.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
-        }
-    }
-    return values.join('&');
-}
-
-function resolveFailure(instance, resolve) {
-    resolve({
-        State: ConnectionState.Unavailable
-    });
-}
-
-function mergeServers(credentialProvider, list1, list2) {
-    for (let i = 0, length = list2.length; i < length; i++) {
-        credentialProvider.addOrUpdateServer(list1, list2[i]);
-    }
-
-    return list1;
-}
-
 function updateServerInfo(server, systemInfo) {
     server.Name = systemInfo.ServerName;
 
     if (systemInfo.Id) {
         server.Id = systemInfo.Id;
     }
+
     if (systemInfo.LocalAddress) {
         server.LocalAddress = systemInfo.LocalAddress;
     }
-}
-
-function getEmbyServerUrl(baseUrl, handler) {
-    return `${baseUrl}/${handler}`;
-}
-
-function getFetchPromise(request) {
-    const headers = request.headers || {};
-
-    if (request.dataType === 'json') {
-        headers.accept = 'application/json';
-    }
-
-    const fetchRequest = {
-        headers,
-        method: request.type,
-        credentials: 'same-origin'
-    };
-
-    let contentType = request.contentType;
-
-    if (request.data) {
-        if (typeof request.data === 'string') {
-            fetchRequest.body = request.data;
-        } else {
-            fetchRequest.body = paramsToString(request.data);
-
-            contentType = contentType || 'application/x-www-form-urlencoded; charset=UTF-8';
-        }
-    }
-
-    if (contentType) {
-        headers['Content-Type'] = contentType;
-    }
-
-    if (!request.timeout) {
-        return fetch(request.url, fetchRequest);
-    }
-
-    return fetchWithTimeout(request.url, fetchRequest, request.timeout);
-}
-
-function fetchWithTimeout(url, options, timeoutMs) {
-    console.log(`fetchWithTimeout: timeoutMs: ${timeoutMs}, url: ${url}`);
-
-    return new Promise((resolve, reject) => {
-        const timeout = setTimeout(reject, timeoutMs);
-
-        options = options || {};
-        options.credentials = 'same-origin';
-
-        fetch(url, options).then(
-            (response) => {
-                clearTimeout(timeout);
-
-                console.log(`fetchWithTimeout: succeeded connecting to url: ${url}`);
-
-                resolve(response);
-            },
-            (error) => {
-                clearTimeout(timeout);
-
-                console.log(`fetchWithTimeout: timed out connecting to url: ${url}`, error);
-
-                reject();
-            }
-        );
-    });
-}
-
-function ajax(request) {
-    if (!request) {
-        throw new Error('Request cannot be null');
-    }
-
-    request.headers = request.headers || {};
-
-    console.log(`ConnectionManager requesting url: ${request.url}`);
-
-    return getFetchPromise(request).then(
-        (response) => {
-            console.log(`ConnectionManager response status: ${response.status}, url: ${request.url}`);
-
-            if (response.status < 400) {
-                if (request.dataType === 'json' || request.headers.accept === 'application/json') {
-                    return response.json();
-                } else {
-                    return response;
-                }
-            } else {
-                return Promise.reject(response);
-            }
-        },
-        (err) => {
-            console.log(`ConnectionManager request failed to url: ${request.url}`);
-            throw err;
-        }
-    );
-}
-
-function replaceAll(originalString, strReplace, strWith) {
-    const reg = new RegExp(strReplace, 'ig');
-    return originalString.replace(reg, strWith);
 }
 
 function normalizeAddress(address) {
@@ -166,37 +40,10 @@ function normalizeAddress(address) {
     address = address.trim();
 
     // Seeing failures in iOS when protocol isn't lowercase
-    address = replaceAll(address, 'Http:', 'http:');
-    address = replaceAll(address, 'Https:', 'https:');
+    address = address.replace('Http:', 'http:');
+    address = address.replace('Https:', 'https:');
 
     return address;
-}
-
-function stringEqualsIgnoreCase(str1, str2) {
-    return (str1 || '').toLowerCase() === (str2 || '').toLowerCase();
-}
-
-function compareVersions(a, b) {
-    // -1 a is smaller
-    // 1 a is larger
-    // 0 equal
-    a = a.split('.');
-    b = b.split('.');
-
-    for (let i = 0, length = Math.max(a.length, b.length); i < length; i++) {
-        const aVal = parseInt(a[i] || '0', 10);
-        const bVal = parseInt(b[i] || '0', 10);
-
-        if (aVal < bVal) {
-            return -1;
-        }
-
-        if (aVal > bVal) {
-            return 1;
-        }
-    }
-
-    return 0;
 }
 
 export default class ConnectionManager {
@@ -243,9 +90,9 @@ export default class ConnectionManager {
                 .credentials()
                 .Servers.filter(
                     (s) =>
-                        stringEqualsIgnoreCase(s.ManualAddress, apiClient.serverAddress())
-                        || stringEqualsIgnoreCase(s.LocalAddress, apiClient.serverAddress())
-                        || stringEqualsIgnoreCase(s.RemoteAddress, apiClient.serverAddress())
+                        equalsIgnoreCase(s.ManualAddress, apiClient.serverAddress())
+                        || equalsIgnoreCase(s.LocalAddress, apiClient.serverAddress())
+                        || equalsIgnoreCase(s.RemoteAddress, apiClient.serverAddress())
                 );
 
             const existingServer = existingServers.length ? existingServers[0] : apiClient.serverInfo();
@@ -301,7 +148,7 @@ export default class ConnectionManager {
 
         self.getOrCreateApiClient = (serverId) => {
             const credentials = credentialProvider.credentials();
-            const servers = credentials.Servers.filter((s) => stringEqualsIgnoreCase(s.Id, serverId));
+            const servers = credentials.Servers.filter((s) => equalsIgnoreCase(s.Id, serverId));
 
             if (!servers.length) {
                 throw new Error(`Server not found: ${serverId}`);
@@ -372,7 +219,7 @@ export default class ConnectionManager {
         function validateAuthentication(server, serverUrl) {
             return ajax({
                 type: 'GET',
-                url: getEmbyServerUrl(serverUrl, 'System/Info'),
+                url: `${serverUrl}/System/Info`,
                 dataType: 'json',
                 headers: {
                     'X-MediaBrowser-Token': server.AccessToken
@@ -498,7 +345,9 @@ export default class ConnectionManager {
             return Promise.all([findServers()]).then((responses) => {
                 const foundServers = responses[0];
                 const servers = credentials.Servers.slice(0);
-                mergeServers(credentialProvider, servers, foundServers);
+                foundServers.forEach(server => {
+                    credentialProvider.addOrUpdateServer(servers, server);
+                });
 
                 servers.sort((a, b) => (b.DateLastAccessed || 0) - (a.DateLastAccessed || 0));
                 credentials.Servers = servers;
@@ -579,8 +428,8 @@ export default class ConnectionManager {
             console.log('getTryConnectPromise ' + url);
 
             ajax({
-                url: getEmbyServerUrl(url, 'system/info/public'),
-                timeout: defaultTimeout,
+                url: `${url}/System/Info/Public`,
+                timeout: DEFAULT_CONNECTION_TIMEOUT,
                 type: 'GET',
                 dataType: 'json'
             }).then(
@@ -688,13 +537,17 @@ export default class ConnectionManager {
                             console.log(
                                 'http request succeeded, but found a different server Id than what was expected'
                             );
-                            resolveFailure(self, resolve);
+                            resolve({
+                                State: ConnectionState.Unavailable
+                            });
                         } else {
                             onSuccessfulConnection(server, result, connectionMode, serverUrl, true, resolve, options);
                         }
                     },
                     () => {
-                        resolveFailure(self, resolve);
+                        resolve({
+                            State: ConnectionState.Unavailable
+                        });
                     }
                 );
             });
