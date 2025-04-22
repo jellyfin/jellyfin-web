@@ -3,11 +3,10 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { ApiClient, ConnectResponse } from 'jellyfin-apiclient';
 
 import globalize from 'lib/globalize';
-import { ConnectionState } from 'utils/jellyfin-apiclient/ConnectionState';
+import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 
 import alert from './alert';
 import Loading from './loading/LoadingComponent';
-import ServerConnections from './ServerConnections';
 
 enum AccessLevel {
     /** Requires a user with administrator access */

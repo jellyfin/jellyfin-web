@@ -1,6 +1,7 @@
 import React from 'react';
 
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Page from 'components/Page';
@@ -16,7 +17,6 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
-import ServerConnections from 'components/ServerConnections';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models/trickplay-scan-behavior';
 import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';

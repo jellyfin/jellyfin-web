@@ -5,11 +5,11 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 import escapeHtml from 'escape-html';
 import type { ApiClient } from 'jellyfin-apiclient';
 
+import cardBuilder from 'components/cardbuilder/cardBuilder';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
-import ServerConnections from 'components/ServerConnections';
-import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 
 import type { SectionContainerElement, SectionOptions } from './section';

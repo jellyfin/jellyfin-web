@@ -1,10 +1,11 @@
-import listView from '../components/listview/listview';
-import cardBuilder from '../components/cardbuilder/cardBuilder';
-import imageLoader from '../components/images/imageLoader';
+import listView from 'components/listview/listview';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import imageLoader from 'components/images/imageLoader';
 import globalize from 'lib/globalize';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
-import '../elements/emby-button/emby-button';
-import ServerConnections from '../components/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-button/emby-button';
 
 function renderItems(page, item) {
     const sections = [];
