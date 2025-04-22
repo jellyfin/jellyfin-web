@@ -1,5 +1,5 @@
-import ServerConnections from 'components/ServerConnections';
 import { getItemQuery } from 'hooks/useItem';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 

@@ -11,6 +11,7 @@ import toast from '../toast/toast';
 import { copy } from '../../scripts/clipboard';
 import dom from '../../scripts/dom';
 import globalize from '../../lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import itemHelper from '../../components/itemHelper';
 import loading from '../loading/loading';
 import '../../elements/emby-select/emby-select';
@@ -20,7 +21,6 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import 'material-design-icons-iconfont';
 import '../../styles/flexstyles.scss';
-import ServerConnections from '../ServerConnections';
 import template from './itemMediaInfo.template.html';
 
 // Do not add extra spaces between tags - they will be copied into the result

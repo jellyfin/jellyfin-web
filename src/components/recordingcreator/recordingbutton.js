@@ -1,9 +1,10 @@
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import dom from '../../scripts/dom';
 import recordingHelper from './recordinghelper';
+
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';
 import './recordingfields.scss';
-import ServerConnections from '../ServerConnections';
 
 function onRecordingButtonClick() {
     const item = this.item;

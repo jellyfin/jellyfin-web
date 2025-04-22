@@ -1,10 +1,10 @@
-import ServerConnections from '../components/ServerConnections';
 import toast from '../components/toast/toast';
 import loading from '../components/loading/loading';
 import { appRouter } from '../components/router/appRouter';
 import baseAlert from '../components/alert';
 import baseConfirm from '../components/confirm/confirm';
 import globalize from '../lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import * as webSettings from '../scripts/settings/webSettings';
 import datetime from '../scripts/datetime';
 import { setBackdropTransparency } from '../components/backdrop/backdrop';

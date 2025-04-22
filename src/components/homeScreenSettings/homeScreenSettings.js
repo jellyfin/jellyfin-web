@@ -2,6 +2,7 @@
 import escapeHtml from 'escape-html';
 
 import { getUserViewsQuery } from 'hooks/useUserViews';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
@@ -15,7 +16,6 @@ import dom from '../../scripts/dom';
 import '../listview/listview.scss';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './homeScreenSettings.template.html';
 import { LibraryTab } from '../../types/libraryTab.ts';

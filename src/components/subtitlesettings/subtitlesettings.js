@@ -1,4 +1,5 @@
 import globalize from '../../lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import { appHost } from '../apphost';
 import appSettings from '../../scripts/settings/appSettings';
 import focusManager from '../focusManager';
@@ -8,6 +9,7 @@ import subtitleAppearanceHelper from './subtitleappearancehelper';
 import settingsHelper from '../settingshelper';
 import dom from '../../scripts/dom';
 import Events from '../../utils/events.ts';
+
 import '../listview/listview.scss';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-slider/emby-slider';
@@ -15,7 +17,6 @@ import '../../elements/emby-input/emby-input';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../styles/flexstyles.scss';
 import './subtitlesettings.scss';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './subtitlesettings.template.html';
 

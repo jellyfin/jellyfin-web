@@ -1,7 +1,7 @@
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import dom from '../scripts/dom';
 import { appRouter } from './router/appRouter';
 import Dashboard from '../utils/dashboard';
-import ServerConnections from './ServerConnections';
 
 function onGroupedCardClick(e, card) {
     const itemId = card.getAttribute('data-id');

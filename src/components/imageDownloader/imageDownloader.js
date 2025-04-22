@@ -7,12 +7,12 @@ import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import scrollHelper from '../../scripts/scrollHelper';
 import globalize from '../../lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';
 import '../formdialog.scss';
 import '../cardbuilder/card.scss';
-import ServerConnections from '../ServerConnections';
 import template from './imageDownloader.template.html';
 
 const enableFocusTransform = !browser.slow && !browser.edge;

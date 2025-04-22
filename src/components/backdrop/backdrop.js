@@ -1,9 +1,9 @@
 import isEqual from 'lodash-es/isEqual';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
 import dom from '../../scripts/dom';
 import * as userSettings from '../../scripts/settings/userSettings';
-import ServerConnections from '../ServerConnections';
 
 import './backdrop.scss';
 

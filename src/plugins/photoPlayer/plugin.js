@@ -1,5 +1,5 @@
-import ServerConnections from '../../components/ServerConnections';
-import { PluginType } from '../../types/plugin.ts';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { PluginType } from 'types/plugin.ts';
 
 export default class PhotoPlayer {
     constructor() {

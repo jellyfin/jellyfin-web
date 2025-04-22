@@ -1,14 +1,15 @@
 import globalize from '../../lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import Events from '../../utils/events.ts';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';
 import dom from '../../scripts/dom';
 import recordingHelper from './recordinghelper';
+
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import './recordingfields.scss';
 import '../../styles/flexstyles.scss';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './recordingfields.template.html';
 

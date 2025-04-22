@@ -4,8 +4,8 @@ import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/medi
 import { getMediaSegmentsApi } from '@jellyfin/sdk/lib/utils/api/media-segments-api';
 
 import type { PlaybackManager } from 'components/playback/playbackmanager';
-import ServerConnections from 'components/ServerConnections';
 import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import type { PlayerState } from 'types/playbackStopInfo';
 import type { Event } from 'utils/events';

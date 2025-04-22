@@ -11,12 +11,13 @@ import globalize from '../../../lib/globalize';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import Dashboard from '../../../utils/dashboard';
-import ServerConnections from '../../../components/ServerConnections';
 import toast from '../../../components/toast/toast';
 import dialogHelper from '../../../components/dialogHelper/dialogHelper';
 import baseAlert from '../../../components/alert';
-import './login.scss';
 import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+
+import './login.scss';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 

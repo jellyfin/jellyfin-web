@@ -1,10 +1,11 @@
-import appSettings from '../../../scripts/settings/appSettings';
-import loading from '../../../components/loading/loading';
-import globalize from '../../../lib/globalize';
-import '../../../elements/emby-button/emby-button';
-import Dashboard from '../../../utils/dashboard';
-import ServerConnections from '../../../components/ServerConnections';
-import { ConnectionState } from '../../../lib/jellyfin-apiclient/connectionState';
+import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
+import { ConnectionState } from 'lib/jellyfin-apiclient/connectionState';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import appSettings from 'scripts/settings/appSettings';
+import Dashboard from 'utils/dashboard';
+
+import 'elements/emby-button/emby-button';
 
 function handleConnectionResult(page, result) {
     loading.hide();
