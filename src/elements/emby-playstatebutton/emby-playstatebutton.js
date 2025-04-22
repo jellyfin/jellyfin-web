@@ -1,8 +1,8 @@
 import serverNotifications from '../../scripts/serverNotifications';
 import globalize from '../../lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import Events from '../../utils/events.ts';
 import EmbyButtonPrototype from '../../elements/emby-button/emby-button';
-import ServerConnections from '../../components/ServerConnections';
 
 function addNotificationEvent(instance, name, handler) {
     const localHandler = handler.bind(instance);

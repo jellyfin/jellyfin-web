@@ -3,6 +3,7 @@ import escapeHTML from 'escape-html';
 
 import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
 import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
@@ -12,7 +13,6 @@ import qualityoptions from '../qualityOptions';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './playbackSettings.template.html';
 

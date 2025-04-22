@@ -5,7 +5,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 // NOTE: We need to import this first to initialize the connection
-import ServerConnections from './components/ServerConnections';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 
 import { appHost } from './components/apphost';
 import autoFocuser from './components/autoFocuser';
@@ -23,7 +23,6 @@ import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
 
 import RootApp from './RootApp';
-import { history } from 'RootAppRouter';
 
 // Import the button webcomponent for use throughout the site
 // NOTE: This is a bit of a hack, files should ensure the component is imported before use
@@ -206,7 +205,7 @@ async function renderApp() {
 
     const root = createRoot(container);
     root.render(
-        <RootApp history={history} />
+        <RootApp />
     );
 }
 

@@ -29,7 +29,7 @@ import {
 import itemHelper from '../../components/itemHelper';
 import Screenfull from 'screenfull';
 import globalize from '../../lib/globalize';
-import ServerConnections from '../../components/ServerConnections';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';

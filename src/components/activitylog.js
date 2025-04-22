@@ -1,12 +1,12 @@
 import escapeHtml from 'escape-html';
 import Events from '../utils/events.ts';
 import globalize from '../lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import dom from '../scripts/dom';
 import { formatRelative } from 'date-fns';
 import serverNotifications from '../scripts/serverNotifications';
 import '../elements/emby-button/emby-button';
 import './listview/listview.scss';
-import ServerConnections from './ServerConnections';
 import alert from './alert';
 import { getLocale } from '../utils/dateFnsLocale.ts';
 import { toBoolean } from '../utils/string.ts';

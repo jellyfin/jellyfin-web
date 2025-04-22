@@ -4,12 +4,12 @@ import { setBackdropTransparency } from '../backdrop/backdrop';
 import globalize from '../../lib/globalize';
 import itemHelper from '../itemHelper';
 import loading from '../loading/loading';
-import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 
-import { queryClient } from 'utils/query/queryClient';
 import { getItemQuery } from 'hooks/useItem';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
 import { history } from 'RootAppRouter';
 
 /** Pages of "no return" (when "Go back" should behave differently, probably quitting the application). */

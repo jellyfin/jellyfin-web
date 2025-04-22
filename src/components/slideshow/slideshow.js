@@ -3,16 +3,17 @@
  * @module components/slideshow/slideshow
  */
 import dialogHelper from '../dialogHelper/dialogHelper';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import inputManager from '../../scripts/inputManager';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
 import dom from '../../scripts/dom';
+
 import './style.scss';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
-import ServerConnections from '../ServerConnections';
 import screenfull from 'screenfull';
 import { randomInt } from '../../utils/number.ts';
 

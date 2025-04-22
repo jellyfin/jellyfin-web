@@ -4,10 +4,10 @@ import type { ApiClient, ConnectResponse } from 'jellyfin-apiclient';
 
 import globalize from 'lib/globalize';
 import { ConnectionState } from 'lib/jellyfin-apiclient/connectionState';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 
 import alert from './alert';
 import Loading from './loading/LoadingComponent';
-import ServerConnections from './ServerConnections';
 
 enum AccessLevel {
     /** Requires a user with administrator access */

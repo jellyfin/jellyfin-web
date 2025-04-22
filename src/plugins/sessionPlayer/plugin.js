@@ -1,6 +1,6 @@
 import { playbackManager } from '../../components/playback/playbackmanager';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import serverNotifications from '../../scripts/serverNotifications';
-import ServerConnections from '../../components/ServerConnections';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import isEqual from 'lodash-es/isEqual';

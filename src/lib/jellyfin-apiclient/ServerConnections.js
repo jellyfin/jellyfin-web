@@ -3,12 +3,12 @@
 import { Api } from '@jellyfin/sdk';
 import { Credentials, ApiClient } from 'jellyfin-apiclient';
 
-import { appHost } from './apphost';
+import { appHost } from 'components/apphost';
 import ConnectionManager from 'lib/jellyfin-apiclient/connectionManager';
-import Dashboard from '../utils/dashboard';
-import Events from '../utils/events.ts';
-import { setUserInfo } from '../scripts/settings/userSettings';
-import appSettings from '../scripts/settings/appSettings';
+import appSettings from 'scripts/settings/appSettings';
+import { setUserInfo } from 'scripts/settings/userSettings';
+import Dashboard from 'utils/dashboard';
+import Events from 'utils/events.ts';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 const normalizeImageOptions = options => {

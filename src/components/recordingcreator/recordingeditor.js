@@ -1,9 +1,11 @@
 
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import layoutManager from '../layoutManager';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
+
 import '../../styles/scrollstyles.scss';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-collapse/emby-collapse';
@@ -13,7 +15,6 @@ import '../formdialog.scss';
 import './recordingcreator.scss';
 import 'material-design-icons-iconfont';
 import '../../styles/flexstyles.scss';
-import ServerConnections from '../ServerConnections';
 import template from './recordingeditor.template.html';
 
 let currentDialog;

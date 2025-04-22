@@ -1,7 +1,7 @@
 
-import ServerConnections from '../../components/ServerConnections';
-import { PluginType } from '../../types/plugin.ts';
-import * as userSettings from '../../scripts/settings/userSettings';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import * as userSettings from 'scripts/settings/userSettings';
+import { PluginType } from 'types/plugin.ts';
 
 class BackdropScreensaver {
     constructor() {
