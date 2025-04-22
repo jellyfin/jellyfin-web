@@ -45,7 +45,19 @@ export const ForgotPasswordPage = () => {
             }
 
             if (result.Action == 'PinCode') {
-                navigate('/forgotpasswordpin');
+                let msg = globalize.translate('MessageForgotPasswordFileCreated');
+                msg += '<br/><br/>';
+                msg += globalize.translate('MessageForgotPasswordPinReset');
+                msg += '<br/><br/>';
+                msg += result.PinFile;
+                msg += '<br/>';
+                Dashboard.alert({
+                    message: msg,
+                    title: globalize.translate('ButtonForgotPassword'),
+                    callback: function () {
+                        navigate('forgotpasswordpin');
+                    }
+                });
             }
         }
     });
