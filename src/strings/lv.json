@@ -1559,7 +1559,7 @@
     "SubtitleMagenta": "Purpursarkans",
     "SubtitleVerticalPositionHelp": "Rindas numurs, kurā parādās teksts. Pozitīvie skaitļi norāda no augšas uz leju. Negatīvi skaitļi norāda uz augšupejošu tekstu.",
     "TheseSettingsAffectSubtitlesOnThisDevice": "Šie iestatījumi ietekmē subtitrus šajā ierīcē",
-    "ThisWizardWillGuideYou": "Šis vednis palīdzēs jums veikt iestatīšanas procesu. Lai sāktu, izvēlieties vēlamo valodu.",
+    "ThisWizardWillGuideYou": "Šis vednis palīdzēs jums veikt uzstādīšanas procesu. Lai sāktu, ievadiet servera vārdu un izvēlieties vēlamo valodu.",
     "EnableVppTonemapping": "Iespējot VPP toņu kartēšanu",
     "AudioCodecNotSupported": "Audio kodeks netiek atbalstīts",
     "AudioChannelsNotSupported": "Audio kanālu skaits netiek atbalstīts",

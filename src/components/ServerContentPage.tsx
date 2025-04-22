@@ -1,10 +1,10 @@
 import { FunctionComponent, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import ServerConnections from './ServerConnections';
 import viewManager from './viewManager/viewManager';
-import globalize from '../lib/globalize';
-import type { RestoreViewFailResponse } from '../types/viewManager';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import type { RestoreViewFailResponse } from 'types/viewManager';
 
 interface ServerContentPageProps {
     view: string

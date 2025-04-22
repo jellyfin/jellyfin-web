@@ -993,7 +993,7 @@
     "Tags": "Etiquetas",
     "TellUsAboutYourself": "Háblenos acerca de usted",
     "TheseSettingsAffectSubtitlesOnThisDevice": "Estas opciones afectan a los subtítulos en este dispositivo",
-    "ThisWizardWillGuideYou": "Este asistente lo guiará en el proceso de instalación. Para comenzar, seleccione su idioma preferido.",
+    "ThisWizardWillGuideYou": "Este asistente lo guiará durante el proceso de configuración. Para comenzar, por favor ingrese un nombre de servidor y seleccione su idioma preferido.",
     "Thumb": "Miniatura",
     "Thursday": "Jueves",
     "TitleHardwareAcceleration": "Aceleración por Hardware",
@@ -2022,5 +2022,9 @@
     "ImageDeleteFailed": "Error al eliminar la imagen",
     "ImageUploadCancelled": "Se canceló la carga de la imagen",
     "ImageUploadFailed": "Falló la carga de la imagen",
-    "UploadCustomImage": "Cargar imagen personalizada"
+    "UploadCustomImage": "Cargar imagen personalizada",
+    "RetryWithGlobalSearch": "Reintentar con una búsqueda global",
+    "LimitSegmentLength": "Usar segmentos HLS más pequeños",
+    "LimitSegmentLengthHelp": "Habilitar esta opción puede prevenir que el reproductor HLS se congele mientras se avanza en ciertos dispositivos, como televisores webOS.",
+    "StreamCountExceedsLimit": "El numero de transmisiones excede el límite"
 }
