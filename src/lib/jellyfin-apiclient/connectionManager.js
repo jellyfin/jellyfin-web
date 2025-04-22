@@ -1,3 +1,4 @@
+import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { ApiClient } from 'jellyfin-apiclient';
 
@@ -224,7 +225,17 @@ export default class ConnectionManager {
                 url: `${serverUrl}/System/Info`,
                 dataType: 'json',
                 headers: {
-                    'X-MediaBrowser-Token': server.AccessToken
+                    'Authorization': getAuthorizationHeader(
+                        {
+                            name: appName,
+                            version: appVersion
+                        },
+                        {
+                            id: deviceId,
+                            name: deviceName
+                        },
+                        server.AccessToken
+                    )
                 }
             }).then(
                 (systemInfo) => {
