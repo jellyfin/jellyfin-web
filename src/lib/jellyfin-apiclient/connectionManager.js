@@ -1,3 +1,4 @@
+import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/api';
 import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { ApiClient } from 'jellyfin-apiclient';
@@ -225,7 +226,7 @@ export default class ConnectionManager {
                 url: `${serverUrl}/System/Info`,
                 dataType: 'json',
                 headers: {
-                    'Authorization': getAuthorizationHeader(
+                    [AUTHORIZATION_HEADER]: getAuthorizationHeader(
                         {
                             name: appName,
                             version: appVersion
