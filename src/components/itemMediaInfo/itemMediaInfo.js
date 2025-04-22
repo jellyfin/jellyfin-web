@@ -11,7 +11,7 @@ import toast from '../toast/toast';
 import { copy } from '../../scripts/clipboard';
 import dom from '../../scripts/dom';
 import globalize from '../../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import itemHelper from '../../components/itemHelper';
 import loading from '../loading/loading';
 import '../../elements/emby-select/emby-select';

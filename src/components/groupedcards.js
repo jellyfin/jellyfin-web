@@ -1,4 +1,4 @@
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from '../scripts/dom';
 import { appRouter } from './router/appRouter';
 import Dashboard from '../utils/dashboard';

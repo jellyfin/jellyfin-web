@@ -1,7 +1,6 @@
 import loading from 'components/loading/loading';
 import globalize from 'lib/globalize';
-import { ConnectionState } from 'lib/jellyfin-apiclient/connectionState';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 import appSettings from 'scripts/settings/appSettings';
 import Dashboard from 'utils/dashboard';
 

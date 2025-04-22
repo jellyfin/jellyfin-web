@@ -6,7 +6,7 @@ import { appHost } from '../apphost';
 import focusManager from '../focusManager';
 import datetime from '../../scripts/datetime';
 import globalize from '../../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import loading from '../loading/loading';
 import skinManager from '../../scripts/themeManager';
 import { PluginType } from '../../types/plugin.ts';

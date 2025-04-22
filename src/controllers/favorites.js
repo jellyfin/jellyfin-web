@@ -4,7 +4,7 @@ import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import dom from 'scripts/dom';
 import globalize from 'lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 

@@ -5,7 +5,7 @@ import { pageClassOn } from '../utils/dashboard';
 import { queryClient } from 'utils/query/queryClient';
 import { getBrandingOptionsQuery } from 'apps/dashboard/features/branding/api/useBrandingOptions';
 import { SPLASHSCREEN_URL } from 'constants/branding';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 const cache = {};
 

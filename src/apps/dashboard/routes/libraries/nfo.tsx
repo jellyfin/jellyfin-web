@@ -16,7 +16,7 @@ import SimpleAlert from 'components/SimpleAlert';
 import { QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import { useUsers } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useState } from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { ActionData } from 'types/actionData';

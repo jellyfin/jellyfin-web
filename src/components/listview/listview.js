@@ -10,7 +10,7 @@ import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';
 import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import datetime from '../../scripts/datetime';
 import cardBuilder from '../cardbuilder/cardBuilder';
 import './listview.scss';

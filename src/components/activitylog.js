@@ -1,7 +1,7 @@
 import escapeHtml from 'escape-html';
 import Events from '../utils/events.ts';
 import globalize from '../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from '../scripts/dom';
 import { formatRelative } from 'date-fns';
 import serverNotifications from '../scripts/serverNotifications';

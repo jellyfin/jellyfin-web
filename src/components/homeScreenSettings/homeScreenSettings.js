@@ -2,7 +2,7 @@
 import escapeHtml from 'escape-html';
 
 import { getUserViewsQuery } from 'hooks/useUserViews';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 

@@ -10,7 +10,7 @@ import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-select/emby-select';
