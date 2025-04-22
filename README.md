@@ -89,6 +89,7 @@ Jellyfin Web is the frontend used for most of the clients available for end user
     ├── components        # Higher order visual components and React components
     ├── constants         # Common constant values
     ├── controllers       # Legacy page views and controllers 🧹 ❌
+    ├── crashReporter     # Script to send crash report logs to a connected server
     ├── elements          # Basic webcomponents and React equivalents 🧹
     ├── hooks             # Custom React hooks
     ├── lib               # Reusable libraries
