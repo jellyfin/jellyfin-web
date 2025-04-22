@@ -3,7 +3,7 @@
  * @module components/slideshow/slideshow
  */
 import dialogHelper from '../dialogHelper/dialogHelper';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from '../../scripts/inputManager';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';

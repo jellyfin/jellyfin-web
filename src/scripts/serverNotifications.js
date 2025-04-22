@@ -4,7 +4,7 @@ import { playbackManager } from 'components/playback/playbackmanager';
 import { pluginManager } from 'components/pluginManager';
 import { appRouter } from 'components/router/appRouter';
 import toast from 'components/toast/toast';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from 'scripts/inputManager';
 import Events from 'utils/events.ts';
 import { PluginType } from 'types/plugin.ts';

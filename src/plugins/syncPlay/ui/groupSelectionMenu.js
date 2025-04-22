@@ -5,7 +5,7 @@ import actionsheet from '../../../components/actionSheet/actionSheet';
 import globalize from '../../../lib/globalize';
 import playbackPermissionManager from './playbackPermissionManager';
 import { pluginManager } from '../../../components/pluginManager';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { PluginType } from '../../../types/plugin.ts';
 import Events from '../../../utils/events.ts';
 

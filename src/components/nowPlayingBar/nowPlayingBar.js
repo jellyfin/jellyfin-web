@@ -1,7 +1,7 @@
 import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { appRouter, isLyricsPage } from 'components/router/appRouter';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';

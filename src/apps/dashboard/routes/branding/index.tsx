@@ -21,7 +21,7 @@ import Page from 'components/Page';
 import { SPLASHSCREEN_URL } from 'constants/branding';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
 

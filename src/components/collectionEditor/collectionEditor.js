@@ -5,7 +5,7 @@ import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
 import { appRouter } from '../router/appRouter';
 import globalize from '../../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-checkbox/emby-checkbox';

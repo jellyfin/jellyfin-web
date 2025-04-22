@@ -6,7 +6,7 @@ import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import Screenfull from 'screenfull';
 import TableOfContents from './tableOfContents';
 import { translateHtml } from '../../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
 import * as userSettings from '../../scripts/settings/userSettings';
 import TouchHelper from 'scripts/touchHelper';

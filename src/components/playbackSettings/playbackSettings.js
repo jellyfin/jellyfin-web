@@ -3,7 +3,7 @@ import escapeHTML from 'escape-html';
 
 import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
 import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';

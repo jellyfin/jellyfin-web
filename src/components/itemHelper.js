@@ -7,7 +7,7 @@ import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 
 import { appHost } from './apphost';
 import globalize from 'lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 export function getDisplayName(item, options = {}) {

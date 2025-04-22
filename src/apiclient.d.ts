@@ -67,7 +67,7 @@ declare module 'jellyfin-apiclient' {
         UtcTimeResponse,
         VirtualFolderInfo
     } from '@jellyfin/sdk/lib/generated-client';
-    import type { ConnectionState } from 'lib/jellyfin-apiclient/connectionState';
+    import type { ConnectionState } from 'lib/jellyfin-apiclient';
 
     class ApiClient {
         constructor(serverAddress: string, appName: string, appVersion: string, deviceName: string, deviceId: string);

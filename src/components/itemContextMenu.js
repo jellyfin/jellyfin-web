@@ -2,7 +2,7 @@ import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
 import dom from '../scripts/dom';
 import globalize from '../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import actionsheet from './actionSheet/actionSheet';
 import { appHost } from './apphost';
 import { appRouter } from './router/appRouter';

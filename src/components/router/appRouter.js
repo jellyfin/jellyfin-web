@@ -7,7 +7,7 @@ import loading from '../loading/loading';
 import alert from '../alert';
 
 import { getItemQuery } from 'hooks/useItem';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 import { history } from 'RootAppRouter';

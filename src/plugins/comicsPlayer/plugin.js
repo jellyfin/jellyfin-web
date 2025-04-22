@@ -3,7 +3,7 @@ import loading from '../../components/loading/loading';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import { appRouter } from '../../components/router/appRouter';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { PluginType } from '../../types/plugin.ts';
 

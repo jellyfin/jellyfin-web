@@ -11,7 +11,7 @@ import Page from 'components/Page';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import { useSystemInfo } from 'hooks/useSystemInfo';
 import globalize from 'lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useEffect, useState } from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';

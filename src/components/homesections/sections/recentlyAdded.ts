@@ -9,7 +9,7 @@ import cardBuilder from 'components/cardbuilder/cardBuilder';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 
 import type { SectionContainerElement, SectionOptions } from './section';

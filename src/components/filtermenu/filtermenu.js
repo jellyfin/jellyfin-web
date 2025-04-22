@@ -5,7 +5,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import inputManager from '../../scripts/inputManager';
 import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';

@@ -3,7 +3,7 @@ import type { ApiClient } from 'jellyfin-apiclient';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import globalize from 'lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import type { SectionContainerElement, SectionOptions } from './section';
 

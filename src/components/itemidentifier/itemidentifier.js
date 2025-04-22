@@ -8,7 +8,7 @@ import escapeHtml from 'escape-html';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import scrollHelper from '../../scripts/scrollHelper';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';

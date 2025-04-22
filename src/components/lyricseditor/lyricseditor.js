@@ -5,7 +5,7 @@ import { toApi } from 'utils/jellyfin-apiclient/compat';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from 'lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
 import dom from '../../scripts/dom';

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import globalize from 'lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Page from 'components/Page';

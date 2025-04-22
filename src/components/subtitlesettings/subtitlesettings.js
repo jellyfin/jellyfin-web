@@ -1,5 +1,5 @@
 import globalize from '../../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { appHost } from '../apphost';
 import appSettings from '../../scripts/settings/appSettings';
 import focusManager from '../focusManager';

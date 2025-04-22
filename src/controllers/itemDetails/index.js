@@ -22,7 +22,7 @@ import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import itemShortcuts from 'components/shortcuts';
 import globalize from 'lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'scripts/dom';

@@ -8,7 +8,7 @@ import { playbackManager } from './playback/playbackmanager';
 import inputManager from '../scripts/inputManager';
 import { appRouter } from './router/appRouter';
 import globalize from '../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from '../scripts/dom';
 import recordingHelper from './recordingcreator/recordinghelper';
 import toast from './toast/toast';

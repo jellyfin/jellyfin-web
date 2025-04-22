@@ -11,7 +11,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 import { appHost } from '../apphost';
 import globalize from '../../lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import layoutManager from '../layoutManager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import itemContextMenu from '../itemContextMenu';

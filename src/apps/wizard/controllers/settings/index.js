@@ -1,5 +1,5 @@
 import loading from 'components/loading/loading';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Dashboard from 'utils/dashboard';
 
 import 'elements/emby-button/emby-button';

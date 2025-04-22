@@ -1,6 +1,6 @@
 
 import globalize from 'lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import serverNotifications from 'scripts/serverNotifications';
 import Events from 'utils/events.ts';
 
