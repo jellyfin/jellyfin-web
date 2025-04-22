@@ -1532,10 +1532,16 @@ export class HtmlVideoPlayer {
             // in safari, the cues need to be added before setting the track mode to showing
             for (const trackEvent of data.TrackEvents) {
                 const TrackCue = window.VTTCue || window.TextTrackCue;
-                const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+                const text = normalizeTrackEventText(trackEvent.Text, false);
+                const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, text);
 
                 if (cue.line === 'auto') {
-                    cue.line = cueLine;
+                    if (cueLine < 0) {
+                        const lineCount = (text.match(/\n/g) || []).length;
+                        cue.line = cueLine - lineCount;
+                    } else {
+                        cue.line = cueLine;
+                    }
                 }
 
                 trackElement.addCue(cue);
