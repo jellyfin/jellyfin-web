@@ -64,7 +64,7 @@ export default function (view, params, tabContent) {
 
         const enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
         const query = {
-            SortBy: 'Random',
+            SortBy: 'SortName',
             SortOrder: 'Ascending',
             IncludeItemTypes: 'Series',
             Recursive: true,
