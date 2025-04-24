@@ -9,6 +9,7 @@ import alert from '../alert';
 import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
 import datetime from '../../scripts/datetime';
+import { getParameterByName } from 'utils/url';
 
 let selectedItems = [];
 let selectedElements = [];
@@ -50,25 +51,6 @@ function onItemSelectionPanelClick(e, itemSelectionPanel) {
     e.preventDefault();
     e.stopPropagation();
     return false;
-}
-
-function getItemIdFromHash() {
-    const hash = window.location.hash;
-    const queryIndex = hash.indexOf('?');
-
-    if (queryIndex === -1) return null;
-
-    const queryString = hash.substring(queryIndex + 1);
-    const queryParts = queryString.split('&');
-
-    for (const part of queryParts) {
-        const [key, value] = part.split('=');
-        if (key === 'id') {
-            return decodeURIComponent(value);
-        }
-    }
-
-    return null;
 }
 
 function updateItemSelection(chkItemSelect, selected) {
@@ -187,7 +169,7 @@ function showMenuForSelectedItems(e) {
 
     apiClient.getCurrentUser().then(user => {
         // get collection id
-        const collectionId = getItemIdFromHash();
+        const collectionId = getParameterByName('id');
         let collectionItem = null;
 
         if (collectionId) {
