@@ -212,6 +212,14 @@ function showMenuForSelectedItems(e) {
                 icon: 'add'
             });
 
+            if (collectionItem && collectionItem.Type === 'BoxSet') {
+                menuItems.push({
+                    name: globalize.translate('RemoveFromCollection'),
+                    id: 'removefromcollection',
+                    icon: 'playlist_remove'
+                });
+            }
+
             menuItems.push({
                 name: globalize.translate('AddToPlaylist'),
                 id: 'playlist',
@@ -261,14 +269,6 @@ function showMenuForSelectedItems(e) {
                 });
             }
 
-            if (collectionItem && collectionItem.Type === 'BoxSet') {
-                menuItems.push({
-                    name: globalize.translate('RemoveFromCollection'),
-                    id: 'removefromcollection',
-                    icon: 'playlist_remove'
-                });
-            }
-
             import('../actionSheet/actionSheet').then((actionsheet) => {
                 actionsheet.show({
                     items: menuItems,
@@ -301,6 +301,16 @@ function showMenuForSelectedItems(e) {
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
+                                break;
+                            case 'removefromcollection':
+                                apiClient.ajax({
+                                    type: 'DELETE',
+                                    url: apiClient.getUrl('Collections/' + collectionId + '/Items', {
+                                        Ids: items.join(',')
+                                    })
+                                });
+                                dispatchNeedsRefresh();
+                                hideSelections();
                                 break;
                             case 'playlist':
                                 import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
@@ -348,16 +358,6 @@ function showMenuForSelectedItems(e) {
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
-                                break;
-                            case 'removefromcollection':
-                                apiClient.ajax({
-                                    type: 'DELETE',
-                                    url: apiClient.getUrl('Collections/' + collectionId + '/Items', {
-                                        Ids: items.join(',')
-                                    })
-                                });
-                                dispatchNeedsRefresh();
-                                hideSelections();
                                 break;
                             default:
                                 break;
