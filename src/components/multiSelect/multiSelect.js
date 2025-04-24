@@ -52,6 +52,25 @@ function onItemSelectionPanelClick(e, itemSelectionPanel) {
     return false;
 }
 
+function getItemIdFromHash() {
+    const hash = window.location.hash;
+    const queryIndex = hash.indexOf('?');
+
+    if (queryIndex === -1) return null;
+
+    const queryString = hash.substring(queryIndex + 1);
+    const queryParts = queryString.split('&');
+
+    for (const part of queryParts) {
+        const [key, value] = part.split('=');
+        if (key === 'id') {
+            return decodeURIComponent(value);
+        }
+    }
+
+    return null;
+}
+
 function updateItemSelection(chkItemSelect, selected) {
     const id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
 
@@ -167,14 +186,13 @@ function showMenuForSelectedItems(e) {
     const apiClient = ServerConnections.currentApiClient();
 
     apiClient.getCurrentUser().then(user => {
-        
         // get collection id
-        const collectionId = new URLSearchParams(window.location.hash.split('?')[1]).get('id');
+        const collectionId = getItemIdFromHash();
         let collectionItem = null;
-        
-        if(collectionId) {
+
+        if (collectionId) {
             apiClient.getItem(user.Id, collectionId).then(collection => {
-                collectionItem = collection
+                collectionItem = collection;
             });
         }
 
@@ -243,7 +261,7 @@ function showMenuForSelectedItems(e) {
                 });
             }
 
-            if (collectionItem && collectionItem.Type === "BoxSet") {
+            if (collectionItem && collectionItem.Type === 'BoxSet') {
                 menuItems.push({
                     name: globalize.translate('RemoveFromCollection'),
                     id: 'removefromcollection',
