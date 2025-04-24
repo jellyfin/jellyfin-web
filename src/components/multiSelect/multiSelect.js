@@ -355,7 +355,7 @@ function showMenuForSelectedItems(e) {
                                     url: apiClient.getUrl('Collections/' + collectionId + '/Items', {
                                         Ids: items.join(',')
                                     })
-                                }).then(() => dispatchNeedsRefresh());
+                                }).then(dispatchNeedsRefresh());
                                 hideSelections();
                                 break;
                             default:
