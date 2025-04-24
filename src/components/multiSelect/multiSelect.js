@@ -167,6 +167,17 @@ function showMenuForSelectedItems(e) {
     const apiClient = ServerConnections.currentApiClient();
 
     apiClient.getCurrentUser().then(user => {
+        
+        // get collection id
+        const collectionId = new URLSearchParams(window.location.hash.split('?')[1]).get('id');
+        let collectionItem = null;
+        
+        if(collectionId) {
+            apiClient.getItem(user.Id, collectionId).then(collection => {
+                collectionItem = collection
+            });
+        }
+
         // get first selected item to perform metadata refresh permission check
         apiClient.getItem(apiClient.getCurrentUserId(), selectedItems[0]).then(firstItem => {
             const menuItems = [];
@@ -229,6 +240,14 @@ function showMenuForSelectedItems(e) {
                     name: globalize.translate('RefreshMetadata'),
                     id: 'refresh',
                     icon: 'refresh'
+                });
+            }
+
+            if (collectionItem && collectionItem.Type === "BoxSet") {
+                menuItems.push({
+                    name: globalize.translate('RemoveFromCollection'),
+                    id: 'removefromcollection',
+                    icon: 'playlist_remove'
                 });
             }
 
@@ -311,6 +330,15 @@ function showMenuForSelectedItems(e) {
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
+                                break;
+                            case 'removefromcollection':
+                                apiClient.ajax({
+                                    type: 'DELETE',
+                                    url: apiClient.getUrl('Collections/' + collectionId + '/Items', {
+                                        Ids: items.join(',')
+                                    })
+                                }).then(() => dispatchNeedsRefresh());
+                                hideSelections();
                                 break;
                             default:
                                 break;
