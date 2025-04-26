@@ -722,7 +722,7 @@
     "File": "Ficheiro",
     "Features": "Funcionalidades",
     "Favorites": "Favoritos",
-    "Favorite": "Favoritos",
+    "Favorite": "Favorito",
     "FastForward": "Avanço rápido",
     "FFmpegSavePathNotFound": "Não conseguimos encontrar o FFmpeg na localização que introduziste. O FFprobe também é necessário e deve estar na mesma pasta. Estes componentes são, por norma, instalados em conjunto. Por favor, verifica a localização e tenta novamente.",
     "Extras": "Extras",
