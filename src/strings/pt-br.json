@@ -104,7 +104,7 @@
     "ColorTransfer": "Transferência de cor",
     "CommunityRating": "Avaliação da comunidade",
     "Composer": "Compositor",
-    "ConfigureDateAdded": "Configure como os metadados são determinados para 'Data adicionada' em \"Painel > Bibliotecas > Configurações de NFO\"",
+    "ConfigureDateAdded": "Configure como os metadados são determinados para 'Data adicionada' em \"Painel > Bibliotecas > Exibição\"",
     "ConfirmDeleteImage": "Excluir imagem?",
     "ConfirmDeleteItem": "Ao excluir este item, você o excluirá do sistema de arquivos e também da biblioteca de mídias. Deseja realmente continuar?",
     "ConfirmDeleteItems": "Ao excluir estes itens, você os excluirá do sistema de arquivos e de sua biblioteca de mídias. Deseja realmente continuar?",
@@ -1988,5 +1988,12 @@
     "LabelMediaSegmentProviders": "Provedores de segmento de mídia",
     "HeaderNextEpisode": "Próximo episódio",
     "HeaderNextVideo": "Próximo vídeo",
-    "MediaSegmentProvidersHelp": "Habilite e classifique seus provedores de segmentos de mídia preferidos em ordem de prioridade."
+    "MediaSegmentProvidersHelp": "Habilite e classifique seus provedores de segmentos de mídia preferidos em ordem de prioridade.",
+    "CustomSubtitleStylingHelp": "A personalização das legendas funcionará na maioria dos dispositivos, mas pode acarretar um custo adicional de desempenho.",
+    "CustomSplashScreenSize": "Imagens personalizadas devem ter uma proporção de 16x9 com um tamanho mínimo de 1920x1080.",
+    "DeleteCustomImage": "Excluir Imagem Personalizada",
+    "CopyLogSuccess": "Conteúdo do log copiado com sucesso.",
+    "AutoSubtitleStylingHelp": "Este modo alternará automaticamente entre os mecanismos de estilo de legenda nativo e personalizado com base no tipo do seu dispositivo.",
+    "Custom": "Personalizado",
+    "DeleteServerConfirmation": "Você tem certeza que deseja excluir este servidor?"
 }

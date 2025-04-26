@@ -1,7 +1,8 @@
 import React, { type FC, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { IconButton } from '@mui/material';
+
 import classNames from 'classnames';
 import { useToggleFavoriteMutation } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';

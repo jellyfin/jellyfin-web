@@ -1,211 +1,172 @@
-import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
 
-interface TabDefinition {
-    index: number
-    label: string
-    value: LibraryTab
-    isDefault?: boolean
-}
+import { LibraryRoute } from '../types/LibraryRoute';
 
-interface TabRoute {
-    path: string,
-    tabs: TabDefinition[]
-}
-
-/**
- * Utility function to check if a path has tabs.
- */
-export const isTabPath = (path: string) => (
-    TabRoutes.some(route => route.path === path)
-);
-
-/**
- * Utility function to get the default tab index for a specified URL path and library.
- */
-export const getDefaultTabIndex = (path: string, libraryId?: string | null) => {
-    if (!libraryId) return 0;
-
-    const tabs = TabRoutes.find(route => route.path === path)?.tabs ?? [];
-    const defaultTab = userSettings.get('landing-' + libraryId, false);
-
-    return tabs.find(tab => tab.value === defaultTab)?.index
-        ?? tabs.find(tab => tab.isDefault)?.index
-        ?? 0;
-};
-
-const TabRoutes: TabRoute[] = [
+export const LibraryRoutes: LibraryRoute[] = [
     {
         path: '/livetv',
-        tabs: [
+        views: [
             {
                 index: 0,
                 label: 'Programs',
-                value: LibraryTab.Programs,
+                view: LibraryTab.Programs,
                 isDefault: true
             },
             {
                 index: 1,
                 label: 'Guide',
-                value: LibraryTab.Guide
+                view: LibraryTab.Guide
             },
             {
                 index: 2,
                 label: 'Channels',
-                value: LibraryTab.Channels
+                view: LibraryTab.Channels
             },
             {
                 index: 3,
                 label: 'Recordings',
-                value: LibraryTab.Recordings
+                view: LibraryTab.Recordings
             },
             {
                 index: 4,
                 label: 'Schedule',
-                value: LibraryTab.Schedule
+                view: LibraryTab.Schedule
             },
             {
                 index: 5,
                 label: 'Series',
-                value: LibraryTab.SeriesTimers
+                view: LibraryTab.SeriesTimers
             }
         ]
     },
     {
         path: '/movies',
-        tabs: [
+        views: [
             {
                 index: 0,
                 label: 'Movies',
-                value: LibraryTab.Movies,
+                view: LibraryTab.Movies,
                 isDefault: true
             },
             {
                 index: 1,
                 label: 'Suggestions',
-                value: LibraryTab.Suggestions
+                view: LibraryTab.Suggestions
             },
             {
                 index: 2,
-                label: 'Trailers',
-                value: LibraryTab.Trailers
+                label: 'Favorites',
+                view: LibraryTab.Favorites
             },
             {
                 index: 3,
-                label: 'Favorites',
-                value: LibraryTab.Favorites
+                label: 'Collections',
+                view: LibraryTab.Collections
             },
             {
                 index: 4,
-                label: 'Collections',
-                value: LibraryTab.Collections
-            },
-            {
-                index: 5,
                 label: 'Genres',
-                value: LibraryTab.Genres
+                view: LibraryTab.Genres
             }
         ]
     },
     {
         path: '/music',
-        tabs: [
+        views: [
             {
                 index: 0,
                 label: 'Albums',
-                value: LibraryTab.Albums,
+                view: LibraryTab.Albums,
                 isDefault: true
             },
             {
                 index: 1,
                 label: 'Suggestions',
-                value: LibraryTab.Suggestions
+                view: LibraryTab.Suggestions
             },
             {
                 index: 2,
                 label: 'HeaderAlbumArtists',
-                value: LibraryTab.AlbumArtists
+                view: LibraryTab.AlbumArtists
             },
             {
                 index: 3,
                 label: 'Artists',
-                value: LibraryTab.Artists
+                view: LibraryTab.Artists
             },
             {
                 index: 4,
                 label: 'Playlists',
-                value: LibraryTab.Playlists
+                view: LibraryTab.Playlists
             },
             {
                 index: 5,
                 label: 'Songs',
-                value: LibraryTab.Songs
+                view: LibraryTab.Songs
             },
             {
                 index: 6,
                 label: 'Genres',
-                value: LibraryTab.Genres
+                view: LibraryTab.Genres
             }
         ]
     },
     {
         path: '/tv',
-        tabs: [
+        views: [
             {
                 index: 0,
                 label: 'Shows',
-                value: LibraryTab.Series,
+                view: LibraryTab.Series,
                 isDefault: true
             },
             {
                 index: 1,
                 label: 'Suggestions',
-                value: LibraryTab.Suggestions
+                view: LibraryTab.Suggestions
             },
             {
                 index: 2,
                 label: 'TabUpcoming',
-                value: LibraryTab.Upcoming
+                view: LibraryTab.Upcoming
             },
             {
                 index: 3,
                 label: 'Genres',
-                value: LibraryTab.Genres
+                view: LibraryTab.Genres
             },
             {
                 index: 4,
                 label: 'TabNetworks',
-                value: LibraryTab.Networks
+                view: LibraryTab.Networks
             },
             {
                 index: 5,
                 label: 'Episodes',
-                value: LibraryTab.Episodes
+                view: LibraryTab.Episodes
             }
         ]
     },
     {
         path: '/homevideos',
-        tabs: [
+        views: [
             {
                 index: 0,
                 label: 'Photos',
-                value: LibraryTab.Photos,
+                view: LibraryTab.Photos,
                 isDefault: true
             },
             {
                 index: 1,
                 label: 'HeaderPhotoAlbums',
-                value: LibraryTab.PhotoAlbums,
+                view: LibraryTab.PhotoAlbums,
                 isDefault: true
             },
             {
                 index: 2,
                 label: 'HeaderVideos',
-                value: LibraryTab.Videos
+                view: LibraryTab.Videos
             }
         ]
     }
 ];
-
-export default TabRoutes;

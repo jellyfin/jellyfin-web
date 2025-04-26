@@ -1,6 +1,6 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
 import type { SxProps, Theme } from '@mui/material';
-import IconButton from '@mui/material/IconButton/IconButton';
+import IconButton from '@mui/material/IconButton';
 import React, { type FC } from 'react';
 import { Link } from 'react-router-dom';
 
