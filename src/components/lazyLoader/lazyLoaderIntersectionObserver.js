@@ -10,10 +10,7 @@ export class LazyLoader {
         const newObserver = new IntersectionObserver(
             (entries, observer) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        callback(entry);
-                        observer.unobserve(entry.target);
-                    }
+                    callback(entry, observer);
                 });
             },
             {

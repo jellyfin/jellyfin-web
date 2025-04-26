@@ -52,7 +52,11 @@ export default function (view, params, tabContent) {
         return !layoutManager.desktop;
     }
 
-    const fillItemsContainer = (entry) => {
+    const fillItemsContainer = (entry, observer) => {
+        if (!entry.isIntersecting) {
+            return;
+        }
+
         const elem = entry.target;
         const id = elem.getAttribute('data-id');
         const viewStyle = this.getCurrentViewStyle();
@@ -124,6 +128,8 @@ export default function (view, params, tabContent) {
             if (result.Items.length >= query.Limit) {
                 tabContent.querySelector('.btnMoreFromGenre' + id + ' .material-icons').classList.remove('hide');
             }
+        }).then(() => {
+            observer.unobserve(elem);
         });
     };
 
