@@ -713,7 +713,7 @@
     "FormatValue": "Formato: {0}",
     "Filters": "Filtros",
     "File": "Ficheiro",
-    "Favorite": "Favoritos",
+    "Favorite": "Favorito",
     "FFmpegSavePathNotFound": "Não conseguimos encontrar o FFmpeg na localização que introduziste. O FFprobe também é necessário e deve estar na mesma pasta. Estes componentes são, por norma, instalados em conjunto. Por favor, verifica a localização e tenta novamente.",
     "Extras": "Extras",
     "ExtraLarge": "Extra grande",
