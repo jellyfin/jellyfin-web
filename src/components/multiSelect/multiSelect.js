@@ -290,9 +290,10 @@ function showMenuForSelectedItems(e) {
                                     url: apiClient.getUrl('Collections/' + collectionId + '/Items', {
                                         Ids: items.join(',')
                                     })
+                                }).then(() => {
+                                    dispatchNeedsRefresh();
+                                    hideSelections();
                                 });
-                                dispatchNeedsRefresh();
-                                hideSelections();
                                 break;
                             case 'playlist':
                                 import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
