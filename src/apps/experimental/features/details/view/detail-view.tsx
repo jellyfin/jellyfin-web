@@ -10,6 +10,7 @@ import DetailPrimaryContainer from '../components/DetailPrimaryContainer';
 import DetailSecondaryContainer from '../components/DetailSecondaryContainer';
 
 import SeriesTimerSchedule from '../components/section/SeriesTimerSchedule';
+import CollectionItems from '../components/section/CollectionItems';
 import NextUp from '../components/section/NextUp';
 import PogramGuide from '../components/section/PogramGuide';
 
@@ -48,6 +49,10 @@ export const DetailView: FC<DetailViewProps> = ({ item, paramId, context }) => {
                                 <SeriesTimerSchedule
                                     seriesTimerId={item.Id}
                                 />
+                            )}
+
+                            {item.Id && item.IsFolder && item.Type === ItemKind.BoxSet && (
+                                <CollectionItems itemId={item.Id} />
                             )}
 
                             {item.Id && item.Type === ItemKind.Series && (

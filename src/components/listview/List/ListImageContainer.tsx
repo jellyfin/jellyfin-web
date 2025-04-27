@@ -71,7 +71,13 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
             className={imageClass}
         >
 
-            <Media item={item} imgUrl={imgUrl} blurhash={blurhash} defaultCardImageIcon={defaultCardImageIcon} />
+            <Media
+                item={item}
+                imgUrl={imgUrl}
+                blurhash={blurhash}
+                containImage={listOptions.imageSource === 'channel'}
+                defaultCardImageIcon={defaultCardImageIcon}
+            />
 
             {disableIndicators !== true && mediaSourceIndicator}
 
