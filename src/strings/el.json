@@ -1709,7 +1709,7 @@
     "LabelSegmentKeepSeconds": "Χρόνος που θα κρατηθούν τα τμήματα",
     "BackdropScreensaver": "Φόντο προφύλαξης οθόνης",
     "GridView": "Προβολή Πλέγματος",
-    "LabelBackdropScreensaverInterval": "Διάστημα Φόντου Προφύλαξης Οθόνης",
+    "LabelBackdropScreensaverInterval": "Διάρκεια Προφύλαξης Οθόνης",
     "LabelBackdropScreensaverIntervalHelp": "Ο χρόνος σε δευτερόλεπτα μεταξύ διαφορετικών φόντων όταν χρησιμοποιείται το φόντο προφύλαξης οθόνης.",
     "LabelEnableLUFSScan": "Ενεργοποίηση σάρωσης LUFS",
     "LabelMediaDetails": "Λεπτομέρειες πολυμέσων",
@@ -1971,5 +1971,6 @@
     "DeleteCustomImage": "Διαγραφή προσαρμοσμένης εικόνας",
     "ImageDeleteFailed": "Η διαγραφή εικόνας απέτυχε",
     "ImageUploadCancelled": "Η φόρτωση της εικόνας ακυρώθηκε",
-    "ImageUploadFailed": "Η φόρτωση της εικόνας απέτυχε"
+    "ImageUploadFailed": "Η φόρτωση της εικόνας απέτυχε",
+    "LimitSegmentLength": "Χρήση μικρότερων τμημάτων HLS"
 }
