@@ -11,6 +11,7 @@ import DetailSecondaryContainer from '../components/DetailSecondaryContainer';
 
 import SeriesTimerSchedule from '../components/section/SeriesTimerSchedule';
 import NextUp from '../components/section/NextUp';
+import PogramGuide from '../components/section/PogramGuide';
 
 import type { ItemDto } from 'types/base/models/item-dto';
 import { ItemKind } from 'types/base/models/item-kind';
@@ -51,6 +52,10 @@ export const DetailView: FC<DetailViewProps> = ({ item, paramId, context }) => {
 
                             {item.Id && item.Type === ItemKind.Series && (
                                 <NextUp seriesId={item.Id} userId={user?.Id} />
+                            )}
+
+                            {item.Type === ItemKind.TvChannel && (
+                                <PogramGuide item={item} />
                             )}
                         </Box>
                     </Box>

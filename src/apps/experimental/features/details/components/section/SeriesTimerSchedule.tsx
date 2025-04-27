@@ -14,15 +14,20 @@ interface SeriesTimerScheduleProps {
 const SeriesTimerSchedule: FC<SeriesTimerScheduleProps> = ({
     seriesTimerId
 }) => {
-    const { isLoading, data: timerInfoResult, refetch } = useGetTimers({
+    const {
+        isLoading,
+        data: timerInfoResult,
+        refetch
+    } = useGetTimers({
         seriesTimerId: seriesTimerId
     });
 
     const timers = timerInfoResult?.Items as ItemDto[];
 
-    const items = useMemo(() => (
-        (timers?.[0]?.SeriesTimerId === seriesTimerId) ? timers : []
-    ), [seriesTimerId, timers]);
+    const items = useMemo(
+        () => (timers?.[0]?.SeriesTimerId === seriesTimerId ? timers : []),
+        [seriesTimerId, timers]
+    );
 
     if (isLoading) return <Loading />;
 
@@ -30,12 +35,12 @@ const SeriesTimerSchedule: FC<SeriesTimerScheduleProps> = ({
 
     return (
         <SectionContainer
-            isListMode
+            listMode
+            noPadding
             sectionHeaderProps={{
                 title: globalize.translate('Schedule')
             }}
             itemsContainerProps={{
-                className: 'vertical-list',
                 queryKey: ['Timers'],
                 reloadItems: refetch
             }}
@@ -51,7 +56,7 @@ const SeriesTimerSchedule: FC<SeriesTimerScheduleProps> = ({
                 showRuntime: false,
                 action: 'none',
                 moreButton: false,
-                recordButton: false,
+                recordButton: true,
                 queryKey: ['Timers']
             }}
         />

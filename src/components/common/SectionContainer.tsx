@@ -67,8 +67,8 @@ interface SectionContainerProps {
     sectionHeaderProps?: Omit<SectionHeaderProps, 'itemsLength'>;
     scrollerProps?: ScrollerProps;
     itemsContainerProps?: ItemsContainerProps;
-    isListMode?: boolean;
-    isScrollerMode?: boolean;
+    listMode?: boolean;
+    enableScroller?: boolean;
     noPadding?: boolean;
     cardOptions?: CardOptions;
     listOptions?: ListOptions;
@@ -79,22 +79,23 @@ const SectionContainer: FC<PropsWithChildren<SectionContainerProps>> = ({
     sectionHeaderProps,
     scrollerProps,
     itemsContainerProps,
-    isListMode = false,
-    isScrollerMode = true,
+    listMode = false,
+    enableScroller = true,
     noPadding = false,
     items = [],
-    cardOptions = {},
-    listOptions = {},
+    cardOptions,
+    listOptions,
     children
 }) => {
     const sectionClass = classNames('verticalSection', className);
+    const isScrollerMode = enableScroller && !listMode;
 
     const renderItems = () => {
         if (React.isValidElement(children)) {
             return children;
         }
 
-        if (isListMode && !isScrollerMode) {
+        if (listMode && !isScrollerMode) {
             return <Lists items={items} listOptions={listOptions} />;
         } else {
             return <Cards items={items} cardOptions={cardOptions} />;
@@ -105,6 +106,7 @@ const SectionContainer: FC<PropsWithChildren<SectionContainerProps>> = ({
         <ItemsContainer
             className={classNames(
                 { scrollSlider: isScrollerMode },
+                { 'vertical-list': listMode },
                 itemsContainerProps?.className
             )}
             {...itemsContainerProps}
@@ -125,7 +127,7 @@ const SectionContainer: FC<PropsWithChildren<SectionContainerProps>> = ({
                     {...sectionHeaderProps}
                 />
             )}
-            {isScrollerMode && !isListMode ? (
+            {isScrollerMode && !listMode ? (
                 <Scroller
                     className={classNames(
                         { 'no-padding': noPadding },

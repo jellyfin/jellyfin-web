@@ -78,7 +78,6 @@ const ListContent: FC<ListContentProps> = ({
             {listOptions.showMediaInfo !== false && enableSideMediaInfo && (
                 <PrimaryMediaInfo
                     className='secondary listItemMediaInfo'
-                    infoclass='mediaInfoText'
                     item={item}
                     showRuntimeInfo
                     showOfficialRatingInfo

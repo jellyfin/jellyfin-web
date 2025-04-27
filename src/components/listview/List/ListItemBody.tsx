@@ -61,7 +61,6 @@ const ListItemBody: FC<ListItemBodyProps> = ({
             {listOptions.showMediaInfo !== false && !enableSideMediaInfo && (
                 <PrimaryMediaInfo
                     className='secondary listItemMediaInfo listItemBodyText'
-                    infoclass='mediaInfoText'
                     item={item}
                     showEpisodeTitleInfo
                     showOriginalAirDateInfo

@@ -30,17 +30,11 @@ const NextUp: FC<NextUpProps> = ({ seriesId, userId }) => {
 
     return (
         <SectionContainer
+            noPadding
             sectionHeaderProps={{
-                className: 'no-padding',
                 title: globalize.translate('NextUp')
             }}
-            scrollerProps={{
-                className: 'no-padding',
-                isMouseWheelEnabled: false,
-                isCenterFocusEnabled: true
-            }}
             itemsContainerProps={{
-                className: 'scrollSlider',
                 queryKey: ['NextUp'],
                 reloadItems: refetch
             }}
