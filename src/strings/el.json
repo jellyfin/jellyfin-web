@@ -1972,5 +1972,8 @@
     "ImageDeleteFailed": "Η διαγραφή εικόνας απέτυχε",
     "ImageUploadCancelled": "Η φόρτωση της εικόνας ακυρώθηκε",
     "ImageUploadFailed": "Η φόρτωση της εικόνας απέτυχε",
-    "LimitSegmentLength": "Χρήση μικρότερων τμημάτων HLS"
+    "LimitSegmentLength": "Χρήση μικρότερων τμημάτων HLS",
+    "PreferNonstandardArtistsTag": "Προτίμηση της ετικέτας ARTISTS εάν είναι διαθέσιμη",
+    "Penciller": "Στυλογράφος",
+    "Native": "Εγγενές"
 }
