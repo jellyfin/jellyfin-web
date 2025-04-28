@@ -58,6 +58,8 @@ export default function (view, params, tabContent) {
         }
 
         const elem = entry.target;
+        observer.unobserve(elem);
+
         const id = elem.getAttribute('data-id');
         const viewStyle = self.getCurrentViewStyle();
         let limit = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 5 : 9;
@@ -128,8 +130,6 @@ export default function (view, params, tabContent) {
             if (result.Items.length >= query.Limit) {
                 tabContent.querySelector('.btnMoreFromGenre' + id + ' .material-icons').classList.remove('hide');
             }
-        }).then(() => {
-            observer.unobserve(elem);
         });
     }
 
