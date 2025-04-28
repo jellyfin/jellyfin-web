@@ -2022,5 +2022,9 @@
     "ImageUploadCancelled": "Caricamento immagine annullato",
     "ImageUploadFailed": "Caricamento immagine non riuscito",
     "ImageDeleteFailed": "Eliminazione immagine non riuscita",
-    "UploadCustomImage": "Carica immagine personalizzata"
+    "UploadCustomImage": "Carica immagine personalizzata",
+    "LabelGroupShowsIntoCollectionsHelp": "Le serie in una collezione verranno mostrate come un elemento di gruppo quando vengono mostrate le liste di serie.",
+    "LimitSegmentLength": "Usa segmenti HLS più corti",
+    "LimitSegmentLengthHelp": "Abilitare questa opzione può aiutare ad evitare che il lettore HLS si blocchi mentre si ricerca su alcuni dispositivi, come le TV webOS.",
+    "LabelGroupShowsIntoCollections": "Raggruppa le serie in collezioni"
 }
