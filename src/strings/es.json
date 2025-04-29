@@ -714,7 +714,6 @@
     "MessageEnablingOptionLongerScans": "Activar esta opción implicará escaneos de la biblioteca más largos.",
     "MessageFileReadError": "Ha habido un error leyendo el fichero. Por favor, inténtalo más tarde.",
     "MessageForgotPasswordFileCreated": "Se ha creado el siguiente archivo en tu servidor y contiene instrucciones de cómo proceder",
-    "MessageForgotPasswordPinReset": "Introdice el PIN aqui para finalizar el reseteo de contraseña",
     "MessageForgotPasswordInNetworkRequired": "Por favor, inténtalo de nuevo desde tu red de casa para iniciar el proceso de restablecimiento de la contraseña.",
     "MessageInvalidForgotPasswordPin": "Has introducido un código PIN inválido o expirado. Por favor, inténtalo de nuevo.",
     "MessageInvalidUser": "Usuario o contraseña inválidos. Por favor, inténtalo otra vez.",
