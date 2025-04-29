@@ -1701,5 +1701,8 @@
     "LabelTrickplayThreadsHelp": "ffmpeg-en '-threads' argumentura pasatuko diren hari kopurua.",
     "LabelQscaleHelp": "ffmpeg-ek sortutako irudien kalitate-eskala, 2 kalitate handiena izanik eta 31 baxuena.",
     "LabelDummyChapterDurationHelp": "Kapitulu faltsuen arteko tartea. 0ra ezarri kapitulu faltsuen sorrera desgaitzeko. Hau aldatzeak ez du eraginik izango dauden kapitulu faltsuetan.",
-    "LabelChapterImageResolutionHelp": "Ateratako kapitulu-irudien bereizmena. Hau aldatzeak ez du eraginik izango dauden kapitulu faltsuetan."
+    "LabelChapterImageResolutionHelp": "Ateratako kapitulu-irudien bereizmena. Hau aldatzeak ez du eraginik izango dauden kapitulu faltsuetan.",
+    "ReadInputAtNativeFramerateHelp": "Aukera hau gaitzeak arazo batzuk konpondu ditzake, adibidez, zuzeneko erreprodukzioak azkarregi gelditzea.",
+    "PlaybackError.RateLimitExceeded": "Une honetan ezin da multimedia hau erreproduzitu abiadura-mugak direla eta.",
+    "MediaSegmentProvidersHelp": "Gaitu eta sailkatu nahiago dituzun multimedia-segmentu hornitzaileak lehentasunaren arabera."
 }
