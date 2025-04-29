@@ -4,30 +4,28 @@ import { useNavigate } from 'react-router-dom';
 import globalize from 'lib/globalize';
 import Button from 'elements/emby-button/Button';
 import Input from 'elements/emby-input/Input';
-import ServerConnections from 'components/ServerConnections';
 import { useMutation } from '@tanstack/react-query';
 import Dashboard from 'utils/dashboard';
+import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
+import ServerConnections from 'components/ServerConnections';
 
 export const ForgotPasswordPage = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
 
-    const apiClient = ServerConnections.currentApiClient();
-
     const forgotPasswordMutation = useMutation({
-        mutationFn: (enteredUsername: string) => {
-            if (!apiClient) {
-                throw new Error('API client is not available');
+        mutationFn: async (enteredUsername: string) => {
+            const currentApi = ServerConnections.getCurrentApi();
+            if (!currentApi) {
+                throw new Error('API not available');
             }
-            return apiClient.ajax({
-                type: 'POST',
-                url: apiClient.getUrl('Users/ForgotPassword'),
-                dataType: 'json',
-                contentType: 'application/json',
-                data: JSON.stringify({
+            const response = await getUserApi(currentApi).forgotPassword({
+                forgotPasswordDto: {
                     EnteredUsername: enteredUsername
-                })
+                }
             });
+
+            return response.data;
         },
         onSuccess: (result) => {
             if (result.Action == 'ContactAdmin') {
