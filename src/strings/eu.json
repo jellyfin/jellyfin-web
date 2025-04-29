@@ -1704,5 +1704,12 @@
     "LabelChapterImageResolutionHelp": "Ateratako kapitulu-irudien bereizmena. Hau aldatzeak ez du eraginik izango dauden kapitulu faltsuetan.",
     "ReadInputAtNativeFramerateHelp": "Aukera hau gaitzeak arazo batzuk konpondu ditzake, adibidez, zuzeneko erreprodukzioak azkarregi gelditzea.",
     "PlaybackError.RateLimitExceeded": "Une honetan ezin da multimedia hau erreproduzitu abiadura-mugak direla eta.",
-    "MediaSegmentProvidersHelp": "Gaitu eta sailkatu nahiago dituzun multimedia-segmentu hornitzaileak lehentasunaren arabera."
+    "MediaSegmentProvidersHelp": "Gaitu eta sailkatu nahiago dituzun multimedia-segmentu hornitzaileak lehentasunaren arabera.",
+    "LabelDelimiterWhitelistHelp": "Etiketa zatitzetik kanpo utzi beharreko elementuak. Elementu bat lerro bakoitzeko.",
+    "PluginLoadRepoError": "Errore bat gertatu da pluginaren xehetasunak biltegitik lortzean.",
+    "PlaylistPublicDescription": "Baimendu erreprodukzio-zerrenda hau saioa hasitako edozein erabiltzailek ikustea.",
+    "DisableVbrAudioEncodingHelp": "Eragotzi zerbitzariari bezero honentzat VBR-rekin audioa kodetzea.",
+    "PlaybackError.MEDIA_NOT_SUPPORTED": "Erreprodukzioak huts egin du bezero honek ez duelako multimedia onartzen.",
+    "LimitSupportedVideoResolutionHelp": "Erabili 'Bideoa transkodetzeko gehienezko bereizmena' onartutako bideo bereizmen maximo gisa.",
+    "LyricDownloadersHelp": "Gaitu eta sailkatu zure letra deskargatzaile gogokoenak lehentasunaren arabera."
 }
