@@ -7,6 +7,7 @@ import Input from 'elements/emby-input/Input';
 import { useMutation } from '@tanstack/react-query';
 import Dashboard from 'utils/dashboard';
 import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
+import { ForgotPasswordAction } from '@jellyfin/sdk/lib/generated-client/models/forgot-password-action';
 import ServerConnections from 'components/ServerConnections';
 
 export const ForgotPasswordPage = () => {
@@ -28,21 +29,21 @@ export const ForgotPasswordPage = () => {
             return response.data;
         },
         onSuccess: (result) => {
-            if (result.Action == 'ContactAdmin') {
+            if (result.Action == ForgotPasswordAction.ContactAdmin) {
                 Dashboard.alert({
                     message: globalize.translate('MessageContactAdminToResetPassword'),
                     title: globalize.translate('ButtonForgotPassword')
                 });
             }
 
-            if (result.Action == 'InNetworkRequired') {
+            if (result.Action == ForgotPasswordAction.InNetworkRequired) {
                 Dashboard.alert({
                     message: globalize.translate('MessageForgotPasswordInNetworkRequired'),
                     title: globalize.translate('ButtonForgotPassword')
                 });
             }
 
-            if (result.Action == 'PinCode') {
+            if (result.Action == ForgotPasswordAction.PinCode) {
                 let msg = globalize.translate('MessageForgotPasswordFileCreated');
                 msg += '<br/><br/>';
                 msg += globalize.translate('MessageForgotPasswordPinReset');
