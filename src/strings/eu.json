@@ -959,7 +959,7 @@
     "Large": "Handia",
     "LanNetworksHelp": "Banda-zabaleraren murrizketak ezartzean sare lokalean kontuan hartuko diren sareetarako IP helbideen zerrenda, komen edo IP/sare-maskara helbideko sarreren bidez bereizita. Ezartzen bada, gainerako IP helbide guztiak kanpoko sarean hartuko dira kontuan, eta kanpoko banda-zabaleraren murrizketei lotuta egongo dira. Hutsik utziz gero, zerbitzariaren azpisarea sare lokalean dagoela baino ez da ulertuko.",
     "LabelZipCode": "Posta kodea",
-    "LabelYoureDone": "Kito!",
+    "LabelYoureDone": "Amaitu duzu!",
     "LabelYear": "Urtea",
     "LabelXDlnaDocHelp": "X_DLNADOC elementuaren edukia zehazten du izen espazioan: schemas-dlna-org: device-1-0.",
     "LabelXDlnaDoc": "X-DLNA doc",
@@ -1635,7 +1635,7 @@
     "AllowSegmentDeletion": "Ezabatu segmentuak",
     "AllowSegmentDeletionHelp": "Ezabatu segmentu zaharrak bezeroak deskargatu ondoren. Honela, bihurtutako fitxategi osoa diskoan gordetzea saihesten da. Desgaitu erreproduzitzeko arazoak badituzu.",
     "LabelThrottleDelaySeconds": "Throttle buruan",
-    "LabelThrottleDelaySecondsHelp": "Denbora segundotan transkodetzailea geldiarazten hasiko den. Bezeroak buffer osasuntsu bat mantentzeko bezain handia izan behar da. Bakarrik funtzionatzen du throttling onartua baldin badago.",
+    "LabelThrottleDelaySecondsHelp": "Transkodetzailea mugatuko den denbora segundotan. Bezeroak buffer osasuntsu bat mantentzeko bezain handia izan behar du. Mugaketa gaituta dagoenean bakarrik funtzionatzen du.",
     "LabelSegmentKeepSeconds": "Segmentuak gordetzeko denbora..",
     "AirPlay": "AirPlay",
     "AllowContentWithTagsHelp": "Erakutsi zehaztutako etiketetik gutxienez bat duen serieen media.",
@@ -1653,5 +1653,11 @@
     "LabelExtractTrickplayDuringLibraryScanHelp": "Sortu trickplay irudiak liburutegia eskaneatzean bideoak inportatzen direnean. Bestela, trickplay irudiak programatutako zeregin bezala erauziko dira. Sorkuntza blokeatzen ez bada, horrek ez du eragingo liburutegiko eskaneatzea burutzeko denboran.",
     "AllowTonemappingSoftwareHelp": "Tonu-mapatzeak bideo baten barruti dinamikoa HDRtik SDRra alda dezake, irudiaren xehetasunak eta koloreak mantenduz, jatorrizko eszena irudikatzeko oso informazio garrantzitsua baita. Gaur egun 10 biteko HDR10, HLG eta DoVi bideoekin bakarrik funtzionatzen du.",
     "MessageRepositoryInstallDisclaimer": "OHARRA: hirugarrenen pluginen biltegi bat instalatzeak arriskuak dakartza. Kode ezegonkorra edo gaiztoa izan dezake eta edozein unetan alda daiteke. Instalatu fidagarriak diren egileen biltegiak soilik.",
-    "EncodingFormatHelp": "Hautatu Jellyfin-ek transkodetu behar duen bideo-kodeketa. Jellyfin-ek software-kodeketa erabiliko du hautatutako formaturako hardware-azelerazioa erabilgarri ez dagoenean. H264 kodeketa gaituta egongo da beti."
+    "EncodingFormatHelp": "Hautatu Jellyfin-ek transkodetu behar duen bideo-kodeketa. Jellyfin-ek software-kodeketa erabiliko du hautatutako formaturako hardware-azelerazioa erabilgarri ez dagoenean. H264 kodeketa gaituta egongo da beti.",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Gako-fotogramak soilik atera, prozesaketa askoz azkarragoa lortzeko, denbora-zehaztasuna gutxituz. Konfiguratutako hardware deskodetzaileak modu hau onartzen ez badu, software deskodetzailea erabiliko da horren ordez.",
+    "ExtractTrickplayImagesHelp": "Trickplay irudiak kapitulu-irudien antzekoak dira, baina edukiaren luzera osoa hartzen dute eta bideoetan zehar mugitzean aurrebista bat erakusteko erabiltzen dira.",
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Hautatu audio kodek hobetsia bideo edukia transkodetzeko. Kodek hobetsia ez bada onartzen, zerbitzariak eskuragarri dagoen hurrengo kodekik onena erabiliko du.",
+    "LabelParallelImageEncodingLimitHelp": "Paraleloan exekutatzeko baimendutako irudi-kodeketa kopuru maximoa. Hutsik uzten baduzu, zure sistemaren nukleo kopuruan oinarritutako muga bat aukeratuko da.",
+    "AllowFmp4TranscodingContainerHelp": "Baimendu sintonizatzaile honetarako fMP4 transkodetze edukiontziari HEVC eta HDR edukiak gaitzea. Sintonizatzaile guztiak ez dira bateragarriak edukiontzi honekin. Desgaitu hau erreprodukzio arazoak badituzu.",
+    "LibraryInvalidItemIdError": "Liburutegia egoera baliogabean dago eta ezin da editatu. Baliteke akats bat izatea: datu-baseko bide-izena ez da fitxategi-sistemako bide-izen zuzena."
 }
