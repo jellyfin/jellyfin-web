@@ -69,7 +69,7 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
 
     // issue head request to get content type
     return new Promise(function (resolve, reject) {
-        import('../../components/fetchhelper').then((fetchHelper) => {
+        import('../../utils/fetch').then((fetchHelper) => {
             fetchHelper.ajax({
                 url: url,
                 type: 'HEAD'

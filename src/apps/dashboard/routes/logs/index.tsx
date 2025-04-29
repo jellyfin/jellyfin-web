@@ -3,16 +3,16 @@ import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-a
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Stack from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
+import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { type ActionFunctionArgs, Form, useActionData } from 'react-router-dom';
-import ServerConnections from 'components/ServerConnections';
+import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { useServerLogs } from 'apps/dashboard/features/logs/api/useServerLogs';
 import { useConfiguration } from 'hooks/useConfiguration';
 import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
@@ -42,9 +42,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     };
 };
 
-const Logs = () => {
+export const Component = () => {
+    const navigation = useNavigation();
     const actionData = useActionData() as ActionData | undefined;
-    const [ isSubmitting, setIsSubmitting ] = useState(false);
+    const isSubmitting = navigation.state === 'submitting';
 
     const { isPending: isLogEntriesPending, data: logs } = useServerLogs();
     const { isPending: isConfigurationPending, data: defaultConfiguration } = useConfiguration();
@@ -72,10 +73,6 @@ const Logs = () => {
         });
     }, [configuration]);
 
-    const onSubmit = useCallback(() => {
-        setIsSubmitting(true);
-    }, []);
-
     if (isLogEntriesPending || isConfigurationPending || loading || !logs) {
         return <Loading />;
     }
@@ -87,13 +84,13 @@ const Logs = () => {
             className='mainAnimatedPage type-interior'
         >
             <Box className='content-primary'>
-                <Form method='POST' onSubmit={onSubmit}>
+                <Form method='POST'>
                     <Stack spacing={3}>
                         <Typography variant='h1'>
                             {globalize.translate('TabLogs')}
                         </Typography>
 
-                        {isSubmitting && actionData?.isSaved && (
+                        {!isSubmitting && actionData?.isSaved && (
                             <Alert severity='success'>
                                 {globalize.translate('SettingsSaved')}
                             </Alert>
@@ -101,7 +98,7 @@ const Logs = () => {
 
                         <FormControlLabel
                             control={
-                                <Switch
+                                <Checkbox
                                     checked={configuration?.EnableSlowResponseWarning}
                                     onChange={setLogWarningMessage}
                                     name={'EnableWarningMessage'}
@@ -113,7 +110,7 @@ const Logs = () => {
                         <TextField
                             fullWidth
                             type='number'
-                            name={'SlowResponseTime'}
+                            name='SlowResponseTime'
                             label={globalize.translate('LabelSlowResponseTime')}
                             value={configuration?.SlowResponseThresholdMs}
                             disabled={!configuration?.EnableSlowResponseWarning}
@@ -136,4 +133,4 @@ const Logs = () => {
     );
 };
 
-export default Logs;
+Component.displayName = 'LogsPage';

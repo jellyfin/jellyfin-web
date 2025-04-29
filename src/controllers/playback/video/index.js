@@ -1,5 +1,4 @@
 import escapeHtml from 'escape-html';
-import debounce from 'lodash-es/debounce';
 import { playbackManager } from '../../../components/playback/playbackmanager';
 import browser from '../../../scripts/browser';
 import dom from '../../../scripts/dom';
@@ -20,10 +19,10 @@ import '../../../elements/emby-slider/emby-slider';
 import '../../../elements/emby-button/paper-icon-button-light';
 import '../../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../../styles/videoosd.scss';
-import ServerConnections from '../../../components/ServerConnections';
 import shell from '../../../scripts/shell';
 import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
 import { appRouter } from '../../../components/router/appRouter';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
@@ -326,7 +325,16 @@ export default function (view) {
         elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
-    const _focus = debounce((focusElement) => focusManager.focus(focusElement), 50);
+    const _focus = function (focusElement) {
+        // If no focus element is provided, try to keep current focus if it's valid,
+        // otherwise default to pause button
+        const currentFocus = focusElement || document.activeElement;
+        if (!currentFocus || !focusManager.isCurrentlyFocusable(currentFocus)) {
+            focusElement = osdBottomElement.querySelector('.btnPause');
+        }
+
+        if (focusElement) focusManager.focus(focusElement);
+    };
 
     function showMainOsdControls(focusElement) {
         if (!currentVisibleMenu) {
@@ -336,23 +344,12 @@ export default function (view) {
             elem.classList.remove('hide');
             elem.classList.remove('videoOsdBottom-hidden');
 
-            focusElement ||= elem.querySelector('.btnPause');
-
             if (!layoutManager.mobile) {
                 _focus(focusElement);
             }
             toggleSubtitleSync();
         } else if (currentVisibleMenu === 'osd' && !layoutManager.mobile) {
-            // If no focus element is provided, try to keep current focus if it's valid,
-            // otherwise default to pause button
-            if (!focusElement) {
-                const currentFocus = document.activeElement;
-                if (!currentFocus || !focusManager.isCurrentlyFocusable(currentFocus)) {
-                    focusElement = osdBottomElement.querySelector('.btnPause');
-                }
-            }
-
-            if (focusElement) _focus(focusElement);
+            _focus(focusElement);
         }
     }
 
@@ -713,7 +710,7 @@ export default function (view) {
                         }, state);
                     }
                 } catch (e) {
-                    console.error('error parsing date: ' + program.EndDate);
+                    console.error('error parsing date: ' + program.EndDate, e);
                 }
             }
         }
@@ -1246,12 +1243,14 @@ export default function (view) {
                 case 'ArrowLeft':
                 case 'ArrowRight':
                     if (!e.shiftKey) {
+                        e.preventDefault();
                         showOsd(nowPlayingPositionSlider);
                         nowPlayingPositionSlider.dispatchEvent(new KeyboardEvent(e.type, e));
                     }
                     return;
                 case 'Enter':
                     if (e.target.tagName !== 'BUTTON') {
+                        e.preventDefault();
                         playbackManager.playPause(currentPlayer);
                         showOsd(btnPlayPause);
                     }
@@ -1350,7 +1349,7 @@ export default function (view) {
             case 'GamepadDPadLeft':
             case 'GamepadLeftThumbstickLeft':
                 // Ignores gamepad events that are always triggered, even when not focused.
-                if (document.hasFocus()) { /* eslint-disable-line compat/compat */
+                if (document.hasFocus()) {
                     playbackManager.rewind(currentPlayer);
                     showOsd(btnRewind);
                 }
@@ -1359,7 +1358,7 @@ export default function (view) {
             case 'GamepadDPadRight':
             case 'GamepadLeftThumbstickRight':
                 // Ignores gamepad events that are always triggered, even when not focused.
-                if (document.hasFocus()) { /* eslint-disable-line compat/compat */
+                if (document.hasFocus()) {
                     playbackManager.fastForward(currentPlayer);
                     showOsd(btnFastForward);
                 }
@@ -1710,7 +1709,7 @@ export default function (view) {
             if (browser.firefox || browser.edge) {
                 dom.addEventListener(document, 'click', onClickCapture, { capture: true });
             }
-        } catch (e) {
+        } catch {
             setBackdropTransparency(TRANSPARENCY_LEVEL.None); // reset state set in viewbeforeshow
             appRouter.goHome();
         }

@@ -11,12 +11,13 @@ import globalize from '../../../lib/globalize';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import Dashboard from '../../../utils/dashboard';
-import ServerConnections from '../../../components/ServerConnections';
 import toast from '../../../components/toast/toast';
 import dialogHelper from '../../../components/dialogHelper/dialogHelper';
 import baseAlert from '../../../components/alert';
-import './login.scss';
 import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
+import './login.scss';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -110,7 +111,7 @@ function authenticateQuickConnect(apiClient, targetUrl) {
 
 function onLoginSuccessful(id, accessToken, apiClient, url) {
     Dashboard.onServerChanged(id, accessToken, apiClient);
-    Dashboard.navigate(url || 'home.html');
+    Dashboard.navigate(url || 'home');
 }
 
 function showManualForm(context, showCancel, focusPassword) {
@@ -201,7 +202,7 @@ export default function (view, params) {
             }
         }
 
-        return '/home.html';
+        return '/home';
     }
 
     function showVisualForm() {
@@ -243,7 +244,7 @@ export default function (view, params) {
         return false;
     });
     view.querySelector('.btnForgotPassword').addEventListener('click', function () {
-        Dashboard.navigate('forgotpassword.html');
+        Dashboard.navigate('forgotpassword');
     });
     view.querySelector('.btnCancel').addEventListener('click', showVisualForm);
     view.querySelector('.btnQuick').addEventListener('click', function () {
@@ -292,6 +293,7 @@ export default function (view, params) {
         apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
             const loginDisclaimer = view.querySelector('.loginDisclaimer');
 
+            // eslint-disable-next-line sonarjs/disabled-auto-escaping
             loginDisclaimer.innerHTML = DOMPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
 
             for (const elem of loginDisclaimer.querySelectorAll('a')) {

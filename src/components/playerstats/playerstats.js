@@ -1,13 +1,14 @@
 import '../../elements/emby-button/paper-icon-button-light';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from '../../utils/events.ts';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import playMethodHelper from '../playback/playmethodhelper';
 import { pluginManager } from '../pluginManager';
 import { PluginType } from '../../types/plugin.ts';
+
 import './playerstats.scss';
-import ServerConnections from '../ServerConnections';
 
 function init(instance) {
     const parent = document.createElement('div');

@@ -33,17 +33,40 @@ interface ViewOptions {
     }
 }
 
+const importController = (
+    appType: AppType,
+    controller: string,
+    view: string
+) => {
+    switch (appType) {
+        case AppType.Dashboard:
+            return Promise.all([
+                import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/controllers/${controller}`),
+                import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/controllers/${view}`)
+                    .then(html => globalize.translateHtml(html))
+            ]);
+        case AppType.Wizard:
+            return Promise.all([
+                import(/* webpackChunkName: "[request]" */ `../../apps/wizard/controllers/${controller}`),
+                import(/* webpackChunkName: "[request]" */ `../../apps/wizard/controllers/${view}`)
+                    .then(html => globalize.translateHtml(html))
+            ]);
+        default:
+            return Promise.all([
+                import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
+                import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
+                    .then(html => globalize.translateHtml(html))
+            ]);
+    }
+};
+
 const loadView = async (
     appType: AppType,
     controller: string,
     view: string,
     viewOptions: ViewOptions
 ) => {
-    const [ controllerFactory, viewHtml ] = await Promise.all([
-        import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
-        import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
-            .then(html => globalize.translateHtml(html))
-    ]);
+    const [ controllerFactory, viewHtml ] = await importController(appType, controller, view);
 
     viewManager.loadView({
         ...viewOptions,

@@ -49,7 +49,8 @@ class SkipSegment extends PlaybackSubscriber {
         if (!this.skipElement && this.currentSegment) {
             let buttonHtml = '';
 
-            buttonHtml += '<button is="emby-button" class="skip-button hide skip-button-hidden"></button>';
+            // FIXME: Move skip button to the video OSD
+            buttonHtml += '<div class="skip-button-container"><button is="emby-button" class="skip-button hide skip-button-hidden"></button></div>';
 
             document.body.insertAdjacentHTML('beforeend', buttonHtml);
 
@@ -90,6 +91,7 @@ class SkipSegment extends PlaybackSubscriber {
                 elem.classList.remove('no-transition');
             }
 
+            // eslint-disable-next-line sonarjs/void-use
             void elem.offsetWidth;
 
             const hasFocus = document.activeElement && focusManager.isCurrentlyFocusable(document.activeElement);
@@ -111,6 +113,7 @@ class SkipSegment extends PlaybackSubscriber {
         const elem = this.skipElement;
         if (elem) {
             elem.classList.remove('no-transition');
+            // eslint-disable-next-line sonarjs/void-use
             void elem.offsetWidth;
 
             requestAnimationFrame(() => {

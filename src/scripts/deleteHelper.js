@@ -1,10 +1,11 @@
 
-import globalize from 'lib/globalize';
-import alert from '../components/alert';
-import confirm from '../components/confirm/confirm';
-import { appRouter } from '../components/router/appRouter';
-import ServerConnections from '../components/ServerConnections';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+
+import alert from 'components/alert';
+import confirm from 'components/confirm/confirm';
+import { appRouter } from 'components/router/appRouter';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 function alertText(options) {
     return alert(options);

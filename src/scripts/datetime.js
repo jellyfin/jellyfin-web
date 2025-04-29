@@ -211,7 +211,7 @@ export function getDisplayDateTime(date) {
     if (typeof date === 'string') {
         try {
             date = parseISO8601Date(date, true);
-        } catch (err) {
+        } catch {
             return date;
         }
     }
@@ -227,7 +227,7 @@ export function getDisplayTime(date) {
     if (typeof date === 'string') {
         try {
             date = parseISO8601Date(date, true);
-        } catch (err) {
+        } catch {
             return date;
         }
     }

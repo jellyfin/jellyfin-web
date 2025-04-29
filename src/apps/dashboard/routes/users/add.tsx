@@ -6,8 +6,8 @@ import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
-import InputElement from '../../../../elements/InputElement';
-import ButtonElement from '../../../../elements/ButtonElement';
+import Input from '../../../../elements/emby-input/Input';
+import Button from '../../../../elements/emby-button/Button';
 import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import Page from '../../../../components/Page';
@@ -111,8 +111,9 @@ const UserNew = () => {
 
         const saveUser = () => {
             const userInput: UserInput = {};
-            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value;
+            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value.trim();
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
+
             window.ApiClient.createUser(userInput).then(function (user) {
                 if (!user.Id || !user.Policy) {
                     throw new Error('Unexpected null user id or policy');
@@ -193,18 +194,18 @@ const UserNew = () => {
 
                 <form className='newUserProfileForm'>
                     <div className='inputContainer'>
-                        <InputElement
+                        <Input
                             type='text'
                             id='txtUsername'
-                            label='LabelName'
-                            options={'required'}
+                            label={globalize.translate('LabelName')}
+                            required
                         />
                     </div>
                     <div className='inputContainer'>
-                        <InputElement
+                        <Input
                             type='password'
                             id='txtPassword'
-                            label='LabelPassword'
+                            label={globalize.translate('LabelPassword')}
                         />
                     </div>
                     <AccessContainer
@@ -247,16 +248,16 @@ const UserNew = () => {
                         ))}
                     </AccessContainer>
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
-                            title='Save'
+                            title={globalize.translate('Save')}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnCancel'
                             className='raised button-cancel block'
-                            title='ButtonCancel'
+                            title={globalize.translate('ButtonCancel')}
                         />
                     </div>
                 </form>

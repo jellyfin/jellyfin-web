@@ -1,3 +1,4 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind.js';
 import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
 import { getMediaInfoApi } from '@jellyfin/sdk/lib/utils/api/media-info-api';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
@@ -14,7 +15,6 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
-import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
@@ -24,10 +24,10 @@ import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdrop
 import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind.js';
 import { bindSkipSegment } from './skipsegment.ts';
 
 const UNLIMITED_ITEMS = -1;
@@ -208,6 +208,7 @@ function getMimeType(type, container) {
 }
 
 function getParam(name, url) {
+    // eslint-disable-next-line sonarjs/single-char-in-character-classes
     name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
     const regexS = '[\\?&]' + name + '=([^&#]*)';
     const regex = new RegExp(regexS, 'i');
@@ -2115,6 +2116,7 @@ export class PlaybackManager {
 
             if (!state) {
                 playerStates[player.name] = {};
+                // eslint-disable-next-line sonarjs/no-dead-store
                 state = playerStates[player.name];
             }
 
@@ -2609,16 +2611,11 @@ export class PlaybackManager {
                 });
             }
 
+            let mediaSourceId = playOptions.mediaSourceId;
+
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            let mediaSourceId;
-
             const isLiveTv = [BaseItemKind.TvChannel, BaseItemKind.LiveTvChannel].includes(item.Type);
-
-            if (!isLiveTv) {
-                mediaSourceId = playOptions.mediaSourceId || item.Id;
-            }
-
-            const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId)
+            const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id)
                 .then(fullItem => {
                     return fullItem.MediaStreams;
                 });
@@ -2651,13 +2648,20 @@ export class PlaybackManager {
                 playOptions.items = null;
 
                 const trackOptions = {};
+                let isIdFallbackNeeded = false;
 
                 autoSetNextTracks(prevSource, mediaStreams, trackOptions, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
                 if (trackOptions.DefaultAudioStreamIndex != null) {
                     options.audioStreamIndex = trackOptions.DefaultAudioStreamIndex;
+                    isIdFallbackNeeded = true;
                 }
                 if (trackOptions.DefaultSubtitleStreamIndex != null) {
                     options.subtitleStreamIndex = trackOptions.DefaultSubtitleStreamIndex;
+                    isIdFallbackNeeded = true;
+                }
+
+                if (isIdFallbackNeeded) {
+                    mediaSourceId ||= item.Id;
                 }
 
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options).then(async (mediaSource) => {

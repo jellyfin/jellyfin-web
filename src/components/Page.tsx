@@ -1,22 +1,26 @@
 import React, { type FC, type PropsWithChildren, type HTMLAttributes, useEffect, useRef, StrictMode } from 'react';
 
-import viewManager from './viewManager/viewManager';
+import autoFocuser from 'components/autoFocuser';
+import viewManager from 'components/viewManager/viewManager';
 
-type PageProps = {
+type CustomPageProps = {
     id: string, // id is required for libraryMenu
     title?: string,
     isBackButtonEnabled?: boolean,
     isMenuButtonEnabled?: boolean,
     isNowPlayingBarEnabled?: boolean,
     isThemeMediaSupported?: boolean,
+    shouldAutoFocus?: boolean,
     backDropType?: string,
 };
+
+export type PageProps = CustomPageProps & HTMLAttributes<HTMLDivElement>;
 
 /**
  * Page component that handles hiding active non-react views, triggering the required events for
  * navigation and appRouter state updates, and setting the correct classes and data attributes.
  */
-const Page: FC<PropsWithChildren<PageProps & HTMLAttributes<HTMLDivElement>>> = ({
+const Page: FC<PropsWithChildren<PageProps>> = ({
     children,
     id,
     className = '',
@@ -25,6 +29,7 @@ const Page: FC<PropsWithChildren<PageProps & HTMLAttributes<HTMLDivElement>>> = 
     isMenuButtonEnabled = false,
     isNowPlayingBarEnabled = true,
     isThemeMediaSupported = false,
+    shouldAutoFocus = false,
     backDropType
 }) => {
     const element = useRef<HTMLDivElement>(null);
@@ -55,6 +60,12 @@ const Page: FC<PropsWithChildren<PageProps & HTMLAttributes<HTMLDivElement>>> = 
         // pageshow - updates header/navigation in libraryMenu
         element.current?.dispatchEvent(new CustomEvent('pageshow', event));
     }, [ element, isNowPlayingBarEnabled, isThemeMediaSupported ]);
+
+    useEffect(() => {
+        if (shouldAutoFocus) {
+            autoFocuser.autoFocus(element.current);
+        }
+    }, [ shouldAutoFocus ]);
 
     return (
         <StrictMode>

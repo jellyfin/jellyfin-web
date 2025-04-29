@@ -91,5 +91,7 @@
     "HeaderMedia": "Media",
     "HeaderNextItem": "Nessa {0}",
     "LabelMetadata": "Metamanylyon",
-    "Metadata": "Metamanylyon"
+    "Metadata": "Metamanylyon",
+    "AllowCollectionManagement": "Gasa an devnydhyer ma dhe venystra kuntellow",
+    "AccessRestrictedTryAgainLater": "Strothys yw hedhas y'n eur na. Assay arta diwettha, mar pleg."
 }

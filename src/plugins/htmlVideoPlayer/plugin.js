@@ -29,7 +29,7 @@ import {
 import itemHelper from '../../components/itemHelper';
 import Screenfull from 'screenfull';
 import globalize from '../../lib/globalize';
-import ServerConnections from '../../components/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
@@ -116,6 +116,12 @@ function requireHlsPlayer(callback) {
         hls.DefaultConfig.liveBackBufferLength = 90;
         window.Hls = hls;
         callback();
+    });
+}
+
+function getMediaStreamVideoTracks(mediaSource) {
+    return mediaSource.MediaStreams.filter(function (s) {
+        return s.Type === 'Video';
     });
 }
 
@@ -382,7 +388,7 @@ export class HtmlVideoPlayer {
         }
     }
 
-    play(options) {
+    async play(options) {
         this.#started = false;
         this.#timeUpdated = false;
 
@@ -390,11 +396,11 @@ export class HtmlVideoPlayer {
 
         if (options.resetSubtitleOffset !== false) this.resetSubtitleOffset();
 
-        return this.createMediaElement(options).then(elem => {
-            return this.updateVideoUrl(options).then(() => {
-                return this.setCurrentSrc(elem, options);
-            });
-        });
+        const elem = await this.createMediaElement(options);
+        this.#applyAspectRatio();
+
+        await this.updateVideoUrl(options);
+        return this.setCurrentSrc(elem, options);
     }
 
     /**
@@ -866,8 +872,6 @@ export class HtmlVideoPlayer {
             videoElement.parentNode.removeChild(videoElement);
         }
 
-        this._currentAspectRatio = null;
-
         const dlg = this.#videoDialog;
         if (dlg) {
             this.#videoDialog = null;
@@ -1274,6 +1278,9 @@ export class HtmlVideoPlayer {
         });
         const htmlVideoPlayer = this;
         import('@jellyfin/libass-wasm').then(({ default: SubtitlesOctopus }) => {
+            const mediaSource = this._currentPlayOptions.mediaSource;
+            const videoStream = getMediaStreamVideoTracks(mediaSource)[0];
+
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
@@ -1296,7 +1303,7 @@ export class HtmlVideoPlayer {
                 dropAllAnimations: false,
                 libassMemoryLimit: 40,
                 libassGlyphLimit: 40,
-                targetFps: 24,
+                targetFps: videoStream?.ReferenceFrameRate || videoStream?.RealFrameRate || 24,
                 prescaleFactor: 0.8,
                 prescaleHeightLimit: 1080,
                 maxRenderHeight: 2160,
@@ -1335,12 +1342,13 @@ export class HtmlVideoPlayer {
      */
     renderPgs(videoElement, track, item) {
         import('libpgs').then((libpgs) => {
+            const aspectRatio = this.getAspectRatio() === 'auto' ? 'contain' : this.getAspectRatio();
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
                 workerUrl: `${appRouter.baseUrl()}/libraries/libpgs.worker.js`,
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
-                aspectRatio: this._currentAspectRatio === 'auto' ? 'contain' : this._currentAspectRatio
+                aspectRatio
             };
             this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
         });
@@ -1503,7 +1511,7 @@ export class HtmlVideoPlayer {
                     trackElement.removeCue(trackElement.cues[0]);
                 }
             } catch (e) {
-                console.error('error removing cue from textTrack');
+                console.error('error removing cue from textTrack', e);
             }
 
             trackElement.mode = 'disabled';
@@ -1524,10 +1532,16 @@ export class HtmlVideoPlayer {
             // in safari, the cues need to be added before setting the track mode to showing
             for (const trackEvent of data.TrackEvents) {
                 const TrackCue = window.VTTCue || window.TextTrackCue;
-                const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+                const text = normalizeTrackEventText(trackEvent.Text, false);
+                const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, text);
 
                 if (cue.line === 'auto') {
-                    cue.line = cueLine;
+                    if (cueLine < 0) {
+                        const lineCount = (text.match(/\n/g) || []).length;
+                        cue.line = cueLine - lineCount;
+                    } else {
+                        cue.line = cueLine;
+                    }
                 }
 
                 trackElement.addCue(cue);
@@ -2093,7 +2107,7 @@ export class HtmlVideoPlayer {
         return false;
     }
 
-    setAspectRatio(val) {
+    #applyAspectRatio(val = this.getAspectRatio()) {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             if (val === 'auto') {
@@ -2102,19 +2116,19 @@ export class HtmlVideoPlayer {
                 mediaElement.style['object-fit'] = val;
             }
         }
-        const pgsRenderer = this.#currentPgsRenderer;
-        if (pgsRenderer) {
-            if (val === 'auto') {
-                pgsRenderer.aspectRatio = 'contain';
-            } else {
-                pgsRenderer.aspectRatio = val;
-            }
+
+        if (this.#currentPgsRenderer) {
+            this.#currentPgsRenderer.aspectRatio = val === 'auto' ? 'contain' : val;
         }
-        this._currentAspectRatio = val;
+    }
+
+    setAspectRatio(val) {
+        appSettings.aspectRatio(val);
+        this.#applyAspectRatio(val);
     }
 
     getAspectRatio() {
-        return this._currentAspectRatio || 'auto';
+        return appSettings.aspectRatio() || 'auto';
     }
 
     getSupportedAspectRatios() {

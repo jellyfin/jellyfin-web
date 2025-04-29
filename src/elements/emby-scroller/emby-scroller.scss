@@ -1,4 +1,4 @@
-@import '../../styles/mixins';
+@use '../../styles/mixins' as *;
 
 .emby-scroller-container {
     position: relative;

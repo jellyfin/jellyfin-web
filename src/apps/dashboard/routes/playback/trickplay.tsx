@@ -1,325 +1,273 @@
-import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
+import React from 'react';
+
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
+import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
+import Page from 'components/Page';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import Checkbox from '@mui/material/Checkbox';
+import Loading from 'components/loading/LoadingComponent';
+import FormHelperText from '@mui/material/FormHelperText';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
+import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models/trickplay-scan-behavior';
 import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';
-import React, { type FC, useCallback, useEffect, useRef } from 'react';
+import { ActionData } from 'types/actionData';
+import { queryClient } from 'utils/query/queryClient';
 
-import globalize from '../../../../lib/globalize';
-import Page from '../../../../components/Page';
-import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
-import ButtonElement from '../../../../elements/ButtonElement';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
-import SelectElement from '../../../../elements/SelectElement';
-import InputElement from '../../../../elements/InputElement';
-import loading from '../../../../components/loading/loading';
-import toast from '../../../../components/toast/toast';
-import ServerConnections from '../../../../components/ServerConnections';
+export const action = async ({ request }: ActionFunctionArgs) => {
+    const api = ServerConnections.getCurrentApi();
+    if (!api) throw new Error('No Api instance available');
 
-function onSaveComplete() {
-    loading.hide();
-    toast(globalize.translate('SettingsSaved'));
-}
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
 
-const PlaybackTrickplay: FC = () => {
-    const element = useRef<HTMLDivElement>(null);
+    const { data: config } = await getConfigurationApi(api).getConfiguration();
 
-    const loadConfig = useCallback((config: ServerConfiguration) => {
-        const page = element.current;
-        const options = config.TrickplayOptions;
+    const options = config.TrickplayOptions;
+    if (!options) throw new Error('Unexpected null TrickplayOptions');
 
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
+    options.EnableHwAcceleration = data.HwAcceleration?.toString() === 'on';
+    options.EnableHwEncoding = data.HwEncoding?.toString() === 'on';
+    options.EnableKeyFrameOnlyExtraction = data.KeyFrameOnlyExtraction?.toString() === 'on';
+    options.ScanBehavior = data.ScanBehavior.toString() as TrickplayScanBehavior;
+    options.ProcessPriority = data.ProcessPriority.toString() as ProcessPriorityClass;
+    options.Interval = parseInt(data.ImageInterval.toString() || '10000', 10);
+    options.WidthResolutions = data.WidthResolutions.toString().replace(' ', '').split(',').map(Number);
+    options.TileWidth = parseInt(data.TileWidth.toString() || '10', 10);
+    options.TileHeight = parseInt(data.TileHeight.toString() || '10', 10);
+    options.Qscale = parseInt(data.Qscale.toString() || '4', 10);
+    options.JpegQuality = parseInt(data.JpegQuality.toString() || '90', 10);
+    options.ProcessThreads = parseInt(data.TrickplayThreads.toString() || '1', 10);
 
-        (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked = options?.EnableHwAcceleration || false;
-        (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked = options?.EnableHwEncoding || false;
-        (page.querySelector('.chkEnableKeyFrameOnlyExtraction') as HTMLInputElement).checked = options?.EnableKeyFrameOnlyExtraction || false;
-        (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value = (options?.ScanBehavior || TrickplayScanBehavior.NonBlocking);
-        (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value = (options?.ProcessPriority || ProcessPriorityClass.Normal);
-        (page.querySelector('#txtInterval') as HTMLInputElement).value = options?.Interval?.toString() || '10000';
-        (page.querySelector('#txtWidthResolutions') as HTMLInputElement).value = options?.WidthResolutions?.join(',') || '';
-        (page.querySelector('#txtTileWidth') as HTMLInputElement).value = options?.TileWidth?.toString() || '10';
-        (page.querySelector('#txtTileHeight') as HTMLInputElement).value = options?.TileHeight?.toString() || '10';
-        (page.querySelector('#txtQscale') as HTMLInputElement).value = options?.Qscale?.toString() || '4';
-        (page.querySelector('#txtJpegQuality') as HTMLInputElement).value = options?.JpegQuality?.toString() || '90';
-        (page.querySelector('#txtProcessThreads') as HTMLInputElement).value = options?.ProcessThreads?.toString() || '1';
+    await getConfigurationApi(api)
+        .updateConfiguration({ serverConfiguration: config });
 
-        loading.hide();
-    }, []);
+    void queryClient.invalidateQueries({
+        queryKey: [ QUERY_KEY ]
+    });
 
-    const loadData = useCallback(() => {
-        loading.show();
-
-        ServerConnections.currentApiClient()?.getServerConfiguration().then(function (config) {
-            loadConfig(config);
-        }).catch(err => {
-            console.error('[PlaybackTrickplay] failed to fetch server config', err);
-        });
-    }, [loadConfig]);
-
-    useEffect(() => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
-        const saveConfig = (config: ServerConfiguration) => {
-            const apiClient = ServerConnections.currentApiClient();
-
-            if (!apiClient) {
-                console.error('[PlaybackTrickplay] No current apiclient instance');
-                return;
-            }
-
-            if (!config.TrickplayOptions) {
-                throw new Error('Unexpected null TrickplayOptions');
-            }
-
-            const options = config.TrickplayOptions;
-            options.EnableHwAcceleration = (page.querySelector('.chkEnableHwAcceleration') as HTMLInputElement).checked;
-            options.EnableHwEncoding = (page.querySelector('.chkEnableHwEncoding') as HTMLInputElement).checked;
-            options.EnableKeyFrameOnlyExtraction = (page.querySelector('.chkEnableKeyFrameOnlyExtraction') as HTMLInputElement).checked;
-            options.ScanBehavior = (page.querySelector('#selectScanBehavior') as HTMLSelectElement).value as TrickplayScanBehavior;
-            options.ProcessPriority = (page.querySelector('#selectProcessPriority') as HTMLSelectElement).value as ProcessPriorityClass;
-            options.Interval = Math.max(1, parseInt((page.querySelector('#txtInterval') as HTMLInputElement).value || '10000', 10));
-            options.WidthResolutions = (page.querySelector('#txtWidthResolutions') as HTMLInputElement).value.replace(' ', '').split(',').map(Number);
-            options.TileWidth = Math.max(1, parseInt((page.querySelector('#txtTileWidth') as HTMLInputElement).value || '10', 10));
-            options.TileHeight = Math.max(1, parseInt((page.querySelector('#txtTileHeight') as HTMLInputElement).value || '10', 10));
-            options.Qscale = Math.min(31, parseInt((page.querySelector('#txtQscale') as HTMLInputElement).value || '4', 10));
-            options.JpegQuality = Math.min(100, parseInt((page.querySelector('#txtJpegQuality') as HTMLInputElement).value || '90', 10));
-            options.ProcessThreads = parseInt((page.querySelector('#txtProcessThreads') as HTMLInputElement).value || '1', 10);
-
-            apiClient.updateServerConfiguration(config).then(() => {
-                onSaveComplete();
-            }).catch(err => {
-                console.error('[PlaybackTrickplay] failed to update config', err);
-            });
-        };
-
-        const onSubmit = (e: Event) => {
-            const apiClient = ServerConnections.currentApiClient();
-
-            if (!apiClient) {
-                console.error('[PlaybackTrickplay] No current apiclient instance');
-                return;
-            }
-
-            loading.show();
-            apiClient.getServerConfiguration().then(function (config) {
-                saveConfig(config);
-            }).catch(err => {
-                console.error('[PlaybackTrickplay] failed to fetch server config', err);
-            });
-
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        };
-
-        (page.querySelector('.trickplayConfigurationForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-
-        loadData();
-    }, [loadData]);
-
-    const optionScanBehavior = () => {
-        let content = '';
-        content += `<option value='NonBlocking'>${globalize.translate('NonBlockingScan')}</option>`;
-        content += `<option value='Blocking'>${globalize.translate('BlockingScan')}</option>`;
-        return content;
+    return {
+        isSaved: true
     };
+};
 
-    const optionProcessPriority = () => {
-        let content = '';
-        content += `<option value='High'>${globalize.translate('PriorityHigh')}</option>`;
-        content += `<option value='AboveNormal'>${globalize.translate('PriorityAboveNormal')}</option>`;
-        content += `<option value='Normal'>${globalize.translate('PriorityNormal')}</option>`;
-        content += `<option value='BelowNormal'>${globalize.translate('PriorityBelowNormal')}</option>`;
-        content += `<option value='Idle'>${globalize.translate('PriorityIdle')}</option>`;
-        return content;
-    };
+export const Component = () => {
+    const navigation = useNavigation();
+    const actionData = useActionData() as ActionData | undefined;
+    const { data: defaultConfig, isPending } = useConfiguration();
+    const isSubmitting = navigation.state === 'submitting';
+
+    if (!defaultConfig || isPending) {
+        return <Loading />;
+    }
 
     return (
         <Page
             id='trickplayConfigurationPage'
-            className='mainAnimatedPage type-interior playbackConfigurationPage'
+            className='mainAnimatedPage type-interior'
             title={globalize.translate('Trickplay')}
         >
-            <div ref={element} className='content-primary'>
-                <div className='verticalSection'>
-                    <SectionTitleContainer
-                        title={globalize.translate('Trickplay')}
-                    />
-                </div>
+            <Box className='content-primary'>
+                <Form method='POST'>
+                    <Stack spacing={3}>
+                        <Typography variant='h1'>
+                            {globalize.translate('Trickplay')}
+                        </Typography>
 
-                <form className='trickplayConfigurationForm'>
-                    <div className='checkboxContainer checkboxContainer-withDescription'>
-                        <CheckBoxElement
-                            className='chkEnableHwAcceleration'
-                            title='LabelTrickplayAccel'
+                        {!isSubmitting && actionData?.isSaved && (
+                            <Alert severity='success'>
+                                {globalize.translate('SettingsSaved')}
+                            </Alert>
+                        )}
+
+                        <FormControl>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        name='HwAcceleration'
+                                        defaultChecked={defaultConfig.TrickplayOptions?.EnableHwAcceleration}
+                                    />
+                                }
+                                label={globalize.translate('LabelTrickplayAccel')}
+                            />
+                        </FormControl>
+
+                        <FormControl>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        name='HwEncoding'
+                                        defaultChecked={defaultConfig.TrickplayOptions?.EnableHwEncoding}
+                                    />
+                                }
+                                label={globalize.translate('LabelTrickplayAccelEncoding')}
+                            />
+                            <FormHelperText>{globalize.translate('LabelTrickplayAccelEncodingHelp')}</FormHelperText>
+                        </FormControl>
+
+                        <FormControl>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        name='KeyFrameOnlyExtraction'
+                                        defaultChecked={defaultConfig.TrickplayOptions?.EnableKeyFrameOnlyExtraction}
+                                    />
+                                }
+                                label={globalize.translate('LabelTrickplayKeyFrameOnlyExtraction')}
+                            />
+                            <FormHelperText>{globalize.translate('LabelTrickplayKeyFrameOnlyExtractionHelp')}</FormHelperText>
+                        </FormControl>
+
+                        <TextField
+                            name='ScanBehavior'
+                            select
+                            defaultValue={defaultConfig.TrickplayOptions?.ScanBehavior}
+                            label={globalize.translate('LabelScanBehavior')}
+                            helperText={globalize.translate('LabelScanBehaviorHelp')}
+                        >
+                            <MenuItem value={TrickplayScanBehavior.NonBlocking}>{globalize.translate('NonBlockingScan')}</MenuItem>
+                            <MenuItem value={TrickplayScanBehavior.Blocking}>{globalize.translate('BlockingScan')}</MenuItem>
+                        </TextField>
+
+                        <TextField
+                            name='ProcessPriority'
+                            select
+                            defaultValue={defaultConfig.TrickplayOptions?.ProcessPriority}
+                            label={globalize.translate('LabelProcessPriority')}
+                            helperText={globalize.translate('LabelProcessPriorityHelp')}
+                        >
+                            <MenuItem value={ProcessPriorityClass.High}>{globalize.translate('PriorityHigh')}</MenuItem>
+                            <MenuItem value={ProcessPriorityClass.AboveNormal}>{globalize.translate('PriorityAboveNormal')}</MenuItem>
+                            <MenuItem value={ProcessPriorityClass.Normal}>{globalize.translate('PriorityNormal')}</MenuItem>
+                            <MenuItem value={ProcessPriorityClass.BelowNormal}>{globalize.translate('PriorityBelowNormal')}</MenuItem>
+                            <MenuItem value={ProcessPriorityClass.Idle}>{globalize.translate('PriorityIdle')}</MenuItem>
+                        </TextField>
+
+                        <TextField
+                            label={globalize.translate('LabelImageInterval')}
+                            name='ImageInterval'
+                            type='number'
+                            inputMode='numeric'
+                            defaultValue={defaultConfig.TrickplayOptions?.Interval}
+                            helperText={globalize.translate('LabelImageIntervalHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 1,
+                                    required: true
+                                }
+                            }}
                         />
-                    </div>
-                    <div className='checkboxContainer checkboxContainer-withDescription'>
-                        <CheckBoxElement
-                            className='chkEnableHwEncoding'
-                            title='LabelTrickplayAccelEncoding'
+
+                        <TextField
+                            label={globalize.translate('LabelWidthResolutions')}
+                            name='WidthResolutions'
+                            defaultValue={defaultConfig.TrickplayOptions?.WidthResolutions}
+                            helperText={globalize.translate('LabelWidthResolutionsHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    required: true,
+                                    pattern: '[0-9,]*'
+                                }
+                            }}
                         />
-                        <div className='fieldDescription checkboxFieldDescription'>
-                            <div className='fieldDescription'>
-                                {globalize.translate('LabelTrickplayAccelEncodingHelp')}
-                            </div>
-                        </div>
-                    </div>
-                    <div className='checkboxContainer checkboxContainer-withDescription'>
-                        <CheckBoxElement
-                            className='chkEnableKeyFrameOnlyExtraction'
-                            title='LabelTrickplayKeyFrameOnlyExtraction'
+
+                        <TextField
+                            label={globalize.translate('LabelTileWidth')}
+                            name='TileWidth'
+                            type='number'
+                            inputMode='numeric'
+                            defaultValue={defaultConfig.TrickplayOptions?.TileWidth}
+                            helperText={globalize.translate('LabelTileWidthHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 1,
+                                    required: true
+                                }
+                            }}
                         />
-                        <div className='fieldDescription checkboxFieldDescription'>
-                            <div className='fieldDescription'>
-                                {globalize.translate('LabelTrickplayKeyFrameOnlyExtractionHelp')}
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className='verticalSection'>
-                        <div className='selectContainer fldSelectScanBehavior'>
-                            <SelectElement
-                                id='selectScanBehavior'
-                                label='LabelScanBehavior'
-                            >
-                                {optionScanBehavior()}
-                            </SelectElement>
-                            <div className='fieldDescription'>
-                                {globalize.translate('LabelScanBehaviorHelp')}
-                            </div>
-                        </div>
-                    </div>
+                        <TextField
+                            label={globalize.translate('LabelTileHeight')}
+                            name='TileHeight'
+                            type='number'
+                            inputMode='numeric'
+                            defaultValue={defaultConfig.TrickplayOptions?.TileHeight}
+                            helperText={globalize.translate('LabelTileHeightHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 1,
+                                    required: true
+                                }
+                            }}
+                        />
 
-                    <div className='verticalSection'>
-                        <div className='selectContainer fldSelectProcessPriority'>
-                            <SelectElement
-                                id='selectProcessPriority'
-                                label='LabelProcessPriority'
-                            >
-                                {optionProcessPriority()}
-                            </SelectElement>
-                            <div className='fieldDescription'>
-                                {globalize.translate('LabelProcessPriorityHelp')}
-                            </div>
-                        </div>
-                    </div>
+                        <TextField
+                            label={globalize.translate('LabelJpegQuality')}
+                            name='JpegQuality'
+                            type='number'
+                            inputMode='numeric'
+                            defaultValue={defaultConfig.TrickplayOptions?.JpegQuality}
+                            helperText={globalize.translate('LabelJpegQualityHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 1,
+                                    max: 100,
+                                    required: true
+                                }
+                            }}
+                        />
 
-                    <div className='verticalSection'>
-                        <div className='inputContainer'>
-                            <InputElement
-                                type='number'
-                                id='txtInterval'
-                                label='LabelImageInterval'
-                                options={'required inputMode="numeric" pattern="[0-9]*" min="1"'}
-                            />
-                            <div className='fieldDescription'>
-                                {globalize.translate('LabelImageIntervalHelp')}
-                            </div>
-                        </div>
-                    </div>
+                        <TextField
+                            label={globalize.translate('LabelQscale')}
+                            name='Qscale'
+                            type='number'
+                            inputMode='numeric'
+                            defaultValue={defaultConfig.TrickplayOptions?.Qscale}
+                            helperText={globalize.translate('LabelQscaleHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 2,
+                                    max: 31,
+                                    required: true
+                                }
+                            }}
+                        />
 
-                    <div className='verticalSection'>
-                        <div className='inputContainer'>
-                            <InputElement
-                                type='text'
-                                id='txtWidthResolutions'
-                                label='LabelWidthResolutions'
-                                options={'required pattern="[0-9,]*"'}
-                            />
-                            <div className='fieldDescription'>
-                                {globalize.translate('LabelWidthResolutionsHelp')}
-                            </div>
-                        </div>
-                    </div>
+                        <TextField
+                            label={globalize.translate('LabelTrickplayThreads')}
+                            name='TrickplayThreads'
+                            type='number'
+                            inputMode='numeric'
+                            defaultValue={defaultConfig.TrickplayOptions?.ProcessThreads}
+                            helperText={globalize.translate('LabelTrickplayThreadsHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 0,
+                                    required: true
+                                }
+                            }}
+                        />
 
-                    <div className='verticalSection'>
-                        <div className='inputContainer'>
-                            <InputElement
-                                type='number'
-                                id='txtTileWidth'
-                                label='LabelTileWidth'
-                                options={'required inputMode="numeric" pattern="[0-9]*" min="1"'}
-                            />
-                            <div className='fieldDescription'>
-                                {globalize.translate('LabelTileWidthHelp')}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='verticalSection'>
-                        <div className='inputContainer'>
-                            <InputElement
-                                type='number'
-                                id='txtTileHeight'
-                                label='LabelTileHeight'
-                                options={'required inputMode="numeric" pattern="[0-9]*" min="1"'}
-                            />
-                            <div className='fieldDescription'>
-                                {globalize.translate('LabelTileHeightHelp')}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='verticalSection'>
-                        <div className='inputContainer'>
-                            <InputElement
-                                type='number'
-                                id='txtJpegQuality'
-                                label='LabelJpegQuality'
-                                options={'required inputMode="numeric" pattern="[0-9]*" min="1" max="100"'}
-                            />
-                            <div className='fieldDescription'>
-                                {globalize.translate('LabelJpegQualityHelp')}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='verticalSection'>
-                        <div className='inputContainer'>
-                            <InputElement
-                                type='number'
-                                id='txtQscale'
-                                label='LabelQscale'
-                                options={'required inputMode="numeric" pattern="[0-9]*" min="2" max="31"'}
-                            />
-                            <div className='fieldDescription'>
-                                {globalize.translate('LabelQscaleHelp')}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='verticalSection'>
-                        <div className='inputContainer'>
-                            <InputElement
-                                type='number'
-                                id='txtProcessThreads'
-                                label='LabelTrickplayThreads'
-                                options={'required inputMode="numeric" pattern="[0-9]*" min="0"'}
-                            />
-                            <div className='fieldDescription'>
-                                {globalize.translate('LabelTrickplayThreadsHelp')}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
-                            className='raised button-submit block'
-                            title='Save'
-                        />
-                    </div>
-                </form>
-            </div>
+                            size='large'
+                        >
+                            {globalize.translate('Save')}
+                        </Button>
+                    </Stack>
+                </Form>
+            </Box>
         </Page>
     );
 };
 
-export default PlaybackTrickplay;
+Component.displayName = 'TrickplayPage';

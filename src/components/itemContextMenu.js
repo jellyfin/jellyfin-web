@@ -2,12 +2,12 @@ import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
 import dom from '../scripts/dom';
 import globalize from '../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import actionsheet from './actionSheet/actionSheet';
 import { appHost } from './apphost';
 import { appRouter } from './router/appRouter';
 import itemHelper, { canEditPlaylist } from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
-import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
@@ -562,7 +562,7 @@ function executeCommand(item, id, options) {
                 navigator.share({
                     title: item.Name,
                     text: item.Overview,
-                    url: `${apiClient.serverAddress()}/web/index.html${appRouter.getRouteUrl(item)}`
+                    url: `${apiClient.serverAddress()}/web/${appRouter.getRouteUrl(item)}`
                 });
                 break;
             case 'album':

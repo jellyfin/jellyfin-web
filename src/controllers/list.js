@@ -8,9 +8,9 @@ import AlphaNumericShortcuts from '../scripts/alphanumericshortcuts';
 import libraryBrowser from '../scripts/libraryBrowser';
 import { playbackManager } from '../components/playback/playbackmanager';
 import AlphaPicker from '../components/alphaPicker/alphaPicker';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
-import ServerConnections from '../components/ServerConnections';
 import LibraryMenu from '../scripts/libraryMenu';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
@@ -255,7 +255,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
     if (params.type === 'nextup') {
         return apiClient.getNextUpEpisodes(modifyQueryWithFilters(instance, {
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount',
+            Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount,Chapters,Trickplay',
             UserId: apiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Thumb',
@@ -278,7 +278,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         return apiClient[method](apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
             StartIndex: startIndex,
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,SortName',
+            Fields: 'PrimaryImageAspectRatio,SortName,Chapters,Trickplay',
             ImageTypeLimit: 1,
             IncludeItemTypes: params.type === 'MusicArtist' || params.type === 'Person' ? null : params.type,
             Recursive: true,
@@ -323,14 +323,22 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
     }
 
-    return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
+    const query = {
         StartIndex: startIndex,
         Limit: limit,
         Fields: 'PrimaryImageAspectRatio,SortName,Path,ChildCount,MediaSourceCount',
         ImageTypeLimit: 1,
         ParentId: item.Id,
         SortBy: sortBy
-    }));
+    };
+
+    if (sortBy === 'Random') {
+        instance.queryRecursive = true;
+        query.IncludeItemTypes = 'Video,Movie,Series,Music';
+        query.Recursive = true;
+    }
+
+    return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
 }
 
 function getItem(params) {

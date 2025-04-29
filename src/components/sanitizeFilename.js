@@ -1,11 +1,14 @@
 // TODO: Check if needed and move to external dependency
 // From https://github.com/parshap/node-sanitize-filename
 
+// eslint-disable-next-line sonarjs/duplicates-in-character-class
 const illegalRe = /[/?<>\\:*|":]/g;
-// eslint-disable-next-line no-control-regex
+// eslint-disable-next-line no-control-regex, sonarjs/no-control-regex
 const controlRe = /[\x00-\x1f\x80-\x9f]/g;
 const reservedRe = /^\.+$/;
+// eslint-disable-next-line sonarjs/concise-regex
 const windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
+// eslint-disable-next-line sonarjs/slow-regex
 const windowsTrailingRe = /[. ]+$/;
 
 function isHighSurrogate(codePoint) {
@@ -64,6 +67,7 @@ function truncate(string, byteLength) {
         segment = string[i];
 
         if (isHighSurrogate(codePoint) && isLowSurrogate(string.charCodeAt(i + 1))) {
+            // eslint-disable-next-line sonarjs/updated-loop-counter
             i += 1;
             segment += string[i];
         }

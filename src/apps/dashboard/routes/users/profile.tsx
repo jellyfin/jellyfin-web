@@ -5,10 +5,10 @@ import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
-import ButtonElement from '../../../../elements/ButtonElement';
+import Button from '../../../../elements/emby-button/Button';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
-import InputElement from '../../../../elements/InputElement';
 import LinkButton from '../../../../elements/emby-button/LinkButton';
+import Input from '../../../../elements/emby-input/Input';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
@@ -199,7 +199,7 @@ const UserEdit = () => {
                 throw new Error('Unexpected null user id or policy');
             }
 
-            user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value;
+            user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value.trim();
             user.Policy.IsAdministrator = (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked;
             user.Policy.IsHidden = (page.querySelector('.chkIsHidden') as HTMLInputElement).checked;
             user.Policy.IsDisabled = (page.querySelector('.chkDisabled') as HTMLInputElement).checked;
@@ -298,7 +298,7 @@ const UserEdit = () => {
                     className='lnkEditUserPreferencesContainer'
                     style={{ paddingBottom: '1em' }}
                 >
-                    <LinkButton className='lnkEditUserPreferences button-link' href={userDto?.Id ? `mypreferencesmenu.html?userId=${userDto.Id}` : undefined}>
+                    <LinkButton className='lnkEditUserPreferences button-link' href={userDto?.Id ? `mypreferencesmenu?userId=${userDto.Id}` : undefined}>
                         {globalize.translate('ButtonEditOtherUserPreferences')}
                     </LinkButton>
                 </div>
@@ -314,11 +314,11 @@ const UserEdit = () => {
                         </div>
                     </div>
                     <div id='fldUserName' className='inputContainer'>
-                        <InputElement
+                        <Input
                             type='text'
                             id='txtUserName'
-                            label='LabelName'
-                            options={'required'}
+                            label={globalize.translate('LabelName')}
+                            required
                         />
                     </div>
                     <div className='selectContainer fldSelectLoginProvider hide'>
@@ -416,11 +416,14 @@ const UserEdit = () => {
                     <br />
                     <div className='verticalSection'>
                         <div className='inputContainer'>
-                            <InputElement
+                            <Input
                                 type='number'
                                 id='txtRemoteClientBitrateLimit'
-                                label='LabelRemoteClientBitrateLimit'
-                                options={'inputMode="decimal" pattern="[0-9]*(.[0-9]+)?" min="{0}" step=".25"'}
+                                label={globalize.translate('LabelRemoteClientBitrateLimit')}
+                                inputMode='decimal'
+                                pattern='[0-9]*(.[0-9]+)?'
+                                min='0'
+                                step='.25'
                             />
                             <div className='fieldDescription'>
                                 {globalize.translate('LabelRemoteClientBitrateLimitHelp')}
@@ -517,11 +520,11 @@ const UserEdit = () => {
                     <br />
                     <div className='verticalSection'>
                         <div className='inputContainer' id='fldLoginAttemptsBeforeLockout'>
-                            <InputElement
+                            <Input
                                 type='number'
                                 id='txtLoginAttemptsBeforeLockout'
-                                label='LabelUserLoginAttemptsBeforeLockout'
-                                options={'min={-1} step={1}'}
+                                label={globalize.translate('LabelUserLoginAttemptsBeforeLockout')}
+                                min={-1} step={1}
                             />
                             <div className='fieldDescription'>
                                 {globalize.translate('OptionLoginAttemptsBeforeLockout')}
@@ -534,11 +537,11 @@ const UserEdit = () => {
                     <br />
                     <div className='verticalSection'>
                         <div className='inputContainer' id='fldMaxActiveSessions'>
-                            <InputElement
+                            <Input
                                 type='number'
                                 id='txtMaxActiveSessions'
-                                label='LabelUserMaxActiveSessions'
-                                options={'min={0} step={1}'}
+                                label={globalize.translate('LabelUserMaxActiveSessions')}
+                                min={0} step={1}
                             />
                             <div className='fieldDescription'>
                                 {globalize.translate('OptionMaxActiveSessions')}
@@ -550,16 +553,16 @@ const UserEdit = () => {
                     </div>
                     <br />
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
-                            title='Save'
+                            title={globalize.translate('Save')}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnCancel'
                             className='raised button-cancel block'
-                            title='ButtonCancel'
+                            title={globalize.translate('ButtonCancel')}
                         />
                     </div>
                 </form>

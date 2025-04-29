@@ -1,5 +1,3 @@
-import Dashboard from '@mui/icons-material/Dashboard';
-import Edit from '@mui/icons-material/Edit';
 import Favorite from '@mui/icons-material/Favorite';
 import Home from '@mui/icons-material/Home';
 import Divider from '@mui/material/Divider';
@@ -30,7 +28,7 @@ const MainDrawerContent = () => {
     const userViews = userViewsData?.Items || [];
     const webConfig = useWebConfig();
 
-    const isHomeSelected = location.pathname === '/home.html' && (!location.search || location.search === '?tab=0');
+    const isHomeSelected = location.pathname === '/home' && (!location.search || location.search === '?tab=0');
 
     return (
         <>
@@ -40,7 +38,7 @@ const MainDrawerContent = () => {
                     <DrawerHeaderLink />
                 </ListItem>
                 <ListItem disablePadding>
-                    <ListItemLink to='/home.html' selected={isHomeSelected}>
+                    <ListItemLink to='/home' selected={isHomeSelected}>
                         <ListItemIcon>
                             <Home />
                         </ListItemIcon>
@@ -48,7 +46,7 @@ const MainDrawerContent = () => {
                     </ListItemLink>
                 </ListItem>
                 <ListItem disablePadding>
-                    <ListItemLink to='/home.html?tab=1'>
+                    <ListItemLink to='/home?tab=1'>
                         <ListItemIcon>
                             <Favorite />
                         </ListItemIcon>
@@ -108,38 +106,6 @@ const MainDrawerContent = () => {
                                 </ListItemLink>
                             </ListItem>
                         ))}
-                    </List>
-                </>
-            )}
-
-            {/* ADMIN LINKS */}
-            {user?.Policy?.IsAdministrator && (
-                <>
-                    <Divider />
-                    <List
-                        aria-labelledby='admin-subheader'
-                        subheader={
-                            <ListSubheader component='div' id='admin-subheader'>
-                                {globalize.translate('HeaderAdmin')}
-                            </ListSubheader>
-                        }
-                    >
-                        <ListItem disablePadding>
-                            <ListItemLink to='/dashboard'>
-                                <ListItemIcon>
-                                    <Dashboard />
-                                </ListItemIcon>
-                                <ListItemText primary={globalize.translate('TabDashboard')} />
-                            </ListItemLink>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemLink to='/metadata'>
-                                <ListItemIcon>
-                                    <Edit />
-                                </ListItemIcon>
-                                <ListItemText primary={globalize.translate('MetadataManager')} />
-                            </ListItemLink>
-                        </ListItem>
                     </List>
                 </>
             )}

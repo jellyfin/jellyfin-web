@@ -4,7 +4,7 @@ import globalize from '../../../lib/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
 
 type AccessScheduleListProps = {
-    index: number;
+    index?: number;
     DayOfWeek?: string;
     StartHour?: number ;
     EndHour?: number;

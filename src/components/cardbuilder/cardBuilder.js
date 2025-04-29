@@ -12,6 +12,7 @@ import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'scripts/dom';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
 
@@ -22,7 +23,6 @@ import itemHelper from '../itemHelper';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import { appRouter } from '../router/appRouter';
-import ServerConnections from '../ServerConnections';
 import itemShortcuts from '../shortcuts';
 
 import 'elements/emby-button/paper-icon-button-light';
@@ -195,6 +195,7 @@ function buildCardsHtmlInternal(items, options) {
                     if (isVertical) {
                         html += '</div>';
                     }
+                    // eslint-disable-next-line sonarjs/no-dead-store
                     hasOpenSection = false;
                 }
 
@@ -215,6 +216,7 @@ function buildCardsHtmlInternal(items, options) {
         if (options.rows && itemsInRow === 0) {
             if (hasOpenRow) {
                 html += '</div>';
+                // eslint-disable-next-line sonarjs/no-dead-store
                 hasOpenRow = false;
             }
 
@@ -482,7 +484,7 @@ function getAirTimeText(item, showAirDateTime, showAirEndTime) {
                 airTimeText += ' - ' + datetime.getDisplayTime(date);
             }
         } catch (e) {
-            console.error('error parsing date: ' + item.StartDate);
+            console.error('error parsing date: ' + item.StartDate, e);
         }
     }
 
@@ -615,7 +617,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
                         datetime.parseISO8601Date(item.PremiereDate),
                         { weekday: 'long', month: 'long', day: 'numeric' }
                     ));
-                } catch (err) {
+                } catch {
                     lines.push('');
                 }
             } else {
@@ -704,7 +706,8 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             if (item.Role) {
                 if ([ PersonKind.Actor, PersonKind.GuestStar ].includes(item.Type)) {
                     // List actor roles formatted like "as Character Name"
-                    lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
+                    const roleText = globalize.translate('PersonRole', escapeHtml(item.Role));
+                    lines.push(`<span title="${roleText}">${roleText}</span>`);
                 } else if (item.Role.toLowerCase() === item.Type.toLowerCase()) {
                     // Role and Type are the same so use the localized Type
                     lines.push(escapeHtml(globalize.translate(item.Type)));

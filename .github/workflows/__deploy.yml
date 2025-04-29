@@ -29,13 +29,13 @@ jobs:
 
     steps:
       - name: Download workflow artifact ⬇️
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
         with:
           name: ${{ inputs.artifact_name }}
           path: dist
 
       - name: Publish to Cloudflare Pages 📃
-        uses: cloudflare/wrangler-action@7a5f8bbdfeedcde38e6777a50fe685f89259d4ca # v3.13.1
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
         id: cf
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

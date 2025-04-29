@@ -24,6 +24,7 @@ function type(value) {
     }
 
     if (typeof value === 'object' || typeof value === 'function') {
+        // eslint-disable-next-line sonarjs/prefer-regexp-exec
         return Object.prototype.toString.call(value).match(/\s([a-z]+)/i)[1].toLowerCase() || 'object';
     }
 

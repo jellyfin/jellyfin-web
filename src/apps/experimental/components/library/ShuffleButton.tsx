@@ -1,6 +1,6 @@
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import React, { FC, useCallback } from 'react';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 
 import { playbackManager } from 'components/playback/playbackmanager';
@@ -42,6 +42,12 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({ item, items, viewType, hasFilte
             title={globalize.translate('Shuffle')}
             className='paper-icon-button-light btnShuffle autoSize'
             onClick={shuffle}
+            sx={{
+                order: {
+                    xs: 2,
+                    sm: 'unset'
+                }
+            }}
         >
             <ShuffleIcon />
         </IconButton>

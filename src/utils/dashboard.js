@@ -1,10 +1,10 @@
-import ServerConnections from '../components/ServerConnections';
 import toast from '../components/toast/toast';
 import loading from '../components/loading/loading';
 import { appRouter } from '../components/router/appRouter';
 import baseAlert from '../components/alert';
 import baseConfirm from '../components/confirm/confirm';
 import globalize from '../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as webSettings from '../scripts/settings/webSettings';
 import datetime from '../scripts/datetime';
 import { setBackdropTransparency } from '../components/backdrop/backdrop';
@@ -61,7 +61,7 @@ export async function serverAddress() {
                 let config;
                 try {
                     config = await resp.json();
-                } catch (err) {
+                } catch {
                     return;
                 }
 
@@ -105,7 +105,7 @@ export function logout() {
         // Reset cached views
         viewContainer.reset();
         webSettings.getMultiServer().then(multi => {
-            multi ? navigate('selectserver.html') : navigate('login.html');
+            multi ? navigate('selectserver') : navigate('login');
         });
     });
 }
@@ -191,7 +191,7 @@ export function selectServer() {
     if (window.NativeShell && typeof window.NativeShell.selectServer === 'function') {
         window.NativeShell.selectServer();
     } else {
-        navigate('selectserver.html');
+        navigate('selectserver');
     }
 }
 

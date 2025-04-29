@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import globalize from 'lib/globalize';
 

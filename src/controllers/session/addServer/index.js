@@ -1,10 +1,10 @@
-import appSettings from '../../../scripts/settings/appSettings';
-import loading from '../../../components/loading/loading';
-import globalize from '../../../lib/globalize';
-import '../../../elements/emby-button/emby-button';
-import Dashboard from '../../../utils/dashboard';
-import ServerConnections from '../../../components/ServerConnections';
-import { ConnectionState } from '../../../utils/jellyfin-apiclient/ConnectionState.ts';
+import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
+import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
+import appSettings from 'scripts/settings/appSettings';
+import Dashboard from 'utils/dashboard';
+
+import 'elements/emby-button/emby-button';
 
 function handleConnectionResult(page, result) {
     loading.hide();
@@ -12,14 +12,14 @@ function handleConnectionResult(page, result) {
         case ConnectionState.SignedIn: {
             const apiClient = result.ApiClient;
             Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
-            Dashboard.navigate('home.html');
+            Dashboard.navigate('home');
             break;
         }
         case ConnectionState.ServerSignIn:
-            Dashboard.navigate('login.html?serverid=' + result.Servers[0].Id, false, 'none');
+            Dashboard.navigate('login?serverid=' + result.Servers[0].Id, false, 'none');
             break;
         case ConnectionState.ServerSelection:
-            Dashboard.navigate('selectserver.html', false, 'none');
+            Dashboard.navigate('selectserver', false, 'none');
             break;
         case ConnectionState.ServerUpdateNeeded:
             Dashboard.alert({
@@ -36,6 +36,7 @@ function handleConnectionResult(page, result) {
 
 function submitServer(page) {
     loading.show();
+    // eslint-disable-next-line sonarjs/slow-regex
     const host = page.querySelector('#txtServerHost').value.replace(/\/+$/, '');
     ServerConnections.connectToAddress(host, {
         enableAutoLogin: appSettings.enableAutoLogin()

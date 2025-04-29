@@ -4,6 +4,7 @@ import dom from '../../scripts/dom';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import scrollHelper from '../../scripts/scrollHelper';
 import imageLoader from '../images/imageLoader';
 import browser from '../../scripts/browser';
@@ -13,7 +14,6 @@ import '../formdialog.scss';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import './imageeditor.scss';
-import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import confirm from '../confirm/confirm';
 import template from './imageeditor.template.html';
@@ -264,6 +264,8 @@ function showImageDownloader(page, imageType) {
         ).then(function () {
             hasChanges = true;
             reload(page);
+        }).catch(function () {
+            // image downloader closed
         });
     });
 }
