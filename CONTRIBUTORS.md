@@ -161,6 +161,7 @@
 - [tikuf](https://github.com/tikuf/)
 - [Tim Hobbs](https://github.com/timhobbs)
 - [SvenVandenbrande](https://github.com/SvenVandenbrande)
+- [hazemKrimi](https://github.com/hazemKrimi)
 <!--
     NOTE: This is the end of the list of past Emby Contributors.
     New Jellyfin contributors should add their name to the end
