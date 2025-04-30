@@ -248,7 +248,7 @@
     "SettingsSaved": "Konfigurazio gordea.",
     "Settings": "Ezarpenak",
     "ServerUpdateNeeded": "Zerbitzaria eguneratu egin behar da. Azken bertsioa deskargatzeko, bisitatu {0}",
-    "ServerRestartNeededAfterPluginInstall": "Jellyfin berriz hasi beharko da osagarri bat instalatu ondoren.",
+    "ServerRestartNeededAfterPluginInstall": "Jellyfin berrabiarazi beharko da plugina instalatu ondoren.",
     "ServerNameIsShuttingDown": "{0}(e)ko zerbitzaria itzaltzen ari da.",
     "ServerNameIsRestarting": "{0}(e)ko zerbitzaria berrabiarazten ari da.",
     "SeriesYearToPresent": "{0} - Gaur egun",
@@ -1711,5 +1711,10 @@
     "DisableVbrAudioEncodingHelp": "Eragotzi zerbitzariari bezero honentzat VBR-rekin audioa kodetzea.",
     "PlaybackError.MEDIA_NOT_SUPPORTED": "Erreprodukzioak huts egin du bezero honek ez duelako multimedia onartzen.",
     "LimitSupportedVideoResolutionHelp": "Erabili 'Bideoa transkodetzeko gehienezko bereizmena' onartutako bideo bereizmen maximo gisa.",
-    "LyricDownloadersHelp": "Gaitu eta sailkatu zure letra deskargatzaile gogokoenak lehentasunaren arabera."
+    "LyricDownloadersHelp": "Gaitu eta sailkatu zure letra deskargatzaile gogokoenak lehentasunaren arabera.",
+    "EnableLibraryHelp": "Liburutegia desgaitzeak erabiltzaile guztien ikuspegietatik ezkutatuko du.",
+    "BlockContentWithTagsHelp": "Ezkutatu gutxienez zehaztutako etiketa bat duen multimedia.",
+    "PreferNonstandardArtistsTagHelp": "Erabili ARTISTS etiketa ez-estandarra ARTIST etiketaren ordez, eskuragarri dagoenean.",
+    "LabelTileHeightHelp": "Y norabidean teila bakoitzeko irudi kopuru maximoa.",
+    "LabelTileWidthHelp": "X norabidean teila bakoitzeko irudi kopuru maximoa."
 }
