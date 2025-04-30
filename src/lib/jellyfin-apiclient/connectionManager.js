@@ -423,10 +423,6 @@ export default class ConnectionManager {
             // See if we have any saved credentials and can auto sign in
             if (firstServer) {
                 return self.connectToServer(firstServer, options).then((result) => {
-                    if (result.State === ConnectionState.Unavailable) {
-                        result.State = ConnectionState.ServerSelection;
-                    }
-
                     console.log('resolving connectToServers with result.State: ' + result.State);
                     return result;
                 });
