@@ -6,36 +6,30 @@
 .subtitleSyncContainer {
     width: 50%;
     min-width: 24em;
-    margin-left: auto;
-    margin-right: auto;
-    min-height: 4.2em;
-    height: auto;
+    margin: 0 auto;
     background: rgba(32, 32, 32, 0.9);
     border-radius: 0.2em;
     color: rgba(255, 255, 255, 0.8);
     position: relative;
-    padding-bottom: 1em;
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 .subtitleSync-closeButton {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 0.5rem;
+    right: 0.5rem;
     color: rgba(255, 255, 255, 0.7);
     z-index: 2;
 }
 
 .subtitleSyncTextField {
-    position: absolute;
-    left: 0;
-    width: 40%;
-    margin-left: 30%;
-    margin-right: 30%;
-    top: 0.1em;
     text-align: center;
     font-size: 20px;
     color: rgba(255, 255, 255, 0.8);
-    z-index: 2;
 }
 
 #prompt {
@@ -44,27 +38,20 @@
 
 .subtitleSyncSliderContainer {
     width: 98%;
-    margin-left: 1%;
-    margin-right: 1%;
-    top: 2.5em;
-    height: 1.4em;
-    flex-grow: 1;
     border-radius: 0.3em;
     position: relative;
-    z-index: 3;
 }
 
 .subtitleTimelineWrapper {
-    margin-top: 1.8em;
+    width: 100%;
     position: relative;
 }
 
 /* Timeline view styles */
 .subtitleSyncTimeline {
     position: relative;
-    width: 98%;
+    width: 100%;
     height: 7em;
-    margin: 1em auto 0.5em;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 0.2em;
     overflow: hidden;
@@ -129,6 +116,7 @@
     line-height: 1.2;
     box-sizing: border-box;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
