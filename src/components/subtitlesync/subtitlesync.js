@@ -2,7 +2,6 @@ import { playbackManager } from '../playback/playbackmanager';
 import layoutManager from '../layoutManager';
 import template from './subtitlesync.template.html';
 import './subtitlesync.scss';
-import { TICKS_PER_SECOND } from 'constants/time';
 import { PlaybackSubscriber } from '../../apps/stable/features/playback/utils/playbackSubscriber';
 
 // Constants
@@ -56,35 +55,7 @@ class SubtitleTimeline extends PlaybackSubscriber {
 
     _getSubtitleEvents() {
         if (!this.player) return null;
-
-        // First try to get Jellyfin events and normalize to seconds
-        const jellyfinEvents = playbackManager.getCurrentSubtitleTrackEvents(this.player);
-        if (jellyfinEvents && jellyfinEvents.length) {
-            // Convert ticks to seconds format
-            return jellyfinEvents.map(event => ({
-                startTime: event.StartPositionTicks / TICKS_PER_SECOND,
-                endTime: event.EndPositionTicks / TICKS_PER_SECOND,
-                text: event.Text || ''
-            }));
-        }
-
-        // Try to get text tracks using the player's getTextTracks method
-        if (this.player.getTextTracks) {
-            const textTracks = this.player.getTextTracks();
-            if (textTracks && textTracks.length > 0) {
-                const activeTrack = textTracks[0]; // Get the first active track
-                if (activeTrack && activeTrack.cues && activeTrack.cues.length > 0) {
-                    // Convert VTTCues to our format
-                    return Array.from(activeTrack.cues).map(cue => ({
-                        startTime: cue.startTime,
-                        endTime: cue.endTime,
-                        text: cue.text || ''
-                    }));
-                }
-            }
-        }
-
-        return null;
+        return playbackManager.getCurrentSubtitleTrackEvents(this.player);
     }
 
     updateEvents() {
