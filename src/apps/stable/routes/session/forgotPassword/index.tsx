@@ -77,7 +77,7 @@ export const ForgotPasswordPage = () => {
     return (
         <Page
             id='forgotPasswordPage'
-            className='page standalonePage forgotPasswordPage mainAnimatedPage'
+            className='standalonePage forgotPasswordPage mainAnimatedPage'
         >
             <div className='padded-left padded-right padded-bottom-page'>
                 <form
