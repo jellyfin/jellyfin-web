@@ -1,10 +1,14 @@
+import { appHost } from 'components/apphost';
+import viewContainer from 'components/viewContainer';
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import toast from '../components/toast/toast';
 import loading from '../components/loading/loading';
 import { appRouter } from '../components/router/appRouter';
 import baseAlert from '../components/alert';
 import baseConfirm from '../components/confirm/confirm';
 import globalize from '../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as webSettings from '../scripts/settings/webSettings';
 import datetime from '../scripts/datetime';
 import { setBackdropTransparency } from '../components/backdrop/backdrop';
@@ -13,7 +17,6 @@ import dialogHelper from '../components/dialogHelper/dialogHelper';
 import itemIdentifier from '../components/itemidentifier/itemidentifier';
 import { getLocationSearch } from './url.ts';
 import { queryClient } from './query/queryClient';
-import viewContainer from 'components/viewContainer';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -104,9 +107,8 @@ export function logout() {
         queryClient.clear();
         // Reset cached views
         viewContainer.reset();
-        webSettings.getMultiServer().then(multi => {
-            multi ? navigate('selectserver') : navigate('login');
-        });
+        appHost.supports(AppFeature.MultiServer) ?
+            navigate('selectserver') : navigate('login');
     });
 }
 
@@ -178,13 +180,13 @@ export function alert(options) {
     }
 }
 
-export function capabilities(appHost) {
+export function capabilities(host) {
     return Object.assign({
         PlayableMediaTypes: ['Audio', 'Video'],
         SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
         SupportsPersistentIdentifier: window.appMode === 'cordova' || window.appMode === 'android',
         SupportsMediaControl: true
-    }, appHost.getPushTokenInfo());
+    }, host.getPushTokenInfo());
 }
 
 export function selectServer() {
