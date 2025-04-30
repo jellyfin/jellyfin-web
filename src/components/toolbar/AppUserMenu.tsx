@@ -16,6 +16,7 @@ import React, { FC, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 import { appHost } from 'components/apphost';
+import { AppFeature } from 'constants/appFeature';
 import { useApi } from 'hooks/useApi';
 import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
 import globalize from 'lib/globalize';
@@ -97,7 +98,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </ListItemText>
             </MenuItem>
 
-            {appHost.supports('clientsettings') && ([
+            {appHost.supports(AppFeature.ClientSettings) && ([
                 <Divider key='client-settings-divider' />,
                 <MenuItem
                     key='client-settings-button'
@@ -156,7 +157,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </MenuItem>
             )}
 
-            {appHost.supports('multiserver') && (
+            {appHost.supports(AppFeature.MultiServer) && (
                 <MenuItem
                     onClick={onSelectServerClick}
                 >
@@ -180,7 +181,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </ListItemText>
             </MenuItem>
 
-            {appHost.supports('exitmenu') && ([
+            {appHost.supports(AppFeature.ExitMenu) && ([
                 <Divider key='exit-menu-divider' />,
                 <MenuItem
                     key='exit-menu-button'
