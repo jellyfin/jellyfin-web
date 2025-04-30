@@ -54,7 +54,7 @@ export const ForgotPasswordPage = () => {
                     message: msg,
                     title: globalize.translate('ButtonForgotPassword'),
                     callback: function () {
-                        navigate('forgotpasswordpin');
+                        navigate('/forgotpasswordpin');
                     }
                 });
             }
