@@ -18,6 +18,7 @@ export function showLayoutMenu (button, currentLayout, views) {
     });
 
     import('../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
+        console.log("here?");
         actionsheet.show({
             items: menuItems,
             positionTo: button,
@@ -34,7 +35,7 @@ export function showLayoutMenu (button, currentLayout, views) {
                     $(button).trigger('layoutchange', [id]);
                 }
             }
-        });
+        }).catch(() => { /* no-op */ });
     });
 }
 

@@ -167,7 +167,8 @@ export default function (view, params) {
         actionSheet.show({
             items: menuItems,
             title: server.Name
-        }).then(function (id) {
+        })
+        .then(function (id) {
             switch (id) {
                 case 'connect':
                     connectToServer(server);
@@ -175,8 +176,9 @@ export default function (view, params) {
 
                 case 'delete':
                     deleteServer(server);
+                    break;
             }
-        });
+        }).catch(() => { /* no-op */ });
     }
 
     function onServersRetrieved(result) {
@@ -221,4 +223,3 @@ export default function (view, params) {
         }
     });
 }
-
