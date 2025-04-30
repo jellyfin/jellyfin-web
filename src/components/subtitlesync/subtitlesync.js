@@ -9,7 +9,6 @@ import { PlaybackSubscriber } from '../../apps/stable/features/playback/utils/pl
 const TIMELINE_RESOLUTION_SECONDS = 10.0;
 const DEFAULT_OFFSET = 0;
 const TIME_MARKER_INTERVAL = 1; // 1-second intervals for precise timing
-const DOM_INIT_DELAY = 0; // for Firefox element attach hack
 const PERCENT_MAX = 100.0;
 
 function formatTimeMarker(time) {
@@ -217,7 +216,7 @@ class OffsetController {
             slider.classList.add('focusable');
             // eslint-disable-next-line no-warning-comments
             // HACK: Delay to give time for registered element attach (Firefox)
-            setTimeout(() => slider.enableKeyboardDragging(), DOM_INIT_DELAY);
+            setTimeout(() => slider.enableKeyboardDragging(), 0);
         }
 
         slider.addEventListener('change', () => this.updateOffset());
