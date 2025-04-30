@@ -167,8 +167,7 @@ export default function (view, params) {
         actionSheet.show({
             items: menuItems,
             title: server.Name
-        })
-        .then(function (id) {
+        }).then(function (id) {
             switch (id) {
                 case 'connect':
                     connectToServer(server);
