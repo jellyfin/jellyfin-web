@@ -2026,5 +2026,6 @@
     "LimitSegmentLengthHelp": "Durch Aktivieren dieser Option kann verhindert werden, dass der HLS-Player während der Suche auf bestimmten Geräten, beispielsweise webOS-Fernsehern, hängen bleibt.",
     "ImageUploadCancelled": "Bild hochladen abgebrochen",
     "ImageUploadFailed": "Bild hochladen fehlgeschlagen",
-    "ReadInputAtNativeFramerate": "Eingabe mit nativer Framerate lesen"
+    "ReadInputAtNativeFramerate": "Eingabe mit nativer Framerate lesen",
+    "HeaderUpdateRequired": "Update erforderlich"
 }
