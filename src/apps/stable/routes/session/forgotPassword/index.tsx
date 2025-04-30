@@ -29,35 +29,34 @@ export const ForgotPasswordPage = () => {
             return response.data;
         },
         onSuccess: (result) => {
-            if (result.Action == ForgotPasswordAction.ContactAdmin) {
-                Dashboard.alert({
-                    message: globalize.translate('MessageContactAdminToResetPassword'),
-                    title: globalize.translate('ButtonForgotPassword')
-                });
+            let msg = '';
+            let callback: () => void | undefined = () => undefined;
+
+            switch (result.Action) {
+                case ForgotPasswordAction.ContactAdmin:
+                    msg = globalize.translate('MessageContactAdminToResetPassword');
+                    break;
+                case ForgotPasswordAction.InNetworkRequired:
+                    msg = globalize.translate('MessageForgotPasswordInNetworkRequired');
+                    break;
+                case ForgotPasswordAction.PinCode:
+                    msg = globalize.translate('MessageForgotPasswordFileCreated');
+                    msg += '<br/><br/>';
+                    msg += globalize.translate('MessageForgotPasswordPinReset');
+                    msg += '<br/><br/>';
+                    msg += result.PinFile;
+                    msg += '<br/>';
+                    callback = () => navigate('/forgotpasswordpin');
+                    break;
+                default:
+                    return;
             }
 
-            if (result.Action == ForgotPasswordAction.InNetworkRequired) {
-                Dashboard.alert({
-                    message: globalize.translate('MessageForgotPasswordInNetworkRequired'),
-                    title: globalize.translate('ButtonForgotPassword')
-                });
-            }
-
-            if (result.Action == ForgotPasswordAction.PinCode) {
-                let msg = globalize.translate('MessageForgotPasswordFileCreated');
-                msg += '<br/><br/>';
-                msg += globalize.translate('MessageForgotPasswordPinReset');
-                msg += '<br/><br/>';
-                msg += result.PinFile;
-                msg += '<br/>';
-                Dashboard.alert({
-                    message: msg,
-                    title: globalize.translate('ButtonForgotPassword'),
-                    callback: function () {
-                        navigate('/forgotpasswordpin');
-                    }
-                });
-            }
+            Dashboard.alert({
+                message: msg,
+                title: globalize.translate('ButtonForgotPassword'),
+                callback: callback
+            });
         }
     });
 
