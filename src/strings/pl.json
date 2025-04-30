@@ -2027,5 +2027,6 @@
     "ReadInputAtNativeFramerateHelp": "Włączenie tej opcji może rozwiązać niektóre problemy, np. przedwczesne kończenie transmisji na żywo.",
     "LimitSegmentLength": "Użyj krótszych segmentów HLS",
     "LimitSegmentLengthHelp": "Włączenie tej opcji może pomóc zapobiec zawieszaniu się odtwarzacza HLS podczas wyszukiwania na niektórych urządzeniach, np. telewizorach z systemem webOS.",
-    "HeaderUpdateRequired": "Wymagana aktualizacja"
+    "HeaderUpdateRequired": "Wymagana aktualizacja",
+    "HeaderServerUnavailable": "Serwer niedostępny"
 }
