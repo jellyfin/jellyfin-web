@@ -5,17 +5,14 @@ import globalize from 'lib/globalize';
 import Button from 'elements/emby-button/Button';
 import Input from 'elements/emby-input/Input';
 import { useMutation } from '@tanstack/react-query';
+import Dashboard from 'utils/dashboard';
 import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import { ForgotPasswordAction } from '@jellyfin/sdk/lib/generated-client/models/forgot-password-action';
 import ServerConnections from 'components/ServerConnections';
-import SimpleAlert from 'components/SimpleAlert';
 
 export const ForgotPasswordPage = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
-    const [isAlertOpen, setIsAlertOpen] = useState(false);
-    const [alertMessage, setAlertMessage] = useState<string>('');
-    const [alertCallback, setAlertCallback] = useState<(() => void) | undefined>(undefined);
 
     const forgotPasswordMutation = useMutation({
         mutationFn: async (enteredUsername: string) => {
@@ -44,17 +41,22 @@ export const ForgotPasswordPage = () => {
                     break;
                 case ForgotPasswordAction.PinCode:
                     msg = globalize.translate('MessageForgotPasswordFileCreated');
-                    msg += ': ';
+                    msg += '<br/><br/>';
+                    msg += globalize.translate('MessageForgotPasswordPinReset');
+                    msg += '<br/><br/>';
                     msg += result.PinFile;
+                    msg += '<br/>';
                     callback = () => navigate('/forgotpasswordpin');
                     break;
                 default:
                     return;
             }
 
-            setAlertMessage(msg);
-            setAlertCallback(() => callback);
-            setIsAlertOpen(true);
+            Dashboard.alert({
+                message: msg,
+                title: globalize.translate('ButtonForgotPassword'),
+                callback: callback
+            });
         }
     });
 
@@ -71,23 +73,11 @@ export const ForgotPasswordPage = () => {
         setUsername(e.target.value);
     }, []);
 
-    const handleAlertClose = useCallback(() => {
-        setIsAlertOpen(false);
-        if (alertCallback) {
-            alertCallback();
-        }
-    }, [alertCallback]);
-
     return (
         <Page
             id='forgotPasswordPage'
             className='standalonePage forgotPasswordPage mainAnimatedPage'
         >
-            <SimpleAlert
-                open={isAlertOpen}
-                text={alertMessage}
-                onClose={handleAlertClose}
-            />
             <div className='padded-left padded-right padded-bottom-page'>
                 <form
                     className='forgotPasswordForm'
