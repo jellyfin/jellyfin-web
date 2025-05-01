@@ -2026,5 +2026,7 @@
     "ReadInputAtNativeFramerate": "以原始帧率读取输入",
     "ReadInputAtNativeFramerateHelp": "启用此选项可能会解决一些问题，例如直播流过早停止。",
     "LimitSegmentLength": "使用更短的 HLS 片段",
-    "LimitSegmentLengthHelp": "启用此选项可能有助于防止 HLS 播放器在某些设备（如 webOS 电视）上进行快进 / 快退操作时出现卡顿。"
+    "LimitSegmentLengthHelp": "启用此选项可能有助于防止 HLS 播放器在某些设备（如 webOS 电视）上进行快进 / 快退操作时出现卡顿。",
+    "HeaderServerUnavailable": "服务器不可用",
+    "HeaderUpdateRequired": "需要更新"
 }
