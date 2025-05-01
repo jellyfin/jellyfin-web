@@ -66,6 +66,14 @@ video[controls]::-webkit-media-controls {
     align-items: center;
 }
 
+@media (min-width: 3840px) {
+    .videoSubtitles {
+        font-size: 2em; /* Larger font size for 4K displays */
+        padding: 1em; /* Maintain padding for 4K displays */
+        bottom: 5%; /* Adjusted for better visibility */
+    }
+}
+
 .videoSubtitlesInner {
     max-width: 70%;
     background-color: rgba(0, 0, 0, 0.8);

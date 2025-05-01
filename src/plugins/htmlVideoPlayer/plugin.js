@@ -1446,6 +1446,11 @@ export class HtmlVideoPlayer {
                 text: innerElem,
                 window: elem
             }, userSettings.getSubtitleAppearanceSettings());
+
+            // Adjust for fullscreen
+            if (document.fullscreenElement) {
+                elem.style.fontSize = '2em'; // Scale font size for fullscreen
+            }
         });
     }
 
@@ -2270,6 +2275,17 @@ export class HtmlVideoPlayer {
         return Promise.resolve({
             categories: categories
         });
+    }
+
+    // Add a check to ensure subtitles are properly rendered during fullscreen transitions
+    onFullscreenChanged() {
+        const videoElement = this.#mediaElement;
+        if (videoElement) {
+            const subtitlesContainer = document.querySelector('.videoSubtitles');
+            if (subtitlesContainer) {
+                subtitlesContainer.style.display = 'block'; // Ensure subtitles are visible
+            }
+        }
     }
 }
 
