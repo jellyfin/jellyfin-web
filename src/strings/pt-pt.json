@@ -2021,5 +2021,7 @@
     "DisplayLoadError": "Ocorreu um erro ao carregar os dados de configuração do ecrã.",
     "MetadataImagesLoadError": "Falha ao carregar definições de metadados",
     "LimitSegmentLength": "Utilizar segmentos HLS mais curtos",
-    "LimitSegmentLengthHelp": "Ativar esta opção pode ajudar a evitar que o leitor HLS bloqueie durante a pesquisa em determinados dispositivos, como as TVs webOS."
+    "LimitSegmentLengthHelp": "Ativar esta opção pode ajudar a evitar que o leitor HLS bloqueie durante a pesquisa em determinados dispositivos, como as TVs webOS.",
+    "HeaderServerUnavailable": "Servidor indisponível",
+    "HeaderUpdateRequired": "Atualização necessária"
 }
