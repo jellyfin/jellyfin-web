@@ -184,7 +184,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
             console.debug('[ConnectionRequired] connection state', firstConnection?.State);
             ServerConnections.firstConnection = true;
 
-            if (firstConnection?.State === ConnectionState.ServerUpdateNeeded) {
+            if ([ ConnectionState.ServerUpdateNeeded, ConnectionState.Unavailable ].includes(firstConnection?.State)) {
                 setErrorState(firstConnection.State);
             } else if (level === AccessLevel.Wizard) {
                 handleWizard(firstConnection)
