@@ -2026,5 +2026,6 @@
     "ReadInputAtNativeFramerate": "Nativní snímková frekvence při načítání vstupu",
     "ReadInputAtNativeFramerateHelp": "Zapnutí této možnosti může pomoct s některými problémy, např. s livestreamy, které se nečekaně ukončují.",
     "LimitSegmentLength": "Použít kratší segmenty HLS",
-    "LimitSegmentLengthHelp": "Povolení této možnosti může pomoci v zamezení zasekávání přehrávače HSL během posouvání na určitých zařízeních, například televizích s webOS."
+    "LimitSegmentLengthHelp": "Povolení této možnosti může pomoci v zamezení zasekávání přehrávače HSL během posouvání na určitých zařízeních, například televizích s webOS.",
+    "HeaderServerUnavailable": "Server není dostupný"
 }

@@ -1999,5 +1999,16 @@
     "DeleteCustomImage": "Egyedi kép törlése",
     "ImageDeleteFailed": "A kép törlése nem sikerült",
     "ImageUploadCancelled": "A kép feltöltése megszakítva",
-    "ImageUploadFailed": "A kép feltöltése sikertelen"
+    "ImageUploadFailed": "A kép feltöltése sikertelen",
+    "RetryWithGlobalSearch": "Újra globális kereséssel",
+    "SaveLyricsIntoMediaFolders": "Feliratok mentése a média mappába",
+    "SearchForLyrics": "Feliratok keresése",
+    "Retry": "Újra",
+    "Reset": "Visszaállítás",
+    "Regional": "Regionális",
+    "LimitSegmentLength": "Használj rövidebb HLS szegmenst",
+    "LimitSegmentLengthHelp": "A beállítás engedélyezése segíthet bizonyos eszközökön mint a webOS TV-k a HLS lejátszó akadozását megszűntetni.",
+    "PreviewLyrics": "Felirat előnézet",
+    "HeaderUpdateRequired": "Frissítés szükséges",
+    "RenderPgsSubtitle": "Kísérleti PGS felirat renderelés"
 }

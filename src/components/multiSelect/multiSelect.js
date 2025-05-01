@@ -1,3 +1,4 @@
+import { AppFeature } from 'constants/appFeature';
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
 import loading from '../loading/loading';
@@ -196,6 +197,10 @@ function showMenuForSelectedItems(e) {
                         icon: 'playlist_remove'
                     });
                 }
+
+            if (user.Policy.EnableContentDownloading && appHost.supports(AppFeature.FileDownload)) {
+                // Disabled because there is no callback for this item
+            }
 
                 menuItems.push({
                     name: globalize.translate('AddToPlaylist'),
