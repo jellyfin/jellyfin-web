@@ -248,6 +248,14 @@
     height: 2.83em; /* similar to emby-input with its 110% font-size */
 }
 
+.sliderContainer-settings.disabled {
+    opacity: 0.5;
+}
+
+.sliderContainer-settings.disabled .sliderBubble {
+    display: none;
+}
+
 .sliderLabel {
     display: block;
     margin-bottom: 0.25em;

@@ -9,6 +9,7 @@ export interface DisplaySettingsValues {
     enableItemDetailsBanner: boolean;
     enableLibraryBackdrops: boolean;
     enableLibraryThemeSongs: boolean;
+    libraryThemeSongsVolumeLevel: number;
     enableLibraryThemeVideos: boolean;
     enableRewatchingInNextUp: boolean;
     episodeImagesInNextUp: boolean;

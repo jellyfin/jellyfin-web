@@ -1,4 +1,5 @@
 import Checkbox from '@mui/material/Checkbox';
+import Slider from '@mui/material/Slider';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -13,10 +14,11 @@ import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 
 interface LibraryPreferencesProps {
     onChange: (event: React.SyntheticEvent) => void;
+    onSliderChange: () => (event: Event, value: number | number[]) => void;
     values: DisplaySettingsValues;
 }
 
-export function LibraryPreferences({ onChange, values }: Readonly<LibraryPreferencesProps>) {
+export function LibraryPreferences({ onChange, onSliderChange, values }: Readonly<LibraryPreferencesProps>) {
     return (
         <Stack spacing={3}>
             <Typography variant='h2'>{globalize.translate('HeaderLibraries')}</Typography>
@@ -76,6 +78,30 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
                 />
                 <FormHelperText id='display-settings-lib-theme-songs-description'>
                     {globalize.translate('EnableThemeSongsHelp')}
+                </FormHelperText>
+            </FormControl>
+
+            <FormControl fullWidth>
+                <FormControlLabel
+                    aria-describedby='display-settings-lib-theme-song-volume-level-description'
+                    control={
+                        <Slider
+                            disabled={!values.enableLibraryThemeSongs}
+                            valueLabelDisplay='auto'
+                            value={values.libraryThemeSongsVolumeLevel}
+                            marks
+                            defaultValue={50}
+                            min={0}
+                            max={100}
+                            step={5}
+                            onChange={onSliderChange}
+                        />
+                    }
+                    label={globalize.translate('LabelThemeSongVolume')}
+                    name='libraryThemeSongsVolumeLevel'
+                />
+                <FormHelperText id='display-settings-lib-theme-song-volume-level-description'>
+                    {globalize.translate('ThemeSongVolumeHelp')}
                 </FormHelperText>
             </FormControl>
 

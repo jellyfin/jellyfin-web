@@ -1,4 +1,5 @@
 import escapeHtml from 'escape-html';
+import dom from '../../scripts/dom';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import { pluginManager } from '../pluginManager';
@@ -67,6 +68,19 @@ function showOrHideMissingEpisodesField(context) {
     context.querySelector('.fldDisplayMissingEpisodes').classList.remove('hide');
 }
 
+function updateThemeSongVolumeDisabledState(context) {
+    const isEnabled = context.querySelector('#chkThemeSong').checked;
+    const sliderElement = context.querySelector('#sliderThemeSongVolume');
+    sliderElement.disabled = !isEnabled;
+
+    sliderElement.classList.toggle('disabled', !isEnabled);
+    // Find the slider container and toggle the disabled class on it
+    const sliderContainer = dom.parentWithClass(sliderElement, 'sliderContainer-settings');
+    if (sliderContainer) {
+        sliderContainer.classList.toggle('disabled', !isEnabled);
+    }
+}
+
 function loadForm(context, user, userSettings) {
     if (appHost.supports('displaylanguage')) {
         context.querySelector('.languageSection').classList.remove('hide');
@@ -115,6 +129,11 @@ function loadForm(context, user, userSettings) {
     context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
 
     context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
+    context.querySelector('#chkThemeSong').addEventListener('change', function() {
+        updateThemeSongVolumeDisabledState(context);
+    });
+    context.querySelector('#sliderThemeSongVolume').value = userSettings.themeSongsVolumeLevel();
+    updateThemeSongVolumeDisabledState(context);
     context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
     context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
     context.querySelector('#chkBlurhash').checked = userSettings.enableBlurhash();
@@ -150,6 +169,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.dateTimeLocale(context.querySelector('.selectDateTimeLocale').value);
 
     userSettingsInstance.enableThemeSongs(context.querySelector('#chkThemeSong').checked);
+    userSettingsInstance.themeSongsVolumeLevel(context.querySelector('#sliderThemeSongVolume').value);
     userSettingsInstance.enableThemeVideos(context.querySelector('#chkThemeVideo').checked);
     userSettingsInstance.theme(context.querySelector('#selectTheme').value);
     userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
