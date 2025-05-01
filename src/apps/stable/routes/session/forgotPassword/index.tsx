@@ -5,7 +5,7 @@ import globalize from 'lib/globalize';
 import Button from 'elements/emby-button/Button';
 import Input from 'elements/emby-input/Input';
 import { useMutation } from '@tanstack/react-query';
-import Dashboard from 'utils/dashboard';
+import alert from 'components/alert';
 import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import { ForgotPasswordAction } from '@jellyfin/sdk/lib/generated-client/models/forgot-password-action';
 import ServerConnections from 'components/ServerConnections';
@@ -52,10 +52,11 @@ export const ForgotPasswordPage = () => {
                     return;
             }
 
-            Dashboard.alert({
-                message: msg,
-                title: globalize.translate('ButtonForgotPassword'),
-                callback: callback
+            return alert({
+                text: msg,
+                title: globalize.translate('ButtonForgotPassword')
+            }).then(() => {
+                if (callback) callback();
             });
         }
     });
