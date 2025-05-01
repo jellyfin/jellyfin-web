@@ -213,8 +213,8 @@ function initEditor(content, options, fileOptions) {
             networkSharePath = networkSharePath ? networkSharePath.value : null;
             const path = this.querySelector('#txtDirectoryPickerPath').value;
             validatePath(path, options.validateWriteable, ApiClient).then(
-	      options.callback(path, networkSharePath)
-	    ).catch(() => { /* no-op */ });
+                options.callback(path, networkSharePath)
+            ).catch(() => { /* no-op */ });
         }
         e.preventDefault();
         e.stopPropagation();
