@@ -2019,5 +2019,7 @@
     "CopyLogSuccess": "Conteúdo do registo copiado com sucesso.",
     "LimitSegmentLength": "Utilizar segmentos HLS mais curtos",
     "LimitSegmentLengthHelp": "Ativar esta opção pode ajudar a evitar que o leitor HLS bloqueie durante a pesquisa em determinados dispositivos, como as TVs webOS.",
-    "Retry": "Tentar novamente"
+    "Retry": "Tentar novamente",
+    "HeaderServerUnavailable": "Servidor não disponível",
+    "HeaderUpdateRequired": "Atualização necessária"
 }
