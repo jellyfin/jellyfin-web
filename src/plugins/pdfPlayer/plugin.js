@@ -475,7 +475,7 @@ export class PdfPlayer {
         const devicePixelRatio = window.devicePixelRatio || 1;
 
         return this.book.getPage(number).then(page => {
-            if (this.cancellationToken) return Promise.reject('cancelled'); // Check for cancellation
+            if (this.cancellationToken) return Promise.reject(new Error('cancelled')); // Check for cancellation
 
             // Get viewport at 100% scale first to calculate base fit-to-window scale
             const viewport100 = page.getViewport({ scale: 1 });
