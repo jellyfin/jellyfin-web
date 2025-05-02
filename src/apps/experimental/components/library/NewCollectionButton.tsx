@@ -4,7 +4,13 @@ import Button from '@mui/material/Button';
 
 import globalize from 'lib/globalize';
 
-const NewCollectionButton: FC = () => {
+interface NewCollectionButtonProps {
+    isTextVisible: boolean
+}
+
+const NewCollectionButton: FC<NewCollectionButtonProps> = ({
+    isTextVisible
+}) => {
     const showCollectionEditor = useCallback(() => {
         import('components/collectionEditor/collectionEditor').then(
             ({ default: CollectionEditor }) => {
@@ -24,10 +30,14 @@ const NewCollectionButton: FC = () => {
     return (
         <Button
             variant='contained'
-            startIcon={<Add />}
+            startIcon={isTextVisible ? <Add /> : undefined}
             onClick={showCollectionEditor}
         >
-            {globalize.translate('NewCollection')}
+            {isTextVisible ? (
+                globalize.translate('NewCollection')
+            ) : (
+                <Add />
+            )}
         </Button>
     );
 };
