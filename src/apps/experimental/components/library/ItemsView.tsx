@@ -255,7 +255,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                     sx={{
                         flexGrow: {
                             xs: 1,
-                            md: 0
+                            sm: 0
                         },
                         marginRight: 1
                     }}
@@ -351,7 +351,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                         justifyContent: 'end',
                         flexBasis: {
                             xs: '100%',
-                            md: 'auto'
+                            sm: 'auto'
                         },
                         flexGrow: 1,
                         marginTop: {
