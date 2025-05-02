@@ -5,6 +5,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Stack from '@mui/material/Stack';
+import type { Theme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
@@ -23,6 +26,8 @@ const Pagination: FC<PaginationProps> = ({
     totalRecordCount,
     isPlaceholderData
 }) => {
+    const isSmallScreen = useMediaQuery((t: Theme) => t.breakpoints.up('sm'));
+
     const limit = userSettings.libraryPageSize(undefined);
     const startIndex = libraryViewSettings.StartIndex ?? 0;
     const recordsStart = totalRecordCount ? startIndex + 1 : 0;
@@ -53,25 +58,56 @@ const Pagination: FC<PaginationProps> = ({
             spacing={0.5}
             sx={{
                 alignItems: 'center',
-                marginLeft: 0.5
+                flexGrow: {
+                    xs: 1,
+                    md: 0
+                },
+                marginLeft: {
+                    xs: 0,
+                    sm: 0.5
+                }
             }}
         >
-            <Box>
-                {globalize.translate(
-                    'ListPaging',
-                    recordsStart,
-                    recordsEnd,
-                    totalRecordCount
-                )}
+            {!isSmallScreen && (
+                <Button
+                    color='inherit'
+                    variant='text'
+                    title={globalize.translate('Previous')}
+                    disabled={!showControls || startIndex == 0 || isPlaceholderData}
+                    onClick={onPreviousPageClick}
+                >
+                    <ArrowBackIcon />
+                </Button>
+            )}
+
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexGrow: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginLeft: 1,
+                    marginRight: 1
+                }}
+            >
+                <Typography variant='body2'>
+                    {globalize.translate(
+                        'ListPaging',
+                        recordsStart,
+                        recordsEnd,
+                        totalRecordCount
+                    )}
+                </Typography>
             </Box>
-            {showControls && (
+
+            {isSmallScreen && (
                 <ButtonGroup
                     color='inherit'
                     variant='text'
                 >
                     <Button
                         title={globalize.translate('Previous')}
-                        disabled={startIndex == 0 || isPlaceholderData}
+                        disabled={!showControls || startIndex == 0 || isPlaceholderData}
                         onClick={onPreviousPageClick}
                     >
                         <ArrowBackIcon />
@@ -79,12 +115,24 @@ const Pagination: FC<PaginationProps> = ({
 
                     <Button
                         title={globalize.translate('Next')}
-                        disabled={startIndex + limit >= totalRecordCount || isPlaceholderData }
+                        disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData }
                         onClick={onNextPageClick}
                     >
                         <ArrowForwardIcon />
                     </Button>
                 </ButtonGroup>
+            )}
+
+            {!isSmallScreen && (
+                <Button
+                    color='inherit'
+                    variant='text'
+                    title={globalize.translate('Next')}
+                    disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData }
+                    onClick={onNextPageClick}
+                >
+                    <ArrowForwardIcon />
+                </Button>
             )}
         </Stack>
     );

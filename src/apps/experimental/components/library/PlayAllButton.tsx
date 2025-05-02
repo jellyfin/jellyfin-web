@@ -10,14 +10,22 @@ import { LibraryTab } from 'types/libraryTab';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 interface PlayAllButtonProps {
-    item: ItemDto | undefined;
-    items: ItemDto[];
-    viewType: LibraryTab;
-    hasFilters: boolean;
+    item: ItemDto | undefined
+    items: ItemDto[]
+    viewType: LibraryTab
+    hasFilters: boolean
+    isTextVisible: boolean
     libraryViewSettings: LibraryViewSettings
 }
 
-const PlayAllButton: FC<PlayAllButtonProps> = ({ item, items, viewType, hasFilters, libraryViewSettings }) => {
+const PlayAllButton: FC<PlayAllButtonProps> = ({
+    item,
+    items,
+    viewType,
+    hasFilters,
+    isTextVisible,
+    libraryViewSettings
+}) => {
     const play = useCallback(() => {
         if (item && !hasFilters) {
             playbackManager.play({
@@ -49,10 +57,14 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({ item, items, viewType, hasFilte
     return (
         <Button
             title={globalize.translate('HeaderPlayAll')}
-            startIcon={<PlayArrow />}
+            startIcon={isTextVisible ? <PlayArrow /> : undefined}
             onClick={play}
         >
-            {globalize.translate('HeaderPlayAll')}
+            {isTextVisible ? (
+                globalize.translate('HeaderPlayAll')
+            ) : (
+                <PlayArrow />
+            )}
         </Button>
     );
 };

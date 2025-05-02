@@ -4,6 +4,8 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import Box from '@mui/material/Box';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import type { Theme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import classNames from 'classnames';
 import React, { type FC, useCallback } from 'react';
 
@@ -73,6 +75,7 @@ const ItemsView: FC<ItemsViewProps> = ({
             getSettingsKey(viewType, parentId),
             getDefaultLibraryViewSettings(viewType)
         );
+    const isSmallScreen = useMediaQuery((t: Theme) => t.breakpoints.up('sm'));
 
     const { __legacyApiClient__ } = useApi();
     const {
@@ -230,10 +233,10 @@ const ItemsView: FC<ItemsViewProps> = ({
     );
 
     return (
-        <Box>
+        <Box className='padded-bottom-page'>
             <Box
                 className={classNames(
-                    'padded-top padded-left padded-right padded-bottom',
+                    'padded-top padded-left padded-right',
                     { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
                 )}
                 sx={{
@@ -243,9 +246,51 @@ const ItemsView: FC<ItemsViewProps> = ({
                 }}
             >
                 <Box
-                    sx={{ marginRight: 0.5 }}
+                    sx={{ marginRight: 1 }}
                 >
                     <LibraryViewMenu />
+                </Box>
+
+                <Box
+                    sx={{
+                        flexGrow: {
+                            xs: 1,
+                            md: 0
+                        },
+                        marginRight: 1
+                    }}
+                >
+                    <ButtonGroup
+                        color='inherit'
+                        variant='text'
+                    >
+                        {isBtnFilterEnabled && (
+                            <FilterButton
+                                parentId={parentId}
+                                itemType={itemType}
+                                viewType={viewType}
+                                hasFilters={hasFilters}
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={setLibraryViewSettings}
+                            />
+                        )}
+
+                        {isBtnSortEnabled && (
+                            <SortButton
+                                viewType={viewType}
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={setLibraryViewSettings}
+                            />
+                        )}
+
+                        {isBtnGridListEnabled && (
+                            <ViewSettingsButton
+                                viewType={viewType}
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={setLibraryViewSettings}
+                            />
+                        )}
+                    </ButtonGroup>
                 </Box>
 
                 <Box
@@ -253,7 +298,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                         display: 'flex',
                         flexGrow: {
                             xs: 1,
-                            md: 0
+                            sm: 0
                         },
                         justifyContent: 'end'
                     }}
@@ -262,9 +307,6 @@ const ItemsView: FC<ItemsViewProps> = ({
                         <>
                             <ButtonGroup
                                 variant='contained'
-                                sx={{
-                                    marginRight: 0.5
-                                }}
                             >
                                 {isBtnPlayAllEnabled && (
                                     <PlayAllButton
@@ -272,6 +314,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                                         items={items}
                                         viewType={viewType}
                                         hasFilters={hasFilters}
+                                        isTextVisible={isSmallScreen}
                                         libraryViewSettings={libraryViewSettings}
                                     />
                                 )}
@@ -282,7 +325,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                                         items={items}
                                         viewType={viewType}
                                         hasFilters={hasFilters}
-                                        isTextVisible={!isBtnPlayAllEnabled}
+                                        isTextVisible={isSmallScreen && !isBtnPlayAllEnabled}
                                         libraryViewSettings={libraryViewSettings}
                                     />
                                 )}
@@ -292,12 +335,12 @@ const ItemsView: FC<ItemsViewProps> = ({
                                         item={item}
                                         items={items}
                                         hasFilters={hasFilters}
-                                        isTextVisible={!isBtnPlayAllEnabled && !isBtnShuffleEnabled}
+                                        isTextVisible={isSmallScreen && !isBtnPlayAllEnabled && !isBtnShuffleEnabled}
                                     />
                                 )}
                             </ButtonGroup>
 
-                            {isBtnNewCollectionEnabled && <NewCollectionButton />}
+                            {isBtnNewCollectionEnabled && <NewCollectionButton isTextVisible={isSmallScreen} />}
                         </>
                     )}
                 </Box>
@@ -310,51 +353,14 @@ const ItemsView: FC<ItemsViewProps> = ({
                             xs: '100%',
                             md: 'auto'
                         },
-                        flexGrow: 1
+                        flexGrow: 1,
+                        marginTop: {
+                            xs: 0.5,
+                            sm: 0
+                        }
                     }}
                 >
-                    <Box
-                        sx={{
-                            flexGrow: {
-                                xs: 1,
-                                md: 0
-                            }
-                        }}
-                    >
-                        <ButtonGroup
-                            color='inherit'
-                            variant='text'
-                        >
-                            {isBtnFilterEnabled && (
-                                <FilterButton
-                                    parentId={parentId}
-                                    itemType={itemType}
-                                    viewType={viewType}
-                                    hasFilters={hasFilters}
-                                    libraryViewSettings={libraryViewSettings}
-                                    setLibraryViewSettings={setLibraryViewSettings}
-                                />
-                            )}
-
-                            {isBtnSortEnabled && (
-                                <SortButton
-                                    viewType={viewType}
-                                    libraryViewSettings={libraryViewSettings}
-                                    setLibraryViewSettings={setLibraryViewSettings}
-                                />
-                            )}
-
-                            {isBtnGridListEnabled && (
-                                <ViewSettingsButton
-                                    viewType={viewType}
-                                    libraryViewSettings={libraryViewSettings}
-                                    setLibraryViewSettings={setLibraryViewSettings}
-                                />
-                            )}
-                        </ButtonGroup>
-                    </Box>
-
-                    {isPaginationEnabled && (
+                    {!isPending && isPaginationEnabled && (
                         <Pagination
                             totalRecordCount={totalRecordCount}
                             libraryViewSettings={libraryViewSettings}
@@ -385,10 +391,10 @@ const ItemsView: FC<ItemsViewProps> = ({
                 </ItemsContainer>
             )}
 
-            {isPaginationEnabled && (
+            {!isPending && isPaginationEnabled && (
                 <Box
                     className={classNames(
-                        'padded-top padded-left padded-right padded-bottom',
+                        'padded-left padded-right',
                         { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
                     )}
                     sx={{
