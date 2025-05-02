@@ -6,24 +6,10 @@ import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
+import debounce from 'lodash/debounce';
 
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
-
-function debounce(func, wait, immediate) {
-    let timeout;
-    return function() {
-        const context = this, args = arguments;
-        const later = function() {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
-        };
-        const callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
-    };
-}
 
 export class PdfPlayer {
     constructor() {
@@ -115,14 +101,12 @@ export class PdfPlayer {
     onWindowKeyDown(e) {
         if (!this.loaded) return;
 
+        const key = keyboardnavigation.getKeyName(e);
         // Skip modified keys for navigation/stop, allow for zoom (+/- usually need shift)
-        const isZoomKey = keyboardnavigation.getKeyName(e) === '+' || keyboardnavigation.getKeyName(e) === '=' || keyboardnavigation.getKeyName(e) === '-';
+        const isZoomKey = key === '+' || key === '=' || key === '-';
         if (!isZoomKey && (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey)) return;
         // Special case: '+' often requires Shift
-        if (keyboardnavigation.getKeyName(e) !== '+' && keyboardnavigation.getKeyName(e) !== '=' && e.shiftKey) return;
-
-
-        const key = keyboardnavigation.getKeyName(e);
+        if (key !== '+' && key !== '=' && e.shiftKey) return;
 
         switch (key) {
             case 'l':
@@ -156,7 +140,7 @@ export class PdfPlayer {
     onTouchStart(e) {
         if (!this.loaded || !e.touches || e.touches.length === 0) return;
         if (e.touches.length === 1) { // Only handle single touch for navigation
-             if (e.touches[0].clientX < dom.getWindowSize().innerWidth / 2) {
+            if (e.touches[0].clientX < dom.getWindowSize().innerWidth / 2) {
                 this.previous();
             } else {
                 this.next();
@@ -179,7 +163,7 @@ export class PdfPlayer {
     bindMediaElementEvents() {
         const elem = this.mediaElement;
         if (!elem) {
-            console.error("bindMediaElementEvents called with no mediaElement");
+            console.error('bindMediaElementEvents called with no mediaElement');
             return;
         }
 
@@ -189,65 +173,62 @@ export class PdfPlayer {
         const btnZoomOut = elem.querySelector('.btnZoomOut');
 
         if (btnExit) {
-             btnExit.addEventListener('click', this.onDialogClosed, { once: true });
+            btnExit.addEventListener('click', this.onDialogClosed, { once: true });
         } else {
-            console.warn("btnExit element not found for binding");
+            console.warn('btnExit element not found for binding');
         }
 
         if (btnZoomIn) {
-            console.debug("Binding zoomIn to btnZoomIn");
+            console.debug('Binding zoomIn to btnZoomIn');
             btnZoomIn.addEventListener('click', this.zoomIn); // Ensure '+' button calls zoomIn
         } else {
-            console.warn("btnZoomIn element not found for binding");
+            console.warn('btnZoomIn element not found for binding');
         }
 
         if (btnZoomOut) {
-            console.debug("Binding zoomOut to btnZoomOut");
+            console.debug('Binding zoomOut to btnZoomOut');
             btnZoomOut.addEventListener('click', this.zoomOut); // Ensure '-' button calls zoomOut
         } else {
-            console.warn("btnZoomOut element not found for binding");
+            console.warn('btnZoomOut element not found for binding');
         }
 
         // Bind dialog close event
         elem.addEventListener('close', this.onDialogClosed, { once: true });
     }
 
-
     unbindMediaElementEvents() {
         const elem = this.mediaElement;
-         if (!elem) {
-            console.error("unbindMediaElementEvents called with no mediaElement");
+        if (!elem) {
+            console.error('unbindMediaElementEvents called with no mediaElement');
             return;
-         }
+        }
 
         const btnExit = elem.querySelector('.btnExit');
         const btnZoomIn = elem.querySelector('.btnZoomIn');
         const btnZoomOut = elem.querySelector('.btnZoomOut');
-
 
         elem.removeEventListener('close', this.onDialogClosed);
 
         if (btnExit) {
             btnExit.removeEventListener('click', this.onDialogClosed);
         } else {
-             console.warn("btnExit element not found for unbinding");
+            console.warn('btnExit element not found for unbinding');
         }
 
         if (btnZoomIn) {
-             console.debug("Unbinding zoomIn from btnZoomIn");
+            console.debug('Unbinding zoomIn from btnZoomIn');
             btnZoomIn.removeEventListener('click', this.zoomIn); // Unbind zoomIn from '+' button
         } else {
-            console.warn("btnZoomIn element not found for unbinding");
+            console.warn('btnZoomIn element not found for unbinding');
         }
 
         if (btnZoomOut) {
-            console.debug("Unbinding zoomOut from btnZoomOut");
+            console.debug('Unbinding zoomOut from btnZoomOut');
             btnZoomOut.removeEventListener('click', this.zoomOut); // Unbind zoomOut from '-' button
         } else {
-            console.warn("btnZoomOut element not found for unbinding");
+            console.warn('btnZoomOut element not found for unbinding');
         }
     }
-
 
     bindEvents() {
         this.bindMediaElementEvents();
@@ -276,7 +257,7 @@ export class PdfPlayer {
         // Check if already exists in DOM (e.g., from previous failed load)
         elem = document.getElementById('pdfPlayer');
         if (!elem) {
-             elem = dialogHelper.createDialog({
+            elem = dialogHelper.createDialog({
                 exitAnimationDuration: 400,
                 size: 'fullscreen',
                 autoFocus: false,
@@ -300,9 +281,9 @@ export class PdfPlayer {
             elem.id = 'pdfPlayer';
             const dialogContent = elem.querySelector('.dialogContent');
             if (dialogContent) {
-                 dialogContent.innerHTML = html;
+                dialogContent.innerHTML = html;
             } else {
-                console.error("Could not find dialog content area to insert HTML.");
+                console.error('Could not find dialog content area to insert HTML.');
                 elem.innerHTML = html; // Fallback, might not scroll correctly
             }
 
@@ -355,20 +336,19 @@ export class PdfPlayer {
 
                 // Trigger playing event once loaded
                 Events.trigger(this, 'playing');
-
             }).catch(reason => {
-                 console.error('Error loading PDF document:', reason);
-                 loading.hide();
-                 dialogHelper.alert({ title: 'Error', text: 'Failed to load PDF document.' });
-                 this.stop();
-                 return Promise.reject(reason);
+                console.error('Error loading PDF document:', reason);
+                loading.hide();
+                dialogHelper.alert({ title: 'Error', text: 'Failed to load PDF document.' });
+                this.stop();
+                return Promise.reject(reason);
             });
         }).catch(error => {
-             console.error('Error importing pdfjs-dist:', error);
-             loading.hide();
-             dialogHelper.alert({ title: 'Error', text: 'Failed to load PDF viewer component.' });
-             this.stop();
-             return Promise.reject(error);
+            console.error('Error importing pdfjs-dist:', error);
+            loading.hide();
+            dialogHelper.alert({ title: 'Error', text: 'Failed to load PDF viewer component.' });
+            this.stop();
+            return Promise.reject(error);
         });
     }
 
@@ -382,21 +362,21 @@ export class PdfPlayer {
             this.loadPage(this.progress + 1);
             Events.trigger(this, 'zoomchange');
         } else {
-             console.log('ZoomIn: Max scale reached.');
+            console.log('ZoomIn: Max scale reached.');
         }
     }
 
     zoomOut() {
         if (!this.loaded) return;
-         console.log(`Calling zoomOut. Current scale: ${this.currentScaleFactor}`);
+        console.log(`Calling zoomOut. Current scale: ${this.currentScaleFactor}`);
         const newScaleFactor = Math.max(this.currentScaleFactor - this.zoomIncrement, this.minScaleFactor);
-         if (newScaleFactor !== this.currentScaleFactor) {
+        if (newScaleFactor !== this.currentScaleFactor) {
             this.currentScaleFactor = newScaleFactor;
             console.debug(`PdfPlayer: Zoom Out - New Scale Factor: ${this.currentScaleFactor}`);
             this.loadPage(this.progress + 1);
             Events.trigger(this, 'zoomchange');
         } else {
-             console.log('ZoomOut: Min scale reached.');
+            console.log('ZoomOut: Min scale reached.');
         }
     }
 
@@ -419,18 +399,17 @@ export class PdfPlayer {
     replaceCanvas(newCanvas) {
         const container = this.mediaElement?.querySelector('.pdf-canvas-container');
         if (!container) {
-             console.error("Cannot find .pdf-canvas-container to replace canvas");
-             return;
+            console.error('Cannot find .pdf-canvas-container to replace canvas');
+            return;
         }
         // Remove existing canvas(es) inside the container
         const oldCanvas = container.querySelector('#canvas');
         if (oldCanvas) {
-             oldCanvas.remove();
+            oldCanvas.remove();
         }
         newCanvas.id = 'canvas';
         container.appendChild(newCanvas);
     }
-
 
     loadPage(number) {
         if (!this.book || number < 1 || number > this.duration()) {
@@ -459,20 +438,20 @@ export class PdfPlayer {
         this.renderPage(canvas, number).then(() => {
             // Only replace the visible canvas if the rendered page is the *current* page
             if (!this.cancellationToken && number === this.progress + 1) {
-                 this.replaceCanvas(canvas);
-                 console.debug(`PdfPlayer: Displayed page ${number}`);
+                this.replaceCanvas(canvas);
+                console.debug(`PdfPlayer: Displayed page ${number}`);
             } else if (this.cancellationToken) {
-                 console.debug(`PdfPlayer: Render finished but cancelled before display`);
+                console.debug('PdfPlayer: Render finished but cancelled before display');
             } else {
-                 console.debug(`PdfPlayer: Pre-rendered ${pageKey}, but not displaying (current page is ${this.progress + 1})`);
+                console.debug(`PdfPlayer: Pre-rendered ${pageKey}, but not displaying (current page is ${this.progress + 1})`);
             }
         }).catch(error => {
             console.error(`PdfPlayer: Failed to render page ${number}`, error);
             loading.hide();
         }).finally(() => {
-             if (number === this.progress + 1 || this.cancellationToken) {
-                 loading.hide();
-             }
+            if (number === this.progress + 1 || this.cancellationToken) {
+                loading.hide();
+            }
         });
 
         const pagesToKeep = [`page${number}`];
@@ -490,7 +469,7 @@ export class PdfPlayer {
     renderPage(canvas, number) {
         // Ensure book and page number are valid before proceeding
         if (!this.book || number < 1 || number > this.duration()) {
-             return Promise.reject(new Error(`Invalid state for rendering page ${number}`));
+            return Promise.reject(new Error(`Invalid state for rendering page ${number}`));
         }
 
         const devicePixelRatio = window.devicePixelRatio || 1;
@@ -530,7 +509,7 @@ export class PdfPlayer {
 
             const renderContext = {
                 canvasContext: context,
-                viewport: viewport,
+                viewport: viewport
             };
 
             console.debug(`PdfPlayer: Rendering page ${number} with scale ${finalScale.toFixed(2)} (Base: ${baseScale.toFixed(2)}, Factor: ${this.currentScaleFactor}, DPR: ${devicePixelRatio}) -> Canvas: ${canvas.width}x${canvas.height}, Style: ${canvas.style.width}x${canvas.style.height}`);

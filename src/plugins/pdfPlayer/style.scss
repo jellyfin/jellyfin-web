@@ -23,14 +23,13 @@
 
 #pdfPlayer .actionButtons {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 0.625em;
+    right: 0.625em;
     z-index: 10;
     background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
-    padding: 4px;
+    padding: 0.25em;
     display: flex;
-    gap: 4px;
+    gap: 0.25em;
 }
 
 #pdfPlayer .actionButtons button[is="paper-icon-button-light"] {
