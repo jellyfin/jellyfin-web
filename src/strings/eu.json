@@ -1716,5 +1716,9 @@
     "BlockContentWithTagsHelp": "Ezkutatu gutxienez zehaztutako etiketa bat duen multimedia.",
     "PreferNonstandardArtistsTagHelp": "Erabili ARTISTS etiketa ez-estandarra ARTIST etiketaren ordez, eskuragarri dagoenean.",
     "LabelTileHeightHelp": "Y norabidean teila bakoitzeko irudi kopuru maximoa.",
-    "LabelTileWidthHelp": "X norabidean teila bakoitzeko irudi kopuru maximoa."
+    "LabelTileWidthHelp": "X norabidean teila bakoitzeko irudi kopuru maximoa.",
+    "SaveRecordingNFOHelp": "Gorde EPG zerrenden hornitzailearen metadatuak multimediarekin batera.",
+    "SaveRecordingImagesHelp": "Gorde EPG zerrenden hornitzailearen irudiak multimediarekin batera.",
+    "PlaybackError.FATAL_HLS_ERROR": "Errore larri bat gertatu da HLS jarioan.",
+    "PlaybackError.ASS_RENDER_ERROR": "Errore bat gertatu da ASS/SSA azpitituluen errendatzailean."
 }
