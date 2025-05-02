@@ -341,14 +341,14 @@ export class PdfPlayer {
                 loading.hide();
                 dialogHelper.alert({ title: 'Error', text: 'Failed to load PDF document.' });
                 this.stop();
-                return Promise.reject(reason);
+                return Promise.reject(new Error(reason));
             });
         }).catch(error => {
             console.error('Error importing pdfjs-dist:', error);
             loading.hide();
             dialogHelper.alert({ title: 'Error', text: 'Failed to load PDF viewer component.' });
             this.stop();
-            return Promise.reject(error);
+            return Promise.reject(new Error(error));
         });
     }
 
