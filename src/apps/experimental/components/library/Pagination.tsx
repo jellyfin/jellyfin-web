@@ -60,7 +60,7 @@ const Pagination: FC<PaginationProps> = ({
                 alignItems: 'center',
                 flexGrow: {
                     xs: 1,
-                    md: 0
+                    sm: 0
                 },
                 marginLeft: {
                     xs: 0,
