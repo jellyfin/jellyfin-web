@@ -10,6 +10,21 @@ import Events from '../../utils/events.ts';
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 
+function debounce(func, wait, immediate) {
+    let timeout;
+    return function() {
+        const context = this, args = arguments;
+        const later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        const callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+}
+
 export class PdfPlayer {
     constructor() {
         this.name = 'PDF Player';
@@ -17,9 +32,17 @@ export class PdfPlayer {
         this.id = 'pdfplayer';
         this.priority = 1;
 
+        this.currentScaleFactor = 1.0;
+        this.zoomIncrement = 0.25;
+        this.minScaleFactor = 0.25;
+        this.maxScaleFactor = 3.0;
+
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.onTouchStart = this.onTouchStart.bind(this);
+        this.zoomIn = this.zoomIn.bind(this);
+        this.zoomOut = this.zoomOut.bind(this);
+        this.onWindowResize = debounce(this.onWindowResize.bind(this), 250); // Debounced resize handler
     }
 
     play(options) {
@@ -27,6 +50,7 @@ export class PdfPlayer {
         this.loaded = false;
         this.cancellationToken = false;
         this.pages = {};
+        this.currentScaleFactor = 1.0;
 
         loading.show();
 
@@ -91,8 +115,12 @@ export class PdfPlayer {
     onWindowKeyDown(e) {
         if (!this.loaded) return;
 
-        // Skip modified keys
-        if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+        // Skip modified keys for navigation/stop, allow for zoom (+/- usually need shift)
+        const isZoomKey = keyboardnavigation.getKeyName(e) === '+' || keyboardnavigation.getKeyName(e) === '=' || keyboardnavigation.getKeyName(e) === '-';
+        if (!isZoomKey && (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey)) return;
+        // Special case: '+' often requires Shift
+        if (keyboardnavigation.getKeyName(e) !== '+' && keyboardnavigation.getKeyName(e) !== '=' && e.shiftKey) return;
+
 
         const key = keyboardnavigation.getKeyName(e);
 
@@ -113,15 +141,26 @@ export class PdfPlayer {
                 e.preventDefault();
                 this.stop();
                 break;
+            case '+':
+            case '=':
+                e.preventDefault();
+                this.zoomIn();
+                break;
+            case '-':
+                e.preventDefault();
+                this.zoomOut();
+                break;
         }
     }
 
     onTouchStart(e) {
         if (!this.loaded || !e.touches || e.touches.length === 0) return;
-        if (e.touches[0].clientX < dom.getWindowSize().innerWidth / 2) {
-            this.previous();
-        } else {
-            this.next();
+        if (e.touches.length === 1) { // Only handle single touch for navigation
+             if (e.touches[0].clientX < dom.getWindowSize().innerWidth / 2) {
+                this.previous();
+            } else {
+                this.next();
+            }
         }
     }
 
@@ -129,25 +168,93 @@ export class PdfPlayer {
         this.stop();
     }
 
+    onWindowResize() {
+        console.debug('PdfPlayer: Window resized, re-rendering current page');
+        if (this.loaded && this.book && !this.cancellationToken) {
+            // Re-render the current page to adjust scale based on new window size
+            this.loadPage(this.progress + 1);
+        }
+    }
+
     bindMediaElementEvents() {
         const elem = this.mediaElement;
+        if (!elem) {
+            console.error("bindMediaElementEvents called with no mediaElement");
+            return;
+        }
 
+        // Ensure elements exist before adding listeners
+        const btnExit = elem.querySelector('.btnExit');
+        const btnZoomIn = elem.querySelector('.btnZoomIn');
+        const btnZoomOut = elem.querySelector('.btnZoomOut');
+
+        if (btnExit) {
+             btnExit.addEventListener('click', this.onDialogClosed, { once: true });
+        } else {
+            console.warn("btnExit element not found for binding");
+        }
+
+        if (btnZoomIn) {
+            console.debug("Binding zoomIn to btnZoomIn");
+            btnZoomIn.addEventListener('click', this.zoomIn); // Ensure '+' button calls zoomIn
+        } else {
+            console.warn("btnZoomIn element not found for binding");
+        }
+
+        if (btnZoomOut) {
+            console.debug("Binding zoomOut to btnZoomOut");
+            btnZoomOut.addEventListener('click', this.zoomOut); // Ensure '-' button calls zoomOut
+        } else {
+            console.warn("btnZoomOut element not found for binding");
+        }
+
+        // Bind dialog close event
         elem.addEventListener('close', this.onDialogClosed, { once: true });
-        elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
     }
+
+
+    unbindMediaElementEvents() {
+        const elem = this.mediaElement;
+         if (!elem) {
+            console.error("unbindMediaElementEvents called with no mediaElement");
+            return;
+         }
+
+        const btnExit = elem.querySelector('.btnExit');
+        const btnZoomIn = elem.querySelector('.btnZoomIn');
+        const btnZoomOut = elem.querySelector('.btnZoomOut');
+
+
+        elem.removeEventListener('close', this.onDialogClosed);
+
+        if (btnExit) {
+            btnExit.removeEventListener('click', this.onDialogClosed);
+        } else {
+             console.warn("btnExit element not found for unbinding");
+        }
+
+        if (btnZoomIn) {
+             console.debug("Unbinding zoomIn from btnZoomIn");
+            btnZoomIn.removeEventListener('click', this.zoomIn); // Unbind zoomIn from '+' button
+        } else {
+            console.warn("btnZoomIn element not found for unbinding");
+        }
+
+        if (btnZoomOut) {
+            console.debug("Unbinding zoomOut from btnZoomOut");
+            btnZoomOut.removeEventListener('click', this.zoomOut); // Unbind zoomOut from '-' button
+        } else {
+            console.warn("btnZoomOut element not found for unbinding");
+        }
+    }
+
 
     bindEvents() {
         this.bindMediaElementEvents();
 
         document.addEventListener('keydown', this.onWindowKeyDown);
         document.addEventListener('touchstart', this.onTouchStart);
-    }
-
-    unbindMediaElementEvents() {
-        const elem = this.mediaElement;
-
-        elem.removeEventListener('close', this.onDialogClosed);
-        elem.querySelector('.btnExit').removeEventListener('click', this.onDialogClosed);
+        window.addEventListener('resize', this.onWindowResize);
     }
 
     unbindEvents() {
@@ -157,6 +264,7 @@ export class PdfPlayer {
 
         document.removeEventListener('keydown', this.onWindowKeyDown);
         document.removeEventListener('touchstart', this.onTouchStart);
+        window.removeEventListener('resize', this.onWindowResize);
     }
 
     createMediaElement() {
@@ -165,25 +273,38 @@ export class PdfPlayer {
             return elem;
         }
 
+        // Check if already exists in DOM (e.g., from previous failed load)
         elem = document.getElementById('pdfPlayer');
         if (!elem) {
-            elem = dialogHelper.createDialog({
+             elem = dialogHelper.createDialog({
                 exitAnimationDuration: 400,
                 size: 'fullscreen',
                 autoFocus: false,
-                scrollY: false,
+                scrollY: true, // IMPORTANT for zoom
                 exitAnimation: 'fadeout',
-                removeOnClose: true
+                removeOnClose: true,
+                dialogClass: 'pdf-player-dialog'
             });
 
             let html = '';
+            // Container for the canvas to handle scrolling correctly
+            html += '<div class="pdf-canvas-container">';
             html += '<canvas id="canvas"></canvas>';
+            html += '</div>';
             html += '<div class="actionButtons">';
-            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
+            html += '<button is="paper-icon-button-light" class="autoSize btnZoomOut" tabindex="-1"><span class="material-icons actionButtonIcon remove" aria-hidden="true"></span></button>'; // Zoom Out
+            html += '<button is="paper-icon-button-light" class="autoSize btnZoomIn" tabindex="-1"><span class="material-icons actionButtonIcon add" aria-hidden="true"></span></button>'; // Zoom In
+            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>'; // Exit
             html += '</div>';
 
             elem.id = 'pdfPlayer';
-            elem.innerHTML = html;
+            const dialogContent = elem.querySelector('.dialogContent');
+            if (dialogContent) {
+                 dialogContent.innerHTML = html;
+            } else {
+                console.error("Could not find dialog content area to insert HTML.");
+                elem.innerHTML = html; // Fallback, might not scroll correctly
+            }
 
             dialogHelper.open(elem);
         }
@@ -225,98 +346,198 @@ export class PdfPlayer {
                 this.book = book;
                 this.loaded = true;
 
-                const percentageTicks = options.startPositionTicks / 10000;
-                if (percentageTicks !== 0) {
-                    this.loadPage(percentageTicks + 1);
-                    this.progress = percentageTicks;
-                } else {
-                    this.loadPage(1);
-                }
+                const percentageTicks = options.startPositionTicks ? options.startPositionTicks / 10000 : 0;
+                // page numbers are 1-based
+                const startPage = percentageTicks > 0 ? Math.min(Math.floor(percentageTicks) + 1, book.numPages) : 1;
+                this.progress = startPage - 1; // progress is 0-based index
+
+                this.loadPage(startPage);
+
+                // Trigger playing event once loaded
+                Events.trigger(this, 'playing');
+
+            }).catch(reason => {
+                 console.error('Error loading PDF document:', reason);
+                 loading.hide();
+                 dialogHelper.alert({ title: 'Error', text: 'Failed to load PDF document.' });
+                 this.stop();
+                 return Promise.reject(reason);
             });
+        }).catch(error => {
+             console.error('Error importing pdfjs-dist:', error);
+             loading.hide();
+             dialogHelper.alert({ title: 'Error', text: 'Failed to load PDF viewer component.' });
+             this.stop();
+             return Promise.reject(error);
         });
     }
 
-    next() {
-        if (this.progress === this.duration() - 1) return;
-        this.loadPage(this.progress + 2);
-        this.progress = this.progress + 1;
+    zoomIn() {
+        if (!this.loaded) return;
+        console.log(`Calling zoomIn. Current scale: ${this.currentScaleFactor}`);
+        const newScaleFactor = Math.min(this.currentScaleFactor + this.zoomIncrement, this.maxScaleFactor);
+        if (newScaleFactor !== this.currentScaleFactor) {
+            this.currentScaleFactor = newScaleFactor;
+            console.debug(`PdfPlayer: Zoom In - New Scale Factor: ${this.currentScaleFactor}`);
+            this.loadPage(this.progress + 1);
+            Events.trigger(this, 'zoomchange');
+        } else {
+             console.log('ZoomIn: Max scale reached.');
+        }
+    }
 
+    zoomOut() {
+        if (!this.loaded) return;
+         console.log(`Calling zoomOut. Current scale: ${this.currentScaleFactor}`);
+        const newScaleFactor = Math.max(this.currentScaleFactor - this.zoomIncrement, this.minScaleFactor);
+         if (newScaleFactor !== this.currentScaleFactor) {
+            this.currentScaleFactor = newScaleFactor;
+            console.debug(`PdfPlayer: Zoom Out - New Scale Factor: ${this.currentScaleFactor}`);
+            this.loadPage(this.progress + 1);
+            Events.trigger(this, 'zoomchange');
+        } else {
+             console.log('ZoomOut: Min scale reached.');
+        }
+    }
+
+    next() {
+        if (!this.loaded || this.progress >= this.duration() - 1) return;
+        this.progress++;
+        this.loadPage(this.progress + 1);
+        Events.trigger(this, 'timeupdate');
         Events.trigger(this, 'pause');
     }
 
     previous() {
-        if (this.progress === 0) return;
-        this.loadPage(this.progress);
-        this.progress = this.progress - 1;
-
+        if (!this.loaded || this.progress <= 0) return;
+        this.progress--;
+        this.loadPage(this.progress + 1);
+        Events.trigger(this, 'timeupdate');
         Events.trigger(this, 'pause');
     }
 
-    replaceCanvas(canvas) {
-        const old = document.getElementById('canvas');
-
-        canvas.id = 'canvas';
-        old.parentNode.replaceChild(canvas, old);
+    replaceCanvas(newCanvas) {
+        const container = this.mediaElement?.querySelector('.pdf-canvas-container');
+        if (!container) {
+             console.error("Cannot find .pdf-canvas-container to replace canvas");
+             return;
+        }
+        // Remove existing canvas(es) inside the container
+        const oldCanvas = container.querySelector('#canvas');
+        if (oldCanvas) {
+             oldCanvas.remove();
+        }
+        newCanvas.id = 'canvas';
+        container.appendChild(newCanvas);
     }
 
+
     loadPage(number) {
-        const prefix = 'page';
-        const pad = 2;
-
-        // generate list of cached pages by padding the requested page on both sides
-        const pages = [prefix + number];
-        for (let i = 1; i <= pad; i++) {
-            if (number - i > 0) pages.push(prefix + (number - i));
-            if (number + i < this.duration()) pages.push(prefix + (number + i));
+        if (!this.book || number < 1 || number > this.duration()) {
+            console.warn(`PdfPlayer: Invalid page number requested: ${number}`);
+            return;
+        }
+        if (this.cancellationToken) {
+            console.debug('PdfPlayer: loadPage cancelled');
+            return;
         }
 
-        // load any missing pages in the cache
-        for (const page of pages) {
-            if (!this.pages[page]) {
-                this.pages[page] = document.createElement('canvas');
-                this.renderPage(this.pages[page], parseInt(page.slice(4), 10));
+        console.debug(`PdfPlayer: Loading page ${number}`);
+        loading.show();
+        const pageKey = `page${number}`;
+
+        // Get or create canvas for the target page
+        let canvas = this.pages[pageKey];
+        if (!canvas) {
+            canvas = document.createElement('canvas');
+            this.pages[pageKey] = canvas;
+            console.debug(`PdfPlayer: Created new canvas for ${pageKey}`);
+        } else {
+            console.debug(`PdfPlayer: Reusing canvas for ${pageKey}`);
+        }
+
+        this.renderPage(canvas, number).then(() => {
+            // Only replace the visible canvas if the rendered page is the *current* page
+            if (!this.cancellationToken && number === this.progress + 1) {
+                 this.replaceCanvas(canvas);
+                 console.debug(`PdfPlayer: Displayed page ${number}`);
+            } else if (this.cancellationToken) {
+                 console.debug(`PdfPlayer: Render finished but cancelled before display`);
+            } else {
+                 console.debug(`PdfPlayer: Pre-rendered ${pageKey}, but not displaying (current page is ${this.progress + 1})`);
             }
-        }
+        }).catch(error => {
+            console.error(`PdfPlayer: Failed to render page ${number}`, error);
+            loading.hide();
+        }).finally(() => {
+             if (number === this.progress + 1 || this.cancellationToken) {
+                 loading.hide();
+             }
+        });
 
-        // show the requested page
-        this.replaceCanvas(this.pages[prefix + number], number);
+        const pagesToKeep = [`page${number}`];
+        if (number > 1) pagesToKeep.push(`page${number - 1}`);
+        if (number < this.duration()) pagesToKeep.push(`page${number + 1}`);
 
-        // delete all pages outside the cache area
-        for (const page in this.pages) {
-            if (!pages.includes(page)) {
-                delete this.pages[page];
+        for (const pageKeyToDelete in this.pages) {
+            if (!pagesToKeep.includes(pageKeyToDelete)) {
+                console.debug(`PdfPlayer: Deleting cached canvas for ${pageKeyToDelete}`);
+                delete this.pages[pageKeyToDelete];
             }
         }
     }
 
     renderPage(canvas, number) {
+        // Ensure book and page number are valid before proceeding
+        if (!this.book || number < 1 || number > this.duration()) {
+             return Promise.reject(new Error(`Invalid state for rendering page ${number}`));
+        }
+
         const devicePixelRatio = window.devicePixelRatio || 1;
-        this.book.getPage(number).then(page => {
-            const original = page.getViewport({ scale: 1 });
-            const scale = Math.min((window.innerHeight / original.height), (window.innerWidth / original.width)) * devicePixelRatio;
-            const viewport = page.getViewport({ scale });
 
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
+        return this.book.getPage(number).then(page => {
+            if (this.cancellationToken) return Promise.reject('cancelled'); // Check for cancellation
 
-            if (window.innerWidth < window.innerHeight) {
-                canvas.style.width = '100%';
-                canvas.style.height = 'auto';
-            } else {
-                canvas.style.height = '100%';
-                canvas.style.width = 'auto';
-            }
+            // Get viewport at 100% scale first to calculate base fit-to-window scale
+            const viewport100 = page.getViewport({ scale: 1 });
+
+            // Calculate the scale needed to fit the page within the window
+            // Use the dialog's content area dimensions if possible, otherwise fallback to window
+            const container = this.mediaElement?.querySelector('.pdf-canvas-container') || this.mediaElement || document.body;
+            const availableWidth = container.clientWidth;
+            const availableHeight = container.clientHeight;
+
+            const scaleToFitWidth = availableWidth / viewport100.width;
+            const scaleToFitHeight = availableHeight / viewport100.height;
+            const baseScale = Math.min(scaleToFitWidth, scaleToFitHeight);
+
+            // Apply the current zoom factor and device pixel ratio
+            const finalScale = baseScale * this.currentScaleFactor * devicePixelRatio;
+
+            const viewport = page.getViewport({ scale: finalScale });
+
+            canvas.width = Math.floor(viewport.width);
+            canvas.height = Math.floor(viewport.height);
+
+            // --- Remove explicit canvas styling ---
+            // Let the browser handle sizing based on width/height attributes
+            canvas.style.width = `${Math.floor(viewport.width / devicePixelRatio)}px`;
+            canvas.style.height = `${Math.floor(viewport.height / devicePixelRatio)}px`;
 
             const context = canvas.getContext('2d');
+            // --- Clear previous rendering (important if reusing canvas) ---
+            context.clearRect(0, 0, canvas.width, canvas.height);
 
             const renderContext = {
                 canvasContext: context,
-                viewport: viewport
+                viewport: viewport,
             };
 
+            console.debug(`PdfPlayer: Rendering page ${number} with scale ${finalScale.toFixed(2)} (Base: ${baseScale.toFixed(2)}, Factor: ${this.currentScaleFactor}, DPR: ${devicePixelRatio}) -> Canvas: ${canvas.width}x${canvas.height}, Style: ${canvas.style.width}x${canvas.style.height}`);
+
             const renderTask = page.render(renderContext);
-            renderTask.promise.then(() => {
-                loading.hide();
+            return renderTask.promise.then(() => {
+                console.debug(`PdfPlayer: Finished rendering page ${number}`);
             });
         });
     }
@@ -326,7 +547,9 @@ export class PdfPlayer {
     }
 
     canPlayItem(item) {
-        return item.Path?.endsWith('pdf');
+        const path = item.Path || '';
+        const mediaType = item.MediaType || '';
+        return path.toLowerCase().endsWith('.pdf') || mediaType === 'Book';
     }
 }
 
