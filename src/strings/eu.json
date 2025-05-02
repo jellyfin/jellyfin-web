@@ -760,7 +760,7 @@
     "LabelLogs": "Erregistroak",
     "LabelLoginDisclaimerHelp": "Mezua saioaren hasierako orriaren behealdean agertuko da.",
     "LabelLoginDisclaimer": "Saioa hasteko erantzukizunaren deskargua",
-    "LabelLockItemToPreventChanges": "Blokeatu elementu hau, etorkizunean aldaketarik gerta ez dadin",
+    "LabelLockItemToPreventChanges": "Blokeatu elementu hau etorkizunean metadatuen aldaketak saihesteko",
     "LabelLocalHttpServerPortNumberHelp": "http zerbitzarirako TCP ataka zenbakia.",
     "LabelLocalHttpServerPortNumber": "http tokiko portua",
     "LabelLocalCustomCss": "Bezero horri bakarrik aplikatzen zaizkion CSS estilo pertsonalizatuak. Baliteke zerbitzariaren CSS pertsonalizatua desaktibatu nahi izatea.",
@@ -1720,5 +1720,15 @@
     "SaveRecordingNFOHelp": "Gorde EPG zerrenden hornitzailearen metadatuak multimediarekin batera.",
     "SaveRecordingImagesHelp": "Gorde EPG zerrenden hornitzailearen irudiak multimediarekin batera.",
     "PlaybackError.FATAL_HLS_ERROR": "Errore larri bat gertatu da HLS jarioan.",
-    "PlaybackError.ASS_RENDER_ERROR": "Errore bat gertatu da ASS/SSA azpitituluen errendatzailean."
+    "PlaybackError.ASS_RENDER_ERROR": "Errore bat gertatu da ASS/SSA azpitituluen errendatzailean.",
+    "PreferSystemNativeHwDecoder": "Hobetsi sistema eragilearen jatorrizko DXVA edo VA-API hardware deskodetzaileak",
+    "PluginLoadConfigError": "Errore bat gertatu da pluginaren konfigurazio orriak lortzean.",
+    "PlaybackError.MEDIA_DECODE_ERROR": "Erreprodukzioak huts egin du multimedia deskodetzean errore bat gertatu delako.",
+    "LabelCustomTagDelimitersHelp": "Etiketak bereizteko mugatzaile gisa tratatuko diren karaktereak.",
+    "DeleteServerConfirmation": "Ziur zaude zerbitzari hau ezabatu nahi duzula?",
+    "PageNotFound": "Hau ez da bilatzen ari zaren orrialdea.",
+    "StereoDownmixAlgorithmHelp": "Kanal anitzeko audioa estereo bihurtzeko erabiliko den algoritmoa.",
+    "DlnaMovedMessage": "DLNA funtzionalitatea plugin batera mugitu da.",
+    "LabelImageIntervalHelp": "Trickplay irudi berri bakoitzaren arteko denbora-tartea (ms).",
+    "PlaybackError.NO_MEDIA_ERROR": "Ezin da erreproduzitzeko baliozko multimedia iturririk aurkitu."
 }
