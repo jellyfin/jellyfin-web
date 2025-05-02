@@ -2023,5 +2023,7 @@
     "ReadInputAtNativeFramerate": "Đọc đầu vào ở tốc độ khung hình gốc",
     "ReadInputAtNativeFramerateHelp": "Kích hoạt tùy chọn này có thể giải quyết một số vấn đề, ví dụ: Các luồng trực tiếp dừng sớm.",
     "LimitSegmentLengthHelp": "Kích hoạt tùy chọn này có thể giúp ngăn trình phát HLS treo trong khi tìm kiếm trên một số thiết bị nhất định, chẳng hạn như TV Webos.",
-    "LimitSegmentLength": "Sử dụng các phân đoạn HLS ngắn hơn"
+    "LimitSegmentLength": "Sử dụng các phân đoạn HLS ngắn hơn",
+    "HeaderServerUnavailable": "Máy Chủ Không Khả Dụng",
+    "HeaderUpdateRequired": "Bắt Buộc Cập Nhập"
 }
