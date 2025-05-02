@@ -1401,7 +1401,7 @@
     "MediaInfoColorTransfer": "Fargeoverføring",
     "MediaInfoColorSpace": "Fargeområde",
     "MediaInfoVideoRange": "Videoutvalg",
-    "Bwdif": "Bob Weaver DeInterlacing Filter (BWDIF).",
+    "Bwdif": "Bob Weaver Deinterlacing-filter (BWDIF).",
     "UseDoubleRateDeinterlacingHelp": "Denne innstillingen bruker feltfrekvensen når du fjerner linjefletting, ofte referert til som bob deinterlacing, som dobler bildefrekvensen til videoen for å gi full bevegelse som det du ville se når du ser linjeflettet video på en TV.",
     "UseDoubleRateDeinterlacing": "Doble bildefrekvensen ved fjerning av linjefletting",
     "LabelMaxMuxingQueueSizeHelp": "Maksimalt antall pakker som kan buffres mens de venter på at alle strømmer skal initialiseres. Prøv å øke verdien hvis du fremdeles ser \"Too many packets buffered for output stream\" -feil i FFmpeg-logger. Den anbefalte verdien er 2048.",
@@ -1655,7 +1655,7 @@
     "LabelTextWeight": "Tekstvekt",
     "LabelMaxVideoResolution": "Høyest tillatte oppløsning for video-omkoding",
     "LabelVppTonemappingBrightness": "VPP-tonekartlegging lysstyrkeforsterkning",
-    "EnableSplashScreen": "Aktiver oppstartsskjerm",
+    "EnableSplashScreen": "Aktiver oppstartsbilde",
     "ScreenResolution": "Skjermoppløsning",
     "RememberSubtitleSelections": "Velg undertekst basert på forrige video",
     "RememberSubtitleSelectionsHelp": "Prøv å velg undertekst automatisk basert på forrige video.",
@@ -2019,5 +2019,9 @@
     "RetryWithGlobalSearch": "Prøv på nytt med globalt søk",
     "LimitSegmentLengthHelp": "Aktivering av denne innstillingen kan hindre HLS-spilleren fra å henge seg opp ved spoling på enkelte enheter som f. eks. webOS TV-er.",
     "LabelGroupShowsIntoCollections": "Grupper serier inn i samlinger",
-    "LabelGroupShowsIntoCollectionsHelp": "Serier i en samling vil vises som ett samlet element når serielister vises."
+    "LabelGroupShowsIntoCollectionsHelp": "Serier i en samling vil vises som ett samlet element når serielister vises.",
+    "HeaderServerUnavailable": "Server utilgjengelig",
+    "StreamCountExceedsLimit": "Antallet strømninger overskrider grensen",
+    "ReadInputAtNativeFramerate": "Les inndata i opprinnelig bildefrekvens",
+    "HeaderUpdateRequired": "Oppdatering kreves"
 }
