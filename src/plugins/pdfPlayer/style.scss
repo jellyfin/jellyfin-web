@@ -16,9 +16,8 @@
     align-items: center;
 }
 
-
 #pdfPlayer #canvas {
-   display: block; // Needed for margin: auto or if container is flex
+    display: block; // Needed for margin: auto or if container is flex
 }
 
 #pdfPlayer .actionButtons {
@@ -33,5 +32,5 @@
 }
 
 #pdfPlayer .actionButtons button[is="paper-icon-button-light"] {
-   color: white;
+    color: white;
 }
