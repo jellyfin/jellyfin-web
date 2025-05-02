@@ -198,10 +198,6 @@ function showMenuForSelectedItems(e) {
                     });
                 }
 
-            if (user.Policy.EnableContentDownloading && appHost.supports(AppFeature.FileDownload)) {
-                // Disabled because there is no callback for this item
-            }
-
                 menuItems.push({
                     name: globalize.translate('AddToPlaylist'),
                     id: 'playlist',
@@ -217,7 +213,7 @@ function showMenuForSelectedItems(e) {
                     });
                 }
 
-                if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
+                if (user.Policy.EnableContentDownloading && appHost.supports(AppFeature.FileDownload)) {
                     // Disabled because there is no callback for this item
                 }
 
