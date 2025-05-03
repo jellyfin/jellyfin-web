@@ -1,4 +1,10 @@
 import escapeHtml from 'escape-html';
+
+import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
+import { AppFeature } from 'constants/appFeature';
+import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
+import { EventType } from 'types/eventType';
+
 import { playbackManager } from '../../../components/playback/playbackmanager';
 import browser from '../../../scripts/browser';
 import dom from '../../../scripts/dom';
@@ -27,9 +33,6 @@ import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
-import { EventType } from 'types/eventType';
-import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
-import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
@@ -868,7 +871,7 @@ export default function (view) {
             showVolumeSlider = false;
         }
 
-        if (player.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
+        if (player.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
             showMuteButton = false;
             showVolumeSlider = false;
         }

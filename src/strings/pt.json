@@ -96,7 +96,7 @@
     "RepeatMode": "Modo de repetição",
     "Repeat": "Repetir",
     "RemoveFromPlaylist": "Remover da lista de reprodução",
-    "Refresh": "Actualizar",
+    "Refresh": "Atualizar",
     "RecordingScheduled": "Gravação agendada.",
     "RecordingCancelled": "Gravação cancelada.",
     "RecordSeries": "Gravar série",
@@ -1198,7 +1198,7 @@
     "HeaderRemoteAccessSettings": "Definições de acesso remoto",
     "HeaderHttpsSettings": "Definições de HTTPS",
     "HeaderDVR": "DVR",
-    "ApiKeysCaption": "Lista das chaves de API ativadas no momento",
+    "ApiKeysCaption": "Lista das chaves da API atualmente ativas",
     "ButtonTogglePlaylist": "Lista de reprodução",
     "ButtonSyncPlay": "SyncPlay",
     "Data": "Dados",
@@ -2019,5 +2019,7 @@
     "CopyLogSuccess": "Conteúdo do registo copiado com sucesso.",
     "LimitSegmentLength": "Utilizar segmentos HLS mais curtos",
     "LimitSegmentLengthHelp": "Ativar esta opção pode ajudar a evitar que o leitor HLS bloqueie durante a pesquisa em determinados dispositivos, como as TVs webOS.",
-    "Retry": "Tentar novamente"
+    "Retry": "Tentar novamente",
+    "HeaderServerUnavailable": "Servidor indisponível",
+    "HeaderUpdateRequired": "Atualização necessária"
 }

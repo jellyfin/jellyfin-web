@@ -1266,7 +1266,7 @@
     "HeaderRemoteAccessSettings": "Definições de acesso remoto",
     "HeaderHttpsSettings": "Definições de HTTPS",
     "HeaderDVR": "Gravador digital",
-    "ApiKeysCaption": "Lista das chaves de API atualmente ativadas",
+    "ApiKeysCaption": "Lista das chaves da API atualmente ativas",
     "Episode": "Episódio",
     "EnableDetailsBannerHelp": "Mostrar uma imagem no topo da página dos detalhes do item.",
     "EnableDetailsBanner": "Faixa de detalhes",
@@ -2021,5 +2021,7 @@
     "DisplayLoadError": "Ocorreu um erro ao carregar os dados de configuração do ecrã.",
     "MetadataImagesLoadError": "Falha ao carregar definições de metadados",
     "LimitSegmentLength": "Utilizar segmentos HLS mais curtos",
-    "LimitSegmentLengthHelp": "Ativar esta opção pode ajudar a evitar que o leitor HLS bloqueie durante a pesquisa em determinados dispositivos, como as TVs webOS."
+    "LimitSegmentLengthHelp": "Ativar esta opção pode ajudar a evitar que o leitor HLS bloqueie durante a pesquisa em determinados dispositivos, como as TVs webOS.",
+    "HeaderServerUnavailable": "Servidor indisponível",
+    "HeaderUpdateRequired": "Atualização necessária"
 }
