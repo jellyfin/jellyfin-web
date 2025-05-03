@@ -557,7 +557,18 @@ function executeCommand(item, id, options) {
                 getResolveFunction(resolve, id)();
                 break;
             case 'delete':
-                deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true, itemId), getResolveFunction(resolve, id));
+                deleteItem(apiClient, item).then(() => {
+                    const itemElement = document.querySelector(`[data-id="${itemId}"]`);
+                    if (itemElement) {
+                        const listItem = itemElement.closest('li, div.listItem');
+                        if (listItem) {
+                            listItem.parentNode.removeChild(listItem);
+                        } else {
+                            itemElement.parentNode.removeChild(itemElement);
+                        }
+                    }
+                    getResolveFunction(resolve, id, true, true, itemId)();
+                }, getResolveFunction(resolve, id));
                 break;
             case 'share':
                 navigator.share({
