@@ -1860,5 +1860,9 @@
     "LibraryNameInvalid": "Liburutegiaren izena ezin da hutsik egon.",
     "ImageDeleteFailed": "Irudia ezabatzeak huts egin du",
     "ImageUploadCancelled": "Irudiaren karga bertan behera utzi da",
-    "ImageUploadFailed": "Irudiaren kargak huts egin du"
+    "ImageUploadFailed": "Irudiaren kargak huts egin du",
+    "LabelTextWeight": "Testuaren pisua",
+    "MediaInfoDoViTitle": "DV izenburua",
+    "MediaInfoDvProfile": "DV profila",
+    "ScreenResolution": "Pantailaren bereizmena"
 }
