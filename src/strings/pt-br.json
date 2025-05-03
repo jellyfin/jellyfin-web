@@ -546,7 +546,7 @@
     "LabelLineup": "Programação",
     "LabelLocalHttpServerPortNumber": "Número da porta local de HTTP",
     "LabelLocalHttpServerPortNumberHelp": "O número da porta TCP para o servidor HTTP.",
-    "LabelLockItemToPreventChanges": "Bloquear este item para evitar alterações futuras",
+    "LabelLockItemToPreventChanges": "Bloqueie este item para evitar alterações futuras de metadados",
     "LabelLoginDisclaimer": "Aviso legal no login",
     "LabelLoginDisclaimerHelp": "Um aviso será exibido na parte inferior da página de login.",
     "LabelManufacturer": "Fabricante",
@@ -1995,5 +1995,8 @@
     "CopyLogSuccess": "Conteúdo do log copiado com sucesso.",
     "AutoSubtitleStylingHelp": "Este modo alternará automaticamente entre os mecanismos de estilo de legenda nativo e personalizado com base no tipo do seu dispositivo.",
     "Custom": "Personalizado",
-    "DeleteServerConfirmation": "Você tem certeza que deseja excluir este servidor?"
+    "DeleteServerConfirmation": "Você tem certeza que deseja excluir este servidor?",
+    "HeaderPageNotFound": "Página indisponível",
+    "LabelDevice": "Dispositivo",
+    "HeaderServerUnavailable": "Servidor indisponível"
 }
