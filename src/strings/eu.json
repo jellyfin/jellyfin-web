@@ -1730,5 +1730,18 @@
     "StereoDownmixAlgorithmHelp": "Kanal anitzeko audioa estereo bihurtzeko erabiliko den algoritmoa.",
     "DlnaMovedMessage": "DLNA funtzionalitatea plugin batera mugitu da.",
     "LabelImageIntervalHelp": "Trickplay irudi berri bakoitzaren arteko denbora-tartea (ms).",
-    "PlaybackError.NO_MEDIA_ERROR": "Ezin da erreproduzitzeko baliozko multimedia iturririk aurkitu."
+    "PlaybackError.NO_MEDIA_ERROR": "Ezin da erreproduzitzeko baliozko multimedia iturririk aurkitu.",
+    "PlaybackError.PLAYER_ERROR": "ErreprodukzioaK huts egin du erreproduzitzailearen errore larri baten ondorioz.",
+    "MessageCancelSeriesTimerError": "Errore bat gertatu da telesaileko tenporizadorea ezeztatzean",
+    "RememberAudioSelections": "Ezarri audio-pista aurreko elementuan oinarrituta",
+    "VideoRangeTypeNotSupported": "Bideoaren barruti mota ez da onartzen",
+    "PreferEmbeddedExtrasTitlesOverFileNames": "Hobetsi txertatutako izenburuak fitxategi-izenekin alderatuta gehigarrietarako",
+    "PasswordRequiredForAdmin": "Pasahitza beharrezkoa da administratzaile kontuetarako.",
+    "NonBlockingScan": "Blokeorik gabe - sorpena ilaratzen du, gero itzultzen du",
+    "DisplayLoadError": "Errore bat gertatu da pantailaren konfigurazio datuak kargatzean.",
+    "LabelJpegQualityHelp": "Trickplay irudientzako JPEG konpresio kalitatea.",
+    "BlockingScan": "Blokeoa - sorpena ilaran jartzen du, eskaneoa blokeatzen bukatu arte",
+    "LabelExtractTrickplayDuringLibraryScan": "Atera trickplay irudiak liburutegia eskaneatzean",
+    "RememberSubtitleSelections": "Ezarri azpitituluen pista aurreko elementuan oinarrituta",
+    "PlaybackError.NETWORK_ERROR": "Erreprodukzioak huts egin du sareko errore baten ondorioz."
 }
