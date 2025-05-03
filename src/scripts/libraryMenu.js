@@ -46,6 +46,7 @@ function renderHeader() {
     html += '<h3 class="pageTitle" aria-hidden="true"></h3>';
     html += '</div>';
     html += '<div class="headerRight">';
+    html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerRefreshButton hide"><span class="material-icons refresh" aria-hidden="true"></span></button>';
     html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups" aria-hidden="true"></span></button>';
     html += '<span class="headerSelectedPlayer"></span>';
     html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note" aria-hidden="true"></span></button>';
@@ -71,6 +72,7 @@ function renderHeader() {
     headerCastButton = skinHeader.querySelector('.headerCastButton');
     headerAudioPlayerButton = skinHeader.querySelector('.headerAudioPlayerButton');
     headerSearchButton = skinHeader.querySelector('.headerSearchButton');
+    headerRefreshButton = skinHeader.querySelector('.headerRefreshButton');
     headerSyncButton = skinHeader.querySelector('.headerSyncButton');
     currentTimeText = skinHeader.querySelector('.currentTimeText');
 
@@ -128,6 +130,10 @@ function retranslateUi() {
         headerSearchButton.title = globalize.translate('Search');
     }
 
+    if (headerRefreshButton) {
+        headerRefreshButton.title = globalize.translate('Refresh');
+    }
+
     if (headerUserButton) {
         headerUserButton.title = globalize.translate('Settings');
     }
@@ -163,6 +169,10 @@ function updateUserInHeader(user) {
             headerSearchButton.classList.remove('hide');
         }
 
+        if (headerRefreshButton) {
+            headerRefreshButton.classList.remove('hide');
+        }
+
         if (!layoutManager.tv) {
             headerCastButton.classList.remove('hide');
         }
@@ -186,6 +196,10 @@ function updateUserInHeader(user) {
 
         if (headerSearchButton) {
             headerSearchButton.classList.add('hide');
+        }
+
+        if (headerRefreshButton) {
+            headerRefreshButton.classList.add('hide');
         }
     }
 
@@ -217,6 +231,10 @@ function showSearch() {
     inputManager.handleCommand('search');
 }
 
+function refreshPage() {
+    window.location.reload();
+}
+
 function onHeaderUserButtonClick() {
     Dashboard.navigate('mypreferencesmenu');
 }
@@ -240,6 +258,10 @@ function bindMenuEvents() {
 
     if (headerSearchButton) {
         headerSearchButton.addEventListener('click', showSearch);
+    }
+
+    if (headerRefreshButton) {
+        headerRefreshButton.addEventListener('click', refreshPage);
     }
 
     headerUserButton.addEventListener('click', onHeaderUserButtonClick);
@@ -698,6 +720,7 @@ let headerUserButton;
 let currentUser;
 let headerCastButton;
 let headerSearchButton;
+let headerRefreshButton;
 let headerAudioPlayerButton;
 let headerSyncButton;
 let currentTimeText;
