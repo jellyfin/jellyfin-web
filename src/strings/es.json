@@ -1485,7 +1485,7 @@
     "LabelAutomaticDiscoveryHelp": "Permite a las aplicaciones detectar automáticamente Jellyfin usando el puerto UDP 7359.",
     "LabelAutomaticDiscovery": "Activar descubrimiento automático",
     "LabelAutoDiscoveryTracingHelp": "Si está activada, los paquetes recibidos en el puerto de descubrimiento automático serán registrados.",
-    "HeaderUploadSubtitle": "Cargar subtítulo",
+    "HeaderUploadSubtitle": "Subir subtítulo",
     "HeaderPortRanges": "Configuración de cortafuegos y proxy",
     "HeaderNetworking": "Protocolos IP",
     "MessagePlaybackError": "Ha habido un error al reproducir este archivo en tu receptor Google Cast.",
