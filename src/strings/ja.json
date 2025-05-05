@@ -1935,5 +1935,6 @@
     "FallbackMaxStreamingBitrateHelp": "最大ストリーミングビットレートは、ffprobe がソースストリームのビットレートを決定できない場合のフォールバックとして使用されます。 これは、クライアントが過度に高いトランスコード・ビットレートを要求するのを防ぐのに役立ちます。",
     "HeaderAddLyrics": "歌詞を追加",
     "HeaderPageNotFound": "ページが見つかりません",
-    "AndOtherArtists": "{0}と他のアーティスト{1}人。"
+    "AndOtherArtists": "{0}と他のアーティスト{1}人。",
+    "HeaderUpdateRequired": "更新が必要です"
 }
