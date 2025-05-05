@@ -160,10 +160,8 @@ class SubtitleSync {
 
         // If no subtitle offset is defined or element has focus (offset being defined)
         if (!(playbackManager.getPlayerSubtitleOffset(this.player) || this.subtitleSyncTextField.hasFocus)) {
-            // set default offset to '0' = 0ms
-            this.subtitleSyncSlider.value = '0';
-            this.subtitleSyncTextField.textContent = '0s';
-            playbackManager.setSubtitleOffset(0, this.player);
+            // reset to default offset
+            this.offsetController.reset();
         }
 
         // show subtitle sync
