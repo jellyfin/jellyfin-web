@@ -45,9 +45,10 @@ class OffsetController {
             setTimeout(() => slider.enableKeyboardDragging(), 0);
         }
 
-        // When slider changes, update UI without triggering the setter again
+        // When slider changes we assign the value to the currentOffset to trigger the setter
         slider.addEventListener('change', () => {
-            this.textField.updateOffset(this.currentOffset);
+            // eslint-disable-next-line no-self-assign
+            this.currentOffset = this.currentOffset;
         });
 
         slider.getBubbleHtml = createSliderBubbleHtml;
