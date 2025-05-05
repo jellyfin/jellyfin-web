@@ -17,10 +17,21 @@ class OffsetController {
         this.player = player;
         this.slider = slider;
         this.textField = textField;
-        this.currentOffset = DEFAULT_OFFSET;
+        this._currentOffset = DEFAULT_OFFSET;
 
         this._initSlider();
         this._initTextField();
+    }
+
+    get currentOffset() {
+        return this._currentOffset;
+    }
+
+    set currentOffset(value) {
+        this._currentOffset = value;
+        this.slider.value = value.toString();
+        this.textField.updateOffset(value);
+        playbackManager.setSubtitleOffset(value, this.player);
     }
 
     _initSlider() {
@@ -89,31 +100,16 @@ class OffsetController {
 
     updateOffset() {
         const value = parseFloat(this.slider.value);
-
-        // set new offset
-        playbackManager.setSubtitleOffset(value, this.player);
-
-        // synchronize with textField value
-        this.textField.updateOffset(value);
-
-        // update current offset
         this.currentOffset = value;
     }
 
     adjustOffset(delta) {
         const value = parseFloat(this.slider.value) + delta;
-        this.slider.updateOffset(value);
-    }
-
-    setOffset(offset) {
-        this.currentOffset = offset;
-        this.slider.value = offset.toString();
-        this.textField.updateOffset(offset);
+        this.currentOffset = value;
     }
 
     reset() {
-        this.setOffset(DEFAULT_OFFSET);
-        playbackManager.setSubtitleOffset(DEFAULT_OFFSET, this.player);
+        this.currentOffset = DEFAULT_OFFSET;
     }
 }
 
