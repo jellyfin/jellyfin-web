@@ -28,6 +28,7 @@ class OffsetController {
 
         if (layoutManager.tv) {
             slider.classList.add('focusable');
+            // eslint-disable-next-line no-warning-comments
             // HACK: Delay to give time for registered element attach (Firefox)
             setTimeout(() => slider.enableKeyboardDragging(), 0);
         }
@@ -73,6 +74,7 @@ class OffsetController {
                     event.preventDefault();
                 }
             }
+            // eslint-disable-next-line sonarjs/fixme-tag
             // FIXME: TV layout will require special handling for navigation keys. But now field is not focusable
             event.stopPropagation();
         });
