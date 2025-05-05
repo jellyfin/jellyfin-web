@@ -17,21 +17,22 @@ class OffsetController {
         this.player = player;
         this.slider = slider;
         this.textField = textField;
-        this._currentOffset = DEFAULT_OFFSET;
 
         this._initSlider();
         this._initTextField();
+
+        // Set initial offset
+        this.reset();
     }
 
     get currentOffset() {
-        return this._currentOffset;
+        return parseFloat(this.slider.value);
     }
 
     set currentOffset(value) {
-        this._currentOffset = value;
         this.slider.value = value.toString();
-        this.textField.updateOffset(value);
         playbackManager.setSubtitleOffset(value, this.player);
+        this.textField.updateOffset(value);
     }
 
     _initSlider() {
@@ -44,14 +45,12 @@ class OffsetController {
             setTimeout(() => slider.enableKeyboardDragging(), 0);
         }
 
-        slider.addEventListener('change', () => this.updateOffset());
-        slider.getBubbleHtml = createSliderBubbleHtml;
+        // When slider changes, update UI without triggering the setter again
+        slider.addEventListener('change', () => {
+            this.textField.updateOffset(this.currentOffset);
+        });
 
-        // Simplified slider update method
-        slider.updateOffset = (value) => {
-            this.slider.value = value === undefined ? DEFAULT_OFFSET : value;
-            this.updateOffset();
-        };
+        slider.getBubbleHtml = createSliderBubbleHtml;
     }
 
     _initTextField() {
@@ -72,7 +71,7 @@ class OffsetController {
                 let inputOffset = /[-+]?\d+\.?\d*/g.exec(textField.textContent);
                 if (inputOffset) {
                     inputOffset = parseFloat(inputOffset[0]);
-                    this.slider.updateOffset(inputOffset);
+                    this.currentOffset = inputOffset;
                 } else {
                     textField.textContent = (playbackManager.getPlayerSubtitleOffset(this.player) || 0) + 's';
                 }
@@ -98,14 +97,8 @@ class OffsetController {
         };
     }
 
-    updateOffset() {
-        const value = parseFloat(this.slider.value);
-        this.currentOffset = value;
-    }
-
     adjustOffset(delta) {
-        const value = parseFloat(this.slider.value) + delta;
-        this.currentOffset = value;
+        this.currentOffset = this.currentOffset + delta;
     }
 
     reset() {
