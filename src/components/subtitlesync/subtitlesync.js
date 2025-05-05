@@ -126,6 +126,41 @@ class SubtitleSync {
         );
     }
 
+    destroy() {
+        this.toggle('forceToHide');
+        if (this.player) {
+            playbackManager.disableShowingSubtitleOffset(this.player);
+            this.offsetController.reset();
+        }
+
+        if (this.element) {
+            this.element.parentNode.removeChild(this.element);
+            this.element = null;
+        }
+
+        this.player = null;
+    }
+
+    toggle(action) {
+        if (action && !['hide', 'forceToHide'].includes(action)) {
+            console.warn('SubtitleSync.toggle called with invalid action', action);
+            return;
+        }
+
+        if (!this.player || !playbackManager.supportSubtitleOffset(this.player)) {
+            return;
+        }
+
+        if (!action) {
+            this._tryShowSubtitleSync();
+        } else if (action === 'hide' && this.subtitleSyncTextField.hasFocus) {
+            // do not hide if element has focus
+            return;
+        } else {
+            this.subtitleSyncContainer.classList.add('hide');
+        }
+    }
+
     _initUI() {
         const parent = document.createElement('div');
         document.body.appendChild(parent);
@@ -181,41 +216,6 @@ class SubtitleSync {
     decrementOffset() {
         this.toggle();
         this.offsetController.adjustOffset(-this.subtitleSyncSlider.step);
-    }
-
-    destroy() {
-        this.toggle('forceToHide');
-        if (this.player) {
-            playbackManager.disableShowingSubtitleOffset(this.player);
-            this.offsetController.reset();
-        }
-
-        if (this.element) {
-            this.element.parentNode.removeChild(this.element);
-            this.element = null;
-        }
-
-        this.player = null;
-    }
-
-    toggle(action) {
-        if (action && !['hide', 'forceToHide'].includes(action)) {
-            console.warn('SubtitleSync.toggle called with invalid action', action);
-            return;
-        }
-
-        if (!this.player || !playbackManager.supportSubtitleOffset(this.player)) {
-            return;
-        }
-
-        if (!action) {
-            this._tryShowSubtitleSync();
-        } else if (action === 'hide' && this.subtitleSyncTextField.hasFocus) {
-            // do not hide if element has focus
-            return;
-        } else {
-            this.subtitleSyncContainer.classList.add('hide');
-        }
     }
 }
 
