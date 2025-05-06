@@ -1963,7 +1963,7 @@
     "MediaSegmentType.Outro": "Titoli di coda",
     "MediaSegmentType.Intro": "Intro",
     "MediaSegmentType.Preview": "Anteprima",
-    "MediaSegmentType.Recap": "RIassunto",
+    "MediaSegmentType.Recap": "Riassunto",
     "MediaSegmentAction.AskToSkip": "Chiedi di saltare",
     "MediaSegmentSkipPrompt": "Salta {0}",
     "MessageCancelSeriesTimerError": "Si è verificato un errore durante l'annullamento del timer della serie",
@@ -2028,5 +2028,6 @@
     "LimitSegmentLengthHelp": "Abilitare questa opzione può aiutare ad evitare che il lettore HLS si blocchi mentre si ricerca su alcuni dispositivi, come le TV webOS.",
     "LabelGroupShowsIntoCollections": "Raggruppa le serie in collezioni",
     "HeaderServerUnavailable": "Server Non Disponibile",
-    "HeaderUpdateRequired": "Aggiornamento Necessario"
+    "HeaderUpdateRequired": "Aggiornamento Necessario",
+    "ViewSettings": "Mostra impostazioni"
 }
