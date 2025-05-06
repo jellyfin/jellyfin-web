@@ -1615,7 +1615,7 @@
     "SelectAll": "Tout sélectionner",
     "ButtonExitApp": "Quitter l'application",
     "Clip": "Clip",
-    "ThemeVideo": "Thème vidéo",
+    "ThemeVideo": "Générique",
     "ThemeSong": "Thème musical",
     "Sample": "Échantillon",
     "Scene": "Scène",
@@ -1984,7 +1984,7 @@
     "MediaSegmentType.Commercial": "Commercial",
     "MediaSegmentType.Preview": "Prévisualisation",
     "MediaSegmentType.Recap": "Récapitulatif",
-    "MediaSegmentType.Intro": "Générique",
+    "MediaSegmentType.Intro": "Introduction",
     "PlaylistError.UpdateFailed": "Erreur lors de la mise à jour de la liste de lecture",
     "MediaSegmentAction.AskToSkip": "Demander à passer",
     "MediaSegmentSkipPrompt": "Passer {0}",
@@ -2028,5 +2028,6 @@
     "LimitSegmentLengthHelp": "L'activation de cette option peut aider à empêcher le lecteur HLS de se bloquer pendant la recherche sur certains appareils, comme les téléviseurs webOS.",
     "LimitSegmentLength": "Utiliser des segments HLS plus courts",
     "HeaderServerUnavailable": "Serveur Indisponible",
-    "HeaderUpdateRequired": "Mise à jour requise"
+    "HeaderUpdateRequired": "Mise à jour requise",
+    "ViewSettings": "Afficher les paramètres"
 }
