@@ -2,6 +2,7 @@
  * Image viewer component
  * @module components/slideshow/slideshow
  */
+import { AppFeature } from 'constants/appFeature';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from '../../scripts/inputManager';
@@ -172,10 +173,10 @@ export default function (options) {
             if (actionButtonsOnTop) {
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true);
 
-                if (appHost.supports('filedownload') && slideshowOptions.user?.Policy.EnableContentDownloading) {
+                if (appHost.supports(AppFeature.FileDownload) && slideshowOptions.user?.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
-                if (appHost.supports('sharing')) {
+                if (appHost.supports(AppFeature.Sharing)) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
                 }
                 if (screenfull.isEnabled) {
@@ -190,10 +191,10 @@ export default function (options) {
                 html += '<div class="slideshowBottomBar hide">';
 
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
-                if (appHost.supports('filedownload') && slideshowOptions?.user.Policy.EnableContentDownloading) {
+                if (appHost.supports(AppFeature.FileDownload) && slideshowOptions?.user.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
-                if (appHost.supports('sharing')) {
+                if (appHost.supports(AppFeature.Sharing)) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
                 }
                 if (screenfull.isEnabled) {

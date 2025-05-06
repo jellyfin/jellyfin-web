@@ -1603,9 +1603,9 @@
     "Cursive": "草书",
     "ContainerBitrateExceedsLimit": "视频比特率超过限制",
     "PreferSystemNativeHwDecoder": "首选系统原生的 DXVA 或 VA-API 硬件解码器",
-    "EnableIntelLowPowerH264HwEncoder": "启用低电压模式的 Intel H.264 硬件编码器",
-    "EnableIntelLowPowerHevcHwEncoder": "启用低电压模式的 Intel HEVC 硬件编码器",
-    "IntelLowPowerEncHelp": "低电压模式编码能节省不必要的 CPU-GPU 同步。Linux 中使用前必须配置好 i915 HuC 固件。",
+    "EnableIntelLowPowerH264HwEncoder": "启用低功耗模式的 Intel H.264 硬件编码器",
+    "EnableIntelLowPowerHevcHwEncoder": "启用低功耗模式的 Intel HEVC 硬件编码器",
+    "IntelLowPowerEncHelp": "低功耗模式编码能避免不必要的 CPU-GPU 同步。在 Linux 中使用前必须配置好 i915 HuC 固件。",
     "LabelHardwareEncodingOptions": "硬件编码选项",
     "DirectPlayError": "启动直接播放时出错",
     "UnknownAudioStreamInfo": "音频流信息未知",
@@ -2026,5 +2026,7 @@
     "ReadInputAtNativeFramerate": "以原始帧率读取输入",
     "ReadInputAtNativeFramerateHelp": "启用此选项可能会解决一些问题，例如直播流过早停止。",
     "LimitSegmentLength": "使用更短的 HLS 片段",
-    "LimitSegmentLengthHelp": "启用此选项可能有助于防止 HLS 播放器在某些设备（如 webOS 电视）上进行快进 / 快退操作时出现卡顿。"
+    "LimitSegmentLengthHelp": "启用此选项可能有助于防止 HLS 播放器在某些设备（如 webOS 电视）上进行快进 / 快退操作时出现卡顿。",
+    "HeaderServerUnavailable": "服务器不可用",
+    "HeaderUpdateRequired": "需要更新"
 }

@@ -2025,5 +2025,7 @@
     "ReadInputAtNativeFramerate": "Invoer lezen op oorspronkelijke verversingssnelheid",
     "ReadInputAtNativeFramerateHelp": "Het inschakelen van deze optie kan bepaalde problemen oplossen, zoals het voortijdig stoppen van livestreams.",
     "LimitSegmentLength": "Kortere HLS-segmenten gebruiken",
-    "LimitSegmentLengthHelp": "Het inschakelen van deze optie kan helpen voorkomen dat de HLS-speler vastloopt tijdens terug- en vooruitspoelen op bepaalde apparaten, zoals webOS-tv's."
+    "LimitSegmentLengthHelp": "Het inschakelen van deze optie kan helpen voorkomen dat de HLS-speler vastloopt tijdens terug- en vooruitspoelen op bepaalde apparaten, zoals webOS-tv's.",
+    "HeaderUpdateRequired": "Bijwerken vereist",
+    "HeaderServerUnavailable": "Server niet beschikbaar"
 }

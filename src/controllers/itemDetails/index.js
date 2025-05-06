@@ -21,6 +21,7 @@ import loading from 'components/loading/loading';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import itemShortcuts from 'components/shortcuts';
+import { AppFeature } from 'constants/appFeature';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
@@ -638,7 +639,7 @@ function reloadFromItem(instance, page, params, item, user) {
 
     if (item.Type == 'Person' && item.ProductionLocations && item.ProductionLocations.length) {
         let location = item.ProductionLocations[0];
-        if (!layoutManager.tv && appHost.supports('externallinks')) {
+        if (!layoutManager.tv && appHost.supports(AppFeature.ExternalLinks)) {
             location = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${escapeHtml(location)}</a>`;
         } else {
             location = escapeHtml(location);
@@ -652,7 +653,7 @@ function reloadFromItem(instance, page, params, item, user) {
     setPeopleHeader(page, item);
     loading.hide();
 
-    if (item.Type === 'Book' && item.CanDownload && appHost.supports('filedownload')) {
+    if (item.Type === 'Book' && item.CanDownload && appHost.supports(AppFeature.FileDownload)) {
         hideAll(page, 'btnDownload', true);
     }
 
@@ -1087,7 +1088,7 @@ function renderDetails(page, item, apiClient, context) {
     renderLyricsContainer(page, item, apiClient);
 
     // Don't allow redirection to other websites from the TV layout
-    if (!layoutManager.tv && appHost.supports('externallinks')) {
+    if (!layoutManager.tv && appHost.supports(AppFeature.ExternalLinks)) {
         renderLinks(page, item);
     }
 

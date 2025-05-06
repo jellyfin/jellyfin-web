@@ -136,7 +136,7 @@
     "TabProfiles": "Profile",
     "TabUpcoming": "Urmează să apară",
     "TellUsAboutYourself": "Spune-ne despre tine",
-    "ThisWizardWillGuideYou": "Acest asistent vă va ghida prin procesul de configurare. Pentru a începe, vă rugăm să selectați limba preferată.",
+    "ThisWizardWillGuideYou": "Acest asistent vă va ghida prin procesul de configurare. Introduceți numele de server și selectați limba preferată pentru a începe.",
     "Thursday": "Joi",
     "Tuesday": "Marți",
     "UserProfilesIntro": "Jellyfin include suport pentru profile de utilizator cu setări de afișare granulare, starea redării și control parental.",
@@ -2024,5 +2024,9 @@
     "ImageUploadCancelled": "Încărcarea imaginii anulată",
     "ImageUploadFailed": "Încărcarea imaginii a eșuat",
     "LabelGroupShowsIntoCollections": "Grupează serialele în colecții",
-    "LabelGroupShowsIntoCollectionsHelp": "Serialele dintr-o colecție vor fi afișate ca un singur element grupat în lista de seriale."
+    "LabelGroupShowsIntoCollectionsHelp": "Serialele dintr-o colecție vor fi afișate ca un singur element grupat în lista de seriale.",
+    "LimitSegmentLengthHelp": "Activarea acestei opțiuni poate ajuta la prevenirea blocării playerului HLS în timpul căutării pe anumite dispozitive, cum ar fi televizoarele webOS.",
+    "LimitSegmentLength": "Utilizați segment HLS redus",
+    "HeaderServerUnavailable": "Server indisponibil",
+    "HeaderUpdateRequired": "Actualizare necesară"
 }
