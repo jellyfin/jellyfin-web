@@ -9,6 +9,13 @@ interface StarIconsProps {
     communityRating: number;
 }
 
+//the star icon is slightly off from the old material icons version. It should be 1.1em and have a small right margin
+const StarStyle: React.CSSProperties = {
+    width: '1.1em',
+    height: '1.1em',
+    marginRight: '0.125em'
+};
+
 const StarIcons: FC<StarIconsProps> = ({ className, communityRating }) => {
     const theme = useTheme();
     const cssClass = classNames(
@@ -20,6 +27,7 @@ const StarIcons: FC<StarIconsProps> = ({ className, communityRating }) => {
     return (
         <Box className={cssClass}>
             <StarIcon
+                style={StarStyle}
                 fontSize={'small'}
                 sx={{
                     color: theme.palette.starIcon.main

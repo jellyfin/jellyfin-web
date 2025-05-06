@@ -78,7 +78,7 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
     const cssClass = classNames(className);
 
     const renderMediaInfo = (info: MiscInfo, index: number) => (
-        <MediaInfoItem key={index} className={infoclass} miscInfo={info} />
+        <MediaInfoItem key={index} miscInfo={info} />
     );
 
     return (
@@ -87,7 +87,6 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
 
             {showStarRatingInfo && CommunityRating && (
                 <StarIcons
-                    className={infoclass}
                     communityRating={CommunityRating}
                 />
             )}
@@ -98,7 +97,6 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
 
             {showCriticRatingInfo && CriticRating && (
                 <CriticRatingMediaInfo
-                    className={infoclass}
                     criticRating={CriticRating}
                 />
             )}
@@ -107,7 +105,7 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
                 && MediaType === ItemMediaKind.Video
                 && RunTimeTicks
                 && !StartDate && (
-                <EndsAt className={infoclass} runTimeTicks={RunTimeTicks} />
+                <EndsAt runTimeTicks={RunTimeTicks} />
             )}
 
             {getMissingIndicator?.()}

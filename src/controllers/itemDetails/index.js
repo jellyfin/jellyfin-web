@@ -33,6 +33,8 @@ import { getPortraitShape, getSquareShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+import { attachReactElement } from 'controllers/itemDetails/reactUtils.tsx';
+import { MiscInfo } from 'controllers/itemDetails/MiscInfo/MiscInfo';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -1026,13 +1028,15 @@ function renderStudio(page, item, context) {
 
 function renderMiscInfo(page, item) {
     const primaryItemMiscInfo = page.querySelectorAll('.itemMiscInfo-primary');
+    const options = {
+        interactive: true,
+        episodeTitle: false,
+        subtitles: false
+    };
 
     for (const miscInfo of primaryItemMiscInfo) {
-        mediaInfo.fillPrimaryMediaInfo(miscInfo, item, {
-            interactive: true,
-            episodeTitle: false,
-            subtitles: false
-        });
+        attachReactElement(MiscInfo, { item, options }, miscInfo);
+        mediaInfo.fillPrimaryMediaInfo(miscInfo, item, options);
 
         if (miscInfo.innerHTML && item.Type !== 'SeriesTimer') {
             miscInfo.classList.remove('hide');
