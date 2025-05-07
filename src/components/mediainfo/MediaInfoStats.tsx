@@ -17,21 +17,9 @@ interface MediaInfoStatsProps extends MediaInfoStatsOpts {
 const MediaInfoStats: FC<MediaInfoStatsProps> = ({
     className,
     infoclass,
-    item,
-    showResolutionInfo,
-    showVideoStreamCodecInfo,
-    showAudoChannelInfo,
-    showAudioStreamCodecInfo,
-    showDateAddedInfo
+    ...props
 }) => {
-    const mediaInfoStats = useMediaInfoStats({
-        item,
-        showResolutionInfo,
-        showVideoStreamCodecInfo,
-        showAudoChannelInfo,
-        showAudioStreamCodecInfo,
-        showDateAddedInfo
-    });
+    const mediaInfoStats = useMediaInfoStats(props);
 
     const cssClass = classNames(className);
 

@@ -19,20 +19,12 @@ const SecondaryMediaInfo: FC<SecondaryMediaInfoProps> = ({
     className,
     infoclass,
     item,
-    showProgramTimeInfo,
-    showStartDateInfo,
-    showChannelNumberInfo,
-    showChannelInfo,
-    channelInteractive,
-    showTimerIndicatorInfo = false
+    showTimerIndicatorInfo = false,
+    ...props
 }) => {
     const miscInfo = useSecondaryMediaInfo({
         item,
-        showProgramTimeInfo,
-        showStartDateInfo,
-        showChannelNumberInfo,
-        showChannelInfo,
-        channelInteractive
+        ...props
     });
 
     const indicator = useIndicator(item);

@@ -70,6 +70,7 @@ export interface CardOptions {
     showSeriesTimerChannel?: boolean;
     showSongCount?: boolean;
     width?: number;
+    height?: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     widths?: any;
     showChannelLogo?: boolean;
@@ -123,6 +124,9 @@ export interface CardOptions {
     primaryImageAspectRatio?: number | null;
     rows?: number | null;
     imageType?: ImageType;
+    disableOverlayButtons?: boolean;
+    disableFooter?: boolean;
+    disableClasses?: boolean;
     queryKey?: string[]
 }
 

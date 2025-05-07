@@ -355,7 +355,7 @@ button::-moz-focus-inner {
 }
 
 .cardFooter-withlogo {
-    padding-left: 4em;
+    padding-left: 5em;
     position: relative;
 }
 
@@ -870,4 +870,16 @@ button::-moz-focus-inner {
 .cardOverlayContainer > .cardOverlayFab-primary:hover {
     transform: scale(1.4, 1.4);
     transition: 0.2s;
+}
+
+.card-image {
+    .lazy-image,
+    .blurhash {
+        border-radius: 0.2em;
+        pointer-events: none;
+    }
+}
+
+.cursor-default {
+    cursor: default;
 }

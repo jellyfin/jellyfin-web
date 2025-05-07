@@ -33,7 +33,8 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
     const cardImageClass = classNames(
         'cardImageContainer',
         { coveredImage: coveredImage },
-        { 'coveredImage-contain': coveredImage && item.Type === ItemKind.TvChannel }
+        { 'coveredImage-contain': coveredImage && item.Type === ItemKind.TvChannel },
+        { 'cursor-default': cardOptions.action === 'none' }
     );
 
     return (
@@ -74,7 +75,7 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
                 />
             )}
 
-            {!overlayText && indicator.getProgressBar()}
+            {cardOptions.showProgressBar !== false && !overlayText && indicator.getProgressBar()}
         </div>
     );
 };

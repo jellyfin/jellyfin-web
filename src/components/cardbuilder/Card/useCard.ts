@@ -94,8 +94,8 @@ function useCard({ item, cardOptions }: UseCardProps) {
 
     const cardBoxClass = classNames(
         'cardBox',
-        { visualCardBox: cardOptions.cardLayout },
-        { 'cardBox-bottompadded': !cardOptions.cardLayout }
+        { 'visualCardBox': cardOptions.cardLayout && !cardOptions.disableClasses },
+        { 'cardBox-bottompadded': !cardOptions.cardLayout && !cardOptions.disableClasses }
     );
 
     const getCardWrapperProps = () => ({

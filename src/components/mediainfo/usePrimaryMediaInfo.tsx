@@ -428,6 +428,7 @@ interface UsePrimaryMediaInfoProps extends PrimaryInfoOpts {
 
 function usePrimaryMediaInfo({
     item,
+    mediaSource,
     showYearInfo = false,
     showAudioContainerInfo = false,
     showEpisodeTitleInfo = false,
@@ -464,6 +465,10 @@ function usePrimaryMediaInfo({
         Container
     } = item;
 
+    const itemVideo3DFormat = mediaSource?.Video3DFormat || Video3DFormat;
+    const itemRunTimeTicks = mediaSource?.RunTimeTicks || RunTimeTicks;
+    const itemContainer = mediaSource?.Container || Container;
+
     const miscInfo: MiscInfo[] = [];
 
     const addMiscInfo = (val: MiscInfo) => {
@@ -483,7 +488,7 @@ function usePrimaryMediaInfo({
         showItemCountInfo,
         SongCount,
         ChildCount,
-        RunTimeTicks,
+        itemRunTimeTicks,
         Type,
         addMiscInfo
     );
@@ -539,7 +544,7 @@ function usePrimaryMediaInfo({
     addRunTimeInfo(
         isFolderRuntimeEnabled,
         showRuntimeInfo,
-        RunTimeTicks,
+        itemRunTimeTicks,
         Type,
         addMiscInfo
     );
@@ -551,11 +556,11 @@ function usePrimaryMediaInfo({
         addMiscInfo
     );
 
-    addVideo3DFormat(showVideo3DFormatInfo, Video3DFormat, addMiscInfo);
+    addVideo3DFormat(showVideo3DFormatInfo, itemVideo3DFormat, addMiscInfo);
 
     addPhotoSize(showPhotoSizeInfo, MediaType, Width, Height, addMiscInfo);
 
-    addAudioContainer(showAudioContainerInfo, Container, Type, addMiscInfo);
+    addAudioContainer(showAudioContainerInfo, itemContainer, Type, addMiscInfo);
 
     return miscInfo;
 }

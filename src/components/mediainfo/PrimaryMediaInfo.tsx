@@ -13,6 +13,8 @@ import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { MiscInfo } from 'types/mediaInfoItem';
 import type { PrimaryInfoOpts } from './type';
+import './mediainfo.scss';
+import '../guide/programs.scss';
 
 interface PrimaryMediaInfoProps extends PrimaryInfoOpts {
     className?: string;
@@ -29,42 +31,18 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
     className,
     infoclass,
     item,
-    showYearInfo,
-    showAudioContainerInfo,
-    showEpisodeTitleInfo,
-    showOriginalAirDateInfo,
-    showFolderRuntimeInfo,
-    showRuntimeInfo,
-    showItemCountInfo,
-    showSeriesTimerInfo,
-    showStartDateInfo,
-    showProgramIndicatorInfo,
-    includeEpisodeTitleIndexNumber,
-    showOfficialRatingInfo,
-    showVideo3DFormatInfo,
-    showPhotoSizeInfo,
+    mediaSource,
     showStarRatingInfo = false,
     showCaptionIndicatorInfo = false,
     showCriticRatingInfo = false,
     showEndsAtInfo = false,
-    getMissingIndicator
+    getMissingIndicator,
+    ...props
 }) => {
     const miscInfo = usePrimaryMediaInfo({
         item,
-        showYearInfo,
-        showAudioContainerInfo,
-        showEpisodeTitleInfo,
-        showOriginalAirDateInfo,
-        showFolderRuntimeInfo,
-        showRuntimeInfo,
-        showItemCountInfo,
-        showSeriesTimerInfo,
-        showStartDateInfo,
-        showProgramIndicatorInfo,
-        includeEpisodeTitleIndexNumber,
-        showOfficialRatingInfo,
-        showVideo3DFormatInfo,
-        showPhotoSizeInfo
+        mediaSource,
+        ...props
     });
     const {
         StartDate,
@@ -74,6 +52,8 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
         CommunityRating,
         CriticRating
     } = item;
+
+    const itemRunTimeTicks = mediaSource?.RunTimeTicks || RunTimeTicks;
 
     const cssClass = classNames(className);
 
@@ -105,9 +85,9 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
 
             {showEndsAtInfo
                 && MediaType === ItemMediaKind.Video
-                && RunTimeTicks
+                && itemRunTimeTicks
                 && !StartDate && (
-                <EndsAt className={infoclass} runTimeTicks={RunTimeTicks} />
+                <EndsAt className={infoclass} runTimeTicks={itemRunTimeTicks} />
             )}
 
             {getMissingIndicator?.()}

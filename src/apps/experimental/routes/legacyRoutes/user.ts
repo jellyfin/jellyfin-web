@@ -1,13 +1,7 @@
-import { LegacyRoute } from '../../../../components/router/LegacyRoute';
+import { LegacyRoute } from 'components/router/LegacyRoute';
 
 export const LEGACY_USER_ROUTES: LegacyRoute[] = [
     {
-        path: 'details',
-        pageProps: {
-            controller: 'itemDetails/index',
-            view: 'itemDetails/index.html'
-        }
-    }, {
         path: 'list',
         pageProps: {
             controller: 'list',
