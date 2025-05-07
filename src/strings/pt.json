@@ -2021,5 +2021,6 @@
     "LimitSegmentLengthHelp": "Ativar esta opção pode ajudar a evitar que o leitor HLS bloqueie durante a pesquisa em determinados dispositivos, como as TVs webOS.",
     "Retry": "Tentar novamente",
     "HeaderServerUnavailable": "Servidor indisponível",
-    "HeaderUpdateRequired": "Atualização necessária"
+    "HeaderUpdateRequired": "Atualização necessária",
+    "ViewSettings": "Definições de Visualização"
 }
