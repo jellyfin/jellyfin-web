@@ -1942,7 +1942,7 @@
     "FallbackMaxStreamingBitrateHelp": "A taxa de bits máxima de transmissão é usada como um recurso quando o ffprobe não consegue determinar a taxa de bits da transmissão de origem. Isso ajuda a evitar que os clientes solicitem uma taxa de bits de transcodificação excessivamente alta, o que poderia fazer com que o leitor falhasse e sobrecarregasse o codificador.",
     "LabelAudioTagSettings": "Definições de etiquetas de áudio",
     "LabelSaveTrickplayLocally": "Guardar miniaturas de pré-visualização (trickplay) junto aos ficheiros de multimédia",
-    "LabelSaveTrickplayLocallyHelp": "Guarda as imagens de trickplay nas pastas multimédia junto dos teus ficheiros para facilitar a migração e o acesso.",
+    "LabelSaveTrickplayLocallyHelp": "As miniaturas de pré-visualização (trickplay) serão guardadas junto aos ficheiros de multimédia, o que facilita a migração e o acesso.",
     "LabelAllowStreamSharing": "Permitir partilha de transmissão",
     "LabelLyricDownloaders": "Fornecedores de letras",
     "LabelNoChangelog": "Nenhum registo de alterações foi disponibilizado para esta versão.",
