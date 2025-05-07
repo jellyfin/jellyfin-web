@@ -1984,7 +1984,7 @@
     "MediaSegmentType.Commercial": "Commercial",
     "MediaSegmentType.Preview": "Prévisualisation",
     "MediaSegmentType.Recap": "Récapitulatif",
-    "MediaSegmentType.Intro": "Introduction",
+    "MediaSegmentType.Intro": "Générique",
     "PlaylistError.UpdateFailed": "Erreur lors de la mise à jour de la liste de lecture",
     "MediaSegmentAction.AskToSkip": "Demander à passer",
     "MediaSegmentSkipPrompt": "Passer {0}",
