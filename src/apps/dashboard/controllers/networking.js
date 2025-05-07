@@ -46,6 +46,8 @@ function onSubmit(e) {
                     return s.length > 0;
                 });
 
+                const selectPublicUserListing = form.querySelector('#selectPublicUserListing');
+
                 config.IsRemoteIPFilterBlacklist = form.querySelector('#selectExternalAddressFilterMode').value === 'blacklist';
                 config.PublicHttpPort = form.querySelector('#txtPublicHttpPort').value;
                 config.PublicHttpsPort = form.querySelector('#txtPublicHttpsPort').value;
@@ -55,6 +57,8 @@ function onSubmit(e) {
                 config.RequireHttps = form.querySelector('#chkRequireHttps').checked;
                 config.BaseUrl = form.querySelector('#txtBaseUrl').value;
                 config.EnableRemoteAccess = form.querySelector('#chkRemoteAccess').checked;
+                config.PublicUserListing = selectPublicUserListing.value === 'always' || selectPublicUserListing.value === 'local';
+                config.PublicUserListingLocalOnly = selectPublicUserListing.value === 'local';
                 config.CertificatePath = form.querySelector('#txtCertificatePath').value || null;
                 config.CertificatePassword = form.querySelector('#txtCertPassword').value || null;
                 config.AutoDiscovery = form.querySelector('#chkAutodiscovery').checked;
@@ -142,6 +146,17 @@ export default function (view) {
         page.querySelector('#chkEnableIP6').checked = config.EnableIPv6;
         page.querySelector('#chkEnableIP4').checked = config.EnableIPv4;
         page.querySelector('#txtPublishedServer').value = (config.PublishedServerUriBySubnet || []).join(', ');
+
+        const selectPublicUserListing = page.querySelector('#selectPublicUserListing');
+
+        if (config.PublicUserListingLocalOnly && config.PublicUserListing) {
+            selectPublicUserListing.value = 'local';
+        } else if (config.PublicUserListing) {
+            selectPublicUserListing.value = 'always';
+        } else {
+            selectPublicUserListing.value = 'never';
+        }
+
         loading.hide();
     }
 
