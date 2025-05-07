@@ -9,10 +9,10 @@ interface StarIconsProps {
     communityRating: number;
 }
 
-//the star icon is slightly off from the old material icons version. It should be 1.1em and have a small right margin
+//the star icon is slightly off from the old material icons version. It should be about 1.13em and have a small right margin
 const StarStyle: React.CSSProperties = {
-    width: '1.1em',
-    height: '1.1em',
+    width: '1.13em',
+    height: '1.31em',
     marginRight: '0.125em'
 };
 

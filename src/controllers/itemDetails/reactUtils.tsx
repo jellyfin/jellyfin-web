@@ -9,16 +9,18 @@ import { useUserTheme } from 'hooks/useUserTheme';
 import { ThemeProvider } from '@mui/material/styles';
 import { getTheme } from 'themes/themes';
 
-export const attachReactElement = (Element: (props: object) => React.ReactNode, props: object, element: HTMLElement) => {
+export const attachReactElement = (Element: (props: object) => React.ReactNode, props: object, element: HTMLElement, replace = false) => {
     const domNode = document.createElement('div');
-    const root = createRoot(domNode);
+    const root = createRoot(replace ? domNode : element);
     root.render(
         <RootContext>
             <Element {...props} />
         </RootContext>
     );
 
-    element.parentElement?.append(domNode);
+    if (replace) {
+        element.replaceWith(domNode);
+    }
 };
 
 const RootContext: React.FC<React.PropsWithChildren> = ({ children }) => {

@@ -36,6 +36,7 @@ import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
 import { attachReactElement } from 'controllers/itemDetails/reactUtils.tsx';
 import { MiscInfo } from 'controllers/itemDetails/MiscInfo/MiscInfo';
+import PlayOrResumeButton from 'apps/experimental/features/details/components/buttons/PlayOrResumeButton';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -340,11 +341,10 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnReplay', isResumable);
 
         for (const btnPlay of page.querySelectorAll('.btnPlay')) {
-            if (isResumable) {
-                btnPlay.title = globalize.translate('ButtonResume');
-            } else {
-                btnPlay.title = globalize.translate('Play');
-            }
+            attachReactElement(PlayOrResumeButton, {
+                item,
+                isResumable
+            }, btnPlay);
         }
     } else {
         hideAll(page, 'btnPlay');
@@ -1037,13 +1037,12 @@ function renderMiscInfo(page, item) {
 
     for (const miscInfo of primaryItemMiscInfo) {
         attachReactElement(MiscInfo, { item, options }, miscInfo);
-        mediaInfo.fillPrimaryMediaInfo(miscInfo, item, options);
-
-        if (miscInfo.innerHTML && item.Type !== 'SeriesTimer') {
-            miscInfo.classList.remove('hide');
-        } else {
-            miscInfo.classList.add('hide');
-        }
+        //TODO move this logic into the React component
+        // if (miscInfo.innerHTML && item.Type !== 'SeriesTimer') {
+        //     miscInfo.classList.remove('hide');
+        // } else {
+        //     miscInfo.classList.add('hide');
+        // }
     }
 
     const secondaryItemMiscInfo = page.querySelectorAll('.itemMiscInfo-secondary');

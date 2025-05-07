@@ -95,7 +95,7 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
                 <CaptionMediaInfo className={infoclass} />
             )}
 
-            {showCriticRatingInfo && CriticRating && (
+            {showCriticRatingInfo && !!CriticRating && (
                 <CriticRatingMediaInfo
                     criticRating={CriticRating}
                 />
