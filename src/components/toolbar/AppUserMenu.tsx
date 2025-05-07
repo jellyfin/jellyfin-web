@@ -22,6 +22,7 @@ import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
 import globalize from 'lib/globalize';
 import shell from 'scripts/shell';
 import Dashboard from 'utils/dashboard';
+import { Download } from '@mui/icons-material';
 
 export const ID = 'app-user-menu';
 
@@ -37,6 +38,10 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
     const { user } = useApi();
     const { data: isQuickConnectEnabled } = useQuickConnectEnabled();
 
+    const onDownloadManagerClick = useCallback(() => {
+        shell.openDownloadManager();
+        onMenuClose();
+    }, [ onMenuClose ]);
     const onClientSettingsClick = useCallback(() => {
         shell.openClientSettings();
         onMenuClose();
@@ -98,8 +103,25 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </ListItemText>
             </MenuItem>
 
-            {appHost.supports(AppFeature.ClientSettings) && ([
-                <Divider key='client-settings-divider' />,
+            {(appHost.supports(AppFeature.DownloadManagement) || appHost.supports(AppFeature.ClientSettings)) && (
+                <Divider key='app-feature-divider' />
+            )}
+
+            {appHost.supports(AppFeature.DownloadManagement) && (
+                <MenuItem
+                    key='download-manager-button'
+                    onClick={onDownloadManagerClick}
+                >
+                    <ListItemIcon>
+                        <Download />
+                    </ListItemIcon>
+                    <ListItemText>
+                        {globalize.translate('DownloadManager')}
+                    </ListItemText>
+                </MenuItem>
+            )}
+
+            {appHost.supports(AppFeature.ClientSettings) && (
                 <MenuItem
                     key='client-settings-button'
                     onClick={onClientSettingsClick}
@@ -111,7 +133,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                         {globalize.translate('ClientSettings')}
                     </ListItemText>
                 </MenuItem>
-            ])}
+            )}
 
             {/* ADMIN LINKS */}
             {user?.Policy?.IsAdministrator && ([
