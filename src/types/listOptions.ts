@@ -11,6 +11,8 @@ export interface ListOptions extends TextLineOpts {
     imageSize?: string;
     enableOverview?: boolean;
     enableSideMediaInfo?: boolean;
+    canEditPlaylist?: boolean;
+    itemPlaylistItemId?: string | null;
     playlistId?: string | null;
     collectionId?: string | null;
     context?: CollectionType;
@@ -39,4 +41,5 @@ export interface ListOptions extends TextLineOpts {
     enableRatingButton?: boolean;
     smallIcon?: boolean;
     sortBy?: ItemSortBy;
+    queryKey?: string[]
 }
