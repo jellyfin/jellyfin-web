@@ -1752,7 +1752,7 @@
     "LabelSelectPreferredTranscodeVideoCodec": "Codec vidéo préféré pour le transcodage",
     "MediaSegmentAction.Skip": "Sauter",
     "MediaSegmentType.Commercial": "Commercial",
-    "MediaSegmentType.Intro": "Intro",
+    "MediaSegmentType.Intro": "Générique",
     "AlwaysRemuxFlacAudioFilesHelp": "Si vous avez des fichiers que votre navigateur refuse de lire ou dont les horodatages sont calculés de manière imprécise, activez cette option en guise de solution de rechange.",
     "AlwaysRemuxMp3AudioFilesHelp": "Si vous avez des fichiers pour lesquels votre navigateur calcule les horodatages de manière imprécise, activez cette option en guise de solution de rechange.",
     "LabelQsvDevice": "Dispositif QSV",
@@ -1972,5 +1972,6 @@
     "LimitSegmentLength": "Utiliser des segments HLS plus courts",
     "LimitSegmentLengthHelp": "L'activation de cette option peut aider à empêcher le lecteur HLS de se bloquer pendant la recherche sur certains appareils, comme les téléviseurs webOS.",
     "HeaderServerUnavailable": "Serveur Indisponible",
-    "HeaderUpdateRequired": "Mise à jour requise"
+    "HeaderUpdateRequired": "Mise à jour requise",
+    "ViewSettings": "Afficher les paramètres"
 }
