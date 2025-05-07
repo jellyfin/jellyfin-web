@@ -2028,5 +2028,6 @@
     "LimitSegmentLength": "Použít kratší segmenty HLS",
     "LimitSegmentLengthHelp": "Povolení této možnosti může pomoci v zamezení zasekávání přehrávače HSL během posouvání na určitých zařízeních, například televizích s webOS.",
     "HeaderServerUnavailable": "Server není dostupný",
-    "HeaderUpdateRequired": "Je nutná aktualizace"
+    "HeaderUpdateRequired": "Je nutná aktualizace",
+    "ViewSettings": "Zobrazit nastavení"
 }
