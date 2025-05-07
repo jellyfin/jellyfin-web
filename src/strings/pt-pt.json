@@ -1938,7 +1938,7 @@
     "AlwaysRemuxFlacAudioFilesHelp": "Se tiveres ficheiros que o teu navegador recusar reproduzir ou em que calcula incorretamente os registos de data/hora, ativa esta opção como solução alternativa.",
     "AllowTonemappingSoftwareHelp": "Mapear os tons pode transformar a gama dinâmica de um vídeo de HDR para SDR, mantendo os detalhes e cores da imagens, que são informações muito importantes para representar a cena original. De momento, funciona apenas com vídeos HDR10 de 10 bits, HLG e DoVi.",
     "LabelQsvDevice": "Dispositivo QSV",
-    "LabelSaveTrickplayLocallyHelp": "Guarda as imagens de trickplay nas pastas multimédia junto dos teus ficheiros para facilitar a migração e o acesso.",
+    "LabelSaveTrickplayLocallyHelp": "As miniaturas de pré-visualização (trickplay) serão guardadas junto aos ficheiros de multimédia, o que facilita a migração e o acesso.",
     "AlwaysBurnInSubtitleWhenTranscoding": "Incorporar sempre legendas durante a transcodificação",
     "AlwaysBurnInSubtitleWhenTranscodingHelp": "Incorpora todas as legendas quando a transcodificação é acionada. Isto assegura que as legendas são sincronizadas após a transcodificação, à custa de uma velocidade de transcodificação reduzida.",
     "EnableHi10p": "Ativar o perfil H.264 High 10",
