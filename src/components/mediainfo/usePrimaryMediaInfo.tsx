@@ -288,8 +288,8 @@ function addproductionYearWithEndDate(
                 { useGrouping: false }
             );
             /* At this point, text will contain only the start year */
-            if (endYear !== itemProductionYear) {
-                productionYear += `-${endYear}`;
+            if (endYear !== productionYear) {
+                productionYear = `${productionYear}-${endYear}`;
             }
         } catch {
             console.error('error parsing date:', itemEndDate);
