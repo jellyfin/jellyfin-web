@@ -953,6 +953,65 @@ export default function (view) {
         updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.PlaybackRate, playState.BufferedRanges || []);
     }
 
+    function onShareClick(){
+      console.log("onShareClick",playbackManager.getPlayerState(currentPlayer))
+      const state = playbackManager.getPlayerState(currentPlayer);
+      const playState = state.PlayState;
+      const nowPlayingItem = state.NowPlayingItem;
+      const MediaSource = state.MediaSource;
+
+      const microseconds = playState.PositionTicks;
+      const seconds = microseconds / 1_000_000_0;
+      
+      const itemId = nowPlayingItem.Id;
+
+      // 获取当前浏览器完整路径
+      const currentUrl = window.location.href;
+      // 获取基础路径(不包含查询参数)
+      const baseUrl = window.location.origin + window.location.pathname;
+
+      const shareData = {
+        seconds,
+        itemId,
+        name: MediaSource.Path,
+        currentUrl,
+        baseUrl
+      }
+
+      // 构建分享链接
+      const url = `${baseUrl}#/share?itemId=${itemId}&seconds=${seconds}`;
+      // url 添加到剪切板
+      try {
+        navigator.clipboard.writeText(url).then(() => {
+          // 显示成功提示
+          import('../../../components/toast/toast').then(({default: toast}) => {
+            toast({
+              text: '分享链接已复制到剪贴板'
+            });
+          });
+        }).catch(err => {
+          console.error('复制到剪贴板失败:', err);
+          // 显示错误提示
+          import('../../../components/toast/toast').then(({default: toast}) => {
+            toast({
+              text: '复制到剪贴板失败'
+            });
+          });
+        });
+      } catch (err) {
+        console.error('复制到剪贴板出错:', err);
+        // 显示错误提示
+        import('../../../components/toast/toast').then(({default: toast}) => {
+          toast({
+            text: '复制到剪贴板失败'
+          });
+        });
+      }
+      
+      console.log("shareData", shareData);
+      console.log("share url", url);
+    }
+
     function onSettingsButtonClick() {
         const btn = this;
 
@@ -1776,6 +1835,7 @@ export default function (view) {
         playbackManager.toggleAirPlay(currentPlayer);
     });
     view.querySelector('.btnVideoOsdSettings').addEventListener('click', onSettingsButtonClick);
+    view.querySelector('.btnShare').addEventListener('click', onShareClick);
     view.addEventListener('viewhide', function () {
         headerElement.classList.remove('hide');
     });

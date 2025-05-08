@@ -98,5 +98,11 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             controller: 'movies/moviesrecommended',
             view: 'movies/movies.html'
         }
-    }
+    },{
+      path: 'share',
+      pageProps: {
+          controller: 'share/index',
+          view: 'share/index.html'
+      }
+  }
 ];
