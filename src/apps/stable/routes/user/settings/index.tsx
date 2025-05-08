@@ -189,7 +189,7 @@ const UserSettingsPage: FC = () => {
                         {appHost.supports(AppFeature.DownloadManagement) && (
                             <LinkButton
                                 onClick={shell.openDownloadManager}
-                                className='clientSettings listItem-border'
+                                className='downloadManager listItem-border'
                                 style={{
                                     display: 'block',
                                     margin: 0,

@@ -2,6 +2,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import AppSettingsAlt from '@mui/icons-material/AppSettingsAlt';
 import Close from '@mui/icons-material/Close';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import Download from '@mui/icons-material/Download';
 import Edit from '@mui/icons-material/Edit';
 import Logout from '@mui/icons-material/Logout';
 import PhonelinkLock from '@mui/icons-material/PhonelinkLock';
@@ -22,7 +23,6 @@ import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
 import globalize from 'lib/globalize';
 import shell from 'scripts/shell';
 import Dashboard from 'utils/dashboard';
-import { Download } from '@mui/icons-material';
 
 export const ID = 'app-user-menu';
 
@@ -42,6 +42,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
         shell.openDownloadManager();
         onMenuClose();
     }, [ onMenuClose ]);
+
     const onClientSettingsClick = useCallback(() => {
         shell.openClientSettings();
         onMenuClose();
