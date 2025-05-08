@@ -10,6 +10,8 @@ export enum AppFeature {
     DisplayLanguage = 'displaylanguage',
     /** The app supports configuring the display mode (TV, Desktop, etc.) */
     DisplayMode = 'displaymode',
+    /** The app supports showing a download management interface via a menu entry */
+    DownloadManagement = 'downloadmanagement',
     /** The app can exit via back navigation */
     Exit = 'exit',
     /** The app can be exited via a menu entry */
