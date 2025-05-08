@@ -175,8 +175,9 @@ export default function (view, params) {
 
                 case 'delete':
                     deleteServer(server);
+                    break;
             }
-        });
+        }).catch(() => { /* no-op */ });
     }
 
     function onServersRetrieved(result) {
@@ -221,4 +222,3 @@ export default function (view, params) {
         }
     });
 }
-
