@@ -1,4 +1,5 @@
-import { Devices, Analytics } from '@mui/icons-material';
+import Devices from '@mui/icons-material/Devices';
+import Analytics from '@mui/icons-material/Analytics';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
