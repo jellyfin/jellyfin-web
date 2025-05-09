@@ -1,5 +1,11 @@
-import { Dashboard, ExpandLess, ExpandMore, LibraryAdd, People, PlayCircle, Settings } from '@mui/icons-material';
+import Dashboard from '@mui/icons-material/Dashboard';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import LibraryAdd from '@mui/icons-material/LibraryAdd';
 import Palette from '@mui/icons-material/Palette';
+import People from '@mui/icons-material/People';
+import PlayCircle from '@mui/icons-material/PlayCircle';
+import Settings from '@mui/icons-material/Settings';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';

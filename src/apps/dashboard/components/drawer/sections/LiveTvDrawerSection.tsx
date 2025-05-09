@@ -1,4 +1,5 @@
-import { Dvr, LiveTv } from '@mui/icons-material';
+import Dvr from '@mui/icons-material/Dvr';
+import LiveTv from '@mui/icons-material/LiveTv';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
