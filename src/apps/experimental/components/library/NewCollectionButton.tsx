@@ -1,9 +1,16 @@
 import React, { FC, useCallback } from 'react';
-import { IconButton } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import Add from '@mui/icons-material/Add';
+import Button from '@mui/material/Button';
+
 import globalize from 'lib/globalize';
 
-const NewCollectionButton: FC = () => {
+interface NewCollectionButtonProps {
+    isTextVisible: boolean
+}
+
+const NewCollectionButton: FC<NewCollectionButtonProps> = ({
+    isTextVisible
+}) => {
     const showCollectionEditor = useCallback(() => {
         import('components/collectionEditor/collectionEditor').then(
             ({ default: CollectionEditor }) => {
@@ -21,13 +28,17 @@ const NewCollectionButton: FC = () => {
     }, []);
 
     return (
-        <IconButton
-            title={globalize.translate('Add')}
-            className='paper-icon-button-light btnNewCollection autoSize'
+        <Button
+            variant='contained'
+            startIcon={isTextVisible ? <Add /> : undefined}
             onClick={showCollectionEditor}
         >
-            <AddIcon />
-        </IconButton>
+            {isTextVisible ? (
+                globalize.translate('NewCollection')
+            ) : (
+                <Add />
+            )}
+        </Button>
     );
 };
 

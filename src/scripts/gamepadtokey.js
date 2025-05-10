@@ -178,7 +178,7 @@ function resetThrottle(key) {
 const isElectron = navigator.userAgent.toLowerCase().indexOf('electron') !== -1;
 function allowInput() {
     // This would be nice but always seems to return true with electron
-    if (!isElectron && document.hidden) { /* eslint-disable-line compat/compat */
+    if (!isElectron && document.hidden) {
         return false;
     }
 
@@ -356,7 +356,6 @@ function isGamepadConnected() {
 }
 
 function onFocusOrGamepadAttach() {
-    /* eslint-disable-next-line compat/compat */
     if (isGamepadConnected() && document.hasFocus()) {
         console.log('Gamepad connected! Starting input loop');
         startInputLoop();
@@ -364,7 +363,6 @@ function onFocusOrGamepadAttach() {
 }
 
 function onFocusOrGamepadDetach() {
-    /* eslint-disable-next-line compat/compat */
     if (!isGamepadConnected() || !document.hasFocus()) {
         console.log('Gamepad disconnected! No other gamepads are connected, stopping input loop');
         stopInputLoop();

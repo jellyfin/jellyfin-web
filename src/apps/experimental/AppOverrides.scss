@@ -5,21 +5,8 @@ $mui-bp-md: 900px;
 $mui-bp-lg: 1200px;
 $mui-bp-xl: 1536px;
 
-$drawer-width: 240px;
-
 #reactRoot {
     height: 100%;
-}
-
-// Fix main pages layout to work with drawer
-.mainAnimatedPage {
-    @media all and (min-width: $mui-bp-md) {
-        left: $drawer-width;
-    }
-}
-// The fallback page has no drawer
-#fallbackPage {
-    left: 0;
 }
 
 // Hide some items from the user "settings" page that are in the drawer
@@ -35,18 +22,9 @@ $drawer-width: 240px;
 .homePage.libraryPage.withTabs, // Home page
 // Library pages excluding the item details page and tabbed pages
 .libraryPage:not(
-    .itemDetailPage,
-    .withTabs
+    .itemDetailPage
 ) {
     padding-top: 3.25rem !important;
-}
-// Tabbed library pages
-.libraryPage.withTabs {
-    padding-top: 6.5rem !important;
-
-    @media all and (min-width: $mui-bp-lg) {
-        padding-top: 3.25rem !important;
-    }
 }
 
 // Fix backdrop position on mobile item details page

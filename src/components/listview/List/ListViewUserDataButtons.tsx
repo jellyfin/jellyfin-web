@@ -1,5 +1,6 @@
 import React, { type FC } from 'react';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
+
 import itemHelper from '../../itemHelper';
 import PlayedButton from 'elements/emby-playstatebutton/PlayedButton';
 import FavoriteButton from 'elements/emby-ratingbutton/FavoriteButton';

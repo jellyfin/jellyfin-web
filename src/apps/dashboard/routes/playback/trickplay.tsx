@@ -1,6 +1,7 @@
 import React from 'react';
 
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Page from 'components/Page';
@@ -16,7 +17,6 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
-import ServerConnections from 'components/ServerConnections';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models/trickplay-scan-behavior';
 import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';
@@ -158,22 +158,26 @@ export const Component = () => {
                             type='number'
                             inputMode='numeric'
                             defaultValue={defaultConfig.TrickplayOptions?.Interval}
-                            inputProps={{
-                                min: 1,
-                                required: true
-                            }}
                             helperText={globalize.translate('LabelImageIntervalHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 1,
+                                    required: true
+                                }
+                            }}
                         />
 
                         <TextField
                             label={globalize.translate('LabelWidthResolutions')}
                             name='WidthResolutions'
                             defaultValue={defaultConfig.TrickplayOptions?.WidthResolutions}
-                            inputProps={{
-                                required: true,
-                                pattern: '[0-9,]*'
-                            }}
                             helperText={globalize.translate('LabelWidthResolutionsHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    required: true,
+                                    pattern: '[0-9,]*'
+                                }
+                            }}
                         />
 
                         <TextField
@@ -182,11 +186,13 @@ export const Component = () => {
                             type='number'
                             inputMode='numeric'
                             defaultValue={defaultConfig.TrickplayOptions?.TileWidth}
-                            inputProps={{
-                                min: 1,
-                                required: true
-                            }}
                             helperText={globalize.translate('LabelTileWidthHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 1,
+                                    required: true
+                                }
+                            }}
                         />
 
                         <TextField
@@ -195,11 +201,13 @@ export const Component = () => {
                             type='number'
                             inputMode='numeric'
                             defaultValue={defaultConfig.TrickplayOptions?.TileHeight}
-                            inputProps={{
-                                min: 1,
-                                required: true
-                            }}
                             helperText={globalize.translate('LabelTileHeightHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 1,
+                                    required: true
+                                }
+                            }}
                         />
 
                         <TextField
@@ -208,12 +216,14 @@ export const Component = () => {
                             type='number'
                             inputMode='numeric'
                             defaultValue={defaultConfig.TrickplayOptions?.JpegQuality}
-                            inputProps={{
-                                min: 1,
-                                max: 100,
-                                required: true
-                            }}
                             helperText={globalize.translate('LabelJpegQualityHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 1,
+                                    max: 100,
+                                    required: true
+                                }
+                            }}
                         />
 
                         <TextField
@@ -222,12 +232,14 @@ export const Component = () => {
                             type='number'
                             inputMode='numeric'
                             defaultValue={defaultConfig.TrickplayOptions?.Qscale}
-                            inputProps={{
-                                min: 2,
-                                max: 31,
-                                required: true
-                            }}
                             helperText={globalize.translate('LabelQscaleHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 2,
+                                    max: 31,
+                                    required: true
+                                }
+                            }}
                         />
 
                         <TextField
@@ -236,11 +248,13 @@ export const Component = () => {
                             type='number'
                             inputMode='numeric'
                             defaultValue={defaultConfig.TrickplayOptions?.ProcessThreads}
-                            inputProps={{
-                                min: 0,
-                                required: true
-                            }}
                             helperText={globalize.translate('LabelTrickplayThreadsHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 0,
+                                    required: true
+                                }
+                            }}
                         />
 
                         <Button

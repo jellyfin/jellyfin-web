@@ -23,6 +23,7 @@ import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
 import template from './mediaLibraryEditor.template.html';
 
+// eslint-disable-next-line sonarjs/no-invariant-returns
 function onEditLibrary() {
     if (isCreating) {
         return false;

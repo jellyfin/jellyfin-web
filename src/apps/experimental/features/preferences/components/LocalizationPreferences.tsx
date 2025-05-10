@@ -10,8 +10,9 @@ import React from 'react';
 
 import { DATE_LOCALE_OPTIONS, LANGUAGE_OPTIONS } from 'apps/experimental/features/preferences/constants/locales';
 import { appHost } from 'components/apphost';
-import datetime from 'scripts/datetime';
+import { AppFeature } from 'constants/appFeature';
 import globalize from 'lib/globalize';
+import datetime from 'scripts/datetime';
 
 import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 
@@ -21,14 +22,14 @@ interface LocalizationPreferencesProps {
 }
 
 export function LocalizationPreferences({ onChange, values }: Readonly<LocalizationPreferencesProps>) {
-    if (!appHost.supports('displaylanguage') && !datetime.supportsLocalization()) {
+    if (!appHost.supports(AppFeature.DisplayLanguage) && !datetime.supportsLocalization()) {
         return null;
     }
     return (
         <Stack spacing={3}>
             <Typography variant='h2'>{globalize.translate('Localization')}</Typography>
 
-            { appHost.supports('displaylanguage') && (
+            { appHost.supports(AppFeature.DisplayLanguage) && (
                 <FormControl fullWidth>
                     <InputLabel id='display-settings-language-label'>{globalize.translate('LabelDisplayLanguage')}</InputLabel>
                     <Select
@@ -46,7 +47,7 @@ export function LocalizationPreferences({ onChange, values }: Readonly<Localizat
                     </Select>
                     <FormHelperText component={Stack} id='display-settings-language-description'>
                         <span>{globalize.translate('LabelDisplayLanguageHelp')}</span>
-                        { appHost.supports('externallinks') && (
+                        { appHost.supports(AppFeature.ExternalLinks) && (
                             <Link
                                 href='https://github.com/jellyfin/jellyfin'
                                 rel='noopener noreferrer'

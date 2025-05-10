@@ -7,11 +7,12 @@ import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
 import { appHost } from '../../../../components/apphost';
 import confirm from '../../../../components/confirm/confirm';
-import ButtonElement from '../../../../elements/ButtonElement';
+import Button from '../../../../elements/emby-button/Button';
 import UserPasswordForm from '../../../../components/dashboard/users/UserPasswordForm';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import Page from '../../../../components/Page';
+import { AppFeature } from 'constants/appFeature';
 
 const UserProfile: FunctionComponent = () => {
     const [ searchParams ] = useSearchParams();
@@ -61,7 +62,7 @@ const UserProfile: FunctionComponent = () => {
                 if (user.PrimaryImageTag) {
                     (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.add('hide');
                     (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.remove('hide');
-                } else if (appHost.supports('fileinput') && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
+                } else if (appHost.supports(AppFeature.FileInput) && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
                     (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.add('hide');
                     (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.remove('hide');
                 }
@@ -197,17 +198,17 @@ const UserProfile: FunctionComponent = () => {
                             {userName}
                         </h2>
                         <br />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnAddImage'
                             className='raised button-submit hide'
-                            title='ButtonAddImage'
+                            title={globalize.translate('ButtonAddImage')}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnDeleteImage'
                             className='raised hide'
-                            title='DeleteImage'
+                            title={globalize.translate('DeleteImage')}
                         />
                     </div>
                 </div>

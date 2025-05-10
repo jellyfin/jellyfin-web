@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import React, { type FC, type PropsWithChildren, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 

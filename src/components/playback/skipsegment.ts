@@ -49,7 +49,8 @@ class SkipSegment extends PlaybackSubscriber {
         if (!this.skipElement && this.currentSegment) {
             let buttonHtml = '';
 
-            buttonHtml += '<button is="emby-button" class="skip-button hide skip-button-hidden"></button>';
+            // FIXME: Move skip button to the video OSD
+            buttonHtml += '<div class="skip-button-container"><button is="emby-button" class="skip-button hide skip-button-hidden"></button></div>';
 
             document.body.insertAdjacentHTML('beforeend', buttonHtml);
 

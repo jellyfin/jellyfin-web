@@ -79,7 +79,7 @@ export function updateCurrentCulture() {
     let culture;
     try {
         culture = userSettings.language();
-    } catch (err) {
+    } catch {
         console.error('no language set in user settings');
     }
     culture = culture || getDefaultLanguage();
@@ -92,7 +92,7 @@ export function updateCurrentCulture() {
     let dateTimeCulture;
     try {
         dateTimeCulture = userSettings.dateTimeLocale();
-    } catch (err) {
+    } catch {
         console.error('no date format set in user settings');
     }
 

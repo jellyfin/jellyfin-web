@@ -169,7 +169,7 @@ export default function (view, params, tabContent) {
                     id: 'Name'
                 }, {
                     name: globalize.translate('Album'),
-                    id: 'Album,SortName'
+                    id: 'Album,AlbumArtist,SortName'
                 }, {
                     name: globalize.translate('AlbumArtist'),
                     id: 'AlbumArtist,Album,SortName'

@@ -5,8 +5,8 @@ import globalize from '../../../lib/globalize';
 import confirm from '../../confirm/confirm';
 import loading from '../../loading/loading';
 import toast from '../../toast/toast';
-import ButtonElement from '../../../elements/ButtonElement';
-import InputElement from '../../../elements/InputElement';
+import Button from '../../../elements/emby-button/Button';
+import Input from '../../../elements/emby-input/Input';
 
 type IProps = {
     userId: string | null;
@@ -158,41 +158,41 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             >
                 <div className='detailSection'>
                     <div id='fldCurrentPassword' className='inputContainer hide'>
-                        <InputElement
+                        <Input
                             type='password'
                             id='txtCurrentPassword'
-                            label='LabelCurrentPassword'
-                            options={'autoComplete="off"'}
+                            label={globalize.translate('LabelCurrentPassword')}
+                            autoComplete='off'
                         />
                     </div>
                     <div className='inputContainer'>
-                        <InputElement
+                        <Input
                             type='password'
                             id='txtNewPassword'
-                            label='LabelNewPassword'
-                            options={'autoComplete="off"'}
+                            label={globalize.translate('LabelNewPassword')}
+                            autoComplete='off'
                         />
                     </div>
                     <div className='inputContainer'>
-                        <InputElement
+                        <Input
                             type='password'
                             id='txtNewPasswordConfirm'
-                            label='LabelNewPasswordConfirm'
-                            options={'autoComplete="off"'}
+                            label={globalize.translate('LabelNewPasswordConfirm')}
+                            autoComplete='off'
                         />
                     </div>
                     <br />
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
-                            title='SavePassword'
+                            title={globalize.translate('SavePassword')}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnResetPassword'
                             className='raised button-cancel block hide'
-                            title='ResetPassword'
+                            title={globalize.translate('ResetPassword')}
                         />
                     </div>
                 </div>

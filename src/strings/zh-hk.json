@@ -218,7 +218,7 @@
     "TabServer": "伺服器",
     "TabUpcoming": "即將發佈",
     "TellUsAboutYourself": "介紹一下自己",
-    "ThisWizardWillGuideYou": "此教學協助您完成安裝過程。首先，請選擇您的語言。",
+    "ThisWizardWillGuideYou": "此教學協助您完成安裝過程。首先，請輸入伺服器名稱及選擇您的語言。",
     "Thursday": "星期四",
     "Tuesday": "星期二",
     "UserProfilesIntro": "Jellyfin 支援用戶對帳戶的顯示、播放狀態和家長監護功能設定進行修改。",
@@ -1299,5 +1299,6 @@
     "HeaderPageNotFound": "找不到頁面",
     "PageNotFound": "這不是你要找的頁面。",
     "PasswordMatchError": "密碼和確認密碼必須一致。",
-    "PasswordRequiredForAdmin": "管理員帳戶必須設定密碼。"
+    "PasswordRequiredForAdmin": "管理員帳戶必須設定密碼。",
+    "Thumb": "縮圖"
 }

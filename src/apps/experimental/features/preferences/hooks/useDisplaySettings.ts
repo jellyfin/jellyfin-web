@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { appHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';
+import { AppFeature } from 'constants/appFeature';
 import { useApi } from 'hooks/useApi';
 import themeManager from 'scripts/themeManager';
 import { currentSettings, UserSettings } from 'scripts/settings/userSettings';
@@ -120,7 +121,7 @@ async function saveDisplaySettings({
 }: SaveDisplaySettingsParams) {
     const user = await api.getUser(userId);
 
-    if (appHost.supports('displaylanguage')) {
+    if (appHost.supports(AppFeature.DisplayLanguage)) {
         userSettings.language(normalizeValue(newDisplaySettings.language));
     }
     userSettings.customCss(normalizeValue(newDisplaySettings.customCss));

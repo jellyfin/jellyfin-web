@@ -68,9 +68,11 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
             maxWidth={'xs'}
             fullWidth
             onClose={onClose}
-            PaperProps={{
-                component: 'form',
-                onSubmit: onSubmit
+            slotProps={{
+                paper: {
+                    component: 'form',
+                    onSubmit
+                }
             }}
         >
             <DialogTitle>{title}</DialogTitle>
@@ -148,11 +150,13 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                         fullWidth
                         defaultValue={''}
                         type='number'
-                        inputProps={{
-                            min: 1,
-                            step: 0.5
-                        }}
                         label={globalize.translate('LabelTimeLimitHours')}
+                        slotProps={{
+                            htmlInput: {
+                                min: 1,
+                                step: 0.5
+                            }
+                        }}
                     />
                 </Stack>
             </DialogContent>

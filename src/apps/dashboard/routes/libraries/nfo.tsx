@@ -12,11 +12,11 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import ServerConnections from 'components/ServerConnections';
 import SimpleAlert from 'components/SimpleAlert';
 import { QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import { useUsers } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useState } from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { ActionData } from 'types/actionData';
@@ -119,13 +119,16 @@ export const Component = () => {
                                 label={globalize.translate('LabelKodiMetadataUser')}
                                 defaultValue={nfoConfig.UserId || ''}
                                 select
-                                SelectProps={{
-                                    displayEmpty: true
-                                }}
-                                InputLabelProps={{
-                                    shrink: true
-                                }}
                                 helperText={globalize.translate('LabelKodiMetadataUserHelp')}
+                                slotProps={{
+                                    select: {
+                                        displayEmpty: true
+                                    },
+
+                                    inputLabel: {
+                                        shrink: true
+                                    }
+                                }}
                             >
                                 <MenuItem value=''>{globalize.translate('None')}</MenuItem>
                                 {users.map(user =>

@@ -8,7 +8,6 @@ import { Outlet, useLocation } from 'react-router-dom';
 import AppBody from 'components/AppBody';
 import CustomCss from 'components/CustomCss';
 import ElevationScroll from 'components/ElevationScroll';
-import { DRAWER_WIDTH } from 'components/ResponsiveDrawer';
 import ThemeCss from 'components/ThemeCss';
 import { useApi } from 'hooks/useApi';
 
@@ -23,7 +22,7 @@ export const Component = () => {
     const location = useLocation();
 
     const isMediumScreen = useMediaQuery((t: Theme) => t.breakpoints.up('md'));
-    const isDrawerAvailable = isDrawerPath(location.pathname) && Boolean(user);
+    const isDrawerAvailable = isDrawerPath(location.pathname) && Boolean(user) && !isMediumScreen;
     const isDrawerOpen = isDrawerActive && isDrawerAvailable;
 
     const onToggleDrawer = useCallback(() => {
@@ -38,14 +37,8 @@ export const Component = () => {
                         <AppBar
                             position='fixed'
                             sx={{
-                                width: {
-                                    xs: '100%',
-                                    md: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
-                                },
-                                ml: {
-                                    xs: 0,
-                                    md: isDrawerAvailable ? DRAWER_WIDTH : 0
-                                }
+                                width: '100%',
+                                ml: 0
                             }}
                         >
                             <AppToolbar
