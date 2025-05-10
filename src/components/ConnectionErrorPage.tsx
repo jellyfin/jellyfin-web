@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { appHost } from 'components/apphost';
 import Page from 'components/Page';
+import { AppFeature } from 'constants/appFeature';
 import LinkButton from 'elements/emby-button/LinkButton';
 import globalize from 'lib/globalize';
 import { ConnectionState } from 'lib/jellyfin-apiclient';
@@ -50,7 +51,7 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                 {message && (
                     <p>{message}</p>
                 )}
-                {appHost.supports('multiserver') && (
+                {appHost.supports(AppFeature.MultiServer) && (
                     <LinkButton
                         className='raised'
                         href='/selectserver'
