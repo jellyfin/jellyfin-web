@@ -71,28 +71,27 @@ export default function (view, params, tabContent, options) {
 
         if (!userSettings.enableInfiniteScroll()) {
             window.scrollTo(0, 0);
-        }else{
-
-                hasMoreitems = true;
-                // Check if we need to load more items
-                if (result.Items.length >= query.Limit) {
-                    query.StartIndex += query.Limit;
-                } else if (query.NameStartsWith !== undefined) {
-                    // no more items with the alphaPicker/NameStartsWith selection.
-                    // increment ascii letter code and search with next letter
-                    const nextletter = String.fromCharCode(query.NameStartsWith.charCodeAt(0) + 1);
-                    // check if ascii code is smaler or equal to Z else disable loading more items
-                    if (nextletter.charCodeAt(0) <= 90) {
-                        query.NameStartsWith = nextletter;
-                        //reset start index for new letter
-                        query.StartIndex = 0;
-                    } else {
-                        hasMoreitems = false;
-                    }
+        } else {
+            hasMoreitems = true;
+            // Check if we need to load more items
+            if (result.Items.length >= query.Limit) {
+                query.StartIndex += query.Limit;
+            } else if (query.NameStartsWith !== undefined) {
+                // no more items with the alphaPicker/NameStartsWith selection.
+                // increment ascii letter code and search with next letter
+                const nextletter = String.fromCharCode(query.NameStartsWith.charCodeAt(0) + 1);
+                // check if ascii code is smaler or equal to Z else disable loading more items
+                if (nextletter.charCodeAt(0) <= 90) {
+                    query.NameStartsWith = nextletter;
+                    //reset start index for new letter
+                    query.StartIndex = 0;
                 } else {
-                    //if not searching with NameStartsWith set hasMoreitems false if no more items are found
                     hasMoreitems = false;
                 }
+            } else {
+                //if not searching with NameStartsWith set hasMoreitems false if no more items are found
+                hasMoreitems = false;
+            }
         }
         this.alphaPicker?.updateControls(query);
         const pagingHtml = libraryBrowser.getQueryPagingHtml({
@@ -136,9 +135,9 @@ export default function (view, params, tabContent, options) {
 
         if (userSettings.enableInfiniteScroll()) {
             const itemsContainer = tabContent.querySelector('.itemsContainer');
-            html= itemsContainer.innerHTML
+            html = itemsContainer.innerHTML;
         }else{
-            html=""
+            html = "";
         }
 
         if (viewStyle == 'Thumb') {

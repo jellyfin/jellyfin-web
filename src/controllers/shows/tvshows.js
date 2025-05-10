@@ -344,8 +344,6 @@ export default function (view, params, tabContent) {
                 }
             }, { signal: scrollController.signal });
         }
-
-    
     };
 
     initPage(tabContent);
