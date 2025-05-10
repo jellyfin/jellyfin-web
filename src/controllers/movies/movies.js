@@ -136,8 +136,8 @@ export default function (view, params, tabContent, options) {
         if (userSettings.enableInfiniteScroll()) {
             const itemsContainer = tabContent.querySelector('.itemsContainer');
             html = itemsContainer.innerHTML;
-        }else{
-            html = "";
+        } else {
+            html = '';
         }
 
         if (viewStyle == 'Thumb') {
@@ -311,18 +311,16 @@ export default function (view, params, tabContent, options) {
                 const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
                 const clientHeight = document.documentElement.clientHeight || window.innerHeight;
                 const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
-              
+
                 const isNearBottom = scrollPercentage >= 95;
 
                 // check if tabelement is active else dont run reloaditems
                 // console.log(scrollTop,scrollHeight,clientHeight,scrollPercentage)
                 if (isNearBottom && !isLoading && hasMoreitems && tabElement.classList.contains('is-active')) {
-                    itemsContainer.refreshItems()
+                    itemsContainer.refreshItems();
                 }
             }, { signal: scrollController.signal });
         }
-
-
 
         tabElement.querySelector('.btnShuffle')?.addEventListener('click', shuffle);
     };

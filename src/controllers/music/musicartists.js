@@ -272,11 +272,11 @@ export default function (view, params, tabContent, options) {
                 const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
                 const clientHeight = document.documentElement.clientHeight || window.innerHeight;
                 const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
-              
+
                 const isNearBottom = scrollPercentage >= 95;
 
                 // check if tabelement is active else dont run reloaditems
-                console.log(scrollTop,scrollHeight,clientHeight,scrollPercentage)
+                console.log(scrollTop, scrollHeight, clientHeight, scrollPercentage);
                 if (isNearBottom && !isLoading && hasMoreitems && tabElement.classList.contains('is-active')) {
                     reloadItems();
                 }

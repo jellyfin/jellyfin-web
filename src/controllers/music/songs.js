@@ -117,8 +117,6 @@ export default function (view, params, tabContent) {
                     elems[i].addEventListener('click', onPreviousPageClick);
                 }
             } else {
-
-
                 hasMoreitems = true;
                 // Check if we need to load more items
                 if (result.Items.length >= query.Limit) {
@@ -140,7 +138,6 @@ export default function (view, params, tabContent) {
                     hasMoreitems = false;
                 }
             }
-
 
             const itemsContainer = tabContent.querySelector('.itemsContainer');
             if (userSettings.enableInfiniteScroll()) {
@@ -168,8 +165,6 @@ export default function (view, params, tabContent) {
     let hasMoreitems = true;
     const scrollController = new AbortController();
     self.showFilterMenu = function () {
-    
-
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
@@ -240,7 +235,6 @@ export default function (view, params, tabContent) {
             });
         });
 
-
         if (userSettings.enableInfiniteScroll()) {
             document.addEventListener('viewshow', () => {
                 // Stop the scroll event listener on view change
@@ -252,7 +246,7 @@ export default function (view, params, tabContent) {
                 const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
                 const clientHeight = document.documentElement.clientHeight || window.innerHeight;
                 const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
-              
+
                 const isNearBottom = scrollPercentage >= 95;
 
                 // check if tabelement is active else dont run reloaditems
@@ -262,7 +256,6 @@ export default function (view, params, tabContent) {
                 }
             }, { signal: scrollController.signal });
         }
-
 
         tabElement.querySelector('.btnShuffle').addEventListener('click', shuffle);
     }

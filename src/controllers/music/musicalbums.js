@@ -53,7 +53,7 @@ export default function (view, params, tabContent) {
             pageData.query.ParentId = params.topParentId;
             userSettings.loadQuerySettings(key, pageData.query);
         }
-    
+
         return pageData;
     }
 
@@ -327,7 +327,7 @@ export default function (view, params, tabContent) {
                 const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
                 const clientHeight = document.documentElement.clientHeight || window.innerHeight;
                 const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
-              
+
                 const isNearBottom = scrollPercentage >= 95;
 
                 // check if tabelement is active else dont run reloaditems
