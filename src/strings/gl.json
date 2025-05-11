@@ -1034,5 +1034,17 @@
     "AlternateDVD": "DVD alternativo",
     "Anime": "Anime",
     "LabelThrottleDelaySeconds": "Acelerar despois",
-    "LabelThrottleDelaySecondsHelp": "Tempo en segundos despois do cal se limitará o transcodificador. Debe ser o suficientemente grande para que o cliente manteña un búfer saudable. Só funciona se a limitación está activada."
+    "LabelThrottleDelaySecondsHelp": "Tempo en segundos despois do cal se limitará o transcodificador. Debe ser o suficientemente grande para que o cliente manteña un búfer saudable. Só funciona se a limitación está activada.",
+    "DropShadow": "Sombra paralela",
+    "EnableBlurHash": "Activar marcadores de posición borrosos para as imaxes",
+    "CustomSubtitleStylingHelp": "O estilo dos subtítulos funcionará na maioría dos dispositivos, pero supón un custo adicional de rendemento.",
+    "EditLyrics": "Editar letra",
+    "Custom": "Personalizado",
+    "DisplayLoadError": "Produciuse un erro ao cargar os datos de configuración da pantalla.",
+    "DeleteServerConfirmation": "Estás seguro de que queres eliminar este servidor?",
+    "DisableVbrAudioEncodingHelp": "Impide que o servidor codifique audio con VBR para este cliente.",
+    "Depressed": "Deprimido",
+    "CustomSplashScreenSize": "As imaxes personalizadas deben ter unha relación de aspecto de 16x9 e un tamaño mínimo de 1920x1080.",
+    "DeleteCustomImage": "Eliminar imaxe personalizada",
+    "DateModified": "Data de modificación"
 }
