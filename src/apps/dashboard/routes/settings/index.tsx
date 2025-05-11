@@ -9,7 +9,6 @@ import { useLocalizationOptions } from 'apps/dashboard/features/settings/api/use
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
-import { useSystemInfo } from 'hooks/useSystemInfo';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -64,11 +63,6 @@ export const Component = () => {
         isPending: isLocalizationOptionsPending,
         isError: isLocalizationOptionsError
     } = useLocalizationOptions();
-    const {
-        data: systemInfo,
-        isPending: isSystemInfoPending,
-        isError: isSystemInfoError
-    } = useSystemInfo();
 
     const navigation = useNavigation();
     const actionData = useActionData() as ActionData | undefined;
@@ -120,13 +114,13 @@ export const Component = () => {
     }, [metadataPath]);
 
     useEffect(() => {
-        if (!isSystemInfoPending && !isSystemInfoError) {
-            setCachePath(systemInfo.CachePath);
-            setMetadataPath(systemInfo.InternalMetadataPath);
+        if (!isConfigPending && !isConfigError) {
+            setCachePath(config.CachePath);
+            setMetadataPath(config.MetadataPath);
         }
-    }, [systemInfo, isSystemInfoPending, isSystemInfoError]);
+    }, [config, isConfigPending, isConfigError]);
 
-    if (isConfigPending || isLocalizationOptionsPending || isSystemInfoPending) {
+    if (isConfigPending || isLocalizationOptionsPending) {
         return <Loading />;
     }
 
@@ -137,7 +131,7 @@ export const Component = () => {
             className='type-interior mainAnimatedPage'
         >
             <Box className='content-primary'>
-                {isConfigError || isLocalizationOptionsError || isSystemInfoError ? (
+                {isConfigError || isLocalizationOptionsError ? (
                     <Alert severity='error'>{globalize.translate('SettingsPageLoadError')}</Alert>
                 ) : (
                     <Form method='POST'>
@@ -154,7 +148,7 @@ export const Component = () => {
                                 name='ServerName'
                                 label={globalize.translate('LabelServerName')}
                                 helperText={globalize.translate('LabelServerNameHelp')}
-                                defaultValue={systemInfo.ServerName}
+                                defaultValue={config.ServerName}
                             />
 
                             <TextField

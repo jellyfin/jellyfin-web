@@ -2026,5 +2026,7 @@
     "LabelGroupShowsIntoCollections": "Grupează serialele în colecții",
     "LabelGroupShowsIntoCollectionsHelp": "Serialele dintr-o colecție vor fi afișate ca un singur element grupat în lista de seriale.",
     "LimitSegmentLengthHelp": "Activarea acestei opțiuni poate ajuta la prevenirea blocării playerului HLS în timpul căutării pe anumite dispozitive, cum ar fi televizoarele webOS.",
-    "LimitSegmentLength": "Utilizați segment HLS redus"
+    "LimitSegmentLength": "Utilizați segment HLS redus",
+    "HeaderServerUnavailable": "Server indisponibil",
+    "HeaderUpdateRequired": "Actualizare necesară"
 }

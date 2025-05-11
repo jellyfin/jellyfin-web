@@ -678,8 +678,8 @@
     "LabelServerHost": "Узел",
     "LabelServerHostHelp": "192.168.1.100:8096 или https://myserver.com",
     "LabelSimultaneousConnectionLimit": "Предел одновременных потоков",
-    "LabelSkipBackLength": "Время отмотки",
-    "LabelSkipForwardLength": "Время промотки",
+    "LabelSkipBackLength": "Время перемотки назад",
+    "LabelSkipForwardLength": "Время перемотки вперед",
     "LabelSkipIfAudioTrackPresent": "Пропустить, если аудиодорожка по умолчанию соответствует загружаемому языку",
     "LabelSkipIfAudioTrackPresentHelp": "Снять данный флажок, чтобы обеспечить наличие субтитров для всех видео, независимо от языка аудио.",
     "LabelSkipIfGraphicalSubsPresent": "Пропустить, если видео уже содержит внедрённые субтитры",
@@ -2025,6 +2025,8 @@
     "LabelGroupShowsIntoCollectionsHelp": "Сериалы в коллекции будут отображаться как один элемент при отображении списка сериалов.",
     "ReadInputAtNativeFramerate": "Вычитывать данные в исходной частоте кадров",
     "ReadInputAtNativeFramerateHelp": "Включение этой опции может исправить некоторые проблемы, например, остановку прямых трансляций.",
-    "LimitSegmentLength": "Используйте короткие HLS сегменты",
-    "LimitSegmentLengthHelp": "Включение этой опции может помочь предотвратить зависание HLS-плеера во время перемотки на некоторых устройствах, например, на телевизорах с webOS."
+    "LimitSegmentLength": "Использовать короткие HLS сегменты",
+    "LimitSegmentLengthHelp": "Включение этой опции может помочь предотвратить зависание HLS-плеера во время перемотки на некоторых устройствах, например, на телевизорах с webOS.",
+    "HeaderServerUnavailable": "Сервер недоступен",
+    "HeaderUpdateRequired": "Требуется обновление"
 }
