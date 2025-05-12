@@ -1,14 +1,15 @@
+import { ForgotPasswordAction } from '@jellyfin/sdk/lib/generated-client/models/forgot-password-action';
+import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
+import { useMutation } from '@tanstack/react-query';
 import React, { useCallback, useState } from 'react';
-import Page from 'components/Page';
 import { useNavigate } from 'react-router-dom';
-import globalize from 'lib/globalize';
+
+import alert from 'components/alert';
+import Page from 'components/Page';
 import Button from 'elements/emby-button/Button';
 import Input from 'elements/emby-input/Input';
-import { useMutation } from '@tanstack/react-query';
-import alert from 'components/alert';
-import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
-import { ForgotPasswordAction } from '@jellyfin/sdk/lib/generated-client/models/forgot-password-action';
-import ServerConnections from 'components/ServerConnections';
+import globalize from 'lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 
 export const ForgotPasswordPage = () => {
     const navigate = useNavigate();
