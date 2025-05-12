@@ -86,6 +86,18 @@ const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
                         }
                     </TableCell>
                 </TableRow>
+                <TableRow>
+                    <TableCell variant='head'>
+                        {globalize.translate('TargetABI')}
+                    </TableCell>
+                    <TableCell>
+                        {
+                            (isRepositoryLoading && <Skeleton />)
+                            || pluginDetails?.version?.targetAbi
+                            || globalize.translate('Unknown')
+                        }
+                    </TableCell>
+                </TableRow>
             </TableBody>
         </Table>
     </TableContainer>
