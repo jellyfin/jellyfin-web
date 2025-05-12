@@ -1739,5 +1739,6 @@
     "ImageUploadFailed": "تصویر بارگذاری نشد",
     "LabelEnableAudioVbr": "فعال‌کردن رمزگذاریِ وی‌بی‌آر(VBR)",
     "LabelChapterImageResolutionHelp": "وضوح تصویر عکس بخش. عوض کردن این هیچ اثری بر بخش‌هایی که تولیدشده‌اند نخواهد داشت.",
-    "Translator": "ترجمه‌گر"
+    "Translator": "ترجمه‌گر",
+    "ViewSettings": "مشاهدهٔ تنظیمات"
 }
