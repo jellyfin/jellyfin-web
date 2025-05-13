@@ -2021,5 +2021,8 @@
     "LimitSegmentLength": "Använd kortare HLS-segment",
     "LimitSegmentLengthHelp": "Aktiveringen av detta alternativ kan bidra till att förhindra att HLS-spelaren hänger sig vid spolning på vissa enheter, så som TV-apparater med webOS.",
     "ReadInputAtNativeFramerateHelp": "Aktivering av detta alternativ kan lösa vissa problem, t.ex. att direktsändningar stoppas i förtid.",
-    "ReadInputAtNativeFramerate": "Läs inmatning i ursprungling bildhastighet"
+    "ReadInputAtNativeFramerate": "Läs inmatning i ursprungling bildhastighet",
+    "ViewSettings": "Visa inställningar",
+    "HeaderServerUnavailable": "Server Otillgänglig",
+    "HeaderUpdateRequired": "Uppdatering Krävs"
 }

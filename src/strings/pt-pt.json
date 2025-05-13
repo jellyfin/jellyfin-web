@@ -646,7 +646,7 @@
     "HeaderAlbumArtists": "Artistas do álbum",
     "Movies": "Filmes",
     "Photos": "Fotografias",
-    "Playlists": "Listas de Reprodução",
+    "Playlists": "Playlists",
     "Shows": "Séries",
     "Songs": "Músicas",
     "Sync": "Sincronização",
@@ -2024,5 +2024,6 @@
     "LimitSegmentLengthHelp": "Ativar esta opção pode ajudar a evitar que o leitor HLS bloqueie durante a pesquisa em determinados dispositivos, como as TVs webOS.",
     "HeaderServerUnavailable": "Servidor indisponível",
     "HeaderUpdateRequired": "Atualização necessária",
-    "ViewSettings": "Ver definições"
+    "ViewSettings": "Ver definições",
+    "MessageForgotPasswordPinReset": "Introduz o PIN para concluir a redefinição da palavra-passe"
 }

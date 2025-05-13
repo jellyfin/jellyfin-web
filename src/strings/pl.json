@@ -2029,5 +2029,6 @@
     "LimitSegmentLengthHelp": "Włączenie tej opcji może pomóc zapobiec zawieszaniu się odtwarzacza HLS podczas wyszukiwania na niektórych urządzeniach, np. telewizorach z systemem webOS.",
     "HeaderUpdateRequired": "Wymagana aktualizacja",
     "HeaderServerUnavailable": "Serwer niedostępny",
-    "ViewSettings": "Zobacz ustawienia"
+    "ViewSettings": "Zobacz ustawienia",
+    "MessageForgotPasswordPinReset": "Wpisz tutaj kod PIN, aby zakończyć resetowanie hasła"
 }

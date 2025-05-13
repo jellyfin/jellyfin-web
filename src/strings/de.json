@@ -1078,7 +1078,7 @@
     "Vertical": "Vertikal",
     "ViewAlbum": "Album anzeigen",
     "ViewPlaybackInfo": "Abspielinfo ansehen",
-    "Watched": "Gesehen",
+    "Watched": "Bereits gesehen",
     "Wednesday": "Mittwoch",
     "WelcomeToProject": "Willkommen bei Jellyfin!",
     "WizardCompleted": "Das ist jetzt erst mal alles. Jellyfin sammelt nun Informationen über deine Medienbibliothek. Schau dir doch ein paar unserer Apps an und klicke dann auf <b>Fertig</b> um das <b>Dashboard</b> anzuzeigen.",
@@ -2029,5 +2029,6 @@
     "ReadInputAtNativeFramerate": "Eingabe mit nativer Framerate lesen",
     "HeaderUpdateRequired": "Update erforderlich",
     "HeaderServerUnavailable": "Server nicht verfügbar",
-    "ViewSettings": "Einstellungen anzeigen"
+    "ViewSettings": "Einstellungen anzeigen",
+    "MessageForgotPasswordPinReset": "Geben Sie hier die PIN ein, um das Zurücksetzen des Passworts abzuschließen"
 }
