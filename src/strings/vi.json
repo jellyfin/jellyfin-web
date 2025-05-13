@@ -2026,5 +2026,6 @@
     "LimitSegmentLength": "Sử dụng các phân đoạn HLS ngắn hơn",
     "HeaderServerUnavailable": "Máy Chủ Không Khả Dụng",
     "HeaderUpdateRequired": "Bắt Buộc Cập Nhập",
-    "ViewSettings": "Xem cài đặt"
+    "ViewSettings": "Xem cài đặt",
+    "MessageForgotPasswordPinReset": "Nhập PIN vào đây để hoàn thành đặt lại Mật Khẩu"
 }
