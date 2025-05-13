@@ -2022,5 +2022,6 @@
     "Retry": "Tentar novamente",
     "HeaderServerUnavailable": "Servidor indisponível",
     "HeaderUpdateRequired": "Atualização necessária",
-    "ViewSettings": "Ver definições"
+    "ViewSettings": "Ver definições",
+    "MessageForgotPasswordPinReset": "Introduz o PIN para concluir a redefinição da palavra-passe"
 }
