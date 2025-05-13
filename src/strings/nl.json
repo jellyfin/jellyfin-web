@@ -2028,5 +2028,6 @@
     "LimitSegmentLengthHelp": "Het inschakelen van deze optie kan helpen voorkomen dat de HLS-speler vastloopt tijdens terug- en vooruitspoelen op bepaalde apparaten, zoals webOS-tv's.",
     "HeaderUpdateRequired": "Bijwerken vereist",
     "HeaderServerUnavailable": "Server niet beschikbaar",
-    "MessageForgotPasswordPinReset": "Pincode hier invoeren om wachtwoordherstel te voltooien"
+    "MessageForgotPasswordPinReset": "Pincode hier invoeren om wachtwoordherstel te voltooien",
+    "DownloadManager": "Downloads"
 }
