@@ -98,6 +98,7 @@
 - [Jxiced](https://github.com/Jxiced)
 - [Derek Huber](https://github.com/Derek4aty1)
 - [StableCrimson](https://github.com/StableCrimson)
+- [diegoeche](https://github.com/diegoeche)
 
 ## Emby Contributors
 
