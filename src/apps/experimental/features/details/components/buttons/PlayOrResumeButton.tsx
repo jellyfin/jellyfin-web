@@ -12,12 +12,15 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import { ItemKind } from 'types/base/models/item-kind';
 import itemHelper from 'components/itemHelper';
 
+import './buttons.scss';
+
 interface PlayOrResumeButtonProps {
     item: ItemDto;
     isResumable?: boolean;
     selectedMediaSourceId?: string | null;
     selectedAudioTrack?: number;
     selectedSubtitleTrack?: number;
+    isReplay?: boolean;
 }
 
 const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
@@ -25,7 +28,8 @@ const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
     isResumable,
     selectedMediaSourceId,
     selectedAudioTrack,
-    selectedSubtitleTrack
+    selectedSubtitleTrack,
+    isReplay
 }) => {
     const apiContext = useApi();
     const queryClient = useQueryClient();
@@ -84,7 +88,7 @@ const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
             }
             onClick={onPlayClick}
         >
-            {isResumable ? <ReplayIcon /> : <PlayArrowIcon />}
+            {isReplay ? <ReplayIcon /> : <PlayArrowIcon />}
         </IconButton>
     );
 };

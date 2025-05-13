@@ -34,6 +34,9 @@ import { getPortraitShape, getSquareShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+import { attachReactElement } from 'controllers/itemDetails/reactUtils.tsx';
+import { MiscInfo } from 'controllers/itemDetails/MiscInfo/MiscInfo';
+import PlayOrResumeButton from 'apps/experimental/features/details/components/buttons/PlayOrResumeButton';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -338,11 +341,10 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnReplay', isResumable);
 
         for (const btnPlay of page.querySelectorAll('.btnPlay')) {
-            if (isResumable) {
-                btnPlay.title = globalize.translate('ButtonResume');
-            } else {
-                btnPlay.title = globalize.translate('Play');
-            }
+            attachReactElement(PlayOrResumeButton, {
+                item,
+                isResumable
+            }, btnPlay);
         }
     } else {
         hideAll(page, 'btnPlay');
@@ -1027,19 +1029,20 @@ function renderStudio(page, item, context) {
 
 function renderMiscInfo(page, item) {
     const primaryItemMiscInfo = page.querySelectorAll('.itemMiscInfo-primary');
+    const options = {
+        interactive: true,
+        episodeTitle: false,
+        subtitles: false
+    };
 
     for (const miscInfo of primaryItemMiscInfo) {
-        mediaInfo.fillPrimaryMediaInfo(miscInfo, item, {
-            interactive: true,
-            episodeTitle: false,
-            subtitles: false
-        });
-
-        if (miscInfo.innerHTML && item.Type !== 'SeriesTimer') {
-            miscInfo.classList.remove('hide');
-        } else {
-            miscInfo.classList.add('hide');
-        }
+        attachReactElement(MiscInfo, { item, options }, miscInfo);
+        //TODO move this logic into the React component
+        // if (miscInfo.innerHTML && item.Type !== 'SeriesTimer') {
+        //     miscInfo.classList.remove('hide');
+        // } else {
+        //     miscInfo.classList.add('hide');
+        // }
     }
 
     const secondaryItemMiscInfo = page.querySelectorAll('.itemMiscInfo-secondary');
