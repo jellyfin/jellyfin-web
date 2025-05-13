@@ -105,12 +105,11 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
             </MenuItem>
 
             {(appHost.supports(AppFeature.DownloadManagement) || appHost.supports(AppFeature.ClientSettings)) && (
-                <Divider key='app-feature-divider' />
+                <Divider />
             )}
 
             {appHost.supports(AppFeature.DownloadManagement) && (
                 <MenuItem
-                    key='download-manager-button'
                     onClick={onDownloadManagerClick}
                 >
                     <ListItemIcon>
@@ -124,7 +123,6 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
 
             {appHost.supports(AppFeature.ClientSettings) && (
                 <MenuItem
-                    key='client-settings-button'
                     onClick={onClientSettingsClick}
                 >
                     <ListItemIcon>
