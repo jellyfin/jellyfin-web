@@ -99,6 +99,7 @@
 - [Derek Huber](https://github.com/Derek4aty1)
 - [StableCrimson](https://github.com/StableCrimson)
 - [Faris Mektem](https://github.com/mektem)
+- [diegoeche](https://github.com/diegoeche)
 
 ## Emby Contributors
 

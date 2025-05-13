@@ -1267,7 +1267,7 @@
     "AlbumArtist": "Albumartist",
     "LabelLibraryPageSize": "Bibliotekets sidstorlek",
     "LabelDeinterlaceMethod": "Deinterlacing-metod",
-    "WeeklyAt": "{0}s vid {1}",
+    "WeeklyAt": "{0}ar vid {1}",
     "LastSeen": "Senast aktivitet {0}",
     "Yadif": "Ännu en Deinterlacing-filter (YADIF)",
     "Filter": "Filter",
@@ -1320,7 +1320,7 @@
     "ButtonCast": "Sänd till enhet",
     "EnableBlurHashHelp": "Bilder som fortfarande laddas kommer visas med en unik platshållare.",
     "EnableBlurHash": "Aktivera suddiga platshållare för bilder",
-    "Writers": "Skribenter",
+    "Writers": "Manusförfattare",
     "ViewAlbumArtist": "Visa albumets artist",
     "TabRepositories": "Förvaringsplatser",
     "SyncPlayAccessHelp": "SyncPlay-funktionen aktiveras för att synkronisera uppspelning med andra enheter. Välj behörighetsnivån som denna användare har för denna funktion.",
@@ -2021,5 +2021,8 @@
     "LimitSegmentLength": "Använd kortare HLS-segment",
     "LimitSegmentLengthHelp": "Aktiveringen av detta alternativ kan bidra till att förhindra att HLS-spelaren hänger sig vid spolning på vissa enheter, så som TV-apparater med webOS.",
     "ReadInputAtNativeFramerateHelp": "Aktivering av detta alternativ kan lösa vissa problem, t.ex. att direktsändningar stoppas i förtid.",
-    "ReadInputAtNativeFramerate": "Läs inmatning i ursprungling bildhastighet"
+    "ReadInputAtNativeFramerate": "Läs inmatning i ursprungling bildhastighet",
+    "ViewSettings": "Visa inställningar",
+    "HeaderServerUnavailable": "Server Otillgänglig",
+    "HeaderUpdateRequired": "Uppdatering Krävs"
 }

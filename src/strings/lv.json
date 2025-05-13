@@ -1954,5 +1954,8 @@
     "ImageDeleteFailed": "Attēla dzēšana neizdevās",
     "ImageUploadFailed": "Attēla augšupielāde neizdevās",
     "LimitSegmentLength": "Lietot īsākus HLS segmentus",
-    "LimitSegmentLengthHelp": "Iespējojot šo opciju HLS atskaņošana varbūtēji novērsīs iekāršanos meklēšanas operāciju laikā noteiktās ierīcēs, piemēram WebOS televizoros."
+    "LimitSegmentLengthHelp": "Iespējojot šo opciju HLS atskaņošana varbūtēji novērsīs iekāršanos meklēšanas operāciju laikā noteiktās ierīcēs, piemēram WebOS televizoros.",
+    "HeaderServerUnavailable": "Serveris nav pieejams",
+    "HeaderUpdateRequired": "Nepieciešams atjauninājums",
+    "ViewSettings": "Apskatīt uzstādījumus"
 }

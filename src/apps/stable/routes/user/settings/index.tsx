@@ -186,6 +186,27 @@ const UserSettingsPage: FC = () => {
                             </div>
                         </LinkButton>
 
+                        {appHost.supports(AppFeature.DownloadManagement) && (
+                            <LinkButton
+                                onClick={shell.openDownloadManager}
+                                className='downloadManager listItem-border'
+                                style={{
+                                    display: 'block',
+                                    margin: 0,
+                                    padding: 0
+                                }}
+                            >
+                                <div className='listItem'>
+                                    <span className='material-icons listItemIcon listItemIcon-transparent download' aria-hidden='true' />
+                                    <div className='listItemBody'>
+                                        <div className='listItemBodyText'>
+                                            {globalize.translate('DownloadManager')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </LinkButton>
+                        )}
+
                         {appHost.supports(AppFeature.ClientSettings) && (
                             <LinkButton
                                 onClick={shell.openClientSettings}
