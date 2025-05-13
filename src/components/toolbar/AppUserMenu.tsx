@@ -2,6 +2,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import AppSettingsAlt from '@mui/icons-material/AppSettingsAlt';
 import Close from '@mui/icons-material/Close';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import Download from '@mui/icons-material/Download';
 import Edit from '@mui/icons-material/Edit';
 import Logout from '@mui/icons-material/Logout';
 import PhonelinkLock from '@mui/icons-material/PhonelinkLock';
@@ -36,6 +37,11 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
 }) => {
     const { user } = useApi();
     const { data: isQuickConnectEnabled } = useQuickConnectEnabled();
+
+    const onDownloadManagerClick = useCallback(() => {
+        shell.openDownloadManager();
+        onMenuClose();
+    }, [ onMenuClose ]);
 
     const onClientSettingsClick = useCallback(() => {
         shell.openClientSettings();
@@ -98,10 +104,25 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </ListItemText>
             </MenuItem>
 
-            {appHost.supports(AppFeature.ClientSettings) && ([
-                <Divider key='client-settings-divider' />,
+            {(appHost.supports(AppFeature.DownloadManagement) || appHost.supports(AppFeature.ClientSettings)) && (
+                <Divider />
+            )}
+
+            {appHost.supports(AppFeature.DownloadManagement) && (
                 <MenuItem
-                    key='client-settings-button'
+                    onClick={onDownloadManagerClick}
+                >
+                    <ListItemIcon>
+                        <Download />
+                    </ListItemIcon>
+                    <ListItemText>
+                        {globalize.translate('DownloadManager')}
+                    </ListItemText>
+                </MenuItem>
+            )}
+
+            {appHost.supports(AppFeature.ClientSettings) && (
+                <MenuItem
                     onClick={onClientSettingsClick}
                 >
                     <ListItemIcon>
@@ -111,7 +132,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                         {globalize.translate('ClientSettings')}
                     </ListItemText>
                 </MenuItem>
-            ])}
+            )}
 
             {/* ADMIN LINKS */}
             {user?.Policy?.IsAdministrator && ([
