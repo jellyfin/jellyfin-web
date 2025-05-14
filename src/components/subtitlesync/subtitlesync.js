@@ -31,6 +31,10 @@ class OffsetController {
 
     set currentOffset(value) {
         this.slider.value = value.toString();
+
+        // rely on slider value trimming
+        value = this.currentOffset;
+
         playbackManager.setSubtitleOffset(value, this.player);
         this.textField.updateOffset(value);
     }
