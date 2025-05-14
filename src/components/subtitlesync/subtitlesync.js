@@ -74,7 +74,7 @@ class OffsetController {
                     inputOffset = parseFloat(inputOffset[0]);
                     this.currentOffset = inputOffset;
                 } else {
-                    textField.textContent = (playbackManager.getPlayerSubtitleOffset(this.player) || 0) + 's';
+                    textField.updateOffset(playbackManager.getPlayerSubtitleOffset(this.player) || 0);
                 }
                 textField.hasFocus = false;
                 event.preventDefault();
