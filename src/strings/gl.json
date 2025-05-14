@@ -1046,5 +1046,6 @@
     "Depressed": "Deprimido",
     "CustomSplashScreenSize": "As imaxes personalizadas deben ter unha relación de aspecto de 16x9 e un tamaño mínimo de 1920x1080.",
     "DeleteCustomImage": "Eliminar imaxe personalizada",
-    "DateModified": "Data de modificación"
+    "DateModified": "Data de modificación",
+    "HeaderLatestRecordings": "Gravacións recentemente engadidas"
 }
