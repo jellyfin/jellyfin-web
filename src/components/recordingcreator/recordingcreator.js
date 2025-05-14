@@ -1,5 +1,6 @@
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import layoutManager from '../layoutManager';
 import mediaInfo from '../mediainfo/mediainfo';
 import loading from '../loading/loading';
@@ -8,6 +9,7 @@ import datetime from '../../scripts/datetime';
 import imageLoader from '../images/imageLoader';
 import RecordingFields from './recordingfields';
 import Events from '../../utils/events.ts';
+
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -16,7 +18,6 @@ import '../../elements/emby-input/emby-input';
 import '../formdialog.scss';
 import './recordingcreator.scss';
 import 'material-design-icons-iconfont';
-import ServerConnections from '../ServerConnections';
 import { playbackManager } from '../playback/playbackmanager';
 import template from './recordingcreator.template.html';
 

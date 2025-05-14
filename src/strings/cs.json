@@ -955,7 +955,7 @@
     "Tags": "Tagy",
     "TellUsAboutYourself": "Řekněte nám něco o sobě",
     "TheseSettingsAffectSubtitlesOnThisDevice": "Tato nastavení ovlivní titulky na tomto zařízení",
-    "ThisWizardWillGuideYou": "Tento průvodce Vám pomůže projít procesem nastavení. Pro začátek vyberte jazyk.",
+    "ThisWizardWillGuideYou": "Tento průvodce Vám pomůže projít procesem nastavení. Pro začátek zadejte název serveru a vyberte preferovaný jazyk.",
     "Thumb": "Náhled",
     "Thursday": "Čtvrtek",
     "TitleHardwareAcceleration": "Hardwarová akcelerace",
@@ -2024,5 +2024,12 @@
     "ImageUploadFailed": "Nahrávání obrázku se nezdařilo",
     "UploadCustomImage": "Nahrát vlastní obrázek",
     "ReadInputAtNativeFramerate": "Nativní snímková frekvence při načítání vstupu",
-    "ReadInputAtNativeFramerateHelp": "Zapnutí této možnosti může pomoct s některými problémy, např. s livestreamy, které se nečekaně ukončují."
+    "ReadInputAtNativeFramerateHelp": "Zapnutí této možnosti může pomoct s některými problémy, např. s livestreamy, které se nečekaně ukončují.",
+    "LimitSegmentLength": "Použít kratší segmenty HLS",
+    "LimitSegmentLengthHelp": "Povolení této možnosti může pomoci v zamezení zasekávání přehrávače HSL během posouvání na určitých zařízeních, například televizích s webOS.",
+    "HeaderServerUnavailable": "Server není dostupný",
+    "HeaderUpdateRequired": "Je nutná aktualizace",
+    "ViewSettings": "Zobrazit nastavení",
+    "DownloadManager": "Stažené",
+    "MessageForgotPasswordPinReset": "Zadáním PINu dokončete obnovení hesla"
 }

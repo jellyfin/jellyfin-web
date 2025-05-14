@@ -6,6 +6,7 @@ import { appHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
+import { AppFeature } from 'constants/appFeature';
 import LinkButton from 'elements/emby-button/LinkButton';
 import { useApi } from 'hooks/useApi';
 import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
@@ -185,7 +186,28 @@ const UserSettingsPage: FC = () => {
                             </div>
                         </LinkButton>
 
-                        {appHost.supports('clientsettings') && (
+                        {appHost.supports(AppFeature.DownloadManagement) && (
+                            <LinkButton
+                                onClick={shell.openDownloadManager}
+                                className='downloadManager listItem-border'
+                                style={{
+                                    display: 'block',
+                                    margin: 0,
+                                    padding: 0
+                                }}
+                            >
+                                <div className='listItem'>
+                                    <span className='material-icons listItemIcon listItemIcon-transparent download' aria-hidden='true' />
+                                    <div className='listItemBody'>
+                                        <div className='listItemBodyText'>
+                                            {globalize.translate('DownloadManager')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </LinkButton>
+                        )}
+
+                        {appHost.supports(AppFeature.ClientSettings) && (
                             <LinkButton
                                 onClick={shell.openClientSettings}
                                 className='clientSettings listItem-border'
@@ -290,7 +312,7 @@ const UserSettingsPage: FC = () => {
                                 {globalize.translate('HeaderUser')}
                             </h2>
 
-                            {appHost.supports('multiserver') && (
+                            {appHost.supports(AppFeature.MultiServer) && (
                                 <LinkButton
                                     onClick={Dashboard.selectServer}
                                     className='selectServer listItem-border'
@@ -330,7 +352,7 @@ const UserSettingsPage: FC = () => {
                                 </div>
                             </LinkButton>
 
-                            {appHost.supports('exitmenu') && (
+                            {appHost.supports(AppFeature.ExitMenu) && (
                                 <LinkButton
                                     onClick={appHost.exit}
                                     className='exitApp listItem-border'

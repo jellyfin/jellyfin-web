@@ -17,12 +17,12 @@ import imageHelper from 'utils/image';
 import indicators from 'components/indicators/indicators';
 import taskButton from 'scripts/taskbutton';
 import Dashboard from 'utils/dashboard';
-import ServerConnections from 'components/ServerConnections';
 import alert from 'components/alert';
 import confirm from 'components/confirm/confirm';
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 
 import { getSystemInfoQuery } from 'hooks/useSystemInfo';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 

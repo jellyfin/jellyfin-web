@@ -1,5 +1,5 @@
 import loading from 'components/loading/loading';
-import ServerConnections from 'components/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 function onFinish() {
     loading.show();
@@ -9,7 +9,7 @@ function onFinish() {
         type: 'POST'
     }).then(function () {
         loading.hide();
-        window.location.href = 'index.html';
+        window.location.href = '';
     });
 }
 

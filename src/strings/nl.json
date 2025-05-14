@@ -1036,7 +1036,7 @@
     "ThemeSongs": "Themamuziek",
     "ThemeVideos": "Themavideo's",
     "TheseSettingsAffectSubtitlesOnThisDevice": "Deze instellingen betreffen ondertiteling op dit apparaat",
-    "ThisWizardWillGuideYou": "Deze helper helpt je door het opzetproces heen. Om te beginnen selecteer je eerst de gewenste taal.",
+    "ThisWizardWillGuideYou": "Deze wizard helpt je stap voor stap bij het instellen. Voer om te beginnen een servernaam in en kies je voorkeurstaal.",
     "Thumb": "Miniatuur",
     "Thursday": "Donderdag",
     "TitleHardwareAcceleration": "Hardwareversnelling",
@@ -1088,7 +1088,7 @@
     "Yesterday": "Gisteren",
     "Albums": "Albums",
     "Banner": "Banner",
-    "Blacklist": "Zwarte lijst",
+    "Blacklist": "Blokkeerlijst",
     "Box": "Hoes",
     "ButtonInfo": "Info",
     "ButtonOk": "Ok",
@@ -2023,5 +2023,11 @@
     "DeleteCustomImage": "Aangepaste afbeelding verwijderen",
     "UploadCustomImage": "Aangepaste afbeelding uploaden",
     "ReadInputAtNativeFramerate": "Invoer lezen op oorspronkelijke verversingssnelheid",
-    "ReadInputAtNativeFramerateHelp": "Het inschakelen van deze optie kan bepaalde problemen oplossen, zoals het voortijdig stoppen van livestreams."
+    "ReadInputAtNativeFramerateHelp": "Het inschakelen van deze optie kan bepaalde problemen oplossen, zoals het voortijdig stoppen van livestreams.",
+    "LimitSegmentLength": "Kortere HLS-segmenten gebruiken",
+    "LimitSegmentLengthHelp": "Het inschakelen van deze optie kan helpen voorkomen dat de HLS-speler vastloopt tijdens terug- en vooruitspoelen op bepaalde apparaten, zoals webOS-tv's.",
+    "HeaderUpdateRequired": "Bijwerken vereist",
+    "HeaderServerUnavailable": "Server niet beschikbaar",
+    "MessageForgotPasswordPinReset": "Pincode hier invoeren om wachtwoordherstel te voltooien",
+    "DownloadManager": "Downloads"
 }

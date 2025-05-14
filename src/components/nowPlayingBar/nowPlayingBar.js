@@ -1,6 +1,8 @@
 import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { appRouter, isLyricsPage } from 'components/router/appRouter';
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';
@@ -14,7 +16,6 @@ import globalize from 'lib/globalize';
 import itemContextMenu from '../itemContextMenu';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
-import ServerConnections from '../ServerConnections';
 import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
@@ -244,7 +245,7 @@ function bindEvents(elem) {
 
     toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
 
-    volumeSliderContainer.classList.toggle('hide', appHost.supports('physicalvolumecontrol'));
+    volumeSliderContainer.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
 
     volumeSlider.addEventListener('input', (e) => {
         if (currentPlayer) {
@@ -441,7 +442,7 @@ function updatePlayerVolumeState(isMuted, volumeLevel) {
         showVolumeSlider = false;
     }
 
-    if (currentPlayer.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
+    if (currentPlayer.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
         showMuteButton = false;
         showVolumeSlider = false;
     }
