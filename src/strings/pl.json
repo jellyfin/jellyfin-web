@@ -2030,5 +2030,6 @@
     "HeaderUpdateRequired": "Wymagana aktualizacja",
     "HeaderServerUnavailable": "Serwer niedostępny",
     "ViewSettings": "Zobacz ustawienia",
-    "MessageForgotPasswordPinReset": "Wpisz tutaj kod PIN, aby zakończyć resetowanie hasła"
+    "MessageForgotPasswordPinReset": "Wpisz tutaj kod PIN, aby zakończyć resetowanie hasła",
+    "DownloadManager": "Pobrane"
 }
