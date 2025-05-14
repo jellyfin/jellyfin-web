@@ -2025,5 +2025,6 @@
     "HeaderServerUnavailable": "Servidor indisponível",
     "HeaderUpdateRequired": "Atualização necessária",
     "ViewSettings": "Ver definições",
-    "MessageForgotPasswordPinReset": "Introduz o PIN para concluir a redefinição da palavra-passe"
+    "MessageForgotPasswordPinReset": "Introduz o PIN para concluir a redefinição da palavra-passe",
+    "DownloadManager": "Transferências"
 }
