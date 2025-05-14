@@ -2028,5 +2028,6 @@
     "LabelGroupShowsIntoCollections": "Zoskupiť seriály do kolekcií",
     "LabelGroupShowsIntoCollectionsHelp": "Seriály v kolekcii budú zobrazené ako jedna zoskupená položka v zozname seriálov.",
     "HeaderServerUnavailable": "Server nie je dostupný",
-    "HeaderUpdateRequired": "Vyžaduje sa aktualizácia"
+    "HeaderUpdateRequired": "Vyžaduje sa aktualizácia",
+    "DownloadManager": "Stiahnuté"
 }
