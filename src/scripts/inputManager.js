@@ -1,8 +1,9 @@
-import { playbackManager } from '../components/playback/playbackmanager';
-import focusManager from '../components/focusManager';
-import { appRouter } from '../components/router/appRouter';
-import dom from './dom';
-import { appHost } from '../components/apphost';
+import { appHost } from 'components/apphost';
+import focusManager from 'components/focusManager';
+import { playbackManager } from 'components/playback/playbackmanager';
+import { appRouter } from 'components/router/appRouter';
+import { AppFeature } from 'constants/appFeature';
+import dom from 'scripts/dom';
 
 let lastInputTime = new Date().getTime();
 
@@ -111,7 +112,7 @@ export function handleCommand(commandName, options) {
         'back': () => {
             if (appRouter.canGoBack()) {
                 appRouter.back();
-            } else if (appHost.supports('exit')) {
+            } else if (appHost.supports(AppFeature.Exit)) {
                 appHost.exit();
             }
         },

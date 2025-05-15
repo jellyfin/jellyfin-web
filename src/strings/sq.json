@@ -584,5 +584,7 @@
     "HeaderSyncPlaySelectGroup": "Bashkohuni një grupi",
     "DirectStreamHelp2": "Energjia e konsumuar nga transmetimi i drejtpërdrejtë zakonisht varet nga profili i audios. Vetëm transmetimi i videove është pa humbje.",
     "EnableDetailsBannerHelp": "Shfaqni një imazh baneri në krye të faqes së artikullit.",
-    "AirPlay": "AirPlay"
+    "AirPlay": "AirPlay",
+    "AllowContentWithTagsHelp": "Shfaq vetëm median që ka të paktën një nga etiketat e specifikuara.",
+    "AllowSubtitleManagement": "Lejoje këtë përdorues të redaktojë titrat"
 }

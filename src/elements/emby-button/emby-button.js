@@ -1,9 +1,12 @@
 import 'webcomponents.js/webcomponents-lite';
-import { removeEventListener, addEventListener } from '../../scripts/dom';
-import layoutManager from '../../components/layoutManager';
-import shell from '../../scripts/shell';
-import { appRouter } from '../../components/router/appRouter';
-import { appHost } from '../../components/apphost';
+
+import { appHost } from 'components/apphost';
+import layoutManager from 'components/layoutManager';
+import { appRouter } from 'components/router/appRouter';
+import { AppFeature } from 'constants/appFeature';
+import { removeEventListener, addEventListener } from 'scripts/dom';
+import shell from 'scripts/shell';
+
 import './emby-button.scss';
 
 const EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
@@ -13,7 +16,7 @@ function onAnchorClick(e) {
     const href = this.getAttribute('href') || '';
     if (href !== '#') {
         if (this.getAttribute('target')) {
-            if (!appHost.supports('targetblank')) {
+            if (!appHost.supports(AppFeature.TargetBlank)) {
                 e.preventDefault();
                 shell.openUrl(href);
             }
@@ -46,7 +49,7 @@ EmbyButtonPrototype.attachedCallback = function () {
         addEventListener(this, 'click', onAnchorClick, {});
 
         if (this.getAttribute('data-autohide') === 'true') {
-            if (appHost.supports('externallinks')) {
+            if (appHost.supports(AppFeature.ExternalLinks)) {
                 this.classList.remove('hide');
             } else {
                 this.classList.add('hide');

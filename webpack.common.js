@@ -125,6 +125,9 @@ const config = {
         ),
         chunkFilename: '[name].[contenthash].chunk.js',
         assetModuleFilename: pathData => {
+            if (pathData.filename === 'manifest.json') {
+                return '[base]';
+            }
             if (pathData.filename.startsWith('assets/') || pathData.filename.startsWith('themes/')) {
                 return '[path][base][query]';
             }

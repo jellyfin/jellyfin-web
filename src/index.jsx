@@ -5,13 +5,14 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 // NOTE: We need to import this first to initialize the connection
-import ServerConnections from './components/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import { appHost } from './components/apphost';
 import autoFocuser from './components/autoFocuser';
 import loading from 'components/loading/loading';
 import { pluginManager } from './components/pluginManager';
 import { appRouter } from './components/router/appRouter';
+import { AppFeature } from 'constants/appFeature';
 import globalize from './lib/globalize';
 import { loadCoreDictionary } from 'lib/globalize/loader';
 import { initialize as initializeAutoCast } from 'scripts/autocast';
@@ -23,7 +24,6 @@ import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
 
 import RootApp from './RootApp';
-import { history } from 'RootAppRouter';
 
 // Import the button webcomponent for use throughout the site
 // NOTE: This is a bit of a hack, files should ensure the component is imported before use
@@ -137,7 +137,7 @@ async function loadPlugins() {
     console.dir(pluginManager);
 
     let list = await getPlugins();
-    if (!appHost.supports('remotecontrol')) {
+    if (!appHost.supports(AppFeature.RemoteControl)) {
         // Disable remote player plugins if not supported
         list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
             && !plugin.startsWith('chromecastPlayer'));
@@ -166,12 +166,12 @@ function loadPlatformFeatures() {
         import('./components/nowPlayingBar/nowPlayingBar');
     }
 
-    if (appHost.supports('remotecontrol')) {
+    if (appHost.supports(AppFeature.RemoteControl)) {
         import('./components/playback/playerSelectionMenu');
         import('./components/playback/remotecontrolautoplay');
     }
 
-    if (!appHost.supports('physicalvolumecontrol') || browser.touch) {
+    if (!appHost.supports(AppFeature.PhysicalVolumeControl) || browser.touch) {
         import('./components/playback/volumeosd');
     }
 
@@ -206,7 +206,7 @@ async function renderApp() {
 
     const root = createRoot(container);
     root.render(
-        <RootApp history={history} />
+        <RootApp />
     );
 }
 

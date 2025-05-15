@@ -3,9 +3,9 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import type { ApiClient, Event } from 'jellyfin-apiclient';
 import React, { type FC, type PropsWithChildren, createContext, useContext, useEffect, useMemo, useState } from 'react';
 
-import ServerConnections from '../components/ServerConnections';
-import events from '../utils/events';
-import { toApi } from '../utils/jellyfin-apiclient/compat';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import events from 'utils/events';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 export interface JellyfinApiContext {
     __legacyApiClient__?: ApiClient

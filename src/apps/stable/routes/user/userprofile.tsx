@@ -12,6 +12,7 @@ import UserPasswordForm from '../../../../components/dashboard/users/UserPasswor
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import Page from '../../../../components/Page';
+import { AppFeature } from 'constants/appFeature';
 
 const UserProfile: FunctionComponent = () => {
     const [ searchParams ] = useSearchParams();
@@ -61,7 +62,7 @@ const UserProfile: FunctionComponent = () => {
                 if (user.PrimaryImageTag) {
                     (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.add('hide');
                     (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.remove('hide');
-                } else if (appHost.supports('fileinput') && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
+                } else if (appHost.supports(AppFeature.FileInput) && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
                     (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.add('hide');
                     (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.remove('hide');
                 }

@@ -2,12 +2,10 @@ import React, { FunctionComponent, useCallback, useEffect, useState } from 'reac
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { ApiClient, ConnectResponse } from 'jellyfin-apiclient';
 
-import globalize from 'lib/globalize';
-import { ConnectionState } from 'utils/jellyfin-apiclient/ConnectionState';
+import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 
-import alert from './alert';
+import ConnectionErrorPage from './ConnectionErrorPage';
 import Loading from './loading/LoadingComponent';
-import ServerConnections from './ServerConnections';
 
 enum AccessLevel {
     /** Requires a user with administrator access */
@@ -57,7 +55,15 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [ errorState, setErrorState ] = useState<ConnectionState>();
     const [ isLoading, setIsLoading ] = useState(true);
+
+    const navigateIfNotThere = useCallback((route: BounceRoutes) => {
+        // If we try to navigate to the current route, just set isLoading = false
+        if (location.pathname === route) setIsLoading(false);
+        // Otherwise navigate to the route
+        else navigate(route);
+    }, [ location.pathname, navigate ]);
 
     const bounce = useCallback(async (connectionResponse: ConnectResponse) => {
         switch (connectionResponse.State) {
@@ -78,31 +84,14 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                 return;
             case ConnectionState.ServerSelection:
                 // Bounce to select server page
-                if (location.pathname === BounceRoutes.SelectServer) {
-                    setIsLoading(false);
-                } else {
-                    console.debug('[ConnectionRequired] redirecting to select server page');
-                    navigate(BounceRoutes.SelectServer);
-                }
-                return;
-            case ConnectionState.ServerUpdateNeeded:
-                // Show update needed message and bounce to select server page
-                try {
-                    await alert({
-                        text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
-                        html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
-                    });
-                } catch (ex) {
-                    console.warn('[ConnectionRequired] failed to show alert', ex);
-                }
-                console.debug('[ConnectionRequired] server update required, redirecting to select server page');
-                navigate(BounceRoutes.SelectServer);
+                console.debug('[ConnectionRequired] redirecting to select server page');
+                navigateIfNotThere(BounceRoutes.SelectServer);
                 return;
         }
 
         console.warn('[ConnectionRequired] unhandled connection state', connectionResponse.State);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location.pathname, navigate]);
+    }, [ navigateIfNotThere, location.pathname, navigate ]);
 
     const handleWizard = useCallback(async (firstConnection: ConnectResponse | null) => {
         const apiClient = firstConnection?.ApiClient || ServerConnections.currentApiClient();
@@ -195,7 +184,9 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
             console.debug('[ConnectionRequired] connection state', firstConnection?.State);
             ServerConnections.firstConnection = true;
 
-            if (level === AccessLevel.Wizard) {
+            if ([ ConnectionState.ServerUpdateNeeded, ConnectionState.Unavailable ].includes(firstConnection?.State)) {
+                setErrorState(firstConnection.State);
+            } else if (level === AccessLevel.Wizard) {
                 handleWizard(firstConnection)
                     .catch(err => {
                         console.error('[ConnectionRequired] could not validate wizard status', err);
@@ -217,6 +208,10 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
             console.error('[ConnectionRequired] failed to connect', err);
         });
     }, [handleIncompleteWizard, handleWizard, level, validateUserAccess]);
+
+    if (errorState) {
+        return <ConnectionErrorPage state={errorState} />;
+    }
 
     if (isLoading) {
         return <Loading />;

@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import React, { Fragment } from 'react';
 
 import { appHost } from 'components/apphost';
+import { AppFeature } from 'constants/appFeature';
 import { useApi } from 'hooks/useApi';
 import { useThemes } from 'hooks/useThemes';
 import globalize from 'lib/globalize';
@@ -32,7 +33,7 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
         <Stack spacing={3}>
             <Typography variant='h2'>{globalize.translate('Display')}</Typography>
 
-            { appHost.supports('displaymode') && (
+            { appHost.supports(AppFeature.DisplayMode) && (
                 <FormControl fullWidth>
                     <InputLabel id='display-settings-layout-label'>{globalize.translate('LabelDisplayMode')}</InputLabel>
                     <Select
@@ -124,7 +125,7 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                 </FormControl>
             ) }
 
-            { screensavers.length > 0 && appHost.supports('screensaver') && (
+            { screensavers.length > 0 && appHost.supports(AppFeature.Screensaver) && (
                 <Fragment>
                     <FormControl fullWidth>
                         <InputLabel id='display-settings-screensaver-label'>{globalize.translate('LabelScreensaver')}</InputLabel>

@@ -1,15 +1,16 @@
 // NOTE: This is used for jsdoc return type
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Api } from '@jellyfin/sdk';
-import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
-import { ConnectionManager, Credentials, ApiClient } from 'jellyfin-apiclient';
+import { Credentials, ApiClient } from 'jellyfin-apiclient';
 
-import { appHost } from './apphost';
-import Dashboard from '../utils/dashboard';
-import Events from '../utils/events.ts';
-import { setUserInfo } from '../scripts/settings/userSettings';
-import appSettings from '../scripts/settings/appSettings';
+import { appHost } from 'components/apphost';
+import appSettings from 'scripts/settings/appSettings';
+import { setUserInfo } from 'scripts/settings/userSettings';
+import Dashboard from 'utils/dashboard';
+import Events from 'utils/events.ts';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+
+import ConnectionManager from './connectionManager';
 
 const normalizeImageOptions = options => {
     if (!options.quality && (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight)) {
@@ -36,9 +37,6 @@ class ServerConnections extends ConnectionManager {
         super(...arguments);
         this.localApiClient = null;
         this.firstConnection = null;
-
-        // Set the apiclient minimum version to match the SDK
-        this._minServerVersion = MINIMUM_VERSION;
 
         Events.on(this, 'localusersignedout', (_e, logoutInfo) => {
             setUserInfo(null, null);

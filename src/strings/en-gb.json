@@ -398,7 +398,7 @@
     "TitleHostingSettings": "Hosting Settings",
     "TitleHardwareAcceleration": "Hardware Acceleration",
     "Thursday": "Thursday",
-    "ThisWizardWillGuideYou": "This wizard will help guide you through the setup process. To begin, please select your preferred language.",
+    "ThisWizardWillGuideYou": "This wizard will help guide you through the setup process. To begin, please enter a server name and select your preferred language.",
     "TheseSettingsAffectSubtitlesOnThisDevice": "These settings affect subtitles on this device",
     "TabServer": "Server",
     "TabScheduledTasks": "Scheduled Tasks",
@@ -2026,5 +2026,8 @@
     "ReadInputAtNativeFramerateHelp": "Enabling this option may resolve some issues, e.g. live streams stopping prematurely.",
     "DeleteCustomImage": "Delete Custom Image",
     "ImageUploadFailed": "Image upload failed",
-    "UploadCustomImage": "Upload Custom Image"
+    "UploadCustomImage": "Upload Custom Image",
+    "ViewSettings": "View settings",
+    "HeaderServerUnavailable": "Server Unavailable",
+    "HeaderUpdateRequired": "Update Required"
 }

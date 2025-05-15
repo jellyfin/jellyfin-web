@@ -15,6 +15,11 @@ export default {
             window.NativeShell.openClientSettings();
         }
     },
+    openDownloadManager: () => {
+        if (window.NativeShell?.openDownloadManager) {
+            window.NativeShell.openDownloadManager();
+        }
+    },
     openUrl: function(url, target) {
         if (window.NativeShell?.openUrl) {
             window.NativeShell.openUrl(url, target);

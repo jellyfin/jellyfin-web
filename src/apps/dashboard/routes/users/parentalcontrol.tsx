@@ -17,7 +17,7 @@ import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
 import prompt from '../../../../components/prompt/prompt';
-import ServerConnections from 'components/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 type NamedItem = {
     name: string;
