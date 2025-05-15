@@ -1,12 +1,11 @@
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { FC, useCallback } from 'react';
-import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -149,16 +148,14 @@ const SortButton: FC<SortButtonProps> = ({
     const sortMenuOptions = getSortMenuOptions(viewType);
 
     return (
-        <Box>
-            <IconButton
+        <>
+            <Button
                 title={globalize.translate('Sort')}
-                sx={{ ml: 2 }}
                 aria-describedby={id}
-                className='paper-icon-button-light btnSort autoSize'
                 onClick={handleClick}
             >
                 <SortByAlphaIcon />
-            </IconButton>
+            </Button>
             <Popover
                 id={id}
                 open={open}
@@ -229,7 +226,7 @@ const SortButton: FC<SortButtonProps> = ({
                     </Select>
                 </FormControl>
             </Popover>
-        </Box>
+        </>
     );
 };
 

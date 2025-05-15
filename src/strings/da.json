@@ -2024,5 +2024,8 @@
     "PageNotFound": "Dette er ikke den side, du leder efter.",
     "LogLoadFailure": "Kunne ikke indlæse logfilen. Den kan stadig blive skrevet til aktivt.",
     "LabelGroupShowsIntoCollectionsHelp": "Serier i en samling vises som ét samlet element, når serielister vises.",
-    "LimitSegmentLength": "Brug kortere HLS-segmenter"
+    "LimitSegmentLength": "Brug kortere HLS-segmenter",
+    "ViewSettings": "Vis Indstillinger",
+    "HeaderServerUnavailable": "Server Utilgængelig",
+    "HeaderUpdateRequired": "Opdatering Nødvendig"
 }

@@ -380,7 +380,7 @@
     "TabUpcoming": "בקרוב",
     "Tags": "מילות מפתח",
     "TellUsAboutYourself": "ספר לנו על עצמך",
-    "ThisWizardWillGuideYou": "אשף זה יעזור לך בהתליך ההתקנה.",
+    "ThisWizardWillGuideYou": "אשף זה יעזור לך בתהליך ההתקנה. כדי להתחיל, אנא הזן שם לשרת ובחר את השפה המועדפת עליך.",
     "Thursday": "חמישי",
     "TrackCount": "{0} רצועות",
     "Tuesday": "שלישי",
@@ -1956,5 +1956,12 @@
     "ImageDeleteFailed": "מחיקת התמונה נכשלה",
     "ImageUploadCancelled": "העלאת התמונה בוטלה",
     "ImageUploadFailed": "העלאת התמונה נכשלה",
-    "UploadCustomImage": "העלאת תמונה מותאמת אישית"
+    "UploadCustomImage": "העלאת תמונה מותאמת אישית",
+    "ViewSettings": "הצג הגדרות",
+    "LimitSegmentLength": "השתמש במקטעי HLS קצרים יותר",
+    "LimitSegmentLengthHelp": "הפעלת אפשרות זו עשויה לסייע במניעת תקיעות של נגן HLS בעת דילוג במכשירים מסוימים, כגון טלוויזיות webOS.",
+    "HeaderServerUnavailable": "שרת לא זמין",
+    "DownloadManager": "הורדות",
+    "HeaderUpdateRequired": "נדרש עדכון",
+    "MessageForgotPasswordPinReset": "הכנס את קוד ה-PIN כאן כדי לסיים את איפוס הסיסמה"
 }

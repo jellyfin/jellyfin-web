@@ -2026,5 +2026,8 @@
     "ReadInputAtNativeFramerateHelp": "Enabling this option may resolve some issues, e.g. live streams stopping prematurely.",
     "DeleteCustomImage": "Delete Custom Image",
     "ImageUploadFailed": "Image upload failed",
-    "UploadCustomImage": "Upload Custom Image"
+    "UploadCustomImage": "Upload Custom Image",
+    "ViewSettings": "View settings",
+    "HeaderServerUnavailable": "Server Unavailable",
+    "HeaderUpdateRequired": "Update Required"
 }

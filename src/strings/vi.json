@@ -2025,5 +2025,7 @@
     "LimitSegmentLengthHelp": "Kích hoạt tùy chọn này có thể giúp ngăn trình phát HLS treo trong khi tìm kiếm trên một số thiết bị nhất định, chẳng hạn như TV Webos.",
     "LimitSegmentLength": "Sử dụng các phân đoạn HLS ngắn hơn",
     "HeaderServerUnavailable": "Máy Chủ Không Khả Dụng",
-    "HeaderUpdateRequired": "Bắt Buộc Cập Nhập"
+    "HeaderUpdateRequired": "Bắt Buộc Cập Nhập",
+    "ViewSettings": "Xem cài đặt",
+    "MessageForgotPasswordPinReset": "Nhập PIN vào đây để hoàn thành đặt lại Mật Khẩu"
 }

@@ -2026,5 +2026,8 @@
     "ImageUploadFailed": "Nahrávanie obrázku zlyhalo",
     "LimitSegmentLength": "Použiť kratšie segmenty HLS",
     "LabelGroupShowsIntoCollections": "Zoskupiť seriály do kolekcií",
-    "LabelGroupShowsIntoCollectionsHelp": "Seriály v kolekcii budú zobrazené ako jedna zoskupená položka v zozname seriálov."
+    "LabelGroupShowsIntoCollectionsHelp": "Seriály v kolekcii budú zobrazené ako jedna zoskupená položka v zozname seriálov.",
+    "HeaderServerUnavailable": "Server nie je dostupný",
+    "HeaderUpdateRequired": "Vyžaduje sa aktualizácia",
+    "DownloadManager": "Stiahnuté"
 }
