@@ -890,7 +890,7 @@ class ItemsView {
                     // Folder, Playlist views
                     && itemType !== 'UserView'
                     // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos && item?.CollectionType !== CollectionType.Musicvideos)
                 ) {
                     // Show Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), false);
@@ -903,7 +903,7 @@ class ItemsView {
                     // Folder, Playlist views
                     && itemType !== 'UserView'
                     // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos && item?.CollectionType !== CollectionType.Musicvideos)
                 ) {
                     // Show Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), false);

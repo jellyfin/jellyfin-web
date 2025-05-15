@@ -1919,6 +1919,15 @@ export class PlaybackManager {
                     MediaTypes: 'Photo',
                     Limit: UNLIMITED_ITEMS
                 }, queryOptions));
+            } else if (firstItem.IsFolder && firstItem.CollectionType === 'musicvideos') {
+                return getItemsForPlayback(serverId, mergePlaybackQueries({
+                    ParentId: firstItem.Id,
+                    Filters: 'IsFolder',
+                    Recursive: true,
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    MediaTypes: 'Video',
+                    Limit: UNLIMITED_ITEMS
+                }, queryOptions));
             } else if (firstItem.IsFolder) {
                 let sortBy = null;
                 if (options.shuffle) {
