@@ -385,7 +385,7 @@
     .layout-tv .sectionTabs {
         width: 100%;
     }
-    
+
     /* Force header sections to be in a second row below 1130px width */
     .headerTabs {
         align-self: flex-start !important;
@@ -397,7 +397,7 @@
         padding-right: 0.8em !important;
         margin-bottom: 0.5em !important;
     }
-    
+
     /* Add margin to the page content when the header is split into two rows */
     .page:not(.itemDetailPage):not(.standalonePage):not(.wizardPage) {
         margin-top: 2em !important;
@@ -439,7 +439,7 @@
     }
 }
 
-/* 
+    /* 
  * Special styles for high-DPI displays with scaling
  * This class is added via JavaScript in layoutManager.js
  * Only applied to desktop layouts, not mobile
@@ -469,13 +469,13 @@
     .absolutePageTabContent {
         top: 5.7em !important;
     }
-    
+
     /* Increase font size for better readability on high-DPI displays */
     .sectionTabs {
         font-size: 95%;
     }
-    
-    .navMenuOption, 
+
+    .navMenuOption,
     .pageTitle,
     .headerButton {
         font-size: 1.05em;
