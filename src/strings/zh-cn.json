@@ -1685,7 +1685,7 @@
     "EnableCardLayout": "显示可视卡盒",
     "MessageNoItemsAvailable": "没有可用的项。",
     "Unreleased": "暂未发布",
-    "DownloadAll": "全部下载",
+    "DownloadAll": "下载全部",
     "Experimental": "实验功能",
     "LabelStereoDownmixAlgorithm": "立体声降混算法",
     "StereoDownmixAlgorithmHelp": "用于将多声道下降混合为立体声的算法。",
@@ -2030,5 +2030,6 @@
     "HeaderServerUnavailable": "服务器不可用",
     "HeaderUpdateRequired": "需要更新",
     "ViewSettings": "查看设置",
-    "MessageForgotPasswordPinReset": "在此处输入 PIN 码以完成密码重置"
+    "MessageForgotPasswordPinReset": "在此处输入 PIN 码以完成密码重置",
+    "DownloadManager": "下载"
 }

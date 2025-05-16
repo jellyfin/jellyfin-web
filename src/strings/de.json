@@ -2030,6 +2030,6 @@
     "HeaderUpdateRequired": "Update erforderlich",
     "HeaderServerUnavailable": "Server nicht verfügbar",
     "ViewSettings": "Einstellungen anzeigen",
-    "MessageForgotPasswordPinReset": "Gebe hier die PIN ein, um das Zurücksetzen des Passworts abzuschließen",
+    "MessageForgotPasswordPinReset": "Gib hier die PIN ein, um das Zurücksetzen des Passworts abzuschließen",
     "DownloadManager": "Downloads"
 }

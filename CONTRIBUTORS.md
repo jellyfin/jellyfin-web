@@ -99,6 +99,7 @@
 - [Derek Huber](https://github.com/Derek4aty1)
 - [StableCrimson](https://github.com/StableCrimson)
 - [diegoeche](https://github.com/diegoeche)
+- [Free O'Toole](https://github.com/freeotoole)
 - [Lampan-git](https://github.com/Lampan-git)
 
 ## Emby Contributors
