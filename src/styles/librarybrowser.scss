@@ -369,7 +369,11 @@
     }
 }
 
-@media all and (max-width: 100em) {
+/* 
+ * Default styles for smaller screens
+ * Ensure mobile layout has header sections in a second row
+ */
+@media all and (max-width: 1130px) {
     .withSectionTabs .headerTop {
         padding-bottom: 0.55em;
     }
@@ -381,9 +385,30 @@
     .layout-tv .sectionTabs {
         width: 100%;
     }
+    
+    /* Force header sections to be in a second row below 1130px width */
+    .headerTabs {
+        align-self: flex-start !important;
+        width: 100% !important;
+        margin-top: 0 !important;
+        position: relative !important;
+        display: block !important;
+        padding-left: 0.8em !important;
+        padding-right: 0.8em !important;
+        margin-bottom: 0.5em !important;
+    }
+    
+    /* Add margin to the page content when the header is split into two rows */
+    .page:not(.itemDetailPage):not(.standalonePage):not(.wizardPage) {
+        margin-top: 2em !important;
+    }
 }
 
-@media all and (min-width: 100em) {
+/* 
+ * Styles for larger screens and high-DPI displays
+ * The high-dpi-display class is added via JavaScript in layoutManager.js
+ */
+@media all and (min-width: 90em) {
     .headerTop {
         padding: 0.8em 0.8em;
     }
@@ -411,6 +436,49 @@
 
     .dashboardDocument .mainDrawer-scrollContainer {
         margin-top: 4.65em !important;
+    }
+}
+
+/* 
+ * Special styles for high-DPI displays with scaling
+ * This class is added via JavaScript in layoutManager.js
+ * Only applied to desktop layouts, not mobile
+ */
+:root.high-dpi-display {
+    .headerTop {
+        padding: 0.8em 0.8em;
+    }
+
+    .headerTabs {
+        align-self: center;
+        width: auto;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin-top: -4.3em;
+    }
+
+    .libraryPage:not(.noSecondaryNavPage) {
+        padding-top: 4.6em !important;
+    }
+
+    .pageWithAbsoluteTabs:not(.noSecondaryNavPage) {
+        padding-top: 6.7em !important;
+    }
+
+    .absolutePageTabContent {
+        top: 5.7em !important;
+    }
+    
+    /* Increase font size for better readability on high-DPI displays */
+    .sectionTabs {
+        font-size: 95%;
+    }
+    
+    .navMenuOption, 
+    .pageTitle,
+    .headerButton {
+        font-size: 1.05em;
     }
 }
 

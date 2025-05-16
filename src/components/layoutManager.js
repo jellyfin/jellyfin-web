@@ -43,11 +43,34 @@ class LayoutManager {
             }
         }
 
+        // Add a class to handle high-DPI displays with scaling
+        this.handleHighDpiDisplays();
+
         Events.trigger(this, 'modechange');
     }
 
     getSavedLayout() {
         return appSettings.get('layout');
+    }
+
+    handleHighDpiDisplays() {
+        // Check if we're on a high-DPI display with scaling
+        const devicePixelRatio = window.devicePixelRatio || 1;
+        
+        // Consider a display high-DPI if:
+        // 1. It has a high physical resolution (width >= 1800 or height >= 1200), OR
+        // 2. It has a device pixel ratio > 1 (indicating a high-DPI display), OR
+        // 3. The window width is >= 1130px (the breakpoint for our header layout)
+        const isHighDpiWithScaling = (window.screen.width >= 1800 || window.screen.height >= 1200) || 
+                                    (devicePixelRatio > 1) ||
+                                    (window.innerWidth >= 1130);
+        
+        // Only apply high-dpi-display class if we're not on a mobile device
+        if (isHighDpiWithScaling && !browser.mobile) {
+            document.documentElement.classList.add('high-dpi-display');
+        } else {
+            document.documentElement.classList.remove('high-dpi-display');
+        }
     }
 
     autoLayout() {
