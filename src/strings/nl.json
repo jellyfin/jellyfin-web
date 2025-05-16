@@ -70,7 +70,7 @@
     "ButtonParentalControl": "Ouderlijk toezicht",
     "ButtonPause": "Pauzeren",
     "ButtonPreviousTrack": "Vorige nummer",
-    "ButtonQuickStartGuide": "Snelstartgids",
+    "ButtonQuickStartGuide": "Instelgids",
     "ButtonRefreshGuideData": "Gidsgegevens vernieuwen",
     "ButtonRemove": "Verwijderen",
     "ButtonRename": "Hernoemen",
@@ -1700,7 +1700,7 @@
     "SaveRecordingNFOHelp": "Metadata uit de EPG-vermeldingen naast media opslaan.",
     "SaveRecordingImages": "EPG-afbeeldingen opslaan",
     "HeaderDummyChapter": "Hoofdstukafbeeldingen",
-    "LabelDummyChapterDurationHelp": "De interval tussen dummy-hoofdstukken. Stel in op 0 om het genereren van dummy-hoofdstukken uit te zetten. Wijzigingen hebben geen invloed op bestaande dummy-hoofdstukken.",
+    "LabelDummyChapterDurationHelp": "De interval tussen dummy-hoofdstukken in seconden. Stel in op 0 om het genereren van dummy-hoofdstukken uit te zetten. Wijzigingen hebben geen invloed op bestaande dummy-hoofdstukken.",
     "ResolutionMatchSource": "Gelijk aan bron",
     "HeaderRecordingMetadataSaving": "Metadata opname",
     "SecondarySubtitles": "Secundaire ondertiteling",
@@ -2029,5 +2029,6 @@
     "HeaderUpdateRequired": "Bijwerken vereist",
     "HeaderServerUnavailable": "Server niet beschikbaar",
     "MessageForgotPasswordPinReset": "Pincode hier invoeren om wachtwoordherstel te voltooien",
-    "DownloadManager": "Downloads"
+    "DownloadManager": "Downloads",
+    "ViewSettings": "Weergave-instellingen"
 }
