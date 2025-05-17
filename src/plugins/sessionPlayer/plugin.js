@@ -553,17 +553,17 @@ class SessionPlayer {
     }
 
     getRepeatMode() {
-        // not supported?
+        return this.lastPlayerData?.PlayState?.RepeatMode;
     }
 
     setQueueShuffleMode(mode) {
-        sendCommandByName(this, 'SetShuffleQueue', {
-            ShuffleMode: mode
+        sendCommandByName(this, 'SetOrderMode', {
+            OrderMode: mode
         });
     }
 
     getQueueShuffleMode() {
-        // not supported?
+        return this.lastPlayerData?.PlayState?.OrderMode;
     }
 
     displayContent(options) {
