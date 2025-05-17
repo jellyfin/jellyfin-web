@@ -18,8 +18,8 @@ class OffsetController {
         this.slider = slider;
         this.textField = textField;
 
-        this._initSlider();
-        this._initTextField();
+        this.#_initSlider();
+        this.#_initTextField();
 
         // Set initial offset
         this.reset();
@@ -39,7 +39,7 @@ class OffsetController {
         this.textField.updateOffset(value);
     }
 
-    _initSlider() {
+    #_initSlider() {
         const slider = this.slider;
 
         if (layoutManager.tv) {
@@ -58,7 +58,7 @@ class OffsetController {
         slider.getBubbleHtml = createSliderBubbleHtml;
     }
 
-    _initTextField() {
+    #_initTextField() {
         const textField = this.textField;
 
         textField.updateOffset = (offset) => {
@@ -114,7 +114,7 @@ class OffsetController {
 class SubtitleSync {
     constructor(currentPlayer) {
         this.player = currentPlayer;
-        this._initUI();
+        this.#_initUI();
 
         // Create the offset controller
         this.offsetController = new OffsetController(
@@ -150,7 +150,7 @@ class SubtitleSync {
         }
 
         if (!action) {
-            this._tryShowSubtitleSync();
+            this.#_tryShowSubtitleSync();
         } else if (action === 'hide' && this.subtitleSyncTextField.hasFocus) {
             // do not hide if element has focus
             return;
@@ -159,7 +159,7 @@ class SubtitleSync {
         }
     }
 
-    _initUI() {
+    #_initUI() {
         const parent = document.createElement('div');
         document.body.appendChild(parent);
         parent.innerHTML = template;
@@ -171,22 +171,22 @@ class SubtitleSync {
         this.subtitleSyncCloseButton = parent.querySelector('.subtitleSync-closeButton');
         this.subtitleSyncContainer = parent.querySelector('.subtitleSyncContainer');
 
-        this._setupCloseButton();
+        this.#_setupCloseButton();
 
         // Initially hide the container
         this.subtitleSyncContainer.classList.add('hide');
     }
 
-    _setupCloseButton() {
+    #_setupCloseButton() {
         this.subtitleSyncCloseButton.addEventListener('click', () => {
             playbackManager.disableShowingSubtitleOffset(this.player);
             this.toggle('forceToHide');
         });
     }
 
-    _tryShowSubtitleSync() {
+    #_tryShowSubtitleSync() {
         // if showing subtitle sync is enabled and if there is an external subtitle stream enabled
-        if (!this._canShowSubtitleSync()) {
+        if (!this.#_canShowSubtitleSync()) {
             this.subtitleSyncContainer.classList.add('hide');
             return;
         }
@@ -201,7 +201,7 @@ class SubtitleSync {
         this.subtitleSyncContainer.classList.remove('hide');
     }
 
-    _canShowSubtitleSync() {
+    #_canShowSubtitleSync() {
         return playbackManager.isShowingSubtitleOffsetEnabled(this.player)
                && playbackManager.canHandleOffsetOnCurrentSubtitle(this.player);
     }
