@@ -519,7 +519,7 @@
     "LabelAudioCodec": "ऑडियो कोडेक",
     "LabelAudioChannels": "ऑडियो वाहिन्या",
     "LabelArtists": "संगीतकार",
-    "LabelAppNameExample": "उदाहरणार्थ: Sickbeard, Sonarr",
+    "LabelAppNameExample": "",
     "LabelAppName": "अ‍ॅपचे नाव",
     "LabelAlbumArtists": "अल्बम संगीतका",
     "LabelAlbum": "अल्बम",
@@ -676,5 +676,6 @@
     "AllowCollectionManagement": "या वापरकर्त्यास संग्रह व्यवस्थापित करण्यास अनुमती द्या",
     "AllowSegmentDeletion": "विभागांना हटवा",
     "AllowSegmentDeletionHelp": "क्लायंटला पाठवल्यानंतर जुन्या विभागांना हटवा. यामुळे संपूर्ण ट्रान्सकोड केलेली फाईल डिस्कवर साठवण्याची आवश्यकता नाही. केवळ थ्रॉटलिंग सक्षम असल्यास कार्य करेल. जर आपल्याला प्लेबॅक समस्या येत असतील तर हे बंद करा.",
-    "LabelSegmentKeepSeconds": "विभागांना ठेवण्याची वेळ"
+    "LabelSegmentKeepSeconds": "विभागांना ठेवण्याची वेळ",
+    "AirPlay": "एअरप्ले"
 }
