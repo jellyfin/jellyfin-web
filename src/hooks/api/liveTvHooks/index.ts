@@ -3,3 +3,4 @@ export * from './useCancelTimer';
 export * from './useGetChannel';
 export * from './useGetSeriesTimer';
 export * from './useGetTimer';
+export * from './useGetTimers';
