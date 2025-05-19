@@ -57,6 +57,9 @@ const blueradiance = buildCustomColorScheme({
     palette: {
         background: {
             paper: '#011432'
+        },
+        AppBar: {
+            defaultBg: '#011432'
         }
     }
 });
@@ -89,6 +92,9 @@ const purplehaze = buildCustomColorScheme({
         },
         secondary: {
             main: '#ff77f1'
+        },
+        AppBar: {
+            defaultBg: '#000420'
         }
     }
 });
@@ -98,6 +104,9 @@ const wmc = buildCustomColorScheme({
     palette: {
         background: {
             paper: '#0c2450'
+        },
+        AppBar: {
+            defaultBg: '#0c2450'
         }
     }
 });
