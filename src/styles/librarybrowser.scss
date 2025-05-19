@@ -782,6 +782,7 @@
     align-items: center;
     align-content: center;
     z-index: 2;
+    flex: 1;
 
     .layout-mobile & {
         display: block;
@@ -920,6 +921,11 @@
         .layout-desktop & {
             right: 3.3%;
         }
+    }
+
+    &.cardCentered {
+        top: 50% !important;
+        transform: translateY(-50%) !important;
     }
 }
 
