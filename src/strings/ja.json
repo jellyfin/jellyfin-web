@@ -750,7 +750,7 @@
     "LabelFolder": "フォルダー",
     "LabelForgotPasswordUsernameHelp": "ユーザー名を覚えていたら入力してください。",
     "LabelFormat": "フォーマット",
-    "LabelDropImageHere": "画像を個々にドロップするか検索する。",
+    "LabelDropImageHere": "ここに画像をドロップするか、クリックして参照してください。",
     "LabelEasyPinCode": "簡単な PIN コード",
     "LabelManufacturerUrl": "製作社のURL",
     "LabelHomeScreenSectionValue": "ホームスクリーンセクション {0}",
