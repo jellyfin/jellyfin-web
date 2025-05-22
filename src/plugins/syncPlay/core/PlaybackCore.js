@@ -582,6 +582,8 @@ class PlaybackCore {
         const playerWrapper = this.manager.getPlayerWrapper();
 
         if (this.syncEnabled && this.enableSyncCorrection) {
+            // Prevents sync delay from being reduced
+            const clampedPlaybackRate = Math.max(1, playbackRate);
             const absDiffMillis = Math.abs(diffMillis);
             // TODO: SpeedToSync sounds bad on songs.
             // TODO: SpeedToSync is failing on Safari (Mojave); even if playbackRate is supported, some delay seems to exist.
@@ -613,7 +615,7 @@ class PlaybackCore {
                 }, speedToSyncTime);
 
                 console.log('SyncPlay SpeedToSync', speed);
-            } else if ((this.useSkipToSync || this.useSpeedToSync && playbackRate != 1) && absDiffMillis >= this.minDelaySkipToSync * playbackRate) {
+            } else if ((this.useSkipToSync || this.useSpeedToSync && playbackRate != 1) && absDiffMillis >= this.minDelaySkipToSync * clampedPlaybackRate) {
                 // SkipToSync strategy.
                 this.localSeek(serverPositionTicks);
                 this.syncEnabled = false;
