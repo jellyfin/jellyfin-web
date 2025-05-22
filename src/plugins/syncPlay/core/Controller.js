@@ -91,7 +91,7 @@ class Controller {
 
     /**
      * Sets the playback rate in the SyncPlay group.
-     * @param {string} playlistItemId The item playlist identifier.
+     * @param {string} playbackRate The playback rate.
      */
     setPlaybackRate(playbackRate) {
         const apiClient = this.manager.getApiClient();
