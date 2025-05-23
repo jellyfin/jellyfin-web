@@ -1,4 +1,8 @@
+import type { MediaSourceInfo } from '@jellyfin/sdk/lib/generated-client/models/media-source-info';
+import type { MediaStream } from '@jellyfin/sdk/lib/generated-client/models/media-stream';
+
 export interface PrimaryInfoOpts {
+    mediaSource?: MediaSourceInfo;
     showYearInfo?: boolean;
     showAudioContainerInfo?: boolean;
     showEpisodeTitleInfo?: boolean;
@@ -25,10 +29,12 @@ export interface SecondaryInfoOpts {
 }
 
 export interface MediaInfoStatsOpts {
+    videoStream?: MediaStream;
+    audioStream?: MediaStream;
     showVideoTypeInfo?: boolean;
     showResolutionInfo?: boolean;
-    showVideoStreamCodecInfo?: boolean;
-    showAudoChannelInfo?: boolean;
-    showAudioStreamCodecInfo?: boolean;
+    showVideoCodecInfo?: boolean;
+    showAudioChannelInfo?: boolean;
+    showAudioCodecInfo?: boolean;
     showDateAddedInfo?: boolean;
 }
