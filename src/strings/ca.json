@@ -35,7 +35,7 @@
     "ButtonParentalControl": "Control parental",
     "ButtonPause": "Pausa",
     "ButtonPreviousTrack": "Pista anterior",
-    "ButtonQuickStartGuide": "Guia d'inici ràpid",
+    "ButtonQuickStartGuide": "Guia de configuració",
     "ButtonRefreshGuideData": "Actualitza les dades de la guia",
     "ButtonRemove": "Elimina",
     "ButtonResetEasyPassword": "Restabliu el codi Easy PIN",
@@ -1694,7 +1694,7 @@
     "HeaderDummyChapter": "Imatges dels capítols",
     "LabelDummyChapterCount": "Límit",
     "LabelDummyChapterDuration": "Interval",
-    "LabelDummyChapterDurationHelp": "L'interval entre capítols ficticis. Ajusta-ho a 0 per a desactivar la generació de capítols ficticis. Canviar-ho no afectarà els capítols ficticis existents.",
+    "LabelDummyChapterDurationHelp": "L'interval entre capítols ficticis en segons. Ajusta-ho a 0 per a desactivar la generació de capítols ficticis. Canviar-ho no afectarà els capítols ficticis existents.",
     "LabelChapterImageResolution": "Resolució",
     "LabelChapterImageResolutionHelp": "La resolució de les imatges del capítol extretes. Canviar-ho no afectarà els capítols ficticis existents.",
     "ResolutionMatchSource": "Coincidir amb la font",
@@ -2024,5 +2024,8 @@
     "LimitSegmentLength": "Utilitzar segments HLS escurçats",
     "LimitSegmentLengthHelp": "Activar aquesta opció pot ajudar a prevenir que el reproductor HLS es pengi durant la cerca en alguns dispositius, com televisors webOS.",
     "HeaderServerUnavailable": "El Servidor no està disponible",
-    "HeaderUpdateRequired": "Cal una actualització"
+    "HeaderUpdateRequired": "Cal una actualització",
+    "ViewSettings": "Configuració de vista",
+    "DownloadManager": "Descarregues",
+    "MessageForgotPasswordPinReset": "Introdueix PIN aquí per acabar el Restabliment de contrasenya"
 }
