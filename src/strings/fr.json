@@ -1694,7 +1694,7 @@
     "HeaderRecordingMetadataSaving": "Enregistrement des métadonnées",
     "SaveRecordingNFO": "Enregistrer les métadonnées du fournisseur dans le fichier NFO",
     "SaveRecordingImages": "Enregistrer les images des métadonnées du fournisseur",
-    "LabelDummyChapterDurationHelp": "Intervalle entre deux chapitres factices en seondes ou 0 pour désactiver la génération. Changer la valeur n’affectera pas les chapitres existants.",
+    "LabelDummyChapterDurationHelp": "Intervalle entre deux chapitres factices en secondes ou 0 pour désactiver la génération. Changer la valeur n’affectera pas les chapitres existants.",
     "LabelDummyChapterCount": "Limite",
     "LabelChapterImageResolution": "Résolution",
     "LabelChapterImageResolutionHelp": "La résolution d'image des chapitre factices. Changer la valeur n’affectera pas les chapitres existants.",
