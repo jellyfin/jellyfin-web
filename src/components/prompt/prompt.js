@@ -87,7 +87,7 @@ export default (() => {
             if (submitValue) {
                 return submitValue;
             } else {
-                return Promise.reject();
+                return Promise.reject(new Error('PromptError'));
             }
         });
     }
@@ -107,7 +107,7 @@ export default (() => {
             if (result) {
                 return Promise.resolve(result);
             } else {
-                return Promise.reject(result);
+                return Promise.reject(new Error(result));
             }
         };
     } else {
