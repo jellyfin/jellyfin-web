@@ -101,6 +101,7 @@
 - [diegoeche](https://github.com/diegoeche)
 - [Free O'Toole](https://github.com/freeotoole)
 - [TheBosZ](https://github.com/thebosz)
+- [Shoham Peller](https://github.com/spellr)
 
 ## Emby Contributors
 
