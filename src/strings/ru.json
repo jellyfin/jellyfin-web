@@ -2029,7 +2029,7 @@
     "LimitSegmentLengthHelp": "Включение этой опции может помочь предотвратить зависание HLS-плеера во время перемотки на некоторых устройствах, например, на телевизорах с webOS.",
     "HeaderServerUnavailable": "Сервер недоступен",
     "HeaderUpdateRequired": "Требуется обновление",
-    "ViewSettings": "Настройки видов",
+    "ViewSettings": "Показать параметры",
     "DownloadManager": "Загрузки",
     "MessageForgotPasswordPinReset": "Введите PIN-код для завершения сброса пароля"
 }
