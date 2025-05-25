@@ -1735,7 +1735,7 @@
     "AllowSegmentDeletion": "Suprimeix segments",
     "AllowSegmentDeletionHelp": "Suprimeix els segments antics després que el client els hagi descarregat. Això evita haver d'emmagatzemar tot el fitxer transcodificat al disc. Desactiva-ho si tens problemes de reproducció.",
     "LabelThrottleDelaySeconds": "Acceleració després de",
-    "LabelThrottleDelaySecondsHelp": "Temps, en segons, després del qual s'accelerarà el transcodificador. Ha de ser prou gran per a que el client mantingui una memòria intermèdia saludable. Només funciona si l'acceleració està habilitada.",
+    "LabelThrottleDelaySecondsHelp": "Temps en segons, després del qual s'accelerarà el transcodificador. La durada ha de ser suficient per a que el client mantingui una memòria intermèdia saludable. Només funciona si l'acceleració està habilitada.",
     "LabelSegmentKeepSeconds": "Temps per mantenir els segments",
     "LabelIsHearingImpaired": "Per a persones amb discapacitat auditiva (SDH)",
     "LogLevel.Warning": "Advertència",
