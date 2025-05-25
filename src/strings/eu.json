@@ -1491,7 +1491,7 @@
     "ButtonRename": "Berriro izendatu",
     "ButtonRemove": "Ezabatu",
     "ButtonRefreshGuideData": "Gidako datuak eguneratzea",
-    "ButtonQuickStartGuide": "Hasiera azkarreko gida",
+    "ButtonQuickStartGuide": "Konfigurazio gida",
     "ButtonPreviousTrack": "Aurreko pista",
     "ButtonPlayer": "Ugaltzailea",
     "ButtonPause": "Etenaldia",
@@ -1700,7 +1700,7 @@
     "LabelSaveTrickplayLocallyHelp": "Trickplay irudiak multimedia karpetetan gordetzeak zure multimedia ondoan jarriko ditu migrazio eta sarbide errazak izan ditzaten.",
     "LabelTrickplayThreadsHelp": "ffmpeg-en '-threads' argumentura pasatuko diren hari kopurua.",
     "LabelQscaleHelp": "ffmpeg-ek sortutako irudien kalitate-eskala, 2 kalitate handiena izanik eta 31 baxuena.",
-    "LabelDummyChapterDurationHelp": "Kapitulu faltsuen arteko tartea. 0ra ezarri kapitulu faltsuen sorrera desgaitzeko. Hau aldatzeak ez du eraginik izango dauden kapitulu faltsuetan.",
+    "LabelDummyChapterDurationHelp": "Kapitulu faltsuen arteko tartea, segundotan. 0ra ezarri kapitulu faltsuen sorrera desgaitzeko. Hau aldatzeak ez du eraginik izango dauden kapitulu faltsuetan.",
     "LabelChapterImageResolutionHelp": "Ateratako kapitulu-irudien bereizmena. Hau aldatzeak ez du eraginik izango dauden kapitulu faltsuetan.",
     "ReadInputAtNativeFramerateHelp": "Aukera hau gaitzeak arazo batzuk konpondu ditzake, adibidez, zuzeneko erreprodukzioak azkarregi gelditzea.",
     "PlaybackError.RateLimitExceeded": "Une honetan ezin da multimedia hau erreproduzitu abiadura-mugak direla eta.",
@@ -2010,5 +2010,7 @@
     "LabelDummyChapterDuration": "Tartea",
     "LogLevel.None": "Bat ere ez",
     "HeaderUpdateRequired": "Eguneraketa beharrezkoa da",
-    "Illustrator": "Ilustratzailea"
+    "Illustrator": "Ilustratzailea",
+    "MessageForgotPasswordPinReset": "Sartu PINa hemen pasahitza berrezartzeko",
+    "DownloadManager": "Deskargak"
 }

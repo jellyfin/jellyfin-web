@@ -2029,5 +2029,6 @@
     "LabelGroupShowsIntoCollections": "Raggruppa le serie in collezioni",
     "HeaderServerUnavailable": "Server Non Disponibile",
     "HeaderUpdateRequired": "Aggiornamento Necessario",
-    "ViewSettings": "Mostra impostazioni"
+    "ViewSettings": "Mostra impostazioni",
+    "DownloadManager": "Scaricati"
 }
