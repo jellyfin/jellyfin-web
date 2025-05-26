@@ -68,7 +68,7 @@
     "ButtonParentalControl": "Föräldralås",
     "ButtonPause": "Paus",
     "ButtonPreviousTrack": "Föregående spår",
-    "ButtonQuickStartGuide": "Snabbstartguide",
+    "ButtonQuickStartGuide": "Installationsguide",
     "ButtonRefreshGuideData": "Uppdatera programguiden",
     "ButtonRemove": "Ta bort",
     "ButtonRename": "Ändra namn",
@@ -1695,7 +1695,7 @@
     "SaveRecordingImagesHelp": "Spara bilder från EPG-listningsleverantören tillsammans med media.",
     "HeaderDummyChapter": "Kapitelbilder",
     "LabelDummyChapterDuration": "Intervall",
-    "LabelDummyChapterDurationHelp": "Intervall mellan dummy-kapitel. Ställ in på 0 för att inaktivera generering av dummy-kapitel. Ändringar av detta har ingen effekt på befintliga dummy-kapitel.",
+    "LabelDummyChapterDurationHelp": "Intervall mellan dummy-kapitel (i sekunder). Ställ in på 0 för att inaktivera generering av dummy-kapitel. Ändringar av detta har ingen effekt på befintliga dummy-kapitel.",
     "LabelDummyChapterCount": "Gräns",
     "LabelDummyChapterCountHelp": "Största antal kapitelbilder som kommer hämtas in för varje enskild mediafil.",
     "LabelChapterImageResolution": "Upplösning",
@@ -2024,5 +2024,7 @@
     "ReadInputAtNativeFramerate": "Läs inmatning i ursprungling bildhastighet",
     "ViewSettings": "Visa inställningar",
     "HeaderServerUnavailable": "Server Otillgänglig",
-    "HeaderUpdateRequired": "Uppdatering Krävs"
+    "HeaderUpdateRequired": "Uppdatering Krävs",
+    "DownloadManager": "Nedladdningar",
+    "MessageForgotPasswordPinReset": "Ange PIN-koden här för att slutföra lösenordsåterställningen"
 }
