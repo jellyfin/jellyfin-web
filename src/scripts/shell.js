@@ -1,8 +1,11 @@
 // TODO: This seems like a good candidate for deprecation
 export default {
-    enableFullscreen: function() {
+    /**
+     * Ask the NativeShell to enter fullscreen & switch resolution if possible
+     */
+    enableFullscreen: function (videoInfo) {
         if (window.NativeShell?.enableFullscreen) {
-            window.NativeShell.enableFullscreen();
+            window.NativeShell.enableFullscreen(videoInfo);
         }
     },
     disableFullscreen: function() {
