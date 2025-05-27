@@ -1744,5 +1744,7 @@
     "DeleteCustomImage": "Borrar imagen personalizada",
     "DeleteEpisode": "Borrar episodio",
     "DeleteName": "Borrar {0}",
-    "EnableDts": "Activar DTS (DCA)"
+    "EnableDts": "Activar DTS (DCA)",
+    "DownloadManager": "Descargas",
+    "EnableLibrary": "Habilitar la librería"
 }
