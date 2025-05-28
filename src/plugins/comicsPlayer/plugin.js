@@ -379,6 +379,36 @@ class ArchiveSource {
     }
 
     async load() {
+        const naturalCompare = (a, b) => {
+            const chunkify = (str) => {
+                if (typeof str !== 'string') str = String(str ?? '');
+                const regex = /(\d+(?:\.\d+)?|[^\d]+)/g;
+                return str.match(regex).map(chunk =>
+                    /^[\d.]+$/.test(chunk) ? parseFloat(chunk) : chunk.trim().toLowerCase()
+                );
+            };
+    
+            const chunksA = chunkify(a);
+            const chunksB = chunkify(b);
+            const len = Math.max(chunksA.length, chunksB.length);
+    
+            for (let i = 0; i < len; i++) {
+                const partA = chunksA[i];
+                const partB = chunksB[i];
+        
+                if (partA === undefined) return -1;
+                if (partB === undefined) return 1;
+        
+                if (typeof partA === 'number' && typeof partB === 'number') {
+                    if (partA !== partB) return partA - partB;
+                } else if (partA !== partB) {
+                    return partA < partB ? -1 : 1;
+                }
+            }
+    
+            return 0;
+        }
+
         const res = await fetch(this.url);
         if (!res.ok) {
             return;
@@ -397,12 +427,19 @@ class ArchiveSource {
             const index = name.lastIndexOf('.');
             return index !== -1 && IMAGE_FORMATS.includes(name.slice(index + 1));
         });
+
+        // Sorting pages naturally, first folders, then filenames
         files.sort((a, b) => {
-            if (a.file.name < b.file.name) {
-                return -1;
-            } else {
-                return 1;
-            }
+            const pathA = a.path || '/';
+            const pathB = b.path || '/';
+            
+            const pathCompare = naturalCompare(pathA.trim(), pathB.trim());
+            if (pathCompare !== 0) return pathCompare;
+
+            const nameA = a.file?.name || '';
+            const nameB = b.file?.name || '';
+
+            return naturalCompare(nameA, nameB);
         });
 
         for (const file of files) {
