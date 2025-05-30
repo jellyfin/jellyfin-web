@@ -3,6 +3,7 @@ import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import inputManager from '../../scripts/inputManager';
 import { toBoolean } from '../../utils/string.ts';
+import { hide } from '../loading/loading.ts';
 import dom from '../../scripts/dom';
 
 import { history } from 'RootAppRouter';
@@ -99,6 +100,8 @@ function DialogHashHandler(dlg, hash, resolve) {
         }
 
         removeBackdrop(dlg);
+        hide();
+
         dlg.classList.remove('opened');
 
         if (removeScrollLockOnClose) {
