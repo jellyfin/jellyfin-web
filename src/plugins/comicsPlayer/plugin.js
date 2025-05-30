@@ -387,27 +387,27 @@ class ArchiveSource {
                     /^[\d.]+$/.test(chunk) ? parseFloat(chunk) : chunk.trim().toLowerCase()
                 );
             };
-    
+
             const chunksA = chunkify(a);
             const chunksB = chunkify(b);
             const len = Math.max(chunksA.length, chunksB.length);
-    
+
             for (let i = 0; i < len; i++) {
                 const partA = chunksA[i];
                 const partB = chunksB[i];
-        
+
                 if (partA === undefined) return -1;
                 if (partB === undefined) return 1;
-        
+
                 if (typeof partA === 'number' && typeof partB === 'number') {
                     if (partA !== partB) return partA - partB;
                 } else if (partA !== partB) {
                     return partA < partB ? -1 : 1;
                 }
             }
-    
+
             return 0;
-        }
+        };
 
         const res = await fetch(this.url);
         if (!res.ok) {
@@ -432,7 +432,7 @@ class ArchiveSource {
         files.sort((a, b) => {
             const pathA = a.path || '/';
             const pathB = b.path || '/';
-            
+
             const pathCompare = naturalCompare(pathA.trim(), pathB.trim());
             if (pathCompare !== 0) return pathCompare;
 
