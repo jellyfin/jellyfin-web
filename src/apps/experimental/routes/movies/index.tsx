@@ -53,7 +53,7 @@ const moviesTabMapping: LibraryTabMapping = {
 
 const Movies: FC = () => {
     const { libraryId, activeTab } = useCurrentTab();
-    const currentTab = moviesTabMapping[activeTab];
+    const currentTab = moviesTabMapping[activeTab] || moviesTabContent;
 
     return (
         <Page
