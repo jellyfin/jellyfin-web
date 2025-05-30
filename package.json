@@ -119,6 +119,7 @@
     "material-react-table": "3.2.1",
     "native-promise-only": "0.8.1",
     "pdfjs-dist": "3.11.174",
+    "proxy-polyfill": "0.3.2",
     "react": "18.3.1",
     "react-blurhash": "0.3.0",
     "react-dom": "18.3.1",
