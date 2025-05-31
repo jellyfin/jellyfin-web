@@ -85,7 +85,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: none;
     padding: 0.25em 0.5em;
     user-select: none;
 }
@@ -94,10 +94,12 @@
     padding: 0.25em 0;
     margin: 0;
     opacity: 1;
+    color: #fff;
+    text-shadow: 0 0 25px #000, 0 0 6px #000;
 }
 
 .chapterThumbText-dim {
-    opacity: 0.6;
+    opacity: 0.9;
 }
 
 .videoOsdBottom-hidden {

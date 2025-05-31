@@ -10,11 +10,12 @@ import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-select/emby-select';
 import '../formdialog.scss';
 import './style.scss';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './imageUploader.template.html';
 

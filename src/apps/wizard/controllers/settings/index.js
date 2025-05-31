@@ -1,12 +1,14 @@
 import loading from 'components/loading/loading';
-import 'elements/emby-checkbox/emby-checkbox';
-import 'elements/emby-button/emby-button';
-import 'elements/emby-select/emby-select';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Dashboard from 'utils/dashboard';
+
+import 'elements/emby-button/emby-button';
+import 'elements/emby-checkbox/emby-checkbox';
+import 'elements/emby-select/emby-select';
 
 function save(page) {
     loading.show();
-    const apiClient = ApiClient;
+    const apiClient = ServerConnections.currentApiClient();
     apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
         config.PreferredMetadataLanguage = page.querySelector('#selectLanguage').value;
         config.MetadataCountryCode = page.querySelector('#selectCountry').value;
@@ -56,7 +58,7 @@ function reloadData(page, config, cultures, countries) {
 
 function reload(page) {
     loading.show();
-    const apiClient = ApiClient;
+    const apiClient = ServerConnections.currentApiClient();
     const promise1 = apiClient.getJSON(apiClient.getUrl('Startup/Configuration'));
     const promise2 = apiClient.getCultures();
     const promise3 = apiClient.getCountries();

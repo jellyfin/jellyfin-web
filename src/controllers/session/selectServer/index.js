@@ -17,10 +17,9 @@ import '../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../utils/dashboard';
-import ServerConnections from '../../../components/ServerConnections';
 import alert from '../../../components/alert';
-import { ConnectionState } from '../../../utils/jellyfin-apiclient/ConnectionState.ts';
 import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
+import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -176,8 +175,9 @@ export default function (view, params) {
 
                 case 'delete':
                     deleteServer(server);
+                    break;
             }
-        });
+        }).catch(() => { /* no-op */ });
     }
 
     function onServersRetrieved(result) {
@@ -222,4 +222,3 @@ export default function (view, params) {
         }
     });
 }
-

@@ -1,11 +1,12 @@
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from '../../scripts/dom';
 import itemHelper from '../itemHelper';
+
 import '../../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/emby-button';
 import './userdatabuttons.scss';
-import ServerConnections from '../ServerConnections';
 
 const userDataMethods = {
     markPlayed: markPlayed,

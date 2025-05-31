@@ -64,6 +64,7 @@ function fillTunerHostInfo(view, info) {
     view.querySelector('.chkFmp4Container').checked = info.AllowFmp4TranscodingContainer;
     view.querySelector('.chkStreamSharing').checked = info.AllowStreamSharing;
     view.querySelector('.chkIgnoreDts').checked = info.IgnoreDts;
+    view.querySelector('.chkReadInputAtNativeFramerate').checked = info.ReadAtNativeFramerate;
     view.querySelector('.txtFallbackMaxStreamingBitrate').value = info.FallbackMaxStreamingBitrate / 1e6 || '30';
     view.querySelector('.txtTunerCount').value = info.TunerCount || '0';
 }
@@ -83,7 +84,8 @@ function submitForm(page) {
         AllowFmp4TranscodingContainer: page.querySelector('.chkFmp4Container').checked,
         AllowStreamSharing: page.querySelector('.chkStreamSharing').checked,
         EnableStreamLooping: page.querySelector('.chkStreamLoop').checked,
-        IgnoreDts: page.querySelector('.chkIgnoreDts').checked
+        IgnoreDts: page.querySelector('.chkIgnoreDts').checked,
+        ReadAtNativeFramerate: page.querySelector('.chkReadInputAtNativeFramerate').checked
     };
 
     if (isM3uVariant(info.Type)) {
@@ -129,6 +131,7 @@ function onTypeChange() {
     const supportsTunerFileOrUrl = value === 'm3u';
     const supportsStreamLooping = value === 'm3u';
     const supportsIgnoreDts = value === 'm3u';
+    const supportsReadInputAtNativeFramerate = value === 'm3u';
     const supportsTunerCount = value === 'm3u';
     const supportsUserAgent = value === 'm3u';
     const supportsFmp4Container = value === 'm3u';
@@ -189,6 +192,8 @@ function onTypeChange() {
     } else {
         view.querySelector('.fldIgnoreDts').classList.add('hide');
     }
+
+    view.querySelector('.fldReadInputAtNativeFramerate').classList.toggle('hide', !supportsReadInputAtNativeFramerate);
 
     if (supportsTunerCount) {
         view.querySelector('.fldTunerCount').classList.remove('hide');
