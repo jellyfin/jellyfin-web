@@ -88,7 +88,7 @@ class OffsetController {
                     event.preventDefault();
                 }
             }
-            // eslint-disable-next-line sonarjs/fixme-tag
+
             // TODO: TV layout will require special handling for navigation keys. But now field is not focusable
             event.stopPropagation();
         });
