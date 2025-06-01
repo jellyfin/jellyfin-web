@@ -18,8 +18,8 @@ class OffsetController {
         this.slider = slider;
         this.textField = textField;
 
-        this.#_initSlider();
-        this.#_initTextField();
+        this.#initSlider();
+        this.#initTextField();
 
         // Set initial offset
         this.reset();
@@ -39,13 +39,12 @@ class OffsetController {
         this.textField.updateOffset(value);
     }
 
-    #_initSlider() {
+    #initSlider() {
         const slider = this.slider;
 
         if (layoutManager.tv) {
             slider.classList.add('focusable');
-            // eslint-disable-next-line no-warning-comments
-            // HACK: Delay to give time for registered element attach (Firefox)
+            // TODO: Delay required for Firefox – wait for custom element to attach
             setTimeout(() => slider.enableKeyboardDragging(), 0);
         }
 
@@ -58,7 +57,7 @@ class OffsetController {
         slider.getBubbleHtml = createSliderBubbleHtml;
     }
 
-    #_initTextField() {
+    #initTextField() {
         const textField = this.textField;
 
         textField.updateOffset = (offset) => {
@@ -90,14 +89,15 @@ class OffsetController {
                 }
             }
             // eslint-disable-next-line sonarjs/fixme-tag
-            // FIXME: TV layout will require special handling for navigation keys. But now field is not focusable
+            // TODO: TV layout will require special handling for navigation keys. But now field is not focusable
             event.stopPropagation();
         });
 
-        textField.blur = function() {
-            // prevent textfield to blur while element has focus
-            if (!this.hasFocus && this.prototype) {
-                this.prototype.blur();
+        // Preserve native blur while respecting the custom focus flag
+        const originalBlur = textField.blur.bind(textField);
+        textField.blur = function () {
+            if (!this.hasFocus) {
+                originalBlur();
             }
         };
     }
@@ -114,7 +114,7 @@ class OffsetController {
 class SubtitleSync {
     constructor(currentPlayer) {
         this.player = currentPlayer;
-        this.#_initUI();
+        this.#initUI();
 
         // Create the offset controller
         this.offsetController = new OffsetController(
@@ -150,7 +150,7 @@ class SubtitleSync {
         }
 
         if (!action) {
-            this.#_tryShowSubtitleSync();
+            this.#tryShowSubtitleSync();
         } else if (action === 'hide' && this.subtitleSyncTextField.hasFocus) {
             // do not hide if element has focus
             return;
@@ -159,7 +159,7 @@ class SubtitleSync {
         }
     }
 
-    #_initUI() {
+    #initUI() {
         const parent = document.createElement('div');
         document.body.appendChild(parent);
         parent.innerHTML = template;
@@ -171,22 +171,22 @@ class SubtitleSync {
         this.subtitleSyncCloseButton = parent.querySelector('.subtitleSync-closeButton');
         this.subtitleSyncContainer = parent.querySelector('.subtitleSyncContainer');
 
-        this.#_setupCloseButton();
+        this.#setupCloseButton();
 
         // Initially hide the container
         this.subtitleSyncContainer.classList.add('hide');
     }
 
-    #_setupCloseButton() {
+    #setupCloseButton() {
         this.subtitleSyncCloseButton.addEventListener('click', () => {
             playbackManager.disableShowingSubtitleOffset(this.player);
             this.toggle('forceToHide');
         });
     }
 
-    #_tryShowSubtitleSync() {
+    #tryShowSubtitleSync() {
         // if showing subtitle sync is enabled and if there is an external subtitle stream enabled
-        if (!this.#_canShowSubtitleSync()) {
+        if (!this.#canShowSubtitleSync()) {
             this.subtitleSyncContainer.classList.add('hide');
             return;
         }
@@ -201,7 +201,7 @@ class SubtitleSync {
         this.subtitleSyncContainer.classList.remove('hide');
     }
 
-    #_canShowSubtitleSync() {
+    #canShowSubtitleSync() {
         return playbackManager.isShowingSubtitleOffsetEnabled(this.player)
                && playbackManager.canHandleOffsetOnCurrentSubtitle(this.player);
     }
