@@ -50,7 +50,8 @@ video[controls]::-webkit-media-controls {
     margin-left: 15%;
 }
 
-.videoSubtitles {
+.videoSubtitles,
+.videoSubtitlesSecondary {
     position: fixed;
     bottom: 0;
     text-align: center;
@@ -66,7 +67,8 @@ video[controls]::-webkit-media-controls {
     align-items: center;
 }
 
-.videoSubtitlesInner {
+.videoSubtitlesInner,
+.videoSecondarySubtitlesInnerDetached {
     max-width: 70%;
     background-color: rgba(0, 0, 0, 0.8);
 }

@@ -605,7 +605,7 @@ export class UserSettings {
      */
     getSubtitleAppearanceSettings(key) {
         key = key || 'localplayersubtitleappearance3';
-        return Object.assign(defaultSubtitleAppearanceSettings, JSON.parse(this.get(key, false) || '{}'));
+        return Object.assign({}, defaultSubtitleAppearanceSettings, JSON.parse(this.get(key, false) || '{}'));
     }
 
     /**
@@ -615,6 +615,46 @@ export class UserSettings {
      */
     setSubtitleAppearanceSettings(value, key) {
         key = key || 'localplayersubtitleappearance3';
+        return this.set(key, JSON.stringify(value), false);
+    }
+
+    /**
+     * Get subtitle appearance settings.
+     * @param {string|undefined} key - Settings key.
+     * @return {Boolean} Subtitle appearance settings.
+     */
+    getCustomSecondarySubtitlesEnabled(key) {
+        key = key || 'customsecondarysubtitlesenabled';
+        return this.get(key, false);
+    }
+
+    /**
+     * Set subtitle appearance settings.
+     * @param {Boolean} value - Subtitle appearance settings.
+     * @param {string|undefined} key - Settings key.
+     */
+    setCustomSecondarySubtitlesEnabled(value, key) {
+        key = key || 'customsecondarysubtitlesenabled';
+        return this.set(key, value, false);
+    }
+
+    /**
+     * Get subtitle appearance settings.
+     * @param {string|undefined} key - Settings key.
+     * @return {Object} Subtitle appearance settings.
+     */
+    getSecondarySubtitleAppearanceSettings(key) {
+        key = key || 'localplayersubtitleappearance4';
+        return Object.assign({}, defaultSubtitleAppearanceSettings, JSON.parse(this.get(key, false) || '{}'));
+    }
+
+    /**
+     * Set subtitle appearance settings.
+     * @param {Object} value - Subtitle appearance settings.
+     * @param {string|undefined} key - Settings key.
+     */
+    setSecondarySubtitleAppearanceSettings(value, key) {
+        key = key || 'localplayersubtitleappearance4';
         return this.set(key, JSON.stringify(value), false);
     }
 
@@ -714,6 +754,10 @@ export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentS
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);
 export const getSubtitleAppearanceSettings = currentSettings.getSubtitleAppearanceSettings.bind(currentSettings);
 export const setSubtitleAppearanceSettings = currentSettings.setSubtitleAppearanceSettings.bind(currentSettings);
+export const getCustomSecondarySubtitlesEnabled = currentSettings.getCustomSecondarySubtitlesEnabled.bind(currentSettings);
+export const setCustomSecondarySubtitlesEnabled = currentSettings.setCustomSecondarySubtitlesEnabled.bind(currentSettings);
+export const getSecondarySubtitleAppearanceSettings = currentSettings.getSecondarySubtitleAppearanceSettings.bind(currentSettings);
+export const setSecondarySubtitleAppearanceSettings = currentSettings.setSecondarySubtitleAppearanceSettings.bind(currentSettings);
 export const getComicsPlayerSettings = currentSettings.getComicsPlayerSettings.bind(currentSettings);
 export const setComicsPlayerSettings = currentSettings.setComicsPlayerSettings.bind(currentSettings);
 export const setFilter = currentSettings.setFilter.bind(currentSettings);

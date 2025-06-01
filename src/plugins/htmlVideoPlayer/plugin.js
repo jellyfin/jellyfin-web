@@ -1408,6 +1408,10 @@ export class HtmlVideoPlayer {
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
             const subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
 
+            const subtitleSecondaryAppearance = userSettings.getSecondarySubtitleAppearanceSettings();
+            const subtitleSecondaryVerticalPosition = parseInt(subtitleSecondaryAppearance.verticalPosition, 10);
+
+            const detatchSubs = subtitleVerticalPosition != subtitleSecondaryVerticalPosition;
             if (!this.#videoSubtitlesElem && !this.isSecondaryTrack(targetTextTrackIndex)) {
                 let subtitlesContainer = document.querySelector('.videoSubtitles');
                 if (!subtitlesContainer) {
@@ -1423,17 +1427,34 @@ export class HtmlVideoPlayer {
                 this.#currentTrackEvents = subtitleData.TrackEvents;
             } else if (!this.#videoSecondarySubtitlesElem && this.isSecondaryTrack(targetTextTrackIndex)) {
                 const subtitlesContainer = document.querySelector('.videoSubtitles');
+                let subtitlesSecondaryContainer = document.querySelector('.videoSubtitlesSecondary');
                 if (!subtitlesContainer) return;
+
                 const secondarySubtitlesElement = document.createElement('div');
-                secondarySubtitlesElement.classList.add('videoSecondarySubtitlesInner');
-                // determine the order of the subtitles
-                if (subtitleVerticalPosition < 0) {
-                    subtitlesContainer.insertBefore(secondarySubtitlesElement, subtitlesContainer.firstChild);
+                secondarySubtitlesElement.classList.add(detatchSubs ? 'videoSecondarySubtitlesInnerDetached' : 'videoSecondarySubtitlesInner');
+                if (!detatchSubs || !userSettings.getCustomSecondarySubtitlesEnabled()) {
+                    // determine the order of the subtitles
+                    if (subtitleVerticalPosition < 0) {
+                        subtitlesContainer.insertBefore(secondarySubtitlesElement, subtitlesContainer.firstChild);
+                    } else {
+                        subtitlesContainer.appendChild(secondarySubtitlesElement);
+                    }
                 } else {
-                    subtitlesContainer.appendChild(secondarySubtitlesElement);
+                    if (!subtitlesSecondaryContainer) {
+                        subtitlesSecondaryContainer = document.createElement('div');
+                        subtitlesSecondaryContainer.classList.add('videoSubtitlesSecondary');
+                    }
+                    subtitlesSecondaryContainer.appendChild(secondarySubtitlesElement);
+                    videoElement.parentNode.appendChild(subtitlesSecondaryContainer);
                 }
                 this.#videoSecondarySubtitlesElem = secondarySubtitlesElement;
-                this.setSubtitleAppearance(subtitlesContainer, this.#videoSecondarySubtitlesElem);
+                if (userSettings.getCustomSecondarySubtitlesEnabled() && detatchSubs) {
+                    this.setSecondarySubtitleAppearance(subtitlesSecondaryContainer, this.#videoSecondarySubtitlesElem);
+                } else if (userSettings.getCustomSecondarySubtitlesEnabled()) {
+                    this.setSecondarySubtitleAppearance(subtitlesContainer, this.#videoSecondarySubtitlesElem);
+                } else {
+                    this.setSubtitleAppearance(subtitlesContainer, this.#videoSecondarySubtitlesElem);
+                }
                 this.#currentSecondaryTrackEvents = subtitleData.TrackEvents;
             }
         });
@@ -1448,6 +1469,18 @@ export class HtmlVideoPlayer {
                 text: innerElem,
                 window: elem
             }, userSettings.getSubtitleAppearanceSettings());
+        });
+    }
+
+    /**
+         * @private
+         */
+    setSecondarySubtitleAppearance(elem, innerElem) {
+        Promise.all([import('../../scripts/settings/userSettings'), import('../../components/subtitlesettings/subtitleappearancehelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
+            subtitleAppearanceHelper.applyStyles({
+                text: innerElem,
+                window: elem
+            }, userSettings.getSecondarySubtitleAppearanceSettings());
         });
     }
 
