@@ -66,7 +66,7 @@
     "ButtonParentalControl": "Controllo parentale",
     "ButtonPause": "Pausa",
     "ButtonPreviousTrack": "Traccia Precedente",
-    "ButtonQuickStartGuide": "Guida rapida",
+    "ButtonQuickStartGuide": "Guida alla Configurazione",
     "ButtonRefreshGuideData": "Aggiorna la guida",
     "ButtonRemove": "Rimuovi",
     "ButtonRename": "Rinomina",
@@ -2029,5 +2029,7 @@
     "LabelGroupShowsIntoCollections": "Raggruppa le serie in collezioni",
     "HeaderServerUnavailable": "Server Non Disponibile",
     "HeaderUpdateRequired": "Aggiornamento Necessario",
-    "ViewSettings": "Mostra impostazioni"
+    "ViewSettings": "Mostra impostazioni",
+    "DownloadManager": "Scaricati",
+    "MessageForgotPasswordPinReset": "Inserisci il PIN per resettare la Password"
 }

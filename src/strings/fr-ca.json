@@ -1144,7 +1144,7 @@
     "LabelTonemappingParam": "Paramètre de tone-mapping",
     "LabelSkipForwardLength": "Temps de saut en avant",
     "LabelSortName": "Nom de tri",
-    "LabelDummyChapterDurationHelp": "L’intervalle entre les chapitres fictifs. Définir une valeur de 0 pour désactiver la génération de chapitres fictifs. Le changement de cette valeur n’aura aucun effet sur les chapitres fictifs existants.",
+    "LabelDummyChapterDurationHelp": "L’intervalle entre les chapitres fictifs en secondes. Définir une valeur de 0 pour désactiver la génération de chapitres fictifs. Le changement de cette valeur n’aura aucun effet sur les chapitres fictifs existants.",
     "LabelEnableLUFSScan": "Activer le scan LUFS",
     "LabelOriginalAspectRatio": "Format d’image original",
     "LabelPlayer": "Lecteur",

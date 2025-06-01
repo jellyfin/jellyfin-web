@@ -71,7 +71,7 @@
     "ButtonParentalControl": "家长控制",
     "ButtonPause": "暂停",
     "ButtonPreviousTrack": "上一音轨",
-    "ButtonQuickStartGuide": "快速入门指南",
+    "ButtonQuickStartGuide": "设置指南",
     "ButtonRefreshGuideData": "刷新指南数据",
     "ButtonRemove": "移除",
     "ButtonRename": "重命名",
@@ -1685,13 +1685,13 @@
     "EnableCardLayout": "显示可视卡盒",
     "MessageNoItemsAvailable": "没有可用的项。",
     "Unreleased": "暂未发布",
-    "DownloadAll": "全部下载",
+    "DownloadAll": "下载全部",
     "Experimental": "实验功能",
     "LabelStereoDownmixAlgorithm": "立体声降混算法",
     "StereoDownmixAlgorithmHelp": "用于将多声道下降混合为立体声的算法。",
     "HeaderRecordingMetadataSaving": "记录元数据",
     "LabelDummyChapterDuration": "间隔",
-    "LabelDummyChapterDurationHelp": "虚拟章节之间的时间间隔。将其设置为0以禁用虚拟章节生成。更改此设置不会影响现有的虚拟章节。",
+    "LabelDummyChapterDurationHelp": "虚拟章节之间的间隔（以秒为单位）。设置为 0 表示禁用虚拟章节生成。更改此值不会对现有虚拟章节产生影响。",
     "PreferEmbeddedExtrasTitlesOverFileNames": "对额外内容优先使用内置的标题而不是文件名",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "额外内容通常与父项有相同的内置标题，勾选此项来对它们使用内置标题。",
     "SaveRecordingNFO": "在 NFO 中保存录制的 EPG 元数据",
@@ -2030,5 +2030,6 @@
     "HeaderServerUnavailable": "服务器不可用",
     "HeaderUpdateRequired": "需要更新",
     "ViewSettings": "查看设置",
-    "MessageForgotPasswordPinReset": "在此处输入 PIN 码以完成密码重置"
+    "MessageForgotPasswordPinReset": "在此处输入 PIN 码以完成密码重置",
+    "DownloadManager": "下载"
 }

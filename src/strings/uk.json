@@ -170,7 +170,7 @@
     "ButtonResetEasyPassword": "Скинути простий PIN -код",
     "ButtonRemove": "Видалити",
     "ButtonRefreshGuideData": "Оновити дані телегіда",
-    "ButtonQuickStartGuide": "Посібник по швидкому запуску",
+    "ButtonQuickStartGuide": "Посібник з налаштування",
     "ButtonPreviousTrack": "Попередня доріжка",
     "ButtonPause": "Пауза",
     "ButtonParentalControl": "Батьківський контроль",
@@ -1696,7 +1696,7 @@
     "SaveRecordingImagesHelp": "Зберігайте зображення з постачальника списків EPG разом із носієм.",
     "HeaderDummyChapter": "Зображення сцен",
     "LabelDummyChapterDuration": "Інтервал",
-    "LabelDummyChapterDurationHelp": "Інтервал між зображеннями сцен. Встановіть значення 0, щоб вимкнути генерацію зображень сцен. Зміна цього параметра не вплине на існуючі зображення сцен.",
+    "LabelDummyChapterDurationHelp": "Інтервал між зображеннями сцен у секундах. Встановіть значення 0, щоб вимкнути генерацію зображень сцен. Зміна цього параметра не вплине на існуючі зображення сцен.",
     "LabelDummyChapterCount": "Ліміт",
     "LabelDummyChapterCountHelp": "Максимальна кількість зображень розділів, які буде видобуто для кожного медіафайлу.",
     "LabelChapterImageResolution": "Роздільна здатність",
@@ -2025,5 +2025,8 @@
     "HeaderUpdateRequired": "Потрібне оновлення",
     "LimitSegmentLength": "Використовувати коротші сегменти HLS",
     "LimitSegmentLengthHelp": "Увімкнення цієї опції може допомогти запобігти зависанню HLS-програвача під час пошуку на певних пристроях, наприклад, на телевізорах з webOS.",
-    "HeaderServerUnavailable": "Сервер недоступний"
+    "HeaderServerUnavailable": "Сервер недоступний",
+    "DownloadManager": "Завантаження",
+    "ViewSettings": "Налаштування перегляду",
+    "MessageForgotPasswordPinReset": "Введіть PIN-код, щоб завершити відновлення пароля"
 }

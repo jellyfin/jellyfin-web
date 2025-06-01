@@ -205,7 +205,7 @@
     "ButtonRevoke": "Revogar",
     "ButtonEditOtherUserPreferences": "Edita o perfil desta usuaria, imaxe e preferencias personais.",
     "ButtonScanAllLibraries": "Escanear tódalas bibliotecas",
-    "BurnSubtitlesHelp": "Indica se o servidor debería incluír os subtítulos ao recodificar os vídeos. Se non fas esto mellorarás moito o rendemento. Elixe Auto para incluir formatos baseados na imaxe (VobSub, PGS, SUB, IDX, etc.) e certos subtítulos ASS ou SSA.",
+    "BurnSubtitlesHelp": "Indica se o servidor debería incluír os subtítulos. Se non fas esto mellorarás moito o rendemento. Elixe Auto para incluir formatos baseados na imaxe (VobSub, PGS, SUB, IDX, etc.) e certos subtítulos ASS ou SSA.",
     "ButtonAddScheduledTaskTrigger": "Engadir activador",
     "ButtonForgotPassword": "Contrasinal esquecido",
     "DownloadsValue": "{0} descargas",
@@ -1047,5 +1047,11 @@
     "CustomSplashScreenSize": "As imaxes personalizadas deben ter unha relación de aspecto de 16x9 e un tamaño mínimo de 1920x1080.",
     "DeleteCustomImage": "Eliminar imaxe personalizada",
     "DateModified": "Data de modificación",
-    "HeaderLatestRecordings": "Gravacións recentemente engadidas"
+    "HeaderLatestRecordings": "Gravacións recentemente engadidas",
+    "HeaderNextEpisode": "Seguinte episodio",
+    "HeaderPageNotFound": "Páxina non atopada",
+    "HeaderOtherItems": "Outros elementos",
+    "HeaderMusicQuality": "Calidade de son",
+    "HeaderNewPlaylist": "Nova lista de reprodución",
+    "HeaderNextVideo": "Seguinte vídeo"
 }
