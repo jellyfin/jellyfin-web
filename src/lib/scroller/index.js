@@ -599,10 +599,10 @@ const scrollerFactory = function (frame, options) {
         let delta = normalizeWheelDelta(event);
 
         if (transform) {
-            if (o.horizontal && event.deltaX !== 0 &&
-                (event.deltaY >= -5 && event.deltaY <= 5) &&
-                (pos.dest + o.scrollBy * delta > 0) &&
-                (pos.dest + o.scrollBy * delta < pos.end)
+            if (o.horizontal && event.deltaX !== 0
+                && (event.deltaY >= -5 && event.deltaY <= 5) 
+                && (pos.dest + o.scrollBy * delta > 0)
+                && (pos.dest + o.scrollBy * delta < pos.end)
             ) {
                 event.preventDefault();
             }
@@ -637,7 +637,7 @@ const scrollerFactory = function (frame, options) {
         });
 
         dom.removeEventListener(scrollSource, wheelEvent, scrollHandler, {
-            passive: true
+            passive: false
         });
 
         dom.removeEventListener(dragSourceElement, 'touchstart', dragInitSlidee, {
@@ -809,7 +809,7 @@ const scrollerFactory = function (frame, options) {
 
             // Scrolling navigation
             dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
-                passive: true
+                passive: false
             });
         }
 
