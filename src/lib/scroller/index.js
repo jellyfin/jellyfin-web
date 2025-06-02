@@ -600,7 +600,7 @@ const scrollerFactory = function (frame, options) {
 
         if (transform) {
             if (o.horizontal && event.deltaX !== 0
-                && (event.deltaY >= -5 && event.deltaY <= 5) 
+                && (event.deltaY >= -5 && event.deltaY <= 5)
                 && (pos.dest + o.scrollBy * delta > 0)
                 && (pos.dest + o.scrollBy * delta < pos.end)
             ) {
