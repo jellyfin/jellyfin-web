@@ -12,7 +12,17 @@ const fetchBackups = async (api: Api, options?: AxiosRequestConfig) => {
 
     const response = await backupApi.listBackups(options);
 
-    return response.data;
+    const backups = response.data;
+
+    backups.sort((a, b) => {
+        if (a.DateCreated && b.DateCreated) {
+            return new Date(b.DateCreated).getTime() - new Date(a.DateCreated).getTime();
+        } else {
+            return 0;
+        }
+    });
+
+    return backups;
 };
 
 export const useBackups = () => {

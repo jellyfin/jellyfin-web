@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useBackups } from 'apps/dashboard/features/backups/api/useBackups';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Loading from 'components/loading/LoadingComponent';
 import Alert from '@mui/material/Alert';
 import List from '@mui/material/List';
@@ -88,7 +88,7 @@ export const Component = () => {
                 }
             });
         }
-    }, [backupToRestore?.Path, restoreBackup]);
+    }, [backupToRestore, restoreBackup]);
 
     useEffect(() => {
         if (restoreInProgress) {
@@ -99,6 +99,8 @@ export const Component = () => {
                         setRestoreInProgress(false);
                         setIsRestoreSuccess(true);
                         clearInterval(serverCheckInterval);
+                    }).catch(() => {
+                        // Server is still down
                     });
             }, 5000);
 
@@ -107,16 +109,6 @@ export const Component = () => {
             };
         }
     }, [api, restoreInProgress]);
-
-    const sortedBackups = useMemo(() => (
-        backups?.sort((a, b) => {
-            if (a.DateCreated && b.DateCreated) {
-                return new Date(b.DateCreated).getTime() - new Date(a.DateCreated).getTime();
-            } else {
-                return 0;
-            }
-        })
-    ), [ backups ]);
 
     if (isPending) {
         return <Loading />;
@@ -174,7 +166,7 @@ export const Component = () => {
                         <Box className='readOnlyContent'>
                             {backups.length > 0 && (
                                 <List sx={{ bgcolor: 'background.paper' }}>
-                                    {sortedBackups?.map(backup => {
+                                    {backups.map(backup => {
                                         return <Backup
                                             key={backup.Path}
                                             backup={backup}

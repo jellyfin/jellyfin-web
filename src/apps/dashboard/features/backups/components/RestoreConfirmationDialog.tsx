@@ -22,7 +22,7 @@ const RestoreConfirmationDialog: FunctionComponent<IProps> = ({ open, onClose, o
             fullWidth
         >
             <DialogTitle>
-                {globalize.translate('Restore')}
+                {globalize.translate('LabelRestore')}
             </DialogTitle>
 
             <DialogContent>
@@ -36,7 +36,7 @@ const RestoreConfirmationDialog: FunctionComponent<IProps> = ({ open, onClose, o
                     {globalize.translate('ButtonCancel')}
                 </Button>
                 <Button onClick={onConfirm}>
-                    {globalize.translate('Restore')}
+                    {globalize.translate('LabelRestore')}
                 </Button>
             </DialogActions>
         </Dialog>
