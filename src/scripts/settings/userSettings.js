@@ -309,9 +309,9 @@ export class UserSettings {
     }
 
     /**
-     * Get or set customCss.
-     * @param {string|undefined} [val] - Language.
-     * @return {string} Language.
+     * Get or set 'customCss'.
+     * @param {string|undefined} [val] - 'customCss' state.
+     * @return {string} 'customCss' state.
      */
     customCss(val) {
         if (val !== undefined) {
@@ -319,6 +319,19 @@ export class UserSettings {
         }
 
         return this.get('customCss', false);
+    }
+
+    /**
+     * Get or set 'cardRatings' state.
+     * @param {string|undefined} [val] - 'cardRatings' state.
+     * @return {string} 'cardRatings' state.
+     */
+    cardRatings(val) {
+        if (val !== undefined) {
+            return this.set('cardRatings', val.toString(), false);
+        }
+
+        return this.get('cardRatings', false);
     }
 
     /**
@@ -707,6 +720,7 @@ export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentS
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
+export const cardRatings = currentSettings.cardRatings.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);
 export const useEpisodeImagesInNextUpAndResume = currentSettings.useEpisodeImagesInNextUpAndResume.bind(currentSettings);
 export const language = currentSettings.language.bind(currentSettings);

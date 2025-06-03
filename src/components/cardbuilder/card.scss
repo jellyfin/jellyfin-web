@@ -871,3 +871,52 @@ button::-moz-focus-inner {
     transform: scale(1.4, 1.4);
     transition: 0.2s;
 }
+
+.cardRatingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    padding: 5px;
+    font-weight: 550;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    z-index: 10;
+}
+
+.card-hoverable:hover .cardRatingContainer {
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.cardCriticRating {
+    background-repeat: no-repeat;
+    background-size: auto 1.2em;
+    min-height: 1.2em;
+    background-position: 2px center;
+    padding-left: 24px;
+}
+
+.cardRatingFresh {
+    background-image: url(../../assets/img/fresh.svg);
+}
+
+.cardRatingRotten {
+    background-image: url(../../assets/img/rotten.svg);
+}
+
+.cardCommunityRating {
+    min-height: 1.2em;
+    display: flex;
+    align-items: center;
+    margin-right: 3px;
+}
+
+.cardStarIcon {
+    width: auto !important;
+    height: auto !important;
+    font-size: 1.4em;
+    margin-right: 3px;
+    color: #f2b01e;
+}

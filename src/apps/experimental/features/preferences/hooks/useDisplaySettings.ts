@@ -84,7 +84,8 @@ async function loadDisplaySettings({
     await settings.setUserInfo(userId, api);
 
     const displaySettings = {
-        customCss: settings.customCss() || '',
+        customCss: settings.customCss(),
+        cardRatings: settings.cardRatings() || 'none',
         dashboardTheme: settings.dashboardTheme() || defaultTheme?.id || FALLBACK_THEME_ID,
         dateTimeLocale: settings.dateTimeLocale() || 'auto',
         disableCustomCss: Boolean(settings.disableCustomCss()),
@@ -132,6 +133,7 @@ async function saveDisplaySettings({
         userSettings.language(normalizeValue(newDisplaySettings.language));
     }
     userSettings.customCss(normalizeValue(newDisplaySettings.customCss));
+    userSettings.cardRatings(newDisplaySettings.cardRatings);
     userSettings.dashboardTheme(newDisplaySettings.dashboardTheme);
     userSettings.dateTimeLocale(normalizeValue(newDisplaySettings.dateTimeLocale));
     userSettings.disableCustomCss(newDisplaySettings.disableCustomCss);
