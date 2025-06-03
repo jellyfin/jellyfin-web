@@ -1,5 +1,6 @@
 export interface DisplaySettingsValues {
     customCss: string;
+    cardRatings: string;
     dashboardTheme: string;
     dateTimeLocale: string;
     disableCustomCss: boolean;

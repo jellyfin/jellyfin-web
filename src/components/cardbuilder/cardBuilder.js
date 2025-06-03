@@ -41,6 +41,8 @@ import {
     resolveMixedShapeByAspectRatio
 } from './cardBuilderUtils';
 
+import * as userSettings from 'scripts/settings/userSettings';
+
 const enableFocusTransform = !browser.slow && !browser.edge;
 
 /**
@@ -1127,10 +1129,35 @@ function buildCard(index, item, apiClient, options) {
     let additionalCardContent = '';
 
     if (layoutManager.desktop && !options.disableHoverMenu) {
+        additionalCardContent += getRatingHtml(item);
         additionalCardContent += getHoverMenuHtml(item, action);
     }
 
     return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + pathData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + startDate + endDate + ' data-prefix="' + escapeHtml(prefix) + '" class="' + className + '"' + ariaLabelAttribute + '>' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+}
+
+/**
+ * Generates HTML markup for card rating.
+ * @param {object} item - Item used to generate the card rating.
+ * @returns {string} HTML markup of the card rating.
+ */
+function getRatingHtml(item) {
+    const ratingsSetting = userSettings.cardRatings();
+    if (!ratingsSetting || ratingsSetting === "none") {
+        return "";
+    }
+
+    let cardRatingHtml = "";
+    if (item.CriticRating && ["critic", "all"].includes(ratingsSetting)) {
+        const backgroundImageClass = item.CriticRating >= 60 ? "cardRatingFresh" : "cardRatingRotten";
+        cardRatingHtml += `<div class="cardCriticRating ${backgroundImageClass}">${item.CriticRating}</div>`;
+    }
+    if (item.CommunityRating && ["community", "all"].includes(ratingsSetting)) {
+        const starIconHtml = '<span class="material-icons cardStarIcon star" aria-hidden="true"></span>'
+        cardRatingHtml += `<div class="cardRating cardCommunityRating">${starIconHtml}${item.CommunityRating.toFixed(1)}</div>`;
+    }
+
+    return cardRatingHtml ? `<div class="cardRatingContainer">${cardRatingHtml}</div>` : "";
 }
 
 /**
