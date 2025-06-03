@@ -22,13 +22,13 @@ interface StorageListItemProps {
 const calculateUsed = (folder?: FolderStorageDto) => {
     if (typeof folder?.UsedSpace === 'undefined') return 0;
     if (typeof folder.FreeSpace === 'undefined') return 100;
-    
+
     const totalSpace = folder.FreeSpace + folder.UsedSpace;
     if (totalSpace === 0) return 0;
-    
+
     // Ensure we don't have negative values
     const usedSpace = Math.max(0, folder.UsedSpace);
-    
+
     return Math.min(100, (usedSpace / totalSpace) * 100);
 };
 

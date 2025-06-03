@@ -747,6 +747,9 @@ const DashboardPage = {
 };
 
 export default function (view) {
+    const serverId = ApiClient.serverId();
+    let unmountPathsWidget;
+
     function onRestartRequired(evt, apiClient) {
         console.debug('onRestartRequired not implemented', evt, apiClient);
     }
@@ -778,7 +781,6 @@ export default function (view) {
         }
     }
 
-    const serverId = ApiClient.serverId();
     view.querySelector('.activeDevices').addEventListener('click', onActiveDevicesClick);
     view.addEventListener('viewshow', function () {
         const page = this;
@@ -822,7 +824,7 @@ export default function (view) {
             button: page.querySelector('.btnRefresh')
         });
 
-        renderComponent(ServerPathWidget, {}, page.querySelector('#serverPaths'));
+        unmountPathsWidget = renderComponent(ServerPathWidget, {}, page.querySelector('#serverPaths'));
 
         page.querySelector('#btnRestartServer').addEventListener('click', DashboardPage.restart);
         page.querySelector('#btnShutdown').addEventListener('click', DashboardPage.shutdown);
@@ -849,6 +851,8 @@ export default function (view) {
             taskKey: 'RefreshLibrary',
             button: page.querySelector('.btnRefresh')
         });
+
+        if (unmountPathsWidget) unmountPathsWidget();
 
         page.querySelector('#btnRestartServer').removeEventListener('click', DashboardPage.restart);
         page.querySelector('#btnShutdown').removeEventListener('click', DashboardPage.shutdown);

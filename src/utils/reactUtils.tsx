@@ -14,12 +14,16 @@ export const renderComponent = <P extends object> (
     props: P,
     element: HTMLElement
 ) => {
-    createRoot(element)
-        .render(
-            <RootContext>
-                <Component {...props} />
-            </RootContext>
-        );
+    const root = createRoot(element);
+    root.render(
+        <RootContext>
+            <Component {...props} />
+        </RootContext>
+    );
+
+    // NOTE: We need to wrap the unmount in a setTimeout to workaround this issue with nested roots:
+    // https://github.com/facebook/react/issues/25675
+    return () => setTimeout(() => root.unmount());
 };
 
 const RootContext: React.FC<React.PropsWithChildren> = ({ children }) => {
