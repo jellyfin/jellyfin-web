@@ -44,7 +44,7 @@ const AdvancedDrawerSection = () => {
                     <ListItemIcon>
                         <Backup />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('TabBackups')} />
+                    <ListItemText primary={globalize.translate('HeaderBackups')} />
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>

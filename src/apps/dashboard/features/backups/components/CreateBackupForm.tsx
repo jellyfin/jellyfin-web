@@ -112,7 +112,7 @@ const CreateBackupForm: FunctionComponent<IProps> = ({ open, onClose, onCreate }
             <DialogActions>
                 <Button
                     onClick={onClose}
-                    color='error'
+                    variant='text'
                 >{globalize.translate('ButtonCancel')}</Button>
                 <Button type='submit'>{globalize.translate('Create')}</Button>
             </DialogActions>

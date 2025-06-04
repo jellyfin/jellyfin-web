@@ -117,7 +117,7 @@ export const Component = () => {
     return (
         <Page
             id='backupsPage'
-            title={globalize.translate('TabBackups')}
+            title={globalize.translate('HeaderBackups')}
             className='mainAnimatedPage type-interior'
         >
             <BackupProgressDialog open={backupInProgress} />
@@ -149,7 +149,7 @@ export const Component = () => {
                 ) : (
                     <Stack spacing={3}>
                         <Typography variant='h1'>
-                            {globalize.translate('TabBackups')}
+                            {globalize.translate('HeaderBackups')}
                         </Typography>
                         <Typography>
                             {globalize.translate('HeaderBackupsHelp')}
