@@ -17,6 +17,8 @@ import { PluginStatus } from '@jellyfin/sdk/lib/generated-client/models/plugin-s
 import type { ConfigurationPageInfo } from '@jellyfin/sdk/lib/generated-client/models/configuration-page-info';
 import { useEnablePlugin } from '../api/useEnablePlugin';
 import { useDisablePlugin } from '../api/useDisablePlugin';
+import { useUninstallPlugin } from '../api/useUninstallPlugin';
+import ConfirmDialog from 'components/ConfirmDialog';
 
 interface IProps {
     plugin: PluginInfo;
@@ -29,8 +31,10 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
     const actionRef = useRef<HTMLButtonElement | null>(null);
     const enablePlugin = useEnablePlugin();
     const disablePlugin = useDisablePlugin();
+    const uninstallPlugin = useUninstallPlugin();
     const [ anchorEl, setAnchorEl ] = useState<HTMLElement | null>(null);
     const [ isMenuOpen, setMenuOpen ] = useState(false);
+    const [ isUninstallConfirmOpen, setIsUninstallConfirmOpen ] = useState(false);
     const { api } = useApi();
 
     const navigateToPluginSettings = useCallback(() => {
@@ -64,6 +68,27 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
             setMenuOpen(false);
         }
     }, [ plugin, disablePlugin ]);
+
+    const onCloseUninstallConfirmDialog = useCallback(() => {
+        setIsUninstallConfirmOpen(false);
+    }, []);
+
+    const showUninstallConfirmDialog = useCallback(() => {
+        setIsUninstallConfirmOpen(true);
+        setAnchorEl(null);
+        setMenuOpen(false);
+    }, []);
+
+    const onUninstall = useCallback(() => {
+        if (plugin.Id && plugin.Version) {
+            uninstallPlugin.mutate({
+                pluginId: plugin.Id,
+                version: plugin.Version
+            });
+            setAnchorEl(null);
+            setMenuOpen(false);
+        }
+    }, [ plugin, uninstallPlugin ]);
 
     const onMenuClose = useCallback(() => {
         setAnchorEl(null);
@@ -120,7 +145,7 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
                 )}
 
                 {plugin.CanUninstall && (
-                    <MenuItem>
+                    <MenuItem onClick={showUninstallConfirmDialog}>
                         <ListItemIcon>
                             <Delete />
                         </ListItemIcon>
@@ -128,6 +153,15 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
                     </MenuItem>
                 )}
             </Menu>
+            <ConfirmDialog
+                open={isUninstallConfirmOpen}
+                title={globalize.translate('HeaderUninstallPlugin')}
+                text={globalize.translate('UninstallPluginConfirmation', plugin.Name || '')}
+                onCancel={onCloseUninstallConfirmDialog}
+                onConfirm={onUninstall}
+                confirmButtonColor='error'
+                confirmButtonText={globalize.translate('ButtonUninstall')}
+            />
         </>
     );
 };
