@@ -1153,7 +1153,7 @@ function getRatingHtml(item) {
         cardRatingHtml += `<div class="cardCriticRating ${backgroundImageClass}">${item.CriticRating}</div>`;
     }
     if (item.CommunityRating && ['community', 'all'].includes(ratingsSetting)) {
-        const starIconHtml = '<span class="material-icons cardStarIcon star" aria-hidden="true"></span>'
+        const starIconHtml = '<span class="material-icons cardStarIcon star" aria-hidden="true"></span>';
         cardRatingHtml += `<div class="cardRating cardCommunityRating">${starIconHtml}${item.CommunityRating.toFixed(1)}</div>`;
     }
 
