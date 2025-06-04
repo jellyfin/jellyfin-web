@@ -1621,17 +1621,20 @@ export default function (view) {
     }
 
     function isPageReloaded() {
-        // Detects if the current page load was a result of a reload.
-        const navEntries = performance.getEntriesByType('navigation');
-
-        if (navEntries.length > 0 && navEntries[0].name.includes('/video')) {
-            return navEntries[0].type === 'reload';
+        if (typeof performance !== 'undefined' && typeof performance.getEntriesByType === 'function') {
+            // Detects if the current page load was a result of a reload.
+            const navEntries = performance.getEntriesByType('navigation');
+            if (navEntries.length > 0 && navEntries[0].name.includes('/video')) {
+                return navEntries[0].type === 'reload';
+            }
         }
-
+        if (performance.navigation && typeof performance.navigation.type === 'number') {
+            return performance.navigation.type === 1;
+        }
         return false;
     }
 
-    async function resumePlayback () {
+    async function resumePlayback() {
         // Resume playback based on item id
         const lastPlayedItemId = sessionStorage.getItem('lastPlayedItemId');
         const apiClient = ServerConnections.currentApiClient();
