@@ -1635,7 +1635,7 @@ export default function (view) {
         // Detects if the current page load was a result of a reload.
         const navEntries = performance.getEntriesByType("navigation");
 
-        if (navEntries.length > 0 && navEntries[0].name.includes("/video")) {
+        if (navEntries.length > 0 && navEntries[0].name.includes('/video')) {
             return navEntries[0].type === 'reload';
 >>>>>>> c93a288bf (Update src/controllers/playback/video/index.js)
         }
