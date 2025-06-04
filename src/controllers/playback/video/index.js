@@ -1620,6 +1620,37 @@ export default function (view) {
         }
     }
 
+    function isPageReloaded() {
+        // Detects if the current page load was a result of a reload.
+        const navEntries = performance.getEntriesByType("navigation");
+
+        if (navEntries.length > 0 && navEntries[0].name.includes("/video")) {
+            return navEntries[0].type === "reload";
+        }
+
+        return false;
+    }
+
+    async function resumePlayback () {
+        // Resume playback based on item id
+        const lastPlayedItemId = sessionStorage.getItem('lastPlayedItemId');
+        const apiClient = ServerConnections.currentApiClient();
+        const serverId = apiClient.serverId()
+        const lastPlayedItemTicks = (await (apiClient.getItem(apiClient.getCurrentUserId(), lastPlayedItemId))).UserData.PlaybackPositionTicks || 0;
+
+        await playbackManager.play({
+            ids: [lastPlayedItemId],
+            serverId: serverId,
+            startPositionTicks: lastPlayedItemTicks,
+        }).then(() => {
+            // Remove specified class so playback controls will show
+            const dlg = document.querySelector('.videoPlayerContainer');
+            if (dlg) {
+                dlg.classList.remove("videoPlayerContainer-onTop")
+            }
+        });
+    }
+
     shell.enableFullscreen();
 
     let currentPlayer;
@@ -1669,8 +1700,12 @@ export default function (view) {
         headerElement.classList.add('osdHeader');
         setBackdropTransparency(TRANSPARENCY_LEVEL.Full);
     });
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', async function () {
         try {
+            const reloaded = isPageReloaded();
+            if (reloaded) {
+                await resumePlayback();
+            }
             Events.on(playbackManager, 'playerchange', onPlayerChange);
             bindToPlayer(playbackManager.getCurrentPlayer());
             /* eslint-disable-next-line compat/compat */
