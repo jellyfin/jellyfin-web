@@ -11,6 +11,7 @@ import Settings from '@mui/icons-material/Settings';
 import Delete from '@mui/icons-material/Delete';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import BlockIcon from '@mui/icons-material/Block';
+import ExtensionIcon from '@mui/icons-material/Extension';
 import ListItemText from '@mui/material/ListItemText';
 import { PluginStatus } from '@jellyfin/sdk/lib/generated-client/models/plugin-status';
 import type { ConfigurationPageInfo } from '@jellyfin/sdk/lib/generated-client/models/configuration-page-info';
@@ -80,6 +81,7 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
                 title={plugin.Name}
                 text={`${globalize.translate('LabelStatus')} ${plugin.Status}`}
                 image={plugin.HasImage ? api?.getUri(`/Plugins/${plugin.Id}/${plugin.Version}/Image`) : null}
+                icon={<ExtensionIcon sx={{ width: 80, height: 80 }} />}
                 action={true}
                 actionRef={actionRef}
                 onClick={navigateToPluginSettings}

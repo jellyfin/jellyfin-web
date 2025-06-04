@@ -6,7 +6,6 @@ import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ExtensionIcon from '@mui/icons-material/Extension';
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 import CardActionArea from '@mui/material/CardActionArea';
 
@@ -14,13 +13,14 @@ interface IProps {
     title?: string;
     text?: string;
     image?: string | null;
+    icon?: React.ReactNode;
     onClick?: () => void;
     action?: boolean;
     actionRef: React.MutableRefObject<HTMLButtonElement | null>;
     onActionClick?: () => void;
 };
 
-const BaseCard = ({ title, text, image, onClick, action, actionRef, onActionClick }: IProps) => {
+const BaseCard = ({ title, text, image, icon, onClick, action, actionRef, onActionClick }: IProps) => {
     return (
         <Card
             sx={{
@@ -47,7 +47,7 @@ const BaseCard = ({ title, text, image, onClick, action, actionRef, onActionClic
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
-                        <ExtensionIcon sx={{ width: 80, height: 80 }} />
+                        {icon}
                     </Box>
                 )}
             </CardActionArea>
