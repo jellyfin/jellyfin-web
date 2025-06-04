@@ -8,9 +8,11 @@ import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 import CardActionArea from '@mui/material/CardActionArea';
+import Stack from '@mui/material/Stack';
 
 interface IProps {
     title?: string;
+    secondaryTitle?: string;
     text?: string;
     image?: string | null;
     icon?: React.ReactNode;
@@ -20,7 +22,7 @@ interface IProps {
     onActionClick?: () => void;
 };
 
-const BaseCard = ({ title, text, image, icon, onClick, action, actionRef, onActionClick }: IProps) => {
+const BaseCard = ({ title, secondaryTitle, text, image, icon, onClick, action, actionRef, onActionClick }: IProps) => {
     return (
         <Card
             sx={{
@@ -52,11 +54,20 @@ const BaseCard = ({ title, text, image, icon, onClick, action, actionRef, onActi
                 )}
             </CardActionArea>
             <CardHeader
-                title={<Typography sx={{
-                    overflow: 'hidden',
-                    whiteSpace: 'nowrap',
-                    textOverflow: 'ellipsis'
-                }}>{title}</Typography>}
+                title={
+                    <Stack direction='row' gap={1} alignItems='center'>
+                        <Typography sx={{
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis'
+                        }}>
+                            {title}
+                        </Typography>
+                        {secondaryTitle && (
+                            <Typography variant='body2' color='text.secondary'>{secondaryTitle}</Typography>
+                        )}
+                    </Stack>
+                }
                 subheader={text}
                 action={
                     action ? (

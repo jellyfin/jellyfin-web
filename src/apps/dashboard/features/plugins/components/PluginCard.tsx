@@ -104,6 +104,7 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
         <>
             <BaseCard
                 title={plugin.Name}
+                secondaryTitle={plugin.Version}
                 text={`${globalize.translate('LabelStatus')} ${plugin.Status}`}
                 image={plugin.HasImage ? api?.getUri(`/Plugins/${plugin.Id}/${plugin.Version}/Image`) : null}
                 icon={<ExtensionIcon sx={{ width: 80, height: 80 }} />}
