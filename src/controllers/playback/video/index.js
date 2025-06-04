@@ -1649,7 +1649,7 @@ export default function (view) {
             // Remove specified class so playback controls will show
             const dlg = document.querySelector('.videoPlayerContainer');
             if (dlg) {
-                dlg.classList.remove('videoPlayerContainer-onTop');
+                dlg.classList.remove('videoPlayerContainer-onTop')
             }
         });
     }
