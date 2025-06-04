@@ -1635,7 +1635,7 @@ export default function (view) {
         // Resume playback based on item id
         const lastPlayedItemId = sessionStorage.getItem('lastPlayedItemId');
         const apiClient = ServerConnections.currentApiClient();
-        const serverId = apiClient.serverId()
+        const serverId = apiClient.serverId();
         const lastPlayedItemTicks = (await (apiClient.getItem(apiClient.getCurrentUserId(), lastPlayedItemId))).UserData.PlaybackPositionTicks || 0;
 
         await playbackManager.play({
