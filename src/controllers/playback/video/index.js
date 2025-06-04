@@ -1641,7 +1641,7 @@ export default function (view) {
         await playbackManager.play({
             ids: [lastPlayedItemId],
             serverId: serverId,
-            startPositionTicks: lastPlayedItemTicks,
+            startPositionTicks: lastPlayedItemTicks
         }).then(() => {
             // Remove specified class so playback controls will show
             const dlg = document.querySelector('.videoPlayerContainer');
