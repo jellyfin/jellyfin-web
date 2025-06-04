@@ -45,13 +45,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'livetvguideprovider.html'
         }
     }, {
-        path: 'recordings',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'livetvsettings',
-            view: 'livetvsettings.html'
-        }
-    }, {
         path: 'livetv',
         pageProps: {
             appType: AppType.Dashboard,
