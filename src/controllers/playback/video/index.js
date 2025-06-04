@@ -1625,7 +1625,7 @@ export default function (view) {
         const navEntries = performance.getEntriesByType("navigation");
 
         if (navEntries.length > 0 && navEntries[0].name.includes("/video")) {
-            return navEntries[0].type === "reload";
+            return navEntries[0].type === 'reload';
         }
 
         return false;
