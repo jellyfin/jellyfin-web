@@ -1,4 +1,4 @@
-import icon from '@jellyfin/ux-web/icon-transparent.png';
+import icon from './MBC_LOGO.png';
 import Button from '@mui/material/Button/Button';
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,13 @@ const ServerButton: FC = () => {
     } = useSystemInfo();
 
     return (
+      <>
+      <img
+        src={icon}
+        alt="Server Logo"
+        style={{ height: 24, marginRight: 8 }}
+      />  
+        
         <Button
             variant='text'
             size='large'
@@ -30,8 +37,9 @@ const ServerButton: FC = () => {
             component={Link}
             to='/'
         >
-            {isPending ? '' : (systemInfo?.ServerName || 'Jellyfin')}
+            {isPending ? '' : (systemInfo?.ServerName || 'BusanMBC')}
         </Button>
+       </>
     );
 };
 
