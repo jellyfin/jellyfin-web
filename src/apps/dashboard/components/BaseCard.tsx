@@ -18,7 +18,7 @@ interface IProps {
     icon?: React.ReactNode;
     onClick?: () => void;
     action?: boolean;
-    actionRef: React.MutableRefObject<HTMLButtonElement | null>;
+    actionRef?: React.MutableRefObject<HTMLButtonElement | null>;
     onActionClick?: () => void;
 };
 

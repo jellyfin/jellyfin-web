@@ -127,7 +127,7 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
                     </MenuItem>
                 )}
 
-                {(plugin.CanUninstall && plugin.Status == PluginStatus.Active) && (
+                {(plugin.CanUninstall && plugin.Status === PluginStatus.Active) && (
                     <MenuItem onClick={onDisablePlugin}>
                         <ListItemIcon>
                             <BlockIcon />
@@ -136,7 +136,7 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
                     </MenuItem>
                 )}
 
-                {(plugin.CanUninstall && plugin.Status == PluginStatus.Disabled) && (
+                {(plugin.CanUninstall && plugin.Status === PluginStatus.Disabled) && (
                     <MenuItem onClick={onEnablePlugin}>
                         <ListItemIcon>
                             <CheckCircleOutlineIcon />
