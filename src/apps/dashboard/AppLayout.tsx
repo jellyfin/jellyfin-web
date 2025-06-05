@@ -73,9 +73,9 @@ export const Component: FC = () => {
                                     <HelpButton />
                                 }
                             >
-                                {isMetadataManager && (
+                                
                                     <ServerButton />
-                                )}
+                                
 
                                 <AppTabs isDrawerOpen={isDrawerOpen} />
                             </AppToolbar>
