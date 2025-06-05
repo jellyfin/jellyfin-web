@@ -100,6 +100,7 @@
 - [StableCrimson](https://github.com/StableCrimson)
 - [diegoeche](https://github.com/diegoeche)
 - [Free O'Toole](https://github.com/freeotoole)
+- [Armanc](https://github.com/armanckeser)
 
 ## Emby Contributors
 
