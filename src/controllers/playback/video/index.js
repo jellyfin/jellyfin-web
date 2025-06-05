@@ -1628,9 +1628,6 @@ export default function (view) {
                 return navEntries[0].type === 'reload';
             }
         }
-        if (performance.navigation && typeof performance.navigation.type === 'number') {
-            return performance.navigation.type === 1;
-        }
         return false;
     }
 
