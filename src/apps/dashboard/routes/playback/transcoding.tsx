@@ -547,7 +547,6 @@ export const Component = () => {
                                         slotProps={{
                                             htmlInput: {
                                                 min: 0,
-                                                max: 1.79769e+308,
                                                 step: 0.00001
                                             }
                                         }}
@@ -563,7 +562,6 @@ export const Component = () => {
                                         slotProps={{
                                             htmlInput: {
                                                 min: 0,
-                                                max: 1.79769e+308,
                                                 step: 0.00001
                                             }
                                         }}
@@ -578,8 +576,7 @@ export const Component = () => {
                                         type='number'
                                         slotProps={{
                                             htmlInput: {
-                                                min: 2.22507e-308,
-                                                max: 1.79769e+308,
+                                                min: 0,
                                                 step: 0.00001
                                             }
                                         }}
