@@ -3255,8 +3255,8 @@ export class PlaybackManager {
                 playerData.secondarySubtitleStreamIndex = null;
             }
 
-            if (streamInfo.item && streamInfo.item.Id) {
-                sessionStorage.setItem('lastPlayedItemId', streamInfo.item.Id);
+            if (streamInfo?.item && streamInfo?.item?.Id) {
+                sessionStorage.setItem('lastPlayedItemId', streamInfo?.item?.Id);
             }
 
             self._playNextAfterEnded = true;
