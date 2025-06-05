@@ -11,6 +11,7 @@ import globalize from 'lib/globalize';
 import { getReadableSize } from 'utils/file';
 
 import { StorageType } from '../constants/StorageType';
+import { calculateTotal, calculateUsedPercentage } from '../utils/space';
 
 import StorageTypeIcon from './StorageTypeIcon';
 
@@ -18,19 +19,6 @@ interface StorageListItemProps {
     label: string
     folder?: FolderStorageDto
 }
-
-const calculateUsed = (folder?: FolderStorageDto) => {
-    if (typeof folder?.UsedSpace === 'undefined') return 0;
-    if (typeof folder.FreeSpace === 'undefined') return 100;
-
-    const totalSpace = folder.FreeSpace + folder.UsedSpace;
-    if (totalSpace === 0) return 0;
-
-    // Ensure we don't have negative values
-    const usedSpace = Math.max(0, folder.UsedSpace);
-
-    return Math.min(100, (usedSpace / totalSpace) * 100);
-};
 
 const getStatusColor = (percent: number) => {
     if (percent >= 90) return 'error';
@@ -52,11 +40,12 @@ const StorageListItem: FC<StorageListItemProps> = ({
     label,
     folder
 }) => {
-    const usedSpace = (typeof folder?.UsedSpace === 'undefined') ? '?' : getReadableSize(folder.UsedSpace);
-    const totalSpace = (typeof folder?.FreeSpace === 'undefined' || typeof folder.UsedSpace === 'undefined') ?
-        '?' : getReadableSize(folder.FreeSpace + folder.UsedSpace);
-    const usedPercent = calculateUsed(folder);
-    const statusColor = folder ? getStatusColor(usedPercent) : 'primary';
+    const readableUsedSpace = (typeof folder?.UsedSpace === 'undefined' || folder.UsedSpace < 0) ?
+        '?' : getReadableSize(folder.UsedSpace);
+    const totalSpace = calculateTotal(folder);
+    const readableTotalSpace = (totalSpace < 0) ? '?' : getReadableSize(totalSpace);
+    const usedPercentage = calculateUsedPercentage(folder);
+    const statusColor = folder ? getStatusColor(usedPercentage) : 'primary';
 
     return (
         <ListItem>
@@ -87,7 +76,7 @@ const StorageListItem: FC<StorageListItemProps> = ({
                         <LinearProgress
                             variant={folder ? 'determinate' : 'indeterminate'}
                             color={statusColor}
-                            value={usedPercent}
+                            value={usedPercentage}
                         />
                         <Typography
                             variant='body2'
@@ -96,7 +85,7 @@ const StorageListItem: FC<StorageListItemProps> = ({
                                 textAlign: 'end'
                             }}
                         >
-                            {`${usedSpace} / ${totalSpace}`}
+                            {`${readableUsedSpace} / ${readableTotalSpace}`}
                         </Typography>
                     </>
                 }
