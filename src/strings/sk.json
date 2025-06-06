@@ -47,7 +47,7 @@
     "ButtonParentalControl": "Rodičovská kontrola",
     "ButtonPause": "Pozastaviť",
     "ButtonPreviousTrack": "Predchádzajúca stopa",
-    "ButtonQuickStartGuide": "Príručka rýchleho štartu",
+    "ButtonQuickStartGuide": "Sprievodca nastavením",
     "ButtonRefreshGuideData": "Obnoviť údaje programového sprievodcu",
     "ButtonRemove": "Odstrániť",
     "ButtonRename": "Premenovať",
@@ -1698,7 +1698,7 @@
     "ResolutionMatchSource": "Rovnaké ako zdroj",
     "SaveRecordingNFOHelp": "Uloží metadáta z EPG položiek sprievodcu spolu s médiami.",
     "SaveRecordingImages": "Uložiť obrázky EPG nahrávky",
-    "LabelDummyChapterDurationHelp": "Interval medzi fiktívnymi kapitolami. Nastavením na 0 vypnete generovanie fiktívnych kapitol. Zmena tejto hodnoty nebude mať žiadny vplyv na existujúce fiktívne kapitoly.",
+    "LabelDummyChapterDurationHelp": "Interval medzi fiktívnymi kapitolami v sekundách. Nastavením na 0 vypnete generovanie fiktívnych kapitol. Zmena tejto hodnoty nebude mať žiadny vplyv na existujúce fiktívne kapitoly.",
     "SaveRecordingNFO": "Uložiť metadáta nahrávky zo sprievodcu EPG do NFO",
     "SaveRecordingImagesHelp": "Uloží obrázky z EPG položiek sprievodcu spolu s médiami.",
     "HeaderRecordingMetadataSaving": "Metadáta nahrávok",
@@ -2026,5 +2026,10 @@
     "ImageUploadFailed": "Nahrávanie obrázku zlyhalo",
     "LimitSegmentLength": "Použiť kratšie segmenty HLS",
     "LabelGroupShowsIntoCollections": "Zoskupiť seriály do kolekcií",
-    "LabelGroupShowsIntoCollectionsHelp": "Seriály v kolekcii budú zobrazené ako jedna zoskupená položka v zozname seriálov."
+    "LabelGroupShowsIntoCollectionsHelp": "Seriály v kolekcii budú zobrazené ako jedna zoskupená položka v zozname seriálov.",
+    "HeaderServerUnavailable": "Server nie je dostupný",
+    "HeaderUpdateRequired": "Vyžaduje sa aktualizácia",
+    "DownloadManager": "Stiahnuté",
+    "ViewSettings": "Zobraziť nastavenia",
+    "MessageForgotPasswordPinReset": "Zadajte PIN kód na dokončenie obnovy hesla"
 }

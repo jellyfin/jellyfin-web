@@ -1249,7 +1249,7 @@
     "ButtonRename": "Renombrar",
     "ButtonRemove": "Remover",
     "ButtonRefreshGuideData": "Actualizar datos de la guía",
-    "ButtonQuickStartGuide": "Guía de inicio rápido",
+    "ButtonQuickStartGuide": "Guía de instalación",
     "ButtonPreviousTrack": "Pista anterior",
     "ButtonPause": "Pausar",
     "ButtonParentalControl": "Control parental",
@@ -1744,5 +1744,7 @@
     "DeleteCustomImage": "Borrar imagen personalizada",
     "DeleteEpisode": "Borrar episodio",
     "DeleteName": "Borrar {0}",
-    "EnableDts": "Activar DTS (DCA)"
+    "EnableDts": "Activar DTS (DCA)",
+    "DownloadManager": "Descargas",
+    "EnableLibrary": "Habilitar la librería"
 }

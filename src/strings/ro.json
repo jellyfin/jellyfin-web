@@ -4,7 +4,7 @@
     "ButtonAddUser": "Adaugă Utilizator",
     "ButtonCancel": "Anulează",
     "ButtonManualLogin": "Conectare manuală",
-    "ButtonQuickStartGuide": "Ghid rapid de Start",
+    "ButtonQuickStartGuide": "Ghid de Configurare",
     "ButtonRefreshGuideData": "Reîmprospătează Ghidul",
     "ButtonRemove": "Elimină",
     "ButtonSelectDirectory": "Selectați Director",
@@ -1672,7 +1672,7 @@
     "Experimental": "Experimental",
     "LabelStereoDownmixAlgorithm": "Algoritmul de Mixare Descendentă în Stereo",
     "LabelDummyChapterDuration": "Interval",
-    "LabelDummyChapterDurationHelp": "Intervalul dintre capitolele fictive. Setați la 0 pentru a dezactiva generarea de capitole fictive. Modificarea acestui parametru nu va avea niciun efect asupra capitolelor fictive existente.",
+    "LabelDummyChapterDurationHelp": "Intervalul dintre capitolele fictive în secunde. Setați la 0 pentru a dezactiva generarea de capitole fictive. Modificarea acestui parametru nu va avea niciun efect asupra capitolelor fictive existente.",
     "LabelDummyChapterCount": "Limită",
     "LabelDummyChapterCountHelp": "Numărul maxim de imagini de capitol care vor fi extrase pentru fiecare fișier media individual.",
     "LabelChapterImageResolution": "Rezoluție",
@@ -2026,5 +2026,10 @@
     "LabelGroupShowsIntoCollections": "Grupează serialele în colecții",
     "LabelGroupShowsIntoCollectionsHelp": "Serialele dintr-o colecție vor fi afișate ca un singur element grupat în lista de seriale.",
     "LimitSegmentLengthHelp": "Activarea acestei opțiuni poate ajuta la prevenirea blocării playerului HLS în timpul căutării pe anumite dispozitive, cum ar fi televizoarele webOS.",
-    "LimitSegmentLength": "Utilizați segment HLS redus"
+    "LimitSegmentLength": "Utilizați segment HLS redus",
+    "HeaderServerUnavailable": "Server indisponibil",
+    "HeaderUpdateRequired": "Actualizare necesară",
+    "ViewSettings": "Vedeți setările",
+    "MessageForgotPasswordPinReset": "Introduceți PIN-ul aici pentru a finaliza resetarea parolei",
+    "DownloadManager": "Descărcări"
 }
