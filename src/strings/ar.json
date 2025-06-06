@@ -2016,5 +2016,7 @@
     "Penciller": "القلم",
     "HeaderUpdateRequired": "مطلوب تحديث",
     "SubtitleCyan": "سماوي",
-    "SubtitleMagenta": "أرجواني"
+    "SubtitleMagenta": "أرجواني",
+    "DownloadManager": "التنزيلات",
+    "MessageForgotPasswordPinReset": "اكتب رمز قفل البرنامج لانهاء عملية تغيير كلمة المرور"
 }

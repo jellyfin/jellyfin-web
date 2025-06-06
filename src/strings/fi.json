@@ -113,7 +113,7 @@
     "ButtonParentalControl": "Lapsilukko",
     "ButtonPause": "Tauko",
     "ButtonPreviousTrack": "Edellinen raita",
-    "ButtonQuickStartGuide": "Pikaopas",
+    "ButtonQuickStartGuide": "Asennusopas",
     "ButtonRefreshGuideData": "Päivitä oppaan tiedot",
     "ButtonRemove": "Poista",
     "ButtonRename": "Nimeä uudelleen",
@@ -2024,5 +2024,9 @@
     "SettingsPageLoadError": "Asetukset-sivun lataaminen epäonnistui",
     "NativeSubtitleStylingHelp": "Tekstityksen tyylit eivät toimi kaikilla laitteilla, mutta ei aiheuta ylimääräistä kuormaa.",
     "VideoCodecTagNotSupported": "Videokoodekin tagi ei ole tuettu",
-    "LogLoadFailure": "Logitiedoston lataaminen epäonnistui. Se saattaa olla kirjoituksen kohteena."
+    "LogLoadFailure": "Logitiedoston lataaminen epäonnistui. Se saattaa olla kirjoituksen kohteena.",
+    "HeaderServerUnavailable": "Palvelin ei ole käytettävissä",
+    "DownloadManager": "Lataukset",
+    "ViewSettings": "Tarkastele asetuksia",
+    "HeaderUpdateRequired": "Päivitys vaaditaan"
 }

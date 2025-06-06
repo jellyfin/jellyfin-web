@@ -55,7 +55,7 @@
     "ButtonOpen": "Åpne",
     "ButtonParentalControl": "Foreldrekontroll",
     "ButtonPreviousTrack": "Forrige spor",
-    "ButtonQuickStartGuide": "Hurtigveiledning",
+    "ButtonQuickStartGuide": "Oppsettsveiledning",
     "ButtonRefreshGuideData": "Oppdater TV-guidedata",
     "ButtonRemove": "Fjern",
     "ButtonRename": "Endre navn",
@@ -1694,7 +1694,7 @@
     "LabelDummyChapterDuration": "Intervall",
     "HeaderRecordingMetadataSaving": "Opptak metadata",
     "HeaderPerformance": "Ytelse",
-    "LabelDummyChapterDurationHelp": "Tid mellom dummykapitler. Sett til 0 for å slå av dummykapittelgenerering. Endring av dette vil ha ingen effekt på eksiterende dummykapitler.",
+    "LabelDummyChapterDurationHelp": "Tid mellom dummykapitler i sekunder. Sett til 0 for å slå av dummykapittelgenerering. Endring av dette vil ha ingen effekt på eksisterende dummykapitler.",
     "LabelEnableAudioVbrHelp": "Variabel bithastighet tilbyr bedre forhold mellom kvalitet og gjennomsnittlig bithastighet, men kan i visse tilfeller forårsake buffering og problemer med kompatibilitet.",
     "LabelEnableAudioVbr": "Aktiver VBR lydenkoding",
     "SubtitleBlack": "Svart",
@@ -2024,5 +2024,7 @@
     "StreamCountExceedsLimit": "Antallet strømninger overskrider grensen",
     "ReadInputAtNativeFramerate": "Les inndata i opprinnelig bildefrekvens",
     "HeaderUpdateRequired": "Oppdatering kreves",
-    "ViewSettings": "Se instillinger"
+    "ViewSettings": "Se instillinger",
+    "MessageForgotPasswordPinReset": "Tast inn PIN-kode her for å fullføre tilbakestilling av passordet",
+    "DownloadManager": "Nedlastinger"
 }

@@ -63,7 +63,7 @@
     "ButtonParentalControl": "Control parental",
     "ButtonPause": "Pausa",
     "ButtonPreviousTrack": "Pista anterior",
-    "ButtonQuickStartGuide": "Guía de inicio rápido",
+    "ButtonQuickStartGuide": "Guía de configuración",
     "ButtonRefreshGuideData": "Actualizar datos de la guía",
     "ButtonRemove": "Eliminar",
     "ButtonRename": "Renombrar",
@@ -1695,7 +1695,7 @@
     "SaveRecordingImages": "Guardar grabación de imágenes EPG",
     "SaveRecordingImagesHelp": "Guardar imágenes del proveedor de listados EPG junto con los archivos multimedia.",
     "LabelDummyChapterDuration": "Intervalo",
-    "LabelDummyChapterDurationHelp": "Intervalo entre capítulos dummy. Dejar a 0 para deshabilitar la generación de capítulos dummy. Cambiar esta opción no tendrá efecto para capítulos dummy ya existentes.",
+    "LabelDummyChapterDurationHelp": "Intervalo entre capítulos dummy en segundos. Dejar a 0 para deshabilitar la generación de capítulos dummy. Cambiar esta opción no tendrá efecto para capítulos dummy ya existentes.",
     "HeaderDummyChapter": "Imágenes de capítulos",
     "LabelDummyChapterCount": "Límite",
     "Featurette": "Reportaje extra",
@@ -2029,5 +2029,7 @@
     "StreamCountExceedsLimit": "El numero de transmisiones excede el límite",
     "HeaderServerUnavailable": "Servidor no disponible",
     "HeaderUpdateRequired": "Actualización requerida",
-    "ViewSettings": "Ajustes de vista"
+    "ViewSettings": "Ajustes de vista",
+    "DownloadManager": "Descargas",
+    "MessageForgotPasswordPinReset": "Introducir PIN aquí para terminar el restablecimiento de contraseña"
 }
