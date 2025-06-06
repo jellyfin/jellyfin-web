@@ -2030,5 +2030,17 @@
     "HeaderServerUnavailable": "Server niet beschikbaar",
     "MessageForgotPasswordPinReset": "Pincode hier invoeren om wachtwoordherstel te voltooien",
     "DownloadManager": "Downloads",
-    "ViewSettings": "Weergave-instellingen"
+    "ViewSettings": "Weergave-instellingen",
+    "Create": "Aanmaken",
+    "Success": "Gelukt",
+    "HeaderBackups": "Back-ups",
+    "MessageWaitingForServer": "Wachten op server...",
+    "ButtonCreateBackup": "Back-up aanmaken",
+    "LabelRestore": "Terugzetten",
+    "BackupsPageLoadError": "Laden van back-up-pagina mislukt",
+    "LabelBackupsUnavailable": "Geen back-ups beschikbaar",
+    "LabelDatabase": "Database",
+    "MessageBackupInProgress": "Back-up in uitvoering",
+    "MessageRestoreInProgress": "Terugzetten in uitvoering",
+    "MessageRestoreSuccess": "Terugzetten voltooid"
 }
