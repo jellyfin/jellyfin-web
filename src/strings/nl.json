@@ -2042,5 +2042,8 @@
     "LabelDatabase": "Database",
     "MessageBackupInProgress": "Back-up in uitvoering",
     "MessageRestoreInProgress": "Terugzetten in uitvoering",
-    "MessageRestoreSuccess": "Terugzetten voltooid"
+    "MessageRestoreSuccess": "Terugzetten voltooid",
+    "HeaderBackupsHelp": "Maak en herstel snapshots van jouw server, wat de database, metadata, ondertiteling, en previews.",
+    "LabelImageCache": "Afbeelding cache",
+    "MessageBackupDisclaimer": "Aan de hand van de grootte van je bibliotheek, kan het back-up proces een tijdje duren."
 }
