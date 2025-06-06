@@ -2028,5 +2028,10 @@
     "HeaderServerUnavailable": "Сервер недоступний",
     "DownloadManager": "Завантаження",
     "ViewSettings": "Налаштування перегляду",
-    "MessageForgotPasswordPinReset": "Введіть PIN-код, щоб завершити відновлення пароля"
+    "MessageForgotPasswordPinReset": "Введіть PIN-код, щоб завершити відновлення пароля",
+    "ButtonCreateBackup": "Створити резервну копію",
+    "HeaderBackupsHelp": "Створюйте та відновлюйте зрізи вашого сервера, які можуть включати базу даних, метадані, субтитри та trickplay.",
+    "LabelBackupsUnavailable": "Резервні копії відсутні",
+    "BackupsPageLoadError": "Не вдалося завантажити сторінку резервних копій",
+    "Create": "Створити"
 }
