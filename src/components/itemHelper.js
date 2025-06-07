@@ -16,6 +16,8 @@ export function getDisplayName(item, options = {}) {
         throw new Error('null item passed into getDisplayName');
     }
 
+    console.debug('getDisplayName', item);
+
     if (item.Type === 'Timer') {
         item = item.ProgramInfo || item;
     }
@@ -50,6 +52,12 @@ export function getDisplayName(item, options = {}) {
         if (number) {
             name = name ? (number + nameSeparator + name) : number;
         }
+    }
+
+    if (item instanceof Array && item.length > 1) {
+        return item.map(i => getDisplayName(i, options)).join(' / ');
+    } else if (item.length === 1) {
+        return item[0].Name;
     }
 
     return name;
