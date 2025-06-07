@@ -22,7 +22,7 @@ const SimpleAlert = ({ open, title, text, onClose }: SimpleAlertDialog) => {
                 </DialogTitle>
             )}
             <DialogContent>
-                <DialogContentText>
+                <DialogContentText sx={{ whiteSpace: 'pre-wrap' }}>
                     {text}
                 </DialogContentText>
             </DialogContent>

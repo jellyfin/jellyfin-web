@@ -1,20 +1,19 @@
 import List from '@mui/material/List';
 import React from 'react';
-
-import { useSystemStorage } from 'apps/dashboard/features/storage/api/useSystemStorage';
 import StorageListItem from 'apps/dashboard/features/storage/components/StorageListItem';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
+import type { SystemStorageDto } from '@jellyfin/sdk/lib/generated-client/models/system-storage-dto';
 
-const ServerPathWidget = () => {
-    const { data: systemStorage } = useSystemStorage();
+type IProps = {
+    systemStorage?: SystemStorageDto;
+};
 
+const ServerPathWidget = ({ systemStorage }: IProps) => {
     return (
         <Widget
             title={globalize.translate('HeaderPaths')}
-            // NOTE: We should use a react-router Link component, but components rendered in legacy views lack the
-            // routing context
-            href='#/dashboard/settings'
+            href='/dashboard/settings'
         >
             <List sx={{ bgcolor: 'background.paper' }}>
                 <StorageListItem
