@@ -1399,6 +1399,7 @@
     "PluginLoadConfigError": "An error occurred while getting the plugin configuration pages.",
     "PluginLoadRepoError": "An error occurred while getting the plugin details from the repository.",
     "PluginUninstallError": "An error occurred while uninstalling the plugin.",
+    "PluginsLoadError": "An error occurred while loading plugins.",
     "Poster": "Poster",
     "PosterCard": "Poster Card",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Prefer embedded episode information over filenames",
