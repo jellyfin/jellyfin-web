@@ -1,11 +1,11 @@
-import { ThemeProvider } from '@mui/material/styles';
+import { type SupportedColorScheme, ThemeProvider, useColorScheme } from '@mui/material/styles';
 import React, { type FC, type PropsWithChildren, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { DASHBOARD_APP_PATHS } from 'apps/dashboard/routes/routes';
 import { useUserTheme } from 'hooks/useUserTheme';
 
-import { DEFAULT_THEME, getTheme } from './themes';
+import appTheme, { COLOR_SCHEMES } from './themes';
 
 const isDashboardThemePage = (pathname: string) => [
     // NOTE: The metadata manager doesn't seem to use the dashboard theme
@@ -13,10 +13,9 @@ const isDashboardThemePage = (pathname: string) => [
     DASHBOARD_APP_PATHS.PluginConfig
 ].some(path => pathname.startsWith(`/${path}`));
 
-const UserThemeProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
+const ColorSchemeSwitcher: FC = () => {
     const [ isDashboard, setIsDashboard ] = useState(false);
-    const [ muiTheme, setMuiTheme ] = useState(DEFAULT_THEME);
-
+    const { setColorScheme, setMode } = useColorScheme();
     const location = useLocation();
     const { theme, dashboardTheme } = useUserTheme();
 
@@ -26,15 +25,20 @@ const UserThemeProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
     }, [ location.pathname ]);
 
     useEffect(() => {
-        if (isDashboard) {
-            setMuiTheme(getTheme(dashboardTheme));
-        } else {
-            setMuiTheme(getTheme(theme));
-        }
-    }, [ dashboardTheme, isDashboard, theme ]);
+        const currentSchemeName = (isDashboard ? dashboardTheme : theme) as SupportedColorScheme;
+        const currentScheme = COLOR_SCHEMES[currentSchemeName];
 
+        setColorScheme(currentSchemeName);
+        setMode(currentScheme.palette?.mode || 'dark');
+    }, [ dashboardTheme, isDashboard, setColorScheme, setMode, theme ]);
+
+    return null;
+};
+
+const UserThemeProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
     return (
-        <ThemeProvider theme={muiTheme}>
+        <ThemeProvider theme={appTheme} defaultMode='dark'>
+            <ColorSchemeSwitcher />
             {children}
         </ThemeProvider>
     );

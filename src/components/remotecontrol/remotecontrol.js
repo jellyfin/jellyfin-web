@@ -2,6 +2,7 @@ import escapeHtml from 'escape-html';
 
 import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
+import { AppFeature } from 'constants/appFeature';
 
 import datetime from '../../scripts/datetime';
 import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
@@ -371,7 +372,7 @@ export default function () {
             showVolumeSlider = false;
         }
 
-        if (currentPlayer.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
+        if (currentPlayer.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
             showMuteButton = false;
             showVolumeSlider = false;
         }

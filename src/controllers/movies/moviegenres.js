@@ -52,8 +52,14 @@ export default function (view, params, tabContent) {
         return !layoutManager.desktop;
     }
 
-    const fillItemsContainer = (entry) => {
+    const fillItemsContainer = (entry, observer) => {
+        if (!entry.isIntersecting) {
+            return;
+        }
+
         const elem = entry.target;
+        observer.unobserve(elem);
+
         const id = elem.getAttribute('data-id');
         const viewStyle = this.getCurrentViewStyle();
         let limit = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 5 : 9;

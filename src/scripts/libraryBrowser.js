@@ -34,7 +34,7 @@ export function showLayoutMenu (button, currentLayout, views) {
                     $(button).trigger('layoutchange', [id]);
                 }
             }
-        });
+        }).catch(() => { /* no-op */ });
     });
 }
 
