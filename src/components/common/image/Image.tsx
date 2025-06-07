@@ -1,25 +1,18 @@
 import React, { type FC, useCallback, useState } from 'react';
-import { BlurhashCanvas } from 'react-blurhash';
+import classNames from 'classnames';
+import { Blurhash } from 'react-blurhash';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-
-const imageStyle: React.CSSProperties = {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    width: '100%',
-    height: '100%',
-    zIndex: 0
-};
+import './image.scss';
 
 interface ImageProps {
+    className?: string;
     imgUrl: string;
     blurhash?: string;
-    containImage: boolean;
+    containImage?: boolean;
 }
 
-const Image: FC<ImageProps> = ({
+export const Image: FC<ImageProps> = ({
+    className,
     imgUrl,
     blurhash,
     containImage
@@ -35,33 +28,27 @@ const Image: FC<ImageProps> = ({
     }, []);
 
     return (
-        <div>
+        <div className={classNames('image', className)}>
             {!isLoaded && isLoadStarted && blurhash && (
-                <BlurhashCanvas
+                <Blurhash
+                    className='blurhash'
                     hash={blurhash}
-                    width= {20}
-                    height={20}
+                    width='100%'
+                    height='100%'
+                    resolutionX={20}
+                    resolutionY={20}
                     punch={1}
-                    style={{
-                        ...imageStyle,
-                        borderRadius: '0.2em',
-                        pointerEvents: 'none'
-                    }}
                 />
             )}
             <LazyLoadImage
-                key={imgUrl}
+                className='lazy-image'
                 src={imgUrl}
                 style={{
-                    ...imageStyle,
                     objectFit: containImage ? 'contain' : 'cover'
                 }}
                 onLoad={handleLoad}
                 beforeLoad={handleLoadStarted}
             />
-
         </div>
     );
 };
-
-export default Image;
