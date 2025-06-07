@@ -1,35 +1,21 @@
-import ChevronRight from '@mui/icons-material/ChevronRight';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import React from 'react';
 
 import { useSystemStorage } from 'apps/dashboard/features/storage/api/useSystemStorage';
 import StorageListItem from 'apps/dashboard/features/storage/components/StorageListItem';
 import globalize from 'lib/globalize';
+import Widget from './Widget';
 
 const ServerPathWidget = () => {
     const { data: systemStorage } = useSystemStorage();
 
     return (
-        <>
-            <Button
-                variant='text'
-                color='inherit'
-                endIcon={<ChevronRight />}
-                sx={{
-                    marginTop: 1,
-                    marginBottom: 1
-                }}
-                // NOTE: We should use a react-router Link component, but components rendered in legacy views lack the
-                // routing context
-                href='#/dashboard/settings'
-            >
-                <Typography variant='h3' component='span'>
-                    {globalize.translate('HeaderPaths')}
-                </Typography>
-            </Button>
-
+        <Widget
+            title={globalize.translate('HeaderPaths')}
+            // NOTE: We should use a react-router Link component, but components rendered in legacy views lack the
+            // routing context
+            href='#/dashboard/settings'
+        >
             <List sx={{ bgcolor: 'background.paper' }}>
                 <StorageListItem
                     label={globalize.translate('LabelCache')}
@@ -60,7 +46,7 @@ const ServerPathWidget = () => {
                     folder={systemStorage?.WebFolder}
                 />
             </List>
-        </>
+        </Widget>
     );
 };
 
