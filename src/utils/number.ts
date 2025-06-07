@@ -44,5 +44,5 @@ export function decimalCount(value: number): number {
 
     const arr = value.toString().split('.');
 
-    return arr[1].length;
+    return arr[1]?.length || 0;
 }
