@@ -2026,5 +2026,22 @@
     "HeaderServerUnavailable": "Server Otillgänglig",
     "HeaderUpdateRequired": "Uppdatering Krävs",
     "DownloadManager": "Nedladdningar",
-    "MessageForgotPasswordPinReset": "Ange PIN-koden här för att slutföra lösenordsåterställningen"
+    "MessageForgotPasswordPinReset": "Ange PIN-koden här för att slutföra lösenordsåterställningen",
+    "Create": "Skapa",
+    "LabelProgramData": "Programdata",
+    "MessageRestoreInProgress": "Återställning pågående",
+    "StorageType.CDRom": "CD-ROM",
+    "StorageType.NoRootDirectory": "Ingen rotkatalog",
+    "LabelBackupsUnavailable": "Inga backuper tillgängliga",
+    "LabelDatabase": "Databas",
+    "BackupsPageLoadError": "Misslyckades att ladda backup sidan",
+    "ButtonCreateBackup": "Skapa backup",
+    "LabelRestore": "Återställ",
+    "MessageBackupDisclaimer": "Beroende på storleken på ditt bibliotek kan backupprocessen ta ett tag.",
+    "MessageBackupInProgress": "Backup pågående",
+    "MessageWaitingForServer": "Väntar på server...",
+    "StorageType.Network": "Nätverk",
+    "StorageType.Ram": "RAM",
+    "StorageType.Unknown": "Okänd",
+    "HeaderBackups": "Backuper"
 }
