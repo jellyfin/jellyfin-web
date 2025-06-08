@@ -16,8 +16,6 @@ export function getDisplayName(item, options = {}) {
         throw new Error('null item passed into getDisplayName');
     }
 
-    console.debug('getDisplayName', item);
-
     if (item.Type === 'Timer') {
         item = item.ProgramInfo || item;
     }
