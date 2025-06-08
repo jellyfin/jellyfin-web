@@ -436,6 +436,9 @@ function bindEvents(parent) {
     parent.querySelector('#chkEnableEmbeddedTitles').addEventListener('change', (e) => {
         parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !e.currentTarget.checked);
     });
+    parent.querySelector('#chkAutomaticallyAddToCollection').addEventListener('change', (e) => {
+        parent.querySelector('.iptLabelMinCollectionSize').classList.toggle('hide', !e.currentTarget.checked);
+    });
 }
 
 export async function embed(parent, contentType, libraryOptions) {
@@ -492,6 +495,9 @@ export function setContentType(parent, contentType) {
         parent.querySelector('.chkEnableEmbeddedTitlesContainer').classList.remove('hide');
         if (parent.querySelector('#chkEnableEmbeddedTitles').checked) {
             parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.remove('hide');
+        }
+        if (parent.querySelector('#chkAutomaticallyAddToCollection').checked) {
+            parent.querySelector('.iptLabelMinCollectionSize').classList.remove('hide');
         }
     }
 
@@ -649,6 +655,7 @@ export function getLibraryOptions(parent) {
         SaveLyricsWithMedia: parent.querySelector('#chkSaveLyricsLocally').checked,
         RequirePerfectSubtitleMatch: parent.querySelector('#chkRequirePerfectMatch').checked,
         AutomaticallyAddToCollection: parent.querySelector('#chkAutomaticallyAddToCollection').checked,
+        MinCollectionSize: parseInt(parent.querySelector('#minCollectionSize').value, 10) || 0,
         PreferNonstandardArtistsTag: parent.querySelector('#chkPreferNonstandardArtistsTag').checked,
         UseCustomTagDelimiters: parent.querySelector('#chkUseCustomTagDelimiters').checked,
         MetadataSavers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
@@ -718,6 +725,8 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('#chkSkipIfAudioTrackPresent').checked = options.SkipSubtitlesIfAudioTrackMatches;
     parent.querySelector('#chkRequirePerfectMatch').checked = options.RequirePerfectSubtitleMatch;
     parent.querySelector('#chkAutomaticallyAddToCollection').checked = options.AutomaticallyAddToCollection;
+    parent.querySelector('.iptLabelMinCollectionSize').classList.toggle('hide', !options.AutomaticallyAddToCollection);
+    parent.querySelector('#minCollectionSize').value = options.MinCollectionSize || 2;
     parent.querySelector('#chkPreferNonstandardArtistsTag').checked = options.PreferNonstandardArtistsTag;
     parent.querySelector('#chkUseCustomTagDelimiters').checked = options.UseCustomTagDelimiters;
     Array.prototype.forEach.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
