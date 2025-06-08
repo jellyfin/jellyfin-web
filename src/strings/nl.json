@@ -2042,5 +2042,17 @@
     "LabelDatabase": "Database",
     "MessageBackupInProgress": "Back-up in uitvoering",
     "MessageRestoreInProgress": "Terugzetten in uitvoering",
-    "MessageRestoreSuccess": "Terugzetten voltooid"
+    "MessageRestoreSuccess": "Terugzetten voltooid",
+    "HeaderBackupsHelp": "Maak en herstel momentopnamen van je server. Deze kunnen de database, metadata, ondertiteling en trickplay bevatten.",
+    "LabelImageCache": "Afbeeldingscache",
+    "MessageBackupDisclaimer": "Afhankelijk van de grootte van je bibliotheek kan het maken van de back-up enige tijd duren.",
+    "LabelProgramData": "Programmagegevens",
+    "StorageType.CDRom": "Cd-rom",
+    "MessageRestoreDisclaimer": "WAARSCHUWING: Je staat op het punt een eerdere back-up terug te zetten. Je server is tijdens dit proces onbruikbaar en alle gegevens die sinds de back-up zijn aangemaakt gaan verloren.",
+    "StorageType.Fixed": "Vast",
+    "StorageType.Network": "Netwerk",
+    "StorageType.NoRootDirectory": "Geen hoofdmap",
+    "StorageType.Ram": "RAM",
+    "StorageType.Removable": "Verwisselbaar",
+    "StorageType.Unknown": "Onbekend"
 }
