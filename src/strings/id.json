@@ -1945,5 +1945,8 @@
     "HeaderNextVideo": "Video Selanjutnya",
     "AndOtherArtists": "{0} dan {1} artis lainnya.",
     "LabelAllowStreamSharing": "Mengizinkan berbagi stream",
-    "LabelAudioTagSettings": "Pengaturan Tag Audio"
+    "LabelAudioTagSettings": "Pengaturan Tag Audio",
+    "Custom": "Kustom",
+    "CopyLogSuccess": "Catatan konten berhasil di salin.",
+    "CustomSplashScreenSize": "Kustom gambar harus dalam 16x9 aspek rasio dengan ukuran minimum 1920x1080."
 }

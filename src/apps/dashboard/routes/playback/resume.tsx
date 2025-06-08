@@ -1,6 +1,7 @@
 import React from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -11,7 +12,6 @@ import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'rea
 import { ActionData } from 'types/actionData';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Loading from 'components/loading/LoadingComponent';
-import ServerConnections from 'components/ServerConnections';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { queryClient } from 'utils/query/queryClient';
 
@@ -81,12 +81,14 @@ export const Component = () => {
                             name='MinResumePercentage'
                             type='number'
                             defaultValue={config?.MinResumePct}
-                            inputProps={{
-                                min: 0,
-                                max: 100,
-                                required: true
-                            }}
                             helperText={globalize.translate('LabelMinResumePercentageHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 0,
+                                    max: 100,
+                                    required: true
+                                }
+                            }}
                         />
 
                         <TextField
@@ -94,12 +96,14 @@ export const Component = () => {
                             name='MaxResumePercentage'
                             type='number'
                             defaultValue={config?.MaxResumePct}
-                            inputProps={{
-                                min: 1,
-                                max: 100,
-                                required: true
-                            }}
                             helperText={globalize.translate('LabelMaxResumePercentageHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 1,
+                                    max: 100,
+                                    required: true
+                                }
+                            }}
                         />
 
                         <TextField
@@ -107,12 +111,14 @@ export const Component = () => {
                             name='MinAudiobookResume'
                             type='number'
                             defaultValue={config?.MinAudiobookResume}
-                            inputProps={{
-                                min: 0,
-                                max: 100,
-                                required: true
-                            }}
                             helperText={globalize.translate('LabelMinAudiobookResumeHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 0,
+                                    max: 100,
+                                    required: true
+                                }
+                            }}
                         />
 
                         <TextField
@@ -120,12 +126,14 @@ export const Component = () => {
                             name='MaxAudiobookResume'
                             type='number'
                             defaultValue={config?.MaxAudiobookResume}
-                            inputProps={{
-                                min: 1,
-                                max: 100,
-                                required: true
-                            }}
                             helperText={globalize.translate('LabelMaxAudiobookResumeHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 1,
+                                    max: 100,
+                                    required: true
+                                }
+                            }}
                         />
 
                         <TextField
@@ -133,11 +141,13 @@ export const Component = () => {
                             name='MinResumeDuration'
                             type='number'
                             defaultValue={config?.MinResumeDurationSeconds}
-                            inputProps={{
-                                min: 0,
-                                required: true
-                            }}
                             helperText={globalize.translate('LabelMinResumeDurationHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 0,
+                                    required: true
+                                }
+                            }}
                         />
 
                         <Button

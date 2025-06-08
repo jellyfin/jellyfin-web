@@ -9,8 +9,10 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import AppBody from 'components/AppBody';
 import AppToolbar from 'components/toolbar/AppToolbar';
+import ServerButton from 'components/toolbar/ServerButton';
 import ElevationScroll from 'components/ElevationScroll';
 import { DRAWER_WIDTH } from 'components/ResponsiveDrawer';
+import ThemeCss from 'components/ThemeCss';
 import { useApi } from 'hooks/useApi';
 import { useLocale } from 'hooks/useLocale';
 
@@ -21,8 +23,6 @@ import { DASHBOARD_APP_PATHS } from './routes/routes';
 
 import './AppOverrides.scss';
 
-const DRAWERLESS_PATHS = [ DASHBOARD_APP_PATHS.MetadataManager ];
-
 export const Component: FC = () => {
     const [ isDrawerActive, setIsDrawerActive ] = useState(false);
     const location = useLocation();
@@ -30,8 +30,8 @@ export const Component: FC = () => {
     const { dateFnsLocale } = useLocale();
 
     const isMediumScreen = useMediaQuery((t: Theme) => t.breakpoints.up('md'));
-    const isDrawerAvailable = Boolean(user)
-        && !DRAWERLESS_PATHS.some(path => location.pathname.startsWith(`/${path}`));
+    const isMetadataManager = location.pathname.startsWith(`/${DASHBOARD_APP_PATHS.MetadataManager}`);
+    const isDrawerAvailable = Boolean(user) && !isMetadataManager;
     const isDrawerOpen = isDrawerActive && isDrawerAvailable;
 
     const onToggleDrawer = useCallback(() => {
@@ -73,6 +73,10 @@ export const Component: FC = () => {
                                     <HelpButton />
                                 }
                             >
+                                {isMetadataManager && (
+                                    <ServerButton />
+                                )}
+
                                 <AppTabs isDrawerOpen={isDrawerOpen} />
                             </AppToolbar>
                         </AppBar>
@@ -101,6 +105,7 @@ export const Component: FC = () => {
                     </AppBody>
                 </Box>
             </Box>
+            <ThemeCss dashboard />
         </LocalizationProvider>
     );
 };

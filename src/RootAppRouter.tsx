@@ -10,6 +10,7 @@ import {
 import { DASHBOARD_APP_PATHS, DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
 import { EXPERIMENTAL_APP_ROUTES } from 'apps/experimental/routes/routes';
 import { STABLE_APP_ROUTES } from 'apps/stable/routes/routes';
+import { WIZARD_APP_ROUTES } from 'apps/wizard/routes/routes';
 import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
 import BangRedirect from 'components/router/BangRedirect';
@@ -25,6 +26,7 @@ const router = createHashRouter([
         children: [
             ...(isExperimentalLayout ? EXPERIMENTAL_APP_ROUTES : STABLE_APP_ROUTES),
             ...DASHBOARD_APP_ROUTES,
+            ...WIZARD_APP_ROUTES,
             {
                 path: '!/*',
                 Component: BangRedirect

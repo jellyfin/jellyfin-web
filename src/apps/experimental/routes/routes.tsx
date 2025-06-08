@@ -36,7 +36,7 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
 
             {
                 /* Public routes */
-                element: <ConnectionRequired isUserRequired={false} />,
+                element: <ConnectionRequired level='public' />,
                 children: [
                     ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute),
 

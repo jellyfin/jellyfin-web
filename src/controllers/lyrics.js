@@ -4,12 +4,12 @@ import autoFocuser from 'components/autoFocuser';
 import { appRouter } from '../components/router/appRouter';
 import layoutManager from 'components/layoutManager';
 import { playbackManager } from '../components/playback/playbackmanager';
-import ServerConnections from '../components/ServerConnections';
 import scrollManager from 'components/scrollManager';
 import focusManager from 'components/focusManager';
 
 import keyboardNavigation from 'scripts/keyboardNavigation';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import LibraryMenu from 'scripts/libraryMenu';
 import Events from 'utils/events';
 
@@ -277,7 +277,7 @@ export default function (view) {
         document.addEventListener('keydown', onKeyDown);
         try {
             onLoad();
-        } catch (e) {
+        } catch {
             appRouter.goHome();
         }
     });

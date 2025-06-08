@@ -1,3 +1,4 @@
+import { AppFeature } from 'constants/appFeature';
 import dom from '../../scripts/dom';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
@@ -7,12 +8,12 @@ import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import scrollHelper from '../../scripts/scrollHelper';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';
 import '../formdialog.scss';
 import '../cardbuilder/card.scss';
-import ServerConnections from '../ServerConnections';
 import template from './imageDownloader.template.html';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
@@ -205,7 +206,7 @@ function getRemoteImageHtml(image, imageType) {
     html += '<div class="cardPadder-' + shape + '"></div>';
     html += '<div class="cardContent">';
 
-    if (layoutManager.tv || !appHost.supports('externallinks')) {
+    if (layoutManager.tv || !appHost.supports(AppFeature.ExternalLinks)) {
         html += '<div class="cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain;"></div>';
     } else {
         html += '<a is="emby-linkbutton" target="_blank" href="' + image.Url + '" class="button-link cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain"></a>';

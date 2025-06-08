@@ -6,6 +6,8 @@ import datetime from '../../scripts/datetime';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
@@ -17,7 +19,6 @@ import '../formdialog.scss';
 import '../../styles/clearbutton.scss';
 import '../../styles/flexstyles.scss';
 import './style.scss';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
@@ -169,7 +170,7 @@ function onSubmit(e) {
         })
     };
 
-    item.ProviderIds = Object.assign({}, currentItem.ProviderIds);
+    item.ProviderIds = { ...currentItem.ProviderIds };
 
     const idElements = form.querySelectorAll('.txtExternalId');
     Array.prototype.map.call(idElements, function (idElem) {
@@ -821,7 +822,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
             date = datetime.parseISO8601Date(item.DateCreated, true);
 
             context.querySelector('#txtDateAdded').value = date.toISOString().slice(0, 10);
-        } catch (e) {
+        } catch {
             context.querySelector('#txtDateAdded').value = '';
         }
     } else {
@@ -833,7 +834,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
             date = datetime.parseISO8601Date(item.PremiereDate, true);
 
             context.querySelector('#txtPremiereDate').value = date.toISOString().slice(0, 10);
-        } catch (e) {
+        } catch {
             context.querySelector('#txtPremiereDate').value = '';
         }
     } else {
@@ -845,7 +846,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
             date = datetime.parseISO8601Date(item.EndDate, true);
 
             context.querySelector('#txtEndDate').value = date.toISOString().slice(0, 10);
-        } catch (e) {
+        } catch {
             context.querySelector('#txtEndDate').value = '';
         }
     } else {

@@ -9,8 +9,8 @@ import { useLocalizationOptions } from 'apps/dashboard/features/settings/api/use
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
-import { useSystemInfo } from 'hooks/useSystemInfo';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useEffect, useState } from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
@@ -21,7 +21,6 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
-import ServerConnections from 'components/ServerConnections';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
@@ -64,11 +63,6 @@ export const Component = () => {
         isPending: isLocalizationOptionsPending,
         isError: isLocalizationOptionsError
     } = useLocalizationOptions();
-    const {
-        data: systemInfo,
-        isPending: isSystemInfoPending,
-        isError: isSystemInfoError
-    } = useSystemInfo();
 
     const navigation = useNavigation();
     const actionData = useActionData() as ActionData | undefined;
@@ -120,13 +114,13 @@ export const Component = () => {
     }, [metadataPath]);
 
     useEffect(() => {
-        if (!isSystemInfoPending && !isSystemInfoError) {
-            setCachePath(systemInfo.CachePath);
-            setMetadataPath(systemInfo.InternalMetadataPath);
+        if (!isConfigPending && !isConfigError) {
+            setCachePath(config.CachePath);
+            setMetadataPath(config.MetadataPath);
         }
-    }, [systemInfo, isSystemInfoPending, isSystemInfoError]);
+    }, [config, isConfigPending, isConfigError]);
 
-    if (isConfigPending || isLocalizationOptionsPending || isSystemInfoPending) {
+    if (isConfigPending || isLocalizationOptionsPending) {
         return <Loading />;
     }
 
@@ -137,7 +131,7 @@ export const Component = () => {
             className='type-interior mainAnimatedPage'
         >
             <Box className='content-primary'>
-                {isConfigError || isLocalizationOptionsError || isSystemInfoError ? (
+                {isConfigError || isLocalizationOptionsError ? (
                     <Alert severity='error'>{globalize.translate('SettingsPageLoadError')}</Alert>
                 ) : (
                     <Form method='POST'>
@@ -154,14 +148,13 @@ export const Component = () => {
                                 name='ServerName'
                                 label={globalize.translate('LabelServerName')}
                                 helperText={globalize.translate('LabelServerNameHelp')}
-                                defaultValue={systemInfo.ServerName}
+                                defaultValue={config.ServerName}
                             />
 
                             <TextField
                                 select
                                 name='UICulture'
                                 label={globalize.translate('LabelPreferredDisplayLanguage')}
-                                FormHelperTextProps={{ component: Stack }}
                                 helperText={(
                                     <>
                                         <span>{globalize.translate('LabelDisplayLanguageHelp')}</span>
@@ -171,6 +164,9 @@ export const Component = () => {
                                     </>
                                 )}
                                 defaultValue={config.UICulture}
+                                slotProps={{
+                                    formHelperText: { component: Stack }
+                                }}
                             >
                                 {languageOptions.map((language) =>
                                     <MenuItem key={language.Name} value={language.Value || ''}>{language.Name}</MenuItem>
@@ -185,14 +181,16 @@ export const Component = () => {
                                 helperText={globalize.translate('LabelCachePathHelp')}
                                 value={cachePath}
                                 onChange={onCachePathChange}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <IconButton edge='end' onClick={showCachePathPicker}>
-                                                <SearchIcon />
-                                            </IconButton>
-                                        </InputAdornment>
-                                    )
+                                slotProps={{
+                                    input: {
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <IconButton edge='end' onClick={showCachePathPicker}>
+                                                    <SearchIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }
                                 }}
                             />
 
@@ -202,14 +200,16 @@ export const Component = () => {
                                 helperText={globalize.translate('LabelMetadataPathHelp')}
                                 value={metadataPath}
                                 onChange={onMetadataPathChange}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <IconButton edge='end' onClick={showMetadataPathPicker}>
-                                                <SearchIcon />
-                                            </IconButton>
-                                        </InputAdornment>
-                                    )
+                                slotProps={{
+                                    input: {
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <IconButton edge='end' onClick={showMetadataPathPicker}>
+                                                    <SearchIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }
                                 }}
                             />
 
@@ -232,25 +232,29 @@ export const Component = () => {
                             <TextField
                                 name='LibraryScanFanoutConcurrency'
                                 type='number'
-                                inputProps={{
-                                    min: 0,
-                                    step: 1
-                                }}
                                 label={globalize.translate('LibraryScanFanoutConcurrency')}
                                 helperText={globalize.translate('LibraryScanFanoutConcurrencyHelp')}
                                 defaultValue={config.LibraryScanFanoutConcurrency || ''}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        step: 1
+                                    }
+                                }}
                             />
 
                             <TextField
                                 name='ParallelImageEncodingLimit'
                                 type='number'
-                                inputProps={{
-                                    min: 0,
-                                    step: 1
-                                }}
                                 label={globalize.translate('LabelParallelImageEncodingLimit')}
                                 helperText={globalize.translate('LabelParallelImageEncodingLimitHelp')}
                                 defaultValue={config.ParallelImageEncodingLimit || ''}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        step: 1
+                                    }
+                                }}
                             />
 
                             <Button type='submit' size='large'>

@@ -24,9 +24,15 @@ const LogItemList: FunctionComponent<LogItemProps> = ({ logs }: LogItemProps) =>
                         <ListItemLink to={`/dashboard/logs/${log.Name}`}>
                             <ListItemText
                                 primary={log.Name}
-                                primaryTypographyProps={{ variant: 'h3' }}
                                 secondary={getDate(log)}
-                                secondaryTypographyProps={{ variant: 'body1' }}
+                                slotProps={{
+                                    primary: {
+                                        variant: 'h3'
+                                    },
+                                    secondary: {
+                                        variant: 'body1'
+                                    }
+                                }}
                             />
                         </ListItemLink>
                     </ListItem>

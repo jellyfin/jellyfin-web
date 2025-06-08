@@ -12,11 +12,11 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import ServerConnections from 'components/ServerConnections';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { QUERY_KEY as CONFIG_QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import { QUERY_KEY as NAMED_CONFIG_QUERY_KEY, NamedConfiguration, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
@@ -38,7 +38,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     config.EnableFolderView = data.DisplayFolderView?.toString() === 'on';
     config.DisplaySpecialsWithinSeasons = data.DisplaySpecialsWithinSeasons?.toString() === 'on';
-    config.EnableGroupingIntoCollections = data.GroupMoviesIntoCollections?.toString() === 'on';
+    config.EnableGroupingMoviesIntoCollections = data.GroupMoviesIntoCollections?.toString() === 'on';
+    config.EnableGroupingShowsIntoCollections = data.GroupShowsIntoCollections?.toString() === 'on';
     config.EnableExternalContentInSuggestions = data.EnableExternalContentInSuggestions?.toString() === 'on';
 
     await getConfigurationApi(api)
@@ -138,12 +139,25 @@ export const Component = () => {
                                     control={
                                         <Checkbox
                                             name={'GroupMoviesIntoCollections'}
-                                            defaultChecked={config.EnableGroupingIntoCollections}
+                                            defaultChecked={config.EnableGroupingMoviesIntoCollections}
                                         />
                                     }
                                     label={globalize.translate('LabelGroupMoviesIntoCollections')}
                                 />
                                 <FormHelperText>{globalize.translate('LabelGroupMoviesIntoCollectionsHelp')}</FormHelperText>
+                            </FormControl>
+
+                            <FormControl>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name={'GroupShowsIntoCollections'}
+                                            defaultChecked={config.EnableGroupingShowsIntoCollections}
+                                        />
+                                    }
+                                    label={globalize.translate('LabelGroupShowsIntoCollections')}
+                                />
+                                <FormHelperText>{globalize.translate('LabelGroupShowsIntoCollectionsHelp')}</FormHelperText>
                             </FormControl>
 
                             <FormControl>

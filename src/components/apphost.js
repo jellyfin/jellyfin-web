@@ -5,6 +5,7 @@ import * as htmlMediaHelper from '../components/htmlMediaHelper';
 import * as webSettings from '../scripts/settings/webSettings';
 import globalize from '../lib/globalize';
 import profileBuilder from '../scripts/browserDeviceProfile';
+import { AppFeature } from 'constants/appFeature';
 
 const appName = 'Jellyfin Web';
 
@@ -169,14 +170,6 @@ function getDeviceName() {
     return deviceName;
 }
 
-function supportsVoiceInput() {
-    if (!browser.tv) {
-        return window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.oSpeechRecognition || window.msSpeechRecognition;
-    }
-
-    return false;
-}
-
 function supportsFullscreen() {
     if (browser.tv) {
         return false;
@@ -235,77 +228,65 @@ const supportedFeatures = function () {
     const features = [];
 
     if (navigator.share) {
-        features.push('sharing');
+        features.push(AppFeature.Sharing);
     }
 
     if (!browser.edgeUwp && !browser.tv && !browser.xboxOne && !browser.ps4) {
-        features.push('filedownload');
+        features.push(AppFeature.FileDownload);
     }
 
     if (browser.operaTv || browser.tizen || browser.orsay || browser.web0s) {
-        features.push('exit');
-    } else {
-        features.push('plugins');
+        features.push(AppFeature.Exit);
     }
 
     if (!browser.operaTv && !browser.tizen && !browser.orsay && !browser.web0s && !browser.ps4) {
-        features.push('externallinks');
-        features.push('externalpremium');
-    }
-
-    if (!browser.operaTv) {
-        features.push('externallinkdisplay');
-    }
-
-    if (supportsVoiceInput()) {
-        features.push('voiceinput');
+        features.push(AppFeature.ExternalLinks);
     }
 
     if (supportsHtmlMediaAutoplay()) {
-        features.push('htmlaudioautoplay');
-        features.push('htmlvideoautoplay');
+        features.push(AppFeature.HtmlAudioAutoplay);
+        features.push(AppFeature.HtmlVideoAutoplay);
     }
 
     if (supportsFullscreen()) {
-        features.push('fullscreenchange');
+        features.push(AppFeature.Fullscreen);
     }
 
     if (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile || browser.ipad) {
-        features.push('physicalvolumecontrol');
+        features.push(AppFeature.PhysicalVolumeControl);
     }
 
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-        features.push('remotecontrol');
+        features.push(AppFeature.RemoteControl);
     }
 
     if (!browser.operaTv && !browser.tizen && !browser.orsay && !browser.web0s && !browser.edgeUwp) {
-        features.push('remotevideo');
+        features.push(AppFeature.RemoteVideo);
     }
 
-    features.push('displaylanguage');
-    features.push('otherapppromotions');
-    features.push('displaymode');
-    features.push('targetblank');
-    features.push('screensaver');
+    features.push(AppFeature.DisplayLanguage);
+    features.push(AppFeature.DisplayMode);
+    features.push(AppFeature.TargetBlank);
+    features.push(AppFeature.Screensaver);
 
     webSettings.getMultiServer().then(enabled => {
-        if (enabled) features.push('multiserver');
+        if (enabled) features.push(AppFeature.MultiServer);
     });
 
     if (!browser.orsay && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
-        features.push('subtitleappearancesettings');
+        features.push(AppFeature.SubtitleAppearance);
     }
 
     if (!browser.orsay) {
-        features.push('subtitleburnsettings');
+        features.push(AppFeature.SubtitleBurnIn);
     }
 
     if (!browser.tv && !browser.ps4 && !browser.xboxOne) {
-        features.push('fileinput');
+        features.push(AppFeature.FileInput);
     }
 
     if (browser.chrome || browser.edgeChromium) {
-        features.push('chromecast');
+        features.push(AppFeature.Chromecast);
     }
 
     return features;
@@ -452,7 +433,7 @@ let isHidden = false;
 let hidden;
 let visibilityChange;
 
-if (typeof document.hidden !== 'undefined') { /* eslint-disable-line compat/compat */
+if (typeof document.hidden !== 'undefined') {
     hidden = 'hidden';
     visibilityChange = 'visibilitychange';
 } else if (typeof document.webkitHidden !== 'undefined') {
@@ -461,7 +442,6 @@ if (typeof document.hidden !== 'undefined') { /* eslint-disable-line compat/comp
 }
 
 document.addEventListener(visibilityChange, function () {
-    /* eslint-disable-next-line compat/compat */
     if (document[hidden]) {
         onAppHidden();
     } else {

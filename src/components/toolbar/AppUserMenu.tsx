@@ -2,6 +2,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import AppSettingsAlt from '@mui/icons-material/AppSettingsAlt';
 import Close from '@mui/icons-material/Close';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import Download from '@mui/icons-material/Download';
 import Edit from '@mui/icons-material/Edit';
 import Logout from '@mui/icons-material/Logout';
 import PhonelinkLock from '@mui/icons-material/PhonelinkLock';
@@ -16,10 +17,12 @@ import React, { FC, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 import { appHost } from 'components/apphost';
+import { AppFeature } from 'constants/appFeature';
 import { useApi } from 'hooks/useApi';
-import globalize from 'lib/globalize';
-import Dashboard from 'utils/dashboard';
 import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
+import globalize from 'lib/globalize';
+import shell from 'scripts/shell';
+import Dashboard from 'utils/dashboard';
 
 export const ID = 'app-user-menu';
 
@@ -35,8 +38,13 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
     const { user } = useApi();
     const { data: isQuickConnectEnabled } = useQuickConnectEnabled();
 
+    const onDownloadManagerClick = useCallback(() => {
+        shell.openDownloadManager();
+        onMenuClose();
+    }, [ onMenuClose ]);
+
     const onClientSettingsClick = useCallback(() => {
-        window.NativeShell?.openClientSettings();
+        shell.openClientSettings();
         onMenuClose();
     }, [ onMenuClose ]);
 
@@ -96,10 +104,25 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </ListItemText>
             </MenuItem>
 
-            {appHost.supports('clientsettings') && ([
-                <Divider key='client-settings-divider' />,
+            {(appHost.supports(AppFeature.DownloadManagement) || appHost.supports(AppFeature.ClientSettings)) && (
+                <Divider />
+            )}
+
+            {appHost.supports(AppFeature.DownloadManagement) && (
                 <MenuItem
-                    key='client-settings-button'
+                    onClick={onDownloadManagerClick}
+                >
+                    <ListItemIcon>
+                        <Download />
+                    </ListItemIcon>
+                    <ListItemText>
+                        {globalize.translate('DownloadManager')}
+                    </ListItemText>
+                </MenuItem>
+            )}
+
+            {appHost.supports(AppFeature.ClientSettings) && (
+                <MenuItem
                     onClick={onClientSettingsClick}
                 >
                     <ListItemIcon>
@@ -109,7 +132,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                         {globalize.translate('ClientSettings')}
                     </ListItemText>
                 </MenuItem>
-            ])}
+            )}
 
             {/* ADMIN LINKS */}
             {user?.Policy?.IsAdministrator && ([
@@ -155,7 +178,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </MenuItem>
             )}
 
-            {appHost.supports('multiserver') && (
+            {appHost.supports(AppFeature.MultiServer) && (
                 <MenuItem
                     onClick={onSelectServerClick}
                 >
@@ -179,7 +202,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </ListItemText>
             </MenuItem>
 
-            {appHost.supports('exitmenu') && ([
+            {appHost.supports(AppFeature.ExitMenu) && ([
                 <Divider key='exit-menu-divider' />,
                 <MenuItem
                     key='exit-menu-button'

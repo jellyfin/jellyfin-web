@@ -1,5 +1,7 @@
 .lyricPage {
     padding-top: 4.2em !important;
+    padding-left: 0.5em !important;
+    padding-right: 0.5em !important;
     display: flex;
     justify-content: center;
     margin: 2%;
@@ -25,8 +27,12 @@
     width: fit-content;
     margin: 0.3em;
     font-size: 30px;
+
     color: inherit;
     min-height: 2em;
+
+    transition-property: opacity;
+    transition-duration: 150ms;
 }
 
 .futureLyric {

@@ -12,9 +12,9 @@ import { useCultures } from 'apps/dashboard/features/libraries/api/useCultures';
 import { getImageResolutionOptions } from 'apps/dashboard/features/libraries/utils/metadataOptions';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import ServerConnections from 'components/ServerConnections';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { ActionData } from 'types/actionData';
@@ -127,12 +127,14 @@ export const Component = () => {
                                 name={'DummyChapterDuration'}
                                 defaultValue={config.DummyChapterDuration}
                                 type='number'
-                                inputProps={{
-                                    min: 0,
-                                    required: true
-                                }}
                                 label={globalize.translate('LabelDummyChapterDuration')}
                                 helperText={globalize.translate('LabelDummyChapterDurationHelp')}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        required: true
+                                    }
+                                }}
                             />
 
                             <TextField

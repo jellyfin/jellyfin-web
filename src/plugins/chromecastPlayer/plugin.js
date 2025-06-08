@@ -3,8 +3,8 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import globalize from '../../lib/globalize';
 import CastSenderApi from './castSenderApi';
-import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
@@ -1109,7 +1109,8 @@ class ChromecastPlayer {
         return this.getPlayerStateInternal()?.NowPlayingItem?.IndexNumber;
     }
 
-    clearQueue(currentTime) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    clearQueue(currentTime) {
         // not supported yet
     }
 }
