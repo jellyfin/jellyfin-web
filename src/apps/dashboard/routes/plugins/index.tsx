@@ -17,7 +17,8 @@ export const Component = () => {
     const {
         data: plugins,
         isPending,
-        isError } = usePlugins();
+        isError
+    } = usePlugins();
     const {
         data: configurationPages,
         isError: isConfigurationPagesError,
@@ -63,17 +64,15 @@ export const Component = () => {
                         />
 
                         <Box>
-                            <Grid container spacing={2} columns={{ xs: 1, sm: 4, md: 9, lg: 10 }}>
-                                {filteredPlugins.map(plugin => {
-                                    return (
-                                        <Grid key={plugin.Id} size={{ xs: 1, sm: 2, md: 3, lg: 2 }}>
-                                            <PluginCard
-                                                plugin={plugin}
-                                                configurationPage={findBestConfigurationPage(configurationPages, plugin.Id || '')}
-                                            />
-                                        </Grid>
-                                    );
-                                })}
+                            <Grid container spacing={2} columns={{ xs: 1, sm: 4, md: 9, lg: 8, xl: 10 }}>
+                                {filteredPlugins.map(plugin => (
+                                    <Grid key={plugin.Id} size={{ xs: 1, sm: 2, md: 3, lg: 2 }}>
+                                        <PluginCard
+                                            plugin={plugin}
+                                            configurationPage={findBestConfigurationPage(configurationPages, plugin.Id || '')}
+                                        />
+                                    </Grid>
+                                ))}
                             </Grid>
                         </Box>
                     </Stack>

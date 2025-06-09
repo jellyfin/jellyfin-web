@@ -33,7 +33,7 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
     const disablePlugin = useDisablePlugin();
     const uninstallPlugin = useUninstallPlugin();
     const [ anchorEl, setAnchorEl ] = useState<HTMLElement | null>(null);
-    const [ isMenuOpen, setMenuOpen ] = useState(false);
+    const [ isMenuOpen, setIsMenuOpen ] = useState(false);
     const [ isUninstallConfirmOpen, setIsUninstallConfirmOpen ] = useState(false);
     const { api } = useApi();
 
@@ -54,7 +54,7 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
                 version: plugin.Version
             });
             setAnchorEl(null);
-            setMenuOpen(false);
+            setIsMenuOpen(false);
         }
     }, [ plugin, enablePlugin ]);
 
@@ -65,7 +65,7 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
                 version: plugin.Version
             });
             setAnchorEl(null);
-            setMenuOpen(false);
+            setIsMenuOpen(false);
         }
     }, [ plugin, disablePlugin ]);
 
@@ -76,7 +76,7 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
     const showUninstallConfirmDialog = useCallback(() => {
         setIsUninstallConfirmOpen(true);
         setAnchorEl(null);
-        setMenuOpen(false);
+        setIsMenuOpen(false);
     }, []);
 
     const onUninstall = useCallback(() => {
@@ -86,18 +86,18 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
                 version: plugin.Version
             });
             setAnchorEl(null);
-            setMenuOpen(false);
+            setIsMenuOpen(false);
         }
     }, [ plugin, uninstallPlugin ]);
 
     const onMenuClose = useCallback(() => {
         setAnchorEl(null);
-        setMenuOpen(false);
+        setIsMenuOpen(false);
     }, []);
 
     const onActionClick = useCallback(() => {
         setAnchorEl(actionRef.current);
-        setMenuOpen(true);
+        setIsMenuOpen(true);
     }, []);
 
     return (
