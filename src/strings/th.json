@@ -185,5 +185,12 @@
     "LabelTime": "เวลา",
     "LabelTimeLimitHours": "จำกัดเวลา (ชั่วโมง)",
     "LabelTextSize": "ขนาดตัวอักษร",
-    "Anime": "อนิเมะ"
+    "Anime": "อนิเมะ",
+    "Success": "สำเร็จ",
+    "SubtitleBlack": "สีดำ",
+    "SubtitleYellow": "สีเหลือง",
+    "Suggestions": "คำแนะนำ",
+    "Sunday": "วันอาทิตย์",
+    "SubtitleBlue": "สีน้ำเงิน",
+    "SubtitleCyan": "สีน้ำเงินเขียว"
 }
