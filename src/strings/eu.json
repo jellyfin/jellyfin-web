@@ -2012,5 +2012,14 @@
     "HeaderUpdateRequired": "Eguneraketa beharrezkoa da",
     "Illustrator": "Ilustratzailea",
     "MessageForgotPasswordPinReset": "Sartu PINa hemen pasahitza berrezartzeko",
-    "DownloadManager": "Deskargak"
+    "DownloadManager": "Deskargak",
+    "LabelRestore": "Leheneratu",
+    "LabelImageCache": "Irudien cachea",
+    "BackupsPageLoadError": "Babeskopien orria kargatzeak huts egin du",
+    "ButtonCreateBackup": "Sortu babeskopia",
+    "Create": "Sortu",
+    "HeaderBackupsHelp": "Sortu eta leheneratu zure zerbitzariaren argazkiak, datu-basea, metadatuak, azpitituluak eta trickplay barne hartuz.",
+    "LabelBackupsUnavailable": "Ez dago babeskopiarik eskuragarri",
+    "LabelDatabase": "Datu-basea",
+    "LabelProgramData": "Programaren datuak"
 }
