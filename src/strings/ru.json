@@ -2054,5 +2054,6 @@
     "StorageType.NoRootDirectory": "Без корневой папки",
     "StorageType.Fixed": "Фиксированный",
     "StorageType.CDRom": "CD-ROM",
-    "Success": "Успешно"
+    "Success": "Успешно",
+    "BackupsPageLoadError": "Не удалось загрузить страницу резервирования"
 }
