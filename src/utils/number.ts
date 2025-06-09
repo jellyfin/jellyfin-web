@@ -14,6 +14,20 @@ export function randomInt(min: number, max: number): number {
 }
 
 /**
+ * Gets the value of a number formatted as a string.
+ * @param {number} value The value as a number.
+ * @param {string} locale The locale to use for formatting (i.e. en-us).
+ * @returns {string} The value formatted as a string.
+ */
+export function toLocaleString(value: number, locale: string): string {
+    if (toLocaleStringSupportsOptions()) {
+        return value.toLocaleString(locale);
+    }
+
+    return value.toString();
+}
+
+/**
  * Gets the value of a number formatted as a perentage.
  * @param {number} value The value as a number.
  * @param {string} locale The locale to use for formatting (i.e. en-us).
