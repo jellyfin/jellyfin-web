@@ -2021,5 +2021,20 @@
     "HeaderBackupsHelp": "Sortu eta leheneratu zure zerbitzariaren argazkiak, datu-basea, metadatuak, azpitituluak eta trickplay barne hartuz.",
     "LabelBackupsUnavailable": "Ez dago babeskopiarik eskuragarri",
     "LabelDatabase": "Datu-basea",
-    "LabelProgramData": "Programaren datuak"
+    "LabelProgramData": "Programaren datuak",
+    "StorageType.Network": "Sarea",
+    "MessageBackupDisclaimer": "Liburutegiaren tamainaren arabera, babeskopia prozesuak denbora pixka bat iraun dezake.",
+    "MessageRestoreDisclaimer": "OHARRA: Aurreko babeskopia batetik leheneratzear zaude. Zure zerbitzaria ezingo da erabili prozesuak irauten duen bitartean eta babeskopiatik sortutako datu berri guztiak galduko dira.",
+    "MessageRestoreInProgress": "Leheneratzea martxan",
+    "MessageRestoreSuccess": "Leheneratzea behar bezala burutu da",
+    "MessageWaitingForServer": "Zerbitzariari itxaroten...",
+    "MessageBackupInProgress": "Babeskopia martxan",
+    "StorageType.CDRom": "CD-ROM",
+    "StorageType.Fixed": "Konponduta",
+    "StorageType.NoRootDirectory": "Ez dago erro karpetarik",
+    "StorageType.Ram": "RAM",
+    "StorageType.Removable": "Mugigarria",
+    "StorageType.Unknown": "Ezezaguna",
+    "Success": "Arrakasta",
+    "HeaderBackups": "Babeskopiak"
 }
