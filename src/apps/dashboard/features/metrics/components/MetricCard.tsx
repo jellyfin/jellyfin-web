@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import React, { type FC } from 'react';
 
 import { useLocale } from 'hooks/useLocale';
-import { toLocaleString } from 'utils/number';
+import { toDecimalString } from 'utils/number';
 
 interface Metric {
     label: string
@@ -54,8 +54,8 @@ const MetricCard: FC<MetricCardProps> = ({
                             variant='h5'
                             component='div'
                         >
-                            {value ? (
-                                toLocaleString(value, dateTimeLocale)
+                            {typeof value !== 'undefined' ? (
+                                toDecimalString(value, dateTimeLocale)
                             ) : (
                                 <Skeleton />
                             )}

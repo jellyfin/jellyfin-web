@@ -19,7 +19,7 @@ export function randomInt(min: number, max: number): number {
  * @param {string} locale The locale to use for formatting (i.e. en-us).
  * @returns {string} The value formatted as a string.
  */
-export function toLocaleString(value: number, locale: string): string {
+export function toDecimalString(value: number, locale: string): string {
     if (toLocaleStringSupportsOptions()) {
         return value.toLocaleString(locale);
     }
@@ -33,7 +33,7 @@ export function toLocaleString(value: number, locale: string): string {
  * @param {string} locale The locale to use for formatting (i.e. en-us).
  * @returns {string} The value formatted as a percentage.
  */
-export function toPercent(value: number | null | undefined, locale: string): string {
+export function toPercentString(value: number | null | undefined, locale: string): string {
     if (value == null) {
         return '';
     }
