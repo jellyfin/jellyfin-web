@@ -2033,7 +2033,7 @@
     "StorageType.Fixed": "Konponduta",
     "StorageType.NoRootDirectory": "Ez dago erro karpetarik",
     "StorageType.Ram": "RAM",
-    "StorageType.Removable": "Mugigarria",
+    "StorageType.Removable": "Kengarria",
     "StorageType.Unknown": "Ezezaguna",
     "Success": "Arrakasta",
     "HeaderBackups": "Babeskopiak"
