@@ -40,10 +40,6 @@ export const Component = () => {
     const { data: tasks, isPending: isTasksPending } = useLiveTasks({ isHidden: false });
     const { data: devices } = useLiveSessions();
 
-    useEffect(() => {
-        console.log('[session]', devices);
-    }, [ devices ] );
-
     const dayBefore = useMemo(() => (
         subSeconds(new Date(), 24 * 60 * 60 * 1000).toISOString()
     ), []);

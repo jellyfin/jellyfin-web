@@ -200,7 +200,7 @@ const DeviceCard = ({ device }: IProps) => {
                     </Stack>
                 </Stack>
             </CardMedia>
-            {(device.PlayState?.PositionTicks && device.NowPlayingItem?.RunTimeTicks) && (
+            {(device.PlayState?.PositionTicks != null && device.NowPlayingItem?.RunTimeTicks != null) && (
                 <LinearProgress
                     variant='buffer'
                     value={(device.PlayState.PositionTicks / device.NowPlayingItem.RunTimeTicks) * 100}
