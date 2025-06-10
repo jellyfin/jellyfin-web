@@ -2050,5 +2050,6 @@
     "StorageType.Unknown": "Không rõ",
     "StorageType.Fixed": "Cố định",
     "Success": "Thành công",
-    "HeaderBackups": "Sao lưu"
+    "HeaderBackups": "Sao lưu",
+    "PluginsLoadError": "Một lỗi đã xảy ra trong khi tải plugin."
 }
