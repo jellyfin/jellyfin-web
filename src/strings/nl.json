@@ -2054,5 +2054,6 @@
     "StorageType.NoRootDirectory": "Geen hoofdmap",
     "StorageType.Ram": "RAM",
     "StorageType.Removable": "Verwisselbaar",
-    "StorageType.Unknown": "Onbekend"
+    "StorageType.Unknown": "Onbekend",
+    "PluginsLoadError": "Er is een fout opgetreden bij het laden van plug-ins."
 }
