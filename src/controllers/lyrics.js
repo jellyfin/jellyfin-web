@@ -23,21 +23,17 @@ let savedLyrics;
 let isDynamicLyric = false;
 let autoScroll = AutoScroll.Instant;
 
-function dynamicLyricHtmlReducer(htmlAccumulator, lyric, index) {
-    if (layoutManager.tv) {
-        htmlAccumulator += `<button class="lyricsLine dynamicLyric listItem show-focus" id="lyricPosition${index}" data-lyrictime="${lyric.Start}">${escapeHtml(lyric.Text)}</button>`;
-    } else {
-        htmlAccumulator += `<div class="lyricsLine dynamicLyric" id="lyricPosition${index}" data-lyrictime="${lyric.Start}">${escapeHtml(lyric.Text)}</div>`;
-    }
-    return htmlAccumulator;
-}
+function lyricHtmlReducer(htmlAccumulator, lyric, index) {
+    const elem = layoutManager.tv ? 'button' : 'div';
+    const classes = [];
+    if (isDynamicLyric) classes.push('dynamicLyric');
+    if (layoutManager.tv) classes.push('listItem', 'show-focus');
+    const lyricTime = typeof lyric.Start !== 'undefined' ? `data-lyrictime="${lyric.Start}"` : '';
 
-function staticLyricHtmlReducer(htmlAccumulator, lyric, index) {
-    if (layoutManager.tv) {
-        htmlAccumulator += `<button class="lyricsLine listItem show-focus" id="lyricPosition${index}">${escapeHtml(lyric.Text)}</button>`;
-    } else {
-        htmlAccumulator += `<div class="lyricsLine" id="lyricPosition${index}">${escapeHtml(lyric.Text)}</div>`;
-    }
+    htmlAccumulator += `<${elem} class="lyricsLine ${classes.join(' ')}" id="lyricPosition${index}" ${lyricTime}>
+    <bdi>${escapeHtml(lyric.Text)}</bdi>
+</${elem}>`;
+
     return htmlAccumulator;
 }
 
@@ -96,37 +92,31 @@ export default function (view) {
     }
 
     function renderNoLyricMessage() {
-        const itemsContainer = view.querySelector('.dynamicLyricsContainer');
+        const itemsContainer = view.querySelector('.lyricsContainer');
         if (itemsContainer) {
-            const html = `<h1> ${globalize.translate('HeaderNoLyrics')} </h1>`;
+            const html = `<h1>${globalize.translate('HeaderNoLyrics')}</h1>`;
             itemsContainer.innerHTML = html;
         }
         autoFocuser.autoFocus();
     }
 
-    function renderDynamicLyrics(lyrics) {
-        const itemsContainer = view.querySelector('.dynamicLyricsContainer');
+    function renderLyrics(lyrics) {
+        const itemsContainer = view.querySelector('.lyricsContainer');
         if (itemsContainer) {
-            const html = lyrics.reduce(dynamicLyricHtmlReducer, '');
+            const html = lyrics.reduce(lyricHtmlReducer, '');
             itemsContainer.innerHTML = html;
         }
 
-        const lyricLineArray = itemsContainer.querySelectorAll('.lyricsLine');
+        if (isDynamicLyric) {
+            const lyricLineArray = itemsContainer.querySelectorAll('.lyricsLine');
 
-        // attaches click event listener to change playtime to lyric start
-        lyricLineArray.forEach(element => {
-            element.addEventListener('click', () => onLyricClick(element.getAttribute('data-lyrictime')));
-        });
+            // attaches click event listener to change playtime to lyric start
+            lyricLineArray.forEach(element => {
+                element.addEventListener('click', () => onLyricClick(element.getAttribute('data-lyrictime')));
+            });
 
-        const currentIndex = getLyricIndex(getCurrentPlayTime(), lyrics);
-        updateAllLyricLines(currentIndex, savedLyrics);
-    }
-
-    function renderStaticLyrics(lyrics) {
-        const itemsContainer = view.querySelector('.dynamicLyricsContainer');
-        if (itemsContainer) {
-            const html = lyrics.reduce(staticLyricHtmlReducer, '');
-            itemsContainer.innerHTML = html;
+            const currentIndex = getLyricIndex(getCurrentPlayTime(), lyrics);
+            updateAllLyricLines(currentIndex, savedLyrics);
         }
     }
 
@@ -135,11 +125,7 @@ export default function (view) {
 
         isDynamicLyric = Object.prototype.hasOwnProperty.call(lyrics[0], 'Start');
 
-        if (isDynamicLyric) {
-            renderDynamicLyrics(savedLyrics);
-        } else {
-            renderStaticLyrics(savedLyrics);
-        }
+        renderLyrics(savedLyrics);
 
         autoFocuser.autoFocus(view);
     }
