@@ -65,7 +65,7 @@
     "stylelint-scss": "6.12.0",
     "ts-loader": "9.5.2",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.32.0",
+    "typescript-eslint": "8.33.1",
     "vitest": "3.2.1",
     "webpack": "5.99.8",
     "webpack-bundle-analyzer": "4.10.2",
