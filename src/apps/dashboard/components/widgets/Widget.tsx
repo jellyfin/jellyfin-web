@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import Link from '@mui/material/Link';
 
 type IProps = {
     title: string;
@@ -15,26 +14,21 @@ type IProps = {
 const Widget = ({ title, href, children }: IProps) => {
     return (
         <Box>
-            <Link
+            <Button
                 component={RouterLink}
                 to={href}
+                variant='text'
                 color='inherit'
+                endIcon={<ChevronRight />}
+                sx={{
+                    marginTop: 1,
+                    marginBottom: 1
+                }}
             >
-                <Button
-                    LinkComponent={RouterLink}
-                    variant='text'
-                    color='inherit'
-                    endIcon={<ChevronRight />}
-                    sx={{
-                        marginTop: 1,
-                        marginBottom: 1
-                    }}
-                >
-                    <Typography variant='h3' component='span'>
-                        {title}
-                    </Typography>
-                </Button>
-            </Link>
+                <Typography variant='h3' component='span'>
+                    {title}
+                </Typography>
+            </Button>
 
             {children}
         </Box>

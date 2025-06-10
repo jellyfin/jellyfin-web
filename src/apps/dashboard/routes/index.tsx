@@ -28,6 +28,7 @@ import Link from '@mui/material/Link';
 export const Component = () => {
     const theme = useTheme();
     const isMedium = useMediaQuery(theme.breakpoints.only('md'));
+    const isExtraLarge = useMediaQuery(theme.breakpoints.only('xl'));
     const [ isRestartConfirmDialogOpen, setIsRestartConfirmDialogOpen ] = useState(false);
     const [ isShutdownConfirmDialogOpen, setIsShutdownConfirmDialogOpen ] = useState(false);
     const startTask = useStartTask();
@@ -134,8 +135,8 @@ export const Component = () => {
                 confirmButtonColor='error'
             />
             <Box className='content-primary'>
-                <Grid container spacing={3} columns={{ xs: 1, md: 12 }}>
-                    <Grid size={{ xs: 1, md: 12, lg: 8 }}>
+                <Grid container spacing={3}>
+                    <Grid size={{ xs: 12, md: 12, xl: 6 }}>
                         <Stack spacing={3}>
                             <ServerInfoWidget
                                 systemInfo={systemInfo}
@@ -147,11 +148,11 @@ export const Component = () => {
                             <DevicesWidget devices={devices} />
                         </Stack>
                     </Grid>
-                    <Grid size={{ xs: 1, md: 6, lg: 4 }}>
+                    <Grid size={{ xs: 12, md: 6, lg: 12, xl: 3 }}>
                         <ActivityLogWidget logs={logs?.Items} />
                     </Grid>
-                    {isMedium ? (
-                        <Grid size={6}>
+                    {isMedium || isExtraLarge ? (
+                        <Grid size={{ md: 6, xl: 3 }}>
                             <Stack spacing={3}>
                                 <AlertsLogWidget alerts={alerts?.Items} />
                                 <ServerPathWidget systemStorage={systemStorage} />
@@ -159,10 +160,10 @@ export const Component = () => {
                         </Grid>
                     ) : (
                         <>
-                            <Grid size={{ xs: 1, lg: 12 }}>
+                            <Grid size={{ xs: 12, lg: 12 }}>
                                 <AlertsLogWidget alerts={alerts?.Items} />
                             </Grid>
-                            <Grid size={{ xs: 1, lg: 12 }}>
+                            <Grid size={{ xs: 12, lg: 12 }}>
                                 <ServerPathWidget systemStorage={systemStorage} />
                             </Grid>
                         </>
