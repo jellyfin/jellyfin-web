@@ -23,9 +23,9 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
         const data = Object.fromEntries(formData.entries());
 
         const repository: RepositoryInfo = {
-            'Name': data.Name?.toString(),
-            'Url': data.Url?.toString(),
-            'Enabled': true
+            Name: data.Name?.toString(),
+            Url: data.Url?.toString(),
+            Enabled: true
         };
 
         onAdd(repository);
