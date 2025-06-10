@@ -993,6 +993,8 @@ function buildCard(index, item, apiClient, options) {
             overlayButtons += `<button is="paper-icon-button-light" class="${btnCssClass}" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons cardOverlayButtonIcon more_vert" aria-hidden="true"></span></button>`;
         }
     }
+    
+    const ratingsDisplay = getRatingHtml(item);
 
     // cardBox can be it's own separate element if an outer footer is ever needed
     let cardImageContainerOpen;
@@ -1127,13 +1129,11 @@ function buildCard(index, item, apiClient, options) {
     const endDate = item.EndDate ? (' data-enddate="' + item.EndDate.toString() + '"') : '';
 
     let additionalCardContent = '';
-
     if (layoutManager.desktop && !options.disableHoverMenu) {
-        additionalCardContent += getRatingHtml(item);
         additionalCardContent += getHoverMenuHtml(item, action);
     }
 
-    return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + pathData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + startDate + endDate + ' data-prefix="' + escapeHtml(prefix) + '" class="' + className + '"' + ariaLabelAttribute + '>' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+    return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + pathData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + startDate + endDate + ' data-prefix="' + escapeHtml(prefix) + '" class="' + className + '"' + ariaLabelAttribute + '>' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + ratingsDisplay + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
 }
 
 /**
@@ -1150,11 +1150,10 @@ function getRatingHtml(item) {
     let cardRatingHtml = '';
     if (item.CriticRating && ['critic', 'all'].includes(ratingsSetting)) {
         const backgroundImageClass = item.CriticRating >= 60 ? 'cardRatingFresh' : 'cardRatingRotten';
-        cardRatingHtml += `<div class="cardCriticRating ${backgroundImageClass}">${item.CriticRating}</div>`;
+        cardRatingHtml += `<div class="cardRating"><span class="cardRatingIcon cardCriticRating ${backgroundImageClass}"></span><span>${item.CriticRating}</span></div>`;
     }
     if (item.CommunityRating && ['community', 'all'].includes(ratingsSetting)) {
-        const starIconHtml = '<span class="material-icons cardStarIcon star" aria-hidden="true"></span>';
-        cardRatingHtml += `<div class="cardRating cardCommunityRating">${starIconHtml}${item.CommunityRating.toFixed(1)}</div>`;
+        cardRatingHtml += `<div class="cardRating"><span class="material-icons star cardRatingIcon cardCommunityRating" aria-hidden="true"></span><span>${item.CommunityRating.toFixed(1)}</span></div>`;
     }
 
     return cardRatingHtml ? `<div class="cardRatingContainer">${cardRatingHtml}</div>` : '';
