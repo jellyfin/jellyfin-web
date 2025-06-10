@@ -56,7 +56,7 @@ const RepositoryListItem = ({ repository, onDelete }: IProps) => {
                 }
             >
                 <ListItemButton>
-                    <Link href={repository.Url || '#'} target='_blank'>
+                    <Link href={repository.Url || '#'} target='_blank' rel='noopener noreferrer'>
                         <ListItemAvatar>
                             <Avatar sx={{ bgcolor: 'primary.main' }}>
                                 <OpenInNew sx={{ color: '#fff' }} />
