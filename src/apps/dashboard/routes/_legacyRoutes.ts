@@ -31,13 +31,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'plugins/available/index.html'
         }
     }, {
-        path: 'plugins/repositories',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'plugins/repositories/index',
-            view: 'plugins/repositories/index.html'
-        }
-    }, {
         path: 'livetv/guide',
         pageProps: {
             appType: AppType.Dashboard,
