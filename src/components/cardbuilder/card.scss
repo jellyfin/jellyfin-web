@@ -875,16 +875,26 @@ button::-moz-focus-inner {
 .cardRatingContainer {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     position: absolute;
     top: 3px;
-    left: 3px;
-    padding: 5px;
+    padding: 3px 5px;
     font-weight: 600;
     background-color: rgba(0, 0, 0, 0.5);
     transition: background-color 200ms ease-out;
     border-radius: 15px;
     z-index: 10;
+
+    span {
+        margin: 0 2px;
+    }
+
+    [dir="ltr"] & {
+        left: 3px;
+    }
+
+    [dir="rtl"] & {
+        right: 3px;
+    }
 }
 
 .card-hoverable:hover .cardRatingContainer {
@@ -896,12 +906,22 @@ button::-moz-focus-inner {
     margin-top: 3px;
 }
 
+.cardRating {
+    display: flex;
+    align-items: center;
+}
+
+.cardRatingIcon {
+    max-width: 1.4em;
+    max-height: 1.4em;
+}
+
 .cardCriticRating {
+    background-position: center;
     background-repeat: no-repeat;
-    background-size: auto 1.2em;
-    min-height: 1.2em;
-    background-position: 2px center;
-    padding-left: 24px;
+    background-size: 1.2em;
+    min-height: 1.4em;
+    min-width: 1.4em;
 }
 
 .cardRatingFresh {
@@ -913,16 +933,6 @@ button::-moz-focus-inner {
 }
 
 .cardCommunityRating {
-    min-height: 1.2em;
-    display: flex;
-    align-items: center;
-    margin-right: 3px;
-}
-
-.cardStarIcon {
-    width: auto !important;
-    height: auto !important;
     font-size: 1.4em;
-    margin-right: 3px;
     color: #f2b01e;
 }
