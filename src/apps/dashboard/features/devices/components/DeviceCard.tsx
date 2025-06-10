@@ -184,7 +184,8 @@ const DeviceCard = ({ device }: IProps) => {
                                     src={nowPlayingName.image}
                                     style={{
                                         maxHeight: '24px',
-                                        maxWidth: '130px'
+                                        maxWidth: '130px',
+                                        alignSelf: 'flex-start'
                                     }}
                                     alt='Media Icon'
                                 />

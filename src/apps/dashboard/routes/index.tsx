@@ -25,6 +25,7 @@ import useLiveSessions from '../features/sessions/hooks/useLiveSessions';
 import { useStartTask } from '../features/tasks/api/useStartTask';
 import Link from '@mui/material/Link';
 import ItemCountsWidget from '../components/widgets/ItemCountsWidget';
+import { useItemCounts } from '../features/metrics/api/useItemCounts';
 
 export const Component = () => {
     const theme = useTheme();
@@ -67,6 +68,7 @@ export const Component = () => {
 
     const { data: systemStorage, isPending: isSystemStoragePending } = useSystemStorage();
     const { data: systemInfo, isPending: isSystemInfoPending } = useSystemInfo();
+    const { data: itemCounts, isPending: isItemCountsPending } = useItemCounts();
 
     const promptRestart = useCallback(() => {
         setIsRestartConfirmDialogOpen(true);
@@ -105,7 +107,7 @@ export const Component = () => {
     }, [ shutdownServer ]);
 
     const isPending = isLogsPending || isAlertsPending || isSystemStoragePending
-        || isSystemInfoPending || isTasksPending;
+        || isSystemInfoPending || isTasksPending || isItemCountsPending;
 
     if (isPending) {
         return <Loading />;
@@ -145,7 +147,7 @@ export const Component = () => {
                                 onRestartClick={promptRestart}
                                 onShutdownClick={promptShutdown}
                             />
-                            <ItemCountsWidget />
+                            <ItemCountsWidget counts={itemCounts} />
                             <RunningTasksWidget tasks={tasks} />
                             <DevicesWidget devices={devices} />
                         </Stack>
