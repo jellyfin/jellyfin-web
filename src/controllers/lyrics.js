@@ -1,9 +1,10 @@
+import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
 import escapeHtml from 'escape-html';
 
 import autoFocuser from 'components/autoFocuser';
-import { appRouter } from '../components/router/appRouter';
+import { appRouter } from 'components/router/appRouter';
 import layoutManager from 'components/layoutManager';
-import { playbackManager } from '../components/playback/playbackmanager';
+import { playbackManager } from 'components/playback/playbackmanager';
 import scrollManager from 'components/scrollManager';
 import focusManager from 'components/focusManager';
 
@@ -12,6 +13,7 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import LibraryMenu from 'scripts/libraryMenu';
 import Events from 'utils/events';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import '../styles/lyrics.scss';
 import { AutoScroll } from './lyrics.types';
@@ -132,17 +134,15 @@ export default function (view) {
 
     function getLyrics(serverId, itemId) {
         const apiClient = ServerConnections.getApiClient(serverId);
+        const lyricsApi = getLyricsApi(toApi(apiClient));
 
-        return apiClient.ajax({
-            url: apiClient.getUrl('Audio/' + itemId + '/Lyrics'),
-            type: 'GET',
-            dataType: 'json'
-        }).then((response) => {
-            if (!response.Lyrics) {
-                throw new Error();
-            }
-            return response.Lyrics;
-        });
+        return lyricsApi.getLyrics({ itemId })
+            .then(({ data }) => {
+                if (!data.Lyrics?.length) {
+                    throw new Error('No lyrics returned');
+                }
+                return data.Lyrics;
+            });
     }
 
     function bindToPlayer(player) {
