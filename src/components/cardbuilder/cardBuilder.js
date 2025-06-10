@@ -999,7 +999,7 @@ function buildCard(index, item, apiClient, options) {
             overlayButtons += `<button is="paper-icon-button-light" class="${btnCssClass}" data-action="${ItemAction.Menu}" title="${globalize.translate('ButtonMore')}"><span class="material-icons cardOverlayButtonIcon more_vert" aria-hidden="true"></span></button>`;
         }
     }
-    
+
     const ratingsDisplay = getRatingHtml(item);
 
     // cardBox can be it's own separate element if an outer footer is ever needed

@@ -876,12 +876,12 @@ button::-moz-focus-inner {
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 3px;
-    padding: 3px 5px;
+    top: 0.3em;
+    padding: 0.3em 0.5em;
     font-weight: 600;
     background-color: rgba(0, 0, 0, 0.5);
     transition: background-color 200ms ease-out;
-    border-radius: 15px;
+    border-radius: 1em;
     z-index: 10;
 
     span {
@@ -889,11 +889,11 @@ button::-moz-focus-inner {
     }
 
     [dir="ltr"] & {
-        left: 3px;
+        left: 0.3em;
     }
 
     [dir="rtl"] & {
-        right: 3px;
+        right: 0.3em;
     }
 }
 
@@ -903,7 +903,7 @@ button::-moz-focus-inner {
 }
 
 .cardRatingContainer div:first-of-type ~ div {
-    margin-top: 3px;
+    margin-top: 0.3em;
 }
 
 .cardRating {
