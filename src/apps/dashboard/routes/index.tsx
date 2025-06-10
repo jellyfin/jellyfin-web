@@ -24,6 +24,7 @@ import DevicesWidget from '../components/widgets/DevicesWidget';
 import useLiveSessions from '../features/sessions/hooks/useLiveSessions';
 import { useStartTask } from '../features/tasks/api/useStartTask';
 import Link from '@mui/material/Link';
+import ItemCountsWidget from '../components/widgets/ItemCountsWidget';
 
 export const Component = () => {
     const theme = useTheme();
@@ -144,6 +145,7 @@ export const Component = () => {
                                 onRestartClick={promptRestart}
                                 onShutdownClick={promptShutdown}
                             />
+                            <ItemCountsWidget />
                             <RunningTasksWidget tasks={tasks} />
                             <DevicesWidget devices={devices} />
                         </Stack>
