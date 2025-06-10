@@ -2055,5 +2055,6 @@
     "StorageType.Unknown": "Inconnu",
     "Success": "Succès",
     "MessageBackupDisclaimer": "Selon la taille de votre médiathèque, le processus de sauvegarde peut prendre un certain temps.",
-    "MessageRestoreDisclaimer": "AVERTISSEMENT : Vous êtes sur le point de restaurer une sauvegarde précédente. Votre serveur sera inutilisable pendant toute la durée du processus et toutes les nouvelles données créées depuis la sauvegarde seront perdues."
+    "MessageRestoreDisclaimer": "AVERTISSEMENT : Vous êtes sur le point de restaurer une sauvegarde précédente. Votre serveur sera inutilisable pendant toute la durée du processus et toutes les nouvelles données créées depuis la sauvegarde seront perdues.",
+    "PluginsLoadError": "Une erreur s'est produite lors du chargement des plugins."
 }
