@@ -1999,5 +1999,6 @@
     "StorageType.Unknown": "Inconnu",
     "Success": "Succès",
     "HeaderBackups": "Sauvegardes",
-    "MessageBackupDisclaimer": "Selon la taille de votre médiathèque, le processus de sauvegarde peut prendre un certain temps."
+    "MessageBackupDisclaimer": "Selon la taille de votre médiathèque, le processus de sauvegarde peut prendre un certain temps.",
+    "PluginsLoadError": "Une erreur s'est produite lors du chargement des plugins."
 }
