@@ -3,10 +3,10 @@
     "Songs": "Дуунууд",
     "Playlists": "Тоглуулах жагсаалт",
     "Movies": "Кино",
-    "Genres": "Төрөл зүйл",
+    "Genres": "Төрлүүд",
     "Favorites": "Дуртай",
     "Collections": "Багц",
-    "Artists": "Зураачуд",
+    "Artists": "Уран бүтээлчид",
     "ButtonCancel": "Цуцлах",
     "Artist": "Жүжигчин",
     "Album": "Цомог",
@@ -100,5 +100,13 @@
     "AccessRestrictedTryAgainLater": "Одоогоор хандалт хязгаарлагдмал байна. Дараа дахин оролдож үзнэ үү.",
     "Actor": "Жүжигчин",
     "Add": "Нэмэх",
-    "AddedOnValue": "Нэмсэн"
+    "AddedOnValue": "Нэмсэн",
+    "Shows": "Нэвтрүүлгүүд",
+    "Photos": "Зургууд",
+    "MusicVideos": "Дууны клип",
+    "Folders": "Хавтаснууд",
+    "Channels": "Сувгууд",
+    "HeaderAlbumArtists": "Цомгийн уран бүтээлчид",
+    "ValueSpecialEpisodeName": "Тусгай - {0}",
+    "Default": "Өгөгдмөл"
 }
