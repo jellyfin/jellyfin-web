@@ -2020,5 +2020,8 @@
     "ReadInputAtNativeFramerateHelp": "Bu seçeneğin etkinleştirilmesi, canlı yayınların zamanından önce durması gibi bazı sorunları çözebilir.",
     "LimitSegmentLength": "Daha kısa HLS segmentleri kullanın",
     "HeaderServerUnavailable": "Sunucu Kullanılamıyor",
-    "HeaderUpdateRequired": "Güncelleme Gerekli"
+    "HeaderUpdateRequired": "Güncelleme Gerekli",
+    "ViewSettings": "Ayarları görüntüle",
+    "DownloadManager": "İndirilenler",
+    "MessageForgotPasswordPinReset": "Şifre sıfırlamayı bitirmek için PIN kodunu buraya girin"
 }

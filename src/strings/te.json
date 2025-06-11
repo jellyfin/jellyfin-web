@@ -163,7 +163,7 @@
     "Subtitles": "ఉపశీర్షికలు",
     "SubtitleOffset": "ఉపశీర్షిక ఆఫ్‌సెట్",
     "SubtitleDownloadersHelp": "ప్రాధాన్యత క్రమంలో మీకు ఇష్టమైన ఉపశీర్షిక డౌన్‌లోడ్‌లను ప్రారంభించండి మరియు ర్యాంక్ చేయండి.",
-    "SubtitleAppearanceSettingsDisclaimer": "ఈ సెట్టింగులు గ్రాఫికల్ ఉపశీర్షికలకు (పిజిఎస్, డివిడి, మొదలైనవి) లేదా వారి స్వంత శైలులను పొందుపరిచే ASS / SSA ఉపశీర్షికలకు వర్తించవు.",
+    "SubtitleAppearanceSettingsDisclaimer": "పైన పేర్కొన్న గ్రాఫికల్ ఉపశీర్షికలుకు లేదా వాటి స్వంత శైలులను ఎస్యాస్/యాస్యాస్ఎ ఉపశీర్షికలుకు కింది సెట్టింగ్‌లు వర్తించవు.",
     "ShowTitle": "శీర్షిక చూపించు",
     "Shows": "ప్రదర్శనలు",
     "ShowMore": "ఇంకా చూపించు",
@@ -505,7 +505,7 @@
     "LabelYear": "సంవత్సరం",
     "LabelXDlnaDocHelp": "X_DLNADOC మూలకం యొక్క కంటెంట్‌ను urn: schemas-dlna-org: device-1-0 నేమ్‌స్పేస్‌లో నిర్ణయిస్తుంది.",
     "LabelXDlnaDoc": "X-DLNA పత్రం",
-    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "ఈ పరికరం ప్రారంభించిన ఏదైనా Chromecast ప్లేబ్యాక్‌కు కూడా ఈ సెట్టింగ్‌లు వర్తిస్తాయి.",
+    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "ఈ పరికరం ద్వారా ప్రారంభించబడిన ఏదైనా గూగుల్ కాస్ట్ ప్లేబ్యాక్‌కు కూడా ఈ సెట్టింగ్‌లు వర్తిస్తాయి.",
     "Subtitle": "ఉపశీర్షిక",
     "Studios": "స్టూడియోస్",
     "StopRecording": "రికార్డింగ్ ఆపు",
@@ -2006,5 +2006,6 @@
     "TypeOptionPluralMusicAlbum": "సంగీత ఆల్బమ్‌లు",
     "LabelTrackGain": "ట్రాక్ లాభం",
     "AllowEmbeddedSubtitlesAllowNoneOption": "ఎవరినీ అనుమతించవద్దు",
-    "PluginLoadRepoError": "రిపోజిటరీ నుండి ప్లగిన్ వివరాలను పొందుతున్నప్పుడు లోపం సంభవించింది."
+    "PluginLoadRepoError": "రిపోజిటరీ నుండి ప్లగిన్ వివరాలను పొందుతున్నప్పుడు లోపం సంభవించింది.",
+    "StorageType.Unknown": "తెలియదు"
 }
