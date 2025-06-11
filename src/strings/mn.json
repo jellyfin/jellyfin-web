@@ -108,5 +108,6 @@
     "Channels": "Сувгууд",
     "HeaderAlbumArtists": "Цомгийн уран бүтээлчид",
     "ValueSpecialEpisodeName": "Тусгай - {0}",
-    "Default": "Өгөгдмөл"
+    "Default": "Өгөгдмөл",
+    "AddToCollection": "Цуглуулгад нэмэх"
 }
