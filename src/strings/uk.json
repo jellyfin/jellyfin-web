@@ -960,7 +960,7 @@
     "LabelTonemappingRange": "Діапазон тонального відображення",
     "LabelTonemappingPeakHelp": "Замініть вбудоване значення метаданих для вхідного сигналу на це пікове значення. Значення за замовчуванням - 100 (1000 ніт).",
     "LabelTonemappingPeak": "Пік тонального відображення",
-    "LabelTonemappingParamHelp": "Налаштуйте алгоритм тонального відображення. Рекомендоване значення та значення за замовчуванням - NaN. Зазвичай залиште його порожнім.",
+    "LabelTonemappingParamHelp": "Налаштуйте алгоритм тонального відображення. Зазвичай залиште його порожнім.",
     "LabelTonemappingParam": "Параметр тонального відображення",
     "LabelTonemappingDesat": "Зменшення насиченості тонального відображення",
     "LabelTonemappingAlgorithm": "Оберіть алгоритм тонального відображення, який потрібно використовувати",
@@ -2052,5 +2052,11 @@
     "StorageType.Removable": "Знімне",
     "StorageType.Unknown": "Невідоме",
     "Success": "Успіх",
-    "HeaderBackups": "Резервні копії"
+    "HeaderBackups": "Резервні копії",
+    "ConfirmDeleteRepository": "Видалити репозиторій?",
+    "DeleteRepositoryConfirmation": "Ви впевнені, що хочете видалити цей репозиторій?",
+    "PluginsLoadError": "Виникла помилка під час завантаження плагінів.",
+    "RepositoriesPageLoadError": "Не вдалося завантажити репозиторії",
+    "TranscodingLoadError": "Не вдалося завантажити налаштування перекодування",
+    "ButtonLearnMore": "Дізнатися більше"
 }
