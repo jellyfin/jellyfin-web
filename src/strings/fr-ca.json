@@ -1053,7 +1053,7 @@
     "LabelProtocolInfoHelp": "La valeur utilisée pour répondre aux requêtes « GetProtocolInfo » de l’appareil.",
     "Bold": "Gras",
     "LabelTonemappingDesatHelp": "Appliquer la désaturation pour les hautes lumières qui dépassent ce niveau de luminosité. La valeur recommandée est 0 (désactivé).",
-    "LabelTonemappingParamHelp": "Paramètre pour régler l’algorithme de tone-mapping. La valeur par défaut et recommandée est vide.",
+    "LabelTonemappingParamHelp": "Paramètre pour régler l’algorithme de tone-mapping. Recommandée de laisser vide.",
     "LabelSyncPlayLeaveGroupDescription": "Désactiver SyncPlay",
     "LabelSyncPlayNewGroup": "Nouveau groupe",
     "LabelPostProcessorArgumentsHelp": "Utilisez {path} comme le chemin d’accès au fichier d’enregistrement.",
@@ -2000,5 +2000,10 @@
     "Success": "Succès",
     "HeaderBackups": "Sauvegardes",
     "MessageBackupDisclaimer": "Selon la taille de votre médiathèque, le processus de sauvegarde peut prendre un certain temps.",
-    "PluginsLoadError": "Une erreur s'est produite lors du chargement des plugins."
+    "PluginsLoadError": "Une erreur s'est produite lors du chargement des plugins.",
+    "DeleteRepositoryConfirmation": "Êtes-vous sûr de vouloir supprimer ce dépôt ?",
+    "ButtonLearnMore": "En apprendre plus",
+    "TranscodingLoadError": "Échec du chargement des paramètres de transcodage",
+    "ConfirmDeleteRepository": "Supprimer le dépôt ?",
+    "RepositoriesPageLoadError": "Échec du chargement des dépôts"
 }
