@@ -25,16 +25,6 @@ const getNowPlayingImageUrl = (item: BaseItemDto) => {
         });
     }
 
-    /*
-    if (item?.BackdropImageTag) {
-        return apiClient.getScaledImageUrl(item.BackdropItemId, {
-            maxWidth: Math.round(dom.getScreenWidth() * 0.20),
-            type: 'Backdrop',
-            tag: item.BackdropImageTag
-        });
-    }
-        */
-
     const imageTags = item?.ImageTags || {};
 
     if (item && item.Id && imageTags.Thumb) {
@@ -53,16 +43,6 @@ const getNowPlayingImageUrl = (item: BaseItemDto) => {
         });
     }
 
-    /*
-    if (item?.ThumbImageTag) {
-        return apiClient.getScaledImageUrl(item.ThumbItemId, {
-            maxWidth: Math.round(dom.getScreenWidth() * 0.20),
-            type: 'Thumb',
-            tag: item.ThumbImageTag
-        });
-    }
-    */
-
     if (item && item.Id && imageTags.Primary) {
         return apiClient.getScaledImageUrl(item.Id, {
             maxWidth: Math.round(dom.getScreenWidth() * 0.20),
@@ -70,16 +50,6 @@ const getNowPlayingImageUrl = (item: BaseItemDto) => {
             tag: imageTags.Primary
         });
     }
-
-    /*
-    if (item?.PrimaryImageTag) {
-        return apiClient.getScaledImageUrl(item.PrimaryImageItemId, {
-            maxWidth: Math.round(dom.getScreenWidth() * 0.20),
-            type: 'Primary',
-            tag: item.PrimaryImageTag
-        });
-    }
-    */
 
     if (item?.AlbumPrimaryImageTag && item.AlbumId) {
         return apiClient.getScaledImageUrl(item.AlbumId, {

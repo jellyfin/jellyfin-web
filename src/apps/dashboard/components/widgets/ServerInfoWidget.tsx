@@ -64,7 +64,8 @@ const ServerInfoWidget = ({ systemInfo, onScanLibrariesClick, onRestartClick, on
                         onClick={onShutdownClick}
                         color='error'
                         sx={{
-                            fontWeight: 'bold' }}
+                            fontWeight: 'bold'
+                        }}
                     >
                         {globalize.translate('ButtonShutdown')}
                     </Button>
