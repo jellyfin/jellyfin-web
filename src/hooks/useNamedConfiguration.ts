@@ -13,15 +13,15 @@ export interface NamedConfiguration {
 const fetchNamedConfiguration = async (api: Api, key: string, options?: AxiosRequestConfig) => {
     const response = await getConfigurationApi(api).getNamedConfiguration({ key }, options);
 
-    return response.data as unknown as NamedConfiguration;
+    return response.data;
 };
 
-export const useNamedConfiguration = (key: string) => {
+export const useNamedConfiguration = <ConfigType = NamedConfiguration>(key: string) => {
     const { api } = useApi();
 
     return useQuery({
         queryKey: [ QUERY_KEY, key ],
-        queryFn: ({ signal }) => fetchNamedConfiguration(api!, key, { signal }),
+        queryFn: ({ signal }) => fetchNamedConfiguration(api!, key, { signal }) as ConfigType,
         enabled: !!api
     });
 };
