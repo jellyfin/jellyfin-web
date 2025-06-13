@@ -14,7 +14,7 @@ interface Metric {
     value?: number
 }
 
-interface MetricCardProps {
+export interface MetricCardProps {
     metrics: Metric[]
     Icon: typeof SvgIcon
 }
