@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -13,7 +13,6 @@ import { Link, To } from 'react-router-dom';
 
 interface BaseCardProps {
     title?: string;
-    secondaryTitle?: string;
     text?: string;
     image?: string | null;
     icon?: React.ReactNode;
@@ -24,7 +23,17 @@ interface BaseCardProps {
     onActionClick?: () => void;
 };
 
-const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, action, actionRef, onActionClick }: BaseCardProps) => {
+const BaseCard = ({
+    title,
+    text,
+    image,
+    icon,
+    to,
+    onClick,
+    action,
+    actionRef,
+    onActionClick
+}: BaseCardProps) => {
     return (
         <Card
             sx={{
@@ -62,30 +71,38 @@ const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, actio
                     </Box>
                 )}
             </CardActionArea>
-            <CardHeader
-                title={
-                    <Stack direction='row' spacing={1} alignItems='center'>
-                        <Typography sx={{
+            <CardContent
+                sx={{
+                    minHeight: 50,
+                    '&:last-child': {
+                        paddingBottom: 2,
+                        paddingRight: 1
+                    }
+                }}>
+                <Stack flexGrow={1} direction='row'>
+                    <Stack flexGrow={1}>
+                        <Typography gutterBottom sx={{
                             overflow: 'hidden',
                             whiteSpace: 'nowrap',
                             textOverflow: 'ellipsis'
                         }}>
                             {title}
                         </Typography>
-                        {secondaryTitle && (
-                            <Typography variant='body2' color='text.secondary'>{secondaryTitle}</Typography>
+                        {text && (
+                            <Typography variant='body2' color='text.secondary'>
+                                {text}
+                            </Typography>
                         )}
                     </Stack>
-                }
-                subheader={text}
-                action={
-                    action ? (
-                        <IconButton ref={actionRef} onClick={onActionClick}>
-                            <MoreVertIcon />
-                        </IconButton>
-                    ) : null
-                }
-            />
+                    <Box>
+                        {action ? (
+                            <IconButton ref={actionRef} onClick={onActionClick}>
+                                <MoreVertIcon />
+                            </IconButton>
+                        ) : null}
+                    </Box>
+                </Stack>
+            </CardContent>
         </Card>
     );
 };
