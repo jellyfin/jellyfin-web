@@ -63,7 +63,7 @@ function fetchWithTimeout(url, options, timeoutMs) {
 
             console.debug(`fetchWithTimeout: timed out connecting to url: ${url}`);
 
-            reject(error);
+            reject(new Error(error));
         });
     });
 }
@@ -100,7 +100,7 @@ export function ajax(request) {
                 return response;
             }
         } else {
-            return Promise.reject(response);
+            return Promise.reject(new Error(response));
         }
     }, function (err) {
         console.error(`request failed to url: ${request.url}`);
