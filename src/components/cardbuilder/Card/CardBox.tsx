@@ -49,7 +49,7 @@ const CardBox: FC<CardBoxProps> = ({
                     blurhash={blurhash}
                     forceName={forceName}
                 />
-                {layoutManager.mobile && (
+                {layoutManager.mobile && cardOptions.disableOverlayButtons !== true && (
                     <CardOverlayButtons
                         item={item}
                         cardOptions={cardOptions}
@@ -65,7 +65,7 @@ const CardBox: FC<CardBoxProps> = ({
                     />
                 )}
             </div>
-            {!overlayText && (
+            {!overlayText && cardOptions.disableFooter !== true && (
                 <CardOuterFooter
                     item={item}
                     cardOptions={cardOptions}
