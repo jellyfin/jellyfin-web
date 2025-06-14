@@ -41,6 +41,8 @@ import {
     resolveMixedShapeByAspectRatio
 } from './cardBuilderUtils';
 
+import * as userSettings from 'scripts/settings/userSettings';
+
 const enableFocusTransform = !browser.slow && !browser.edge;
 
 /**
@@ -992,6 +994,8 @@ function buildCard(index, item, apiClient, options) {
         }
     }
 
+    const ratingsDisplay = getRatingHtml(item);
+
     // cardBox can be it's own separate element if an outer footer is ever needed
     let cardImageContainerOpen;
     let cardImageContainerClose = '';
@@ -1125,12 +1129,34 @@ function buildCard(index, item, apiClient, options) {
     const endDate = item.EndDate ? (' data-enddate="' + item.EndDate.toString() + '"') : '';
 
     let additionalCardContent = '';
-
     if (layoutManager.desktop && !options.disableHoverMenu) {
         additionalCardContent += getHoverMenuHtml(item, action);
     }
 
-    return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + pathData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + startDate + endDate + ' data-prefix="' + escapeHtml(prefix) + '" class="' + className + '"' + ariaLabelAttribute + '>' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+    return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + pathData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + startDate + endDate + ' data-prefix="' + escapeHtml(prefix) + '" class="' + className + '"' + ariaLabelAttribute + '>' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + ratingsDisplay + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+}
+
+/**
+ * Generates HTML markup for card rating.
+ * @param {object} item - Item used to generate the card rating.
+ * @returns {string} HTML markup of the card rating.
+ */
+function getRatingHtml(item) {
+    const ratingsSetting = userSettings.cardRatings();
+    if (!ratingsSetting || ratingsSetting === 'none') {
+        return '';
+    }
+
+    let cardRatingHtml = '';
+    if (item.CriticRating && ['critic', 'all'].includes(ratingsSetting)) {
+        const backgroundImageClass = item.CriticRating >= 60 ? 'cardRatingFresh' : 'cardRatingRotten';
+        cardRatingHtml += `<div class="cardRating"><span class="cardRatingIcon cardCriticRating ${backgroundImageClass}"></span><span>${item.CriticRating}</span></div>`;
+    }
+    if (item.CommunityRating && ['community', 'all'].includes(ratingsSetting)) {
+        cardRatingHtml += `<div class="cardRating"><span class="material-icons star cardRatingIcon cardCommunityRating" aria-hidden="true"></span><span>${item.CommunityRating.toFixed(1)}</span></div>`;
+    }
+
+    return cardRatingHtml ? `<div class="cardRatingContainer">${cardRatingHtml}</div>` : '';
 }
 
 /**
