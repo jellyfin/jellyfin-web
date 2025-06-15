@@ -15,17 +15,17 @@ import itemHelper from 'components/itemHelper';
 interface PlayOrResumeButtonProps {
     item: ItemDto;
     isResumable?: boolean;
-    selectedMediaSourceId?: string | null;
-    selectedAudioTrack?: number;
-    selectedSubtitleTrack?: number;
+    mediaSourceId?: string | null;
+    audioStreamIndex?: number;
+    subtitleStreamIndex?: number;
 }
 
 const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
     item,
     isResumable,
-    selectedMediaSourceId,
-    selectedAudioTrack,
-    selectedSubtitleTrack
+    mediaSourceId,
+    audioStreamIndex,
+    subtitleStreamIndex
 }) => {
     const apiContext = useApi();
     const queryClient = useQueryClient();
@@ -37,17 +37,17 @@ const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
                     item.UserData && isResumable ?
                         item.UserData.PlaybackPositionTicks :
                         0,
-                mediaSourceId: selectedMediaSourceId,
-                audioStreamIndex: selectedAudioTrack || null,
-                subtitleStreamIndex: selectedSubtitleTrack
+                mediaSourceId,
+                audioStreamIndex: audioStreamIndex || null,
+                subtitleStreamIndex
             };
         }
     }, [
         item,
         isResumable,
-        selectedMediaSourceId,
-        selectedAudioTrack,
-        selectedSubtitleTrack
+        mediaSourceId,
+        audioStreamIndex,
+        subtitleStreamIndex
     ]);
 
     const onPlayClick = useCallback(async () => {
