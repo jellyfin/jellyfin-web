@@ -17,8 +17,8 @@ function getLibraryButtonsHtml(items: BaseItemDto[]) {
     // library card background images
     for (let i = 0, length = items.length; i < length; i++) {
         const item = items[i];
-        const icon = imageHelper.getLibraryIcon(item.CollectionType);
-        html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '" aria-hidden="true"></span><span class="homeLibraryText">' + escapeHtml(item.Name) + '</span></a>';
+        const icon = imageHelper.getLibraryIcon(item?.CollectionType);
+        html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '" aria-hidden="true"></span><span class="homeLibraryText">' + escapeHtml(item?.Name || '') + '</span></a>';
     }
 
     html += '</div>';
