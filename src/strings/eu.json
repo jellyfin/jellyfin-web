@@ -1007,7 +1007,7 @@
     "LabelTonemappingRange": "Tonuaren mapaketa-tartea",
     "LabelTonemappingPeakHelp": "Gainditu sarrera-seinalearen metadatu txertatuaren balioa gailur-balio honekin. Balio lehenetsia 100 da (1000 nit).",
     "LabelTonemappingPeak": "Tonuaren mapaketaren pikoa",
-    "LabelTonemappingParamHelp": "Tonua mapatzeko algoritmoa doitzea. Gomendatutako eta aurrez zehaztutako balioa NaN da. Normalean, utzi hutsik.",
+    "LabelTonemappingParamHelp": "Tonua mapatzeko algoritmoa doitzea. Normalean, utzi hutsik.",
     "LabelTonemappingParam": "Tonuaren mapaketaren parametroak",
     "LabelTonemappingDesatHelp": "Aplikatu desaturazioa distira-maila hori gainditzen duten argi-izpietarako. Gomendatutako balioa 0 da (desgaitu).",
     "LabelTonemappingDesat": "Tonuen mapaketa gaingabetua",
@@ -2036,5 +2036,11 @@
     "StorageType.Removable": "Kengarria",
     "StorageType.Unknown": "Ezezaguna",
     "Success": "Arrakasta",
-    "HeaderBackups": "Babeskopiak"
+    "HeaderBackups": "Babeskopiak",
+    "ButtonLearnMore": "Ikasi gehiago",
+    "TranscodingLoadError": "Ezin izan dira transkodetze ezarpenak kargatu",
+    "PluginsLoadError": "Errore bat gertatu da pluginak kargatzean.",
+    "ConfirmDeleteRepository": "Ezabatu biltegia?",
+    "DeleteRepositoryConfirmation": "Ziur zaude biltegi hau ezabatu nahi duzula?",
+    "RepositoriesPageLoadError": "Biltegiak kargatzeak huts egin du"
 }
