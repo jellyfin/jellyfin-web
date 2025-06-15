@@ -26,16 +26,22 @@ export function getCardLogoUrl(
     let imgType;
     let imgTag;
     let itemId;
-    const logoHeight = 40;
+    const logoHeight = cardOptions.height || 40;
 
     if (cardOptions.showChannelLogo && item.ChannelPrimaryImageTag) {
         imgType = ImageType.Primary;
         imgTag = item.ChannelPrimaryImageTag;
         itemId = item.ChannelId;
-    } else if (cardOptions.showLogo && item.ParentLogoImageTag) {
-        imgType = ImageType.Logo;
-        imgTag = item.ParentLogoImageTag;
-        itemId = item.ParentLogoItemId;
+    } else if (cardOptions.showLogo) {
+        if (item.ImageTags?.Logo) {
+            imgType = ImageType.Logo;
+            imgTag = item.ImageTags.Logo;
+            itemId = item.Id;
+        } else if (item.ParentLogoImageTag) {
+            imgType = ImageType.Logo;
+            imgTag = item.ParentLogoImageTag;
+            itemId = item.ParentLogoItemId;
+        }
     }
 
     if (!itemId) {
