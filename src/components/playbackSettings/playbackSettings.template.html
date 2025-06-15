@@ -111,6 +111,8 @@
             </label>
         </div>
 
+        <div class="stillWatchingSelectContainer"></div>
+
         <div class="checkboxContainer checkboxContainer-withDescription">
             <label>
                 <input type="checkbox" is="emby-checkbox" class="chkRememberAudioSelections" />
@@ -257,3 +259,12 @@
         <span>${Save}</span>
     </button>
 </form>
+
+<style>
+.stillWatchingSelectContainer {
+    transition: max-height 1s ease, opacity 0.9s ease;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+}
+</style>
