@@ -1909,7 +1909,7 @@
     "PluginDisableError": "禁用插件时发生错误。",
     "PluginEnableError": "启用插件时发生错误。",
     "PluginLoadConfigError": "获取插件配置页面时发生错误。",
-    "PluginLoadRepoError": "从仓库获取插件详情时发生错误。",
+    "PluginLoadRepoError": "从存储库获取插件详情时发生错误。",
     "PluginUninstallError": "卸载插件时发生错误。",
     "HeaderNextItemPlayingInValue": "下一个 {0} 在 {1} 播放",
     "AndOtherArtists": "{0} 和 {1} 位其他艺术家。",
