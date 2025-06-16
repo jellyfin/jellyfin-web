@@ -2027,5 +2027,17 @@
     "LimitSegmentLength": "Brug kortere HLS-segmenter",
     "ViewSettings": "Vis Indstillinger",
     "HeaderServerUnavailable": "Server Utilgængelig",
-    "HeaderUpdateRequired": "Opdatering Nødvendig"
+    "HeaderUpdateRequired": "Opdatering Nødvendig",
+    "PluginsLoadError": "En fejl opstod imens der blev loaded plugins.",
+    "ButtonLearnMore": "Lær Mere",
+    "MessageForgotPasswordPinReset": "Skriv PIN her for at færdigøre Adgangskode nulstilling",
+    "BackupsPageLoadError": "Fejlede ved at load backup side",
+    "ButtonCreateBackup": "Opret Backup",
+    "Create": "Opret",
+    "LabelBackupsUnavailable": "Ingen backups tilgængelige",
+    "LabelRestore": "Genopret",
+    "MessageBackupDisclaimer": "Afhængig af størrelsen på det biblotek, backup processen tager måske et stykke tid.",
+    "MessageBackupInProgress": "Backup igang",
+    "LabelDatabase": "Database",
+    "LabelProgramData": "Program Data"
 }
