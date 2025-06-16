@@ -1134,7 +1134,7 @@
     "MessageConfirmRemoveMediaLocation": "Are you sure you wish to remove this location?",
     "MessageConfirmRestart": "Are you sure you wish to restart Jellyfin?",
     "MessageConfirmRevokeApiKey": "Are you sure you wish to revoke this API key? The application's connection to this server will be abruptly ended.",
-    "MessageConfirmShutdown": "Are you sure you wish to shutdown the server?",
+    "MessageConfirmShutdown": "Are you sure you wish to shut the server down?",
     "MessageContactAdminToResetPassword": "Please contact your system administrator to reset your password.",
     "MessageCreateAccountAt": "Create an account at {0}",
     "MessageDeleteTaskTrigger": "Are you sure you wish to delete this task trigger?",
