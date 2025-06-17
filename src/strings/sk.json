@@ -1420,7 +1420,7 @@
     "LabelTonemappingRange": "Rozsah mapovania tónov",
     "LabelTonemappingPeakHelp": "Prepísať vloženú hodnotu metadát pre vstupný signál touto špičkovou hodnotou. Predvolená hodnota je 100 (1000nit).",
     "LabelTonemappingPeak": "Vrchol mapovania tónov",
-    "LabelTonemappingParamHelp": "Pre ladenie algoritmu mapovania tónov. Odporúčané a predvolené hodnoty sú NaN. Všeobecne je pole ponechané prázdne.",
+    "LabelTonemappingParamHelp": "Pre ladenie algoritmu mapovania tónov. Všeobecne je pole ponechané prázdne.",
     "LabelTonemappingParam": "Parameter mapovania tónov",
     "LabelTonemappingDesatHelp": "Aplikovať desaturáciu pre svetlé miesta ktoré prekračujú úroveň jasu. Odporúčaná hodnota je 0 (zakázané).",
     "LabelTonemappingDesat": "Desaturácia pri mapovaní tónov",
@@ -2055,5 +2055,10 @@
     "StorageType.Ram": "RAM",
     "StorageType.Removable": "Odnímateľný",
     "StorageType.Unknown": "Neznáme",
-    "Success": "Úspech"
+    "Success": "Úspech",
+    "ButtonLearnMore": "Dozvedieť sa viac",
+    "DeleteRepositoryConfirmation": "Ste si istí, že chcete odstrániť tento repozitár?",
+    "ConfirmDeleteRepository": "Vymazať repozitár?",
+    "PluginsLoadError": "Pri načítavaní zásuvných modulov došlo k chybe.",
+    "RepositoriesPageLoadError": "Nepodarilo sa načítať repozitáre"
 }
