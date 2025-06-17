@@ -2060,5 +2060,6 @@
     "DeleteRepositoryConfirmation": "Ste si istí, že chcete odstrániť tento repozitár?",
     "ConfirmDeleteRepository": "Vymazať repozitár?",
     "PluginsLoadError": "Pri načítavaní zásuvných modulov došlo k chybe.",
-    "RepositoriesPageLoadError": "Nepodarilo sa načítať repozitáre"
+    "RepositoriesPageLoadError": "Nepodarilo sa načítať repozitáre",
+    "TranscodingLoadError": "Nepodarilo sa načítať nastavenia prekódovania"
 }
