@@ -1963,5 +1963,16 @@
     "HeaderServerUnavailable": "שרת לא זמין",
     "DownloadManager": "הורדות",
     "HeaderUpdateRequired": "נדרש עדכון",
-    "MessageForgotPasswordPinReset": "הכנס את קוד ה-PIN כאן כדי לסיים את איפוס הסיסמה"
+    "MessageForgotPasswordPinReset": "הכנס את קוד ה-PIN כאן כדי לסיים את איפוס הסיסמה",
+    "ConfirmDeleteRepository": "למחוק את המאגר?",
+    "DeleteRepositoryConfirmation": "בטוח שבכוונתך למחוק את המאגר?",
+    "ButtonLearnMore": "קרא עוד",
+    "Create": "יצירה",
+    "LabelBackupsUnavailable": "אין גיבויים זמינים",
+    "LabelProgramData": "תוכנייה",
+    "LabelRestore": "שחזור",
+    "BackupsPageLoadError": "טעינת עמוד הגיבויים נכשלה",
+    "ButtonCreateBackup": "יצירת גיבוי",
+    "LabelDatabase": "בסיס נתונים",
+    "LabelImageCache": "מטמון תמונות"
 }
