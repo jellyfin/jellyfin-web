@@ -1392,7 +1392,7 @@
     "LabelMaxMuxingQueueSize": "Maximale grootte muxing-wachtrij",
     "LabelColorPrimaries": "Primaire kleur",
     "MediaInfoColorPrimaries": "Primaire kleuren",
-    "LabelTonemappingParamHelp": "Stel het tonemapping-algoritme af. Dit veld is standaard leeg; het wordt aanbevolen dit zo te laten.",
+    "LabelTonemappingParamHelp": "Stel het tonemapping-algoritme af. Normaliter kan dit veld leeg blijven.",
     "LabelTonemappingParam": "Tonemapping-parameter",
     "LabelTonemappingPeakHelp": "Gebruik deze piekwaarde voor het ingangssignaal in plaats van de waarde in de ingesloten metadata. De standaardwaarde is 100 (1000 nit).",
     "LabelTonemappingPeak": "Tonemapping-piek",
@@ -2054,5 +2054,11 @@
     "StorageType.NoRootDirectory": "Geen hoofdmap",
     "StorageType.Ram": "RAM",
     "StorageType.Removable": "Verwisselbaar",
-    "StorageType.Unknown": "Onbekend"
+    "StorageType.Unknown": "Onbekend",
+    "PluginsLoadError": "Er is een fout opgetreden bij het laden van plug-ins.",
+    "ButtonLearnMore": "Meer informatie",
+    "ConfirmDeleteRepository": "Repository verwijderen?",
+    "DeleteRepositoryConfirmation": "Weet je zeker dat je dit repository wilt verwijderen?",
+    "RepositoriesPageLoadError": "Repository's laden mislukt",
+    "TranscodingLoadError": "Laden van transcodeerinstellingen mislukt"
 }

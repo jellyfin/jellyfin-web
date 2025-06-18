@@ -1398,7 +1398,7 @@
     "KnownProxiesHelp": "Liste séparée par des virgules des adresses IP ou noms des relais connus pour se connecter à ce serveur Jellyfin. Cette liste est nécessaire au bon fontionnement des en-têtes 'X-Forwarded-For'. Un redémarrage sera requis après sauvegarde.",
     "LabelTonemappingThreshold": "Seuil de mappage tonal",
     "LabelTonemappingDesatHelp": "Désaturer les couleurs qui dépassent ce niveau de luminosité. La valeur recommandée est 0 (désactivé).",
-    "LabelTonemappingParamHelp": "Régler l'algorithme de mappage tonal. Sauf cas particulier, il est recommandé de laisser ce champ vide.",
+    "LabelTonemappingParamHelp": "Paramètre pour régler l’algorithme de tone-mapping. Recommandée de laisser vide.",
     "LabelTonemappingPeak": "Pic de mappage tonal",
     "LabelTonemappingThresholdHelp": "Les paramètres de l'algorithme de mappage tonal sont affinés pour chaque scène. Définir ici le seuil utilisé pour détecter un changement de scène. Si la distance entre la moyenne actuelle de la luminosité du cadre et la moyenne mobile actuelle dépasse la valeur de ce seuil, la moyenne et le pic de la luminosité du cadre sont recalculés. La valeur recommandée est 0,8 ; la valeur par défaut est 0,2.",
     "LabelVideoRange": "Plage vidéo",
@@ -2055,5 +2055,11 @@
     "StorageType.Unknown": "Inconnu",
     "Success": "Succès",
     "MessageBackupDisclaimer": "Selon la taille de votre médiathèque, le processus de sauvegarde peut prendre un certain temps.",
-    "MessageRestoreDisclaimer": "AVERTISSEMENT : Vous êtes sur le point de restaurer une sauvegarde précédente. Votre serveur sera inutilisable pendant toute la durée du processus et toutes les nouvelles données créées depuis la sauvegarde seront perdues."
+    "MessageRestoreDisclaimer": "AVERTISSEMENT : Vous êtes sur le point de restaurer une sauvegarde précédente. Votre serveur sera inutilisable pendant toute la durée du processus et toutes les nouvelles données créées depuis la sauvegarde seront perdues.",
+    "PluginsLoadError": "Une erreur s'est produite lors du chargement des plugins.",
+    "ButtonLearnMore": "En apprendre plus",
+    "TranscodingLoadError": "Échec du chargement des paramètres de transcodage",
+    "ConfirmDeleteRepository": "Supprimer le dépôt ?",
+    "DeleteRepositoryConfirmation": "Êtes-vous sûr de vouloir supprimer ce dépôt ?",
+    "RepositoriesPageLoadError": "Échec du chargement des dépôts"
 }

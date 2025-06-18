@@ -1409,7 +1409,7 @@
     "LabelTonemappingRange": "Zakres mapowania tonów",
     "LabelTonemappingPeakHelp": "Zamiast tego zastąp osadzoną wartość metadanych dla sygnału wejściowego tą wartością szczytową. Wartość domyślna to 100 (1000 nitów).",
     "LabelTonemappingPeak": "Szczyt mapowania tonów",
-    "LabelTonemappingParamHelp": "Wyreguluj algorytm mapowania tonów. Zalecane i domyślne wartości to NaN. Ogólnie pozostaw to puste.",
+    "LabelTonemappingParamHelp": "Wyreguluj algorytm mapowania tonów. Zazwyczaj pozostaw to puste.",
     "LabelTonemappingParam": "Parametry mapowania tonów",
     "LabelTonemappingDesatHelp": "Zastosuj desaturację dla rozjaśnień, które przekraczają ten poziom jasności. Zalecana wartość to 0 (wyłącz).",
     "LabelTonemappingDesat": "Desaturacja mapowania tonów",
@@ -2055,5 +2055,11 @@
     "Success": "Powodzenie",
     "HeaderBackupsHelp": "Twórz i przywracaj migawki swojego serwera, które mogą zawierać bazę danych, metadane, napisy i trickplay.",
     "LabelImageCache": "Pamięć podręczna obrazów",
-    "MessageRestoreDisclaimer": "OSTRZEŻENIE: zamierzasz przywrócić dane z poprzedniej kopii zapasowej. Twój serwer będzie bezużyteczny przez cały czas trwania procesu, a wszelkie nowe dane utworzone od czasu utworzenia kopii zapasowej zostaną utracone."
+    "MessageRestoreDisclaimer": "OSTRZEŻENIE: zamierzasz przywrócić dane z poprzedniej kopii zapasowej. Twój serwer będzie bezużyteczny przez cały czas trwania procesu, a wszelkie nowe dane utworzone od czasu utworzenia kopii zapasowej zostaną utracone.",
+    "ConfirmDeleteRepository": "Usunąć repozytorium?",
+    "RepositoriesPageLoadError": "Nie udało się załadować repozytoriów",
+    "PluginsLoadError": "Wystąpił błąd podczas ładowania wtyczek.",
+    "ButtonLearnMore": "Dowiedz się więcej",
+    "TranscodingLoadError": "Nie udało się załadować ustawień transkodowania",
+    "DeleteRepositoryConfirmation": "Czy na pewno chcesz usunąć to repozytorium?"
 }

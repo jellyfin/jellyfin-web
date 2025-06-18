@@ -2026,5 +2026,11 @@
     "MetadataImagesLoadError": "Falha ao carregar as configurações de metadados",
     "MessageForgotPasswordPinReset": "Digite o PIN aqui para finalizar a redefinição da senha",
     "Native": "Nativo",
-    "StreamCountExceedsLimit": "O número de reproduções excede o limite"
+    "StreamCountExceedsLimit": "O número de reproduções excede o limite",
+    "Create": "Criar",
+    "BackupsPageLoadError": "Falha ao carregar a página de backups",
+    "ButtonCreateBackup": "Criar backup",
+    "ConfirmDeleteRepository": "Excluir repositório?",
+    "DeleteRepositoryConfirmation": "Tem certeza de que deseja excluir este repositório?",
+    "ButtonLearnMore": "Saiba Mais"
 }

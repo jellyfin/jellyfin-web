@@ -20,13 +20,13 @@
                     </div>
 
                     <div class="dashboardActionsContainer">
-                        <button is="emby-button" type="button" class="raised btnRefresh">
+                        <button is="emby-button" type="button" class="raised btnRefresh button-submit">
                             <span>${ButtonScanAllLibraries}</span>
                         </button>
-                        <button is="emby-button" type="button" id="btnRestartServer" class="raised">
+                        <button is="emby-button" type="button" id="btnRestartServer" class="raised button-delete">
                             <span>${Restart}</span>
                         </button>
-                        <button is="emby-button" type="button" id="btnShutdown" class="raised">
+                        <button is="emby-button" type="button" id="btnShutdown" class="raised button-delete">
                             <span>${ButtonShutdown}</span>
                         </button>
                     </div>
@@ -36,6 +36,8 @@
                         <div id="divRunningTasks" class="paperList" style="padding: 1em;">
                         </div>
                     </div>
+
+                    <div id="itemCounts"></div>
                 </div>
 
                 <div class="dashboardSection">
