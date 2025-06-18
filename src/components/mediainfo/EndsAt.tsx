@@ -1,28 +1,29 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
-import datetime from 'scripts/datetime';
-import globalize from 'lib/globalize';
+import mediainfo from './mediainfo';
 
 interface EndsAtProps {
     className?: string;
-    runTimeTicks: number
+    runTimeTicks: number;
+    positionTicks?: number;
 }
 
-const EndsAt: FC<EndsAtProps> = ({ runTimeTicks, className }) => {
+const EndsAt: FC<EndsAtProps> = ({ runTimeTicks, positionTicks, className }) => {
     const cssClass = classNames(
         'mediaInfoItem',
         'endsAt',
         className
     );
 
-    const endTime = new Date().getTime() + (runTimeTicks / 10000);
-    const endDate = new Date(endTime);
-    const displayTime = datetime.getDisplayTime(endDate);
+    const playbackRate = 1;
+    const includeText = true;
+
+    const displayTime = mediainfo.getEndsAtFromPosition(runTimeTicks, positionTicks, playbackRate, includeText);
 
     return (
         <Box className={cssClass}>
-            {globalize.translate('EndsAtValue', displayTime)}
+            {displayTime}
         </Box>
     );
 };
