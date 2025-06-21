@@ -25,7 +25,6 @@ import template from './subtitlesettings.template.html';
  * Subtitle settings.
  * @module components/subtitleSettings/subtitleSettings
  */
-
 function getSubtitleAppearanceObject(context) {
     return {
         subtitleStyling: context.querySelector('#selectSubtitleStyling').value,
@@ -39,7 +38,24 @@ function getSubtitleAppearanceObject(context) {
     };
 }
 
-function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
+function getCustomSecondarySubtitlesEnabled(context) {
+    return context.querySelector('.chkSecondary').checked;
+}
+
+function getSecondarySubtitleAppearanceObject(context) {
+    return {
+        subtitleStyling: context.querySelector('#selectSecondarySubtitleStyling').value,
+        textSize: context.querySelector('#selectSecondaryTextSize').value,
+        textWeight: context.querySelector('#selectSecondaryTextWeight').value,
+        dropShadow: context.querySelector('#selectSecondaryDropShadow').value,
+        font: context.querySelector('#selectSecondaryFont').value,
+        textBackground: context.querySelector('#inputSecondaryTextBackground').value,
+        textColor: layoutManager.tv ? context.querySelector('#selectSecondaryTextColor').value : context.querySelector('#inputSecondaryTextColor').value,
+        verticalPosition: context.querySelector('#sliderSecondaryVerticalPosition').value
+    };
+}
+
+function loadForm(context, user, userSettings, appearanceSettings, customSecondarySubtitlesEnabled, secondaryAppearanceSettings, apiClient) {
     apiClient.getCultures().then(function (allCultures) {
         if (appHost.supports(AppFeature.SubtitleBurnIn) && user.Policy.EnableVideoPlaybackTranscoding) {
             context.querySelector('.fldBurnIn').classList.remove('hide');
@@ -53,7 +69,6 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#selectSubtitlePlaybackMode').value = user.Configuration.SubtitleMode || '';
 
         context.querySelector('#selectSubtitlePlaybackMode').dispatchEvent(new CustomEvent('change', {}));
-
         context.querySelector('#selectSubtitleStyling').value = appearanceSettings.subtitleStyling || 'Auto';
         context.querySelector('#selectSubtitleStyling').dispatchEvent(new CustomEvent('change', {}));
         context.querySelector('#selectTextSize').value = appearanceSettings.textSize || '';
@@ -65,6 +80,17 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#selectFont').value = appearanceSettings.font || '';
         context.querySelector('#sliderVerticalPosition').value = appearanceSettings.verticalPosition;
 
+        context.querySelector('#selectSecondarySubtitleStyling').value = secondaryAppearanceSettings.subtitleStyling || 'Auto';
+        context.querySelector('#selectSecondarySubtitleStyling').dispatchEvent(new CustomEvent('change', {}));
+        context.querySelector('#selectSecondaryTextSize').value = secondaryAppearanceSettings.textSize || '';
+        context.querySelector('#selectSecondaryTextWeight').value = secondaryAppearanceSettings.textWeight || 'normal';
+        context.querySelector('#selectSecondaryDropShadow').value = secondaryAppearanceSettings.dropShadow || '';
+        context.querySelector('#inputSecondaryTextBackground').value = secondaryAppearanceSettings.textBackground || 'transparent';
+        context.querySelector('#selectSecondaryTextColor').value = secondaryAppearanceSettings.textColor || '#ffffff';
+        context.querySelector('#inputSecondaryTextColor').value = secondaryAppearanceSettings.textColor || '#ffffff';
+        context.querySelector('#selectSecondaryFont').value = secondaryAppearanceSettings.font || '';
+        context.querySelector('#sliderSecondaryVerticalPosition').value = secondaryAppearanceSettings.verticalPosition;
+
         context.querySelector('#selectSubtitleBurnIn').value = appSettings.get('subtitleburnin') || '';
         context.querySelector('#chkSubtitleRenderPgs').checked = appSettings.get('subtitlerenderpgs') === 'true';
 
@@ -75,15 +101,26 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
             target: context.querySelector('#selectTextSize')
         });
 
+        onSecondaryAppearanceFieldChange({
+            target: context.querySelector('#selectSecondaryTextSize')
+        });
+
         loading.hide();
     });
 }
 
-function saveUser(context, user, userSettingsInstance, appearanceKey, apiClient) {
+function saveUser(context, user, userSettingsInstance, appearanceKey, customSecondarySubtitles, appearanceSecondaryKey, apiClient) {
     let appearanceSettings = userSettingsInstance.getSubtitleAppearanceSettings(appearanceKey);
     appearanceSettings = Object.assign(appearanceSettings, getSubtitleAppearanceObject(context));
 
     userSettingsInstance.setSubtitleAppearanceSettings(appearanceSettings, appearanceKey);
+
+    let secondaryAppearanceSettings = userSettingsInstance.getSecondarySubtitleAppearanceSettings(appearanceSecondaryKey);
+    secondaryAppearanceSettings = Object.assign(secondaryAppearanceSettings, getSecondarySubtitleAppearanceObject(context));
+
+    userSettingsInstance.setSecondarySubtitleAppearanceSettings(secondaryAppearanceSettings, appearanceSecondaryKey);
+
+    userSettingsInstance.setCustomSecondarySubtitlesEnabled(getCustomSecondarySubtitlesEnabled(context), customSecondarySubtitles);
 
     user.Configuration.SubtitleLanguagePreference = context.querySelector('#selectSubtitleLanguage').value;
     user.Configuration.SubtitleMode = context.querySelector('#selectSubtitlePlaybackMode').value;
@@ -99,7 +136,7 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
     appSettings.alwaysBurnInSubtitleWhenTranscoding(context.querySelector('#chkAlwaysBurnInSubtitleWhenTranscoding').checked);
 
     apiClient.getUser(userId).then(function (user) {
-        saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(function () {
+        saveUser(context, user, userSettings, instance.appearanceKey, instance.customSecondarySubtitles, instance.appearanceSecondaryKey, apiClient).then(function () {
             loading.hide();
             if (enableSaveConfirmation) {
                 toast(globalize.translate('SettingsSaved'));
@@ -159,6 +196,25 @@ function onAppearanceFieldChange(e) {
     }, appearanceSettings);
 }
 
+function onSecondaryAppearanceFieldChange(e) {
+    const view = dom.parentWithClass(e.target, 'subtitlesettings');
+
+    const appearanceSettings = getSecondarySubtitleAppearanceObject(view);
+
+    const elements = {
+        window: view.querySelector('.secondarysubtitleappearance-preview-window'),
+        text: view.querySelector('.secondarysubtitleappearance-preview-text'),
+        preview: true
+    };
+
+    subtitleAppearanceHelper.applyStyles(elements, appearanceSettings);
+
+    subtitleAppearanceHelper.applyStyles({
+        window: view.querySelector('.secondarysubtitleappearance-fullpreview-window'),
+        text: view.querySelector('.secondarysubtitleappearance-fullpreview-text')
+    }, appearanceSettings);
+}
+
 const subtitlePreviewDelay = 1000;
 let subtitlePreviewTimer;
 
@@ -188,6 +244,32 @@ function hideSubtitlePreview(persistent) {
     }
 }
 
+function showSecondarySubtitlePreview(persistent) {
+    clearTimeout(subtitlePreviewTimer);
+
+    this._fullSecondaryPreview.classList.remove('secondarysubtitleappearance-fullpreview-hide');
+
+    if (persistent) {
+        this._refFullSecondaryPreview++;
+    }
+
+    if (this._refFullSecondaryPreview === 0) {
+        subtitlePreviewTimer = setTimeout(hideSecondarySubtitlePreview.bind(this), subtitlePreviewDelay);
+    }
+}
+
+function hideSecondarySubtitlePreview(persistent) {
+    clearTimeout(subtitlePreviewTimer);
+
+    if (persistent) {
+        this._refFullSecondaryPreview--;
+    }
+
+    if (this._refFullSecondaryPreview === 0) {
+        this._fullSecondaryPreview.classList.add('secondarysubtitleappearance-fullpreview-hide');
+    }
+}
+
 function embed(options, self) {
     options.element.classList.add('subtitlesettings');
     options.element.innerHTML = globalize.translateHtml(template, 'core');
@@ -197,6 +279,7 @@ function embed(options, self) {
     options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
     options.element.querySelector('#selectSubtitleStyling').addEventListener('change', onSubtitleStyleChange);
     options.element.querySelector('#selectSubtitleBurnIn').addEventListener('change', onSubtitleBurnInChange);
+
     options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectTextWeight').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
@@ -204,6 +287,14 @@ function embed(options, self) {
     options.element.querySelector('#selectTextColor').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#inputTextColor').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#inputTextBackground').addEventListener('change', onAppearanceFieldChange);
+
+    options.element.querySelector('#selectSecondaryTextSize').addEventListener('change', onSecondaryAppearanceFieldChange);
+    options.element.querySelector('#selectSecondaryTextWeight').addEventListener('change', onSecondaryAppearanceFieldChange);
+    options.element.querySelector('#selectSecondaryDropShadow').addEventListener('change', onSecondaryAppearanceFieldChange);
+    options.element.querySelector('#selectSecondaryFont').addEventListener('change', onSecondaryAppearanceFieldChange);
+    options.element.querySelector('#selectSecondaryTextColor').addEventListener('change', onSecondaryAppearanceFieldChange);
+    options.element.querySelector('#inputSecondaryTextColor').addEventListener('change', onSecondaryAppearanceFieldChange);
+    options.element.querySelector('#inputSecondaryTextBackground').addEventListener('change', onSecondaryAppearanceFieldChange);
 
     if (options.enableSaveButton) {
         options.element.querySelector('.btnSave').classList.remove('hide');
@@ -215,36 +306,69 @@ function embed(options, self) {
         self._fullPreview = options.element.querySelector('.subtitleappearance-fullpreview');
         self._refFullPreview = 0;
 
+        self._fullSecondaryPreview = options.element.querySelector('.secondarysubtitleappearance-fullpreview');
+        self._refFullSecondaryPreview = 0;
+
         const sliderVerticalPosition = options.element.querySelector('#sliderVerticalPosition');
         sliderVerticalPosition.addEventListener('input', onAppearanceFieldChange);
         sliderVerticalPosition.addEventListener('input', () => showSubtitlePreview.call(self));
+
+        const sliderSecondaryVerticalPosition = options.element.querySelector('#sliderSecondaryVerticalPosition');
+        sliderSecondaryVerticalPosition.addEventListener('input', onSecondaryAppearanceFieldChange);
+        sliderSecondaryVerticalPosition.addEventListener('input', () => showSecondarySubtitlePreview.call(self));
 
         const eventPrefix = window.PointerEvent ? 'pointer' : 'mouse';
         sliderVerticalPosition.addEventListener(`${eventPrefix}enter`, () => showSubtitlePreview.call(self, true));
         sliderVerticalPosition.addEventListener(`${eventPrefix}leave`, () => hideSubtitlePreview.call(self, true));
 
+        sliderSecondaryVerticalPosition.addEventListener(`${eventPrefix}enter`, () => showSecondarySubtitlePreview.call(self, true));
+        sliderSecondaryVerticalPosition.addEventListener(`${eventPrefix}leave`, () => hideSecondarySubtitlePreview.call(self, true));
+
         if (layoutManager.tv) {
             sliderVerticalPosition.addEventListener('focus', () => showSubtitlePreview.call(self, true));
             sliderVerticalPosition.addEventListener('blur', () => hideSubtitlePreview.call(self, true));
+
+            sliderSecondaryVerticalPosition.addEventListener('focus', () => showSecondarySubtitlePreview.call(self, true));
+            sliderSecondaryVerticalPosition.addEventListener('blur', () => hideSecondarySubtitlePreview.call(self, true));
 
             // Give CustomElements time to attach
             setTimeout(() => {
                 sliderVerticalPosition.classList.add('focusable');
                 sliderVerticalPosition.enableKeyboardDragging();
+
+                sliderSecondaryVerticalPosition.classList.add('focusable');
+                sliderSecondaryVerticalPosition.enableKeyboardDragging();
             }, 0);
 
             // Replace color picker
             dom.parentWithTag(options.element.querySelector('#inputTextColor'), 'DIV').classList.add('hide');
             dom.parentWithTag(options.element.querySelector('#selectTextColor'), 'DIV').classList.remove('hide');
+            dom.parentWithTag(options.element.querySelector('#inputSecondaryTextColor'), 'DIV').classList.add('hide');
+            dom.parentWithTag(options.element.querySelector('#selectSecondaryTextColor'), 'DIV').classList.remove('hide');
         }
 
         options.element.querySelector('.chkPreview').addEventListener('change', (e) => {
             if (e.target.checked) {
                 showSubtitlePreview.call(self, true);
+                showSecondarySubtitlePreview.call(self, true);
             } else {
                 hideSubtitlePreview.call(self, true);
+                hideSecondarySubtitlePreview.call(self, true);
             }
         });
+
+        options.element.querySelector('.chkSecondary').addEventListener('change', (e) => {
+            if (e.target.checked) {
+                dom.parentWithTag(options.element.querySelector('#secondarySubtitleSection'), 'DIV').classList.remove('hide');
+            } else {
+                dom.parentWithTag(options.element.querySelector('#secondarySubtitleSection'), 'DIV').classList.add('hide');
+            }
+        });
+
+        if (options.userSettings.getCustomSecondarySubtitlesEnabled(options.customSecondarySubtitles)) {
+            options.element.querySelector('.chkSecondary').checked = true;
+            dom.parentWithTag(options.element.querySelector('#secondarySubtitleSection'), 'DIV').classList.remove('hide');
+        }
     }
 
     self.loadData();
@@ -276,8 +400,10 @@ export class SubtitleSettings {
                 self.dataLoaded = true;
 
                 const appearanceSettings = userSettings.getSubtitleAppearanceSettings(self.options.appearanceKey);
+                const customSecondarySubtitlesEnabled = userSettings.getCustomSecondarySubtitlesEnabled(self.options.customSecondarySubtitles);
+                const secondaryAppearanceSettings = userSettings.getSecondarySubtitleAppearanceSettings(self.options.appearanceSecondaryKey);
 
-                loadForm(context, user, userSettings, appearanceSettings, apiClient);
+                loadForm(context, user, userSettings, appearanceSettings, customSecondarySubtitlesEnabled, secondaryAppearanceSettings, apiClient);
             });
         });
     }
