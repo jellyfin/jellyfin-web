@@ -1785,7 +1785,7 @@
     "ChannelResolutionSD": "SD",
     "DeleteName": "Esborra {0}",
     "ChannelResolutionFullHD": "Full HD",
-    "LabelBuildVersion": "Versió de compilació",
+    "LabelBuildVersion": "Versió de la compilació",
     "LabelUseReplayGainTagsHelp": "Escaneja els fitxers d'àudio per trobar etiquetes ReplayGain i fes-les servir en lloc de calcular el valor LUFS. (Utilitza menys potència. Invalidarà l'opció 'Escaneig LUFS')",
     "EnableVideoToolboxTonemapping": "Habilitar el mapatge de tons de VideoToolbox",
     "AllowVideoToolboxTonemappingHelp": "Acceleració per maquinari en el mapatge de tons per VideoToolbox. Funciona amb la majoria dels formats HDR, inclosos HDR10, HDR10+ i HLG, però no funciona amb Dolby Vision Profile 5. Això té una prioritat més alta en comparació amb una altra implementació de Metal.",
