@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import useCardText from './useCardText';
 import layoutManager from 'components/layoutManager';
 import MoreVertIconButton from 'components/common/MoreVertIconButton';
-import Image from 'components/common/Image';
+import { Image } from 'components/common/image';
 
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';

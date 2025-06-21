@@ -7,7 +7,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import type { Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import classNames from 'classnames';
-import React, { type FC, useCallback } from 'react';
+import React, { type FC, useMemo, useCallback } from 'react';
 
 import { useApi } from 'hooks/useApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
@@ -91,9 +91,27 @@ const ItemsView: FC<ItemsViewProps> = ({
     );
     const { data: item } = useItem(parentId || undefined);
 
+    const totalRecordCount = useMemo(
+        () => itemsResult?.TotalRecordCount ?? 0,
+        [itemsResult?.TotalRecordCount]
+    );
+    const items = useMemo(() => itemsResult?.Items ?? [], [itemsResult?.Items]);
+
+    const hasFilters = useMemo(
+        () =>
+            Object.values(libraryViewSettings.Filters ?? {}).some(
+                (filter) => !!filter
+            ),
+        [libraryViewSettings.Filters]
+    );
+    const hasSortName = useMemo(
+        () => libraryViewSettings.SortBy.includes(ItemSortBy.SortName),
+        [libraryViewSettings.SortBy]
+    );
+
     const getListOptions = useCallback(() => {
         const listOptions: ListOptions = {
-            items: itemsResult?.Items ?? [],
+            items: items,
             context: collectionType
         };
 
@@ -111,7 +129,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         }
 
         return listOptions;
-    }, [itemsResult?.Items, collectionType, viewType, libraryViewSettings.SortBy]);
+    }, [items, collectionType, viewType, libraryViewSettings.SortBy]);
 
     const getCardOptions = useCallback(() => {
         let shape;
@@ -135,6 +153,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         }
 
         const cardOptions: CardOptions = {
+            items: items,
             shape: shape,
             showTitle: libraryViewSettings.ShowTitle,
             showYear: libraryViewSettings.ShowYear,
@@ -175,55 +194,41 @@ const ItemsView: FC<ItemsViewProps> = ({
             cardOptions.lines = 3;
         } else if (viewType === LibraryTab.Movies) {
             cardOptions.overlayPlayButton = true;
-        } else if (viewType === LibraryTab.Series || viewType === LibraryTab.Networks) {
+        } else if (
+            viewType === LibraryTab.Series
+            || viewType === LibraryTab.Networks
+        ) {
             cardOptions.overlayMoreButton = true;
         }
 
         return cardOptions;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
-        libraryViewSettings.ShowTitle,
         libraryViewSettings.ImageType,
+        libraryViewSettings.ShowTitle,
         libraryViewSettings.ShowYear,
         libraryViewSettings.CardLayout,
+        items,
         collectionType,
         viewType
     ]);
 
     const getItems = useCallback(() => {
-        if (!itemsResult?.Items?.length) {
+        if (!items.length) {
             return <NoItemsMessage message={noItemsMessage} />;
         }
 
         if (libraryViewSettings.ViewMode === ViewMode.ListView) {
-            return (
-                <Lists
-                    items={itemsResult?.Items ?? []}
-                    listOptions={getListOptions()}
-                />
-            );
+            return <Lists items={items} listOptions={getListOptions()} />;
         }
-        return (
-            <Cards
-                items={itemsResult?.Items ?? []}
-                cardOptions={getCardOptions()}
-            />
-        );
+        return <Cards items={items} cardOptions={getCardOptions()} />;
     }, [
         libraryViewSettings.ViewMode,
-        itemsResult?.Items,
+        items,
         getListOptions,
         getCardOptions,
         noItemsMessage
     ]);
-
-    const totalRecordCount = itemsResult?.TotalRecordCount ?? 0;
-    const items = itemsResult?.Items ?? [];
-    const hasFilters = Object.values(libraryViewSettings.Filters ?? {}).some(
-        (filter) => !!filter
-    );
-    const hasSortName = libraryViewSettings.SortBy.includes(
-        ItemSortBy.SortName
-    );
 
     const itemsContainerClass = classNames(
         'centered padded-left padded-right padded-right-withalphapicker',
