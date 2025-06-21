@@ -1,6 +1,6 @@
 export enum QueryKey {
     ConfigurationPages = 'ConfigurationPages',
-    PackageInfo = 'PackageInfo',
+    Packages = 'Packages',
     Plugins = 'Plugins',
     Repositories = 'Repositories'
 }
