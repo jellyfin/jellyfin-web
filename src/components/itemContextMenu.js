@@ -196,6 +196,14 @@ export async function getCommands(options) {
         }
     }
 
+    if (item.UserData.PlaybackPositionTicks !== 0) {
+        commands.push({
+            name: globalize.translate('MarkUnplayed'),
+            id: 'markunplayed',
+            icon: 'remove'
+        });
+    }
+
     if (item.CanDelete && options.deleteItem !== false) {
         commands.push({
             name: getDeleteLabel(item.Type),
@@ -556,6 +564,9 @@ function executeCommand(item, id, options) {
                 playbackManager.instantMix(item);
                 getResolveFunction(resolve, id)();
                 break;
+            case 'markunplayed':
+                markUnplayed(apiClient, itemId, options.user.Id).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                break;
             case 'delete':
                 deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true, itemId), getResolveFunction(resolve, id));
                 break;
@@ -710,6 +721,10 @@ function editItem(apiClient, item) {
             });
         }
     });
+}
+
+function markUnplayed(apiClient, itemId, userId) {
+    return apiClient.markUnplayed(userId, itemId);
 }
 
 function deleteItem(apiClient, item) {
