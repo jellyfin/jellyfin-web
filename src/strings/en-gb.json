@@ -1181,7 +1181,7 @@
     "MessageItemsAdded": "Items added.",
     "MessageItemSaved": "Item saved.",
     "MessageDirectoryPickerBSDInstruction": "For BSD, you may need to set up storage within your 'FreeNAS Jail' so Jellyfin can access your media.",
-    "MessageConfirmShutdown": "Are you sure you wish to shutdown the server?",
+    "MessageConfirmShutdown": "Are you sure you wish to shut the server down?",
     "LabelSaveLocalMetadata": "Save artwork into media folders",
     "LabelPleaseRestart": "Changes will take effect after manually reloading the web client.",
     "ValueSongCount": "{0} songs",
