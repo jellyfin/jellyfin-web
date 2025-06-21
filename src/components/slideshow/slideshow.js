@@ -619,7 +619,7 @@ export default function (options) {
      */
     function startHideTimer() {
         stopHideTimer();
-        hideTimeout = setTimeout(hideOsd, 3000);
+        hideTimeout = setTimeout(hideOsd, 7000);
     }
 
     /**
