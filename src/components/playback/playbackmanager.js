@@ -11,6 +11,7 @@ import appSettings from '../../scripts/settings/appSettings';
 import itemHelper from '../itemHelper';
 import { pluginManager } from '../pluginManager';
 import PlayQueueManager from './playqueuemanager';
+import IdleManager from './idlemanager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
@@ -716,6 +717,7 @@ export class PlaybackManager {
         const playerStates = {};
 
         this._playQueueManager = new PlayQueueManager();
+        this._idleManager = new IdleManager(this);
 
         self.currentItem = function (player) {
             if (!player) {
@@ -3268,6 +3270,8 @@ export class PlaybackManager {
             Events.trigger(player, 'playbackstart', [state]);
             Events.trigger(self, 'playbackstart', [player, state]);
 
+            if (self.getCurrentPlaylistIndex(self._currentPlayer) === 0) self._idleManager.notifyStartSession(streamInfo.item, self._playQueueManager.getPlaylist());
+
             // only used internally as a safeguard to avoid reporting other events to the server before playback start
             streamInfo.started = true;
 
@@ -3465,14 +3469,17 @@ export class PlaybackManager {
 
             if (errorOccurred) {
                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
-            } else if (nextItem) {
+            } else if (nextItem && !self._idleManager.stillWatchingShowing) {
                 const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
 
-                apiClient.getCurrentUser().then(function (user) {
+                apiClient.getUser(apiClient.getCurrentUserId()).then(function (user) {
                     if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
+                        self._idleManager.onEpisodeWatched();
                         self.nextTrack();
                     }
                 });
+            } else if (self._idleManager.stillWatchingShowing) {
+                self._idleManager.stillWatchingShowing = false;
             }
         }
 
