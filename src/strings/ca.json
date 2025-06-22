@@ -1475,7 +1475,7 @@
     "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
     "OptionBluray": "BD",
     "OptionAutomaticallyGroupSeriesHelp": "Les sèries que es distribueixen entre diversos directoris d'aquesta mediateca es combinaran automàticament en una única sèrie.",
-    "OptionAutomaticallyGroupSeries": "Automàticament sèrie que es distribueixen en diverses carpetes",
+    "OptionAutomaticallyGroupSeries": "Combina automàticament les sèries que estiguin distribuïdes entre diversos directoris",
     "OptionAllowVideoPlaybackTranscoding": "Permet la reproducció de vídeo que requereix la transcodificació",
     "OptionAllowVideoPlaybackRemuxing": "Permet la reproducció de vídeo que requereix una conversió sense recodificació",
     "OptionAllowSyncTranscoding": "Permet la conversió del contingut multimèdia quan es descarregui i sincronitzi",
