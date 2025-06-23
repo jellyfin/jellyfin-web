@@ -1280,7 +1280,7 @@
     "LabelTonemappingRange": "Sävykartoituksen alue",
     "LabelTonemappingPeakHelp": "Korvaa metatiedoissa ilmoitetun input signaalin arvon tällä huippuarvolla. Suositeltu arvo on 100 (1000nit).",
     "LabelTonemappingPeak": "Sävykartoituksen huippu",
-    "LabelTonemappingParamHelp": "Säädä sävykartoitusalgoritmia. Suositeltu ja oletusarvo on NaN. Tyypillisesti jätetään tyhjäksi.",
+    "LabelTonemappingParamHelp": "Säädä sävykartoitusalgoritmia. Tyypillisesti jätetään tyhjäksi.",
     "LabelTonemappingParam": "Sävykartoituksen parametrit",
     "LabelTonemappingDesatHelp": "Vähentää tämän kirkkaustason ylittävien värien kylläisyyttä. Suositeltu arvo on 0 (poista käytöstä).",
     "LabelTonemappingDesat": "Sävykartoituksen kylläisyys",
@@ -1689,7 +1689,7 @@
     "SaveRecordingImagesHelp": "Tallenna ohjelmaoppaan tietolähteen kuvat mediatiedoston oheen.",
     "HeaderDummyChapter": "Kappalekuvat",
     "LabelDummyChapterDuration": "Aikaväli",
-    "LabelDummyChapterDurationHelp": "Kappalekuvien purkuväli sekunteina. Poista kappalekuvien luonti käytöstä asettamalla arvoksi 0. Tämän muutos ei vaikuta olemassa oleviin kappaleisiin.",
+    "LabelDummyChapterDurationHelp": "Kappaleiden välinen aika sekunteina. Aseta arvoksi 0 poistaaksesi kappaleiden luomisen käytöstä. Tämä muutos ei vaikuta olemassa oleviin kappaleisiin.",
     "LabelDummyChapterCount": "Enimmäismäärä",
     "LabelDummyChapterCountHelp": "Yhdestä mediatiedostosta purettavien kappalekuvien enimmäismäärä.",
     "LabelChapterImageResolution": "Resoluutio",
@@ -2059,5 +2059,5 @@
     "HeaderBackups": "Varmuuskopiot",
     "ConfirmDeleteRepository": "Poista ohjelmavarasto?",
     "LabelImageCache": "Kuvien välimuisti",
-    "LabelProgramData": "Ohjelman tiedot"
+    "LabelProgramData": "Ohjelmatiedot"
 }
