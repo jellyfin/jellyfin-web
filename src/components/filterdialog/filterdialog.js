@@ -188,6 +188,15 @@ class FilterDialog {
         const query = this.options.query;
         const filterName = elem.getAttribute('data-filter');
         let filters = query.Filters || '';
+        if (filterName === 'IsPlayed') {
+            const unPlayedCheckbox = document.querySelector('.chkStandardFilter[data-filter="IsUnPlayed"]');
+            unPlayedCheckbox.checked = false;
+            filters = (`,${filters}`).replace(',IsUnPlayed', '').substring(1);
+        } else if (filterName === 'IsUnPlayed') {
+            const playedCheckbox = document.querySelector('.chkStandardFilter[data-filter="IsPlayed"]');
+            playedCheckbox.checked = false;
+            filters = (`,${filters}`).replace(',IsPlayed', '').substring(1);
+        }
         filters = (`,${filters}`).replace(`,${filterName}`, '').substring(1);
 
         if (elem.checked) {
