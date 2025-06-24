@@ -2061,5 +2061,6 @@
     "PluginsLoadError": "Wystąpił błąd podczas ładowania wtyczek.",
     "ButtonLearnMore": "Dowiedz się więcej",
     "TranscodingLoadError": "Nie udało się załadować ustawień transkodowania",
-    "DeleteRepositoryConfirmation": "Czy na pewno chcesz usunąć to repozytorium?"
+    "DeleteRepositoryConfirmation": "Czy na pewno chcesz usunąć to repozytorium?",
+    "LiveTVPageLoadError": "Nie udało się załadować strony z nagraniami"
 }
