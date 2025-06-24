@@ -2061,5 +2061,6 @@
     "ConfirmDeleteRepository": "Vymazať repozitár?",
     "PluginsLoadError": "Pri načítavaní zásuvných modulov došlo k chybe.",
     "RepositoriesPageLoadError": "Nepodarilo sa načítať repozitáre",
-    "TranscodingLoadError": "Nepodarilo sa načítať nastavenia prekódovania"
+    "TranscodingLoadError": "Nepodarilo sa načítať nastavenia prekódovania",
+    "LiveTVPageLoadError": "Nepodarilo sa načítať stránku s nahrávkami"
 }
