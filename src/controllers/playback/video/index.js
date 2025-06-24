@@ -1243,6 +1243,12 @@ export default function (view) {
         if (layoutManager.tv && !currentVisibleMenu) {
             // Change the behavior of some keys when the OSD is hidden
             switch (key) {
+                case 'NavigationLeft':
+                case 'NavigationRight':
+                case 'GamepadLeftThumbLeft':
+                case 'GamepadLeftThumbRight':
+                case 'GamepadDPadLeft':
+                case 'GamepadDPadRight':
                 case 'ArrowLeft':
                 case 'ArrowRight':
                     if (!e.shiftKey) {

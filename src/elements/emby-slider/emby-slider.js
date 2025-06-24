@@ -527,12 +527,18 @@ function stepKeyboard(elem, delta) {
      */
 function onKeyDown(e) {
     switch (keyboardnavigation.getKeyName(e)) {
+        case 'NavigationLeft':
+        case 'GamepadDPadLeft':
+        case 'GamepadLeftThumbLeft':
         case 'ArrowLeft':
         case 'Left':
             stepKeyboard(this, -normalizeSliderStep(this, this.keyboardStepDown));
             e.preventDefault();
             e.stopPropagation();
             break;
+        case 'NavigationRight':
+        case 'GamepadDPadRight':
+        case 'GamepadLeftThumbRight':
         case 'ArrowRight':
         case 'Right':
             stepKeyboard(this, normalizeSliderStep(this, this.keyboardStepUp));
