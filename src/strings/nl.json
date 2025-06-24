@@ -2059,6 +2059,7 @@
     "ButtonLearnMore": "Meer informatie",
     "ConfirmDeleteRepository": "Repository verwijderen?",
     "DeleteRepositoryConfirmation": "Weet je zeker dat je dit repository wilt verwijderen?",
-    "RepositoriesPageLoadError": "Repository's laden mislukt",
-    "TranscodingLoadError": "Laden van transcodeerinstellingen mislukt"
+    "RepositoriesPageLoadError": "Laden van repository's mislukt",
+    "TranscodingLoadError": "Laden van transcodeerinstellingen mislukt",
+    "LiveTVPageLoadError": "Laden van opnamepagina mislukt"
 }
