@@ -1,7 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import DOMPurify from 'dompurify';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { appHost } from 'components/apphost';
 import Page from 'components/Page';
+import toast from 'components/toast/toast';
 import { AppFeature } from 'constants/appFeature';
 import LinkButton from 'elements/emby-button/LinkButton';
 import globalize from 'lib/globalize';
@@ -11,22 +13,27 @@ interface ConnectionErrorPageProps {
     state: ConnectionState
 }
 
-async function onForceConnect() {
-    try {
-        const server = ServerConnections.getLastUsedServer();
-        await ServerConnections.updateSavedServerId(server);
-        window.location.reload();
-    } catch (err) {
-        console.error('[ConnectionErrorPage] Failed to force connect to server', err);
-    }
-}
-
 const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
     state
 }) => {
     const [ title, setTitle ] = useState<string>();
     const [ htmlMessage, setHtmlMessage ] = useState<string>();
     const [ message, setMessage ] = useState<string>();
+    const [ isConnectDisabled, setIsConnectDisabled ] = useState(false);
+
+    const onForceConnect = useCallback(async () => {
+        setIsConnectDisabled(true);
+
+        try {
+            const server = ServerConnections.getLastUsedServer();
+            await ServerConnections.updateSavedServerId(server);
+            window.location.reload();
+        } catch (err) {
+            console.error('[ConnectionErrorPage] Failed to force connect to server', err);
+            toast(globalize.translate('HeaderConnectionFailure'));
+            setIsConnectDisabled(false);
+        }
+    }, []);
 
     useEffect(() => {
         switch (state) {
@@ -62,7 +69,7 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                 <h1>{title}</h1>
                 {htmlMessage && (
                     <p
-                        dangerouslySetInnerHTML={{ __html: htmlMessage }}
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(htmlMessage) }}
                         style={{ maxWidth: '80ch' }}
                     />
                 )}
@@ -71,6 +78,7 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                         {message}
                     </p>
                 )}
+
                 {appHost.supports(AppFeature.MultiServer) && (
                     <LinkButton
                         className='raised'
@@ -79,9 +87,11 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                         {globalize.translate('ButtonChangeServer')}
                     </LinkButton>
                 )}
+
                 {state === ConnectionState.ServerMismatch && (
                     <LinkButton
                         onClick={onForceConnect}
+                        style={ isConnectDisabled ? { pointerEvents: 'none' } : undefined }
                     >
                         {globalize.translate('ConnectAnyway')}
                     </LinkButton>
