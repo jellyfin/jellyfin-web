@@ -20,13 +20,13 @@
                     </div>
 
                     <div class="dashboardActionsContainer">
-                        <button is="emby-button" type="button" class="raised btnRefresh">
+                        <button is="emby-button" type="button" class="raised btnRefresh button-submit">
                             <span>${ButtonScanAllLibraries}</span>
                         </button>
-                        <button is="emby-button" type="button" id="btnRestartServer" class="raised">
+                        <button is="emby-button" type="button" id="btnRestartServer" class="raised button-delete">
                             <span>${Restart}</span>
                         </button>
-                        <button is="emby-button" type="button" id="btnShutdown" class="raised">
+                        <button is="emby-button" type="button" id="btnShutdown" class="raised button-delete">
                             <span>${ButtonShutdown}</span>
                         </button>
                     </div>
@@ -36,6 +36,8 @@
                         <div id="divRunningTasks" class="paperList" style="padding: 1em;">
                         </div>
                     </div>
+
+                    <div id="itemCounts"></div>
                 </div>
 
                 <div class="dashboardSection">
@@ -75,44 +77,7 @@
                     </div>
                 </div>
 
-                <div class="dashboardSection">
-                    <a is="emby-linkbutton" href="#/dashboard/settings" class="button-flat sectionTitleTextButton">
-                        <h3>${HeaderPaths}</h3>
-                        <span class="material-icons chevron_right" aria-hidden="true"></span>
-                    </a>
-                    <div class="paperList">
-                        <div class="listItem listItem-border">
-                            <div class="listItemBody two-line">
-                                <div class="listItemBodyText secondary" style="margin:0;">${LabelCache}</div>
-                                <div class="listItemBodyText" id="cachePath" dir="ltr" style="text-align: left;"></div>
-                            </div>
-                        </div>
-                        <div class="listItem listItem-border">
-                            <div class="listItemBody two-line">
-                                <div class="listItemBodyText secondary" style="margin:0;">${LabelLogs}</div>
-                                <div class="listItemBodyText" id="logPath" dir="ltr" style="text-align: left;"></div>
-                            </div>
-                        </div>
-                        <div class="listItem listItem-border">
-                            <div class="listItemBody two-line">
-                                <div class="listItemBodyText secondary" style="margin:0;">${LabelMetadata}</div>
-                                <div class="listItemBodyText" id="metadataPath" dir="ltr" style="text-align: left;"></div>
-                            </div>
-                        </div>
-                        <div class="listItem listItem-border">
-                            <div class="listItemBody two-line">
-                                <div class="listItemBodyText secondary" style="margin:0;">${LabelTranscodes}</div>
-                                <div class="listItemBodyText" id="transcodePath" dir="ltr" style="text-align: left;"></div>
-                            </div>
-                        </div>
-                        <div class="listItem listItem-border">
-                            <div class="listItemBody two-line">
-                                <div class="listItemBodyText secondary" style="margin:0;">${LabelWeb}</div>
-                                <div class="listItemBodyText" id="webPath" dir="ltr" style="text-align: left;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div id="serverPaths" class="dashboardSection"></div>
             </div>
         </div>
 

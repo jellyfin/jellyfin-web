@@ -1406,7 +1406,7 @@
     "MediaInfoColorSpace": "Espacio de color",
     "MediaInfoVideoRange": "Rango de video",
     "LabelMaxMuxingQueueSize": "Tamaño máximo de la cola de entremezclado",
-    "LabelTonemappingParamHelp": "Ajuste el algoritmo de mapeo de Tono. El valor recomendado y predeterminados es NaN. Generalmente déjelo en blanco.",
+    "LabelTonemappingParamHelp": "Ajuste el algoritmo de mapeo de Tono. Generalmente déjelo en blanco.",
     "LabelTonemappingParam": "Parámetros del mapeo de tono",
     "LabelTonemappingPeak": "Pico del mapeo de tono",
     "LabelTonemappingDesat": "Mapeo de tonos desaturado",

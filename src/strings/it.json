@@ -1461,7 +1461,7 @@
     "LabelCreateHttpPortMapHelp": "Consenti la mappatura automatica delle porte per creare una regola per il traffico HTTP oltre al traffico HTTPS.",
     "LabelCreateHttpPortMap": "Abilita la mappatura automatica delle porte per il traffico HTTP e HTTPS.",
     "LabelTonemappingPeak": "Valore massimo della mappatura dei toni",
-    "LabelTonemappingParamHelp": "Regola l'algoritmo di mappatura dei toni. I valori raccomandati e di default sono NaN. Solitamente lasciare vuoto.",
+    "LabelTonemappingParamHelp": "Regola l'algoritmo di mappatura dei toni. Di solito si lascia vuoto.",
     "LabelTonemappingParam": "Parametro per la mappatura dei toni",
     "LabelTonemappingDesatHelp": "Applica la desaturazione per le alte-luci che superano questo livello di luminosità. Il valore raccomandato 0 (disabilitato).",
     "LabelSyncPlayTimeSyncOffset": "Offset del tempo",

@@ -11,11 +11,11 @@ export function useLocale() {
     const { dateTimeLocale: dateTimeSetting, language } = useUserSettings();
     const [ dateFnsLocale, setDateFnsLocale ] = useState<Locale>(enUS);
 
-    const locale = useMemo(() => (
+    const locale: string = useMemo(() => (
         normalizeLocaleName(language || getDefaultLanguage())
     ), [ language ]);
 
-    const dateTimeLocale = useMemo(() => (
+    const dateTimeLocale: string = useMemo(() => (
         dateTimeSetting ? normalizeLocaleName(dateTimeSetting) : locale
     ), [ dateTimeSetting, locale ]);
 

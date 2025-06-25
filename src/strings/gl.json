@@ -1053,5 +1053,7 @@
     "HeaderOtherItems": "Outros elementos",
     "HeaderMusicQuality": "Calidade de son",
     "HeaderNewPlaylist": "Nova lista de reprodución",
-    "HeaderNextVideo": "Seguinte vídeo"
+    "HeaderNextVideo": "Seguinte vídeo",
+    "BackupsPageLoadError": "Fallou a carga da páxina de copias de seguridade",
+    "ButtonCreateBackup": "Crear copia de seguridade"
 }

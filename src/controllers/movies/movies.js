@@ -33,7 +33,7 @@ export default function (view, params, tabContent, options) {
     function shuffle() {
         isLoading = true;
         loading.show();
-        const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: 300 };
+        const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
         return ApiClient.getItems(ApiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
             playbackManager.play({
                 items: Items,
@@ -277,7 +277,7 @@ export default function (view, params, tabContent, options) {
         SortOrder: 'Ascending',
         IncludeItemTypes: 'Movie',
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay',
+        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         StartIndex: 0,

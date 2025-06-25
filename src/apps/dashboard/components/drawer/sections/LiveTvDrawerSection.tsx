@@ -29,7 +29,7 @@ const LiveTvDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard/recordings'>
+                <ListItemLink to='/dashboard/livetv/recordings'>
                     <ListItemIcon>
                         <Dvr />
                     </ListItemIcon>
