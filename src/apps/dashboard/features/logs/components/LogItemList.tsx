@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import type { LogFile } from '@jellyfin/sdk/lib/generated-client/models/log-file';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -12,7 +12,11 @@ type LogItemProps = {
 
 const LogItemList: FunctionComponent<LogItemProps> = ({ logs }: LogItemProps) => {
     const getDate = (logFile: LogFile) => {
+        if (!logFile.DateModified) {
+            throw new Error('Log file does not have a DateModified property');
+        }
         const date = datetime.parseISO8601Date(logFile.DateModified, true);
+        //  new Date(logFile.DateModified); // use this instead?
         return datetime.toLocaleDateString(date) + ' ' + datetime.getDisplayTime(date);
     };
 

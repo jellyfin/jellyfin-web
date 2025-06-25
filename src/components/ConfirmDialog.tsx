@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions/DialogActions';
 import DialogContent from '@mui/material/DialogContent/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 import globalize from 'lib/globalize';
 

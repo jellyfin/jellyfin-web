@@ -1,4 +1,4 @@
-import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
+import { type FC, type PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import useElementSize from 'hooks/useElementSize';
 import layoutManager from '../../components/layoutManager';
@@ -41,7 +41,7 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
         scrollPos: 0,
         scrollWidth: 0
     });
-    const scrollerFactoryRef = useRef<ScrollerFactory | null>(null);
+    const scrollerFactoryRef = useRef<typeof ScrollerFactory | null>(null);
 
     const getScrollSlider = useCallback(() => {
         if (scrollerFactoryRef.current) {
@@ -126,7 +126,7 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
         });
     }, [getScrollPosition, getScrollSize, getScrollWidth]);
 
-    const initCenterFocus = useCallback((elem: HTMLElement, scrollerInstance: ScrollerFactory) => {
+    const initCenterFocus = useCallback((elem: HTMLElement, scrollerInstance: typeof ScrollerFactory) => {
         dom.addEventListener(elem, 'focus', function (e: FocusEvent) {
             const focused = focusManager.focusableParent(e.target);
             if (focused) {
@@ -248,4 +248,3 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
 };
 
 export default Scroller;
-

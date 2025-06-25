@@ -4,7 +4,7 @@ import Box from '@mui/material/Box/Box';
 import Paper from '@mui/material/Paper/Paper';
 import Typography from '@mui/material/Typography/Typography';
 import classNames from 'classnames';
-import React, { type FC, useEffect } from 'react';
+import { type FC, useEffect } from 'react';
 import { useRouteError } from 'react-router-dom';
 
 import loading from 'components/loading/loading';

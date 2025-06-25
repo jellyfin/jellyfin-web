@@ -1,5 +1,5 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { type FC, useEffect, useRef } from 'react';
+import { type FC, useEffect, useRef } from 'react';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import type { CardOptions } from 'types/cardOptions';

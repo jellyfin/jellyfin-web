@@ -1,6 +1,6 @@
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useServerLog } from 'apps/dashboard/features/logs/api/useServerLog';
 import Alert from '@mui/material/Alert';

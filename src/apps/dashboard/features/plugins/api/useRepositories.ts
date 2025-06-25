@@ -26,4 +26,3 @@ export const useRepositories = () => {
     const { api } = useApi();
     return useQuery(getRepositoriesQuery(api));
 };
-

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 const createScroller = ({ scrollerclassName, dataHorizontal, dataMousewheel, dataCenterfocus, dataId, className }: IProps) => ({
     __html: `<div is="emby-scroller"

@@ -28,4 +28,3 @@ export const usePlugins = () => {
     const { api } = useApi();
     return useQuery(getPluginsQuery(api));
 };
-

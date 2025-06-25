@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { useCallback } from 'react';
 
 import globalize from 'lib/globalize';
 import { navigate } from '../../../utils/dashboard';
@@ -9,14 +9,14 @@ type IProps = {
 };
 
 function useNavigate(url: string): () => void {
-    return React.useCallback(() => {
+    return useCallback(() => {
         navigate(url, true).catch(err => {
             console.warn('Error navigating to dashboard url', err);
         });
     }, [url]);
 }
 
-const SectionTabs: FunctionComponent<IProps> = ({ activeTab }: IProps) => {
+function SectionTabs({ activeTab }: IProps) {
     const onClickProfile = useNavigate('/dashboard/users/profile');
     const onClickAccess = useNavigate('/dashboard/users/access');
     const onClickParentalControl = useNavigate('/dashboard/users/parentalcontrol');

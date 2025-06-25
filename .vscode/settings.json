@@ -6,5 +6,10 @@
     "source.fixAll.eslint": "explicit"
   },
   "eslint.format.enable": true,
-  "editor.formatOnSave": false
+  "editor.formatOnSave": false,
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "typescript.experimental.useTsgo": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "TypeScriptTeam.native-preview"
+  }
 }

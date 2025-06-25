@@ -1,5 +1,5 @@
 import escapeHTML from 'escape-html';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 import globalize from 'lib/globalize';
 

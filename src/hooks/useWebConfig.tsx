@@ -1,7 +1,7 @@
-import React, { type FC, type PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
+import { type FC, type PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
 
 import type { WebConfig } from '../types/webConfig';
-import defaultConfig from '../config.json';
+import defaultConfig from '../config.json' with { type: 'json' };
 import fetchLocal from '../utils/fetchLocal';
 
 export const WebConfigContext = createContext<WebConfig>(defaultConfig);

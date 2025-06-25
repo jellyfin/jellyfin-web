@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import Box from '@mui/material/Box';

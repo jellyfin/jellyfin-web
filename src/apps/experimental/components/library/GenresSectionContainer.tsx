@@ -4,7 +4,7 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 import { useApi } from 'hooks/useApi';
 import { useGetItems } from 'hooks/useFetchItems';

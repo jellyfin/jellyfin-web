@@ -4,7 +4,7 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import * as userSettings from 'scripts/settings/userSettings';
 import layoutManager from 'components/layoutManager';
-import { EpisodeFilter, FeatureFilters, LibraryViewSettings, ParentId, VideoBasicFilter, ViewMode } from '../types/library';
+import { EpisodeFilter, FeatureFilters, LibraryViewSettings, ParentId, VideoBasicFilter, ViewMode } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import type { AttributesOpts, DataAttributes } from 'types/dataAttributes';
 
@@ -193,4 +193,3 @@ export function getDataAttributes(
         'data-enddate': opts.itemEndDate?.toString()
     };
 }
-

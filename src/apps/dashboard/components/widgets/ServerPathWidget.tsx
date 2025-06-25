@@ -2,7 +2,6 @@ import ChevronRight from '@mui/icons-material/ChevronRight';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import React from 'react';
 
 import { useSystemStorage } from 'apps/dashboard/features/storage/api/useSystemStorage';
 import StorageListItem from 'apps/dashboard/features/storage/components/StorageListItem';

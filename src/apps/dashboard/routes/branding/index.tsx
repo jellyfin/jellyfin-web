@@ -11,10 +11,10 @@ import Stack from '@mui/material/Stack';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 
-import { getBrandingOptionsQuery, QUERY_KEY, useBrandingOptions } from 'apps/dashboard/features/branding/api/useBrandingOptions';
+import { getBrandingOptionsQuery, QUERY_KEY, useBrandingOptions } from '../../features/branding/api/useBrandingOptions';
 import Loading from 'components/loading/LoadingComponent';
 import Image from 'components/Image';
 import Page from 'components/Page';

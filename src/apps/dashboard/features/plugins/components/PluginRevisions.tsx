@@ -7,7 +7,7 @@ import AccordionDetails from '@mui/material/AccordionDetails/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary/AccordionSummary';
 import Button from '@mui/material/Button/Button';
 import Stack from '@mui/material/Stack/Stack';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 import MarkdownBox from 'components/MarkdownBox';
 import { getDisplayDateTime } from 'scripts/datetime';

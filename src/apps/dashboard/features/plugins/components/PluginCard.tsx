@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useApi } from 'hooks/useApi';
 import type { PluginInfo } from '@jellyfin/sdk/lib/generated-client/models/plugin-info';

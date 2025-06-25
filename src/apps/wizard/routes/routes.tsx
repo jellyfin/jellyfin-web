@@ -1,4 +1,3 @@
-import React from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
 
 import AppLayout from 'apps/stable/AppLayout';

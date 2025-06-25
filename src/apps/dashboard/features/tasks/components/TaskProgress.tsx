@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { TaskProps } from '../types/taskProps';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';

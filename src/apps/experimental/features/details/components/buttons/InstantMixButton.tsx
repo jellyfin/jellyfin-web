@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import { FC, useCallback } from 'react';
 import IconButton from '@mui/material/IconButton';
 import ExploreIcon from '@mui/icons-material/Explore';
 

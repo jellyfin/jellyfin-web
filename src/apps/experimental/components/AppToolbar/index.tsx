@@ -1,5 +1,5 @@
 import Stack from '@mui/material/Stack';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import AppToolbar from 'components/toolbar/AppToolbar';

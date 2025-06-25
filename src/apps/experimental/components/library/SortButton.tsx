@@ -1,6 +1,6 @@
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
-import React, { FC, useCallback } from 'react';
+import { FC, useCallback, useState } from 'react';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Popover from '@mui/material/Popover';
@@ -10,7 +10,6 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
-
 import globalize from 'lib/globalize';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
@@ -120,7 +119,7 @@ const SortButton: FC<SortButtonProps> = ({
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const id = open ? 'sort-popover' : undefined;
 

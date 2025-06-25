@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import classNames from 'classnames';
 import ClosedCaptionIcon from '@mui/icons-material/ClosedCaption';
 import Box from '@mui/material/Box';

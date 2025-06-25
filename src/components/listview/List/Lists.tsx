@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import { groupBy } from 'lodash-es';
 import Box from '@mui/material/Box';
 import { getIndex } from './listHelper';

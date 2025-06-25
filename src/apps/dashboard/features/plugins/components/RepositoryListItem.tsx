@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/repository-info';
 import ListItem from '@mui/material/ListItem';
 import Tooltip from '@mui/material/Tooltip';

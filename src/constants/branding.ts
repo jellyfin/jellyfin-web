@@ -1,1 +1,1 @@
-export const SPLASHSCREEN_URL = '/Branding/Splashscreen';
+export const SPLASHSCREEN_URL = '/Branding/Splashscreen' as const;

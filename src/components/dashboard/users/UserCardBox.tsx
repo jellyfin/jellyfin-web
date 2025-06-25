@@ -1,5 +1,5 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import globalize from '../../../lib/globalize';

@@ -1,5 +1,5 @@
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import React, { FC, useCallback } from 'react';
+import { FC, useCallback, useState } from 'react';
 
 import Check from '@mui/icons-material/Check';
 import MoreVert from '@mui/icons-material/MoreVert';
@@ -50,7 +50,7 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const id = open ? 'selectview-popover' : undefined;
 

@@ -13,7 +13,7 @@ import ListItemButton from '@mui/material/ListItemButton/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import React, { type MouseEvent, useCallback, useState } from 'react';
+import { type MouseEvent, useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import ListItemLink from 'components/ListItemLink';

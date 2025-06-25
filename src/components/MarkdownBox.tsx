@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box/Box';
 import DOMPurify from 'dompurify';
 import markdownIt from 'markdown-it';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 interface MarkdownBoxProps {
     markdown?: string | null

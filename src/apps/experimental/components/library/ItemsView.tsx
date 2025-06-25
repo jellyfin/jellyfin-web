@@ -7,7 +7,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import type { Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import classNames from 'classnames';
-import React, { type FC, useCallback } from 'react';
+import { type FC, useCallback } from 'react';
 
 import { useApi } from 'hooks/useApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';

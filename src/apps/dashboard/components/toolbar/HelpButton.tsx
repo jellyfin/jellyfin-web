@@ -1,7 +1,6 @@
 import HelpOutline from '@mui/icons-material/HelpOutline';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
-import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { HelpLinks } from 'apps/dashboard/constants/helpLinks';

@@ -1,5 +1,3 @@
-declare module '*.png' {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const value: any;
-    export = value;
-}
+/// <reference types="vitest" />
+/// <reference types="vite/client" />
+/// <reference types="vite" />

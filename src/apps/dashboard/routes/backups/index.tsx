@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useBackups } from 'apps/dashboard/features/backups/api/useBackups';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Loading from 'components/loading/LoadingComponent';
 import Alert from '@mui/material/Alert';
 import List from '@mui/material/List';

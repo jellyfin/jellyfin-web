@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';

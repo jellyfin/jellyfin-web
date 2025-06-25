@@ -1,6 +1,6 @@
 import type { BaseItemDto, NameIdPair, SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import escapeHTML from 'escape-html';
-import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
+import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
@@ -150,24 +150,24 @@ const UserEdit = () => {
         void libraryMenu.then(menu => menu.setTitle(user.Name));
 
         setUserDto(user);
-        (page.querySelector('#txtUserName') as HTMLInputElement).value = user.Name || '';
-        (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked = !!user.Policy?.IsAdministrator;
-        (page.querySelector('.chkDisabled') as HTMLInputElement).checked = !!user.Policy?.IsDisabled;
-        (page.querySelector('.chkIsHidden') as HTMLInputElement).checked = !!user.Policy?.IsHidden;
-        (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked = !!user.Policy?.EnableCollectionManagement;
-        (page.querySelector('.chkEnableSubtitleManagement') as HTMLInputElement).checked = !!user.Policy?.EnableSubtitleManagement;
-        (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked = !!user.Policy?.EnableSharedDeviceControl;
-        (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked = !!user.Policy?.EnableRemoteControlOfOtherUsers;
-        (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked = !!user.Policy?.EnableContentDownloading;
-        (page.querySelector('.chkManageLiveTv') as HTMLInputElement).checked = !!user.Policy?.EnableLiveTvManagement;
-        (page.querySelector('.chkEnableLiveTvAccess') as HTMLInputElement).checked = !!user.Policy?.EnableLiveTvAccess;
-        (page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement).checked = !!user.Policy?.EnableMediaPlayback;
-        (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked = !!user.Policy?.EnableAudioPlaybackTranscoding;
-        (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked = !!user.Policy?.EnableVideoPlaybackTranscoding;
-        (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked = !!user.Policy?.EnablePlaybackRemuxing;
-        (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked = !!user.Policy?.ForceRemoteSourceTranscoding;
-        (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked = user.Policy?.EnableRemoteAccess == null || user.Policy?.EnableRemoteAccess;
-        (page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value = user.Policy?.RemoteClientBitrateLimit && user.Policy?.RemoteClientBitrateLimit > 0 ?
+        page.querySelector<HTMLInputElement>('#txtUserName')!.value = user.Name || '';
+        page.querySelector<HTMLInputElement>('.chkIsAdmin')!.checked = !!user.Policy?.IsAdministrator;
+        page.querySelector<HTMLInputElement>('.chkDisabled')!.checked = !!user.Policy?.IsDisabled;
+        page.querySelector<HTMLInputElement>('.chkIsHidden')!.checked = !!user.Policy?.IsHidden;
+        page.querySelector<HTMLInputElement>('.chkEnableCollectionManagement')!.checked = !!user.Policy?.EnableCollectionManagement;
+        page.querySelector<HTMLInputElement>('.chkEnableSubtitleManagement')!.checked = !!user.Policy?.EnableSubtitleManagement;
+        page.querySelector<HTMLInputElement>('.chkRemoteControlSharedDevices')!.checked = !!user.Policy?.EnableSharedDeviceControl;
+        page.querySelector<HTMLInputElement>('.chkEnableRemoteControlOtherUsers')!.checked = !!user.Policy?.EnableRemoteControlOfOtherUsers;
+        page.querySelector<HTMLInputElement>('.chkEnableDownloading')!.checked = !!user.Policy?.EnableContentDownloading;
+        page.querySelector<HTMLInputElement>('.chkManageLiveTv')!.checked = !!user.Policy?.EnableLiveTvManagement;
+        page.querySelector<HTMLInputElement>('.chkEnableLiveTvAccess')!.checked = !!user.Policy?.EnableLiveTvAccess;
+        page.querySelector<HTMLInputElement>('.chkEnableMediaPlayback')!.checked = !!user.Policy?.EnableMediaPlayback;
+        page.querySelector<HTMLInputElement>('.chkEnableAudioPlaybackTranscoding')!.checked = !!user.Policy?.EnableAudioPlaybackTranscoding;
+        page.querySelector<HTMLInputElement>('.chkEnableVideoPlaybackTranscoding')!.checked = !!user.Policy?.EnableVideoPlaybackTranscoding;
+        page.querySelector<HTMLInputElement>('.chkEnableVideoPlaybackRemuxing')!.checked = !!user.Policy?.EnablePlaybackRemuxing;
+        page.querySelector<HTMLInputElement>('.chkForceRemoteSourceTranscoding')!.checked = !!user.Policy?.ForceRemoteSourceTranscoding;
+        page.querySelector<HTMLInputElement>('.chkRemoteAccess')!.checked = user.Policy?.EnableRemoteAccess == null || user.Policy?.EnableRemoteAccess;
+        page.querySelector<HTMLInputElement>('#txtRemoteClientBitrateLimit')!.value = user.Policy?.RemoteClientBitrateLimit && user.Policy?.RemoteClientBitrateLimit > 0 ?
             (user.Policy?.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 }) : '';
         (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value = String(user.Policy?.LoginAttemptsBeforeLockout) || '-1';
         (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = String(user.Policy?.MaxActiveSessions) || '0';

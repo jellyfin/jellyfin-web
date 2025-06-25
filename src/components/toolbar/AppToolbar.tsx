@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
-import React, { type FC, type PropsWithChildren, ReactNode } from 'react';
+import { type FC, type PropsWithChildren, ReactNode } from 'react';
 
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';

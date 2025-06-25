@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import IconButton from '@mui/material/IconButton';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import globalize from 'lib/globalize';

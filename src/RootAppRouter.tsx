@@ -1,5 +1,4 @@
 
-import React from 'react';
 import {
     RouterProvider,
     createHashRouter,
@@ -7,15 +6,15 @@ import {
     useLocation
 } from 'react-router-dom';
 
-import { DASHBOARD_APP_PATHS, DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
-import { EXPERIMENTAL_APP_ROUTES } from 'apps/experimental/routes/routes';
-import { STABLE_APP_ROUTES } from 'apps/stable/routes/routes';
-import { WIZARD_APP_ROUTES } from 'apps/wizard/routes/routes';
-import AppHeader from 'components/AppHeader';
-import Backdrop from 'components/Backdrop';
-import BangRedirect from 'components/router/BangRedirect';
-import { createRouterHistory } from 'components/router/routerHistory';
-import UserThemeProvider from 'themes/UserThemeProvider';
+import { DASHBOARD_APP_PATHS, DASHBOARD_APP_ROUTES } from './apps/dashboard/routes/routes';
+import { EXPERIMENTAL_APP_ROUTES } from './apps/experimental/routes/routes';
+import { STABLE_APP_ROUTES } from './apps/stable/routes/routes';
+import { WIZARD_APP_ROUTES } from './apps/wizard/routes/routes';
+import AppHeader from './components/AppHeader';
+import Backdrop from './components/Backdrop';
+import BangRedirect from './components/router/BangRedirect';
+import { createRouterHistory } from './components/router/routerHistory';
+import UserThemeProvider from './themes/UserThemeProvider';
 
 const layoutMode = localStorage.getItem('layout');
 const isExperimentalLayout = layoutMode === 'experimental';

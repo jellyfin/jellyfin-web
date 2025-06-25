@@ -14,7 +14,7 @@ import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
 import Extension from '@mui/icons-material/Extension';
 import Settings from '@mui/icons-material/Settings';
-import React, { type FC, useState, useCallback, useMemo } from 'react';
+import { type FC, useState, useCallback, useMemo } from 'react';
 import { useSearchParams, Link as RouterLink, useParams } from 'react-router-dom';
 
 import { findBestConfigurationPage } from 'apps/dashboard/features/plugins/api/configurationPage';

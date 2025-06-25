@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import useList from './useList';
 import ListContent from './ListContent';
 import ListWrapper from './ListWrapper';

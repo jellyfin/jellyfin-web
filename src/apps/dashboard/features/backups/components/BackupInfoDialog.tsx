@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Box from '@mui/material/Box';
 import globalize from 'lib/globalize';
-import React, { FunctionComponent, useCallback } from 'react';
+import { FunctionComponent, useCallback } from 'react';
 import Stack from '@mui/material/Stack';
 import FormGroup from '@mui/material/FormGroup';
 import FormControl from '@mui/material/FormControl';

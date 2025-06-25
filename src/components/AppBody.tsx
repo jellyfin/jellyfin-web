@@ -1,4 +1,4 @@
-import React, { type FC, type PropsWithChildren, useEffect } from 'react';
+import { type FC, type PropsWithChildren, useEffect } from 'react';
 import viewContainer from './viewContainer';
 
 /**

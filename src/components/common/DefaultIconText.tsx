@@ -1,5 +1,5 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import Icon from '@mui/material/Icon';
 import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
 import DefaultName from './DefaultName';

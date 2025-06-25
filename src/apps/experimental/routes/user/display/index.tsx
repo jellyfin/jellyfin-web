@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 
 import { DisplayPreferences } from 'apps/experimental/features/preferences/components/DisplayPreferences';
 import { ItemDetailPreferences } from 'apps/experimental/features/preferences/components/ItemDetailPreferences';

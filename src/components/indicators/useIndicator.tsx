@@ -1,5 +1,4 @@
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
-import React from 'react';
 import Box from '@mui/material/Box';
 import LinearProgress, {
     linearProgressClasses

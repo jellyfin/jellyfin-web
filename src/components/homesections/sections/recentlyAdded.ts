@@ -87,7 +87,7 @@ function getLatestItemsHtmlFn(
 function renderLatestSection(
     elem: HTMLElement,
     apiClient: ApiClient,
-    user: UserDto,
+    _user: UserDto,
     parent: BaseItemDto,
     options: SectionOptions
 ) {

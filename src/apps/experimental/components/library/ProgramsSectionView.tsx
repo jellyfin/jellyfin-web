@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import { useApi } from 'hooks/useApi';
 import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';

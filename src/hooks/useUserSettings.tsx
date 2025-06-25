@@ -1,4 +1,4 @@
-import React, { type FC, type PropsWithChildren, createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { type FC, type PropsWithChildren, createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { FALLBACK_CULTURE } from 'lib/globalize';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';

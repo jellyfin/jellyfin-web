@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import type { MRT_Cell, MRT_RowData } from 'material-react-table';
 import { useLocale } from 'hooks/useLocale';
 import Box from '@mui/material/Box';
@@ -11,7 +10,7 @@ interface CellProps {
     cell: MRT_Cell<MRT_RowData>
 }
 
-const TaskTriggerCell: FC<CellProps> = ({ cell }) => {
+export default function TaskTriggerCell({ cell }: CellProps) {
     const { dateFnsLocale } = useLocale();
     const trigger = cell.getValue<TaskTriggerInfo>();
 
@@ -30,5 +29,3 @@ const TaskTriggerCell: FC<CellProps> = ({ cell }) => {
         </Box>
     );
 };
-
-export default TaskTriggerCell;

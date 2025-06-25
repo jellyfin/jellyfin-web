@@ -1,5 +1,5 @@
 import useScrollTrigger from '@mui/material/useScrollTrigger';
-import React, { ReactElement } from 'react';
+import { ReactElement, cloneElement } from 'react';
 
 /**
  * Component that changes the elevation of a child component when scrolled.
@@ -12,7 +12,7 @@ const ElevationScroll = ({ children, elevate = false }: { children: ReactElement
 
     const isElevated = elevate || trigger;
 
-    return React.cloneElement(children, {
+    return cloneElement(children, {
         color: isElevated ? 'default' : 'transparent',
         elevation: isElevated ? 4 : 0
     });

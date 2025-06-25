@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
 import Avatar from '@mui/material/Avatar';
 import { useTheme } from '@mui/material/styles';

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
+import { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import Dashboard from '../../../utils/dashboard';
 import globalize from '../../../lib/globalize';
@@ -14,7 +14,7 @@ type IProps = {
 
 const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
     const element = useRef<HTMLDivElement>(null);
-    const user = useRef<UserDto>();
+    const user = useRef<UserDto>(null);
     const libraryMenu = useMemo(async () => ((await import('../../../scripts/libraryMenu')).default), []);
 
     const loadUser = useCallback(async () => {

@@ -1,4 +1,4 @@
-import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
+import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import { useTheme } from '@mui/material/styles';

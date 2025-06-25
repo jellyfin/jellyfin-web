@@ -3,7 +3,7 @@ import Lan from '@mui/icons-material/Lan';
 import Memory from '@mui/icons-material/Memory';
 import Storage from '@mui/icons-material/Storage';
 import Usb from '@mui/icons-material/Usb';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 import { StorageType } from '../constants/StorageType';
 

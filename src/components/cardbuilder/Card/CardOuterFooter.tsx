@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import classNames from 'classnames';
 import { useApi } from 'hooks/useApi';
 import { getCardLogoUrl } from './cardHelper';

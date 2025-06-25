@@ -1,4 +1,3 @@
-import React from 'react';
 
 import ViewManagerPage, { ViewManagerPageProps } from '../viewManager/ViewManagerPage';
 

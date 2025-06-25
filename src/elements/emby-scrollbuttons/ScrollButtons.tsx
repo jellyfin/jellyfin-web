@@ -1,4 +1,4 @@
-import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
+import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import scrollerFactory from 'lib/scroller';
 import globalize from 'lib/globalize';
 import IconButton from '../emby-button/IconButton';
@@ -63,4 +63,3 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
 };
 
 export default ScrollButtons;
-

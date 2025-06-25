@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { type FC, type PropsWithChildren } from 'react';
+import { type FC, type PropsWithChildren } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import layoutManager from '../../layoutManager';

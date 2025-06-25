@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box/Box';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import SuggestionsSectionView from './SuggestionsSectionView';
 import UpcomingView from './UpcomingView';
 import GenresView from './GenresView';

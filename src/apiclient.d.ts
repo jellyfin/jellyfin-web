@@ -261,7 +261,7 @@ declare module 'jellyfin-apiclient' {
         restartServer(): Promise<void>;
         sendCommand(sessionId: string, command: any): Promise<void>;
         sendMessageCommand(sessionId: string, options: GeneralCommand): Promise<void>;
-        sendMessage(name: string, data: any): void;
+        sendMessage(name: string, data ?: any): void;
         sendPlayCommand(sessionId: string, options: PlayCommand): Promise<void>;
         sendPlayStateCommand(sessionId: string, command: PlaystateCommand, options?: any): Promise<void>;
         sendSyncPlayPing(options?: PingRequestDto): Promise<void>;

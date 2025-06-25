@@ -1,5 +1,5 @@
 import { type SupportedColorScheme, ThemeProvider, useColorScheme } from '@mui/material/styles';
-import React, { type FC, type PropsWithChildren, useState, useEffect } from 'react';
+import { type FC, type PropsWithChildren, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { DASHBOARD_APP_PATHS } from 'apps/dashboard/routes/routes';

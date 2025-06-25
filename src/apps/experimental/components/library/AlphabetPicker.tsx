@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback, Dispatch, SetStateAction, MouseEvent } from 'react';
 import classNames from 'classnames';
 
 import Box from '@mui/material/Box';
@@ -11,21 +11,13 @@ import 'components/alphaPicker/style.scss';
 interface AlphabetPickerProps {
     className?: string;
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<
-        React.SetStateAction<LibraryViewSettings>
+    setLibraryViewSettings: Dispatch<
+        SetStateAction<LibraryViewSettings>
     >;
 }
 
-const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
-    className,
-    libraryViewSettings,
-    setLibraryViewSettings
-}) => {
-    const handleValue = useCallback(
-        (
-            event: React.MouseEvent<HTMLElement>,
-            newValue: string | null | undefined
-        ) => {
+export default function AlphabetPicker({ className, libraryViewSettings, setLibraryViewSettings }: AlphabetPickerProps) {
+    const handleValue = useCallback(( _event: MouseEvent<HTMLElement>, newValue ?: string | null | undefined ) => {
             setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
@@ -81,5 +73,3 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
         </Box>
     );
 };
-
-export default AlphabetPicker;

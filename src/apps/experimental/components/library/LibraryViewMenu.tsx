@@ -3,7 +3,7 @@ import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import Button from '@mui/material/Button/Button';
 import Menu from '@mui/material/Menu/Menu';
 import MenuItem from '@mui/material/MenuItem/MenuItem';
-import React, { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
 import { LibraryRoutes } from 'apps/experimental/features/libraries/constants/libraryRoutes';

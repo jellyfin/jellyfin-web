@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box/Box';
 import Fade from '@mui/material/Fade/Fade';
-import React, { useRef, type FC, useEffect, useState } from 'react';
+import { useRef, type FC, useEffect, useState } from 'react';
 
 import RemotePlayButton from 'apps/experimental/components/AppToolbar/RemotePlayButton';
 import SyncPlayButton from 'apps/experimental/components/AppToolbar/SyncPlayButton';

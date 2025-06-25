@@ -1,5 +1,4 @@
 import { Navigate, RouteObject } from 'react-router-dom';
-import React from 'react';
 
 import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';

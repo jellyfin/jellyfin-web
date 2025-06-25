@@ -4,11 +4,11 @@ import Tabs from '@mui/material/Tabs';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import debounce from 'lodash-es/debounce';
 import isEqual from 'lodash-es/isEqual';
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { EventType } from 'types/eventType';
-import Events, { type Event } from 'utils/events';
+import Events, { Event } from 'utils/events';
 
 interface AppTabsParams {
     isDrawerOpen: boolean

@@ -1,6 +1,6 @@
 import IconButton from '@mui/material/IconButton';
 import PermMedia from '@mui/icons-material/PermMedia';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import type { ActivityLogEntryCell } from 'apps/dashboard/features/activity/types/ActivityLogEntryCell';

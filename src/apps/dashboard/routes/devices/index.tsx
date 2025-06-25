@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
 import parseISO from 'date-fns/parseISO';
 import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
 import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';

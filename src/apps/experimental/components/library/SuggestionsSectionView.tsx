@@ -1,6 +1,6 @@
 import type { RecommendationDto } from '@jellyfin/sdk/lib/generated-client/models/recommendation-dto';
 import { RecommendationType } from '@jellyfin/sdk/lib/generated-client/models/recommendation-type';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 import { useApi } from 'hooks/useApi';
 import {

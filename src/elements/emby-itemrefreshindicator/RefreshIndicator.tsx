@@ -1,5 +1,5 @@
 import { ApiClient } from 'jellyfin-apiclient';
-import React, { type FC, useCallback, useEffect, useState } from 'react';
+import { type FC, useCallback, useEffect, useState } from 'react';
 import Events, { Event } from 'utils/events';
 import serverNotifications from 'scripts/serverNotifications';
 import classNames from 'classnames';

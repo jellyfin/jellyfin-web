@@ -4,7 +4,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 import { useLocale } from 'hooks/useLocale';
 import { toDecimalString } from 'utils/number';

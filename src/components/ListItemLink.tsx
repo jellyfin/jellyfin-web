@@ -1,5 +1,5 @@
 import ListItemButton, { ListItemButtonBaseProps } from '@mui/material/ListItemButton';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 interface ListItemLinkProps extends ListItemButtonBaseProps {

@@ -1,4 +1,3 @@
-import React from 'react';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
 import layoutManager from 'components/layoutManager';

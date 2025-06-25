@@ -13,7 +13,7 @@ import Queue from '@mui/icons-material/Queue';
 import Quiz from '@mui/icons-material/Quiz';
 import VideoLibrary from '@mui/icons-material/VideoLibrary';
 import Folder from '@mui/icons-material/Folder';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { MetaView } from '../constants/metaView';
 

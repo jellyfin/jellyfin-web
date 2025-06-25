@@ -3,7 +3,7 @@ import ImageNotSupported from '@mui/icons-material/ImageNotSupported';
 import Box from '@mui/material/Box/Box';
 import Paper from '@mui/material/Paper/Paper';
 import Skeleton from '@mui/material/Skeleton/Skeleton';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 interface ImageProps {
     isLoading: boolean

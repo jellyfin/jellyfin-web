@@ -1,4 +1,3 @@
-import React from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';

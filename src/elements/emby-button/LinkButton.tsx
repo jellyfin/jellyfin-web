@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent, useCallback } from 'react';
+import { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent, useCallback } from 'react';
 
 import { appHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';

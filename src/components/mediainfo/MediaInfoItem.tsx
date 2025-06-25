@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import classNames from 'classnames';

@@ -1,4 +1,3 @@
-import React from 'react';
 import Cast from '@mui/icons-material/Cast';
 import Computer from '@mui/icons-material/Computer';
 import Devices from '@mui/icons-material/Devices';

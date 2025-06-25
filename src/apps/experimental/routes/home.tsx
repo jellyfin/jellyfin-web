@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import globalize from '../../../lib/globalize';
@@ -32,7 +32,7 @@ const Home = () => {
 
     const libraryMenu = useMemo(async () => ((await import('../../../scripts/libraryMenu')).default), []);
     const mainTabsManager = useMemo(() => import('../../../components/maintabsmanager'), []);
-    const tabController = useRef<ControllerProps | null>();
+    const tabController = useRef<ControllerProps | null>(null);
     const tabControllers = useMemo<ControllerProps[]>(() => [], []);
 
     const documentRef = useRef<Document>(document);

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback } from 'react';
+import { FunctionComponent, useCallback } from 'react';
 import IconButtonElement from '../../../elements/IconButtonElement';
 
 type IProps = {

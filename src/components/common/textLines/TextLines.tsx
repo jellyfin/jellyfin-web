@@ -1,4 +1,4 @@
-import React, { type FC, type PropsWithChildren } from 'react';
+import { type FC, type PropsWithChildren } from 'react';
 import classNames from 'classnames';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';

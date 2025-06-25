@@ -5,7 +5,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 import globalize from 'lib/globalize';
 import { getReadableSize } from 'utils/file';

@@ -6,7 +6,7 @@ import TableBody from '@mui/material/TableBody/TableBody';
 import TableCell from '@mui/material/TableCell/TableCell';
 import TableContainer from '@mui/material/TableContainer/TableContainer';
 import TableRow from '@mui/material/TableRow/TableRow';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import globalize from 'lib/globalize';

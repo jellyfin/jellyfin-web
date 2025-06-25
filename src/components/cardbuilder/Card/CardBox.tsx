@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import layoutManager from 'components/layoutManager';
 
 import CardOverlayButtons from './CardOverlayButtons';
@@ -79,4 +79,3 @@ const CardBox: FC<CardBoxProps> = ({
 };
 
 export default CardBox;
-

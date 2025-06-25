@@ -1,10 +1,8 @@
-import React, { FC } from 'react';
-
 import { DeviceInfoCell } from 'apps/dashboard/features/devices/types/deviceInfoCell';
 import { getDeviceIcon } from 'utils/image';
 
-const DeviceNameCell: FC<DeviceInfoCell> = ({ row, renderedCellValue }) => (
-    <>
+export default function DeviceNameCell({ row, renderedCellValue }: DeviceInfoCell) {
+    return <>
         <img
             alt={row.original.AppName || undefined}
             src={getDeviceIcon(row.original)}
@@ -17,6 +15,4 @@ const DeviceNameCell: FC<DeviceInfoCell> = ({ row, renderedCellValue }) => (
         />
         {renderedCellValue}
     </>
-);
-
-export default DeviceNameCell;
+};

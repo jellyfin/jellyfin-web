@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import { useRepositories } from 'apps/dashboard/features/plugins/api/useRepositories';
 import Loading from 'components/loading/LoadingComponent';

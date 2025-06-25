@@ -1,4 +1,4 @@
-import React, { type FC, type PropsWithChildren } from 'react';
+import { type FC, type PropsWithChildren, isValidElement} from 'react';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
@@ -90,7 +90,7 @@ const SectionContainer: FC<PropsWithChildren<SectionContainerProps>> = ({
     const sectionClass = classNames('verticalSection', className);
 
     const renderItems = () => {
-        if (React.isValidElement(children)) {
+        if (isValidElement(children)) {
             return children;
         }
 

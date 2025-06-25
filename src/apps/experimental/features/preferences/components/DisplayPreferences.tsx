@@ -8,7 +8,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 
 import { appHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';

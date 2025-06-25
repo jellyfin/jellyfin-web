@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 import { useApi } from 'hooks/useApi';
 import { useGetGroupsUpcomingEpisodes } from 'hooks/useFetchItems';

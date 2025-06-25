@@ -1,4 +1,4 @@
-import React, { type ChangeEvent, type FC, useCallback, useRef } from 'react';
+import { type ChangeEvent, type FC, useCallback, useRef } from 'react';
 import AlphaPicker from 'components/alphaPicker/AlphaPickerComponent';
 import Input from 'elements/emby-input/Input';
 import globalize from 'lib/globalize';

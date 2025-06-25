@@ -161,7 +161,7 @@ function addProgramIndicators(
     includeEpisodeTitleIndexNumber: boolean,
     item: ItemDto,
     addMiscInfo: (val: MiscInfo) => void
-): void {
+) {
     if (item.Type === ItemKind.Program || item.Type === ItemKind.Timer) {
         let program = item;
         if (item.Type === ItemKind.Timer && item.ProgramInfo) {

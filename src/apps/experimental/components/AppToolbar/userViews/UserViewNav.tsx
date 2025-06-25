@@ -5,7 +5,7 @@ import Favorite from '@mui/icons-material/Favorite';
 import Button from '@mui/material/Button/Button';
 import { Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 import LibraryIcon from 'apps/experimental/components/LibraryIcon';

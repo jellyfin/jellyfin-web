@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import useCard from './useCard';
 import CardWrapper from './CardWrapper';
 import CardBox from './CardBox';

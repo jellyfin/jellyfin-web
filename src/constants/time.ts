@@ -1,8 +1,8 @@
 /** The number of milliseconds per second */
-export const MILLISECONDS_PER_SECOND = 1_000;
+export const MILLISECONDS_PER_SECOND = 1_000 as const;
 
 /** The number of ticks per millisecond */
-export const TICKS_PER_MILLISECOND = 10_000;
+export const TICKS_PER_MILLISECOND = 10_000 as const;
 
 /** The number of ticks per second */
 export const TICKS_PER_SECOND = MILLISECONDS_PER_SECOND * TICKS_PER_MILLISECOND;

@@ -1,5 +1,5 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { FC, useCallback } from 'react';
+import { FC, useCallback, useState } from 'react';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import FilterAlt from '@mui/icons-material/FilterAlt';
 import Button from '@mui/material/Button';
@@ -92,8 +92,8 @@ const FilterButton: FC<FilterButtonProps> = ({
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [expanded, setExpanded] = React.useState<string | false>(false);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [expanded, setExpanded] = useState<string | false>(false);
     const open = Boolean(anchorEl);
     const id = open ? 'filter-popover' : undefined;
 
@@ -102,7 +102,7 @@ const FilterButton: FC<FilterButtonProps> = ({
 
     const handleChange =
         (panel: string) =>
-            (event: React.SyntheticEvent, newExpanded: boolean) => {
+            (_event: React.SyntheticEvent, newExpanded: boolean) => {
                 setExpanded(newExpanded ? panel : false);
             };
 

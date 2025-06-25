@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import globalize from 'lib/globalize';
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 
 type IProps = {
     open: boolean;

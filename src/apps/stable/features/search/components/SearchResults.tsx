@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 import { useSearchItems } from '../api/useSearchItems';
 import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';

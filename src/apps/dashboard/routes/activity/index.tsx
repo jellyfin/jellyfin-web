@@ -1,5 +1,5 @@
 import parseISO from 'date-fns/parseISO';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import ToggleButton from '@mui/material/ToggleButton';

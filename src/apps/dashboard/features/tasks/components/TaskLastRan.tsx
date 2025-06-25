@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from 'react';
+import { FunctionComponent, useMemo } from 'react';
 import { TaskProps } from '../types/taskProps';
 import { useLocale } from 'hooks/useLocale';
 import { formatDistance, formatDistanceToNow, parseISO } from 'date-fns';

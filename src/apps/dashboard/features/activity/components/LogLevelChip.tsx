@@ -1,6 +1,5 @@
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import Chip from '@mui/material/Chip';
-import React from 'react';
 
 import globalize from 'lib/globalize';
 

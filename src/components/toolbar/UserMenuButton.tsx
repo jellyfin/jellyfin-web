@@ -1,6 +1,6 @@
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import UserAvatar from 'components/UserAvatar';
 import { useApi } from 'hooks/useApi';

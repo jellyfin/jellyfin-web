@@ -63,7 +63,7 @@ export function useDisplaySettings({ userId }: UseDisplaySettingsParams) {
 
 interface LoadDisplaySettingsParams {
     currentUser: UserDto;
-    userId?: string;
+    userId: string;
     api: ApiClient;
 }
 

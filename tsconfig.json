@@ -1,24 +1,62 @@
 {
   "compilerOptions": {
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    // "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    // "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    // "noUncheckedSideEffectImports": true,
+
+
     "baseUrl": "src",
-    "target": "ES5",
-    "lib": ["DOM", "DOM.Iterable", "ES2015"],
+    "target": "es2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2021", "WebWorker"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
     "module": "ESNext",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "outDir": "./dist/",
-    "checkJs": false,
+    "checkJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "noImplicitThis": true,
     "strictNullChecks": true,
     "jsx": "react-jsx",
-    "downlevelIteration": true
+    "downlevelIteration": false,
+    "paths": {
+      "@/*": ["./src/*"],
+      "apps/*": ["./src/apps/*"],
+      "assets/*": ["./src/assets/*"],
+      "components/*": ["./src/components/*"],
+      "constants/*": ["./src/constants/*"],
+      "controllers/*": ["./src/controllers/*"],
+      "elements/*": ["./src/elements/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "lib/*": ["./src/lib/*"],
+      "plugins/*": ["./src/plugins/*"],
+      "scripts/*": ["./src/scripts/*"],
+      "strings/*": ["./src/strings/*"],
+      "styles/*": ["./src/styles/*"],
+      "themes/*": ["./src/themes/*"],
+      "types/*": ["./src/types/*"],
+      "utils/*": ["./src/utils/*"],
+    },
+
   },
   "include": [
-    "src"
-  ]
+    "src",
+    "vite.config.ts"
+  ],
+
 }

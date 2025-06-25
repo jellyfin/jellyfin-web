@@ -2,7 +2,7 @@ import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/
 import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
 import escapeHTML from 'escape-html';
-import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
+import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import globalize from '../../../../lib/globalize';
@@ -209,7 +209,7 @@ const UserParentalControl = () => {
 
         const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
             schedule = schedule || {};
-            import('../../../../components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
+            import('components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
                 accessschedule.show({
                     schedule: schedule
                 }).then(function (updatedSchedule) {
