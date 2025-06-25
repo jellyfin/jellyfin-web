@@ -5,10 +5,20 @@ import Page from 'components/Page';
 import { AppFeature } from 'constants/appFeature';
 import LinkButton from 'elements/emby-button/LinkButton';
 import globalize from 'lib/globalize';
-import { ConnectionState } from 'lib/jellyfin-apiclient';
+import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 
 interface ConnectionErrorPageProps {
     state: ConnectionState
+}
+
+async function onForceConnect() {
+    try {
+        const server = ServerConnections.getLastUsedServer();
+        await ServerConnections.updateSavedServerId(server);
+        window.location.reload();
+    } catch (err) {
+        console.error('[ConnectionErrorPage] Failed to force connect to server', err);
+    }
 }
 
 const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
@@ -20,6 +30,11 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
 
     useEffect(() => {
         switch (state) {
+            case ConnectionState.ServerMismatch:
+                setTitle(globalize.translate('HeaderServerMismatch'));
+                setHtmlMessage(undefined);
+                setMessage(globalize.translate('MessageServerMismatch'));
+                return;
             case ConnectionState.ServerUpdateNeeded:
                 setTitle(globalize.translate('HeaderUpdateRequired'));
                 setHtmlMessage(globalize.translate(
@@ -46,10 +61,15 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
             <div className='padded-left padded-right'>
                 <h1>{title}</h1>
                 {htmlMessage && (
-                    <p dangerouslySetInnerHTML={{ __html: htmlMessage }} />
+                    <p
+                        dangerouslySetInnerHTML={{ __html: htmlMessage }}
+                        style={{ maxWidth: '80ch' }}
+                    />
                 )}
                 {message && (
-                    <p>{message}</p>
+                    <p style={{ maxWidth: '80ch' }}>
+                        {message}
+                    </p>
                 )}
                 {appHost.supports(AppFeature.MultiServer) && (
                     <LinkButton
@@ -57,6 +77,13 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                         href='/selectserver'
                     >
                         {globalize.translate('ButtonChangeServer')}
+                    </LinkButton>
+                )}
+                {state === ConnectionState.ServerMismatch && (
+                    <LinkButton
+                        onClick={onForceConnect}
+                    >
+                        {globalize.translate('ConnectAnyway')}
                     </LinkButton>
                 )}
             </div>
