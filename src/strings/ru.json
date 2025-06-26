@@ -2061,5 +2061,6 @@
     "DeleteRepositoryConfirmation": "Вы уверены, что хотите удалить это репозиторий?",
     "RepositoriesPageLoadError": "Не удалось загрузить репозитории",
     "TranscodingLoadError": "Не удалось загрузить настройки транскодирования",
-    "ButtonLearnMore": "Узнать больше"
+    "ButtonLearnMore": "Узнать больше",
+    "LiveTVPageLoadError": "Не удалось загрузить страницу с записями"
 }
