@@ -1,7 +1,7 @@
 import escapeHtml from 'escape-html';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import globalize from '../../lib/globalize';
 import '../listview/listview.scss';
 import '../../elements/emby-input/emby-input';

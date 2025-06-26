@@ -12,7 +12,7 @@ import { EventType } from 'types/eventType';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
-import dom from './dom';
+import dom from '../utils/dom';
 import layoutManager from '../components/layoutManager';
 import inputManager from './inputManager';
 import viewManager from '../components/viewManager/viewManager';
