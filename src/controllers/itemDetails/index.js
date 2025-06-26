@@ -1632,7 +1632,7 @@ function renderSeriesSchedule(page, item) {
 
         loading.hide();
     }).catch(function (resp) {
-        if(resp.status === 403) {
+        if (resp.status === 403) {
             page.querySelector('#seriesScheduleSection').classList.add('hide');
         }
     });
