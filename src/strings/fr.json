@@ -2061,5 +2061,6 @@
     "TranscodingLoadError": "Échec du chargement des paramètres de transcodage",
     "ConfirmDeleteRepository": "Supprimer le dépôt ?",
     "DeleteRepositoryConfirmation": "Êtes-vous sûr de vouloir supprimer ce dépôt ?",
-    "RepositoriesPageLoadError": "Échec du chargement des dépôts"
+    "RepositoriesPageLoadError": "Échec du chargement des dépôts",
+    "LiveTVPageLoadError": "Échec du chargement de la page d'enregistrements"
 }
