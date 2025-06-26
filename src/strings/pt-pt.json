@@ -1728,7 +1728,7 @@
     "OptionDateShowAdded": "Data de adição da Série",
     "LabelLevel": "Nível",
     "LabelSystem": "Sistema",
-    "LogLevel.Debug": "Debug",
+    "LogLevel.Debug": "Depuração",
     "LabelDeveloper": "Desenvolvedor",
     "LabelTonemappingMode": "Modo do mapeamento de tons",
     "LabelDate": "Data",
@@ -1736,7 +1736,7 @@
     "Unknown": "Desconhecido",
     "HeaderEpisodesStatus": "Estado do Episódio",
     "LabelMediaDetails": "Detalhes do conteúdo multimédia",
-    "LogLevel.Trace": "Vestígio",
+    "LogLevel.Trace": "Rastreio",
     "LogLevel.Error": "Erro",
     "LogLevel.Critical": "Crítico",
     "LogLevel.None": "Nenhum",
@@ -2056,5 +2056,6 @@
     "StorageType.NoRootDirectory": "Sem pasta raiz",
     "StorageType.Ram": "RAM",
     "StorageType.Removable": "Removível",
-    "LabelImageCache": "Cache de imagens"
+    "LabelImageCache": "Cache de imagens",
+    "LiveTVPageLoadError": "Falha ao carregar a página de gravações"
 }
