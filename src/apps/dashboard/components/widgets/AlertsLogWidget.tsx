@@ -10,6 +10,8 @@ type IProps = {
 };
 
 const AlertsLogWidget = ({ alerts }: IProps) => {
+    if (alerts?.length == 0) return null;
+
     return (
         <Widget
             title={globalize.translate('Alerts')}

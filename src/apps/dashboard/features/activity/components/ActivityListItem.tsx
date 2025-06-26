@@ -26,7 +26,7 @@ const ActivityListItem = ({ item, displayShortOverview }: IProps) => {
     }, [ item ]);
 
     return (
-        <ListItem disablePadding key={item.Id}>
+        <ListItem disablePadding>
             <ListItemButton>
                 <ListItemAvatar>
                     <Avatar sx={{ bgcolor: 'primary.main' }}>

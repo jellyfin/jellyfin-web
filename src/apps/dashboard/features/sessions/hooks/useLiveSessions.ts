@@ -27,10 +27,10 @@ const useLiveSessions = () => {
             for (const session of newSessions) {
                 const sessionIndex = currentSessions.findIndex((value) => value.DeviceId === session.DeviceId);
                 if (sessionIndex == -1) {
-                    return [ ...currentSessions, session ];
-                };
-                currentSessions[sessionIndex] = session;
-                return currentSessions;
+                    currentSessions.push(session);
+                } else {
+                    currentSessions[sessionIndex] = session;
+                }
             }
             return currentSessions;
         } else {

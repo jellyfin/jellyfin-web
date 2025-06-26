@@ -9,6 +9,8 @@ import Events, { Event } from 'utils/events';
 import serverNotifications from 'scripts/serverNotifications';
 import { SessionMessageType } from '@jellyfin/sdk/lib/generated-client/models/session-message-type';
 
+const FALLBACK_POLL_INTERVAL_MS = 10000;
+
 const useLiveTasks = (params: ScheduledTasksApiGetTasksRequest) => {
     const { __legacyApiClient__ } = useApi();
     const tasksQuery = useTasks(params);
@@ -25,7 +27,7 @@ const useLiveTasks = (params: ScheduledTasksApiGetTasksRequest) => {
                     queryKey: [ QUERY_KEY ]
                 });
             }
-        }, 1e4);
+        }, FALLBACK_POLL_INTERVAL_MS);
 
         __legacyApiClient__?.sendMessage(SessionMessageType.ScheduledTasksInfoStart, '1000,1000');
         Events.on(serverNotifications, SessionMessageType.ScheduledTasksInfo, onScheduledTasksUpdate);

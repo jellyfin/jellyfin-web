@@ -23,7 +23,6 @@ import RunningTasksWidget from '../components/widgets/RunningTasksWidget';
 import DevicesWidget from '../components/widgets/DevicesWidget';
 import useLiveSessions from '../features/sessions/hooks/useLiveSessions';
 import { useStartTask } from '../features/tasks/api/useStartTask';
-import Link from '@mui/material/Link';
 import ItemCountsWidget from '../components/widgets/ItemCountsWidget';
 import { useItemCounts } from '../features/metrics/api/useItemCounts';
 
@@ -41,11 +40,11 @@ export const Component = () => {
     const { data: devices } = useLiveSessions();
 
     const dayBefore = useMemo(() => (
-        subSeconds(new Date(), 24 * 60 * 60 * 1000).toISOString()
+        subSeconds(new Date(), 24 * 60 * 60).toISOString()
     ), []);
 
     const weekBefore = useMemo(() => (
-        subSeconds(new Date(), 7 * 24 * 60 * 60 * 1000).toISOString()
+        subSeconds(new Date(), 7 * 24 * 60 * 60).toISOString()
     ), []);
 
     const { data: logs, isPending: isLogsPending } = useLogEntries({
@@ -160,31 +159,17 @@ export const Component = () => {
                         </Grid>
                     ) : (
                         <>
-                            <Grid size={{ xs: 12, lg: 12 }}>
-                                <AlertsLogWidget alerts={alerts?.Items} />
-                            </Grid>
+                            {(alerts?.Items && alerts.Items.length > 0) && (
+                                <Grid size={{ xs: 12, lg: 12 }}>
+                                    <AlertsLogWidget alerts={alerts?.Items} />
+                                </Grid>
+                            )}
                             <Grid size={{ xs: 12, lg: 12 }}>
                                 <ServerPathWidget systemStorage={systemStorage} />
                             </Grid>
                         </>
                     )}
                 </Grid>
-
-                <Stack
-                    alignItems='center'
-                    marginTop={4}
-                >
-                    <Link
-                        href='https://jellyfin.org'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        sx={{
-                            fontWeight: 'bold'
-                        }}
-                    >
-                        Jellyfin
-                    </Link>
-                </Stack>
             </Box>
         </Page>
     );
