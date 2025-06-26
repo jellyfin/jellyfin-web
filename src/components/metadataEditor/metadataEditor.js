@@ -1,5 +1,5 @@
 import escapeHtml from 'escape-html';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import layoutManager from '../layoutManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import datetime from '../../scripts/datetime';

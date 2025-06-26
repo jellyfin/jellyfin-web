@@ -14,7 +14,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import itemShortcuts from '../shortcuts';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import './guide.scss';
 import './programs.scss';
 import 'material-design-icons-iconfont';

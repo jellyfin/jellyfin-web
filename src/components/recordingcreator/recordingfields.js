@@ -3,7 +3,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from '../../utils/events.ts';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import recordingHelper from './recordinghelper';
 
 import '../../elements/emby-button/emby-button';

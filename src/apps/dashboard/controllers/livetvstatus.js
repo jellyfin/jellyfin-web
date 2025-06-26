@@ -2,7 +2,7 @@ import 'jquery';
 
 import globalize from 'lib/globalize';
 import taskButton from 'scripts/taskbutton';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import browser from 'scripts/browser';

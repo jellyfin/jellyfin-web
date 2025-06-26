@@ -1,4 +1,4 @@
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 import { getParameterByName } from 'utils/url';

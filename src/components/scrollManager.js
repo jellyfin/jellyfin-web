@@ -3,7 +3,7 @@
  * @module components/scrollManager
  */
 
-import dom from '../scripts/dom';
+import dom from '../utils/dom';
 import appSettings from 'scripts/settings/appSettings';
 import layoutManager from './layoutManager';
 
