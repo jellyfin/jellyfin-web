@@ -2061,5 +2061,6 @@
     "PluginsLoadError": "Při načítání zásuvných modulů došlo k chybě.",
     "ButtonLearnMore": "Více informací",
     "DeleteRepositoryConfirmation": "Opravdu chcete odstranit tento repozitář?",
-    "TranscodingLoadError": "Načtení nastavení překódování se nezdařilo"
+    "TranscodingLoadError": "Načtení nastavení překódování se nezdařilo",
+    "LiveTVPageLoadError": "Načtení stránky s nahrávkami se nezdařilo"
 }
