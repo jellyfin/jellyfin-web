@@ -1333,6 +1333,7 @@ function updateUserData(card, userData) {
             innerCardFooter.appendChild(itemProgressBar);
         }
 
+        card.setAttribute('data-positionticks', userData.PlaybackPositionTicks);
         itemProgressBar.innerHTML = progressHtml;
     } else {
         itemProgressBar = card.querySelector('.itemProgressBar');
