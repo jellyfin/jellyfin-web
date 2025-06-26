@@ -2061,5 +2061,6 @@
     "ButtonLearnMore": "Mehr erfahren",
     "TranscodingLoadError": "Transcodierungseinstellungen konnten nicht geladen werden",
     "ConfirmDeleteRepository": "Repository löschen?",
-    "DeleteRepositoryConfirmation": "Sind Sie sicher, dass Sie dieses Repository löschen wollen?"
+    "DeleteRepositoryConfirmation": "Sind Sie sicher, dass Sie dieses Repository löschen wollen?",
+    "LiveTVPageLoadError": "Aufzeichnungsseite konnte nicht geladen werden"
 }
