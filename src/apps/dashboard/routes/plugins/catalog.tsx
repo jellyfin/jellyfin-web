@@ -14,6 +14,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Settings from '@mui/icons-material/Settings';
 import { Link } from 'react-router-dom';
+import { CATEGORY_LABELS } from 'apps/dashboard/features/plugins/constants/categoryLabels';
 
 export const Component = () => {
     const { data: packages, isPending: isPackagesPending } = usePackages();
@@ -28,6 +29,17 @@ export const Component = () => {
     const updateSearchQuery = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
     }, []);
+
+    const getCategoryLabel = (category: string) => {
+        const categoryKey = category.replace(/\s/g, '');
+
+        if (CATEGORY_LABELS[categoryKey]) {
+            return globalize.translate(CATEGORY_LABELS[categoryKey]);
+        }
+
+        console.warn('[AvailablePlugins] unmapped category label', category);
+        return category;
+    };
 
     if (isPackagesPending) {
         return <Loading />;
@@ -62,7 +74,7 @@ export const Component = () => {
 
                     {packageCategories.map(category => (
                         <Stack key={category} spacing={2}>
-                            <Typography variant='h2'>{category}</Typography>
+                            <Typography variant='h2'>{getCategoryLabel(category)}</Typography>
 
                             <Grid container spacing={2} columns={{ xs: 1, sm: 4, md: 9, lg: 8, xl: 10 }}>
                                 {getPackagesByCategory(filteredPackages, category).map(pkg => (

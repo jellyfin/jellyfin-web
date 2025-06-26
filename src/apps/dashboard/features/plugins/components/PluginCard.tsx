@@ -47,7 +47,7 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
 
     const navigateToPluginSettings = useCallback(() => {
         navigate(pluginPage);
-    }, [ navigate, location, configurationPage ]);
+    }, [ navigate, pluginPage ]);
 
     const onEnablePlugin = useCallback(() => {
         if (plugin.Id && plugin.Version) {
