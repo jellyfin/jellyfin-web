@@ -155,9 +155,19 @@ function clearWindowSize() {
  */
 export function getWindowSize() {
     if (!windowSize) {
+        const { innerWidth, innerHeight } = window;
+
+        // NOTE: webOS has a bug that reports window size as infinite on page load, so we use a fallback size of 4K
+        if (!Number.isFinite(innerWidth) || !Number.isFinite(innerHeight)) {
+            return {
+                innerHeight: Number.isFinite(innerWidth) ? innerWidth : 3840,
+                innerWidth: Number.isFinite(innerHeight) ? innerHeight : 2160
+            };
+        }
+
         windowSize = {
-            innerHeight: window.innerHeight,
-            innerWidth: window.innerWidth
+            innerHeight,
+            innerWidth
         };
 
         if (!windowSizeEventsBound) {
@@ -180,8 +190,8 @@ const standardWidths = [480, 720, 1280, 1440, 1920, 2560, 3840, 5120, 7680];
  * @returns {number} Screen width.
  */
 export function getScreenWidth() {
-    let width = window.innerWidth;
-    const height = window.innerHeight;
+    let width = Number.isFinite(window.innerWidth) ? window.innerWidth : 3840;
+    const height = Number.isFinite(window.innerHeight) ? window.innerHeight : 2160;
 
     if (height > width) {
         width = height * (16.0 / 9.0);
