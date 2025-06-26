@@ -1587,7 +1587,7 @@
     "LabelDate": "Data",
     "MessageRenameMediaFolder": "Mudar o nome de uma biblioteca multimédia fará com que todos os metadados se percam, por isso, procede com cuidado.",
     "LabelSyncPlaySettingsMinDelaySkipToSync": "Atraso mínimo do pulo de sincronização",
-    "LogLevel.None": "Nada",
+    "LogLevel.None": "Nenhum",
     "LogLevel.Critical": "Crítico",
     "New": "Novo",
     "SubtitleWhite": "Branco",
@@ -1598,8 +1598,8 @@
     "LabelSelectMono": "Mono",
     "HeaderEpisodesStatus": "Status dos episódios",
     "LabelSyncPlaySettingsSkipToSyncHelp": "Método de correção de sincronismo que consiste em buscar a posição estimada. A correção de sincronização deve estar habilitada.",
-    "LogLevel.Trace": "Vestígio",
-    "LogLevel.Debug": "Depurar",
+    "LogLevel.Trace": "Rastreio",
+    "LogLevel.Debug": "Depuração",
     "LogLevel.Information": "Informação",
     "MessageRepositoryInstallDisclaimer": "AVISO: A instalação de uma extensão de terceiros acarreta riscos. Ela pode conter código instável ou malicioso e pode ser alterado a qualquer momento. Instala apenas extensões de autores em quem confias.",
     "OptionAllowContentDownload": "Permitir transferências de multimédia",
@@ -2024,5 +2024,6 @@
     "HeaderUpdateRequired": "Atualização necessária",
     "ViewSettings": "Ver definições",
     "MessageForgotPasswordPinReset": "Introduz o PIN para concluir a redefinição da palavra-passe",
-    "DownloadManager": "Transferências"
+    "DownloadManager": "Transferências",
+    "LiveTVPageLoadError": "Falha ao carregar a página de gravações"
 }
