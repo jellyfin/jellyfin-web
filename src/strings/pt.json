@@ -2025,5 +2025,9 @@
     "ViewSettings": "Ver definições",
     "MessageForgotPasswordPinReset": "Introduz o PIN para concluir a redefinição da palavra-passe",
     "DownloadManager": "Transferências",
-    "LiveTVPageLoadError": "Falha ao carregar a página de gravações"
+    "LiveTVPageLoadError": "Falha ao carregar a página de gravações",
+    "ButtonLearnMore": "Saber mais",
+    "ButtonCreateBackup": "Criar cópia de segurança",
+    "BackupsPageLoadError": "Falha ao carregar página de cópias de segurança",
+    "ConfirmDeleteRepository": "Apagar repositório?"
 }
