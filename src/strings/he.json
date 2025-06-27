@@ -1993,5 +1993,6 @@
     "MessageRestoreDisclaimer": "אזהרה: שחזור מגיבוי קודם. השרת לא יהיה פעיל בזמן השחזור וכל מידע חדש שנוצר מאז הגיבוי יאבד.",
     "Success": "הצלחה",
     "MessageRestoreInProgress": "מתבצע שחזור",
-    "MessageRestoreSuccess": "השחזור הושלם בהצלחה"
+    "MessageRestoreSuccess": "השחזור הושלם בהצלחה",
+    "LiveTVPageLoadError": "נכשל בטעינת דף ההקלטות"
 }
