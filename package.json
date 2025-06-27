@@ -96,7 +96,7 @@
     "blurhash": "2.0.5",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
     "classnames": "2.5.1",
-    "core-js": "3.42.0",
+    "core-js": "3.43.0",
     "date-fns": "2.30.0",
     "dompurify": "2.5.8",
     "element-closest-polyfill": "1.0.7",
