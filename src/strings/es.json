@@ -2031,5 +2031,17 @@
     "HeaderUpdateRequired": "Actualización requerida",
     "ViewSettings": "Ajustes de vista",
     "DownloadManager": "Descargas",
-    "MessageForgotPasswordPinReset": "Introducir PIN aquí para terminar el restablecimiento de contraseña"
+    "MessageForgotPasswordPinReset": "Introducir PIN aquí para terminar el restablecimiento de contraseña",
+    "ButtonLearnMore": "Saber Más",
+    "Create": "Crear",
+    "HeaderBackupsHelp": "Crea y restaura instantáneas de tu servidor, que pueden incluir la base de datos, los metadatos, los subtítulos y el trickplay.",
+    "LabelBackupsUnavailable": "No hay respaldos disponibles",
+    "LabelDatabase": "Base de datos",
+    "BackupsPageLoadError": "Fallo al cargar la página de respaldos de datos",
+    "ButtonCreateBackup": "Crear respaldo de datos",
+    "LabelRestore": "Restaurar",
+    "ConfirmDeleteRepository": "Eliminar repositorio?",
+    "DeleteRepositoryConfirmation": "Estás seguro que quieres eliminar este repositorio?",
+    "LabelProgramData": "Datos del programa",
+    "LabelImageCache": "Caché de imágenes"
 }
