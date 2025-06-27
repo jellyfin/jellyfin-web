@@ -137,6 +137,14 @@ function supportsEac3(videoTestElement) {
 }
 
 function supportsAc3InHls(videoTestElement) {
+    // We use hls.js on WebOS 4 and newer and hls.js uses Media Sources Extensions (MSE) API.
+    // On WebOS MSE does support AC-3 and EAC-3 only on audio mp4 file but not on audiovideo mp4
+    // therefore until audio and video is not separated when generating stream and m3u8 this should
+    // return false.
+    if (browser.web0sVersion >= 4) {
+        return false;
+    }
+
     if (browser.tizen || browser.web0s) {
         return true;
     }
