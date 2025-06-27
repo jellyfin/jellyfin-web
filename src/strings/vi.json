@@ -2055,5 +2055,9 @@
     "DeleteRepositoryConfirmation": "Bạn có chắc là bạn muốn xóa kho lưu trữ này?",
     "ConfirmDeleteRepository": "Xóa kho lưu trữ?",
     "RepositoriesPageLoadError": "Không tải được kho lưu trữ",
-    "ButtonLearnMore": "Tìm Hiểu Thêm"
+    "ButtonLearnMore": "Tìm Hiểu Thêm",
+    "TranscodingLoadError": "Không tải được cài đặt chuyển mã",
+    "StorageType.CDRom": "CD-ROM",
+    "StorageType.Ram": "RAM",
+    "LiveTVPageLoadError": "Không tải được trang ghi"
 }
