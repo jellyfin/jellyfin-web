@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useApi } from 'hooks/useApi';
 import type { PluginInfo } from '@jellyfin/sdk/lib/generated-client/models/plugin-info';
@@ -37,15 +37,17 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
     const [ isUninstallConfirmOpen, setIsUninstallConfirmOpen ] = useState(false);
     const { api } = useApi();
 
-    const navigateToPluginSettings = useCallback(() => {
-        if (configurationPage) {
-            navigate({
-                pathname: '/configurationpage',
-                search: `?name=${encodeURIComponent(configurationPage.Name || '')}`,
-                hash: location.hash
-            });
+    const pluginPage = useMemo(() => (
+        {
+            pathname: '/configurationpage',
+            search: `?name=${encodeURIComponent(configurationPage?.Name || '')}`,
+            hash: location.hash
         }
-    }, [ navigate, location, configurationPage ]);
+    ), [ location, configurationPage ]);
+
+    const navigateToPluginSettings = useCallback(() => {
+        navigate(pluginPage);
+    }, [ navigate, pluginPage ]);
 
     const onEnablePlugin = useCallback(() => {
         if (plugin.Id && plugin.Version) {
@@ -105,12 +107,12 @@ const PluginCard = ({ plugin, configurationPage }: IProps) => {
             <BaseCard
                 title={plugin.Name}
                 secondaryTitle={plugin.Version}
+                to={pluginPage}
                 text={`${globalize.translate('LabelStatus')} ${plugin.Status}`}
                 image={plugin.HasImage ? api?.getUri(`/Plugins/${plugin.Id}/${plugin.Version}/Image`) : null}
                 icon={<ExtensionIcon sx={{ width: 80, height: 80 }} />}
                 action={true}
                 actionRef={actionRef}
-                onClick={navigateToPluginSettings}
                 onActionClick={onActionClick}
             />
             <Menu
