@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import formatRelative from 'date-fns/formatRelative';
 import { getLocale } from 'utils/dateFnsLocale';
 import Stack from '@mui/material/Stack';
+import getLogLevelColor from '../utils/getLogLevelColor';
+import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 
 type IProps = {
     item: ActivityLogEntry;
@@ -29,7 +31,7 @@ const ActivityListItem = ({ item, displayShortOverview }: IProps) => {
         <ListItem disablePadding>
             <ListItemButton>
                 <ListItemAvatar>
-                    <Avatar sx={{ bgcolor: 'primary.main' }}>
+                    <Avatar sx={{ bgcolor: getLogLevelColor(item.Severity || LogLevel.Information) + '.main' }}>
                         <Notifications sx={{ color: '#fff' }} />
                     </Avatar>
                 </ListItemAvatar>
