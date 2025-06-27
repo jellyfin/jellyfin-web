@@ -2053,9 +2053,10 @@
     "StorageType.Removable": "Retirable",
     "StorageType.Unknown": "Desconegut",
     "PluginsLoadError": "S'ha produït un error en carregar els complements.",
-    "ButtonLearnMore": "En voleu saber més?",
+    "ButtonLearnMore": "Saber més",
     "RepositoriesPageLoadError": "No s'han pogut carregar els repositoris",
     "TranscodingLoadError": "No s'han pogut carregar els paràmetres de transcodificació",
     "ConfirmDeleteRepository": "Desitgeu eliminar el repositori?",
-    "DeleteRepositoryConfirmation": "N'esteu segur, de voler esborrar aquest repositori?"
+    "DeleteRepositoryConfirmation": "N'esteu segur, de voler esborrar aquest repositori?",
+    "LiveTVPageLoadError": "La càrrega de la pàgina de gravacions ha fallat"
 }
