@@ -3,13 +3,11 @@ import React from 'react';
 import StorageListItem from 'apps/dashboard/features/storage/components/StorageListItem';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
-import type { SystemStorageDto } from '@jellyfin/sdk/lib/generated-client/models/system-storage-dto';
+import { useSystemStorage } from 'apps/dashboard/features/storage/api/useSystemStorage';
 
-type IProps = {
-    systemStorage?: SystemStorageDto;
-};
+const ServerPathWidget = () => {
+    const { data: systemStorage } = useSystemStorage();
 
-const ServerPathWidget = ({ systemStorage }: IProps) => {
     return (
         <Widget
             title={globalize.translate('HeaderPaths')}

@@ -9,13 +9,11 @@ import React from 'react';
 
 import MetricCard from 'apps/dashboard/features/metrics/components/MetricCard';
 import globalize from 'lib/globalize';
-import type { ItemCounts } from '@jellyfin/sdk/lib/generated-client/models/item-counts';
+import { useItemCounts } from 'apps/dashboard/features/metrics/api/useItemCounts';
 
-type IProps = {
-    counts?: ItemCounts;
-};
+const ItemCountsWidget = () => {
+    const { data: counts } = useItemCounts();
 
-const ItemCountsWidget = ({ counts }: IProps) => {
     return (
         <Grid
             container

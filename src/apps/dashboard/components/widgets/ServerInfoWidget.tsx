@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import type { SystemInfo } from '@jellyfin/sdk/lib/generated-client/models';
+import Skeleton from '@mui/material/Skeleton';
+import { useSystemInfo } from 'hooks/useSystemInfo';
 
 type IProps = {
     systemInfo?: SystemInfo;
@@ -14,7 +16,9 @@ type IProps = {
     onShutdownClick?: () => void;
 };
 
-const ServerInfoWidget = ({ systemInfo, onScanLibrariesClick, onRestartClick, onShutdownClick }: IProps) => {
+const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClick }: IProps) => {
+    const { data: systemInfo, isPending } = useSystemInfo();
+
     return (
         <Widget
             title={globalize.translate('TabServer')}
@@ -32,10 +36,21 @@ const ServerInfoWidget = ({ systemInfo, onScanLibrariesClick, onRestartClick, on
                             <Typography fontWeight='bold'>{globalize.translate('LabelBuildVersion')}</Typography>
                         </Stack>
                         <Stack flexGrow={5} gap={1}>
-                            <Typography>{systemInfo?.ServerName}</Typography>
-                            <Typography>{systemInfo?.Version}</Typography>
-                            <Typography>{__PACKAGE_JSON_VERSION__}</Typography>
-                            <Typography>{__JF_BUILD_VERSION__}</Typography>
+                            {isPending ? (
+                                <>
+                                    <Skeleton />
+                                    <Skeleton />
+                                    <Skeleton />
+                                    <Skeleton />
+                                </>
+                            ) : (
+                                <>
+                                    <Typography>{systemInfo?.ServerName}</Typography>
+                                    <Typography>{systemInfo?.Version}</Typography>
+                                    <Typography>{__PACKAGE_JSON_VERSION__}</Typography>
+                                    <Typography>{__JF_BUILD_VERSION__}</Typography>
+                                </>
+                            )}
                         </Stack>
                     </Stack>
                 </Paper>

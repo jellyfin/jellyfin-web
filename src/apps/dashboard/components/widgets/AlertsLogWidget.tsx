@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
 import List from '@mui/material/List';
 import ActivityListItem from 'apps/dashboard/features/activity/components/ActivityListItem';
-import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models';
+import subSeconds from 'date-fns/subSeconds';
+import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
 
-type IProps = {
-    alerts?: ActivityLogEntry[];
-};
+const AlertsLogWidget = () => {
+    const weekBefore = useMemo(() => (
+        subSeconds(new Date(), 7 * 24 * 60 * 60).toISOString()
+    ), []);
 
-const AlertsLogWidget = ({ alerts }: IProps) => {
-    if (alerts?.length == 0) return null;
+    const { data: alerts, isPending } = useLogEntries({
+        startIndex: 0,
+        limit: 4,
+        minDate: weekBefore,
+        hasUserId: false
+    });
+
+    if (isPending || alerts?.Items?.length == 0) return null;
 
     return (
         <Widget
@@ -18,7 +26,7 @@ const AlertsLogWidget = ({ alerts }: IProps) => {
             href='/dashboard/activity?useractivity=false'
         >
             <List sx={{ bgcolor: 'background.paper' }}>
-                {alerts?.map(entry => (
+                {alerts?.Items?.map(entry => (
                     <ActivityListItem
                         key={entry.Id}
                         item={entry}

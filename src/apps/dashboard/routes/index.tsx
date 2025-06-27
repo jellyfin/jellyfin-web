@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import Box from '@mui/material/Box';
@@ -10,21 +10,14 @@ import AlertsLogWidget from '../components/widgets/AlertsLogWidget';
 import useTheme from '@mui/material/styles/useTheme';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Stack from '@mui/material/Stack';
-import { useSystemStorage } from '../features/storage/api/useSystemStorage';
-import subSeconds from 'date-fns/subSeconds';
-import { useLogEntries } from '../features/activity/api/useLogEntries';
-import { useSystemInfo } from 'hooks/useSystemInfo';
-import Loading from 'components/loading/LoadingComponent';
 import useShutdownServer from '../features/system/api/useShutdownServer';
 import useRestartServer from '../features/system/api/useRestartServer';
 import ConfirmDialog from 'components/ConfirmDialog';
 import useLiveTasks from '../features/tasks/hooks/useLiveTasks';
 import RunningTasksWidget from '../components/widgets/RunningTasksWidget';
 import DevicesWidget from '../components/widgets/DevicesWidget';
-import useLiveSessions from '../features/sessions/hooks/useLiveSessions';
 import { useStartTask } from '../features/tasks/api/useStartTask';
 import ItemCountsWidget from '../components/widgets/ItemCountsWidget';
-import { useItemCounts } from '../features/metrics/api/useItemCounts';
 
 export const Component = () => {
     const theme = useTheme();
@@ -36,34 +29,7 @@ export const Component = () => {
     const restartServer = useRestartServer();
     const shutdownServer = useShutdownServer();
 
-    const { data: tasks, isPending: isTasksPending } = useLiveTasks({ isHidden: false });
-    const { data: devices } = useLiveSessions();
-
-    const dayBefore = useMemo(() => (
-        subSeconds(new Date(), 24 * 60 * 60).toISOString()
-    ), []);
-
-    const weekBefore = useMemo(() => (
-        subSeconds(new Date(), 7 * 24 * 60 * 60).toISOString()
-    ), []);
-
-    const { data: logs, isPending: isLogsPending } = useLogEntries({
-        startIndex: 0,
-        limit: 7,
-        minDate: dayBefore,
-        hasUserId: true
-    });
-
-    const { data: alerts, isPending: isAlertsPending } = useLogEntries({
-        startIndex: 0,
-        limit: 4,
-        minDate: weekBefore,
-        hasUserId: false
-    });
-
-    const { data: systemStorage, isPending: isSystemStoragePending } = useSystemStorage();
-    const { data: systemInfo, isPending: isSystemInfoPending } = useSystemInfo();
-    const { data: itemCounts, isPending: isItemCountsPending } = useItemCounts();
+    const { data: tasks } = useLiveTasks({ isHidden: false });
 
     const promptRestart = useCallback(() => {
         setIsRestartConfirmDialogOpen(true);
@@ -101,13 +67,6 @@ export const Component = () => {
         setIsShutdownConfirmDialogOpen(false);
     }, [ shutdownServer ]);
 
-    const isPending = isLogsPending || isAlertsPending || isSystemStoragePending
-        || isSystemInfoPending || isTasksPending || isItemCountsPending;
-
-    if (isPending) {
-        return <Loading />;
-    }
-
     return (
         <Page
             id='dashboardPage'
@@ -137,35 +96,32 @@ export const Component = () => {
                     <Grid size={{ xs: 12, md: 12, xl: 6 }}>
                         <Stack spacing={3}>
                             <ServerInfoWidget
-                                systemInfo={systemInfo}
                                 onScanLibrariesClick={onScanLibraries}
                                 onRestartClick={promptRestart}
                                 onShutdownClick={promptShutdown}
                             />
-                            <ItemCountsWidget counts={itemCounts} />
+                            <ItemCountsWidget />
                             <RunningTasksWidget tasks={tasks} />
-                            <DevicesWidget devices={devices} />
+                            <DevicesWidget />
                         </Stack>
                     </Grid>
                     <Grid size={{ xs: 12, md: 6, lg: 12, xl: 3 }}>
-                        <ActivityLogWidget logs={logs?.Items} />
+                        <ActivityLogWidget />
                     </Grid>
                     {isMedium || isExtraLarge ? (
                         <Grid size={{ md: 6, xl: 3 }}>
                             <Stack spacing={3}>
-                                <AlertsLogWidget alerts={alerts?.Items} />
-                                <ServerPathWidget systemStorage={systemStorage} />
+                                <AlertsLogWidget />
+                                <ServerPathWidget />
                             </Stack>
                         </Grid>
                     ) : (
                         <>
-                            {(alerts?.Items && alerts.Items.length > 0) && (
-                                <Grid size={{ xs: 12, lg: 12 }}>
-                                    <AlertsLogWidget alerts={alerts?.Items} />
-                                </Grid>
-                            )}
                             <Grid size={{ xs: 12, lg: 12 }}>
-                                <ServerPathWidget systemStorage={systemStorage} />
+                                <AlertsLogWidget />
+                            </Grid>
+                            <Grid size={{ xs: 12, lg: 12 }}>
+                                <ServerPathWidget />
                             </Grid>
                         </>
                     )}

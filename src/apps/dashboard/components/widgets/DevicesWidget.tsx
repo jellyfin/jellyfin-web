@@ -1,15 +1,13 @@
 import React from 'react';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
-import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
 import DeviceCard from 'apps/dashboard/features/devices/components/DeviceCard';
 import Stack from '@mui/material/Stack';
+import useLiveSessions from 'apps/dashboard/features/sessions/hooks/useLiveSessions';
 
-type IProps = {
-    devices?: SessionInfo[];
-};
+const DevicesWidget = () => {
+    const { data: devices } = useLiveSessions();
 
-const DevicesWidget = ({ devices }: IProps) => {
     return (
         <Widget
             title={globalize.translate('HeaderDevices')}
