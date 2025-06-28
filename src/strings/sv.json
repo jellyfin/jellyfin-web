@@ -2056,5 +2056,6 @@
     "TranscodingLoadError": "Kunde inte läsa in transkodningsinställningarna",
     "ButtonLearnMore": "Läs mer",
     "LabelImageCache": "Bildcache",
-    "StorageType.Fixed": "Åtgärdat"
+    "StorageType.Fixed": "Åtgärdat",
+    "LiveTVPageLoadError": "Misslyckades med att ladda inspelningssidan"
 }
