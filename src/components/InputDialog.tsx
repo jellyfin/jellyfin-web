@@ -46,12 +46,13 @@ const InputDialog = ({ open, title, label, onClose, confirmButtonText, onConfirm
                         label={label}
                         value={text}
                         onChange={onTextChange}
+                        variant='standard'
                     />
                 </Stack>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onConfirmClick}>
-                    {confirmButtonText || globalize.translate('ButtonGotIt')}
+                    {confirmButtonText || globalize.translate('ButtonOk')}
                 </Button>
             </DialogActions>
         </Dialog>
