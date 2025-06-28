@@ -93,7 +93,7 @@ export const Component = () => {
             />
             <Box className='content-primary'>
                 <Grid container spacing={3}>
-                    <Grid size={{ xs: 12, md: 12, xl: 6 }}>
+                    <Grid size={{ xs: 12, md: 12, lg: 8, xl: 6 }}>
                         <Stack spacing={3}>
                             <ServerInfoWidget
                                 onScanLibrariesClick={onScanLibraries}
@@ -105,7 +105,7 @@ export const Component = () => {
                             <DevicesWidget />
                         </Stack>
                     </Grid>
-                    <Grid size={{ xs: 12, md: 6, lg: 12, xl: 3 }}>
+                    <Grid size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
                         <ActivityLogWidget />
                     </Grid>
                     {isMedium || isExtraLarge ? (
@@ -116,14 +116,12 @@ export const Component = () => {
                             </Stack>
                         </Grid>
                     ) : (
-                        <>
-                            <Grid size={{ xs: 12, lg: 12 }}>
+                        <Grid size={12}>
+                            <Stack spacing={3}>
                                 <AlertsLogWidget />
-                            </Grid>
-                            <Grid size={{ xs: 12, lg: 12 }}>
                                 <ServerPathWidget />
-                            </Grid>
-                        </>
+                            </Stack>
+                        </Grid>
                     )}
                 </Grid>
             </Box>
