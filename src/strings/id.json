@@ -1948,5 +1948,6 @@
     "LabelAudioTagSettings": "Pengaturan Tag Audio",
     "Custom": "Kustom",
     "CopyLogSuccess": "Catatan konten berhasil di salin.",
-    "CustomSplashScreenSize": "Kustom gambar harus dalam 16x9 aspek rasio dengan ukuran minimum 1920x1080."
+    "CustomSplashScreenSize": "Kustom gambar harus dalam 16x9 aspek rasio dengan ukuran minimum 1920x1080.",
+    "AllowFmp4TranscodingContainerHelp": "Izinkan kontainer transkode fMP4 pada tuner ini untuk mengaktifkan konten HEVC dan HDR. Tidak semua tuner kompatibel dengan kontainer ini. Nonaktifkan jika Anda mengalami masalah pemutaran."
 }
