@@ -244,7 +244,7 @@
     "ButtonOpen": "Deschide",
     "ButtonParentalControl": "Control parental",
     "ButtonPause": "Pauză",
-    "ConfirmEndPlayerSession": "Dorești să oprești serverul Jellyfin pe {0}?",
+    "ConfirmEndPlayerSession": "Doriti sa inchideti Jellyfin pe {0}?",
     "Connect": "Conectare",
     "ContinueWatching": "Continuă vizionarea",
     "DatePlayed": "Data redării",
@@ -897,7 +897,7 @@
     "MessageDeleteTaskTrigger": "Sigur doriți să ștergeți acest declanșator de activitate?",
     "MessageCreateAccountAt": "Crează un cont la {0}",
     "MessageContactAdminToResetPassword": "Vă rugăm să contactați administratorul de sistem pentru a vă reseta parola.",
-    "MessageConfirmShutdown": "Sigur doriți să opriți serverul?",
+    "MessageConfirmShutdown": "Sigur dorești sa inchizi serverul?",
     "MessageConfirmRevokeApiKey": "Sigur doriți să revocați această cheie API? Conexiunea aplicației la acest server va fi terminată brusc.",
     "MessageConfirmRestart": "Sigur doriți să restartați Jellyfin?",
     "MessageConfirmRemoveMediaLocation": "Sigur doriți să eliminați această locație?",
@@ -1381,7 +1381,7 @@
     "Authorize": "Autorizează",
     "LabelMaxMuxingQueueSizeHelp": "Numărul maxim de pachete care pot fi tamponate în așteptarea inițializării tuturor fluxurilor. Încercați să o măriți dacă întâmpinați încă o eroare „Prea multe pachete tamponate pentru fluxul de ieșire” în jurnalele FFmpeg. Valoarea recomandată este 2048.",
     "LabelMaxMuxingQueueSize": "Dimensiunea maximă a cozii de mux",
-    "LabelTonemappingParamHelp": "Reglați algoritmul de mapare a tonurilor. Valorile recomandate și implicite sunt NaN. În general, lăsați-l necompletat.",
+    "LabelTonemappingParamHelp": "Ajustați algoritmul de mapare a tonurilor. In general, lasati-l gol.",
     "LabelTonemappingParam": "Parametrii mapării tonurilor",
     "LabelTonemappingPeakHelp": "În schimb, înlocuiți valoarea metadatelor încorporate pentru semnalul de intrare cu această valoare de vârf. Valoarea implicită este 100 (1000 nit).",
     "LabelTonemappingPeak": "Vârful mapării tonurilor",
@@ -2061,5 +2061,6 @@
     "Create": "Crează",
     "BackupsPageLoadError": "A eșuat să încarce pagina de copii de rezervă",
     "ButtonCreateBackup": "Crează copie de rezervă",
-    "LabelImageCache": "Cache imagine"
+    "LabelImageCache": "Cache imagine",
+    "LiveTVPageLoadError": "Nu s-a putut incarca pagina de înregistrari"
 }
