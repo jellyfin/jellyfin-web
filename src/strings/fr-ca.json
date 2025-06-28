@@ -165,7 +165,7 @@
     "CopyStreamURL": "Copier l'URL du stream",
     "ContinueWatching": "Continuer à visionner",
     "Connect": "Connexion",
-    "ConfirmEndPlayerSession": "Voulez-vous éteindre Jellyfin sur {0}?",
+    "ConfirmEndPlayerSession": "Voulez-vous arrêter Jellyfin sur {0}?",
     "ConfirmDeletion": "Confirmer la suppression",
     "ConfirmDeleteItems": "Supprimer ces éléments les effaceront du disque et de votre médiathèque. Êtes-vous sûr de vouloir continuer?",
     "ConfirmDeleteImage": "Effacer l'image?",
