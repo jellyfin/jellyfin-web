@@ -102,7 +102,7 @@ export const Component = () => {
                                     {globalize.translate('SettingsSaved')}
                                 </Alert>
                             )}
-                            <Typography variant='h2'>{globalize.translate('TabNfoSettings')}</Typography>
+                            <Typography variant='h1'>{globalize.translate('TabNfoSettings')}</Typography>
                             <Typography>{globalize.translate('HeaderKodiMetadataHelp')}</Typography>
 
                             <TextField
