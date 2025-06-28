@@ -7,9 +7,9 @@ import VideoLibrary from '@mui/icons-material/VideoLibrary';
 import Grid from '@mui/material/Grid2';
 import React from 'react';
 
+import { useItemCounts } from 'apps/dashboard/features/metrics/api/useItemCounts';
 import MetricCard from 'apps/dashboard/features/metrics/components/MetricCard';
 import globalize from 'lib/globalize';
-import { useItemCounts } from 'apps/dashboard/features/metrics/api/useItemCounts';
 
 const ItemCountsWidget = () => {
     const { data: counts } = useItemCounts();
