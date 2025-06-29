@@ -336,6 +336,7 @@ declare module 'jellyfin-apiclient' {
         handleMessageReceived(msg: any): void;
         logout(): Promise<void>;
         minServerVersion(val?: string): string;
+        updateSavedServerId(server: any): Promise<void>;
         user(apiClient: ApiClient): Promise<any>;
     }
 
