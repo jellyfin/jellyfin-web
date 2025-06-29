@@ -1,3 +1,4 @@
+import appSettings from 'scripts/settings/appSettings';
 import browser from '../../scripts/browser';
 import dom from '../../scripts/dom';
 import './emby-checkbox.scss';
@@ -6,6 +7,11 @@ import 'webcomponents.js/webcomponents-lite';
 const EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);
 
 function onKeyDown(e) {
+    // Ignore GamepadA onKeyDown since it will click the checkbox onKeyUp.
+    if (appSettings.enableGamepad && e.key === 'GamepadA') {
+        return;
+    }
+
     // Don't submit form on enter
     // Real (non-emulator) Tizen does nothing on Space
     if (e.keyCode === 13 || (e.keyCode === 32 && browser.tizen)) {
