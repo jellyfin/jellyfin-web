@@ -79,7 +79,8 @@ function onMouseDown(e) {
 }
 
 function onKeyDown(e) {
-    if (e.keyCode === 13 && !enableNativeMenu()) {
+    // Xbox controller for UWP WebView2 uses keycode 195 to select.
+    if (e.keyCode === 13 && !enableNativeMenu() || (e.keyCode === 195 && browser.edgeChromium)) {
         e.preventDefault();
         showActionSheet(this);
     }

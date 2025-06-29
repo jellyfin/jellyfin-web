@@ -138,12 +138,18 @@ export class BookPlayer {
 
         if (!this.loaded) return;
         switch (key) {
+            case 'NavigationRight':
+            case 'GamepadDPadRight':
+            case 'GamepadLeftThumbRight':
             case 'l':
             case 'ArrowRight':
             case 'Right':
                 e.preventDefault();
                 this.next();
                 break;
+            case 'NavigationLeft':
+            case 'GamepadDPadLeft':
+            case 'GamepadLeftThumbLeft':
             case 'j':
             case 'ArrowLeft':
             case 'Left':
