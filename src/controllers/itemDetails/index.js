@@ -1635,6 +1635,8 @@ function renderSeriesSchedule(page, item) {
         if (resp.status === 403) {
             page.querySelector('#seriesScheduleSection').classList.add('hide');
         }
+
+        loading.hide();
     });
 }
 
