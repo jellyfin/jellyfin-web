@@ -8,7 +8,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
 import './style.scss';
 import template from './filterdialog.template.html';
-import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
+import { stopMultiSelect } from '../multiSelect/multiSelect';
 
 function merge(resultItems, queryItems, delimiter) {
     if (!queryItems) {
@@ -69,6 +69,22 @@ function loadDynamicFilters(context, apiClient, userId, itemQuery) {
     });
 }
 
+function updateStandardFilterControls(query, context) {
+    for (const elem of context.querySelectorAll('.chkStandardFilter')) {
+        const filters = `,${query.Filters || ''}`;
+        const filterName = elem.getAttribute('data-filter');
+        elem.checked = filters.includes(`,${filterName}`);
+    }
+}
+
+function updateSeriesStatusFilterControls(query, context) {
+    for (const elem of context.querySelectorAll('.chkStatus')) {
+        const filters = `,${query.SeriesStatus || ''}`;
+        const filterName = elem.getAttribute('data-filter');
+        elem.checked = filters.includes(`,${filterName}`);
+    }
+}
+
 /**
      * @param context {HTMLDivElement} Dialog
      * @param options {any} Options
@@ -79,11 +95,7 @@ function updateFilterControls(context, options) {
     if (options.mode === 'livetvchannels') {
         context.querySelector('.chkFavorite').checked = query.IsFavorite === true;
     } else {
-        for (const elem of context.querySelectorAll('.chkStandardFilter')) {
-            const filters = `,${query.Filters || ''}`;
-            const filterName = elem.getAttribute('data-filter');
-            elem.checked = filters.includes(`,${filterName}`);
-        }
+        updateStandardFilterControls(query, context);
     }
 
     for (const elem of context.querySelectorAll('.chkVideoTypeFilter')) {
@@ -103,11 +115,7 @@ function updateFilterControls(context, options) {
     context.querySelector('#chkSpecialEpisode').checked = query.ParentIndexNumber === 0;
     context.querySelector('#chkMissingEpisode').checked = query.IsMissing === true;
     context.querySelector('#chkFutureEpisode').checked = query.IsUnaired === true;
-    for (const elem of context.querySelectorAll('.chkStatus')) {
-        const filters = `,${query.SeriesStatus || ''}`;
-        const filterName = elem.getAttribute('data-filter');
-        elem.checked = filters.includes(`,${filterName}`);
-    }
+    updateSeriesStatusFilterControls(query, context);
 }
 
 /**
@@ -188,23 +196,19 @@ class FilterDialog {
         const query = this.options.query;
         const filterName = elem.getAttribute('data-filter');
         let filters = query.Filters || '';
+        filters = (`,${filters}`).replace(`,${filterName}`, '').substring(1);
         if (filterName === 'IsPlayed') {
-            const unPlayedCheckbox = document.querySelector('.chkStandardFilter[data-filter="IsUnPlayed"]');
-            unPlayedCheckbox.checked = false;
             filters = (`,${filters}`).replace(',IsUnPlayed', '').substring(1);
         } else if (filterName === 'IsUnPlayed') {
-            const playedCheckbox = document.querySelector('.chkStandardFilter[data-filter="IsPlayed"]');
-            playedCheckbox.checked = false;
             filters = (`,${filters}`).replace(',IsPlayed', '').substring(1);
         }
-        filters = (`,${filters}`).replace(`,${filterName}`, '').substring(1);
-
         if (elem.checked) {
             filters = filters ? `${filters},${filterName}` : filterName;
         }
 
         query.StartIndex = 0;
         query.Filters = filters;
+        updateStandardFilterControls(query, document);
         triggerChange(this);
     }
 
@@ -232,15 +236,13 @@ class FilterDialog {
     onStatusChange(elem) {
         const query = this.options.query;
         const filterName = elem.getAttribute('data-filter');
-        let filters = query.SeriesStatus || '';
-        filters = (`,${filters}`).replace(`,${filterName}`, '').substring(1);
-
+        query.SeriesStatus = '';
         if (elem.checked) {
-            filters = filters ? `${filters},${filterName}` : filterName;
+            query.SeriesStatus = filterName;
         }
 
-        query.SeriesStatus = filters;
         query.StartIndex = 0;
+        updateSeriesStatusFilterControls(query, document);
         triggerChange(this);
     }
 
@@ -363,7 +365,7 @@ class FilterDialog {
                 filters = filters
                     .split(delimiter)
                     .filter((f) => f !== filterName)
-                    .join(delimiter);;
+                    .join(delimiter);
                 if (chkGenreFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -380,7 +382,7 @@ class FilterDialog {
                 filters = filters
                     .split(delimiter)
                     .filter((f) => f !== filterName)
-                    .join(delimiter);;
+                    .join(delimiter);
                 if (chkTagFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -397,7 +399,7 @@ class FilterDialog {
                 filters = filters
                     .split(delimiter)
                     .filter((f) => f !== filterName)
-                    .join(delimiter);;
+                    .join(delimiter);
                 if (chkYearFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
