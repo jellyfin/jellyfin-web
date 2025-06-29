@@ -16,7 +16,7 @@ import { getSystemInfoQuery } from 'hooks/useSystemInfo';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import datetime from 'scripts/datetime';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import serverNotifications from 'scripts/serverNotifications';
 import taskButton from 'scripts/taskbutton';
 import Dashboard from 'utils/dashboard';

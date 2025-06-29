@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
-import dom from '../../../../scripts/dom';
+import dom from '../../../../utils/dom';
 import confirm from '../../../../components/confirm/confirm';
 import UserCardBox from '../../../../components/dashboard/users/UserCardBox';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
