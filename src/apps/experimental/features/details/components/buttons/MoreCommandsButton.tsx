@@ -30,12 +30,15 @@ function playAllFromHere(opts: PlayAllFromHereOptions) {
     let startIndex;
 
     for (let i = 0, length = items?.length; i < length; i++) {
+        if (!items[i]) continue;
+
         if (items[i] === item) {
             foundCard = true;
             startIndex = i;
         }
+
         if (foundCard || !queue) {
-            ids.push(items[i].Id);
+            ids.push(items[i]?.Id);
         }
     }
 
