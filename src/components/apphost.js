@@ -265,7 +265,11 @@ const supportedFeatures = function () {
     }
 
     features.push(AppFeature.DisplayLanguage);
-    features.push(AppFeature.DisplayMode);
+
+    if (!browser.xboxOne) {
+        features.push(AppFeature.DisplayMode);
+    }
+
     features.push(AppFeature.TargetBlank);
     features.push(AppFeature.Screensaver);
 
