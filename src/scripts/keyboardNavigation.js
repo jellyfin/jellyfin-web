@@ -272,7 +272,7 @@ function attachGamepadScript() {
 
 // No need to check for gamepads manually at load time, the eventhandler will be fired for that
 // Not needed for UWP
-if (navigator.getGamepads && appSettings.enableGamepad() && !browser.xboxOne) {
+if (navigator.getGamepads && appSettings.enableGamepad() && !browser.edgeUwp) {
     window.addEventListener('gamepadconnected', attachGamepadScript);
 }
 
