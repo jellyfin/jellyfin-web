@@ -558,7 +558,7 @@
     "CopyStreamURLSuccess": "הקישור הועתק בהצלחה.",
     "CopyStreamURL": "העתק קישור זרם",
     "Connect": "התחבר",
-    "ConfirmEndPlayerSession": "‫האם לכבות את ג'ליפין על {0}?",
+    "ConfirmEndPlayerSession": "‫האם ברצונך לכבות את Jellyfin ב-{0}?",
     "CommunityRating": "דירוג קהילה",
     "ButtonWebsite": "אתר אינטרנט",
     "ButtonSubmit": "שלח",
