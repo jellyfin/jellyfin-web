@@ -24,25 +24,30 @@ const KeyNames = {
     // UWP WebView section start --
     // Navigation Up/Down/Left/Right is part of TVJS directionalnavigation-1.0.0.0.js
     // Unsure what this is used for. Media remote?
-    138: 'NavigationUp',
-    139: 'NavigationDown',
-    140: 'NavigationLeft',
-    141: 'NavigationRight',
+    138: 'ArrowUp',
+    139: 'ArrowDown',
+    140: 'ArrowLeft',
+    141: 'ArrowRight',
+
     195: 'GamepadA',
     // Currently Xbox UWP WebView 2 sends code 27 (Escape instead) despite being undocumented
     // Desktop UWP unchanged
-    196: 'GamepadB',
-    203: 'GamepadDPadUp',
-    204: 'GamepadDPadDown',
-    205: 'GamepadDPadLeft',
-    206: 'GamepadDPadRight',
+    // GamepadB
+    196: 'Escape',
+
+    // DPad Up/Down/Left/Right
+    203: 'ArrowUp',
+    204: 'ArrowDown',
+    205: 'ArrowLeft',
+    206: 'ArrowRight',
+
     // Currently Xbox UWP WebView 2 sends Arrow keycodes despite being undocumented
     // Desktop UWP unchanged
-    // Left Thumbstick
-    211: 'GamepadLeftThumbUp',
-    212: 'GamepadLeftThumbDown',
-    214: 'GamepadLeftThumbLeft',
-    213: 'GamepadLeftThumbRight',
+    // Left Thumbstick Up/Down/Left/Right
+    211: 'ArrowUp',
+    212: 'ArrowDown',
+    214: 'ArrowLeft',
+    213: 'ArrowRight',
     // End of UWP WebView Section
 
     // MediaRewind (Tizen/WebOS)
@@ -68,11 +73,7 @@ const KeyNames = {
 /**
  * Keys used for keyboard navigation.
  */
-const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'BrowserHome', 'Find',
-    'NavigationUp', 'NavigationDown', 'NavigationLeft', 'NavigationRight',
-    'GamepadDPadUp', 'GamepadDPadDown', 'GamepadDPadLeft', 'GamepadDPadRight',
-    'GamepadLeftThumbUp', 'GamepadLeftThumbDown', 'GamepadLeftThumbLeft', 'GamepadLeftThumbRight'];
-
+const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'BrowserHome', 'Find'];
 /**
  * Keys used for media playback control.
  */
@@ -173,9 +174,6 @@ export function enable() {
         let capture = true;
 
         switch (key) {
-            case 'NavigationLeft':
-            case 'GamepadDPadLeft':
-            case 'GamepadLeftThumbLeft':
             case 'ArrowLeft':
                 if (!isInteractiveElement(document.activeElement)) {
                     inputManager.handleCommand('left');
@@ -183,15 +181,9 @@ export function enable() {
                     capture = false;
                 }
                 break;
-            case 'NavigationUp':
-            case 'GamepadDPadUp':
-            case 'GamepadLeftThumbUp':
             case 'ArrowUp':
                 inputManager.handleCommand('up');
                 break;
-            case 'NavigationRight':
-            case 'GamepadDPadRight':
-            case 'GamepadLeftThumbRight':
             case 'ArrowRight':
                 if (!isInteractiveElement(document.activeElement)) {
                     inputManager.handleCommand('right');
@@ -199,9 +191,6 @@ export function enable() {
                     capture = false;
                 }
                 break;
-            case 'NavigationDown':
-            case 'GamepadDPadDown':
-            case 'GamepadLeftThumbDown':
             case 'ArrowDown':
                 inputManager.handleCommand('down');
                 break;
@@ -209,7 +198,6 @@ export function enable() {
             case 'GamepadA':
                 inputManager.handleCommand('select');
                 break;
-            case 'GamepadB':
             case 'Back':
                 inputManager.handleCommand('back');
                 break;
