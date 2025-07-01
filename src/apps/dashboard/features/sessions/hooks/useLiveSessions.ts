@@ -9,18 +9,18 @@ import { QUERY_KEY, useSessions } from '../api/useSessions';
 import { queryClient } from 'utils/query/queryClient';
 import filterSessions from '../utils/filterSessions';
 
+const QUERY_PARAMS = {
+    activeWithinSeconds: 960
+};
+
 const useLiveSessions = () => {
     const { __legacyApiClient__ } = useApi();
 
-    const params = {
-        activeWithinSeconds: 960
-    };
-
-    const sessionsQuery = useSessions(params);
+    const sessionsQuery = useSessions(QUERY_PARAMS);
 
     const updateSessions = useCallback((sessions: SessionInfoDto[]) => {
         const newSessions = filterSessions(sessions);
-        const data = queryClient.getQueryData([ QUERY_KEY, params ]) as SessionInfoDto[];
+        const data = queryClient.getQueryData([ QUERY_KEY, QUERY_PARAMS ]) as SessionInfoDto[];
         if (data) {
             const currentSessions = [ ...data ];
 
@@ -40,7 +40,7 @@ const useLiveSessions = () => {
 
     useEffect(() => {
         const onSessionsUpdate = (evt: Event, apiClient: ApiClient, info: SessionInfoDto[]) => {
-            queryClient.setQueryData([ QUERY_KEY, params ], updateSessions(info));
+            queryClient.setQueryData([ QUERY_KEY, QUERY_PARAMS ], updateSessions(info));
         };
 
         __legacyApiClient__?.sendMessage(SessionMessageType.SessionsStart, '0,1500');

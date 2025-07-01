@@ -13,12 +13,12 @@ import Stack from '@mui/material/Stack';
 import getLogLevelColor from '../utils/getLogLevelColor';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 
-type IProps = {
+type ActivityListItemProps = {
     item: ActivityLogEntry;
     displayShortOverview: boolean;
 };
 
-const ActivityListItem = ({ item, displayShortOverview }: IProps) => {
+const ActivityListItem = ({ item, displayShortOverview }: ActivityListItemProps) => {
     const relativeDate = useMemo(() => {
         if (item.Date) {
             return formatRelative(Date.parse(item.Date), Date.now(), { locale: getLocale() });

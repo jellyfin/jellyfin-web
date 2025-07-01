@@ -5,13 +5,13 @@ import ChevronRight from '@mui/icons-material/ChevronRight';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-type IProps = {
+type WidgetProps = {
     title: string;
     href: string;
     children: React.ReactNode;
 };
 
-const Widget = ({ title, href, children }: IProps) => {
+const Widget = ({ title, href, children }: WidgetProps) => {
     return (
         <Box>
             <Button

@@ -9,11 +9,11 @@ import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress'
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
-type IProps = {
+type RunningTasksWidgetProps = {
     tasks?: TaskInfo[];
 };
 
-const RunningTasksWidget = ({ tasks }: IProps) => {
+const RunningTasksWidget = ({ tasks }: RunningTasksWidgetProps) => {
     const runningTasks = useMemo(() => {
         return tasks?.filter(v => v.State == TaskState.Running) || [];
     }, [ tasks ]);

@@ -5,18 +5,16 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import type { SystemInfo } from '@jellyfin/sdk/lib/generated-client/models';
 import Skeleton from '@mui/material/Skeleton';
 import { useSystemInfo } from 'hooks/useSystemInfo';
 
-type IProps = {
-    systemInfo?: SystemInfo;
+type ServerInfoWidgetProps = {
     onScanLibrariesClick?: () => void;
     onRestartClick?: () => void;
     onShutdownClick?: () => void;
 };
 
-const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClick }: IProps) => {
+const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClick }: ServerInfoWidgetProps) => {
     const { data: systemInfo, isPending } = useSystemInfo();
 
     return (

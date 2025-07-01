@@ -26,11 +26,11 @@ import { PlaystateCommand } from '@jellyfin/sdk/lib/generated-client/models/play
 import InputDialog from 'components/InputDialog';
 import { useSendMessage } from '../../sessions/api/useSendMessage';
 
-type IProps = {
+type DeviceCardProps = {
     device: SessionInfo;
 };
 
-const DeviceCard = ({ device }: IProps) => {
+const DeviceCard = ({ device }: DeviceCardProps) => {
     const [ playbackInfoTitle, setPlaybackInfoTitle ] = useState('');
     const [ playbackInfoDesc, setPlaybackInfoDesc ] = useState('');
     const [ isPlaybackInfoOpen, setIsPlaybackInfoOpen ] = useState(false);

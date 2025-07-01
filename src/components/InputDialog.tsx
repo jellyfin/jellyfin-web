@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import globalize from 'lib/globalize';
 import Stack from '@mui/material/Stack';
 
-interface IProps extends DialogProps {
+interface InputDialogProps extends DialogProps {
     title: string;
     label: string;
     confirmButtonText?: string;
@@ -16,7 +16,7 @@ interface IProps extends DialogProps {
     onConfirm: (text: string) => void;
 };
 
-const InputDialog = ({ open, title, label, onClose, confirmButtonText, onConfirm }: IProps) => {
+const InputDialog = ({ open, title, label, onClose, confirmButtonText, onConfirm }: InputDialogProps) => {
     const [ text, setText ] = useState('');
 
     const onTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
