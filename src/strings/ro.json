@@ -1681,7 +1681,7 @@
     "LabelParallelImageEncodingLimitHelp": "Numărul maxim de encodări ale imaginilor care sunt permise să ruleze simultan. Lăsând această opțiune goală, se va alege automat o limită bazată pe specificațiile tehnice ale sistemului.",
     "HeaderDummyChapter": "Imaginile Capitolelor",
     "HeaderRecordingMetadataSaving": "Înregistrarea Metadatelor",
-    "EnableSplashScreen": "Activează imaginea ecranului de pornire",
+    "EnableSplashScreen": "Activează ecranul de pornire",
     "StereoDownmixAlgorithmHelp": "Algoritm utilizat pentru downmix multi-canale audio la stereo.",
     "Short": "Scurt",
     "MediaInfoDoViTitle": "Titlu DV",
