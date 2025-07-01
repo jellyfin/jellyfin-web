@@ -46,6 +46,9 @@ const UserSettingsPage: FC = () => {
         );
     }
 
+    // gamepad toggle unavailable on EdgeUWP, and smoothscroll unavailable on non-TV layout
+    const isControlsPageEmpty = browser.edgeUwp && !layoutManager.tv;
+
     return (
         <Page
             id='myPreferencesMenuPage'
@@ -228,7 +231,7 @@ const UserSettingsPage: FC = () => {
                             </LinkButton>
                         )}
 
-                        {isLoggedInUser && !browser.mobile && (
+                        {isLoggedInUser && !browser.mobile && !isControlsPageEmpty && (
                             <LinkButton
                                 href={`#/mypreferencescontrols?userId=${userId}`}
                                 className='lnkControlsPreferences listItem-border'

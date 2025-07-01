@@ -21,12 +21,7 @@ export default function (view) {
 
     view.addEventListener('viewshow', function () {
         view.querySelector('.smoothScrollContainer').classList.toggle('hide', !layoutManager.tv);
-
-        if (browser.edgeUwp) {
-            view.querySelector('.enableGamepadContainer').classList.add('hide');
-        } else {
-            view.querySelector('.enableGamepadContainer').classList.remove('hide');
-        }
+        view.querySelector('.enableGamepadContainer').classList.toggle('hide', browser.edgeUwp);
         view.querySelector('.chkEnableGamepad').checked = appSettings.enableGamepad();
         view.querySelector('.chkSmoothScroll').checked = appSettings.enableSmoothScroll();
 
