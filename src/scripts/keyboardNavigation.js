@@ -24,30 +24,25 @@ const KeyNames = {
     // UWP WebView section start --
     // Navigation Up/Down/Left/Right is part of TVJS directionalnavigation-1.0.0.0.js
     // Unsure what this is used for. Media remote?
-    138: 'ArrowUp',
-    139: 'ArrowDown',
-    140: 'ArrowLeft',
-    141: 'ArrowRight',
-
+    138: 'NavigationUp',
+    139: 'NavigationDown',
+    140: 'NavigationLeft',
+    141: 'NavigationRight',
     195: 'GamepadA',
     // Currently Xbox UWP WebView 2 sends code 27 (Escape instead) despite being undocumented
     // Desktop UWP unchanged
-    // GamepadB
-    196: 'Escape',
-
-    // DPad Up/Down/Left/Right
-    203: 'ArrowUp',
-    204: 'ArrowDown',
-    205: 'ArrowLeft',
-    206: 'ArrowRight',
-
+    196: 'GamepadB',
+    203: 'GamepadDPadUp',
+    204: 'GamepadDPadDown',
+    205: 'GamepadDPadLeft',
+    206: 'GamepadDPadRight',
     // Currently Xbox UWP WebView 2 sends Arrow keycodes despite being undocumented
     // Desktop UWP unchanged
-    // Left Thumbstick Up/Down/Left/Right
-    211: 'ArrowUp',
-    212: 'ArrowDown',
-    214: 'ArrowLeft',
-    213: 'ArrowRight',
+    // Left Thumbstick
+    211: 'GamepadLeftThumbUp',
+    212: 'GamepadLeftThumbDown',
+    214: 'GamepadLeftThumbLeft',
+    213: 'GamepadLeftThumbRight',
     // End of UWP WebView Section
 
     // MediaRewind (Tizen/WebOS)
@@ -68,6 +63,23 @@ const KeyNames = {
     10233: 'MediaTrackNext',
     // MediaPlayPause (Tizen)
     10252: 'MediaPlayPause'
+};
+
+const KeyAliases = {
+    // GamepadA needs special case handling
+    'GamepadB': 'Escape',
+    'NavigationUp': 'ArrowUp',
+    'NavigationDown': 'ArrowDown',
+    'NavigationLeft': 'ArrowLeft',
+    'NavigationRight': 'ArrowRight',
+    'GamepadDPadUp': 'ArrowUp',
+    'GamepadDPadDown': 'ArrowDown',
+    'GamepadDPadLeft': 'ArrowLeft',
+    'GamepadDPadRight': 'ArrowRight',
+    'GamepadLeftThumbUp': 'ArrowUp',
+    'GamepadLeftThumbDown': 'ArrowDown',
+    'GamepadLeftThumbLeft': 'ArrowLeft',
+    'GamepadLeftThumbRight': 'ArrowRight'
 };
 
 /**
@@ -110,7 +122,8 @@ if (!hasFieldKey) {
  * @return {string} Key name.
  */
 export function getKeyName(event) {
-    return KeyNames[event.keyCode] || event.key;
+    const key = KeyNames[event.keyCode] || event.key;
+    return KeyAliases[key] || key;
 }
 
 /**
