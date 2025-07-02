@@ -33,6 +33,7 @@ import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'components/listview/listview.scss';
 import 'styles/flexstyles.scss';
 import './dashboard.scss';
+import ItemCountsWidget from '../components/widgets/ItemCountsWidget';
 
 function showPlaybackInfo(btn, session) {
     let title;
@@ -748,7 +749,7 @@ const DashboardPage = {
 
 export default function (view) {
     const serverId = ApiClient.serverId();
-    let unmountPathsWidget;
+    let unmountWidgetFns = [];
 
     function onRestartRequired(evt, apiClient) {
         console.debug('onRestartRequired not implemented', evt, apiClient);
@@ -824,7 +825,8 @@ export default function (view) {
             button: page.querySelector('.btnRefresh')
         });
 
-        unmountPathsWidget = renderComponent(ServerPathWidget, {}, page.querySelector('#serverPaths'));
+        unmountWidgetFns.push(renderComponent(ItemCountsWidget, {}, page.querySelector('#itemCounts')));
+        unmountWidgetFns.push(renderComponent(ServerPathWidget, {}, page.querySelector('#serverPaths')));
 
         page.querySelector('#btnRestartServer').addEventListener('click', DashboardPage.restart);
         page.querySelector('#btnShutdown').addEventListener('click', DashboardPage.shutdown);
@@ -852,7 +854,10 @@ export default function (view) {
             button: page.querySelector('.btnRefresh')
         });
 
-        if (unmountPathsWidget) unmountPathsWidget();
+        unmountWidgetFns.forEach(unmount => {
+            unmount();
+        });
+        unmountWidgetFns = [];
 
         page.querySelector('#btnRestartServer').removeEventListener('click', DashboardPage.restart);
         page.querySelector('#btnShutdown').removeEventListener('click', DashboardPage.shutdown);
