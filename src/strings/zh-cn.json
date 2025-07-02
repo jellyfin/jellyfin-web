@@ -2062,5 +2062,7 @@
     "TranscodingLoadError": "加载转码设置失败",
     "PluginsLoadError": "加载插件时发生错误。",
     "ButtonLearnMore": "了解更多",
-    "LiveTVPageLoadError": "无法加载录制页面"
+    "LiveTVPageLoadError": "无法加载录制页面",
+    "ConnectAnyway": "仍要连接",
+    "HeaderServerMismatch": "服务器不匹配"
 }
