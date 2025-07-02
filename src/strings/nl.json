@@ -2061,5 +2061,8 @@
     "DeleteRepositoryConfirmation": "Weet je zeker dat je dit repository wilt verwijderen?",
     "RepositoriesPageLoadError": "Laden van repository's mislukt",
     "TranscodingLoadError": "Laden van transcodeerinstellingen mislukt",
-    "LiveTVPageLoadError": "Laden van opnamepagina mislukt"
+    "LiveTVPageLoadError": "Laden van opnamepagina mislukt",
+    "MessageServerMismatch": "De server waarmee je probeert te verbinden, is niet dezelfde als de server waarmee je eerder op dit adres verbonden was. Als dit klopt, kies dan voor \"Toch verbinden\". Is dat niet het geval, dan is je verbinding of de server mogelijk niet veilig.",
+    "ConnectAnyway": "Toch verbinden",
+    "HeaderServerMismatch": "Server komt niet overeen"
 }

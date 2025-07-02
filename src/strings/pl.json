@@ -2062,5 +2062,8 @@
     "ButtonLearnMore": "Dowiedz się więcej",
     "TranscodingLoadError": "Nie udało się załadować ustawień transkodowania",
     "DeleteRepositoryConfirmation": "Czy na pewno chcesz usunąć to repozytorium?",
-    "LiveTVPageLoadError": "Nie udało się załadować strony z nagraniami"
+    "LiveTVPageLoadError": "Nie udało się załadować strony z nagraniami",
+    "HeaderServerMismatch": "Niezgodność serwera",
+    "MessageServerMismatch": "Serwer, z którym się łączysz, nie jest tym samym serwerem, z którym łączyłeś się wcześniej pod tym adresem. Jeśli jest to oczekiwane, wybierz „Połącz się mimo wszystko”. W przeciwnym razie Twoje połączenie lub serwer mogą być zagrożone.",
+    "ConnectAnyway": "Połącz się mimo wszystko"
 }
