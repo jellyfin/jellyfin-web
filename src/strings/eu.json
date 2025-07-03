@@ -1442,7 +1442,7 @@
     "ContinueWatching": "Ikusten jarraitu",
     "Console": "Kontsola",
     "Connect": "Konektatu",
-    "ConfirmEndPlayerSession": "Jellyfin dispositiboan itxi nahi duzu?",
+    "ConfirmEndPlayerSession": "Jellyfin {0}-(e)n itxi nahi duzu?",
     "ConfirmDeletion": "Baieztatu ezabatuta",
     "ConfirmDeleteItems": "Elementu horiek ezabatzean, artxibo-sistematik zein multimedia-liburutegitik ezabatuko dira. Ziur zaude jarraitu nahi duzula?",
     "ConfirmDeleteItem": "Elementu hori ezabatzean, artxibo-sistematik zein multimedia-liburutegitik ezabatuko da. Ziur zaude jarraitu nahi duzula?",
@@ -2042,5 +2042,9 @@
     "PluginsLoadError": "Errore bat gertatu da pluginak kargatzean.",
     "ConfirmDeleteRepository": "Ezabatu biltegia?",
     "DeleteRepositoryConfirmation": "Ziur zaude biltegi hau ezabatu nahi duzula?",
-    "RepositoriesPageLoadError": "Biltegiak kargatzeak huts egin du"
+    "RepositoriesPageLoadError": "Biltegiak kargatzeak huts egin du",
+    "MessageServerMismatch": "Konektatzen ari zaren zerbitzaria ez da helbide honetan lehenago konektatu zinen zerbitzari bera. Hori espero bada, hautatu \"Konektatu hala ere\". Bestela, zure konexioa edo zerbitzaria arriskuan egon daitezke.",
+    "LiveTVPageLoadError": "Grabaketen orria kargatzeak huts egin du",
+    "ConnectAnyway": "Konektatu hala ere",
+    "HeaderServerMismatch": "Zerbitzaria ez dator bat"
 }
