@@ -1,6 +1,6 @@
 export declare global {
-    import { ApiClient, Events } from 'jellyfin-apiclient';
-    import { appRouter } from './lib/appRouter';
+    import type { ApiClient, Events } from 'jellyfin-apiclient';
+    import type { appRouter } from 'lib/appRouter';
 
     interface Window {
         ApiClient: ApiClient;
