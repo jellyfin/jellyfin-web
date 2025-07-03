@@ -1,6 +1,6 @@
 export declare global {
     import { ApiClient, Events } from 'jellyfin-apiclient';
-    import {appRouter} from './lib/appRouter';
+    import { appRouter } from './lib/appRouter';
 
     interface Window {
         ApiClient: ApiClient;
@@ -24,7 +24,7 @@ export declare global {
                 getDeviceProfile: (foo1: (options) => unknown, foo2: string) => DeviceProfile;
                 exit: () => void;
                 supports: (feature: string) => boolean;
-                getDefaultLayout: () => "mobile" | "tv" | "desktop" | "experimental" | undefined;
+                getDefaultLayout: () => 'mobile' | 'tv' | 'desktop' | 'experimental' | undefined;
                 init: () => void;
                 deviceName: () => string;
                 deviceId: () => string;
@@ -77,7 +77,6 @@ export declare global {
         }
     }
 
-
     interface DocumentEventMap {
         'viewshow': CustomEvent;
     }
@@ -94,4 +93,4 @@ export declare global {
     const __WEBPACK_SERVE__: boolean;
 }
 
-import type { DeviceProfile } from "@jellyfin/sdk/lib/generated-client";
+import type { DeviceProfile } from '@jellyfin/sdk/lib/generated-client';
