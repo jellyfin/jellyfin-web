@@ -2037,7 +2037,7 @@
     "HeaderBackupsHelp": "Crea y restaura instantáneas de tu servidor, que pueden incluir la base de datos, los metadatos, los subtítulos y el trickplay.",
     "LabelBackupsUnavailable": "No hay respaldos disponibles",
     "LabelDatabase": "Base de datos",
-    "BackupsPageLoadError": "Fallo al cargar la página de respaldos de datos",
+    "BackupsPageLoadError": "Fallo al cargar la página de copia de seguridad",
     "ButtonCreateBackup": "Crear respaldo de datos",
     "LabelRestore": "Restaurar",
     "ConfirmDeleteRepository": "Eliminar repositorio?",
