@@ -290,7 +290,7 @@ browser.hisense = userAgent.toLowerCase().includes('hisense');
 browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || window.tizen != null;
 browser.vidaa = userAgent.toLowerCase().includes('vidaa');
 browser.web0s = isWeb0s();
-browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') !== -1 || userAgent.toLowerCase().indexOf('webview') !== -1);
+browser.edgeUwp = (browser.edge || browser.edgeChromium) && (userAgent.toLowerCase().indexOf('msapphost') !== -1 || userAgent.toLowerCase().indexOf('webview') !== -1);
 
 if (browser.web0s) {
     browser.web0sVersion = web0sVersion(browser);
