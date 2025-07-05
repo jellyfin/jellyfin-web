@@ -12,6 +12,7 @@ import itemHelper from '../itemHelper';
 import { pluginManager } from '../pluginManager';
 import PlayQueueManager from './playqueuemanager';
 import * as userSettings from '../../scripts/settings/userSettings';
+import shell from '../../scripts/shell';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
@@ -2695,6 +2696,18 @@ export class PlaybackManager {
                     playerData.maxStreamingBitrate = maxBitrate;
                     playerData.streamInfo = streamInfo;
 
+                    if (streamInfo.fullscreen && streamInfo.mediaType === 'Video') {
+                        const videoStream = mediaSource.MediaStreams.find(ms => ms.Type === 'Video');
+                        if (videoStream) {
+                            shell.enableFullscreen({
+                                videoWidth: videoStream.Width,
+                                videoHeight: videoStream.Height,
+                                videoFrameRate: videoStream.RealFrameRate,
+                                videoRangeType: videoStream.VideoRangeType
+                            });
+                        }
+                    }
+
                     return player.play(streamInfo).then(function () {
                         loading.hide();
                         onPlaybackStartedFn();
@@ -3400,6 +3413,10 @@ export class PlaybackManager {
                 }
             }
 
+            if (streamInfo?.fullscreen && streamInfo?.mediaType === 'Video') {
+                shell.disableFullscreen();
+            }
+
             Events.trigger(self, 'playbackerror', [errorType]);
 
             onPlaybackStopped.call(player, e, `.${errorType}`);
@@ -3449,6 +3466,9 @@ export class PlaybackManager {
 
             if (!nextItem) {
                 self._playQueueManager.reset();
+                if (streamInfo?.fullscreen && streamInfo?.mediaType === 'Video') {
+                    shell.disableFullscreen();
+                }
             }
 
             Events.trigger(player, 'playbackstop', [state]);
