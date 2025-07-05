@@ -2056,10 +2056,10 @@
     "StorageType.Ram": "RAM",
     "StorageType.NoRootDirectory": "Directorio raíz no encontrado",
     "StorageType.Unknown": "Desconocido",
-    "Success": "Operación exitosa",
+    "Success": "Se ha completado correctamente",
     "HeaderBackups": "Copias de seguridad",
     "TranscodingLoadError": "Error al cargar la configuración de transcodificación",
-    "MessageRestoreDisclaimer": "ADVERTENCIA: Estás a punto de restaurar un respaldo de datos anterior. Tu servidor quedará inoperativo durante el proceso y se perderán todos los datos nuevos creados desde la fecha de esa copia.",
+    "MessageRestoreDisclaimer": "ADVERTENCIA: Estás a punto de restaurar una copia de seguridad anterior. Tu servidor quedará inoperativo durante el proceso y se perderán todos los datos nuevos creados desde la fecha de esa copia.",
     "MessageRestoreInProgress": "Restauración en progreso",
     "MessageWaitingForServer": "Esperando al servidor..."
 }
