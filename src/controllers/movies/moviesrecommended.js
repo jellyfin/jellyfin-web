@@ -5,7 +5,7 @@ import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import * as mainTabsManager from 'components/maintabsmanager';
 import { playbackManager } from 'components/playback/playbackmanager';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';

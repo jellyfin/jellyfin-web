@@ -7,7 +7,7 @@ import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import Dashboard from '../../utils/dashboard';
 import Events from '../../utils/events.ts';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 
 function getTunerName(providerId) {
     switch (providerId.toLowerCase()) {

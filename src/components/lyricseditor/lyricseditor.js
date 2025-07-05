@@ -8,7 +8,7 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
