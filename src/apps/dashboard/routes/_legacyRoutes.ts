@@ -3,13 +3,6 @@ import { AppType } from 'constants/appType';
 
 export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
     {
-        path: '/dashboard',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'dashboard',
-            view: 'dashboard.html'
-        }
-    }, {
         path: 'networking',
         pageProps: {
             appType: AppType.Dashboard,
