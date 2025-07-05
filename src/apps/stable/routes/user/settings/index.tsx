@@ -15,6 +15,7 @@ import globalize from 'lib/globalize';
 import browser from 'scripts/browser';
 import Dashboard from 'utils/dashboard';
 import shell from 'scripts/shell';
+import keyboardNavigation from 'scripts/keyboardNavigation';
 
 const UserSettingsPage: FC = () => {
     const { user: currentUser } = useApi();
@@ -47,7 +48,7 @@ const UserSettingsPage: FC = () => {
     }
 
     // gamepad toggle unavailable on EdgeUWP, and smoothscroll unavailable on non-TV layout
-    const isControlsPageEmpty = browser.edgeUwp && !layoutManager.tv;
+    const isControlsPageEmpty = !keyboardNavigation.canEnableGamepad() && !layoutManager.tv;
 
     return (
         <Page

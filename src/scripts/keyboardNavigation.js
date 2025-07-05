@@ -86,6 +86,7 @@ const KeyAliases = {
  * Keys used for keyboard navigation.
  */
 const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'BrowserHome', 'Find'];
+
 /**
  * Keys used for media playback control.
  */
@@ -275,6 +276,11 @@ export function enable() {
     });
 }
 
+export function canEnableGamepad() {
+    // Not needed for UWP
+    return !browser.edgeUwp;
+}
+
 // Gamepad initialisation. No script is required if no gamepads are present at init time, saving a bit of resources.
 // Whenever the gamepad is connected, we hand all the control of the gamepad to gamepadtokey.js by removing the event handler
 function attachGamepadScript() {
@@ -284,13 +290,13 @@ function attachGamepadScript() {
 }
 
 // No need to check for gamepads manually at load time, the eventhandler will be fired for that
-// Not needed for UWP
-if (navigator.getGamepads && appSettings.enableGamepad() && !browser.edgeUwp) {
+if (navigator.getGamepads && appSettings.enableGamepad() && canEnableGamepad()) {
     window.addEventListener('gamepadconnected', attachGamepadScript);
 }
 
 export default {
     enable: enable,
     getKeyName: getKeyName,
-    isNavigationKey: isNavigationKey
+    isNavigationKey: isNavigationKey,
+    canEnableGamepad: canEnableGamepad
 };
