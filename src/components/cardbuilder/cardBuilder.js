@@ -315,7 +315,7 @@ export function getCardImageUrl(item, apiClient, options, shape) {
     } else if (item.ImageTags?.Primary && (item.Type !== 'Episode' || item.ChildCount !== 0)) {
         imgType = 'Primary';
         imgTag = item.ImageTags.Primary;
-        height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
+        height = width && uiAspect ? Math.round(width / uiAspect) : null;
 
         if (options.preferThumb && options.showTitle !== false) {
             forceName = true;
@@ -332,7 +332,7 @@ export function getCardImageUrl(item, apiClient, options, shape) {
         imgType = 'Primary';
         imgTag = item.PrimaryImageTag;
         itemId = item.PrimaryImageItemId;
-        height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
+        height = width && uiAspect ? Math.round(width / uiAspect) : null;
 
         if (options.preferThumb && options.showTitle !== false) {
             forceName = true;
@@ -349,7 +349,7 @@ export function getCardImageUrl(item, apiClient, options, shape) {
         imgType = 'Primary';
         imgTag = item.AlbumPrimaryImageTag;
         itemId = item.AlbumId;
-        height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
+        height = width && uiAspect ? Math.round(width / uiAspect) : null;
 
         if (primaryImageAspectRatio && uiAspect) {
             coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
