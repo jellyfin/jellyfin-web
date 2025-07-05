@@ -165,7 +165,7 @@ function validatePath(path, validateWriteable, apiClient) {
         if (response) {
             if (response.status === 404) {
                 alertText(globalize.translate('PathNotFound'));
-                return Promise.reject();
+                return Promise.reject(new Error('PathNotFoundError'));
             }
             if (response.status === 500) {
                 if (validateWriteable) {
@@ -173,7 +173,7 @@ function validatePath(path, validateWriteable, apiClient) {
                 } else {
                     alertText(globalize.translate('PathNotFound'));
                 }
-                return Promise.reject();
+                return Promise.reject(new Error('ValidatePathError'));
             }
         }
         return Promise.resolve();
