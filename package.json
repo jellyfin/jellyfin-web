@@ -5,7 +5,7 @@
   "repository": "https://github.com/jellyfin/jellyfin-web",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
-    "@babel/core": "7.27.4",
+    "@babel/core": "7.27.7",
     "@babel/plugin-transform-modules-umd": "7.27.1",
     "@babel/preset-env": "7.27.2",
     "@babel/preset-react": "7.27.1",
