@@ -2062,5 +2062,8 @@
     "PluginsLoadError": "Pri načítavaní zásuvných modulov došlo k chybe.",
     "RepositoriesPageLoadError": "Nepodarilo sa načítať repozitáre",
     "TranscodingLoadError": "Nepodarilo sa načítať nastavenia prekódovania",
-    "LiveTVPageLoadError": "Nepodarilo sa načítať stránku s nahrávkami"
+    "LiveTVPageLoadError": "Nepodarilo sa načítať stránku s nahrávkami",
+    "ConnectAnyway": "Napriek tomu pripojiť",
+    "HeaderServerMismatch": "Nesúlad so serverom",
+    "MessageServerMismatch": "Server, ku ktorému sa pripájate, nie je ten istý server, ku ktorému ste sa predtým pripojili na tejto adrese. Ak je to očakávané, vyberte možnosť „Napriek tomu pripojiť“. V opačnom prípade môže byť vaše pripojenie alebo server kompromitované."
 }
