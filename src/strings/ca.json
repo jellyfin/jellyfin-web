@@ -2058,5 +2058,6 @@
     "TranscodingLoadError": "No s'han pogut carregar els paràmetres de transcodificació",
     "ConfirmDeleteRepository": "Desitgeu eliminar el repositori?",
     "DeleteRepositoryConfirmation": "N'esteu segur, de voler esborrar aquest repositori?",
-    "LiveTVPageLoadError": "La càrrega de la pàgina de gravacions ha fallat"
+    "LiveTVPageLoadError": "La càrrega de la pàgina de gravacions ha fallat",
+    "ConnectAnyway": "Connectar de totes maneres"
 }
