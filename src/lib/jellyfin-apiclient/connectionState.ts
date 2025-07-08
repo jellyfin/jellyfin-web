@@ -3,6 +3,7 @@
  */
 export const enum ConnectionState {
     SignedIn = 'SignedIn',
+    ServerMismatch = 'ServerMismatch',
     ServerSignIn = 'ServerSignIn',
     ServerSelection = 'ServerSelection',
     ServerUpdateNeeded = 'ServerUpdateNeeded',

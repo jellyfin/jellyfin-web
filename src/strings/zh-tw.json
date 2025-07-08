@@ -10,7 +10,7 @@
     "ButtonForgotPassword": "忘記密碼",
     "ButtonGotIt": "我知道了",
     "ButtonOk": "確定",
-    "ButtonQuickStartGuide": "快速入門指南",
+    "ButtonQuickStartGuide": "設定指南",
     "ButtonRefreshGuideData": "更新電視節目表",
     "ButtonRemove": "移除",
     "ButtonSelectDirectory": "選擇資料夾",
@@ -296,7 +296,7 @@
     "ConfigureDateAdded": "在「控制台 > 媒體庫 > 顯示」中設定「添加日期」的判斷方式",
     "ConfirmDeleteImage": "是否確定刪除圖片？",
     "ConfirmDeleteItems": "刪除這些項目會將檔案從檔案系統和媒體庫中刪除。你真的要繼續嗎？",
-    "ConfirmEndPlayerSession": "您要在 {0} 秒後將 Jellyfin 關閉嗎？",
+    "ConfirmEndPlayerSession": "您要關閉 {0} 上的Jellyfin嗎？",
     "Connect": "連線",
     "ContinueWatching": "繼續觀看",
     "CriticRating": "影評評分",
@@ -2013,5 +2013,12 @@
     "DisplayLoadError": "載入顯示設定時發生錯誤。",
     "HeaderUpdateRequired": "需要更新",
     "ImageUploadCancelled": "圖片上傳已取消",
-    "ImageUploadFailed": "圖片上傳失敗"
+    "ImageUploadFailed": "圖片上傳失敗",
+    "DownloadManager": "下載",
+    "BackupsPageLoadError": "無法載入備份頁面",
+    "ConfirmDeleteRepository": "刪除儲存庫？",
+    "Create": "建立",
+    "DeleteRepositoryConfirmation": "您確定要刪除此儲存庫嗎？",
+    "ButtonLearnMore": "瞭解更多",
+    "ButtonCreateBackup": "建立備份"
 }
