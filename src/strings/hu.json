@@ -492,7 +492,7 @@
     "ColorSpace": "Színtér",
     "ColorTransfer": "Színátvitel",
     "Composer": "Zeneszerző",
-    "ConfigureDateAdded": "Állítsa be az Irányítópult > Médiatárak > Megjelenítés menüpontban, hogy a „Hozzáadás dátuma” metaadat hogyan legyen meghatározva.",
+    "ConfigureDateAdded": "Állítsa be az Irányítópult > Médiatárak > Megjelenítés menüpontban, hogy a „Hozzáadás dátuma” metaadat hogyan legyen meghatározva",
     "ConfirmDeleteImage": "Kép törlése?",
     "ConfirmDeleteItem": "Az elem törlésével az törlődni fog a fájlrendszerből és a médiakönyvtárból is. Biztosan folytatni akarod?",
     "ConfirmDeleteItems": "Az elemek törlésével azok törlődni fognak a fájlrendszerből és a médiakönyvtárból is. Biztosan folytatni akarod?",
@@ -2057,5 +2057,8 @@
     "MessageRestoreDisclaimer": "FIGYELEM: Ön egy korábbi mentés visszaállítására készül. A művelet alatt a szerver nem lesz használható, és a mentés óta létrehozott minden új adat elvész.",
     "RepositoriesPageLoadError": "Tárolók betöltése sikertelen",
     "LabelProgramData": "Alkalmazás adatai",
-    "LabelImageCache": "Képgyorsítótár"
+    "LabelImageCache": "Képgyorsítótár",
+    "ConnectAnyway": "Kapcsolódás mindenképp",
+    "HeaderServerMismatch": "Szerver eltérés",
+    "MessageServerMismatch": "A szerver melyre most próbál csatlakozni, nem egyezik meg az előző szerverrel mely ezen a címen volt található. Ha ez várható volt, kattintson a \"Kapcsolódás mindenképp\" gombra. Ellenkező esetben a szerver elérése kompromittálódott."
 }
