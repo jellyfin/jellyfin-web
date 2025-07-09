@@ -161,14 +161,14 @@ export function getWindowSize() {
         // NOTE: webOS has a bug that reports window size as infinite on page load, so we use a fallback size of 4K
         if (!Number.isFinite(innerWidth) || !Number.isFinite(innerHeight)) {
             return {
-                innerHeight: Number.isFinite(innerWidth) ? innerWidth : 3840,
-                innerWidth: Number.isFinite(innerHeight) ? innerHeight : 2160
+                innerWidth: Number.isFinite(innerWidth) ? innerWidth : 3840,
+                innerHeight: Number.isFinite(innerHeight) ? innerHeight : 2160
             };
         }
 
         windowSize = {
-            innerHeight,
-            innerWidth
+            innerWidth,
+            innerHeight
         };
 
         if (!windowSizeEventsBound) {
