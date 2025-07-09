@@ -155,7 +155,8 @@ function clearWindowSize() {
  */
 export function getWindowSize() {
     if (!windowSize) {
-        const { innerWidth, innerHeight } = window;
+        const innerWidth = window.innerWidth;
+        const innerHeight = window.innerHeight;
 
         // NOTE: webOS has a bug that reports window size as infinite on page load, so we use a fallback size of 4K
         if (!Number.isFinite(innerWidth) || !Number.isFinite(innerHeight)) {
