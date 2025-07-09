@@ -61,6 +61,16 @@ function reloadBrowsableImages(page, apiClient) {
     }
 
     apiClient.getAvailableRemoteImages(options).then(function (result) {
+        result.Images.sort((a, b) => {
+            // Sort images from the most to the least popular
+            if (a.CommunityRating && b.CommunityRating) {
+                // Lazy eval will make it 0 if needed
+                return (b.VoteCount || 0) - (a.VoteCount || 0);
+            } else {
+                return 0;
+            }
+        });
+
         renderRemoteImages(page, apiClient, result, browsableImageType, options.startIndex, options.limit);
 
         page.querySelector('#selectBrowsableImageType').value = browsableImageType;
