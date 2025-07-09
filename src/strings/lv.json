@@ -1109,7 +1109,7 @@
     "LabelTonemappingRange": "Toņu kartēšanas diapazons",
     "LabelTonemappingPeakHelp": "Pārrakstīt iegulto metadatu vērtību ievadsignālam ar šo maksimālo vērtību. Noklusējuma vērtība ir 100 (1000nit).",
     "LabelTonemappingPeak": "Toņu kartēšanas maksimums",
-    "LabelTonemappingParamHelp": "Noregulējiet toņu kartēšanas algoritmu. Parasti atstājiet to tukšu.",
+    "LabelTonemappingParamHelp": "Toņu kartēšanas algoritma tūnings. Vispārēji atstājiet to tukšu.",
     "LabelTonemappingParam": "Toņu kartēšanas parametrs",
     "LabelTonemappingDesatHelp": "Izmantojiet piesātinājuma samazināšanu izgaismotajiem objektiem, kas pārsniedz šo spilgtuma līmeni. Ieteicamās vērtība ir 0 (atslēgts).",
     "LabelTonemappingDesat": "Toņu kartēšanas piesātinājums \"desat\"",
@@ -2028,5 +2028,7 @@
     "UseDoubleRateDeinterlacing": "Dubultot kadru nomaiņas ātrumu kad noņem rindpārleces izvērsi",
     "UseCustomTagDelimitersHelp": "Sadalīt izpildītājus/žanru tegus ar pielāgotiem simboliem.",
     "LabelSaveTrickplayLocallyHelp": "Saglabājot trickplay attēlus multivides mapēs novietos attēlus blakus tavai multividei vieglai migrācijai un piekļuvei.",
-    "AllowTonemappingSoftwareHelp": "Toņu kartēšana var pārveidot video dinamisko diapazonu uz HDR no SDR (uz augstu diapazonu no zema) paturot attēla detaļas un krāsas, kas ir ļoti būtiska informāciju reprezentējot oriģinālo ainu. Šobrīd darbojas tikai ar 10bit HDR10, HLG un DoVi video."
+    "AllowTonemappingSoftwareHelp": "Toņu kartēšana var pārveidot video dinamisko diapazonu uz HDR no SDR (uz augstu diapazonu no zema) paturot attēla detaļas un krāsas, kas ir ļoti būtiska informāciju reprezentējot oriģinālo ainu. Šobrīd darbojas tikai ar 10bit HDR10, HLG un DoVi video.",
+    "LiveTVPageLoadError": "Neizdevās ielādēt lapu ar ierakstiem",
+    "HeaderServerMismatch": "Servera nesakritība"
 }
