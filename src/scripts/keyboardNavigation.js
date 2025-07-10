@@ -67,19 +67,19 @@ const KeyNames = {
 
 const KeyAliases = {
     // GamepadA needs special case handling
-    'GamepadB': 'Escape',
-    'NavigationUp': 'ArrowUp',
-    'NavigationDown': 'ArrowDown',
-    'NavigationLeft': 'ArrowLeft',
-    'NavigationRight': 'ArrowRight',
-    'GamepadDPadUp': 'ArrowUp',
-    'GamepadDPadDown': 'ArrowDown',
-    'GamepadDPadLeft': 'ArrowLeft',
-    'GamepadDPadRight': 'ArrowRight',
-    'GamepadLeftThumbUp': 'ArrowUp',
-    'GamepadLeftThumbDown': 'ArrowDown',
-    'GamepadLeftThumbLeft': 'ArrowLeft',
-    'GamepadLeftThumbRight': 'ArrowRight'
+    GamepadB: 'Escape',
+    NavigationUp: 'ArrowUp',
+    NavigationDown: 'ArrowDown',
+    NavigationLeft: 'ArrowLeft',
+    NavigationRight: 'ArrowRight',
+    GamepadDPadUp: 'ArrowUp',
+    GamepadDPadDown: 'ArrowDown',
+    GamepadDPadLeft: 'ArrowLeft',
+    GamepadDPadRight: 'ArrowRight',
+    GamepadLeftThumbUp: 'ArrowUp',
+    GamepadLeftThumbDown: 'ArrowDown',
+    GamepadLeftThumbLeft: 'ArrowLeft',
+    GamepadLeftThumbRight: 'ArrowRight'
 };
 
 /**
@@ -297,6 +297,6 @@ if (navigator.getGamepads && appSettings.enableGamepad() && canEnableGamepad()) 
 export default {
     enable: enable,
     getKeyName: getKeyName,
-    isNavigationKey: isNavigationKey,
-    canEnableGamepad: canEnableGamepad
+    isNavigationKey,
+    canEnableGamepad
 };
