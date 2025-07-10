@@ -14,6 +14,7 @@ import recordingHelper from './recordingcreator/recordinghelper';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import itemHelper from './itemHelper';
 
 function playAllFromHere(card, serverId, queue) {
     const parent = card.parentNode;
@@ -251,19 +252,38 @@ function executeAction(card, target, action) {
         const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0', 10);
         const sortValues = userSettings.getSortValuesLegacy(sortParentId, 'SortName');
 
-        if (playbackManager.canPlay(item)) {
-            playbackManager.play({
-                ids: [playableItemId],
-                startPositionTicks: startPositionTicks,
-                serverId: serverId,
-                queryOptions: {
-                    SortBy: sortValues.sortBy,
-                    SortOrder: sortValues.sortOrder
+        import('./itemHelper').then(itemHelper => {
+            getItem(card).then(item => {
+                if (itemHelper.supportsMediaSourceSelection(item)) {
+                    import('../components/versionSelectionModal/versionSelectionModal').then(({ default: versionSelectionModal }) => {
+                        versionSelectionModal.show(item, function (selectedMediaSourceId) {
+                            playbackManager.play({
+                                ids: [playableItemId],
+                                startPositionTicks: startPositionTicks,
+                                serverId: serverId,
+                                mediaSourceId: selectedMediaSourceId,
+                                queryOptions: {
+                                    SortBy: sortValues.sortBy,
+                                    SortOrder: sortValues.sortOrder
+                                }
+                            });
+                        }).catch(() => { /* user cancelled */ });
+                    });
+                } else if (playbackManager.canPlay(item)) {
+                    playbackManager.play({
+                        ids: [playableItemId],
+                        startPositionTicks: startPositionTicks,
+                        serverId: serverId,
+                        queryOptions: {
+                            SortBy: sortValues.sortBy,
+                            SortOrder: sortValues.sortOrder
+                        }
+                    });
+                } else {
+                    console.warn('Unable to play item', item);
                 }
             });
-        } else {
-            console.warn('Unable to play item', item);
-        }
+        });
     } else if (action === 'queue') {
         if (playbackManager.isPlaying()) {
             playbackManager.queue({
