@@ -640,6 +640,7 @@
     "LabelBlastMessageIntervalHelp": "Determine the duration in seconds between blast alive messages.",
     "LabelBlockContentWithTags": "Block items with tags",
     "LabelBuildVersion": "Build version",
+    "LabelBundled": "Bundled",
     "LabelBurnSubtitles": "Burn subtitles",
     "LabelCache": "Cache",
     "LabelCachePath": "Cache path",
