@@ -14,7 +14,6 @@ import recordingHelper from './recordingcreator/recordinghelper';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
-import itemHelper from './itemHelper';
 
 function playAllFromHere(card, serverId, queue) {
     const parent = card.parentNode;
@@ -253,10 +252,10 @@ function executeAction(card, target, action) {
         const sortValues = userSettings.getSortValuesLegacy(sortParentId, 'SortName');
 
         import('./itemHelper').then(itemHelper => {
-            getItem(card).then(item => {
-                if (itemHelper.supportsMediaSourceSelection(item)) {
+            getItem(card).then(fullItem => {
+                if (itemHelper.supportsMediaSourceSelection(fullItem)) {
                     import('../components/versionSelectionModal/versionSelectionModal').then(({ default: versionSelectionModal }) => {
-                        versionSelectionModal.show(item, function (selectedMediaSourceId) {
+                        versionSelectionModal.show(fullItem, function (selectedMediaSourceId) {
                             playbackManager.play({
                                 ids: [playableItemId],
                                 startPositionTicks: startPositionTicks,
@@ -269,7 +268,7 @@ function executeAction(card, target, action) {
                             });
                         }).catch(() => { /* user cancelled */ });
                     });
-                } else if (playbackManager.canPlay(item)) {
+                } else if (playbackManager.canPlay(fullItem)) {
                     playbackManager.play({
                         ids: [playableItemId],
                         startPositionTicks: startPositionTicks,
@@ -280,7 +279,7 @@ function executeAction(card, target, action) {
                         }
                     });
                 } else {
-                    console.warn('Unable to play item', item);
+                    console.warn('Unable to play item', fullItem);
                 }
             });
         });
