@@ -2061,5 +2061,7 @@
     "TranscodingLoadError": "Error al cargar la configuración de transcodificación",
     "MessageRestoreDisclaimer": "ADVERTENCIA: Estás a punto de restaurar una copia de seguridad anterior. Tu servidor quedará inoperativo durante el proceso y se perderán todos los datos nuevos creados desde la fecha de esa copia.",
     "MessageRestoreInProgress": "Restauración en progreso",
-    "MessageWaitingForServer": "Esperando al servidor..."
+    "MessageWaitingForServer": "Esperando al servidor...",
+    "LiveTVPageLoadError": "Falló la carga de la pagina de grabaciones",
+    "ConnectAnyway": "Conectar de todos modos"
 }
