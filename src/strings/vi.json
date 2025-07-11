@@ -1325,7 +1325,7 @@
     "LabelOpenclDeviceHelp": "Đây là thiết bị OpenCL dùng để chỉnh tông màu. Phía bên trái của dấu chấm là số nền tảng và phía bên phải là số thiết bị trên nền tảng. Mặc định là 0.0. Cần có tệp ứng dụng FFmpeg chứa phương pháp tăng tốc phần cứng OpenCL.",
     "LabelMaxMuxingQueueSizeHelp": "Số gói tối đa có thể được lưu vào bộ đệm trong khi chờ tất cả các luồng khởi tạo. Hãy thử tăng lên nếu bạn vẫn gặp lỗi \"Quá nhiều gói được lưu vào bộ đệm cho luồng đầu ra\" trong nhật ký FFmpeg. Giá trị đề xuất là 2048.",
     "ClearQueue": "Xóa hàng đợi",
-    "LabelTonemappingParamHelp": "Điều chỉnh thuật toán ánh xạ tông màu. Các giá trị được đề xuất và mặc định là NaN. Nói chung là để trống.",
+    "LabelTonemappingParamHelp": "Điều chỉnh thuật toán ánh xạ tông màu. Thường thì để trống.",
     "LabelTonemappingParam": "Tham số ánh xạ tông màu",
     "LabelTonemappingPeakHelp": "Thay vào đó, hãy ghi đè giá trị siêu dữ liệu được nhúng cho tín hiệu đầu vào bằng giá trị cao nhất này. Giá trị mặc định là 100 (1000nit).",
     "LabelTonemappingPeak": "Đỉnh ánh xạ tông màu",
@@ -2050,5 +2050,14 @@
     "StorageType.Unknown": "Không rõ",
     "StorageType.Fixed": "Cố định",
     "Success": "Thành công",
-    "HeaderBackups": "Sao lưu"
+    "HeaderBackups": "Sao lưu",
+    "PluginsLoadError": "Một lỗi đã xảy ra trong khi tải plugin.",
+    "DeleteRepositoryConfirmation": "Bạn có chắc là bạn muốn xóa kho lưu trữ này?",
+    "ConfirmDeleteRepository": "Xóa kho lưu trữ?",
+    "RepositoriesPageLoadError": "Không tải được kho lưu trữ",
+    "ButtonLearnMore": "Tìm Hiểu Thêm",
+    "TranscodingLoadError": "Không tải được cài đặt chuyển mã",
+    "StorageType.CDRom": "CD-ROM",
+    "StorageType.Ram": "RAM",
+    "LiveTVPageLoadError": "Không tải được trang ghi"
 }
