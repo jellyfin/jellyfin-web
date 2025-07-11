@@ -28,7 +28,7 @@ const getNowPlayingImageUrl = (item: BaseItemDto) => {
 
     const imageTags = item?.ImageTags || {};
 
-    if (item && item.Id && imageTags.Thumb) {
+    if (item?.Id && imageTags.Thumb) {
         return apiClient.getScaledImageUrl(item.Id, {
             maxWidth: Math.round(dom.getScreenWidth() * 0.20),
             type: ImageType.Thumb,
@@ -44,7 +44,7 @@ const getNowPlayingImageUrl = (item: BaseItemDto) => {
         });
     }
 
-    if (item && item.Id && imageTags.Primary) {
+    if (item?.Id && imageTags.Primary) {
         return apiClient.getScaledImageUrl(item.Id, {
             maxWidth: Math.round(dom.getScreenWidth() * 0.20),
             type: ImageType.Primary,
