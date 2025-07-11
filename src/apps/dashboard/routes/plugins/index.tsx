@@ -1,33 +1,41 @@
+import Settings from '@mui/icons-material/Settings';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton/IconButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React, { useCallback, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 
+import SearchInput from 'apps/dashboard/components/SearchInput';
+import { usePluginDetails } from 'apps/dashboard/features/plugins/api/usePluginDetails';
 import PluginCard from 'apps/dashboard/features/plugins/components/PluginCard';
+import { PluginCategory } from 'apps/dashboard/features/plugins/constants/pluginCategory';
+import { CATEGORY_LABELS } from 'apps/dashboard/features/plugins/constants/categoryLabels';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import { usePluginDetails } from 'apps/dashboard/features/plugins/api/usePluginDetails';
-import { Link } from 'react-router-dom';
-import IconButton from '@mui/material/IconButton/IconButton';
-import Settings from '@mui/icons-material/Settings';
-import Chip from '@mui/material/Chip';
-import Divider from '@mui/material/Divider';
-import { CATEGORY_LABELS } from 'apps/dashboard/features/plugins/constants/categoryLabels';
-import SearchInput from 'apps/dashboard/components/SearchInput';
 
+/**
+ * The list of primary/main categories.
+ * Any category not in this list will be added to the "other" category.
+ */
 const MAIN_CATEGORIES = [
-    'administration',
-    'general',
-    'anime',
-    'books',
-    'livetv',
-    'moviesandshows',
-    'music',
-    'subtitles'
+    PluginCategory.Administration.toLowerCase(),
+    PluginCategory.General.toLowerCase(),
+    PluginCategory.Anime.toLowerCase(),
+    PluginCategory.Books.toLowerCase(),
+    PluginCategory.LiveTV.toLowerCase(),
+    PluginCategory.MoviesAndShows.toLowerCase(),
+    PluginCategory.Music.toLowerCase(),
+    PluginCategory.Subtitles.toLowerCase()
 ];
+
+/** The installed meta category. */
+const INSTALLED_CATEGORY = 'installed';
 
 export const Component = () => {
     const {
@@ -47,18 +55,19 @@ export const Component = () => {
             let filtered = pluginDetails;
 
             if (category) {
-                if (category === 'installed') {
+                if (category === INSTALLED_CATEGORY) {
+                    // Installed plugins will have a status
                     filtered = filtered.filter(p => p.status);
-                } else if (category === 'other') {
+                } else if (category === PluginCategory.Other.toLowerCase()) {
                     filtered = filtered.filter(p => (
-                        p.category && !MAIN_CATEGORIES.includes(p.category.toLocaleLowerCase())
+                        p.category && !MAIN_CATEGORIES.includes(p.category.toLowerCase())
                     ));
                 } else {
-                    filtered = filtered.filter(p => p.category?.toLocaleLowerCase() === category);
+                    filtered = filtered.filter(p => p.category?.toLowerCase() === category);
                 }
             }
             return filtered
-                .filter(i => i.name?.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()));
+                .filter(i => i.name?.toLowerCase().includes(searchQuery.toLowerCase()));
         } else {
             return [];
         }
@@ -147,21 +156,21 @@ export const Component = () => {
                                 />
 
                                 <Chip
-                                    color={category === 'installed' ? 'primary' : undefined}
+                                    color={category === INSTALLED_CATEGORY ? 'primary' : undefined}
                                     // eslint-disable-next-line react/jsx-no-bind
-                                    onClick={() => setCategory('installed')}
+                                    onClick={() => setCategory(INSTALLED_CATEGORY)}
                                     label={globalize.translate('LabelInstalled')}
                                 />
 
                                 <Divider orientation='vertical' flexItem />
 
-                                {Object.keys(CATEGORY_LABELS).map(c => (
+                                {Object.values(PluginCategory).map(c => (
                                     <Chip
                                         key={c}
-                                        color={category === c.toLocaleLowerCase() ? 'primary' : undefined}
+                                        color={category === c.toLowerCase() ? 'primary' : undefined}
                                         // eslint-disable-next-line react/jsx-no-bind
-                                        onClick={() => setCategory(c.toLocaleLowerCase())}
-                                        label={globalize.translate(CATEGORY_LABELS[c])}
+                                        onClick={() => setCategory(c.toLowerCase())}
+                                        label={globalize.translate(CATEGORY_LABELS[c as PluginCategory])}
                                     />
                                 ))}
                             </Stack>

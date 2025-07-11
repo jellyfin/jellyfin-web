@@ -1,20 +1,22 @@
+import Settings from '@mui/icons-material/Settings';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import React, { useCallback, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import { usePackages } from 'apps/dashboard/features/plugins/api/usePackages';
+import PackageCard from 'apps/dashboard/features/plugins/components/PackageCard';
+import { PluginCategory } from 'apps/dashboard/features/plugins/constants/pluginCategory';
+import { CATEGORY_LABELS } from 'apps/dashboard/features/plugins/constants/categoryLabels';
+import getPackageCategories from 'apps/dashboard/features/plugins/utils/getPackageCategories';
+import getPackagesByCategory from 'apps/dashboard/features/plugins/utils/getPackagesByCategory';
+import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { usePackages } from 'apps/dashboard/features/plugins/api/usePackages';
-import Loading from 'components/loading/LoadingComponent';
-import getPackageCategories from 'apps/dashboard/features/plugins/utils/getPackageCategories';
-import Stack from '@mui/material/Stack';
-import getPackagesByCategory from 'apps/dashboard/features/plugins/utils/getPackagesByCategory';
-import PackageCard from 'apps/dashboard/features/plugins/components/PackageCard';
-import Grid from '@mui/material/Grid2';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import Settings from '@mui/icons-material/Settings';
-import { Link } from 'react-router-dom';
-import { CATEGORY_LABELS } from 'apps/dashboard/features/plugins/constants/categoryLabels';
 
 export const Component = () => {
     const { data: packages, isPending: isPackagesPending } = usePackages();
@@ -31,7 +33,7 @@ export const Component = () => {
     }, []);
 
     const getCategoryLabel = (category: string) => {
-        const categoryKey = category.replace(/\s/g, '');
+        const categoryKey = category.replace(/\s/g, '') as PluginCategory;
 
         if (CATEGORY_LABELS[categoryKey]) {
             return globalize.translate(CATEGORY_LABELS[categoryKey]);

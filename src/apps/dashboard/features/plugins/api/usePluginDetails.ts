@@ -3,12 +3,14 @@ import { useMemo } from 'react';
 
 import { useApi } from 'hooks/useApi';
 
-import { useConfigurationPages } from './useConfigurationPages';
-import { usePlugins } from './usePlugins';
+import { PluginCategory } from '../constants/pluginCategory';
 import type { PluginDetails } from '../types/PluginDetails';
+
 import { findBestConfigurationPage } from './configurationPage';
 import { findBestPluginInfo } from './pluginInfo';
+import { useConfigurationPages } from './useConfigurationPages';
 import { usePackages } from './usePackages';
+import { usePlugins } from './usePlugins';
 
 export const usePluginDetails = () => {
     const { api } = useApi();
@@ -64,9 +66,25 @@ export const usePluginDetails = () => {
                         imageUrl = api?.getUri(`/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`);
                     }
 
+                    let category = packageInfo?.category;
+                    if (!packageInfo) {
+                        switch (id) {
+                            case 'a629c0dafac54c7e931a7174223f14c8': // AudioDB
+                            case '8c95c4d2e50c4fb0a4f36c06ff0f9a1a': // MusicBrainz
+                                category = PluginCategory.Music;
+                                break;
+                            case 'a628c0dafac54c7e9d1a7134223f14c8': // OMDb
+                            case 'b8715ed16c4745289ad3f72deb539cd4': // TMDb
+                                category = PluginCategory.MoviesAndShows;
+                                break;
+                            case '872a78491171458da6fb3de3d442ad30': // Studio Images
+                                category = PluginCategory.General;
+                        }
+                    }
+
                     return {
                         canUninstall: !!pluginInfo?.CanUninstall,
-                        category: packageInfo?.category,
+                        category,
                         description: pluginInfo?.Description || packageInfo?.description || packageInfo?.overview,
                         id,
                         imageUrl: imageUrl || packageInfo?.imageUrl || undefined,
