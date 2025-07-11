@@ -3500,10 +3500,10 @@ export class PlaybackManager {
 
                         if (newPlayer !== player) {
                             Events.trigger(self, 'playbackstop', [{
-                                player: player,
-                                state: state,
-                                nextItem: nextItem,
-                                nextMediaType: nextItem.MediaType
+                                player,
+                                state,
+                                nextItem,
+                                nextMediaType
                             }]);
                         }
                     }
