@@ -2,7 +2,7 @@
     "Actor": "Glumac",
     "Add": "Dodaj",
     "AddToCollection": "Dodaj u kolekciju",
-    "AddToPlaylist": "Dodaj popisu za reprodukciju",
+    "AddToPlaylist": "Dodaj u popis za reprodukciju",
     "AdditionalNotificationServices": "Pretražite katalog dodataka kako bi instalirali dodatne servise za obavijesti.",
     "AllChannels": "Svi kanali",
     "AllEpisodes": "Sve epizode",
@@ -276,7 +276,7 @@
     "LabelAlbumArtists": "Izvođači albuma",
     "LabelAllowHWTranscoding": "Dopusti hardversko konvertiranje",
     "LabelAppName": "Ime aplikacije",
-    "LabelAppNameExample": "Primjer: Sickbeard, Sonarr",
+    "LabelAppNameExample": "Ime za identifikaciju API ključeva koje ljudi mogu pročitati. Ova postavka neće utjecati na funkcionalnost.",
     "LabelArtists": "Izvođači",
     "LabelArtistsHelp": "Odvoji višestruke izvođače sa ; (točka sa zarezom).",
     "LabelAudioLanguagePreference": "Postavke audio jezika",
@@ -1458,7 +1458,7 @@
     "LabelKodiMetadataUserHelp": "Spremite podatke o gledanju u NFO datoteke za potrebe drugih primjena.",
     "LabelParentNumber": "Broj roditelja",
     "LabelTonemappingPeak": "Vrh tonskog preslikavanja",
-    "LabelPublishedServerUriHelp": "Zaobiđi URI koji koristi Jellyfin, na osnovu sučelja ili klijentske IP adrese.",
+    "LabelPublishedServerUriHelp": "Zaobiđi URI koji koristi Jellyfin, na osnovu sučelja ili klijentske IP adrese. Na primjer: internal=http://jellyfin.example.com, external=https://jellyfin.example.com ili all=https://jellyfin.example.com",
     "UseEpisodeImagesInNextUpHelp": "Odjeljci 'Sljedeće' i 'Nastavi s gledanjem' koristit će slike epizoda kao minijature umjesto primarne minijature emisije.",
     "PreferEmbeddedTitlesOverFileNamesHelp": "Odredite naslov prikaza koji će se koristiti kada nisu dostupni internetski metapodaci ili lokalni metapodaci.",
     "SubtitleAppearanceSettingsDisclaimer": "Sljedeće postavke ne odnose se na gore navedene grafičke titlove ili ASS/SSA titlove koji imaju vlastite stilove.",
@@ -1584,5 +1584,7 @@
     "EnableHi10p": "Uključi H.264 High 10 Profil",
     "EnableTrueHd": "Uključi TrueHD",
     "Editor": "Uređivač",
-    "DateModified": "Datum izmjenjivanja"
+    "DateModified": "Datum izmjenjivanja",
+    "AllowStreamSharingHelp": "Dozvoliti Jellyfinu da udvostruči mpegts stream iz tunera i podijeli novu kopiju streama sa svojim klijentima. Ovo je korisno kada tuner ima ograničen broj stream-ova, no može uzrokovati poteškoće pri reprodukciji.",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Ukomponirati titlove u video stream kada se aktivira transcoding. Ovo osigurava sinkronizaciju titlova nakon transcoding-a, no uz smanjenu brzinu transcoding-a."
 }

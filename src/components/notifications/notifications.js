@@ -2,8 +2,8 @@ import serverNotifications from '../../scripts/serverNotifications';
 import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
-import ServerConnections from '../../components/ServerConnections';
 
 import NotificationIcon from './notificationicon.png';
 

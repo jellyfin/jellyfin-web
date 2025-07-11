@@ -12,6 +12,7 @@ import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'scripts/dom';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
 
@@ -22,7 +23,6 @@ import itemHelper from '../itemHelper';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import { appRouter } from '../router/appRouter';
-import ServerConnections from '../ServerConnections';
 import itemShortcuts from '../shortcuts';
 
 import 'elements/emby-button/paper-icon-button-light';
@@ -1333,6 +1333,7 @@ function updateUserData(card, userData) {
             innerCardFooter.appendChild(itemProgressBar);
         }
 
+        card.setAttribute('data-positionticks', userData.PlaybackPositionTicks);
         itemProgressBar.innerHTML = progressHtml;
     } else {
         itemProgressBar = card.querySelector('.itemProgressBar');

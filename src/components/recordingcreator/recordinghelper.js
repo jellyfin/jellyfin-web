@@ -1,6 +1,6 @@
-import globalize from '../../lib/globalize';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import loading from '../loading/loading';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
 import dialog from '../dialog/dialog';

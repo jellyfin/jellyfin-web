@@ -125,6 +125,9 @@ const config = {
         ),
         chunkFilename: '[name].[contenthash].chunk.js',
         assetModuleFilename: pathData => {
+            if (pathData.filename === 'manifest.json') {
+                return '[base]';
+            }
             if (pathData.filename.startsWith('assets/') || pathData.filename.startsWith('themes/')) {
                 return '[path][base][query]';
             }
@@ -226,6 +229,7 @@ const config = {
                     path.resolve(__dirname, 'node_modules/markdown-it'),
                     path.resolve(__dirname, 'node_modules/material-react-table'),
                     path.resolve(__dirname, 'node_modules/mdurl'),
+                    path.resolve(__dirname, 'node_modules/proxy-polyfill'),
                     path.resolve(__dirname, 'node_modules/punycode'),
                     path.resolve(__dirname, 'node_modules/react-blurhash'),
                     path.resolve(__dirname, 'node_modules/react-lazy-load-image-component'),
@@ -315,7 +319,7 @@ const config = {
                             {
                                 loader: MiniCssExtractPlugin.loader,
                                 options: {
-                                    publicPath: '/'
+                                    publicPath: '../../'
                                 }
                             },
                             'css-loader',

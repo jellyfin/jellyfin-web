@@ -1,3 +1,4 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind.js';
 import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
 import { getMediaInfoApi } from '@jellyfin/sdk/lib/utils/api/media-info-api';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
@@ -14,7 +15,6 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
-import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
@@ -24,10 +24,11 @@ import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdrop
 import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind.js';
 import { bindSkipSegment } from './skipsegment.ts';
 
 const UNLIMITED_ITEMS = -1;
@@ -41,7 +42,7 @@ function enableLocalPlaylistManagement(player) {
 }
 
 function supportsPhysicalVolumeControl(player) {
-    return player.isLocalPlayer && appHost.supports('physicalvolumecontrol');
+    return player.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl);
 }
 
 function bindToFullscreenChange(player) {
@@ -317,7 +318,7 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
         PlaySessionId: startingPlaySession,
         StartTimeTicks: startPosition || 0,
         EnableRedirection: true,
-        EnableRemoteMedia: appHost.supports('remoteaudio'),
+        EnableRemoteMedia: appHost.supports(AppFeature.RemoteAudio),
         EnableAudioVbrEncoding: transcodingProfile.EnableAudioVbrEncoding
     });
 }
@@ -598,7 +599,7 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
     const isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
 
     if (mediaSource.SupportsDirectPlay || isFolderRip) {
-        if (mediaSource.IsRemote && !appHost.supports('remotevideo')) {
+        if (mediaSource.IsRemote && !appHost.supports(AppFeature.RemoteVideo)) {
             return Promise.resolve(false);
         }
 
@@ -1842,7 +1843,7 @@ export class PlaybackManager {
                         ArtistIds: firstItem.Id,
                         Filters: 'IsNotFolder',
                         Recursive: true,
-                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        SortBy: options.shuffle ? 'Random' : 'Album,ParentIndexNumber,IndexNumber,SortName',
                         MediaTypes: 'Audio'
                     }, queryOptions));
                 case 'PhotoAlbum':
@@ -1868,6 +1869,14 @@ export class PlaybackManager {
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
                         GenreIds: firstItem.Id,
                         ParentId: firstItem.ParentId,
+                        Filters: 'IsNotFolder',
+                        Recursive: true,
+                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        MediaTypes: 'Video'
+                    }, queryOptions));
+                case 'Studio':
+                    return getItemsForPlayback(serverId, mergePlaybackQueries({
+                        StudioIds: firstItem.Id,
                         Filters: 'IsNotFolder',
                         Recursive: true,
                         SortBy: options.shuffle ? 'Random' : 'SortName',
@@ -1923,7 +1932,11 @@ export class PlaybackManager {
                 if (options.shuffle) {
                     sortBy = 'Random';
                 } else if (firstItem.Type !== 'BoxSet') {
-                    sortBy = 'SortName';
+                    if (firstItem.CollectionType === 'music' || firstItem.MediaType === 'Audio') {
+                        sortBy = 'Album,ParentIndexNumber,IndexNumber,SortName';
+                    } else {
+                        sortBy = 'SortName';
+                    }
                 }
 
                 return getItemsForPlayback(serverId, mergePlaybackQueries({
@@ -3698,7 +3711,7 @@ export class PlaybackManager {
             return streamInfo ? streamInfo.playbackStartTimeTicks : null;
         };
 
-        if (appHost.supports('remotecontrol')) {
+        if (appHost.supports(AppFeature.RemoteControl)) {
             import('../../scripts/serverNotifications').then(({ default: serverNotifications }) => {
                 Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
                 Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
@@ -4069,7 +4082,7 @@ export class PlaybackManager {
                 'PlayTrailers'
             ];
 
-            if (appHost.supports('fullscreenchange')) {
+            if (appHost.supports(AppFeature.Fullscreen)) {
                 list.push('ToggleFullscreen');
             }
 

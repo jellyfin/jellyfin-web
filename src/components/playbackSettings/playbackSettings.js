@@ -3,6 +3,8 @@ import escapeHTML from 'escape-html';
 
 import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
 import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
@@ -12,7 +14,6 @@ import qualityoptions from '../qualityOptions';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './playbackSettings.template.html';
 
@@ -147,7 +148,7 @@ function showHideQualityFields(context, user, apiClient) {
         context.querySelector('.videoQualitySection').classList.add('hide');
     }
 
-    if (appHost.supports('multiserver')) {
+    if (appHost.supports(AppFeature.MultiServer)) {
         context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
         context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
 
@@ -204,7 +205,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
         context.querySelector('.chkEpisodeAutoPlay').checked = user.Configuration.EnableNextEpisodeAutoPlay || false;
     });
 
-    if (appHost.supports('externalplayerintent') && userId === loggedInUserId) {
+    if (appHost.supports(AppFeature.ExternalPlayerIntent) && userId === loggedInUserId) {
         context.querySelector('.fldExternalPlayer').classList.remove('hide');
     } else {
         context.querySelector('.fldExternalPlayer').classList.add('hide');
@@ -213,7 +214,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     if (userId === loggedInUserId && (user.Policy.EnableVideoPlaybackTranscoding || user.Policy.EnableAudioPlaybackTranscoding)) {
         context.querySelector('.qualitySections').classList.remove('hide');
 
-        if (appHost.supports('chromecast') && user.Policy.EnableVideoPlaybackTranscoding) {
+        if (appHost.supports(AppFeature.Chromecast) && user.Policy.EnableVideoPlaybackTranscoding) {
             context.querySelector('.fldChromecastQuality').classList.remove('hide');
         } else {
             context.querySelector('.fldChromecastQuality').classList.add('hide');

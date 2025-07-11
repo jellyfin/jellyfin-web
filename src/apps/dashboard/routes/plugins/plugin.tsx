@@ -64,13 +64,13 @@ const PluginPage: FC = () => {
     const {
         data: configurationPages,
         isError: isConfigurationPagesError,
-        isLoading: isConfigurationPagesLoading
+        isPending: isConfigurationPagesLoading
     } = useConfigurationPages();
 
     const {
         data: packageInfo,
         isError: isPackageInfoError,
-        isLoading: isPackageInfoLoading
+        isPending: isPackageInfoLoading
     } = usePackageInfo(pluginName ? {
         name: pluginName,
         assemblyGuid: pluginId
@@ -78,8 +78,8 @@ const PluginPage: FC = () => {
 
     const {
         data: plugins,
-        isLoading: isPluginsLoading,
-        isError: isPluginsError
+        isError: isPluginsError,
+        isPending: isPluginsLoading
     } = usePlugins();
 
     const isLoading =

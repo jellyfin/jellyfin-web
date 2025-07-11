@@ -1,30 +1,31 @@
 import escapeHtml from 'escape-html';
 
-import datetime from 'scripts/datetime';
-import Events from 'utils/events.ts';
+import ServerPathWidget from 'apps/dashboard/components/widgets/ServerPathWidget';
+import ActivityLog from 'components/activitylog';
+import alert from 'components/alert';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
+import confirm from 'components/confirm/confirm';
+import imageLoader from 'components/images/imageLoader';
+import indicators from 'components/indicators/indicators';
 import itemHelper from 'components/itemHelper';
-import serverNotifications from 'scripts/serverNotifications';
-import dom from 'scripts/dom';
-import globalize from 'lib/globalize';
-import { formatDistanceToNow } from 'date-fns';
-import { getLocaleWithSuffix } from 'utils/dateFnsLocale.ts';
 import loading from 'components/loading/loading';
 import playMethodHelper from 'components/playback/playmethodhelper';
-import cardBuilder from 'components/cardbuilder/cardBuilder';
-import imageLoader from 'components/images/imageLoader';
-import ActivityLog from 'components/activitylog';
-import imageHelper from 'utils/image';
-import indicators from 'components/indicators/indicators';
+import { formatDistanceToNow } from 'date-fns';
+import { getSystemInfoQuery } from 'hooks/useSystemInfo';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import datetime from 'scripts/datetime';
+import dom from 'scripts/dom';
+import serverNotifications from 'scripts/serverNotifications';
 import taskButton from 'scripts/taskbutton';
 import Dashboard from 'utils/dashboard';
-import ServerConnections from 'components/ServerConnections';
-import alert from 'components/alert';
-import confirm from 'components/confirm/confirm';
-import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
-
-import { getSystemInfoQuery } from 'hooks/useSystemInfo';
+import { getLocaleWithSuffix } from 'utils/dateFnsLocale.ts';
+import Events from 'utils/events.ts';
+import imageHelper from 'utils/image';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
+import { renderComponent } from 'utils/reactUtils';
 
 import 'elements/emby-button/emby-button';
 import 'elements/emby-itemscontainer/emby-itemscontainer';
@@ -32,6 +33,7 @@ import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'components/listview/listview.scss';
 import 'styles/flexstyles.scss';
 import './dashboard.scss';
+import ItemCountsWidget from '../components/widgets/ItemCountsWidget';
 
 function showPlaybackInfo(btn, session) {
     let title;
@@ -220,12 +222,6 @@ function reloadSystemInfo(view, apiClient) {
         .then(systemInfo => {
             view.querySelector('#serverName').innerText = systemInfo.ServerName;
             view.querySelector('#versionNumber').innerText = systemInfo.Version;
-
-            view.querySelector('#cachePath').innerText = systemInfo.CachePath;
-            view.querySelector('#logPath').innerText = systemInfo.LogPath;
-            view.querySelector('#transcodePath').innerText = systemInfo.TranscodingTempPath;
-            view.querySelector('#metadataPath').innerText = systemInfo.InternalMetadataPath;
-            view.querySelector('#webPath').innerText = systemInfo.WebPath;
         });
 }
 
@@ -752,6 +748,9 @@ const DashboardPage = {
 };
 
 export default function (view) {
+    const serverId = ApiClient.serverId();
+    let unmountWidgetFns = [];
+
     function onRestartRequired(evt, apiClient) {
         console.debug('onRestartRequired not implemented', evt, apiClient);
     }
@@ -783,7 +782,6 @@ export default function (view) {
         }
     }
 
-    const serverId = ApiClient.serverId();
     view.querySelector('.activeDevices').addEventListener('click', onActiveDevicesClick);
     view.addEventListener('viewshow', function () {
         const page = this;
@@ -827,6 +825,9 @@ export default function (view) {
             button: page.querySelector('.btnRefresh')
         });
 
+        unmountWidgetFns.push(renderComponent(ItemCountsWidget, {}, page.querySelector('#itemCounts')));
+        unmountWidgetFns.push(renderComponent(ServerPathWidget, {}, page.querySelector('#serverPaths')));
+
         page.querySelector('#btnRestartServer').addEventListener('click', DashboardPage.restart);
         page.querySelector('#btnShutdown').addEventListener('click', DashboardPage.shutdown);
     });
@@ -852,6 +853,11 @@ export default function (view) {
             taskKey: 'RefreshLibrary',
             button: page.querySelector('.btnRefresh')
         });
+
+        unmountWidgetFns.forEach(unmount => {
+            unmount();
+        });
+        unmountWidgetFns = [];
 
         page.querySelector('#btnRestartServer').removeEventListener('click', DashboardPage.restart);
         page.querySelector('#btnShutdown').removeEventListener('click', DashboardPage.shutdown);

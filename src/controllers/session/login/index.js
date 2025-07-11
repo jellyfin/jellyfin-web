@@ -1,5 +1,9 @@
 import DOMPurify from 'dompurify';
 import markdownIt from 'markdown-it';
+
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import { appHost } from '../../../components/apphost';
 import appSettings from '../../../scripts/settings/appSettings';
 import dom from '../../../scripts/dom';
@@ -11,12 +15,12 @@ import globalize from '../../../lib/globalize';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import Dashboard from '../../../utils/dashboard';
-import ServerConnections from '../../../components/ServerConnections';
 import toast from '../../../components/toast/toast';
 import dialogHelper from '../../../components/dialogHelper/dialogHelper';
 import baseAlert from '../../../components/alert';
-import './login.scss';
 import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
+
+import './login.scss';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -262,7 +266,7 @@ export default function (view, params) {
         loading.show();
         libraryMenu.setTransparentMenu(true);
 
-        if (!appHost.supports('multiserver')) {
+        if (!appHost.supports(AppFeature.MultiServer)) {
             view.querySelector('.btnSelectServer').classList.add('hide');
         }
 

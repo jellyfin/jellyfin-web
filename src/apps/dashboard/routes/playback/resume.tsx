@@ -1,6 +1,7 @@
 import React from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -11,7 +12,6 @@ import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'rea
 import { ActionData } from 'types/actionData';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Loading from 'components/loading/LoadingComponent';
-import ServerConnections from 'components/ServerConnections';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { queryClient } from 'utils/query/queryClient';
 
@@ -66,7 +66,7 @@ export const Component = () => {
             <Box className='content-primary'>
                 <Form method='POST'>
                     <Stack spacing={3}>
-                        <Typography variant='h2'>
+                        <Typography variant='h1'>
                             {globalize.translate('ButtonResume')}
                         </Typography>
 
