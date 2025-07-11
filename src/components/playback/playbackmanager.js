@@ -314,7 +314,7 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
         AudioCodec: transcodingProfile.AudioCodec,
         MaxAudioSampleRate: maxValues.maxAudioSampleRate,
         MaxAudioBitDepth: maxValues.maxAudioBitDepth,
-        api_key: apiClient.accessToken(),
+        ApiKey: apiClient.accessToken(),
         PlaySessionId: startingPlaySession,
         StartTimeTicks: startPosition || 0,
         EnableRedirection: true,
@@ -2826,7 +2826,7 @@ export class PlaybackManager {
                         Static: true,
                         mediaSourceId: mediaSource.Id,
                         deviceId: apiClient.deviceId(),
-                        api_key: apiClient.accessToken()
+                        ApiKey: apiClient.accessToken()
                     };
 
                     if (mediaSource.ETag) {
