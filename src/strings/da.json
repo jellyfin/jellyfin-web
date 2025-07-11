@@ -2024,5 +2024,20 @@
     "PageNotFound": "Dette er ikke den side, du leder efter.",
     "LogLoadFailure": "Kunne ikke indlæse logfilen. Den kan stadig blive skrevet til aktivt.",
     "LabelGroupShowsIntoCollectionsHelp": "Serier i en samling vises som ét samlet element, når serielister vises.",
-    "LimitSegmentLength": "Brug kortere HLS-segmenter"
+    "LimitSegmentLength": "Brug kortere HLS-segmenter",
+    "ViewSettings": "Vis Indstillinger",
+    "HeaderServerUnavailable": "Server Utilgængelig",
+    "HeaderUpdateRequired": "Opdatering Nødvendig",
+    "PluginsLoadError": "En fejl opstod imens der blev loaded plugins.",
+    "ButtonLearnMore": "Lær Mere",
+    "MessageForgotPasswordPinReset": "Skriv PIN her for at færdigøre Adgangskode nulstilling",
+    "BackupsPageLoadError": "Fejlede ved at load backup side",
+    "ButtonCreateBackup": "Opret Backup",
+    "Create": "Opret",
+    "LabelBackupsUnavailable": "Ingen backups tilgængelige",
+    "LabelRestore": "Genopret",
+    "MessageBackupDisclaimer": "Afhængig af størrelsen på det biblotek, backup processen tager måske et stykke tid.",
+    "MessageBackupInProgress": "Backup igang",
+    "LabelDatabase": "Database",
+    "LabelProgramData": "Program Data"
 }

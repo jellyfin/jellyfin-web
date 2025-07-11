@@ -1,7 +1,7 @@
 {
     "ButtonCancel": "Адмяніць",
     "ButtonOk": "ОК",
-    "ButtonQuickStartGuide": "Даведнік па пачатку працы",
+    "ButtonQuickStartGuide": "Кіраўніцтва па наладзе",
     "ButtonSignOut": "Выйсці",
     "HeaderEasyPinCode": "Easy PIN-код",
     "HeaderPaths": "Шляхі",
@@ -1992,5 +1992,6 @@
     "MoviesAndShows": "Фільмы і Cерыялы",
     "PreviewLyrics": "Прадпрагляд тэксту песні",
     "ReadInputAtNativeFramerate": "Чытаць уваходныя дадзеныя пры зыходнай частаце кадраў",
-    "ReadInputAtNativeFramerateHelp": "Уключэнне гэтай опцыі можа вырашыць некаторыя праблемы, напрыклад, заўчаснае спыненне прамых трансляцый."
+    "ReadInputAtNativeFramerateHelp": "Уключэнне гэтай опцыі можа вырашыць некаторыя праблемы, напрыклад, заўчаснае спыненне прамых трансляцый.",
+    "Retry": "Паўтарыць"
 }

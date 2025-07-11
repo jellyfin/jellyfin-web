@@ -1,4 +1,10 @@
 import DOMPurify from 'dompurify';
+import debounce from 'lodash-es/debounce';
+import Screenfull from 'screenfull';
+
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { MediaError } from 'types/mediaError';
 
 import browser from '../../scripts/browser';
 import appSettings from '../../scripts/settings/appSettings';
@@ -27,9 +33,7 @@ import {
     getBufferedRanges
 } from '../../components/htmlMediaHelper';
 import itemHelper from '../../components/itemHelper';
-import Screenfull from 'screenfull';
 import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
@@ -37,8 +41,6 @@ import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
-import debounce from 'lodash-es/debounce';
-import { MediaError } from 'types/mediaError';
 
 /**
  * Returns resolved URL.
@@ -451,6 +453,7 @@ export class HtmlVideoPlayer {
                     startPosition: options.playerStartPositionTicks / 10000000,
                     manifestLoadingTimeOut: 20000,
                     maxBufferLength: maxBufferLength,
+                    maxMaxBufferLength: maxBufferLength,
                     videoPreference: { preferHDR: true },
                     xhrSetup(xhr) {
                         xhr.withCredentials = includeCorsCredentials;
@@ -1671,7 +1674,7 @@ export class HtmlVideoPlayer {
                 const cssClass = 'htmlvideoplayer';
 
                 // Can't autoplay in these browsers so we need to use the full controls, at least until playback starts
-                if (!appHost.supports('htmlvideoautoplay')) {
+                if (!appHost.supports(AppFeature.HtmlVideoAutoplay)) {
                     html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
                 } else if (browser.web0s) {
                     // in webOS, setting preload auto allows resuming videos
@@ -1687,7 +1690,7 @@ export class HtmlVideoPlayer {
                 const videoElement = playerDlg.querySelector('video');
 
                 // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
-                if (!appHost.supports('physicalvolumecontrol')) {
+                if (!appHost.supports(AppFeature.PhysicalVolumeControl)) {
                     videoElement.volume = getSavedVolume();
                 }
 
