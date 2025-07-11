@@ -50,7 +50,7 @@ export const Component = () => {
     const onScanLibraries = useCallback(() => {
         const scanLibrariesTask = tasks?.find((value) => value.Key === 'RefreshLibrary');
 
-        if (scanLibrariesTask && scanLibrariesTask.Id) {
+        if (scanLibrariesTask?.Id) {
             startTask.mutate({
                 taskId: scanLibrariesTask.Id
             });

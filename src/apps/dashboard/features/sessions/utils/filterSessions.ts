@@ -3,7 +3,7 @@ import { parseISO, subSeconds } from 'date-fns';
 
 const MIN_SESSION_ACTIVE_TIME = 95;
 
-const filterSessions = (sessions: SessionInfoDto[]) => {
+const filterSessions = (sessions: SessionInfoDto[] = []) => {
     const minActiveDate = subSeconds(new Date(), MIN_SESSION_ACTIVE_TIME);
 
     return sessions.filter(session => {

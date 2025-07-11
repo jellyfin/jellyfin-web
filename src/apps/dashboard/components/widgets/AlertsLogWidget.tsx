@@ -18,7 +18,7 @@ const AlertsLogWidget = () => {
         hasUserId: false
     });
 
-    if (isPending || alerts?.Items?.length == 0) return null;
+    if (isPending || alerts?.Items?.length === 0) return null;
 
     return (
         <Widget
