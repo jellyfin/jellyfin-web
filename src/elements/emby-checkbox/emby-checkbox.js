@@ -7,7 +7,7 @@ import 'webcomponents.js/webcomponents-lite';
 const EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);
 
 function onKeyDown(e) {
-    // Ignore GamepadA onKeyDown since it will click the checkbox onKeyUp.
+    // Ignore GamepadA onKeyDown if using gamepadtokey since it will click the checkbox onKeyUp.
     if (appSettings.enableGamepad && e.key === 'GamepadA') {
         return;
     }
