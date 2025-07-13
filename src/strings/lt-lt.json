@@ -38,7 +38,7 @@
     "ChannelNameOnly": "Kanalas tik {0}",
     "ChannelNumber": "Kanalo numeris",
     "Composer": "Kompozitorius",
-    "ConfigureDateAdded": "Pakeisti, kaip nustatoma pridėjimo data galima Jellyfin Serveryje prie Bibliotekos nustatymų",
+    "ConfigureDateAdded": "Nustatykite, kaip nustatomi „Data added“ metaduomenys prietaisų skydelyje > Bibliotekos > Rodyti",
     "ConfirmDeleteImage": "Trinti paveikslą?",
     "ConfirmDeleteItem": "Tai atlikus elementas bus ištrintas ir iš bibliotekos, ir iš failų sistemos. Ar tikrai norite tęsti?",
     "ConfirmDeleteItems": "Tai atlikus šie elementai bus ištrinti ir iš bibliotekos, ir iš failų sistemos. Ar tikrai norite tęsti?",
@@ -1262,5 +1262,16 @@
     "LibraryNameInvalid": "Bibliotekos pavadinimas negali būti tuščias.",
     "LabelVideoBitrate": "Vaizdo įrašo bitų srautas",
     "LabelVideoResolution": "Vaizdo įrašo skiriamoji geba",
-    "ManageLibrary": "Tvarkyti biblioteką"
+    "ManageLibrary": "Tvarkyti biblioteką",
+    "SelectAudioNormalizationHelp": "Track gain (takelio stiprinimas) - reguliuoja kiekvieno takelio garsumą, kad jie būtų atkuriami vienodai garsiai. Albumo stiprinimas - reguliuoja tik albumo visų takelių garsumą, išlaikydamas albumo dinaminį diapazoną. Perjungiant iš \"Off\" į kitas parinktis, reikia iš naujo paleisti dabartinį atkūrimą.",
+    "ChannelResolutionFullHD": "Full HD",
+    "ConfirmDeleteLyrics": "Ištrynus šiuos tekstus, jie bus ištrinti iš failų sistemos ir medijos bibliotekos. Ar tikrai norite tęsti?",
+    "Colorist": "Spalvintojas",
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "ConfirmDeleteSeries": "Ištrynus šią seriją, iš failų sistemos ir medijos bibliotekos bus ištrinti VISI {0} epizodai. Ar tikrai norite tęsti?",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ConnectAnyway": "Vis tiek prisijungti",
+    "ConfirmDeleteRepository": "Ištrinti saugyklą?"
 }
