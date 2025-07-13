@@ -23,7 +23,7 @@
     "ButtonOk": "OK",
     "ButtonPause": "Pauzė",
     "ButtonPreviousTrack": "Ankstesnis takelis",
-    "ButtonQuickStartGuide": "Greitos pradžios gidas",
+    "ButtonQuickStartGuide": "Nustatymų vadovas",
     "ButtonRefreshGuideData": "Atnaujinti gido duomenis",
     "ButtonRemove": "Pašalinti",
     "ButtonSelectDirectory": "Rinktis direktoriją",
@@ -564,7 +564,7 @@
     "CopyStreamURLSuccess": "Srauto nuoroda nukopijuota.",
     "DefaultMetadataLangaugeDescription": "Tai yra numatytieji nustatymai. Jie gali būti keičiami kiekvienai bibliotekai atskirai.",
     "AllowOnTheFlySubtitleExtractionHelp": "Įterptus subtitrus iš vaizdo įrašo galima išgauti ir klientams pateikti paprastu tekstu, kad būtų išvengta vaizdo įrašų perkodavimo. Kai kuriose sistemose tai gali užtrukti ilgą laiką ir gali sustabdyti vaizdo atkūrimą subtitrų išgavimo metu. Išjunkite tai, kad subtitrus būtu įrašomi į vaizdo įrašą naudojant perkodavimą, jei jie yra nepalaikomi kliento įrenginio.",
-    "BurnSubtitlesHelp": "Nustatykite, ar transkoduodamas vaizdo įrašus serveris turėtų įrašyti subtitrus. Jei to išvengsite, labai pagerės našumas. Pasirinkite Auto (automatinis), kad įrašytumėte vaizdų formatais (VobSub, PGS, SUB, IDX ir t. t.) ir tam tikrais ASS arba SSA subtitrais.",
+    "BurnSubtitlesHelp": "Nustatykite, ar serveris turėtų įrašyti subtitrus. Jei to vengsite, labai pagerės našumas. Pasirinkite Auto (automatinis), jei norite įrašyti vaizdų formatais (VobSub, PGS, SUB, IDX ir t. t.) ir tam tikrais ASS arba SSA subtitrais pagrįstus įrašus.",
     "DefaultSubtitlesHelp": "Subtitrai įkeliami atsižvelgiant į numatytuosius ir priverstinius žymenis įterptuose metaduomenyse. Kalbos nustatymai įvertinami, kai yra keletas variantų.",
     "HeaderDeleteProvider": "Ištrinti paslaugos teikėją",
     "HeaderDeleteTaskTrigger": "Ištrinti užduoties trigerį",
@@ -1233,5 +1233,12 @@
     "LogLevel.Warning": "Įspėjimas",
     "DateModified": "Modifikavimo data",
     "LabelTextColor": "Teksto spalva",
-    "LabelSkipIfAudioTrackPresent": "Praleisti, jei numatytasis garso takelis atitinka atsisiuntimo kalbą"
+    "LabelSkipIfAudioTrackPresent": "Praleisti, jei numatytasis garso takelis atitinka atsisiuntimo kalbą",
+    "BackupsPageLoadError": "Nepavyko įkelti atsarginių kopijų puslapio",
+    "AutoSubtitleStylingHelp": "Šis režimas automatiškai perjungia vietinį ir pasirinktinį subtitrų stiliaus mechanizmus, atsižvelgiant į įrenginio tipą.",
+    "AlwaysRemuxFlacAudioFilesHelp": "Jei turite failų, kuriuos naršyklė atsisako atkurti arba netiksliai apskaičiuoja laiko žymas, įjunkite šią apeinamąją funkciją.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Jei turite failų, kuriems naršyklė netiksliai apskaičiuoja laiko žymas, įjunkite šią apeinamąją funkciją.",
+    "ButtonCreateBackup": "Sukurti atsarginę kopiją",
+    "BackdropScreensaver": "Ekrano užsklanda",
+    "AllowTonemappingSoftwareHelp": "Tonų atvaizdavimas gali pakeisti vaizdo įrašo dinaminį diapazoną iš HDR į SDR, išlaikant vaizdo detales ir spalvas, kurios yra labai svarbi informacija, kad būtų galima atvaizduoti pradinę sceną. Šiuo metu veikia tik su 10bit HDR10, HLG ir DoVi vaizdo įrašais."
 }
