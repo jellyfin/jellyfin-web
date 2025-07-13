@@ -1187,5 +1187,7 @@
     "DeleteServerConfirmation": "Ar tikrai ištrinti šį serverį?",
     "Anime": "Anime",
     "AllowStreamSharingHelp": "Leiskite „Jellyfin“ dublikuoti MPEG-TS srautą iš imtuvo ir bendrinti šį dublikuotą srautą su klientais. Tai naudinga, kai imtuvas turi bendrą srautų kiekio apribojimą, tačiau tai taip pat gali sukelti atkūrimo problemų.",
-    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Įrašykite visus subtitrus į vaizdą, kai pradedamas transkodavimas. Tai užtikrina subtitrų sinchronizaciją po transkodavimo, tačiau sumažina transkodavimo greitį."
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Įrašykite visus subtitrus į vaizdą, kai pradedamas transkodavimas. Tai užtikrina subtitrų sinchronizaciją po transkodavimo, tačiau sumažina transkodavimo greitį.",
+    "AllowFmp4TranscodingContainerHelp": "Leisti šiam imtuvui naudoti fMP4 perkodavimo konteinerį, kad būtų galima naudoti HEVC ir HDR turinį. Ne visi tiuneriai suderinami su šiuo konteineriu. Išjunkite tai, jei kyla atkūrimo problemų.",
+    "LabelThrottleDelaySeconds": "Apriboti po"
 }
