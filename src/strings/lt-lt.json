@@ -1682,5 +1682,13 @@
     "PlaybackError.NETWORK_ERROR": "Atkūrimas nepavyko dėl tinklo klaidos.",
     "PlaybackError.SERVER_ERROR": "Atkūrimas nepavyko dėl serverio klaidos.",
     "PlaybackErrorNoCompatibleStream": "Šis klientas nėra suderinamas su medija, o serveris nesiunčia suderinamo formato medijos.",
-    "PlayNextEpisodeAutomatically": "Automatiškai paleisti kitą epizodą"
+    "PlayNextEpisodeAutomatically": "Automatiškai paleisti kitą epizodą",
+    "PreferNonstandardArtistsTagHelp": "Naudokite nestandartinę žymą ARTISTS vietoj žymos ARTIST, kai ji yra.",
+    "PreferEmbeddedTitlesOverFileNames": "Pirmenybė teikiama įterptiems pavadinimams, o ne failų pavadinimams",
+    "PreferEmbeddedTitlesOverFileNamesHelp": "Nustatykite rodomą pavadinimą, kuris bus naudojamas, kai nėra interneto metaduomenų arba vietinių metaduomenų.",
+    "PreferEmbeddedEpisodeInfosOverFileNames": "Pirmenybė teikiama ne failų pavadinimams, o įterptai epizodų informacijai",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Naudokite epizodo informaciją iš įterptųjų metaduomenų, jei ji yra.",
+    "PreferEmbeddedExtrasTitlesOverFileNames": "Pirmenybė teikiama įterptiesiems pavadinimams, o ne papildomų failų pavadinimams",
+    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Papildomi elementai dažnai turi tą patį įterptąjį pavadinimą kaip ir pagrindinis elementas, todėl pažymėkite šią parinktį, jei norite, kad jiems vis tiek būtų naudojami įterptieji pavadinimai.",
+    "PreferNonstandardArtistsTag": "Pirmenybė teikiama žymai ARTISTS, jei yra"
 }
