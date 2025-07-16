@@ -200,7 +200,7 @@ export function playWithPromise(elem, onErrorFn) {
                     // swallow this error because the user can still click the play button on the video element
                     return Promise.resolve();
                 }
-                return Promise.reject(new Error(e));
+                return Promise.reject(e);
             })
             .then(() => {
                 onSuccessfulPlay(elem, onErrorFn);
@@ -276,7 +276,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
             hls.destroy();
 
             if (reject) {
-                reject(new Error(MediaError.SERVER_ERROR));
+                reject(MediaError.SERVER_ERROR);
                 reject = null;
             } else {
                 onErrorInternal(instance, MediaError.SERVER_ERROR);
@@ -298,7 +298,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                         hls.destroy();
 
                         if (reject) {
-                            reject(new Error(MediaError.NETWORK_ERROR));
+                            reject(MediaError.NETWORK_ERROR);
                             reject = null;
                         } else {
                             onErrorInternal(instance, MediaError.NETWORK_ERROR);

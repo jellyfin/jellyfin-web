@@ -21,7 +21,7 @@
 
             return Promise.resolve();
         } catch (err) {
-            return Promise.reject(new Error(err));
+            return Promise.reject(err);
         }
     };
 }(HTMLMediaElement));

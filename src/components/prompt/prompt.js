@@ -107,7 +107,7 @@ export default (() => {
             if (result) {
                 return Promise.resolve(result);
             } else {
-                return Promise.reject(new Error(result));
+                return Promise.reject(result);
             }
         };
     } else {

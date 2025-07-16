@@ -159,7 +159,7 @@ function setCurrentSrc(instance, elem, options) {
                             Events.trigger(instance, 'pause');
                         }
                     },
-                    'onError': (e) => reject(new Error(errorCodes[e.data] || 'ErrorDefault'))
+                    'onError': (e) => reject(errorCodes[e.data] || 'ErrorDefault')
                 },
                 playerVars: {
                     controls: 0,
