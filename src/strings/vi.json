@@ -182,7 +182,7 @@
     "Continuing": "Tiếp tục",
     "ContinueWatching": "Tiếp tục xem",
     "Connect": "Kết nối",
-    "ConfirmEndPlayerSession": "Bạn có muốn tắt máy chủ Jellyfin trên {0}?",
+    "ConfirmEndPlayerSession": "Bạn có muốn tắt Jellyfin trên {0} không?",
     "ConfirmDeletion": "Xác Nhận Xoá",
     "ConfirmDeleteItems": "Xoá những mục này sẽ xoá chúng khỏi ổ cứng và thư viện của bạn. Bạn có chắc chắn muốn tiếp tục?",
     "ConfirmDeleteItem": "Xoá mục này sẽ xoá nó khỏi ổ cứng và thư viện của bạn. Bạn có chắc chắn muốn tiếp tục?",
@@ -909,7 +909,7 @@
     "MessageDeleteTaskTrigger": "Bạn có chắc chắn muốn xóa trình kích hoạt tác vụ này không?",
     "MessageCreateAccountAt": "Tạo tài khoản tại {0}",
     "MessageContactAdminToResetPassword": "Vui lòng liên hệ với quản trị viên hệ thống của bạn để đặt lại mật khẩu của bạn.",
-    "MessageConfirmShutdown": "Bạn có chắc chắn muốn tắt máy chủ không?",
+    "MessageConfirmShutdown": "Bạn có chắc muốn tắt máy chủ không?",
     "MessageConfirmRevokeApiKey": "Bạn có chắc sẽ thu hồi khóa API này không? Kết nối của ứng dụng với máy chủ này sẽ bị đóng đột ngột.",
     "MessageConfirmRestart": "Bạn có chắc chắn muốn khởi động lại Jellyfin không?",
     "MessageConfirmRemoveMediaLocation": "Bạn có chắc chắn muốn xóa vị trí này không?",
@@ -2059,5 +2059,8 @@
     "TranscodingLoadError": "Không tải được cài đặt chuyển mã",
     "StorageType.CDRom": "CD-ROM",
     "StorageType.Ram": "RAM",
-    "LiveTVPageLoadError": "Không tải được trang ghi"
+    "LiveTVPageLoadError": "Không tải được trang ghi",
+    "ConnectAnyway": "Kết Nối Bất Chấp",
+    "HeaderServerMismatch": "Máy Chủ Không Phù Hợp",
+    "MessageServerMismatch": "Máy chủ bạn đang kết nối không phải là máy chủ mà trước đây bạn đã kết nối tại địa chỉ này. Nếu điều này được mong đợi, vui lòng chọn \"Kết Nối Bất Chấp\". Nếu không, kết nối của bạn hoặc máy chủ có thể bị xâm phạm."
 }

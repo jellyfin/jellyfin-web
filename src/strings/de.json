@@ -2065,5 +2065,5 @@
     "LiveTVPageLoadError": "Aufzeichnungsseite konnte nicht geladen werden",
     "MessageServerMismatch": "Der Server mit dem Du dich verbindest, ist nicht der selbe, wie der, mit dem Du zuletzt unter dieser Adresse verbunden warst. Wenn das so sein soll, wähle \"Trotzdem verbinden\". Ansonsten könnte es sein, dass Deine Verbindung oder der Server kompromittiert wurde.",
     "ConnectAnyway": "Trotzdem verbinden",
-    "HeaderServerMismatch": "Server stimmen nicht überein"
+    "HeaderServerMismatch": "Server nicht übereinstimmend"
 }

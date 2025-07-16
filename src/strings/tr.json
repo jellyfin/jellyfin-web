@@ -2053,5 +2053,9 @@
     "Create": "Oluştur",
     "LabelImageCache": "Görüntü Önbelleği",
     "MessageRestoreSuccess": "Geri yükleme başarıyla tamamlandı",
-    "MessageWaitingForServer": "Sunucu bekleniyor..."
+    "MessageWaitingForServer": "Sunucu bekleniyor...",
+    "MessageServerMismatch": "Bağlandığınız sunucu, daha önce bu adresten bağlandığınız sunucuyla aynı değil. Bu bekleniyorsa, lütfen \"Her Durumda Bağlan\" seçeneğini seçin. Aksi takdirde, bağlantınız veya sunucunuz risk altında olabilir.",
+    "HeaderServerMismatch": "Sunucu Uyuşmazlığı",
+    "LiveTVPageLoadError": "Kayıtlar sayfası yüklenemedi",
+    "ConnectAnyway": "Her Durumda Bağlan"
 }

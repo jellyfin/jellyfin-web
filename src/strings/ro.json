@@ -2062,5 +2062,8 @@
     "BackupsPageLoadError": "A eșuat să încarce pagina de copii de rezervă",
     "ButtonCreateBackup": "Crează copie de rezervă",
     "LabelImageCache": "Cache imagine",
-    "LiveTVPageLoadError": "Nu s-a putut incarca pagina de înregistrari"
+    "LiveTVPageLoadError": "Nu s-a putut incarca pagina de înregistrari",
+    "MessageServerMismatch": "Serverul la care va conectati nu este acelasi server la care v-ati conectat anterior la aceasta adresa. Daca acest lucru este de asteptat, va rugam sa selectati \"Conectati oricum\". In caz contrar, conexiunea sau serverul ar putea fi compromise.",
+    "ConnectAnyway": "Conecteaza Oricum",
+    "HeaderServerMismatch": "Serverul nu corespunde"
 }

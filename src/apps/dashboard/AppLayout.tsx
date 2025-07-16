@@ -12,6 +12,7 @@ import AppToolbar from 'components/toolbar/AppToolbar';
 import ServerButton from 'components/toolbar/ServerButton';
 import ElevationScroll from 'components/ElevationScroll';
 import { DRAWER_WIDTH } from 'components/ResponsiveDrawer';
+import { appRouter } from 'components/router/appRouter';
 import ThemeCss from 'components/ThemeCss';
 import { useApi } from 'hooks/useApi';
 import { useLocale } from 'hooks/useLocale';
@@ -66,6 +67,7 @@ export const Component: FC = () => {
                             }}
                         >
                             <AppToolbar
+                                isBackButtonAvailable={appRouter.canGoBack()}
                                 isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
                                 isDrawerOpen={isDrawerOpen}
                                 onDrawerButtonClick={onToggleDrawer}
