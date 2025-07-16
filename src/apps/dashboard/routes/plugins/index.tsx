@@ -12,9 +12,10 @@ import { Link } from 'react-router-dom';
 
 import SearchInput from 'apps/dashboard/components/SearchInput';
 import { usePluginDetails } from 'apps/dashboard/features/plugins/api/usePluginDetails';
+import NoPluginResults from 'apps/dashboard/features/plugins/components/NoPluginResults';
 import PluginCard from 'apps/dashboard/features/plugins/components/PluginCard';
-import { PluginCategory } from 'apps/dashboard/features/plugins/constants/pluginCategory';
 import { CATEGORY_LABELS } from 'apps/dashboard/features/plugins/constants/categoryLabels';
+import { PluginCategory } from 'apps/dashboard/features/plugins/constants/pluginCategory';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
@@ -178,15 +179,24 @@ export const Component = () => {
                         </Box>
 
                         <Box>
-                            <Grid container spacing={2} columns={{ xs: 1, sm: 4, md: 9, lg: 8, xl: 10 }}>
-                                {filteredPlugins.map(plugin => (
-                                    <Grid key={plugin.id} size={{ xs: 1, sm: 2, md: 3, lg: 2 }}>
-                                        <PluginCard
-                                            plugin={plugin}
-                                        />
-                                    </Grid>
-                                ))}
-                            </Grid>
+                            {filteredPlugins.length > 0 ? (
+                                <Grid container spacing={2} columns={{ xs: 1, sm: 4, md: 9, lg: 8, xl: 10 }}>
+                                    {filteredPlugins.map(plugin => (
+                                        <Grid key={plugin.id} size={{ xs: 1, sm: 2, md: 3, lg: 2 }}>
+                                            <PluginCard
+                                                plugin={plugin}
+                                            />
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            ) : (
+                                <NoPluginResults
+                                    isFiltered={!!category}
+                                    // eslint-disable-next-line react/jsx-no-bind
+                                    onViewAll={() => setCategory(undefined)}
+                                    query={searchQuery}
+                                />
+                            )}
                         </Box>
                     </Stack>
                 )}
