@@ -1,3 +1,4 @@
+import { AppFeature } from 'constants/appFeature';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import dom from '../../scripts/dom';
@@ -339,7 +340,7 @@ function showActionSheet(context, imageCard) {
 
 function initEditor(context, options) {
     const uploadButtons = context.querySelectorAll('.btnOpenUploadMenu');
-    const isFileInputSupported = appHost.supports('fileinput');
+    const isFileInputSupported = appHost.supports(AppFeature.FileInput);
     for (let i = 0, length = uploadButtons.length; i < length; i++) {
         if (isFileInputSupported) {
             uploadButtons[i].classList.remove('hide');

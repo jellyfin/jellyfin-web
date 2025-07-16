@@ -11,6 +11,7 @@ import { playbackManager } from './playback/playbackmanager';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { AppFeature } from 'constants/appFeature';
 
 function getDeleteLabel(type) {
     switch (type) {
@@ -169,7 +170,7 @@ export async function getCommands(options) {
         });
     }
 
-    if (appHost.supports('filedownload')) {
+    if (appHost.supports(AppFeature.FileDownload)) {
         // CanDownload should probably be updated to return true for these items?
         if (user.Policy.EnableContentDownloading && (item.Type === 'Season' || item.Type == 'Series')) {
             commands.push({

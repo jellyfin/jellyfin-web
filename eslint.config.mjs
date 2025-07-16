@@ -150,6 +150,11 @@ export default tseslint.config(
                             allowTypeImports: true
                         },
                         {
+                            name: '@mui/icons-material',
+                            message: 'Use direct file imports for tree-shaking',
+                            allowTypeImports: true
+                        },
+                        {
                             name: '@mui/material',
                             message: 'Use direct file imports for tree-shaking',
                             allowTypeImports: true

@@ -49,6 +49,10 @@ function normalizeAddress(address) {
     return address;
 }
 
+function sortByAccess(a, b) {
+    return (b.DateLastAccessed || 0) - (a.DateLastAccessed || 0);
+}
+
 export default class ConnectionManager {
     constructor(credentialProvider, appName, appVersion, deviceName, deviceId, capabilities) {
         console.log('Begin ConnectionManager constructor');
@@ -78,7 +82,7 @@ export default class ConnectionManager {
         self.getLastUsedServer = () => {
             const servers = credentialProvider.credentials().Servers;
 
-            servers.sort((a, b) => (b.DateLastAccessed || 0) - (a.DateLastAccessed || 0));
+            servers.sort(sortByAccess);
 
             if (!servers.length) {
                 return null;
@@ -345,25 +349,24 @@ export default class ConnectionManager {
 
             const servers = credentials.Servers.slice(0);
 
-            servers.sort((a, b) => (b.DateLastAccessed || 0) - (a.DateLastAccessed || 0));
+            servers.sort(sortByAccess);
 
             return servers;
         };
 
         self.getAvailableServers = () => {
-            console.log('Begin getAvailableServers');
+            console.debug('[ConnectionManager] Begin getAvailableServers');
 
             // Clone the array
             const credentials = credentialProvider.credentials();
 
-            return Promise.all([findServers()]).then((responses) => {
-                const foundServers = responses[0];
+            return findServers().then(foundServers => {
                 const servers = credentials.Servers.slice(0);
                 foundServers.forEach(server => {
                     credentialProvider.addOrUpdateServer(servers, server);
                 });
 
-                servers.sort((a, b) => (b.DateLastAccessed || 0) - (a.DateLastAccessed || 0));
+                servers.sort(sortByAccess);
                 credentials.Servers = servers;
                 credentialProvider.credentials(credentials);
 
@@ -423,10 +426,6 @@ export default class ConnectionManager {
             // See if we have any saved credentials and can auto sign in
             if (firstServer) {
                 return self.connectToServer(firstServer, options).then((result) => {
-                    if (result.State === ConnectionState.Unavailable) {
-                        result.State = ConnectionState.ServerSelection;
-                    }
-
                     console.log('resolving connectToServers with result.State: ' + result.State);
                     return result;
                 });
@@ -512,7 +511,7 @@ export default class ConnectionManager {
                 addressesStrings.push(addresses[addresses.length - 1].url);
             }
 
-            console.log('tryReconnect: ' + addressesStrings.join('|'));
+            console.info('[ConnectionManager] tryReconnect addresses', addressesStrings);
 
             return new Promise((resolve, reject) => {
                 const state = {};
@@ -527,10 +526,10 @@ export default class ConnectionManager {
                     }, url.timeout);
                 });
             });
-        }
+        };
 
         self.connectToServer = (server, options) => {
-            console.log('begin connectToServer');
+            console.debug('[ConnectionManager] begin connectToServer');
 
             return new Promise((resolve) => {
                 options = options || {};
@@ -542,17 +541,17 @@ export default class ConnectionManager {
                         result = result.data;
 
                         if (compareVersions(self.minServerVersion(), result.Version) === 1) {
-                            console.log('minServerVersion requirement not met. Server version: ' + result.Version);
+                            console.warn('[ConnectionManager] minServerVersion requirement not met. Server version:', result.Version);
                             resolve({
                                 State: ConnectionState.ServerUpdateNeeded,
                                 Servers: [server]
                             });
                         } else if (server.Id && result.Id !== server.Id) {
-                            console.log(
-                                'http request succeeded, but found a different server Id than what was expected'
+                            console.warn(
+                                '[ConnectionManager] http request succeeded, but found a different server Id than what was expected'
                             );
                             resolve({
-                                State: ConnectionState.Unavailable
+                                State: ConnectionState.ServerMismatch
                             });
                         } else {
                             onSuccessfulConnection(server, result, connectionMode, serverUrl, true, resolve, options);
@@ -625,6 +624,20 @@ export default class ConnectionManager {
                 resolveActions();
             }
         }
+
+        self.updateSavedServerId = async (server) => {
+            const { data: serverResponse } = await tryReconnect(server);
+            // Update the server ID to match the new value
+            server.Id = serverResponse.Id;
+            // Force the user to login again
+            server.AccessToken = null;
+            server.UserId = null;
+
+            // Save the updated server in the credential provider
+            const credentials = credentialProvider.credentials();
+            credentialProvider.addOrUpdateServer(credentials.Servers, server);
+            credentialProvider.credentials(credentials);
+        };
 
         function tryConnectToAddress(address, options) {
             const server = {
