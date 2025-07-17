@@ -98,7 +98,7 @@ export const Component = () => {
                                     {globalize.translate('SettingsSaved')}
                                 </Alert>
                             )}
-                            <Typography variant='h2'>{globalize.translate('Display')}</Typography>
+                            <Typography variant='h1'>{globalize.translate('Display')}</Typography>
                             <TextField
                                 name={'DateAddedBehavior'}
                                 label={globalize.translate('LabelDateAddedBehavior')}

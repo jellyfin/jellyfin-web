@@ -165,7 +165,7 @@
     "CopyStreamURL": "Copier l'URL du stream",
     "ContinueWatching": "Continuer à visionner",
     "Connect": "Connexion",
-    "ConfirmEndPlayerSession": "Voulez-vous éteindre Jellyfin sur {0}?",
+    "ConfirmEndPlayerSession": "Voulez-vous arrêter Jellyfin sur {0}?",
     "ConfirmDeletion": "Confirmer la suppression",
     "ConfirmDeleteItems": "Supprimer ces éléments les effaceront du disque et de votre médiathèque. Êtes-vous sûr de vouloir continuer?",
     "ConfirmDeleteImage": "Effacer l'image?",
@@ -2005,5 +2005,9 @@
     "ButtonLearnMore": "En apprendre plus",
     "TranscodingLoadError": "Échec du chargement des paramètres de transcodage",
     "ConfirmDeleteRepository": "Supprimer le dépôt ?",
-    "RepositoriesPageLoadError": "Échec du chargement des dépôts"
+    "RepositoriesPageLoadError": "Échec du chargement des dépôts",
+    "LiveTVPageLoadError": "Échec du chargement de la page d'enregistrements",
+    "ConnectAnyway": "Se connecter quand même",
+    "HeaderServerMismatch": "Incompatibilité du serveur",
+    "MessageServerMismatch": "Le serveur auquel vous vous connectez n'est pas le même que celui auquel vous vous êtes précédemment connecté à cette adresse. Si cela est normal, sélectionnez « Se connecter quand même ». Sinon, votre connexion ou le serveur pourrait être compromis."
 }

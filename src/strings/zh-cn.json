@@ -750,7 +750,7 @@
     "MessageConfirmRemoveMediaLocation": "你确定要移除此位置？",
     "MessageConfirmRestart": "你确定要重启 Jellyfin？",
     "MessageConfirmRevokeApiKey": "你确定你希望撤销这个 API 秘钥吗？这个应用程序与本服务器的连接将会被立刻中断。",
-    "MessageConfirmShutdown": "你确定要关闭服务端？",
+    "MessageConfirmShutdown": "您确定要关闭服务器吗？",
     "MessageContactAdminToResetPassword": "请联系你的管理员以重置你的密码。",
     "MessageCreateAccountAt": "在 {0} 创建帐户",
     "MessageDeleteTaskTrigger": "你确定删除这个任务触发条件？",
@@ -806,7 +806,7 @@
     "NewEpisodesOnly": "只新集",
     "News": "新闻",
     "Next": "下一个",
-    "NextUp": "接下来",
+    "NextUp": "继续观看",
     "No": "否",
     "NoNewDevicesFound": "找不到新设备。要添加新调谐器, 请关闭此对话框并手动输入设备信息。",
     "MessageNoNextUpItems": "没有发现。开始看你的节目！",
@@ -1127,7 +1127,7 @@
     "ColorTransfer": "色彩传递",
     "ConfirmDeleteItem": "删除此项目会将其从文件系统和媒体库中删除。您确定要继续吗（删除播放列表与合集不会删除文件）？",
     "ConfirmDeleteItems": "删除这些项目会将它们从文件系统和媒体库中删除。您确定要继续吗（删除播放列表与合集不会删除文件）？",
-    "ConfirmEndPlayerSession": "您要在 {0} 上关闭 Jellyfin 吗？",
+    "ConfirmEndPlayerSession": "您想关闭 {0} 上的 Jellyfin 吗？",
     "ValueSeconds": "{0} 秒",
     "Features": "功能",
     "Genre": "类型",
@@ -2061,5 +2061,9 @@
     "RepositoriesPageLoadError": "加载存储库失败",
     "TranscodingLoadError": "加载转码设置失败",
     "PluginsLoadError": "加载插件时发生错误。",
-    "ButtonLearnMore": "了解更多"
+    "ButtonLearnMore": "了解更多",
+    "LiveTVPageLoadError": "无法加载录制页面",
+    "ConnectAnyway": "仍要连接",
+    "HeaderServerMismatch": "服务器不匹配",
+    "MessageServerMismatch": "您正在连接的服务器与之前在此地址连接的服务器不同。如果这是预期情况，请选择“仍要连接”。否则，您的连接或该服务器可能已被篡改。"
 }

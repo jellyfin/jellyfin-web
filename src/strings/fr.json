@@ -2061,5 +2061,9 @@
     "TranscodingLoadError": "Échec du chargement des paramètres de transcodage",
     "ConfirmDeleteRepository": "Supprimer le dépôt ?",
     "DeleteRepositoryConfirmation": "Êtes-vous sûr de vouloir supprimer ce dépôt ?",
-    "RepositoriesPageLoadError": "Échec du chargement des dépôts"
+    "RepositoriesPageLoadError": "Échec du chargement des dépôts",
+    "LiveTVPageLoadError": "Échec du chargement de la page d'enregistrements",
+    "ConnectAnyway": "Se connecter quand même",
+    "HeaderServerMismatch": "Incompatibilité du serveur",
+    "MessageServerMismatch": "Le serveur auquel vous vous connectez n'est pas le même que celui auquel vous vous êtes précédemment connecté à cette adresse. Si cela est normal, sélectionnez « Se connecter quand même ». Sinon, votre connexion ou le serveur pourrait être compromis."
 }

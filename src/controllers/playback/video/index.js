@@ -1523,7 +1523,7 @@ export default function (view) {
         const offsetY = -(tileOffsetY * trickplayInfo.Height);
 
         const imgSrc = apiClient.getUrl('Videos/' + item.Id + '/Trickplay/' + trickplayInfo.Width + '/' + index + '.jpg', {
-            api_key: apiClient.accessToken(),
+            ApiKey: apiClient.accessToken(),
             MediaSourceId: mediaSourceId
         });
 
