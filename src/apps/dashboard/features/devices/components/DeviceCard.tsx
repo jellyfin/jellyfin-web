@@ -130,7 +130,8 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
         getDeviceIcon(device)
     ), [ device ]);
 
-    const canControl = device.ServerId && device.NowPlayingItem && device.SupportsRemoteControl;
+    const canControl = device.ServerId && device.SupportsRemoteControl;
+    const isPlayingMedia = !!device.NowPlayingItem;
 
     return (
         <Card sx={{ width: { xs: '100%', sm: '360px' } }}>
@@ -219,7 +220,7 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
             )}
             <CardActions disableSpacing>
                 <Stack direction='row' flexGrow={1} justifyContent='center'>
-                    {canControl && (
+                    {canControl && isPlayingMedia && (
                         <>
                             <IconButton onClick={onPlayPauseSession}>
                                 {device.PlayState?.IsPaused ? <PlayArrow /> : <Pause />}
@@ -227,14 +228,15 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
                             <IconButton onClick={onStopSession}>
                                 <Stop />
                             </IconButton>
-                            <IconButton onClick={showPlaybackInfo}>
-                                <Info />
-                            </IconButton>
                         </>
                     )}
-                    <IconButton onClick={showMessageDialog}>
+                    {isPlayingMedia && (<IconButton onClick={showPlaybackInfo}>
+                        <Info />
+                    </IconButton>)}
+                    {canControl && (<IconButton onClick={showMessageDialog}>
                         <Comment />
                     </IconButton>
+                    )}
                 </Stack>
             </CardActions>
             {device.UserName && (
