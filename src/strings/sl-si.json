@@ -1999,5 +1999,13 @@
     "ConfirmDeleteRepository": "Izbriši repozitorij?",
     "CopyLogSuccess": "Vsebina dnevnika je bila uspešno kopirana.",
     "Create": "Ustvari",
-    "ButtonLearnMore": "Izvedi več"
+    "ButtonLearnMore": "Izvedi več",
+    "DownloadManager": "Prenosi",
+    "HeaderPageNotFound": "Strani ni bilo mogoče najti",
+    "DeleteRepositoryConfirmation": "Ali ste prepričani, da želite izbrisati ta repozitorij?",
+    "HeaderBackupsHelp": "Ustvarite in obnovite varnostne kopije strežnika, ki lahko vključujejo bazo podatkov, metapodatke, podnapise in trickplay.",
+    "DisplayLoadError": "Pri nalaganju podatkov o nastavitvi zaslona je prišlo do napake.",
+    "DeleteServerConfirmation": "Ali ste prepričani, da želite izbrisati to strežnik?",
+    "DeleteCustomImage": "Izbriši sliko po meri",
+    "HeaderServerMismatch": "Neujemanje strežnika"
 }
