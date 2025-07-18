@@ -230,12 +230,15 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
                             </IconButton>
                         </>
                     )}
-                    {isPlayingMedia && (<IconButton onClick={showPlaybackInfo}>
-                        <Info />
-                    </IconButton>)}
-                    {canControl && (<IconButton onClick={showMessageDialog}>
-                        <Comment />
-                    </IconButton>
+                    {isPlayingMedia && (
+                        <IconButton onClick={showPlaybackInfo}>
+                            <Info />
+                        </IconButton>
+                    )}
+                    {canControl && (
+                        <IconButton onClick={showMessageDialog}>
+                            <Comment />
+                        </IconButton>
                     )}
                 </Stack>
             </CardActions>
