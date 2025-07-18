@@ -2023,5 +2023,6 @@
     "LastActive": "Nazadnje aktiven",
     "HeaderUpdateRequired": "Zahtevana je posodobitev",
     "ImageUploadFailed": "Nalaganje slike ni uspelo",
-    "LimitSegmentLength": "Uporabi krajše HLS segmente"
+    "LimitSegmentLength": "Uporabi krajše HLS segmente",
+    "LimitSegmentLengthHelp": "Omogočanje te možnosti lahko prepreči zatikanje predvajalnika HLS pri iskanju na nekaterih napravah, kot so televizorji s sistemom WebOS, zataknil."
 }
