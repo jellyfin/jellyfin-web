@@ -626,6 +626,7 @@
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Automatically refresh metadata from the internet",
     "LabelAutomaticDiscovery": "Enable Auto Discovery",
     "LabelAutomaticDiscoveryHelp": "Allow applications to automatically detect Jellyfin by using UDP port 7359.",
+    "LabelAvailable": "Available",
     "LabelBackupsUnavailable": "No backups available",
     "LabelBaseUrl": "Base URL",
     "LabelBaseUrlHelp": "Add a custom subdirectory to the server URL. For example: <code>http://example.com/<b>&lt;baseurl&gt;</b></code>",

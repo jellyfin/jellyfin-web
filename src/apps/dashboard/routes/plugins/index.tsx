@@ -16,6 +16,7 @@ import NoPluginResults from 'apps/dashboard/features/plugins/components/NoPlugin
 import PluginCard from 'apps/dashboard/features/plugins/components/PluginCard';
 import { CATEGORY_LABELS } from 'apps/dashboard/features/plugins/constants/categoryLabels';
 import { PluginCategory } from 'apps/dashboard/features/plugins/constants/pluginCategory';
+import { PluginStatusOption } from 'apps/dashboard/features/plugins/constants/pluginStatusOption';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
@@ -35,9 +36,6 @@ const MAIN_CATEGORIES = [
     PluginCategory.Subtitles.toLowerCase()
 ];
 
-/** The installed meta category. */
-const INSTALLED_CATEGORY = 'installed';
-
 export const Component = () => {
     const {
         data: pluginDetails,
@@ -46,6 +44,7 @@ export const Component = () => {
     } = usePluginDetails();
     const [ category, setCategory ] = useState<string>();
     const [ searchQuery, setSearchQuery ] = useState('');
+    const [ status, setStatus ] = useState<PluginStatusOption>(PluginStatusOption.Installed);
 
     const onSearchChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setSearchQuery(event.target.value);
@@ -55,11 +54,14 @@ export const Component = () => {
         if (pluginDetails) {
             let filtered = pluginDetails;
 
+            if (status === PluginStatusOption.Installed) {
+                filtered = filtered.filter(p => p.status);
+            } else if (status === PluginStatusOption.Available) {
+                filtered = filtered.filter(p => !p.status);
+            }
+
             if (category) {
-                if (category === INSTALLED_CATEGORY) {
-                    // Installed plugins will have a status
-                    filtered = filtered.filter(p => p.status);
-                } else if (category === PluginCategory.Other.toLowerCase()) {
+                if (category === PluginCategory.Other.toLowerCase()) {
                     filtered = filtered.filter(p => (
                         p.category && !MAIN_CATEGORIES.includes(p.category.toLowerCase())
                     ));
@@ -72,7 +74,7 @@ export const Component = () => {
         } else {
             return [];
         }
-    }, [ category, pluginDetails, searchQuery ]);
+    }, [ category, pluginDetails, searchQuery, status ]);
 
     if (isPending) {
         return <Loading />;
@@ -150,20 +152,34 @@ export const Component = () => {
                                 }}
                             >
                                 <Chip
+                                    color={status === PluginStatusOption.All ? 'primary' : undefined}
+                                    // eslint-disable-next-line react/jsx-no-bind
+                                    onClick={() => setStatus(PluginStatusOption.All)}
+                                    label={globalize.translate('All')}
+                                />
+
+                                <Chip
+                                    color={status === PluginStatusOption.Available ? 'primary' : undefined}
+                                    // eslint-disable-next-line react/jsx-no-bind
+                                    onClick={() => setStatus(PluginStatusOption.Available)}
+                                    label={globalize.translate('LabelAvailable')}
+                                />
+
+                                <Chip
+                                    color={status === PluginStatusOption.Installed ? 'primary' : undefined}
+                                    // eslint-disable-next-line react/jsx-no-bind
+                                    onClick={() => setStatus(PluginStatusOption.Installed)}
+                                    label={globalize.translate('LabelInstalled')}
+                                />
+
+                                <Divider orientation='vertical' flexItem />
+
+                                <Chip
                                     color={!category ? 'primary' : undefined}
                                     // eslint-disable-next-line react/jsx-no-bind
                                     onClick={() => setCategory(undefined)}
                                     label={globalize.translate('All')}
                                 />
-
-                                <Chip
-                                    color={category === INSTALLED_CATEGORY ? 'primary' : undefined}
-                                    // eslint-disable-next-line react/jsx-no-bind
-                                    onClick={() => setCategory(INSTALLED_CATEGORY)}
-                                    label={globalize.translate('LabelInstalled')}
-                                />
-
-                                <Divider orientation='vertical' flexItem />
 
                                 {Object.values(PluginCategory).map(c => (
                                     <Chip
@@ -193,7 +209,10 @@ export const Component = () => {
                                 <NoPluginResults
                                     isFiltered={!!category}
                                     // eslint-disable-next-line react/jsx-no-bind
-                                    onViewAll={() => setCategory(undefined)}
+                                    onViewAll={() => {
+                                        setCategory(undefined);
+                                        setStatus(PluginStatusOption.All);
+                                    }}
                                     query={searchQuery}
                                 />
                             )}
