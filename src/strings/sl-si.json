@@ -1863,7 +1863,7 @@
     "LabelWebVersion": "Spletna različica",
     "Lyrics": "Besedila",
     "LabelMediaSegmentProviders": "Ponudniki medijskega segmenta",
-    "LibraryScanFanoutConcurrencyHelp": "Največje število vzporednih opravil med pregledom knjižnice. Če nastavite to možnost na 0, boste izbrali omejitev glede na število jeder vašega sistema. OPOZORILO: Če to številko nastavite previsoko, lahko pride do težav z omrežnimi datotečnimi sistemi; Če naletite na težave, znižajte to številko.",
+    "LibraryScanFanoutConcurrencyHelp": "Največje število vzporednih opravil med pregledom knjižnice. Če pustite prazno, bo izbrana omejitev glede na število jeder vašega sistema. OPOZORILO: Če to možnost nastavite previsoko, lahko pride do težav z omrežnimi datotečnimi sistemi; Če naletite na težave, znižajte vrednost.",
     "LabelSelectPreferredTranscodeVideoCodec": "Prednostni video kodek za transkodiranje",
     "LimitSupportedVideoResolutionHelp": "Uporabite »Največja dovoljena ločljivost prekodiranja videa« kot največjo podprto ločljivost videa.",
     "LabelLyricDownloaders": "Prenašalci besedil",
@@ -2022,5 +2022,6 @@
     "LabelDatabase": "Baza podatkov",
     "LastActive": "Nazadnje aktiven",
     "HeaderUpdateRequired": "Zahtevana je posodobitev",
-    "ImageUploadFailed": "Nalaganje slike ni uspelo"
+    "ImageUploadFailed": "Nalaganje slike ni uspelo",
+    "LimitSegmentLength": "Uporabi krajše HLS segmente"
 }
