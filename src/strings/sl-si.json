@@ -1991,5 +1991,7 @@
     "CustomSubtitleStylingHelp": "Oblikovanje podnapisov bo delovalo na večini naprav, vendar prinaša dodatne stroške delovanja.",
     "LabelSubtitleStyling": "Oblikovanje podnapisov",
     "Native": "Prvotno",
-    "NativeSubtitleStylingHelp": "Oblikovanje podnapisov ne bo delovalo na nekaterih napravah. Vendar pa ne prinaša dodatnih stroškov glede zmogljivosti."
+    "NativeSubtitleStylingHelp": "Oblikovanje podnapisov ne bo delovalo na nekaterih napravah. Vendar pa ne prinaša dodatnih stroškov glede zmogljivosti.",
+    "BackupsPageLoadError": "Strani varnostnega kopiranja ni bilo mogoče naložiti",
+    "ButtonCreateBackup": "Ustvari varnostno kopijo"
 }
