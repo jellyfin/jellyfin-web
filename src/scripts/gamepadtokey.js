@@ -80,8 +80,12 @@ _ButtonPressedState.getgamepadA = function () {
 _ButtonPressedState.setgamepadA = function (newPressedState) {
     const newPressedEvent = raiseKeyEvent(_gamepadAPressed, newPressedState, _GAMEPAD_A_KEY, _GAMEPAD_A_KEYCODE, false, true, _gamepadADownEvent);
     _gamepadAPressed = newPressedState;
-    if (newPressedEvent != null) {
+
+    if (newPressedState && newPressedEvent != null) {
         _gamepadADownEvent = newPressedEvent;
+    } else if (!newPressedState) {
+        // reset on keyup
+        _gamepadADownEvent = null;
     }
 };
 
@@ -210,6 +214,8 @@ function clickElement(elem) {
 }
 
 function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRepeatKeyDown, clickonKeyUp, oldPressedEvent) {
+    let newPressedEvent = null;
+
     // No-op if oldPressedState === newPressedState
     if (newPressedState === true) {
         // button down
@@ -224,25 +230,20 @@ function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRep
         }
 
         if (fire && keyCode) {
-            const newPressedEvent = raiseEvent('keydown', key, keyCode);
-            return newPressedEvent;
+            newPressedEvent = raiseEvent('keydown', key, keyCode);
         }
     } else if (newPressedState === false && oldPressedState === true) {
         resetThrottle(key);
 
-        let newPressedEvent = null;
         // button up
         if (keyCode) {
             newPressedEvent = raiseEvent('keyup', key, keyCode);
         }
-        if (clickonKeyUp && !oldPressedEvent?.defaultPrevented && !newPressedEvent.defaultPrevented) {
+        if (clickonKeyUp && !oldPressedEvent?.defaultPrevented && !newPressedEvent?.defaultPrevented) {
             clickElement(document.activeElement || window);
         }
-
-        if (newPressedEvent) {
-            return newPressedEvent;
-        }
     }
+    return newPressedEvent;
 }
 
 let inputLoopTimer;
