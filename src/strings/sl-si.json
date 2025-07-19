@@ -2048,5 +2048,10 @@
     "StorageType.NoRootDirectory": "Brez korenske mape",
     "PageNotFound": "To ni stran, ki jo iščete.",
     "MetadataImagesLoadError": "Nalaganje nastavitev metapodatkov ni uspelo",
-    "StorageType.Ram": "Pomnilnik"
+    "StorageType.Ram": "Pomnilnik",
+    "StorageType.Removable": "Odstranljiv",
+    "Success": "Uspeh",
+    "StorageType.Unknown": "Neznano",
+    "StreamCountExceedsLimit": "Število sočasnih predvajanj presega omejitev",
+    "HeaderBackups": "Varnostne kopije"
 }
