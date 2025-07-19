@@ -38,7 +38,7 @@
     "TabProfiles": "Profili",
     "TabUpcoming": "Prihajajoče",
     "TellUsAboutYourself": "Povej nam nekaj o sebi",
-    "ThisWizardWillGuideYou": "Čarovnik vas bo vodil skozi postopek namestitve. Za začetek, izberite jezik.",
+    "ThisWizardWillGuideYou": "Ta čarovnik vas bo vodil skozi postopek nastavitve. Za začetek, prosimo vnesite ime strežnika in izberite želeni jezik.",
     "WelcomeToProject": "Dobrodošli v Jellyfin!",
     "Absolute": "Absolutno",
     "AccessRestrictedTryAgainLater": "Dostop je trenutno omejen. Prosimo poskusite ponovno kasneje.",
@@ -1464,8 +1464,8 @@
     "LabelPlaybackInfo": "Informacije o predvajanju",
     "RemuxHelp2": "Prepakiranje uporabi zelo malo procesorske moči in ne vpliva na kvaliteto predstavnosti.",
     "RemuxHelp1": "Predstavnost je v nekompatibilnem kontejnerju (MKV, AVI, WMV, itd.), vendar sta tako video kot zvok kompatibilna z napravo. Predstavnost po sproti prepakirana in poslana na napravo brez izgube kvalitete.",
-    "AspectRatioCover": "Prekrij",
-    "AspectRatioFill": "Zapolni",
+    "AspectRatioCover": "Povečaj",
+    "AspectRatioFill": "Raztegni",
     "EnableFallbackFontHelp": "Omogoči nadomestne pisave po meri. To lahko pomaga v primeru napačnega izrisa podnapisov.",
     "EnableFallbackFont": "Omogočite nadomestne pisave",
     "LabelFallbackFontPathHelp": "Te pisave uporabljajo nekateri odjemalci za upodabljanje podnapisov. Za več informacij glejte dokumentacijo.",
@@ -2053,5 +2053,8 @@
     "Success": "Uspeh",
     "StorageType.Unknown": "Neznano",
     "StreamCountExceedsLimit": "Število sočasnih predvajanj presega omejitev",
-    "HeaderBackups": "Varnostne kopije"
+    "HeaderBackups": "Varnostne kopije",
+    "ViewSettings": "Ogled nastavitev",
+    "TranscodingLoadError": "Napaka pri nalaganju nastavitev prekodiranja",
+    "UploadCustomImage": "Naloži sliko po meri"
 }
