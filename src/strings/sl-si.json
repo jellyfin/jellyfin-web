@@ -2024,5 +2024,12 @@
     "HeaderUpdateRequired": "Zahtevana je posodobitev",
     "ImageUploadFailed": "Nalaganje slike ni uspelo",
     "LimitSegmentLength": "Uporabi krajše HLS segmente",
-    "LimitSegmentLengthHelp": "Omogočanje te možnosti lahko prepreči zatikanje predvajalnika HLS pri iskanju na nekaterih napravah, kot so televizorji s sistemom WebOS, zataknil."
+    "LimitSegmentLengthHelp": "Omogočanje te možnosti lahko prepreči zatikanje predvajalnika HLS pri iskanju na nekaterih napravah, kot so televizorji s sistemom WebOS, zataknil.",
+    "MessageRestoreDisclaimer": "POZOR: Obnovili boste varnostno kopijo. Vaš strežnik bo med postopkom nedosegljiv in vsi podatki novejši od varnostne kopije, bodo izgubljeni.",
+    "MessageBackupDisclaimer": "Odvisno od velikosti vaše knjižnice lahko postopek varnostnega kopiranja traja nekaj časa.",
+    "MessageRestoreInProgress": "Obnovitev v teku",
+    "LiveTVPageLoadError": "Strani s snemanji ni bilo mogoče naložiti",
+    "MessageBackupInProgress": "Varnostno kopiranje v teku",
+    "MessageRestoreSuccess": "Obnovitev je bila uspešno zaključena",
+    "MessageForgotPasswordPinReset": "Vnesite kodo PIN za dokončanje ponastavitve gesla"
 }
