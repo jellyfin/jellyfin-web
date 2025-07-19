@@ -1952,6 +1952,14 @@ export default function (view, params) {
         playbackManager.play(playOptions);
     }
 
+    function playItemWithMediaSource(item, mediaSourceId, mode) {
+        const startPosition = item.UserData && mode === 'resume' ? item.UserData.PlaybackPositionTicks : 0;
+        const playOptions = getPlayOptions(startPosition);
+        playOptions.items = [item];
+        playOptions.mediaSourceId = mediaSourceId;
+        playbackManager.play(playOptions);
+    }
+
     function playTrailer() {
         playbackManager.playTrailers(currentItem);
     }
@@ -1981,7 +1989,15 @@ export default function (view, params) {
             action = actionElem.getAttribute('data-action');
         }
 
-        playCurrentItem(actionElem, action);
+        if (currentItem && currentItem.MediaSources && currentItem.MediaSources.length > 1) {
+            import('../../components/versionSelectionModal/versionSelectionModal').then(({ default: versionSelectionModal }) => {
+                versionSelectionModal.show(currentItem, function (selectedMediaSourceId) {
+                    playItemWithMediaSource(currentItem, selectedMediaSourceId, action);
+                }).catch(() => { /* user cancelled */ });
+            });
+        } else {
+            playCurrentItem(actionElem, action);
+        }
     }
 
     function onInstantMixClick() {
