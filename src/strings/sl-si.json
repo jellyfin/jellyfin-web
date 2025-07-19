@@ -2056,5 +2056,6 @@
     "HeaderBackups": "Varnostne kopije",
     "ViewSettings": "Ogled nastavitev",
     "TranscodingLoadError": "Napaka pri nalaganju nastavitev prekodiranja",
-    "UploadCustomImage": "Naloži sliko po meri"
+    "UploadCustomImage": "Naloži sliko po meri",
+    "LogLoadFailure": "Nalaganje dnevniške datoteke ni uspelo. Morda se vanjo še vedno aktivno zapisuje."
 }
