@@ -2031,5 +2031,22 @@
     "LiveTVPageLoadError": "Strani s snemanji ni bilo mogoče naložiti",
     "MessageBackupInProgress": "Varnostno kopiranje v teku",
     "MessageRestoreSuccess": "Obnovitev je bila uspešno zaključena",
-    "MessageForgotPasswordPinReset": "Vnesite kodo PIN za dokončanje ponastavitve gesla"
+    "MessageForgotPasswordPinReset": "Vnesite kodo PIN za dokončanje ponastavitve gesla",
+    "MessageServerMismatch": "Strežnik, s katerim se povezujete, ni isti strežnik, s katerim ste bili prej povezani na tem naslovu. Če je to pričakovano, izberite \"Vseeno poveži\". V nasprotnem primeru je vaša povezava ali strežnik morda ogrožen.",
+    "ReadInputAtNativeFramerate": "Beri vnos pri izvorni hitrosti sličic",
+    "SettingsPageLoadError": "Nalaganje strani nastavitev ni uspelo",
+    "PluginsLoadError": "Pri nalaganju dodatkov je prišlo do napake.",
+    "ReadInputAtNativeFramerateHelp": "Omogočanje te možnosti lahko odpravi nekatere težave, npr. prezgodnjo ustavitev prenosov v živo.",
+    "StorageType.Fixed": "Fiksno",
+    "RetryWithGlobalSearch": "Poskusi znova z globalnim iskanjem",
+    "MessageWaitingForServer": "Čakanje na strežnik...",
+    "MetadataNfoLoadError": "Nalaganje nastavitev NFO metapodatkov ni uspelo",
+    "Retry": "Poskusi znova",
+    "RepositoriesPageLoadError": "Nalaganje repozitorijev ni uspelo",
+    "StorageType.CDRom": "CD-ROM",
+    "StorageType.Network": "Omrežje",
+    "StorageType.NoRootDirectory": "Brez korenske mape",
+    "PageNotFound": "To ni stran, ki jo iščete.",
+    "MetadataImagesLoadError": "Nalaganje nastavitev metapodatkov ni uspelo",
+    "StorageType.Ram": "Pomnilnik"
 }
