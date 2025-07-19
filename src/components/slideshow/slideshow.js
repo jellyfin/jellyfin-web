@@ -10,7 +10,7 @@ import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 
 import './style.scss';
 import 'material-design-icons-iconfont';
