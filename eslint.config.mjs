@@ -98,7 +98,7 @@ export default tseslint.config(
 
             'sonarjs/fixme-tag': 'warn',
             'sonarjs/todo-tag': 'off',
-            'sonarjs/deprecation': 'warn',
+            'sonarjs/deprecation': 'off',
             'sonarjs/no-alphabetical-sort': 'warn',
             'sonarjs/no-inverted-boolean-check': 'error',
             'sonarjs/no-selector-parameter': 'off',
@@ -128,7 +128,40 @@ export default tseslint.config(
             '@stylistic/quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
             '@stylistic/semi': 'error',
             '@stylistic/space-before-blocks': 'error',
-            '@stylistic/space-infix-ops': 'error'
+            '@stylistic/space-infix-ops': 'error',
+
+            '@typescript-eslint/no-restricted-imports': [
+                'error',
+                {
+                    paths: [
+                        {
+                            name: '@jellyfin/sdk/lib/generated-client',
+                            message: 'Use direct file imports for tree-shaking',
+                            allowTypeImports: true
+                        },
+                        {
+                            name: '@jellyfin/sdk/lib/generated-client/api',
+                            message: 'Use direct file imports for tree-shaking',
+                            allowTypeImports: true
+                        },
+                        {
+                            name: '@jellyfin/sdk/lib/generated-client/models',
+                            message: 'Use direct file imports for tree-shaking',
+                            allowTypeImports: true
+                        },
+                        {
+                            name: '@mui/icons-material',
+                            message: 'Use direct file imports for tree-shaking',
+                            allowTypeImports: true
+                        },
+                        {
+                            name: '@mui/material',
+                            message: 'Use direct file imports for tree-shaking',
+                            allowTypeImports: true
+                        }
+                    ]
+                }
+            ]
         }
     },
 
@@ -318,17 +351,17 @@ export default tseslint.config(
                     leadingUnderscore: 'allowSingleOrDouble',
                     trailingUnderscore: 'allowSingleOrDouble'
                 },
-                // Ignore numbers, locale strings (en-us), aria/data attributes, CSS selectors,
-                // and api_key parameter
+                // Ignore numbers, locale strings (en-us), aria/data attributes and CSS selectors
                 {
                     selector: [ 'objectLiteralProperty', 'typeProperty' ],
                     format: null,
                     filter: {
-                        regex: '[ &\\-]|^([0-9]+)$|^api_key$',
+                        regex: '[ &\\-]|^([0-9]+)$',
                         match: true
                     }
                 }
             ],
+            '@typescript-eslint/no-deprecated': 'warn',
             '@typescript-eslint/no-floating-promises': 'error',
             '@typescript-eslint/prefer-string-starts-ends-with': 'error'
         }
@@ -366,7 +399,6 @@ export default tseslint.config(
         rules: {
             '@typescript-eslint/no-floating-promises': 'off',
             '@typescript-eslint/no-this-alias': 'off',
-            '@typescript-eslint/no-unused-vars': 'warn',
 
             'sonarjs/public-static-readonly': 'off',
 

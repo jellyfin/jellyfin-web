@@ -1,5 +1,8 @@
 import type { BrandingOptions } from '@jellyfin/sdk/lib/generated-client/models/branding-options';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
+import Delete from '@mui/icons-material/Delete';
+import Upload from '@mui/icons-material/Upload';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -8,14 +11,17 @@ import Stack from '@mui/material/Stack';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 
 import { getBrandingOptionsQuery, QUERY_KEY, useBrandingOptions } from 'apps/dashboard/features/branding/api/useBrandingOptions';
 import Loading from 'components/loading/LoadingComponent';
+import Image from 'components/Image';
 import Page from 'components/Page';
-import ServerConnections from 'components/ServerConnections';
+import { SPLASHSCREEN_URL } from 'constants/branding';
+import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
 
@@ -60,6 +66,7 @@ export const loader = () => {
 };
 
 export const Component = () => {
+    const { api } = useApi();
     const navigation = useNavigation();
     const actionData = useActionData() as ActionData | undefined;
     const isSubmitting = navigation.state === 'submitting';
@@ -70,12 +77,88 @@ export const Component = () => {
     } = useBrandingOptions();
     const [ brandingOptions, setBrandingOptions ] = useState(defaultBrandingOptions || {});
 
-    const setSplashscreenEnabled = useCallback((_: React.ChangeEvent<HTMLInputElement>, isEnabled: boolean) => {
-        setBrandingOptions({
-            ...brandingOptions,
-            [BrandingOption.SplashscreenEnabled]: isEnabled
+    const [ error, setError ] = useState<string>();
+
+    const [ isSplashscreenEnabled, setIsSplashscreenEnabled ] = useState(brandingOptions.SplashscreenEnabled ?? false);
+    const [ splashscreenUrl, setSplashscreenUrl ] = useState<string>();
+    useEffect(() => {
+        if (!api || isSubmitting) return;
+
+        setSplashscreenUrl(api.getUri(SPLASHSCREEN_URL, { t: Date.now() }));
+    }, [ api, isSubmitting ]);
+
+    const onSplashscreenDelete = useCallback(() => {
+        setError(undefined);
+
+        if (!api) return;
+
+        getImageApi(api)
+            .deleteCustomSplashscreen()
+            .then(() => {
+                setSplashscreenUrl(api.getUri(SPLASHSCREEN_URL, { t: Date.now() }));
+            })
+            .catch(e => {
+                console.error('[BrandingPage] error deleting image', e);
+                setError('ImageDeleteFailed');
+            });
+    }, [ api ]);
+
+    const onSplashscreenUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setError(undefined);
+
+        const files = event.target.files;
+
+        if (!api || !files) return false;
+
+        const file = files[0];
+        const reader = new FileReader();
+        reader.onerror = e => {
+            console.error('[BrandingPage] error reading file', e);
+            setError('ImageUploadFailed');
+        };
+        reader.onabort = e => {
+            console.warn('[BrandingPage] aborted reading file', e);
+            setError('ImageUploadCancelled');
+        };
+        reader.onload = () => {
+            if (!reader.result) return;
+
+            const dataUrl = reader.result as string; // readAsDataURL produces a string
+            // FIXME: TypeScript SDK thinks body should be a File but in reality it is a Base64 string
+            const body = dataUrl.split(',')[1] as never;
+            getImageApi(api)
+                .uploadCustomSplashscreen(
+                    { body },
+                    { headers: { ['Content-Type']: file.type } }
+                )
+                .then(() => {
+                    setSplashscreenUrl(dataUrl);
+                })
+                .catch(e => {
+                    console.error('[BrandingPage] error uploading splashscreen', e);
+                    setError('ImageUploadFailed');
+                });
+        };
+
+        reader.readAsDataURL(file);
+    }, [ api ]);
+
+    const setSplashscreenEnabled = useCallback(async (_: React.ChangeEvent<HTMLInputElement>, isEnabled: boolean) => {
+        setIsSplashscreenEnabled(isEnabled);
+
+        await getConfigurationApi(api!)
+            .updateNamedConfiguration({
+                key: BRANDING_CONFIG_KEY,
+                body: JSON.stringify({
+                    ...defaultBrandingOptions,
+                    SplashscreenEnabled: isEnabled
+                })
+            });
+
+        void queryClient.invalidateQueries({
+            queryKey: [ QUERY_KEY ]
         });
-    }, [ brandingOptions ]);
+    }, [ api, defaultBrandingOptions ]);
 
     const setBrandingOption = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         if (Object.keys(BrandingOption).includes(event.target.name)) {
@@ -86,6 +169,10 @@ export const Component = () => {
         }
     }, [ brandingOptions ]);
 
+    const onSubmit = useCallback(() => {
+        setError(undefined);
+    }, []);
+
     if (isPending) return <Loading />;
 
     return (
@@ -95,7 +182,10 @@ export const Component = () => {
             className='mainAnimatedPage type-interior'
         >
             <Box className='content-primary'>
-                <Form method='POST'>
+                <Form
+                    method='POST'
+                    onSubmit={onSubmit}
+                >
                     <Stack spacing={3}>
                         <Typography variant='h1'>
                             {globalize.translate('HeaderBranding')}
@@ -107,30 +197,91 @@ export const Component = () => {
                             </Alert>
                         )}
 
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    name={BrandingOption.SplashscreenEnabled}
-                                    checked={brandingOptions?.SplashscreenEnabled}
-                                    onChange={setSplashscreenEnabled}
+                        {error && (
+                            <Alert severity='error'>
+                                {globalize.translate(error)}
+                            </Alert>
+                        )}
+
+                        <Stack
+                            direction={{
+                                xs: 'column',
+                                sm: 'row'
+                            }}
+                            spacing={3}
+                        >
+                            <Box sx={{ flex: '1 1 0' }}>
+                                <Image
+                                    isLoading={false}
+                                    url={
+                                        isSplashscreenEnabled ?
+                                            splashscreenUrl :
+                                            undefined
+                                    }
                                 />
-                            }
-                            label={globalize.translate('EnableSplashScreen')}
-                        />
+                            </Box>
+
+                            <Stack
+                                spacing={{ xs: 3, sm: 2 }}
+                                sx={{ flex: '1 1 0' }}
+                            >
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            name={BrandingOption.SplashscreenEnabled}
+                                            checked={isSplashscreenEnabled}
+                                            onChange={setSplashscreenEnabled}
+                                        />
+                                    }
+                                    label={globalize.translate('EnableSplashScreen')}
+                                />
+
+                                <Typography variant='body2'>
+                                    {globalize.translate('CustomSplashScreenSize')}
+                                </Typography>
+
+                                <Button
+                                    component='label'
+                                    variant='outlined'
+                                    startIcon={<Upload />}
+                                    disabled={!isSplashscreenEnabled}
+                                >
+                                    <input
+                                        type='file'
+                                        accept='image/*'
+                                        hidden
+                                        onChange={onSplashscreenUpload}
+                                    />
+                                    {globalize.translate('UploadCustomImage')}
+                                </Button>
+
+                                <Button
+                                    variant='outlined'
+                                    color='error'
+                                    startIcon={<Delete />}
+                                    disabled={!isSplashscreenEnabled}
+                                    onClick={onSplashscreenDelete}
+                                >
+                                    {globalize.translate('DeleteCustomImage')}
+                                </Button>
+                            </Stack>
+                        </Stack>
 
                         <TextField
                             fullWidth
                             multiline
                             minRows={5}
                             maxRows={5}
-                            InputProps={{
-                                className: 'textarea-mono'
-                            }}
                             name={BrandingOption.LoginDisclaimer}
                             label={globalize.translate('LabelLoginDisclaimer')}
                             helperText={globalize.translate('LabelLoginDisclaimerHelp')}
                             value={brandingOptions?.LoginDisclaimer}
                             onChange={setBrandingOption}
+                            slotProps={{
+                                input: {
+                                    className: 'textarea-mono'
+                                }
+                            }}
                         />
 
                         <TextField
@@ -138,14 +289,16 @@ export const Component = () => {
                             multiline
                             minRows={5}
                             maxRows={20}
-                            InputProps={{
-                                className: 'textarea-mono'
-                            }}
                             name={BrandingOption.CustomCss}
                             label={globalize.translate('LabelCustomCss')}
                             helperText={globalize.translate('LabelCustomCssHelp')}
                             value={brandingOptions?.CustomCss}
                             onChange={setBrandingOption}
+                            slotProps={{
+                                input: {
+                                    className: 'textarea-mono'
+                                }
+                            }}
                         />
 
                         <Button

@@ -8,14 +8,9 @@ import { useApi } from 'hooks/useApi';
 import { QueryKey } from './queryKey';
 
 const fetchPlugins = async (
-    api?: Api,
+    api: Api,
     options?: AxiosRequestConfig
 ) => {
-    if (!api) {
-        console.warn('[fetchPlugins] No API instance available');
-        return [];
-    }
-
     const response = await getPluginsApi(api)
         .getPlugins(options);
     return response.data;
@@ -25,7 +20,7 @@ const getPluginsQuery = (
     api?: Api
 ) => queryOptions({
     queryKey: [ QueryKey.Plugins ],
-    queryFn: ({ signal }) => fetchPlugins(api, { signal }),
+    queryFn: ({ signal }) => fetchPlugins(api!, { signal }),
     enabled: !!api
 });
 

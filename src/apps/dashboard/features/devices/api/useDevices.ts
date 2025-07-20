@@ -9,15 +9,10 @@ import { useApi } from 'hooks/useApi';
 export const QUERY_KEY = 'Devices';
 
 const fetchDevices = async (
-    api?: Api,
+    api: Api,
     requestParams?: DevicesApiGetDevicesRequest,
     options?: AxiosRequestConfig
 ) => {
-    if (!api) {
-        console.warn('[fetchDevices] No API instance available');
-        return;
-    }
-
     const response = await getDevicesApi(api).getDevices(requestParams, {
         signal: options?.signal
     });
@@ -32,7 +27,7 @@ export const useDevices = (
     return useQuery({
         queryKey: [QUERY_KEY, requestParams],
         queryFn: ({ signal }) =>
-            fetchDevices(api, requestParams, { signal }),
+            fetchDevices(api!, requestParams, { signal }),
         enabled: !!api
     });
 };

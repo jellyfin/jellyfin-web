@@ -53,7 +53,7 @@ const TablePage = <T extends MRT_RowData>({
                         marginBottom: 1
                     }}
                 >
-                    <Typography variant='h2'>
+                    <Typography variant='h1'>
                         {title}
                     </Typography>
                     {subtitle && (

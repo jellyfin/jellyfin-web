@@ -5,26 +5,25 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 // NOTE: We need to import this first to initialize the connection
-import ServerConnections from './components/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import { appHost } from './components/apphost';
 import autoFocuser from './components/autoFocuser';
 import loading from 'components/loading/loading';
 import { pluginManager } from './components/pluginManager';
 import { appRouter } from './components/router/appRouter';
+import { AppFeature } from 'constants/appFeature';
 import globalize from './lib/globalize';
 import { loadCoreDictionary } from 'lib/globalize/loader';
 import { initialize as initializeAutoCast } from 'scripts/autocast';
 import browser from './scripts/browser';
 import keyboardNavigation from './scripts/keyboardNavigation';
-import { currentSettings } from './scripts/settings/userSettings';
 import { getPlugins } from './scripts/settings/webSettings';
 import taskButton from './scripts/taskbutton';
 import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
 
 import RootApp from './RootApp';
-import { history } from 'RootAppRouter';
 
 // Import the button webcomponent for use throughout the site
 // NOTE: This is a bit of a hack, files should ensure the component is imported before use
@@ -81,8 +80,6 @@ build: ${__JF_BUILD_VERSION__}`);
     // Update localization on user changes
     Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
     Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
-    // Localize the document title
-    document.title = globalize.translateHtml(document.title, 'core');
 
     // Load the font styles
     loadFonts();
@@ -116,9 +113,6 @@ build: ${__JF_BUILD_VERSION__}`);
     // Load platform specific features
     loadPlatformFeatures();
 
-    // Load custom CSS styles
-    loadCustomCss();
-
     // Enable navigation controls
     keyboardNavigation.enable();
     autoFocuser.enable();
@@ -143,7 +137,7 @@ async function loadPlugins() {
     console.dir(pluginManager);
 
     let list = await getPlugins();
-    if (!appHost.supports('remotecontrol')) {
+    if (!appHost.supports(AppFeature.RemoteControl)) {
         // Disable remote player plugins if not supported
         list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
             && !plugin.startsWith('chromecastPlayer'));
@@ -172,12 +166,12 @@ function loadPlatformFeatures() {
         import('./components/nowPlayingBar/nowPlayingBar');
     }
 
-    if (appHost.supports('remotecontrol')) {
+    if (appHost.supports(AppFeature.RemoteControl)) {
         import('./components/playback/playerSelectionMenu');
         import('./components/playback/remotecontrolautoplay');
     }
 
-    if (!appHost.supports('physicalvolumecontrol') || browser.touch) {
+    if (!appHost.supports(AppFeature.PhysicalVolumeControl) || browser.touch) {
         import('./components/playback/volumeosd');
     }
 
@@ -191,54 +185,7 @@ function loadPlatformFeatures() {
     }
 }
 
-function loadCustomCss() {
-    // Apply custom CSS
-    const apiClient = ServerConnections.currentApiClient();
-    if (apiClient) {
-        const brandingCss = fetch(apiClient.getUrl('Branding/Css'))
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error(response.status + ' ' + response.statusText);
-                }
-                return response.text();
-            })
-            .catch(function(err) {
-                console.warn('Error applying custom css', err);
-            });
-
-        const handleStyleChange = async () => {
-            let style = document.querySelector('#cssBranding');
-            if (!style) {
-                // Inject the branding css as a dom element in body so it will take
-                // precedence over other stylesheets
-                style = document.createElement('style');
-                style.id = 'cssBranding';
-                document.body.appendChild(style);
-            }
-
-            const css = [];
-            // Only add branding CSS when enabled
-            if (!currentSettings.disableCustomCss()) css.push(await brandingCss);
-            // Always add user CSS
-            css.push(currentSettings.customCss());
-
-            style.textContent = css.join('\n');
-        };
-
-        Events.on(ServerConnections, 'localusersignedin', handleStyleChange);
-        Events.on(ServerConnections, 'localusersignedout', handleStyleChange);
-        Events.on(currentSettings, 'change', (e, prop) => {
-            if (prop == 'disableCustomCss' || prop == 'customCss') {
-                handleStyleChange();
-            }
-        });
-
-        handleStyleChange();
-    }
-}
-
 function registerServiceWorker() {
-    /* eslint-disable compat/compat */
     if (navigator.serviceWorker && window.appMode !== 'cordova' && window.appMode !== 'android') {
         navigator.serviceWorker.register('serviceworker.js').then(() =>
             console.log('serviceWorker registered')
@@ -248,7 +195,6 @@ function registerServiceWorker() {
     } else {
         console.warn('serviceWorker unsupported');
     }
-    /* eslint-enable compat/compat */
 }
 
 async function renderApp() {
@@ -260,7 +206,7 @@ async function renderApp() {
 
     const root = createRoot(container);
     root.render(
-        <RootApp history={history} />
+        <RootApp />
     );
 }
 

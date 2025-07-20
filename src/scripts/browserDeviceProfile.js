@@ -137,6 +137,14 @@ function supportsEac3(videoTestElement) {
 }
 
 function supportsAc3InHls(videoTestElement) {
+    // We use hls.js on WebOS 4 and newer and hls.js uses Media Sources Extensions (MSE) API.
+    // On WebOS MSE does support AC-3 and EAC-3 only on audio mp4 file but not on audiovideo mp4
+    // therefore until audio and video is not separated when generating stream and m3u8 this should
+    // return false.
+    if (browser.web0sVersion >= 4) {
+        return false;
+    }
+
     if (browser.tizen || browser.web0s) {
         return true;
     }
@@ -864,6 +872,7 @@ export default function (options) {
     });
 
     if (canPlayHls() && options.enableHls !== false) {
+        const enableLimitedSegmentLength = userSettings.limitSegmentLength();
         if (hlsInFmp4VideoCodecs.length && hlsInFmp4VideoAudioCodecs.length && enableFmp4Hls) {
             // HACK: Since there is no filter for TS/MP4 in the API, specify HLS support in general and rely on retry after DirectPlay error
             // FIXME: Need support for {Container: 'mp4', Protocol: 'hls'} or {Container: 'hls', SubContainer: 'mp4'}
@@ -883,7 +892,8 @@ export default function (options) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
+                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
+                SegmentLength: enableLimitedSegmentLength ? 1 : undefined
             });
         }
 
@@ -906,12 +916,26 @@ export default function (options) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
+                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
+                SegmentLength: enableLimitedSegmentLength ? 1 : undefined
             });
         }
     }
 
     profile.ContainerProfiles = [];
+
+    if (browser.tizen) {
+        // Tizen doesn't support more than 32 streams in a single file
+        profile.ContainerProfiles.push({
+            Type: 'Video',
+            Conditions: [{
+                Condition: 'LessThanEqual',
+                Property: 'NumStreams',
+                Value: '32',
+                IsRequired: false
+            }]
+        });
+    }
 
     profile.CodecProfiles = [];
 

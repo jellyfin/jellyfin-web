@@ -1019,7 +1019,7 @@
     "Ended": "종료",
     "EndsAtValue": "{0}에 종료",
     "HeaderDateIssued": "발행일",
-    "ConfigureDateAdded": "'추가 된 날짜' 메타데이터가 대시보드>라이브러리>NFO 설정 에서 결정되는 방식 구성",
+    "ConfigureDateAdded": "'추가 된 날짜' 메타데이터가 대시보드 > 라이브러리 > 디스플레이에서 결정되는 방식 구성",
     "EnableStreamLoopingHelp": "라이브 스트림에 몇 초의 데이터만 포함되어 있고 지속적으로 요청해야 하는 경우, 이 옵션을 활성화하십시오. 필요하지 않은 경우, 이 기능을 사용하면 문제가 발생할 수 있습니다.",
     "BurnSubtitlesHelp": "트랜스코딩할 때 영상에 자막을 구울 지 설정합니다. 성능상 사용하지 않는 것이 좋습니다. [자동] 으로 설정하면 이미지 기반 자막(VobSub, PGS, SUB, IDX 등)과 일부 ASS, SSA자막을 굽습니다.",
     "EnableNextVideoInfoOverlay": "재생 중에 다음 비디오 정보 표시",
@@ -1089,7 +1089,7 @@
     "HeaderUpcomingOnTV": "방송 예정",
     "HeaderTranscodingProfileHelp": "트랜스코딩이 필요할 때 사용될 포맷을 지정하기 위해 트랜스코딩 프로필을 추가합니다.",
     "HeaderResponseProfileHelp": "응답 프로파일을 통해 특정 미디어를 재생했을 때 장치로 전송되는 정보를 사용자화할 수 있습니다.",
-    "HeaderPlayOn": "여기부터 재생",
+    "HeaderPlayOn": "재생 기기",
     "HeaderNavigation": "탐색",
     "HeaderKeepSeries": "시리즈 유지",
     "HeaderEnabledFieldsHelp": "데이터 변경을 방지하기 위해서는 필드를 비활성화하여 잠그세요.",
@@ -1764,7 +1764,7 @@
     "GoHome": "홈으로",
     "GridView": "그리드 뷰",
     "LabelBackdropScreensaverInterval": "배경 화면보호기 간격",
-    "LabelBackdropScreensaverIntervalHelp": "배경 화면보호기를 사용할 때 서로 다른 배경으로 바뀌는 간격 시간(초)",
+    "LabelBackdropScreensaverIntervalHelp": "배경 화면보호기를 사용할 때 서로 다른 배경으로 바뀌는 간격 시간 (초).",
     "ListView": "리스트 뷰",
     "BackdropScreensaver": "배경 화면보호기",
     "LogoScreensaver": "로고 화면보호기",
@@ -1988,5 +1988,7 @@
     "LabelDevice": "장치",
     "LastActive": "마지막 활동",
     "DeleteServerConfirmation": "이 서버를 삭제하시겠습니까?",
-    "LibraryNameInvalid": "라이브러리 이름은 비워둘 수 없고 공백으로 시작하거나 끝날 수 없습니다."
+    "LibraryNameInvalid": "라이브러리 이름은 비워둘 수 없습니다.",
+    "Inker": "잉커",
+    "Retry": "재시도"
 }

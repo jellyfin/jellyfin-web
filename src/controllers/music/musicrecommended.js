@@ -348,7 +348,7 @@ export default function (view, params) {
     function onInputCommand(e) {
         if (e.detail.command === 'search') {
             e.preventDefault();
-            Dashboard.navigate('search.html?collectionType=music&parentId=' + params.topParentId);
+            Dashboard.navigate('search?collectionType=music&parentId=' + params.topParentId);
         }
     }
 

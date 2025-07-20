@@ -607,7 +607,7 @@
     "AllowOnTheFlySubtitleExtraction": "Tillat at undertekstar hentast ut fortløpande",
     "AllowMediaConversionHelp": "Tillat eller forby tilgang til mediakonverteringsfunksjonen.",
     "AllowMediaConversion": "Tillat konvertering av media",
-    "AllowFfmpegThrottlingHelp": "Når ei omkoding eller ompakking kjem langt nok foran den noverande avspelingsposisjonen, stoppast prosessen slik at den bruker mindre ressursar. Dette er mest nyttig når du sjeldan bytter posisjonen i videoen. Slå av dette viss du opplever problem med avspelinga.",
+    "AllowFfmpegThrottlingHelp": "Når ei omkoding eller ompakking kjem langt nok foran den noverande avspelingsposisjonen, stoppast prosessen slik at den sparar ressursar. Dette er mest nyttig når du sjeldan bytter posisjonen i videoen. Slå av dette viss du opplever problem med avspelinga.",
     "AllowFfmpegThrottling": "Avgrens hastigheit på omkoding",
     "AllowedRemoteAddressesHelp": "Kommaseparert liste over IP-adresser eller IP-/nettverksmaske for nettverk som er godkjent for eksterne tilkoplingar. Dersom feltet står tomt er alle adresser tillatten.",
     "AllLibraries": "Alle bibliotek",
@@ -755,5 +755,13 @@
     "AllowTonemappingHelp": "Tonekartlegging kan forvandla det dynamiske området til ein video frå HDR til SDR samtidig som bildedetaljar og fargar blir tatt vare på, noko som er veldig viktig informasjon for å representera den originale scena. Fungerer for augneblinken berre når du omkodar videoar med innebygd HDR10- eller HLG-metadata. Viss avspelinga ikkje er jamn eller mislykkast, bør du vurdera å slå av den tilsvarande maskinvaredekodaren.",
     "AllowOnTheFlySubtitleExtractionHelp": "Integrerte undertekstar kan hentast ut frå videoar og bli leverte til klientar i klartekst for å unngå omkoding av video. På nokre system kan dette ta lang tid og føra til opphald i avspelinga samtidig som prosessen pågår. Deaktiver innstillinga for å brenna inn underteksten i videoen ved hjelp av omkoding når undertekstformatet ikkje er støtta av klienten.",
     "AllowHWTranscodingHelp": "Tillat at tuneren omkodar strøymer fortløpande. Dette kan bidra til å redusera mengda omkoding som må utførast av tenaren.",
-    "OptionBluray": "BD"
+    "OptionBluray": "BD",
+    "AirPlay": "AirPlay",
+    "AllowContentWithTagsHelp": "Vis berre media med minst ein av dei angitte taggene.",
+    "AllowSubtitleManagement": "Tillet denne brukaren å redigere undertekstar",
+    "AddToFavorites": "Legg til i favorittar",
+    "AgeValue": "({0} år gammal)",
+    "AllowSegmentDeletionHelp": "Slett gamle segment etter at de er lastet ned av klienten. Dette forhindrar at heile den omkodede filen må lagres på disken. Slå av hvis du opplever avspelingsproblemer",
+    "AllowSegmentDeletion": "Slett segment",
+    "AllowCollectionManagement": "Tillet denne brukaren å organisere samlingar"
 }

@@ -17,5 +17,13 @@
     "Sync": "সমলয় স্থাপন",
     "ValueSpecialEpisodeName": "বিশেষ পর্ব - {0}",
     "Default": "ডিফল্ট",
-    "Shows": "টিভি পর্ব"
+    "Shows": "টিভি পর্ব",
+    "Actor": "অভিনেতা",
+    "Add": "যোগ করো",
+    "AddToFavorites": "পছন্দের তালিকায় যোগ করো",
+    "AccessRestrictedTryAgainLater": "এখন অ্যাক্সেস সীমিত করা হয়েছে। অনুগ্রহ করে পরে আবার চেষ্টা করুন।",
+    "AddToCollection": "সংগ্রহে যোগ করো",
+    "AddedOnValue": "{0} যোগ করা হয়েছে",
+    "Absolute": "চূড়ান্ত",
+    "AddToPlaylist": "প্লেলিস্টে যোগ করো"
 }

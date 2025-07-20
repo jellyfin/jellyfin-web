@@ -678,6 +678,7 @@ describe('getDefaultBackgroundClass', () => {
     });
 
     test('randomization string provided', () => {
+        // eslint-disable-next-line sonarjs/pseudo-random
         const generateRandomString = (stringLength: number): string => (Math.random() + 1).toString(36).substring(stringLength);
 
         for (let i = 0; i < 100; i++) {

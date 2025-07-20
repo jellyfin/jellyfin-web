@@ -3,16 +3,16 @@ import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-a
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Stack from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
+import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import ServerConnections from 'components/ServerConnections';
 import { useServerLogs } from 'apps/dashboard/features/logs/api/useServerLogs';
 import { useConfiguration } from 'hooks/useConfiguration';
 import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
@@ -98,7 +98,7 @@ export const Component = () => {
 
                         <FormControlLabel
                             control={
-                                <Switch
+                                <Checkbox
                                     checked={configuration?.EnableSlowResponseWarning}
                                     onChange={setLogWarningMessage}
                                     name={'EnableWarningMessage'}

@@ -27,21 +27,17 @@ const getUrlParams = (searchParams: URLSearchParams) => {
     return params;
 };
 
-interface SearchButtonProps {
-    isTabsAvailable: boolean;
-}
-
-const SearchButton: FC<SearchButtonProps> = ({ isTabsAvailable }) => {
+const SearchButton: FC = () => {
     const location = useLocation();
     const [searchParams] = useSearchParams();
 
-    const isSearchPath = location.pathname === '/search.html';
-    const createSearchLink = isTabsAvailable ?
+    const isSearchPath = location.pathname === '/search';
+    const search = createSearchParams(getUrlParams(searchParams));
+    const createSearchLink =
         {
-            pathname: '/search.html',
-            search: `?${createSearchParams(getUrlParams(searchParams))}`
-        } :
-        '/search.html';
+            pathname: '/search',
+            search: search ? `?${search}` : undefined
+        };
 
     return (
         <Tooltip title={globalize.translate('Search')}>

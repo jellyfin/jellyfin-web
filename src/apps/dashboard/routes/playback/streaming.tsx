@@ -1,6 +1,7 @@
 import React from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -8,7 +9,6 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import ServerConnections from 'components/ServerConnections';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Loading from 'components/loading/LoadingComponent';
@@ -57,7 +57,7 @@ export const Component = () => {
             <Box className='content-primary'>
                 <Form method='POST'>
                     <Stack spacing={3}>
-                        <Typography variant='h2'>
+                        <Typography variant='h1'>
                             {globalize.translate('TabStreaming')}
                         </Typography>
 
@@ -70,14 +70,16 @@ export const Component = () => {
                         <TextField
                             type='number'
                             inputMode='decimal'
-                            inputProps={{
-                                min: 0,
-                                step: 0.25
-                            }}
                             name='StreamingBitrateLimit'
                             label={globalize.translate('LabelRemoteClientBitrateLimit')}
                             helperText={globalize.translate('LabelRemoteClientBitrateLimitHelp')}
                             defaultValue={defaultConfiguration?.RemoteClientBitrateLimit ? defaultConfiguration?.RemoteClientBitrateLimit / 1e6 : ''}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 0,
+                                    step: 0.25
+                                }
+                            }}
                         />
                         <Button
                             type='submit'

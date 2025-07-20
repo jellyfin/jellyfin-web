@@ -82,7 +82,7 @@ export function getTextActionButton(
         };
     }
 
-    const url = appRouter.getRouteUrl(item);
+    const url = appRouter.getRouteUrl(item, { serverId });
 
     const dataAttributes = getDataAttributes(
         {

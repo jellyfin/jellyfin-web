@@ -1,5 +1,9 @@
 import DOMPurify from 'dompurify';
 import markdownIt from 'markdown-it';
+
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import { appHost } from '../../../components/apphost';
 import appSettings from '../../../scripts/settings/appSettings';
 import dom from '../../../scripts/dom';
@@ -11,12 +15,12 @@ import globalize from '../../../lib/globalize';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-checkbox/emby-checkbox';
 import Dashboard from '../../../utils/dashboard';
-import ServerConnections from '../../../components/ServerConnections';
 import toast from '../../../components/toast/toast';
 import dialogHelper from '../../../components/dialogHelper/dialogHelper';
 import baseAlert from '../../../components/alert';
-import './login.scss';
 import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
+
+import './login.scss';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -110,7 +114,7 @@ function authenticateQuickConnect(apiClient, targetUrl) {
 
 function onLoginSuccessful(id, accessToken, apiClient, url) {
     Dashboard.onServerChanged(id, accessToken, apiClient);
-    Dashboard.navigate(url || 'home.html');
+    Dashboard.navigate(url || 'home');
 }
 
 function showManualForm(context, showCancel, focusPassword) {
@@ -201,7 +205,7 @@ export default function (view, params) {
             }
         }
 
-        return '/home.html';
+        return '/home';
     }
 
     function showVisualForm() {
@@ -243,7 +247,7 @@ export default function (view, params) {
         return false;
     });
     view.querySelector('.btnForgotPassword').addEventListener('click', function () {
-        Dashboard.navigate('forgotpassword.html');
+        Dashboard.navigate('forgotpassword');
     });
     view.querySelector('.btnCancel').addEventListener('click', showVisualForm);
     view.querySelector('.btnQuick').addEventListener('click', function () {
@@ -262,7 +266,7 @@ export default function (view, params) {
         loading.show();
         libraryMenu.setTransparentMenu(true);
 
-        if (!appHost.supports('multiserver')) {
+        if (!appHost.supports(AppFeature.MultiServer)) {
             view.querySelector('.btnSelectServer').classList.add('hide');
         }
 

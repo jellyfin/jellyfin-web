@@ -1,3 +1,4 @@
+import type { VersionInfo } from '@jellyfin/sdk/lib/generated-client';
 import Download from '@mui/icons-material/Download';
 import DownloadDone from '@mui/icons-material/DownloadDone';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -13,7 +14,6 @@ import { getDisplayDateTime } from 'scripts/datetime';
 import globalize from 'lib/globalize';
 
 import type { PluginDetails } from '../types/PluginDetails';
-import { VersionInfo } from '@jellyfin/sdk/lib/generated-client';
 
 interface PluginRevisionsProps {
     pluginDetails?: PluginDetails,

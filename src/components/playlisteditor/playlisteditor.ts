@@ -8,6 +8,7 @@ import escapeHtml from 'escape-html';
 import toast from 'components/toast/toast';
 import dom from 'scripts/dom';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import { PluginType } from 'types/plugin';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
@@ -19,7 +20,6 @@ import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import { pluginManager } from '../pluginManager';
 import { appRouter } from '../router/appRouter';
-import ServerConnections from '../ServerConnections';
 
 import 'elements/emby-button/emby-button';
 import 'elements/emby-input/emby-input';

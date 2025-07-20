@@ -25,7 +25,6 @@ const Lists: FC<ListsProps> = ({ items = [], listOptions = {} }) => {
     const renderListItem = (item: ItemDto, index: number) => {
         return (
             <List
-                // eslint-disable-next-line react/no-array-index-key
                 key={`${item.Id}-${index}`}
                 index={index}
                 item={item}
