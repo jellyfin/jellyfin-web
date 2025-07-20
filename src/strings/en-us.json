@@ -76,6 +76,8 @@
     "Backdrop": "Backdrop",
     "Backdrops": "Backdrops",
     "BackdropScreensaver": "Backdrop Screensaver",
+    "BackdropParentalRatingLimit": "Limit backdrop parental rating",
+    "BackdropParentalRatingLimitHelp": "When enabled, only content rated PG-13 or lower will be used for global backdrops. This helps ensure appropriate background images in family environments.",
     "BackupsPageLoadError": "Failed to load backups page",
     "Banner": "Banner",
     "BirthDateValue": "Born: {0}",

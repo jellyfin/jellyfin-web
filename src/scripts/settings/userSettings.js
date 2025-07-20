@@ -465,6 +465,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set backdrop parental rating limit.
+     * @param {boolean|undefined} [val] - Flag to enable backdrop parental rating limit or undefined.
+     * @return {boolean} Backdrop parental rating limit state.
+     */
+    backdropParentalRatingLimit(val) {
+        if (val !== undefined) {
+            return this.set('backdropParentalRatingLimit', val.toString(), false);
+        }
+
+        return toBoolean(this.get('backdropParentalRatingLimit', true), true);
+    }
+
+    /**
      * Get or set the amount of time it takes to activate the screensaver in seconds. Default 3 minutes.
      * @param {number|undefined} [val] - The amount of time it takes to activate the screensaver in seconds.
      * @return {number} The amount of time it takes to activate the screensaver in seconds.
@@ -705,6 +718,7 @@ export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);
 export const screensaver = currentSettings.screensaver.bind(currentSettings);
 export const backdropScreensaverInterval = currentSettings.backdropScreensaverInterval.bind(currentSettings);
+export const backdropParentalRatingLimit = currentSettings.backdropParentalRatingLimit.bind(currentSettings);
 export const screensaverTime = currentSettings.screensaverTime.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);

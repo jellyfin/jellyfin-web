@@ -19,4 +19,5 @@ export interface DisplaySettingsValues {
     screensaver: string;
     screensaverInterval: number;
     theme: string;
+    backdropParentalRatingLimit: boolean;
 }
