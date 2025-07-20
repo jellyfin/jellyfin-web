@@ -22,7 +22,8 @@ const getItemCountsQuery = (
 ) => queryOptions({
     queryKey: [ 'ItemCounts', params ],
     queryFn: ({ signal }) => fetchItemCounts(api!, params, { signal }),
-    enabled: !!api
+    enabled: !!api,
+    refetchOnWindowFocus: false
 });
 
 export const useItemCounts = (

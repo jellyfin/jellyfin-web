@@ -15,6 +15,7 @@ import globalize from 'lib/globalize';
 import browser from 'scripts/browser';
 import Dashboard from 'utils/dashboard';
 import shell from 'scripts/shell';
+import keyboardNavigation from 'scripts/keyboardNavigation';
 
 const UserSettingsPage: FC = () => {
     const { user: currentUser } = useApi();
@@ -45,6 +46,9 @@ const UserSettingsPage: FC = () => {
             <Loading />
         );
     }
+
+    // gamepad toggle unavailable on EdgeUWP, and smoothscroll unavailable on non-TV layout
+    const isControlsPageEmpty = !keyboardNavigation.canEnableGamepad() && !layoutManager.tv;
 
     return (
         <Page
@@ -228,7 +232,7 @@ const UserSettingsPage: FC = () => {
                             </LinkButton>
                         )}
 
-                        {isLoggedInUser && !browser.mobile && (
+                        {isLoggedInUser && !browser.mobile && !isControlsPageEmpty && (
                             <LinkButton
                                 href={`#/mypreferencescontrols?userId=${userId}`}
                                 className='lnkControlsPreferences listItem-border'
