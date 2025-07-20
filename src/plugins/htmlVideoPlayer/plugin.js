@@ -1281,7 +1281,7 @@ export class HtmlVideoPlayer {
             }
         });
         const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
-            api_key: apiClient.accessToken()
+            ApiKey: apiClient.accessToken()
         });
         const htmlVideoPlayer = this;
         import('@jellyfin/libass-wasm').then(({ default: SubtitlesOctopus }) => {
@@ -1331,7 +1331,7 @@ export class HtmlVideoPlayer {
                     apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
                         fontFiles.forEach(font => {
                             const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`, {
-                                api_key: apiClient.accessToken()
+                                ApiKey: apiClient.accessToken()
                             });
                             availableFonts.push(fontUrl);
                         });

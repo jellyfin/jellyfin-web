@@ -2057,5 +2057,6 @@
     "ButtonLearnMore": "Läs mer",
     "LabelImageCache": "Bildcache",
     "StorageType.Fixed": "Åtgärdat",
-    "LiveTVPageLoadError": "Misslyckades med att ladda inspelningssidan"
+    "LiveTVPageLoadError": "Misslyckades med att ladda inspelningssidan",
+    "ConnectAnyway": "Anslut Ändå"
 }
