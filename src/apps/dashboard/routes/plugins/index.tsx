@@ -50,6 +50,11 @@ export const Component = () => {
         setSearchQuery(event.target.value);
     }, []);
 
+    const onViewAll = useCallback(() => {
+        if (category) setCategory(undefined);
+        else setStatus(PluginStatusOption.All);
+    }, [ category ]);
+
     const filteredPlugins = useMemo(() => {
         if (pluginDetails) {
             let filtered = pluginDetails;
@@ -207,12 +212,8 @@ export const Component = () => {
                                 </Grid>
                             ) : (
                                 <NoPluginResults
-                                    isFiltered={!!category}
-                                    // eslint-disable-next-line react/jsx-no-bind
-                                    onViewAll={() => {
-                                        setCategory(undefined);
-                                        setStatus(PluginStatusOption.All);
-                                    }}
+                                    isFiltered={!!category || status !== PluginStatusOption.All}
+                                    onViewAll={onViewAll}
                                     query={searchQuery}
                                 />
                             )}
