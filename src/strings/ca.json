@@ -2028,7 +2028,7 @@
     "ViewSettings": "Configuració de visualització",
     "DownloadManager": "Descàrregues",
     "MessageForgotPasswordPinReset": "Introduïu el PIN aquí per a concloure el restabliment de la contrasenya",
-    "LabelImageCache": "Imatges a la memòria cau",
+    "LabelImageCache": "Imatges de la memòria cau",
     "MessageBackupDisclaimer": "Depenent de la mida de la mediateca, la còpia de seguretat pot trigar una estona.",
     "MessageRestoreDisclaimer": "ATENCIÓ: Esteu a punt de restaurar una còpia anterior de seguretat. El servidor no es podrà fer servir durant el procés i les dades creades des del moment de l'inici de la còpia es perdran.",
     "MessageWaitingForServer": "S'està esperant el servidor...",
