@@ -82,12 +82,8 @@ export function fillImage(entry) {
         source = entry;
     }
 
-    if (entry.isIntersecting) {
-        if (source) {
-            fillImageElement(target, source);
-        }
-    } else if (!source) {
-        emptyImageElement(target);
+    if (entry.isIntersecting && source) {
+        fillImageElement(target, source);
     }
 }
 
