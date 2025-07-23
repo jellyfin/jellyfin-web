@@ -1680,5 +1680,18 @@
     "LibraryNameInvalid": "Името на библиотеката не може да бъде пазно.",
     "LabelSyncPlayTimeSyncDevice": "Синхронизиране на време с",
     "Bold": "Удебелен",
-    "LabelImageCache": "Кеш на изображенията"
+    "LabelImageCache": "Кеш на изображенията",
+    "LiveTVPageLoadError": "Неуспешно зареждане на страницата със записи",
+    "MediaSegmentAction.AskToSkip": "Попитай, преди да пропуснеш",
+    "MediaSegmentAction.None": "Нищо",
+    "LogLevel.Trace": "Проследяване",
+    "MediaInfoRotation": "Ротация",
+    "MediaInfoTitle": "Заглавие",
+    "LabelSelectPreferredTranscodeVideoCodec": "Предпочитан видео кодек за транскодиране",
+    "Localization": "Локализация",
+    "MediaSegmentAction.Skip": "Пропусни",
+    "LabelTonemappingPeakHelp": "Заменяване на стойността на входящия сигнал на вградените метаданни със тази максимална стойност. Стойността по подразбиране е 100 (1000нита).",
+    "LabelTonemappingRange": "Диапазон на тоналното картографиране",
+    "LabelUserMaxActiveSessions": "Максимален брой на едновременните потребителски сесии",
+    "Retry": "Опитай отново"
 }
