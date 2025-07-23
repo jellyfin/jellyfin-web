@@ -2057,5 +2057,8 @@
     "StorageType.Ram": "RAM",
     "StorageType.Removable": "Removível",
     "LabelImageCache": "Cache de imagens",
-    "LiveTVPageLoadError": "Falha ao carregar a página de gravações"
+    "LiveTVPageLoadError": "Falha ao carregar a página de gravações",
+    "ConnectAnyway": "Conectar na mesma",
+    "MessageServerMismatch": "O servidor ao qual se está a conectar não é o mesmo servidor ao qual estava conectado previamente neste endereço. Se isto é o esperado, por favor selecione \"Conectar na mesma\". Caso contrário, a sua ligação ou o servidor podem ter sido comprometidos.",
+    "HeaderServerMismatch": "Discrepância de Servidores"
 }
