@@ -1971,5 +1971,13 @@
     "ConfirmDeleteRepository": "Hapus Repositori?",
     "DeleteRepositoryConfirmation": "Apakah Anda yakin ingin menghapus repositori ini?",
     "HeaderServerUnavailable": "Server tidak tersedia",
-    "ImageDeleteFailed": "Gagal menghapus gambar"
+    "ImageDeleteFailed": "Gagal menghapus gambar",
+    "ImageUploadCancelled": "Unggah Gambar Dibatalkan",
+    "LabelBackupsUnavailable": "Cadangan tidak tersedia",
+    "LabelDevice": "Perangkat",
+    "ConnectAnyway": "Lanjutkan Sambungan",
+    "HeaderServerMismatch": "Server Tidak Cocok",
+    "ImageUploadFailed": "Unggah Gambar Gagal",
+    "LabelAllowFmp4TranscodingContainer": "Izinkan kontainer transcoding fMP4",
+    "LabelDatabase": "Basis data"
 }
