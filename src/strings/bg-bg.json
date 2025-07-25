@@ -1881,5 +1881,18 @@
     "YoutubeNotFound": "Видеото не е намерено.",
     "LabelSelectStereo": "Стерео",
     "YoutubeBadRequest": "Невалидна заявка.",
-    "EnableVppTonemapping": "Активирай VPP Тонално картографиране"
+    "EnableVppTonemapping": "Активирай VPP Тонално картографиране",
+    "AllowVppTonemappingHelp": "Пълно тонално картографиране, базирано на интел драйвър. За момента работи само на определено оборудване с HDR10 видеа. Тази настройка има по-висок приоритет в сравнение с друга OpenCL имплементация.",
+    "SubtitleCodecNotSupported": "Кодекът на субтитрите не се поддържа",
+    "VideoCodecNotSupported": "Видео кодекът не се поддържа",
+    "VideoCodecTagNotSupported": "Тагът на видео кодека не се поддържа",
+    "EnableVideoToolboxTonemapping": "Активирай VideoToolbox Тонално картографиране",
+    "Controls": "Управление",
+    "LabelEnableGamepad": "Активирай геймпад",
+    "ContainerNotSupported": "Контейнерът не се поддържа",
+    "AudioBitrateNotSupported": "Поточната скорост на аудиото не се поддържа",
+    "AudioChannelsNotSupported": "Броят на аудио каналите не се поддържа",
+    "VideoResolutionNotSupported": "Разделителната способност на видеата не се поддържа",
+    "AudioCodecNotSupported": "Този аудио кодек не се поддържа",
+    "AudioProfileNotSupported": "Профилът на аудио кодеците не се поддържа"
 }
