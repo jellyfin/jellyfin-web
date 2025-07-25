@@ -1736,7 +1736,7 @@
     "LabelSyncPlaySettingsSpeedToSyncDuration": "Продължителност на SpeedToSync",
     "OptionDateEpisodeAdded": "Дата на добавяне на епизода",
     "PasswordRequiredForAdmin": "Паролата е задължителна за администраторски потребители.",
-    "Letterer": "",
+    "Letterer": "Калиграф",
     "ListView": "Списъчен изглед",
     "LogLevel.Warning": "Предупреждение",
     "OriginalAirDate": "Оригинална дата на излъчване",
@@ -1870,5 +1870,16 @@
     "TonemappingAlgorithmHelp": "Тонално картографиране позволява да бъде финно настроено. Ако не сте запознати добре с тези опции, просто използвайте тази по подразбиране. Препоръчителната стойност е 'BT.2390'.",
     "SubtitleBlue": "Син",
     "SyncPlayGroupDefaultTitle": "групата на {0}",
-    "TypeOptionPluralBoxSet": "Филмови Колекции"
+    "TypeOptionPluralBoxSet": "Филмови Колекции",
+    "YoutubePlaybackError": "Поисканото видео не може да бъде възпроизведено.",
+    "LabelSelectMono": "Моно",
+    "MessageChromecastConnectionError": "Вашият Google Cast приемник не успя да се свърже със Джелифин сървъра. Моля проверете връзката и опитайте отново.",
+    "MessagePlaybackError": "Възникна грешка с възпроизвеждането на този файл на вашият Google Cast приемник.",
+    "YoutubeDenied": "Поисканото видео няма позволение да бъде възпроизведено от вградени плейъри.",
+    "EnableEnhancedNvdecDecoder": "Активирай подобрен NVDEC декодер",
+    "LabelAllowedAudioChannels": "Максимално позволени аудио канали",
+    "YoutubeNotFound": "Видеото не е намерено.",
+    "LabelSelectStereo": "Стерео",
+    "YoutubeBadRequest": "Невалидна заявка.",
+    "EnableVppTonemapping": "Активирай VPP Тонално картографиране"
 }
