@@ -1,10 +1,9 @@
-import Settings from '@mui/icons-material/Settings';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid2';
-import IconButton from '@mui/material/IconButton/IconButton';
+import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -20,7 +19,6 @@ import { PluginStatusOption } from 'apps/dashboard/features/plugins/constants/pl
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-
 /**
  * The list of primary/main categories.
  * Any category not in this list will be added to the "other" category.
@@ -101,35 +99,53 @@ export const Component = () => {
                     </Alert>
                 ) : (
                     <Stack spacing={2}>
-                        <Grid
-                            container
-                            spacing={2}
+                        <Stack
+                            direction='row'
+                            sx={{
+                                flexWrap: {
+                                    xs: 'wrap',
+                                    sm: 'nowrap'
+                                }
+                            }}
                         >
-                            <Grid size={{ xs: 12, sm: 8 }}>
-                                <Typography
-                                    variant='h1'
-                                    component='span'
-                                    sx={{
-                                        marginRight: 2,
-                                        verticalAlign: 'middle'
-                                    }}
-                                >
-                                    {globalize.translate('TabPlugins')}
-                                </Typography>
+                            <Typography
+                                variant='h1'
+                                component='span'
+                                sx={{
+                                    flexGrow: 1,
+                                    verticalAlign: 'middle'
+                                }}
+                            >
+                                {globalize.translate('TabPlugins')}
+                            </Typography>
 
-                                <IconButton
-                                    component={Link}
-                                    to='/dashboard/plugins/repositories'
-                                >
-                                    <Settings />
-                                </IconButton>
-                            </Grid>
+                            <Button
+                                component={Link}
+                                to='/dashboard/plugins/repositories'
+                                variant='outlined'
+                                sx={{
+                                    marginLeft: 2
+                                }}
+                            >
+                                {globalize.translate('ManageRepositories')}
+                            </Button>
 
-                            <Grid
-                                size={{ xs: 12, sm: 4 }}
+                            <Box
                                 sx={{
                                     display: 'flex',
-                                    justifyContent: 'end'
+                                    justifyContent: 'end',
+                                    marginTop: {
+                                        xs: 2,
+                                        sm: 0
+                                    },
+                                    marginLeft: {
+                                        xs: 0,
+                                        sm: 2
+                                    },
+                                    width: {
+                                        xs: '100%',
+                                        sm: 'auto'
+                                    }
                                 }}
                             >
                                 <SearchInput
@@ -137,8 +153,8 @@ export const Component = () => {
                                     value={searchQuery}
                                     onChange={onSearchChange}
                                 />
-                            </Grid>
-                        </Grid>
+                            </Box>
+                        </Stack>
 
                         <Box>
                             <Stack
@@ -201,9 +217,17 @@ export const Component = () => {
 
                         <Box>
                             {filteredPlugins.length > 0 ? (
-                                <Grid container spacing={2} columns={{ xs: 1, sm: 4, md: 9, lg: 8, xl: 10 }}>
+                                <Grid container spacing={2}>
                                     {filteredPlugins.map(plugin => (
-                                        <Grid key={plugin.id} size={{ xs: 1, sm: 2, md: 3, lg: 2 }}>
+                                        <Grid
+                                            key={plugin.id}
+                                            item
+                                            xs={12}
+                                            sm={6}
+                                            md={4}
+                                            lg={3}
+                                            xl={2}
+                                        >
                                             <PluginCard
                                                 plugin={plugin}
                                             />
