@@ -1894,5 +1894,15 @@
     "AudioChannelsNotSupported": "Броят на аудио каналите не се поддържа",
     "VideoResolutionNotSupported": "Разделителната способност на видеата не се поддържа",
     "AudioCodecNotSupported": "Този аудио кодек не се поддържа",
-    "AudioProfileNotSupported": "Профилът на аудио кодеците не се поддържа"
+    "AudioProfileNotSupported": "Профилът на аудио кодеците не се поддържа",
+    "VideoLevelNotSupported": "Нивото на видео кодеците не се поддържа",
+    "AudioBitDepthNotSupported": "Битовата дълбочина на аудиото не се поддържа",
+    "AudioSampleRateNotSupported": "Честотата на семплиране на аудиото не се поддържа",
+    "RefFramesNotSupported": "Референтни кадри не се поддържат",
+    "VideoBitDepthNotSupported": "Битовата дълбочина на видеото не се поддържа",
+    "AnamorphicVideoNotSupported": "Анаморфно видео не се поддържа",
+    "InterlacedVideoNotSupported": "Преплетено видео не се поддържа",
+    "SecondaryAudioNotSupported": "Вторични аудио пътечки не се поддържат",
+    "VideoFramerateNotSupported": "Честотата на кадрите на видеото не се поддържа",
+    "VideoProfileNotSupported": "Профилът на кодеците на видеото не се поддържа"
 }
