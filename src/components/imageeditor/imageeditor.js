@@ -1,7 +1,7 @@
 import { AppFeature } from 'constants/appFeature';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import globalize from '../../lib/globalize';
