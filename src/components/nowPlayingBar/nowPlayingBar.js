@@ -1,3 +1,5 @@
+import escapeHtml from 'escape-html';
+
 import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { appRouter, isLyricsPage } from 'components/router/appRouter';
@@ -520,6 +522,9 @@ function updateNowPlayingInfo(state) {
     if (nowPlayingItem.Id) {
         const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
         apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
+            //  Set the page's title to that of the item playing.
+            document.title = escapeHtml(item.Name);
+        
             const userData = item.UserData || {};
             const likes = userData.Likes == null ? '' : userData.Likes;
             if (!layoutManager.mobile) {
