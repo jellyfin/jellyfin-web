@@ -1,24 +1,31 @@
-const fg = require('fast-glob');
-const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { DefinePlugin, IgnorePlugin } = require('webpack');
-const packageJson = require('./package.json');
+import fg from 'fast-glob';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import webpack from 'webpack';
+import packageJson from './package.json' with { type : 'json' };
+import postcssPresetEnv from 'postcss-preset-env';
+import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
+import ChildProcess from 'node:child_process';
+import { createRequire } from 'node:module';
 
-const packageConfig = require('./package.json');
-const postcssPresetEnv = require('postcss-preset-env');
-const autoprefixer = require('autoprefixer');
-const cssnano = require('cssnano');
+const require = createRequire(import.meta.url);
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
+
+const { DefinePlugin, IgnorePlugin } = webpack;
 
 const postcssOptions = {
     plugins: [
         // Explicitly specify browserslist to override ones from node_modules
         // For example, Swiper has it in its package.json
-        postcssPresetEnv({ browsers: packageConfig.browserslist }),
-        autoprefixer({ overrideBrowserslist: packageConfig.browserslist }),
+        postcssPresetEnv({ browsers: packageJson.browserslist }),
+        autoprefixer({ overrideBrowserslist: packageJson.browserslist }),
         cssnano({
             presets: [
                 'default',
@@ -66,8 +73,8 @@ const Assets = [
 const DEV_MODE = process.env.NODE_ENV !== 'production';
 let COMMIT_SHA = '';
 try {
-    COMMIT_SHA = require('child_process')
-        // eslint-disable-next-line sonarjs/no-os-command-from-path
+    COMMIT_SHA = ChildProcess
+
         .execSync('git describe --always --dirty')
         .toString()
         .trim();
@@ -412,4 +419,4 @@ const config = {
     }
 };
 
-module.exports = config;
+export default config;
