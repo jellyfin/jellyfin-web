@@ -87,7 +87,7 @@ export default (() => {
             if (submitValue) {
                 return submitValue;
             } else {
-                return Promise.reject();
+                return Promise.reject(new Error('PromptError'));
             }
         });
     }
