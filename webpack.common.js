@@ -8,6 +8,49 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { DefinePlugin, IgnorePlugin } = require('webpack');
 const packageJson = require('./package.json');
 
+const packageConfig = require('./package.json');
+const postcssPresetEnv = require('postcss-preset-env');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+
+const postcssOptions = {
+    plugins: [
+        // Explicitly specify browserslist to override ones from node_modules
+        // For example, Swiper has it in its package.json
+        postcssPresetEnv({ browsers: packageConfig.browserslist }),
+        autoprefixer({ overrideBrowserslist: packageConfig.browserslist }),
+        cssnano({
+            presets: [
+                'default',
+                // Turn off `mergeLonghand` because it combines `padding-*` and `margin-*`,
+                // breaking fallback styles.
+                // https://github.com/cssnano/cssnano/issues/1163
+                // https://github.com/cssnano/cssnano/issues/1192
+                { mergeLonghand: false }
+            ] })
+    ]
+};
+
+const babelOptions = {
+    babelrcRoots: [
+        // Keep the root as a root
+        '.'
+    ],
+    sourceType: 'unambiguous',
+    presets: [
+        [
+            '@babel/preset-env',
+            {
+                useBuiltIns: 'usage',
+                corejs: 3
+            }
+        ],
+        '@babel/preset-react'
+    ],
+    plugins: [
+    ]
+};
+
 const Assets = [
     'native-promise-only/npo.js',
     'libarchive.js/dist/worker-bundle.js',
@@ -244,6 +287,7 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true
                     }
@@ -261,6 +305,7 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true
                     }
@@ -299,6 +344,7 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true,
                         plugins: [
@@ -325,11 +371,7 @@ const config = {
                             'css-loader',
                             {
                                 loader: 'postcss-loader',
-                                options: {
-                                    postcssOptions: {
-                                        config: path.resolve(__dirname, 'postcss.config.js')
-                                    }
-                                }
+                                options: { postcssOptions }
                             },
                             'sass-loader'
                         ]
@@ -340,11 +382,7 @@ const config = {
                             'css-loader',
                             {
                                 loader: 'postcss-loader',
-                                options: {
-                                    postcssOptions: {
-                                        config: path.resolve(__dirname, 'postcss.config.js')
-                                    }
-                                }
+                                options: { postcssOptions }
                             },
                             'sass-loader'
                         ]
