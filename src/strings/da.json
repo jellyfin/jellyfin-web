@@ -860,13 +860,13 @@
     "TabAdvanced": "Avanceret",
     "TabCatalog": "Katalog",
     "TabContainers": "Containere",
-    "TabDashboard": "Dashboard",
+    "TabDashboard": "Kontrolpanel",
     "TabDirectPlay": "Direkte afspilning",
-    "TabLatest": "Nyligt tilføjet",
+    "TabLatest": "Nyeste tilføjelser",
     "TabMusic": "Musik",
     "TabMyPlugins": "Tilføjelser",
-    "TabNetworks": "TV netværk",
-    "TabNfoSettings": "NFO-indstillinger",
+    "TabNetworks": "TV Netværk",
+    "TabNfoSettings": "NFO Indstillinger",
     "TabNotifications": "Underretninger",
     "TabOther": "Andet",
     "TabParentalControl": "Forældrekontrol",
@@ -2060,5 +2060,8 @@
     "MessageWaitingForServer": "Venter på server...",
     "ConfirmDeleteRepository": "Slet bibliotek?",
     "DeleteRepositoryConfirmation": "Er du sikker på, at du vil slette dette bibliotek?",
-    "LabelImageCache": "Billedcache"
+    "LabelImageCache": "Billedcache",
+    "Success": "Vellykket",
+    "HeaderBackups": "Sikkerhedskopier",
+    "TranscodingLoadError": "Fejl ved indlæsning af transkodningsindstillinger"
 }
