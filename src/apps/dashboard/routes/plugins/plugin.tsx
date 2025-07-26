@@ -56,6 +56,7 @@ const PluginPage: FC = () => {
 
     const [ isEnabledOverride, setIsEnabledOverride ] = useState<boolean>();
     const [ isInstallConfirmOpen, setIsInstallConfirmOpen ] = useState(false);
+    const [ isInstalling, setIsInstalling ] = useState(false);
     const [ isUninstallConfirmOpen, setIsUninstallConfirmOpen ] = useState(false);
     const [ pendingInstallVersion, setPendingInstallVersion ] = useState<VersionInfo>();
 
@@ -243,6 +244,7 @@ const PluginPage: FC = () => {
 
         console.debug('[PluginPage] installing plugin', installVersion);
 
+        setIsInstalling(true);
         installPlugin.mutate({
             name: pluginDetails.name,
             assemblyGuid: pluginDetails.id,
@@ -250,6 +252,7 @@ const PluginPage: FC = () => {
             repositoryUrl: installVersion.repositoryUrl
         }, {
             onSettled: () => {
+                setIsInstalling(false);
                 setPendingInstallVersion(undefined);
                 disablePlugin.reset();
                 enablePlugin.reset();
@@ -367,6 +370,7 @@ const PluginPage: FC = () => {
                                         <Button
                                             startIcon={<Download />}
                                             onClick={onInstall()}
+                                            loading={isInstalling}
                                         >
                                             {globalize.translate('HeaderInstall')}
                                         </Button>
