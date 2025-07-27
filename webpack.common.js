@@ -31,26 +31,6 @@ const postcssOptions = {
     ]
 };
 
-const babelOptions = {
-    babelrcRoots: [
-        // Keep the root as a root
-        '.'
-    ],
-    sourceType: 'unambiguous',
-    presets: [
-        [
-            '@babel/preset-env',
-            {
-                useBuiltIns: 'usage',
-                corejs: 3
-            }
-        ],
-        '@babel/preset-react'
-    ],
-    plugins: [
-    ]
-};
-
 const Assets = [
     'native-promise-only/npo.js',
     'libarchive.js/dist/worker-bundle.js',
@@ -287,7 +267,6 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true
                     }
@@ -305,7 +284,6 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true
                     }
@@ -344,7 +322,6 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true,
                         plugins: [
