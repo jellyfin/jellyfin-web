@@ -81,11 +81,11 @@ _ButtonPressedState.setgamepadA = function (newPressedState) {
     const newPressedEvent = raiseKeyEvent(_gamepadAPressed, newPressedState, _GAMEPAD_A_KEY, _GAMEPAD_A_KEYCODE, false, true, _gamepadADownEvent);
     _gamepadAPressed = newPressedState;
 
-    if (newPressedState && newPressedEvent != null) {
-        _gamepadADownEvent = newPressedEvent;
-    } else if (!newPressedState) {
+    if (!newPressedState) {
         // reset on keyup
         _gamepadADownEvent = null;
+    } else if (newPressedEvent != null) {
+        _gamepadADownEvent = newPressedEvent;
     }
 };
 
@@ -202,6 +202,7 @@ function raiseEvent(name, key, keyCode) {
     event.key = key;
     event.keyCode = keyCode;
     (document.activeElement || document.body).dispatchEvent(event);
+
     return event;
 }
 
@@ -243,6 +244,7 @@ function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRep
             clickElement(document.activeElement || window);
         }
     }
+
     return newPressedEvent;
 }
 
