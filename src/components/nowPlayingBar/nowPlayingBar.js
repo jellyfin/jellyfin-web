@@ -524,7 +524,6 @@ function updateNowPlayingInfo(state) {
         apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
             //  Set the page's title to that of the item playing.
             document.title = escapeHtml(item.Name);
-        
             const userData = item.UserData || {};
             const likes = userData.Likes == null ? '' : userData.Likes;
             if (!layoutManager.mobile) {
