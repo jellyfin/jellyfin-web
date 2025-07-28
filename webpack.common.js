@@ -1,6 +1,5 @@
 import fg from 'fast-glob';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
@@ -15,8 +14,7 @@ import ChildProcess from 'node:child_process';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
-const __dirname = path.dirname(__filename); // get the name of the directory
+const __dirname = import.meta.dirname;
 
 const { DefinePlugin, IgnorePlugin } = webpack;
 
@@ -35,26 +33,6 @@ const postcssOptions = {
                 // https://github.com/cssnano/cssnano/issues/1192
                 { mergeLonghand: false }
             ] })
-    ]
-};
-
-const babelOptions = {
-    babelrcRoots: [
-        // Keep the root as a root
-        '.'
-    ],
-    sourceType: 'unambiguous',
-    presets: [
-        [
-            '@babel/preset-env',
-            {
-                useBuiltIns: 'usage',
-                corejs: 3
-            }
-        ],
-        '@babel/preset-react'
-    ],
-    plugins: [
     ]
 };
 
@@ -294,7 +272,6 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true
                     }
@@ -312,7 +289,6 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true
                     }
@@ -351,7 +327,6 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true,
                         plugins: [
