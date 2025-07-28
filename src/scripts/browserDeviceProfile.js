@@ -662,7 +662,7 @@ export default function (options) {
         mp4VideoCodecs.push('hevc');
 
         // Chromium used to support HEVC on Android but not via MSE
-        let canPlayHlsInTsAndFmp4 = browser.tizen || browser.web0s || browser.edgeChromium || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile) || (browser.firefox && browser.versionMajor >= 134);
+        const canPlayHlsInTsAndFmp4 = browser.tizen || browser.web0s || browser.edgeChromium || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile) || (browser.firefox && browser.versionMajor >= 134);
 
         if (canPlayHlsInTsAndFmp4 || browser.vidaa) {
             hlsInTsVideoCodecs.push('hevc');
