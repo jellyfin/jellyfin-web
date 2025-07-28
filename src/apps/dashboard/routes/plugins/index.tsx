@@ -217,8 +217,12 @@ export const Component = () => {
 
                         <Box>
                             {filteredPlugins.length > 0 ? (
+                                // NOTE: Legacy Grid is required due to lack of gap support in JMP on some OSs
+                                // eslint-disable-next-line @typescript-eslint/no-deprecated
                                 <Grid container spacing={2}>
                                     {filteredPlugins.map(plugin => (
+                                        // NOTE: Legacy Grid is required due to lack of gap support in JMP on some OSs
+                                        // eslint-disable-next-line @typescript-eslint/no-deprecated
                                         <Grid
                                             key={plugin.id}
                                             item

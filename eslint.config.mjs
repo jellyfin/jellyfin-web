@@ -361,15 +361,7 @@ export default tseslint.config(
                     }
                 }
             ],
-            '@typescript-eslint/no-deprecated': [
-                'warn',
-                {
-                    allow: [
-                        // Allow the deprecated Grid component from mui since JMP does not support CSS gap on some OSs
-                        { from: '@mui/material/Grid', name: 'Grid' }
-                    ]
-                }
-            ],
+            '@typescript-eslint/no-deprecated': 'warn',
             '@typescript-eslint/no-floating-promises': 'error',
             '@typescript-eslint/prefer-string-starts-ends-with': 'error'
         }
