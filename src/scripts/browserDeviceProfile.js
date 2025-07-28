@@ -658,23 +658,24 @@ export default function (options) {
         hlsInFmp4VideoCodecs.push('av1');
     }
 
-    if (canPlayHevc(videoTestElement, options)
-        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile) || (browser.firefox && browser.versionMajor >= 134))) {
+    if (canPlayHevc(videoTestElement, options)) {
+        mp4VideoCodecs.push('hevc');
+
         // Chromium used to support HEVC on Android but not via MSE
-        hlsInFmp4VideoCodecs.push('hevc');
+        let canPlayHlsInTsAndFmp4 = browser.tizen || browser.web0s || browser.edgeChromium || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile) || (browser.firefox && browser.versionMajor >= 134);
+
+        if (canPlayHlsInTsAndFmp4 || browser.vidaa) {
+            hlsInTsVideoCodecs.push('hevc');
+        }
+        if (canPlayHlsInTsAndFmp4 || browser.safari) {
+            hlsInFmp4VideoCodecs.push('hevc');
+        }
     }
 
     if (canPlayH264(videoTestElement)) {
         mp4VideoCodecs.push('h264');
         hlsInTsVideoCodecs.push('h264');
         hlsInFmp4VideoCodecs.push('h264');
-    }
-
-    if (canPlayHevc(videoTestElement, options)) {
-        mp4VideoCodecs.push('hevc');
-        if (browser.tizen || browser.web0s || browser.vidaa) {
-            hlsInTsVideoCodecs.push('hevc');
-        }
     }
 
     if (supportsMpeg2Video()) {
