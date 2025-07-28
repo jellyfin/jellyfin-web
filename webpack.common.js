@@ -10,10 +10,8 @@ import packageJson from './package.json' with { type : 'json' };
 import postcssPresetEnv from 'postcss-preset-env';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
-import ChildProcess from 'node:child_process';
-import { createRequire } from 'node:module';
+import ChildProcess from 'child_process';
 
-const require = createRequire(import.meta.url);
 const __dirname = import.meta.dirname;
 
 const { DefinePlugin, IgnorePlugin } = webpack;
@@ -384,7 +382,7 @@ const config = {
                 type: 'asset/resource'
             },
             {
-                test: require.resolve('jquery'),
+                test: /node_modules\/jquery\/dist\/jquery\.js$/,
                 loader: 'expose-loader',
                 options: {
                     exposes: ['$', 'jQuery']
