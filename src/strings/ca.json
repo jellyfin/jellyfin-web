@@ -1662,7 +1662,7 @@
     "LabelVppTonemappingBrightnessHelp": "Aplica el guany de brillantor al mapatge de tons VPP. El valor recomanat és 16.",
     "MediaInfoRpuPresentFlag": "Senyalització DV rpu predeterminada",
     "MediaInfoDvBlSignalCompatibilityId": "Identificador de compatibilitat del senyal DV bl",
-    "Unreleased": "Encara no s'ha publicat",
+    "Unreleased": "Encara no s'ha estrenat",
     "OptionDateShowAdded": "Data d'addició de la sèrie",
     "RememberAudioSelectionsHelp": "Intenta establir la pista d'àudio amb la coincidència més semblant a l'últim vídeo.",
     "RememberSubtitleSelectionsHelp": "Intenta configurar la pista de subtítols amb la coincidència més semblant a l'últim vídeo.",
