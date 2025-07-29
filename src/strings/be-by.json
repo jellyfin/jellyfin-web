@@ -2041,5 +2041,11 @@
     "StorageType.Removable": "Здымны",
     "StorageType.Ram": "Аператыўная памяць",
     "StorageType.Network": "Сетка",
-    "StorageType.NoRootDirectory": "Няма каранёвай дырэкторыі"
+    "StorageType.NoRootDirectory": "Няма каранёвай дырэкторыі",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Вылучаць толькі ключавыя кадры для значнага паскарэння працэсу, але з менш дакладным часам. Калі гэты рэжым не падтрымліваецца абсталявальным дэкодэрам, выкарыстоўваецца праграмны.",
+    "ViewSettings": "Праглядзець налады",
+    "TranscodingLoadError": "Не ўдалося загрузіць налады перакадавання",
+    "Success": "Поспех",
+    "StreamCountExceedsLimit": "Колькасць патокаў перавышае ліміт",
+    "HeaderBackups": "Рэзервовыя копіі"
 }
