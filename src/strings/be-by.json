@@ -2032,5 +2032,14 @@
     "Reset": "Скінуць",
     "MessageWaitingForServer": "Чаканне сервера...",
     "MessageRestoreInProgress": "Ідзе працэс аднаўлення",
-    "MessageRestoreSuccess": "Аднаўленне паспяхова завершана"
+    "MessageRestoreSuccess": "Аднаўленне паспяхова завершана",
+    "StorageType.CDRom": "CD-ROM",
+    "StorageType.Unknown": "Невядомы",
+    "SettingsPageLoadError": "Не ўдалося загрузіць старонку налад",
+    "SearchForLyrics": "Пошук тэкстаў песень",
+    "StorageType.Fixed": "Фіксаваны",
+    "StorageType.Removable": "Здымны",
+    "StorageType.Ram": "Аператыўная памяць",
+    "StorageType.Network": "Сетка",
+    "StorageType.NoRootDirectory": "Няма каранёвай дырэкторыі"
 }
