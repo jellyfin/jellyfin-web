@@ -176,7 +176,10 @@
     margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 0.125rem;
+}
+
+.osdMediaStatus span:first-child {
+    margin-right: 0.125rem;
 }
 
 .osdMediaStatus .animate {
