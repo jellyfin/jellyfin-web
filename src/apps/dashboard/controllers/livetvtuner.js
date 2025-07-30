@@ -1,6 +1,6 @@
 import globalize from 'lib/globalize';
 import loading from 'components/loading/loading';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import 'elements/emby-input/emby-input';
 import 'elements/emby-button/emby-button';
 import 'elements/emby-checkbox/emby-checkbox';
