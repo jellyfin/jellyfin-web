@@ -1265,6 +1265,41 @@ function ensureIndicators(card, indicatorsElem) {
 }
 
 /**
+ * Creates an indicator element and appends it to the indicatorsList.
+ * @param {HTMLDivElement} card - DOM element of the card.
+ * @param {string} className - Classname of the indicator to create.
+ * @returns {HTMLDivElement} - DOM element of the indicator.
+ */
+function createIndicatorElement(card, className) {
+    const indicator = document.createElement('div');
+    indicator.classList.add(className, 'indicator');
+
+    return indicator;
+}
+
+/**
+ * Creates an indicator element and appends it to the indicatorsList.
+ * @param {HTMLDivElement} card - DOM element of all card.
+ * @returns {HTMLDivElement} - DOM element of progress bar.
+ */
+function createProgressBar(card) {
+    const itemProgressBar = document.createElement('div');
+    let innerCardFooter = card.querySelector('.innerCardFooter');
+
+    itemProgressBar.classList.add('itemProgressBar');
+
+    if (!innerCardFooter) {
+        innerCardFooter = document.createElement('div');
+        innerCardFooter.classList.add('innerCardFooter');
+        const cardImageContainer = card.querySelector('.cardImageContainer');
+        cardImageContainer.appendChild(innerCardFooter);
+    }
+
+    innerCardFooter.appendChild(itemProgressBar);
+    return itemProgressBar;
+}
+
+/**
  * Adds user data to the card such as progress indicators and played status.
  * @param {HTMLDivElement} card - DOM element of the card.
  * @param {Object} userData - User data to apply to the card.
@@ -1272,43 +1307,6 @@ function ensureIndicators(card, indicatorsElem) {
 function updateUserData(card, userData) {
     const type = card.getAttribute('data-type');
     const enableCountIndicator = type === 'Series' || type === 'BoxSet' || type === 'Season';
-    let indicatorsElem = null;
-    let playedIndicator = null;
-    let countIndicator = null;
-    let itemProgressBar = null;
-
-    if (userData.Played) {
-        playedIndicator = card.querySelector('.playedIndicator');
-
-        if (!playedIndicator) {
-            playedIndicator = document.createElement('div');
-            playedIndicator.classList.add('playedIndicator', 'indicator');
-            indicatorsElem = ensureIndicators(card, indicatorsElem);
-            indicatorsElem.appendChild(playedIndicator);
-        }
-        playedIndicator.innerHTML = '<span class="material-icons indicatorIcon check" aria-hidden="true"></span>';
-    } else {
-        playedIndicator = card.querySelector('.playedIndicator');
-        if (playedIndicator) {
-            playedIndicator.parentNode.removeChild(playedIndicator);
-        }
-    }
-    if (userData.UnplayedItemCount) {
-        countIndicator = card.querySelector('.countIndicator');
-
-        if (!countIndicator) {
-            countIndicator = document.createElement('div');
-            countIndicator.classList.add('countIndicator', 'indicator');
-            indicatorsElem = ensureIndicators(card, indicatorsElem);
-            indicatorsElem.appendChild(countIndicator);
-        }
-        countIndicator.innerHTML = userData.UnplayedItemCount;
-    } else if (enableCountIndicator) {
-        countIndicator = card.querySelector('.countIndicator');
-        if (countIndicator) {
-            countIndicator.parentNode.removeChild(countIndicator);
-        }
-    }
 
     const progressHtml = indicators.getProgressBarHtml({
         Type: type,
@@ -1316,30 +1314,42 @@ function updateUserData(card, userData) {
         MediaType: 'Video'
     });
 
+    let indicatorsElem = null;
+    let playedIndicator = card.querySelector('.playedIndicator');
+    let countIndicator = card.querySelector('.countIndicator');
+    let itemProgressBar = card.querySelector('.itemProgressBar');
+
+    if (userData.Played) {
+        if (!playedIndicator) {
+            playedIndicator = createIndicatorElement(card, 'playedIndicator');
+            indicatorsElem = ensureIndicators(card, indicatorsElem);
+            indicatorsElem.appendChild(playedIndicator);
+        }
+        playedIndicator.innerHTML = '<span class="material-icons indicatorIcon check" aria-hidden="true"></span>';
+    } else if (playedIndicator) {
+        playedIndicator.parentNode.removeChild(playedIndicator);
+    }
+
+    if (userData.UnplayedItemCount) {
+        if (!countIndicator) {
+            countIndicator = createIndicatorElement(card, 'countIndicator');
+            indicatorsElem = ensureIndicators(card, indicatorsElem);
+            indicatorsElem.appendChild(countIndicator);
+        }
+        countIndicator.innerHTML = userData.UnplayedItemCount;
+    } else if (enableCountIndicator && countIndicator) {
+        countIndicator.parentNode.removeChild(countIndicator);
+    }
+
     if (progressHtml) {
-        itemProgressBar = card.querySelector('.itemProgressBar');
-
         if (!itemProgressBar) {
-            itemProgressBar = document.createElement('div');
-            itemProgressBar.classList.add('itemProgressBar');
-
-            let innerCardFooter = card.querySelector('.innerCardFooter');
-            if (!innerCardFooter) {
-                innerCardFooter = document.createElement('div');
-                innerCardFooter.classList.add('innerCardFooter');
-                const cardImageContainer = card.querySelector('.cardImageContainer');
-                cardImageContainer.appendChild(innerCardFooter);
-            }
-            innerCardFooter.appendChild(itemProgressBar);
+            itemProgressBar = createProgressBar(card);
         }
 
         card.setAttribute('data-positionticks', userData.PlaybackPositionTicks);
         itemProgressBar.innerHTML = progressHtml;
-    } else {
-        itemProgressBar = card.querySelector('.itemProgressBar');
-        if (itemProgressBar) {
-            itemProgressBar.parentNode.removeChild(itemProgressBar);
-        }
+    } else if (itemProgressBar) {
+        itemProgressBar.parentNode.removeChild(itemProgressBar);
     }
 }
 
