@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import SearchInput from 'apps/dashboard/components/SearchInput';
@@ -18,7 +18,9 @@ import { PluginCategory } from 'apps/dashboard/features/plugins/constants/plugin
 import { PluginStatusOption } from 'apps/dashboard/features/plugins/constants/pluginStatusOption';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
+import useSearchParam from 'hooks/useSearchParam';
 import globalize from 'lib/globalize';
+
 /**
  * The list of primary/main categories.
  * Any category not in this list will be added to the "other" category.
@@ -34,23 +36,29 @@ const MAIN_CATEGORIES = [
     PluginCategory.Subtitles.toLowerCase()
 ];
 
+const CATEGORY_PARAM = 'category';
+const QUERY_PARAM = 'query';
+const STATUS_PARAM = 'status';
+
 export const Component = () => {
     const {
         data: pluginDetails,
         isError,
         isPending
     } = usePluginDetails();
-    const [ category, setCategory ] = useState<string>();
-    const [ searchQuery, setSearchQuery ] = useState('');
-    const [ status, setStatus ] = useState<PluginStatusOption>(PluginStatusOption.Installed);
+    const [ category, setCategory ] = useSearchParam(CATEGORY_PARAM);
+    const [ searchQuery, setSearchQuery ] = useSearchParam(QUERY_PARAM);
+    const [ status, setStatus ] = useSearchParam(STATUS_PARAM, PluginStatusOption.Installed);
 
     const onSearchChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setSearchQuery(event.target.value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onViewAll = useCallback(() => {
-        if (category) setCategory(undefined);
+        if (category) setCategory('');
         else setStatus(PluginStatusOption.All);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ category ]);
 
     const filteredPlugins = useMemo(() => {
@@ -198,7 +206,7 @@ export const Component = () => {
                                 <Chip
                                     color={!category ? 'primary' : undefined}
                                     // eslint-disable-next-line react/jsx-no-bind
-                                    onClick={() => setCategory(undefined)}
+                                    onClick={() => setCategory('')}
                                     label={globalize.translate('All')}
                                 />
 

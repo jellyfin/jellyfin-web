@@ -7,15 +7,21 @@ import { usePrevious } from './usePrevious';
  * A hook for getting and setting a URL search parameter value that automatically handles updates to/from the URL.
  * @param param The search parameter name.
  */
-const useSearchParam: (param: string) => [ string, React.Dispatch<React.SetStateAction<string>> ] = param => {
+const useSearchParam: (
+    param: string,
+    defaultValue?: string
+) => [ string, React.Dispatch<React.SetStateAction<string>> ] = (
+    param,
+    defaultValue = ''
+) => {
     const [ searchParams, setSearchParams ] = useSearchParams();
-    const urlValue = searchParams.get(param) || '';
+    const urlValue = searchParams.get(param) || defaultValue;
     const [ value, setValue ] = useState(urlValue);
-    const previousValue = usePrevious(value, '');
+    const previousValue = usePrevious(value, defaultValue);
 
     useEffect(() => {
         if (value !== previousValue) {
-            if (value === '' && urlValue !== '') {
+            if (value === defaultValue && urlValue !== defaultValue) {
                 // The query input has been cleared; remove the url param
                 searchParams.delete(param);
                 setSearchParams(searchParams, { replace: true });
