@@ -2065,5 +2065,9 @@
     "LiveTVPageLoadError": "Falló la carga de la pagina de grabaciones",
     "ConnectAnyway": "Conectar de todos modos",
     "HeaderServerMismatch": "Incompatiblidad de Servidor",
-    "MessageServerMismatch": "El servidor que te estás conectando no es el mismo servidor que te conectaste previamente en esta dirección. Si este comportamiento fue esperado, por favor selecciona \"Conectar igualmente\". Sino, tu conexión o el servidor pueden estar comprometidos."
+    "MessageServerMismatch": "El servidor que te estás conectando no es el mismo servidor que te conectaste previamente en esta dirección. Si este comportamiento fue esperado, por favor selecciona \"Conectar igualmente\". Sino, tu conexión o el servidor pueden estar comprometidos.",
+    "LabelAvailable": "Disponible",
+    "LabelBundled": "Incluido",
+    "ManageRepositories": "Administrar Repositiorios",
+    "ViewAllPlugins": "Ver todos los plugins"
 }
