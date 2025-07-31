@@ -2047,5 +2047,9 @@
     "TranscodingLoadError": "Не ўдалося загрузіць налады перакадавання",
     "Success": "Поспех",
     "StreamCountExceedsLimit": "Колькасць патокаў перавышае ліміт",
-    "HeaderBackups": "Рэзервовыя копіі"
+    "HeaderBackups": "Рэзервовыя копіі",
+    "LabelBundled": "У камплекце",
+    "LabelAvailable": "Даступна",
+    "ManageRepositories": "Кіраваць рэпазіторыямі",
+    "ViewAllPlugins": "Праглядзець усе плагіны"
 }
