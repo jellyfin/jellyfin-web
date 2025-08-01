@@ -144,7 +144,7 @@ function updateUserInHeader(user) {
             updateHeaderSettingsButton(url);
             hasImage = true;
         }
-        headerSettingsButton.title = globalize.translate("Settings");
+        headerSettingsButton.title = globalize.translate('Settings');
         headerSettingsButton.classList.remove('hide');
     } else {
         headerSettingsButton.classList.add('hide');
