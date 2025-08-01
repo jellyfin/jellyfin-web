@@ -2063,5 +2063,6 @@
     "HeaderServerMismatch": "Discrepância de Servidores",
     "LabelAvailable": "Disponível",
     "LabelBundled": "Incluído",
-    "ManageRepositories": "Gerir repositórios"
+    "ManageRepositories": "Gerir repositórios",
+    "ViewAllPlugins": "Ver todos os plugins"
 }
