@@ -39,7 +39,7 @@ const homevideosTabMapping: LibraryTabMapping = {
 
 const HomeVideos: FC = () => {
     const { libraryId, activeTab } = useCurrentTab();
-    const currentTab = homevideosTabMapping[activeTab];
+    const currentTab = homevideosTabMapping[activeTab] || photosTabContent;
 
     return (
         <Page
