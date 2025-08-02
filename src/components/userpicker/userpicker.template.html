@@ -1,0 +1,22 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}">
+        <span class="material-icons arrow_back" aria-hidden="true"></span>
+    </button>
+    <h3 class="formDialogHeaderTitle">Select User</h3>
+</div>
+
+<div class="formDialogContent scrollY" style="padding-top:2em;">
+    <div class="dialogContentInner dialog-content-centered">
+        <form>
+            <div class="selectContainer">
+                <select is="emby-select" id="selectUser" label="User"></select>
+            </div>
+    
+            <div class="formDialogFooter">
+                <button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">
+                    <span>${Add}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
