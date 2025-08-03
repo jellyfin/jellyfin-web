@@ -98,3 +98,22 @@ jobs:
         uses: CatChen/eslint-suggestion-action@4dda35decf912ab18ea3e071acec2c6c2eda00b6 # v4.1.18
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - run: |
+              npm ci
+              npm run format
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - run: |
+              npm ci
+              npm run lint
