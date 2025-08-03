@@ -136,22 +136,10 @@ function retranslateUi() {
 function updateUserInHeader(user) {
     retranslateUi();
 
-    let hasImage;
-
     if (user?.name) {
-        if (user.imageUrl) {
-            const url = user.imageUrl;
-            updateHeaderSettingsButton(url);
-            hasImage = true;
-        }
-        headerSettingsButton.title = globalize.translate('Settings');
         headerSettingsButton.classList.remove('hide');
     } else {
         headerSettingsButton.classList.add('hide');
-    }
-
-    if (!hasImage) {
-        updateHeaderSettingsButton(null);
     }
 
     if (user?.localUser) {
@@ -192,16 +180,6 @@ function updateUserInHeader(user) {
     requiresUserRefresh = false;
 }
 
-function updateHeaderSettingsButton(src) {
-    if (src) {
-        headerSettingsButton.classList.add('headerSettingsButtonRound');
-        headerSettingsButton.innerHTML = '<div class="headerButton headerButtonRight paper-icon-button-light headerSettingsButtonRound" style="background-image:url(\'' + src + "');\"></div>";
-    } else {
-        headerSettingsButton.classList.remove('headerSettingsButtonRound');
-        headerSettingsButton.innerHTML = '<span class="material-icons settings" aria-hidden="true"></span>';
-    }
-}
-
 function updateClock() {
     if (layoutManager.tv) {
         currentTimeText.classList.remove('hide');
@@ -217,7 +195,7 @@ function showSearch() {
     inputManager.handleCommand('search');
 }
 
-function onHeaderUserButtonClick() {
+function onHeaderSettingsButtonClick() {
     Dashboard.navigate('mypreferencesmenu');
 }
 
@@ -242,7 +220,7 @@ function bindMenuEvents() {
         headerSearchButton.addEventListener('click', showSearch);
     }
 
-    headerSettingsButton.addEventListener('click', onHeaderUserButtonClick);
+    headerSettingsButton.addEventListener('click', onHeaderSettingsButtonClick);
     headerHomeButton.addEventListener('click', onHeaderHomeButtonClick);
 
     if (!layoutManager.tv) {
