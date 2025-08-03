@@ -14,7 +14,7 @@ import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { copy } from 'scripts/clipboard';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import { getReadableSize } from 'utils/file';
 
 import 'components/formdialog.scss';

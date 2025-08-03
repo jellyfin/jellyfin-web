@@ -2009,5 +2009,9 @@
     "LiveTVPageLoadError": "Échec du chargement de la page d'enregistrements",
     "ConnectAnyway": "Se connecter quand même",
     "HeaderServerMismatch": "Incompatibilité du serveur",
-    "MessageServerMismatch": "Le serveur auquel vous vous connectez n'est pas le même que celui auquel vous vous êtes précédemment connecté à cette adresse. Si cela est normal, sélectionnez « Se connecter quand même ». Sinon, votre connexion ou le serveur pourrait être compromis."
+    "MessageServerMismatch": "Le serveur auquel vous vous connectez n'est pas le même que celui auquel vous vous êtes précédemment connecté à cette adresse. Si cela est normal, sélectionnez « Se connecter quand même ». Sinon, votre connexion ou le serveur pourrait être compromis.",
+    "LabelAvailable": "Disponible",
+    "LabelBundled": "Groupé",
+    "ManageRepositories": "Gérer les dépôts",
+    "ViewAllPlugins": "Voir tous les plugiciels"
 }
