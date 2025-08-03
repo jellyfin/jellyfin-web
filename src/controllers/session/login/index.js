@@ -186,6 +186,8 @@ function loadUserList(context, apiClient, users) {
 }
 
 export default function (view, params) {
+    console.log('Carlos log: Jellyfin login page loaded'); // <-- Add this line
+
     function getApiClient() {
         const serverId = params.serverid;
 
