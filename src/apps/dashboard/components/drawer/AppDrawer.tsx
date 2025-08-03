@@ -10,6 +10,7 @@ import DevicesDrawerSection from './sections/DevicesDrawerSection';
 import LiveTvDrawerSection from './sections/LiveTvDrawerSection';
 import AdvancedDrawerSection from './sections/AdvancedDrawerSection';
 import PluginDrawerSection from './sections/PluginDrawerSection';
+import MyCustomSection from './sections/MyCustomSection';
 
 const AppDrawer: FC<ResponsiveDrawerProps> = ({
     open = false,
@@ -30,6 +31,7 @@ const AppDrawer: FC<ResponsiveDrawerProps> = ({
         <DevicesDrawerSection />
         <LiveTvDrawerSection />
         <PluginDrawerSection />
+        <MyCustomSection />
         <AdvancedDrawerSection />
     </ResponsiveDrawer>
 );
