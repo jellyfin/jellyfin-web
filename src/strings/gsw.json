@@ -134,5 +134,8 @@
     "AllowContentWithTagsHelp": "Nur Medie mit mindeschtens eim vo de gwählte Tags aazeige.",
     "AllowSubtitleManagement": "Dem Benutzer erlaube, Untertitel z'bearbeite",
     "AllowSegmentDeletionHelp": "Alti Segmänt lösche nachdem sie von Client abeglade worde sind. Das verhinderet, dass die ganzi transcodeti Datei uf de Disk gspeicheret wird. Deaktiviere Sie die Option, wenn bi de Widergab problem ufträte.",
-    "AllowSegmentDeletion": "Segmänt lösche"
+    "AllowSegmentDeletion": "Segmänt lösche",
+    "LabelThrottleDelaySeconds": "Nachher drossle",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Untertitel immer iibrönne bim transcode",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "S'iibrönne vo allne Untertitel bim transcoding isch iigschalte. Das stellt sicher, dass d'Untertitel nach em Transcoding synchronisiert sind, aber s'transcoding isch langsamer."
 }
