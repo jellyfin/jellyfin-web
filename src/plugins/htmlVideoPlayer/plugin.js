@@ -10,7 +10,7 @@ import browser from '../../scripts/browser';
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import { appRouter } from '../../components/router/appRouter';
 import {
