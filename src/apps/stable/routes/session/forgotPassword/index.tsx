@@ -79,6 +79,7 @@ export const ForgotPasswordPage = () => {
         <Page
             id='forgotPasswordPage'
             className='standalonePage forgotPasswordPage mainAnimatedPage'
+            shouldAutoFocus
         >
             <div className='padded-left padded-right padded-bottom-page'>
                 <form
