@@ -2065,5 +2065,9 @@
     "LiveTVPageLoadError": "无法加载录制页面",
     "ConnectAnyway": "仍要连接",
     "HeaderServerMismatch": "服务器不匹配",
-    "MessageServerMismatch": "您正在连接的服务器与之前在此地址连接的服务器不同。如果这是预期情况，请选择“仍要连接”。否则，您的连接或该服务器可能已被篡改。"
+    "MessageServerMismatch": "您正在连接的服务器与之前在此地址连接的服务器不同。如果这是预期情况，请选择“仍要连接”。否则，您的连接或该服务器可能已被篡改。",
+    "ViewAllPlugins": "查看所有插件",
+    "LabelBundled": "附赠",
+    "ManageRepositories": "管理存储库",
+    "LabelAvailable": "可用"
 }
