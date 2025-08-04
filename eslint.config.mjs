@@ -107,7 +107,7 @@ export default tseslint.config(
             'sonarjs/no-alphabetical-sort': 'warn',
             'sonarjs/no-inverted-boolean-check': 'error',
             'sonarjs/no-selector-parameter': 'off',
-            'sonarjs/pseudo-random': 'warn',
+            'sonarjs/pseudo-random': 'error',
             // TODO: Enable the following sonarjs rules and fix issues
             'sonarjs/no-duplicate-string': 'off',
             'sonarjs/no-nested-functions': 'warn',
