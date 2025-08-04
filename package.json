@@ -163,7 +163,7 @@
         "build:es-check": "npm run build:production && npm run escheck",
         "escheck": "es-check",
         "lint": "npx @biomejs/biome lint --diagnostic-level=error",
-        "format": "npx @biomejs/biome format",
+        "format": "npx @biomejs/biome format --write",
         "test": "vitest --watch=false --config vite.config.ts",
         "test:watch": "vitest --config vite.config.ts",
         "stylelint": "stylelint \"src/**/*.{css,scss}\""
