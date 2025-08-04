@@ -255,17 +255,30 @@ function getCollectionTypeOptions() {
 }
 
 function getVirtualFolderHtml(page, virtualFolder, index) {
-    let html = '';
-
     const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}" ` : '';
-    html += '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
+    const cardDiv = document.createElement('div');
+    cardDiv.setAttribute('class', 'card backdropCard scalableCard backdropCard-scalable');
+    cardDiv.setAttribute('data-index', index);
+    if (virtualFolder.ItemId) cardDiv.setAttribute('data-id', virtualFolder.ItemId);
+    if (virtualFolder.elementId) cardDiv.setAttribute('id', virtualFolder.elementId);
 
-    html += '<div class="cardBox visualCardBox">';
-    html += '<div class="cardScalable visualCardBox-cardScalable">';
-    html += '<div class="cardPadder cardPadder-backdrop"></div>';
-    html += '<div class="cardContent">';
+    // Card Box
+    const cardBox = document.createElement('div');
+    cardBox.className = 'cardBox visualCardBox';
+
+    // Card Scalable
+    const cardScalable = document.createElement('div');
+    cardScalable.className = 'cardScalable visualCardBox-cardScalable';
+
+    // Card Padder
+    const cardPadder = document.createElement('div');
+    cardPadder.className = 'cardPadder cardPadder-backdrop';
+
+    // Card Content
+    const cardContent = document.createElement('div');
+    cardContent.className = 'cardContent';
+
     let imgUrl = '';
-
     if (virtualFolder.PrimaryImageItemId) {
         imgUrl = ApiClient.getScaledImageUrl(virtualFolder.PrimaryImageItemId, {
             maxWidth: Math.round(dom.getScreenWidth() * 0.40),
@@ -273,90 +286,146 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
         });
     }
 
-    let hasCardImageContainer;
+    let hasCardImageContainer = false;
+    let cardImageContainer;
 
     if (imgUrl) {
-        html += `<div class="cardImageContainer editLibrary ${imgUrl ? '' : getDefaultBackgroundClass()}" style="cursor:pointer">`;
-        html += `<img src="${imgUrl}" style="width:100%" />`;
+        cardImageContainer = document.createElement('div');
+        cardImageContainer.className = 'cardImageContainer editLibrary';
+        cardImageContainer.style.cursor = 'pointer';
+        const img = document.createElement('img');
+        img.src = imgUrl;
+        img.style.width = '100%';
+        cardImageContainer.appendChild(img);
         hasCardImageContainer = true;
     } else if (!virtualFolder.showNameWithIcon) {
-        html += `<div class="cardImageContainer editLibrary ${getDefaultBackgroundClass()}" style="cursor:pointer;">`;
-        html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '" aria-hidden="true"></span>';
+        cardImageContainer = document.createElement('div');
+        cardImageContainer.className = `cardImageContainer editLibrary ${getDefaultBackgroundClass()}`;
+        cardImageContainer.style.cursor = 'pointer';
+        const icon = document.createElement('span');
+        icon.className = `cardImageIcon material-icons ${virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)}`;
+        icon.setAttribute('aria-hidden', 'true');
+        cardImageContainer.appendChild(icon);
         hasCardImageContainer = true;
     }
 
     if (hasCardImageContainer) {
-        html += '<div class="cardIndicators backdropCardIndicators">';
-        html += '<div is="emby-itemrefreshindicator"' + (virtualFolder.RefreshProgress || virtualFolder.RefreshStatus && virtualFolder.RefreshStatus !== 'Idle' ? '' : ' class="hide"') + ' data-progress="' + (virtualFolder.RefreshProgress || 0) + '" data-status="' + virtualFolder.RefreshStatus + '"></div>';
-        html += '</div>';
-        html += '</div>';
+        // Card Indicators
+        const cardIndicators = document.createElement('div');
+        cardIndicators.className = 'cardIndicators backdropCardIndicators';
+
+        const refreshIndicator = document.createElement('div');
+        refreshIndicator.setAttribute('is', 'emby-itemrefreshindicator');
+        if (!(virtualFolder.RefreshProgress || (virtualFolder.RefreshStatus && virtualFolder.RefreshStatus !== 'Idle'))) {
+            refreshIndicator.className = 'hide';
+        }
+        refreshIndicator.setAttribute('data-progress', virtualFolder.RefreshProgress || 0);
+        refreshIndicator.setAttribute('data-status', virtualFolder.RefreshStatus);
+
+        cardIndicators.appendChild(refreshIndicator);
+        cardImageContainer.appendChild(cardIndicators);
+        cardContent.appendChild(cardImageContainer);
     }
 
     if (!imgUrl && virtualFolder.showNameWithIcon) {
-        html += '<h3 class="cardImageContainer addLibrary" style="position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;flex-direction:column;">';
-        html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '" aria-hidden="true"></span>';
+        const h3 = document.createElement('h3');
+        h3.className = 'cardImageContainer addLibrary';
+        h3.style.position = 'absolute';
+        h3.style.top = '0';
+        h3.style.left = '0';
+        h3.style.right = '0';
+        h3.style.bottom = '0';
+        h3.style.cursor = 'pointer';
+        h3.style.flexDirection = 'column';
+
+        const icon = document.createElement('span');
+        icon.className = `cardImageIcon material-icons ${virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)}`;
+        icon.setAttribute('aria-hidden', 'true');
+        h3.appendChild(icon);
 
         if (virtualFolder.showNameWithIcon) {
-            html += '<div style="margin:1em 0;position:width:100%;">';
-            html += escapeHtml(virtualFolder.Name);
-            html += '</div>';
+            const nameDiv = document.createElement('div');
+            nameDiv.style.margin = '1em 0';
+            nameDiv.style.position = 'width:100%';
+            nameDiv.textContent = virtualFolder.Name;
+            h3.appendChild(nameDiv);
         }
 
-        html += '</h3>';
+        cardContent.appendChild(h3);
     }
 
-    html += '</div>';
-    html += '</div>';
-    html += '<div class="cardFooter visualCardBox-cardFooter">'; // always show menu unless explicitly hidden
+    cardScalable.appendChild(cardPadder);
+    cardScalable.appendChild(cardContent);
+    cardBox.appendChild(cardScalable);
 
+    // Card Footer
+    const cardFooter = document.createElement('div');
+    cardFooter.className = 'cardFooter visualCardBox-cardFooter';
+
+    // Menu Button
     if (virtualFolder.showMenu !== false) {
         const dirTextAlign = globalize.getIsRTL() ? 'left' : 'right';
-        html += '<div style="text-align:' + dirTextAlign + '; float:' + dirTextAlign + ';padding-top:5px;">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
-        html += '</div>';
+        const menuDiv = document.createElement('div');
+        menuDiv.style.textAlign = dirTextAlign;
+        menuDiv.style.float = dirTextAlign;
+        menuDiv.style.paddingTop = '5px';
+
+        const menuBtn = document.createElement('button');
+        menuBtn.type = 'button';
+        menuBtn.setAttribute('is', 'paper-icon-button-light');
+        menuBtn.className = 'btnCardMenu autoSize';
+
+        const menuIcon = document.createElement('span');
+        menuIcon.className = 'material-icons more_vert';
+        menuIcon.setAttribute('aria-hidden', 'true');
+        menuBtn.appendChild(menuIcon);
+
+        menuDiv.appendChild(menuBtn);
+        cardFooter.appendChild(menuDiv);
     }
 
-    html += "<div class='cardText'>";
-
+    // Card Text (Name)
+    const cardText = document.createElement('div');
+    cardText.className = 'cardText';
     if (virtualFolder.showNameWithIcon) {
-        html += '&nbsp;';
+        cardText.innerHTML = '&nbsp;';
     } else {
-        html += escapeHtml(virtualFolder.Name);
+        cardText.textContent = virtualFolder.Name;
     }
+    cardFooter.appendChild(cardText);
 
-    html += '</div>';
+    // Card Text (Type)
     let typeName = getCollectionTypeOptions().filter(function (t) {
         return t.value == virtualFolder.CollectionType;
     })[0];
     typeName = typeName ? typeName.name : globalize.translate('Other');
-    html += "<div class='cardText cardText-secondary'>";
-
+    const cardTextSecondary = document.createElement('div');
+    cardTextSecondary.className = 'cardText cardText-secondary';
     if (virtualFolder.showType === false) {
-        html += '&nbsp;';
+        cardTextSecondary.innerHTML = '&nbsp;';
     } else {
-        html += typeName;
+        cardTextSecondary.textContent = typeName;
     }
+    cardFooter.appendChild(cardTextSecondary);
 
-    html += '</div>';
-
+    // Card Text (Locations)
+    const cardTextLocations = document.createElement('div');
+    cardTextLocations.className = 'cardText cardText-secondary';
     if (virtualFolder.showLocations === false) {
-        html += "<div class='cardText cardText-secondary'>";
-        html += '&nbsp;';
-        html += '</div>';
+        cardTextLocations.innerHTML = '&nbsp;';
     } else if (virtualFolder.Locations.length && virtualFolder.Locations.length === 1) {
-        html += "<div class='cardText cardText-secondary' dir='ltr' style='text-align:left;'>";
-        html += virtualFolder.Locations[0];
-        html += '</div>';
+        cardTextLocations.setAttribute('dir', 'ltr');
+        cardTextLocations.style.textAlign = 'left';
+        cardTextLocations.textContent = virtualFolder.Locations[0];
     } else {
-        html += "<div class='cardText cardText-secondary'>";
-        html += globalize.translate('NumLocationsValue', virtualFolder.Locations.length);
-        html += '</div>';
+        cardTextLocations.textContent = globalize.translate('NumLocationsValue', virtualFolder.Locations.length);
     }
+    cardFooter.appendChild(cardTextLocations);
 
-    html += '</div>';
-    html += '</div>';
-    html += '</div>';
-    return html;
+    cardBox.appendChild(cardFooter);
+    cardDiv.appendChild(cardBox);
+
+    return cardDiv.innerHTML;
 }
 
 pageClassOn('pageshow', 'mediaLibraryPage', function () {
