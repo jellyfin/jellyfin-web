@@ -2035,5 +2035,9 @@
     "LabelTrackGain": "Skaņas celiņa līmeņošana",
     "InterlacedVideoNotSupported": "\"Interlaced\" video nav atbalsīts.",
     "RefFramesNotSupported": "Atsauces kadri nav atbalstīti",
-    "ConnectAnyway": "Pieslegties tik un tā"
+    "ConnectAnyway": "Pieslegties tik un tā",
+    "LabelBundled": "Komplektā",
+    "LabelAvailable": "Pieejams",
+    "ManageRepositories": "Pārvaldīt repozitorijus",
+    "ViewAllPlugins": "Skatīt visus spraudņus"
 }
