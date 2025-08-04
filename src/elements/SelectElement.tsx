@@ -29,7 +29,7 @@ const SelectElement: FunctionComponent<IProps> = ({ name, id, required, label, c
                 name: name ? `name='${name}'` : '',
                 id: id,
                 required: required ? `required='${required}'` : '',
-                label: globalize.translate(label),
+                label: globalize.translate(label as string),
                 option: children
             })}
         />
