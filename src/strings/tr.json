@@ -2058,5 +2058,8 @@
     "HeaderServerMismatch": "Sunucu Uyuşmazlığı",
     "LiveTVPageLoadError": "Kayıtlar sayfası yüklenemedi",
     "ConnectAnyway": "Her Durumda Bağlan",
-    "ManageRepositories": "Depoları Yönet"
+    "ManageRepositories": "Depoları Yönet",
+    "ViewAllPlugins": "Tüm eklentileri görüntüle",
+    "LabelAvailable": "Kullanılabilir",
+    "LabelBundled": "Paketlenmiş"
 }
