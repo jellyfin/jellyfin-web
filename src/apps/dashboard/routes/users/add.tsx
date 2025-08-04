@@ -215,22 +215,24 @@ const UserNew = () => {
 
         (
             page.querySelector('.chkEnableAllChannels') as HTMLInputElement
-        ).addEventListener('change', function (this: HTMLInputElement) {
+        ).addEventListener('change', (e) => {
+            const target = e.currentTarget as HTMLInputElement;
             const channelAccessListContainer = page.querySelector(
                 '.channelAccessListContainer'
             ) as HTMLDivElement;
-            this.checked
+            target.checked
                 ? channelAccessListContainer.classList.add('hide')
                 : channelAccessListContainer.classList.remove('hide');
         });
 
         (
             page.querySelector('.chkEnableAllFolders') as HTMLInputElement
-        ).addEventListener('change', function (this: HTMLInputElement) {
+        ).addEventListener('change', (e) => {
+            const target = e.currentTarget as HTMLInputElement;
             const folderAccessListContainer = page.querySelector(
                 '.folderAccessListContainer'
             ) as HTMLDivElement;
-            this.checked
+            target.checked
                 ? folderAccessListContainer.classList.add('hide')
                 : folderAccessListContainer.classList.remove('hide');
         });

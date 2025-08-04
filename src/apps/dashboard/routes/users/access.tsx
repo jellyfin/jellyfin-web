@@ -339,32 +339,35 @@ const UserLibraryAccess = () => {
 
         (
             page.querySelector('.chkEnableAllDevices') as HTMLInputElement
-        ).addEventListener('change', function (this: HTMLInputElement) {
+        ).addEventListener('change', (e) => {
+            const target = e.currentTarget as HTMLInputElement;
             (
                 page.querySelector(
                     '.deviceAccessListContainer'
                 ) as HTMLDivElement
-            ).classList.toggle('hide', this.checked);
+            ).classList.toggle('hide', target.checked);
         });
 
         (
             page.querySelector('.chkEnableAllChannels') as HTMLInputElement
-        ).addEventListener('change', function (this: HTMLInputElement) {
+        ).addEventListener('change', (e) => {
+            const target = e.currentTarget as HTMLInputElement;
             (
                 page.querySelector(
                     '.channelAccessListContainer'
                 ) as HTMLDivElement
-            ).classList.toggle('hide', this.checked);
+            ).classList.toggle('hide', target.checked);
         });
 
         (
             page.querySelector('.chkEnableAllFolders') as HTMLInputElement
-        ).addEventListener('change', function (this: HTMLInputElement) {
+        ).addEventListener('change', (e) => {
+            const target = e.currentTarget as HTMLInputElement;
             (
                 page.querySelector(
                     '.folderAccessListContainer'
                 ) as HTMLDivElement
-            ).classList.toggle('hide', this.checked);
+            ).classList.toggle('hide', target.checked);
         });
 
         (

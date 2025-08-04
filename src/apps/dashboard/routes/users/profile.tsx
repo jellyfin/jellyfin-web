@@ -505,10 +505,11 @@ const UserEdit = () => {
 
         (
             page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement
-        ).addEventListener('change', function (this: HTMLInputElement) {
+        ).addEventListener('change', (e) => {
+            const target = e.currentTarget as HTMLInputElement;
             (
                 page.querySelector('.deleteAccess') as HTMLDivElement
-            ).classList.toggle('hide', this.checked);
+            ).classList.toggle('hide', target.checked);
         });
 
         window.ApiClient.getNamedConfiguration('network')
