@@ -53,7 +53,6 @@ export default tseslint.config(
         extends: [ importPlugin.flatConfigs.typescript ],
         rules: {
             'array-callback-return': ['error', { 'checkForEach': true }],
-            'curly': ['error', 'multi-line', 'consistent'],
             'default-case-last': 'error',
             'max-params': ['error', 7],
             'new-cap': [
@@ -113,7 +112,6 @@ export default tseslint.config(
             '@stylistic/comma-dangle': ['error', 'never'],
             '@stylistic/comma-spacing': 'error',
             '@stylistic/eol-last': 'error',
-            '@stylistic/indent': ['error', 4, { 'SwitchCase': 1 }],
             '@stylistic/jsx-quotes': ['error', 'prefer-single'],
             '@stylistic/keyword-spacing': 'error',
             '@stylistic/max-statements-per-line': 'error',
@@ -123,7 +121,6 @@ export default tseslint.config(
             '@stylistic/no-multiple-empty-lines': ['error', { 'max': 1 }],
             '@stylistic/no-trailing-spaces': 'error',
             '@stylistic/object-curly-spacing': ['error', 'always'],
-            '@stylistic/operator-linebreak': ['error', 'before', { overrides: { '?': 'after', ':': 'after', '=': 'after' } }],
             '@stylistic/padded-blocks': ['error', 'never'],
             '@stylistic/quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
             '@stylistic/semi': 'error',
