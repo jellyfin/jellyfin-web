@@ -32,8 +32,8 @@ viewContainer.setOnBeforeChange(function (newView, isRestored, options) {
             options.controllerFactory &&
             typeof options.controllerFactory.default === 'function'
         ) {
-            // eslint-disable-next-line new-cap
-            new options.controllerFactory.default(
+            // eslint-disable-next-line sonarjs/no-unused-vars, @typescript-eslint/no-unused-vars
+            const _controller = new options.controllerFactory.default(
                 newView,
                 eventDetail.detail.params
             );
