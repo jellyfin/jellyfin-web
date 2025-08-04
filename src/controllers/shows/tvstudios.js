@@ -47,9 +47,11 @@ function reloadItems(context, params, promise) {
         });
         loading.hide();
 
-        import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-            autoFocuser.autoFocus(context);
-        });
+        import('../../components/autoFocuser').then(
+            ({ default: autoFocuser }) => {
+                autoFocuser.autoFocus(context);
+            }
+        );
     });
 }
 
@@ -67,4 +69,3 @@ export default function (view, params, tabContent) {
         reloadItems(tabContent, params, promise);
     };
 }
-

@@ -7,26 +7,20 @@ import { useApi } from 'hooks/useApi';
 
 import { QueryKey } from './queryKey';
 
-const fetchPackages = async (
-    api: Api,
-    options?: AxiosRequestConfig
-) => {
-    const response = await getPackageApi(api)
-        .getPackages(options);
+const fetchPackages = async (api: Api, options?: AxiosRequestConfig) => {
+    const response = await getPackageApi(api).getPackages(options);
     return response.data;
 };
 
-const getPackagesQuery = (
-    api?: Api
-) => queryOptions({
-    queryKey: [ QueryKey.Packages ],
-    queryFn: ({ signal }) => fetchPackages(api!, { signal }),
-    enabled: !!api,
-    staleTime: 15 * 60 * 1000 // 15 minutes
-});
+const getPackagesQuery = (api?: Api) =>
+    queryOptions({
+        queryKey: [QueryKey.Packages],
+        queryFn: ({ signal }) => fetchPackages(api!, { signal }),
+        enabled: !!api,
+        staleTime: 15 * 60 * 1000 // 15 minutes
+    });
 
 export const usePackages = () => {
     const { api } = useApi();
     return useQuery(getPackagesQuery(api));
 };
-

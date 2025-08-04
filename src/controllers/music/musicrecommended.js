@@ -54,7 +54,9 @@ function loadLatest(page, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
+    ApiClient.getJSON(
+        ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)
+    ).then(function (items) {
         const elem = page.querySelector('#recentlyAddedSongs');
         elem.innerHTML = cardBuilder.getCardsHtml({
             items: items,
@@ -73,9 +75,11 @@ function loadLatest(page, parentId) {
         imageLoader.lazyChildren(elem);
         loading.hide();
 
-        import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-            autoFocuser.autoFocus(page);
-        });
+        import('../../components/autoFocuser').then(
+            ({ default: autoFocuser }) => {
+                autoFocuser.autoFocus(page);
+            }
+        );
     });
 }
 
@@ -93,32 +97,34 @@ function loadRecentlyPlayed(page, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-        const elem = page.querySelector('#recentlyPlayed');
+    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(
+        function (result) {
+            const elem = page.querySelector('#recentlyPlayed');
 
-        if (result.Items.length) {
-            elem.classList.remove('hide');
-        } else {
-            elem.classList.add('hide');
+            if (result.Items.length) {
+                elem.classList.remove('hide');
+            } else {
+                elem.classList.add('hide');
+            }
+
+            const itemsContainer = elem.querySelector('.itemsContainer');
+            itemsContainer.innerHTML = cardBuilder.getCardsHtml({
+                items: result.Items,
+                showUnplayedIndicator: false,
+                shape: getSquareShape(enableScrollX()),
+                showTitle: true,
+                showParentTitle: true,
+                action: 'instantmix',
+                lazy: true,
+                centerText: true,
+                overlayMoreButton: true,
+                allowBottomPadding: !enableScrollX(),
+                cardLayout: false,
+                coverImage: true
+            });
+            imageLoader.lazyChildren(itemsContainer);
         }
-
-        const itemsContainer = elem.querySelector('.itemsContainer');
-        itemsContainer.innerHTML = cardBuilder.getCardsHtml({
-            items: result.Items,
-            showUnplayedIndicator: false,
-            shape: getSquareShape(enableScrollX()),
-            showTitle: true,
-            showParentTitle: true,
-            action: 'instantmix',
-            lazy: true,
-            centerText: true,
-            overlayMoreButton: true,
-            allowBottomPadding: !enableScrollX(),
-            cardLayout: false,
-            coverImage: true
-        });
-        imageLoader.lazyChildren(itemsContainer);
-    });
+    );
 }
 
 function loadFrequentlyPlayed(page, parentId) {
@@ -135,32 +141,34 @@ function loadFrequentlyPlayed(page, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-        const elem = page.querySelector('#topPlayed');
+    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(
+        function (result) {
+            const elem = page.querySelector('#topPlayed');
 
-        if (result.Items.length) {
-            elem.classList.remove('hide');
-        } else {
-            elem.classList.add('hide');
+            if (result.Items.length) {
+                elem.classList.remove('hide');
+            } else {
+                elem.classList.add('hide');
+            }
+
+            const itemsContainer = elem.querySelector('.itemsContainer');
+            itemsContainer.innerHTML = cardBuilder.getCardsHtml({
+                items: result.Items,
+                showUnplayedIndicator: false,
+                shape: getSquareShape(enableScrollX()),
+                showTitle: true,
+                showParentTitle: true,
+                action: 'instantmix',
+                lazy: true,
+                centerText: true,
+                overlayMoreButton: true,
+                allowBottomPadding: !enableScrollX(),
+                cardLayout: false,
+                coverImage: true
+            });
+            imageLoader.lazyChildren(itemsContainer);
         }
-
-        const itemsContainer = elem.querySelector('.itemsContainer');
-        itemsContainer.innerHTML = cardBuilder.getCardsHtml({
-            items: result.Items,
-            showUnplayedIndicator: false,
-            shape: getSquareShape(enableScrollX()),
-            showTitle: true,
-            showParentTitle: true,
-            action: 'instantmix',
-            lazy: true,
-            centerText: true,
-            overlayMoreButton: true,
-            allowBottomPadding: !enableScrollX(),
-            cardLayout: false,
-            coverImage: true
-        });
-        imageLoader.lazyChildren(itemsContainer);
-    });
+    );
 }
 
 function loadSuggestionsTab(page, tabContent, parentId) {
@@ -169,27 +177,42 @@ function loadSuggestionsTab(page, tabContent, parentId) {
     loadRecentlyPlayed(tabContent, parentId);
     loadFrequentlyPlayed(tabContent, parentId);
 
-    import('../../components/favoriteitems').then(({ default: favoriteItems }) => {
-        favoriteItems.render(tabContent, ApiClient.getCurrentUserId(), parentId, ['favoriteArtists', 'favoriteAlbums', 'favoriteSongs']);
-    });
+    import('../../components/favoriteitems').then(
+        ({ default: favoriteItems }) => {
+            favoriteItems.render(
+                tabContent,
+                ApiClient.getCurrentUserId(),
+                parentId,
+                ['favoriteArtists', 'favoriteAlbums', 'favoriteSongs']
+            );
+        }
+    );
 }
 
 function getTabs() {
-    return [{
-        name: globalize.translate('Albums')
-    }, {
-        name: globalize.translate('Suggestions')
-    }, {
-        name: globalize.translate('HeaderAlbumArtists')
-    }, {
-        name: globalize.translate('Artists')
-    }, {
-        name: globalize.translate('Playlists')
-    }, {
-        name: globalize.translate('Songs')
-    }, {
-        name: globalize.translate('Genres')
-    }];
+    return [
+        {
+            name: globalize.translate('Albums')
+        },
+        {
+            name: globalize.translate('Suggestions')
+        },
+        {
+            name: globalize.translate('HeaderAlbumArtists')
+        },
+        {
+            name: globalize.translate('Artists')
+        },
+        {
+            name: globalize.translate('Playlists')
+        },
+        {
+            name: globalize.translate('Songs')
+        },
+        {
+            name: globalize.translate('Genres')
+        }
+    ];
 }
 
 function getDefaultTabIndex(folderId) {
@@ -220,7 +243,9 @@ function getDefaultTabIndex(folderId) {
 export default function (view, params) {
     function reload() {
         loading.show();
-        const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+        const tabContent = view.querySelector(
+            ".pageTabContent[data-index='" + suggestionsTabIndex + "']"
+        );
         loadSuggestionsTab(view, tabContent, params.topParentId);
     }
 
@@ -255,7 +280,14 @@ export default function (view, params) {
     }
 
     function initTabs() {
-        mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
+        mainTabsManager.setTabs(
+            view,
+            currentTabIndex,
+            getTabs,
+            getTabContainers,
+            onBeforeTabChange,
+            onTabChange
+        );
     }
 
     function getMode(index) {
@@ -300,21 +332,30 @@ export default function (view, params) {
             let tabContent;
 
             if (index == 1) {
-                tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                tabContent = view.querySelector(
+                    ".pageTabContent[data-index='" + index + "']"
+                );
                 this.tabContent = tabContent;
             }
 
             let controller = tabControllers[index];
 
             if (!controller) {
-                tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                tabContent = view.querySelector(
+                    ".pageTabContent[data-index='" + index + "']"
+                );
 
                 if (index === 1) {
                     controller = this;
                 } else {
-                    controller = new ControllerFactory(view, params, tabContent, {
-                        mode: getMode(index)
-                    });
+                    controller = new ControllerFactory(
+                        view,
+                        params,
+                        tabContent,
+                        {
+                            mode: getMode(index)
+                        }
+                    );
                 }
 
                 tabControllers[index] = controller;
@@ -348,15 +389,22 @@ export default function (view, params) {
     function onInputCommand(e) {
         if (e.detail.command === 'search') {
             e.preventDefault();
-            Dashboard.navigate('search?collectionType=music&parentId=' + params.topParentId);
+            Dashboard.navigate(
+                'search?collectionType=music&parentId=' + params.topParentId
+            );
         }
     }
 
-    let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId), 10);
+    let currentTabIndex = parseInt(
+        params.tab || getDefaultTabIndex(params.topParentId),
+        10
+    );
     const suggestionsTabIndex = 1;
 
     this.initTab = function () {
-        const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+        const tabContent = view.querySelector(
+            ".pageTabContent[data-index='" + suggestionsTabIndex + "']"
+        );
         const containers = tabContent.querySelectorAll('.itemsContainer');
 
         for (let i = 0, length = containers.length; i < length; i++) {
@@ -376,12 +424,17 @@ export default function (view, params) {
             const parentId = params.topParentId;
 
             if (parentId) {
-                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
-                    view.setAttribute('data-title', item.Name);
-                    libraryMenu.setTitle(item.Name);
-                });
+                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(
+                    function (item) {
+                        view.setAttribute('data-title', item.Name);
+                        libraryMenu.setTitle(item.Name);
+                    }
+                );
             } else {
-                view.setAttribute('data-title', globalize.translate('TabMusic'));
+                view.setAttribute(
+                    'data-title',
+                    globalize.translate('TabMusic')
+                );
                 libraryMenu.setTitle(globalize.translate('TabMusic'));
             }
         }

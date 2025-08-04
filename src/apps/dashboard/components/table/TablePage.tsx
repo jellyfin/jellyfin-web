@@ -1,15 +1,19 @@
 import Box from '@mui/material/Box/Box';
 import Stack from '@mui/material/Stack/Stack';
 import Typography from '@mui/material/Typography/Typography';
-import { type MRT_RowData, type MRT_TableInstance, MaterialReactTable } from 'material-react-table';
+import {
+    type MRT_RowData,
+    type MRT_TableInstance,
+    MaterialReactTable
+} from 'material-react-table';
 import React from 'react';
 
 import Page, { type PageProps } from 'components/Page';
 
 interface TablePageProps<T extends MRT_RowData> extends PageProps {
-    title: string
-    subtitle?: string
-    table: MRT_TableInstance<T>
+    title: string;
+    subtitle?: string;
+    table: MRT_TableInstance<T>;
 }
 
 export const DEFAULT_TABLE_OPTIONS = {
@@ -35,10 +39,7 @@ const TablePage = <T extends MRT_RowData>({
     ...pageProps
 }: TablePageProps<T>) => {
     return (
-        <Page
-            title={title}
-            {...pageProps}
-        >
+        <Page title={title} {...pageProps}>
             <Box
                 className='content-primary'
                 sx={{
@@ -53,14 +54,8 @@ const TablePage = <T extends MRT_RowData>({
                         marginBottom: 1
                     }}
                 >
-                    <Typography variant='h1'>
-                        {title}
-                    </Typography>
-                    {subtitle && (
-                        <Typography>
-                            {subtitle}
-                        </Typography>
-                    )}
+                    <Typography variant='h1'>{title}</Typography>
+                    {subtitle && <Typography>{subtitle}</Typography>}
                 </Stack>
                 <MaterialReactTable table={table} />
             </Box>

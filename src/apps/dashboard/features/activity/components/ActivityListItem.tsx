@@ -18,38 +18,53 @@ type ActivityListItemProps = {
     displayShortOverview: boolean;
 };
 
-const ActivityListItem = ({ item, displayShortOverview }: ActivityListItemProps) => {
+const ActivityListItem = ({
+    item,
+    displayShortOverview
+}: ActivityListItemProps) => {
     const relativeDate = useMemo(() => {
         if (item.Date) {
-            return formatRelative(Date.parse(item.Date), Date.now(), { locale: getLocale() });
+            return formatRelative(Date.parse(item.Date), Date.now(), {
+                locale: getLocale()
+            });
         } else {
             return 'N/A';
         }
-    }, [ item ]);
+    }, [item]);
 
     return (
         <ListItem disablePadding>
             <ListItemButton>
                 <ListItemAvatar>
-                    <Avatar sx={{ bgcolor: getLogLevelColor(item.Severity || LogLevel.Information) + '.main' }}>
+                    <Avatar
+                        sx={{
+                            bgcolor:
+                                getLogLevelColor(
+                                    item.Severity || LogLevel.Information
+                                ) + '.main'
+                        }}
+                    >
                         <Notifications sx={{ color: '#fff' }} />
                     </Avatar>
                 </ListItemAvatar>
 
                 <ListItemText
                     primary={<Typography>{item.Name}</Typography>}
-                    secondary={(
+                    secondary={
                         <Stack>
                             <Typography variant='body1' color='text.secondary'>
                                 {relativeDate}
                             </Typography>
                             {displayShortOverview && (
-                                <Typography variant='body1' color='text.secondary'>
+                                <Typography
+                                    variant='body1'
+                                    color='text.secondary'
+                                >
                                     {item.ShortOverview}
                                 </Typography>
                             )}
                         </Stack>
-                    )}
+                    }
                     disableTypography
                 />
             </ListItemButton>

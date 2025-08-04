@@ -8,9 +8,9 @@ import Page from '../../../../components/Page';
 import loading from '../../../../components/loading/loading';
 
 const UserPassword = () => {
-    const [ searchParams ] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const userId = searchParams.get('userId');
-    const [ userName, setUserName ] = useState('');
+    const [userName, setUserName] = useState('');
 
     const loadUser = useCallback(() => {
         if (!userId) {
@@ -19,15 +19,17 @@ const UserPassword = () => {
         }
 
         loading.show();
-        window.ApiClient.getUser(userId).then(function (user) {
-            if (!user.Name) {
-                throw new Error('Unexpected null user.Name');
-            }
-            setUserName(user.Name);
-            loading.hide();
-        }).catch(err => {
-            console.error('[userpassword] failed to fetch user', err);
-        });
+        window.ApiClient.getUser(userId)
+            .then(function (user) {
+                if (!user.Name) {
+                    throw new Error('Unexpected null user.Name');
+                }
+                setUserName(user.Name);
+                loading.hide();
+            })
+            .catch((err) => {
+                console.error('[userpassword] failed to fetch user', err);
+            });
     }, [userId]);
     useEffect(() => {
         loadUser();
@@ -40,19 +42,14 @@ const UserPassword = () => {
         >
             <div className='content-primary'>
                 <div className='verticalSection'>
-                    <SectionTitleContainer
-                        title={userName}
-                    />
+                    <SectionTitleContainer title={userName} />
                 </div>
-                <SectionTabs activeTab='userpassword'/>
+                <SectionTabs activeTab='userpassword' />
                 <div className='readOnlyContent'>
-                    <UserPasswordForm
-                        userId={userId}
-                    />
+                    <UserPasswordForm userId={userId} />
                 </div>
             </div>
         </Page>
-
     );
 };
 

@@ -12,15 +12,19 @@ import globalize from 'lib/globalize';
 import Events from 'utils/events';
 
 import RemotePlayMenu, { ID } from './menus/RemotePlayMenu';
-import RemotePlayActiveMenu, { ID as ACTIVE_ID } from './menus/RemotePlayActiveMenu';
+import RemotePlayActiveMenu, {
+    ID as ACTIVE_ID
+} from './menus/RemotePlayActiveMenu';
 
 const RemotePlayButton = () => {
     const theme = useTheme();
-    const [ playerInfo, setPlayerInfo ] = useState(playbackManager.getPlayerInfo());
+    const [playerInfo, setPlayerInfo] = useState(
+        playbackManager.getPlayerInfo()
+    );
 
     const updatePlayerInfo = useCallback(() => {
         setPlayerInfo(playbackManager.getPlayerInfo());
-    }, [ setPlayerInfo ]);
+    }, [setPlayerInfo]);
 
     useEffect(() => {
         Events.on(playbackManager, 'playerchange', updatePlayerInfo);
@@ -28,33 +32,41 @@ const RemotePlayButton = () => {
         return () => {
             Events.off(playbackManager, 'playerchange', updatePlayerInfo);
         };
-    }, [ updatePlayerInfo ]);
+    }, [updatePlayerInfo]);
 
-    const [ remotePlayMenuAnchorEl, setRemotePlayMenuAnchorEl ] = useState<null | HTMLElement>(null);
+    const [remotePlayMenuAnchorEl, setRemotePlayMenuAnchorEl] =
+        useState<null | HTMLElement>(null);
     const isRemotePlayMenuOpen = Boolean(remotePlayMenuAnchorEl);
 
-    const onRemotePlayButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setRemotePlayMenuAnchorEl(event.currentTarget);
-    }, [ setRemotePlayMenuAnchorEl ]);
+    const onRemotePlayButtonClick = useCallback(
+        (event: React.MouseEvent<HTMLElement>) => {
+            setRemotePlayMenuAnchorEl(event.currentTarget);
+        },
+        [setRemotePlayMenuAnchorEl]
+    );
 
     const onRemotePlayMenuClose = useCallback(() => {
         setRemotePlayMenuAnchorEl(null);
-    }, [ setRemotePlayMenuAnchorEl ]);
+    }, [setRemotePlayMenuAnchorEl]);
 
-    const [ remotePlayActiveMenuAnchorEl, setRemotePlayActiveMenuAnchorEl ] = useState<null | HTMLElement>(null);
+    const [remotePlayActiveMenuAnchorEl, setRemotePlayActiveMenuAnchorEl] =
+        useState<null | HTMLElement>(null);
     const isRemotePlayActiveMenuOpen = Boolean(remotePlayActiveMenuAnchorEl);
 
-    const onRemotePlayActiveButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setRemotePlayActiveMenuAnchorEl(event.currentTarget);
-    }, [ setRemotePlayActiveMenuAnchorEl ]);
+    const onRemotePlayActiveButtonClick = useCallback(
+        (event: React.MouseEvent<HTMLElement>) => {
+            setRemotePlayActiveMenuAnchorEl(event.currentTarget);
+        },
+        [setRemotePlayActiveMenuAnchorEl]
+    );
 
     const onRemotePlayActiveMenuClose = useCallback(() => {
         setRemotePlayActiveMenuAnchorEl(null);
-    }, [ setRemotePlayActiveMenuAnchorEl ]);
+    }, [setRemotePlayActiveMenuAnchorEl]);
 
     return (
         <>
-            {(playerInfo && !playerInfo.isLocalPlayer) ? (
+            {playerInfo && !playerInfo.isLocalPlayer ? (
                 <Box
                     sx={{
                         alignSelf: 'center'

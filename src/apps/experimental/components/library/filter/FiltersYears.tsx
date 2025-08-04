@@ -7,7 +7,9 @@ import { LibraryViewSettings } from 'types/library';
 interface FiltersYearsProps {
     yearsOptions: number[];
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
+    setLibraryViewSettings: React.Dispatch<
+        React.SetStateAction<LibraryViewSettings>
+    >;
 }
 
 const FiltersYears: FC<FiltersYearsProps> = ({
@@ -21,9 +23,9 @@ const FiltersYears: FC<FiltersYearsProps> = ({
             const value = Number(event.target.value);
             const existingYears = libraryViewSettings?.Filters?.Years ?? [];
 
-            const updatedYears = existingYears.includes(value) ?
-                existingYears.filter((filter) => filter !== value) :
-                [...existingYears, value];
+            const updatedYears = existingYears.includes(value)
+                ? existingYears.filter((filter) => filter !== value)
+                : [...existingYears, value];
 
             setLibraryViewSettings((prevState) => ({
                 ...prevState,

@@ -10,17 +10,13 @@ import React from 'react';
 interface SimpleAlertDialog extends DialogProps {
     title?: string;
     text: string;
-    onClose: () => void
-};
+    onClose: () => void;
+}
 
 const SimpleAlert = ({ open, title, text, onClose }: SimpleAlertDialog) => {
     return (
         <Dialog open={open} onClose={onClose}>
-            {title && (
-                <DialogTitle>
-                    {title}
-                </DialogTitle>
-            )}
+            {title && <DialogTitle>{title}</DialogTitle>}
             <DialogContent>
                 <DialogContentText sx={{ whiteSpace: 'pre-wrap' }}>
                     {text}

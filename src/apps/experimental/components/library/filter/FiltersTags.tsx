@@ -7,7 +7,9 @@ import { LibraryViewSettings } from 'types/library';
 interface FiltersTagsProps {
     tagsOptions: string[];
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
+    setLibraryViewSettings: React.Dispatch<
+        React.SetStateAction<LibraryViewSettings>
+    >;
 }
 
 const FiltersTags: FC<FiltersTagsProps> = ({
@@ -21,9 +23,9 @@ const FiltersTags: FC<FiltersTagsProps> = ({
             const value = event.target.value;
             const existingTags = libraryViewSettings?.Filters?.Tags ?? [];
 
-            const updatedTags = existingTags.includes(value) ?
-                existingTags.filter((filter) => filter !== value) :
-                [...existingTags, value];
+            const updatedTags = existingTags.includes(value)
+                ? existingTags.filter((filter) => filter !== value)
+                : [...existingTags, value];
 
             setLibraryViewSettings((prevState) => ({
                 ...prevState,

@@ -8,16 +8,24 @@ const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const progress = task.CurrentProgressPercentage;
 
     return (
-        <Box sx={{ display: 'flex', alignItems: 'center', height: '1.2rem', mr: 2 }}>
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                height: '1.2rem',
+                mr: 2
+            }}
+        >
             {progress != null ? (
                 <>
                     <Box sx={{ width: '100%', mr: 1 }}>
-                        <LinearProgress variant='determinate' value={progress} />
+                        <LinearProgress
+                            variant='determinate'
+                            value={progress}
+                        />
                     </Box>
                     <Box>
-                        <Typography
-                            variant='body1'
-                        >{`${Math.round(progress)}%`}</Typography>
+                        <Typography variant='body1'>{`${Math.round(progress)}%`}</Typography>
                     </Box>
                 </>
             ) : (

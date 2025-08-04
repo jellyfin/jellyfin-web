@@ -1,7 +1,13 @@
 import type { LibraryUpdateInfo } from '@jellyfin/sdk/lib/generated-client/models/library-update-info';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import { ApiClient } from 'jellyfin-apiclient';
-import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef } from 'react';
+import React, {
+    type FC,
+    type PropsWithChildren,
+    useCallback,
+    useEffect,
+    useRef
+} from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import Sortable from 'sortablejs';
@@ -44,7 +50,7 @@ export interface ItemsContainerProps {
     parentId?: ParentId;
     reloadItems?: () => void;
     getItemsHtml?: () => string;
-    queryKey?: string[]
+    queryKey?: string[];
 }
 
 const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
@@ -60,7 +66,8 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     children
 }) => {
     const queryClient = useQueryClient();
-    const { mutateAsync: playlistsMoveItemMutation } = usePlaylistsMoveItemMutation();
+    const { mutateAsync: playlistsMoveItemMutation } =
+        usePlaylistsMoveItemMutation();
     const itemsContainerRef = useRef<HTMLDivElement>(null);
     const multiSelectref = useRef<MultiSelect | null>(null);
     const sortableref = useRef<Sortable | null>(null);
@@ -71,8 +78,8 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         const multiSelect = multiSelectref.current;
 
         if (
-            multiSelect
-            && multiSelect.onContainerClick.call(itemsContainer, e) === false
+            multiSelect &&
+            multiSelect.onContainerClick.call(itemsContainer, e) === false
         ) {
             return;
         }
@@ -145,7 +152,9 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
                 });
                 loading.hide();
             } catch (error) {
-                console.error('[Drag-Drop] error playlists Move Item: ' + error);
+                console.error(
+                    '[Drag-Drop] error playlists Move Item: ' + error
+                );
                 loading.hide();
                 if (!reloadItems) return;
                 reloadItems();
@@ -154,17 +163,20 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         [playlistsMoveItemMutation, reloadItems]
     );
 
-    const initDragReordering = useCallback((itemsContainer: HTMLDivElement) => {
-        sortableref.current = Sortable.create(itemsContainer, {
-            draggable: '.listItem',
-            handle: '.listViewDragHandle',
+    const initDragReordering = useCallback(
+        (itemsContainer: HTMLDivElement) => {
+            sortableref.current = Sortable.create(itemsContainer, {
+                draggable: '.listItem',
+                handle: '.listViewDragHandle',
 
-            // dragging ended
-            onEnd: (evt: Sortable.SortableEvent) => {
-                return onDrop(evt);
-            }
-        });
-    }, [onDrop]);
+                // dragging ended
+                onEnd: (evt: Sortable.SortableEvent) => {
+                    return onDrop(evt);
+                }
+            });
+        },
+        [onDrop]
+    );
 
     const destroyDragReordering = useCallback(() => {
         if (sortableref.current) {
@@ -195,15 +207,11 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
     const onUserDataChanged = useCallback(async () => {
         await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
+    }, [invalidateQueries]);
 
     const onTimerCreated = useCallback(async () => {
         await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
+    }, [invalidateQueries]);
 
     const onSeriesTimerCreated = useCallback(async () => {
         await invalidateQueries();
@@ -211,19 +219,18 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
     const onTimerCancelled = useCallback(async () => {
         await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
+    }, [invalidateQueries]);
 
     const onSeriesTimerCancelled = useCallback(async () => {
         await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
+    }, [invalidateQueries]);
 
     const onLibraryChanged = useCallback(
         (_e: Event, _apiClient: ApiClient, data: LibraryUpdateInfo) => {
-            if (eventsToMonitor.includes('seriestimers') || eventsToMonitor.includes('timers')) {
+            if (
+                eventsToMonitor.includes('seriestimers') ||
+                eventsToMonitor.includes('timers')
+            ) {
                 // yes this is an assumption
                 return;
             }
@@ -240,9 +247,9 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
                 const collectionFolders = data.CollectionFolders ?? [];
 
                 if (
-                    foldersAddedTo.indexOf(parentId) === -1
-                    && foldersRemovedFrom.indexOf(parentId) === -1
-                    && collectionFolders.indexOf(parentId) === -1
+                    foldersAddedTo.indexOf(parentId) === -1 &&
+                    foldersRemovedFrom.indexOf(parentId) === -1 &&
+                    collectionFolders.indexOf(parentId) === -1
                 ) {
                     return;
                 }
@@ -258,17 +265,17 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             const state = stopInfo.state;
 
             if (
-                state.NowPlayingItem
-                && state.NowPlayingItem.MediaType === MediaType.Video
+                state.NowPlayingItem &&
+                state.NowPlayingItem.MediaType === MediaType.Video
             ) {
                 if (eventsToMonitor.includes('videoplayback')) {
                     notifyRefreshNeeded(true);
                     return;
                 }
             } else if (
-                state.NowPlayingItem
-                && state.NowPlayingItem.MediaType === MediaType.Audio
-                && eventsToMonitor.includes('audioplayback')
+                state.NowPlayingItem &&
+                state.NowPlayingItem.MediaType === MediaType.Audio &&
+                eventsToMonitor.includes('audioplayback')
             ) {
                 notifyRefreshNeeded(true);
                 return;
@@ -336,8 +343,8 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         }
 
         if (
-            layoutManager.desktop
-            || (layoutManager.mobile && isMultiSelectEnabled !== false)
+            layoutManager.desktop ||
+            (layoutManager.mobile && isMultiSelectEnabled !== false)
         ) {
             initMultiSelect(itemsContainer);
         }
@@ -359,8 +366,16 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         Events.on(serverNotifications, 'UserDataChanged', onUserDataChanged);
         Events.on(serverNotifications, 'TimerCreated', onTimerCreated);
         Events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
-        Events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-        Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+        Events.on(
+            serverNotifications,
+            'SeriesTimerCreated',
+            onSeriesTimerCreated
+        );
+        Events.on(
+            serverNotifications,
+            'SeriesTimerCancelled',
+            onSeriesTimerCancelled
+        );
         Events.on(serverNotifications, 'LibraryChanged', onLibraryChanged);
         Events.on(playbackManager, 'playbackstop', onPlaybackStopped);
 
@@ -377,11 +392,23 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
             itemShortcuts.off(itemsContainer, getShortcutOptions());
 
-            Events.off(serverNotifications, 'UserDataChanged', onUserDataChanged);
+            Events.off(
+                serverNotifications,
+                'UserDataChanged',
+                onUserDataChanged
+            );
             Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
             Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
-            Events.off( serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-            Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+            Events.off(
+                serverNotifications,
+                'SeriesTimerCreated',
+                onSeriesTimerCreated
+            );
+            Events.off(
+                serverNotifications,
+                'SeriesTimerCancelled',
+                onSeriesTimerCancelled
+            );
             Events.off(serverNotifications, 'LibraryChanged', onLibraryChanged);
             Events.off(playbackManager, 'playbackstop', onPlaybackStopped);
         };

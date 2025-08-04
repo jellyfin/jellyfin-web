@@ -7,7 +7,9 @@ import { LibraryViewSettings } from 'types/library';
 interface FiltersGenresProps {
     genresOptions: string[];
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
+    setLibraryViewSettings: React.Dispatch<
+        React.SetStateAction<LibraryViewSettings>
+    >;
 }
 
 const FiltersGenres: FC<FiltersGenresProps> = ({
@@ -21,9 +23,9 @@ const FiltersGenres: FC<FiltersGenresProps> = ({
             const value = event.target.value;
             const existingGenres = libraryViewSettings?.Filters?.Genres ?? [];
 
-            const updatedGenres = existingGenres.includes(value) ?
-                existingGenres.filter((filter) => filter !== value) :
-                [...existingGenres, value];
+            const updatedGenres = existingGenres.includes(value)
+                ? existingGenres.filter((filter) => filter !== value)
+                : [...existingGenres, value];
 
             setLibraryViewSettings((prevState) => ({
                 ...prevState,

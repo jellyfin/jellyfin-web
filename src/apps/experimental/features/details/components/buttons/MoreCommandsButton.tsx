@@ -114,7 +114,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
         itemId: selectedItemId || itemId || ''
     });
     const parentId = item?.SeasonId || item?.SeriesId || item?.ParentId;
-    const [ hasCommands, setHasCommands ] = useState(false);
+    const [hasCommands, setHasCommands] = useState(false);
 
     const playlistItem = useMemo(() => {
         let PlaylistItemId: string | null = null;
@@ -126,7 +126,9 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
 
             if (items?.length) {
                 PlaylistItemCount = items.length;
-                PlaylistIndex = items.findIndex(listItem => listItem.PlaylistItemId === PlaylistItemId);
+                PlaylistIndex = items.findIndex(
+                    (listItem) => listItem.PlaylistItemId === PlaylistItemId
+                );
             }
         }
         return { PlaylistItemId, PlaylistIndex, PlaylistItemCount };
@@ -134,7 +136,6 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
 
     const defaultMenuOptions = useMemo(() => {
         return {
-
             item: {
                 ...item,
                 ...playlistItem
@@ -149,7 +150,15 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
             collectionId: collectionId,
             ...contextMenuOpts
         };
-    }, [canEditPlaylist, collectionId, contextMenuOpts, item, playlistId, playlistItem, user]);
+    }, [
+        canEditPlaylist,
+        collectionId,
+        contextMenuOpts,
+        item,
+        playlistId,
+        playlistItem,
+        user
+    ]);
 
     const onMoreCommandsClick = useCallback(
         async (e: React.MouseEvent<HTMLElement>) => {
@@ -169,8 +178,11 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                             item: item || {},
                             items: items || [],
                             serverId: item?.ServerId
-                        }).catch(err => {
-                            console.error('[MoreCommandsButton] failed to play', err);
+                        }).catch((err) => {
+                            console.error(
+                                '[MoreCommandsButton] failed to play',
+                                err
+                            );
                         });
                     } else if (result.command === 'queueallfromhere') {
                         playAllFromHere({
@@ -178,8 +190,11 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                             items: items || [],
                             serverId: item?.ServerId,
                             queue: true
-                        }).catch(err => {
-                            console.error('[MoreCommandsButton] failed to play', err);
+                        }).catch((err) => {
+                            console.error(
+                                '[MoreCommandsButton] failed to play',
+                                err
+                            );
                         });
                     } else if (result.deleted) {
                         if (result?.itemId !== itemId) {
@@ -201,16 +216,25 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                     /* no-op */
                 });
         },
-        [defaultMenuOptions, item, itemId, items, parentId, queryClient, queryKey]
+        [
+            defaultMenuOptions,
+            item,
+            itemId,
+            items,
+            parentId,
+            queryClient,
+            queryKey
+        ]
     );
 
     useEffect(() => {
         const getCommands = async () => {
-            const commands = await itemContextMenu.getCommands(defaultMenuOptions);
+            const commands =
+                await itemContextMenu.getCommands(defaultMenuOptions);
             setHasCommands(commands.length > 0);
         };
         void getCommands();
-    }, [ defaultMenuOptions ]);
+    }, [defaultMenuOptions]);
 
     if (item && hasCommands) {
         return (

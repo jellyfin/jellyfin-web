@@ -1,5 +1,9 @@
 function toLocaleStringSupportsOptions() {
-    return !!(typeof Intl === 'object' && Intl && typeof Intl.NumberFormat === 'function');
+    return !!(
+        typeof Intl === 'object' &&
+        Intl &&
+        typeof Intl.NumberFormat === 'function'
+    );
 }
 
 /**
@@ -33,7 +37,10 @@ export function toDecimalString(value: number, locale: string): string {
  * @param {string} locale The locale to use for formatting (i.e. en-us).
  * @returns {string} The value formatted as a percentage.
  */
-export function toPercentString(value: number | null | undefined, locale: string): string {
+export function toPercentString(
+    value: number | null | undefined,
+    locale: string
+): string {
     if (value == null) {
         return '';
     }

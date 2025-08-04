@@ -9,12 +9,19 @@ import React, { type FC } from 'react';
 import globalize from 'lib/globalize';
 
 interface ConfirmDialogProps extends DialogProps {
-    confirmButtonColor?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
-    confirmButtonText?: string
-    title: string
-    text: string
-    onCancel: () => void
-    onConfirm: () => void
+    confirmButtonColor?:
+        | 'inherit'
+        | 'primary'
+        | 'secondary'
+        | 'success'
+        | 'error'
+        | 'info'
+        | 'warning';
+    confirmButtonText?: string;
+    title: string;
+    text: string;
+    onCancel: () => void;
+    onConfirm: () => void;
 }
 
 /** Convenience wrapper for a simple MUI Dialog component for displaying a prompt that needs confirmation. */
@@ -28,25 +35,15 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
     ...dialogProps
 }) => (
     <Dialog onClose={onCancel} {...dialogProps}>
-        <DialogTitle>
-            {title}
-        </DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogContent>
-            <DialogContentText>
-                {text}
-            </DialogContentText>
+            <DialogContentText>{text}</DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button
-                variant='text'
-                onClick={onCancel}
-            >
+            <Button variant='text' onClick={onCancel}>
                 {globalize.translate('ButtonCancel')}
             </Button>
-            <Button
-                color={confirmButtonColor}
-                onClick={onConfirm}
-            >
+            <Button color={confirmButtonColor} onClick={onConfirm}>
                 {confirmButtonText || globalize.translate('ButtonOk')}
             </Button>
         </DialogActions>

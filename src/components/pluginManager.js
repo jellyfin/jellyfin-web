@@ -53,7 +53,10 @@ class PluginManager {
 
             plugin.installUrl = pluginSpec;
 
-            const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
+            const separatorIndex = Math.max(
+                pluginSpec.lastIndexOf('/'),
+                pluginSpec.lastIndexOf('\\')
+            );
             plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
         }
 
@@ -69,12 +72,16 @@ class PluginManager {
 
                 const pluginDefinition = await window[pluginSpec];
                 if (typeof pluginDefinition !== 'function') {
-                    throw new TypeError('Plugin definitions in window have to be an (async) function returning the plugin class');
+                    throw new TypeError(
+                        'Plugin definitions in window have to be an (async) function returning the plugin class'
+                    );
                 }
 
                 const PluginClass = await pluginDefinition();
                 if (typeof PluginClass !== 'function') {
-                    throw new TypeError(`Plugin definition doesn't return a class for '${pluginSpec}'`);
+                    throw new TypeError(
+                        `Plugin definition doesn't return a class for '${pluginSpec}'`
+                    );
                 }
 
                 // init plugin and pass basic dependencies
@@ -93,17 +100,23 @@ class PluginManager {
                     ServerConnections
                 });
             } else {
-                console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
-                const pluginResult = await import(/* webpackChunkName: "[request]" */ `../plugins/${pluginSpec}`);
-                plugin = new pluginResult.default;
+                console.debug(
+                    `Loading plugin (via dynamic import): ${pluginSpec}`
+                );
+                const pluginResult = await import(
+                    /* webpackChunkName: "[request]" */ `../plugins/${pluginSpec}`
+                );
+                plugin = new pluginResult.default();
             }
         } else if (pluginSpec.then) {
             console.debug('Loading plugin (via promise/async function)');
 
             const pluginResult = await pluginSpec;
-            plugin = new pluginResult.default;
+            plugin = new pluginResult.default();
         } else {
-            throw new TypeError('Plugins have to be a Promise that resolves to a plugin builder function');
+            throw new TypeError(
+                'Plugins have to be a Promise that resolves to a plugin builder function'
+            );
         }
 
         return this.#preparePlugin(pluginSpec, plugin);
@@ -119,14 +132,16 @@ class PluginManager {
     }
 
     ofType(type) {
-        return this.pluginsList.filter(plugin => plugin.type === type);
+        return this.pluginsList.filter((plugin) => plugin.type === type);
     }
 
     firstOfType(type) {
         // Get all plugins of the specified type
-        return this.ofType(type)
-            // Return the plugin with the "highest" (lowest numeric value) priority
-            .sort((p1, p2) => (p1.priority || 0) - (p2.priority || 0))[0];
+        return (
+            this.ofType(type)
+                // Return the plugin with the "highest" (lowest numeric value) priority
+                .sort((p1, p2) => (p1.priority || 0) - (p2.priority || 0))[0]
+        );
     }
 
     mapPath(plugin, path, addCacheParam) {

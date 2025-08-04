@@ -41,8 +41,9 @@ export default {
     trigger(obj: any, type: string, args: any[] = []) {
         const eventArgs: [Event, ...any] = [{ type }, ...args];
 
-        getCallbacks(obj, type).slice(0)
-            .forEach(callback => {
+        getCallbacks(obj, type)
+            .slice(0)
+            .forEach((callback) => {
                 callback.apply(obj, eventArgs);
             });
     }

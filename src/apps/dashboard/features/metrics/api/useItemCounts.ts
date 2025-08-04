@@ -11,24 +11,22 @@ const fetchItemCounts = async (
     params?: LibraryApiGetItemCountsRequest,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getLibraryApi(api)
-        .getItemCounts(params, options);
+    const response = await getLibraryApi(api).getItemCounts(params, options);
     return response.data;
 };
 
 const getItemCountsQuery = (
     api?: Api,
     params?: LibraryApiGetItemCountsRequest
-) => queryOptions({
-    queryKey: [ 'ItemCounts', params ],
-    queryFn: ({ signal }) => fetchItemCounts(api!, params, { signal }),
-    enabled: !!api,
-    refetchOnWindowFocus: false
-});
+) =>
+    queryOptions({
+        queryKey: ['ItemCounts', params],
+        queryFn: ({ signal }) => fetchItemCounts(api!, params, { signal }),
+        enabled: !!api,
+        refetchOnWindowFocus: false
+    });
 
-export const useItemCounts = (
-    params?: LibraryApiGetItemCountsRequest
-) => {
+export const useItemCounts = (params?: LibraryApiGetItemCountsRequest) => {
     const { api } = useApi();
     return useQuery(getItemCountsQuery(api, params));
 };

@@ -31,10 +31,10 @@ type DeviceCardProps = {
 };
 
 const DeviceCard = ({ device }: DeviceCardProps) => {
-    const [ playbackInfoTitle, setPlaybackInfoTitle ] = useState('');
-    const [ playbackInfoDesc, setPlaybackInfoDesc ] = useState('');
-    const [ isPlaybackInfoOpen, setIsPlaybackInfoOpen ] = useState(false);
-    const [ isMessageDialogOpen, setIsMessageDialogOpen ] = useState(false);
+    const [playbackInfoTitle, setPlaybackInfoTitle] = useState('');
+    const [playbackInfoDesc, setPlaybackInfoDesc] = useState('');
+    const [isPlaybackInfoOpen, setIsPlaybackInfoOpen] = useState(false);
+    const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
     const sendMessage = useSendMessage();
     const playStateCommand = useSendPlayStateCommand();
 
@@ -45,7 +45,7 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
                 command: PlaystateCommand.PlayPause
             });
         }
-    }, [ device, playStateCommand ]);
+    }, [device, playStateCommand]);
 
     const onStopSession = useCallback(() => {
         if (device.Id) {
@@ -54,20 +54,23 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
                 command: PlaystateCommand.Stop
             });
         }
-    }, [ device, playStateCommand ]);
+    }, [device, playStateCommand]);
 
-    const onMessageSend = useCallback((message: string) => {
-        if (device.Id) {
-            sendMessage.mutate({
-                sessionId: device.Id,
-                messageCommand: {
-                    Text: message,
-                    TimeoutMs: 5000
-                }
-            });
-            setIsMessageDialogOpen(false);
-        }
-    }, [ sendMessage, device ]);
+    const onMessageSend = useCallback(
+        (message: string) => {
+            if (device.Id) {
+                sendMessage.mutate({
+                    sessionId: device.Id,
+                    messageCommand: {
+                        Text: message,
+                        TimeoutMs: 5000
+                    }
+                });
+                setIsMessageDialogOpen(false);
+            }
+        },
+        [sendMessage, device]
+    );
 
     const showMessageDialog = useCallback(() => {
         setIsMessageDialogOpen(true);
@@ -87,48 +90,63 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
         switch (displayPlayMethod) {
             case 'Remux':
                 setPlaybackInfoTitle(globalize.translate('Remuxing'));
-                setPlaybackInfoDesc(globalize.translate('RemuxHelp1') + '\n' + globalize.translate('RemuxHelp2'));
+                setPlaybackInfoDesc(
+                    globalize.translate('RemuxHelp1') +
+                        '\n' +
+                        globalize.translate('RemuxHelp2')
+                );
                 break;
             case 'DirectStream':
                 setPlaybackInfoTitle(globalize.translate('DirectStreaming'));
-                setPlaybackInfoDesc(globalize.translate('DirectStreamHelp1') + '\n' + globalize.translate('DirectStreamHelp2'));
+                setPlaybackInfoDesc(
+                    globalize.translate('DirectStreamHelp1') +
+                        '\n' +
+                        globalize.translate('DirectStreamHelp2')
+                );
                 break;
             case 'DirectPlay':
                 setPlaybackInfoTitle(globalize.translate('DirectPlaying'));
                 setPlaybackInfoDesc(globalize.translate('DirectPlayHelp'));
                 break;
             case 'Transcode': {
-                const transcodeReasons = device.TranscodingInfo?.TranscodeReasons as string[] | undefined;
-                const localizedTranscodeReasons = transcodeReasons?.map(transcodeReason => globalize.translate(transcodeReason)) || [];
+                const transcodeReasons = device.TranscodingInfo
+                    ?.TranscodeReasons as string[] | undefined;
+                const localizedTranscodeReasons =
+                    transcodeReasons?.map((transcodeReason) =>
+                        globalize.translate(transcodeReason)
+                    ) || [];
                 setPlaybackInfoTitle(globalize.translate('Transcoding'));
                 setPlaybackInfoDesc(
-                    globalize.translate('MediaIsBeingConverted')
-                    + '\n\n' + getSessionNowPlayingStreamInfo(device)
-                    + '\n\n' + globalize.translate('LabelReasonForTranscoding')
-                    + '\n' + localizedTranscodeReasons.join('\n')
+                    globalize.translate('MediaIsBeingConverted') +
+                        '\n\n' +
+                        getSessionNowPlayingStreamInfo(device) +
+                        '\n\n' +
+                        globalize.translate('LabelReasonForTranscoding') +
+                        '\n' +
+                        localizedTranscodeReasons.join('\n')
                 );
                 break;
             }
         }
 
         setIsPlaybackInfoOpen(true);
-    }, [ device ]);
+    }, [device]);
 
-    const nowPlayingName = useMemo(() => (
-        getNowPlayingName(device)
-    ), [ device ]);
+    const nowPlayingName = useMemo(() => getNowPlayingName(device), [device]);
 
-    const nowPlayingImage = useMemo(() => (
-        device.NowPlayingItem && getNowPlayingImageUrl(device.NowPlayingItem)
-    ), [device]);
+    const nowPlayingImage = useMemo(
+        () =>
+            device.NowPlayingItem &&
+            getNowPlayingImageUrl(device.NowPlayingItem),
+        [device]
+    );
 
-    const runningTime = useMemo(() => (
-        getSessionNowPlayingTime(device)
-    ), [ device ]);
+    const runningTime = useMemo(
+        () => getSessionNowPlayingTime(device),
+        [device]
+    );
 
-    const deviceIcon = useMemo(() => (
-        getDeviceIcon(device)
-    ), [ device ]);
+    const deviceIcon = useMemo(() => getDeviceIcon(device), [device]);
 
     const canControl = device.ServerId && device.SupportsRemoteControl;
     const isPlayingMedia = !!device.NowPlayingItem;
@@ -161,9 +179,12 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
                     justifyContent={'space-between'}
                     flexGrow={1}
                     sx={{
-                        backgroundColor: nowPlayingImage ? 'rgba(0, 0, 0, 0.7)' : null,
+                        backgroundColor: nowPlayingImage
+                            ? 'rgba(0, 0, 0, 0.7)'
+                            : null,
                         padding: 2
-                    }}>
+                    }}
+                >
                     <Stack direction='row' alignItems='center' spacing={1}>
                         <img
                             src={deviceIcon}
@@ -175,7 +196,11 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
                         />
                         <Stack>
                             <Typography>{device.DeviceName}</Typography>
-                            <Typography>{device.Client + ' ' + device.ApplicationVersion}</Typography>
+                            <Typography>
+                                {device.Client +
+                                    ' ' +
+                                    device.ApplicationVersion}
+                            </Typography>
                         </Stack>
                     </Stack>
                     <Stack direction='row' alignItems={'end'}>
@@ -191,39 +216,54 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
                                     alt='Media Icon'
                                 />
                             ) : (
-                                <Typography>{nowPlayingName.topText}</Typography>
+                                <Typography>
+                                    {nowPlayingName.topText}
+                                </Typography>
                             )}
                             <Typography>{nowPlayingName.bottomText}</Typography>
                         </Stack>
                         {device.NowPlayingItem && (
-                            <Typography>{runningTime.start} / {runningTime.end}</Typography>
+                            <Typography>
+                                {runningTime.start} / {runningTime.end}
+                            </Typography>
                         )}
                     </Stack>
                 </Stack>
             </CardMedia>
-            {(device.PlayState?.PositionTicks != null && device.NowPlayingItem?.RunTimeTicks != null) && (
-                <LinearProgress
-                    variant='buffer'
-                    value={(device.PlayState.PositionTicks / device.NowPlayingItem.RunTimeTicks) * 100}
-                    valueBuffer={device.TranscodingInfo?.CompletionPercentage || 0}
-                    sx={{
-                        '& .MuiLinearProgress-dashed': {
-                            animation: 'none',
-                            backgroundImage: 'none',
-                            backgroundColor: 'background.paper'
-                        },
-                        '& .MuiLinearProgress-bar2': {
-                            backgroundColor: '#dd4919'
+            {device.PlayState?.PositionTicks != null &&
+                device.NowPlayingItem?.RunTimeTicks != null && (
+                    <LinearProgress
+                        variant='buffer'
+                        value={
+                            (device.PlayState.PositionTicks /
+                                device.NowPlayingItem.RunTimeTicks) *
+                            100
                         }
-                    }}
-                />
-            )}
+                        valueBuffer={
+                            device.TranscodingInfo?.CompletionPercentage || 0
+                        }
+                        sx={{
+                            '& .MuiLinearProgress-dashed': {
+                                animation: 'none',
+                                backgroundImage: 'none',
+                                backgroundColor: 'background.paper'
+                            },
+                            '& .MuiLinearProgress-bar2': {
+                                backgroundColor: '#dd4919'
+                            }
+                        }}
+                    />
+                )}
             <CardActions disableSpacing>
                 <Stack direction='row' flexGrow={1} justifyContent='center'>
                     {canControl && isPlayingMedia && (
                         <>
                             <IconButton onClick={onPlayPauseSession}>
-                                {device.PlayState?.IsPaused ? <PlayArrow /> : <Pause />}
+                                {device.PlayState?.IsPaused ? (
+                                    <PlayArrow />
+                                ) : (
+                                    <Pause />
+                                )}
                             </IconButton>
                             <IconButton onClick={onStopSession}>
                                 <Stop />

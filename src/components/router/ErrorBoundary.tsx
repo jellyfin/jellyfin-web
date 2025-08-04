@@ -11,11 +11,11 @@ import loading from 'components/loading/loading';
 import Page from 'components/Page';
 
 interface ErrorBoundaryParams {
-    pageClasses?: string[]
+    pageClasses?: string[];
 }
 
 const ErrorBoundary: FC<ErrorBoundaryParams> = ({
-    pageClasses = [ 'libraryPage' ]
+    pageClasses = ['libraryPage']
 }) => {
     const error = useRouteError() as Error;
 
@@ -30,13 +30,9 @@ const ErrorBoundary: FC<ErrorBoundaryParams> = ({
         >
             <Box className='content-primary'>
                 <Alert severity='error'>
-                    <AlertTitle>
-                        {error.name}
-                    </AlertTitle>
+                    <AlertTitle>{error.name}</AlertTitle>
 
-                    <Typography>
-                        {error.message}
-                    </Typography>
+                    <Typography>{error.message}</Typography>
 
                     {error.stack && (
                         <Paper

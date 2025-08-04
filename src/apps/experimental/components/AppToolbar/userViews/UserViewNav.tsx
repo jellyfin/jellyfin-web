@@ -35,11 +35,14 @@ const getCurrentUserView = (
     collectionType: string | null,
     tab: number
 ) => {
-    const isUserViewPath = isLibraryPath(pathname) || [HOME_PATH, LIST_PATH].includes(pathname);
+    const isUserViewPath =
+        isLibraryPath(pathname) || [HOME_PATH, LIST_PATH].includes(pathname);
     if (!isUserViewPath) return undefined;
 
     if (collectionType === CollectionType.Livetv) {
-        return userViews?.find(({ CollectionType: type }) => type === CollectionType.Livetv);
+        return userViews?.find(
+            ({ CollectionType: type }) => type === CollectionType.Livetv
+        );
     }
 
     if (pathname === HOME_PATH && tab === 1) {
@@ -52,47 +55,61 @@ const getCurrentUserView = (
 
 const UserViewNav = () => {
     const location = useLocation();
-    const [ searchParams ] = useSearchParams();
-    const libraryId = searchParams.get('topParentId') || searchParams.get('parentId');
+    const [searchParams] = useSearchParams();
+    const libraryId =
+        searchParams.get('topParentId') || searchParams.get('parentId');
     const collectionType = searchParams.get('collectionType');
     const { activeTab } = useCurrentTab();
 
-    const isExtraLargeScreen = useMediaQuery((t: Theme) => t.breakpoints.up('xl'));
+    const isExtraLargeScreen = useMediaQuery((t: Theme) =>
+        t.breakpoints.up('xl')
+    );
     const isLargeScreen = useMediaQuery((t: Theme) => t.breakpoints.up('lg'));
     const maxViews = useMemo(() => {
         if (isExtraLargeScreen) return MAX_USER_VIEWS_XL;
         if (isLargeScreen) return MAX_USER_VIEWS_LG;
         return MAX_USER_VIEWS_MD;
-    }, [ isExtraLargeScreen, isLargeScreen ]);
+    }, [isExtraLargeScreen, isLargeScreen]);
 
     const { user } = useApi();
-    const {
-        data: userViews,
-        isPending
-    } = useUserViews(user?.Id);
+    const { data: userViews, isPending } = useUserViews(user?.Id);
 
-    const primaryViews = useMemo(() => (
-        userViews?.Items?.slice(0, maxViews)
-    ), [ maxViews, userViews ]);
+    const primaryViews = useMemo(
+        () => userViews?.Items?.slice(0, maxViews),
+        [maxViews, userViews]
+    );
 
-    const overflowViews = useMemo(() => (
-        userViews?.Items?.slice(maxViews)
-    ), [ maxViews, userViews ]);
+    const overflowViews = useMemo(
+        () => userViews?.Items?.slice(maxViews),
+        [maxViews, userViews]
+    );
 
-    const [ overflowAnchorEl, setOverflowAnchorEl ] = useState<null | HTMLElement>(null);
+    const [overflowAnchorEl, setOverflowAnchorEl] =
+        useState<null | HTMLElement>(null);
     const isOverflowMenuOpen = Boolean(overflowAnchorEl);
 
-    const onOverflowButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setOverflowAnchorEl(event.currentTarget);
-    }, []);
+    const onOverflowButtonClick = useCallback(
+        (event: React.MouseEvent<HTMLElement>) => {
+            setOverflowAnchorEl(event.currentTarget);
+        },
+        []
+    );
 
     const onOverflowMenuClose = useCallback(() => {
         setOverflowAnchorEl(null);
     }, []);
 
-    const currentUserView = useMemo(() => (
-        getCurrentUserView(userViews?.Items, location.pathname, libraryId, collectionType, activeTab)
-    ), [ activeTab, collectionType, libraryId, location.pathname, userViews ]);
+    const currentUserView = useMemo(
+        () =>
+            getCurrentUserView(
+                userViews?.Items,
+                location.pathname,
+                libraryId,
+                collectionType,
+                activeTab
+            ),
+        [activeTab, collectionType, libraryId, location.pathname, userViews]
+    );
 
     if (isPending) return null;
 
@@ -100,7 +117,11 @@ const UserViewNav = () => {
         <>
             <Button
                 variant='text'
-                color={(currentUserView?.Id === MetaView.Favorites.Id) ? 'primary' : 'inherit'}
+                color={
+                    currentUserView?.Id === MetaView.Favorites.Id
+                        ? 'primary'
+                        : 'inherit'
+                }
                 startIcon={<Favorite />}
                 component={Link}
                 to='/home?tab=1'
@@ -108,14 +129,18 @@ const UserViewNav = () => {
                 {globalize.translate(MetaView.Favorites.Name)}
             </Button>
 
-            {primaryViews?.map(view => (
+            {primaryViews?.map((view) => (
                 <Button
                     key={view.Id}
                     variant='text'
-                    color={(view.Id === currentUserView?.Id) ? 'primary' : 'inherit'}
+                    color={
+                        view.Id === currentUserView?.Id ? 'primary' : 'inherit'
+                    }
                     startIcon={<LibraryIcon item={view} />}
                     component={Link}
-                    to={appRouter.getRouteUrl(view, { context: view.CollectionType }).substring(1)}
+                    to={appRouter
+                        .getRouteUrl(view, { context: view.CollectionType })
+                        .substring(1)}
                 >
                     {view.Name}
                 </Button>

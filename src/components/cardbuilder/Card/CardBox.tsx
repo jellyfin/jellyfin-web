@@ -43,21 +43,16 @@ const CardBox: FC<CardBoxProps> = ({
                     item={item}
                     cardOptions={cardOptions}
                     coveredImage={coveredImage}
-
                     overlayText={overlayText}
                     imgUrl={imgUrl}
                     blurhash={blurhash}
                     forceName={forceName}
                 />
                 {layoutManager.mobile && (
-                    <CardOverlayButtons
-                        item={item}
-                        cardOptions={cardOptions}
-                    />
+                    <CardOverlayButtons item={item} cardOptions={cardOptions} />
                 )}
 
-                {layoutManager.desktop
-                        && !cardOptions.disableHoverMenu && (
+                {layoutManager.desktop && !cardOptions.disableHoverMenu && (
                     <CardHoverMenu
                         action={action}
                         item={item}
@@ -79,4 +74,3 @@ const CardBox: FC<CardBoxProps> = ({
 };
 
 export default CardBox;
-

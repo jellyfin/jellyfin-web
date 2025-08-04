@@ -34,42 +34,70 @@ function getSubtitleAppearanceObject(context) {
         dropShadow: context.querySelector('#selectDropShadow').value,
         font: context.querySelector('#selectFont').value,
         textBackground: context.querySelector('#inputTextBackground').value,
-        textColor: layoutManager.tv ? context.querySelector('#selectTextColor').value : context.querySelector('#inputTextColor').value,
+        textColor: layoutManager.tv
+            ? context.querySelector('#selectTextColor').value
+            : context.querySelector('#inputTextColor').value,
         verticalPosition: context.querySelector('#sliderVerticalPosition').value
     };
 }
 
 function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
     apiClient.getCultures().then(function (allCultures) {
-        if (appHost.supports(AppFeature.SubtitleBurnIn) && user.Policy.EnableVideoPlaybackTranscoding) {
+        if (
+            appHost.supports(AppFeature.SubtitleBurnIn) &&
+            user.Policy.EnableVideoPlaybackTranscoding
+        ) {
             context.querySelector('.fldBurnIn').classList.remove('hide');
         }
 
-        const selectSubtitleLanguage = context.querySelector('#selectSubtitleLanguage');
+        const selectSubtitleLanguage = context.querySelector(
+            '#selectSubtitleLanguage'
+        );
 
         settingsHelper.populateLanguages(selectSubtitleLanguage, allCultures);
 
-        selectSubtitleLanguage.value = user.Configuration.SubtitleLanguagePreference || '';
-        context.querySelector('#selectSubtitlePlaybackMode').value = user.Configuration.SubtitleMode || '';
+        selectSubtitleLanguage.value =
+            user.Configuration.SubtitleLanguagePreference || '';
+        context.querySelector('#selectSubtitlePlaybackMode').value =
+            user.Configuration.SubtitleMode || '';
 
-        context.querySelector('#selectSubtitlePlaybackMode').dispatchEvent(new CustomEvent('change', {}));
+        context
+            .querySelector('#selectSubtitlePlaybackMode')
+            .dispatchEvent(new CustomEvent('change', {}));
 
-        context.querySelector('#selectSubtitleStyling').value = appearanceSettings.subtitleStyling || 'Auto';
-        context.querySelector('#selectSubtitleStyling').dispatchEvent(new CustomEvent('change', {}));
-        context.querySelector('#selectTextSize').value = appearanceSettings.textSize || '';
-        context.querySelector('#selectTextWeight').value = appearanceSettings.textWeight || 'normal';
-        context.querySelector('#selectDropShadow').value = appearanceSettings.dropShadow || '';
-        context.querySelector('#inputTextBackground').value = appearanceSettings.textBackground || 'transparent';
-        context.querySelector('#selectTextColor').value = appearanceSettings.textColor || '#ffffff';
-        context.querySelector('#inputTextColor').value = appearanceSettings.textColor || '#ffffff';
-        context.querySelector('#selectFont').value = appearanceSettings.font || '';
-        context.querySelector('#sliderVerticalPosition').value = appearanceSettings.verticalPosition;
+        context.querySelector('#selectSubtitleStyling').value =
+            appearanceSettings.subtitleStyling || 'Auto';
+        context
+            .querySelector('#selectSubtitleStyling')
+            .dispatchEvent(new CustomEvent('change', {}));
+        context.querySelector('#selectTextSize').value =
+            appearanceSettings.textSize || '';
+        context.querySelector('#selectTextWeight').value =
+            appearanceSettings.textWeight || 'normal';
+        context.querySelector('#selectDropShadow').value =
+            appearanceSettings.dropShadow || '';
+        context.querySelector('#inputTextBackground').value =
+            appearanceSettings.textBackground || 'transparent';
+        context.querySelector('#selectTextColor').value =
+            appearanceSettings.textColor || '#ffffff';
+        context.querySelector('#inputTextColor').value =
+            appearanceSettings.textColor || '#ffffff';
+        context.querySelector('#selectFont').value =
+            appearanceSettings.font || '';
+        context.querySelector('#sliderVerticalPosition').value =
+            appearanceSettings.verticalPosition;
 
-        context.querySelector('#selectSubtitleBurnIn').value = appSettings.get('subtitleburnin') || '';
-        context.querySelector('#chkSubtitleRenderPgs').checked = appSettings.get('subtitlerenderpgs') === 'true';
+        context.querySelector('#selectSubtitleBurnIn').value =
+            appSettings.get('subtitleburnin') || '';
+        context.querySelector('#chkSubtitleRenderPgs').checked =
+            appSettings.get('subtitlerenderpgs') === 'true';
 
-        context.querySelector('#selectSubtitleBurnIn').dispatchEvent(new CustomEvent('change', {}));
-        context.querySelector('#chkAlwaysBurnInSubtitleWhenTranscoding').checked = appSettings.alwaysBurnInSubtitleWhenTranscoding();
+        context
+            .querySelector('#selectSubtitleBurnIn')
+            .dispatchEvent(new CustomEvent('change', {}));
+        context.querySelector(
+            '#chkAlwaysBurnInSubtitleWhenTranscoding'
+        ).checked = appSettings.alwaysBurnInSubtitleWhenTranscoding();
 
         onAppearanceFieldChange({
             target: context.querySelector('#selectTextSize')
@@ -79,36 +107,77 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
     });
 }
 
-function saveUser(context, user, userSettingsInstance, appearanceKey, apiClient) {
-    let appearanceSettings = userSettingsInstance.getSubtitleAppearanceSettings(appearanceKey);
-    appearanceSettings = Object.assign(appearanceSettings, getSubtitleAppearanceObject(context));
+function saveUser(
+    context,
+    user,
+    userSettingsInstance,
+    appearanceKey,
+    apiClient
+) {
+    let appearanceSettings =
+        userSettingsInstance.getSubtitleAppearanceSettings(appearanceKey);
+    appearanceSettings = Object.assign(
+        appearanceSettings,
+        getSubtitleAppearanceObject(context)
+    );
 
-    userSettingsInstance.setSubtitleAppearanceSettings(appearanceSettings, appearanceKey);
+    userSettingsInstance.setSubtitleAppearanceSettings(
+        appearanceSettings,
+        appearanceKey
+    );
 
-    user.Configuration.SubtitleLanguagePreference = context.querySelector('#selectSubtitleLanguage').value;
-    user.Configuration.SubtitleMode = context.querySelector('#selectSubtitlePlaybackMode').value;
+    user.Configuration.SubtitleLanguagePreference = context.querySelector(
+        '#selectSubtitleLanguage'
+    ).value;
+    user.Configuration.SubtitleMode = context.querySelector(
+        '#selectSubtitlePlaybackMode'
+    ).value;
 
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);
 }
 
-function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
+function save(
+    instance,
+    context,
+    userId,
+    userSettings,
+    apiClient,
+    enableSaveConfirmation
+) {
     loading.show();
 
-    appSettings.set('subtitleburnin', context.querySelector('#selectSubtitleBurnIn').value);
-    appSettings.set('subtitlerenderpgs', context.querySelector('#chkSubtitleRenderPgs').checked);
-    appSettings.alwaysBurnInSubtitleWhenTranscoding(context.querySelector('#chkAlwaysBurnInSubtitleWhenTranscoding').checked);
+    appSettings.set(
+        'subtitleburnin',
+        context.querySelector('#selectSubtitleBurnIn').value
+    );
+    appSettings.set(
+        'subtitlerenderpgs',
+        context.querySelector('#chkSubtitleRenderPgs').checked
+    );
+    appSettings.alwaysBurnInSubtitleWhenTranscoding(
+        context.querySelector('#chkAlwaysBurnInSubtitleWhenTranscoding').checked
+    );
 
     apiClient.getUser(userId).then(function (user) {
-        saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(function () {
-            loading.hide();
-            if (enableSaveConfirmation) {
-                toast(globalize.translate('SettingsSaved'));
-            }
+        saveUser(
+            context,
+            user,
+            userSettings,
+            instance.appearanceKey,
+            apiClient
+        ).then(
+            function () {
+                loading.hide();
+                if (enableSaveConfirmation) {
+                    toast(globalize.translate('SettingsSaved'));
+                }
 
-            Events.trigger(instance, 'saved');
-        }, function () {
-            loading.hide();
-        });
+                Events.trigger(instance, 'saved');
+            },
+            function () {
+                loading.hide();
+            }
+        );
     });
 }
 
@@ -119,17 +188,23 @@ function onSubtitleModeChange(e) {
     for (let i = 0, length = subtitlesHelp.length; i < length; i++) {
         subtitlesHelp[i].classList.add('hide');
     }
-    view.querySelector('.subtitles' + this.value + 'Help').classList.remove('hide');
+    view.querySelector('.subtitles' + this.value + 'Help').classList.remove(
+        'hide'
+    );
 }
 
 function onSubtitleStyleChange(e) {
     const view = dom.parentWithClass(e.target, 'subtitlesettings');
 
-    const subtitleStylingHelperElements = view.querySelectorAll('.subtitleStylingHelp');
-    subtitleStylingHelperElements.forEach((elem)=>{
+    const subtitleStylingHelperElements = view.querySelectorAll(
+        '.subtitleStylingHelp'
+    );
+    subtitleStylingHelperElements.forEach((elem) => {
         elem.classList.add('hide');
     });
-    view.querySelector(`.subtitleStyling${this.value}Help`).classList.remove('hide');
+    view.querySelector(`.subtitleStyling${this.value}Help`).classList.remove(
+        'hide'
+    );
 }
 
 function onSubtitleBurnInChange(e) {
@@ -153,10 +228,15 @@ function onAppearanceFieldChange(e) {
 
     subtitleAppearanceHelper.applyStyles(elements, appearanceSettings);
 
-    subtitleAppearanceHelper.applyStyles({
-        window: view.querySelector('.subtitleappearance-fullpreview-window'),
-        text: view.querySelector('.subtitleappearance-fullpreview-text')
-    }, appearanceSettings);
+    subtitleAppearanceHelper.applyStyles(
+        {
+            window: view.querySelector(
+                '.subtitleappearance-fullpreview-window'
+            ),
+            text: view.querySelector('.subtitleappearance-fullpreview-text')
+        },
+        appearanceSettings
+    );
 }
 
 const subtitlePreviewDelay = 1000;
@@ -172,7 +252,10 @@ function showSubtitlePreview(persistent) {
     }
 
     if (this._refFullPreview === 0) {
-        subtitlePreviewTimer = setTimeout(hideSubtitlePreview.bind(this), subtitlePreviewDelay);
+        subtitlePreviewTimer = setTimeout(
+            hideSubtitlePreview.bind(this),
+            subtitlePreviewDelay
+        );
     }
 }
 
@@ -192,40 +275,81 @@ function embed(options, self) {
     options.element.classList.add('subtitlesettings');
     options.element.innerHTML = globalize.translateHtml(template, 'core');
 
-    options.element.querySelector('form').addEventListener('submit', self.onSubmit.bind(self));
+    options.element
+        .querySelector('form')
+        .addEventListener('submit', self.onSubmit.bind(self));
 
-    options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
-    options.element.querySelector('#selectSubtitleStyling').addEventListener('change', onSubtitleStyleChange);
-    options.element.querySelector('#selectSubtitleBurnIn').addEventListener('change', onSubtitleBurnInChange);
-    options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
-    options.element.querySelector('#selectTextWeight').addEventListener('change', onAppearanceFieldChange);
-    options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
-    options.element.querySelector('#selectFont').addEventListener('change', onAppearanceFieldChange);
-    options.element.querySelector('#selectTextColor').addEventListener('change', onAppearanceFieldChange);
-    options.element.querySelector('#inputTextColor').addEventListener('change', onAppearanceFieldChange);
-    options.element.querySelector('#inputTextBackground').addEventListener('change', onAppearanceFieldChange);
+    options.element
+        .querySelector('#selectSubtitlePlaybackMode')
+        .addEventListener('change', onSubtitleModeChange);
+    options.element
+        .querySelector('#selectSubtitleStyling')
+        .addEventListener('change', onSubtitleStyleChange);
+    options.element
+        .querySelector('#selectSubtitleBurnIn')
+        .addEventListener('change', onSubtitleBurnInChange);
+    options.element
+        .querySelector('#selectTextSize')
+        .addEventListener('change', onAppearanceFieldChange);
+    options.element
+        .querySelector('#selectTextWeight')
+        .addEventListener('change', onAppearanceFieldChange);
+    options.element
+        .querySelector('#selectDropShadow')
+        .addEventListener('change', onAppearanceFieldChange);
+    options.element
+        .querySelector('#selectFont')
+        .addEventListener('change', onAppearanceFieldChange);
+    options.element
+        .querySelector('#selectTextColor')
+        .addEventListener('change', onAppearanceFieldChange);
+    options.element
+        .querySelector('#inputTextColor')
+        .addEventListener('change', onAppearanceFieldChange);
+    options.element
+        .querySelector('#inputTextBackground')
+        .addEventListener('change', onAppearanceFieldChange);
 
     if (options.enableSaveButton) {
         options.element.querySelector('.btnSave').classList.remove('hide');
     }
 
     if (appHost.supports(AppFeature.SubtitleAppearance)) {
-        options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
+        options.element
+            .querySelector('.subtitleAppearanceSection')
+            .classList.remove('hide');
 
-        self._fullPreview = options.element.querySelector('.subtitleappearance-fullpreview');
+        self._fullPreview = options.element.querySelector(
+            '.subtitleappearance-fullpreview'
+        );
         self._refFullPreview = 0;
 
-        const sliderVerticalPosition = options.element.querySelector('#sliderVerticalPosition');
-        sliderVerticalPosition.addEventListener('input', onAppearanceFieldChange);
-        sliderVerticalPosition.addEventListener('input', () => showSubtitlePreview.call(self));
+        const sliderVerticalPosition = options.element.querySelector(
+            '#sliderVerticalPosition'
+        );
+        sliderVerticalPosition.addEventListener(
+            'input',
+            onAppearanceFieldChange
+        );
+        sliderVerticalPosition.addEventListener('input', () =>
+            showSubtitlePreview.call(self)
+        );
 
         const eventPrefix = window.PointerEvent ? 'pointer' : 'mouse';
-        sliderVerticalPosition.addEventListener(`${eventPrefix}enter`, () => showSubtitlePreview.call(self, true));
-        sliderVerticalPosition.addEventListener(`${eventPrefix}leave`, () => hideSubtitlePreview.call(self, true));
+        sliderVerticalPosition.addEventListener(`${eventPrefix}enter`, () =>
+            showSubtitlePreview.call(self, true)
+        );
+        sliderVerticalPosition.addEventListener(`${eventPrefix}leave`, () =>
+            hideSubtitlePreview.call(self, true)
+        );
 
         if (layoutManager.tv) {
-            sliderVerticalPosition.addEventListener('focus', () => showSubtitlePreview.call(self, true));
-            sliderVerticalPosition.addEventListener('blur', () => hideSubtitlePreview.call(self, true));
+            sliderVerticalPosition.addEventListener('focus', () =>
+                showSubtitlePreview.call(self, true)
+            );
+            sliderVerticalPosition.addEventListener('blur', () =>
+                hideSubtitlePreview.call(self, true)
+            );
 
             // Give CustomElements time to attach
             setTimeout(() => {
@@ -234,17 +358,25 @@ function embed(options, self) {
             }, 0);
 
             // Replace color picker
-            dom.parentWithTag(options.element.querySelector('#inputTextColor'), 'DIV').classList.add('hide');
-            dom.parentWithTag(options.element.querySelector('#selectTextColor'), 'DIV').classList.remove('hide');
+            dom.parentWithTag(
+                options.element.querySelector('#inputTextColor'),
+                'DIV'
+            ).classList.add('hide');
+            dom.parentWithTag(
+                options.element.querySelector('#selectTextColor'),
+                'DIV'
+            ).classList.remove('hide');
         }
 
-        options.element.querySelector('.chkPreview').addEventListener('change', (e) => {
-            if (e.target.checked) {
-                showSubtitlePreview.call(self, true);
-            } else {
-                hideSubtitlePreview.call(self, true);
-            }
-        });
+        options.element
+            .querySelector('.chkPreview')
+            .addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    showSubtitlePreview.call(self, true);
+                } else {
+                    hideSubtitlePreview.call(self, true);
+                }
+            });
     }
 
     self.loadData();
@@ -275,9 +407,18 @@ export class SubtitleSettings {
             userSettings.setUserInfo(userId, apiClient).then(function () {
                 self.dataLoaded = true;
 
-                const appearanceSettings = userSettings.getSubtitleAppearanceSettings(self.options.appearanceKey);
+                const appearanceSettings =
+                    userSettings.getSubtitleAppearanceSettings(
+                        self.options.appearanceKey
+                    );
 
-                loadForm(context, user, userSettings, appearanceSettings, apiClient);
+                loadForm(
+                    context,
+                    user,
+                    userSettings,
+                    appearanceSettings,
+                    apiClient
+                );
             });
         });
     }
@@ -298,7 +439,14 @@ export class SubtitleSettings {
 
         userSettings.setUserInfo(userId, apiClient).then(function () {
             const enableSaveConfirmation = self.options.enableSaveConfirmation;
-            save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
+            save(
+                self,
+                self.options.element,
+                userId,
+                userSettings,
+                apiClient,
+                enableSaveConfirmation
+            );
         });
 
         // Disable default form submission

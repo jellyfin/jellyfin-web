@@ -28,7 +28,10 @@ function allowSwipe(target) {
 
         const classList = elem.classList;
         if (classList) {
-            return !classList.contains('scrollX') && !classList.contains('animatedScrollX');
+            return (
+                !classList.contains('scrollX') &&
+                !classList.contains('animatedScrollX')
+            );
         }
 
         return true;
@@ -75,7 +78,15 @@ function configureSwipeTabs(view, currentElement) {
     });
 }
 
-export function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBeforeTabChange, onTabChange, setSelectedIndex) {
+export function setTabs(
+    view,
+    selectedIndex,
+    getTabsFn,
+    getTabContainersFn,
+    onBeforeTabChange,
+    onTabChange,
+    setSelectedIndex
+) {
     ensureElements();
 
     if (!view) {
@@ -102,29 +113,53 @@ export function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBe
     if (tabOwnerView !== view) {
         let index = 0;
 
-        const indexAttribute = selectedIndex == null ? '' : (' data-index="' + selectedIndex + '"');
-        const tabsHtml = '<div is="emby-tabs"' + indexAttribute + ' class="tabs-viewmenubar"><div class="emby-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map(function (t) {
-            let tabClass = 'emby-tab-button';
+        const indexAttribute =
+            selectedIndex == null ? '' : ' data-index="' + selectedIndex + '"';
+        const tabsHtml =
+            '<div is="emby-tabs"' +
+            indexAttribute +
+            ' class="tabs-viewmenubar"><div class="emby-tabs-slider" style="white-space:nowrap;">' +
+            getTabsFn()
+                .map(function (t) {
+                    let tabClass = 'emby-tab-button';
 
-            if (t.enabled === false) {
-                tabClass += ' hide';
-            }
+                    if (t.enabled === false) {
+                        tabClass += ' hide';
+                    }
 
-            let tabHtml;
+                    let tabHtml;
 
-            if (t.cssClass) {
-                tabClass += ' ' + t.cssClass;
-            }
+                    if (t.cssClass) {
+                        tabClass += ' ' + t.cssClass;
+                    }
 
-            if (t.href) {
-                tabHtml = '<a href="' + t.href + '" is="emby-linkbutton" class="' + tabClass + '" data-index="' + index + '"><div class="emby-button-foreground">' + t.name + '</div></a>';
-            } else {
-                tabHtml = '<button type="button" is="emby-button" class="' + tabClass + '" data-index="' + index + '"><div class="emby-button-foreground">' + t.name + '</div></button>';
-            }
+                    if (t.href) {
+                        tabHtml =
+                            '<a href="' +
+                            t.href +
+                            '" is="emby-linkbutton" class="' +
+                            tabClass +
+                            '" data-index="' +
+                            index +
+                            '"><div class="emby-button-foreground">' +
+                            t.name +
+                            '</div></a>';
+                    } else {
+                        tabHtml =
+                            '<button type="button" is="emby-button" class="' +
+                            tabClass +
+                            '" data-index="' +
+                            index +
+                            '"><div class="emby-button-foreground">' +
+                            t.name +
+                            '</div></button>';
+                    }
 
-            index++;
-            return tabHtml;
-        }).join('') + '</div></div>';
+                    index++;
+                    return tabHtml;
+                })
+                .join('') +
+            '</div></div>';
 
         tabsContainerElem.innerHTML = tabsHtml;
         window.CustomElements.upgradeSubtree(tabsContainerElem);

@@ -38,9 +38,11 @@ function reload(page, item, focusContext) {
         reloadItem(page, item, apiClient, focusContext);
     } else {
         apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-        apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (itemToReload) {
-            reloadItem(page, itemToReload, apiClient, focusContext);
-        });
+        apiClient
+            .getItem(apiClient.getCurrentUserId(), currentItem.Id)
+            .then(function (itemToReload) {
+                reloadItem(page, itemToReload, apiClient, focusContext);
+            });
     }
 }
 
@@ -56,26 +58,48 @@ function addListeners(container, className, eventName, fn) {
 function reloadItem(page, item, apiClient, focusContext) {
     currentItem = item;
 
-    apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function (providers) {
-        const btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
-        for (let i = 0, length = btnBrowseAllImages.length; i < length; i++) {
-            if (providers.length) {
-                btnBrowseAllImages[i].classList.remove('hide');
-            } else {
-                btnBrowseAllImages[i].classList.add('hide');
+    apiClient
+        .getRemoteImageProviders(getBaseRemoteOptions())
+        .then(function (providers) {
+            const btnBrowseAllImages = page.querySelectorAll(
+                '.btnBrowseAllImages'
+            );
+            for (
+                let i = 0, length = btnBrowseAllImages.length;
+                i < length;
+                i++
+            ) {
+                if (providers.length) {
+                    btnBrowseAllImages[i].classList.remove('hide');
+                } else {
+                    btnBrowseAllImages[i].classList.add('hide');
+                }
             }
-        }
 
-        apiClient.getItemImageInfos(currentItem.Id).then(function (imageInfos) {
-            renderStandardImages(page, apiClient, item, imageInfos, providers);
-            renderBackdrops(page, apiClient, item, imageInfos, providers);
-            loading.hide();
+            apiClient
+                .getItemImageInfos(currentItem.Id)
+                .then(function (imageInfos) {
+                    renderStandardImages(
+                        page,
+                        apiClient,
+                        item,
+                        imageInfos,
+                        providers
+                    );
+                    renderBackdrops(
+                        page,
+                        apiClient,
+                        item,
+                        imageInfos,
+                        providers
+                    );
+                    loading.hide();
 
-            if (layoutManager.tv) {
-                focusManager.autoFocus((focusContext || page));
-            }
+                    if (layoutManager.tv) {
+                        focusManager.autoFocus(focusContext || page);
+                    }
+                });
         });
-    });
 }
 
 function getImageUrl(item, apiClient, type, index, options) {
@@ -121,26 +145,52 @@ function getCardHtml(image, apiClient, options) {
         html += '<div class="' + cssClass + '"';
     }
 
-    html += ' data-id="' + currentItem.Id + '" data-serverid="' + apiClient.serverId() + '" data-index="' + options.index + '" data-numimages="' + options.numImages + '" data-imagetype="' + image.ImageType + '" data-providers="' + options.imageProviders.length + '"';
+    html +=
+        ' data-id="' +
+        currentItem.Id +
+        '" data-serverid="' +
+        apiClient.serverId() +
+        '" data-index="' +
+        options.index +
+        '" data-numimages="' +
+        options.numImages +
+        '" data-imagetype="' +
+        image.ImageType +
+        '" data-providers="' +
+        options.imageProviders.length +
+        '"';
 
     html += '>';
 
     html += '<div class="' + cardBoxCssClass + '">';
-    html += '<div class="cardScalable visualCardBox-cardScalable" style="background-color:transparent;">';
+    html +=
+        '<div class="cardScalable visualCardBox-cardScalable" style="background-color:transparent;">';
     html += '<div class="cardPadder-backdrop"></div>';
 
     html += '<div class="cardContent">';
 
-    const imageUrl = getImageUrl(currentItem, apiClient, image.ImageType, image.ImageIndex, { maxWidth: options.imageSize });
+    const imageUrl = getImageUrl(
+        currentItem,
+        apiClient,
+        image.ImageType,
+        image.ImageIndex,
+        { maxWidth: options.imageSize }
+    );
 
-    html += '<div class="cardImageContainer" style="background-image:url(\'' + imageUrl + '\');background-position:center center;background-size:contain;"></div>';
+    html +=
+        '<div class="cardImageContainer" style="background-image:url(\'' +
+        imageUrl +
+        '\');background-position:center center;background-size:contain;"></div>';
 
     html += '</div>';
     html += '</div>';
 
     html += '<div class="cardFooter visualCardBox-cardFooter">';
 
-    html += '<h3 class="cardText cardTextCentered" style="margin:0;">' + globalize.translate('' + image.ImageType) + '</h3>';
+    html +=
+        '<h3 class="cardText cardTextCentered" style="margin:0;">' +
+        globalize.translate('' + image.ImageType) +
+        '</h3>';
 
     html += '<div class="cardText cardText-secondary cardTextCentered">';
     if (image.Width && image.Height) {
@@ -155,21 +205,57 @@ function getCardHtml(image, apiClient, options) {
 
         if (image.ImageType === 'Backdrop') {
             if (options.index > 0) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex - 1) + '" title="' + globalize.translate('MoveLeft') + '"><span class="material-icons chevron_left"></span></button>';
+                html +=
+                    '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' +
+                    image.ImageType +
+                    '" data-index="' +
+                    image.ImageIndex +
+                    '" data-newindex="' +
+                    (image.ImageIndex - 1) +
+                    '" title="' +
+                    globalize.translate('MoveLeft') +
+                    '"><span class="material-icons chevron_left"></span></button>';
             } else {
-                html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveLeft') + '"><span class="material-icons chevron_left" aria-hidden="true"></span></button>';
+                html +=
+                    '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' +
+                    globalize.translate('MoveLeft') +
+                    '"><span class="material-icons chevron_left" aria-hidden="true"></span></button>';
             }
 
             if (options.index < options.numImages - 1) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex + 1) + '" title="' + globalize.translate('MoveRight') + '"><span class="material-icons chevron_right" aria-hidden="true"></span></button>';
+                html +=
+                    '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' +
+                    image.ImageType +
+                    '" data-index="' +
+                    image.ImageIndex +
+                    '" data-newindex="' +
+                    (image.ImageIndex + 1) +
+                    '" title="' +
+                    globalize.translate('MoveRight') +
+                    '"><span class="material-icons chevron_right" aria-hidden="true"></span></button>';
             } else {
-                html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveRight') + '"><span class="material-icons chevron_right" aria-hidden="true"></span></button>';
+                html +=
+                    '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' +
+                    globalize.translate('MoveRight') +
+                    '"><span class="material-icons chevron_right" aria-hidden="true"></span></button>';
             }
         } else if (options.imageProviders.length) {
-            html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><span class="material-icons search" aria-hidden="true"></span></button>';
+            html +=
+                '<button type="button" is="paper-icon-button-light" data-imagetype="' +
+                image.ImageType +
+                '" class="btnSearchImages autoSize" title="' +
+                globalize.translate('Search') +
+                '"><span class="material-icons search" aria-hidden="true"></span></button>';
         }
 
-        html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" data-index="' + (image.ImageIndex != null ? image.ImageIndex : 'null') + '" class="btnDeleteImage autoSize" title="' + globalize.translate('Delete') + '"><span class="material-icons delete" aria-hidden="true"></span></button>';
+        html +=
+            '<button type="button" is="paper-icon-button-light" data-imagetype="' +
+            image.ImageType +
+            '" data-index="' +
+            (image.ImageIndex != null ? image.ImageIndex : 'null') +
+            '" class="btnDeleteImage autoSize" title="' +
+            globalize.translate('Delete') +
+            '"><span class="material-icons delete" aria-hidden="true"></span></button>';
         html += '</div>';
     }
 
@@ -180,7 +266,14 @@ function getCardHtml(image, apiClient, options) {
     return html;
 }
 
-function deleteImage(context, itemId, type, index, apiClient, enableConfirmation) {
+function deleteImage(
+    context,
+    itemId,
+    type,
+    index,
+    apiClient,
+    enableConfirmation
+) {
     const afterConfirm = function () {
         apiClient.deleteItemImage(itemId, type, index).then(function () {
             hasChanges = true;
@@ -200,13 +293,24 @@ function deleteImage(context, itemId, type, index, apiClient, enableConfirmation
     }).then(afterConfirm);
 }
 
-function moveImage(context, apiClient, itemId, type, index, newIndex, focusContext) {
-    apiClient.updateItemImageIndex(itemId, type, index, newIndex).then(function () {
-        hasChanges = true;
-        reload(context, null, focusContext);
-    }, function () {
-        alert(globalize.translate('ErrorDefault'));
-    });
+function moveImage(
+    context,
+    apiClient,
+    itemId,
+    type,
+    index,
+    newIndex,
+    focusContext
+) {
+    apiClient.updateItemImageIndex(itemId, type, index, newIndex).then(
+        function () {
+            hasChanges = true;
+            reload(context, null, focusContext);
+        },
+        function () {
+            alert(globalize.translate('ErrorDefault'));
+        }
+    );
 }
 
 function renderImages(page, item, apiClient, images, imageProviders, elem) {
@@ -223,7 +327,14 @@ function renderImages(page, item, apiClient, images, imageProviders, elem) {
 
     for (let i = 0, length = images.length; i < length; i++) {
         const image = images[i];
-        const options = { index: i, numImages: length, imageProviders, imageSize, tagName, enableFooterButtons };
+        const options = {
+            index: i,
+            numImages: length,
+            imageProviders,
+            imageSize,
+            tagName,
+            enableFooterButtons
+        };
         html += getCardHtml(image, apiClient, options);
     }
 
@@ -231,24 +342,48 @@ function renderImages(page, item, apiClient, images, imageProviders, elem) {
     imageLoader.lazyChildren(elem);
 }
 
-function renderStandardImages(page, apiClient, item, imageInfos, imageProviders) {
+function renderStandardImages(
+    page,
+    apiClient,
+    item,
+    imageInfos,
+    imageProviders
+) {
     const images = imageInfos.filter(function (i) {
         return i.ImageType !== 'Backdrop' && i.ImageType !== 'Chapter';
     });
 
-    renderImages(page, item, apiClient, images, imageProviders, page.querySelector('#images'));
+    renderImages(
+        page,
+        item,
+        apiClient,
+        images,
+        imageProviders,
+        page.querySelector('#images')
+    );
 }
 
 function renderBackdrops(page, apiClient, item, imageInfos, imageProviders) {
-    const images = imageInfos.filter(function (i) {
-        return i.ImageType === 'Backdrop';
-    }).sort(function (a, b) {
-        return a.ImageIndex - b.ImageIndex;
-    });
+    const images = imageInfos
+        .filter(function (i) {
+            return i.ImageType === 'Backdrop';
+        })
+        .sort(function (a, b) {
+            return a.ImageIndex - b.ImageIndex;
+        });
 
     if (images.length) {
-        page.querySelector('#backdropsContainer', page).classList.remove('hide');
-        renderImages(page, item, apiClient, images, imageProviders, page.querySelector('#backdrops'));
+        page.querySelector('#backdropsContainer', page).classList.remove(
+            'hide'
+        );
+        renderImages(
+            page,
+            item,
+            apiClient,
+            images,
+            imageProviders,
+            page.querySelector('#backdrops')
+        );
     } else {
         page.querySelector('#backdropsContainer', page).classList.add('hide');
     }
@@ -262,12 +397,14 @@ function showImageDownloader(page, imageType) {
             currentItem.Type,
             imageType,
             currentItem.Type == 'Season' ? currentItem.ParentId : null
-        ).then(function () {
-            hasChanges = true;
-            reload(page);
-        }).catch(function () {
-            // image downloader closed
-        });
+        )
+            .then(function () {
+                hasChanges = true;
+                reload(page);
+            })
+            .catch(function () {
+                // image downloader closed
+            });
     });
 }
 
@@ -278,7 +415,10 @@ function showActionSheet(context, imageCard) {
 
     const type = imageCard.getAttribute('data-imagetype');
     const index = parseInt(imageCard.getAttribute('data-index'), 10);
-    const providerCount = parseInt(imageCard.getAttribute('data-providers'), 10);
+    const providerCount = parseInt(
+        imageCard.getAttribute('data-providers'),
+        10
+    );
     const numImages = parseInt(imageCard.getAttribute('data-numimages'), 10);
 
     import('../actionSheet/actionSheet').then(({ default: actionSheet }) => {
@@ -312,29 +452,52 @@ function showActionSheet(context, imageCard) {
             });
         }
 
-        actionSheet.show({
-
-            items: commands,
-            positionTo: imageCard
-
-        }).then(function (id) {
-            switch (id) {
-                case 'delete':
-                    deleteImage(context, itemId, type, index, apiClient, false);
-                    break;
-                case 'search':
-                    showImageDownloader(context, type);
-                    break;
-                case 'moveleft':
-                    moveImage(context, apiClient, itemId, type, index, index - 1, dom.parentWithClass(imageCard, 'itemsContainer'));
-                    break;
-                case 'moveright':
-                    moveImage(context, apiClient, itemId, type, index, index + 1, dom.parentWithClass(imageCard, 'itemsContainer'));
-                    break;
-                default:
-                    break;
-            }
-        });
+        actionSheet
+            .show({
+                items: commands,
+                positionTo: imageCard
+            })
+            .then(function (id) {
+                switch (id) {
+                    case 'delete':
+                        deleteImage(
+                            context,
+                            itemId,
+                            type,
+                            index,
+                            apiClient,
+                            false
+                        );
+                        break;
+                    case 'search':
+                        showImageDownloader(context, type);
+                        break;
+                    case 'moveleft':
+                        moveImage(
+                            context,
+                            apiClient,
+                            itemId,
+                            type,
+                            index,
+                            index - 1,
+                            dom.parentWithClass(imageCard, 'itemsContainer')
+                        );
+                        break;
+                    case 'moveright':
+                        moveImage(
+                            context,
+                            apiClient,
+                            itemId,
+                            type,
+                            index,
+                            index + 1,
+                            dom.parentWithClass(imageCard, 'itemsContainer')
+                        );
+                        break;
+                    default:
+                        break;
+                }
+            });
     });
 }
 
@@ -352,21 +515,23 @@ function initEditor(context, options) {
     addListeners(context, 'btnOpenUploadMenu', 'click', function () {
         const imageType = this.getAttribute('data-imagetype');
 
-        import('../imageUploader/imageUploader').then(({ default: imageUploader }) => {
-            imageUploader.show({
-
-                theme: options.theme,
-                imageType: imageType,
-                itemId: currentItem.Id,
-                serverId: currentItem.ServerId
-
-            }).then(function (hasChanged) {
-                if (hasChanged) {
-                    hasChanges = true;
-                    reload(context);
-                }
-            });
-        });
+        import('../imageUploader/imageUploader').then(
+            ({ default: imageUploader }) => {
+                imageUploader
+                    .show({
+                        theme: options.theme,
+                        imageType: imageType,
+                        itemId: currentItem.Id,
+                        serverId: currentItem.ServerId
+                    })
+                    .then(function (hasChanged) {
+                        if (hasChanged) {
+                            hasChanges = true;
+                            reload(context);
+                        }
+                    });
+            }
+        );
     });
 
     addListeners(context, 'btnSearchImages', 'click', function () {
@@ -374,7 +539,10 @@ function initEditor(context, options) {
     });
 
     addListeners(context, 'btnBrowseAllImages', 'click', function () {
-        showImageDownloader(context, this.getAttribute('data-imagetype') || 'Primary');
+        showImageDownloader(
+            context,
+            this.getAttribute('data-imagetype') || 'Primary'
+        );
     });
 
     addListeners(context, 'btnImageCard', 'click', function () {
@@ -394,7 +562,15 @@ function initEditor(context, options) {
         const index = this.getAttribute('data-index');
         const newIndex = this.getAttribute('data-newindex');
         const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-        moveImage(context, apiClient, currentItem.Id, type, index, newIndex, dom.parentWithClass(this, 'itemsContainer'));
+        moveImage(
+            context,
+            apiClient,
+            currentItem.Id,
+            type,
+            index,
+            newIndex,
+            dom.parentWithClass(this, 'itemsContainer')
+        );
     });
 }
 
@@ -405,55 +581,60 @@ function showEditor(options, resolve, reject) {
     loading.show();
 
     const apiClient = ServerConnections.getApiClient(serverId);
-    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-        const dialogOptions = {
-            removeOnClose: true
-        };
+    apiClient
+        .getItem(apiClient.getCurrentUserId(), itemId)
+        .then(function (item) {
+            const dialogOptions = {
+                removeOnClose: true
+            };
 
-        if (layoutManager.tv) {
-            dialogOptions.size = 'fullscreen';
-        } else {
-            dialogOptions.size = 'small';
-        }
-
-        const dlg = dialogHelper.createDialog(dialogOptions);
-
-        dlg.classList.add('formDialog');
-
-        dlg.innerHTML = globalize.translateHtml(template, 'core');
-
-        if (layoutManager.tv) {
-            scrollHelper.centerFocus.on(dlg, false);
-        }
-
-        initEditor(dlg, options);
-
-        // Has to be assigned a z-index after the call to .open()
-        dlg.addEventListener('close', function () {
             if (layoutManager.tv) {
-                scrollHelper.centerFocus.off(dlg, false);
-            }
-
-            loading.hide();
-
-            if (hasChanges) {
-                resolve();
+                dialogOptions.size = 'fullscreen';
             } else {
-                reject();
+                dialogOptions.size = 'small';
             }
+
+            const dlg = dialogHelper.createDialog(dialogOptions);
+
+            dlg.classList.add('formDialog');
+
+            dlg.innerHTML = globalize.translateHtml(template, 'core');
+
+            if (layoutManager.tv) {
+                scrollHelper.centerFocus.on(dlg, false);
+            }
+
+            initEditor(dlg, options);
+
+            // Has to be assigned a z-index after the call to .open()
+            dlg.addEventListener('close', function () {
+                if (layoutManager.tv) {
+                    scrollHelper.centerFocus.off(dlg, false);
+                }
+
+                loading.hide();
+
+                if (hasChanges) {
+                    resolve();
+                } else {
+                    reject();
+                }
+            });
+
+            dialogHelper.open(dlg);
+
+            reload(dlg, item);
+
+            dlg.querySelector('.btnCancel').addEventListener(
+                'click',
+                function () {
+                    dialogHelper.close(dlg);
+                }
+            );
         });
-
-        dialogHelper.open(dlg);
-
-        reload(dlg, item);
-
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
-            dialogHelper.close(dlg);
-        });
-    });
 }
 
-export function show (options) {
+export function show(options) {
     return new Promise(function (resolve, reject) {
         hasChanges = false;
         showEditor(options, resolve, reject);
@@ -463,4 +644,3 @@ export function show (options) {
 export default {
     show
 };
-

@@ -5,19 +5,15 @@ import type { AxiosRequestConfig } from 'axios';
 
 import { useApi } from './useApi';
 
-const fetchSyncPlayGroups = async (
-    api: Api,
-    options?: AxiosRequestConfig
-) => {
-    const response = await getSyncPlayApi(api)
-        .syncPlayGetGroups(options);
+const fetchSyncPlayGroups = async (api: Api, options?: AxiosRequestConfig) => {
+    const response = await getSyncPlayApi(api).syncPlayGetGroups(options);
     return response.data;
 };
 
 export const useSyncPlayGroups = () => {
     const { api } = useApi();
     return useQuery({
-        queryKey: [ 'SyncPlay', 'Groups' ],
+        queryKey: ['SyncPlay', 'Groups'],
         queryFn: ({ signal }) => fetchSyncPlayGroups(api!, { signal }),
         enabled: !!api
     });

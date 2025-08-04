@@ -14,9 +14,11 @@ function onKeyDown(e) {
         if (!this.checked) {
             this.checked = true;
 
-            this.dispatchEvent(new CustomEvent('change', {
-                bubbles: true
-            }));
+            this.dispatchEvent(
+                new CustomEvent('change', {
+                    bubbles: true
+                })
+            );
         }
 
         return false;
@@ -57,8 +59,10 @@ EmbyRadioPrototype.attachedCallback = function () {
     html += '<circle cx="50%" cy="50%" r="50%" />';
     html += '</clipPath>';
     html += '</defs>';
-    html += '<circle class="mdl-radio__outer-circle" cx="50%" cy="50%" r="50%" fill="none" stroke="currentcolor" stroke-width="0.26em" clip-path="url(#cutoff)" />';
-    html += '<circle class="mdl-radio__inner-circle" cx="50%" cy="50%" r="25%" fill="currentcolor" />';
+    html +=
+        '<circle class="mdl-radio__outer-circle" cx="50%" cy="50%" r="50%" fill="none" stroke="currentcolor" stroke-width="0.26em" clip-path="url(#cutoff)" />';
+    html +=
+        '<circle class="mdl-radio__inner-circle" cx="50%" cy="50%" r="25%" fill="currentcolor" />';
     html += '</svg>';
 
     if (showFocus) {
@@ -76,4 +80,3 @@ document.registerElement('emby-radio', {
     prototype: EmbyRadioPrototype,
     extends: 'input'
 });
-

@@ -42,12 +42,13 @@ function showDialog(options = { dialogOptions: {}, buttons: [] }) {
         formDialogContent.style['max-height'] = '60%';
         scrollHelper.centerFocus.on(formDialogContent, false);
     } else {
-        formDialogContent.style.maxWidth = `${Math.min((options.buttons.length * 150) + 200, dom.getWindowSize().innerWidth - 50)}px`;
+        formDialogContent.style.maxWidth = `${Math.min(options.buttons.length * 150 + 200, dom.getWindowSize().innerWidth - 50)}px`;
         dlg.classList.add('dialog-fullscreen-lowres');
     }
 
     if (options.title) {
-        dlg.querySelector('.formDialogHeaderTitle').innerText = options.title || '';
+        dlg.querySelector('.formDialogHeaderTitle').innerText =
+            options.title || '';
     } else {
         dlg.querySelector('.formDialogHeaderTitle').classList.add('hide');
     }
@@ -68,7 +69,8 @@ function showDialog(options = { dialogOptions: {}, buttons: [] }) {
         const item = options.buttons[i];
         const autoFocus = i === 0 ? ' autofocus' : '';
 
-        let buttonClass = 'btnOption raised formDialogFooterItem formDialogFooterItem-autosize';
+        let buttonClass =
+            'btnOption raised formDialogFooterItem formDialogFooterItem-autosize';
 
         if (item.type) {
             buttonClass += ` button-${item.type}`;
@@ -79,7 +81,8 @@ function showDialog(options = { dialogOptions: {}, buttons: [] }) {
         }
 
         if (hasDescriptions) {
-            buttonClass += ' formDialogFooterItem-vertical formDialogFooterItem-nomarginbottom';
+            buttonClass +=
+                ' formDialogFooterItem-vertical formDialogFooterItem-nomarginbottom';
         }
 
         html += `<button is="emby-button" type="button" class="${buttonClass}" data-id="${item.id}"${autoFocus}>${escapeHtml(item.name)}</button>`;
@@ -92,7 +95,9 @@ function showDialog(options = { dialogOptions: {}, buttons: [] }) {
     dlg.querySelector('.formDialogFooter').innerHTML = html;
 
     if (hasDescriptions) {
-        dlg.querySelector('.formDialogFooter').classList.add('formDialogFooter-vertical');
+        dlg.querySelector('.formDialogFooter').classList.add(
+            'formDialogFooter-vertical'
+        );
     }
 
     let dialogResult;
@@ -108,7 +113,10 @@ function showDialog(options = { dialogOptions: {}, buttons: [] }) {
 
     return dialogHelper.open(dlg).then(() => {
         if (enableTvLayout) {
-            scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
+            scrollHelper.centerFocus.off(
+                dlg.querySelector('.formDialogContent'),
+                false
+            );
         }
 
         if (dialogResult) {

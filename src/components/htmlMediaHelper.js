@@ -1,4 +1,4 @@
-import appSettings from '../scripts/settings/appSettings' ;
+import appSettings from '../scripts/settings/appSettings';
 import browser from '../scripts/browser';
 import Events from '../utils/events.ts';
 import { MediaError } from 'types/mediaError';
@@ -24,15 +24,21 @@ export function getCrossOriginValue(mediaSource) {
 function canPlayNativeHls() {
     const media = document.createElement('video');
 
-    return !!(media.canPlayType('application/x-mpegURL').replace(/no/, '')
-            || media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
+    return !!(
+        media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
+        media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, '')
+    );
 }
 
 export function enableHlsJsPlayerForCodecs(mediaSource, mediaType) {
     // Workaround for VP9 HLS support on desktop Safari
     // Force using HLS.js because desktop Safari's native HLS player does not play VP9 over HLS
     // browser.osx will return true on iPad, cannot use
-    if (!browser.iOS && browser.safari && mediaSource.MediaStreams.some(x => x.Codec === 'vp9')) {
+    if (
+        !browser.iOS &&
+        browser.safari &&
+        mediaSource.MediaStreams.some((x) => x.Codec === 'vp9')
+    ) {
         return true;
     }
     return enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType);
@@ -61,7 +67,10 @@ export function enableHlsJsPlayer(runTimeTicks, mediaType) {
 
     if (canPlayNativeHls()) {
         // Android Webview's native HLS has performance and compatiblity issues
-        if (browser.android && (mediaType === 'Audio' || mediaType === 'Video')) {
+        if (
+            browser.android &&
+            (mediaType === 'Audio' || mediaType === 'Video')
+        ) {
             return true;
         }
 
@@ -89,11 +98,14 @@ export function handleHlsJsMediaError(instance, reject) {
         now = performance.now();
     }
 
-    if (!recoverDecodingErrorDate || (now - recoverDecodingErrorDate) > 3000) {
+    if (!recoverDecodingErrorDate || now - recoverDecodingErrorDate > 3000) {
         recoverDecodingErrorDate = now;
         console.debug('try to recover media Error ...');
         hlsPlayer.recoverMediaError();
-    } else if (!recoverSwapAudioCodecDate || (now - recoverSwapAudioCodecDate) > 3000) {
+    } else if (
+        !recoverSwapAudioCodecDate ||
+        now - recoverSwapAudioCodecDate > 3000
+    ) {
         recoverSwapAudioCodecDate = now;
         console.debug('try to swap Audio Codec and recover media Error ...');
         hlsPlayer.swapAudioCodec();
@@ -119,10 +131,12 @@ export function onErrorInternal(instance, type) {
 }
 
 export function isValidDuration(duration) {
-    return duration
-            && !isNaN(duration)
-            && duration !== Number.POSITIVE_INFINITY
-            && duration !== Number.NEGATIVE_INFINITY;
+    return (
+        duration &&
+        !isNaN(duration) &&
+        duration !== Number.POSITIVE_INFINITY &&
+        duration !== Number.NEGATIVE_INFINITY
+    );
 }
 
 function setCurrentTimeIfNeeded(element, seconds) {
@@ -145,8 +159,13 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
             if (onMediaReady) onMediaReady();
         } else {
             // update video player position when media is ready to be sought
-            const events = ['durationchange', 'loadeddata', 'play', 'loadedmetadata'];
-            const onMediaChange = function(e) {
+            const events = [
+                'durationchange',
+                'loadeddata',
+                'play',
+                'loadedmetadata'
+            ];
+            const onMediaChange = function (e) {
                 if (element.currentTime === 0 && element.duration >= seconds) {
                     // seek only when video position is exactly zero,
                     // as this is true only if video hasn't started yet or
@@ -154,13 +173,13 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
                     // (but rewinding cannot happen as the first event with media of non-empty duration)
                     console.debug(`seeking to ${seconds} on ${e.type} event`);
                     setCurrentTimeIfNeeded(element, seconds);
-                    events.forEach(name => {
+                    events.forEach((name) => {
                         element.removeEventListener(name, onMediaChange);
                     });
                     if (onMediaReady) onMediaReady();
                 }
             };
-            events.forEach(name => {
+            events.forEach((name) => {
                 element.addEventListener(name, onMediaChange);
             });
         }
@@ -169,12 +188,17 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
 
 export function applySrc(elem, src, options) {
     if (window.Windows && options.mediaSource?.IsLocal) {
-        return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
+        return Windows.Storage.StorageFile.getFileFromPathAsync(
+            options.url
+        ).then(function (file) {
             const playlist = new Windows.Media.Playback.MediaPlaybackList();
 
-            const source1 = Windows.Media.Core.MediaSource.createFromStorageFile(file);
+            const source1 =
+                Windows.Media.Core.MediaSource.createFromStorageFile(file);
             const startTime = (options.playerStartPositionTicks || 0) / 10000;
-            playlist.items.append(new Windows.Media.Playback.MediaPlaybackItem(source1, startTime));
+            playlist.items.append(
+                new Windows.Media.Playback.MediaPlaybackItem(source1, startTime)
+            );
             elem.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
             return Promise.resolve();
         });
@@ -197,12 +221,15 @@ function onSuccessfulPlay(elem, onErrorFn) {
 
 export function playWithPromise(elem, onErrorFn) {
     try {
-        return elem.play()
+        return elem
+            .play()
             .catch((e) => {
                 const errorName = (e.name || '').toLowerCase();
                 // safari uses aborterror
-                if (errorName === 'notallowederror'
-                        || errorName === 'aborterror') {
+                if (
+                    errorName === 'notallowederror' ||
+                    errorName === 'aborterror'
+                ) {
                     // swallow this error because the user can still click the play button on the video element
                     return Promise.resolve();
                 }
@@ -259,7 +286,14 @@ export function destroyFlvPlayer(instance) {
     }
 }
 
-export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, reject) {
+export function bindEventsToHlsPlayer(
+    instance,
+    hls,
+    elem,
+    onErrorFn,
+    resolve,
+    reject
+) {
     hls.on(Hls.Events.MANIFEST_PARSED, function () {
         playWithPromise(elem, onErrorFn).then(resolve, function () {
             if (reject) {
@@ -270,11 +304,20 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
     });
 
     hls.on(Hls.Events.ERROR, function (event, data) {
-        console.error('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
+        console.error(
+            'HLS Error: Type: ' +
+                data.type +
+                ' Details: ' +
+                (data.details || '') +
+                ' Fatal: ' +
+                (data.fatal || false)
+        );
 
         // try to recover network error
-        if (data.type === Hls.ErrorTypes.NETWORK_ERROR
-                && data.response?.code && data.response.code >= 400
+        if (
+            data.type === Hls.ErrorTypes.NETWORK_ERROR &&
+            data.response?.code &&
+            data.response.code >= 400
         ) {
             console.debug('hls.js response error code: ' + data.response.code);
 
@@ -294,11 +337,12 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
         if (data.fatal) {
             switch (data.type) {
                 case Hls.ErrorTypes.NETWORK_ERROR:
-
                     if (data.response && data.response.code === 0) {
                         // This could be a CORS error related to access control response headers
 
-                        console.debug('hls.js response error code: ' + data.response.code);
+                        console.debug(
+                            'hls.js response error code: ' + data.response.code
+                        );
 
                         // Trigger failure differently depending on whether this is prior to start of playback, or after
                         hls.destroy();
@@ -310,19 +354,24 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                             onErrorInternal(instance, MediaError.NETWORK_ERROR);
                         }
                     } else {
-                        console.debug('fatal network error encountered, try to recover');
+                        console.debug(
+                            'fatal network error encountered, try to recover'
+                        );
                         hls.startLoad();
                     }
 
                     break;
                 case Hls.ErrorTypes.MEDIA_ERROR:
-                    console.debug('fatal media error encountered, try to recover');
+                    console.debug(
+                        'fatal media error encountered, try to recover'
+                    );
                     handleHlsJsMediaError(instance, reject);
                     reject = null;
                     break;
                 default:
-
-                    console.debug('Cannot recover from hls error - destroy and trigger error');
+                    console.debug(
+                        'Cannot recover from hls error - destroy and trigger error'
+                    );
                     // cannot recover
                     // Trigger failure differently depending on whether this is prior to start of playback, or after
                     hls.destroy();
@@ -385,8 +434,8 @@ export function getBufferedRanges(instance, elem) {
         }
 
         ranges.push({
-            start: (start * 10000000) + offset,
-            end: (end * 10000000) + offset
+            start: start * 10000000 + offset,
+            end: end * 10000000 + offset
         });
     }
 

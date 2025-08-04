@@ -28,9 +28,15 @@ const getSessionNowPlayingStreamInfo = (session: SessionInfo): string => {
         if (session.TranscodingInfo) {
             if (session.TranscodingInfo.Bitrate) {
                 if (session.TranscodingInfo.Bitrate > 1e6) {
-                    line.push((session.TranscodingInfo.Bitrate / 1e6).toFixed(1) + ' Mbps');
+                    line.push(
+                        (session.TranscodingInfo.Bitrate / 1e6).toFixed(1) +
+                            ' Mbps'
+                    );
                 } else {
-                    line.push(Math.floor(session.TranscodingInfo.Bitrate / 1e3) + ' Kbps');
+                    line.push(
+                        Math.floor(session.TranscodingInfo.Bitrate / 1e3) +
+                            ' Kbps'
+                    );
                 }
             }
 
@@ -42,7 +48,11 @@ const getSessionNowPlayingStreamInfo = (session: SessionInfo): string => {
                 line.push(session.TranscodingInfo.VideoCodec.toUpperCase());
             }
 
-            if (session.TranscodingInfo.AudioCodec && session.TranscodingInfo.AudioCodec !== session.TranscodingInfo.Container) {
+            if (
+                session.TranscodingInfo.AudioCodec &&
+                session.TranscodingInfo.AudioCodec !==
+                    session.TranscodingInfo.Container
+            ) {
                 line.push(session.TranscodingInfo.AudioCodec.toUpperCase());
             }
         }

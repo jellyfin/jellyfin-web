@@ -66,7 +66,10 @@ function truncate(string, byteLength) {
         codePoint = string.charCodeAt(i);
         segment = string[i];
 
-        if (isHighSurrogate(codePoint) && isLowSurrogate(string.charCodeAt(i + 1))) {
+        if (
+            isHighSurrogate(codePoint) &&
+            isLowSurrogate(string.charCodeAt(i + 1))
+        ) {
             // eslint-disable-next-line sonarjs/updated-loop-counter
             i += 1;
             segment += string[i];

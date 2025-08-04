@@ -19,22 +19,26 @@ function executeAction(action, data, serverId) {
 }
 
 /* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
-self.addEventListener('notificationclick', function (event) {
-    const notification = event.notification;
-    notification.close();
+self.addEventListener(
+    'notificationclick',
+    function (event) {
+        const notification = event.notification;
+        notification.close();
 
-    const data = notification.data;
-    const serverId = data.serverId;
-    const action = event.action;
+        const data = notification.data;
+        const serverId = data.serverId;
+        const action = event.action;
 
-    if (!action) {
-        clients.openWindow('/');
-        event.waitUntil(Promise.resolve());
-        return;
-    }
+        if (!action) {
+            clients.openWindow('/');
+            event.waitUntil(Promise.resolve());
+            return;
+        }
 
-    event.waitUntil(executeAction(action, data, serverId));
-}, false);
+        event.waitUntil(executeAction(action, data, serverId));
+    },
+    false
+);
 
 /* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
 self.addEventListener('activate', () => self.clients.claim());

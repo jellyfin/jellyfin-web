@@ -15,7 +15,10 @@ const EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
 let supportsValueSetOverride = false;
 
 if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-    const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+    const descriptor = Object.getOwnPropertyDescriptor(
+        HTMLInputElement.prototype,
+        'value'
+    );
     // descriptor returning null in webos
     if (descriptor?.configurable) {
         supportsValueSetOverride = true;
@@ -35,7 +38,9 @@ let supportsValueAutoSnap = false;
     supportsValueAutoSnap = slider.value === '0.3';
 
     if (!supportsValueAutoSnap) {
-        console.debug('[EmbySlider] HTMLInputElement doesn\'t snap value - use workaround.');
+        console.debug(
+            "[EmbySlider] HTMLInputElement doesn't snap value - use workaround."
+        );
     }
 }
 
@@ -61,12 +66,12 @@ function normalizeSliderStep(range, step) {
 }
 
 /**
-     * Returns slider fraction corresponding to client position.
-     *
-     * @param {Object} range slider itself
-     * @param {number} clientX client X-coordinate
-     * @return {number} slider fraction
-     */
+ * Returns slider fraction corresponding to client position.
+ *
+ * @param {Object} range slider itself
+ * @param {number} clientX client X-coordinate
+ * @return {number} slider fraction
+ */
 function mapClientToFraction(range, clientX) {
     const rect = range.sliderBubbleTrack.getBoundingClientRect();
 
@@ -86,12 +91,12 @@ function mapClientToFraction(range, clientX) {
 }
 
 /**
-     * Returns slider value corresponding to slider fraction.
-     *
-     * @param {Object} range slider itself
-     * @param {number} fraction slider fraction
-     * @return {number} slider value
-     */
+ * Returns slider value corresponding to slider fraction.
+ *
+ * @param {Object} range slider itself
+ * @param {number} fraction slider fraction
+ * @return {number} slider value
+ */
 function mapFractionToValue(range, fraction) {
     let value = (range.max - range.min) * fraction;
 
@@ -117,12 +122,12 @@ function mapFractionToValue(range, fraction) {
 }
 
 /**
-     * Returns slider fraction corresponding to slider value.
-     *
-     * @param {Object} range slider itself
-     * @param {number} value slider value (snapped to step)
-     * @return {number} slider fraction
-     */
+ * Returns slider fraction corresponding to slider value.
+ *
+ * @param {Object} range slider itself
+ * @param {number} value slider value (snapped to step)
+ * @return {number} slider fraction
+ */
 function mapValueToFraction(range, value) {
     const valueRange = range.max - range.min;
     const fraction = valueRange !== 0 ? (value - range.min) / valueRange : 0;
@@ -153,10 +158,10 @@ function snapValue(range, value) {
 }
 
 /**
-     * Updates progress bar.
-     *
-     * @param {boolean} [isValueSet] update by 'valueset' event or by timer
-     */
+ * Updates progress bar.
+ *
+ * @param {boolean} [isValueSet] update by 'valueset' event or by timer
+ */
 function updateValues(isValueSet) {
     if (!!isValueSet && !supportsValueAutoSnap) {
         const value = snapValue(this, parseFloat(this.value)).toString();
@@ -201,11 +206,14 @@ function updateBubble(range, percent, value, bubble) {
         const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
         const bubbleRect = bubble.getBoundingClientRect();
 
-        let bubblePos = bubbleTrackRect.width * percent / 100;
+        let bubblePos = (bubbleTrackRect.width * percent) / 100;
         if (globalize.getIsElementRTL(range)) {
             bubblePos = bubbleTrackRect.width - bubblePos;
         }
-        bubblePos = Math.min(Math.max(bubblePos, bubbleRect.width / 2), bubbleTrackRect.width - bubbleRect.width / 2);
+        bubblePos = Math.min(
+            Math.max(bubblePos, bubbleRect.width / 2),
+            bubbleTrackRect.width - bubbleRect.width / 2
+        );
 
         bubble.style.left = bubblePos + 'px';
 
@@ -261,18 +269,25 @@ function updateMarkers(range, currentValue) {
 
             let markersHtml = '';
             range.markerInfo.forEach(() => {
-                markersHtml += '<span class="sliderMarker" aria-hidden="true"></span>';
+                markersHtml +=
+                    '<span class="sliderMarker" aria-hidden="true"></span>';
             });
             range.markerContainerElement.innerHTML = markersHtml;
 
-            range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
+            range.markerElements =
+                range.markerContainerElement.querySelectorAll('.sliderMarker');
         }
     }
 
     if (range.markerInfo?.length && range.markerElements?.length) {
         for (let i = 0, length = range.markerElements.length; i < length; i++) {
             if (range.markerInfo.length > i) {
-                setMarker(range, mapFractionToValue(range, range.markerInfo[i].progress), range.markerElements[i], currentValue);
+                setMarker(
+                    range,
+                    mapFractionToValue(range, range.markerInfo[i].progress),
+                    range.markerElements[i],
+                    currentValue
+                );
             }
         }
     }
@@ -326,130 +341,185 @@ EmbySliderPrototype.attachedCallback = function () {
     htmlToInsert += '</div>';
     htmlToInsert += '</div>';
 
-    htmlToInsert += '<div class="sliderBubbleTrack"><div class="sliderBubble hide"></div></div>';
+    htmlToInsert +=
+        '<div class="sliderBubbleTrack"><div class="sliderBubble hide"></div></div>';
 
     containerElement.insertAdjacentHTML('beforeend', htmlToInsert);
 
-    this.sliderBubbleTrack = containerElement.querySelector('.sliderBubbleTrack');
-    this.backgroundLower = containerElement.querySelector('.mdl-slider-background-lower');
-    this.backgroundUpper = containerElement.querySelector('.mdl-slider-background-upper');
+    this.sliderBubbleTrack =
+        containerElement.querySelector('.sliderBubbleTrack');
+    this.backgroundLower = containerElement.querySelector(
+        '.mdl-slider-background-lower'
+    );
+    this.backgroundUpper = containerElement.querySelector(
+        '.mdl-slider-background-upper'
+    );
     const sliderBubble = containerElement.querySelector('.sliderBubble');
 
     let hasHideBubbleClass = sliderBubble.classList.contains('hide');
 
-    this.markerContainerElement = containerElement.querySelector('.sliderMarkerContainer');
+    this.markerContainerElement = containerElement.querySelector(
+        '.sliderMarkerContainer'
+    );
 
-    dom.addEventListener(this, 'input', function () {
-        this.dragging = true;
+    dom.addEventListener(
+        this,
+        'input',
+        function () {
+            this.dragging = true;
 
-        if (this.dataset.sliderKeepProgress !== 'true') {
-            updateValues.call(this);
-        }
+            if (this.dataset.sliderKeepProgress !== 'true') {
+                updateValues.call(this);
+            }
 
-        const percent = mapValueToFraction(this, this.value) * 100;
-        updateBubble(this, percent, parseFloat(this.value), sliderBubble);
-
-        if (hasHideBubbleClass) {
-            sliderBubble.classList.remove('hide');
-            hasHideBubbleClass = false;
-        }
-    }, {
-        passive: true
-    });
-
-    dom.addEventListener(this, 'change', function () {
-        this.dragging = false;
-
-        if (this.dataset.sliderKeepProgress === 'true') {
-            updateValues.call(this);
-        }
-
-        sliderBubble.classList.add('hide');
-        hasHideBubbleClass = true;
-    }, {
-        passive: true
-    });
-
-    /* eslint-disable-next-line compat/compat */
-    dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
-        if (!this.dragging) {
-            const fraction = mapClientToFraction(this, e.clientX);
-            const percent = fraction * 100;
-            const value = mapFractionToValue(this, fraction);
-
-            updateBubble(this, percent, value, sliderBubble);
+            const percent = mapValueToFraction(this, this.value) * 100;
+            updateBubble(this, percent, parseFloat(this.value), sliderBubble);
 
             if (hasHideBubbleClass) {
                 sliderBubble.classList.remove('hide');
                 hasHideBubbleClass = false;
             }
+        },
+        {
+            passive: true
         }
-    }, {
-        passive: true
-    });
+    );
 
-    /* eslint-disable-next-line compat/compat */
-    dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function () {
-        sliderBubble.classList.add('hide');
-        hasHideBubbleClass = true;
-    }, {
-        passive: true
-    });
+    dom.addEventListener(
+        this,
+        'change',
+        function () {
+            this.dragging = false;
+
+            if (this.dataset.sliderKeepProgress === 'true') {
+                updateValues.call(this);
+            }
+
+            sliderBubble.classList.add('hide');
+            hasHideBubbleClass = true;
+        },
+        {
+            passive: true
+        }
+    );
+
+    dom.addEventListener(
+        this,
+        // eslint-disable-next-line compat/compat
+        window.PointerEvent ? 'pointermove' : 'mousemove',
+        function (e) {
+            if (!this.dragging) {
+                const fraction = mapClientToFraction(this, e.clientX);
+                const percent = fraction * 100;
+                const value = mapFractionToValue(this, fraction);
+
+                updateBubble(this, percent, value, sliderBubble);
+
+                if (hasHideBubbleClass) {
+                    sliderBubble.classList.remove('hide');
+                    hasHideBubbleClass = false;
+                }
+            }
+        },
+        {
+            passive: true
+        }
+    );
+
+    dom.addEventListener(
+        this,
+        // eslint-disable-next-line compat/compat
+        window.PointerEvent ? 'pointerleave' : 'mouseleave',
+        function () {
+            sliderBubble.classList.add('hide');
+            hasHideBubbleClass = true;
+        },
+        {
+            passive: true
+        }
+    );
 
     // HACK: iPhone/iPad do not change input by touch
     if (browser.iOS) {
-        dom.addEventListener(this, 'touchstart', function (e) {
-            if (e.targetTouches.length !== 1) {
-                return;
+        dom.addEventListener(
+            this,
+            'touchstart',
+            function (e) {
+                if (e.targetTouches.length !== 1) {
+                    return;
+                }
+
+                this.touched = true;
+
+                const fraction = mapClientToFraction(
+                    this,
+                    e.targetTouches[0].clientX
+                );
+                this.value = mapFractionToValue(this, fraction);
+
+                this.dispatchEvent(
+                    new Event('input', {
+                        bubbles: true,
+                        cancelable: false
+                    })
+                );
+
+                // Prevent 'pointermove' and 'click' after 'touch*'
+                // FIXME: Still have some 'pointermove' and 'click' that bypass 'touchstart'
+                e.preventDefault();
+            },
+            {
+                capture: true
             }
+        );
 
-            this.touched = true;
+        dom.addEventListener(
+            this,
+            'touchmove',
+            function (e) {
+                if (!this.touched || e.targetTouches.length !== 1) {
+                    return;
+                }
 
-            const fraction = mapClientToFraction(this, e.targetTouches[0].clientX);
-            this.value = mapFractionToValue(this, fraction);
+                const fraction = mapClientToFraction(
+                    this,
+                    e.targetTouches[0].clientX
+                );
+                this.value = mapFractionToValue(this, fraction);
 
-            this.dispatchEvent(new Event('input', {
-                bubbles: true,
-                cancelable: false
-            }));
-
-            // Prevent 'pointermove' and 'click' after 'touch*'
-            // FIXME: Still have some 'pointermove' and 'click' that bypass 'touchstart'
-            e.preventDefault();
-        }, {
-            capture: true
-        });
-
-        dom.addEventListener(this, 'touchmove', function (e) {
-            if (!this.touched || e.targetTouches.length !== 1) {
-                return;
+                this.dispatchEvent(
+                    new Event('input', {
+                        bubbles: true,
+                        cancelable: false
+                    })
+                );
+            },
+            {
+                passive: true
             }
+        );
 
-            const fraction = mapClientToFraction(this, e.targetTouches[0].clientX);
-            this.value = mapFractionToValue(this, fraction);
+        dom.addEventListener(
+            this,
+            'touchend',
+            function () {
+                const range = this;
 
-            this.dispatchEvent(new Event('input', {
-                bubbles: true,
-                cancelable: false
-            }));
-        }, {
-            passive: true
-        });
+                setTimeout(function () {
+                    range.touched = false;
 
-        dom.addEventListener(this, 'touchend', function () {
-            const range = this;
-
-            setTimeout(function () {
-                range.touched = false;
-
-                range.dispatchEvent(new Event('change', {
-                    bubbles: true,
-                    cancelable: false
-                }));
-            }, 0);
-        }, {
-            passive: true
-        });
+                    range.dispatchEvent(
+                        new Event('change', {
+                            bubbles: true,
+                            cancelable: false
+                        })
+                    );
+                }, 0);
+            },
+            {
+                passive: true
+            }
+        );
     }
 
     if (supportsValueSetOverride) {
@@ -462,21 +532,21 @@ EmbySliderPrototype.attachedCallback = function () {
 };
 
 /**
-     * Keyboard dragging timeout.
-     * After this delay "change" event will be fired.
-     */
+ * Keyboard dragging timeout.
+ * After this delay "change" event will be fired.
+ */
 const KeyboardDraggingTimeout = 1000;
 
 /**
-     * Keyboard dragging timer.
-     */
+ * Keyboard dragging timer.
+ */
 let keyboardDraggingTimer;
 
 /**
-     * Start keyboard dragging.
-     *
-     * @param {Object} elem slider itself
-     */
+ * Start keyboard dragging.
+ *
+ * @param {Object} elem slider itself
+ */
 function startKeyboardDragging(elem) {
     elem.keyboardDragging = true;
 
@@ -487,10 +557,10 @@ function startKeyboardDragging(elem) {
 }
 
 /**
-     * Finish keyboard dragging.
-     *
-     * @param {Object} elem slider itself
-     */
+ * Finish keyboard dragging.
+ *
+ * @param {Object} elem slider itself
+ */
 function finishKeyboardDragging(elem) {
     clearTimeout(keyboardDraggingTimer);
     keyboardDraggingTimer = undefined;
@@ -505,11 +575,11 @@ function finishKeyboardDragging(elem) {
 }
 
 /**
-     * Do step by delta.
-     *
-     * @param {Object} elem slider itself
-     * @param {number} delta step amount
-     */
+ * Do step by delta.
+ *
+ * @param {Object} elem slider itself
+ * @param {number} delta step amount
+ */
 function stepKeyboard(elem, delta) {
     startKeyboardDragging(elem);
 
@@ -523,13 +593,16 @@ function stepKeyboard(elem, delta) {
 }
 
 /**
-     * Handle KeyDown event
-     */
+ * Handle KeyDown event
+ */
 function onKeyDown(e) {
     switch (keyboardnavigation.getKeyName(e)) {
         case 'ArrowLeft':
         case 'Left':
-            stepKeyboard(this, -normalizeSliderStep(this, this.keyboardStepDown));
+            stepKeyboard(
+                this,
+                -normalizeSliderStep(this, this.keyboardStepDown)
+            );
             e.preventDefault();
             e.stopPropagation();
             break;
@@ -550,8 +623,8 @@ function onKeyDown(e) {
 }
 
 /**
-     * Enable keyboard dragging.
-     */
+ * Enable keyboard dragging.
+ */
 EmbySliderPrototype.enableKeyboardDragging = function () {
     if (!this.keyboardDraggingEnabled) {
         this.addEventListener('keydown', onKeyDown);
@@ -560,11 +633,11 @@ EmbySliderPrototype.enableKeyboardDragging = function () {
 };
 
 /**
-     * Set steps for keyboard input.
-     *
-     * @param {number} stepDown step to reduce
-     * @param {number} stepUp step to increase
-     */
+ * Set steps for keyboard input.
+ *
+ * @param {number} stepDown step to reduce
+ * @param {number} stepUp step to increase
+ */
 EmbySliderPrototype.setKeyboardSteps = function (stepDown, stepUp) {
     this.keyboardStepDown = stepDown || stepUp || 1;
     this.keyboardStepUp = stepUp || stepDown || 1;
@@ -625,7 +698,9 @@ EmbySliderPrototype.setIsClear = function (isClear) {
         if (isClear) {
             backgroundLower.classList.add('mdl-slider-background-lower-clear');
         } else {
-            backgroundLower.classList.remove('mdl-slider-background-lower-clear');
+            backgroundLower.classList.remove(
+                'mdl-slider-background-lower-clear'
+            );
         }
     }
 };
@@ -652,4 +727,3 @@ document.registerElement('emby-slider', {
     prototype: EmbySliderPrototype,
     extends: 'input'
 });
-

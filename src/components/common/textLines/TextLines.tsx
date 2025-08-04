@@ -21,15 +21,16 @@ const TextWrapper: FC<PropsWithChildren<TextWrapperProps>> = ({
 }) => {
     if (isHeading) {
         return (
-            <Typography className={classNames('primary', className)} variant={isLargeStyle ? 'h1' : 'h3'}>
+            <Typography
+                className={classNames('primary', className)}
+                variant={isLargeStyle ? 'h1' : 'h3'}
+            >
                 {children}
             </Typography>
         );
     } else {
         return (
-            <Box className={classNames('secondary', className )}>
-                {children}
-            </Box>
+            <Box className={classNames('secondary', className)}>{children}</Box>
         );
     }
 };

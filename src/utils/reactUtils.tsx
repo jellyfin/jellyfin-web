@@ -9,7 +9,7 @@ import { WebConfigProvider } from 'hooks/useWebConfig';
 import appTheme from 'themes/themes';
 import { queryClient } from 'utils/query/queryClient';
 
-export const renderComponent = <P extends object> (
+export const renderComponent = <P extends object>(
     Component: React.FC<P>,
     props: P,
     element: HTMLElement

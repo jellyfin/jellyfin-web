@@ -1,4 +1,3 @@
-
 const ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
 
 function onAutoTimeProgress() {
@@ -12,7 +11,9 @@ function onAutoTimeProgress() {
     pct = Math.min(100, pct);
     pct = Math.max(0, pct);
 
-    const itemProgressBarForeground = this.querySelector('.itemProgressBarForeground');
+    const itemProgressBarForeground = this.querySelector(
+        '.itemProgressBarForeground'
+    );
     itemProgressBarForeground.style.width = pct + '%';
 }
 
@@ -37,4 +38,3 @@ document.registerElement('emby-progressbar', {
     prototype: ProgressBarPrototype,
     extends: 'div'
 });
-

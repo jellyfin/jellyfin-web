@@ -11,37 +11,43 @@ import { EventType } from 'types/eventType';
 import Events, { type Event } from 'utils/events';
 
 interface AppTabsParams {
-    isDrawerOpen: boolean
+    isDrawerOpen: boolean;
 }
 
 interface TabDefinition {
-    href: string
-    name: string
+    href: string;
+    name: string;
 }
 
-const handleResize = debounce(() => window.dispatchEvent(new Event('resize')), 100);
+const handleResize = debounce(
+    () => window.dispatchEvent(new Event('resize')),
+    100
+);
 
-const AppTabs: FC<AppTabsParams> = ({
-    isDrawerOpen
-}) => {
+const AppTabs: FC<AppTabsParams> = ({ isDrawerOpen }) => {
     const documentRef = useRef<Document>(document);
-    const [ activeIndex, setActiveIndex ] = useState(0);
-    const [ tabs, setTabs ] = useState<TabDefinition[]>();
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [tabs, setTabs] = useState<TabDefinition[]>();
 
-    const isBigScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+    const isBigScreen = useMediaQuery((theme: Theme) =>
+        theme.breakpoints.up('sm')
+    );
 
-    const onTabsUpdate = useCallback((
-        _e: Event,
-        _newView?: string,
-        newIndex: number | undefined = 0,
-        newTabs?: TabDefinition[]
-    ) => {
-        setActiveIndex(newIndex);
+    const onTabsUpdate = useCallback(
+        (
+            _e: Event,
+            _newView?: string,
+            newIndex: number | undefined = 0,
+            newTabs?: TabDefinition[]
+        ) => {
+            setActiveIndex(newIndex);
 
-        if (!isEqual(tabs, newTabs)) {
-            setTabs(newTabs);
-        }
-    }, [ tabs ]);
+            if (!isEqual(tabs, newTabs)) {
+                setTabs(newTabs);
+            }
+        },
+        [tabs]
+    );
 
     useEffect(() => {
         const doc = documentRef.current;
@@ -51,13 +57,13 @@ const AppTabs: FC<AppTabsParams> = ({
         return () => {
             if (doc) Events.off(doc, EventType.SET_TABS, onTabsUpdate);
         };
-    }, [ onTabsUpdate ]);
+    }, [onTabsUpdate]);
 
     // HACK: Force resizing to workaround upstream bug with tab resizing
     // https://github.com/mui/material-ui/issues/24011
     useEffect(() => {
         handleResize();
-    }, [ isDrawerOpen ]);
+    }, [isDrawerOpen]);
 
     if (!tabs?.length) return null;
 
@@ -78,17 +84,15 @@ const AppTabs: FC<AppTabsParams> = ({
             variant={isBigScreen ? 'standard' : 'scrollable'}
             centered={isBigScreen}
         >
-            {
-                tabs.map(({ href, name }, index) => (
-                    <Tab
-                        key={`tab-${name}`}
-                        label={name}
-                        data-tab-index={`${index}`}
-                        component={Link}
-                        to={href}
-                    />
-                ))
-            }
+            {tabs.map(({ href, name }, index) => (
+                <Tab
+                    key={`tab-${name}`}
+                    label={name}
+                    data-tab-index={`${index}`}
+                    component={Link}
+                    to={href}
+                />
+            ))}
         </Tabs>
     );
 };

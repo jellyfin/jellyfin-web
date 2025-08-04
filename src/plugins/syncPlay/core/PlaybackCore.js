@@ -48,16 +48,28 @@ class PlaybackCore {
      */
     loadPreferences() {
         // Minimum required delay for SpeedToSync to kick in, in milliseconds.
-        this.minDelaySpeedToSync = toFloat(getSetting('minDelaySpeedToSync'), 60.0);
+        this.minDelaySpeedToSync = toFloat(
+            getSetting('minDelaySpeedToSync'),
+            60.0
+        );
 
         // Maximum delay after which SkipToSync is used instead of SpeedToSync, in milliseconds.
-        this.maxDelaySpeedToSync = toFloat(getSetting('maxDelaySpeedToSync'), 3000.0);
+        this.maxDelaySpeedToSync = toFloat(
+            getSetting('maxDelaySpeedToSync'),
+            3000.0
+        );
 
         // Time during which the playback is sped up, in milliseconds.
-        this.speedToSyncDuration = toFloat(getSetting('speedToSyncDuration'), 1000.0);
+        this.speedToSyncDuration = toFloat(
+            getSetting('speedToSyncDuration'),
+            1000.0
+        );
 
         // Minimum required delay for SkipToSync to kick in, in milliseconds.
-        this.minDelaySkipToSync = toFloat(getSetting('minDelaySkipToSync'), 400.0);
+        this.minDelaySkipToSync = toFloat(
+            getSetting('minDelaySkipToSync'),
+            400.0
+        );
 
         // Whether SpeedToSync should be used.
         this.useSpeedToSync = toBoolean(getSetting('useSpeedToSync'), true);
@@ -66,7 +78,10 @@ class PlaybackCore {
         this.useSkipToSync = toBoolean(getSetting('useSkipToSync'), true);
 
         // Whether sync correction during playback is active.
-        this.enableSyncCorrection = toBoolean(getSetting('enableSyncCorrection'), false);
+        this.enableSyncCorrection = toBoolean(
+            getSetting('enableSyncCorrection'),
+            false
+        );
     }
 
     /**
@@ -132,15 +147,19 @@ class PlaybackCore {
      */
     async sendBufferingRequest(isBuffering = true) {
         const playerWrapper = this.manager.getPlayerWrapper();
-        const currentPosition = (playerWrapper.currentTimeAsync ?
-            await playerWrapper.currentTimeAsync() :
-            playerWrapper.currentTime());
-        const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
+        const currentPosition = playerWrapper.currentTimeAsync
+            ? await playerWrapper.currentTimeAsync()
+            : playerWrapper.currentTime();
+        const currentPositionTicks = Math.round(
+            currentPosition * Helper.TicksPerMillisecond
+        );
         const isPlaying = playerWrapper.isPlaying();
 
         const currentTime = new Date();
         const now = this.timeSyncCore.localDateToRemote(currentTime);
-        const playlistItemId = this.manager.getQueueCore().getCurrentPlaylistItemId();
+        const playlistItemId = this.manager
+            .getQueueCore()
+            .getCurrentPlaylistItemId();
 
         const options = {
             When: now.toISOString(),
@@ -171,14 +190,18 @@ class PlaybackCore {
      */
     async applyCommand(command) {
         // Check if duplicate.
-        if (this.lastCommand
-            && this.lastCommand.When.getTime() === command.When.getTime()
-            && this.lastCommand.PositionTicks === command.PositionTicks
-            && this.lastCommand.Command === command.Command
-            && this.lastCommand.PlaylistItemId === command.PlaylistItemId
+        if (
+            this.lastCommand &&
+            this.lastCommand.When.getTime() === command.When.getTime() &&
+            this.lastCommand.PositionTicks === command.PositionTicks &&
+            this.lastCommand.Command === command.Command &&
+            this.lastCommand.PlaylistItemId === command.PlaylistItemId
         ) {
             // Duplicate command found, check playback state and correct if needed.
-            console.debug('SyncPlay applyCommand: duplicate command received!', command);
+            console.debug(
+                'SyncPlay applyCommand: duplicate command received!',
+                command
+            );
 
             // Determine if past command or future one.
             const currentTime = new Date();
@@ -186,27 +209,42 @@ class PlaybackCore {
             if (whenLocal > currentTime) {
                 // Command should be already scheduled, not much we can do.
                 // TODO: should re-apply or just drop?
-                console.debug('SyncPlay applyCommand: command already scheduled.', command);
+                console.debug(
+                    'SyncPlay applyCommand: command already scheduled.',
+                    command
+                );
                 return;
             } else {
                 // Check if playback state matches requested command.
                 const playerWrapper = this.manager.getPlayerWrapper();
-                const currentPositionTicks = Math.round((playerWrapper.currentTimeAsync ?
-                    await playerWrapper.currentTimeAsync() :
-                    playerWrapper.currentTime()) * Helper.TicksPerMillisecond);
+                const currentPositionTicks = Math.round(
+                    (playerWrapper.currentTimeAsync
+                        ? await playerWrapper.currentTimeAsync()
+                        : playerWrapper.currentTime()) *
+                        Helper.TicksPerMillisecond
+                );
                 const isPlaying = playerWrapper.isPlaying();
 
                 switch (command.Command) {
                     case 'Unpause':
                         // Check playback state only, as position ticks will be corrected by sync.
                         if (!isPlaying) {
-                            this.scheduleUnpause(command.When, command.PositionTicks);
+                            this.scheduleUnpause(
+                                command.When,
+                                command.PositionTicks
+                            );
                         }
                         break;
                     case 'Pause':
                         // FIXME: check range instead of fixed value for ticks.
-                        if (isPlaying || currentPositionTicks !== command.PositionTicks) {
-                            this.schedulePause(command.When, command.PositionTicks);
+                        if (
+                            isPlaying ||
+                            currentPositionTicks !== command.PositionTicks
+                        ) {
+                            this.schedulePause(
+                                command.When,
+                                command.PositionTicks
+                            );
                         }
                         break;
                     case 'Stop':
@@ -217,21 +255,36 @@ class PlaybackCore {
                     case 'Seek':
                         // During seek, playback is paused.
                         // FIXME: check range instead of fixed value for ticks.
-                        if (isPlaying || currentPositionTicks !== command.PositionTicks) {
+                        if (
+                            isPlaying ||
+                            currentPositionTicks !== command.PositionTicks
+                        ) {
                             // Account for player imperfections, we got half a second of tollerance we can play with
                             // (the server tollerates a range of values when client reports that is ready).
                             const rangeWidth = 100; // In milliseconds.
                             // eslint-disable-next-line sonarjs/pseudo-random
-                            const randomOffsetTicks = Math.round((Math.random() - 0.5) * rangeWidth) * Helper.TicksPerMillisecond;
-                            this.scheduleSeek(command.When, command.PositionTicks + randomOffsetTicks);
-                            console.debug('SyncPlay applyCommand: adding random offset to force seek:', randomOffsetTicks, command);
+                            const randomOffsetTicks =
+                                Math.round((Math.random() - 0.5) * rangeWidth) *
+                                Helper.TicksPerMillisecond;
+                            this.scheduleSeek(
+                                command.When,
+                                command.PositionTicks + randomOffsetTicks
+                            );
+                            console.debug(
+                                'SyncPlay applyCommand: adding random offset to force seek:',
+                                randomOffsetTicks,
+                                command
+                            );
                         } else {
                             // All done, I guess?
                             this.sendBufferingRequest(false);
                         }
                         break;
                     default:
-                        console.error('SyncPlay applyCommand: command is not recognised:', command);
+                        console.error(
+                            'SyncPlay applyCommand: command is not recognised:',
+                            command
+                        );
                         break;
                 }
 
@@ -262,7 +315,10 @@ class PlaybackCore {
                 this.scheduleSeek(command.When, command.PositionTicks);
                 break;
             default:
-                console.error('SyncPlay applyCommand: command is not recognised:', command);
+                console.error(
+                    'SyncPlay applyCommand: command is not recognised:',
+                    command
+                );
                 break;
         }
     }
@@ -279,15 +335,19 @@ class PlaybackCore {
         const playAtTimeLocal = this.timeSyncCore.remoteDateToLocal(playAtTime);
 
         const playerWrapper = this.manager.getPlayerWrapper();
-        const currentPositionTicks = (playerWrapper.currentTimeAsync ?
-            await playerWrapper.currentTimeAsync() :
-            playerWrapper.currentTime()) * Helper.TicksPerMillisecond;
+        const currentPositionTicks =
+            (playerWrapper.currentTimeAsync
+                ? await playerWrapper.currentTimeAsync()
+                : playerWrapper.currentTime()) * Helper.TicksPerMillisecond;
 
         if (playAtTimeLocal > currentTime) {
             const playTimeout = playAtTimeLocal - currentTime;
 
             // Seek only if delay is noticeable.
-            if ((currentPositionTicks - positionTicks) > this.minDelaySkipToSync * Helper.TicksPerMillisecond) {
+            if (
+                currentPositionTicks - positionTicks >
+                this.minDelaySkipToSync * Helper.TicksPerMillisecond
+            ) {
                 this.localSeek(positionTicks);
             }
 
@@ -300,10 +360,17 @@ class PlaybackCore {
                 }, enableSyncTimeout);
             }, playTimeout);
 
-            console.debug('Scheduled unpause in', playTimeout / 1000.0, 'seconds.');
+            console.debug(
+                'Scheduled unpause in',
+                playTimeout / 1000.0,
+                'seconds.'
+            );
         } else {
             // Group playback already started.
-            const serverPositionTicks = this.estimateCurrentTicks(positionTicks, playAtTime);
+            const serverPositionTicks = this.estimateCurrentTicks(
+                positionTicks,
+                playAtTime
+            );
             Helper.waitForEventOnce(this.manager, 'unpause').then(() => {
                 this.localSeek(serverPositionTicks);
             });
@@ -316,7 +383,9 @@ class PlaybackCore {
                 this.syncEnabled = true;
             }, enableSyncTimeout);
 
-            console.debug(`SyncPlay scheduleUnpause: unpause now from ${serverPositionTicks} (was at ${currentPositionTicks}).`);
+            console.debug(
+                `SyncPlay scheduleUnpause: unpause now from ${serverPositionTicks} (was at ${currentPositionTicks}).`
+            );
         }
     }
 
@@ -328,15 +397,22 @@ class PlaybackCore {
     schedulePause(pauseAtTime, positionTicks) {
         this.clearScheduledCommand();
         const currentTime = new Date();
-        const pauseAtTimeLocal = this.timeSyncCore.remoteDateToLocal(pauseAtTime);
+        const pauseAtTimeLocal =
+            this.timeSyncCore.remoteDateToLocal(pauseAtTime);
 
         const callback = () => {
-            Helper.waitForEventOnce(this.manager, 'pause', Helper.WaitForPlayerEventTimeout).then(() => {
-                this.localSeek(positionTicks);
-            }).catch(() => {
-                // Player was already paused, seeking.
-                this.localSeek(positionTicks);
-            });
+            Helper.waitForEventOnce(
+                this.manager,
+                'pause',
+                Helper.WaitForPlayerEventTimeout
+            )
+                .then(() => {
+                    this.localSeek(positionTicks);
+                })
+                .catch(() => {
+                    // Player was already paused, seeking.
+                    this.localSeek(positionTicks);
+                });
             this.localPause();
         };
 
@@ -344,7 +420,11 @@ class PlaybackCore {
             const pauseTimeout = pauseAtTimeLocal - currentTime;
             this.scheduledCommandTimeout = setTimeout(callback, pauseTimeout);
 
-            console.debug('Scheduled pause in', pauseTimeout / 1000.0, 'seconds.');
+            console.debug(
+                'Scheduled pause in',
+                pauseTimeout / 1000.0,
+                'seconds.'
+            );
         } else {
             callback();
             console.debug('SyncPlay schedulePause: now.');
@@ -368,7 +448,11 @@ class PlaybackCore {
             const stopTimeout = stopAtTimeLocal - currentTime;
             this.scheduledCommandTimeout = setTimeout(callback, stopTimeout);
 
-            console.debug('Scheduled stop in', stopTimeout / 1000.0, 'seconds.');
+            console.debug(
+                'Scheduled stop in',
+                stopTimeout / 1000.0,
+                'seconds.'
+            );
         } else {
             callback();
             console.debug('SyncPlay scheduleStop: now.');
@@ -389,20 +473,33 @@ class PlaybackCore {
             this.localUnpause();
             this.localSeek(positionTicks);
 
-            Helper.waitForEventOnce(this.manager, 'ready', Helper.WaitForEventDefaultTimeout).then(() => {
-                this.localPause();
-                this.sendBufferingRequest(false);
-            }).catch((error) => {
-                console.error(`Timed out while waiting for 'ready' event! Seeking to ${positionTicks}.`, error);
-                this.localSeek(positionTicks);
-            });
+            Helper.waitForEventOnce(
+                this.manager,
+                'ready',
+                Helper.WaitForEventDefaultTimeout
+            )
+                .then(() => {
+                    this.localPause();
+                    this.sendBufferingRequest(false);
+                })
+                .catch((error) => {
+                    console.error(
+                        `Timed out while waiting for 'ready' event! Seeking to ${positionTicks}.`,
+                        error
+                    );
+                    this.localSeek(positionTicks);
+                });
         };
 
         if (seekAtTimeLocal > currentTime) {
             const seekTimeout = seekAtTimeLocal - currentTime;
             this.scheduledCommandTimeout = setTimeout(callback, seekTimeout);
 
-            console.debug('Scheduled seek in', seekTimeout / 1000.0, 'seconds.');
+            console.debug(
+                'Scheduled seek in',
+                seekTimeout / 1000.0,
+                'seconds.'
+            );
         } else {
             callback();
             console.debug('SyncPlay scheduleSeek: now.');
@@ -489,7 +586,10 @@ class PlaybackCore {
      */
     estimateCurrentTicks(ticks, when, currentTime = new Date()) {
         const remoteTime = this.timeSyncCore.localDateToRemote(currentTime);
-        return ticks + (remoteTime.getTime() - when.getTime()) * Helper.TicksPerMillisecond;
+        return (
+            ticks +
+            (remoteTime.getTime() - when.getTime()) * Helper.TicksPerMillisecond
+        );
     }
 
     /**
@@ -519,7 +619,12 @@ class PlaybackCore {
         // Attempt to sync only when media is playing.
         const { lastCommand } = this;
 
-        if (!lastCommand || lastCommand.Command !== 'Unpause' || this.isBuffering()) return;
+        if (
+            !lastCommand ||
+            lastCommand.Command !== 'Unpause' ||
+            this.isBuffering()
+        )
+            return;
 
         // Avoid spoilers by making sure that command item matches current playlist item.
         // This check is needed when switching from one item to another.
@@ -530,18 +635,27 @@ class PlaybackCore {
         const { currentTime, currentPosition } = timeUpdateData;
 
         // Get current PositionTicks.
-        const currentPositionTicks = currentPosition * Helper.TicksPerMillisecond;
+        const currentPositionTicks =
+            currentPosition * Helper.TicksPerMillisecond;
 
         // Estimate PositionTicks on server.
-        const serverPositionTicks = this.estimateCurrentTicks(lastCommand.PositionTicks, lastCommand.When, currentTime);
+        const serverPositionTicks = this.estimateCurrentTicks(
+            lastCommand.PositionTicks,
+            lastCommand.When,
+            currentTime
+        );
 
         // Measure delay that needs to be recovered.
         // Diff might be caused by the player internally starting the playback.
-        const diffMillis = (serverPositionTicks - currentPositionTicks) / Helper.TicksPerMillisecond;
+        const diffMillis =
+            (serverPositionTicks - currentPositionTicks) /
+            Helper.TicksPerMillisecond;
 
         // Notify update for playback sync.
         this.playbackDiffMillis = diffMillis;
-        Events.trigger(this.manager, 'playback-diff', [this.playbackDiffMillis]);
+        Events.trigger(this.manager, 'playback-diff', [
+            this.playbackDiffMillis
+        ]);
 
         // Avoid overloading the browser.
         const elapsed = currentTime - this.lastSyncTime;
@@ -555,7 +669,12 @@ class PlaybackCore {
             // TODO: SpeedToSync sounds bad on songs.
             // TODO: SpeedToSync is failing on Safari (Mojave); even if playbackRate is supported, some delay seems to exist.
             // TODO: both SpeedToSync and SpeedToSync seem to have a hard time keeping up on Android Chrome as well.
-            if (playerWrapper.hasPlaybackRate() && this.useSpeedToSync && absDiffMillis >= this.minDelaySpeedToSync && absDiffMillis < this.maxDelaySpeedToSync) {
+            if (
+                playerWrapper.hasPlaybackRate() &&
+                this.useSpeedToSync &&
+                absDiffMillis >= this.minDelaySpeedToSync &&
+                absDiffMillis < this.maxDelaySpeedToSync
+            ) {
                 // Fix negative speed when client is ahead of time more than speedToSyncTime.
                 const MinSpeed = 0.2;
                 if (diffMillis <= -speedToSyncTime * MinSpeed) {
@@ -566,7 +685,12 @@ class PlaybackCore {
                 const speed = 1 + diffMillis / speedToSyncTime;
 
                 if (speed <= 0) {
-                    console.error('SyncPlay error: speed should not be negative!', speed, diffMillis, speedToSyncTime);
+                    console.error(
+                        'SyncPlay error: speed should not be negative!',
+                        speed,
+                        diffMillis,
+                        speedToSyncTime
+                    );
                 }
 
                 playerWrapper.setPlaybackRate(speed);
@@ -581,7 +705,10 @@ class PlaybackCore {
                 }, speedToSyncTime);
 
                 console.log('SyncPlay SpeedToSync', speed);
-            } else if (this.useSkipToSync && absDiffMillis >= this.minDelaySkipToSync) {
+            } else if (
+                this.useSkipToSync &&
+                absDiffMillis >= this.minDelaySkipToSync
+            ) {
                 // SkipToSync strategy.
                 this.localSeek(serverPositionTicks);
                 this.syncEnabled = false;
@@ -597,7 +724,11 @@ class PlaybackCore {
             } else {
                 // Playback is synced.
                 if (this.syncAttempts > 0) {
-                    console.debug('Playback has been synced after', this.syncAttempts, 'attempts.');
+                    console.debug(
+                        'Playback has been synced after',
+                        this.syncAttempts,
+                        'attempts.'
+                    );
                 }
                 this.syncAttempts = 0;
             }

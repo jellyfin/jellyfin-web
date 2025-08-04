@@ -19,7 +19,13 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation, useSubmit } from 'react-router-dom';
+import {
+    type ActionFunctionArgs,
+    Form,
+    useActionData,
+    useNavigation,
+    useSubmit
+} from 'react-router-dom';
 import { QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import type { EncodingOptions } from '@jellyfin/sdk/lib/generated-client/models/encoding-options';
 import { HardwareAccelerationType } from '@jellyfin/sdk/lib/generated-client/models/hardware-acceleration-type';
@@ -27,7 +33,11 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
-import { CODECS, HEVC_REXT_DECODING_TYPES, HEVC_VP9_HW_DECODING_TYPES } from 'apps/dashboard/features/playback/constants/codecs';
+import {
+    CODECS,
+    HEVC_REXT_DECODING_TYPES,
+    HEVC_VP9_HW_DECODING_TYPES
+} from 'apps/dashboard/features/playback/constants/codecs';
 import SimpleAlert from 'components/SimpleAlert';
 
 const CONFIG_KEY = 'encoding';
@@ -36,10 +46,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();
     if (!api) throw new Error('No Api instance available');
 
-    const data = await request.json() as EncodingOptions;
+    const data = (await request.json()) as EncodingOptions;
 
-    await getConfigurationApi(api)
-        .updateNamedConfiguration({ key: CONFIG_KEY, body: data });
+    await getConfigurationApi(api).updateNamedConfiguration({
+        key: CONFIG_KEY,
+        body: data
+    });
 
     void queryClient.invalidateQueries({
         queryKey: [QUERY_KEY, CONFIG_KEY]
@@ -51,67 +63,90 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export const Component = () => {
-    const { data: initialConfig, isPending, isError } = useNamedConfiguration<EncodingOptions>(CONFIG_KEY);
-    const [ config, setConfig ] = useState<EncodingOptions | null>(null);
+    const {
+        data: initialConfig,
+        isPending,
+        isError
+    } = useNamedConfiguration<EncodingOptions>(CONFIG_KEY);
+    const [config, setConfig] = useState<EncodingOptions | null>(null);
     const navigation = useNavigation();
     const actionData = useActionData() as ActionData | undefined;
     const submit = useSubmit();
     const isSubmitting = navigation.state === 'submitting';
-    const [ isAlertOpen, setIsAlertOpen ] = useState(false);
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
 
     useEffect(() => {
         if (initialConfig && config == null) {
             setConfig(initialConfig);
         }
-    }, [ initialConfig, config ]);
+    }, [initialConfig, config]);
 
-    const onConfigChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        setConfig({
-            ...config,
-            [e.target.name]: e.target.value
-        });
-    }, [ config ]);
+    const onConfigChange = useCallback(
+        (
+            e: React.ChangeEvent<
+                HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+            >
+        ) => {
+            setConfig({
+                ...config,
+                [e.target.name]: e.target.value
+            });
+        },
+        [config]
+    );
 
-    const onCheckboxChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        setConfig({
-            ...config,
-            [e.target.name]: e.target.checked
-        });
-    }, [ config ]);
+    const onCheckboxChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            setConfig({
+                ...config,
+                [e.target.name]: e.target.checked
+            });
+        },
+        [config]
+    );
 
-    const onCodecChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        if (config?.HardwareDecodingCodecs) {
-            if (e.target.checked) {
-                setConfig({
-                    ...config,
-                    HardwareDecodingCodecs: [
-                        ...config.HardwareDecodingCodecs,
-                        e.target.name
-                    ]
-                });
-            } else {
-                setConfig({
-                    ...config,
-                    HardwareDecodingCodecs: config.HardwareDecodingCodecs.filter(v => v !== e.target.name)
-                });
+    const onCodecChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            if (config?.HardwareDecodingCodecs) {
+                if (e.target.checked) {
+                    setConfig({
+                        ...config,
+                        HardwareDecodingCodecs: [
+                            ...config.HardwareDecodingCodecs,
+                            e.target.name
+                        ]
+                    });
+                } else {
+                    setConfig({
+                        ...config,
+                        HardwareDecodingCodecs:
+                            config.HardwareDecodingCodecs.filter(
+                                (v) => v !== e.target.name
+                            )
+                    });
+                }
             }
-        }
-    }, [ config ]);
+        },
+        [config]
+    );
 
     const onAlertClose = useCallback(() => {
         setIsAlertOpen(false);
     }, []);
 
-    const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (config) {
-            setIsAlertOpen(true);
-            submit(
-                { ...config },
-                { method: 'post', encType: 'application/json' }
-            );
-        }
-    }, [ config, submit ]);
+    const onSubmit = useCallback(
+        (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
+            if (config) {
+                setIsAlertOpen(true);
+                submit(
+                    { ...config },
+                    { method: 'post', encType: 'application/json' }
+                );
+            }
+        },
+        [config, submit]
+    );
 
     const showTranscodingPathPicker = useCallback(() => {
         const picker = new DirectoryBrowser();
@@ -129,7 +164,7 @@ export const Component = () => {
             header: globalize.translate('HeaderSelectTranscodingPath'),
             instruction: globalize.translate('HeaderSelectTranscodingPathHelp')
         });
-    }, [ config ]);
+    }, [config]);
 
     const showFallbackFontPathPicker = useCallback(() => {
         const picker = new DirectoryBrowser();
@@ -146,14 +181,23 @@ export const Component = () => {
             header: globalize.translate('HeaderSelectFallbackFontPath'),
             instruction: globalize.translate('HeaderSelectFallbackFontPathHelp')
         });
-    }, [ config ]);
+    }, [config]);
 
-    const hardwareAccelType = config?.HardwareAccelerationType || HardwareAccelerationType.None;
-    const isHwaSelected = [ 'amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox' ].includes(hardwareAccelType);
+    const hardwareAccelType =
+        config?.HardwareAccelerationType || HardwareAccelerationType.None;
+    const isHwaSelected = [
+        'amf',
+        'nvenc',
+        'qsv',
+        'vaapi',
+        'rkmpp',
+        'videotoolbox'
+    ].includes(hardwareAccelType);
 
-    const availableCodecs = useMemo(() => (
-        CODECS.filter(codec => codec.types.includes(hardwareAccelType))
-    ), [hardwareAccelType]);
+    const availableCodecs = useMemo(
+        () => CODECS.filter((codec) => codec.types.includes(hardwareAccelType)),
+        [hardwareAccelType]
+    );
 
     if (isPending || !config) return <Loading />;
 
@@ -171,11 +215,15 @@ export const Component = () => {
             />
             <Box className='content-primary'>
                 {isError ? (
-                    <Alert severity='error'>{globalize.translate('TranscodingLoadError')}</Alert>
+                    <Alert severity='error'>
+                        {globalize.translate('TranscodingLoadError')}
+                    </Alert>
                 ) : (
                     <Form method='POST' onSubmit={onSubmit}>
                         <Stack spacing={3}>
-                            <Typography variant='h1'>{globalize.translate('Transcoding')}</Typography>
+                            <Typography variant='h1'>
+                                {globalize.translate('Transcoding')}
+                            </Typography>
 
                             {!isSubmitting && actionData?.isSaved && (
                                 <Alert severity='success'>
@@ -186,110 +234,176 @@ export const Component = () => {
                             <TextField
                                 name='HardwareAccelerationType'
                                 select
-                                label={globalize.translate('LabelHardwareAccelerationType')}
+                                label={globalize.translate(
+                                    'LabelHardwareAccelerationType'
+                                )}
                                 value={config.HardwareAccelerationType}
                                 onChange={onConfigChange}
-                                helperText={(
-                                    <Link href='https://jellyfin.org/docs/general/administration/hardware-acceleration' target='_blank'>
-                                        {globalize.translate('LabelHardwareAccelerationTypeHelp')}
+                                helperText={
+                                    <Link
+                                        href='https://jellyfin.org/docs/general/administration/hardware-acceleration'
+                                        target='_blank'
+                                    >
+                                        {globalize.translate(
+                                            'LabelHardwareAccelerationTypeHelp'
+                                        )}
                                     </Link>
-                                )}
+                                }
                             >
-                                <MenuItem value='none'>{globalize.translate('None')}</MenuItem>
+                                <MenuItem value='none'>
+                                    {globalize.translate('None')}
+                                </MenuItem>
                                 <MenuItem value='amf'>AMD AMF</MenuItem>
                                 <MenuItem value='nvenc'>Nvidia NVENC</MenuItem>
-                                <MenuItem value='qsv'>Intel Quicksync (QSV)</MenuItem>
-                                <MenuItem value='vaapi'>Video Acceleration API (VAAPI)</MenuItem>
-                                <MenuItem value='rkmpp'>Rockchip MPP (RKMPP)</MenuItem>
-                                <MenuItem value='videotoolbox'>Apple VideoToolBox</MenuItem>
-                                <MenuItem value='v4l2m2m'>Video4Linux2 (V4L2)</MenuItem>
+                                <MenuItem value='qsv'>
+                                    Intel Quicksync (QSV)
+                                </MenuItem>
+                                <MenuItem value='vaapi'>
+                                    Video Acceleration API (VAAPI)
+                                </MenuItem>
+                                <MenuItem value='rkmpp'>
+                                    Rockchip MPP (RKMPP)
+                                </MenuItem>
+                                <MenuItem value='videotoolbox'>
+                                    Apple VideoToolBox
+                                </MenuItem>
+                                <MenuItem value='v4l2m2m'>
+                                    Video4Linux2 (V4L2)
+                                </MenuItem>
                             </TextField>
 
                             {hardwareAccelType === 'vaapi' && (
                                 <TextField
                                     name='VaapiDevice'
-                                    label={globalize.translate('LabelVaapiDevice')}
+                                    label={globalize.translate(
+                                        'LabelVaapiDevice'
+                                    )}
                                     value={config.VaapiDevice}
                                     onChange={onConfigChange}
-                                    helperText={globalize.translate('LabelVaapiDeviceHelp')}
+                                    helperText={globalize.translate(
+                                        'LabelVaapiDeviceHelp'
+                                    )}
                                 />
                             )}
 
                             {hardwareAccelType === 'qsv' && (
                                 <TextField
                                     name='QsvDevice'
-                                    label={globalize.translate('LabelQsvDevice')}
+                                    label={globalize.translate(
+                                        'LabelQsvDevice'
+                                    )}
                                     value={config.QsvDevice}
                                     onChange={onConfigChange}
-                                    helperText={globalize.translate('LabelQsvDeviceHelp')}
+                                    helperText={globalize.translate(
+                                        'LabelQsvDeviceHelp'
+                                    )}
                                 />
                             )}
 
                             {hardwareAccelType !== 'none' && (
                                 <>
-                                    <Typography variant='h3'>{globalize.translate('LabelEnableHardwareDecodingFor')}</Typography>
+                                    <Typography variant='h3'>
+                                        {globalize.translate(
+                                            'LabelEnableHardwareDecodingFor'
+                                        )}
+                                    </Typography>
                                     <FormGroup>
-                                        {availableCodecs.map(codec => (
+                                        {availableCodecs.map((codec) => (
                                             <FormControlLabel
                                                 key={codec.name}
                                                 label={codec.name}
                                                 control={
                                                     <Checkbox
                                                         name={codec.codec}
-                                                        checked={(config.HardwareDecodingCodecs || []).includes(codec.codec)}
+                                                        checked={(
+                                                            config.HardwareDecodingCodecs ||
+                                                            []
+                                                        ).includes(codec.codec)}
                                                         onChange={onCodecChange}
                                                     />
                                                 }
                                             />
                                         ))}
 
-                                        {HEVC_VP9_HW_DECODING_TYPES.includes(hardwareAccelType) && (
+                                        {HEVC_VP9_HW_DECODING_TYPES.includes(
+                                            hardwareAccelType
+                                        ) && (
                                             <FormControlLabel
                                                 label={'HEVC 10bit'}
                                                 control={
                                                     <Checkbox
-                                                        name={'EnableDecodingColorDepth10Hevc'}
-                                                        checked={config.EnableDecodingColorDepth10Hevc}
-                                                        onChange={onCheckboxChange}
+                                                        name={
+                                                            'EnableDecodingColorDepth10Hevc'
+                                                        }
+                                                        checked={
+                                                            config.EnableDecodingColorDepth10Hevc
+                                                        }
+                                                        onChange={
+                                                            onCheckboxChange
+                                                        }
                                                     />
                                                 }
                                             />
                                         )}
 
-                                        {HEVC_VP9_HW_DECODING_TYPES.includes(hardwareAccelType) && (
+                                        {HEVC_VP9_HW_DECODING_TYPES.includes(
+                                            hardwareAccelType
+                                        ) && (
                                             <FormControlLabel
                                                 label={'VP9 10bit'}
                                                 control={
                                                     <Checkbox
-                                                        name={'EnableDecodingColorDepth10Vp9'}
-                                                        checked={config.EnableDecodingColorDepth10Vp9}
-                                                        onChange={onCheckboxChange}
+                                                        name={
+                                                            'EnableDecodingColorDepth10Vp9'
+                                                        }
+                                                        checked={
+                                                            config.EnableDecodingColorDepth10Vp9
+                                                        }
+                                                        onChange={
+                                                            onCheckboxChange
+                                                        }
                                                     />
                                                 }
                                             />
                                         )}
 
-                                        {HEVC_REXT_DECODING_TYPES.includes(hardwareAccelType) && (
+                                        {HEVC_REXT_DECODING_TYPES.includes(
+                                            hardwareAccelType
+                                        ) && (
                                             <FormControlLabel
                                                 label={'HEVC RExt 8/10bit'}
                                                 control={
                                                     <Checkbox
-                                                        name={'EnableDecodingColorDepth10HevcRext'}
-                                                        checked={config.EnableDecodingColorDepth10HevcRext}
-                                                        onChange={onCheckboxChange}
+                                                        name={
+                                                            'EnableDecodingColorDepth10HevcRext'
+                                                        }
+                                                        checked={
+                                                            config.EnableDecodingColorDepth10HevcRext
+                                                        }
+                                                        onChange={
+                                                            onCheckboxChange
+                                                        }
                                                     />
                                                 }
                                             />
                                         )}
 
-                                        {HEVC_REXT_DECODING_TYPES.includes(hardwareAccelType) && (
+                                        {HEVC_REXT_DECODING_TYPES.includes(
+                                            hardwareAccelType
+                                        ) && (
                                             <FormControlLabel
                                                 label={'HEVC RExt 12bit'}
                                                 control={
                                                     <Checkbox
-                                                        name={'EnableDecodingColorDepth12HevcRext'}
-                                                        checked={config.EnableDecodingColorDepth12HevcRext}
-                                                        onChange={onCheckboxChange}
+                                                        name={
+                                                            'EnableDecodingColorDepth12HevcRext'
+                                                        }
+                                                        checked={
+                                                            config.EnableDecodingColorDepth12HevcRext
+                                                        }
+                                                        onChange={
+                                                            onCheckboxChange
+                                                        }
                                                     />
                                                 }
                                             />
@@ -301,27 +415,39 @@ export const Component = () => {
                             {hardwareAccelType === 'nvenc' && (
                                 <FormControl>
                                     <FormControlLabel
-                                        label={globalize.translate('EnableEnhancedNvdecDecoder')}
+                                        label={globalize.translate(
+                                            'EnableEnhancedNvdecDecoder'
+                                        )}
                                         control={
                                             <Checkbox
                                                 name='EnableEnhancedNvdecDecoder'
-                                                checked={config.EnableEnhancedNvdecDecoder}
+                                                checked={
+                                                    config.EnableEnhancedNvdecDecoder
+                                                }
                                                 onChange={onCheckboxChange}
                                             />
                                         }
                                     />
-                                    <FormHelperText>{globalize.translate('EnableEnhancedNvdecDecoderHelp')}</FormHelperText>
+                                    <FormHelperText>
+                                        {globalize.translate(
+                                            'EnableEnhancedNvdecDecoderHelp'
+                                        )}
+                                    </FormHelperText>
                                 </FormControl>
                             )}
 
                             {hardwareAccelType === 'qsv' && (
                                 <FormControl>
                                     <FormControlLabel
-                                        label={globalize.translate('PreferSystemNativeHwDecoder')}
+                                        label={globalize.translate(
+                                            'PreferSystemNativeHwDecoder'
+                                        )}
                                         control={
                                             <Checkbox
                                                 name='PreferSystemNativeHwDecoder'
-                                                checked={config.PreferSystemNativeHwDecoder}
+                                                checked={
+                                                    config.PreferSystemNativeHwDecoder
+                                                }
                                                 onChange={onCheckboxChange}
                                             />
                                         }
@@ -331,43 +457,69 @@ export const Component = () => {
 
                             {hardwareAccelType !== 'none' && (
                                 <FormControl variant='standard'>
-                                    <Typography variant='h3'>{globalize.translate('LabelHardwareEncodingOptions')}</Typography>
+                                    <Typography variant='h3'>
+                                        {globalize.translate(
+                                            'LabelHardwareEncodingOptions'
+                                        )}
+                                    </Typography>
                                     <FormGroup>
                                         <FormControlLabel
-                                            label={globalize.translate('EnableHardwareEncoding')}
+                                            label={globalize.translate(
+                                                'EnableHardwareEncoding'
+                                            )}
                                             control={
                                                 <Checkbox
                                                     name='EnableHardwareEncoding'
-                                                    checked={config.EnableHardwareEncoding}
+                                                    checked={
+                                                        config.EnableHardwareEncoding
+                                                    }
                                                     onChange={onCheckboxChange}
                                                 />
                                             }
                                         />
-                                        {(hardwareAccelType === 'qsv' || hardwareAccelType === 'vaapi') && (
+                                        {(hardwareAccelType === 'qsv' ||
+                                            hardwareAccelType === 'vaapi') && (
                                             <>
                                                 <FormControlLabel
-                                                    label={globalize.translate('EnableIntelLowPowerH264HwEncoder')}
+                                                    label={globalize.translate(
+                                                        'EnableIntelLowPowerH264HwEncoder'
+                                                    )}
                                                     control={
                                                         <Checkbox
                                                             name='EnableIntelLowPowerH264HwEncoder'
-                                                            checked={config.EnableIntelLowPowerH264HwEncoder}
-                                                            onChange={onCheckboxChange}
+                                                            checked={
+                                                                config.EnableIntelLowPowerH264HwEncoder
+                                                            }
+                                                            onChange={
+                                                                onCheckboxChange
+                                                            }
                                                         />
                                                     }
                                                 />
                                                 <FormControlLabel
-                                                    label={globalize.translate('EnableIntelLowPowerHevcHwEncoder')}
+                                                    label={globalize.translate(
+                                                        'EnableIntelLowPowerHevcHwEncoder'
+                                                    )}
                                                     control={
                                                         <Checkbox
                                                             name='EnableIntelLowPowerHevcHwEncoder'
-                                                            checked={config.EnableIntelLowPowerHevcHwEncoder}
-                                                            onChange={onCheckboxChange}
+                                                            checked={
+                                                                config.EnableIntelLowPowerHevcHwEncoder
+                                                            }
+                                                            onChange={
+                                                                onCheckboxChange
+                                                            }
                                                         />
                                                     }
                                                 />
                                                 <FormHelperText>
-                                                    <Link href='https://jellyfin.org/docs/general/post-install/transcoding/hardware-acceleration/intel#configure-and-verify-lp-mode-on-linux' target='_blank'>
-                                                        {globalize.translate('IntelLowPowerEncHelp')}
+                                                    <Link
+                                                        href='https://jellyfin.org/docs/general/post-install/transcoding/hardware-acceleration/intel#configure-and-verify-lp-mode-on-linux'
+                                                        target='_blank'
+                                                    >
+                                                        {globalize.translate(
+                                                            'IntelLowPowerEncHelp'
+                                                        )}
                                                     </Link>
                                                 </FormHelperText>
                                             </>
@@ -377,25 +529,39 @@ export const Component = () => {
                             )}
 
                             <FormControl variant='standard'>
-                                <Typography variant='h3'>{globalize.translate('LabelEncodingFormatOptions')}</Typography>
-                                <FormHelperText>{globalize.translate('EncodingFormatHelp')}</FormHelperText>
+                                <Typography variant='h3'>
+                                    {globalize.translate(
+                                        'LabelEncodingFormatOptions'
+                                    )}
+                                </Typography>
+                                <FormHelperText>
+                                    {globalize.translate('EncodingFormatHelp')}
+                                </FormHelperText>
                                 <FormGroup>
                                     <FormControlLabel
-                                        label={globalize.translate('AllowHevcEncoding')}
+                                        label={globalize.translate(
+                                            'AllowHevcEncoding'
+                                        )}
                                         control={
                                             <Checkbox
                                                 name='AllowHevcEncoding'
-                                                checked={config.AllowHevcEncoding}
+                                                checked={
+                                                    config.AllowHevcEncoding
+                                                }
                                                 onChange={onCheckboxChange}
                                             />
                                         }
                                     />
                                     <FormControlLabel
-                                        label={globalize.translate('AllowAv1Encoding')}
+                                        label={globalize.translate(
+                                            'AllowAv1Encoding'
+                                        )}
                                         control={
                                             <Checkbox
                                                 name='AllowAv1Encoding'
-                                                checked={config.AllowAv1Encoding}
+                                                checked={
+                                                    config.AllowAv1Encoding
+                                                }
                                                 onChange={onCheckboxChange}
                                             />
                                         }
@@ -403,28 +569,41 @@ export const Component = () => {
                                 </FormGroup>
                             </FormControl>
 
-                            {(hardwareAccelType === 'qsv' || hardwareAccelType === 'vaapi') && (
+                            {(hardwareAccelType === 'qsv' ||
+                                hardwareAccelType === 'vaapi') && (
                                 <>
                                     <FormControl>
                                         <FormControlLabel
-                                            label={globalize.translate('EnableVppTonemapping')}
+                                            label={globalize.translate(
+                                                'EnableVppTonemapping'
+                                            )}
                                             control={
                                                 <Checkbox
                                                     name='EnableVppTonemapping'
-                                                    checked={config.EnableVppTonemapping}
+                                                    checked={
+                                                        config.EnableVppTonemapping
+                                                    }
                                                     onChange={onCheckboxChange}
                                                 />
                                             }
                                         />
-                                        <FormHelperText>{globalize.translate('AllowVppTonemappingHelp')}</FormHelperText>
+                                        <FormHelperText>
+                                            {globalize.translate(
+                                                'AllowVppTonemappingHelp'
+                                            )}
+                                        </FormHelperText>
                                     </FormControl>
 
                                     <TextField
                                         name='VppTonemappingBrightness'
                                         value={config.VppTonemappingBrightness}
                                         onChange={onConfigChange}
-                                        label={globalize.translate('LabelVppTonemappingBrightness')}
-                                        helperText={globalize.translate('LabelVppTonemappingBrightnessHelp')}
+                                        label={globalize.translate(
+                                            'LabelVppTonemappingBrightness'
+                                        )}
+                                        helperText={globalize.translate(
+                                            'LabelVppTonemappingBrightnessHelp'
+                                        )}
                                         type='number'
                                         slotProps={{
                                             htmlInput: {
@@ -439,8 +618,12 @@ export const Component = () => {
                                         name='VppTonemappingContrast'
                                         value={config.VppTonemappingContrast}
                                         onChange={onConfigChange}
-                                        label={globalize.translate('LabelVppTonemappingContrast')}
-                                        helperText={globalize.translate('LabelVppTonemappingContrastHelp')}
+                                        label={globalize.translate(
+                                            'LabelVppTonemappingContrast'
+                                        )}
+                                        helperText={globalize.translate(
+                                            'LabelVppTonemappingContrastHelp'
+                                        )}
                                         type='number'
                                         slotProps={{
                                             htmlInput: {
@@ -456,55 +639,91 @@ export const Component = () => {
                             {hardwareAccelType === 'videotoolbox' && (
                                 <FormControl>
                                     <FormControlLabel
-                                        label={globalize.translate('EnableVideoToolboxTonemapping')}
+                                        label={globalize.translate(
+                                            'EnableVideoToolboxTonemapping'
+                                        )}
                                         control={
                                             <Checkbox
                                                 name='EnableVideoToolboxTonemapping'
-                                                checked={config.EnableVideoToolboxTonemapping}
+                                                checked={
+                                                    config.EnableVideoToolboxTonemapping
+                                                }
                                                 onChange={onCheckboxChange}
                                             />
                                         }
                                     />
-                                    <FormHelperText>{globalize.translate('AllowVideoToolboxTonemappingHelp')}</FormHelperText>
+                                    <FormHelperText>
+                                        {globalize.translate(
+                                            'AllowVideoToolboxTonemappingHelp'
+                                        )}
+                                    </FormHelperText>
                                 </FormControl>
                             )}
 
-                            {(hardwareAccelType === 'none' || isHwaSelected) && (
+                            {(hardwareAccelType === 'none' ||
+                                isHwaSelected) && (
                                 <>
                                     <FormControl>
                                         <FormControlLabel
-                                            label={globalize.translate('EnableTonemapping')}
+                                            label={globalize.translate(
+                                                'EnableTonemapping'
+                                            )}
                                             control={
                                                 <Checkbox
                                                     name='EnableTonemapping'
-                                                    checked={config.EnableTonemapping}
+                                                    checked={
+                                                        config.EnableTonemapping
+                                                    }
                                                     onChange={onCheckboxChange}
                                                 />
                                             }
                                         />
-                                        <FormHelperText>{globalize.translate(isHwaSelected ? 'AllowTonemappingHelp' : 'AllowTonemappingSoftwareHelp')}</FormHelperText>
+                                        <FormHelperText>
+                                            {globalize.translate(
+                                                isHwaSelected
+                                                    ? 'AllowTonemappingHelp'
+                                                    : 'AllowTonemappingSoftwareHelp'
+                                            )}
+                                        </FormHelperText>
                                     </FormControl>
 
                                     <TextField
                                         name='TonemappingAlgorithm'
                                         select
-                                        label={globalize.translate('LabelTonemappingAlgorithm')}
+                                        label={globalize.translate(
+                                            'LabelTonemappingAlgorithm'
+                                        )}
                                         value={config.TonemappingAlgorithm}
                                         onChange={onConfigChange}
-                                        helperText={(
-                                            <Link href='https://ffmpeg.org/ffmpeg-all.html#tonemap_005fopencl' target='_blank'>
-                                                {globalize.translate('TonemappingAlgorithmHelp')}
+                                        helperText={
+                                            <Link
+                                                href='https://ffmpeg.org/ffmpeg-all.html#tonemap_005fopencl'
+                                                target='_blank'
+                                            >
+                                                {globalize.translate(
+                                                    'TonemappingAlgorithmHelp'
+                                                )}
                                             </Link>
-                                        )}
+                                        }
                                     >
-                                        <MenuItem value='none'>{globalize.translate('None')}</MenuItem>
+                                        <MenuItem value='none'>
+                                            {globalize.translate('None')}
+                                        </MenuItem>
                                         <MenuItem value='clip'>Clip</MenuItem>
-                                        <MenuItem value='linear'>Linear</MenuItem>
+                                        <MenuItem value='linear'>
+                                            Linear
+                                        </MenuItem>
                                         <MenuItem value='gamma'>Gamma</MenuItem>
-                                        <MenuItem value='reinhard'>Reinhard</MenuItem>
+                                        <MenuItem value='reinhard'>
+                                            Reinhard
+                                        </MenuItem>
                                         <MenuItem value='hable'>Hable</MenuItem>
-                                        <MenuItem value='mobius'>Mobius</MenuItem>
-                                        <MenuItem value='bt2390'>BT.2390</MenuItem>
+                                        <MenuItem value='mobius'>
+                                            Mobius
+                                        </MenuItem>
+                                        <MenuItem value='bt2390'>
+                                            BT.2390
+                                        </MenuItem>
                                     </TextField>
 
                                     {isHwaSelected && (
@@ -513,10 +732,16 @@ export const Component = () => {
                                             select
                                             value={config.TonemappingMode}
                                             onChange={onConfigChange}
-                                            label={globalize.translate('LabelTonemappingMode')}
-                                            helperText={globalize.translate('TonemappingModeHelp')}
+                                            label={globalize.translate(
+                                                'LabelTonemappingMode'
+                                            )}
+                                            helperText={globalize.translate(
+                                                'TonemappingModeHelp'
+                                            )}
                                         >
-                                            <MenuItem value='auto'>{globalize.translate('Auto')}</MenuItem>
+                                            <MenuItem value='auto'>
+                                                {globalize.translate('Auto')}
+                                            </MenuItem>
                                             <MenuItem value='max'>MAX</MenuItem>
                                             <MenuItem value='rgb'>RGB</MenuItem>
                                             <MenuItem value='lum'>LUM</MenuItem>
@@ -529,10 +754,16 @@ export const Component = () => {
                                         select
                                         value={config.TonemappingRange}
                                         onChange={onConfigChange}
-                                        label={globalize.translate('LabelTonemappingRange')}
-                                        helperText={globalize.translate('TonemappingRangeHelp')}
+                                        label={globalize.translate(
+                                            'LabelTonemappingRange'
+                                        )}
+                                        helperText={globalize.translate(
+                                            'TonemappingRangeHelp'
+                                        )}
                                     >
-                                        <MenuItem value='auto'>{globalize.translate('Auto')}</MenuItem>
+                                        <MenuItem value='auto'>
+                                            {globalize.translate('Auto')}
+                                        </MenuItem>
                                         <MenuItem value='tv'>TV</MenuItem>
                                         <MenuItem value='pc'>PC</MenuItem>
                                     </TextField>
@@ -541,8 +772,12 @@ export const Component = () => {
                                         name='TonemappingDesat'
                                         value={config.TonemappingDesat}
                                         onChange={onConfigChange}
-                                        label={globalize.translate('LabelTonemappingDesat')}
-                                        helperText={globalize.translate('LabelTonemappingDesatHelp')}
+                                        label={globalize.translate(
+                                            'LabelTonemappingDesat'
+                                        )}
+                                        helperText={globalize.translate(
+                                            'LabelTonemappingDesatHelp'
+                                        )}
                                         type='number'
                                         slotProps={{
                                             htmlInput: {
@@ -556,8 +791,12 @@ export const Component = () => {
                                         name='TonemappingPeak'
                                         value={config.TonemappingPeak}
                                         onChange={onConfigChange}
-                                        label={globalize.translate('LabelTonemappingPeak')}
-                                        helperText={globalize.translate('LabelTonemappingPeakHelp')}
+                                        label={globalize.translate(
+                                            'LabelTonemappingPeak'
+                                        )}
+                                        helperText={globalize.translate(
+                                            'LabelTonemappingPeakHelp'
+                                        )}
                                         type='number'
                                         slotProps={{
                                             htmlInput: {
@@ -571,8 +810,12 @@ export const Component = () => {
                                         name='TonemappingParam'
                                         value={config.TonemappingParam || ''}
                                         onChange={onConfigChange}
-                                        label={globalize.translate('LabelTonemappingParam')}
-                                        helperText={globalize.translate('LabelTonemappingParamHelp')}
+                                        label={globalize.translate(
+                                            'LabelTonemappingParam'
+                                        )}
+                                        helperText={globalize.translate(
+                                            'LabelTonemappingParamHelp'
+                                        )}
                                         type='number'
                                         slotProps={{
                                             htmlInput: {
@@ -588,11 +831,17 @@ export const Component = () => {
                                 name='EncodingThreadCount'
                                 value={config.EncodingThreadCount}
                                 onChange={onConfigChange}
-                                label={globalize.translate('LabelTranscodingThreadCount')}
-                                helperText={globalize.translate('LabelTranscodingThreadCountHelp')}
+                                label={globalize.translate(
+                                    'LabelTranscodingThreadCount'
+                                )}
+                                helperText={globalize.translate(
+                                    'LabelTranscodingThreadCountHelp'
+                                )}
                                 select
                             >
-                                <MenuItem value='-1'>{globalize.translate('Auto')}</MenuItem>
+                                <MenuItem value='-1'>
+                                    {globalize.translate('Auto')}
+                                </MenuItem>
                                 <MenuItem value='1'>1</MenuItem>
                                 <MenuItem value='2'>2</MenuItem>
                                 <MenuItem value='3'>3</MenuItem>
@@ -609,7 +858,9 @@ export const Component = () => {
                                 <MenuItem value='14'>14</MenuItem>
                                 <MenuItem value='15'>15</MenuItem>
                                 <MenuItem value='16'>16</MenuItem>
-                                <MenuItem value='0'>{globalize.translate('OptionMax')}</MenuItem>
+                                <MenuItem value='0'>
+                                    {globalize.translate('OptionMax')}
+                                </MenuItem>
                             </TextField>
 
                             <TextField
@@ -617,7 +868,9 @@ export const Component = () => {
                                 value={config.EncoderAppPathDisplay}
                                 onChange={onConfigChange}
                                 label={globalize.translate('LabelffmpegPath')}
-                                helperText={globalize.translate('LabelffmpegPathHelp')}
+                                helperText={globalize.translate(
+                                    'LabelffmpegPathHelp'
+                                )}
                                 disabled
                             />
 
@@ -625,13 +878,22 @@ export const Component = () => {
                                 name='TranscodingTempPath'
                                 value={config.TranscodingTempPath}
                                 onChange={onConfigChange}
-                                label={globalize.translate('LabelTranscodePath')}
-                                helperText={globalize.translate('LabelTranscodingTempPathHelp')}
+                                label={globalize.translate(
+                                    'LabelTranscodePath'
+                                )}
+                                helperText={globalize.translate(
+                                    'LabelTranscodingTempPathHelp'
+                                )}
                                 slotProps={{
                                     input: {
                                         endAdornment: (
                                             <InputAdornment position='end'>
-                                                <IconButton edge='end' onClick={showTranscodingPathPicker}>
+                                                <IconButton
+                                                    edge='end'
+                                                    onClick={
+                                                        showTranscodingPathPicker
+                                                    }
+                                                >
                                                     <SearchIcon />
                                                 </IconButton>
                                             </InputAdornment>
@@ -644,17 +906,29 @@ export const Component = () => {
                                 name='FallbackFontPath'
                                 value={config.FallbackFontPath}
                                 onChange={onConfigChange}
-                                label={globalize.translate('LabelFallbackFontPath')}
+                                label={globalize.translate(
+                                    'LabelFallbackFontPath'
+                                )}
                                 helperText={
-                                    <Link href='https://jellyfin.org/docs/general/administration/configuration#fonts' target='_blank'>
-                                        {globalize.translate('LabelFallbackFontPathHelp')}
+                                    <Link
+                                        href='https://jellyfin.org/docs/general/administration/configuration#fonts'
+                                        target='_blank'
+                                    >
+                                        {globalize.translate(
+                                            'LabelFallbackFontPathHelp'
+                                        )}
                                     </Link>
                                 }
                                 slotProps={{
                                     input: {
                                         endAdornment: (
                                             <InputAdornment position='end'>
-                                                <IconButton edge='end' onClick={showFallbackFontPathPicker}>
+                                                <IconButton
+                                                    edge='end'
+                                                    onClick={
+                                                        showFallbackFontPathPicker
+                                                    }
+                                                >
                                                     <SearchIcon />
                                                 </IconButton>
                                             </InputAdornment>
@@ -665,7 +939,9 @@ export const Component = () => {
 
                             <FormControl>
                                 <FormControlLabel
-                                    label={globalize.translate('EnableFallbackFont')}
+                                    label={globalize.translate(
+                                        'EnableFallbackFont'
+                                    )}
                                     control={
                                         <Checkbox
                                             name='EnableFallbackFont'
@@ -674,12 +950,18 @@ export const Component = () => {
                                         />
                                     }
                                 />
-                                <FormHelperText>{globalize.translate('EnableFallbackFontHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'EnableFallbackFontHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
                                 <FormControlLabel
-                                    label={globalize.translate('LabelEnableAudioVbr')}
+                                    label={globalize.translate(
+                                        'LabelEnableAudioVbr'
+                                    )}
                                     control={
                                         <Checkbox
                                             name='EnableAudioVbr'
@@ -688,15 +970,23 @@ export const Component = () => {
                                         />
                                     }
                                 />
-                                <FormHelperText>{globalize.translate('LabelEnableAudioVbrHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'LabelEnableAudioVbrHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
                             <TextField
                                 name='DownMixAudioBoost'
                                 value={config.DownMixAudioBoost}
                                 onChange={onConfigChange}
-                                label={globalize.translate('LabelDownMixAudioScale')}
-                                helperText={globalize.translate('LabelDownMixAudioScaleHelp')}
+                                label={globalize.translate(
+                                    'LabelDownMixAudioScale'
+                                )}
+                                helperText={globalize.translate(
+                                    'LabelDownMixAudioScaleHelp'
+                                )}
                                 type='number'
                                 slotProps={{
                                     htmlInput: {
@@ -712,13 +1002,21 @@ export const Component = () => {
                                 name='DownMixStereoAlgorithm'
                                 value={config.DownMixStereoAlgorithm}
                                 onChange={onConfigChange}
-                                label={globalize.translate('LabelStereoDownmixAlgorithm')}
-                                helperText={globalize.translate('StereoDownmixAlgorithmHelp')}
+                                label={globalize.translate(
+                                    'LabelStereoDownmixAlgorithm'
+                                )}
+                                helperText={globalize.translate(
+                                    'StereoDownmixAlgorithmHelp'
+                                )}
                                 select
                             >
-                                <MenuItem value='None'>{globalize.translate('None')}</MenuItem>
+                                <MenuItem value='None'>
+                                    {globalize.translate('None')}
+                                </MenuItem>
                                 <MenuItem value='Dave750'>Dave750</MenuItem>
-                                <MenuItem value='NightmodeDialogue'>NightmodeDialogue</MenuItem>
+                                <MenuItem value='NightmodeDialogue'>
+                                    NightmodeDialogue
+                                </MenuItem>
                                 <MenuItem value='Rfc7845'>RFC7845</MenuItem>
                                 <MenuItem value='Ac4'>AC-4</MenuItem>
                             </TextField>
@@ -727,19 +1025,29 @@ export const Component = () => {
                                 name='MaxMuxingQueueSize'
                                 value={config.MaxMuxingQueueSize}
                                 onChange={onConfigChange}
-                                label={globalize.translate('LabelMaxMuxingQueueSize')}
-                                helperText={globalize.translate('LabelMaxMuxingQueueSizeHelp')}
+                                label={globalize.translate(
+                                    'LabelMaxMuxingQueueSize'
+                                )}
+                                helperText={globalize.translate(
+                                    'LabelMaxMuxingQueueSizeHelp'
+                                )}
                             />
 
                             <TextField
                                 name='EncoderPreset'
                                 value={config.EncoderPreset}
                                 onChange={onConfigChange}
-                                label={globalize.translate('LabelEncoderPreset')}
-                                helperText={globalize.translate('EncoderPresetHelp')}
+                                label={globalize.translate(
+                                    'LabelEncoderPreset'
+                                )}
+                                helperText={globalize.translate(
+                                    'EncoderPresetHelp'
+                                )}
                                 select
                             >
-                                <MenuItem value='auto'>{globalize.translate('Auto')}</MenuItem>
+                                <MenuItem value='auto'>
+                                    {globalize.translate('Auto')}
+                                </MenuItem>
                                 <MenuItem value='veryslow'>veryslow</MenuItem>
                                 <MenuItem value='slower'>slower</MenuItem>
                                 <MenuItem value='slow'>slow</MenuItem>
@@ -786,45 +1094,71 @@ export const Component = () => {
                                 name='DeinterlaceMethod'
                                 value={config.DeinterlaceMethod}
                                 onChange={onConfigChange}
-                                label={globalize.translate('LabelDeinterlaceMethod')}
-                                helperText={globalize.translate('DeinterlaceMethodHelp')}
+                                label={globalize.translate(
+                                    'LabelDeinterlaceMethod'
+                                )}
+                                helperText={globalize.translate(
+                                    'DeinterlaceMethodHelp'
+                                )}
                                 select
                             >
-                                <MenuItem value='yadif'>{globalize.translate('Yadif')}</MenuItem>
-                                <MenuItem value='bwdif'>{globalize.translate('Bwdif')}</MenuItem>
+                                <MenuItem value='yadif'>
+                                    {globalize.translate('Yadif')}
+                                </MenuItem>
+                                <MenuItem value='bwdif'>
+                                    {globalize.translate('Bwdif')}
+                                </MenuItem>
                             </TextField>
 
                             <FormControl>
                                 <FormControlLabel
-                                    label={globalize.translate('UseDoubleRateDeinterlacing')}
+                                    label={globalize.translate(
+                                        'UseDoubleRateDeinterlacing'
+                                    )}
                                     control={
                                         <Checkbox
                                             name='DeinterlaceDoubleRate'
-                                            checked={config.DeinterlaceDoubleRate}
+                                            checked={
+                                                config.DeinterlaceDoubleRate
+                                            }
                                             onChange={onCheckboxChange}
                                         />
                                     }
                                 />
-                                <FormHelperText>{globalize.translate('UseDoubleRateDeinterlacingHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'UseDoubleRateDeinterlacingHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
                                 <FormControlLabel
-                                    label={globalize.translate('AllowOnTheFlySubtitleExtraction')}
+                                    label={globalize.translate(
+                                        'AllowOnTheFlySubtitleExtraction'
+                                    )}
                                     control={
                                         <Checkbox
                                             name='EnableSubtitleExtraction'
-                                            checked={config.EnableSubtitleExtraction}
+                                            checked={
+                                                config.EnableSubtitleExtraction
+                                            }
                                             onChange={onCheckboxChange}
                                         />
                                     }
                                 />
-                                <FormHelperText>{globalize.translate('AllowOnTheFlySubtitleExtractionHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'AllowOnTheFlySubtitleExtractionHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
                                 <FormControlLabel
-                                    label={globalize.translate('AllowFfmpegThrottling')}
+                                    label={globalize.translate(
+                                        'AllowFfmpegThrottling'
+                                    )}
                                     control={
                                         <Checkbox
                                             name='EnableThrottling'
@@ -833,29 +1167,45 @@ export const Component = () => {
                                         />
                                     }
                                 />
-                                <FormHelperText>{globalize.translate('AllowFfmpegThrottlingHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'AllowFfmpegThrottlingHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
                                 <FormControlLabel
-                                    label={globalize.translate('AllowSegmentDeletion')}
+                                    label={globalize.translate(
+                                        'AllowSegmentDeletion'
+                                    )}
                                     control={
                                         <Checkbox
                                             name='EnableSegmentDeletion'
-                                            checked={config.EnableSegmentDeletion}
+                                            checked={
+                                                config.EnableSegmentDeletion
+                                            }
                                             onChange={onCheckboxChange}
                                         />
                                     }
                                 />
-                                <FormHelperText>{globalize.translate('AllowSegmentDeletionHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'AllowSegmentDeletionHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
                             <TextField
                                 name='ThrottleDelaySeconds'
                                 value={config.ThrottleDelaySeconds}
                                 onChange={onConfigChange}
-                                label={globalize.translate('LabelThrottleDelaySeconds')}
-                                helperText={globalize.translate('LabelThrottleDelaySecondsHelp')}
+                                label={globalize.translate(
+                                    'LabelThrottleDelaySeconds'
+                                )}
+                                helperText={globalize.translate(
+                                    'LabelThrottleDelaySecondsHelp'
+                                )}
                                 type='number'
                                 slotProps={{
                                     htmlInput: {
@@ -870,8 +1220,12 @@ export const Component = () => {
                                 name='SegmentKeepSeconds'
                                 value={config.SegmentKeepSeconds}
                                 onChange={onConfigChange}
-                                label={globalize.translate('LabelSegmentKeepSeconds')}
-                                helperText={globalize.translate('LabelSegmentKeepSecondsHelp')}
+                                label={globalize.translate(
+                                    'LabelSegmentKeepSeconds'
+                                )}
+                                helperText={globalize.translate(
+                                    'LabelSegmentKeepSecondsHelp'
+                                )}
                                 type='number'
                                 slotProps={{
                                     htmlInput: {

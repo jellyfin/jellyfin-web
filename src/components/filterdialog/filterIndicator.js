@@ -2,26 +2,26 @@ import './filterIndicator.scss';
 
 function getFilterStatus(query) {
     return Boolean(
-        query.Filters
-            || query.IsFavorite
-            || query.VideoTypes
-            || query.SeriesStatus
-            || query.Is4K
-            || (query.IsHD !== undefined && query.IsHD !== null)
-            || query.IsSD
-            || query.Is3D
-            || query.HasSubtitles
-            || query.HasTrailer
-            || query.HasSpecialFeature
-            || query.HasThemeSong
-            || query.HasThemeVideo
-            || query.IsMissing
-            || query.ParentIndexNumber
-            || query.Genres
-            || query.Tags
-            || query.Years
-            || query.OfficialRatings
-            || query.IsUnaired
+        query.Filters ||
+            query.IsFavorite ||
+            query.VideoTypes ||
+            query.SeriesStatus ||
+            query.Is4K ||
+            (query.IsHD !== undefined && query.IsHD !== null) ||
+            query.IsSD ||
+            query.Is3D ||
+            query.HasSubtitles ||
+            query.HasTrailer ||
+            query.HasSpecialFeature ||
+            query.HasThemeSong ||
+            query.HasThemeVideo ||
+            query.IsMissing ||
+            query.ParentIndexNumber ||
+            query.Genres ||
+            query.Tags ||
+            query.Years ||
+            query.OfficialRatings ||
+            query.IsUnaired
     );
 }
 

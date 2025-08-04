@@ -26,90 +26,134 @@ const enableFocusTransform = !browser.slow && !browser.edge;
 
 function authenticateUserByName(page, apiClient, url, username, password) {
     loading.show();
-    apiClient.authenticateUserByName(username, password).then(function (result) {
-        const user = result.User;
-        loading.hide();
+    apiClient.authenticateUserByName(username, password).then(
+        function (result) {
+            const user = result.User;
+            loading.hide();
 
-        onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
-    }, function (response) {
-        page.querySelector('#txtManualPassword').value = '';
-        loading.hide();
+            onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
+        },
+        function (response) {
+            page.querySelector('#txtManualPassword').value = '';
+            loading.hide();
 
-        const UnauthorizedOrForbidden = [401, 403];
-        if (UnauthorizedOrForbidden.includes(response.status)) {
-            const messageKey = response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
-            toast(globalize.translate(messageKey));
-        } else {
-            Dashboard.alert({
-                message: globalize.translate('MessageUnableToConnectToServer'),
-                title: globalize.translate('HeaderConnectionFailure')
-            });
+            const UnauthorizedOrForbidden = [401, 403];
+            if (UnauthorizedOrForbidden.includes(response.status)) {
+                const messageKey =
+                    response.status === 401
+                        ? 'MessageInvalidUser'
+                        : 'MessageUnauthorizedUser';
+                toast(globalize.translate(messageKey));
+            } else {
+                Dashboard.alert({
+                    message: globalize.translate(
+                        'MessageUnableToConnectToServer'
+                    ),
+                    title: globalize.translate('HeaderConnectionFailure')
+                });
+            }
         }
-    });
+    );
 }
 
 function authenticateQuickConnect(apiClient, targetUrl) {
     const url = apiClient.getUrl('/QuickConnect/Initiate');
-    apiClient.ajax({ type: 'POST', url }, true).then(res => res.json()).then(function (json) {
-        if (!json.Secret || !json.Code) {
-            console.error('Malformed quick connect response', json);
-            return false;
-        }
+    apiClient
+        .ajax({ type: 'POST', url }, true)
+        .then((res) => res.json())
+        .then(
+            function (json) {
+                if (!json.Secret || !json.Code) {
+                    console.error('Malformed quick connect response', json);
+                    return false;
+                }
 
-        baseAlert({
-            dialogOptions: {
-                id: 'quickConnectAlert'
+                baseAlert({
+                    dialogOptions: {
+                        id: 'quickConnectAlert'
+                    },
+                    title: globalize.translate('QuickConnect'),
+                    text: globalize.translate(
+                        'QuickConnectAuthorizeCode',
+                        json.Code
+                    )
+                });
+
+                const connectUrl = apiClient.getUrl(
+                    '/QuickConnect/Connect?Secret=' + json.Secret
+                );
+
+                const interval = setInterval(
+                    function () {
+                        apiClient.getJSON(connectUrl).then(
+                            async function (data) {
+                                if (!data.Authenticated) {
+                                    return;
+                                }
+
+                                clearInterval(interval);
+
+                                // Close the QuickConnect dialog
+                                const dlg =
+                                    document.getElementById(
+                                        'quickConnectAlert'
+                                    );
+                                if (dlg) {
+                                    dialogHelper.close(dlg);
+                                }
+
+                                const result = await apiClient.quickConnect(
+                                    data.Secret
+                                );
+                                onLoginSuccessful(
+                                    result.User.Id,
+                                    result.AccessToken,
+                                    apiClient,
+                                    targetUrl
+                                );
+                            },
+                            function (e) {
+                                clearInterval(interval);
+
+                                // Close the QuickConnect dialog
+                                const dlg =
+                                    document.getElementById(
+                                        'quickConnectAlert'
+                                    );
+                                if (dlg) {
+                                    dialogHelper.close(dlg);
+                                }
+
+                                Dashboard.alert({
+                                    message: globalize.translate(
+                                        'QuickConnectDeactivated'
+                                    ),
+                                    title: globalize.translate('HeaderError')
+                                });
+
+                                console.error(
+                                    'Unable to login with quick connect',
+                                    e
+                                );
+                            }
+                        );
+                    },
+                    5000,
+                    connectUrl
+                );
+
+                return true;
             },
-            title: globalize.translate('QuickConnect'),
-            text: globalize.translate('QuickConnectAuthorizeCode', json.Code)
-        });
-
-        const connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
-
-        const interval = setInterval(function() {
-            apiClient.getJSON(connectUrl).then(async function(data) {
-                if (!data.Authenticated) {
-                    return;
-                }
-
-                clearInterval(interval);
-
-                // Close the QuickConnect dialog
-                const dlg = document.getElementById('quickConnectAlert');
-                if (dlg) {
-                    dialogHelper.close(dlg);
-                }
-
-                const result = await apiClient.quickConnect(data.Secret);
-                onLoginSuccessful(result.User.Id, result.AccessToken, apiClient, targetUrl);
-            }, function (e) {
-                clearInterval(interval);
-
-                // Close the QuickConnect dialog
-                const dlg = document.getElementById('quickConnectAlert');
-                if (dlg) {
-                    dialogHelper.close(dlg);
-                }
-
+            function (e) {
                 Dashboard.alert({
-                    message: globalize.translate('QuickConnectDeactivated'),
+                    message: globalize.translate('QuickConnectNotActive'),
                     title: globalize.translate('HeaderError')
                 });
 
-                console.error('Unable to login with quick connect', e);
-            });
-        }, 5000, connectUrl);
-
-        return true;
-    }, function(e) {
-        Dashboard.alert({
-            message: globalize.translate('QuickConnectNotActive'),
-            title: globalize.translate('HeaderError')
-        });
-
-        console.error('Quick connect error: ', e);
-        return false;
-    });
+                console.error('Quick connect error: ', e);
+                return false;
+            }
+        );
 }
 
 function onLoginSuccessful(id, accessToken, apiClient, url) {
@@ -118,7 +162,8 @@ function onLoginSuccessful(id, accessToken, apiClient, url) {
 }
 
 function showManualForm(context, showCancel, focusPassword) {
-    context.querySelector('.chkRememberLogin').checked = appSettings.enableAutoLogin();
+    context.querySelector('.chkRememberLogin').checked =
+        appSettings.enableAutoLogin();
     context.querySelector('.manualLoginForm').classList.remove('hide');
     context.querySelector('.visualLoginForm').classList.add('hide');
     context.querySelector('.btnManual').classList.add('hide');
@@ -166,17 +211,24 @@ function loadUserList(context, apiClient, users) {
                 type: 'Primary'
             });
 
-            html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');\"></div>";
+            html +=
+                '<div class="cardImageContainer coveredImage" style="background-image:url(\'' +
+                imgUrl +
+                '\');"></div>';
         } else {
             html += `<div class="cardImage flex align-items-center justify-content-center ${getDefaultBackgroundClass()}">`;
-            html += '<span class="material-icons cardImageIcon person" aria-hidden="true"></span>';
+            html +=
+                '<span class="material-icons cardImageIcon person" aria-hidden="true"></span>';
             html += '</div>';
         }
 
         html += '</div>';
         html += '</div>';
         html += '<div class="cardFooter visualCardBox-cardFooter">';
-        html += '<div class="cardText singleCardText cardTextCentered">' + user.Name + '</div>';
+        html +=
+            '<div class="cardText singleCardText cardTextCentered">' +
+            user.Name +
+            '</div>';
         html += '</div>';
         html += '</div>';
         html += '</button>';
@@ -201,7 +253,11 @@ export default function (view, params) {
             try {
                 return decodeURIComponent(params.url);
             } catch (err) {
-                console.warn('[LoginPage] unable to decode url param', params.url, err);
+                console.warn(
+                    '[LoginPage] unable to decode url param',
+                    params.url,
+                    err
+                );
             }
         }
 
@@ -213,9 +269,11 @@ export default function (view, params) {
         view.querySelector('.manualLoginForm').classList.add('hide');
         view.querySelector('.btnManual').classList.remove('hide');
 
-        import('../../../components/autoFocuser').then(({ default: autoFocuser }) => {
-            autoFocuser.autoFocus(view);
-        });
+        import('../../../components/autoFocuser').then(
+            ({ default: autoFocuser }) => {
+                autoFocuser.autoFocus(view);
+            }
+        );
     }
 
     view.querySelector('#divUsers').addEventListener('click', function (e) {
@@ -232,7 +290,13 @@ export default function (view, params) {
                 context.querySelector('#txtManualName').value = '';
                 showManualForm(context, true);
             } else if (haspw == 'false') {
-                authenticateUserByName(context, getApiClient(), getTargetUrl(), name, '');
+                authenticateUserByName(
+                    context,
+                    getApiClient(),
+                    getTargetUrl(),
+                    name,
+                    ''
+                );
             } else {
                 context.querySelector('#txtManualName').value = name;
                 context.querySelector('#txtManualPassword').value = '';
@@ -240,15 +304,29 @@ export default function (view, params) {
             }
         }
     });
-    view.querySelector('.manualLoginForm').addEventListener('submit', function (e) {
-        appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
-        authenticateUserByName(view, getApiClient(), getTargetUrl(), view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
-        e.preventDefault();
-        return false;
-    });
-    view.querySelector('.btnForgotPassword').addEventListener('click', function () {
-        Dashboard.navigate('forgotpassword');
-    });
+    view.querySelector('.manualLoginForm').addEventListener(
+        'submit',
+        function (e) {
+            appSettings.enableAutoLogin(
+                view.querySelector('.chkRememberLogin').checked
+            );
+            authenticateUserByName(
+                view,
+                getApiClient(),
+                getTargetUrl(),
+                view.querySelector('#txtManualName').value,
+                view.querySelector('#txtManualPassword').value
+            );
+            e.preventDefault();
+            return false;
+        }
+    );
+    view.querySelector('.btnForgotPassword').addEventListener(
+        'click',
+        function () {
+            Dashboard.navigate('forgotpassword');
+        }
+    );
     view.querySelector('.btnCancel').addEventListener('click', showVisualForm);
     view.querySelector('.btnQuick').addEventListener('click', function () {
         authenticateQuickConnect(getApiClient(), getTargetUrl());
@@ -258,9 +336,12 @@ export default function (view, params) {
         view.querySelector('#txtManualName').value = '';
         showManualForm(view, true);
     });
-    view.querySelector('.btnSelectServer').addEventListener('click', function () {
-        Dashboard.selectServer();
-    });
+    view.querySelector('.btnSelectServer').addEventListener(
+        'click',
+        function () {
+            Dashboard.selectServer();
+        }
+    );
 
     view.addEventListener('viewshow', function () {
         loading.show();
@@ -272,8 +353,9 @@ export default function (view, params) {
 
         const apiClient = getApiClient();
 
-        apiClient.getQuickConnect('Enabled')
-            .then(enabled => {
+        apiClient
+            .getQuickConnect('Enabled')
+            .then((enabled) => {
                 if (enabled === true) {
                     view.querySelector('.btnQuick').classList.remove('hide');
                 }
@@ -282,38 +364,47 @@ export default function (view, params) {
                 console.debug('Failed to get QuickConnect status');
             });
 
-        apiClient.getPublicUsers().then(function (users) {
-            if (users.length) {
-                showVisualForm();
-                loadUserList(view, apiClient, users);
-            } else {
-                view.querySelector('#txtManualName').value = '';
-                showManualForm(view, false, false);
-            }
-        }).catch().then(function () {
-            loading.hide();
-        });
-        apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
-            const loginDisclaimer = view.querySelector('.loginDisclaimer');
-
-            // eslint-disable-next-line sonarjs/disabled-auto-escaping
-            loginDisclaimer.innerHTML = DOMPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
-
-            for (const elem of loginDisclaimer.querySelectorAll('a')) {
-                elem.rel = 'noopener noreferrer';
-                elem.target = '_blank';
-                elem.classList.add('button-link');
-                elem.setAttribute('is', 'emby-linkbutton');
-
-                if (layoutManager.tv) {
-                    // Disable links navigation on TV
-                    elem.tabIndex = -1;
+        apiClient
+            .getPublicUsers()
+            .then(function (users) {
+                if (users.length) {
+                    showVisualForm();
+                    loadUserList(view, apiClient, users);
+                } else {
+                    view.querySelector('#txtManualName').value = '';
+                    showManualForm(view, false, false);
                 }
-            }
-        });
+            })
+            .catch()
+            .then(function () {
+                loading.hide();
+            });
+        apiClient
+            .getJSON(apiClient.getUrl('Branding/Configuration'))
+            .then(function (options) {
+                const loginDisclaimer = view.querySelector('.loginDisclaimer');
+
+                loginDisclaimer.innerHTML = DOMPurify.sanitize(
+                    // eslint-disable-next-line sonarjs/disabled-auto-escaping
+                    markdownIt({ html: true }).render(
+                        options.LoginDisclaimer || ''
+                    )
+                );
+
+                for (const elem of loginDisclaimer.querySelectorAll('a')) {
+                    elem.rel = 'noopener noreferrer';
+                    elem.target = '_blank';
+                    elem.classList.add('button-link');
+                    elem.setAttribute('is', 'emby-linkbutton');
+
+                    if (layoutManager.tv) {
+                        // Disable links navigation on TV
+                        elem.tabIndex = -1;
+                    }
+                }
+            });
     });
     view.addEventListener('viewhide', function () {
         libraryMenu.setTransparentMenu(false);
     });
 }
-

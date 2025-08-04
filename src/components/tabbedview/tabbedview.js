@@ -31,11 +31,16 @@ class TabbedView {
 
         const self = this;
 
-        let currentTabIndex = parseInt(params.tab || this.getDefaultTabIndex(params.parentId), 10);
+        let currentTabIndex = parseInt(
+            params.tab || this.getDefaultTabIndex(params.parentId),
+            10
+        );
         this.initialTabIndex = currentTabIndex;
 
         function validateTabLoad(index) {
-            return self.validateTabLoad ? self.validateTabLoad(index) : Promise.resolve();
+            return self.validateTabLoad
+                ? self.validateTabLoad(index)
+                : Promise.resolve();
         }
 
         function loadTab(index, previousIndex) {
@@ -64,7 +69,10 @@ class TabbedView {
             const newIndex = parseInt(e.detail.selectedTabIndex, 10);
             const previousIndex = e.detail.previousIndex;
 
-            const previousTabController = previousIndex == null ? null : self.tabControllers[previousIndex];
+            const previousTabController =
+                previousIndex == null
+                    ? null
+                    : self.tabControllers[previousIndex];
             if (previousTabController?.onPause) {
                 previousTabController.onPause();
             }
@@ -75,7 +83,15 @@ class TabbedView {
         view.addEventListener('viewbeforehide', this.onPause.bind(this));
 
         view.addEventListener('viewbeforeshow', function () {
-            mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, null, onTabChange, false);
+            mainTabsManager.setTabs(
+                view,
+                currentTabIndex,
+                self.getTabs,
+                getTabContainers,
+                null,
+                onTabChange,
+                false
+            );
         });
 
         view.addEventListener('viewshow', function (e) {

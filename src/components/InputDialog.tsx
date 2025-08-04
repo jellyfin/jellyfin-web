@@ -14,32 +14,33 @@ interface InputDialogProps extends DialogProps {
     confirmButtonText?: string;
     onClose: () => void;
     onConfirm: (text: string) => void;
-};
+}
 
-const InputDialog = ({ open, title, label, onClose, confirmButtonText, onConfirm }: InputDialogProps) => {
-    const [ text, setText ] = useState('');
+const InputDialog = ({
+    open,
+    title,
+    label,
+    onClose,
+    confirmButtonText,
+    onConfirm
+}: InputDialogProps) => {
+    const [text, setText] = useState('');
 
-    const onTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        setText(e.target.value);
-    }, []);
+    const onTextChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            setText(e.target.value);
+        },
+        []
+    );
 
     const onConfirmClick = useCallback(() => {
         onConfirm(text);
         setText('');
-    }, [ text, onConfirm ]);
+    }, [text, onConfirm]);
 
     return (
-        <Dialog
-            open={open}
-            onClose={onClose}
-            maxWidth='xs'
-            fullWidth
-        >
-            {title && (
-                <DialogTitle>
-                    {title}
-                </DialogTitle>
-            )}
+        <Dialog open={open} onClose={onClose} maxWidth='xs' fullWidth>
+            {title && <DialogTitle>{title}</DialogTitle>}
             <DialogContent>
                 <Stack>
                     <TextField

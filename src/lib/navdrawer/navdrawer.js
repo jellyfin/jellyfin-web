@@ -44,7 +44,9 @@ class NavDrawer {
             maxMaskOpacity: 0.5
         };
         options.target.classList.add('transition');
-        this.scrollContainer = options.target.querySelector('.mainDrawer-scrollContainer');
+        this.scrollContainer = options.target.querySelector(
+            '.mainDrawer-scrollContainer'
+        );
         this.scrollContainer.classList.add('scrollY');
         this.isVisible = false;
         this.initialize();
@@ -85,7 +87,11 @@ class NavDrawer {
             this.dragMode = 2;
         }
 
-        if (this.dragMode === 0 && (!isOpen || Math.abs(deltaX) >= 10) && Math.abs(deltaY) < 5) {
+        if (
+            this.dragMode === 0 &&
+            (!isOpen || Math.abs(deltaX) >= 10) &&
+            Math.abs(deltaY) < 5
+        ) {
             this.dragMode = 1;
             scrollContainer.addEventListener('scroll', disableEvent);
             this.showMask();
@@ -134,8 +140,18 @@ class NavDrawer {
             this.isPeeking = true;
 
             if (e.type === 'touchstart') {
-                dom.removeEventListener(this.edgeContainer, 'touchmove', this.onEdgeTouchMove, {});
-                dom.addEventListener(this.edgeContainer, 'touchmove', this.onEdgeTouchMove, {});
+                dom.removeEventListener(
+                    this.edgeContainer,
+                    'touchmove',
+                    this.onEdgeTouchMove,
+                    {}
+                );
+                dom.addEventListener(
+                    this.edgeContainer,
+                    'touchmove',
+                    this.onEdgeTouchMove,
+                    {}
+                );
             }
 
             this.onMenuTouchStart(e);
@@ -145,7 +161,12 @@ class NavDrawer {
     onEdgeTouchEnd = (e) => {
         if (this.isPeeking) {
             this.isPeeking = false;
-            dom.removeEventListener(this.edgeContainer, 'touchmove', this.onEdgeTouchMove, {});
+            dom.removeEventListener(
+                this.edgeContainer,
+                'touchmove',
+                this.onEdgeTouchMove,
+                {}
+            );
             this.onMenuTouchEnd(e);
         }
     };
@@ -178,7 +199,8 @@ class NavDrawer {
                 this.dragMode = 1;
                 this.newPos = deltaX - this.startPoint + options.width;
                 this.changeMenuPos();
-                const time = new Date().getTime() - (this.backgroundTouchStartTime || 0);
+                const time =
+                    new Date().getTime() - (this.backgroundTouchStartTime || 0);
                 this.velocity = Math.abs(deltaX) / time;
             }
         }
@@ -221,7 +243,9 @@ class NavDrawer {
         const options = this.options;
         const languageAwarePos = globalize.getIsRTL() ? -pos : pos;
         requestAnimationFrame(function () {
-            options.target.style.transform = pos ? 'translateX(' + languageAwarePos + 'px)' : 'none';
+            options.target.style.transform = pos
+                ? 'translateX(' + languageAwarePos + 'px)'
+                : 'none';
         });
     }
 
@@ -305,27 +329,57 @@ class NavDrawer {
             if (enabled) {
                 if (!this._edgeSwipeEnabled) {
                     this._edgeSwipeEnabled = true;
-                    dom.addEventListener(this.edgeContainer, 'touchstart', this.onEdgeTouchStart, {
-                        passive: true
-                    });
-                    dom.addEventListener(this.edgeContainer, 'touchend', this.onEdgeTouchEnd, {
-                        passive: true
-                    });
-                    dom.addEventListener(this.edgeContainer, 'touchcancel', this.onEdgeTouchEnd, {
-                        passive: true
-                    });
+                    dom.addEventListener(
+                        this.edgeContainer,
+                        'touchstart',
+                        this.onEdgeTouchStart,
+                        {
+                            passive: true
+                        }
+                    );
+                    dom.addEventListener(
+                        this.edgeContainer,
+                        'touchend',
+                        this.onEdgeTouchEnd,
+                        {
+                            passive: true
+                        }
+                    );
+                    dom.addEventListener(
+                        this.edgeContainer,
+                        'touchcancel',
+                        this.onEdgeTouchEnd,
+                        {
+                            passive: true
+                        }
+                    );
                 }
             } else if (this._edgeSwipeEnabled) {
                 this._edgeSwipeEnabled = false;
-                dom.removeEventListener(this.edgeContainer, 'touchstart', this.onEdgeTouchStart, {
-                    passive: true
-                });
-                dom.removeEventListener(this.edgeContainer, 'touchend', this.onEdgeTouchEnd, {
-                    passive: true
-                });
-                dom.removeEventListener(this.edgeContainer, 'touchcancel', this.onEdgeTouchEnd, {
-                    passive: true
-                });
+                dom.removeEventListener(
+                    this.edgeContainer,
+                    'touchstart',
+                    this.onEdgeTouchStart,
+                    {
+                        passive: true
+                    }
+                );
+                dom.removeEventListener(
+                    this.edgeContainer,
+                    'touchend',
+                    this.onEdgeTouchEnd,
+                    {
+                        passive: true
+                    }
+                );
+                dom.removeEventListener(
+                    this.edgeContainer,
+                    'touchcancel',
+                    this.onEdgeTouchEnd,
+                    {
+                        passive: true
+                    }
+                );
             }
         }
     }
@@ -341,28 +395,68 @@ class NavDrawer {
         this.initElements();
 
         if (browser.touch) {
-            dom.addEventListener(options.target, 'touchstart', this.onMenuTouchStart, {
-                passive: true
-            });
-            dom.addEventListener(options.target, 'touchmove', this.onMenuTouchMove, {
-                passive: true
-            });
-            dom.addEventListener(options.target, 'touchend', this.onMenuTouchEnd, {
-                passive: true
-            });
-            dom.addEventListener(options.target, 'touchcancel', this.onMenuTouchEnd, {
-                passive: true
-            });
-            dom.addEventListener(this.mask, 'touchstart', this.onBackgroundTouchStart, {
-                passive: true
-            });
-            dom.addEventListener(this.mask, 'touchmove', this.onBackgroundTouchMove, {});
-            dom.addEventListener(this.mask, 'touchend', this.onBackgroundTouchEnd, {
-                passive: true
-            });
-            dom.addEventListener(this.mask, 'touchcancel', this.onBackgroundTouchEnd, {
-                passive: true
-            });
+            dom.addEventListener(
+                options.target,
+                'touchstart',
+                this.onMenuTouchStart,
+                {
+                    passive: true
+                }
+            );
+            dom.addEventListener(
+                options.target,
+                'touchmove',
+                this.onMenuTouchMove,
+                {
+                    passive: true
+                }
+            );
+            dom.addEventListener(
+                options.target,
+                'touchend',
+                this.onMenuTouchEnd,
+                {
+                    passive: true
+                }
+            );
+            dom.addEventListener(
+                options.target,
+                'touchcancel',
+                this.onMenuTouchEnd,
+                {
+                    passive: true
+                }
+            );
+            dom.addEventListener(
+                this.mask,
+                'touchstart',
+                this.onBackgroundTouchStart,
+                {
+                    passive: true
+                }
+            );
+            dom.addEventListener(
+                this.mask,
+                'touchmove',
+                this.onBackgroundTouchMove,
+                {}
+            );
+            dom.addEventListener(
+                this.mask,
+                'touchend',
+                this.onBackgroundTouchEnd,
+                {
+                    passive: true
+                }
+            );
+            dom.addEventListener(
+                this.mask,
+                'touchcancel',
+                this.onBackgroundTouchEnd,
+                {
+                    passive: true
+                }
+            );
         }
 
         this.clickMaskClose();
@@ -370,4 +464,3 @@ class NavDrawer {
 }
 
 export default NavDrawer;
-

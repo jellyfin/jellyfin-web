@@ -67,206 +67,280 @@ function renderItems(page, item) {
     }
 
     const elem = page.querySelector('#childrenContent');
-    elem.innerHTML = sections.map(function (section) {
-        let html = '';
-        let sectionClass = 'verticalSection';
+    elem.innerHTML = sections
+        .map(function (section) {
+            let html = '';
+            let sectionClass = 'verticalSection';
 
-        if (section.type === 'Audio') {
-            sectionClass += ' verticalSection-extrabottompadding';
-        }
+            if (section.type === 'Audio') {
+                sectionClass += ' verticalSection-extrabottompadding';
+            }
 
-        html += '<div class="' + sectionClass + '" data-type="' + section.type + '">';
-        html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
-        html += '<h2 class="sectionTitle sectionTitle-cards">';
-        html += section.name;
-        html += '</h2>';
-        html += '<a is="emby-linkbutton" href="#" class="clearLink hide" style="margin-left:1em;vertical-align:middle;"><button is="emby-button" type="button" class="raised more raised-mini noIcon">' + globalize.translate('ButtonMore') + '</button></a>';
-        html += '</div>';
-        html += '<div is="emby-itemscontainer" class="itemsContainer padded-right">';
-        html += '</div>';
-        html += '</div>';
-        return html;
-    }).join('');
+            html +=
+                '<div class="' +
+                sectionClass +
+                '" data-type="' +
+                section.type +
+                '">';
+            html +=
+                '<div class="sectionTitleContainer sectionTitleContainer-cards">';
+            html += '<h2 class="sectionTitle sectionTitle-cards">';
+            html += section.name;
+            html += '</h2>';
+            html +=
+                '<a is="emby-linkbutton" href="#" class="clearLink hide" style="margin-left:1em;vertical-align:middle;"><button is="emby-button" type="button" class="raised more raised-mini noIcon">' +
+                globalize.translate('ButtonMore') +
+                '</button></a>';
+            html += '</div>';
+            html +=
+                '<div is="emby-itemscontainer" class="itemsContainer padded-right">';
+            html += '</div>';
+            html += '</div>';
+            return html;
+        })
+        .join('');
     const sectionElems = elem.querySelectorAll('.verticalSection');
 
     for (let i = 0, length = sectionElems.length; i < length; i++) {
-        renderSection(item, sectionElems[i], sectionElems[i].getAttribute('data-type'));
+        renderSection(
+            item,
+            sectionElems[i],
+            sectionElems[i].getAttribute('data-type')
+        );
     }
 }
 
 function renderSection(item, element, type) {
     switch (type) {
         case 'Program':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'Program',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 10,
-                SortBy: 'StartDate'
-            }, {
-                shape: 'overflowBackdrop',
-                showTitle: true,
-                centerText: true,
-                overlayMoreButton: true,
-                preferThumb: true,
-                overlayText: false,
-                showAirTime: true,
-                showAirDateTime: true,
-                showChannelName: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'Program',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 10,
+                    SortBy: 'StartDate'
+                },
+                {
+                    shape: 'overflowBackdrop',
+                    showTitle: true,
+                    centerText: true,
+                    overlayMoreButton: true,
+                    preferThumb: true,
+                    overlayText: false,
+                    showAirTime: true,
+                    showAirDateTime: true,
+                    showChannelName: true
+                }
+            );
             break;
 
         case 'Movie':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'Movie',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 10,
-                SortOrder: 'Descending,Descending,Ascending',
-                SortBy: 'PremiereDate,ProductionYear,SortName'
-            }, {
-                shape: 'overflowPortrait',
-                showTitle: true,
-                centerText: true,
-                overlayMoreButton: true,
-                overlayText: false,
-                showYear: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'Movie',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 10,
+                    SortOrder: 'Descending,Descending,Ascending',
+                    SortBy: 'PremiereDate,ProductionYear,SortName'
+                },
+                {
+                    shape: 'overflowPortrait',
+                    showTitle: true,
+                    centerText: true,
+                    overlayMoreButton: true,
+                    overlayText: false,
+                    showYear: true
+                }
+            );
             break;
 
         case 'MusicVideo':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'MusicVideo',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 10,
-                SortBy: 'SortName'
-            }, {
-                shape: 'overflowBackdrop',
-                showTitle: true,
-                centerText: true,
-                overlayPlayButton: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'MusicVideo',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 10,
+                    SortBy: 'SortName'
+                },
+                {
+                    shape: 'overflowBackdrop',
+                    showTitle: true,
+                    centerText: true,
+                    overlayPlayButton: true
+                }
+            );
             break;
 
         case 'Trailer':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'Trailer',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 10,
-                SortBy: 'SortName'
-            }, {
-                shape: 'overflowPortrait',
-                showTitle: true,
-                centerText: true,
-                overlayPlayButton: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'Trailer',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 10,
+                    SortBy: 'SortName'
+                },
+                {
+                    shape: 'overflowPortrait',
+                    showTitle: true,
+                    centerText: true,
+                    overlayPlayButton: true
+                }
+            );
             break;
 
         case 'Series':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'Series',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 10,
-                SortBy: 'SortName'
-            }, {
-                shape: 'overflowPortrait',
-                showTitle: true,
-                centerText: true,
-                overlayMoreButton: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'Series',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 10,
+                    SortBy: 'SortName'
+                },
+                {
+                    shape: 'overflowPortrait',
+                    showTitle: true,
+                    centerText: true,
+                    overlayMoreButton: true
+                }
+            );
             break;
 
         case 'MusicAlbum':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'MusicAlbum',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                SortOrder: 'Descending,Descending,Ascending',
-                SortBy: 'PremiereDate,ProductionYear,Sortname'
-            }, {
-                shape: 'overflowSquare',
-                playFromHere: true,
-                showTitle: true,
-                showYear: true,
-                coverImage: true,
-                centerText: true,
-                overlayPlayButton: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'MusicAlbum',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    SortOrder: 'Descending,Descending,Ascending',
+                    SortBy: 'PremiereDate,ProductionYear,Sortname'
+                },
+                {
+                    shape: 'overflowSquare',
+                    playFromHere: true,
+                    showTitle: true,
+                    showYear: true,
+                    coverImage: true,
+                    centerText: true,
+                    overlayPlayButton: true
+                }
+            );
             break;
 
         case 'MusicArtist':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'MusicArtist',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 8,
-                SortBy: 'SortName'
-            }, {
-                shape: 'overflowSquare',
-                playFromHere: true,
-                showTitle: true,
-                showParentTitle: true,
-                coverImage: true,
-                centerText: true,
-                overlayPlayButton: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'MusicArtist',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 8,
+                    SortBy: 'SortName'
+                },
+                {
+                    shape: 'overflowSquare',
+                    playFromHere: true,
+                    showTitle: true,
+                    showParentTitle: true,
+                    coverImage: true,
+                    centerText: true,
+                    overlayPlayButton: true
+                }
+            );
             break;
 
         case 'Episode':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'Episode',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 6,
-                SortBy: 'SortName'
-            }, {
-                shape: 'overflowBackdrop',
-                showTitle: true,
-                showParentTitle: true,
-                centerText: true,
-                overlayPlayButton: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'Episode',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 6,
+                    SortBy: 'SortName'
+                },
+                {
+                    shape: 'overflowBackdrop',
+                    showTitle: true,
+                    showParentTitle: true,
+                    centerText: true,
+                    overlayPlayButton: true
+                }
+            );
             break;
 
         case 'Audio':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'Audio',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                SortBy: 'AlbumArtist,Album,SortName'
-            }, {
-                playFromHere: true,
-                action: 'playallfromhere',
-                smallIcon: true,
-                artist: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'Audio',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    SortBy: 'AlbumArtist,Album,SortName'
+                },
+                {
+                    playFromHere: true,
+                    action: 'playallfromhere',
+                    smallIcon: true,
+                    artist: true
+                }
+            );
     }
 }
 
 function loadItems(element, item, type, query, listOptions) {
     query = getQuery(query, item);
-    getItemsFunction(query, item)(query.StartIndex, query.Limit, query.Fields).then(function (result) {
+    getItemsFunction(query, item)(
+        query.StartIndex,
+        query.Limit,
+        query.Fields
+    ).then(function (result) {
         // If results are empty, hide the section
         if (!result.Items?.length) {
             element.classList.add('hide');
@@ -303,26 +377,68 @@ function loadItems(element, item, type, query, listOptions) {
 
 function getMoreItemsHref(item, type) {
     if (item.Type === 'Genre') {
-        return '#/list?type=' + type + '&genreId=' + item.Id + '&serverId=' + item.ServerId;
+        return (
+            '#/list?type=' +
+            type +
+            '&genreId=' +
+            item.Id +
+            '&serverId=' +
+            item.ServerId
+        );
     }
 
     if (item.Type === 'MusicGenre') {
-        return '#/list?type=' + type + '&musicGenreId=' + item.Id + '&serverId=' + item.ServerId;
+        return (
+            '#/list?type=' +
+            type +
+            '&musicGenreId=' +
+            item.Id +
+            '&serverId=' +
+            item.ServerId
+        );
     }
 
     if (item.Type === 'Studio') {
-        return '#/list?type=' + type + '&studioId=' + item.Id + '&serverId=' + item.ServerId;
+        return (
+            '#/list?type=' +
+            type +
+            '&studioId=' +
+            item.Id +
+            '&serverId=' +
+            item.ServerId
+        );
     }
 
     if (item.Type === 'MusicArtist') {
-        return '#/list?type=' + type + '&artistId=' + item.Id + '&serverId=' + item.ServerId;
+        return (
+            '#/list?type=' +
+            type +
+            '&artistId=' +
+            item.Id +
+            '&serverId=' +
+            item.ServerId
+        );
     }
 
     if (item.Type === 'Person') {
-        return '#/list?type=' + type + '&personId=' + item.Id + '&serverId=' + item.ServerId;
+        return (
+            '#/list?type=' +
+            type +
+            '&personId=' +
+            item.Id +
+            '&serverId=' +
+            item.ServerId
+        );
     }
 
-    return '#/list?type=' + type + '&parentId=' + item.Id + '&serverId=' + item.ServerId;
+    return (
+        '#/list?type=' +
+        type +
+        '&parentId=' +
+        item.Id +
+        '&serverId=' +
+        item.ServerId
+    );
 }
 
 function addCurrentItemToQuery(query, item) {
@@ -368,7 +484,10 @@ function getItemsFunction(options, item) {
 
         if (query.IncludeItemTypes === 'MusicArtist') {
             query.IncludeItemTypes = null;
-            return apiClient.getAlbumArtists(apiClient.getCurrentUserId(), query);
+            return apiClient.getAlbumArtists(
+                apiClient.getCurrentUserId(),
+                query
+            );
         }
 
         return apiClient.getItems(apiClient.getCurrentUserId(), query);

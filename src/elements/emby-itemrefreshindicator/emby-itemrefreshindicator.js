@@ -23,7 +23,9 @@ function onRefreshProgress(e, apiClient, info) {
     const indicator = this;
 
     if (!indicator.itemId) {
-        indicator.itemId = dom.parentWithAttribute(indicator, 'data-id').getAttribute('data-id');
+        indicator.itemId = dom
+            .parentWithAttribute(indicator, 'data-id')
+            .getAttribute('data-id');
     }
 
     if (info.ItemId === indicator.itemId) {
@@ -71,4 +73,3 @@ document.registerElement('emby-itemrefreshindicator', {
     prototype: EmbyItemRefreshIndicatorPrototype,
     extends: 'div'
 });
-

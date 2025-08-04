@@ -50,20 +50,21 @@ function submitUpdatedItem(form, item) {
     const apiClient = getApiClient();
 
     apiClient.updateItem(item).then(function () {
-        const newContentType = form.querySelector('#selectContentType').value || '';
+        const newContentType =
+            form.querySelector('#selectContentType').value || '';
 
         if ((metadataEditorInfo.ContentType || '') !== newContentType) {
-            apiClient.ajax({
+            apiClient
+                .ajax({
+                    url: apiClient.getUrl('Items/' + item.Id + '/ContentType', {
+                        ContentType: newContentType
+                    }),
 
-                url: apiClient.getUrl('Items/' + item.Id + '/ContentType', {
-                    ContentType: newContentType
-                }),
-
-                type: 'POST'
-
-            }).then(function () {
-                afterContentTypeUpdated();
-            });
+                    type: 'POST'
+                })
+                .then(function () {
+                    afterContentTypeUpdated();
+                });
         } else {
             afterContentTypeUpdated();
         }
@@ -78,23 +79,33 @@ function getSelectedAirDays(form) {
 }
 
 function getAlbumArtists(form) {
-    return form.querySelector('#txtAlbumArtist').value.trim().split(';').filter(function (s) {
-        return s.length > 0;
-    }).map(function (a) {
-        return {
-            Name: a
-        };
-    });
+    return form
+        .querySelector('#txtAlbumArtist')
+        .value.trim()
+        .split(';')
+        .filter(function (s) {
+            return s.length > 0;
+        })
+        .map(function (a) {
+            return {
+                Name: a
+            };
+        });
 }
 
 function getArtists(form) {
-    return form.querySelector('#txtArtist').value.trim().split(';').filter(function (s) {
-        return s.length > 0;
-    }).map(function (a) {
-        return {
-            Name: a
-        };
-    });
+    return form
+        .querySelector('#txtArtist')
+        .value.trim()
+        .split(';')
+        .filter(function (s) {
+            return s.length > 0;
+        })
+        .map(function (a) {
+            return {
+                Name: a
+            };
+        });
 }
 
 function getDateValue(form, element, property) {
@@ -133,10 +144,13 @@ function onSubmit(e) {
         CommunityRating: form.querySelector('#txtCommunityRating').value,
         CriticRating: form.querySelector('#txtCriticRating').value,
         IndexNumber: form.querySelector('#txtIndexNumber').value || null,
-        AirsBeforeSeasonNumber: form.querySelector('#txtAirsBeforeSeason').value,
+        AirsBeforeSeasonNumber: form.querySelector('#txtAirsBeforeSeason')
+            .value,
         AirsAfterSeasonNumber: form.querySelector('#txtAirsAfterSeason').value,
-        AirsBeforeEpisodeNumber: form.querySelector('#txtAirsBeforeEpisode').value,
-        ParentIndexNumber: form.querySelector('#txtParentIndexNumber').value || null,
+        AirsBeforeEpisodeNumber: form.querySelector('#txtAirsBeforeEpisode')
+            .value,
+        ParentIndexNumber:
+            form.querySelector('#txtParentIndexNumber').value || null,
         DisplayOrder: form.querySelector('#selectDisplayOrder').value,
         Album: form.querySelector('#txtAlbum').value,
         AlbumArtists: getAlbumArtists(form),
@@ -147,9 +161,11 @@ function onSubmit(e) {
         AirTime: form.querySelector('#txtAirTime').value,
         Genres: getListValues(form.querySelector('#listGenres')),
         Tags: getListValues(form.querySelector('#listTags')),
-        Studios: getListValues(form.querySelector('#listStudios')).map(function (element) {
-            return { Name: element };
-        }),
+        Studios: getListValues(form.querySelector('#listStudios')).map(
+            function (element) {
+                return { Name: element };
+            }
+        ),
 
         PremiereDate: getDateValue(form, '#txtPremiereDate', 'PremiereDate'),
         DateCreated: getDateValue(form, '#txtDateAdded', 'DateCreated'),
@@ -163,11 +179,13 @@ function onSubmit(e) {
         CustomRating: form.querySelector('#selectCustomRating').value,
         People: currentItem.People,
         LockData: form.querySelector('#chkLockData').checked,
-        LockedFields: Array.prototype.filter.call(form.querySelectorAll('.selectLockedField'), function (c) {
-            return !c.checked;
-        }).map(function (c) {
-            return c.getAttribute('data-value');
-        })
+        LockedFields: Array.prototype.filter
+            .call(form.querySelectorAll('.selectLockedField'), function (c) {
+                return !c.checked;
+            })
+            .map(function (c) {
+                return c.getAttribute('data-value');
+            })
     };
 
     item.ProviderIds = { ...currentItem.ProviderIds };
@@ -178,8 +196,10 @@ function onSubmit(e) {
         item.ProviderIds[providerKey] = idElem.value;
     });
 
-    item.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value;
-    item.PreferredMetadataCountryCode = form.querySelector('#selectCountry').value;
+    item.PreferredMetadataLanguage =
+        form.querySelector('#selectLanguage').value;
+    item.PreferredMetadataCountryCode =
+        form.querySelector('#selectCountry').value;
 
     if (currentItem.Type === 'Person') {
         const placeOfBirth = form.querySelector('#txtPlaceOfBirth').value;
@@ -190,7 +210,7 @@ function onSubmit(e) {
     if (currentItem.Type === 'Series') {
         // 600000000
         const seriesRuntime = form.querySelector('#txtSeriesRuntime').value;
-        item.RunTimeTicks = seriesRuntime ? (seriesRuntime * 600000000) : null;
+        item.RunTimeTicks = seriesRuntime ? seriesRuntime * 600000000 : null;
     }
 
     const tagline = form.querySelector('#txtTagline').value;
@@ -206,9 +226,12 @@ function onSubmit(e) {
 }
 
 function getListValues(list) {
-    return Array.prototype.map.call(list.querySelectorAll('.textValue'), function (el) {
-        return el.textContent;
-    });
+    return Array.prototype.map.call(
+        list.querySelectorAll('.textValue'),
+        function (el) {
+            return el.textContent;
+        }
+    );
 }
 
 function addElementToList(source, sortCallback) {
@@ -216,7 +239,9 @@ function addElementToList(source, sortCallback) {
         prompt({
             label: 'Value:'
         }).then(function (text) {
-            const list = dom.parentWithClass(source, 'editableListviewContainer').querySelector('.paperList');
+            const list = dom
+                .parentWithClass(source, 'editableListviewContainer')
+                .querySelector('.paperList');
             const items = getListValues(list);
             items.push(text);
             populateListView(list, items, sortCallback);
@@ -257,28 +282,36 @@ function showMoreMenu(context, button, user) {
     import('../itemContextMenu').then(({ default: itemContextMenu }) => {
         const item = currentItem;
 
-        itemContextMenu.show({
-            item: item,
-            positionTo: button,
-            edit: false,
-            editImages: true,
-            editSubtitles: true,
-            share: false,
-            play: false,
-            queue: false,
-            user: user
-        }).then(function (result) {
-            if (result.deleted) {
-                afterDeleted(context, item);
-            } else if (result.updated) {
-                reload(context, item.Id, item.ServerId);
-            }
-        }).catch(() => { /* no-op */ });
+        itemContextMenu
+            .show({
+                item: item,
+                positionTo: button,
+                edit: false,
+                editImages: true,
+                editSubtitles: true,
+                share: false,
+                play: false,
+                queue: false,
+                user: user
+            })
+            .then(function (result) {
+                if (result.deleted) {
+                    afterDeleted(context, item);
+                } else if (result.updated) {
+                    reload(context, item.Id, item.ServerId);
+                }
+            })
+            .catch(() => {
+                /* no-op */
+            });
     });
 }
 
 function onEditorClick(e) {
-    const btnRemoveFromEditorList = dom.parentWithClass(e.target, 'btnRemoveFromEditorList');
+    const btnRemoveFromEditorList = dom.parentWithClass(
+        e.target,
+        'btnRemoveFromEditorList'
+    );
     if (btnRemoveFromEditorList) {
         removeElementFromList(btnRemoveFromEditorList);
         return;
@@ -301,11 +334,35 @@ function bindAll(elems, eventName, fn) {
 }
 
 function onResetClick() {
-    const resetElementId = ['#txtName', '#txtOriginalName', '#txtSortName', '#txtCommunityRating', '#txtCriticRating', '#txtIndexNumber',
-        '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
-        '#txtAlbumArtist', '#txtArtist', '#txtOverview', '#selectStatus', '#txtAirTime', '#txtPremiereDate', '#txtDateAdded', '#txtEndDate',
-        '#txtProductionYear', '#selectHeight', '#txtOriginalAspectRatio', '#select3dFormat', '#selectOfficialRating', '#selectCustomRating',
-        '#txtSeriesRuntime', '#txtTagline'];
+    const resetElementId = [
+        '#txtName',
+        '#txtOriginalName',
+        '#txtSortName',
+        '#txtCommunityRating',
+        '#txtCriticRating',
+        '#txtIndexNumber',
+        '#txtAirsBeforeSeason',
+        '#txtAirsAfterSeason',
+        '#txtAirsBeforeEpisode',
+        '#txtParentIndexNumber',
+        '#txtAlbum',
+        '#txtAlbumArtist',
+        '#txtArtist',
+        '#txtOverview',
+        '#selectStatus',
+        '#txtAirTime',
+        '#txtPremiereDate',
+        '#txtDateAdded',
+        '#txtEndDate',
+        '#txtProductionYear',
+        '#selectHeight',
+        '#txtOriginalAspectRatio',
+        '#select3dFormat',
+        '#selectOfficialRating',
+        '#selectCustomRating',
+        '#txtSeriesRuntime',
+        '#txtTagline'
+    ];
     const form = currentContext?.querySelector('form');
     resetElementId.forEach(function (id) {
         form.querySelector(id).value = null;
@@ -350,22 +407,28 @@ function init(context) {
     });
 
     context.querySelector('.btnMore').addEventListener('click', function (e) {
-        getApiClient().getCurrentUser().then(function (user) {
-            showMoreMenu(context, e.target, user);
+        getApiClient()
+            .getCurrentUser()
+            .then(function (user) {
+                showMoreMenu(context, e.target, user);
+            });
+    });
+
+    context
+        .querySelector('.btnHeaderSave')
+        .addEventListener('click', function () {
+            context.querySelector('.btnSave').click();
         });
-    });
 
-    context.querySelector('.btnHeaderSave').addEventListener('click', function () {
-        context.querySelector('.btnSave').click();
-    });
-
-    context.querySelector('#chkLockData').addEventListener('click', function (e) {
-        if (!e.target.checked) {
-            showElement('.providerSettingsContainer');
-        } else {
-            hideElement('.providerSettingsContainer');
-        }
-    });
+    context
+        .querySelector('#chkLockData')
+        .addEventListener('click', function (e) {
+            if (!e.target.checked) {
+                showElement('.providerSettingsContainer');
+            } else {
+                hideElement('.providerSettingsContainer');
+            }
+        });
 
     context.removeEventListener('click', onEditorClick);
     context.addEventListener('click', onEditorClick);
@@ -376,25 +439,38 @@ function init(context) {
 
     context.querySelector('.btnReset').addEventListener('click', onResetClick);
 
-    context.querySelector('#btnAddPerson').addEventListener('click', function () {
-        editPerson(context, {}, -1);
-    });
+    context
+        .querySelector('#btnAddPerson')
+        .addEventListener('click', function () {
+            editPerson(context, {}, -1);
+        });
 
-    context.querySelector('#peopleList').addEventListener('click', function (e) {
-        let index;
-        const btnDeletePerson = dom.parentWithClass(e.target, 'btnDeletePerson');
-        if (btnDeletePerson) {
-            index = parseInt(btnDeletePerson.getAttribute('data-index'), 10);
-            currentItem.People.splice(index, 1);
-            populatePeople(context, currentItem.People);
-        }
+    context
+        .querySelector('#peopleList')
+        .addEventListener('click', function (e) {
+            let index;
+            const btnDeletePerson = dom.parentWithClass(
+                e.target,
+                'btnDeletePerson'
+            );
+            if (btnDeletePerson) {
+                index = parseInt(
+                    btnDeletePerson.getAttribute('data-index'),
+                    10
+                );
+                currentItem.People.splice(index, 1);
+                populatePeople(context, currentItem.People);
+            }
 
-        const btnEditPerson = dom.parentWithClass(e.target, 'btnEditPerson');
-        if (btnEditPerson) {
-            index = parseInt(btnEditPerson.getAttribute('data-index'), 10);
-            editPerson(context, currentItem.People[index], index);
-        }
-    });
+            const btnEditPerson = dom.parentWithClass(
+                e.target,
+                'btnEditPerson'
+            );
+            if (btnEditPerson) {
+                index = parseInt(btnEditPerson.getAttribute('data-index'), 10);
+                editPerson(context, currentItem.People[index], index);
+            }
+        });
 }
 
 function getItem(itemId, serverId) {
@@ -411,7 +487,9 @@ function getEditorConfig(itemId, serverId) {
     const apiClient = ServerConnections.getApiClient(serverId);
 
     if (itemId) {
-        return apiClient.getJSON(apiClient.getUrl('Items/' + itemId + '/MetadataEditor'));
+        return apiClient.getJSON(
+            apiClient.getUrl('Items/' + itemId + '/MetadataEditor')
+        );
     }
 
     return Promise.resolve({});
@@ -425,7 +503,12 @@ function populateCountries(select, allCountries) {
     for (let i = 0, length = allCountries.length; i < length; i++) {
         const culture = allCountries[i];
 
-        html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + '</option>';
+        html +=
+            "<option value='" +
+            culture.TwoLetterISORegionName +
+            "'>" +
+            culture.DisplayName +
+            '</option>';
     }
 
     select.innerHTML = html;
@@ -439,7 +522,12 @@ function populateLanguages(select, languages) {
     for (let i = 0, length = languages.length; i < length; i++) {
         const culture = languages[i];
 
-        html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
+        html +=
+            "<option value='" +
+            culture.TwoLetterISOLanguageName +
+            "'>" +
+            culture.DisplayName +
+            '</option>';
     }
 
     select.innerHTML = html;
@@ -476,7 +564,10 @@ function loadExternalIds(context, item, externalIds) {
             fullName = idInfo.Name + ' ' + globalize.translate(idInfo.Type);
         }
 
-        const labelText = globalize.translate('LabelDynamicExternalId', escapeHtml(fullName));
+        const labelText = globalize.translate(
+            'LabelDynamicExternalId',
+            escapeHtml(fullName)
+        );
 
         html += '<div class="inputContainer">';
         html += '<div class="flex align-items-center">';
@@ -484,7 +575,16 @@ function loadExternalIds(context, item, externalIds) {
         const value = escapeHtml(providerIds[idInfo.Key] || '');
 
         html += '<div class="flex-grow">';
-        html += '<input is="emby-input" class="txtExternalId" value="' + value + '" data-providerkey="' + idInfo.Key + '" id="' + id + '" label="' + labelText + '"/>';
+        html +=
+            '<input is="emby-input" class="txtExternalId" value="' +
+            value +
+            '" data-providerkey="' +
+            idInfo.Key +
+            '" id="' +
+            id +
+            '" label="' +
+            labelText +
+            '"/>';
         html += '</div>';
         html += '</div>';
         html += '</div>';
@@ -506,7 +606,9 @@ function loadExternalIds(context, item, externalIds) {
 function hideElement(selector, context, multiple) {
     context = context || document;
     if (typeof selector === 'string') {
-        const elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
+        const elements = multiple
+            ? context.querySelectorAll(selector)
+            : [context.querySelector(selector)];
 
         Array.prototype.forEach.call(elements, function (el) {
             if (el) {
@@ -524,7 +626,9 @@ function hideElement(selector, context, multiple) {
 function showElement(selector, context, multiple) {
     context = context || document;
     if (typeof selector === 'string') {
-        const elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
+        const elements = multiple
+            ? context.querySelectorAll(selector)
+            : [context.querySelector(selector)];
 
         Array.prototype.forEach.call(elements, function (el) {
             if (el) {
@@ -543,7 +647,16 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldPath', context);
     }
 
-    if ([BaseItemKind.Series, BaseItemKind.Season, BaseItemKind.Episode, BaseItemKind.Movie, BaseItemKind.Trailer, BaseItemKind.Person].includes(item.Type)) {
+    if (
+        [
+            BaseItemKind.Series,
+            BaseItemKind.Season,
+            BaseItemKind.Episode,
+            BaseItemKind.Movie,
+            BaseItemKind.Trailer,
+            BaseItemKind.Person
+        ].includes(item.Type)
+    ) {
         showElement('#fldOriginalName', context);
     } else {
         hideElement('#fldOriginalName', context);
@@ -609,17 +722,25 @@ function setFieldVisibilities(context, item) {
         hideElement('#collapsibleSpecialEpisodeInfo', context);
     }
 
-    if (item.Type === 'Person'
-            || item.Type === 'Genre'
-            || item.Type === 'Studio'
-            || item.Type === 'MusicGenre'
-            || item.Type === 'TvChannel') {
+    if (
+        item.Type === 'Person' ||
+        item.Type === 'Genre' ||
+        item.Type === 'Studio' ||
+        item.Type === 'MusicGenre' ||
+        item.Type === 'TvChannel'
+    ) {
         hideElement('#peopleCollapsible', context);
     } else {
         showElement('#peopleCollapsible', context);
     }
 
-    if (item.Type === 'Person' || item.Type === 'Genre' || item.Type === 'Studio' || item.Type === 'MusicGenre' || item.Type === 'TvChannel') {
+    if (
+        item.Type === 'Person' ||
+        item.Type === 'Genre' ||
+        item.Type === 'Studio' ||
+        item.Type === 'MusicGenre' ||
+        item.Type === 'TvChannel'
+    ) {
         hideElement('#fldCommunityRating', context);
         hideElement('#genresCollapsible', context);
         hideElement('#studiosCollapsible', context);
@@ -659,17 +780,35 @@ function setFieldVisibilities(context, item) {
     }
 
     if (item.Type === 'Person') {
-        context.querySelector('#txtName').label(globalize.translate('LabelName'));
-        context.querySelector('#txtSortName').label(globalize.translate('LabelSortName'));
-        context.querySelector('#txtOriginalName').label(globalize.translate('LabelOriginalName'));
-        context.querySelector('#txtProductionYear').label(globalize.translate('LabelBirthYear'));
-        context.querySelector('#txtPremiereDate').label(globalize.translate('LabelBirthDate'));
-        context.querySelector('#txtEndDate').label(globalize.translate('LabelDeathDate'));
+        context
+            .querySelector('#txtName')
+            .label(globalize.translate('LabelName'));
+        context
+            .querySelector('#txtSortName')
+            .label(globalize.translate('LabelSortName'));
+        context
+            .querySelector('#txtOriginalName')
+            .label(globalize.translate('LabelOriginalName'));
+        context
+            .querySelector('#txtProductionYear')
+            .label(globalize.translate('LabelBirthYear'));
+        context
+            .querySelector('#txtPremiereDate')
+            .label(globalize.translate('LabelBirthDate'));
+        context
+            .querySelector('#txtEndDate')
+            .label(globalize.translate('LabelDeathDate'));
         showElement('#fldPlaceOfBirth');
     } else {
-        context.querySelector('#txtProductionYear').label(globalize.translate('LabelYear'));
-        context.querySelector('#txtPremiereDate').label(globalize.translate('LabelReleaseDate'));
-        context.querySelector('#txtEndDate').label(globalize.translate('LabelEndDate'));
+        context
+            .querySelector('#txtProductionYear')
+            .label(globalize.translate('LabelYear'));
+        context
+            .querySelector('#txtPremiereDate')
+            .label(globalize.translate('LabelReleaseDate'));
+        context
+            .querySelector('#txtEndDate')
+            .label(globalize.translate('LabelEndDate'));
         hideElement('#fldPlaceOfBirth');
     }
 
@@ -685,17 +824,29 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldOriginalAspectRatio');
     }
 
-    if (item.Type === 'Audio' || item.Type === 'Episode' || item.Type === 'Season') {
+    if (
+        item.Type === 'Audio' ||
+        item.Type === 'Episode' ||
+        item.Type === 'Season'
+    ) {
         showElement('#fldIndexNumber');
 
         if (item.Type === 'Episode') {
-            context.querySelector('#txtIndexNumber').label(globalize.translate('LabelEpisodeNumber'));
+            context
+                .querySelector('#txtIndexNumber')
+                .label(globalize.translate('LabelEpisodeNumber'));
         } else if (item.Type === 'Season') {
-            context.querySelector('#txtIndexNumber').label(globalize.translate('LabelSeasonNumber'));
+            context
+                .querySelector('#txtIndexNumber')
+                .label(globalize.translate('LabelSeasonNumber'));
         } else if (item.Type === 'Audio') {
-            context.querySelector('#txtIndexNumber').label(globalize.translate('LabelTrackNumber'));
+            context
+                .querySelector('#txtIndexNumber')
+                .label(globalize.translate('LabelTrackNumber'));
         } else {
-            context.querySelector('#txtIndexNumber').label(globalize.translate('LabelNumber'));
+            context
+                .querySelector('#txtIndexNumber')
+                .label(globalize.translate('LabelNumber'));
         }
     } else {
         hideElement('#fldIndexNumber');
@@ -705,11 +856,17 @@ function setFieldVisibilities(context, item) {
         showElement('#fldParentIndexNumber');
 
         if (item.Type === 'Episode') {
-            context.querySelector('#txtParentIndexNumber').label(globalize.translate('LabelSeasonNumber'));
+            context
+                .querySelector('#txtParentIndexNumber')
+                .label(globalize.translate('LabelSeasonNumber'));
         } else if (item.Type === 'Audio') {
-            context.querySelector('#txtParentIndexNumber').label(globalize.translate('LabelDiscNumber'));
+            context
+                .querySelector('#txtParentIndexNumber')
+                .label(globalize.translate('LabelDiscNumber'));
         } else {
-            context.querySelector('#txtParentIndexNumber').label(globalize.translate('LabelParentNumber'));
+            context
+                .querySelector('#txtParentIndexNumber')
+                .label(globalize.translate('LabelParentNumber'));
         }
     } else {
         hideElement('#fldParentIndexNumber', context);
@@ -719,23 +876,55 @@ function setFieldVisibilities(context, item) {
         showElement('#fldDisplayOrder', context);
         hideElement('.seriesDisplayOrderDescription', context);
 
-        context.querySelector('#selectDisplayOrder').innerHTML = '<option value="Default">' + globalize.translate('DateModified') + '<option value="SortName">' + globalize.translate('SortName') + '</option><option value="PremiereDate">' + globalize.translate('ReleaseDate') + '</option>';
+        context.querySelector('#selectDisplayOrder').innerHTML =
+            '<option value="Default">' +
+            globalize.translate('DateModified') +
+            '<option value="SortName">' +
+            globalize.translate('SortName') +
+            '</option><option value="PremiereDate">' +
+            globalize.translate('ReleaseDate') +
+            '</option>';
     } else if (item.Type === 'Series') {
         showElement('#fldDisplayOrder', context);
         showElement('.seriesDisplayOrderDescription', context);
 
         let html = '';
-        html += '<option value="">' + globalize.translate('Aired') + '</option>';
-        html += '<option value="originalAirDate">' + globalize.translate('OriginalAirDate') + '</option>';
-        html += '<option value="absolute">' + globalize.translate('Absolute') + '</option>';
+        html +=
+            '<option value="">' + globalize.translate('Aired') + '</option>';
+        html +=
+            '<option value="originalAirDate">' +
+            globalize.translate('OriginalAirDate') +
+            '</option>';
+        html +=
+            '<option value="absolute">' +
+            globalize.translate('Absolute') +
+            '</option>';
         html += '<option value="dvd">DVD</option></option>';
-        html += '<option value="digital">' + globalize.translate('Digital') + '</option>';
-        html += '<option value="storyArc">' + globalize.translate('StoryArc') + '</option>';
-        html += '<option value="production">' + globalize.translate('Production') + '</option>';
+        html +=
+            '<option value="digital">' +
+            globalize.translate('Digital') +
+            '</option>';
+        html +=
+            '<option value="storyArc">' +
+            globalize.translate('StoryArc') +
+            '</option>';
+        html +=
+            '<option value="production">' +
+            globalize.translate('Production') +
+            '</option>';
         html += '<option value="tv">TV</option>';
-        html += '<option value="alternate">' + globalize.translate('Alternate') + '</option>';
-        html += '<option value="regional">' + globalize.translate('Regional') + '</option>';
-        html += '<option value="altdvd">' + globalize.translate('AlternateDVD') + '</option>';
+        html +=
+            '<option value="alternate">' +
+            globalize.translate('Alternate') +
+            '</option>';
+        html +=
+            '<option value="regional">' +
+            globalize.translate('Regional') +
+            '</option>';
+        html +=
+            '<option value="altdvd">' +
+            globalize.translate('AlternateDVD') +
+            '</option>';
 
         context.querySelector('#selectDisplayOrder').innerHTML = html;
     } else {
@@ -761,22 +950,31 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     populateStatus(selectStatus);
     selectStatus.value = item.Status || '';
 
-    context.querySelector('#select3dFormat', context).value = item.Video3DFormat || '';
+    context.querySelector('#select3dFormat', context).value =
+        item.Video3DFormat || '';
 
-    Array.prototype.forEach.call(context.querySelectorAll('.chkAirDay', context), function (el) {
-        el.checked = (item.AirDays || []).indexOf(el.getAttribute('data-day')) !== -1;
-    });
+    Array.prototype.forEach.call(
+        context.querySelectorAll('.chkAirDay', context),
+        function (el) {
+            el.checked =
+                (item.AirDays || []).indexOf(el.getAttribute('data-day')) !==
+                -1;
+        }
+    );
 
     populateListView(context.querySelector('#listGenres'), item.Genres);
     populatePeople(context, item.People || []);
 
-    populateListView(context.querySelector('#listStudios'), (item.Studios || []).map(function (element) {
-        return element.Name || '';
-    }));
+    populateListView(
+        context.querySelector('#listStudios'),
+        (item.Studios || []).map(function (element) {
+            return element.Name || '';
+        })
+    );
 
     populateListView(context.querySelector('#listTags'), item.Tags);
 
-    const lockData = (item.LockData || false);
+    const lockData = item.LockData || false;
     const chkLockData = context.querySelector('#chkLockData');
     chkLockData.checked = lockData;
     if (chkLockData.checked) {
@@ -790,30 +988,43 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     context.querySelector('#txtName').value = item.Name || '';
     context.querySelector('#txtOriginalName').value = item.OriginalTitle || '';
     context.querySelector('#txtOverview').value = item.Overview || '';
-    context.querySelector('#txtTagline').value = (item.Taglines?.length ? item.Taglines[0] : '');
+    context.querySelector('#txtTagline').value = item.Taglines?.length
+        ? item.Taglines[0]
+        : '';
     context.querySelector('#txtSortName').value = item.ForcedSortName || '';
-    context.querySelector('#txtCommunityRating').value = item.CommunityRating || '';
+    context.querySelector('#txtCommunityRating').value =
+        item.CommunityRating || '';
 
     context.querySelector('#txtCriticRating').value = item.CriticRating || '';
 
-    context.querySelector('#txtIndexNumber').value = item.IndexNumber == null ? '' : item.IndexNumber;
-    context.querySelector('#txtParentIndexNumber').value = item.ParentIndexNumber == null ? '' : item.ParentIndexNumber;
+    context.querySelector('#txtIndexNumber').value =
+        item.IndexNumber == null ? '' : item.IndexNumber;
+    context.querySelector('#txtParentIndexNumber').value =
+        item.ParentIndexNumber == null ? '' : item.ParentIndexNumber;
 
-    context.querySelector('#txtAirsBeforeSeason').value = ('AirsBeforeSeasonNumber' in item) ? item.AirsBeforeSeasonNumber : '';
-    context.querySelector('#txtAirsAfterSeason').value = ('AirsAfterSeasonNumber' in item) ? item.AirsAfterSeasonNumber : '';
-    context.querySelector('#txtAirsBeforeEpisode').value = ('AirsBeforeEpisodeNumber' in item) ? item.AirsBeforeEpisodeNumber : '';
+    context.querySelector('#txtAirsBeforeSeason').value =
+        'AirsBeforeSeasonNumber' in item ? item.AirsBeforeSeasonNumber : '';
+    context.querySelector('#txtAirsAfterSeason').value =
+        'AirsAfterSeasonNumber' in item ? item.AirsAfterSeasonNumber : '';
+    context.querySelector('#txtAirsBeforeEpisode').value =
+        'AirsBeforeEpisodeNumber' in item ? item.AirsBeforeEpisodeNumber : '';
 
     context.querySelector('#txtAlbum').value = item.Album || '';
 
-    context.querySelector('#txtAlbumArtist').value = (item.AlbumArtists || []).map(function (a) {
-        return a.Name;
-    }).join(';');
+    context.querySelector('#txtAlbumArtist').value = (item.AlbumArtists || [])
+        .map(function (a) {
+            return a.Name;
+        })
+        .join(';');
 
-    context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
+    context.querySelector('#selectDisplayOrder').value =
+        item.DisplayOrder || '';
 
-    context.querySelector('#txtArtist').value = (item.ArtistItems || []).map(function (a) {
-        return a.Name;
-    }).join(';');
+    context.querySelector('#txtArtist').value = (item.ArtistItems || [])
+        .map(function (a) {
+            return a.Name;
+        })
+        .join(';');
 
     let date;
 
@@ -821,7 +1032,9 @@ function fillItemInfo(context, item, parentalRatingOptions) {
         try {
             date = datetime.parseISO8601Date(item.DateCreated, true);
 
-            context.querySelector('#txtDateAdded').value = date.toISOString().slice(0, 10);
+            context.querySelector('#txtDateAdded').value = date
+                .toISOString()
+                .slice(0, 10);
         } catch {
             context.querySelector('#txtDateAdded').value = '';
         }
@@ -833,7 +1046,9 @@ function fillItemInfo(context, item, parentalRatingOptions) {
         try {
             date = datetime.parseISO8601Date(item.PremiereDate, true);
 
-            context.querySelector('#txtPremiereDate').value = date.toISOString().slice(0, 10);
+            context.querySelector('#txtPremiereDate').value = date
+                .toISOString()
+                .slice(0, 10);
         } catch {
             context.querySelector('#txtPremiereDate').value = '';
         }
@@ -845,7 +1060,9 @@ function fillItemInfo(context, item, parentalRatingOptions) {
         try {
             date = datetime.parseISO8601Date(item.EndDate, true);
 
-            context.querySelector('#txtEndDate').value = date.toISOString().slice(0, 10);
+            context.querySelector('#txtEndDate').value = date
+                .toISOString()
+                .slice(0, 10);
         } catch {
             context.querySelector('#txtEndDate').value = '';
         }
@@ -853,19 +1070,25 @@ function fillItemInfo(context, item, parentalRatingOptions) {
         context.querySelector('#txtEndDate').value = '';
     }
 
-    context.querySelector('#txtProductionYear').value = item.ProductionYear || '';
+    context.querySelector('#txtProductionYear').value =
+        item.ProductionYear || '';
 
     context.querySelector('#txtAirTime').value = item.AirTime || '';
 
-    const placeofBirth = item.ProductionLocations?.length ? item.ProductionLocations[0] : '';
+    const placeofBirth = item.ProductionLocations?.length
+        ? item.ProductionLocations[0]
+        : '';
     context.querySelector('#txtPlaceOfBirth').value = placeofBirth;
 
     context.querySelector('#selectHeight').value = item.Height || '';
 
-    context.querySelector('#txtOriginalAspectRatio').value = item.AspectRatio || '';
+    context.querySelector('#txtOriginalAspectRatio').value =
+        item.AspectRatio || '';
 
-    context.querySelector('#selectLanguage').value = item.PreferredMetadataLanguage || '';
-    context.querySelector('#selectCountry').value = item.PreferredMetadataCountryCode || '';
+    context.querySelector('#selectLanguage').value =
+        item.PreferredMetadataLanguage || '';
+    context.querySelector('#selectCountry').value =
+        item.PreferredMetadataCountryCode || '';
 
     if (item.RunTimeTicks) {
         const minutes = item.RunTimeTicks / 600000000;
@@ -903,7 +1126,12 @@ function populateRatings(allParentalRatings, select, currentValue) {
     for (let i = 0, length = ratings.length; i < length; i++) {
         rating = ratings[i];
 
-        html += "<option value='" + escapeHtml(rating.Value) + "'>" + escapeHtml(rating.Name) + '</option>';
+        html +=
+            "<option value='" +
+            escapeHtml(rating.Value) +
+            "'>" +
+            escapeHtml(rating.Name) +
+            '</option>';
     }
 
     select.innerHTML = html;
@@ -920,7 +1148,7 @@ function populateStatus(select) {
 
 function populateListView(list, items, sortCallback) {
     items = items || [];
-    if (typeof (sortCallback) === 'undefined') {
+    if (typeof sortCallback === 'undefined') {
         items.sort(function (a, b) {
             return a.toLowerCase().localeCompare(b.toLowerCase());
         });
@@ -931,7 +1159,8 @@ function populateListView(list, items, sortCallback) {
     for (let i = 0; i < items.length; i++) {
         html += '<div class="listItem">';
 
-        html += '<span class="material-icons listItemIcon live_tv" aria-hidden="true" style="background-color:#333;"></span>';
+        html +=
+            '<span class="material-icons listItemIcon live_tv" aria-hidden="true" style="background-color:#333;"></span>';
 
         html += '<div class="listItemBody">';
 
@@ -941,7 +1170,10 @@ function populateListView(list, items, sortCallback) {
 
         html += '</div>';
 
-        html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><span class="material-icons delete" aria-hidden="true"></span></button>';
+        html +=
+            '<button type="button" is="paper-icon-button-light" data-index="' +
+            i +
+            '" class="btnRemoveFromEditorList autoSize"><span class="material-icons delete" aria-hidden="true"></span></button>';
 
         html += '</div>';
     }
@@ -960,10 +1192,14 @@ function populatePeople(context, people) {
 
         html += '<div class="listItem">';
 
-        html += '<span class="material-icons listItemIcon person" style="background-color:#333;"></span>';
+        html +=
+            '<span class="material-icons listItemIcon person" style="background-color:#333;"></span>';
 
         html += '<div class="listItemBody">';
-        html += '<button style="text-align:left;" type="button" class="btnEditPerson clearButton" data-index="' + i + '">';
+        html +=
+            '<button style="text-align:left;" type="button" class="btnEditPerson clearButton" data-index="' +
+            i +
+            '">';
 
         html += '<div class="textValue">';
         html += escapeHtml(person.Name || '');
@@ -972,13 +1208,19 @@ function populatePeople(context, people) {
         if (person.Role && person.Role !== lastType) {
             html += '<div class="secondary">' + person.Role + '</div>';
         } else {
-            html += '<div class="secondary">' + globalize.translate(person.Type) + '</div>';
+            html +=
+                '<div class="secondary">' +
+                globalize.translate(person.Type) +
+                '</div>';
         }
 
         html += '</button>';
         html += '</div>';
 
-        html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><span class="material-icons delete" aria-hidden="true"></span></button>';
+        html +=
+            '<button type="button" is="paper-icon-button-light" data-index="' +
+            i +
+            '" class="btnDeletePerson autoSize"><span class="material-icons delete" aria-hidden="true"></span></button>';
 
         html += '</div>';
     }
@@ -991,9 +1233,15 @@ function getLockedFieldsHtml(fields, currentFields) {
     for (const field of fields) {
         const name = field.name;
         const value = field.value || field.name;
-        const checkedHtml = currentFields.indexOf(value) === -1 ? ' checked' : '';
+        const checkedHtml =
+            currentFields.indexOf(value) === -1 ? ' checked' : '';
         html += '<label>';
-        html += '<input type="checkbox" is="emby-checkbox" class="selectLockedField" data-value="' + value + '"' + checkedHtml + '/>';
+        html +=
+            '<input type="checkbox" is="emby-checkbox" class="selectLockedField" data-value="' +
+            value +
+            '"' +
+            checkedHtml +
+            '/>';
         html += '<span>' + name + '</span>';
         html += '</label>';
     }
@@ -1008,21 +1256,36 @@ function fillMetadataSettings(context, item, lockedFields) {
         { name: globalize.translate('Name'), value: 'Name' },
         { name: globalize.translate('Overview'), value: 'Overview' },
         { name: globalize.translate('Genres'), value: 'Genres' },
-        { name: globalize.translate('ParentalRating'), value: 'OfficialRating' },
+        {
+            name: globalize.translate('ParentalRating'),
+            value: 'OfficialRating'
+        },
         { name: globalize.translate('People'), value: 'Cast' }
     ];
 
     if (item.Type === 'Person') {
-        lockedFieldsList.push({ name: globalize.translate('BirthLocation'), value: 'ProductionLocations' });
+        lockedFieldsList.push({
+            name: globalize.translate('BirthLocation'),
+            value: 'ProductionLocations'
+        });
     } else {
-        lockedFieldsList.push({ name: globalize.translate('ProductionLocations'), value: 'ProductionLocations' });
+        lockedFieldsList.push({
+            name: globalize.translate('ProductionLocations'),
+            value: 'ProductionLocations'
+        });
     }
 
     if (item.Type === 'Series') {
-        lockedFieldsList.push({ name: globalize.translate('Runtime'), value: 'Runtime' });
+        lockedFieldsList.push({
+            name: globalize.translate('Runtime'),
+            value: 'Runtime'
+        });
     }
 
-    lockedFieldsList.push({ name: globalize.translate('Studios'), value: 'Studios' });
+    lockedFieldsList.push({
+        name: globalize.translate('Studios'),
+        value: 'Studios'
+    });
     lockedFieldsList.push({ name: globalize.translate('Tags'), value: 'Tags' });
 
     let html = '';
@@ -1036,7 +1299,10 @@ function fillMetadataSettings(context, item, lockedFields) {
 function reload(context, itemId, serverId) {
     loading.show();
 
-    Promise.all([getItem(itemId, serverId), getEditorConfig(itemId, serverId)]).then(function (responses) {
+    Promise.all([
+        getItem(itemId, serverId),
+        getEditorConfig(itemId, serverId)
+    ]).then(function (responses) {
         const item = responses[0];
         metadataEditorInfo = responses[1];
 
@@ -1055,7 +1321,11 @@ function reload(context, itemId, serverId) {
         setFieldVisibilities(context, item);
         fillItemInfo(context, item, metadataEditorInfo.ParentalRatingOptions);
 
-        if (item.MediaType === 'Video' && item.Type !== 'Episode' && item.Type !== 'TvChannel') {
+        if (
+            item.MediaType === 'Video' &&
+            item.Type !== 'Episode' &&
+            item.Type !== 'TvChannel'
+        ) {
             showElement('#fldTagline', context);
         } else {
             hideElement('#fldTagline', context);
@@ -1119,7 +1389,7 @@ function show(itemId, serverId, resolve) {
 
 export default {
     show: function (itemId, serverId) {
-        return new Promise(resolve => show(itemId, serverId, resolve));
+        return new Promise((resolve) => show(itemId, serverId, resolve));
     },
 
     embed: function (elem, itemId, serverId) {
@@ -1128,7 +1398,9 @@ export default {
 
             elem.innerHTML = globalize.translateHtml(template, 'core');
 
-            elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
+            elem.querySelector('.formDialogFooter').classList.remove(
+                'formDialogFooter'
+            );
             elem.querySelector('.btnClose').classList.add('hide');
             elem.querySelector('.btnHeaderSave').classList.remove('hide');
             elem.querySelector('.btnCancel').classList.add('hide');
@@ -1142,4 +1414,3 @@ export default {
         });
     }
 };
-

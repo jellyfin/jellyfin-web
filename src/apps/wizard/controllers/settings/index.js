@@ -9,19 +9,25 @@ import 'elements/emby-select/emby-select';
 function save(page) {
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
-    apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
-        config.PreferredMetadataLanguage = page.querySelector('#selectLanguage').value;
-        config.MetadataCountryCode = page.querySelector('#selectCountry').value;
-        apiClient.ajax({
-            type: 'POST',
-            data: JSON.stringify(config),
-            url: apiClient.getUrl('Startup/Configuration'),
-            contentType: 'application/json'
-        }).then(function () {
-            loading.hide();
-            navigateToNextPage();
+    apiClient
+        .getJSON(apiClient.getUrl('Startup/Configuration'))
+        .then(function (config) {
+            config.PreferredMetadataLanguage =
+                page.querySelector('#selectLanguage').value;
+            config.MetadataCountryCode =
+                page.querySelector('#selectCountry').value;
+            apiClient
+                .ajax({
+                    type: 'POST',
+                    data: JSON.stringify(config),
+                    url: apiClient.getUrl('Startup/Configuration'),
+                    contentType: 'application/json'
+                })
+                .then(function () {
+                    loading.hide();
+                    navigateToNextPage();
+                });
         });
-    });
 }
 
 function populateLanguages(select, languages) {
@@ -30,7 +36,12 @@ function populateLanguages(select, languages) {
 
     for (let i = 0, length = languages.length; i < length; i++) {
         const culture = languages[i];
-        html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
+        html +=
+            "<option value='" +
+            culture.TwoLetterISOLanguageName +
+            "'>" +
+            culture.DisplayName +
+            '</option>';
     }
 
     select.innerHTML = html;
@@ -42,7 +53,12 @@ function populateCountries(select, allCountries) {
 
     for (let i = 0, length = allCountries.length; i < length; i++) {
         const culture = allCountries[i];
-        html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + '</option>';
+        html +=
+            "<option value='" +
+            culture.TwoLetterISORegionName +
+            "'>" +
+            culture.DisplayName +
+            '</option>';
     }
 
     select.innerHTML = html;
@@ -51,7 +67,8 @@ function populateCountries(select, allCountries) {
 function reloadData(page, config, cultures, countries) {
     populateLanguages(page.querySelector('#selectLanguage'), cultures);
     populateCountries(page.querySelector('#selectCountry'), countries);
-    page.querySelector('#selectLanguage').value = config.PreferredMetadataLanguage;
+    page.querySelector('#selectLanguage').value =
+        config.PreferredMetadataLanguage;
     page.querySelector('#selectCountry').value = config.MetadataCountryCode;
     loading.hide();
 }
@@ -59,7 +76,9 @@ function reloadData(page, config, cultures, countries) {
 function reload(page) {
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
-    const promise1 = apiClient.getJSON(apiClient.getUrl('Startup/Configuration'));
+    const promise1 = apiClient.getJSON(
+        apiClient.getUrl('Startup/Configuration')
+    );
     const promise2 = apiClient.getCultures();
     const promise3 = apiClient.getCountries();
     Promise.all([promise1, promise2, promise3]).then(function (responses) {
@@ -78,12 +97,19 @@ function onSubmit(e) {
 }
 
 export default function (view) {
-    view.querySelector('.wizardSettingsForm').addEventListener('submit', onSubmit);
+    view.querySelector('.wizardSettingsForm').addEventListener(
+        'submit',
+        onSubmit
+    );
     view.addEventListener('viewshow', function () {
-        document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
+        document
+            .querySelector('.skinHeader')
+            .classList.add('noHomeButtonHeader');
         reload(this);
     });
     view.addEventListener('viewhide', function () {
-        document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
+        document
+            .querySelector('.skinHeader')
+            .classList.remove('noHomeButtonHeader');
     });
 }

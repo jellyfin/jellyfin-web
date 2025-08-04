@@ -15,30 +15,33 @@ import Page from 'components/Page';
 import globalize from 'lib/globalize';
 
 export default function UserDisplayPreferences() {
-    const {
-        loading,
-        submitChanges,
-        updateField,
-        values
-    } = useDisplaySettingForm();
+    const { loading, submitChanges, updateField, values } =
+        useDisplaySettingForm();
 
-    const handleSubmitForm = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        void submitChanges();
-    }, [submitChanges]);
+    const handleSubmitForm = useCallback(
+        (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
+            void submitChanges();
+        },
+        [submitChanges]
+    );
 
-    const handleFieldChange = useCallback((e: SelectChangeEvent | React.SyntheticEvent) => {
-        const target = e.target as HTMLInputElement;
-        const fieldName = target.name as keyof DisplaySettingsValues;
-        const fieldValue = target.type === 'checkbox' ? target.checked : target.value;
+    const handleFieldChange = useCallback(
+        (e: SelectChangeEvent | React.SyntheticEvent) => {
+            const target = e.target as HTMLInputElement;
+            const fieldName = target.name as keyof DisplaySettingsValues;
+            const fieldValue =
+                target.type === 'checkbox' ? target.checked : target.value;
 
-        if (values?.[fieldName] !== fieldValue) {
-            updateField({
-                name: fieldName,
-                value: fieldValue
-            });
-        }
-    }, [updateField, values]);
+            if (values?.[fieldName] !== fieldValue) {
+                updateField({
+                    name: fieldName,
+                    value: fieldValue
+                });
+            }
+        },
+        [updateField, values]
+    );
 
     if (loading || !values) {
         return <LoadingComponent />;
@@ -51,10 +54,7 @@ export default function UserDisplayPreferences() {
             title={globalize.translate('Display')}
         >
             <div className='settingsContainer padded-left padded-right padded-bottom-page'>
-                <form
-                    onSubmit={handleSubmitForm}
-                    style={{ margin: 'auto' }}
-                >
+                <form onSubmit={handleSubmitForm} style={{ margin: 'auto' }}>
                     <Stack spacing={4}>
                         <LocalizationPreferences
                             onChange={handleFieldChange}
@@ -77,10 +77,7 @@ export default function UserDisplayPreferences() {
                             values={values}
                         />
 
-                        <Button
-                            type='submit'
-                            size='large'
-                        >
+                        <Button type='submit' size='large'>
                             {globalize.translate('Save')}
                         </Button>
                     </Stack>

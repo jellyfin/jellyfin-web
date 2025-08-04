@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { useLocale } from 'hooks/useLocale';
 
 interface CellProps {
-    cell: MRT_Cell<MRT_RowData>
+    cell: MRT_Cell<MRT_RowData>;
 }
 
 const DateTimeCell: FC<CellProps> = ({ cell }) => {

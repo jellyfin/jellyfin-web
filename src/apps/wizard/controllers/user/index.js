@@ -9,10 +9,9 @@ import 'elements/emby-input/emby-input';
 import 'elements/emby-button/emby-button';
 
 function nextWizardPage() {
-    Dashboard.navigate('wizard/library')
-        .catch(err => {
-            console.error('[Wizard > User] error navigating to library setup', err);
-        });
+    Dashboard.navigate('wizard/library').catch((err) => {
+        console.error('[Wizard > User] error navigating to library setup', err);
+    });
 }
 
 function onUpdateUserComplete(result) {
@@ -48,7 +47,10 @@ function submit(form) {
 function onSubmit(e) {
     const form = this;
 
-    if (form.querySelector('#txtManualPassword').value != form.querySelector('#txtPasswordConfirm').value) {
+    if (
+        form.querySelector('#txtManualPassword').value !=
+        form.querySelector('#txtPasswordConfirm').value
+    ) {
         toast(globalize.translate('PasswordMatchError'));
     } else {
         submit(form);
@@ -72,10 +74,14 @@ function onViewShow() {
 export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
     view.addEventListener('viewshow', function () {
-        document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
+        document
+            .querySelector('.skinHeader')
+            .classList.add('noHomeButtonHeader');
     });
     view.addEventListener('viewhide', function () {
-        document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
+        document
+            .querySelector('.skinHeader')
+            .classList.remove('noHomeButtonHeader');
     });
     view.addEventListener('viewshow', onViewShow);
 }

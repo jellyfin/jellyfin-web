@@ -44,14 +44,18 @@ export const usePluginDetails = () => {
             });
 
             return Array.from(pluginIds)
-                .map(id => {
-                    const packageInfo = packages?.find(pkg => pkg.guid === id);
+                .map((id) => {
+                    const packageInfo = packages?.find(
+                        (pkg) => pkg.guid === id
+                    );
                     const pluginInfo = findBestPluginInfo(id, plugins);
 
                     let version;
                     if (pluginInfo) {
                         // Find the installed version
-                        const repoVersion = packageInfo?.versions?.find(v => v.version === pluginInfo.Version);
+                        const repoVersion = packageInfo?.versions?.find(
+                            (v) => v.version === pluginInfo.Version
+                        );
                         version = repoVersion || {
                             version: pluginInfo.Version,
                             VersionNumber: pluginInfo.Version
@@ -63,7 +67,9 @@ export const usePluginDetails = () => {
 
                     let imageUrl;
                     if (pluginInfo?.HasImage) {
-                        imageUrl = api?.getUri(`/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`);
+                        imageUrl = api?.getUri(
+                            `/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`
+                        );
                     }
 
                     let category = packageInfo?.category;
@@ -85,35 +91,37 @@ export const usePluginDetails = () => {
                     return {
                         canUninstall: !!pluginInfo?.CanUninstall,
                         category,
-                        description: pluginInfo?.Description || packageInfo?.description || packageInfo?.overview,
+                        description:
+                            pluginInfo?.Description ||
+                            packageInfo?.description ||
+                            packageInfo?.overview,
                         id,
-                        imageUrl: imageUrl || packageInfo?.imageUrl || undefined,
+                        imageUrl:
+                            imageUrl || packageInfo?.imageUrl || undefined,
                         isEnabled: pluginInfo?.Status !== PluginStatus.Disabled,
                         name: pluginInfo?.Name || packageInfo?.name,
                         owner: packageInfo?.owner,
                         status: pluginInfo?.Status,
-                        configurationPage: findBestConfigurationPage(configurationPages || [], id),
+                        configurationPage: findBestConfigurationPage(
+                            configurationPages || [],
+                            id
+                        ),
                         version,
                         versions: packageInfo?.versions || []
                     };
                 })
-                .sort(({ name: nameA }, { name: nameB }) => (
+                .sort(({ name: nameA }, { name: nameB }) =>
                     (nameA || '').localeCompare(nameB || '')
-                ));
+                );
         }
 
         return [];
-    }, [
-        api,
-        configurationPages,
-        isPluginsPending,
-        packages,
-        plugins
-    ]);
+    }, [api, configurationPages, isPluginsPending, packages, plugins]);
 
     return {
         data: pluginDetails,
         isError: isConfigurationPagesError || isPackagesError || isPluginsError,
-        isPending: isConfigurationPagesPending || isPackagesPending || isPluginsPending
+        isPending:
+            isConfigurationPagesPending || isPackagesPending || isPluginsPending
     };
 };

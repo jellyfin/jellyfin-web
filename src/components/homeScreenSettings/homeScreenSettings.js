@@ -1,4 +1,3 @@
-
 import escapeHtml from 'escape-html';
 
 import { getUserViewsQuery } from 'hooks/useUserViews';
@@ -26,22 +25,24 @@ function renderViews(page, user, result) {
     let folderHtml = '';
 
     folderHtml += '<div class="checkboxList">';
-    folderHtml += result.map(i => {
-        let currentHtml = '';
+    folderHtml += result
+        .map((i) => {
+            let currentHtml = '';
 
-        const id = `chkGroupFolder${i.Id}`;
+            const id = `chkGroupFolder${i.Id}`;
 
-        const isChecked = user.Configuration.GroupedFolders.includes(i.Id);
+            const isChecked = user.Configuration.GroupedFolders.includes(i.Id);
 
-        const checkedHtml = isChecked ? ' checked="checked"' : '';
+            const checkedHtml = isChecked ? ' checked="checked"' : '';
 
-        currentHtml += '<label>';
-        currentHtml += `<input type="checkbox" is="emby-checkbox" class="chkGroupFolder" data-folderid="${i.Id}" id="${id}"${checkedHtml}/>`;
-        currentHtml += `<span>${escapeHtml(i.Name)}</span>`;
-        currentHtml += '</label>';
+            currentHtml += '<label>';
+            currentHtml += `<input type="checkbox" is="emby-checkbox" class="chkGroupFolder" data-folderid="${i.Id}" id="${id}"${checkedHtml}/>`;
+            currentHtml += `<span>${escapeHtml(i.Name)}</span>`;
+            currentHtml += '</label>';
 
-        return currentHtml;
-    }).join('');
+            return currentHtml;
+        })
+        .join('');
 
     folderHtml += '</div>';
 
@@ -161,13 +162,16 @@ function getLandingScreenOptions(type) {
 }
 
 function getLandingScreenOptionsHtml(type, userValue) {
-    return getLandingScreenOptions(type).map(o => {
-        const selected = userValue === o.value || (o.isDefault && !userValue);
-        const selectedHtml = selected ? ' selected' : '';
-        const optionValue = o.isDefault ? '' : o.value;
+    return getLandingScreenOptions(type)
+        .map((o) => {
+            const selected =
+                userValue === o.value || (o.isDefault && !userValue);
+            const selectedHtml = selected ? ' selected' : '';
+            const optionValue = o.isDefault ? '' : o.value;
 
-        return `<option value="${optionValue}"${selectedHtml}>${escapeHtml(o.name)}</option>`;
-    }).join('');
+            return `<option value="${optionValue}"${selectedHtml}>${escapeHtml(o.name)}</option>`;
+        })
+        .join('');
 }
 
 function renderViewOrder(context, user, result) {
@@ -178,7 +182,8 @@ function renderViewOrder(context, user, result) {
 
         currentHtml += `<div class="listItem viewItem" data-viewid="${view.Id}">`;
 
-        currentHtml += '<span class="material-icons listItemIcon folder_open" aria-hidden="true"></span>';
+        currentHtml +=
+            '<span class="material-icons listItemIcon folder_open" aria-hidden="true"></span>';
 
         currentHtml += '<div class="listItemBody">';
 
@@ -204,7 +209,9 @@ function updateHomeSectionValues(context, userSettings) {
         const select = context.querySelector(`#selectHomeSection${i}`);
         const defaultValue = homeSections.getDefaultSection(i - 1);
 
-        const option = select.querySelector(`option[value="${defaultValue}"]`) || select.querySelector('option[value=""]');
+        const option =
+            select.querySelector(`option[value="${defaultValue}"]`) ||
+            select.querySelector('option[value=""]');
 
         const userValue = userSettings.get(`homesection${i - 1}`);
 
@@ -217,7 +224,8 @@ function updateHomeSectionValues(context, userSettings) {
         }
     }
 
-    context.querySelector('.selectTVHomeScreen').value = userSettings.get('tvhome') || '';
+    context.querySelector('.selectTVHomeScreen').value =
+        userSettings.get('tvhome') || '';
 }
 
 function getPerLibrarySettingsHtml(item, user, userSettings) {
@@ -225,8 +233,14 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
 
     let isChecked;
 
-    if (item.Type === 'Channel' || item.CollectionType === 'boxsets' || item.CollectionType === 'playlists') {
-        isChecked = !(user.Configuration.MyMediaExcludes || []).includes(item.Id);
+    if (
+        item.Type === 'Channel' ||
+        item.CollectionType === 'boxsets' ||
+        item.CollectionType === 'playlists'
+    ) {
+        isChecked = !(user.Configuration.MyMediaExcludes || []).includes(
+            item.Id
+        );
         html += '<div>';
         html += '<label>';
         html += `<input type="checkbox" is="emby-checkbox" class="chkIncludeInMyMedia" data-folderid="${item.Id}"${isChecked ? ' checked="checked"' : ''}/>`;
@@ -248,8 +262,14 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
         html = `<div class="checkboxListContainer">${html}</div>`;
     }
 
-    if (item.CollectionType === 'movies' || item.CollectionType === 'tvshows' || item.CollectionType === 'music' || item.CollectionType === 'livetv') {
-        const idForLanding = item.CollectionType === 'livetv' ? item.CollectionType : item.Id;
+    if (
+        item.CollectionType === 'movies' ||
+        item.CollectionType === 'tvshows' ||
+        item.CollectionType === 'music' ||
+        item.CollectionType === 'livetv'
+    ) {
+        const idForLanding =
+            item.CollectionType === 'livetv' ? item.CollectionType : item.Id;
         html += '<div class="selectContainer">';
         html += `<select is="emby-select" class="selectLanding" data-folderid="${idForLanding}" label="${globalize.translate('LabelDefaultScreen')}">`;
 
@@ -288,22 +308,27 @@ function renderPerLibrarySettings(context, user, userViews, userSettings) {
 }
 
 function loadForm(context, user, userSettings, apiClient) {
-    context.querySelector('.chkHidePlayedFromLatest').checked = user.Configuration.HidePlayedInLatest || false;
+    context.querySelector('.chkHidePlayedFromLatest').checked =
+        user.Configuration.HidePlayedInLatest || false;
 
     updateHomeSectionValues(context, userSettings);
 
-    const promise1 = queryClient
-        .fetchQuery(getUserViewsQuery(
-            toApi(apiClient),
-            user.Id,
-            { includeHidden: true }
-        ));
-    const promise2 = apiClient.getJSON(apiClient.getUrl(`Users/${user.Id}/GroupingOptions`));
+    const promise1 = queryClient.fetchQuery(
+        getUserViewsQuery(toApi(apiClient), user.Id, { includeHidden: true })
+    );
+    const promise2 = apiClient.getJSON(
+        apiClient.getUrl(`Users/${user.Id}/GroupingOptions`)
+    );
 
-    Promise.all([promise1, promise2]).then(responses => {
+    Promise.all([promise1, promise2]).then((responses) => {
         renderViewOrder(context, user, responses[0]);
 
-        renderPerLibrarySettings(context, user, responses[0].Items, userSettings);
+        renderPerLibrarySettings(
+            context,
+            user,
+            responses[0].Items,
+            userSettings
+        );
 
         renderViews(context, user, responses[1]);
 
@@ -353,17 +378,31 @@ function getCheckboxItems(selector, context, isChecked) {
 }
 
 function saveUser(context, user, userSettingsInstance, apiClient) {
-    user.Configuration.HidePlayedInLatest = context.querySelector('.chkHidePlayedFromLatest').checked;
+    user.Configuration.HidePlayedInLatest = context.querySelector(
+        '.chkHidePlayedFromLatest'
+    ).checked;
 
-    user.Configuration.LatestItemsExcludes = getCheckboxItems('.chkIncludeInLatest', context, false).map(i => {
+    user.Configuration.LatestItemsExcludes = getCheckboxItems(
+        '.chkIncludeInLatest',
+        context,
+        false
+    ).map((i) => {
         return i.getAttribute('data-folderid');
     });
 
-    user.Configuration.MyMediaExcludes = getCheckboxItems('.chkIncludeInMyMedia', context, false).map(i => {
+    user.Configuration.MyMediaExcludes = getCheckboxItems(
+        '.chkIncludeInMyMedia',
+        context,
+        false
+    ).map((i) => {
         return i.getAttribute('data-folderid');
     });
 
-    user.Configuration.GroupedFolders = getCheckboxItems('.chkGroupFolder', context, true).map(i => {
+    user.Configuration.GroupedFolders = getCheckboxItems(
+        '.chkGroupFolder',
+        context,
+        true
+    ).map((i) => {
         return i.getAttribute('data-folderid');
     });
 
@@ -377,42 +416,88 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
 
     user.Configuration.OrderedViews = orderedViews;
 
-    userSettingsInstance.set('tvhome', context.querySelector('.selectTVHomeScreen').value);
+    userSettingsInstance.set(
+        'tvhome',
+        context.querySelector('.selectTVHomeScreen').value
+    );
 
-    userSettingsInstance.set('homesection0', context.querySelector('#selectHomeSection1').value);
-    userSettingsInstance.set('homesection1', context.querySelector('#selectHomeSection2').value);
-    userSettingsInstance.set('homesection2', context.querySelector('#selectHomeSection3').value);
-    userSettingsInstance.set('homesection3', context.querySelector('#selectHomeSection4').value);
-    userSettingsInstance.set('homesection4', context.querySelector('#selectHomeSection5').value);
-    userSettingsInstance.set('homesection5', context.querySelector('#selectHomeSection6').value);
-    userSettingsInstance.set('homesection6', context.querySelector('#selectHomeSection7').value);
-    userSettingsInstance.set('homesection7', context.querySelector('#selectHomeSection8').value);
-    userSettingsInstance.set('homesection8', context.querySelector('#selectHomeSection9').value);
-    userSettingsInstance.set('homesection9', context.querySelector('#selectHomeSection10').value);
+    userSettingsInstance.set(
+        'homesection0',
+        context.querySelector('#selectHomeSection1').value
+    );
+    userSettingsInstance.set(
+        'homesection1',
+        context.querySelector('#selectHomeSection2').value
+    );
+    userSettingsInstance.set(
+        'homesection2',
+        context.querySelector('#selectHomeSection3').value
+    );
+    userSettingsInstance.set(
+        'homesection3',
+        context.querySelector('#selectHomeSection4').value
+    );
+    userSettingsInstance.set(
+        'homesection4',
+        context.querySelector('#selectHomeSection5').value
+    );
+    userSettingsInstance.set(
+        'homesection5',
+        context.querySelector('#selectHomeSection6').value
+    );
+    userSettingsInstance.set(
+        'homesection6',
+        context.querySelector('#selectHomeSection7').value
+    );
+    userSettingsInstance.set(
+        'homesection7',
+        context.querySelector('#selectHomeSection8').value
+    );
+    userSettingsInstance.set(
+        'homesection8',
+        context.querySelector('#selectHomeSection9').value
+    );
+    userSettingsInstance.set(
+        'homesection9',
+        context.querySelector('#selectHomeSection10').value
+    );
 
     const selectLandings = context.querySelectorAll('.selectLanding');
     for (i = 0, length = selectLandings.length; i < length; i++) {
         const selectLanding = selectLandings[i];
-        userSettingsInstance.set(`landing-${selectLanding.getAttribute('data-folderid')}`, selectLanding.value);
+        userSettingsInstance.set(
+            `landing-${selectLanding.getAttribute('data-folderid')}`,
+            selectLanding.value
+        );
     }
 
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);
 }
 
-function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
+function save(
+    instance,
+    context,
+    userId,
+    userSettings,
+    apiClient,
+    enableSaveConfirmation
+) {
     loading.show();
 
-    apiClient.getUser(userId).then(user => {
-        saveUser(context, user, userSettings, apiClient).then(() => {
-            loading.hide();
-            if (enableSaveConfirmation) {
-                toast(globalize.translate('SettingsSaved'));
-            }
+    apiClient.getUser(userId).then((user) => {
+        saveUser(context, user, userSettings, apiClient).then(
+            () => {
+                loading.hide();
+                if (enableSaveConfirmation) {
+                    toast(globalize.translate('SettingsSaved'));
+                }
 
-            Events.trigger(instance, 'saved');
-        }, () => {
-            loading.hide();
-        });
+                Events.trigger(instance, 'saved');
+            },
+            () => {
+                loading.hide();
+            }
+        );
     });
 }
 
@@ -424,7 +509,14 @@ function onSubmit(e) {
 
     userSettings.setUserInfo(userId, apiClient).then(() => {
         const enableSaveConfirmation = self.options.enableSaveConfirmation;
-        save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
+        save(
+            self,
+            self.options.element,
+            userId,
+            userSettings,
+            apiClient,
+            enableSaveConfirmation
+        );
     });
 
     // Disable default form submission
@@ -435,7 +527,10 @@ function onSubmit(e) {
 }
 
 function onChange(e) {
-    const chkIncludeInMyMedia = dom.parentWithClass(e.target, 'chkIncludeInMyMedia');
+    const chkIncludeInMyMedia = dom.parentWithClass(
+        e.target,
+        'chkIncludeInMyMedia'
+    );
     if (!chkIncludeInMyMedia) {
         return;
     }
@@ -454,13 +549,23 @@ function onChange(e) {
 function embed(options, self) {
     let workingTemplate = template;
     for (let i = 1; i <= numConfigurableSections; i++) {
-        workingTemplate = workingTemplate.replace(`{section${i}label}`, globalize.translate('LabelHomeScreenSectionValue', i));
+        workingTemplate = workingTemplate.replace(
+            `{section${i}label}`,
+            globalize.translate('LabelHomeScreenSectionValue', i)
+        );
     }
 
-    options.element.innerHTML = globalize.translateHtml(workingTemplate, 'core');
+    options.element.innerHTML = globalize.translateHtml(
+        workingTemplate,
+        'core'
+    );
 
-    options.element.querySelector('.viewOrderList').addEventListener('click', onSectionOrderListClick);
-    options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
+    options.element
+        .querySelector('.viewOrderList')
+        .addEventListener('click', onSectionOrderListClick);
+    options.element
+        .querySelector('form')
+        .addEventListener('submit', onSubmit.bind(self));
     options.element.addEventListener('change', onChange);
 
     if (options.enableSaveButton) {
@@ -468,9 +573,13 @@ function embed(options, self) {
     }
 
     if (layoutManager.tv) {
-        options.element.querySelector('.selectTVHomeScreenContainer').classList.remove('hide');
+        options.element
+            .querySelector('.selectTVHomeScreenContainer')
+            .classList.remove('hide');
     } else {
-        options.element.querySelector('.selectTVHomeScreenContainer').classList.add('hide');
+        options.element
+            .querySelector('.selectTVHomeScreenContainer')
+            .classList.add('hide');
     }
 
     self.loadData(options.autoFocus);
@@ -492,7 +601,7 @@ class HomeScreenSettings {
         const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userSettings = self.options.userSettings;
 
-        apiClient.getUser(userId).then(user => {
+        apiClient.getUser(userId).then((user) => {
             userSettings.setUserInfo(userId, apiClient).then(() => {
                 self.dataLoaded = true;
 

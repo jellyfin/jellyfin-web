@@ -52,7 +52,8 @@ async function init() {
         `[${__PACKAGE_JSON_NAME__}]
 version: ${__PACKAGE_JSON_VERSION__}
 commit: ${__COMMIT_SHA__}
-build: ${__JF_BUILD_VERSION__}`);
+build: ${__JF_BUILD_VERSION__}`
+    );
 
     // Register globals used in plugins
     window.Events = Events;
@@ -78,8 +79,16 @@ build: ${__JF_BUILD_VERSION__}`);
     // Load the translation dictionary
     await loadCoreDictionary();
     // Update localization on user changes
-    Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
-    Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
+    Events.on(
+        ServerConnections,
+        'localusersignedin',
+        globalize.updateCurrentCulture
+    );
+    Events.on(
+        ServerConnections,
+        'localusersignedout',
+        globalize.updateCurrentCulture
+    );
 
     // Load the font styles
     loadFonts();
@@ -98,7 +107,7 @@ build: ${__JF_BUILD_VERSION__}`);
     });
 
     // Register API request error handlers
-    ServerConnections.getApiClients().forEach(apiClient => {
+    ServerConnections.getApiClients().forEach((apiClient) => {
         Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
         Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
     });
@@ -139,11 +148,14 @@ async function loadPlugins() {
     let list = await getPlugins();
     if (!appHost.supports(AppFeature.RemoteControl)) {
         // Disable remote player plugins if not supported
-        list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
-            && !plugin.startsWith('chromecastPlayer'));
+        list = list.filter(
+            (plugin) =>
+                !plugin.startsWith('sessionPlayer') &&
+                !plugin.startsWith('chromecastPlayer')
+        );
     } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
         // Disable chromecast player in unsupported browsers
-        list = list.filter(plugin => !plugin.startsWith('chromecastPlayer'));
+        list = list.filter((plugin) => !plugin.startsWith('chromecastPlayer'));
     }
 
     // add any native plugins
@@ -152,7 +164,9 @@ async function loadPlugins() {
     }
 
     try {
-        await Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)));
+        await Promise.all(
+            list.map((plugin) => pluginManager.loadPlugin(plugin))
+        );
         console.debug('finished loading plugins');
     } catch (e) {
         console.warn('failed loading plugins', e);
@@ -186,12 +200,17 @@ function loadPlatformFeatures() {
 }
 
 function registerServiceWorker() {
-    if (navigator.serviceWorker && window.appMode !== 'cordova' && window.appMode !== 'android') {
-        navigator.serviceWorker.register('serviceworker.js').then(() =>
-            console.log('serviceWorker registered')
-        ).catch(error =>
-            console.log('error registering serviceWorker: ' + error)
-        );
+    if (
+        navigator.serviceWorker &&
+        window.appMode !== 'cordova' &&
+        window.appMode !== 'android'
+    ) {
+        navigator.serviceWorker
+            .register('serviceworker.js')
+            .then(() => console.log('serviceWorker registered'))
+            .catch((error) =>
+                console.log('error registering serviceWorker: ' + error)
+            );
     } else {
         console.warn('serviceWorker unsupported');
     }
@@ -205,9 +224,7 @@ async function renderApp() {
     loading.show();
 
     const root = createRoot(container);
-    root.render(
-        <RootApp />
-    );
+    root.render(<RootApp />);
 }
 
 init();

@@ -14,16 +14,26 @@ function onOrientationChangeError(err) {
 }
 
 Events.on(playbackManager, 'playbackstart', function (e, player) {
-    const isLocalVideo = player.isLocalPlayer && !player.isExternalPlayer && playbackManager.isPlayingVideo(player);
+    const isLocalVideo =
+        player.isLocalPlayer &&
+        !player.isExternalPlayer &&
+        playbackManager.isPlayingVideo(player);
 
     if (isLocalVideo && layoutManager.mobile) {
-        const lockOrientation = window.screen.lockOrientation || window.screen.mozLockOrientation || window.screen.msLockOrientation || (window.screen.orientation?.lock);
+        const lockOrientation =
+            window.screen.lockOrientation ||
+            window.screen.mozLockOrientation ||
+            window.screen.msLockOrientation ||
+            window.screen.orientation?.lock;
 
         if (lockOrientation) {
             try {
                 const promise = lockOrientation('landscape');
                 if (promise.then) {
-                    promise.then(onOrientationChangeSuccess, onOrientationChangeError);
+                    promise.then(
+                        onOrientationChangeSuccess,
+                        onOrientationChangeError
+                    );
                 } else {
                     // returns a boolean
                     orientationLocked = promise;
@@ -37,7 +47,11 @@ Events.on(playbackManager, 'playbackstart', function (e, player) {
 
 Events.on(playbackManager, 'playbackstop', function (e, playbackStopInfo) {
     if (orientationLocked && !playbackStopInfo.nextMediaType) {
-        const unlockOrientation = window.screen.unlockOrientation || window.screen.mozUnlockOrientation || window.screen.msUnlockOrientation || (window.screen.orientation?.unlock);
+        const unlockOrientation =
+            window.screen.unlockOrientation ||
+            window.screen.mozUnlockOrientation ||
+            window.screen.msUnlockOrientation ||
+            window.screen.orientation?.unlock;
 
         if (unlockOrientation) {
             try {

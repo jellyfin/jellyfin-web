@@ -1,4 +1,3 @@
-
 /**
  * Module for itemidentifier media item.
  * @module components/itemidentifier/itemidentifier
@@ -67,7 +66,9 @@ function searchForIdentificationResults(page) {
         if (value) {
             hasId = true;
         }
-        lookupInfo.ProviderIds[txtLookupId[i].getAttribute('data-providerkey')] = value;
+        lookupInfo.ProviderIds[
+            txtLookupId[i].getAttribute('data-providerkey')
+        ] = value;
     }
 
     if (!hasId && !lookupInfo.Name) {
@@ -89,26 +90,31 @@ function searchForIdentificationResults(page) {
 
     const apiClient = getApiClient();
 
-    apiClient.ajax({
-        type: 'POST',
-        url: apiClient.getUrl(`Items/RemoteSearch/${currentItemType}`),
-        data: JSON.stringify(lookupInfo),
-        contentType: 'application/json',
-        dataType: 'json'
-
-    }).then(results => {
-        loading.hide();
-        showIdentificationSearchResults(page, results);
-    });
+    apiClient
+        .ajax({
+            type: 'POST',
+            url: apiClient.getUrl(`Items/RemoteSearch/${currentItemType}`),
+            data: JSON.stringify(lookupInfo),
+            contentType: 'application/json',
+            dataType: 'json'
+        })
+        .then((results) => {
+            loading.hide();
+            showIdentificationSearchResults(page, results);
+        });
 }
 
 function showIdentificationSearchResults(page, results) {
-    const identificationSearchResults = page.querySelector('.identificationSearchResults');
+    const identificationSearchResults = page.querySelector(
+        '.identificationSearchResults'
+    );
 
     page.querySelector('.popupIdentifyForm').classList.add('hide');
     identificationSearchResults.classList.remove('hide');
     page.querySelector('.identifyOptionsForm').classList.add('hide');
-    page.querySelector('.dialogContentInner').classList.remove('dialog-content-centered');
+    page.querySelector('.dialogContentInner').classList.remove(
+        'dialog-content-centered'
+    );
 
     let html = '';
     let i;
@@ -158,7 +164,9 @@ function showIdentifyOptions(page, identifyResult) {
     page.querySelector('.identificationSearchResults').classList.add('hide');
     identifyOptionsForm.classList.remove('hide');
     page.querySelector('#chkIdentifyReplaceImages').checked = true;
-    page.querySelector('.dialogContentInner').classList.add('dialog-content-centered');
+    page.querySelector('.dialogContentInner').classList.add(
+        'dialog-content-centered'
+    );
 
     currentSearchResult = identifyResult;
 
@@ -166,7 +174,11 @@ function showIdentifyOptions(page, identifyResult) {
     lines.push(escapeHtml(identifyResult.Name));
 
     if (identifyResult.ProductionYear) {
-        lines.push(datetime.toLocaleString(identifyResult.ProductionYear, { useGrouping: false }));
+        lines.push(
+            datetime.toLocaleString(identifyResult.ProductionYear, {
+                useGrouping: false
+            })
+        );
     }
 
     let resultHtml = lines.join('<br/>');
@@ -191,7 +203,10 @@ function getSearchResultHtml(result, index) {
     if (currentItemType === 'Episode') {
         cssClass += ' backdropCard backdropCard-scalable';
         padderClass = 'cardPadder-backdrop';
-    } else if (currentItemType === 'MusicAlbum' || currentItemType === 'MusicArtist') {
+    } else if (
+        currentItemType === 'MusicAlbum' ||
+        currentItemType === 'MusicArtist'
+    ) {
         cssClass += ' squareCard squareCard-scalable';
         padderClass = 'cardPadder-square';
     } else {
@@ -244,7 +259,8 @@ function getSearchResultHtml(result, index) {
         if (i === 0) {
             html += '<div class="cardText cardText-first cardTextCentered">';
         } else {
-            html += '<div class="cardText cardText-secondary cardTextCentered">';
+            html +=
+                '<div class="cardText cardText-secondary cardTextCentered">';
         }
         html += escapeHtml(lines[i] || '') || '&nbsp;';
         html += '</div>';
@@ -259,68 +275,82 @@ function submitIdentficationResult(page) {
     loading.show();
 
     const options = {
-        ReplaceAllImages: page.querySelector('#chkIdentifyReplaceImages').checked
+        ReplaceAllImages: page.querySelector('#chkIdentifyReplaceImages')
+            .checked
     };
 
     const apiClient = getApiClient();
 
-    apiClient.ajax({
-        type: 'POST',
-        url: apiClient.getUrl(`Items/RemoteSearch/Apply/${currentItem.Id}`, options),
-        data: JSON.stringify(currentSearchResult),
-        contentType: 'application/json'
+    apiClient
+        .ajax({
+            type: 'POST',
+            url: apiClient.getUrl(
+                `Items/RemoteSearch/Apply/${currentItem.Id}`,
+                options
+            ),
+            data: JSON.stringify(currentSearchResult),
+            contentType: 'application/json'
+        })
+        .then(
+            () => {
+                hasChanges = true;
+                loading.hide();
 
-    }).then(() => {
-        hasChanges = true;
-        loading.hide();
+                dialogHelper.close(page);
+            },
+            () => {
+                loading.hide();
 
-        dialogHelper.close(page);
-    }, () => {
-        loading.hide();
-
-        dialogHelper.close(page);
-    });
+                dialogHelper.close(page);
+            }
+        );
 }
 
 function showIdentificationForm(page, item) {
     const apiClient = getApiClient();
 
-    apiClient.getJSON(apiClient.getUrl(`Items/${item.Id}/ExternalIdInfos`)).then(idList => {
-        let html = '';
+    apiClient
+        .getJSON(apiClient.getUrl(`Items/${item.Id}/ExternalIdInfos`))
+        .then((idList) => {
+            let html = '';
 
-        for (let i = 0, length = idList.length; i < length; i++) {
-            const idInfo = idList[i];
+            for (let i = 0, length = idList.length; i < length; i++) {
+                const idInfo = idList[i];
 
-            const id = `txtLookup${idInfo.Key}`;
+                const id = `txtLookup${idInfo.Key}`;
 
-            html += '<div class="inputContainer">';
+                html += '<div class="inputContainer">';
 
-            let fullName = idInfo.Name;
-            if (idInfo.Type) {
-                fullName = `${idInfo.Name} ${globalize.translate(idInfo.Type)}`;
+                let fullName = idInfo.Name;
+                if (idInfo.Type) {
+                    fullName = `${idInfo.Name} ${globalize.translate(idInfo.Type)}`;
+                }
+
+                const idLabel = globalize.translate(
+                    'LabelDynamicExternalId',
+                    escapeHtml(fullName)
+                );
+
+                html += `<input is="emby-input" class="txtLookupId" data-providerkey="${idInfo.Key}" id="${id}" label="${idLabel}"/>`;
+
+                html += '</div>';
             }
 
-            const idLabel = globalize.translate('LabelDynamicExternalId', escapeHtml(fullName));
+            page.querySelector('#txtLookupName').value = '';
 
-            html += `<input is="emby-input" class="txtLookupId" data-providerkey="${idInfo.Key}" id="${id}" label="${idLabel}"/>`;
+            if (item.Type === 'Person' || item.Type === 'BoxSet') {
+                page.querySelector('.fldLookupYear').classList.add('hide');
+                page.querySelector('#txtLookupYear').value = '';
+            } else {
+                page.querySelector('.fldLookupYear').classList.remove('hide');
+                page.querySelector('#txtLookupYear').value = '';
+            }
 
-            html += '</div>';
-        }
+            page.querySelector('.identifyProviderIds').innerHTML = html;
 
-        page.querySelector('#txtLookupName').value = '';
-
-        if (item.Type === 'Person' || item.Type === 'BoxSet') {
-            page.querySelector('.fldLookupYear').classList.add('hide');
-            page.querySelector('#txtLookupYear').value = '';
-        } else {
-            page.querySelector('.fldLookupYear').classList.remove('hide');
-            page.querySelector('#txtLookupYear').value = '';
-        }
-
-        page.querySelector('.identifyProviderIds').innerHTML = html;
-
-        page.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('Identify');
-    });
+            page.querySelector('.formDialogHeaderTitle').innerHTML =
+                globalize.translate('Identify');
+        });
 }
 
 function showEditor(itemId) {
@@ -328,7 +358,7 @@ function showEditor(itemId) {
 
     const apiClient = getApiClient();
 
-    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
+    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
         currentItem = item;
         currentItemType = currentItem.Type;
 
@@ -356,7 +386,10 @@ function showEditor(itemId) {
         dlg.addEventListener('close', onDialogClosed);
 
         if (layoutManager.tv) {
-            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+            scrollHelper.centerFocus.on(
+                dlg.querySelector('.formDialogContent'),
+                false
+            );
         }
 
         if (item.Path) {
@@ -369,17 +402,23 @@ function showEditor(itemId) {
 
         dialogHelper.open(dlg);
 
-        dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
-            e.preventDefault();
-            searchForIdentificationResults(dlg);
-            return false;
-        });
+        dlg.querySelector('.popupIdentifyForm').addEventListener(
+            'submit',
+            (e) => {
+                e.preventDefault();
+                searchForIdentificationResults(dlg);
+                return false;
+            }
+        );
 
-        dlg.querySelector('.identifyOptionsForm').addEventListener('submit', e => {
-            e.preventDefault();
-            submitIdentficationResult(dlg);
-            return false;
-        });
+        dlg.querySelector('.identifyOptionsForm').addEventListener(
+            'submit',
+            (e) => {
+                e.preventDefault();
+                submitIdentficationResult(dlg);
+                return false;
+            }
+        );
 
         dlg.querySelector('.btnCancel').addEventListener('click', () => {
             dialogHelper.close(dlg);
@@ -427,7 +466,10 @@ function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
     dlg.innerHTML = html;
 
     if (layoutManager.tv) {
-        scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+        scrollHelper.centerFocus.on(
+            dlg.querySelector('.formDialogContent'),
+            false
+        );
     }
 
     dialogHelper.open(dlg);
@@ -436,7 +478,7 @@ function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
         dialogHelper.close(dlg);
     });
 
-    dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
+    dlg.querySelector('.popupIdentifyForm').addEventListener('submit', (e) => {
         e.preventDefault();
         searchForIdentificationResults(dlg);
         return false;
@@ -465,7 +507,8 @@ function showIdentificationFormFindNew(dlg, itemName, itemYear, itemType) {
         dlg.querySelector('#txtLookupYear').value = itemYear;
     }
 
-    dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('Search');
+    dlg.querySelector('.formDialogHeaderTitle').innerHTML =
+        globalize.translate('Search');
 }
 
 export function show(itemId, serverId) {

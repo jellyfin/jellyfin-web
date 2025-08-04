@@ -16,8 +16,8 @@ import { calculateTotal, calculateUsedPercentage } from '../utils/space';
 import StorageTypeIcon from './StorageTypeIcon';
 
 interface StorageListItemProps {
-    label: string
-    folder?: FolderStorageDto
+    label: string;
+    folder?: FolderStorageDto;
 }
 
 const getStatusColor = (percent: number) => {
@@ -36,14 +36,14 @@ const getStorageTypeText = (type?: string | null) => {
     return type;
 };
 
-const StorageListItem: FC<StorageListItemProps> = ({
-    label,
-    folder
-}) => {
-    const readableUsedSpace = (typeof folder?.UsedSpace === 'undefined' || folder.UsedSpace < 0) ?
-        '?' : getReadableSize(folder.UsedSpace);
+const StorageListItem: FC<StorageListItemProps> = ({ label, folder }) => {
+    const readableUsedSpace =
+        typeof folder?.UsedSpace === 'undefined' || folder.UsedSpace < 0
+            ? '?'
+            : getReadableSize(folder.UsedSpace);
     const totalSpace = calculateTotal(folder);
-    const readableTotalSpace = (totalSpace < 0) ? '?' : getReadableSize(totalSpace);
+    const readableTotalSpace =
+        totalSpace < 0 ? '?' : getReadableSize(totalSpace);
     const usedPercentage = calculateUsedPercentage(folder);
     const statusColor = folder ? getStatusColor(usedPercentage) : 'primary';
 
@@ -54,10 +54,7 @@ const StorageListItem: FC<StorageListItemProps> = ({
             </ListItemIcon>
             <ListItemText
                 primary={
-                    <Typography
-                        component='span'
-                        variant='body2'
-                    >
+                    <Typography component='span' variant='body2'>
                         {label}
                     </Typography>
                 }
@@ -70,9 +67,7 @@ const StorageListItem: FC<StorageListItemProps> = ({
                                 lineBreak: 'anywhere'
                             }}
                         >
-                            {folder ? folder.Path : (
-                                <Skeleton />
-                            )}
+                            {folder ? folder.Path : <Skeleton />}
                         </Typography>
                         <LinearProgress
                             variant={folder ? 'determinate' : 'indeterminate'}

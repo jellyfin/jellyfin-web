@@ -16,7 +16,12 @@ import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React from 'react';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
+import {
+    type ActionFunctionArgs,
+    Form,
+    useActionData,
+    useNavigation
+} from 'react-router-dom';
 import { ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
 
@@ -31,14 +36,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     config.PreferredMetadataLanguage = data.Language.toString();
     config.MetadataCountryCode = data.Country.toString();
-    config.DummyChapterDuration = parseInt(data.DummyChapterDuration.toString(), 10);
-    config.ChapterImageResolution = data.ChapterImageResolution.toString() as ImageResolution;
+    config.DummyChapterDuration = parseInt(
+        data.DummyChapterDuration.toString(),
+        10
+    );
+    config.ChapterImageResolution =
+        data.ChapterImageResolution.toString() as ImageResolution;
 
-    await getConfigurationApi(api)
-        .updateConfiguration({ serverConfiguration: config });
+    await getConfigurationApi(api).updateConfiguration({
+        serverConfiguration: config
+    });
 
     void queryClient.invalidateQueries({
-        queryKey: [ QUERY_KEY ]
+        queryKey: [QUERY_KEY]
     });
 
     return {
@@ -81,7 +91,9 @@ export const Component = () => {
         >
             <Box className='content-primary'>
                 {isConfigError || isCulturesError || isCountriesError ? (
-                    <Alert severity='error'>{globalize.translate('MetadataImagesLoadError')}</Alert>
+                    <Alert severity='error'>
+                        {globalize.translate('MetadataImagesLoadError')}
+                    </Alert>
                 ) : (
                     <Form method='POST'>
                         <Stack spacing={3}>
@@ -90,8 +102,16 @@ export const Component = () => {
                                     {globalize.translate('SettingsSaved')}
                                 </Alert>
                             )}
-                            <Typography variant='h2'>{globalize.translate('HeaderPreferredMetadataLanguage')}</Typography>
-                            <Typography>{globalize.translate('DefaultMetadataLangaugeDescription')}</Typography>
+                            <Typography variant='h2'>
+                                {globalize.translate(
+                                    'HeaderPreferredMetadataLanguage'
+                                )}
+                            </Typography>
+                            <Typography>
+                                {globalize.translate(
+                                    'DefaultMetadataLangaugeDescription'
+                                )}
+                            </Typography>
 
                             <TextField
                                 name={'Language'}
@@ -99,11 +119,19 @@ export const Component = () => {
                                 defaultValue={config.PreferredMetadataLanguage}
                                 select
                             >
-                                {cultures.map(culture => {
-                                    return <MenuItem
-                                        key={culture.TwoLetterISOLanguageName}
-                                        value={culture.TwoLetterISOLanguageName}
-                                    >{culture.DisplayName}</MenuItem>;
+                                {cultures.map((culture) => {
+                                    return (
+                                        <MenuItem
+                                            key={
+                                                culture.TwoLetterISOLanguageName
+                                            }
+                                            value={
+                                                culture.TwoLetterISOLanguageName
+                                            }
+                                        >
+                                            {culture.DisplayName}
+                                        </MenuItem>
+                                    );
                                 })}
                             </TextField>
 
@@ -113,22 +141,35 @@ export const Component = () => {
                                 defaultValue={config.MetadataCountryCode}
                                 select
                             >
-                                {countries.map(country => {
-                                    return <MenuItem
-                                        key={country.DisplayName}
-                                        value={country.TwoLetterISORegionName || ''}
-                                    >{country.DisplayName}</MenuItem>;
+                                {countries.map((country) => {
+                                    return (
+                                        <MenuItem
+                                            key={country.DisplayName}
+                                            value={
+                                                country.TwoLetterISORegionName ||
+                                                ''
+                                            }
+                                        >
+                                            {country.DisplayName}
+                                        </MenuItem>
+                                    );
                                 })}
                             </TextField>
 
-                            <Typography variant='h2'>{globalize.translate('HeaderDummyChapter')}</Typography>
+                            <Typography variant='h2'>
+                                {globalize.translate('HeaderDummyChapter')}
+                            </Typography>
 
                             <TextField
                                 name={'DummyChapterDuration'}
                                 defaultValue={config.DummyChapterDuration}
                                 type='number'
-                                label={globalize.translate('LabelDummyChapterDuration')}
-                                helperText={globalize.translate('LabelDummyChapterDurationHelp')}
+                                label={globalize.translate(
+                                    'LabelDummyChapterDuration'
+                                )}
+                                helperText={globalize.translate(
+                                    'LabelDummyChapterDurationHelp'
+                                )}
                                 slotProps={{
                                     htmlInput: {
                                         min: 0,
@@ -141,18 +182,26 @@ export const Component = () => {
                                 name={'ChapterImageResolution'}
                                 select
                                 defaultValue={config.ChapterImageResolution}
-                                label={globalize.translate('LabelChapterImageResolution')}
-                                helperText={globalize.translate('LabelChapterImageResolutionHelp')}
+                                label={globalize.translate(
+                                    'LabelChapterImageResolution'
+                                )}
+                                helperText={globalize.translate(
+                                    'LabelChapterImageResolutionHelp'
+                                )}
                             >
-                                {imageResolutions.map(resolution => {
-                                    return <MenuItem key={resolution.name} value={resolution.value}>{resolution.name}</MenuItem>;
+                                {imageResolutions.map((resolution) => {
+                                    return (
+                                        <MenuItem
+                                            key={resolution.name}
+                                            value={resolution.value}
+                                        >
+                                            {resolution.name}
+                                        </MenuItem>
+                                    );
                                 })}
                             </TextField>
 
-                            <Button
-                                type='submit'
-                                size='large'
-                            >
+                            <Button type='submit' size='large'>
                                 {globalize.translate('Save')}
                             </Button>
                         </Stack>

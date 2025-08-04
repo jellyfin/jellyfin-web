@@ -1,4 +1,3 @@
-
 /**
  * Module for display list view.
  * @module components/listview/listview
@@ -22,7 +21,9 @@ import DOMPurify from 'dompurify';
 
 function getIndex(item, options) {
     if (options.index === 'disc') {
-        return item.ParentIndexNumber == null ? '' : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
+        return item.ParentIndexNumber == null
+            ? ''
+            : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
     }
 
     const sortBy = (options.sortBy || '').toLowerCase();
@@ -182,7 +183,10 @@ export function getListViewHtml(options) {
 
     const clickEntireItem = layoutManager.tv;
     const outerTagName = clickEntireItem ? 'button' : 'div';
-    const enableSideMediaInfo = options.enableSideMediaInfo != null ? options.enableSideMediaInfo : true;
+    const enableSideMediaInfo =
+        options.enableSideMediaInfo != null
+            ? options.enableSideMediaInfo
+            : true;
 
     let outerHtml = '';
 
@@ -202,7 +206,8 @@ export function getListViewHtml(options) {
                 }
 
                 if (i === 0) {
-                    html += '<h2 class="listGroupHeader listGroupHeader-first">';
+                    html +=
+                        '<h2 class="listGroupHeader listGroupHeader-first">';
                 } else {
                     html += '<h2 class="listGroupHeader">';
                 }
@@ -217,7 +222,10 @@ export function getListViewHtml(options) {
 
         let cssClass = 'listItem';
 
-        if (options.border || (options.highlight !== false && !layoutManager.tv)) {
+        if (
+            options.border ||
+            (options.highlight !== false && !layoutManager.tv)
+        ) {
             cssClass += ' listItem-border';
         }
 
@@ -236,14 +244,28 @@ export function getListViewHtml(options) {
             downloadWidth = 500;
         }
 
-        const playlistItemId = item.PlaylistItemId ? (` data-playlistitemid="${item.PlaylistItemId}"`) : '';
+        const playlistItemId = item.PlaylistItemId
+            ? ` data-playlistitemid="${item.PlaylistItemId}"`
+            : '';
 
-        const positionTicksData = item.UserData?.PlaybackPositionTicks ? (` data-positionticks="${item.UserData.PlaybackPositionTicks}"`) : '';
-        const collectionIdData = options.collectionId ? (` data-collectionid="${options.collectionId}"`) : '';
-        const playlistIdData = options.playlistId ? (` data-playlistid="${options.playlistId}"`) : '';
-        const mediaTypeData = item.MediaType ? (` data-mediatype="${item.MediaType}"`) : '';
-        const collectionTypeData = item.CollectionType ? (` data-collectiontype="${item.CollectionType}"`) : '';
-        const channelIdData = item.ChannelId ? (` data-channelid="${item.ChannelId}"`) : '';
+        const positionTicksData = item.UserData?.PlaybackPositionTicks
+            ? ` data-positionticks="${item.UserData.PlaybackPositionTicks}"`
+            : '';
+        const collectionIdData = options.collectionId
+            ? ` data-collectionid="${options.collectionId}"`
+            : '';
+        const playlistIdData = options.playlistId
+            ? ` data-playlistid="${options.playlistId}"`
+            : '';
+        const mediaTypeData = item.MediaType
+            ? ` data-mediatype="${item.MediaType}"`
+            : '';
+        const collectionTypeData = item.CollectionType
+            ? ` data-collectiontype="${item.CollectionType}"`
+            : '';
+        const channelIdData = item.ChannelId
+            ? ` data-channelid="${item.ChannelId}"`
+            : '';
 
         if (enableContentWrapper) {
             cssClass += ' listItem-withContentWrapper';
@@ -256,12 +278,18 @@ export function getListViewHtml(options) {
         }
 
         if (!clickEntireItem && options.dragHandle) {
-            html += '<span class="listViewDragHandle material-icons listItemIcon listItemIcon-transparent drag_handle" aria-hidden="true"></span>';
+            html +=
+                '<span class="listViewDragHandle material-icons listItemIcon listItemIcon-transparent drag_handle" aria-hidden="true"></span>';
         }
 
         if (options.image !== false) {
-            const imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
-            let imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
+            const imgUrl =
+                options.imageSource === 'channel'
+                    ? getChannelImageUrl(item, downloadWidth)
+                    : getImageUrl(item, downloadWidth);
+            let imageClass = isLargeStyle
+                ? 'listItemImage listItemImage-large'
+                : 'listItemImage';
 
             if (options.imageSource === 'channel') {
                 imageClass += ' listItemImage-channel';
@@ -271,7 +299,8 @@ export function getListViewHtml(options) {
                 imageClass += ' listItemImage-large-tv';
             }
 
-            const playOnImageClick = options.imagePlayButton && !layoutManager.tv;
+            const playOnImageClick =
+                options.imagePlayButton && !layoutManager.tv;
 
             if (!clickEntireItem) {
                 imageClass += ' itemAction';
@@ -280,14 +309,30 @@ export function getListViewHtml(options) {
             const imageAction = playOnImageClick ? 'link' : action;
 
             if (imgUrl) {
-                html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
+                html +=
+                    '<div data-action="' +
+                    imageAction +
+                    '" class="' +
+                    imageClass +
+                    ' lazy" data-src="' +
+                    imgUrl +
+                    '" item-icon>';
             } else {
-                html += '<div class="' + imageClass + ' cardImageContainer ' + getDefaultBackgroundClass(item.Name) + '">' + cardBuilder.getDefaultText(item, options);
+                html +=
+                    '<div class="' +
+                    imageClass +
+                    ' cardImageContainer ' +
+                    getDefaultBackgroundClass(item.Name) +
+                    '">' +
+                    cardBuilder.getDefaultText(item, options);
             }
 
             const mediaSourceCount = item.MediaSourceCount || 1;
             if (mediaSourceCount > 1 && options.disableIndicators !== true) {
-                html += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
+                html +=
+                    '<div class="mediaSourceIndicator">' +
+                    mediaSourceCount +
+                    '</div>';
             }
 
             let indicatorsHtml = '';
@@ -298,7 +343,8 @@ export function getListViewHtml(options) {
             }
 
             if (playOnImageClick) {
-                html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><span class="material-icons listItemImageButton-icon play_arrow" aria-hidden="true"></span></button>';
+                html +=
+                    '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><span class="material-icons listItemImageButton-icon play_arrow" aria-hidden="true"></span></button>';
             }
 
             const progressHtml = indicators.getProgressBarHtml(item, {
@@ -313,25 +359,33 @@ export function getListViewHtml(options) {
 
         if (options.showIndexNumberLeft) {
             html += '<div class="listItem-indexnumberleft">';
-            html += (item.IndexNumber || '&nbsp;');
+            html += item.IndexNumber || '&nbsp;';
             html += '</div>';
         }
 
         const textlines = [];
 
         if (options.showProgramDateTime) {
-            textlines.push(datetime.toLocaleString(datetime.parseISO8601Date(item.StartDate), {
-
-                weekday: 'long',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit'
-            }));
+            textlines.push(
+                datetime.toLocaleString(
+                    datetime.parseISO8601Date(item.StartDate),
+                    {
+                        weekday: 'long',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: '2-digit'
+                    }
+                )
+            );
         }
 
         if (options.showProgramTime) {
-            textlines.push(datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate)));
+            textlines.push(
+                datetime.getDisplayTime(
+                    datetime.parseISO8601Date(item.StartDate)
+                )
+            );
         }
 
         if (options.showChannel && item.ChannelName) {
@@ -374,15 +428,23 @@ export function getListViewHtml(options) {
         }
 
         if (item.IsFolder) {
-            if (options.artist !== false && item.AlbumArtist && item.Type === 'MusicAlbum') {
+            if (
+                options.artist !== false &&
+                item.AlbumArtist &&
+                item.Type === 'MusicAlbum'
+            ) {
                 textlines.push(item.AlbumArtist);
             }
         } else if (options.artist) {
             const artistItems = item.ArtistItems;
             if (artistItems && item.Type !== 'MusicAlbum') {
-                textlines.push(artistItems.map(a => {
-                    return a.Name;
-                }).join(', '));
+                textlines.push(
+                    artistItems
+                        .map((a) => {
+                            return a.Name;
+                        })
+                        .join(', ')
+                );
             }
         }
 
@@ -404,22 +466,25 @@ export function getListViewHtml(options) {
         html += getTextLinesHtml(textlines, isLargeStyle);
 
         if (options.mediaInfo !== false && !enableSideMediaInfo) {
-            const mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';
+            const mediaInfoClass =
+                'secondary listItemMediaInfo listItemBodyText';
 
             html += `<div class="${mediaInfoClass}">`;
             html += mediaInfo.getPrimaryMediaInfoHtml(item, {
                 episodeTitle: false,
                 originalAirDate: false,
                 subtitles: false
-
             });
             html += '</div>';
         }
 
         if (enableOverview && item.Overview) {
-            // eslint-disable-next-line sonarjs/disabled-auto-escaping
-            const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
-            html += '<div class="secondary listItem-overview listItemBodyText">';
+            const overview = DOMPurify.sanitize(
+                // eslint-disable-next-line sonarjs/disabled-auto-escaping
+                markdownIt({ html: true }).render(item.Overview || '')
+            );
+            html +=
+                '<div class="secondary listItem-overview listItemBodyText">';
             html += '<bdi>' + overview + '</bdi>';
             html += '</div>';
         }
@@ -429,31 +494,36 @@ export function getListViewHtml(options) {
         if (options.mediaInfo !== false && enableSideMediaInfo) {
             html += '<div class="secondary listItemMediaInfo">';
             html += mediaInfo.getPrimaryMediaInfoHtml(item, {
-
                 year: false,
                 container: false,
                 episodeTitle: false,
                 criticRating: false,
                 officialRating: false,
                 endsAt: false
-
             });
             html += '</div>';
         }
 
-        if (!options.recordButton && (item.Type === 'Timer' || item.Type === 'Program')) {
-            html += indicators.getTimerIndicator(item).replace('indicatorIcon', 'indicatorIcon listItemAside');
+        if (
+            !options.recordButton &&
+            (item.Type === 'Timer' || item.Type === 'Program')
+        ) {
+            html += indicators
+                .getTimerIndicator(item)
+                .replace('indicatorIcon', 'indicatorIcon listItemAside');
         }
 
         html += '<div class="listViewUserDataButtons">';
 
         if (!clickEntireItem) {
             if (options.addToListButton) {
-                html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><span class="material-icons playlist_add" aria-hidden="true"></span></button>';
+                html +=
+                    '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><span class="material-icons playlist_add" aria-hidden="true"></span></button>';
             }
 
             if (options.infoButton) {
-                html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><span class="material-icons info_outline" aria-hidden="true"></span></button>';
+                html +=
+                    '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><span class="material-icons info_outline" aria-hidden="true"></span></button>';
             }
 
             if (options.rightButtons) {
@@ -464,17 +534,44 @@ export function getListViewHtml(options) {
                 const userData = item.UserData || {};
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
-                if (itemHelper.canMarkPlayed(item) && options.enablePlayedButton !== false) {
-                    html += '<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons check" aria-hidden="true"></span></button>';
+                if (
+                    itemHelper.canMarkPlayed(item) &&
+                    options.enablePlayedButton !== false
+                ) {
+                    html +=
+                        '<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' +
+                        item.Id +
+                        '" data-serverid="' +
+                        item.ServerId +
+                        '" data-itemtype="' +
+                        item.Type +
+                        '" data-played="' +
+                        userData.Played +
+                        '"><span class="material-icons check" aria-hidden="true"></span></button>';
                 }
 
-                if (itemHelper.canRate(item) && options.enableRatingButton !== false) {
-                    html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
+                if (
+                    itemHelper.canRate(item) &&
+                    options.enableRatingButton !== false
+                ) {
+                    html +=
+                        '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' +
+                        item.Id +
+                        '" data-serverid="' +
+                        item.ServerId +
+                        '" data-itemtype="' +
+                        item.Type +
+                        '" data-likes="' +
+                        likes +
+                        '" data-isfavorite="' +
+                        userData.IsFavorite +
+                        '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
                 }
             }
 
             if (options.moreButton !== false) {
-                html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
+                html +=
+                    '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
             }
         }
         html += '</div>';

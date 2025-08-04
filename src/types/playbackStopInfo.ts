@@ -45,4 +45,3 @@ export interface PlaybackStopInfo {
     nextItem: BaseItemDto | null;
     nextMediaType: MediaType | null;
 }
-

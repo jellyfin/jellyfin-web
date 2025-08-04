@@ -19,36 +19,37 @@ import keyboardNavigation from 'scripts/keyboardNavigation';
 
 const UserSettingsPage: FC = () => {
     const { user: currentUser } = useApi();
-    const [ searchParams ] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const {
         data: isQuickConnectEnabled,
         isPending: isQuickConnectEnabledPending
     } = useQuickConnectEnabled();
     const { data: users } = useUsers();
-    const [ user, setUser ] = useState<UserDto>();
+    const [user, setUser] = useState<UserDto>();
 
-    const userId = useMemo(() => (
-        searchParams.get('userId') || currentUser?.Id
-    ), [ currentUser, searchParams ]);
-    const isLoggedInUser = useMemo(() => (
-        userId && userId === currentUser?.Id
-    ), [ currentUser, userId ]);
+    const userId = useMemo(
+        () => searchParams.get('userId') || currentUser?.Id,
+        [currentUser, searchParams]
+    );
+    const isLoggedInUser = useMemo(
+        () => userId && userId === currentUser?.Id,
+        [currentUser, userId]
+    );
 
     useEffect(() => {
         if (userId) {
             if (userId === currentUser?.Id) setUser(currentUser);
             else setUser(users?.find(({ Id }) => userId === Id));
         }
-    }, [ currentUser, userId, users ]);
+    }, [currentUser, userId, users]);
 
     if (!userId || !user || isQuickConnectEnabledPending) {
-        return (
-            <Loading />
-        );
+        return <Loading />;
     }
 
     // gamepad toggle unavailable on EdgeUWP, and smoothscroll unavailable on non-TV layout
-    const isControlsPageEmpty = !keyboardNavigation.canEnableGamepad() && !layoutManager.tv;
+    const isControlsPageEmpty =
+        !keyboardNavigation.canEnableGamepad() && !layoutManager.tv;
 
     return (
         <Page
@@ -84,7 +85,10 @@ const UserSettingsPage: FC = () => {
                             }}
                         >
                             <div className='listItem'>
-                                <span className='material-icons listItemIcon listItemIcon-transparent person' aria-hidden='true' />
+                                <span
+                                    className='material-icons listItemIcon listItemIcon-transparent person'
+                                    aria-hidden='true'
+                                />
                                 <div className='listItemBody'>
                                     <div className='listItemBodyText'>
                                         {globalize.translate('Profile')}
@@ -104,10 +108,15 @@ const UserSettingsPage: FC = () => {
                                 }}
                             >
                                 <div className='listItem'>
-                                    <span className='material-icons listItemIcon listItemIcon-transparent phonelink_lock' aria-hidden='true' />
+                                    <span
+                                        className='material-icons listItemIcon listItemIcon-transparent phonelink_lock'
+                                        aria-hidden='true'
+                                    />
                                     <div className='listItemBody'>
                                         <div className='listItemBodyText'>
-                                            {globalize.translate('QuickConnect')}
+                                            {globalize.translate(
+                                                'QuickConnect'
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +133,10 @@ const UserSettingsPage: FC = () => {
                             }}
                         >
                             <div className='listItem'>
-                                <span className='material-icons listItemIcon listItemIcon-transparent tv' aria-hidden='true' />
+                                <span
+                                    className='material-icons listItemIcon listItemIcon-transparent tv'
+                                    aria-hidden='true'
+                                />
                                 <div className='listItemBody'>
                                     <div className='listItemBodyText'>
                                         {globalize.translate('Display')}
@@ -143,7 +155,10 @@ const UserSettingsPage: FC = () => {
                             }}
                         >
                             <div className='listItem'>
-                                <span className='material-icons listItemIcon listItemIcon-transparent home' aria-hidden='true' />
+                                <span
+                                    className='material-icons listItemIcon listItemIcon-transparent home'
+                                    aria-hidden='true'
+                                />
                                 <div className='listItemBody'>
                                     <div className='listItemBodyText'>
                                         {globalize.translate('Home')}
@@ -162,7 +177,10 @@ const UserSettingsPage: FC = () => {
                             }}
                         >
                             <div className='listItem'>
-                                <span className='material-icons listItemIcon listItemIcon-transparent play_circle_filled' aria-hidden='true' />
+                                <span
+                                    className='material-icons listItemIcon listItemIcon-transparent play_circle_filled'
+                                    aria-hidden='true'
+                                />
                                 <div className='listItemBody'>
                                     <div className='listItemBodyText'>
                                         {globalize.translate('TitlePlayback')}
@@ -181,7 +199,10 @@ const UserSettingsPage: FC = () => {
                             }}
                         >
                             <div className='listItem'>
-                                <span className='material-icons listItemIcon listItemIcon-transparent closed_caption' aria-hidden='true' />
+                                <span
+                                    className='material-icons listItemIcon listItemIcon-transparent closed_caption'
+                                    aria-hidden='true'
+                                />
                                 <div className='listItemBody'>
                                     <div className='listItemBodyText'>
                                         {globalize.translate('Subtitles')}
@@ -201,10 +222,15 @@ const UserSettingsPage: FC = () => {
                                 }}
                             >
                                 <div className='listItem'>
-                                    <span className='material-icons listItemIcon listItemIcon-transparent download' aria-hidden='true' />
+                                    <span
+                                        className='material-icons listItemIcon listItemIcon-transparent download'
+                                        aria-hidden='true'
+                                    />
                                     <div className='listItemBody'>
                                         <div className='listItemBodyText'>
-                                            {globalize.translate('DownloadManager')}
+                                            {globalize.translate(
+                                                'DownloadManager'
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -222,88 +248,112 @@ const UserSettingsPage: FC = () => {
                                 }}
                             >
                                 <div className='listItem'>
-                                    <span className='material-icons listItemIcon listItemIcon-transparent devices_other' aria-hidden='true' />
+                                    <span
+                                        className='material-icons listItemIcon listItemIcon-transparent devices_other'
+                                        aria-hidden='true'
+                                    />
                                     <div className='listItemBody'>
                                         <div className='listItemBodyText'>
-                                            {globalize.translate('ClientSettings')}
+                                            {globalize.translate(
+                                                'ClientSettings'
+                                            )}
                                         </div>
                                     </div>
                                 </div>
                             </LinkButton>
                         )}
 
-                        {isLoggedInUser && !browser.mobile && !isControlsPageEmpty && (
-                            <LinkButton
-                                href={`#/mypreferencescontrols?userId=${userId}`}
-                                className='lnkControlsPreferences listItem-border'
-                                style={{
-                                    display: 'block',
-                                    margin: 0,
-                                    padding: 0
-                                }}
-                            >
-                                <div className='listItem'>
-                                    <span className='material-icons listItemIcon listItemIcon-transparent keyboard' aria-hidden='true' />
-                                    <div className='listItemBody'>
-                                        <div className='listItemBodyText'>
-                                            {globalize.translate('Controls')}
+                        {isLoggedInUser &&
+                            !browser.mobile &&
+                            !isControlsPageEmpty && (
+                                <LinkButton
+                                    href={`#/mypreferencescontrols?userId=${userId}`}
+                                    className='lnkControlsPreferences listItem-border'
+                                    style={{
+                                        display: 'block',
+                                        margin: 0,
+                                        padding: 0
+                                    }}
+                                >
+                                    <div className='listItem'>
+                                        <span
+                                            className='material-icons listItemIcon listItemIcon-transparent keyboard'
+                                            aria-hidden='true'
+                                        />
+                                        <div className='listItemBody'>
+                                            <div className='listItemBodyText'>
+                                                {globalize.translate(
+                                                    'Controls'
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </LinkButton>
-                        )}
+                                </LinkButton>
+                            )}
                     </div>
 
-                    {isLoggedInUser && user.Policy?.IsAdministrator && !layoutManager.tv && (
-                        <div className='adminSection verticalSection verticalSection-extrabottompadding'>
-                            <h2
-                                className='sectionTitle headerUsername'
-                                style={{
-                                    paddingLeft: '0.25em'
-                                }}
-                            >
-                                {globalize.translate('HeaderAdmin')}
-                            </h2>
+                    {isLoggedInUser &&
+                        user.Policy?.IsAdministrator &&
+                        !layoutManager.tv && (
+                            <div className='adminSection verticalSection verticalSection-extrabottompadding'>
+                                <h2
+                                    className='sectionTitle headerUsername'
+                                    style={{
+                                        paddingLeft: '0.25em'
+                                    }}
+                                >
+                                    {globalize.translate('HeaderAdmin')}
+                                </h2>
 
-                            <LinkButton
-                                href='#/dashboard'
-                                className='listItem-border'
-                                style={{
-                                    display: 'block',
-                                    margin: 0,
-                                    padding: 0
-                                }}
-                            >
-                                <div className='listItem'>
-                                    <span className='material-icons listItemIcon listItemIcon-transparent dashboard' aria-hidden='true' />
-                                    <div className='listItemBody'>
-                                        <div className='listItemBodyText'>
-                                            {globalize.translate('TabDashboard')}
+                                <LinkButton
+                                    href='#/dashboard'
+                                    className='listItem-border'
+                                    style={{
+                                        display: 'block',
+                                        margin: 0,
+                                        padding: 0
+                                    }}
+                                >
+                                    <div className='listItem'>
+                                        <span
+                                            className='material-icons listItemIcon listItemIcon-transparent dashboard'
+                                            aria-hidden='true'
+                                        />
+                                        <div className='listItemBody'>
+                                            <div className='listItemBodyText'>
+                                                {globalize.translate(
+                                                    'TabDashboard'
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </LinkButton>
+                                </LinkButton>
 
-                            <LinkButton
-                                href='#/metadata'
-                                className='listItem-border'
-                                style={{
-                                    display: 'block',
-                                    margin: 0,
-                                    padding: 0
-                                }}
-                            >
-                                <div className='listItem'>
-                                    <span className='material-icons listItemIcon listItemIcon-transparent mode_edit' aria-hidden='true' />
-                                    <div className='listItemBody'>
-                                        <div className='listItemBodyText'>
-                                            {globalize.translate('MetadataManager')}
+                                <LinkButton
+                                    href='#/metadata'
+                                    className='listItem-border'
+                                    style={{
+                                        display: 'block',
+                                        margin: 0,
+                                        padding: 0
+                                    }}
+                                >
+                                    <div className='listItem'>
+                                        <span
+                                            className='material-icons listItemIcon listItemIcon-transparent mode_edit'
+                                            aria-hidden='true'
+                                        />
+                                        <div className='listItemBody'>
+                                            <div className='listItemBodyText'>
+                                                {globalize.translate(
+                                                    'MetadataManager'
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </LinkButton>
-                        </div>
-                    )}
+                                </LinkButton>
+                            </div>
+                        )}
 
                     {isLoggedInUser && (
                         <div className='userSection verticalSection verticalSection-extrabottompadding'>
@@ -327,10 +377,15 @@ const UserSettingsPage: FC = () => {
                                     }}
                                 >
                                     <div className='listItem'>
-                                        <span className='material-icons listItemIcon listItemIcon-transparent storage' aria-hidden='true' />
+                                        <span
+                                            className='material-icons listItemIcon listItemIcon-transparent storage'
+                                            aria-hidden='true'
+                                        />
                                         <div className='listItemBody'>
                                             <div className='listItemBodyText'>
-                                                {globalize.translate('SelectServer')}
+                                                {globalize.translate(
+                                                    'SelectServer'
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -347,10 +402,15 @@ const UserSettingsPage: FC = () => {
                                 }}
                             >
                                 <div className='listItem'>
-                                    <span className='material-icons listItemIcon listItemIcon-transparent exit_to_app' aria-hidden='true' />
+                                    <span
+                                        className='material-icons listItemIcon listItemIcon-transparent exit_to_app'
+                                        aria-hidden='true'
+                                    />
                                     <div className='listItemBody'>
                                         <div className='listItemBodyText'>
-                                            {globalize.translate('ButtonSignOut')}
+                                            {globalize.translate(
+                                                'ButtonSignOut'
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -367,10 +427,15 @@ const UserSettingsPage: FC = () => {
                                     }}
                                 >
                                     <div className='listItem'>
-                                        <span className='material-icons listItemIcon listItemIcon-transparent close' aria-hidden='true' />
+                                        <span
+                                            className='material-icons listItemIcon listItemIcon-transparent close'
+                                            aria-hidden='true'
+                                        />
                                         <div className='listItemBody'>
                                             <div className='listItemBodyText'>
-                                                {globalize.translate('ButtonExitApp')}
+                                                {globalize.translate(
+                                                    'ButtonExitApp'
+                                                )}
                                             </div>
                                         </div>
                                     </div>

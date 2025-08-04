@@ -70,9 +70,13 @@ function setState(button, played, updateAttribute) {
 
 function setTitle(button, itemType, played) {
     if (itemType !== 'AudioBook' && itemType !== 'AudioPodcast') {
-        button.title = played ? globalize.translate('Watched') : globalize.translate('MarkPlayed');
+        button.title = played
+            ? globalize.translate('Watched')
+            : globalize.translate('MarkPlayed');
     } else {
-        button.title = played ? globalize.translate('Played') : globalize.translate('MarkPlayed');
+        button.title = played
+            ? globalize.translate('Played')
+            : globalize.translate('MarkPlayed');
     }
 
     const text = button.querySelector('.button-text');
@@ -148,4 +152,3 @@ document.registerElement('emby-playstatebutton', {
     prototype: EmbyPlaystateButtonPrototype,
     extends: 'button'
 });
-

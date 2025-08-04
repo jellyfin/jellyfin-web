@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useCallback, useMemo, useState } from 'react';
+import React, {
+    FunctionComponent,
+    useCallback,
+    useMemo,
+    useState
+} from 'react';
 import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
@@ -15,52 +20,78 @@ import { getIntervalOptions, getTimeOfDayOptions } from '../utils/edit';
 import { useLocale } from 'hooks/useLocale';
 
 type IProps = {
-    open: boolean,
-    title: string,
-    onClose?: () => void,
-    onAdd?: (trigger: TaskTriggerInfo) => void
+    open: boolean;
+    title: string;
+    onClose?: () => void;
+    onAdd?: (trigger: TaskTriggerInfo) => void;
 };
 
-const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd }: IProps) => {
+const NewTriggerForm: FunctionComponent<IProps> = ({
+    open,
+    title,
+    onClose,
+    onAdd
+}: IProps) => {
     const { dateFnsLocale } = useLocale();
-    const [triggerType, setTriggerType] = useState<TaskTriggerInfoType>(TaskTriggerInfoType.DailyTrigger);
+    const [triggerType, setTriggerType] = useState<TaskTriggerInfoType>(
+        TaskTriggerInfoType.DailyTrigger
+    );
 
-    const timeOfDayOptions = useMemo(() => getTimeOfDayOptions(dateFnsLocale), [dateFnsLocale]);
-    const intervalOptions = useMemo(() => getIntervalOptions(dateFnsLocale), [dateFnsLocale]);
+    const timeOfDayOptions = useMemo(
+        () => getTimeOfDayOptions(dateFnsLocale),
+        [dateFnsLocale]
+    );
+    const intervalOptions = useMemo(
+        () => getIntervalOptions(dateFnsLocale),
+        [dateFnsLocale]
+    );
 
-    const onTriggerTypeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        setTriggerType(e.target.value as TaskTriggerInfoType);
-    }, []);
+    const onTriggerTypeChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            setTriggerType(e.target.value as TaskTriggerInfoType);
+        },
+        []
+    );
 
-    const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const onSubmit = useCallback(
+        (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
 
-        const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries());
-        const trigger: TaskTriggerInfo = {
-            Type: data.TriggerType.toString() as TaskTriggerInfoType
-        };
+            const formData = new FormData(e.currentTarget);
+            const data = Object.fromEntries(formData.entries());
+            const trigger: TaskTriggerInfo = {
+                Type: data.TriggerType.toString() as TaskTriggerInfoType
+            };
 
-        if (trigger.Type == TaskTriggerInfoType.WeeklyTrigger) {
-            trigger.DayOfWeek = data.DayOfWeek.toString() as DayOfWeek;
-        }
+            if (trigger.Type == TaskTriggerInfoType.WeeklyTrigger) {
+                trigger.DayOfWeek = data.DayOfWeek.toString() as DayOfWeek;
+            }
 
-        if (trigger.Type == TaskTriggerInfoType.DailyTrigger || trigger.Type == TaskTriggerInfoType.WeeklyTrigger) {
-            trigger.TimeOfDayTicks = parseInt(data.TimeOfDay.toString(), 10);
-        }
+            if (
+                trigger.Type == TaskTriggerInfoType.DailyTrigger ||
+                trigger.Type == TaskTriggerInfoType.WeeklyTrigger
+            ) {
+                trigger.TimeOfDayTicks = parseInt(
+                    data.TimeOfDay.toString(),
+                    10
+                );
+            }
 
-        if (trigger.Type == TaskTriggerInfoType.IntervalTrigger) {
-            trigger.IntervalTicks = parseInt(data.Interval.toString(), 10);
-        }
+            if (trigger.Type == TaskTriggerInfoType.IntervalTrigger) {
+                trigger.IntervalTicks = parseInt(data.Interval.toString(), 10);
+            }
 
-        if (data.TimeLimit.toString()) {
-            trigger.MaxRuntimeTicks = parseFloat(data.TimeLimit.toString()) * 36e9;
-        }
+            if (data.TimeLimit.toString()) {
+                trigger.MaxRuntimeTicks =
+                    parseFloat(data.TimeLimit.toString()) * 36e9;
+            }
 
-        if (onAdd) {
-            onAdd(trigger);
-        }
-    }, [ onAdd ]);
+            if (onAdd) {
+                onAdd(trigger);
+            }
+        },
+        [onAdd]
+    );
 
     return (
         <Dialog
@@ -87,10 +118,18 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                         onChange={onTriggerTypeChange}
                         label={globalize.translate('LabelTriggerType')}
                     >
-                        <MenuItem value={TaskTriggerInfoType.DailyTrigger}>{globalize.translate('OptionDaily')}</MenuItem>
-                        <MenuItem value={TaskTriggerInfoType.WeeklyTrigger}>{globalize.translate('OptionWeekly')}</MenuItem>
-                        <MenuItem value={TaskTriggerInfoType.IntervalTrigger}>{globalize.translate('OptionOnInterval')}</MenuItem>
-                        <MenuItem value={TaskTriggerInfoType.StartupTrigger}>{globalize.translate('OnApplicationStartup')}</MenuItem>
+                        <MenuItem value={TaskTriggerInfoType.DailyTrigger}>
+                            {globalize.translate('OptionDaily')}
+                        </MenuItem>
+                        <MenuItem value={TaskTriggerInfoType.WeeklyTrigger}>
+                            {globalize.translate('OptionWeekly')}
+                        </MenuItem>
+                        <MenuItem value={TaskTriggerInfoType.IntervalTrigger}>
+                            {globalize.translate('OptionOnInterval')}
+                        </MenuItem>
+                        <MenuItem value={TaskTriggerInfoType.StartupTrigger}>
+                            {globalize.translate('OnApplicationStartup')}
+                        </MenuItem>
                     </TextField>
 
                     {triggerType == TaskTriggerInfoType.WeeklyTrigger && (
@@ -101,17 +140,32 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                             defaultValue={DayOfWeek.Sunday}
                             label={globalize.translate('LabelDay')}
                         >
-                            <MenuItem value={DayOfWeek.Sunday}>{globalize.translate('Sunday')}</MenuItem>
-                            <MenuItem value={DayOfWeek.Monday}>{globalize.translate('Monday')}</MenuItem>
-                            <MenuItem value={DayOfWeek.Tuesday}>{globalize.translate('Tuesday')}</MenuItem>
-                            <MenuItem value={DayOfWeek.Wednesday}>{globalize.translate('Wednesday')}</MenuItem>
-                            <MenuItem value={DayOfWeek.Thursday}>{globalize.translate('Thursday')}</MenuItem>
-                            <MenuItem value={DayOfWeek.Friday}>{globalize.translate('Friday')}</MenuItem>
-                            <MenuItem value={DayOfWeek.Saturday}>{globalize.translate('Saturday')}</MenuItem>
+                            <MenuItem value={DayOfWeek.Sunday}>
+                                {globalize.translate('Sunday')}
+                            </MenuItem>
+                            <MenuItem value={DayOfWeek.Monday}>
+                                {globalize.translate('Monday')}
+                            </MenuItem>
+                            <MenuItem value={DayOfWeek.Tuesday}>
+                                {globalize.translate('Tuesday')}
+                            </MenuItem>
+                            <MenuItem value={DayOfWeek.Wednesday}>
+                                {globalize.translate('Wednesday')}
+                            </MenuItem>
+                            <MenuItem value={DayOfWeek.Thursday}>
+                                {globalize.translate('Thursday')}
+                            </MenuItem>
+                            <MenuItem value={DayOfWeek.Friday}>
+                                {globalize.translate('Friday')}
+                            </MenuItem>
+                            <MenuItem value={DayOfWeek.Saturday}>
+                                {globalize.translate('Saturday')}
+                            </MenuItem>
                         </TextField>
                     )}
 
-                    {(triggerType == TaskTriggerInfoType.DailyTrigger || triggerType == TaskTriggerInfoType.WeeklyTrigger) && (
+                    {(triggerType == TaskTriggerInfoType.DailyTrigger ||
+                        triggerType == TaskTriggerInfoType.WeeklyTrigger) && (
                         <TextField
                             name='TimeOfDay'
                             select
@@ -120,10 +174,14 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                             label={globalize.translate('LabelTime')}
                         >
                             {timeOfDayOptions.map((option) => {
-                                return <MenuItem
-                                    key={option.value}
-                                    value={option.value}
-                                >{option.name}</MenuItem>;
+                                return (
+                                    <MenuItem
+                                        key={option.value}
+                                        value={option.value}
+                                    >
+                                        {option.name}
+                                    </MenuItem>
+                                );
                             })}
                         </TextField>
                     )}
@@ -137,10 +195,14 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                             label={globalize.translate('LabelEveryXMinutes')}
                         >
                             {intervalOptions.map((option) => {
-                                return <MenuItem
-                                    key={option.value}
-                                    value={option.value}
-                                >{option.name}</MenuItem>;
+                                return (
+                                    <MenuItem
+                                        key={option.value}
+                                        value={option.value}
+                                    >
+                                        {option.name}
+                                    </MenuItem>
+                                );
                             })}
                         </TextField>
                     )}
@@ -162,10 +224,9 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
             </DialogContent>
 
             <DialogActions>
-                <Button
-                    onClick={onClose}
-                    color='error'
-                >{globalize.translate('ButtonCancel')}</Button>
+                <Button onClick={onClose} color='error'>
+                    {globalize.translate('ButtonCancel')}
+                </Button>
                 <Button type='submit'>{globalize.translate('Add')}</Button>
             </DialogActions>
         </Dialog>

@@ -13,13 +13,21 @@ const userDataMethods = {
     markFavorite: markFavorite
 };
 
-function getUserDataButtonHtml(method, itemId, serverId, icon, tooltip, style, classes) {
+function getUserDataButtonHtml(
+    method,
+    itemId,
+    serverId,
+    icon,
+    tooltip,
+    style,
+    classes
+) {
     let buttonCssClass = classes.buttonCssClass;
     let iconCssClass = classes.iconCssClass;
 
     if (style === 'fab-mini') {
         style = 'fab';
-        buttonCssClass = buttonCssClass ? (buttonCssClass + ' mini') : 'mini';
+        buttonCssClass = buttonCssClass ? buttonCssClass + ' mini' : 'mini';
     }
 
     const is = style === 'fab' ? 'emby-button' : 'paper-icon-button-light';
@@ -55,7 +63,10 @@ function fill(options) {
     const html = getIconsHtml(options);
 
     if (options.fillMode === 'insertAdjacent') {
-        options.element.insertAdjacentHTML(options.insertLocation || 'beforeend', html);
+        options.element.insertAdjacentHTML(
+            options.insertLocation || 'beforeend',
+            html
+        );
     } else {
         options.element.innerHTML = html;
     }
@@ -108,21 +119,55 @@ function getIconsHtml(options) {
 
         if (itemHelper.canMarkPlayed(item)) {
             if (userData.Played) {
-                const buttonCssClass = classes.buttonCssClass + ' btnUserDataOn';
-                html += getUserDataButtonHtml('markPlayed', itemId, serverId, 'check', tooltipPlayed, style, { buttonCssClass, ...classes });
+                const buttonCssClass =
+                    classes.buttonCssClass + ' btnUserDataOn';
+                html += getUserDataButtonHtml(
+                    'markPlayed',
+                    itemId,
+                    serverId,
+                    'check',
+                    tooltipPlayed,
+                    style,
+                    { buttonCssClass, ...classes }
+                );
             } else {
-                html += getUserDataButtonHtml('markPlayed', itemId, serverId, 'check', tooltipPlayed, style, classes);
+                html += getUserDataButtonHtml(
+                    'markPlayed',
+                    itemId,
+                    serverId,
+                    'check',
+                    tooltipPlayed,
+                    style,
+                    classes
+                );
             }
         }
     }
 
     const tooltipFavorite = globalize.translate('Favorite');
     if (userData.IsFavorite) {
-        const buttonCssClass = classes.buttonCssClass + ' btnUserData btnUserDataOn';
-        html += getUserDataButtonHtml('markFavorite', itemId, serverId, 'favorite', tooltipFavorite, style, { buttonCssClass, ...classes });
+        const buttonCssClass =
+            classes.buttonCssClass + ' btnUserData btnUserDataOn';
+        html += getUserDataButtonHtml(
+            'markFavorite',
+            itemId,
+            serverId,
+            'favorite',
+            tooltipFavorite,
+            style,
+            { buttonCssClass, ...classes }
+        );
     } else {
         classes.buttonCssClass += ' btnUserData';
-        html += getUserDataButtonHtml('markFavorite', itemId, serverId, 'favorite', tooltipFavorite, style, classes);
+        html += getUserDataButtonHtml(
+            'markFavorite',
+            itemId,
+            serverId,
+            'favorite',
+            tooltipFavorite,
+            style,
+            classes
+        );
     }
 
     return html;
@@ -169,7 +214,11 @@ function played(id, serverId, isPlayed) {
 function favorite(id, serverId, isFavorite) {
     const apiClient = ServerConnections.getApiClient(serverId);
 
-    return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), id, isFavorite);
+    return apiClient.updateFavoriteStatus(
+        apiClient.getCurrentUserId(),
+        id,
+        isFavorite
+    );
 }
 
 export default {

@@ -17,12 +17,18 @@ EmbyProgressRing.createdCallback = function () {
         // create an observer instance
         const observer = new MutationObserver(function (mutations) {
             mutations.forEach(function () {
-                instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
+                instance.setProgress(
+                    parseFloat(instance.getAttribute('data-progress') || '0')
+                );
             });
         });
 
         // configuration of the observer:
-        const config = { attributes: true, childList: false, characterData: false };
+        const config = {
+            attributes: true,
+            childList: false,
+            characterData: false
+        };
 
         // pass in the target node, as well as the observer options
         observer.observe(instance, config);
@@ -30,7 +36,9 @@ EmbyProgressRing.createdCallback = function () {
         instance.observer = observer;
     }
 
-    instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
+    instance.setProgress(
+        parseFloat(instance.getAttribute('data-progress') || '0')
+    );
 };
 
 EmbyProgressRing.setProgress = function (progress) {
@@ -41,37 +49,50 @@ EmbyProgressRing.setProgress = function (progress) {
     if (progress < 25) {
         angle = -90 + (progress / 100) * 360;
 
-        this.querySelector('.animate-0-25-b').style.transform = 'rotate(' + angle + 'deg)';
+        this.querySelector('.animate-0-25-b').style.transform =
+            'rotate(' + angle + 'deg)';
 
-        this.querySelector('.animate-25-50-b').style.transform = 'rotate(-90deg)';
-        this.querySelector('.animate-50-75-b').style.transform = 'rotate(-90deg)';
-        this.querySelector('.animate-75-100-b').style.transform = 'rotate(-90deg)';
+        this.querySelector('.animate-25-50-b').style.transform =
+            'rotate(-90deg)';
+        this.querySelector('.animate-50-75-b').style.transform =
+            'rotate(-90deg)';
+        this.querySelector('.animate-75-100-b').style.transform =
+            'rotate(-90deg)';
     } else if (progress >= 25 && progress < 50) {
         angle = -90 + ((progress - 25) / 100) * 360;
 
         this.querySelector('.animate-0-25-b').style.transform = 'none';
-        this.querySelector('.animate-25-50-b').style.transform = 'rotate(' + angle + 'deg)';
+        this.querySelector('.animate-25-50-b').style.transform =
+            'rotate(' + angle + 'deg)';
 
-        this.querySelector('.animate-50-75-b').style.transform = 'rotate(-90deg)';
-        this.querySelector('.animate-75-100-b').style.transform = 'rotate(-90deg)';
+        this.querySelector('.animate-50-75-b').style.transform =
+            'rotate(-90deg)';
+        this.querySelector('.animate-75-100-b').style.transform =
+            'rotate(-90deg)';
     } else if (progress >= 50 && progress < 75) {
         angle = -90 + ((progress - 50) / 100) * 360;
 
         this.querySelector('.animate-0-25-b').style.transform = 'none';
         this.querySelector('.animate-25-50-b').style.transform = 'none';
-        this.querySelector('.animate-50-75-b').style.transform = 'rotate(' + angle + 'deg)';
+        this.querySelector('.animate-50-75-b').style.transform =
+            'rotate(' + angle + 'deg)';
 
-        this.querySelector('.animate-75-100-b').style.transform = 'rotate(-90deg)';
+        this.querySelector('.animate-75-100-b').style.transform =
+            'rotate(-90deg)';
     } else if (progress >= 75 && progress <= 100) {
         angle = -90 + ((progress - 75) / 100) * 360;
 
         this.querySelector('.animate-0-25-b').style.transform = 'none';
         this.querySelector('.animate-25-50-b').style.transform = 'none';
         this.querySelector('.animate-50-75-b').style.transform = 'none';
-        this.querySelector('.animate-75-100-b').style.transform = 'rotate(' + angle + 'deg)';
+        this.querySelector('.animate-75-100-b').style.transform =
+            'rotate(' + angle + 'deg)';
     }
 
-    this.querySelector('.progressring-text').innerHTML = toPercentString(progress / 100, getCurrentDateTimeLocale());
+    this.querySelector('.progressring-text').innerHTML = toPercentString(
+        progress / 100,
+        getCurrentDateTimeLocale()
+    );
 };
 
 EmbyProgressRing.attachedCallback = function () {
@@ -95,4 +116,3 @@ document.registerElement('emby-progressring', {
 });
 
 export default EmbyProgressRing;
-

@@ -32,27 +32,51 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 
     let html = '';
 
-    html += items.map(function (filter) {
-        let itemHtml = '';
+    html += items
+        .map(function (filter) {
+            let itemHtml = '';
 
-        const checkedHtml = isCheckedFn(filter) ? ' checked' : '';
-        itemHtml += '<label>';
-        itemHtml += '<input is="emby-checkbox" type="checkbox"' + checkedHtml + ' data-filter="' + filter.Id + '" class="' + cssClass + '"/>';
-        itemHtml += '<span>' + escapeHtml(filter.Name) + '</span>';
-        itemHtml += '</label>';
+            const checkedHtml = isCheckedFn(filter) ? ' checked' : '';
+            itemHtml += '<label>';
+            itemHtml +=
+                '<input is="emby-checkbox" type="checkbox"' +
+                checkedHtml +
+                ' data-filter="' +
+                filter.Id +
+                '" class="' +
+                cssClass +
+                '"/>';
+            itemHtml += '<span>' + escapeHtml(filter.Name) + '</span>';
+            itemHtml += '</label>';
 
-        return itemHtml;
-    }).join('');
+            return itemHtml;
+        })
+        .join('');
 
     elem.querySelector('.filterOptions').innerHTML = html;
 }
 
 function renderDynamicFilters(context, result, options) {
-    renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
-        // Switching from | to ,
-        const delimeter = (options.settings.GenreIds || '').indexOf('|') === -1 ? ',' : '|';
-        return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
-    });
+    renderOptions(
+        context,
+        '.genreFilters',
+        'chkGenreFilter',
+        result.Genres,
+        function (i) {
+            // Switching from | to ,
+            const delimeter =
+                (options.settings.GenreIds || '').indexOf('|') === -1
+                    ? ','
+                    : '|';
+            return (
+                (
+                    delimeter +
+                    (options.settings.GenreIds || '') +
+                    delimeter
+                ).indexOf(delimeter + i.Id + delimeter) !== -1
+            );
+        }
+    );
 }
 
 function setBasicFilter(context, key, elem) {
@@ -103,37 +127,55 @@ function onInputCommand(e) {
     }
 }
 function saveValues(context, settings, settingsKey) {
-    context.querySelectorAll('.simpleFilter').forEach(elem => {
+    context.querySelectorAll('.simpleFilter').forEach((elem) => {
         if (elem.tagName === 'INPUT') {
-            setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem);
+            setBasicFilter(
+                context,
+                settingsKey +
+                    '-filter-' +
+                    elem.getAttribute('data-settingname'),
+                elem
+            );
         } else {
-            setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem.querySelector('input'));
+            setBasicFilter(
+                context,
+                settingsKey +
+                    '-filter-' +
+                    elem.getAttribute('data-settingname'),
+                elem.querySelector('input')
+            );
         }
     });
 
     // Video type
     const videoTypes = [];
-    context.querySelectorAll('.chkVideoTypeFilter').forEach(elem => {
+    context.querySelectorAll('.chkVideoTypeFilter').forEach((elem) => {
         if (elem.checked) {
             videoTypes.push(elem.getAttribute('data-filter'));
         }
     });
 
-    userSettings.setFilter(settingsKey + '-filter-VideoTypes', videoTypes.join(','));
+    userSettings.setFilter(
+        settingsKey + '-filter-VideoTypes',
+        videoTypes.join(',')
+    );
 
     // Series status
     const seriesStatuses = [];
-    context.querySelectorAll('.chkSeriesStatus').forEach(elem => {
+    context.querySelectorAll('.chkSeriesStatus').forEach((elem) => {
         if (elem.checked) {
             seriesStatuses.push(elem.getAttribute('data-filter'));
         }
     });
 
-    userSettings.setFilter(`${settingsKey}-filter-SeriesStatus`, seriesStatuses.join(','));
+    userSettings.setFilter(
+        `${settingsKey}-filter-SeriesStatus`,
+        seriesStatuses.join(',')
+    );
 
     // Genres
     const genres = [];
-    context.querySelectorAll('.chkGenreFilter').forEach(elem => {
+    context.querySelectorAll('.chkGenreFilter').forEach((elem) => {
         if (elem.checked) {
             genres.push(elem.getAttribute('data-filter'));
         }
@@ -160,24 +202,32 @@ function initEditor(context, settings) {
 
     for (i = 0, length = elems.length; i < length; i++) {
         if (elems[i].tagName === 'INPUT') {
-            elems[i].checked = settings[elems[i].getAttribute('data-settingname')] || false;
+            elems[i].checked =
+                settings[elems[i].getAttribute('data-settingname')] || false;
         } else {
-            elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
+            elems[i].querySelector('input').checked =
+                settings[elems[i].getAttribute('data-settingname')] || false;
         }
     }
 
-    const videoTypes = settings.VideoTypes ? settings.VideoTypes.split(',') : [];
+    const videoTypes = settings.VideoTypes
+        ? settings.VideoTypes.split(',')
+        : [];
     elems = context.querySelectorAll('.chkVideoTypeFilter');
 
     for (i = 0, length = elems.length; i < length; i++) {
-        elems[i].checked = videoTypes.indexOf(elems[i].getAttribute('data-filter')) !== -1;
+        elems[i].checked =
+            videoTypes.indexOf(elems[i].getAttribute('data-filter')) !== -1;
     }
 
-    const seriesStatuses = settings.SeriesStatus ? settings.SeriesStatus.split(',') : [];
+    const seriesStatuses = settings.SeriesStatus
+        ? settings.SeriesStatus.split(',')
+        : [];
     elems = context.querySelectorAll('.chkSeriesStatus');
 
     for (i = 0, length = elems.length; i < length; i++) {
-        elems[i].checked = seriesStatuses.indexOf(elems[i].getAttribute('data-filter')) !== -1;
+        elems[i].checked =
+            seriesStatuses.indexOf(elems[i].getAttribute('data-filter')) !== -1;
     }
 
     if (context.querySelector('.basicFilterSection .viewSetting:not(.hide)')) {
@@ -196,7 +246,6 @@ function loadDynamicFilters(context, options) {
     const apiClient = ServerConnections.getApiClient(options.serverId);
 
     const filterMenuOptions = Object.assign(options.filterMenuOptions, {
-
         UserId: apiClient.getCurrentUserId(),
         ParentId: options.parentId,
         IncludeItemTypes: options.itemTypes.join(',')
@@ -208,7 +257,7 @@ function loadDynamicFilters(context, options) {
 }
 class FilterMenu {
     show(options) {
-        return new Promise( (resolve) => {
+        return new Promise((resolve) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -237,7 +286,11 @@ class FilterMenu {
 
             const settingElements = dlg.querySelectorAll('.viewSetting');
             for (let i = 0, length = settingElements.length; i < length; i++) {
-                if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
+                if (
+                    options.visibleSettings.indexOf(
+                        settingElements[i].getAttribute('data-settingname')
+                    ) === -1
+                ) {
                     settingElements[i].classList.add('hide');
                 } else {
                     settingElements[i].classList.remove('hide');
@@ -248,25 +301,40 @@ class FilterMenu {
             loadDynamicFilters(dlg, options);
 
             bindCheckboxInput(dlg, true);
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                dialogHelper.close(dlg);
-            });
+            dlg.querySelector('.btnCancel').addEventListener(
+                'click',
+                function () {
+                    dialogHelper.close(dlg);
+                }
+            );
 
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+                centerFocus(
+                    dlg.querySelector('.formDialogContent'),
+                    false,
+                    true
+                );
             }
 
             let submitted;
 
-            dlg.querySelector('form').addEventListener('change', function () {
-                submitted = true;
-            }, true);
+            dlg.querySelector('form').addEventListener(
+                'change',
+                function () {
+                    submitted = true;
+                },
+                true
+            );
 
-            dialogHelper.open(dlg).then( function() {
+            dialogHelper.open(dlg).then(function () {
                 bindCheckboxInput(dlg, false);
 
                 if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                    centerFocus(
+                        dlg.querySelector('.formDialogContent'),
+                        false,
+                        false
+                    );
                 }
 
                 if (submitted) {

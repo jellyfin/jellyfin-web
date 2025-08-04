@@ -1,4 +1,3 @@
-
 /**
  * Module for display media info.
  * @module components/itemMediaInfo/itemMediaInfo
@@ -29,13 +28,16 @@ import 'styles/flexstyles.scss';
 import template from './itemMediaInfo.template.html';
 
 // Do not add extra spaces between tags - they will be copied into the result
-const copyButtonHtml = layoutManager.tv ? '' :
-    `<button is="paper-icon-button-light" class="btnCopy" title="${globalize.translate('Copy')}" aria-label="${globalize.translate('Copy')}"
+const copyButtonHtml = layoutManager.tv
+    ? ''
+    : `<button is="paper-icon-button-light" class="btnCopy" title="${globalize.translate('Copy')}" aria-label="${globalize.translate('Copy')}"
         ><span class="material-icons content_copy" aria-hidden="true"></span></button>`;
-const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </span>';
+const attributeDelimiterHtml = layoutManager.tv
+    ? ''
+    : '<span class="hide">: </span>';
 
 function setMediaInfo(user, page, item) {
-    let html = item.MediaSources.map(version => {
+    let html = item.MediaSources.map((version) => {
         return getMediaSourceHtml(user, item, version);
     }).join('<div style="border-top:1px solid #444;margin: 1em 0;"></div>');
     if (item.MediaSources.length > 1) {
@@ -46,14 +48,19 @@ function setMediaInfo(user, page, item) {
 
     for (const btn of mediaInfoContent.querySelectorAll('.btnCopy')) {
         btn.addEventListener('click', () => {
-            const infoBlock = dom.parentWithClass(btn, 'mediaInfoStream') || dom.parentWithClass(btn, 'mediaInfoSource') || mediaInfoContent;
+            const infoBlock =
+                dom.parentWithClass(btn, 'mediaInfoStream') ||
+                dom.parentWithClass(btn, 'mediaInfoSource') ||
+                mediaInfoContent;
 
-            copy(infoBlock.textContent).then(() => {
-                toast(globalize.translate('Copied'));
-            }).catch(() => {
-                console.error('Could not copy text');
-                toast(globalize.translate('CopyFailed'));
-            });
+            copy(infoBlock.textContent)
+                .then(() => {
+                    toast(globalize.translate('Copied'));
+                })
+                .catch(() => {
+                    console.error('Could not copy text');
+                    toast(globalize.translate('CopyFailed'));
+                });
         });
     }
 }
@@ -101,117 +108,309 @@ function getMediaSourceHtml(user, item, version) {
         html += `\n<h2 class="mediaInfoStreamType">${displayType}${copyButtonHtml}</h2>\n`;
         const attributes = [];
         if (stream.DisplayTitle) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoTitle'), stream.DisplayTitle));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoTitle'),
+                    stream.DisplayTitle
+                )
+            );
         }
         if (stream.Language && stream.Type !== 'Video') {
-            attributes.push(createAttribute(globalize.translate('MediaInfoLanguage'), stream.Language));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoLanguage'),
+                    stream.Language
+                )
+            );
         }
         if (stream.Codec) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoCodec'), stream.Codec.toUpperCase()));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoCodec'),
+                    stream.Codec.toUpperCase()
+                )
+            );
         }
         if (stream.CodecTag) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoCodecTag'), stream.CodecTag));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoCodecTag'),
+                    stream.CodecTag
+                )
+            );
         }
         if (stream.IsAVC != null) {
-            attributes.push(createAttribute('AVC', (stream.IsAVC ? 'Yes' : 'No')));
+            attributes.push(
+                createAttribute('AVC', stream.IsAVC ? 'Yes' : 'No')
+            );
         }
         if (stream.Profile) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoProfile'), stream.Profile));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoProfile'),
+                    stream.Profile
+                )
+            );
         }
         if (stream.Level > 0) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoLevel'), stream.Level));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoLevel'),
+                    stream.Level
+                )
+            );
         }
         if (stream.Width || stream.Height) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoResolution'), `${stream.Width}x${stream.Height}`));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoResolution'),
+                    `${stream.Width}x${stream.Height}`
+                )
+            );
         }
         if (stream.AspectRatio && stream.Codec !== 'mjpeg') {
-            attributes.push(createAttribute(globalize.translate('MediaInfoAspectRatio'), stream.AspectRatio));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoAspectRatio'),
+                    stream.AspectRatio
+                )
+            );
         }
         if (stream.Type === 'Video') {
             if (stream.IsAnamorphic != null) {
-                attributes.push(createAttribute(globalize.translate('MediaInfoAnamorphic'), (stream.IsAnamorphic ? 'Yes' : 'No')));
+                attributes.push(
+                    createAttribute(
+                        globalize.translate('MediaInfoAnamorphic'),
+                        stream.IsAnamorphic ? 'Yes' : 'No'
+                    )
+                );
             }
-            attributes.push(createAttribute(globalize.translate('MediaInfoInterlaced'), (stream.IsInterlaced ? 'Yes' : 'No')));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoInterlaced'),
+                    stream.IsInterlaced ? 'Yes' : 'No'
+                )
+            );
         }
-        if ((stream.AverageFrameRate || stream.RealFrameRate) && stream.Type === 'Video') {
-            attributes.push(createAttribute(globalize.translate('MediaInfoFramerate'), (stream.AverageFrameRate || stream.RealFrameRate)));
+        if (
+            (stream.AverageFrameRate || stream.RealFrameRate) &&
+            stream.Type === 'Video'
+        ) {
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoFramerate'),
+                    stream.AverageFrameRate || stream.RealFrameRate
+                )
+            );
         }
         if (stream.ChannelLayout) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoLayout'), stream.ChannelLayout));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoLayout'),
+                    stream.ChannelLayout
+                )
+            );
         }
         if (stream.Channels) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoChannels'), `${stream.Channels} ch`));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoChannels'),
+                    `${stream.Channels} ch`
+                )
+            );
         }
         if (stream.BitRate) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoBitrate'), `${parseInt(stream.BitRate / 1000, 10)} kbps`));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoBitrate'),
+                    `${parseInt(stream.BitRate / 1000, 10)} kbps`
+                )
+            );
         }
         if (stream.SampleRate) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoSampleRate'), `${stream.SampleRate} Hz`));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoSampleRate'),
+                    `${stream.SampleRate} Hz`
+                )
+            );
         }
         if (stream.BitDepth) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoBitDepth'), `${stream.BitDepth} bit`));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoBitDepth'),
+                    `${stream.BitDepth} bit`
+                )
+            );
         }
         if (stream.VideoRange && stream.Type === 'Video') {
-            attributes.push(createAttribute(globalize.translate('MediaInfoVideoRange'), stream.VideoRange));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoVideoRange'),
+                    stream.VideoRange
+                )
+            );
         }
         if (stream.VideoRangeType && stream.Type === 'Video') {
-            attributes.push(createAttribute(globalize.translate('MediaInfoVideoRangeType'), stream.VideoRangeType));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoVideoRangeType'),
+                    stream.VideoRangeType
+                )
+            );
         }
         if (stream.VideoDoViTitle) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoDoViTitle'), stream.VideoDoViTitle));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoDoViTitle'),
+                    stream.VideoDoViTitle
+                )
+            );
             if (stream.DvVersionMajor != null) {
-                attributes.push(createAttribute(globalize.translate('MediaInfoDvVersionMajor'), stream.DvVersionMajor));
+                attributes.push(
+                    createAttribute(
+                        globalize.translate('MediaInfoDvVersionMajor'),
+                        stream.DvVersionMajor
+                    )
+                );
             }
             if (stream.DvVersionMinor != null) {
-                attributes.push(createAttribute(globalize.translate('MediaInfoDvVersionMinor'), stream.DvVersionMinor));
+                attributes.push(
+                    createAttribute(
+                        globalize.translate('MediaInfoDvVersionMinor'),
+                        stream.DvVersionMinor
+                    )
+                );
             }
             if (stream.DvProfile != null) {
-                attributes.push(createAttribute(globalize.translate('MediaInfoDvProfile'), stream.DvProfile));
+                attributes.push(
+                    createAttribute(
+                        globalize.translate('MediaInfoDvProfile'),
+                        stream.DvProfile
+                    )
+                );
             }
             if (stream.DvLevel != null) {
-                attributes.push(createAttribute(globalize.translate('MediaInfoDvLevel'), stream.DvLevel));
+                attributes.push(
+                    createAttribute(
+                        globalize.translate('MediaInfoDvLevel'),
+                        stream.DvLevel
+                    )
+                );
             }
             if (stream.RpuPresentFlag != null) {
-                attributes.push(createAttribute(globalize.translate('MediaInfoRpuPresentFlag'), stream.RpuPresentFlag));
+                attributes.push(
+                    createAttribute(
+                        globalize.translate('MediaInfoRpuPresentFlag'),
+                        stream.RpuPresentFlag
+                    )
+                );
             }
             if (stream.ElPresentFlag != null) {
-                attributes.push(createAttribute(globalize.translate('MediaInfoElPresentFlag'), stream.ElPresentFlag));
+                attributes.push(
+                    createAttribute(
+                        globalize.translate('MediaInfoElPresentFlag'),
+                        stream.ElPresentFlag
+                    )
+                );
             }
             if (stream.BlPresentFlag != null) {
-                attributes.push(createAttribute(globalize.translate('MediaInfoBlPresentFlag'), stream.BlPresentFlag));
+                attributes.push(
+                    createAttribute(
+                        globalize.translate('MediaInfoBlPresentFlag'),
+                        stream.BlPresentFlag
+                    )
+                );
             }
             if (stream.DvBlSignalCompatibilityId != null) {
-                attributes.push(createAttribute(globalize.translate('MediaInfoDvBlSignalCompatibilityId'), stream.DvBlSignalCompatibilityId));
+                attributes.push(
+                    createAttribute(
+                        globalize.translate(
+                            'MediaInfoDvBlSignalCompatibilityId'
+                        ),
+                        stream.DvBlSignalCompatibilityId
+                    )
+                );
             }
         }
         if (stream.ColorSpace) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoColorSpace'), stream.ColorSpace));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoColorSpace'),
+                    stream.ColorSpace
+                )
+            );
         }
         if (stream.ColorTransfer) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoColorTransfer'), stream.ColorTransfer));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoColorTransfer'),
+                    stream.ColorTransfer
+                )
+            );
         }
         if (stream.ColorPrimaries) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoColorPrimaries'), stream.ColorPrimaries));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoColorPrimaries'),
+                    stream.ColorPrimaries
+                )
+            );
         }
         if (stream.PixelFormat) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoPixelFormat'), stream.PixelFormat));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoPixelFormat'),
+                    stream.PixelFormat
+                )
+            );
         }
         if (stream.RefFrames) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoRefFrames'), stream.RefFrames));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoRefFrames'),
+                    stream.RefFrames
+                )
+            );
         }
         if (stream.Rotation && stream.Type === 'Video') {
-            attributes.push(createAttribute(globalize.translate('MediaInfoRotation'), stream.Rotation));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoRotation'),
+                    stream.Rotation
+                )
+            );
         }
         if (stream.NalLengthSize) {
             attributes.push(createAttribute('NAL', stream.NalLengthSize));
         }
         if (stream.Type === 'Subtitle' || stream.Type === 'Audio') {
-            attributes.push(createAttribute(globalize.translate('MediaInfoDefault'), (stream.IsDefault ? 'Yes' : 'No')));
-            attributes.push(createAttribute(globalize.translate('MediaInfoForced'), (stream.IsForced ? 'Yes' : 'No')));
-            attributes.push(createAttribute(globalize.translate('MediaInfoExternal'), (stream.IsExternal ? 'Yes' : 'No')));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoDefault'),
+                    stream.IsDefault ? 'Yes' : 'No'
+                )
+            );
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoForced'),
+                    stream.IsForced ? 'Yes' : 'No'
+                )
+            );
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoExternal'),
+                    stream.IsExternal ? 'Yes' : 'No'
+                )
+            );
         }
         if (stream.Type === 'Video' && version.Timestamp) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoTimestamp'), version.Timestamp));
+            attributes.push(
+                createAttribute(
+                    globalize.translate('MediaInfoTimestamp'),
+                    version.Timestamp
+                )
+            );
         }
         html += attributes.join('<br/>');
         html += '</div>';
@@ -227,32 +426,34 @@ function createAttribute(label, value, isLtr) {
 
 function loadMediaInfo(itemId, serverId) {
     const apiClient = ServerConnections.getApiClient(serverId);
-    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
-        const dialogOptions = {
-            size: 'small',
-            removeOnClose: true,
-            scrollY: false
-        };
-        if (layoutManager.tv) {
-            dialogOptions.size = 'fullscreen';
-        }
-        const dlg = dialogHelper.createDialog(dialogOptions);
-        dlg.classList.add('formDialog');
-        let html = '';
-        html += globalize.translateHtml(template, 'core');
-        dlg.innerHTML = html;
-        if (layoutManager.tv) {
-            dlg.querySelector('.formDialogContent');
-        }
-        dialogHelper.open(dlg);
-        dlg.querySelector('.btnCancel').addEventListener('click', () => {
-            dialogHelper.close(dlg);
+    return apiClient
+        .getItem(apiClient.getCurrentUserId(), itemId)
+        .then((item) => {
+            const dialogOptions = {
+                size: 'small',
+                removeOnClose: true,
+                scrollY: false
+            };
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            }
+            const dlg = dialogHelper.createDialog(dialogOptions);
+            dlg.classList.add('formDialog');
+            let html = '';
+            html += globalize.translateHtml(template, 'core');
+            dlg.innerHTML = html;
+            if (layoutManager.tv) {
+                dlg.querySelector('.formDialogContent');
+            }
+            dialogHelper.open(dlg);
+            dlg.querySelector('.btnCancel').addEventListener('click', () => {
+                dialogHelper.close(dlg);
+            });
+            apiClient.getCurrentUser().then((user) => {
+                setMediaInfo(user, dlg, item);
+            });
+            loading.hide();
         });
-        apiClient.getCurrentUser().then(user => {
-            setMediaInfo(user, dlg, item);
-        });
-        loading.hide();
-    });
 }
 
 export function show(itemId, serverId) {

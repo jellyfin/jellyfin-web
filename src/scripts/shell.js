@@ -1,11 +1,11 @@
 // TODO: This seems like a good candidate for deprecation
 export default {
-    enableFullscreen: function() {
+    enableFullscreen: function () {
         if (window.NativeShell?.enableFullscreen) {
             window.NativeShell.enableFullscreen();
         }
     },
-    disableFullscreen: function() {
+    disableFullscreen: function () {
         if (window.NativeShell?.disableFullscreen) {
             window.NativeShell.disableFullscreen();
         }
@@ -20,7 +20,7 @@ export default {
             window.NativeShell.openDownloadManager();
         }
     },
-    openUrl: function(url, target) {
+    openUrl: function (url, target) {
         if (window.NativeShell?.openUrl) {
             window.NativeShell.openUrl(url, target);
         } else {
@@ -57,7 +57,7 @@ export default {
             return true;
         }
         if (window.NativeShell?.downloadFile) {
-            items.forEach(item => {
+            items.forEach((item) => {
                 window.NativeShell.downloadFile(item);
             });
             return true;

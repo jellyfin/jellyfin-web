@@ -29,9 +29,16 @@ function refreshTunerDevices(page, providerInfo, devices) {
         const device = devices[i];
         html += '<div class="listItem">';
         const enabledTuners = providerInfo.EnabledTuners || [];
-        const isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
+        const isChecked =
+            providerInfo.EnableAllTuners ||
+            enabledTuners.indexOf(device.Id) !== -1;
         const checkedAttribute = isChecked ? ' checked' : '';
-        html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkTuner" data-id="' + device.Id + '" ' + checkedAttribute + '><span></span></label>';
+        html +=
+            '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkTuner" data-id="' +
+            device.Id +
+            '" ' +
+            checkedAttribute +
+            '><span></span></label>';
         html += '<div class="listItemBody two-line">';
         html += '<div class="listItemBodyText">';
         html += device.FriendlyName || getTunerName(device.Type);
@@ -49,20 +56,22 @@ function refreshTunerDevices(page, providerInfo, devices) {
 function onSelectPathClick(e) {
     const page = dom.parentWithClass(e.target, 'xmltvForm');
 
-    import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
-        const picker = new DirectoryBrowser();
-        picker.show({
-            includeFiles: true,
-            callback: function (path) {
-                if (path) {
-                    const txtPath = page.querySelector('.txtPath');
-                    txtPath.value = path;
-                    txtPath.focus();
+    import('../directorybrowser/directorybrowser').then(
+        ({ default: DirectoryBrowser }) => {
+            const picker = new DirectoryBrowser();
+            picker.show({
+                includeFiles: true,
+                callback: function (path) {
+                    if (path) {
+                        const txtPath = page.querySelector('.txtPath');
+                        txtPath.value = path;
+                        txtPath.focus();
+                    }
+                    picker.close();
                 }
-                picker.close();
-            }
-        });
-    });
+            });
+        }
+    );
 }
 
 export default function (page, providerId, options) {
@@ -79,7 +88,9 @@ export default function (page, providerId, options) {
             return getListingProvider();
         }
 
-        return ApiClient.getJSON(ApiClient.getUrl('LiveTv/ListingProviders/Default'));
+        return ApiClient.getJSON(
+            ApiClient.getUrl('LiveTv/ListingProviders/Default')
+        );
     }
 
     function reload() {
@@ -87,18 +98,33 @@ export default function (page, providerId, options) {
         ApiClient.getNamedConfiguration('livetv').then(function (config) {
             getListingProvider(config, providerId).then(function (info) {
                 page.querySelector('.txtPath').value = info.Path || '';
-                page.querySelector('.txtKids').value = (info.KidsCategories || []).join('|');
-                page.querySelector('.txtNews').value = (info.NewsCategories || []).join('|');
-                page.querySelector('.txtSports').value = (info.SportsCategories || []).join('|');
-                page.querySelector('.txtMovies').value = (info.MovieCategories || []).join('|');
-                page.querySelector('.txtMoviePrefix').value = info.MoviePrefix || '';
-                page.querySelector('.txtUserAgent').value = info.UserAgent || '';
-                page.querySelector('.chkAllTuners').checked = info.EnableAllTuners;
+                page.querySelector('.txtKids').value = (
+                    info.KidsCategories || []
+                ).join('|');
+                page.querySelector('.txtNews').value = (
+                    info.NewsCategories || []
+                ).join('|');
+                page.querySelector('.txtSports').value = (
+                    info.SportsCategories || []
+                ).join('|');
+                page.querySelector('.txtMovies').value = (
+                    info.MovieCategories || []
+                ).join('|');
+                page.querySelector('.txtMoviePrefix').value =
+                    info.MoviePrefix || '';
+                page.querySelector('.txtUserAgent').value =
+                    info.UserAgent || '';
+                page.querySelector('.chkAllTuners').checked =
+                    info.EnableAllTuners;
 
                 if (page.querySelector('.chkAllTuners').checked) {
-                    page.querySelector('.selectTunersSection').classList.add('hide');
+                    page.querySelector('.selectTunersSection').classList.add(
+                        'hide'
+                    );
                 } else {
-                    page.querySelector('.selectTunersSection').classList.remove('hide');
+                    page.querySelector('.selectTunersSection').classList.remove(
+                        'hide'
+                    );
                 }
 
                 refreshTunerDevices(page, info, config.TunerHosts);
@@ -121,23 +147,34 @@ export default function (page, providerId, options) {
         loading.show();
         const id = providerId;
         ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            const info = config.ListingProviders.filter(function (provider) {
-                return provider.Id === id;
-            })[0] || {};
+            const info =
+                config.ListingProviders.filter(function (provider) {
+                    return provider.Id === id;
+                })[0] || {};
             info.Type = 'xmltv';
             info.Path = page.querySelector('.txtPath').value;
-            info.MoviePrefix = page.querySelector('.txtMoviePrefix').value || null;
+            info.MoviePrefix =
+                page.querySelector('.txtMoviePrefix').value || null;
             info.UserAgent = page.querySelector('.txtUserAgent').value || null;
-            info.MovieCategories = getCategories(page.querySelector('.txtMovies'));
+            info.MovieCategories = getCategories(
+                page.querySelector('.txtMovies')
+            );
             info.KidsCategories = getCategories(page.querySelector('.txtKids'));
             info.NewsCategories = getCategories(page.querySelector('.txtNews'));
-            info.SportsCategories = getCategories(page.querySelector('.txtSports'));
+            info.SportsCategories = getCategories(
+                page.querySelector('.txtSports')
+            );
             info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
-            info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (tuner) {
-                return tuner.checked;
-            }).map(function (tuner) {
-                return tuner.getAttribute('data-id');
-            });
+            info.EnabledTuners = info.EnableAllTuners
+                ? []
+                : $('.chkTuner', page)
+                      .get()
+                      .filter(function (tuner) {
+                          return tuner.checked;
+                      })
+                      .map(function (tuner) {
+                          return tuner.getAttribute('data-id');
+                      });
             ApiClient.ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('LiveTv/ListingProviders', {
@@ -145,20 +182,23 @@ export default function (page, providerId, options) {
                 }),
                 data: JSON.stringify(info),
                 contentType: 'application/json'
-            }).then(function () {
-                loading.hide();
+            }).then(
+                function () {
+                    loading.hide();
 
-                if (options.showConfirmation !== false) {
-                    Dashboard.processServerConfigurationUpdateResult();
+                    if (options.showConfirmation !== false) {
+                        Dashboard.processServerConfigurationUpdateResult();
+                    }
+
+                    Events.trigger(self, 'submitted');
+                },
+                function () {
+                    loading.hide();
+                    Dashboard.alert({
+                        message: globalize.translate('ErrorAddingXmlTvFile')
+                    });
                 }
-
-                Events.trigger(self, 'submitted');
-            }, function () {
-                loading.hide();
-                Dashboard.alert({
-                    message: globalize.translate('ErrorAddingXmlTvFile')
-                });
-            });
+            );
         });
     }
 
@@ -174,23 +214,39 @@ export default function (page, providerId, options) {
         // Only hide the buttons if explicitly set to false; default to showing if undefined or null
         // FIXME: rename this option to clarify logic
         const hideCancelButton = options.showCancelButton === false;
-        page.querySelector('.btnCancel').classList.toggle('hide', hideCancelButton);
+        page.querySelector('.btnCancel').classList.toggle(
+            'hide',
+            hideCancelButton
+        );
 
         const hideSubmitButton = options.showSubmitButton === false;
-        page.querySelector('.btnSubmitListings').classList.toggle('hide', hideSubmitButton);
+        page.querySelector('.btnSubmitListings').classList.toggle(
+            'hide',
+            hideSubmitButton
+        );
 
         $('form', page).on('submit', function () {
             submitListingsForm();
             return false;
         });
-        page.querySelector('#btnSelectPath').addEventListener('click', onSelectPathClick);
-        page.querySelector('.chkAllTuners').addEventListener('change', function (evt) {
-            if (evt.target.checked) {
-                page.querySelector('.selectTunersSection').classList.add('hide');
-            } else {
-                page.querySelector('.selectTunersSection').classList.remove('hide');
+        page.querySelector('#btnSelectPath').addEventListener(
+            'click',
+            onSelectPathClick
+        );
+        page.querySelector('.chkAllTuners').addEventListener(
+            'change',
+            function (evt) {
+                if (evt.target.checked) {
+                    page.querySelector('.selectTunersSection').classList.add(
+                        'hide'
+                    );
+                } else {
+                    page.querySelector('.selectTunersSection').classList.remove(
+                        'hide'
+                    );
+                }
             }
-        });
+        );
         reload();
     };
 }

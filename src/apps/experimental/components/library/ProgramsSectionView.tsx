@@ -1,6 +1,9 @@
 import React, { type FC } from 'react';
 import { useApi } from 'hooks/useApi';
-import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
+import {
+    useGetProgramsSectionsWithItems,
+    useGetTimers
+} from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';
@@ -13,7 +16,7 @@ import type { Section, SectionType } from 'types/sections';
 interface ProgramsSectionViewProps {
     parentId: ParentId;
     sectionType: SectionType[];
-    isUpcomingRecordingsEnabled: boolean | undefined
+    isUpcomingRecordingsEnabled: boolean | undefined;
 }
 
 const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
@@ -22,11 +25,13 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
     isUpcomingRecordingsEnabled = false
 }) => {
     const { __legacyApiClient__ } = useApi();
-    const { isLoading, data: sectionsWithItems, refetch } = useGetProgramsSectionsWithItems(parentId, sectionType);
     const {
-        isLoading: isUpcomingRecordingsLoading,
-        data: upcomingRecordings
-    } = useGetTimers(isUpcomingRecordingsEnabled);
+        isLoading,
+        data: sectionsWithItems,
+        refetch
+    } = useGetProgramsSectionsWithItems(parentId, sectionType);
+    const { isLoading: isUpcomingRecordingsLoading, data: upcomingRecordings } =
+        useGetTimers(isUpcomingRecordingsEnabled);
 
     if (isLoading || isUpcomingRecordingsLoading) {
         return <Loading />;

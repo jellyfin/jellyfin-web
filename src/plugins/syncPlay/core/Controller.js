@@ -70,21 +70,33 @@ class Controller {
     play(options) {
         const apiClient = this.manager.getApiClient();
         const sendPlayRequest = (items) => {
-            const queue = items.map(item => item.Id);
+            const queue = items.map((item) => item.Id);
             return apiClient.requestSyncPlaySetNewQueue({
                 PlayingQueue: queue,
-                PlayingItemPosition: options.startIndex ? options.startIndex : 0,
-                StartPositionTicks: options.startPositionTicks ? options.startPositionTicks : 0
+                PlayingItemPosition: options.startIndex
+                    ? options.startIndex
+                    : 0,
+                StartPositionTicks: options.startPositionTicks
+                    ? options.startPositionTicks
+                    : 0
             });
         };
 
         if (options.items) {
-            return Helper.translateItemsForPlayback(apiClient, options.items, options).then(sendPlayRequest);
+            return Helper.translateItemsForPlayback(
+                apiClient,
+                options.items,
+                options
+            ).then(sendPlayRequest);
         } else {
             return Helper.getItemsForPlayback(apiClient, {
                 Ids: options.ids.join(',')
             }).then(function (result) {
-                return Helper.translateItemsForPlayback(apiClient, result.Items, options).then(sendPlayRequest);
+                return Helper.translateItemsForPlayback(
+                    apiClient,
+                    result.Items,
+                    options
+                ).then(sendPlayRequest);
             });
         }
     }
@@ -144,8 +156,12 @@ class Controller {
     queue(options, mode = 'Queue') {
         const apiClient = this.manager.getApiClient();
         if (options.items) {
-            Helper.translateItemsForPlayback(apiClient, options.items, options).then((items) => {
-                const itemIds = items.map(item => item.Id);
+            Helper.translateItemsForPlayback(
+                apiClient,
+                options.items,
+                options
+            ).then((items) => {
+                const itemIds = items.map((item) => item.Id);
                 apiClient.requestSyncPlayQueue({
                     ItemIds: itemIds,
                     Mode: mode
@@ -155,8 +171,12 @@ class Controller {
             Helper.getItemsForPlayback(apiClient, {
                 Ids: options.ids.join(',')
             }).then(function (result) {
-                Helper.translateItemsForPlayback(apiClient, result.Items, options).then((items) => {
-                    const itemIds = items.map(item => item.Id);
+                Helper.translateItemsForPlayback(
+                    apiClient,
+                    result.Items,
+                    options
+                ).then((items) => {
+                    const itemIds = items.map((item) => item.Id);
                     apiClient.requestSyncPlayQueue({
                         ItemIds: itemIds,
                         Mode: mode
@@ -180,7 +200,9 @@ class Controller {
     nextItem() {
         const apiClient = this.manager.getApiClient();
         apiClient.requestSyncPlayNextItem({
-            PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId()
+            PlaylistItemId: this.manager
+                .getQueueCore()
+                .getCurrentPlaylistItemId()
         });
     }
 
@@ -190,7 +212,9 @@ class Controller {
     previousItem() {
         const apiClient = this.manager.getApiClient();
         apiClient.requestSyncPlayPreviousItem({
-            PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId()
+            PlaylistItemId: this.manager
+                .getQueueCore()
+                .getCurrentPlaylistItemId()
         });
     }
 

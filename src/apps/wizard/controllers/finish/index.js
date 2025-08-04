@@ -4,13 +4,15 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 function onFinish() {
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
-    apiClient.ajax({
-        url: apiClient.getUrl('Startup/Complete'),
-        type: 'POST'
-    }).then(function () {
-        loading.hide();
-        window.location.href = '';
-    });
+    apiClient
+        .ajax({
+            url: apiClient.getUrl('Startup/Complete'),
+            type: 'POST'
+        })
+        .then(function () {
+            loading.hide();
+            window.location.href = '';
+        });
 }
 
 export default function (view) {

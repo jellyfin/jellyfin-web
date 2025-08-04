@@ -22,7 +22,10 @@ function getEditorHtml() {
     html += '<h1>' + globalize.translate('DetectingDevices') + '...</h1>';
     html += '<p>' + globalize.translate('MessagePleaseWait') + '</p>';
     html += '</div>';
-    html += '<h1 style="margin-bottom:.25em;" class="devicesHeader hide">' + globalize.translate('HeaderNewDevices') + '</h1>';
+    html +=
+        '<h1 style="margin-bottom:.25em;" class="devicesHeader hide">' +
+        globalize.translate('HeaderNewDevices') +
+        '</h1>';
     html += '<div is="emby-itemscontainer" class="results vertical-wrap">';
     html += '</div>';
     html += '</div>';
@@ -46,17 +49,29 @@ function getDeviceHtml(device) {
         }
     }
 
-    html += '<button type="button" class="' + cssClass + '" data-id="' + device.DeviceId + '" style="min-width:33.3333%;">';
+    html +=
+        '<button type="button" class="' +
+        cssClass +
+        '" data-id="' +
+        device.DeviceId +
+        '" style="min-width:33.3333%;">';
     html += '<div class="' + cardBoxCssClass + '">';
     html += '<div class="cardScalable visualCardBox-cardScalable">';
     html += '<div class="' + padderClass + '"></div>';
     html += '<div class="cardContent searchImage">';
-    html += '<div class="cardImageContainer coveredImage"><span class="cardImageIcon material-icons dvr" aria-hidden="true"></span></div>';
+    html +=
+        '<div class="cardImageContainer coveredImage"><span class="cardImageIcon material-icons dvr" aria-hidden="true"></span></div>';
     html += '</div>';
     html += '</div>';
     html += '<div class="cardFooter visualCardBox-cardFooter">';
-    html += '<div class="cardText cardTextCentered">' + getTunerName(device.Type) + '</div>';
-    html += '<div class="cardText cardTextCentered cardText-secondary">' + device.FriendlyName + '</div>';
+    html +=
+        '<div class="cardText cardTextCentered">' +
+        getTunerName(device.Type) +
+        '</div>';
+    html +=
+        '<div class="cardText cardTextCentered cardText-secondary">' +
+        device.FriendlyName +
+        '</div>';
     html += '<div class="cardText cardText-secondary cardTextCentered">';
     html += device.Url || '&nbsp;';
     html += '</div>';
@@ -110,9 +125,11 @@ function renderDevices(view, devices) {
 function discoverDevices(view) {
     loading.show();
     view.querySelector('.loadingContent').classList.remove('hide');
-    return ApiClient.getJSON(ApiClient.getUrl('LiveTv/Tuners/Discover', {
-        NewDevicesOnly: true
-    })).then(function (devices) {
+    return ApiClient.getJSON(
+        ApiClient.getUrl('LiveTv/Tuners/Discover', {
+            NewDevicesOnly: true
+        })
+    ).then(function (devices) {
         currentDevices = devices;
         renderDevices(view, devices);
         view.querySelector('.loadingContent').classList.add('hide');
@@ -161,13 +178,19 @@ function TunerPicker() {
         });
 
         if (layoutManager.tv) {
-            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+            scrollHelper.centerFocus.on(
+                dlg.querySelector('.formDialogContent'),
+                false
+            );
         }
 
         discoverDevices(dlg);
 
         if (layoutManager.tv) {
-            scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
+            scrollHelper.centerFocus.off(
+                dlg.querySelector('.formDialogContent'),
+                false
+            );
         }
 
         return dialogHelper.open(dlg).then(function () {

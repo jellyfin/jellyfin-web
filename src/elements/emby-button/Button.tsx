@@ -8,9 +8,11 @@ enum IconPosition {
     LEFT = 'LEFT'
 }
 
-interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-> {
+interface ButtonProps
+    extends DetailedHTMLProps<
+        ButtonHTMLAttributes<HTMLButtonElement>,
+        HTMLButtonElement
+    > {
     icon?: string;
     iconClassName?: string;
     iconPos?: string;
@@ -25,27 +27,21 @@ const Button: React.FC<ButtonProps> = ({
     onClick,
     ...rest
 }) => {
-    const btnClass = classNames(
-        'emby-button',
-        className,
-        { 'show-focus': layoutManager.tv }
-    );
+    const btnClass = classNames('emby-button', className, {
+        'show-focus': layoutManager.tv
+    });
 
-    const iconClass = classNames(
-        'material-icons',
-        iconClassName,
-        icon
-    );
+    const iconClass = classNames('material-icons', iconClassName, icon);
 
     return (
-        <button
-            className={btnClass}
-            onClick={onClick}
-            {...rest}
-        >
-            {icon && iconPos === IconPosition.LEFT && <span className={iconClass} aria-hidden='true' />}
+        <button className={btnClass} onClick={onClick} {...rest}>
+            {icon && iconPos === IconPosition.LEFT && (
+                <span className={iconClass} aria-hidden='true' />
+            )}
             <span>{title}</span>
-            {icon && iconPos === IconPosition.RIGHT && <span className={iconClass} aria-hidden='true' />}
+            {icon && iconPos === IconPosition.RIGHT && (
+                <span className={iconClass} aria-hidden='true' />
+            )}
         </button>
     );
 };

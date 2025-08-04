@@ -29,7 +29,10 @@ function lyricHtmlReducer(htmlAccumulator, lyric, index) {
     const classes = [];
     if (isDynamicLyric) classes.push('dynamicLyric');
     if (layoutManager.tv) classes.push('listItem', 'show-focus');
-    const lyricTime = typeof lyric.Start !== 'undefined' ? `data-lyrictime="${lyric.Start}"` : '';
+    const lyricTime =
+        typeof lyric.Start !== 'undefined'
+            ? `data-lyrictime="${lyric.Start}"`
+            : '';
 
     htmlAccumulator += `<${elem} class="lyricsLine ${classes.join(' ')}" id="lyricPosition${index}" ${lyricTime}>
     <bdi>${escapeHtml(lyric.Text)}</bdi>
@@ -39,7 +42,7 @@ function lyricHtmlReducer(htmlAccumulator, lyric, index) {
 }
 
 function getLyricIndex(time, lyrics) {
-    return lyrics.findLastIndex(lyric => lyric.Start <= time);
+    return lyrics.findLastIndex((lyric) => lyric.Start <= time);
 }
 
 function getCurrentPlayTime() {
@@ -73,7 +76,10 @@ export default function (view) {
             lyric.classList.remove('futureLyric');
             if (autoScroll !== AutoScroll.NoScroll) {
                 // instant scroll is used when the view is first loaded
-                scrollManager.scrollToElement(lyric, autoScroll === AutoScroll.Smooth);
+                scrollManager.scrollToElement(
+                    lyric,
+                    autoScroll === AutoScroll.Smooth
+                );
                 focusManager.focus(lyric);
                 autoScroll = AutoScroll.Smooth;
             }
@@ -109,11 +115,14 @@ export default function (view) {
         }
 
         if (isDynamicLyric) {
-            const lyricLineArray = itemsContainer.querySelectorAll('.lyricsLine');
+            const lyricLineArray =
+                itemsContainer.querySelectorAll('.lyricsLine');
 
             // attaches click event listener to change playtime to lyric start
-            lyricLineArray.forEach(element => {
-                element.addEventListener('click', () => onLyricClick(element.getAttribute('data-lyrictime')));
+            lyricLineArray.forEach((element) => {
+                element.addEventListener('click', () =>
+                    onLyricClick(element.getAttribute('data-lyrictime'))
+                );
             });
 
             const currentIndex = getLyricIndex(getCurrentPlayTime(), lyrics);
@@ -124,7 +133,10 @@ export default function (view) {
     function updateLyrics(lyrics) {
         savedLyrics = lyrics;
 
-        isDynamicLyric = Object.prototype.hasOwnProperty.call(lyrics[0], 'Start');
+        isDynamicLyric = Object.prototype.hasOwnProperty.call(
+            lyrics[0],
+            'Start'
+        );
 
         renderLyrics(savedLyrics);
 
@@ -135,13 +147,12 @@ export default function (view) {
         const apiClient = ServerConnections.getApiClient(serverId);
         const lyricsApi = getLyricsApi(toApi(apiClient));
 
-        return lyricsApi.getLyrics({ itemId })
-            .then(({ data }) => {
-                if (!data.Lyrics?.length) {
-                    throw new Error('No lyrics returned');
-                }
-                return data.Lyrics;
-            });
+        return lyricsApi.getLyrics({ itemId }).then(({ data }) => {
+            if (!data.Lyrics?.length) {
+                throw new Error('No lyrics returned');
+            }
+            return data.Lyrics;
+        });
     }
 
     function bindToPlayer(player) {
@@ -183,7 +194,10 @@ export default function (view) {
 
     function onTimeUpdate() {
         if (isDynamicLyric) {
-            const currentIndex = getLyricIndex(getCurrentPlayTime(), savedLyrics);
+            const currentIndex = getLyricIndex(
+                getCurrentPlayTime(),
+                savedLyrics
+            );
             updateAllLyricLines(currentIndex, savedLyrics);
         }
     }
@@ -224,7 +238,9 @@ export default function (view) {
             const serverId = state.NowPlayingItem.ServerId;
             const itemId = state.NowPlayingItem.Id;
 
-            getLyrics(serverId, itemId).then(updateLyrics).catch(renderNoLyricMessage);
+            getLyrics(serverId, itemId)
+                .then(updateLyrics)
+                .catch(renderNoLyricMessage);
         } else {
             // if nothing is currently playing, no lyrics to display redirect to home
             appRouter.goHome();

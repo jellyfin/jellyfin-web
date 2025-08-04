@@ -71,12 +71,14 @@ ItemsContainerPrototype.enableMultiSelect = function (enabled) {
     }
 
     const self = this;
-    import('../../components/multiSelect/multiSelect').then(({ default: MultiSelect }) => {
-        self.multiSelect = new MultiSelect({
-            container: self,
-            bindOnClick: false
-        });
-    });
+    import('../../components/multiSelect/multiSelect').then(
+        ({ default: MultiSelect }) => {
+            self.multiSelect = new MultiSelect({
+                container: self,
+                bindOnClick: false
+            });
+        }
+    );
 };
 
 function onDrop(evt, itemsContainer) {
@@ -88,15 +90,17 @@ function onDrop(evt, itemsContainer) {
 
     if (!playlistId) {
         const oldIndex = evt.oldIndex;
-        el.dispatchEvent(new CustomEvent('itemdrop', {
-            detail: {
-                oldIndex: oldIndex,
-                newIndex: newIndex,
-                playlistItemId: itemId
-            },
-            bubbles: true,
-            cancelable: false
-        }));
+        el.dispatchEvent(
+            new CustomEvent('itemdrop', {
+                detail: {
+                    oldIndex: oldIndex,
+                    newIndex: newIndex,
+                    playlistItemId: itemId
+                },
+                bubbles: true,
+                cancelable: false
+            })
+        );
         return;
     }
 
@@ -105,15 +109,27 @@ function onDrop(evt, itemsContainer) {
 
     loading.show();
 
-    apiClient.ajax({
-        url: apiClient.getUrl('Playlists/' + playlistId + '/Items/' + itemId + '/Move/' + newIndex),
-        type: 'POST'
-    }).then(function () {
-        loading.hide();
-    }, function () {
-        loading.hide();
-        itemsContainer.refreshItems();
-    });
+    apiClient
+        .ajax({
+            url: apiClient.getUrl(
+                'Playlists/' +
+                    playlistId +
+                    '/Items/' +
+                    itemId +
+                    '/Move/' +
+                    newIndex
+            ),
+            type: 'POST'
+        })
+        .then(
+            function () {
+                loading.hide();
+            },
+            function () {
+                loading.hide();
+                itemsContainer.refreshItems();
+            }
+        );
 }
 
 ItemsContainerPrototype.enableDragReordering = function (enabled) {
@@ -152,8 +168,9 @@ function onUserDataChanged(e, apiClient, userData) {
     const eventsToMonitor = getEventsToMonitor(itemsContainer);
 
     // TODO: Check user data change reason?
-    if (eventsToMonitor.indexOf('markfavorite') !== -1
-            || eventsToMonitor.indexOf('markplayed') !== -1
+    if (
+        eventsToMonitor.indexOf('markfavorite') !== -1 ||
+        eventsToMonitor.indexOf('markplayed') !== -1
     ) {
         itemsContainer.notifyRefreshNeeded();
     }
@@ -220,7 +237,10 @@ function onLibraryChanged(e, apiClient, data) {
     const itemsContainer = this;
 
     const eventsToMonitor = getEventsToMonitor(itemsContainer);
-    if (eventsToMonitor.indexOf('seriestimers') !== -1 || eventsToMonitor.indexOf('timers') !== -1) {
+    if (
+        eventsToMonitor.indexOf('seriestimers') !== -1 ||
+        eventsToMonitor.indexOf('timers') !== -1
+    ) {
         // yes this is an assumption
         return;
     }
@@ -237,7 +257,11 @@ function onLibraryChanged(e, apiClient, data) {
         const foldersRemovedFrom = data.FoldersRemovedFrom || [];
         const collectionFolders = data.CollectionFolders || [];
 
-        if (foldersAddedTo.indexOf(parentId) === -1 && foldersRemovedFrom.indexOf(parentId) === -1 && collectionFolders.indexOf(parentId) === -1) {
+        if (
+            foldersAddedTo.indexOf(parentId) === -1 &&
+            foldersRemovedFrom.indexOf(parentId) === -1 &&
+            collectionFolders.indexOf(parentId) === -1
+        ) {
             return;
         }
     }
@@ -255,7 +279,10 @@ function onPlaybackStopped(e, stopInfo) {
             itemsContainer.notifyRefreshNeeded(true);
             return;
         }
-    } else if (state.NowPlayingItem?.MediaType === 'Audio' && eventsToMonitor.indexOf('audioplayback') !== -1) {
+    } else if (
+        state.NowPlayingItem?.MediaType === 'Audio' &&
+        eventsToMonitor.indexOf('audioplayback') !== -1
+    ) {
         itemsContainer.notifyRefreshNeeded(true);
         return;
     }
@@ -290,7 +317,11 @@ ItemsContainerPrototype.attachedCallback = function () {
         this.addEventListener('contextmenu', onContextMenu);
     }
 
-    if (layoutManager.desktop || layoutManager.mobile && this.getAttribute('data-multiselect') !== 'false') {
+    if (
+        layoutManager.desktop ||
+        (layoutManager.mobile &&
+            this.getAttribute('data-multiselect') !== 'false')
+    ) {
         this.enableMultiSelect(true);
     }
 
@@ -306,7 +337,12 @@ ItemsContainerPrototype.attachedCallback = function () {
     addNotificationEvent(this, 'TimerCancelled', onTimerCancelled);
     addNotificationEvent(this, 'SeriesTimerCancelled', onSeriesTimerCancelled);
     addNotificationEvent(this, 'LibraryChanged', onLibraryChanged);
-    addNotificationEvent(this, 'playbackstop', onPlaybackStopped, playbackManager);
+    addNotificationEvent(
+        this,
+        'playbackstop',
+        onPlaybackStopped,
+        playbackManager
+    );
 
     if (this.getAttribute('data-dragreorder') === 'true') {
         this.enableDragReordering(true);
@@ -356,7 +392,7 @@ ItemsContainerPrototype.resume = function (options) {
         }
     }
 
-    if (this.needsRefresh || (options?.refresh)) {
+    if (this.needsRefresh || options?.refresh) {
         return this.refreshItems();
     }
 
@@ -411,12 +447,19 @@ function resetRefreshInterval(itemsContainer, intervalMs) {
     clearRefreshInterval(itemsContainer);
 
     if (!intervalMs) {
-        intervalMs = parseInt(itemsContainer.getAttribute('data-refreshinterval') || '0', 10);
+        intervalMs = parseInt(
+            itemsContainer.getAttribute('data-refreshinterval') || '0',
+            10
+        );
     }
 
     if (intervalMs) {
-        itemsContainer.refreshInterval = setInterval(itemsContainer.notifyRefreshNeeded.bind(itemsContainer), intervalMs);
-        itemsContainer.refreshIntervalEndTime = new Date().getTime() + intervalMs;
+        itemsContainer.refreshInterval = setInterval(
+            itemsContainer.notifyRefreshNeeded.bind(itemsContainer),
+            intervalMs
+        );
+        itemsContainer.refreshIntervalEndTime =
+            new Date().getTime() + intervalMs;
     }
 }
 
@@ -458,7 +501,9 @@ function onDataFetched(result) {
 
 function setFocus(itemsContainer, focusId) {
     if (focusId) {
-        const newElement = itemsContainer.querySelector('[data-id="' + focusId + '"]');
+        const newElement = itemsContainer.querySelector(
+            '[data-id="' + focusId + '"]'
+        );
         if (newElement) {
             try {
                 focusManager.focus(newElement);
@@ -476,4 +521,3 @@ document.registerElement('emby-itemscontainer', {
     prototype: ItemsContainerPrototype,
     extends: 'div'
 });
-

@@ -1,4 +1,3 @@
-
 import { appHost } from './apphost';
 import browser from '../scripts/browser';
 import appSettings from '../scripts/settings/appSettings';
@@ -34,7 +33,9 @@ class LayoutManager {
 
             this.experimental = layout === 'experimental';
             if (this.experimental) {
-                const legacyLayoutMode = browser.mobile ? 'mobile' : this.defaultLayout || 'desktop';
+                const legacyLayoutMode = browser.mobile
+                    ? 'mobile'
+                    : this.defaultLayout || 'desktop';
                 setLayout(this, legacyLayoutMode, legacyLayoutMode);
             }
 

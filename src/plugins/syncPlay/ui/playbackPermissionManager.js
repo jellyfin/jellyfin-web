@@ -5,7 +5,7 @@ import { AppFeature } from 'constants/appFeature';
  * Creates an audio element that plays a silent sound.
  * @returns {HTMLMediaElement} The audio element.
  */
-function createTestMediaElement () {
+function createTestMediaElement() {
     const elem = document.createElement('audio');
     elem.classList.add('testMediaPlayerAudio');
     elem.classList.add('hide');
@@ -22,7 +22,7 @@ function createTestMediaElement () {
  * Destroys a media element.
  * @param {HTMLMediaElement} elem The element to destroy.
  */
-function destroyTestMediaElement (elem) {
+function destroyTestMediaElement(elem) {
     elem.pause();
     elem.remove();
 }
@@ -35,17 +35,16 @@ class PlaybackPermissionManager {
      * Tests playback permission. Grabs the permission when called inside a click event (or any other valid user interaction).
      * @returns {Promise} Promise that resolves succesfully if playback permission is allowed.
      */
-    check () {
+    check() {
         if (appHost.supports(AppFeature.HtmlAudioAutoplay)) {
             return Promise.resolve(true);
         }
 
         const media = createTestMediaElement();
 
-        return media.play()
-            .finally(() => {
-                destroyTestMediaElement(media);
-            });
+        return media.play().finally(() => {
+            destroyTestMediaElement(media);
+        });
     }
 }
 

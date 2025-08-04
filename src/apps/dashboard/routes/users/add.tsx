@@ -23,17 +23,15 @@ type ItemsArr = {
 };
 
 const UserNew = () => {
-    const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
-    const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
+    const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
+    const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
     const element = useRef<HTMLDivElement>(null);
 
     const getItemsResult = (items: BaseItemDto[]) => {
-        return items.map(item =>
-            ({
-                Id: item.Id,
-                Name: item.Name
-            })
-        );
+        return items.map((item) => ({
+            Id: item.Id,
+            Name: item.Name
+        }));
     };
 
     const loadMediaFolders = useCallback((result: BaseItemDto[]) => {
@@ -48,10 +46,14 @@ const UserNew = () => {
 
         setMediaFoldersItems(mediaFolders);
 
-        const folderAccess = page.querySelector('.folderAccess') as HTMLDivElement;
+        const folderAccess = page.querySelector(
+            '.folderAccess'
+        ) as HTMLDivElement;
         folderAccess.dispatchEvent(new CustomEvent('create'));
 
-        (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).checked = false;
+        (
+            page.querySelector('.chkEnableAllFolders') as HTMLInputElement
+        ).checked = false;
     }, []);
 
     const loadChannels = useCallback((result: BaseItemDto[]) => {
@@ -66,13 +68,21 @@ const UserNew = () => {
 
         setChannelsItems(channels);
 
-        const channelAccess = page.querySelector('.channelAccess') as HTMLDivElement;
+        const channelAccess = page.querySelector(
+            '.channelAccess'
+        ) as HTMLDivElement;
         channelAccess.dispatchEvent(new CustomEvent('create'));
 
-        const channelAccessContainer = page.querySelector('.channelAccessContainer') as HTMLDivElement;
-        channels.length ? channelAccessContainer.classList.remove('hide') : channelAccessContainer.classList.add('hide');
+        const channelAccessContainer = page.querySelector(
+            '.channelAccessContainer'
+        ) as HTMLDivElement;
+        channels.length
+            ? channelAccessContainer.classList.remove('hide')
+            : channelAccessContainer.classList.add('hide');
 
-        (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked = false;
+        (
+            page.querySelector('.chkEnableAllChannels') as HTMLInputElement
+        ).checked = false;
     }, []);
 
     const loadUser = useCallback(() => {
@@ -86,17 +96,23 @@ const UserNew = () => {
         (page.querySelector('#txtUsername') as HTMLInputElement).value = '';
         (page.querySelector('#txtPassword') as HTMLInputElement).value = '';
         loading.show();
-        const promiseFolders = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
-            IsHidden: false
-        }));
-        const promiseChannels = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
-        Promise.all([promiseFolders, promiseChannels]).then(function (responses) {
-            loadMediaFolders(responses[0].Items);
-            loadChannels(responses[1].Items);
-            loading.hide();
-        }).catch(err => {
-            console.error('[usernew] failed to load data', err);
-        });
+        const promiseFolders = window.ApiClient.getJSON(
+            window.ApiClient.getUrl('Library/MediaFolders', {
+                IsHidden: false
+            })
+        );
+        const promiseChannels = window.ApiClient.getJSON(
+            window.ApiClient.getUrl('Channels')
+        );
+        Promise.all([promiseFolders, promiseChannels])
+            .then(function (responses) {
+                loadMediaFolders(responses[0].Items);
+                loadChannels(responses[1].Items);
+                loading.hide();
+            })
+            .catch((err) => {
+                console.error('[usernew] failed to load data', err);
+            });
     }, [loadChannels, loadMediaFolders]);
 
     useEffect(() => {
@@ -111,48 +127,82 @@ const UserNew = () => {
 
         const saveUser = () => {
             const userInput: UserInput = {};
-            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value.trim();
-            userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
+            userInput.Name = (
+                page.querySelector('#txtUsername') as HTMLInputElement
+            ).value.trim();
+            userInput.Password = (
+                page.querySelector('#txtPassword') as HTMLInputElement
+            ).value;
 
-            window.ApiClient.createUser(userInput).then(function (user) {
-                if (!user.Id || !user.Policy) {
-                    throw new Error('Unexpected null user id or policy');
-                }
+            window.ApiClient.createUser(userInput).then(
+                function (user) {
+                    if (!user.Id || !user.Policy) {
+                        throw new Error('Unexpected null user id or policy');
+                    }
 
-                user.Policy.EnableAllFolders = (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).checked;
-                user.Policy.EnabledFolders = [];
+                    user.Policy.EnableAllFolders = (
+                        page.querySelector(
+                            '.chkEnableAllFolders'
+                        ) as HTMLInputElement
+                    ).checked;
+                    user.Policy.EnabledFolders = [];
 
-                if (!user.Policy.EnableAllFolders) {
-                    user.Policy.EnabledFolders = Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (i) {
-                        return i.checked;
-                    }).map(function (i) {
-                        return i.getAttribute('data-id');
-                    });
-                }
+                    if (!user.Policy.EnableAllFolders) {
+                        user.Policy.EnabledFolders = Array.prototype.filter
+                            .call(
+                                page.querySelectorAll('.chkFolder'),
+                                function (i) {
+                                    return i.checked;
+                                }
+                            )
+                            .map(function (i) {
+                                return i.getAttribute('data-id');
+                            });
+                    }
 
-                user.Policy.EnableAllChannels = (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked;
-                user.Policy.EnabledChannels = [];
+                    user.Policy.EnableAllChannels = (
+                        page.querySelector(
+                            '.chkEnableAllChannels'
+                        ) as HTMLInputElement
+                    ).checked;
+                    user.Policy.EnabledChannels = [];
 
-                if (!user.Policy.EnableAllChannels) {
-                    user.Policy.EnabledChannels = Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (i) {
-                        return i.checked;
-                    }).map(function (i) {
-                        return i.getAttribute('data-id');
-                    });
-                }
+                    if (!user.Policy.EnableAllChannels) {
+                        user.Policy.EnabledChannels = Array.prototype.filter
+                            .call(
+                                page.querySelectorAll('.chkChannel'),
+                                function (i) {
+                                    return i.checked;
+                                }
+                            )
+                            .map(function (i) {
+                                return i.getAttribute('data-id');
+                            });
+                    }
 
-                window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-                    Dashboard.navigate('/dashboard/users/profile?userId=' + user.Id)
-                        .catch(err => {
-                            console.error('[usernew] failed to navigate to edit user page', err);
+                    window.ApiClient.updateUserPolicy(user.Id, user.Policy)
+                        .then(function () {
+                            Dashboard.navigate(
+                                '/dashboard/users/profile?userId=' + user.Id
+                            ).catch((err) => {
+                                console.error(
+                                    '[usernew] failed to navigate to edit user page',
+                                    err
+                                );
+                            });
+                        })
+                        .catch((err) => {
+                            console.error(
+                                '[usernew] failed to update user policy',
+                                err
+                            );
                         });
-                }).catch(err => {
-                    console.error('[usernew] failed to update user policy', err);
-                });
-            }, function () {
-                toast(globalize.translate('ErrorDefault'));
-                loading.hide();
-            });
+                },
+                function () {
+                    toast(globalize.translate('ErrorDefault'));
+                    loading.hide();
+                }
+            );
         };
 
         const onSubmit = (e: Event) => {
@@ -163,28 +213,41 @@ const UserNew = () => {
             return false;
         };
 
-        (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
-            const channelAccessListContainer = page.querySelector('.channelAccessListContainer') as HTMLDivElement;
-            this.checked ? channelAccessListContainer.classList.add('hide') : channelAccessListContainer.classList.remove('hide');
+        (
+            page.querySelector('.chkEnableAllChannels') as HTMLInputElement
+        ).addEventListener('change', function (this: HTMLInputElement) {
+            const channelAccessListContainer = page.querySelector(
+                '.channelAccessListContainer'
+            ) as HTMLDivElement;
+            this.checked
+                ? channelAccessListContainer.classList.add('hide')
+                : channelAccessListContainer.classList.remove('hide');
         });
 
-        (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
-            const folderAccessListContainer = page.querySelector('.folderAccessListContainer') as HTMLDivElement;
-            this.checked ? folderAccessListContainer.classList.add('hide') : folderAccessListContainer.classList.remove('hide');
+        (
+            page.querySelector('.chkEnableAllFolders') as HTMLInputElement
+        ).addEventListener('change', function (this: HTMLInputElement) {
+            const folderAccessListContainer = page.querySelector(
+                '.folderAccessListContainer'
+            ) as HTMLDivElement;
+            this.checked
+                ? folderAccessListContainer.classList.add('hide')
+                : folderAccessListContainer.classList.remove('hide');
         });
 
-        (page.querySelector('.newUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
+        (
+            page.querySelector('.newUserProfileForm') as HTMLFormElement
+        ).addEventListener('submit', onSubmit);
 
-        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', function() {
+        (
+            page.querySelector('#btnCancel') as HTMLButtonElement
+        ).addEventListener('click', function () {
             window.history.back();
         });
     }, [loadUser]);
 
     return (
-        <Page
-            id='newUserPage'
-            className='mainAnimatedPage type-interior'
-        >
+        <Page id='newUserPage' className='mainAnimatedPage type-interior'>
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
@@ -218,7 +281,7 @@ const UserNew = () => {
                         listTitle='HeaderLibraries'
                         description='LibraryAccessHelp'
                     >
-                        {mediaFoldersItems.map(Item => (
+                        {mediaFoldersItems.map((Item) => (
                             <CheckBoxElement
                                 key={Item.Id}
                                 className='chkFolder'
@@ -238,7 +301,7 @@ const UserNew = () => {
                         listTitle='Channels'
                         description='ChannelAccessHelp'
                     >
-                        {channelsItems.map(Item => (
+                        {channelsItems.map((Item) => (
                             <CheckBoxElement
                                 key={Item.Id}
                                 className='chkChannel'
@@ -263,7 +326,6 @@ const UserNew = () => {
                 </form>
             </div>
         </Page>
-
     );
 };
 

@@ -17,79 +17,87 @@ function enableScrollX() {
 }
 
 function getSections() {
-    return [{
-        name: 'Movies',
-        types: 'Movie',
-        id: 'favoriteMovies',
-        shape: getPortraitShape(enableScrollX()),
-        showTitle: false,
-        overlayPlayButton: true
-    }, {
-        name: 'Shows',
-        types: 'Series',
-        id: 'favoriteShows',
-        shape: getPortraitShape(enableScrollX()),
-        showTitle: false,
-        overlayPlayButton: true
-    }, {
-        name: 'Episodes',
-        types: 'Episode',
-        id: 'favoriteEpisode',
-        shape: getBackdropShape(enableScrollX()),
-        preferThumb: false,
-        showTitle: true,
-        showParentTitle: true,
-        overlayPlayButton: true,
-        overlayText: false,
-        centerText: true
-    }, {
-        name: 'Videos',
-        types: 'Video,MusicVideo',
-        id: 'favoriteVideos',
-        shape: getBackdropShape(enableScrollX()),
-        preferThumb: true,
-        showTitle: true,
-        overlayPlayButton: true,
-        overlayText: false,
-        centerText: true
-    }, {
-        name: 'Artists',
-        types: 'MusicArtist',
-        id: 'favoriteArtists',
-        shape: getSquareShape(enableScrollX()),
-        preferThumb: false,
-        showTitle: true,
-        overlayText: false,
-        showParentTitle: false,
-        centerText: true,
-        overlayPlayButton: true,
-        coverImage: true
-    }, {
-        name: 'Albums',
-        types: 'MusicAlbum',
-        id: 'favoriteAlbums',
-        shape: getSquareShape(enableScrollX()),
-        preferThumb: false,
-        showTitle: true,
-        overlayText: false,
-        showParentTitle: true,
-        centerText: true,
-        overlayPlayButton: true,
-        coverImage: true
-    }, {
-        name: 'Songs',
-        types: 'Audio',
-        id: 'favoriteSongs',
-        shape: getSquareShape(enableScrollX()),
-        preferThumb: false,
-        showTitle: true,
-        overlayText: false,
-        showParentTitle: true,
-        centerText: true,
-        overlayMoreButton: true,
-        action: 'instantmix',
-        coverImage: true
-    }];
+    return [
+        {
+            name: 'Movies',
+            types: 'Movie',
+            id: 'favoriteMovies',
+            shape: getPortraitShape(enableScrollX()),
+            showTitle: false,
+            overlayPlayButton: true
+        },
+        {
+            name: 'Shows',
+            types: 'Series',
+            id: 'favoriteShows',
+            shape: getPortraitShape(enableScrollX()),
+            showTitle: false,
+            overlayPlayButton: true
+        },
+        {
+            name: 'Episodes',
+            types: 'Episode',
+            id: 'favoriteEpisode',
+            shape: getBackdropShape(enableScrollX()),
+            preferThumb: false,
+            showTitle: true,
+            showParentTitle: true,
+            overlayPlayButton: true,
+            overlayText: false,
+            centerText: true
+        },
+        {
+            name: 'Videos',
+            types: 'Video,MusicVideo',
+            id: 'favoriteVideos',
+            shape: getBackdropShape(enableScrollX()),
+            preferThumb: true,
+            showTitle: true,
+            overlayPlayButton: true,
+            overlayText: false,
+            centerText: true
+        },
+        {
+            name: 'Artists',
+            types: 'MusicArtist',
+            id: 'favoriteArtists',
+            shape: getSquareShape(enableScrollX()),
+            preferThumb: false,
+            showTitle: true,
+            overlayText: false,
+            showParentTitle: false,
+            centerText: true,
+            overlayPlayButton: true,
+            coverImage: true
+        },
+        {
+            name: 'Albums',
+            types: 'MusicAlbum',
+            id: 'favoriteAlbums',
+            shape: getSquareShape(enableScrollX()),
+            preferThumb: false,
+            showTitle: true,
+            overlayText: false,
+            showParentTitle: true,
+            centerText: true,
+            overlayPlayButton: true,
+            coverImage: true
+        },
+        {
+            name: 'Songs',
+            types: 'Audio',
+            id: 'favoriteSongs',
+            shape: getSquareShape(enableScrollX()),
+            preferThumb: false,
+            showTitle: true,
+            overlayText: false,
+            showParentTitle: true,
+            centerText: true,
+            overlayMoreButton: true,
+            action: 'instantmix',
+            coverImage: true
+        }
+    ];
 }
 
 function loadSection(elem, userId, topParentId, section, isSingleSection) {
@@ -134,17 +142,33 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
         let html = '';
 
         if (result.Items.length) {
-            html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
+            html +=
+                '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
-            if (!layoutManager.tv && options.Limit && result.Items.length >= options.Limit) {
-                html += '<a is="emby-linkbutton" href="' + ('#/list?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+            if (
+                !layoutManager.tv &&
+                options.Limit &&
+                result.Items.length >= options.Limit
+            ) {
+                html +=
+                    '<a is="emby-linkbutton" href="' +
+                    ('#/list?serverId=' +
+                        ApiClient.serverId() +
+                        '&type=' +
+                        section.types +
+                        '&IsFavorite=true') +
+                    '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
                 html += globalize.translate(section.name);
                 html += '</h2>';
-                html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
+                html +=
+                    '<span class="material-icons chevron_right" aria-hidden="true"></span>';
                 html += '</a>';
             } else {
-                html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(section.name) + '</h2>';
+                html +=
+                    '<h2 class="sectionTitle sectionTitle-cards">' +
+                    globalize.translate(section.name) +
+                    '</h2>';
             }
 
             html += '</div>';
@@ -154,9 +178,13 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
                     scrollXClass += ' smoothScrollX';
                 }
 
-                html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
+                html +=
+                    '<div is="emby-itemscontainer" class="itemsContainer ' +
+                    scrollXClass +
+                    ' padded-left padded-right">';
             } else {
-                html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
+                html +=
+                    '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
             }
 
             // NOTE: Why is card layout always disabled?
@@ -209,7 +237,10 @@ export function loadSections(page, userId, topParentId, types) {
         let html = '';
 
         for (let i = 0, length = sections.length; i < length; i++) {
-            html += '<div class="verticalSection section' + sections[i].id + '"></div>';
+            html +=
+                '<div class="verticalSection section' +
+                sections[i].id +
+                '"></div>';
         }
 
         elem.innerHTML = html;
@@ -220,7 +251,15 @@ export function loadSections(page, userId, topParentId, types) {
     for (let i = 0, length = sections.length; i < length; i++) {
         const section = sections[i];
         elem = page.querySelector('.section' + section.id);
-        promises.push(loadSection(elem, userId, topParentId, section, sections.length === 1));
+        promises.push(
+            loadSection(
+                elem,
+                userId,
+                topParentId,
+                section,
+                sections.length === 1
+            )
+        );
     }
 
     Promise.all(promises).then(function () {

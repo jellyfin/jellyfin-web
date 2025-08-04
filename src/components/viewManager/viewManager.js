@@ -8,7 +8,12 @@ let dispatchPageEvents;
 viewContainer.setOnBeforeChange(function (newView, isRestored, options) {
     const lastView = currentView;
     if (lastView) {
-        const beforeHideResult = dispatchViewEvent(lastView, null, 'viewbeforehide', true);
+        const beforeHideResult = dispatchViewEvent(
+            lastView,
+            null,
+            'viewbeforehide',
+            true
+        );
 
         if (!beforeHideResult) {
             // todo: cancel
@@ -23,8 +28,14 @@ viewContainer.setOnBeforeChange(function (newView, isRestored, options) {
         if (typeof options.controllerFactory === 'function') {
             // eslint-disable-next-line new-cap
             new options.controllerFactory(newView, eventDetail.detail.params);
-        } else if (options.controllerFactory && typeof options.controllerFactory.default === 'function') {
-            new options.controllerFactory.default(newView, eventDetail.detail.params);
+        } else if (
+            options.controllerFactory &&
+            typeof options.controllerFactory.default === 'function'
+        ) {
+            new options.controllerFactory.default(
+                newView,
+                eventDetail.detail.params
+            );
         }
 
         if (!options.controllerFactory || dispatchPageEvents) {
@@ -50,7 +61,11 @@ function onViewChange(view, options, isRestore) {
             focusManager.autoFocus(view);
         }
     } else if (!layoutManager.mobile) {
-        if (view.activeElement && document.body.contains(view.activeElement) && focusManager.isCurrentlyFocusable(view.activeElement)) {
+        if (
+            view.activeElement &&
+            document.body.contains(view.activeElement) &&
+            focusManager.isCurrentlyFocusable(view.activeElement)
+        ) {
             focusManager.focus(view.activeElement);
         } else {
             focusManager.autoFocus(view);
@@ -88,11 +103,15 @@ function dispatchViewEvent(view, eventInfo, eventName, isCancellable) {
 
     eventInfo.cancelable = isCancellable || false;
 
-    const eventResult = view.dispatchEvent(new CustomEvent(eventName, eventInfo));
+    const eventResult = view.dispatchEvent(
+        new CustomEvent(eventName, eventInfo)
+    );
 
     if (dispatchPageEvents) {
         eventInfo.cancelable = false;
-        view.dispatchEvent(new CustomEvent(eventName.replace('view', 'page'), eventInfo));
+        view.dispatchEvent(
+            new CustomEvent(eventName.replace('view', 'page'), eventInfo)
+        );
     }
 
     return eventResult;

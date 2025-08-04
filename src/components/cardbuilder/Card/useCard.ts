@@ -52,29 +52,27 @@ function useCard({ item, cardOptions }: UseCardProps) {
         prefix = prefix.toUpperCase();
     }
 
-    const dataAttributes = getDataAttributes(
-        {
-            action,
-            itemServerId: item.ServerId ?? cardOptions.serverId,
-            context: cardOptions.context,
-            parentId: cardOptions.parentId,
-            collectionId: cardOptions.collectionId,
-            playlistId: cardOptions.playlistId,
-            itemId: item.Id,
-            itemTimerId: item.TimerId,
-            itemSeriesTimerId: item.SeriesTimerId,
-            itemChannelId: item.ChannelId,
-            itemType: item.Type,
-            itemMediaType: item.MediaType,
-            itemCollectionType: item.CollectionType,
-            itemIsFolder: item.IsFolder,
-            itemPath: item.Path,
-            itemStartDate: item.StartDate,
-            itemEndDate: item.EndDate,
-            itemUserData: item.UserData,
-            prefix
-        }
-    );
+    const dataAttributes = getDataAttributes({
+        action,
+        itemServerId: item.ServerId ?? cardOptions.serverId,
+        context: cardOptions.context,
+        parentId: cardOptions.parentId,
+        collectionId: cardOptions.collectionId,
+        playlistId: cardOptions.playlistId,
+        itemId: item.Id,
+        itemTimerId: item.TimerId,
+        itemSeriesTimerId: item.SeriesTimerId,
+        itemChannelId: item.ChannelId,
+        itemType: item.Type,
+        itemMediaType: item.MediaType,
+        itemCollectionType: item.CollectionType,
+        itemIsFolder: item.IsFolder,
+        itemPath: item.Path,
+        itemStartDate: item.StartDate,
+        itemEndDate: item.EndDate,
+        itemUserData: item.UserData,
+        prefix
+    });
 
     const cardClass = classNames(
         'card',
@@ -85,9 +83,9 @@ function useCard({ item, cardOptions }: UseCardProps) {
         { groupedCard: cardOptions.showChildCountIndicator && item.ChildCount },
         {
             'card-withuserdata':
-                item.Type !== ItemKind.MusicAlbum
-                && item.Type !== ItemKind.MusicArtist
-                && item.Type !== ItemKind.Audio
+                item.Type !== ItemKind.MusicAlbum &&
+                item.Type !== ItemKind.MusicArtist &&
+                item.Type !== ItemKind.Audio
         },
         { itemAction: layoutManager.tv }
     );

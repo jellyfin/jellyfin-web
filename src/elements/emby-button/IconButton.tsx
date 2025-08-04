@@ -3,9 +3,11 @@ import classNames from 'classnames';
 import layoutManager from '../../components/layoutManager';
 import './emby-button.scss';
 
-interface IconButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-> {
+interface IconButtonProps
+    extends DetailedHTMLProps<
+        ButtonHTMLAttributes<HTMLButtonElement>,
+        HTMLButtonElement
+    > {
     icon?: string;
     iconClassName?: string;
 }
@@ -19,17 +21,11 @@ const IconButton: React.FC<IconButtonProps> = ({
     onClick,
     ...rest
 }) => {
-    const btnClass = classNames(
-        'paper-icon-button-light',
-        className,
-        { 'show-focus': layoutManager.tv }
-    );
+    const btnClass = classNames('paper-icon-button-light', className, {
+        'show-focus': layoutManager.tv
+    });
 
-    const iconClass = classNames(
-        'material-icons',
-        iconClassName,
-        icon
-    );
+    const iconClass = classNames('material-icons', iconClassName, icon);
 
     return (
         <button

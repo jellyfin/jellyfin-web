@@ -94,7 +94,12 @@ class AppSettings {
         }
 
         const defaultValue = 320000;
-        return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString(), 10) || defaultValue;
+        return (
+            parseInt(
+                this.get('maxStaticMusicBitrate') || defaultValue.toString(),
+                10
+            ) || defaultValue
+        );
     }
 
     maxChromecastBitrate(val) {
@@ -163,10 +168,16 @@ class AppSettings {
      */
     alwaysBurnInSubtitleWhenTranscoding(val) {
         if (val !== undefined) {
-            return this.set('alwaysBurnInSubtitleWhenTranscoding', val.toString());
+            return this.set(
+                'alwaysBurnInSubtitleWhenTranscoding',
+                val.toString()
+            );
         }
 
-        return toBoolean(this.get('alwaysBurnInSubtitleWhenTranscoding'), false);
+        return toBoolean(
+            this.get('alwaysBurnInSubtitleWhenTranscoding'),
+            false
+        );
     }
 
     /**

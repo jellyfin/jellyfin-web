@@ -16,83 +16,42 @@ export const CODECS = [
     {
         name: 'HEVC',
         codec: 'hevc',
-        types: [
-            'amf',
-            'nvenc',
-            'qsv',
-            'vaapi',
-            'rkmpp',
-            'videotoolbox'
-        ]
+        types: ['amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox']
     },
     {
         name: 'MPEG1',
         codec: 'mpeg1video',
-        types: [ 'rkmpp' ]
+        types: ['rkmpp']
     },
     {
         name: 'MPEG2',
         codec: 'mpeg2video',
-        types: [
-            'amf',
-            'nvenc',
-            'qsv',
-            'vaapi',
-            'rkmpp'
-        ]
+        types: ['amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp']
     },
     {
         name: 'MPEG4',
         codec: 'mpeg4',
-        types: [
-            'nvenc',
-            'rkmpp'
-        ]
+        types: ['nvenc', 'rkmpp']
     },
     {
         name: 'VC1',
         codec: 'vc1',
-        types: [
-            'amf',
-            'nvenc',
-            'qsv',
-            'vaapi'
-        ]
+        types: ['amf', 'nvenc', 'qsv', 'vaapi']
     },
     {
         name: 'VP8',
         codec: 'vp8',
-        types: [
-            'nvenc',
-            'qsv',
-            'vaapi',
-            'rkmpp',
-            'videotoolbox'
-        ]
+        types: ['nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox']
     },
     {
         name: 'VP9',
         codec: 'vp9',
-        types: [
-            'amf',
-            'nvenc',
-            'qsv',
-            'vaapi',
-            'rkmpp',
-            'videotoolbox'
-        ]
+        types: ['amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox']
     },
     {
         name: 'AV1',
         codec: 'av1',
-        types: [
-            'amf',
-            'nvenc',
-            'qsv',
-            'vaapi',
-            'rkmpp',
-            'videotoolbox'
-        ]
+        types: ['amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox']
     }
 ];
 
@@ -106,8 +65,4 @@ export const HEVC_VP9_HW_DECODING_TYPES = [
 ];
 
 /** Hardware decoders which support HEVC RExt */
-export const HEVC_REXT_DECODING_TYPES = [
-    'nvenc',
-    'qsv',
-    'vaapi'
-];
+export const HEVC_REXT_DECODING_TYPES = ['nvenc', 'qsv', 'vaapi'];

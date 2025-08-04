@@ -7,11 +7,11 @@ import React, { type FC } from 'react';
 import { LoadingSkeleton } from './LoadingSkeleton';
 
 interface ImageProps {
-    isLoading: boolean
-    alt?: string
-    url?: string
-    aspectRatio?: number
-    FallbackIcon?: SvgIconComponent
+    isLoading: boolean;
+    alt?: string;
+    url?: string;
+    aspectRatio?: number;
+    FallbackIcon?: SvgIconComponent;
 }
 
 const Image: FC<ImageProps> = ({
@@ -38,11 +38,7 @@ const Image: FC<ImageProps> = ({
             height='100%'
         >
             {url ? (
-                <img
-                    src={url}
-                    alt={alt}
-                    width='100%'
-                />
+                <img src={url} alt={alt} width='100%' />
             ) : (
                 <Box
                     sx={{

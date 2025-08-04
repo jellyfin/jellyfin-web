@@ -51,9 +51,11 @@ function loadRecommendedPrograms(page) {
         });
         loading.hide();
 
-        import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-            autoFocuser.autoFocus(page);
-        });
+        import('../../components/autoFocuser').then(
+            ({ default: autoFocuser }) => {
+                autoFocuser.autoFocus(page);
+            }
+        );
     });
 }
 
@@ -131,44 +133,56 @@ function reload(page, enableFullRender) {
 }
 
 function renderItems(page, items, sectionClass, overlayButton, cardOptions) {
-    const html = cardBuilder.getCardsHtml(Object.assign({
-        items: items,
-        preferThumb: 'auto',
-        inheritThumb: false,
-        shape: enableScrollX() ? 'autooverflow' : 'auto',
-        defaultShape: getBackdropShape(enableScrollX()),
-        showParentTitle: true,
-        showTitle: true,
-        centerText: true,
-        coverImage: true,
-        overlayText: false,
-        lazy: true,
-        overlayPlayButton: overlayButton === 'play',
-        overlayMoreButton: overlayButton === 'more',
-        overlayInfoButton: overlayButton === 'info',
-        allowBottomPadding: !enableScrollX(),
-        showAirTime: true,
-        showAirDateTime: true
-    }, cardOptions || {}));
+    const html = cardBuilder.getCardsHtml(
+        Object.assign(
+            {
+                items: items,
+                preferThumb: 'auto',
+                inheritThumb: false,
+                shape: enableScrollX() ? 'autooverflow' : 'auto',
+                defaultShape: getBackdropShape(enableScrollX()),
+                showParentTitle: true,
+                showTitle: true,
+                centerText: true,
+                coverImage: true,
+                overlayText: false,
+                lazy: true,
+                overlayPlayButton: overlayButton === 'play',
+                overlayMoreButton: overlayButton === 'more',
+                overlayInfoButton: overlayButton === 'info',
+                allowBottomPadding: !enableScrollX(),
+                showAirTime: true,
+                showAirDateTime: true
+            },
+            cardOptions || {}
+        )
+    );
     const elem = page.querySelector('.' + sectionClass);
     elem.innerHTML = html;
     imageLoader.lazyChildren(elem);
 }
 
 function getTabs() {
-    return [{
-        name: globalize.translate('Programs')
-    }, {
-        name: globalize.translate('Guide')
-    }, {
-        name: globalize.translate('Channels')
-    }, {
-        name: globalize.translate('Recordings')
-    }, {
-        name: globalize.translate('Schedule')
-    }, {
-        name: globalize.translate('Series')
-    }];
+    return [
+        {
+            name: globalize.translate('Programs')
+        },
+        {
+            name: globalize.translate('Guide')
+        },
+        {
+            name: globalize.translate('Channels')
+        },
+        {
+            name: globalize.translate('Recordings')
+        },
+        {
+            name: globalize.translate('Schedule')
+        },
+        {
+            name: globalize.translate('Series')
+        }
+    ];
 }
 
 function setScrollClasses(elem, scrollX) {
@@ -216,7 +230,8 @@ export default function (view, params) {
     }
 
     function onTabChange(evt) {
-        const previousTabController = tabControllers[parseInt(evt.detail.previousIndex, 10)];
+        const previousTabController =
+            tabControllers[parseInt(evt.detail.previousIndex, 10)];
 
         if (previousTabController?.onHide) {
             previousTabController.onHide();
@@ -230,7 +245,14 @@ export default function (view, params) {
     }
 
     function initTabs() {
-        mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
+        mainTabsManager.setTabs(
+            view,
+            currentTabIndex,
+            getTabs,
+            getTabContainers,
+            onBeforeTabChange,
+            onTabChange
+        );
     }
 
     function getTabController(page, index, callback) {
@@ -263,34 +285,44 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../livetv/${depends}`).then(({ default: ControllerFactory }) => {
-            let tabContent;
-
-            if (index === 0) {
-                tabContent = view.querySelector(`.pageTabContent[data-index="${index}"]`);
-                self.tabContent = tabContent;
-            }
-
-            let controller = tabControllers[index];
-
-            if (!controller) {
-                tabContent = view.querySelector(`.pageTabContent[data-index="${index}"]`);
+        import(`../livetv/${depends}`).then(
+            ({ default: ControllerFactory }) => {
+                let tabContent;
 
                 if (index === 0) {
-                    controller = self;
-                } else {
-                    controller = new ControllerFactory(view, params, tabContent);
+                    tabContent = view.querySelector(
+                        `.pageTabContent[data-index="${index}"]`
+                    );
+                    self.tabContent = tabContent;
                 }
 
-                tabControllers[index] = controller;
+                let controller = tabControllers[index];
 
-                if (controller.initTab) {
-                    controller.initTab();
+                if (!controller) {
+                    tabContent = view.querySelector(
+                        `.pageTabContent[data-index="${index}"]`
+                    );
+
+                    if (index === 0) {
+                        controller = self;
+                    } else {
+                        controller = new ControllerFactory(
+                            view,
+                            params,
+                            tabContent
+                        );
+                    }
+
+                    tabControllers[index] = controller;
+
+                    if (controller.initTab) {
+                        controller.initTab();
+                    }
                 }
+
+                callback(controller);
             }
-
-            callback(controller);
-        });
+        );
     }
 
     function preLoadTab(page, index) {
@@ -329,19 +361,27 @@ export default function (view, params) {
 
     let isViewRestored;
     const self = this;
-    let currentTabIndex = parseInt(params.tab || getDefaultTabIndex('livetv'), 10);
+    let currentTabIndex = parseInt(
+        params.tab || getDefaultTabIndex('livetv'),
+        10
+    );
     let initialTabIndex = currentTabIndex;
     let lastFullRender = 0;
-    [].forEach.call(view.querySelectorAll('.sectionTitleTextButton-programs'), function (link) {
-        const href = link.getAttribute('href');
+    [].forEach.call(
+        view.querySelectorAll('.sectionTitleTextButton-programs'),
+        function (link) {
+            const href = link.getAttribute('href');
 
-        if (href) {
-            link.href = href + '&serverId=' + ApiClient.serverId();
+            if (href) {
+                link.href = href + '&serverId=' + ApiClient.serverId();
+            }
         }
-    });
+    );
 
     self.initTab = function () {
-        const tabContent = view.querySelector('.pageTabContent[data-index="0"]');
+        const tabContent = view.querySelector(
+            '.pageTabContent[data-index="0"]'
+        );
         const containers = tabContent.querySelectorAll('.itemsContainer');
 
         for (let i = 0, length = containers.length; i < length; i++) {
@@ -350,7 +390,9 @@ export default function (view, params) {
     };
 
     self.renderTab = function () {
-        const tabContent = view.querySelector('.pageTabContent[data-index="0"]');
+        const tabContent = view.querySelector(
+            '.pageTabContent[data-index="0"]'
+        );
 
         if (enableFullRender()) {
             reload(tabContent, true);

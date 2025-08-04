@@ -15,8 +15,8 @@ type RunningTasksWidgetProps = {
 
 const RunningTasksWidget = ({ tasks }: RunningTasksWidgetProps) => {
     const runningTasks = useMemo(() => {
-        return tasks?.filter(v => v.State == TaskState.Running) || [];
-    }, [ tasks ]);
+        return tasks?.filter((v) => v.State == TaskState.Running) || [];
+    }, [tasks]);
 
     if (runningTasks.length == 0) return null;
 
@@ -27,12 +27,12 @@ const RunningTasksWidget = ({ tasks }: RunningTasksWidgetProps) => {
         >
             <Paper sx={{ padding: 2 }}>
                 <Stack spacing={2} maxWidth={'330px'}>
-                    {runningTasks.map((task => (
+                    {runningTasks.map((task) => (
                         <Box key={task.Id}>
                             <Typography>{task.Name}</Typography>
                             <TaskProgress task={task} />
                         </Box>
-                    )))}
+                    ))}
                 </Stack>
             </Paper>
         </Widget>

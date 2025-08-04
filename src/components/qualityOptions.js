@@ -40,11 +40,17 @@ export function getVideoQualityOptions(options) {
     if (videoBitRate > 0 && videoBitRate < bitrateConfigurations[0].bitrate) {
         // Slightly increase reference bitrate for high efficiency codecs when it is not too high
         // Ideally we only need to do this for transcoding to h264, but we need extra api request to get that info which is not ideal for this
-        if (videoCodec && ['hevc', 'av1', 'vp9'].includes(videoCodec) && referenceBitRate <= 20000000) {
+        if (
+            videoCodec &&
+            ['hevc', 'av1', 'vp9'].includes(videoCodec) &&
+            referenceBitRate <= 20000000
+        ) {
             referenceBitRate *= 1.5;
         }
         // Push one entry that has higher limit than video bitrate to allow using source bitrate when Auto is also limited
-        const sourceOptions = bitrateConfigurations.filter((c) => c.bitrate > referenceBitRate).pop();
+        const sourceOptions = bitrateConfigurations
+            .filter((c) => c.bitrate > referenceBitRate)
+            .pop();
         qualityOptions.push(sourceOptions);
     }
 

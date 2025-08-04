@@ -11,9 +11,9 @@ import SearchButton from './SearchButton';
 import UserViewNav from './userViews/UserViewNav';
 
 interface AppToolbarProps {
-    isDrawerAvailable: boolean
-    isDrawerOpen: boolean
-    onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void
+    isDrawerAvailable: boolean;
+    isDrawerOpen: boolean;
+    onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 const PUBLIC_PATHS = [
@@ -38,28 +38,25 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
 
     return (
         <AppToolbar
-            buttons={!isPublicPath && (
-                <>
-                    <SyncPlayButton />
-                    <RemotePlayButton />
-                    <SearchButton />
-                </>
-            )}
+            buttons={
+                !isPublicPath && (
+                    <>
+                        <SyncPlayButton />
+                        <RemotePlayButton />
+                        <SearchButton />
+                    </>
+                )
+            }
             isDrawerAvailable={isDrawerAvailable}
             isDrawerOpen={isDrawerOpen}
             onDrawerButtonClick={onDrawerButtonClick}
             isUserMenuAvailable={!isPublicPath}
         >
             {!isDrawerAvailable && (
-                <Stack
-                    direction='row'
-                    spacing={0.5}
-                >
+                <Stack direction='row' spacing={0.5}>
                     <ServerButton />
 
-                    {!isPublicPath && (
-                        <UserViewNav />
-                    )}
+                    {!isPublicPath && <UserViewNav />}
                 </Stack>
             )}
         </AppToolbar>

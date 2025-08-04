@@ -6,7 +6,10 @@ import { CardShape } from 'utils/card';
 
 import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
+import type {
+    NullableNumber,
+    NullableString
+} from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
@@ -25,9 +28,9 @@ function getPreferThumbInfo(item: ItemDto, cardOptions: CardOptions) {
         imgTag = item.SeriesThumbImageTag;
         itemId = item.SeriesId;
     } else if (
-        item.ParentThumbItemId
-        && cardOptions.inheritThumb !== false
-        && item.MediaType !== ItemMediaKind.Photo
+        item.ParentThumbItemId &&
+        cardOptions.inheritThumb !== false &&
+        item.MediaType !== ItemMediaKind.Photo
     ) {
         imgType = ImageType.Thumb;
         imgTag = item.ParentThumbImageTag;
@@ -38,8 +41,8 @@ function getPreferThumbInfo(item: ItemDto, cardOptions: CardOptions) {
         itemId = item.Id;
         forceName = true;
     } else if (
-        item.ParentBackdropImageTags?.length
-        && cardOptions.inheritThumb !== false
+        item.ParentBackdropImageTags?.length &&
+        cardOptions.inheritThumb !== false
     ) {
         imgType = ImageType.Backdrop;
         imgTag = item.ParentBackdropImageTags[0];
@@ -93,7 +96,9 @@ function isCoverImage(
     uiAspect: NullableNumber
 ) {
     if (itemPrimaryImageAspectRatio && uiAspect) {
-        return Math.abs(itemPrimaryImageAspectRatio - uiAspect) / uiAspect <= 0.2;
+        return (
+            Math.abs(itemPrimaryImageAspectRatio - uiAspect) / uiAspect <= 0.2
+        );
     }
 
     return false;
@@ -105,8 +110,8 @@ function shouldShowPreferBanner(
     shape: CardShape | undefined
 ): boolean {
     return (
-        (cardOptions.preferBanner || shape === CardShape.Banner)
-        && Boolean(imageTagsBanner)
+        (cardOptions.preferBanner || shape === CardShape.Banner) &&
+        Boolean(imageTagsBanner)
     );
 }
 
@@ -119,7 +124,8 @@ function shouldShowPreferDisc(
 
 function shouldShowImageTagsPrimary(item: ItemDto): boolean {
     return (
-        Boolean(item.ImageTags?.Primary) && (item.Type !== ItemKind.Episode || item.ChildCount !== 0)
+        Boolean(item.ImageTags?.Primary) &&
+        (item.Type !== ItemKind.Episode || item.ChildCount !== 0)
     );
 }
 
@@ -140,17 +146,21 @@ function shouldShowParentThumbImageTag(
     itemParentThumbItemId: NullableString,
     cardOptions: CardOptions
 ): boolean {
-    return (
-        Boolean(itemParentThumbItemId) && Boolean(cardOptions.inheritThumb)
-    );
+    return Boolean(itemParentThumbItemId) && Boolean(cardOptions.inheritThumb);
 }
 
 function shouldShowAlbumPrimaryImageTag(item: ItemDto): boolean {
     return Boolean(item.AlbumId) && Boolean(item.AlbumPrimaryImageTag);
 }
 
-function shouldShowPreferThumb(itemType: ItemKind, cardOptions: CardOptions): boolean {
-    return Boolean(cardOptions.preferThumb) && !(itemType === ItemKind.Program || itemType === ItemKind.Episode);
+function shouldShowPreferThumb(
+    itemType: ItemKind,
+    cardOptions: CardOptions
+): boolean {
+    return (
+        Boolean(cardOptions.preferThumb) &&
+        !(itemType === ItemKind.Program || itemType === ItemKind.Episode)
+    );
 }
 
 function getCardImageInfo(
@@ -174,7 +184,9 @@ function getCardImageInfo(
         imgTag = preferThumbInfo.imgTag;
         itemId = preferThumbInfo.itemId;
         forceName = preferThumbInfo.forceName;
-    } else if (shouldShowPreferBanner(item.ImageTags?.Banner, cardOptions, shape)) {
+    } else if (
+        shouldShowPreferBanner(item.ImageTags?.Banner, cardOptions, shape)
+    ) {
         imgType = ImageType.Banner;
         imgTag = item.ImageTags?.Banner;
         itemId = item.Id;
@@ -187,7 +199,9 @@ function getCardImageInfo(
         imgType = preferLogoInfo.imgType;
         imgTag = preferLogoInfo.imgType;
         itemId = preferLogoInfo.itemId;
-    } else if (shouldShowParentThumbImageTag(item.ParentThumbItemId, cardOptions)) {
+    } else if (
+        shouldShowParentThumbImageTag(item.ParentThumbItemId, cardOptions)
+    ) {
         imgType = ImageType.Thumb;
         imgTag = item.ParentThumbImageTag;
         itemId = item.ParentThumbItemId;
@@ -228,13 +242,15 @@ function getCardImageInfo(
         imgType = ImageType.Backdrop;
         imgTag = item.BackdropImageTags[0];
         itemId = item.Id;
-    } else if (shouldShowSeriesThumbImageTag(item.SeriesThumbImageTag, cardOptions)) {
+    } else if (
+        shouldShowSeriesThumbImageTag(item.SeriesThumbImageTag, cardOptions)
+    ) {
         imgType = ImageType.Thumb;
         imgTag = item.SeriesThumbImageTag;
         itemId = item.SeriesId;
     } else if (
-        item.ParentBackdropImageTags?.length
-        && cardOptions.inheritThumb !== false
+        item.ParentBackdropImageTags?.length &&
+        cardOptions.inheritThumb !== false
     ) {
         imgType = ImageType.Backdrop;
         imgTag = item.ParentBackdropImageTags[0];

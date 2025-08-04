@@ -8,7 +8,9 @@ import { LibraryViewSettings } from 'types/library';
 interface FiltersStudiosProps {
     studiosOptions: BaseItemDto[];
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
+    setLibraryViewSettings: React.Dispatch<
+        React.SetStateAction<LibraryViewSettings>
+    >;
 }
 
 const FiltersStudios: FC<FiltersStudiosProps> = ({
@@ -20,18 +22,21 @@ const FiltersStudios: FC<FiltersStudiosProps> = ({
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value;
-            const existingStudioIds = libraryViewSettings?.Filters?.StudioIds ?? [];
+            const existingStudioIds =
+                libraryViewSettings?.Filters?.StudioIds ?? [];
 
-            const updatedStudioIds = existingStudioIds.includes(value) ?
-                existingStudioIds.filter((filter) => filter !== value) :
-                [...existingStudioIds, value];
+            const updatedStudioIds = existingStudioIds.includes(value)
+                ? existingStudioIds.filter((filter) => filter !== value)
+                : [...existingStudioIds, value];
 
             setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
                     ...prevState.Filters,
-                    StudioIds: updatedStudioIds.length ? updatedStudioIds : undefined
+                    StudioIds: updatedStudioIds.length
+                        ? updatedStudioIds
+                        : undefined
                 }
             }));
         },

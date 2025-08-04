@@ -46,7 +46,35 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
         'alphaPickerButton'
     );
 
-    const letters = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    const letters = [
+        '#',
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'F',
+        'G',
+        'H',
+        'I',
+        'J',
+        'K',
+        'L',
+        'M',
+        'N',
+        'O',
+        'P',
+        'Q',
+        'R',
+        'S',
+        'T',
+        'U',
+        'V',
+        'W',
+        'X',
+        'Y',
+        'Z'
+    ];
 
     return (
         <Box
@@ -69,11 +97,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
                 onChange={handleValue}
             >
                 {letters.map((l) => (
-                    <ToggleButton
-                        key={l}
-                        value={l}
-                        className={btnClassName}
-                    >
+                    <ToggleButton key={l} value={l} className={btnClassName}>
                         {l}
                     </ToggleButton>
                 ))}

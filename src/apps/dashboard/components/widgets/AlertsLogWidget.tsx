@@ -7,9 +7,10 @@ import subSeconds from 'date-fns/subSeconds';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
 
 const AlertsLogWidget = () => {
-    const weekBefore = useMemo(() => (
-        subSeconds(new Date(), 7 * 24 * 60 * 60).toISOString()
-    ), []);
+    const weekBefore = useMemo(
+        () => subSeconds(new Date(), 7 * 24 * 60 * 60).toISOString(),
+        []
+    );
 
     const { data: alerts, isPending } = useLogEntries({
         startIndex: 0,
@@ -26,7 +27,7 @@ const AlertsLogWidget = () => {
             href='/dashboard/activity?useractivity=false'
         >
             <List sx={{ bgcolor: 'background.paper' }}>
-                {alerts?.Items?.map(entry => (
+                {alerts?.Items?.map((entry) => (
                     <ActivityListItem
                         key={entry.Id}
                         item={entry}

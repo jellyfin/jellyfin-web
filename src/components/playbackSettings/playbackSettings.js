@@ -2,7 +2,10 @@ import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/medi
 import escapeHTML from 'escape-html';
 
 import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
-import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
+import {
+    getId,
+    getMediaSegmentAction
+} from 'apps/stable/features/playback/utils/mediaSegmentSettings';
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
@@ -23,14 +26,17 @@ import '../../elements/emby-checkbox/emby-checkbox';
 function fillSkipLengths(select) {
     const options = [5, 10, 15, 20, 25, 30];
 
-    select.innerHTML = options.map(option => {
-        return {
-            name: globalize.translate('ValueSeconds', option),
-            value: option * 1000
-        };
-    }).map(o => {
-        return `<option value="${o.value}">${o.name}</option>`;
-    }).join('');
+    select.innerHTML = options
+        .map((option) => {
+            return {
+                name: globalize.translate('ValueSeconds', option),
+                value: option * 1000
+            };
+        })
+        .map((o) => {
+            return `<option value="${o.value}">${o.name}</option>`;
+        })
+        .join('');
 }
 
 function populateLanguages(select, languages) {
@@ -50,8 +56,10 @@ function populateLanguages(select, languages) {
 function populateMediaSegments(container, userSettings) {
     const selectedValues = {};
     const actionOptions = Object.values(MediaSegmentAction)
-        .map(action => {
-            const actionLabel = globalize.translate(`MediaSegmentAction.${action}`);
+        .map((action) => {
+            const actionLabel = globalize.translate(
+                `MediaSegmentAction.${action}`
+            );
             return `<option value='${action}'>${actionLabel}</option>`;
         })
         .join('');
@@ -63,46 +71,68 @@ function populateMediaSegments(container, userSettings) {
         MediaSegmentType.Recap,
         MediaSegmentType.Commercial,
         MediaSegmentType.Outro
-    ].map(segmentType => {
-        const segmentTypeLabel = globalize.translate('LabelMediaSegmentsType', globalize.translate(`MediaSegmentType.${segmentType}`));
-        const id = getId(segmentType);
-        selectedValues[id] = getMediaSegmentAction(userSettings, segmentType);
-        return `<div class="selectContainer">
+    ]
+        .map((segmentType) => {
+            const segmentTypeLabel = globalize.translate(
+                'LabelMediaSegmentsType',
+                globalize.translate(`MediaSegmentType.${segmentType}`)
+            );
+            const id = getId(segmentType);
+            selectedValues[id] = getMediaSegmentAction(
+                userSettings,
+                segmentType
+            );
+            return `<div class="selectContainer">
 <select is="emby-select" id="${id}" class="segmentTypeAction" label="${segmentTypeLabel}">
     ${actionOptions}
 </select>
 </div>`;
-    }).join('');
+        })
+        .join('');
 
     container.innerHTML = segmentSettings;
 
-    Object.entries(selectedValues)
-        .forEach(([id, value]) => {
-            const field = container.querySelector(`#${id}`);
-            if (field) field.value = value;
-        });
+    Object.entries(selectedValues).forEach(([id, value]) => {
+        const field = container.querySelector(`#${id}`);
+        if (field) field.value = value;
+    });
 }
 
 function fillQuality(select, isInNetwork, mediatype, maxVideoWidth) {
-    const options = mediatype === 'Audio' ? qualityoptions.getAudioQualityOptions({
+    const options =
+        mediatype === 'Audio'
+            ? qualityoptions.getAudioQualityOptions({
+                  currentMaxBitrate: appSettings.maxStreamingBitrate(
+                      isInNetwork,
+                      mediatype
+                  ),
+                  isAutomaticBitrateEnabled:
+                      appSettings.enableAutomaticBitrateDetection(
+                          isInNetwork,
+                          mediatype
+                      ),
+                  enableAuto: true
+              })
+            : qualityoptions.getVideoQualityOptions({
+                  currentMaxBitrate: appSettings.maxStreamingBitrate(
+                      isInNetwork,
+                      mediatype
+                  ),
+                  isAutomaticBitrateEnabled:
+                      appSettings.enableAutomaticBitrateDetection(
+                          isInNetwork,
+                          mediatype
+                      ),
+                  enableAuto: true,
+                  maxVideoWidth
+              });
 
-        currentMaxBitrate: appSettings.maxStreamingBitrate(isInNetwork, mediatype),
-        isAutomaticBitrateEnabled: appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype),
-        enableAuto: true
-
-    }) : qualityoptions.getVideoQualityOptions({
-
-        currentMaxBitrate: appSettings.maxStreamingBitrate(isInNetwork, mediatype),
-        isAutomaticBitrateEnabled: appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype),
-        enableAuto: true,
-        maxVideoWidth
-
-    });
-
-    select.innerHTML = options.map(i => {
-        // render empty string instead of 0 for the auto option
-        return `<option value="${i.bitrate || ''}">${i.name}</option>`;
-    }).join('');
+    select.innerHTML = options
+        .map((i) => {
+            // render empty string instead of 0 for the auto option
+            return `<option value="${i.bitrate || ''}">${i.name}</option>`;
+        })
+        .join('');
 }
 
 function setMaxBitrateIntoField(select, isInNetwork, mediatype) {
@@ -117,17 +147,18 @@ function setMaxBitrateIntoField(select, isInNetwork, mediatype) {
 
 function fillChromecastQuality(select, maxVideoWidth) {
     const options = qualityoptions.getVideoQualityOptions({
-
         currentMaxBitrate: appSettings.maxChromecastBitrate(),
         isAutomaticBitrateEnabled: !appSettings.maxChromecastBitrate(),
         enableAuto: true,
         maxVideoWidth
     });
 
-    select.innerHTML = options.map(i => {
-        // render empty string instead of 0 for the auto option
-        return `<option value="${i.bitrate || ''}">${i.name}</option>`;
-    }).join('');
+    select.innerHTML = options
+        .map((i) => {
+            // render empty string instead of 0 for the auto option
+            return `<option value="${i.bitrate || ''}">${i.name}</option>`;
+        })
+        .join('');
 
     select.value = appSettings.maxChromecastBitrate() || '';
 }
@@ -135,9 +166,17 @@ function fillChromecastQuality(select, maxVideoWidth) {
 function setMaxBitrateFromField(select, isInNetwork, mediatype) {
     if (select.value) {
         appSettings.maxStreamingBitrate(isInNetwork, mediatype, select.value);
-        appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype, false);
+        appSettings.enableAutomaticBitrateDetection(
+            isInNetwork,
+            mediatype,
+            false
+        );
     } else {
-        appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype, true);
+        appSettings.enableAutomaticBitrateDetection(
+            isInNetwork,
+            mediatype,
+            true
+        );
     }
 }
 
@@ -149,11 +188,17 @@ function showHideQualityFields(context, user, apiClient) {
     }
 
     if (appHost.supports(AppFeature.MultiServer)) {
-        context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
-        context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
+        context
+            .querySelector('.fldVideoInNetworkQuality')
+            .classList.remove('hide');
+        context
+            .querySelector('.fldVideoInternetQuality')
+            .classList.remove('hide');
 
         if (user.Policy.EnableAudioPlaybackTranscoding) {
-            context.querySelector('.musicQualitySection').classList.remove('hide');
+            context
+                .querySelector('.musicQualitySection')
+                .classList.remove('hide');
         } else {
             context.querySelector('.musicQualitySection').classList.add('hide');
         }
@@ -161,21 +206,33 @@ function showHideQualityFields(context, user, apiClient) {
         return;
     }
 
-    apiClient.getEndpointInfo().then(endpointInfo => {
+    apiClient.getEndpointInfo().then((endpointInfo) => {
         if (endpointInfo.IsInNetwork) {
-            context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
+            context
+                .querySelector('.fldVideoInNetworkQuality')
+                .classList.remove('hide');
 
-            context.querySelector('.fldVideoInternetQuality').classList.add('hide');
+            context
+                .querySelector('.fldVideoInternetQuality')
+                .classList.add('hide');
             context.querySelector('.musicQualitySection').classList.add('hide');
         } else {
-            context.querySelector('.fldVideoInNetworkQuality').classList.add('hide');
+            context
+                .querySelector('.fldVideoInNetworkQuality')
+                .classList.add('hide');
 
-            context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
+            context
+                .querySelector('.fldVideoInternetQuality')
+                .classList.remove('hide');
 
             if (user.Policy.EnableAudioPlaybackTranscoding) {
-                context.querySelector('.musicQualitySection').classList.remove('hide');
+                context
+                    .querySelector('.musicQualitySection')
+                    .classList.remove('hide');
             } else {
-                context.querySelector('.musicQualitySection').classList.add('hide');
+                context
+                    .querySelector('.musicQualitySection')
+                    .classList.add('hide');
             }
         }
     });
@@ -193,63 +250,118 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
 
     // Show hls segment length setting for webOS only, as the setting only aims to fix an issue on that platform.
     if (browser.web0s) {
-        context.querySelector('.fldLimitSegmentLength').classList.remove('hide');
+        context
+            .querySelector('.fldLimitSegmentLength')
+            .classList.remove('hide');
     }
 
-    context.querySelector('#selectAllowedAudioChannels').value = userSettings.allowedAudioChannels();
+    context.querySelector('#selectAllowedAudioChannels').value =
+        userSettings.allowedAudioChannels();
 
-    apiClient.getCultures().then(allCultures => {
-        populateLanguages(context.querySelector('#selectAudioLanguage'), allCultures);
+    apiClient.getCultures().then((allCultures) => {
+        populateLanguages(
+            context.querySelector('#selectAudioLanguage'),
+            allCultures
+        );
 
-        context.querySelector('#selectAudioLanguage', context).value = user.Configuration.AudioLanguagePreference || '';
-        context.querySelector('.chkEpisodeAutoPlay').checked = user.Configuration.EnableNextEpisodeAutoPlay || false;
+        context.querySelector('#selectAudioLanguage', context).value =
+            user.Configuration.AudioLanguagePreference || '';
+        context.querySelector('.chkEpisodeAutoPlay').checked =
+            user.Configuration.EnableNextEpisodeAutoPlay || false;
     });
 
-    if (appHost.supports(AppFeature.ExternalPlayerIntent) && userId === loggedInUserId) {
+    if (
+        appHost.supports(AppFeature.ExternalPlayerIntent) &&
+        userId === loggedInUserId
+    ) {
         context.querySelector('.fldExternalPlayer').classList.remove('hide');
     } else {
         context.querySelector('.fldExternalPlayer').classList.add('hide');
     }
 
-    if (userId === loggedInUserId && (user.Policy.EnableVideoPlaybackTranscoding || user.Policy.EnableAudioPlaybackTranscoding)) {
+    if (
+        userId === loggedInUserId &&
+        (user.Policy.EnableVideoPlaybackTranscoding ||
+            user.Policy.EnableAudioPlaybackTranscoding)
+    ) {
         context.querySelector('.qualitySections').classList.remove('hide');
 
-        if (appHost.supports(AppFeature.Chromecast) && user.Policy.EnableVideoPlaybackTranscoding) {
-            context.querySelector('.fldChromecastQuality').classList.remove('hide');
+        if (
+            appHost.supports(AppFeature.Chromecast) &&
+            user.Policy.EnableVideoPlaybackTranscoding
+        ) {
+            context
+                .querySelector('.fldChromecastQuality')
+                .classList.remove('hide');
         } else {
-            context.querySelector('.fldChromecastQuality').classList.add('hide');
+            context
+                .querySelector('.fldChromecastQuality')
+                .classList.add('hide');
         }
     } else {
         context.querySelector('.qualitySections').classList.add('hide');
         context.querySelector('.fldChromecastQuality').classList.add('hide');
     }
 
-    context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
-    context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
-    context.querySelector('.chkLimitSegmentLength').checked = userSettings.limitSegmentLength();
+    context.querySelector('.chkPlayDefaultAudioTrack').checked =
+        user.Configuration.PlayDefaultAudioTrack || false;
+    context.querySelector('.chkPreferFmp4HlsContainer').checked =
+        userSettings.preferFmp4HlsContainer();
+    context.querySelector('.chkLimitSegmentLength').checked =
+        userSettings.limitSegmentLength();
     context.querySelector('.chkEnableDts').checked = appSettings.enableDts();
-    context.querySelector('.chkEnableTrueHd').checked = appSettings.enableTrueHd();
-    context.querySelector('.chkEnableHi10p').checked = appSettings.enableHi10p();
-    context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
-    context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
-    context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
-    context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
-    context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
-    context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
-    context.querySelector('.chkLimitSupportedVideoResolution').checked = appSettings.limitSupportedVideoResolution();
-    context.querySelector('#selectPreferredTranscodeVideoCodec').value = appSettings.preferredTranscodeVideoCodec();
-    context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value = appSettings.preferredTranscodeVideoAudioCodec();
-    context.querySelector('.chkDisableVbrAudioEncoding').checked = appSettings.disableVbrAudio();
-    context.querySelector('.chkAlwaysRemuxFlac').checked = appSettings.alwaysRemuxFlac();
-    context.querySelector('.chkAlwaysRemuxMp3').checked = appSettings.alwaysRemuxMp3();
+    context.querySelector('.chkEnableTrueHd').checked =
+        appSettings.enableTrueHd();
+    context.querySelector('.chkEnableHi10p').checked =
+        appSettings.enableHi10p();
+    context.querySelector('.chkEnableCinemaMode').checked =
+        userSettings.enableCinemaMode();
+    context.querySelector('#selectAudioNormalization').value =
+        userSettings.selectAudioNormalization();
+    context.querySelector('.chkEnableNextVideoOverlay').checked =
+        userSettings.enableNextVideoInfoOverlay();
+    context.querySelector('.chkRememberAudioSelections').checked =
+        user.Configuration.RememberAudioSelections || false;
+    context.querySelector('.chkRememberSubtitleSelections').checked =
+        user.Configuration.RememberSubtitleSelections || false;
+    context.querySelector('.chkExternalVideoPlayer').checked =
+        appSettings.enableSystemExternalPlayers();
+    context.querySelector('.chkLimitSupportedVideoResolution').checked =
+        appSettings.limitSupportedVideoResolution();
+    context.querySelector('#selectPreferredTranscodeVideoCodec').value =
+        appSettings.preferredTranscodeVideoCodec();
+    context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value =
+        appSettings.preferredTranscodeVideoAudioCodec();
+    context.querySelector('.chkDisableVbrAudioEncoding').checked =
+        appSettings.disableVbrAudio();
+    context.querySelector('.chkAlwaysRemuxFlac').checked =
+        appSettings.alwaysRemuxFlac();
+    context.querySelector('.chkAlwaysRemuxMp3').checked =
+        appSettings.alwaysRemuxMp3();
 
-    setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
-    setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
-    setMaxBitrateIntoField(context.querySelector('.selectMusicInternetQuality'), false, 'Audio');
+    setMaxBitrateIntoField(
+        context.querySelector('.selectVideoInNetworkQuality'),
+        true,
+        'Video'
+    );
+    setMaxBitrateIntoField(
+        context.querySelector('.selectVideoInternetQuality'),
+        false,
+        'Video'
+    );
+    setMaxBitrateIntoField(
+        context.querySelector('.selectMusicInternetQuality'),
+        false,
+        'Audio'
+    );
 
-    fillChromecastQuality(context.querySelector('.selectChromecastVideoQuality'));
+    fillChromecastQuality(
+        context.querySelector('.selectChromecastVideoQuality')
+    );
 
-    const selectChromecastVersion = context.querySelector('.selectChromecastVersion');
+    const selectChromecastVersion = context.querySelector(
+        '.selectChromecastVersion'
+    );
     let ccAppsHtml = '';
     for (const app of systemInfo.CastReceiverApplications) {
         ccAppsHtml += `<option value='${escapeHTML(app.Id)}'>${escapeHTML(app.Name)}</option>`;
@@ -260,7 +372,9 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     const selectMaxVideoWidth = context.querySelector('.selectMaxVideoWidth');
     selectMaxVideoWidth.value = appSettings.maxVideoWidth();
 
-    const selectSkipForwardLength = context.querySelector('.selectSkipForwardLength');
+    const selectSkipForwardLength = context.querySelector(
+        '.selectSkipForwardLength'
+    );
     fillSkipLengths(selectSkipForwardLength);
     selectSkipForwardLength.value = userSettings.skipForwardLength();
 
@@ -268,70 +382,141 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     fillSkipLengths(selectSkipBackLength);
     selectSkipBackLength.value = userSettings.skipBackLength();
 
-    const mediaSegmentContainer = context.querySelector('.mediaSegmentActionContainer');
+    const mediaSegmentContainer = context.querySelector(
+        '.mediaSegmentActionContainer'
+    );
     populateMediaSegments(mediaSegmentContainer, userSettings);
 
     loading.hide();
 }
 
 function saveUser(context, user, userSettingsInstance, apiClient) {
-    appSettings.enableSystemExternalPlayers(context.querySelector('.chkExternalVideoPlayer').checked);
+    appSettings.enableSystemExternalPlayers(
+        context.querySelector('.chkExternalVideoPlayer').checked
+    );
 
-    appSettings.maxChromecastBitrate(context.querySelector('.selectChromecastVideoQuality').value);
-    appSettings.maxVideoWidth(context.querySelector('.selectMaxVideoWidth').value);
-    appSettings.limitSupportedVideoResolution(context.querySelector('.chkLimitSupportedVideoResolution').checked);
-    appSettings.preferredTranscodeVideoCodec(context.querySelector('#selectPreferredTranscodeVideoCodec').value);
-    appSettings.preferredTranscodeVideoAudioCodec(context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value);
+    appSettings.maxChromecastBitrate(
+        context.querySelector('.selectChromecastVideoQuality').value
+    );
+    appSettings.maxVideoWidth(
+        context.querySelector('.selectMaxVideoWidth').value
+    );
+    appSettings.limitSupportedVideoResolution(
+        context.querySelector('.chkLimitSupportedVideoResolution').checked
+    );
+    appSettings.preferredTranscodeVideoCodec(
+        context.querySelector('#selectPreferredTranscodeVideoCodec').value
+    );
+    appSettings.preferredTranscodeVideoAudioCodec(
+        context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value
+    );
 
     appSettings.enableDts(context.querySelector('.chkEnableDts').checked);
     appSettings.enableTrueHd(context.querySelector('.chkEnableTrueHd').checked);
 
     appSettings.enableHi10p(context.querySelector('.chkEnableHi10p').checked);
-    appSettings.disableVbrAudio(context.querySelector('.chkDisableVbrAudioEncoding').checked);
-    appSettings.alwaysRemuxFlac(context.querySelector('.chkAlwaysRemuxFlac').checked);
-    appSettings.alwaysRemuxMp3(context.querySelector('.chkAlwaysRemuxMp3').checked);
+    appSettings.disableVbrAudio(
+        context.querySelector('.chkDisableVbrAudioEncoding').checked
+    );
+    appSettings.alwaysRemuxFlac(
+        context.querySelector('.chkAlwaysRemuxFlac').checked
+    );
+    appSettings.alwaysRemuxMp3(
+        context.querySelector('.chkAlwaysRemuxMp3').checked
+    );
 
-    setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
-    setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
-    setMaxBitrateFromField(context.querySelector('.selectMusicInternetQuality'), false, 'Audio');
+    setMaxBitrateFromField(
+        context.querySelector('.selectVideoInNetworkQuality'),
+        true,
+        'Video'
+    );
+    setMaxBitrateFromField(
+        context.querySelector('.selectVideoInternetQuality'),
+        false,
+        'Video'
+    );
+    setMaxBitrateFromField(
+        context.querySelector('.selectMusicInternetQuality'),
+        false,
+        'Audio'
+    );
 
-    userSettingsInstance.allowedAudioChannels(context.querySelector('#selectAllowedAudioChannels').value);
-    user.Configuration.AudioLanguagePreference = context.querySelector('#selectAudioLanguage').value;
-    user.Configuration.PlayDefaultAudioTrack = context.querySelector('.chkPlayDefaultAudioTrack').checked;
-    user.Configuration.EnableNextEpisodeAutoPlay = context.querySelector('.chkEpisodeAutoPlay').checked;
-    userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
-    userSettingsInstance.limitSegmentLength(context.querySelector('.chkLimitSegmentLength').checked);
-    userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
-    userSettingsInstance.selectAudioNormalization(context.querySelector('#selectAudioNormalization').value);
-    userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
-    user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
-    user.Configuration.RememberSubtitleSelections = context.querySelector('.chkRememberSubtitleSelections').checked;
-    user.Configuration.CastReceiverId = context.querySelector('.selectChromecastVersion').value;
-    userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
-    userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
+    userSettingsInstance.allowedAudioChannels(
+        context.querySelector('#selectAllowedAudioChannels').value
+    );
+    user.Configuration.AudioLanguagePreference = context.querySelector(
+        '#selectAudioLanguage'
+    ).value;
+    user.Configuration.PlayDefaultAudioTrack = context.querySelector(
+        '.chkPlayDefaultAudioTrack'
+    ).checked;
+    user.Configuration.EnableNextEpisodeAutoPlay = context.querySelector(
+        '.chkEpisodeAutoPlay'
+    ).checked;
+    userSettingsInstance.preferFmp4HlsContainer(
+        context.querySelector('.chkPreferFmp4HlsContainer').checked
+    );
+    userSettingsInstance.limitSegmentLength(
+        context.querySelector('.chkLimitSegmentLength').checked
+    );
+    userSettingsInstance.enableCinemaMode(
+        context.querySelector('.chkEnableCinemaMode').checked
+    );
+    userSettingsInstance.selectAudioNormalization(
+        context.querySelector('#selectAudioNormalization').value
+    );
+    userSettingsInstance.enableNextVideoInfoOverlay(
+        context.querySelector('.chkEnableNextVideoOverlay').checked
+    );
+    user.Configuration.RememberAudioSelections = context.querySelector(
+        '.chkRememberAudioSelections'
+    ).checked;
+    user.Configuration.RememberSubtitleSelections = context.querySelector(
+        '.chkRememberSubtitleSelections'
+    ).checked;
+    user.Configuration.CastReceiverId = context.querySelector(
+        '.selectChromecastVersion'
+    ).value;
+    userSettingsInstance.skipForwardLength(
+        context.querySelector('.selectSkipForwardLength').value
+    );
+    userSettingsInstance.skipBackLength(
+        context.querySelector('.selectSkipBackLength').value
+    );
 
-    const segmentTypeActions = context.querySelectorAll('.segmentTypeAction') || [];
-    Array.prototype.forEach.call(segmentTypeActions, actionEl => {
+    const segmentTypeActions =
+        context.querySelectorAll('.segmentTypeAction') || [];
+    Array.prototype.forEach.call(segmentTypeActions, (actionEl) => {
         userSettingsInstance.set(actionEl.id, actionEl.value, false);
     });
 
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);
 }
 
-function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
+function save(
+    instance,
+    context,
+    userId,
+    userSettings,
+    apiClient,
+    enableSaveConfirmation
+) {
     loading.show();
 
-    apiClient.getUser(userId).then(user => {
-        saveUser(context, user, userSettings, apiClient).then(() => {
-            loading.hide();
-            if (enableSaveConfirmation) {
-                toast(globalize.translate('SettingsSaved'));
-            }
+    apiClient.getUser(userId).then((user) => {
+        saveUser(context, user, userSettings, apiClient).then(
+            () => {
+                loading.hide();
+                if (enableSaveConfirmation) {
+                    toast(globalize.translate('SettingsSaved'));
+                }
 
-            Events.trigger(instance, 'saved');
-        }, () => {
-            loading.hide();
-        });
+                Events.trigger(instance, 'saved');
+            },
+            () => {
+                loading.hide();
+            }
+        );
     });
 }
 
@@ -343,7 +528,14 @@ function onSubmit(e) {
 
     userSettings.setUserInfo(userId, apiClient).then(() => {
         const enableSaveConfirmation = self.options.enableSaveConfirmation;
-        save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
+        save(
+            self,
+            self.options.element,
+            userId,
+            userSettings,
+            apiClient,
+            enableSaveConfirmation
+        );
     });
 
     // Disable default form submission
@@ -356,7 +548,9 @@ function onSubmit(e) {
 function embed(options, self) {
     options.element.innerHTML = globalize.translateHtml(template, 'core');
 
-    options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
+    options.element
+        .querySelector('form')
+        .addEventListener('submit', onSubmit.bind(self));
 
     if (options.enableSaveButton) {
         options.element.querySelector('.btnSave').classList.remove('hide');
@@ -385,12 +579,18 @@ class PlaybackSettings {
         const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userSettings = self.options.userSettings;
 
-        apiClient.getUser(userId).then(user => {
-            apiClient.getSystemInfo().then(systemInfo => {
+        apiClient.getUser(userId).then((user) => {
+            apiClient.getSystemInfo().then((systemInfo) => {
                 userSettings.setUserInfo(userId, apiClient).then(() => {
                     self.dataLoaded = true;
 
-                    loadForm(context, user, userSettings, systemInfo, apiClient);
+                    loadForm(
+                        context,
+                        user,
+                        userSettings,
+                        systemInfo,
+                        apiClient
+                    );
                 });
             });
         });

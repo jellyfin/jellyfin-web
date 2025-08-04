@@ -7,20 +7,20 @@ import focusManager from './focusManager';
 import layoutManager from './layoutManager';
 
 /**
-     * Previously selected element.
-     */
+ * Previously selected element.
+ */
 let activeElement;
 
 /**
-     * Returns _true_ if AutoFocuser is enabled.
-     */
+ * Returns _true_ if AutoFocuser is enabled.
+ */
 export function isEnabled() {
     return layoutManager.tv;
 }
 
 /**
-     * Start AutoFocuser.
-     */
+ * Start AutoFocuser.
+ */
 export function enable() {
     if (!isEnabled()) {
         return;
@@ -34,10 +34,10 @@ export function enable() {
 }
 
 /**
-     * Set focus on a suitable element, taking into account the previously selected.
-     * @param {HTMLElement | null} [container] - Element to limit scope.
-     * @returns {HTMLElement} Focused element.
-     */
+ * Set focus on a suitable element, taking into account the previously selected.
+ * @param {HTMLElement | null} [container] - Element to limit scope.
+ * @returns {HTMLElement} Focused element.
+ */
 export function autoFocus(container) {
     if (!isEnabled()) {
         return null;
@@ -62,7 +62,9 @@ export function autoFocus(container) {
         candidates.push(activeElement);
     }
 
-    candidates = candidates.concat(Array.from(container.querySelectorAll('.btnPlay')));
+    candidates = candidates.concat(
+        Array.from(container.querySelectorAll('.btnPlay'))
+    );
 
     let focusedElement;
 

@@ -1,4 +1,3 @@
-
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -25,13 +24,18 @@ let currentResolve;
 
 function deleteTimer(apiClient, timerId) {
     return import('./recordinghelper').then(({ default: recordingHelper }) => {
-        recordingHelper.cancelTimerWithConfirmation(timerId, apiClient.serverId());
+        recordingHelper.cancelTimerWithConfirmation(
+            timerId,
+            apiClient.serverId()
+        );
     });
 }
 
 function renderTimer(context, item) {
-    context.querySelector('#txtPrePaddingMinutes').value = item.PrePaddingSeconds / 60;
-    context.querySelector('#txtPostPaddingMinutes').value = item.PostPaddingSeconds / 60;
+    context.querySelector('#txtPrePaddingMinutes').value =
+        item.PrePaddingSeconds / 60;
+    context.querySelector('#txtPostPaddingMinutes').value =
+        item.PostPaddingSeconds / 60;
 
     loading.hide();
 }
@@ -47,8 +51,10 @@ function onSubmit(e) {
     const apiClient = ServerConnections.getApiClient(currentServerId);
 
     apiClient.getLiveTvTimer(currentItemId).then(function (item) {
-        item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
-        item.PostPaddingSeconds = form.querySelector('#txtPostPaddingMinutes').value * 60;
+        item.PrePaddingSeconds =
+            form.querySelector('#txtPrePaddingMinutes').value * 60;
+        item.PostPaddingSeconds =
+            form.querySelector('#txtPostPaddingMinutes').value * 60;
         apiClient.updateLiveTvTimer(item).then(currentResolve);
     });
 
@@ -63,13 +69,15 @@ function init(context) {
         closeDialog(false);
     });
 
-    context.querySelector('.btnCancelRecording').addEventListener('click', function () {
-        const apiClient = ServerConnections.getApiClient(currentServerId);
+    context
+        .querySelector('.btnCancelRecording')
+        .addEventListener('click', function () {
+            const apiClient = ServerConnections.getApiClient(currentServerId);
 
-        deleteTimer(apiClient, currentItemId).then(function () {
-            closeDialog(true);
+            deleteTimer(apiClient, currentItemId).then(function () {
+                closeDialog(true);
+            });
         });
-    });
 
     context.querySelector('form').addEventListener('submit', onSubmit);
 }
@@ -140,7 +148,10 @@ function showEditor(itemId, serverId, options) {
         });
 
         if (layoutManager.tv) {
-            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+            scrollHelper.centerFocus.on(
+                dlg.querySelector('.formDialogContent'),
+                false
+            );
         }
 
         init(dlg);

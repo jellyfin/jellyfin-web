@@ -16,4 +16,4 @@ export function getImageResolutionOptions() {
         { name: '240p', value: ImageResolution.P240 },
         { name: '144p', value: ImageResolution.P144 }
     ];
-};
+}

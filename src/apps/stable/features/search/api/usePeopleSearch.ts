@@ -33,18 +33,22 @@ export const usePeopleSearch = (
     const { api, user } = useApi();
     const userId = user?.Id;
 
-    const isPeopleEnabled = (!collectionType || isMovies(collectionType) || isTVShows(collectionType));
+    const isPeopleEnabled =
+        !collectionType ||
+        isMovies(collectionType) ||
+        isTVShows(collectionType);
 
     return useQuery({
         queryKey: ['Search', 'People', collectionType, parentId, searchTerm],
-        queryFn: ({ signal }) => fetchPeople(
-            api!,
-            userId!,
-            {
-                searchTerm
-            },
-            { signal }
-        ),
+        queryFn: ({ signal }) =>
+            fetchPeople(
+                api!,
+                userId!,
+                {
+                    searchTerm
+                },
+                { signal }
+            ),
         enabled: !!api && !!userId && isPeopleEnabled
     });
 };

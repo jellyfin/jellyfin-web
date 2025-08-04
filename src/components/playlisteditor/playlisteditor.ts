@@ -30,16 +30,16 @@ import 'material-design-icons-iconfont';
 import '../formdialog.scss';
 
 interface DialogElement extends HTMLDivElement {
-    playlistId?: string
-    submitted?: boolean
+    playlistId?: string;
+    submitted?: boolean;
 }
 
 interface PlaylistEditorOptions {
-    items: string[],
-    id?: string,
-    serverId: string,
-    enableAddToPlayQueue?: boolean,
-    defaultValue?: string
+    items: string[];
+    id?: string;
+    serverId: string;
+    enableAddToPlayQueue?: boolean;
+    defaultValue?: string;
 }
 
 let currentServerId: string;
@@ -48,29 +48,42 @@ function onSubmit(this: HTMLElement, e: Event) {
     const panel = dom.parentWithClass(this, 'dialog') as DialogElement | null;
 
     if (panel) {
-        const playlistId = panel.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo')?.value;
+        const playlistId = panel.querySelector<HTMLSelectElement>(
+            '#selectPlaylistToAddTo'
+        )?.value;
 
         loading.show();
 
         if (playlistId) {
             userSettings.set('playlisteditor-lastplaylistid', playlistId);
             addToPlaylist(panel, playlistId)
-                .catch(err => {
-                    console.error('[PlaylistEditor] Failed to add to playlist %s', playlistId, err);
+                .catch((err) => {
+                    console.error(
+                        '[PlaylistEditor] Failed to add to playlist %s',
+                        playlistId,
+                        err
+                    );
                     toast(globalize.translate('PlaylistError.AddFailed'));
                 })
                 .finally(loading.hide);
         } else if (panel.playlistId) {
             updatePlaylist(panel)
-                .catch(err => {
-                    console.error('[PlaylistEditor] Failed to update to playlist %s', panel.playlistId, err);
+                .catch((err) => {
+                    console.error(
+                        '[PlaylistEditor] Failed to update to playlist %s',
+                        panel.playlistId,
+                        err
+                    );
                     toast(globalize.translate('PlaylistError.UpdateFailed'));
                 })
                 .finally(loading.hide);
         } else {
             createPlaylist(panel)
-                .catch(err => {
-                    console.error('[PlaylistEditor] Failed to create playlist', err);
+                .catch((err) => {
+                    console.error(
+                        '[PlaylistEditor] Failed to create playlist',
+                        err
+                    );
                     toast(globalize.translate('PlaylistError.CreateFailed'));
                 })
                 .finally(loading.hide);
@@ -84,24 +97,31 @@ function onSubmit(this: HTMLElement, e: Event) {
 }
 
 function createPlaylist(dlg: DialogElement) {
-    const name = dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value;
-    if (isBlank(name)) return Promise.reject(new Error('Playlist name should not be blank'));
+    const name = dlg.querySelector<HTMLInputElement>(
+        '#txtNewPlaylistName'
+    )?.value;
+    if (isBlank(name))
+        return Promise.reject(new Error('Playlist name should not be blank'));
 
     const apiClient = ServerConnections.getApiClient(currentServerId);
     const api = toApi(apiClient);
 
-    const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || undefined;
+    const itemIds =
+        dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value ||
+        undefined;
 
     return getPlaylistsApi(api)
         .createPlaylist({
             createPlaylistDto: {
                 Name: name,
-                IsPublic: dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')?.checked,
+                IsPublic:
+                    dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')
+                        ?.checked,
                 Ids: itemIds?.split(','),
                 UserId: apiClient.getCurrentUserId()
             }
         })
-        .then(result => {
+        .then((result) => {
             dlg.submitted = true;
             dialogHelper.close(dlg);
 
@@ -114,10 +134,14 @@ function redirectToPlaylist(id: string | undefined) {
 }
 
 function updatePlaylist(dlg: DialogElement) {
-    if (!dlg.playlistId) return Promise.reject(new Error('Missing playlist ID'));
+    if (!dlg.playlistId)
+        return Promise.reject(new Error('Missing playlist ID'));
 
-    const name = dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value;
-    if (isBlank(name)) return Promise.reject(new Error('Playlist name should not be blank'));
+    const name = dlg.querySelector<HTMLInputElement>(
+        '#txtNewPlaylistName'
+    )?.value;
+    if (isBlank(name))
+        return Promise.reject(new Error('Playlist name should not be blank'));
 
     const apiClient = ServerConnections.getApiClient(currentServerId);
     const api = toApi(apiClient);
@@ -127,7 +151,9 @@ function updatePlaylist(dlg: DialogElement) {
             playlistId: dlg.playlistId,
             updatePlaylistDto: {
                 Name: name,
-                IsPublic: dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')?.checked
+                IsPublic:
+                    dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')
+                        ?.checked
             }
         })
         .then(() => {
@@ -139,15 +165,18 @@ function updatePlaylist(dlg: DialogElement) {
 function addToPlaylist(dlg: DialogElement, id: string) {
     const apiClient = ServerConnections.getApiClient(currentServerId);
     const api = toApi(apiClient);
-    const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '';
+    const itemIds =
+        dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '';
 
     if (id === 'queue') {
-        playbackManager.queue({
-            serverId: currentServerId,
-            ids: itemIds.split(',')
-        }).catch(err => {
-            console.error('[PlaylistEditor] failed to add to queue', err);
-        });
+        playbackManager
+            .queue({
+                serverId: currentServerId,
+                ids: itemIds.split(',')
+            })
+            .catch((err) => {
+                console.error('[PlaylistEditor] failed to add to queue', err);
+            });
         dlg.submitted = true;
         dialogHelper.close(dlg);
         return Promise.resolve();
@@ -169,11 +198,18 @@ function triggerChange(select: HTMLSelectElement) {
     select.dispatchEvent(new CustomEvent('change', {}));
 }
 
-function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogElement) {
-    const select = panel.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo');
+function populatePlaylists(
+    editorOptions: PlaylistEditorOptions,
+    panel: DialogElement
+) {
+    const select = panel.querySelector<HTMLSelectElement>(
+        '#selectPlaylistToAddTo'
+    );
 
     if (!select) {
-        return Promise.reject(new Error('Playlist <select> element is missing'));
+        return Promise.reject(
+            new Error('Playlist <select> element is missing')
+        );
     }
 
     loading.show();
@@ -187,40 +223,49 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
     return getItemsApi(api)
         .getItems({
             userId: apiClient.getCurrentUserId(),
-            includeItemTypes: [ BaseItemKind.Playlist ],
-            sortBy: [ ItemSortBy.SortName ],
+            includeItemTypes: [BaseItemKind.Playlist],
+            sortBy: [ItemSortBy.SortName],
             recursive: true
         })
         .then(({ data }) => {
-            return Promise.all((data.Items || []).map(item => {
-                const playlist = {
-                    item,
-                    permissions: undefined
-                };
+            return Promise.all(
+                (data.Items || []).map((item) => {
+                    const playlist = {
+                        item,
+                        permissions: undefined
+                    };
 
-                if (!item.Id) return playlist;
+                    if (!item.Id) return playlist;
 
-                return getPlaylistsApi(api)
-                    .getPlaylistUser({
-                        playlistId: item.Id,
-                        userId: apiClient.getCurrentUserId()
-                    })
-                    .then(({ data: permissions }) => ({
-                        ...playlist,
-                        permissions
-                    }))
-                    .catch(err => {
-                        // If a user doesn't have access, then the request will 404 and throw
-                        console.info('[PlaylistEditor] Failed to fetch playlist permissions', err);
+                    return getPlaylistsApi(api)
+                        .getPlaylistUser({
+                            playlistId: item.Id,
+                            userId: apiClient.getCurrentUserId()
+                        })
+                        .then(({ data: permissions }) => ({
+                            ...playlist,
+                            permissions
+                        }))
+                        .catch((err) => {
+                            // If a user doesn't have access, then the request will 404 and throw
+                            console.info(
+                                '[PlaylistEditor] Failed to fetch playlist permissions',
+                                err
+                            );
 
-                        return playlist;
-                    });
-            }));
+                            return playlist;
+                        });
+                })
+            );
         })
-        .then(playlists => {
+        .then((playlists) => {
             let html = '';
 
-            if ((editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) || SyncPlay?.Manager.isSyncPlayEnabled()) {
+            if (
+                (editorOptions.enableAddToPlayQueue !== false &&
+                    playbackManager.isPlaying()) ||
+                SyncPlay?.Manager.isSyncPlayEnabled()
+            ) {
                 html += `<option value="queue">${globalize.translate('AddToPlayQueue')}</option>`;
             }
 
@@ -236,7 +281,8 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
 
             let defaultValue = editorOptions.defaultValue;
             if (!defaultValue) {
-                defaultValue = userSettings.get('playlisteditor-lastplaylistid') || '';
+                defaultValue =
+                    userSettings.get('playlisteditor-lastplaylistid') || '';
             }
             select.value = defaultValue === 'new' ? '' : defaultValue;
 
@@ -252,7 +298,8 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
 function getEditorHtml(items: string[], options: PlaylistEditorOptions) {
     let html = '';
 
-    html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
+    html +=
+        '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
     html += '<div class="dialogContentInner dialog-content-centered">';
     html += '<form style="margin:auto;">';
 
@@ -295,20 +342,36 @@ function getEditorHtml(items: string[], options: PlaylistEditorOptions) {
     return html;
 }
 
-function initEditor(content: DialogElement, options: PlaylistEditorOptions, items: string[]) {
-    content.querySelector('#selectPlaylistToAddTo')?.addEventListener('change', function(this: HTMLSelectElement) {
-        if (this.value) {
-            content.querySelector('.newPlaylistInfo')?.classList.add('hide');
-            content.querySelector('#txtNewPlaylistName')?.removeAttribute('required');
-        } else {
-            content.querySelector('.newPlaylistInfo')?.classList.remove('hide');
-            content.querySelector('#txtNewPlaylistName')?.setAttribute('required', 'required');
-        }
-    });
+function initEditor(
+    content: DialogElement,
+    options: PlaylistEditorOptions,
+    items: string[]
+) {
+    content
+        .querySelector('#selectPlaylistToAddTo')
+        ?.addEventListener('change', function (this: HTMLSelectElement) {
+            if (this.value) {
+                content
+                    .querySelector('.newPlaylistInfo')
+                    ?.classList.add('hide');
+                content
+                    .querySelector('#txtNewPlaylistName')
+                    ?.removeAttribute('required');
+            } else {
+                content
+                    .querySelector('.newPlaylistInfo')
+                    ?.classList.remove('hide');
+                content
+                    .querySelector('#txtNewPlaylistName')
+                    ?.setAttribute('required', 'required');
+            }
+        });
 
     content.querySelector('form')?.addEventListener('submit', onSubmit);
 
-    const selectedItemsInput = content.querySelector<HTMLInputElement>('.fldSelectedItemIds');
+    const selectedItemsInput = content.querySelector<HTMLInputElement>(
+        '.fldSelectedItemIds'
+    );
     if (selectedItemsInput) {
         selectedItemsInput.value = items.join(',');
     }
@@ -316,13 +379,19 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
     if (items.length) {
         content.querySelector('.fldSelectPlaylist')?.classList.remove('hide');
         populatePlaylists(options, content)
-            .catch(err => {
-                console.error('[PlaylistEditor] failed to populate playlists', err);
+            .catch((err) => {
+                console.error(
+                    '[PlaylistEditor] failed to populate playlists',
+                    err
+                );
             })
             .finally(loading.hide);
     } else if (options.id) {
         content.querySelector('.fldSelectPlaylist')?.classList.add('hide');
-        const panel = dom.parentWithClass(content, 'dialog') as DialogElement | null;
+        const panel = dom.parentWithClass(
+            content,
+            'dialog'
+        ) as DialogElement | null;
         if (!panel) {
             console.error('[PlaylistEditor] could not find dialog element');
             return;
@@ -331,27 +400,33 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
         const apiClient = ServerConnections.getApiClient(currentServerId);
         const api = toApi(apiClient);
         Promise.all([
-            getUserLibraryApi(api)
-                .getItem({ itemId: options.id }),
-            getPlaylistsApi(api)
-                .getPlaylist({ playlistId: options.id })
+            getUserLibraryApi(api).getItem({ itemId: options.id }),
+            getPlaylistsApi(api).getPlaylist({ playlistId: options.id })
         ])
-            .then(([ { data: playlistItem }, { data: playlist } ]) => {
+            .then(([{ data: playlistItem }, { data: playlist }]) => {
                 panel.playlistId = options.id;
 
-                const nameField = panel.querySelector<HTMLInputElement>('#txtNewPlaylistName');
+                const nameField = panel.querySelector<HTMLInputElement>(
+                    '#txtNewPlaylistName'
+                );
                 if (nameField) nameField.value = playlistItem.Name || '';
 
-                const publicField = panel.querySelector<HTMLInputElement>('#chkPlaylistPublic');
+                const publicField =
+                    panel.querySelector<HTMLInputElement>('#chkPlaylistPublic');
                 if (publicField) publicField.checked = !!playlist.OpenAccess;
             })
-            .catch(err => {
-                console.error('[playlistEditor] failed to get playlist details', err);
+            .catch((err) => {
+                console.error(
+                    '[playlistEditor] failed to get playlist details',
+                    err
+                );
             });
     } else {
         content.querySelector('.fldSelectPlaylist')?.classList.add('hide');
 
-        const selectPlaylistToAddTo = content.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo');
+        const selectPlaylistToAddTo = content.querySelector<HTMLSelectElement>(
+            '#selectPlaylistToAddTo'
+        );
         if (selectPlaylistToAddTo) {
             selectPlaylistToAddTo.innerHTML = '';
             selectPlaylistToAddTo.value = '';
@@ -371,7 +446,7 @@ function centerFocus(elem: HTMLDivElement | null, horiz: boolean, on: boolean) {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         })
-        .catch(err => {
+        .catch((err) => {
             console.error('[PlaylistEditor] failed to load scroll helper', err);
         });
 }
@@ -422,7 +497,11 @@ export class PlaylistEditor {
 
         return dialogHelper.open(dlg).then(() => {
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                centerFocus(
+                    dlg.querySelector('.formDialogContent'),
+                    false,
+                    false
+                );
             }
 
             if (dlg.submitted) {

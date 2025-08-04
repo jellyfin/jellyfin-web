@@ -35,7 +35,11 @@ let browsableParentId;
 function getBaseRemoteOptions(page, forceCurrentItemId = false) {
     const options = {};
 
-    if (!forceCurrentItemId && page.querySelector('#chkShowParentImages').checked && browsableParentId) {
+    if (
+        !forceCurrentItemId &&
+        page.querySelector('#chkShowParentImages').checked &&
+        browsableParentId
+    ) {
         options.itemId = browsableParentId;
     } else {
         options.itemId = currentItemId;
@@ -52,7 +56,8 @@ function reloadBrowsableImages(page, apiClient) {
     options.type = browsableImageType;
     options.startIndex = browsableImageStartIndex;
     options.limit = browsableImagePageSize;
-    options.IncludeAllLanguages = page.querySelector('#chkAllLanguages').checked;
+    options.IncludeAllLanguages =
+        page.querySelector('#chkAllLanguages').checked;
 
     const provider = selectedProvider || '';
 
@@ -61,24 +66,47 @@ function reloadBrowsableImages(page, apiClient) {
     }
 
     apiClient.getAvailableRemoteImages(options).then(function (result) {
-        renderRemoteImages(page, apiClient, result, browsableImageType, options.startIndex, options.limit);
+        renderRemoteImages(
+            page,
+            apiClient,
+            result,
+            browsableImageType,
+            options.startIndex,
+            options.limit
+        );
 
-        page.querySelector('#selectBrowsableImageType').value = browsableImageType;
+        page.querySelector('#selectBrowsableImageType').value =
+            browsableImageType;
 
         const providersHtml = result.Providers.map(function (p) {
             return '<option value="' + p + '">' + p + '</option>';
         });
 
         const selectImageProvider = page.querySelector('#selectImageProvider');
-        selectImageProvider.innerHTML = '<option value="">' + globalize.translate('All') + '</option>' + providersHtml;
+        selectImageProvider.innerHTML =
+            '<option value="">' +
+            globalize.translate('All') +
+            '</option>' +
+            providersHtml;
         selectImageProvider.value = provider;
 
         loading.hide();
     });
 }
 
-function renderRemoteImages(page, apiClient, imagesResult, imageType, startIndex, limit) {
-    page.querySelector('.availableImagesPaging').innerHTML = getPagingHtml(startIndex, limit, imagesResult.TotalRecordCount);
+function renderRemoteImages(
+    page,
+    apiClient,
+    imagesResult,
+    imageType,
+    startIndex,
+    limit
+) {
+    page.querySelector('.availableImagesPaging').innerHTML = getPagingHtml(
+        startIndex,
+        limit,
+        imagesResult.TotalRecordCount
+    );
 
     let html = '';
 
@@ -121,15 +149,21 @@ function getPagingHtml(startIndex, limit, totalRecordCount) {
     html += '<span style="margin-right: 10px;">';
 
     const startAtDisplay = totalRecordCount ? startIndex + 1 : 0;
-    html += globalize.translate('ListPaging', startAtDisplay, recordsEnd, totalRecordCount);
+    html += globalize.translate(
+        'ListPaging',
+        startAtDisplay,
+        recordsEnd,
+        totalRecordCount
+    );
 
     html += '</span>';
 
     if (showControls) {
-        html += '<div data-role="controlgroup" data-type="horizontal" style="display:inline-block;">';
+        html +=
+            '<div data-role="controlgroup" data-type="horizontal" style="display:inline-block;">';
 
-        html += `<button is="paper-icon-button-light" title="${globalize.translate('Previous')}" class="btnPreviousPage autoSize" ${(startIndex ? '' : 'disabled')}><span class="material-icons arrow_back" aria-hidden="true"></span></button>`;
-        html += `<button is="paper-icon-button-light" title="${globalize.translate('Next')}" class="btnNextPage autoSize" ${(startIndex + limit >= totalRecordCount ? 'disabled' : '')}><span class="material-icons arrow_forward" aria-hidden="true"></span></button>`;
+        html += `<button is="paper-icon-button-light" title="${globalize.translate('Previous')}" class="btnPreviousPage autoSize" ${startIndex ? '' : 'disabled'}><span class="material-icons arrow_back" aria-hidden="true"></span></button>`;
+        html += `<button is="paper-icon-button-light" title="${globalize.translate('Next')}" class="btnNextPage autoSize" ${startIndex + limit >= totalRecordCount ? 'disabled' : ''}><span class="material-icons arrow_forward" aria-hidden="true"></span></button>`;
         html += '</div>';
     }
 
@@ -166,7 +200,12 @@ function getRemoteImageHtml(image, imageType) {
     const cardBoxCssClass = 'cardBox visualCardBox';
 
     let shape;
-    if (imageType === 'Backdrop' || imageType === 'Art' || imageType === 'Thumb' || imageType === 'Logo') {
+    if (
+        imageType === 'Backdrop' ||
+        imageType === 'Art' ||
+        imageType === 'Thumb' ||
+        imageType === 'Logo'
+    ) {
         shape = 'backdrop';
     } else if (imageType === 'Banner') {
         shape = 'banner';
@@ -174,7 +213,10 @@ function getRemoteImageHtml(image, imageType) {
         shape = 'square';
     } else if (currentItemType === 'Episode') {
         shape = 'backdrop';
-    } else if (currentItemType === 'MusicAlbum' || currentItemType === 'MusicArtist') {
+    } else if (
+        currentItemType === 'MusicAlbum' ||
+        currentItemType === 'MusicArtist'
+    ) {
         shape = 'square';
     } else {
         shape = 'portrait';
@@ -197,19 +239,35 @@ function getRemoteImageHtml(image, imageType) {
         html += '<div class="' + cssClass + '"';
     }
 
-    html += ' data-imageprovider="' + image.ProviderName + '" data-imageurl="' + image.Url + '" data-imagetype="' + image.Type + '"';
+    html +=
+        ' data-imageprovider="' +
+        image.ProviderName +
+        '" data-imageurl="' +
+        image.Url +
+        '" data-imagetype="' +
+        image.Type +
+        '"';
 
     html += '>';
 
     html += '<div class="' + cardBoxCssClass + '">';
-    html += '<div class="cardScalable visualCardBox-cardScalable" style="background-color:transparent;">';
+    html +=
+        '<div class="cardScalable visualCardBox-cardScalable" style="background-color:transparent;">';
     html += '<div class="cardPadder-' + shape + '"></div>';
     html += '<div class="cardContent">';
 
     if (layoutManager.tv || !appHost.supports(AppFeature.ExternalLinks)) {
-        html += '<div class="cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain;"></div>';
+        html +=
+            '<div class="cardImageContainer lazy" data-src="' +
+            image.Url +
+            '" style="background-position:center center;background-size:contain;"></div>';
     } else {
-        html += '<a is="emby-linkbutton" target="_blank" href="' + image.Url + '" class="button-link cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain"></a>';
+        html +=
+            '<a is="emby-linkbutton" target="_blank" href="' +
+            image.Url +
+            '" class="button-link cardImageContainer lazy" data-src="' +
+            image.Url +
+            '" style="background-position:center center;background-size:contain"></a>';
     }
 
     html += '</div>';
@@ -218,7 +276,10 @@ function getRemoteImageHtml(image, imageType) {
     // begin footer
     html += '<div class="cardFooter visualCardBox-cardFooter">';
 
-    html += '<div class="cardText cardTextCentered">' + image.ProviderName + '</div>';
+    html +=
+        '<div class="cardText cardTextCentered">' +
+        image.ProviderName +
+        '</div>';
 
     if (image.Width || image.Height || image.Language) {
         html += '<div class="cardText cardText-secondary cardTextCentered">';
@@ -240,12 +301,17 @@ function getRemoteImageHtml(image, imageType) {
         html += '<div class="cardText cardText-secondary cardTextCentered">';
 
         if (image.RatingType === 'Likes') {
-            html += image.CommunityRating + (image.CommunityRating === 1 ? ' like' : ' likes');
+            html +=
+                image.CommunityRating +
+                (image.CommunityRating === 1 ? ' like' : ' likes');
         } else if (image.CommunityRating) {
             html += image.CommunityRating.toFixed(1);
 
             if (image.VoteCount) {
-                html += ' • ' + image.VoteCount + (image.VoteCount === 1 ? ' vote' : ' votes');
+                html +=
+                    ' • ' +
+                    image.VoteCount +
+                    (image.VoteCount === 1 ? ' vote' : ' votes');
             }
         } else {
             html += 'Unrated';
@@ -277,38 +343,65 @@ function reloadBrowsableImagesFirstPage(page, apiClient) {
 }
 
 function initEditor(page, apiClient) {
-    page.querySelector('#selectBrowsableImageType').addEventListener('change', function () {
-        browsableImageType = this.value;
-        selectedProvider = null;
+    page.querySelector('#selectBrowsableImageType').addEventListener(
+        'change',
+        function () {
+            browsableImageType = this.value;
+            selectedProvider = null;
 
-        reloadBrowsableImagesFirstPage(page, apiClient);
-    });
+            reloadBrowsableImagesFirstPage(page, apiClient);
+        }
+    );
 
-    page.querySelector('#selectImageProvider').addEventListener('change', function () {
-        selectedProvider = this.value;
+    page.querySelector('#selectImageProvider').addEventListener(
+        'change',
+        function () {
+            selectedProvider = this.value;
 
-        reloadBrowsableImagesFirstPage(page, apiClient);
-    });
+            reloadBrowsableImagesFirstPage(page, apiClient);
+        }
+    );
 
-    page.querySelector('#chkAllLanguages').addEventListener('change', function () {
-        reloadBrowsableImagesFirstPage(page, apiClient);
-    });
+    page.querySelector('#chkAllLanguages').addEventListener(
+        'change',
+        function () {
+            reloadBrowsableImagesFirstPage(page, apiClient);
+        }
+    );
 
-    page.querySelector('#chkShowParentImages').addEventListener('change', function () {
-        reloadBrowsableImagesFirstPage(page, apiClient);
-    });
+    page.querySelector('#chkShowParentImages').addEventListener(
+        'change',
+        function () {
+            reloadBrowsableImagesFirstPage(page, apiClient);
+        }
+    );
 
     page.addEventListener('click', function (e) {
-        const btnDownloadRemoteImage = dom.parentWithClass(e.target, 'btnDownloadRemoteImage');
+        const btnDownloadRemoteImage = dom.parentWithClass(
+            e.target,
+            'btnDownloadRemoteImage'
+        );
         if (btnDownloadRemoteImage) {
             const card = dom.parentWithClass(btnDownloadRemoteImage, 'card');
-            downloadRemoteImage(page, apiClient, card.getAttribute('data-imageurl'), card.getAttribute('data-imagetype'), card.getAttribute('data-imageprovider'));
+            downloadRemoteImage(
+                page,
+                apiClient,
+                card.getAttribute('data-imageurl'),
+                card.getAttribute('data-imagetype'),
+                card.getAttribute('data-imageprovider')
+            );
             return;
         }
 
         const btnImageCard = dom.parentWithClass(e.target, 'btnImageCard');
         if (btnImageCard) {
-            downloadRemoteImage(page, apiClient, btnImageCard.getAttribute('data-imageurl'), btnImageCard.getAttribute('data-imagetype'), btnImageCard.getAttribute('data-imageprovider'));
+            downloadRemoteImage(
+                page,
+                apiClient,
+                btnImageCard.getAttribute('data-imageurl'),
+                btnImageCard.getAttribute('data-imagetype'),
+                btnImageCard.getAttribute('data-imageprovider')
+            );
         }
     });
 }
@@ -389,4 +482,3 @@ export function show(itemId, serverId, itemType, imageType, parentId) {
 export default {
     show: show
 };
-

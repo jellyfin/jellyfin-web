@@ -1,12 +1,14 @@
 import globalize from 'lib/globalize';
 
-export function showLayoutMenu (button, currentLayout, views) {
+export function showLayoutMenu(button, currentLayout, views) {
     let dispatchEvent = true;
 
     if (!views) {
         dispatchEvent = false;
         views = button.getAttribute('data-layouts');
-        views = views ? views.split(',') : ['List', 'Poster', 'PosterCard', 'Thumb', 'ThumbCard'];
+        views = views
+            ? views.split(',')
+            : ['List', 'Poster', 'PosterCard', 'Thumb', 'ThumbCard'];
     }
 
     const menuItems = views.map(function (v) {
@@ -17,60 +19,100 @@ export function showLayoutMenu (button, currentLayout, views) {
         };
     });
 
-    import('../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
-        actionsheet.show({
-            items: menuItems,
-            positionTo: button,
-            callback: function (id) {
-                button.dispatchEvent(new CustomEvent('layoutchange', {
-                    detail: {
-                        viewStyle: id
-                    },
-                    bubbles: true,
-                    cancelable: false
-                }));
+    import('../components/actionSheet/actionSheet').then(
+        ({ default: actionsheet }) => {
+            actionsheet
+                .show({
+                    items: menuItems,
+                    positionTo: button,
+                    callback: function (id) {
+                        button.dispatchEvent(
+                            new CustomEvent('layoutchange', {
+                                detail: {
+                                    viewStyle: id
+                                },
+                                bubbles: true,
+                                cancelable: false
+                            })
+                        );
 
-                if (!dispatchEvent && window.$) {
-                    $(button).trigger('layoutchange', [id]);
-                }
-            }
-        }).catch(() => { /* no-op */ });
-    });
+                        if (!dispatchEvent && window.$) {
+                            $(button).trigger('layoutchange', [id]);
+                        }
+                    }
+                })
+                .catch(() => {
+                    /* no-op */
+                });
+        }
+    );
 }
 
-export function getQueryPagingHtml (options) {
+export function getQueryPagingHtml(options) {
     const startIndex = options.startIndex;
     const limit = options.limit;
     const totalRecordCount = options.totalRecordCount;
     let html = '';
     const recordsStart = totalRecordCount ? startIndex + 1 : 0;
-    const recordsEnd = limit ? Math.min(startIndex + limit, totalRecordCount) : totalRecordCount;
+    const recordsEnd = limit
+        ? Math.min(startIndex + limit, totalRecordCount)
+        : totalRecordCount;
     const showControls = limit > 0 && limit < totalRecordCount;
 
     html += '<div class="listPaging">';
 
     html += '<span style="vertical-align:middle;">';
-    html += globalize.translate('ListPaging', recordsStart, recordsEnd, totalRecordCount);
+    html += globalize.translate(
+        'ListPaging',
+        recordsStart,
+        recordsEnd,
+        totalRecordCount
+    );
     html += '</span>';
 
-    if (showControls || options.viewButton || options.filterButton || options.sortButton || options.addLayoutButton) {
+    if (
+        showControls ||
+        options.viewButton ||
+        options.filterButton ||
+        options.sortButton ||
+        options.addLayoutButton
+    ) {
         html += '<div style="display:inline-block;">';
 
         if (showControls) {
-            html += '<button is="paper-icon-button-light" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><span class="material-icons arrow_back" aria-hidden="true"></span></button>';
-            html += '<button is="paper-icon-button-light" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? 'disabled' : '') + '><span class="material-icons arrow_forward" aria-hidden="true"></span></button>';
+            html +=
+                '<button is="paper-icon-button-light" class="btnPreviousPage autoSize" ' +
+                (startIndex ? '' : 'disabled') +
+                '><span class="material-icons arrow_back" aria-hidden="true"></span></button>';
+            html +=
+                '<button is="paper-icon-button-light" class="btnNextPage autoSize" ' +
+                (startIndex + limit >= totalRecordCount ? 'disabled' : '') +
+                '><span class="material-icons arrow_forward" aria-hidden="true"></span></button>';
         }
 
         if (options.addLayoutButton) {
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('ButtonSelectView') + '" class="btnChangeLayout autoSize" data-layouts="' + (options.layouts || '') + '" onclick="LibraryBrowser.showLayoutMenu(this, \'' + (options.currentLayout || '') + '\');"><span class="material-icons view_comfy" aria-hidden="true"></span></button>';
+            html +=
+                '<button is="paper-icon-button-light" title="' +
+                globalize.translate('ButtonSelectView') +
+                '" class="btnChangeLayout autoSize" data-layouts="' +
+                (options.layouts || '') +
+                '" onclick="LibraryBrowser.showLayoutMenu(this, \'' +
+                (options.currentLayout || '') +
+                '\');"><span class="material-icons view_comfy" aria-hidden="true"></span></button>';
         }
 
         if (options.sortButton) {
-            html += '<button is="paper-icon-button-light" class="btnSort autoSize" title="' + globalize.translate('Sort') + '"><span class="material-icons sort_by_alpha" aria-hidden="true"></span></button>';
+            html +=
+                '<button is="paper-icon-button-light" class="btnSort autoSize" title="' +
+                globalize.translate('Sort') +
+                '"><span class="material-icons sort_by_alpha" aria-hidden="true"></span></button>';
         }
 
         if (options.filterButton) {
-            html += '<button is="paper-icon-button-light" class="btnFilter autoSize" title="' + globalize.translate('Filter') + '"><span class="material-icons filter_alt" aria-hidden="true"></span></button>';
+            html +=
+                '<button is="paper-icon-button-light" class="btnFilter autoSize" title="' +
+                globalize.translate('Filter') +
+                '"><span class="material-icons filter_alt" aria-hidden="true"></span></button>';
         }
 
         html += '</div>';
@@ -80,7 +122,7 @@ export function getQueryPagingHtml (options) {
     return html;
 }
 
-export function showSortMenu (options) {
+export function showSortMenu(options) {
     Promise.all([
         import('../components/dialogHelper/dialogHelper'),
         import('../elements/emby-radio/emby-radio')
@@ -134,8 +176,20 @@ export function showSortMenu (options) {
         for (i = 0, length = options.items.length; i < length; i++) {
             const option = options.items[i];
             const radioValue = option.id.replace(',', '_');
-            isChecked = (options.query.SortBy || '').replace(',', '_') == radioValue ? ' checked' : '';
-            html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortBy" data-id="' + option.id + '" value="' + radioValue + '" class="menuSortBy" ' + isChecked + ' /><span>' + option.name + '</span></label>';
+            isChecked =
+                (options.query.SortBy || '').replace(',', '_') == radioValue
+                    ? ' checked'
+                    : '';
+            html +=
+                '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortBy" data-id="' +
+                option.id +
+                '" value="' +
+                radioValue +
+                '" class="menuSortBy" ' +
+                isChecked +
+                ' /><span>' +
+                option.name +
+                '</span></label>';
         }
 
         html += '</div>';
@@ -144,9 +198,19 @@ export function showSortMenu (options) {
         html += '</h2>';
         html += '<div>';
         isChecked = options.query.SortOrder == 'Ascending' ? ' checked' : '';
-        html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Ascending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Ascending') + '</span></label>';
+        html +=
+            '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Ascending" class="menuSortOrder" ' +
+            isChecked +
+            ' /><span>' +
+            globalize.translate('Ascending') +
+            '</span></label>';
         isChecked = options.query.SortOrder == 'Descending' ? ' checked' : '';
-        html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Descending') + '</span></label>';
+        html +=
+            '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' +
+            isChecked +
+            ' /><span>' +
+            globalize.translate('Descending') +
+            '</span></label>';
         html += '</div>';
         html += '</div>';
         dlg.innerHTML = html;

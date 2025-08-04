@@ -46,16 +46,21 @@ function focus(element) {
 
 const focusableTagNames = ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'];
 const focusableContainerTagNames = ['BODY', 'DIALOG'];
-const focusableQuery = focusableTagNames.map(function (t) {
-    if (t === 'INPUT') {
-        t += ':not([type="range"]):not([type="file"])';
-    }
-    return t + ':not([tabindex="-1"]):not(:disabled)';
-}).join(',') + ',.focusable';
+const focusableQuery =
+    focusableTagNames
+        .map(function (t) {
+            if (t === 'INPUT') {
+                t += ':not([type="range"]):not([type="file"])';
+            }
+            return t + ':not([tabindex="-1"]):not(:disabled)';
+        })
+        .join(',') + ',.focusable';
 
 function isFocusable(elem) {
-    return focusableTagNames.indexOf(elem.tagName) !== -1
-            || (elem.classList?.contains('focusable'));
+    return (
+        focusableTagNames.indexOf(elem.tagName) !== -1 ||
+        elem.classList?.contains('focusable')
+    );
 }
 
 function normalizeFocusable(elem, originalElement) {
@@ -121,7 +126,9 @@ function getDefaultScope() {
 }
 
 function getFocusableElements(parent, limit, excludeClass) {
-    const elems = (parent || getDefaultScope()).querySelectorAll(focusableQuery);
+    const elems = (parent || getDefaultScope()).querySelectorAll(
+        focusableQuery
+    );
     const focusableElements = [];
 
     for (let i = 0, length = elems.length; i < length; i++) {
@@ -237,7 +244,11 @@ function nav(activeElement, direction, container, focusableElements) {
         activeElement = focusableParent(activeElement);
     }
 
-    container = container || (activeElement ? getFocusContainer(activeElement, direction) : getDefaultScope());
+    container =
+        container ||
+        (activeElement
+            ? getFocusContainer(activeElement, direction)
+            : getDefaultScope());
 
     if (!activeElement) {
         autoFocus(container, true, false);
@@ -254,10 +265,11 @@ function nav(activeElement, direction, container, focusableElements) {
     const point2x = parseFloat(point1x + rect.width - 1) || point1x;
     const point2y = parseFloat(point1y + rect.height - 1) || point1y;
 
-    const sourceMidX = rect.left + (rect.width / 2);
-    const sourceMidY = rect.top + (rect.height / 2);
+    const sourceMidX = rect.left + rect.width / 2;
+    const sourceMidY = rect.top + rect.height / 2;
 
-    const focusable = focusableElements || container.querySelectorAll(focusableQuery);
+    const focusable =
+        focusableElements || container.querySelectorAll(focusableQuery);
 
     const maxDistance = Infinity;
     let minDistance = maxDistance;
@@ -330,8 +342,8 @@ function nav(activeElement, direction, container, focusableElements) {
         const intersectX = intersects(point1x, point2x, x, x2);
         const intersectY = intersects(point1y, point2y, y, y2);
 
-        const midX = elementRect.left + (elementRect.width / 2);
-        const midY = elementRect.top + (elementRect.height / 2);
+        const midX = elementRect.left + elementRect.width / 2;
+        const midY = elementRect.top + elementRect.height / 2;
 
         let distX;
         let distY;
@@ -372,10 +384,14 @@ function nav(activeElement, direction, container, focusableElements) {
     if (nearestElement) {
         // See if there's a focusable container, and if so, send the focus command to that
         if (activeElement) {
-            const nearestElementFocusableParent = dom.parentWithClass(nearestElement, 'focusable');
-            if (nearestElementFocusableParent
-                    && nearestElementFocusableParent !== nearestElement
-                    && focusableContainer !== nearestElementFocusableParent
+            const nearestElementFocusableParent = dom.parentWithClass(
+                nearestElement,
+                'focusable'
+            );
+            if (
+                nearestElementFocusableParent &&
+                nearestElementFocusableParent !== nearestElement &&
+                focusableContainer !== nearestElementFocusableParent
             ) {
                 nearestElement = nearestElementFocusableParent;
             }
@@ -389,8 +405,10 @@ function intersectsInternal(a1, a2, b1, b2) {
 }
 
 function intersects(a1, a2, b1, b2) {
-    // eslint-disable-next-line sonarjs/arguments-order
-    return intersectsInternal(a1, a2, b1, b2) || intersectsInternal(b1, b2, a1, a2);
+    return (
+        // eslint-disable-next-line sonarjs/arguments-order
+        intersectsInternal(a1, a2, b1, b2) || intersectsInternal(b1, b2, a1, a2)
+    );
 }
 
 function sendText(text) {
@@ -413,7 +431,9 @@ function focusFirst(container, focusableSelector) {
 }
 
 function focusLast(container, focusableSelector) {
-    const elems = [].slice.call(container.querySelectorAll(focusableSelector), 0).reverse();
+    const elems = [].slice
+        .call(container.querySelectorAll(focusableSelector), 0)
+        .reverse();
 
     for (let i = 0, length = elems.length; i < length; i++) {
         const elem = elems[i];

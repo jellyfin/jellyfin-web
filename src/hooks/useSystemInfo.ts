@@ -5,24 +5,23 @@ import type { AxiosRequestConfig } from 'axios';
 
 import { useApi } from './useApi';
 
-const fetchSystemInfo = async (
-    api: Api,
-    options?: AxiosRequestConfig
-) => {
-    const response = await getSystemApi(api)
-        .getSystemInfo(options);
+const fetchSystemInfo = async (api: Api, options?: AxiosRequestConfig) => {
+    const response = await getSystemApi(api).getSystemInfo(options);
     return response.data;
 };
 
-export const getSystemInfoQuery = (
-    api?: Api
-) => queryOptions({
-    queryKey: [ 'SystemInfo' ],
-    queryFn: ({ signal }) => fetchSystemInfo(api!, { signal, headers: { 'Cache-Control': 'no-cache' } }),
-    // Allow for query reuse in legacy javascript.
-    staleTime: 1000, // 1 second
-    enabled: !!api
-});
+export const getSystemInfoQuery = (api?: Api) =>
+    queryOptions({
+        queryKey: ['SystemInfo'],
+        queryFn: ({ signal }) =>
+            fetchSystemInfo(api!, {
+                signal,
+                headers: { 'Cache-Control': 'no-cache' }
+            }),
+        // Allow for query reuse in legacy javascript.
+        staleTime: 1000, // 1 second
+        enabled: !!api
+    });
 
 export const useSystemInfo = () => {
     const { api } = useApi();

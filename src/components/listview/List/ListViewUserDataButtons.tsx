@@ -39,47 +39,39 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
     return (
         <Box className='listViewUserDataButtons'>
             {listOptions.addToListButton && (
-                <PlaylistAddIconButton
-                    className='paper-icon-button-light listItemButton itemAction'
-                />
-
+                <PlaylistAddIconButton className='paper-icon-button-light listItemButton itemAction' />
             )}
             {listOptions.infoButton && (
-                <InfoIconButton
-                    className='paper-icon-button-light listItemButton itemAction'
-                />
-
-            ) }
+                <InfoIconButton className='paper-icon-button-light listItemButton itemAction' />
+            )}
 
             {listOptions.rightButtons && renderRightButtons()}
 
             {listOptions.enableUserDataButtons !== false && (
                 <>
-                    {itemHelper.canMarkPlayed(item)
-                        && listOptions.enablePlayedButton !== false && (
-                        <PlayedButton
-                            className='listItemButton'
-                            isPlayed={Played}
-                            itemId={item.Id}
-                            itemType={item.Type}
-                        />
-                    )}
+                    {itemHelper.canMarkPlayed(item) &&
+                        listOptions.enablePlayedButton !== false && (
+                            <PlayedButton
+                                className='listItemButton'
+                                isPlayed={Played}
+                                itemId={item.Id}
+                                itemType={item.Type}
+                            />
+                        )}
 
-                    {itemHelper.canRate(item)
-                        && listOptions.enableRatingButton !== false && (
-                        <FavoriteButton
-                            className='listItemButton'
-                            isFavorite={IsFavorite}
-                            itemId={item.Id}
-                        />
-                    )}
+                    {itemHelper.canRate(item) &&
+                        listOptions.enableRatingButton !== false && (
+                            <FavoriteButton
+                                className='listItemButton'
+                                isFavorite={IsFavorite}
+                                itemId={item.Id}
+                            />
+                        )}
                 </>
             )}
 
             {listOptions.moreButton !== false && (
-                <MoreVertIconButton
-                    className='paper-icon-button-light listItemButton itemAction'
-                />
+                <MoreVertIconButton className='paper-icon-button-light listItemButton itemAction' />
             )}
         </Box>
     );

@@ -4,24 +4,30 @@ import { AppType } from 'constants/appType';
 
 export interface AsyncRoute {
     /** The URL path for this route. */
-    path: string
+    path: string;
     /**
      * The relative path to the page component in the routes directory.
      * Will fallback to using the `path` value if not specified.
      */
-    page?: string
+    page?: string;
     /** The app that this page is part of. */
-    type?: AppType
+    type?: AppType;
 }
 
 const importRoute = (page: string, type: AppType) => {
     switch (type) {
         case AppType.Dashboard:
-            return import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${page}`);
+            return import(
+                /* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${page}`
+            );
         case AppType.Experimental:
-            return import(/* webpackChunkName: "[request]" */ `../../apps/experimental/routes/${page}`);
+            return import(
+                /* webpackChunkName: "[request]" */ `../../apps/experimental/routes/${page}`
+            );
         case AppType.Stable:
-            return import(/* webpackChunkName: "[request]" */ `../../apps/stable/routes/${page}`);
+            return import(
+                /* webpackChunkName: "[request]" */ `../../apps/stable/routes/${page}`
+            );
     }
 };
 

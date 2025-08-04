@@ -1,4 +1,7 @@
-import { getDefaultTheme, getThemes as getConfiguredThemes } from './settings/webSettings';
+import {
+    getDefaultTheme,
+    getThemes as getConfiguredThemes
+} from './settings/webSettings';
 
 let currentThemeId;
 
@@ -7,11 +10,11 @@ function getThemes() {
 }
 
 function getThemeStylesheetInfo(id) {
-    return getThemes().then(themes => {
+    return getThemes().then((themes) => {
         let theme;
 
         if (id) {
-            theme = themes.find(currentTheme => {
+            theme = themes.find((currentTheme) => {
                 return currentTheme.id === id;
             });
         }

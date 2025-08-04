@@ -7,7 +7,9 @@ import { LibraryViewSettings } from 'types/library';
 interface FiltersOfficialRatingsProps {
     OfficialRatingsOptions: string[];
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
+    setLibraryViewSettings: React.Dispatch<
+        React.SetStateAction<LibraryViewSettings>
+    >;
 }
 
 const FiltersOfficialRatings: FC<FiltersOfficialRatingsProps> = ({
@@ -19,18 +21,23 @@ const FiltersOfficialRatings: FC<FiltersOfficialRatingsProps> = ({
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value;
-            const existingOfficialRatings = libraryViewSettings?.Filters?.OfficialRatings ?? [];
+            const existingOfficialRatings =
+                libraryViewSettings?.Filters?.OfficialRatings ?? [];
 
-            const updatedOfficialRatings = existingOfficialRatings.includes(value) ?
-                existingOfficialRatings.filter((filter) => filter !== value) :
-                [...existingOfficialRatings, value];
+            const updatedOfficialRatings = existingOfficialRatings.includes(
+                value
+            )
+                ? existingOfficialRatings.filter((filter) => filter !== value)
+                : [...existingOfficialRatings, value];
 
             setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
                     ...prevState.Filters,
-                    OfficialRatings: updatedOfficialRatings.length ? updatedOfficialRatings : undefined
+                    OfficialRatings: updatedOfficialRatings.length
+                        ? updatedOfficialRatings
+                        : undefined
                 }
             }));
         },

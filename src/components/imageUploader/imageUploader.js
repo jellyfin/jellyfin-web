@@ -1,4 +1,3 @@
-
 /**
  * Module for imageUploader.
  * @module components/imageUploader/imageUploader
@@ -63,10 +62,16 @@ function setFiles(page, files) {
     };
 
     // Closure to capture the file information.
-    reader.onload = (theFile => {
-        return e => {
+    reader.onload = ((theFile) => {
+        return (e) => {
             // Render thumbnail.
-            const html = ['<img style="max-width:100%;max-height:100%;" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
+            const html = [
+                '<img style="max-width:100%;max-height:100%;" src="',
+                e.target.result,
+                '" title="',
+                escape(theFile.name),
+                '"/>'
+            ].join('');
 
             page.querySelector('#imageOutput').innerHTML = html;
             page.querySelector('#dropImageText').classList.add('hide');
@@ -103,13 +108,15 @@ function onSubmit(e) {
         return false;
     }
 
-    ServerConnections.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(() => {
-        dlg.querySelector('#uploadImage').value = '';
+    ServerConnections.getApiClient(currentServerId)
+        .uploadItemImage(currentItemId, imageType, file)
+        .then(() => {
+            dlg.querySelector('#uploadImage').value = '';
 
-        loading.hide();
-        hasChanges = true;
-        dialogHelper.close(dlg);
-    });
+            loading.hide();
+            hasChanges = true;
+            dialogHelper.close(dlg);
+        });
 
     e.preventDefault();
     return false;
@@ -167,7 +174,8 @@ function showEditor(options, resolve) {
 
     initEditor(dlg);
 
-    dlg.querySelector('#selectImageType').value = options.imageType || 'Primary';
+    dlg.querySelector('#selectImageType').value =
+        options.imageType || 'Primary';
 
     dlg.querySelector('.btnCancel').addEventListener('click', () => {
         dialogHelper.close(dlg);
@@ -175,7 +183,7 @@ function showEditor(options, resolve) {
 }
 
 export function show(options) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         hasChanges = false;
 
         showEditor(options, resolve);

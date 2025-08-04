@@ -1,5 +1,10 @@
 import classNames from 'classnames';
-import React, { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent, useCallback } from 'react';
+import React, {
+    AnchorHTMLAttributes,
+    DetailedHTMLProps,
+    MouseEvent,
+    useCallback
+} from 'react';
 
 import { appHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';
@@ -9,9 +14,11 @@ import shell from 'scripts/shell';
 
 import './emby-button.scss';
 
-interface LinkButtonProps extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>,
-    HTMLAnchorElement
-> {
+interface LinkButtonProps
+    extends DetailedHTMLProps<
+        AnchorHTMLAttributes<HTMLAnchorElement>,
+        HTMLAnchorElement
+    > {
     className?: string;
     isAutoHideEnabled?: boolean;
     href?: string;
@@ -27,36 +34,43 @@ const LinkButton: React.FC<LinkButtonProps> = ({
     children,
     ...rest
 }) => {
-    const onAnchorClick = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
-        const url = href || '';
-        if (url !== '#') {
-            if (target) {
-                if (!appHost.supports(AppFeature.TargetBlank)) {
+    const onAnchorClick = useCallback(
+        (e: MouseEvent<HTMLAnchorElement>) => {
+            const url = href || '';
+            if (url !== '#') {
+                if (target) {
+                    if (!appHost.supports(AppFeature.TargetBlank)) {
+                        e.preventDefault();
+                        shell.openUrl(url);
+                    }
+                } else {
                     e.preventDefault();
-                    shell.openUrl(url);
+                    appRouter.show(url).catch((err) => {
+                        console.error(
+                            '[LinkButton] failed to show url',
+                            url,
+                            err
+                        );
+                    });
                 }
             } else {
                 e.preventDefault();
-                appRouter.show(url)
-                    .catch(err => {
-                        console.error('[LinkButton] failed to show url', url, err);
-                    });
             }
-        } else {
-            e.preventDefault();
-        }
-        onClick?.(e);
-    }, [ href, target, onClick ]);
+            onClick?.(e);
+        },
+        [href, target, onClick]
+    );
 
-    if (isAutoHideEnabled === true && !appHost.supports(AppFeature.ExternalLinks)) {
+    if (
+        isAutoHideEnabled === true &&
+        !appHost.supports(AppFeature.ExternalLinks)
+    ) {
         return null;
     }
 
-    const cssClass = classNames(
-        'emby-button',
-        className,
-        { 'show-focus': layoutManager.tv }
-    );
+    const cssClass = classNames('emby-button', className, {
+        'show-focus': layoutManager.tv
+    });
 
     return (
         <a

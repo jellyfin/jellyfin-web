@@ -10,7 +10,10 @@ export default function (view, params) {
     let homescreenSettingsInstance;
 
     const userId = params.userId || ApiClient.getCurrentUserId();
-    const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
+    const currentSettings =
+        userId === ApiClient.getCurrentUserId()
+            ? userSettings
+            : new UserSettings();
 
     view.addEventListener('viewshow', function () {
         if (homescreenSettingsInstance) {
@@ -35,4 +38,3 @@ export default function (view, params) {
         }
     });
 }
-

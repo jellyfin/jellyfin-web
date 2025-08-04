@@ -15,9 +15,11 @@ import { LibraryViewSettings } from 'types/library';
 
 interface PaginationProps {
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
+    setLibraryViewSettings: React.Dispatch<
+        React.SetStateAction<LibraryViewSettings>
+    >;
     totalRecordCount: number;
-    isPlaceholderData: boolean
+    isPlaceholderData: boolean;
 }
 
 const Pagination: FC<PaginationProps> = ({
@@ -31,9 +33,9 @@ const Pagination: FC<PaginationProps> = ({
     const limit = userSettings.libraryPageSize(undefined);
     const startIndex = libraryViewSettings.StartIndex ?? 0;
     const recordsStart = totalRecordCount ? startIndex + 1 : 0;
-    const recordsEnd = limit ?
-        Math.min(startIndex + limit, totalRecordCount) :
-        totalRecordCount;
+    const recordsEnd = limit
+        ? Math.min(startIndex + limit, totalRecordCount)
+        : totalRecordCount;
     const showControls = limit > 0 && limit < totalRecordCount;
 
     const onNextPageClick = useCallback(() => {
@@ -73,7 +75,9 @@ const Pagination: FC<PaginationProps> = ({
                     color='inherit'
                     variant='text'
                     title={globalize.translate('Previous')}
-                    disabled={!showControls || startIndex == 0 || isPlaceholderData}
+                    disabled={
+                        !showControls || startIndex == 0 || isPlaceholderData
+                    }
                     onClick={onPreviousPageClick}
                 >
                     <ArrowBackIcon />
@@ -101,13 +105,14 @@ const Pagination: FC<PaginationProps> = ({
             </Box>
 
             {isSmallScreen && (
-                <ButtonGroup
-                    color='inherit'
-                    variant='text'
-                >
+                <ButtonGroup color='inherit' variant='text'>
                     <Button
                         title={globalize.translate('Previous')}
-                        disabled={!showControls || startIndex == 0 || isPlaceholderData}
+                        disabled={
+                            !showControls ||
+                            startIndex == 0 ||
+                            isPlaceholderData
+                        }
                         onClick={onPreviousPageClick}
                     >
                         <ArrowBackIcon />
@@ -115,7 +120,11 @@ const Pagination: FC<PaginationProps> = ({
 
                     <Button
                         title={globalize.translate('Next')}
-                        disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData }
+                        disabled={
+                            !showControls ||
+                            startIndex + limit >= totalRecordCount ||
+                            isPlaceholderData
+                        }
                         onClick={onNextPageClick}
                     >
                         <ArrowForwardIcon />
@@ -128,7 +137,11 @@ const Pagination: FC<PaginationProps> = ({
                     color='inherit'
                     variant='text'
                     title={globalize.translate('Next')}
-                    disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData }
+                    disabled={
+                        !showControls ||
+                        startIndex + limit >= totalRecordCount ||
+                        isPlaceholderData
+                    }
                     onClick={onNextPageClick}
                 >
                     <ArrowForwardIcon />

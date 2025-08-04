@@ -33,43 +33,62 @@ function renderSelectServerItems(view, servers) {
             server: server
         };
     });
-    let html = items.map(function (item) {
-        // TODO move card creation code to Card component
-        const cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '" aria-hidden="true"></span>';
-        let cssClass = 'card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable';
+    let html = items
+        .map(function (item) {
+            // TODO move card creation code to Card component
+            const cardImageContainer =
+                '<span class="cardImageIcon material-icons ' +
+                item.icon +
+                '" aria-hidden="true"></span>';
+            let cssClass =
+                'card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable';
 
-        if (layoutManager.tv) {
-            cssClass += ' show-focus';
+            if (layoutManager.tv) {
+                cssClass += ' show-focus';
 
-            if (enableFocusTransform) {
-                cssClass += ' show-animation';
+                if (enableFocusTransform) {
+                    cssClass += ' show-animation';
+                }
             }
-        }
 
-        const cardBoxCssClass = 'cardBox';
+            const cardBoxCssClass = 'cardBox';
 
-        const innerOpening = '<div class="' + cardBoxCssClass + '">';
-        let cardContainer = '';
-        cardContainer += '<button raised class="' + cssClass + '" style="display:inline-block;" data-id="' + item.id + '" data-url="' + (item.url || '') + '" data-cardtype="' + item.cardType + '">';
-        cardContainer += innerOpening;
-        cardContainer += '<div class="cardScalable">';
-        cardContainer += '<div class="cardPadder cardPadder-square">';
-        cardContainer += '</div>';
-        cardContainer += '<div class="cardContent">';
-        cardContainer += `<div class="cardImageContainer coveredImage ${getDefaultBackgroundClass()}">`;
-        cardContainer += cardImageContainer;
-        cardContainer += '</div>';
-        cardContainer += '</div>';
-        cardContainer += '</div>';
-        cardContainer += '<div class="cardFooter">';
-        cardContainer += '<div class="cardText cardTextCentered">' + escapeHtml(item.name) + '</div>';
-        cardContainer += '</div></div></button>';
-        return cardContainer;
-    }).join('');
+            const innerOpening = '<div class="' + cardBoxCssClass + '">';
+            let cardContainer = '';
+            cardContainer +=
+                '<button raised class="' +
+                cssClass +
+                '" style="display:inline-block;" data-id="' +
+                item.id +
+                '" data-url="' +
+                (item.url || '') +
+                '" data-cardtype="' +
+                item.cardType +
+                '">';
+            cardContainer += innerOpening;
+            cardContainer += '<div class="cardScalable">';
+            cardContainer += '<div class="cardPadder cardPadder-square">';
+            cardContainer += '</div>';
+            cardContainer += '<div class="cardContent">';
+            cardContainer += `<div class="cardImageContainer coveredImage ${getDefaultBackgroundClass()}">`;
+            cardContainer += cardImageContainer;
+            cardContainer += '</div>';
+            cardContainer += '</div>';
+            cardContainer += '</div>';
+            cardContainer += '<div class="cardFooter">';
+            cardContainer +=
+                '<div class="cardText cardTextCentered">' +
+                escapeHtml(item.name) +
+                '</div>';
+            cardContainer += '</div></div></button>';
+            return cardContainer;
+        })
+        .join('');
     const itemsContainer = view.querySelector('.servers');
 
     if (!items.length) {
-        html = '<p>' + globalize.translate('MessageNoServersAvailable') + '</p>';
+        html =
+            '<p>' + globalize.translate('MessageNoServersAvailable') + '</p>';
     }
 
     itemsContainer.innerHTML = html;
@@ -113,19 +132,31 @@ export default function (view, params) {
 
             switch (result.State) {
                 case ConnectionState.SignedIn:
-                    Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
+                    Dashboard.onServerChanged(
+                        apiClient.getCurrentUserId(),
+                        apiClient.accessToken(),
+                        apiClient
+                    );
                     Dashboard.navigate('home');
                     break;
 
                 case ConnectionState.ServerSignIn:
                     Dashboard.onServerChanged(null, null, apiClient);
-                    Dashboard.navigate('login?serverid=' + result.Servers[0].Id);
+                    Dashboard.navigate(
+                        'login?serverid=' + result.Servers[0].Id
+                    );
                     break;
 
                 case ConnectionState.ServerUpdateNeeded:
                     alertTextWithOptions({
-                        text: globalize.translate('core#ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
-                        html: globalize.translate('core#ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
+                        text: globalize.translate(
+                            'core#ServerUpdateNeeded',
+                            'https://github.com/jellyfin/jellyfin'
+                        ),
+                        html: globalize.translate(
+                            'core#ServerUpdateNeeded',
+                            '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>'
+                        )
                     });
                     break;
 
@@ -141,17 +172,24 @@ export default function (view, params) {
             text: globalize.translate('DeleteServerConfirmation'),
             confirmText: globalize.translate('Delete'),
             primary: 'delete'
-        }).then(function () {
-            loading.show();
-            ServerConnections.deleteServer(server.Id).then(function () {
-                loading.hide();
-                loadServers();
-            }).catch(err => {
-                console.error('[selectServer] failed to delete server', err);
+        })
+            .then(function () {
+                loading.show();
+                ServerConnections.deleteServer(server.Id)
+                    .then(function () {
+                        loading.hide();
+                        loadServers();
+                    })
+                    .catch((err) => {
+                        console.error(
+                            '[selectServer] failed to delete server',
+                            err
+                        );
+                    });
+            })
+            .catch(() => {
+                // confirm dialog closed
             });
-        }).catch(() => {
-            // confirm dialog closed
-        });
     }
 
     function onServerClick(server) {
@@ -164,20 +202,25 @@ export default function (view, params) {
             name: globalize.translate('Delete'),
             id: 'delete'
         });
-        actionSheet.show({
-            items: menuItems,
-            title: server.Name
-        }).then(function (id) {
-            switch (id) {
-                case 'connect':
-                    connectToServer(server);
-                    break;
+        actionSheet
+            .show({
+                items: menuItems,
+                title: server.Name
+            })
+            .then(function (id) {
+                switch (id) {
+                    case 'connect':
+                        connectToServer(server);
+                        break;
 
-                case 'delete':
-                    deleteServer(server);
-                    break;
-            }
-        }).catch(() => { /* no-op */ });
+                    case 'delete':
+                        deleteServer(server);
+                        break;
+                }
+            })
+            .catch(() => {
+                /* no-op */
+            });
     }
 
     function onServersRetrieved(result) {
@@ -215,9 +258,11 @@ export default function (view, params) {
                 appRouter.show(url);
             } else {
                 const id = card.getAttribute('data-id');
-                onServerClick(servers.filter(function (s) {
-                    return s.Id === id;
-                })[0]);
+                onServerClick(
+                    servers.filter(function (s) {
+                        return s.Id === id;
+                    })[0]
+                );
             }
         }
     });

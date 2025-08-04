@@ -7,11 +7,13 @@ import { PluginType } from '../../types/plugin.ts';
 // TODO: Replace with date-fns
 // https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php
 function getWeek(date) {
-    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const d = new Date(
+        Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    );
     const dayNum = d.getUTCDay() || 7;
     d.setUTCDate(d.getUTCDate() + 4 - dayNum);
     const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    return Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
 }
 
 function showMessage(text, userSettingsKey, appHostFeature) {
@@ -33,15 +35,27 @@ function showMessage(text, userSettingsKey, appHostFeature) {
 }
 
 function showBlurayMessage() {
-    return showMessage(globalize.translate('UnsupportedPlayback'), 'blurayexpirementalinfo', 'nativeblurayplayback');
+    return showMessage(
+        globalize.translate('UnsupportedPlayback'),
+        'blurayexpirementalinfo',
+        'nativeblurayplayback'
+    );
 }
 
 function showDvdMessage() {
-    return showMessage(globalize.translate('UnsupportedPlayback'), 'dvdexpirementalinfo', 'nativedvdplayback');
+    return showMessage(
+        globalize.translate('UnsupportedPlayback'),
+        'dvdexpirementalinfo',
+        'nativedvdplayback'
+    );
 }
 
 function showIsoMessage() {
-    return showMessage(globalize.translate('UnsupportedPlayback'), 'isoexpirementalinfo', 'nativeisoplayback');
+    return showMessage(
+        globalize.translate('UnsupportedPlayback'),
+        'isoexpirementalinfo',
+        'nativeisoplayback'
+    );
 }
 
 class ExpirementalPlaybackWarnings {

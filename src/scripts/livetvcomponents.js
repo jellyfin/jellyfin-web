@@ -25,14 +25,22 @@ export function getTimersHtml(timers, options) {
 
         if (options.indexByDate !== false && item.StartDate) {
             try {
-                const premiereDate = datetime.parseISO8601Date(item.StartDate, true);
+                const premiereDate = datetime.parseISO8601Date(
+                    item.StartDate,
+                    true
+                );
                 dateText = datetime.toLocaleDateString(premiereDate, {
                     weekday: 'long',
                     month: 'short',
                     day: 'numeric'
                 });
             } catch (err) {
-                console.error('error parsing premiereDate:' + item.StartDate + '; error: ' + err);
+                console.error(
+                    'error parsing premiereDate:' +
+                        item.StartDate +
+                        '; error: ' +
+                        err
+                );
             }
         }
 
@@ -61,7 +69,10 @@ export function getTimersHtml(timers, options) {
     for (const group of groups) {
         if (group.name) {
             html += '<div class="verticalSection">';
-            html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + '</h2>';
+            html +=
+                '<h2 class="sectionTitle sectionTitle-cards padded-left">' +
+                group.name +
+                '</h2>';
         }
 
         if (enableScrollX()) {
@@ -69,9 +80,13 @@ export function getTimersHtml(timers, options) {
             if (layoutManager.tv) {
                 scrollXClass += ' smoothScrollX';
             }
-            html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
+            html +=
+                '<div is="emby-itemscontainer" class="itemsContainer ' +
+                scrollXClass +
+                ' padded-left padded-right">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
+            html +=
+                '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
         }
 
         html += cardBuilder.getCardsHtml({

@@ -20,12 +20,17 @@ const useLiveSessions = () => {
 
     const updateSessions = useCallback((sessions: SessionInfoDto[]) => {
         const newSessions = filterSessions(sessions);
-        const data = queryClient.getQueryData([ QUERY_KEY, QUERY_PARAMS ]) as SessionInfoDto[];
+        const data = queryClient.getQueryData([
+            QUERY_KEY,
+            QUERY_PARAMS
+        ]) as SessionInfoDto[];
         if (data) {
-            const currentSessions = [ ...data ];
+            const currentSessions = [...data];
 
             for (const session of newSessions) {
-                const sessionIndex = currentSessions.findIndex((value) => value.DeviceId === session.DeviceId);
+                const sessionIndex = currentSessions.findIndex(
+                    (value) => value.DeviceId === session.DeviceId
+                );
                 if (sessionIndex == -1) {
                     currentSessions.push(session);
                 } else {
@@ -39,16 +44,37 @@ const useLiveSessions = () => {
     }, []);
 
     useEffect(() => {
-        const onSessionsUpdate = (evt: Event, apiClient: ApiClient, info: SessionInfoDto[]) => {
-            queryClient.setQueryData([ QUERY_KEY, QUERY_PARAMS ], updateSessions(info));
+        const onSessionsUpdate = (
+            evt: Event,
+            apiClient: ApiClient,
+            info: SessionInfoDto[]
+        ) => {
+            queryClient.setQueryData(
+                [QUERY_KEY, QUERY_PARAMS],
+                updateSessions(info)
+            );
         };
 
-        __legacyApiClient__?.sendMessage(SessionMessageType.SessionsStart, '0,1500');
-        Events.on(serverNotifications, SessionMessageType.Sessions, onSessionsUpdate);
+        __legacyApiClient__?.sendMessage(
+            SessionMessageType.SessionsStart,
+            '0,1500'
+        );
+        Events.on(
+            serverNotifications,
+            SessionMessageType.Sessions,
+            onSessionsUpdate
+        );
 
         return () => {
-            __legacyApiClient__?.sendMessage(SessionMessageType.SessionsStop, null);
-            Events.off(serverNotifications, SessionMessageType.Sessions, onSessionsUpdate);
+            __legacyApiClient__?.sendMessage(
+                SessionMessageType.SessionsStop,
+                null
+            );
+            Events.off(
+                serverNotifications,
+                SessionMessageType.Sessions,
+                onSessionsUpdate
+            );
         };
     }, []);
 

@@ -8,7 +8,12 @@ interface RightIconButtonsProps {
     title: string;
 }
 
-const RightIconButtons: FC<RightIconButtonsProps> = ({ className, id, title, icon }) => {
+const RightIconButtons: FC<RightIconButtonsProps> = ({
+    className,
+    id,
+    title,
+    icon
+}) => {
     return (
         <IconButton
             className={className}

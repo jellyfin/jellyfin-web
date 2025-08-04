@@ -2,6 +2,6 @@ import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models
 import type { MRT_Cell, MRT_Row } from 'material-react-table';
 
 export interface ActivityLogEntryCell {
-    cell: MRT_Cell<ActivityLogEntry>
-    row: MRT_Row<ActivityLogEntry>
+    cell: MRT_Cell<ActivityLogEntry>;
+    row: MRT_Row<ActivityLogEntry>;
 }

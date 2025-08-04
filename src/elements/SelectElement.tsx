@@ -2,7 +2,19 @@ import React, { FunctionComponent } from 'react';
 
 import globalize from 'lib/globalize';
 
-const createSelectElement = ({ name, id, required, label, option }: { name?: string, id?: string, required?: string, label?: string, option?: React.ReactNode }) => ({
+const createSelectElement = ({
+    name,
+    id,
+    required,
+    label,
+    option
+}: {
+    name?: string;
+    id?: string;
+    required?: string;
+    label?: string;
+    option?: React.ReactNode;
+}) => ({
     __html: `<select
         is="emby-select"
         ${name}
@@ -19,10 +31,16 @@ type IProps = {
     id?: string;
     required?: string;
     label?: string;
-    children?: React.ReactNode
+    children?: React.ReactNode;
 };
 
-const SelectElement: FunctionComponent<IProps> = ({ name, id, required, label, children }: IProps) => {
+const SelectElement: FunctionComponent<IProps> = ({
+    name,
+    id,
+    required,
+    label,
+    children
+}: IProps) => {
     return (
         <div
             dangerouslySetInnerHTML={createSelectElement({

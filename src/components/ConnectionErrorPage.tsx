@@ -10,16 +10,14 @@ import globalize from 'lib/globalize';
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 
 interface ConnectionErrorPageProps {
-    state: ConnectionState
+    state: ConnectionState;
 }
 
-const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
-    state
-}) => {
-    const [ title, setTitle ] = useState<string>();
-    const [ htmlMessage, setHtmlMessage ] = useState<string>();
-    const [ message, setMessage ] = useState<string>();
-    const [ isConnectDisabled, setIsConnectDisabled ] = useState(false);
+const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({ state }) => {
+    const [title, setTitle] = useState<string>();
+    const [htmlMessage, setHtmlMessage] = useState<string>();
+    const [message, setMessage] = useState<string>();
+    const [isConnectDisabled, setIsConnectDisabled] = useState(false);
 
     const onForceConnect = useCallback(async () => {
         setIsConnectDisabled(true);
@@ -29,7 +27,10 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
             await ServerConnections.updateSavedServerId(server);
             window.location.reload();
         } catch (err) {
-            console.error('[ConnectionErrorPage] Failed to force connect to server', err);
+            console.error(
+                '[ConnectionErrorPage] Failed to force connect to server',
+                err
+            );
             toast(globalize.translate('HeaderConnectionFailure'));
             setIsConnectDisabled(false);
         }
@@ -44,18 +45,22 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                 return;
             case ConnectionState.ServerUpdateNeeded:
                 setTitle(globalize.translate('HeaderUpdateRequired'));
-                setHtmlMessage(globalize.translate(
-                    'ServerUpdateNeeded',
-                    '<a href="https://jellyfin.org/downloads/server/">jellyfin.org/downloads/server</a>'
-                ));
+                setHtmlMessage(
+                    globalize.translate(
+                        'ServerUpdateNeeded',
+                        '<a href="https://jellyfin.org/downloads/server/">jellyfin.org/downloads/server</a>'
+                    )
+                );
                 setMessage(undefined);
                 return;
             case ConnectionState.Unavailable:
                 setTitle(globalize.translate('HeaderServerUnavailable'));
                 setHtmlMessage(undefined);
-                setMessage(globalize.translate('MessageUnableToConnectToServer'));
+                setMessage(
+                    globalize.translate('MessageUnableToConnectToServer')
+                );
         }
-    }, [ state ]);
+    }, [state]);
 
     if (!title) return;
 
@@ -69,21 +74,16 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                 <h1>{title}</h1>
                 {htmlMessage && (
                     <p
-                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(htmlMessage) }}
+                        dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(htmlMessage)
+                        }}
                         style={{ maxWidth: '80ch' }}
                     />
                 )}
-                {message && (
-                    <p style={{ maxWidth: '80ch' }}>
-                        {message}
-                    </p>
-                )}
+                {message && <p style={{ maxWidth: '80ch' }}>{message}</p>}
 
                 {appHost.supports(AppFeature.MultiServer) && (
-                    <LinkButton
-                        className='raised'
-                        href='/selectserver'
-                    >
+                    <LinkButton className='raised' href='/selectserver'>
                         {globalize.translate('ButtonChangeServer')}
                     </LinkButton>
                 )}
@@ -91,7 +91,11 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                 {state === ConnectionState.ServerMismatch && (
                     <LinkButton
                         onClick={onForceConnect}
-                        style={ isConnectDisabled ? { pointerEvents: 'none' } : undefined }
+                        style={
+                            isConnectDisabled
+                                ? { pointerEvents: 'none' }
+                                : undefined
+                        }
                     >
                         {globalize.translate('ConnectAnyway')}
                     </LinkButton>

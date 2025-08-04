@@ -60,7 +60,9 @@ export function loadView(options) {
         const mainAnimatedPages = getMainAnimatedPages();
 
         if (!mainAnimatedPages) {
-            console.warn('[viewContainer] main animated pages element is not present');
+            console.warn(
+                '[viewContainer] main animated pages element is not present'
+            );
             return;
         }
 
@@ -93,29 +95,31 @@ export function loadView(options) {
 
         allPages[pageIndex] = view;
 
-        return setControllerClass(view, options)
-        // Timeout for polyfilled CustomElements (webOS 1.2)
-            .then(() => new Promise((resolve) => setTimeout(resolve, 0)))
-            .then(() => {
-                if (onBeforeChange) {
-                    onBeforeChange(view, false, options);
-                }
+        return (
+            setControllerClass(view, options)
+                // Timeout for polyfilled CustomElements (webOS 1.2)
+                .then(() => new Promise((resolve) => setTimeout(resolve, 0)))
+                .then(() => {
+                    if (onBeforeChange) {
+                        onBeforeChange(view, false, options);
+                    }
 
-                beforeAnimate(allPages, pageIndex, selected);
-                selectedPageIndex = pageIndex;
-                currentUrls[pageIndex] = options.url;
+                    beforeAnimate(allPages, pageIndex, selected);
+                    selectedPageIndex = pageIndex;
+                    currentUrls[pageIndex] = options.url;
 
-                if (!options.cancel && previousAnimatable) {
-                    afterAnimate(allPages, pageIndex);
-                }
+                    if (!options.cancel && previousAnimatable) {
+                        afterAnimate(allPages, pageIndex);
+                    }
 
-                if (window.$) {
-                    $.mobile = $.mobile || {};
-                    $.mobile.activePage = view;
-                }
+                    if (window.$) {
+                        $.mobile = $.mobile || {};
+                        $.mobile.activePage = view;
+                    }
 
-                return view;
-            });
+                    return view;
+                })
+        );
     }
 }
 
@@ -150,7 +154,10 @@ function normalizeNewView(options, isPluginpage) {
     let hasjQueryChecked = false;
 
     if (isPluginpage) {
-        hasjQuery = viewHtml.indexOf('jQuery') != -1 || viewHtml.indexOf('$(') != -1 || viewHtml.indexOf('$.') != -1;
+        hasjQuery =
+            viewHtml.indexOf('jQuery') != -1 ||
+            viewHtml.indexOf('$(') != -1 ||
+            viewHtml.indexOf('$.') != -1;
         hasjQueryChecked = viewHtml.indexOf('.checked(') != -1;
         hasjQuerySelect = viewHtml.indexOf('.selectmenu(') != -1;
     }
@@ -199,7 +206,8 @@ export function tryRestoreView(options) {
             }
 
             const selected = selectedPageIndex;
-            const previousAnimatable = selected === -1 ? null : allPages[selected];
+            const previousAnimatable =
+                selected === -1 ? null : allPages[selected];
             return setControllerClass(view, options).then(() => {
                 if (onBeforeChange) {
                     onBeforeChange(view, true, options);

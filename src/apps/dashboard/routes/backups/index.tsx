@@ -26,13 +26,14 @@ import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 export const Component = () => {
     const { api } = useApi();
     const { data: backups, isPending, isError } = useBackups();
-    const [ isCreateFormOpen, setIsCreateFormOpen ] = useState(false);
-    const [ backupInProgress, setBackupInProgress ] = useState(false);
-    const [ restoreInProgress, setRestoreInProgress ] = useState(false);
-    const [ isRestoreSuccess, setIsRestoreSuccess ] = useState(false);
-    const [ isErrorOccurred, setIsErrorOccurred ] = useState(false);
-    const [ isRestoreDialogOpen, setIsRestoreDialogOpen ] = useState(false);
-    const [ backupToRestore, setBackupToRestore ] = useState<BackupManifestDto | null>(null);
+    const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
+    const [backupInProgress, setBackupInProgress] = useState(false);
+    const [restoreInProgress, setRestoreInProgress] = useState(false);
+    const [isRestoreSuccess, setIsRestoreSuccess] = useState(false);
+    const [isErrorOccurred, setIsErrorOccurred] = useState(false);
+    const [isRestoreDialogOpen, setIsRestoreDialogOpen] = useState(false);
+    const [backupToRestore, setBackupToRestore] =
+        useState<BackupManifestDto | null>(null);
     const createBackup = useCreateBackup();
     const restoreBackup = useRestoreBackup();
 
@@ -56,18 +57,21 @@ export const Component = () => {
         setIsRestoreSuccess(false);
     }, []);
 
-    const onBackupCreate = useCallback((backupOptions: BackupOptionsDto) => {
-        setBackupInProgress(true);
-        setIsCreateFormOpen(false);
-        createBackup.mutate(backupOptions, {
-            onError: () => {
-                setIsErrorOccurred(true);
-            },
-            onSettled: () => {
-                setBackupInProgress(false);
-            }
-        });
-    }, [ createBackup ]);
+    const onBackupCreate = useCallback(
+        (backupOptions: BackupOptionsDto) => {
+            setBackupInProgress(true);
+            setIsCreateFormOpen(false);
+            createBackup.mutate(backupOptions, {
+                onError: () => {
+                    setIsErrorOccurred(true);
+                },
+                onSettled: () => {
+                    setBackupInProgress(false);
+                }
+            });
+        },
+        [createBackup]
+    );
 
     const promptRestore = useCallback((backup: BackupManifestDto) => {
         setIsRestoreDialogOpen(true);
@@ -99,7 +103,8 @@ export const Component = () => {
                         setRestoreInProgress(false);
                         setIsRestoreSuccess(true);
                         clearInterval(serverCheckInterval);
-                    }).catch(() => {
+                    })
+                    .catch(() => {
                         // Server is still down
                     });
             }, 5000);
@@ -145,7 +150,9 @@ export const Component = () => {
             />
             <Box className='content-primary'>
                 {isError ? (
-                    <Alert severity='error'>{globalize.translate('BackupsPageLoadError')}</Alert>
+                    <Alert severity='error'>
+                        {globalize.translate('BackupsPageLoadError')}
+                    </Alert>
                 ) : (
                     <Stack spacing={3}>
                         <Typography variant='h1'>
@@ -166,12 +173,14 @@ export const Component = () => {
                         <Box className='readOnlyContent'>
                             {backups.length > 0 && (
                                 <List sx={{ bgcolor: 'background.paper' }}>
-                                    {backups.map(backup => {
-                                        return <Backup
-                                            key={backup.Path}
-                                            backup={backup}
-                                            onRestore={promptRestore}
-                                        />;
+                                    {backups.map((backup) => {
+                                        return (
+                                            <Backup
+                                                key={backup.Path}
+                                                backup={backup}
+                                                onRestore={promptRestore}
+                                            />
+                                        );
                                     })}
                                 </List>
                             )}

@@ -14,22 +14,27 @@ import AppSyncPlayMenu, { ID } from './menus/SyncPlayMenu';
 const SyncPlayButton = () => {
     const { user } = useApi();
 
-    const [ syncPlayMenuAnchorEl, setSyncPlayMenuAnchorEl ] = useState<null | HTMLElement>(null);
+    const [syncPlayMenuAnchorEl, setSyncPlayMenuAnchorEl] =
+        useState<null | HTMLElement>(null);
     const isSyncPlayMenuOpen = Boolean(syncPlayMenuAnchorEl);
 
-    const onSyncPlayButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setSyncPlayMenuAnchorEl(event.currentTarget);
-    }, [ setSyncPlayMenuAnchorEl ]);
+    const onSyncPlayButtonClick = useCallback(
+        (event: React.MouseEvent<HTMLElement>) => {
+            setSyncPlayMenuAnchorEl(event.currentTarget);
+        },
+        [setSyncPlayMenuAnchorEl]
+    );
 
     const onSyncPlayMenuClose = useCallback(() => {
         setSyncPlayMenuAnchorEl(null);
-    }, [ setSyncPlayMenuAnchorEl ]);
+    }, [setSyncPlayMenuAnchorEl]);
 
     if (
         // SyncPlay not enabled for user
-        (user?.Policy && user.Policy.SyncPlayAccess === SyncPlayUserAccessType.None)
+        (user?.Policy &&
+            user.Policy.SyncPlayAccess === SyncPlayUserAccessType.None) ||
         // SyncPlay plugin is not loaded
-        || pluginManager.ofType(PluginType.SyncPlay).length === 0
+        pluginManager.ofType(PluginType.SyncPlay).length === 0
     ) {
         return null;
     }

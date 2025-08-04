@@ -17,27 +17,45 @@ const useLiveTasks = (params: ScheduledTasksApiGetTasksRequest) => {
 
     // TODO: Replace usage of the legacy apiclient when websocket support is added to the TS SDK.
     useEffect(() => {
-        const onScheduledTasksUpdate = (_e: Event, _apiClient: ApiClient, info: TaskInfo[]) => {
-            queryClient.setQueryData([ QUERY_KEY ], info);
+        const onScheduledTasksUpdate = (
+            _e: Event,
+            _apiClient: ApiClient,
+            info: TaskInfo[]
+        ) => {
+            queryClient.setQueryData([QUERY_KEY], info);
         };
 
         const fallbackInterval = setInterval(() => {
             if (!__legacyApiClient__?.isMessageChannelOpen()) {
                 void queryClient.invalidateQueries({
-                    queryKey: [ QUERY_KEY ]
+                    queryKey: [QUERY_KEY]
                 });
             }
         }, FALLBACK_POLL_INTERVAL_MS);
 
-        __legacyApiClient__?.sendMessage(SessionMessageType.ScheduledTasksInfoStart, '1000,1000');
-        Events.on(serverNotifications, SessionMessageType.ScheduledTasksInfo, onScheduledTasksUpdate);
+        __legacyApiClient__?.sendMessage(
+            SessionMessageType.ScheduledTasksInfoStart,
+            '1000,1000'
+        );
+        Events.on(
+            serverNotifications,
+            SessionMessageType.ScheduledTasksInfo,
+            onScheduledTasksUpdate
+        );
 
         return () => {
             clearInterval(fallbackInterval);
-            __legacyApiClient__?.sendMessage(SessionMessageType.ScheduledTasksInfoStop, null);
-            Events.off(serverNotifications, SessionMessageType.ScheduledTasksInfo, onScheduledTasksUpdate);
+            __legacyApiClient__?.sendMessage(
+                SessionMessageType.ScheduledTasksInfoStop,
+                null
+            );
+            Events.off(
+                serverNotifications,
+                SessionMessageType.ScheduledTasksInfo,
+                onScheduledTasksUpdate
+            );
         };
-    }, [ __legacyApiClient__ ]);
+    }, [__legacyApiClient__]);
 
     return tasksQuery;
 };

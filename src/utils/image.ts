@@ -73,20 +73,28 @@ export function getDeviceIcon(info: DeviceInfo | SessionInfo) {
         case 'Finamp':
             return BASE_DEVICE_IMAGE_URL + 'finamp.svg';
         case 'Jellyfin Web':
-            return getWebDeviceIcon((info as DeviceInfo).Name || (info as SessionInfo).DeviceName);
+            return getWebDeviceIcon(
+                (info as DeviceInfo).Name || (info as SessionInfo).DeviceName
+            );
         default:
             if (info.Capabilities?.IconUrl) {
                 try {
                     return new URL(info.Capabilities.IconUrl).toString();
                 } catch (err) {
-                    console.error('[getDeviceIcon] device capabilities has invalid IconUrl', info, err);
+                    console.error(
+                        '[getDeviceIcon] device capabilities has invalid IconUrl',
+                        info,
+                        err
+                    );
                 }
             }
             return BASE_DEVICE_IMAGE_URL + 'other.svg';
     }
 }
 
-export function getLibraryIcon(library: CollectionType | string | null | undefined) {
+export function getLibraryIcon(
+    library: CollectionType | string | null | undefined
+) {
     switch (library) {
         case CollectionType.Movies:
             return 'movie';
@@ -118,7 +126,10 @@ export function getLibraryIcon(library: CollectionType | string | null | undefin
     }
 }
 
-export function getItemTypeIcon(itemType: BaseItemKind | string | undefined, defaultIcon?: string) {
+export function getItemTypeIcon(
+    itemType: BaseItemKind | string | undefined,
+    defaultIcon?: string
+) {
     switch (itemType) {
         case BaseItemKind.MusicAlbum:
             return 'album';

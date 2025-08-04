@@ -1,3 +1,3 @@
 export interface RestoreViewFailResponse {
-    cancelled?: boolean
+    cancelled?: boolean;
 }

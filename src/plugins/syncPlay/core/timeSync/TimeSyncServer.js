@@ -16,19 +16,22 @@ class TimeSyncServer extends TimeSync {
         const apiClient = this.manager.getApiClient();
         const requestSent = new Date();
         let responseReceived;
-        return apiClient.getServerTime().then((response) => {
-            responseReceived = new Date();
-            return response.json();
-        }).then((data) => {
-            const requestReceived = new Date(data.RequestReceptionTime);
-            const responseSent = new Date(data.ResponseTransmissionTime);
-            return Promise.resolve({
-                requestSent: requestSent,
-                requestReceived: requestReceived,
-                responseSent: responseSent,
-                responseReceived: responseReceived
+        return apiClient
+            .getServerTime()
+            .then((response) => {
+                responseReceived = new Date();
+                return response.json();
+            })
+            .then((data) => {
+                const requestReceived = new Date(data.RequestReceptionTime);
+                const responseSent = new Date(data.ResponseTransmissionTime);
+                return Promise.resolve({
+                    requestSent: requestSent,
+                    requestReceived: requestReceived,
+                    responseSent: responseSent,
+                    responseReceived: responseReceived
+                });
             });
-        });
     }
 }
 

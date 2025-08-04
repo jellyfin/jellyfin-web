@@ -78,7 +78,15 @@ _ButtonPressedState.getgamepadA = function () {
 };
 
 _ButtonPressedState.setgamepadA = function (newPressedState) {
-    const newPressedEvent = raiseKeyEvent(_gamepadAPressed, newPressedState, _GAMEPAD_A_KEY, _GAMEPAD_A_KEYCODE, false, true, _gamepadADownEvent);
+    const newPressedEvent = raiseKeyEvent(
+        _gamepadAPressed,
+        newPressedState,
+        _GAMEPAD_A_KEY,
+        _GAMEPAD_A_KEYCODE,
+        false,
+        true,
+        _gamepadADownEvent
+    );
     _gamepadAPressed = newPressedState;
 
     if (!newPressedState) {
@@ -94,7 +102,12 @@ _ButtonPressedState.getgamepadB = function () {
 };
 
 _ButtonPressedState.setgamepadB = function (newPressedState) {
-    raiseKeyEvent(_gamepadBPressed, newPressedState, _GAMEPAD_B_KEY, _GAMEPAD_B_KEYCODE);
+    raiseKeyEvent(
+        _gamepadBPressed,
+        newPressedState,
+        _GAMEPAD_B_KEY,
+        _GAMEPAD_B_KEYCODE
+    );
     _gamepadBPressed = newPressedState;
 };
 
@@ -103,7 +116,13 @@ _ButtonPressedState.getleftThumbstickUp = function () {
 };
 
 _ButtonPressedState.setleftThumbstickUp = function (newPressedState) {
-    raiseKeyEvent(_leftThumbstickUpPressed, newPressedState, _GAMEPAD_LEFT_THUMBSTICK_UP_KEY, _GAMEPAD_LEFT_THUMBSTICK_UP_KEYCODE, true);
+    raiseKeyEvent(
+        _leftThumbstickUpPressed,
+        newPressedState,
+        _GAMEPAD_LEFT_THUMBSTICK_UP_KEY,
+        _GAMEPAD_LEFT_THUMBSTICK_UP_KEYCODE,
+        true
+    );
     _leftThumbstickUpPressed = newPressedState;
 };
 
@@ -112,7 +131,13 @@ _ButtonPressedState.getleftThumbstickDown = function () {
 };
 
 _ButtonPressedState.setleftThumbstickDown = function (newPressedState) {
-    raiseKeyEvent(_leftThumbstickDownPressed, newPressedState, _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY, _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEYCODE, true);
+    raiseKeyEvent(
+        _leftThumbstickDownPressed,
+        newPressedState,
+        _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY,
+        _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEYCODE,
+        true
+    );
     _leftThumbstickDownPressed = newPressedState;
 };
 
@@ -121,7 +146,13 @@ _ButtonPressedState.getleftThumbstickLeft = function () {
 };
 
 _ButtonPressedState.setleftThumbstickLeft = function (newPressedState) {
-    raiseKeyEvent(_leftThumbstickLeftPressed, newPressedState, _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY, _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEYCODE, true);
+    raiseKeyEvent(
+        _leftThumbstickLeftPressed,
+        newPressedState,
+        _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY,
+        _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEYCODE,
+        true
+    );
     _leftThumbstickLeftPressed = newPressedState;
 };
 
@@ -130,7 +161,13 @@ _ButtonPressedState.getleftThumbstickRight = function () {
 };
 
 _ButtonPressedState.setleftThumbstickRight = function (newPressedState) {
-    raiseKeyEvent(_leftThumbstickRightPressed, newPressedState, _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY, _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEYCODE, true);
+    raiseKeyEvent(
+        _leftThumbstickRightPressed,
+        newPressedState,
+        _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY,
+        _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEYCODE,
+        true
+    );
     _leftThumbstickRightPressed = newPressedState;
 };
 
@@ -139,7 +176,13 @@ _ButtonPressedState.getdPadUp = function () {
 };
 
 _ButtonPressedState.setdPadUp = function (newPressedState) {
-    raiseKeyEvent(_dPadUpPressed, newPressedState, _GAMEPAD_DPAD_UP_KEY, _GAMEPAD_DPAD_UP_KEYCODE, true);
+    raiseKeyEvent(
+        _dPadUpPressed,
+        newPressedState,
+        _GAMEPAD_DPAD_UP_KEY,
+        _GAMEPAD_DPAD_UP_KEYCODE,
+        true
+    );
     _dPadUpPressed = newPressedState;
 };
 
@@ -148,7 +191,13 @@ _ButtonPressedState.getdPadDown = function () {
 };
 
 _ButtonPressedState.setdPadDown = function (newPressedState) {
-    raiseKeyEvent(_dPadDownPressed, newPressedState, _GAMEPAD_DPAD_DOWN_KEY, _GAMEPAD_DPAD_DOWN_KEYCODE, true);
+    raiseKeyEvent(
+        _dPadDownPressed,
+        newPressedState,
+        _GAMEPAD_DPAD_DOWN_KEY,
+        _GAMEPAD_DPAD_DOWN_KEYCODE,
+        true
+    );
     _dPadDownPressed = newPressedState;
 };
 
@@ -157,7 +206,13 @@ _ButtonPressedState.getdPadLeft = function () {
 };
 
 _ButtonPressedState.setdPadLeft = function (newPressedState) {
-    raiseKeyEvent(_dPadLeftPressed, newPressedState, _GAMEPAD_DPAD_LEFT_KEY, _GAMEPAD_DPAD_LEFT_KEYCODE, true);
+    raiseKeyEvent(
+        _dPadLeftPressed,
+        newPressedState,
+        _GAMEPAD_DPAD_LEFT_KEY,
+        _GAMEPAD_DPAD_LEFT_KEYCODE,
+        true
+    );
     _dPadLeftPressed = newPressedState;
 };
 
@@ -166,7 +221,13 @@ _ButtonPressedState.getdPadRight = function () {
 };
 
 _ButtonPressedState.setdPadRight = function (newPressedState) {
-    raiseKeyEvent(_dPadRightPressed, newPressedState, _GAMEPAD_DPAD_RIGHT_KEY, _GAMEPAD_DPAD_RIGHT_KEYCODE, true);
+    raiseKeyEvent(
+        _dPadRightPressed,
+        newPressedState,
+        _GAMEPAD_DPAD_RIGHT_KEY,
+        _GAMEPAD_DPAD_RIGHT_KEYCODE,
+        true
+    );
     _dPadRightPressed = newPressedState;
 };
 
@@ -176,7 +237,7 @@ function throttle(key) {
     const time = times[key] || 0;
     const now = new Date().getTime();
 
-    return (now - time) >= 200;
+    return now - time >= 200;
 }
 
 function resetThrottle(key) {
@@ -214,7 +275,15 @@ function clickElement(elem) {
     elem.click();
 }
 
-function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRepeatKeyDown, clickonKeyUp, oldPressedEvent) {
+function raiseKeyEvent(
+    oldPressedState,
+    newPressedState,
+    key,
+    keyCode,
+    enableRepeatKeyDown,
+    clickonKeyUp,
+    oldPressedEvent
+) {
     let newPressedEvent = null;
 
     // No-op if oldPressedState === newPressedState
@@ -240,7 +309,11 @@ function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRep
         if (keyCode) {
             newPressedEvent = raiseEvent('keyup', key, keyCode);
         }
-        if (clickonKeyUp && !oldPressedEvent?.defaultPrevented && !newPressedEvent?.defaultPrevented) {
+        if (
+            clickonKeyUp &&
+            !oldPressedEvent?.defaultPrevented &&
+            !newPressedEvent?.defaultPrevented
+        ) {
             clickElement(document.activeElement || window);
         }
     }
@@ -251,7 +324,8 @@ function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRep
 let inputLoopTimer;
 function runInputLoop() {
     // Get the latest gamepad state.
-    const gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
+    const gamepads =
+        navigator.getGamepads(); /* eslint-disable-line compat/compat */
     for (let i = 0, len = gamepads.length; i < len; i++) {
         const gamepad = gamepads[i];
         if (!gamepad) {
@@ -261,13 +335,17 @@ function runInputLoop() {
         const axes = gamepad.axes;
         const leftStickX = axes[0];
         const leftStickY = axes[1];
-        if (leftStickX > _THUMB_STICK_THRESHOLD) { // Right
+        if (leftStickX > _THUMB_STICK_THRESHOLD) {
+            // Right
             _ButtonPressedState.setleftThumbstickRight(true);
-        } else if (leftStickX < -_THUMB_STICK_THRESHOLD) { // Left
+        } else if (leftStickX < -_THUMB_STICK_THRESHOLD) {
+            // Left
             _ButtonPressedState.setleftThumbstickLeft(true);
-        } else if (leftStickY < -_THUMB_STICK_THRESHOLD) { // Up
+        } else if (leftStickY < -_THUMB_STICK_THRESHOLD) {
+            // Up
             _ButtonPressedState.setleftThumbstickUp(true);
-        } else if (leftStickY > _THUMB_STICK_THRESHOLD) { // Down
+        } else if (leftStickY > _THUMB_STICK_THRESHOLD) {
+            // Down
             _ButtonPressedState.setleftThumbstickDown(true);
         } else {
             _ButtonPressedState.setleftThumbstickLeft(false);
@@ -359,7 +437,8 @@ function stopInputLoop() {
 }
 
 function isGamepadConnected() {
-    const gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
+    const gamepads =
+        navigator.getGamepads(); /* eslint-disable-line compat/compat */
     for (let i = 0, len = gamepads.length; i < len; i++) {
         const gamepad = gamepads[i];
         if (gamepad?.connected) {
@@ -378,10 +457,14 @@ function onFocusOrGamepadAttach() {
 
 function onFocusOrGamepadDetach() {
     if (!isGamepadConnected() || !document.hasFocus()) {
-        console.log('Gamepad disconnected! No other gamepads are connected, stopping input loop');
+        console.log(
+            'Gamepad disconnected! No other gamepads are connected, stopping input loop'
+        );
         stopInputLoop();
     } else {
-        console.log('Gamepad disconnected! There are gamepads still connected.');
+        console.log(
+            'Gamepad disconnected! There are gamepads still connected.'
+        );
     }
 }
 
@@ -395,7 +478,10 @@ onFocusOrGamepadAttach();
 
 // The gamepadInputEmulation is a string property that exists in JavaScript UWAs and in WebViews in UWAs.
 // It won't exist in Win8.1 style apps or browsers.
-if (window.navigator && typeof window.navigator.gamepadInputEmulation === 'string') {
+if (
+    window.navigator &&
+    typeof window.navigator.gamepadInputEmulation === 'string'
+) {
     // We want the gamepad to provide gamepad VK keyboard events rather than moving a
     // mouse like cursor. Set to "keyboard", the gamepad will provide such keyboard events
     // and provide input to the DOM navigator.getGamepads API.

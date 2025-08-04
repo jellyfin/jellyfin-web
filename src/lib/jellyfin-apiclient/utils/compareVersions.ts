@@ -5,7 +5,11 @@ export function compareVersions(a: string = '', b: string = '') {
     const aParts = a.split('.');
     const bParts = b.split('.');
 
-    for (let i = 0, length = Math.max(aParts.length, bParts.length); i < length; i++) {
+    for (
+        let i = 0, length = Math.max(aParts.length, bParts.length);
+        i < length;
+        i++
+    ) {
         const aVal = parseInt(aParts[i] || '0', 10);
         const bVal = parseInt(bParts[i] || '0', 10);
 

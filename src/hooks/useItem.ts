@@ -12,8 +12,10 @@ const fetchItem = async (
     userId: string,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getUserLibraryApi(api)
-        .getItem({ userId, itemId }, options);
+    const response = await getUserLibraryApi(api).getItem(
+        { userId, itemId },
+        options
+    );
     return response.data as ItemDto;
 };
 
@@ -21,16 +23,15 @@ export const getItemQuery = (
     api: Api | undefined,
     itemId?: string,
     userId?: string
-) => queryOptions({
-    queryKey: [ 'User', userId, 'Items', itemId ],
-    queryFn: ({ signal }) => fetchItem(api!, itemId!, userId!, { signal }),
-    staleTime: 1000, // 1 second
-    enabled: !!api && !!userId && !!itemId
-});
+) =>
+    queryOptions({
+        queryKey: ['User', userId, 'Items', itemId],
+        queryFn: ({ signal }) => fetchItem(api!, itemId!, userId!, { signal }),
+        staleTime: 1000, // 1 second
+        enabled: !!api && !!userId && !!itemId
+    });
 
-export const useItem = (
-    itemId?: string
-) => {
+export const useItem = (itemId?: string) => {
     const apiContext = useApi();
     const { api, user } = apiContext;
     return useQuery(getItemQuery(api, itemId, user?.Id));

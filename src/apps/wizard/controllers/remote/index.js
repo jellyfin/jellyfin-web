@@ -13,15 +13,17 @@ function save(page) {
         EnableRemoteAccess: page.querySelector('#chkRemoteAccess').checked
     };
 
-    apiClient.ajax({
-        type: 'POST',
-        data: JSON.stringify(config),
-        url: apiClient.getUrl('Startup/RemoteAccess'),
-        contentType: 'application/json'
-    }).then(function () {
-        loading.hide();
-        navigateToNextPage();
-    });
+    apiClient
+        .ajax({
+            type: 'POST',
+            data: JSON.stringify(config),
+            url: apiClient.getUrl('Startup/RemoteAccess'),
+            contentType: 'application/json'
+        })
+        .then(function () {
+            loading.hide();
+            navigateToNextPage();
+        });
 }
 
 function navigateToNextPage() {
@@ -35,11 +37,18 @@ function onSubmit(e) {
 }
 
 export default function (view) {
-    view.querySelector('.wizardSettingsForm').addEventListener('submit', onSubmit);
+    view.querySelector('.wizardSettingsForm').addEventListener(
+        'submit',
+        onSubmit
+    );
     view.addEventListener('viewshow', function () {
-        document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
+        document
+            .querySelector('.skinHeader')
+            .classList.add('noHomeButtonHeader');
     });
     view.addEventListener('viewhide', function () {
-        document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
+        document
+            .querySelector('.skinHeader')
+            .classList.remove('noHomeButtonHeader');
     });
 }

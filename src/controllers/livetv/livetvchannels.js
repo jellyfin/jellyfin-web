@@ -91,27 +91,41 @@ export default function (view, params, tabContent) {
         let length;
         let elems;
 
-        for (elems = context.querySelectorAll('.btnNextPage'), i = 0, length = elems.length; i < length; i++) {
+        for (
+            elems = context.querySelectorAll('.btnNextPage'),
+                i = 0,
+                length = elems.length;
+            i < length;
+            i++
+        ) {
             elems[i].addEventListener('click', onNextPageClick);
         }
 
-        for (elems = context.querySelectorAll('.btnPreviousPage'), i = 0, length = elems.length; i < length; i++) {
+        for (
+            elems = context.querySelectorAll('.btnPreviousPage'),
+                i = 0,
+                length = elems.length;
+            i < length;
+            i++
+        ) {
             elems[i].addEventListener('click', onPreviousPageClick);
         }
     }
 
     function showFilterMenu(context) {
-        import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
-            const filterDialog = new FilterDialog({
-                query: getQuery(),
-                mode: 'livetvchannels',
-                serverId: ApiClient.serverId()
-            });
-            Events.on(filterDialog, 'filterchange', function () {
-                reloadItems(context);
-            });
-            filterDialog.show();
-        });
+        import('../../components/filterdialog/filterdialog').then(
+            ({ default: FilterDialog }) => {
+                const filterDialog = new FilterDialog({
+                    query: getQuery(),
+                    mode: 'livetvchannels',
+                    serverId: ApiClient.serverId()
+                });
+                Events.on(filterDialog, 'filterchange', function () {
+                    reloadItems(context);
+                });
+                filterDialog.show();
+            }
+        );
     }
 
     function reloadItems(context) {
@@ -127,18 +141,22 @@ export default function (view, params, tabContent) {
             loading.hide();
             isLoading = false;
 
-            import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-                autoFocuser.autoFocus(context);
-            });
+            import('../../components/autoFocuser').then(
+                ({ default: autoFocuser }) => {
+                    autoFocuser.autoFocus(context);
+                }
+            );
         });
     }
 
     let pageData;
     const self = this;
     let isLoading = false;
-    tabContent.querySelector('.btnFilter').addEventListener('click', function () {
-        showFilterMenu(tabContent);
-    });
+    tabContent
+        .querySelector('.btnFilter')
+        .addEventListener('click', function () {
+            showFilterMenu(tabContent);
+        });
 
     self.renderTab = function () {
         reloadItems(tabContent);

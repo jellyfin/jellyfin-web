@@ -23,8 +23,10 @@ export const Component = () => {
     const theme = useTheme();
     const isMedium = useMediaQuery(theme.breakpoints.only('md'));
     const isExtraLarge = useMediaQuery(theme.breakpoints.only('xl'));
-    const [ isRestartConfirmDialogOpen, setIsRestartConfirmDialogOpen ] = useState(false);
-    const [ isShutdownConfirmDialogOpen, setIsShutdownConfirmDialogOpen ] = useState(false);
+    const [isRestartConfirmDialogOpen, setIsRestartConfirmDialogOpen] =
+        useState(false);
+    const [isShutdownConfirmDialogOpen, setIsShutdownConfirmDialogOpen] =
+        useState(false);
     const startTask = useStartTask();
     const restartServer = useRestartServer();
     const shutdownServer = useShutdownServer();
@@ -48,24 +50,26 @@ export const Component = () => {
     }, []);
 
     const onScanLibraries = useCallback(() => {
-        const scanLibrariesTask = tasks?.find((value) => value.Key === 'RefreshLibrary');
+        const scanLibrariesTask = tasks?.find(
+            (value) => value.Key === 'RefreshLibrary'
+        );
 
         if (scanLibrariesTask?.Id) {
             startTask.mutate({
                 taskId: scanLibrariesTask.Id
             });
         }
-    }, [ startTask, tasks ]);
+    }, [startTask, tasks]);
 
     const onRestartConfirm = useCallback(() => {
         restartServer.mutate();
         setIsRestartConfirmDialogOpen(false);
-    }, [ restartServer ]);
+    }, [restartServer]);
 
     const onShutdownConfirm = useCallback(() => {
         shutdownServer.mutate();
         setIsShutdownConfirmDialogOpen(false);
-    }, [ shutdownServer ]);
+    }, [shutdownServer]);
 
     return (
         <Page

@@ -14,11 +14,7 @@ const DrawerHeaderLink = () => {
     return (
         <ListItemLink to='/'>
             <ListItemIcon sx={{ minWidth: 56 }}>
-                <Box
-                    component='img'
-                    src={appIcon}
-                    sx={{ height: '2.5rem' }}
-                />
+                <Box component='img' src={appIcon} sx={{ height: '2.5rem' }} />
             </ListItemIcon>
             <ListItemText
                 primary={systemInfo?.ServerName || 'Jellyfin'}
@@ -27,7 +23,8 @@ const DrawerHeaderLink = () => {
                     primary: { variant: 'h6' }
                 }}
             />
-        </ListItemLink>);
+        </ListItemLink>
+    );
 };
 
 export default DrawerHeaderLink;

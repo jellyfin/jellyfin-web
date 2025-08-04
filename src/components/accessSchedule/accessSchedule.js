@@ -47,7 +47,10 @@ function submitSchedule(context, options) {
         EndHour: context.querySelector('#selectEnd').value
     };
 
-    if (parseFloat(updatedSchedule.StartHour) >= parseFloat(updatedSchedule.EndHour)) {
+    if (
+        parseFloat(updatedSchedule.StartHour) >=
+        parseFloat(updatedSchedule.EndHour)
+    ) {
         alert(globalize.translate('ErrorStartHourGreaterThanEnd'));
         return;
     }
@@ -80,7 +83,7 @@ export function show(options) {
         dlg.querySelector('.btnCancel').addEventListener('click', () => {
             dialogHelper.close(dlg);
         });
-        dlg.querySelector('form').addEventListener('submit', event => {
+        dlg.querySelector('form').addEventListener('submit', (event) => {
             submitSchedule(dlg, options);
             event.preventDefault();
             return false;

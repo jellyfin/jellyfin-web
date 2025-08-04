@@ -10,10 +10,10 @@ import LibraryIcon from 'apps/experimental/components/LibraryIcon';
 import { appRouter } from 'components/router/appRouter';
 
 interface UserViewsMenuProps extends MenuProps {
-    userViews: BaseItemDto[]
-    selectedId?: string
-    includeGlobalViews?: boolean
-    onMenuClose: () => void
+    userViews: BaseItemDto[];
+    selectedId?: string;
+    includeGlobalViews?: boolean;
+    onMenuClose: () => void;
 }
 
 const UserViewsMenu: FC<UserViewsMenuProps> = ({
@@ -23,25 +23,21 @@ const UserViewsMenu: FC<UserViewsMenuProps> = ({
     ...props
 }) => {
     return (
-        <Menu
-            {...props}
-            keepMounted
-            onClose={onMenuClose}
-        >
-            {userViews.map(view => (
+        <Menu {...props} keepMounted onClose={onMenuClose}>
+            {userViews.map((view) => (
                 <MenuItem
                     key={view.Id}
                     component={Link}
-                    to={appRouter.getRouteUrl(view, { context: view.CollectionType }).substring(1)}
+                    to={appRouter
+                        .getRouteUrl(view, { context: view.CollectionType })
+                        .substring(1)}
                     onClick={onMenuClose}
                     selected={view.Id === selectedId}
                 >
                     <ListItemIcon>
                         <LibraryIcon item={view} />
                     </ListItemIcon>
-                    <ListItemText>
-                        {view.Name}
-                    </ListItemText>
+                    <ListItemText>{view.Name}</ListItemText>
                 </MenuItem>
             ))}
         </Menu>

@@ -35,7 +35,10 @@ function getItemsToResumeFn(
             MediaTypes: mediaType
         };
 
-        return apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
+        return apiClient.getResumableItems(
+            apiClient.getCurrentUserId(),
+            options
+        );
     };
 }
 
@@ -50,9 +53,10 @@ function getItemsToResumeHtmlFn(
             items: items,
             preferThumb: true,
             inheritThumb: !useEpisodeImages,
-            shape: (mediaType === 'Book') ?
-                getPortraitShape(enableOverflow) :
-                getBackdropShape(enableOverflow),
+            shape:
+                mediaType === 'Book'
+                    ? getPortraitShape(enableOverflow)
+                    : getBackdropShape(enableOverflow),
             overlayText: false,
             showTitle: true,
             showParentTitle: true,
@@ -81,9 +85,13 @@ export function loadResume(
 
     const dataMonitor = dataMonitorHints[mediaType] ?? 'markplayed';
 
-    html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate(titleLabel) + '</h2>';
+    html +=
+        '<h2 class="sectionTitle sectionTitle-cards padded-left">' +
+        globalize.translate(titleLabel) +
+        '</h2>';
     if (options.enableOverflow) {
-        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+        html +=
+            '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
         html += `<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="${dataMonitor}">`;
     } else {
         html += `<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="${dataMonitor}">`;
@@ -97,9 +105,18 @@ export function loadResume(
     elem.classList.add('hide');
     elem.innerHTML = html;
 
-    const itemsContainer: SectionContainerElement | null = elem.querySelector('.itemsContainer');
+    const itemsContainer: SectionContainerElement | null =
+        elem.querySelector('.itemsContainer');
     if (!itemsContainer) return;
-    itemsContainer.fetchData = getItemsToResumeFn(mediaType, apiClient.serverId(), options);
-    itemsContainer.getItemsHtml = getItemsToResumeHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume(), mediaType, options);
+    itemsContainer.fetchData = getItemsToResumeFn(
+        mediaType,
+        apiClient.serverId(),
+        options
+    );
+    itemsContainer.getItemsHtml = getItemsToResumeHtmlFn(
+        userSettings.useEpisodeImagesInNextUpAndResume(),
+        mediaType,
+        options
+    );
     itemsContainer.parentContainer = elem;
 }

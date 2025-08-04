@@ -16,15 +16,15 @@ import { enable, isEnabled } from 'scripts/autocast';
 import globalize from 'lib/globalize';
 
 interface RemotePlayActiveMenuProps extends MenuProps {
-    onMenuClose: () => void
+    onMenuClose: () => void;
     playerInfo: {
-        name: string
-        isLocalPlayer: boolean
-        id?: string
-        deviceName?: string
-        playableMediaTypes?: string[]
-        supportedCommands?: string[]
-    } | null
+        name: string;
+        isLocalPlayer: boolean;
+        id?: string;
+        deviceName?: string;
+        playableMediaTypes?: string[];
+        supportedCommands?: string[];
+    } | null;
 }
 
 export const ID = 'app-remote-play-active-menu';
@@ -35,49 +35,62 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
     onMenuClose,
     playerInfo
 }) => {
-    const [ isDisplayMirrorEnabled, setIsDisplayMirrorEnabled ] = useState(playbackManager.enableDisplayMirroring());
-    const isDisplayMirrorSupported = playerInfo?.supportedCommands && playerInfo.supportedCommands.indexOf('DisplayContent') !== -1;
+    const [isDisplayMirrorEnabled, setIsDisplayMirrorEnabled] = useState(
+        playbackManager.enableDisplayMirroring()
+    );
+    const isDisplayMirrorSupported =
+        playerInfo?.supportedCommands &&
+        playerInfo.supportedCommands.indexOf('DisplayContent') !== -1;
     const toggleDisplayMirror = useCallback(() => {
         playbackManager.enableDisplayMirroring(!isDisplayMirrorEnabled);
         setIsDisplayMirrorEnabled(!isDisplayMirrorEnabled);
-    }, [ isDisplayMirrorEnabled, setIsDisplayMirrorEnabled ]);
+    }, [isDisplayMirrorEnabled, setIsDisplayMirrorEnabled]);
 
-    const [ isAutoCastEnabled, setIsAutoCastEnabled ] = useState(isEnabled());
+    const [isAutoCastEnabled, setIsAutoCastEnabled] = useState(isEnabled());
     const toggleAutoCast = useCallback(() => {
         enable(!isAutoCastEnabled);
         setIsAutoCastEnabled(!isAutoCastEnabled);
-    }, [ isAutoCastEnabled ]);
+    }, [isAutoCastEnabled]);
 
     const remotePlayerName = playerInfo?.deviceName || playerInfo?.name;
 
     const disconnectRemotePlayer = useCallback(() => {
-        if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
-            dialog.show({
-                buttons: [
-                    {
-                        name: globalize.translate('Yes'),
-                        id: 'yes'
-                    }, {
-                        name: globalize.translate('No'),
-                        id: 'no'
-                    }
-                ],
-                text: globalize.translate('ConfirmEndPlayerSession', remotePlayerName)
-            }).then(id => {
-                onMenuClose();
+        if (
+            playbackManager.getSupportedCommands().indexOf('EndSession') !== -1
+        ) {
+            dialog
+                .show({
+                    buttons: [
+                        {
+                            name: globalize.translate('Yes'),
+                            id: 'yes'
+                        },
+                        {
+                            name: globalize.translate('No'),
+                            id: 'no'
+                        }
+                    ],
+                    text: globalize.translate(
+                        'ConfirmEndPlayerSession',
+                        remotePlayerName
+                    )
+                })
+                .then((id) => {
+                    onMenuClose();
 
-                if (id === 'yes') {
-                    playbackManager.getCurrentPlayer().endSession();
-                }
-                playbackManager.setDefaultPlayerActive();
-            }).catch(() => {
-            // Dialog closed
-            });
+                    if (id === 'yes') {
+                        playbackManager.getCurrentPlayer().endSession();
+                    }
+                    playbackManager.setDefaultPlayerActive();
+                })
+                .catch(() => {
+                    // Dialog closed
+                });
         } else {
             onMenuClose();
             playbackManager.setDefaultPlayerActive();
         }
-    }, [ onMenuClose, remotePlayerName ]);
+    }, [onMenuClose, remotePlayerName]);
 
     return (
         <Menu
@@ -98,7 +111,10 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
                 list: {
                     'aria-labelledby': 'remote-play-active-subheader',
                     subheader: (
-                        <ListSubheader component='div' id='remote-play-active-subheader'>
+                        <ListSubheader
+                            component='div'
+                            id='remote-play-active-subheader'
+                        >
                             {remotePlayerName}
                         </ListSubheader>
                     )
@@ -131,11 +147,7 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
 
             <Divider />
 
-            <MenuItem
-                component={Link}
-                to='/queue'
-                onClick={onMenuClose}
-            >
+            <MenuItem component={Link} to='/queue' onClick={onMenuClose}>
                 <ListItemIcon>
                     <SettingsRemote />
                 </ListItemIcon>
@@ -148,9 +160,7 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
                 <ListItemIcon>
                     <Close />
                 </ListItemIcon>
-                <ListItemText>
-                    {globalize.translate('Disconnect')}
-                </ListItemText>
+                <ListItemText>{globalize.translate('Disconnect')}</ListItemText>
             </MenuItem>
         </Menu>
     );

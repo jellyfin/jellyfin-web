@@ -12,12 +12,16 @@ class HomeView extends TabbedView {
 
     onPause() {
         super.onPause(this);
-        document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
+        document
+            .querySelector('.skinHeader')
+            .classList.remove('noHomeButtonHeader');
     }
 
     onResume(options) {
         super.onResume(this, options);
-        document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
+        document
+            .querySelector('.skinHeader')
+            .classList.add('noHomeButtonHeader');
     }
 
     getDefaultTabIndex() {
@@ -25,11 +29,14 @@ class HomeView extends TabbedView {
     }
 
     getTabs() {
-        return [{
-            name: globalize.translate('Home')
-        }, {
-            name: globalize.translate('Favorites')
-        }];
+        return [
+            {
+                name: globalize.translate('Home')
+            },
+            {
+                name: globalize.translate('Favorites')
+            }
+        ];
     }
 
     getTabController(index) {
@@ -49,11 +56,18 @@ class HomeView extends TabbedView {
         }
 
         const instance = this;
-        return import(/* webpackChunkName: "[request]" */ `../controllers/${depends}`).then(({ default: ControllerFactory }) => {
+        return import(
+            /* webpackChunkName: "[request]" */ `../controllers/${depends}`
+        ).then(({ default: ControllerFactory }) => {
             let controller = instance.tabControllers[index];
 
             if (!controller) {
-                controller = new ControllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);
+                controller = new ControllerFactory(
+                    instance.view.querySelector(
+                        ".tabContent[data-index='" + index + "']"
+                    ),
+                    instance.params
+                );
                 instance.tabControllers[index] = controller;
             }
 

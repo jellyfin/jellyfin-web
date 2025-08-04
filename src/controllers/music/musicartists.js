@@ -70,9 +70,10 @@ export default function (view, params, tabContent, options) {
         const query = getQuery();
         setFilterStatus(tabContent, query);
 
-        const promise = options.mode == 'albumartists' ?
-            ApiClient.getAlbumArtists(ApiClient.getCurrentUserId(), query) :
-            ApiClient.getArtists(ApiClient.getCurrentUserId(), query);
+        const promise =
+            options.mode == 'albumartists'
+                ? ApiClient.getAlbumArtists(ApiClient.getCurrentUserId(), query)
+                : ApiClient.getArtists(ApiClient.getCurrentUserId(), query);
         promise.then((result) => {
             function onNextPageClick() {
                 if (isLoading) {
@@ -91,7 +92,10 @@ export default function (view, params, tabContent, options) {
                 }
 
                 if (userSettings.libraryPageSize() > 0) {
-                    query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                    query.StartIndex = Math.max(
+                        0,
+                        query.StartIndex - query.Limit
+                    );
                 }
                 reloadItems();
             }
@@ -159,9 +163,11 @@ export default function (view, params, tabContent, options) {
             loading.hide();
             isLoading = false;
 
-            import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-                autoFocuser.autoFocus(tabContent);
-            });
+            import('../../components/autoFocuser').then(
+                ({ default: autoFocuser }) => {
+                    autoFocuser.autoFocus(tabContent);
+                }
+            );
         });
     };
 
@@ -169,18 +175,20 @@ export default function (view, params, tabContent, options) {
     let isLoading = false;
 
     this.showFilterMenu = function () {
-        import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
-            const filterDialog = new FilterDialog({
-                query: getQuery(),
-                mode: options.mode,
-                serverId: ApiClient.serverId()
-            });
-            Events.on(filterDialog, 'filterchange', function () {
-                getQuery().StartIndex = 0;
-                reloadItems();
-            });
-            filterDialog.show();
-        });
+        import('../../components/filterdialog/filterdialog').then(
+            ({ default: FilterDialog }) => {
+                const filterDialog = new FilterDialog({
+                    query: getQuery(),
+                    mode: options.mode,
+                    serverId: ApiClient.serverId()
+                });
+                Events.on(filterDialog, 'filterchange', function () {
+                    getQuery().StartIndex = 0;
+                    reloadItems();
+                });
+                filterDialog.show();
+            }
+        );
     };
 
     this.getCurrentViewStyle = function () {
@@ -209,7 +217,9 @@ export default function (view, params, tabContent, options) {
             valueChangeEvent: 'click'
         });
 
-        tabElement.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
+        tabElement
+            .querySelector('.alphaPicker')
+            .classList.add('alphabetPicker-right');
         alphaPickerElement.classList.add('alphaPicker-fixed-right');
         itemsContainer.classList.add('padded-right-withalphapicker');
 
@@ -218,7 +228,11 @@ export default function (view, params, tabContent, options) {
         });
         const btnSelectView = tabElement.querySelector('.btnSelectView');
         btnSelectView.addEventListener('click', (e) => {
-            libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
+            libraryBrowser.showLayoutMenu(
+                e.target,
+                this.getCurrentViewStyle(),
+                'List,Poster,PosterCard'.split(',')
+            );
         });
         btnSelectView.addEventListener('layoutchange', function (e) {
             const viewStyle = e.detail.viewStyle;
@@ -238,4 +252,3 @@ export default function (view, params, tabContent, options) {
         this.alphaPicker?.updateControls(getQuery());
     };
 }
-

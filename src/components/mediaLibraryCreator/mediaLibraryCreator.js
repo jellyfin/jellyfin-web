@@ -1,4 +1,3 @@
-
 /**
  * Module for media library creator.
  * @module components/mediaLibraryCreator/mediaLibraryCreator
@@ -61,35 +60,52 @@ function onAddLibrary(e) {
         type = null;
     }
 
-    const libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
+    const libraryOptions = libraryoptionseditor.getLibraryOptions(
+        dlg.querySelector('.libraryOptions')
+    );
     libraryOptions.PathInfos = pathInfos;
-    ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(() => {
-        hasChanges = true;
-        isCreating = false;
-        loading.hide();
-        dialogHelper.close(dlg);
-    }, () => {
-        toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
+    ApiClient.addVirtualFolder(
+        name,
+        type,
+        currentOptions.refresh,
+        libraryOptions
+    ).then(
+        () => {
+            hasChanges = true;
+            isCreating = false;
+            loading.hide();
+            dialogHelper.close(dlg);
+        },
+        () => {
+            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
 
-        isCreating = false;
-        loading.hide();
-    });
+            isCreating = false;
+            loading.hide();
+        }
+    );
 }
 
 function getCollectionTypeOptionsHtml(collectionTypeOptions) {
-    return collectionTypeOptions.map(i => {
-        return `<option value="${i.value}">${i.name}</option>`;
-    }).join('');
+    return collectionTypeOptions
+        .map((i) => {
+            return `<option value="${i.value}">${i.name}</option>`;
+        })
+        .join('');
 }
 
 function initEditor(page, collectionTypeOptions) {
     const selectCollectionType = page.querySelector('#selectCollectionType');
-    selectCollectionType.innerHTML = getCollectionTypeOptionsHtml(collectionTypeOptions);
+    selectCollectionType.innerHTML = getCollectionTypeOptionsHtml(
+        collectionTypeOptions
+    );
     selectCollectionType.value = '';
     selectCollectionType.addEventListener('change', function () {
         const value = this.value;
         const dlg = dom.parentWithClass(this, 'dialog');
-        libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value);
+        libraryoptionseditor.setContentType(
+            dlg.querySelector('.libraryOptions'),
+            value
+        );
 
         if (value) {
             dlg.querySelector('.libraryOptions').classList.remove('hide');
@@ -108,29 +124,40 @@ function initEditor(page, collectionTypeOptions) {
             }
         }
 
-        const folderOption = collectionTypeOptions.find(i => i.value === value);
-        dlg.querySelector('.collectionTypeFieldDescription').innerHTML = folderOption?.message || '';
+        const folderOption = collectionTypeOptions.find(
+            (i) => i.value === value
+        );
+        dlg.querySelector('.collectionTypeFieldDescription').innerHTML =
+            folderOption?.message || '';
     });
-    page.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
-    page.querySelector('.addLibraryForm').addEventListener('submit', onAddLibrary);
+    page.querySelector('.btnAddFolder').addEventListener(
+        'click',
+        onAddButtonClick
+    );
+    page.querySelector('.addLibraryForm').addEventListener(
+        'submit',
+        onAddLibrary
+    );
     page.querySelector('.folderList').addEventListener('click', onRemoveClick);
 }
 
 function onAddButtonClick() {
     const page = dom.parentWithClass(this, 'dlg-librarycreator');
 
-    import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
-        const picker = new DirectoryBrowser();
-        picker.show({
-            callback: function (path, networkSharePath) {
-                if (path) {
-                    addMediaLocation(page, path, networkSharePath);
-                }
+    import('../directorybrowser/directorybrowser').then(
+        ({ default: DirectoryBrowser }) => {
+            const picker = new DirectoryBrowser();
+            picker.show({
+                callback: function (path, networkSharePath) {
+                    if (path) {
+                        addMediaLocation(page, path, networkSharePath);
+                    }
 
-                picker.close();
-            }
-        });
-    });
+                    picker.close();
+                }
+            });
+        }
+    );
 }
 
 function getFolderHtml(pathInfo, index) {
@@ -163,7 +190,7 @@ function renderPaths(page) {
 
 function addMediaLocation(page, path, networkSharePath) {
     const pathLower = path.toLowerCase();
-    const pathFilter = pathInfos.filter(p => {
+    const pathFilter = pathInfos.filter((p) => {
         return p.Path.toLowerCase() == pathLower;
     });
 
@@ -186,7 +213,7 @@ function onRemoveClick(e) {
     const index = parseInt(button.getAttribute('data-index'), 10);
     const location = pathInfos[index].Path;
     const locationLower = location.toLowerCase();
-    pathInfos = pathInfos.filter(p => {
+    pathInfos = pathInfos.filter((p) => {
         return p.Path.toLowerCase() != locationLower;
     });
     renderPaths(dom.parentWithClass(button, 'dlg-librarycreator'));
@@ -197,9 +224,13 @@ function onDialogClosed() {
 }
 
 function initLibraryOptions(dlg) {
-    libraryoptionseditor.embed(dlg.querySelector('.libraryOptions')).then(() => {
-        dlg.querySelector('#selectCollectionType').dispatchEvent(new Event('change'));
-    });
+    libraryoptionseditor
+        .embed(dlg.querySelector('.libraryOptions'))
+        .then(() => {
+            dlg.querySelector('#selectCollectionType').dispatchEvent(
+                new Event('change')
+            );
+        });
 }
 
 export class MediaLibraryCreator {

@@ -9,7 +9,10 @@ export default function (view, params) {
     let settingsInstance;
 
     const userId = params.userId || ApiClient.getCurrentUserId();
-    const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
+    const currentSettings =
+        userId === ApiClient.getCurrentUserId()
+            ? userSettings
+            : new UserSettings();
 
     view.addEventListener('viewshow', function () {
         if (settingsInstance) {
@@ -34,4 +37,3 @@ export default function (view, params) {
         }
     });
 }
-

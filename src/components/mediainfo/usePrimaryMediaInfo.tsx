@@ -20,12 +20,12 @@ function shouldShowFolderRuntime(
     itemMediaType: ItemMediaKind
 ): boolean {
     return (
-        showFolderRuntimeInfo
-        && (itemType === ItemKind.MusicAlbum
-            || itemMediaType === ItemMediaKind.MusicArtist
-            || itemType === ItemKind.Playlist
-            || itemMediaType === ItemMediaKind.Playlist
-            || itemMediaType === ItemMediaKind.MusicGenre)
+        showFolderRuntimeInfo &&
+        (itemType === ItemKind.MusicAlbum ||
+            itemMediaType === ItemMediaKind.MusicArtist ||
+            itemType === ItemKind.Playlist ||
+            itemMediaType === ItemMediaKind.Playlist ||
+            itemMediaType === ItemMediaKind.MusicGenre)
     );
 }
 
@@ -50,8 +50,8 @@ function addTrackCountOrItemCount(
             });
         }
     } else if (
-        showItemCountInfo
-        && (itemType === ItemKind.PhotoAlbum || itemType === ItemKind.BoxSet)
+        showItemCountInfo &&
+        (itemType === ItemKind.PhotoAlbum || itemType === ItemKind.BoxSet)
     ) {
         const count = itemChildCount;
         if (count) {
@@ -68,10 +68,10 @@ function addOriginalAirDateInfo(
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
-        showOriginalAirDateInfo
-        && (itemType === ItemKind.Episode
-            || itemMediaType === ItemMediaKind.Photo)
-        && itemPremiereDate
+        showOriginalAirDateInfo &&
+        (itemType === ItemKind.Episode ||
+            itemMediaType === ItemMediaKind.Photo) &&
+        itemPremiereDate
     ) {
         try {
             //don't modify date to locale if episode. Only Dates (not times) are stored, or editable in the edit metadata dialog
@@ -117,34 +117,34 @@ function addProgramIndicatorInfo(
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
-        program?.IsLive
-        && userSettings.get('guide-indicator-live') === 'true'
+        program?.IsLive &&
+        userSettings.get('guide-indicator-live') === 'true'
     ) {
         addMiscInfo({
             text: globalize.translate('Live'),
             cssClass: 'mediaInfoProgramAttribute liveTvProgram'
         });
     } else if (
-        program?.IsPremiere
-        && userSettings.get('guide-indicator-premiere') === 'true'
+        program?.IsPremiere &&
+        userSettings.get('guide-indicator-premiere') === 'true'
     ) {
         addMiscInfo({
             text: globalize.translate('Premiere'),
             cssClass: 'mediaInfoProgramAttribute premiereTvProgram'
         });
     } else if (
-        program?.IsSeries
-        && !program?.IsRepeat
-        && userSettings.get('guide-indicator-new') === 'true'
+        program?.IsSeries &&
+        !program?.IsRepeat &&
+        userSettings.get('guide-indicator-new') === 'true'
     ) {
         addMiscInfo({
             text: globalize.translate('New'),
             cssClass: 'mediaInfoProgramAttribute newTvProgram'
         });
     } else if (
-        program?.IsSeries
-        && program?.IsRepeat
-        && userSettings.get('guide-indicator-repeat') === 'true'
+        program?.IsSeries &&
+        program?.IsRepeat &&
+        userSettings.get('guide-indicator-repeat') === 'true'
     ) {
         addMiscInfo({
             text: globalize.translate('Repeat'),
@@ -200,8 +200,8 @@ function addProgramTextInfo(
             addMiscInfo({ text: text });
         }
     } else if (
-        ((showOriginalAirDateInfo && program.IsMovie) || showYearInfo)
-        && program.ProductionYear
+        ((showOriginalAirDateInfo && program.IsMovie) || showYearInfo) &&
+        program.ProductionYear
     ) {
         addMiscInfo({ text: program.ProductionYear });
     } else if (showOriginalAirDateInfo && program.PremiereDate) {
@@ -225,11 +225,11 @@ function addStartDateInfo(
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
-        showStartDateInfo
-        && itemStartDate
-        && itemType !== ItemKind.Program
-        && itemType !== ItemKind.SeriesTimer
-        && itemType !== ItemKind.Timer
+        showStartDateInfo &&
+        itemStartDate &&
+        itemType !== ItemKind.Program &&
+        itemType !== ItemKind.SeriesTimer &&
+        itemType !== ItemKind.Timer
     ) {
         try {
             const date = datetime.parseISO8601Date(itemStartDate);
@@ -307,13 +307,13 @@ function addYearInfo(
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
-        showYearInfo
-        && itemType !== ItemKind.Series
-        && itemType !== ItemKind.Episode
-        && itemType !== ItemKind.Person
-        && itemMediaType !== ItemMediaKind.Photo
-        && itemType !== ItemKind.Program
-        && itemType !== ItemKind.Season
+        showYearInfo &&
+        itemType !== ItemKind.Series &&
+        itemType !== ItemKind.Episode &&
+        itemType !== ItemKind.Person &&
+        itemMediaType !== ItemMediaKind.Photo &&
+        itemType !== ItemKind.Program &&
+        itemType !== ItemKind.Season
     ) {
         if (itemProductionYear) {
             addMiscInfo({ text: itemProductionYear });
@@ -349,13 +349,13 @@ function addRunTimeInfo(
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
-        !isFolderRuntimeEnabled
-        && showRuntimeInfo
-        && itemRunTimeTicks
-        && itemType !== ItemKind.Series
-        && itemType !== ItemKind.Program
-        && itemType !== ItemKind.Timer
-        && itemType !== ItemKind.Book
+        !isFolderRuntimeEnabled &&
+        showRuntimeInfo &&
+        itemRunTimeTicks &&
+        itemType !== ItemKind.Series &&
+        itemType !== ItemKind.Program &&
+        itemType !== ItemKind.Timer &&
+        itemType !== ItemKind.Book
     ) {
         if (itemType === ItemKind.Audio) {
             addMiscInfo({
@@ -376,10 +376,10 @@ function addOfficialRatingInfo(
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
-        showOfficialRatingInfo
-        && itemOfficialRating
-        && itemType !== ItemKind.Season
-        && itemType !== ItemKind.Episode
+        showOfficialRatingInfo &&
+        itemOfficialRating &&
+        itemType !== ItemKind.Season &&
+        itemType !== ItemKind.Episode
     ) {
         addMiscInfo({
             text: itemOfficialRating,
@@ -395,9 +395,9 @@ function addAudioContainer(
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
-        showAudioContainerInfo
-        && itemContainer
-        && itemType === ItemKind.Audio
+        showAudioContainerInfo &&
+        itemContainer &&
+        itemType === ItemKind.Audio
     ) {
         addMiscInfo({ text: itemContainer });
     }
@@ -411,10 +411,10 @@ function addPhotoSize(
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
-        showPhotoSizeInfo
-        && itemMediaType === ItemMediaKind.Photo
-        && itemWidth
-        && itemHeight
+        showPhotoSizeInfo &&
+        itemMediaType === ItemMediaKind.Photo &&
+        itemWidth &&
+        itemHeight
     ) {
         const size = `${itemWidth}x${itemHeight}`;
 

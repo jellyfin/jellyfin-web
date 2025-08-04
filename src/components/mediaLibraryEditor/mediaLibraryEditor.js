@@ -1,4 +1,3 @@
-
 /**
  * Module for media library editor.
  * @module components/mediaLibraryEditor/mediaLibraryEditor
@@ -42,29 +41,48 @@ function onEditLibrary() {
         });
         return false;
     }
-    let libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
-    libraryOptions = Object.assign(currentOptions.library.LibraryOptions || {}, libraryOptions);
-    ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(() => {
-        hasChanges = true;
-        isCreating = false;
-        loading.hide();
-        dialogHelper.close(dlg);
-    }, () => {
-        isCreating = false;
-        loading.hide();
-    });
+    let libraryOptions = libraryoptionseditor.getLibraryOptions(
+        dlg.querySelector('.libraryOptions')
+    );
+    libraryOptions = Object.assign(
+        currentOptions.library.LibraryOptions || {},
+        libraryOptions
+    );
+    ApiClient.updateVirtualFolderOptions(
+        currentOptions.library.ItemId,
+        libraryOptions
+    ).then(
+        () => {
+            hasChanges = true;
+            isCreating = false;
+            loading.hide();
+            dialogHelper.close(dlg);
+        },
+        () => {
+            isCreating = false;
+            loading.hide();
+        }
+    );
     return false;
 }
 
 function addMediaLocation(page, path, networkSharePath) {
     const virtualFolder = currentOptions.library;
     const refreshAfterChange = currentOptions.refresh;
-    ApiClient.addMediaPath(virtualFolder.Name, path, networkSharePath, refreshAfterChange).then(() => {
-        hasChanges = true;
-        refreshLibraryFromServer(page);
-    }, () => {
-        toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-    });
+    ApiClient.addMediaPath(
+        virtualFolder.Name,
+        path,
+        networkSharePath,
+        refreshAfterChange
+    ).then(
+        () => {
+            hasChanges = true;
+            refreshLibraryFromServer(page);
+        },
+        () => {
+            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
+        }
+    );
 }
 
 function updateMediaLocation(page, path, networkSharePath) {
@@ -72,12 +90,15 @@ function updateMediaLocation(page, path, networkSharePath) {
     ApiClient.updateMediaPath(virtualFolder.Name, {
         Path: path,
         NetworkPath: networkSharePath
-    }).then(() => {
-        hasChanges = true;
-        refreshLibraryFromServer(page);
-    }, () => {
-        toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-    });
+    }).then(
+        () => {
+            hasChanges = true;
+            refreshLibraryFromServer(page);
+        },
+        () => {
+            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
+        }
+    );
 }
 
 function onRemoveClick(btnRemovePath, location) {
@@ -91,12 +112,21 @@ function onRemoveClick(btnRemovePath, location) {
         primary: 'delete'
     }).then(() => {
         const refreshAfterChange = currentOptions.refresh;
-        ApiClient.removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(() => {
-            hasChanges = true;
-            refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
-        }, () => {
-            toast(globalize.translate('ErrorDefault'));
-        });
+        ApiClient.removeMediaPath(
+            virtualFolder.Name,
+            location,
+            refreshAfterChange
+        ).then(
+            () => {
+                hasChanges = true;
+                refreshLibraryFromServer(
+                    dom.parentWithClass(button, 'dlg-libraryeditor')
+                );
+            },
+            () => {
+                toast(globalize.translate('ErrorDefault'));
+            }
+        );
     });
 }
 
@@ -105,9 +135,12 @@ function onListItemClick(e) {
 
     if (listItem) {
         const index = parseInt(listItem.getAttribute('data-index'), 10);
-        const pathInfos = currentOptions.library.LibraryOptions?.PathInfos || [];
+        const pathInfos =
+            currentOptions.library.LibraryOptions?.PathInfos || [];
         const pathInfo = index == null ? {} : pathInfos[index] || {};
-        const originalPath = pathInfo.Path || (index == null ? null : currentOptions.library.Locations[index]);
+        const originalPath =
+            pathInfo.Path ||
+            (index == null ? null : currentOptions.library.Locations[index]);
         const btnRemovePath = dom.parentWithClass(e.target, 'btnRemovePath');
 
         if (btnRemovePath) {
@@ -115,7 +148,11 @@ function onListItemClick(e) {
             return;
         }
 
-        showDirectoryBrowser(dom.parentWithClass(listItem, 'dlg-libraryeditor'), originalPath, pathInfo.NetworkPath);
+        showDirectoryBrowser(
+            dom.parentWithClass(listItem, 'dlg-libraryeditor'),
+            originalPath,
+            pathInfo.NetworkPath
+        );
     }
 }
 
@@ -138,8 +175,8 @@ function getFolderHtml(pathInfo, index) {
 }
 
 function refreshLibraryFromServer(page) {
-    ApiClient.getVirtualFolders().then(result => {
-        const library = result.filter(f => {
+    ApiClient.getVirtualFolders().then((result) => {
+        const library = result.filter((f) => {
             return f.Name === currentOptions.library.Name;
         })[0];
 
@@ -154,7 +191,7 @@ function renderLibrary(page, options) {
     let pathInfos = options.library.LibraryOptions?.PathInfos || [];
 
     if (!pathInfos.length) {
-        pathInfos = options.library.Locations.map(p => {
+        pathInfos = options.library.Locations.map((p) => {
             return {
                 Path: p
             };
@@ -167,7 +204,9 @@ function renderLibrary(page, options) {
         page.querySelector('.folders').classList.remove('hide');
     }
 
-    page.querySelector('.folderList').innerHTML = pathInfos.map(getFolderHtml).join('');
+    page.querySelector('.folderList').innerHTML = pathInfos
+        .map(getFolderHtml)
+        .join('');
 }
 
 function onAddButtonClick() {
@@ -175,33 +214,46 @@ function onAddButtonClick() {
 }
 
 function showDirectoryBrowser(context, originalPath, networkPath) {
-    import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
-        const picker = new DirectoryBrowser();
-        picker.show({
-            pathReadOnly: originalPath != null,
-            path: originalPath,
-            networkSharePath: networkPath,
-            callback: function (path, networkSharePath) {
-                if (path) {
-                    if (originalPath) {
-                        updateMediaLocation(context, originalPath, networkSharePath);
-                    } else {
-                        addMediaLocation(context, path, networkSharePath);
+    import('../directorybrowser/directorybrowser').then(
+        ({ default: DirectoryBrowser }) => {
+            const picker = new DirectoryBrowser();
+            picker.show({
+                pathReadOnly: originalPath != null,
+                path: originalPath,
+                networkSharePath: networkPath,
+                callback: function (path, networkSharePath) {
+                    if (path) {
+                        if (originalPath) {
+                            updateMediaLocation(
+                                context,
+                                originalPath,
+                                networkSharePath
+                            );
+                        } else {
+                            addMediaLocation(context, path, networkSharePath);
+                        }
                     }
-                }
 
-                picker.close();
-            }
-        });
-    });
+                    picker.close();
+                }
+            });
+        }
+    );
 }
 
 function initEditor(dlg, options) {
     renderLibrary(dlg, options);
-    dlg.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
+    dlg.querySelector('.btnAddFolder').addEventListener(
+        'click',
+        onAddButtonClick
+    );
     dlg.querySelector('.folderList').addEventListener('click', onListItemClick);
     dlg.querySelector('.btnSubmit').addEventListener('click', onEditLibrary);
-    libraryoptionseditor.embed(dlg.querySelector('.libraryOptions'), options.library.CollectionType, options.library.LibraryOptions);
+    libraryoptionseditor.embed(
+        dlg.querySelector('.libraryOptions'),
+        options.library.CollectionType,
+        options.library.LibraryOptions
+    );
 }
 
 function onDialogClosed() {
@@ -225,7 +277,8 @@ export class MediaLibraryEditor {
         dlg.classList.add('background-theme-a');
         dlg.classList.add('formDialog');
         dlg.innerHTML = globalize.translateHtml(template);
-        dlg.querySelector('.formDialogHeaderTitle').innerText = options.library.Name;
+        dlg.querySelector('.formDialogHeaderTitle').innerText =
+            options.library.Name;
         initEditor(dlg, options);
         dlg.addEventListener('close', onDialogClosed);
         dialogHelper.open(dlg);

@@ -54,14 +54,22 @@ function renderUpcoming(elem, items) {
 
         if (item.PremiereDate) {
             try {
-                const premiereDate = datetime.parseISO8601Date(item.PremiereDate, true);
-                dateText = datetime.isRelativeDay(premiereDate, -1) ? globalize.translate('Yesterday') : datetime.toLocaleDateString(premiereDate, {
-                    weekday: 'long',
-                    month: 'short',
-                    day: 'numeric'
-                });
+                const premiereDate = datetime.parseISO8601Date(
+                    item.PremiereDate,
+                    true
+                );
+                dateText = datetime.isRelativeDay(premiereDate, -1)
+                    ? globalize.translate('Yesterday')
+                    : datetime.toLocaleDateString(premiereDate, {
+                          weekday: 'long',
+                          month: 'short',
+                          day: 'numeric'
+                      });
             } catch (err) {
-                console.error('error parsing timestamp for upcoming tv shows', err);
+                console.error(
+                    'error parsing timestamp for upcoming tv shows',
+                    err
+                );
             }
         }
 
@@ -83,7 +91,10 @@ function renderUpcoming(elem, items) {
     for (let i = 0, length = groups.length; i < length; i++) {
         const group = groups[i];
         html += '<div class="verticalSection">';
-        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + '</h2>';
+        html +=
+            '<h2 class="sectionTitle sectionTitle-cards padded-left">' +
+            group.name +
+            '</h2>';
         let allowBottomPadding = true;
 
         if (enableScrollX()) {
@@ -94,9 +105,13 @@ function renderUpcoming(elem, items) {
                 scrollXClass += ' smoothScrollX';
             }
 
-            html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
+            html +=
+                '<div is="emby-itemscontainer" class="itemsContainer ' +
+                scrollXClass +
+                ' padded-left padded-right">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
+            html +=
+                '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
         }
 
         html += cardBuilder.getCardsHtml({
@@ -135,4 +150,3 @@ export default function (view, params, tabContent) {
         loadUpcoming(tabContent, params, upcomingPromise);
     };
 }
-

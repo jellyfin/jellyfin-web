@@ -18,7 +18,12 @@ import { useUsers } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useState } from 'react';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
+import {
+    type ActionFunctionArgs,
+    Form,
+    useActionData,
+    useNavigation
+} from 'react-router-dom';
 import { ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
 import type { XbmcMetadataOptions } from '@jellyfin/sdk/lib/generated-client/models/xbmc-metadata-options';
@@ -36,12 +41,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         UserId: data.UserId?.toString(),
         ReleaseDateFormat: 'yyyy-MM-dd',
         SaveImagePathsInNfo: data.SaveImagePathsInNfo?.toString() === 'on',
-        EnablePathSubstitution: data.EnablePathSubstitution?.toString() === 'on',
-        EnableExtraThumbsDuplication: data.EnableExtraThumbsDuplication?.toString() === 'on'
+        EnablePathSubstitution:
+            data.EnablePathSubstitution?.toString() === 'on',
+        EnableExtraThumbsDuplication:
+            data.EnableExtraThumbsDuplication?.toString() === 'on'
     };
 
-    await getConfigurationApi(api)
-        .updateNamedConfiguration({ key: CONFIG_KEY, body: newConfig });
+    await getConfigurationApi(api).updateNamedConfiguration({
+        key: CONFIG_KEY,
+        body: newConfig
+    });
 
     void queryClient.invalidateQueries({
         queryKey: [QUERY_KEY, CONFIG_KEY]
@@ -93,7 +102,9 @@ export const Component = () => {
             />
             <Box className='content-primary'>
                 {isConfigError || isUsersError ? (
-                    <Alert severity='error'>{globalize.translate('MetadataNfoLoadError')}</Alert>
+                    <Alert severity='error'>
+                        {globalize.translate('MetadataNfoLoadError')}
+                    </Alert>
                 ) : (
                     <Form method='POST' onSubmit={onSubmit}>
                         <Stack spacing={3}>
@@ -102,15 +113,23 @@ export const Component = () => {
                                     {globalize.translate('SettingsSaved')}
                                 </Alert>
                             )}
-                            <Typography variant='h1'>{globalize.translate('TabNfoSettings')}</Typography>
-                            <Typography>{globalize.translate('HeaderKodiMetadataHelp')}</Typography>
+                            <Typography variant='h1'>
+                                {globalize.translate('TabNfoSettings')}
+                            </Typography>
+                            <Typography>
+                                {globalize.translate('HeaderKodiMetadataHelp')}
+                            </Typography>
 
                             <TextField
                                 name={'UserId'}
-                                label={globalize.translate('LabelKodiMetadataUser')}
+                                label={globalize.translate(
+                                    'LabelKodiMetadataUser'
+                                )}
                                 defaultValue={config.UserId || ''}
                                 select
-                                helperText={globalize.translate('LabelKodiMetadataUserHelp')}
+                                helperText={globalize.translate(
+                                    'LabelKodiMetadataUserHelp'
+                                )}
                                 slotProps={{
                                     select: {
                                         displayEmpty: true
@@ -121,10 +140,14 @@ export const Component = () => {
                                     }
                                 }}
                             >
-                                <MenuItem value=''>{globalize.translate('None')}</MenuItem>
-                                {users.map(user =>
-                                    <MenuItem key={user.Id} value={user.Id}>{user.Name}</MenuItem>
-                                )}
+                                <MenuItem value=''>
+                                    {globalize.translate('None')}
+                                </MenuItem>
+                                {users.map((user) => (
+                                    <MenuItem key={user.Id} value={user.Id}>
+                                        {user.Name}
+                                    </MenuItem>
+                                ))}
                             </TextField>
 
                             <FormControl>
@@ -132,12 +155,20 @@ export const Component = () => {
                                     control={
                                         <Checkbox
                                             name={'SaveImagePathsInNfo'}
-                                            defaultChecked={config.SaveImagePathsInNfo}
+                                            defaultChecked={
+                                                config.SaveImagePathsInNfo
+                                            }
                                         />
                                     }
-                                    label={globalize.translate('LabelKodiMetadataSaveImagePaths')}
+                                    label={globalize.translate(
+                                        'LabelKodiMetadataSaveImagePaths'
+                                    )}
                                 />
-                                <FormHelperText>{globalize.translate('LabelKodiMetadataSaveImagePathsHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'LabelKodiMetadataSaveImagePathsHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
@@ -145,25 +176,43 @@ export const Component = () => {
                                     control={
                                         <Checkbox
                                             name={'EnablePathSubstitution'}
-                                            defaultChecked={config.EnablePathSubstitution}
+                                            defaultChecked={
+                                                config.EnablePathSubstitution
+                                            }
                                         />
                                     }
-                                    label={globalize.translate('LabelKodiMetadataEnablePathSubstitution')}
+                                    label={globalize.translate(
+                                        'LabelKodiMetadataEnablePathSubstitution'
+                                    )}
                                 />
-                                <FormHelperText>{globalize.translate('LabelKodiMetadataEnablePathSubstitutionHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'LabelKodiMetadataEnablePathSubstitutionHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            name={'EnableExtraThumbsDuplication'}
-                                            defaultChecked={config.EnableExtraThumbsDuplication}
+                                            name={
+                                                'EnableExtraThumbsDuplication'
+                                            }
+                                            defaultChecked={
+                                                config.EnableExtraThumbsDuplication
+                                            }
                                         />
                                     }
-                                    label={globalize.translate('LabelKodiMetadataEnableExtraThumbs')}
+                                    label={globalize.translate(
+                                        'LabelKodiMetadataEnableExtraThumbs'
+                                    )}
                                 />
-                                <FormHelperText>{globalize.translate('LabelKodiMetadataEnableExtraThumbsHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'LabelKodiMetadataEnableExtraThumbsHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
                             <Button type='submit' size='large'>

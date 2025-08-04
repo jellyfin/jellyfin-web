@@ -1,4 +1,3 @@
-
 /**
  * Module for building cards from item data.
  * @module components/cardBuilder/chaptercardbuilder
@@ -28,14 +27,19 @@ function buildChapterCardsHtml(item, chapters, options) {
     }
 
     const mediaStreams = (item.MediaSources || [])[0]?.MediaStreams || [];
-    const videoStream = mediaStreams.filter(({ Type }) => {
-        return Type === 'Video';
-    })[0] || {};
+    const videoStream =
+        mediaStreams.filter(({ Type }) => {
+            return Type === 'Video';
+        })[0] || {};
 
-    let shape = (options.backdropShape || 'backdrop');
+    let shape = options.backdropShape || 'backdrop';
 
-    if (videoStream.Width && videoStream.Height && (videoStream.Width / videoStream.Height) <= 1.2) {
-        shape = (options.squareShape || 'square');
+    if (
+        videoStream.Width &&
+        videoStream.Height &&
+        videoStream.Width / videoStream.Height <= 1.2
+    ) {
+        shape = options.squareShape || 'square';
     }
 
     className += ` ${shape}Card`;
@@ -56,7 +60,15 @@ function buildChapterCardsHtml(item, chapters, options) {
 
         const chapter = chapters[i];
 
-        html += buildChapterCard(item, apiClient, chapter, i, options, className, shape);
+        html += buildChapterCard(
+            item,
+            apiClient,
+            chapter,
+            i,
+            options,
+            className,
+            shape
+        );
         itemsInRow++;
 
         if (options.rows && itemsInRow >= options.rows) {
@@ -71,7 +83,6 @@ function buildChapterCardsHtml(item, chapters, options) {
 function getImgUrl({ Id }, { ImageTag }, index, maxWidth, apiClient) {
     if (ImageTag) {
         return apiClient.getScaledImageUrl(Id, {
-
             maxWidth: maxWidth,
             tag: ImageTag,
             type: 'Chapter',
@@ -82,18 +93,30 @@ function getImgUrl({ Id }, { ImageTag }, index, maxWidth, apiClient) {
     return null;
 }
 
-function buildChapterCard(item, apiClient, chapter, index, { width, coverImage }, className, shape) {
+function buildChapterCard(
+    item,
+    apiClient,
+    chapter,
+    index,
+    { width, coverImage },
+    className,
+    shape
+) {
     const imgUrl = getImgUrl(item, chapter, index, width || 400, apiClient);
 
-    let cardImageContainerClass = 'cardContent cardContent-shadow cardImageContainer chapterCardImageContainer';
+    let cardImageContainerClass =
+        'cardContent cardContent-shadow cardImageContainer chapterCardImageContainer';
     if (coverImage) {
         cardImageContainerClass += ' coveredImage';
     }
     const dataAttributes = ` data-action="play" data-isfolder="${item.IsFolder}" data-id="${item.Id}" data-serverid="${item.ServerId}" data-type="${item.Type}" data-mediatype="${item.MediaType}" data-positionticks="${chapter.StartPositionTicks}"`;
-    let cardImageContainer = imgUrl ? (`<div class="${cardImageContainerClass} lazy" data-src="${imgUrl}">`) : (`<div class="${cardImageContainerClass}">`);
+    let cardImageContainer = imgUrl
+        ? `<div class="${cardImageContainerClass} lazy" data-src="${imgUrl}">`
+        : `<div class="${cardImageContainerClass}">`;
 
     if (!imgUrl) {
-        cardImageContainer += '<span class="material-icons cardImageIcon local_movies" aria-hidden="true"></span>';
+        cardImageContainer +=
+            '<span class="material-icons cardImageIcon local_movies" aria-hidden="true"></span>';
     }
 
     let nameHtml = '';
@@ -131,4 +154,3 @@ export function buildChapterCards(item, chapters, options) {
 export default {
     buildChapterCards: buildChapterCards
 };
-

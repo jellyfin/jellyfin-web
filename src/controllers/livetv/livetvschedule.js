@@ -38,35 +38,44 @@ function renderRecordings(elem, recordings, cardOptions) {
         recordingItems.classList.add('vertical-wrap');
     }
 
-    recordingItems.innerHTML = cardBuilder.getCardsHtml(Object.assign({
-        items: recordings,
-        shape: enableScrollX() ? 'autooverflow' : 'auto',
-        showTitle: true,
-        showParentTitle: true,
-        coverImage: true,
-        cardLayout: false,
-        centerText: true,
-        allowBottomPadding: !enableScrollX(),
-        preferThumb: 'auto'
-    }, cardOptions || {}));
+    recordingItems.innerHTML = cardBuilder.getCardsHtml(
+        Object.assign(
+            {
+                items: recordings,
+                shape: enableScrollX() ? 'autooverflow' : 'auto',
+                showTitle: true,
+                showParentTitle: true,
+                coverImage: true,
+                cardLayout: false,
+                centerText: true,
+                allowBottomPadding: !enableScrollX(),
+                preferThumb: 'auto'
+            },
+            cardOptions || {}
+        )
+    );
     imageLoader.lazyChildren(recordingItems);
 }
 
 function renderActiveRecordings(context, promise) {
     promise.then(function (result) {
-        renderRecordings(context.querySelector('#activeRecordings'), result.Items, {
-            shape: enableScrollX() ? 'autooverflow' : 'auto',
-            defaultShape: getBackdropShape(enableScrollX()),
-            showParentTitle: false,
-            showParentTitleOrTitle: true,
-            showTitle: true,
-            showAirTime: true,
-            showAirEndTime: true,
-            showChannelName: true,
-            coverImage: true,
-            overlayText: false,
-            overlayMoreButton: true
-        });
+        renderRecordings(
+            context.querySelector('#activeRecordings'),
+            result.Items,
+            {
+                shape: enableScrollX() ? 'autooverflow' : 'auto',
+                defaultShape: getBackdropShape(enableScrollX()),
+                showParentTitle: false,
+                showParentTitleOrTitle: true,
+                showTitle: true,
+                showAirTime: true,
+                showAirEndTime: true,
+                showChannelName: true,
+                coverImage: true,
+                overlayText: false,
+                overlayMoreButton: true
+            }
+        );
     });
 }
 
@@ -87,7 +96,10 @@ function renderTimers(context, timers, options) {
 
 function renderUpcomingRecordings(context, promise) {
     promise.then(function (result) {
-        renderTimers(context.querySelector('#upcomingRecordings'), result.Items);
+        renderTimers(
+            context.querySelector('#upcomingRecordings'),
+            result.Items
+        );
         loading.hide();
     });
 }
@@ -96,10 +108,12 @@ export default function (view, params, tabContent) {
     let activeRecordingsPromise;
     let upcomingRecordingsPromise;
     const self = this;
-    tabContent.querySelector('#upcomingRecordings .recordingItems').addEventListener('timercancelled', function () {
-        self.preRender();
-        self.renderTab();
-    });
+    tabContent
+        .querySelector('#upcomingRecordings .recordingItems')
+        .addEventListener('timercancelled', function () {
+            self.preRender();
+            self.renderTab();
+        });
 
     self.preRender = function () {
         activeRecordingsPromise = ApiClient.getLiveTvRecordings({

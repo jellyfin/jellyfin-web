@@ -9,8 +9,8 @@ import globalize from 'lib/globalize';
 
 const HelpButton = () => (
     <Routes>
-        {
-            HelpLinks.map(({ paths, url }) => paths.map(path => (
+        {HelpLinks.map(({ paths, url }) =>
+            paths.map((path) => (
                 <Route
                     key={[url, path].join('-')}
                     path={path}
@@ -28,8 +28,8 @@ const HelpButton = () => (
                         </Tooltip>
                     }
                 />
-            ))).flat()
-        }
+            ))
+        ).flat()}
     </Routes>
 );
 

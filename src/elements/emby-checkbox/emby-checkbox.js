@@ -13,27 +13,33 @@ function onKeyDown(e) {
 
         this.checked = !this.checked;
 
-        this.dispatchEvent(new CustomEvent('change', {
-            bubbles: true
-        }));
+        this.dispatchEvent(
+            new CustomEvent('change', {
+                bubbles: true
+            })
+        );
 
         return false;
     }
 }
 
-const enableRefreshHack = browser.tizen || browser.orsay || browser.operaTv || browser.web0s;
+const enableRefreshHack =
+    browser.tizen || browser.orsay || browser.operaTv || browser.web0s;
 
 function forceRefresh(loading) {
     const elem = this.parentNode;
 
     elem.style.webkitAnimationName = 'repaintChrome';
-    elem.style.webkitAnimationDelay = (loading === true ? '500ms' : '');
+    elem.style.webkitAnimationDelay = loading === true ? '500ms' : '';
     elem.style.webkitAnimationDuration = '10ms';
     elem.style.webkitAnimationIterationCount = '1';
 
-    setTimeout(function () {
-        elem.style.webkitAnimationName = '';
-    }, (loading === true ? 520 : 20));
+    setTimeout(
+        function () {
+            elem.style.webkitAnimationName = '';
+        },
+        loading === true ? 520 : 20
+    );
 }
 
 EmbyCheckboxPrototype.attachedCallback = function () {
@@ -59,9 +65,23 @@ EmbyCheckboxPrototype.attachedCallback = function () {
 
     const checkedIcon = this.getAttribute('data-checkedicon') || 'check';
     const uncheckedIcon = this.getAttribute('data-uncheckedicon') || '';
-    const checkHtml = '<span class="material-icons checkboxIcon checkboxIcon-checked ' + checkedIcon + '" aria-hidden="true"></span>';
-    const uncheckedHtml = '<span class="material-icons checkboxIcon checkboxIcon-unchecked ' + uncheckedIcon + '" aria-hidden="true"></span>';
-    labelElement.insertAdjacentHTML('beforeend', '<span class="' + outlineClass + '">' + checkHtml + uncheckedHtml + '</span>');
+    const checkHtml =
+        '<span class="material-icons checkboxIcon checkboxIcon-checked ' +
+        checkedIcon +
+        '" aria-hidden="true"></span>';
+    const uncheckedHtml =
+        '<span class="material-icons checkboxIcon checkboxIcon-unchecked ' +
+        uncheckedIcon +
+        '" aria-hidden="true"></span>';
+    labelElement.insertAdjacentHTML(
+        'beforeend',
+        '<span class="' +
+            outlineClass +
+            '">' +
+            checkHtml +
+            uncheckedHtml +
+            '</span>'
+    );
 
     labelTextElement.classList.add('checkboxLabel');
 
@@ -105,4 +125,3 @@ document.registerElement('emby-checkbox', {
     prototype: EmbyCheckboxPrototype,
     extends: 'input'
 });
-

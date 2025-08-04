@@ -14,7 +14,7 @@ import type { PlayTarget } from 'types/playTarget';
 import PlayTargetIcon from '../../PlayTargetIcon';
 
 interface RemotePlayMenuProps extends MenuProps {
-    onMenuClose: () => void
+    onMenuClose: () => void;
 }
 
 export const ID = 'app-remote-play-menu';
@@ -25,9 +25,11 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
     onMenuClose
 }) => {
     // TODO: Add other checks for support (Android app, secure context, etc)
-    const isChromecastPluginLoaded = !!pluginManager.plugins.find(plugin => plugin.id === 'chromecast');
+    const isChromecastPluginLoaded = !!pluginManager.plugins.find(
+        (plugin) => plugin.id === 'chromecast'
+    );
 
-    const [ playbackTargets, setPlaybackTargets ] = useState<PlayTarget[]>([]);
+    const [playbackTargets, setPlaybackTargets] = useState<PlayTarget[]>([]);
 
     const onPlayTargetClick = (target: PlayTarget) => {
         playbackManager.trySetActivePlayer(target.playerName, target);
@@ -36,18 +38,18 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
 
     useEffect(() => {
         const fetchPlaybackTargets = async () => {
-            setPlaybackTargets(
-                await playbackManager.getTargets()
-            );
+            setPlaybackTargets(await playbackManager.getTargets());
         };
 
         if (open) {
-            fetchPlaybackTargets()
-                .catch(err => {
-                    console.error('[AppRemotePlayMenu] unable to get playback targets', err);
-                });
+            fetchPlaybackTargets().catch((err) => {
+                console.error(
+                    '[AppRemotePlayMenu] unable to get playback targets',
+                    err
+                );
+            });
         }
-    }, [ open, setPlaybackTargets ]);
+    }, [open, setPlaybackTargets]);
 
     return (
         <Menu
@@ -80,7 +82,7 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
                 <Divider />
             )}
 
-            {playbackTargets.map(target => (
+            {playbackTargets.map((target) => (
                 <MenuItem
                     key={target.id}
                     // Since we are looping over targets there is no good way to avoid creating a new function here
@@ -91,8 +93,12 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
                         <PlayTargetIcon target={target} />
                     </ListItemIcon>
                     <ListItemText
-                        primary={ target.appName ? `${target.name} - ${target.appName}` : target.name }
-                        secondary={ target.user?.Name }
+                        primary={
+                            target.appName
+                                ? `${target.name} - ${target.appName}`
+                                : target.name
+                        }
+                        secondary={target.user?.Name}
                     />
                 </MenuItem>
             ))}

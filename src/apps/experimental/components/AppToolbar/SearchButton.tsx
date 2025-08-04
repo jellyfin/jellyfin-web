@@ -33,11 +33,10 @@ const SearchButton: FC = () => {
 
     const isSearchPath = location.pathname === '/search';
     const search = createSearchParams(getUrlParams(searchParams));
-    const createSearchLink =
-        {
-            pathname: '/search',
-            search: search ? `?${search}` : undefined
-        };
+    const createSearchLink = {
+        pathname: '/search',
+        search: search ? `?${search}` : undefined
+    };
 
     return (
         <Tooltip title={globalize.translate('Search')}>

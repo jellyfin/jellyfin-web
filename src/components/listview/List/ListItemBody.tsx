@@ -17,7 +17,7 @@ interface ListItemBodyProps {
     enableContentWrapper?: boolean;
     enableOverview?: boolean;
     enableSideMediaInfo?: boolean;
-    getMissingIndicator: () => React.JSX.Element | null
+    getMissingIndicator: () => React.JSX.Element | null;
 }
 
 const ListItemBody: FC<ListItemBodyProps> = ({
@@ -33,13 +33,12 @@ const ListItemBody: FC<ListItemBodyProps> = ({
 }) => {
     const cssClass = classNames(
         'listItemBody',
-        { 'itemAction': !clickEntireItem },
+        { itemAction: !clickEntireItem },
         { 'listItemBody-noleftpadding': listOptions.image === false }
     );
 
     return (
         <Box data-action={action} className={cssClass}>
-
             <TextLines
                 item={item}
                 textClassName='listItemBodyText'
@@ -51,7 +50,8 @@ const ListItemBody: FC<ListItemBodyProps> = ({
                     showIndexNumber: listOptions.showIndexNumber,
                     parentTitleWithTitle: listOptions.parentTitleWithTitle,
                     showArtist: listOptions.showArtist,
-                    includeParentInfoInTitle: listOptions.includeParentInfoInTitle,
+                    includeParentInfoInTitle:
+                        listOptions.includeParentInfoInTitle,
                     includeIndexNumber: listOptions.includeIndexNumber,
                     showCurrentProgram: listOptions.showCurrentProgram
                 }}

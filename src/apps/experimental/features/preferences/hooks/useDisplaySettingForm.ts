@@ -14,11 +14,8 @@ type UpdateField = {
 
 export function useDisplaySettingForm() {
     const [urlParams] = useSearchParams();
-    const {
-        displaySettings,
-        loading,
-        saveDisplaySettings
-    } = useDisplaySettings({ userId: urlParams.get('userId') });
+    const { displaySettings, loading, saveDisplaySettings } =
+        useDisplaySettings({ userId: urlParams.get('userId') });
     const [formValues, setFormValues] = useState<DisplaySettingsValues>();
 
     useEffect(() => {
@@ -27,14 +24,17 @@ export function useDisplaySettingForm() {
         }
     }, [formValues, loading, displaySettings]);
 
-    const updateField = useCallback(({ name, value }: UpdateField) => {
-        if (formValues) {
-            setFormValues({
-                ...formValues,
-                [name]: value
-            });
-        }
-    }, [formValues, setFormValues]);
+    const updateField = useCallback(
+        ({ name, value }: UpdateField) => {
+            if (formValues) {
+                setFormValues({
+                    ...formValues,
+                    [name]: value
+                });
+            }
+        },
+        [formValues, setFormValues]
+    );
 
     const submitChanges = useCallback(async () => {
         if (formValues) {

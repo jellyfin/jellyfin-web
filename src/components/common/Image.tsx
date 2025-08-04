@@ -19,11 +19,7 @@ interface ImageProps {
     containImage: boolean;
 }
 
-const Image: FC<ImageProps> = ({
-    imgUrl,
-    blurhash,
-    containImage
-}) => {
+const Image: FC<ImageProps> = ({ imgUrl, blurhash, containImage }) => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isLoadStarted, setIsLoadStarted] = useState(false);
     const handleLoad = useCallback(() => {
@@ -39,7 +35,7 @@ const Image: FC<ImageProps> = ({
             {!isLoaded && isLoadStarted && blurhash && (
                 <BlurhashCanvas
                     hash={blurhash}
-                    width= {20}
+                    width={20}
                     height={20}
                     punch={1}
                     style={{
@@ -59,7 +55,6 @@ const Image: FC<ImageProps> = ({
                 onLoad={handleLoad}
                 beforeLoad={handleLoadStarted}
             />
-
         </div>
     );
 };

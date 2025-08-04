@@ -8,24 +8,27 @@ import { PluginDetails } from '../types/PluginDetails';
 
 interface PluginCardProps {
     plugin: PluginDetails;
-};
+}
 
 const PluginCard = ({ plugin }: PluginCardProps) => {
     const location = useLocation();
 
-    const pluginPage = useMemo(() => (
-        {
+    const pluginPage = useMemo(
+        () => ({
             pathname: `/dashboard/plugins/${plugin.id}`,
             search: `?name=${encodeURIComponent(plugin.name || '')}`,
             hash: location.hash
-        }
-    ), [ location, plugin ]);
+        }),
+        [location, plugin]
+    );
 
     return (
         <BaseCard
             title={plugin.name}
             to={pluginPage}
-            text={[plugin.version?.VersionNumber, plugin.status].filter(t => t).join(' ')}
+            text={[plugin.version?.VersionNumber, plugin.status]
+                .filter((t) => t)
+                .join(' ')}
             image={plugin.imageUrl}
             icon={<ExtensionIcon sx={{ width: 80, height: 80 }} />}
         />

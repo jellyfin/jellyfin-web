@@ -29,12 +29,20 @@ function init(instance) {
     if (layoutManager.tv) {
         button = '';
     } else {
-        button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><span class="material-icons close" aria-hidden="true"></span></button>';
+        button =
+            '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><span class="material-icons close" aria-hidden="true"></span></button>';
     }
 
-    const contentClass = layoutManager.tv ? 'playerStats-content playerStats-content-tv' : 'playerStats-content';
+    const contentClass = layoutManager.tv
+        ? 'playerStats-content playerStats-content-tv'
+        : 'playerStats-content';
 
-    parent.innerHTML = '<div class="' + contentClass + '">' + button + '<div class="playerStats-stats"></div></div>';
+    parent.innerHTML =
+        '<div class="' +
+        contentClass +
+        '">' +
+        button +
+        '<div class="playerStats-stats"></div></div>';
 
     button = parent.querySelector('.playerStats-closeButton');
 
@@ -52,64 +60,74 @@ function onCloseButtonClick() {
 }
 
 function renderStats(elem, categories) {
-    elem.querySelector('.playerStats-stats').innerHTML = categories.map(function (category) {
-        let categoryHtml = '';
+    elem.querySelector('.playerStats-stats').innerHTML = categories
+        .map(function (category) {
+            let categoryHtml = '';
 
-        const stats = category.stats;
+            const stats = category.stats;
 
-        if (stats.length && category.name) {
-            categoryHtml += '<div class="playerStats-stat playerStats-stat-header">';
+            if (stats.length && category.name) {
+                categoryHtml +=
+                    '<div class="playerStats-stat playerStats-stat-header">';
 
-            categoryHtml += '<div class="playerStats-stat-label">';
-            categoryHtml += category.name;
-            categoryHtml += '</div>';
+                categoryHtml += '<div class="playerStats-stat-label">';
+                categoryHtml += category.name;
+                categoryHtml += '</div>';
 
-            categoryHtml += '<div class="playerStats-stat-value">';
-            categoryHtml += category.subText || '';
-            categoryHtml += '</div>';
+                categoryHtml += '<div class="playerStats-stat-value">';
+                categoryHtml += category.subText || '';
+                categoryHtml += '</div>';
 
-            categoryHtml += '</div>';
-        }
+                categoryHtml += '</div>';
+            }
 
-        for (let i = 0, length = stats.length; i < length; i++) {
-            categoryHtml += '<div class="playerStats-stat">';
+            for (let i = 0, length = stats.length; i < length; i++) {
+                categoryHtml += '<div class="playerStats-stat">';
 
-            const stat = stats[i];
+                const stat = stats[i];
 
-            categoryHtml += '<div class="playerStats-stat-label">';
-            categoryHtml += stat.label;
-            categoryHtml += '</div>';
+                categoryHtml += '<div class="playerStats-stat-label">';
+                categoryHtml += stat.label;
+                categoryHtml += '</div>';
 
-            categoryHtml += '<div class="playerStats-stat-value">';
-            categoryHtml += stat.value;
-            categoryHtml += '</div>';
+                categoryHtml += '<div class="playerStats-stat-value">';
+                categoryHtml += stat.value;
+                categoryHtml += '</div>';
 
-            categoryHtml += '</div>';
-        }
+                categoryHtml += '</div>';
+            }
 
-        return categoryHtml;
-    }).join('');
+            return categoryHtml;
+        })
+        .join('');
 }
 
 function getSession(instance, player) {
     const now = new Date().getTime();
 
-    if ((now - (instance.lastSessionTime || 0)) < 10000) {
+    if (now - (instance.lastSessionTime || 0) < 10000) {
         return Promise.resolve(instance.lastSession);
     }
 
-    const apiClient = ServerConnections.getApiClient(playbackManager.currentItem(player).ServerId);
+    const apiClient = ServerConnections.getApiClient(
+        playbackManager.currentItem(player).ServerId
+    );
 
-    return apiClient.getSessions({
-        deviceId: apiClient.deviceId()
-    }).then(function (sessions) {
-        instance.lastSession = sessions[0] || {};
-        instance.lastSessionTime = new Date().getTime();
+    return apiClient
+        .getSessions({
+            deviceId: apiClient.deviceId()
+        })
+        .then(
+            function (sessions) {
+                instance.lastSession = sessions[0] || {};
+                instance.lastSessionTime = new Date().getTime();
 
-        return Promise.resolve(instance.lastSession);
-    }, function () {
-        return Promise.resolve({});
-    });
+                return Promise.resolve(instance.lastSession);
+            },
+            function () {
+                return Promise.resolve({});
+            }
+        );
 }
 
 function translateReason(reason) {
@@ -134,14 +152,18 @@ function getTranscodingStats(session, player, displayPlayMethod) {
     if (videoCodec) {
         sessionStats.push({
             label: globalize.translate('LabelVideoCodec'),
-            value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
+            value: session.TranscodingInfo.IsVideoDirect
+                ? videoCodec.toUpperCase() + ' (direct)'
+                : videoCodec.toUpperCase()
         });
     }
 
     if (audioCodec) {
         sessionStats.push({
             label: globalize.translate('LabelAudioCodec'),
-            value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
+            value: session.TranscodingInfo.IsAudioDirect
+                ? audioCodec.toUpperCase() + ' (direct)'
+                : audioCodec.toUpperCase()
         });
     }
 
@@ -161,7 +183,9 @@ function getTranscodingStats(session, player, displayPlayMethod) {
         if (session.TranscodingInfo.CompletionPercentage) {
             sessionStats.push({
                 label: globalize.translate('LabelTranscodingProgress'),
-                value: session.TranscodingInfo.CompletionPercentage.toFixed(1) + '%'
+                value:
+                    session.TranscodingInfo.CompletionPercentage.toFixed(1) +
+                    '%'
             });
         }
         if (session.TranscodingInfo.Framerate) {
@@ -173,7 +197,9 @@ function getTranscodingStats(session, player, displayPlayMethod) {
         if (session.TranscodingInfo.TranscodeReasons?.length) {
             sessionStats.push({
                 label: globalize.translate('LabelReasonForTranscoding'),
-                value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')
+                value: session.TranscodingInfo.TranscodeReasons.map(
+                    translateReason
+                ).join('<br/>')
             });
         }
         // Hide this for now because it is not useful in its current state.
@@ -202,9 +228,11 @@ function getDisplayBitrate(bitrate) {
 
 function getDisplayTranscodeFps(session, player) {
     const mediaSource = playbackManager.currentMediaSource(player) || {};
-    const videoStream = (mediaSource.MediaStreams || []).find((s) => s.Type === 'Video') || {};
+    const videoStream =
+        (mediaSource.MediaStreams || []).find((s) => s.Type === 'Video') || {};
 
-    const originalFramerate = videoStream.ReferenceFrameRate || videoStream.RealFrameRate;
+    const originalFramerate =
+        videoStream.ReferenceFrameRate || videoStream.RealFrameRate;
     const transcodeFramerate = session.TranscodingInfo.Framerate;
 
     if (!originalFramerate) {
@@ -243,16 +271,18 @@ function getMediaSourceStats(session, player) {
     }
 
     const mediaStreams = mediaSource.MediaStreams || [];
-    const videoStream = mediaStreams.filter(function (s) {
-        return s.Type === 'Video';
-    })[0] || {};
+    const videoStream =
+        mediaStreams.filter(function (s) {
+            return s.Type === 'Video';
+        })[0] || {};
 
     const videoCodec = videoStream.Codec;
 
     const audioStreamIndex = playbackManager.getAudioStreamIndex(player);
-    const audioStream = playbackManager.audioTracks(player).filter(function (s) {
-        return s.Type === 'Audio' && s.Index === audioStreamIndex;
-    })[0] || {};
+    const audioStream =
+        playbackManager.audioTracks(player).filter(function (s) {
+            return s.Type === 'Audio' && s.Index === audioStreamIndex;
+        })[0] || {};
 
     const audioCodec = audioStream.Codec;
     const audioChannels = audioStream.Channels;
@@ -354,12 +384,14 @@ function getSyncPlayStats() {
     syncStats.push({
         // TODO: clean old string 'LabelSyncPlayTimeOffset' from translations.
         label: globalize.translate('LabelSyncPlayTimeSyncOffset'),
-        value: stats.TimeSyncOffset + ' ' + globalize.translate('MillisecondsUnit')
+        value:
+            stats.TimeSyncOffset + ' ' + globalize.translate('MillisecondsUnit')
     });
 
     syncStats.push({
         label: globalize.translate('LabelSyncPlayPlaybackDiff'),
-        value: stats.PlaybackDiff + ' ' + globalize.translate('MillisecondsUnit')
+        value:
+            stats.PlaybackDiff + ' ' + globalize.translate('MillisecondsUnit')
     });
 
     syncStats.push({
@@ -371,91 +403,105 @@ function getSyncPlayStats() {
 }
 
 function getStats(instance, player) {
-    const statsPromise = player.getStats ? player.getStats() : Promise.resolve({});
+    const statsPromise = player.getStats
+        ? player.getStats()
+        : Promise.resolve({});
     const sessionPromise = getSession(instance, player);
 
-    return Promise.all([statsPromise, sessionPromise]).then(function (responses) {
-        const playerStatsResult = responses[0];
-        const playerStats = playerStatsResult.categories || [];
-        const session = responses[1];
+    return Promise.all([statsPromise, sessionPromise]).then(
+        function (responses) {
+            const playerStatsResult = responses[0];
+            const playerStats = playerStatsResult.categories || [];
+            const session = responses[1];
 
-        const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
-        let localizedDisplayMethod = displayPlayMethod;
+            const displayPlayMethod =
+                playMethodHelper.getDisplayPlayMethod(session);
+            let localizedDisplayMethod = displayPlayMethod;
 
-        if (displayPlayMethod === 'DirectPlay') {
-            localizedDisplayMethod = globalize.translate('DirectPlaying');
-        } else if (displayPlayMethod === 'Remux') {
-            localizedDisplayMethod = globalize.translate('Remuxing');
-        } else if (displayPlayMethod === 'DirectStream') {
-            localizedDisplayMethod = globalize.translate('DirectStreaming');
-        } else if (displayPlayMethod === 'Transcode') {
-            localizedDisplayMethod = globalize.translate('Transcoding');
-        }
-
-        const baseCategory = {
-            stats: [],
-            name: globalize.translate('LabelPlaybackInfo')
-        };
-
-        baseCategory.stats.unshift({
-            label: globalize.translate('LabelPlayMethod'),
-            value: localizedDisplayMethod
-        });
-
-        baseCategory.stats.unshift({
-            label: globalize.translate('LabelPlayer'),
-            value: player.name
-        });
-
-        const categories = [];
-
-        categories.push(baseCategory);
-
-        for (let i = 0, length = playerStats.length; i < length; i++) {
-            const category = playerStats[i];
-            if (category.type === 'audio') {
-                category.name = globalize.translate('LabelAudioInfo');
-            } else if (category.type === 'video') {
-                category.name = globalize.translate('LabelVideoInfo');
+            if (displayPlayMethod === 'DirectPlay') {
+                localizedDisplayMethod = globalize.translate('DirectPlaying');
+            } else if (displayPlayMethod === 'Remux') {
+                localizedDisplayMethod = globalize.translate('Remuxing');
+            } else if (displayPlayMethod === 'DirectStream') {
+                localizedDisplayMethod = globalize.translate('DirectStreaming');
+            } else if (displayPlayMethod === 'Transcode') {
+                localizedDisplayMethod = globalize.translate('Transcoding');
             }
-            categories.push(category);
-        }
 
-        let localizedTranscodingInfo = globalize.translate('LabelTranscodingInfo');
-        if (displayPlayMethod === 'Remux') {
-            localizedTranscodingInfo = globalize.translate('LabelRemuxingInfo');
-        } else if (displayPlayMethod === 'DirectStream') {
-            localizedTranscodingInfo = globalize.translate('LabelDirectStreamingInfo');
-        }
+            const baseCategory = {
+                stats: [],
+                name: globalize.translate('LabelPlaybackInfo')
+            };
 
-        if (session.TranscodingInfo) {
-            categories.push({
-                stats: getTranscodingStats(session, player, displayPlayMethod),
-                name: localizedTranscodingInfo
+            baseCategory.stats.unshift({
+                label: globalize.translate('LabelPlayMethod'),
+                value: localizedDisplayMethod
             });
-        }
 
-        categories.push({
-            stats: getMediaSourceStats(session, player),
-            name: globalize.translate('LabelOriginalMediaInfo')
-        });
-
-        const syncPlayStats = getSyncPlayStats();
-        if (syncPlayStats.length > 0) {
-            categories.push({
-                stats: syncPlayStats,
-                name: globalize.translate('LabelSyncPlayInfo')
+            baseCategory.stats.unshift({
+                label: globalize.translate('LabelPlayer'),
+                value: player.name
             });
-        }
 
-        return Promise.resolve(categories);
-    });
+            const categories = [];
+
+            categories.push(baseCategory);
+
+            for (let i = 0, length = playerStats.length; i < length; i++) {
+                const category = playerStats[i];
+                if (category.type === 'audio') {
+                    category.name = globalize.translate('LabelAudioInfo');
+                } else if (category.type === 'video') {
+                    category.name = globalize.translate('LabelVideoInfo');
+                }
+                categories.push(category);
+            }
+
+            let localizedTranscodingInfo = globalize.translate(
+                'LabelTranscodingInfo'
+            );
+            if (displayPlayMethod === 'Remux') {
+                localizedTranscodingInfo =
+                    globalize.translate('LabelRemuxingInfo');
+            } else if (displayPlayMethod === 'DirectStream') {
+                localizedTranscodingInfo = globalize.translate(
+                    'LabelDirectStreamingInfo'
+                );
+            }
+
+            if (session.TranscodingInfo) {
+                categories.push({
+                    stats: getTranscodingStats(
+                        session,
+                        player,
+                        displayPlayMethod
+                    ),
+                    name: localizedTranscodingInfo
+                });
+            }
+
+            categories.push({
+                stats: getMediaSourceStats(session, player),
+                name: globalize.translate('LabelOriginalMediaInfo')
+            });
+
+            const syncPlayStats = getSyncPlayStats();
+            if (syncPlayStats.length > 0) {
+                categories.push({
+                    stats: syncPlayStats,
+                    name: globalize.translate('LabelSyncPlayInfo')
+                });
+            }
+
+            return Promise.resolve(categories);
+        }
+    );
 }
 
 function renderPlayerStats(instance, player) {
     const now = new Date().getTime();
 
-    if ((now - (instance.lastRender || 0)) < 700) {
+    if (now - (instance.lastRender || 0) < 700) {
         return;
     }
 

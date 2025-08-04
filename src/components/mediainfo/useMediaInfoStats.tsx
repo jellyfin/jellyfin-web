@@ -69,9 +69,9 @@ function getAudioStreamForDisplay(item: ItemDto) {
     return (
         (mediaSource.MediaStreams || []).filter((i) => {
             return (
-                i.Type === MediaStreamType.Audio
-                && (i.Index === mediaSource.DefaultAudioStreamIndex
-                    || mediaSource.DefaultAudioStreamIndex == null)
+                i.Type === MediaStreamType.Audio &&
+                (i.Index === mediaSource.DefaultAudioStreamIndex ||
+                    mediaSource.DefaultAudioStreamIndex == null)
             );
         })[0] || {}
     );
@@ -149,8 +149,8 @@ function addAudioStreamCodec(
 
     if (showAudioStreamCodecInfo) {
         if (
-            (audioCodec === 'dca' || audioCodec === 'dts')
-            && audioStream?.Profile
+            (audioCodec === 'dca' || audioCodec === 'dts') &&
+            audioStream?.Profile
         ) {
             addMiscInfo({ type: 'mediainfo', text: audioStream.Profile });
         } else if (audioStream?.Codec) {
@@ -165,9 +165,9 @@ function addDateAdded(
     addMiscInfo: (val: MiscInfo) => void
 ): void {
     if (
-        showDateAddedInfo
-        && item.DateCreated
-        && itemHelper.enableDateAddedDisplay(item)
+        showDateAddedInfo &&
+        item.DateCreated &&
+        itemHelper.enableDateAddedDisplay(item)
     ) {
         const dateCreated = datetime.parseISO8601Date(item.DateCreated);
         addMiscInfo({

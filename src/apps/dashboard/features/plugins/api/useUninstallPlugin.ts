@@ -10,16 +10,14 @@ import { QueryKey } from './queryKey';
 export const useUninstallPlugin = () => {
     const { api } = useApi();
     return useMutation({
-        mutationFn: (params: PluginsApiUninstallPluginByVersionRequest) => (
-            getPluginsApi(api!)
-                .uninstallPluginByVersion(params)
-        ),
+        mutationFn: (params: PluginsApiUninstallPluginByVersionRequest) =>
+            getPluginsApi(api!).uninstallPluginByVersion(params),
         onSuccess: () => {
             void queryClient.invalidateQueries({
-                queryKey: [ QueryKey.Plugins ]
+                queryKey: [QueryKey.Plugins]
             });
             void queryClient.invalidateQueries({
-                queryKey: [ QueryKey.ConfigurationPages ]
+                queryKey: [QueryKey.ConfigurationPages]
             });
         }
     });

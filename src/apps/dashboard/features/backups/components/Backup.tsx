@@ -15,7 +15,7 @@ type BackupProps = {
 };
 
 const Backup: FunctionComponent<BackupProps> = ({ backup, onRestore }) => {
-    const [ isInfoDialogOpen, setIsInfoDialogOpen ] = useState(false);
+    const [isInfoDialogOpen, setIsInfoDialogOpen] = useState(false);
 
     const onDialogClose = useCallback(() => {
         setIsInfoDialogOpen(false);
@@ -27,7 +27,7 @@ const Backup: FunctionComponent<BackupProps> = ({ backup, onRestore }) => {
 
     const restore = useCallback(() => {
         onRestore(backup);
-    }, [ backup, onRestore ]);
+    }, [backup, onRestore]);
 
     return (
         <>
@@ -39,7 +39,10 @@ const Backup: FunctionComponent<BackupProps> = ({ backup, onRestore }) => {
             <ListItem
                 disablePadding
                 secondaryAction={
-                    <Tooltip disableInteractive title={globalize.translate('LabelRestore')}>
+                    <Tooltip
+                        disableInteractive
+                        title={globalize.translate('LabelRestore')}
+                    >
                         <IconButton onClick={restore}>
                             <Restore />
                         </IconButton>

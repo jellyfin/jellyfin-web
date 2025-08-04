@@ -1,7 +1,7 @@
 import './toast.scss';
 
 interface Toast {
-    text: string
+    text: string;
 }
 
 let toastContainer: HTMLDivElement;

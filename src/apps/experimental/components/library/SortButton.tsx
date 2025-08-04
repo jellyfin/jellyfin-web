@@ -49,7 +49,10 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'OptionRandom', value: ItemSortBy.Random },
         { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionDateShowAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionDateEpisodeAdded', value: ItemSortBy.DateLastContentAdded },
+        {
+            label: 'OptionDateEpisodeAdded',
+            value: ItemSortBy.DateLastContentAdded
+        },
         { label: 'OptionDatePlayed', value: ItemSortBy.SeriesDatePlayed },
         { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
         { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate }
@@ -187,17 +190,13 @@ const SortButton: FC<SortButtonProps> = ({
                         name='SortBy'
                         onChange={onSelectChange}
                     >
-                        {sortMenuOptions
-                            .map((option) => (
-                                <MenuItem
-                                    key={option.value}
-                                    value={option.value}
-                                >
-                                    <Typography component='span'>
-                                        {globalize.translate(option.label)}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
+                        {sortMenuOptions.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                <Typography component='span'>
+                                    {globalize.translate(option.label)}
+                                </Typography>
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
 

@@ -41,51 +41,58 @@ const QUERY_PARAM = 'query';
 const STATUS_PARAM = 'status';
 
 export const Component = () => {
-    const {
-        data: pluginDetails,
-        isError,
-        isPending
-    } = usePluginDetails();
-    const [ category, setCategory ] = useSearchParam(CATEGORY_PARAM);
-    const [ searchQuery, setSearchQuery ] = useSearchParam(QUERY_PARAM);
-    const [ status, setStatus ] = useSearchParam(STATUS_PARAM, PluginStatusOption.Installed);
+    const { data: pluginDetails, isError, isPending } = usePluginDetails();
+    const [category, setCategory] = useSearchParam(CATEGORY_PARAM);
+    const [searchQuery, setSearchQuery] = useSearchParam(QUERY_PARAM);
+    const [status, setStatus] = useSearchParam(
+        STATUS_PARAM,
+        PluginStatusOption.Installed
+    );
 
-    const onSearchChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        setSearchQuery(event.target.value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const onSearchChange = useCallback(
+        (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+            setSearchQuery(event.target.value);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        },
+        []
+    );
 
     const onViewAll = useCallback(() => {
         if (category) setCategory('');
         else setStatus(PluginStatusOption.All);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ category ]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [category]);
 
     const filteredPlugins = useMemo(() => {
         if (pluginDetails) {
             let filtered = pluginDetails;
 
             if (status === PluginStatusOption.Installed) {
-                filtered = filtered.filter(p => p.status);
+                filtered = filtered.filter((p) => p.status);
             } else if (status === PluginStatusOption.Available) {
-                filtered = filtered.filter(p => !p.status);
+                filtered = filtered.filter((p) => !p.status);
             }
 
             if (category) {
                 if (category === PluginCategory.Other.toLowerCase()) {
-                    filtered = filtered.filter(p => (
-                        p.category && !MAIN_CATEGORIES.includes(p.category.toLowerCase())
-                    ));
+                    filtered = filtered.filter(
+                        (p) =>
+                            p.category &&
+                            !MAIN_CATEGORIES.includes(p.category.toLowerCase())
+                    );
                 } else {
-                    filtered = filtered.filter(p => p.category?.toLowerCase() === category);
+                    filtered = filtered.filter(
+                        (p) => p.category?.toLowerCase() === category
+                    );
                 }
             }
-            return filtered
-                .filter(i => i.name?.toLowerCase().includes(searchQuery.toLowerCase()));
+            return filtered.filter((i) =>
+                i.name?.toLowerCase().includes(searchQuery.toLowerCase())
+            );
         } else {
             return [];
         }
-    }, [ category, pluginDetails, searchQuery, status ]);
+    }, [category, pluginDetails, searchQuery, status]);
 
     if (isPending) {
         return <Loading />;
@@ -99,10 +106,7 @@ export const Component = () => {
         >
             <Box className='content-primary'>
                 {isError ? (
-                    <Alert
-                        severity='error'
-                        sx={{ marginBottom: 2 }}
-                    >
+                    <Alert severity='error' sx={{ marginBottom: 2 }}>
                         {globalize.translate('PluginsLoadError')}
                     </Alert>
                 ) : (
@@ -181,24 +185,46 @@ export const Component = () => {
                                 }}
                             >
                                 <Chip
-                                    color={status === PluginStatusOption.All ? 'primary' : undefined}
+                                    color={
+                                        status === PluginStatusOption.All
+                                            ? 'primary'
+                                            : undefined
+                                    }
                                     // eslint-disable-next-line react/jsx-no-bind
-                                    onClick={() => setStatus(PluginStatusOption.All)}
+                                    onClick={() =>
+                                        setStatus(PluginStatusOption.All)
+                                    }
                                     label={globalize.translate('All')}
                                 />
 
                                 <Chip
-                                    color={status === PluginStatusOption.Available ? 'primary' : undefined}
+                                    color={
+                                        status === PluginStatusOption.Available
+                                            ? 'primary'
+                                            : undefined
+                                    }
                                     // eslint-disable-next-line react/jsx-no-bind
-                                    onClick={() => setStatus(PluginStatusOption.Available)}
-                                    label={globalize.translate('LabelAvailable')}
+                                    onClick={() =>
+                                        setStatus(PluginStatusOption.Available)
+                                    }
+                                    label={globalize.translate(
+                                        'LabelAvailable'
+                                    )}
                                 />
 
                                 <Chip
-                                    color={status === PluginStatusOption.Installed ? 'primary' : undefined}
+                                    color={
+                                        status === PluginStatusOption.Installed
+                                            ? 'primary'
+                                            : undefined
+                                    }
                                     // eslint-disable-next-line react/jsx-no-bind
-                                    onClick={() => setStatus(PluginStatusOption.Installed)}
-                                    label={globalize.translate('LabelInstalled')}
+                                    onClick={() =>
+                                        setStatus(PluginStatusOption.Installed)
+                                    }
+                                    label={globalize.translate(
+                                        'LabelInstalled'
+                                    )}
                                 />
 
                                 <Divider orientation='vertical' flexItem />
@@ -210,13 +236,21 @@ export const Component = () => {
                                     label={globalize.translate('All')}
                                 />
 
-                                {Object.values(PluginCategory).map(c => (
+                                {Object.values(PluginCategory).map((c) => (
                                     <Chip
                                         key={c}
-                                        color={category === c.toLowerCase() ? 'primary' : undefined}
+                                        color={
+                                            category === c.toLowerCase()
+                                                ? 'primary'
+                                                : undefined
+                                        }
                                         // eslint-disable-next-line react/jsx-no-bind
-                                        onClick={() => setCategory(c.toLowerCase())}
-                                        label={globalize.translate(CATEGORY_LABELS[c as PluginCategory])}
+                                        onClick={() =>
+                                            setCategory(c.toLowerCase())
+                                        }
+                                        label={globalize.translate(
+                                            CATEGORY_LABELS[c as PluginCategory]
+                                        )}
                                     />
                                 ))}
                             </Stack>
@@ -228,7 +262,7 @@ export const Component = () => {
                                 // NOTE: Legacy Grid is required due to lack of gap support in JMP on some OSs
                                 // eslint-disable-next-line @typescript-eslint/no-deprecated
                                 <Grid container spacing={2}>
-                                    {filteredPlugins.map(plugin => (
+                                    {filteredPlugins.map((plugin) => (
                                         // NOTE: Legacy Grid is required due to lack of gap support in JMP on some OSs
                                         // eslint-disable-next-line @typescript-eslint/no-deprecated
                                         <Grid
@@ -240,15 +274,16 @@ export const Component = () => {
                                             lg={3}
                                             xl={2}
                                         >
-                                            <PluginCard
-                                                plugin={plugin}
-                                            />
+                                            <PluginCard plugin={plugin} />
                                         </Grid>
                                     ))}
                                 </Grid>
                             ) : (
                                 <NoPluginResults
-                                    isFiltered={!!category || status !== PluginStatusOption.All}
+                                    isFiltered={
+                                        !!category ||
+                                        status !== PluginStatusOption.All
+                                    }
                                     onViewAll={onViewAll}
                                     query={searchQuery}
                                 />

@@ -16,20 +16,23 @@ type IProps = {
 };
 
 const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
-    const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const onSubmit = useCallback(
+        (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
 
-        const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries());
+            const formData = new FormData(e.currentTarget);
+            const data = Object.fromEntries(formData.entries());
 
-        const repository: RepositoryInfo = {
-            Name: data.Name?.toString(),
-            Url: data.Url?.toString(),
-            Enabled: true
-        };
+            const repository: RepositoryInfo = {
+                Name: data.Name?.toString(),
+                Url: data.Url?.toString(),
+                Enabled: true
+            };
 
-        onAdd(repository);
-    }, [ onAdd ]);
+            onAdd(repository);
+        },
+        [onAdd]
+    );
 
     return (
         <Dialog
@@ -44,14 +47,18 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
                 }
             }}
         >
-            <DialogTitle>{globalize.translate('HeaderNewRepository')}</DialogTitle>
+            <DialogTitle>
+                {globalize.translate('HeaderNewRepository')}
+            </DialogTitle>
 
             <DialogContent>
                 <Stack spacing={3}>
                     <TextField
                         name='Name'
                         label={globalize.translate('LabelRepositoryName')}
-                        helperText={globalize.translate('LabelRepositoryNameHelp')}
+                        helperText={globalize.translate(
+                            'LabelRepositoryNameHelp'
+                        )}
                         slotProps={{
                             htmlInput: {
                                 required: true
@@ -62,17 +69,18 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
                     <TextField
                         name='Url'
                         label={globalize.translate('LabelRepositoryUrl')}
-                        helperText={globalize.translate('LabelRepositoryUrlHelp')}
+                        helperText={globalize.translate(
+                            'LabelRepositoryUrlHelp'
+                        )}
                         type='url'
                     />
                 </Stack>
             </DialogContent>
 
             <DialogActions>
-                <Button
-                    onClick={onClose}
-                    variant='text'
-                >{globalize.translate('ButtonCancel')}</Button>
+                <Button onClick={onClose} variant='text'>
+                    {globalize.translate('ButtonCancel')}
+                </Button>
                 <Button type='submit'>{globalize.translate('Add')}</Button>
             </DialogActions>
         </Dialog>

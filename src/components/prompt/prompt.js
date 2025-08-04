@@ -40,9 +40,14 @@ export default (() => {
         dlg.innerHTML = globalize.translateHtml(template, 'core');
 
         if (layoutManager.tv) {
-            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+            scrollHelper.centerFocus.on(
+                dlg.querySelector('.formDialogContent'),
+                false
+            );
         } else {
-            dlg.querySelector('.dialogContentInner').classList.add('dialogContentInner-mini');
+            dlg.querySelector('.dialogContentInner').classList.add(
+                'dialogContentInner-mini'
+            );
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 
@@ -50,10 +55,12 @@ export default (() => {
             dialogHelper.close(dlg);
         });
 
-        dlg.querySelector('.formDialogHeaderTitle').innerText = options.title || '';
+        dlg.querySelector('.formDialogHeaderTitle').innerText =
+            options.title || '';
 
         if (options.description) {
-            dlg.querySelector('.fieldDescription').innerText = options.description;
+            dlg.querySelector('.fieldDescription').innerText =
+                options.description;
         } else {
             dlg.querySelector('.fieldDescription').classList.add('hide');
         }
@@ -62,7 +69,7 @@ export default (() => {
 
         let submitValue;
 
-        dlg.querySelector('form').addEventListener('submit', e => {
+        dlg.querySelector('form').addEventListener('submit', (e) => {
             submitValue = dlg.querySelector('#txtInput').value;
             e.preventDefault();
             e.stopPropagation();
@@ -75,13 +82,17 @@ export default (() => {
             return false;
         });
 
-        dlg.querySelector('.submitText').innerText = options.confirmText || globalize.translate('ButtonOk');
+        dlg.querySelector('.submitText').innerText =
+            options.confirmText || globalize.translate('ButtonOk');
 
         dlg.style.minWidth = `${Math.min(400, dom.getWindowSize().innerWidth - 50)}px`;
 
         return dialogHelper.open(dlg).then(() => {
             if (layoutManager.tv) {
-                scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
+                scrollHelper.centerFocus.off(
+                    dlg.querySelector('.formDialogContent'),
+                    false
+                );
             }
 
             if (submitValue) {
@@ -93,7 +104,7 @@ export default (() => {
     }
 
     if ((browser.tv || browser.xboxOne) && window.confirm) {
-        return options => {
+        return (options) => {
             if (typeof options === 'string') {
                 options = {
                     label: '',
@@ -111,7 +122,7 @@ export default (() => {
             }
         };
     } else {
-        return options => {
+        return (options) => {
             if (typeof options === 'string') {
                 options = {
                     title: '',

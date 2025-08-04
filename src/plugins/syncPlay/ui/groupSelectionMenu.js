@@ -18,7 +18,9 @@ class GroupSelectionMenu {
     constructor() {
         // Register to SyncPlay events.
         this.syncPlayEnabled = false;
-        this.SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
+        this.SyncPlay = pluginManager.firstOfType(
+            PluginType.SyncPlay
+        )?.instance;
 
         if (this.SyncPlay) {
             Events.on(this.SyncPlay.Manager, 'enabled', (_event, enabled) => {
@@ -30,9 +32,13 @@ class GroupSelectionMenu {
             if (plugin.type === PluginType.SyncPlay) {
                 this.SyncPlay = plugin.instance;
 
-                Events.on(plugin.instance.Manager, 'enabled', (_event1, enabled) => {
-                    this.syncPlayEnabled = enabled;
-                });
+                Events.on(
+                    plugin.instance.Manager,
+                    'enabled',
+                    (_event1, enabled) => {
+                        this.syncPlayEnabled = enabled;
+                    }
+                );
             }
         });
     }
@@ -46,69 +52,90 @@ class GroupSelectionMenu {
     showNewJoinGroupSelection(button, user, apiClient) {
         const policy = user.localUser ? user.localUser.Policy : {};
 
-        apiClient.getSyncPlayGroups().then(function (response) {
-            response.json().then(function (groups) {
-                const menuItems = groups.map(function (group) {
-                    return {
-                        name: group.GroupName,
-                        icon: 'person',
-                        id: group.GroupId,
-                        selected: false,
-                        secondaryText: group.Participants.join(', ')
+        apiClient
+            .getSyncPlayGroups()
+            .then(function (response) {
+                response.json().then(function (groups) {
+                    const menuItems = groups.map(function (group) {
+                        return {
+                            name: group.GroupName,
+                            icon: 'person',
+                            id: group.GroupId,
+                            selected: false,
+                            secondaryText: group.Participants.join(', ')
+                        };
+                    });
+
+                    if (policy.SyncPlayAccess === 'CreateAndJoinGroups') {
+                        menuItems.push({
+                            name: globalize.translate('LabelSyncPlayNewGroup'),
+                            icon: 'add',
+                            id: 'new-group',
+                            selected: true,
+                            secondaryText: globalize.translate(
+                                'LabelSyncPlayNewGroupDescription'
+                            )
+                        });
+                    }
+
+                    if (
+                        menuItems.length === 0 &&
+                        policy.SyncPlayAccess === 'JoinGroups'
+                    ) {
+                        toast({
+                            text: globalize.translate(
+                                'MessageSyncPlayCreateGroupDenied'
+                            )
+                        });
+                        loading.hide();
+                        return;
+                    }
+
+                    const menuOptions = {
+                        title: globalize.translate('HeaderSyncPlaySelectGroup'),
+                        items: menuItems,
+                        positionTo: button,
+                        border: true,
+                        dialogClass: 'syncPlayGroupMenu'
                     };
-                });
 
-                if (policy.SyncPlayAccess === 'CreateAndJoinGroups') {
-                    menuItems.push({
-                        name: globalize.translate('LabelSyncPlayNewGroup'),
-                        icon: 'add',
-                        id: 'new-group',
-                        selected: true,
-                        secondaryText: globalize.translate('LabelSyncPlayNewGroupDescription')
-                    });
-                }
+                    actionsheet
+                        .show(menuOptions)
+                        .then(function (id) {
+                            if (id == 'new-group') {
+                                apiClient.createSyncPlayGroup({
+                                    GroupName: globalize.translate(
+                                        'SyncPlayGroupDefaultTitle',
+                                        user.localUser.Name
+                                    )
+                                });
+                            } else if (id) {
+                                apiClient.joinSyncPlayGroup({
+                                    GroupId: id
+                                });
+                            }
+                        })
+                        .catch((error) => {
+                            if (error) {
+                                console.error(
+                                    'SyncPlay: unexpected error listing groups:',
+                                    error
+                                );
+                            }
+                        });
 
-                if (menuItems.length === 0 && policy.SyncPlayAccess === 'JoinGroups') {
-                    toast({
-                        text: globalize.translate('MessageSyncPlayCreateGroupDenied')
-                    });
                     loading.hide();
-                    return;
-                }
-
-                const menuOptions = {
-                    title: globalize.translate('HeaderSyncPlaySelectGroup'),
-                    items: menuItems,
-                    positionTo: button,
-                    border: true,
-                    dialogClass: 'syncPlayGroupMenu'
-                };
-
-                actionsheet.show(menuOptions).then(function (id) {
-                    if (id == 'new-group') {
-                        apiClient.createSyncPlayGroup({
-                            GroupName: globalize.translate('SyncPlayGroupDefaultTitle', user.localUser.Name)
-                        });
-                    } else if (id) {
-                        apiClient.joinSyncPlayGroup({
-                            GroupId: id
-                        });
-                    }
-                }).catch((error) => {
-                    if (error) {
-                        console.error('SyncPlay: unexpected error listing groups:', error);
-                    }
                 });
-
+            })
+            .catch(function (error) {
+                console.error(error);
                 loading.hide();
+                toast({
+                    text: globalize.translate(
+                        'MessageSyncPlayErrorAccessingGroups'
+                    )
+                });
             });
-        }).catch(function (error) {
-            console.error(error);
-            loading.hide();
-            toast({
-                text: globalize.translate('MessageSyncPlayErrorAccessingGroups')
-            });
-        });
     }
 
     /**
@@ -121,14 +148,18 @@ class GroupSelectionMenu {
         const groupInfo = this.SyncPlay?.Manager.getGroupInfo();
         const menuItems = [];
 
-        if (!this.SyncPlay?.Manager.isPlaylistEmpty()
-            && !this.SyncPlay?.Manager.isPlaybackActive()) {
+        if (
+            !this.SyncPlay?.Manager.isPlaylistEmpty() &&
+            !this.SyncPlay?.Manager.isPlaybackActive()
+        ) {
             menuItems.push({
                 name: globalize.translate('LabelSyncPlayResumePlayback'),
                 icon: 'play_circle_filled',
                 id: 'resume-playback',
                 selected: false,
-                secondaryText: globalize.translate('LabelSyncPlayResumePlaybackDescription')
+                secondaryText: globalize.translate(
+                    'LabelSyncPlayResumePlaybackDescription'
+                )
             });
         } else if (this.SyncPlay?.Manager.isPlaybackActive()) {
             menuItems.push({
@@ -136,7 +167,9 @@ class GroupSelectionMenu {
                 icon: 'pause_circle_filled',
                 id: 'halt-playback',
                 selected: false,
-                secondaryText: globalize.translate('LabelSyncPlayHaltPlaybackDescription')
+                secondaryText: globalize.translate(
+                    'LabelSyncPlayHaltPlaybackDescription'
+                )
             });
         }
 
@@ -145,7 +178,9 @@ class GroupSelectionMenu {
             icon: 'video_settings',
             id: 'settings',
             selected: false,
-            secondaryText: globalize.translate('LabelSyncPlaySettingsDescription')
+            secondaryText: globalize.translate(
+                'LabelSyncPlaySettingsDescription'
+            )
         });
 
         menuItems.push({
@@ -153,7 +188,9 @@ class GroupSelectionMenu {
             icon: 'meeting_room',
             id: 'leave-group',
             selected: true,
-            secondaryText: globalize.translate('LabelSyncPlayLeaveGroupDescription')
+            secondaryText: globalize.translate(
+                'LabelSyncPlayLeaveGroupDescription'
+            )
         });
 
         const menuOptions = {
@@ -165,27 +202,40 @@ class GroupSelectionMenu {
             border: true
         };
 
-        actionsheet.show(menuOptions).then((id) => {
-            if (id == 'resume-playback') {
-                this.SyncPlay?.Manager.resumeGroupPlayback(apiClient);
-            } else if (id == 'halt-playback') {
-                this.SyncPlay?.Manager.haltGroupPlayback(apiClient);
-            } else if (id == 'leave-group') {
-                apiClient.leaveSyncPlayGroup();
-            } else if (id == 'settings') {
-                new SyncPlaySettingsEditor(apiClient, this.SyncPlay?.Manager.getTimeSyncCore(), { groupInfo: groupInfo })
-                    .embed()
-                    .catch(error => {
-                        if (error) {
-                            console.error('Error creating SyncPlay settings editor', error);
-                        }
-                    });
-            }
-        }).catch((error) => {
-            if (error) {
-                console.error('SyncPlay: unexpected error showing group menu:', error);
-            }
-        });
+        actionsheet
+            .show(menuOptions)
+            .then((id) => {
+                if (id == 'resume-playback') {
+                    this.SyncPlay?.Manager.resumeGroupPlayback(apiClient);
+                } else if (id == 'halt-playback') {
+                    this.SyncPlay?.Manager.haltGroupPlayback(apiClient);
+                } else if (id == 'leave-group') {
+                    apiClient.leaveSyncPlayGroup();
+                } else if (id == 'settings') {
+                    new SyncPlaySettingsEditor(
+                        apiClient,
+                        this.SyncPlay?.Manager.getTimeSyncCore(),
+                        { groupInfo: groupInfo }
+                    )
+                        .embed()
+                        .catch((error) => {
+                            if (error) {
+                                console.error(
+                                    'Error creating SyncPlay settings editor',
+                                    error
+                                );
+                            }
+                        });
+                }
+            })
+            .catch((error) => {
+                if (error) {
+                    console.error(
+                        'SyncPlay: unexpected error showing group menu:',
+                        error
+                    );
+                }
+            });
 
         loading.hide();
     }
@@ -198,29 +248,38 @@ class GroupSelectionMenu {
         loading.show();
 
         // TODO: should feature be disabled if playback permission is missing?
-        playbackPermissionManager.check().then(() => {
-            console.debug('Playback is allowed.');
-        }).catch((error) => {
-            console.error('Playback not allowed!', error);
-            toast({
-                text: globalize.translate('MessageSyncPlayPlaybackPermissionRequired')
+        playbackPermissionManager
+            .check()
+            .then(() => {
+                console.debug('Playback is allowed.');
+            })
+            .catch((error) => {
+                console.error('Playback not allowed!', error);
+                toast({
+                    text: globalize.translate(
+                        'MessageSyncPlayPlaybackPermissionRequired'
+                    )
+                });
             });
-        });
 
         const apiClient = ServerConnections.currentApiClient();
-        ServerConnections.user(apiClient).then((user) => {
-            if (this.syncPlayEnabled) {
-                this.showLeaveGroupSelection(button, user, apiClient);
-            } else {
-                this.showNewJoinGroupSelection(button, user, apiClient);
-            }
-        }).catch((error) => {
-            console.error(error);
-            loading.hide();
-            toast({
-                text: globalize.translate('MessageSyncPlayNoGroupsAvailable')
+        ServerConnections.user(apiClient)
+            .then((user) => {
+                if (this.syncPlayEnabled) {
+                    this.showLeaveGroupSelection(button, user, apiClient);
+                } else {
+                    this.showNewJoinGroupSelection(button, user, apiClient);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                loading.hide();
+                toast({
+                    text: globalize.translate(
+                        'MessageSyncPlayNoGroupsAvailable'
+                    )
+                });
             });
-        });
     }
 }
 

@@ -3,7 +3,17 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from '../../../../../hooks/useApi';
-import { addSection, getCardOptionsFromType, getItemTypesFromCollectionType, getTitleFromType, isLivetv, isMovies, isMusic, isTVShows, sortSections } from '../utils/search';
+import {
+    addSection,
+    getCardOptionsFromType,
+    getItemTypesFromCollectionType,
+    getTitleFromType,
+    isLivetv,
+    isMovies,
+    isMusic,
+    isTVShows,
+    sortSections
+} from '../utils/search';
 import { useArtistsSearch } from './useArtistsSearch';
 import { usePeopleSearch } from './usePeopleSearch';
 import { useVideoSearch } from './useVideoSearch';
@@ -18,19 +28,42 @@ export const useSearchItems = (
     collectionType?: CollectionType,
     searchTerm?: string
 ) => {
-    const { data: artists, isPending: isArtistsPending } = useArtistsSearch(parentId, collectionType, searchTerm);
-    const { data: people, isPending: isPeoplePending } = usePeopleSearch(parentId, collectionType, searchTerm);
-    const { data: videos, isPending: isVideosPending } = useVideoSearch(parentId, collectionType, searchTerm);
-    const { data: programs, isPending: isProgramsPending } = useProgramsSearch(parentId, collectionType, searchTerm);
-    const { data: liveTvSections, isPending: isLiveTvPending } = useLiveTvSearch(parentId, collectionType, searchTerm);
+    const { data: artists, isPending: isArtistsPending } = useArtistsSearch(
+        parentId,
+        collectionType,
+        searchTerm
+    );
+    const { data: people, isPending: isPeoplePending } = usePeopleSearch(
+        parentId,
+        collectionType,
+        searchTerm
+    );
+    const { data: videos, isPending: isVideosPending } = useVideoSearch(
+        parentId,
+        collectionType,
+        searchTerm
+    );
+    const { data: programs, isPending: isProgramsPending } = useProgramsSearch(
+        parentId,
+        collectionType,
+        searchTerm
+    );
+    const { data: liveTvSections, isPending: isLiveTvPending } =
+        useLiveTvSearch(parentId, collectionType, searchTerm);
     const { api, user } = useApi();
     const userId = user?.Id;
 
-    const isArtistsEnabled = !isArtistsPending || (collectionType && !isMusic(collectionType));
-    const isPeopleEnabled = !isPeoplePending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType));
+    const isArtistsEnabled =
+        !isArtistsPending || (collectionType && !isMusic(collectionType));
+    const isPeopleEnabled =
+        !isPeoplePending ||
+        (collectionType &&
+            !isMovies(collectionType) &&
+            !isTVShows(collectionType));
     const isVideosEnabled = !isVideosPending || collectionType;
     const isProgramsEnabled = !isProgramsPending || collectionType;
-    const isLiveTvEnabled = !isLiveTvPending || !collectionType || !isLivetv(collectionType);
+    const isLiveTvEnabled =
+        !isLiveTvPending || !collectionType || !isLivetv(collectionType);
 
     return useQuery({
         queryKey: ['Search', 'Items', collectionType, parentId, searchTerm],
@@ -57,7 +90,8 @@ export const useSearchItems = (
                 showParentTitle: true
             });
 
-            const itemTypes: BaseItemKind[] = getItemTypesFromCollectionType(collectionType);
+            const itemTypes: BaseItemKind[] =
+                getItemTypesFromCollectionType(collectionType);
 
             const searchData = await fetchItemsByType(
                 api!,
@@ -79,20 +113,24 @@ export const useSearchItems = (
                             items.push(searchItem);
                         }
                     }
-                    addSection(sections, getTitleFromType(itemType), items, getCardOptionsFromType(itemType));
+                    addSection(
+                        sections,
+                        getTitleFromType(itemType),
+                        items,
+                        getCardOptionsFromType(itemType)
+                    );
                 }
             }
 
             return sortSections(sections);
         },
-        enabled: (
-            !!api
-            && !!userId
-            && !!isArtistsEnabled
-            && !!isPeopleEnabled
-            && !!isVideosEnabled
-            && !!isLiveTvEnabled
-            && !!isProgramsEnabled
-        )
+        enabled:
+            !!api &&
+            !!userId &&
+            !!isArtistsEnabled &&
+            !!isPeopleEnabled &&
+            !!isVideosEnabled &&
+            !!isLiveTvEnabled &&
+            !!isProgramsEnabled
     });
 };

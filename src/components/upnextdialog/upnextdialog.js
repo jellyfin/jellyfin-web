@@ -19,20 +19,24 @@ function getHtml() {
 
     html += '<div class="flex flex-direction-column flex-grow">';
 
-    html += '<h2 class="upNextDialog-nextVideoText" style="margin:.25em 0;">&nbsp;</h2>';
+    html +=
+        '<h2 class="upNextDialog-nextVideoText" style="margin:.25em 0;">&nbsp;</h2>';
 
     html += '<h3 class="upNextDialog-title" style="margin:.25em 0 .5em;"></h3>';
 
     html += '<div class="flex flex-direction-row upNextDialog-mediainfo">';
     html += '</div>';
 
-    html += '<div class="flex flex-direction-row upNextDialog-buttons" style="margin-top:1em;">';
+    html +=
+        '<div class="flex flex-direction-row upNextDialog-buttons" style="margin-top:1em;">';
 
-    html += '<button type="button" is="emby-button" class="raised raised-mini btnStartNow upNextDialog-button">';
+    html +=
+        '<button type="button" is="emby-button" class="raised raised-mini btnStartNow upNextDialog-button">';
     html += globalize.translate('HeaderStartNow');
     html += '</button>';
 
-    html += '<button type="button" is="emby-button" class="raised raised-mini btnHide upNextDialog-button">';
+    html +=
+        '<button type="button" is="emby-button" class="raised raised-mini btnHide upNextDialog-button">';
     html += globalize.translate('Hide');
     html += '</button>';
 
@@ -50,21 +54,27 @@ function setNextVideoText() {
 
     const elem = instance.options.parent;
 
-    const secondsRemaining = Math.max(Math.round(getTimeRemainingMs(instance) / 1000), 0);
+    const secondsRemaining = Math.max(
+        Math.round(getTimeRemainingMs(instance) / 1000),
+        0
+    );
 
     console.debug('up next seconds remaining: ' + secondsRemaining);
 
-    const timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('HeaderSecondsValue', secondsRemaining) + '</span>';
+    const timeText =
+        '<span class="upNextDialog-countdownText">' +
+        globalize.translate('HeaderSecondsValue', secondsRemaining) +
+        '</span>';
 
     let nextVideoText;
     if (instance.itemType === 'Episode') {
-        nextVideoText = instance.showStaticNextText ?
-            globalize.translate('HeaderNextEpisode') :
-            globalize.translate('HeaderNextEpisodePlayingInValue', timeText);
+        nextVideoText = instance.showStaticNextText
+            ? globalize.translate('HeaderNextEpisode')
+            : globalize.translate('HeaderNextEpisodePlayingInValue', timeText);
     } else {
-        nextVideoText = instance.showStaticNextText ?
-            globalize.translate('HeaderNextVideo') :
-            globalize.translate('HeaderNextVideoPlayingInValue', timeText);
+        nextVideoText = instance.showStaticNextText
+            ? globalize.translate('HeaderNextVideo')
+            : globalize.translate('HeaderNextVideoPlayingInValue', timeText);
     }
 
     elem.querySelector('.upNextDialog-nextVideoText').innerHTML = nextVideoText;
@@ -75,12 +85,13 @@ function fillItem(item) {
 
     const elem = instance.options.parent;
 
-    elem.querySelector('.upNextDialog-mediainfo').innerHTML = mediaInfo.getPrimaryMediaInfoHtml(item, {
-        criticRating: true,
-        originalAirDate: false,
-        starRating: true,
-        subtitles: false
-    });
+    elem.querySelector('.upNextDialog-mediainfo').innerHTML =
+        mediaInfo.getPrimaryMediaInfoHtml(item, {
+            criticRating: true,
+            originalAirDate: false,
+            starRating: true,
+            subtitles: false
+        });
 
     let title = itemHelper.getDisplayName(item);
     if (item.SeriesName) {
@@ -124,8 +135,12 @@ async function init(instance, options) {
 
     fillItem.call(instance, options.nextItem);
 
-    options.parent.querySelector('.btnHide').addEventListener('click', instance.hide.bind(instance));
-    options.parent.querySelector('.btnStartNow').addEventListener('click', onStartNowClick.bind(instance));
+    options.parent
+        .querySelector('.btnHide')
+        .addEventListener('click', instance.hide.bind(instance));
+    options.parent
+        .querySelector('.btnStartNow')
+        .addEventListener('click', onStartNowClick.bind(instance));
 }
 
 function clearHideAnimationEventListeners(instance, elem) {
@@ -191,7 +206,9 @@ function getTimeRemainingMs(instance) {
         const runtimeTicks = playbackManager.duration(options.player);
 
         if (runtimeTicks) {
-            const timeRemainingTicks = runtimeTicks - playbackManager.currentTime(options.player) * 10000;
+            const timeRemainingTicks =
+                runtimeTicks -
+                playbackManager.currentTime(options.player) * 10000;
 
             return Math.round(timeRemainingTicks / 10000);
         }
@@ -210,7 +227,11 @@ function startComingUpNextHideTimer(instance) {
     setNextVideoText.call(instance);
     clearCountdownTextTimeout(instance);
 
-    if (!instance.showStaticNextText) instance._countdownTextTimeout = setInterval(setNextVideoText.bind(instance), 400);
+    if (!instance.showStaticNextText)
+        instance._countdownTextTimeout = setInterval(
+            setNextVideoText.bind(instance),
+            400
+        );
 }
 
 async function showStaticNextText(nextItem) {

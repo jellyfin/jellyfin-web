@@ -1,4 +1,3 @@
-
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import serverNotifications from 'scripts/serverNotifications';
@@ -8,9 +7,11 @@ import 'elements/emby-button/emby-button';
 
 function taskbutton(options) {
     function pollTasks() {
-        ServerConnections.getApiClient(serverId).getScheduledTasks({
-            IsEnabled: true
-        }).then(updateTasks);
+        ServerConnections.getApiClient(serverId)
+            .getScheduledTasks({
+                IsEnabled: true
+            })
+            .then(updateTasks);
     }
 
     function updateTasks(tasks) {
@@ -50,14 +51,28 @@ function taskbutton(options) {
         }
 
         if (options.lastResultElem) {
-            const lastResult = task.LastExecutionResult ? task.LastExecutionResult.Status : '';
+            const lastResult = task.LastExecutionResult
+                ? task.LastExecutionResult.Status
+                : '';
 
             if (lastResult == 'Failed') {
-                options.lastResultElem.html('<span style="color:#FF0000;">(' + globalize.translate('LabelFailed') + ')</span>');
+                options.lastResultElem.html(
+                    '<span style="color:#FF0000;">(' +
+                        globalize.translate('LabelFailed') +
+                        ')</span>'
+                );
             } else if (lastResult == 'Cancelled') {
-                options.lastResultElem.html('<span style="color:#0026FF;">(' + globalize.translate('LabelCancelled') + ')</span>');
+                options.lastResultElem.html(
+                    '<span style="color:#0026FF;">(' +
+                        globalize.translate('LabelCancelled') +
+                        ')</span>'
+                );
             } else if (lastResult == 'Aborted') {
-                options.lastResultElem.html('<span style="color:#FF0000;">' + globalize.translate('LabelAbortedByServerShutdown') + '</span>');
+                options.lastResultElem.html(
+                    '<span style="color:#FF0000;">' +
+                        globalize.translate('LabelAbortedByServerShutdown') +
+                        '</span>'
+                );
             } else {
                 options.lastResultElem.html(lastResult);
             }
@@ -65,7 +80,9 @@ function taskbutton(options) {
     }
 
     function onScheduledTaskMessageConfirmed(id) {
-        ServerConnections.getApiClient(serverId).startScheduledTask(id).then(pollTasks);
+        ServerConnections.getApiClient(serverId)
+            .startScheduledTask(id)
+            .then(pollTasks);
     }
 
     function onButtonClick() {
@@ -99,7 +116,9 @@ function taskbutton(options) {
     }
 
     function stopInterval() {
-        ServerConnections.getApiClient(serverId).sendMessage('ScheduledTasksInfoStop');
+        ServerConnections.getApiClient(serverId).sendMessage(
+            'ScheduledTasksInfoStop'
+        );
 
         if (pollInterval) {
             clearInterval(pollInterval);
@@ -112,13 +131,21 @@ function taskbutton(options) {
 
     if (options.mode == 'off') {
         button.removeEventListener('click', onButtonClick);
-        Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+        Events.off(
+            serverNotifications,
+            'ScheduledTasksInfo',
+            onScheduledTasksUpdate
+        );
         stopInterval();
     } else {
         button.addEventListener('click', onButtonClick);
         pollTasks();
         startInterval();
-        Events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+        Events.on(
+            serverNotifications,
+            'ScheduledTasksInfo',
+            onScheduledTasksUpdate
+        );
     }
 }
 

@@ -10,19 +10,16 @@ import { useLocale } from 'hooks/useLocale';
 import { toDecimalString } from 'utils/number';
 
 interface Metric {
-    label: string
-    value?: number
+    label: string;
+    value?: number;
 }
 
 export interface MetricCardProps {
-    metrics: Metric[]
-    Icon: typeof SvgIcon
+    metrics: Metric[];
+    Icon: typeof SvgIcon;
 }
 
-const MetricCard: FC<MetricCardProps> = ({
-    metrics,
-    Icon
-}) => {
+const MetricCard: FC<MetricCardProps> = ({ metrics, Icon }) => {
     const { dateTimeLocale } = useLocale();
 
     return (
@@ -44,16 +41,10 @@ const MetricCard: FC<MetricCardProps> = ({
             >
                 {metrics.map(({ label, value }) => (
                     <Box key={label}>
-                        <Typography
-                            variant='body2'
-                            color='text.secondary'
-                        >
+                        <Typography variant='body2' color='text.secondary'>
                             {label}
                         </Typography>
-                        <Typography
-                            variant='h5'
-                            component='div'
-                        >
+                        <Typography variant='h5' component='div'>
                             {typeof value !== 'undefined' ? (
                                 toDecimalString(value, dateTimeLocale)
                             ) : (

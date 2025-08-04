@@ -5,7 +5,8 @@ export function parseISO8601Date(s, toLocal) {
     // year month day    hours minutes seconds
     // dotmilliseconds
     // tzstring plusminus hours minutes
-    const re = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?(Z|([+-])(\d{2}):(\d{2}))?/;
+    const re =
+        /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?(Z|([+-])(\d{2}):(\d{2}))?/;
 
     const d = s.match(re);
 
@@ -56,9 +57,9 @@ export function parseISO8601Date(s, toLocal) {
 }
 
 /**
-     * Return a string in '{}h {}m' format for duration.
-     * @param {number} ticks - Duration in ticks.
-     */
+ * Return a string in '{}h {}m' format for duration.
+ * @param {number} ticks - Duration in ticks.
+ */
 export function getDisplayDuration(ticks) {
     const totalMinutes = Math.round(ticks / 600000000) || 1;
     const totalHours = Math.floor(totalMinutes / 60);
@@ -85,15 +86,17 @@ export function getDisplayRunningTime(ticks) {
         parts.push(hours.toLocaleString(globalize.getCurrentDateTimeLocale()));
     }
 
-    ticks -= (hours * ticksPerHour);
+    ticks -= hours * ticksPerHour;
 
     let minutes = ticks / ticksPerMinute;
     minutes = Math.floor(minutes);
 
-    ticks -= (minutes * ticksPerMinute);
+    ticks -= minutes * ticksPerMinute;
 
     if (minutes < 10 && hours) {
-        minutes = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
+        minutes =
+            (0).toLocaleString(globalize.getCurrentDateTimeLocale()) +
+            minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
     } else {
         minutes = minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
     }
@@ -103,7 +106,9 @@ export function getDisplayRunningTime(ticks) {
     seconds = Math.floor(seconds);
 
     if (seconds < 10) {
-        seconds = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
+        seconds =
+            (0).toLocaleString(globalize.getCurrentDateTimeLocale()) +
+            seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
     } else {
         seconds = seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
     }
@@ -112,7 +117,7 @@ export function getDisplayRunningTime(ticks) {
     return parts.join(':');
 }
 
-const toLocaleTimeStringSupportsLocales = function () {
+const toLocaleTimeStringSupportsLocales = (function () {
     try {
         // eslint-disable-next-line sonarjs/no-ignored-return
         new Date().toLocaleTimeString('i');
@@ -120,7 +125,7 @@ const toLocaleTimeStringSupportsLocales = function () {
         return e.name === 'RangeError';
     }
     return false;
-}();
+})();
 
 function getOptionList(options) {
     const list = [];
@@ -234,10 +239,8 @@ export function getDisplayTime(date) {
 
     if (toLocaleTimeStringSupportsLocales) {
         return toLocaleTimeString(date, {
-
             hour: 'numeric',
             minute: '2-digit'
-
         });
     }
 
@@ -283,7 +286,11 @@ export function isRelativeDay(date, offsetInDays) {
 
     yesterday.setDate(day); // automatically adjusts month/year appropriately
 
-    return date.getFullYear() === yesterday.getFullYear() && date.getMonth() === yesterday.getMonth() && date.getDate() === day;
+    return (
+        date.getFullYear() === yesterday.getFullYear() &&
+        date.getMonth() === yesterday.getMonth() &&
+        date.getDate() === day
+    );
 }
 
 export default {
@@ -299,4 +306,3 @@ export default {
         return toLocaleTimeStringSupportsLocales;
     }
 };
-

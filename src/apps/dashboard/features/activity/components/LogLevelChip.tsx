@@ -6,7 +6,10 @@ import globalize from 'lib/globalize';
 import getLogLevelColor from '../utils/getLogLevelColor';
 
 const LogLevelChip = ({ level }: { level: LogLevel }) => {
-    const levelText = useMemo(() => globalize.translate(`LogLevel.${level}`), [level]);
+    const levelText = useMemo(
+        () => globalize.translate(`LogLevel.${level}`),
+        [level]
+    );
 
     return (
         <Chip

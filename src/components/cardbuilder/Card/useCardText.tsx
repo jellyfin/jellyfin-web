@@ -15,11 +15,11 @@ const enableRightMargin = (
     cardFooterAside: string | undefined
 ) => {
     return (
-        isOuterFooter
-        && cardLayout
-        && !centerText
-        && cardFooterAside !== 'none'
-        && layoutManager.mobile
+        isOuterFooter &&
+        cardLayout &&
+        !centerText &&
+        cardFooterAside !== 'none' &&
+        layoutManager.mobile
     );
 };
 
@@ -69,8 +69,7 @@ function useCardText({
             const currentCssClass = classNames(
                 cssClass,
                 {
-                    'cardText-secondary':
-                    valid > 0 && isOuterFooter
+                    'cardText-secondary': valid > 0 && isOuterFooter
                 },
                 { 'cardText-first': valid === 0 && isOuterFooter },
                 { 'cardText-rightmargin': addRightMargin }
@@ -78,7 +77,11 @@ function useCardText({
 
             if (textLine) {
                 components.push(
-                    <CardText key={valid} className={currentCssClass} textLine={textLine} />
+                    <CardText
+                        key={valid}
+                        className={currentCssClass}
+                        textLine={textLine}
+                    />
                 );
 
                 valid++;
@@ -89,7 +92,9 @@ function useCardText({
         }
 
         if (forceLines) {
-            const linesLength = maxLines ?? Math.min(textLines.length, maxLines ?? textLines.length);
+            const linesLength =
+                maxLines ??
+                Math.min(textLines.length, maxLines ?? textLines.length);
             while (valid < linesLength) {
                 components.push(
                     <Box key={valid} className={cssClass}>

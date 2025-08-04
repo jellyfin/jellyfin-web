@@ -1,4 +1,3 @@
-
 import { playbackManager } from '../playback/playbackmanager';
 import layoutManager from '../layoutManager';
 import template from './subtitlesync.template.html';
@@ -49,7 +48,9 @@ function init(instance) {
 
                 subtitleSyncSlider.updateOffset(inputOffset);
             } else {
-                this.textContent = (playbackManager.getPlayerSubtitleOffset(player) || 0) + 's';
+                this.textContent =
+                    (playbackManager.getPlayerSubtitleOffset(player) || 0) +
+                    's';
             }
             this.hasFocus = false;
             event.preventDefault();
@@ -90,9 +91,13 @@ function init(instance) {
     subtitleSyncSlider.addEventListener('change', () => updateSubtitleOffset());
 
     subtitleSyncSlider.getBubbleHtml = function (_, value) {
-        return '<h1 class="sliderBubbleText">'
-            + (value > 0 ? '+' : '') + parseFloat(value) + 's'
-            + '</h1>';
+        return (
+            '<h1 class="sliderBubbleText">' +
+            (value > 0 ? '+' : '') +
+            parseFloat(value) +
+            's' +
+            '</h1>'
+        );
     };
 
     subtitleSyncCloseButton.addEventListener('click', function () {
@@ -124,16 +129,27 @@ class SubtitleSync {
 
     toggle(action) {
         if (action && !['hide', 'forceToHide'].includes(action)) {
-            console.warn('SubtitleSync.toggle called with invalid action', action);
+            console.warn(
+                'SubtitleSync.toggle called with invalid action',
+                action
+            );
             return;
         }
 
         if (player && playbackManager.supportSubtitleOffset(player)) {
             if (!action) {
                 // if showing subtitle sync is enabled and if there is an external subtitle stream enabled
-                if (playbackManager.isShowingSubtitleOffsetEnabled(player) && playbackManager.canHandleOffsetOnCurrentSubtitle(player)) {
+                if (
+                    playbackManager.isShowingSubtitleOffsetEnabled(player) &&
+                    playbackManager.canHandleOffsetOnCurrentSubtitle(player)
+                ) {
                     // if no subtitle offset is defined or element has focus (offset being defined)
-                    if (!(playbackManager.getPlayerSubtitleOffset(player) || subtitleSyncTextField.hasFocus)) {
+                    if (
+                        !(
+                            playbackManager.getPlayerSubtitleOffset(player) ||
+                            subtitleSyncTextField.hasFocus
+                        )
+                    ) {
                         // set default offset to '0' = 0ms
                         subtitleSyncSlider.value = '0';
                         subtitleSyncTextField.textContent = '0s';

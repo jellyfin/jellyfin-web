@@ -34,7 +34,9 @@ try {
 
 const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
 
-const THEMES = fg.globSync('themes/**/*.scss', { cwd: path.resolve(__dirname, 'src') });
+const THEMES = fg.globSync('themes/**/*.scss', {
+    cwd: path.resolve(__dirname, 'src')
+});
 const THEMES_BY_ID = THEMES.reduce((acc, theme) => {
     acc[theme.substring(0, theme.lastIndexOf('/'))] = `./${theme}`;
     return acc;
@@ -58,12 +60,15 @@ const config = {
         new DefinePlugin({
             __COMMIT_SHA__: JSON.stringify(COMMIT_SHA),
             __JF_BUILD_VERSION__: JSON.stringify(
-                process.env.WEBPACK_SERVE ?
-                    'Dev Server' :
-                    process.env.JELLYFIN_VERSION || 'Release'),
+                process.env.WEBPACK_SERVE
+                    ? 'Dev Server'
+                    : process.env.JELLYFIN_VERSION || 'Release'
+            ),
             __PACKAGE_JSON_NAME__: JSON.stringify(packageJson.name),
             __PACKAGE_JSON_VERSION__: JSON.stringify(packageJson.version),
-            __USE_SYSTEM_FONTS__: !!JSON.parse(process.env.USE_SYSTEM_FONTS || '0'),
+            __USE_SYSTEM_FONTS__: !!JSON.parse(
+                process.env.USE_SYSTEM_FONTS || '0'
+            ),
             __WEBPACK_SERVE__: !!JSON.parse(process.env.WEBPACK_SERVE || '0')
         }),
         new CleanWebpackPlugin(),
@@ -72,10 +77,7 @@ const config = {
             template: 'index.html',
             // Append file hashes to bundle urls for cache busting
             hash: true,
-            chunks: [
-                'main.jellyfin',
-                'serviceworker'
-            ]
+            chunks: ['main.jellyfin', 'serviceworker']
         }),
         new CopyPlugin({
             patterns: [
@@ -87,10 +89,13 @@ const config = {
                 'robots.txt',
                 {
                     from: 'touchicon*.png',
-                    context: path.resolve(__dirname, 'node_modules/@jellyfin/ux-web/favicons'),
+                    context: path.resolve(
+                        __dirname,
+                        'node_modules/@jellyfin/ux-web/favicons'
+                    ),
                     to: 'favicons'
                 },
-                ...Assets.map(asset => {
+                ...Assets.map((asset) => {
                     return {
                         from: path.resolve(__dirname, `node_modules/${asset}`),
                         to: 'libraries'
@@ -110,7 +115,7 @@ const config = {
             }
         }),
         new MiniCssExtractPlugin({
-            filename: pathData => {
+            filename: (pathData) => {
                 if (pathData.chunk?.name?.startsWith('themes/')) {
                     return '[name]/theme.css';
                 }
@@ -120,15 +125,19 @@ const config = {
         })
     ],
     output: {
-        filename: pathData => (
-            pathData.chunk.name === 'serviceworker' ? '[name].js' : '[name].bundle.js'
-        ),
+        filename: (pathData) =>
+            pathData.chunk.name === 'serviceworker'
+                ? '[name].js'
+                : '[name].bundle.js',
         chunkFilename: '[name].[contenthash].chunk.js',
-        assetModuleFilename: pathData => {
+        assetModuleFilename: (pathData) => {
             if (pathData.filename === 'manifest.json') {
                 return '[base]';
             }
-            if (pathData.filename.startsWith('assets/') || pathData.filename.startsWith('themes/')) {
+            if (
+                pathData.filename.startsWith('assets/') ||
+                pathData.filename.startsWith('themes/')
+            ) {
                 return '[path][base][query]';
             }
             return '[name].[hash][ext][query]';
@@ -151,18 +160,24 @@ const config = {
                     name(module) {
                         // get the name. E.g. node_modules/packageName/not/this/part.js
                         // or node_modules/packageName
-                        const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                        const packageName = module.context.match(
+                            /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+                        )[1];
                         // if "packageName" is a namespace (i.e. @jellyfin) get the namespace + packageName
                         if (packageName.startsWith('@')) {
                             const parts = module.context
-                                .substring(module.context.lastIndexOf(packageName))
+                                .substring(
+                                    module.context.lastIndexOf(packageName)
+                                )
                                 .split(/[\\/]/);
                             return `node_modules.${parts[0]}.${parts[1]}`;
                         }
 
                         if (packageName === 'date-fns') {
                             const parts = module.context
-                                .substring(module.context.lastIndexOf(packageName))
+                                .substring(
+                                    module.context.lastIndexOf(packageName)
+                                )
                                 .split(/[\\/]/);
 
                             let name = `node_modules.${parts[0]}`;
@@ -194,28 +209,64 @@ const config = {
             {
                 test: /\.(js|jsx|mjs)$/,
                 include: [
-                    path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@jellyfin/libass-wasm'
+                    ),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
                     path.resolve(__dirname, 'node_modules/@mui/base'),
                     path.resolve(__dirname, 'node_modules/@mui/lab'),
                     path.resolve(__dirname, 'node_modules/@mui/material'),
-                    path.resolve(__dirname, 'node_modules/@mui/private-theming'),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@mui/private-theming'
+                    ),
                     path.resolve(__dirname, 'node_modules/@mui/styled-engine'),
                     path.resolve(__dirname, 'node_modules/@mui/system'),
                     path.resolve(__dirname, 'node_modules/@mui/utils'),
                     path.resolve(__dirname, 'node_modules/@mui/x-date-pickers'),
                     path.resolve(__dirname, 'node_modules/@react-hook/latest'),
-                    path.resolve(__dirname, 'node_modules/@react-hook/passive-layout-effect'),
-                    path.resolve(__dirname, 'node_modules/@react-hook/resize-observer'),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@react-hook/passive-layout-effect'
+                    ),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@react-hook/resize-observer'
+                    ),
                     path.resolve(__dirname, 'node_modules/@remix-run/router'),
-                    path.resolve(__dirname, 'node_modules/@tanstack/match-sorter-utils'),
-                    path.resolve(__dirname, 'node_modules/@tanstack/query-core'),
-                    path.resolve(__dirname, 'node_modules/@tanstack/react-query'),
-                    path.resolve(__dirname, 'node_modules/@tanstack/react-table'),
-                    path.resolve(__dirname, 'node_modules/@tanstack/react-virtual'),
-                    path.resolve(__dirname, 'node_modules/@tanstack/table-core'),
-                    path.resolve(__dirname, 'node_modules/@tanstack/virtual-core'),
-                    path.resolve(__dirname, 'node_modules/@uupaa/dynamic-import-polyfill'),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@tanstack/match-sorter-utils'
+                    ),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@tanstack/query-core'
+                    ),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@tanstack/react-query'
+                    ),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@tanstack/react-table'
+                    ),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@tanstack/react-virtual'
+                    ),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@tanstack/table-core'
+                    ),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@tanstack/virtual-core'
+                    ),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@uupaa/dynamic-import-polyfill'
+                    ),
                     path.resolve(__dirname, 'node_modules/axios'),
                     path.resolve(__dirname, 'node_modules/blurhash'),
                     path.resolve(__dirname, 'node_modules/compare-versions'),
@@ -227,12 +278,18 @@ const config = {
                     path.resolve(__dirname, 'node_modules/libarchive.js'),
                     path.resolve(__dirname, 'node_modules/linkify-it'),
                     path.resolve(__dirname, 'node_modules/markdown-it'),
-                    path.resolve(__dirname, 'node_modules/material-react-table'),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/material-react-table'
+                    ),
                     path.resolve(__dirname, 'node_modules/mdurl'),
                     path.resolve(__dirname, 'node_modules/proxy-polyfill'),
                     path.resolve(__dirname, 'node_modules/punycode'),
                     path.resolve(__dirname, 'node_modules/react-blurhash'),
-                    path.resolve(__dirname, 'node_modules/react-lazy-load-image-component'),
+                    path.resolve(
+                        __dirname,
+                        'node_modules/react-lazy-load-image-component'
+                    ),
                     path.resolve(__dirname, 'node_modules/react-router'),
                     path.resolve(__dirname, 'node_modules/remove-accents'),
                     path.resolve(__dirname, 'node_modules/screenfull'),
@@ -241,30 +298,37 @@ const config = {
                     path.resolve(__dirname, 'node_modules/usehooks-ts'),
                     path.resolve(__dirname, 'src')
                 ],
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        cacheCompression: false,
-                        cacheDirectory: true
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            cacheCompression: false,
+                            cacheDirectory: true
+                        }
                     }
-                }]
+                ]
             },
             // Strict EcmaScript modules require additional flags
             {
                 test: /\.(js|jsx|mjs)$/,
                 include: [
-                    path.resolve(__dirname, 'node_modules/@tanstack/query-devtools')
+                    path.resolve(
+                        __dirname,
+                        'node_modules/@tanstack/query-devtools'
+                    )
                 ],
                 resolve: {
                     fullySpecified: false
                 },
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        cacheCompression: false,
-                        cacheDirectory: true
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            cacheCompression: false,
+                            cacheDirectory: true
+                        }
                     }
-                }]
+                ]
             },
             {
                 test: /\.worker\.ts$/,
@@ -282,12 +346,14 @@ const config = {
             {
                 test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
-                use: [{
-                    loader: 'ts-loader',
-                    options: {
-                        transpileOnly: true
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            transpileOnly: true
+                        }
                     }
-                }]
+                ]
             },
             /* modules that Babel breaks when transforming to ESM */
             {
@@ -296,25 +362,23 @@ const config = {
                     path.resolve(__dirname, 'node_modules/pdfjs-dist'),
                     path.resolve(__dirname, 'node_modules/xmldom')
                 ],
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        cacheCompression: false,
-                        cacheDirectory: true,
-                        plugins: [
-                            '@babel/transform-modules-umd'
-                        ]
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            cacheCompression: false,
+                            cacheDirectory: true,
+                            plugins: ['@babel/transform-modules-umd']
+                        }
                     }
-                }]
+                ]
             },
             {
                 test: /\.(sa|sc|c)ss$/i,
                 oneOf: [
                     {
                         // Themes always need to use the MiniCssExtractPlugin since they are loaded directly
-                        include: [
-                            path.resolve(__dirname, 'src/themes/')
-                        ],
+                        include: [path.resolve(__dirname, 'src/themes/')],
                         use: [
                             {
                                 loader: MiniCssExtractPlugin.loader,
@@ -327,7 +391,10 @@ const config = {
                                 loader: 'postcss-loader',
                                 options: {
                                     postcssOptions: {
-                                        config: path.resolve(__dirname, 'postcss.config.js')
+                                        config: path.resolve(
+                                            __dirname,
+                                            'postcss.config.js'
+                                        )
                                     }
                                 }
                             },
@@ -336,13 +403,18 @@ const config = {
                     },
                     {
                         use: [
-                            DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
+                            DEV_MODE
+                                ? 'style-loader'
+                                : MiniCssExtractPlugin.loader,
                             'css-loader',
                             {
                                 loader: 'postcss-loader',
                                 options: {
                                     postcssOptions: {
-                                        config: path.resolve(__dirname, 'postcss.config.js')
+                                        config: path.resolve(
+                                            __dirname,
+                                            'postcss.config.js'
+                                        )
                                     }
                                 }
                             },

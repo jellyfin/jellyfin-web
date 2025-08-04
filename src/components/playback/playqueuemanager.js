@@ -55,7 +55,10 @@ class PlayQueueManager {
         for (const item of this._playlist) {
             this._sortedPlaylist.push(item);
         }
-        const currentPlaylistItem = this._playlist.splice(this.getCurrentPlaylistIndex(), 1)[0];
+        const currentPlaylistItem = this._playlist.splice(
+            this.getCurrentPlaylistIndex(),
+            1
+        )[0];
 
         for (let i = this._playlist.length - 1; i > 0; i--) {
             const j = randomInt(0, i - 1);
@@ -77,7 +80,10 @@ class PlayQueueManager {
     }
 
     clearPlaylist(clearCurrentItem = false) {
-        const currentPlaylistItem = this._playlist.splice(this.getCurrentPlaylistIndex(), 1)[0];
+        const currentPlaylistItem = this._playlist.splice(
+            this.getCurrentPlaylistIndex(),
+            1
+        )[0];
         this._playlist = [];
         if (!clearCurrentItem) {
             this._playlist.push(currentPlaylistItem);
@@ -101,11 +107,17 @@ class PlayQueueManager {
     }
 
     getCurrentPlaylistIndex() {
-        return findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
+        return findPlaylistIndex(
+            this.getCurrentPlaylistItemId(),
+            this._playlist
+        );
     }
 
     getCurrentItem() {
-        const index = findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
+        const index = findPlaylistIndex(
+            this.getCurrentPlaylistItemId(),
+            this._playlist
+        );
 
         return index === -1 ? null : this._playlist[index];
     }
@@ -134,7 +146,8 @@ class PlayQueueManager {
         }
 
         const currentPlaylistItemId = this.getCurrentPlaylistItemId();
-        const isCurrentIndex = playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
+        const isCurrentIndex =
+            playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
 
         this._sortedPlaylist = this._sortedPlaylist.filter(function (item) {
             return !playlistItemIds.includes(item.PlaylistItemId);
@@ -225,7 +238,9 @@ class PlayQueueManager {
                 this.setShuffleMode('Shuffle');
                 break;
             default:
-                throw new TypeError('current value for shufflequeue is invalid');
+                throw new TypeError(
+                    'current value for shufflequeue is invalid'
+                );
         }
     }
 

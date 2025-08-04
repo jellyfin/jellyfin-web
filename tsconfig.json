@@ -1,24 +1,22 @@
 {
-  "compilerOptions": {
-    "baseUrl": "src",
-    "target": "ES5",
-    "lib": ["DOM", "DOM.Iterable", "ES2015"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "noImplicitAny": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "outDir": "./dist/",
-    "checkJs": false,
-    "strictNullChecks": true,
-    "jsx": "react-jsx",
-    "downlevelIteration": true
-  },
-  "include": [
-    "src"
-  ]
+    "compilerOptions": {
+        "baseUrl": "src",
+        "target": "ES5",
+        "lib": ["DOM", "DOM.Iterable", "ES2015"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "outDir": "./dist/",
+        "checkJs": false,
+        "strictNullChecks": true,
+        "jsx": "react-jsx",
+        "downlevelIteration": true
+    },
+    "include": ["src"]
 }

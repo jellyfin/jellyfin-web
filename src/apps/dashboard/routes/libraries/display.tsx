@@ -13,11 +13,22 @@ import Typography from '@mui/material/Typography';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import { QUERY_KEY as CONFIG_QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
-import { QUERY_KEY as NAMED_CONFIG_QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
+import {
+    QUERY_KEY as CONFIG_QUERY_KEY,
+    useConfiguration
+} from 'hooks/useConfiguration';
+import {
+    QUERY_KEY as NAMED_CONFIG_QUERY_KEY,
+    useNamedConfiguration
+} from 'hooks/useNamedConfiguration';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
+import {
+    type ActionFunctionArgs,
+    Form,
+    useActionData,
+    useNavigation
+} from 'react-router-dom';
 import { ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
 import type { MetadataConfiguration } from '@jellyfin/sdk/lib/generated-client/models/metadata-configuration';
@@ -34,26 +45,34 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const { data: config } = await getConfigurationApi(api).getConfiguration();
 
     const metadataConfig: MetadataConfiguration = {
-        UseFileCreationTimeForDateAdded: data.DateAddedBehavior.toString() === '1'
+        UseFileCreationTimeForDateAdded:
+            data.DateAddedBehavior.toString() === '1'
     };
 
     config.EnableFolderView = data.DisplayFolderView?.toString() === 'on';
-    config.DisplaySpecialsWithinSeasons = data.DisplaySpecialsWithinSeasons?.toString() === 'on';
-    config.EnableGroupingMoviesIntoCollections = data.GroupMoviesIntoCollections?.toString() === 'on';
-    config.EnableGroupingShowsIntoCollections = data.GroupShowsIntoCollections?.toString() === 'on';
-    config.EnableExternalContentInSuggestions = data.EnableExternalContentInSuggestions?.toString() === 'on';
+    config.DisplaySpecialsWithinSeasons =
+        data.DisplaySpecialsWithinSeasons?.toString() === 'on';
+    config.EnableGroupingMoviesIntoCollections =
+        data.GroupMoviesIntoCollections?.toString() === 'on';
+    config.EnableGroupingShowsIntoCollections =
+        data.GroupShowsIntoCollections?.toString() === 'on';
+    config.EnableExternalContentInSuggestions =
+        data.EnableExternalContentInSuggestions?.toString() === 'on';
 
-    await getConfigurationApi(api)
-        .updateConfiguration({ serverConfiguration: config });
+    await getConfigurationApi(api).updateConfiguration({
+        serverConfiguration: config
+    });
 
-    await getConfigurationApi(api)
-        .updateNamedConfiguration({ key: CONFIG_KEY, body: metadataConfig });
+    await getConfigurationApi(api).updateNamedConfiguration({
+        key: CONFIG_KEY,
+        body: metadataConfig
+    });
 
     void queryClient.invalidateQueries({
-        queryKey: [ CONFIG_QUERY_KEY ]
+        queryKey: [CONFIG_QUERY_KEY]
     });
     void queryClient.invalidateQueries({
-        queryKey: [ NAMED_CONFIG_QUERY_KEY, CONFIG_KEY ]
+        queryKey: [NAMED_CONFIG_QUERY_KEY, CONFIG_KEY]
     });
 
     return {
@@ -89,7 +108,9 @@ export const Component = () => {
         >
             <Box className='content-primary'>
                 {isConfigError || isNamedConfigError ? (
-                    <Alert severity='error'>{globalize.translate('DisplayLoadError')}</Alert>
+                    <Alert severity='error'>
+                        {globalize.translate('DisplayLoadError')}
+                    </Alert>
                 ) : (
                     <Form method='POST'>
                         <Stack spacing={3}>
@@ -98,16 +119,34 @@ export const Component = () => {
                                     {globalize.translate('SettingsSaved')}
                                 </Alert>
                             )}
-                            <Typography variant='h1'>{globalize.translate('Display')}</Typography>
+                            <Typography variant='h1'>
+                                {globalize.translate('Display')}
+                            </Typography>
                             <TextField
                                 name={'DateAddedBehavior'}
-                                label={globalize.translate('LabelDateAddedBehavior')}
+                                label={globalize.translate(
+                                    'LabelDateAddedBehavior'
+                                )}
                                 select
-                                defaultValue={namedConfig.UseFileCreationTimeForDateAdded ? '1' : '0'}
-                                helperText={globalize.translate('LabelDateAddedBehaviorHelp')}
+                                defaultValue={
+                                    namedConfig.UseFileCreationTimeForDateAdded
+                                        ? '1'
+                                        : '0'
+                                }
+                                helperText={globalize.translate(
+                                    'LabelDateAddedBehaviorHelp'
+                                )}
                             >
-                                <MenuItem value={'0'}>{globalize.translate('OptionDateAddedImportTime')}</MenuItem>
-                                <MenuItem value={'1'}>{globalize.translate('OptionDateAddedFileTime')}</MenuItem>
+                                <MenuItem value={'0'}>
+                                    {globalize.translate(
+                                        'OptionDateAddedImportTime'
+                                    )}
+                                </MenuItem>
+                                <MenuItem value={'1'}>
+                                    {globalize.translate(
+                                        'OptionDateAddedFileTime'
+                                    )}
+                                </MenuItem>
                             </TextField>
 
                             <FormControl>
@@ -115,23 +154,37 @@ export const Component = () => {
                                     control={
                                         <Checkbox
                                             name={'DisplayFolderView'}
-                                            defaultChecked={config.EnableFolderView}
+                                            defaultChecked={
+                                                config.EnableFolderView
+                                            }
                                         />
                                     }
-                                    label={globalize.translate('OptionDisplayFolderView')}
+                                    label={globalize.translate(
+                                        'OptionDisplayFolderView'
+                                    )}
                                 />
-                                <FormHelperText>{globalize.translate('OptionDisplayFolderViewHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'OptionDisplayFolderViewHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            name={'DisplaySpecialsWithinSeasons'}
-                                            defaultChecked={config.DisplaySpecialsWithinSeasons}
+                                            name={
+                                                'DisplaySpecialsWithinSeasons'
+                                            }
+                                            defaultChecked={
+                                                config.DisplaySpecialsWithinSeasons
+                                            }
                                         />
                                     }
-                                    label={globalize.translate('LabelDisplaySpecialsWithinSeasons')}
+                                    label={globalize.translate(
+                                        'LabelDisplaySpecialsWithinSeasons'
+                                    )}
                                 />
                             </FormControl>
 
@@ -140,12 +193,20 @@ export const Component = () => {
                                     control={
                                         <Checkbox
                                             name={'GroupMoviesIntoCollections'}
-                                            defaultChecked={config.EnableGroupingMoviesIntoCollections}
+                                            defaultChecked={
+                                                config.EnableGroupingMoviesIntoCollections
+                                            }
                                         />
                                     }
-                                    label={globalize.translate('LabelGroupMoviesIntoCollections')}
+                                    label={globalize.translate(
+                                        'LabelGroupMoviesIntoCollections'
+                                    )}
                                 />
-                                <FormHelperText>{globalize.translate('LabelGroupMoviesIntoCollectionsHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'LabelGroupMoviesIntoCollectionsHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
@@ -153,31 +214,46 @@ export const Component = () => {
                                     control={
                                         <Checkbox
                                             name={'GroupShowsIntoCollections'}
-                                            defaultChecked={config.EnableGroupingShowsIntoCollections}
+                                            defaultChecked={
+                                                config.EnableGroupingShowsIntoCollections
+                                            }
                                         />
                                     }
-                                    label={globalize.translate('LabelGroupShowsIntoCollections')}
+                                    label={globalize.translate(
+                                        'LabelGroupShowsIntoCollections'
+                                    )}
                                 />
-                                <FormHelperText>{globalize.translate('LabelGroupShowsIntoCollectionsHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'LabelGroupShowsIntoCollectionsHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            name={'EnableExternalContentInSuggestions'}
-                                            defaultChecked={config.EnableExternalContentInSuggestions}
+                                            name={
+                                                'EnableExternalContentInSuggestions'
+                                            }
+                                            defaultChecked={
+                                                config.EnableExternalContentInSuggestions
+                                            }
                                         />
                                     }
-                                    label={globalize.translate('OptionEnableExternalContentInSuggestions')}
+                                    label={globalize.translate(
+                                        'OptionEnableExternalContentInSuggestions'
+                                    )}
                                 />
-                                <FormHelperText>{globalize.translate('OptionEnableExternalContentInSuggestionsHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate(
+                                        'OptionEnableExternalContentInSuggestionsHelp'
+                                    )}
+                                </FormHelperText>
                             </FormControl>
 
-                            <Button
-                                type='submit'
-                                size='large'
-                            >
+                            <Button type='submit' size='large'>
                                 {globalize.translate('Save')}
                             </Button>
                         </Stack>

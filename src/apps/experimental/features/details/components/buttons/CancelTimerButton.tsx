@@ -38,10 +38,7 @@ const CancelTimerButton: FC<CancelTimerButtonProps> = ({
                 onError: (err: unknown) => {
                     loading.hide();
                     toast(globalize.translate('MessageCancelTimerError'));
-                    console.error(
-                        '[cancelTimer] failed to cancel timer',
-                        err
-                    );
+                    console.error('[cancelTimer] failed to cancel timer', err);
                 }
             }
         );

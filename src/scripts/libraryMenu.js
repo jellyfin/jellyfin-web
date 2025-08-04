@@ -40,18 +40,28 @@ function renderHeader() {
     let html = '';
     html += '<div class="flex align-items-center flex-grow headerTop">';
     html += '<div class="headerLeft">';
-    html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><span class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '" aria-hidden="true"></span></button>';
-    html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><span class="material-icons home" aria-hidden="true"></span></button>';
-    html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><span class="material-icons menu" aria-hidden="true"></span></button>';
+    html +=
+        '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><span class="material-icons ' +
+        (browser.safari ? 'chevron_left' : 'arrow_back') +
+        '" aria-hidden="true"></span></button>';
+    html +=
+        '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><span class="material-icons home" aria-hidden="true"></span></button>';
+    html +=
+        '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><span class="material-icons menu" aria-hidden="true"></span></button>';
     html += '<h3 class="pageTitle" aria-hidden="true"></h3>';
     html += '</div>';
     html += '<div class="headerRight">';
-    html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups" aria-hidden="true"></span></button>';
+    html +=
+        '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups" aria-hidden="true"></span></button>';
     html += '<span class="headerSelectedPlayer"></span>';
-    html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note" aria-hidden="true"></span></button>';
-    html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast" aria-hidden="true"></span></button>';
-    html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search" aria-hidden="true"></span></button>';
-    html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person" aria-hidden="true"></span></button>';
+    html +=
+        '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note" aria-hidden="true"></span></button>';
+    html +=
+        '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast" aria-hidden="true"></span></button>';
+    html +=
+        '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search" aria-hidden="true"></span></button>';
+    html +=
+        '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person" aria-hidden="true"></span></button>';
     html += '<div class="currentTimeText hide"></div>';
     html += '</div>';
     html += '</div>';
@@ -69,7 +79,9 @@ function renderHeader() {
     mainDrawerButton = skinHeader.querySelector('.mainDrawerButton');
     headerUserButton = skinHeader.querySelector('.headerUserButton');
     headerCastButton = skinHeader.querySelector('.headerCastButton');
-    headerAudioPlayerButton = skinHeader.querySelector('.headerAudioPlayerButton');
+    headerAudioPlayerButton = skinHeader.querySelector(
+        '.headerAudioPlayerButton'
+    );
     headerSearchButton = skinHeader.querySelector('.headerSearchButton');
     headerSyncButton = skinHeader.querySelector('.headerSyncButton');
     currentTimeText = skinHeader.querySelector('.currentTimeText');
@@ -170,12 +182,12 @@ function updateUserInHeader(user) {
         const policy = user.Policy ? user.Policy : user.localUser.Policy;
 
         if (
-        // Button is present
-            headerSyncButton
-                // SyncPlay plugin is loaded
-                && pluginManager.ofType(PluginType.SyncPlay).length > 0
-                // SyncPlay enabled for user
-                && policy?.SyncPlayAccess !== 'None'
+            // Button is present
+            headerSyncButton &&
+            // SyncPlay plugin is loaded
+            pluginManager.ofType(PluginType.SyncPlay).length > 0 &&
+            // SyncPlay enabled for user
+            policy?.SyncPlayAccess !== 'None'
         ) {
             headerSyncButton.classList.remove('hide');
         }
@@ -195,17 +207,21 @@ function updateUserInHeader(user) {
 function updateHeaderUserButton(src) {
     if (src) {
         headerUserButton.classList.add('headerUserButtonRound');
-        headerUserButton.innerHTML = '<div class="headerButton headerButtonRight paper-icon-button-light headerUserButtonRound" style="background-image:url(\'' + src + "');\"></div>";
+        headerUserButton.innerHTML =
+            '<div class="headerButton headerButtonRight paper-icon-button-light headerUserButtonRound" style="background-image:url(\'' +
+            src +
+            '\');"></div>';
     } else {
         headerUserButton.classList.remove('headerUserButtonRound');
-        headerUserButton.innerHTML = '<span class="material-icons person" aria-hidden="true"></span>';
+        headerUserButton.innerHTML =
+            '<span class="material-icons person" aria-hidden="true"></span>';
     }
 }
 
 function updateClock() {
     if (layoutManager.tv) {
         currentTimeText.classList.remove('hide');
-        setInterval(function() {
+        setInterval(function () {
             currentTimeText.innerText = datetime.getDisplayTime(new Date());
         }, 1000);
     } else {
@@ -276,9 +292,11 @@ function onPlaybackStop(e, stopInfo) {
 function onCastButtonClicked() {
     const btn = this;
 
-    import('../components/playback/playerSelectionMenu').then((playerSelectionMenu) => {
-        playerSelectionMenu.show(btn);
-    });
+    import('../components/playback/playerSelectionMenu').then(
+        (playerSelectionMenu) => {
+            playerSelectionMenu.show(btn);
+        }
+    );
 }
 
 function onSyncButtonClicked() {
@@ -366,7 +384,8 @@ function refreshLibraryInfoInDrawer(user) {
     // add buttons to navigation drawer
     navDrawerScrollContainer.innerHTML = html;
 
-    const btnSelectServer = navDrawerScrollContainer.querySelector('.btnSelectServer');
+    const btnSelectServer =
+        navDrawerScrollContainer.querySelector('.btnSelectServer');
     if (btnSelectServer) {
         btnSelectServer.addEventListener('click', onSelectServerClick);
     }
@@ -442,8 +461,8 @@ function updateLibraryMenu(user) {
 
     const customMenuOptions = document.querySelector('.customMenuOptions');
     if (customMenuOptions) {
-        getMenuLinks().then(links => {
-            links.forEach(link => {
+        getMenuLinks().then((links) => {
+            links.forEach((link) => {
                 const option = document.createElement('a', 'emby-linkbutton');
                 option.classList.add('navMenuOption', 'lnkMediaFolder');
                 option.rel = 'noopener noreferrer';
@@ -471,15 +490,18 @@ function updateLibraryMenu(user) {
         getUserViews(apiClient, userId).then(function (result) {
             const items = result;
             let html = `<h3 class="sidebarHeader">${globalize.translate('HeaderMedia')}</h3>`;
-            html += items.map(function (i) {
-                const icon = i.icon || imageHelper.getLibraryIcon(i.CollectionType);
-                const itemId = i.Id;
+            html += items
+                .map(function (i) {
+                    const icon =
+                        i.icon || imageHelper.getLibraryIcon(i.CollectionType);
+                    const itemId = i.Id;
 
-                return `<a is="emby-linkbutton" data-itemid="${itemId}" class="lnkMediaFolder navMenuOption" href="${getItemHref(i, i.CollectionType)}">
+                    return `<a is="emby-linkbutton" data-itemid="${itemId}" class="lnkMediaFolder navMenuOption" href="${getItemHref(i, i.CollectionType)}">
                                     <span class="material-icons navMenuOptionIcon ${icon}" aria-hidden="true"></span>
                                     <span class="sectionName navMenuOptionText">${escapeHtml(i.Name)}</span>
                                   </a>`;
-            }).join('');
+                })
+                .join('');
             libraryMenuOptions.innerHTML = html;
             const elem = libraryMenuOptions;
             const sidebarLinks = elem.querySelectorAll('.navMenuOption');
@@ -528,7 +550,8 @@ function updateCastIcon() {
     if (info && !info.isLocalPlayer) {
         icon.classList.add('cast_connected');
         headerCastButton.classList.add('castButton-active');
-        context.querySelector('.headerSelectedPlayer').innerText = info.deviceName || info.name;
+        context.querySelector('.headerSelectedPlayer').innerText =
+            info.deviceName || info.name;
     } else {
         icon.classList.add('cast');
         headerCastButton.classList.remove('castButton-active');
@@ -541,7 +564,14 @@ function updateLibraryNavLinks(page) {
     const isChannelsPage = page.classList.contains('channelsPage');
     const isEditorPage = page.classList.contains('metadataEditorPage');
     const isMySyncPage = page.classList.contains('mySyncPage');
-    const id = isLiveTvPage || isChannelsPage || isEditorPage || isMySyncPage || page.classList.contains('allLibraryPage') ? '' : getTopParentId() || '';
+    const id =
+        isLiveTvPage ||
+        isChannelsPage ||
+        isEditorPage ||
+        isMySyncPage ||
+        page.classList.contains('allLibraryPage')
+            ? ''
+            : getTopParentId() || '';
     const elems = document.getElementsByClassName('lnkMediaFolder');
 
     for (let i = 0, length = elems.length; i < length; i++) {
@@ -554,9 +584,17 @@ function updateLibraryNavLinks(page) {
             lnkMediaFolder.classList.add('navMenuOption-selected');
         } else if (isEditorPage && itemId === 'editor') {
             lnkMediaFolder.classList.add('navMenuOption-selected');
-        } else if (isMySyncPage && itemId === 'manageoffline' && window.location.href.toString().indexOf('mode=download') != -1) {
+        } else if (
+            isMySyncPage &&
+            itemId === 'manageoffline' &&
+            window.location.href.toString().indexOf('mode=download') != -1
+        ) {
             lnkMediaFolder.classList.add('navMenuOption-selected');
-        } else if (isMySyncPage && itemId === 'syncotherdevices' && window.location.href.toString().indexOf('mode=download') == -1) {
+        } else if (
+            isMySyncPage &&
+            itemId === 'syncotherdevices' &&
+            window.location.href.toString().indexOf('mode=download') == -1
+        ) {
             lnkMediaFolder.classList.add('navMenuOption-selected');
         } else if (id && itemId == id) {
             lnkMediaFolder.classList.add('navMenuOption-selected');
@@ -626,7 +664,10 @@ function updateTitle(page) {
 
 function updateBackButton(page) {
     if (headerBackButton) {
-        if (page.getAttribute('data-backbutton') !== 'false' && appRouter.canGoBack()) {
+        if (
+            page.getAttribute('data-backbutton') !== 'false' &&
+            appRouter.canGoBack()
+        ) {
             headerBackButton.classList.remove('hide');
         } else {
             headerBackButton.classList.add('hide');
@@ -646,10 +687,12 @@ function refreshLibraryDrawer(user) {
     if (user) {
         Promise.resolve(user);
     } else {
-        ServerConnections.user(getCurrentApiClient()).then(function (userResult) {
-            refreshLibraryInfoInDrawer(userResult);
-            updateLibraryMenu(userResult.localUser);
-        });
+        ServerConnections.user(getCurrentApiClient()).then(
+            function (userResult) {
+                refreshLibraryInfoInDrawer(userResult);
+                updateLibraryMenu(userResult.localUser);
+            }
+        );
     }
 }
 
@@ -670,7 +713,8 @@ function loadNavDrawer() {
     }
 
     navDrawerElement = document.querySelector('.mainDrawer');
-    navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
+    navDrawerScrollContainer =
+        navDrawerElement.querySelector('.scrollContainer');
     navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
     return new Promise(function (resolve) {
         import('../lib/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
@@ -706,14 +750,23 @@ const enableLibraryNavDrawerHome = !layoutManager.tv;
 const skinHeader = document.querySelector('.skinHeader');
 let requiresUserRefresh = true;
 
-function setTabs (type, selectedIndex, builder) {
-    Events.trigger(document, EventType.SET_TABS, type ? [ type, selectedIndex, builder()] : []);
+function setTabs(type, selectedIndex, builder) {
+    Events.trigger(
+        document,
+        EventType.SET_TABS,
+        type ? [type, selectedIndex, builder()] : []
+    );
 
     import('../components/maintabsmanager').then((mainTabsManager) => {
         if (type) {
-            mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
-                return [];
-            });
+            mainTabsManager.setTabs(
+                viewManager.currentView(),
+                selectedIndex,
+                builder,
+                function () {
+                    return [];
+                }
+            );
         } else {
             mainTabsManager.setTabs(null);
         }
@@ -731,12 +784,12 @@ const fetchServerName = (_apiClient) => {
             documentTitle = ServerName || documentTitle;
             document.title = documentTitle;
         })
-        .catch(err => {
+        .catch((err) => {
             console.error('[LibraryMenu] failed to fetch system info', err);
         });
 };
 
-function setDefaultTitle () {
+function setDefaultTitle() {
     if (!pageTitleElement) {
         pageTitleElement = document.querySelector('.pageTitle');
     }
@@ -751,7 +804,7 @@ function setDefaultTitle () {
     document.title = documentTitle;
 }
 
-function setTitle (title) {
+function setTitle(title) {
     if (title == null) {
         LibraryMenu.setDefaultTitle();
         return;
@@ -777,7 +830,7 @@ function setTitle (title) {
     document.title = title || documentTitle;
 }
 
-function setTransparentMenu (transparent) {
+function setTransparentMenu(transparent) {
     if (transparent) {
         skinHeader.classList.add('semiTransparent');
     } else {
@@ -796,11 +849,15 @@ pageClassOn('pageshow', 'page', function (e) {
     const page = this;
     const isDashboardPage = page.classList.contains('type-interior');
     const isHomePage = page.classList.contains('homePage');
-    const isLibraryPage = !isDashboardPage && page.classList.contains('libraryPage');
+    const isLibraryPage =
+        !isDashboardPage && page.classList.contains('libraryPage');
 
     if (!isDashboardPage) {
         if (mainDrawerButton) {
-            if (enableLibraryNavDrawer || (isHomePage && enableLibraryNavDrawerHome)) {
+            if (
+                enableLibraryNavDrawer ||
+                (isHomePage && enableLibraryNavDrawerHome)
+            ) {
                 mainDrawerButton.classList.remove('hide');
             } else {
                 mainDrawerButton.classList.add('hide');

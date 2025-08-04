@@ -3,10 +3,10 @@ import { randomInt } from '../../utils/number';
 import classNames from 'classnames';
 
 const ASPECT_RATIOS = {
-    portrait: (2 / 3),
-    backdrop: (16 / 9),
+    portrait: 2 / 3,
+    backdrop: 16 / 9,
     square: 1,
-    banner: (1000 / 185)
+    banner: 1000 / 185
 };
 
 /**
@@ -14,13 +14,20 @@ const ASPECT_RATIOS = {
  * @param {string | null | undefined} itemType - Item type to use for the check.
  * @returns {boolean} Flag showing if the item is live TV.
  */
-export const isUsingLiveTvNaming = (itemType: string | null | undefined): boolean => itemType === 'Program' || itemType === 'Timer' || itemType === 'Recording';
+export const isUsingLiveTvNaming = (
+    itemType: string | null | undefined
+): boolean =>
+    itemType === 'Program' || itemType === 'Timer' || itemType === 'Recording';
 
 /**
  * Resolves Card action to display
  * @param opts options to determine the action to return
  */
-export const resolveAction = (opts: { defaultAction: string, isFolder: boolean, isPhoto: boolean }): string => {
+export const resolveAction = (opts: {
+    defaultAction: string;
+    isFolder: boolean;
+    isPhoto: boolean;
+}): string => {
     if (opts.defaultAction === 'play' && opts.isFolder) {
         // If this hard-coding is ever removed make sure to test nested photo albums
         return 'link';
@@ -41,7 +48,7 @@ export const isResizable = (windowWidth: number): boolean => {
     if (screen) {
         const screenWidth = screen.availWidth;
 
-        if ((screenWidth - windowWidth) > 20) {
+        if (screenWidth - windowWidth > 20) {
             return true;
         }
     }
@@ -53,8 +60,13 @@ export const isResizable = (windowWidth: number): boolean => {
  * Resolves mixed shape based on aspect ratio
  * @param primaryImageAspectRatio image aspect ratio that determines mixed shape
  */
-export const resolveMixedShapeByAspectRatio = (primaryImageAspectRatio: number | null | undefined) => {
-    if (primaryImageAspectRatio === undefined || primaryImageAspectRatio === null) {
+export const resolveMixedShapeByAspectRatio = (
+    primaryImageAspectRatio: number | null | undefined
+) => {
+    if (
+        primaryImageAspectRatio === undefined ||
+        primaryImageAspectRatio === null
+    ) {
         return CardShape.MixedSquare;
     }
 
@@ -68,16 +80,16 @@ export const resolveMixedShapeByAspectRatio = (primaryImageAspectRatio: number |
 };
 
 type CardCssClassOpts = {
-    shape?: string,
-    cardCssClass?: string,
-    cardClass?: string,
-    tagName?: string,
-    itemType: string,
-    childCount?: number,
-    showChildCountIndicator: boolean,
-    isTV: boolean,
-    enableFocusTransform: boolean,
-    isDesktop: boolean
+    shape?: string;
+    cardCssClass?: string;
+    cardClass?: string;
+    tagName?: string;
+    itemType: string;
+    childCount?: number;
+    showChildCountIndicator: boolean;
+    isTV: boolean;
+    enableFocusTransform: boolean;
+    isDesktop: boolean;
 };
 
 /**
@@ -86,16 +98,18 @@ type CardCssClassOpts = {
  */
 export const resolveCardCssClasses = (opts: CardCssClassOpts): string => {
     return classNames({
-        'card': true,
+        card: true,
         [`${opts.shape}Card`]: opts.shape,
         [`${opts.cardCssClass}`]: opts.cardCssClass,
         [`${opts.cardClass}`]: opts.cardClass,
         'card-hoverable': opts.isDesktop,
         'show-focus': opts.isTV,
         'show-animation': opts.isTV && opts.enableFocusTransform,
-        'groupedCard': opts.showChildCountIndicator && opts.childCount,
-        'card-withuserdata': !['MusicAlbum', 'MusicArtist', 'Audio'].includes(opts.itemType),
-        'itemAction': opts.tagName === 'button'
+        groupedCard: opts.showChildCountIndicator && opts.childCount,
+        'card-withuserdata': !['MusicAlbum', 'MusicArtist', 'Audio'].includes(
+            opts.itemType
+        ),
+        itemAction: opts.tagName === 'button'
     });
 };
 
@@ -103,11 +117,17 @@ export const resolveCardCssClasses = (opts: CardCssClassOpts): string => {
  * Resolves applicable Card Image container CSS classes
  * @param opts options for determining which CSS classes are applicable
  */
-export const resolveCardImageContainerCssClasses = (opts: { itemType: string, hasCoverImage: boolean, itemName?: string, imgUrl?: string }): string => {
+export const resolveCardImageContainerCssClasses = (opts: {
+    itemType: string;
+    hasCoverImage: boolean;
+    itemName?: string;
+    imgUrl?: string;
+}): string => {
     return classNames({
-        'cardImageContainer': true,
-        'coveredImage': opts.hasCoverImage,
-        'coveredImage-contain': opts.hasCoverImage && opts.itemType === 'TvChannel',
+        cardImageContainer: true,
+        coveredImage: opts.hasCoverImage,
+        'coveredImage-contain':
+            opts.hasCoverImage && opts.itemType === 'TvChannel',
         [getDefaultBackgroundClass(opts.itemName)]: !opts.imgUrl
     });
 };
@@ -116,10 +136,13 @@ export const resolveCardImageContainerCssClasses = (opts: { itemType: string, ha
  * Resolves applicable Card Box CSS classes
  * @param opts options for determining which CSS classes are applicable
  */
-export const resolveCardBoxCssClasses = (opts: { cardLayout: boolean, hasOuterCardFooter: boolean }): string => {
+export const resolveCardBoxCssClasses = (opts: {
+    cardLayout: boolean;
+    hasOuterCardFooter: boolean;
+}): string => {
     return classNames({
-        'cardBox': true,
-        'visualCardBox': opts.cardLayout,
+        cardBox: true,
+        visualCardBox: opts.cardLayout,
         'cardBox-bottompadded': opts.hasOuterCardFooter && !opts.cardLayout
     });
 };
@@ -129,7 +152,8 @@ export const resolveCardBoxCssClasses = (opts: { cardLayout: boolean, hasOuterCa
  * @param {?string} [str] - Text used to generate the background class.
  * @returns {string} CSS classes for default card backgrounds.
  */
-export const getDefaultBackgroundClass = (str?: string | null): string => `defaultCardBackground defaultCardBackground${getDefaultColorIndex(str)}`;
+export const getDefaultBackgroundClass = (str?: string | null): string =>
+    `defaultCardBackground defaultCardBackground${getDefaultColorIndex(str)}`;
 
 /**
  * Generates an index used to select the default color of a card based on a string.
@@ -141,7 +165,9 @@ export const getDefaultColorIndex = (str?: string | null): number => {
 
     if (str) {
         const charIndex = Math.floor(str.length / 2);
-        const character = String(str.slice(charIndex, charIndex + 1).charCodeAt(0));
+        const character = String(
+            str.slice(charIndex, charIndex + 1).charCodeAt(0)
+        );
         let sum = 0;
         for (let i = 0; i < character.length; i++) {
             sum += parseInt(character.charAt(i), 10);
@@ -159,7 +185,9 @@ export const getDefaultColorIndex = (str?: string | null): number => {
  * @param {string} shape - Shape for which to get the aspect ratio.
  * @returns {null|number} Ratio of the shape.
  */
-export const getDesiredAspect = (shape: string | null | undefined): null | number => {
+export const getDesiredAspect = (
+    shape: string | null | undefined
+): null | number => {
     if (!shape) {
         return null;
     }
@@ -189,129 +217,243 @@ export const getDesiredAspect = (shape: string | null | undefined): null | numbe
  * @param {boolean} isTV - Flag to denote if posters are rendered on a television screen.
  * @returns {number} Number of cards per row for an itemsContainer.
  */
-export const getPostersPerRow = (shape: string, screenWidth: number, isOrientationLandscape: boolean, isTV: boolean): number => {
+export const getPostersPerRow = (
+    shape: string,
+    screenWidth: number,
+    isOrientationLandscape: boolean,
+    isTV: boolean
+): number => {
     switch (shape) {
-        case 'portrait': return postersPerRowPortrait(screenWidth, isTV);
-        case 'square': return postersPerRowSquare(screenWidth, isTV);
-        case 'banner': return postersPerRowBanner(screenWidth);
-        case 'backdrop': return postersPerRowBackdrop(screenWidth, isTV);
-        case 'smallBackdrop': return postersPerRowSmallBackdrop(screenWidth);
-        case 'overflowSmallBackdrop': return postersPerRowOverflowSmallBackdrop(screenWidth, isOrientationLandscape, isTV);
-        case 'overflowPortrait': return postersPerRowOverflowPortrait(screenWidth, isOrientationLandscape, isTV);
-        case 'overflowSquare': return postersPerRowOverflowSquare(screenWidth, isOrientationLandscape, isTV);
-        case 'overflowBackdrop': return postersPerRowOverflowBackdrop(screenWidth, isOrientationLandscape, isTV);
-        default: return 4;
+        case 'portrait':
+            return postersPerRowPortrait(screenWidth, isTV);
+        case 'square':
+            return postersPerRowSquare(screenWidth, isTV);
+        case 'banner':
+            return postersPerRowBanner(screenWidth);
+        case 'backdrop':
+            return postersPerRowBackdrop(screenWidth, isTV);
+        case 'smallBackdrop':
+            return postersPerRowSmallBackdrop(screenWidth);
+        case 'overflowSmallBackdrop':
+            return postersPerRowOverflowSmallBackdrop(
+                screenWidth,
+                isOrientationLandscape,
+                isTV
+            );
+        case 'overflowPortrait':
+            return postersPerRowOverflowPortrait(
+                screenWidth,
+                isOrientationLandscape,
+                isTV
+            );
+        case 'overflowSquare':
+            return postersPerRowOverflowSquare(
+                screenWidth,
+                isOrientationLandscape,
+                isTV
+            );
+        case 'overflowBackdrop':
+            return postersPerRowOverflowBackdrop(
+                screenWidth,
+                isOrientationLandscape,
+                isTV
+            );
+        default:
+            return 4;
     }
 };
 
 const postersPerRowPortrait = (screenWidth: number, isTV: boolean) => {
     switch (true) {
-        case isTV: return 100 / 16.66666667;
-        case screenWidth >= 2200: return 10;
-        case screenWidth >= 1920: return 100 / 11.1111111111;
-        case screenWidth >= 1600: return 8;
-        case screenWidth >= 1400: return 100 / 14.28571428571;
-        case screenWidth >= 1200: return 100 / 16.66666667;
-        case screenWidth >= 800: return 5;
-        case screenWidth >= 700: return 4;
-        case screenWidth >= 500: return 100 / 33.33333333;
-        default: return 100 / 33.33333333;
+        case isTV:
+            return 100 / 16.66666667;
+        case screenWidth >= 2200:
+            return 10;
+        case screenWidth >= 1920:
+            return 100 / 11.1111111111;
+        case screenWidth >= 1600:
+            return 8;
+        case screenWidth >= 1400:
+            return 100 / 14.28571428571;
+        case screenWidth >= 1200:
+            return 100 / 16.66666667;
+        case screenWidth >= 800:
+            return 5;
+        case screenWidth >= 700:
+            return 4;
+        case screenWidth >= 500:
+            return 100 / 33.33333333;
+        default:
+            return 100 / 33.33333333;
     }
 };
 
 const postersPerRowSquare = (screenWidth: number, isTV: boolean) => {
     switch (true) {
-        case isTV: return 100 / 16.66666667;
-        case screenWidth >= 2200: return 10;
-        case screenWidth >= 1920: return 100 / 11.1111111111;
-        case screenWidth >= 1600: return 8;
-        case screenWidth >= 1400: return 100 / 14.28571428571;
-        case screenWidth >= 1200: return 100 / 16.66666667;
-        case screenWidth >= 800: return 5;
-        case screenWidth >= 700: return 4;
-        case screenWidth >= 500: return 100 / 33.33333333;
-        default: return 2;
+        case isTV:
+            return 100 / 16.66666667;
+        case screenWidth >= 2200:
+            return 10;
+        case screenWidth >= 1920:
+            return 100 / 11.1111111111;
+        case screenWidth >= 1600:
+            return 8;
+        case screenWidth >= 1400:
+            return 100 / 14.28571428571;
+        case screenWidth >= 1200:
+            return 100 / 16.66666667;
+        case screenWidth >= 800:
+            return 5;
+        case screenWidth >= 700:
+            return 4;
+        case screenWidth >= 500:
+            return 100 / 33.33333333;
+        default:
+            return 2;
     }
 };
 
 const postersPerRowBanner = (screenWidth: number) => {
     switch (true) {
-        case screenWidth >= 2200: return 4;
-        case screenWidth >= 1200: return 100 / 33.33333333;
-        case screenWidth >= 800: return 2;
-        default: return 1;
+        case screenWidth >= 2200:
+            return 4;
+        case screenWidth >= 1200:
+            return 100 / 33.33333333;
+        case screenWidth >= 800:
+            return 2;
+        default:
+            return 1;
     }
 };
 
 const postersPerRowBackdrop = (screenWidth: number, isTV: boolean) => {
     switch (true) {
-        case isTV: return 4;
-        case screenWidth >= 2500: return 6;
-        case screenWidth >= 1600: return 5;
-        case screenWidth >= 1200: return 4;
-        case screenWidth >= 770: return 3;
-        case screenWidth >= 420: return 2;
-        default: return 1;
+        case isTV:
+            return 4;
+        case screenWidth >= 2500:
+            return 6;
+        case screenWidth >= 1600:
+            return 5;
+        case screenWidth >= 1200:
+            return 4;
+        case screenWidth >= 770:
+            return 3;
+        case screenWidth >= 420:
+            return 2;
+        default:
+            return 1;
     }
 };
 
 const postersPerRowSmallBackdrop = (screenWidth: number) => {
     switch (true) {
-        case screenWidth >= 1600: return 8;
-        case screenWidth >= 1400: return 100 / 14.2857142857;
-        case screenWidth >= 1200: return 100 / 16.66666667;
-        case screenWidth >= 1000: return 5;
-        case screenWidth >= 800: return 4;
-        case screenWidth >= 500: return 100 / 33.33333333;
-        default: return 2;
+        case screenWidth >= 1600:
+            return 8;
+        case screenWidth >= 1400:
+            return 100 / 14.2857142857;
+        case screenWidth >= 1200:
+            return 100 / 16.66666667;
+        case screenWidth >= 1000:
+            return 5;
+        case screenWidth >= 800:
+            return 4;
+        case screenWidth >= 500:
+            return 100 / 33.33333333;
+        default:
+            return 2;
     }
 };
 
-const postersPerRowOverflowSmallBackdrop = (screenWidth: number, isLandscape: boolean, isTV: boolean) => {
+const postersPerRowOverflowSmallBackdrop = (
+    screenWidth: number,
+    isLandscape: boolean,
+    isTV: boolean
+) => {
     switch (true) {
-        case isTV: return 100 / 18.9;
-        case isLandscape && screenWidth >= 800: return 100 / 15.5;
-        case isLandscape: return 100 / 23.3;
-        case screenWidth >= 540: return 100 / 30;
-        default: return 100 / 72;
+        case isTV:
+            return 100 / 18.9;
+        case isLandscape && screenWidth >= 800:
+            return 100 / 15.5;
+        case isLandscape:
+            return 100 / 23.3;
+        case screenWidth >= 540:
+            return 100 / 30;
+        default:
+            return 100 / 72;
     }
 };
 
-const postersPerRowOverflowPortrait = (screenWidth: number, isLandscape: boolean, isTV: boolean) => {
+const postersPerRowOverflowPortrait = (
+    screenWidth: number,
+    isLandscape: boolean,
+    isTV: boolean
+) => {
     switch (true) {
-        case isTV: return 100 / 15.5;
-        case isLandscape && screenWidth >= 1700: return 100 / 11.6;
-        case isLandscape: return 100 / 15.5;
-        case screenWidth >= 1400: return 100 / 15;
-        case screenWidth >= 1200: return 100 / 18;
-        case screenWidth >= 760: return 100 / 23;
-        case screenWidth >= 400: return 100 / 31.5;
-        default: return 100 / 42;
+        case isTV:
+            return 100 / 15.5;
+        case isLandscape && screenWidth >= 1700:
+            return 100 / 11.6;
+        case isLandscape:
+            return 100 / 15.5;
+        case screenWidth >= 1400:
+            return 100 / 15;
+        case screenWidth >= 1200:
+            return 100 / 18;
+        case screenWidth >= 760:
+            return 100 / 23;
+        case screenWidth >= 400:
+            return 100 / 31.5;
+        default:
+            return 100 / 42;
     }
 };
 
-const postersPerRowOverflowSquare = (screenWidth: number, isLandscape: boolean, isTV: boolean) => {
+const postersPerRowOverflowSquare = (
+    screenWidth: number,
+    isLandscape: boolean,
+    isTV: boolean
+) => {
     switch (true) {
-        case isTV: return 100 / 15.5;
-        case isLandscape && screenWidth >= 1700: return 100 / 11.6;
-        case isLandscape: return 100 / 15.5;
-        case screenWidth >= 1400: return 100 / 15;
-        case screenWidth >= 1200: return 100 / 18;
-        case screenWidth >= 760: return 100 / 23;
-        case screenWidth >= 540: return 100 / 31.5;
-        default: return 100 / 42;
+        case isTV:
+            return 100 / 15.5;
+        case isLandscape && screenWidth >= 1700:
+            return 100 / 11.6;
+        case isLandscape:
+            return 100 / 15.5;
+        case screenWidth >= 1400:
+            return 100 / 15;
+        case screenWidth >= 1200:
+            return 100 / 18;
+        case screenWidth >= 760:
+            return 100 / 23;
+        case screenWidth >= 540:
+            return 100 / 31.5;
+        default:
+            return 100 / 42;
     }
 };
 
-const postersPerRowOverflowBackdrop = (screenWidth: number, isLandscape: boolean, isTV: boolean) => {
+const postersPerRowOverflowBackdrop = (
+    screenWidth: number,
+    isLandscape: boolean,
+    isTV: boolean
+) => {
     switch (true) {
-        case isTV: return 100 / 23.3;
-        case isLandscape && screenWidth >= 1700: return 100 / 18.5;
-        case isLandscape: return 100 / 23.3;
-        case screenWidth >= 1800: return 100 / 23.5;
-        case screenWidth >= 1400: return 100 / 30;
-        case screenWidth >= 760: return 100 / 40;
-        case screenWidth >= 640: return 100 / 56;
-        default: return 100 / 72;
+        case isTV:
+            return 100 / 23.3;
+        case isLandscape && screenWidth >= 1700:
+            return 100 / 18.5;
+        case isLandscape:
+            return 100 / 23.3;
+        case screenWidth >= 1800:
+            return 100 / 23.5;
+        case screenWidth >= 1400:
+            return 100 / 30;
+        case screenWidth >= 760:
+            return 100 / 40;
+        case screenWidth >= 640:
+            return 100 / 56;
+        default:
+            return 100 / 72;
     }
 };

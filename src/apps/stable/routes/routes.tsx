@@ -42,7 +42,6 @@ export const STABLE_APP_ROUTES: RouteObject[] = [
                     }
                 ]
             }
-
         ]
     }
 ];

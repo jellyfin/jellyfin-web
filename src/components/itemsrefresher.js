@@ -7,8 +7,9 @@ function onUserDataChanged() {
     const eventsToMonitor = getEventsToMonitor(instance);
 
     // TODO: Check user data change reason?
-    if (eventsToMonitor.indexOf('markfavorite') !== -1
-        || eventsToMonitor.indexOf('markplayed') !== -1
+    if (
+        eventsToMonitor.indexOf('markfavorite') !== -1 ||
+        eventsToMonitor.indexOf('markplayed') !== -1
     ) {
         instance.notifyRefreshNeeded();
     }
@@ -42,7 +43,10 @@ function notifySeriesTimerRefresh() {
 function onLibraryChanged(e, apiClient, data) {
     const instance = this;
     const eventsToMonitor = getEventsToMonitor(instance);
-    if (eventsToMonitor.indexOf('seriestimers') !== -1 || eventsToMonitor.indexOf('timers') !== -1) {
+    if (
+        eventsToMonitor.indexOf('seriestimers') !== -1 ||
+        eventsToMonitor.indexOf('timers') !== -1
+    ) {
         // yes this is an assumption
         return;
     }
@@ -60,7 +64,11 @@ function onLibraryChanged(e, apiClient, data) {
         const foldersRemovedFrom = data.FoldersRemovedFrom || [];
         const collectionFolders = data.CollectionFolders || [];
 
-        if (foldersAddedTo.indexOf(parentId) === -1 && foldersRemovedFrom.indexOf(parentId) === -1 && collectionFolders.indexOf(parentId) === -1) {
+        if (
+            foldersAddedTo.indexOf(parentId) === -1 &&
+            foldersRemovedFrom.indexOf(parentId) === -1 &&
+            collectionFolders.indexOf(parentId) === -1
+        ) {
             return;
         }
     }
@@ -79,7 +87,10 @@ function onPlaybackStopped(e, stopInfo) {
             instance.notifyRefreshNeeded(true);
             return;
         }
-    } else if (state.NowPlayingItem?.MediaType === 'Audio' && eventsToMonitor.indexOf('audioplayback') !== -1) {
+    } else if (
+        state.NowPlayingItem?.MediaType === 'Audio' &&
+        eventsToMonitor.indexOf('audioplayback') !== -1
+    ) {
         instance.notifyRefreshNeeded(true);
         return;
     }
@@ -107,11 +118,24 @@ class ItemsRefresher {
 
         addNotificationEvent(this, 'UserDataChanged', onUserDataChanged);
         addNotificationEvent(this, 'TimerCreated', notifyTimerRefresh);
-        addNotificationEvent(this, 'SeriesTimerCreated', notifySeriesTimerRefresh);
+        addNotificationEvent(
+            this,
+            'SeriesTimerCreated',
+            notifySeriesTimerRefresh
+        );
         addNotificationEvent(this, 'TimerCancelled', notifyTimerRefresh);
-        addNotificationEvent(this, 'SeriesTimerCancelled', notifySeriesTimerRefresh);
+        addNotificationEvent(
+            this,
+            'SeriesTimerCancelled',
+            notifySeriesTimerRefresh
+        );
         addNotificationEvent(this, 'LibraryChanged', onLibraryChanged);
-        addNotificationEvent(this, 'playbackstop', onPlaybackStopped, playbackManager);
+        addNotificationEvent(
+            this,
+            'playbackstop',
+            onPlaybackStopped,
+            playbackManager
+        );
     }
 
     pause() {
@@ -134,7 +158,7 @@ class ItemsRefresher {
             }
         }
 
-        if (this.needsRefresh || (options?.refresh)) {
+        if (this.needsRefresh || options?.refresh) {
             return this.refreshItems();
         }
 
@@ -170,7 +194,10 @@ class ItemsRefresher {
         if (isInForeground === true) {
             this.refreshItems();
         } else {
-            this.refreshTimeout = setTimeout(this.refreshItems.bind(this), 10000);
+            this.refreshTimeout = setTimeout(
+                this.refreshItems.bind(this),
+                10000
+            );
         }
     }
 
@@ -212,7 +239,10 @@ function resetRefreshInterval(instance, intervalMs) {
     }
 
     if (intervalMs) {
-        instance.refreshInterval = setInterval(instance.notifyRefreshNeeded.bind(instance), intervalMs);
+        instance.refreshInterval = setInterval(
+            instance.notifyRefreshNeeded.bind(instance),
+            intervalMs
+        );
         instance.refreshIntervalEndTime = new Date().getTime() + intervalMs;
     }
 }

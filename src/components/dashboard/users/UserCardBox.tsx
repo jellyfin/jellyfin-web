@@ -13,7 +13,13 @@ type IProps = {
 
 const getLastSeenText = (lastActivityDate?: string | null) => {
     if (lastActivityDate) {
-        return globalize.translate('LastSeen', formatDistanceToNow(Date.parse(lastActivityDate), getLocaleWithSuffix()));
+        return globalize.translate(
+            'LastSeen',
+            formatDistanceToNow(
+                Date.parse(lastActivityDate),
+                getLocaleWithSuffix()
+            )
+        );
     }
 
     return '';
@@ -44,26 +50,45 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
 
     const lastSeen = getLastSeenText(user.LastActivityDate);
 
-    const renderImgUrl = imgUrl ?
-        <div className={imageClass} style={{ backgroundImage: `url(${imgUrl})` }} /> :
-        <div className={`${imageClass} ${getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center`}>
-            <span className='material-icons cardImageIcon person' aria-hidden='true'></span>
-        </div>;
+    const renderImgUrl = imgUrl ? (
+        <div
+            className={imageClass}
+            style={{ backgroundImage: `url(${imgUrl})` }}
+        />
+    ) : (
+        <div
+            className={`${imageClass} ${getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center`}
+        >
+            <span
+                className='material-icons cardImageIcon person'
+                aria-hidden='true'
+            ></span>
+        </div>
+    );
 
     return (
-        <div data-userid={user.Id} data-username={user.Name} className={cssClass}>
+        <div
+            data-userid={user.Id}
+            data-username={user.Name}
+            className={cssClass}
+        >
             <div className='cardBox visualCardBox'>
                 <div className='cardScalable visualCardBox-cardScalable'>
                     <div className='cardPadder cardPadder-square'></div>
                     <LinkButton
                         className='cardContent'
-                        href={`#/dashboard/users/profile?userId=${user.Id}`}>
+                        href={`#/dashboard/users/profile?userId=${user.Id}`}
+                    >
                         {renderImgUrl}
                     </LinkButton>
                 </div>
                 <div className='cardFooter visualCardBox-cardFooter'>
                     <div
-                        style={{ textAlign: 'right', float: 'right', paddingTop: '5px' }}
+                        style={{
+                            textAlign: 'right',
+                            float: 'right',
+                            paddingTop: '5px'
+                        }}
                     >
                         <IconButtonElement
                             is='paper-icon-button-light'

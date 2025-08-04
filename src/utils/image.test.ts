@@ -63,39 +63,42 @@ const LIBRARY_ICON_MAP: Record<string, string | undefined> = {
 describe('getItemTypeIcon()', () => {
     it('Should return the correct icon for item type', () => {
         Object.entries(BaseItemKind).forEach(([key, value]) => {
-            expect(Object.prototype.hasOwnProperty.call(ITEM_ICON_MAP, key)).toBe(true);
-            expect(`${key}=${getItemTypeIcon(value)}`).toBe(`${key}=${ITEM_ICON_MAP[key]}`);
+            expect(
+                Object.prototype.hasOwnProperty.call(ITEM_ICON_MAP, key)
+            ).toBe(true);
+            expect(`${key}=${getItemTypeIcon(value)}`).toBe(
+                `${key}=${ITEM_ICON_MAP[key]}`
+            );
         });
     });
 
     it('Should return the default icon for unknown type if provided', () => {
-        expect(getItemTypeIcon('foobar', 'default'))
-            .toBe('default');
+        expect(getItemTypeIcon('foobar', 'default')).toBe('default');
     });
 
     it('Should return undefined for unknown type', () => {
-        expect(getItemTypeIcon('foobar'))
-            .toBeUndefined();
+        expect(getItemTypeIcon('foobar')).toBeUndefined();
     });
 });
 
 describe('getLibraryIcon()', () => {
     it('Should return the correct icon for collection type', () => {
         Object.entries(CollectionType).forEach(([key, value]) => {
-            expect(Object.prototype.hasOwnProperty.call(LIBRARY_ICON_MAP, key)).toBe(true);
-            expect(`${key}=${getLibraryIcon(value)}`).toBe(`${key}=${LIBRARY_ICON_MAP[key]}`);
+            expect(
+                Object.prototype.hasOwnProperty.call(LIBRARY_ICON_MAP, key)
+            ).toBe(true);
+            expect(`${key}=${getLibraryIcon(value)}`).toBe(
+                `${key}=${LIBRARY_ICON_MAP[key]}`
+            );
         });
     });
 
     it('Should return the correct icon for nonstandard types', () => {
-        expect(getLibraryIcon(undefined))
-            .toBe('quiz');
-        expect(getLibraryIcon('channels'))
-            .toBe('videocam');
+        expect(getLibraryIcon(undefined)).toBe('quiz');
+        expect(getLibraryIcon('channels')).toBe('videocam');
     });
 
     it('Should return the default icon for unknown types', () => {
-        expect(getLibraryIcon('foobar'))
-            .toBe('folder');
+        expect(getLibraryIcon('foobar')).toBe('folder');
     });
 });

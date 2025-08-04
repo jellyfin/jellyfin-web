@@ -9,9 +9,10 @@ import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 
 const ActivityLogWidget = () => {
-    const dayBefore = useMemo(() => (
-        subSeconds(new Date(), 24 * 60 * 60).toISOString()
-    ), []);
+    const dayBefore = useMemo(
+        () => subSeconds(new Date(), 24 * 60 * 60).toISOString(),
+        []
+    );
 
     const { data: logs, isPending } = useLogEntries({
         startIndex: 0,
@@ -34,7 +35,7 @@ const ActivityLogWidget = () => {
                 </Stack>
             ) : (
                 <List sx={{ bgcolor: 'background.paper' }}>
-                    {logs?.Items?.map(entry => (
+                    {logs?.Items?.map((entry) => (
                         <ActivityListItem
                             key={entry.Id}
                             item={entry}

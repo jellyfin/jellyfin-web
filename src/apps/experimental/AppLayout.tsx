@@ -17,17 +17,18 @@ import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
 import './AppOverrides.scss';
 
 export const Component = () => {
-    const [ isDrawerActive, setIsDrawerActive ] = useState(false);
+    const [isDrawerActive, setIsDrawerActive] = useState(false);
     const { user } = useApi();
     const location = useLocation();
 
     const isMediumScreen = useMediaQuery((t: Theme) => t.breakpoints.up('md'));
-    const isDrawerAvailable = isDrawerPath(location.pathname) && Boolean(user) && !isMediumScreen;
+    const isDrawerAvailable =
+        isDrawerPath(location.pathname) && Boolean(user) && !isMediumScreen;
     const isDrawerOpen = isDrawerActive && isDrawerAvailable;
 
     const onToggleDrawer = useCallback(() => {
         setIsDrawerActive(!isDrawerActive);
-    }, [ isDrawerActive, setIsDrawerActive ]);
+    }, [isDrawerActive, setIsDrawerActive]);
 
     return (
         <>
@@ -42,22 +43,22 @@ export const Component = () => {
                             }}
                         >
                             <AppToolbar
-                                isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
+                                isDrawerAvailable={
+                                    !isMediumScreen && isDrawerAvailable
+                                }
                                 isDrawerOpen={isDrawerOpen}
                                 onDrawerButtonClick={onToggleDrawer}
                             />
                         </AppBar>
                     </ElevationScroll>
 
-                    {
-                        isDrawerAvailable && (
-                            <AppDrawer
-                                open={isDrawerOpen}
-                                onClose={onToggleDrawer}
-                                onOpen={onToggleDrawer}
-                            />
-                        )
-                    }
+                    {isDrawerAvailable && (
+                        <AppDrawer
+                            open={isDrawerOpen}
+                            onClose={onToggleDrawer}
+                            onOpen={onToggleDrawer}
+                        />
+                    )}
                 </StrictMode>
 
                 <Box

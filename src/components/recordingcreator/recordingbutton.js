@@ -18,9 +18,17 @@ function onRecordingButtonClick() {
 
         const instance = this;
 
-        recordingHelper.toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerId).then(function () {
-            instance.refresh(serverId, programId);
-        });
+        recordingHelper
+            .toggleRecording(
+                serverId,
+                programId,
+                timerId,
+                timerStatus,
+                seriesTimerId
+            )
+            .then(function () {
+                instance.refresh(serverId, programId);
+            });
     }
 }
 
@@ -56,9 +64,11 @@ class RecordingButton {
     refresh(serverId, itemId) {
         const apiClient = ServerConnections.getApiClient(serverId);
         const self = this;
-        apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-            self.refreshItem(item);
-        });
+        apiClient
+            .getItem(apiClient.getCurrentUserId(), itemId)
+            .then(function (item) {
+                self.refreshItem(item);
+            });
     }
 
     refreshItem(item) {

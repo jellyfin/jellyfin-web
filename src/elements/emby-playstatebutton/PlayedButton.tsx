@@ -10,10 +10,10 @@ import { useTogglePlayedMutation } from 'hooks/useFetchItems';
 
 interface PlayedButtonProps {
     className?: string;
-    isPlayed : boolean | undefined;
+    isPlayed: boolean | undefined;
     itemId: string | null | undefined;
-    itemType: string | null | undefined,
-    queryKey?: string[]
+    itemType: string | null | undefined;
+    queryKey?: string[];
 }
 
 const PlayedButton: FC<PlayedButtonProps> = ({
@@ -29,9 +29,13 @@ const PlayedButton: FC<PlayedButtonProps> = ({
     const getTitle = useCallback(() => {
         let buttonTitle;
         if (itemType !== BaseItemKind.AudioBook) {
-            buttonTitle = isPlayed ? globalize.translate('Watched') : globalize.translate('MarkPlayed');
+            buttonTitle = isPlayed
+                ? globalize.translate('Watched')
+                : globalize.translate('MarkPlayed');
         } else {
-            buttonTitle = isPlayed ? globalize.translate('Played') : globalize.translate('MarkPlayed');
+            buttonTitle = isPlayed
+                ? globalize.translate('Played')
+                : globalize.translate('MarkPlayed');
         }
 
         return buttonTitle;
@@ -43,30 +47,31 @@ const PlayedButton: FC<PlayedButtonProps> = ({
                 throw new Error('Item has no Id');
             }
 
-            await togglePlayedMutation({
-                itemId,
-                isPlayed
-            },
-            { onSuccess: async() => {
-                await queryClient.invalidateQueries({
-                    queryKey,
-                    type: 'all',
-                    refetchType: 'active'
-                });
-            } });
+            await togglePlayedMutation(
+                {
+                    itemId,
+                    isPlayed
+                },
+                {
+                    onSuccess: async () => {
+                        await queryClient.invalidateQueries({
+                            queryKey,
+                            type: 'all',
+                            refetchType: 'active'
+                        });
+                    }
+                }
+            );
         } catch (e) {
             console.error(e);
         }
     }, [itemId, togglePlayedMutation, isPlayed, queryClient, queryKey]);
 
-    const btnClass = classNames(
-        className,
-        { 'playstatebutton-played': isPlayed }
-    );
+    const btnClass = classNames(className, {
+        'playstatebutton-played': isPlayed
+    });
 
-    const iconClass = classNames(
-        { 'playstatebutton-icon-played': isPlayed }
-    );
+    const iconClass = classNames({ 'playstatebutton-icon-played': isPlayed });
     return (
         <IconButton
             title={getTitle()}

@@ -15,7 +15,11 @@ import Download from '@mui/icons-material/Download';
 import Extension from '@mui/icons-material/Extension';
 import Settings from '@mui/icons-material/Settings';
 import React, { type FC, useState, useCallback, useMemo } from 'react';
-import { useSearchParams, Link as RouterLink, useParams } from 'react-router-dom';
+import {
+    useSearchParams,
+    Link as RouterLink,
+    useParams
+} from 'react-router-dom';
 
 import { findBestConfigurationPage } from 'apps/dashboard/features/plugins/api/configurationPage';
 import { findBestPluginInfo } from 'apps/dashboard/features/plugins/api/pluginInfo';
@@ -38,8 +42,8 @@ import globalize from 'lib/globalize';
 import { getPluginUrl } from 'utils/dashboard';
 
 interface AlertMessage {
-    severity?: 'success' | 'info' | 'warning' | 'error'
-    messageKey: string
+    severity?: 'success' | 'info' | 'warning' | 'error';
+    messageKey: string;
 }
 
 // Plugins from this url will be trusted and not prompt for confirmation when installing
@@ -48,17 +52,18 @@ const TRUSTED_REPO_URL = 'https://repo.jellyfin.org/';
 const PluginPage: FC = () => {
     const { api } = useApi();
     const { pluginId } = useParams();
-    const [ searchParams ] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const disablePlugin = useDisablePlugin();
     const enablePlugin = useEnablePlugin();
     const installPlugin = useInstallPackage();
     const uninstallPlugin = useUninstallPlugin();
 
-    const [ isEnabledOverride, setIsEnabledOverride ] = useState<boolean>();
-    const [ isInstallConfirmOpen, setIsInstallConfirmOpen ] = useState(false);
-    const [ isInstalling, setIsInstalling ] = useState(false);
-    const [ isUninstallConfirmOpen, setIsUninstallConfirmOpen ] = useState(false);
-    const [ pendingInstallVersion, setPendingInstallVersion ] = useState<VersionInfo>();
+    const [isEnabledOverride, setIsEnabledOverride] = useState<boolean>();
+    const [isInstallConfirmOpen, setIsInstallConfirmOpen] = useState(false);
+    const [isInstalling, setIsInstalling] = useState(false);
+    const [isUninstallConfirmOpen, setIsUninstallConfirmOpen] = useState(false);
+    const [pendingInstallVersion, setPendingInstallVersion] =
+        useState<VersionInfo>();
 
     const pluginName = searchParams.get('name') ?? undefined;
 
@@ -72,10 +77,14 @@ const PluginPage: FC = () => {
         data: packageInfo,
         isError: isPackageInfoError,
         isPending: isPackageInfoLoading
-    } = usePackageInfo(pluginName ? {
-        name: pluginName,
-        assemblyGuid: pluginId
-    } : undefined);
+    } = usePackageInfo(
+        pluginName
+            ? {
+                  name: pluginName,
+                  assemblyGuid: pluginId
+              }
+            : undefined
+    );
 
     const {
         data: plugins,
@@ -93,7 +102,9 @@ const PluginPage: FC = () => {
             let version;
             if (pluginInfo) {
                 // Find the installed version
-                const repoVersion = packageInfo?.versions?.find(v => v.version === pluginInfo.Version);
+                const repoVersion = packageInfo?.versions?.find(
+                    (v) => v.version === pluginInfo.Version
+                );
                 version = repoVersion || {
                     version: pluginInfo.Version,
                     VersionNumber: pluginInfo.Version
@@ -105,20 +116,33 @@ const PluginPage: FC = () => {
 
             let imageUrl;
             if (pluginInfo?.HasImage) {
-                imageUrl = api?.getUri(`/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`);
+                imageUrl = api?.getUri(
+                    `/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`
+                );
             }
 
             return {
                 canUninstall: !!pluginInfo?.CanUninstall,
-                description: pluginInfo?.Description || packageInfo?.description || packageInfo?.overview,
+                description:
+                    pluginInfo?.Description ||
+                    packageInfo?.description ||
+                    packageInfo?.overview,
                 id: pluginId,
                 imageUrl: imageUrl || packageInfo?.imageUrl || undefined,
-                isEnabled: (isEnabledOverride && pluginInfo?.Status === PluginStatus.Restart)
-                    ?? pluginInfo?.Status !== PluginStatus.Disabled,
+                isEnabled:
+                    (isEnabledOverride &&
+                        pluginInfo?.Status === PluginStatus.Restart) ??
+                    pluginInfo?.Status !== PluginStatus.Disabled,
                 name: pluginName || pluginInfo?.Name || packageInfo?.name,
-                owner: pluginInfo?.CanUninstall === false ? 'jellyfin' : packageInfo?.owner,
+                owner:
+                    pluginInfo?.CanUninstall === false
+                        ? 'jellyfin'
+                        : packageInfo?.owner,
                 status: pluginInfo?.Status,
-                configurationPage: findBestConfigurationPage(configurationPages || [], pluginId),
+                configurationPage: findBestConfigurationPage(
+                    configurationPages || [],
+                    pluginId
+                ),
                 version,
                 versions: packageInfo?.versions || []
             };
@@ -170,7 +194,11 @@ const PluginPage: FC = () => {
         }
 
         // Don't show package load error for built-in plugins
-        if (!isPluginsLoading && pluginDetails?.canUninstall && isPackageInfoError) {
+        if (
+            !isPluginsLoading &&
+            pluginDetails?.canUninstall &&
+            isPackageInfoError
+        ) {
             alerts.push({
                 severity: 'warning',
                 messageKey: 'PluginLoadRepoError'
@@ -199,77 +227,115 @@ const PluginPage: FC = () => {
     const toggleEnabled = useCallback(() => {
         if (!pluginDetails?.version?.version) return;
 
-        console.debug('[PluginPage] %s plugin', pluginDetails.isEnabled ? 'disabling' : 'enabling', pluginDetails);
+        console.debug(
+            '[PluginPage] %s plugin',
+            pluginDetails.isEnabled ? 'disabling' : 'enabling',
+            pluginDetails
+        );
 
         if (pluginDetails.isEnabled) {
-            disablePlugin.mutate({
-                pluginId: pluginDetails.id,
-                version: pluginDetails.version.version
-            }, {
-                onSuccess: () => {
-                    setIsEnabledOverride(false);
+            disablePlugin.mutate(
+                {
+                    pluginId: pluginDetails.id,
+                    version: pluginDetails.version.version
                 },
-                onSettled: () => {
-                    installPlugin.reset();
-                    enablePlugin.reset();
-                    uninstallPlugin.reset();
+                {
+                    onSuccess: () => {
+                        setIsEnabledOverride(false);
+                    },
+                    onSettled: () => {
+                        installPlugin.reset();
+                        enablePlugin.reset();
+                        uninstallPlugin.reset();
+                    }
                 }
-            });
+            );
         } else {
-            enablePlugin.mutate({
-                pluginId: pluginDetails.id,
-                version: pluginDetails.version.version
-            }, {
-                onSuccess: () => {
-                    setIsEnabledOverride(true);
+            enablePlugin.mutate(
+                {
+                    pluginId: pluginDetails.id,
+                    version: pluginDetails.version.version
                 },
-                onSettled: () => {
-                    installPlugin.reset();
-                    disablePlugin.reset();
-                    uninstallPlugin.reset();
+                {
+                    onSuccess: () => {
+                        setIsEnabledOverride(true);
+                    },
+                    onSettled: () => {
+                        installPlugin.reset();
+                        disablePlugin.reset();
+                        uninstallPlugin.reset();
+                    }
                 }
-            });
+            );
         }
-    }, [ disablePlugin, enablePlugin, installPlugin, pluginDetails, uninstallPlugin ]);
+    }, [
+        disablePlugin,
+        enablePlugin,
+        installPlugin,
+        pluginDetails,
+        uninstallPlugin
+    ]);
 
     /** Install the plugin or prompt for confirmation if untrusted */
-    const onInstall = useCallback((version?: VersionInfo, isConfirmed = false) => () => {
-        if (!pluginDetails?.name) return;
-        const installVersion = version || pluginDetails.version;
-        if (!installVersion) return;
+    const onInstall = useCallback(
+        (version?: VersionInfo, isConfirmed = false) =>
+            () => {
+                if (!pluginDetails?.name) return;
+                const installVersion = version || pluginDetails.version;
+                if (!installVersion) return;
 
-        if (!isConfirmed && !installVersion.repositoryUrl?.startsWith(TRUSTED_REPO_URL)) {
-            console.debug('[PluginPage] plugin install needs confirmed', installVersion);
-            setPendingInstallVersion(installVersion);
-            setIsInstallConfirmOpen(true);
-            return;
-        }
+                if (
+                    !isConfirmed &&
+                    !installVersion.repositoryUrl?.startsWith(TRUSTED_REPO_URL)
+                ) {
+                    console.debug(
+                        '[PluginPage] plugin install needs confirmed',
+                        installVersion
+                    );
+                    setPendingInstallVersion(installVersion);
+                    setIsInstallConfirmOpen(true);
+                    return;
+                }
 
-        console.debug('[PluginPage] installing plugin', installVersion);
+                console.debug('[PluginPage] installing plugin', installVersion);
 
-        setIsInstalling(true);
-        installPlugin.mutate({
-            name: pluginDetails.name,
-            assemblyGuid: pluginDetails.id,
-            version: installVersion.version,
-            repositoryUrl: installVersion.repositoryUrl
-        }, {
-            onSettled: () => {
-                setIsInstalling(false);
-                setPendingInstallVersion(undefined);
-                disablePlugin.reset();
-                enablePlugin.reset();
-                uninstallPlugin.reset();
-            }
-        });
-    }, [ disablePlugin, enablePlugin, installPlugin, pluginDetails, uninstallPlugin ]);
+                setIsInstalling(true);
+                installPlugin.mutate(
+                    {
+                        name: pluginDetails.name,
+                        assemblyGuid: pluginDetails.id,
+                        version: installVersion.version,
+                        repositoryUrl: installVersion.repositoryUrl
+                    },
+                    {
+                        onSettled: () => {
+                            setIsInstalling(false);
+                            setPendingInstallVersion(undefined);
+                            disablePlugin.reset();
+                            enablePlugin.reset();
+                            uninstallPlugin.reset();
+                        }
+                    }
+                );
+            },
+        [
+            disablePlugin,
+            enablePlugin,
+            installPlugin,
+            pluginDetails,
+            uninstallPlugin
+        ]
+    );
 
     /** Confirm and install the plugin */
     const onConfirmInstall = useCallback(() => {
-        console.debug('[PluginPage] confirmed installing plugin', pendingInstallVersion);
+        console.debug(
+            '[PluginPage] confirmed installing plugin',
+            pendingInstallVersion
+        );
         setIsInstallConfirmOpen(false);
         onInstall(pendingInstallVersion, true)();
-    }, [ onInstall, pendingInstallVersion ]);
+    }, [onInstall, pendingInstallVersion]);
 
     /** Close the install confirmation dialog */
     const onCloseInstallConfirmDialog = useCallback(() => {
@@ -290,17 +356,26 @@ const PluginPage: FC = () => {
 
         setIsUninstallConfirmOpen(false);
 
-        uninstallPlugin.mutate({
-            pluginId: pluginDetails.id,
-            version: pluginDetails.version.version
-        }, {
-            onSettled: () => {
-                disablePlugin.reset();
-                enablePlugin.reset();
-                installPlugin.reset();
+        uninstallPlugin.mutate(
+            {
+                pluginId: pluginDetails.id,
+                version: pluginDetails.version.version
+            },
+            {
+                onSettled: () => {
+                    disablePlugin.reset();
+                    enablePlugin.reset();
+                    installPlugin.reset();
+                }
             }
-        });
-    }, [ disablePlugin, enablePlugin, installPlugin, pluginDetails, uninstallPlugin ]);
+        );
+    }, [
+        disablePlugin,
+        enablePlugin,
+        installPlugin,
+        pluginDetails,
+        uninstallPlugin
+    ]);
 
     /** Close the uninstall confirmation dialog */
     const onCloseUninstallConfirmDialog = useCallback(() => {
@@ -314,7 +389,6 @@ const PluginPage: FC = () => {
             className='mainAnimatedPage type-interior'
         >
             <Container className='content-primary'>
-
                 {alertMessages.map(({ severity = 'error', messageKey }) => (
                     <Alert
                         key={messageKey}
@@ -342,7 +416,10 @@ const PluginPage: FC = () => {
                         </Stack>
                     </Grid>
 
-                    <Grid size={{ lg: 4 }} sx={{ display: { xs: 'none', lg: 'initial' } }}>
+                    <Grid
+                        size={{ lg: 4 }}
+                        sx={{ display: { xs: 'none', lg: 'initial' } }}
+                    >
                         <Image
                             isLoading={isLoading}
                             alt={pluginDetails?.name}
@@ -351,11 +428,19 @@ const PluginPage: FC = () => {
                         />
                     </Grid>
 
-                    <Grid size={{ xs: 12, lg: 8 }} sx={{ order: { xs: 1, lg: 'initial' } }}>
+                    <Grid
+                        size={{ xs: 12, lg: 8 }}
+                        sx={{ order: { xs: 1, lg: 'initial' } }}
+                    >
                         {!!pluginDetails?.versions.length && (
                             <>
-                                <Typography variant='h3' sx={{ marginBottom: 2 }}>
-                                    {globalize.translate('HeaderRevisionHistory')}
+                                <Typography
+                                    variant='h3'
+                                    sx={{ marginBottom: 2 }}
+                                >
+                                    {globalize.translate(
+                                        'HeaderRevisionHistory'
+                                    )}
                                 </Typography>
                                 <PluginRevisions
                                     pluginDetails={pluginDetails}
@@ -366,12 +451,21 @@ const PluginPage: FC = () => {
                     </Grid>
 
                     <Grid size={{ xs: 12, lg: 4 }}>
-                        <Stack spacing={2} direction={{ xs: 'column', sm: 'row-reverse', lg: 'column' }}>
+                        <Stack
+                            spacing={2}
+                            direction={{
+                                xs: 'column',
+                                sm: 'row-reverse',
+                                lg: 'column'
+                            }}
+                        >
                             <Stack spacing={1} sx={{ flexBasis: '50%' }}>
                                 {!isLoading && !pluginDetails?.status && (
                                     <>
                                         <Alert severity='info'>
-                                            {globalize.translate('ServerRestartNeededAfterPluginInstall')}
+                                            {globalize.translate(
+                                                'ServerRestartNeededAfterPluginInstall'
+                                            )}
                                         </Alert>
 
                                         <Button
@@ -379,7 +473,9 @@ const PluginPage: FC = () => {
                                             onClick={onInstall()}
                                             loading={isInstalling}
                                         >
-                                            {globalize.translate('HeaderInstall')}
+                                            {globalize.translate(
+                                                'HeaderInstall'
+                                            )}
                                         </Button>
                                     </>
                                 )}
@@ -389,25 +485,33 @@ const PluginPage: FC = () => {
                                         <FormControlLabel
                                             control={
                                                 <Switch
-                                                    checked={pluginDetails.isEnabled}
+                                                    checked={
+                                                        pluginDetails.isEnabled
+                                                    }
                                                     onChange={toggleEnabled}
-                                                    disabled={pluginDetails.status === PluginStatus.Restart}
+                                                    disabled={
+                                                        pluginDetails.status ===
+                                                        PluginStatus.Restart
+                                                    }
                                                 />
                                             }
-                                            label={globalize.translate('LabelEnablePlugin')}
+                                            label={globalize.translate(
+                                                'LabelEnablePlugin'
+                                            )}
                                         />
                                     </FormGroup>
                                 )}
 
-                                {!isLoading && pluginDetails?.configurationPage?.Name && (
-                                    <Button
-                                        component={RouterLink}
-                                        to={`/${getPluginUrl(pluginDetails.configurationPage.Name)}`}
-                                        startIcon={<Settings />}
-                                    >
-                                        {globalize.translate('Settings')}
-                                    </Button>
-                                )}
+                                {!isLoading &&
+                                    pluginDetails?.configurationPage?.Name && (
+                                        <Button
+                                            component={RouterLink}
+                                            to={`/${getPluginUrl(pluginDetails.configurationPage.Name)}`}
+                                            startIcon={<Settings />}
+                                        >
+                                            {globalize.translate('Settings')}
+                                        </Button>
+                                    )}
 
                                 {!isLoading && pluginDetails?.canUninstall && (
                                     <Button
@@ -443,7 +547,10 @@ const PluginPage: FC = () => {
             <ConfirmDialog
                 open={isUninstallConfirmOpen}
                 title={globalize.translate('HeaderUninstallPlugin')}
-                text={globalize.translate('UninstallPluginConfirmation', pluginName || '')}
+                text={globalize.translate(
+                    'UninstallPluginConfirmation',
+                    pluginName || ''
+                )}
                 onCancel={onCloseUninstallConfirmDialog}
                 onConfirm={onUninstall}
                 confirmButtonColor='error'

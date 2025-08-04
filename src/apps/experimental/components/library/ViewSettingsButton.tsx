@@ -75,18 +75,18 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
     );
 
     const onGridViewClick = useCallback(() => {
-        setLibraryViewSettings(prevState => ({
+        setLibraryViewSettings((prevState) => ({
             ...prevState,
             ViewMode: ViewMode.GridView
         }));
-    }, [ setLibraryViewSettings ]);
+    }, [setLibraryViewSettings]);
 
     const onListViewClick = useCallback(() => {
-        setLibraryViewSettings(prevState => ({
+        setLibraryViewSettings((prevState) => ({
             ...prevState,
             ViewMode: ViewMode.ListView
         }));
-    }, [ setLibraryViewSettings ]);
+    }, [setLibraryViewSettings]);
 
     const onSelectChange = useCallback(
         (event: SelectChangeEvent) => {
@@ -128,22 +128,21 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
                 }}
             >
                 <MenuList>
-
-                    <MenuItem
-                        onClick={onGridViewClick}
-                    >
+                    <MenuItem onClick={onGridViewClick}>
                         {isGridView && (
-                            <ListItemIcon><Check /></ListItemIcon>
+                            <ListItemIcon>
+                                <Check />
+                            </ListItemIcon>
                         )}
                         <ListItemText inset={!isGridView}>
                             {globalize.translate('GridView')}
                         </ListItemText>
                     </MenuItem>
-                    <MenuItem
-                        onClick={onListViewClick}
-                    >
+                    <MenuItem onClick={onListViewClick}>
                         {!isGridView && (
-                            <ListItemIcon><Check /></ListItemIcon>
+                            <ListItemIcon>
+                                <Check />
+                            </ListItemIcon>
                         )}
                         <ListItemText inset={isGridView}>
                             {globalize.translate('ListView')}
@@ -158,24 +157,34 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
                                     <FormControl>
                                         <InputLabel>
                                             <Typography component='span'>
-                                                {globalize.translate('LabelImageType')}
+                                                {globalize.translate(
+                                                    'LabelImageType'
+                                                )}
                                             </Typography>
                                         </InputLabel>
                                         <Select
-                                            value={libraryViewSettings.ImageType}
-                                            label={globalize.translate('LabelImageType')}
+                                            value={
+                                                libraryViewSettings.ImageType
+                                            }
+                                            label={globalize.translate(
+                                                'LabelImageType'
+                                            )}
                                             onChange={onSelectChange}
                                         >
-                                            {imageTypesOptions.map((imageType) => (
-                                                <MenuItem
-                                                    key={imageType.value}
-                                                    value={imageType.value}
-                                                >
-                                                    <Typography component='span'>
-                                                        {globalize.translate(imageType.label)}
-                                                    </Typography>
-                                                </MenuItem>
-                                            ))}
+                                            {imageTypesOptions.map(
+                                                (imageType) => (
+                                                    <MenuItem
+                                                        key={imageType.value}
+                                                        value={imageType.value}
+                                                    >
+                                                        <Typography component='span'>
+                                                            {globalize.translate(
+                                                                imageType.label
+                                                            )}
+                                                        </Typography>
+                                                    </MenuItem>
+                                                )
+                                            )}
                                         </Select>
                                     </FormControl>
                                     <Divider />
@@ -186,7 +195,9 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
                                     <FormControlLabel
                                         control={
                                             <Checkbox
-                                                checked={libraryViewSettings.ShowTitle}
+                                                checked={
+                                                    libraryViewSettings.ShowTitle
+                                                }
                                                 onChange={handleChange}
                                                 name='ShowTitle'
                                             />
@@ -197,23 +208,31 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
                                         <FormControlLabel
                                             control={
                                                 <Checkbox
-                                                    checked={libraryViewSettings.ShowYear}
+                                                    checked={
+                                                        libraryViewSettings.ShowYear
+                                                    }
                                                     onChange={handleChange}
                                                     name='ShowYear'
                                                 />
                                             }
-                                            label={globalize.translate('ShowYear')}
+                                            label={globalize.translate(
+                                                'ShowYear'
+                                            )}
                                         />
                                     )}
                                     <FormControlLabel
                                         control={
                                             <Checkbox
-                                                checked={libraryViewSettings.CardLayout}
+                                                checked={
+                                                    libraryViewSettings.CardLayout
+                                                }
                                                 onChange={handleChange}
                                                 name='CardLayout'
                                             />
                                         }
-                                        label={globalize.translate('EnableCardLayout')}
+                                        label={globalize.translate(
+                                            'EnableCardLayout'
+                                        )}
                                     />
                                 </FormGroup>
                             </FormControl>

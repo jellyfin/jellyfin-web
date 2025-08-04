@@ -35,16 +35,15 @@ describe('getItemTextLines', () => {
         lines = getItemTextLines(item);
         expect(lines).toBeDefined();
         expect(lines).toHaveLength(1);
-        expect(lines?.[0]).toBe(`${item.ParentIndexNumber}.${item.IndexNumber} - ${item.Name}`);
+        expect(lines?.[0]).toBe(
+            `${item.ParentIndexNumber}.${item.IndexNumber} - ${item.Name}`
+        );
     });
 
     it('Should add artist names', () => {
         let item: ItemDto = {
             Name: 'Item Name',
-            ArtistItems: [
-                { Name: 'Artist 1' },
-                { Name: 'Artist 2' }
-            ]
+            ArtistItems: [{ Name: 'Artist 1' }, { Name: 'Artist 2' }]
         };
         let lines = getItemTextLines(item);
         expect(lines).toBeDefined();
@@ -54,10 +53,7 @@ describe('getItemTextLines', () => {
 
         item = {
             Name: 'Item Name',
-            Artists: [
-                'Artist 1',
-                'Artist 2'
-            ]
+            Artists: ['Artist 1', 'Artist 2']
         };
         lines = getItemTextLines(item);
         expect(lines).toBeDefined();

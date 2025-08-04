@@ -32,14 +32,22 @@ function centerFocus(elem, horiz, on) {
 function fillSortBy(context, options) {
     const selectSortBy = context.querySelector('.selectSortBy');
 
-    selectSortBy.innerHTML = options.map(function (o) {
-        return '<option value="' + o.value + '">' + o.name + '</option>';
-    }).join('');
+    selectSortBy.innerHTML = options
+        .map(function (o) {
+            return '<option value="' + o.value + '">' + o.name + '</option>';
+        })
+        .join('');
 }
 
 function saveValues(context, settingsKey) {
-    userSettings.setFilter(settingsKey + '-sortorder', context.querySelector('.selectSortOrder').value);
-    userSettings.setFilter(settingsKey + '-sortby', context.querySelector('.selectSortBy').value);
+    userSettings.setFilter(
+        settingsKey + '-sortorder',
+        context.querySelector('.selectSortOrder').value
+    );
+    userSettings.setFilter(
+        settingsKey + '-sortby',
+        context.querySelector('.selectSortBy').value
+    );
 }
 
 class SortMenu {
@@ -75,23 +83,38 @@ class SortMenu {
             fillSortBy(dlg, options.sortOptions);
             initEditor(dlg, options.settings);
 
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                dialogHelper.close(dlg);
-            });
+            dlg.querySelector('.btnCancel').addEventListener(
+                'click',
+                function () {
+                    dialogHelper.close(dlg);
+                }
+            );
 
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+                centerFocus(
+                    dlg.querySelector('.formDialogContent'),
+                    false,
+                    true
+                );
             }
 
             let submitted;
 
-            dlg.querySelector('form').addEventListener('change', function () {
-                submitted = true;
-            }, true);
+            dlg.querySelector('form').addEventListener(
+                'change',
+                function () {
+                    submitted = true;
+                },
+                true
+            );
 
             dialogHelper.open(dlg).then(function () {
                 if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                    centerFocus(
+                        dlg.querySelector('.formDialogContent'),
+                        false,
+                        false
+                    );
                 }
 
                 if (submitted) {

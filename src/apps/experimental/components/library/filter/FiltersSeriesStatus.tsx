@@ -15,7 +15,9 @@ const statusFiltersOptions = [
 
 interface FiltersSeriesStatusProps {
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
+    setLibraryViewSettings: React.Dispatch<
+        React.SetStateAction<LibraryViewSettings>
+    >;
 }
 
 const FiltersSeriesStatus: FC<FiltersSeriesStatusProps> = ({
@@ -26,18 +28,21 @@ const FiltersSeriesStatus: FC<FiltersSeriesStatusProps> = ({
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value as SeriesStatus;
-            const existingSeriesStatus = libraryViewSettings?.Filters?.SeriesStatus ?? [];
+            const existingSeriesStatus =
+                libraryViewSettings?.Filters?.SeriesStatus ?? [];
 
-            const updatedSeriesStatus = existingSeriesStatus.includes(value) ?
-                existingSeriesStatus.filter((filter) => filter !== value) :
-                [...existingSeriesStatus, value];
+            const updatedSeriesStatus = existingSeriesStatus.includes(value)
+                ? existingSeriesStatus.filter((filter) => filter !== value)
+                : [...existingSeriesStatus, value];
 
             setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
                     ...prevState.Filters,
-                    SeriesStatus: updatedSeriesStatus.length ? updatedSeriesStatus : undefined
+                    SeriesStatus: updatedSeriesStatus.length
+                        ? updatedSeriesStatus
+                        : undefined
                 }
             }));
         },
@@ -52,7 +57,9 @@ const FiltersSeriesStatus: FC<FiltersSeriesStatusProps> = ({
                     control={
                         <Checkbox
                             checked={
-                                !!libraryViewSettings?.Filters?.SeriesStatus?.includes( filter.value)
+                                !!libraryViewSettings?.Filters?.SeriesStatus?.includes(
+                                    filter.value
+                                )
                             }
                             onChange={onFiltersSeriesStatusChange}
                             value={filter.value}

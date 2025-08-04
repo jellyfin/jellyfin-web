@@ -21,7 +21,11 @@ import NoItemsMessage from 'components/common/NoItemsMessage';
 import Lists from 'components/listview/List/Lists';
 import Cards from 'components/cardbuilder/Card/Cards';
 import { LibraryTab } from 'types/libraryTab';
-import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library';
+import {
+    type LibraryViewSettings,
+    type ParentId,
+    ViewMode
+} from 'types/library';
 import type { CardOptions } from 'types/cardOptions';
 import type { ListOptions } from 'types/listOptions';
 import { useItem } from 'hooks/useItem';
@@ -111,7 +115,12 @@ const ItemsView: FC<ItemsViewProps> = ({
         }
 
         return listOptions;
-    }, [itemsResult?.Items, collectionType, viewType, libraryViewSettings.SortBy]);
+    }, [
+        itemsResult?.Items,
+        collectionType,
+        viewType,
+        libraryViewSettings.SortBy
+    ]);
 
     const getCardOptions = useCallback(() => {
         let shape;
@@ -152,9 +161,9 @@ const ItemsView: FC<ItemsViewProps> = ({
         };
 
         if (
-            viewType === LibraryTab.Songs
-            || viewType === LibraryTab.Albums
-            || viewType === LibraryTab.Episodes
+            viewType === LibraryTab.Songs ||
+            viewType === LibraryTab.Albums ||
+            viewType === LibraryTab.Episodes
         ) {
             cardOptions.showParentTitle = libraryViewSettings.ShowTitle;
             cardOptions.overlayPlayButton = true;
@@ -175,7 +184,10 @@ const ItemsView: FC<ItemsViewProps> = ({
             cardOptions.lines = 3;
         } else if (viewType === LibraryTab.Movies) {
             cardOptions.overlayPlayButton = true;
-        } else if (viewType === LibraryTab.Series || viewType === LibraryTab.Networks) {
+        } else if (
+            viewType === LibraryTab.Series ||
+            viewType === LibraryTab.Networks
+        ) {
             cardOptions.overlayMoreButton = true;
         }
 
@@ -227,27 +239,24 @@ const ItemsView: FC<ItemsViewProps> = ({
 
     const itemsContainerClass = classNames(
         'centered padded-left padded-right padded-right-withalphapicker',
-        libraryViewSettings.ViewMode === ViewMode.ListView ?
-            'vertical-list' :
-            'vertical-wrap'
+        libraryViewSettings.ViewMode === ViewMode.ListView
+            ? 'vertical-list'
+            : 'vertical-wrap'
     );
 
     return (
         <Box className='padded-bottom-page'>
             <Box
-                className={classNames(
-                    'padded-top padded-left padded-right',
-                    { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
-                )}
+                className={classNames('padded-top padded-left padded-right', {
+                    'padded-right-withalphapicker': isAlphabetPickerEnabled
+                })}
                 sx={{
                     display: 'flex',
                     flexWrap: 'wrap',
                     alignItems: 'center'
                 }}
             >
-                <Box
-                    sx={{ marginRight: 1 }}
-                >
+                <Box sx={{ marginRight: 1 }}>
                     <LibraryViewMenu />
                 </Box>
 
@@ -260,10 +269,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                         marginRight: 1
                     }}
                 >
-                    <ButtonGroup
-                        color='inherit'
-                        variant='text'
-                    >
+                    <ButtonGroup color='inherit' variant='text'>
                         {isBtnFilterEnabled && (
                             <FilterButton
                                 parentId={parentId}
@@ -305,9 +311,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                 >
                     {!isPending && (
                         <>
-                            <ButtonGroup
-                                variant='contained'
-                            >
+                            <ButtonGroup variant='contained'>
                                 {isBtnPlayAllEnabled && (
                                     <PlayAllButton
                                         item={item}
@@ -315,32 +319,50 @@ const ItemsView: FC<ItemsViewProps> = ({
                                         viewType={viewType}
                                         hasFilters={hasFilters}
                                         isTextVisible={isSmallScreen}
-                                        libraryViewSettings={libraryViewSettings}
+                                        libraryViewSettings={
+                                            libraryViewSettings
+                                        }
                                     />
                                 )}
 
-                                {isBtnShuffleEnabled && totalRecordCount > 1 && (
-                                    <ShuffleButton
-                                        item={item}
-                                        items={items}
-                                        viewType={viewType}
-                                        hasFilters={hasFilters}
-                                        isTextVisible={isSmallScreen && !isBtnPlayAllEnabled}
-                                        libraryViewSettings={libraryViewSettings}
-                                    />
-                                )}
+                                {isBtnShuffleEnabled &&
+                                    totalRecordCount > 1 && (
+                                        <ShuffleButton
+                                            item={item}
+                                            items={items}
+                                            viewType={viewType}
+                                            hasFilters={hasFilters}
+                                            isTextVisible={
+                                                isSmallScreen &&
+                                                !isBtnPlayAllEnabled
+                                            }
+                                            libraryViewSettings={
+                                                libraryViewSettings
+                                            }
+                                        />
+                                    )}
 
-                                {isBtnQueueEnabled && item && playbackManager.canQueue(item) && (
-                                    <QueueButton
-                                        item={item}
-                                        items={items}
-                                        hasFilters={hasFilters}
-                                        isTextVisible={isSmallScreen && !isBtnPlayAllEnabled && !isBtnShuffleEnabled}
-                                    />
-                                )}
+                                {isBtnQueueEnabled &&
+                                    item &&
+                                    playbackManager.canQueue(item) && (
+                                        <QueueButton
+                                            item={item}
+                                            items={items}
+                                            hasFilters={hasFilters}
+                                            isTextVisible={
+                                                isSmallScreen &&
+                                                !isBtnPlayAllEnabled &&
+                                                !isBtnShuffleEnabled
+                                            }
+                                        />
+                                    )}
                             </ButtonGroup>
 
-                            {isBtnNewCollectionEnabled && <NewCollectionButton isTextVisible={isSmallScreen} />}
+                            {isBtnNewCollectionEnabled && (
+                                <NewCollectionButton
+                                    isTextVisible={isSmallScreen}
+                                />
+                            )}
                         </>
                     )}
                 </Box>
@@ -393,10 +415,9 @@ const ItemsView: FC<ItemsViewProps> = ({
 
             {!isPending && isPaginationEnabled && (
                 <Box
-                    className={classNames(
-                        'padded-left padded-right',
-                        { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
-                    )}
+                    className={classNames('padded-left padded-right', {
+                        'padded-right-withalphapicker': isAlphabetPickerEnabled
+                    })}
                     sx={{
                         display: 'flex',
                         justifyContent: 'flex-end'

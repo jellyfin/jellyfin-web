@@ -10,9 +10,9 @@ import browser from 'scripts/browser';
 export const DRAWER_WIDTH = 240;
 
 export interface ResponsiveDrawerProps {
-    open: boolean
-    onClose: () => void
-    onOpen: () => void
+    open: boolean;
+    onClose: () => void;
+    onOpen: () => void;
 }
 
 const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
@@ -21,9 +21,11 @@ const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
     onClose,
     onOpen
 }) => {
-    const isMediumScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+    const isMediumScreen = useMediaQuery((theme: Theme) =>
+        theme.breakpoints.up('md')
+    );
 
-    return ( isMediumScreen ? (
+    return isMediumScreen ? (
         /* DESKTOP DRAWER */
         <Drawer
             sx={{
@@ -62,7 +64,7 @@ const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
                 {children}
             </Box>
         </SwipeableDrawer>
-    ));
+    );
 };
 
 export default ResponsiveDrawer;

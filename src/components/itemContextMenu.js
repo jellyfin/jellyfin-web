@@ -47,7 +47,11 @@ export async function getCommands(options) {
             });
         }
 
-        if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'TvChannel') {
+        if (
+            options.playAllFromHere &&
+            item.Type !== 'Program' &&
+            item.Type !== 'TvChannel'
+        ) {
             commands.push({
                 name: globalize.translate('PlayAllFromHere'),
                 id: 'playallfromhere',
@@ -91,9 +95,12 @@ export async function getCommands(options) {
         }
     }
 
-    if ((item.IsFolder || item.Type === 'MusicArtist' || item.Type === 'MusicGenre')
-            && item.CollectionType !== 'livetv'
-            && options.shuffle !== false
+    if (
+        (item.IsFolder ||
+            item.Type === 'MusicArtist' ||
+            item.Type === 'MusicGenre') &&
+        item.CollectionType !== 'livetv' &&
+        options.shuffle !== false
     ) {
         commands.push({
             name: globalize.translate('Shuffle'),
@@ -102,8 +109,13 @@ export async function getCommands(options) {
         });
     }
 
-    if ((item.MediaType === 'Audio' || item.Type === 'MusicAlbum' || item.Type === 'MusicArtist' || item.Type === 'MusicGenre')
-            && options.instantMix !== false && !itemHelper.isLocalItem(item)
+    if (
+        (item.MediaType === 'Audio' ||
+            item.Type === 'MusicAlbum' ||
+            item.Type === 'MusicArtist' ||
+            item.Type === 'MusicGenre') &&
+        options.instantMix !== false &&
+        !itemHelper.isLocalItem(item)
     ) {
         commands.push({
             name: globalize.translate('InstantMix'),
@@ -121,15 +133,22 @@ export async function getCommands(options) {
     if (!browser.tv) {
         // Multiselect is currrently only ran on long clicks of card components
         // This disables Select on any context menu not originating from a card i.e songs
-        if (options.positionTo && (dom.parentWithClass(options.positionTo, 'card') !== null)) {
+        if (
+            options.positionTo &&
+            dom.parentWithClass(options.positionTo, 'card') !== null
+        ) {
             commands.push({
-                name:  globalize.translate('Select'),
+                name: globalize.translate('Select'),
                 id: 'multiSelect',
                 icon: 'library_add_check'
             });
         }
 
-        if (itemHelper.supportsAddingToCollection(item) && (user.Policy.IsAdministrator || user.Policy.EnableCollectionManagement)) {
+        if (
+            itemHelper.supportsAddingToCollection(item) &&
+            (user.Policy.IsAdministrator ||
+                user.Policy.EnableCollectionManagement)
+        ) {
             commands.push({
                 name: globalize.translate('AddToCollection'),
                 id: 'addtocollection',
@@ -137,7 +156,10 @@ export async function getCommands(options) {
             });
         }
 
-        if (itemHelper.supportsAddingToPlaylist(item) && options.playlist !== false) {
+        if (
+            itemHelper.supportsAddingToPlaylist(item) &&
+            options.playlist !== false
+        ) {
             commands.push({
                 name: globalize.translate('AddToPlaylist'),
                 id: 'addtoplaylist',
@@ -146,7 +168,11 @@ export async function getCommands(options) {
         }
     }
 
-    if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
+    if (
+        item.Type === 'Timer' &&
+        user.Policy.EnableLiveTvManagement &&
+        options.cancelTimer !== false
+    ) {
         commands.push({
             name: globalize.translate('CancelRecording'),
             id: 'canceltimer',
@@ -154,7 +180,12 @@ export async function getCommands(options) {
         });
     }
 
-    if ((item.Type === 'Recording' && item.Status === 'InProgress') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
+    if (
+        item.Type === 'Recording' &&
+        item.Status === 'InProgress' &&
+        user.Policy.EnableLiveTvManagement &&
+        options.cancelTimer !== false
+    ) {
         commands.push({
             name: globalize.translate('CancelRecording'),
             id: 'canceltimer',
@@ -162,7 +193,11 @@ export async function getCommands(options) {
         });
     }
 
-    if ((item.Type === 'SeriesTimer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
+    if (
+        item.Type === 'SeriesTimer' &&
+        user.Policy.EnableLiveTvManagement &&
+        options.cancelTimer !== false
+    ) {
         commands.push({
             name: globalize.translate('CancelSeries'),
             id: 'cancelseriestimer',
@@ -172,7 +207,10 @@ export async function getCommands(options) {
 
     if (appHost.supports(AppFeature.FileDownload)) {
         // CanDownload should probably be updated to return true for these items?
-        if (user.Policy.EnableContentDownloading && (item.Type === 'Season' || item.Type == 'Series')) {
+        if (
+            user.Policy.EnableContentDownloading &&
+            (item.Type === 'Season' || item.Type == 'Series')
+        ) {
             commands.push({
                 name: globalize.translate('DownloadAll'),
                 id: 'downloadall',
@@ -223,7 +261,10 @@ export async function getCommands(options) {
 
     const canEdit = itemHelper.canEdit(user, item);
     if (canEdit && options.edit !== false && item.Type !== 'SeriesTimer') {
-        const text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
+        const text =
+            item.Type === 'Timer' || item.Type === 'SeriesTimer'
+                ? globalize.translate('Edit')
+                : globalize.translate('EditMetadata');
         commands.push({
             name: text,
             id: 'edit',
@@ -239,7 +280,10 @@ export async function getCommands(options) {
         });
     }
 
-    if (itemHelper.canEditSubtitles(user, item) && options.editSubtitles !== false) {
+    if (
+        itemHelper.canEditSubtitles(user, item) &&
+        options.editSubtitles !== false
+    ) {
         commands.push({
             name: globalize.translate('EditSubtitles'),
             id: 'editsubtitles',
@@ -311,7 +355,11 @@ export async function getCommands(options) {
         });
     }
 
-    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex < (item.PlaylistItemCount - 1)) {
+    if (
+        item.PlaylistItemId &&
+        options.playlistId &&
+        item.PlaylistIndex < item.PlaylistItemCount - 1
+    ) {
         commands.push({
             name: globalize.translate('MoveToBottom'),
             id: 'movetobottom',
@@ -327,7 +375,11 @@ export async function getCommands(options) {
         });
     }
 
-    if (!browser.tv && options.share === true && itemHelper.canShare(item, user)) {
+    if (
+        !browser.tv &&
+        options.share === true &&
+        itemHelper.canShare(item, user)
+    ) {
         commands.push({
             name: globalize.translate('Share'),
             id: 'share',
@@ -335,7 +387,11 @@ export async function getCommands(options) {
         });
     }
 
-    if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
+    if (
+        options.openAlbum !== false &&
+        item.AlbumId &&
+        item.MediaType !== 'Photo'
+    ) {
         commands.push({
             name: globalize.translate('ViewAlbum'),
             id: 'album',
@@ -383,75 +439,102 @@ function executeCommand(item, id, options) {
         // eslint-disable-next-line sonarjs/max-switch-cases
         switch (id) {
             case 'addtocollection':
-                import('./collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
-                    const collectionEditor = new CollectionEditor();
-                    collectionEditor.show({
-                        items: [itemId],
-                        serverId: serverId
-                    }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                });
+                import('./collectionEditor/collectionEditor').then(
+                    ({ default: CollectionEditor }) => {
+                        const collectionEditor = new CollectionEditor();
+                        collectionEditor
+                            .show({
+                                items: [itemId],
+                                serverId: serverId
+                            })
+                            .then(
+                                getResolveFunction(resolve, id, true),
+                                getResolveFunction(resolve, id)
+                            );
+                    }
+                );
                 break;
             case 'addtoplaylist':
-                import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-                    const playlistEditor = new PlaylistEditor();
-                    playlistEditor.show({
-                        items: [itemId],
-                        serverId: serverId
-                    }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                });
+                import('./playlisteditor/playlisteditor').then(
+                    ({ default: PlaylistEditor }) => {
+                        const playlistEditor = new PlaylistEditor();
+                        playlistEditor
+                            .show({
+                                items: [itemId],
+                                serverId: serverId
+                            })
+                            .then(
+                                getResolveFunction(resolve, id, true),
+                                getResolveFunction(resolve, id)
+                            );
+                    }
+                );
                 break;
             case 'download':
                 import('../scripts/fileDownloader').then((fileDownloader) => {
                     const downloadHref = apiClient.getItemDownloadUrl(itemId);
-                    fileDownloader.download([{
-                        url: downloadHref,
-                        item,
-                        itemId,
-                        serverId,
-                        title: item.Name,
-                        filename: item.Path.replace(/^.*[\\/]/, '')
-                    }]);
+                    fileDownloader.download([
+                        {
+                            url: downloadHref,
+                            item,
+                            itemId,
+                            serverId,
+                            title: item.Name,
+                            filename: item.Path.replace(/^.*[\\/]/, '')
+                        }
+                    ]);
                     getResolveFunction(getResolveFunction(resolve, id), id)();
                 });
                 break;
             case 'downloadall': {
-                const downloadEpisodes = episodes => {
-                    import('../scripts/fileDownloader').then((fileDownloader) => {
-                        const downloads = episodes.map(episode => {
-                            const downloadHref = apiClient.getItemDownloadUrl(episode.Id);
-                            return {
-                                url: downloadHref,
-                                item: episode,
-                                itemId: episode.Id,
-                                serverId: serverId,
-                                title: episode.Name,
-                                filename: episode.Path.replace(/^.*[\\/]/, '')
-                            };
-                        });
+                const downloadEpisodes = (episodes) => {
+                    import('../scripts/fileDownloader').then(
+                        (fileDownloader) => {
+                            const downloads = episodes.map((episode) => {
+                                const downloadHref =
+                                    apiClient.getItemDownloadUrl(episode.Id);
+                                return {
+                                    url: downloadHref,
+                                    item: episode,
+                                    itemId: episode.Id,
+                                    serverId: serverId,
+                                    title: episode.Name,
+                                    filename: episode.Path.replace(
+                                        /^.*[\\/]/,
+                                        ''
+                                    )
+                                };
+                            });
 
-                        fileDownloader.download(downloads);
-                    });
+                            fileDownloader.download(downloads);
+                        }
+                    );
                 };
-                const downloadSeasons = seasons => {
-                    Promise.all(seasons.map(seasonItem => {
-                        return apiClient.getEpisodes(seasonItem.SeriesId, {
-                            seasonId: seasonItem.Id,
-                            userId: options.user.Id,
-                            Fields: 'CanDownload,Path'
-                        });
-                    }
-                    )).then(seasonData => {
-                        downloadEpisodes(seasonData.map(season => season.Items).flat());
+                const downloadSeasons = (seasons) => {
+                    Promise.all(
+                        seasons.map((seasonItem) => {
+                            return apiClient.getEpisodes(seasonItem.SeriesId, {
+                                seasonId: seasonItem.Id,
+                                userId: options.user.Id,
+                                Fields: 'CanDownload,Path'
+                            });
+                        })
+                    ).then((seasonData) => {
+                        downloadEpisodes(
+                            seasonData.map((season) => season.Items).flat()
+                        );
                     });
                 };
 
                 if (item.Type === 'Season') {
                     downloadSeasons([item]);
                 } else if (item.Type === 'Series') {
-                    apiClient.getSeasons(item.Id, {
-                        userId: options.user.Id,
-                        Fields: 'ItemCounts'
-                    }).then(seasons => downloadSeasons(seasons.Items));
+                    apiClient
+                        .getSeasons(item.Id, {
+                            userId: options.user.Id,
+                            Fields: 'ItemCounts'
+                        })
+                        .then((seasons) => downloadSeasons(seasons.Items));
                 }
 
                 getResolveFunction(getResolveFunction(resolve, id), id)();
@@ -459,59 +542,112 @@ function executeCommand(item, id, options) {
             }
             case 'copy-stream': {
                 const downloadHref = apiClient.getItemDownloadUrl(itemId);
-                copy(downloadHref).then(() => {
-                    toast(globalize.translate('CopyStreamURLSuccess'));
-                }).catch(() => {
-                    prompt(globalize.translate('CopyStreamURL'), downloadHref);
-                });
+                copy(downloadHref)
+                    .then(() => {
+                        toast(globalize.translate('CopyStreamURLSuccess'));
+                    })
+                    .catch(() => {
+                        prompt(
+                            globalize.translate('CopyStreamURL'),
+                            downloadHref
+                        );
+                    });
                 getResolveFunction(resolve, id)();
                 break;
             }
             case 'editsubtitles':
-                import('./subtitleeditor/subtitleeditor').then(({ default: subtitleEditor }) => {
-                    subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                });
+                import('./subtitleeditor/subtitleeditor').then(
+                    ({ default: subtitleEditor }) => {
+                        subtitleEditor
+                            .show(itemId, serverId)
+                            .then(
+                                getResolveFunction(resolve, id, true),
+                                getResolveFunction(resolve, id)
+                            );
+                    }
+                );
                 break;
             case 'editlyrics':
-                import('./lyricseditor/lyricseditor').then(({ default: lyricseditor }) => {
-                    lyricseditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                });
+                import('./lyricseditor/lyricseditor').then(
+                    ({ default: lyricseditor }) => {
+                        lyricseditor
+                            .show(itemId, serverId)
+                            .then(
+                                getResolveFunction(resolve, id, true),
+                                getResolveFunction(resolve, id)
+                            );
+                    }
+                );
                 break;
             case 'edit':
-                editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                editItem(apiClient, item).then(
+                    getResolveFunction(resolve, id, true),
+                    getResolveFunction(resolve, id)
+                );
                 break;
             case 'editplaylist':
-                import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-                    const playlistEditor = new PlaylistEditor();
-                    playlistEditor.show({
-                        id: itemId,
-                        serverId
-                    }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                });
+                import('./playlisteditor/playlisteditor').then(
+                    ({ default: PlaylistEditor }) => {
+                        const playlistEditor = new PlaylistEditor();
+                        playlistEditor
+                            .show({
+                                id: itemId,
+                                serverId
+                            })
+                            .then(
+                                getResolveFunction(resolve, id, true),
+                                getResolveFunction(resolve, id)
+                            );
+                    }
+                );
                 break;
             case 'editimages':
                 import('./imageeditor/imageeditor').then((imageEditor) => {
-                    imageEditor.show({
-                        itemId: itemId,
-                        serverId: serverId
-                    }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                    imageEditor
+                        .show({
+                            itemId: itemId,
+                            serverId: serverId
+                        })
+                        .then(
+                            getResolveFunction(resolve, id, true),
+                            getResolveFunction(resolve, id)
+                        );
                 });
                 break;
             case 'identify':
-                import('./itemidentifier/itemidentifier').then((itemIdentifier) => {
-                    itemIdentifier.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                });
+                import('./itemidentifier/itemidentifier').then(
+                    (itemIdentifier) => {
+                        itemIdentifier
+                            .show(itemId, serverId)
+                            .then(
+                                getResolveFunction(resolve, id, true),
+                                getResolveFunction(resolve, id)
+                            );
+                    }
+                );
                 break;
             case 'moremediainfo':
-                import('./itemMediaInfo/itemMediaInfo').then((itemMediaInfo) => {
-                    itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id), getResolveFunction(resolve, id));
-                });
+                import('./itemMediaInfo/itemMediaInfo').then(
+                    (itemMediaInfo) => {
+                        itemMediaInfo
+                            .show(itemId, serverId)
+                            .then(
+                                getResolveFunction(resolve, id),
+                                getResolveFunction(resolve, id)
+                            );
+                    }
+                );
                 break;
             case 'multiSelect':
-                import('./multiSelect/multiSelect').then(({ startMultiSelect }) => {
-                    const card = dom.parentWithClass(options.positionTo, 'card');
-                    startMultiSelect(card);
-                });
+                import('./multiSelect/multiSelect').then(
+                    ({ startMultiSelect }) => {
+                        const card = dom.parentWithClass(
+                            options.positionTo,
+                            'card'
+                        );
+                        startMultiSelect(card);
+                    }
+                );
                 break;
             case 'refresh':
                 refresh(apiClient, item);
@@ -544,9 +680,16 @@ function executeCommand(item, id, options) {
                 playbackManager.clearQueue();
                 break;
             case 'record':
-                import('./recordingcreator/recordingcreator').then(({ default: recordingCreator }) => {
-                    recordingCreator.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                });
+                import('./recordingcreator/recordingcreator').then(
+                    ({ default: recordingCreator }) => {
+                        recordingCreator
+                            .show(itemId, serverId)
+                            .then(
+                                getResolveFunction(resolve, id, true),
+                                getResolveFunction(resolve, id)
+                            );
+                    }
+                );
                 break;
             case 'shuffle':
                 playbackManager.shuffle(item);
@@ -557,7 +700,10 @@ function executeCommand(item, id, options) {
                 getResolveFunction(resolve, id)();
                 break;
             case 'delete':
-                deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true, itemId), getResolveFunction(resolve, id));
+                deleteItem(apiClient, item).then(
+                    getResolveFunction(resolve, id, true, true, itemId),
+                    getResolveFunction(resolve, id)
+                );
                 break;
             case 'share':
                 navigator.share({
@@ -590,41 +736,67 @@ function executeCommand(item, id, options) {
                 getResolveFunction(resolve, id)();
                 break;
             case 'removefromplaylist':
-                apiClient.ajax({
-                    url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items', {
-                        EntryIds: [item.PlaylistItemId].join(',')
-                    }),
-                    type: 'DELETE'
-                }).then(function () {
-                    getResolveFunction(resolve, id, true)();
-                });
+                apiClient
+                    .ajax({
+                        url: apiClient.getUrl(
+                            'Playlists/' + options.playlistId + '/Items',
+                            {
+                                EntryIds: [item.PlaylistItemId].join(',')
+                            }
+                        ),
+                        type: 'DELETE'
+                    })
+                    .then(function () {
+                        getResolveFunction(resolve, id, true)();
+                    });
                 break;
             case 'movetotop':
-                apiClient.ajax({
-                    url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items/' + item.PlaylistItemId + '/Move/0'),
-                    type: 'POST'
-                }).then(function () {
-                    getResolveFunction(resolve, id, true)();
-                });
+                apiClient
+                    .ajax({
+                        url: apiClient.getUrl(
+                            'Playlists/' +
+                                options.playlistId +
+                                '/Items/' +
+                                item.PlaylistItemId +
+                                '/Move/0'
+                        ),
+                        type: 'POST'
+                    })
+                    .then(function () {
+                        getResolveFunction(resolve, id, true)();
+                    });
                 break;
             case 'movetobottom':
-                apiClient.ajax({
-                    url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items/' + item.PlaylistItemId + '/Move/' + (item.PlaylistItemCount - 1)),
-                    type: 'POST'
-                }).then(function () {
-                    getResolveFunction(resolve, id, true)();
-                });
+                apiClient
+                    .ajax({
+                        url: apiClient.getUrl(
+                            'Playlists/' +
+                                options.playlistId +
+                                '/Items/' +
+                                item.PlaylistItemId +
+                                '/Move/' +
+                                (item.PlaylistItemCount - 1)
+                        ),
+                        type: 'POST'
+                    })
+                    .then(function () {
+                        getResolveFunction(resolve, id, true)();
+                    });
                 break;
             case 'removefromcollection':
-                apiClient.ajax({
-                    type: 'DELETE',
-                    url: apiClient.getUrl('Collections/' + options.collectionId + '/Items', {
-
-                        Ids: [item.Id].join(',')
+                apiClient
+                    .ajax({
+                        type: 'DELETE',
+                        url: apiClient.getUrl(
+                            'Collections/' + options.collectionId + '/Items',
+                            {
+                                Ids: [item.Id].join(',')
+                            }
+                        )
                     })
-                }).then(function () {
-                    getResolveFunction(resolve, id, true)();
-                });
+                    .then(function () {
+                        getResolveFunction(resolve, id, true)();
+                    });
                 break;
             case 'canceltimer':
                 deleteTimer(apiClient, item, resolve, id);
@@ -640,20 +812,28 @@ function executeCommand(item, id, options) {
 }
 
 function deleteTimer(apiClient, item, resolve, command) {
-    import('./recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-        const timerId = item.TimerId || item.Id;
-        recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
-            getResolveFunction(resolve, command, true)();
-        });
-    });
+    import('./recordingcreator/recordinghelper').then(
+        ({ default: recordingHelper }) => {
+            const timerId = item.TimerId || item.Id;
+            recordingHelper
+                .cancelTimerWithConfirmation(timerId, item.ServerId)
+                .then(function () {
+                    getResolveFunction(resolve, command, true)();
+                });
+        }
+    );
 }
 
 function deleteSeriesTimer(apiClient, item, resolve, command) {
-    import('./recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-        recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
-            getResolveFunction(resolve, command, true)();
-        });
-    });
+    import('./recordingcreator/recordinghelper').then(
+        ({ default: recordingHelper }) => {
+            recordingHelper
+                .cancelSeriesTimerWithConfirmation(item.Id, item.ServerId)
+                .then(function () {
+                    getResolveFunction(resolve, command, true)();
+                });
+        }
+    );
 }
 
 function play(item, resume, queue, queueNext) {
@@ -678,7 +858,8 @@ function play(item, resume, queue, queueNext) {
             serverId: item.ServerId
         });
     } else {
-        const sortParentId = 'items-' + (item.IsFolder ? item.Id : item.ParentId) + '-Folder';
+        const sortParentId =
+            'items-' + (item.IsFolder ? item.Id : item.ParentId) + '-Folder';
         const sortValues = userSettings.getSortValuesLegacy(sortParentId);
 
         playbackManager[method]({
@@ -697,17 +878,29 @@ function editItem(apiClient, item) {
         const serverId = apiClient.serverInfo().Id;
 
         if (item.Type === 'Timer') {
-            import('./recordingcreator/recordingeditor').then(({ default: recordingEditor }) => {
-                recordingEditor.show(item.Id, serverId).then(resolve, reject);
-            });
+            import('./recordingcreator/recordingeditor').then(
+                ({ default: recordingEditor }) => {
+                    recordingEditor
+                        .show(item.Id, serverId)
+                        .then(resolve, reject);
+                }
+            );
         } else if (item.Type === 'SeriesTimer') {
-            import('./recordingcreator/seriesrecordingeditor').then(({ default: recordingEditor }) => {
-                recordingEditor.show(item.Id, serverId).then(resolve, reject);
-            });
+            import('./recordingcreator/seriesrecordingeditor').then(
+                ({ default: recordingEditor }) => {
+                    recordingEditor
+                        .show(item.Id, serverId)
+                        .then(resolve, reject);
+                }
+            );
         } else {
-            import('./metadataEditor/metadataEditor').then(({ default: metadataEditor }) => {
-                metadataEditor.show(item.Id, serverId).then(resolve, reject);
-            });
+            import('./metadataEditor/metadataEditor').then(
+                ({ default: metadataEditor }) => {
+                    metadataEditor
+                        .show(item.Id, serverId)
+                        .then(resolve, reject);
+                }
+            );
         }
     });
 }
@@ -715,24 +908,28 @@ function editItem(apiClient, item) {
 function deleteItem(apiClient, item) {
     return new Promise(function (resolve, reject) {
         import('../scripts/deleteHelper').then((deleteHelper) => {
-            deleteHelper.deleteItem({
-                item: item,
-                navigate: false
-            }).then(function () {
-                resolve(true);
-            }, reject);
+            deleteHelper
+                .deleteItem({
+                    item: item,
+                    navigate: false
+                })
+                .then(function () {
+                    resolve(true);
+                }, reject);
         });
     });
 }
 
 function refresh(apiClient, item) {
-    import('./refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
-        new RefreshDialog({
-            itemIds: [item.Id],
-            serverId: apiClient.serverInfo().Id,
-            mode: item.Type === 'CollectionFolder' ? 'scan' : null
-        }).show();
-    });
+    import('./refreshdialog/refreshdialog').then(
+        ({ default: RefreshDialog }) => {
+            new RefreshDialog({
+                itemIds: [item.Id],
+                serverId: apiClient.serverInfo().Id,
+                mode: item.Type === 'CollectionFolder' ? 'scan' : null
+            }).show();
+        }
+    );
 }
 
 export async function show(options) {

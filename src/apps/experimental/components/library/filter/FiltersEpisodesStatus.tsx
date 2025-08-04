@@ -13,7 +13,9 @@ const episodeFilterOptions = [
 
 interface FiltersEpisodesStatusProps {
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
+    setLibraryViewSettings: React.Dispatch<
+        React.SetStateAction<LibraryViewSettings>
+    >;
 }
 
 const FiltersEpisodesStatus: FC<FiltersEpisodesStatusProps> = ({
@@ -24,18 +26,21 @@ const FiltersEpisodesStatus: FC<FiltersEpisodesStatusProps> = ({
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value as EpisodeFilter;
-            const existingEpisodeFilter = libraryViewSettings?.Filters?.EpisodeFilter ?? [];
+            const existingEpisodeFilter =
+                libraryViewSettings?.Filters?.EpisodeFilter ?? [];
 
-            const updatedEpisodeFilter = existingEpisodeFilter.includes(value) ?
-                existingEpisodeFilter.filter((filter) => filter !== value) :
-                [...existingEpisodeFilter, value];
+            const updatedEpisodeFilter = existingEpisodeFilter.includes(value)
+                ? existingEpisodeFilter.filter((filter) => filter !== value)
+                : [...existingEpisodeFilter, value];
 
             setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
                     ...prevState.Filters,
-                    EpisodeFilter: updatedEpisodeFilter.length ? updatedEpisodeFilter : undefined
+                    EpisodeFilter: updatedEpisodeFilter.length
+                        ? updatedEpisodeFilter
+                        : undefined
                 }
             }));
         },

@@ -213,7 +213,6 @@
             "quoteStyle": "single",
             "trailingCommas": "none",
             "jsxQuoteStyle": "single"
-
         },
         "globals": [
             "onanimationend",

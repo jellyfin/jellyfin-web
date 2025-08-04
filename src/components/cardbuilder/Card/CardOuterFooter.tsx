@@ -8,14 +8,20 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
 interface CardOuterFooterProps {
-    item: ItemDto
+    item: ItemDto;
     cardOptions: CardOptions;
     imgUrl: string | undefined;
     forceName: boolean;
-    overlayText: boolean | undefined
+    overlayText: boolean | undefined;
 }
 
-const CardOuterFooter: FC<CardOuterFooterProps> = ({ item, cardOptions, overlayText, imgUrl, forceName }) => {
+const CardOuterFooter: FC<CardOuterFooterProps> = ({
+    item,
+    cardOptions,
+    overlayText,
+    imgUrl,
+    forceName
+}) => {
     const { api } = useApi();
     const logoInfo = getCardLogoUrl(item, api, cardOptions);
     const logoUrl = logoInfo.logoUrl;
@@ -38,7 +44,6 @@ const CardOuterFooter: FC<CardOuterFooterProps> = ({ item, cardOptions, overlayT
             logoUrl={logoUrl}
             isOuterFooter={true}
         />
-
     );
 };
 
