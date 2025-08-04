@@ -251,7 +251,7 @@ export function translate(key: string, ...args: unknown[]) {
     return val;
 }
 
-export function translateHtml(html: string, module: string | null) {
+export function translateHtml(html: string, module: string | null = null) {
     html = (html as unknown as { default: string }).default || html;
 
     if (!module) {
