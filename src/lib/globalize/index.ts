@@ -1,6 +1,3 @@
-// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import isEmpty from 'lodash-es/isEmpty';
 
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
@@ -20,7 +17,7 @@ const Direction = {
 export const FALLBACK_CULTURE = 'en-us';
 const RTL_LANGS = ['ar', 'fa', 'ur', 'he'];
 
-const allTranslations: Record<string, any> = {};
+const allTranslations: Record<string, { translations: Translation[], dictionaries: Record<string, Record<string, string>> }> = {};
 let currentCulture: string;
 let currentDateTimeCulture: string;
 let isRTL = false;
@@ -81,6 +78,7 @@ export function getIsElementRTL(element: HTMLElement) {
     if (window.getComputedStyle) { // all browsers
         return window.getComputedStyle(element, null).getPropertyValue('direction') == 'rtl';
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (element as any).currentStyle.direction == 'rtl';
 }
 
@@ -153,9 +151,9 @@ function getDictionary(module: string | null, locale: string) {
     return translations.dictionaries[locale];
 }
 
-export function register(options: { name: string, strings?: unknown, translations?: Translation[] }) {
+export function register(options: { name: string, strings?: Translation[], translations?: Translation[] }) {
     allTranslations[options.name] = {
-        translations: options.strings || options.translations,
+        translations: (options.strings || options.translations) as Translation[],
         dictionaries: {}
     };
 }
@@ -244,15 +242,16 @@ function translateKeyFromModule(key: string, module: string | null) {
     return key;
 }
 
-export function translate(key: string, ...args: any[]) {
+export function translate(key: string, ...args: unknown[]) {
     let val = translateKey(key);
     for (const [index, arg] of args.entries()) {
-        val = val.replaceAll(`{${index}}`, (arg as number).toLocaleString(currentCulture));
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        val = (val as any).replaceAll(`{${index}}`, (arg as number).toLocaleString(currentCulture));
     }
     return val;
 }
 
-export function translateHtml(html: string, module?: any) {
+export function translateHtml(html: string, module: string | null) {
     html = (html as unknown as { default: string }).default || html;
 
     if (!module) {
