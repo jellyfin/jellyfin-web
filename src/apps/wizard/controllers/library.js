@@ -361,8 +361,8 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
         refreshIndicator.setAttribute('data-status', virtualFolder.RefreshStatus);
 
         cardIndicators.appendChild(refreshIndicator);
-        cardImageContainer.appendChild(cardIndicators);
-        cardContent.appendChild(cardImageContainer);
+        imgContainer.appendChild(cardIndicators);
+        cardContent.appendChild(imgContainer);
     }
 
     if (!imgUrl && virtualFolder.showNameWithIcon) {
