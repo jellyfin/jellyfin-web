@@ -162,6 +162,7 @@
         "build:check": "tsc --noEmit",
         "build:es-check": "npm run build:production && npm run escheck",
         "escheck": "es-check",
+        "eslint": "eslint \"./\"",
         "lint": "npx @biomejs/biome lint --diagnostic-level=error",
         "format": "npx @biomejs/biome format --write",
         "test": "vitest --watch=false --config vite.config.ts",
