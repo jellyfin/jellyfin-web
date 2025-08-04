@@ -12,8 +12,12 @@ type SearchSuggestionsProps = {
     parentId?: string | null;
 };
 
-const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId }) => {
-    const { data: suggestions, isPending } = useSearchSuggestions(parentId || undefined);
+const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({
+    parentId
+}) => {
+    const { data: suggestions, isPending } = useSearchSuggestions(
+        parentId || undefined
+    );
 
     if (isPending) return <Loading />;
 
@@ -29,11 +33,14 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId
             </div>
 
             <div className='searchSuggestionsList padded-left padded-right'>
-                {suggestions?.map(item => (
+                {suggestions?.map((item) => (
                     <div key={item.Id}>
                         <LinkButton
                             className='button-link'
-                            style={{ display: 'inline-block', padding: '0.5em 1em' }}
+                            style={{
+                                display: 'inline-block',
+                                padding: '0.5em 1em'
+                            }}
                             href={appRouter.getRouteUrl(item)}
                         >
                             {item.Name}

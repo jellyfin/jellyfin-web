@@ -18,7 +18,8 @@ interface UseDisplaySettingsParams {
 export function useDisplaySettings({ userId }: UseDisplaySettingsParams) {
     const [loading, setLoading] = useState(true);
     const [userSettings, setUserSettings] = useState<UserSettings>();
-    const [displaySettings, setDisplaySettings] = useState<DisplaySettingsValues>();
+    const [displaySettings, setDisplaySettings] =
+        useState<DisplaySettingsValues>();
     const { __legacyApiClient__, user: currentUser } = useApi();
 
     useEffect(() => {
@@ -29,7 +30,11 @@ export function useDisplaySettings({ userId }: UseDisplaySettingsParams) {
         setLoading(true);
 
         void (async () => {
-            const loadedSettings = await loadDisplaySettings({ api: __legacyApiClient__, currentUser, userId });
+            const loadedSettings = await loadDisplaySettings({
+                api: __legacyApiClient__,
+                currentUser,
+                userId
+            });
 
             setDisplaySettings(loadedSettings.displaySettings);
             setUserSettings(loadedSettings.userSettings);
@@ -42,17 +47,20 @@ export function useDisplaySettings({ userId }: UseDisplaySettingsParams) {
         };
     }, [__legacyApiClient__, currentUser, userId]);
 
-    const saveSettings = useCallback(async (newSettings: DisplaySettingsValues) => {
-        if (!userId || !userSettings || !__legacyApiClient__) {
-            return;
-        }
-        return saveDisplaySettings({
-            api: __legacyApiClient__,
-            newDisplaySettings: newSettings,
-            userSettings,
-            userId
-        });
-    }, [__legacyApiClient__, userSettings, userId]);
+    const saveSettings = useCallback(
+        async (newSettings: DisplaySettingsValues) => {
+            if (!userId || !userSettings || !__legacyApiClient__) {
+                return;
+            }
+            return saveDisplaySettings({
+                api: __legacyApiClient__,
+                newDisplaySettings: newSettings,
+                userSettings,
+                userId
+            });
+        },
+        [__legacyApiClient__, userSettings, userId]
+    );
 
     return {
         displaySettings,
@@ -72,8 +80,14 @@ async function loadDisplaySettings({
     userId,
     api
 }: LoadDisplaySettingsParams) {
-    const settings = (!userId || userId === currentUser?.Id) ? currentSettings : new UserSettings();
-    const user = (!userId || userId === currentUser?.Id) ? currentUser : await api.getUser(userId);
+    const settings =
+        !userId || userId === currentUser?.Id
+            ? currentSettings
+            : new UserSettings();
+    const user =
+        !userId || userId === currentUser?.Id
+            ? currentUser
+            : await api.getUser(userId);
 
     await settings.setUserInfo(userId, api);
 
@@ -82,7 +96,8 @@ async function loadDisplaySettings({
         dashboardTheme: settings.dashboardTheme() || 'auto',
         dateTimeLocale: settings.dateTimeLocale() || 'auto',
         disableCustomCss: Boolean(settings.disableCustomCss()),
-        displayMissingEpisodes: user?.Configuration?.DisplayMissingEpisodes ?? false,
+        displayMissingEpisodes:
+            user?.Configuration?.DisplayMissingEpisodes ?? false,
         enableBlurHash: Boolean(settings.enableBlurhash()),
         enableFasterAnimation: Boolean(settings.enableFastFadein()),
         enableItemDetailsBanner: Boolean(settings.detailsBanner()),
@@ -90,7 +105,9 @@ async function loadDisplaySettings({
         enableLibraryThemeSongs: Boolean(settings.enableThemeSongs()),
         enableLibraryThemeVideos: Boolean(settings.enableThemeVideos()),
         enableRewatchingInNextUp: Boolean(settings.enableRewatchingInNextUp()),
-        episodeImagesInNextUp: Boolean(settings.useEpisodeImagesInNextUpAndResume()),
+        episodeImagesInNextUp: Boolean(
+            settings.useEpisodeImagesInNextUpAndResume()
+        ),
         language: settings.language() || 'auto',
         layout: layoutManager.getSavedLayout() || 'auto',
         libraryPageSize: settings.libraryPageSize(),
@@ -108,7 +125,7 @@ async function loadDisplaySettings({
 
 interface SaveDisplaySettingsParams {
     api: ApiClient;
-    newDisplaySettings: DisplaySettingsValues
+    newDisplaySettings: DisplaySettingsValues;
     userSettings: UserSettings;
     userId: string;
 }
@@ -125,8 +142,12 @@ async function saveDisplaySettings({
         userSettings.language(normalizeValue(newDisplaySettings.language));
     }
     userSettings.customCss(normalizeValue(newDisplaySettings.customCss));
-    userSettings.dashboardTheme(normalizeValue(newDisplaySettings.dashboardTheme));
-    userSettings.dateTimeLocale(normalizeValue(newDisplaySettings.dateTimeLocale));
+    userSettings.dashboardTheme(
+        normalizeValue(newDisplaySettings.dashboardTheme)
+    );
+    userSettings.dateTimeLocale(
+        normalizeValue(newDisplaySettings.dateTimeLocale)
+    );
     userSettings.disableCustomCss(newDisplaySettings.disableCustomCss);
     userSettings.enableBlurhash(newDisplaySettings.enableBlurHash);
     userSettings.enableFastFadein(newDisplaySettings.enableFasterAnimation);
@@ -134,22 +155,27 @@ async function saveDisplaySettings({
     userSettings.enableBackdrops(newDisplaySettings.enableLibraryBackdrops);
     userSettings.enableThemeSongs(newDisplaySettings.enableLibraryThemeSongs);
     userSettings.enableThemeVideos(newDisplaySettings.enableLibraryThemeVideos);
-    userSettings.enableRewatchingInNextUp(newDisplaySettings.enableRewatchingInNextUp);
-    userSettings.useEpisodeImagesInNextUpAndResume(newDisplaySettings.episodeImagesInNextUp);
+    userSettings.enableRewatchingInNextUp(
+        newDisplaySettings.enableRewatchingInNextUp
+    );
+    userSettings.useEpisodeImagesInNextUpAndResume(
+        newDisplaySettings.episodeImagesInNextUp
+    );
     userSettings.libraryPageSize(newDisplaySettings.libraryPageSize);
     userSettings.maxDaysForNextUp(newDisplaySettings.maxDaysForNextUp);
     userSettings.screensaver(normalizeValue(newDisplaySettings.screensaver));
-    userSettings.backdropScreensaverInterval(newDisplaySettings.screensaverInterval);
+    userSettings.backdropScreensaverInterval(
+        newDisplaySettings.screensaverInterval
+    );
     userSettings.theme(newDisplaySettings.theme);
 
     layoutManager.setLayout(normalizeValue(newDisplaySettings.layout));
 
-    const promises = [
-        themeManager.setTheme(userSettings.theme())
-    ];
+    const promises = [themeManager.setTheme(userSettings.theme())];
 
     if (user.Id && user.Configuration) {
-        user.Configuration.DisplayMissingEpisodes = newDisplaySettings.displayMissingEpisodes;
+        user.Configuration.DisplayMissingEpisodes =
+            newDisplaySettings.displayMissingEpisodes;
         promises.push(api.updateUserConfiguration(user.Id, user.Configuration));
     }
 

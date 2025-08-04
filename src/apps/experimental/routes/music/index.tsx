@@ -82,7 +82,9 @@ const Music: FC = () => {
                 currentTab={currentTab}
                 parentId={
                     // Playlists exist outside of the scope of the library
-                    currentTab.viewType === LibraryTab.Playlists ? undefined : libraryId
+                    currentTab.viewType === LibraryTab.Playlists
+                        ? undefined
+                        : libraryId
                 }
             />
         </Page>

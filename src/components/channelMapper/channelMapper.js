@@ -17,22 +17,31 @@ export default class ChannelMapper {
         function mapChannel(button, channelId, providerChannelId) {
             loading.show();
             const providerId = options.providerId;
-            ServerConnections.getApiClient(options.serverId).ajax({
-                type: 'POST',
-                url: ApiClient.getUrl('LiveTv/ChannelMappings'),
-                data: JSON.stringify({
-                    providerId: providerId,
-                    tunerChannelId: channelId,
-                    providerChannelId: providerChannelId
-                }),
-                contentType: 'application/json',
-                dataType: 'json'
-            }).then(mapping => {
-                const listItem = dom.parentWithClass(button, 'listItem');
-                button.setAttribute('data-providerid', mapping.ProviderChannelId);
-                listItem.querySelector('.secondary').innerText = getMappingSecondaryName(mapping, currentMappingOptions.ProviderName);
-                loading.hide();
-            });
+            ServerConnections.getApiClient(options.serverId)
+                .ajax({
+                    type: 'POST',
+                    url: ApiClient.getUrl('LiveTv/ChannelMappings'),
+                    data: JSON.stringify({
+                        providerId: providerId,
+                        tunerChannelId: channelId,
+                        providerChannelId: providerChannelId
+                    }),
+                    contentType: 'application/json',
+                    dataType: 'json'
+                })
+                .then((mapping) => {
+                    const listItem = dom.parentWithClass(button, 'listItem');
+                    button.setAttribute(
+                        'data-providerid',
+                        mapping.ProviderChannelId
+                    );
+                    listItem.querySelector('.secondary').innerText =
+                        getMappingSecondaryName(
+                            mapping,
+                            currentMappingOptions.ProviderName
+                        );
+                    loading.hide();
+                });
         }
 
         function onChannelsElementClick(e) {
@@ -40,30 +49,39 @@ export default class ChannelMapper {
 
             if (btnMap) {
                 const channelId = btnMap.getAttribute('data-id');
-                const providerChannelId = btnMap.getAttribute('data-providerid');
-                const menuItems = currentMappingOptions.ProviderChannels.map(m => {
-                    return {
-                        name: m.Name,
-                        id: m.Id,
-                        selected: m.Id.toLowerCase() === providerChannelId.toLowerCase()
-                    };
-                }).sort((a, b) => {
+                const providerChannelId =
+                    btnMap.getAttribute('data-providerid');
+                const menuItems = currentMappingOptions.ProviderChannels.map(
+                    (m) => {
+                        return {
+                            name: m.Name,
+                            id: m.Id,
+                            selected:
+                                m.Id.toLowerCase() ===
+                                providerChannelId.toLowerCase()
+                        };
+                    }
+                ).sort((a, b) => {
                     return a.name.localeCompare(b.name);
                 });
-                actionsheet.show({
-                    positionTo: btnMap,
-                    items: menuItems
-                }).then(newChannelId => {
-                    mapChannel(btnMap, channelId, newChannelId);
-                });
+                actionsheet
+                    .show({
+                        positionTo: btnMap,
+                        items: menuItems
+                    })
+                    .then((newChannelId) => {
+                        mapChannel(btnMap, channelId, newChannelId);
+                    });
             }
         }
 
         function getChannelMappingOptions(serverId, providerId) {
             const apiClient = ServerConnections.getApiClient(serverId);
-            return apiClient.getJSON(apiClient.getUrl('LiveTv/ChannelMappingOptions', {
-                providerId: providerId
-            }));
+            return apiClient.getJSON(
+                apiClient.getUrl('LiveTv/ChannelMappingOptions', {
+                    providerId: providerId
+                })
+            );
         }
 
         function getMappingSecondaryName(mapping, providerName) {
@@ -73,7 +91,8 @@ export default class ChannelMapper {
         function getTunerChannelHtml(channel, providerName) {
             let html = '';
             html += '<div class="listItem">';
-            html += '<span class="material-icons listItemIcon dvr" aria-hidden="true"></span>';
+            html +=
+                '<span class="material-icons listItemIcon dvr" aria-hidden="true"></span>';
             html += '<div class="listItemBody two-line">';
             html += '<h3 class="listItemBodyText">';
             html += escapeHtml(channel.Name);
@@ -81,7 +100,9 @@ export default class ChannelMapper {
             html += '<div class="secondary listItemBodyText">';
 
             if (channel.ProviderChannelName) {
-                html += escapeHtml(getMappingSecondaryName(channel, providerName));
+                html += escapeHtml(
+                    getMappingSecondaryName(channel, providerName)
+                );
             }
 
             html += '</div>';
@@ -106,13 +127,24 @@ export default class ChannelMapper {
         }
 
         function initEditor(dlg, initOptions) {
-            getChannelMappingOptions(initOptions.serverId, initOptions.providerId).then(result => {
+            getChannelMappingOptions(
+                initOptions.serverId,
+                initOptions.providerId
+            ).then((result) => {
                 currentMappingOptions = result;
                 const channelsElement = dlg.querySelector('.channels');
-                channelsElement.innerHTML = result.TunerChannels.map(channel => {
-                    return getTunerChannelHtml(channel, result.ProviderName);
-                }).join('');
-                channelsElement.addEventListener('click', onChannelsElementClick);
+                channelsElement.innerHTML = result.TunerChannels.map(
+                    (channel) => {
+                        return getTunerChannelHtml(
+                            channel,
+                            result.ProviderName
+                        );
+                    }
+                ).join('');
+                channelsElement.addEventListener(
+                    'click',
+                    onChannelsElementClick
+                );
             });
         }
 
@@ -141,7 +173,7 @@ export default class ChannelMapper {
             dlg.querySelector('.btnCancel').addEventListener('click', () => {
                 dialogHelper.close(dlg);
             });
-            return new Promise(resolve => {
+            return new Promise((resolve) => {
                 dlg.addEventListener('close', resolve);
                 dialogHelper.open(dlg);
             });

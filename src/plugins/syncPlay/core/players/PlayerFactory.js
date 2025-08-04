@@ -19,7 +19,10 @@ class PlayerFactory {
      * @param {typeof GenericPlayer} wrapperClass The wrapper to register.
      */
     registerWrapper(wrapperClass) {
-        console.debug('SyncPlay WrapperFactory registerWrapper:', wrapperClass.type);
+        console.debug(
+            'SyncPlay WrapperFactory registerWrapper:',
+            wrapperClass.type
+        );
         this.wrappers[wrapperClass.type] = wrapperClass;
     }
 
@@ -28,7 +31,10 @@ class PlayerFactory {
      * @param {typeof GenericPlayer} wrapperClass The wrapper.
      */
     setDefaultWrapper(wrapperClass) {
-        console.debug('SyncPlay WrapperFactory setDefaultWrapper:', wrapperClass.type);
+        console.debug(
+            'SyncPlay WrapperFactory setDefaultWrapper:',
+            wrapperClass.type
+        );
         this.DefaultWrapper = wrapperClass;
     }
 
@@ -40,7 +46,9 @@ class PlayerFactory {
      */
     getWrapper(player, syncPlayManager) {
         if (!player) {
-            console.debug('SyncPlay WrapperFactory getWrapper: using default wrapper.');
+            console.debug(
+                'SyncPlay WrapperFactory getWrapper: using default wrapper.'
+            );
             return this.getDefaultWrapper(syncPlayManager);
         }
 
@@ -52,7 +60,9 @@ class PlayerFactory {
             return new Wrapper(player, syncPlayManager);
         }
 
-        console.debug(`SyncPlay WrapperFactory getWrapper: unknown player ${playerId}, using default wrapper.`);
+        console.debug(
+            `SyncPlay WrapperFactory getWrapper: unknown player ${playerId}, using default wrapper.`
+        );
         return this.getDefaultWrapper(syncPlayManager);
     }
 

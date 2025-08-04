@@ -27,29 +27,51 @@ let currentServerId;
 function deleteTimer(apiClient, timerId) {
     return new Promise(function (resolve, reject) {
         import('./recordinghelper').then(({ default: recordingHelper }) => {
-            recordingHelper.cancelSeriesTimerWithConfirmation(timerId, apiClient.serverId()).then(resolve, reject);
+            recordingHelper
+                .cancelSeriesTimerWithConfirmation(
+                    timerId,
+                    apiClient.serverId()
+                )
+                .then(resolve, reject);
         });
     });
 }
 
 function renderTimer(context, item) {
-    context.querySelector('#txtPrePaddingMinutes').value = item.PrePaddingSeconds / 60;
-    context.querySelector('#txtPostPaddingMinutes').value = item.PostPaddingSeconds / 60;
+    context.querySelector('#txtPrePaddingMinutes').value =
+        item.PrePaddingSeconds / 60;
+    context.querySelector('#txtPostPaddingMinutes').value =
+        item.PostPaddingSeconds / 60;
 
-    context.querySelector('.selectChannels').value = item.RecordAnyChannel ? 'all' : 'one';
-    context.querySelector('.selectAirTime').value = item.RecordAnyTime ? 'any' : 'original';
+    context.querySelector('.selectChannels').value = item.RecordAnyChannel
+        ? 'all'
+        : 'one';
+    context.querySelector('.selectAirTime').value = item.RecordAnyTime
+        ? 'any'
+        : 'original';
 
-    context.querySelector('.selectShowType').value = item.RecordNewOnly ? 'new' : 'all';
-    context.querySelector('.chkSkipEpisodesInLibrary').checked = item.SkipEpisodesInLibrary;
+    context.querySelector('.selectShowType').value = item.RecordNewOnly
+        ? 'new'
+        : 'all';
+    context.querySelector('.chkSkipEpisodesInLibrary').checked =
+        item.SkipEpisodesInLibrary;
     context.querySelector('.selectKeepUpTo').value = item.KeepUpTo || 0;
 
     if (item.ChannelName || item.ChannelNumber) {
-        context.querySelector('.optionChannelOnly').innerText = globalize.translate('ChannelNameOnly', item.ChannelName || item.ChannelNumber);
+        context.querySelector('.optionChannelOnly').innerText =
+            globalize.translate(
+                'ChannelNameOnly',
+                item.ChannelName || item.ChannelNumber
+            );
     } else {
-        context.querySelector('.optionChannelOnly').innerHTML = globalize.translate('OneChannel');
+        context.querySelector('.optionChannelOnly').innerHTML =
+            globalize.translate('OneChannel');
     }
 
-    context.querySelector('.optionAroundTime').innerHTML = globalize.translate('AroundTime', datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate)));
+    context.querySelector('.optionAroundTime').innerHTML = globalize.translate(
+        'AroundTime',
+        datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate))
+    );
 
     loading.hide();
 }
@@ -67,12 +89,19 @@ function onSubmit(e) {
     const apiClient = ServerConnections.getApiClient(currentServerId);
 
     apiClient.getLiveTvSeriesTimer(currentItemId).then(function (item) {
-        item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
-        item.PostPaddingSeconds = form.querySelector('#txtPostPaddingMinutes').value * 60;
-        item.RecordAnyChannel = form.querySelector('.selectChannels').value === 'all';
-        item.RecordAnyTime = form.querySelector('.selectAirTime').value === 'any';
-        item.RecordNewOnly = form.querySelector('.selectShowType').value === 'new';
-        item.SkipEpisodesInLibrary = form.querySelector('.chkSkipEpisodesInLibrary').checked;
+        item.PrePaddingSeconds =
+            form.querySelector('#txtPrePaddingMinutes').value * 60;
+        item.PostPaddingSeconds =
+            form.querySelector('#txtPostPaddingMinutes').value * 60;
+        item.RecordAnyChannel =
+            form.querySelector('.selectChannels').value === 'all';
+        item.RecordAnyTime =
+            form.querySelector('.selectAirTime').value === 'any';
+        item.RecordNewOnly =
+            form.querySelector('.selectShowType').value === 'new';
+        item.SkipEpisodesInLibrary = form.querySelector(
+            '.chkSkipEpisodesInLibrary'
+        ).checked;
         item.KeepUpTo = form.querySelector('.selectKeepUpTo').value;
 
         apiClient.updateLiveTvSeriesTimer(item);
@@ -91,12 +120,14 @@ function init(context) {
         closeDialog(false);
     });
 
-    context.querySelector('.btnCancelRecording').addEventListener('click', function () {
-        const apiClient = ServerConnections.getApiClient(currentServerId);
-        deleteTimer(apiClient, currentItemId).then(function () {
-            closeDialog(true);
+    context
+        .querySelector('.btnCancelRecording')
+        .addEventListener('click', function () {
+            const apiClient = ServerConnections.getApiClient(currentServerId);
+            deleteTimer(apiClient, currentItemId).then(function () {
+                closeDialog(true);
+            });
         });
-    });
 
     context.querySelector('form').addEventListener('submit', onSubmit);
 }
@@ -241,7 +272,10 @@ function showEditor(itemId, serverId, options) {
         });
 
         if (layoutManager.tv) {
-            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+            scrollHelper.centerFocus.on(
+                dlg.querySelector('.formDialogContent'),
+                false
+            );
         }
 
         init(dlg);

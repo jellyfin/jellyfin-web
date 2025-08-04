@@ -4,8 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
 import type { AxiosRequestConfig } from 'axios';
 
-const fetchLocalizationOptions = async (api: Api, options?: AxiosRequestConfig) => {
-    const response = await getLocalizationApi(api).getLocalizationOptions(options);
+const fetchLocalizationOptions = async (
+    api: Api,
+    options?: AxiosRequestConfig
+) => {
+    const response =
+        await getLocalizationApi(api).getLocalizationOptions(options);
 
     return response.data;
 };
@@ -14,7 +18,7 @@ export const useLocalizationOptions = () => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ 'LocalizationOptions' ],
+        queryKey: ['LocalizationOptions'],
         queryFn: ({ signal }) => fetchLocalizationOptions(api!, { signal }),
         enabled: !!api
     });

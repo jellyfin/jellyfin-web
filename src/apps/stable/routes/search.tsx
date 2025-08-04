@@ -17,8 +17,9 @@ const QUERY_PARAM = 'query';
 const Search: FC = () => {
     const [searchParams] = useSearchParams();
     const parentIdQuery = searchParams.get(PARENT_ID_PARAM) || undefined;
-    const collectionTypeQuery = (searchParams.get(COLLECTION_TYPE_PARAM) || undefined) as CollectionType | undefined;
-    const [ query, setQuery ] = useSearchParam(QUERY_PARAM);
+    const collectionTypeQuery = (searchParams.get(COLLECTION_TYPE_PARAM) ||
+        undefined) as CollectionType | undefined;
+    const [query, setQuery] = useSearchParam(QUERY_PARAM);
     const [debouncedQuery] = useDebounceValue(query, 500);
 
     return (
@@ -29,9 +30,7 @@ const Search: FC = () => {
         >
             <SearchFields query={query} onSearch={setQuery} />
             {!debouncedQuery ? (
-                <SearchSuggestions
-                    parentId={parentIdQuery}
-                />
+                <SearchSuggestions parentId={parentIdQuery} />
             ) : (
                 <SearchResults
                     parentId={parentIdQuery}

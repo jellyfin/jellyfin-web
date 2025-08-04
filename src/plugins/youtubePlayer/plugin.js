@@ -1,7 +1,10 @@
 import browser from '../../scripts/browser';
 import { appRouter } from '../../components/router/appRouter';
 import loading from '../../components/loading/loading';
-import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
+import {
+    setBackdropTransparency,
+    TRANSPARENCY_LEVEL
+} from '../../components/backdrop/backdrop';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
@@ -122,7 +125,10 @@ function onPlaying(instance, playOptions, resolve) {
         instance.started = true;
         resolve();
         clearTimeUpdateInterval(instance);
-        instance.timeUpdateInterval = setInterval(onTimeUpdate.bind(instance), 500);
+        instance.timeUpdateInterval = setInterval(
+            onTimeUpdate.bind(instance),
+            500
+        );
 
         if (playOptions.fullscreen) {
             appRouter.showVideoOsd().then(function () {
@@ -140,7 +146,8 @@ function onPlaying(instance, playOptions, resolve) {
 function setCurrentSrc(instance, elem, options) {
     return new Promise(function (resolve, reject) {
         instance._currentSrc = options.url;
-        const params = new URLSearchParams(options.url.split('?')[1]); /* eslint-disable-line compat/compat */
+        // eslint-disable-next-line compat/compat
+        const params = new URLSearchParams(options.url.split('?')[1]);
         // 3. This function creates an <iframe> (and YouTube player)
         //    after the API code downloads.
         window.onYouTubeIframeAPIReady = function () {
@@ -149,8 +156,8 @@ function setCurrentSrc(instance, elem, options) {
                 width: instance.videoDialog.offsetWidth,
                 videoId: params.get('v'),
                 events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': function (event) {
+                    onReady: onPlayerReady,
+                    onStateChange: function (event) {
                         if (event.data === YT.PlayerState.PLAYING) {
                             onPlaying(instance, options, resolve);
                         } else if (event.data === YT.PlayerState.ENDED) {
@@ -159,7 +166,7 @@ function setCurrentSrc(instance, elem, options) {
                             Events.trigger(instance, 'pause');
                         }
                     },
-                    'onError': (e) => reject(errorCodes[e.data] || 'ErrorDefault')
+                    onError: (e) => reject(errorCodes[e.data] || 'ErrorDefault')
                 },
                 playerVars: {
                     controls: 0,
@@ -177,7 +184,8 @@ function setCurrentSrc(instance, elem, options) {
                 window.removeEventListener('resize', resizeListener);
                 window.addEventListener('resize', resizeListener);
             } else {
-                resizeListener = instance.resizeListener = onVideoResize.bind(instance);
+                resizeListener = instance.resizeListener =
+                    onVideoResize.bind(instance);
                 window.addEventListener('resize', resizeListener);
             }
             window.removeEventListener('orientationChange', resizeListener);

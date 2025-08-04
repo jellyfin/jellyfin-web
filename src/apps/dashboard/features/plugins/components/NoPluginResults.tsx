@@ -6,9 +6,9 @@ import React, { type FC } from 'react';
 import globalize from 'lib/globalize';
 
 interface NoPluginResultsProps {
-    isFiltered: boolean
-    onViewAll: () => void
-    query: string
+    isFiltered: boolean;
+    onViewAll: () => void;
+    query: string;
 }
 
 const NoPluginResults: FC<NoPluginResultsProps> = ({
@@ -29,18 +29,13 @@ const NoPluginResults: FC<NoPluginResultsProps> = ({
                     marginBottom: 1
                 }}
             >
-                {
-                    query ?
-                        globalize.translate('SearchResultsEmpty', query) :
-                        globalize.translate('NoSubtitleSearchResultsFound')
-                }
+                {query
+                    ? globalize.translate('SearchResultsEmpty', query)
+                    : globalize.translate('NoSubtitleSearchResultsFound')}
             </Typography>
 
             {isFiltered && (
-                <Button
-                    variant='text'
-                    onClick={onViewAll}
-                >
+                <Button variant='text' onClick={onViewAll}>
                     {globalize.translate('ViewAllPlugins')}
                 </Button>
             )}

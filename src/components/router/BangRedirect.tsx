@@ -17,18 +17,15 @@ const BangRedirect = () => {
         } else if (location.pathname.startsWith('!')) {
             return { ..._to, pathname: location.pathname.substring(1) };
         }
-    }, [ location ]);
+    }, [location]);
 
     if (!to) return null;
 
-    console.warn('[BangRedirect] You are using a deprecated URL format. This will stop working in a future Jellyfin update.');
-
-    return (
-        <Navigate
-            replace
-            to={to}
-        />
+    console.warn(
+        '[BangRedirect] You are using a deprecated URL format. This will stop working in a future Jellyfin update.'
     );
+
+    return <Navigate replace to={to} />;
 };
 
 export default BangRedirect;

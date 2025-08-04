@@ -17,7 +17,7 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
     parentId,
     collectionType,
     itemType
-// eslint-disable-next-line sonarjs/function-return-type
+    // eslint-disable-next-line sonarjs/function-return-type
 }) => {
     const { isLoading, data: genresResult } = useGetGenres(itemType, parentId);
 

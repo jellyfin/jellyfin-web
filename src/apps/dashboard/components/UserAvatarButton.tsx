@@ -7,14 +7,11 @@ import { Link } from 'react-router-dom';
 import UserAvatar from 'components/UserAvatar';
 
 interface UserAvatarButtonProps {
-    user?: UserDto
-    sx?: SxProps<Theme>
+    user?: UserDto;
+    sx?: SxProps<Theme>;
 }
 
-const UserAvatarButton: FC<UserAvatarButtonProps> = ({
-    user,
-    sx
-}) => (
+const UserAvatarButton: FC<UserAvatarButtonProps> = ({ user, sx }) =>
     user?.Id ? (
         <IconButton
             size='large'
@@ -29,7 +26,6 @@ const UserAvatarButton: FC<UserAvatarButtonProps> = ({
         >
             <UserAvatar user={user} />
         </IconButton>
-    ) : undefined
-);
+    ) : undefined;
 
 export default UserAvatarButton;

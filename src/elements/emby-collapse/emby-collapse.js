@@ -11,10 +11,6 @@ function slideDownToShow(button, elem) {
         elem.style.height = 'auto';
         const height = elem.offsetHeight + 'px';
         elem.style.height = '0';
-        // trigger reflow
-        // TODO: Find a better way to do this
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars, sonarjs/no-unused-vars, sonarjs/no-dead-store
-        const newHeight = elem.offsetHeight;
         elem.style.height = height;
 
         setTimeout(function () {
@@ -34,10 +30,6 @@ function slideDownToShow(button, elem) {
 function slideUpToHide(button, elem) {
     requestAnimationFrame(() => {
         elem.style.height = elem.offsetHeight + 'px';
-        // trigger reflow
-        // TODO: Find a better way to do this
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars, sonarjs/no-unused-vars, sonarjs/no-dead-store
-        const newHeight = elem.offsetHeight;
         elem.classList.remove('expanded');
         elem.style.height = '0';
 
@@ -81,7 +73,12 @@ EmbyButtonPrototype.attachedCallback = function () {
 
     const title = this.getAttribute('title');
 
-    const html = '<button is="emby-button" type="button" on-click="toggleExpand" id="expandButton" class="emby-collapsible-button iconRight"><h3 class="emby-collapsible-title" title="' + title + '">' + title + '</h3><span class="material-icons emby-collapse-expandIcon expand_more" aria-hidden="true"></span></button>';
+    const html =
+        '<button is="emby-button" type="button" on-click="toggleExpand" id="expandButton" class="emby-collapsible-button iconRight"><h3 class="emby-collapsible-title" title="' +
+        title +
+        '">' +
+        title +
+        '</h3><span class="material-icons emby-collapse-expandIcon expand_more" aria-hidden="true"></span></button>';
 
     this.insertAdjacentHTML('afterbegin', html);
 
@@ -98,4 +95,3 @@ document.registerElement('emby-collapse', {
     prototype: EmbyButtonPrototype,
     extends: 'div'
 });
-

@@ -22,7 +22,11 @@ interface SearchResultsRowProps {
     cardOptions?: CardOptions;
 }
 
-const SearchResultsRow: FC<SearchResultsRowProps> = ({ title, items = [], cardOptions = {} }) => {
+const SearchResultsRow: FC<SearchResultsRowProps> = ({
+    title,
+    items = [],
+    cardOptions = {}
+}) => {
     const element = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

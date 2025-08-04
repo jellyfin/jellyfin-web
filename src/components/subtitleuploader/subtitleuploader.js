@@ -33,10 +33,12 @@ function onFileReaderError(evt) {
 }
 
 function isValidSubtitleFile(file) {
-    return file && ['.sub', '.srt', '.vtt', '.ass', '.ssa', '.mks']
-        .some(function(ext) {
+    return (
+        file &&
+        ['.sub', '.srt', '.vtt', '.ass', '.ssa', '.mks'].some(function (ext) {
             return file.name.endsWith(ext);
-        });
+        })
+    );
 }
 
 function setFiles(page, files) {
@@ -93,31 +95,51 @@ async function onSubmit(e) {
     const dlg = dom.parentWithClass(this, 'dialog');
     const language = dlg.querySelector('#selectLanguage').value;
     const isForced = dlg.querySelector('#chkIsForced').checked;
-    const isHearingImpaired = dlg.querySelector('#chkIsHearingImpaired').checked;
+    const isHearingImpaired = dlg.querySelector(
+        '#chkIsHearingImpaired'
+    ).checked;
 
-    const subtitleApi = getSubtitleApi(toApi(ServerConnections.getApiClient(currentServerId)));
+    const subtitleApi = getSubtitleApi(
+        toApi(ServerConnections.getApiClient(currentServerId))
+    );
 
     const data = await readFileAsBase64(file);
-    const format = file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase();
+    const format = file.name
+        .substring(file.name.lastIndexOf('.') + 1)
+        .toLowerCase();
 
-    subtitleApi.uploadSubtitle({
-        itemId: currentItemId,
-        uploadSubtitleDto: { Data: data, Language: language, IsForced: isForced, Format: format, IsHearingImpaired: isHearingImpaired }
-    }).then(function () {
-        dlg.querySelector('#uploadSubtitle').value = '';
-        loading.hide();
-        hasChanges = true;
-        dialogHelper.close(dlg);
-    });
+    subtitleApi
+        .uploadSubtitle({
+            itemId: currentItemId,
+            uploadSubtitleDto: {
+                Data: data,
+                Language: language,
+                IsForced: isForced,
+                Format: format,
+                IsHearingImpaired: isHearingImpaired
+            }
+        })
+        .then(function () {
+            dlg.querySelector('#uploadSubtitle').value = '';
+            loading.hide();
+            hasChanges = true;
+            dialogHelper.close(dlg);
+        });
 
     e.preventDefault();
 }
 
 function initEditor(page) {
-    page.querySelector('.uploadSubtitleForm').addEventListener('submit', onSubmit);
-    page.querySelector('#uploadSubtitle').addEventListener('change', function () {
-        setFiles(page, this.files);
-    });
+    page.querySelector('.uploadSubtitleForm').addEventListener(
+        'submit',
+        onSubmit
+    );
+    page.querySelector('#uploadSubtitle').addEventListener(
+        'change',
+        function () {
+            setFiles(page, this.files);
+        }
+    );
     page.querySelector('.btnBrowse').addEventListener('click', function () {
         page.querySelector('#uploadSubtitle').click();
     });

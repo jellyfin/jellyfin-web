@@ -1,4 +1,3 @@
-
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import Button from '@mui/material/Button/Button';
 import Menu from '@mui/material/Menu/Menu';
@@ -14,22 +13,29 @@ const LIBRARY_VIEW_MENU_ID = 'library-view-menu';
 
 const LibraryViewMenu: FC = () => {
     const location = useLocation();
-    const [ searchParams, setSearchParams ] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const { activeTab } = useCurrentTab();
 
-    const [ menuAnchorEl, setMenuAnchorEl ] = useState<null | HTMLElement>(null);
+    const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(menuAnchorEl);
 
-    const onMenuButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setMenuAnchorEl(event.currentTarget);
-    }, []);
+    const onMenuButtonClick = useCallback(
+        (event: React.MouseEvent<HTMLElement>) => {
+            setMenuAnchorEl(event.currentTarget);
+        },
+        []
+    );
 
     const onMenuClose = useCallback(() => {
         setMenuAnchorEl(null);
     }, []);
 
-    const currentRoute = LibraryRoutes.find(({ path }) => path === location.pathname);
-    const currentTab = currentRoute?.views.find(({ index }) => index === activeTab);
+    const currentRoute = LibraryRoutes.find(
+        ({ path }) => path === location.pathname
+    );
+    const currentTab = currentRoute?.views.find(
+        ({ index }) => index === activeTab
+    );
 
     if (!currentTab) return null;
 
@@ -54,7 +60,7 @@ const LibraryViewMenu: FC = () => {
                 open={isMenuOpen}
                 onClose={onMenuClose}
             >
-                {currentRoute?.views.map(tab => (
+                {currentRoute?.views.map((tab) => (
                     <MenuItem
                         key={tab.view}
                         // eslint-disable-next-line react/jsx-no-bind

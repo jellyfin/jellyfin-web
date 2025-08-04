@@ -1,4 +1,11 @@
-import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+    type FC,
+    type PropsWithChildren,
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import classNames from 'classnames';
 import useElementSize from 'hooks/useElementSize';
 import layoutManager from '../../components/layoutManager';
@@ -65,23 +72,26 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
         return 0;
     }, [scrollerFactoryRef]);
 
-    const getStyleValue = useCallback((style: CSSStyleDeclaration, name: string) => {
-        let value = style.getPropertyValue(name);
-        if (!value) {
-            return 0;
-        }
+    const getStyleValue = useCallback(
+        (style: CSSStyleDeclaration, name: string) => {
+            let value = style.getPropertyValue(name);
+            if (!value) {
+                return 0;
+            }
 
-        value = value.replace('px', '');
-        if (!value) {
-            return 0;
-        }
+            value = value.replace('px', '');
+            if (!value) {
+                return 0;
+            }
 
-        if (isNaN(parseInt(value, 10))) {
-            return 0;
-        }
+            if (isNaN(parseInt(value, 10))) {
+                return 0;
+            }
 
-        return Number(value);
-    }, []);
+            return Number(value);
+        },
+        []
+    );
 
     const getScrollSize = useCallback(() => {
         const scroller = scrollRef?.current as HTMLDivElement;
@@ -126,29 +136,53 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
         });
     }, [getScrollPosition, getScrollSize, getScrollWidth]);
 
-    const initCenterFocus = useCallback((elem: HTMLElement, scrollerInstance: ScrollerFactory) => {
-        dom.addEventListener(elem, 'focus', function (e: FocusEvent) {
-            const focused = focusManager.focusableParent(e.target);
-            if (focused) {
-                scrollerInstance.toCenter(focused, false);
+    const initCenterFocus = useCallback(
+        (elem: HTMLElement, scrollerInstance: ScrollerFactory) => {
+            dom.addEventListener(
+                elem,
+                'focus',
+                function (e: FocusEvent) {
+                    const focused = focusManager.focusableParent(e.target);
+                    if (focused) {
+                        scrollerInstance.toCenter(focused, false);
+                    }
+                },
+                {
+                    capture: true,
+                    passive: true
+                }
+            );
+        },
+        []
+    );
+
+    const addScrollEventListener = useCallback(
+        (fn: () => void, options: AddEventListenerOptions | undefined) => {
+            if (scrollerFactoryRef.current) {
+                dom.addEventListener(
+                    scrollerFactoryRef.current.getScrollFrame(),
+                    scrollerFactoryRef.current.getScrollEventName(),
+                    fn,
+                    options
+                );
             }
-        }, {
-            capture: true,
-            passive: true
-        });
-    }, []);
+        },
+        [scrollerFactoryRef]
+    );
 
-    const addScrollEventListener = useCallback((fn: () => void, options: AddEventListenerOptions | undefined) => {
-        if (scrollerFactoryRef.current) {
-            dom.addEventListener(scrollerFactoryRef.current.getScrollFrame(), scrollerFactoryRef.current.getScrollEventName(), fn, options);
-        }
-    }, [scrollerFactoryRef]);
-
-    const removeScrollEventListener = useCallback((fn: () => void, options: AddEventListenerOptions | undefined) => {
-        if (scrollerFactoryRef.current) {
-            dom.removeEventListener(scrollerFactoryRef.current.getScrollFrame(), scrollerFactoryRef.current.getScrollEventName(), fn, options);
-        }
-    }, [scrollerFactoryRef]);
+    const removeScrollEventListener = useCallback(
+        (fn: () => void, options: AddEventListenerOptions | undefined) => {
+            if (scrollerFactoryRef.current) {
+                dom.removeEventListener(
+                    scrollerFactoryRef.current.getScrollFrame(),
+                    scrollerFactoryRef.current.getScrollEventName(),
+                    fn,
+                    options
+                );
+            }
+        },
+        [scrollerFactoryRef]
+    );
 
     useEffect(() => {
         const frame = scrollRef.current;
@@ -158,7 +192,10 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
             return;
         }
 
-        const enableScrollButtons = layoutManager.desktop && isHorizontalEnabled && isScrollButtonsEnabled;
+        const enableScrollButtons =
+            layoutManager.desktop &&
+            isHorizontalEnabled &&
+            isScrollButtonsEnabled;
 
         const options = {
             horizontal: isHorizontalEnabled,
@@ -174,7 +211,8 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
             skipSlideToWhenVisible: isSkipFocusWhenVisibleEnabled,
             dispatchScrollEvent: enableScrollButtons || isScrollEventEnabled,
             hideScrollbar: enableScrollButtons || isHideScrollbarEnabled,
-            allowNativeSmoothScroll: isAllowNativeSmoothScrollEnabled && !enableScrollButtons,
+            allowNativeSmoothScroll:
+                isAllowNativeSmoothScrollEnabled && !enableScrollButtons,
             allowNativeScroll: !enableScrollButtons,
             forceHideScrollbars: enableScrollButtons,
             // In edge, with the native scroll, the content jumps around when hovering over the buttons
@@ -227,25 +265,22 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
 
     return (
         <>
-            {
-                showControls && scrollState.scrollWidth > scrollState.scrollSize + 20
-                    && <ScrollButtons
+            {showControls &&
+                scrollState.scrollWidth > scrollState.scrollSize + 20 && (
+                    <ScrollButtons
                         scrollerFactoryRef={scrollerFactoryRef}
                         scrollState={scrollState}
                     />
-            }
+                )}
 
             <div
                 ref={scrollRef}
                 className={classNames('emby-scroller', className)}
             >
                 {children}
-
             </div>
-
         </>
     );
 };
 
 export default Scroller;
-

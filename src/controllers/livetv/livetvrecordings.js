@@ -31,38 +31,53 @@ function renderRecordings(elem, recordings, cardOptions, scrollX) {
         recordingItems.classList.add('vertical-wrap');
     }
 
-    recordingItems.innerHTML = cardBuilder.getCardsHtml(Object.assign({
-        items: recordings,
-        shape: scrollX ? 'autooverflow' : 'auto',
-        defaultShape: getBackdropShape(scrollX),
-        showTitle: true,
-        showParentTitle: true,
-        coverImage: true,
-        cardLayout: false,
-        centerText: true,
-        allowBottomPadding: !scrollX,
-        preferThumb: 'auto',
-        overlayText: false
-    }, cardOptions || {}));
+    recordingItems.innerHTML = cardBuilder.getCardsHtml(
+        Object.assign(
+            {
+                items: recordings,
+                shape: scrollX ? 'autooverflow' : 'auto',
+                defaultShape: getBackdropShape(scrollX),
+                showTitle: true,
+                showParentTitle: true,
+                coverImage: true,
+                cardLayout: false,
+                centerText: true,
+                allowBottomPadding: !scrollX,
+                preferThumb: 'auto',
+                overlayText: false
+            },
+            cardOptions || {}
+        )
+    );
     imageLoader.lazyChildren(recordingItems);
 }
 
 function renderLatestRecordings(context, promise) {
     promise.then(function (result) {
-        renderRecordings(context.querySelector('#latestRecordings'), result.Items, {
-            showYear: true,
-            lines: 2
-        }, false);
+        renderRecordings(
+            context.querySelector('#latestRecordings'),
+            result.Items,
+            {
+                showYear: true,
+                lines: 2
+            },
+            false
+        );
         loading.hide();
     });
 }
 
 function renderRecordingFolders(context, promise) {
     promise.then(function (result) {
-        renderRecordings(context.querySelector('#recordingFolders'), result.Items, {
-            showYear: false,
-            showParentTitle: false
-        }, false);
+        renderRecordings(
+            context.querySelector('#recordingFolders'),
+            result.Items,
+            {
+                showYear: false,
+                showParentTitle: false
+            },
+            false
+        );
     });
 }
 
@@ -70,7 +85,9 @@ function onMoreClick() {
     const type = this.getAttribute('data-type');
 
     if (type === 'latest') {
-        Dashboard.navigate('list?type=Recordings&serverId=' + ApiClient.serverId());
+        Dashboard.navigate(
+            'list?type=Recordings&serverId=' + ApiClient.serverId()
+        );
     }
 }
 
@@ -98,7 +115,9 @@ export default function (view, params, tabContent) {
                 EnableTotalRecordCount: false,
                 EnableImageTypes: 'Primary,Thumb,Backdrop'
             });
-            foldersPromise = ApiClient.getRecordingFolders(Dashboard.getCurrentUserId());
+            foldersPromise = ApiClient.getRecordingFolders(
+                Dashboard.getCurrentUserId()
+            );
         }
     };
 

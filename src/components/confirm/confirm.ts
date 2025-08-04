@@ -4,27 +4,32 @@ import globalize from 'lib/globalize';
 import browser from 'scripts/browser';
 
 interface OptionItem {
-    id: string,
-    name: string,
-    type: 'cancel' | 'delete' | 'submit'
+    id: string;
+    name: string;
+    type: 'cancel' | 'delete' | 'submit';
 }
 
 interface ConfirmOptions {
-    title?: string,
-    text: string
-    cancelText?: string,
-    confirmText?: string,
-    primary?: string
-    buttons?: OptionItem[]
+    title?: string;
+    text: string;
+    cancelText?: string;
+    confirmText?: string;
+    primary?: string;
+    buttons?: OptionItem[];
 }
 
 function shouldUseNativeConfirm() {
     // webOS seems to block modals
     // Tizen 2.x seems to block modals
-    return !browser.web0s
-        && !(browser.tizenVersion && (browser.tizenVersion < 3 || browser.tizenVersion >= 8))
-        && browser.tv
-        && !!window.confirm;
+    return (
+        !browser.web0s &&
+        !(
+            browser.tizenVersion &&
+            (browser.tizenVersion < 3 || browser.tizenVersion >= 8)
+        ) &&
+        browser.tv &&
+        !!window.confirm
+    );
 }
 
 async function nativeConfirm(options: string | ConfirmOptions) {
@@ -45,7 +50,10 @@ async function nativeConfirm(options: string | ConfirmOptions) {
     }
 }
 
-async function customConfirm(options: string | ConfirmOptions, title: string = '') {
+async function customConfirm(
+    options: string | ConfirmOptions,
+    title: string = ''
+) {
     if (typeof options === 'string') {
         options = {
             title,
@@ -71,7 +79,7 @@ async function customConfirm(options: string | ConfirmOptions, title: string = '
 
     await appRouter.ready();
 
-    return dialog.show(options).then(result => {
+    return dialog.show(options).then((result) => {
         if (result === 'ok') {
             return Promise.resolve();
         }

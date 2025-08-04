@@ -1,6 +1,14 @@
-import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+    type FC,
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import classNames from 'classnames';
-import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import LinearProgress, {
+    linearProgressClasses
+} from '@mui/material/LinearProgress';
 import { useTheme } from '@mui/material/styles';
 import type { ProgressOptions } from 'types/progressOptions';
 
@@ -69,7 +77,9 @@ const AutoTimeProgressBar: FC<AutoTimeProgressBarProps> = ({
             sx={{
                 [`& .${linearProgressClasses.bar}`]: {
                     borderRadius: 5,
-                    backgroundColor: isRecording ? theme.palette.error.main : theme.palette.primary.main
+                    backgroundColor: isRecording
+                        ? theme.palette.error.main
+                        : theme.palette.primary.main
                 }
             }}
         />

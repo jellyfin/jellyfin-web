@@ -39,26 +39,26 @@ function onSubmit(e) {
 
 function createCollection(apiClient, dlg) {
     const url = apiClient.getUrl('Collections', {
-
         Name: dlg.querySelector('#txtNewCollectionName').value,
         IsLocked: !dlg.querySelector('#chkEnableInternetMetadata').checked,
         Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
     });
 
-    apiClient.ajax({
-        type: 'POST',
-        url: url,
-        dataType: 'json'
+    apiClient
+        .ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json'
+        })
+        .then((result) => {
+            loading.hide();
 
-    }).then(result => {
-        loading.hide();
+            const id = result.Id;
 
-        const id = result.Id;
-
-        dlg.submitted = true;
-        dialogHelper.close(dlg);
-        redirectToCollection(apiClient, id);
-    });
+            dlg.submitted = true;
+            dialogHelper.close(dlg);
+            redirectToCollection(apiClient, id);
+        });
 }
 
 function redirectToCollection(apiClient, id) {
@@ -67,22 +67,22 @@ function redirectToCollection(apiClient, id) {
 
 function addToCollection(apiClient, dlg, id) {
     const url = apiClient.getUrl(`Collections/${id}/Items`, {
-
         Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
     });
 
-    apiClient.ajax({
-        type: 'POST',
-        url: url
+    apiClient
+        .ajax({
+            type: 'POST',
+            url: url
+        })
+        .then(() => {
+            loading.hide();
 
-    }).then(() => {
-        loading.hide();
+            dlg.submitted = true;
+            dialogHelper.close(dlg);
 
-        dlg.submitted = true;
-        dialogHelper.close(dlg);
-
-        toast(globalize.translate('MessageItemsAdded'));
-    });
+            toast(globalize.translate('MessageItemsAdded'));
+        });
 }
 
 function triggerChange(select) {
@@ -97,7 +97,6 @@ function populateCollections(panel) {
     panel.querySelector('.newCollectionInfo').classList.add('hide');
 
     const options = {
-
         Recursive: true,
         IncludeItemTypes: 'BoxSet',
         SortBy: 'SortName',
@@ -105,12 +104,12 @@ function populateCollections(panel) {
     };
 
     const apiClient = ServerConnections.getApiClient(currentServerId);
-    apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+    apiClient.getItems(apiClient.getCurrentUserId(), options).then((result) => {
         let html = '';
 
         html += `<option value="">${globalize.translate('OptionNew')}</option>`;
 
-        html += result.Items.map(i => {
+        html += result.Items.map((i) => {
             return `<option value="${i.Id}">${escapeHtml(i.Name)}</option>`;
         });
 
@@ -125,7 +124,8 @@ function populateCollections(panel) {
 function getEditorHtml() {
     let html = '';
 
-    html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
+    html +=
+        '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
     html += '<div class="dialogContentInner dialog-content-centered">';
     html += '<form class="newCollectionForm" style="margin:auto;">';
 
@@ -149,7 +149,8 @@ function getEditorHtml() {
     html += '</div>';
 
     html += '<label class="checkboxContainer">';
-    html += '<input is="emby-checkbox" type="checkbox" id="chkEnableInternetMetadata" />';
+    html +=
+        '<input is="emby-checkbox" type="checkbox" id="chkEnableInternetMetadata" />';
     html += `<span>${globalize.translate('SearchForCollectionInternetMetadata')}</span>`;
     html += '</label>';
 
@@ -170,19 +171,30 @@ function getEditorHtml() {
 }
 
 function initEditor(content, items) {
-    content.querySelector('#selectCollectionToAddTo').addEventListener('change', function () {
-        if (this.value) {
-            content.querySelector('.newCollectionInfo').classList.add('hide');
-            content.querySelector('#txtNewCollectionName').removeAttribute('required');
-        } else {
-            content.querySelector('.newCollectionInfo').classList.remove('hide');
-            content.querySelector('#txtNewCollectionName').setAttribute('required', 'required');
-        }
-    });
+    content
+        .querySelector('#selectCollectionToAddTo')
+        .addEventListener('change', function () {
+            if (this.value) {
+                content
+                    .querySelector('.newCollectionInfo')
+                    .classList.add('hide');
+                content
+                    .querySelector('#txtNewCollectionName')
+                    .removeAttribute('required');
+            } else {
+                content
+                    .querySelector('.newCollectionInfo')
+                    .classList.remove('hide');
+                content
+                    .querySelector('#txtNewCollectionName')
+                    .setAttribute('required', 'required');
+            }
+        });
 
     content.querySelector('form').addEventListener('submit', onSubmit);
 
-    content.querySelector('.fldSelectedItemIds', content).value = items.join(',');
+    content.querySelector('.fldSelectedItemIds', content).value =
+        items.join(',');
 
     if (items.length) {
         content.querySelector('.fldSelectCollection').classList.remove('hide');
@@ -190,7 +202,9 @@ function initEditor(content, items) {
     } else {
         content.querySelector('.fldSelectCollection').classList.add('hide');
 
-        const selectCollectionToAddTo = content.querySelector('#selectCollectionToAddTo');
+        const selectCollectionToAddTo = content.querySelector(
+            '#selectCollectionToAddTo'
+        );
         selectCollectionToAddTo.innerHTML = '';
         selectCollectionToAddTo.value = '';
         triggerChange(selectCollectionToAddTo);
@@ -225,7 +239,9 @@ class CollectionEditor {
         dlg.classList.add('formDialog');
 
         let html = '';
-        const title = items.length ? globalize.translate('HeaderAddToCollection') : globalize.translate('NewCollection');
+        const title = items.length
+            ? globalize.translate('HeaderAddToCollection')
+            : globalize.translate('NewCollection');
 
         html += '<div class="formDialogHeader">';
         html += `<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${globalize.translate('ButtonBack')}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>`;
@@ -251,7 +267,11 @@ class CollectionEditor {
 
         return dialogHelper.open(dlg).then(() => {
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                centerFocus(
+                    dlg.querySelector('.formDialogContent'),
+                    false,
+                    false
+                );
             }
 
             if (dlg.submitted) {

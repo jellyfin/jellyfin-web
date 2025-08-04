@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
     test: {
         coverage: {
-            include: [ 'src' ]
+            include: ['src']
         },
         environment: 'jsdom',
         restoreMocks: true

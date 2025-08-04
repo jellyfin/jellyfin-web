@@ -25,7 +25,9 @@ const DevicesDrawerSection = () => {
                     <ListItemIcon>
                         <Devices />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('HeaderDevices')} />
+                    <ListItemText
+                        primary={globalize.translate('HeaderDevices')}
+                    />
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
@@ -33,7 +35,9 @@ const DevicesDrawerSection = () => {
                     <ListItemIcon>
                         <Analytics />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('HeaderActivity')} />
+                    <ListItemText
+                        primary={globalize.translate('HeaderActivity')}
+                    />
                 </ListItemLink>
             </ListItem>
         </List>

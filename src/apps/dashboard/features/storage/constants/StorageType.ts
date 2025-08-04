@@ -10,4 +10,4 @@ export enum StorageType {
     Ram = 'Ram',
     Removable = 'Removable',
     Unknown = 'Unknown'
-};
+}

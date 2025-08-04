@@ -4,7 +4,11 @@ import Page from 'components/Page';
 import PageTabContent from '../../components/library/PageTabContent';
 import { LibraryTab } from 'types/libraryTab';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
-import { ProgramSectionsView, RecordingsSectionsView, ScheduleSectionsView } from 'types/sections';
+import {
+    ProgramSectionsView,
+    RecordingsSectionsView,
+    ScheduleSectionsView
+} from 'types/sections';
 
 const seriestimersTabContent: LibraryTabContent = {
     viewType: LibraryTab.SeriesTimers,

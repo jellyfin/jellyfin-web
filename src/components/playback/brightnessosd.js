@@ -16,9 +16,11 @@ let enableAnimation;
 function getOsdElementHtml() {
     let html = '';
 
-    html += '<span class="material-icons iconOsdIcon brightness_high" aria-hidden="true"></span>';
+    html +=
+        '<span class="material-icons iconOsdIcon brightness_high" aria-hidden="true"></span>';
 
-    html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner brightnessOsdProgressInner"></div></div>';
+    html +=
+        '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner brightnessOsdProgressInner"></div></div>';
 
     return html;
 }
@@ -88,9 +90,14 @@ function hideOsd() {
             requestAnimationFrame(function () {
                 elem.classList.add('iconOsd-hidden');
 
-                dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
-                    once: true
-                });
+                dom.addEventListener(
+                    elem,
+                    dom.whichTransitionEvent(),
+                    onHideComplete,
+                    {
+                        once: true
+                    }
+                );
             });
         } else {
             onHideComplete.call(elem);
@@ -99,7 +106,11 @@ function hideOsd() {
 }
 
 function setIcon(iconHtmlElement, icon) {
-    iconHtmlElement.classList.remove('brightness_high', 'brightness_medium', 'brightness_low');
+    iconHtmlElement.classList.remove(
+        'brightness_high',
+        'brightness_medium',
+        'brightness_low'
+    );
     iconHtmlElement.classList.add(icon);
 }
 

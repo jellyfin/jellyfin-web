@@ -17,24 +17,24 @@ const FallbackRoute = () => {
 
         // Redirect old wizard paths
         if (RegExp(/^\/wizard[a-z]+\.html/i).test(location.pathname)) {
-            return { ..._to, pathname: `/wizard/${location.pathname.slice(7, -5)}` };
+            return {
+                ..._to,
+                pathname: `/wizard/${location.pathname.slice(7, -5)}`
+            };
         }
 
         // If a path ends in ".html", redirect to the path with it removed
         if (location.pathname.endsWith('.html')) {
             return { ..._to, pathname: location.pathname.slice(0, -5) };
         }
-    }, [ location ]);
+    }, [location]);
 
     if (to) {
-        console.warn('[FallbackRoute] You are using a deprecated URL format. This will stop working in a future Jellyfin update.');
-
-        return (
-            <Navigate
-                replace
-                to={to}
-            />
+        console.warn(
+            '[FallbackRoute] You are using a deprecated URL format. This will stop working in a future Jellyfin update.'
         );
+
+        return <Navigate replace to={to} />;
     }
 
     return (
@@ -46,10 +46,7 @@ const FallbackRoute = () => {
             <div className='padded-left padded-right'>
                 <h1>{globalize.translate('HeaderPageNotFound')}</h1>
                 <p>{globalize.translate('PageNotFound')}</p>
-                <LinkButton
-                    className='button-link'
-                    href='#/home'
-                >
+                <LinkButton className='button-link' href='#/home'>
                     {globalize.translate('GoHome')}
                 </LinkButton>
             </div>

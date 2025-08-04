@@ -34,7 +34,10 @@ class QueueCore {
         newPlayQueue.LastUpdate = new Date(newPlayQueue.LastUpdate);
 
         if (newPlayQueue.LastUpdate.getTime() <= this.getLastUpdateTime()) {
-            console.debug('SyncPlay updatePlayQueue: ignoring old update', newPlayQueue);
+            console.debug(
+                'SyncPlay updatePlayQueue: ignoring old update',
+                newPlayQueue
+            );
             return;
         }
 
@@ -42,70 +45,92 @@ class QueueCore {
 
         const serverId = apiClient.serverInfo().Id;
 
-        this.onPlayQueueUpdate(apiClient, newPlayQueue, serverId).then((previous) => {
-            if (newPlayQueue.LastUpdate.getTime() < this.getLastUpdateTime()) {
-                console.warn('SyncPlay updatePlayQueue: trying to apply old update.', newPlayQueue);
-                throw new Error('Trying to apply old update');
-            }
+        this.onPlayQueueUpdate(apiClient, newPlayQueue, serverId)
+            .then((previous) => {
+                if (
+                    newPlayQueue.LastUpdate.getTime() < this.getLastUpdateTime()
+                ) {
+                    console.warn(
+                        'SyncPlay updatePlayQueue: trying to apply old update.',
+                        newPlayQueue
+                    );
+                    throw new Error('Trying to apply old update');
+                }
 
-            // Ignore if remote player is self-managed (has own SyncPlay manager running).
-            if (this.manager.isRemote()) {
-                console.warn('SyncPlay updatePlayQueue: remote player has own SyncPlay manager.');
-                return;
-            }
+                // Ignore if remote player is self-managed (has own SyncPlay manager running).
+                if (this.manager.isRemote()) {
+                    console.warn(
+                        'SyncPlay updatePlayQueue: remote player has own SyncPlay manager.'
+                    );
+                    return;
+                }
 
-            const playerWrapper = this.manager.getPlayerWrapper();
+                const playerWrapper = this.manager.getPlayerWrapper();
 
-            switch (newPlayQueue.Reason) {
-                case 'NewPlaylist': {
-                    if (!this.manager.isFollowingGroupPlayback()) {
-                        this.manager.followGroupPlayback(apiClient).then(() => {
+                switch (newPlayQueue.Reason) {
+                    case 'NewPlaylist': {
+                        if (!this.manager.isFollowingGroupPlayback()) {
+                            this.manager
+                                .followGroupPlayback(apiClient)
+                                .then(() => {
+                                    this.startPlayback(apiClient);
+                                });
+                        } else {
                             this.startPlayback(apiClient);
-                        });
-                    } else {
-                        this.startPlayback(apiClient);
+                        }
+                        break;
                     }
-                    break;
-                }
-                case 'SetCurrentItem':
-                case 'NextItem':
-                case 'PreviousItem': {
-                    playerWrapper.onQueueUpdate();
+                    case 'SetCurrentItem':
+                    case 'NextItem':
+                    case 'PreviousItem': {
+                        playerWrapper.onQueueUpdate();
 
-                    const playlistItemId = this.getCurrentPlaylistItemId();
-                    this.setCurrentPlaylistItem(apiClient, playlistItemId);
-                    break;
-                }
-                case 'RemoveItems': {
-                    playerWrapper.onQueueUpdate();
-
-                    const index = previous.playQueueUpdate.PlayingItemIndex;
-                    const oldPlaylistItemId = index === -1 ? null : previous.playlist[index].PlaylistItemId;
-                    const playlistItemId = this.getCurrentPlaylistItemId();
-                    if (oldPlaylistItemId !== playlistItemId) {
+                        const playlistItemId = this.getCurrentPlaylistItemId();
                         this.setCurrentPlaylistItem(apiClient, playlistItemId);
+                        break;
                     }
-                    break;
+                    case 'RemoveItems': {
+                        playerWrapper.onQueueUpdate();
+
+                        const index = previous.playQueueUpdate.PlayingItemIndex;
+                        const oldPlaylistItemId =
+                            index === -1
+                                ? null
+                                : previous.playlist[index].PlaylistItemId;
+                        const playlistItemId = this.getCurrentPlaylistItemId();
+                        if (oldPlaylistItemId !== playlistItemId) {
+                            this.setCurrentPlaylistItem(
+                                apiClient,
+                                playlistItemId
+                            );
+                        }
+                        break;
+                    }
+                    case 'MoveItem':
+                    case 'Queue':
+                    case 'QueueNext': {
+                        playerWrapper.onQueueUpdate();
+                        break;
+                    }
+                    case 'RepeatMode':
+                        playerWrapper.localSetRepeatMode(this.getRepeatMode());
+                        break;
+                    case 'ShuffleMode':
+                        playerWrapper.localSetQueueShuffleMode(
+                            this.getShuffleMode()
+                        );
+                        break;
+                    default:
+                        console.error(
+                            'SyncPlay updatePlayQueue: unknown reason for update:',
+                            newPlayQueue.Reason
+                        );
+                        break;
                 }
-                case 'MoveItem':
-                case 'Queue':
-                case 'QueueNext': {
-                    playerWrapper.onQueueUpdate();
-                    break;
-                }
-                case 'RepeatMode':
-                    playerWrapper.localSetRepeatMode(this.getRepeatMode());
-                    break;
-                case 'ShuffleMode':
-                    playerWrapper.localSetQueueShuffleMode(this.getShuffleMode());
-                    break;
-                default:
-                    console.error('SyncPlay updatePlayQueue: unknown reason for update:', newPlayQueue.Reason);
-                    break;
-            }
-        }).catch((error) => {
-            console.warn('SyncPlay updatePlayQueue:', error);
-        });
+            })
+            .catch((error) => {
+                console.warn('SyncPlay updatePlayQueue:', error);
+            });
     }
 
     /**
@@ -119,10 +144,15 @@ class QueueCore {
         const oldPlayQueueUpdate = this.lastPlayQueueUpdate;
         const oldPlaylist = this.playlist;
 
-        const itemIds = playQueueUpdate.Playlist.map(queueItem => queueItem.ItemId);
+        const itemIds = playQueueUpdate.Playlist.map(
+            (queueItem) => queueItem.ItemId
+        );
 
         if (!itemIds.length) {
-            if (this.lastPlayQueueUpdate && playQueueUpdate.LastUpdate.getTime() <= this.getLastUpdateTime()) {
+            if (
+                this.lastPlayQueueUpdate &&
+                playQueueUpdate.LastUpdate.getTime() <= this.getLastUpdateTime()
+            ) {
                 return Promise.reject(new Error('Trying to apply old update'));
             }
 
@@ -142,12 +172,17 @@ class QueueCore {
                 ids: itemIds,
                 serverId: serverId
             }).then((items) => {
-                if (this.lastPlayQueueUpdate && playQueueUpdate.LastUpdate.getTime() <= this.getLastUpdateTime()) {
+                if (
+                    this.lastPlayQueueUpdate &&
+                    playQueueUpdate.LastUpdate.getTime() <=
+                        this.getLastUpdateTime()
+                ) {
                     throw new Error('Trying to apply old update');
                 }
 
                 for (let i = 0; i < items.length; i++) {
-                    items[i].PlaylistItemId = playQueueUpdate.Playlist[i].PlaylistItemId;
+                    items[i].PlaylistItemId =
+                        playQueueUpdate.Playlist[i].PlaylistItemId;
                 }
 
                 this.lastPlayQueueUpdate = playQueueUpdate;
@@ -167,33 +202,49 @@ class QueueCore {
      * @param {string} origin The origin of the wait call, used for debug.
      */
     scheduleReadyRequestOnPlaybackStart(apiClient, origin) {
-        Helper.waitForEventOnce(this.manager, 'playbackstart', Helper.WaitForEventDefaultTimeout, ['playbackerror']).then(async () => {
-            console.debug('SyncPlay scheduleReadyRequestOnPlaybackStart: local pause and notify server.');
-            const playerWrapper = this.manager.getPlayerWrapper();
-            playerWrapper.localPause();
+        Helper.waitForEventOnce(
+            this.manager,
+            'playbackstart',
+            Helper.WaitForEventDefaultTimeout,
+            ['playbackerror']
+        )
+            .then(async () => {
+                console.debug(
+                    'SyncPlay scheduleReadyRequestOnPlaybackStart: local pause and notify server.'
+                );
+                const playerWrapper = this.manager.getPlayerWrapper();
+                playerWrapper.localPause();
 
-            const currentTime = new Date();
-            const now = this.manager.timeSyncCore.localDateToRemote(currentTime);
-            const currentPosition = (playerWrapper.currentTimeAsync ?
-                await playerWrapper.currentTimeAsync() :
-                playerWrapper.currentTime());
-            const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
-            const isPlaying = playerWrapper.isPlaying();
+                const currentTime = new Date();
+                const now =
+                    this.manager.timeSyncCore.localDateToRemote(currentTime);
+                const currentPosition = playerWrapper.currentTimeAsync
+                    ? await playerWrapper.currentTimeAsync()
+                    : playerWrapper.currentTime();
+                const currentPositionTicks = Math.round(
+                    currentPosition * Helper.TicksPerMillisecond
+                );
+                const isPlaying = playerWrapper.isPlaying();
 
-            apiClient.requestSyncPlayReady({
-                When: now.toISOString(),
-                PositionTicks: currentPositionTicks,
-                IsPlaying: isPlaying,
-                PlaylistItemId: this.getCurrentPlaylistItemId()
+                apiClient.requestSyncPlayReady({
+                    When: now.toISOString(),
+                    PositionTicks: currentPositionTicks,
+                    IsPlaying: isPlaying,
+                    PlaylistItemId: this.getCurrentPlaylistItemId()
+                });
+            })
+            .catch((error) => {
+                console.error(
+                    'Error while waiting for `playbackstart` event!',
+                    origin,
+                    error
+                );
+                if (!this.manager.isSyncPlayEnabled()) {
+                    toast(globalize.translate('MessageSyncPlayErrorMedia'));
+                }
+
+                this.manager.haltGroupPlayback(apiClient);
             });
-        }).catch((error) => {
-            console.error('Error while waiting for `playbackstart` event!', origin, error);
-            if (!this.manager.isSyncPlayEnabled()) {
-                toast(globalize.translate('MessageSyncPlayErrorMedia'));
-            }
-
-            this.manager.haltGroupPlayback(apiClient);
-        });
     }
 
     /**
@@ -202,7 +253,9 @@ class QueueCore {
      */
     startPlayback(apiClient) {
         if (!this.manager.isFollowingGroupPlayback()) {
-            console.debug('SyncPlay startPlayback: ignoring, not following playback.');
+            console.debug(
+                'SyncPlay startPlayback: ignoring, not following playback.'
+            );
             return Promise.reject();
         }
 
@@ -215,14 +268,27 @@ class QueueCore {
         const playbackCommand = this.manager.getLastPlaybackCommand();
         let startPositionTicks = 0;
 
-        if (playbackCommand && playbackCommand.EmittedAt.getTime() >= this.getLastUpdateTime()) {
+        if (
+            playbackCommand &&
+            playbackCommand.EmittedAt.getTime() >= this.getLastUpdateTime()
+        ) {
             // Prefer playback commands as they're more frequent (and also because playback position is PlaybackCore's concern).
-            startPositionTicks = this.manager.getPlaybackCore().estimateCurrentTicks(playbackCommand.PositionTicks, playbackCommand.When);
+            startPositionTicks = this.manager
+                .getPlaybackCore()
+                .estimateCurrentTicks(
+                    playbackCommand.PositionTicks,
+                    playbackCommand.When
+                );
         } else {
             // A PlayQueueUpdate is emited only on queue changes so it's less reliable for playback position syncing.
             const oldStartPositionTicks = this.getStartPositionTicks();
             const lastQueueUpdateDate = this.getLastUpdate();
-            startPositionTicks = this.manager.getPlaybackCore().estimateCurrentTicks(oldStartPositionTicks, lastQueueUpdateDate);
+            startPositionTicks = this.manager
+                .getPlaybackCore()
+                .estimateCurrentTicks(
+                    oldStartPositionTicks,
+                    lastQueueUpdateDate
+                );
         }
 
         const serverId = apiClient.serverInfo().Id;
@@ -230,15 +296,17 @@ class QueueCore {
         this.scheduleReadyRequestOnPlaybackStart(apiClient, 'startPlayback');
 
         const playerWrapper = this.manager.getPlayerWrapper();
-        playerWrapper.localPlay({
-            ids: this.getPlaylistAsItemIds(),
-            startPositionTicks: startPositionTicks,
-            startIndex: this.getCurrentPlaylistIndex(),
-            serverId: serverId
-        }).catch((error) => {
-            console.error(error);
-            toast(globalize.translate('MessageSyncPlayErrorMedia'));
-        });
+        playerWrapper
+            .localPlay({
+                ids: this.getPlaylistAsItemIds(),
+                startPositionTicks: startPositionTicks,
+                startIndex: this.getCurrentPlaylistIndex(),
+                serverId: serverId
+            })
+            .catch((error) => {
+                console.error(error);
+                toast(globalize.translate('MessageSyncPlayErrorMedia'));
+            });
     }
 
     /**
@@ -248,11 +316,16 @@ class QueueCore {
      */
     setCurrentPlaylistItem(apiClient, playlistItemId) {
         if (!this.manager.isFollowingGroupPlayback()) {
-            console.debug('SyncPlay setCurrentPlaylistItem: ignoring, not following playback.');
+            console.debug(
+                'SyncPlay setCurrentPlaylistItem: ignoring, not following playback.'
+            );
             return;
         }
 
-        this.scheduleReadyRequestOnPlaybackStart(apiClient, 'setCurrentPlaylistItem');
+        this.scheduleReadyRequestOnPlaybackStart(
+            apiClient,
+            'setCurrentPlaylistItem'
+        );
 
         const playerWrapper = this.manager.getPlayerWrapper();
         playerWrapper.localSetCurrentPlaylistItem(playlistItemId);
@@ -341,7 +414,9 @@ class QueueCore {
      */
     getPlaylistAsItemIds() {
         if (this.lastPlayQueueUpdate) {
-            return this.lastPlayQueueUpdate.Playlist.map(queueItem => queueItem.ItemId);
+            return this.lastPlayQueueUpdate.Playlist.map(
+                (queueItem) => queueItem.ItemId
+            );
         } else {
             return [];
         }

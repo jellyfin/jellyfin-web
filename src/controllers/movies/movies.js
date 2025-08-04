@@ -33,15 +33,23 @@ export default function (view, params, tabContent, options) {
     function shuffle() {
         isLoading = true;
         loading.show();
-        const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
-        return ApiClient.getItems(ApiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
-            playbackManager.play({
-                items: Items,
-                autoplay: true
+        const newQuery = {
+            ...query,
+            SortBy: 'Random',
+            StartIndex: 0,
+            Limit: 300,
+            Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay'
+        };
+        return ApiClient.getItems(ApiClient.getCurrentUserId(), newQuery)
+            .then(({ Items }) => {
+                playbackManager.play({
+                    items: Items,
+                    autoplay: true
+                });
+            })
+            .finally(() => {
+                isLoading = false;
             });
-        }).finally(() => {
-            isLoading = false;
-        });
     }
 
     const afterRefresh = (result) => {
@@ -94,14 +102,18 @@ export default function (view, params, tabContent, options) {
             elem.addEventListener('click', onPreviousPageClick);
         }
 
-        tabContent.querySelector('.btnShuffle')?.classList.toggle('hide', result.TotalRecordCount < 1);
+        tabContent
+            .querySelector('.btnShuffle')
+            ?.classList.toggle('hide', result.TotalRecordCount < 1);
 
         isLoading = false;
         loading.hide();
 
-        import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-            autoFocuser.autoFocus(tabContent);
-        });
+        import('../../components/autoFocuser').then(
+            ({ default: autoFocuser }) => {
+                autoFocuser.autoFocus(tabContent);
+            }
+        );
     };
 
     const getItemsHtml = (items) => {
@@ -179,24 +191,29 @@ export default function (view, params, tabContent, options) {
         const alphaPickerElement = tabElement.querySelector('.alphaPicker');
 
         if (alphaPickerElement) {
-            alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
-                const newValue = e.detail.value;
-                if (newValue === '#') {
-                    query.NameLessThan = 'A';
-                    delete query.NameStartsWith;
-                } else {
-                    query.NameStartsWith = newValue;
-                    delete query.NameLessThan;
+            alphaPickerElement.addEventListener(
+                'alphavaluechanged',
+                function (e) {
+                    const newValue = e.detail.value;
+                    if (newValue === '#') {
+                        query.NameLessThan = 'A';
+                        delete query.NameStartsWith;
+                    } else {
+                        query.NameStartsWith = newValue;
+                        delete query.NameLessThan;
+                    }
+                    query.StartIndex = 0;
+                    itemsContainer.refreshItems();
                 }
-                query.StartIndex = 0;
-                itemsContainer.refreshItems();
-            });
+            );
             this.alphaPicker = new AlphaPicker({
                 element: alphaPickerElement,
                 valueChangeEvent: 'click'
             });
 
-            tabElement.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
+            tabElement
+                .querySelector('.alphaPicker')
+                .classList.add('alphabetPicker-right');
             alphaPickerElement.classList.add('alphaPicker-fixed-right');
             itemsContainer.classList.add('padded-right-withalphapicker');
         }
@@ -213,37 +230,48 @@ export default function (view, params, tabContent, options) {
         if (btnSort) {
             btnSort.addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
-                    items: [{
-                        name: globalize.translate('Name'),
-                        id: 'SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionRandom'),
-                        id: 'Random'
-                    }, {
-                        name: globalize.translate('OptionCommunityRating'),
-                        id: 'CommunityRating,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionCriticRating'),
-                        id: 'CriticRating,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionDateAdded'),
-                        id: 'DateCreated,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionDatePlayed'),
-                        id: 'DatePlayed,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionParentalRating'),
-                        id: 'OfficialRating,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionPlayCount'),
-                        id: 'PlayCount,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionReleaseDate'),
-                        id: 'PremiereDate,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('Runtime'),
-                        id: 'Runtime,SortName,ProductionYear'
-                    }],
+                    items: [
+                        {
+                            name: globalize.translate('Name'),
+                            id: 'SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionRandom'),
+                            id: 'Random'
+                        },
+                        {
+                            name: globalize.translate('OptionCommunityRating'),
+                            id: 'CommunityRating,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionCriticRating'),
+                            id: 'CriticRating,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionDateAdded'),
+                            id: 'DateCreated,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionDatePlayed'),
+                            id: 'DatePlayed,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionParentalRating'),
+                            id: 'OfficialRating,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionPlayCount'),
+                            id: 'PlayCount,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionReleaseDate'),
+                            id: 'PremiereDate,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('Runtime'),
+                            id: 'Runtime,SortName,ProductionYear'
+                        }
+                    ],
                     callback: function () {
                         query.StartIndex = 0;
                         userSettings.saveQuerySettings(savedQueryKey, query);
@@ -256,7 +284,11 @@ export default function (view, params, tabContent, options) {
         }
         const btnSelectView = tabElement.querySelector('.btnSelectView');
         btnSelectView.addEventListener('click', (e) => {
-            libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
+            libraryBrowser.showLayoutMenu(
+                e.target,
+                this.getCurrentViewStyle(),
+                'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(',')
+            );
         });
         btnSelectView.addEventListener('layoutchange', function (e) {
             const viewStyle = e.detail.viewStyle;
@@ -266,7 +298,9 @@ export default function (view, params, tabContent, options) {
             itemsContainer.refreshItems();
         });
 
-        tabElement.querySelector('.btnShuffle')?.addEventListener('click', shuffle);
+        tabElement
+            .querySelector('.btnShuffle')
+            ?.addEventListener('click', shuffle);
     };
 
     let itemsContainer = tabContent.querySelector('.itemsContainer');
@@ -297,19 +331,21 @@ export default function (view, params, tabContent, options) {
     query = userSettings.loadQuerySettings(savedQueryKey, query);
 
     this.showFilterMenu = function () {
-        import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
-            const filterDialog = new FilterDialog({
-                query: query,
-                mode: 'movies',
-                serverId: ApiClient.serverId()
-            });
-            Events.on(filterDialog, 'filterchange', () => {
-                query.StartIndex = 0;
-                userSettings.saveQuerySettings(savedQueryKey, query);
-                itemsContainer.refreshItems();
-            });
-            filterDialog.show();
-        });
+        import('../../components/filterdialog/filterdialog').then(
+            ({ default: FilterDialog }) => {
+                const filterDialog = new FilterDialog({
+                    query: query,
+                    mode: 'movies',
+                    serverId: ApiClient.serverId()
+                });
+                Events.on(filterDialog, 'filterchange', () => {
+                    query.StartIndex = 0;
+                    userSettings.saveQuerySettings(savedQueryKey, query);
+                    itemsContainer.refreshItems();
+                });
+                filterDialog.show();
+            }
+        );
     };
 
     this.getCurrentViewStyle = function () {

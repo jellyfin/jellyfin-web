@@ -12,7 +12,10 @@ class HomeTab {
         this.params = params;
         this.apiClient = ServerConnections.currentApiClient();
         this.sectionsContainer = view.querySelector('.sections');
-        view.querySelector('.sections').addEventListener('settingschange', onHomeScreenSettingsChanged.bind(this));
+        view.querySelector('.sections').addEventListener(
+            'settingschange',
+            onHomeScreenSettingsChanged.bind(this)
+        );
     }
     onResume(options) {
         if (this.sectionsRendered) {
@@ -30,15 +33,25 @@ class HomeTab {
         const apiClient = this.apiClient;
         this.destroyHomeSections();
         this.sectionsRendered = true;
-        return apiClient.getCurrentUser()
-            .then(user => homeSections.loadSections(view.querySelector('.sections'), apiClient, user, userSettings))
+        return apiClient
+            .getCurrentUser()
+            .then((user) =>
+                homeSections.loadSections(
+                    view.querySelector('.sections'),
+                    apiClient,
+                    user,
+                    userSettings
+                )
+            )
             .then(() => {
                 if (options.autoFocus) {
                     focusManager.autoFocus(view);
                 }
-            }).catch(err => {
+            })
+            .catch((err) => {
                 console.error(err);
-            }).finally(() => {
+            })
+            .finally(() => {
                 loading.hide();
             });
     }

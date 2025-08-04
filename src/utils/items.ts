@@ -4,53 +4,80 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import * as userSettings from 'scripts/settings/userSettings';
 import layoutManager from 'components/layoutManager';
-import { EpisodeFilter, FeatureFilters, LibraryViewSettings, ParentId, VideoBasicFilter, ViewMode } from '../types/library';
+import {
+    EpisodeFilter,
+    FeatureFilters,
+    LibraryViewSettings,
+    ParentId,
+    VideoBasicFilter,
+    ViewMode
+} from '../types/library';
 import { LibraryTab } from 'types/libraryTab';
 import type { AttributesOpts, DataAttributes } from 'types/dataAttributes';
 
-export const getVideoBasicFilter = (libraryViewSettings: LibraryViewSettings) => {
+export const getVideoBasicFilter = (
+    libraryViewSettings: LibraryViewSettings
+) => {
     let isHd;
 
-    if (libraryViewSettings.Filters?.VideoBasicFilter?.includes(VideoBasicFilter.IsHD)) {
+    if (
+        libraryViewSettings.Filters?.VideoBasicFilter?.includes(
+            VideoBasicFilter.IsHD
+        )
+    ) {
         isHd = true;
     }
 
-    if (libraryViewSettings.Filters?.VideoBasicFilter?.includes(VideoBasicFilter.IsSD)) {
+    if (
+        libraryViewSettings.Filters?.VideoBasicFilter?.includes(
+            VideoBasicFilter.IsSD
+        )
+    ) {
         isHd = false;
     }
 
     return {
         isHd,
-        is4K: libraryViewSettings.Filters?.VideoBasicFilter?.includes(VideoBasicFilter.Is4K) ?
-            true :
-            undefined,
-        is3D: libraryViewSettings.Filters?.VideoBasicFilter?.includes(VideoBasicFilter.Is3D) ?
-            true :
-            undefined
+        is4K: libraryViewSettings.Filters?.VideoBasicFilter?.includes(
+            VideoBasicFilter.Is4K
+        )
+            ? true
+            : undefined,
+        is3D: libraryViewSettings.Filters?.VideoBasicFilter?.includes(
+            VideoBasicFilter.Is3D
+        )
+            ? true
+            : undefined
     };
 };
 
 export const getFeatureFilters = (libraryViewSettings: LibraryViewSettings) => {
     return {
-        hasSubtitles: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasSubtitles) ?
-            true :
-            undefined,
-        hasTrailer: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasTrailer) ?
-            true :
-            undefined,
+        hasSubtitles: libraryViewSettings.Filters?.Features?.includes(
+            FeatureFilters.HasSubtitles
+        )
+            ? true
+            : undefined,
+        hasTrailer: libraryViewSettings.Filters?.Features?.includes(
+            FeatureFilters.HasTrailer
+        )
+            ? true
+            : undefined,
         hasSpecialFeature: libraryViewSettings.Filters?.Features?.includes(
             FeatureFilters.HasSpecialFeature
-        ) ?
-            true :
-            undefined,
-        hasThemeSong: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasThemeSong) ?
-            true :
-            undefined,
+        )
+            ? true
+            : undefined,
+        hasThemeSong: libraryViewSettings.Filters?.Features?.includes(
+            FeatureFilters.HasThemeSong
+        )
+            ? true
+            : undefined,
         hasThemeVideo: libraryViewSettings.Filters?.Features?.includes(
             FeatureFilters.HasThemeVideo
-        ) ?
-            true :
-            undefined
+        )
+            ? true
+            : undefined
     };
 };
 
@@ -61,16 +88,20 @@ export const getEpisodeFilter = (
     return {
         parentIndexNumber: libraryViewSettings.Filters?.EpisodeFilter?.includes(
             EpisodeFilter.ParentIndexNumber
-        ) ?
-            0 :
-            undefined,
+        )
+            ? 0
+            : undefined,
         isMissing:
-            viewType === LibraryTab.Episodes ?
-                !!libraryViewSettings.Filters?.EpisodeFilter?.includes(EpisodeFilter.IsMissing) :
-                undefined,
-        isUnaired: libraryViewSettings.Filters?.EpisodeFilter?.includes(EpisodeFilter.IsUnaired) ?
-            true :
-            undefined
+            viewType === LibraryTab.Episodes
+                ? !!libraryViewSettings.Filters?.EpisodeFilter?.includes(
+                      EpisodeFilter.IsMissing
+                  )
+                : undefined,
+        isUnaired: libraryViewSettings.Filters?.EpisodeFilter?.includes(
+            EpisodeFilter.IsUnaired
+        )
+            ? true
+            : undefined
     };
 };
 
@@ -113,9 +144,13 @@ export const getLimitQuery = () => {
     };
 };
 
-export const getAlphaPickerQuery = (libraryViewSettings: LibraryViewSettings) => {
-    const alphabetValue = libraryViewSettings.Alphabet !== null ?
-        libraryViewSettings.Alphabet : undefined;
+export const getAlphaPickerQuery = (
+    libraryViewSettings: LibraryViewSettings
+) => {
+    const alphabetValue =
+        libraryViewSettings.Alphabet !== null
+            ? libraryViewSettings.Alphabet
+            : undefined;
 
     return {
         nameLessThan: alphabetValue === '#' ? 'A' : undefined,
@@ -154,12 +189,20 @@ export const getDefaultSortBy = (viewType: LibraryTab) => {
     return ItemSortBy.SortName;
 };
 
-export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryViewSettings => {
+export const getDefaultLibraryViewSettings = (
+    viewType: LibraryTab
+): LibraryViewSettings => {
     return {
         ShowTitle: true,
         ShowYear: false,
-        ViewMode: viewType === LibraryTab.Songs ? ViewMode.ListView : ViewMode.GridView,
-        ImageType: viewType === LibraryTab.Networks ? ImageType.Thumb : ImageType.Primary,
+        ViewMode:
+            viewType === LibraryTab.Songs
+                ? ViewMode.ListView
+                : ViewMode.GridView,
+        ImageType:
+            viewType === LibraryTab.Networks
+                ? ImageType.Thumb
+                : ImageType.Primary,
         CardLayout: false,
         SortBy: getDefaultSortBy(viewType),
         SortOrder: SortOrder.Ascending,
@@ -167,9 +210,7 @@ export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryView
     };
 };
 
-export function getDataAttributes(
-    opts: AttributesOpts
-): DataAttributes {
+export function getDataAttributes(opts: AttributesOpts): DataAttributes {
     return {
         'data-context': opts.context,
         'data-collectionid': opts.collectionId,
@@ -193,4 +234,3 @@ export function getDataAttributes(
         'data-enddate': opts.itemEndDate?.toString()
     };
 }
-

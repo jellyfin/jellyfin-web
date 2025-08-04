@@ -47,7 +47,6 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
                     }
                 ]
             }
-
         ]
     }
 ];

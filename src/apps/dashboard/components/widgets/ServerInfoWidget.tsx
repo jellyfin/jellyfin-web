@@ -14,7 +14,11 @@ type ServerInfoWidgetProps = {
     onShutdownClick?: () => void;
 };
 
-const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClick }: ServerInfoWidgetProps) => {
+const ServerInfoWidget = ({
+    onScanLibrariesClick,
+    onRestartClick,
+    onShutdownClick
+}: ServerInfoWidgetProps) => {
     const { data: systemInfo, isPending } = useSystemInfo();
 
     return (
@@ -23,15 +27,25 @@ const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClic
             href='/dashboard/settings'
         >
             <Stack spacing={2}>
-                <Paper sx={{
-                    padding: 2
-                }}>
+                <Paper
+                    sx={{
+                        padding: 2
+                    }}
+                >
                     <Stack direction='row'>
                         <Stack flexGrow={1} gap={1}>
-                            <Typography fontWeight='bold'>{globalize.translate('LabelServerName')}</Typography>
-                            <Typography fontWeight='bold'>{globalize.translate('LabelServerVersion')}</Typography>
-                            <Typography fontWeight='bold'>{globalize.translate('LabelWebVersion')}</Typography>
-                            <Typography fontWeight='bold'>{globalize.translate('LabelBuildVersion')}</Typography>
+                            <Typography fontWeight='bold'>
+                                {globalize.translate('LabelServerName')}
+                            </Typography>
+                            <Typography fontWeight='bold'>
+                                {globalize.translate('LabelServerVersion')}
+                            </Typography>
+                            <Typography fontWeight='bold'>
+                                {globalize.translate('LabelWebVersion')}
+                            </Typography>
+                            <Typography fontWeight='bold'>
+                                {globalize.translate('LabelBuildVersion')}
+                            </Typography>
                         </Stack>
                         <Stack flexGrow={5} gap={1}>
                             {isPending ? (
@@ -43,10 +57,18 @@ const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClic
                                 </>
                             ) : (
                                 <>
-                                    <Typography>{systemInfo?.ServerName}</Typography>
-                                    <Typography>{systemInfo?.Version}</Typography>
-                                    <Typography>{__PACKAGE_JSON_VERSION__}</Typography>
-                                    <Typography>{__JF_BUILD_VERSION__}</Typography>
+                                    <Typography>
+                                        {systemInfo?.ServerName}
+                                    </Typography>
+                                    <Typography>
+                                        {systemInfo?.Version}
+                                    </Typography>
+                                    <Typography>
+                                        {__PACKAGE_JSON_VERSION__}
+                                    </Typography>
+                                    <Typography>
+                                        {__JF_BUILD_VERSION__}
+                                    </Typography>
                                 </>
                             )}
                         </Stack>

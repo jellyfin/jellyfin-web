@@ -43,11 +43,16 @@ class AppRouter {
         this.listen();
 
         // TODO: Can this baseRoute logic be simplified?
-        this.baseRoute = window.location.href.split('?')[0].replace(this.#getRequestFile(), '');
+        this.baseRoute = window.location.href
+            .split('?')[0]
+            .replace(this.#getRequestFile(), '');
         // support hashbang
         this.baseRoute = this.baseRoute.split('#')[0];
         if (this.baseRoute.endsWith('/') && !this.baseRoute.endsWith('://')) {
-            this.baseRoute = this.baseRoute.substring(0, this.baseRoute.length - 1);
+            this.baseRoute = this.baseRoute.substring(
+                0,
+                this.baseRoute.length - 1
+            );
         }
     }
 
@@ -109,7 +114,9 @@ class AppRouter {
             const fullPath = normalizedPath + location.search;
 
             if (fullPath === this.lastPath) {
-                console.debug('[appRouter] path did not change, resolving promise');
+                console.debug(
+                    '[appRouter] path did not change, resolving promise'
+                );
                 this.onViewShow();
             }
 
@@ -125,8 +132,8 @@ class AppRouter {
         const path = history.location.pathname;
 
         if (
-            !document.querySelector('.dialogContainer')
-            && START_PAGE_PATHS.includes(path)
+            !document.querySelector('.dialogContainer') &&
+            START_PAGE_PATHS.includes(path)
         ) {
             return false;
         }
@@ -137,16 +144,18 @@ class AppRouter {
     showItem(item, serverId, options) {
         // TODO: Refactor this so it only gets items, not strings.
         if (typeof item === 'string') {
-            const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
+            const apiClient = serverId
+                ? ServerConnections.getApiClient(serverId)
+                : ServerConnections.currentApiClient();
             const api = toApi(apiClient);
             const userId = apiClient.getCurrentUserId();
 
             queryClient
                 .fetchQuery(getItemQuery(api, item, userId))
-                .then(itemObject => {
+                .then((itemObject) => {
                     this.showItem(itemObject, options);
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.error('[AppRouter] Failed to fetch item', err);
                 });
         } else {
@@ -200,11 +209,15 @@ class AppRouter {
         const apiClient = this;
 
         if (data.status === 403 && data.errorCode === 'ParentalControl') {
-            const isPublicPage = PUBLIC_PATHS.includes(history.location.pathname);
+            const isPublicPage = PUBLIC_PATHS.includes(
+                history.location.pathname
+            );
 
             // Bounce to the login screen, but not if a password entry fails, obviously
             if (!isPublicPage) {
-                appRouter.showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
+                appRouter.showForcedLogoutMessage(
+                    globalize.translate('AccessRestrictedTryAgainLater')
+                );
                 appRouter.showLocalLogin(apiClient.serverId());
             }
         }
@@ -269,7 +282,11 @@ class AppRouter {
         }
 
         if (item === 'list') {
-            let urlForList = '#/list?serverId=' + options.serverId + '&type=' + options.itemTypes;
+            let urlForList =
+                '#/list?serverId=' +
+                options.serverId +
+                '&type=' +
+                options.itemTypes;
 
             if (options.isFavorite) {
                 urlForList += '&IsFavorite=true';
@@ -311,27 +328,45 @@ class AppRouter {
             }
 
             if (options.section === 'movies') {
-                return '#/list?type=Programs&IsMovie=true&serverId=' + options.serverId;
+                return (
+                    '#/list?type=Programs&IsMovie=true&serverId=' +
+                    options.serverId
+                );
             }
 
             if (options.section === 'shows') {
-                return '#/list?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
+                return (
+                    '#/list?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' +
+                    options.serverId
+                );
             }
 
             if (options.section === 'sports') {
-                return '#/list?type=Programs&IsSports=true&serverId=' + options.serverId;
+                return (
+                    '#/list?type=Programs&IsSports=true&serverId=' +
+                    options.serverId
+                );
             }
 
             if (options.section === 'kids') {
-                return '#/list?type=Programs&IsKids=true&serverId=' + options.serverId;
+                return (
+                    '#/list?type=Programs&IsKids=true&serverId=' +
+                    options.serverId
+                );
             }
 
             if (options.section === 'news') {
-                return '#/list?type=Programs&IsNews=true&serverId=' + options.serverId;
+                return (
+                    '#/list?type=Programs&IsNews=true&serverId=' +
+                    options.serverId
+                );
             }
 
             if (options.section === 'onnow') {
-                return '#/list?type=Programs&IsAiring=true&serverId=' + options.serverId;
+                return (
+                    '#/list?type=Programs&IsAiring=true&serverId=' +
+                    options.serverId
+                );
             }
 
             if (options.section === 'channels') {
@@ -434,14 +469,27 @@ class AppRouter {
 
             const layoutMode = localStorage.getItem('layout');
 
-            if (layoutMode === 'experimental' && item.CollectionType == CollectionType.Homevideos) {
+            if (
+                layoutMode === 'experimental' &&
+                item.CollectionType == CollectionType.Homevideos
+            ) {
                 url = '#/homevideos?topParentId=' + item.Id;
 
                 return url;
             }
         }
 
-        const itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
+        const itemTypes = [
+            'Playlist',
+            'TvChannel',
+            'Program',
+            'BoxSet',
+            'MusicAlbum',
+            'MusicGenre',
+            'Person',
+            'Recording',
+            'MusicArtist'
+        ];
 
         if (itemTypes.indexOf(itemType) >= 0) {
             return '#/details?id=' + id + '&serverId=' + serverId;
@@ -449,8 +497,14 @@ class AppRouter {
 
         const contextSuffix = context ? '&context=' + context : '';
 
-        if (itemType == 'Series' || itemType == 'Season' || itemType == 'Episode') {
-            return '#/details?id=' + id + contextSuffix + '&serverId=' + serverId;
+        if (
+            itemType == 'Series' ||
+            itemType == 'Season' ||
+            itemType == 'Episode'
+        ) {
+            return (
+                '#/details?id=' + id + contextSuffix + '&serverId=' + serverId
+            );
         }
 
         if (item.IsFolder) {
@@ -511,7 +565,8 @@ class AppRouter {
 
 export const appRouter = new AppRouter();
 
-export const isLyricsPage = () => history.location.pathname.toLowerCase() === '/lyrics';
+export const isLyricsPage = () =>
+    history.location.pathname.toLowerCase() === '/lyrics';
 
 window.Emby = window.Emby || {};
 window.Emby.Page = appRouter;

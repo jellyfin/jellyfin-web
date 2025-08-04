@@ -5,11 +5,7 @@ import { useApi } from 'hooks/useApi';
 import useIndicator from '../../indicators/useIndicator';
 import layoutManager from '../../layoutManager';
 import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
-import {
-    canResume,
-    getChannelImageUrl,
-    getImageUrl
-} from './listHelper';
+import { canResume, getChannelImageUrl, getImageUrl } from './listHelper';
 
 import Media from 'components/common/Media';
 import PlayArrowIconButton from 'components/common/PlayArrowIconButton';
@@ -34,10 +30,12 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
     downloadWidth
 }) => {
     const { api } = useApi();
-    const { getMediaSourceIndicator, getProgressBar, getPlayedIndicator } = useIndicator(item);
-    const imgInfo = listOptions.imageSource === 'channel' ?
-        getChannelImageUrl(item, api, downloadWidth) :
-        getImageUrl(item, api, downloadWidth);
+    const { getMediaSourceIndicator, getProgressBar, getPlayedIndicator } =
+        useIndicator(item);
+    const imgInfo =
+        listOptions.imageSource === 'channel'
+            ? getChannelImageUrl(item, api, downloadWidth)
+            : getImageUrl(item, api, downloadWidth);
 
     const defaultCardImageIcon = listOptions.defaultCardImageIcon;
     const disableIndicators = listOptions.disableIndicators;
@@ -66,12 +64,13 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
     const playbackPositionTicks = item?.UserData?.PlaybackPositionTicks;
 
     return (
-        <Box
-            data-action={imageAction}
-            className={imageClass}
-        >
-
-            <Media item={item} imgUrl={imgUrl} blurhash={blurhash} defaultCardImageIcon={defaultCardImageIcon} />
+        <Box data-action={imageAction} className={imageClass}>
+            <Media
+                item={item}
+                imgUrl={imgUrl}
+                blurhash={blurhash}
+                defaultCardImageIcon={defaultCardImageIcon}
+            />
 
             {disableIndicators !== true && mediaSourceIndicator}
 
@@ -88,9 +87,9 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
                         canResume(playbackPositionTicks) ? 'resume' : 'play'
                     }
                     title={
-                        canResume(playbackPositionTicks) ?
-                            'ButtonResume' :
-                            'Play'
+                        canResume(playbackPositionTicks)
+                            ? 'ButtonResume'
+                            : 'Play'
                     }
                 />
             )}

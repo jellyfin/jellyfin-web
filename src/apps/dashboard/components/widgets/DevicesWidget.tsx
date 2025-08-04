@@ -14,11 +14,8 @@ const DevicesWidget = () => {
             href='/dashboard/devices'
         >
             <Stack direction='row' flexWrap='wrap' gap={2}>
-                {devices?.map(device => (
-                    <DeviceCard
-                        key={device.Id}
-                        device={device}
-                    />
+                {devices?.map((device) => (
+                    <DeviceCard key={device.Id} device={device} />
                 ))}
             </Stack>
         </Widget>

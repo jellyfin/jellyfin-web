@@ -13,20 +13,30 @@ function isM3uVariant(type) {
 }
 
 function fillTypes(view, currentId) {
-    return ApiClient.getJSON(ApiClient.getUrl('LiveTv/TunerHosts/Types')).then(function (types) {
-        const selectType = view.querySelector('.selectType');
-        let html = '';
-        html += types.map(function (tuner) {
-            return '<option value="' + tuner.Id + '">' + tuner.Name + '</option>';
-        }).join('');
-        html += '<option value="other">';
-        html += globalize.translate('TabOther');
-        html += '</option>';
-        selectType.innerHTML = html;
-        selectType.disabled = currentId != null;
-        selectType.value = '';
-        onTypeChange.call(selectType);
-    });
+    return ApiClient.getJSON(ApiClient.getUrl('LiveTv/TunerHosts/Types')).then(
+        function (types) {
+            const selectType = view.querySelector('.selectType');
+            let html = '';
+            html += types
+                .map(function (tuner) {
+                    return (
+                        '<option value="' +
+                        tuner.Id +
+                        '">' +
+                        tuner.Name +
+                        '</option>'
+                    );
+                })
+                .join('');
+            html += '<option value="other">';
+            html += globalize.translate('TabOther');
+            html += '</option>';
+            selectType.innerHTML = html;
+            selectType.disabled = currentId != null;
+            selectType.value = '';
+            onTypeChange.call(selectType);
+        }
+    );
 }
 
 function reload(view, providerId) {
@@ -61,11 +71,14 @@ function fillTunerHostInfo(view, info) {
     view.querySelector('.chkFavorite').checked = info.ImportFavoritesOnly;
     view.querySelector('.chkTranscode').checked = info.AllowHWTranscoding;
     view.querySelector('.chkStreamLoop').checked = info.EnableStreamLooping;
-    view.querySelector('.chkFmp4Container').checked = info.AllowFmp4TranscodingContainer;
+    view.querySelector('.chkFmp4Container').checked =
+        info.AllowFmp4TranscodingContainer;
     view.querySelector('.chkStreamSharing').checked = info.AllowStreamSharing;
     view.querySelector('.chkIgnoreDts').checked = info.IgnoreDts;
-    view.querySelector('.chkReadInputAtNativeFramerate').checked = info.ReadAtNativeFramerate;
-    view.querySelector('.txtFallbackMaxStreamingBitrate').value = info.FallbackMaxStreamingBitrate / 1e6 || '30';
+    view.querySelector('.chkReadInputAtNativeFramerate').checked =
+        info.ReadAtNativeFramerate;
+    view.querySelector('.txtFallbackMaxStreamingBitrate').value =
+        info.FallbackMaxStreamingBitrate / 1e6 || '30';
     view.querySelector('.txtTunerCount').value = info.TunerCount || '0';
 }
 
@@ -78,14 +91,24 @@ function submitForm(page) {
         FriendlyName: page.querySelector('.txtFriendlyName').value || null,
         DeviceId: page.querySelector('.fldDeviceId').value || null,
         TunerCount: page.querySelector('.txtTunerCount').value || 0,
-        FallbackMaxStreamingBitrate: parseInt(1e6 * parseFloat(page.querySelector('.txtFallbackMaxStreamingBitrate').value || '30'), 10),
+        FallbackMaxStreamingBitrate: parseInt(
+            1e6 *
+                parseFloat(
+                    page.querySelector('.txtFallbackMaxStreamingBitrate')
+                        .value || '30'
+                ),
+            10
+        ),
         ImportFavoritesOnly: page.querySelector('.chkFavorite').checked,
         AllowHWTranscoding: page.querySelector('.chkTranscode').checked,
-        AllowFmp4TranscodingContainer: page.querySelector('.chkFmp4Container').checked,
+        AllowFmp4TranscodingContainer:
+            page.querySelector('.chkFmp4Container').checked,
         AllowStreamSharing: page.querySelector('.chkStreamSharing').checked,
         EnableStreamLooping: page.querySelector('.chkStreamLoop').checked,
         IgnoreDts: page.querySelector('.chkIgnoreDts').checked,
-        ReadAtNativeFramerate: page.querySelector('.chkReadInputAtNativeFramerate').checked
+        ReadAtNativeFramerate: page.querySelector(
+            '.chkReadInputAtNativeFramerate'
+        ).checked
     };
 
     if (isM3uVariant(info.Type)) {
@@ -102,15 +125,18 @@ function submitForm(page) {
         url: ApiClient.getUrl('LiveTv/TunerHosts'),
         data: JSON.stringify(info),
         contentType: 'application/json'
-    }).then(function () {
-        Dashboard.processServerConfigurationUpdateResult();
-        Dashboard.navigate('dashboard/livetv');
-    }, function () {
-        loading.hide();
-        Dashboard.alert({
-            message: globalize.translate('ErrorSavingTvProvider')
-        });
-    });
+    }).then(
+        function () {
+            Dashboard.processServerConfigurationUpdateResult();
+            Dashboard.navigate('dashboard/livetv');
+        },
+        function () {
+            loading.hide();
+            Dashboard.alert({
+                message: globalize.translate('ErrorSavingTvProvider')
+            });
+        }
+    );
 }
 
 function getDetectedDevice() {
@@ -153,7 +179,10 @@ function onTypeChange() {
 
     if (supportsSelectablePath) {
         view.querySelector('.btnSelectPath').classList.remove('hide');
-        view.querySelector('.txtDevicePath').setAttribute('required', 'required');
+        view.querySelector('.txtDevicePath').setAttribute(
+            'required',
+            'required'
+        );
     } else {
         view.querySelector('.btnSelectPath').classList.add('hide');
         view.querySelector('.txtDevicePath').removeAttribute('required');
@@ -177,9 +206,18 @@ function onTypeChange() {
         view.querySelector('.fldTranscode').classList.add('hide');
     }
 
-    view.querySelector('.fldFmp4Container').classList.toggle('hide', !supportsFmp4Container);
-    view.querySelector('.fldStreamSharing').classList.toggle('hide', !supportsStreamSharing);
-    view.querySelector('.fldFallbackMaxStreamingBitrate').classList.toggle('hide', !supportsFallbackBitrate);
+    view.querySelector('.fldFmp4Container').classList.toggle(
+        'hide',
+        !supportsFmp4Container
+    );
+    view.querySelector('.fldStreamSharing').classList.toggle(
+        'hide',
+        !supportsStreamSharing
+    );
+    view.querySelector('.fldFallbackMaxStreamingBitrate').classList.toggle(
+        'hide',
+        !supportsFallbackBitrate
+    );
 
     if (supportsStreamLooping) {
         view.querySelector('.fldStreamLoop').classList.remove('hide');
@@ -193,11 +231,17 @@ function onTypeChange() {
         view.querySelector('.fldIgnoreDts').classList.add('hide');
     }
 
-    view.querySelector('.fldReadInputAtNativeFramerate').classList.toggle('hide', !supportsReadInputAtNativeFramerate);
+    view.querySelector('.fldReadInputAtNativeFramerate').classList.toggle(
+        'hide',
+        !supportsReadInputAtNativeFramerate
+    );
 
     if (supportsTunerCount) {
         view.querySelector('.fldTunerCount').classList.remove('hide');
-        view.querySelector('.txtTunerCount').setAttribute('required', 'required');
+        view.querySelector('.txtTunerCount').setAttribute(
+            'required',
+            'required'
+        );
     } else {
         view.querySelector('.fldTunerCount').classList.add('hide');
         view.querySelector('.txtTunerCount').removeAttribute('required');
@@ -240,18 +284,20 @@ export default function (view, params) {
         });
     });
     view.querySelector('.btnSelectPath').addEventListener('click', function () {
-        import('components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
-            const picker = new DirectoryBrowser();
-            picker.show({
-                includeFiles: true,
-                callback: function (path) {
-                    if (path) {
-                        view.querySelector('.txtDevicePath').value = path;
-                    }
+        import('components/directorybrowser/directorybrowser').then(
+            ({ default: DirectoryBrowser }) => {
+                const picker = new DirectoryBrowser();
+                picker.show({
+                    includeFiles: true,
+                    callback: function (path) {
+                        if (path) {
+                            view.querySelector('.txtDevicePath').value = path;
+                        }
 
-                    picker.close();
-                }
-            });
-        });
+                        picker.close();
+                    }
+                });
+            }
+        );
     });
 }

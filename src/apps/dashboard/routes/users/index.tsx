@@ -22,18 +22,20 @@ type MenuEntry = {
 };
 
 const UserProfiles = () => {
-    const [ users, setUsers ] = useState<UserDto[]>([]);
+    const [users, setUsers] = useState<UserDto[]>([]);
 
     const element = useRef<HTMLDivElement>(null);
 
     const loadData = () => {
         loading.show();
-        window.ApiClient.getUsers().then(function (result) {
-            setUsers(result);
-            loading.hide();
-        }).catch(err => {
-            console.error('[userprofiles] failed to fetch users', err);
-        });
+        window.ApiClient.getUsers()
+            .then(function (result) {
+                setUsers(result);
+                loading.hide();
+            })
+            .catch((err) => {
+                console.error('[userprofiles] failed to fetch users', err);
+            });
     };
 
     useEffect(() => {
@@ -79,47 +81,71 @@ const UserProfiles = () => {
                 icon: 'delete'
             });
 
-            import('../../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
-                actionsheet.show({
-                    items: menuItems,
-                    positionTo: card,
-                    callback: function (id: string) {
-                        switch (id) {
-                            case 'open':
-                                Dashboard.navigate('/dashboard/users/profile?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to user edit page', err);
-                                    });
-                                break;
+            import('../../../../components/actionSheet/actionSheet')
+                .then(({ default: actionsheet }) => {
+                    actionsheet
+                        .show({
+                            items: menuItems,
+                            positionTo: card,
+                            callback: function (id: string) {
+                                switch (id) {
+                                    case 'open':
+                                        Dashboard.navigate(
+                                            '/dashboard/users/profile?userId=' +
+                                                userId
+                                        ).catch((err) => {
+                                            console.error(
+                                                '[userprofiles] failed to navigate to user edit page',
+                                                err
+                                            );
+                                        });
+                                        break;
 
-                            case 'access':
-                                Dashboard.navigate('/dashboard/users/access?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to user library page', err);
-                                    });
-                                break;
+                                    case 'access':
+                                        Dashboard.navigate(
+                                            '/dashboard/users/access?userId=' +
+                                                userId
+                                        ).catch((err) => {
+                                            console.error(
+                                                '[userprofiles] failed to navigate to user library page',
+                                                err
+                                            );
+                                        });
+                                        break;
 
-                            case 'parentalcontrol':
-                                Dashboard.navigate('/dashboard/users/parentalcontrol?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to parental control page', err);
-                                    });
-                                break;
+                                    case 'parentalcontrol':
+                                        Dashboard.navigate(
+                                            '/dashboard/users/parentalcontrol?userId=' +
+                                                userId
+                                        ).catch((err) => {
+                                            console.error(
+                                                '[userprofiles] failed to navigate to parental control page',
+                                                err
+                                            );
+                                        });
+                                        break;
 
-                            case 'delete':
-                                deleteUser(userId, username);
-                        }
-                    }
-                }).catch(() => {
-                    // action sheet closed
+                                    case 'delete':
+                                        deleteUser(userId, username);
+                                }
+                            }
+                        })
+                        .catch(() => {
+                            // action sheet closed
+                        });
+                })
+                .catch((err) => {
+                    console.error(
+                        '[userprofiles] failed to load action sheet',
+                        err
+                    );
                 });
-            }).catch(err => {
-                console.error('[userprofiles] failed to load action sheet', err);
-            });
         };
 
         const deleteUser = (id: string, username?: string | null) => {
-            const title = username ? globalize.translate('DeleteName', username) : globalize.translate('DeleteUser');
+            const title = username
+                ? globalize.translate('DeleteName', username)
+                : globalize.translate('DeleteUser');
             const text = globalize.translate('DeleteUserConfirmation');
 
             confirm({
@@ -127,31 +153,45 @@ const UserProfiles = () => {
                 text,
                 confirmText: globalize.translate('Delete'),
                 primary: 'delete'
-            }).then(function () {
-                loading.show();
-                window.ApiClient.deleteUser(id).then(function () {
-                    loadData();
-                }).catch(err => {
-                    console.error('[userprofiles] failed to delete user', err);
+            })
+                .then(function () {
+                    loading.show();
+                    window.ApiClient.deleteUser(id)
+                        .then(function () {
+                            loadData();
+                        })
+                        .catch((err) => {
+                            console.error(
+                                '[userprofiles] failed to delete user',
+                                err
+                            );
+                        });
+                })
+                .catch(() => {
+                    // confirm dialog closed
                 });
-            }).catch(() => {
-                // confirm dialog closed
-            });
         };
 
         page.addEventListener('click', function (e) {
-            const btnUserMenu = dom.parentWithClass(e.target as HTMLElement, 'btnUserMenu');
+            const btnUserMenu = dom.parentWithClass(
+                e.target as HTMLElement,
+                'btnUserMenu'
+            );
 
             if (btnUserMenu) {
                 showUserMenu(btnUserMenu);
             }
         });
 
-        (page.querySelector('#btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
-            Dashboard.navigate('/dashboard/users/add')
-                .catch(err => {
-                    console.error('[userprofiles] failed to navigate to new user page', err);
-                });
+        (
+            page.querySelector('#btnAddUser') as HTMLButtonElement
+        ).addEventListener('click', function () {
+            Dashboard.navigate('/dashboard/users/add').catch((err) => {
+                console.error(
+                    '[userprofiles] failed to navigate to new user page',
+                    err
+                );
+            });
         });
     }, []);
 
@@ -174,13 +214,12 @@ const UserProfiles = () => {
                 </div>
 
                 <div className='localUsers itemsContainer vertical-wrap'>
-                    {users.map(user => {
+                    {users.map((user) => {
                         return <UserCardBox key={user.Id} user={user} />;
                     })}
                 </div>
             </div>
         </Page>
-
     );
 };
 

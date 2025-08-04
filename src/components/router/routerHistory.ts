@@ -13,9 +13,9 @@ export class RouterHistory implements History {
     constructor(router: Router) {
         this._router = router;
 
-        this._router.subscribe(state => {
+        this._router.subscribe((state) => {
             console.debug('[RouterHistory] history update', state);
-            Events.trigger(document, HISTORY_UPDATE_EVENT, [ state ]);
+            Events.trigger(document, HISTORY_UPDATE_EVENT, [state]);
         });
 
         this.createHref = router.createHref;
@@ -57,7 +57,10 @@ export class RouterHistory implements History {
 
     listen(listener: Listener) {
         const compatListener = (_e: Event, state: RouterState) => {
-            return listener({ action: state.historyAction, location: state.location });
+            return listener({
+                action: state.historyAction,
+                location: state.location
+            });
         };
 
         Events.on(document, HISTORY_UPDATE_EVENT, compatListener);

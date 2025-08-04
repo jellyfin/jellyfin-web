@@ -9,7 +9,8 @@ const deleteAlternateSources = async (
 ) => {
     const { api } = apiContext;
 
-    if (!api) throw new Error('[deleteAlternateSources] No API instance available');
+    if (!api)
+        throw new Error('[deleteAlternateSources] No API instance available');
 
     const response = await getVideosApi(api).deleteAlternateSources(params);
     return response.data;

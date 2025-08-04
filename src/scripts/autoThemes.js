@@ -5,7 +5,8 @@ import { pageClassOn } from 'utils/dashboard';
 import Events from 'utils/events.ts';
 
 // Set the default theme when loading
-skinManager.setTheme(userSettings.theme())
+skinManager
+    .setTheme(userSettings.theme())
     /* this keeps the scrollbar always present in all pages, so we avoid clipping while switching between pages
        that need the scrollbar and pages that don't.
      */

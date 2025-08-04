@@ -36,7 +36,10 @@ function CircularProgressWithLabel(
                     component='div'
                     color='text.secondary'
                 >
-                    {toPercentString(props.value / 100, getCurrentDateTimeLocale())}
+                    {toPercentString(
+                        props.value / 100,
+                        getCurrentDateTimeLocale()
+                    )}
                 </Typography>
             </Box>
         </Box>
@@ -49,22 +52,31 @@ interface RefreshIndicatorProps {
 }
 
 const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
-    const [showProgressBar, setShowProgressBar] = useState(!!item.RefreshProgress);
+    const [showProgressBar, setShowProgressBar] = useState(
+        !!item.RefreshProgress
+    );
     const [progress, setProgress] = useState(item.RefreshProgress || 0);
 
-    const onRefreshProgress = useCallback((_e: Event, _apiClient: ApiClient, info: { ItemId: string | null | undefined; Progress: string; }) => {
-        if (info.ItemId === item?.Id) {
-            const pct = parseFloat(info.Progress);
+    const onRefreshProgress = useCallback(
+        (
+            _e: Event,
+            _apiClient: ApiClient,
+            info: { ItemId: string | null | undefined; Progress: string }
+        ) => {
+            if (info.ItemId === item?.Id) {
+                const pct = parseFloat(info.Progress);
 
-            if (pct && pct < 100) {
-                setShowProgressBar(true);
-            } else {
-                setShowProgressBar(false);
+                if (pct && pct < 100) {
+                    setShowProgressBar(true);
+                } else {
+                    setShowProgressBar(false);
+                }
+
+                setProgress(pct);
             }
-
-            setProgress(pct);
-        }
-    }, [item?.Id]);
+        },
+        [item?.Id]
+    );
 
     const unbindEvents = useCallback(() => {
         Events.off(serverNotifications, 'RefreshProgress', onRefreshProgress);
@@ -74,7 +86,11 @@ const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
         unbindEvents();
 
         if (item?.Id) {
-            Events.on(serverNotifications, 'RefreshProgress', onRefreshProgress);
+            Events.on(
+                serverNotifications,
+                'RefreshProgress',
+                onRefreshProgress
+            );
         }
     }, [item?.Id, onRefreshProgress, unbindEvents]);
 

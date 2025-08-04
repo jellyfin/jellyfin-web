@@ -61,7 +61,9 @@ function requireHlsPlayer(callback) {
 }
 
 function enableHlsPlayer(url, item, mediaSource, mediaType) {
-    if (!htmlMediaHelper.enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType)) {
+    if (
+        !htmlMediaHelper.enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType)
+    ) {
         return Promise.reject();
     }
 
@@ -72,17 +74,24 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
     // issue head request to get content type
     return new Promise(function (resolve, reject) {
         import('../../utils/fetch').then((fetchHelper) => {
-            fetchHelper.ajax({
-                url: url,
-                type: 'HEAD'
-            }).then(function (response) {
-                const contentType = (response.headers.get('Content-Type') || '').toLowerCase();
-                if (contentType === 'application/vnd.apple.mpegurl' || contentType === 'application/x-mpegurl') {
-                    resolve();
-                } else {
-                    reject();
-                }
-            }, reject);
+            fetchHelper
+                .ajax({
+                    url: url,
+                    type: 'HEAD'
+                })
+                .then(function (response) {
+                    const contentType = (
+                        response.headers.get('Content-Type') || ''
+                    ).toLowerCase();
+                    if (
+                        contentType === 'application/vnd.apple.mpegurl' ||
+                        contentType === 'application/x-mpegurl'
+                    ) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                }, reject);
         });
     });
 }
@@ -114,40 +123,50 @@ class HtmlAudioPlayer {
 
             let val = options.url;
             console.debug('playing url: ' + val);
-            import('../../scripts/settings/userSettings').then((userSettings) => {
-                let normalizationGain;
-                if (userSettings.selectAudioNormalization() == 'TrackGain') {
-                    normalizationGain = options.item.NormalizationGain
-                        ?? options.mediaSource.albumNormalizationGain;
-                } else if (userSettings.selectAudioNormalization() == 'AlbumGain') {
-                    normalizationGain =
-                        options.mediaSource.albumNormalizationGain
-                        ?? options.item.NormalizationGain;
-                } else {
-                    console.debug('normalization disabled');
-                    return;
-                }
+            import('../../scripts/settings/userSettings')
+                .then((userSettings) => {
+                    let normalizationGain;
+                    if (
+                        userSettings.selectAudioNormalization() == 'TrackGain'
+                    ) {
+                        normalizationGain =
+                            options.item.NormalizationGain ??
+                            options.mediaSource.albumNormalizationGain;
+                    } else if (
+                        userSettings.selectAudioNormalization() == 'AlbumGain'
+                    ) {
+                        normalizationGain =
+                            options.mediaSource.albumNormalizationGain ??
+                            options.item.NormalizationGain;
+                    } else {
+                        console.debug('normalization disabled');
+                        return;
+                    }
 
-                if (!self.gainNode) {
-                    addGainElement(elem);
-                    if (!self.gainNode) return;
-                }
+                    if (!self.gainNode) {
+                        addGainElement(elem);
+                        if (!self.gainNode) return;
+                    }
 
-                if (normalizationGain) {
-                    self.normalizationGain = Math.pow(10, normalizationGain / 20);
-                    self.gainNode.gain.value = self.normalizationGain;
-                } else {
-                    self.gainNode.gain.value = 1;
-                    self.normalizationGain = 1;
-                }
-                if (browser.safari) {
-                    // Gain value is absolute in Safari. Add volume from the slider
-                    self.gainNode.gain.value *= elem.volume;
-                }
-                console.debug('gain: ' + self.normalizationGain);
-            }).catch((err) => {
-                console.error('Failed to add/change gainNode', err);
-            });
+                    if (normalizationGain) {
+                        self.normalizationGain = Math.pow(
+                            10,
+                            normalizationGain / 20
+                        );
+                        self.gainNode.gain.value = self.normalizationGain;
+                    } else {
+                        self.gainNode.gain.value = 1;
+                        self.normalizationGain = 1;
+                    }
+                    if (browser.safari) {
+                        // Gain value is absolute in Safari. Add volume from the slider
+                        self.gainNode.gain.value *= elem.volume;
+                    }
+                    console.debug('gain: ' + self.normalizationGain);
+                })
+                .catch((err) => {
+                    console.error('Failed to add/change gainNode', err);
+                });
 
             // Convert to seconds
             const seconds = (options.playerStartPositionTicks || 0) / 10000000;
@@ -159,47 +178,72 @@ class HtmlAudioPlayer {
 
             self._currentPlayOptions = options;
 
-            const crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource);
+            const crossOrigin = htmlMediaHelper.getCrossOriginValue(
+                options.mediaSource
+            );
             if (crossOrigin) {
                 elem.crossOrigin = crossOrigin;
             }
 
-            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
-                return new Promise(function (resolve, reject) {
-                    requireHlsPlayer(async () => {
-                        const includeCorsCredentials = await getIncludeCorsCredentials();
+            return enableHlsPlayer(
+                val,
+                options.item,
+                options.mediaSource,
+                'Audio'
+            ).then(
+                function () {
+                    return new Promise(function (resolve, reject) {
+                        requireHlsPlayer(async () => {
+                            const includeCorsCredentials =
+                                await getIncludeCorsCredentials();
 
-                        const hls = new Hls({
-                            manifestLoadingTimeOut: 20000,
-                            xhrSetup: function (xhr) {
-                                xhr.withCredentials = includeCorsCredentials;
-                            }
+                            const hls = new Hls({
+                                manifestLoadingTimeOut: 20000,
+                                xhrSetup: function (xhr) {
+                                    xhr.withCredentials =
+                                        includeCorsCredentials;
+                                }
+                            });
+                            hls.loadSource(val);
+                            hls.attachMedia(elem);
+
+                            htmlMediaHelper.bindEventsToHlsPlayer(
+                                self,
+                                hls,
+                                elem,
+                                onError,
+                                resolve,
+                                reject
+                            );
+
+                            self._hlsPlayer = hls;
+
+                            self._currentSrc = val;
                         });
-                        hls.loadSource(val);
-                        hls.attachMedia(elem);
-
-                        htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
-
-                        self._hlsPlayer = hls;
-
-                        self._currentSrc = val;
                     });
-                });
-            }, async () => {
-                elem.autoplay = true;
+                },
+                async () => {
+                    elem.autoplay = true;
 
-                const includeCorsCredentials = await getIncludeCorsCredentials();
-                if (includeCorsCredentials) {
-                    // Safari will not send cookies without this
-                    elem.crossOrigin = 'use-credentials';
+                    const includeCorsCredentials =
+                        await getIncludeCorsCredentials();
+                    if (includeCorsCredentials) {
+                        // Safari will not send cookies without this
+                        elem.crossOrigin = 'use-credentials';
+                    }
+
+                    return htmlMediaHelper
+                        .applySrc(elem, val, options)
+                        .then(function () {
+                            self._currentSrc = val;
+
+                            return htmlMediaHelper.playWithPromise(
+                                elem,
+                                onError
+                            );
+                        });
                 }
-
-                return htmlMediaHelper.applySrc(elem, val, options).then(function () {
-                    self._currentSrc = val;
-
-                    return htmlMediaHelper.playWithPromise(elem, onError);
-                });
-            });
+            );
         }
 
         function bindEvents(elem) {
@@ -291,7 +335,9 @@ class HtmlAudioPlayer {
 
         function addGainElement(elem) {
             try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext; /* eslint-disable-line compat/compat */
+                const AudioContext =
+                    // eslint-disable-next-line compat/compat
+                    window.AudioContext || window.webkitAudioContext;
 
                 const audioCtx = new AudioContext();
                 const source = audioCtx.createMediaElementSource(elem);
@@ -303,7 +349,10 @@ class HtmlAudioPlayer {
 
                 self.gainNode = gainNode;
             } catch (e) {
-                console.error('Web Audio API is not supported in this browser', e);
+                console.error(
+                    'Web Audio API is not supported in this browser',
+                    e
+                );
             }
         }
 
@@ -326,7 +375,8 @@ class HtmlAudioPlayer {
             if (!self._isFadingOut) {
                 htmlMediaHelper.saveVolume(this.volume);
                 if (browser.safari && self.gainNode) {
-                    self.gainNode.gain.value = this.volume * self.normalizationGain;
+                    self.gainNode.gain.value =
+                        this.volume * self.normalizationGain;
                 }
                 Events.trigger(self, 'volumechange');
             }
@@ -337,7 +387,11 @@ class HtmlAudioPlayer {
                 self._started = true;
                 this.removeAttribute('controls');
 
-                htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks);
+                htmlMediaHelper.seekOnPlaybackStart(
+                    self,
+                    e.target,
+                    self._currentPlayOptions.playerStartPositionTicks
+                );
             }
             Events.trigger(self, 'playing');
         }
@@ -355,9 +409,14 @@ class HtmlAudioPlayer {
         }
 
         function onError() {
-            const errorCode = this.error ? (this.error.code || 0) : 0;
-            const errorMessage = this.error ? (this.error.message || '') : '';
-            console.error('media element error: ' + errorCode.toString() + ' ' + errorMessage);
+            const errorCode = this.error ? this.error.code || 0 : 0;
+            const errorMessage = this.error ? this.error.message || '' : '';
+            console.error(
+                'media element error: ' +
+                    errorCode.toString() +
+                    ' ' +
+                    errorMessage
+            );
 
             let type;
 
@@ -458,7 +517,7 @@ class HtmlAudioPlayer {
                     end = 0;
                 }
 
-                return (end - start) > 0;
+                return end - start > 0;
             }
 
             return false;
@@ -527,7 +586,10 @@ class HtmlAudioPlayer {
     getVolume() {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
-            return Math.min(Math.round(Math.pow(mediaElement.volume, 1 / 3) * 100), 100);
+            return Math.min(
+                Math.round(Math.pow(mediaElement.volume, 1 / 3) * 100),
+                100
+            );
         }
     }
 
@@ -567,11 +629,11 @@ class HtmlAudioPlayer {
         if (mediaElement) {
             if (document.AirPlayEnabled) {
                 if (isEnabled) {
-                    mediaElement.requestAirPlay().catch(function(err) {
+                    mediaElement.requestAirPlay().catch(function (err) {
                         console.error('Error requesting AirPlay', err);
                     });
                 } else {
-                    document.exitAirPLay().catch(function(err) {
+                    document.exitAirPLay().catch(function (err) {
                         console.error('Error exiting AirPlay', err);
                     });
                 }

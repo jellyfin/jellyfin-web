@@ -22,9 +22,20 @@ interface BaseCardProps {
     action?: boolean;
     actionRef?: React.MutableRefObject<HTMLButtonElement | null>;
     onActionClick?: () => void;
-};
+}
 
-const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, action, actionRef, onActionClick }: BaseCardProps) => {
+const BaseCard = ({
+    title,
+    secondaryTitle,
+    text,
+    image,
+    icon,
+    to,
+    onClick,
+    action,
+    actionRef,
+    onActionClick
+}: BaseCardProps) => {
     return (
         <Card
             sx={{
@@ -52,12 +63,15 @@ const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, actio
                         title={title}
                     />
                 ) : (
-                    <Box className={getDefaultBackgroundClass(title)} sx={{
-                        flexGrow: 1,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
+                    <Box
+                        className={getDefaultBackgroundClass(title)}
+                        sx={{
+                            flexGrow: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                    >
                         {icon}
                     </Box>
                 )}
@@ -65,15 +79,19 @@ const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, actio
             <CardHeader
                 title={
                     <Stack direction='row' gap={1} alignItems='center'>
-                        <Typography sx={{
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis'
-                        }}>
+                        <Typography
+                            sx={{
+                                overflow: 'hidden',
+                                whiteSpace: 'nowrap',
+                                textOverflow: 'ellipsis'
+                            }}
+                        >
                             {title}
                         </Typography>
                         {secondaryTitle && (
-                            <Typography variant='body2' color='text.secondary'>{secondaryTitle}</Typography>
+                            <Typography variant='body2' color='text.secondary'>
+                                {secondaryTitle}
+                            </Typography>
                         )}
                     </Stack>
                 }

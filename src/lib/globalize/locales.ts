@@ -65,7 +65,7 @@ const languages = [
     'zh-tw'
 ];
 
-const locales = languages.map(lang => ({
+const locales = languages.map((lang) => ({
     lang,
     path: `${lang}.json`
 }));

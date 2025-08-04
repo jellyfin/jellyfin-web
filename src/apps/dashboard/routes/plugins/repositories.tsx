@@ -17,31 +17,39 @@ import NewRepositoryForm from 'apps/dashboard/features/plugins/components/NewRep
 
 export const Component = () => {
     const { data: repositories, isPending, isError } = useRepositories();
-    const [ isRepositoryFormOpen, setIsRepositoryFormOpen ] = useState(false);
+    const [isRepositoryFormOpen, setIsRepositoryFormOpen] = useState(false);
     const setRepositories = useSetRepositories();
 
-    const onDelete = useCallback((repository: RepositoryInfo) => {
-        if (repositories) {
-            setRepositories.mutate({
-                repositoryInfo: repositories.filter(currentRepo => currentRepo.Url !== repository.Url)
-            });
-        }
-    }, [ repositories, setRepositories ]);
+    const onDelete = useCallback(
+        (repository: RepositoryInfo) => {
+            if (repositories) {
+                setRepositories.mutate({
+                    repositoryInfo: repositories.filter(
+                        (currentRepo) => currentRepo.Url !== repository.Url
+                    )
+                });
+            }
+        },
+        [repositories, setRepositories]
+    );
 
-    const onRepositoryAdd = useCallback((repository: RepositoryInfo) => {
-        if (repositories) {
-            setRepositories.mutate({
-                repositoryInfo: [
-                    ...repositories,
-                    repository
-                ]
-            }, {
-                onSettled: () => {
-                    setIsRepositoryFormOpen(false);
-                }
-            });
-        }
-    }, [ repositories, setRepositories ]);
+    const onRepositoryAdd = useCallback(
+        (repository: RepositoryInfo) => {
+            if (repositories) {
+                setRepositories.mutate(
+                    {
+                        repositoryInfo: [...repositories, repository]
+                    },
+                    {
+                        onSettled: () => {
+                            setIsRepositoryFormOpen(false);
+                        }
+                    }
+                );
+            }
+        },
+        [repositories, setRepositories]
+    );
 
     const openRepositoryForm = useCallback(() => {
         setIsRepositoryFormOpen(true);
@@ -68,10 +76,14 @@ export const Component = () => {
             />
             <Box className='content-primary'>
                 {isError ? (
-                    <Alert severity='error'>{globalize.translate('RepositoriesPageLoadError')}</Alert>
+                    <Alert severity='error'>
+                        {globalize.translate('RepositoriesPageLoadError')}
+                    </Alert>
                 ) : (
                     <Stack spacing={3}>
-                        <Typography variant='h1'>{globalize.translate('TabRepositories')}</Typography>
+                        <Typography variant='h1'>
+                            {globalize.translate('TabRepositories')}
+                        </Typography>
 
                         <Button
                             sx={{ alignSelf: 'flex-start' }}
@@ -83,18 +95,33 @@ export const Component = () => {
 
                         {repositories.length > 0 ? (
                             <List sx={{ bgcolor: 'background.paper' }}>
-                                {repositories.map(repository => {
-                                    return <RepositoryListItem
-                                        key={repository.Url}
-                                        repository={repository}
-                                        onDelete={onDelete}
-                                    />;
+                                {repositories.map((repository) => {
+                                    return (
+                                        <RepositoryListItem
+                                            key={repository.Url}
+                                            repository={repository}
+                                            onDelete={onDelete}
+                                        />
+                                    );
                                 })}
                             </List>
                         ) : (
-                            <Stack alignSelf='center' alignItems='center' maxWidth={'500px'} spacing={2}>
-                                <Typography variant='h2'>{globalize.translate('MessageNoRepositories')}</Typography>
-                                <Typography textAlign='center'>{globalize.translate('MessageAddRepository')}</Typography>
+                            <Stack
+                                alignSelf='center'
+                                alignItems='center'
+                                maxWidth={'500px'}
+                                spacing={2}
+                            >
+                                <Typography variant='h2'>
+                                    {globalize.translate(
+                                        'MessageNoRepositories'
+                                    )}
+                                </Typography>
+                                <Typography textAlign='center'>
+                                    {globalize.translate(
+                                        'MessageAddRepository'
+                                    )}
+                                </Typography>
                             </Stack>
                         )}
                     </Stack>

@@ -28,7 +28,9 @@ const AdvancedDrawerSection = () => {
                     <ListItemIcon>
                         <Lan />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('TabNetworking')} />
+                    <ListItemText
+                        primary={globalize.translate('TabNetworking')}
+                    />
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
@@ -36,7 +38,9 @@ const AdvancedDrawerSection = () => {
                     <ListItemIcon>
                         <VpnKey />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('HeaderApiKeys')} />
+                    <ListItemText
+                        primary={globalize.translate('HeaderApiKeys')}
+                    />
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
@@ -44,7 +48,9 @@ const AdvancedDrawerSection = () => {
                     <ListItemIcon>
                         <Backup />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('HeaderBackups')} />
+                    <ListItemText
+                        primary={globalize.translate('HeaderBackups')}
+                    />
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
@@ -60,7 +66,9 @@ const AdvancedDrawerSection = () => {
                     <ListItemIcon>
                         <Schedule />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('TabScheduledTasks')} />
+                    <ListItemText
+                        primary={globalize.translate('TabScheduledTasks')}
+                    />
                 </ListItemLink>
             </ListItem>
         </List>

@@ -11,7 +11,10 @@ function fallback(urls) {
 
         // the download init has to be sequential otherwise IE only use the first
         const interval = setInterval(function () {
-            if (frame.contentWindow.document.readyState === 'complete' || frame.contentWindow.document.readyState === 'interactive') {
+            if (
+                frame.contentWindow.document.readyState === 'complete' ||
+                frame.contentWindow.document.readyState === 'interactive'
+            ) {
                 clearInterval(interval);
 
                 // Safari needs a timeout
@@ -39,7 +42,10 @@ export default function (urls) {
         throw new Error('`urls` required');
     }
 
-    if (typeof document.createElement('a').download === 'undefined' || browser.iOS) {
+    if (
+        typeof document.createElement('a').download === 'undefined' ||
+        browser.iOS
+    ) {
         return fallback(urls);
     }
 

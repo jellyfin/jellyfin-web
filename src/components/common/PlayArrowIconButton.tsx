@@ -10,7 +10,12 @@ interface PlayArrowIconButtonProps {
     iconClassName?: string;
 }
 
-const PlayArrowIconButton: FC<PlayArrowIconButtonProps> = ({ className, action, title, iconClassName }) => {
+const PlayArrowIconButton: FC<PlayArrowIconButtonProps> = ({
+    className,
+    action,
+    title,
+    iconClassName
+}) => {
     return (
         <IconButton
             className={className}

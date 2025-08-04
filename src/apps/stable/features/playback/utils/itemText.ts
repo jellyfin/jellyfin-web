@@ -24,7 +24,7 @@ export function getItemTextLines(
 
     let line2: string | null | undefined;
     if (nowPlayingItem?.ArtistItems?.length) {
-        line2 = nowPlayingItem.ArtistItems.map(a => a.Name).join(', ');
+        line2 = nowPlayingItem.ArtistItems.map((a) => a.Name).join(', ');
     } else if (nowPlayingItem?.Artists?.length) {
         line2 = nowPlayingItem.Artists.join(', ');
     } else if (nowPlayingItem?.SeriesName || nowPlayingItem?.Album) {
@@ -36,7 +36,7 @@ export function getItemTextLines(
 
     if (!line1) return;
 
-    const lines = [ line1 ];
+    const lines = [line1];
 
     if (line2) lines.push(line2);
 

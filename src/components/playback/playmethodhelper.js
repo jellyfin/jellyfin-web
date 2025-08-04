@@ -3,7 +3,11 @@ export function getDisplayPlayMethod(session) {
         return null;
     }
 
-    if ((session.TranscodingInfo?.IsVideoDirect || !session.TranscodingInfo?.VideoCodec) && session.TranscodingInfo?.IsAudioDirect) {
+    if (
+        (session.TranscodingInfo?.IsVideoDirect ||
+            !session.TranscodingInfo?.VideoCodec) &&
+        session.TranscodingInfo?.IsAudioDirect
+    ) {
         return 'Remux';
     } else if (session.TranscodingInfo?.IsVideoDirect) {
         return 'DirectStream';

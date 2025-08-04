@@ -54,9 +54,9 @@ export async function serverAddress() {
 
     console.debug('URL candidates:', urls);
 
-    const promises = urls.map(url => {
+    const promises = urls.map((url) => {
         return fetch(`${url}/System/Info/Public`, { cache: 'no-cache' })
-            .then(async resp => {
+            .then(async (resp) => {
                 if (!resp.ok) {
                     return;
                 }
@@ -72,19 +72,25 @@ export async function serverAddress() {
                     url,
                     config
                 };
-            }).catch(error => {
+            })
+            .catch((error) => {
                 console.error(error);
             });
     });
 
-    return Promise.all(promises).then(responses => {
-        return responses.filter(obj => obj?.config);
-    }).then(configs => {
-        const selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
-        return selection?.url;
-    }).catch(error => {
-        console.error(error);
-    });
+    return Promise.all(promises)
+        .then((responses) => {
+            return responses.filter((obj) => obj?.config);
+        })
+        .then((configs) => {
+            const selection =
+                configs.find((obj) => !obj.config.StartupWizardCompleted) ||
+                configs[0];
+            return selection?.url;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
 export function getCurrentUserId() {
@@ -107,8 +113,9 @@ export function logout() {
         queryClient.clear();
         // Reset cached views
         viewContainer.reset();
-        appHost.supports(AppFeature.MultiServer) ?
-            navigate('selectserver') : navigate('login');
+        appHost.supports(AppFeature.MultiServer)
+            ? navigate('selectserver')
+            : navigate('login');
     });
 }
 
@@ -163,7 +170,9 @@ export function processErrorResponse(response) {
 
     baseAlert({
         title: status,
-        text: response.headers ? response.headers.get('X-Application-Error-Code') : null
+        text: response.headers
+            ? response.headers.get('X-Application-Error-Code')
+            : null
     });
 }
 
@@ -176,21 +185,67 @@ export function alert(options) {
         baseAlert({
             title: options.title || globalize.translate('HeaderAlert'),
             text: options.message
-        }).then(options.callback || function () { /* no-op */ });
+        }).then(
+            options.callback ||
+                function () {
+                    /* no-op */
+                }
+        );
     }
 }
 
 export function capabilities(host) {
-    return Object.assign({
-        PlayableMediaTypes: ['Audio', 'Video'],
-        SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
-        SupportsPersistentIdentifier: window.appMode === 'cordova' || window.appMode === 'android',
-        SupportsMediaControl: true
-    }, host.getPushTokenInfo());
+    return Object.assign(
+        {
+            PlayableMediaTypes: ['Audio', 'Video'],
+            SupportedCommands: [
+                'MoveUp',
+                'MoveDown',
+                'MoveLeft',
+                'MoveRight',
+                'PageUp',
+                'PageDown',
+                'PreviousLetter',
+                'NextLetter',
+                'ToggleOsd',
+                'ToggleContextMenu',
+                'Select',
+                'Back',
+                'SendKey',
+                'SendString',
+                'GoHome',
+                'GoToSettings',
+                'VolumeUp',
+                'VolumeDown',
+                'Mute',
+                'Unmute',
+                'ToggleMute',
+                'SetVolume',
+                'SetAudioStreamIndex',
+                'SetSubtitleStreamIndex',
+                'DisplayContent',
+                'GoToSearch',
+                'DisplayMessage',
+                'SetRepeatMode',
+                'SetShuffleQueue',
+                'ChannelUp',
+                'ChannelDown',
+                'PlayMediaSource',
+                'PlayTrailers'
+            ],
+            SupportsPersistentIdentifier:
+                window.appMode === 'cordova' || window.appMode === 'android',
+            SupportsMediaControl: true
+        },
+        host.getPushTokenInfo()
+    );
 }
 
 export function selectServer() {
-    if (window.NativeShell && typeof window.NativeShell.selectServer === 'function') {
+    if (
+        window.NativeShell &&
+        typeof window.NativeShell.selectServer === 'function'
+    ) {
         window.NativeShell.selectServer();
     } else {
         navigate('selectserver');
@@ -206,14 +261,16 @@ export function showLoadingMsg() {
 }
 
 export function confirm(message, title, callback) {
-    baseConfirm(message, title).then(function() {
-        callback(true);
-    }).catch(function() {
-        callback(false);
-    });
+    baseConfirm(message, title)
+        .then(function () {
+            callback(true);
+        })
+        .catch(function () {
+            callback(false);
+        });
 }
 
-export const pageClassOn = function(eventName, className, fn) {
+export const pageClassOn = function (eventName, className, fn) {
     document.addEventListener(eventName, function (event) {
         const target = event.target;
 
@@ -223,7 +280,7 @@ export const pageClassOn = function(eventName, className, fn) {
     });
 };
 
-export const pageIdOn = function(eventName, id, fn) {
+export const pageIdOn = function (eventName, id, fn) {
     document.addEventListener(eventName, function (event) {
         const target = event.target;
 

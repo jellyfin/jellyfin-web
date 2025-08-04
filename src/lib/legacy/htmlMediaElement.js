@@ -24,4 +24,4 @@
             return Promise.reject(err);
         }
     };
-}(HTMLMediaElement));
+})(HTMLMediaElement);

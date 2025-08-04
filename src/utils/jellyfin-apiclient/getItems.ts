@@ -8,7 +8,11 @@ interface GetItemsRequest {
 
 const ITEMS_PER_REQUEST_LIMIT = 40;
 
-function getItemsSplit(apiClient: ApiClient, userId: string, options: GetItemsRequest) {
+function getItemsSplit(
+    apiClient: ApiClient,
+    userId: string,
+    options: GetItemsRequest
+) {
     const optionsTemplate = { ...options };
     const ids = options.Ids?.split(',') || [];
     const results = [];
@@ -38,15 +42,24 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
 
     for (const result of results) {
         if (!result.Items) {
-            console.log('[getItems] Retrieved Items array is invalid', result.Items);
+            console.log(
+                '[getItems] Retrieved Items array is invalid',
+                result.Items
+            );
             continue;
         }
         if (!result.TotalRecordCount) {
-            console.log('[getItems] Retrieved TotalRecordCount is invalid', result.TotalRecordCount);
+            console.log(
+                '[getItems] Retrieved TotalRecordCount is invalid',
+                result.TotalRecordCount
+            );
             continue;
         }
         if (typeof result.StartIndex === 'undefined') {
-            console.log('[getItems] Retrieved StartIndex is invalid', result.StartIndex);
+            console.log(
+                '[getItems] Retrieved StartIndex is invalid',
+                result.StartIndex
+            );
             continue;
         }
         merged.Items = merged.Items?.concat(result.Items);
@@ -64,7 +77,11 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
  * @param options Options object to specify getItems option. This includes a possibly long Items list that will be split up.
  * @returns A promise that resolves to the merged result of all getItems calls
  */
-export function getItems(apiClient: ApiClient, userId: string, options?: GetItemsRequest) {
+export function getItems(
+    apiClient: ApiClient,
+    userId: string,
+    options?: GetItemsRequest
+) {
     const ids = options?.Ids?.split(',');
     if (!options || !ids || ids.length <= ITEMS_PER_REQUEST_LIMIT) {
         return apiClient.getItems(userId, options);

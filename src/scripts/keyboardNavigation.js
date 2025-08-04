@@ -85,12 +85,27 @@ const KeyAliases = {
 /**
  * Keys used for keyboard navigation.
  */
-const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'BrowserHome', 'Find'];
+const NavigationKeys = [
+    'ArrowLeft',
+    'ArrowRight',
+    'ArrowUp',
+    'ArrowDown',
+    'BrowserHome',
+    'Find'
+];
 
 /**
  * Keys used for media playback control.
  */
-const MediaKeys = ['MediaRewind', 'MediaStop', 'MediaPlay', 'MediaFastForward', 'MediaTrackPrevious', 'MediaTrackNext', 'MediaPlayPause'];
+const MediaKeys = [
+    'MediaRewind',
+    'MediaStop',
+    'MediaPlay',
+    'MediaFastForward',
+    'MediaTrackPrevious',
+    'MediaTrackNext',
+    'MediaPlayPause'
+];
 
 /**
  * Elements for which navigation should be constrained.
@@ -100,7 +115,17 @@ const InteractiveElements = ['INPUT', 'TEXTAREA'];
 /**
  * Types of INPUT element for which navigation shouldn't be constrained.
  */
-const NonInteractiveInputElements = ['button', 'checkbox', 'color', 'file', 'hidden', 'image', 'radio', 'reset', 'submit'];
+const NonInteractiveInputElements = [
+    'button',
+    'checkbox',
+    'color',
+    'file',
+    'hidden',
+    'image',
+    'radio',
+    'reset',
+    'submit'
+];
 
 let hasFieldKey = false;
 try {
@@ -290,7 +315,11 @@ function attachGamepadScript() {
 }
 
 // No need to check for gamepads manually at load time, the eventhandler will be fired for that
-if (navigator.getGamepads && appSettings.enableGamepad() && canEnableGamepad()) {
+if (
+    navigator.getGamepads &&
+    appSettings.enableGamepad() &&
+    canEnableGamepad()
+) {
     window.addEventListener('gamepadconnected', attachGamepadScript);
 }
 
