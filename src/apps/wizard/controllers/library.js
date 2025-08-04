@@ -1,5 +1,3 @@
-import escapeHtml from 'escape-html';
-
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 import confirm from 'components/confirm/confirm';
 import loading from 'components/loading/loading';

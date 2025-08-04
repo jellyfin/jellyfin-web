@@ -1,5 +1,3 @@
-import escapeHtml from 'escape-html';
-
 import taskButton from 'scripts/taskbutton';
 import loading from 'components/loading/loading';
 import globalize from 'lib/globalize';
@@ -255,7 +253,6 @@ function getCollectionTypeOptions() {
 }
 
 function getVirtualFolderHtml(page, virtualFolder, index) {
-    const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}" ` : '';
     const cardDiv = document.createElement('div');
     cardDiv.setAttribute('class', 'card backdropCard scalableCard backdropCard-scalable');
     cardDiv.setAttribute('data-index', index);
