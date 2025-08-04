@@ -347,6 +347,24 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
         hasCardImageContainer = true;
     }
 
+    if (hasCardImageContainer) {
+        // Card Indicators
+        const cardIndicators = document.createElement('div');
+        cardIndicators.className = 'cardIndicators backdropCardIndicators';
+
+        const refreshIndicator = document.createElement('div');
+        refreshIndicator.setAttribute('is', 'emby-itemrefreshindicator');
+        if (!(virtualFolder.RefreshProgress || (virtualFolder.RefreshStatus && virtualFolder.RefreshStatus !== 'Idle'))) {
+            refreshIndicator.className = 'hide';
+        }
+        refreshIndicator.setAttribute('data-progress', virtualFolder.RefreshProgress || 0);
+        refreshIndicator.setAttribute('data-status', virtualFolder.RefreshStatus);
+
+        cardIndicators.appendChild(refreshIndicator);
+        cardImageContainer.appendChild(cardIndicators);
+        cardContent.appendChild(cardImageContainer);
+    }
+
     if (!imgUrl && virtualFolder.showNameWithIcon) {
         const h3 = document.createElement('h3');
         h3.className = 'cardImageContainer addLibrary';
