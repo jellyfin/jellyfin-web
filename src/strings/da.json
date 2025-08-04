@@ -2065,5 +2065,7 @@
     "HeaderBackups": "Sikkerhedskopier",
     "TranscodingLoadError": "Fejl ved indlæsning af transkodningsindstillinger",
     "ManageRepositories": "Administrer arkiver",
-    "ViewAllPlugins": "Vis alle plugins"
+    "ViewAllPlugins": "Vis alle plugins",
+    "LabelAvailable": "Tilgængelig",
+    "LabelBundled": "Inkluderet"
 }
