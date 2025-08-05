@@ -63,13 +63,13 @@ function setFiles(page, files) {
 
     // Closure to capture the file information.
     reader.onload = ((theFile) => () => {
-            // Render file.
-            const html = `<div><span class="material-icons subtitles" aria-hidden="true" style="transform: translateY(25%);"></span><span>${escapeHtml(theFile.name)}</span></div>`;
+        // Render file.
+        const html = `<div><span class="material-icons subtitles" aria-hidden="true" style="transform: translateY(25%);"></span><span>${escapeHtml(theFile.name)}</span></div>`;
 
-            page.querySelector('#subtitleOutput').innerHTML = html;
-            page.querySelector('#fldUpload').classList.remove('hide');
-            page.querySelector('#labelDropSubtitle').classList.add('hide');
-        })(file);
+        page.querySelector('#subtitleOutput').innerHTML = html;
+        page.querySelector('#fldUpload').classList.remove('hide');
+        page.querySelector('#labelDropSubtitle').classList.add('hide');
+    })(file);
 
     // Read in the subtitle file as a data URL.
     reader.readAsDataURL(file);

@@ -43,9 +43,9 @@ export default function (view) {
         if (item.Type === 'TvChannel') {
             const apiClient = ServerConnections.getApiClient(item.ServerId);
             return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then((refreshedItem) => ({
-                    originalItem: refreshedItem,
-                    displayItem: refreshedItem.CurrentProgram
-                }));
+                originalItem: refreshedItem,
+                displayItem: refreshedItem.CurrentProgram
+            }));
         }
 
         return Promise.resolve({

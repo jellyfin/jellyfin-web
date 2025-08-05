@@ -49,12 +49,12 @@ class GroupSelectionMenu {
         apiClient.getSyncPlayGroups().then((response) => {
             response.json().then((groups) => {
                 const menuItems = groups.map((group) => ({
-                        name: group.GroupName,
-                        icon: 'person',
-                        id: group.GroupId,
-                        selected: false,
-                        secondaryText: group.Participants.join(', ')
-                    }));
+                    name: group.GroupName,
+                    icon: 'person',
+                    id: group.GroupId,
+                    selected: false,
+                    secondaryText: group.Participants.join(', ')
+                }));
 
                 if (policy.SyncPlayAccess === 'CreateAndJoinGroups') {
                     menuItems.push({

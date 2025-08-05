@@ -304,13 +304,13 @@ class CastPlayer {
 
         // convert items to smaller stubs to send minimal amount of information
         options.items = options.items.map((i) => ({
-                Id: i.Id,
-                ServerId: i.ServerId,
-                Name: i.Name,
-                Type: i.Type,
-                MediaType: i.MediaType,
-                IsFolder: i.IsFolder
-            }));
+            Id: i.Id,
+            ServerId: i.ServerId,
+            Name: i.Name,
+            Type: i.Type,
+            MediaType: i.MediaType,
+            IsFolder: i.IsFolder
+        }));
 
         return this.sendMessage({
             options: options,
@@ -487,9 +487,9 @@ function getItemsForPlayback(apiClient, query) {
 
     if (query.Ids && query.Ids.split(',').length === 1) {
         return apiClient.getItem(userId, query.Ids.split(',')).then((item) => ({
-                Items: [item],
-                TotalRecordCount: 1
-            }));
+            Items: [item],
+            TotalRecordCount: 1
+        }));
     } else {
         query.Limit = query.Limit || 100;
         query.ExcludeLocationTypes = 'Virtual';

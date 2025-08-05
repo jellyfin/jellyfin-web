@@ -30,25 +30,25 @@ function getLatestRecordingItemsHtml(
     { enableOverflow }: SectionOptions
 ) {
     return (items: BaseItemDto[]) => cardBuilder.getCardsHtml({
-            items: items,
-            shape: enableOverflow ? 'autooverflow' : 'auto',
-            showTitle: true,
-            showParentTitle: true,
-            coverImage: true,
-            lazy: true,
-            showDetailsMenu: true,
-            centerText: true,
-            overlayText: false,
-            showYear: true,
-            lines: 2,
-            overlayPlayButton: !activeRecordingsOnly,
-            allowBottomPadding: !enableOverflow,
-            preferThumb: true,
-            cardLayout: false,
-            overlayMoreButton: activeRecordingsOnly,
-            action: activeRecordingsOnly ? 'none' : null,
-            centerPlayButton: activeRecordingsOnly
-        });
+        items: items,
+        shape: enableOverflow ? 'autooverflow' : 'auto',
+        showTitle: true,
+        showParentTitle: true,
+        coverImage: true,
+        lazy: true,
+        showDetailsMenu: true,
+        centerText: true,
+        overlayText: false,
+        showYear: true,
+        lines: 2,
+        overlayPlayButton: !activeRecordingsOnly,
+        allowBottomPadding: !enableOverflow,
+        preferThumb: true,
+        cardLayout: false,
+        overlayMoreButton: activeRecordingsOnly,
+        action: activeRecordingsOnly ? 'none' : null,
+        centerPlayButton: activeRecordingsOnly
+    });
 }
 
 export function loadRecordings(

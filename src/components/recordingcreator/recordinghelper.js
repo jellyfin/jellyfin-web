@@ -12,9 +12,9 @@ function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCanc
         if (item.IsSeries) {
             // create series
             return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then((timerDefaults) => apiClient.createLiveTvSeriesTimer(timerDefaults).then(() => {
-                    loading.hide();
-                    toast(globalize.translate('SeriesRecordingScheduled'));
-                }));
+                loading.hide();
+                toast(globalize.translate('SeriesRecordingScheduled'));
+            }));
         } else {
             // cancel
             if (confirmTimerCancellation) {

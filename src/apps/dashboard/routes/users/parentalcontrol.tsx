@@ -231,10 +231,10 @@ const UserParentalControl = () => {
 
         const getSchedulesFromPage = () => {
             return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), (elem) => ({
-                    DayOfWeek: elem.getAttribute('data-day'),
-                    StartHour: elem.getAttribute('data-start'),
-                    EndHour: elem.getAttribute('data-end')
-                })) as AccessSchedule[];
+                DayOfWeek: elem.getAttribute('data-day'),
+                StartHour: elem.getAttribute('data-start'),
+                EndHour: elem.getAttribute('data-end')
+            })) as AccessSchedule[];
         };
 
         const getAllowedTagsFromPage = () => {

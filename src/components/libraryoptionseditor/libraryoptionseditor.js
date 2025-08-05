@@ -450,9 +450,9 @@ export async function embed(parent, contentType, libraryOptions) {
     populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
     const promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];
     Promise.all(promises).then(() => setContentType(parent, contentType).then(() => {
-            libraryOptions && setLibraryOptions(parent, libraryOptions);
-            bindEvents(parent);
-        }));
+        libraryOptions && setLibraryOptions(parent, libraryOptions);
+        bindEvents(parent);
+    }));
 }
 
 const CHAPTER_CONTENT_TYPES = [

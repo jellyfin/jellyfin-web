@@ -25,12 +25,12 @@ const enableFocusTransform = !browser.slow && !browser.edge;
 
 function renderSelectServerItems(view, servers) {
     const items = servers.map((server) => ({
-            name: server.Name,
-            icon: 'storage',
-            cardType: '',
-            id: server.Id,
-            server: server
-        }));
+        name: server.Name,
+        icon: 'storage',
+        cardType: '',
+        id: server.Id,
+        server: server
+    }));
     let html = items.map((item) => {
         // TODO move card creation code to Card component
         const cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '" aria-hidden="true"></span>';

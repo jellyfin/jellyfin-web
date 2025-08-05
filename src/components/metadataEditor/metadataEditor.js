@@ -77,14 +77,14 @@ function getSelectedAirDays(form) {
 
 function getAlbumArtists(form) {
     return form.querySelector('#txtAlbumArtist').value.trim().split(';').filter((s) => s.length > 0).map((a) => ({
-            Name: a
-        }));
+        Name: a
+    }));
 }
 
 function getArtists(form) {
     return form.querySelector('#txtArtist').value.trim().split(';').filter((s) => s.length > 0).map((a) => ({
-            Name: a
-        }));
+        Name: a
+    }));
 }
 
 function getDateValue(form, element, property) {
@@ -1093,21 +1093,21 @@ export default {
     show: (itemId, serverId) => new Promise(resolve => show(itemId, serverId, resolve)),
 
     embed: (elem, itemId, serverId) => new Promise(() => {
-            loading.show();
+        loading.show();
 
-            elem.innerHTML = globalize.translateHtml(template, 'core');
+        elem.innerHTML = globalize.translateHtml(template, 'core');
 
-            elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
-            elem.querySelector('.btnClose').classList.add('hide');
-            elem.querySelector('.btnHeaderSave').classList.remove('hide');
-            elem.querySelector('.btnCancel').classList.add('hide');
+        elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
+        elem.querySelector('.btnClose').classList.add('hide');
+        elem.querySelector('.btnHeaderSave').classList.remove('hide');
+        elem.querySelector('.btnCancel').classList.add('hide');
 
-            currentContext = elem;
+        currentContext = elem;
 
-            init(elem);
-            reload(elem, itemId, serverId);
+        init(elem);
+        reload(elem, itemId, serverId);
 
-            focusManager.autoFocus(elem);
-        })
+        focusManager.autoFocus(elem);
+    })
 };
 

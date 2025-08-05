@@ -17,15 +17,15 @@ function getFetchPlaylistItemsFn(apiClient, itemId) {
 
 function getItemsHtmlFn(playlistId, isEditable = false) {
     return (items) => listView.getListViewHtml({
-            items,
-            showIndex: false,
-            playFromHere: true,
-            action: 'playallfromhere',
-            smallIcon: true,
-            dragHandle: isEditable,
-            playlistId,
-            showParentTitle: true
-        });
+        items,
+        showIndex: false,
+        playFromHere: true,
+        action: 'playallfromhere',
+        smallIcon: true,
+        dragHandle: isEditable,
+        playlistId,
+        showParentTitle: true
+    });
 }
 
 async function init(page, item) {

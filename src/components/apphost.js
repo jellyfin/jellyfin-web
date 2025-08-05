@@ -380,13 +380,13 @@ export const appHost = {
         };
     },
     deviceName: () => window.NativeShell?.AppHost?.deviceName ?
-            window.NativeShell.AppHost.deviceName() : getDeviceName(),
+        window.NativeShell.AppHost.deviceName() : getDeviceName(),
     deviceId: () => window.NativeShell?.AppHost?.deviceId ?
-            window.NativeShell.AppHost.deviceId() : getDeviceId(),
+        window.NativeShell.AppHost.deviceId() : getDeviceId(),
     appName: () => window.NativeShell?.AppHost?.appName ?
-            window.NativeShell.AppHost.appName() : appName,
+        window.NativeShell.AppHost.appName() : appName,
     appVersion: () => window.NativeShell?.AppHost?.appVersion ?
-            window.NativeShell.AppHost.appVersion() : __PACKAGE_JSON_VERSION__,
+        window.NativeShell.AppHost.appVersion() : __PACKAGE_JSON_VERSION__,
     getPushTokenInfo: () => ({}),
     setUserScalable: (scalable) => {
         if (!browser.tv) {

@@ -78,8 +78,8 @@ export function getItemsForPlayback(apiClient, query) {
         const itemId = query.Ids.split(',');
 
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => ({
-                Items: [item]
-            }));
+            Items: [item]
+        }));
     } else {
         query.Limit = query.Limit || 300;
         query.Fields = ['Chapters', 'Trickplay'];

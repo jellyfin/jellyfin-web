@@ -165,25 +165,25 @@ class HtmlAudioPlayer {
             }
 
             return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(() => new Promise((resolve, reject) => {
-                    requireHlsPlayer(async () => {
-                        const includeCorsCredentials = await getIncludeCorsCredentials();
+                requireHlsPlayer(async () => {
+                    const includeCorsCredentials = await getIncludeCorsCredentials();
 
-                        const hls = new Hls({
-                            manifestLoadingTimeOut: 20000,
-                            xhrSetup: (xhr) => {
-                                xhr.withCredentials = includeCorsCredentials;
-                            }
-                        });
-                        hls.loadSource(val);
-                        hls.attachMedia(elem);
-
-                        htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
-
-                        self._hlsPlayer = hls;
-
-                        self._currentSrc = val;
+                    const hls = new Hls({
+                        manifestLoadingTimeOut: 20000,
+                        xhrSetup: (xhr) => {
+                            xhr.withCredentials = includeCorsCredentials;
+                        }
                     });
-                }), async () => {
+                    hls.loadSource(val);
+                    hls.attachMedia(elem);
+
+                    htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
+
+                    self._hlsPlayer = hls;
+
+                    self._currentSrc = val;
+                });
+            }), async () => {
                 elem.autoplay = true;
 
                 const includeCorsCredentials = await getIncludeCorsCredentials();

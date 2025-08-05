@@ -10,10 +10,10 @@ export function showLayoutMenu (button, currentLayout, views) {
     }
 
     const menuItems = views.map((v) => ({
-            name: globalize.translate(v),
-            id: v,
-            selected: currentLayout == v
-        }));
+        name: globalize.translate(v),
+        id: v,
+        selected: currentLayout == v
+    }));
 
     import('../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
         actionsheet.show({

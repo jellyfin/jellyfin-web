@@ -62,13 +62,13 @@ function setFiles(page, files) {
 
     // Closure to capture the file information.
     reader.onload = ((theFile) => () => {
-            // Render file.
-            const html = `<div><span class="material-icons lyrics" aria-hidden="true" style="transform: translateY(25%);"></span><span>${escapeHtml(theFile.name)}</span></div>`;
+        // Render file.
+        const html = `<div><span class="material-icons lyrics" aria-hidden="true" style="transform: translateY(25%);"></span><span>${escapeHtml(theFile.name)}</span></div>`;
 
-            page.querySelector('#lyricsOutput').innerHTML = html;
-            page.querySelector('#fldUpload').classList.remove('hide');
-            page.querySelector('#labelDropLyrics').classList.add('hide');
-        })(file);
+        page.querySelector('#lyricsOutput').innerHTML = html;
+        page.querySelector('#fldUpload').classList.remove('hide');
+        page.querySelector('#labelDropLyrics').classList.add('hide');
+    })(file);
 
     // Read in the lyrics file as a data URL.
     reader.readAsDataURL(file);

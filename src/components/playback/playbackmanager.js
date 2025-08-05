@@ -132,9 +132,9 @@ function getItemsForPlayback(serverId, query) {
         const itemId = query.Ids.split(',');
 
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => ({
-                Items: [item],
-                TotalRecordCount: 1
-            }));
+            Items: [item],
+            TotalRecordCount: 1
+        }));
     } else {
         if (query.Limit === UNLIMITED_ITEMS) {
             delete query.Limit;
@@ -262,8 +262,8 @@ function getIntros(firstItem, apiClient, options) {
     }
 
     return apiClient.getIntros(firstItem.Id).then((result) => result, () => Promise.resolve({
-            Items: []
-        }));
+        Items: []
+    }));
 }
 
 function getAudioMaxValues(deviceProfile) {
@@ -2886,9 +2886,9 @@ export class PlaybackManager {
                                 options.subtitleStreamIndex = null;
 
                                 return getLiveStream(player, apiClient, item, playbackInfoResult.PlaySessionId, deviceProfile, mediaSource, options).then((openLiveStreamResult) => supportsDirectPlay(apiClient, item, openLiveStreamResult.MediaSource).then((result) => {
-                                        openLiveStreamResult.MediaSource.enableDirectPlay = result;
-                                        return openLiveStreamResult.MediaSource;
-                                    }));
+                                    openLiveStreamResult.MediaSource.enableDirectPlay = result;
+                                    return openLiveStreamResult.MediaSource;
+                                }));
                             } else {
                                 if (item.AlbumId != null) {
                                     return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then((result) => {
@@ -3122,9 +3122,9 @@ export class PlaybackManager {
                 return getItemsForPlayback(options.serverId, {
                     Ids: options.ids.join(',')
                 }).then((result) => translateItemsForPlayback(result.Items, options).then((items) => {
-                        // TODO: Handle options.startIndex for photos
-                        queueAll(items, mode, player);
-                    }));
+                    // TODO: Handle options.startIndex for photos
+                    queueAll(items, mode, player);
+                }));
             }
         }
 

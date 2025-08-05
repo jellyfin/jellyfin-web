@@ -588,9 +588,9 @@ function mapRangesFromRuntimeToPercent(ranges, runtime) {
     }
 
     return ranges.map((r) => ({
-            start: (r.start / runtime) * 100,
-            end: (r.end / runtime) * 100
-        }));
+        start: (r.start / runtime) * 100,
+        end: (r.end / runtime) * 100
+    }));
 }
 
 EmbySliderPrototype.setBufferedRanges = function (ranges, runtime, position) {

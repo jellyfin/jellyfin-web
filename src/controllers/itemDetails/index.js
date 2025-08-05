@@ -910,13 +910,13 @@ function renderGenres(page, item, context = inferContext(item)) {
     const type = context === 'music' ? 'MusicGenre' : 'Genre';
 
     const html = genres.map((p) => '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
-            Name: p.Name,
-            Type: type,
-            ServerId: item.ServerId,
-            Id: p.Id
-        }, {
-            context: context
-        }) + '">' + escapeHtml(p.Name) + '</a>').join(', ');
+        Name: p.Name,
+        Type: type,
+        ServerId: item.ServerId,
+        Id: p.Id
+    }, {
+        context: context
+    }) + '">' + escapeHtml(p.Name) + '</a>').join(', ');
 
     const genresLabel = page.querySelector('.genresLabel');
     genresLabel.innerHTML = globalize.translate(genres.length > 1 ? 'Genres' : 'Genre');
@@ -935,13 +935,13 @@ function renderWriter(page, item, context) {
     const writers = (item.People || []).filter((person) => person.Type === 'Writer');
 
     const html = writers.map((person) => '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
-            Name: person.Name,
-            Type: 'Person',
-            ServerId: item.ServerId,
-            Id: person.Id
-        }, {
-            context: context
-        }) + '">' + escapeHtml(person.Name) + '</a>').join(', ');
+        Name: person.Name,
+        Type: 'Person',
+        ServerId: item.ServerId,
+        Id: person.Id
+    }, {
+        context: context
+    }) + '">' + escapeHtml(person.Name) + '</a>').join(', ');
 
     const writersLabel = page.querySelector('.writersLabel');
     writersLabel.innerHTML = globalize.translate(writers.length > 1 ? 'Writers' : 'Writer');
@@ -960,13 +960,13 @@ function renderDirector(page, item, context) {
     const directors = (item.People || []).filter((person) => person.Type === 'Director');
 
     const html = directors.map((person) => '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
-            Name: person.Name,
-            Type: 'Person',
-            ServerId: item.ServerId,
-            Id: person.Id
-        }, {
-            context: context
-        }) + '">' + escapeHtml(person.Name) + '</a>').join(', ');
+        Name: person.Name,
+        Type: 'Person',
+        ServerId: item.ServerId,
+        Id: person.Id
+    }, {
+        context: context
+    }) + '">' + escapeHtml(person.Name) + '</a>').join(', ');
 
     const directorsLabel = page.querySelector('.directorsLabel');
     directorsLabel.innerHTML = globalize.translate(directors.length > 1 ? 'Directors' : 'Director');
@@ -988,13 +988,13 @@ function renderStudio(page, item, context) {
     const studios = item.Studios || [];
 
     const html = studios.map((studio) => '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
-            Name: studio.Name,
-            Type: 'Studio',
-            ServerId: item.ServerId,
-            Id: studio.Id
-        }, {
-            context: context
-        }) + '">' + escapeHtml(studio.Name) + '</a>').join(', ');
+        Name: studio.Name,
+        Type: 'Studio',
+        ServerId: item.ServerId,
+        Id: studio.Id
+    }, {
+        context: context
+    }) + '">' + escapeHtml(studio.Name) + '</a>').join(', ');
 
     const studiosLabel = page.querySelector('.studiosLabel');
     studiosLabel.innerText = globalize.translate(studios.length > 1 ? 'Studios' : 'Studio');

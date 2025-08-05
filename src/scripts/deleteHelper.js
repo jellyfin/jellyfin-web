@@ -37,18 +37,18 @@ export function deleteItem(options) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
     return confirm(getDeletionConfirmContent(item)).then(() => apiClient.deleteItem(item.Id).then(() => {
-            if (options.navigate) {
-                if (parentId) {
-                    appRouter.showItem(parentId, item.ServerId);
-                } else {
-                    appRouter.goHome();
-                }
+        if (options.navigate) {
+            if (parentId) {
+                appRouter.showItem(parentId, item.ServerId);
+            } else {
+                appRouter.goHome();
             }
-        }, (err) => {
-            const result = () => Promise.reject(err);
+        }
+    }, (err) => {
+        const result = () => Promise.reject(err);
 
-            return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
-        }));
+        return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
+    }));
 }
 
 export function deleteLyrics (item) {

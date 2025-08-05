@@ -35,10 +35,10 @@ function getBackdropItemIds(apiClient, userId, types, parentId) {
     };
     return apiClient.getItems(apiClient.getCurrentUserId(), options).then((result) => {
         const images = result.Items.map((i) => ({
-                Id: i.Id,
-                tag: i.BackdropImageTags[0],
-                ServerId: i.ServerId
-            }));
+            Id: i.Id,
+            tag: i.BackdropImageTags[0],
+            ServerId: i.ServerId
+        }));
         cache[key] = JSON.stringify(images);
         return images;
     });
