@@ -32,12 +32,12 @@ function closeDialog() {
 }
 
 function init(context) {
-    context.querySelector('.btnPlay').addEventListener('click', function () {
+    context.querySelector('.btnPlay').addEventListener('click', () => {
         closeAction = 'play';
         closeDialog();
     });
 
-    context.querySelector('.btnCancel').addEventListener('click', function () {
+    context.querySelector('.btnCancel').addEventListener('click', () => {
         closeAction = null;
         closeDialog();
     });
@@ -112,7 +112,7 @@ function reload(context, programId, serverId, refreshRecordingStateOnly) {
     const promise1 = apiClient.getNewLiveTvTimerDefaults({ programId: programId });
     const promise2 = apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId());
 
-    Promise.all([promise1, promise2]).then(function (responses) {
+    Promise.all([promise1, promise2]).then((responses) => {
         const defaults = responses[0];
         const program = responses[1];
 
@@ -124,7 +124,7 @@ function executeCloseAction(action, programId, serverId) {
     if (action === 'play') {
         const apiClient = ServerConnections.getApiClient(serverId);
 
-        apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
+        apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then((item) => {
             playbackManager.play({
                 ids: [item.ChannelId],
                 serverId: serverId
@@ -134,7 +134,7 @@ function executeCloseAction(action, programId, serverId) {
 }
 
 function showEditor(itemId, serverId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         closeAction = null;
 
         loading.show();
@@ -167,7 +167,7 @@ function showEditor(itemId, serverId) {
             reload(dlg, itemId, serverId, true);
         }
 
-        dlg.addEventListener('close', function () {
+        dlg.addEventListener('close', () => {
             Events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
             executeCloseAction(closeAction, itemId, serverId);
 

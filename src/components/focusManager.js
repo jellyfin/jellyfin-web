@@ -46,7 +46,7 @@ function focus(element) {
 
 const focusableTagNames = ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'];
 const focusableContainerTagNames = ['BODY', 'DIALOG'];
-const focusableQuery = focusableTagNames.map(function (t) {
+const focusableQuery = focusableTagNames.map((t) => {
     if (t === 'INPUT') {
         t += ':not([type="range"]):not([type="file"])';
     }
@@ -470,22 +470,22 @@ export default {
     focus: focus,
     focusableParent: focusableParent,
     getFocusableElements: getFocusableElements,
-    moveLeft: function (sourceElement, options) {
+    moveLeft: (sourceElement, options) => {
         const container = options ? options.container : null;
         const focusableElements = options ? options.focusableElements : null;
         nav(sourceElement, 0, container, focusableElements);
     },
-    moveRight: function (sourceElement, options) {
+    moveRight: (sourceElement, options) => {
         const container = options ? options.container : null;
         const focusableElements = options ? options.focusableElements : null;
         nav(sourceElement, 1, container, focusableElements);
     },
-    moveUp: function (sourceElement, options) {
+    moveUp: (sourceElement, options) => {
         const container = options ? options.container : null;
         const focusableElements = options ? options.focusableElements : null;
         nav(sourceElement, 2, container, focusableElements);
     },
-    moveDown: function (sourceElement, options) {
+    moveDown: (sourceElement, options) => {
         const container = options ? options.container : null;
         const focusableElements = options ? options.focusableElements : null;
         nav(sourceElement, 3, container, focusableElements);

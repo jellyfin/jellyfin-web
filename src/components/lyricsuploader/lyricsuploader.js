@@ -33,9 +33,7 @@ function onFileReaderError(evt) {
 
 function isValidLyricsFile(file) {
     return file && ['.lrc', '.txt']
-        .some(function(ext) {
-            return file.name.endsWith(ext);
-        });
+        .some((ext) => file.name.endsWith(ext));
 }
 
 function setFiles(page, files) {
@@ -54,25 +52,23 @@ function setFiles(page, files) {
     const reader = new FileReader();
 
     reader.onerror = onFileReaderError;
-    reader.onloadstart = function () {
+    reader.onloadstart = () => {
         page.querySelector('#fldUpload').classList.add('hide');
     };
-    reader.onabort = function () {
+    reader.onabort = () => {
         loading.hide();
         console.debug('File read cancelled');
     };
 
     // Closure to capture the file information.
-    reader.onload = (function (theFile) {
-        return function () {
+    reader.onload = ((theFile) => () => {
             // Render file.
             const html = `<div><span class="material-icons lyrics" aria-hidden="true" style="transform: translateY(25%);"></span><span>${escapeHtml(theFile.name)}</span></div>`;
 
             page.querySelector('#lyricsOutput').innerHTML = html;
             page.querySelector('#fldUpload').classList.remove('hide');
             page.querySelector('#labelDropLyrics').classList.add('hide');
-        };
-    })(file);
+        })(file);
 
     // Read in the lyrics file as a data URL.
     reader.readAsDataURL(file);
@@ -96,7 +92,7 @@ async function onSubmit(e) {
 
     lyricsApi.uploadLyrics({
         itemId: currentItemId, fileName: file.name, body: data
-    }).then(function () {
+    }).then(() => {
         dlg.querySelector('#uploadLyrics').value = '';
         loading.hide();
         hasChanges = true;
@@ -109,7 +105,7 @@ function initEditor(page) {
     page.querySelector('#uploadLyrics').addEventListener('change', function () {
         setFiles(page, this.files);
     });
-    page.querySelector('.btnBrowse').addEventListener('click', function () {
+    page.querySelector('.btnBrowse').addEventListener('click', () => {
         page.querySelector('#uploadLyrics').click();
     });
 }
@@ -142,7 +138,7 @@ function showEditor(options, resolve) {
     }
 
     // Has to be assigned a z-index after the call to .open()
-    dlg.addEventListener('close', function () {
+    dlg.addEventListener('close', () => {
         if (layoutManager.tv) {
             scrollHelper.centerFocus.off(dlg, false);
         }
@@ -154,13 +150,13 @@ function showEditor(options, resolve) {
 
     initEditor(dlg);
 
-    dlg.querySelector('.btnCancel').addEventListener('click', function () {
+    dlg.querySelector('.btnCancel').addEventListener('click', () => {
         dialogHelper.close(dlg);
     });
 }
 
 export function show(options) {
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
         hasChanges = false;
         showEditor(options, resolve);
     });

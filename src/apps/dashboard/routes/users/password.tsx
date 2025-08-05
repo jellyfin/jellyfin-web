@@ -19,7 +19,7 @@ const UserPassword = () => {
         }
 
         loading.show();
-        window.ApiClient.getUser(userId).then(function (user) {
+        window.ApiClient.getUser(userId).then((user) => {
             if (!user.Name) {
                 throw new Error('Unexpected null user.Name');
             }

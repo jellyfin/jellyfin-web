@@ -1,18 +1,18 @@
 // Polyfill to add support for preventScroll by focus function
 
 if (HTMLElement.prototype.nativeFocus === undefined) {
-    (function () {
+    (() => {
         let supportsPreventScrollOption = false;
         try {
             const focusElem = document.createElement('div');
 
-            focusElem.addEventListener('focus', function(event) {
+            focusElem.addEventListener('focus', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
             }, true);
 
             const opts = Object.defineProperty({}, 'preventScroll', {
-                get: function () {
+                get: () => {
                     supportsPreventScrollOption = true;
                     return null;
                 }

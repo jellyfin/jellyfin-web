@@ -186,7 +186,7 @@ function supportsCssAnimation(allowPrefix) {
     }
 }
 
-const uaMatch = function (ua) {
+const uaMatch = (ua) => {
     ua = ua.toLowerCase();
 
     ua = ua.replace(/(motorola edge)/, '').trim();

@@ -20,7 +20,7 @@ function getFetchLatestItemsFn(
     collectionType: string | null | undefined,
     { enableOverflow }: SectionOptions
 ) {
-    return function () {
+    return () => {
         const apiClient = ServerConnections.getApiClient(serverId);
         let limit = 16;
 
@@ -53,7 +53,7 @@ function getLatestItemsHtmlFn(
     viewType: string | null | undefined,
     { enableOverflow }: SectionOptions
 ) {
-    return function (items: BaseItemDto[]) {
+    return (items: BaseItemDto[]) => {
         const cardLayout = false;
         let shape;
         if (itemType === 'Channel' || viewType === 'movies' || viewType === 'books' || viewType === 'tvshows') {

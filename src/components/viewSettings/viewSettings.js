@@ -57,7 +57,7 @@ function showIfAllowed(context, selector, visible) {
 
 class ViewSettings {
     show(options) {
-        return new Promise(function (resolve) {
+        return new Promise((resolve) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -103,7 +103,7 @@ class ViewSettings {
                 showIfAllowed(dlg, '.chkYearContainer', this.value !== 'list' && this.value !== 'banner');
             });
 
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
+            dlg.querySelector('.btnCancel').addEventListener('click', () => {
                 dialogHelper.close(dlg);
             });
 
@@ -115,11 +115,11 @@ class ViewSettings {
 
             dlg.querySelector('.selectImageType').dispatchEvent(new CustomEvent('change', {}));
 
-            dlg.querySelector('form').addEventListener('change', function () {
+            dlg.querySelector('form').addEventListener('change', () => {
                 submitted = true;
             }, true);
 
-            dialogHelper.open(dlg).then(function () {
+            dialogHelper.open(dlg).then(() => {
                 if (layoutManager.tv) {
                     centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                 }

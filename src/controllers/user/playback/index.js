@@ -13,7 +13,7 @@ export default function (view, params) {
     const userId = params.userId || ApiClient.getCurrentUserId();
     const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
 
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         if (settingsInstance) {
             settingsInstance.loadData();
         } else {
@@ -29,7 +29,7 @@ export default function (view, params) {
         }
     });
 
-    view.addEventListener('viewdestroy', function () {
+    view.addEventListener('viewdestroy', () => {
         if (settingsInstance) {
             settingsInstance.destroy();
             settingsInstance = null;

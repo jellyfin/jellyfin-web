@@ -9,19 +9,17 @@ export function showLayoutMenu (button, currentLayout, views) {
         views = views ? views.split(',') : ['List', 'Poster', 'PosterCard', 'Thumb', 'ThumbCard'];
     }
 
-    const menuItems = views.map(function (v) {
-        return {
+    const menuItems = views.map((v) => ({
             name: globalize.translate(v),
             id: v,
             selected: currentLayout == v
-        };
-    });
+        }));
 
     import('../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
-            callback: function (id) {
+            callback: (id) => {
                 button.dispatchEvent(new CustomEvent('layoutchange', {
                     detail: {
                         viewStyle: id

@@ -9,7 +9,7 @@
 
 /*! @source https://gist.github.com/1129031 */
 
-(function (DOMParser) {
+(((DOMParser) => {
     'use strict';
 
     const DOMParserPrototype = DOMParser.prototype;
@@ -33,4 +33,4 @@
             return realParseFromString.apply(this, arguments);
         }
     };
-}(DOMParser));
+})(DOMParser));

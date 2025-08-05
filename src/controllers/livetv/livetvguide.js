@@ -4,7 +4,7 @@ export default function (view, params, tabContent) {
     let guideInstance;
     const self = this;
 
-    self.renderTab = function () {
+    self.renderTab = () => {
         if (!guideInstance) {
             guideInstance = new Guide({
                 element: tabContent,
@@ -13,13 +13,13 @@ export default function (view, params, tabContent) {
         }
     };
 
-    self.onShow = function () {
+    self.onShow = () => {
         if (guideInstance) {
             guideInstance.resume();
         }
     };
 
-    self.onHide = function () {
+    self.onHide = () => {
         if (guideInstance) {
             guideInstance.pause();
         }

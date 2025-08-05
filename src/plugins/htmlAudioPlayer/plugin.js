@@ -28,9 +28,9 @@ function fade(instance, elem, startingVolume) {
         return Promise.resolve();
     }
 
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         cancelFadeTimeout();
-        fadeTimeout = setTimeout(function () {
+        fadeTimeout = setTimeout(() => {
             fade(instance, elem, newVolume).then(resolve, reject);
         }, 100);
     });
@@ -70,12 +70,12 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
     }
 
     // issue head request to get content type
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         import('../../utils/fetch').then((fetchHelper) => {
             fetchHelper.ajax({
                 url: url,
                 type: 'HEAD'
-            }).then(function (response) {
+            }).then((response) => {
                 const contentType = (response.headers.get('Content-Type') || '').toLowerCase();
                 if (contentType === 'application/vnd.apple.mpegurl' || contentType === 'application/x-mpegurl') {
                     resolve();
@@ -98,7 +98,7 @@ class HtmlAudioPlayer {
         // Let any players created by plugins take priority
         self.priority = 1;
 
-        self.play = function (options) {
+        self.play = (options) => {
             self._started = false;
             self._timeUpdated = false;
             self._currentTime = null;
@@ -164,14 +164,13 @@ class HtmlAudioPlayer {
                 elem.crossOrigin = crossOrigin;
             }
 
-            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
-                return new Promise(function (resolve, reject) {
+            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(() => new Promise((resolve, reject) => {
                     requireHlsPlayer(async () => {
                         const includeCorsCredentials = await getIncludeCorsCredentials();
 
                         const hls = new Hls({
                             manifestLoadingTimeOut: 20000,
-                            xhrSetup: function (xhr) {
+                            xhrSetup: (xhr) => {
                                 xhr.withCredentials = includeCorsCredentials;
                             }
                         });
@@ -184,8 +183,7 @@ class HtmlAudioPlayer {
 
                         self._currentSrc = val;
                     });
-                });
-            }, async () => {
+                }), async () => {
                 elem.autoplay = true;
 
                 const includeCorsCredentials = await getIncludeCorsCredentials();
@@ -194,7 +192,7 @@ class HtmlAudioPlayer {
                     elem.crossOrigin = 'use-credentials';
                 }
 
-                return htmlMediaHelper.applySrc(elem, val, options).then(function () {
+                return htmlMediaHelper.applySrc(elem, val, options).then(() => {
                     self._currentSrc = val;
 
                     return htmlMediaHelper.playWithPromise(elem, onError);
@@ -223,7 +221,7 @@ class HtmlAudioPlayer {
             elem.removeEventListener('error', onError); // bound in htmlMediaHelper
         }
 
-        self.stop = function (destroyPlayer) {
+        self.stop = (destroyPlayer) => {
             cancelFadeTimeout();
 
             const elem = self._mediaElement;
@@ -243,7 +241,7 @@ class HtmlAudioPlayer {
 
                 const originalVolume = elem.volume;
 
-                return fade(self, elem, elem.volume).then(function () {
+                return fade(self, elem, elem.volume).then(() => {
                     elem.pause();
                     elem.volume = originalVolume;
 
@@ -257,7 +255,7 @@ class HtmlAudioPlayer {
             return Promise.resolve();
         };
 
-        self.destroy = function () {
+        self.destroy = () => {
             unBindEvents(self._mediaElement);
             htmlMediaHelper.resetSrc(self._mediaElement);
         };
@@ -567,11 +565,11 @@ class HtmlAudioPlayer {
         if (mediaElement) {
             if (document.AirPlayEnabled) {
                 if (isEnabled) {
-                    mediaElement.requestAirPlay().catch(function(err) {
+                    mediaElement.requestAirPlay().catch((err) => {
                         console.error('Error requesting AirPlay', err);
                     });
                 } else {
-                    document.exitAirPLay().catch(function(err) {
+                    document.exitAirPLay().catch((err) => {
                         console.error('Error exiting AirPlay', err);
                     });
                 }

@@ -179,7 +179,7 @@ export default function (view, params, tabContent, options) {
         const alphaPickerElement = tabElement.querySelector('.alphaPicker');
 
         if (alphaPickerElement) {
-            alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
+            alphaPickerElement.addEventListener('alphavaluechanged', (e) => {
                 const newValue = e.detail.value;
                 if (newValue === '#') {
                     query.NameLessThan = 'A';
@@ -211,7 +211,7 @@ export default function (view, params, tabContent, options) {
         const btnSort = tabElement.querySelector('.btnSort');
 
         if (btnSort) {
-            btnSort.addEventListener('click', function (e) {
+            btnSort.addEventListener('click', (e) => {
                 libraryBrowser.showSortMenu({
                     items: [{
                         name: globalize.translate('Name'),
@@ -244,7 +244,7 @@ export default function (view, params, tabContent, options) {
                         name: globalize.translate('Runtime'),
                         id: 'Runtime,SortName,ProductionYear'
                     }],
-                    callback: function () {
+                    callback: () => {
                         query.StartIndex = 0;
                         userSettings.saveQuerySettings(savedQueryKey, query);
                         itemsContainer.refreshItems();
@@ -258,7 +258,7 @@ export default function (view, params, tabContent, options) {
         btnSelectView.addEventListener('click', (e) => {
             libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
         });
-        btnSelectView.addEventListener('layoutchange', function (e) {
+        btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;
             userSettings.set(savedViewKey, viewStyle);
             query.StartIndex = 0;
@@ -296,7 +296,7 @@ export default function (view, params, tabContent, options) {
 
     query = userSettings.loadQuerySettings(savedQueryKey, query);
 
-    this.showFilterMenu = function () {
+    this.showFilterMenu = () => {
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
                 query: query,
@@ -312,11 +312,9 @@ export default function (view, params, tabContent, options) {
         });
     };
 
-    this.getCurrentViewStyle = function () {
-        return userSettings.get(savedViewKey) || 'Poster';
-    };
+    this.getCurrentViewStyle = () => userSettings.get(savedViewKey) || 'Poster';
 
-    this.initTab = function () {
+    this.initTab = () => {
         initPage(tabContent);
         onViewStyleChange();
     };
@@ -326,7 +324,7 @@ export default function (view, params, tabContent, options) {
         this.alphaPicker?.updateControls(query);
     };
 
-    this.destroy = function () {
+    this.destroy = () => {
         itemsContainer = null;
     };
 }

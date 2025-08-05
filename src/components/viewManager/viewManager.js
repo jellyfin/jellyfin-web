@@ -5,7 +5,7 @@ import layoutManager from '../layoutManager';
 let currentView;
 let dispatchPageEvents;
 
-viewContainer.setOnBeforeChange(function (newView, isRestored, options) {
+viewContainer.setOnBeforeChange((newView, isRestored, options) => {
     const lastView = currentView;
     if (lastView) {
         const beforeHideResult = dispatchViewEvent(lastView, null, 'viewbeforehide', true);
@@ -143,7 +143,7 @@ class ViewManager {
             return;
         }
 
-        viewContainer.loadView(options).then(function (view) {
+        viewContainer.loadView(options).then((view) => {
             onViewChange(view, options);
         });
     }
@@ -167,7 +167,7 @@ class ViewManager {
             currentView.activeElement = document.activeElement;
         }
 
-        return viewContainer.tryRestoreView(options).then(function (view) {
+        return viewContainer.tryRestoreView(options).then((view) => {
             if (onViewChanging) onViewChanging();
             onViewChange(view, options, true);
         });

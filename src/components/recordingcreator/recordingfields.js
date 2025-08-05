@@ -50,7 +50,7 @@ function fetchData(instance) {
     const apiClient = ServerConnections.getApiClient(options.serverId);
 
     options.parent.querySelector('.recordingFields').classList.remove('hide');
-    return apiClient.getLiveTvProgram(options.programId, apiClient.getCurrentUserId()).then(function (program) {
+    return apiClient.getLiveTvProgram(options.programId, apiClient.getCurrentUserId()).then((program) => {
         instance.TimerId = program.TimerId;
         instance.Status = program.Status;
         instance.SeriesTimerId = program.SeriesTimerId;
@@ -98,7 +98,7 @@ class RecordingEditor {
 
     embed() {
         const self = this;
-        return new Promise(function (resolve) {
+        return new Promise((resolve) => {
             const options = self.options;
             const context = options.parent;
             context.innerHTML = globalize.translateHtml(template, 'core');
@@ -145,7 +145,7 @@ function onManageRecordingClick() {
     import('./recordingeditor').then(({ default: recordingEditor }) => {
         recordingEditor.show(self.TimerId, options.serverId, {
             enableCancel: false
-        }).then(function () {
+        }).then(() => {
             self.changed = true;
         });
     });
@@ -165,7 +165,7 @@ function onManageSeriesRecordingClick() {
 
             enableCancel: false
 
-        }).then(function () {
+        }).then(() => {
             self.changed = true;
         });
     });
@@ -186,7 +186,7 @@ function onRecordChange(e) {
     if (isChecked) {
         if (!hasEnabledTimer) {
             loading.show();
-            recordingHelper.createRecording(apiClient, options.programId, false).then(function () {
+            recordingHelper.createRecording(apiClient, options.programId, false).then(() => {
                 Events.trigger(self, 'recordingchanged');
                 fetchData(self);
                 loading.hide();
@@ -194,7 +194,7 @@ function onRecordChange(e) {
         }
     } else if (hasEnabledTimer) {
         loading.show();
-        recordingHelper.cancelTimer(apiClient, this.TimerId, true).then(function () {
+        recordingHelper.cancelTimer(apiClient, this.TimerId, true).then(() => {
             Events.trigger(self, 'recordingchanged');
             fetchData(self);
             loading.hide();
@@ -218,12 +218,12 @@ function onRecordSeriesChange(e) {
             const promise = this.TimerId ?
                 recordingHelper.changeRecordingToSeries(apiClient, this.TimerId, options.programId) :
                 recordingHelper.createRecording(apiClient, options.programId, true);
-            promise.then(function () {
+            promise.then(() => {
                 fetchData(self);
             });
         }
     } else if (this.SeriesTimerId) {
-        apiClient.cancelLiveTvSeriesTimer(this.SeriesTimerId).then(function () {
+        apiClient.cancelLiveTvSeriesTimer(this.SeriesTimerId).then(() => {
             toast(globalize.translate('RecordingCancelled'));
             fetchData(self);
         });

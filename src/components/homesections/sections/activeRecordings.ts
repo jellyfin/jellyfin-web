@@ -12,7 +12,7 @@ function getLatestRecordingsFetchFn(
     activeRecordingsOnly: boolean,
     { enableOverflow }: SectionOptions
 ) {
-    return function () {
+    return () => {
         const apiClient = ServerConnections.getApiClient(serverId);
         return apiClient.getLiveTvRecordings({
             userId: apiClient.getCurrentUserId(),
@@ -29,8 +29,7 @@ function getLatestRecordingItemsHtml(
     activeRecordingsOnly: boolean,
     { enableOverflow }: SectionOptions
 ) {
-    return function (items: BaseItemDto[]) {
-        return cardBuilder.getCardsHtml({
+    return (items: BaseItemDto[]) => cardBuilder.getCardsHtml({
             items: items,
             shape: enableOverflow ? 'autooverflow' : 'auto',
             showTitle: true,
@@ -50,7 +49,6 @@ function getLatestRecordingItemsHtml(
             action: activeRecordingsOnly ? 'none' : null,
             centerPlayButton: activeRecordingsOnly
         });
-    };
 }
 
 export function loadRecordings(

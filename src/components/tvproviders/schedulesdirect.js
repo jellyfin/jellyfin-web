@@ -52,10 +52,8 @@ function refreshTunerDevices(page, providerInfo, devices) {
 export default function (page, providerId, options) {
     function reload() {
         loading.show();
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            const info = config.ListingProviders.filter(function (i) {
-                return i.Id === providerId;
-            })[0] || {};
+        ApiClient.getNamedConfiguration('livetv').then((config) => {
+            const info = config.ListingProviders.filter((i) => i.Id === providerId)[0] || {};
             listingsId = info.ListingsId;
             page.querySelector('#selectListing').value = info.ListingsId || '';
             page.querySelector('.txtUser').value = info.Username || '';
@@ -82,7 +80,7 @@ export default function (page, providerId, options) {
     }
 
     function setCountry(info) {
-        ApiClient.getJSON(ApiClient.getUrl('LiveTv/ListingProviders/SchedulesDirect/Countries')).then(function (result) {
+        ApiClient.getJSON(ApiClient.getUrl('LiveTv/ListingProviders/SchedulesDirect/Countries')).then((result) => {
             let i;
             let length;
             const countryList = [];
@@ -100,7 +98,7 @@ export default function (page, providerId, options) {
                 }
             }
 
-            countryList.sort(function (a, b) {
+            countryList.sort((a, b) => {
                 if (a.name > b.name) {
                     return 1;
                 }
@@ -111,11 +109,9 @@ export default function (page, providerId, options) {
 
                 return 0;
             });
-            $('#selectCountry', page).html(countryList.map(function (c) {
-                return '<option value="' + c.value + '">' + c.name + '</option>';
-            }).join('')).val(info.Country || '');
+            $('#selectCountry', page).html(countryList.map((c) => '<option value="' + c.value + '">' + c.name + '</option>').join('')).val(info.Country || '');
             page.querySelector('.txtZipCode').dispatchEvent(new Event('change'));
-        }, function () { // ApiClient.getJSON() error handler
+        }, () => { // ApiClient.getJSON() error handler
             Dashboard.alert({
                 message: globalize.translate('ErrorGettingTvLineups')
             });
@@ -145,11 +141,11 @@ export default function (page, providerId, options) {
             data: JSON.stringify(info),
             contentType: 'application/json',
             dataType: 'json'
-        }).then(function (result) {
+        }).then((result) => {
             Dashboard.processServerConfigurationUpdateResult();
             providerId = result.Id;
             reload();
-        }, function () {
+        }, () => {
             Dashboard.alert({
                 message: globalize.translate('ErrorSavingTvProvider')
             });
@@ -168,19 +164,13 @@ export default function (page, providerId, options) {
 
         loading.show();
         const id = providerId;
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            const info = config.ListingProviders.filter(function (i) {
-                return i.Id === id;
-            })[0];
+        ApiClient.getNamedConfiguration('livetv').then((config) => {
+            const info = config.ListingProviders.filter((i) => i.Id === id)[0];
             info.ZipCode = page.querySelector('.txtZipCode').value;
             info.Country = page.querySelector('#selectCountry').value;
             info.ListingsId = selectedListingsId;
             info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
-            info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (i) {
-                return i.checked;
-            }).map(function (i) {
-                return i.getAttribute('data-id');
-            });
+            info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter((i) => i.checked).map((i) => i.getAttribute('data-id'));
             ApiClient.ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('LiveTv/ListingProviders', {
@@ -188,7 +178,7 @@ export default function (page, providerId, options) {
                 }),
                 data: JSON.stringify(info),
                 contentType: 'application/json'
-            }).then(function () {
+            }).then(() => {
                 loading.hide();
 
                 if (options.showConfirmation) {
@@ -196,7 +186,7 @@ export default function (page, providerId, options) {
                 }
 
                 Events.trigger(self, 'submitted');
-            }, function () {
+            }, () => {
                 loading.hide();
                 Dashboard.alert({
                     message: globalize.translate('ErrorAddingListingsToSchedulesDirect')
@@ -220,17 +210,15 @@ export default function (page, providerId, options) {
                 Country: page.querySelector('#selectCountry').value
             }),
             dataType: 'json'
-        }).then(function (result) {
-            page.querySelector('#selectListing').innerHTML = result.map(function (o) {
-                return '<option value="' + o.Id + '">' + o.Name + '</option>';
-            }).join('');
+        }).then((result) => {
+            page.querySelector('#selectListing').innerHTML = result.map((o) => '<option value="' + o.Id + '">' + o.Name + '</option>').join('');
 
             if (listingsId) {
                 page.querySelector('#selectListing').value = listingsId;
             }
 
             loading.hide();
-        }, function () {
+        }, () => {
             Dashboard.alert({
                 message: globalize.translate('ErrorGettingTvLineups')
             });
@@ -242,11 +230,11 @@ export default function (page, providerId, options) {
     let listingsId;
     const self = this;
 
-    self.submit = function () {
+    self.submit = () => {
         page.querySelector('.btnSubmitListingsContainer').click();
     };
 
-    self.init = function () {
+    self.init = () => {
         options = options || {};
 
         // Only hide the buttons if explicitly set to false; default to showing if undefined or null
@@ -257,12 +245,12 @@ export default function (page, providerId, options) {
         const hideSubmitButton = options.showSubmitButton === false;
         page.querySelector('.btnSubmitListings').classList.toggle('hide', hideSubmitButton);
 
-        page.querySelector('.formLogin').addEventListener('submit', function (e) {
+        page.querySelector('.formLogin').addEventListener('submit', (e) => {
             e.preventDefault();
             submitLoginForm();
         });
 
-        page.querySelector('.formListings').addEventListener('submit', function (e) {
+        page.querySelector('.formListings').addEventListener('submit', (e) => {
             e.preventDefault();
             submitListingsForm();
         });
@@ -270,7 +258,7 @@ export default function (page, providerId, options) {
         page.querySelector('.txtZipCode').addEventListener('change', function () {
             refreshListings(this.value);
         });
-        page.querySelector('.chkAllTuners').addEventListener('change', function (e) {
+        page.querySelector('.chkAllTuners').addEventListener('change', (e) => {
             if (e.target.checked) {
                 page.querySelector('.selectTunersSection').classList.add('hide');
             } else {

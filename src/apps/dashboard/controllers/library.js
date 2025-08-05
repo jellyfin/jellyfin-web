@@ -14,11 +14,9 @@ import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUti
 function addVirtualFolder(page) {
     import('components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }) => {
         new MediaLibraryCreator({
-            collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
-                return !f.hidden;
-            }),
+            collectionTypeOptions: getCollectionTypeOptions().filter((f) => !f.hidden),
             refresh: shouldRefreshLibraryAfterChanges(page)
-        }).then(function (hasChanges) {
+        }).then((hasChanges) => {
             if (hasChanges) {
                 reloadLibrary(page);
             }
@@ -31,7 +29,7 @@ function editVirtualFolder(page, virtualFolder) {
         new MediaLibraryEditor({
             refresh: shouldRefreshLibraryAfterChanges(page),
             library: virtualFolder
-        }).then(function (hasChanges) {
+        }).then((hasChanges) => {
             if (hasChanges) {
                 reloadLibrary(page);
             }
@@ -52,9 +50,9 @@ function deleteVirtualFolder(page, virtualFolder) {
         title: globalize.translate('HeaderRemoveMediaFolder'),
         confirmText: globalize.translate('Delete'),
         primary: 'delete'
-    }).then(function () {
+    }).then(() => {
         const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
-        ApiClient.removeVirtualFolder(virtualFolder.Name, refreshAfterChange).then(function () {
+        ApiClient.removeVirtualFolder(virtualFolder.Name, refreshAfterChange).then(() => {
             reloadLibrary(page);
         });
     });
@@ -76,10 +74,10 @@ function renameVirtualFolder(page, virtualFolder) {
             label: globalize.translate('LabelNewName'),
             description: globalize.translate('MessageRenameMediaFolder'),
             confirmText: globalize.translate('ButtonRename')
-        }).then(function (newName) {
+        }).then((newName) => {
             if (newName && newName != virtualFolder.Name) {
                 const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
-                ApiClient.renameVirtualFolder(virtualFolder.Name, newName, refreshAfterChange).then(function () {
+                ApiClient.renameVirtualFolder(virtualFolder.Name, newName, refreshAfterChange).then(() => {
                     reloadLibrary(page);
                 });
             }
@@ -122,7 +120,7 @@ function showCardMenu(page, elem, virtualFolders) {
         actionsheet.show({
             items: menuItems,
             positionTo: elem,
-            callback: function (resultId) {
+            callback: (resultId) => {
                 switch (resultId) {
                     case 'edit':
                         editVirtualFolder(page, virtualFolder);
@@ -150,7 +148,7 @@ function showCardMenu(page, elem, virtualFolders) {
 
 function reloadLibrary(page) {
     loading.show();
-    ApiClient.getVirtualFolders().then(function (result) {
+    ApiClient.getVirtualFolders().then((result) => {
         reloadVirtualFolders(page, result);
     });
 }
@@ -182,18 +180,18 @@ function reloadVirtualFolders(page, virtualFolders) {
     divVirtualFolders.classList.add('itemsContainer');
     divVirtualFolders.classList.add('vertical-wrap');
     const btnCardMenuElements = divVirtualFolders.querySelectorAll('.btnCardMenu');
-    btnCardMenuElements.forEach(function (btn) {
-        btn.addEventListener('click', function () {
+    btnCardMenuElements.forEach((btn) => {
+        btn.addEventListener('click', () => {
             showCardMenu(page, btn, virtualFolders);
         });
     });
-    divVirtualFolders.querySelector('#addLibrary').addEventListener('click', function () {
+    divVirtualFolders.querySelector('#addLibrary').addEventListener('click', () => {
         addVirtualFolder(page);
     });
 
     const libraryEditElements = divVirtualFolders.querySelectorAll('.editLibrary');
-    libraryEditElements.forEach(function (btn) {
-        btn.addEventListener('click', function () {
+    libraryEditElements.forEach((btn) => {
+        btn.addEventListener('click', () => {
             const card = dom.parentWithClass(btn, 'card');
             const index = parseInt(card.getAttribute('data-index'), 10);
             const virtualFolder = virtualFolders[index];
@@ -211,7 +209,7 @@ function editImages(page, virtualFolder) {
         imageEditor.show({
             itemId: virtualFolder.ItemId,
             serverId: ApiClient.serverId()
-        }).then(function () {
+        }).then(() => {
             reloadLibrary(page);
         });
     });
@@ -325,9 +323,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     }
 
     html += '</div>';
-    let typeName = getCollectionTypeOptions().filter(function (t) {
-        return t.value == virtualFolder.CollectionType;
-    })[0];
+    let typeName = getCollectionTypeOptions().filter((t) => t.value == virtualFolder.CollectionType)[0];
     typeName = typeName ? typeName.name : globalize.translate('Other');
     html += "<div class='cardText cardText-secondary'>";
 

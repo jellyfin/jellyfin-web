@@ -13,9 +13,7 @@ function getActivePlayerId() {
 function sendPlayCommand(apiClient, options, playType) {
     const sessionId = getActivePlayerId();
 
-    const ids = options.ids || options.items.map(function (i) {
-        return i.Id;
-    });
+    const ids = options.ids || options.items.map((i) => i.Id);
 
     const remoteOptions = {
         ItemIds: ids.join(','),
@@ -148,9 +146,7 @@ function processUpdatedSessions(instance, sessions, apiClient) {
 
     const currentTargetId = getActivePlayerId();
 
-    const session = sessions.filter(function (s) {
-        return s.Id === currentTargetId;
-    })[0];
+    const session = sessions.filter((s) => s.Id === currentTargetId)[0];
 
     if (session) {
         normalizeImages(session, apiClient);
@@ -235,7 +231,7 @@ function onPollIntervalFired() {
     const instance = this;
     const apiClient = getCurrentApiClient(instance);
     if (!apiClient.isMessageChannelOpen()) {
-        apiClient.getSessions().then(function (sessions) {
+        apiClient.getSessions().then((sessions) => {
             processUpdatedSessions(instance, sessions, apiClient);
         });
     }
@@ -289,7 +285,7 @@ class SessionPlayer {
         this.isPlaylistRendered = true;
         this.isUpdatingPlaylist = false;
 
-        Events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
+        Events.on(serverNotifications, 'Sessions', (e, apiClient, data) => {
             processUpdatedSessions(self, data, apiClient);
         });
     }
@@ -330,11 +326,7 @@ class SessionPlayer {
         if (apiClient) {
             const name = this.name;
 
-            return apiClient.getSessions(sessionQuery).then(function (sessions) {
-                return sessions.filter(function (s) {
-                    return s.DeviceId !== apiClient.deviceId();
-                }).map(function (s) {
-                    return {
+            return apiClient.getSessions(sessionQuery).then((sessions) => sessions.filter((s) => s.DeviceId !== apiClient.deviceId()).map((s) => ({
                         name: s.DeviceName,
                         deviceName: s.DeviceName,
                         deviceType: s.DeviceType,
@@ -349,9 +341,7 @@ class SessionPlayer {
                             Name: s.UserName,
                             PrimaryImageTag: s.UserPrimaryImageTag
                         } : null
-                    };
-                });
-            });
+                    })));
         } else {
             return Promise.resolve([]);
         }
@@ -368,9 +358,7 @@ class SessionPlayer {
         options = Object.assign({}, options);
 
         if (options.items) {
-            options.ids = options.items.map(function (i) {
-                return i.Id;
-            });
+            options.ids = options.items.map((i) => i.Id);
 
             options.items = null;
         }
@@ -502,9 +490,7 @@ class SessionPlayer {
         let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
         const streams = state.MediaStreams || [];
-        return streams.filter(function (s) {
-            return s.Type === 'Audio';
-        });
+        return streams.filter((s) => s.Type === 'Audio');
     }
 
     getAudioStreamIndex() {
@@ -529,9 +515,7 @@ class SessionPlayer {
         let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
         const streams = state.MediaStreams || [];
-        return streams.filter(function (s) {
-            return s.Type === 'Subtitle';
-        });
+        return streams.filter((s) => s.Type === 'Subtitle');
     }
 
     getSubtitleStreamIndex() {

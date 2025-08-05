@@ -61,14 +61,14 @@ function renderDevices(page, devices) {
 function deleteDevice(page, id) {
     const message = globalize.translate('MessageConfirmDeleteTunerDevice');
 
-    confirm(message, globalize.translate('HeaderDeleteDevice')).then(function () {
+    confirm(message, globalize.translate('HeaderDeleteDevice')).then(() => {
         loading.show();
         ApiClient.ajax({
             type: 'DELETE',
             url: ApiClient.getUrl('LiveTv/TunerHosts', {
                 Id: id
             })
-        }).then(function () {
+        }).then(() => {
             reload(page);
         });
     });
@@ -76,7 +76,7 @@ function deleteDevice(page, id) {
 
 function reload(page) {
     loading.show();
-    ApiClient.getNamedConfiguration('livetv').then(function (config) {
+    ApiClient.getNamedConfiguration('livetv').then((config) => {
         renderDevices(page, config.TunerHosts);
         renderProviders(page, config.ListingProviders);
     });
@@ -94,9 +94,9 @@ function submitAddDeviceForm(page) {
             Url: page.querySelector('#txtDevicePath').value
         }),
         contentType: 'application/json'
-    }).then(function () {
+    }).then(() => {
         reload(page);
-    }, function () {
+    }, () => {
         Dashboard.alert({
             message: globalize.translate('ErrorAddingTunerDevice')
         });
@@ -134,7 +134,7 @@ function renderProviders(page, providers) {
     elem.innerHTML = html;
     if (elem.querySelector('.btnOptions')) {
         const btnOptionElements = elem.querySelectorAll('.btnOptions');
-        btnOptionElements.forEach(function (btn) {
+        btnOptionElements.forEach((btn) => {
             btn.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 showProviderOptions(page, id, btn);
@@ -158,7 +158,7 @@ function showProviderOptions(page, providerId, button) {
         actionsheet.show({
             items: items,
             positionTo: button
-        }).then(function (id) {
+        }).then((id) => {
             switch (id) {
                 case 'delete':
                     deleteProvider(page, providerId);
@@ -183,16 +183,16 @@ function mapChannels(page, providerId) {
 function deleteProvider(page, id) {
     const message = globalize.translate('MessageConfirmDeleteGuideProvider');
 
-    confirm(message, globalize.translate('HeaderDeleteProvider')).then(function () {
+    confirm(message, globalize.translate('HeaderDeleteProvider')).then(() => {
         loading.show();
         ApiClient.ajax({
             type: 'DELETE',
             url: ApiClient.getUrl('LiveTv/ListingProviders', {
                 Id: id
             })
-        }).then(function () {
+        }).then(() => {
             reload(page);
-        }, function () {
+        }, () => {
             reload(page);
         });
     });
@@ -248,7 +248,7 @@ function addProvider(button) {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
-            callback: function (id) {
+            callback: (id) => {
                 Dashboard.navigate(getProviderConfigurationUrl(id));
             }
         });
@@ -274,7 +274,7 @@ function showDeviceMenu(button, tunerDeviceId) {
         actionsheet.show({
             items: items,
             positionTo: button
-        }).then(function (id) {
+        }).then((id) => {
             switch (id) {
                 case 'delete':
                     deleteDevice(dom.parentWithClass(button, 'page'), tunerDeviceId);
@@ -304,12 +304,12 @@ function onDevicesListClick(e) {
 
 $(document).on('pageinit', '#liveTvStatusPage', function () {
     const page = this;
-    page.querySelector('.btnAddDevice').addEventListener('click', function () {
+    page.querySelector('.btnAddDevice').addEventListener('click', () => {
         addDevice();
     });
     if (page.querySelector('.formAddDevice')) {
         // NOTE: unused?
-        page.querySelector('.formAddDevice').addEventListener('submit', function (e) {
+        page.querySelector('.formAddDevice').addEventListener('submit', (e) => {
             e.preventDefault();
             submitAddDeviceForm(page);
         });

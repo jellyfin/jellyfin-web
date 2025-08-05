@@ -193,9 +193,7 @@ export function getPrimaryImageAspectRatio(items) {
     }
 
     // Use the median
-    values.sort(function (a, b) {
-        return a - b;
-    });
+    values.sort((a, b) => a - b);
 
     const half = Math.floor(values.length / 2);
 

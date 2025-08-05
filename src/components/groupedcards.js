@@ -19,7 +19,7 @@ function onGroupedCardClick(e, card) {
     const actionableParent = dom.parentWithTag(e.target, ['A', 'BUTTON', 'INPUT']);
 
     if (!actionableParent || actionableParent.classList.contains('cardContent')) {
-        apiClient.getJSON(apiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
+        apiClient.getJSON(apiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then((items) => {
             if (items.length === 1) {
                 appRouter.showItem(items[0]);
                 return;

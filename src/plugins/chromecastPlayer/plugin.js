@@ -167,11 +167,11 @@ class CastPlayer {
 
         if (message.type === 'playbackerror') {
             const errorCode = message.data;
-            setTimeout(function () {
+            setTimeout(() => {
                 alertText(globalize.translate('MessagePlaybackError' + errorCode), globalize.translate('HeaderPlaybackError'));
             }, 300);
         } else if (message.type === 'connectionerror') {
-            setTimeout(function () {
+            setTimeout(() => {
                 alertText(globalize.translate('MessageChromecastConnectionError'), globalize.translate('HeaderError'));
             }, 300);
         } else if (message.type) {
@@ -303,16 +303,14 @@ class CastPlayer {
         }
 
         // convert items to smaller stubs to send minimal amount of information
-        options.items = options.items.map(function (i) {
-            return {
+        options.items = options.items.map((i) => ({
                 Id: i.Id,
                 ServerId: i.ServerId,
                 Name: i.Name,
                 Type: i.Type,
                 MediaType: i.MediaType,
                 IsFolder: i.IsFolder
-            };
-        });
+            }));
 
         return this.sendMessage({
             options: options,
@@ -488,12 +486,10 @@ function getItemsForPlayback(apiClient, query) {
     const userId = apiClient.getCurrentUserId();
 
     if (query.Ids && query.Ids.split(',').length === 1) {
-        return apiClient.getItem(userId, query.Ids.split(',')).then(function (item) {
-            return {
+        return apiClient.getItem(userId, query.Ids.split(',')).then((item) => ({
                 Items: [item],
                 TotalRecordCount: 1
-            };
-        });
+            }));
     } else {
         query.Limit = query.Limit || 100;
         query.ExcludeLocationTypes = 'Virtual';
@@ -507,7 +503,7 @@ function getItemsForPlayback(apiClient, query) {
  * relay castPlayer events to ChromecastPlayer events and include state info
  */
 function bindEventForRelay(instance, eventName) {
-    Events.on(instance._castPlayer, eventName, function (e, data) {
+    Events.on(instance._castPlayer, eventName, (e, data) => {
         console.debug('[chromecastPlayer] ' + eventName);
         // skip events without data
         if (data?.ItemId) {
@@ -528,7 +524,7 @@ function initializeChromecast() {
         }
     }));
 
-    Events.on(instance._castPlayer, 'connect', function () {
+    Events.on(instance._castPlayer, 'connect', () => {
         if (_currentResolve) {
             sendConnectionResult(true);
         } else {
@@ -540,7 +536,7 @@ function initializeChromecast() {
         instance.lastPlayerData = null;
     });
 
-    Events.on(instance._castPlayer, 'playbackstart', function (e, data) {
+    Events.on(instance._castPlayer, 'playbackstart', (e, data) => {
         console.debug('[chromecastPlayer] playbackstart');
 
         instance._castPlayer.initializeCastPlayer();
@@ -552,7 +548,7 @@ function initializeChromecast() {
         instance._playNextAfterEnded = true;
     });
 
-    Events.on(instance._castPlayer, 'playbackstop', function (e, data) {
+    Events.on(instance._castPlayer, 'playbackstop', (e, data) => {
         console.debug('[chromecastPlayer] playbackstop');
 
         let state = instance.getPlayerStateInternal(data);
@@ -577,7 +573,7 @@ function initializeChromecast() {
         };
     });
 
-    Events.on(instance._castPlayer, 'playbackprogress', function (e, data) {
+    Events.on(instance._castPlayer, 'playbackprogress', (e, data) => {
         console.debug('[chromecastPlayer] positionchange');
         const state = instance.getPlayerStateInternal(data);
 
@@ -591,7 +587,7 @@ function initializeChromecast() {
     bindEventForRelay(instance, 'repeatmodechange');
     bindEventForRelay(instance, 'shufflequeuemodechange');
 
-    Events.on(instance._castPlayer, 'playstatechange', function (e, data) {
+    Events.on(instance._castPlayer, 'playstatechange', (e, data) => {
         console.debug('[chromecastPlayer] playstatechange');
 
         // Updates the player and nowPlayingBar state to the current 'pause' state.
@@ -627,7 +623,7 @@ class ChromecastPlayer {
         const castPlayer = this._castPlayer;
 
         if (castPlayer.deviceState !== DEVICE_STATE.ACTIVE && castPlayer.isInitialized) {
-            return new Promise(function (resolve, reject) {
+            return new Promise((resolve, reject) => {
                 _currentResolve = resolve;
                 _currentReject = reject;
                 castPlayer.launchApp();
@@ -706,7 +702,7 @@ class ChromecastPlayer {
             const apiClient = ServerConnections.getApiClient(options.serverId);
             const instance = this;
 
-            return apiClient.getItem(apiClient.getCurrentUserId(), options.ids[0]).then(function (item) {
+            return apiClient.getItem(apiClient.getCurrentUserId(), options.ids[0]).then((item) => {
                 options.items = [item];
                 return instance.playWithCommand(options, command);
             });
@@ -714,9 +710,7 @@ class ChromecastPlayer {
 
         if (options.items.length > 1 && options?.ids) {
             // Use the original request id array for sorting the result in the proper order
-            options.items.sort(function (a, b) {
-                return options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id);
-            });
+            options.items.sort((a, b) => options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id));
         }
 
         return this._castPlayer.loadMedia(options, command);
@@ -794,8 +788,8 @@ class ChromecastPlayer {
     endSession() {
         const instance = this;
 
-        this.stop().then(function () {
-            setTimeout(function () {
+        this.stop().then(() => {
+            setTimeout(() => {
                 instance._castPlayer.stopApp();
             }, 1000);
         });
@@ -913,9 +907,7 @@ class ChromecastPlayer {
         let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
         const streams = state.MediaStreams || [];
-        return streams.filter(function (s) {
-            return s.Type === 'Audio';
-        });
+        return streams.filter((s) => s.Type === 'Audio');
     }
 
     getAudioStreamIndex() {
@@ -928,9 +920,7 @@ class ChromecastPlayer {
         let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
         const streams = state.MediaStreams || [];
-        return streams.filter(function (s) {
-            return s.Type === 'Subtitle';
-        });
+        return streams.filter((s) => s.Type === 'Subtitle');
     }
 
     getSubtitleStreamIndex() {
@@ -1011,7 +1001,7 @@ class ChromecastPlayer {
 
         const instance = this;
 
-        apiClient.getItem(userId, item.Id).then(function (fetchedItem) {
+        apiClient.getItem(userId, item.Id).then((fetchedItem) => {
             instance.playWithCommand({
                 items: [fetchedItem]
             }, 'Shuffle');
@@ -1024,7 +1014,7 @@ class ChromecastPlayer {
 
         const instance = this;
 
-        apiClient.getItem(userId, item.Id).then(function (fetchedItem) {
+        apiClient.getItem(userId, item.Id).then((fetchedItem) => {
             instance.playWithCommand({
                 items: [fetchedItem]
             }, 'InstantMix');
@@ -1065,7 +1055,7 @@ class ChromecastPlayer {
 
             return getItemsForPlayback(apiClient, {
                 Ids: options.ids.join(',')
-            }).then(function (result) {
+            }).then((result) => {
                 options.items = result.Items;
                 return instance.playWithCommand(options, 'PlayNow');
             });

@@ -5,7 +5,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 function getFetchPlaylistItemsFn(apiClient, itemId) {
-    return function () {
+    return () => {
         const query = {
             Fields: 'PrimaryImageAspectRatio',
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
@@ -16,8 +16,7 @@ function getFetchPlaylistItemsFn(apiClient, itemId) {
 }
 
 function getItemsHtmlFn(playlistId, isEditable = false) {
-    return function (items) {
-        return listView.getListViewHtml({
+    return (items) => listView.getListViewHtml({
             items,
             showIndex: false,
             playFromHere: true,
@@ -27,7 +26,6 @@ function getItemsHtmlFn(playlistId, isEditable = false) {
             playlistId,
             showParentTitle: true
         });
-    };
 }
 
 async function init(page, item) {

@@ -38,14 +38,14 @@ function reload(page, item, focusContext) {
         reloadItem(page, item, apiClient, focusContext);
     } else {
         apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-        apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (itemToReload) {
+        apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then((itemToReload) => {
             reloadItem(page, itemToReload, apiClient, focusContext);
         });
     }
 }
 
 function addListeners(container, className, eventName, fn) {
-    container.addEventListener(eventName, function (e) {
+    container.addEventListener(eventName, (e) => {
         const elem = dom.parentWithClass(e.target, className);
         if (elem) {
             fn.call(elem, e);
@@ -56,7 +56,7 @@ function addListeners(container, className, eventName, fn) {
 function reloadItem(page, item, apiClient, focusContext) {
     currentItem = item;
 
-    apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function (providers) {
+    apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then((providers) => {
         const btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
         for (let i = 0, length = btnBrowseAllImages.length; i < length; i++) {
             if (providers.length) {
@@ -66,7 +66,7 @@ function reloadItem(page, item, apiClient, focusContext) {
             }
         }
 
-        apiClient.getItemImageInfos(currentItem.Id).then(function (imageInfos) {
+        apiClient.getItemImageInfos(currentItem.Id).then((imageInfos) => {
             renderStandardImages(page, apiClient, item, imageInfos, providers);
             renderBackdrops(page, apiClient, item, imageInfos, providers);
             loading.hide();
@@ -181,8 +181,8 @@ function getCardHtml(image, apiClient, options) {
 }
 
 function deleteImage(context, itemId, type, index, apiClient, enableConfirmation) {
-    const afterConfirm = function () {
-        apiClient.deleteItemImage(itemId, type, index).then(function () {
+    const afterConfirm = () => {
+        apiClient.deleteItemImage(itemId, type, index).then(() => {
             hasChanges = true;
             reload(context);
         });
@@ -201,10 +201,10 @@ function deleteImage(context, itemId, type, index, apiClient, enableConfirmation
 }
 
 function moveImage(context, apiClient, itemId, type, index, newIndex, focusContext) {
-    apiClient.updateItemImageIndex(itemId, type, index, newIndex).then(function () {
+    apiClient.updateItemImageIndex(itemId, type, index, newIndex).then(() => {
         hasChanges = true;
         reload(context, null, focusContext);
-    }, function () {
+    }, () => {
         alert(globalize.translate('ErrorDefault'));
     });
 }
@@ -232,19 +232,13 @@ function renderImages(page, item, apiClient, images, imageProviders, elem) {
 }
 
 function renderStandardImages(page, apiClient, item, imageInfos, imageProviders) {
-    const images = imageInfos.filter(function (i) {
-        return i.ImageType !== 'Backdrop' && i.ImageType !== 'Chapter';
-    });
+    const images = imageInfos.filter((i) => i.ImageType !== 'Backdrop' && i.ImageType !== 'Chapter');
 
     renderImages(page, item, apiClient, images, imageProviders, page.querySelector('#images'));
 }
 
 function renderBackdrops(page, apiClient, item, imageInfos, imageProviders) {
-    const images = imageInfos.filter(function (i) {
-        return i.ImageType === 'Backdrop';
-    }).sort(function (a, b) {
-        return a.ImageIndex - b.ImageIndex;
-    });
+    const images = imageInfos.filter((i) => i.ImageType === 'Backdrop').sort((a, b) => a.ImageIndex - b.ImageIndex);
 
     if (images.length) {
         page.querySelector('#backdropsContainer', page).classList.remove('hide');
@@ -262,10 +256,10 @@ function showImageDownloader(page, imageType) {
             currentItem.Type,
             imageType,
             currentItem.Type == 'Season' ? currentItem.ParentId : null
-        ).then(function () {
+        ).then(() => {
             hasChanges = true;
             reload(page);
-        }).catch(function () {
+        }).catch(() => {
             // image downloader closed
         });
     });
@@ -317,7 +311,7 @@ function showActionSheet(context, imageCard) {
             items: commands,
             positionTo: imageCard
 
-        }).then(function (id) {
+        }).then((id) => {
             switch (id) {
                 case 'delete':
                     deleteImage(context, itemId, type, index, apiClient, false);
@@ -360,7 +354,7 @@ function initEditor(context, options) {
                 itemId: currentItem.Id,
                 serverId: currentItem.ServerId
 
-            }).then(function (hasChanged) {
+            }).then((hasChanged) => {
                 if (hasChanged) {
                     hasChanges = true;
                     reload(context);
@@ -405,7 +399,7 @@ function showEditor(options, resolve, reject) {
     loading.show();
 
     const apiClient = ServerConnections.getApiClient(serverId);
-    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
         const dialogOptions = {
             removeOnClose: true
         };
@@ -429,7 +423,7 @@ function showEditor(options, resolve, reject) {
         initEditor(dlg, options);
 
         // Has to be assigned a z-index after the call to .open()
-        dlg.addEventListener('close', function () {
+        dlg.addEventListener('close', () => {
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.off(dlg, false);
             }
@@ -447,14 +441,14 @@ function showEditor(options, resolve, reject) {
 
         reload(dlg, item);
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
             dialogHelper.close(dlg);
         });
     });
 }
 
 export function show (options) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         hasChanges = false;
         showEditor(options, resolve, reject);
     });

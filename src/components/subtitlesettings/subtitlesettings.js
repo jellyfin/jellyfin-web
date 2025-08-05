@@ -40,7 +40,7 @@ function getSubtitleAppearanceObject(context) {
 }
 
 function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
-    apiClient.getCultures().then(function (allCultures) {
+    apiClient.getCultures().then((allCultures) => {
         if (appHost.supports(AppFeature.SubtitleBurnIn) && user.Policy.EnableVideoPlaybackTranscoding) {
             context.querySelector('.fldBurnIn').classList.remove('hide');
         }
@@ -98,15 +98,15 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
     appSettings.set('subtitlerenderpgs', context.querySelector('#chkSubtitleRenderPgs').checked);
     appSettings.alwaysBurnInSubtitleWhenTranscoding(context.querySelector('#chkAlwaysBurnInSubtitleWhenTranscoding').checked);
 
-    apiClient.getUser(userId).then(function (user) {
-        saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(function () {
+    apiClient.getUser(userId).then((user) => {
+        saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(() => {
             loading.hide();
             if (enableSaveConfirmation) {
                 toast(globalize.translate('SettingsSaved'));
             }
 
             Events.trigger(instance, 'saved');
-        }, function () {
+        }, () => {
             loading.hide();
         });
     });
@@ -271,8 +271,8 @@ export class SubtitleSettings {
         const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userSettings = self.options.userSettings;
 
-        apiClient.getUser(userId).then(function (user) {
-            userSettings.setUserInfo(userId, apiClient).then(function () {
+        apiClient.getUser(userId).then((user) => {
+            userSettings.setUserInfo(userId, apiClient).then(() => {
                 self.dataLoaded = true;
 
                 const appearanceSettings = userSettings.getSubtitleAppearanceSettings(self.options.appearanceKey);
@@ -296,7 +296,7 @@ export class SubtitleSettings {
         const userId = self.options.userId;
         const userSettings = self.options.userSettings;
 
-        userSettings.setUserInfo(userId, apiClient).then(function () {
+        userSettings.setUserInfo(userId, apiClient).then(() => {
             const enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });

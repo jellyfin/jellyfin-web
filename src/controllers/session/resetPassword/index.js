@@ -10,7 +10,7 @@ function processForgotPasswordResult(result) {
         Dashboard.alert({
             message: msg,
             title: globalize.translate('HeaderPasswordReset'),
-            callback: function () {
+            callback: () => {
                 window.location.href = '';
             }
         });

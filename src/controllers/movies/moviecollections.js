@@ -196,12 +196,10 @@ export default function (view, params, tabContent) {
     const data = {};
     let isLoading = false;
 
-    this.getCurrentViewStyle = function () {
-        return getPageData().view;
-    };
+    this.getCurrentViewStyle = () => getPageData().view;
 
     const initPage = (tabElement) => {
-        tabElement.querySelector('.btnSort').addEventListener('click', function (e) {
+        tabElement.querySelector('.btnSort').addEventListener('click', (e) => {
             libraryBrowser.showSortMenu({
                 items: [{
                     name: globalize.translate('Name'),
@@ -219,7 +217,7 @@ export default function (view, params, tabContent) {
                     name: globalize.translate('OptionReleaseDate'),
                     id: 'PremiereDate,SortName'
                 }],
-                callback: function () {
+                callback: () => {
                     getQuery().StartIndex = 0;
                     reloadItems(tabElement);
                 },
@@ -231,7 +229,7 @@ export default function (view, params, tabContent) {
         btnSelectView.addEventListener('click', (e) => {
             libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
         });
-        btnSelectView.addEventListener('layoutchange', function (e) {
+        btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;
             getPageData().view = viewStyle;
             userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);
@@ -254,7 +252,7 @@ export default function (view, params, tabContent) {
     initPage(tabContent);
     onViewStyleChange();
 
-    this.renderTab = function () {
+    this.renderTab = () => {
         reloadItems(tabContent);
     };
 }

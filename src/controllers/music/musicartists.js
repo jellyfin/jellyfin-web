@@ -168,14 +168,14 @@ export default function (view, params, tabContent, options) {
     const data = {};
     let isLoading = false;
 
-    this.showFilterMenu = function () {
+    this.showFilterMenu = () => {
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: options.mode,
                 serverId: ApiClient.serverId()
             });
-            Events.on(filterDialog, 'filterchange', function () {
+            Events.on(filterDialog, 'filterchange', () => {
                 getQuery().StartIndex = 0;
                 reloadItems();
             });
@@ -183,15 +183,13 @@ export default function (view, params, tabContent, options) {
         });
     };
 
-    this.getCurrentViewStyle = function () {
-        return getPageData().view;
-    };
+    this.getCurrentViewStyle = () => getPageData().view;
 
     const initPage = (tabElement) => {
         const alphaPickerElement = tabElement.querySelector('.alphaPicker');
         const itemsContainer = tabElement.querySelector('.itemsContainer');
 
-        alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
+        alphaPickerElement.addEventListener('alphavaluechanged', (e) => {
             const newValue = e.detail.value;
             const query = getQuery();
             if (newValue === '#') {
@@ -220,7 +218,7 @@ export default function (view, params, tabContent, options) {
         btnSelectView.addEventListener('click', (e) => {
             libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
         });
-        btnSelectView.addEventListener('layoutchange', function (e) {
+        btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;
             getPageData().view = viewStyle;
             userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);

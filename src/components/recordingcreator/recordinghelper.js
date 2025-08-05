@@ -8,15 +8,13 @@ import dialog from '../dialog/dialog';
 function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCancellation) {
     loading.show();
 
-    return apiClient.getItem(apiClient.getCurrentUserId(), programId).then(function (item) {
+    return apiClient.getItem(apiClient.getCurrentUserId(), programId).then((item) => {
         if (item.IsSeries) {
             // create series
-            return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then(function (timerDefaults) {
-                return apiClient.createLiveTvSeriesTimer(timerDefaults).then(function () {
+            return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then((timerDefaults) => apiClient.createLiveTvSeriesTimer(timerDefaults).then(() => {
                     loading.hide();
                     toast(globalize.translate('SeriesRecordingScheduled'));
-                });
-            });
+                }));
         } else {
             // cancel
             if (confirmTimerCancellation) {
@@ -29,7 +27,7 @@ function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCanc
 }
 
 function cancelTimerWithConfirmation(timerId, serverId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         confirm({
 
             text: globalize.translate('MessageConfirmRecordingCancellation'),
@@ -37,7 +35,7 @@ function cancelTimerWithConfirmation(timerId, serverId) {
             confirmText: globalize.translate('HeaderCancelRecording'),
             cancelText: globalize.translate('HeaderKeepRecording')
 
-        }).then(function () {
+        }).then(() => {
             loading.show();
 
             const apiClient = ServerConnections.getApiClient(serverId);
@@ -47,7 +45,7 @@ function cancelTimerWithConfirmation(timerId, serverId) {
 }
 
 function cancelSeriesTimerWithConfirmation(timerId, serverId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         confirm({
 
             text: globalize.translate('MessageConfirmRecordingCancellation'),
@@ -55,11 +53,11 @@ function cancelSeriesTimerWithConfirmation(timerId, serverId) {
             confirmText: globalize.translate('HeaderCancelSeries'),
             cancelText: globalize.translate('HeaderKeepSeries')
 
-        }).then(function () {
+        }).then(() => {
             loading.show();
 
             const apiClient = ServerConnections.getApiClient(serverId);
-            apiClient.cancelLiveTvSeriesTimer(timerId).then(function () {
+            apiClient.cancelLiveTvSeriesTimer(timerId).then(() => {
                 toast(globalize.translate('SeriesCancelled'));
 
                 loading.hide();
@@ -71,7 +69,7 @@ function cancelSeriesTimerWithConfirmation(timerId, serverId) {
 
 function cancelTimer(apiClient, timerId, hideLoading) {
     loading.show();
-    return apiClient.cancelLiveTvTimer(timerId).then(function () {
+    return apiClient.cancelLiveTvTimer(timerId).then(() => {
         if (hideLoading !== false) {
             loading.hide();
             toast(globalize.translate('RecordingCancelled'));
@@ -81,12 +79,12 @@ function cancelTimer(apiClient, timerId, hideLoading) {
 
 function createRecording(apiClient, programId, isSeries) {
     loading.show();
-    return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then(function (item) {
+    return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then((item) => {
         const promise = isSeries ?
             apiClient.createLiveTvSeriesTimer(item) :
             apiClient.createLiveTvTimer(item);
 
-        return promise.then(function () {
+        return promise.then(() => {
             loading.hide();
             toast(globalize.translate('RecordingScheduled'));
         });
@@ -94,7 +92,7 @@ function createRecording(apiClient, programId, isSeries) {
 }
 
 function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         const items = [];
 
         items.push({
@@ -126,7 +124,7 @@ function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, 
         dialog.show({
             text: globalize.translate('MessageConfirmRecordingCancellation'),
             buttons: items
-        }).then(function (result) {
+        }).then((result) => {
             const apiClient = ServerConnections.getApiClient(serverId);
 
             if (result === 'canceltimer') {
@@ -136,7 +134,7 @@ function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, 
             } else if (result === 'cancelseriestimer') {
                 loading.show();
 
-                apiClient.cancelLiveTvSeriesTimer(seriesTimerId).then(function () {
+                apiClient.cancelLiveTvSeriesTimer(seriesTimerId).then(() => {
                     toast(globalize.translate('SeriesCancelled'));
                     loading.hide();
                     resolve();

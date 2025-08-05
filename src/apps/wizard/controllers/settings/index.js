@@ -9,7 +9,7 @@ import 'elements/emby-select/emby-select';
 function save(page) {
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
-    apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
+    apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then((config) => {
         config.PreferredMetadataLanguage = page.querySelector('#selectLanguage').value;
         config.MetadataCountryCode = page.querySelector('#selectCountry').value;
         apiClient.ajax({
@@ -17,7 +17,7 @@ function save(page) {
             data: JSON.stringify(config),
             url: apiClient.getUrl('Startup/Configuration'),
             contentType: 'application/json'
-        }).then(function () {
+        }).then(() => {
             loading.hide();
             navigateToNextPage();
         });
@@ -62,7 +62,7 @@ function reload(page) {
     const promise1 = apiClient.getJSON(apiClient.getUrl('Startup/Configuration'));
     const promise2 = apiClient.getCultures();
     const promise3 = apiClient.getCountries();
-    Promise.all([promise1, promise2, promise3]).then(function (responses) {
+    Promise.all([promise1, promise2, promise3]).then((responses) => {
         reloadData(page, responses[0], responses[1], responses[2]);
     });
 }
@@ -83,7 +83,7 @@ export default function (view) {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
         reload(this);
     });
-    view.addEventListener('viewhide', function () {
+    view.addEventListener('viewhide', () => {
         document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
     });
 }

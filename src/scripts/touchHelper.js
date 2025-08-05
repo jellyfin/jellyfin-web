@@ -22,7 +22,7 @@ class TouchHelper {
 
         const excludeTagNames = options.ignoreTagNames || [];
 
-        const touchStart = function (e) {
+        const touchStart = (e) => {
             const touch = getTouches(e)[0];
             touchTarget = null;
             touchStartX = 0;
@@ -44,7 +44,7 @@ class TouchHelper {
             }
         };
 
-        const touchEnd = function (e) {
+        const touchEnd = (e) => {
             const isTouchMove = e.type === 'touchmove';
 
             if (touchTarget) {

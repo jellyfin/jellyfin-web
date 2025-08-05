@@ -1,6 +1,6 @@
 // Polyfill for vendor prefixed style properties
 
-(function () {
+(() => {
     const vendorProperties = {
         'transform': ['webkitTransform'],
         'transition': ['webkitTransition']

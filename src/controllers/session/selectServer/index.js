@@ -24,16 +24,14 @@ import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 const enableFocusTransform = !browser.slow && !browser.edge;
 
 function renderSelectServerItems(view, servers) {
-    const items = servers.map(function (server) {
-        return {
+    const items = servers.map((server) => ({
             name: server.Name,
             icon: 'storage',
             cardType: '',
             id: server.Id,
             server: server
-        };
-    });
-    let html = items.map(function (item) {
+        }));
+    let html = items.map((item) => {
         // TODO move card creation code to Card component
         const cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '" aria-hidden="true"></span>';
         let cssClass = 'card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable';
@@ -107,7 +105,7 @@ export default function (view, params) {
         loading.show();
         ServerConnections.connectToServer(server, {
             enableAutoLogin: appSettings.enableAutoLogin()
-        }).then(function (result) {
+        }).then((result) => {
             loading.hide();
             const apiClient = result.ApiClient;
 
@@ -141,9 +139,9 @@ export default function (view, params) {
             text: globalize.translate('DeleteServerConfirmation'),
             confirmText: globalize.translate('Delete'),
             primary: 'delete'
-        }).then(function () {
+        }).then(() => {
             loading.show();
-            ServerConnections.deleteServer(server.Id).then(function () {
+            ServerConnections.deleteServer(server.Id).then(() => {
                 loading.hide();
                 loadServers();
             }).catch(err => {
@@ -167,7 +165,7 @@ export default function (view, params) {
         actionSheet.show({
             items: menuItems,
             title: server.Name
-        }).then(function (id) {
+        }).then((id) => {
             switch (id) {
                 case 'connect':
                     connectToServer(server);
@@ -196,7 +194,7 @@ export default function (view, params) {
 
     let servers;
     updatePageStyle(view, params);
-    view.addEventListener('viewshow', function (e) {
+    view.addEventListener('viewshow', (e) => {
         const isRestored = e.detail.isRestored;
         libraryMenu.setTitle(null);
         libraryMenu.setTransparentMenu(true);
@@ -205,7 +203,7 @@ export default function (view, params) {
             loadServers();
         }
     });
-    view.querySelector('.servers').addEventListener('click', function (e) {
+    view.querySelector('.servers').addEventListener('click', (e) => {
         const card = dom.parentWithClass(e.target, 'card');
 
         if (card) {
@@ -215,9 +213,7 @@ export default function (view, params) {
                 appRouter.show(url);
             } else {
                 const id = card.getAttribute('data-id');
-                onServerClick(servers.filter(function (s) {
-                    return s.Id === id;
-                })[0]);
+                onServerClick(servers.filter((s) => s.Id === id)[0]);
             }
         }
     });

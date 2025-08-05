@@ -81,7 +81,7 @@ const UserEdit = () => {
     const loadDeleteFolders = useCallback((page: HTMLDivElement, user: UserDto, mediaFolders: BaseItemDto[]) => {
         window.ApiClient.getJSON(window.ApiClient.getUrl('Channels', {
             SupportsMediaDeletion: true
-        })).then(function (channelsResult) {
+        })).then((channelsResult) => {
             let isChecked;
             let checkedAttribute;
             const itemsArr: ResetProvider[] = [];
@@ -122,19 +122,19 @@ const UserEdit = () => {
             return;
         }
 
-        window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/Providers')).then(function (providers) {
+        window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/Providers')).then((providers) => {
             loadAuthProviders(page, user, providers);
         }).catch(err => {
             console.error('[useredit] failed to fetch auth providers', err);
         });
-        window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/PasswordResetProviders')).then(function (providers) {
+        window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/PasswordResetProviders')).then((providers) => {
             loadPasswordResetProviders(page, user, providers);
         }).catch(err => {
             console.error('[useredit] failed to fetch password reset providers', err);
         });
         window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
-        })).then(function (folders) {
+        })).then((folders) => {
             loadDeleteFolders(page, user, folders.Items);
         }).catch(err => {
             console.error('[useredit] failed to fetch media folders', err);
@@ -177,7 +177,7 @@ const UserEdit = () => {
 
     const loadData = useCallback(() => {
         loading.show();
-        getUser().then(function (user) {
+        getUser().then((user) => {
             loadUser(user);
         }).catch(err => {
             console.error('[useredit] failed to load data', err);
@@ -236,7 +236,7 @@ const UserEdit = () => {
 
         const onSubmit = (e: Event) => {
             loading.show();
-            getUser().then(function (result) {
+            getUser().then((result) => {
                 saveUser(result);
             }).catch(err => {
                 console.error('[useredit] failed to fetch user', err);
@@ -250,7 +250,7 @@ const UserEdit = () => {
             (page.querySelector('.deleteAccess') as HTMLDivElement).classList.toggle('hide', this.checked);
         });
 
-        window.ApiClient.getNamedConfiguration('network').then(function (config) {
+        window.ApiClient.getNamedConfiguration('network').then((config) => {
             (page.querySelector('.fldRemoteAccess') as HTMLDivElement).classList.toggle('hide', !config.EnableRemoteAccess);
         }).catch(err => {
             console.error('[useredit] failed to load network config', err);
@@ -258,7 +258,7 @@ const UserEdit = () => {
 
         (page.querySelector('.editUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
 
-        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', function() {
+        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', () => {
             window.history.back();
         });
     }, [loadData]);

@@ -34,9 +34,7 @@ function onFileReaderError(evt) {
 
 function isValidSubtitleFile(file) {
     return file && ['.sub', '.srt', '.vtt', '.ass', '.ssa', '.mks']
-        .some(function(ext) {
-            return file.name.endsWith(ext);
-        });
+        .some((ext) => file.name.endsWith(ext));
 }
 
 function setFiles(page, files) {
@@ -55,25 +53,23 @@ function setFiles(page, files) {
     const reader = new FileReader();
 
     reader.onerror = onFileReaderError;
-    reader.onloadstart = function () {
+    reader.onloadstart = () => {
         page.querySelector('#fldUpload').classList.add('hide');
     };
-    reader.onabort = function () {
+    reader.onabort = () => {
         loading.hide();
         console.debug('File read cancelled');
     };
 
     // Closure to capture the file information.
-    reader.onload = (function (theFile) {
-        return function () {
+    reader.onload = ((theFile) => () => {
             // Render file.
             const html = `<div><span class="material-icons subtitles" aria-hidden="true" style="transform: translateY(25%);"></span><span>${escapeHtml(theFile.name)}</span></div>`;
 
             page.querySelector('#subtitleOutput').innerHTML = html;
             page.querySelector('#fldUpload').classList.remove('hide');
             page.querySelector('#labelDropSubtitle').classList.add('hide');
-        };
-    })(file);
+        })(file);
 
     // Read in the subtitle file as a data URL.
     reader.readAsDataURL(file);
@@ -103,7 +99,7 @@ async function onSubmit(e) {
     subtitleApi.uploadSubtitle({
         itemId: currentItemId,
         uploadSubtitleDto: { Data: data, Language: language, IsForced: isForced, Format: format, IsHearingImpaired: isHearingImpaired }
-    }).then(function () {
+    }).then(() => {
         dlg.querySelector('#uploadSubtitle').value = '';
         loading.hide();
         hasChanges = true;
@@ -118,7 +114,7 @@ function initEditor(page) {
     page.querySelector('#uploadSubtitle').addEventListener('change', function () {
         setFiles(page, this.files);
     });
-    page.querySelector('.btnBrowse').addEventListener('click', function () {
+    page.querySelector('.btnBrowse').addEventListener('click', () => {
         page.querySelector('#uploadSubtitle').click();
     });
 }
@@ -151,7 +147,7 @@ function showEditor(options, resolve) {
     }
 
     // Has to be assigned a z-index after the call to .open()
-    dlg.addEventListener('close', function () {
+    dlg.addEventListener('close', () => {
         if (layoutManager.tv) {
             scrollHelper.centerFocus.off(dlg, false);
         }
@@ -170,13 +166,13 @@ function showEditor(options, resolve) {
         selectLanguage.value = options.languages.value || null;
     }
 
-    dlg.querySelector('.btnCancel').addEventListener('click', function () {
+    dlg.querySelector('.btnCancel').addEventListener('click', () => {
         dialogHelper.close(dlg);
     });
 }
 
 export function show(options) {
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
         hasChanges = false;
         showEditor(options, resolve);
     });

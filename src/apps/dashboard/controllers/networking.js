@@ -8,7 +8,7 @@ import alert from 'components/alert';
 function onSubmit(e) {
     const form = this;
     const localAddress = form.querySelector('#txtLocalAddress').value;
-    confirmSelections(localAddress, function () {
+    confirmSelections(localAddress, () => {
         const validationResult = getValidationAlert(form);
 
         if (validationResult) {
@@ -16,35 +16,15 @@ function onSubmit(e) {
             return;
         }
 
-        validateHttps(form).then(function () {
+        validateHttps(form).then(() => {
             loading.show();
-            ApiClient.getNamedConfiguration('network').then(function (config) {
-                config.LocalNetworkSubnets = form.querySelector('#txtLanNetworks').value.split(',').map(function (s) {
-                    return s.trim();
-                }).filter(function (s) {
-                    return s.length > 0;
-                });
-                config.RemoteIPFilter = form.querySelector('#txtExternalAddressFilter').value.split(',').map(function (s) {
-                    return s.trim();
-                }).filter(function (s) {
-                    return s.length > 0;
-                });
-                config.KnownProxies = form.querySelector('#txtKnownProxies').value.split(',').map(function (s) {
-                    return s.trim();
-                }).filter(function (s) {
-                    return s.length > 0;
-                });
-                config.LocalNetworkAddresses = form.querySelector('#txtLocalAddress').value.split(',').map(function (s) {
-                    return s.trim();
-                }).filter(function (s) {
-                    return s.length > 0;
-                });
+            ApiClient.getNamedConfiguration('network').then((config) => {
+                config.LocalNetworkSubnets = form.querySelector('#txtLanNetworks').value.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
+                config.RemoteIPFilter = form.querySelector('#txtExternalAddressFilter').value.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
+                config.KnownProxies = form.querySelector('#txtKnownProxies').value.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
+                config.LocalNetworkAddresses = form.querySelector('#txtLocalAddress').value.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
 
-                config.PublishedServerUriBySubnet = form.querySelector('#txtPublishedServer').value.split(',').map(function (s) {
-                    return s.trim();
-                }).filter(function (s) {
-                    return s.length > 0;
-                });
+                config.PublishedServerUriBySubnet = form.querySelector('#txtPublishedServer').value.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
 
                 config.IsRemoteIPFilterBlacklist = form.querySelector('#selectExternalAddressFilterMode').value === 'blacklist';
                 config.PublicHttpPort = form.querySelector('#txtPublicHttpPort').value;
@@ -103,7 +83,7 @@ function validateHttps(form) {
 }
 
 function showAlertText(options) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         alert(options).then(resolve, reject);
     });
 }
@@ -158,13 +138,13 @@ export default function (view) {
             view.querySelector('.fldPublicHttpsPort').classList.add('hide');
         }
     });
-    view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
+    view.querySelector('#btnSelectCertPath').addEventListener('click', () => {
         import('components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 includeFiles: true,
                 includeDirectories: true,
-                callback: function (path) {
+                callback: (path) => {
                     if (path) {
                         view.querySelector('#txtCertificatePath').value = path;
                     }
@@ -176,9 +156,9 @@ export default function (view) {
         });
     });
     view.querySelector('.dashboardHostingForm').addEventListener('submit', onSubmit);
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         loading.show();
-        ApiClient.getNamedConfiguration('network').then(function (config) {
+        ApiClient.getNamedConfiguration('network').then((config) => {
             loadPage(view, config);
         });
     });

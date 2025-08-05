@@ -44,7 +44,7 @@ function loadRecommendedPrograms(page) {
         EnableImageTypes: 'Primary,Thumb,Backdrop',
         EnableTotalRecordCount: false,
         Fields: 'ChannelInfo,PrimaryImageAspectRatio'
-    }).then(function (result) {
+    }).then((result) => {
         renderItems(page, result.Items, 'activeProgramItems', 'play', {
             showAirDateTime: false,
             showAirEndTime: true
@@ -72,7 +72,7 @@ function reload(page, enableFullRender) {
             EnableTotalRecordCount: false,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio',
             EnableImageTypes: 'Primary,Thumb'
-        }).then(function (result) {
+        }).then((result) => {
             renderItems(page, result.Items, 'upcomingEpisodeItems');
         });
         ApiClient.getLiveTvPrograms({
@@ -83,7 +83,7 @@ function reload(page, enableFullRender) {
             EnableTotalRecordCount: false,
             Fields: 'ChannelInfo',
             EnableImageTypes: 'Primary,Thumb'
-        }).then(function (result) {
+        }).then((result) => {
             renderItems(page, result.Items, 'upcomingTvMovieItems', null, {
                 shape: getPortraitShape(enableScrollX()),
                 preferThumb: null,
@@ -98,7 +98,7 @@ function reload(page, enableFullRender) {
             EnableTotalRecordCount: false,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio',
             EnableImageTypes: 'Primary,Thumb'
-        }).then(function (result) {
+        }).then((result) => {
             renderItems(page, result.Items, 'upcomingSportsItems');
         });
         ApiClient.getLiveTvPrograms({
@@ -109,7 +109,7 @@ function reload(page, enableFullRender) {
             EnableTotalRecordCount: false,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio',
             EnableImageTypes: 'Primary,Thumb'
-        }).then(function (result) {
+        }).then((result) => {
             renderItems(page, result.Items, 'upcomingKidsItems');
         });
         ApiClient.getLiveTvPrograms({
@@ -120,7 +120,7 @@ function reload(page, enableFullRender) {
             EnableTotalRecordCount: false,
             Fields: 'ChannelInfo,PrimaryImageAspectRatio',
             EnableImageTypes: 'Primary,Thumb'
-        }).then(function (result) {
+        }).then((result) => {
             renderItems(page, result.Items, 'upcomingNewsItems', null, {
                 showParentTitleOrTitle: true,
                 showTitle: false,
@@ -294,7 +294,7 @@ export default function (view, params) {
     }
 
     function preLoadTab(page, index) {
-        getTabController(page, index, function (controller) {
+        getTabController(page, index, (controller) => {
             if (renderedTabs.indexOf(index) === -1 && controller.preRender) {
                 controller.preRender();
             }
@@ -303,7 +303,7 @@ export default function (view, params) {
 
     function loadTab(page, index) {
         currentTabIndex = index;
-        getTabController(page, index, function (controller) {
+        getTabController(page, index, (controller) => {
             initialTabIndex = null;
 
             if (renderedTabs.indexOf(index) === -1) {
@@ -332,7 +332,7 @@ export default function (view, params) {
     let currentTabIndex = parseInt(params.tab || getDefaultTabIndex('livetv'), 10);
     let initialTabIndex = currentTabIndex;
     let lastFullRender = 0;
-    [].forEach.call(view.querySelectorAll('.sectionTitleTextButton-programs'), function (link) {
+    [].forEach.call(view.querySelectorAll('.sectionTitleTextButton-programs'), (link) => {
         const href = link.getAttribute('href');
 
         if (href) {
@@ -340,7 +340,7 @@ export default function (view, params) {
         }
     });
 
-    self.initTab = function () {
+    self.initTab = () => {
         const tabContent = view.querySelector('.pageTabContent[data-index="0"]');
         const containers = tabContent.querySelectorAll('.itemsContainer');
 
@@ -349,7 +349,7 @@ export default function (view, params) {
         }
     };
 
-    self.renderTab = function () {
+    self.renderTab = () => {
         const tabContent = view.querySelector('.pageTabContent[data-index="0"]');
 
         if (enableFullRender()) {
@@ -363,11 +363,11 @@ export default function (view, params) {
     let currentTabController;
     const tabControllers = [];
     const renderedTabs = [];
-    view.addEventListener('viewbeforeshow', function (evt) {
+    view.addEventListener('viewbeforeshow', (evt) => {
         isViewRestored = evt.detail.isRestored;
         initTabs();
     });
-    view.addEventListener('viewshow', function (evt) {
+    view.addEventListener('viewshow', (evt) => {
         isViewRestored = evt.detail.isRestored;
 
         if (!isViewRestored) {
@@ -376,15 +376,15 @@ export default function (view, params) {
 
         inputManager.on(window, onInputCommand);
     });
-    view.addEventListener('viewbeforehide', function () {
+    view.addEventListener('viewbeforehide', () => {
         if (currentTabController?.onHide) {
             currentTabController.onHide();
         }
 
         inputManager.off(window, onInputCommand);
     });
-    view.addEventListener('viewdestroy', function () {
-        tabControllers.forEach(function (tabController) {
+    view.addEventListener('viewdestroy', () => {
+        tabControllers.forEach((tabController) => {
             if (tabController.destroy) {
                 tabController.destroy();
             }

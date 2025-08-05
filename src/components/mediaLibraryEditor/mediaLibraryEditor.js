@@ -181,7 +181,7 @@ function showDirectoryBrowser(context, originalPath, networkPath) {
             pathReadOnly: originalPath != null,
             path: originalPath,
             networkSharePath: networkPath,
-            callback: function (path, networkSharePath) {
+            callback: (path, networkSharePath) => {
                 if (path) {
                     if (originalPath) {
                         updateMediaLocation(context, originalPath, networkSharePath);

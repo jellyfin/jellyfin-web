@@ -205,7 +205,7 @@ function updateHeaderUserButton(src) {
 function updateClock() {
     if (layoutManager.tv) {
         currentTimeText.classList.remove('hide');
-        setInterval(function() {
+        setInterval(() => {
             currentTimeText.innerText = datetime.getDisplayTime(new Date());
         }, 1000);
     } else {
@@ -396,7 +396,7 @@ function onSidebarLinkClick() {
 function getUserViews(apiClient, userId) {
     return queryClient
         .fetchQuery(getUserViewsQuery(toApi(apiClient), userId))
-        .then(function (result) {
+        .then((result) => {
             const items = result.Items;
             const list = [];
 
@@ -468,10 +468,10 @@ function updateLibraryMenu(user) {
     const libraryMenuOptions = document.querySelector('.libraryMenuOptions');
 
     if (libraryMenuOptions) {
-        getUserViews(apiClient, userId).then(function (result) {
+        getUserViews(apiClient, userId).then((result) => {
             const items = result;
             let html = `<h3 class="sidebarHeader">${globalize.translate('HeaderMedia')}</h3>`;
-            html += items.map(function (i) {
+            html += items.map((i) => {
                 const icon = i.icon || imageHelper.getLibraryIcon(i.CollectionType);
                 const itemId = i.Id;
 
@@ -646,7 +646,7 @@ function refreshLibraryDrawer(user) {
     if (user) {
         Promise.resolve(user);
     } else {
-        ServerConnections.user(getCurrentApiClient()).then(function (userResult) {
+        ServerConnections.user(getCurrentApiClient()).then((userResult) => {
             refreshLibraryInfoInDrawer(userResult);
             updateLibraryMenu(userResult.localUser);
         });
@@ -672,7 +672,7 @@ function loadNavDrawer() {
     navDrawerElement = document.querySelector('.mainDrawer');
     navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
     navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
         import('../lib/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
             navDrawerInstance = new NavDrawer(getNavDrawerOptions());
 
@@ -711,9 +711,7 @@ function setTabs (type, selectedIndex, builder) {
 
     import('../components/maintabsmanager').then((mainTabsManager) => {
         if (type) {
-            mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
-                return [];
-            });
+            mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, () => []);
         } else {
             mainTabsManager.setTabs(null);
         }
@@ -828,7 +826,7 @@ Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => {
     fetchServerName(newApiClient);
 });
 
-Events.on(ServerConnections, 'localusersignedin', function (e, user) {
+Events.on(ServerConnections, 'localusersignedin', (e, user) => {
     const currentApiClient = ServerConnections.getApiClient(user.ServerId);
 
     currentDrawerType = null;
@@ -838,13 +836,13 @@ Events.on(ServerConnections, 'localusersignedin', function (e, user) {
 
     loadNavDrawer();
 
-    ServerConnections.user(currentApiClient).then(function (userResult) {
+    ServerConnections.user(currentApiClient).then((userResult) => {
         currentUser = userResult;
         updateUserInHeader(userResult);
     });
 });
 
-Events.on(ServerConnections, 'localusersignedout', function () {
+Events.on(ServerConnections, 'localusersignedout', () => {
     currentUser = {};
     updateUserInHeader();
 });
@@ -856,7 +854,7 @@ loadNavDrawer();
 
 const LibraryMenu = {
     getTopParentId,
-    onHardwareMenuButtonClick: function () {
+    onHardwareMenuButtonClick: () => {
         toggleMainDrawer();
     },
     setTabs,

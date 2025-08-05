@@ -73,11 +73,9 @@ const ProcessedButtons = [
 ];
 
 const _ButtonPressedState = {};
-_ButtonPressedState.getgamepadA = function () {
-    return _gamepadAPressed;
-};
+_ButtonPressedState.getgamepadA = () => _gamepadAPressed;
 
-_ButtonPressedState.setgamepadA = function (newPressedState) {
+_ButtonPressedState.setgamepadA = (newPressedState) => {
     const newPressedEvent = raiseKeyEvent(_gamepadAPressed, newPressedState, _GAMEPAD_A_KEY, _GAMEPAD_A_KEYCODE, false, true, _gamepadADownEvent);
     _gamepadAPressed = newPressedState;
 
@@ -89,83 +87,65 @@ _ButtonPressedState.setgamepadA = function (newPressedState) {
     }
 };
 
-_ButtonPressedState.getgamepadB = function () {
-    return _gamepadBPressed;
-};
+_ButtonPressedState.getgamepadB = () => _gamepadBPressed;
 
-_ButtonPressedState.setgamepadB = function (newPressedState) {
+_ButtonPressedState.setgamepadB = (newPressedState) => {
     raiseKeyEvent(_gamepadBPressed, newPressedState, _GAMEPAD_B_KEY, _GAMEPAD_B_KEYCODE);
     _gamepadBPressed = newPressedState;
 };
 
-_ButtonPressedState.getleftThumbstickUp = function () {
-    return _leftThumbstickUpPressed;
-};
+_ButtonPressedState.getleftThumbstickUp = () => _leftThumbstickUpPressed;
 
-_ButtonPressedState.setleftThumbstickUp = function (newPressedState) {
+_ButtonPressedState.setleftThumbstickUp = (newPressedState) => {
     raiseKeyEvent(_leftThumbstickUpPressed, newPressedState, _GAMEPAD_LEFT_THUMBSTICK_UP_KEY, _GAMEPAD_LEFT_THUMBSTICK_UP_KEYCODE, true);
     _leftThumbstickUpPressed = newPressedState;
 };
 
-_ButtonPressedState.getleftThumbstickDown = function () {
-    return _leftThumbstickDownPressed;
-};
+_ButtonPressedState.getleftThumbstickDown = () => _leftThumbstickDownPressed;
 
-_ButtonPressedState.setleftThumbstickDown = function (newPressedState) {
+_ButtonPressedState.setleftThumbstickDown = (newPressedState) => {
     raiseKeyEvent(_leftThumbstickDownPressed, newPressedState, _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY, _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEYCODE, true);
     _leftThumbstickDownPressed = newPressedState;
 };
 
-_ButtonPressedState.getleftThumbstickLeft = function () {
-    return _leftThumbstickLeftPressed;
-};
+_ButtonPressedState.getleftThumbstickLeft = () => _leftThumbstickLeftPressed;
 
-_ButtonPressedState.setleftThumbstickLeft = function (newPressedState) {
+_ButtonPressedState.setleftThumbstickLeft = (newPressedState) => {
     raiseKeyEvent(_leftThumbstickLeftPressed, newPressedState, _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY, _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEYCODE, true);
     _leftThumbstickLeftPressed = newPressedState;
 };
 
-_ButtonPressedState.getleftThumbstickRight = function () {
-    return _leftThumbstickRightPressed;
-};
+_ButtonPressedState.getleftThumbstickRight = () => _leftThumbstickRightPressed;
 
-_ButtonPressedState.setleftThumbstickRight = function (newPressedState) {
+_ButtonPressedState.setleftThumbstickRight = (newPressedState) => {
     raiseKeyEvent(_leftThumbstickRightPressed, newPressedState, _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY, _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEYCODE, true);
     _leftThumbstickRightPressed = newPressedState;
 };
 
-_ButtonPressedState.getdPadUp = function () {
-    return _dPadUpPressed;
-};
+_ButtonPressedState.getdPadUp = () => _dPadUpPressed;
 
-_ButtonPressedState.setdPadUp = function (newPressedState) {
+_ButtonPressedState.setdPadUp = (newPressedState) => {
     raiseKeyEvent(_dPadUpPressed, newPressedState, _GAMEPAD_DPAD_UP_KEY, _GAMEPAD_DPAD_UP_KEYCODE, true);
     _dPadUpPressed = newPressedState;
 };
 
-_ButtonPressedState.getdPadDown = function () {
-    return _dPadDownPressed;
-};
+_ButtonPressedState.getdPadDown = () => _dPadDownPressed;
 
-_ButtonPressedState.setdPadDown = function (newPressedState) {
+_ButtonPressedState.setdPadDown = (newPressedState) => {
     raiseKeyEvent(_dPadDownPressed, newPressedState, _GAMEPAD_DPAD_DOWN_KEY, _GAMEPAD_DPAD_DOWN_KEYCODE, true);
     _dPadDownPressed = newPressedState;
 };
 
-_ButtonPressedState.getdPadLeft = function () {
-    return _dPadLeftPressed;
-};
+_ButtonPressedState.getdPadLeft = () => _dPadLeftPressed;
 
-_ButtonPressedState.setdPadLeft = function (newPressedState) {
+_ButtonPressedState.setdPadLeft = (newPressedState) => {
     raiseKeyEvent(_dPadLeftPressed, newPressedState, _GAMEPAD_DPAD_LEFT_KEY, _GAMEPAD_DPAD_LEFT_KEYCODE, true);
     _dPadLeftPressed = newPressedState;
 };
 
-_ButtonPressedState.getdPadRight = function () {
-    return _dPadRightPressed;
-};
+_ButtonPressedState.getdPadRight = () => _dPadRightPressed;
 
-_ButtonPressedState.setdPadRight = function (newPressedState) {
+_ButtonPressedState.setdPadRight = (newPressedState) => {
     raiseKeyEvent(_dPadRightPressed, newPressedState, _GAMEPAD_DPAD_RIGHT_KEY, _GAMEPAD_DPAD_RIGHT_KEYCODE, true);
     _dPadRightPressed = newPressedState;
 };

@@ -77,11 +77,9 @@ export function getItemsForPlayback(apiClient, query) {
     if (query.Ids && query.Ids.split(',').length === 1) {
         const itemId = query.Ids.split(',');
 
-        return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-            return {
+        return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => ({
                 Items: [item]
-            };
-        });
+            }));
     } else {
         query.Limit = query.Limit || 300;
         query.Fields = ['Chapters', 'Trickplay'];
@@ -107,9 +105,7 @@ function mergePlaybackQueries(obj1, obj2) {
 export function translateItemsForPlayback(apiClient, items, options) {
     if (items.length > 1 && options?.ids) {
         // Use the original request id array for sorting the result in the proper order.
-        items.sort(function (a, b) {
-            return options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id);
-        });
+        items.sort((a, b) => options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id));
     }
 
     const firstItem = items[0];
@@ -142,10 +138,8 @@ export function translateItemsForPlayback(apiClient, items, options) {
             Recursive: false,
             SortBy: options.shuffle ? 'Random' : 'SortName',
             MediaTypes: 'Photo,Video'
-        }).then(function (result) {
-            let index = result.Items.map(function (i) {
-                return i.Id;
-            }).indexOf(firstItem.Id);
+        }).then((result) => {
+            let index = result.Items.map((i) => i.Id).indexOf(firstItem.Id);
 
             if (index === -1) {
                 index = 0;
@@ -189,8 +183,8 @@ export function translateItemsForPlayback(apiClient, items, options) {
             MediaTypes: 'Audio,Video'
         }, queryOptions));
     } else if (firstItem.Type === 'Episode' && items.length === 1) {
-        promise = new Promise(function (resolve, reject) {
-            apiClient.getCurrentUser().then(function (user) {
+        promise = new Promise((resolve, reject) => {
+            apiClient.getCurrentUser().then((user) => {
                 if (!user.Configuration.EnableNextEpisodeAutoPlay || !firstItem.SeriesId) {
                     resolve(null);
                     return;
@@ -201,9 +195,9 @@ export function translateItemsForPlayback(apiClient, items, options) {
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
                     Fields: ['Chapters', 'Trickplay']
-                }).then(function (episodesResult) {
+                }).then((episodesResult) => {
                     let foundItem = false;
-                    episodesResult.Items = episodesResult.Items.filter(function (e) {
+                    episodesResult.Items = episodesResult.Items.filter((e) => {
                         if (foundItem) {
                             return true;
                         }
@@ -222,9 +216,7 @@ export function translateItemsForPlayback(apiClient, items, options) {
     }
 
     if (promise) {
-        return promise.then(function (result) {
-            return result ? result.Items : items;
-        });
+        return promise.then((result) => result ? result.Items : items);
     } else {
         return Promise.resolve(items);
     }

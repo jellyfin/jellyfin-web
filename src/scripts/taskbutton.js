@@ -14,9 +14,7 @@ function taskbutton(options) {
     }
 
     function updateTasks(tasks) {
-        const task = tasks.filter(function (t) {
-            return t.Key == options.taskKey;
-        })[0];
+        const task = tasks.filter((t) => t.Key == options.taskKey)[0];
 
         if (options.panel) {
             if (task) {

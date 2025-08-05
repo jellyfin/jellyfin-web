@@ -46,7 +46,7 @@ function getBaseProfileOptions(item) {
 }
 
 function getDeviceProfile(item) {
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
         let profile;
 
         if (window.NativeShell) {
@@ -224,7 +224,7 @@ function onAppHidden() {
     }
 }
 
-const supportedFeatures = function () {
+const supportedFeatures = (() => {
     const features = [];
 
     if (navigator.share) {
@@ -290,7 +290,7 @@ const supportedFeatures = function () {
     }
 
     return features;
-}();
+})();
 
 /**
      * Do exit according to platform
@@ -328,11 +328,11 @@ function askForExit() {
                 { id: 'yes', name: globalize.translate('Yes') },
                 { id: 'no', name: globalize.translate('No') }
             ]
-        }).then(function (value) {
+        }).then((value) => {
             if (value === 'yes') {
                 doExit();
             }
-        }).finally(function () {
+        }).finally(() => {
             exitPromise = null;
         });
     });
@@ -342,20 +342,18 @@ let deviceId;
 let deviceName;
 
 export const appHost = {
-    getWindowState: function () {
-        return document.windowState || 'Normal';
-    },
-    setWindowState: function () {
+    getWindowState: () => document.windowState || 'Normal',
+    setWindowState: () => {
         alert('setWindowState is not supported and should not be called');
     },
-    exit: function () {
+    exit: () => {
         if (!!window.appMode && browser.tizen) {
             askForExit();
         } else {
             doExit();
         }
     },
-    supports: function (command) {
+    supports: (command) => {
         if (window.NativeShell) {
             return window.NativeShell.AppHost.supports(command);
         }
@@ -363,7 +361,7 @@ export const appHost = {
         return supportedFeatures.indexOf(command.toLowerCase()) !== -1;
     },
     preferVisualCards: browser.android || browser.chrome,
-    getDefaultLayout: function () {
+    getDefaultLayout: () => {
         if (window.NativeShell) {
             return window.NativeShell.AppHost.getDefaultLayout();
         }
@@ -371,7 +369,7 @@ export const appHost = {
         return getDefaultLayout();
     },
     getDeviceProfile: getDeviceProfile,
-    init: function () {
+    init: () => {
         if (window.NativeShell) {
             return window.NativeShell.AppHost.init();
         }
@@ -381,26 +379,16 @@ export const appHost = {
             deviceName: getDeviceName()
         };
     },
-    deviceName: function () {
-        return window.NativeShell?.AppHost?.deviceName ?
-            window.NativeShell.AppHost.deviceName() : getDeviceName();
-    },
-    deviceId: function () {
-        return window.NativeShell?.AppHost?.deviceId ?
-            window.NativeShell.AppHost.deviceId() : getDeviceId();
-    },
-    appName: function () {
-        return window.NativeShell?.AppHost?.appName ?
-            window.NativeShell.AppHost.appName() : appName;
-    },
-    appVersion: function () {
-        return window.NativeShell?.AppHost?.appVersion ?
-            window.NativeShell.AppHost.appVersion() : __PACKAGE_JSON_VERSION__;
-    },
-    getPushTokenInfo: function () {
-        return {};
-    },
-    setUserScalable: function (scalable) {
+    deviceName: () => window.NativeShell?.AppHost?.deviceName ?
+            window.NativeShell.AppHost.deviceName() : getDeviceName(),
+    deviceId: () => window.NativeShell?.AppHost?.deviceId ?
+            window.NativeShell.AppHost.deviceId() : getDeviceId(),
+    appName: () => window.NativeShell?.AppHost?.appName ?
+            window.NativeShell.AppHost.appName() : appName,
+    appVersion: () => window.NativeShell?.AppHost?.appVersion ?
+            window.NativeShell.AppHost.appVersion() : __PACKAGE_JSON_VERSION__,
+    getPushTokenInfo: () => ({}),
+    setUserScalable: (scalable) => {
         if (!browser.tv) {
             const att = scalable ? 'width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes' : 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no';
             document.querySelector('meta[name=viewport]').setAttribute('content', att);
@@ -441,7 +429,7 @@ if (typeof document.hidden !== 'undefined') {
     visibilityChange = 'webkitvisibilitychange';
 }
 
-document.addEventListener(visibilityChange, function () {
+document.addEventListener(visibilityChange, () => {
     if (document[hidden]) {
         onAppHidden();
     } else {

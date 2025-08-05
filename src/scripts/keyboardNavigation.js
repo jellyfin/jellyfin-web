@@ -167,7 +167,7 @@ export function isInteractiveElement(element) {
 
 export function enable() {
     const hasMediaSession = 'mediaSession' in navigator;
-    window.addEventListener('keydown', function (e) {
+    window.addEventListener('keydown', (e) => {
         if (e.defaultPrevented) return;
 
         // Skip modified keys

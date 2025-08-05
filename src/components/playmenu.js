@@ -35,7 +35,7 @@ export function show(options) {
         items: menuItems,
         positionTo: options.positionTo
 
-    }).then(function (id) {
+    }).then((id) => {
         switch (id) {
             case 'play':
                 playbackManager.play({

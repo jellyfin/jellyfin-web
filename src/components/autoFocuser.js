@@ -26,7 +26,7 @@ export function enable() {
         return;
     }
 
-    window.addEventListener('focusin', function (e) {
+    window.addEventListener('focusin', (e) => {
         activeElement = e.target;
     });
 
@@ -66,7 +66,7 @@ export function autoFocus(container) {
 
     let focusedElement;
 
-    candidates.every(function (element) {
+    candidates.every((element) => {
         if (focusManager.isCurrentlyFocusable(element)) {
             focusManager.focus(element);
             focusedElement = element;

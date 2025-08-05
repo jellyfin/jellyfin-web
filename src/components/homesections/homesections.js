@@ -57,7 +57,7 @@ export function loadSections(elem, apiClient, user, userSettings) {
     return queryClient
         .fetchQuery(getUserViewsQuery(toApi(apiClient), userId))
         .then(result => result.Items || [])
-        .then(function (userViews) {
+        .then((userViews) => {
             let html = '';
 
             if (userViews.length) {
@@ -101,7 +101,7 @@ export function loadSections(elem, apiClient, user, userSettings) {
 
                 const createNowLink = elem.querySelector('#button-createLibrary');
                 if (createNowLink) {
-                    createNowLink.addEventListener('click', function () {
+                    createNowLink.addEventListener('click', () => {
                         Dashboard.navigate('dashboard/libraries');
                     });
                 }

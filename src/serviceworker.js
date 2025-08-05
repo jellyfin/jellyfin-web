@@ -5,7 +5,7 @@ function getApiClient(serverId) {
 }
 
 function executeAction(action, data, serverId) {
-    return getApiClient(serverId).then(function (apiClient) {
+    return getApiClient(serverId).then((apiClient) => {
         switch (action) {
             case 'cancel-install':
                 return apiClient.cancelPackageInstallation(data.id);
@@ -19,7 +19,7 @@ function executeAction(action, data, serverId) {
 }
 
 /* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
-self.addEventListener('notificationclick', function (event) {
+self.addEventListener('notificationclick', (event) => {
     const notification = event.notification;
     notification.close();
 

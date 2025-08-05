@@ -211,7 +211,7 @@ export default function (options) {
         dialog.innerHTML = html;
 
         if (slideshowOptions.interactive && !layoutManager.tv) {
-            dialog.querySelector('.btnSlideshowExit').addEventListener('click', function () {
+            dialog.querySelector('.btnSlideshowExit').addEventListener('click', () => {
                 dialogHelper.close(dialog);
             });
 
@@ -244,7 +244,7 @@ export default function (options) {
             }
 
             if (screenfull.isEnabled) {
-                screenfull.on('change', function () {
+                screenfull.on('change', () => {
                     toggleFullscreenButtons(screenfull.isFullscreen);
                 });
             }
@@ -252,7 +252,7 @@ export default function (options) {
 
         setUserScalable(true);
 
-        dialogHelper.open(dialog).then(function () {
+        dialogHelper.open(dialog).then(() => {
             setUserScalable(false);
         });
 
@@ -664,7 +664,7 @@ export default function (options) {
 
         element.classList.remove('hide');
 
-        const onFinish = function () {
+        const onFinish = () => {
             const btnSlideshowPause = element.querySelector('.btnSlideshowPause');
             if (btnSlideshowPause) focusManager.focus(btnSlideshowPause);
         };
@@ -674,7 +674,7 @@ export default function (options) {
             return;
         }
 
-        requestAnimationFrame(function () {
+        requestAnimationFrame(() => {
             const keyframes = keyframesSlide(slideFrom, false, element);
             const timing = { duration: 300, iterations: 1, easing: 'ease-out' };
             element.animate(keyframes, timing).onfinish = onFinish;
@@ -691,7 +691,7 @@ export default function (options) {
             return;
         }
 
-        const onFinish = function () {
+        const onFinish = () => {
             element.classList.add('hide');
         };
 
@@ -700,7 +700,7 @@ export default function (options) {
             return;
         }
 
-        requestAnimationFrame(function () {
+        requestAnimationFrame(() => {
             const keyframes = keyframesSlide(slideInto, true, element);
             const timing = { duration: 300, iterations: 1, easing: 'ease-out' };
             element.animate(keyframes, timing).onfinish = onFinish;
@@ -779,14 +779,14 @@ export default function (options) {
     /**
      * Shows the slideshow component.
      */
-    self.show = function () {
+    self.show = () => {
         createElements(options);
     };
 
     /**
      * Hides the slideshow element.
      */
-    self.hide = function () {
+    self.hide = () => {
         if (dialog) {
             dialogHelper.close(dialog);
         }

@@ -28,7 +28,7 @@ const UserProfiles = () => {
 
     const loadData = () => {
         loading.show();
-        window.ApiClient.getUsers().then(function (result) {
+        window.ApiClient.getUsers().then((result) => {
             setUsers(result);
             loading.hide();
         }).catch(err => {
@@ -83,7 +83,7 @@ const UserProfiles = () => {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: card,
-                    callback: function (id: string) {
+                    callback: (id: string) => {
                         switch (id) {
                             case 'open':
                                 Dashboard.navigate('/dashboard/users/profile?userId=' + userId)
@@ -127,9 +127,9 @@ const UserProfiles = () => {
                 text,
                 confirmText: globalize.translate('Delete'),
                 primary: 'delete'
-            }).then(function () {
+            }).then(() => {
                 loading.show();
-                window.ApiClient.deleteUser(id).then(function () {
+                window.ApiClient.deleteUser(id).then(() => {
                     loadData();
                 }).catch(err => {
                     console.error('[userprofiles] failed to delete user', err);
@@ -139,7 +139,7 @@ const UserProfiles = () => {
             });
         };
 
-        page.addEventListener('click', function (e) {
+        page.addEventListener('click', (e) => {
             const btnUserMenu = dom.parentWithClass(e.target as HTMLElement, 'btnUserMenu');
 
             if (btnUserMenu) {
@@ -147,7 +147,7 @@ const UserProfiles = () => {
             }
         });
 
-        (page.querySelector('#btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
+        (page.querySelector('#btnAddUser') as HTMLButtonElement).addEventListener('click', () => {
             Dashboard.navigate('/dashboard/users/add')
                 .catch(err => {
                     console.error('[userprofiles] failed to navigate to new user page', err);

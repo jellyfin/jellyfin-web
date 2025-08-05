@@ -72,7 +72,7 @@ export default function (view, params, tabContent) {
         const query = getQuery();
         setFilterStatus(page, query);
 
-        ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
+        ApiClient.getItems(Dashboard.getCurrentUserId(), query).then((result) => {
             function onNextPageClick() {
                 if (isLoading) {
                     return;
@@ -169,29 +169,27 @@ export default function (view, params, tabContent) {
     const data = {};
     let isLoading = false;
 
-    self.showFilterMenu = function () {
+    self.showFilterMenu = () => {
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: 'episodes',
                 serverId: ApiClient.serverId()
             });
-            Events.on(filterDialog, 'filterchange', function () {
+            Events.on(filterDialog, 'filterchange', () => {
                 reloadItems(tabContent);
             });
             filterDialog.show();
         });
     };
 
-    self.getCurrentViewStyle = function () {
-        return getPageData().view;
-    };
+    self.getCurrentViewStyle = () => getPageData().view;
 
     function initPage(tabElement) {
-        tabElement.querySelector('.btnFilter').addEventListener('click', function () {
+        tabElement.querySelector('.btnFilter').addEventListener('click', () => {
             self.showFilterMenu();
         });
-        tabElement.querySelector('.btnSort').addEventListener('click', function (e) {
+        tabElement.querySelector('.btnSort').addEventListener('click', (e) => {
             libraryBrowser.showSortMenu({
                 items: [{
                     name: globalize.translate('Name'),
@@ -218,7 +216,7 @@ export default function (view, params, tabContent) {
                     name: globalize.translate('Runtime'),
                     id: 'Runtime,SeriesSortName,SortName'
                 }],
-                callback: function () {
+                callback: () => {
                     reloadItems(tabElement);
                 },
                 query: getQuery(),
@@ -226,10 +224,10 @@ export default function (view, params, tabContent) {
             });
         });
         const btnSelectView = tabElement.querySelector('.btnSelectView');
-        btnSelectView.addEventListener('click', function (e) {
+        btnSelectView.addEventListener('click', (e) => {
             libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
         });
-        btnSelectView.addEventListener('layoutchange', function (e) {
+        btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;
             getPageData().view = viewStyle;
             userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);
@@ -241,7 +239,7 @@ export default function (view, params, tabContent) {
     initPage(tabContent);
     onViewStyleChange();
 
-    self.renderTab = function () {
+    self.renderTab = () => {
         reloadItems(tabContent);
     };
 }

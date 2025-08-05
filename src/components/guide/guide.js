@@ -30,7 +30,7 @@ import template from './tvguide.template.html';
 
 function showViewSettings(instance) {
     import('./guide-settings').then(({ default: guideSettingsDialog }) => {
-        guideSettingsDialog.show(instance.categoryOptions).then(function () {
+        guideSettingsDialog.show(instance.categoryOptions).then(() => {
             instance.refresh();
         });
     });
@@ -85,7 +85,7 @@ function updateProgramCellsOnScroll(programGrid, programCells) {
 
     isUpdatingProgramCellScroll = true;
 
-    requestAnimationFrame(function () {
+    requestAnimationFrame(() => {
         const scrollLeft = programGrid.scrollLeft;
 
         const scrollPct = scrollLeft ? (scrollLeft / programGrid.scrollWidth) * 100 : 0;
@@ -145,17 +145,17 @@ function Guide(options) {
     let programCells;
     let lastFocusDirection;
 
-    self.refresh = function () {
+    self.refresh = () => {
         currentDate = null;
         reloadPage(options.element);
         restartAutoRefresh();
     };
 
-    self.pause = function () {
+    self.pause = () => {
         stopAutoRefresh();
     };
 
-    self.resume = function (refreshData) {
+    self.resume = (refreshData) => {
         if (refreshData) {
             self.refresh();
         } else {
@@ -163,7 +163,7 @@ function Guide(options) {
         }
     };
 
-    self.destroy = function () {
+    self.destroy = () => {
         stopAutoRefresh();
 
         Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
@@ -180,7 +180,7 @@ function Guide(options) {
 
         const intervalMs = 60000 * 15; // (minutes)
 
-        autoRefreshInterval = setInterval(function () {
+        autoRefreshInterval = setInterval(() => {
             self.refresh();
         }, intervalMs);
     }
@@ -294,7 +294,7 @@ function Guide(options) {
             showEpisodeTitle: !layoutManager.tv
         };
 
-        apiClient.getLiveTvChannels(channelQuery).then(function (channelsResult) {
+        apiClient.getLiveTvChannels(channelQuery).then((channelsResult) => {
             const btnPreviousPage = context.querySelector('.btnPreviousPage');
             const btnNextPage = context.querySelector('.btnNextPage');
 
@@ -325,9 +325,7 @@ function Guide(options) {
                 UserId: apiClient.getCurrentUserId(),
                 MaxStartDate: nextDay.toISOString(),
                 MinEndDate: date.toISOString(),
-                channelIds: channelsResult.Items.map(function (c) {
-                    return c.Id;
-                }).join(','),
+                channelIds: channelsResult.Items.map((c) => c.Id).join(','),
                 ImageTypeLimit: 1,
                 EnableImages: false,
                 //EnableImageTypes: layoutManager.tv ? "Primary,Backdrop" : "Primary",
@@ -344,7 +342,7 @@ function Guide(options) {
                 programQuery.Fields = programFields.join('');
             }
 
-            apiClient.getLiveTvPrograms(programQuery).then(function (programsResult) {
+            apiClient.getLiveTvPrograms(programQuery).then((programsResult) => {
                 const guideOptions = { focusProgramOnRender, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs };
 
                 renderGuide(context, date, channelsResult.Items, programsResult.Items, renderOptions, guideOptions, apiClient);
@@ -670,9 +668,7 @@ function Guide(options) {
     }
 
     function renderGuide(context, date, channels, programs, renderOptions, guideOptions, apiClient) {
-        programs.sort(function (a, b) {
-            return getProgramSortOrder(a, channels) - getProgramSortOrder(b, channels);
-        });
+        programs.sort((a, b) => getProgramSortOrder(a, channels) - getProgramSortOrder(b, channels));
 
         const activeElement = document.activeElement;
         const itemId = activeElement?.getAttribute ? activeElement.getAttribute('data-id') : null;
@@ -875,7 +871,7 @@ function Guide(options) {
 
         const apiClient = ServerConnections.getApiClient(options.serverId);
 
-        apiClient.getLiveTvGuideInfo().then(function (guideInfo) {
+        apiClient.getLiveTvGuideInfo().then((guideInfo) => {
             setDateRange(page, guideInfo);
         });
     }
@@ -1127,24 +1123,24 @@ function Guide(options) {
 
     programGrid.addEventListener('click', onProgramGridClick);
 
-    guideContext.querySelector('.btnNextPage').addEventListener('click', function () {
+    guideContext.querySelector('.btnNextPage').addEventListener('click', () => {
         currentStartIndex += currentChannelLimit;
         reloadPage(guideContext);
         restartAutoRefresh();
     });
 
-    guideContext.querySelector('.btnPreviousPage').addEventListener('click', function () {
+    guideContext.querySelector('.btnPreviousPage').addEventListener('click', () => {
         currentStartIndex = Math.max(currentStartIndex - currentChannelLimit, 0);
         reloadPage(guideContext);
         restartAutoRefresh();
     });
 
-    guideContext.querySelector('.btnGuideViewSettings').addEventListener('click', function () {
+    guideContext.querySelector('.btnGuideViewSettings').addEventListener('click', () => {
         showViewSettings(self);
         restartAutoRefresh();
     });
 
-    guideContext.querySelector('.guideDateTabs').addEventListener('tabchange', function (e) {
+    guideContext.querySelector('.guideDateTabs').addEventListener('tabchange', (e) => {
         const allTabButtons = e.target.querySelectorAll('.guide-date-tab-button');
 
         const tabButton = allTabButtons[parseInt(e.detail.selectedTabIndex, 10)];

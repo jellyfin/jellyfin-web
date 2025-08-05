@@ -56,7 +56,7 @@ export default function (view, params, tabContent) {
         const query = getQuery();
         setFilterStatus(tabContent, query);
 
-        ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
+        ApiClient.getItems(Dashboard.getCurrentUserId(), query).then((result) => {
             function onNextPageClick() {
                 if (isLoading) {
                     return;
@@ -133,14 +133,14 @@ export default function (view, params, tabContent) {
     const data = {};
     let isLoading = false;
 
-    self.showFilterMenu = function () {
+    self.showFilterMenu = () => {
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: 'songs',
                 serverId: ApiClient.serverId()
             });
-            Events.on(filterDialog, 'filterchange', function () {
+            Events.on(filterDialog, 'filterchange', () => {
                 getQuery().StartIndex = 0;
                 reloadItems();
             });
@@ -149,20 +149,18 @@ export default function (view, params, tabContent) {
     };
 
     function shuffle() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then((item) => {
             playbackManager.shuffle(item);
         });
     }
 
-    self.getCurrentViewStyle = function () {
-        return getPageData().view;
-    };
+    self.getCurrentViewStyle = () => getPageData().view;
 
     function initPage(tabElement) {
-        tabElement.querySelector('.btnFilter').addEventListener('click', function () {
+        tabElement.querySelector('.btnFilter').addEventListener('click', () => {
             self.showFilterMenu();
         });
-        tabElement.querySelector('.btnSort').addEventListener('click', function (e) {
+        tabElement.querySelector('.btnSort').addEventListener('click', (e) => {
             libraryBrowser.showSortMenu({
                 items: [{
                     name: globalize.translate('OptionTrackName'),
@@ -195,7 +193,7 @@ export default function (view, params, tabContent) {
                     name: globalize.translate('OptionRandom'),
                     id: 'Random,SortName'
                 }],
-                callback: function () {
+                callback: () => {
                     getQuery().StartIndex = 0;
                     reloadItems();
                 },
@@ -208,7 +206,7 @@ export default function (view, params, tabContent) {
 
     initPage(tabContent);
 
-    self.renderTab = function () {
+    self.renderTab = () => {
         reloadItems(tabContent);
     };
 }

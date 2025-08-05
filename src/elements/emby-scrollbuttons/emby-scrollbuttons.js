@@ -6,7 +6,7 @@ import { scrollerItemSlideIntoView } from './utils';
 
 const EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);
 
-EmbyScrollButtonsPrototype.createdCallback = function () {
+EmbyScrollButtonsPrototype.createdCallback = () => {
     // no-op
 };
 

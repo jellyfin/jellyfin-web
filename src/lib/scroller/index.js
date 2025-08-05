@@ -215,21 +215,15 @@ const scrollerFactory = function (frame, options) {
         self.frameResizeObserver.observe(frame);
     }
 
-    self.reload = function () {
+    self.reload = () => {
         load();
     };
 
-    self.getScrollEventName = function () {
-        return transform ? 'scrollanimate' : 'scroll';
-    };
+    self.getScrollEventName = () => transform ? 'scrollanimate' : 'scroll';
 
-    self.getScrollSlider = function () {
-        return slideeElement;
-    };
+    self.getScrollSlider = () => slideeElement;
 
-    self.getScrollFrame = function () {
-        return frame;
-    };
+    self.getScrollFrame = () => frame;
 
     function nativeScrollTo(container, pos, immediate) {
         if (container.scroll) {
@@ -267,7 +261,7 @@ const scrollerFactory = function (frame, options) {
          *
          * @return {Void}
          */
-    self.slideTo = function (newPos, immediate, fullItemPos) {
+    self.slideTo = (newPos, immediate, fullItemPos) => {
         ensureSizeInfo();
         const pos = self._pos;
 
@@ -360,7 +354,7 @@ const scrollerFactory = function (frame, options) {
      *
      * @return {Object}
      */
-    self.getPos = function (item) {
+    self.getPos = (item) => {
         const scrollElement = transform ? slideeElement : nativeScrollElement;
         const slideeOffset = getBoundingClientRect(scrollElement);
         const itemOffset = getBoundingClientRect(item);
@@ -409,7 +403,7 @@ const scrollerFactory = function (frame, options) {
         };
     };
 
-    self.getCenterPosition = function (item) {
+    self.getCenterPosition = (item) => {
         ensureSizeInfo();
 
         const pos = self.getPos(item);
@@ -455,13 +449,13 @@ const scrollerFactory = function (frame, options) {
         // Bind dragging events
         if (transform) {
             if (isTouch) {
-                dragTouchEvents.forEach(function (eventName) {
+                dragTouchEvents.forEach((eventName) => {
                     dom.addEventListener(document, eventName, dragHandler, {
                         passive: true
                     });
                 });
             } else {
-                dragMouseEvents.forEach(function (eventName) {
+                dragMouseEvents.forEach((eventName) => {
                     dom.addEventListener(document, eventName, dragHandler, {
                         passive: true
                     });
@@ -528,20 +522,20 @@ const scrollerFactory = function (frame, options) {
     function dragEnd() {
         dragging.released = true;
 
-        dragTouchEvents.forEach(function (eventName) {
+        dragTouchEvents.forEach((eventName) => {
             dom.removeEventListener(document, eventName, dragHandler, {
                 passive: true
             });
         });
 
-        dragMouseEvents.forEach(function (eventName) {
+        dragMouseEvents.forEach((eventName) => {
             dom.removeEventListener(document, eventName, dragHandler, {
                 passive: true
             });
         });
 
         // Make sure that disableOneEvent is not active in next tick.
-        setTimeout(function () {
+        setTimeout(() => {
             dragging.source.removeEventListener('click', disableOneEvent);
         });
 
@@ -618,7 +612,7 @@ const scrollerFactory = function (frame, options) {
      *
      * @return {Void}
      */
-    self.destroy = function () {
+    self.destroy = () => {
         if (self.frameResizeObserver) {
             self.frameResizeObserver.disconnect();
             self.frameResizeObserver = null;
@@ -691,7 +685,7 @@ const scrollerFactory = function (frame, options) {
         }
     }
 
-    self.getScrollPosition = function () {
+    self.getScrollPosition = () => {
         if (transform) {
             return self._pos.cur;
         }
@@ -703,7 +697,7 @@ const scrollerFactory = function (frame, options) {
         }
     };
 
-    self.getScrollSize = function () {
+    self.getScrollSize = () => {
         if (transform) {
             return slideeSize;
         }
@@ -720,7 +714,7 @@ const scrollerFactory = function (frame, options) {
      *
      * @return {Object}
      */
-    self.init = function () {
+    self.init = () => {
         if (self.initialized) {
             return;
         }
@@ -900,7 +894,7 @@ scrollerFactory.prototype.toCenter = function (item, immediate) {
     this.to('center', item, immediate);
 };
 
-scrollerFactory.create = function (frame, options) {
+scrollerFactory.create = (frame, options) => {
     // eslint-disable-next-line new-cap
     const instance = new scrollerFactory(frame, options);
     return Promise.resolve(instance);

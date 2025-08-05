@@ -34,7 +34,7 @@ function loadLatest(page, userId, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
+    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then((items) => {
         const allowBottomPadding = !enableScrollX();
         const container = page.querySelector('#recentlyAddedItems');
         cardBuilder.buildCards(items, {
@@ -69,7 +69,7 @@ function loadResume(page, userId, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getItems(userId, options).then(function (result) {
+    ApiClient.getItems(userId, options).then((result) => {
         if (result.Items.length) {
             page.querySelector('#resumableSection').classList.remove('hide');
         } else {
@@ -166,7 +166,7 @@ function loadSuggestions(page, userId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb'
     });
-    ApiClient.getJSON(url).then(function (recommendations) {
+    ApiClient.getJSON(url).then((recommendations) => {
         if (!recommendations.length) {
             page.querySelector('.noItemsMessage').classList.remove('hide');
             page.querySelector('.recommendations').innerHTML = '';
@@ -329,7 +329,7 @@ export default function (view, params) {
     };
 
     function preLoadTab(page, index) {
-        getTabController(page, index, function (controller) {
+        getTabController(page, index, (controller) => {
             if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
                 controller.preRender();
             }
@@ -363,25 +363,25 @@ export default function (view, params) {
     let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId), 10);
     const suggestionsTabIndex = 1;
 
-    this.initTab = function () {
+    this.initTab = () => {
         const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
         initSuggestedTab(view, tabContent);
     };
 
-    this.renderTab = function () {
+    this.renderTab = () => {
         const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
         loadSuggestionsTab(view, params, tabContent);
     };
 
     const tabControllers = [];
     let renderedTabs = [];
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         initTabs();
         if (!view.getAttribute('data-title')) {
             const parentId = params.topParentId;
 
             if (parentId) {
-                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
+                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then((item) => {
                     view.setAttribute('data-title', item.Name);
                     libraryMenu.setTitle(item.Name);
                 });
@@ -394,7 +394,7 @@ export default function (view, params) {
         Events.on(playbackManager, 'playbackstop', onPlaybackStop);
         inputManager.on(window, onInputCommand);
     });
-    view.addEventListener('viewbeforehide', function () {
+    view.addEventListener('viewbeforehide', () => {
         inputManager.off(window, onInputCommand);
     });
     for (const tabController of tabControllers) {

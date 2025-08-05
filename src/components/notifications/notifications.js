@@ -42,7 +42,7 @@ initPermissionRequest();
 let serviceWorkerRegistration;
 
 function closeAfter(notification, timeoutMs) {
-    setTimeout(function () {
+    setTimeout(() => {
         if (notification.close) {
             notification.close();
         } else if (notification.cancel) {
@@ -55,7 +55,7 @@ function resetRegistration() {
     /* eslint-disable-next-line compat/compat */
     const serviceWorker = navigator.serviceWorker;
     if (serviceWorker) {
-        serviceWorker.ready.then(function (registration) {
+        serviceWorker.ready.then((registration) => {
             serviceWorkerRegistration = registration;
         });
     }
@@ -161,7 +161,7 @@ function onLibraryChanged(data, apiClient) {
         MediaTypes: 'Audio,Video',
         EnableTotalRecordCount: false
 
-    }).then(function (result) {
+    }).then((result) => {
         const items = result.Items;
 
         for (const item of items) {
@@ -171,7 +171,7 @@ function onLibraryChanged(data, apiClient) {
 }
 
 function showPackageInstallNotification(apiClient, installation, status) {
-    apiClient.getCurrentUser().then(function (user) {
+    apiClient.getCurrentUser().then((user) => {
         if (!user.Policy.IsAdministrator) {
             return;
         }
@@ -216,27 +216,27 @@ function showPackageInstallNotification(apiClient, installation, status) {
     });
 }
 
-Events.on(serverNotifications, 'LibraryChanged', function (e, apiClient, data) {
+Events.on(serverNotifications, 'LibraryChanged', (e, apiClient, data) => {
     onLibraryChanged(data, apiClient);
 });
 
-Events.on(serverNotifications, 'PackageInstallationCompleted', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstallationCompleted', (e, apiClient, data) => {
     showPackageInstallNotification(apiClient, data, 'completed');
 });
 
-Events.on(serverNotifications, 'PackageInstallationFailed', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstallationFailed', (e, apiClient, data) => {
     showPackageInstallNotification(apiClient, data, 'failed');
 });
 
-Events.on(serverNotifications, 'PackageInstallationCancelled', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstallationCancelled', (e, apiClient, data) => {
     showPackageInstallNotification(apiClient, data, 'cancelled');
 });
 
-Events.on(serverNotifications, 'PackageInstalling', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstalling', (e, apiClient, data) => {
     showPackageInstallNotification(apiClient, data, 'progress');
 });
 
-Events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient) {
+Events.on(serverNotifications, 'ServerShuttingDown', (e, apiClient) => {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,
@@ -245,7 +245,7 @@ Events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient) {
     showNotification(notification, 0, apiClient);
 });
 
-Events.on(serverNotifications, 'ServerRestarting', function (e, apiClient) {
+Events.on(serverNotifications, 'ServerRestarting', (e, apiClient) => {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,
@@ -254,7 +254,7 @@ Events.on(serverNotifications, 'ServerRestarting', function (e, apiClient) {
     showNotification(notification, 0, apiClient);
 });
 
-Events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
+Events.on(serverNotifications, 'RestartRequired', (e, apiClient) => {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,

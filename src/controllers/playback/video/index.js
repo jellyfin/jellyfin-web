@@ -42,12 +42,10 @@ export default function (view) {
     function getDisplayItem(item) {
         if (item.Type === 'TvChannel') {
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem) {
-                return {
+            return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then((refreshedItem) => ({
                     originalItem: refreshedItem,
                     displayItem: refreshedItem.CurrentProgram
-                };
-            });
+                }));
         }
 
         return Promise.resolve({
@@ -66,7 +64,7 @@ export default function (view) {
             return;
         }
 
-        ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
+        ServerConnections.getApiClient(item.ServerId).getCurrentUser().then((user) => {
             if (user.Policy.EnableLiveTvManagement) {
                 import('../../../components/recordingcreator/recordingbutton').then(({ default: RecordingButton }) => {
                     if (recordingButtonManager) {
@@ -328,7 +326,7 @@ export default function (view) {
         elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
-    const _focus = function (focusElement) {
+    const _focus = (focusElement) => {
         // If no focus element is provided, try to keep current focus if it's valid,
         // otherwise default to pause button
         const currentFocus = focusElement || document.activeElement;
@@ -685,7 +683,7 @@ export default function (view) {
             if (!(currentVisibleMenu || currentUpNextDialog)) {
                 currentVisibleMenu = 'upnext';
                 comingUpNextDisplayed = true;
-                playbackManager.nextItem(player).then(function (nextItem) {
+                playbackManager.nextItem(player).then((nextItem) => {
                     currentUpNextDialog = new UpNextDialog({
                         parent: view.querySelector('.upNextContainer'),
                         player: player,
@@ -1022,7 +1020,7 @@ export default function (view) {
         const player = currentPlayer;
         const audioTracks = playbackManager.audioTracks(player);
         const currentIndex = playbackManager.getAudioStreamIndex(player);
-        const menuItems = audioTracks.map(function (stream) {
+        const menuItems = audioTracks.map((stream) => {
             const opt = {
                 name: stream.DisplayTitle,
                 id: stream.Index
@@ -1041,7 +1039,7 @@ export default function (view) {
                 items: menuItems,
                 title: globalize.translate('Audio'),
                 positionTo: positionTo
-            }).then(function (id) {
+            }).then((id) => {
                 const index = parseInt(id, 10);
 
                 if (index !== currentIndex) {
@@ -1070,7 +1068,7 @@ export default function (view) {
             DisplayTitle: globalize.translate('Off')
         });
 
-        const menuItems = streams.map(function (stream) {
+        const menuItems = streams.map((stream) => {
             const opt = {
                 name: stream.DisplayTitle,
                 id: stream.Index
@@ -1087,7 +1085,7 @@ export default function (view) {
             title: globalize.translate('SecondarySubtitles'),
             items: menuItems,
             positionTo
-        }).then(function (id) {
+        }).then((id) => {
             if (id) {
                 const index = parseInt(id, 10);
                 if (index !== currentIndex) {
@@ -1116,7 +1114,7 @@ export default function (view) {
             Index: -1,
             DisplayTitle: globalize.translate('Off')
         });
-        const menuItems = streams.map(function (stream) {
+        const menuItems = streams.map((stream) => {
             const opt = {
                 name: stream.DisplayTitle,
                 id: stream.Index
@@ -1158,7 +1156,7 @@ export default function (view) {
                 title: globalize.translate('Subtitles'),
                 items: menuItems,
                 positionTo: positionTo
-            }).then(function (id) {
+            }).then((id) => {
                 if (id === 'secondarysubtitle') {
                     try {
                         showSecondarySubtitlesMenu(actionsheet, positionTo);
@@ -1665,11 +1663,11 @@ export default function (view) {
 
     nowPlayingDurationText.addEventListener('click', nowPlayingDurationTextClick);
 
-    view.addEventListener('viewbeforeshow', function () {
+    view.addEventListener('viewbeforeshow', () => {
         headerElement.classList.add('osdHeader');
         setBackdropTransparency(TRANSPARENCY_LEVEL.Full);
     });
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         try {
             Events.on(playbackManager, 'playerchange', onPlayerChange);
             bindToPlayer(playbackManager.getCurrentPlayer());
@@ -1717,7 +1715,7 @@ export default function (view) {
             appRouter.goHome();
         }
     });
-    view.addEventListener('viewbeforehide', function () {
+    view.addEventListener('viewbeforehide', () => {
         if (statsOverlay) {
             statsOverlay.enabled(false);
         }
@@ -1766,20 +1764,20 @@ export default function (view) {
         Events.off(playbackManager, 'playerchange', onPlayerChange);
         releaseCurrentPlayer();
     });
-    view.querySelector('.btnFullscreen').addEventListener('click', function () {
+    view.querySelector('.btnFullscreen').addEventListener('click', () => {
         playbackManager.toggleFullscreen(currentPlayer);
     });
-    view.querySelector('.btnPip').addEventListener('click', function () {
+    view.querySelector('.btnPip').addEventListener('click', () => {
         playbackManager.togglePictureInPicture(currentPlayer);
     });
-    view.querySelector('.btnAirPlay').addEventListener('click', function () {
+    view.querySelector('.btnAirPlay').addEventListener('click', () => {
         playbackManager.toggleAirPlay(currentPlayer);
     });
     view.querySelector('.btnVideoOsdSettings').addEventListener('click', onSettingsButtonClick);
-    view.addEventListener('viewhide', function () {
+    view.addEventListener('viewhide', () => {
         headerElement.classList.remove('hide');
     });
-    view.addEventListener('viewdestroy', function () {
+    view.addEventListener('viewdestroy', () => {
         if (self.touchHelper) {
             self.touchHelper.destroy();
             self.touchHelper = null;
@@ -1795,7 +1793,7 @@ export default function (view) {
     });
     let lastPointerDown = 0;
     /* eslint-disable-next-line compat/compat */
-    dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', function (e) {
+    dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', (e) => {
         if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer'])) {
             showOsd();
             return;
@@ -1819,7 +1817,7 @@ export default function (view) {
                         clearTimeout(playPauseClickTimeout);
                         playPauseClickTimeout = 0;
                     } else {
-                        playPauseClickTimeout = setTimeout(function() {
+                        playPauseClickTimeout = setTimeout(() => {
                             playbackManager.playPause(currentPlayer);
                             showOsd();
                             playPauseClickTimeout = 0;
@@ -1842,7 +1840,7 @@ export default function (view) {
         playbackManager.toggleFullscreen(currentPlayer);
     });
 
-    view.querySelector('.buttonMute').addEventListener('click', function () {
+    view.querySelector('.buttonMute').addEventListener('click', () => {
         playbackManager.toggleMute(currentPlayer);
     });
 
@@ -1867,7 +1865,7 @@ export default function (view) {
         }
     });
 
-    nowPlayingPositionSlider.addEventListener('keydown', function (e) {
+    nowPlayingPositionSlider.addEventListener('keydown', (e) => {
         if (e.defaultPrevented) return;
 
         const key = keyboardnavigation.getKeyName(e);
@@ -1876,7 +1874,7 @@ export default function (view) {
         }
     });
 
-    nowPlayingPositionSlider.updateBubbleHtml = function(bubble, value) {
+    nowPlayingPositionSlider.updateBubbleHtml = (bubble, value) => {
         showOsd();
 
         const item = currentItem;
@@ -1895,7 +1893,7 @@ export default function (view) {
         return false;
     };
 
-    nowPlayingPositionSlider.getBubbleHtml = function (value) {
+    nowPlayingPositionSlider.getBubbleHtml = (value) => {
         showOsd();
         if (enableProgressByTimeOfDay) {
             if (programStartDateMs && programEndDateMs) {
@@ -1929,7 +1927,7 @@ export default function (view) {
         return '<h1 class="sliderBubbleText">' + datetime.getDisplayRunningTime(ticks) + '</h1>';
     };
 
-    nowPlayingPositionSlider.getMarkerInfo = function () {
+    nowPlayingPositionSlider.getMarkerInfo = () => {
         // use markers based on chapters
         return currentItem?.Chapters?.map(currentChapter => ({
             name: currentChapter.Name,
@@ -1937,25 +1935,25 @@ export default function (view) {
         })) || [];
     };
 
-    view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
+    view.querySelector('.btnPreviousTrack').addEventListener('click', () => {
         playbackManager.previousTrack(currentPlayer);
     });
-    view.querySelector('.btnPreviousChapter').addEventListener('click', function () {
+    view.querySelector('.btnPreviousChapter').addEventListener('click', () => {
         playbackManager.previousChapter(currentPlayer);
     });
-    view.querySelector('.btnPause').addEventListener('click', function () {
+    view.querySelector('.btnPause').addEventListener('click', () => {
         playbackManager.playPause(currentPlayer);
     });
-    view.querySelector('.btnNextChapter').addEventListener('click', function () {
+    view.querySelector('.btnNextChapter').addEventListener('click', () => {
         playbackManager.nextChapter(currentPlayer);
     });
-    view.querySelector('.btnNextTrack').addEventListener('click', function () {
+    view.querySelector('.btnNextTrack').addEventListener('click', () => {
         playbackManager.nextTrack(currentPlayer);
     });
-    btnRewind.addEventListener('click', function () {
+    btnRewind.addEventListener('click', () => {
         playbackManager.rewind(currentPlayer);
     });
-    btnFastForward.addEventListener('click', function () {
+    btnFastForward.addEventListener('click', () => {
         playbackManager.fastForward(currentPlayer);
     });
     view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);

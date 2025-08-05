@@ -197,14 +197,14 @@ export default function (view, params, tabContent) {
     const data = {};
     let isLoading = false;
 
-    this.showFilterMenu = function () {
+    this.showFilterMenu = () => {
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: 'series',
                 serverId: ApiClient.serverId()
             });
-            Events.on(filterDialog, 'filterchange', function () {
+            Events.on(filterDialog, 'filterchange', () => {
                 getQuery().StartIndex = 0;
                 reloadItems(tabContent);
             });
@@ -212,15 +212,13 @@ export default function (view, params, tabContent) {
         });
     };
 
-    this.getCurrentViewStyle = function () {
-        return getPageData().view;
-    };
+    this.getCurrentViewStyle = () => getPageData().view;
 
     const initPage = (tabElement) => {
         const alphaPickerElement = tabElement.querySelector('.alphaPicker');
         const itemsContainer = tabElement.querySelector('.itemsContainer');
 
-        alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
+        alphaPickerElement.addEventListener('alphavaluechanged', (e) => {
             const newValue = e.detail.value;
             const query = getQuery();
             if (newValue === '#') {
@@ -245,7 +243,7 @@ export default function (view, params, tabContent) {
         tabElement.querySelector('.btnFilter').addEventListener('click', () => {
             this.showFilterMenu();
         });
-        tabElement.querySelector('.btnSort').addEventListener('click', function (e) {
+        tabElement.querySelector('.btnSort').addEventListener('click', (e) => {
             libraryBrowser.showSortMenu({
                 items: [{
                     name: globalize.translate('Name'),
@@ -272,7 +270,7 @@ export default function (view, params, tabContent) {
                     name: globalize.translate('OptionReleaseDate'),
                     id: 'PremiereDate,SortName'
                 }],
-                callback: function () {
+                callback: () => {
                     getQuery().StartIndex = 0;
                     reloadItems(tabElement);
                 },
@@ -284,7 +282,7 @@ export default function (view, params, tabContent) {
         btnSelectView.addEventListener('click', (e) => {
             libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
         });
-        btnSelectView.addEventListener('layoutchange', function (e) {
+        btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;
             getPageData().view = viewStyle;
             userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);

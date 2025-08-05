@@ -90,7 +90,7 @@ const UserNew = () => {
             IsHidden: false
         }));
         const promiseChannels = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
-        Promise.all([promiseFolders, promiseChannels]).then(function (responses) {
+        Promise.all([promiseFolders, promiseChannels]).then((responses) => {
             loadMediaFolders(responses[0].Items);
             loadChannels(responses[1].Items);
             loading.hide();
@@ -114,7 +114,7 @@ const UserNew = () => {
             userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value.trim();
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
 
-            window.ApiClient.createUser(userInput).then(function (user) {
+            window.ApiClient.createUser(userInput).then((user) => {
                 if (!user.Id || !user.Policy) {
                     throw new Error('Unexpected null user id or policy');
                 }
@@ -123,25 +123,17 @@ const UserNew = () => {
                 user.Policy.EnabledFolders = [];
 
                 if (!user.Policy.EnableAllFolders) {
-                    user.Policy.EnabledFolders = Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (i) {
-                        return i.checked;
-                    }).map(function (i) {
-                        return i.getAttribute('data-id');
-                    });
+                    user.Policy.EnabledFolders = Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), (i) => i.checked).map((i) => i.getAttribute('data-id'));
                 }
 
                 user.Policy.EnableAllChannels = (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked;
                 user.Policy.EnabledChannels = [];
 
                 if (!user.Policy.EnableAllChannels) {
-                    user.Policy.EnabledChannels = Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (i) {
-                        return i.checked;
-                    }).map(function (i) {
-                        return i.getAttribute('data-id');
-                    });
+                    user.Policy.EnabledChannels = Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), (i) => i.checked).map((i) => i.getAttribute('data-id'));
                 }
 
-                window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
+                window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(() => {
                     Dashboard.navigate('/dashboard/users/profile?userId=' + user.Id)
                         .catch(err => {
                             console.error('[usernew] failed to navigate to edit user page', err);
@@ -149,7 +141,7 @@ const UserNew = () => {
                 }).catch(err => {
                     console.error('[usernew] failed to update user policy', err);
                 });
-            }, function () {
+            }, () => {
                 toast(globalize.translate('ErrorDefault'));
                 loading.hide();
             });
@@ -175,7 +167,7 @@ const UserNew = () => {
 
         (page.querySelector('.newUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
 
-        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', function() {
+        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', () => {
             window.history.back();
         });
     }, [loadUser]);

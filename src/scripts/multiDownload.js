@@ -10,12 +10,12 @@ function fallback(urls) {
         document.documentElement.appendChild(frame);
 
         // the download init has to be sequential otherwise IE only use the first
-        const interval = setInterval(function () {
+        const interval = setInterval(() => {
             if (frame.contentWindow.document.readyState === 'complete' || frame.contentWindow.document.readyState === 'interactive') {
                 clearInterval(interval);
 
                 // Safari needs a timeout
-                setTimeout(function () {
+                setTimeout(() => {
                     frame.parentNode.removeChild(frame);
                 }, 1000);
 
@@ -45,7 +45,7 @@ export default function (urls) {
 
     let delay = 0;
 
-    urls.forEach(function (url) {
+    urls.forEach((url) => {
         setTimeout(download.bind(null, url), 100 * ++delay);
     });
 }

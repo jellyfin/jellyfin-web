@@ -3,7 +3,7 @@
  * - Constructor.
  */
 
-(function (window) {
+(((window) => {
     'use strict';
 
     try {
@@ -14,7 +14,7 @@
         // are read-only.
         const KeyboardEventOriginal = window.Event;
 
-        const KeyboardEvent = function (eventName, options) {
+        const KeyboardEvent = (eventName, options) => {
             options = options || {};
 
             const event = new Event(eventName, { bubbles: !!options.bubbles, cancelable: !!options.cancelable });
@@ -43,4 +43,4 @@
         KeyboardEvent.prototype = KeyboardEventOriginal.prototype;
         window.KeyboardEvent = KeyboardEvent;
     }
-}(window));
+})(window));
