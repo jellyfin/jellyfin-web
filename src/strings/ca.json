@@ -1062,7 +1062,7 @@
     "MediaInfoBitrate": "Taxa de bits",
     "MediaInfoBitDepth": "Profunditat de bits",
     "MediaInfoAnamorphic": "Anamòrfic",
-    "MapChannels": "Mapeja canals",
+    "MapChannels": "Mapa canals",
     "ManageRecording": "Maneig d'enregistrament",
     "ManageLibrary": "Gestió de la mediateca",
     "Logo": "Logotip",
@@ -2062,5 +2062,8 @@
     "ConnectAnyway": "Connecta de totes maneres",
     "HeaderServerMismatch": "Discrepància amb el servidor",
     "MessageServerMismatch": "El servidor al qual us esteu connectant no és el mateix servidor al qual us vau connectar anteriorment amb aquesta adreça. Si ja s'esperava això, seleccioneu \"Connecta igualment\". En cas contrari, la vostra connexió o el servidor podrien estar compromesos.",
-    "LabelAvailable": "Disponible"
+    "LabelAvailable": "Disponible",
+    "LabelBundled": "Inclòs",
+    "ManageRepositories": "Administració dels repositoris",
+    "ViewAllPlugins": "Mostra tots els connectors"
 }
