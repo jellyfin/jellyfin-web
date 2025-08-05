@@ -163,7 +163,9 @@ function updateUserInHeader(user) {
             headerSearchButton.classList.remove('hide');
         }
 
-        if (!layoutManager.tv) {
+        const isChromecastPluginLoaded = !!pluginManager.plugins.find(plugin => plugin.id === 'chromecast');
+
+        if (!layoutManager.tv && isChromecastPluginLoaded) {
             headerCastButton.classList.remove('hide');
         }
 
