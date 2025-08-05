@@ -5,7 +5,7 @@
 
 import browser from '../../scripts/browser';
 import layoutManager from '../../components/layoutManager';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import focusManager from '../../components/focusManager';
 import ResizeObserver from 'resize-observer-polyfill';
 import '../../styles/scrollstyles.scss';

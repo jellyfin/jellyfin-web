@@ -9,7 +9,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.scss';
