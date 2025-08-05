@@ -5,7 +5,7 @@
  */
 
 import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import loading from '../loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
 import layoutManager from '../layoutManager';

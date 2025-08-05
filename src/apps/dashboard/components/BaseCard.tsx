@@ -11,7 +11,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Stack from '@mui/material/Stack';
 import { Link, To } from 'react-router-dom';
 
-interface IProps {
+interface BaseCardProps {
     title?: string;
     secondaryTitle?: string;
     text?: string;
@@ -24,7 +24,7 @@ interface IProps {
     onActionClick?: () => void;
 };
 
-const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, action, actionRef, onActionClick }: IProps) => {
+const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, action, actionRef, onActionClick }: BaseCardProps) => {
     return (
         <Card
             sx={{
@@ -64,7 +64,7 @@ const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, actio
             </CardActionArea>
             <CardHeader
                 title={
-                    <Stack direction='row' gap={1} alignItems='center'>
+                    <Stack direction='row' spacing={1} alignItems='center'>
                         <Typography sx={{
                             overflow: 'hidden',
                             whiteSpace: 'nowrap',
