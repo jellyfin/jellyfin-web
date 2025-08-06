@@ -441,7 +441,7 @@ function executeCommand(item, id, options) {
                         });
                     }
                     )).then(seasonData => {
-                        downloadEpisodes(seasonData.map(season => season.Items).flat());
+                        downloadEpisodes(seasonData.flatMap(season => season.Items));
                     });
                 };
 
