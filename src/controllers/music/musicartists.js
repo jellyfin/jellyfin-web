@@ -53,7 +53,7 @@ export default function (view, params, tabContent, options) {
         const viewStyle = this.getCurrentViewStyle();
         const itemsContainer = tabContent.querySelector('.itemsContainer');
 
-        if (viewStyle == 'List') {
+        if (viewStyle === 'List') {
             itemsContainer.classList.add('vertical-list');
             itemsContainer.classList.remove('vertical-wrap');
         } else {
@@ -70,7 +70,7 @@ export default function (view, params, tabContent, options) {
         const query = getQuery();
         setFilterStatus(tabContent, query);
 
-        const promise = options.mode == 'albumartists' ?
+        const promise = options.mode === 'albumartists' ?
             ApiClient.getAlbumArtists(ApiClient.getCurrentUserId(), query) :
             ApiClient.getArtists(ApiClient.getCurrentUserId(), query);
         promise.then((result) => {
@@ -110,12 +110,12 @@ export default function (view, params, tabContent, options) {
                 filterButton: false
             });
             const viewStyle = this.getCurrentViewStyle();
-            if (viewStyle == 'List') {
+            if (viewStyle === 'List') {
                 html = listView.getListViewHtml({
                     items: result.Items,
                     sortBy: query.SortBy
                 });
-            } else if (viewStyle == 'PosterCard') {
+            } else if (viewStyle === 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: 'square',

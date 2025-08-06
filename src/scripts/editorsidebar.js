@@ -14,7 +14,7 @@ function getNode(item, folderState, selected) {
         id: item.Id,
         text: htmlName,
         state: {
-            opened: item.IsFolder && folderState == 'open',
+            opened: item.IsFolder && folderState === 'open',
             selected: selected
         },
         li_attr: {
@@ -45,7 +45,7 @@ function getNodeInnerHtml(item) {
     if (item.Number) {
         name = item.Number + ' - ' + name;
     }
-    if (item.IndexNumber != null && item.Type != 'Season') {
+    if (item.IndexNumber != null && item.Type !== 'Season') {
         name = item.IndexNumber + ' - ' + name;
     }
     let htmlName = "<div class='editorNode'>";
@@ -115,7 +115,7 @@ function loadLiveTvChannels(service, openItems, callback) {
         AddCurrentProgram: false
     }).then(function (result) {
         const nodes = result.Items.map(function (i) {
-            const state = openItems.indexOf(i.Id) == -1 ? 'closed' : 'open';
+            const state = openItems.indexOf(i.Id) === -1 ? 'closed' : 'open';
             return getNode(i, state, false);
         });
         callback(nodes);
@@ -125,7 +125,7 @@ function loadLiveTvChannels(service, openItems, callback) {
 function loadMediaFolders(page, scope, openItems, callback) {
     ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders')).then(function (result) {
         const nodes = result.Items.map(function (n) {
-            const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
+            const state = openItems.indexOf(n.Id) === -1 ? 'closed' : 'open';
             return getNode(n, state, false);
         });
         callback.call(scope, nodes);
@@ -139,15 +139,15 @@ function loadMediaFolders(page, scope, openItems, callback) {
 
 function loadNode(page, scope, node, openItems, selectedId, currentUser, callback) {
     const id = node.id;
-    if (id == '#') {
+    if (id === '#') {
         loadChildrenOfRootNode(page, scope, callback);
         return;
     }
-    if (id == 'livetv') {
+    if (id === 'livetv') {
         loadLiveTvChannels(id, openItems, callback);
         return;
     }
-    if (id == 'MediaFolders') {
+    if (id === 'MediaFolders') {
         loadMediaFolders(page, scope, openItems, callback);
         return;
     }
@@ -161,13 +161,13 @@ function loadNode(page, scope, node, openItems, selectedId, currentUser, callbac
         EnableUserData: false
     };
     const itemtype = node.li_attr.itemtype;
-    if (itemtype != 'Season' && itemtype != 'Series') {
+    if (itemtype !== 'Season' && itemtype !== 'Series') {
         query.SortBy = 'SortName';
     }
     ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
         const nodes = result.Items.map(function (n) {
-            const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
-            return getNode(n, state, n.Id == selectedId);
+            const state = openItems.indexOf(n.Id) === -1 ? 'closed' : 'open';
+            return getNode(n, state, n.Id === selectedId);
         });
         callback.call(scope, nodes);
         for (let i = 0, length = nodes.length; i < length; i++) {
@@ -202,7 +202,7 @@ function onNodeSelect(event, data) {
         serverItemType: node.li_attr.serveritemtype,
         collectionType: node.li_attr.collectiontype
     };
-    if (eventData.itemType != 'livetv' && eventData.itemType != 'mediafolders') {
+    if (eventData.itemType !== 'livetv' && eventData.itemType !== 'mediafolders') {
         {
             this.dispatchEvent(new CustomEvent('itemclicked', {
                 detail: eventData,
@@ -222,7 +222,7 @@ function onNodeOpen(_, data) {
     if (node.children) {
         loadNodesToLoad(page, node);
     }
-    if (node.li_attr && node.id != '#' && !node.li_attr.loadedFromServer) {
+    if (node.li_attr && node.id !== '#' && !node.li_attr.loadedFromServer) {
         node.li_attr.loadedFromServer = true;
         $.jstree.reference('.libraryTree', page).load_node(node.id, loadNodeCallback);
     }
@@ -256,9 +256,9 @@ function loadNodesToLoad(page, node) {
     const children = node.children;
     for (let i = 0, length = children.length; i < length; i++) {
         const child = children[i];
-        if (nodesToLoad.indexOf(child) != -1) {
+        if (nodesToLoad.indexOf(child) !== -1) {
             nodesToLoad = nodesToLoad.filter(function (n) {
-                return n != child;
+                return n !== child;
             });
             $.jstree.reference('.libraryTree', page).load_node(child, loadNodeCallback);
         }
@@ -266,7 +266,7 @@ function loadNodesToLoad(page, node) {
 }
 
 function loadNodeCallback(node) {
-    if (selectedNodeId && node.children && node.children.indexOf(selectedNodeId) != -1) {
+    if (selectedNodeId && node.children && node.children.indexOf(selectedNodeId) !== -1) {
         setTimeout(function () {
             scrollToNode(selectedNodeId);
         }, 500);

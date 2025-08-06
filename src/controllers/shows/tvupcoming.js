@@ -65,7 +65,7 @@ function renderUpcoming(elem, items) {
             }
         }
 
-        if (dateText != currentGroupName) {
+        if (dateText !== currentGroupName) {
             currentGroupName = dateText;
             currentGroup = [item];
 

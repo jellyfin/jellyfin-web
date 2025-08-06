@@ -299,7 +299,7 @@ export default function (view, params) {
         import(`../music/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
-            if (index == 1) {
+            if (index === 1) {
                 tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                 this.tabContent = tabContent;
             }
@@ -329,7 +329,7 @@ export default function (view, params) {
 
     function preLoadTab(page, index) {
         getTabController(page, index, function (controller) {
-            if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
+            if (renderedTabs.indexOf(index) === -1 && controller.preRender) {
                 controller.preRender();
             }
         });
@@ -338,7 +338,7 @@ export default function (view, params) {
     function loadTab(page, index) {
         currentTabIndex = index;
         getTabController(page, index, function (controller) {
-            if (renderedTabs.indexOf(index) == -1) {
+            if (renderedTabs.indexOf(index) === -1) {
                 renderedTabs.push(index);
                 controller.renderTab();
             }

@@ -22,7 +22,7 @@ function getDefaultImageConfig(itemType, type) {
 
 function findImageOptions(imageOptions, type) {
     return imageOptions.filter(i => {
-        return i.Type == type;
+        return i.Type === type;
     })[0];
 }
 

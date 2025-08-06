@@ -299,7 +299,7 @@ export default function (view, params) {
 
     function preLoadTab(page, index) {
         getTabController(page, index, function (controller) {
-            if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
+            if (renderedTabs.indexOf(index) === -1 && controller.preRender) {
                 controller.preRender();
             }
         });
@@ -308,7 +308,7 @@ export default function (view, params) {
     function loadTab(page, index) {
         currentTabIndex = index;
         getTabController(page, index, function (controller) {
-            if (renderedTabs.indexOf(index) == -1) {
+            if (renderedTabs.indexOf(index) === -1) {
                 renderedTabs.push(index);
                 controller.renderTab();
             }
@@ -316,7 +316,7 @@ export default function (view, params) {
     }
 
     function onPlaybackStop(e, state) {
-        if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
+        if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Video') {
             renderedTabs = [];
             mainTabsManager.getTabsElement().triggerTabChange();
         }
@@ -325,7 +325,7 @@ export default function (view, params) {
     function onWebSocketMessage(e, data) {
         const msg = data;
 
-        if (msg.MessageType === 'UserDataChanged' && msg.Data.UserId == ApiClient.getCurrentUserId()) {
+        if (msg.MessageType === 'UserDataChanged' && msg.Data.UserId === ApiClient.getCurrentUserId()) {
             renderedTabs = [];
         }
     }

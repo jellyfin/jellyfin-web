@@ -13,7 +13,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent, options) {
     const onViewStyleChange = () => {
-        if (this.getCurrentViewStyle() == 'List') {
+        if (this.getCurrentViewStyle() === 'List') {
             itemsContainer.classList.add('vertical-list');
             itemsContainer.classList.remove('vertical-wrap');
         } else {
@@ -108,7 +108,7 @@ export default function (view, params, tabContent, options) {
         let html;
         const viewStyle = this.getCurrentViewStyle();
 
-        if (viewStyle == 'Thumb') {
+        if (viewStyle === 'Thumb') {
             html = cardBuilder.getCardsHtml({
                 items: items,
                 shape: 'backdrop',
@@ -120,7 +120,7 @@ export default function (view, params, tabContent, options) {
                 showYear: true,
                 centerText: true
             });
-        } else if (viewStyle == 'ThumbCard') {
+        } else if (viewStyle === 'ThumbCard') {
             html = cardBuilder.getCardsHtml({
                 items: items,
                 shape: 'backdrop',
@@ -132,7 +132,7 @@ export default function (view, params, tabContent, options) {
                 showYear: true,
                 centerText: true
             });
-        } else if (viewStyle == 'Banner') {
+        } else if (viewStyle === 'Banner') {
             html = cardBuilder.getCardsHtml({
                 items: items,
                 shape: 'banner',
@@ -140,13 +140,13 @@ export default function (view, params, tabContent, options) {
                 context: 'movies',
                 lazy: true
             });
-        } else if (viewStyle == 'List') {
+        } else if (viewStyle === 'List') {
             html = listView.getListViewHtml({
                 items: items,
                 context: 'movies',
                 sortBy: query.SortBy
             });
-        } else if (viewStyle == 'PosterCard') {
+        } else if (viewStyle === 'PosterCard') {
             html = cardBuilder.getCardsHtml({
                 items: items,
                 shape: 'portrait',

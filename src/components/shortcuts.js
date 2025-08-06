@@ -116,7 +116,7 @@ function showContextMenu(card, options = {}) {
                 let index = 0;
                 for (const listItem of itemsContainer.querySelectorAll('.listItem')) {
                     const playlistItemId = listItem.getAttribute('data-playlistitemid');
-                    if (playlistItemId == item.PlaylistItemId) {
+                    if (playlistItemId === item.PlaylistItemId) {
                         item.PlaylistIndex = index;
                     }
                     index++;

@@ -85,7 +85,7 @@ class GroupSelectionMenu {
                 };
 
                 actionsheet.show(menuOptions).then(function (id) {
-                    if (id == 'new-group') {
+                    if (id === 'new-group') {
                         apiClient.createSyncPlayGroup({
                             GroupName: globalize.translate('SyncPlayGroupDefaultTitle', user.localUser.Name)
                         });
@@ -166,13 +166,13 @@ class GroupSelectionMenu {
         };
 
         actionsheet.show(menuOptions).then((id) => {
-            if (id == 'resume-playback') {
+            if (id === 'resume-playback') {
                 this.SyncPlay?.Manager.resumeGroupPlayback(apiClient);
-            } else if (id == 'halt-playback') {
+            } else if (id === 'halt-playback') {
                 this.SyncPlay?.Manager.haltGroupPlayback(apiClient);
-            } else if (id == 'leave-group') {
+            } else if (id === 'leave-group') {
                 apiClient.leaveSyncPlayGroup();
-            } else if (id == 'settings') {
+            } else if (id === 'settings') {
                 new SyncPlaySettingsEditor(apiClient, this.SyncPlay?.Manager.getTimeSyncCore(), { groupInfo: groupInfo })
                     .embed()
                     .catch(error => {

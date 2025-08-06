@@ -134,7 +134,7 @@ export function getKeyName(event) {
  * @return {boolean} _true_ if key is used for navigation.
  */
 export function isNavigationKey(key) {
-    return NavigationKeys.indexOf(key) != -1;
+    return NavigationKeys.indexOf(key) !== -1;
 }
 
 /**

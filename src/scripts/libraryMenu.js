@@ -268,7 +268,7 @@ function onPlaybackStart() {
 }
 
 function onPlaybackStop(e, stopInfo) {
-    if (stopInfo.nextMediaType != 'Audio') {
+    if (stopInfo.nextMediaType !== 'Audio') {
         headerAudioPlayerButton.classList.add('hide');
     }
 }
@@ -404,7 +404,7 @@ function getUserViews(apiClient, userId) {
                 const view = items[i];
                 list.push(view);
 
-                if (view.CollectionType == 'livetv') {
+                if (view.CollectionType === 'livetv') {
                     view.icon = 'live_tv';
                     const guideView = Object.assign({}, view);
                     guideView.Name = globalize.translate('Guide');
@@ -554,11 +554,11 @@ function updateLibraryNavLinks(page) {
             lnkMediaFolder.classList.add('navMenuOption-selected');
         } else if (isEditorPage && itemId === 'editor') {
             lnkMediaFolder.classList.add('navMenuOption-selected');
-        } else if (isMySyncPage && itemId === 'manageoffline' && window.location.href.toString().indexOf('mode=download') != -1) {
+        } else if (isMySyncPage && itemId === 'manageoffline' && window.location.href.toString().indexOf('mode=download') !== -1) {
             lnkMediaFolder.classList.add('navMenuOption-selected');
-        } else if (isMySyncPage && itemId === 'syncotherdevices' && window.location.href.toString().indexOf('mode=download') == -1) {
+        } else if (isMySyncPage && itemId === 'syncotherdevices' && window.location.href.toString().indexOf('mode=download') === -1) {
             lnkMediaFolder.classList.add('navMenuOption-selected');
-        } else if (id && itemId == id) {
+        } else if (id && itemId === id) {
             lnkMediaFolder.classList.add('navMenuOption-selected');
         } else {
             lnkMediaFolder.classList.remove('navMenuOption-selected');

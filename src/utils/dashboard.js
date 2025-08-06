@@ -37,7 +37,7 @@ export async function serverAddress() {
         // Otherwise use computed base URL
         let url;
         const index = window.location.href.toLowerCase().lastIndexOf('/web');
-        if (index != -1) {
+        if (index !== -1) {
             url = window.location.href.substring(0, index);
         } else {
             // fallback to location without path
@@ -168,7 +168,7 @@ export function processErrorResponse(response) {
 }
 
 export function alert(options) {
-    if (typeof options == 'string') {
+    if (typeof options === 'string') {
         toast({
             text: options
         });

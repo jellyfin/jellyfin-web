@@ -24,7 +24,7 @@ export default function (view) {
     view.querySelector('.libraryTree').addEventListener('itemclicked', function (event) {
         const data = event.detail;
 
-        if (data.id != getCurrentItemId()) {
+        if (data.id !== getCurrentItemId()) {
             setCurrentItemId(data.id);
             reload(view, data.id);
         }

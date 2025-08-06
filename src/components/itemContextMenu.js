@@ -172,7 +172,7 @@ export async function getCommands(options) {
 
     if (appHost.supports(AppFeature.FileDownload)) {
         // CanDownload should probably be updated to return true for these items?
-        if (user.Policy.EnableContentDownloading && (item.Type === 'Season' || item.Type == 'Series')) {
+        if (user.Policy.EnableContentDownloading && (item.Type === 'Season' || item.Type === 'Series')) {
             commands.push({
                 name: globalize.translate('DownloadAll'),
                 id: 'downloadall',

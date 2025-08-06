@@ -168,7 +168,7 @@ export class ComicsPlayer {
         this.swiperInstance.slideNext();
         this.swiperInstance.slidePrev();
 
-        if (this.currentPage != currentPage) {
+        if (this.currentPage !== currentPage) {
             this.swiperInstance.slideTo(currentPage);
             this.swiperInstance.update();
         }

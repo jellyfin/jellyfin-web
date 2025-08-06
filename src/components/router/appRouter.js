@@ -349,11 +349,11 @@ class AppRouter {
             return '#/livetv?serverId=' + options.serverId;
         }
 
-        if (itemType == 'SeriesTimer') {
+        if (itemType === 'SeriesTimer') {
             return '#/details?seriesTimerId=' + id + '&serverId=' + serverId;
         }
 
-        if (item.CollectionType == CollectionType.Livetv) {
+        if (item.CollectionType === CollectionType.Livetv) {
             return `#/livetv?collectionType=${item.CollectionType}`;
         }
 
@@ -402,7 +402,7 @@ class AppRouter {
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
-            if (item.CollectionType == CollectionType.Movies) {
+            if (item.CollectionType === CollectionType.Movies) {
                 url = `#/movies?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options && options.section === 'latest') {
@@ -412,7 +412,7 @@ class AppRouter {
                 return url;
             }
 
-            if (item.CollectionType == CollectionType.Tvshows) {
+            if (item.CollectionType === CollectionType.Tvshows) {
                 url = `#/tv?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options && options.section === 'latest') {
@@ -422,7 +422,7 @@ class AppRouter {
                 return url;
             }
 
-            if (item.CollectionType == CollectionType.Music) {
+            if (item.CollectionType === CollectionType.Music) {
                 url = `#/music?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options?.section === 'latest') {
@@ -434,7 +434,7 @@ class AppRouter {
 
             const layoutMode = localStorage.getItem('layout');
 
-            if (layoutMode === 'experimental' && item.CollectionType == CollectionType.Homevideos) {
+            if (layoutMode === 'experimental' && item.CollectionType === CollectionType.Homevideos) {
                 url = '#/homevideos?topParentId=' + item.Id;
 
                 return url;
@@ -449,7 +449,7 @@ class AppRouter {
 
         const contextSuffix = context ? '&context=' + context : '';
 
-        if (itemType == 'Series' || itemType == 'Season' || itemType == 'Episode') {
+        if (itemType === 'Series' || itemType === 'Season' || itemType === 'Episode') {
             return '#/details?id=' + id + contextSuffix + '&serverId=' + serverId;
         }
 

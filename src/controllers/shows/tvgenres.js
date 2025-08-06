@@ -62,13 +62,13 @@ export default function (view, params, tabContent) {
 
         const id = elem.getAttribute('data-id');
         const viewStyle = self.getCurrentViewStyle();
-        let limit = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 5 : 9;
+        let limit = viewStyle === 'Thumb' || viewStyle === 'ThumbCard' ? 5 : 9;
 
         if (enableScrollX()) {
             limit = 10;
         }
 
-        const enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
+        const enableImageTypes = viewStyle === 'Thumb' || viewStyle === 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
         const query = {
             SortBy: 'Random',
             SortOrder: 'Ascending',
@@ -83,7 +83,7 @@ export default function (view, params, tabContent) {
             ParentId: params.topParentId
         };
         ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
-            if (viewStyle == 'Thumb') {
+            if (viewStyle === 'Thumb') {
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,
                     shape: getBackdropShape(enableScrollX()),
@@ -94,7 +94,7 @@ export default function (view, params, tabContent) {
                     overlayMoreButton: true,
                     allowBottomPadding: false
                 });
-            } else if (viewStyle == 'ThumbCard') {
+            } else if (viewStyle === 'ThumbCard') {
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,
                     shape: getBackdropShape(enableScrollX()),
@@ -105,7 +105,7 @@ export default function (view, params, tabContent) {
                     cardLayout: true,
                     showYear: true
                 });
-            } else if (viewStyle == 'PosterCard') {
+            } else if (viewStyle === 'PosterCard') {
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,
                     shape: getPortraitShape(enableScrollX()),
@@ -115,7 +115,7 @@ export default function (view, params, tabContent) {
                     cardLayout: true,
                     showYear: true
                 });
-            } else if (viewStyle == 'Poster') {
+            } else if (viewStyle === 'Poster') {
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,
                     shape: getPortraitShape(enableScrollX()),

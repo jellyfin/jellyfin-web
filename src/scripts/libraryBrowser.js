@@ -13,7 +13,7 @@ export function showLayoutMenu (button, currentLayout, views) {
         return {
             name: globalize.translate(v),
             id: v,
-            selected: currentLayout == v
+            selected: currentLayout === v
         };
     });
 
@@ -89,7 +89,7 @@ export function showSortMenu (options) {
             const newValue = this.value;
 
             if (this.checked) {
-                const changed = options.query.SortBy != newValue;
+                const changed = options.query.SortBy !== newValue;
                 options.query.SortBy = newValue.replace('_', ',');
                 options.query.StartIndex = 0;
 
@@ -103,7 +103,7 @@ export function showSortMenu (options) {
             const newValue = this.value;
 
             if (this.checked) {
-                const changed = options.query.SortOrder != newValue;
+                const changed = options.query.SortOrder !== newValue;
                 options.query.SortOrder = newValue;
                 options.query.StartIndex = 0;
 
@@ -134,7 +134,7 @@ export function showSortMenu (options) {
         for (i = 0, length = options.items.length; i < length; i++) {
             const option = options.items[i];
             const radioValue = option.id.replace(',', '_');
-            isChecked = (options.query.SortBy || '').replace(',', '_') == radioValue ? ' checked' : '';
+            isChecked = (options.query.SortBy || '').replace(',', '_') === radioValue ? ' checked' : '';
             html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortBy" data-id="' + option.id + '" value="' + radioValue + '" class="menuSortBy" ' + isChecked + ' /><span>' + option.name + '</span></label>';
         }
 
@@ -143,9 +143,9 @@ export function showSortMenu (options) {
         html += globalize.translate('HeaderSortOrder');
         html += '</h2>';
         html += '<div>';
-        isChecked = options.query.SortOrder == 'Ascending' ? ' checked' : '';
+        isChecked = options.query.SortOrder === 'Ascending' ? ' checked' : '';
         html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Ascending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Ascending') + '</span></label>';
-        isChecked = options.query.SortOrder == 'Descending' ? ' checked' : '';
+        isChecked = options.query.SortOrder === 'Descending' ? ' checked' : '';
         html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Descending') + '</span></label>';
         html += '</div>';
         html += '</div>';

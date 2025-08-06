@@ -22,7 +22,7 @@ const TaskTriggerCell: FC<CellProps> = ({ cell }) => {
             <Typography variant='body1'>{getTriggerFriendlyName(trigger, dateFnsLocale)}</Typography>
             {timeLimitHours && (
                 <Typography variant='body2' color={'text.secondary'}>
-                    {timeLimitHours == 1 ?
+                    {timeLimitHours === 1 ?
                         globalize.translate('ValueTimeLimitSingleHour') :
                         globalize.translate('ValueTimeLimitMultiHour', timeLimitHours)}
                 </Typography>

@@ -69,7 +69,7 @@ export default function (view, params, tabContent) {
         const viewStyle = this.getCurrentViewStyle();
         const itemsContainer = tabContent.querySelector('.itemsContainer');
 
-        if (viewStyle == 'List') {
+        if (viewStyle === 'List') {
             itemsContainer.classList.add('vertical-list');
             itemsContainer.classList.remove('vertical-wrap');
         } else {
@@ -123,14 +123,14 @@ export default function (view, params, tabContent) {
                 filterButton: false
             });
             const viewStyle = this.getCurrentViewStyle();
-            if (viewStyle == 'List') {
+            if (viewStyle === 'List') {
                 html = listView.getListViewHtml({
                     items: result.Items,
                     context: 'music',
                     sortBy: query.SortBy,
                     addToListButton: true
                 });
-            } else if (viewStyle == 'PosterCard') {
+            } else if (viewStyle === 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: 'square',

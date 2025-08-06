@@ -444,7 +444,7 @@ function groupsUpcomingEpisodes(items: ItemDto[]) {
             }
         }
 
-        if (dateText != currentGroupName) {
+        if (dateText !== currentGroupName) {
             if (currentGroup.length) {
                 groups.push({
                     name: currentGroupName,
@@ -603,7 +603,7 @@ function groupsTimers(timers: ItemDto[], indexByDate?: boolean) {
             }
         }
 
-        if (dateText != currentGroupName) {
+        if (dateText !== currentGroupName) {
             if (currentGroup.length) {
                 groups.push({
                     name: currentGroupName,
