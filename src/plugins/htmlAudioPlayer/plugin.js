@@ -60,7 +60,7 @@ function requireHlsPlayer(callback) {
     });
 }
 
-function enableHlsPlayer(url, item, mediaSource, mediaType) {
+function enableHlsPlayer(url, mediaSource, mediaType) {
     if (!htmlMediaHelper.enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType)) {
         return Promise.reject();
     }
@@ -164,7 +164,7 @@ class HtmlAudioPlayer {
                 elem.crossOrigin = crossOrigin;
             }
 
-            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
+            return enableHlsPlayer(val, options.mediaSource, 'Audio').then(function () {
                 return new Promise(function (resolve, reject) {
                     requireHlsPlayer(async () => {
                         const includeCorsCredentials = await getIncludeCorsCredentials();

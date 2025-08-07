@@ -289,7 +289,7 @@ class SessionPlayer {
         this.isPlaylistRendered = true;
         this.isUpdatingPlaylist = false;
 
-        Events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
+        Events.on(serverNotifications, 'Sessions', function (_e, apiClient, data) {
             processUpdatedSessions(self, data, apiClient);
         });
     }

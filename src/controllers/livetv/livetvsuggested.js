@@ -212,7 +212,7 @@ export default function (view, params) {
     }
 
     function onBeforeTabChange(evt) {
-        preLoadTab(view, parseInt(evt.detail.selectedTabIndex, 10));
+        preLoadTab(parseInt(evt.detail.selectedTabIndex, 10));
     }
 
     function onTabChange(evt) {
@@ -222,7 +222,7 @@ export default function (view, params) {
             previousTabController.onHide();
         }
 
-        loadTab(view, parseInt(evt.detail.selectedTabIndex, 10));
+        loadTab(parseInt(evt.detail.selectedTabIndex, 10));
     }
 
     function getTabContainers() {
@@ -233,7 +233,7 @@ export default function (view, params) {
         mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
     }
 
-    function getTabController(page, index, callback) {
+    function getTabController(index, callback) {
         let depends;
 
         // TODO int is a little hard to read
@@ -293,17 +293,17 @@ export default function (view, params) {
         });
     }
 
-    function preLoadTab(page, index) {
-        getTabController(page, index, function (controller) {
+    function preLoadTab(index) {
+        getTabController(index, function (controller) {
             if (renderedTabs.indexOf(index) === -1 && controller.preRender) {
                 controller.preRender();
             }
         });
     }
 
-    function loadTab(page, index) {
+    function loadTab(index) {
         currentTabIndex = index;
-        getTabController(page, index, function (controller) {
+        getTabController(index, function (controller) {
             initialTabIndex = null;
 
             if (renderedTabs.indexOf(index) === -1) {

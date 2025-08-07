@@ -51,13 +51,13 @@ function configureSwipeTabs(view, currentElement) {
     }
 
     // implement without hammer
-    const onSwipeLeft = function (e, target) {
+    const onSwipeLeft = function (_e, target) {
         if (allowSwipe(target) && view.contains(target)) {
             currentElement.selectNext();
         }
     };
 
-    const onSwipeRight = function (e, target) {
+    const onSwipeRight = function (_e, target) {
         if (allowSwipe(target) && view.contains(target)) {
             currentElement.selectPrevious();
         }

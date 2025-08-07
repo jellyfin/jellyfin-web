@@ -332,7 +332,7 @@ function updatePlayPauseState(isPaused) {
     }
 }
 
-function updatePlayerStateInternal(event, state, player) {
+function updatePlayerStateInternal(state, player) {
     showNowPlayingBar();
 
     lastPlayerState = state;
@@ -654,13 +654,13 @@ function onStateChanged(event, state) {
     isEnabled = true;
 
     if (nowPlayingBarElement) {
-        updatePlayerStateInternal(event, state, player);
+        updatePlayerStateInternal( state, player);
         return;
     }
 
     getNowPlayingBar();
     updateLyricButton(state.NowPlayingItem);
-    updatePlayerStateInternal(event, state, player);
+    updatePlayerStateInternal( state, player);
 }
 
 function onTimeUpdate() {

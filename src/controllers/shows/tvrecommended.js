@@ -76,7 +76,7 @@ function setScrollClasses(elem, scrollX) {
     }
 }
 
-function initSuggestedTab(page, tabContent) {
+function initSuggestedTab(tabContent) {
     const containers = tabContent.querySelectorAll('.itemsContainer');
 
     for (let i = 0, length = containers.length; i < length; i++) {
@@ -84,7 +84,7 @@ function initSuggestedTab(page, tabContent) {
     }
 }
 
-function loadSuggestionsTab(view, params, tabContent) {
+function loadSuggestionsTab(params, tabContent) {
     const parentId = params.topParentId;
     const userId = ApiClient.getCurrentUserId();
     console.debug('loadSuggestionsTab');
@@ -222,12 +222,12 @@ function enableScrollX() {
 
 export default function (view, params) {
     function onBeforeTabChange(e) {
-        preLoadTab(view, parseInt(e.detail.selectedTabIndex, 10));
+        preLoadTab( parseInt(e.detail.selectedTabIndex, 10));
     }
 
     function onTabChange(e) {
         const newIndex = parseInt(e.detail.selectedTabIndex, 10);
-        loadTab(view, newIndex);
+        loadTab( newIndex);
     }
 
     function getTabContainers() {
@@ -238,7 +238,7 @@ export default function (view, params) {
         mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
     }
 
-    function getTabController(page, index, callback) {
+    function getTabController(index, callback) {
         let depends;
 
         switch (index) {
@@ -297,17 +297,17 @@ export default function (view, params) {
         });
     }
 
-    function preLoadTab(page, index) {
-        getTabController(page, index, function (controller) {
+    function preLoadTab( index) {
+        getTabController( index, function (controller) {
             if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
                 controller.preRender();
             }
         });
     }
 
-    function loadTab(page, index) {
+    function loadTab( index) {
         currentTabIndex = index;
-        getTabController(page, index, function (controller) {
+        getTabController( index, function (controller) {
             if (renderedTabs.indexOf(index) == -1) {
                 renderedTabs.push(index);
                 controller.renderTab();
@@ -315,14 +315,14 @@ export default function (view, params) {
         });
     }
 
-    function onPlaybackStop(e, state) {
+    function onPlaybackStop(_e, state) {
         if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
             renderedTabs = [];
             mainTabsManager.getTabsElement().triggerTabChange();
         }
     }
 
-    function onWebSocketMessage(e, data) {
+    function onWebSocketMessage(_e, data) {
         const msg = data;
 
         if (msg.MessageType === 'UserDataChanged' && msg.Data.UserId == ApiClient.getCurrentUserId()) {
@@ -343,12 +343,12 @@ export default function (view, params) {
 
     self.initTab = function () {
         const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
-        initSuggestedTab(view, tabContent);
+        initSuggestedTab(tabContent);
     };
 
     self.renderTab = function () {
         const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
-        loadSuggestionsTab(view, params, tabContent);
+        loadSuggestionsTab(params, tabContent);
     };
 
     const tabControllers = [];

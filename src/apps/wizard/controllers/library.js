@@ -64,7 +64,7 @@ function deleteVirtualFolder(page, virtualFolder) {
     });
 }
 
-function refreshVirtualFolder(page, virtualFolder) {
+function refreshVirtualFolder(virtualFolder) {
     import('components/refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
         new RefreshDialog({
             itemIds: [virtualFolder.ItemId],
@@ -147,7 +147,7 @@ function showCardMenu(page, elem, virtualFolders) {
                         break;
 
                     case 'refresh':
-                        refreshVirtualFolder(page, virtualFolder);
+                        refreshVirtualFolder(virtualFolder);
                 }
             }
         });
@@ -182,7 +182,7 @@ function reloadVirtualFolders(page, virtualFolders) {
 
     for (let i = 0; i < virtualFolders.length; i++) {
         const virtualFolder = virtualFolders[i];
-        html += getVirtualFolderHtml(page, virtualFolder, i);
+        html += getVirtualFolderHtml( virtualFolder, i);
     }
 
     const divVirtualFolders = page.querySelector('#divVirtualFolders');
@@ -262,7 +262,7 @@ function getCollectionTypeOptions() {
     }];
 }
 
-function getVirtualFolderHtml(page, virtualFolder, index) {
+function getVirtualFolderHtml(virtualFolder, index) {
     let html = '';
 
     const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}" ` : '';

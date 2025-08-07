@@ -500,9 +500,9 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
     return res.data;
 }
 
-function getOptimalMediaSource(apiClient, item, versions) {
+function getOptimalMediaSource(apiClient, versions) {
     const promises = versions.map(function (v) {
-        return supportsDirectPlay(apiClient, item, v);
+        return supportsDirectPlay(apiClient, v);
     });
 
     if (!promises.length) {
@@ -594,7 +594,7 @@ function isHostReachable(mediaSource, apiClient) {
     });
 }
 
-function supportsDirectPlay(apiClient, item, mediaSource) {
+function supportsDirectPlay(apiClient, mediaSource) {
     // folder rip hacks due to not yet being supported by the stream building engine
     const isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
 
@@ -617,24 +617,23 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
 }
 
 /**
- * @param {PlaybackManager} instance
  * @param {import('@jellyfin/sdk/lib/generated-client/index.js').PlaybackInfoResponse} result
  * @returns {boolean}
  */
-function validatePlaybackInfoResult(instance, result) {
+function validatePlaybackInfoResult( result) {
     if (result.ErrorCode) {
         // NOTE: To avoid needing to retranslate the "NoCompatibleStream" message,
         // we need to keep the key in the same format.
         const errMessage = result.ErrorCode === PlaybackErrorCode.NoCompatibleStream ?
             'PlaybackErrorNoCompatibleStream' : `PlaybackError.${result.ErrorCode}`;
-        showPlaybackInfoErrorMessage(instance, errMessage);
+        showPlaybackInfoErrorMessage( errMessage);
         return false;
     }
 
     return true;
 }
 
-function showPlaybackInfoErrorMessage(instance, errorCode) {
+function showPlaybackInfoErrorMessage( errorCode) {
     alert({
         text: globalize.translate(errorCode),
         title: globalize.translate('HeaderPlaybackError')
@@ -1735,7 +1734,7 @@ export class PlaybackManager {
                 };
 
                 getPlaybackInfo(player, apiClient, currentItem, deviceProfile, currentMediaSource.Id, liveStreamId, options).then(function (result) {
-                    if (validatePlaybackInfoResult(self, result)) {
+                    if (validatePlaybackInfoResult( result)) {
                         currentMediaSource = result.MediaSources[0];
 
                         const streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks, player);
@@ -1745,7 +1744,7 @@ export class PlaybackManager {
 
                         if (!streamInfo.url) {
                             cancelPlayback();
-                            showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
+                            showPlaybackInfoErrorMessage( `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
                             return;
                         }
 
@@ -1771,14 +1770,14 @@ export class PlaybackManager {
                     const afterSetSrc = function () {
                         apiClient.stopActiveEncodings(playSessionId);
                     };
-                    setSrcIntoPlayer(apiClient, player, streamInfo).then(afterSetSrc, afterSetSrc);
+                    setSrcIntoPlayer( player, streamInfo).then(afterSetSrc, afterSetSrc);
                 });
             } else {
-                setSrcIntoPlayer(apiClient, player, streamInfo);
+                setSrcIntoPlayer( player, streamInfo);
             }
         }
 
-        function setSrcIntoPlayer(apiClient, player, streamInfo) {
+        function setSrcIntoPlayer( player, streamInfo) {
             const playerData = getPlayerData(player);
 
             playerData.streamInfo = streamInfo;
@@ -2285,7 +2284,7 @@ export class PlaybackManager {
 
             // If it's still null then there's nothing to play
             if (!firstItem) {
-                showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
+                showPlaybackInfoErrorMessage( `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
                 return Promise.reject();
             }
 
@@ -2334,7 +2333,7 @@ export class PlaybackManager {
         function playInternal(item, playOptions, onPlaybackStartedFn, prevSource) {
             if (item.IsPlaceHolder) {
                 loading.hide();
-                showPlaybackInfoErrorMessage(self, 'PlaybackErrorPlaceHolder');
+                showPlaybackInfoErrorMessage( 'PlaybackErrorPlaceHolder');
                 return Promise.reject();
             }
 
@@ -2400,7 +2399,7 @@ export class PlaybackManager {
                 }
             }
 
-            showPlaybackInfoErrorMessage(self, displayErrorCode);
+            showPlaybackInfoErrorMessage( displayErrorCode);
 
             return Promise.reject();
         }
@@ -2603,7 +2602,7 @@ export class PlaybackManager {
                     cancelPlayback();
                     loading.hide();
                     console.error(`No player found for the requested media: ${item.Url}`);
-                    showPlaybackInfoErrorMessage(self, 'ErrorPlayerNotFound');
+                    showPlaybackInfoErrorMessage( 'ErrorPlayerNotFound');
                 });
             }
 
@@ -2619,7 +2618,7 @@ export class PlaybackManager {
                     }).catch((errorCode) => {
                         self.stop(player);
                         loading.hide();
-                        showPlaybackInfoErrorMessage(self, errorCode || 'ErrorDefault');
+                        showPlaybackInfoErrorMessage( errorCode || 'ErrorDefault');
                     });
                 });
             }
@@ -2928,15 +2927,15 @@ export class PlaybackManager {
             options.isPlayback = true;
 
             return getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, null, options).then(function (playbackInfoResult) {
-                if (validatePlaybackInfoResult(self, playbackInfoResult)) {
-                    return getOptimalMediaSource(apiClient, item, playbackInfoResult.MediaSources).then(function (mediaSource) {
+                if (validatePlaybackInfoResult( playbackInfoResult)) {
+                    return getOptimalMediaSource(apiClient, playbackInfoResult.MediaSources).then(function (mediaSource) {
                         if (mediaSource) {
                             if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
                                 options.audioStreamIndex = null;
                                 options.subtitleStreamIndex = null;
 
                                 return getLiveStream(player, apiClient, item, playbackInfoResult.PlaySessionId, deviceProfile, mediaSource, options).then(function (openLiveStreamResult) {
-                                    return supportsDirectPlay(apiClient, item, openLiveStreamResult.MediaSource).then(function (result) {
+                                    return supportsDirectPlay(apiClient, openLiveStreamResult.MediaSource).then(function (result) {
                                         openLiveStreamResult.MediaSource.enableDirectPlay = result;
                                         return openLiveStreamResult.MediaSource;
                                     });
@@ -2951,7 +2950,7 @@ export class PlaybackManager {
                                 return mediaSource;
                             }
                         } else {
-                            showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
+                            showPlaybackInfoErrorMessage( `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
                             return Promise.reject();
                         }
                     });
@@ -3286,7 +3285,7 @@ export class PlaybackManager {
             startPlaybackProgressTimer(player);
         }
 
-        function onPlaybackStartedFromSelfManagingPlayer(e, item, mediaSource) {
+        function onPlaybackStartedFromSelfManagingPlayer(_e, item, mediaSource) {
             const player = this;
             setCurrentPlayerInternal(player);
 
@@ -3317,7 +3316,7 @@ export class PlaybackManager {
             startPlaybackProgressTimer(player);
         }
 
-        function onPlaybackStoppedFromSelfManagingPlayer(e, playerStopInfo) {
+        function onPlaybackStoppedFromSelfManagingPlayer(_e, playerStopInfo) {
             const player = this;
 
             stopPlaybackProgressTimer(player);
@@ -3362,12 +3361,11 @@ export class PlaybackManager {
 
         /**
          * @param {object} streamInfo
-         * @param {MediaError} errorType
          * @param {boolean} currentlyPreventsVideoStreamCopy
          * @param {boolean} currentlyPreventsAudioStreamCopy
          * @returns {boolean} Returns true if the stream should be retried by transcoding.
          */
-        function enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
+        function enablePlaybackRetryWithTranscoding(streamInfo, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
             return streamInfo.mediaSource.SupportsTranscoding
                 && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy);
         }
@@ -3395,7 +3393,7 @@ export class PlaybackManager {
                 const currentlyPreventsAudioStreamCopy = streamInfo.url.toLowerCase().indexOf('allowaudiostreamcopy=false') !== -1;
 
                 // Auto switch to transcoding
-                if (enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy)) {
+                if (enablePlaybackRetryWithTranscoding(streamInfo, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy)) {
                     const startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
                     const isRemoteSource = streamInfo.item.LocationType === 'Remote';
                     // force transcoding and only allow remuxing for remote source like liveTV, but only for initial trial
@@ -3417,7 +3415,7 @@ export class PlaybackManager {
             onPlaybackStopped.call(player, e, `.${errorType}`);
         }
 
-        function onPlaybackStopped(e, displayErrorCode) {
+        function onPlaybackStopped(_e, displayErrorCode) {
             const player = this;
 
             if (getPlayerData(player).isChangingStream) {
@@ -3476,7 +3474,7 @@ export class PlaybackManager {
             }
 
             if (errorOccurred) {
-                showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
+                showPlaybackInfoErrorMessage( 'PlaybackError' + displayErrorCode);
             } else if (nextItem) {
                 const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
 
@@ -3638,7 +3636,7 @@ export class PlaybackManager {
             bindStopped(player);
         }
 
-        Events.on(pluginManager, 'registered', function (e, plugin) {
+        Events.on(pluginManager, 'registered', function (_e, plugin) {
             if (plugin.type === PluginType.MediaPlayer) {
                 initMediaPlayer(plugin);
             }
@@ -3773,7 +3771,7 @@ export class PlaybackManager {
         }
     }
 
-    toggleMute(mute, player = this._currentPlayer) {
+    toggleMute(_mute, player = this._currentPlayer) {
         if (player) {
             if (player.toggleMute) {
                 player.toggleMute();

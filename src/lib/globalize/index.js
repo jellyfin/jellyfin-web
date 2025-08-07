@@ -281,7 +281,7 @@ export function defaultModule(val) {
 
 updateCurrentCulture();
 
-Events.on(userSettings, 'change', function (e, name) {
+Events.on(userSettings, 'change', function (_e, name) {
     if (name === 'language' || name === 'datetimelocale') {
         updateCurrentCulture();
     }

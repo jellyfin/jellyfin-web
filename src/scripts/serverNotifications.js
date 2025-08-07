@@ -139,7 +139,7 @@ function processGeneralCommand(cmd, apiClient) {
     notifyApp();
 }
 
-function onMessageReceived(e, msg) {
+function onMessageReceived(_e, msg) {
     const apiClient = this;
     const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
 
@@ -202,7 +202,7 @@ function bindEvents(apiClient) {
 }
 
 ServerConnections.getApiClients().forEach(bindEvents);
-Events.on(ServerConnections, 'apiclientcreated', function (e, newApiClient) {
+Events.on(ServerConnections, 'apiclientcreated', function (_e, newApiClient) {
     bindEvents(newApiClient);
 });
 

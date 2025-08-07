@@ -137,7 +137,7 @@ function onPlaying(instance, playOptions, resolve) {
     }
 }
 
-function setCurrentSrc(instance, elem, options) {
+function setCurrentSrc(instance, options) {
     return new Promise(function (resolve, reject) {
         instance._currentSrc = options.url;
         const params = new URLSearchParams(options.url.split('?')[1]); /* eslint-disable-line compat/compat */
@@ -208,8 +208,8 @@ class YoutubePlayer {
         this.started = false;
         const instance = this;
 
-        return createMediaElement(this, options).then(function (elem) {
-            return setCurrentSrc(instance, elem, options);
+        return createMediaElement(this, options).then(function (_elem) {
+            return setCurrentSrc(instance, options);
         });
     }
     stop(destroyPlayer) {

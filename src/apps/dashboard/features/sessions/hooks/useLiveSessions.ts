@@ -39,7 +39,7 @@ const useLiveSessions = () => {
     }, []);
 
     useEffect(() => {
-        const onSessionsUpdate = (evt: Event, apiClient: ApiClient, info: SessionInfoDto[]) => {
+        const onSessionsUpdate = (_evt: Event, _apiClient: ApiClient, info: SessionInfoDto[]) => {
             queryClient.setQueryData([ QUERY_KEY, QUERY_PARAMS ], updateSessions(info));
         };
 

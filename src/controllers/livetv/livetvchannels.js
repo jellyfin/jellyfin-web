@@ -8,7 +8,7 @@ import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
-export default function (view, params, tabContent) {
+export default function (_view, _params, tabContent) {
     function getPageData() {
         if (!pageData) {
             pageData = {

@@ -214,7 +214,7 @@ function getDisplayTranscodeFps(session, player) {
     return `${transcodeFramerate} fps (${(transcodeFramerate / originalFramerate).toFixed(2)}x)`;
 }
 
-function getMediaSourceStats(session, player) {
+function getMediaSourceStats(player) {
     const sessionStats = [];
 
     const mediaSource = playbackManager.currentMediaSource(player) || {};
@@ -436,7 +436,7 @@ function getStats(instance, player) {
         }
 
         categories.push({
-            stats: getMediaSourceStats(session, player),
+            stats: getMediaSourceStats(player),
             name: globalize.translate('LabelOriginalMediaInfo')
         });
 

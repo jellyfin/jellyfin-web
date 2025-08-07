@@ -102,7 +102,7 @@ const FilterButton: FC<FilterButtonProps> = ({
 
     const handleChange =
         (panel: string) =>
-            (event: React.SyntheticEvent, newExpanded: boolean) => {
+            (_event: React.SyntheticEvent, newExpanded: boolean) => {
                 setExpanded(newExpanded ? panel : false);
             };
 

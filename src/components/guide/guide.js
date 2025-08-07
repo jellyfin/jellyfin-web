@@ -431,7 +431,7 @@ function Guide(options) {
         return '<span class="material-icons programIcon timerIcon fiber_manual_record" aria-hidden="true"></span>';
     }
 
-    function getChannelProgramsHtml(context, date, channel, programs, programOptions, listInfo) {
+    function getChannelProgramsHtml(date, channel, programs, programOptions, listInfo) {
         let html = '';
 
         const startMs = date.getTime();
@@ -635,7 +635,7 @@ function Guide(options) {
         imageLoader.lazyChildren(channelList);
     }
 
-    function renderPrograms(context, date, channels, programs, programOptions) {
+    function renderPrograms(date, channels, programs, programOptions) {
         const listInfo = {
             startIndex: 0
         };
@@ -643,7 +643,7 @@ function Guide(options) {
         const html = [];
 
         for (const channel of channels) {
-            html.push(getChannelProgramsHtml(context, date, channel, programs, programOptions, listInfo));
+            html.push(getChannelProgramsHtml(date, channel, programs, programOptions, listInfo));
         }
 
         programGrid.innerHTML = html.join('');
@@ -689,16 +689,16 @@ function Guide(options) {
         const endDate = new Date(startDate.getTime() + msPerDay);
         context.querySelector('.timeslotHeaders').innerHTML = getTimeslotHeadersHtml(startDate, endDate);
         items = {};
-        renderPrograms(context, date, channels, programs, renderOptions);
+        renderPrograms( date, channels, programs, renderOptions);
 
         if (guideOptions.focusProgramOnRender) {
             focusProgram(context, itemId, channelRowId, guideOptions.focusToTimeMs, guideOptions.startTimeOfDayMs);
         }
 
-        scrollProgramGridToTimeMs(context, guideOptions.scrollToTimeMs, guideOptions.startTimeOfDayMs);
+        scrollProgramGridToTimeMs(guideOptions.scrollToTimeMs, guideOptions.startTimeOfDayMs);
     }
 
-    function scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs) {
+    function scrollProgramGridToTimeMs(scrollToTimeMs, startTimeOfDayMs) {
         scrollToTimeMs -= startTimeOfDayMs;
 
         const pct = scrollToTimeMs / msPerDay;
@@ -772,7 +772,7 @@ function Guide(options) {
     let lastGridScroll = 0;
     let lastHeaderScroll = 0;
     let scrollXPct = 0;
-    function onProgramGridScroll(context, elem, headers) {
+    function onProgramGridScroll(elem, headers) {
         if ((new Date().getTime() - lastHeaderScroll) >= 1000) {
             lastGridScroll = new Date().getTime();
 
@@ -784,7 +784,7 @@ function Guide(options) {
         updateProgramCellsOnScroll(elem, programCells);
     }
 
-    function onTimeslotHeadersScroll(context, elem) {
+    function onTimeslotHeadersScroll(elem) {
         if ((new Date().getTime() - lastGridScroll) >= 1000) {
             lastHeaderScroll = new Date().getTime();
             nativeScrollTo(programGrid, elem.scrollLeft, true);
@@ -1038,7 +1038,7 @@ function Guide(options) {
         }
     }
 
-    function onTimerCreated(e, apiClient, data) {
+    function onTimerCreated(_e, _apiClient, data) {
         const programId = data.ProgramId;
         // This could be null, not supported by all tv providers
         const newTimerId = data.Id;
@@ -1057,7 +1057,7 @@ function Guide(options) {
         }
     }
 
-    function onTimerCancelled(e, apiClient, data) {
+    function onTimerCancelled(_e, _apiClient, data) {
         const id = data.Id;
         // find guide cells by timer id, remove timer icon
         const cells = options.element.querySelectorAll('.programCell[data-timerid="' + id + '"]');
@@ -1073,7 +1073,7 @@ function Guide(options) {
         }
     }
 
-    function onSeriesTimerCancelled(e, apiClient, data) {
+    function onSeriesTimerCancelled(_e, _apiClient, data) {
         const id = data.Id;
         // find guide cells by timer id, remove timer icon
         const cells = options.element.querySelectorAll('.programCell[data-seriestimerid="' + id + '"]');
@@ -1114,13 +1114,13 @@ function Guide(options) {
     }
 
     dom.addEventListener(programGrid, 'scroll', function () {
-        onProgramGridScroll(guideContext, this, timeslotHeaders);
+        onProgramGridScroll(this, timeslotHeaders);
     }, {
         passive: true
     });
 
     dom.addEventListener(timeslotHeaders, 'scroll', function () {
-        onTimeslotHeadersScroll(guideContext, this);
+        onTimeslotHeadersScroll(this);
     }, {
         passive: true
     });

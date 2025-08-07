@@ -12,7 +12,7 @@ import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
-export default function (view, params, tabContent) {
+export default function (_view, params, tabContent) {
     function getPageData() {
         const key = getSavedQueryKey();
         let pageData = data[key];

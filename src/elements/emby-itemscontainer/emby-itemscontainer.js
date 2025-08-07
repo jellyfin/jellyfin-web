@@ -142,7 +142,7 @@ ItemsContainerPrototype.enableDragReordering = function (enabled) {
     });
 };
 
-function onUserDataChanged(e, apiClient, userData) {
+function onUserDataChanged(_e, _apiClient, userData) {
     const itemsContainer = this;
 
     import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
@@ -168,7 +168,7 @@ function getEventsToMonitor(itemsContainer) {
     return [];
 }
 
-function onTimerCreated(e, apiClient, data) {
+function onTimerCreated(_e, _apiClient, data) {
     const itemsContainer = this;
 
     if (getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
@@ -192,7 +192,7 @@ function onSeriesTimerCreated() {
     }
 }
 
-function onTimerCancelled(e, apiClient, data) {
+function onTimerCancelled(_e, _apiClient, data) {
     const itemsContainer = this;
     if (getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
         itemsContainer.notifyRefreshNeeded();
@@ -204,7 +204,7 @@ function onTimerCancelled(e, apiClient, data) {
     });
 }
 
-function onSeriesTimerCancelled(e, apiClient, data) {
+function onSeriesTimerCancelled(_e, _apiClient, data) {
     const itemsContainer = this;
     if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1) {
         itemsContainer.notifyRefreshNeeded();
@@ -216,7 +216,7 @@ function onSeriesTimerCancelled(e, apiClient, data) {
     });
 }
 
-function onLibraryChanged(e, apiClient, data) {
+function onLibraryChanged(_e, _apiClient, data) {
     const itemsContainer = this;
 
     const eventsToMonitor = getEventsToMonitor(itemsContainer);
@@ -245,7 +245,7 @@ function onLibraryChanged(e, apiClient, data) {
     itemsContainer.notifyRefreshNeeded();
 }
 
-function onPlaybackStopped(e, stopInfo) {
+function onPlaybackStopped(_e, stopInfo) {
     const itemsContainer = this;
     const state = stopInfo.state;
 

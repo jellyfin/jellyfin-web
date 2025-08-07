@@ -33,7 +33,7 @@ function onClick() {
     }
 }
 
-function onUserDataChanged(e, apiClient, userData) {
+function onUserDataChanged(_e, _apiClient, userData) {
     const button = this;
     if (userData.ItemId === button.getAttribute('data-id')) {
         setState(button, userData.Played);

@@ -39,7 +39,7 @@ class TimeSyncCore {
         this.manager = syncPlayManager;
         this.timeSyncServer = new TimeSyncServer(syncPlayManager);
 
-        Events.on(this.timeSyncServer, 'update', (event, error, timeOffset, ping) => {
+        Events.on(this.timeSyncServer, 'update', (_event, error, timeOffset, ping) => {
             if (error) {
                 console.debug('SyncPlay TimeSyncCore: time sync with server issue:', error);
                 return;
@@ -48,7 +48,7 @@ class TimeSyncCore {
             Events.trigger(this, 'time-sync-server-update', [timeOffset, ping]);
         });
 
-        Events.on(appSettings, 'change', (e, name) => {
+        Events.on(appSettings, 'change', (_e, name) => {
             if (name === 'extraTimeOffset') {
                 this.extraTimeOffset = toFloat(getSetting('extraTimeOffset'), 0.0);
             }

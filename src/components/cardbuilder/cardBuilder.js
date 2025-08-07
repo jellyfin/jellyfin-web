@@ -412,12 +412,11 @@ export function getCardImageUrl(item, apiClient, options, shape) {
  * @param {string} cssClass - Base CSS class to use for the lines.
  * @param {boolean} forceLines - Flag to force the rendering of all lines.
  * @param {boolean} isOuterFooter - Flag to mark the text lines as outer footer.
- * @param {string} cardLayout - DEPRECATED
  * @param {boolean} addRightMargin - Flag to add a right margin to the text.
  * @param {number} maxLines - Maximum number of lines to render.
  * @returns {string} HTML markup for the card's text.
  */
-function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout, addRightMargin, maxLines) {
+function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, addRightMargin, maxLines) {
     let html = '';
 
     let valid = 0;
@@ -494,7 +493,6 @@ function getAirTimeText(item, showAirDateTime, showAirEndTime) {
 /**
  * Generates the HTML markup for the card's footer text.
  * @param {Object} item - Item used to generate the footer text.
- * @param {Object} apiClient - API client instance.
  * @param {Object} options - Options used to generate the footer text.
  * @param {string} footerClass - CSS classes of the footer element.
  * @param {string} progressHtml - HTML markup of the progress bar element.
@@ -502,7 +500,7 @@ function getAirTimeText(item, showAirDateTime, showAirEndTime) {
  * @param {Object} urls - Various urls for the footer
  * @returns {string} HTML markup of the card's footer text element.
  */
-function getCardFooterText(item, apiClient, options, footerClass, progressHtml, flags, urls) {
+function getCardFooterText(item, options, footerClass, progressHtml, flags, urls) {
     item = item.ProgramInfo || item;
     let html = '';
 
@@ -736,7 +734,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
 
     const addRightTextMargin = flags.isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
 
-    html += getCardTextLines(lines, cssClass, !options.overlayText, flags.isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
+    html += getCardTextLines(lines, cssClass, !options.overlayText, flags.isOuterFooter, addRightTextMargin, options.lines);
 
     if (progressHtml) {
         html += progressHtml;
@@ -934,7 +932,7 @@ function buildCard(index, item, apiClient, options) {
         logoUrl = null;
 
         footerCssClass = progressHtml ? 'innerCardFooter fullInnerCardFooter' : 'innerCardFooter';
-        innerCardFooter += getCardFooterText(item, apiClient, options, footerCssClass, progressHtml, { forceName, overlayText, isOuterFooter: false }, { imgUrl, logoUrl });
+        innerCardFooter += getCardFooterText(item, options, footerCssClass, progressHtml, { forceName, overlayText, isOuterFooter: false }, { imgUrl, logoUrl });
         footerOverlayed = true;
     } else if (progressHtml) {
         innerCardFooter += '<div class="innerCardFooter fullInnerCardFooter innerCardFooterClear">';
@@ -961,7 +959,7 @@ function buildCard(index, item, apiClient, options) {
             logoUrl = null;
         }
 
-        outerCardFooter = getCardFooterText(item, apiClient, options, footerCssClass, progressHtml, { forceName, overlayText, isOuterFooter: true }, { imgUrl, logoUrl });
+        outerCardFooter = getCardFooterText(item, options, footerCssClass, progressHtml, { forceName, overlayText, isOuterFooter: true }, { imgUrl, logoUrl });
     }
 
     const cardBoxClass = resolveCardBoxCssClasses({

@@ -55,7 +55,7 @@ function renderDynamicFilters(context, result, options) {
     });
 }
 
-function setBasicFilter(context, key, elem) {
+function setBasicFilter(key, elem) {
     let value = elem.checked;
     value = value || null;
     userSettings.setFilter(key, value);
@@ -102,12 +102,12 @@ function onInputCommand(e) {
             break;
     }
 }
-function saveValues(context, settings, settingsKey) {
+function saveValues(context, settingsKey) {
     context.querySelectorAll('.simpleFilter').forEach(elem => {
         if (elem.tagName === 'INPUT') {
-            setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem);
+            setBasicFilter(settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem);
         } else {
-            setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem.querySelector('input'));
+            setBasicFilter(settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem.querySelector('input'));
         }
     });
 
@@ -270,7 +270,7 @@ class FilterMenu {
                 }
 
                 if (submitted) {
-                    saveValues(dlg, options.settings, options.settingsKey);
+                    saveValues(dlg, options.settingsKey);
                     return resolve();
                 }
                 return resolve();

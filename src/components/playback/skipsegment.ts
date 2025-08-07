@@ -147,7 +147,7 @@ class SkipSegment extends PlaybackSubscriber {
         }
     }
 
-    onPromptSkip(e: Event, segment: MediaSegmentDto) {
+    onPromptSkip(_e: Event, segment: MediaSegmentDto) {
         if (this.player && segment.EndTicks != null
             && segment.EndTicks >= this.playbackManager.currentItem(this.player).RunTimeTicks
             && this.playbackManager.getNextItem()

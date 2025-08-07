@@ -159,7 +159,7 @@ class GenericPlayer {
      * @param {number} value The playback rate.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setPlaybackRate(value) {
+    setPlaybackRate(_value) {
         // Do nothing.
     }
 
@@ -198,7 +198,7 @@ class GenericPlayer {
      * @param {number} positionTicks The new position.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localSeek(positionTicks) {
+    localSeek(_positionTicks) {
         // Override
     }
 
@@ -214,7 +214,7 @@ class GenericPlayer {
      * @param {Object} command The command.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localSendCommand(command) {
+    localSendCommand(_command) {
         // Override
     }
 
@@ -223,7 +223,7 @@ class GenericPlayer {
      * @param {Object} options Playback data.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localPlay(options) {
+    localPlay(_options) {
         // Override
     }
 
@@ -232,7 +232,7 @@ class GenericPlayer {
      * @param {string} playlistItemId The item to play.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localSetCurrentPlaylistItem(playlistItemId) {
+    localSetCurrentPlaylistItem(_playlistItemId) {
         // Override
     }
 
@@ -241,7 +241,7 @@ class GenericPlayer {
      * @param {Array} playlistItemIds The items to remove.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localRemoveFromPlaylist(playlistItemIds) {
+    localRemoveFromPlaylist(_playlistItemIds) {
         // Override
     }
 
@@ -251,7 +251,7 @@ class GenericPlayer {
      * @param {number} newIndex The new position.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localMovePlaylistItem(playlistItemId, newIndex) {
+    localMovePlaylistItem(_playlistItemId, _newIndex) {
         // Override
     }
 
@@ -260,7 +260,7 @@ class GenericPlayer {
      * @param {Object} options Queue data.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localQueue(options) {
+    localQueue(_options) {
         // Override
     }
 
@@ -269,7 +269,7 @@ class GenericPlayer {
      * @param {Object} options Queue data.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localQueueNext(options) {
+    localQueueNext(_options) {
         // Override
     }
 
@@ -292,7 +292,7 @@ class GenericPlayer {
      * @param {string} value The repeat mode.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localSetRepeatMode(value) {
+    localSetRepeatMode(_value) {
         // Override
     }
 
@@ -301,7 +301,7 @@ class GenericPlayer {
      * @param {string} value The shuffle mode.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localSetQueueShuffleMode(value) {
+    localSetQueueShuffleMode(_value) {
         // Override
     }
 

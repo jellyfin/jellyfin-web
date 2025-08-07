@@ -29,7 +29,7 @@ function initEditor(context, settings) {
     context.querySelector('.selectImageType').value = settings.imageType || 'primary';
 }
 
-function saveValues(context, settings, settingsKey) {
+function saveValues(context, settingsKey) {
     const elems = context.querySelectorAll('.viewSetting-checkboxContainer');
     for (const elem of elems) {
         userSettings.set(settingsKey + '-' + elem.getAttribute('data-settingname'), elem.querySelector('input').checked);
@@ -125,7 +125,7 @@ class ViewSettings {
                 }
 
                 if (submitted) {
-                    saveValues(dlg, options.settings, options.settingsKey);
+                    saveValues(dlg, options.settingsKey);
                     return resolve();
                 }
 

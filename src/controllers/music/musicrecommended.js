@@ -163,7 +163,7 @@ function loadFrequentlyPlayed(page, parentId) {
     });
 }
 
-function loadSuggestionsTab(page, tabContent, parentId) {
+function loadSuggestionsTab(tabContent, parentId) {
     console.debug('loadSuggestionsTab');
     loadLatest(tabContent, parentId);
     loadRecentlyPlayed(tabContent, parentId);
@@ -221,7 +221,7 @@ export default function (view, params) {
     function reload() {
         loading.show();
         const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
-        loadSuggestionsTab(view, tabContent, params.topParentId);
+        loadSuggestionsTab(tabContent, params.topParentId);
     }
 
     function setScrollClasses(elem, scrollX) {
@@ -243,11 +243,11 @@ export default function (view, params) {
     }
 
     function onBeforeTabChange(e) {
-        preLoadTab(view, parseInt(e.detail.selectedTabIndex, 10));
+        preLoadTab(parseInt(e.detail.selectedTabIndex, 10));
     }
 
     function onTabChange(e) {
-        loadTab(view, parseInt(e.detail.selectedTabIndex, 10));
+        loadTab(parseInt(e.detail.selectedTabIndex, 10));
     }
 
     function getTabContainers() {
@@ -266,7 +266,7 @@ export default function (view, params) {
         }
     }
 
-    const getTabController = (page, index, callback) => {
+    const getTabController = ( index, callback) => {
         let depends;
 
         switch (index) {
@@ -327,17 +327,17 @@ export default function (view, params) {
         });
     };
 
-    function preLoadTab(page, index) {
-        getTabController(page, index, function (controller) {
+    function preLoadTab(index) {
+        getTabController(index, function (controller) {
             if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
                 controller.preRender();
             }
         });
     }
 
-    function loadTab(page, index) {
+    function loadTab(index) {
         currentTabIndex = index;
-        getTabController(page, index, function (controller) {
+        getTabController(index, function (controller) {
             if (renderedTabs.indexOf(index) == -1) {
                 renderedTabs.push(index);
                 controller.renderTab();

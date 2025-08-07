@@ -10,7 +10,7 @@ import 'elements/emby-itemscontainer/emby-itemscontainer';
 
 import 'styles/scrollstyles.scss';
 
-function getUpcomingPromise(context, params) {
+function getUpcomingPromise(params) {
     loading.show();
     const query = {
         Limit: 48,
@@ -24,7 +24,7 @@ function getUpcomingPromise(context, params) {
     return ApiClient.getJSON(ApiClient.getUrl('Shows/Upcoming', query));
 }
 
-function loadUpcoming(context, params, promise) {
+function loadUpcoming(context, promise) {
     promise.then(function (result) {
         const items = result.Items;
 
@@ -123,16 +123,16 @@ function renderUpcoming(elem, items) {
     imageLoader.lazyChildren(elem);
 }
 
-export default function (view, params, tabContent) {
+export default function (_view, params, tabContent) {
     let upcomingPromise;
     const self = this;
 
     self.preRender = function () {
-        upcomingPromise = getUpcomingPromise(view, params);
+        upcomingPromise = getUpcomingPromise(params);
     };
 
     self.renderTab = function () {
-        loadUpcoming(tabContent, params, upcomingPromise);
+        loadUpcoming(tabContent, upcomingPromise);
     };
 }
 

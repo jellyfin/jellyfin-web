@@ -59,7 +59,7 @@ class Manager {
         this.queueCore.init(this);
         this.controller.init(this);
 
-        Events.on(this.timeSyncCore, 'time-sync-server-update', (event, timeOffset, ping) => {
+        Events.on(this.timeSyncCore, 'time-sync-server-update', (_event, _timeOffset, ping) => {
             // Report ping back to server.
             if (this.syncEnabled) {
                 this.getApiClient().sendSyncPlayPing({

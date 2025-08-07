@@ -192,7 +192,7 @@ export class PdfPlayer {
         return elem;
     }
 
-    setCurrentSrc(elem, options) {
+    setCurrentSrc(_elem, options) {
         const item = options.items[0];
 
         this.item = item;

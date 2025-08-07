@@ -170,7 +170,7 @@ function getLandingScreenOptionsHtml(type, userValue) {
     }).join('');
 }
 
-function renderViewOrder(context, user, result) {
+function renderViewOrder(context, result) {
     let html = '';
 
     html += result.Items.map((view) => {
@@ -301,7 +301,7 @@ function loadForm(context, user, userSettings, apiClient) {
     const promise2 = apiClient.getJSON(apiClient.getUrl(`Users/${user.Id}/GroupingOptions`));
 
     Promise.all([promise1, promise2]).then(responses => {
-        renderViewOrder(context, user, responses[0]);
+        renderViewOrder(context, responses[0]);
 
         renderPerLibrarySettings(context, user, responses[0].Items, userSettings);
 

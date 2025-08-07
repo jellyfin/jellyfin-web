@@ -36,7 +36,7 @@ const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </s
 
 function setMediaInfo(user, page, item) {
     let html = item.MediaSources.map(version => {
-        return getMediaSourceHtml(user, item, version);
+        return getMediaSourceHtml(user, version);
     }).join('<div style="border-top:1px solid #444;margin: 1em 0;"></div>');
     if (item.MediaSources.length > 1) {
         html = `<br/>${html}`;
@@ -58,7 +58,7 @@ function setMediaInfo(user, page, item) {
     }
 }
 
-function getMediaSourceHtml(user, item, version) {
+function getMediaSourceHtml(user, version) {
     let html = '<div class="mediaInfoSource">';
     if (version.Name) {
         html += `<div><h2 class="mediaInfoStreamType">${escapeHtml(version.Name)}${copyButtonHtml}</h2></div>\n`;

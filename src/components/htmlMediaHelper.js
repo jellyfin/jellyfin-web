@@ -132,7 +132,7 @@ function setCurrentTimeIfNeeded(element, seconds) {
     }
 }
 
-export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
+export function seekOnPlaybackStart(_instance, element, ticks, onMediaReady) {
     const seconds = (ticks || 0) / 10000000;
 
     if (seconds) {
@@ -269,7 +269,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
         });
     });
 
-    hls.on(Hls.Events.ERROR, function (event, data) {
+    hls.on(Hls.Events.ERROR, function (_event, data) {
         console.error('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
 
         // try to recover network error

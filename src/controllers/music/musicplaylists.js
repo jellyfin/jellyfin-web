@@ -3,7 +3,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
 import loading from '../../components/loading/loading';
 
-export default function (view, params, tabContent) {
+export default function (_view, params, tabContent) {
     function getPageData() {
         const key = getSavedQueryKey();
         let pageData = data[key];

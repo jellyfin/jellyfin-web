@@ -6,7 +6,7 @@ import Dashboard from 'utils/dashboard';
 
 import 'elements/emby-button/emby-button';
 
-function handleConnectionResult(page, result) {
+function handleConnectionResult(_page, result) {
     loading.hide();
     switch (result.State) {
         case ConnectionState.SignedIn: {
