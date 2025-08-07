@@ -22,7 +22,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 export const Component = () => {
     const { data: virtualFolders, isPending: isVirtualFoldersPending } = useVirtualFolders();
     const startTask = useStartTask();
-    const { data: tasks, isPending } = useLiveTasks({ isHidden: false });
+    const { data: tasks, isPending: isLiveTasksPending } = useLiveTasks({ isHidden: false });
 
     const gridLayout = useMemo(() => ({
         xs: 12,
@@ -57,7 +57,7 @@ export const Component = () => {
         }
     }, [ startTask, librariesTask ]);
 
-    if (isPending) return <Loading />;
+    if (isVirtualFoldersPending || isLiveTasksPending) return <Loading />;
 
     return (
         <Page
