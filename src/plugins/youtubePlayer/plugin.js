@@ -208,7 +208,7 @@ class YoutubePlayer {
         this.started = false;
         const instance = this;
 
-        return createMediaElement(this, options).then(function (_elem) {
+        return createMediaElement(this, options).then(function () {
             return setCurrentSrc(instance, options);
         });
     }

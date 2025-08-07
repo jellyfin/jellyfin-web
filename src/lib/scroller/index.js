@@ -285,7 +285,6 @@ const scrollerFactory = function (frame, options) {
         }
 
         // Update the animation object
-        const from = pos.cur;
         immediate = immediate || dragging.init || !o.speed;
 
         const now = new Date().getTime();
