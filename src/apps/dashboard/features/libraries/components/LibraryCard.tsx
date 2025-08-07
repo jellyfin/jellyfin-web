@@ -179,6 +179,7 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
                 actionRef={actionRef}
                 onActionClick={onActionClick}
                 onClick={showMediaLibraryEditor}
+                height={260}
             />
             <Menu
                 anchorEl={anchorEl}
