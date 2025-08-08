@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import type { VirtualFolderInfo } from '@jellyfin/sdk/lib/generated-client/models/virtual-folder-info';
 import BaseCard from 'apps/dashboard/components/BaseCard';
 import getCollectionTypeOptions from '../utils/collectionTypeOptions';
@@ -23,13 +23,17 @@ import { useRenameVirtualFolder } from '../api/useRenameVirtualFolder';
 import RefreshDialog from 'components/refreshdialog/refreshdialog';
 import ConfirmDialog from 'components/ConfirmDialog';
 import { useRemoveVirtualFolder } from '../api/useRemoveVirtualFolder';
-import getLibraryImageUrl from '../utils/getLibraryImageUrl';
+import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
+import { useApi } from 'hooks/useApi';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import dom from 'utils/dom';
 
 type LibraryCardProps = {
     virtualFolder: VirtualFolderInfo;
 };
 
 const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
+    const { api } = useApi();
     const actionRef = useRef<HTMLButtonElement | null>(null);
     const [ anchorEl, setAnchorEl ] = useState<HTMLElement | null>(null);
     const [ isMenuOpen, setIsMenuOpen ] = useState(false);
@@ -37,6 +41,15 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
     const [ isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen ] = useState(false);
     const renameVirtualFolder = useRenameVirtualFolder();
     const removeVirtualFolder = useRemoveVirtualFolder();
+
+    const imageUrl = useMemo(() => {
+        if (virtualFolder.PrimaryImageItemId && virtualFolder.ItemId && api) {
+            return getImageApi(api)
+                .getItemImageUrlById(virtualFolder.ItemId, ImageType.Primary, {
+                    maxWidth: Math.round(dom.getScreenWidth() * 0.40)
+                });
+        }
+    }, [ api, virtualFolder ]);
 
     const typeName = getCollectionTypeOptions().filter(function (t) {
         return t.value == virtualFolder.CollectionType;
@@ -173,7 +186,7 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
             <BaseCard
                 title={virtualFolder.Name || ''}
                 text={typeName}
-                image={getLibraryImageUrl(virtualFolder)}
+                image={imageUrl}
                 icon={<Icon sx={{ fontSize: 70 }}>{getLibraryIcon(virtualFolder.CollectionType)}</Icon>}
                 action={true}
                 actionRef={actionRef}
