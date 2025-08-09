@@ -12,7 +12,6 @@ import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';
 import Button from '@mui/material/Button';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import AddIcon from '@mui/icons-material/Add';
-import DvrIcon from '@mui/icons-material/Dvr';
 import { Form, Link, useNavigate } from 'react-router-dom';
 import { useStartTask } from 'apps/dashboard/features/tasks/api/useStartTask';
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
@@ -22,12 +21,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import Alert from '@mui/material/Alert';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemLink from 'components/ListItemLink';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import getProviderConfigurationUrl from 'apps/dashboard/features/livetv/utils/getProviderConfigurationUrl';
-import getProviderName from 'apps/dashboard/features/livetv/utils/getProviderName';
+import Provider from 'apps/dashboard/features/livetv/components/Provider';
 
 const CONFIG_KEY = 'livetv';
 
@@ -149,31 +143,16 @@ export const Component = () => {
                                 </MenuItem>
                             </Menu>
 
-                            <List sx={{ backgroundColor: 'background.paper' }}>
-                                {config.ListingProviders?.map(provider => (
-                                    <ListItem disablePadding key={provider.Id}>
-                                        <ListItemLink to={getProviderConfigurationUrl(provider.Type || '') + '&id=' + provider.Id}>
-                                            <ListItemAvatar>
-                                                <Avatar>
-                                                    <DvrIcon />
-                                                </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={getProviderName(provider.Type)}
-                                                secondary={provider.Path || provider.ListingsId}
-                                                slotProps={{
-                                                    primary: {
-                                                        variant: 'h3'
-                                                    },
-                                                    secondary: {
-                                                        variant: 'body1'
-                                                    }
-                                                }}
-                                            />
-                                        </ListItemLink>
-                                    </ListItem>
-                                ))}
-                            </List>
+                            {(config.ListingProviders && config.ListingProviders?.length > 0) && (
+                                <List sx={{ backgroundColor: 'background.paper' }}>
+                                    {config.ListingProviders?.map(provider => (
+                                        <Provider
+                                            key={provider.Id}
+                                            provider={provider}
+                                        />
+                                    ))}
+                                </List>
+                            )}
                         </Stack>
                     )}
                 </Form>
