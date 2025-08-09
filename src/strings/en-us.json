@@ -1803,6 +1803,7 @@
     "Scene": "Scene",
     "Sample": "Sample",
     "Select": "Select",
+    "SelectVersion": "Select Version",
     "ThemeSong": "Theme Song",
     "ThemeVideo": "Theme Video",
     "EnableEnhancedNvdecDecoderHelp": "Enhanced NVDEC implementation, disable this option to use CUVID if you encounter decoding errors.",
