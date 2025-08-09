@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import type { TunerHostInfo } from '@jellyfin/sdk/lib/generated-client/models/tuner-host-info';
 import BaseCard from 'apps/dashboard/components/BaseCard';
 import DvrIcon from '@mui/icons-material/Dvr';
-import getProviderName from '../utils/getProviderName';
+import getProviderName from '../utils/getTunerName';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
