@@ -22,15 +22,17 @@ interface BaseCardProps {
     action?: boolean;
     actionRef?: React.MutableRefObject<HTMLButtonElement | null>;
     onActionClick?: () => void;
+    width?: number;
 };
 
-const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, action, actionRef, onActionClick }: BaseCardProps) => {
+const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, action, actionRef, onActionClick, width }: BaseCardProps) => {
     return (
         <Card
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                height: 240
+                height: 240,
+                width: width
             }}
         >
             <CardActionArea
