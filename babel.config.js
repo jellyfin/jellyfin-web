@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     babelrcRoots: [
         // Keep the root as a root
         '.'
