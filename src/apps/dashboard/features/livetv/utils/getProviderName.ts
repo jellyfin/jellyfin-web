@@ -1,16 +1,12 @@
-const getTunerName = (providerId: string | null | undefined) => {
+const getProviderName = (providerId: string | null | undefined) => {
     switch (providerId?.toLowerCase()) {
-        case 'm3u':
-            return 'M3U';
-        case 'hdhomerun':
-            return 'HDHomeRun';
-        case 'hauppauge':
-            return 'Hauppauge';
-        case 'satip':
-            return 'DVB';
+        case 'schedulesdirect':
+            return 'Schedules Direct';
+        case 'xmltv':
+            return 'XMLTV';
         default:
             return 'Unknown';
     }
 };
 
-export default getTunerName;
+export default getProviderName;
