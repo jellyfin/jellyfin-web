@@ -209,7 +209,7 @@ function getParentTitle(
     serverId: NullableString,
     item: ItemDto
 ) {
-    if (isOuterFooter && item.AlbumArtists?.length) {
+    if (isOuterFooter && item.AlbumArtists?.length && item.AlbumArtists[0]) {
         (item.AlbumArtists[0] as ItemDto).Type = ItemKind.MusicArtist;
         (item.AlbumArtists[0] as ItemDto).IsFolder = true;
         return getTextActionButton(item.AlbumArtists[0], null, serverId);
