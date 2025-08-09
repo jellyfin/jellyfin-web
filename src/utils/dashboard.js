@@ -102,7 +102,7 @@ export function onServerChanged(_userId, _accessToken, apiClient) {
 }
 
 export function logout() {
-    ServerConnections.logout().then(function () {
+    ServerConnections.logout().then(() => {
         // Clear the query cache
         queryClient.clear();
         // Reset cached views
@@ -176,7 +176,7 @@ export function alert(options) {
         baseAlert({
             title: options.title || globalize.translate('HeaderAlert'),
             text: options.message
-        }).then(options.callback || function () { /* no-op */ });
+        }).then(options.callback || (() => { /* no-op */ }));
     }
 }
 
@@ -206,15 +206,15 @@ export function showLoadingMsg() {
 }
 
 export function confirm(message, title, callback) {
-    baseConfirm(message, title).then(function() {
+    baseConfirm(message, title).then(() => {
         callback(true);
-    }).catch(function() {
+    }).catch(() => {
         callback(false);
     });
 }
 
-export const pageClassOn = function(eventName, className, fn) {
-    document.addEventListener(eventName, function (event) {
+export const pageClassOn = (eventName, className, fn) => {
+    document.addEventListener(eventName, (event) => {
         const target = event.target;
 
         if (target.classList.contains(className)) {
@@ -223,8 +223,8 @@ export const pageClassOn = function(eventName, className, fn) {
     });
 };
 
-export const pageIdOn = function(eventName, id, fn) {
-    document.addEventListener(eventName, function (event) {
+export const pageIdOn = (eventName, id, fn) => {
+    document.addEventListener(eventName, (event) => {
         const target = event.target;
 
         if (target.id === id) {

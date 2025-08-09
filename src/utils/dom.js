@@ -86,7 +86,7 @@ export function parentWithClass(elem, classNames) {
 let supportsCaptureOption = false;
 try {
     const opts = Object.defineProperty({}, 'capture', {
-        get: function () {
+        get: () => {
             supportsCaptureOption = true;
             return null;
         }

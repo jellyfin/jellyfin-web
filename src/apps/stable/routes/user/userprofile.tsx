@@ -36,7 +36,7 @@ const UserProfile: FunctionComponent = () => {
         }
 
         loading.show();
-        window.ApiClient.getUser(userId).then(function (user) {
+        window.ApiClient.getUser(userId).then((user) => {
             if (!user.Name || !user.Id) {
                 throw new Error('Unexpected null user name or id');
             }
@@ -54,7 +54,7 @@ const UserProfile: FunctionComponent = () => {
             const userImage = (page.querySelector('#image') as HTMLDivElement);
             userImage.style.backgroundImage = 'url(' + imageUrl + ')';
 
-            Dashboard.getCurrentUser().then(function (loggedInUser: UserDto) {
+            Dashboard.getCurrentUser().then((loggedInUser: UserDto) => {
                 if (!user.Policy) {
                     throw new Error('Unexpected null user.Policy');
                 }
@@ -123,7 +123,7 @@ const UserProfile: FunctionComponent = () => {
                 }
 
                 userImage.style.backgroundImage = 'url(' + reader.result + ')';
-                window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(function () {
+                window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(() => {
                     loading.hide();
                     reloadUser();
                 }).catch(err => {
@@ -134,7 +134,7 @@ const UserProfile: FunctionComponent = () => {
             reader.readAsDataURL(file);
         };
 
-        (page.querySelector('#btnDeleteImage') as HTMLButtonElement).addEventListener('click', function () {
+        (page.querySelector('#btnDeleteImage') as HTMLButtonElement).addEventListener('click', () => {
             if (!userId) {
                 console.error('[userprofile] missing user id');
                 return;
@@ -143,9 +143,9 @@ const UserProfile: FunctionComponent = () => {
             confirm(
                 globalize.translate('DeleteImageConfirmation'),
                 globalize.translate('DeleteImage')
-            ).then(function () {
+            ).then(() => {
                 loading.show();
-                window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(function () {
+                window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(() => {
                     loading.hide();
                     reloadUser();
                 }).catch(err => {
@@ -156,13 +156,13 @@ const UserProfile: FunctionComponent = () => {
             });
         });
 
-        (page.querySelector('#btnAddImage') as HTMLButtonElement).addEventListener('click', function () {
+        (page.querySelector('#btnAddImage') as HTMLButtonElement).addEventListener('click', () => {
             const uploadImage = page.querySelector('#uploadImage') as HTMLInputElement;
             uploadImage.value = '';
             uploadImage.click();
         });
 
-        (page.querySelector('#uploadImage') as HTMLInputElement).addEventListener('change', function (evt: Event) {
+        (page.querySelector('#uploadImage') as HTMLInputElement).addEventListener('change', (evt: Event) => {
             setFiles(evt);
         });
     }, [reloadUser, userId]);

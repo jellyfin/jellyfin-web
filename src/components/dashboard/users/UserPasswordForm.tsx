@@ -104,14 +104,14 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                 currentPassword = '';
             }
 
-            window.ApiClient.updateUserPassword(userId, currentPassword, newPassword).then(function () {
+            window.ApiClient.updateUserPassword(userId, currentPassword, newPassword).then(() => {
                 loading.hide();
                 toast(globalize.translate('PasswordSaved'));
 
                 loadUser().catch(err => {
                     console.error('[UserPasswordForm] failed to load user', err);
                 });
-            }, function () {
+            }, () => {
                 loading.hide();
                 Dashboard.alert({
                     title: globalize.translate('HeaderLoginFailure'),
@@ -127,9 +127,9 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             }
 
             const msg = globalize.translate('PasswordResetConfirmation');
-            confirm(msg, globalize.translate('ResetPassword')).then(function () {
+            confirm(msg, globalize.translate('ResetPassword')).then(() => {
                 loading.show();
-                window.ApiClient.resetUserPassword(userId).then(function () {
+                window.ApiClient.resetUserPassword(userId).then(() => {
                     loading.hide();
                     Dashboard.alert({
                         message: globalize.translate('PasswordResetComplete'),

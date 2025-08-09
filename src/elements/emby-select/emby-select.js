@@ -43,7 +43,7 @@ function showActionSheet(select) {
         positionTo: select,
         title: title
 
-    }).then(function (value) {
+    }).then((value) => {
         setValue(select, value);
         triggerChange(select);
     });

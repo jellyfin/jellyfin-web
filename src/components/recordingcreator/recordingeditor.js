@@ -46,7 +46,7 @@ function onSubmit(e) {
 
     const apiClient = ServerConnections.getApiClient(currentServerId);
 
-    apiClient.getLiveTvTimer(currentItemId).then(function (item) {
+    apiClient.getLiveTvTimer(currentItemId).then((item) => {
         item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
         item.PostPaddingSeconds = form.querySelector('#txtPostPaddingMinutes').value * 60;
         apiClient.updateLiveTvTimer(item).then(currentResolve);
@@ -59,14 +59,14 @@ function onSubmit(e) {
 }
 
 function init(context) {
-    context.querySelector('.btnCancel').addEventListener('click', function () {
+    context.querySelector('.btnCancel').addEventListener('click', () => {
         closeDialog(false);
     });
 
-    context.querySelector('.btnCancelRecording').addEventListener('click', function () {
+    context.querySelector('.btnCancelRecording').addEventListener('click', () => {
         const apiClient = ServerConnections.getApiClient(currentServerId);
 
-        deleteTimer(apiClient, currentItemId).then(function () {
+        deleteTimer(apiClient, currentItemId).then(() => {
             closeDialog(true);
         });
     });
@@ -79,14 +79,14 @@ function reload(context, id) {
     currentItemId = id;
 
     const apiClient = ServerConnections.getApiClient(currentServerId);
-    apiClient.getLiveTvTimer(id).then(function (result) {
+    apiClient.getLiveTvTimer(id).then((result) => {
         renderTimer(context, result);
         loading.hide();
     });
 }
 
 function showEditor(itemId, serverId, options) {
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
         recordingDeleted = false;
         currentServerId = serverId;
         loading.show();
@@ -124,13 +124,13 @@ function showEditor(itemId, serverId, options) {
 
         currentDialog = dlg;
 
-        dlg.addEventListener('closing', function () {
+        dlg.addEventListener('closing', () => {
             if (!recordingDeleted) {
                 dlg.querySelector('.btnSubmit').click();
             }
         });
 
-        dlg.addEventListener('close', function () {
+        dlg.addEventListener('close', () => {
             if (recordingDeleted) {
                 resolve({
                     updated: true,

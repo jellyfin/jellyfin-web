@@ -20,7 +20,7 @@ function getItemsToResumeFn(
     serverId: string,
     { enableOverflow }: SectionOptions
 ) {
-    return function () {
+    return () => {
         const apiClient = ServerConnections.getApiClient(serverId);
 
         const limit = enableOverflow ? 12 : 5;
@@ -44,7 +44,7 @@ function getItemsToResumeHtmlFn(
     mediaType: BaseItemKind,
     { enableOverflow }: SectionOptions
 ) {
-    return function (items: BaseItemDto[]) {
+    return (items: BaseItemDto[]) => {
         const cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,

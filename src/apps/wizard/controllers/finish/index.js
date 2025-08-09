@@ -7,7 +7,7 @@ function onFinish() {
     apiClient.ajax({
         url: apiClient.getUrl('Startup/Complete'),
         type: 'POST'
-    }).then(function () {
+    }).then(() => {
         loading.hide();
         window.location.href = '';
     });
