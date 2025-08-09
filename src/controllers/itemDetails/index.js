@@ -136,7 +136,7 @@ function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
         SeriesTimerId: seriesTimerId,
         Fields: 'ChannelInfo,ChannelImage'
     }).then(function (result) {
-        if (result.Items.length && result.Items[0].SeriesTimerId != seriesTimerId) {
+        if (result.Items.length && result.Items[0].SeriesTimerId !== seriesTimerId) {
             result.Items = [];
         }
 
@@ -313,7 +313,7 @@ function renderSubtitleSelections(page, mediaSources) {
 function reloadPlayButtons(page, item) {
     let canPlay = false;
 
-    if (item.Type == 'Program') {
+    if (item.Type === 'Program') {
         const now = new Date();
 
         if (now >= datetime.parseISO8601Date(item.StartDate, true) && now < datetime.parseISO8601Date(item.EndDate, true)) {
@@ -471,13 +471,13 @@ function renderName(item, container, context) {
         } else {
             html += '<h3 class="itemName infoText subtitle"><bdi>' + name + '</bdi></h3>';
         }
-    } else if (item.OriginalTitle && item.OriginalTitle != item.Name) {
+    } else if (item.OriginalTitle && item.OriginalTitle !== item.Name) {
         html = '<h1 class="itemName infoText parentNameLast withOriginalTitle"><bdi>' + name + '</bdi></h1>' + html;
     } else {
         html = '<h1 class="itemName infoText parentNameLast"><bdi>' + name + '</bdi></h1>' + html;
     }
 
-    if (item.OriginalTitle && item.OriginalTitle != item.Name) {
+    if (item.OriginalTitle && item.OriginalTitle !== item.Name) {
         html += '<h4 class="itemName infoText originalTitle">' + escapeHtml(item.OriginalTitle) + '</h4>';
     }
 
@@ -574,7 +574,7 @@ function reloadFromItem(instance, page, params, item, user) {
 
     showRecordingFields(instance, page, item, user);
     const groupedVersions = (item.MediaSources || []).filter(function (g) {
-        return g.Type == 'Grouping';
+        return g.Type === 'Grouping';
     });
 
     if (user.Policy.IsAdministrator && groupedVersions.length) {
@@ -593,7 +593,7 @@ function reloadFromItem(instance, page, params, item, user) {
 
     const itemBirthday = page.querySelector('#itemBirthday');
 
-    if (item.Type == 'Person' && item.PremiereDate) {
+    if (item.Type === 'Person' && item.PremiereDate) {
         try {
             const birthday = datetime.parseISO8601Date(item.PremiereDate, true);
             const durationSinceBorn = intervalToDuration({ start: birthday, end: Date.now() });
@@ -613,7 +613,7 @@ function reloadFromItem(instance, page, params, item, user) {
 
     const itemDeathDate = page.querySelector('#itemDeathDate');
 
-    if (item.Type == 'Person' && item.EndDate) {
+    if (item.Type === 'Person' && item.EndDate) {
         try {
             const deathday = datetime.parseISO8601Date(item.EndDate, true);
             itemDeathDate.classList.remove('hide');
@@ -635,7 +635,7 @@ function reloadFromItem(instance, page, params, item, user) {
 
     const itemBirthLocation = page.querySelector('#itemBirthLocation');
 
-    if (item.Type == 'Person' && item.ProductionLocations && item.ProductionLocations.length) {
+    if (item.Type === 'Person' && item.ProductionLocations && item.ProductionLocations.length) {
         let location = item.ProductionLocations[0];
         if (!layoutManager.tv && appHost.supports(AppFeature.ExternalLinks)) {
             location = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${escapeHtml(location)}</a>`;
@@ -692,7 +692,7 @@ function showRecordingFields(instance, page, item, user) {
     if (!instance.currentRecordingFields) {
         const recordingFieldsElement = page.querySelector('.recordingFields');
 
-        if (item.Type == 'Program' && user.Policy.EnableLiveTvManagement) {
+        if (item.Type === 'Program' && user.Policy.EnableLiveTvManagement) {
             import('../../components/recordingcreator/recordingfields').then(({ default: RecordingFields }) => {
                 instance.currentRecordingFields = new RecordingFields({
                     parent: recordingFieldsElement,
@@ -758,7 +758,7 @@ function renderImage(page, item, apiClient) {
 }
 
 function setPeopleHeader(page, item) {
-    if (item.MediaType == 'Audio' || item.Type == 'MusicAlbum' || item.MediaType == 'Book' || item.MediaType == 'Photo') {
+    if (item.MediaType === 'Audio' || item.Type === 'MusicAlbum' || item.MediaType === 'Book' || item.MediaType === 'Photo') {
         page.querySelector('#peopleHeader').innerHTML = globalize.translate('People');
     } else {
         page.querySelector('#peopleHeader').innerHTML = globalize.translate('HeaderCastAndCrew');
@@ -768,7 +768,7 @@ function setPeopleHeader(page, item) {
 function renderNextUp(page, item, user) {
     const section = page.querySelector('.nextUpSection');
 
-    if (item.Type != 'Series') {
+    if (item.Type !== 'Series') {
         section.classList.add('hide');
         return;
     }
@@ -788,7 +788,7 @@ function renderNextUp(page, item, user) {
             items: result.Items,
             shape: 'overflowBackdrop',
             showTitle: true,
-            displayAsSpecial: item.Type == 'Season' && item.IndexNumber,
+            displayAsSpecial: item.Type === 'Season' && item.IndexNumber,
             overlayText: false,
             centerText: true,
             overlayPlayButton: true
@@ -802,14 +802,14 @@ function renderNextUp(page, item, user) {
 function setInitialCollapsibleState(page, item, apiClient, context, user) {
     page.querySelector('.collectionItems').innerHTML = '';
 
-    if (item.Type == 'Playlist') {
+    if (item.Type === 'Playlist') {
         page.querySelector('#childrenCollapsible').classList.remove('hide');
         renderPlaylistItems(page, item);
-    } else if (item.Type == 'Studio' || item.Type == 'Person' || item.Type == 'Genre' || item.Type == 'MusicGenre' || item.Type == 'MusicArtist') {
+    } else if (item.Type === 'Studio' || item.Type === 'Person' || item.Type === 'Genre' || item.Type === 'MusicGenre' || item.Type === 'MusicArtist') {
         page.querySelector('#childrenCollapsible').classList.remove('hide');
         renderItemsByName(page, item);
     } else if (item.IsFolder) {
-        if (item.Type == 'BoxSet') {
+        if (item.Type === 'BoxSet') {
             page.querySelector('#childrenCollapsible').classList.add('hide');
         }
 
@@ -818,7 +818,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#childrenCollapsible').classList.add('hide');
     }
 
-    if (item.Type == 'Series') {
+    if (item.Type === 'Series') {
         renderSeriesSchedule(page, item);
         renderNextUp(page, item, user);
     } else {
@@ -854,7 +854,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#additionalPartsCollapsible').classList.add('hide');
     }
 
-    if (item.Type == 'MusicAlbum' || item.Type == 'MusicArtist') {
+    if (item.Type === 'MusicAlbum' || item.Type === 'MusicArtist') {
         renderMusicVideos(page, item, user);
     } else {
         page.querySelector('#musicVideosCollapsible').classList.add('hide');
@@ -1233,7 +1233,7 @@ function renderSimilarItems(page, item, context) {
     const similarCollapsible = page.querySelector('#similarCollapsible');
 
     if (similarCollapsible) {
-        if (item.Type != 'Movie' && item.Type != 'Trailer' && item.Type != 'Series' && item.Type != 'Program' && item.Type != 'Recording' && item.Type != 'MusicAlbum' && item.Type != 'MusicArtist' && item.Type != 'Playlist' && item.Type != 'Audio') {
+        if (item.Type !== 'Movie' && item.Type !== 'Trailer' && item.Type !== 'Series' && item.Type !== 'Program' && item.Type !== 'Recording' && item.Type !== 'MusicAlbum' && item.Type !== 'MusicArtist' && item.Type !== 'Playlist' && item.Type !== 'Audio') {
             similarCollapsible.classList.add('hide');
             return;
         }
@@ -1246,7 +1246,7 @@ function renderSimilarItems(page, item, context) {
             fields: 'PrimaryImageAspectRatio,CanDelete'
         };
 
-        if (item.Type == 'MusicAlbum' && item.AlbumArtists && item.AlbumArtists.length) {
+        if (item.Type === 'MusicAlbum' && item.AlbumArtists && item.AlbumArtists.length) {
             options.ExcludeArtistIds = item.AlbumArtists[0].Id;
         }
 
@@ -1261,13 +1261,13 @@ function renderSimilarItems(page, item, context) {
             html += cardBuilder.getCardsHtml({
                 items: result.Items,
                 shape: 'autooverflow',
-                showParentTitle: item.Type == 'MusicAlbum',
+                showParentTitle: item.Type === 'MusicAlbum',
                 centerText: true,
                 showTitle: true,
                 context: context,
                 lazy: true,
                 showDetailsMenu: true,
-                coverImage: item.Type == 'MusicAlbum' || item.Type == 'MusicArtist',
+                coverImage: item.Type === 'MusicAlbum' || item.Type === 'MusicArtist',
                 overlayPlayButton: true,
                 overlayText: false,
                 showYear: item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Series'
@@ -1281,13 +1281,13 @@ function renderSimilarItems(page, item, context) {
 
 function renderSeriesAirTime(page, item) {
     const seriesAirTime = page.querySelector('#seriesAirTime');
-    if (item.Type != 'Series') {
+    if (item.Type !== 'Series') {
         seriesAirTime.classList.add('hide');
         return;
     }
     let html = '';
     if (item.AirDays?.length) {
-        if (item.AirDays.length == 7) {
+        if (item.AirDays.length === 7) {
             html += 'daily';
         } else {
             html += item.AirDays.map(function (a) {
@@ -1299,7 +1299,7 @@ function renderSeriesAirTime(page, item) {
         html += ' at ' + item.AirTime;
     }
     if (html) {
-        html = (item.Status == 'Ended' ? 'Aired ' : 'Airs ') + html;
+        html = (item.Status === 'Ended' ? 'Aired ' : 'Airs ') + html;
         seriesAirTime.innerHTML = html;
         seriesAirTime.classList.remove('hide');
     } else {
@@ -1344,7 +1344,7 @@ function renderChildren(page, item) {
         Fields: fields
     };
 
-    if (item.Type == 'MusicAlbum') {
+    if (item.Type === 'MusicAlbum') {
         query.SortBy = 'ParentIndexNumber,IndexNumber,SortName';
     } else if (item.Type !== 'BoxSet') {
         query.SortBy = 'SortName';
@@ -1354,19 +1354,19 @@ function renderChildren(page, item) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
     const userId = apiClient.getCurrentUserId();
 
-    if (item.Type == 'Series') {
+    if (item.Type === 'Series') {
         promise = apiClient.getSeasons(item.Id, {
             userId: userId,
             Fields: fields
         });
-    } else if (item.Type == 'Season') {
+    } else if (item.Type === 'Season') {
         fields += ',Overview';
         promise = apiClient.getEpisodes(item.SeriesId, {
             seasonId: item.Id,
             userId: userId,
             Fields: fields
         });
-    } else if (item.Type == 'MusicArtist') {
+    } else if (item.Type === 'MusicArtist') {
         query.SortBy = 'PremiereDate,ProductionYear,SortName';
     }
 
@@ -1377,7 +1377,7 @@ function renderChildren(page, item) {
         let isList = false;
         const childrenItemsContainer = page.querySelector('.childrenItemsContainer');
 
-        if (item.Type == 'MusicAlbum') {
+        if (item.Type === 'MusicAlbum') {
             let showArtist = false;
             for (const track of result.Items) {
                 if (!isEqual(track.ArtistItems.map(x => x.Id).sort(), track.AlbumArtists.map(x => x.Id).sort())) {
@@ -1399,7 +1399,7 @@ function renderChildren(page, item) {
                 containerAlbumArtists: item.AlbumArtists
             });
             isList = true;
-        } else if (item.Type == 'Series') {
+        } else if (item.Type === 'Series') {
             scrollX = enableScrollX();
             html = cardBuilder.getCardsHtml({
                 items: result.Items,
@@ -1410,11 +1410,11 @@ function renderChildren(page, item) {
                 overlayPlayButton: true,
                 allowBottomPadding: !scrollX
             });
-        } else if (item.Type == 'Season' || item.Type == 'Episode') {
+        } else if (item.Type === 'Season' || item.Type === 'Episode') {
             if (item.Type !== 'Episode') {
                 isList = true;
             }
-            scrollX = item.Type == 'Episode';
+            scrollX = item.Type === 'Episode';
             if (result.Items.length < 2 && item.Type === 'Episode') {
                 return;
             }
@@ -1424,7 +1424,7 @@ function renderChildren(page, item) {
                     items: result.Items,
                     shape: 'overflowBackdrop',
                     showTitle: true,
-                    displayAsSpecial: item.Type == 'Season' && item.IndexNumber,
+                    displayAsSpecial: item.Type === 'Season' && item.IndexNumber,
                     playFromHere: true,
                     overlayText: true,
                     lazy: true,
@@ -1475,7 +1475,7 @@ function renderChildren(page, item) {
         }
         childrenItemsContainer.innerHTML = html;
         imageLoader.lazyChildren(childrenItemsContainer);
-        if (item.Type == 'BoxSet') {
+        if (item.Type === 'BoxSet') {
             const collectionItemTypes = [{
                 name: globalize.translate('Movies'),
                 type: 'Movie'
@@ -1502,17 +1502,17 @@ function renderChildren(page, item) {
         }
     });
 
-    if (item.Type == 'Season') {
+    if (item.Type === 'Season') {
         page.querySelector('#childrenTitle').innerHTML = globalize.translate('Episodes');
-    } else if (item.Type == 'Series') {
+    } else if (item.Type === 'Series') {
         page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderSeasons');
-    } else if (item.Type == 'MusicAlbum') {
+    } else if (item.Type === 'MusicAlbum') {
         page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderTracks');
     } else {
         page.querySelector('#childrenTitle').innerHTML = globalize.translate('Items');
     }
 
-    if (item.Type == 'MusicAlbum' || item.Type == 'Season') {
+    if (item.Type === 'MusicAlbum' || item.Type === 'Season') {
         page.querySelector('.childrenSectionHeader').classList.add('hide');
         page.querySelector('#childrenCollapsible').classList.add('verticalSection-extrabottompadding');
     } else {
@@ -1658,7 +1658,7 @@ function filterItemsByCollectionItemType(items, typeInfo) {
     const filteredItems = [];
     const leftoverItems = [];
     items.forEach(function(item) {
-        if ((typeInfo.mediaType && item.MediaType == typeInfo.mediaType) || (item.Type == typeInfo.type)) {
+        if ((typeInfo.mediaType && item.MediaType === typeInfo.mediaType) || (item.Type === typeInfo.type)) {
             filteredItems.push(item);
         } else {
             leftoverItems.push(item);
@@ -1737,7 +1737,7 @@ function renderCollectionItemType(page, parentItem, type, items) {
     html += '</h2>';
     html += '</div>';
     html += '<div is="emby-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right">';
-    const shape = type.type == 'MusicAlbum' ? getSquareShape(false) : getPortraitShape(false);
+    const shape = type.type === 'MusicAlbum' ? getSquareShape(false) : getPortraitShape(false);
     html += cardBuilder.getCardsHtml({
         items: items,
         shape: shape,
@@ -1767,7 +1767,7 @@ function renderMusicVideos(page, item, user) {
         Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
     };
 
-    if (item.Type == 'MusicAlbum') {
+    if (item.Type === 'MusicAlbum') {
         request.AlbumIds = item.Id;
     } else {
         request.ArtistIds = item.Id;
@@ -2062,10 +2062,10 @@ export default function (view, params) {
         const msg = data;
         const apiClient = getApiClient();
 
-        if (msg.MessageType === 'UserDataChanged' && currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
+        if (msg.MessageType === 'UserDataChanged' && currentItem && msg.Data.UserId === apiClient.getCurrentUserId()) {
             const key = currentItem.UserData.Key;
             const userData = msg.Data.UserDataList.filter(function (u) {
-                return u.Key == key;
+                return u.Key === key;
             })[0];
 
             if (userData) {

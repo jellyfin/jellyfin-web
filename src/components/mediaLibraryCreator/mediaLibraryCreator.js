@@ -30,7 +30,7 @@ function onAddLibrary(e) {
         return false;
     }
 
-    if (pathInfos.length == 0) {
+    if (pathInfos.length === 0) {
         alert({
             text: globalize.translate('PleaseAddAtLeastOneFolder'),
             type: 'error'
@@ -57,7 +57,7 @@ function onAddLibrary(e) {
         return false;
     }
 
-    if (type == 'mixed') {
+    if (type === 'mixed') {
         type = null;
     }
 
@@ -97,10 +97,10 @@ function initEditor(page, collectionTypeOptions) {
             dlg.querySelector('.libraryOptions').classList.add('hide');
         }
 
-        if (value != 'mixed') {
+        if (value !== 'mixed') {
             const index = this.selectedIndex;
 
-            if (index != -1) {
+            if (index !== -1) {
                 const name = this.options[index].innerHTML
                     .replaceAll('*', '')
                     .replaceAll('&amp;', '&');
@@ -164,7 +164,7 @@ function renderPaths(page) {
 function addMediaLocation(page, path, networkSharePath) {
     const pathLower = path.toLowerCase();
     const pathFilter = pathInfos.filter(p => {
-        return p.Path.toLowerCase() == pathLower;
+        return p.Path.toLowerCase() === pathLower;
     });
 
     if (!pathFilter.length) {
@@ -187,7 +187,7 @@ function onRemoveClick(e) {
     const location = pathInfos[index].Path;
     const locationLower = location.toLowerCase();
     pathInfos = pathInfos.filter(p => {
-        return p.Path.toLowerCase() != locationLower;
+        return p.Path.toLowerCase() !== locationLower;
     });
     renderPaths(dom.parentWithClass(button, 'dlg-librarycreator'));
 }

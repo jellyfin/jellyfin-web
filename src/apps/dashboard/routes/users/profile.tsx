@@ -87,7 +87,7 @@ const UserEdit = () => {
             const itemsArr: ResetProvider[] = [];
 
             for (const mediaFolder of mediaFolders) {
-                isChecked = user.Policy?.EnableContentDeletion || user.Policy?.EnableContentDeletionFromFolders?.indexOf(mediaFolder.Id || '') != -1;
+                isChecked = user.Policy?.EnableContentDeletion || user.Policy?.EnableContentDeletionFromFolders?.indexOf(mediaFolder.Id || '') !== -1;
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 itemsArr.push({
                     ...mediaFolder,
@@ -96,7 +96,7 @@ const UserEdit = () => {
             }
 
             for (const channel of channelsResult.Items) {
-                isChecked = user.Policy?.EnableContentDeletion || user.Policy?.EnableContentDeletionFromFolders?.indexOf(channel.Id || '') != -1;
+                isChecked = user.Policy?.EnableContentDeletion || user.Policy?.EnableContentDeletionFromFolders?.indexOf(channel.Id || '') !== -1;
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 itemsArr.push({
                     ...channel,

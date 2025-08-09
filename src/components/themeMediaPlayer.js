@@ -134,7 +134,7 @@ document.addEventListener('viewshow', e => {
 Events.on(playbackManager, 'playbackstart', (_e, player) => {
     const item = playbackManager.currentItem(player);
     // User played something manually
-    if (currentThemeIds.indexOf(item.Id) == -1) {
+    if (currentThemeIds.indexOf(item.Id) === -1) {
         currentOwnerId = null;
     }
 });

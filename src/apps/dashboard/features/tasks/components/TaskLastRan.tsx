@@ -21,7 +21,7 @@ const TaskLastRan: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
         return [];
     }, [task, dateFnsLocale]);
 
-    if (task.State == 'Idle') {
+    if (task.State === 'Idle') {
         if (task.LastExecutionResult?.StartTimeUtc && task.LastExecutionResult?.EndTimeUtc) {
             const lastResultStatus = task.LastExecutionResult.Status;
 
@@ -29,9 +29,9 @@ const TaskLastRan: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
                 <Typography sx={{ lineHeight: '1.2rem', color: 'text.secondary' }} variant='body1'>
                     {globalize.translate('LabelScheduledTaskLastRan', lastRan, timeTaken)}
 
-                    {lastResultStatus == 'Failed' && <Typography display='inline' color='error'>{` (${globalize.translate('LabelFailed')})`}</Typography>}
-                    {lastResultStatus == 'Cancelled' && <Typography display='inline' color='blue'>{` (${globalize.translate('LabelCancelled')})`}</Typography>}
-                    {lastResultStatus == 'Aborted' && <Typography display='inline' color='error'>{` (${globalize.translate('LabelAbortedByServerShutdown')})`}</Typography>}
+                    {lastResultStatus === 'Failed' && <Typography display='inline' color='error'>{` (${globalize.translate('LabelFailed')})`}</Typography>}
+                    {lastResultStatus === 'Cancelled' && <Typography display='inline' color='blue'>{` (${globalize.translate('LabelCancelled')})`}</Typography>}
+                    {lastResultStatus === 'Aborted' && <Typography display='inline' color='error'>{` (${globalize.translate('LabelAbortedByServerShutdown')})`}</Typography>}
                 </Typography>
             );
         }
