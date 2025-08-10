@@ -34,9 +34,11 @@ class PlayAccessValidation {
             if (!options.fullscreen) {
                 return Promise.reject();
             }
-
-            return showErrorMessage()
-                .finally(() => Promise.reject());
+            try {
+                await showErrorMessage();
+            } finally {
+                Promise.reject();
+            }
         });
     }
 }

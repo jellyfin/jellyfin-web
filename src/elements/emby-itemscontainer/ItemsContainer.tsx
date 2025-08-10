@@ -160,7 +160,8 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             handle: '.listViewDragHandle',
 
             // dragging ended
-            onEnd: (evt: Sortable.SortableEvent) => {
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onEnd:  (evt: Sortable.SortableEvent) => {
                 return onDrop(evt);
             }
         });
@@ -356,10 +357,15 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
         itemShortcuts.on(itemsContainer, getShortcutOptions());
 
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         Events.on(serverNotifications, 'UserDataChanged', onUserDataChanged);
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         Events.on(serverNotifications, 'TimerCreated', onTimerCreated);
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         Events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         Events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
         Events.on(serverNotifications, 'LibraryChanged', onLibraryChanged);
         Events.on(playbackManager, 'playbackstop', onPlaybackStopped);
@@ -377,10 +383,15 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
             itemShortcuts.off(itemsContainer, getShortcutOptions());
 
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             Events.off(serverNotifications, 'UserDataChanged', onUserDataChanged);
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             Events.off( serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
             Events.off(serverNotifications, 'LibraryChanged', onLibraryChanged);
             Events.off(playbackManager, 'playbackstop', onPlaybackStopped);

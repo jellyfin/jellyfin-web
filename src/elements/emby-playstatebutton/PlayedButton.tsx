@@ -47,6 +47,7 @@ const PlayedButton: FC<PlayedButtonProps> = ({
                 itemId,
                 isPlayed
             },
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             { onSuccess: async() => {
                 await queryClient.invalidateQueries({
                     queryKey,
@@ -72,6 +73,7 @@ const PlayedButton: FC<PlayedButtonProps> = ({
             title={getTitle()}
             className={btnClass}
             size='small'
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={onClick}
         >
             <CheckIcon className={iconClass} />

@@ -33,6 +33,7 @@ const DownloadButton: FC<DownloadButtonProps> = ({ itemId, itemServerId, itemNam
         <IconButton
             className='button-flat btnDownload'
             title={globalize.translate('Download')}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={onDownloadClick}
         >
             <FileDownloadIcon />

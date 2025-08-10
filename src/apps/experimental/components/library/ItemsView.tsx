@@ -384,6 +384,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                 <ItemsContainer
                     className={itemsContainerClass}
                     parentId={parentId}
+                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
                     reloadItems={refetch}
                     queryKey={['ItemsViewByType']}
                 >

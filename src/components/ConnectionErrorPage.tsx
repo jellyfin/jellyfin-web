@@ -90,6 +90,7 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
 
                 {state === ConnectionState.ServerMismatch && (
                     <LinkButton
+                        // eslint-disable-next-line @typescript-eslint/no-misused-promises
                         onClick={onForceConnect}
                         style={ isConnectDisabled ? { pointerEvents: 'none' } : undefined }
                     >

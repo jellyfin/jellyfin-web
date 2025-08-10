@@ -230,6 +230,7 @@ export const Component = () => {
                                         <Switch
                                             name={BrandingOption.SplashscreenEnabled}
                                             checked={isSplashscreenEnabled}
+                                            // eslint-disable-next-line @typescript-eslint/no-misused-promises
                                             onChange={setSplashscreenEnabled}
                                         />
                                     }
