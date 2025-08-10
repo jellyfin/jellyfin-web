@@ -116,43 +116,41 @@ const UserProfile: FunctionComponent = () => {
             const reader: FileReader = new FileReader();
             reader.onerror = onFileReaderError;
             reader.onabort = onFileReaderAbort;
-            reader.onload = () => {
+            reader.onload = async () => {
                 if (!userId) {
                     console.error('[userprofile] missing user id');
                     return;
                 }
 
                 userImage.style.backgroundImage = 'url(' + reader.result + ')';
-                window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(() => {
+                try {
+                    await window.ApiClient.uploadUserImage(userId, ImageType.Primary, file);
                     loading.hide();
                     reloadUser();
-                }).catch(err => {
+                } catch (err) {
                     console.error('[userprofile] failed to upload image', err);
-                });
+                }
             };
 
             reader.readAsDataURL(file);
         };
 
-        (page.querySelector('#btnDeleteImage') as HTMLButtonElement).addEventListener('click', () => {
+        (page.querySelector('#btnDeleteImage') as HTMLButtonElement).addEventListener('click', async () => {
             if (!userId) {
                 console.error('[userprofile] missing user id');
                 return;
             }
 
-            confirm(
+            await confirm(
                 globalize.translate('DeleteImageConfirmation'),
                 globalize.translate('DeleteImage')
-            ).then(() => {
-                loading.show();
-                window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(() => {
-                    loading.hide();
-                    reloadUser();
-                }).catch(err => {
-                    console.error('[userprofile] failed to delete image', err);
-                });
-            }).catch(() => {
-                // confirm dialog closed
+            );
+            loading.show();
+            window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(() => {
+                loading.hide();
+                reloadUser();
+            }).catch(err => {
+                console.error('[userprofile] failed to delete image', err);
             });
         });
 

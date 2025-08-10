@@ -207,9 +207,10 @@ const UserParentalControl = () => {
 
         loadData();
 
-        const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
+        const showSchedulePopup = async (schedule: AccessSchedule, index: number) => {
             schedule = schedule || {};
-            import('../../../../components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
+            try {
+                const { default: accessschedule } = await import('../../../../components/accessSchedule/accessSchedule');
                 accessschedule.show({
                     schedule: schedule
                 }).then((updatedSchedule) => {
@@ -224,9 +225,9 @@ const UserParentalControl = () => {
                 }).catch(() => {
                     // access schedule closed
                 });
-            }).catch(err => {
+            } catch (err) {
                 console.error('[userparentalcontrol] failed to load access schedule', err);
-            });
+            }
         };
 
         const getSchedulesFromPage = () => {
@@ -300,8 +301,8 @@ const UserParentalControl = () => {
         };
 
         // The following is still hacky and should migrate to pure react implementation for callbacks in the future
-        const accessSchedulesPopupCallback = () => {
-            showSchedulePopup({
+        const accessSchedulesPopupCallback = async() => {
+            await showSchedulePopup({
                 Id: 0,
                 UserId: '',
                 DayOfWeek: DynamicDayOfWeek.Sunday,

@@ -75,21 +75,21 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             console.error('[UserPasswordForm] failed to load user', err);
         });
 
-        const onSubmit = (e: Event) => {
+        const onSubmit = async (e: Event) => {
             if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value != (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value) {
                 toast(globalize.translate('PasswordMatchError'));
             } else if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value == '' && user.current?.Policy?.IsAdministrator) {
                 toast(globalize.translate('PasswordMissingSaveError'));
             } else {
                 loading.show();
-                savePassword();
+                await savePassword();
             }
 
             e.preventDefault();
             return false;
         };
 
-        const savePassword = () => {
+        const savePassword = async () => {
             if (!userId) {
                 console.error('[UserPasswordForm.savePassword] missing user id');
                 return;
@@ -104,46 +104,50 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                 currentPassword = '';
             }
 
-            window.ApiClient.updateUserPassword(userId, currentPassword, newPassword).then(() => {
-                loading.hide();
-                toast(globalize.translate('PasswordSaved'));
+            await window.ApiClient.updateUserPassword(userId, currentPassword, newPassword);
 
-                loadUser().catch(err => {
-                    console.error('[UserPasswordForm] failed to load user', err);
-                });
-            }, () => {
-                loading.hide();
-                Dashboard.alert({
-                    title: globalize.translate('HeaderLoginFailure'),
-                    message: globalize.translate('MessageInvalidUser')
-                });
+            loading.hide();
+            toast(globalize.translate('PasswordSaved'));
+
+            loadUser().catch(err => {
+                console.error('[UserPasswordForm] failed to load user', err);
+            });
+
+            loading.hide();
+            Dashboard.alert({
+                title: globalize.translate('HeaderLoginFailure'),
+                message: globalize.translate('MessageInvalidUser')
             });
         };
 
-        const resetPassword = () => {
+        const resetPassword = async () => {
             if (!userId) {
                 console.error('[UserPasswordForm.resetPassword] missing user id');
                 return;
             }
 
-            const msg = globalize.translate('PasswordResetConfirmation');
-            confirm(msg, globalize.translate('ResetPassword')).then(() => {
+            try {
+                const msg = globalize.translate('PasswordResetConfirmation');
+                await confirm(msg, globalize.translate('ResetPassword'));
                 loading.show();
-                window.ApiClient.resetUserPassword(userId).then(() => {
+                try {
+                    await window.ApiClient.resetUserPassword(userId);
                     loading.hide();
                     Dashboard.alert({
                         message: globalize.translate('PasswordResetComplete'),
                         title: globalize.translate('ResetPassword')
                     });
-                    loadUser().catch(err => {
+                    try {
+                        await loadUser();
+                    } catch (err) {
                         console.error('[UserPasswordForm] failed to load user', err);
-                    });
-                }).catch(err => {
+                    }
+                } catch (err) {
                     console.error('[UserPasswordForm] failed to reset user password', err);
-                });
-            }).catch(() => {
+                }
+            } catch {
                 // confirm dialog was closed
-            });
+            }
         };
 
         (page.querySelector('.updatePasswordForm') as HTMLFormElement).addEventListener('submit', onSubmit);

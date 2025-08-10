@@ -46,7 +46,7 @@ const UserProfiles = () => {
 
         loadData();
 
-        const showUserMenu = (elem: HTMLElement) => {
+        const showUserMenu = async (elem: HTMLElement) => {
             const card = dom.parentWithClass(elem, 'card');
             const userId = card?.getAttribute('data-userid');
             const username = card?.getAttribute('data-username');
@@ -78,72 +78,75 @@ const UserProfiles = () => {
                 id: 'delete',
                 icon: 'delete'
             });
-
-            import('../../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
+            try {
+                const { default: actionsheet } = await import('../../../../components/actionSheet/actionSheet');
                 actionsheet.show({
                     items: menuItems,
                     positionTo: card,
-                    callback: (id: string) => {
+                    callback: async (id: string) => {
                         switch (id) {
                             case 'open':
-                                Dashboard.navigate('/dashboard/users/profile?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to user edit page', err);
-                                    });
+                                try {
+                                    await Dashboard.navigate('/dashboard/users/profile?userId=' + userId);
+                                } catch (err) {
+                                    console.error('[userprofiles] failed to navigate to user edit page', err);
+                                }
                                 break;
 
                             case 'access':
-                                Dashboard.navigate('/dashboard/users/access?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to user library page', err);
-                                    });
+                                try {
+                                    await Dashboard.navigate('/dashboard/users/access?userId=' + userId);
+                                } catch (err) {
+                                    console.error('[userprofiles] failed to navigate to user library page', err);
+                                }
                                 break;
 
                             case 'parentalcontrol':
-                                Dashboard.navigate('/dashboard/users/parentalcontrol?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to parental control page', err);
-                                    });
+                                try {
+                                    await Dashboard.navigate('/dashboard/users/parentalcontrol?userId=' + userId);
+                                } catch (err) {
+                                    console.error('[userprofiles] failed to navigate to parental control page', err);
+                                }
                                 break;
 
                             case 'delete':
-                                deleteUser(userId, username);
+                                await deleteUser(userId, username);
                         }
                     }
                 }).catch(() => {
                     // action sheet closed
                 });
-            }).catch(err => {
+            } catch (err) {
                 console.error('[userprofiles] failed to load action sheet', err);
-            });
+            }
         };
 
-        const deleteUser = (id: string, username?: string | null) => {
+        const deleteUser = async (id: string, username?: string | null) => {
             const title = username ? globalize.translate('DeleteName', username) : globalize.translate('DeleteUser');
             const text = globalize.translate('DeleteUserConfirmation');
-
-            confirm({
-                title,
-                text,
-                confirmText: globalize.translate('Delete'),
-                primary: 'delete'
-            }).then(() => {
+            try {
+                await confirm({
+                    title,
+                    text,
+                    confirmText: globalize.translate('Delete'),
+                    primary: 'delete'
+                });
                 loading.show();
                 window.ApiClient.deleteUser(id).then(() => {
                     loadData();
                 }).catch(err => {
                     console.error('[userprofiles] failed to delete user', err);
                 });
-            }).catch(() => {
+            } catch {
                 // confirm dialog closed
-            });
+            }
         };
 
-        page.addEventListener('click', (e) => {
+        page.addEventListener('click', async (e) => {
             const btnUserMenu = dom.parentWithClass(e.target as HTMLElement, 'btnUserMenu');
 
             if (btnUserMenu) {
-                showUserMenu(btnUserMenu);
+                await showUserMenu(btnUserMenu);
             }
         });
 
