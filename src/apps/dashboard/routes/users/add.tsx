@@ -109,12 +109,13 @@ const UserNew = () => {
 
         loadUser();
 
-        const saveUser = () => {
+        const saveUser = async () => {
             const userInput: UserInput = {};
             userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value.trim();
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
 
-            window.ApiClient.createUser(userInput).then(function (user) {
+            try {
+                const user = await window.ApiClient.createUser(userInput);
                 if (!user.Id || !user.Policy) {
                     throw new Error('Unexpected null user id or policy');
                 }
@@ -140,24 +141,24 @@ const UserNew = () => {
                         return i.getAttribute('data-id');
                     });
                 }
-
-                window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
+                try {
+                    await window.ApiClient.updateUserPolicy(user.Id, user.Policy);
                     Dashboard.navigate('/dashboard/users/profile?userId=' + user.Id)
                         .catch(err => {
                             console.error('[usernew] failed to navigate to edit user page', err);
                         });
-                }).catch(err => {
+                } catch (err) {
                     console.error('[usernew] failed to update user policy', err);
-                });
-            }, function () {
+                }
+            } catch {
                 toast(globalize.translate('ErrorDefault'));
                 loading.hide();
-            });
+            }
         };
 
-        const onSubmit = (e: Event) => {
+        const onSubmit = async(e: Event) => {
             loading.show();
-            saveUser();
+            await saveUser();
             e.preventDefault();
             e.stopPropagation();
             return false;

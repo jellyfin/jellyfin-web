@@ -105,7 +105,7 @@ export default tseslint.config(
             'sonarjs/pseudo-random': 'warn',
             // TODO: Enable the following sonarjs rules and fix issues
             'sonarjs/no-duplicate-string': 'off',
-            'sonarjs/no-nested-functions': 'warn',
+            'sonarjs/no-nested-functions': 'error',
 
             // TODO: Replace with stylistic.configs.customize()
             '@stylistic/block-spacing': 'error',

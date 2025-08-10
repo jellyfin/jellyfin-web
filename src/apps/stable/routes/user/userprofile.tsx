@@ -116,19 +116,20 @@ const UserProfile: FunctionComponent = () => {
             const reader: FileReader = new FileReader();
             reader.onerror = onFileReaderError;
             reader.onabort = onFileReaderAbort;
-            reader.onload = () => {
+            reader.onload = async () => {
                 if (!userId) {
                     console.error('[userprofile] missing user id');
                     return;
                 }
 
                 userImage.style.backgroundImage = 'url(' + reader.result + ')';
-                window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(function () {
+                try {
+                    await window.ApiClient.uploadUserImage(userId, ImageType.Primary, file);
                     loading.hide();
-                    reloadUser();
-                }).catch(err => {
+                    await reloadUser();
+                } catch (err) {
                     console.error('[userprofile] failed to upload image', err);
-                });
+                }
             };
 
             reader.readAsDataURL(file);
@@ -143,14 +144,15 @@ const UserProfile: FunctionComponent = () => {
             confirm(
                 globalize.translate('DeleteImageConfirmation'),
                 globalize.translate('DeleteImage')
-            ).then(function () {
+            ).then(async function () {
                 loading.show();
-                window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(function () {
+                try {
+                    await window.ApiClient.deleteUserImage(userId, ImageType.Primary);
                     loading.hide();
                     reloadUser();
-                }).catch(err => {
+                } catch (err) {
                     console.error('[userprofile] failed to delete image', err);
-                });
+                }
             }).catch(() => {
                 // confirm dialog closed
             });
