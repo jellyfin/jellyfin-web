@@ -2065,5 +2065,8 @@
     "LabelProgramData": "Dati del programma",
     "ConnectAnyway": "Connetti Comunque",
     "HeaderServerMismatch": "I Server Non Combaciano",
-    "MessageServerMismatch": "Il server al quale ti stai connettendo non è lo stesso server a cui ti sei connesso in precedenza a questo indirizzo. Se questo era previsto, per favore seleziona \"Connetti Comunque\". Altrimenti, la tua connessione o il server potrebbe essere compromesso."
+    "MessageServerMismatch": "Il server al quale ti stai connettendo non è lo stesso server a cui ti sei connesso in precedenza a questo indirizzo. Se questo era previsto, per favore seleziona \"Connetti Comunque\". Altrimenti, la tua connessione o il server potrebbe essere compromesso.",
+    "LabelAvailable": "Disponibile",
+    "ManageRepositories": "Gestisci Archivi",
+    "ViewAllPlugins": "Visualizza tutti i plugin"
 }
