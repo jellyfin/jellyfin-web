@@ -262,6 +262,7 @@ const UserEdit = () => {
                             userPolicy: user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' }
                         }, {
                             onSuccess: () => {
+                                loading.hide();
                                 navigate('/dashboard/users', {
                                     state: { openSavedToast: true }
                                 });
