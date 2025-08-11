@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
 import confirm from '../../../../components/confirm/confirm';
 import UserCardBox from '../../../../components/dashboard/users/UserCardBox';
@@ -10,7 +9,7 @@ import '../../../../components/cardbuilder/card.scss';
 import '../../../../components/indicators/indicators.scss';
 import '../../../../styles/flexstyles.scss';
 import Page from '../../../../components/Page';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Toast from 'apps/dashboard/components/Toast';
 import { useUsers } from 'hooks/useUsers';
 import Loading from 'components/loading/LoadingComponent';
@@ -27,6 +26,7 @@ const UserProfiles = () => {
     const location = useLocation();
     const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
     const element = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate();
     const { data: users, isPending } = useUsers();
     const deleteUser = useDeleteUser();
 
@@ -87,24 +87,15 @@ const UserProfiles = () => {
                     callback: function (id: string) {
                         switch (id) {
                             case 'open':
-                                Dashboard.navigate('/dashboard/users/profile?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to user edit page', err);
-                                    });
+                                navigate(`/dashboard/users/profile?userId=${userId}`);
                                 break;
 
                             case 'access':
-                                Dashboard.navigate('/dashboard/users/access?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to user library page', err);
-                                    });
+                                navigate(`/dashboard/users/access?userId=${userId}`);
                                 break;
 
                             case 'parentalcontrol':
-                                Dashboard.navigate('/dashboard/users/parentalcontrol?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to parental control page', err);
-                                    });
+                                navigate(`/dashboard/users/parentalcontrol?userId=${userId}`);
                                 break;
 
                             case 'delete':
@@ -146,10 +137,7 @@ const UserProfiles = () => {
         };
 
         const onAddUserClick = function() {
-            Dashboard.navigate('/dashboard/users/add')
-                .catch(err => {
-                    console.error('[userprofiles] failed to navigate to new user page', err);
-                });
+            navigate('/dashboard/users/add');
         };
 
         page.addEventListener('click', onPageClick);
@@ -159,7 +147,7 @@ const UserProfiles = () => {
             page.removeEventListener('click', onPageClick);
             (page.querySelector('#btnAddUser') as HTMLButtonElement).removeEventListener('click', onAddUserClick);
         };
-    }, [deleteUser]);
+    }, [ navigate, deleteUser ]);
 
     if (isPending) {
         return <Loading />;
