@@ -160,7 +160,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             handle: '.listViewDragHandle',
 
             // dragging ended
-            onEnd:  (evt: Sortable.SortableEvent) => {
+            onEnd: (evt: Sortable.SortableEvent) => {
                 return onDrop(evt);
             }
         });
