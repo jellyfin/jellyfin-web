@@ -85,7 +85,6 @@ export const ForgotPasswordPage = () => {
                 <form
                     className='forgotPasswordForm'
                     style={{ textAlign: 'center', margin: '0 auto' }}
-                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
                     onSubmit={handleSubmit}
                 >
                     <div style={{ textAlign: 'left' }}>

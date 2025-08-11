@@ -33,7 +33,6 @@ const SplitVersionsButton: FC<SplitVersionsButtonProps> = ({
                         itemId: paramId
                     },
                     {
-                        // eslint-disable-next-line @typescript-eslint/no-misused-promises
                         onSuccess: async () => {
                             loading.hide();
                             await queryClient.invalidateQueries({

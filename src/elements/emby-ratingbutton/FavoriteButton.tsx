@@ -33,7 +33,6 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
                 itemId,
                 isFavorite
             },
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             { onSuccess: async() => {
                 await queryClient.invalidateQueries({
                     queryKey,
@@ -60,7 +59,6 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
             title={isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites')}
             className={btnClass}
             size='small'
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={onClick}
         >
             <FavoriteIcon className={iconClass} />

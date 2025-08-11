@@ -363,7 +363,7 @@ export default tseslint.config(
             ],
             '@typescript-eslint/no-deprecated': 'warn',
             '@typescript-eslint/no-floating-promises': 'error',
-            '@typescript-eslint/no-misused-promises': 'error',
+            '@typescript-eslint/no-misused-promises': [ 'error', { checksVoidReturn: { arguments: false, attributes: false, properties: false } }],
             '@typescript-eslint/prefer-string-starts-ends-with': 'error'
         }
     },

@@ -27,7 +27,6 @@ const CancelTimerButton: FC<CancelTimerButtonProps> = ({
                 timerId: timerId
             },
             {
-                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onSuccess: async () => {
                     toast(globalize.translate('RecordingCancelled'));
                     loading.hide();

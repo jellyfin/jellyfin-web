@@ -53,7 +53,6 @@ const BackupInfoDialog: FunctionComponent<IProps> = ({ backup, open, onClose }: 
                             <Typography fontWeight='bold'>{globalize.translate('LabelPath')}</Typography>
                             <Stack direction='row'>
                                 <Typography color='text.secondary'>{backup.Path}</Typography>
-                                {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
                                 <IconButton size='small' onClick={copyPath}>
                                     <ContentCopy fontSize='small' />
                                 </IconButton>

@@ -82,7 +82,6 @@ const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
                     globalize.translate('ButtonResume') :
                     globalize.translate('Play')
             }
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={onPlayClick}
         >
             {isResumable ? <ReplayIcon /> : <PlayArrowIcon />}

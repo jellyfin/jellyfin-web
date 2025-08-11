@@ -217,7 +217,6 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
             <IconButton
                 className='button-flat btnMoreCommands'
                 title={globalize.translate('ButtonMore')}
-                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onClick={onMoreCommandsClick}
             >
                 <MoreVertIcon />

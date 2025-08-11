@@ -60,7 +60,6 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                     }}
                     itemsContainerProps={{
                         queryKey: ['ProgramSectionWithItems'],
-                        // eslint-disable-next-line @typescript-eslint/no-misused-promises
                         reloadItems: refetch
                     }}
                     items={items}
@@ -80,7 +79,6 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                     }}
                     itemsContainerProps={{
                         queryKey: ['Timers'],
-                        // eslint-disable-next-line @typescript-eslint/no-misused-promises
                         reloadItems: refetch
                     }}
                     items={group.timerInfo}

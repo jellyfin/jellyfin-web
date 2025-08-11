@@ -36,7 +36,6 @@ class PlayAccessValidation {
             }
 
             return showErrorMessage()
-                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 .finally(() => Promise.reject());
         });
     }

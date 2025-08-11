@@ -185,7 +185,6 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
         menuItems.push(
             <MenuItem
                 key='sync-play-settings'
-                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onClick={onGroupSettingsClick}
             >
                 <ListItemIcon>

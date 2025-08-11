@@ -65,7 +65,6 @@ export const Component = () => {
                                 <Button
                                     color='inherit'
                                     size='small'
-                                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
                                     onClick={retry}
                                 >
                                     {globalize.translate('Retry')}
@@ -83,7 +82,6 @@ export const Component = () => {
                             <ButtonGroup variant='contained' sx={{ mt: 2 }}>
                                 <Button
                                     startIcon={<ContentCopy />}
-                                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
                                     onClick={copyToClipboard}
                                 >
                                     {globalize.translate('Copy')}

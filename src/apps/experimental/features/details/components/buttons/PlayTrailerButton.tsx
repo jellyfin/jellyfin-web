@@ -19,7 +19,6 @@ const PlayTrailerButton: FC<PlayTrailerButtonProps> = ({ item }) => {
         <IconButton
             className='button-flat btnPlayTrailer'
             title={globalize.translate('ButtonTrailer')}
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={onPlayTrailerClick}
         >
             <TheatersIcon />
