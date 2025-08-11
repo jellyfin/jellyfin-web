@@ -1,6 +1,6 @@
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useServerLog } from 'apps/dashboard/features/logs/api/useServerLog';
 import Alert from '@mui/material/Alert';
@@ -13,8 +13,8 @@ import Typography from '@mui/material/Typography';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import FileDownload from '@mui/icons-material/FileDownload';
 import globalize from 'lib/globalize';
-import toast from 'components/toast/toast';
 import { copy } from 'scripts/clipboard';
+import Toast from 'apps/dashboard/components/Toast';
 
 export const Component = () => {
     const { file: fileName } = useParams();
@@ -24,13 +24,18 @@ export const Component = () => {
         data: log,
         refetch
     } = useServerLog(fileName ?? '');
+    const [ isCopiedToastOpen, setIsCopiedToastOpen ] = useState(false);
 
     const retry = useCallback(() => refetch(), [refetch]);
+
+    const handleToastClose = useCallback(() => {
+        setIsCopiedToastOpen(false);
+    }, []);
 
     const copyToClipboard = useCallback(async () => {
         if (log) {
             await copy(log);
-            toast({ text: globalize.translate('CopyLogSuccess') });
+            setIsCopiedToastOpen(true);
         }
     }, [log]);
 
@@ -52,6 +57,11 @@ export const Component = () => {
             title={fileName}
             className='mainAnimatedPage type-interior'
         >
+            <Toast
+                open={isCopiedToastOpen}
+                onClose={handleToastClose}
+                message={globalize.translate('CopyLogSuccess')}
+            />
             <Container className='content-primary'>
                 <Box>
                     <Typography variant='h1'>{fileName}</Typography>
