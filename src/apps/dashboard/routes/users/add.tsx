@@ -1,7 +1,6 @@
 import type { BaseItemDto, CreateUserByName } from '@jellyfin/sdk/lib/generated-client';
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 
-import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
@@ -16,6 +15,7 @@ import { useLibraryMediaFolders } from 'apps/dashboard/features/users/api/useLib
 import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
 import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
 import { useCreateUser } from 'apps/dashboard/features/users/api/useCreateUser';
+import { useNavigate } from 'react-router-dom';
 
 type ItemsArr = {
     Name?: string | null;
@@ -23,6 +23,7 @@ type ItemsArr = {
 };
 
 const UserNew = () => {
+    const navigate = useNavigate();
     const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
     const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
     const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
@@ -159,10 +160,7 @@ const UserNew = () => {
                         userPolicy: user.Policy
                     }, {
                         onSuccess: () => {
-                            Dashboard.navigate('/dashboard/users/profile?userId=' + user.Id)
-                                .catch(err => {
-                                    console.error('[usernew] failed to navigate to edit user page', err);
-                                });
+                            navigate(`/dashboard/users/profile?userId=${user.Id}`);
                         },
                         onError: () => {
                             console.error('[usernew] failed to update user policy');
@@ -206,7 +204,7 @@ const UserNew = () => {
             (page.querySelector('.newUserProfileForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
             (page.querySelector('#btnCancel') as HTMLButtonElement).removeEventListener('click', onCancelClick);
         };
-    }, [loadUser, createUser, updateUserPolicy]);
+    }, [loadUser, createUser, updateUserPolicy, navigate]);
 
     return (
         <Page
