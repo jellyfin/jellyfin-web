@@ -573,6 +573,10 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
     }
 
     if (showOtherText) {
+        if (options.showOverview && item.Overview) {
+            lines.push(escapeHtml(item.Overview));
+        }
+
         if (options.showParentTitle && parentTitleUnderneath) {
             if (flags.isOuterFooter && item.AlbumArtists?.length) {
                 item.AlbumArtists[0].Type = 'MusicArtist';
