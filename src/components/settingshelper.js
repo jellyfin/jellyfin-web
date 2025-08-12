@@ -11,7 +11,8 @@ export function populateLanguages(select, languages) {
     html += "<option value=''>" + globalize.translate('AnyLanguage') + '</option>';
     for (let i = 0, length = languages.length; i < length; i++) {
         const culture = languages[i];
-        html += "<option value='" + culture.Name + "'>" + culture.DisplayName + '</option>';
+        const languageName = culture.Name.toLowerCase().includes('-') ? culture.Name : culture.ThreeLetterISOLanguageName;
+        html += "<option value='" + languageName + "'>" + culture.DisplayName + '</option>';
     }
 
     select.innerHTML = html;
