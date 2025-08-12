@@ -2046,5 +2046,9 @@
     "MessageServerMismatch": "Konektatzen ari zaren zerbitzaria ez da helbide honetan lehenago konektatu zinen zerbitzari bera. Hori espero bada, hautatu \"Konektatu hala ere\". Bestela, zure konexioa edo zerbitzaria arriskuan egon daitezke.",
     "LiveTVPageLoadError": "Grabaketen orria kargatzeak huts egin du",
     "ConnectAnyway": "Konektatu hala ere",
-    "HeaderServerMismatch": "Zerbitzaria ez dator bat"
+    "HeaderServerMismatch": "Zerbitzaria ez dator bat",
+    "LabelAvailable": "Eskuragarri",
+    "LabelBundled": "Multzokatuta",
+    "ManageRepositories": "Kudeatu biltegiak",
+    "ViewAllPlugins": "Ikusi plugin guztiak"
 }

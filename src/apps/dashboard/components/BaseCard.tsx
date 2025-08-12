@@ -78,14 +78,12 @@ const BaseCard = ({
             </CardActionArea>
             <CardHeader
                 title={
-                    <Stack direction='row' gap={1} alignItems='center'>
-                        <Typography
-                            sx={{
-                                overflow: 'hidden',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'ellipsis'
-                            }}
-                        >
+                    <Stack direction='row' spacing={1} alignItems='center'>
+                        <Typography sx={{
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis'
+                        }}>
                             {title}
                         </Typography>
                         {secondaryTitle && (

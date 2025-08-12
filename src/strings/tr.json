@@ -2057,5 +2057,9 @@
     "MessageServerMismatch": "Bağlandığınız sunucu, daha önce bu adresten bağlandığınız sunucuyla aynı değil. Bu bekleniyorsa, lütfen \"Her Durumda Bağlan\" seçeneğini seçin. Aksi takdirde, bağlantınız veya sunucunuz risk altında olabilir.",
     "HeaderServerMismatch": "Sunucu Uyuşmazlığı",
     "LiveTVPageLoadError": "Kayıtlar sayfası yüklenemedi",
-    "ConnectAnyway": "Her Durumda Bağlan"
+    "ConnectAnyway": "Her Durumda Bağlan",
+    "ManageRepositories": "Depoları Yönet",
+    "ViewAllPlugins": "Tüm eklentileri görüntüle",
+    "LabelAvailable": "Kullanılabilir",
+    "LabelBundled": "Paketlenmiş"
 }

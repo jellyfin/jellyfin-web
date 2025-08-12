@@ -33,21 +33,13 @@ const ServerInfoWidget = ({
                     }}
                 >
                     <Stack direction='row'>
-                        <Stack flexGrow={1} gap={1}>
-                            <Typography fontWeight='bold'>
-                                {globalize.translate('LabelServerName')}
-                            </Typography>
-                            <Typography fontWeight='bold'>
-                                {globalize.translate('LabelServerVersion')}
-                            </Typography>
-                            <Typography fontWeight='bold'>
-                                {globalize.translate('LabelWebVersion')}
-                            </Typography>
-                            <Typography fontWeight='bold'>
-                                {globalize.translate('LabelBuildVersion')}
-                            </Typography>
+                        <Stack flexGrow={1} spacing={1}>
+                            <Typography fontWeight='bold'>{globalize.translate('LabelServerName')}</Typography>
+                            <Typography fontWeight='bold'>{globalize.translate('LabelServerVersion')}</Typography>
+                            <Typography fontWeight='bold'>{globalize.translate('LabelWebVersion')}</Typography>
+                            <Typography fontWeight='bold'>{globalize.translate('LabelBuildVersion')}</Typography>
                         </Stack>
-                        <Stack flexGrow={5} gap={1}>
+                        <Stack flexGrow={5} spacing={1}>
                             {isPending ? (
                                 <>
                                     <Skeleton />
@@ -75,7 +67,7 @@ const ServerInfoWidget = ({
                     </Stack>
                 </Paper>
 
-                <Stack direction='row' gap={1.5} flexWrap={'wrap'}>
+                <Stack direction='row' spacing={1.5}>
                     <Button
                         onClick={onScanLibrariesClick}
                         sx={{

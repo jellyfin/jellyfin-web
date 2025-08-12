@@ -683,7 +683,7 @@
     "OptionAllowLinkSharing": "Tillad deling på sociale medier",
     "OptionAllowLinkSharingHelp": "Kun websider der indeholder medieinformationer deles. Mediefiler deles aldrig offentligt. Delinger er tidsbegrænset og udløber efter {0} dage.",
     "OptionAllowManageLiveTv": "Tillad administrering af live TV-optagelser",
-    "OptionAllowMediaPlayback": "Tillad afspilning ad medier",
+    "OptionAllowMediaPlayback": "Tillad medieafspilning",
     "OptionAllowMediaPlaybackTranscodingHelp": "At begrænse adgang til omkodning kan forårsage afspilningsfejl på klienter, i tilfælde af medie formater der ikke understøttes..",
     "OptionAllowRemoteControlOthers": "Tillad fjernstyring af andre brugere",
     "OptionAllowRemoteSharedDevices": "Tillad fjernstyring af delte enheder",
@@ -2063,5 +2063,9 @@
     "LabelImageCache": "Billedcache",
     "Success": "Vellykket",
     "HeaderBackups": "Sikkerhedskopier",
-    "TranscodingLoadError": "Fejl ved indlæsning af transkodningsindstillinger"
+    "TranscodingLoadError": "Fejl ved indlæsning af transkodningsindstillinger",
+    "ManageRepositories": "Administrer arkiver",
+    "ViewAllPlugins": "Vis alle plugins",
+    "LabelAvailable": "Tilgængelig",
+    "LabelBundled": "Inkluderet"
 }

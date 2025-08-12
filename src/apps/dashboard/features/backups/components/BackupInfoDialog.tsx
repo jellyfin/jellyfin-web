@@ -41,12 +41,13 @@ const BackupInfoDialog: FunctionComponent<IProps> = ({
             <DialogTitle>{backup.DateCreated}</DialogTitle>
 
             <DialogContent>
-                <Stack gap={2}>
+                <Stack spacing={2}>
                     <Box>
-                        <Stack direction='row' gap={2}>
-                            <Typography fontWeight='bold'>
-                                {globalize.translate('LabelPath')}
-                            </Typography>
+                        <Stack
+                            direction='row'
+                            spacing={2}
+                        >
+                            <Typography fontWeight='bold'>{globalize.translate('LabelPath')}</Typography>
                             <Stack direction='row'>
                                 <Typography color='text.secondary'>
                                     {backup.Path}
@@ -56,13 +57,12 @@ const BackupInfoDialog: FunctionComponent<IProps> = ({
                                 </IconButton>
                             </Stack>
                         </Stack>
-                        <Stack direction='row' gap={2}>
-                            <Typography fontWeight='bold'>
-                                {globalize.translate('LabelVersion')}
-                            </Typography>
-                            <Typography color='text.secondary'>
-                                {backup.ServerVersion}
-                            </Typography>
+                        <Stack
+                            direction='row'
+                            spacing={2}
+                        >
+                            <Typography fontWeight='bold'>{globalize.translate('LabelVersion')}</Typography>
+                            <Typography color='text.secondary'>{backup.ServerVersion}</Typography>
                         </Stack>
                     </Box>
 
