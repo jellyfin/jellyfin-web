@@ -1996,5 +1996,9 @@
     "LabelImageIntervalHelp": "Laiko intervalas (ms) tarp kiekvieno naujo trickplay vaizdo.",
     "LabelWidthResolutionsHelp": "Kableliais atskirtas sąrašas pločių (px), kurių bus generuojami Trickplay vaizdai. Visi vaizdai turėtų būti generuojami proporcingai šaltiniui, todėl 16:9 formato vaizdo įraše, kurio plotis 320, bus maždaug 320x180.",
     "LabelExtractTrickplayDuringLibraryScan": "Bibliotekos skenavimo metu išgauti „trickplay“ vaizdus",
-    "RemuxHelp1": "Medija yra nesuderinamame failo konteineryje (MKV, AVI, WMV ir t. t.), tačiau vaizdo ir garso srautas suderinamas su įrenginiu. Prieš siunčiant laikmeną į įrenginį, ji bus iš naujo be nuostolių perpakuota."
+    "RemuxHelp1": "Medija yra nesuderinamame failo konteineryje (MKV, AVI, WMV ir t. t.), tačiau vaizdo ir garso srautas suderinamas su įrenginiu. Prieš siunčiant laikmeną į įrenginį, ji bus iš naujo be nuostolių perpakuota.",
+    "LabelAvailable": "Prieinama",
+    "LabelBundled": "Supakuota",
+    "ManageRepositories": "Valdyti saugyklas",
+    "ViewAllPlugins": "Rodyti visus įskiepius"
 }
