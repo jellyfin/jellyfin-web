@@ -9,11 +9,11 @@ export declare global {
         Loading: {
             show();
             hide();
-        }
+        };
     }
 
     interface DocumentEventMap {
-        'viewshow': CustomEvent;
+        viewshow: CustomEvent;
     }
 
     const __COMMIT_SHA__: string;

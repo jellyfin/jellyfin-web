@@ -10,15 +10,21 @@ type LogItemProps = {
     logs: LogFile[];
 };
 
-const LogItemList: FunctionComponent<LogItemProps> = ({ logs }: LogItemProps) => {
+const LogItemList: FunctionComponent<LogItemProps> = ({
+    logs
+}: LogItemProps) => {
     const getDate = (logFile: LogFile) => {
         const date = datetime.parseISO8601Date(logFile.DateModified, true);
-        return datetime.toLocaleDateString(date) + ' ' + datetime.getDisplayTime(date);
+        return (
+            datetime.toLocaleDateString(date) +
+            ' ' +
+            datetime.getDisplayTime(date)
+        );
     };
 
     return (
         <List sx={{ bgcolor: 'background.paper' }}>
-            {logs.map(log => {
+            {logs.map((log) => {
                 return (
                     <ListItem key={log.Name} disablePadding>
                         <ListItemLink to={`/dashboard/logs/${log.Name}`}>

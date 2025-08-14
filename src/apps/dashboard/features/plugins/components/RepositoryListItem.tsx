@@ -19,7 +19,7 @@ type IProps = {
 };
 
 const RepositoryListItem = ({ repository, onDelete }: IProps) => {
-    const [ isConfirmDeleteOpen, setIsConfirmDeleteOpen ] = useState(false);
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
 
     const confirmDeletePrompt = useCallback(() => {
         setIsConfirmDeleteOpen(true);
@@ -32,7 +32,7 @@ const RepositoryListItem = ({ repository, onDelete }: IProps) => {
     const onConfirmDelete = useCallback(() => {
         onDelete(repository);
         setIsConfirmDeleteOpen(false);
-    }, [ onDelete, repository ]);
+    }, [onDelete, repository]);
 
     return (
         <>
@@ -48,7 +48,10 @@ const RepositoryListItem = ({ repository, onDelete }: IProps) => {
             <ListItem
                 disablePadding
                 secondaryAction={
-                    <Tooltip disableInteractive title={globalize.translate('ButtonRemove')}>
+                    <Tooltip
+                        disableInteractive
+                        title={globalize.translate('ButtonRemove')}
+                    >
                         <IconButton onClick={confirmDeletePrompt}>
                             <Delete />
                         </IconButton>
@@ -56,7 +59,11 @@ const RepositoryListItem = ({ repository, onDelete }: IProps) => {
                 }
             >
                 <ListItemButton>
-                    <Link href={repository.Url || '#'} target='_blank' rel='noopener noreferrer'>
+                    <Link
+                        href={repository.Url || '#'}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
                         <ListItemAvatar>
                             <Avatar sx={{ bgcolor: 'primary.main' }}>
                                 <OpenInNew sx={{ color: '#fff' }} />

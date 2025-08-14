@@ -19,7 +19,9 @@ function getNextUpFetchFn(
     return function () {
         const apiClient = ServerConnections.getApiClient(serverId);
         const oldestDateForNextUp = new Date();
-        oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
+        oldestDateForNextUp.setDate(
+            oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp()
+        );
         return apiClient.getNextUpEpisodes({
             Limit: enableOverflow ? 24 : 15,
             Fields: 'PrimaryImageAspectRatio,DateCreated,Path,MediaSourceCount',
@@ -67,15 +69,20 @@ export function loadNextUp(
 ) {
     let html = '';
 
-    html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
+    html +=
+        '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
     if (!layoutManager.tv) {
-        html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('nextup', {
-            serverId: apiClient.serverId()
-        }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
+        html +=
+            '<a is="emby-linkbutton" href="' +
+            appRouter.getRouteUrl('nextup', {
+                serverId: apiClient.serverId()
+            }) +
+            '" class="button-flat button-flat-mini sectionTitleTextButton">';
         html += '<h2 class="sectionTitle sectionTitle-cards">';
         html += globalize.translate('NextUp');
         html += '</h2>';
-        html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
+        html +=
+            '<span class="material-icons chevron_right" aria-hidden="true"></span>';
         html += '</a>';
     } else {
         html += '<h2 class="sectionTitle sectionTitle-cards">';
@@ -85,10 +92,13 @@ export function loadNextUp(
     html += '</div>';
 
     if (options.enableOverflow) {
-        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
+        html +=
+            '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+        html +=
+            '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
     } else {
-        html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
+        html +=
+            '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
     }
 
     if (options.enableOverflow) {
@@ -99,9 +109,17 @@ export function loadNextUp(
     elem.classList.add('hide');
     elem.innerHTML = html;
 
-    const itemsContainer: SectionContainerElement | null = elem.querySelector('.itemsContainer');
+    const itemsContainer: SectionContainerElement | null =
+        elem.querySelector('.itemsContainer');
     if (!itemsContainer) return;
-    itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId(), userSettings, options);
-    itemsContainer.getItemsHtml = getNextUpItemsHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume(), options);
+    itemsContainer.fetchData = getNextUpFetchFn(
+        apiClient.serverId(),
+        userSettings,
+        options
+    );
+    itemsContainer.getItemsHtml = getNextUpItemsHtmlFn(
+        userSettings.useEpisodeImagesInNextUpAndResume(),
+        options
+    );
     itemsContainer.parentContainer = elem;
 }

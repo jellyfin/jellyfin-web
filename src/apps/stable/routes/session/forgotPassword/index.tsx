@@ -35,13 +35,19 @@ export const ForgotPasswordPage = () => {
 
             switch (result.Action) {
                 case ForgotPasswordAction.ContactAdmin:
-                    msg = globalize.translate('MessageContactAdminToResetPassword');
+                    msg = globalize.translate(
+                        'MessageContactAdminToResetPassword'
+                    );
                     break;
                 case ForgotPasswordAction.InNetworkRequired:
-                    msg = globalize.translate('MessageForgotPasswordInNetworkRequired');
+                    msg = globalize.translate(
+                        'MessageForgotPasswordInNetworkRequired'
+                    );
                     break;
                 case ForgotPasswordAction.PinCode:
-                    msg = globalize.translate('MessageForgotPasswordFileCreated');
+                    msg = globalize.translate(
+                        'MessageForgotPasswordFileCreated'
+                    );
                     msg += '<br/><br/>';
                     msg += globalize.translate('MessageForgotPasswordPinReset');
                     msg += '<br/><br/>';
@@ -66,14 +72,20 @@ export const ForgotPasswordPage = () => {
         navigate(-1);
     }, [navigate]);
 
-    const handleSubmit = useCallback(async (e: React.FormEvent) => {
-        e.preventDefault();
-        forgotPasswordMutation.mutate(username);
-    }, [username, forgotPasswordMutation]);
+    const handleSubmit = useCallback(
+        async (e: React.FormEvent) => {
+            e.preventDefault();
+            forgotPasswordMutation.mutate(username);
+        },
+        [username, forgotPasswordMutation]
+    );
 
-    const handleUsernameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(e.target.value);
-    }, []);
+    const handleUsernameChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            setUsername(e.target.value);
+        },
+        []
+    );
 
     return (
         <Page
@@ -100,7 +112,9 @@ export const ForgotPasswordPage = () => {
                                 onChange={handleUsernameChange}
                             />
                             <div className='fieldDescription'>
-                                {globalize.translate('LabelForgotPasswordUsernameHelp')}
+                                {globalize.translate(
+                                    'LabelForgotPasswordUsernameHelp'
+                                )}
                             </div>
                         </div>
 

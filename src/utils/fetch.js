@@ -19,7 +19,9 @@ export function getFetchPromise(request) {
         } else {
             fetchRequest.body = paramsToString(request.data);
 
-            contentType = contentType || 'application/x-www-form-urlencoded; charset=UTF-8';
+            contentType =
+                contentType ||
+                'application/x-www-form-urlencoded; charset=UTF-8';
         }
     }
 
@@ -52,32 +54,43 @@ function fetchWithTimeout(url, options, timeoutMs) {
         options = options || {};
         options.credentials = 'same-origin';
 
-        fetch(url, options).then(function (response) {
-            clearTimeout(timeout);
+        fetch(url, options).then(
+            function (response) {
+                clearTimeout(timeout);
 
-            console.debug(`fetchWithTimeout: succeeded connecting to url: ${url}`);
+                console.debug(
+                    `fetchWithTimeout: succeeded connecting to url: ${url}`
+                );
 
-            resolve(response);
-        }, function (error) {
-            clearTimeout(timeout);
+                resolve(response);
+            },
+            function (error) {
+                clearTimeout(timeout);
 
-            console.debug(`fetchWithTimeout: timed out connecting to url: ${url}`);
+                console.debug(
+                    `fetchWithTimeout: timed out connecting to url: ${url}`
+                );
 
-            reject(error);
-        });
+                reject(error);
+            }
+        );
     });
 }
 
 /**
-     * @param params {Record<string, string | number | boolean>}
-     * @returns {string} Query string
-     */
+ * @param params {Record<string, string | number | boolean>}
+ * @returns {string} Query string
+ */
 function paramsToString(params) {
-    return Object.entries(params)
-        // eslint-disable-next-line sonarjs/different-types-comparison
-        .filter(([, v]) => v !== null && v !== undefined && v !== '')
-        .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
-        .join('&');
+    return (
+        Object.entries(params)
+            // eslint-disable-next-line sonarjs/different-types-comparison
+            .filter(([, v]) => v !== null && v !== undefined && v !== '')
+            .map(
+                ([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`
+            )
+            .join('&')
+    );
 }
 
 export function ajax(request) {
@@ -89,21 +102,34 @@ export function ajax(request) {
 
     console.debug(`requesting url: ${request.url}`);
 
-    return getFetchPromise(request).then(function (response) {
-        console.debug(`response status: ${response.status}, url: ${request.url}`);
-        if (response.status < 400) {
-            if (request.dataType === 'json' || request.headers.accept === 'application/json') {
-                return response.json();
-            } else if (request.dataType === 'text' || (response.headers.get('Content-Type') || '').toLowerCase().startsWith('text/')) {
-                return response.text();
+    return getFetchPromise(request).then(
+        function (response) {
+            console.debug(
+                `response status: ${response.status}, url: ${request.url}`
+            );
+            if (response.status < 400) {
+                if (
+                    request.dataType === 'json' ||
+                    request.headers.accept === 'application/json'
+                ) {
+                    return response.json();
+                } else if (
+                    request.dataType === 'text' ||
+                    (response.headers.get('Content-Type') || '')
+                        .toLowerCase()
+                        .startsWith('text/')
+                ) {
+                    return response.text();
+                } else {
+                    return response;
+                }
             } else {
-                return response;
+                return Promise.reject(response);
             }
-        } else {
-            return Promise.reject(response);
+        },
+        function (err) {
+            console.error(`request failed to url: ${request.url}`);
+            throw err;
         }
-    }, function (err) {
-        console.error(`request failed to url: ${request.url}`);
-        throw err;
-    });
+    );
 }

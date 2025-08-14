@@ -5,38 +5,54 @@ import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
 import dialog from '../dialog/dialog';
 
-function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCancellation) {
+function changeRecordingToSeries(
+    apiClient,
+    timerId,
+    programId,
+    confirmTimerCancellation
+) {
     loading.show();
 
-    return apiClient.getItem(apiClient.getCurrentUserId(), programId).then(function (item) {
-        if (item.IsSeries) {
-            // create series
-            return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then(function (timerDefaults) {
-                return apiClient.createLiveTvSeriesTimer(timerDefaults).then(function () {
-                    loading.hide();
-                    toast(globalize.translate('SeriesRecordingScheduled'));
-                });
-            });
-        } else {
-            // cancel
-            if (confirmTimerCancellation) {
-                return cancelTimerWithConfirmation(timerId, apiClient.serverId());
-            }
+    return apiClient
+        .getItem(apiClient.getCurrentUserId(), programId)
+        .then(function (item) {
+            if (item.IsSeries) {
+                // create series
+                return apiClient
+                    .getNewLiveTvTimerDefaults({ programId: programId })
+                    .then(function (timerDefaults) {
+                        return apiClient
+                            .createLiveTvSeriesTimer(timerDefaults)
+                            .then(function () {
+                                loading.hide();
+                                toast(
+                                    globalize.translate(
+                                        'SeriesRecordingScheduled'
+                                    )
+                                );
+                            });
+                    });
+            } else {
+                // cancel
+                if (confirmTimerCancellation) {
+                    return cancelTimerWithConfirmation(
+                        timerId,
+                        apiClient.serverId()
+                    );
+                }
 
-            return cancelTimer(apiClient.serverId(), timerId, true);
-        }
-    });
+                return cancelTimer(apiClient.serverId(), timerId, true);
+            }
+        });
 }
 
 function cancelTimerWithConfirmation(timerId, serverId) {
     return new Promise(function (resolve, reject) {
         confirm({
-
             text: globalize.translate('MessageConfirmRecordingCancellation'),
             primary: 'delete',
             confirmText: globalize.translate('HeaderCancelRecording'),
             cancelText: globalize.translate('HeaderKeepRecording')
-
         }).then(function () {
             loading.show();
 
@@ -49,12 +65,10 @@ function cancelTimerWithConfirmation(timerId, serverId) {
 function cancelSeriesTimerWithConfirmation(timerId, serverId) {
     return new Promise(function (resolve, reject) {
         confirm({
-
             text: globalize.translate('MessageConfirmRecordingCancellation'),
             primary: 'delete',
             confirmText: globalize.translate('HeaderCancelSeries'),
             cancelText: globalize.translate('HeaderKeepSeries')
-
         }).then(function () {
             loading.show();
 
@@ -81,19 +95,27 @@ function cancelTimer(apiClient, timerId, hideLoading) {
 
 function createRecording(apiClient, programId, isSeries) {
     loading.show();
-    return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then(function (item) {
-        const promise = isSeries ?
-            apiClient.createLiveTvSeriesTimer(item) :
-            apiClient.createLiveTvTimer(item);
+    return apiClient
+        .getNewLiveTvTimerDefaults({ programId: programId })
+        .then(function (item) {
+            const promise = isSeries
+                ? apiClient.createLiveTvSeriesTimer(item)
+                : apiClient.createLiveTvTimer(item);
 
-        return promise.then(function () {
-            loading.hide();
-            toast(globalize.translate('RecordingScheduled'));
+            return promise.then(function () {
+                loading.hide();
+                toast(globalize.translate('RecordingScheduled'));
+            });
         });
-    });
 }
 
-function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId) {
+function showMultiCancellationPrompt(
+    serverId,
+    programId,
+    timerId,
+    timerStatus,
+    seriesTimerId
+) {
     return new Promise(function (resolve, reject) {
         const items = [];
 
@@ -123,37 +145,55 @@ function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, 
             type: 'cancel'
         });
 
-        dialog.show({
-            text: globalize.translate('MessageConfirmRecordingCancellation'),
-            buttons: items
-        }).then(function (result) {
-            const apiClient = ServerConnections.getApiClient(serverId);
+        dialog
+            .show({
+                text: globalize.translate(
+                    'MessageConfirmRecordingCancellation'
+                ),
+                buttons: items
+            })
+            .then(function (result) {
+                const apiClient = ServerConnections.getApiClient(serverId);
 
-            if (result === 'canceltimer') {
-                loading.show();
+                if (result === 'canceltimer') {
+                    loading.show();
 
-                cancelTimer(apiClient, timerId, true).then(resolve, reject);
-            } else if (result === 'cancelseriestimer') {
-                loading.show();
+                    cancelTimer(apiClient, timerId, true).then(resolve, reject);
+                } else if (result === 'cancelseriestimer') {
+                    loading.show();
 
-                apiClient.cancelLiveTvSeriesTimer(seriesTimerId).then(function () {
-                    toast(globalize.translate('SeriesCancelled'));
-                    loading.hide();
+                    apiClient
+                        .cancelLiveTvSeriesTimer(seriesTimerId)
+                        .then(function () {
+                            toast(globalize.translate('SeriesCancelled'));
+                            loading.hide();
+                            resolve();
+                        }, reject);
+                } else {
                     resolve();
-                }, reject);
-            } else {
-                resolve();
-            }
-        }, reject);
+                }
+            }, reject);
     });
 }
 
-function toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerId) {
+function toggleRecording(
+    serverId,
+    programId,
+    timerId,
+    timerStatus,
+    seriesTimerId
+) {
     const apiClient = ServerConnections.getApiClient(serverId);
     const hasTimer = timerId && timerStatus !== 'Cancelled';
     if (seriesTimerId && hasTimer) {
         // cancel
-        return showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId);
+        return showMultiCancellationPrompt(
+            serverId,
+            programId,
+            timerId,
+            timerStatus,
+            seriesTimerId
+        );
     } else if (hasTimer && programId) {
         // change to series recording, if possible
         // otherwise cancel individual recording

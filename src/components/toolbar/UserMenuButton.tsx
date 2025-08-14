@@ -11,16 +11,20 @@ import AppUserMenu, { ID } from './AppUserMenu';
 const UserMenuButton = () => {
     const { user } = useApi();
 
-    const [ userMenuAnchorEl, setUserMenuAnchorEl ] = useState<null | HTMLElement>(null);
+    const [userMenuAnchorEl, setUserMenuAnchorEl] =
+        useState<null | HTMLElement>(null);
     const isUserMenuOpen = Boolean(userMenuAnchorEl);
 
-    const onUserButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setUserMenuAnchorEl(event.currentTarget);
-    }, [ setUserMenuAnchorEl ]);
+    const onUserButtonClick = useCallback(
+        (event: React.MouseEvent<HTMLElement>) => {
+            setUserMenuAnchorEl(event.currentTarget);
+        },
+        [setUserMenuAnchorEl]
+    );
 
     const onUserMenuClose = useCallback(() => {
         setUserMenuAnchorEl(null);
-    }, [ setUserMenuAnchorEl ]);
+    }, [setUserMenuAnchorEl]);
 
     return (
         <>

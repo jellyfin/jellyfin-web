@@ -76,4 +76,6 @@ export const LANGUAGE_OPTIONS = [
 ];
 
 // NOTE: Option `Euskara` (eu) does not exist in legacy date locale options.
-export const DATE_LOCALE_OPTIONS = LANGUAGE_OPTIONS.filter(({ value }) => value !== 'eu');
+export const DATE_LOCALE_OPTIONS = LANGUAGE_OPTIONS.filter(
+    ({ value }) => value !== 'eu'
+);

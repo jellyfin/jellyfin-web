@@ -16,24 +16,24 @@ import globalize from 'lib/globalize';
 import type { PluginDetails } from '../types/PluginDetails';
 
 interface PluginRevisionsProps {
-    pluginDetails?: PluginDetails,
-    onInstall: (version?: VersionInfo) => () => void
+    pluginDetails?: PluginDetails;
+    onInstall: (version?: VersionInfo) => () => void;
 }
 
 const PluginRevisions: FC<PluginRevisionsProps> = ({
     pluginDetails,
     onInstall
-}) => (
-    pluginDetails?.versions?.map(version => (
+}) =>
+    pluginDetails?.versions?.map((version) => (
         <Accordion key={version.checksum}>
-            <AccordionSummary
-                expandIcon={<ExpandMore />}
-            >
+            <AccordionSummary expandIcon={<ExpandMore />}>
                 {version.version}
-                {version.timestamp && (<>
-                    &nbsp;&mdash;&nbsp;
-                    {getDisplayDateTime(version.timestamp)}
-                </>)}
+                {version.timestamp && (
+                    <>
+                        &nbsp;&mdash;&nbsp;
+                        {getDisplayDateTime(version.timestamp)}
+                    </>
+                )}
             </AccordionSummary>
             <AccordionDetails>
                 <Stack spacing={2}>
@@ -41,7 +41,8 @@ const PluginRevisions: FC<PluginRevisionsProps> = ({
                         fallback={globalize.translate('LabelNoChangelog')}
                         markdown={version.changelog}
                     />
-                    {pluginDetails.status && version.version === pluginDetails.version?.version ? (
+                    {pluginDetails.status &&
+                    version.version === pluginDetails.version?.version ? (
                         <Button
                             disabled
                             startIcon={<DownloadDone />}
@@ -61,7 +62,6 @@ const PluginRevisions: FC<PluginRevisionsProps> = ({
                 </Stack>
             </AccordionDetails>
         </Accordion>
-    ))
-);
+    ));
 
 export default PluginRevisions;

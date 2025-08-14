@@ -53,7 +53,10 @@ function clearAlphaNumericShortcutTimeout() {
 }
 function resetAlphaNumericShortcutTimeout() {
     clearAlphaNumericShortcutTimeout();
-    alpanumericShortcutTimeout = setTimeout(onAlphanumericShortcutTimeout, 2000);
+    alpanumericShortcutTimeout = setTimeout(
+        onAlphanumericShortcutTimeout,
+        2000
+    );
 }
 
 function onAlphanumericKeyPress(e, chr) {
@@ -88,7 +91,7 @@ function selectByShortcutValue(container, value) {
     }
 
     if (!focusElem) {
-        focusElem = container.querySelector('*[data-prefix^=\'' + value + '\']');
+        focusElem = container.querySelector("*[data-prefix^='" + value + "']");
     }
 
     if (focusElem) {

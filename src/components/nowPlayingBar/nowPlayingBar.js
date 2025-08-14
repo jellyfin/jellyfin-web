@@ -54,8 +54,10 @@ function getNowPlayingBarHtml() {
     html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
 
     html += '<div class="nowPlayingBarTop">';
-    html += '<div class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
-    html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
+    html +=
+        '<div class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
+    html +=
+        '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
     html += '</div>';
 
     html += '<div class="nowPlayingBarInfoContainer">';
@@ -82,8 +84,10 @@ function getNowPlayingBarHtml() {
 
     html += `<button is="paper-icon-button-light" class="muteButton mediaButton" title="${globalize.translate('Mute')}"><span class="material-icons volume_up" aria-hidden="true"></span></button>`;
 
-    html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
-    html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
+    html +=
+        '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
+    html +=
+        '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
     html += '</div>';
 
     html += `<button is="paper-icon-button-light" class="btnAirPlay mediaButton" title="${globalize.translate('AirPlay')}"><span class="material-icons airplay" aria-hidden="true"></span></button>`;
@@ -121,15 +125,25 @@ function slideDown(elem) {
 
     elem.classList.add('nowPlayingBar-hidden');
 
-    dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
-        once: true
-    });
+    dom.addEventListener(
+        elem,
+        dom.whichTransitionEvent(),
+        onSlideDownComplete,
+        {
+            once: true
+        }
+    );
 }
 
 function slideUp(elem) {
-    dom.removeEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
-        once: true
-    });
+    dom.removeEventListener(
+        elem,
+        dom.whichTransitionEvent(),
+        onSlideDownComplete,
+        {
+            once: true
+        }
+    );
 
     elem.classList.remove('hide');
 
@@ -153,7 +167,9 @@ function bindEvents(elem) {
     playPauseButtons = elem.querySelectorAll('.playPauseButton');
     toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
     volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
-    volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
+    volumeSliderContainer = elem.querySelector(
+        '.nowPlayingBarVolumeSliderContainer'
+    );
     lyricButton = nowPlayingBarElement.querySelector('.openLyricsButton');
 
     muteButton.addEventListener('click', function () {
@@ -172,41 +188,56 @@ function bindEvents(elem) {
         button.addEventListener('click', onPlayPauseClick);
     });
 
-    elem.querySelector('.nextTrackButton').addEventListener('click', function () {
-        if (currentPlayer) {
-            playbackManager.nextTrack(currentPlayer);
-        }
-    });
-
-    elem.querySelector('.previousTrackButton').addEventListener('click', function (e) {
-        if (currentPlayer) {
-            if (playbackManager.isPlayingAudio(currentPlayer)) {
-                // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
-                if (e.detail > 1 ) {
-                    return;
-                }
-
-                // Return to start of track, unless we are already (almost) at the beginning. In the latter case, continue and move
-                // to the previous track, unless we are at the first track so no previous track exists.
-                // currentTime is in msec.
-
-                if (playbackManager.currentTime(currentPlayer) >= 5 * 1000 || playbackManager.getCurrentPlaylistIndex(currentPlayer) <= 0) {
-                    playbackManager.seekPercent(0, currentPlayer);
-                    // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
-                    // TODO: Check why seekPercent doesn't reflect the changes inmmediately, so we can remove this workaround.
-                    positionSlider.value = 0;
-                    return;
-                }
+    elem.querySelector('.nextTrackButton').addEventListener(
+        'click',
+        function () {
+            if (currentPlayer) {
+                playbackManager.nextTrack(currentPlayer);
             }
-            playbackManager.previousTrack(currentPlayer);
         }
-    });
+    );
 
-    elem.querySelector('.previousTrackButton').addEventListener('dblclick', function () {
-        if (currentPlayer) {
-            playbackManager.previousTrack(currentPlayer);
+    elem.querySelector('.previousTrackButton').addEventListener(
+        'click',
+        function (e) {
+            if (currentPlayer) {
+                if (playbackManager.isPlayingAudio(currentPlayer)) {
+                    // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
+                    if (e.detail > 1) {
+                        return;
+                    }
+
+                    // Return to start of track, unless we are already (almost) at the beginning. In the latter case, continue and move
+                    // to the previous track, unless we are at the first track so no previous track exists.
+                    // currentTime is in msec.
+
+                    if (
+                        playbackManager.currentTime(currentPlayer) >=
+                            5 * 1000 ||
+                        playbackManager.getCurrentPlaylistIndex(
+                            currentPlayer
+                        ) <= 0
+                    ) {
+                        playbackManager.seekPercent(0, currentPlayer);
+                        // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
+                        // TODO: Check why seekPercent doesn't reflect the changes inmmediately, so we can remove this workaround.
+                        positionSlider.value = 0;
+                        return;
+                    }
+                }
+                playbackManager.previousTrack(currentPlayer);
+            }
         }
-    });
+    );
+
+    elem.querySelector('.previousTrackButton').addEventListener(
+        'dblclick',
+        function () {
+            if (currentPlayer) {
+                playbackManager.previousTrack(currentPlayer);
+            }
+        }
+    );
 
     toggleAirPlayButton = elem.querySelector('.btnAirPlay');
     toggleAirPlayButton.addEventListener('click', function () {
@@ -215,13 +246,16 @@ function bindEvents(elem) {
         }
     });
 
-    elem.querySelector('.btnShuffleQueue').addEventListener('click', function () {
-        if (currentPlayer) {
-            playbackManager.toggleQueueShuffleMode();
+    elem.querySelector('.btnShuffleQueue').addEventListener(
+        'click',
+        function () {
+            if (currentPlayer) {
+                playbackManager.toggleQueueShuffleMode();
+            }
         }
-    });
+    );
 
-    lyricButton.addEventListener('click', function() {
+    lyricButton.addEventListener('click', function () {
         if (isLyricPageActive) {
             appRouter.back();
         } else {
@@ -243,9 +277,13 @@ function bindEvents(elem) {
         }
     });
 
-    toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
+    toggleRepeatButtonIcon =
+        toggleRepeatButton.querySelector('.material-icons');
 
-    volumeSliderContainer.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
+    volumeSliderContainer.classList.toggle(
+        'hide',
+        appHost.supports(AppFeature.PhysicalVolumeControl)
+    );
 
     volumeSlider.addEventListener('input', (e) => {
         if (currentPlayer) {
@@ -305,8 +343,12 @@ function getNowPlayingBar() {
     nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
     if (layoutManager.mobile) {
-        nowPlayingBarElement.querySelector('.btnShuffleQueue').classList.add('hide');
-        nowPlayingBarElement.querySelector('.nowPlayingBarCenter').classList.add('hide');
+        nowPlayingBarElement
+            .querySelector('.btnShuffleQueue')
+            .classList.add('hide');
+        nowPlayingBarElement
+            .querySelector('.nowPlayingBarCenter')
+            .classList.add('hide');
     }
 
     if (browser.safari && browser.slow) {
@@ -327,7 +369,9 @@ function updatePlayPauseState(isPaused) {
             const icon = button.querySelector('.material-icons');
             icon.classList.remove('play_arrow', 'pause');
             icon.classList.add(isPaused ? 'play_arrow' : 'pause');
-            button.title = globalize.translate(isPaused ? 'Play' : 'ButtonPause');
+            button.title = globalize.translate(
+                isPaused ? 'Play' : 'ButtonPause'
+            );
         });
     }
 }
@@ -364,12 +408,17 @@ function updatePlayerStateInternal(event, state, player) {
         positionSlider.disabled = !playState.CanSeek;
 
         // determines if both forward and backward buffer progress will be visible
-        const isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
+        const isProgressClear =
+            state.MediaSource && state.MediaSource.RunTimeTicks == null;
         positionSlider.setIsClear(isProgressClear);
     }
 
     const nowPlayingItem = state.NowPlayingItem || {};
-    updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player));
+    updateTimeDisplay(
+        playState.PositionTicks,
+        nowPlayingItem.RunTimeTicks,
+        playbackManager.getBufferedRanges(player)
+    );
 
     updateNowPlayingInfo(state);
     updateLyricButton(nowPlayingItem);
@@ -410,11 +459,18 @@ function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
     }
 
     if (positionSlider) {
-        positionSlider.setBufferedRanges(bufferedRanges, runtimeTicks, positionTicks);
+        positionSlider.setBufferedRanges(
+            bufferedRanges,
+            runtimeTicks,
+            positionTicks
+        );
     }
 
     if (currentTimeElement) {
-        let timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
+        let timeText =
+            positionTicks == null
+                ? '--:--'
+                : datetime.getDisplayRunningTime(positionTicks);
         if (runtimeTicks) {
             timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
         }
@@ -442,7 +498,10 @@ function updatePlayerVolumeState(isMuted, volumeLevel) {
         showVolumeSlider = false;
     }
 
-    if (currentPlayer.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
+    if (
+        currentPlayer.isLocalPlayer &&
+        appHost.supports(AppFeature.PhysicalVolumeControl)
+    ) {
         showMuteButton = false;
         showVolumeSlider = false;
     }
@@ -476,7 +535,9 @@ function setLyricButtonActiveStatus() {
 function updateNowPlayingInfo(state) {
     const nowPlayingItem = state.NowPlayingItem;
 
-    const textLines = nowPlayingItem ? getItemTextLines(nowPlayingItem) : undefined;
+    const textLines = nowPlayingItem
+        ? getItemTextLines(nowPlayingItem)
+        : undefined;
     nowPlayingTextElement.innerHTML = '';
     if (textLines) {
         const itemText = document.createElement('div');
@@ -499,9 +560,11 @@ function updateNowPlayingInfo(state) {
 
     const imgHeight = 70;
 
-    const url = nowPlayingItem ? getImageUrl(nowPlayingItem, {
-        height: imgHeight
-    }) : null;
+    const url = nowPlayingItem
+        ? getImageUrl(nowPlayingItem, {
+              height: imgHeight
+          })
+        : null;
 
     if (url !== nowPlayingImageUrl) {
         if (url) {
@@ -518,35 +581,65 @@ function updateNowPlayingInfo(state) {
     }
 
     if (nowPlayingItem.Id) {
-        const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
-        apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
-            const userData = item.UserData || {};
-            const likes = userData.Likes == null ? '' : userData.Likes;
-            if (!layoutManager.mobile) {
-                let contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
-                // We remove the previous event listener by replacing the item in each update event
-                const contextButtonClone = contextButton.cloneNode(true);
-                contextButton.parentNode.replaceChild(contextButtonClone, contextButton);
-                contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
-                const options = {
-                    play: false,
-                    queue: false,
-                    stopPlayback: true,
-                    clearQueue: true,
-                    positionTo: contextButton
-                };
-                apiClient.getCurrentUser().then(function (user) {
-                    contextButton.addEventListener('click', function () {
-                        itemContextMenu.show(Object.assign({
-                            item: item,
-                            user: user
-                        }, options))
-                            .catch(() => { /* no-op */ });
+        const apiClient = ServerConnections.getApiClient(
+            nowPlayingItem.ServerId
+        );
+        apiClient
+            .getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id)
+            .then(function (item) {
+                const userData = item.UserData || {};
+                const likes = userData.Likes == null ? '' : userData.Likes;
+                if (!layoutManager.mobile) {
+                    let contextButton = nowPlayingBarElement.querySelector(
+                        '.btnToggleContextMenu'
+                    );
+                    // We remove the previous event listener by replacing the item in each update event
+                    const contextButtonClone = contextButton.cloneNode(true);
+                    contextButton.parentNode.replaceChild(
+                        contextButtonClone,
+                        contextButton
+                    );
+                    contextButton = nowPlayingBarElement.querySelector(
+                        '.btnToggleContextMenu'
+                    );
+                    const options = {
+                        play: false,
+                        queue: false,
+                        stopPlayback: true,
+                        clearQueue: true,
+                        positionTo: contextButton
+                    };
+                    apiClient.getCurrentUser().then(function (user) {
+                        contextButton.addEventListener('click', function () {
+                            itemContextMenu
+                                .show(
+                                    Object.assign(
+                                        {
+                                            item: item,
+                                            user: user
+                                        },
+                                        options
+                                    )
+                                )
+                                .catch(() => {
+                                    /* no-op */
+                                });
+                        });
                     });
-                });
-            }
-            nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
-        });
+                }
+                nowPlayingUserData.innerHTML =
+                    '<button is="emby-ratingbutton" type="button" class="mediaButton paper-icon-button-light" data-id="' +
+                    item.Id +
+                    '" data-serverid="' +
+                    item.ServerId +
+                    '" data-itemtype="' +
+                    item.Type +
+                    '" data-likes="' +
+                    likes +
+                    '" data-isfavorite="' +
+                    userData.IsFavorite +
+                    '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
+            });
     } else {
         nowPlayingUserData.innerHTML = '';
     }
@@ -641,12 +734,20 @@ function onStateChanged(event, state) {
     console.debug('[nowPlayingBar:onStateChanged] event: ' + event.type);
     const player = this;
 
-    if (!state.NowPlayingItem || layoutManager.tv || state.IsFullscreen === false) {
+    if (
+        !state.NowPlayingItem ||
+        layoutManager.tv ||
+        state.IsFullscreen === false
+    ) {
         hideNowPlayingBar();
         return;
     }
 
-    if (player.isLocalPlayer && state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Video') {
+    if (
+        player.isLocalPlayer &&
+        state.NowPlayingItem &&
+        state.NowPlayingItem.MediaType === 'Video'
+    ) {
         hideNowPlayingBar();
         return;
     }
@@ -670,14 +771,18 @@ function onTimeUpdate() {
 
     // Try to avoid hammering the document with changes
     const now = new Date().getTime();
-    if ((now - lastUpdateTime) < 700) {
+    if (now - lastUpdateTime < 700) {
         return;
     }
     lastUpdateTime = now;
 
     const player = this;
     currentRuntimeTicks = playbackManager.duration(player);
-    updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks, playbackManager.getBufferedRanges(player));
+    updateTimeDisplay(
+        playbackManager.currentTime(player) * 10000,
+        currentRuntimeTicks,
+        playbackManager.getBufferedRanges(player)
+    );
 }
 
 function releaseCurrentPlayer() {

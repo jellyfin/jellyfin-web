@@ -6,7 +6,7 @@ import IconButtonElement from '../../../elements/IconButtonElement';
 type AccessScheduleListProps = {
     index?: number;
     DayOfWeek?: string;
-    StartHour?: number ;
+    StartHour?: number;
     EndHour?: number;
     removeScheduleCallback?: (index: number) => void;
 };
@@ -22,23 +22,33 @@ function getDisplayTime(hours = 0) {
     return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
 }
 
-const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({ index, DayOfWeek, StartHour, EndHour, removeScheduleCallback }: AccessScheduleListProps) => {
+const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({
+    index,
+    DayOfWeek,
+    StartHour,
+    EndHour,
+    removeScheduleCallback
+}: AccessScheduleListProps) => {
     const onClick = useCallback(() => {
-        index !== undefined && removeScheduleCallback !== undefined && removeScheduleCallback(index);
+        index !== undefined &&
+            removeScheduleCallback !== undefined &&
+            removeScheduleCallback(index);
     }, [index, removeScheduleCallback]);
     return (
         <div
             className='liSchedule listItem'
-            data-day={ DayOfWeek}
-            data-start={ StartHour}
-            data-end={ EndHour}
+            data-day={DayOfWeek}
+            data-start={StartHour}
+            data-end={EndHour}
         >
             <div className='listItemBody two-line'>
                 <h3 className='listItemBodyText'>
                     {globalize.translate(DayOfWeek)}
                 </h3>
                 <div className='listItemBodyText secondary'>
-                    {getDisplayTime(StartHour) + ' - ' + getDisplayTime(EndHour)}
+                    {getDisplayTime(StartHour) +
+                        ' - ' +
+                        getDisplayTime(EndHour)}
                 </div>
             </div>
             <IconButtonElement

@@ -8,17 +8,20 @@ import { queryClient } from 'utils/query/queryClient';
 export const useCreateBackup = () => {
     const { api } = useApi();
     // FIXME: Replace with getBackupApi when available in SDK
-    const backupApi = new BackupApi(api?.configuration, undefined, api?.axiosInstance);
+    const backupApi = new BackupApi(
+        api?.configuration,
+        undefined,
+        api?.axiosInstance
+    );
 
     return useMutation({
-        mutationFn: (backupOptions: BackupOptionsDto) => (
+        mutationFn: (backupOptions: BackupOptionsDto) =>
             backupApi.createBackup({
                 backupOptionsDto: backupOptions
-            })
-        ),
+            }),
         onSuccess: () => {
             void queryClient.invalidateQueries({
-                queryKey: [ QUERY_KEY ]
+                queryKey: [QUERY_KEY]
             });
         }
     });

@@ -66,38 +66,55 @@ class TouchHelper {
                     deltaY = 0;
                 }
 
-                const currentDeltaX = lastDeltaX == null ? deltaX : (deltaX - lastDeltaX);
-                const currentDeltaY = lastDeltaY == null ? deltaY : (deltaY - lastDeltaY);
+                const currentDeltaX =
+                    lastDeltaX == null ? deltaX : deltaX - lastDeltaX;
+                const currentDeltaY =
+                    lastDeltaY == null ? deltaY : deltaY - lastDeltaY;
 
                 lastDeltaX = deltaX;
                 lastDeltaY = deltaY;
 
                 if (deltaX > swipeXThreshold && Math.abs(deltaY) < swipeXMaxY) {
                     Events.trigger(self, 'swiperight', [touchTarget]);
-                } else if (deltaX < (0 - swipeXThreshold) && Math.abs(deltaY) < swipeXMaxY) {
+                } else if (
+                    deltaX < 0 - swipeXThreshold &&
+                    Math.abs(deltaY) < swipeXMaxY
+                ) {
                     Events.trigger(self, 'swipeleft', [touchTarget]);
-                } else if ((deltaY < (0 - swipeYThreshold) || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
+                } else if (
+                    (deltaY < 0 - swipeYThreshold || thresholdYMet) &&
+                    Math.abs(deltaX) < swipeXMaxY
+                ) {
                     thresholdYMet = true;
 
-                    Events.trigger(self, 'swipeup', [touchTarget, {
-                        deltaY: deltaY,
-                        deltaX: deltaX,
-                        clientX: clientX,
-                        clientY: clientY,
-                        currentDeltaX: currentDeltaX,
-                        currentDeltaY: currentDeltaY
-                    }]);
-                } else if ((deltaY > swipeYThreshold || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
+                    Events.trigger(self, 'swipeup', [
+                        touchTarget,
+                        {
+                            deltaY: deltaY,
+                            deltaX: deltaX,
+                            clientX: clientX,
+                            clientY: clientY,
+                            currentDeltaX: currentDeltaX,
+                            currentDeltaY: currentDeltaY
+                        }
+                    ]);
+                } else if (
+                    (deltaY > swipeYThreshold || thresholdYMet) &&
+                    Math.abs(deltaX) < swipeXMaxY
+                ) {
                     thresholdYMet = true;
 
-                    Events.trigger(self, 'swipedown', [touchTarget, {
-                        deltaY: deltaY,
-                        deltaX: deltaX,
-                        clientX: clientX,
-                        clientY: clientY,
-                        currentDeltaX: currentDeltaX,
-                        currentDeltaY: currentDeltaY
-                    }]);
+                    Events.trigger(self, 'swipedown', [
+                        touchTarget,
+                        {
+                            deltaY: deltaY,
+                            deltaX: deltaX,
+                            clientX: clientX,
+                            clientY: clientY,
+                            currentDeltaX: currentDeltaX,
+                            currentDeltaY: currentDeltaY
+                        }
+                    ]);
                 }
 
                 if (isTouchMove && options.preventDefaultOnMove) {

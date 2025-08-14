@@ -50,17 +50,25 @@ class SkipSegment extends PlaybackSubscriber {
             let buttonHtml = '';
 
             // FIXME: Move skip button to the video OSD
-            buttonHtml += '<div class="skip-button-container"><button is="emby-button" class="skip-button hide skip-button-hidden"></button></div>';
+            buttonHtml +=
+                '<div class="skip-button-container"><button is="emby-button" class="skip-button hide skip-button-hidden"></button></div>';
 
             document.body.insertAdjacentHTML('beforeend', buttonHtml);
 
             this.skipElement = document.body.querySelector('.skip-button');
             if (this.skipElement) {
                 this.skipElement.addEventListener('click', () => {
-                    const time = this.playbackManager.currentTime() * TICKS_PER_MILLISECOND;
+                    const time =
+                        this.playbackManager.currentTime() *
+                        TICKS_PER_MILLISECOND;
                     if (this.currentSegment?.EndTicks) {
-                        if (time < this.currentSegment.EndTicks - TICKS_PER_SECOND) {
-                            this.playbackManager.seek(this.currentSegment.EndTicks);
+                        if (
+                            time <
+                            this.currentSegment.EndTicks - TICKS_PER_SECOND
+                        ) {
+                            this.playbackManager.seek(
+                                this.currentSegment.EndTicks
+                            );
                         } else {
                             this.hideSkipButton();
                         }
@@ -72,8 +80,14 @@ class SkipSegment extends PlaybackSubscriber {
 
     setButtonText() {
         if (this.skipElement && this.currentSegment) {
-            this.skipElement.innerHTML = globalize.translate('MediaSegmentSkipPrompt', globalize.translate(`MediaSegmentType.${this.currentSegment.Type}`));
-            this.skipElement.innerHTML += '<span class="material-icons skip_next" aria-hidden="true"></span>';
+            this.skipElement.innerHTML = globalize.translate(
+                'MediaSegmentSkipPrompt',
+                globalize.translate(
+                    `MediaSegmentType.${this.currentSegment.Type}`
+                )
+            );
+            this.skipElement.innerHTML +=
+                '<span class="material-icons skip_next" aria-hidden="true"></span>';
         }
     }
 
@@ -81,9 +95,14 @@ class SkipSegment extends PlaybackSubscriber {
         const elem = this.skipElement;
         if (elem) {
             this.clearHideTimeout();
-            dom.removeEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
-                once: true
-            });
+            dom.removeEventListener(
+                elem,
+                dom.whichTransitionEvent(),
+                onHideComplete,
+                {
+                    once: true
+                }
+            );
             elem.classList.remove('hide');
             if (!options.animate) {
                 elem.classList.add('no-transition');
@@ -94,7 +113,9 @@ class SkipSegment extends PlaybackSubscriber {
             // eslint-disable-next-line sonarjs/void-use
             void elem.offsetWidth;
 
-            const hasFocus = document.activeElement && focusManager.isCurrentlyFocusable(document.activeElement);
+            const hasFocus =
+                document.activeElement &&
+                focusManager.isCurrentlyFocusable(document.activeElement);
             if (options.focus && !hasFocus) {
                 focusManager.focus(elem);
             }
@@ -103,7 +124,10 @@ class SkipSegment extends PlaybackSubscriber {
                 elem.classList.remove('skip-button-hidden');
 
                 if (!options.keep) {
-                    this.hideTimeout = setTimeout(this.hideSkipButton.bind(this), 8000);
+                    this.hideTimeout = setTimeout(
+                        this.hideSkipButton.bind(this),
+                        8000
+                    );
                 }
             });
         }
@@ -119,9 +143,14 @@ class SkipSegment extends PlaybackSubscriber {
             requestAnimationFrame(() => {
                 elem.classList.add('skip-button-hidden');
 
-                dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
-                    once: true
-                });
+                dom.addEventListener(
+                    elem,
+                    dom.whichTransitionEvent(),
+                    onHideComplete,
+                    {
+                        once: true
+                    }
+                );
             });
         }
     }
@@ -148,10 +177,13 @@ class SkipSegment extends PlaybackSubscriber {
     }
 
     onPromptSkip(e: Event, segment: MediaSegmentDto) {
-        if (this.player && segment.EndTicks != null
-            && segment.EndTicks >= this.playbackManager.currentItem(this.player).RunTimeTicks
-            && this.playbackManager.getNextItem()
-            && userSettings.enableNextVideoInfoOverlay()
+        if (
+            this.player &&
+            segment.EndTicks != null &&
+            segment.EndTicks >=
+                this.playbackManager.currentItem(this.player).RunTimeTicks &&
+            this.playbackManager.getNextItem() &&
+            userSettings.enableNextVideoInfoOverlay()
         ) {
             // Don't display button when UpNextDialog is expected.
             return;
@@ -172,7 +204,9 @@ class SkipSegment extends PlaybackSubscriber {
 
     onPlayerTimeUpdate() {
         if (this.currentSegment) {
-            const time = this.playbackManager.currentTime(this.player) * TICKS_PER_MILLISECOND;
+            const time =
+                this.playbackManager.currentTime(this.player) *
+                TICKS_PER_MILLISECOND;
 
             if (!isInSegment(this.currentSegment, time)) {
                 this.currentSegment = null;
@@ -195,4 +229,5 @@ class SkipSegment extends PlaybackSubscriber {
     }
 }
 
-export const bindSkipSegment = (playbackManager: PlaybackManager) => new SkipSegment(playbackManager);
+export const bindSkipSegment = (playbackManager: PlaybackManager) =>
+    new SkipSegment(playbackManager);

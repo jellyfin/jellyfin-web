@@ -69,8 +69,13 @@ function setDocumentDirection(direction) {
 }
 
 export function getIsElementRTL(element) {
-    if (window.getComputedStyle) { // all browsers
-        return window.getComputedStyle(element, null).getPropertyValue('direction') == 'rtl';
+    if (window.getComputedStyle) {
+        // all browsers
+        return (
+            window
+                .getComputedStyle(element, null)
+                .getPropertyValue('direction') == 'rtl'
+        );
     }
     return element.currentStyle.direction == 'rtl';
 }
@@ -122,9 +127,11 @@ function ensureTranslation(translationInfo, culture) {
         return Promise.resolve();
     }
 
-    return loadTranslation(translationInfo.translations, culture).then(function (dictionary) {
-        translationInfo.dictionaries[culture] = dictionary;
-    });
+    return loadTranslation(translationInfo.translations, culture).then(
+        function (dictionary) {
+            translationInfo.dictionaries[culture] = dictionary;
+        }
+    );
 }
 
 export function normalizeLocaleName(culture) {
@@ -162,7 +169,9 @@ export function loadStrings(options) {
         register(options);
     }
     promises.push(ensureTranslation(allTranslations[optionsName], locale));
-    promises.push(ensureTranslation(allTranslations[optionsName], FALLBACK_CULTURE));
+    promises.push(
+        ensureTranslation(allTranslations[optionsName], FALLBACK_CULTURE)
+    );
     return Promise.all(promises);
 }
 
@@ -195,11 +204,13 @@ function loadTranslation(translations, lang) {
 
         const url = filtered[0].path;
 
-        import(/* webpackChunkName: "[request]" */ `../../strings/${url}`).then((fileContent) => {
-            resolve(fileContent);
-        }).catch(() => {
-            resolve({});
-        });
+        import(/* webpackChunkName: "[request]" */ `../../strings/${url}`)
+            .then((fileContent) => {
+                resolve(fileContent);
+            })
+            .catch(() => {
+                resolve({});
+            });
     });
 }
 
@@ -238,7 +249,10 @@ function translateKeyFromModule(key, module) {
 export function translate(key) {
     let val = translateKey(key);
     for (let i = 1; i < arguments.length; i++) {
-        val = val.replaceAll('{' + (i - 1) + '}', arguments[i].toLocaleString(currentCulture));
+        val = val.replaceAll(
+            '{' + (i - 1) + '}',
+            arguments[i].toLocaleString(currentCulture)
+        );
     }
     return val;
 }
@@ -299,4 +313,3 @@ export default {
     getIsRTL,
     getIsElementRTL
 };
-

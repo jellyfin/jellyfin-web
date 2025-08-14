@@ -7,8 +7,7 @@ const useRestartServer = () => {
 
     return useMutation({
         mutationFn: () => {
-            return getSystemApi(api!)
-                .restartApplication();
+            return getSystemApi(api!).restartApplication();
         }
     });
 };

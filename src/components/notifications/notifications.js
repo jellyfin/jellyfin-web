@@ -18,7 +18,11 @@ function onOneDocumentClick() {
 }
 
 function registerOneDocumentClickHandler() {
-    Events.off(ServerConnections, 'localusersignedin', registerOneDocumentClickHandler);
+    Events.off(
+        ServerConnections,
+        'localusersignedin',
+        registerOneDocumentClickHandler
+    );
 
     document.addEventListener('click', onOneDocumentClick);
     document.addEventListener('keydown', onOneDocumentClick);
@@ -27,10 +31,15 @@ function registerOneDocumentClickHandler() {
 function initPermissionRequest() {
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) {
-        apiClient.getCurrentUser()
+        apiClient
+            .getCurrentUser()
             .then(() => registerOneDocumentClickHandler())
             .catch(() => {
-                Events.on(ServerConnections, 'localusersignedin', registerOneDocumentClickHandler);
+                Events.on(
+                    ServerConnections,
+                    'localusersignedin',
+                    registerOneDocumentClickHandler
+                );
             });
     } else {
         registerOneDocumentClickHandler();
@@ -69,7 +78,8 @@ function showPersistentNotification(title, options) {
 
 function showNonPersistentNotification(title, options, timeoutMs) {
     try {
-        const notif = new Notification(title, options); /* eslint-disable-line compat/compat */
+        // eslint-disable-next-line compat/compat
+        const notif = new Notification(title, options);
 
         if (notif.show) {
             notif.show();
@@ -151,7 +161,6 @@ function onLibraryChanged(data, apiClient) {
     }
 
     getItems(apiClient, apiClient.getCurrentUserId(), {
-
         Recursive: true,
         Limit: 3,
         Filters: 'IsNotFolder',
@@ -160,7 +169,6 @@ function onLibraryChanged(data, apiClient) {
         Ids: newItems.join(','),
         MediaTypes: 'Audio,Video',
         EnableTotalRecordCount: false
-
     }).then(function (result) {
         const items = result.Items;
 
@@ -182,30 +190,47 @@ function showPackageInstallNotification(apiClient, installation, status) {
         };
 
         if (status === 'completed') {
-            notification.title = globalize.translate('PackageInstallCompleted', installation.Name, installation.Version);
+            notification.title = globalize.translate(
+                'PackageInstallCompleted',
+                installation.Name,
+                installation.Version
+            );
             notification.vibrate = true;
         } else if (status === 'cancelled') {
-            notification.title = globalize.translate('PackageInstallCancelled', installation.Name, installation.Version);
+            notification.title = globalize.translate(
+                'PackageInstallCancelled',
+                installation.Name,
+                installation.Version
+            );
         } else if (status === 'failed') {
-            notification.title = globalize.translate('PackageInstallFailed', installation.Name, installation.Version);
+            notification.title = globalize.translate(
+                'PackageInstallFailed',
+                installation.Name,
+                installation.Version
+            );
             notification.vibrate = true;
         } else if (status === 'progress') {
-            notification.title = globalize.translate('InstallingPackage', installation.Name, installation.Version);
+            notification.title = globalize.translate(
+                'InstallingPackage',
+                installation.Name,
+                installation.Version
+            );
 
-            notification.actions =
-                [
-                    {
-                        action: 'cancel-install',
-                        title: globalize.translate('ButtonCancel'),
-                        icon: NotificationIcon
-                    }
-                ];
+            notification.actions = [
+                {
+                    action: 'cancel-install',
+                    title: globalize.translate('ButtonCancel'),
+                    icon: NotificationIcon
+                }
+            ];
 
             notification.data.id = installation.id;
         }
 
         if (status === 'progress') {
-            const percentComplete = Math.round(installation.PercentComplete || 0);
+            const percentComplete = Math.round(
+                installation.PercentComplete || 0
+            );
 
             notification.body = percentComplete + '% complete.';
         }
@@ -220,27 +245,46 @@ Events.on(serverNotifications, 'LibraryChanged', function (e, apiClient, data) {
     onLibraryChanged(data, apiClient);
 });
 
-Events.on(serverNotifications, 'PackageInstallationCompleted', function (e, apiClient, data) {
-    showPackageInstallNotification(apiClient, data, 'completed');
-});
+Events.on(
+    serverNotifications,
+    'PackageInstallationCompleted',
+    function (e, apiClient, data) {
+        showPackageInstallNotification(apiClient, data, 'completed');
+    }
+);
 
-Events.on(serverNotifications, 'PackageInstallationFailed', function (e, apiClient, data) {
-    showPackageInstallNotification(apiClient, data, 'failed');
-});
+Events.on(
+    serverNotifications,
+    'PackageInstallationFailed',
+    function (e, apiClient, data) {
+        showPackageInstallNotification(apiClient, data, 'failed');
+    }
+);
 
-Events.on(serverNotifications, 'PackageInstallationCancelled', function (e, apiClient, data) {
-    showPackageInstallNotification(apiClient, data, 'cancelled');
-});
+Events.on(
+    serverNotifications,
+    'PackageInstallationCancelled',
+    function (e, apiClient, data) {
+        showPackageInstallNotification(apiClient, data, 'cancelled');
+    }
+);
 
-Events.on(serverNotifications, 'PackageInstalling', function (e, apiClient, data) {
-    showPackageInstallNotification(apiClient, data, 'progress');
-});
+Events.on(
+    serverNotifications,
+    'PackageInstalling',
+    function (e, apiClient, data) {
+        showPackageInstallNotification(apiClient, data, 'progress');
+    }
+);
 
 Events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient) {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,
-        title: globalize.translate('ServerNameIsShuttingDown', apiClient.serverInfo().Name)
+        title: globalize.translate(
+            'ServerNameIsShuttingDown',
+            apiClient.serverInfo().Name
+        )
     };
     showNotification(notification, 0, apiClient);
 });
@@ -249,7 +293,10 @@ Events.on(serverNotifications, 'ServerRestarting', function (e, apiClient) {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,
-        title: globalize.translate('ServerNameIsRestarting', apiClient.serverInfo().Name)
+        title: globalize.translate(
+            'ServerNameIsRestarting',
+            apiClient.serverInfo().Name
+        )
     };
     showNotification(notification, 0, apiClient);
 });
@@ -258,18 +305,19 @@ Events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,
-        title: globalize.translate('PleaseRestartServerName', apiClient.serverInfo().Name)
+        title: globalize.translate(
+            'PleaseRestartServerName',
+            apiClient.serverInfo().Name
+        )
     };
 
-    notification.actions =
-        [
-            {
-                action: 'restart',
-                title: globalize.translate('Restart'),
-                icon: NotificationIcon
-            }
-        ];
+    notification.actions = [
+        {
+            action: 'restart',
+            title: globalize.translate('Restart'),
+            icon: NotificationIcon
+        }
+    ];
 
     showNotification(notification, 0, apiClient);
 });
-

@@ -28,7 +28,9 @@ const MainDrawerContent = () => {
     const userViews = userViewsData?.Items || [];
     const webConfig = useWebConfig();
 
-    const isHomeSelected = location.pathname === '/home' && (!location.search || location.search === '?tab=0');
+    const isHomeSelected =
+        location.pathname === '/home' &&
+        (!location.search || location.search === '?tab=0');
 
     return (
         <>
@@ -50,17 +52,19 @@ const MainDrawerContent = () => {
                         <ListItemIcon>
                             <Favorite />
                         </ListItemIcon>
-                        <ListItemText primary={globalize.translate('Favorites')} />
+                        <ListItemText
+                            primary={globalize.translate('Favorites')}
+                        />
                     </ListItemLink>
                 </ListItem>
             </List>
 
             {/* CUSTOM LINKS */}
-            {(!!webConfig.menuLinks && webConfig.menuLinks.length > 0) && (
+            {!!webConfig.menuLinks && webConfig.menuLinks.length > 0 && (
                 <>
                     <Divider />
                     <List>
-                        {webConfig.menuLinks.map(menuLink => (
+                        {webConfig.menuLinks.map((menuLink) => (
                             <ListItem
                                 key={`${menuLink.name}_${menuLink.url}`}
                                 disablePadding
@@ -89,15 +93,22 @@ const MainDrawerContent = () => {
                     <List
                         aria-labelledby='libraries-subheader'
                         subheader={
-                            <ListSubheader component='div' id='libraries-subheader'>
+                            <ListSubheader
+                                component='div'
+                                id='libraries-subheader'
+                            >
                                 {globalize.translate('HeaderLibraries')}
                             </ListSubheader>
                         }
                     >
-                        {userViews.map(view => (
+                        {userViews.map((view) => (
                             <ListItem key={view.Id} disablePadding>
                                 <ListItemLink
-                                    to={appRouter.getRouteUrl(view, { context: view.CollectionType }).substring(1)}
+                                    to={appRouter
+                                        .getRouteUrl(view, {
+                                            context: view.CollectionType
+                                        })
+                                        .substring(1)}
                                 >
                                     <ListItemIcon>
                                         <LibraryIcon item={view} />

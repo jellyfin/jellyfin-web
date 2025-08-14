@@ -1,4 +1,3 @@
-
 /**
  * Useful DOM utilities.
  */
@@ -11,7 +10,9 @@
  * @returns {HTMLElement} Parent with specified attribute value.
  */
 export function parentWithAttribute(elem, name, value) {
-    while ((value ? elem.getAttribute(name) !== value : !elem.getAttribute(name))) {
+    while (
+        value ? elem.getAttribute(name) !== value : !elem.getAttribute(name)
+    ) {
         elem = elem.parentNode;
 
         if (!elem?.getAttribute) {
@@ -173,8 +174,12 @@ export function getWindowSize() {
 
         if (!windowSizeEventsBound) {
             windowSizeEventsBound = true;
-            addEventListener(window, 'orientationchange', clearWindowSize, { passive: true });
-            addEventListener(window, 'resize', clearWindowSize, { passive: true });
+            addEventListener(window, 'orientationchange', clearWindowSize, {
+                passive: true
+            });
+            addEventListener(window, 'resize', clearWindowSize, {
+                passive: true
+            });
         }
     }
 
@@ -192,7 +197,9 @@ const standardWidths = [480, 720, 1280, 1440, 1920, 2560, 3840, 5120, 7680];
  */
 export function getScreenWidth() {
     let width = Number.isFinite(window.innerWidth) ? window.innerWidth : 3840;
-    const height = Number.isFinite(window.innerHeight) ? window.innerHeight : 2160;
+    const height = Number.isFinite(window.innerHeight)
+        ? window.innerHeight
+        : 2160;
 
     if (height > width) {
         width = height * (16.0 / 9.0);
@@ -219,10 +226,10 @@ export function whichAnimationEvent() {
 
     const el = document.createElement('div');
     const animations = {
-        'animation': 'animationend',
-        'OAnimation': 'oAnimationEnd',
-        'MozAnimation': 'animationend',
-        'WebkitAnimation': 'webkitAnimationEnd'
+        animation: 'animationend',
+        OAnimation: 'oAnimationEnd',
+        MozAnimation: 'animationend',
+        WebkitAnimation: 'webkitAnimationEnd'
     };
     for (const t in animations) {
         if (el.style[t] !== undefined) {
@@ -240,7 +247,9 @@ export function whichAnimationEvent() {
  * @returns {string} Name of animation cancel event.
  */
 export function whichAnimationCancelEvent() {
-    return whichAnimationEvent().replace('animationend', 'animationcancel').replace('AnimationEnd', 'AnimationCancel');
+    return whichAnimationEvent()
+        .replace('animationend', 'animationcancel')
+        .replace('AnimationEnd', 'AnimationCancel');
 }
 
 /**
@@ -259,10 +268,10 @@ export function whichTransitionEvent() {
 
     const el = document.createElement('div');
     const transitions = {
-        'transition': 'transitionend',
-        'OTransition': 'oTransitionEnd',
-        'MozTransition': 'transitionend',
-        'WebkitTransition': 'webkitTransitionEnd'
+        transition: 'transitionend',
+        OTransition: 'oTransitionEnd',
+        MozTransition: 'transitionend',
+        WebkitTransition: 'webkitTransitionEnd'
     };
     for (const t in transitions) {
         if (el.style[t] !== undefined) {

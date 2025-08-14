@@ -14,9 +14,9 @@ import globalize from 'lib/globalize';
 import type { PluginDetails } from '../types/PluginDetails';
 
 interface PluginDetailsTableProps extends PaperProps {
-    isPluginLoading: boolean
-    isRepositoryLoading: boolean
-    pluginDetails?: PluginDetails
+    isPluginLoading: boolean;
+    isRepositoryLoading: boolean;
+    pluginDetails?: PluginDetails;
 }
 
 const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
@@ -33,11 +33,9 @@ const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
                         {globalize.translate('LabelStatus')}
                     </TableCell>
                     <TableCell>
-                        {
-                            (isPluginLoading && <Skeleton />)
-                            || pluginDetails?.status
-                            || globalize.translate('LabelNotInstalled')
-                        }
+                        {(isPluginLoading && <Skeleton />) ||
+                            pluginDetails?.status ||
+                            globalize.translate('LabelNotInstalled')}
                     </TableCell>
                 </TableRow>
                 <TableRow>
@@ -45,10 +43,8 @@ const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
                         {globalize.translate('LabelVersion')}
                     </TableCell>
                     <TableCell>
-                        {
-                            (isPluginLoading && <Skeleton />)
-                            || pluginDetails?.version?.version
-                        }
+                        {(isPluginLoading && <Skeleton />) ||
+                            pluginDetails?.version?.version}
                     </TableCell>
                 </TableRow>
                 <TableRow>
@@ -56,11 +52,9 @@ const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
                         {globalize.translate('LabelDeveloper')}
                     </TableCell>
                     <TableCell>
-                        {
-                            (isRepositoryLoading && <Skeleton />)
-                            || pluginDetails?.owner
-                            || globalize.translate('Unknown')
-                        }
+                        {(isRepositoryLoading && <Skeleton />) ||
+                            pluginDetails?.owner ||
+                            globalize.translate('Unknown')}
                     </TableCell>
                 </TableRow>
                 <TableRow
@@ -70,12 +64,11 @@ const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
                         {globalize.translate('LabelRepository')}
                     </TableCell>
                     <TableCell>
-                        {
-                            (isRepositoryLoading && <Skeleton />)
-                            || (pluginDetails?.status && pluginDetails?.canUninstall === false
-                                && globalize.translate('LabelBundled')
-                            )
-                            || (pluginDetails?.version?.repositoryUrl && (
+                        {(isRepositoryLoading && <Skeleton />) ||
+                            (pluginDetails?.status &&
+                                pluginDetails?.canUninstall === false &&
+                                globalize.translate('LabelBundled')) ||
+                            (pluginDetails?.version?.repositoryUrl && (
                                 <Link
                                     component={RouterLink}
                                     to={pluginDetails.version.repositoryUrl}
@@ -84,9 +77,8 @@ const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
                                 >
                                     {pluginDetails.version.repositoryName}
                                 </Link>
-                            ))
-                            || globalize.translate('Unknown')
-                        }
+                            )) ||
+                            globalize.translate('Unknown')}
                     </TableCell>
                 </TableRow>
             </TableBody>

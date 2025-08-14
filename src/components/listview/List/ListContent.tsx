@@ -43,7 +43,6 @@ const ListContent: FC<ListContentProps> = ({
             enableContentWrapper={enableContentWrapper}
             enableOverview={enableOverview}
         >
-
             {!clickEntireItem && listOptions.dragHandle && (
                 <DragHandleIcon className='listViewDragHandle listItemIcon listItemIcon-transparent' />
             )}
@@ -89,10 +88,9 @@ const ListContent: FC<ListContentProps> = ({
                 />
             )}
 
-            {listOptions.recordButton
-                && (item.Type === 'Timer' || item.Type === BaseItemKind.Program) && (
-                indicator.getTimerIndicator('listItemAside')
-            )}
+            {listOptions.recordButton &&
+                (item.Type === 'Timer' || item.Type === BaseItemKind.Program) &&
+                indicator.getTimerIndicator('listItemAside')}
 
             {!clickEntireItem && (
                 <ListViewUserDataButtons

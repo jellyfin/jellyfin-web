@@ -43,13 +43,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 interface SearchInputProps extends InputBaseProps {
-    label?: string
+    label?: string;
 }
 
-const SearchInput: FC<SearchInputProps> = ({
-    label,
-    ...props
-}) => {
+const SearchInput: FC<SearchInputProps> = ({ label, ...props }) => {
     return (
         <SearchContainer>
             <SearchIconWrapper>

@@ -8,7 +8,10 @@ interface MoreVertIconButtonProps {
     iconClassName?: string;
 }
 
-const MoreVertIconButton: FC<MoreVertIconButtonProps> = ({ className, iconClassName }) => {
+const MoreVertIconButton: FC<MoreVertIconButtonProps> = ({
+    className,
+    iconClassName
+}) => {
     return (
         <IconButton
             className={className}

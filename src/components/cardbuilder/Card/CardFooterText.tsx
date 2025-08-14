@@ -13,11 +13,11 @@ const shouldShowDetailsMenu = (
     isOuterFooter: boolean
 ) => {
     return (
-        cardOptions.showDetailsMenu
-        && isOuterFooter
-        && cardOptions.cardLayout
-        && layoutManager.mobile
-        && cardOptions.cardFooterAside !== 'none'
+        cardOptions.showDetailsMenu &&
+        isOuterFooter &&
+        cardOptions.cardLayout &&
+        layoutManager.mobile &&
+        cardOptions.cardFooterAside !== 'none'
     );
 };
 
@@ -27,10 +27,7 @@ interface LogoComponentProps {
 
 const LogoComponent: FC<LogoComponentProps> = ({ logoUrl }) => (
     <Box className='cardFooterLogo'>
-        <Image
-            imgUrl={logoUrl}
-            containImage
-        />
+        <Image imgUrl={logoUrl} containImage />
     </Box>
 );
 
@@ -64,9 +61,9 @@ const CardFooterText: FC<CardFooterTextProps> = ({
         imgUrl,
         overlayText,
         isOuterFooter,
-        cssClass: cardOptions.centerText ?
-            'cardText cardTextCentered' :
-            'cardText',
+        cssClass: cardOptions.centerText
+            ? 'cardText cardTextCentered'
+            : 'cardText',
         forceLines: !cardOptions.overlayText,
         maxLines: cardOptions.lines
     });

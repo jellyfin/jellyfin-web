@@ -18,7 +18,10 @@ class CastSenderApi {
                     resolve();
                 };
 
-                fileref.setAttribute('src', 'https://www.gstatic.com/cv/js/sender/v1/cast_sender.js');
+                fileref.setAttribute(
+                    'src',
+                    'https://www.gstatic.com/cv/js/sender/v1/cast_sender.js'
+                );
                 document.querySelector('head').appendChild(fileref);
             });
         }

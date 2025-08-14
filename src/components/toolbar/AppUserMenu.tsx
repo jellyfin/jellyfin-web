@@ -27,41 +27,37 @@ import Dashboard from 'utils/dashboard';
 export const ID = 'app-user-menu';
 
 interface AppUserMenuProps extends MenuProps {
-    onMenuClose: () => void
+    onMenuClose: () => void;
 }
 
-const AppUserMenu: FC<AppUserMenuProps> = ({
-    anchorEl,
-    open,
-    onMenuClose
-}) => {
+const AppUserMenu: FC<AppUserMenuProps> = ({ anchorEl, open, onMenuClose }) => {
     const { user } = useApi();
     const { data: isQuickConnectEnabled } = useQuickConnectEnabled();
 
     const onDownloadManagerClick = useCallback(() => {
         shell.openDownloadManager();
         onMenuClose();
-    }, [ onMenuClose ]);
+    }, [onMenuClose]);
 
     const onClientSettingsClick = useCallback(() => {
         shell.openClientSettings();
         onMenuClose();
-    }, [ onMenuClose ]);
+    }, [onMenuClose]);
 
     const onExitAppClick = useCallback(() => {
         appHost.exit();
         onMenuClose();
-    }, [ onMenuClose ]);
+    }, [onMenuClose]);
 
     const onLogoutClick = useCallback(() => {
         Dashboard.logout();
         onMenuClose();
-    }, [ onMenuClose ]);
+    }, [onMenuClose]);
 
     const onSelectServerClick = useCallback(() => {
         Dashboard.selectServer();
         onMenuClose();
-    }, [ onMenuClose ]);
+    }, [onMenuClose]);
 
     return (
         <Menu
@@ -87,9 +83,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 <ListItemIcon>
                     <AccountCircle />
                 </ListItemIcon>
-                <ListItemText>
-                    {globalize.translate('Profile')}
-                </ListItemText>
+                <ListItemText>{globalize.translate('Profile')}</ListItemText>
             </MenuItem>
             <MenuItem
                 component={Link}
@@ -99,19 +93,14 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 <ListItemIcon>
                     <Settings />
                 </ListItemIcon>
-                <ListItemText>
-                    {globalize.translate('Settings')}
-                </ListItemText>
+                <ListItemText>{globalize.translate('Settings')}</ListItemText>
             </MenuItem>
 
-            {(appHost.supports(AppFeature.DownloadManagement) || appHost.supports(AppFeature.ClientSettings)) && (
-                <Divider />
-            )}
+            {(appHost.supports(AppFeature.DownloadManagement) ||
+                appHost.supports(AppFeature.ClientSettings)) && <Divider />}
 
             {appHost.supports(AppFeature.DownloadManagement) && (
-                <MenuItem
-                    onClick={onDownloadManagerClick}
-                >
+                <MenuItem onClick={onDownloadManagerClick}>
                     <ListItemIcon>
                         <Download />
                     </ListItemIcon>
@@ -122,9 +111,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
             )}
 
             {appHost.supports(AppFeature.ClientSettings) && (
-                <MenuItem
-                    onClick={onClientSettingsClick}
-                >
+                <MenuItem onClick={onClientSettingsClick}>
                     <ListItemIcon>
                         <AppSettingsAlt />
                     </ListItemIcon>
@@ -135,7 +122,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
             )}
 
             {/* ADMIN LINKS */}
-            {user?.Policy?.IsAdministrator && ([
+            {user?.Policy?.IsAdministrator && [
                 <Divider key='admin-links-divider' />,
                 <MenuItem
                     key='admin-dashboard-link'
@@ -143,11 +130,12 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     to='/dashboard'
                     onClick={onMenuClose}
                 >
-
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('TabDashboard')} />
+                    <ListItemText
+                        primary={globalize.translate('TabDashboard')}
+                    />
                 </MenuItem>,
                 <MenuItem
                     key='admin-metadata-link'
@@ -158,9 +146,11 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     <ListItemIcon>
                         <Edit />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('MetadataManager')} />
+                    <ListItemText
+                        primary={globalize.translate('MetadataManager')}
+                    />
                 </MenuItem>
-            ])}
+            ]}
 
             <Divider />
             {isQuickConnectEnabled && (
@@ -179,9 +169,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
             )}
 
             {appHost.supports(AppFeature.MultiServer) && (
-                <MenuItem
-                    onClick={onSelectServerClick}
-                >
+                <MenuItem onClick={onSelectServerClick}>
                     <ListItemIcon>
                         <Storage />
                     </ListItemIcon>
@@ -191,9 +179,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </MenuItem>
             )}
 
-            <MenuItem
-                onClick={onLogoutClick}
-            >
+            <MenuItem onClick={onLogoutClick}>
                 <ListItemIcon>
                     <Logout />
                 </ListItemIcon>
@@ -202,12 +188,9 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </ListItemText>
             </MenuItem>
 
-            {appHost.supports(AppFeature.ExitMenu) && ([
+            {appHost.supports(AppFeature.ExitMenu) && [
                 <Divider key='exit-menu-divider' />,
-                <MenuItem
-                    key='exit-menu-button'
-                    onClick={onExitAppClick}
-                >
+                <MenuItem key='exit-menu-button' onClick={onExitAppClick}>
                     <ListItemIcon>
                         <Close />
                     </ListItemIcon>
@@ -215,7 +198,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                         {globalize.translate('ButtonExitApp')}
                     </ListItemText>
                 </MenuItem>
-            ])}
+            ]}
         </Menu>
     );
 };

@@ -5,7 +5,9 @@ export const findBestConfigurationPage = (
     pluginId: string
 ) => {
     // Find candidates matching the plugin id
-    const candidates = configurationPages.filter(c => c.PluginId === pluginId);
+    const candidates = configurationPages.filter(
+        (c) => c.PluginId === pluginId
+    );
 
     // If none are found, return undefined
     if (candidates.length === 0) return;
@@ -13,7 +15,7 @@ export const findBestConfigurationPage = (
     if (candidates.length === 1) return candidates[0];
 
     // Prefer the first candidate with the EnableInMainMenu flag for consistency
-    const menuCandidate = candidates.find(c => !!c.EnableInMainMenu);
+    const menuCandidate = candidates.find((c) => !!c.EnableInMainMenu);
     if (menuCandidate) return menuCandidate;
 
     // Fallback to the first match

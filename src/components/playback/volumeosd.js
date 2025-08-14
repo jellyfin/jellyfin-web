@@ -1,4 +1,3 @@
-
 import { playbackManager } from './playbackmanager';
 import dom from '../../utils/dom';
 import browser from '../../scripts/browser';
@@ -17,9 +16,11 @@ let enableAnimation;
 function getOsdElementHtml() {
     let html = '';
 
-    html += '<span class="material-icons iconOsdIcon volume_up" aria-hidden="true"></span>';
+    html +=
+        '<span class="material-icons iconOsdIcon volume_up" aria-hidden="true"></span>';
 
-    html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner"></div></div>';
+    html +=
+        '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner"></div></div>';
 
     return html;
 }
@@ -89,9 +90,14 @@ function hideOsd() {
             requestAnimationFrame(function () {
                 elem.classList.add('iconOsd-hidden');
 
-                dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
-                    once: true
-                });
+                dom.addEventListener(
+                    elem,
+                    dom.whichTransitionEvent(),
+                    onHideComplete,
+                    {
+                        once: true
+                    }
+                );
             });
         } else {
             onHideComplete.call(elem);

@@ -38,13 +38,15 @@ function playThemeMedia(items, ownerId) {
             };
         });
 
-        playbackManager.play({
-            items: currentThemeItems,
-            fullscreen: false,
-            enableRemotePlayers: false
-        }).then(function () {
-            currentOwnerId = ownerId;
-        });
+        playbackManager
+            .play({
+                items: currentThemeItems,
+                fullscreen: false,
+                enableRemotePlayers: false
+            })
+            .then(function () {
+                currentOwnerId = ownerId;
+            });
     } else {
         stopIfPlaying();
     }
@@ -82,11 +84,9 @@ async function loadThemeMedia(serverId, itemId) {
     const userId = apiClient.getCurrentUserId();
 
     try {
-        const item = await queryClient.fetchQuery(getItemQuery(
-            api,
-            itemId,
-            userId
-        ));
+        const item = await queryClient.fetchQuery(
+            getItemQuery(api, itemId, userId)
+        );
 
         if (item.CollectionType) {
             stopIfPlaying();
@@ -105,7 +105,11 @@ async function loadThemeMedia(serverId, itemId) {
             sortBy: [ItemSortBy.Random]
         });
 
-        const result = userSettings.enableThemeVideos() && themeMedia.ThemeVideosResult?.Items?.length ? themeMedia.ThemeVideosResult : themeMedia.ThemeSongsResult;
+        const result =
+            userSettings.enableThemeVideos() &&
+            themeMedia.ThemeVideosResult?.Items?.length
+                ? themeMedia.ThemeVideosResult
+                : themeMedia.ThemeSongsResult;
 
         if (result.OwnerId !== currentOwnerId) {
             playThemeMedia(result.Items, result.OwnerId);
@@ -115,21 +119,25 @@ async function loadThemeMedia(serverId, itemId) {
     }
 }
 
-document.addEventListener('viewshow', e => {
-    const { serverId, id } = e.detail?.params || {};
-    if (serverId && id) {
-        void loadThemeMedia(serverId, id);
-        return;
-    }
+document.addEventListener(
+    'viewshow',
+    (e) => {
+        const { serverId, id } = e.detail?.params || {};
+        if (serverId && id) {
+            void loadThemeMedia(serverId, id);
+            return;
+        }
 
-    const viewOptions = e.detail.options || {};
+        const viewOptions = e.detail.options || {};
 
-    if (viewOptions.supportsThemeMedia) {
-        // Do nothing here, allow it to keep playing
-    } else {
-        playThemeMedia([], null);
-    }
-}, true);
+        if (viewOptions.supportsThemeMedia) {
+            // Do nothing here, allow it to keep playing
+        } else {
+            playThemeMedia([], null);
+        }
+    },
+    true
+);
 
 Events.on(playbackManager, 'playbackstart', (_e, player) => {
     const item = playbackManager.currentItem(player);

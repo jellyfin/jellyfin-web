@@ -14,15 +14,20 @@ ScrollerPrototype.createdCallback = function () {
 };
 
 function initCenterFocus(elem, scrollerInstance) {
-    dom.addEventListener(elem, 'focus', function (e) {
-        const focused = focusManager.focusableParent(e.target);
-        if (focused) {
-            scrollerInstance.toCenter(focused);
+    dom.addEventListener(
+        elem,
+        'focus',
+        function (e) {
+            const focused = focusManager.focusableParent(e.target);
+            if (focused) {
+                scrollerInstance.toCenter(focused);
+            }
+        },
+        {
+            capture: true,
+            passive: true
         }
-    }, {
-        capture: true,
-        passive: true
-    });
+    );
 }
 
 ScrollerPrototype.scrollToBeginning = function () {
@@ -75,28 +80,51 @@ ScrollerPrototype.getScrollSlider = function () {
 
 ScrollerPrototype.addScrollEventListener = function (fn, options) {
     if (this.scroller) {
-        dom.addEventListener(this.scroller.getScrollFrame(), this.scroller.getScrollEventName(), fn, options);
+        dom.addEventListener(
+            this.scroller.getScrollFrame(),
+            this.scroller.getScrollEventName(),
+            fn,
+            options
+        );
     }
 };
 
 ScrollerPrototype.removeScrollEventListener = function (fn, options) {
     if (this.scroller) {
-        dom.removeEventListener(this.scroller.getScrollFrame(), this.scroller.getScrollEventName(), fn, options);
+        dom.removeEventListener(
+            this.scroller.getScrollFrame(),
+            this.scroller.getScrollEventName(),
+            fn,
+            options
+        );
     }
 };
 
 function onInputCommand(e) {
     const cmd = e.detail.command;
     if (cmd === 'end') {
-        focusManager.focusLast(this, '.' + this.getAttribute('data-navcommands'));
+        focusManager.focusLast(
+            this,
+            '.' + this.getAttribute('data-navcommands')
+        );
         e.preventDefault();
         e.stopPropagation();
     } else if (cmd === 'pageup') {
-        focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), -12);
+        focusManager.moveFocus(
+            e.target,
+            this,
+            '.' + this.getAttribute('data-navcommands'),
+            -12
+        );
         e.preventDefault();
         e.stopPropagation();
     } else if (cmd === 'pagedown') {
-        focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), 12);
+        focusManager.moveFocus(
+            e.target,
+            this,
+            '.' + this.getAttribute('data-navcommands'),
+            12
+        );
         e.preventDefault();
         e.stopPropagation();
     }
@@ -116,7 +144,10 @@ ScrollerPrototype.attachedCallback = function () {
     }
 
     const scrollFrame = this;
-    const enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
+    const enableScrollButtons =
+        layoutManager.desktop &&
+        horizontal &&
+        this.getAttribute('data-scrollbuttons') !== 'false';
 
     const options = {
         horizontal: horizontal,
@@ -129,10 +160,17 @@ ScrollerPrototype.attachedCallback = function () {
         elasticBounds: 1,
         dragHandle: 1,
         autoImmediate: true,
-        skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
-        dispatchScrollEvent: enableScrollButtons || this.getAttribute('data-scrollevent') === 'true',
-        hideScrollbar: enableScrollButtons || this.getAttribute('data-hidescrollbar') === 'true',
-        allowNativeSmoothScroll: this.getAttribute('data-allownativesmoothscroll') === 'true' && !enableScrollButtons,
+        skipSlideToWhenVisible:
+            this.getAttribute('data-skipfocuswhenvisible') === 'true',
+        dispatchScrollEvent:
+            enableScrollButtons ||
+            this.getAttribute('data-scrollevent') === 'true',
+        hideScrollbar:
+            enableScrollButtons ||
+            this.getAttribute('data-hidescrollbar') === 'true',
+        allowNativeSmoothScroll:
+            this.getAttribute('data-allownativesmoothscroll') === 'true' &&
+            !enableScrollButtons,
         allowNativeScroll: !enableScrollButtons,
         forceHideScrollbars: enableScrollButtons,
         // In edge, with the native scroll, the content jumps around when hovering over the buttons
@@ -155,7 +193,10 @@ ScrollerPrototype.attachedCallback = function () {
 
 function loadScrollButtons(buttonsScroller) {
     import('../emby-scrollbuttons/emby-scrollbuttons').then(() => {
-        buttonsScroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
+        buttonsScroller.insertAdjacentHTML(
+            'beforebegin',
+            '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>'
+        );
     });
 }
 
@@ -195,4 +236,3 @@ document.registerElement('emby-scroller', {
     prototype: ScrollerPrototype,
     extends: 'div'
 });
-

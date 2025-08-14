@@ -31,9 +31,11 @@ function displayContent(cmd, apiClient) {
 }
 
 function playTrailers(apiClient, itemId) {
-    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-        playbackManager.playTrailers(item);
-    });
+    apiClient
+        .getItem(apiClient.getCurrentUserId(), itemId)
+        .then(function (item) {
+            playbackManager.playTrailers(item);
+        });
 }
 
 function processGeneralCommand(cmd, apiClient) {
@@ -99,11 +101,15 @@ function processGeneralCommand(cmd, apiClient) {
             break;
         case 'SetAudioStreamIndex':
             notifyApp();
-            playbackManager.setAudioStreamIndex(parseInt(cmd.Arguments.Index, 10));
+            playbackManager.setAudioStreamIndex(
+                parseInt(cmd.Arguments.Index, 10)
+            );
             break;
         case 'SetSubtitleStreamIndex':
             notifyApp();
-            playbackManager.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index, 10));
+            playbackManager.setSubtitleStreamIndex(
+                parseInt(cmd.Arguments.Index, 10)
+            );
             break;
         case 'ToggleFullscreen':
             inputManager.handleCommand('togglefullscreen');
@@ -132,7 +138,9 @@ function processGeneralCommand(cmd, apiClient) {
             focusManager.sendText(cmd.Arguments.String);
             break;
         default:
-            console.debug('processGeneralCommand does not recognize: ' + cmd.Name);
+            console.debug(
+                'processGeneralCommand does not recognize: ' + cmd.Name
+            );
             break;
     }
 
@@ -147,9 +155,15 @@ function onMessageReceived(e, msg) {
         notifyApp();
         const serverId = apiClient.serverInfo().Id;
         if (msg.Data.PlayCommand === 'PlayNext') {
-            playbackManager.queueNext({ ids: msg.Data.ItemIds, serverId: serverId });
+            playbackManager.queueNext({
+                ids: msg.Data.ItemIds,
+                serverId: serverId
+            });
         } else if (msg.Data.PlayCommand === 'PlayLast') {
-            playbackManager.queue({ ids: msg.Data.ItemIds, serverId: serverId });
+            playbackManager.queue({
+                ids: msg.Data.ItemIds,
+                serverId: serverId
+            });
         } else {
             playbackManager.play({
                 ids: msg.Data.ItemIds,
@@ -184,8 +198,15 @@ function onMessageReceived(e, msg) {
         processGeneralCommand(cmd, apiClient);
     } else if (msg.MessageType === 'UserDataChanged') {
         if (msg.Data.UserId === apiClient.getCurrentUserId()) {
-            for (let i = 0, length = msg.Data.UserDataList.length; i < length; i++) {
-                Events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
+            for (
+                let i = 0, length = msg.Data.UserDataList.length;
+                i < length;
+                i++
+            ) {
+                Events.trigger(serverNotifications, 'UserDataChanged', [
+                    apiClient,
+                    msg.Data.UserDataList[i]
+                ]);
             }
         }
     } else if (msg.MessageType === 'SyncPlayCommand') {
@@ -193,7 +214,10 @@ function onMessageReceived(e, msg) {
     } else if (msg.MessageType === 'SyncPlayGroupUpdate') {
         SyncPlay?.Manager.processGroupUpdate(msg.Data, apiClient);
     } else {
-        Events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
+        Events.trigger(serverNotifications, msg.MessageType, [
+            apiClient,
+            msg.Data
+        ]);
     }
 }
 function bindEvents(apiClient) {

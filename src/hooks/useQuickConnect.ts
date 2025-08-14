@@ -11,15 +11,16 @@ const fetchQuickConnectEnabled = async (
     const { api } = apiContext;
     if (!api) throw new Error('No API instance available');
 
-    const response = await getQuickConnectApi(api)
-        .getQuickConnectEnabled(options);
+    const response =
+        await getQuickConnectApi(api).getQuickConnectEnabled(options);
     return response.data;
 };
 
 export const useQuickConnectEnabled = () => {
     const currentApi = useApi();
     return useQuery({
-        queryKey: [ 'QuickConnect', 'Enabled' ],
-        queryFn: ({ signal }) => fetchQuickConnectEnabled(currentApi, { signal })
+        queryKey: ['QuickConnect', 'Enabled'],
+        queryFn: ({ signal }) =>
+            fetchQuickConnectEnabled(currentApi, { signal })
     });
 };

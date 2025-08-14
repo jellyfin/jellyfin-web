@@ -18,7 +18,9 @@ const statusFiltersOptions = [
 interface FiltersStatusProps {
     viewType: LibraryTab;
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
+    setLibraryViewSettings: React.Dispatch<
+        React.SetStateAction<LibraryViewSettings>
+    >;
 }
 
 const FiltersStatus: FC<FiltersStatusProps> = ({
@@ -32,9 +34,9 @@ const FiltersStatus: FC<FiltersStatusProps> = ({
             const value = event.target.value as ItemFilter;
             const existingStatus = libraryViewSettings?.Filters?.Status ?? [];
 
-            const updatedStatus = existingStatus.includes(value) ?
-                existingStatus.filter((filter) => filter !== value) :
-                [...existingStatus, value];
+            const updatedStatus = existingStatus.includes(value)
+                ? existingStatus.filter((filter) => filter !== value)
+                : [...existingStatus, value];
 
             setLibraryViewSettings((prevState) => ({
                 ...prevState,
@@ -52,13 +54,13 @@ const FiltersStatus: FC<FiltersStatusProps> = ({
         const visibleFiltersStatus: ItemFilter[] = [ItemFilter.IsFavorite];
 
         if (
-            viewType !== LibraryTab.Albums
-            && viewType !== LibraryTab.Artists
-            && viewType !== LibraryTab.AlbumArtists
-            && viewType !== LibraryTab.Songs
-            && viewType !== LibraryTab.Channels
-            && viewType !== LibraryTab.PhotoAlbums
-            && viewType !== LibraryTab.Photos
+            viewType !== LibraryTab.Albums &&
+            viewType !== LibraryTab.Artists &&
+            viewType !== LibraryTab.AlbumArtists &&
+            viewType !== LibraryTab.Songs &&
+            viewType !== LibraryTab.Channels &&
+            viewType !== LibraryTab.PhotoAlbums &&
+            viewType !== LibraryTab.Photos
         ) {
             visibleFiltersStatus.push(ItemFilter.IsUnplayed);
             visibleFiltersStatus.push(ItemFilter.IsPlayed);
@@ -71,14 +73,18 @@ const FiltersStatus: FC<FiltersStatusProps> = ({
     return (
         <FormGroup>
             {statusFiltersOptions
-                .filter((filter) => getVisibleFiltersStatus().includes(filter.value))
+                .filter((filter) =>
+                    getVisibleFiltersStatus().includes(filter.value)
+                )
                 .map((filter) => (
                     <FormControlLabel
                         key={filter.value}
                         control={
                             <Checkbox
                                 checked={
-                                    !!libraryViewSettings?.Filters?.Status?.includes(filter.value)
+                                    !!libraryViewSettings?.Filters?.Status?.includes(
+                                        filter.value
+                                    )
                                 }
                                 onChange={onFiltersStatusChange}
                                 value={filter.value}

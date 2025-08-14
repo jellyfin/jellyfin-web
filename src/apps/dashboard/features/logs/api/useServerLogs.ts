@@ -14,7 +14,7 @@ export const useServerLogs = () => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ 'ServerLogs' ],
+        queryKey: ['ServerLogs'],
         queryFn: ({ signal }) => fetchServerLogs(api!, { signal }),
         enabled: !!api
     });

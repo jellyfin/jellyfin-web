@@ -16,10 +16,15 @@ interface NextUpPreferencesProps {
     values: DisplaySettingsValues;
 }
 
-export function NextUpPreferences({ onChange, values }: Readonly<NextUpPreferencesProps>) {
+export function NextUpPreferences({
+    onChange,
+    values
+}: Readonly<NextUpPreferencesProps>) {
     return (
         <Stack spacing={3}>
-            <Typography variant='h2'>{globalize.translate('NextUp')}</Typography>
+            <Typography variant='h2'>
+                {globalize.translate('NextUp')}
+            </Typography>
 
             <FormControl fullWidth>
                 <TextField

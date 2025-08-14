@@ -43,7 +43,7 @@ function getLetterButton(l, vertical) {
 }
 
 function mapLetters(letters, vertical) {
-    return letters.map(l => {
+    return letters.map((l) => {
         return getLetterButton(l, vertical);
     });
 }
@@ -80,7 +80,34 @@ function render(element, options) {
         html += mapLetters(letters, vertical).join('');
     }
 
-    letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    letters = [
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'F',
+        'G',
+        'H',
+        'I',
+        'J',
+        'K',
+        'L',
+        'M',
+        'N',
+        'O',
+        'P',
+        'Q',
+        'R',
+        'S',
+        'T',
+        'U',
+        'V',
+        'W',
+        'X',
+        'Y',
+        'Z'
+    ];
     html += mapLetters(letters, vertical).join('');
 
     if (options.mode === 'keyboard') {
@@ -133,26 +160,37 @@ export class AlphaPicker {
         }
 
         function onAlphaPickerInKeyboardModeClick(e) {
-            const alphaPickerButton = dom.parentWithClass(e.target, 'alphaPickerButton');
+            const alphaPickerButton = dom.parentWithClass(
+                e.target,
+                'alphaPickerButton'
+            );
 
             if (alphaPickerButton) {
                 const value = alphaPickerButton.getAttribute('data-value');
 
-                element.dispatchEvent(new CustomEvent('alphavalueclicked', {
-                    cancelable: false,
-                    detail: {
-                        value
-                    }
-                }));
+                element.dispatchEvent(
+                    new CustomEvent('alphavalueclicked', {
+                        cancelable: false,
+                        detail: {
+                            value
+                        }
+                    })
+                );
             }
         }
 
         function onAlphaPickerClick(e) {
-            const alphaPickerButton = dom.parentWithClass(e.target, 'alphaPickerButton');
+            const alphaPickerButton = dom.parentWithClass(
+                e.target,
+                'alphaPickerButton'
+            );
 
             if (alphaPickerButton) {
                 const value = alphaPickerButton.getAttribute('data-value');
-                if ((this._currentValue || '').toUpperCase() === value.toUpperCase()) {
+                if (
+                    (this._currentValue || '').toUpperCase() ===
+                    value.toUpperCase()
+                ) {
                     this.value(null, true);
                 } else {
                     this.value(value, true);
@@ -166,7 +204,10 @@ export class AlphaPicker {
                 alphaFocusTimeout = null;
             }
 
-            const alphaPickerButton = dom.parentWithClass(e.target, 'alphaPickerButton');
+            const alphaPickerButton = dom.parentWithClass(
+                e.target,
+                'alphaPickerButton'
+            );
 
             if (alphaPickerButton) {
                 alphaFocusedElement = alphaPickerButton;
@@ -192,26 +233,54 @@ export class AlphaPicker {
         this.enabled = function (enabled) {
             if (enabled) {
                 if (itemsContainer) {
-                    itemsContainer.addEventListener('focus', onItemsFocusIn, true);
+                    itemsContainer.addEventListener(
+                        'focus',
+                        onItemsFocusIn,
+                        true
+                    );
                 }
 
                 if (options.mode === 'keyboard') {
-                    element.addEventListener('click', onAlphaPickerInKeyboardModeClick);
+                    element.addEventListener(
+                        'click',
+                        onAlphaPickerInKeyboardModeClick
+                    );
                 }
 
                 if (options.valueChangeEvent !== 'click') {
-                    element.addEventListener('focus', onAlphaPickerFocusIn, true);
+                    element.addEventListener(
+                        'focus',
+                        onAlphaPickerFocusIn,
+                        true
+                    );
                 } else {
-                    element.addEventListener('click', onAlphaPickerClick.bind(this));
+                    element.addEventListener(
+                        'click',
+                        onAlphaPickerClick.bind(this)
+                    );
                 }
             } else {
                 if (itemsContainer) {
-                    itemsContainer.removeEventListener('focus', onItemsFocusIn, true);
+                    itemsContainer.removeEventListener(
+                        'focus',
+                        onItemsFocusIn,
+                        true
+                    );
                 }
 
-                element.removeEventListener('click', onAlphaPickerInKeyboardModeClick);
-                element.removeEventListener('focus', onAlphaPickerFocusIn, true);
-                element.removeEventListener('click', onAlphaPickerClick.bind(this));
+                element.removeEventListener(
+                    'click',
+                    onAlphaPickerInKeyboardModeClick
+                );
+                element.removeEventListener(
+                    'focus',
+                    onAlphaPickerFocusIn,
+                    true
+                );
+                element.removeEventListener(
+                    'click',
+                    onAlphaPickerClick.bind(this)
+                );
             }
         };
 
@@ -235,7 +304,9 @@ export class AlphaPicker {
                     selected = element.querySelector(`.${selectedButtonClass}`);
 
                     try {
-                        btn = element.querySelector(`.alphaPickerButton[data-value='${value}']`);
+                        btn = element.querySelector(
+                            `.alphaPickerButton[data-value='${value}']`
+                        );
                     } catch (err) {
                         console.error('error in querySelector:', err);
                     }
@@ -258,12 +329,14 @@ export class AlphaPicker {
         }
 
         if (applyValue) {
-            element.dispatchEvent(new CustomEvent('alphavaluechanged', {
-                cancelable: false,
-                detail: {
-                    value
-                }
-            }));
+            element.dispatchEvent(
+                new CustomEvent('alphavaluechanged', {
+                    cancelable: false,
+                    detail: {
+                        value
+                    }
+                })
+            );
         }
 
         return this._currentValue;

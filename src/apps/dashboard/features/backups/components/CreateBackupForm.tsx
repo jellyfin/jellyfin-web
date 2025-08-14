@@ -14,27 +14,34 @@ import FormGroup from '@mui/material/FormGroup';
 import DialogContentText from '@mui/material/DialogContentText';
 
 type IProps = {
-    open: boolean,
-    onClose?: () => void,
-    onCreate: (backupOptions: BackupOptionsDto) => void
+    open: boolean;
+    onClose?: () => void;
+    onCreate: (backupOptions: BackupOptionsDto) => void;
 };
 
-const CreateBackupForm: FunctionComponent<IProps> = ({ open, onClose, onCreate }) => {
-    const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+const CreateBackupForm: FunctionComponent<IProps> = ({
+    open,
+    onClose,
+    onCreate
+}) => {
+    const onSubmit = useCallback(
+        (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
 
-        const formData = new FormData(e.currentTarget);
+            const formData = new FormData(e.currentTarget);
 
-        const data = Object.fromEntries(formData.entries());
+            const data = Object.fromEntries(formData.entries());
 
-        const backupOptions: BackupOptionsDto = {
-            'Metadata': data.Metadata?.toString() === 'on',
-            'Trickplay': data.Trickplay?.toString() === 'on',
-            'Subtitles': data.Subtitles?.toString() === 'on'
-        };
+            const backupOptions: BackupOptionsDto = {
+                Metadata: data.Metadata?.toString() === 'on',
+                Trickplay: data.Trickplay?.toString() === 'on',
+                Subtitles: data.Subtitles?.toString() === 'on'
+            };
 
-        onCreate(backupOptions);
-    }, [ onCreate ]);
+            onCreate(backupOptions);
+        },
+        [onCreate]
+    );
 
     return (
         <Dialog
@@ -49,7 +56,9 @@ const CreateBackupForm: FunctionComponent<IProps> = ({ open, onClose, onCreate }
                 }
             }}
         >
-            <DialogTitle>{globalize.translate('ButtonCreateBackup')}</DialogTitle>
+            <DialogTitle>
+                {globalize.translate('ButtonCreateBackup')}
+            </DialogTitle>
 
             <DialogContent>
                 <Stack spacing={2}>
@@ -110,10 +119,9 @@ const CreateBackupForm: FunctionComponent<IProps> = ({ open, onClose, onCreate }
             </DialogContent>
 
             <DialogActions>
-                <Button
-                    onClick={onClose}
-                    variant='text'
-                >{globalize.translate('ButtonCancel')}</Button>
+                <Button onClick={onClose} variant='text'>
+                    {globalize.translate('ButtonCancel')}
+                </Button>
                 <Button type='submit'>{globalize.translate('Create')}</Button>
             </DialogActions>
         </Dialog>

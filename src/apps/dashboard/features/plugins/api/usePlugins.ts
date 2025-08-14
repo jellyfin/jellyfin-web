@@ -7,25 +7,19 @@ import { useApi } from 'hooks/useApi';
 
 import { QueryKey } from './queryKey';
 
-const fetchPlugins = async (
-    api: Api,
-    options?: AxiosRequestConfig
-) => {
-    const response = await getPluginsApi(api)
-        .getPlugins(options);
+const fetchPlugins = async (api: Api, options?: AxiosRequestConfig) => {
+    const response = await getPluginsApi(api).getPlugins(options);
     return response.data;
 };
 
-const getPluginsQuery = (
-    api?: Api
-) => queryOptions({
-    queryKey: [ QueryKey.Plugins ],
-    queryFn: ({ signal }) => fetchPlugins(api!, { signal }),
-    enabled: !!api
-});
+const getPluginsQuery = (api?: Api) =>
+    queryOptions({
+        queryKey: [QueryKey.Plugins],
+        queryFn: ({ signal }) => fetchPlugins(api!, { signal }),
+        enabled: !!api
+    });
 
 export const usePlugins = () => {
     const { api } = useApi();
     return useQuery(getPluginsQuery(api));
 };
-

@@ -10,7 +10,11 @@ interface GenresViewProps {
     itemType: BaseItemKind[];
 }
 
-const GenresView: FC<GenresViewProps> = ({ parentId, collectionType, itemType }) => {
+const GenresView: FC<GenresViewProps> = ({
+    parentId,
+    collectionType,
+    itemType
+}) => {
     return (
         <GenresItemsContainer
             parentId={parentId}

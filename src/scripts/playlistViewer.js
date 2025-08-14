@@ -11,7 +11,9 @@ function getFetchPlaylistItemsFn(apiClient, itemId) {
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
             UserId: apiClient.getCurrentUserId()
         };
-        return apiClient.getJSON(apiClient.getUrl(`Playlists/${itemId}/Items`, query));
+        return apiClient.getJSON(
+            apiClient.getUrl(`Playlists/${itemId}/Items`, query)
+        );
     };
 }
 
@@ -40,9 +42,12 @@ async function init(page, item) {
             playlistId: item.Id,
             userId: apiClient.getCurrentUserId()
         })
-        .catch(err => {
+        .catch((err) => {
             // If a user doesn't have access, then the request will 404 and throw
-            console.info('[PlaylistViewer] Failed to fetch playlist permissions', err);
+            console.info(
+                '[PlaylistViewer] Failed to fetch playlist permissions',
+                err
+            );
             return { data: {} };
         });
     isEditable = !!data.CanEdit;
@@ -56,17 +61,18 @@ async function init(page, item) {
 }
 
 function refresh(page) {
-    page.querySelector('#childrenContent').classList.add('verticalSection-extrabottompadding');
+    page.querySelector('#childrenContent').classList.add(
+        'verticalSection-extrabottompadding'
+    );
     page.querySelector('#childrenContent .itemsContainer').refreshItems();
 }
 
 function render(page, item) {
     if (!page.playlistInit) {
         page.playlistInit = true;
-        init(page, item)
-            .finally(() => {
-                refresh(page);
-            });
+        init(page, item).finally(() => {
+            refresh(page);
+        });
     } else {
         refresh(page);
     }

@@ -29,7 +29,8 @@ export function getDefaultSection(index) {
 function getAllSectionsToShow(userSettings, sectionCount) {
     const sections = [];
     for (let i = 0, length = sectionCount; i < length; i++) {
-        let section = userSettings.get('homesection' + i) || getDefaultSection(i);
+        let section =
+            userSettings.get('homesection' + i) || getDefaultSection(i);
         if (section === 'folders') {
             section = getDefaultSection(0);
         }
@@ -39,14 +40,11 @@ function getAllSectionsToShow(userSettings, sectionCount) {
 
     // Ensure libraries are visible in TV layout
     if (
-        layoutManager.tv
-            && !sections.includes(HomeSectionType.SmallLibraryTiles)
-            && !sections.includes(HomeSectionType.LibraryButtons)
+        layoutManager.tv &&
+        !sections.includes(HomeSectionType.SmallLibraryTiles) &&
+        !sections.includes(HomeSectionType.LibraryButtons)
     ) {
-        return [
-            HomeSectionType.SmallLibraryTiles,
-            ...sections
-        ];
+        return [HomeSectionType.SmallLibraryTiles, ...sections];
     }
 
     return sections;
@@ -56,50 +54,82 @@ export function loadSections(elem, apiClient, user, userSettings) {
     const userId = user.Id || apiClient.getCurrentUserId();
     return queryClient
         .fetchQuery(getUserViewsQuery(toApi(apiClient), userId))
-        .then(result => result.Items || [])
+        .then((result) => result.Items || [])
         .then(function (userViews) {
             let html = '';
 
             if (userViews.length) {
                 const userSectionCount = 10;
                 // TV layout can have an extra section to ensure libraries are visible
-                const totalSectionCount = layoutManager.tv ? userSectionCount + 1 : userSectionCount;
+                const totalSectionCount = layoutManager.tv
+                    ? userSectionCount + 1
+                    : userSectionCount;
                 for (let i = 0; i < totalSectionCount; i++) {
-                    html += '<div class="verticalSection section' + i + '"></div>';
+                    html +=
+                        '<div class="verticalSection section' + i + '"></div>';
                 }
 
                 elem.innerHTML = html;
                 elem.classList.add('homeSectionsContainer');
 
                 const promises = [];
-                const sections = getAllSectionsToShow(userSettings, userSectionCount);
+                const sections = getAllSectionsToShow(
+                    userSettings,
+                    userSectionCount
+                );
                 for (let i = 0; i < sections.length; i++) {
-                    promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
+                    promises.push(
+                        loadSection(
+                            elem,
+                            apiClient,
+                            user,
+                            userSettings,
+                            userViews,
+                            sections,
+                            i
+                        )
+                    );
                 }
 
-                return Promise.all(promises)
-                // Timeout for polyfilled CustomElements (webOS 1.2)
-                    .then(() => new Promise((resolve) => setTimeout(resolve, 0)))
-                    .then(() => {
-                        return resume(elem, {
-                            refresh: true
-                        });
-                    });
+                return (
+                    Promise.all(promises)
+                        // Timeout for polyfilled CustomElements (webOS 1.2)
+                        .then(
+                            () =>
+                                new Promise((resolve) => setTimeout(resolve, 0))
+                        )
+                        .then(() => {
+                            return resume(elem, {
+                                refresh: true
+                            });
+                        })
+                );
             } else {
                 let noLibDescription;
                 if (user.Policy?.IsAdministrator) {
-                    noLibDescription = globalize.translate('NoCreatedLibraries', '<br><a id="button-createLibrary" class="button-link">', '</a>');
+                    noLibDescription = globalize.translate(
+                        'NoCreatedLibraries',
+                        '<br><a id="button-createLibrary" class="button-link">',
+                        '</a>'
+                    );
                 } else {
-                    noLibDescription = globalize.translate('AskAdminToCreateLibrary');
+                    noLibDescription = globalize.translate(
+                        'AskAdminToCreateLibrary'
+                    );
                 }
 
                 html += '<div class="centerMessage padded-left padded-right">';
-                html += '<h2>' + globalize.translate('MessageNothingHere') + '</h2>';
+                html +=
+                    '<h2>' +
+                    globalize.translate('MessageNothingHere') +
+                    '</h2>';
                 html += '<p>' + noLibDescription + '</p>';
                 html += '</div>';
                 elem.innerHTML = html;
 
-                const createNowLink = elem.querySelector('#button-createLibrary');
+                const createNowLink = elem.querySelector(
+                    '#button-createLibrary'
+                );
                 if (createNowLink) {
                     createNowLink.addEventListener('click', function () {
                         Dashboard.navigate('dashboard/libraries');
@@ -131,7 +161,7 @@ export function resume(elem, options) {
     const elems = elem.querySelectorAll('.itemsContainer');
     const promises = [];
 
-    Array.prototype.forEach.call(elems, section => {
+    Array.prototype.forEach.call(elems, (section) => {
         if (section.resume) {
             promises.push(section.resume(options));
         }
@@ -140,7 +170,15 @@ export function resume(elem, options) {
     return Promise.all(promises);
 }
 
-function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
+function loadSection(
+    page,
+    apiClient,
+    user,
+    userSettings,
+    userViews,
+    allSections,
+    index
+) {
     const section = allSections[index];
     const elem = page.querySelector('.section' + index);
     const options = { enableOverflow: enableScrollX() };
@@ -161,11 +199,32 @@ function loadSection(page, apiClient, user, userSettings, userViews, allSections
             loadNextUp(elem, apiClient, userSettings, options);
             break;
         case HomeSectionType.Resume:
-            return loadResume(elem, apiClient, 'HeaderContinueWatching', 'Video', userSettings, options);
+            return loadResume(
+                elem,
+                apiClient,
+                'HeaderContinueWatching',
+                'Video',
+                userSettings,
+                options
+            );
         case HomeSectionType.ResumeAudio:
-            return loadResume(elem, apiClient, 'HeaderContinueListening', 'Audio', userSettings, options);
+            return loadResume(
+                elem,
+                apiClient,
+                'HeaderContinueListening',
+                'Audio',
+                userSettings,
+                options
+            );
         case HomeSectionType.ResumeBook:
-            return loadResume(elem, apiClient, 'HeaderContinueReading', 'Book', userSettings, options);
+            return loadResume(
+                elem,
+                apiClient,
+                'HeaderContinueReading',
+                'Book',
+                userSettings,
+                options
+            );
         case HomeSectionType.SmallLibraryTiles:
             loadLibraryTiles(elem, userViews, options);
             break;
@@ -187,4 +246,3 @@ export default {
     pause,
     resume
 };
-

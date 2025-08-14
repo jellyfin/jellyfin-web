@@ -30,30 +30,28 @@ function downloadRemoteSubtitles(context, id) {
     const url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
 
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-    apiClient.ajax({
+    apiClient
+        .ajax({
+            type: 'POST',
+            url: apiClient.getUrl(url)
+        })
+        .then(function () {
+            hasChanges = true;
 
-        type: 'POST',
-        url: apiClient.getUrl(url)
+            toast(globalize.translate('MessageDownloadQueued'));
 
-    }).then(function () {
-        hasChanges = true;
-
-        toast(globalize.translate('MessageDownloadQueued'));
-
-        focusManager.autoFocus(context);
-    });
+            focusManager.autoFocus(context);
+        });
 }
 
 function deleteLocalSubtitle(context, index) {
     const msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
 
     confirm({
-
         title: globalize.translate('ConfirmDeletion'),
         text: msg,
         confirmText: globalize.translate('Delete'),
         primary: 'delete'
-
     }).then(function () {
         loading.show();
 
@@ -62,15 +60,15 @@ function deleteLocalSubtitle(context, index) {
 
         const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
-        apiClient.ajax({
-
-            type: 'DELETE',
-            url: apiClient.getUrl(url)
-
-        }).then(function () {
-            hasChanges = true;
-            reload(context, apiClient, itemId);
-        });
+        apiClient
+            .ajax({
+                type: 'DELETE',
+                url: apiClient.getUrl(url)
+            })
+            .then(function () {
+                hasChanges = true;
+                reload(context, apiClient, itemId);
+            });
     });
 }
 
@@ -88,43 +86,64 @@ function fillSubtitleList(context, item) {
 
         html += '<div>';
 
-        html += subs.map(function (s) {
-            let itemHtml = '';
+        html += subs
+            .map(function (s) {
+                let itemHtml = '';
 
-            const tagName = layoutManager.tv ? 'button' : 'div';
-            let className = layoutManager.tv && s.Path ? 'listItem listItem-border btnDelete' : 'listItem listItem-border';
+                const tagName = layoutManager.tv ? 'button' : 'div';
+                let className =
+                    layoutManager.tv && s.Path
+                        ? 'listItem listItem-border btnDelete'
+                        : 'listItem listItem-border';
 
-            if (layoutManager.tv) {
-                className += ' listItem-focusscale listItem-button';
-            }
+                if (layoutManager.tv) {
+                    className += ' listItem-focusscale listItem-button';
+                }
 
-            className += ' listItem-noborder';
+                className += ' listItem-noborder';
 
-            itemHtml += '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
+                itemHtml +=
+                    '<' +
+                    tagName +
+                    ' class="' +
+                    className +
+                    '" data-index="' +
+                    s.Index +
+                    '">';
 
-            itemHtml += '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
+                itemHtml +=
+                    '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
 
-            itemHtml += '<div class="listItemBody two-line">';
+                itemHtml += '<div class="listItemBody two-line">';
 
-            itemHtml += '<div>';
-            itemHtml += escapeHtml(s.DisplayTitle || '');
-            itemHtml += '</div>';
+                itemHtml += '<div>';
+                itemHtml += escapeHtml(s.DisplayTitle || '');
+                itemHtml += '</div>';
 
-            if (s.Path) {
-                itemHtml += '<div class="secondary listItemBodyText">' + escapeHtml(s.Path) + '</div>';
-            }
+                if (s.Path) {
+                    itemHtml +=
+                        '<div class="secondary listItemBodyText">' +
+                        escapeHtml(s.Path) +
+                        '</div>';
+                }
 
-            itemHtml += '</a>';
-            itemHtml += '</div>';
+                itemHtml += '</a>';
+                itemHtml += '</div>';
 
-            if (!layoutManager.tv && s.Path) {
-                itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete" aria-hidden="true"></span></button>';
-            }
+                if (!layoutManager.tv && s.Path) {
+                    itemHtml +=
+                        '<button is="paper-icon-button-light" data-index="' +
+                        s.Index +
+                        '" title="' +
+                        globalize.translate('Delete') +
+                        '" class="btnDelete listItemButton"><span class="material-icons delete" aria-hidden="true"></span></button>';
+                }
 
-            itemHtml += '</' + tagName + '>';
+                itemHtml += '</' + tagName + '>';
 
-            return itemHtml;
-        }).join('');
+                return itemHtml;
+            })
+            .join('');
 
         html += '</div>';
     }
@@ -143,7 +162,13 @@ function fillLanguages(context, apiClient, languages) {
     const selectLanguage = context.querySelector('#selectLanguage');
 
     selectLanguage.innerHTML = languages.map(function (l) {
-        return '<option value="' + l.ThreeLetterISOLanguageName + '">' + l.DisplayName + '</option>';
+        return (
+            '<option value="' +
+            l.ThreeLetterISOLanguageName +
+            '">' +
+            l.DisplayName +
+            '</option>'
+        );
     });
 
     const lastLanguage = userSettings.get('subtitleeditor-language');
@@ -188,17 +213,33 @@ function renderSearchResults(context, results) {
         }
 
         const tagName = layoutManager.tv ? 'button' : 'div';
-        let className = layoutManager.tv ? 'listItem listItem-border btnOptions' : 'listItem listItem-border';
+        let className = layoutManager.tv
+            ? 'listItem listItem-border btnOptions'
+            : 'listItem listItem-border';
         if (layoutManager.tv) {
             className += ' listItem-focusscale listItem-button';
         }
 
-        html += '<' + tagName + ' class="' + className + '" data-subid="' + result.Id + '">';
+        html +=
+            '<' +
+            tagName +
+            ' class="' +
+            className +
+            '" data-subid="' +
+            result.Id +
+            '">';
 
-        html += '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
+        html +=
+            '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
 
-        const hasAnyFlags = result.IsHashMatch || result.AiTranslated || result.MachineTranslated || result.Forced || result.HearingImpaired;
-        const bodyClass = result.Comment || hasAnyFlags ? 'three-line' : 'two-line';
+        const hasAnyFlags =
+            result.IsHashMatch ||
+            result.AiTranslated ||
+            result.MachineTranslated ||
+            result.Forced ||
+            result.HearingImpaired;
+        const bodyClass =
+            result.Comment || hasAnyFlags ? 'three-line' : 'two-line';
 
         html += '<div class="listItemBody ' + bodyClass + '">';
 
@@ -206,46 +247,72 @@ function renderSearchResults(context, results) {
         html += '<div class="secondary listItemBodyText">';
 
         if (result.Format) {
-            html += '<span style="margin-right:1em;">' + globalize.translate('FormatValue', result.Format) + '</span>';
+            html +=
+                '<span style="margin-right:1em;">' +
+                globalize.translate('FormatValue', result.Format) +
+                '</span>';
         }
 
         if (result.DownloadCount != null) {
-            html += '<span style="margin-right:1em;">' + globalize.translate('DownloadsValue', result.DownloadCount) + '</span>';
+            html +=
+                '<span style="margin-right:1em;">' +
+                globalize.translate('DownloadsValue', result.DownloadCount) +
+                '</span>';
         }
 
         if (result.FrameRate) {
-            html += '<span>' + globalize.translate('Framerate') + ': ' + result.FrameRate + '</span>';
+            html +=
+                '<span>' +
+                globalize.translate('Framerate') +
+                ': ' +
+                result.FrameRate +
+                '</span>';
         }
 
         html += '</div>';
 
         if (result.Comment) {
-            html += '<div class="secondary listItemBodyText" style="white-space:pre-line;">' + escapeHtml(result.Comment) + '</div>';
+            html +=
+                '<div class="secondary listItemBodyText" style="white-space:pre-line;">' +
+                escapeHtml(result.Comment) +
+                '</div>';
         }
 
         if (hasAnyFlags) {
             html += '<div class="secondary listItemBodyText">';
 
-            const spanOpen = '<span class="inline-flex align-items-center justify-content-center subtitleFeaturePillow">';
+            const spanOpen =
+                '<span class="inline-flex align-items-center justify-content-center subtitleFeaturePillow">';
 
             if (result.IsHashMatch) {
-                html += spanOpen + globalize.translate('PerfectMatch') + '</span>';
+                html +=
+                    spanOpen + globalize.translate('PerfectMatch') + '</span>';
             }
 
             if (result.AiTranslated) {
-                html += spanOpen + globalize.translate('AiTranslated') + '</span>';
+                html +=
+                    spanOpen + globalize.translate('AiTranslated') + '</span>';
             }
 
             if (result.MachineTranslated) {
-                html += spanOpen + globalize.translate('MachineTranslated') + '</span>';
+                html +=
+                    spanOpen +
+                    globalize.translate('MachineTranslated') +
+                    '</span>';
             }
 
             if (result.Forced) {
-                html += spanOpen + globalize.translate('ForeignPartsOnly') + '</span>';
+                html +=
+                    spanOpen +
+                    globalize.translate('ForeignPartsOnly') +
+                    '</span>';
             }
 
             if (result.HearingImpaired) {
-                html += spanOpen + globalize.translate('HearingImpairedShort') + '</span>';
+                html +=
+                    spanOpen +
+                    globalize.translate('HearingImpairedShort') +
+                    '</span>';
             }
 
             html += '</div>';
@@ -254,7 +321,10 @@ function renderSearchResults(context, results) {
         html += '</div>';
 
         if (!layoutManager.tv) {
-            html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><span class="material-icons file_download" aria-hidden="true"></span></button>';
+            html +=
+                '<button type="button" is="paper-icon-button-light" data-subid="' +
+                result.Id +
+                '" class="btnDownload listItemButton"><span class="material-icons file_download" aria-hidden="true"></span></button>';
         }
 
         html += '</' + tagName + '>';
@@ -276,7 +346,9 @@ function searchForSubtitles(context, language) {
     loading.show();
 
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-    const url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
+    const url = apiClient.getUrl(
+        'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language
+    );
 
     apiClient.getJSON(url).then(function (results) {
         renderSearchResults(context, results);
@@ -362,15 +434,16 @@ function showDownloadOptions(button, context, subtitleId) {
     });
 
     import('../actionSheet/actionSheet').then((actionsheet) => {
-        actionsheet.show({
-            items: items,
-            positionTo: button
-
-        }).then(function (id) {
-            if (id === 'download') {
-                downloadRemoteSubtitles(context, subtitleId);
-            }
-        });
+        actionsheet
+            .show({
+                items: items,
+                positionTo: button
+            })
+            .then(function (id) {
+                if (id === 'download') {
+                    downloadRemoteSubtitles(context, subtitleId);
+                }
+            });
     });
 }
 
@@ -386,97 +459,130 @@ function onOpenUploadMenu(e) {
     const selectLanguage = dialog.querySelector('#selectLanguage');
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
-    import('../subtitleuploader/subtitleuploader').then(({ default: subtitleUploader }) => {
-        subtitleUploader.show({
-            languages: {
-                list: selectLanguage.innerHTML,
-                value: selectLanguage.value
-            },
-            itemId: currentItem.Id,
-            serverId: currentItem.ServerId
-        }).then(function (hasChanged) {
-            if (hasChanged) {
-                hasChanges = true;
-                reload(dialog, apiClient, currentItem.Id);
-            }
-        });
-    });
+    import('../subtitleuploader/subtitleuploader').then(
+        ({ default: subtitleUploader }) => {
+            subtitleUploader
+                .show({
+                    languages: {
+                        list: selectLanguage.innerHTML,
+                        value: selectLanguage.value
+                    },
+                    itemId: currentItem.Id,
+                    serverId: currentItem.ServerId
+                })
+                .then(function (hasChanged) {
+                    if (hasChanged) {
+                        hasChanges = true;
+                        reload(dialog, apiClient, currentItem.Id);
+                    }
+                });
+        }
+    );
 }
 
 function showEditorInternal(itemId, serverId) {
     hasChanges = false;
 
     const apiClient = ServerConnections.getApiClient(serverId);
-    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-        const dialogOptions = {
-            removeOnClose: true,
-            scrollY: false
-        };
+    return apiClient
+        .getItem(apiClient.getCurrentUserId(), itemId)
+        .then(function (item) {
+            const dialogOptions = {
+                removeOnClose: true,
+                scrollY: false
+            };
 
-        if (layoutManager.tv) {
-            dialogOptions.size = 'fullscreen';
-        } else {
-            dialogOptions.size = 'small';
-        }
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            } else {
+                dialogOptions.size = 'small';
+            }
 
-        const dlg = dialogHelper.createDialog(dialogOptions);
+            const dlg = dialogHelper.createDialog(dialogOptions);
 
-        dlg.classList.add('formDialog');
-        dlg.classList.add('subtitleEditorDialog');
+            dlg.classList.add('formDialog');
+            dlg.classList.add('subtitleEditorDialog');
 
-        dlg.innerHTML = globalize.translateHtml(template, 'core');
+            dlg.innerHTML = globalize.translateHtml(template, 'core');
 
-        dlg.querySelector('.originalSubtitleFileLabel').innerHTML = globalize.translate('File');
+            dlg.querySelector('.originalSubtitleFileLabel').innerHTML =
+                globalize.translate('File');
 
-        dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
+            dlg.querySelector('.subtitleSearchForm').addEventListener(
+                'submit',
+                onSearchSubmit
+            );
 
-        dlg.querySelector('.btnOpenUploadMenu').addEventListener('click', onOpenUploadMenu);
+            dlg.querySelector('.btnOpenUploadMenu').addEventListener(
+                'click',
+                onOpenUploadMenu
+            );
 
-        const btnSubmit = dlg.querySelector('.btnSubmit');
+            const btnSubmit = dlg.querySelector('.btnSubmit');
 
-        if (layoutManager.tv) {
-            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-            dlg.querySelector('.btnSearchSubtitles').classList.add('hide');
-        } else {
-            btnSubmit.classList.add('hide');
-        }
+            if (layoutManager.tv) {
+                centerFocus(
+                    dlg.querySelector('.formDialogContent'),
+                    false,
+                    true
+                );
+                dlg.querySelector('.btnSearchSubtitles').classList.add('hide');
+            } else {
+                btnSubmit.classList.add('hide');
+            }
 
-        // Don't allow redirection to other websites from the TV layout
-        if (layoutManager.tv || !appHost.supports(AppFeature.ExternalLinks)) {
-            dlg.querySelector('.btnHelp').remove();
-        }
+            // Don't allow redirection to other websites from the TV layout
+            if (
+                layoutManager.tv ||
+                !appHost.supports(AppFeature.ExternalLinks)
+            ) {
+                dlg.querySelector('.btnHelp').remove();
+            }
 
-        const editorContent = dlg.querySelector('.formDialogContent');
+            const editorContent = dlg.querySelector('.formDialogContent');
 
-        dlg.querySelector('.subtitleList').addEventListener('click', onSubtitleListClick);
-        dlg.querySelector('.subtitleResults').addEventListener('click', onSubtitleResultsClick);
+            dlg.querySelector('.subtitleList').addEventListener(
+                'click',
+                onSubtitleListClick
+            );
+            dlg.querySelector('.subtitleResults').addEventListener(
+                'click',
+                onSubtitleResultsClick
+            );
 
-        apiClient.getCultures().then(function (languages) {
-            fillLanguages(editorContent, apiClient, languages);
-        });
-
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
-            dialogHelper.close(dlg);
-        });
-
-        return new Promise(function (resolve, reject) {
-            dlg.addEventListener('close', function () {
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                }
-
-                if (hasChanges) {
-                    resolve();
-                } else {
-                    reject();
-                }
+            apiClient.getCultures().then(function (languages) {
+                fillLanguages(editorContent, apiClient, languages);
             });
 
-            dialogHelper.open(dlg);
+            dlg.querySelector('.btnCancel').addEventListener(
+                'click',
+                function () {
+                    dialogHelper.close(dlg);
+                }
+            );
 
-            reload(editorContent, apiClient, item);
+            return new Promise(function (resolve, reject) {
+                dlg.addEventListener('close', function () {
+                    if (layoutManager.tv) {
+                        centerFocus(
+                            dlg.querySelector('.formDialogContent'),
+                            false,
+                            false
+                        );
+                    }
+
+                    if (hasChanges) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                });
+
+                dialogHelper.open(dlg);
+
+                reload(editorContent, apiClient, item);
+            });
         });
-    });
 }
 
 function showEditor(itemId, serverId) {

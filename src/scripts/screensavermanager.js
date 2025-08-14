@@ -133,4 +133,4 @@ function ScreenSaverManager() {
     setInterval(onInterval, 5000);
 }
 
-export default new ScreenSaverManager;
+export default new ScreenSaverManager();

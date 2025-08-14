@@ -20,7 +20,11 @@ export function getDisplayName(item, options = {}) {
         item = item.ProgramInfo || item;
     }
 
-    let name = ((item.Type === 'Program' || item.Type === 'Recording') && (item.IsSeries || item.EpisodeTitle) ? item.EpisodeTitle : item.Name) || '';
+    let name =
+        ((item.Type === 'Program' || item.Type === 'Recording') &&
+        (item.IsSeries || item.EpisodeTitle)
+            ? item.EpisodeTitle
+            : item.Name) || '';
 
     if (item.Type === 'TvChannel') {
         if (item.ChannelNumber) {
@@ -30,7 +34,14 @@ export function getDisplayName(item, options = {}) {
     }
     if (item.Type === 'Episode' && item.ParentIndexNumber === 0) {
         name = globalize.translate('ValueSpecialEpisodeName', name);
-    } else if ((item.Type === 'Episode' || item.Type === 'Program' || item.Type === 'Recording') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
+    } else if (
+        (item.Type === 'Episode' ||
+            item.Type === 'Program' ||
+            item.Type === 'Recording') &&
+        item.IndexNumber != null &&
+        item.ParentIndexNumber != null &&
+        options.includeIndexNumber !== false
+    ) {
         let displayIndexNumber = item.IndexNumber;
 
         let number = displayIndexNumber;
@@ -48,7 +59,7 @@ export function getDisplayName(item, options = {}) {
         }
 
         if (number) {
-            name = name ? (number + nameSeparator + name) : number;
+            name = name ? number + nameSeparator + name : number;
         }
     }
 
@@ -56,13 +67,28 @@ export function getDisplayName(item, options = {}) {
 }
 
 export function supportsAddingToCollection(item) {
-    const invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer'];
+    const invalidTypes = [
+        'Genre',
+        'MusicGenre',
+        'Studio',
+        'UserView',
+        'CollectionFolder',
+        'Audio',
+        'Program',
+        'Timer',
+        'SeriesTimer'
+    ];
 
     if (item.Type === 'Recording' && item.Status !== 'Completed') {
         return false;
     }
 
-    return !item.CollectionType && invalidTypes.indexOf(item.Type) === -1 && item.MediaType !== 'Photo' && !isLocalItem(item);
+    return (
+        !item.CollectionType &&
+        invalidTypes.indexOf(item.Type) === -1 &&
+        item.MediaType !== 'Photo' &&
+        !isLocalItem(item)
+    );
 }
 
 export function supportsAddingToPlaylist(item) {
@@ -93,7 +119,13 @@ export function supportsAddingToPlaylist(item) {
         return false;
     }
 
-    return item.MediaType || item.IsFolder || item.Type === 'Genre' || item.Type === 'MusicGenre' || item.Type === 'MusicArtist';
+    return (
+        item.MediaType ||
+        item.IsFolder ||
+        item.Type === 'Genre' ||
+        item.Type === 'MusicGenre' ||
+        item.Type === 'MusicArtist'
+    );
 }
 
 export function canEdit(user, item) {
@@ -127,26 +159,32 @@ export function canEdit(user, item) {
 }
 
 export function isLocalItem(item) {
-    return item?.Id && typeof item.Id === 'string' && item.Id.indexOf('local') === 0;
+    return (
+        item?.Id &&
+        typeof item.Id === 'string' &&
+        item.Id.indexOf('local') === 0
+    );
 }
 
-export function canIdentify (user, item) {
+export function canIdentify(user, item) {
     const itemType = item.Type;
 
-    return (itemType === 'Movie'
-        || itemType === 'Trailer'
-        || itemType === 'Series'
-        || itemType === 'BoxSet'
-        || itemType === 'Person'
-        || itemType === 'Book'
-        || itemType === 'MusicAlbum'
-        || itemType === 'MusicArtist'
-        || itemType === 'MusicVideo')
-        && user.Policy.IsAdministrator
-        && !isLocalItem(item);
+    return (
+        (itemType === 'Movie' ||
+            itemType === 'Trailer' ||
+            itemType === 'Series' ||
+            itemType === 'BoxSet' ||
+            itemType === 'Person' ||
+            itemType === 'Book' ||
+            itemType === 'MusicAlbum' ||
+            itemType === 'MusicArtist' ||
+            itemType === 'MusicVideo') &&
+        user.Policy.IsAdministrator &&
+        !isLocalItem(item)
+    );
 }
 
-export function canEditImages (user, item) {
+export function canEditImages(user, item) {
     const itemType = item.Type;
 
     if (item.MediaType === 'Photo') {
@@ -161,7 +199,12 @@ export function canEditImages (user, item) {
         return false;
     }
 
-    return itemType !== 'Timer' && itemType !== 'SeriesTimer' && canEdit(user, item) && !isLocalItem(item);
+    return (
+        itemType !== 'Timer' &&
+        itemType !== 'SeriesTimer' &&
+        canEdit(user, item) &&
+        !isLocalItem(item)
+    );
 }
 
 export async function canEditPlaylist(user, item) {
@@ -169,11 +212,12 @@ export async function canEditPlaylist(user, item) {
     const api = toApi(apiClient);
 
     try {
-        const { data: permissions } = await getPlaylistsApi(api)
-            .getPlaylistUser({
-                userId: user.Id,
-                playlistId: item.Id
-            });
+        const { data: permissions } = await getPlaylistsApi(
+            api
+        ).getPlaylistUser({
+            userId: user.Id,
+            playlistId: item.Id
+        });
 
         return !!permissions.CanEdit;
     } catch (err) {
@@ -183,20 +227,24 @@ export async function canEditPlaylist(user, item) {
     return false;
 }
 
-export function canEditSubtitles (user, item) {
+export function canEditSubtitles(user, item) {
     if (item.MediaType !== MediaType.Video) {
         return false;
     }
     const itemType = item.Type;
-    if (itemType === BaseItemKind.Recording && item.Status !== RecordingStatus.Completed) {
+    if (
+        itemType === BaseItemKind.Recording &&
+        item.Status !== RecordingStatus.Completed
+    ) {
         return false;
     }
-    if (itemType === BaseItemKind.TvChannel
-        || itemType === BaseItemKind.Program
-        || itemType === 'Timer'
-        || itemType === 'SeriesTimer'
-        || itemType === BaseItemKind.UserRootFolder
-        || itemType === BaseItemKind.UserView
+    if (
+        itemType === BaseItemKind.TvChannel ||
+        itemType === BaseItemKind.Program ||
+        itemType === 'Timer' ||
+        itemType === 'SeriesTimer' ||
+        itemType === BaseItemKind.UserRootFolder ||
+        itemType === BaseItemKind.UserView
     ) {
         return false;
     }
@@ -206,11 +254,10 @@ export function canEditSubtitles (user, item) {
     if (item.LocationType === LocationType.Virtual) {
         return false;
     }
-    return user.Policy.EnableSubtitleManagement
-           || user.Policy.IsAdministrator;
+    return user.Policy.EnableSubtitleManagement || user.Policy.IsAdministrator;
 }
 
-export function canEditLyrics (user, item) {
+export function canEditLyrics(user, item) {
     if (item.MediaType !== MediaType.Audio) {
         return false;
     }
@@ -220,7 +267,7 @@ export function canEditLyrics (user, item) {
     return user.Policy.IsAdministrator;
 }
 
-export function canShare (item, user) {
+export function canShare(item, user) {
     if (item.Type === 'Program') {
         return false;
     }
@@ -239,14 +286,22 @@ export function canShare (item, user) {
     if (isLocalItem(item)) {
         return false;
     }
-    return user.Policy.EnablePublicSharing && appHost.supports(AppFeature.Sharing);
+    return (
+        user.Policy.EnablePublicSharing && appHost.supports(AppFeature.Sharing)
+    );
 }
 
-export function enableDateAddedDisplay (item) {
-    return !item.IsFolder && item.MediaType && item.Type !== 'Program' && item.Type !== 'TvChannel' && item.Type !== 'Trailer';
+export function enableDateAddedDisplay(item) {
+    return (
+        !item.IsFolder &&
+        item.MediaType &&
+        item.Type !== 'Program' &&
+        item.Type !== 'TvChannel' &&
+        item.Type !== 'Trailer'
+    );
 }
 
-export function canMarkPlayed (item) {
+export function canMarkPlayed(item) {
     if (item.Type === 'Program') {
         return false;
     }
@@ -264,24 +319,28 @@ export function canMarkPlayed (item) {
         }
     }
 
-    return item.Type === 'Series'
-        || item.Type === 'Season'
-        || item.Type === 'BoxSet'
-        || item.MediaType === 'Book'
-        || item.MediaType === 'Recording';
+    return (
+        item.Type === 'Series' ||
+        item.Type === 'Season' ||
+        item.Type === 'BoxSet' ||
+        item.MediaType === 'Book' ||
+        item.MediaType === 'Recording'
+    );
 }
 
-export function canRate (item) {
-    return item.Type !== 'Program'
-        && item.Type !== 'Timer'
-        && item.Type !== 'SeriesTimer'
-        && item.Type !== 'CollectionFolder'
-        && item.Type !== 'UserView'
-        && item.Type !== 'Channel'
-        && item.UserData;
+export function canRate(item) {
+    return (
+        item.Type !== 'Program' &&
+        item.Type !== 'Timer' &&
+        item.Type !== 'SeriesTimer' &&
+        item.Type !== 'CollectionFolder' &&
+        item.Type !== 'UserView' &&
+        item.Type !== 'Channel' &&
+        item.UserData
+    );
 }
 
-export function canConvert (item, user) {
+export function canConvert(item, user) {
     if (!user.Policy.EnableMediaConversion) {
         return false;
     }
@@ -291,7 +350,11 @@ export function canConvert (item, user) {
     }
 
     const mediaType = item.MediaType;
-    if (mediaType === 'Book' || mediaType === 'Photo' || mediaType === 'Audio') {
+    if (
+        mediaType === 'Book' ||
+        mediaType === 'Photo' ||
+        mediaType === 'Audio'
+    ) {
         return false;
     }
 
@@ -301,7 +364,14 @@ export function canConvert (item, user) {
     }
 
     const type = item.Type;
-    if (type === 'Channel' || type === 'Person' || type === 'Year' || type === 'Program' || type === 'Timer' || type === 'SeriesTimer') {
+    if (
+        type === 'Channel' ||
+        type === 'Person' ||
+        type === 'Year' ||
+        type === 'Program' ||
+        type === 'Timer' ||
+        type === 'SeriesTimer'
+    ) {
         return false;
     }
 
@@ -312,30 +382,38 @@ export function canConvert (item, user) {
     return !item.IsPlaceHolder;
 }
 
-export function canRefreshMetadata (item, user) {
+export function canRefreshMetadata(item, user) {
     if (user.Policy.IsAdministrator) {
         const collectionType = item.CollectionType;
         if (collectionType === CollectionType.Livetv) {
             return false;
         }
 
-        return item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program'
-            && item.Type !== 'TvChannel'
-            && !(item.Type === 'Recording' && item.Status !== 'Completed')
-            && !isLocalItem(item);
+        return (
+            item.Type !== 'Timer' &&
+            item.Type !== 'SeriesTimer' &&
+            item.Type !== 'Program' &&
+            item.Type !== 'TvChannel' &&
+            !(item.Type === 'Recording' && item.Status !== 'Completed') &&
+            !isLocalItem(item)
+        );
     }
 
     return false;
 }
 
-export function supportsMediaSourceSelection (item) {
+export function supportsMediaSourceSelection(item) {
     if (item.MediaType !== 'Video') {
         return false;
     }
     if (item.Type === 'TvChannel') {
         return false;
     }
-    if (!item.MediaSources || (item.MediaSources.length === 1 && item.MediaSources[0].Type === 'Placeholder')) {
+    if (
+        !item.MediaSources ||
+        (item.MediaSources.length === 1 &&
+            item.MediaSources[0].Type === 'Placeholder')
+    ) {
         return false;
     }
 
@@ -346,7 +424,7 @@ export function supportsMediaSourceSelection (item) {
     return !item.SourceType || item.SourceType === 'Library';
 }
 
-export function sortTracks (trackA, trackB) {
+export function sortTracks(trackA, trackB) {
     let cmp = trackA.IsExternal - trackB.IsExternal;
     if (cmp != 0) return cmp;
     cmp = trackB.IsForced - trackA.IsForced;

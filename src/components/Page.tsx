@@ -1,17 +1,24 @@
-import React, { type FC, type PropsWithChildren, type HTMLAttributes, useEffect, useRef, StrictMode } from 'react';
+import React, {
+    type FC,
+    type PropsWithChildren,
+    type HTMLAttributes,
+    useEffect,
+    useRef,
+    StrictMode
+} from 'react';
 
 import autoFocuser from 'components/autoFocuser';
 import viewManager from 'components/viewManager/viewManager';
 
 type CustomPageProps = {
-    id: string, // id is required for libraryMenu
-    title?: string,
-    isBackButtonEnabled?: boolean,
-    isMenuButtonEnabled?: boolean,
-    isNowPlayingBarEnabled?: boolean,
-    isThemeMediaSupported?: boolean,
-    shouldAutoFocus?: boolean,
-    backDropType?: string,
+    id: string; // id is required for libraryMenu
+    title?: string;
+    isBackButtonEnabled?: boolean;
+    isMenuButtonEnabled?: boolean;
+    isNowPlayingBarEnabled?: boolean;
+    isThemeMediaSupported?: boolean;
+    shouldAutoFocus?: boolean;
+    backDropType?: string;
 };
 
 export type PageProps = CustomPageProps & HTMLAttributes<HTMLDivElement>;
@@ -52,20 +59,24 @@ const Page: FC<PropsWithChildren<PageProps>> = ({
             }
         };
         // viewbeforeshow - switches between the admin dashboard and standard themes
-        element.current?.dispatchEvent(new CustomEvent('viewbeforeshow', event));
+        element.current?.dispatchEvent(
+            new CustomEvent('viewbeforeshow', event)
+        );
         // pagebeforeshow - hides tabs on tables pages in libraryMenu
-        element.current?.dispatchEvent(new CustomEvent('pagebeforeshow', event));
+        element.current?.dispatchEvent(
+            new CustomEvent('pagebeforeshow', event)
+        );
         // viewshow - updates state of appRouter
         element.current?.dispatchEvent(new CustomEvent('viewshow', event));
         // pageshow - updates header/navigation in libraryMenu
         element.current?.dispatchEvent(new CustomEvent('pageshow', event));
-    }, [ element, isNowPlayingBarEnabled, isThemeMediaSupported ]);
+    }, [element, isNowPlayingBarEnabled, isThemeMediaSupported]);
 
     useEffect(() => {
         if (shouldAutoFocus) {
             autoFocuser.autoFocus(element.current);
         }
-    }, [ shouldAutoFocus ]);
+    }, [shouldAutoFocus]);
 
     return (
         <StrictMode>

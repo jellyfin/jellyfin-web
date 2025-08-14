@@ -7,7 +7,7 @@ import { ApiClient } from 'jellyfin-apiclient';
  * @returns {Api} An equivalent SDK Api instance.
  */
 export const toApi = (apiClient: ApiClient): Api => {
-    return (new Jellyfin({
+    return new Jellyfin({
         clientInfo: {
             name: apiClient.appName(),
             version: apiClient.appVersion()
@@ -16,8 +16,5 @@ export const toApi = (apiClient: ApiClient): Api => {
             name: apiClient.deviceName(),
             id: apiClient.deviceId()
         }
-    })).createApi(
-        apiClient.serverAddress(),
-        apiClient.accessToken()
-    );
+    }).createApi(apiClient.serverAddress(), apiClient.accessToken());
 };

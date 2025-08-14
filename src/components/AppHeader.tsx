@@ -1,12 +1,10 @@
 import React, { FC, useEffect } from 'react';
 
 interface AppHeaderParams {
-    isHidden?: boolean
+    isHidden?: boolean;
 }
 
-const AppHeader: FC<AppHeaderParams> = ({
-    isHidden = false
-}) => {
+const AppHeader: FC<AppHeaderParams> = ({ isHidden = false }) => {
     useEffect(() => {
         // Initialize the UI components after first render
         void import('../scripts/libraryMenu');

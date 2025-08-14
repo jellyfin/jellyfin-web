@@ -12,36 +12,51 @@ function getBoundingClientRect(elem: Element) {
     }
 }
 
-export function getPosition(scrollContainer: HTMLElement, item: HTMLElement, horizontal: boolean) {
+export function getPosition(
+    scrollContainer: HTMLElement,
+    item: HTMLElement,
+    horizontal: boolean
+) {
     const slideeOffset = getBoundingClientRect(scrollContainer);
     const itemOffset = getBoundingClientRect(item);
 
-    let offset = horizontal ? itemOffset.left - slideeOffset.left : itemOffset.top - slideeOffset.top;
+    let offset = horizontal
+        ? itemOffset.left - slideeOffset.left
+        : itemOffset.top - slideeOffset.top;
     let size = horizontal ? itemOffset.width : itemOffset.height;
     if (!size && size !== 0) {
         size = item[horizontal ? 'offsetWidth' : 'offsetHeight'];
     }
 
-    const currentStart = horizontal ? scrollContainer.scrollLeft : scrollContainer.scrollTop;
+    const currentStart = horizontal
+        ? scrollContainer.scrollLeft
+        : scrollContainer.scrollTop;
 
     offset += currentStart;
 
-    const frameSize = horizontal ? scrollContainer.offsetWidth : scrollContainer.offsetHeight;
+    const frameSize = horizontal
+        ? scrollContainer.offsetWidth
+        : scrollContainer.offsetHeight;
 
     const currentEnd = currentStart + frameSize;
 
-    const isVisible = offset >= currentStart && (offset + size) <= currentEnd;
+    const isVisible = offset >= currentStart && offset + size <= currentEnd;
 
     return {
         start: offset,
-        center: (offset - (frameSize / 2) + (size / 2)),
+        center: offset - frameSize / 2 + size / 2,
         end: offset - frameSize + size,
         size: size,
         isVisible: isVisible
     };
 }
 
-export function toCenter(container: HTMLElement, elem: HTMLElement, horizontal: boolean, skipWhenVisible?: boolean) {
+export function toCenter(
+    container: HTMLElement,
+    elem: HTMLElement,
+    horizontal: boolean,
+    skipWhenVisible?: boolean
+) {
     const pos = getPosition(container, elem, horizontal);
 
     if (skipWhenVisible && pos.isVisible) {
@@ -61,7 +76,12 @@ export function toCenter(container: HTMLElement, elem: HTMLElement, horizontal: 
     }
 }
 
-export function toStart(container: HTMLElement, elem: HTMLElement, horizontal: boolean, skipWhenVisible?: boolean) {
+export function toStart(
+    container: HTMLElement,
+    elem: HTMLElement,
+    horizontal: boolean,
+    skipWhenVisible?: boolean
+) {
     const pos = getPosition(container, elem, horizontal);
 
     if (skipWhenVisible && pos.isVisible) {
@@ -81,7 +101,11 @@ export function toStart(container: HTMLElement, elem: HTMLElement, horizontal: b
     }
 }
 
-function centerOnFocus(e: Event, scrollSlider: HTMLElement, horizontal: boolean) {
+function centerOnFocus(
+    e: Event,
+    scrollSlider: HTMLElement,
+    horizontal: boolean
+) {
     const focused = focusManager.focusableParent(e.target);
 
     if (focused) {
@@ -99,7 +123,10 @@ function centerOnFocusVertical(this: HTMLElement, e: Event) {
 
 export const centerFocus = {
     on: function (element: Element, horizontal: boolean) {
-        element.setAttribute(`data-scroll-mode-${horizontal ? 'x' : 'y'}`, 'custom');
+        element.setAttribute(
+            `data-scroll-mode-${horizontal ? 'x' : 'y'}`,
+            'custom'
+        );
 
         if (horizontal) {
             dom.addEventListener(element, 'focus', centerOnFocusHorizontal, {

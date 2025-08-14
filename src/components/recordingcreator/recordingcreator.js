@@ -67,10 +67,18 @@ function getImageUrl(item, apiClient, imageHeight) {
     return null;
 }
 
-function renderRecording(context, defaultTimer, program, apiClient, refreshRecordingStateOnly) {
+function renderRecording(
+    context,
+    defaultTimer,
+    program,
+    apiClient,
+    refreshRecordingStateOnly
+) {
     if (!refreshRecordingStateOnly) {
         const imgUrl = getImageUrl(program, apiClient, 200);
-        const imageContainer = context.querySelector('.recordingDialog-imageContainer');
+        const imageContainer = context.querySelector(
+            '.recordingDialog-imageContainer'
+        );
 
         if (imgUrl) {
             imageContainer.innerHTML = `<img src="${PlaceholderImage}" data-src="${imgUrl}" class="recordingDialog-img lazy" />`;
@@ -82,24 +90,33 @@ function renderRecording(context, defaultTimer, program, apiClient, refreshRecor
             imageContainer.classList.add('hide');
         }
 
-        context.querySelector('.recordingDialog-itemName').innerText = program.Name;
-        context.querySelector('.formDialogHeaderTitle').innerText = program.Name;
-        context.querySelector('.itemGenres').innerText = (program.Genres || []).join(' / ');
-        context.querySelector('.itemOverview').innerText = program.Overview || '';
+        context.querySelector('.recordingDialog-itemName').innerText =
+            program.Name;
+        context.querySelector('.formDialogHeaderTitle').innerText =
+            program.Name;
+        context.querySelector('.itemGenres').innerText = (
+            program.Genres || []
+        ).join(' / ');
+        context.querySelector('.itemOverview').innerText =
+            program.Overview || '';
 
         const formDialogFooter = context.querySelector('.formDialogFooter');
         const now = new Date();
-        if (now >= datetime.parseISO8601Date(program.StartDate, true) && now < datetime.parseISO8601Date(program.EndDate, true)) {
+        if (
+            now >= datetime.parseISO8601Date(program.StartDate, true) &&
+            now < datetime.parseISO8601Date(program.EndDate, true)
+        ) {
             formDialogFooter.classList.remove('hide');
         } else {
             formDialogFooter.classList.add('hide');
         }
 
-        context.querySelector('.itemMiscInfoPrimary').innerHTML = mediaInfo.getPrimaryMediaInfoHtml(program);
+        context.querySelector('.itemMiscInfoPrimary').innerHTML =
+            mediaInfo.getPrimaryMediaInfoHtml(program);
     }
 
-    context.querySelector('.itemMiscInfoSecondary').innerHTML = mediaInfo.getSecondaryMediaInfoHtml(program, {
-    });
+    context.querySelector('.itemMiscInfoSecondary').innerHTML =
+        mediaInfo.getSecondaryMediaInfoHtml(program, {});
 
     loading.hide();
 }
@@ -109,14 +126,25 @@ function reload(context, programId, serverId, refreshRecordingStateOnly) {
 
     const apiClient = ServerConnections.getApiClient(serverId);
 
-    const promise1 = apiClient.getNewLiveTvTimerDefaults({ programId: programId });
-    const promise2 = apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId());
+    const promise1 = apiClient.getNewLiveTvTimerDefaults({
+        programId: programId
+    });
+    const promise2 = apiClient.getLiveTvProgram(
+        programId,
+        apiClient.getCurrentUserId()
+    );
 
     Promise.all([promise1, promise2]).then(function (responses) {
         const defaults = responses[0];
         const program = responses[1];
 
-        renderRecording(context, defaults, program, apiClient, refreshRecordingStateOnly);
+        renderRecording(
+            context,
+            defaults,
+            program,
+            apiClient,
+            refreshRecordingStateOnly
+        );
     });
 }
 
@@ -124,12 +152,14 @@ function executeCloseAction(action, programId, serverId) {
     if (action === 'play') {
         const apiClient = ServerConnections.getApiClient(serverId);
 
-        apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
-            playbackManager.play({
-                ids: [item.ChannelId],
-                serverId: serverId
+        apiClient
+            .getLiveTvProgram(programId, apiClient.getCurrentUserId())
+            .then(function (item) {
+                playbackManager.play({
+                    ids: [item.ChannelId],
+                    serverId: serverId
+                });
             });
-        });
     }
 }
 
@@ -168,7 +198,11 @@ function showEditor(itemId, serverId) {
         }
 
         dlg.addEventListener('close', function () {
-            Events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
+            Events.off(
+                currentRecordingFields,
+                'recordingchanged',
+                onRecordingChanged
+            );
             executeCloseAction(closeAction, itemId, serverId);
 
             if (currentRecordingFields?.hasChanged()) {
@@ -179,7 +213,10 @@ function showEditor(itemId, serverId) {
         });
 
         if (layoutManager.tv) {
-            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+            scrollHelper.centerFocus.on(
+                dlg.querySelector('.formDialogContent'),
+                false
+            );
         }
 
         init(dlg);
@@ -192,7 +229,11 @@ function showEditor(itemId, serverId) {
             serverId: serverId
         });
 
-        Events.on(currentRecordingFields, 'recordingchanged', onRecordingChanged);
+        Events.on(
+            currentRecordingFields,
+            'recordingchanged',
+            onRecordingChanged
+        );
 
         dialogHelper.open(dlg);
     });

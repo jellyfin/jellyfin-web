@@ -43,9 +43,19 @@ class SyncPlayPlugin implements Plugin {
         if (apiClient) SyncPlay.Manager.init(apiClient);
 
         // FIXME: Multiple apiClients?
-        Events.on(ServerConnections, 'apiclientcreated', (_, newApiClient) => SyncPlay.Manager.init(newApiClient));
-        Events.on(ServerConnections, 'localusersignedin', () => SyncPlay.Manager.updateApiClient(ServerConnections.currentApiClient()));
-        Events.on(ServerConnections, 'localusersignedout', () => SyncPlay.Manager.updateApiClient(ServerConnections.currentApiClient()));
+        Events.on(ServerConnections, 'apiclientcreated', (_, newApiClient) =>
+            SyncPlay.Manager.init(newApiClient)
+        );
+        Events.on(ServerConnections, 'localusersignedin', () =>
+            SyncPlay.Manager.updateApiClient(
+                ServerConnections.currentApiClient()
+            )
+        );
+        Events.on(ServerConnections, 'localusersignedout', () =>
+            SyncPlay.Manager.updateApiClient(
+                ServerConnections.currentApiClient()
+            )
+        );
     }
 }
 

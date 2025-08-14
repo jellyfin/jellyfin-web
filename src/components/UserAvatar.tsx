@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { useApi } from 'hooks/useApi';
 
 interface UserAvatarProps {
-    user?: UserDto
+    user?: UserDto;
 }
 
 const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
@@ -17,14 +17,15 @@ const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
         <Avatar
             alt={user.Name ?? undefined}
             src={
-                api && user.Id && user.PrimaryImageTag ?
-                    `${api.basePath}/Users/${user.Id}/Images/Primary?tag=${user.PrimaryImageTag}` :
-                    undefined
+                api && user.Id && user.PrimaryImageTag
+                    ? `${api.basePath}/Users/${user.Id}/Images/Primary?tag=${user.PrimaryImageTag}`
+                    : undefined
             }
             sx={{
-                bgcolor: api && user.Id && user.PrimaryImageTag ?
-                    theme.palette.background.paper :
-                    theme.palette.primary.dark,
+                bgcolor:
+                    api && user.Id && user.PrimaryImageTag
+                        ? theme.palette.background.paper
+                        : theme.palette.primary.dark,
                 color: 'inherit'
             }}
         />

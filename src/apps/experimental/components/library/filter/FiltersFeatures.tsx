@@ -28,18 +28,21 @@ const FiltersFeatures: FC<FiltersFeaturesProps> = ({
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value as FeatureFilters;
-            const existingFeatures = libraryViewSettings?.Filters?.Features ?? [];
+            const existingFeatures =
+                libraryViewSettings?.Filters?.Features ?? [];
 
-            const updatedFeatures = existingFeatures.includes(value) ?
-                existingFeatures.filter((filter) => filter !== value) :
-                [...existingFeatures, value];
+            const updatedFeatures = existingFeatures.includes(value)
+                ? existingFeatures.filter((filter) => filter !== value)
+                : [...existingFeatures, value];
 
             setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
                     ...prevState.Filters,
-                    Features: updatedFeatures.length ? updatedFeatures : undefined
+                    Features: updatedFeatures.length
+                        ? updatedFeatures
+                        : undefined
                 }
             }));
         },
@@ -48,24 +51,23 @@ const FiltersFeatures: FC<FiltersFeaturesProps> = ({
 
     return (
         <FormGroup>
-            {featuresOptions
-                .map((filter) => (
-                    <FormControlLabel
-                        key={filter.value}
-                        control={
-                            <Checkbox
-                                checked={
-                                    !!libraryViewSettings?.Filters?.Features?.includes(
-                                        filter.value
-                                    )
-                                }
-                                onChange={onFiltersFeaturesChange}
-                                value={filter.value}
-                            />
-                        }
-                        label={globalize.translate(filter.label)}
-                    />
-                ))}
+            {featuresOptions.map((filter) => (
+                <FormControlLabel
+                    key={filter.value}
+                    control={
+                        <Checkbox
+                            checked={
+                                !!libraryViewSettings?.Filters?.Features?.includes(
+                                    filter.value
+                                )
+                            }
+                            onChange={onFiltersFeaturesChange}
+                            value={filter.value}
+                        />
+                    }
+                    label={globalize.translate(filter.label)}
+                />
+            ))}
         </FormGroup>
     );
 };

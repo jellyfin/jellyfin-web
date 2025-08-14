@@ -6,7 +6,9 @@ import globalize from '../lib/globalize';
 export function show(options) {
     const item = options.item;
 
-    const resumePositionTicks = item.UserData ? item.UserData.PlaybackPositionTicks : null;
+    const resumePositionTicks = item.UserData
+        ? item.UserData.PlaybackPositionTicks
+        : null;
 
     const playableItemId = item.Type === 'Program' ? item.ChannelId : item.Id;
 
@@ -21,7 +23,10 @@ export function show(options) {
     const menuItems = [];
 
     menuItems.push({
-        name: globalize.translate('ResumeAt', datetime.getDisplayRunningTime(resumePositionTicks)),
+        name: globalize.translate(
+            'ResumeAt',
+            datetime.getDisplayRunningTime(resumePositionTicks)
+        ),
         id: 'resume'
     });
 
@@ -30,38 +35,38 @@ export function show(options) {
         id: 'play'
     });
 
-    actionsheet.show({
-
-        items: menuItems,
-        positionTo: options.positionTo
-
-    }).then(function (id) {
-        switch (id) {
-            case 'play':
-                playbackManager.play({
-                    ids: [playableItemId],
-                    serverId: item.ServerId
-                });
-                break;
-            case 'resume':
-                playbackManager.play({
-                    ids: [playableItemId],
-                    startPositionTicks: resumePositionTicks,
-                    serverId: item.ServerId
-                });
-                break;
-            case 'queue':
-                playbackManager.queue({
-                    items: [item]
-                });
-                break;
-            case 'shuffle':
-                playbackManager.shuffle(item);
-                break;
-            default:
-                break;
-        }
-    });
+    actionsheet
+        .show({
+            items: menuItems,
+            positionTo: options.positionTo
+        })
+        .then(function (id) {
+            switch (id) {
+                case 'play':
+                    playbackManager.play({
+                        ids: [playableItemId],
+                        serverId: item.ServerId
+                    });
+                    break;
+                case 'resume':
+                    playbackManager.play({
+                        ids: [playableItemId],
+                        startPositionTicks: resumePositionTicks,
+                        serverId: item.ServerId
+                    });
+                    break;
+                case 'queue':
+                    playbackManager.queue({
+                        items: [item]
+                    });
+                    break;
+                case 'shuffle':
+                    playbackManager.shuffle(item);
+                    break;
+                default:
+                    break;
+            }
+        });
 }
 
 export default {

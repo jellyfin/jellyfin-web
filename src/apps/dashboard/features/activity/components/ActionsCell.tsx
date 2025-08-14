@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import type { ActivityLogEntryCell } from 'apps/dashboard/features/activity/types/ActivityLogEntryCell';
 import globalize from 'lib/globalize';
 
-const ActionsCell: FC<ActivityLogEntryCell> = ({ row }) => (
+const ActionsCell: FC<ActivityLogEntryCell> = ({ row }) =>
     row.original.ItemId ? (
         <IconButton
             size='large'
@@ -16,7 +16,6 @@ const ActionsCell: FC<ActivityLogEntryCell> = ({ row }) => (
         >
             <PermMedia fontSize='inherit' />
         </IconButton>
-    ) : undefined
-);
+    ) : undefined;
 
 export default ActionsCell;

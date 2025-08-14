@@ -9,25 +9,38 @@ function onGroupedCardClick(e, card) {
     const apiClient = ServerConnections.getApiClient(serverId);
     const userId = apiClient.getCurrentUserId();
     const playedIndicator = card.querySelector('.playedIndicator');
-    const playedIndicatorHtml = playedIndicator ? playedIndicator.innerHTML : null;
+    const playedIndicatorHtml = playedIndicator
+        ? playedIndicator.innerHTML
+        : null;
     const options = {
         Limit: parseInt(playedIndicatorHtml || '10', 10),
         Fields: 'PrimaryImageAspectRatio,DateCreated',
         ParentId: itemId,
         GroupItems: false
     };
-    const actionableParent = dom.parentWithTag(e.target, ['A', 'BUTTON', 'INPUT']);
+    const actionableParent = dom.parentWithTag(e.target, [
+        'A',
+        'BUTTON',
+        'INPUT'
+    ]);
 
-    if (!actionableParent || actionableParent.classList.contains('cardContent')) {
-        apiClient.getJSON(apiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-            if (items.length === 1) {
-                appRouter.showItem(items[0]);
-                return;
-            }
+    if (
+        !actionableParent ||
+        actionableParent.classList.contains('cardContent')
+    ) {
+        apiClient
+            .getJSON(
+                apiClient.getUrl('Users/' + userId + '/Items/Latest', options)
+            )
+            .then(function (items) {
+                if (items.length === 1) {
+                    appRouter.showItem(items[0]);
+                    return;
+                }
 
-            const url = 'details?id=' + itemId + '&serverId=' + serverId;
-            Dashboard.navigate(url);
-        });
+                const url = 'details?id=' + itemId + '&serverId=' + serverId;
+                Dashboard.navigate(url);
+            });
         e.stopPropagation();
         e.preventDefault();
         return false;

@@ -6,11 +6,16 @@ import Tooltip from '@mui/material/Tooltip';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import parseISO from 'date-fns/parseISO';
-import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
+import {
+    type MRT_ColumnDef,
+    useMaterialReactTable
+} from 'material-react-table';
 import React, { useCallback, useMemo } from 'react';
 
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
-import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
+import TablePage, {
+    DEFAULT_TABLE_OPTIONS
+} from 'apps/dashboard/components/table/TablePage';
 import { useApiKeys } from 'apps/dashboard/features/keys/api/useApiKeys';
 import { useRevokeKey } from 'apps/dashboard/features/keys/api/useRevokeKey';
 import { useCreateKey } from 'apps/dashboard/features/keys/api/useCreateKey';
@@ -22,32 +27,34 @@ import globalize from 'lib/globalize';
 export const Component = () => {
     const { api } = useApi();
     const { data, isLoading } = useApiKeys();
-    const keys = useMemo(() => (
-        data?.Items || []
-    ), [ data ]);
+    const keys = useMemo(() => data?.Items || [], [data]);
     const revokeKey = useRevokeKey();
     const createKey = useCreateKey();
 
-    const columns = useMemo<MRT_ColumnDef<AuthenticationInfo>[]>(() => [
-        {
-            id: 'ApiKey',
-            accessorKey: 'AccessToken',
-            header: globalize.translate('HeaderApiKey'),
-            size: 300
-        },
-        {
-            id: 'AppName',
-            accessorKey: 'AppName',
-            header: globalize.translate('HeaderApp')
-        },
-        {
-            id: 'DateIssued',
-            accessorFn: item => item.DateCreated ? parseISO(item.DateCreated) : undefined,
-            Cell: DateTimeCell,
-            header: globalize.translate('HeaderDateIssued'),
-            filterVariant: 'datetime-range'
-        }
-    ], []);
+    const columns = useMemo<MRT_ColumnDef<AuthenticationInfo>[]>(
+        () => [
+            {
+                id: 'ApiKey',
+                accessorKey: 'AccessToken',
+                header: globalize.translate('HeaderApiKey'),
+                size: 300
+            },
+            {
+                id: 'AppName',
+                accessorKey: 'AppName',
+                header: globalize.translate('HeaderApp')
+            },
+            {
+                id: 'DateIssued',
+                accessorFn: (item) =>
+                    item.DateCreated ? parseISO(item.DateCreated) : undefined,
+                Cell: DateTimeCell,
+                header: globalize.translate('HeaderDateIssued'),
+                filterVariant: 'datetime-range'
+            }
+        ],
+        []
+    );
 
     const table = useMaterialReactTable({
         ...DEFAULT_TABLE_OPTIONS,
@@ -70,10 +77,7 @@ export const Component = () => {
         },
 
         renderTopToolbarCustomActions: () => (
-            <Button
-                startIcon={<AddIcon />}
-                onClick={showNewKeyPopup}
-            >
+            <Button startIcon={<AddIcon />} onClick={showNewKeyPopup}>
                 {globalize.translate('HeaderNewApiKey')}
             </Button>
         ),
@@ -85,7 +89,10 @@ export const Component = () => {
                         <IconButton
                             color='error'
                             // eslint-disable-next-line react/jsx-no-bind
-                            onClick={() => row.original?.AccessToken && onRevokeKey(row.original.AccessToken)}
+                            onClick={() =>
+                                row.original?.AccessToken &&
+                                onRevokeKey(row.original.AccessToken)
+                            }
                         >
                             <DeleteIcon />
                         </IconButton>
@@ -95,17 +102,28 @@ export const Component = () => {
         }
     });
 
-    const onRevokeKey = useCallback((accessToken: string) => {
-        if (!api) return;
+    const onRevokeKey = useCallback(
+        (accessToken: string) => {
+            if (!api) return;
 
-        confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
-            revokeKey.mutate({
-                key: accessToken
-            });
-        }).catch(err => {
-            console.error('[apikeys] failed to show confirmation dialog', err);
-        });
-    }, [api, revokeKey]);
+            confirm(
+                globalize.translate('MessageConfirmRevokeApiKey'),
+                globalize.translate('HeaderConfirmRevokeApiKey')
+            )
+                .then(function () {
+                    revokeKey.mutate({
+                        key: accessToken
+                    });
+                })
+                .catch((err) => {
+                    console.error(
+                        '[apikeys] failed to show confirmation dialog',
+                        err
+                    );
+                });
+        },
+        [api, revokeKey]
+    );
 
     const showNewKeyPopup = useCallback(() => {
         if (!api) return;
@@ -114,13 +132,15 @@ export const Component = () => {
             title: globalize.translate('HeaderNewApiKey'),
             label: globalize.translate('LabelAppName'),
             description: globalize.translate('LabelAppNameExample')
-        }).then((value) => {
-            createKey.mutate({
-                app: value
+        })
+            .then((value) => {
+                createKey.mutate({
+                    app: value
+                });
+            })
+            .catch(() => {
+                // popup closed
             });
-        }).catch(() => {
-            // popup closed
-        });
     }, [api, createKey]);
 
     return (

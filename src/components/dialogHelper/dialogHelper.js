@@ -39,7 +39,9 @@ function tryRemoveElement(elem) {
         try {
             parentNode.removeChild(elem);
         } catch (err) {
-            console.error('[dialogHelper] error removing dialog element: ' + err);
+            console.error(
+                '[dialogHelper] error removing dialog element: ' + err
+            );
         }
     }
 }
@@ -71,10 +73,12 @@ function DialogHashHandler(dlg, hash, resolve) {
             unlisten = null;
         }
 
-        dlg.dispatchEvent(new CustomEvent('close', {
-            bubbles: false,
-            cancelable: false
-        }));
+        dlg.dispatchEvent(
+            new CustomEvent('close', {
+                bubbles: false,
+                cancelable: false
+            })
+        );
 
         resolve({
             element: dlg
@@ -115,7 +119,10 @@ function DialogHashHandler(dlg, hash, resolve) {
                     unlisten = history.listen(finishClose);
                     history.back();
                 } else if (state.dialogs.includes(hash)) {
-                    console.warn('[dialogHelper] dialog "%s" was closed, but is not the last dialog opened', hash);
+                    console.warn(
+                        '[dialogHelper] dialog "%s" was closed, but is not the last dialog opened',
+                        hash
+                    );
 
                     unlisten = history.listen(finishClose);
 
@@ -124,7 +131,9 @@ function DialogHashHandler(dlg, hash, resolve) {
                         `${history.location.pathname}${history.location.search}`,
                         {
                             ...state,
-                            dialogs: state.dialogs.filter(dialog => dialog !== hash)
+                            dialogs: state.dialogs.filter(
+                                (dialog) => dialog !== hash
+                            )
                         }
                     );
                 }
@@ -164,12 +173,17 @@ function DialogHashHandler(dlg, hash, resolve) {
     addBackdropOverlay(dlg);
 
     dlg.classList.add('opened');
-    dlg.dispatchEvent(new CustomEvent('open', {
-        bubbles: false,
-        cancelable: false
-    }));
+    dlg.dispatchEvent(
+        new CustomEvent('open', {
+            bubbles: false,
+            cancelable: false
+        })
+    );
 
-    if (dlg.getAttribute('data-lockscroll') === 'true' && !document.body.classList.contains('noScroll')) {
+    if (
+        dlg.getAttribute('data-lockscroll') === 'true' &&
+        !document.body.classList.contains('noScroll')
+    ) {
         document.body.classList.add('noScroll');
         removeScrollLockOnClose = true;
     }
@@ -182,13 +196,10 @@ function DialogHashHandler(dlg, hash, resolve) {
         // Add new dialog to the list of open dialogs
         dialogs.push(hash);
 
-        history.push(
-            `${history.location.pathname}${history.location.search}`,
-            {
-                ...state,
-                dialogs
-            }
-        );
+        history.push(`${history.location.pathname}${history.location.search}`, {
+            ...state,
+            dialogs
+        });
 
         unlisten = history.listen(onHashChange);
     } else {
@@ -210,26 +221,38 @@ function addBackdropOverlay(dlg) {
 
     let clickedElement;
 
-    dom.addEventListener((dlg.dialogContainer || backdrop), 'mousedown', e => {
+    dom.addEventListener(dlg.dialogContainer || backdrop, 'mousedown', (e) => {
         clickedElement = e.target;
     });
 
-    dom.addEventListener((dlg.dialogContainer || backdrop), 'click', e => {
-        if (e.target === dlg.dialogContainer && e.target == clickedElement) {
-            close(dlg);
+    dom.addEventListener(
+        dlg.dialogContainer || backdrop,
+        'click',
+        (e) => {
+            if (
+                e.target === dlg.dialogContainer &&
+                e.target == clickedElement
+            ) {
+                close(dlg);
+            }
+        },
+        {
+            passive: true
         }
-    }, {
-        passive: true
-    });
+    );
 
-    dom.addEventListener((dlg.dialogContainer || backdrop), 'contextmenu', e => {
-        if (e.target === dlg.dialogContainer) {
-            // Close the application dialog menu
-            close(dlg);
-            // Prevent the default browser context menu from appearing
-            e.preventDefault();
+    dom.addEventListener(
+        dlg.dialogContainer || backdrop,
+        'contextmenu',
+        (e) => {
+            if (e.target === dlg.dialogContainer) {
+                // Close the application dialog menu
+                close(dlg);
+                // Prevent the default browser context menu from appearing
+                e.preventDefault();
+            }
         }
-    });
+    );
 }
 
 function isHistoryEnabled(dlg) {
@@ -263,29 +286,36 @@ function isOpened(dlg) {
 
 export function close(dlg) {
     if (!dlg.classList.contains('hide')) {
-        dlg.dispatchEvent(new CustomEvent('closing', {
-            bubbles: false,
-            cancelable: false
-        }));
+        dlg.dispatchEvent(
+            new CustomEvent('closing', {
+                bubbles: false,
+                cancelable: false
+            })
+        );
 
         const onAnimationFinish = () => {
             focusManager.popScope(dlg);
 
             dlg.classList.add('hide');
-            dlg.dispatchEvent(new CustomEvent('_close', {
-                bubbles: false,
-                cancelable: false
-            }));
+            dlg.dispatchEvent(
+                new CustomEvent('_close', {
+                    bubbles: false,
+                    cancelable: false
+                })
+            );
         };
 
         animateDialogClose(dlg, onAnimationFinish);
     }
 }
 
-const getAnimationEndHandler = (dlg, callback) => function handler() {
-    dom.removeEventListener(dlg, dom.whichAnimationEvent(), handler, { once: true });
-    callback();
-};
+const getAnimationEndHandler = (dlg, callback) =>
+    function handler() {
+        dom.removeEventListener(dlg, dom.whichAnimationEvent(), handler, {
+            once: true
+        });
+        callback();
+    };
 
 function animateDialogOpen(dlg) {
     const onAnimationFinish = () => {
@@ -306,7 +336,8 @@ function animateDialogOpen(dlg) {
             dlg,
             dom.whichAnimationEvent(),
             getAnimationEndHandler(dlg, onAnimationFinish),
-            { once: true });
+            { once: true }
+        );
 
         return;
     }
@@ -337,7 +368,8 @@ function animateDialogClose(dlg, onAnimationFinish) {
             dlg,
             dom.whichAnimationEvent(),
             getAnimationEndHandler(dlg, onAnimationFinish),
-            { once: true });
+            { once: true }
+        );
 
         if (animated) {
             return;
@@ -347,7 +379,8 @@ function animateDialogClose(dlg, onAnimationFinish) {
     onAnimationFinish();
 }
 
-const supportsOverscrollBehavior = 'overscroll-behavior-y' in document.body.style;
+const supportsOverscrollBehavior =
+    'overscroll-behavior-y' in document.body.style;
 
 function shouldLockDocumentScroll(options) {
     if (options.lockScroll != null) {
@@ -440,12 +473,16 @@ export function createDialog(options = {}) {
     const exitAnimation = options.exitAnimation || defaultExitAnimation;
 
     // If it's not fullscreen then lower the default animation speed to make it open really fast
-    const entryAnimationDuration = options.entryAnimationDuration || (options.size !== 'fullscreen' ? 180 : 280);
-    const exitAnimationDuration = options.exitAnimationDuration || (options.size !== 'fullscreen' ? 120 : 220);
+    const entryAnimationDuration =
+        options.entryAnimationDuration ||
+        (options.size !== 'fullscreen' ? 180 : 280);
+    const exitAnimationDuration =
+        options.exitAnimationDuration ||
+        (options.size !== 'fullscreen' ? 120 : 220);
 
     dlg.animationConfig = {
         // scale up
-        'entry': {
+        entry: {
             name: entryAnimation,
             timing: {
                 duration: entryAnimationDuration,
@@ -453,7 +490,7 @@ export function createDialog(options = {}) {
             }
         },
         // fade out
-        'exit': {
+        exit: {
             name: exitAnimation,
             timing: {
                 duration: exitAnimationDuration,

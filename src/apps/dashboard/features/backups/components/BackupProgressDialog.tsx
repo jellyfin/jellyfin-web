@@ -6,17 +6,15 @@ import LinearProgress from '@mui/material/LinearProgress';
 import globalize from 'lib/globalize';
 
 type IProps = {
-    open: boolean
+    open: boolean;
 };
 
 const BackupProgressDialog: FunctionComponent<IProps> = ({ open }) => {
     return (
-        <Dialog
-            open={open}
-            maxWidth={'xs'}
-            fullWidth
-        >
-            <DialogTitle>{globalize.translate('MessageBackupInProgress')}</DialogTitle>
+        <Dialog open={open} maxWidth={'xs'} fullWidth>
+            <DialogTitle>
+                {globalize.translate('MessageBackupInProgress')}
+            </DialogTitle>
             <DialogContent>
                 <LinearProgress />
             </DialogContent>

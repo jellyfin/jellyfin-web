@@ -8,20 +8,20 @@ import Stack from '@mui/material/Stack';
 import globalize from 'lib/globalize';
 
 type IProps = {
-    open: boolean
+    open: boolean;
 };
 
 const RestoreProgressDialog: FunctionComponent<IProps> = ({ open }) => {
     return (
-        <Dialog
-            open={open}
-            maxWidth={'xs'}
-            fullWidth
-        >
-            <DialogTitle>{globalize.translate('MessageRestoreInProgress')}</DialogTitle>
+        <Dialog open={open} maxWidth={'xs'} fullWidth>
+            <DialogTitle>
+                {globalize.translate('MessageRestoreInProgress')}
+            </DialogTitle>
             <DialogContent>
                 <Stack spacing={2}>
-                    <DialogContentText>{globalize.translate('MessageWaitingForServer')}</DialogContentText>
+                    <DialogContentText>
+                        {globalize.translate('MessageWaitingForServer')}
+                    </DialogContentText>
                     <LinearProgress />
                 </Stack>
             </DialogContent>

@@ -52,7 +52,11 @@ function show(person) {
 
         dlg.addEventListener('close', function () {
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                centerFocus(
+                    dlg.querySelector('.formDialogContent'),
+                    false,
+                    false
+                );
             }
 
             if (submitted) {
@@ -70,13 +74,20 @@ function show(person) {
             const selected = person.Type === type ? 'selected' : '';
             selectPersonTypeOptions += `<option value="${type}" ${selected}>\${${type}}</option>`;
         }
-        dlg.querySelector('.selectPersonType').innerHTML = globalize.translateHtml(selectPersonTypeOptions);
+        dlg.querySelector('.selectPersonType').innerHTML =
+            globalize.translateHtml(selectPersonTypeOptions);
 
-        dlg.querySelector('.selectPersonType').addEventListener('change', function () {
-            dlg.querySelector('.fldRole').classList.toggle(
-                'hide',
-                ![ PersonKind.Actor, PersonKind.GuestStar ].includes(this.value));
-        });
+        dlg.querySelector('.selectPersonType').addEventListener(
+            'change',
+            function () {
+                dlg.querySelector('.fldRole').classList.toggle(
+                    'hide',
+                    ![PersonKind.Actor, PersonKind.GuestStar].includes(
+                        this.value
+                    )
+                );
+            }
+        );
 
         dlg.querySelector('.btnCancel').addEventListener('click', function () {
             dialogHelper.close(dlg);
@@ -87,7 +98,8 @@ function show(person) {
 
             person.Name = dlg.querySelector('.txtPersonName', dlg).value;
             person.Type = dlg.querySelector('.selectPersonType', dlg).value;
-            person.Role = dlg.querySelector('.txtPersonRole', dlg).value || null;
+            person.Role =
+                dlg.querySelector('.txtPersonRole', dlg).value || null;
 
             dialogHelper.close(dlg);
 
@@ -95,13 +107,14 @@ function show(person) {
             return false;
         });
 
-        dlg.querySelector('.selectPersonType').dispatchEvent(new CustomEvent('change', {
-            bubbles: true
-        }));
+        dlg.querySelector('.selectPersonType').dispatchEvent(
+            new CustomEvent('change', {
+                bubbles: true
+            })
+        );
     });
 }
 
 export default {
     show: show
 };
-

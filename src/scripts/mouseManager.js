@@ -85,7 +85,8 @@ function onPointerMove(e) {
 }
 
 function onPointerEnter(e) {
-    const pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
+    const pointerType =
+        e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
 
     if (pointerType === 'mouse' && !isMouseIdle) {
         const parent = focusManager.focusableParent(e.target);
@@ -134,30 +135,51 @@ function stopMouseInterval() {
 function initMouse() {
     stopMouseInterval();
 
-    /* eslint-disable-next-line compat/compat */
-    dom.removeEventListener(document, (window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove, {
-        passive: true
-    });
+    dom.removeEventListener(
+        document,
+        // eslint-disable-next-line compat/compat
+        window.PointerEvent ? 'pointermove' : 'mousemove',
+        onPointerMove,
+        {
+            passive: true
+        }
+    );
 
     if (!layoutManager.mobile) {
         startMouseInterval();
 
-        dom.addEventListener(document, (window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove, {
-            passive: true
-        });
+        dom.addEventListener(
+            document,
+
+            window.PointerEvent ? 'pointermove' : 'mousemove',
+            onPointerMove,
+            {
+                passive: true
+            }
+        );
     }
 
-    /* eslint-disable-next-line compat/compat */
-    dom.removeEventListener(document, (window.PointerEvent ? 'pointerenter' : 'mouseenter'), onPointerEnter, {
-        capture: true,
-        passive: true
-    });
-
-    if (enableFocusWithMouse()) {
-        dom.addEventListener(document, (window.PointerEvent ? 'pointerenter' : 'mouseenter'), onPointerEnter, {
+    dom.removeEventListener(
+        document,
+        // eslint-disable-next-line compat/compat
+        window.PointerEvent ? 'pointerenter' : 'mouseenter',
+        onPointerEnter,
+        {
             capture: true,
             passive: true
-        });
+        }
+    );
+
+    if (enableFocusWithMouse()) {
+        dom.addEventListener(
+            document,
+            window.PointerEvent ? 'pointerenter' : 'mouseenter',
+            onPointerEnter,
+            {
+                capture: true,
+                passive: true
+            }
+        );
     }
 }
 
@@ -169,4 +191,3 @@ export default {
     hideCursor,
     showCursor
 };
-

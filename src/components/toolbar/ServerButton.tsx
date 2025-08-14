@@ -6,10 +6,7 @@ import { Link } from 'react-router-dom';
 import { useSystemInfo } from 'hooks/useSystemInfo';
 
 const ServerButton: FC = () => {
-    const {
-        data: systemInfo,
-        isPending
-    } = useSystemInfo();
+    const { data: systemInfo, isPending } = useSystemInfo();
 
     return (
         <Button
@@ -30,7 +27,7 @@ const ServerButton: FC = () => {
             component={Link}
             to='/'
         >
-            {isPending ? '' : (systemInfo?.ServerName || 'Jellyfin')}
+            {isPending ? '' : systemInfo?.ServerName || 'Jellyfin'}
         </Button>
     );
 };

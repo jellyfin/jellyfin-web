@@ -1,5 +1,5 @@
 interface FetchOptions {
-    cache?: string
+    cache?: string;
 }
 
 const URL_RESOLVER = document.createElement('a');
@@ -14,7 +14,7 @@ export default async function fetchLocal(url: string, options?: FetchOptions) {
     const requestURL = URL_RESOLVER.href;
 
     return new Promise<Response>((resolve, reject) => {
-        const xhr = new XMLHttpRequest;
+        const xhr = new XMLHttpRequest();
 
         xhr.onload = () => {
             // `file` protocol has invalid OK status
@@ -23,7 +23,7 @@ export default async function fetchLocal(url: string, options?: FetchOptions) {
                 status = 200;
             }
 
-            /* eslint-disable-next-line compat/compat */
+            // eslint-disable-next-line compat/compat
             resolve(new Response(xhr.responseText, { status }));
         };
 

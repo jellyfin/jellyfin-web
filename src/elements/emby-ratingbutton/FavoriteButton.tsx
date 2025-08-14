@@ -11,7 +11,7 @@ interface FavoriteButtonProps {
     className?: string;
     isFavorite: boolean | undefined;
     itemId: string | null | undefined;
-    queryKey?: string[]
+    queryKey?: string[];
 }
 
 const FavoriteButton: FC<FavoriteButtonProps> = ({
@@ -29,34 +29,41 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
                 throw new Error('Item has no Id');
             }
 
-            await toggleFavoriteMutation({
-                itemId,
-                isFavorite
-            },
-            { onSuccess: async() => {
-                await queryClient.invalidateQueries({
-                    queryKey,
-                    type: 'all',
-                    refetchType: 'active'
-                });
-            } });
+            await toggleFavoriteMutation(
+                {
+                    itemId,
+                    isFavorite
+                },
+                {
+                    onSuccess: async () => {
+                        await queryClient.invalidateQueries({
+                            queryKey,
+                            type: 'all',
+                            refetchType: 'active'
+                        });
+                    }
+                }
+            );
         } catch (e) {
             console.error(e);
         }
     }, [isFavorite, itemId, queryClient, queryKey, toggleFavoriteMutation]);
 
-    const btnClass = classNames(
-        className,
-        { 'ratingbutton-withrating': isFavorite }
-    );
+    const btnClass = classNames(className, {
+        'ratingbutton-withrating': isFavorite
+    });
 
-    const iconClass = classNames(
-        { 'ratingbutton-icon-withrating': isFavorite }
-    );
+    const iconClass = classNames({
+        'ratingbutton-icon-withrating': isFavorite
+    });
 
     return (
         <IconButton
-            title={isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites')}
+            title={
+                isFavorite
+                    ? globalize.translate('Favorite')
+                    : globalize.translate('AddToFavorites')
+            }
             className={btnClass}
             size='small'
             onClick={onClick}

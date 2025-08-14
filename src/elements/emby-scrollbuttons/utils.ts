@@ -20,10 +20,14 @@ interface ScrollToWindowProps {
     scroller: ScrollerFactory;
     items: HTMLElement[];
     scrollState: ScrollState;
-    direction: ScrollDirection
+    direction: ScrollDirection;
 }
 
-export function scrollerItemSlideIntoView({ direction, scroller, scrollState }: ScrollerItemSlideIntoViewProps) {
+export function scrollerItemSlideIntoView({
+    direction,
+    scroller,
+    scrollState
+}: ScrollerItemSlideIntoViewProps) {
     if (!scroller) {
         return;
     }
@@ -39,7 +43,11 @@ export function scrollerItemSlideIntoView({ direction, scroller, scrollState }: 
     });
 }
 
-function getFirstAndLastVisible(scrollFrame: HTMLElement, items: HTMLElement[], { scrollPos: scrollPosition }: ScrollState) {
+function getFirstAndLastVisible(
+    scrollFrame: HTMLElement,
+    items: HTMLElement[],
+    { scrollPos: scrollPosition }: ScrollState
+) {
     const isRTL = globalize.getIsRTL();
     const localeModifier = isRTL ? -1 : 1;
 
@@ -49,9 +57,14 @@ function getFirstAndLastVisible(scrollFrame: HTMLElement, items: HTMLElement[], 
 
     // Rounding down here will give us the first item index which is fully visible. We want the first partially visible
     // index so we'll subtract one.
-    const firstVisibleIndex = Math.max(Math.floor(currentScrollPos / itemWidth) - 1, 0);
+    const firstVisibleIndex = Math.max(
+        Math.floor(currentScrollPos / itemWidth) - 1,
+        0
+    );
     // Rounding up will give us the last index which is at least partially visible (overflows at container end).
-    const lastVisibleIndex = Math.floor((currentScrollPos + scrollerWidth) / itemWidth);
+    const lastVisibleIndex = Math.floor(
+        (currentScrollPos + scrollerWidth) / itemWidth
+    );
 
     return [firstVisibleIndex, lastVisibleIndex];
 }
@@ -71,7 +84,11 @@ function scrollToWindow({
     // factory functions on it, but is not a true scroller factory. For legacy, we need to pass `scroller` directly
     // instead of getting the frame from the factory instance.
     const frame = scroller.getScrollFrame?.() ?? scroller;
-    const [firstVisibleIndex, lastVisibleIndex] = getFirstAndLastVisible(frame, items, scrollState);
+    const [firstVisibleIndex, lastVisibleIndex] = getFirstAndLastVisible(
+        frame,
+        items,
+        scrollState
+    );
 
     let scrollToPosition: number;
 
@@ -83,15 +100,19 @@ function scrollToWindow({
         scrollToPosition = nextItemScrollOffset * localeModifier;
     } else {
         const previousItem = items[firstVisibleIndex];
-        const previousItemScrollOffset = firstVisibleIndex * previousItem.offsetWidth;
+        const previousItemScrollOffset =
+            firstVisibleIndex * previousItem.offsetWidth;
 
         // Find the total number of items that can fit in a view window and subtract one to account for item at
         // `firstVisibleIndex`. The total width of these items is the amount that we need to adjust the scroll position by
         // to anchor item at `firstVisibleIndex` to the end of the view window.
-        const offsetAdjustment = (Math.floor(frame.offsetWidth / previousItem.offsetWidth) - 1) * previousItem.offsetWidth;
+        const offsetAdjustment =
+            (Math.floor(frame.offsetWidth / previousItem.offsetWidth) - 1) *
+            previousItem.offsetWidth;
 
         // This will be the position to anchor the item at `firstVisibleIndex` to the end of the view window.
-        scrollToPosition = (previousItemScrollOffset - offsetAdjustment) * localeModifier;
+        scrollToPosition =
+            (previousItemScrollOffset - offsetAdjustment) * localeModifier;
     }
 
     if (scroller.slideTo) {

@@ -34,7 +34,9 @@ function loadLatest(page, userId, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
+    ApiClient.getJSON(
+        ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)
+    ).then(function (items) {
         const allowBottomPadding = !enableScrollX();
         const container = page.querySelector('#recentlyAddedItems');
         cardBuilder.buildCards(items, {
@@ -102,33 +104,51 @@ function getRecommendationHtml(recommendation) {
 
     switch (recommendation.RecommendationType) {
         case 'SimilarToRecentlyPlayed':
-            title = globalize.translate('RecommendationBecauseYouWatched', recommendation.BaselineItemName);
+            title = globalize.translate(
+                'RecommendationBecauseYouWatched',
+                recommendation.BaselineItemName
+            );
             break;
 
         case 'SimilarToLikedItem':
-            title = globalize.translate('RecommendationBecauseYouLike', recommendation.BaselineItemName);
+            title = globalize.translate(
+                'RecommendationBecauseYouLike',
+                recommendation.BaselineItemName
+            );
             break;
 
         case 'HasDirectorFromRecentlyPlayed':
         case 'HasLikedDirector':
-            title = globalize.translate('RecommendationDirectedBy', recommendation.BaselineItemName);
+            title = globalize.translate(
+                'RecommendationDirectedBy',
+                recommendation.BaselineItemName
+            );
             break;
 
         case 'HasActorFromRecentlyPlayed':
         case 'HasLikedActor':
-            title = globalize.translate('RecommendationStarring', recommendation.BaselineItemName);
+            title = globalize.translate(
+                'RecommendationStarring',
+                recommendation.BaselineItemName
+            );
             break;
     }
 
     html += '<div class="verticalSection">';
-    html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + escapeHtml(title) + '</h2>';
+    html +=
+        '<h2 class="sectionTitle sectionTitle-cards padded-left">' +
+        escapeHtml(title) +
+        '</h2>';
     const allowBottomPadding = true;
 
     if (enableScrollX()) {
-        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
-        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+        html +=
+            '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+        html +=
+            '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
     } else {
-        html += '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
+        html +=
+            '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
     }
 
     html += cardBuilder.getCardsHtml(recommendation.Items, {
@@ -227,17 +247,23 @@ function loadSuggestionsTab(view, params, tabContent) {
 }
 
 function getTabs() {
-    return [{
-        name: globalize.translate('Movies')
-    }, {
-        name: globalize.translate('Suggestions')
-    }, {
-        name: globalize.translate('Favorites')
-    }, {
-        name: globalize.translate('Collections')
-    }, {
-        name: globalize.translate('Genres')
-    }];
+    return [
+        {
+            name: globalize.translate('Movies')
+        },
+        {
+            name: globalize.translate('Suggestions')
+        },
+        {
+            name: globalize.translate('Favorites')
+        },
+        {
+            name: globalize.translate('Collections')
+        },
+        {
+            name: globalize.translate('Genres')
+        }
+    ];
 }
 
 function getDefaultTabIndex(folderId) {
@@ -274,7 +300,14 @@ export default function (view, params) {
     }
 
     function initTabs() {
-        mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
+        mainTabsManager.setTabs(
+            view,
+            currentTabIndex,
+            getTabs,
+            getTabContainers,
+            onBeforeTabChange,
+            onTabChange
+        );
     }
 
     const getTabController = (page, index, callback) => {
@@ -294,38 +327,53 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../movies/${depends}`).then(({ default: ControllerFactory }) => {
-            let tabContent;
-
-            if (index === suggestionsTabIndex) {
-                tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-                this.tabContent = tabContent;
-            }
-
-            let controller = tabControllers[index];
-
-            if (!controller) {
-                tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+        import(`../movies/${depends}`).then(
+            ({ default: ControllerFactory }) => {
+                let tabContent;
 
                 if (index === suggestionsTabIndex) {
-                    controller = this;
-                } else if (index == 0 || index == 2) {
-                    controller = new ControllerFactory(view, params, tabContent, {
-                        mode: index ? 'favorites' : 'movies'
-                    });
-                } else {
-                    controller = new ControllerFactory(view, params, tabContent);
+                    tabContent = view.querySelector(
+                        ".pageTabContent[data-index='" + index + "']"
+                    );
+                    this.tabContent = tabContent;
                 }
 
-                tabControllers[index] = controller;
+                let controller = tabControllers[index];
 
-                if (controller.initTab) {
-                    controller.initTab();
+                if (!controller) {
+                    tabContent = view.querySelector(
+                        ".pageTabContent[data-index='" + index + "']"
+                    );
+
+                    if (index === suggestionsTabIndex) {
+                        controller = this;
+                    } else if (index == 0 || index == 2) {
+                        controller = new ControllerFactory(
+                            view,
+                            params,
+                            tabContent,
+                            {
+                                mode: index ? 'favorites' : 'movies'
+                            }
+                        );
+                    } else {
+                        controller = new ControllerFactory(
+                            view,
+                            params,
+                            tabContent
+                        );
+                    }
+
+                    tabControllers[index] = controller;
+
+                    if (controller.initTab) {
+                        controller.initTab();
+                    }
                 }
+
+                callback(controller);
             }
-
-            callback(controller);
-        });
+        );
     };
 
     function preLoadTab(page, index) {
@@ -338,12 +386,12 @@ export default function (view, params) {
 
     function loadTab(page, index) {
         currentTabIndex = index;
-        getTabController(page, index, ((controller) => {
+        getTabController(page, index, (controller) => {
             if (renderedTabs.indexOf(index) == -1) {
                 renderedTabs.push(index);
                 controller.renderTab();
             }
-        }));
+        });
     }
 
     function onPlaybackStop(e, state) {
@@ -356,20 +404,29 @@ export default function (view, params) {
     function onInputCommand(e) {
         if (e.detail.command === 'search') {
             e.preventDefault();
-            Dashboard.navigate('search?collectionType=movies&parentId=' + params.topParentId);
+            Dashboard.navigate(
+                'search?collectionType=movies&parentId=' + params.topParentId
+            );
         }
     }
 
-    let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId), 10);
+    let currentTabIndex = parseInt(
+        params.tab || getDefaultTabIndex(params.topParentId),
+        10
+    );
     const suggestionsTabIndex = 1;
 
     this.initTab = function () {
-        const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+        const tabContent = view.querySelector(
+            ".pageTabContent[data-index='" + suggestionsTabIndex + "']"
+        );
         initSuggestedTab(view, tabContent);
     };
 
     this.renderTab = function () {
-        const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+        const tabContent = view.querySelector(
+            ".pageTabContent[data-index='" + suggestionsTabIndex + "']"
+        );
         loadSuggestionsTab(view, params, tabContent);
     };
 
@@ -381,10 +438,12 @@ export default function (view, params) {
             const parentId = params.topParentId;
 
             if (parentId) {
-                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
-                    view.setAttribute('data-title', item.Name);
-                    libraryMenu.setTitle(item.Name);
-                });
+                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(
+                    function (item) {
+                        view.setAttribute('data-title', item.Name);
+                        libraryMenu.setTitle(item.Name);
+                    }
+                );
             } else {
                 view.setAttribute('data-title', globalize.translate('Movies'));
                 libraryMenu.setTitle(globalize.translate('Movies'));
@@ -403,4 +462,3 @@ export default function (view, params) {
         }
     }
 }
-

@@ -31,8 +31,7 @@ export const getChannelQuery = (
     queryOptions({
         queryKey: ['Channel', params.channelId],
         queryFn: ({ signal }) => getChannel(apiContext, params, { signal }),
-        enabled:
-            !!apiContext.api && !!apiContext.user?.Id && !!params.channelId
+        enabled: !!apiContext.api && !!apiContext.user?.Id && !!params.channelId
     });
 
 export const useGetChannel = (params: LiveTvApiGetChannelRequest) => {
