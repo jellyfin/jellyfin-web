@@ -1279,7 +1279,7 @@
     "ApiKeysCaption": "Elenco chiavi API abilitate",
     "LabelStable": "Stabile",
     "LabelChromecastVersion": "Versione Google Cast",
-    "LabelRequireHttpsHelp": "Se selezionata, il server reindirizzerà tutte le richieste HTTP a HTTPS. Vale solo se il sever è configurato per l'ascolto in HTTPS.",
+    "LabelRequireHttpsHelp": "Se selezionata, il server reindirizzerà tutte le richieste HTTP a HTTPS. Vale solo se il server è configurato per l'ascolto in HTTPS.",
     "LabelRequireHttps": "Richiede HTTPS",
     "LabelEnableHttpsHelp": "Ascolta sulla porta HTTPS configurata. Deve essere fornito un certificato valido per l'abilitazione.",
     "LabelEnableHttps": "Abilita HTTPS",
@@ -2065,5 +2065,9 @@
     "LabelProgramData": "Dati del programma",
     "ConnectAnyway": "Connetti Comunque",
     "HeaderServerMismatch": "I Server Non Combaciano",
-    "MessageServerMismatch": "Il server al quale ti stai connettendo non è lo stesso server a cui ti sei connesso in precedenza a questo indirizzo. Se questo era previsto, per favore seleziona \"Connetti Comunque\". Altrimenti, la tua connessione o il server potrebbe essere compromesso."
+    "MessageServerMismatch": "Il server al quale ti stai connettendo non è lo stesso server a cui ti sei connesso in precedenza a questo indirizzo. Se questo era previsto, per favore seleziona \"Connetti Comunque\". Altrimenti, la tua connessione o il server potrebbe essere compromesso.",
+    "LabelAvailable": "Disponibile",
+    "ManageRepositories": "Gestisci Archivi",
+    "ViewAllPlugins": "Visualizza tutti i plugin",
+    "LabelBundled": "Raggruppati"
 }

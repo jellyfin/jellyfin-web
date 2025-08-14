@@ -2064,5 +2064,9 @@
     "LiveTVPageLoadError": "Laden van opnamepagina mislukt",
     "MessageServerMismatch": "De server waarmee je probeert te verbinden, is niet dezelfde als de server waarmee je eerder op dit adres verbonden was. Als dit klopt, kies dan voor \"Toch verbinden\". Is dat niet het geval, dan is je verbinding of de server mogelijk niet veilig.",
     "ConnectAnyway": "Toch verbinden",
-    "HeaderServerMismatch": "Server komt niet overeen"
+    "HeaderServerMismatch": "Server komt niet overeen",
+    "ViewAllPlugins": "Alle plug-ins weergeven",
+    "LabelAvailable": "Beschikbaar",
+    "LabelBundled": "Gebundeld",
+    "ManageRepositories": "Repository's beheren"
 }

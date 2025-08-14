@@ -9,7 +9,7 @@ import inputManager from '../scripts/inputManager';
 import { appRouter } from './router/appRouter';
 import globalize from '../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import dom from '../scripts/dom';
+import dom from '../utils/dom';
 import recordingHelper from './recordingcreator/recordinghelper';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
