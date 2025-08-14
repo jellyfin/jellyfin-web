@@ -59,6 +59,7 @@ const QuickConnectPage: FC = () => {
             id='quickConnectPreferencesPage'
             title={globalize.translate('QuickConnect')}
             className='mainAnimatedPage libraryPage userPreferencesPage noSecondaryNavPage'
+            shouldAutoFocus
         >
             <div className='padded-left padded-right padded-bottom-page'>
                 <form onSubmit={onSubmitCode}>

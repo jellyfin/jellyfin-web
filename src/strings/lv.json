@@ -810,7 +810,7 @@
     "DeleteDeviceConfirmation": "Vai tiešām vēlaties izdzēst šo ierīci? Tā parādīsies atkārtoti nākamo reizi, kad kāds lietotājs pieteiksies ar to.",
     "ErrorDefault": "Pieprasījuma apstrādē ir notikusi kļūda. Lūdzu, mēģiniet vēlreiz vēlāk.",
     "DeathDateValue": "Miris: {0}",
-    "ConfirmEndPlayerSession": "Vai vēlaties izslēgt Jellyfin uz servera {0}?",
+    "ConfirmEndPlayerSession": "Vai vēlaties izslēgt Jellyfin serveri uz {0}?",
     "ConfirmDeleteItems": "Dzēšot šos vienumus, tie tiks izdzēsti no failu sistēmas un multivides bibliotēkas. Vai tiešām turpināt?",
     "ConfirmDeleteItem": "Dzēšot šo vienumu, tas tiks izdzēsts no failu sistēmas un multivides bibliotēkas. Vai tiešām turpināt?",
     "ConfigureDateAdded": "Uzstādīt kā metadati priekš 'Pievienošanas datums' tiek noteikts sadaļā Info panelis > Bibliotēkas > Displejs",
@@ -1783,7 +1783,7 @@
     "PlaylistError.AddFailed": "Nesanāca pievienot atskaņošanas sarakstam",
     "Smart": "Viedais",
     "SortName": "Kārtot pēc nosaukuma",
-    "SpecialFeatures": "Īpašas epizodes",
+    "SpecialFeatures": "Īpašās funkcijas",
     "StereoDownmixAlgorithmHelp": "Algoritms lai sasmalcināt daudzkanālu audio uz stereo.",
     "ViewLyrics": "Skatīt dziesmu vārdus",
     "AspectRatioCover": "Zoom",
@@ -2030,5 +2030,14 @@
     "LabelSaveTrickplayLocallyHelp": "Saglabājot trickplay attēlus multivides mapēs novietos attēlus blakus tavai multividei vieglai migrācijai un piekļuvei.",
     "AllowTonemappingSoftwareHelp": "Toņu kartēšana var pārveidot video dinamisko diapazonu uz HDR no SDR (uz augstu diapazonu no zema) paturot attēla detaļas un krāsas, kas ir ļoti būtiska informāciju reprezentējot oriģinālo ainu. Šobrīd darbojas tikai ar 10bit HDR10, HLG un DoVi video.",
     "LiveTVPageLoadError": "Neizdevās ielādēt lapu ar ierakstiem",
-    "HeaderServerMismatch": "Servera nesakritība"
+    "HeaderServerMismatch": "Servera nesakritība",
+    "MessageServerMismatch": "Serveris, kuram tu slēdzies klāt, nav tas pats, kas bija agrāk šajā adresē. Ja tas ir sagaidāms, izvēlies \"Pieslēgties tik un tā\". Ja ne, tad tavs pieslēgums vai pats serveris iespējams ir kompromitēts.",
+    "LabelTrackGain": "Skaņas celiņa līmeņošana",
+    "InterlacedVideoNotSupported": "\"Interlaced\" video nav atbalsīts.",
+    "RefFramesNotSupported": "Atsauces kadri nav atbalstīti",
+    "ConnectAnyway": "Pieslegties tik un tā",
+    "LabelBundled": "Komplektā",
+    "LabelAvailable": "Pieejams",
+    "ManageRepositories": "Pārvaldīt repozitorijus",
+    "ViewAllPlugins": "Skatīt visus spraudņus"
 }

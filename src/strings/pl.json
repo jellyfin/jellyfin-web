@@ -2065,5 +2065,9 @@
     "LiveTVPageLoadError": "Nie udało się załadować strony z nagraniami",
     "HeaderServerMismatch": "Niezgodność serwera",
     "MessageServerMismatch": "Serwer, z którym się łączysz, nie jest tym samym serwerem, z którym łączyłeś się wcześniej pod tym adresem. Jeśli jest to oczekiwane, wybierz „Połącz się mimo wszystko”. W przeciwnym razie Twoje połączenie lub serwer mogą być zagrożone.",
-    "ConnectAnyway": "Połącz się mimo wszystko"
+    "ConnectAnyway": "Połącz się mimo wszystko",
+    "LabelAvailable": "Dostępne",
+    "LabelBundled": "W pakiecie",
+    "ViewAllPlugins": "Wyświetl wszystkie wtyczki",
+    "ManageRepositories": "Zarządzaj repozytoriami"
 }

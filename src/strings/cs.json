@@ -2065,5 +2065,9 @@
     "LiveTVPageLoadError": "Načtení stránky s nahrávkami se nezdařilo",
     "ConnectAnyway": "Přesto připojit",
     "HeaderServerMismatch": "Neshoda serveru",
-    "MessageServerMismatch": "Adresa serveru, ke kterému se připojujete, se od posledního připojení změnila. Pokud jste to očekávali, stiskněte \"Přesto připojit\". Pokud jste to neočekávali, může být vaše připojení nebo server kompromitován."
+    "MessageServerMismatch": "Adresa serveru, ke kterému se připojujete, se od posledního připojení změnila. Pokud jste to očekávali, stiskněte \"Přesto připojit\". Pokud jste to neočekávali, může být vaše připojení nebo server kompromitován.",
+    "LabelAvailable": "Dostupné",
+    "LabelBundled": "Součástí",
+    "ManageRepositories": "Spravovat repozitáře",
+    "ViewAllPlugins": "Zobrazit všechny zásuvné moduly"
 }
