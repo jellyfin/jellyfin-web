@@ -150,7 +150,7 @@
     "ConfirmDeleteItem": "Tämän kohteen poistaminen poistaa sen sekä tiedostojärjestelmästä että mediakirjastosta. Haluatko varmasti jatkaa?",
     "ConfirmDeleteItems": "Näiden kohteiden poistaminen poistaa ne sekä tiedostojärjestelmästä että mediakirjastosta. Haluatko varmasti jatkaa?",
     "ConfirmDeletion": "Vahvista poistaminen",
-    "ConfirmEndPlayerSession": "Haluatko katkaista etätoiston kohteessa {0}?",
+    "ConfirmEndPlayerSession": "Haluatko sammuttaa Jellyfinin kohteessa {0}?",
     "Connect": "Yhdistä",
     "ContinueWatching": "Jatka katselua",
     "Continuing": "Jatketaan",
@@ -2059,5 +2059,13 @@
     "HeaderBackups": "Varmuuskopiot",
     "ConfirmDeleteRepository": "Poista ohjelmavarasto?",
     "LabelImageCache": "Kuvien välimuisti",
-    "LabelProgramData": "Ohjelmatiedot"
+    "LabelProgramData": "Ohjelmatiedot",
+    "LiveTVPageLoadError": "Tallennesivun lataus epäonnistui",
+    "LabelAvailable": "Saatavilla",
+    "LabelBundled": "Kootut",
+    "ManageRepositories": "Hallinnoi tietovarastoja",
+    "ViewAllPlugins": "Näytä kaikki laajennukset",
+    "ConnectAnyway": "Yhdistä joka tapauksessa",
+    "HeaderServerMismatch": "Palvelimen ristiriita",
+    "MessageServerMismatch": "Palvelin, johon olet muodostamassa yhteyttä, ei ole sama kuin aiemmin tähän osoitteeseen yhdistämäsi palvelin. Jos tämä on odotettua, valitse 'Yhdistä joka tapauksessa'. Muussa tapauksessa yhteytesi tai palvelin saattaa olla vaarantunut."
 }

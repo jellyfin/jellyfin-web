@@ -12,7 +12,7 @@ import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
 import homeSections from '../homesections/homesections';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import '../listview/listview.scss';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';

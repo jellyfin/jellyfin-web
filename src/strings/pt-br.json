@@ -760,7 +760,7 @@
     "MessageConfirmRemoveMediaLocation": "Deseja realmente remover este local?",
     "MessageConfirmRestart": "Deseja realmente reiniciar o Jellyfin?",
     "MessageConfirmRevokeApiKey": "Tem certeza que deseja revogar esta chave de API? A conexão da aplicação com este servidor será abruptamente encerrada.",
-    "MessageConfirmShutdown": "Deseja realmente desligar o servidor ?",
+    "MessageConfirmShutdown": "Deseja realmente desligar o servidor?",
     "MessageContactAdminToResetPassword": "Por favor, contate o administrador do sistema para redefinir sua senha.",
     "MessageCreateAccountAt": "Criar uma conta em {0}",
     "MessageDeleteTaskTrigger": "Deseja realmente excluir este disparador de tarefa?",
@@ -2056,5 +2056,13 @@
     "LabelProgramData": "Arquivos de programa",
     "LabelRestore": "Restaurar",
     "HeaderBackups": "Backups",
-    "LabelImageCache": "Arquivos de imagem temporários"
+    "LabelImageCache": "Arquivos de imagem temporários",
+    "LabelAvailable": "Disponível",
+    "LabelBundled": "Incluído",
+    "ManageRepositories": "Gerenciar Repositórios",
+    "ViewAllPlugins": "Ver todos os plugins",
+    "LiveTVPageLoadError": "Falha de carregar a página de gravações",
+    "ConnectAnyway": "Conectar Mesmo Assim",
+    "HeaderServerMismatch": "Incompatibilidade do servidor",
+    "MessageServerMismatch": "O servidor ao qual você está conectando não é o mesmo servidor ao qual você conectou anteriormente neste endereço. Se isso for esperado, selecione \"Conectar Mesmo Assim\". Caso contrário, sua conexão ou o servidor poderão ser comprometidos."
 }
