@@ -346,7 +346,7 @@
     "Items": "Položky",
     "Kids": "Dětské",
     "Label3DFormat": "3D formát",
-    "LabelAbortedByServerShutdown": "(Přerušeno při vypnutí serveru)",
+    "LabelAbortedByServerShutdown": "Přerušeno vypnutím serveru",
     "LabelAccessDay": "Den týdne",
     "LabelAccessEnd": "Konec",
     "LabelAccessStart": "Začátek",
