@@ -70,9 +70,9 @@ function setDocumentDirection(direction) {
 
 export function getIsElementRTL(element) {
     if (window.getComputedStyle) { // all browsers
-        return window.getComputedStyle(element, null).getPropertyValue('direction') == 'rtl';
+        return window.getComputedStyle(element, null).getPropertyValue('direction') === 'rtl';
     }
-    return element.currentStyle.direction == 'rtl';
+    return element.currentStyle.direction === 'rtl';
 }
 
 export function updateCurrentCulture() {
