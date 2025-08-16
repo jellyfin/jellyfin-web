@@ -1,4 +1,9 @@
-import type { BaseItemDto, NameIdPair, SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import type { BaseItemDto, NameIdPair, SyncPlayUserAccessType, UserDto, UserPolicy } from '@jellyfin/sdk/lib/generated-client';
+
+// Temporary extension for MaxActiveVideoStreams until SDK is updated
+interface ExtendedUserPolicy extends UserPolicy {
+    MaxActiveVideoStreams?: number;
+}
 import escapeHTML from 'escape-html';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -171,6 +176,7 @@ const UserEdit = () => {
             (user.Policy?.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 }) : '';
         (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value = String(user.Policy?.LoginAttemptsBeforeLockout) || '-1';
         (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = String(user.Policy?.MaxActiveSessions) || '0';
+        (page.querySelector('#txtMaxActiveVideoStreams') as HTMLInputElement).value = String((user.Policy as ExtendedUserPolicy)?.MaxActiveVideoStreams) || '0';
         (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value = String(user.Policy?.SyncPlayAccess);
         loading.hide();
     }, [loadAuthProviders, loadPasswordResetProviders, loadDeleteFolders ]);
@@ -219,6 +225,7 @@ const UserEdit = () => {
             user.Policy.RemoteClientBitrateLimit = Math.floor(1e6 * parseFloat((page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value || '0'));
             user.Policy.LoginAttemptsBeforeLockout = parseInt((page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value || '0', 10);
             user.Policy.MaxActiveSessions = parseInt((page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value || '0', 10);
+            (user.Policy as ExtendedUserPolicy).MaxActiveVideoStreams = parseInt((page.querySelector('#txtMaxActiveVideoStreams') as HTMLInputElement).value || '0', 10);
             user.Policy.AuthenticationProviderId = (page.querySelector('#selectLoginProvider') as HTMLSelectElement).value;
             user.Policy.PasswordResetProviderId = (page.querySelector('#selectPasswordResetProvider') as HTMLSelectElement).value;
             user.Policy.EnableContentDeletion = (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).checked;
@@ -548,6 +555,23 @@ const UserEdit = () => {
                             </div>
                             <div className='fieldDescription'>
                                 {globalize.translate('OptionMaxActiveSessionsHelp')}
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div className='verticalSection'>
+                        <div className='inputContainer' id='fldMaxActiveVideoStreams'>
+                            <Input
+                                type='number'
+                                id='txtMaxActiveVideoStreams'
+                                label={globalize.translate('LabelUserMaxActiveVideoStreams')}
+                                min={0} step={1}
+                            />
+                            <div className='fieldDescription'>
+                                {globalize.translate('OptionMaxActiveVideoStreams')}
+                            </div>
+                            <div className='fieldDescription'>
+                                {globalize.translate('OptionMaxActiveVideoStreamsHelp')}
                             </div>
                         </div>
                     </div>
