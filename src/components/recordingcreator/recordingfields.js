@@ -58,7 +58,7 @@ function fetchData(instance) {
     });
 }
 
-function onTimerChangedExternally(e, apiClient, data) {
+function onTimerChangedExternally(_e, _apiClient, data) {
     const options = this.options;
 
     if ((data.Id && this.TimerId === data.Id)
@@ -68,7 +68,7 @@ function onTimerChangedExternally(e, apiClient, data) {
     }
 }
 
-function onSeriesTimerChangedExternally(e, apiClient, data) {
+function onSeriesTimerChangedExternally(_e, _apiClient, data) {
     const options = this.options;
 
     if ((data.Id && this.SeriesTimerId === data.Id)
