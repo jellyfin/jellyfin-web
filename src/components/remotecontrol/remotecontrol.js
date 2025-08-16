@@ -34,7 +34,7 @@ let showVolumeSlider = true;
 function showAudioMenu(context, player, button) {
     const currentIndex = playbackManager.getAudioStreamIndex(player);
     const streams = playbackManager.audioTracks(player);
-    const menuItems = streams.map(function (s) {
+    const menuItems = streams.map((s) => {
         const menuItem = {
             name: s.DisplayTitle,
             id: s.Index
@@ -51,7 +51,7 @@ function showAudioMenu(context, player, button) {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
-            callback: function (id) {
+            callback: (id) => {
                 playbackManager.setAudioStreamIndex(parseInt(id, 10), player);
             }
         });
@@ -61,7 +61,7 @@ function showAudioMenu(context, player, button) {
 function showSubtitleMenu(context, player, button) {
     const currentIndex = playbackManager.getSubtitleStreamIndex(player);
     const streams = playbackManager.subtitleTracks(player);
-    const menuItems = streams.map(function (s) {
+    const menuItems = streams.map((s) => {
         const menuItem = {
             name: s.DisplayTitle,
             id: s.Index
@@ -83,7 +83,7 @@ function showSubtitleMenu(context, player, button) {
         actionsheet.show({
             items: menuItems,
             positionTo: button,
-            callback: function (id) {
+            callback: (id) => {
                 playbackManager.setSubtitleStreamIndex(parseInt(id, 10), player);
             }
         });
@@ -172,9 +172,9 @@ function updateNowPlayingInfo(context, state, serverId) {
             positionTo: contextButton
         };
         const apiClient = ServerConnections.getApiClient(item.ServerId);
-        apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
-            apiClient.getCurrentUser().then(function (user) {
-                contextButton.addEventListener('click', function () {
+        apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then((fullItem) => {
+            apiClient.getCurrentUser().then((user) => {
+                contextButton.addEventListener('click', () => {
                     itemContextMenu.show(Object.assign({
                         item: fullItem,
                         user: user,
@@ -186,7 +186,7 @@ function updateNowPlayingInfo(context, state, serverId) {
         });
         setImageUrl(context, state, url);
         setBackdrops([item]);
-        apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
+        apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then((fullItem) => {
             const userData = fullItem.UserData || {};
             const likes = userData.Likes == null ? '' : userData.Likes;
             context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
@@ -447,7 +447,7 @@ export default function () {
     }
 
     function loadPlaylist(context, player) {
-        getPlaylistItems(player).then(function (items) {
+        getPlaylistItems(player).then((items) => {
             if (items.length === 0) {
                 return;
             }
@@ -654,22 +654,16 @@ export default function () {
     }
 
     function getSaveablePlaylistItems() {
-        return getPlaylistItems(currentPlayer).then(function (items) {
-            return items.filter(function (i) {
-                return i.Id && i.ServerId;
-            });
-        });
+        return getPlaylistItems(currentPlayer).then((items) => items.filter((i) => i.Id && i.ServerId));
     }
 
     function savePlaylist() {
         import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-            getSaveablePlaylistItems().then(function (items) {
+            getSaveablePlaylistItems().then((items) => {
                 const serverId = items.length ? items[0].ServerId : ApiClient.serverId();
                 const playlistEditor = new PlaylistEditor();
                 playlistEditor.show({
-                    items: items.map(function (i) {
-                        return i.Id;
-                    }),
+                    items: items.map((i) => i.Id),
                     serverId: serverId,
                     enableAddToPlayQueue: false,
                     defaultValue: 'new'
@@ -690,59 +684,59 @@ export default function () {
             btnCommand[i].addEventListener('click', onBtnCommandClick);
         }
 
-        context.querySelector('.btnToggleFullscreen').addEventListener('click', function () {
+        context.querySelector('.btnToggleFullscreen').addEventListener('click', () => {
             if (currentPlayer) {
                 playbackManager.toggleFullscreen(currentPlayer);
             }
         });
-        context.querySelector('.btnAudioTracks').addEventListener('click', function (e) {
+        context.querySelector('.btnAudioTracks').addEventListener('click', (e) => {
             if (currentPlayer && lastPlayerState?.NowPlayingItem) {
                 showAudioMenu(context, currentPlayer, e.target);
             }
         });
-        context.querySelector('.btnSubtitles').addEventListener('click', function (e) {
+        context.querySelector('.btnSubtitles').addEventListener('click', (e) => {
             if (currentPlayer && lastPlayerState?.NowPlayingItem) {
                 showSubtitleMenu(context, currentPlayer, e.target);
             }
         });
-        context.querySelector('.btnStop').addEventListener('click', function () {
+        context.querySelector('.btnStop').addEventListener('click', () => {
             if (currentPlayer) {
                 playbackManager.stop(currentPlayer);
             }
         });
-        context.querySelector('.btnPlayPause').addEventListener('click', function () {
+        context.querySelector('.btnPlayPause').addEventListener('click', () => {
             if (currentPlayer) {
                 playbackManager.playPause(currentPlayer);
             }
         });
-        context.querySelector('.btnNextTrack').addEventListener('click', function () {
+        context.querySelector('.btnNextTrack').addEventListener('click', () => {
             if (currentPlayer) {
                 playbackManager.nextTrack(currentPlayer);
             }
         });
-        context.querySelector('.btnRewind').addEventListener('click', function () {
+        context.querySelector('.btnRewind').addEventListener('click', () => {
             if (currentPlayer) {
                 playbackManager.rewind(currentPlayer);
             }
         });
-        context.querySelector('.btnFastForward').addEventListener('click', function () {
+        context.querySelector('.btnFastForward').addEventListener('click', () => {
             if (currentPlayer) {
                 playbackManager.fastForward(currentPlayer);
             }
         });
-        context.querySelector('.btnLyrics').addEventListener('click', function () {
+        context.querySelector('.btnLyrics').addEventListener('click', () => {
             appRouter.show('lyrics');
         });
 
         for (const shuffleButton of context.querySelectorAll('.btnShuffleQueue')) {
-            shuffleButton.addEventListener('click', function () {
+            shuffleButton.addEventListener('click', () => {
                 if (currentPlayer) {
                     playbackManager.toggleQueueShuffleMode(currentPlayer);
                 }
             });
         }
 
-        context.querySelector('.btnPreviousTrack').addEventListener('click', function (e) {
+        context.querySelector('.btnPreviousTrack').addEventListener('click', (e) => {
             if (currentPlayer) {
                 if (playbackManager.isPlayingAudio(currentPlayer)) {
                     // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
@@ -766,7 +760,7 @@ export default function () {
             }
         });
 
-        context.querySelector('.btnPreviousTrack').addEventListener('dblclick', function () {
+        context.querySelector('.btnPreviousTrack').addEventListener('dblclick', () => {
             if (currentPlayer) {
                 playbackManager.previousTrack(currentPlayer);
             }
@@ -780,7 +774,7 @@ export default function () {
             }
         });
 
-        positionSlider.getBubbleText = function (value) {
+        positionSlider.getBubbleText = (value) => {
             const state = lastPlayerState;
 
             if (!state?.NowPlayingItem || !currentRuntimeTicks) {
@@ -797,20 +791,20 @@ export default function () {
             playbackManager.setVolume(e.target.value, currentPlayer);
         });
 
-        context.querySelector('.buttonMute').addEventListener('click', function () {
+        context.querySelector('.buttonMute').addEventListener('click', () => {
             playbackManager.toggleMute(currentPlayer);
         });
         const playlistContainer = context.querySelector('.playlist');
-        playlistContainer.addEventListener('action-remove', function (e) {
+        playlistContainer.addEventListener('action-remove', (e) => {
             playbackManager.removeFromPlaylist([e.detail.playlistItemId], currentPlayer);
         });
-        playlistContainer.addEventListener('itemdrop', function (e) {
+        playlistContainer.addEventListener('itemdrop', (e) => {
             const newIndex = e.detail.newIndex;
             const playlistItemId = e.detail.playlistItemId;
             playbackManager.movePlaylistItem(playlistItemId, newIndex, currentPlayer);
         });
         context.querySelector('.btnSavePlaylist').addEventListener('click', savePlaylist);
-        context.querySelector('.btnTogglePlaylist').addEventListener('click', function () {
+        context.querySelector('.btnTogglePlaylist').addEventListener('click', () => {
             if (context.querySelector('.playlist').classList.contains('hide')) {
                 context.querySelector('.playlist').classList.remove('hide');
                 context.querySelector('.btnSavePlaylist').classList.remove('hide');
@@ -921,16 +915,16 @@ export default function () {
     let currentRuntimeTicks = 0;
     const self = this;
 
-    self.init = function (ownerView, context) {
+    self.init = (ownerView, context) => {
         dlg = context;
         init(ownerView, dlg);
     };
 
-    self.onShow = function () {
+    self.onShow = () => {
         onShow(dlg);
     };
 
-    self.destroy = function () {
+    self.destroy = () => {
         onDialogClosed();
     };
 }

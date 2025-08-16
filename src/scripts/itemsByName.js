@@ -67,7 +67,7 @@ function renderItems(page, item) {
     }
 
     const elem = page.querySelector('#childrenContent');
-    elem.innerHTML = sections.map(function (section) {
+    elem.innerHTML = sections.map((section) => {
         let html = '';
         let sectionClass = 'verticalSection';
 
@@ -266,7 +266,7 @@ function renderSection(item, element, type) {
 
 function loadItems(element, item, type, query, listOptions) {
     query = getQuery(query, item);
-    getItemsFunction(query, item)(query.StartIndex, query.Limit, query.Fields).then(function (result) {
+    getItemsFunction(query, item)(query.StartIndex, query.Limit, query.Fields).then((result) => {
         // If results are empty, hide the section
         if (!result.Items?.length) {
             element.classList.add('hide');
@@ -356,7 +356,7 @@ function getQuery(options, item) {
 
 function getItemsFunction(options, item) {
     const query = getQuery(options, item);
-    return function (index, limit, fields) {
+    return (index, limit, fields) => {
         query.StartIndex = index;
         query.Limit = limit;
 
