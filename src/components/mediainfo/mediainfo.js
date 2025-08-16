@@ -321,11 +321,10 @@ export function getMediaInfoHtml(item, options = {}) {
 
 export function getEndsAt(item) {
     if (item.MediaType === 'Video' && item.RunTimeTicks && !item.StartDate) {
-        let endDate = new Date().getTime() + (item.RunTimeTicks / 10000);
-        endDate = new Date(endDate);
-
-        const displayTime = datetime.getDisplayTime(endDate);
-        return globalize.translate('EndsAtValue', displayTime);
+        const positionTicks = item.UserData?.PlaybackPositionTicks ?? 0;
+        const playbackRate = 1;
+        const includeText = true;
+        return getEndsAtFromPosition(item.RunTimeTicks, positionTicks, playbackRate, includeText);
     }
 
     return null;
