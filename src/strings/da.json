@@ -310,7 +310,7 @@
     "ItemCount": "{0} elementer",
     "Items": "emner",
     "Kids": "Børn",
-    "LabelAbortedByServerShutdown": "Annulleret grundet server nedlukning",
+    "LabelAbortedByServerShutdown": "Annulleret grundet servernedlukning",
     "LabelAccessDay": "Ugedag",
     "LabelAccessEnd": "Sluttid",
     "LabelAccessStart": "Starttid",
