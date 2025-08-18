@@ -1974,5 +1974,7 @@
     "UseEpisodeImagesInNextUp": "Използвай изображения от епизоди в секциите „Следващо“ и „Продължи гледането“",
     "ViewSettings": "Виж настройките",
     "TonemappingRangeHelp": "Избери изходен цветови диапазон. Автоматичното е същото като входния диапазон.",
-    "HeaderSelectFallbackFontPath": "Избери път до папката с резервни шрифтове"
+    "HeaderSelectFallbackFontPath": "Избери път до папката с резервни шрифтове",
+    "EnableGamepadHelp": "Следи за вход от всички свързани контролери. (Изисква: \"TV\" режим на дисплея)",
+    "AllowVideoToolboxTonemappingHelp": "Хардуерно ускорено tone-mapping чрез VideoToolbox. Съвместимо с повечето HDR формати – HDR10, HDR10+ и HLG, но не поддържа Dolby Vision профил 5. Това има по-висок приоритет сръвнено с друга имплементация на Metal."
 }
