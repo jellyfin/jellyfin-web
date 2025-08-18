@@ -2040,5 +2040,15 @@
     "LabelFallbackFontPath": "Път до папката с резервни шрифтове",
     "LabelQscale": "Qscale",
     "MediaInfoBlPresentFlag": "Флаг за предварителна настройка на Dolby Vision Base Layer",
-    "MediaInfoDvBlSignalCompatibilityId": "Идентификатор за съвместимост на сигнала с Dolby Vision Base Layer"
+    "MediaInfoDvBlSignalCompatibilityId": "Идентификатор за съвместимост на сигнала с Dolby Vision Base Layer",
+    "LabelTileWidth": "Ширина на плочката",
+    "LabelTileHeightHelp": "Максимален брой изображения в плочка по вертикала.",
+    "LabelTrackGain": "Усилване на трака",
+    "AspectRatioFill": "Разтягане",
+    "PreferFmp4HlsContainerHelp": "Предпочитай използването на fMP4 като контейнер по подразбиране за HLS, което позволява директно стриймване на HEVC и AV1 съдържание на поддържани устройства.",
+    "MediaInfoElPresentFlag": "Флаг за предварителна настройка на подобряващия слой (EL) в Dolby Vision",
+    "LabelTileHeight": "Височина на плочката",
+    "LabelDirectStreamingInfo": "Информация за директно стриймване",
+    "Clip": "Клип",
+    "LabelTileWidthHelp": "Максимален брой изображения в плочка по хоризонтала."
 }
