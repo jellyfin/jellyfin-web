@@ -1138,7 +1138,7 @@
     "HeaderApp": "Aplicativo",
     "HeaderStatus": "Status",
     "Horizontal": "Horizontal",
-    "LabelAbortedByServerShutdown": "(Abortado devido ao desligamento do servidor)",
+    "LabelAbortedByServerShutdown": "Interrompido pelo desligamento do servidor",
     "LabelCache": "Cache",
     "LabelLogs": "Registros",
     "LabelProfileCodecs": "Codecs",
