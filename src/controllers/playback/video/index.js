@@ -1198,7 +1198,7 @@ export default function (view) {
         }
     }
 
-    function autoSelectSubtitleTrack() {
+    function toggleDefaultSubtitleTrack() {
         const player = currentPlayer;
         const subtitleTracks = playbackManager.subtitleTracks(player);
         const currentIndex = playbackManager.getSubtitleStreamIndex(player) ?? -1;
