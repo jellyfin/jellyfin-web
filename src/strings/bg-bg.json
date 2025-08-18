@@ -2023,5 +2023,7 @@
     "LabelWidthResolutions": "Хоризонтални резолюции",
     "PriorityBelowNormal": "Под нормалното",
     "PriorityIdle": "Покой (Idle)",
-    "LabelProcessPriority": "Приоритет на процеса"
+    "LabelProcessPriority": "Приоритет на процеса",
+    "LabelQscaleHelp": "Скала на качеството при изходни изображения от ffmpeg – 2 е най-високо качество, 31 е най-ниско.",
+    "LabelTrickplayThreads": "FFmpeg нишки"
 }
