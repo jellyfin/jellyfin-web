@@ -1378,7 +1378,7 @@
     "QuickConnectAuthorizeSuccess": "Você autorizou o dispositivo com sucesso!",
     "QuickConnectAuthorizeCode": "Inserir código {0} para entrar",
     "QuickConnectActivationSuccessful": "Ativado com sucesso",
-    "QuickConnect": "Conexão Rápida",
+    "QuickConnect": "Quick Connect",
     "PosterCard": "Poster Cartão",
     "LabelCurrentStatus": "Status atual",
     "EnableQuickConnect": "Habilitar Quick Connect nesse servidor",
