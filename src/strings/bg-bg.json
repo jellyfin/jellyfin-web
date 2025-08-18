@@ -2037,5 +2037,8 @@
     "LabelFallbackFontPathHelp": "Тези шрифтове се използват от някои клиенти за рендър на субтитри. За повече информация, моля, консултирайте се с документацията.",
     "AspectRatioCover": "Увеличение",
     "HeaderSelectFallbackFontPathHelp": "Изберете или въведете пътя до папката с резервни шрифтове, използвани за визуализиране на ASS/SSA субтитри.",
-    "LabelFallbackFontPath": "Път до папката с резервни шрифтове"
+    "LabelFallbackFontPath": "Път до папката с резервни шрифтове",
+    "LabelQscale": "Qscale",
+    "MediaInfoBlPresentFlag": "Флаг за предварителна настройка на Dolby Vision Base Layer",
+    "MediaInfoDvBlSignalCompatibilityId": "Идентификатор за съвместимост на сигнала с Dolby Vision Base Layer"
 }
