@@ -1198,8 +1198,7 @@ export default function (view) {
         }
     }
 
-    function toggleDefaultSubtitleTrack() {
-        const player = currentPlayer;
+    function toggleDefaultSubtitleTrack(player) {
         const subtitleTracks = playbackManager.subtitleTracks(player);
         const currentIndex = playbackManager.getSubtitleStreamIndex(player) ?? -1;
         const defaultIndex = player?.streamInfo?.mediaSource?.DefaultSubtitleStreamIndex ?? -1;
@@ -1431,7 +1430,7 @@ export default function (view) {
             case 'C':
                 if (!e.shiftKey) {
                     e.preventDefault();
-                    toggleDefaultSubtitleTrack();
+                    toggleDefaultSubtitleTrack(currentPlayer);
                 }
                 break;
             case 'g':
