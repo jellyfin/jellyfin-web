@@ -1431,7 +1431,7 @@ export default function (view) {
             case 'C':
                 if (!e.shiftKey) {
                     e.preventDefault();
-                    autoSelectSubtitleTrack();
+                    toggleDefaultSubtitleTrack();
                 }
                 break;
             case 'g':
