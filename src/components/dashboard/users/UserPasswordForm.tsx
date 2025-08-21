@@ -1,46 +1,55 @@
-import React, { FunctionComponent, useCallback, useEffect, useRef } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
+import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import Dashboard from '../../../utils/dashboard';
-import globalize from '../../../scripts/globalize';
-import LibraryMenu from '../../../scripts/libraryMenu';
+import globalize from '../../../lib/globalize';
 import confirm from '../../confirm/confirm';
 import loading from '../../loading/loading';
 import toast from '../../toast/toast';
-import ButtonElement from '../../../elements/ButtonElement';
-import InputElement from '../../../elements/InputElement';
+import Button from '../../../elements/emby-button/Button';
+import Input from '../../../elements/emby-input/Input';
 
 type IProps = {
-    userId: string;
+    userId: string | null;
 };
 
 const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
     const element = useRef<HTMLDivElement>(null);
+    const user = useRef<UserDto>();
+    const libraryMenu = useMemo(async () => ((await import('../../../scripts/libraryMenu')).default), []);
 
     const loadUser = useCallback(async () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[UserPasswordForm] Unexpected null page reference');
             return;
         }
 
-        const user = await window.ApiClient.getUser(userId);
+        if (!userId) {
+            console.error('[UserPasswordForm] missing user id');
+            return;
+        }
+
+        user.current = await window.ApiClient.getUser(userId);
         const loggedInUser = await Dashboard.getCurrentUser();
 
-        if (!user.Policy || !user.Configuration) {
+        if (!user.current.Policy || !user.current.Configuration) {
             throw new Error('Unexpected null user policy or configuration');
         }
 
-        LibraryMenu.setTitle(user.Name);
+        (await libraryMenu).setTitle(user.current.Name);
 
-        if (user.HasConfiguredPassword) {
-            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
+        if (user.current.HasConfiguredPassword) {
+            if (!user.current.Policy?.IsAdministrator) {
+                (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
+            }
             (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
         } else {
             (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.add('hide');
             (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
         }
 
-        const canChangePassword = loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess;
+        const canChangePassword = loggedInUser?.Policy?.IsAdministrator || user.current.Policy.EnableUserPreferenceAccess;
         (page.querySelector('.passwordSection') as HTMLDivElement).classList.toggle('hide', !canChangePassword);
 
         import('../../autoFocuser').then(({ default: autoFocuser }) => {
@@ -58,7 +67,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[UserPasswordForm] Unexpected null page reference');
             return;
         }
 
@@ -69,6 +78,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         const onSubmit = (e: Event) => {
             if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value != (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value) {
                 toast(globalize.translate('PasswordMatchError'));
+            } else if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value == '' && user.current?.Policy?.IsAdministrator) {
+                toast(globalize.translate('PasswordMissingSaveError'));
             } else {
                 loading.show();
                 savePassword();
@@ -79,6 +90,11 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         };
 
         const savePassword = () => {
+            if (!userId) {
+                console.error('[UserPasswordForm.savePassword] missing user id');
+                return;
+            }
+
             let currentPassword = (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value;
             const newPassword = (page.querySelector('#txtNewPassword') as HTMLInputElement).value;
 
@@ -105,6 +121,11 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
         };
 
         const resetPassword = () => {
+            if (!userId) {
+                console.error('[UserPasswordForm.resetPassword] missing user id');
+                return;
+            }
+
             const msg = globalize.translate('PasswordResetConfirmation');
             confirm(msg, globalize.translate('ResetPassword')).then(function () {
                 loading.show();
@@ -137,41 +158,41 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             >
                 <div className='detailSection'>
                     <div id='fldCurrentPassword' className='inputContainer hide'>
-                        <InputElement
+                        <Input
                             type='password'
                             id='txtCurrentPassword'
-                            label='LabelCurrentPassword'
-                            options={'autoComplete="off"'}
+                            label={globalize.translate('LabelCurrentPassword')}
+                            autoComplete='off'
                         />
                     </div>
                     <div className='inputContainer'>
-                        <InputElement
+                        <Input
                             type='password'
                             id='txtNewPassword'
-                            label='LabelNewPassword'
-                            options={'autoComplete="off"'}
+                            label={globalize.translate('LabelNewPassword')}
+                            autoComplete='off'
                         />
                     </div>
                     <div className='inputContainer'>
-                        <InputElement
+                        <Input
                             type='password'
                             id='txtNewPasswordConfirm'
-                            label='LabelNewPasswordConfirm'
-                            options={'autoComplete="off"'}
+                            label={globalize.translate('LabelNewPasswordConfirm')}
+                            autoComplete='off'
                         />
                     </div>
                     <br />
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
-                            title='SavePassword'
+                            title={globalize.translate('SavePassword')}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnResetPassword'
                             className='raised button-cancel block hide'
-                            title='ResetPassword'
+                            title={globalize.translate('ResetPassword')}
                         />
                     </div>
                 </div>

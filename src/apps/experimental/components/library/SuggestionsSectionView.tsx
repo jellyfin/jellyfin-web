@@ -1,19 +1,21 @@
-import {
-    type RecommendationDto,
-    RecommendationType
-} from '@jellyfin/sdk/lib/generated-client';
+import type { RecommendationDto } from '@jellyfin/sdk/lib/generated-client/models/recommendation-dto';
+import { RecommendationType } from '@jellyfin/sdk/lib/generated-client/models/recommendation-type';
 import React, { type FC } from 'react';
+
+import { useApi } from 'hooks/useApi';
 import {
     useGetMovieRecommendations,
     useGetSuggestionSectionsWithItems
 } from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';
-import SectionContainer from './SectionContainer';
+import NoItemsMessage from 'components/common/NoItemsMessage';
+import SectionContainer from '../../../../components/common/SectionContainer';
 import { CardShape } from 'utils/card';
 import type { ParentId } from 'types/library';
 import type { Section, SectionType } from 'types/sections';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 interface SuggestionsSectionViewProps {
     parentId: ParentId;
@@ -26,6 +28,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
     sectionType,
     isMovieRecommendationEnabled = false
 }) => {
+    const { __legacyApiClient__ } = useApi();
     const { isLoading, data: sectionsWithItems } =
         useGetSuggestionSectionsWithItems(parentId, sectionType);
 
@@ -39,12 +42,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
     }
 
     if (!sectionsWithItems?.length && !movieRecommendationsItems?.length) {
-        return (
-            <div className='noItemsMessage centerMessage'>
-                <h1>{globalize.translate('MessageNothingHere')}</h1>
-                <p>{globalize.translate('MessageNoItemsAvailable')}</p>
-            </div>
-        );
+        return <NoItemsMessage />;
     }
 
     const getRouteUrl = (section: Section) => {
@@ -97,16 +95,22 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
             {sectionsWithItems?.map(({ section, items }) => (
                 <SectionContainer
                     key={section.type}
-                    sectionTitle={globalize.translate(section.name)}
-                    items={items ?? []}
-                    url={getRouteUrl(section)}
+                    sectionHeaderProps={{
+                        title: globalize.translate(section.name),
+                        url: getRouteUrl(section)
+                    }}
+                    itemsContainerProps={{
+                        queryKey: ['SuggestionSectionWithItems']
+                    }}
+                    items={items}
                     cardOptions={{
                         ...section.cardOptions,
                         queryKey: ['SuggestionSectionWithItems'],
                         showTitle: true,
                         centerText: true,
                         cardLayout: false,
-                        overlayText: false
+                        overlayText: false,
+                        serverId: __legacyApiClient__?.serverId()
                     }}
                 />
             ))}
@@ -115,8 +119,13 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                 <SectionContainer
                     // eslint-disable-next-line react/no-array-index-key
                     key={`${recommendation.CategoryId}-${index}`} // use a unique id return value may have duplicate id
-                    sectionTitle={getRecommendationTittle(recommendation)}
-                    items={recommendation.Items ?? []}
+                    sectionHeaderProps={{
+                        title: getRecommendationTittle(recommendation)
+                    }}
+                    itemsContainerProps={{
+                        queryKey: ['MovieRecommendations']
+                    }}
+                    items={recommendation.Items as ItemDto[]}
                     cardOptions={{
                         queryKey: ['MovieRecommendations'],
                         shape: CardShape.PortraitOverflow,
@@ -125,7 +134,8 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                         overlayPlayButton: true,
                         showTitle: true,
                         centerText: true,
-                        cardLayout: false
+                        cardLayout: false,
+                        serverId: __legacyApiClient__?.serverId()
                     }}
                 />
             ))}

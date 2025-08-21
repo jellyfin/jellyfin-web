@@ -1,4 +1,4 @@
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { appHost } from '../../components/apphost';
 import alert from '../../components/alert';

@@ -27,19 +27,11 @@ function fallback(urls) {
     })();
 }
 
-function sameDomain(url) {
-    const a = document.createElement('a');
-    a.href = url;
-
-    return window.location.hostname === a.hostname && window.location.protocol === a.protocol;
-}
-
 function download(url) {
     const a = document.createElement('a');
     a.download = '';
     a.href = url;
-    // firefox doesn't support `a.click()`...
-    a.dispatchEvent(new MouseEvent('click'));
+    a.click();
 }
 
 export default function (urls) {
@@ -47,19 +39,13 @@ export default function (urls) {
         throw new Error('`urls` required');
     }
 
-    if (typeof document.createElement('a').download === 'undefined') {
+    if (typeof document.createElement('a').download === 'undefined' || browser.iOS) {
         return fallback(urls);
     }
 
     let delay = 0;
 
     urls.forEach(function (url) {
-        // the download init has to be sequential for firefox if the urls are not on the same domain
-        if (browser.firefox && !sameDomain(url)) {
-            setTimeout(download.bind(null, url), 100 * ++delay);
-            return;
-        }
-
-        download(url);
+        setTimeout(download.bind(null, url), 100 * ++delay);
     });
 }

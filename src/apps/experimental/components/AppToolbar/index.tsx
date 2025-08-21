@@ -1,16 +1,14 @@
-import SearchIcon from '@mui/icons-material/Search';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import React, { FC } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Stack from '@mui/material/Stack';
+import React, { type FC } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import AppToolbar from 'components/toolbar/AppToolbar';
-import globalize from 'scripts/globalize';
+import ServerButton from 'components/toolbar/ServerButton';
 
-import AppTabs from '../tabs/AppTabs';
 import RemotePlayButton from './RemotePlayButton';
 import SyncPlayButton from './SyncPlayButton';
-import { isTabPath } from '../tabs/tabRoutes';
+import SearchButton from './SearchButton';
+import UserViewNav from './userViews/UserViewNav';
 
 interface AppToolbarProps {
     isDrawerAvailable: boolean
@@ -45,18 +43,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
                 <>
                     <SyncPlayButton />
                     <RemotePlayButton />
-
-                    <Tooltip title={globalize.translate('Search')}>
-                        <IconButton
-                            size='large'
-                            aria-label={globalize.translate('Search')}
-                            color='inherit'
-                            component={Link}
-                            to='/search.html'
-                        >
-                            <SearchIcon />
-                        </IconButton>
-                    </Tooltip>
+                    <SearchButton />
                 </>
             )}
             isDrawerAvailable={isDrawerAvailable}
@@ -64,7 +51,18 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
             onDrawerButtonClick={onDrawerButtonClick}
             isUserMenuAvailable={!isPublicPath}
         >
-            {isTabsAvailable && (<AppTabs isDrawerOpen={isDrawerOpen} />)}
+            {!isDrawerAvailable && (
+                <Stack
+                    direction='row'
+                    spacing={0.5}
+                >
+                    <ServerButton />
+
+                    {!isPublicPath && (
+                        <UserViewNav />
+                    )}
+                </Stack>
+            )}
         </AppToolbar>
     );
 };

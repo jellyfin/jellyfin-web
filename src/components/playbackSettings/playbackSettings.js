@@ -1,12 +1,20 @@
+import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
+import escapeHTML from 'escape-html';
+
+import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
+import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
+import browser from '../../scripts/browser';
 import focusManager from '../focusManager';
 import qualityoptions from '../qualityOptions';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
 import { getVisualizerInputValues, setVisualizerSettings } from 'components/visualizer/visualizers.logic';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './playbackSettings.template.html';
 
@@ -39,6 +47,42 @@ function populateLanguages(select, languages) {
     }
 
     select.innerHTML = html;
+}
+
+function populateMediaSegments(container, userSettings) {
+    const selectedValues = {};
+    const actionOptions = Object.values(MediaSegmentAction)
+        .map(action => {
+            const actionLabel = globalize.translate(`MediaSegmentAction.${action}`);
+            return `<option value='${action}'>${actionLabel}</option>`;
+        })
+        .join('');
+
+    const segmentSettings = [
+        // List the types in a logical order (and exclude "Unknown" type)
+        MediaSegmentType.Intro,
+        MediaSegmentType.Preview,
+        MediaSegmentType.Recap,
+        MediaSegmentType.Commercial,
+        MediaSegmentType.Outro
+    ].map(segmentType => {
+        const segmentTypeLabel = globalize.translate('LabelMediaSegmentsType', globalize.translate(`MediaSegmentType.${segmentType}`));
+        const id = getId(segmentType);
+        selectedValues[id] = getMediaSegmentAction(userSettings, segmentType);
+        return `<div class="selectContainer">
+<select is="emby-select" id="${id}" class="segmentTypeAction" label="${segmentTypeLabel}">
+    ${actionOptions}
+</select>
+</div>`;
+    }).join('');
+
+    container.innerHTML = segmentSettings;
+
+    Object.entries(selectedValues)
+        .forEach(([id, value]) => {
+            const field = container.querySelector(`#${id}`);
+            if (field) field.value = value;
+        });
 }
 
 function fillQuality(select, isInNetwork, mediatype, maxVideoWidth) {
@@ -106,7 +150,7 @@ function showHideQualityFields(context, user, apiClient) {
         context.querySelector('.videoQualitySection').classList.add('hide');
     }
 
-    if (appHost.supports('multiserver')) {
+    if (appHost.supports(AppFeature.MultiServer)) {
         context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
         context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
 
@@ -145,6 +189,15 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
 
     showHideQualityFields(context, user, apiClient);
 
+    if (browser.safari) {
+        context.querySelector('.fldEnableHi10p').classList.remove('hide');
+    }
+
+    // Show hls segment length setting for webOS only, as the setting only aims to fix an issue on that platform.
+    if (browser.web0s) {
+        context.querySelector('.fldLimitSegmentLength').classList.remove('hide');
+    }
+
     context.querySelector('#selectAllowedAudioChannels').value = userSettings.allowedAudioChannels();
 
     apiClient.getCultures().then(allCultures => {
@@ -154,7 +207,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
         context.querySelector('.chkEpisodeAutoPlay').checked = user.Configuration.EnableNextEpisodeAutoPlay || false;
     });
 
-    if (appHost.supports('externalplayerintent') && userId === loggedInUserId) {
+    if (appHost.supports(AppFeature.ExternalPlayerIntent) && userId === loggedInUserId) {
         context.querySelector('.fldExternalPlayer').classList.remove('hide');
     } else {
         context.querySelector('.fldExternalPlayer').classList.add('hide');
@@ -163,7 +216,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     if (userId === loggedInUserId && (user.Policy.EnableVideoPlaybackTranscoding || user.Policy.EnableAudioPlaybackTranscoding)) {
         context.querySelector('.qualitySections').classList.remove('hide');
 
-        if (appHost.supports('chromecast') && user.Policy.EnableVideoPlaybackTranscoding) {
+        if (appHost.supports(AppFeature.Chromecast) && user.Policy.EnableVideoPlaybackTranscoding) {
             context.querySelector('.fldChromecastQuality').classList.remove('hide');
         } else {
             context.querySelector('.fldChromecastQuality').classList.add('hide');
@@ -175,8 +228,10 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
 
     context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
     context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
+    context.querySelector('.chkLimitSegmentLength').checked = userSettings.limitSegmentLength();
     context.querySelector('.chkEnableDts').checked = appSettings.enableDts();
     context.querySelector('.chkEnableTrueHd').checked = appSettings.enableTrueHd();
+    context.querySelector('.chkEnableHi10p').checked = appSettings.enableHi10p();
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
     context.querySelector('#sliderCrossfadeDuration').value = userSettings.crossfadeDuration();
@@ -185,7 +240,11 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
     context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
     context.querySelector('.chkLimitSupportedVideoResolution').checked = appSettings.limitSupportedVideoResolution();
+    context.querySelector('#selectPreferredTranscodeVideoCodec').value = appSettings.preferredTranscodeVideoCodec();
     context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value = appSettings.preferredTranscodeVideoAudioCodec();
+    context.querySelector('.chkDisableVbrAudioEncoding').checked = appSettings.disableVbrAudio();
+    context.querySelector('.chkAlwaysRemuxFlac').checked = appSettings.alwaysRemuxFlac();
+    context.querySelector('.chkAlwaysRemuxMp3').checked = appSettings.alwaysRemuxMp3();
 
     context.querySelector('.chkEnableButterchurn').checked = userSettings.visualizerConfiguration().butterchurn.enabled;
     context.querySelector('#sliderButterchurnPresetInterval').value = userSettings.visualizerConfiguration().butterchurn.presetInterval;
@@ -218,6 +277,9 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     fillSkipLengths(selectSkipBackLength);
     selectSkipBackLength.value = userSettings.skipBackLength();
 
+    const mediaSegmentContainer = context.querySelector('.mediaSegmentActionContainer');
+    populateMediaSegments(mediaSegmentContainer, userSettings);
+
     loading.hide();
 }
 
@@ -227,10 +289,16 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     appSettings.maxChromecastBitrate(context.querySelector('.selectChromecastVideoQuality').value);
     appSettings.maxVideoWidth(context.querySelector('.selectMaxVideoWidth').value);
     appSettings.limitSupportedVideoResolution(context.querySelector('.chkLimitSupportedVideoResolution').checked);
+    appSettings.preferredTranscodeVideoCodec(context.querySelector('#selectPreferredTranscodeVideoCodec').value);
     appSettings.preferredTranscodeVideoAudioCodec(context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value);
 
     appSettings.enableDts(context.querySelector('.chkEnableDts').checked);
     appSettings.enableTrueHd(context.querySelector('.chkEnableTrueHd').checked);
+
+    appSettings.enableHi10p(context.querySelector('.chkEnableHi10p').checked);
+    appSettings.disableVbrAudio(context.querySelector('.chkDisableVbrAudioEncoding').checked);
+    appSettings.alwaysRemuxFlac(context.querySelector('.chkAlwaysRemuxFlac').checked);
+    appSettings.alwaysRemuxMp3(context.querySelector('.chkAlwaysRemuxMp3').checked);
 
     setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -241,6 +309,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.PlayDefaultAudioTrack = context.querySelector('.chkPlayDefaultAudioTrack').checked;
     user.Configuration.EnableNextEpisodeAutoPlay = context.querySelector('.chkEpisodeAutoPlay').checked;
     userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
+    userSettingsInstance.limitSegmentLength(context.querySelector('.chkLimitSegmentLength').checked);
     userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
     userSettingsInstance.selectAudioNormalization(context.querySelector('#selectAudioNormalization').value);
     userSettingsInstance.crossfadeDuration(context.querySelector('#sliderCrossfadeDuration').value);
@@ -251,6 +320,11 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.CastReceiverId = context.querySelector('.selectChromecastVersion').value;
     userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
     userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
+
+    const segmentTypeActions = context.querySelectorAll('.segmentTypeAction') || [];
+    Array.prototype.forEach.call(segmentTypeActions, actionEl => {
+        userSettingsInstance.set(actionEl.id, actionEl.value, false);
+    });
 
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);
 }
@@ -270,36 +344,6 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
             loading.hide();
         });
     });
-}
-
-function setSelectValue(select, value, defaultValue) {
-    select.value = value;
-
-    if (select.selectedIndex < 0) {
-        select.value = defaultValue;
-    }
-}
-
-function onMaxVideoWidthChange(e) {
-    const context = this.options.element;
-
-    const selectVideoInNetworkQuality = context.querySelector('.selectVideoInNetworkQuality');
-    const selectVideoInternetQuality = context.querySelector('.selectVideoInternetQuality');
-    const selectChromecastVideoQuality = context.querySelector('.selectChromecastVideoQuality');
-
-    const selectVideoInNetworkQualityValue = selectVideoInNetworkQuality.value;
-    const selectVideoInternetQualityValue = selectVideoInternetQuality.value;
-    const selectChromecastVideoQualityValue = selectChromecastVideoQuality.value;
-
-    const maxVideoWidth = parseInt(e.target.value || '0', 10) || 0;
-
-    fillQuality(selectVideoInNetworkQuality, true, 'Video', maxVideoWidth);
-    fillQuality(selectVideoInternetQuality, false, 'Video', maxVideoWidth);
-    fillChromecastQuality(selectChromecastVideoQuality, maxVideoWidth);
-
-    setSelectValue(selectVideoInNetworkQuality, selectVideoInNetworkQualityValue, '');
-    setSelectValue(selectVideoInternetQuality, selectVideoInternetQualityValue, '');
-    setSelectValue(selectChromecastVideoQuality, selectChromecastVideoQualityValue, '');
 }
 
 function onSubmit(e) {
@@ -328,8 +372,6 @@ function embed(options, self) {
     if (options.enableSaveButton) {
         options.element.querySelector('.btnSave').classList.remove('hide');
     }
-
-    options.element.querySelector('.selectMaxVideoWidth').addEventListener('change', onMaxVideoWidthChange.bind(self));
 
     self.loadData();
 

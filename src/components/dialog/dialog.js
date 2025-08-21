@@ -1,10 +1,10 @@
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import layoutManager from '../layoutManager';
 import scrollHelper from '../../scripts/scrollHelper';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';

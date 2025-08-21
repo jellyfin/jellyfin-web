@@ -1,10 +1,11 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { type FC, useCallback } from 'react';
+import IconButton from '@mui/material/IconButton';
 import CheckIcon from '@mui/icons-material/Check';
-import { IconButton } from '@mui/material';
 import classNames from 'classnames';
-import globalize from 'scripts/globalize';
+
+import globalize from 'lib/globalize';
 import { useTogglePlayedMutation } from 'hooks/useFetchItems';
 
 interface PlayedButtonProps {

@@ -22,7 +22,7 @@
             <input type="checkbox" is="emby-checkbox" class="chkPlayDefaultAudioTrack" />
             <span>${LabelPlayDefaultAudioTrack}</span>
         </label>
-        
+
         <div class="sliderContainer-settings sliderContainer-withDescription">
             <div class="sliderContainer">
                 <input is="emby-slider" id="sliderCrossfadeDuration" label="${CrossfadeDuration}" type="range"
@@ -30,12 +30,36 @@
             </div>
             <div class="fieldDescription">${CrossfadeDurationHelp}</div>
         </div>
-        
+
         <div>
             <label class="checkboxContainer">
                 <input type="checkbox" is="emby-checkbox" class="chkEnableButterchurn" />
                 <span>${EnableButterchurn}</span>
             </label>
+        </div>
+        <div class="sliderContainer-settings sliderContainer-withDescription">
+            <div class="sliderContainer">
+                <input is="emby-slider" id="sliderButterchurnPresetInterval" label="${ButterchurnPresetInterval}"
+                    type="range" step="1" min="10" max="120" />
+            </div>
+            <div class="fieldDescription">${ButterchurnPresetIntervalHelp}</div>
+        </div>
+        <label class="checkboxContainer">
+            <input type="checkbox" is="emby-checkbox" class="chkEnableFrequencyAnalyzer" />
+            <span>${EnableFrequencyAnalyzer}</span>
+        </label>
+        <label class="checkboxContainer">
+            <input type="checkbox" is="emby-checkbox" class="chkEnableWavesurfer" />
+            <span>${EnableWavesurfer}</span>
+        </label>
+    </div>
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" class="chkDisableVbrAudioEncoding" />
+            <span>${LabelDisableVbrAudioEncoding}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${DisableVbrAudioEncodingHelp}</div>
+    </div>
 
             <div class="sliderContainer-settings sliderContainer-withDescription">
                 <div class="sliderContainer">
@@ -268,6 +292,9 @@
         <div class="selectContainer">
             <select is="emby-select" class="selectSkipBackLength" label="${LabelSkipBackLength}"></select>
         </div>
+
+        <h3 class="sectionTitle">${HeaderMediaSegmentActions}</h3>
+        <div class="mediaSegmentActionContainer"></div>
     </div>
 
     <div class="verticalSection verticalSection-extrabottompadding">
@@ -297,6 +324,14 @@
                  <span>${EnableHi10p}</span>
              </label>
              <div class="fieldDescription checkboxFieldDescription">${EnableHi10pHelp}</div>
+        </div>
+
+        <div class="checkboxContainer checkboxContainer-withDescription fldLimitSegmentLength hide">
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkLimitSegmentLength" />
+                <span>${LimitSegmentLength}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${LimitSegmentLengthHelp}</div>
         </div>
 
         <div class="selectContainer">

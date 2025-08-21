@@ -28,6 +28,16 @@ function canPlayNativeHls() {
             || media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
 }
 
+export function enableHlsJsPlayerForCodecs(mediaSource, mediaType) {
+    // Workaround for VP9 HLS support on desktop Safari
+    // Force using HLS.js because desktop Safari's native HLS player does not play VP9 over HLS
+    // browser.osx will return true on iPad, cannot use
+    if (!browser.iOS && browser.safari && mediaSource.MediaStreams.some(x => x.Codec === 'vp9')) {
+        return true;
+    }
+    return enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType);
+}
+
 export function enableHlsJsPlayer(runTimeTicks, mediaType) {
     if (window.MediaSource == null) {
         return false;
@@ -36,6 +46,12 @@ export function enableHlsJsPlayer(runTimeTicks, mediaType) {
     // hls.js is only in beta. needs more testing.
     if (browser.iOS) {
         return false;
+    }
+
+    // Native HLS support in WebOS only plays stereo sound. hls.js works better, but works only on WebOS 4 or newer.
+    // Using hls.js also seems to fix fast forward issues that native HLS has.
+    if (browser.web0sVersion >= 4) {
+        return true;
     }
 
     // The native players on these devices support seeking live streams, no need to use hls.js here
@@ -70,7 +86,7 @@ export function handleHlsJsMediaError(instance, reject) {
     let now = Date.now();
 
     if (window.performance?.now) {
-        now = performance.now(); // eslint-disable-line compat/compat
+        now = performance.now();
     }
 
     if (!recoverDecodingErrorDate || (now - recoverDecodingErrorDate) > 3000) {
@@ -152,7 +168,7 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
 }
 
 export function applySrc(elem, src, options) {
-    if (window.Windows && options.mediaSource && options.mediaSource.IsLocal) {
+    if (window.Windows && options.mediaSource?.IsLocal) {
         return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
             const playlist = new Windows.Media.Playback.MediaPlaybackList();
 
@@ -363,6 +379,7 @@ export function getBufferedRanges(instance, elem) {
             start = 0;
         }
         if (!isValidDuration(end)) {
+            // eslint-disable-next-line sonarjs/no-dead-store
             end = 0;
             continue;
         }

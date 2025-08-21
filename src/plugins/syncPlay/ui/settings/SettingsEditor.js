@@ -9,7 +9,7 @@ import layoutManager from '../../../../components/layoutManager';
 import { pluginManager } from '../../../../components/pluginManager';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import { PluginType } from '../../../../types/plugin.ts';
 import Events from '../../../../utils/events.ts';
 

@@ -3,7 +3,7 @@ import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import * as mainTabsManager from 'components/maintabsmanager';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import inputManager from 'scripts/inputManager';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
@@ -323,7 +323,7 @@ export default function (view, params) {
     function onInputCommand(evt) {
         if (evt.detail.command === 'search') {
             evt.preventDefault();
-            Dashboard.navigate('search.html?collectionType=livetv');
+            Dashboard.navigate('search?collectionType=livetv');
         }
     }
 

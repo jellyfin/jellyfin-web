@@ -1,9 +1,16 @@
 import DOMPurify from 'dompurify';
+import debounce from 'lodash-es/debounce';
+import Screenfull from 'screenfull';
+
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { MediaError } from 'types/mediaError';
 
 import browser from '../../scripts/browser';
+import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import { appRouter } from '../../components/router/appRouter';
 import {
@@ -12,7 +19,7 @@ import {
     destroyFlvPlayer,
     destroyCastPlayer,
     getCrossOriginValue,
-    enableHlsJsPlayer,
+    enableHlsJsPlayerForCodecs,
     applySrc,
     resetSrc,
     playWithPromise,
@@ -26,9 +33,7 @@ import {
     getBufferedRanges
 } from '../../components/htmlMediaHelper';
 import itemHelper from '../../components/itemHelper';
-import Screenfull from 'screenfull';
-import globalize from '../../scripts/globalize';
-import ServerConnections from '../../components/ServerConnections';
+import globalize from '../../lib/globalize';
 import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
@@ -36,8 +41,6 @@ import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
-import debounce from 'lodash-es/debounce';
-import { MediaError } from 'types/mediaError';
 
 /**
  * Returns resolved URL.
@@ -100,7 +103,7 @@ function enableNativeTrackSupport(mediaSource, track) {
 
     if (track) {
         const format = (track.Codec || '').toLowerCase();
-        if (format === 'ssa' || format === 'ass') {
+        if (format === 'ssa' || format === 'ass' || format === 'pgssub') {
             return false;
         }
     }
@@ -115,6 +118,12 @@ function requireHlsPlayer(callback) {
         hls.DefaultConfig.liveBackBufferLength = 90;
         window.Hls = hls;
         callback();
+    });
+}
+
+function getMediaStreamVideoTracks(mediaSource) {
+    return mediaSource.MediaStreams.filter(function (s) {
+        return s.Type === 'Video';
     });
 }
 
@@ -210,13 +219,13 @@ export class HtmlVideoPlayer {
      */
     #audioTrackIndexToSetOnPlaying;
     /**
-     * @type {null | undefined}
-     */
-    #currentClock;
-    /**
      * @type {any | null | undefined}
      */
     #currentAssRenderer;
+    /**
+     * @type {any | null | undefined}
+     */
+    #currentPgsRenderer;
     /**
      * @type {number | undefined}
      */
@@ -381,7 +390,7 @@ export class HtmlVideoPlayer {
         }
     }
 
-    play(options) {
+    async play(options) {
         this.#started = false;
         this.#timeUpdated = false;
 
@@ -389,11 +398,11 @@ export class HtmlVideoPlayer {
 
         if (options.resetSubtitleOffset !== false) this.resetSubtitleOffset();
 
-        return this.createMediaElement(options).then(elem => {
-            return this.updateVideoUrl(options).then(() => {
-                return this.setCurrentSrc(elem, options);
-            });
-        });
+        const elem = await this.createMediaElement(options);
+        this.#applyAspectRatio();
+
+        await this.updateVideoUrl(options);
+        return this.setCurrentSrc(elem, options);
     }
 
     /**
@@ -444,6 +453,7 @@ export class HtmlVideoPlayer {
                     startPosition: options.playerStartPositionTicks / 10000000,
                     manifestLoadingTimeOut: 20000,
                     maxBufferLength: maxBufferLength,
+                    maxMaxBufferLength: maxBufferLength,
                     videoPreference: { preferHDR: true },
                     xhrSetup(xhr) {
                         xhr.withCredentials = includeCorsCredentials;
@@ -519,7 +529,7 @@ export class HtmlVideoPlayer {
             elem.crossOrigin = crossOrigin;
         }
 
-        if (enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && isHls(options.mediaSource)) {
+        if (enableHlsJsPlayerForCodecs(options.mediaSource, 'Video') && isHls(options.mediaSource)) {
             return this.setSrcWithHlsJs(elem, options, val);
         } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container?.toUpperCase() === 'FLV') {
             return this.setSrcWithFlvJs(elem, options, val);
@@ -594,6 +604,9 @@ export class HtmlVideoPlayer {
         if (this.#currentAssRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
             this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+        } else if (this.#currentPgsRenderer) {
+            this.updateCurrentTrackOffset(offsetValue);
+            this.#currentPgsRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
         } else {
             const trackElements = this.getTextTracks();
             // if .vtt currently rendering
@@ -1169,14 +1182,17 @@ export class HtmlVideoPlayer {
         this.destroyNativeTracks(videoElement, targetTrackIndex);
         this.destroyStoredTrackInfo(targetTrackIndex);
 
-        this.#currentClock = null;
-        this._currentAspectRatio = null;
-
         const octopus = this.#currentAssRenderer;
         if (octopus) {
             octopus.dispose();
         }
         this.#currentAssRenderer = null;
+
+        const pgsRenderer = this.#currentPgsRenderer;
+        if (pgsRenderer) {
+            pgsRenderer.dispose();
+        }
+        this.#currentPgsRenderer = null;
     }
 
     /**
@@ -1261,10 +1277,13 @@ export class HtmlVideoPlayer {
             }
         });
         const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
-            api_key: apiClient.accessToken()
+            ApiKey: apiClient.accessToken()
         });
         const htmlVideoPlayer = this;
         import('@jellyfin/libass-wasm').then(({ default: SubtitlesOctopus }) => {
+            const mediaSource = this._currentPlayOptions.mediaSource;
+            const videoStream = getMediaStreamVideoTracks(mediaSource)[0];
+
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
@@ -1287,7 +1306,7 @@ export class HtmlVideoPlayer {
                 dropAllAnimations: false,
                 libassMemoryLimit: 40,
                 libassGlyphLimit: 40,
-                targetFps: 24,
+                targetFps: videoStream?.ReferenceFrameRate || videoStream?.RealFrameRate || 24,
                 prescaleFactor: 0.8,
                 prescaleHeightLimit: 1080,
                 maxRenderHeight: 2160,
@@ -1308,7 +1327,7 @@ export class HtmlVideoPlayer {
                     apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
                         fontFiles.forEach(font => {
                             const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`, {
-                                api_key: apiClient.accessToken()
+                                ApiKey: apiClient.accessToken()
                             });
                             availableFonts.push(fontUrl);
                         });
@@ -1322,32 +1341,63 @@ export class HtmlVideoPlayer {
     }
 
     /**
+     * @private
+     */
+    renderPgs(videoElement, track, item) {
+        import('libpgs').then((libpgs) => {
+            const aspectRatio = this.getAspectRatio() === 'auto' ? 'contain' : this.getAspectRatio();
+            const options = {
+                video: videoElement,
+                subUrl: getTextTrackUrl(track, item),
+                workerUrl: `${appRouter.baseUrl()}/libraries/libpgs.worker.js`,
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+                aspectRatio
+            };
+            this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
+        });
+    }
+
+    /**
          * @private
          */
-    requiresCustomSubtitlesElement() {
-        // after a system update, ps4 isn't showing anything when creating a track element dynamically
-        // going to have to do it ourselves
-        if (browser.ps4) {
-            return true;
-        }
-
-        if (browser.web0s) {
-            return true;
-        }
-
-        if (browser.edge) {
-            return true;
-        }
-
-        if (browser.iOS) {
-            const userAgent = navigator.userAgent.toLowerCase();
-            // works in the browser but not the native app
-            if ((userAgent.includes('os 9') || userAgent.includes('os 8')) && !userAgent.includes('safari')) {
+    requiresCustomSubtitlesElement(userSettings) {
+        const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+        switch (subtitleAppearance.subtitleStyling) {
+            case 'Native':
+                return false;
+            case 'Custom':
                 return true;
-            }
-        }
+            default:
+                // after a system update, ps4 isn't showing anything when creating a track element dynamically
+                // going to have to do it ourselves
+                if (browser.ps4) {
+                    return true;
+                }
 
-        return false;
+                // Tizen 5 doesn't support displaying secondary subtitles
+                if (browser.tizenVersion >= 5 || browser.web0s) {
+                    return true;
+                }
+
+                if (browser.edge) {
+                    return true;
+                }
+
+                // font-size styling does not seem to work natively in firefox. Switching to custom subtitles element for firefox.
+                if (browser.firefox) {
+                    return true;
+                }
+
+                if (browser.iOS) {
+                    const userAgent = navigator.userAgent.toLowerCase();
+                    // works in the browser but not the native app
+                    if ((userAgent.includes('os 9') || userAgent.includes('os 8')) && !userAgent.includes('safari')) {
+                        return true;
+                    }
+                }
+
+                return false;
+        }
     }
 
     /**
@@ -1432,15 +1482,21 @@ export class HtmlVideoPlayer {
     /**
          * @private
          */
-    renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+    async renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+        const { currentSettings: userSettings } = await import('../../scripts/settings/userSettings');
+
         if (!itemHelper.isLocalItem(item) || track.IsExternal) {
             const format = (track.Codec || '').toLowerCase();
             if (format === 'ssa' || format === 'ass') {
                 this.renderSsaAss(videoElement, track, item);
                 return;
             }
+            if (format === 'pgssub') {
+                this.renderPgs(videoElement, track, item);
+                return;
+            }
 
-            if (this.requiresCustomSubtitlesElement()) {
+            if (this.requiresCustomSubtitlesElement(userSettings)) {
                 this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
                 return;
             }
@@ -1458,7 +1514,7 @@ export class HtmlVideoPlayer {
                     trackElement.removeCue(trackElement.cues[0]);
                 }
             } catch (e) {
-                console.error('error removing cue from textTrack');
+                console.error('error removing cue from textTrack', e);
             }
 
             trackElement.mode = 'disabled';
@@ -1470,28 +1526,31 @@ export class HtmlVideoPlayer {
 
         // download the track json
         this.fetchSubtitles(track, item).then(function (data) {
-            import('../../scripts/settings/userSettings').then((userSettings) => {
-                // show in ui
-                console.debug(`downloaded ${data.TrackEvents.length} track events`);
+            console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
-                const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
-                const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
+            const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+            const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
 
-                // add some cues to show the text
-                // in safari, the cues need to be added before setting the track mode to showing
-                for (const trackEvent of data.TrackEvents) {
-                    const TrackCue = window.VTTCue || window.TextTrackCue;
-                    const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+            // add some cues to show the text
+            // in safari, the cues need to be added before setting the track mode to showing
+            for (const trackEvent of data.TrackEvents) {
+                const TrackCue = window.VTTCue || window.TextTrackCue;
+                const text = normalizeTrackEventText(trackEvent.Text, false);
+                const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, text);
 
-                    if (cue.line === 'auto') {
+                if (cue.line === 'auto') {
+                    if (cueLine < 0) {
+                        const lineCount = (text.match(/\n/g) || []).length;
+                        cue.line = cueLine - lineCount;
+                    } else {
                         cue.line = cueLine;
                     }
-
-                    trackElement.addCue(cue);
                 }
 
-                trackElement.mode = 'showing';
-            });
+                trackElement.addCue(cue);
+            }
+
+            trackElement.mode = 'showing';
         });
     }
 
@@ -1499,16 +1558,6 @@ export class HtmlVideoPlayer {
          * @private
          */
     updateSubtitleText(timeMs) {
-        const clock = this.#currentClock;
-        if (clock) {
-            try {
-                clock.seek(timeMs / 1000);
-            } catch (err) {
-                console.error(`error in libjass: ${err}`);
-            }
-            return;
-        }
-
         const allTrackEvents = [this.#currentTrackEvents, this.#currentSecondaryTrackEvents];
         const subtitleTextElements = [this.#videoSubtitlesElem, this.#videoSecondarySubtitlesElem];
 
@@ -1549,16 +1598,53 @@ export class HtmlVideoPlayer {
             return t.Index === streamIndex;
         })[0];
 
-        this.setTrackForDisplay(this.#mediaElement, track, targetTextTrackIndex);
-        if (enableNativeTrackSupport(this._currentPlayOptions?.mediaSource, track)) {
-            if (streamIndex !== -1) {
-                this.setCueAppearance();
-            }
+        // This play method can only check if it is real direct play, and will mark Remux as Transcode as well
+        const isDirectPlay = this._currentPlayOptions.playMethod === 'DirectPlay';
+        const burnInWhenTranscoding = appSettings.alwaysBurnInSubtitleWhenTranscoding();
+
+        let sessionPromise;
+        if (!isDirectPlay && burnInWhenTranscoding) {
+            const apiClient = ServerConnections.getApiClient(this._currentPlayOptions.item.ServerId);
+            sessionPromise = apiClient.getSessions({
+                deviceId: apiClient.deviceId()
+            }).then(function (sessions) {
+                return sessions[0] || {};
+            }, function () {
+                return Promise.resolve({});
+            });
         } else {
-            // null these out to disable the player's native display (handled below)
-            streamIndex = -1;
-            track = null;
+            sessionPromise = Promise.resolve({});
         }
+
+        const player = this;
+
+        sessionPromise.then((s) => {
+            if (!s.TranscodingInfo || s.TranscodingInfo.IsVideoDirect) {
+                // restore recorded delivery method if any
+                mediaStreamTextTracks.forEach((t) => {
+                    t.DeliveryMethod = t.realDeliveryMethod ?? t.DeliveryMethod;
+                });
+                player.setTrackForDisplay(player.#mediaElement, track, targetTextTrackIndex);
+                if (enableNativeTrackSupport(player._currentPlayOptions?.mediaSource, track)) {
+                    if (streamIndex !== -1) {
+                        player.setCueAppearance();
+                    }
+                } else {
+                    // null these out to disable the player's native display (handled below)
+                    streamIndex = -1;
+                    track = null;
+                }
+            } else {
+                // record the original delivery method and set all delivery method to encode
+                // this is needed for subtitle track switching to properly reload the video stream
+                mediaStreamTextTracks.forEach((t) => {
+                    t.realDeliveryMethod = t.DeliveryMethod;
+                    t.DeliveryMethod = 'Encode';
+                });
+                // unset stream when switching to transcode
+                player.setTrackForDisplay(player.#mediaElement, null, -1);
+            }
+        });
     }
 
     /**
@@ -1584,7 +1670,7 @@ export class HtmlVideoPlayer {
                 const cssClass = 'htmlvideoplayer';
 
                 // Can't autoplay in these browsers so we need to use the full controls, at least until playback starts
-                if (!appHost.supports('htmlvideoautoplay')) {
+                if (!appHost.supports(AppFeature.HtmlVideoAutoplay)) {
                     html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
                 } else if (browser.web0s) {
                     // in webOS, setting preload auto allows resuming videos
@@ -1599,7 +1685,11 @@ export class HtmlVideoPlayer {
                 playerDlg.innerHTML = html;
                 const videoElement = playerDlg.querySelector('video');
 
-                videoElement.volume = getSavedVolume();
+                // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
+                if (!appHost.supports(AppFeature.PhysicalVolumeControl)) {
+                    videoElement.volume = getSavedVolume();
+                }
+
                 videoElement.addEventListener('timeupdate', this.onTimeUpdate);
                 videoElement.addEventListener('ended', this.onEnded);
                 videoElement.addEventListener('volumechange', this.onVolumeChange);
@@ -2020,7 +2110,7 @@ export class HtmlVideoPlayer {
         return false;
     }
 
-    setAspectRatio(val) {
+    #applyAspectRatio(val = this.getAspectRatio()) {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             if (val === 'auto') {
@@ -2029,11 +2119,19 @@ export class HtmlVideoPlayer {
                 mediaElement.style['object-fit'] = val;
             }
         }
-        this._currentAspectRatio = val;
+
+        if (this.#currentPgsRenderer) {
+            this.#currentPgsRenderer.aspectRatio = val === 'auto' ? 'contain' : val;
+        }
+    }
+
+    setAspectRatio(val) {
+        appSettings.aspectRatio(val);
+        this.#applyAspectRatio(val);
     }
 
     getAspectRatio() {
-        return this._currentAspectRatio || 'auto';
+        return appSettings.aspectRatio() || 'auto';
     }
 
     getSupportedAspectRatios() {

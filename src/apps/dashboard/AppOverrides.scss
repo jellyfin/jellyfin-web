@@ -5,9 +5,11 @@ $mui-bp-md: 900px;
 $mui-bp-lg: 1200px;
 $mui-bp-xl: 1536px;
 
+$drawer-width: 240px;
+
 // Fix dashboard pages layout to work with drawer
 .dashboardDocument {
-    .mainAnimatedPage {
+    .mainAnimatedPage:not(.metadataEditorPage) {
         @media all and (min-width: $mui-bp-md) {
             left: $drawer-width;
         }

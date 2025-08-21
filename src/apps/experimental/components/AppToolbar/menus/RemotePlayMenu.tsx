@@ -6,7 +6,7 @@ import Menu, { type MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import React, { FC, useEffect, useState } from 'react';
 
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { pluginManager } from 'components/pluginManager';
 import type { PlayTarget } from 'types/playTarget';
@@ -65,17 +65,20 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
             open={open}
             onClose={onMenuClose}
         >
-            {!isChromecastPluginLoaded && ([
-                <MenuItem key='cast-unsupported-item' disabled>
+            {!isChromecastPluginLoaded && (
+                <MenuItem disabled>
                     <ListItemIcon>
                         <Warning />
                     </ListItemIcon>
                     <ListItemText>
                         {globalize.translate('GoogleCastUnsupported')}
                     </ListItemText>
-                </MenuItem>,
-                <Divider key='cast-unsupported-divider' />
-            ])}
+                </MenuItem>
+            )}
+
+            {!isChromecastPluginLoaded && playbackTargets.length > 0 && (
+                <Divider />
+            )}
 
             {playbackTargets.map(target => (
                 <MenuItem

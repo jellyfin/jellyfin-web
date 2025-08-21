@@ -1,25 +1,29 @@
-import React, { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent, useCallback } from 'react';
 import classNames from 'classnames';
-import layoutManager from '../../components/layoutManager';
-import shell from '../../scripts/shell';
-import { appRouter } from '../../components/router/appRouter';
-import { appHost } from '../../components/apphost';
+import React, { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent, useCallback } from 'react';
+
+import { appHost } from 'components/apphost';
+import layoutManager from 'components/layoutManager';
+import { appRouter } from 'components/router/appRouter';
+import { AppFeature } from 'constants/appFeature';
+import shell from 'scripts/shell';
+
 import './emby-button.scss';
 
 interface LinkButtonProps extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>,
     HTMLAnchorElement
-  > {
-  className?: string;
-  isAutoHideEnabled?: boolean;
-  href?: string;
-  target?: string;
+> {
+    className?: string;
+    isAutoHideEnabled?: boolean;
+    href?: string;
+    target?: string;
 }
 
 const LinkButton: React.FC<LinkButtonProps> = ({
     className,
     isAutoHideEnabled,
-    href,
+    href = '#', // The href must have a value to be focusable in the TV layout
     target,
+    onClick,
     children,
     ...rest
 }) => {
@@ -27,7 +31,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
         const url = href || '';
         if (url !== '#') {
             if (target) {
-                if (!appHost.supports('targetblank')) {
+                if (!appHost.supports(AppFeature.TargetBlank)) {
                     e.preventDefault();
                     shell.openUrl(url);
                 }
@@ -41,9 +45,10 @@ const LinkButton: React.FC<LinkButtonProps> = ({
         } else {
             e.preventDefault();
         }
-    }, [ href, target ]);
+        onClick?.(e);
+    }, [ href, target, onClick ]);
 
-    if (isAutoHideEnabled === true && !appHost.supports('externallinks')) {
+    if (isAutoHideEnabled === true && !appHost.supports(AppFeature.ExternalLinks)) {
         return null;
     }
 

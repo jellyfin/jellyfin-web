@@ -1,8 +1,9 @@
 import { Api } from '@jellyfin/sdk';
-import { BaseItemKind, ImageType } from '@jellyfin/sdk/lib/generated-client';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
-import globalize from 'scripts/globalize';
 
+import globalize from 'lib/globalize';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
 
@@ -138,23 +139,23 @@ export function getChannelImageUrl(
     let itemId;
     const fillWidth = size;
     const fillHeight = size;
-    const imgType = ImageType.Primary;
 
     if (item.ChannelId && item.ChannelPrimaryImageTag) {
         imgTag = item.ChannelPrimaryImageTag;
         itemId = item.ChannelId;
     }
 
-    if (api && imgTag && imgType && itemId) {
-        const response = api.getItemImageUrl(itemId, imgType, {
-            fillWidth: fillWidth,
-            fillHeight: fillHeight,
-            tag: imgTag
-        });
+    if (api && imgTag && itemId) {
+        const response = getImageApi(api)
+            .getItemImageUrlById(itemId, ImageType.Primary, {
+                fillWidth,
+                fillHeight,
+                tag: imgTag
+            });
 
         return {
             imgUrl: response,
-            blurhash: item.ImageBlurHashes?.[imgType]?.[imgTag]
+            blurhash: item.ImageBlurHashes?.[ImageType.Primary]?.[imgTag]
         };
     }
 

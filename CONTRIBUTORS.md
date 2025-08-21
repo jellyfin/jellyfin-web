@@ -89,6 +89,19 @@
 - [Pithaya](https://github.com/Pithaya)
 - [Peter Santos](https://github.com/prsantos-com)
 - [Carlos Velasco](https://github.com/xtreemze)
+- [Chaitanya Shahare](https://github.com/Chaitanya-Shahare)
+- [Venkat Karasani](https://github.com/venkat-karasani)
+- [Connor Smith](https://github.com/ConnorS1110)
+- [iFraan](https://github.com/iFraan)
+- [Ali](https://github.com/bu3alwa)
+- [K. Kyle Puchkov](https://github.com/kepper104)
+- [ItsAllAboutTheCode](https://github.com/ItsAllAboutTheCode)
+- [Jxiced](https://github.com/Jxiced)
+- [Derek Huber](https://github.com/Derek4aty1)
+- [StableCrimson](https://github.com/StableCrimson)
+- [diegoeche](https://github.com/diegoeche)
+- [Free O'Toole](https://github.com/freeotoole)
+- [TheBosZ](https://github.com/thebosz)
 
 ## Emby Contributors
 

@@ -1,16 +1,17 @@
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
-import dom from '../scripts/dom';
-import globalize from '../scripts/globalize';
+import dom from '../utils/dom';
+import globalize from '../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import actionsheet from './actionSheet/actionSheet';
 import { appHost } from './apphost';
 import { appRouter } from './router/appRouter';
-import itemHelper from './itemHelper';
+import itemHelper, { canEditPlaylist } from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
-import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { AppFeature } from 'constants/appFeature';
 
 function getDeleteLabel(type) {
     switch (type) {
@@ -29,7 +30,7 @@ function getDeleteLabel(type) {
     }
 }
 
-export function getCommands(options) {
+export async function getCommands(options) {
     const item = options.item;
     const user = options.user;
 
@@ -169,12 +170,30 @@ export function getCommands(options) {
         });
     }
 
-    if (item.Type === 'Season' || item.Type == 'Series') {
-        commands.push({
-            name: globalize.translate('DownloadAll'),
-            id: 'downloadall',
-            icon: 'file_download'
-        });
+    if (appHost.supports(AppFeature.FileDownload)) {
+        // CanDownload should probably be updated to return true for these items?
+        if (user.Policy.EnableContentDownloading && (item.Type === 'Season' || item.Type == 'Series')) {
+            commands.push({
+                name: globalize.translate('DownloadAll'),
+                id: 'downloadall',
+                icon: 'file_download'
+            });
+        }
+
+        // Books are promoted to major download Button and therefor excluded in the context menu
+        if (item.CanDownload && item.Type !== 'Book') {
+            commands.push({
+                name: globalize.translate('Download'),
+                id: 'download',
+                icon: 'file_download'
+            });
+
+            commands.push({
+                name: globalize.translate('CopyStreamURL'),
+                id: 'copy-stream',
+                icon: 'content_copy'
+            });
+        }
     }
 
     if (item.CanDelete && options.deleteItem !== false) {
@@ -183,35 +202,23 @@ export function getCommands(options) {
             id: 'delete',
             icon: 'delete'
         });
-
-        if (item.Type === 'Audio' && item.HasLyrics && window.location.href.includes(item.Id)) {
-            commands.push({
-                name: globalize.translate('DeleteLyrics'),
-                id: 'deleteLyrics',
-                icon: 'delete_sweep'
-            });
-        }
-    }
-
-    // Books are promoted to major download Button and therefor excluded in the context menu
-    if ((item.CanDownload && appHost.supports('filedownload')) && item.Type !== 'Book') {
-        commands.push({
-            name: globalize.translate('Download'),
-            id: 'download',
-            icon: 'file_download'
-        });
-
-        commands.push({
-            name: globalize.translate('CopyStreamURL'),
-            id: 'copy-stream',
-            icon: 'content_copy'
-        });
     }
 
     if (commands.length) {
         commands.push({
             divider: true
         });
+    }
+
+    if (item.Type === BaseItemKind.Playlist) {
+        const _canEditPlaylist = await canEditPlaylist(user, item);
+        if (_canEditPlaylist) {
+            commands.push({
+                name: globalize.translate('Edit'),
+                id: 'editplaylist',
+                icon: 'edit'
+            });
+        }
     }
 
     const canEdit = itemHelper.canEdit(user, item);
@@ -237,6 +244,14 @@ export function getCommands(options) {
             name: globalize.translate('EditSubtitles'),
             id: 'editsubtitles',
             icon: 'closed_caption'
+        });
+    }
+
+    if (itemHelper.canEditLyrics(user, item)) {
+        commands.push({
+            name: globalize.translate('EditLyrics'),
+            id: 'editlyrics',
+            icon: 'lyrics'
         });
     }
 
@@ -288,6 +303,22 @@ export function getCommands(options) {
         });
     }
 
+    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex > 0) {
+        commands.push({
+            name: globalize.translate('MoveToTop'),
+            id: 'movetotop',
+            icon: 'vertical_align_top'
+        });
+    }
+
+    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex < (item.PlaylistItemCount - 1)) {
+        commands.push({
+            name: globalize.translate('MoveToBottom'),
+            id: 'movetobottom',
+            icon: 'vertical_align_bottom'
+        });
+    }
+
     if (options.collectionId) {
         commands.push({
             name: globalize.translate('RemoveFromCollection'),
@@ -313,7 +344,7 @@ export function getCommands(options) {
     }
     // Show Album Artist by default, as a song can have multiple artists, which specific one would this option refer to?
     // Although some albums can have multiple artists, it's not as common as songs.
-    if (options.openArtist !== false && item.AlbumArtists && item.AlbumArtists.length) {
+    if (options.openArtist !== false && item.AlbumArtists?.length) {
         commands.push({
             name: globalize.translate('ViewAlbumArtist'),
             id: 'artist',
@@ -332,12 +363,13 @@ export function getCommands(options) {
     return commands;
 }
 
-function getResolveFunction(resolve, id, changed, deleted) {
+function getResolveFunction(resolve, commandId, changed, deleted, itemId) {
     return function () {
         resolve({
-            command: id,
+            command: commandId,
             updated: changed,
-            deleted: deleted
+            deleted: deleted,
+            itemId: itemId
         });
     };
 }
@@ -373,8 +405,9 @@ function executeCommand(item, id, options) {
                     const downloadHref = apiClient.getItemDownloadUrl(itemId);
                     fileDownloader.download([{
                         url: downloadHref,
-                        itemId: itemId,
-                        serverId: serverId,
+                        item,
+                        itemId,
+                        serverId,
                         title: item.Name,
                         filename: item.Path.replace(/^.*[\\/]/, '')
                     }]);
@@ -388,6 +421,7 @@ function executeCommand(item, id, options) {
                             const downloadHref = apiClient.getItemDownloadUrl(episode.Id);
                             return {
                                 url: downloadHref,
+                                item: episode,
                                 itemId: episode.Id,
                                 serverId: serverId,
                                 title: episode.Name,
@@ -438,8 +472,22 @@ function executeCommand(item, id, options) {
                     subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                 });
                 break;
+            case 'editlyrics':
+                import('./lyricseditor/lyricseditor').then(({ default: lyricseditor }) => {
+                    lyricseditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                });
+                break;
             case 'edit':
                 editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                break;
+            case 'editplaylist':
+                import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
+                    const playlistEditor = new PlaylistEditor();
+                    playlistEditor.show({
+                        id: itemId,
+                        serverId
+                    }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                });
                 break;
             case 'editimages':
                 import('./imageeditor/imageeditor').then((imageEditor) => {
@@ -509,16 +557,13 @@ function executeCommand(item, id, options) {
                 getResolveFunction(resolve, id)();
                 break;
             case 'delete':
-                deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
-                break;
-            case 'deleteLyrics':
-                deleteLyrics(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true, itemId), getResolveFunction(resolve, id));
                 break;
             case 'share':
                 navigator.share({
                     title: item.Name,
                     text: item.Overview,
-                    url: `${apiClient.serverAddress()}/web/index.html${appRouter.getRouteUrl(item)}`
+                    url: `${apiClient.serverAddress()}/web/${appRouter.getRouteUrl(item)}`
                 });
                 break;
             case 'album':
@@ -550,6 +595,22 @@ function executeCommand(item, id, options) {
                         EntryIds: [item.PlaylistItemId].join(',')
                     }),
                     type: 'DELETE'
+                }).then(function () {
+                    getResolveFunction(resolve, id, true)();
+                });
+                break;
+            case 'movetotop':
+                apiClient.ajax({
+                    url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items/' + item.PlaylistItemId + '/Move/0'),
+                    type: 'POST'
+                }).then(function () {
+                    getResolveFunction(resolve, id, true)();
+                });
+                break;
+            case 'movetobottom':
+                apiClient.ajax({
+                    url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items/' + item.PlaylistItemId + '/Move/' + (item.PlaylistItemCount - 1)),
+                    type: 'POST'
                 }).then(function () {
                     getResolveFunction(resolve, id, true)();
                 });
@@ -606,7 +667,7 @@ function play(item, resume, queue, queueNext) {
     }
 
     let startPosition = 0;
-    if (resume && item.UserData && item.UserData.PlaybackPositionTicks) {
+    if (resume && item.UserData?.PlaybackPositionTicks) {
         startPosition = item.UserData.PlaybackPositionTicks;
     }
 
@@ -664,12 +725,6 @@ function deleteItem(apiClient, item) {
     });
 }
 
-function deleteLyrics(apiClient, item) {
-    return import('../scripts/deleteHelper').then((deleteHelper) => {
-        return deleteHelper.deleteLyrics(item);
-    });
-}
-
 function refresh(apiClient, item) {
     import('./refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
         new RefreshDialog({
@@ -680,19 +735,19 @@ function refresh(apiClient, item) {
     });
 }
 
-export function show(options) {
-    const commands = getCommands(options);
+export async function show(options) {
+    const commands = await getCommands(options);
     if (!commands.length) {
-        return Promise.reject();
+        throw new Error('No item commands present');
     }
 
-    return actionsheet.show({
+    const id = await actionsheet.show({
         items: commands,
         positionTo: options.positionTo,
         resolveOnClick: ['share']
-    }).then(function (id) {
-        return executeCommand(options.item, id, options);
     });
+
+    return executeCommand(options.item, id, options);
 }
 
 export default {

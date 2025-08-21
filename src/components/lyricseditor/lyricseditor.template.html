@@ -1,0 +1,27 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>
+    <h3 class="formDialogHeaderTitle">${Lyrics}</h3>
+
+</div>
+<div class="formDialogContent smoothScrollY">
+    <div class="dialogContentInner dialog-content-centered">
+        <div class="currentLyrics" style="margin-bottom:2em;"></div>
+        <h2>${SearchForLyrics}</h2>
+
+        <p style="margin: 1.5em 0;" class="originalFile"><span class="originalLyricsFileLabel secondaryText"></span><span class="pathValue"></span></p>
+
+        <form class="lyricsSearchForm" style="max-width: none;">
+            <div class="flex align-items-center">
+                <button type="submit" is="paper-icon-button-light" title="${Search}" class="btnSearchLyrics flex-shrink-zero emby-select-iconbutton"><span class="material-icons search" aria-hidden="true"></span></button>
+                <button type="button" is="paper-icon-button-light" title="${Upload}" class="btnOpenUploadMenu flex-shrink-zero emby-select-iconbutton"><span class="material-icons add" aria-hidden="true"></span></button>
+                <button type="button" is="paper-icon-button-light" title="${Delete}" class="btnDeleteLyrics flex-shrink-zero emby-select-iconbutton"><span class="material-icons delete" aria-hidden="true"></span></button>
+            </div>
+            <button is="emby-button" type="submit" class="raised btnSubmit block button-submit">${Search}</button>
+        </form>
+        <br />
+        <div class="lyricsResults"></div>
+        <div class="noSearchResults hide">
+            ${NoLyricsSearchResultsFound}
+        </div>
+    </div>
+</div>

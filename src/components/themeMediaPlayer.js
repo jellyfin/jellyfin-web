@@ -1,7 +1,9 @@
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 
 import { getItemQuery } from 'hooks/useItem';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import { ItemKind } from 'types/base/models/item-kind';
 import Events from 'utils/events.ts';
@@ -9,7 +11,6 @@ import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
 import { playbackManager } from './playback/playbackmanager';
-import ServerConnections from './ServerConnections';
 
 let currentOwnerId;
 let currentThemeIds = [];
@@ -83,8 +84,9 @@ async function loadThemeMedia(serverId, itemId) {
     try {
         const item = await queryClient.fetchQuery(getItemQuery(
             api,
-            userId,
-            itemId));
+            itemId,
+            userId
+        ));
 
         if (item.CollectionType) {
             stopIfPlaying();
@@ -96,8 +98,12 @@ async function loadThemeMedia(serverId, itemId) {
             return;
         }
 
-        const { data: themeMedia } = await getLibraryApi(api)
-            .getThemeMedia({ userId, itemId: item.Id, inheritFromParent: true });
+        const { data: themeMedia } = await getLibraryApi(api).getThemeMedia({
+            userId,
+            itemId: item.Id,
+            inheritFromParent: true,
+            sortBy: [ItemSortBy.Random]
+        });
 
         const result = userSettings.enableThemeVideos() && themeMedia.ThemeVideosResult?.Items?.length ? themeMedia.ThemeVideosResult : themeMedia.ThemeSongsResult;
 

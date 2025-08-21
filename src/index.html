@@ -15,50 +15,9 @@
 
     <meta id="themeColor" name="theme-color" content="#202020">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="touchicon.png">
-
-    <!-- iPhone 5 -->
-    <link href="assets/splash/iphone5_splash.png" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/iphone5_splash_l.png" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
-
-    <!-- iPhone 6, 6S, 7 and 8 -->
-    <link href="assets/splash/iphone6_splash.png" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/iphone6_splash_l.png" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
-
-    <!-- iPhone 6+, 7+ and 8+ -->
-    <link href="assets/splash/iphoneplus_splash.png" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/iphoneplus_splash_l.png" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" rel="apple-touch-startup-image" />
-
-    <!-- iPhone X -->
-    <link href="assets/splash/iphonex_splash.png" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/iphonex_splash_l.png" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" rel="apple-touch-startup-image" />
-
-    <!-- iPhone Xr -->
-    <link href="assets/splash/iphonexr_splash.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/iphonexr_splash_l.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
-
-    <!-- iPhone Xs -->
-    <link href="assets/splash/iphonexsmax_splash.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/iphonexsmax_splash_l.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" rel="apple-touch-startup-image" />
-
-    <!-- iPad -->
-    <link href="assets/splash/ipad_splash.png" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/ipad_splash_l.png" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
-
-    <!-- iPad Pro 1 -->
-    <link href="assets/splash/ipadpro1_splash.png" media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/ipadpro1_splash_l.png" media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
-
-    <!-- iPad Pro 3 -->
-    <link href="assets/splash/ipadpro3_splash.png" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/ipadpro3_splash_l.png" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
-
-    <!-- iPad Pro 2 -->
-    <link href="assets/splash/ipadpro2_splash.png" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image" />
-    <link href="assets/splash/ipadpro2_splash_l.png" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image" />
-
-    <link rel="shortcut icon" href="favicon.ico">
-    <meta name="msapplication-TileImage" content="touchicon144.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../node_modules/@jellyfin/ux-web/favicons/touchicon.png">
+    <link rel="shortcut icon" href="../node_modules/@jellyfin/ux-web/favicons/favicon.ico">
+    <meta name="msapplication-TileImage" content="../node_modules/@jellyfin/ux-web/favicons/touchicon144.png">
     <meta name="msapplication-TileColor" content="#333333">
 
     <title>Jellyfin</title>
@@ -120,37 +79,6 @@
 
         [dir="rtl"] .mainDrawerHandle {
             left: 0;
-        }
-
-        @keyframes fadein {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .splashLogo {
-            animation: fadein 0.5s;
-            width: 30%;
-            height: 30%;
-            background-image: url(assets/img/icon-transparent.png);
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: contain;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        @media screen
-            and (min-device-width: 992px) {
-            .splashLogo {
-                background-image: url(assets/img/banner-light.png);
-            }
         }
     </style>
 </head>

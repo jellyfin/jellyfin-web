@@ -1,15 +1,16 @@
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import globalize from '../../../scripts/globalize';
-import LibraryMenu from '../../../scripts/libraryMenu';
+import globalize from '../../../lib/globalize';
 import { clearBackdrop } from '../../../components/backdrop/backdrop';
 import layoutManager from '../../../components/layoutManager';
-import * as mainTabsManager from '../../../components/maintabsmanager';
+import Page from '../../../components/Page';
+import { EventType } from 'types/eventType';
+import Events from 'utils/events';
+
 import '../../../elements/emby-tabs/emby-tabs';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-scroller/emby-scroller';
-import Page from '../../../components/Page';
 
 type OnResumeOptions = {
     autoFocus?: boolean;
@@ -25,16 +26,20 @@ type ControllerProps = {
     destroy: () => void;
 };
 
-const Home: FunctionComponent = () => {
+const Home = () => {
     const [ searchParams ] = useSearchParams();
     const initialTabIndex = parseInt(searchParams.get('tab') ?? '0', 10);
 
+    const libraryMenu = useMemo(async () => ((await import('../../../scripts/libraryMenu')).default), []);
+    const mainTabsManager = useMemo(() => import('../../../components/maintabsmanager'), []);
     const tabController = useRef<ControllerProps | null>();
     const tabControllers = useMemo<ControllerProps[]>(() => [], []);
+
+    const documentRef = useRef<Document>(document);
     const element = useRef<HTMLDivElement>(null);
 
-    const setTitle = () => {
-        LibraryMenu.setTitle(null);
+    const setTitle = async () => {
+        (await libraryMenu).setTitle(null);
     };
 
     const getTabs = () => {
@@ -78,18 +83,6 @@ const Home: FunctionComponent = () => {
         });
     }, [ tabControllers ]);
 
-    const onViewDestroy = useCallback(() => {
-        if (tabControllers) {
-            tabControllers.forEach(function (t) {
-                if (t.destroy) {
-                    t.destroy();
-                }
-            });
-        }
-
-        tabController.current = null;
-    }, [ tabControllers ]);
-
     const loadTab = useCallback((index: number, previousIndex: number | null) => {
         getTabController(index).then((controller) => {
             const refresh = !controller.refreshed;
@@ -118,36 +111,55 @@ const Home: FunctionComponent = () => {
         loadTab(newIndex, previousIndex);
     }, [ loadTab, tabControllers ]);
 
-    const onResume = useCallback(() => {
-        setTitle();
+    const onSetTabs = useCallback(async () => {
+        (await mainTabsManager).setTabs(element.current, initialTabIndex, getTabs, getTabContainers, null, onTabChange, false);
+    }, [ initialTabIndex, mainTabsManager, onTabChange ]);
+
+    const onResume = useCallback(async () => {
+        void setTitle();
         clearBackdrop();
 
         const currentTabController = tabController.current;
 
         if (!currentTabController) {
-            mainTabsManager.selectedTabIndex(initialTabIndex);
+            (await mainTabsManager).selectedTabIndex(initialTabIndex);
         } else if (currentTabController?.onResume) {
             currentTabController.onResume({});
         }
-        (document.querySelector('.skinHeader') as HTMLDivElement).classList.add('noHomeButtonHeader');
-    }, [ initialTabIndex ]);
+        (documentRef.current.querySelector('.skinHeader') as HTMLDivElement).classList.add('noHomeButtonHeader');
+    }, [ initialTabIndex, mainTabsManager ]);
 
     const onPause = useCallback(() => {
         const currentTabController = tabController.current;
         if (currentTabController?.onPause) {
             currentTabController.onPause();
         }
-        (document.querySelector('.skinHeader') as HTMLDivElement).classList.remove('noHomeButtonHeader');
+        (documentRef.current.querySelector('.skinHeader') as HTMLDivElement).classList.remove('noHomeButtonHeader');
     }, []);
 
-    useEffect(() => {
-        mainTabsManager.setTabs(element.current, initialTabIndex, getTabs, getTabContainers, null, onTabChange, false);
+    const renderHome = useCallback(() => {
+        void onSetTabs();
+        void onResume();
+    }, [ onResume, onSetTabs ]);
 
-        onResume();
+    useEffect(() => {
+        if (documentRef.current?.querySelector('.headerTabs')) {
+            renderHome();
+        }
+
         return () => {
             onPause();
         };
-    }, [ initialTabIndex, onPause, onResume, onTabChange, onViewDestroy ]);
+    }, [onPause, renderHome]);
+
+    useEffect(() => {
+        const doc = documentRef.current;
+        if (doc) Events.on(doc, EventType.HEADER_RENDERED, renderHome);
+
+        return () => {
+            if (doc) Events.off(doc, EventType.HEADER_RENDERED, renderHome);
+        };
+    }, [ renderHome ]);
 
     return (
         <div ref={element}>

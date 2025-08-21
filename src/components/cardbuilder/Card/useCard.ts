@@ -1,4 +1,3 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import classNames from 'classnames';
 import useCardImageUrl from './useCardImageUrl';
 import {
@@ -9,6 +8,8 @@ import { getDataAttributes } from 'utils/items';
 import { CardShape } from 'utils/card';
 import layoutManager from 'components/layoutManager';
 
+import { ItemKind } from 'types/base/models/item-kind';
+import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
@@ -21,7 +22,7 @@ function useCard({ item, cardOptions }: UseCardProps) {
     const action = resolveAction({
         defaultAction: cardOptions.action ?? 'link',
         isFolder: item.IsFolder ?? false,
-        isPhoto: item.MediaType === 'Photo'
+        isPhoto: item.MediaType === ItemMediaKind.Photo
     });
 
     let shape = cardOptions.shape;
@@ -84,9 +85,9 @@ function useCard({ item, cardOptions }: UseCardProps) {
         { groupedCard: cardOptions.showChildCountIndicator && item.ChildCount },
         {
             'card-withuserdata':
-                item.Type !== BaseItemKind.MusicAlbum
-                && item.Type !== BaseItemKind.MusicArtist
-                && item.Type !== BaseItemKind.Audio
+                item.Type !== ItemKind.MusicAlbum
+                && item.Type !== ItemKind.MusicArtist
+                && item.Type !== ItemKind.Audio
         },
         { itemAction: layoutManager.tv }
     );
@@ -103,6 +104,7 @@ function useCard({ item, cardOptions }: UseCardProps) {
     });
 
     const getCardBoxProps = () => ({
+        action,
         item,
         cardOptions,
         className: cardBoxClass,

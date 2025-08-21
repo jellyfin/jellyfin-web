@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import React, { type FC, type PropsWithChildren } from 'react';
 import Box from '@mui/material/Box';
 
 interface ListContentWrapperProps {
@@ -7,7 +7,7 @@ interface ListContentWrapperProps {
     enableOverview?: boolean;
 }
 
-const ListContentWrapper: FC<ListContentWrapperProps> = ({
+const ListContentWrapper: FC<PropsWithChildren<ListContentWrapperProps>> = ({
     itemOverview,
     enableContentWrapper,
     enableOverview,

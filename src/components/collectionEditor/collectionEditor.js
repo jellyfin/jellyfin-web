@@ -1,10 +1,11 @@
 import escapeHtml from 'escape-html';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
 import { appRouter } from '../router/appRouter';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -13,7 +14,6 @@ import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
 import '../../styles/flexstyles.scss';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 
 let currentServerId;

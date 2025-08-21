@@ -1,3 +1,5 @@
+@use 'mixins' as *;
+
 // The padding of the header content on mobile needs to be adjusted
 // based on the size of the poster card (values from card.scss)
 @mixin header-poster-padding() {
@@ -580,10 +582,10 @@
             height: 30vh;
         }
     }
-}
 
-.layout-tv .itemBackdrop {
-    display: none;
+    .layout-tv & {
+        display: none;
+    }
 }
 
 .detailPageContent {
@@ -844,10 +846,14 @@
 
 .detailPageSecondaryContainer {
     padding-top: 1.25em;
-}
 
-.layout-mobile .detailPageSecondaryContainer {
-    padding-top: 1em;
+    .layout-desktop & {
+        flex-grow: 1;
+    }
+
+    .layout-mobile & {
+        padding-top: 1em;
+    }
 }
 
 .detailImageContainer .card {
@@ -1154,6 +1160,12 @@ div.itemDetailGalleryLink.defaultCardBackground {
 .detailPageWrapperContainer {
     border-spacing: 0;
     border-collapse: collapse;
+
+    .layout-desktop & {
+        display: flex;
+        flex-direction: column;
+        min-height: 60vh;
+    }
 }
 
 .mediaInfoContent .btnCopy .material-icons {
@@ -1341,25 +1353,21 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .padded-left {
     [dir="ltr"] & {
-        padding-left: 3.3%;
-        padding-left: max(env(safe-area-inset-left), 3.3%);
+        @include conditional-max(padding-left, 3.3%, env(safe-area-inset-left));
     }
 
     [dir="rtl"] & {
-        padding-right: 3.3%;
-        padding-right: max(env(safe-area-inset-right), 3.3%);
+        @include conditional-max(padding-right, 3.3%, env(safe-area-inset-right));
     }
 }
 
 .padded-right {
     [dir="ltr"] & {
-        padding-right: 3.3%;
-        padding-right: max(env(safe-area-inset-right), 3.3%);
+        @include conditional-max(padding-right, 3.3%, env(safe-area-inset-right));
     }
 
     [dir="rtl"] & {
-        padding-left: 3.3%;
-        padding-left: max(env(safe-area-inset-left), 3.3%);
+        @include conditional-max(padding-left, 3.3%, env(safe-area-inset-left));
     }
 }
 
@@ -1383,13 +1391,11 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 @media all and (min-height: 31.25em) {
     [dir="ltr"] .padded-right-withalphapicker {
-        padding-right: 7.5%;
-        padding-right: max(env(safe-area-inset-right), 7.5%);
+        @include conditional-max(padding-right, 7.5%, env(safe-area-inset-right));
     }
 
     [dir="rtl"] .padded-right-withalphapicker {
-        padding-left: 7.5%;
-        padding-left: max(env(safe-area-inset-left), 7.5%);
+        @include conditional-max(padding-left, 7.5%, env(safe-area-inset-left));
     }
 }
 

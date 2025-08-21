@@ -1,4 +1,5 @@
-import { Devices, Analytics, Input } from '@mui/icons-material';
+import Analytics from '@mui/icons-material/Analytics';
+import Devices from '@mui/icons-material/Devices';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -7,7 +8,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import React from 'react';
 
 import ListItemLink from 'components/ListItemLink';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 const DevicesDrawerSection = () => {
     return (
@@ -33,14 +34,6 @@ const DevicesDrawerSection = () => {
                         <Analytics />
                     </ListItemIcon>
                     <ListItemText primary={globalize.translate('HeaderActivity')} />
-                </ListItemLink>
-            </ListItem>
-            <ListItem disablePadding>
-                <ListItemLink to='/dashboard/dlna'>
-                    <ListItemIcon>
-                        <Input />
-                    </ListItemIcon>
-                    <ListItemText primary={'DLNA'} />
                 </ListItemLink>
             </ListItem>
         </List>

@@ -1,3 +1,5 @@
+import icon from '@jellyfin/ux-web/icon-transparent.png';
+
 import { PluginType } from '../../types/plugin.ts';
 import { randomInt } from '../../utils/number.ts';
 
@@ -133,7 +135,7 @@ export default function () {
                 elem.classList.add('logoScreenSaver');
                 document.body.appendChild(elem);
 
-                elem.innerHTML = '<img class="logoScreenSaverImage" src="assets/img/banner-light.png" />';
+                elem.innerHTML = `<img class="logoScreenSaverImage" src="${icon}" />`;
             }
 
             stopInterval();

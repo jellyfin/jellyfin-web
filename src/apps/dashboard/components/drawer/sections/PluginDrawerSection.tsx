@@ -1,41 +1,25 @@
-import { ConfigurationPageInfo } from '@jellyfin/sdk/lib/generated-client';
-import { getDashboardApi } from '@jellyfin/sdk/lib/utils/api/dashboard-api';
-import { Folder } from '@mui/icons-material';
+import Extension from '@mui/icons-material/Extension';
+import Folder from '@mui/icons-material/Folder';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import ListItemLink from 'components/ListItemLink';
-import { useApi } from 'hooks/useApi';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import Dashboard from 'utils/dashboard';
+import { useConfigurationPages } from 'apps/dashboard/features/plugins/api/useConfigurationPages';
 
 const PluginDrawerSection = () => {
-    const { api } = useApi();
-    const [ pagesInfo, setPagesInfo ] = useState<ConfigurationPageInfo[]>([]);
+    const {
+        data: pagesInfo,
+        error
+    } = useConfigurationPages({ enableInMainMenu: true });
 
     useEffect(() => {
-        const fetchPluginPages = async () => {
-            if (!api) return;
-
-            const pagesResponse = await getDashboardApi(api)
-                .getConfigurationPages({ enableInMainMenu: true });
-
-            setPagesInfo(pagesResponse.data);
-        };
-
-        fetchPluginPages()
-            .catch(err => {
-                console.error('[PluginDrawerSection] unable to fetch plugin config pages', err);
-            });
-    }, [ api ]);
-
-    if (!api || pagesInfo.length < 1) {
-        return null;
-    }
+        if (error) console.error('[PluginDrawerSection] unable to fetch plugin config pages', error);
+    }, [ error ]);
 
     return (
         <List
@@ -46,19 +30,32 @@ const PluginDrawerSection = () => {
                 </ListSubheader>
             }
         >
-            {
-                pagesInfo.map(pageInfo => (
-                    <ListItem key={pageInfo.PluginId} disablePadding>
-                        <ListItemLink to={`/${Dashboard.getPluginUrl(pageInfo.Name)}`}>
-                            <ListItemIcon>
-                                {/* TODO: Support different icons? */}
-                                <Folder />
-                            </ListItemIcon>
-                            <ListItemText primary={pageInfo.DisplayName} />
-                        </ListItemLink>
-                    </ListItem>
-                ))
-            }
+            <ListItemLink
+                to='/dashboard/plugins'
+                includePaths={[
+                    '/configurationpage',
+                    '/dashboard/plugins/repositories'
+                ]}
+                excludePaths={pagesInfo?.map(p => `/${Dashboard.getPluginUrl(p.Name)}`)}
+            >
+                <ListItemIcon>
+                    <Extension />
+                </ListItemIcon>
+                <ListItemText primary={globalize.translate('TabPlugins')} />
+            </ListItemLink>
+
+            {pagesInfo?.map(pageInfo => (
+                <ListItemLink
+                    key={pageInfo.PluginId}
+                    to={`/${Dashboard.getPluginUrl(pageInfo.Name)}`}
+                >
+                    <ListItemIcon>
+                        {/* TODO: Support different icons? */}
+                        <Folder />
+                    </ListItemIcon>
+                    <ListItemText primary={pageInfo.DisplayName} />
+                </ListItemLink>
+            ))}
         </List>
     );
 };

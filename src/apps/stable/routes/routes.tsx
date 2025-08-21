@@ -1,37 +1,48 @@
-import { RouteObject, redirect } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 import React from 'react';
 
 import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';
 import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
-import { toRedirectRoute } from 'components/router/Redirect';
+import ErrorBoundary from 'components/router/ErrorBoundary';
+import FallbackRoute from 'components/router/FallbackRoute';
 
 import AppLayout from '../AppLayout';
 
-import { REDIRECTS } from './_redirects';
-import { ASYNC_USER_ROUTES } from './asyncRoutes';
+import { ASYNC_PUBLIC_ROUTES, ASYNC_USER_ROUTES } from './asyncRoutes';
 import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
 
 export const STABLE_APP_ROUTES: RouteObject[] = [
     {
         path: '/*',
-        element: <AppLayout />,
+        Component: AppLayout,
         children: [
+            { index: true, element: <Navigate replace to='/home' /> },
+
             {
                 /* User routes */
-                element: <ConnectionRequired isUserRequired />,
+                Component: ConnectionRequired,
                 children: [
                     ...ASYNC_USER_ROUTES.map(toAsyncPageRoute),
                     ...LEGACY_USER_ROUTES.map(toViewManagerPageRoute)
-                ]
+                ],
+                ErrorBoundary
             },
 
-            /* Public routes */
-            { index: true, loader: () => redirect('/home.html') },
-            ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)
-        ]
-    },
+            {
+                /* Public routes */
+                element: <ConnectionRequired level='public' />,
+                children: [
+                    ...ASYNC_PUBLIC_ROUTES.map(toAsyncPageRoute),
+                    ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute),
+                    /* Fallback route for invalid paths */
+                    {
+                        path: '*',
+                        Component: FallbackRoute
+                    }
+                ]
+            }
 
-    /* Redirects for old paths */
-    ...REDIRECTS.map(toRedirectRoute)
+        ]
+    }
 ];

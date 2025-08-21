@@ -86,7 +86,7 @@ function iOSversion() {
             /Version\/(\d+)/
         ];
         for (const test of tests) {
-            const matches = (navigator.appVersion).match(test);
+            const matches = RegExp(test).exec(navigator.appVersion);
             if (matches) {
                 return [
                     parseInt(matches[1], 10),
@@ -163,6 +163,7 @@ function supportsCssAnimation(allowPrefix) {
     const domPrefixes = ['Webkit', 'O', 'Moz'];
     const elm = document.createElement('div');
 
+    // eslint-disable-next-line sonarjs/different-types-comparison
     if (elm.style.animationName !== undefined) {
         animation = true;
     }
@@ -188,13 +189,15 @@ function supportsCssAnimation(allowPrefix) {
 const uaMatch = function (ua) {
     ua = ua.toLowerCase();
 
-    const match = /(chrome)[ /]([\w.]+)/.exec(ua)
-        || /(edg)[ /]([\w.]+)/.exec(ua)
+    ua = ua.replace(/(motorola edge)/, '').trim();
+
+    const match = /(edg)[ /]([\w.]+)/.exec(ua)
         || /(edga)[ /]([\w.]+)/.exec(ua)
         || /(edgios)[ /]([\w.]+)/.exec(ua)
         || /(edge)[ /]([\w.]+)/.exec(ua)
         || /(opera)[ /]([\w.]+)/.exec(ua)
         || /(opr)[ /]([\w.]+)/.exec(ua)
+        || /(chrome)[ /]([\w.]+)/.exec(ua)
         || /(safari)[ /]([\w.]+)/.exec(ua)
         || /(firefox)[ /]([\w.]+)/.exec(ua)
         || ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua)
@@ -202,7 +205,7 @@ const uaMatch = function (ua) {
 
     const versionMatch = /(version)[ /]([\w.]+)/.exec(ua);
 
-    let platform_match = /(ipad)/.exec(ua)
+    let platformMatch = /(ipad)/.exec(ua)
         || /(iphone)/.exec(ua)
         || /(windows)/.exec(ua)
         || /(android)/.exec(ua)
@@ -211,7 +214,7 @@ const uaMatch = function (ua) {
     let browser = match[1] || '';
 
     if (browser === 'edge') {
-        platform_match = [''];
+        platformMatch = [''];
     }
 
     if (browser === 'opr') {
@@ -234,7 +237,7 @@ const uaMatch = function (ua) {
     return {
         browser: browser,
         version: version,
-        platform: platform_match[0] || '',
+        platform: platformMatch[0] || '',
         versionMajor: versionMajor
     };
 };
@@ -287,22 +290,23 @@ browser.hisense = userAgent.toLowerCase().includes('hisense');
 browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || window.tizen != null;
 browser.vidaa = userAgent.toLowerCase().includes('vidaa');
 browser.web0s = isWeb0s();
-browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') !== -1 || userAgent.toLowerCase().indexOf('webview') !== -1);
+browser.edgeUwp = (browser.edge || browser.edgeChromium) && (userAgent.toLowerCase().indexOf('msapphost') !== -1 || userAgent.toLowerCase().indexOf('webview') !== -1);
 
 if (browser.web0s) {
     browser.web0sVersion = web0sVersion(browser);
-} else if (browser.tizen) {
-    // UserAgent string contains 'Safari' and 'safari' is set by matched browser, but we only want 'tizen' to be true
-    delete browser.safari;
 
-    const v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
-    browser.tizenVersion = parseInt(v[1], 10);
+    // UserAgent string contains 'Chrome' and 'Safari', but we only want 'web0s' to be true
+    delete browser.chrome;
+    delete browser.safari;
+} else if (browser.tizen) {
+    const v = RegExp(/Tizen (\d+).(\d+)/).exec(userAgent);
+    browser.tizenVersion = parseInt(v[1], 10) + parseInt(v[2], 10) / 10;
+
+    // UserAgent string contains 'Chrome' and 'Safari', but we only want 'tizen' to be true
+    delete browser.chrome;
+    delete browser.safari;
 } else {
     browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
-}
-
-if (browser.edgeUwp) {
-    browser.edge = true;
 }
 
 browser.tv = isTv();
@@ -312,7 +316,6 @@ if (browser.mobile || browser.tv) {
     browser.slow = true;
 }
 
-/* eslint-disable-next-line compat/compat */
 if (typeof document !== 'undefined' && ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
     browser.touch = true;
 }

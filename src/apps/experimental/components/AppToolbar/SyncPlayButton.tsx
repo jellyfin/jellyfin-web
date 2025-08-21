@@ -6,7 +6,7 @@ import React, { useCallback, useState } from 'react';
 
 import { pluginManager } from 'components/pluginManager';
 import { useApi } from 'hooks/useApi';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { PluginType } from 'types/plugin';
 
 import AppSyncPlayMenu, { ID } from './menus/SyncPlayMenu';
@@ -17,7 +17,7 @@ const SyncPlayButton = () => {
     const [ syncPlayMenuAnchorEl, setSyncPlayMenuAnchorEl ] = useState<null | HTMLElement>(null);
     const isSyncPlayMenuOpen = Boolean(syncPlayMenuAnchorEl);
 
-    const onSyncPlayButtonClick = useCallback((event) => {
+    const onSyncPlayButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setSyncPlayMenuAnchorEl(event.currentTarget);
     }, [ setSyncPlayMenuAnchorEl ]);
 

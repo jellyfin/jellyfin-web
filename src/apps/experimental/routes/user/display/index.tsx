@@ -3,16 +3,16 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import React, { useCallback } from 'react';
 
-import Page from 'components/Page';
-import globalize from 'scripts/globalize';
-import { DisplayPreferences } from './DisplayPreferences';
-import { ItemDetailPreferences } from './ItemDetailPreferences';
-import { LibraryPreferences } from './LibraryPreferences';
-import { LocalizationPreferences } from './LocalizationPreferences';
-import { NextUpPreferences } from './NextUpPreferences';
-import { useDisplaySettingForm } from './hooks/useDisplaySettingForm';
-import { DisplaySettingsValues } from './types';
+import { DisplayPreferences } from 'apps/experimental/features/preferences/components/DisplayPreferences';
+import { ItemDetailPreferences } from 'apps/experimental/features/preferences/components/ItemDetailPreferences';
+import { LibraryPreferences } from 'apps/experimental/features/preferences/components/LibraryPreferences';
+import { useDisplaySettingForm } from 'apps/experimental/features/preferences/hooks/useDisplaySettingForm';
+import { LocalizationPreferences } from 'apps/experimental/features/preferences/components/LocalizationPreferences';
+import { NextUpPreferences } from 'apps/experimental/features/preferences/components/NextUpPreferences';
+import type { DisplaySettingsValues } from 'apps/experimental/features/preferences/types/displaySettingsValues';
 import LoadingComponent from 'components/loading/LoadingComponent';
+import Page from 'components/Page';
+import globalize from 'lib/globalize';
 
 export default function UserDisplayPreferences() {
     const {

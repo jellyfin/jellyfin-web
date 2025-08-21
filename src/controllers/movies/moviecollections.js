@@ -4,7 +4,7 @@ import imageLoader from '../../components/images/imageLoader';
 import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
@@ -206,7 +206,7 @@ export default function (view, params, tabContent) {
                     name: globalize.translate('Name'),
                     id: 'SortName'
                 }, {
-                    name: globalize.translate('OptionImdbRating'),
+                    name: globalize.translate('OptionCommunityRating'),
                     id: 'CommunityRating,SortName'
                 }, {
                     name: globalize.translate('OptionDateAdded'),

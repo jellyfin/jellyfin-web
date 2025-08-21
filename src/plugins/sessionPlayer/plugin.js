@@ -1,8 +1,9 @@
 import { playbackManager } from '../../components/playback/playbackmanager';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import serverNotifications from '../../scripts/serverNotifications';
-import ServerConnections from '../../components/ServerConnections';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
+import isEqual from 'lodash-es/isEqual';
 
 function getActivePlayerId() {
     const info = playbackManager.getPlayerInfo();
@@ -84,6 +85,58 @@ function unsubscribeFromPlayerUpdates(instance) {
     }
 }
 
+async function updatePlaylist(instance, queue) {
+    const options = {
+        ids: queue.map(i => i.Id),
+        serverId: getCurrentApiClient(instance).serverId()
+    };
+
+    const result = await playbackManager.getItemsForPlayback(options.serverId, {
+        Ids: options.ids.join(',')
+    });
+
+    const items = await playbackManager.translateItemsForPlayback(result.Items, options);
+
+    for (let i = 0; i < items.length; i++) {
+        items[i].PlaylistItemId = queue[i].PlaylistItemId;
+    }
+
+    instance.playlist = items;
+}
+
+function compareQueues(q1, q2) {
+    if (q1.length !== q2.length) {
+        return true;
+    }
+
+    for (let i = 0; i < q1.length; i++) {
+        if (q1[i].Id !== q2[i].Id || q1[i].PlaylistItemId !== q2[i].PlaylistItemId) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function updateCurrentQueue(instance, session) {
+    const current = session.NowPlayingQueue;
+    if (instance.isUpdatingPlaylist) {
+        return;
+    }
+
+    if (instance.lastPlayerData && !compareQueues(current, instance.playlist)) {
+        return;
+    }
+
+    instance.isUpdatingPlaylist = true;
+
+    const finish = () => {
+        instance.isUpdatingPlaylist = false;
+        instance.isPlaylistRendered = true;
+    };
+
+    updatePlaylist(instance, current).then(finish, finish);
+}
+
 function processUpdatedSessions(instance, sessions, apiClient) {
     const serverId = apiClient.serverId();
 
@@ -102,12 +155,14 @@ function processUpdatedSessions(instance, sessions, apiClient) {
     if (session) {
         normalizeImages(session, apiClient);
 
-        const eventNames = getChangedEvents(instance.lastPlayerData);
+        updateCurrentQueue(instance, session);
+        const eventNames = getChangedEvents(instance.lastPlayerData, session);
+
         instance.lastPlayerData = session;
 
-        for (let i = 0, length = eventNames.length; i < length; i++) {
-            Events.trigger(instance, eventNames[i], [session]);
-        }
+        eventNames.forEach(eventName => {
+            Events.trigger(instance, eventName, [session]);
+        });
     } else {
         instance.lastPlayerData = session;
 
@@ -115,21 +170,63 @@ function processUpdatedSessions(instance, sessions, apiClient) {
     }
 }
 
-function getChangedEvents(state1) {
+function getBasicEvents(oldPlayerData, newPlayerData) {
     const names = [];
-
-    if (!state1) {
-        names.push('statechange');
+    if (oldPlayerData.PlayState.PositionTicks !== newPlayerData.PlayState.PositionTicks) {
         names.push('timeupdate');
-        names.push('pause');
+    }
+    if (oldPlayerData.PlayState.IsPaused !== newPlayerData.PlayState.IsPaused) {
+        names.push(newPlayerData.PlayState.IsPaused ? 'pause' : 'unpause');
+    }
+    if (oldPlayerData.PlayState.IsMuted !== newPlayerData.PlayState.IsMuted
+        || oldPlayerData.PlayState.VolumeLevel !== newPlayerData.PlayState.VolumeLevel) {
+        names.push('volumechange');
+    }
+    if (oldPlayerData.PlayState.RepeatMode !== newPlayerData.PlayState.RepeatMode) {
+        names.push('repeatmodechange');
+    }
+    return names;
+}
 
-        return names;
+function copyNewStateOfBasicEvents(oldPlayerData, newPlayerData) {
+    const prepareOldData = (oldObject, newObject, propertyName) => {
+        if (!Object.hasOwn(newObject, propertyName)) {
+            delete oldObject[propertyName];
+        } else {
+            oldObject[propertyName] = newObject[propertyName];
+        }
+    };
+
+    prepareOldData(oldPlayerData.PlayState, newPlayerData.PlayState, 'PositionTicks');
+    if (oldPlayerData.TranscodingInfo) {
+        // TranscodingInfo.CompletionPercentage and TranscodingInfo.Framerate change with time
+        // so it's enough if we only trigger 'timeupdate' event
+        prepareOldData(oldPlayerData.TranscodingInfo, newPlayerData.TranscodingInfo, 'CompletionPercentage');
+        prepareOldData(oldPlayerData.TranscodingInfo, newPlayerData.TranscodingInfo, 'Framerate');
+    }
+    prepareOldData(oldPlayerData, newPlayerData, 'LastActivityDate');
+    prepareOldData(oldPlayerData, newPlayerData, 'LastPlaybackCheckIn');
+    prepareOldData(oldPlayerData.PlayState, newPlayerData.PlayState, 'IsPaused');
+    prepareOldData(oldPlayerData, newPlayerData, 'LastPausedDate');
+    prepareOldData(oldPlayerData.PlayState, newPlayerData.PlayState, 'IsMuted');
+    prepareOldData(oldPlayerData.PlayState, newPlayerData.PlayState, 'VolumeLevel');
+    prepareOldData(oldPlayerData.PlayState, newPlayerData.PlayState, 'RepeatMode');
+    prepareOldData(oldPlayerData.PlayState, newPlayerData.PlayState, 'OrderMode');
+}
+
+function getChangedEvents(oldPlayerData, newPlayerData) {
+    if (!oldPlayerData?.PlayState || !newPlayerData?.PlayState
+        || (oldPlayerData.TranscodingInfo !== newPlayerData.TranscodingInfo && (!oldPlayerData.TranscodingInfo || !newPlayerData.TranscodingInfo))) {
+        return ['statechange'];
     }
 
-    // TODO: Trim these down to prevent the UI from over-refreshing
-    names.push('statechange');
-    names.push('timeupdate');
-    names.push('pause');
+    const names = getBasicEvents(oldPlayerData, newPlayerData);
+    // override the part of oldPlayerData, because it will be overwritten anyway, after this function
+    copyNewStateOfBasicEvents(oldPlayerData, newPlayerData);
+
+    if (!isEqual(oldPlayerData, newPlayerData)) {
+        return ['statechange'];
+    }
 
     return names;
 }
@@ -178,6 +275,8 @@ function normalizeImages(state, apiClient) {
 }
 
 class SessionPlayer {
+    lastPlaylistItemId;
+
     constructor() {
         const self = this;
 
@@ -185,6 +284,10 @@ class SessionPlayer {
         this.type = PluginType.MediaPlayer;
         this.isLocalPlayer = false;
         this.id = 'remoteplayer';
+
+        this.playlist = [];
+        this.isPlaylistRendered = true;
+        this.isUpdatingPlaylist = false;
 
         Events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
             processUpdatedSessions(self, data, apiClient);
@@ -484,16 +587,83 @@ class SessionPlayer {
         return state.MediaType === 'Audio';
     }
 
+    getTrackIndex(playlistItemId) {
+        for (let i = 0; i < this.playlist.length; i++) {
+            if (this.playlist[i].PlaylistItemId === playlistItemId) {
+                return i;
+            }
+        }
+    }
+
     getPlaylist() {
+        let itemId;
+
+        if (this.lastPlayerData) {
+            itemId = this.lastPlayerData.PlaylistItemId;
+        }
+
+        if (this.playlist.length > 0 && (this.isPlaylistRendered || itemId !== this.lastPlaylistItemId)) {
+            this.isPlaylistRendered = false;
+            this.lastPlaylistItemId = itemId;
+            return Promise.resolve(this.playlist);
+        }
         return Promise.resolve([]);
     }
 
-    getCurrentPlaylistItemId() {
-        // not supported?
+    movePlaylistItem(playlistItemId, newIndex) {
+        const index = this.getTrackIndex(playlistItemId);
+        if (index === newIndex) return;
+
+        const current = this.getCurrentPlaylistItemId();
+        let currentIndex = 0;
+
+        if (current === playlistItemId) {
+            currentIndex = newIndex;
+        }
+
+        const append = (newIndex + 1 >= this.playlist.length);
+
+        if (newIndex > index) newIndex++;
+
+        const ids = [];
+        const item = this.playlist[index];
+
+        for (let i = 0; i < this.playlist.length; i++) {
+            if (i === index) continue;
+
+            if (i === newIndex) {
+                ids.push(item.Id);
+            }
+
+            if (this.playlist[i].PlaylistItemId === current) {
+                currentIndex = ids.length;
+            }
+
+            ids.push(this.playlist[i].Id);
+        }
+
+        if (append) {
+            ids.push(item.Id);
+        }
+
+        const options = {
+            ids,
+            startIndex: currentIndex
+        };
+
+        return sendPlayCommand(getCurrentApiClient(this), options, 'PlayNow');
     }
 
-    setCurrentPlaylistItem() {
-        return Promise.resolve();
+    getCurrentPlaylistItemId() {
+        return this.lastPlayerData.PlaylistItemId;
+    }
+
+    setCurrentPlaylistItem(playlistItemId) {
+        const options = {
+            ids: this.playlist.map(i => i.Id),
+            startIndex: this.getTrackIndex(playlistItemId)
+        };
+        return sendPlayCommand(getCurrentApiClient(this), options, 'PlayNow');
     }
 
     removeFromPlaylist() {

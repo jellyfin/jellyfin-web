@@ -1,33 +1,29 @@
 import type { Api } from '@jellyfin/sdk/lib/api';
 import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
-import { queryOptions } from 'utils/query/queryOptions';
-
 import { useApi } from './useApi';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 const fetchItem = async (
-    api?: Api,
-    userId?: string,
-    itemId?: string,
+    api: Api,
+    itemId: string,
+    userId: string,
     options?: AxiosRequestConfig
 ) => {
-    if (!api) throw new Error('No API instance available');
-    if (!itemId) throw new Error('No item ID provided');
-
     const response = await getUserLibraryApi(api)
         .getItem({ userId, itemId }, options);
-    return response.data;
+    return response.data as ItemDto;
 };
 
 export const getItemQuery = (
-    api?: Api,
-    userId?: string,
-    itemId?: string
+    api: Api | undefined,
+    itemId?: string,
+    userId?: string
 ) => queryOptions({
     queryKey: [ 'User', userId, 'Items', itemId ],
-    queryFn: ({ signal }) => fetchItem(api, userId, itemId, { signal }),
+    queryFn: ({ signal }) => fetchItem(api!, itemId!, userId!, { signal }),
     staleTime: 1000, // 1 second
     enabled: !!api && !!userId && !!itemId
 });
@@ -37,5 +33,5 @@ export const useItem = (
 ) => {
     const apiContext = useApi();
     const { api, user } = apiContext;
-    return useQuery(getItemQuery(api, user?.Id, itemId));
+    return useQuery(getItemQuery(api, itemId, user?.Id));
 };

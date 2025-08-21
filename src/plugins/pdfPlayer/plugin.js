@@ -1,9 +1,9 @@
-import ServerConnections from '../../components/ServerConnections';
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import { appRouter } from '../../components/router/appRouter';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
@@ -18,7 +18,7 @@ export class PdfPlayer {
         this.priority = 1;
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
-        this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
+        this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.onTouchStart = this.onTouchStart.bind(this);
     }
 
@@ -88,22 +88,29 @@ export class PdfPlayer {
         return true;
     }
 
-    onWindowKeyUp(e) {
+    onWindowKeyDown(e) {
+        if (!this.loaded) return;
+
+        // Skip modified keys
+        if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+
         const key = keyboardnavigation.getKeyName(e);
 
-        if (!this.loaded) return;
         switch (key) {
             case 'l':
             case 'ArrowRight':
             case 'Right':
+                e.preventDefault();
                 this.next();
                 break;
             case 'j':
             case 'ArrowLeft':
             case 'Left':
+                e.preventDefault();
                 this.previous();
                 break;
             case 'Escape':
+                e.preventDefault();
                 this.stop();
                 break;
         }
@@ -132,7 +139,7 @@ export class PdfPlayer {
     bindEvents() {
         this.bindMediaElementEvents();
 
-        document.addEventListener('keyup', this.onWindowKeyUp);
+        document.addEventListener('keydown', this.onWindowKeyDown);
         document.addEventListener('touchstart', this.onTouchStart);
     }
 
@@ -148,7 +155,7 @@ export class PdfPlayer {
             this.unbindMediaElementEvents();
         }
 
-        document.removeEventListener('keyup', this.onWindowKeyUp);
+        document.removeEventListener('keydown', this.onWindowKeyDown);
         document.removeEventListener('touchstart', this.onTouchStart);
     }
 
@@ -207,7 +214,12 @@ export class PdfPlayer {
             this.bindEvents();
             GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';
 
-            const downloadTask = getDocument(downloadHref);
+            const downloadTask = getDocument({
+                url: downloadHref,
+                // Disable for PDF.js XSS vulnerability
+                // https://github.com/mozilla/pdf.js/security/advisories/GHSA-wgrm-67xf-hhpq
+                isEvalSupported: false
+            });
             return downloadTask.promise.then(book => {
                 if (this.cancellationToken) return;
                 this.book = book;
@@ -278,22 +290,24 @@ export class PdfPlayer {
     }
 
     renderPage(canvas, number) {
+        const devicePixelRatio = window.devicePixelRatio || 1;
         this.book.getPage(number).then(page => {
-            const width = dom.getWindowSize().innerWidth;
-            const height = dom.getWindowSize().innerHeight;
-            const scale = Math.ceil(window.devicePixelRatio || 1);
+            const original = page.getViewport({ scale: 1 });
+            const scale = Math.min((window.innerHeight / original.height), (window.innerWidth / original.width)) * devicePixelRatio;
             const viewport = page.getViewport({ scale });
-            const context = canvas.getContext('2d');
+
             canvas.width = viewport.width;
             canvas.height = viewport.height;
 
-            if (width < height) {
+            if (window.innerWidth < window.innerHeight) {
                 canvas.style.width = '100%';
                 canvas.style.height = 'auto';
             } else {
                 canvas.style.height = '100%';
                 canvas.style.width = 'auto';
             }
+
+            const context = canvas.getContext('2d');
 
             const renderContext = {
                 canvasContext: context,

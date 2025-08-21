@@ -2,7 +2,7 @@ import React, { type FC } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import datetime from 'scripts/datetime';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 interface EndsAtProps {
     className?: string;
@@ -12,7 +12,6 @@ interface EndsAtProps {
 const EndsAt: FC<EndsAtProps> = ({ runTimeTicks, className }) => {
     const cssClass = classNames(
         'mediaInfoItem',
-        'mediaInfoText',
         'endsAt',
         className
     );

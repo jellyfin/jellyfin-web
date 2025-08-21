@@ -1,4 +1,4 @@
-import globalize from './globalize';
+import globalize from 'lib/globalize';
 
 export function showLayoutMenu (button, currentLayout, views) {
     let dispatchEvent = true;
@@ -34,7 +34,7 @@ export function showLayoutMenu (button, currentLayout, views) {
                     $(button).trigger('layoutchange', [id]);
                 }
             }
-        });
+        }).catch(() => { /* no-op */ });
     });
 }
 
@@ -70,7 +70,7 @@ export function getQueryPagingHtml (options) {
         }
 
         if (options.filterButton) {
-            html += '<button is="paper-icon-button-light" class="btnFilter autoSize" title="' + globalize.translate('Filter') + '"><span class="material-icons filter_list" aria-hidden="true"></span></button>';
+            html += '<button is="paper-icon-button-light" class="btnFilter autoSize" title="' + globalize.translate('Filter') + '"><span class="material-icons filter_alt" aria-hidden="true"></span></button>';
         }
 
         html += '</div>';

@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 interface InfoIconButtonProps {
     className?: string;

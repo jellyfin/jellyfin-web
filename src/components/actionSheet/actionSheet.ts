@@ -1,8 +1,8 @@
 import escapeHtml from 'escape-html';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
-import globalize from '../../scripts/globalize';
-import dom from '../../scripts/dom';
+import globalize from '../../lib/globalize';
+import dom from '../../utils/dom';
 import '../../elements/emby-button/emby-button';
 import './actionSheet.scss';
 import 'material-design-icons-iconfont';
@@ -366,7 +366,7 @@ export function show(options: Options) {
 
                     resolve(selectedId);
                 } else {
-                    reject('ActionSheet closed without resolving');
+                    reject(new Error('ActionSheet closed without resolving'));
                 }
             }
         });

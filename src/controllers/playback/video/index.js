@@ -1,8 +1,13 @@
 import escapeHtml from 'escape-html';
-import debounce from 'lodash-es/debounce';
+
+import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
+import { AppFeature } from 'constants/appFeature';
+import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
+import { EventType } from 'types/eventType';
+
 import { playbackManager } from '../../../components/playback/playbackmanager';
 import browser from '../../../scripts/browser';
-import dom from '../../../scripts/dom';
+import dom from '../../../utils/dom';
 import inputManager from '../../../scripts/inputManager';
 import mouseManager from '../../../scripts/mouseManager';
 import datetime from '../../../scripts/datetime';
@@ -10,7 +15,7 @@ import itemHelper from '../../../components/itemHelper';
 import mediaInfo from '../../../components/mediainfo/mediainfo';
 import focusManager from '../../../components/focusManager';
 import Events from '../../../utils/events.ts';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import { appHost } from '../../../components/apphost';
 import layoutManager from '../../../components/layoutManager';
 import * as userSettings from '../../../scripts/settings/userSettings';
@@ -20,18 +25,15 @@ import '../../../elements/emby-slider/emby-slider';
 import '../../../elements/emby-button/paper-icon-button-light';
 import '../../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../../styles/videoosd.scss';
-import ServerConnections from '../../../components/ServerConnections';
 import shell from '../../../scripts/shell';
 import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
 import { appRouter } from '../../../components/router/appRouter';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
 import { EventType } from 'types/eventType';
-
-const TICKS_PER_MINUTE = 600000000;
-const TICKS_PER_SECOND = 10000000;
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
@@ -95,18 +97,6 @@ export default function (view) {
         }
 
         setTitle(displayItem, parentName);
-        ratingsText.innerHTML = mediaInfo.getPrimaryMediaInfoHtml(displayItem, {
-            officialRating: false,
-            criticRating: true,
-            starRating: true,
-            endsAt: false,
-            year: false,
-            programIndicator: false,
-            runtime: false,
-            subtitles: false,
-            originalAirDate: false,
-            episodeTitle: false
-        });
 
         const secondaryMediaInfo = view.querySelector('.osdSecondaryMediaInfo');
         const secondaryMediaInfoHtml = mediaInfo.getSecondaryMediaInfoHtml(displayItem, {
@@ -260,7 +250,9 @@ export default function (view) {
 
         // Display the item with its premiere date if it has one
         let title = itemName;
-        if (item.PremiereDate) {
+        if (item.Type == 'Movie' && item.ProductionYear) {
+            title += ` (${datetime.toLocaleString(item.ProductionYear, { useGrouping: false })})`;
+        } else if (item.PremiereDate) {
             try {
                 const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
                 title += ` (${year})`;
@@ -315,29 +307,38 @@ export default function (view) {
     }
 
     function slideDownToShow(elem) {
+        clearHideAnimationEventListeners(elem);
+        elem.classList.remove('hide');
         elem.classList.remove('osdHeader-hidden');
     }
 
     function slideUpToHide(elem) {
+        clearHideAnimationEventListeners(elem);
         elem.classList.add('osdHeader-hidden');
+        elem.addEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
     function clearHideAnimationEventListeners(elem) {
-        dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
-            once: true
-        });
+        elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
     function onHideAnimationComplete(e) {
         const elem = e.target;
-        if (elem != osdBottomElement) return;
+        if (elem !== osdBottomElement && elem !== headerElement) return;
         elem.classList.add('hide');
-        dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
-            once: true
-        });
+        elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
-    const _focus = debounce((focusElement) => focusManager.focus(focusElement), 50);
+    const _focus = function (focusElement) {
+        // If no focus element is provided, try to keep current focus if it's valid,
+        // otherwise default to pause button
+        const currentFocus = focusElement || document.activeElement;
+        if (!currentFocus || !focusManager.isCurrentlyFocusable(currentFocus)) {
+            focusElement = osdBottomElement.querySelector('.btnPause');
+        }
+
+        if (focusElement) focusManager.focus(focusElement);
+    };
 
     function showMainOsdControls(focusElement) {
         if (!currentVisibleMenu) {
@@ -347,13 +348,11 @@ export default function (view) {
             elem.classList.remove('hide');
             elem.classList.remove('videoOsdBottom-hidden');
 
-            focusElement ||= elem.querySelector('.btnPause');
-
             if (!layoutManager.mobile) {
                 _focus(focusElement);
             }
             toggleSubtitleSync();
-        } else if (currentVisibleMenu === 'osd' && focusElement && !layoutManager.mobile) {
+        } else if (currentVisibleMenu === 'osd' && !layoutManager.mobile) {
             _focus(focusElement);
         }
     }
@@ -364,14 +363,13 @@ export default function (view) {
             clearHideAnimationEventListeners(elem);
             elem.classList.add('videoOsdBottom-hidden');
 
-            dom.addEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
-                once: true
-            });
+            elem.addEventListener(transitionEndEventName, onHideAnimationComplete);
             currentVisibleMenu = null;
             toggleSubtitleSync('hide');
 
             // Firefox does not blur by itself
-            if (document.activeElement) {
+            if (osdBottomElement.contains(document.activeElement)
+                || headerElement.contains(document.activeElement)) {
                 document.activeElement.blur();
             }
         }
@@ -502,10 +500,10 @@ export default function (view) {
         icon.classList.remove('fullscreen_exit', 'fullscreen');
 
         if (playbackManager.isFullscreen(currentPlayer)) {
-            button.setAttribute('title', globalize.translate('ExitFullscreen') + ' (f)');
+            button.setAttribute('title', globalize.translate('ExitFullscreen') + ' (F)');
             icon.classList.add('fullscreen_exit');
         } else {
-            button.setAttribute('title', globalize.translate('Fullscreen') + ' (f)');
+            button.setAttribute('title', globalize.translate('Fullscreen') + ' (F)');
             icon.classList.add('fullscreen');
         }
     }
@@ -595,6 +593,7 @@ export default function (view) {
         }, state);
         Events.on(player, 'playbackstart', onPlaybackStart);
         Events.on(player, 'playbackstop', onPlaybackStopped);
+        Events.on(player, PlayerEvent.PromptSkip, onPromptSkip);
         Events.on(player, 'volumechange', onVolumeChanged);
         Events.on(player, 'pause', onPlayPauseStateChanged);
         Events.on(player, 'unpause', onPlayPauseStateChanged);
@@ -619,6 +618,7 @@ export default function (view) {
         if (player) {
             Events.off(player, 'playbackstart', onPlaybackStart);
             Events.off(player, 'playbackstop', onPlaybackStopped);
+            Events.off(player, PlayerEvent.PromptSkip, onPromptSkip);
             Events.off(player, 'volumechange', onVolumeChanged);
             Events.off(player, 'pause', onPlayPauseStateChanged);
             Events.off(player, 'unpause', onPlayPauseStateChanged);
@@ -644,6 +644,17 @@ export default function (view) {
                 refreshProgramInfoIfNeeded(player, item);
                 showComingUpNextIfNeeded(player, item, currentTime, currentRuntimeTicks);
             }
+        }
+    }
+
+    function onPromptSkip(e, mediaSegment) {
+        const player = this;
+        if (mediaSegment && player && mediaSegment.EndTicks != null
+            && mediaSegment.EndTicks >= playbackManager.duration(player)
+            && playbackManager.getNextItem()
+            && userSettings.enableNextVideoInfoOverlay()
+        ) {
+            showComingUpNext(player);
         }
     }
 
@@ -703,7 +714,7 @@ export default function (view) {
                         }, state);
                     }
                 } catch (e) {
-                    console.error('error parsing date: ' + program.EndDate);
+                    console.error('error parsing date: ' + program.EndDate, e);
                 }
             }
         }
@@ -727,7 +738,7 @@ export default function (view) {
         }
 
         btnPlayPauseIcon.classList.add(icon);
-        dom.setElementTitle(btnPlayPause, title + ' (k)', title);
+        dom.setElementTitle(btnPlayPause, title + ' (K)', title);
     }
 
     function updatePlayerStateInternal(event, player, state) {
@@ -865,7 +876,7 @@ export default function (view) {
             showVolumeSlider = false;
         }
 
-        if (player.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
+        if (player.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
             showMuteButton = false;
             showVolumeSlider = false;
         }
@@ -876,10 +887,10 @@ export default function (view) {
         buttonMuteIcon.classList.remove('volume_off', 'volume_up');
 
         if (isMuted) {
-            buttonMute.setAttribute('title', globalize.translate('Unmute') + ' (m)');
+            buttonMute.setAttribute('title', globalize.translate('Unmute') + ' (M)');
             buttonMuteIcon.classList.add('volume_off');
         } else {
-            buttonMute.setAttribute('title', globalize.translate('Mute') + ' (m)');
+            buttonMute.setAttribute('title', globalize.translate('Mute') + ' (M)');
             buttonMuteIcon.classList.add('volume_up');
         }
 
@@ -902,13 +913,21 @@ export default function (view) {
         }
     }
 
-    function updatePlaylist() {
-        const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
-        const btnNextTrack = view.querySelector('.btnNextTrack');
-        btnPreviousTrack.classList.remove('hide');
-        btnNextTrack.classList.remove('hide');
-        btnNextTrack.disabled = false;
-        btnPreviousTrack.disabled = false;
+    async function updatePlaylist() {
+        try {
+            const playlist = await playbackManager.getPlaylist();
+
+            if (playlist && playlist.length > 1) {
+                const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
+                const btnNextTrack = view.querySelector('.btnNextTrack');
+                btnPreviousTrack.classList.remove('hide');
+                btnNextTrack.classList.remove('hide');
+                btnPreviousTrack.disabled = false;
+                btnNextTrack.disabled = false;
+            }
+        } catch (err) {
+            console.error('[VideoPlayer] failed to get playlist', err);
+        }
     }
 
     function updateTimeText(elem, ticks, divider) {
@@ -1199,8 +1218,12 @@ export default function (view) {
     function onKeyDown(e) {
         clickedElement = e.target;
 
-        const key = keyboardnavigation.getKeyName(e);
         const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
+
+        // Skip modified keys
+        if (isKeyModified) return;
+
+        const key = keyboardnavigation.getKeyName(e);
 
         const btnPlayPause = osdBottomElement.querySelector('.btnPause');
 
@@ -1223,18 +1246,24 @@ export default function (view) {
             switch (key) {
                 case 'ArrowLeft':
                 case 'ArrowRight':
-                    showOsd(nowPlayingPositionSlider);
-                    nowPlayingPositionSlider.dispatchEvent(new KeyboardEvent(e.type, e));
+                    if (!e.shiftKey) {
+                        e.preventDefault();
+                        showOsd(nowPlayingPositionSlider);
+                        nowPlayingPositionSlider.dispatchEvent(new KeyboardEvent(e.type, e));
+                    }
                     return;
                 case 'Enter':
-                    playbackManager.playPause(currentPlayer);
-                    showOsd(btnPlayPause);
+                    if (e.target.tagName !== 'BUTTON') {
+                        e.preventDefault();
+                        playbackManager.playPause(currentPlayer);
+                        showOsd(btnPlayPause);
+                    }
                     return;
             }
         }
 
         if (layoutManager.tv && keyboardnavigation.isNavigationKey(key)) {
-            showOsd();
+            if (!e.shiftKey) showOsd();
             return;
         }
 
@@ -1251,46 +1280,72 @@ export default function (view) {
                 }
                 break;
             case 'k':
-                playbackManager.playPause(currentPlayer);
-                showOsd(btnPlayPause);
+            case 'K':
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.playPause(currentPlayer);
+                    showOsd(btnPlayPause);
+                }
                 break;
             case 'ArrowUp':
             case 'Up':
-                playbackManager.volumeUp(currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.volumeUp(currentPlayer);
+                }
                 break;
             case 'ArrowDown':
             case 'Down':
-                playbackManager.volumeDown(currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.volumeDown(currentPlayer);
+                }
                 break;
             case 'l':
+            case 'L':
             case 'ArrowRight':
             case 'Right':
-                playbackManager.fastForward(currentPlayer);
-                showOsd(btnFastForward);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.fastForward(currentPlayer);
+                    showOsd(btnFastForward);
+                }
                 break;
             case 'j':
+            case 'J':
             case 'ArrowLeft':
             case 'Left':
-                playbackManager.rewind(currentPlayer);
-                showOsd(btnRewind);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.rewind(currentPlayer);
+                    showOsd(btnRewind);
+                }
                 break;
             case 'f':
-                if (!e.ctrlKey && !e.metaKey) {
+            case 'F':
+                if (!e.shiftKey) {
+                    e.preventDefault();
                     playbackManager.toggleFullscreen(currentPlayer);
                 }
                 break;
             case 'm':
-                playbackManager.toggleMute(currentPlayer);
+            case 'M':
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.toggleMute(currentPlayer);
+                }
                 break;
             case 'p':
             case 'P':
                 if (e.shiftKey) {
+                    e.preventDefault();
                     playbackManager.previousTrack(currentPlayer);
                 }
                 break;
             case 'n':
             case 'N':
                 if (e.shiftKey) {
+                    e.preventDefault();
                     playbackManager.nextTrack(currentPlayer);
                 }
                 break;
@@ -1298,7 +1353,7 @@ export default function (view) {
             case 'GamepadDPadLeft':
             case 'GamepadLeftThumbstickLeft':
                 // Ignores gamepad events that are always triggered, even when not focused.
-                if (document.hasFocus()) { /* eslint-disable-line compat/compat */
+                if (document.hasFocus()) {
                     playbackManager.rewind(currentPlayer);
                     showOsd(btnRewind);
                 }
@@ -1307,16 +1362,22 @@ export default function (view) {
             case 'GamepadDPadRight':
             case 'GamepadLeftThumbstickRight':
                 // Ignores gamepad events that are always triggered, even when not focused.
-                if (document.hasFocus()) { /* eslint-disable-line compat/compat */
+                if (document.hasFocus()) {
                     playbackManager.fastForward(currentPlayer);
                     showOsd(btnFastForward);
                 }
                 break;
             case 'Home':
-                playbackManager.seekPercent(0, currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.seekPercent(0, currentPlayer);
+                }
                 break;
             case 'End':
-                playbackManager.seekPercent(100, currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.seekPercent(100, currentPlayer);
+                }
                 break;
             case '0':
             case '1':
@@ -1327,24 +1388,45 @@ export default function (view) {
             case '6':
             case '7':
             case '8':
-            case '9': {
-                if (!isKeyModified) {
-                    const percent = parseInt(key, 10) * 10;
-                    playbackManager.seekPercent(percent, currentPlayer);
-                }
+            case '9': { // no Shift
+                e.preventDefault();
+                const percent = parseInt(key, 10) * 10;
+                playbackManager.seekPercent(percent, currentPlayer);
                 break;
             }
-            case '>':
+            case '>': // Shift+.
+                e.preventDefault();
                 playbackManager.increasePlaybackRate(currentPlayer);
                 break;
-            case '<':
+            case '<': // Shift+,
+                e.preventDefault();
                 playbackManager.decreasePlaybackRate(currentPlayer);
                 break;
             case 'PageUp':
-                playbackManager.nextChapter(currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.nextChapter(currentPlayer);
+                }
                 break;
             case 'PageDown':
-                playbackManager.previousChapter(currentPlayer);
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.previousChapter(currentPlayer);
+                }
+                break;
+            case 'g':
+            case 'G':
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    subtitleSyncOverlay?.decrementOffset();
+                }
+                break;
+            case 'h':
+            case 'H':
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    subtitleSyncOverlay?.incrementOffset();
+                }
                 break;
         }
     }
@@ -1385,11 +1467,13 @@ export default function (view) {
         let chapterThumbContainer = bubble.querySelector('.chapterThumbContainer');
         let chapterThumb;
         let chapterThumbText;
+        let chapterThumbName;
 
         // Create bubble elements if they don't already exist
         if (chapterThumbContainer) {
-            chapterThumb = chapterThumbContainer.querySelector('.chapterThumb');
-            chapterThumbText = chapterThumbContainer.querySelector('.chapterThumbText');
+            chapterThumb = chapterThumbContainer.querySelector('.chapterThumbWrapper');
+            chapterThumbText = chapterThumbContainer.querySelector('h2.chapterThumbText');
+            chapterThumbName = chapterThumbContainer.querySelector('div.chapterThumbText');
         } else {
             doFullUpdate = true;
 
@@ -1397,30 +1481,33 @@ export default function (view) {
             chapterThumbContainer.classList.add('chapterThumbContainer');
             chapterThumbContainer.style.overflow = 'hidden';
 
-            const chapterThumbWrapper = document.createElement('div');
-            chapterThumbWrapper.classList.add('chapterThumbWrapper');
-            chapterThumbWrapper.style.overflow = 'hidden';
-            chapterThumbWrapper.style.position = 'relative';
-            chapterThumbWrapper.style.width = trickplayInfo.Width + 'px';
-            chapterThumbWrapper.style.height = trickplayInfo.Height + 'px';
-            chapterThumbContainer.appendChild(chapterThumbWrapper);
-
-            chapterThumb = document.createElement('img');
-            chapterThumb.classList.add('chapterThumb');
-            chapterThumb.style.position = 'absolute';
-            chapterThumb.style.width = 'unset';
-            chapterThumb.style.minWidth = 'unset';
-            chapterThumb.style.height = 'unset';
-            chapterThumb.style.minHeight = 'unset';
-            chapterThumbWrapper.appendChild(chapterThumb);
+            chapterThumb = document.createElement('div');
+            chapterThumb.classList.add('chapterThumbWrapper');
+            chapterThumb.style.overflow = 'hidden';
+            chapterThumb.style.width = trickplayInfo.Width + 'px';
+            chapterThumb.style.height = trickplayInfo.Height + 'px';
+            chapterThumbContainer.appendChild(chapterThumb);
 
             const chapterThumbTextContainer = document.createElement('div');
             chapterThumbTextContainer.classList.add('chapterThumbTextContainer');
             chapterThumbContainer.appendChild(chapterThumbTextContainer);
 
+            chapterThumbName = document.createElement('div');
+            chapterThumbName.classList.add('chapterThumbText', 'chapterThumbText-dim');
+            chapterThumbTextContainer.appendChild(chapterThumbName);
+
             chapterThumbText = document.createElement('h2');
             chapterThumbText.classList.add('chapterThumbText');
             chapterThumbTextContainer.appendChild(chapterThumbText);
+        }
+
+        let chapter;
+        for (const currentChapter of item.Chapters || []) {
+            if (positionTicks < currentChapter.StartPositionTicks) {
+                break;
+            }
+
+            chapter = currentChapter;
         }
 
         // Update trickplay values
@@ -1437,15 +1524,16 @@ export default function (view) {
         const offsetY = -(tileOffsetY * trickplayInfo.Height);
 
         const imgSrc = apiClient.getUrl('Videos/' + item.Id + '/Trickplay/' + trickplayInfo.Width + '/' + index + '.jpg', {
-            api_key: apiClient.accessToken(),
+            ApiKey: apiClient.accessToken(),
             MediaSourceId: mediaSourceId
         });
 
-        if (chapterThumb.src != imgSrc) chapterThumb.src = imgSrc;
-        chapterThumb.style.left = offsetX + 'px';
-        chapterThumb.style.top = offsetY + 'px';
+        chapterThumb.style.backgroundImage = `url('${imgSrc}')`;
+        chapterThumb.style.backgroundPositionX = offsetX + 'px';
+        chapterThumb.style.backgroundPositionY = offsetY + 'px';
 
         chapterThumbText.textContent = datetime.getDisplayRunningTime(positionTicks);
+        chapterThumbName.textContent = chapter?.Name || '';
 
         // Set bubble innerHTML if container isn't part of DOM
         if (doFullUpdate) {
@@ -1563,7 +1651,6 @@ export default function (view) {
     const startTimeText = view.querySelector('.startTimeText');
     const endTimeText = view.querySelector('.endTimeText');
     const endsAtText = view.querySelector('.endsAtText');
-    const ratingsText = view.querySelector('.osdRatingsText');
     const btnRewind = view.querySelector('.btnRewind');
     const btnFastForward = view.querySelector('.btnFastForward');
     const transitionEndEventName = dom.whichTransitionEvent();
@@ -1626,7 +1713,7 @@ export default function (view) {
             if (browser.firefox || browser.edge) {
                 dom.addEventListener(document, 'click', onClickCapture, { capture: true });
             }
-        } catch (e) {
+        } catch {
             setBackdropTransparency(TRANSPARENCY_LEVEL.None); // reset state set in viewbeforeshow
             appRouter.goHome();
         }
@@ -1781,6 +1868,15 @@ export default function (view) {
         }
     });
 
+    nowPlayingPositionSlider.addEventListener('keydown', function (e) {
+        if (e.defaultPrevented) return;
+
+        const key = keyboardnavigation.getKeyName(e);
+        if (key === 'Enter') {
+            playbackManager.playPause(currentPlayer);
+        }
+    });
+
     nowPlayingPositionSlider.updateBubbleHtml = function(bubble, value) {
         showOsd();
 
@@ -1835,22 +1931,11 @@ export default function (view) {
     };
 
     nowPlayingPositionSlider.getMarkerInfo = function () {
-        const markers = [];
-
-        const item = currentItem;
-
         // use markers based on chapters
-        if (item?.Chapters?.length) {
-            item.Chapters.forEach(currentChapter => {
-                markers.push({
-                    className: 'chapterMarker',
-                    name: currentChapter.Name,
-                    progress: currentChapter.StartPositionTicks / item.RunTimeTicks
-                });
-            });
-        }
-
-        return markers;
+        return currentItem?.Chapters?.map(currentChapter => ({
+            name: currentChapter.Name,
+            progress: currentChapter.StartPositionTicks / currentItem.RunTimeTicks
+        })) || [];
     };
 
     view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
@@ -1882,47 +1967,47 @@ export default function (view) {
 
     // Register to SyncPlay playback events and show big animated icon
     const showIcon = (action) => {
-        let primary_icon_name = '';
-        let secondary_icon_name = '';
-        let animation_class = 'oneShotPulse';
+        let primaryIconName = '';
+        let secondaryIconName = '';
+        let animationClass = 'oneShotPulse';
         let iconVisibilityTime = 1500;
         const syncPlayIcon = view.querySelector('#syncPlayIcon');
 
         switch (action) {
             case 'schedule-play':
-                primary_icon_name = 'sync spin';
-                secondary_icon_name = 'play_arrow centered';
-                animation_class = 'infinitePulse';
+                primaryIconName = 'sync spin';
+                secondaryIconName = 'play_arrow centered';
+                animationClass = 'infinitePulse';
                 iconVisibilityTime = -1;
                 hideOsd();
                 break;
             case 'unpause':
-                primary_icon_name = 'play_circle_outline';
+                primaryIconName = 'play_circle_outline';
                 break;
             case 'pause':
-                primary_icon_name = 'pause_circle_outline';
+                primaryIconName = 'pause_circle_outline';
                 showOsd();
                 break;
             case 'seek':
-                primary_icon_name = 'update';
-                animation_class = 'infinitePulse';
+                primaryIconName = 'update';
+                animationClass = 'infinitePulse';
                 iconVisibilityTime = -1;
                 break;
             case 'buffering':
-                primary_icon_name = 'schedule';
-                animation_class = 'infinitePulse';
+                primaryIconName = 'schedule';
+                animationClass = 'infinitePulse';
                 iconVisibilityTime = -1;
                 break;
             case 'wait-pause':
-                primary_icon_name = 'schedule';
-                secondary_icon_name = 'pause shifted';
-                animation_class = 'infinitePulse';
+                primaryIconName = 'schedule';
+                secondaryIconName = 'pause shifted';
+                animationClass = 'infinitePulse';
                 iconVisibilityTime = -1;
                 break;
             case 'wait-unpause':
-                primary_icon_name = 'schedule';
-                secondary_icon_name = 'play_arrow shifted';
-                animation_class = 'infinitePulse';
+                primaryIconName = 'schedule';
+                secondaryIconName = 'play_arrow shifted';
+                animationClass = 'infinitePulse';
                 iconVisibilityTime = -1;
                 break;
             default: {
@@ -1931,13 +2016,13 @@ export default function (view) {
             }
         }
 
-        syncPlayIcon.setAttribute('class', 'syncPlayIconCircle ' + animation_class);
+        syncPlayIcon.setAttribute('class', 'syncPlayIconCircle ' + animationClass);
 
         const primaryIcon = syncPlayIcon.querySelector('.primary-icon');
-        primaryIcon.setAttribute('class', 'primary-icon material-icons ' + primary_icon_name);
+        primaryIcon.setAttribute('class', 'primary-icon material-icons ' + primaryIconName);
 
         const secondaryIcon = syncPlayIcon.querySelector('.secondary-icon');
-        secondaryIcon.setAttribute('class', 'secondary-icon material-icons ' + secondary_icon_name);
+        secondaryIcon.setAttribute('class', 'secondary-icon material-icons ' + secondaryIconName);
 
         const clone = syncPlayIcon.cloneNode(true);
         clone.style.visibility = 'visible';

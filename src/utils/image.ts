@@ -1,3 +1,4 @@
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { DeviceInfo } from '@jellyfin/sdk/lib/generated-client/models/device-info';
 import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
@@ -38,7 +39,7 @@ function getWebDeviceIcon(browser: string | null | undefined) {
 export function getDeviceIcon(info: DeviceInfo | SessionInfo) {
     switch ((info as DeviceInfo).AppName || (info as SessionInfo).Client) {
         case 'Samsung Smart TV':
-            return BASE_DEVICE_IMAGE_URL + 'samsung.svg';
+            return BASE_DEVICE_IMAGE_URL + 'samsungtv.svg';
         case 'Xbox One':
             return BASE_DEVICE_IMAGE_URL + 'xbox.svg';
         case 'Sony PS4':
@@ -53,10 +54,20 @@ export function getDeviceIcon(info: DeviceInfo | SessionInfo) {
         case 'Jellyfin Mobile (iOS)':
         case 'Jellyfin Mobile (iPadOS)':
         case 'Jellyfin iOS':
+        case 'Jellyfin iPadOS':
+        case 'Jellyfin tvOS':
+        case 'Swiftfin iPadOS':
+        case 'Swiftfin iOS':
+        case 'Swiftfin tvOS':
         case 'Infuse':
+        case 'Infuse-Direct':
+        case 'Infuse-Library':
             return BASE_DEVICE_IMAGE_URL + 'apple.svg';
         case 'Home Assistant':
             return BASE_DEVICE_IMAGE_URL + 'home-assistant.svg';
+        case 'Jellyfin for WebOS':
+        case 'LG Smart TV':
+            return BASE_DEVICE_IMAGE_URL + 'webos.svg';
         case 'Jellyfin Roku':
             return BASE_DEVICE_IMAGE_URL + 'roku.svg';
         case 'Finamp':
@@ -75,36 +86,39 @@ export function getDeviceIcon(info: DeviceInfo | SessionInfo) {
     }
 }
 
-export function getLibraryIcon(library: string | null | undefined) {
+export function getLibraryIcon(library: CollectionType | string | null | undefined) {
     switch (library) {
-        case 'movies':
-            return 'video_library';
-        case 'music':
-            return 'library_music';
-        case 'photos':
-            return 'photo_library';
-        case 'livetv':
+        case CollectionType.Movies:
+            return 'movie';
+        case CollectionType.Music:
+            return 'music_note';
+        case CollectionType.Homevideos:
+        case CollectionType.Photos:
+            return 'photo';
+        case CollectionType.Livetv:
             return 'live_tv';
-        case 'tvshows':
+        case CollectionType.Tvshows:
             return 'tv';
-        case 'trailers':
-            return 'local_movies';
-        case 'homevideos':
-            return 'photo_library';
-        case 'musicvideos':
+        case CollectionType.Trailers:
+            return 'theaters';
+        case CollectionType.Musicvideos:
             return 'music_video';
-        case 'books':
-            return 'library_books';
+        case CollectionType.Books:
+            return 'book';
+        case CollectionType.Boxsets:
+            return 'video_library';
+        case CollectionType.Playlists:
+            return 'queue';
         case 'channels':
             return 'videocam';
-        case 'playlists':
-            return 'view_list';
+        case undefined:
+            return 'quiz';
         default:
             return 'folder';
     }
 }
 
-export function getItemTypeIcon(itemType: BaseItemKind | string) {
+export function getItemTypeIcon(itemType: BaseItemKind | string | undefined, defaultIcon?: string) {
     switch (itemType) {
         case BaseItemKind.MusicAlbum:
             return 'album';
@@ -125,15 +139,15 @@ export function getItemTypeIcon(itemType: BaseItemKind | string) {
         case BaseItemKind.Folder:
             return 'folder';
         case BaseItemKind.BoxSet:
-            return 'collections';
+            return 'video_library';
         case BaseItemKind.Playlist:
-            return 'view_list';
+            return 'queue';
         case BaseItemKind.Photo:
             return 'photo';
         case BaseItemKind.PhotoAlbum:
             return 'photo_album';
         default:
-            return 'folder';
+            return defaultIcon;
     }
 }
 

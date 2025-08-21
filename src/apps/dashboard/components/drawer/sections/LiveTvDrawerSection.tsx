@@ -1,4 +1,5 @@
-import { Dvr, LiveTv } from '@mui/icons-material';
+import Dvr from '@mui/icons-material/Dvr';
+import LiveTv from '@mui/icons-material/LiveTv';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -7,7 +8,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import React from 'react';
 
 import ListItemLink from 'components/ListItemLink';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 const LiveTvDrawerSection = () => {
     return (
@@ -28,7 +29,7 @@ const LiveTvDrawerSection = () => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard/recordings'>
+                <ListItemLink to='/dashboard/livetv/recordings'>
                     <ListItemIcon>
                         <Dvr />
                     </ListItemIcon>

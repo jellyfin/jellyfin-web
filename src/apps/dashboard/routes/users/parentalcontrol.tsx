@@ -1,27 +1,30 @@
 import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
-import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
 import escapeHTML from 'escape-html';
+import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
-import globalize from '../../../../scripts/globalize';
-import LibraryMenu from '../../../../scripts/libraryMenu';
+import globalize from '../../../../lib/globalize';
 import AccessScheduleList from '../../../../components/dashboard/users/AccessScheduleList';
 import TagList from '../../../../components/dashboard/users/TagList';
-import ButtonElement from '../../../../elements/ButtonElement';
+import Button from '../../../../elements/emby-button/Button';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
-import { getParameterByName } from '../../../../utils/url';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
 import prompt from '../../../../components/prompt/prompt';
-import ServerConnections from 'components/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
-type UnratedItem = {
+type NamedItem = {
     name: string;
-    value: string;
+    value: UnratedItem;
+};
+
+type UnratedNamedItem = NamedItem & {
     checkedAttribute: string
 };
 
@@ -56,17 +59,21 @@ function handleSaveUser(
     };
 }
 
-const UserParentalControl: FunctionComponent = () => {
+const UserParentalControl = () => {
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId');
     const [ userName, setUserName ] = useState('');
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
-    const [ unratedItems, setUnratedItems ] = useState<UnratedItem[]>([]);
+    const [ unratedItems, setUnratedItems ] = useState<UnratedNamedItem[]>([]);
+    const [ maxParentalRating, setMaxParentalRating ] = useState<string>();
     const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const [ allowedTags, setAllowedTags ] = useState<string[]>([]);
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
+    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 
-    const populateRatings = useCallback((allParentalRatings) => {
+    const populateRatings = useCallback((allParentalRatings: ParentalRating[]) => {
         let rating;
         const ratings: ParentalRating[] = [];
 
@@ -91,158 +98,96 @@ const UserParentalControl: FunctionComponent = () => {
         setParentalRatings(ratings);
     }, []);
 
-    const loadUnratedItems = useCallback((user) => {
+    const loadUnratedItems = useCallback((user: UserDto) => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
-        const items = [{
+        const items: NamedItem[] = [{
             name: globalize.translate('Books'),
-            value: 'Book'
+            value: UnratedItem.Book
         }, {
             name: globalize.translate('Channels'),
-            value: 'ChannelContent'
+            value: UnratedItem.ChannelContent
         }, {
             name: globalize.translate('LiveTV'),
-            value: 'LiveTvChannel'
+            value: UnratedItem.LiveTvChannel
         }, {
             name: globalize.translate('Movies'),
-            value: 'Movie'
+            value: UnratedItem.Movie
         }, {
             name: globalize.translate('Music'),
-            value: 'Music'
+            value: UnratedItem.Music
         }, {
             name: globalize.translate('Trailers'),
-            value: 'Trailer'
+            value: UnratedItem.Trailer
         }, {
             name: globalize.translate('Shows'),
-            value: 'Series'
+            value: UnratedItem.Series
         }];
 
-        const itemsArr: UnratedItem[] = [];
+        const unratedNamedItem: UnratedNamedItem[] = [];
 
         for (const item of items) {
-            const isChecked = user.Policy.BlockUnratedItems.indexOf(item.value) != -1;
+            const isChecked = user.Policy?.BlockUnratedItems?.indexOf(item.value) != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
-            itemsArr.push({
+            unratedNamedItem.push({
                 value: item.value,
                 name: item.name,
                 checkedAttribute: checkedAttribute
             });
         }
 
-        setUnratedItems(itemsArr);
+        setUnratedItems(unratedNamedItem);
 
         const blockUnratedItems = page.querySelector('.blockUnratedItems') as HTMLDivElement;
         blockUnratedItems.dispatchEvent(new CustomEvent('create'));
-    }, []);
-
-    const loadAllowedTags = useCallback((tags: string[]) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
-        setAllowedTags(tags);
-
-        const allowedTagsElem = page.querySelector('.allowedTags') as HTMLDivElement;
-
-        for (const btnDeleteTag of allowedTagsElem.querySelectorAll('.btnDeleteTag')) {
-            btnDeleteTag.addEventListener('click', function () {
-                const tag = btnDeleteTag.getAttribute('data-tag');
-                const newTags = tags.filter(t => t !== tag);
-                loadAllowedTags(newTags);
-            });
-        }
-    }, []);
-
-    const loadBlockedTags = useCallback((tags: string[]) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
-        setBlockedTags(tags);
-
-        const blockedTagsElem = page.querySelector('.blockedTags') as HTMLDivElement;
-
-        for (const btnDeleteTag of blockedTagsElem.querySelectorAll('.btnDeleteTag')) {
-            btnDeleteTag.addEventListener('click', function () {
-                const tag = btnDeleteTag.getAttribute('data-tag');
-                const newTags = tags.filter(t => t !== tag);
-                loadBlockedTags(newTags);
-            });
-        }
-    }, []);
-
-    const renderAccessSchedule = useCallback((schedules) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
-        setAccessSchedules(schedules);
-
-        const accessScheduleList = page.querySelector('.accessScheduleList') as HTMLDivElement;
-
-        for (const btnDelete of accessScheduleList.querySelectorAll('.btnDelete')) {
-            btnDelete.addEventListener('click', function () {
-                const index = parseInt(btnDelete.getAttribute('data-index') ?? '0', 10);
-                schedules.splice(index, 1);
-                const newindex = schedules.filter((i: number) => i != index);
-                renderAccessSchedule(newindex);
-            });
-        }
     }, []);
 
     const loadUser = useCallback((user: UserDto, allParentalRatings: ParentalRating[]) => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
         setUserName(user.Name || '');
-        LibraryMenu.setTitle(user.Name);
+        void libraryMenu.then(menu => menu.setTitle(user.Name));
         loadUnratedItems(user);
 
-        loadAllowedTags(user.Policy?.AllowedTags || []);
-        loadBlockedTags(user.Policy?.BlockedTags || []);
+        setAllowedTags(user.Policy?.AllowedTags || []);
+        setBlockedTags(user.Policy?.BlockedTags || []);
         populateRatings(allParentalRatings);
 
         let ratingValue = '';
-        if (user.Policy?.MaxParentalRating) {
-            allParentalRatings.forEach(rating => {
-                if (rating.Value && user.Policy?.MaxParentalRating && user.Policy.MaxParentalRating >= rating.Value) {
-                    ratingValue = `${rating.Value}`;
-                }
-            });
-        }
+        allParentalRatings.forEach(rating => {
+            if (rating.Value != null && user.Policy?.MaxParentalRating != null && user.Policy.MaxParentalRating >= rating.Value) {
+                ratingValue = `${rating.Value}`;
+            }
+        });
 
-        (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value = ratingValue;
+        setMaxParentalRating(ratingValue);
 
         if (user.Policy?.IsAdministrator) {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
         } else {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.remove('hide');
         }
-        renderAccessSchedule(user.Policy?.AccessSchedules || []);
+        setAccessSchedules(user.Policy?.AccessSchedules || []);
         loading.hide();
-    }, [loadAllowedTags, loadBlockedTags, loadUnratedItems, populateRatings, renderAccessSchedule]);
+    }, [libraryMenu, setAllowedTags, setBlockedTags, loadUnratedItems, populateRatings]);
 
     const loadData = useCallback(() => {
+        if (!userId) {
+            console.error('[userparentalcontrol.loadData] missing user id');
+            return;
+        }
+
         loading.show();
-        const userId = getParameterByName('userId');
         const promise1 = window.ApiClient.getUser(userId);
         const promise2 = window.ApiClient.getParentalRatings();
         Promise.all([promise1, promise2]).then(function (responses) {
@@ -250,13 +195,13 @@ const UserParentalControl: FunctionComponent = () => {
         }).catch(err => {
             console.error('[userparentalcontrol] failed to load data', err);
         });
-    }, [loadUser]);
+    }, [loadUser, userId]);
 
     useEffect(() => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userparentalcontrol] Unexpected null page reference');
             return;
         }
 
@@ -275,7 +220,7 @@ const UserParentalControl: FunctionComponent = () => {
                     }
 
                     schedules[index] = updatedSchedule;
-                    renderAccessSchedule(schedules);
+                    setAccessSchedules(schedules);
                 }).catch(() => {
                     // access schedule closed
                 });
@@ -308,7 +253,7 @@ const UserParentalControl: FunctionComponent = () => {
 
                 if (tags.indexOf(value) == -1) {
                     tags.push(value);
-                    loadAllowedTags(tags);
+                    setAllowedTags(tags);
                 }
             }).catch(() => {
                 // prompt closed
@@ -329,7 +274,7 @@ const UserParentalControl: FunctionComponent = () => {
 
                 if (tags.indexOf(value) == -1) {
                     tags.push(value);
-                    loadBlockedTags(tags);
+                    setBlockedTags(tags);
                 }
             }).catch(() => {
                 // prompt closed
@@ -344,8 +289,12 @@ const UserParentalControl: FunctionComponent = () => {
         const saveUser = handleSaveUser(page, getSchedulesFromPage, getAllowedTagsFromPage, getBlockedTagsFromPage, onSaveComplete);
 
         const onSubmit = (e: Event) => {
+            if (!userId) {
+                console.error('[userparentalcontrol.onSubmit] missing user id');
+                return;
+            }
+
             loading.show();
-            const userId = getParameterByName('userId');
             window.ApiClient.getUser(userId).then(function (result) {
                 saveUser(result);
             }).catch(err => {
@@ -356,7 +305,8 @@ const UserParentalControl: FunctionComponent = () => {
             return false;
         };
 
-        (page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', function () {
+        // The following is still hacky and should migrate to pure react implementation for callbacks in the future
+        const accessSchedulesPopupCallback = function () {
             showSchedulePopup({
                 Id: 0,
                 UserId: '',
@@ -364,27 +314,56 @@ const UserParentalControl: FunctionComponent = () => {
                 StartHour: 0,
                 EndHour: 0
             }, -1);
-        });
-
-        (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).addEventListener('click', function () {
-            showAllowedTagPopup();
-        });
-
-        (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', function () {
-            showBlockedTagPopup();
-        });
-
+        };
+        (page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', accessSchedulesPopupCallback);
+        (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).addEventListener('click', showAllowedTagPopup);
+        (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', showBlockedTagPopup);
         (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-    }, [loadAllowedTags, loadBlockedTags, loadData, renderAccessSchedule]);
+
+        return () => {
+            (page.querySelector('#btnAddSchedule') as HTMLButtonElement).removeEventListener('click', accessSchedulesPopupCallback);
+            (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).removeEventListener('click', showAllowedTagPopup);
+            (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).removeEventListener('click', showBlockedTagPopup);
+            (page.querySelector('.userParentalControlForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
+        };
+    }, [setAllowedTags, setBlockedTags, loadData, userId]);
+
+    useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('[userparentalcontrol] Unexpected null page reference');
+            return;
+        }
+
+        (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value = String(maxParentalRating);
+    }, [maxParentalRating, parentalRatings]);
 
     const optionMaxParentalRating = () => {
         let content = '';
         content += '<option value=\'\'></option>';
         for (const rating of parentalRatings) {
-            content += `<option value='${rating.Value}'>${escapeHTML(rating.Name)}</option>`;
+            if (rating.Value != null) {
+                content += `<option value='${rating.Value}'>${escapeHTML(rating.Name)}</option>`;
+            }
         }
         return content;
     };
+
+    const removeAllowedTagsCallback = useCallback((tag: string) => {
+        const newTags = allowedTags.filter(t => t !== tag);
+        setAllowedTags(newTags);
+    }, [allowedTags, setAllowedTags]);
+
+    const removeBlockedTagsTagsCallback = useCallback((tag: string) => {
+        const newTags = blockedTags.filter(t => t !== tag);
+        setBlockedTags(newTags);
+    }, [blockedTags, setBlockedTags]);
+
+    const removeScheduleCallback = useCallback((index: number) => {
+        const newSchedules = accessSchedules.filter((_e, i) => i != index);
+        setAccessSchedules(newSchedules);
+    }, [accessSchedules, setAccessSchedules]);
 
     return (
         <Page
@@ -395,7 +374,6 @@ const UserParentalControl: FunctionComponent = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={userName}
-                        url='https://jellyfin.org/docs/general/server/users/'
                     />
                 </div>
                 <SectionTabs activeTab='userparentalcontrol'/>
@@ -439,7 +417,6 @@ const UserParentalControl: FunctionComponent = () => {
                             btnClassName='fab submit sectionTitleButton'
                             btnTitle='Add'
                             btnIcon='add'
-                            isLinkVisible={false}
                         />
                         <div className='fieldDescription'>
                             {globalize.translate('AllowContentWithTagsHelp')}
@@ -450,6 +427,7 @@ const UserParentalControl: FunctionComponent = () => {
                                     key={tag}
                                     tag={tag}
                                     tagType='allowedTag'
+                                    removeTagCallback={removeAllowedTagsCallback}
                                 />;
                             })}
                         </div>
@@ -463,7 +441,6 @@ const UserParentalControl: FunctionComponent = () => {
                             btnClassName='fab submit sectionTitleButton'
                             btnTitle='Add'
                             btnIcon='add'
-                            isLinkVisible={false}
                         />
                         <div className='fieldDescription'>
                             {globalize.translate('BlockContentWithTagsHelp')}
@@ -474,6 +451,7 @@ const UserParentalControl: FunctionComponent = () => {
                                     key={tag}
                                     tag={tag}
                                     tagType='blockedTag'
+                                    removeTagCallback={removeBlockedTagsTagsCallback}
                                 />;
                             })}
                         </div>
@@ -486,26 +464,26 @@ const UserParentalControl: FunctionComponent = () => {
                             btnClassName='fab submit sectionTitleButton'
                             btnTitle='Add'
                             btnIcon='add'
-                            isLinkVisible={false}
                         />
                         <p>{globalize.translate('HeaderAccessScheduleHelp')}</p>
                         <div className='accessScheduleList paperList'>
                             {accessSchedules.map((accessSchedule, index) => {
                                 return <AccessScheduleList
-                                    key={accessSchedule.Id}
+                                    key={`${accessSchedule.DayOfWeek}${accessSchedule.StartHour}${accessSchedule.EndHour}`}
                                     index={index}
                                     DayOfWeek={accessSchedule.DayOfWeek}
                                     StartHour={accessSchedule.StartHour}
                                     EndHour={accessSchedule.EndHour}
+                                    removeScheduleCallback={removeScheduleCallback}
                                 />;
                             })}
                         </div>
                     </div>
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
-                            title='Save'
+                            title={globalize.translate('Save')}
                         />
                     </div>
                 </form>

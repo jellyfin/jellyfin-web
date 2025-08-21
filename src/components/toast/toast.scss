@@ -1,16 +1,17 @@
+@use '../../styles/mixins' as *;
+
 .toastContainer {
     position: fixed;
     bottom: 8rem;
     pointer-events: none;
     z-index: 9999999;
-    padding-left: 1em;
-    padding-left: max(env(safe-area-inset-left), 1em);
     padding-right: 1em;
     padding-top: 1em;
-    padding-bottom: 1em;
-    padding-bottom: max(env(safe-area-inset-bottom), 1em);
     display: flex;
     flex-direction: column;
+
+    @include conditional-max(padding-left, 1em, env(safe-area-inset-left));
+    @include conditional-max(padding-bottom, 1em, env(safe-area-inset-bottom));
 
     [dir="ltr"] & {
         left: 0;

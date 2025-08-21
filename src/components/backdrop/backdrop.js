@@ -1,9 +1,9 @@
 import isEqual from 'lodash-es/isEqual';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import * as userSettings from '../../scripts/settings/userSettings';
-import ServerConnections from '../ServerConnections';
 
 import './backdrop.scss';
 
@@ -189,7 +189,7 @@ function getItemImageUrls(item, imageOptions) {
         });
     }
 
-    if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
+    if (item.ParentBackdropItemId && item.ParentBackdropImageTags?.length) {
         return item.ParentBackdropImageTags.map((imgTag, index) => {
             return apiClient.getScaledImageUrl(item.ParentBackdropItemId, Object.assign(imageOptions, {
                 type: 'Backdrop',
@@ -224,19 +224,19 @@ function enabled() {
 let rotationInterval;
 let currentRotatingImages = [];
 let currentRotationIndex = -1;
-export function setBackdrops(items, imageOptions, enableImageRotation, isEnabled = false) {
+export function setBackdrops(items, imageOptions, isEnabled = false) {
     if (isEnabled || enabled()) {
         const images = getImageUrls(items, imageOptions);
 
         if (images.length) {
-            startRotation(images, enableImageRotation);
+            setBackdropImages(images);
         } else {
             clearBackdrop();
         }
     }
 }
 
-function startRotation(images, enableImageRotation) {
+export function setBackdropImages(images) {
     if (isEqual(images, currentRotatingImages)) {
         return;
     }
@@ -246,7 +246,7 @@ function startRotation(images, enableImageRotation) {
     currentRotatingImages = images;
     currentRotationIndex = -1;
 
-    if (images.length > 1 && enableImageRotation !== false && enableRotation()) {
+    if (images.length > 1 && enableRotation()) {
         rotationInterval = setInterval(onRotationInterval, 24000);
     }
 

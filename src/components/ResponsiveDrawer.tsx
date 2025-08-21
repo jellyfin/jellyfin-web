@@ -15,7 +15,7 @@ export interface ResponsiveDrawerProps {
     onOpen: () => void
 }
 
-const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
+const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
     children,
     open = false,
     onClose,

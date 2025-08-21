@@ -1,17 +1,21 @@
+import { getImageUrl } from 'apps/stable/features/playback/utils/image';
+import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
+import { appRouter, isLyricsPage } from 'components/router/appRouter';
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';
 import browser from 'scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
-import nowPlayingHelper from '../playback/nowplayinghelper';
 import { appHost } from '../apphost';
-import dom from '../../scripts/dom';
-import globalize from 'scripts/globalize';
+import dom from '../../utils/dom';
+import globalize from 'lib/globalize';
 import itemContextMenu from '../itemContextMenu';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
-import ServerConnections from '../ServerConnections';
 import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
@@ -451,10 +455,10 @@ function updatePlayerVolumeState(isMuted, volumeLevel) {
         showVolumeSlider = true;
     }
 
-    if (currentPlayer.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
-        showMuteButton = true;
-        showVolumeSlider = true;
-    }
+    // if (currentPlayer.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
+        // showMuteButton = false;
+        // showVolumeSlider = false;
+    // }
 
     // muteButton.classList.toggle('hide', !showMuteButton);
 
@@ -482,82 +486,24 @@ function setLyricButtonActiveStatus() {
     lyricButton.classList.toggle('buttonActive', isLyricPageActive);
 }
 
-function seriesImageUrl(item, options) {
-    if (!item) {
-        throw new Error('item cannot be null!');
-    }
-
-    if (item.Type !== 'Episode') {
-        return null;
-    }
-
-    options = options || {};
-    options.type = options.type || 'Primary';
-
-    if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
-        options.tag = item.SeriesPrimaryImageTag;
-
-        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-    }
-
-    if (options.type === 'Thumb') {
-        if (item.SeriesThumbImageTag) {
-            options.tag = item.SeriesThumbImageTag;
-
-            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-        }
-        if (item.ParentThumbImageTag) {
-            options.tag = item.ParentThumbImageTag;
-
-            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
-        }
-    }
-
-    return null;
-}
-
-function imageUrl(item, options) {
-    if (!item) {
-        throw new Error('item cannot be null!');
-    }
-
-    options = options || {};
-    options.type = options.type || 'Primary';
-
-    if (item.ImageTags?.[options.type]) {
-        options.tag = item.ImageTags[options.type];
-        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
-    }
-
-    if (item.AlbumId && item.AlbumPrimaryImageTag) {
-        options.tag = item.AlbumPrimaryImageTag;
-        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
-    }
-
-    return null;
-}
-
 function updateNowPlayingInfo(state) {
     const nowPlayingItem = state.NowPlayingItem;
 
-    const textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
+    const textLines = nowPlayingItem ? getItemTextLines(nowPlayingItem) : undefined;
     nowPlayingTextElement.innerHTML = '';
     if (textLines) {
         const itemText = document.createElement('div');
         const secondaryText = document.createElement('div');
         secondaryText.classList.add('nowPlayingBarSecondaryText');
-        if (textLines.length > 1) {
-            textLines[1].secondary = true;
-            if (textLines[1].text) {
-                const text = document.createElement('a');
-                text.innerText = textLines[1].text;
-                secondaryText.appendChild(text);
-            }
+        if (textLines.length > 1 && textLines[1]) {
+            const text = document.createElement('a');
+            text.innerText = textLines[1];
+            secondaryText.appendChild(text);
         }
 
-        if (textLines[0].text) {
+        if (textLines[0]) {
             const text = document.createElement('a');
-            text.innerText = textLines[0].text;
+            text.innerText = textLines[0];
             itemText.appendChild(text);
         }
         nowPlayingTextElement.appendChild(itemText);
@@ -566,11 +512,9 @@ function updateNowPlayingInfo(state) {
 
     const imgHeight = 50;
 
-    const url = nowPlayingItem ? (seriesImageUrl(nowPlayingItem, {
+    const url = nowPlayingItem ? getImageUrl(nowPlayingItem, {
         height: imgHeight
-    }) || imageUrl(nowPlayingItem, {
-        height: imgHeight
-    })) : null;
+    }) : null;
 
     if (url !== nowPlayingImageUrl) {
         if (url) {
@@ -785,7 +729,7 @@ function refreshFromPlayer(player, type) {
 }
 
 function bindToPlayer(player) {
-    isLyricPageActive = appRouter.currentRouteInfo.path.toLowerCase() === '/lyrics';
+    isLyricPageActive = isLyricsPage();
     if (player === currentPlayer) {
         return;
     }
@@ -818,7 +762,7 @@ Events.on(playbackManager, 'playerchange', function () {
 bindToPlayer(playbackManager.getCurrentPlayer());
 
 document.addEventListener('viewbeforeshow', function (e) {
-    isLyricPageActive = appRouter.currentRouteInfo.path.toLowerCase() === '/lyrics';
+    isLyricPageActive = isLyricsPage();
     setLyricButtonActiveStatus();
     if (!e.detail.options.enableMediaControl) {
         if (isVisibilityAllowed) {

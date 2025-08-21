@@ -5,9 +5,9 @@ import './emby-button.scss';
 
 interface IconButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  > {
-  icon?: string;
-  iconClassName?: string;
+> {
+    icon?: string;
+    iconClassName?: string;
 }
 
 const IconButton: React.FC<IconButtonProps> = ({

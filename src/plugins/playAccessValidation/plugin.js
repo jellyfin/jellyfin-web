@@ -1,7 +1,7 @@
-import globalize from '../../scripts/globalize';
-import ServerConnections from '../../components/ServerConnections';
-import alert from '../../components/alert';
-import { PluginType } from '../../types/plugin.ts';
+import alert from 'components/alert';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { PluginType } from 'types/plugin.ts';
 
 function showErrorMessage() {
     return alert(globalize.translate('MessagePlayAccessRestricted'));
@@ -35,7 +35,8 @@ class PlayAccessValidation {
                 return Promise.reject();
             }
 
-            return showErrorMessage().finally(Promise.reject);
+            return showErrorMessage()
+                .finally(() => Promise.reject());
         });
     }
 }

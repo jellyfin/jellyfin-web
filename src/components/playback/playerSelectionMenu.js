@@ -1,12 +1,13 @@
+import { AppFeature } from 'constants/appFeature';
 import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import loading from '../loading/loading';
 import { playbackManager } from '../playback/playbackmanager';
 import { pluginManager } from '../pluginManager';
 import { appRouter } from '../router/appRouter';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import { appHost } from '../apphost';
-import { enable, isEnabled, supported } from '../../scripts/autocast';
+import { enable, isEnabled } from '../../scripts/autocast';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
 import dialog from '../dialog/dialog';
@@ -96,7 +97,7 @@ export function show(button) {
 
             // Unfortunately we can't allow the url to change or chromecast will throw a security error
             // Might be able to solve this in the future by moving the dialogs to hashbangs
-            if (!(!browser.chrome && !browser.edgeChromium || appHost.supports('castmenuhashchange'))) {
+            if (!(!browser.chrome && !browser.edgeChromium || appHost.supports(AppFeature.CastMenuHashChange))) {
                 menuOptions.enableHistory = false;
             }
 
@@ -200,13 +201,11 @@ function showActivePlayerMenuInternal(playerInfo) {
 
     html += '</div>';
 
-    if (supported()) {
-        html += '<div><label class="checkboxContainer">';
-        const checkedHtmlAC = isEnabled() ? ' checked' : '';
-        html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
-        html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
-        html += '</label></div>';
-    }
+    html += '<div><label class="checkboxContainer">';
+    const checkedHtmlAC = isEnabled() ? ' checked' : '';
+    html += '<input type="checkbox" is="emby-checkbox" class="chkAutoCast"' + checkedHtmlAC + '/>';
+    html += '<span>' + globalize.translate('EnableAutoCast') + '</span>';
+    html += '</label></div>';
 
     html += '<div style="margin-top:1em;display:flex;justify-content: flex-end;">';
 

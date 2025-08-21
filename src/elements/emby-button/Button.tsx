@@ -5,15 +5,15 @@ import './emby-button.scss';
 
 enum IconPosition {
     RIGHT = 'RIGHT',
-    LEFT = 'LEFT',
-  }
+    LEFT = 'LEFT'
+}
 
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  > {
-  icon?: string;
-  iconClassName?: string;
-  iconPos?: string;
+> {
+    icon?: string;
+    iconClassName?: string;
+    iconPos?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({

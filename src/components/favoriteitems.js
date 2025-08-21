@@ -1,9 +1,8 @@
-import dom from 'scripts/dom';
-import globalize from 'scripts/globalize';
+import dom from 'utils/dom';
+import globalize from 'lib/globalize';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 import { getParameterByName } from 'utils/url';
 
-import { appHost } from './apphost';
 import cardBuilder from './cardbuilder/cardBuilder';
 import imageLoader from './images/imageLoader';
 import layoutManager from './layoutManager';
@@ -138,7 +137,7 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
             html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
             if (!layoutManager.tv && options.Limit && result.Items.length >= options.Limit) {
-                html += '<a is="emby-linkbutton" href="' + ('#/list.html?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+                html += '<a is="emby-linkbutton" href="' + ('#/list?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
                 html += globalize.translate(section.name);
                 html += '</h2>';
@@ -160,8 +159,10 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
                 html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
             }
 
-            let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
-            cardLayout = false;
+            // NOTE: Why is card layout always disabled?
+            // let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
+            const cardLayout = false;
+
             html += cardBuilder.getCardsHtml(result.Items, {
                 preferThumb: section.preferThumb,
                 shape: section.shape,

@@ -1,11 +1,18 @@
 import escapeHtml from 'escape-html';
 import Headroom from 'headroom.js';
+// NOTE: Used for jsdoc
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ApiClient } from 'jellyfin-apiclient';
 
+import { AppFeature } from 'constants/appFeature';
 import { getUserViewsQuery } from 'hooks/useUserViews';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { EventType } from 'types/eventType';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
-import dom from './dom';
+import dom from '../utils/dom';
 import layoutManager from '../components/layoutManager';
 import inputManager from './inputManager';
 import viewManager from '../components/viewManager/viewManager';
@@ -15,11 +22,9 @@ import { playbackManager } from '../components/playback/playbackmanager';
 import { pluginManager } from '../components/pluginManager';
 import groupSelectionMenu from '../plugins/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
-import globalize from './globalize';
 import imageHelper from '../utils/image';
 import { getMenuLinks } from '../scripts/settings/webSettings';
 import Dashboard, { pageClassOn } from '../utils/dashboard';
-import ServerConnections from '../components/ServerConnections';
 import { PluginType } from '../types/plugin.ts';
 import Events from '../utils/events.ts';
 import { getParameterByName } from '../utils/url.ts';
@@ -57,6 +62,8 @@ function renderHeader() {
     skinHeader.classList.add('skinHeader-withBackground');
     skinHeader.classList.add('skinHeader-blurred');
     skinHeader.innerHTML = html;
+
+    Events.trigger(document, EventType.HEADER_RENDERED);
 
     headerBackButton = skinHeader.querySelector('.headerBackButton');
     headerHomeButton = skinHeader.querySelector('.headerHomeButton');
@@ -212,11 +219,11 @@ function showSearch() {
 }
 
 function onHeaderUserButtonClick() {
-    Dashboard.navigate('mypreferencesmenu.html');
+    Dashboard.navigate('mypreferencesmenu');
 }
 
 function onHeaderHomeButtonClick() {
-    Dashboard.navigate('home.html');
+    Dashboard.navigate('home');
 }
 
 function showAudioPlayer() {
@@ -319,7 +326,7 @@ function onMainDrawerSelect() {
 function refreshLibraryInfoInDrawer(user) {
     let html = '';
     html += '<div style="height:.5em;"></div>';
-    html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#/home.html"><span class="material-icons navMenuOptionIcon home" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Home')}</span></a>`;
+    html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="#/home"><span class="material-icons navMenuOptionIcon home" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Home')}</span></a>`;
 
     // placeholder for custom menu links
     html += '<div class="customMenuOptions"></div>';
@@ -333,7 +340,7 @@ function refreshLibraryInfoInDrawer(user) {
         html += globalize.translate('HeaderAdmin');
         html += '</h3>';
         html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#/dashboard"><span class="material-icons navMenuOptionIcon dashboard" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('TabDashboard')}</span></a>`;
-        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#/metadata"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Metadata')}</span></a>`;
+        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#/metadata"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('MetadataManager')}</span></a>`;
         html += '</div>';
     }
 
@@ -343,14 +350,14 @@ function refreshLibraryInfoInDrawer(user) {
         html += globalize.translate('HeaderUser');
         html += '</h3>';
 
-        if (appHost.supports('multiserver')) {
+        if (appHost.supports(AppFeature.MultiServer)) {
             html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSelectServer" data-itemid="selectserver" href="#"><span class="material-icons navMenuOptionIcon storage" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('SelectServer')}</span></a>`;
         }
 
         html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Settings')}</span></a>`;
         html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><span class="material-icons navMenuOptionIcon exit_to_app" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('ButtonSignOut')}</span></a>`;
 
-        if (appHost.supports('exitmenu')) {
+        if (appHost.supports(AppFeature.ExitMenu)) {
             html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder exitApp" data-itemid="exitapp" href="#"><span class="material-icons navMenuOptionIcon close" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('ButtonExitApp')}</span></a>`;
         }
 
@@ -399,13 +406,12 @@ function getUserViews(apiClient, userId) {
                 list.push(view);
 
                 if (view.CollectionType == 'livetv') {
-                    view.ImageTags = {};
                     view.icon = 'live_tv';
                     const guideView = Object.assign({}, view);
                     guideView.Name = globalize.translate('Guide');
                     guideView.ImageTags = {};
                     guideView.icon = 'dvr';
-                    guideView.url = '#/livetv.html?tab=1';
+                    guideView.url = '#/livetv?tab=1';
                     list.push(guideView);
                 }
             }
@@ -502,7 +508,7 @@ function onSelectServerClick() {
 }
 
 function onSettingsClick() {
-    Dashboard.navigate('mypreferencesmenu.html');
+    Dashboard.navigate('mypreferencesmenu');
 }
 
 function onExitAppClick() {
@@ -582,7 +588,6 @@ function updateMenuForPageType(isDashboardPage, isLibraryPage) {
 
         if (isLibraryPage) {
             bodyClassList.add('libraryDocument');
-            bodyClassList.remove('dashboardDocument');
             bodyClassList.remove('hideMainDrawer');
 
             if (navDrawerInstance) {
@@ -590,7 +595,6 @@ function updateMenuForPageType(isDashboardPage, isLibraryPage) {
             }
         } else if (isDashboardPage) {
             bodyClassList.remove('libraryDocument');
-            bodyClassList.add('dashboardDocument');
             bodyClassList.remove('hideMainDrawer');
 
             if (navDrawerInstance) {
@@ -598,7 +602,6 @@ function updateMenuForPageType(isDashboardPage, isLibraryPage) {
             }
         } else {
             bodyClassList.remove('libraryDocument');
-            bodyClassList.remove('dashboardDocument');
             bodyClassList.add('hideMainDrawer');
 
             if (navDrawerInstance) {
@@ -671,7 +674,7 @@ function loadNavDrawer() {
     navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
     navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
     return new Promise(function (resolve) {
-        import('../libraries/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
+        import('../lib/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
             navDrawerInstance = new NavDrawer(getNavDrawerOptions());
 
             if (!layoutManager.tv) {
@@ -689,6 +692,7 @@ let navDrawerInstance;
 let mainDrawerButton;
 let headerHomeButton;
 let currentDrawerType;
+let documentTitle = 'Jellyfin';
 let pageTitleElement;
 let headerBackButton;
 let headerUserButton;
@@ -717,6 +721,22 @@ function setTabs (type, selectedIndex, builder) {
     });
 }
 
+/**
+ * Fetch the server name and update the document title.
+ * @param {ApiClient} [_apiClient] The current api client.
+ */
+const fetchServerName = (_apiClient) => {
+    _apiClient
+        ?.getPublicSystemInfo()
+        .then(({ ServerName }) => {
+            documentTitle = ServerName || documentTitle;
+            document.title = documentTitle;
+        })
+        .catch(err => {
+            console.error('[LibraryMenu] failed to fetch system info', err);
+        });
+};
+
 function setDefaultTitle () {
     if (!pageTitleElement) {
         pageTitleElement = document.querySelector('.pageTitle');
@@ -729,7 +749,7 @@ function setDefaultTitle () {
         pageTitleElement.innerHTML = '';
     }
 
-    document.title = 'Jellyfin';
+    document.title = documentTitle;
 }
 
 function setTitle (title) {
@@ -755,7 +775,7 @@ function setTitle (title) {
         pageTitleElement.innerText = html || '';
     }
 
-    document.title = title || 'Jellyfin';
+    document.title = title || documentTitle;
 }
 
 function setTransparentMenu (transparent) {
@@ -800,6 +820,10 @@ pageClassOn('pageshow', 'page', function (e) {
     updateLibraryNavLinks(page);
 });
 
+Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => {
+    fetchServerName(newApiClient);
+});
+
 Events.on(ServerConnections, 'localusersignedin', function (e, user) {
     const currentApiClient = ServerConnections.getApiClient(user.ServerId);
 
@@ -823,21 +847,21 @@ Events.on(ServerConnections, 'localusersignedout', function () {
 
 Events.on(playbackManager, 'playerchange', updateCastIcon);
 
+fetchServerName(getCurrentApiClient());
 loadNavDrawer();
 
 const LibraryMenu = {
-    getTopParentId: getTopParentId,
+    getTopParentId,
     onHardwareMenuButtonClick: function () {
         toggleMainDrawer();
     },
-    setTabs: setTabs,
-    setDefaultTitle: setDefaultTitle,
-    setTitle: setTitle,
-    setTransparentMenu: setTransparentMenu
+    setTabs,
+    setDefaultTitle,
+    setTitle,
+    setTransparentMenu
 };
 
 window.LibraryMenu = LibraryMenu;
 renderHeader();
 
 export default LibraryMenu;
-

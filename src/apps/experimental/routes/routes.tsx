@@ -1,7 +1,6 @@
 import React from 'react';
-import { RouteObject, redirect } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 
-import { REDIRECTS } from 'apps/dashboard/routes/_redirects';
 import ConnectionRequired from 'components/ConnectionRequired';
 import { toAsyncPageRoute } from 'components/router/AsyncRoute';
 import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
@@ -15,11 +14,13 @@ import VideoPage from './video';
 export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
     {
         path: '/*',
-        element: <AppLayout />,
+        lazy: () => import('../AppLayout'),
         children: [
+            { index: true, element: <Navigate replace to='/home' /> },
+
             {
-                /* User routes: Any child route of this layout is authenticated */
-                element: <ConnectionRequired isUserRequired />,
+                /* User routes */
+                Component: ConnectionRequired,
                 children: [
                     ...ASYNC_USER_ROUTES.map(toAsyncPageRoute),
                     ...LEGACY_USER_ROUTES.map(toViewManagerPageRoute),
@@ -32,12 +33,20 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
                 ]
             },
 
-            /* Public routes */
-            { index: true, loader: () => redirect('/home.html') },
-            ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute)
-        ]
-    },
+            {
+                /* Public routes */
+                element: <ConnectionRequired level='public' />,
+                children: [
+                    ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute),
 
-    /* Redirects for old paths */
-    ...REDIRECTS.map(toRedirectRoute)
+                    /* Fallback route for invalid paths */
+                    {
+                        path: '*',
+                        Component: FallbackRoute
+                    }
+                ]
+            }
+
+        ]
+    }
 ];

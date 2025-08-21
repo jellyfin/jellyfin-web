@@ -1,11 +1,11 @@
 import type { Api } from '@jellyfin/sdk';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import type { ApiClient, Event } from 'jellyfin-apiclient';
-import React, { createContext, FC, useContext, useEffect, useMemo, useState } from 'react';
+import React, { type FC, type PropsWithChildren, createContext, useContext, useEffect, useMemo, useState } from 'react';
 
-import ServerConnections from '../components/ServerConnections';
-import events from '../utils/events';
-import { toApi } from '../utils/jellyfin-apiclient/compat';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import events from 'utils/events';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 export interface JellyfinApiContext {
     __legacyApiClient__?: ApiClient
@@ -16,7 +16,7 @@ export interface JellyfinApiContext {
 export const ApiContext = createContext<JellyfinApiContext>({});
 export const useApi = () => useContext(ApiContext);
 
-export const ApiProvider: FC = ({ children }) => {
+export const ApiProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
     const [ legacyApiClient, setLegacyApiClient ] = useState<ApiClient>();
     const [ api, setApi ] = useState<Api>();
     const [ user, setUser ] = useState<UserDto>();

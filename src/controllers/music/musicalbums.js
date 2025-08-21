@@ -6,8 +6,9 @@ import AlphaPicker from '../../components/alphaPicker/alphaPicker';
 import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
+import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
@@ -85,6 +86,8 @@ export default function (view, params, tabContent) {
         isLoading = true;
         scrollPageToTop();
         const query = getQuery();
+        setFilterStatus(tabContent, query);
+
         ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
             function onNextPageClick() {
                 if (isLoading) {

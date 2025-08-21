@@ -2,10 +2,10 @@ import SyncPlaySettingsEditor from './settings/SettingsEditor';
 import loading from '../../../components/loading/loading';
 import toast from '../../../components/toast/toast';
 import actionsheet from '../../../components/actionSheet/actionSheet';
-import globalize from '../../../scripts/globalize';
+import globalize from '../../../lib/globalize';
 import playbackPermissionManager from './playbackPermissionManager';
 import { pluginManager } from '../../../components/pluginManager';
-import ServerConnections from '../../../components/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { PluginType } from '../../../types/plugin.ts';
 import Events from '../../../utils/events.ts';
 

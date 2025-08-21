@@ -2,7 +2,7 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import imageLoader from 'components/images/imageLoader';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { getBackdropShape } from 'utils/card';
 
 import type { SectionOptions } from './section';

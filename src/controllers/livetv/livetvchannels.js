@@ -4,6 +4,7 @@ import libraryBrowser from '../../scripts/libraryBrowser';
 import loading from '../../components/loading/loading';
 import * as userSettings from '../../scripts/settings/userSettings';
 import Events from '../../utils/events.ts';
+import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -113,6 +114,8 @@ export default function (view, params, tabContent) {
         loading.show();
         isLoading = true;
         const query = getQuery();
+        setFilterStatus(context, query);
+
         const apiClient = ApiClient;
         query.UserId = apiClient.getCurrentUserId();
         return apiClient.getLiveTvChannels(query).then(function (result) {

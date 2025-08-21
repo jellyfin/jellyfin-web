@@ -5,7 +5,7 @@ import layoutManager from 'components/layoutManager';
 import lazyLoader from 'components/lazyLoader/lazyLoaderIntersectionObserver';
 import loading from 'components/loading/loading';
 import { appRouter } from 'components/router/appRouter';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
 import { getBackdropShape, getPortraitShape } from 'utils/card';
 
@@ -52,8 +52,14 @@ export default function (view, params, tabContent) {
         return !layoutManager.desktop;
     }
 
-    const fillItemsContainer = (entry) => {
+    const fillItemsContainer = (entry, observer) => {
+        if (!entry.isIntersecting) {
+            return;
+        }
+
         const elem = entry.target;
+        observer.unobserve(elem);
+
         const id = elem.getAttribute('data-id');
         const viewStyle = this.getCurrentViewStyle();
         let limit = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 5 : 9;

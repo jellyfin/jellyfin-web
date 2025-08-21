@@ -1,10 +1,11 @@
+import { AppFeature } from 'constants/appFeature';
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
 import loading from '../loading/loading';
-import globalize from '../../scripts/globalize';
-import dom from '../../scripts/dom';
+import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import dom from '../../utils/dom';
 import './multiSelect.scss';
-import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
@@ -87,7 +88,7 @@ function onSelectionChange() {
     updateItemSelection(this, this.checked);
 }
 
-function showSelection(item, isChecked) {
+function showSelection(item, isChecked, addInitialCheck) {
     let itemSelectionPanel = item.querySelector('.itemSelectionPanel');
 
     if (!itemSelectionPanel) {
@@ -99,9 +100,7 @@ function showSelection(item, isChecked) {
         parent.appendChild(itemSelectionPanel);
 
         let cssClass = 'chkItemSelect';
-        if (isChecked && !browser.firefox) {
-            // In firefox, the initial tap hold doesnt' get treated as a click
-            // In other browsers it does, so we need to make sure that initial click is ignored
+        if (isChecked && addInitialCheck) {
             cssClass += ' checkedInitial';
         }
         const checkedAttribute = isChecked ? ' checked' : '';
@@ -200,7 +199,7 @@ function showMenuForSelectedItems(e) {
                 });
             }
 
-            if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
+            if (user.Policy.EnableContentDownloading && appHost.supports(AppFeature.FileDownload)) {
                 // Disabled because there is no callback for this item
             }
 
@@ -224,7 +223,7 @@ function showMenuForSelectedItems(e) {
                 icon: 'check_box_outline_blank'
             });
 
-            // this assues that if the user can refresh metadata for the first item
+            // this assures that if the user can refresh metadata for the first item
             // they can refresh metadata for all items
             if (itemHelper.canRefreshMetadata(firstItem, user)) {
                 menuItems.push({
@@ -363,11 +362,11 @@ function combineVersions(apiClient, selection) {
     });
 }
 
-function showSelections(initialCard) {
+function showSelections(initialCard, addInitialCheck) {
     import('../../elements/emby-checkbox/emby-checkbox').then(() => {
         const cards = document.querySelectorAll('.card');
         for (let i = 0, length = cards.length; i < length; i++) {
-            showSelection(cards[i], initialCard === cards[i]);
+            showSelection(cards[i], initialCard === cards[i], addInitialCheck);
         }
 
         showSelectionCommands();
@@ -404,7 +403,7 @@ export default function (options) {
         const card = dom.parentWithClass(e.target, 'card');
 
         if (card) {
-            showSelections(card);
+            showSelections(card, true);
         }
 
         e.preventDefault();
@@ -502,7 +501,7 @@ export default function (options) {
         touchTarget = null;
 
         if (card) {
-            showSelections(card);
+            showSelections(card, true);
         }
     }
 
@@ -571,5 +570,9 @@ export default function (options) {
 }
 
 export const startMultiSelect = (card) => {
-    showSelections(card);
+    showSelections(card, false);
+};
+
+export const stopMultiSelect = () => {
+    hideSelections();
 };

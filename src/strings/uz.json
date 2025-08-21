@@ -46,7 +46,7 @@
     "DeinterlaceMethodHelp": "Kerakli tarkibni dasturiy tarzda transkodlashda foydalaniladigan taroqdan tozalash usulini tanlang. Uskunani dekombatsiya qilishni qo‘llab-quvvatlaydigan apparat tezlashuvi yoqilganda, bu sozlama o‘rniga apparatni dekombatsiya qilish qo‘llaniladi.",
     "DefaultSubtitlesHelp": "Subtitrlarni yuklab olish o'rnatilgan metama'lumotlardagi \"Standart\" va \"Majburiy\" bayroqlari bilan belgilanadi. Til sozlamalari bir nechta variant mavjud bo'lganda hisobga olinadi.",
     "DefaultMetadataLangaugeDescription": "Bu sizning standart sozlamalaringizdir va ular har bir media kutubxonasi uchun alohida sozlanishi mumkin.",
-    "Default": "Standart sifatida",
+    "Default": "Joriy",
     "DeathDateValue": "O'lim sanasi: {0}",
     "DatePlayed": "Tomosha qilingan sana",
     "DateAdded": "Qo'shilgan sana",
@@ -692,5 +692,13 @@
     "EnableAudioNormalization": "Ovozni normallashtirish",
     "HeaderRecordingMetadataSaving": "Metadata yozuvlari",
     "LabelEnableLUFSScanHelp": "Musiqa uchun LUFS scan-ni yoqing (bu ko'proq va ko'proq resurslarni oladi).",
-    "LabelEnableLUFSScan": "LUFS skanerini yoqish"
+    "LabelEnableLUFSScan": "LUFS skanerini yoqish",
+    "MusicVideos": "Musiqali videolar",
+    "Movies": "Kinolar",
+    "ValueSpecialEpisodeName": "Maxsus qism – {0}",
+    "Playlists": "Pleylistlar",
+    "Photos": "Surat",
+    "Shows": "Teleko'rsatuv",
+    "Songs": "Kompozitsiyalar",
+    "AirPlay": "AirPlay"
 }

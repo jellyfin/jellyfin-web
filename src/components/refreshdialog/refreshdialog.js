@@ -1,8 +1,10 @@
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -10,7 +12,6 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 
 function getEditorHtml() {
@@ -31,6 +32,11 @@ function getEditorHtml() {
     html += '<label class="checkboxContainer hide fldReplaceExistingImages">';
     html += '<input type="checkbox" is="emby-checkbox" class="chkReplaceImages" />';
     html += '<span>' + globalize.translate('ReplaceExistingImages') + '</span>';
+    html += '</label>';
+
+    html += '<label class="checkboxContainer hide fldReplaceTrickplayImages">';
+    html += '<input type="checkbox" is="emby-checkbox" class="chkReplaceTrickplayImages" />';
+    html += '<span>' + globalize.translate('ReplaceTrickplayImages') + '</span>';
     html += '</label>';
 
     html += '<div class="fieldDescription">';
@@ -71,14 +77,15 @@ function onSubmit(e) {
 
     const mode = dlg.querySelector('#selectMetadataRefreshMode').value === 'scan' ? 'Default' : 'FullRefresh';
     const replaceAllImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
+    const replaceTrickplayImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceTrickplayImages').checked;
 
     options.itemIds.forEach(function (itemId) {
         apiClient.refreshItem(itemId, {
-
             Recursive: true,
             ImageRefreshMode: mode,
             MetadataRefreshMode: mode,
             ReplaceAllImages: replaceAllImages,
+            RegenerateTrickplay: replaceTrickplayImages,
             ReplaceAllMetadata: replaceAllMetadata
         });
     });
@@ -134,8 +141,10 @@ class RefreshDialog {
         dlg.querySelector('#selectMetadataRefreshMode').addEventListener('change', function () {
             if (this.value === 'scan') {
                 dlg.querySelector('.fldReplaceExistingImages').classList.add('hide');
+                dlg.querySelector('.fldReplaceTrickplayImages').classList.add('hide');
             } else {
                 dlg.querySelector('.fldReplaceExistingImages').classList.remove('hide');
+                dlg.querySelector('.fldReplaceTrickplayImages').classList.remove('hide');
             }
         });
 

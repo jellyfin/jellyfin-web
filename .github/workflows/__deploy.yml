@@ -1,0 +1,59 @@
+name: Deploy 🏗️
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+      commit:
+        required: false
+        type: string
+      comment:
+        required: false
+        type: boolean
+      artifact_name:
+        required: false
+        type: string
+        default: frontend
+
+jobs:
+  cf-pages:
+    name: CloudFlare Pages 📃
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ inputs.branch == 'master' && 'Production' || 'Preview' }}
+      url: ${{ steps.cf.outputs.deployment-url }}
+    outputs:
+      url: ${{ steps.cf.outputs.deployment-url }}
+
+    steps:
+      - name: Download workflow artifact ⬇️
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: dist
+
+      - name: Publish to Cloudflare Pages 📃
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
+        id: cf
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=jellyfin-web --branch=${{ inputs.branch }}
+
+  compose-comment:
+    name: Compose and push comment 📝
+    # Always run so the comment is composed for the workflow summary
+    if: ${{ always() }}
+    uses: ./.github/workflows/__job_messages.yml
+    secrets: inherit
+    needs:
+      - cf-pages
+
+    with:
+      branch: ${{ inputs.branch }}
+      commit: ${{ inputs.commit }}
+      preview_url: ${{ needs.cf-pages.outputs.url }}
+      in_progress: false
+      comment: ${{ inputs.comment }}

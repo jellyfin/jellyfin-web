@@ -5,9 +5,10 @@ import listView from '../../components/listview/listview';
 import loading from '../../components/loading/loading';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import * as userSettings from '../../scripts/settings/userSettings';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Dashboard from '../../utils/dashboard';
 import Events from '../../utils/events.ts';
+import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
@@ -55,6 +56,8 @@ export default function (view, params, tabContent) {
         isLoading = true;
         scrollPageToTop();
         const query = getQuery();
+        setFilterStatus(tabContent, query);
+
         ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
             function onNextPageClick() {
                 if (isLoading) {
@@ -167,7 +170,7 @@ export default function (view, params, tabContent) {
                     id: 'Name'
                 }, {
                     name: globalize.translate('Album'),
-                    id: 'Album,SortName'
+                    id: 'Album,AlbumArtist,SortName'
                 }, {
                     name: globalize.translate('AlbumArtist'),
                     id: 'AlbumArtist,Album,SortName'

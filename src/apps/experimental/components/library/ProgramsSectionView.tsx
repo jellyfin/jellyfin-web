@@ -1,9 +1,11 @@
 import React, { type FC } from 'react';
+import { useApi } from 'hooks/useApi';
 import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';
-import SectionContainer from './SectionContainer';
+import NoItemsMessage from 'components/common/NoItemsMessage';
+import SectionContainer from 'components/common/SectionContainer';
 import { CardShape } from 'utils/card';
 import type { ParentId } from 'types/library';
 import type { Section, SectionType } from 'types/sections';
@@ -19,6 +21,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
     sectionType,
     isUpcomingRecordingsEnabled = false
 }) => {
+    const { __legacyApiClient__ } = useApi();
     const { isLoading, data: sectionsWithItems, refetch } = useGetProgramsSectionsWithItems(parentId, sectionType);
     const {
         isLoading: isUpcomingRecordingsLoading,
@@ -30,14 +33,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
     }
 
     if (!sectionsWithItems?.length && !upcomingRecordings?.length) {
-        return (
-            <div className='noItemsMessage centerMessage'>
-                <h1>{globalize.translate('MessageNothingHere')}</h1>
-                <p>
-                    {globalize.translate('MessageNoItemsAvailable')}
-                </p>
-            </div>
-        );
+        return <NoItemsMessage />;
     }
 
     const getRouteUrl = (section: Section) => {
@@ -58,23 +54,34 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
             {sectionsWithItems?.map(({ section, items }) => (
                 <SectionContainer
                     key={section.type}
-                    sectionTitle={globalize.translate(section.name)}
-                    items={items ?? []}
-                    url={getRouteUrl(section)}
-                    reloadItems={refetch}
+                    sectionHeaderProps={{
+                        title: globalize.translate(section.name),
+                        url: getRouteUrl(section)
+                    }}
+                    itemsContainerProps={{
+                        queryKey: ['ProgramSectionWithItems'],
+                        reloadItems: refetch
+                    }}
+                    items={items}
                     cardOptions={{
                         ...section.cardOptions,
-                        queryKey: ['ProgramSectionWithItems']
+                        queryKey: ['ProgramSectionWithItems'],
+                        serverId: __legacyApiClient__?.serverId()
                     }}
                 />
-
             ))}
 
             {upcomingRecordings?.map((group) => (
                 <SectionContainer
                     key={group.name}
-                    sectionTitle={group.name}
-                    items={group.timerInfo ?? []}
+                    sectionHeaderProps={{
+                        title: group.name
+                    }}
+                    itemsContainerProps={{
+                        queryKey: ['Timers'],
+                        reloadItems: refetch
+                    }}
+                    items={group.timerInfo}
                     cardOptions={{
                         queryKey: ['Timers'],
                         shape: CardShape.BackdropOverflow,
@@ -91,7 +98,8 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                         coverImage: true,
                         allowBottomPadding: false,
                         overlayText: false,
-                        showChannelLogo: true
+                        showChannelLogo: true,
+                        serverId: __legacyApiClient__?.serverId()
                     }}
                 />
             ))}

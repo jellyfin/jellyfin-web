@@ -42,6 +42,7 @@ const playlistsTabContent: LibraryTabContent = {
 
 const songsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Songs,
+    isBtnShuffleEnabled: true,
     isBtnGridListEnabled: false,
     isAlphabetPickerEnabled: false,
     itemType: [BaseItemKind.Audio]

@@ -1,11 +1,9 @@
 {
     "ecmaVersion": "es5",
-    "modules": "false",
     "files": "./dist/**/*.js",
     "not": [
         "./dist/libraries/pdf.worker.js",
         "./dist/libraries/worker-bundle.js",
-        "./dist/libraries/wasm-gen/libarchive.js",
         "./dist/serviceworker.js"
     ]
 }

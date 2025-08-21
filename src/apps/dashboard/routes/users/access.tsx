@@ -1,30 +1,33 @@
-import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FunctionComponent, useCallback, useEffect, useState, useRef } from 'react';
+import type { BaseItemDto, DeviceInfoDto, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import loading from '../../../../components/loading/loading';
-import libraryMenu from '../../../../scripts/libraryMenu';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import toast from '../../../../components/toast/toast';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
-import ButtonElement from '../../../../elements/ButtonElement';
-import { getParameterByName } from '../../../../utils/url';
+import Button from '../../../../elements/emby-button/Button';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import Page from '../../../../components/Page';
 
 type ItemsArr = {
-    Name?: string;
-    Id?: string;
-    AppName?: string;
+    Name?: string | null;
+    Id?: string | null;
+    AppName?: string | null;
+    CustomName?: string | null;
     checkedAttribute?: string
 };
 
-const UserLibraryAccess: FunctionComponent = () => {
+const UserLibraryAccess = () => {
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId');
     const [ userName, setUserName ] = useState('');
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
     const [devicesItems, setDevicesItems] = useState<ItemsArr[]>([]);
+    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -33,18 +36,18 @@ const UserLibraryAccess: FunctionComponent = () => {
         select.dispatchEvent(evt);
     };
 
-    const loadMediaFolders = useCallback((user, mediaFolders) => {
+    const loadMediaFolders = useCallback((user: UserDto, mediaFolders: BaseItemDto[]) => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userlibraryaccess] Unexpected null page reference');
             return;
         }
 
         const itemsArr: ItemsArr[] = [];
 
         for (const folder of mediaFolders) {
-            const isChecked = user.Policy.EnableAllFolders || user.Policy.EnabledFolders.indexOf(folder.Id) != -1;
+            const isChecked = user.Policy?.EnableAllFolders || user.Policy?.EnabledFolders?.indexOf(folder.Id || '') != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
                 Id: folder.Id,
@@ -56,22 +59,22 @@ const UserLibraryAccess: FunctionComponent = () => {
         setMediaFoldersItems(itemsArr);
 
         const chkEnableAllFolders = page.querySelector('.chkEnableAllFolders') as HTMLInputElement;
-        chkEnableAllFolders.checked = user.Policy.EnableAllFolders;
+        chkEnableAllFolders.checked = Boolean(user.Policy?.EnableAllFolders);
         triggerChange(chkEnableAllFolders);
     }, []);
 
-    const loadChannels = useCallback((user, channels) => {
+    const loadChannels = useCallback((user: UserDto, channels: BaseItemDto[]) => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userlibraryaccess] Unexpected null page reference');
             return;
         }
 
         const itemsArr: ItemsArr[] = [];
 
         for (const folder of channels) {
-            const isChecked = user.Policy.EnableAllChannels || user.Policy.EnabledChannels.indexOf(folder.Id) != -1;
+            const isChecked = user.Policy?.EnableAllChannels || user.Policy?.EnabledChannels?.indexOf(folder.Id || '') != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
                 Id: folder.Id,
@@ -89,27 +92,28 @@ const UserLibraryAccess: FunctionComponent = () => {
         }
 
         const chkEnableAllChannels = page.querySelector('.chkEnableAllChannels') as HTMLInputElement;
-        chkEnableAllChannels.checked = user.Policy.EnableAllChannels;
+        chkEnableAllChannels.checked = Boolean(user.Policy?.EnableAllChannels);
         triggerChange(chkEnableAllChannels);
     }, []);
 
-    const loadDevices = useCallback((user, devices) => {
+    const loadDevices = useCallback((user: UserDto, devices: DeviceInfoDto[]) => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userlibraryaccess] Unexpected null page reference');
             return;
         }
 
         const itemsArr: ItemsArr[] = [];
 
         for (const device of devices) {
-            const isChecked = user.Policy.EnableAllDevices || user.Policy.EnabledDevices.indexOf(device.Id) != -1;
+            const isChecked = user.Policy?.EnableAllDevices || user.Policy?.EnabledDevices?.indexOf(device.Id || '') != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
                 Id: device.Id,
                 Name: device.Name,
                 AppName: device.AppName,
+                CustomName: device.CustomName,
                 checkedAttribute: checkedAttribute
             });
         }
@@ -117,19 +121,19 @@ const UserLibraryAccess: FunctionComponent = () => {
         setDevicesItems(itemsArr);
 
         const chkEnableAllDevices = page.querySelector('.chkEnableAllDevices') as HTMLInputElement;
-        chkEnableAllDevices.checked = user.Policy.EnableAllDevices;
+        chkEnableAllDevices.checked = Boolean(user.Policy?.EnableAllDevices);
         triggerChange(chkEnableAllDevices);
 
-        if (user.Policy.IsAdministrator) {
+        if (user.Policy?.IsAdministrator) {
             (page.querySelector('.deviceAccessContainer') as HTMLDivElement).classList.add('hide');
         } else {
             (page.querySelector('.deviceAccessContainer') as HTMLDivElement).classList.remove('hide');
         }
     }, []);
 
-    const loadUser = useCallback((user, mediaFolders, channels, devices) => {
-        setUserName(user.Name);
-        libraryMenu.setTitle(user.Name);
+    const loadUser = useCallback((user: UserDto, mediaFolders: BaseItemDto[], channels: BaseItemDto[], devices: DeviceInfoDto[]) => {
+        setUserName(user.Name || '');
+        void libraryMenu.then(menu => menu.setTitle(user.Name));
         loadChannels(user, channels);
         loadMediaFolders(user, mediaFolders);
         loadDevices(user, devices);
@@ -138,7 +142,6 @@ const UserLibraryAccess: FunctionComponent = () => {
 
     const loadData = useCallback(() => {
         loading.show();
-        const userId = getParameterByName('userId');
         const promise1 = userId ? window.ApiClient.getUser(userId) : Promise.resolve({ Configuration: {} });
         const promise2 = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
             IsHidden: false
@@ -150,21 +153,25 @@ const UserLibraryAccess: FunctionComponent = () => {
         }).catch(err => {
             console.error('[userlibraryaccess] failed to load data', err);
         });
-    }, [loadUser]);
+    }, [loadUser, userId]);
 
     useEffect(() => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userlibraryaccess] Unexpected null page reference');
             return;
         }
 
         loadData();
 
         const onSubmit = (e: Event) => {
+            if (!userId) {
+                console.error('[userlibraryaccess] missing user id');
+                return;
+            }
+
             loading.show();
-            const userId = getParameterByName('userId');
             window.ApiClient.getUser(userId).then(function (result) {
                 saveUser(result);
             }).catch(err => {
@@ -240,7 +247,6 @@ const UserLibraryAccess: FunctionComponent = () => {
                 <div className='verticalSection'>
                     <SectionTitleContainer
                         title={userName}
-                        url='https://jellyfin.org/docs/general/server/users/'
                     />
                 </div>
                 <SectionTabs activeTab='userlibraryaccess'/>
@@ -302,7 +308,7 @@ const UserLibraryAccess: FunctionComponent = () => {
                                 key={Item.Id}
                                 className='chkDevice'
                                 itemId={Item.Id}
-                                itemName={Item.Name}
+                                itemName={Item.CustomName || Item.Name}
                                 itemAppName={Item.AppName}
                                 itemCheckedAttribute={Item.checkedAttribute}
                             />
@@ -310,10 +316,10 @@ const UserLibraryAccess: FunctionComponent = () => {
                     </AccessContainer>
                     <br />
                     <div>
-                        <ButtonElement
+                        <Button
                             type='submit'
                             className='raised button-submit block'
-                            title='Save'
+                            title={globalize.translate('Save')}
                         />
                     </div>
                 </form>

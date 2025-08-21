@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import { appRouter } from '../router/appRouter';
 import itemHelper from '../itemHelper';
 import indicators from '../indicators/indicators';
@@ -60,7 +60,7 @@ function getProgramInfoHtml(item, options) {
 
             miscInfo.push(text);
         } catch (e) {
-            console.error('error parsing date:', item.StartDate);
+            console.error('error parsing date:', item.StartDate, e);
         }
     }
 
@@ -140,7 +140,7 @@ export function getMediaInfoHtml(item, options = {}) {
             text = datetime.toLocaleDateString(date);
             miscInfo.push(text);
         } catch (e) {
-            console.error('error parsing date:', item.PremiereDate);
+            console.error('error parsing date:', item.PremiereDate, e);
         }
     }
 
@@ -170,7 +170,7 @@ export function getMediaInfoHtml(item, options = {}) {
                 miscInfo.push(text);
             }
         } catch (e) {
-            console.error('error parsing date:', item.StartDate);
+            console.error('error parsing date:', item.StartDate, e);
         }
     }
 
@@ -188,7 +188,7 @@ export function getMediaInfoHtml(item, options = {}) {
                         text += ` - ${endYear}`;
                     }
                 } catch (e) {
-                    console.error('error parsing date:', item.EndDate);
+                    console.error('error parsing date:', item.EndDate, e);
                 }
             }
 
@@ -238,7 +238,7 @@ export function getMediaInfoHtml(item, options = {}) {
                 text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
                 miscInfo.push(text);
             } catch (e) {
-                console.error('error parsing date:', program.PremiereDate);
+                console.error('error parsing date:', program.PremiereDate, e);
             }
         } else if (program.ProductionYear && options.year !== false ) {
             miscInfo.push(program.ProductionYear);
@@ -255,7 +255,7 @@ export function getMediaInfoHtml(item, options = {}) {
                 text = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
                 miscInfo.push(text);
             } catch (e) {
-                console.error('error parsing date:', item.PremiereDate);
+                console.error('error parsing date:', item.PremiereDate, e);
             }
         }
     }
@@ -271,7 +271,7 @@ export function getMediaInfoHtml(item, options = {}) {
     if (options.officialRating !== false && item.OfficialRating && item.Type !== 'Season' && item.Type !== 'Episode') {
         miscInfo.push({
             text: item.OfficialRating,
-            cssClass: 'mediaInfoOfficialRating'
+            cssClass: 'mediaInfoText mediaInfoOfficialRating'
         });
     }
 

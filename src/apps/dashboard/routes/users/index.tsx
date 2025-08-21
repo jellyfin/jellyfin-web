@@ -1,10 +1,10 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../scripts/globalize';
+import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
-import dom from '../../../../scripts/dom';
+import dom from '../../../../utils/dom';
 import confirm from '../../../../components/confirm/confirm';
 import UserCardBox from '../../../../components/dashboard/users/UserCardBox';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
@@ -21,7 +21,7 @@ type MenuEntry = {
     icon?: string;
 };
 
-const UserProfiles: FunctionComponent = () => {
+const UserProfiles = () => {
     const [ users, setUsers ] = useState<UserDto[]>([]);
 
     const element = useRef<HTMLDivElement>(null);
@@ -159,6 +159,7 @@ const UserProfiles: FunctionComponent = () => {
         <Page
             id='userProfilesPage'
             className='mainAnimatedPage type-interior userProfilesPage fullWidthContent'
+            title={globalize.translate('HeaderUsers')}
         >
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
@@ -169,7 +170,6 @@ const UserProfiles: FunctionComponent = () => {
                         btnClassName='fab submit sectionTitleButton'
                         btnTitle='ButtonAddUser'
                         btnIcon='add'
-                        url='https://jellyfin.org/docs/general/server/users/adding-managing-users'
                     />
                 </div>
 

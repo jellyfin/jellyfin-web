@@ -1,4 +1,3 @@
-// TODO: Move to jellyfin-apiclient
 /* eslint-disable @typescript-eslint/no-explicit-any */
 declare module 'jellyfin-apiclient' {
     import type {
@@ -68,7 +67,7 @@ declare module 'jellyfin-apiclient' {
         UtcTimeResponse,
         VirtualFolderInfo
     } from '@jellyfin/sdk/lib/generated-client';
-    import { ConnectionState } from './utils/jellyfin-apiclient/ConnectionState';
+    import type { ConnectionState } from 'lib/jellyfin-apiclient';
 
     class ApiClient {
         constructor(serverAddress: string, appName: string, appVersion: string, deviceName: string, deviceId: string);
@@ -182,7 +181,7 @@ declare module 'jellyfin-apiclient' {
         getPluginConfiguration(id: string): Promise<any>;
         getPublicSystemInfo(): Promise<PublicSystemInfo>;
         getPublicUsers(): Promise<UserDto[]>;
-        getQuickConnect(verb: string): Promise<void|boolean|number|QuickConnectResult|QuickConnectState>;
+        getQuickConnect(verb: string): Promise<void | boolean | number | QuickConnectResult | QuickConnectState>;
         getReadySyncItems(deviceId: string): Promise<any>;
         getRecordingFolders(userId: string): Promise<BaseItemDtoQueryResult>;
         getRegistrationInfo(feature: string): Promise<any>;
@@ -308,7 +307,7 @@ declare module 'jellyfin-apiclient' {
     class AppStore {
         constructor();
 
-        getItem(name: string): string|null;
+        getItem(name: string): string | null;
         removeItem(name: string): void;
         setItem(name: string, value: string): void;
     }
@@ -329,7 +328,7 @@ declare module 'jellyfin-apiclient' {
         connectToServer(server: any, options?: any): Promise<any>;
         connectToServers(servers: any[], options?: any): Promise<any>;
         deleteServer(serverId: string): Promise<void>;
-        getApiClient(item: BaseItemDto|string): ApiClient;
+        getApiClient(item: BaseItemDto | string): ApiClient;
         getApiClients(): ApiClient[];
         getAvailableServers(): any[];
         getOrCreateApiClient(serverId: string): ApiClient;
@@ -337,6 +336,7 @@ declare module 'jellyfin-apiclient' {
         handleMessageReceived(msg: any): void;
         logout(): Promise<void>;
         minServerVersion(val?: string): string;
+        updateSavedServerId(server: any): Promise<void>;
         user(apiClient: ApiClient): Promise<any>;
     }
 

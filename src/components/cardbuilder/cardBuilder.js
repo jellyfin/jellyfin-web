@@ -4,15 +4,17 @@
  * @module components/cardBuilder/cardBuilder
  */
 
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import escapeHtml from 'escape-html';
 
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
-import dom from 'scripts/dom';
-import globalize from 'scripts/globalize';
+import dom from 'utils/dom';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
-import imageHelper from 'utils/image';
+import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
 
 import focusManager from '../focusManager';
 import imageLoader from '../images/imageLoader';
@@ -21,7 +23,6 @@ import itemHelper from '../itemHelper';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import { appRouter } from '../router/appRouter';
-import ServerConnections from '../ServerConnections';
 import itemShortcuts from '../shortcuts';
 
 import 'elements/emby-button/paper-icon-button-light';
@@ -89,7 +90,7 @@ export function setCardData(items, options) {
                 options.coverImage = true;
             } else if (primaryImageAspectRatio >= 1.33) {
                 options.shape = getBackdropShape(requestedShape === 'autooverflow');
-            } else if (primaryImageAspectRatio > 0.71) {
+            } else if (primaryImageAspectRatio > 0.8) {
                 options.shape = getSquareShape(requestedShape === 'autooverflow');
             } else {
                 options.shape = getPortraitShape(requestedShape === 'autooverflow');
@@ -194,6 +195,7 @@ function buildCardsHtmlInternal(items, options) {
                     if (isVertical) {
                         html += '</div>';
                     }
+                    // eslint-disable-next-line sonarjs/no-dead-store
                     hasOpenSection = false;
                 }
 
@@ -214,6 +216,7 @@ function buildCardsHtmlInternal(items, options) {
         if (options.rows && itemsInRow === 0) {
             if (hasOpenRow) {
                 html += '</div>';
+                // eslint-disable-next-line sonarjs/no-dead-store
                 hasOpenRow = false;
             }
 
@@ -277,16 +280,16 @@ export function getCardImageUrl(item, apiClient, options, shape) {
     let itemId = null;
 
     /* eslint-disable sonarjs/no-duplicated-branches */
-    if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
+    if (options.preferThumb && item.ImageTags?.Thumb) {
         imgType = 'Thumb';
         imgTag = item.ImageTags.Thumb;
-    } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
+    } else if ((options.preferBanner || shape === 'banner') && item.ImageTags?.Banner) {
         imgType = 'Banner';
         imgTag = item.ImageTags.Banner;
-    } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
+    } else if (options.preferDisc && item.ImageTags?.Disc) {
         imgType = 'Disc';
         imgTag = item.ImageTags.Disc;
-    } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
+    } else if (options.preferLogo && item.ImageTags?.Logo) {
         imgType = 'Logo';
         imgTag = item.ImageTags.Logo;
     } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
@@ -301,11 +304,11 @@ export function getCardImageUrl(item, apiClient, options, shape) {
         imgType = 'Thumb';
         imgTag = item.ParentThumbImageTag;
         itemId = item.ParentThumbItemId;
-    } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
+    } else if (options.preferThumb && item.BackdropImageTags?.length) {
         imgType = 'Backdrop';
         imgTag = item.BackdropImageTags[0];
         forceName = true;
-    } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
+    } else if (options.preferThumb && item.ParentBackdropImageTags?.length && options.inheritThumb !== false && item.Type === 'Episode') {
         imgType = 'Backdrop';
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;
@@ -351,7 +354,7 @@ export function getCardImageUrl(item, apiClient, options, shape) {
         if (primaryImageAspectRatio && uiAspect) {
             coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
         }
-    } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
+    } else if (item.Type === 'Season' && item.ImageTags?.Thumb) {
         imgType = 'Thumb';
         imgTag = item.ImageTags.Thumb;
     } else if (item.BackdropImageTags?.length) {
@@ -481,7 +484,7 @@ function getAirTimeText(item, showAirDateTime, showAirEndTime) {
                 airTimeText += ' - ' + datetime.getDisplayTime(date);
             }
         } catch (e) {
-            console.error('error parsing date: ' + item.StartDate);
+            console.error('error parsing date: ' + item.StartDate, e);
         }
     }
 
@@ -571,7 +574,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
 
     if (showOtherText) {
         if (options.showParentTitle && parentTitleUnderneath) {
-            if (flags.isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
+            if (flags.isOuterFooter && item.AlbumArtists?.length) {
                 item.AlbumArtists[0].Type = 'MusicArtist';
                 item.AlbumArtists[0].IsFolder = true;
                 lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
@@ -614,7 +617,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
                         datetime.parseISO8601Date(item.PremiereDate),
                         { weekday: 'long', month: 'long', day: 'numeric' }
                     ));
-                } catch (err) {
+                } catch {
                     lines.push('');
                 }
             } else {
@@ -703,7 +706,8 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             if (item.Role) {
                 if ([ PersonKind.Actor, PersonKind.GuestStar ].includes(item.Type)) {
                     // List actor roles formatted like "as Character Name"
-                    lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
+                    const roleText = globalize.translate('PersonRole', escapeHtml(item.Role));
+                    lines.push(`<span title="${roleText}">${roleText}</span>`);
                 } else if (item.Role.toLowerCase() === item.Type.toLowerCase()) {
                     // Role and Type are the same so use the localized Type
                     lines.push(escapeHtml(globalize.translate(item.Type)));
@@ -1053,7 +1057,7 @@ function buildCard(index, item, apiClient, options) {
             indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
         }
 
-        if (item.Type === 'CollectionFolder' || item.CollectionType) {
+        if (item.Type === BaseItemKind.CollectionFolder || item.CollectionType) {
             const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
             indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
             importRefreshIndicator();
@@ -1139,7 +1143,9 @@ function getHoverMenuHtml(item, action) {
     let html = '';
 
     html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
-    const url = appRouter.getRouteUrl(item);
+    const url = appRouter.getRouteUrl(item, {
+        serverId: item.ServerId || ServerConnections.currentApiClient().serverId()
+    });
     html += '<a href="' + url + '" class="cardImageContainer"></a>';
 
     const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
@@ -1178,41 +1184,18 @@ function getHoverMenuHtml(item, action) {
  * @returns {string} HTML markup of the card overlay.
  */
 export function getDefaultText(item, options) {
-    if (item.CollectionType) {
-        return '<span class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '" aria-hidden="true"></span>';
+    let icon;
+
+    if (item.Type === BaseItemKind.CollectionFolder || item.CollectionType) {
+        icon = getLibraryIcon(item.CollectionType);
     }
 
-    switch (item.Type) {
-        case 'MusicAlbum':
-            return '<span class="cardImageIcon material-icons album" aria-hidden="true"></span>';
-        case 'MusicArtist':
-        case 'Person':
-            return '<span class="cardImageIcon material-icons person" aria-hidden="true"></span>';
-        case 'Audio':
-            return '<span class="cardImageIcon material-icons audiotrack" aria-hidden="true"></span>';
-        case 'Movie':
-            return '<span class="cardImageIcon material-icons movie" aria-hidden="true"></span>';
-        case 'Episode':
-        case 'Series':
-            return '<span class="cardImageIcon material-icons tv" aria-hidden="true"></span>';
-        case 'Program':
-            return '<span class="cardImageIcon material-icons live_tv" aria-hidden="true"></span>';
-        case 'Book':
-            return '<span class="cardImageIcon material-icons book" aria-hidden="true"></span>';
-        case 'Folder':
-            return '<span class="cardImageIcon material-icons folder" aria-hidden="true"></span>';
-        case 'BoxSet':
-            return '<span class="cardImageIcon material-icons collections" aria-hidden="true"></span>';
-        case 'Playlist':
-            return '<span class="cardImageIcon material-icons view_list" aria-hidden="true"></span>';
-        case 'Photo':
-            return '<span class="cardImageIcon material-icons photo" aria-hidden="true"></span>';
-        case 'PhotoAlbum':
-            return '<span class="cardImageIcon material-icons photo_album" aria-hidden="true"></span>';
+    if (!icon) {
+        icon = getItemTypeIcon(item.Type, options?.defaultCardImageIcon);
     }
 
-    if (options?.defaultCardImageIcon) {
-        return '<span class="cardImageIcon material-icons ' + options.defaultCardImageIcon + '" aria-hidden="true"></span>';
+    if (icon) {
+        return `<span class="cardImageIcon material-icons ${icon}" aria-hidden="true"></span>`;
     }
 
     const defaultName = isUsingLiveTvNaming(item.Type) ? item.Name : itemHelper.getDisplayName(item);
@@ -1244,12 +1227,7 @@ export function buildCards(items, options) {
     if (html) {
         if (options.itemsContainer.cardBuilderHtml !== html) {
             options.itemsContainer.innerHTML = html;
-
-            if (items.length < 50) {
-                options.itemsContainer.cardBuilderHtml = html;
-            } else {
-                options.itemsContainer.cardBuilderHtml = null;
-            }
+            options.itemsContainer.cardBuilderHtml = html;
         }
 
         imageLoader.lazyChildren(options.itemsContainer);
@@ -1355,6 +1333,7 @@ function updateUserData(card, userData) {
             innerCardFooter.appendChild(itemProgressBar);
         }
 
+        card.setAttribute('data-positionticks', userData.PlaybackPositionTicks);
         itemProgressBar.innerHTML = progressHtml;
     } else {
         itemProgressBar = card.querySelector('.itemProgressBar');

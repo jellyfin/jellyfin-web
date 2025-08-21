@@ -1,10 +1,14 @@
-import ServerConnections from '../components/ServerConnections';
+import { appHost } from 'components/apphost';
+import viewContainer from 'components/viewContainer';
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import toast from '../components/toast/toast';
 import loading from '../components/loading/loading';
 import { appRouter } from '../components/router/appRouter';
 import baseAlert from '../components/alert';
 import baseConfirm from '../components/confirm/confirm';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import * as webSettings from '../scripts/settings/webSettings';
 import datetime from '../scripts/datetime';
 import { setBackdropTransparency } from '../components/backdrop/backdrop';
@@ -12,6 +16,7 @@ import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
 import dialogHelper from '../components/dialogHelper/dialogHelper';
 import itemIdentifier from '../components/itemidentifier/itemidentifier';
 import { getLocationSearch } from './url.ts';
+import { queryClient } from './query/queryClient';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -19,7 +24,7 @@ export function getCurrentUser() {
 
 // TODO: investigate url prefix support for serverAddress function
 export async function serverAddress() {
-    const apiClient = window.ApiClient ?? ServerConnections.currentApiClient();
+    const apiClient = window.ApiClient;
 
     if (apiClient) {
         return Promise.resolve(apiClient.serverAddress());
@@ -50,7 +55,7 @@ export async function serverAddress() {
     console.debug('URL candidates:', urls);
 
     const promises = urls.map(url => {
-        return fetch(`${url}/System/Info/Public`)
+        return fetch(`${url}/System/Info/Public`, { cache: 'no-cache' })
             .then(async resp => {
                 if (!resp.ok) {
                     return;
@@ -59,7 +64,7 @@ export async function serverAddress() {
                 let config;
                 try {
                     config = await resp.json();
-                } catch (err) {
+                } catch {
                     return;
                 }
 
@@ -98,9 +103,12 @@ export function onServerChanged(_userId, _accessToken, apiClient) {
 
 export function logout() {
     ServerConnections.logout().then(function () {
-        webSettings.getMultiServer().then(multi => {
-            multi ? navigate('selectserver.html') : navigate('login.html');
-        });
+        // Clear the query cache
+        queryClient.clear();
+        // Reset cached views
+        viewContainer.reset();
+        appHost.supports(AppFeature.MultiServer) ?
+            navigate('selectserver') : navigate('login');
     });
 }
 
@@ -172,20 +180,20 @@ export function alert(options) {
     }
 }
 
-export function capabilities(appHost) {
+export function capabilities(host) {
     return Object.assign({
         PlayableMediaTypes: ['Audio', 'Video'],
         SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
         SupportsPersistentIdentifier: window.appMode === 'cordova' || window.appMode === 'android',
         SupportsMediaControl: true
-    }, appHost.getPushTokenInfo());
+    }, host.getPushTokenInfo());
 }
 
 export function selectServer() {
     if (window.NativeShell && typeof window.NativeShell.selectServer === 'function') {
         window.NativeShell.selectServer();
     } else {
-        navigate('selectserver.html');
+        navigate('selectserver');
     }
 }
 

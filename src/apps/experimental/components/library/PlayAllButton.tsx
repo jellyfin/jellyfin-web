@@ -1,23 +1,31 @@
-import type { BaseItemDto, SeriesTimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback } from 'react';
-import { IconButton } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import Button from '@mui/material/Button';
+import PlayArrow from '@mui/icons-material/PlayArrow';
 
 import { playbackManager } from 'components/playback/playbackmanager';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { getFiltersQuery } from 'utils/items';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 interface PlayAllButtonProps {
-    item: BaseItemDto | null | undefined;
-    items: BaseItemDto[] | SeriesTimerInfoDto[];
-    viewType: LibraryTab;
-    hasFilters: boolean;
+    item: ItemDto | undefined
+    items: ItemDto[]
+    viewType: LibraryTab
+    hasFilters: boolean
+    isTextVisible: boolean
     libraryViewSettings: LibraryViewSettings
 }
 
-const PlayAllButton: FC<PlayAllButtonProps> = ({ item, items, viewType, hasFilters, libraryViewSettings }) => {
+const PlayAllButton: FC<PlayAllButtonProps> = ({
+    item,
+    items,
+    viewType,
+    hasFilters,
+    isTextVisible,
+    libraryViewSettings
+}) => {
     const play = useCallback(() => {
         if (item && !hasFilters) {
             playbackManager.play({
@@ -27,10 +35,12 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({ item, items, viewType, hasFilte
                     SortBy: [libraryViewSettings.SortBy],
                     SortOrder: [libraryViewSettings.SortOrder]
                 }
+            }).catch(err => {
+                console.error('[PlayAllButton] failed to play', err);
             });
         } else {
             playbackManager.play({
-                items: items,
+                items,
                 autoplay: true,
                 queryOptions: {
                     ParentId: item?.Id ?? undefined,
@@ -38,19 +48,24 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({ item, items, viewType, hasFilte
                     SortBy: [libraryViewSettings.SortBy],
                     SortOrder: [libraryViewSettings.SortOrder]
                 }
-
+            }).catch(err => {
+                console.error('[PlayAllButton] failed to play', err);
             });
         }
     }, [hasFilters, item, items, libraryViewSettings, viewType]);
 
     return (
-        <IconButton
+        <Button
             title={globalize.translate('HeaderPlayAll')}
-            className='paper-icon-button-light btnPlay autoSize'
+            startIcon={isTextVisible ? <PlayArrow /> : undefined}
             onClick={play}
         >
-            <PlayArrowIcon />
-        </IconButton>
+            {isTextVisible ? (
+                globalize.translate('HeaderPlayAll')
+            ) : (
+                <PlayArrow />
+            )}
+        </Button>
     );
 };
 

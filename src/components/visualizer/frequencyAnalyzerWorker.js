@@ -1,3 +1,5 @@
+/* frequencyAnalyzerWorker.js — Off-screen-canvas worker */
+
 let canvas;
 let ctx;
 let fftSize;

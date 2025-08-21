@@ -20,9 +20,9 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { pluginManager } from 'components/pluginManager';
 import { useApi } from 'hooks/useApi';
 import { useSyncPlayGroups } from 'hooks/useSyncPlayGroups';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { PluginType } from 'types/plugin';
-import Events from 'utils/events';
+import Events, { Event } from 'utils/events';
 
 export const ID = 'app-sync-play-menu';
 
@@ -136,7 +136,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
         }
     }, [ __legacyApiClient__, onMenuClose, syncPlay ]);
 
-    const updateSyncPlayGroup = useCallback((_e, enabled) => {
+    const updateSyncPlayGroup = useCallback((_e: Event, enabled: boolean) => {
         if (syncPlay && enabled) {
             setCurrentGroup(syncPlay.Manager.getGroupInfo() ?? undefined);
         } else {
@@ -287,7 +287,9 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
             keepMounted
             open={open}
             onClose={onMenuClose}
-            MenuListProps={MenuListProps}
+            slotProps={{
+                list: MenuListProps
+            }}
         >
             {menuItems}
         </Menu>

@@ -1,0 +1,35 @@
+.skip-button-container {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 8rem;
+    pointer-events: none;
+    z-index: 10000;
+}
+
+.skip-button {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 6rem;
+    z-index: 10000;
+    padding: 12px 20px;
+    background-color: #303030;
+    color: rgba(255, 255, 255, 0.87);
+    border: none;
+    border-radius: 0.2em;
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: opacity 200ms ease-out;
+    gap: 3px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.no-transition {
+    transition: none;
+}
+
+.skip-button-hidden {
+    opacity: 0;
+}

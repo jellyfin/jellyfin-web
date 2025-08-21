@@ -1,4 +1,4 @@
-import globalize from './globalize';
+import globalize from 'lib/globalize';
 
 export function parseISO8601Date(s, toLocal) {
     // parenthese matches:
@@ -49,7 +49,7 @@ export function parseISO8601Date(s, toLocal) {
             ms += offset;
         }
     } else if (toLocal === false) {
-        ms += new Date().getTimezoneOffset() * 60000;
+        ms += new Date(ms).getTimezoneOffset() * 60000;
     }
 
     return new Date(ms);
@@ -203,15 +203,31 @@ export function toLocaleTimeString(date, options) {
     return date.toLocaleTimeString();
 }
 
+export function getDisplayDateTime(date) {
+    if (!date) {
+        throw new Error('date cannot be null');
+    }
+
+    if (typeof date === 'string') {
+        try {
+            date = parseISO8601Date(date, true);
+        } catch {
+            return date;
+        }
+    }
+
+    return toLocaleString(date);
+}
+
 export function getDisplayTime(date) {
     if (!date) {
         throw new Error('date cannot be null');
     }
 
-    if ((typeof date).toString().toLowerCase() === 'string') {
+    if (typeof date === 'string') {
         try {
             date = parseISO8601Date(date, true);
-        } catch (err) {
+        } catch {
             return date;
         }
     }

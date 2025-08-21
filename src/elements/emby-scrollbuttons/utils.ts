@@ -1,19 +1,19 @@
-import ScrollerFactory from 'libraries/scroller';
-import globalize from 'scripts/globalize';
+import ScrollerFactory from 'lib/scroller';
+import globalize from 'lib/globalize';
 
 export enum ScrollDirection {
-  RIGHT = 'right',
-  LEFT = 'left',
+    RIGHT = 'right',
+    LEFT = 'left'
 }
 
 interface ScrollState {
-  scrollPos: number;
+    scrollPos: number;
 }
 
 interface ScrollerItemSlideIntoViewProps {
-  direction: ScrollDirection;
-  scroller: ScrollerFactory | null;
-  scrollState: ScrollState;
+    direction: ScrollDirection;
+    scroller: ScrollerFactory | null;
+    scrollState: ScrollState;
 }
 
 interface ScrollToWindowProps {
@@ -76,7 +76,7 @@ function scrollToWindow({
     let scrollToPosition: number;
 
     if (direction === ScrollDirection.RIGHT) {
-        const nextItem = items[lastVisibleIndex];
+        const nextItem = items[lastVisibleIndex] || items[lastVisibleIndex - 1];
 
         // This will be the position to anchor the item at `lastVisibleIndex` to the start of the view window.
         const nextItemScrollOffset = lastVisibleIndex * nextItem.offsetWidth;

@@ -1,4 +1,6 @@
-import globalize from '../../scripts/globalize';
+import { AppFeature } from 'constants/appFeature';
+import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { appHost } from '../apphost';
 import appSettings from '../../scripts/settings/appSettings';
 import focusManager from '../focusManager';
@@ -6,8 +8,9 @@ import layoutManager from '../layoutManager';
 import loading from '../loading/loading';
 import subtitleAppearanceHelper from './subtitleappearancehelper';
 import settingsHelper from '../settingshelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import Events from '../../utils/events.ts';
+
 import '../listview/listview.scss';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-slider/emby-slider';
@@ -15,7 +18,6 @@ import '../../elements/emby-input/emby-input';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../styles/flexstyles.scss';
 import './subtitlesettings.scss';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './subtitlesettings.template.html';
 
@@ -26,6 +28,7 @@ import template from './subtitlesettings.template.html';
 
 function getSubtitleAppearanceObject(context) {
     return {
+        subtitleStyling: context.querySelector('#selectSubtitleStyling').value,
         textSize: context.querySelector('#selectTextSize').value,
         textWeight: context.querySelector('#selectTextWeight').value,
         dropShadow: context.querySelector('#selectDropShadow').value,
@@ -38,7 +41,7 @@ function getSubtitleAppearanceObject(context) {
 
 function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
     apiClient.getCultures().then(function (allCultures) {
-        if (appHost.supports('subtitleburnsettings') && user.Policy.EnableVideoPlaybackTranscoding) {
+        if (appHost.supports(AppFeature.SubtitleBurnIn) && user.Policy.EnableVideoPlaybackTranscoding) {
             context.querySelector('.fldBurnIn').classList.remove('hide');
         }
 
@@ -51,6 +54,8 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
 
         context.querySelector('#selectSubtitlePlaybackMode').dispatchEvent(new CustomEvent('change', {}));
 
+        context.querySelector('#selectSubtitleStyling').value = appearanceSettings.subtitleStyling || 'Auto';
+        context.querySelector('#selectSubtitleStyling').dispatchEvent(new CustomEvent('change', {}));
         context.querySelector('#selectTextSize').value = appearanceSettings.textSize || '';
         context.querySelector('#selectTextWeight').value = appearanceSettings.textWeight || 'normal';
         context.querySelector('#selectDropShadow').value = appearanceSettings.dropShadow || '';
@@ -61,6 +66,10 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#sliderVerticalPosition').value = appearanceSettings.verticalPosition;
 
         context.querySelector('#selectSubtitleBurnIn').value = appSettings.get('subtitleburnin') || '';
+        context.querySelector('#chkSubtitleRenderPgs').checked = appSettings.get('subtitlerenderpgs') === 'true';
+
+        context.querySelector('#selectSubtitleBurnIn').dispatchEvent(new CustomEvent('change', {}));
+        context.querySelector('#chkAlwaysBurnInSubtitleWhenTranscoding').checked = appSettings.alwaysBurnInSubtitleWhenTranscoding();
 
         onAppearanceFieldChange({
             target: context.querySelector('#selectTextSize')
@@ -86,6 +95,8 @@ function save(instance, context, userId, userSettings, apiClient, enableSaveConf
     loading.show();
 
     appSettings.set('subtitleburnin', context.querySelector('#selectSubtitleBurnIn').value);
+    appSettings.set('subtitlerenderpgs', context.querySelector('#chkSubtitleRenderPgs').checked);
+    appSettings.alwaysBurnInSubtitleWhenTranscoding(context.querySelector('#chkAlwaysBurnInSubtitleWhenTranscoding').checked);
 
     apiClient.getUser(userId).then(function (user) {
         saveUser(context, user, userSettings, instance.appearanceKey, apiClient).then(function () {
@@ -109,6 +120,24 @@ function onSubtitleModeChange(e) {
         subtitlesHelp[i].classList.add('hide');
     }
     view.querySelector('.subtitles' + this.value + 'Help').classList.remove('hide');
+}
+
+function onSubtitleStyleChange(e) {
+    const view = dom.parentWithClass(e.target, 'subtitlesettings');
+
+    const subtitleStylingHelperElements = view.querySelectorAll('.subtitleStylingHelp');
+    subtitleStylingHelperElements.forEach((elem)=>{
+        elem.classList.add('hide');
+    });
+    view.querySelector(`.subtitleStyling${this.value}Help`).classList.remove('hide');
+}
+
+function onSubtitleBurnInChange(e) {
+    const view = dom.parentWithClass(e.target, 'subtitlesettings');
+    const fieldRenderPgs = view.querySelector('.fldRenderPgs');
+
+    // Pgs option is only available if burn-in mode is set to 'auto' (empty string)
+    fieldRenderPgs.classList.toggle('hide', !!this.value);
 }
 
 function onAppearanceFieldChange(e) {
@@ -166,6 +195,8 @@ function embed(options, self) {
     options.element.querySelector('form').addEventListener('submit', self.onSubmit.bind(self));
 
     options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
+    options.element.querySelector('#selectSubtitleStyling').addEventListener('change', onSubtitleStyleChange);
+    options.element.querySelector('#selectSubtitleBurnIn').addEventListener('change', onSubtitleBurnInChange);
     options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectTextWeight').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
@@ -178,7 +209,7 @@ function embed(options, self) {
         options.element.querySelector('.btnSave').classList.remove('hide');
     }
 
-    if (appHost.supports('subtitleappearancesettings')) {
+    if (appHost.supports(AppFeature.SubtitleAppearance)) {
         options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
 
         self._fullPreview = options.element.querySelector('.subtitleappearance-fullpreview');

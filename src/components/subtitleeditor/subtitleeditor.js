@@ -1,12 +1,16 @@
 import escapeHtml from 'escape-html';
+
+import { AppFeature } from 'constants/appFeature';
 import { appHost } from '../apphost';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
+
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -15,7 +19,6 @@ import 'material-design-icons-iconfont';
 import './subtitleeditor.scss';
 import '../../elements/emby-button/emby-button';
 import '../../styles/flexstyles.scss';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
 import template from './subtitleeditor.template.html';
@@ -439,7 +442,7 @@ function showEditorInternal(itemId, serverId) {
         }
 
         // Don't allow redirection to other websites from the TV layout
-        if (layoutManager.tv || !appHost.supports('externallinks')) {
+        if (layoutManager.tv || !appHost.supports(AppFeature.ExternalLinks)) {
             dlg.querySelector('.btnHelp').remove();
         }
 

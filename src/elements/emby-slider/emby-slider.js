@@ -1,11 +1,13 @@
+import isEqual from 'lodash-es/isEqual';
+
 import browser from '../../scripts/browser';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import layoutManager from '../../components/layoutManager';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import './emby-slider.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-input/emby-input';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import { decimalCount } from '../../utils/number';
 
 const EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
@@ -17,6 +19,23 @@ if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
     // descriptor returning null in webos
     if (descriptor?.configurable) {
         supportsValueSetOverride = true;
+    }
+}
+
+let supportsValueAutoSnap = false;
+{
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.min = '-30';
+    slider.max = '30';
+    slider.step = '0.1';
+
+    slider.value = '0.30000000000000004';
+
+    supportsValueAutoSnap = slider.value === '0.3';
+
+    if (!supportsValueAutoSnap) {
+        console.debug('[EmbySlider] HTMLInputElement doesn\'t snap value - use workaround.');
     }
 }
 
@@ -111,11 +130,45 @@ function mapValueToFraction(range, value) {
 }
 
 /**
+ * Returns value snapped to the slider step.
+ *
+ * @param {HTMLInputElement} range slider itself
+ * @param {number} value slider value
+ * @return {number} value snapped to the slider step
+ */
+function snapValue(range, value) {
+    if (range.step !== 'any') {
+        const min = parseFloat(range.min);
+        const step = normalizeSliderStep(range);
+        const decimals = Math.max(decimalCount(min), decimalCount(step));
+
+        value -= min;
+        value = Math.round(value / step) * step;
+        value += min;
+
+        value = parseFloat(value.toFixed(decimals));
+    }
+
+    return value;
+}
+
+/**
      * Updates progress bar.
      *
      * @param {boolean} [isValueSet] update by 'valueset' event or by timer
      */
 function updateValues(isValueSet) {
+    if (!!isValueSet && !supportsValueAutoSnap) {
+        const value = snapValue(this, parseFloat(this.value)).toString();
+
+        // eslint-disable-next-line sonarjs/different-types-comparison
+        if (this.value !== value) {
+            this.value = value;
+
+            if (supportsValueSetOverride) return;
+        }
+    }
+
     // Do not update values by 'valueset' in case of soft-implemented dragging
     if (!!isValueSet && (!!this.keyboardDragging || !!this.touched)) {
         return;
@@ -187,10 +240,7 @@ function setMarker(range, valueMarker, marker, valueProgress) {
             return;
         }
 
-        let markerPos = (bubbleTrackRect.width * valueMarker / 100) - markerRect.width / 2;
-        markerPos = Math.min(Math.max(markerPos, - markerRect.width / 2), bubbleTrackRect.width - markerRect.width / 2);
-
-        marker.style.left = markerPos + 'px';
+        marker.style.left = `calc(${valueMarker}% - ${markerRect.width / 2}px)`;
 
         if (valueProgress >= valueMarker) {
             marker.classList.remove('unwatched');
@@ -474,7 +524,7 @@ function finishKeyboardDragging(elem) {
 function stepKeyboard(elem, delta) {
     startKeyboardDragging(elem);
 
-    elem.value = Math.max(elem.min, Math.min(elem.max, parseFloat(elem.value) + delta));
+    elem.value = parseFloat(elem.value) + delta;
 
     const event = new Event('input', {
         bubbles: true,

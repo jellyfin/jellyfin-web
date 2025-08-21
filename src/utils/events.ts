@@ -3,9 +3,9 @@ export interface Event {
     type: string;
 }
 
-type callback = (e: Event, ...args: any[]) => void;
+type Callback = (e: Event, ...args: any[]) => void;
 
-function getCallbacks(obj: any, type: string): callback[] {
+function getCallbacks(obj: any, type: string): Callback[] {
     if (!obj) {
         throw new Error('obj cannot be null!');
     }
@@ -23,13 +23,13 @@ function getCallbacks(obj: any, type: string): callback[] {
 }
 
 export default {
-    on(obj: any, type: string, fn: callback): void {
+    on(obj: any, type: string, fn: Callback): void {
         const callbacks = getCallbacks(obj, type);
 
         callbacks.push(fn);
     },
 
-    off(obj: any, type: string, fn: callback): void {
+    off(obj: any, type: string, fn: Callback): void {
         const callbacks = getCallbacks(obj, type);
 
         const i = callbacks.indexOf(fn);

@@ -1,12 +1,13 @@
 import escapeHtml from 'escape-html';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import layoutManager from '../layoutManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import datetime from '../../scripts/datetime';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
-import globalize from '../../scripts/globalize';
-import shell from '../../scripts/shell';
+import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
@@ -18,11 +19,11 @@ import '../formdialog.scss';
 import '../../styles/clearbutton.scss';
 import '../../styles/flexstyles.scss';
 import './style.scss';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
-import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
 
 let currentContext;
 let metadataEditorInfo;
@@ -169,7 +170,7 @@ function onSubmit(e) {
         })
     };
 
-    item.ProviderIds = Object.assign({}, currentItem.ProviderIds);
+    item.ProviderIds = { ...currentItem.ProviderIds };
 
     const idElements = form.querySelectorAll('.txtExternalId');
     Array.prototype.map.call(idElements, function (idElem) {
@@ -299,20 +300,45 @@ function bindAll(elems, eventName, fn) {
     }
 }
 
-function init(context) {
-    context.querySelector('.externalIds').addEventListener('click', function (e) {
-        const btnOpenExternalId = dom.parentWithClass(e.target, 'btnOpenExternalId');
-        if (btnOpenExternalId) {
-            const field = context.querySelector('#' + btnOpenExternalId.getAttribute('data-fieldid'));
+function onResetClick() {
+    const resetElementId = ['#txtName', '#txtOriginalName', '#txtSortName', '#txtCommunityRating', '#txtCriticRating', '#txtIndexNumber',
+        '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
+        '#txtAlbumArtist', '#txtArtist', '#txtOverview', '#selectStatus', '#txtAirTime', '#txtPremiereDate', '#txtDateAdded', '#txtEndDate',
+        '#txtProductionYear', '#selectHeight', '#txtOriginalAspectRatio', '#select3dFormat', '#selectOfficialRating', '#selectCustomRating',
+        '#txtSeriesRuntime', '#txtTagline'];
+    const form = currentContext?.querySelector('form');
+    resetElementId.forEach(function (id) {
+        form.querySelector(id).value = null;
+    });
+    form.querySelector('#selectDisplayOrder').value = '';
+    form.querySelector('#selectLanguage').value = '';
+    form.querySelector('#selectCountry').value = '';
+    form.querySelector('#listGenres').innerHTML = '';
+    form.querySelector('#listTags').innerHTML = '';
+    form.querySelector('#listStudios').innerHTML = '';
+    form.querySelector('#peopleList').innerHTML = '';
+    currentItem.People = [];
 
-            const formatString = field.getAttribute('data-formatstring');
-
-            if (field.value) {
-                shell.openUrl(formatString.replace('{0}', field.value));
-            }
-        }
+    const checkedItems = form.querySelectorAll('.chkAirDay:checked') || [];
+    checkedItems.forEach(function (checkbox) {
+        checkbox.checked = false;
     });
 
+    const idElements = form.querySelectorAll('.txtExternalId');
+    idElements.forEach(function (idElem) {
+        idElem.value = null;
+    });
+
+    form.querySelector('#chkLockData').checked = false;
+    showElement('.providerSettingsContainer');
+
+    const lockedFields = form.querySelectorAll('.selectLockedField');
+    lockedFields.forEach(function (checkbox) {
+        checkbox.checked = true;
+    });
+}
+
+function init(context) {
     if (!layoutManager.desktop) {
         context.querySelector('.btnBack').classList.remove('hide');
         context.querySelector('.btnClose').classList.add('hide');
@@ -347,6 +373,8 @@ function init(context) {
     const form = context.querySelector('form');
     form.removeEventListener('submit', onSubmit);
     form.addEventListener('submit', onSubmit);
+
+    context.querySelector('.btnReset').addEventListener('click', onResetClick);
 
     context.querySelector('#btnAddPerson').addEventListener('click', function () {
         editPerson(context, {}, -1);
@@ -442,7 +470,6 @@ function loadExternalIds(context, item, externalIds) {
         const idInfo = externalIds[i];
 
         const id = 'txt1' + idInfo.Key;
-        const formatString = idInfo.UrlFormatString || '';
 
         let fullName = idInfo.Name;
         if (idInfo.Type) {
@@ -457,14 +484,9 @@ function loadExternalIds(context, item, externalIds) {
         const value = escapeHtml(providerIds[idInfo.Key] || '');
 
         html += '<div class="flex-grow">';
-        html += '<input is="emby-input" class="txtExternalId" value="' + value + '" data-providerkey="' + idInfo.Key + '" data-formatstring="' + formatString + '" id="' + id + '" label="' + labelText + '"/>';
+        html += '<input is="emby-input" class="txtExternalId" value="' + value + '" data-providerkey="' + idInfo.Key + '" id="' + id + '" label="' + labelText + '"/>';
         html += '</div>';
-
-        if (formatString) {
-            html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><span class="material-icons open_in_browser" aria-hidden="true"></span></button>';
-        }
         html += '</div>';
-
         html += '</div>';
     }
 
@@ -521,7 +543,7 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldPath', context);
     }
 
-    if (item.Type === 'Series' || item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Person') {
+    if ([BaseItemKind.Series, BaseItemKind.Season, BaseItemKind.Episode, BaseItemKind.Movie, BaseItemKind.Trailer, BaseItemKind.Person].includes(item.Type)) {
         showElement('#fldOriginalName', context);
     } else {
         hideElement('#fldOriginalName', context);
@@ -697,7 +719,7 @@ function setFieldVisibilities(context, item) {
         showElement('#fldDisplayOrder', context);
         hideElement('.seriesDisplayOrderDescription', context);
 
-        context.querySelector('#selectDisplayOrder').innerHTML = '<option value="SortName">' + globalize.translate('SortName') + '</option><option value="PremiereDate">' + globalize.translate('ReleaseDate') + '</option>';
+        context.querySelector('#selectDisplayOrder').innerHTML = '<option value="Default">' + globalize.translate('DateModified') + '<option value="SortName">' + globalize.translate('SortName') + '</option><option value="PremiereDate">' + globalize.translate('ReleaseDate') + '</option>';
     } else if (item.Type === 'Series') {
         showElement('#fldDisplayOrder', context);
         showElement('.seriesDisplayOrderDescription', context);
@@ -711,6 +733,9 @@ function setFieldVisibilities(context, item) {
         html += '<option value="storyArc">' + globalize.translate('StoryArc') + '</option>';
         html += '<option value="production">' + globalize.translate('Production') + '</option>';
         html += '<option value="tv">TV</option>';
+        html += '<option value="alternate">' + globalize.translate('Alternate') + '</option>';
+        html += '<option value="regional">' + globalize.translate('Regional') + '</option>';
+        html += '<option value="altdvd">' + globalize.translate('AlternateDVD') + '</option>';
 
         context.querySelector('#selectDisplayOrder').innerHTML = html;
     } else {
@@ -797,7 +822,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
             date = datetime.parseISO8601Date(item.DateCreated, true);
 
             context.querySelector('#txtDateAdded').value = date.toISOString().slice(0, 10);
-        } catch (e) {
+        } catch {
             context.querySelector('#txtDateAdded').value = '';
         }
     } else {
@@ -809,7 +834,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
             date = datetime.parseISO8601Date(item.PremiereDate, true);
 
             context.querySelector('#txtPremiereDate').value = date.toISOString().slice(0, 10);
-        } catch (e) {
+        } catch {
             context.querySelector('#txtPremiereDate').value = '';
         }
     } else {
@@ -821,7 +846,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
             date = datetime.parseISO8601Date(item.EndDate, true);
 
             context.querySelector('#txtEndDate').value = date.toISOString().slice(0, 10);
-        } catch (e) {
+        } catch {
             context.querySelector('#txtEndDate').value = '';
         }
     } else {

@@ -1,33 +1,18 @@
-// Map font weight numbers to names
-$weight-names: (100: "Thin", 200: "ExtraLight", 300: "Light", 400: "Regular", 500: "Medium", 600: "SemiBold", 700: "Bold", 800: "ExtraBold", 900: "Black");
-
-// Mixin to help create the Noto Sans font-faces
-@mixin fontFace($family: "Noto Sans", $style: normal, $weight: 400, $url: null, $range: null) {
-    @font-face {
-        font-family: $family;
-        font-style: $style;
-        font-display: swap;
-        font-weight: $weight;
-        src: local($family), local("#{$family} #{map-get($weight-names, $weight)}"), url($url) format("woff2");
-        unicode-range: $range;
-    }
-}
-
 // Standard character set
-@import "./base-400-normal";
-@import "./base-700-normal";
+@use "./base-400-normal";
+@use "./base-700-normal";
 // HK character set
-@import "./hk-400-normal";
-@import "./hk-700-normal";
+@use "./hk-400-normal";
+@use "./hk-700-normal";
 // JP character set
-@import "./jp-400-normal";
-@import "./jp-700-normal";
+@use "./jp-400-normal";
+@use "./jp-700-normal";
 // KR character set
-@import "./kr-400-normal";
-@import "./kr-700-normal";
+@use "./kr-400-normal";
+@use "./kr-700-normal";
 // SC character set
-@import "./sc-400-normal";
-@import "./sc-700-normal";
+@use "./sc-400-normal";
+@use "./sc-700-normal";
 // TC character set
-@import "./tc-400-normal";
-@import "./tc-700-normal";
+@use "./tc-400-normal";
+@use "./tc-700-normal";

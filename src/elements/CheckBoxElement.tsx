@@ -1,8 +1,28 @@
 import escapeHTML from 'escape-html';
-import React, { FunctionComponent } from 'react';
-import globalize from '../scripts/globalize';
+import React, { type FC } from 'react';
 
-const createCheckBoxElement = ({ labelClassName, className, id, dataFilter, dataItemType, dataId, checkedAttribute, renderContent }: { labelClassName?: string, type?: string, className?: string, id?: string, dataFilter?: string, dataItemType?: string, dataId?: string, checkedAttribute?: string, renderContent?: string }) => ({
+import globalize from 'lib/globalize';
+
+const createCheckBoxElement = ({
+    labelClassName,
+    className,
+    id,
+    dataFilter,
+    dataItemType,
+    dataId,
+    checkedAttribute,
+    renderContent
+}: {
+    labelClassName?: string;
+    type?: string;
+    className?: string;
+    id?: string;
+    dataFilter?: string;
+    dataItemType?: string;
+    dataId?: string;
+    checkedAttribute?: string;
+    renderContent?: string;
+}) => ({
     __html: `<label ${labelClassName}>
         <input
             is="emby-checkbox"
@@ -18,20 +38,31 @@ const createCheckBoxElement = ({ labelClassName, className, id, dataFilter, data
     </label>`
 });
 
-type IProps = {
+interface CheckBoxElementProps {
     labelClassName?: string;
     className?: string;
     elementId?: string;
     dataFilter?: string;
     itemType?: string;
-    itemId?: string;
-    itemAppName?: string;
+    itemId?: string | null;
+    itemAppName?: string | null;
     itemCheckedAttribute?: string;
-    itemName?: string
-    title?: string
-};
+    itemName?: string | null;
+    title?: string;
+}
 
-const CheckBoxElement: FunctionComponent<IProps> = ({ labelClassName, className, elementId, dataFilter, itemType, itemId, itemAppName, itemCheckedAttribute, itemName, title }: IProps) => {
+const CheckBoxElement: FC<CheckBoxElementProps> = ({
+    labelClassName,
+    className,
+    elementId,
+    dataFilter,
+    itemType,
+    itemId,
+    itemAppName,
+    itemCheckedAttribute,
+    itemName,
+    title
+}) => {
     const appName = itemAppName ? `- ${itemAppName}` : '';
     const renderContent = itemName ?
         `<span>${escapeHTML(itemName || '')} ${appName}</span>` :
@@ -41,13 +72,15 @@ const CheckBoxElement: FunctionComponent<IProps> = ({ labelClassName, className,
         <div
             className='sectioncheckbox'
             dangerouslySetInnerHTML={createCheckBoxElement({
-                labelClassName: labelClassName ? `class='${labelClassName}'` : '',
+                labelClassName: labelClassName ?
+                    `class='${labelClassName}'` :
+                    '',
                 className: className,
                 id: elementId ? `id='${elementId}'` : '',
                 dataFilter: dataFilter ? `data-filter='${dataFilter}'` : '',
                 dataItemType: itemType ? `data-itemtype='${itemType}'` : '',
                 dataId: itemId ? `data-id='${itemId}'` : '',
-                checkedAttribute: itemCheckedAttribute ? itemCheckedAttribute : '',
+                checkedAttribute: itemCheckedAttribute || '',
                 renderContent: renderContent
             })}
         />

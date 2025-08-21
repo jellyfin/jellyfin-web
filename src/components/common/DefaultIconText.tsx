@@ -1,7 +1,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React, { type FC } from 'react';
 import Icon from '@mui/material/Icon';
-import imageHelper from 'utils/image';
+import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
 import DefaultName from './DefaultName';
 import type { ItemDto } from 'types/base/models/item-dto';
 
@@ -14,38 +14,24 @@ const DefaultIconText: FC<DefaultIconTextProps> = ({
     item,
     defaultCardImageIcon
 }) => {
-    if (item.CollectionType) {
-        return (
-            <Icon
-                className='cardImageIcon'
-                sx={{ color: 'inherit', fontSize: '5em' }}
-                aria-hidden='true'
-            >
-                {imageHelper.getLibraryIcon(item.CollectionType)}
-            </Icon>
-        );
+    let icon;
+
+    if (item.Type === BaseItemKind.CollectionFolder || item.CollectionType) {
+        icon = getLibraryIcon(item.CollectionType);
     }
 
-    if (item.Type && !(item.Type === BaseItemKind.TvChannel || item.Type === BaseItemKind.Studio )) {
-        return (
-            <Icon
-                className='cardImageIcon'
-                sx={{ color: 'inherit', fontSize: '5em' }}
-                aria-hidden='true'
-            >
-                {imageHelper.getItemTypeIcon(item.Type)}
-            </Icon>
-        );
+    if (!icon) {
+        icon = getItemTypeIcon(item.Type, defaultCardImageIcon);
     }
 
-    if (defaultCardImageIcon) {
+    if (icon) {
         return (
             <Icon
                 className='cardImageIcon'
                 sx={{ color: 'inherit', fontSize: '5em' }}
                 aria-hidden='true'
             >
-                {defaultCardImageIcon}
+                {icon}
             </Icon>
         );
     }

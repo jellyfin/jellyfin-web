@@ -1,4 +1,4 @@
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 import listView from '../components/listview/listview';
 import * as userSettings from '../scripts/settings/userSettings';
 import focusManager from '../components/focusManager';
@@ -8,12 +8,13 @@ import AlphaNumericShortcuts from '../scripts/alphanumericshortcuts';
 import libraryBrowser from '../scripts/libraryBrowser';
 import { playbackManager } from '../components/playback/playbackmanager';
 import AlphaPicker from '../components/alphaPicker/alphaPicker';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
-import ServerConnections from '../components/ServerConnections';
 import LibraryMenu from '../scripts/libraryMenu';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { stopMultiSelect } from 'components/multiSelect/multiSelect';
 
 function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
     const query = {
@@ -254,7 +255,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
     if (params.type === 'nextup') {
         return apiClient.getNextUpEpisodes(modifyQueryWithFilters(instance, {
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount',
+            Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount,Chapters,Trickplay',
             UserId: apiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Thumb',
@@ -277,13 +278,14 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         return apiClient[method](apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
             StartIndex: startIndex,
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,SortName',
+            Fields: 'PrimaryImageAspectRatio,SortName,Chapters,Trickplay',
             ImageTypeLimit: 1,
             IncludeItemTypes: params.type === 'MusicArtist' || params.type === 'Person' ? null : params.type,
             Recursive: true,
             IsFavorite: params.IsFavorite === 'true' || null,
             ArtistIds: params.artistId || null,
-            SortBy: sortBy
+            SortBy: sortBy,
+            Tags: params.tag || null
         }));
     }
 
@@ -321,18 +323,26 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
     }
 
-    return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
+    const query = {
         StartIndex: startIndex,
         Limit: limit,
         Fields: 'PrimaryImageAspectRatio,SortName,Path,ChildCount,MediaSourceCount',
         ImageTypeLimit: 1,
         ParentId: item.Id,
         SortBy: sortBy
-    }));
+    };
+
+    if (sortBy === 'Random') {
+        instance.queryRecursive = true;
+        query.IncludeItemTypes = 'Video,Movie,Series,Music';
+        query.Recursive = true;
+    }
+
+    return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
 }
 
 function getItem(params) {
-    if (params.type === 'Recordings' || params.type === 'Programs' || params.type === 'nextup') {
+    if ([ 'Recordings', 'Programs', 'nextup', 'tag' ].includes(params.type)) {
         return Promise.resolve(null);
     }
 
@@ -723,6 +733,10 @@ class ItemsView {
             if (params.type === 'Video') {
                 return globalize.translate('Videos');
             }
+
+            if (params.tag) {
+                return params.tag;
+            }
         }
 
         function play() {
@@ -848,6 +862,10 @@ class ItemsView {
             setTitle(null);
             getItem(params).then(function (item) {
                 setTitle(item);
+                if (item && item.Type == 'Genre') {
+                    item.ParentId = params.parentId;
+                }
+
                 self.currentItem = item;
                 const refresh = !isRestored;
                 self.itemsContainer.resume({
@@ -1137,6 +1155,9 @@ class ItemsView {
 
     setFilterStatus(hasFilters) {
         this.hasFilters = hasFilters;
+        if (this.hasFilters) {
+            stopMultiSelect();
+        }
         const filterButtons = this.filterButtons;
 
         if (filterButtons.length) {
@@ -1197,7 +1218,7 @@ class ItemsView {
             showTitle = true;
         } else if (showTitle === 'false') {
             showTitle = false;
-        } else if (params.type === 'Programs' || params.type === 'Recordings' || params.type === 'Person' || params.type === 'nextup' || params.type === 'Audio' || params.type === 'MusicAlbum' || params.type === 'MusicArtist') {
+        } else if ([ 'Audio', 'MusicAlbum', 'MusicArtist', 'Person', 'Programs', 'Recordings', 'nextup', 'tag' ].includes(params.type)) {
             showTitle = true;
         } else if (item && item.Type !== 'PhotoAlbum') {
             showTitle = true;
@@ -1214,7 +1235,7 @@ class ItemsView {
         }
 
         return {
-            showTitle: showTitle,
+            showTitle,
             showYear: userSettings.get(basekey + '-showYear') !== 'false',
             imageType: imageType || 'primary',
             viewType: userSettings.get(basekey + '-viewType') || 'images'
@@ -1299,4 +1320,3 @@ class ItemsView {
 }
 
 export default ItemsView;
-

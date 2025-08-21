@@ -112,6 +112,9 @@
     <div class="fieldDescription checkboxFieldDescription">${OptionAutomaticallyGroupSeriesHelp}</div>
 </div>
 
+<div class="mediaSegmentProviders advanced hide" style="margin-bottom: 2em;">
+</div>
+
 <div class="trickplaySettingsSection hide">
     <h2>${Trickplay}</h2>
     <div class="checkboxContainer checkboxContainer-withDescription fldExtractTrickplayImages">
@@ -128,6 +131,14 @@
             <span>${LabelExtractTrickplayDuringLibraryScan}</span>
         </label>
         <div class="fieldDescription checkboxFieldDescription">${LabelExtractTrickplayDuringLibraryScanHelp}</div>
+    </div>
+
+    <div class="checkboxContainer checkboxContainer-withDescription fldSaveTrickplayLocally advanced">
+        <label>
+            <input type="checkbox" is="emby-checkbox" class="chkSaveTrickplayLocally" />
+            <span>${LabelSaveTrickplayLocally}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${LabelSaveTrickplayLocallyHelp}</div>
     </div>
 </div>
 
@@ -197,11 +208,40 @@
 <div class="lyricSettingsSection hide">
     <h2>${Lyrics}</h2>
 
+    <div class="lyricFetchers advanced" style="margin-bottom: 2em;">
+    </div>
+
     <div class="checkboxContainer checkboxContainer-withDescription advanced">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkSaveLyricsLocally" />
             <span>${SaveLyricsIntoMediaFolders}</span>
         </label>
         <div class="fieldDescription checkboxFieldDescription">${SaveLyricsIntoMediaFoldersHelp}</div>
+    </div>
+</div>
+
+<div class="audioTagSettingsSection hide">
+    <h2>${LabelAudioTagSettings}</h2>
+    <div class="checkboxContainer checkboxContainer-withDescription advanced">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkPreferNonstandardArtistsTag" />
+            <span>${PreferNonstandardArtistsTag}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${PreferNonstandardArtistsTagHelp}</div>
+    </div>
+    <div class="checkboxContainer checkboxContainer-withDescription advanced">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkUseCustomTagDelimiters" />
+            <span>${UseCustomTagDelimiters}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${UseCustomTagDelimitersHelp}</div>
+    </div>
+    <div class="inputContainer">
+        <input type="text" is="emby-input" id="customTagDelimitersInput" label="${LabelCustomTagDelimiters}" value="/|;\"/>
+        <div class="fieldDescription">${LabelCustomTagDelimitersHelp}</div>
+    </div>
+    <div class="inputContainer">
+        <textarea is="emby-textarea" id="tagDelimiterWhitelist" label="${LabelDelimiterWhitelist}" class="textarea-mono" style="resize: none;min-height:2.5em"></textarea>
+        <div class="fieldDescription">${LabelDelimiterWhitelistHelp}</div>
     </div>
 </div>

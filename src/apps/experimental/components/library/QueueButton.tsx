@@ -1,38 +1,52 @@
-import type { BaseItemDto, SeriesTimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback } from 'react';
-import { IconButton } from '@mui/material';
-import QueueIcon from '@mui/icons-material/Queue';
+import Button from '@mui/material/Button';
+import Queue from '@mui/icons-material/Queue';
 
 import { playbackManager } from 'components/playback/playbackmanager';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 interface QueueButtonProps {
-    item: BaseItemDto | undefined
-    items: BaseItemDto[] | SeriesTimerInfoDto[];
-    hasFilters: boolean;
+    item: ItemDto | undefined
+    items: ItemDto[]
+    hasFilters: boolean
+    isTextVisible: boolean
 }
 
-const QueueButton: FC<QueueButtonProps> = ({ item, items, hasFilters }) => {
+const QueueButton: FC<QueueButtonProps> = ({
+    item,
+    items,
+    hasFilters,
+    isTextVisible
+}) => {
     const queue = useCallback(() => {
         if (item && !hasFilters) {
             playbackManager.queue({
                 items: [item]
+            }).catch(err => {
+                console.error('[QueueButton] failed to add to queue', err);
             });
         } else {
             playbackManager.queue({
-                items: items
+                items
+            }).catch(err => {
+                console.error('[QueueButton] failed to add to queue', err);
             });
         }
     }, [hasFilters, item, items]);
 
     return (
-        <IconButton
+        <Button
             title={globalize.translate('AddToPlayQueue')}
-            className='paper-icon-button-light btnQueue autoSize'
+            startIcon={isTextVisible ? <Queue /> : undefined}
             onClick={queue}
         >
-            <QueueIcon />
-        </IconButton>
+            {isTextVisible ? (
+                globalize.translate('AddToPlayQueue')
+            ) : (
+                <Queue />
+            )}
+        </Button>
     );
 };
 

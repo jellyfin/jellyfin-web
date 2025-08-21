@@ -11,3 +11,7 @@ export interface Plugin {
     type: PluginType | string
     priority?: number
 }
+
+export interface PlayerPlugin extends Plugin {
+    isLocalPlayer?: boolean
+}

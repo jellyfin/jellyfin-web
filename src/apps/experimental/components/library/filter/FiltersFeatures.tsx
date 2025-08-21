@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import { FeatureFilters, LibraryViewSettings } from 'types/library';
 
 const featuresOptions = [

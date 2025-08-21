@@ -20,6 +20,31 @@ const KeyNames = {
     38: 'ArrowUp',
     39: 'ArrowRight',
     40: 'ArrowDown',
+
+    // UWP WebView section start --
+    // Navigation Up/Down/Left/Right is part of TVJS directionalnavigation-1.0.0.0.js
+    // Unsure what this is used for. Media remote?
+    138: 'NavigationUp',
+    139: 'NavigationDown',
+    140: 'NavigationLeft',
+    141: 'NavigationRight',
+    195: 'GamepadA',
+    // Currently Xbox UWP WebView 2 sends code 27 (Escape instead) despite being undocumented
+    // Desktop UWP unchanged
+    196: 'GamepadB',
+    203: 'GamepadDPadUp',
+    204: 'GamepadDPadDown',
+    205: 'GamepadDPadLeft',
+    206: 'GamepadDPadRight',
+    // Currently Xbox UWP WebView 2 sends Arrow keycodes despite being undocumented
+    // Desktop UWP unchanged
+    // Left Thumbstick
+    211: 'GamepadLeftThumbUp',
+    212: 'GamepadLeftThumbDown',
+    214: 'GamepadLeftThumbLeft',
+    213: 'GamepadLeftThumbRight',
+    // End of UWP WebView Section
+
     // MediaRewind (Tizen/WebOS)
     412: 'MediaRewind',
     // MediaStop (Tizen/WebOS)
@@ -40,10 +65,32 @@ const KeyNames = {
     10252: 'MediaPlayPause'
 };
 
+const KeyAliases = {
+    // GamepadA needs special case handling
+    GamepadB: 'Escape',
+    NavigationUp: 'ArrowUp',
+    NavigationDown: 'ArrowDown',
+    NavigationLeft: 'ArrowLeft',
+    NavigationRight: 'ArrowRight',
+    GamepadDPadUp: 'ArrowUp',
+    GamepadDPadDown: 'ArrowDown',
+    GamepadDPadLeft: 'ArrowLeft',
+    GamepadDPadRight: 'ArrowRight',
+    GamepadLeftThumbUp: 'ArrowUp',
+    GamepadLeftThumbDown: 'ArrowDown',
+    GamepadLeftThumbLeft: 'ArrowLeft',
+    GamepadLeftThumbRight: 'ArrowRight'
+};
+
 /**
  * Keys used for keyboard navigation.
  */
-const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'BrowserHome', 'Find'];
+
+/**
+ * Keys used for media playback control.
+ */
+const MediaKeys = ['MediaRewind', 'MediaStop', 'MediaPlay', 'MediaFastForward', 'MediaTrackPrevious', 'MediaTrackNext', 'MediaPlayPause'];
 
 /**
  * Elements for which navigation should be constrained.
@@ -59,7 +106,7 @@ let hasFieldKey = false;
 try {
     hasFieldKey = 'key' in new KeyboardEvent('keydown');
 } catch (e) {
-    console.error("error checking 'key' field");
+    console.error("error checking 'key' field", e);
 }
 
 if (!hasFieldKey) {
@@ -76,7 +123,8 @@ if (!hasFieldKey) {
  * @return {string} Key name.
  */
 export function getKeyName(event) {
-    return KeyNames[event.keyCode] || event.key;
+    const key = KeyNames[event.keyCode] || event.key;
+    return KeyAliases[key] || key;
 }
 
 /**
@@ -87,6 +135,16 @@ export function getKeyName(event) {
  */
 export function isNavigationKey(key) {
     return NavigationKeys.indexOf(key) != -1;
+}
+
+/**
+ * Returns _true_ if key is used for media playback control.
+ *
+ * @param {string} key - Key name.
+ * @return {boolean} _true_ if key is used for media playback control.
+ */
+export function isMediaKey(key) {
+    return MediaKeys.includes(key);
 }
 
 /**
@@ -108,11 +166,22 @@ export function isInteractiveElement(element) {
 }
 
 export function enable() {
+    const hasMediaSession = 'mediaSession' in navigator;
     window.addEventListener('keydown', function (e) {
+        if (e.defaultPrevented) return;
+
+        // Skip modified keys
+        if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+
         const key = getKeyName(e);
 
         // Ignore navigation keys for non-TV
         if (!layoutManager.tv && isNavigationKey(key)) {
+            return;
+        }
+
+        // Ignore Media Keys for non-TV platform having MediaSession API
+        if (!browser.tv && isMediaKey(key) && hasMediaSession) {
             return;
         }
 
@@ -140,6 +209,9 @@ export function enable() {
                 inputManager.handleCommand('down');
                 break;
 
+            case 'GamepadA':
+                inputManager.handleCommand('select');
+                break;
             case 'Back':
                 inputManager.handleCommand('back');
                 break;
@@ -159,6 +231,13 @@ export function enable() {
                 } else {
                     capture = false;
                 }
+                break;
+
+            case 'Find':
+                inputManager.handleCommand('search');
+                break;
+            case 'BrowserHome':
+                inputManager.handleCommand('home');
                 break;
 
             case 'MediaPlay':
@@ -197,6 +276,11 @@ export function enable() {
     });
 }
 
+export function canEnableGamepad() {
+    // Not needed for UWP
+    return !browser.edgeUwp;
+}
+
 // Gamepad initialisation. No script is required if no gamepads are present at init time, saving a bit of resources.
 // Whenever the gamepad is connected, we hand all the control of the gamepad to gamepadtokey.js by removing the event handler
 function attachGamepadScript() {
@@ -206,12 +290,13 @@ function attachGamepadScript() {
 }
 
 // No need to check for gamepads manually at load time, the eventhandler will be fired for that
-if (navigator.getGamepads && appSettings.enableGamepad()) { /* eslint-disable-line compat/compat */
+if (navigator.getGamepads && appSettings.enableGamepad() && canEnableGamepad()) {
     window.addEventListener('gamepadconnected', attachGamepadScript);
 }
 
 export default {
     enable: enable,
     getKeyName: getKeyName,
-    isNavigationKey: isNavigationKey
+    isNavigationKey,
+    canEnableGamepad
 };

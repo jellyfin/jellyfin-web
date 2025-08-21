@@ -1,11 +1,13 @@
+import { AppFeature } from 'constants/appFeature';
+import { MediaError } from 'types/mediaError';
+
 import browser from '../../scripts/browser';
 import { appHost } from '../../components/apphost';
 import * as htmlMediaHelper from '../../components/htmlMediaHelper';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
-import { PluginType } from '../../types/plugin';
-import Events from '../../utils/events';
-import { MediaError } from 'types/mediaError';
+import { PluginType } from '../../types/plugin.ts';
+import Events from '../../utils/events.ts';
 import { audioNodeBus, createGainNode, initializeMasterAudio, masterAudioOutput } from 'components/audioEngine/master.logic';
 import { hijackMediaElementForCrossfade, xDuration } from 'components/audioEngine/crossfader.logic';
 import { scrollToActivePlaylistItem, triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
@@ -83,7 +85,7 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
 
     // issue head request to get content type
     return new Promise(function (resolve, reject) {
-        import('../../components/fetchhelper').then((fetchHelper) => {
+        import('../../utils/fetch').then((fetchHelper) => {
             fetchHelper.ajax({
                 url: url,
                 type: 'HEAD'
@@ -135,6 +137,9 @@ class HtmlAudioPlayer {
                     normalizationGain =
                         options.mediaSource.albumNormalizationGain
                         ?? options.item.NormalizationGain;
+                } else {
+                    console.debug('normalization disabled');
+                    return;
                 }
 
                 audioNodeBus[0].gain.linearRampToValueAtTime(
@@ -293,7 +298,8 @@ class HtmlAudioPlayer {
                 document.body.appendChild(elem);
             }
 
-            if (!xDuration.enabled) {
+            // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
+            if (!xDuration.enabled && !appHost.supports('physicalvolumecontrol')) {
                 elem.volume = htmlMediaHelper.getSavedVolume();
             }
 

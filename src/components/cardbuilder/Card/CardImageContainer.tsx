@@ -1,4 +1,3 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
@@ -7,6 +6,7 @@ import RefreshIndicator from 'elements/emby-itemrefreshindicator/RefreshIndicato
 import Media from '../../common/Media';
 import CardInnerFooter from './CardInnerFooter';
 
+import { ItemKind } from 'types/base/models/item-kind';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
@@ -33,7 +33,7 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
     const cardImageClass = classNames(
         'cardImageContainer',
         { coveredImage: coveredImage },
-        { 'coveredImage-contain': coveredImage && item.Type === BaseItemKind.TvChannel }
+        { 'coveredImage-contain': coveredImage && item.Type === ItemKind.TvChannel }
     );
 
     return (
@@ -53,9 +53,8 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
                             indicator.getChildCountIndicator() :
                             indicator.getPlayedIndicator()}
 
-                        {(item.Type === BaseItemKind.CollectionFolder
-                            || item.CollectionType)
-                            && item.RefreshProgress && (
+                        {(item.Type === ItemKind.CollectionFolder
+                            || item.CollectionType) && (
                             <RefreshIndicator item={item} />
                         )}
                     </Box>

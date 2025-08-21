@@ -1,7 +1,8 @@
 import escapeHtml from 'escape-html';
 import inputManager from '../../scripts/inputManager';
 import browser from '../../scripts/browser';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from '../../utils/events.ts';
 import scrollHelper from '../../scripts/scrollHelper';
 import serverNotifications from '../../scripts/serverNotifications';
@@ -13,7 +14,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import itemShortcuts from '../shortcuts';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import './guide.scss';
 import './programs.scss';
 import 'material-design-icons-iconfont';
@@ -25,7 +26,6 @@ import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../styles/flexstyles.scss';
 import 'webcomponents.js/webcomponents-lite';
-import ServerConnections from '../ServerConnections';
 import template from './tvguide.template.html';
 
 function showViewSettings(instance) {
@@ -358,7 +358,7 @@ function Guide(options) {
         if ((typeof date).toString().toLowerCase() === 'string') {
             try {
                 date = datetime.parseISO8601Date(date, { toLocal: true });
-            } catch (err) {
+            } catch {
                 return date;
             }
         }
@@ -392,7 +392,7 @@ function Guide(options) {
             try {
                 program.StartDateLocal = datetime.parseISO8601Date(program.StartDate, { toLocal: true });
             } catch (err) {
-                console.error('error parsing timestamp for start date');
+                console.error('error parsing timestamp for start date', err);
             }
         }
 
@@ -400,7 +400,7 @@ function Guide(options) {
             try {
                 program.EndDateLocal = datetime.parseISO8601Date(program.EndDate, { toLocal: true });
             } catch (err) {
-                console.error('error parsing timestamp for end date');
+                console.error('error parsing timestamp for end date', err);
             }
         }
 

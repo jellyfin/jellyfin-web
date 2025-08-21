@@ -1,25 +1,22 @@
-import {
-    BaseItemDto,
-    BaseItemKind,
-    BaseItemPerson,
-    ImageType
-} from '@jellyfin/sdk/lib/generated-client';
 import { Api } from '@jellyfin/sdk';
+import type { BaseItemPerson } from '@jellyfin/sdk/lib/generated-client/models/base-item-person';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 
 import { appRouter } from 'components/router/appRouter';
 import layoutManager from 'components/layoutManager';
 import itemHelper from 'components/itemHelper';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 import datetime from 'scripts/datetime';
-
 import { isUsingLiveTvNaming } from '../cardBuilderUtils';
+import { getDataAttributes } from 'utils/items';
+import { ItemKind } from 'types/base/models/item-kind';
+import { ItemMediaKind } from 'types/base/models/item-media-kind';
 
 import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 import type { DataAttributes } from 'types/dataAttributes';
-import { getDataAttributes } from 'utils/items';
 
 export function getCardLogoUrl(
     item: ItemDto,
@@ -85,7 +82,7 @@ export function getTextActionButton(
         };
     }
 
-    const url = appRouter.getRouteUrl(item);
+    const url = appRouter.getRouteUrl(item, { serverId });
 
     const dataAttributes = getDataAttributes(
         {
@@ -135,22 +132,22 @@ export function getAirTimeText(
                 date = datetime.parseISO8601Date(item.EndDate);
                 airTimeText += ' - ' + datetime.getDisplayTime(date);
             }
-        } catch (e) {
+        } catch {
             console.error('error parsing date: ' + item.StartDate);
         }
     }
     return airTimeText;
 }
 
-function isGenreOrStudio(itemType: NullableString) {
-    return itemType === BaseItemKind.Genre || itemType === BaseItemKind.Studio;
+function isGenreOrStudio(itemType: ItemKind) {
+    return itemType === ItemKind.Genre || itemType === ItemKind.Studio;
 }
 
 function isMusicGenreOrMusicArtist(
-    itemType: NullableString,
+    itemType: ItemKind,
     context: NullableString
 ) {
-    return itemType === BaseItemKind.MusicGenre || context === 'MusicArtist';
+    return itemType === ItemKind.MusicGenre || context === 'MusicArtist';
 }
 
 function getMovieCount(itemMovieCount: NullableNumber) {
@@ -213,8 +210,8 @@ function getParentTitle(
     item: ItemDto
 ) {
     if (isOuterFooter && item.AlbumArtists?.length) {
-        (item.AlbumArtists[0] as BaseItemDto).Type = BaseItemKind.MusicArtist;
-        (item.AlbumArtists[0] as BaseItemDto).IsFolder = true;
+        (item.AlbumArtists[0] as ItemDto).Type = ItemKind.MusicArtist;
+        (item.AlbumArtists[0] as ItemDto).IsFolder = true;
         return getTextActionButton(item.AlbumArtists[0], null, serverId);
     } else {
         return {
@@ -250,7 +247,7 @@ export function getItemCounts(cardOptions: CardOptions, item: ItemDto) {
         }
     };
 
-    if (item.Type === BaseItemKind.Playlist) {
+    if (item.Type === ItemKind.Playlist) {
         const runTimeTicksText = getRunTimeTicks(item.RunTimeTicks);
         addCount(runTimeTicksText);
     } else if (isGenreOrStudio(item.Type)) {
@@ -271,7 +268,7 @@ export function getItemCounts(cardOptions: CardOptions, item: ItemDto) {
 
         const musicVideoCountText = getMusicVideoCount(item.MusicVideoCount);
         addCount(musicVideoCountText);
-    } else if (item.Type === BaseItemKind.Series) {
+    } else if (item.Type === ItemKind.Series) {
         const recursiveItemCountText = getRecursiveItemCount(
             item.RecursiveItemCount
         );
@@ -283,12 +280,12 @@ export function getItemCounts(cardOptions: CardOptions, item: ItemDto) {
 
 export function shouldShowTitle(
     showTitle: boolean | string | undefined,
-    itemType: NullableString
+    itemType: ItemKind
 ) {
     return (
         Boolean(showTitle)
-        || itemType === BaseItemKind.PhotoAlbum
-        || itemType === BaseItemKind.Folder
+        || itemType === ItemKind.PhotoAlbum
+        || itemType === ItemKind.Folder
     );
 }
 
@@ -300,12 +297,12 @@ export function shouldShowOtherText(
 }
 
 export function shouldShowParentTitleUnderneath(
-    itemType: NullableString
+    itemType: ItemKind
 ) {
     return (
-        itemType === BaseItemKind.MusicAlbum
-        || itemType === BaseItemKind.Audio
-        || itemType === BaseItemKind.MusicVideo
+        itemType === ItemKind.MusicAlbum
+        || itemType === ItemKind.Audio
+        || itemType === ItemKind.MusicVideo
     );
 }
 
@@ -326,7 +323,7 @@ function shouldShowMediaTitle(
 }
 
 function shouldShowExtraType(itemExtraType: NullableString) {
-    return itemExtraType && itemExtraType !== 'Unknown';
+    return !!(itemExtraType && itemExtraType !== 'Unknown');
 }
 
 function shouldShowSeriesYearOrYear(
@@ -338,23 +335,23 @@ function shouldShowSeriesYearOrYear(
 
 function shouldShowCurrentProgram(
     showCurrentProgram: boolean | undefined,
-    itemType: NullableString
+    itemType: ItemKind
 ) {
-    return showCurrentProgram && itemType === BaseItemKind.TvChannel;
+    return showCurrentProgram && itemType === ItemKind.TvChannel;
 }
 
 function shouldShowCurrentProgramTime(
     showCurrentProgramTime: boolean | undefined,
-    itemType: NullableString
+    itemType: ItemKind
 ) {
-    return showCurrentProgramTime && itemType === BaseItemKind.TvChannel;
+    return showCurrentProgramTime && itemType === ItemKind.TvChannel;
 }
 
 function shouldShowPersonRoleOrType(
     showPersonRoleOrType: boolean | undefined,
     item: ItemDto
 ) {
-    return showPersonRoleOrType && (item as BaseItemPerson).Role;
+    return !!(showPersonRoleOrType && (item as BaseItemPerson).Role);
 }
 
 function shouldShowParentTitle(
@@ -475,7 +472,7 @@ function getSeriesTimerTime(item: ItemDto) {
     }
 }
 
-function getCurrentProgramTime(CurrentProgram: BaseItemDto | undefined) {
+function getCurrentProgramTime(CurrentProgram: ItemDto | undefined) {
     if (CurrentProgram) {
         return getAirTimeText(CurrentProgram, false, true) || '';
     } else {
@@ -483,7 +480,7 @@ function getCurrentProgramTime(CurrentProgram: BaseItemDto | undefined) {
     }
 }
 
-function getCurrentProgramName(CurrentProgram: BaseItemDto | undefined) {
+function getCurrentProgramName(CurrentProgram: ItemDto | undefined) {
     if (CurrentProgram) {
         return CurrentProgram.Name;
     } else {
@@ -498,7 +495,7 @@ function getChannelName(item: ItemDto) {
                 Id: item.ChannelId,
                 ServerId: item.ServerId,
                 Name: item.ChannelName,
-                Type: BaseItemKind.TvChannel,
+                Type: ItemKind.TvChannel,
                 MediaType: item.MediaType,
                 IsFolder: false
             },
@@ -524,7 +521,7 @@ function getPremiereDate(PremiereDate: string | null | undefined) {
                 datetime.parseISO8601Date(PremiereDate),
                 { weekday: 'long', month: 'long', day: 'numeric' }
             );
-        } catch (err) {
+        } catch {
             return '';
         }
     } else {
@@ -548,7 +545,7 @@ function getProductionYear(item: ItemDto) {
         && datetime.toLocaleString(item.ProductionYear, {
             useGrouping: false
         });
-    if (item.Type === BaseItemKind.Series) {
+    if (item.Type === ItemKind.Series) {
         if (item.Status === 'Continuing') {
             return globalize.translate(
                 'SeriesYearToPresent',
@@ -575,7 +572,7 @@ function getMediaTitle(cardOptions: CardOptions, item: ItemDto): TextLine {
     const name =
         cardOptions.showTitle === 'auto'
         && !item.IsFolder
-        && item.MediaType === 'Photo' ?
+        && item.MediaType === ItemMediaKind.Photo ?
             '' :
             itemHelper.getDisplayName(item, {
                 includeParentInfo: cardOptions.includeParentInfoInTitle
@@ -599,7 +596,7 @@ function getParentTitleOrTitle(
 ): TextLine {
     if (
         isOuterFooter
-        && item.Type === BaseItemKind.Episode
+        && item.Type === ItemKind.Episode
         && item.SeriesName
     ) {
         if (item.SeriesId) {
@@ -607,7 +604,7 @@ function getParentTitleOrTitle(
                 Id: item.SeriesId,
                 ServerId: item.ServerId,
                 Name: item.SeriesName,
-                Type: BaseItemKind.Series,
+                Type: ItemKind.Series,
                 IsFolder: true
             });
         } else {

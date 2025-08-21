@@ -1,10 +1,10 @@
 import appSettings from '../../scripts/settings/appSettings';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { playbackManager } from '../../components/playback/playbackmanager';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import CastSenderApi from './castSenderApi';
-import ServerConnections from '../../components/ServerConnections';
 import alert from '../../components/alert';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
@@ -678,11 +678,7 @@ class ChromecastPlayer {
                 'SetAudioStreamIndex',
                 'SetSubtitleStreamIndex',
                 'DisplayContent',
-                'SetRepeatMode',
-                'SetShuffleQueue',
-                'EndSession',
-                'PlayMediaSource',
-                'PlayTrailers'
+                'SetRepeatMode'
             ]
         };
     }
@@ -716,7 +712,7 @@ class ChromecastPlayer {
             });
         }
 
-        if (options.items.length > 1 && options && options.ids) {
+        if (options.items.length > 1 && options?.ids) {
             // Use the original request id array for sorting the result in the proper order
             options.items.sort(function (a, b) {
                 return options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id);
@@ -889,14 +885,8 @@ class ChromecastPlayer {
         return state.ShuffleMode;
     }
 
-    playTrailers(item) {
-        this._castPlayer.sendMessage({
-            options: {
-                ItemId: item.Id,
-                ServerId: item.ServerId
-            },
-            command: 'PlayTrailers'
-        });
+    playTrailers() {
+        console.warn('[chromecastPlayer] Playing trailers is not supported.');
     }
 
     setRepeatMode(mode) {
@@ -908,13 +898,8 @@ class ChromecastPlayer {
         });
     }
 
-    setQueueShuffleMode(value) {
-        this._castPlayer.sendMessage({
-            options: {
-                ShuffleMode: value
-            },
-            command: 'SetShuffleQueue'
-        });
+    setQueueShuffleMode() {
+        console.warn('[chromecastPlayer] Setting shuffle queue mode is not supported.');
     }
 
     toggleMute() {
@@ -1124,7 +1109,8 @@ class ChromecastPlayer {
         return this.getPlayerStateInternal()?.NowPlayingItem?.IndexNumber;
     }
 
-    clearQueue(currentTime) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    clearQueue(currentTime) {
         // not supported yet
     }
 }

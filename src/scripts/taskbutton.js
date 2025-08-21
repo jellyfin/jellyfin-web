@@ -1,10 +1,10 @@
 
-import serverNotifications from '../scripts/serverNotifications';
-import globalize from '../scripts/globalize';
-import ServerConnections from '../components/ServerConnections';
-import Events from '../utils/events.ts';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import serverNotifications from 'scripts/serverNotifications';
+import Events from 'utils/events.ts';
 
-import '../elements/emby-button/emby-button';
+import 'elements/emby-button/emby-button';
 
 function taskbutton(options) {
     function pollTasks() {

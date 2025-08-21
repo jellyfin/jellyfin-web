@@ -1,13 +1,13 @@
 import { appRouter } from './router/appRouter';
 import browser from '../scripts/browser';
 import dialog from './dialog/dialog';
-import globalize from '../scripts/globalize';
+import globalize from '../lib/globalize';
 
 export default async function (text, title) {
     // Modals seem to be blocked on Web OS and Tizen 2.x
     const canUseNativeAlert = !!(
         !browser.web0s
-        && !(browser.tizenVersion && browser.tizenVersion < 3)
+        && !(browser.tizenVersion && (browser.tizenVersion < 3 || browser.tizenVersion >= 8))
         && browser.tv
         && window.alert
     );

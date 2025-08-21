@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 import IconButton from '@mui/material/IconButton';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 interface PlaylistAddIconButtonProps {
     className?: string;

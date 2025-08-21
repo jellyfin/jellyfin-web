@@ -8,7 +8,7 @@ import React, { FC, ReactNode } from 'react';
 
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
-import globalize from 'scripts/globalize';
+import globalize from 'lib/globalize';
 
 import UserMenuButton from './UserMenuButton';
 
@@ -27,7 +27,7 @@ const onBackButtonClick = () => {
         });
 };
 
-const AppToolbar: FC<AppToolbarProps> = ({
+const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
     buttons,
     children,
     isDrawerAvailable,
@@ -47,6 +47,14 @@ const AppToolbar: FC<AppToolbarProps> = ({
                 flexWrap: {
                     xs: 'wrap',
                     lg: 'nowrap'
+                },
+                pl: {
+                    xs: 'max(16px, env(safe-area-inset-left))',
+                    sm: 'max(24px, env(safe-area-inset-left))'
+                },
+                pr: {
+                    xs: 'max(16px, env(safe-area-inset-left))',
+                    sm: 'max(24px, env(safe-area-inset-left))'
                 }
             }}
         >

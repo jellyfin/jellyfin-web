@@ -1,5 +1,7 @@
-import { BaseItemKind, SortOrder } from '@jellyfin/sdk/lib/generated-client';
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import type { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import type { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
+
 import { CardOptions } from './cardOptions';
 import { SectionsView } from './libraryTabContent';
 
@@ -28,7 +30,7 @@ export enum SectionApiMethod {
     RecommendedPrograms = 'RecommendedPrograms',
     LiveTvPrograms = 'liveTvPrograms',
     Recordings = 'Recordings',
-    RecordingFolders = 'RecordingFolders',
+    RecordingFolders = 'RecordingFolders'
 }
 
 export enum SectionType {

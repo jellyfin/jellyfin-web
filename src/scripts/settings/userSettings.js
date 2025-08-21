@@ -1,5 +1,3 @@
-import appSettings from './appSettings';
-import browser from '../browser';
 import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';
 import { setXDuration } from 'components/audioEngine/crossfader.logic';
@@ -19,6 +17,26 @@ function saveServerPreferences(instance) {
     }
 
     instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
+}
+
+const allowedSortSettings = ['SortBy', 'SortOrder'];
+
+const filterSettingsPostfix = '-filter';
+const allowedFilterSettings = [
+    'Filters', 'HasSubtitles', 'HasTrailer', 'HasSpecialFeature',
+    'HasThemeSong', 'HasThemeVideo', 'Genres', 'OfficialRatings',
+    'Tags', 'VideoTypes', 'IsSD', 'IsHD', 'Is4K', 'Is3D',
+    'IsFavorite', 'IsMissing', 'IsUnaired', 'ParentIndexNumber',
+    'SeriesStatus', 'Years'
+];
+
+function filterQuerySettings(query, allowedItems) {
+    return Object.keys(query)
+        .filter(field => allowedItems.includes(field))
+        .reduce((acc, field) => {
+            acc[field] = query[field];
+            return acc;
+        }, {});
 }
 
 const defaultSubtitleAppearanceSettings = {
@@ -95,7 +113,7 @@ export class UserSettings {
      * Get value of setting.
      * @param {string} name - Name of setting.
      * @param {boolean} [enableOnServer] - Flag to return preferences from server (cached).
-     * @return {string} Value of setting.
+     * @return {string | null} Value of setting.
      */
     get(name, enableOnServer) {
         const userId = this.currentUserId;
@@ -136,8 +154,8 @@ export class UserSettings {
     }
 
     /**
-     * Get or set 'Perfer fMP4-HLS Container' state.
-     * @param {boolean|undefined} val - Flag to enable 'Perfer fMP4-HLS Container' or undefined.
+     * Get or set 'Prefer fMP4-HLS Container' state.
+     * @param {boolean|undefined} val - Flag to enable 'Prefer fMP4-HLS Container' or undefined.
      * @return {boolean} 'Prefer fMP4-HLS Container' state.
      */
     preferFmp4HlsContainer(val) {
@@ -147,6 +165,19 @@ export class UserSettings {
 
         // Enable it by default only for the platforms that play fMP4 for sure.
         return toBoolean(this.get('preferFmp4HlsContainer', false), browser.safari || browser.firefox || browser.chrome || browser.edgeChromium);
+    }
+
+    /**
+     * Get or set 'Limit Segment Length' state.
+     * @param {boolean|undefined} val - Flag to enable 'Limit Segment Length' or undefined.
+     * @returns {boolean} 'Limit Segment Length' state.
+     */
+    limitSegmentLength(val) {
+        if (val !== undefined) {
+            return this.set('limitSegmentLength', val.toString(), false);
+        }
+
+        return toBoolean(this.get('limitSegmentLength', false), false);
     }
 
     /**
@@ -205,7 +236,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Next Video Info Overlay' state.
-     * @param {boolean|undefined} val - Flag to enable 'Next Video Info Overlay' or undefined.
+     * @param {boolean|undefined} [val] - Flag to enable 'Next Video Info Overlay' or undefined.
      * @return {boolean} 'Next Video Info Overlay' state.
      */
     enableNextVideoInfoOverlay(val) {
@@ -464,6 +495,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set the amount of time it takes to activate the screensaver in seconds. Default 3 minutes.
+     * @param {number|undefined} [val] - The amount of time it takes to activate the screensaver in seconds.
+     * @return {number} The amount of time it takes to activate the screensaver in seconds.
+     */
+    screensaverTime(val) {
+        if (val !== undefined) {
+            return this.set('screensaverTime', val.toString(), false);
+        }
+
+        return parseInt(this.get('screensaverTime', false), 10) || 180;
+    }
+
+    /**
      * Get or set library page size.
      * @param {number|undefined} [val] - Library page size.
      * @return {number} Library page size.
@@ -540,13 +584,17 @@ export class UserSettings {
      * @return {Query} Query.
      */
     loadQuerySettings(key, query) {
-        let values = this.get(key);
-        if (values) {
-            values = JSON.parse(values);
-            return Object.assign(query, values);
+        let sortSettings = this.get(key);
+        let filterSettings = this.get(key + filterSettingsPostfix, false);
+
+        if (sortSettings) {
+            sortSettings = filterQuerySettings(JSON.parse(sortSettings), allowedSortSettings);
+        }
+        if (filterSettings) {
+            filterSettings = filterQuerySettings(JSON.parse(filterSettings), allowedFilterSettings);
         }
 
-        return query;
+        return Object.assign(query, sortSettings, filterSettings);
     }
 
     /**
@@ -555,16 +603,11 @@ export class UserSettings {
      * @param {Object} query - Query.
      */
     saveQuerySettings(key, query) {
-        const values = {};
-        if (query.SortBy) {
-            values.SortBy = query.SortBy;
-        }
+        const sortSettings = filterQuerySettings(query, allowedSortSettings);
+        const filterSettings = filterQuerySettings(query, allowedFilterSettings);
 
-        if (query.SortOrder) {
-            values.SortOrder = query.SortOrder;
-        }
-
-        return this.set(key, JSON.stringify(values));
+        this.set(key, JSON.stringify(sortSettings));
+        this.set(key + filterSettingsPostfix, JSON.stringify(filterSettings), false);
     }
 
     /**
@@ -671,6 +714,7 @@ export const get = currentSettings.get.bind(currentSettings);
 export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
 export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(currentSettings);
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
+export const limitSegmentLength = currentSettings.limitSegmentLength.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
 export const crossfadeDuration = currentSettings.crossfadeDuration.bind(currentSettings);
@@ -693,6 +737,7 @@ export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);
 export const screensaver = currentSettings.screensaver.bind(currentSettings);
 export const backdropScreensaverInterval = currentSettings.backdropScreensaverInterval.bind(currentSettings);
+export const screensaverTime = currentSettings.screensaverTime.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
 export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);

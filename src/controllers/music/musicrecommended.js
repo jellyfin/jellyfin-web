@@ -4,8 +4,8 @@ import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import * as mainTabsManager from 'components/maintabsmanager';
 import browser from 'scripts/browser';
-import dom from 'scripts/dom';
-import globalize from 'scripts/globalize';
+import dom from 'utils/dom';
+import globalize from 'lib/globalize';
 import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
@@ -348,7 +348,7 @@ export default function (view, params) {
     function onInputCommand(e) {
         if (e.detail.command === 'search') {
             e.preventDefault();
-            Dashboard.navigate('search.html?collectionType=music&parentId=' + params.topParentId);
+            Dashboard.navigate('search?collectionType=music&parentId=' + params.topParentId);
         }
     }
 

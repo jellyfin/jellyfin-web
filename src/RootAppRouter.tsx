@@ -1,20 +1,22 @@
-
-import { History } from '@remix-run/router';
+import { ThemeProvider } from '@mui/material/styles';
 import React from 'react';
 import {
     RouterProvider,
     createHashRouter,
-    Outlet
+    Outlet,
+    useLocation
 } from 'react-router-dom';
 
+import { DASHBOARD_APP_PATHS, DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
 import { EXPERIMENTAL_APP_ROUTES } from 'apps/experimental/routes/routes';
+import { STABLE_APP_ROUTES } from 'apps/stable/routes/routes';
+import { WIZARD_APP_ROUTES } from 'apps/wizard/routes/routes';
 import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
-import { useLegacyRouterSync } from 'hooks/useLegacyRouterSync';
-import { DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
-import UserThemeProvider from 'themes/UserThemeProvider';
-import { STABLE_APP_ROUTES } from 'apps/stable/routes/routes';
+import BangRedirect from 'components/router/BangRedirect';
+import { createRouterHistory } from 'components/router/routerHistory';
 import Visualizers from 'components/visualizer/Visualizers';
+import appTheme from 'themes/themes';
 
 const layoutMode = localStorage.getItem('layout');
 const isExperimentalLayout = layoutMode === 'experimental';
@@ -23,15 +25,20 @@ const router = createHashRouter([
     {
         element: <RootAppLayout />,
         children: [
-            ...EXPERIMENTAL_APP_ROUTES,
-            ...DASHBOARD_APP_ROUTES
+            ...(isExperimentalLayout ? EXPERIMENTAL_APP_ROUTES : STABLE_APP_ROUTES),
+            ...DASHBOARD_APP_ROUTES,
+            ...WIZARD_APP_ROUTES,
+            {
+                path: '!/*',
+                Component: BangRedirect
+            }
         ]
     }
 ]);
 
-export default function RootAppRouter({ history }: Readonly<{ history: History }>) {
-    useLegacyRouterSync({ router, history });
+export const history = createRouterHistory(router);
 
+export default function RootAppRouter() {
     return <RouterProvider router={router} />;
 }
 
@@ -40,13 +47,22 @@ export default function RootAppRouter({ history }: Readonly<{ history: History }
  * NOTE: The app will crash if these get removed from the DOM.
  */
 function RootAppLayout() {
+    const location = useLocation();
+    const isNewLayoutPath = Object.values(DASHBOARD_APP_PATHS)
+        .some(path => location.pathname.startsWith(`/${path}`));
+
     return (
-        <UserThemeProvider>
+        <ThemeProvider
+            theme={appTheme}
+            defaultMode='dark'
+            // Disable mui's default saving to local storage
+            storageManager={null}
+        >
             <Visualizers />
             <Backdrop />
-            <AppHeader isHidden />
+            <AppHeader isHidden={isExperimentalLayout || isNewLayoutPath} />
 
             <Outlet />
-        </>
+        </ThemeProvider>
     );
 }

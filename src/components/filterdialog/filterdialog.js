@@ -1,12 +1,22 @@
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import union from 'lodash-es/union';
 import Events from '../../utils/events.ts';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
 import './style.scss';
-import ServerConnections from '../ServerConnections';
 import template from './filterdialog.template.html';
+import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
+
+function merge(resultItems, queryItems, delimiter) {
+    if (!queryItems) {
+        return resultItems;
+    }
+    // eslint-disable-next-line sonarjs/no-alphabetical-sort
+    return union(resultItems, queryItems.split(delimiter)).sort();
+}
 
 function renderOptions(context, selector, cssClass, items, isCheckedFn) {
     const elem = context.querySelector(selector);
@@ -31,19 +41,19 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 }
 
 function renderFilters(context, result, query) {
-    renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
+    renderOptions(context, '.genreFilters', 'chkGenreFilter', merge(result.Genres, query.Genres, '|'), function (i) {
         const delimeter = '|';
         return (delimeter + (query.Genres || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', result.OfficialRatings, function (i) {
+    renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', merge(result.OfficialRatings, query.OfficialRatings, '|'), function (i) {
         const delimeter = '|';
         return (delimeter + (query.OfficialRatings || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.tagFilters', 'chkTagFilter', result.Tags, function (i) {
+    renderOptions(context, '.tagFilters', 'chkTagFilter', merge(result.Tags, query.Tags, '|'), function (i) {
         const delimeter = '|';
         return (delimeter + (query.Tags || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.yearFilters', 'chkYearFilter', result.Years, function (i) {
+    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years, query.Years, ','), function (i) {
         const delimeter = ',';
         return (delimeter + (query.Years || '') + delimeter).includes(delimeter + i + delimeter);
     });
@@ -104,6 +114,7 @@ function updateFilterControls(context, options) {
      * @param instance {FilterDialog} An instance of FilterDialog
      */
 function triggerChange(instance) {
+    stopMultiSelect();
     Events.trigger(instance, 'filterchange');
 }
 
@@ -340,7 +351,10 @@ class FilterDialog {
                 const filterName = chkGenreFilter.getAttribute('data-filter');
                 let filters = query.Genres || '';
                 const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);;
                 if (chkGenreFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -354,7 +368,10 @@ class FilterDialog {
                 const filterName = chkTagFilter.getAttribute('data-filter');
                 let filters = query.Tags || '';
                 const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);;
                 if (chkTagFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -368,7 +385,10 @@ class FilterDialog {
                 const filterName = chkYearFilter.getAttribute('data-filter');
                 let filters = query.Years || '';
                 const delimiter = ',';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);;
                 if (chkYearFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -382,7 +402,10 @@ class FilterDialog {
                 const filterName = chkOfficialRatingFilter.getAttribute('data-filter');
                 let filters = query.OfficialRatings || '';
                 const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);
                 if (chkOfficialRatingFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }

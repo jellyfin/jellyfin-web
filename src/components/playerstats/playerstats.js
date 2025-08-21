@@ -1,13 +1,17 @@
-import '../../elements/emby-button/paper-icon-button-light';
-import globalize from '../../scripts/globalize';
-import Events from '../../utils/events.ts';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { PluginType } from 'types/plugin';
+import Events from 'utils/events';
+import { getReadableSize } from 'utils/file';
+
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import playMethodHelper from '../playback/playmethodhelper';
 import { pluginManager } from '../pluginManager';
-import { PluginType } from '../../types/plugin.ts';
+
+import 'elements/emby-button/paper-icon-button-light';
+
 import './playerstats.scss';
-import ServerConnections from '../ServerConnections';
 
 function init(instance) {
     const parent = document.createElement('div');
@@ -163,7 +167,7 @@ function getTranscodingStats(session, player, displayPlayMethod) {
         if (session.TranscodingInfo.Framerate) {
             sessionStats.push({
                 label: globalize.translate('LabelTranscodingFramerate'),
-                value: session.TranscodingInfo.Framerate + ' fps'
+                value: getDisplayTranscodeFps(session, player)
             });
         }
         if (session.TranscodingInfo.TranscodeReasons?.length) {
@@ -172,12 +176,17 @@ function getTranscodingStats(session, player, displayPlayMethod) {
                 value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')
             });
         }
-        if (session.TranscodingInfo.HardwareAccelerationType) {
-            sessionStats.push({
-                label: globalize.translate('LabelHardwareEncoding'),
-                value: session.TranscodingInfo.HardwareAccelerationType
-            });
-        }
+        // Hide this for now because it is not useful in its current state.
+        // This only reflects the configuration in the dashboard, but the actual
+        // decoder/encoder selection is more complex. As a result, the hardware
+        // encoder may not be used even if hardware acceleration is configured,
+        // making the display of hardware acceleration misleading.
+        // if (session.TranscodingInfo.HardwareAccelerationType) {
+        //     sessionStats.push({
+        //         label: globalize.translate('LabelHardwareEncoding'),
+        //         value: session.TranscodingInfo.HardwareAccelerationType
+        //     });
+        // }
     }
 
     return sessionStats;
@@ -191,14 +200,18 @@ function getDisplayBitrate(bitrate) {
     }
 }
 
-function getReadableSize(size) {
-    if (size >= 1073741824) {
-        return parseFloat((size / 1073741824).toFixed(1)) + ' GiB';
-    } else if (size >= 1048576) {
-        return parseFloat((size / 1048576).toFixed(1)) + ' MiB';
-    } else {
-        return Math.floor(size / 1024) + ' KiB';
+function getDisplayTranscodeFps(session, player) {
+    const mediaSource = playbackManager.currentMediaSource(player) || {};
+    const videoStream = (mediaSource.MediaStreams || []).find((s) => s.Type === 'Video') || {};
+
+    const originalFramerate = videoStream.ReferenceFrameRate || videoStream.RealFrameRate;
+    const transcodeFramerate = session.TranscodingInfo.Framerate;
+
+    if (!originalFramerate) {
+        return `${transcodeFramerate} fps`;
     }
+
+    return `${transcodeFramerate} fps (${(transcodeFramerate / originalFramerate).toFixed(2)}x)`;
 }
 
 function getMediaSourceStats(session, player) {
@@ -271,7 +284,7 @@ function getMediaSourceStats(session, player) {
     if (videoStream.VideoRangeType) {
         sessionStats.push({
             label: globalize.translate('LabelVideoRangeType'),
-            value: videoStream.VideoRangeType
+            value: videoStream.VideoDoViTitle || videoStream.VideoRangeType
         });
     }
 

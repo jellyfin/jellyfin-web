@@ -1,22 +1,24 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import React, { FunctionComponent, useEffect, useState, useRef, useCallback } from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef, useCallback, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../scripts/globalize';
-import LibraryMenu from '../../../../scripts/libraryMenu';
+import globalize from '../../../../lib/globalize';
 import { appHost } from '../../../../components/apphost';
 import confirm from '../../../../components/confirm/confirm';
-import ButtonElement from '../../../../elements/ButtonElement';
+import Button from '../../../../elements/emby-button/Button';
 import UserPasswordForm from '../../../../components/dashboard/users/UserPasswordForm';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
-import { getParameterByName } from '../../../../utils/url';
 import Page from '../../../../components/Page';
+import { AppFeature } from 'constants/appFeature';
 
 const UserProfile: FunctionComponent = () => {
-    const userId = getParameterByName('userId');
+    const [ searchParams ] = useSearchParams();
+    const userId = searchParams.get('userId');
     const [ userName, setUserName ] = useState('');
+    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -24,7 +26,12 @@ const UserProfile: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userprofile] Unexpected null page reference');
+            return;
+        }
+
+        if (!userId) {
+            console.error('[userprofile] missing user id');
             return;
         }
 
@@ -35,7 +42,7 @@ const UserProfile: FunctionComponent = () => {
             }
 
             setUserName(user.Name);
-            LibraryMenu.setTitle(user.Name);
+            void libraryMenu.then(menu => menu.setTitle(user.Name));
 
             let imageUrl = 'assets/img/avatar.png';
             if (user.PrimaryImageTag) {
@@ -55,7 +62,7 @@ const UserProfile: FunctionComponent = () => {
                 if (user.PrimaryImageTag) {
                     (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.add('hide');
                     (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.remove('hide');
-                } else if (appHost.supports('fileinput') && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
+                } else if (appHost.supports(AppFeature.FileInput) && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
                     (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.add('hide');
                     (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.remove('hide');
                 }
@@ -72,7 +79,7 @@ const UserProfile: FunctionComponent = () => {
         const page = element.current;
 
         if (!page) {
-            console.error('Unexpected null reference');
+            console.error('[userprofile] Unexpected null page reference');
             return;
         }
 
@@ -110,6 +117,11 @@ const UserProfile: FunctionComponent = () => {
             reader.onerror = onFileReaderError;
             reader.onabort = onFileReaderAbort;
             reader.onload = () => {
+                if (!userId) {
+                    console.error('[userprofile] missing user id');
+                    return;
+                }
+
                 userImage.style.backgroundImage = 'url(' + reader.result + ')';
                 window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(function () {
                     loading.hide();
@@ -123,6 +135,11 @@ const UserProfile: FunctionComponent = () => {
         };
 
         (page.querySelector('#btnDeleteImage') as HTMLButtonElement).addEventListener('click', function () {
+            if (!userId) {
+                console.error('[userprofile] missing user id');
+                return;
+            }
+
             confirm(
                 globalize.translate('DeleteImageConfirmation'),
                 globalize.translate('DeleteImage')
@@ -181,17 +198,17 @@ const UserProfile: FunctionComponent = () => {
                             {userName}
                         </h2>
                         <br />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnAddImage'
                             className='raised button-submit hide'
-                            title='ButtonAddImage'
+                            title={globalize.translate('ButtonAddImage')}
                         />
-                        <ButtonElement
+                        <Button
                             type='button'
                             id='btnDeleteImage'
                             className='raised hide'
-                            title='DeleteImage'
+                            title={globalize.translate('DeleteImage')}
                         />
                     </div>
                 </div>

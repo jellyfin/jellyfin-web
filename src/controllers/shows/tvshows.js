@@ -5,8 +5,9 @@ import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import AlphaPicker from '../../components/alphaPicker/alphaPicker';
 import * as userSettings from '../../scripts/settings/userSettings';
-import globalize from '../../scripts/globalize';
+import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
+import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -68,6 +69,8 @@ export default function (view, params, tabContent) {
         loading.show();
         isLoading = true;
         const query = getQuery();
+        setFilterStatus(page, query);
+
         ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
             function onNextPageClick() {
                 if (isLoading) {
@@ -250,7 +253,7 @@ export default function (view, params, tabContent) {
                     name: globalize.translate('OptionRandom'),
                     id: 'Random'
                 }, {
-                    name: globalize.translate('OptionImdbRating'),
+                    name: globalize.translate('OptionCommunityRating'),
                     id: 'CommunityRating,SortName'
                 }, {
                     name: globalize.translate('OptionDateShowAdded'),

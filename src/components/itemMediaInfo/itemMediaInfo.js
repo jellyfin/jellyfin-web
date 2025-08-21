@@ -5,22 +5,27 @@
  */
 
 import escapeHtml from 'escape-html';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import layoutManager from '../layoutManager';
-import toast from '../toast/toast';
-import { copy } from '../../scripts/clipboard';
-import dom from '../../scripts/dom';
-import globalize from '../../scripts/globalize';
-import itemHelper from '../../components/itemHelper';
-import loading from '../loading/loading';
-import '../../elements/emby-select/emby-select';
-import '../listview/listview.scss';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../formdialog.scss';
+
+import dialogHelper from 'components/dialogHelper/dialogHelper';
+import itemHelper from 'components/itemHelper';
+import layoutManager from 'components/layoutManager';
+import loading from 'components/loading/loading';
+import toast from 'components/toast/toast';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { copy } from 'scripts/clipboard';
+import dom from 'utils/dom';
+import { getReadableSize } from 'utils/file';
+
+import 'components/formdialog.scss';
+import 'components/listview/listview.scss';
+import 'elements/emby-button/emby-button';
+import 'elements/emby-button/paper-icon-button-light';
+import 'elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
-import '../../styles/flexstyles.scss';
-import ServerConnections from '../ServerConnections';
+
+import 'styles/flexstyles.scss';
+
 import template from './itemMediaInfo.template.html';
 
 // Do not add extra spaces between tags - they will be copied into the result
@@ -64,11 +69,11 @@ function getMediaSourceHtml(user, item, version) {
     if (version.Formats?.length) {
         html += `${createAttribute(globalize.translate('MediaInfoFormat'), version.Formats.join(','))}<br/>`;
     }
-    if (version.Path && user && user.Policy.IsAdministrator) {
+    if (version.Path && user?.Policy.IsAdministrator) {
         html += `${createAttribute(globalize.translate('MediaInfoPath'), version.Path, true)}<br/>`;
     }
     if (version.Size) {
-        const size = `${(version.Size / (1024 * 1024)).toFixed(0)} MB`;
+        const size = getReadableSize(version.Size);
         html += `${createAttribute(globalize.translate('MediaInfoSize'), size)}<br/>`;
     }
     version.MediaStreams.sort(itemHelper.sortTracks);
@@ -193,6 +198,9 @@ function getMediaSourceHtml(user, item, version) {
         }
         if (stream.RefFrames) {
             attributes.push(createAttribute(globalize.translate('MediaInfoRefFrames'), stream.RefFrames));
+        }
+        if (stream.Rotation && stream.Type === 'Video') {
+            attributes.push(createAttribute(globalize.translate('MediaInfoRotation'), stream.Rotation));
         }
         if (stream.NalLengthSize) {
             attributes.push(createAttribute('NAL', stream.NalLengthSize));
