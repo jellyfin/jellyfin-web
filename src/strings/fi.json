@@ -340,7 +340,7 @@
     "LabelAllowHWTranscoding": "Salli laitteistopohjainen transkoodaus",
     "LabelAlbumArtMaxWidth": "Albumitaiteen enimmäisleveys",
     "LabelAlbumArtMaxHeight": "Albumitaiteen enimmäiskorkeus",
-    "LabelAbortedByServerShutdown": "(Keskeytetty palvelimen sammutuksen takia)",
+    "LabelAbortedByServerShutdown": "Keskeytetty palvelimen sammutuksen takia",
     "Identify": "Tunnista",
     "Horizontal": "Pystysuuntainen",
     "HideWatchedContentFromLatestMedia": "Piilota toistettu sisältö 'Viimeksi lisätty media' -osiosta",
