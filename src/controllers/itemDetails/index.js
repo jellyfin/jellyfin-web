@@ -1951,40 +1951,43 @@ function renderArtists(page, item) {
     page.querySelector('#artistsCollapsible').classList.remove('hide');
     const artistsContent = page.querySelector('#artistsContent');
 
-    // Enhance artist objects with necessary properties for card rendering
-    const enhancedArtists = uniqueArtists.map(artist => ({
-        ...artist,
-        Type: 'MusicArtist',
-        ServerId: item.ServerId,
-        // Ensure we have the required image properties
-        ImageTags: artist.ImageTags || {},
-        PrimaryImageAspectRatio: artist.PrimaryImageAspectRatio || 1.0
-    }));
+    // Fetch complete artist data with image fields, similar to renderSimilarItems
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+    const artistIds = uniqueArtists.map(artist => artist.Id);
+    
+    const query = {
+        Ids: artistIds.join(','),
+        Fields: 'PrimaryImageAspectRatio,ImageTags'
+    };
 
-    const html = cardBuilder.getCardsHtml({
-        items: enhancedArtists,
-        shape: 'autooverflow',
-        showParentTitle: false,
-        centerText: true,
-        showTitle: true,
-        context: 'music',
-        lazy: true,
-        showDetailsMenu: true,
-        coverImage: true,
-        overlayPlayButton: true,
-        overlayText: false
+    apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
+        if (!result.Items.length) {
+            page.querySelector('#artistsCollapsible').classList.add('hide');
+            return;
+        }
+
+        cardBuilder.buildCards(result.Items, {
+            parentContainer: page.querySelector('#artistsCollapsible'),
+            itemsContainer: artistsContent,
+            shape: 'autooverflow',
+            scalable: true,
+            coverImage: true,
+            showTitle: true,
+            showParentTitle: false,
+            centerText: true,
+            overlayText: false,
+            overlayPlayButton: true
+        });
     });
-    artistsContent.innerHTML = html;
-    imageLoader.lazyChildren(artistsContent);
 }
 
 function ItemDetailPage() {
     const self = this;
     self.setInitialCollapsibleState = setInitialCollapsibleState;
     self.renderDetails = renderDetails;
+    self.renderArtists = renderArtists;
     self.renderCast = renderCast;
     self.renderGuestCast = renderGuestCast;
-    self.renderArtists = renderArtists;
 }
 
 function bindAll(view, selector, eventName, fn) {
