@@ -253,31 +253,20 @@ function setMarker(range, valueMarker, marker, valueProgress) {
 }
 
 function updateMarkers(range, currentValue) {
-    function getMarkerHtml(markerInfo) {
-        let markerTypeSpecificClasses = '';
-
-        if (markerInfo.className === 'chapterMarker') {
-            markerTypeSpecificClasses = markerInfo.className;
-
-            if (typeof markerInfo.name === 'string' && markerInfo.name.length) {
-                // limit the class length in case the name contains half a novel
-                markerTypeSpecificClasses = `${markerInfo.className} marker-${markerInfo.name.substring(0, 100).toLowerCase().replace(' ', '-')}`;
-            }
-        }
-
-        return `<span class="material-icons sliderMarker ${markerTypeSpecificClasses}" aria-hidden="true"></span>`;
-    }
-
     if (range.getMarkerInfo) {
-        range.markerInfo = range.getMarkerInfo();
+        const newMarkerInfo = range.getMarkerInfo();
 
-        range.markerContainerElement.innerHTML = '';
+        if (!range.markerInfo || !isEqual(range.markerInfo, newMarkerInfo)) {
+            range.markerInfo = newMarkerInfo;
 
-        range.markerInfo.forEach(info => {
-            range.markerContainerElement.insertAdjacentHTML('beforeend', getMarkerHtml(info));
-        });
+            let markersHtml = '';
+            range.markerInfo.forEach(() => {
+                markersHtml += '<span class="sliderMarker" aria-hidden="true"></span>';
+            });
+            range.markerContainerElement.innerHTML = markersHtml;
 
-        range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
+            range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
+        }
     }
 
     if (range.markerInfo?.length && range.markerElements?.length) {

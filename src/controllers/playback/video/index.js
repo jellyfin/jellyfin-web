@@ -33,7 +33,6 @@ import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
-import { EventType } from 'types/eventType';
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');

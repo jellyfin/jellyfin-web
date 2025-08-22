@@ -35,7 +35,6 @@ import '../elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 import '../styles/scrollstyles.scss';
 import '../styles/flexstyles.scss';
-import { EventType } from 'types/eventType';
 
 function renderHeader() {
     let html = '';

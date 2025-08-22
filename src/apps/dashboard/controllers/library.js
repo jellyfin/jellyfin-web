@@ -1,15 +1,15 @@
 import escapeHtml from 'escape-html';
-import 'jquery';
-import taskButton from '../../scripts/taskbutton';
-import loading from '../../components/loading/loading';
-import globalize from '../../scripts/globalize';
-import dom from '../../scripts/dom';
-import imageHelper from '../../utils/image';
-import '../../components/cardbuilder/card.scss';
-import '../../elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
-import Dashboard, { pageClassOn, pageIdOn } from '../../utils/dashboard';
-import confirm from '../../components/confirm/confirm';
-import { getDefaultBackgroundClass } from '../../components/cardbuilder/cardBuilderUtils';
+
+import taskButton from 'scripts/taskbutton';
+import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
+import dom from 'utils/dom';
+import imageHelper from 'utils/image';
+import 'components/cardbuilder/card.scss';
+import 'elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
+import { pageClassOn, pageIdOn } from 'utils/dashboard';
+import confirm from 'components/confirm/confirm';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 
 function addVirtualFolder(page) {
     import('components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }) => {
@@ -359,11 +359,6 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     return html;
 }
 
-window.WizardLibraryPage = {
-    next: function () {
-        Dashboard.navigate('wizardsettings.html');
-    }
-};
 pageClassOn('pageshow', 'mediaLibraryPage', function () {
     reloadLibrary(this);
 });

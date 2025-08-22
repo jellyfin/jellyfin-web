@@ -102,36 +102,10 @@ export const Component: FC = () => {
                         flexGrow: 1
                     }}
                 >
-                    <AppToolbar
-                        isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
-                        isDrawerOpen={isDrawerOpen}
-                        onDrawerButtonClick={onToggleDrawer}
-                    >
-                        <AppTabs isDrawerOpen={isDrawerOpen} />
-                    </AppToolbar>
-                </AppBar>
-            </ElevationScroll>
-
-            {
-                isDrawerAvailable && (
-                    <AppDrawer
-                        open={isDrawerOpen}
-                        onClose={onToggleDrawer}
-                        onOpen={onToggleDrawer}
-                    />
-                )
-            }
-
-            <Box
-                component='main'
-                sx={{
-                    width: '100%',
-                    flexGrow: 1
-                }}
-            >
-                <AppBody>
-                    <Outlet />
-                </AppBody>
+                    <AppBody>
+                        <Outlet />
+                    </AppBody>
+                </Box>
             </Box>
             <ThemeCss dashboard />
         </LocalizationProvider>

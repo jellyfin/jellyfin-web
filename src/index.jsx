@@ -38,16 +38,6 @@ import './scripts/autoThemes';
 import './scripts/mouseManager';
 import './scripts/screensavermanager';
 import './scripts/serverNotifications';
-import './components/playback/playerSelectionMenu';
-import './legacy/domParserTextHtml';
-import './legacy/focusPreventScroll';
-import './legacy/htmlMediaElement';
-import './legacy/keyboardEvent';
-import './legacy/patchHeaders';
-import './legacy/vendorStyles';
-import { currentSettings } from './scripts/settings/userSettings';
-import taskButton from './scripts/taskbutton';
-import RootApp from './RootApp.tsx';
 
 // Import site styles
 import './styles/site.scss';

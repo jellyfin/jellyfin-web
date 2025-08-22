@@ -156,7 +156,8 @@ div[data-role=controlgroup] a.ui-btn-active {
     padding-left: 1em;
 }
 
-.content-primary ul:first-child {
+.content-primary ul:first-child,
+.type-interior .content-primary > .sectionTitleContainer {
     margin-top: 0;
 }
 

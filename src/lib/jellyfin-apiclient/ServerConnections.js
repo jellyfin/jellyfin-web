@@ -1,5 +1,7 @@
-import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
-import { ConnectionManager, Credentials, ApiClient } from 'jellyfin-apiclient';
+// NOTE: This is used for jsdoc return type
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Api } from '@jellyfin/sdk';
+import { Credentials, ApiClient } from 'jellyfin-apiclient';
 
 import { appHost } from 'components/apphost';
 import appSettings from 'scripts/settings/appSettings';
@@ -35,12 +37,6 @@ class ServerConnections extends ConnectionManager {
         super(...arguments);
         this.localApiClient = null;
         this.firstConnection = null;
-
-        // Set the apiclient minimum version to match the SDK
-        this._minServerVersion = MINIMUM_VERSION;
-
-        // Set the apiclient minimum version to match the SDK
-        this._minServerVersion = MINIMUM_VERSION;
 
         Events.on(this, 'localusersignedout', (_e, logoutInfo) => {
             setUserInfo(null, null);

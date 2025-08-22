@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
-import React, { FC, ReactNode } from 'react';
+import React, { type FC, type PropsWithChildren, ReactNode } from 'react';
 
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
@@ -16,7 +16,8 @@ interface AppToolbarProps {
     buttons?: ReactNode
     isDrawerAvailable: boolean
     isDrawerOpen: boolean
-    onDrawerButtonClick?: (event: React.MouseEvent<HTMLElement>) => void,
+    onDrawerButtonClick?: (event: React.MouseEvent<HTMLElement>) => void
+    isBackButtonAvailable?: boolean
     isUserMenuAvailable?: boolean
 }
 
@@ -33,12 +34,11 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
     isDrawerAvailable,
     isDrawerOpen,
     onDrawerButtonClick = () => { /* no-op */ },
+    isBackButtonAvailable = false,
     isUserMenuAvailable = true
 }) => {
     const { user } = useApi();
     const isUserLoggedIn = Boolean(user);
-
-    const isBackButtonAvailable = appRouter.canGoBack();
 
     return (
         <Toolbar

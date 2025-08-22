@@ -395,7 +395,7 @@ const ItemsView: FC<ItemsViewProps> = ({
             {!isPending && isPaginationEnabled && (
                 <Box
                     className={classNames(
-                        'padded-top padded-left padded-right padded-bottom padPagination',
+                        'padded-left padded-right',
                         { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
                     )}
                     sx={{

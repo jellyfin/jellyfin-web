@@ -17,11 +17,11 @@ interface AppToolbarProps {
 }
 
 const PUBLIC_PATHS = [
-    '/addserver.html',
-    '/selectserver.html',
-    '/login.html',
-    '/forgotpassword.html',
-    '/forgotpasswordpin.html'
+    '/addserver',
+    '/selectserver',
+    '/login',
+    '/forgotpassword',
+    '/forgotpasswordpin'
 ];
 
 const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
@@ -34,7 +34,6 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
     // The video osd does not show the standard toolbar
     if (location.pathname === '/video') return null;
 
-    const isTabsAvailable = isTabPath(location.pathname);
     const isPublicPath = PUBLIC_PATHS.includes(location.pathname);
 
     return (

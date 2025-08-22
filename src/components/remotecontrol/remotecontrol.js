@@ -129,12 +129,7 @@ function updateNowPlayingInfo(context, state, serverId) {
                 }
             }
             if (item.Album != null) {
-                albumName =
-                    '<a class="button-link" is="emby-linkbutton" href="#/details?id='
-                    + item.AlbumId
-                    + `&serverId=${nowPlayingServerId}">`
-                    + escapeHtml(item.Album)
-                    + '</a>';
+                albumName = '<a class="button-link" is="emby-linkbutton" href="#/details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">` + escapeHtml(item.Album) + '</a>';
             }
             context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
             context.querySelector('.nowPlayingArtist').innerHTML =
@@ -143,18 +138,12 @@ function updateNowPlayingInfo(context, state, serverId) {
         } else if (item.Type == 'Episode') {
             if (item.SeasonName != null) {
                 const seasonName = item.SeasonName;
-                context.querySelector('.nowPlayingSeason').innerHTML =
-                    '<a class="button-link" is="emby-linkbutton" href="#/details?id='
-                    + item.SeasonId
-                    + `&serverId=${nowPlayingServerId}">${escapeHtml(seasonName)}</a>`;
+                context.querySelector('.nowPlayingSeason').innerHTML = '<a class="button-link" is="emby-linkbutton" href="#/details?id=' + item.SeasonId + `&serverId=${nowPlayingServerId}">${escapeHtml(seasonName)}</a>`;
             }
             if (item.SeriesName != null) {
                 const seriesName = item.SeriesName;
                 if (item.SeriesId != null) {
-                    context.querySelector('.nowPlayingSerie').innerHTML =
-                        '<a class="button-link" is="emby-linkbutton" href="#/details?id='
-                        + item.SeriesId
-                        + `&serverId=${nowPlayingServerId}">${escapeHtml(seriesName)}</a>`;
+                    context.querySelector('.nowPlayingSerie').innerHTML = '<a class="button-link" is="emby-linkbutton" href="#/details?id=' + item.SeriesId + `&serverId=${nowPlayingServerId}">${escapeHtml(seriesName)}</a>`;
                 } else {
                     context.querySelector('.nowPlayingSerie').innerText =
                         seriesName;
@@ -541,12 +530,9 @@ export default function () {
             showVolumeSlider = true;
         }
 
-        if (
-            currentPlayer.isLocalPlayer
-            && appHost.supports('physicalvolumecontrol')
-        ) {
-            showMuteButton = true;
-            showVolumeSlider = true;
+        if (currentPlayer.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
+            showMuteButton = false;
+            showVolumeSlider = false;
         }
 
         const buttonMute = view.querySelector('.buttonMute');
@@ -939,67 +925,49 @@ export default function () {
             btnCommand[i].addEventListener('click', onBtnCommandClick);
         }
 
-        context
-            .querySelector('.btnToggleFullscreen')
-            .addEventListener('click', function () {
-                if (currentPlayer) {
-                    playbackManager.toggleFullscreen(currentPlayer);
-                }
-            });
-        context
-            .querySelector('.btnAudioTracks')
-            .addEventListener('click', function (e) {
-                if (currentPlayer && lastPlayerState?.NowPlayingItem) {
-                    showAudioMenu(context, currentPlayer, e.target);
-                }
-            });
-        context
-            .querySelector('.btnSubtitles')
-            .addEventListener('click', function (e) {
-                if (currentPlayer && lastPlayerState?.NowPlayingItem) {
-                    showSubtitleMenu(context, currentPlayer, e.target);
-                }
-            });
-        context
-            .querySelector('.btnStop')
-            .addEventListener('click', function () {
-                if (currentPlayer) {
-                    playbackManager.stop(currentPlayer);
-                }
-            });
-        context
-            .querySelector('.btnPlayPause')
-            .addEventListener('click', function () {
-                if (currentPlayer) {
-                    playbackManager.playPause(currentPlayer);
-                }
-            });
-        context
-            .querySelector('.btnNextTrack')
-            .addEventListener('click', function () {
-                if (currentPlayer) {
-                    playbackManager.nextTrack(currentPlayer);
-                }
-            });
-        context
-            .querySelector('.btnRewind')
-            .addEventListener('click', function () {
-                if (currentPlayer) {
-                    playbackManager.rewind(currentPlayer);
-                }
-            });
-        context
-            .querySelector('.btnFastForward')
-            .addEventListener('click', function () {
-                if (currentPlayer) {
-                    playbackManager.fastForward(currentPlayer);
-                }
-            });
-        context
-            .querySelector('.btnLyrics')
-            .addEventListener('click', function () {
-                appRouter.show('lyrics');
-            });
+        context.querySelector('.btnToggleFullscreen').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.toggleFullscreen(currentPlayer);
+            }
+        });
+        context.querySelector('.btnAudioTracks').addEventListener('click', function (e) {
+            if (currentPlayer && lastPlayerState?.NowPlayingItem) {
+                showAudioMenu(context, currentPlayer, e.target);
+            }
+        });
+        context.querySelector('.btnSubtitles').addEventListener('click', function (e) {
+            if (currentPlayer && lastPlayerState?.NowPlayingItem) {
+                showSubtitleMenu(context, currentPlayer, e.target);
+            }
+        });
+        context.querySelector('.btnStop').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.stop(currentPlayer);
+            }
+        });
+        context.querySelector('.btnPlayPause').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.playPause(currentPlayer);
+            }
+        });
+        context.querySelector('.btnNextTrack').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.nextTrack(currentPlayer);
+            }
+        });
+        context.querySelector('.btnRewind').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.rewind(currentPlayer);
+            }
+        });
+        context.querySelector('.btnFastForward').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.fastForward(currentPlayer);
+            }
+        });
+        context.querySelector('.btnLyrics').addEventListener('click', function () {
+            appRouter.show('lyrics');
+        });
 
         for (const shuffleButton of context.querySelectorAll(
             '.btnShuffleQueue'
