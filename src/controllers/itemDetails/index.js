@@ -834,18 +834,26 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#specialsCollapsible').classList.add('hide');
     }
 
-    const cast = [];
-    const guestCast = [];
-    (item.People || []).forEach(p => {
-        if (p.Type === PersonKind.GuestStar) {
-            guestCast.push(p);
-        } else {
-            cast.push(p);
-        }
-    });
+    // Show Artists for MusicAlbum/Audio, otherwise show People
+    if (item.Type === 'MusicAlbum' || item.Type === 'Audio') {
+        renderArtists(page, item);
+        page.querySelector('#castCollapsible').classList.add('hide');
+    } else {
+        page.querySelector('#artistsCollapsible').classList.add('hide');
 
-    renderCast(page, item, cast);
-    renderGuestCast(page, item, guestCast);
+        const cast = [];
+        const guestCast = [];
+        (item.People || []).forEach(p => {
+            if (p.Type === PersonKind.GuestStar) {
+                guestCast.push(p);
+            } else {
+                cast.push(p);
+            }
+        });
+
+        renderCast(page, item, cast);
+        renderGuestCast(page, item, guestCast);
+    }
 
     if (item.PartCount && item.PartCount > 1) {
         page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
@@ -1203,28 +1211,67 @@ function renderMoreFromArtist(view, item, apiClient) {
                 return;
             }
 
-            section.classList.remove('hide');
+            let filteredItems = result.Items;
 
+            // For MusicArtist pages, exclude albums where this artist is the primary artist
+            // to prevent duplicates between "Albums" and "Appears On" sections
             if (item.Type === 'MusicArtist') {
-                section.querySelector('h2').innerText = globalize.translate('HeaderAppearsOn');
-            } else {
-                section.querySelector('h2').innerText = globalize.translate('MoreFromValue', item.AlbumArtists[0].Name);
-            }
+                // Get albums where this artist is the primary artist (shown in main Albums section)
+                const primaryAlbumsQuery = {
+                    IncludeItemTypes: 'MusicAlbum',
+                    Recursive: true,
+                    AlbumArtistIds: item.Id,
+                    Fields: 'PrimaryImageAspectRatio'
+                };
 
-            cardBuilder.buildCards(result.Items, {
-                parentContainer: section,
-                itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'autooverflow',
-                sectionTitleTagName: 'h2',
-                scalable: true,
-                coverImage: item.Type === 'MusicArtist' || item.Type === 'MusicAlbum',
-                showTitle: true,
-                showParentTitle: false,
-                centerText: true,
-                overlayText: false,
-                overlayPlayButton: true,
-                showYear: true
-            });
+                apiClient.getItems(apiClient.getCurrentUserId(), primaryAlbumsQuery).then(function (primaryAlbums) {
+                    const primaryAlbumIds = new Set(primaryAlbums.Items.map(album => album.Id));
+
+                    // Filter out albums where this artist is the primary artist
+                    filteredItems = result.Items.filter(album => !primaryAlbumIds.has(album.Id));
+
+                    if (!filteredItems.length) {
+                        section.classList.add('hide');
+                        return;
+                    }
+
+                    section.classList.remove('hide');
+                    section.querySelector('h2').innerText = globalize.translate('HeaderAppearsOn');
+
+                    cardBuilder.buildCards(filteredItems, {
+                        parentContainer: section,
+                        itemsContainer: section.querySelector('.itemsContainer'),
+                        shape: 'autooverflow',
+                        sectionTitleTagName: 'h2',
+                        scalable: true,
+                        coverImage: true,
+                        showTitle: true,
+                        showParentTitle: false,
+                        centerText: true,
+                        overlayText: false,
+                        overlayPlayButton: true,
+                        showYear: true
+                    });
+                });
+            } else {
+                section.classList.remove('hide');
+                section.querySelector('h2').innerText = globalize.translate('MoreFromValue', item.AlbumArtists[0].Name);
+
+                cardBuilder.buildCards(filteredItems, {
+                    parentContainer: section,
+                    itemsContainer: section.querySelector('.itemsContainer'),
+                    shape: 'autooverflow',
+                    sectionTitleTagName: 'h2',
+                    scalable: true,
+                    coverImage: item.Type === 'MusicArtist' || item.Type === 'MusicAlbum',
+                    showTitle: true,
+                    showParentTitle: false,
+                    centerText: true,
+                    overlayText: false,
+                    overlayPlayButton: true,
+                    showYear: true
+                });
+            }
         });
     }
 }
@@ -1877,12 +1924,67 @@ function renderGuestCast(page, item, people) {
     });
 }
 
+function renderArtists(page, item) {
+    // Collect all artist-type entities for music items
+    const artists = [];
+
+    if (item.Type === 'MusicAlbum' || item.Type === 'Audio') {
+        if (item.AlbumArtists) {
+            artists.push(...item.AlbumArtists);
+        }
+
+        if (item.ArtistItems) {
+            artists.push(...item.ArtistItems);
+        }
+    }
+
+    // Remove duplicates based on Id
+    const uniqueArtists = artists.filter((artist, index, self) =>
+        index === self.findIndex(a => a.Id === artist.Id)
+    );
+
+    if (!uniqueArtists.length) {
+        page.querySelector('#artistsCollapsible').classList.add('hide');
+        return;
+    }
+
+    page.querySelector('#artistsCollapsible').classList.remove('hide');
+    const artistsContent = page.querySelector('#artistsContent');
+
+    // Enhance artist objects with necessary properties for card rendering
+    const enhancedArtists = uniqueArtists.map(artist => ({
+        ...artist,
+        Type: 'MusicArtist',
+        ServerId: item.ServerId,
+        // Ensure we have the required image properties
+        ImageTags: artist.ImageTags || {},
+        PrimaryImageAspectRatio: artist.PrimaryImageAspectRatio || 1.0
+    }));
+
+    const html = cardBuilder.getCardsHtml({
+        items: enhancedArtists,
+        shape: 'autooverflow',
+        showParentTitle: false,
+        centerText: true,
+        showTitle: true,
+        context: 'music',
+        lazy: true,
+        showDetailsMenu: true,
+        coverImage: true,
+        overlayPlayButton: true,
+        overlayText: false
+    });
+    artistsContent.innerHTML = html;
+    imageLoader.lazyChildren(artistsContent);
+}
+
 function ItemDetailPage() {
     const self = this;
     self.setInitialCollapsibleState = setInitialCollapsibleState;
     self.renderDetails = renderDetails;
     self.renderCast = renderCast;
     self.renderGuestCast = renderGuestCast;
+    self.renderArtists = renderArtists;
 }
 
 function bindAll(view, selector, eventName, fn) {
