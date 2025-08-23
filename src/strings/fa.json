@@ -1749,5 +1749,16 @@
     "HeaderUpdateRequired": "نیاز به بروزرسانی",
     "LabelDatabase": "پایگاه داده",
     "ConfirmDeleteRepository": "حذف بخش",
-    "Create": "ساخت"
+    "Create": "ساخت",
+    "LabelIsSynced": "همگام‌سازی شده",
+    "LabelEnableLUFSScan": "فعال کردن بررسی LUFS",
+    "LabelMediaSegmentProviders": "ارائه دهندگان بخشبندی محتوا",
+    "LabelNoChangelog": "هیچ گزارش تغییری برای این نسخه ارائه نشده است.",
+    "LabelMediaSegmentsType": "{0} بخش",
+    "LabelEnablePlugin": "فعالسازی افزونه",
+    "LabelGroupShowsIntoCollections": "دسته بندی سریال ها در مجموعه‌ها",
+    "LabelGroupShowsIntoCollectionsHelp": "در حال نشان دادن لیست سریال ها، سریال ها در یک مجموعه به عنوان یک گروه آیتم نشان داده می‌شوند",
+    "LabelNotInstalled": "نصب نشده",
+    "LabelInstalled": "نصب شده",
+    "LabelImageCache": "کش عکس"
 }
