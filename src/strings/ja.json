@@ -1936,5 +1936,7 @@
     "HeaderAddLyrics": "歌詞を追加",
     "HeaderPageNotFound": "ページが見つかりません",
     "AndOtherArtists": "{0}と他のアーティスト{1}人。",
-    "HeaderUpdateRequired": "更新が必要です"
+    "HeaderUpdateRequired": "更新が必要です",
+    "ManageRepositories": "リポジトリ管理",
+    "ButtonCreateBackup": "バックアップの作成"
 }

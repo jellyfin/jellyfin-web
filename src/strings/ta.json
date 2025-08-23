@@ -462,7 +462,7 @@
     "LabelAccessStart": "ஆரம்பிக்கும் நேரம்",
     "LabelAccessEnd": "இறுதி நேரம்",
     "LabelAccessDay": "வாரத்தின் நாள்",
-    "LabelAbortedByServerShutdown": "(சேவையக பணிநிறுத்தத்தால் கைவிடப்பட்டது)",
+    "LabelAbortedByServerShutdown": "சேவையக பணிநிறுத்தத்தால் கைவிடப்பட்டது",
     "Label3DFormat": "3D வடிவம்",
     "Kids": "குழந்தைகள்",
     "Items": "உருப்படிகள்",
