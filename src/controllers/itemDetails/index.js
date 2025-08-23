@@ -854,7 +854,7 @@ function setInitialCollapsibleState(page, item, _apiClient, _context, user) {
         page.querySelector('#additionalPartsCollapsible').classList.add('hide');
     }
 
-    if (item.Type == 'MusicAlbum' || item.Type == 'MusicArtist') {
+    if (item.Type == BaseItemKind.MusicAlbum) {
         renderMusicVideos(page, item, user);
     } else {
         page.querySelector('#musicVideosCollapsible').classList.add('hide');
@@ -1764,14 +1764,9 @@ function renderMusicVideos(page, item, user) {
         SortOrder: 'Ascending',
         IncludeItemTypes: 'MusicVideo',
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
+        Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount',
+        AlbumIds: item.Id
     };
-
-    if (item.Type == 'MusicAlbum') {
-        request.AlbumIds = item.Id;
-    } else {
-        request.ArtistIds = item.Id;
-    }
 
     ServerConnections.getApiClient(item.ServerId).getItems(user.Id, request).then(function (result) {
         if (result.Items.length) {
