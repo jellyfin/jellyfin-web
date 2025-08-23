@@ -497,6 +497,9 @@ function updateNowPlayingInfo(state) {
         }
         nowPlayingTextElement.appendChild(itemText);
         nowPlayingTextElement.appendChild(secondaryText);
+
+        //  Set the page's title to that of the item playing.
+        document.title = escapeHtml(itemText.textContent + " - " + secondaryText.textContent);
     }
 
     const imgHeight = 70;
@@ -522,8 +525,6 @@ function updateNowPlayingInfo(state) {
     if (nowPlayingItem.Id) {
         const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
         apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
-            //  Set the page's title to that of the item playing.
-            document.title = escapeHtml(item.Name);
             const userData = item.UserData || {};
             const likes = userData.Likes == null ? '' : userData.Likes;
             if (!layoutManager.mobile) {
