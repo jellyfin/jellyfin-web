@@ -855,7 +855,7 @@
     "MusicVideo": "Hudobný videoklip",
     "MusicArtist": "Interpret",
     "LabelAirsBeforeEpisode": "Vysielané pred epizódou",
-    "LabelAbortedByServerShutdown": "(Prerušené vypnutím serveru)",
+    "LabelAbortedByServerShutdown": "Prerušené vypnutím serveru",
     "HideWatchedContentFromLatestMedia": "Skryť pozreté položky zo zoznamu nedávno pridaných médií",
     "HeaderTranscodingProfile": "Profil prekódovania",
     "HeaderSeriesOptions": "Nastavenia seriálov",

@@ -769,7 +769,7 @@
     "LabelAccessStart": "Ora demarării",
     "LabelAccessEnd": "Ora terminării",
     "LabelAccessDay": "Ziua săptămânii",
-    "LabelAbortedByServerShutdown": "(Anulat prin închiderea serverului)",
+    "LabelAbortedByServerShutdown": "Anulat prin închiderea serverului",
     "Label3DFormat": "Format 3D",
     "Kids": "Copii",
     "Items": "Articole",
@@ -1772,7 +1772,7 @@
     "LabelTrickplayAccel": "Activați decodarea hardware",
     "LabelTrickplayAccelHelp": "Asigurați-vă că activați opțiunea \"Allow MJPEG Encoding\" (Permiteți codificarea MJPEG) în Transcoding (Transcodare), dacă hardware-ul dvs. o acceptă.",
     "LabelScanBehavior": "Comportamentul de scanare",
-    "PriorityHigh": "Mare",
+    "PriorityHigh": "Inalta",
     "PriorityAboveNormal": "Peste normal",
     "LabelImageInterval": "Intervalul imaginii",
     "LabelImageIntervalHelp": "Interval de timp (ms) între fiecare nouă imagine trickplay.",
@@ -2065,5 +2065,9 @@
     "LiveTVPageLoadError": "Nu s-a putut incarca pagina de înregistrari",
     "MessageServerMismatch": "Serverul la care va conectati nu este acelasi server la care v-ati conectat anterior la aceasta adresa. Daca acest lucru este de asteptat, va rugam sa selectati \"Conectati oricum\". In caz contrar, conexiunea sau serverul ar putea fi compromise.",
     "ConnectAnyway": "Conecteaza Oricum",
-    "HeaderServerMismatch": "Serverul nu corespunde"
+    "HeaderServerMismatch": "Serverul nu corespunde",
+    "LabelAvailable": "Disponibil",
+    "LabelBundled": "Inclusiv",
+    "ManageRepositories": "Gestionați depozitele",
+    "ViewAllPlugins": "Vedeti toate pluginurile"
 }

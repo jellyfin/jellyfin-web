@@ -388,7 +388,7 @@
     "Items": "Einträge",
     "Kids": "Kinder",
     "Label3DFormat": "3D Format",
-    "LabelAbortedByServerShutdown": "(Durch herunterfahrenden Server abgebrochen)",
+    "LabelAbortedByServerShutdown": "Abgebrochen durch Server-Shutdown",
     "LabelAccessDay": "Wochentag",
     "LabelAccessEnd": "Endzeit",
     "LabelAccessStart": "Startzeit",
