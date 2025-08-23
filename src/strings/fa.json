@@ -1761,5 +1761,6 @@
     "LabelNotInstalled": "نصب نشده",
     "LabelInstalled": "نصب شده",
     "LabelImageCache": "کش عکس",
-    "LabelQsvDevice": "دستگاه QSV"
+    "LabelQsvDevice": "دستگاه QSV",
+    "LabelRestore": "بازیابی"
 }
