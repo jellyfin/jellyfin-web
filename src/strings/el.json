@@ -1120,7 +1120,7 @@
     "LabelDidlMode": "Κατάσταση DIDL",
     "LabelDateAddedBehaviorHelp": "Αν υπάρχει τιμή στα μεταδεδομένα, θα εμφανίζεται πάντα πριν από οποιαδήποτε από αυτές τις επιλογές.",
     "LabelBlastMessageIntervalHelp": "Καθορίστε τη διάρκεια σε δευτερόλεπτα μεταξύ ζωντανών μηνυμάτων.",
-    "LabelAbortedByServerShutdown": "(Ματαιώθηκε λόγω τερματισμού λειτουργίας του διακοσμητή)",
+    "LabelAbortedByServerShutdown": "Ματαιώθηκε λόγω τερματισμού λειτουργίας του server",
     "Console": "Κονσόλα",
     "EnableStreamLooping": "Αυτόματη επανάληψη ζωντανών ροών",
     "DisableCustomCss": "Απενεργοποίηση προσαρμοσμένου κώδικα CSS που παρέχεται από τον διακομιστή",

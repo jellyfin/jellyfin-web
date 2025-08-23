@@ -416,7 +416,7 @@
     "Items": "Pozycje",
     "Kids": "Dla dzieci",
     "Label3DFormat": "Format 3D",
-    "LabelAbortedByServerShutdown": "(Przerwano w skutek wyłączenia serwera)",
+    "LabelAbortedByServerShutdown": "Przerwano z powodu wyłączenia serwera",
     "LabelAccessDay": "Dzień tygodnia",
     "LabelAccessEnd": "Czas zakończenia",
     "LabelAccessStart": "Czas startu",
