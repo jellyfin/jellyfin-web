@@ -1,5 +1,5 @@
 {
-    "ButtonQuickStartGuide": "Guía de inicio rápido",
+    "ButtonQuickStartGuide": "Guía de inicio",
     "ButtonSignOut": "Cerrar sesión",
     "EnableHardwareEncoding": "Habilitar la codificación por hardware",
     "HeaderLatestEpisodes": "Capítulos añadidos recientemente",
@@ -1988,5 +1988,12 @@
     "HeaderNextVideo": "Siguiente video",
     "AutoSubtitleStylingHelp": "Este modo cambiará automáticamente entre los modos de estilo nativo y personalizado de subtítulos basándose en el tipo de su dispositivo.",
     "CopyLogSuccess": "El contenido del registro se ha copiado satisfactoriamente.",
-    "Custom": "Personalizado"
+    "Custom": "Personalizado",
+    "CustomSplashScreenSize": "Las imágenes personalizadas deben tener una relación de aspecto de 16x9 y una resolución mínima de 1920x1080.",
+    "ButtonLearnMore": "Saber Más",
+    "BackupsPageLoadError": "No se pudo cargar la página de backups",
+    "ButtonCreateBackup": "Crear Respaldo",
+    "Create": "Crear",
+    "ConnectAnyway": "Conectar de todas formas",
+    "ConfirmDeleteRepository": "¿Borrar repositorio?"
 }

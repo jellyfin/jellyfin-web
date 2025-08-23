@@ -377,7 +377,7 @@
     "Items": "Objekt",
     "Kids": "Barn",
     "Label3DFormat": "3D-format",
-    "LabelAbortedByServerShutdown": "(Avbröts eftersom servern stängdes av)",
+    "LabelAbortedByServerShutdown": "Avbröts eftersom servern stängdes av",
     "LabelAccessDay": "Veckodag",
     "LabelAccessEnd": "Sluttid",
     "LabelAccessStart": "Starttid",

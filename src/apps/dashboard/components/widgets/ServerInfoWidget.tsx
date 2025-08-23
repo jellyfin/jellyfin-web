@@ -6,6 +6,9 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Skeleton from '@mui/material/Skeleton';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { useSystemInfo } from 'hooks/useSystemInfo';
 
 type ServerInfoWidgetProps = {
@@ -56,6 +59,7 @@ const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClic
                 <Stack direction='row' spacing={1.5}>
                     <Button
                         onClick={onScanLibrariesClick}
+                        startIcon={<RefreshIcon />}
                         sx={{
                             fontWeight: 'bold'
                         }}
@@ -65,6 +69,7 @@ const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClic
 
                     <Button
                         onClick={onRestartClick}
+                        startIcon={<RestartAltIcon />}
                         color='error'
                         sx={{
                             fontWeight: 'bold'
@@ -75,6 +80,7 @@ const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClic
 
                     <Button
                         onClick={onShutdownClick}
+                        startIcon={<PowerSettingsNewIcon />}
                         color='error'
                         sx={{
                             fontWeight: 'bold'
