@@ -136,7 +136,7 @@ export function createGainNode(elem: HTMLMediaElement) {
     audioNodeBus.unshift(gainNode);
 
     const source = masterAudioOutput.audioContext.createMediaElementSource(elem);
-    createBuffer(source, audioNodeBus[0] );
+    createBuffer(source, audioNodeBus[0]);
     audioNodeBus[0].connect(masterAudioOutput.mixerNode);
 }
 

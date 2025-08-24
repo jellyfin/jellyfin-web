@@ -81,7 +81,7 @@ export function hijackMediaElementForCrossfade() {
     hijackedPlayer.classList.remove('mediaPlayerAudio');
     hijackedPlayer.id = 'crossFadeMediaElement';
 
-    hijackedPlayer.pause = ()=>{
+    hijackedPlayer.pause = () => {
         // Do nothing
     };
 
