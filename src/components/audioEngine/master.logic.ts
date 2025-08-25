@@ -1,6 +1,6 @@
 import { getSavedVisualizerSettings, setVisualizerSettings, visualizerSettings } from 'components/visualizer/visualizers.logic';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { setXDuration } from './crossfader.logic';
+import { setXDuration, xDuration } from './crossfader.logic';
 
 type MasterAudioTypes = {
     mixerNode?: GainNode;
@@ -138,5 +138,24 @@ export function createGainNode(elem: HTMLMediaElement) {
     const source = masterAudioOutput.audioContext.createMediaElementSource(elem);
     createBuffer(source, audioNodeBus[0]);
     audioNodeBus[0].connect(masterAudioOutput.mixerNode);
+}
+
+/**
+ * Ramps the playback gain to the desired level while maintaining volume adjustments.
+ * @param {number|undefined} normalizationGain - Gain in dB to apply for normalization.
+ */
+export function rampPlaybackGain(normalizationGain?: number) {
+    if (!masterAudioOutput.audioContext || !audioNodeBus[0]) return;
+
+    const audioCtx = masterAudioOutput.audioContext;
+    const gainNode = audioNodeBus[0].gain;
+    const gainValue = normalizationGain ? Math.pow(10, normalizationGain / 20) : 1;
+
+    gainNode.cancelScheduledValues(audioCtx.currentTime);
+    gainNode.linearRampToValueAtTime(0.01, audioCtx.currentTime);
+    gainNode.exponentialRampToValueAtTime(
+        gainValue,
+        audioCtx.currentTime + (xDuration.sustain / 24)
+    );
 }
 
