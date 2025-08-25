@@ -216,27 +216,27 @@ function showPackageInstallNotification(apiClient, installation, status) {
     });
 }
 
-Events.on(serverNotifications, 'LibraryChanged', function (e, apiClient, data) {
+Events.on(serverNotifications, 'LibraryChanged', function (_e, apiClient, data) {
     onLibraryChanged(data, apiClient);
 });
 
-Events.on(serverNotifications, 'PackageInstallationCompleted', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstallationCompleted', function (_e, apiClient, data) {
     showPackageInstallNotification(apiClient, data, 'completed');
 });
 
-Events.on(serverNotifications, 'PackageInstallationFailed', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstallationFailed', function (_e, apiClient, data) {
     showPackageInstallNotification(apiClient, data, 'failed');
 });
 
-Events.on(serverNotifications, 'PackageInstallationCancelled', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstallationCancelled', function (_e, apiClient, data) {
     showPackageInstallNotification(apiClient, data, 'cancelled');
 });
 
-Events.on(serverNotifications, 'PackageInstalling', function (e, apiClient, data) {
+Events.on(serverNotifications, 'PackageInstalling', function (_e, apiClient, data) {
     showPackageInstallNotification(apiClient, data, 'progress');
 });
 
-Events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient) {
+Events.on(serverNotifications, 'ServerShuttingDown', function (_e, apiClient) {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,
@@ -245,7 +245,7 @@ Events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient) {
     showNotification(notification, 0, apiClient);
 });
 
-Events.on(serverNotifications, 'ServerRestarting', function (e, apiClient) {
+Events.on(serverNotifications, 'ServerRestarting', function (_e, apiClient) {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,
@@ -254,7 +254,7 @@ Events.on(serverNotifications, 'ServerRestarting', function (e, apiClient) {
     showNotification(notification, 0, apiClient);
 });
 
-Events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
+Events.on(serverNotifications, 'RestartRequired', function (_e, apiClient) {
     const serverId = apiClient.serverInfo().Id;
     const notification = {
         tag: 'restart' + serverId,

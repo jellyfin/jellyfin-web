@@ -13,7 +13,7 @@ function onOrientationChangeError(err) {
     console.error('error locking orientation: ' + err);
 }
 
-Events.on(playbackManager, 'playbackstart', function (e, player) {
+Events.on(playbackManager, 'playbackstart', function (_e, player) {
     const isLocalVideo = player.isLocalPlayer && !player.isExternalPlayer && playbackManager.isPlayingVideo(player);
 
     if (isLocalVideo && layoutManager.mobile) {
@@ -35,7 +35,7 @@ Events.on(playbackManager, 'playbackstart', function (e, player) {
     }
 });
 
-Events.on(playbackManager, 'playbackstop', function (e, playbackStopInfo) {
+Events.on(playbackManager, 'playbackstop', function (_e, playbackStopInfo) {
     if (orientationLocked && !playbackStopInfo.nextMediaType) {
         const unlockOrientation = window.screen.unlockOrientation || window.screen.mozUnlockOrientation || window.screen.msUnlockOrientation || (window.screen.orientation?.unlock);
 
