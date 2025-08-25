@@ -1839,7 +1839,28 @@ export default function (view) {
 
     dom.addEventListener(view, 'dblclick', (e) => {
         if (e.target !== view) return;
-        playbackManager.toggleFullscreen(currentPlayer);
+
+        if (layoutManager.mobile) {
+            // Get the click position relative to the video container width
+            const rect = view.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const containerWidth = rect.width;
+
+            // If clicked on the left third of the screen, seek backward
+            // If clicked on the right third of the screen, seek forward
+            // Middle third toggles full screen
+            if (clickX < containerWidth / 3) {
+                playbackManager.rewind(currentPlayer);
+                showOsd(btnRewind);
+            } else if (clickX > (containerWidth * 2 / 3)) {
+                playbackManager.fastForward(currentPlayer);
+                showOsd(btnFastForward);
+            } else {
+                playbackManager.toggleFullscreen(currentPlayer);
+            }
+        } else {
+            playbackManager.toggleFullscreen(currentPlayer);
+        }
     });
 
     view.querySelector('.buttonMute').addEventListener('click', function () {
