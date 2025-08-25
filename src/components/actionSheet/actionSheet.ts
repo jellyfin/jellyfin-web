@@ -93,6 +93,8 @@ function getPosition(positionTo: Element, options: Options, dlg: HTMLElement) {
 
     const pos = getOffsets([positionTo])[0];
 
+    if (!pos) return;
+
     if (options.positionY !== 'top') {
         pos.top += (pos.height || 0) / 2;
     }
@@ -249,6 +251,8 @@ export function show(options: Options) {
     // 'options.items' is HTMLOptionsCollection, so no fancy loops
     for (let i = 0; i < options.items.length; i++) {
         const item = options.items[i];
+
+        if (!item) continue;
 
         if (item.divider) {
             html += '<div class="actionsheetDivider"></div>';
