@@ -42,7 +42,7 @@ export default function (view, params, tabContent) {
 
     function reloadItems(context, promise) {
         const query = getQuery();
-        promise.then(function (result) {
+        promise.then((result) => {
             let html = '';
             html = cardBuilder.getCardsHtml({
                 items: result.Items,
@@ -68,17 +68,15 @@ export default function (view, params, tabContent) {
 
     const data = {};
 
-    this.getCurrentViewStyle = function () {
-        return getPageData().view;
-    };
+    this.getCurrentViewStyle = () => getPageData().view;
 
     let promise;
 
-    this.preRender = function () {
+    this.preRender = () => {
         promise = getPromise();
     };
 
-    this.renderTab = function () {
+    this.renderTab = () => {
         reloadItems(tabContent, promise);
     };
 }
