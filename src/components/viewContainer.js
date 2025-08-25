@@ -50,7 +50,7 @@ export function loadView(options) {
 
         let view = newView;
 
-        if (typeof view == 'string') {
+        if (typeof view === 'string') {
             view = document.createElement('div');
             view.innerHTML = newView;
         }
@@ -150,9 +150,9 @@ function normalizeNewView(options, isPluginpage) {
     let hasjQueryChecked = false;
 
     if (isPluginpage) {
-        hasjQuery = viewHtml.indexOf('jQuery') != -1 || viewHtml.indexOf('$(') != -1 || viewHtml.indexOf('$.') != -1;
-        hasjQueryChecked = viewHtml.indexOf('.checked(') != -1;
-        hasjQuerySelect = viewHtml.indexOf('.selectmenu(') != -1;
+        hasjQuery = viewHtml.indexOf('jQuery') !== -1 || viewHtml.indexOf('$(') !== -1 || viewHtml.indexOf('$.') !== -1;
+        hasjQueryChecked = viewHtml.indexOf('.checked(') !== -1;
+        hasjQuerySelect = viewHtml.indexOf('.selectmenu(') !== -1;
     }
 
     return {

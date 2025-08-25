@@ -215,7 +215,7 @@ function addBackdropOverlay(dlg) {
     });
 
     dom.addEventListener((dlg.dialogContainer || backdrop), 'click', e => {
-        if (e.target === dlg.dialogContainer && e.target == clickedElement) {
+        if (e.target === dlg.dialogContainer && e.target === clickedElement) {
             close(dlg);
         }
     }, {

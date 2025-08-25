@@ -1996,8 +1996,8 @@ export class PlaybackManager {
                 episodesResult.StartIndex = undefined;
                 let seasonStartIndex;
                 for (const [index, e] of episodesResult.Items.entries()) {
-                    if (startSeasonId && items.length != 1) {
-                        if (e.SeasonId == startSeasonId) {
+                    if (startSeasonId && items.length !== 1) {
+                        if (e.SeasonId === startSeasonId) {
                             if (seasonStartIndex === undefined) {
                                 seasonStartIndex = index;
                             }
@@ -2460,9 +2460,9 @@ export class PlaybackManager {
         }
 
         function rankStreamType(prevIndex, prevSource, mediaStreams, trackOptions, streamType, isSecondarySubtitle) {
-            if (prevIndex == -1) {
+            if (prevIndex === -1) {
                 console.debug(`AutoSet ${streamType} - No Stream Set`);
-                if (streamType == 'Subtitle') {
+                if (streamType === 'Subtitle') {
                     if (isSecondarySubtitle) {
                         trackOptions.DefaultSecondarySubtitleStreamIndex = -1;
                     } else {
@@ -2490,23 +2490,23 @@ export class PlaybackManager {
 
             let prevRelIndex = 0;
             for (const stream of prevSource.MediaStreams) {
-                if (stream.Type != streamType) continue;
+                if (stream.Type !== streamType) continue;
 
-                if (stream.Index == prevIndex) break;
+                if (stream.Index === prevIndex) break;
 
                 prevRelIndex += 1;
             }
 
             let newRelIndex = 0;
             for (const stream of mediaStreams) {
-                if (stream.Type != streamType) continue;
+                if (stream.Type !== streamType) continue;
 
                 let score = 0;
 
-                if (prevStream.Codec == stream.Codec) score += 1;
-                if (prevRelIndex == newRelIndex) score += 1;
-                if (prevStream.DisplayTitle && prevStream.DisplayTitle == stream.DisplayTitle) score += 2;
-                if (prevStream.Language && prevStream.Language != 'und' && prevStream.Language == stream.Language) score += 2;
+                if (prevStream.Codec === stream.Codec) score += 1;
+                if (prevRelIndex === newRelIndex) score += 1;
+                if (prevStream.DisplayTitle && prevStream.DisplayTitle === stream.DisplayTitle) score += 2;
+                if (prevStream.Language && prevStream.Language !== 'und' && prevStream.Language === stream.Language) score += 2;
 
                 console.debug(`AutoSet ${streamType} - Score ${score} for ${stream.Index} - ${stream.DisplayTitle}`);
                 if (score > bestStreamScore && score >= 3) {
@@ -2519,14 +2519,14 @@ export class PlaybackManager {
 
             if (bestStreamIndex != null) {
                 console.debug(`AutoSet ${streamType} - Using ${bestStreamIndex} score ${bestStreamScore}.`);
-                if (streamType == 'Subtitle') {
+                if (streamType === 'Subtitle') {
                     if (isSecondarySubtitle) {
                         trackOptions.DefaultSecondarySubtitleStreamIndex = bestStreamIndex;
                     } else {
                         trackOptions.DefaultSubtitleStreamIndex = bestStreamIndex;
                     }
                 }
-                if (streamType == 'Audio') {
+                if (streamType === 'Audio') {
                     trackOptions.DefaultAudioStreamIndex = bestStreamIndex;
                 }
             } else {
@@ -2543,15 +2543,15 @@ export class PlaybackManager {
                     return;
                 }
 
-                if (audio && typeof prevSource.DefaultAudioStreamIndex == 'number') {
+                if (audio && typeof prevSource.DefaultAudioStreamIndex === 'number') {
                     rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaStreams, trackOptions, 'Audio');
                 }
 
-                if (subtitle && typeof prevSource.DefaultSubtitleStreamIndex == 'number') {
+                if (subtitle && typeof prevSource.DefaultSubtitleStreamIndex === 'number') {
                     rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaStreams, trackOptions, 'Subtitle');
                 }
 
-                if (subtitle && typeof prevSource.DefaultSecondarySubtitleStreamIndex == 'number') {
+                if (subtitle && typeof prevSource.DefaultSecondarySubtitleStreamIndex === 'number') {
                     rankStreamType(prevSource.DefaultSecondarySubtitleStreamIndex, prevSource, mediaStreams, trackOptions, 'Subtitle', true);
                 }
             } catch (e) {
