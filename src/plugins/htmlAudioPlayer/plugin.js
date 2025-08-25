@@ -1,4 +1,3 @@
-import { AppFeature } from 'constants/appFeature';
 import { MediaError } from 'types/mediaError';
 
 import browser from '../../scripts/browser';
@@ -8,7 +7,7 @@ import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
-import { audioNodeBus, createGainNode, initializeMasterAudio, masterAudioOutput } from 'components/audioEngine/master.logic';
+import { createGainNode, initializeMasterAudio, masterAudioOutput, rampPlaybackGain } from 'components/audioEngine/master.logic';
 import { hijackMediaElementForCrossfade, xDuration } from 'components/audioEngine/crossfader.logic';
 import { scrollToActivePlaylistItem, triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
 
@@ -118,6 +117,7 @@ class HtmlAudioPlayer {
             self._currentTime = null;
 
             const elem = createMediaElement();
+            addGainElement(elem);
 
             return setCurrentSrc(elem, options);
         };
@@ -130,38 +130,19 @@ class HtmlAudioPlayer {
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
                 let normalizationGain;
-                if (userSettings.selectAudioNormalization() == 'TrackGain') {
+                const normalizationMode = userSettings.selectAudioNormalization();
+                if (normalizationMode == 'TrackGain') {
                     normalizationGain = options.item.NormalizationGain
                         ?? options.mediaSource.albumNormalizationGain;
-                } else if (userSettings.selectAudioNormalization() == 'AlbumGain') {
+                } else if (normalizationMode == 'AlbumGain') {
                     normalizationGain =
                         options.mediaSource.albumNormalizationGain
                         ?? options.item.NormalizationGain;
                 } else {
                     console.debug('normalization disabled');
-                    return;
                 }
 
-                audioNodeBus[0].gain.linearRampToValueAtTime(
-                    0.01,
-                    masterAudioOutput.audioContext.currentTime
-                );
-
-                if (normalizationGain) {
-                    // Calculate the normalization gain
-                    const gainValue = Math.pow(10, normalizationGain / 20);
-
-                    // Set the final gain value
-                    audioNodeBus[0].gain.exponentialRampToValueAtTime(
-                        gainValue,
-                        masterAudioOutput.audioContext.currentTime + (xDuration.sustain / 24)
-                    );
-                } else {
-                    audioNodeBus[0].gain.exponentialRampToValueAtTime(
-                        1,
-                        masterAudioOutput.audioContext.currentTime + (xDuration.sustain / 24)
-                    );
-                }
+                rampPlaybackGain(normalizationGain);
             }).catch((err) => {
                 console.error('Failed to add/change gainNode', err);
             });
