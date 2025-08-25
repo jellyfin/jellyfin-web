@@ -93,16 +93,16 @@ if (layoutManager.mobile) {
     let lastInput = Date.now();
     let isIdle = false;
 
-    function showCursor() {
+    const showCursor = () => {
         if (isIdle) {
             isIdle = false;
             const classList = document.body.classList;
             classList.remove('mouseIdle');
             classList.remove('mouseIdle-tv');
         }
-    }
+    };
 
-    function hideCursor() {
+    const hideCursor = () => {
         if (!isIdle) {
             isIdle = true;
             const classList = document.body.classList;
@@ -112,16 +112,17 @@ if (layoutManager.mobile) {
             }
             scrollToActivePlaylistItem();
         }
-    }
+    };
 
-    function pointerActivity() {
+    const pointerActivity = () => {
         lastInput = Date.now();
         inputManager.notifyMouseMove();
         showCursor();
-    }
+    };
 
-    document.addEventListener(window.PointerEvent ? 'pointermove' : 'mousemove', pointerActivity, { passive: true });
-    document.addEventListener(window.PointerEvent ? 'pointerdown' : 'mousedown', pointerActivity, { passive: true });
+    const hasPointerEvent = 'PointerEvent' in window;
+    document.addEventListener(hasPointerEvent ? 'pointermove' : 'mousemove', pointerActivity, { passive: true });
+    document.addEventListener(hasPointerEvent ? 'pointerdown' : 'mousedown', pointerActivity, { passive: true });
 
     setInterval(() => {
         if (!isIdle && Date.now() - lastInput >= idleDelay) {
