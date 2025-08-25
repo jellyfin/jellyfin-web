@@ -1850,8 +1850,8 @@ export default function (view) {
         playbackManager.setVolume(e.target.value, currentPlayer);
     });
 
-        // Firefox vol slider
-    if (browser.firefox) {
+    // Firefox vol slider
+    if (browser.firefox)  {
         let isDragging = false;
         const updateVolumeFromMousePosition = (e) => {
             const slider = nowPlayingVolumeSlider;
@@ -1861,7 +1861,6 @@ export default function (view) {
             if (globalize.getIsElementRTL(slider)) {
                 fraction = (rect.right - e.clientX) / rect.width;
             }
-        
             fraction = Math.min(Math.max(fraction, 0), 1);
 
             const min = parseFloat(slider.min) || 0;
@@ -1871,8 +1870,7 @@ export default function (view) {
             slider.value = volume;
             playbackManager.setVolume(volume, currentPlayer);
         };
-        
-        nowPlayingVolumeSlider.addEventListener('mousedown', (e) => {
+        nowPlayingVolumeSlider.addEventListener('mo<!-- Describe your changes here in 1-5 sentences. -->usedown', (e) => {
             isDragging = true;
             updateVolumeFromMousePosition(e);
         });
@@ -1888,13 +1886,11 @@ export default function (view) {
                 updateVolumeFromMousePosition(e);
             }
         });
-        
         if (window.PointerEvent) {
             nowPlayingVolumeSlider.addEventListener('pointerdown', (e) => {
                 isDragging = true;
                 updateVolumeFromMousePosition(e);
             });
-            
             document.addEventListener('pointerup', () => {
                 if (isDragging) {
                     isDragging = false;
