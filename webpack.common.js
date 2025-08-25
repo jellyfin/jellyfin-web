@@ -1,12 +1,38 @@
-const fg = require('fast-glob');
-const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { DefinePlugin, IgnorePlugin } = require('webpack');
-const packageJson = require('./package.json');
+import fg from 'fast-glob';
+import path from 'path';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import webpack from 'webpack';
+import packageJson from './package.json' with { type : 'json' };
+import postcssPresetEnv from 'postcss-preset-env';
+import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
+import ChildProcess from 'child_process';
+
+const __dirname = import.meta.dirname;
+
+const { DefinePlugin, IgnorePlugin } = webpack;
+
+const postcssOptions = {
+    plugins: [
+        // Explicitly specify browserslist to override ones from node_modules
+        // For example, Swiper has it in its package.json
+        postcssPresetEnv({ browsers: packageJson.browserslist }),
+        autoprefixer({ overrideBrowserslist: packageJson.browserslist }),
+        cssnano({
+            presets: [
+                'default',
+                // Turn off `mergeLonghand` because it combines `padding-*` and `margin-*`,
+                // breaking fallback styles.
+                // https://github.com/cssnano/cssnano/issues/1163
+                // https://github.com/cssnano/cssnano/issues/1192
+                { mergeLonghand: false }
+            ] })
+    ]
+};
 
 const Assets = [
     'native-promise-only/npo.js',
@@ -23,7 +49,7 @@ const Assets = [
 const DEV_MODE = process.env.NODE_ENV !== 'production';
 let COMMIT_SHA = '';
 try {
-    COMMIT_SHA = require('child_process')
+    COMMIT_SHA = ChildProcess
         // eslint-disable-next-line sonarjs/no-os-command-from-path
         .execSync('git describe --always --dirty')
         .toString()
@@ -325,11 +351,7 @@ const config = {
                             'css-loader',
                             {
                                 loader: 'postcss-loader',
-                                options: {
-                                    postcssOptions: {
-                                        config: path.resolve(__dirname, 'postcss.config.js')
-                                    }
-                                }
+                                options: { postcssOptions }
                             },
                             'sass-loader'
                         ]
@@ -340,11 +362,7 @@ const config = {
                             'css-loader',
                             {
                                 loader: 'postcss-loader',
-                                options: {
-                                    postcssOptions: {
-                                        config: path.resolve(__dirname, 'postcss.config.js')
-                                    }
-                                }
+                                options: { postcssOptions }
                             },
                             'sass-loader'
                         ]
@@ -364,7 +382,7 @@ const config = {
                 type: 'asset/resource'
             },
             {
-                test: require.resolve('jquery'),
+                test: /node_modules\/jquery\/dist\/jquery\.js$/,
                 loader: 'expose-loader',
                 options: {
                     exposes: ['$', 'jQuery']
@@ -374,4 +392,4 @@ const config = {
     }
 };
 
-module.exports = config;
+export default config;
