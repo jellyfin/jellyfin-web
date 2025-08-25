@@ -98,9 +98,6 @@ export function hijackMediaElementForCrossfade() {
     }
 
     setTimeout(() => {
-        if (typeof unbindCallback === 'function') {
-            unbindCallback();
-        }
         // This destroys the wavesurfer on the fade out track when the new track starts
         destroyWaveSurferInstance();
         prevNextDisable(false);
@@ -114,6 +111,7 @@ export function hijackMediaElementForCrossfade() {
         xfadeGainNode.gain.linearRampToValueAtTime(0, masterAudioOutput.audioContext.currentTime + 1);
         setTimeout(() => {
             // Clean up and destroy the xfade MediaElement here
+            unbindCallback();
             xfadeGainNode.disconnect();
             delayNode.disconnect();
             hijackedPlayer.remove();
