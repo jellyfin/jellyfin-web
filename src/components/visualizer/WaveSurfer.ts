@@ -2,7 +2,7 @@ import WaveSurfer from 'wavesurfer.js';
 import TimelinePlugin from 'wavesurfer.js/dist/plugins/timeline';
 import ZoomPlugin from 'wavesurfer.js/dist/plugins/zoom';
 import MiniMapPlugin from 'wavesurfer.js/dist/plugins/minimap';
-import { waveSurferChannelStyle, surferOptions, waveSurferPluginOptions } from './WaveSurferOptions';
+import { createWaveSurferChannelStyle, DEFAULT_WAVESURFER_COLORS, surferOptions, waveSurferPluginOptions, WaveSurferColorScheme } from './WaveSurferOptions';
 import { triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
 import { visualizerSettings } from './visualizers.logic';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
@@ -41,6 +41,53 @@ const purgatory: WaveSurfer[] = [];
 
 let lastTouchMoveTime = 0;
 
+let waveSurferChannelStyle = createWaveSurferChannelStyle(DEFAULT_WAVESURFER_COLORS);
+
+async function extractColorsFromAlbumArt(): Promise<WaveSurferColorScheme> {
+    const artElem = document.querySelector('.nowPlayingImage') as HTMLElement | null;
+    if (!artElem) return DEFAULT_WAVESURFER_COLORS;
+
+    const match = artElem.style.backgroundImage.match(/url\("?(.*)"?\)/);
+    const url = match?.[1];
+    if (!url) return DEFAULT_WAVESURFER_COLORS;
+
+    return new Promise(resolve => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = url;
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                resolve(DEFAULT_WAVESURFER_COLORS);
+                return;
+            }
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+            const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+            let r = 0;
+            let g = 0;
+            let b = 0;
+            let count = 0;
+            for (let i = 0; i < data.length; i += 4) {
+                r += data[i];
+                g += data[i + 1];
+                b += data[i + 2];
+                count++;
+            }
+            r = Math.round(r / count);
+            g = Math.round(g / count);
+            b = Math.round(b / count);
+            const left = `rgb(${r}, ${g}, ${b})`;
+            const right = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
+            const cursor = `rgb(${Math.min(r + 100, 255)}, ${Math.min(g + 100, 255)}, ${Math.min(b + 100, 255)})`;
+            resolve({ left, right, cursor });
+        };
+        img.onerror = () => resolve(DEFAULT_WAVESURFER_COLORS);
+    });
+}
+
 function findElements() {
     inputSurfer = document.getElementById('inputSurfer');
     simpleSlider = document.getElementById('simpleSlider');
@@ -52,7 +99,7 @@ function isNewSong(newSongDuration: number) {
     return (newSongDuration !== Math.floor(savedDuration * 10000000));
 }
 
-function waveSurferInitialization(container: string, legacy: WaveSurferLegacy, newSongDuration: 0 ) {
+async function waveSurferInitialization(container: string, legacy: WaveSurferLegacy, newSongDuration = 0) {
     findElements();
 
     destroyWaveSurferInstance();
@@ -72,6 +119,9 @@ function waveSurferInitialization(container: string, legacy: WaveSurferLegacy, n
     }
 
     const newSong = isNewSong(newSongDuration);
+
+    const colors = await extractColorsFromAlbumArt();
+    waveSurferChannelStyle = createWaveSurferChannelStyle(colors);
 
     waveSurferInstance = WaveSurfer.create({ ...surferOptions,
         media: mediaElement,
