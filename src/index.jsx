@@ -60,10 +60,16 @@ build: ${__JF_BUILD_VERSION__}`);
 
     // Register handlers to update header classes
     pageClassOn('viewshow', 'standalonePage', function () {
-        document.querySelector('.skinHeader').classList.add('noHeaderRight');
+        const header = document.querySelector('.skinHeader');
+        if (header) {
+            header.classList.add('noHeaderRight');
+        }
     });
     pageClassOn('viewhide', 'standalonePage', function () {
-        document.querySelector('.skinHeader').classList.remove('noHeaderRight');
+        const header = document.querySelector('.skinHeader');
+        if (header) {
+            header.classList.remove('noHeaderRight');
+        }
     });
 
     // Initialize the api client
