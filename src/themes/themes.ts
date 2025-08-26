@@ -132,7 +132,7 @@ export const COLOR_SCHEMES = {
 const DEFAULT_THEME = createTheme({
     cssVariables: {
         cssVarPrefix: 'jf',
-        colorSchemeSelector: 'data',
+        colorSchemeSelector: '[data-theme="%s"]',
         disableCssColorScheme: true
     },
     defaultColorScheme: 'dark',

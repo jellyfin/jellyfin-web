@@ -42,6 +42,10 @@ function setTheme(id) {
 
             currentThemeId = info.id;
 
+            // set the theme attribute for mui
+            document.documentElement.setAttribute('data-theme', info.id);
+
+            // set the meta theme color
             document.getElementById('themeColor').content = info.color;
         });
     });

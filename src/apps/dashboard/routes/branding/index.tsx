@@ -319,9 +319,8 @@ export const Component = () => {
                             maxRows={20}
                             name={BrandingOption.CustomCss}
                             label={globalize.translate('LabelCustomCss')}
-                            helperText={globalize.translate(
-                                'LabelCustomCssHelp'
-                            )}
+                            helperText={globalize.translate('LabelCustomCssHelp')}
+                            spellCheck={false}
                             value={brandingOptions?.CustomCss}
                             onChange={setBrandingOption}
                             slotProps={{

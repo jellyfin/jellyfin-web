@@ -1,3 +1,5 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+
 import listView from 'components/listview/listview';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import imageLoader from 'components/images/imageLoader';
@@ -442,16 +444,25 @@ function getMoreItemsHref(item, type) {
 }
 
 function addCurrentItemToQuery(query, item) {
-    if (item.Type === 'Person') {
-        query.PersonIds = item.Id;
-    } else if (item.Type === 'Genre') {
-        query.Genres = item.Name;
-    } else if (item.Type === 'MusicGenre') {
-        query.Genres = item.Name;
-    } else if (item.Type === 'Studio') {
-        query.StudioIds = item.Id;
-    } else if (item.Type === 'MusicArtist') {
-        query.AlbumArtistIds = item.Id;
+    switch (item.Type) {
+        case BaseItemKind.Person:
+            query.PersonIds = item.Id;
+            break;
+        case BaseItemKind.Genre:
+            query.Genres = item.Name;
+            break;
+        case BaseItemKind.MusicGenre:
+            query.Genres = item.Name;
+            break;
+        case BaseItemKind.Studio:
+            query.StudioIds = item.Id;
+            break;
+        case BaseItemKind.MusicArtist:
+            if (query.IncludeItemTypes === BaseItemKind.MusicVideo) {
+                query.ArtistIds = item.Id;
+            } else {
+                query.AlbumArtistIds = item.Id;
+            }
     }
 }
 

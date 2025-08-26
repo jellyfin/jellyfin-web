@@ -306,7 +306,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                             xs: 1,
                             sm: 0
                         },
-                        justifyContent: 'end'
+                        justifyContent: 'flex-end'
                     }}
                 >
                     {!isPending && (

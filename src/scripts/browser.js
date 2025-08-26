@@ -334,10 +334,6 @@ if (browser.web0s) {
     browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
 }
 
-if (browser.edgeUwp) {
-    browser.edge = true;
-}
-
 browser.tv = isTv();
 browser.operaTv = browser.tv && userAgent.toLowerCase().indexOf('opr/') !== -1;
 

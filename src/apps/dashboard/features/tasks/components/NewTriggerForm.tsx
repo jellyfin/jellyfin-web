@@ -224,9 +224,10 @@ const NewTriggerForm: FunctionComponent<IProps> = ({
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={onClose} color='error'>
-                    {globalize.translate('ButtonCancel')}
-                </Button>
+                <Button
+                    onClick={onClose}
+                    variant='text'
+                >{globalize.translate('ButtonCancel')}</Button>
                 <Button type='submit'>{globalize.translate('Add')}</Button>
             </DialogActions>
         </Dialog>
