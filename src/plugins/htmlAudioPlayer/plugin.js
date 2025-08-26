@@ -1,3 +1,4 @@
+import { AppFeature } from 'constants/appFeature';
 import { MediaError } from 'types/mediaError';
 
 import browser from '../../scripts/browser';

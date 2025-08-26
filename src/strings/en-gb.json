@@ -1020,7 +1020,7 @@
     "LabelAirDays": "Air days",
     "LabelAccessEnd": "End time",
     "LabelAccessDay": "Day of week",
-    "LabelAbortedByServerShutdown": "(Aborted by server shutdown)",
+    "LabelAbortedByServerShutdown": "Aborted by server shutdown",
     "Kids": "Kids",
     "Items": "Items",
     "ItemCount": "{0} items",
