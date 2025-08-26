@@ -6,7 +6,7 @@ import { Credentials, ApiClient } from 'jellyfin-apiclient';
 import { appHost } from 'components/apphost';
 import appSettings from 'scripts/settings/appSettings';
 import { setUserInfo } from 'scripts/settings/userSettings';
-import Dashboard from 'utils/dashboard';
+import appCapabilities from 'utils/appCapabilities.ts';
 import Events from 'utils/events.ts';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
@@ -148,7 +148,7 @@ class ServerConnections extends ConnectionManager {
 
 const credentialProvider = new Credentials();
 
-const capabilities = Dashboard.capabilities(appHost);
+const capabilities = appCapabilities(appHost);
 
 export default new ServerConnections(
     credentialProvider,
