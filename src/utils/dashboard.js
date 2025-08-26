@@ -19,7 +19,13 @@ import { getLocationSearch } from './url.ts';
 import { queryClient } from './query/queryClient';
 
 export function getCurrentUser() {
-    return window.ApiClient.getCurrentUser(false);
+    const apiClient = window.ApiClient;
+
+    if (!apiClient) {
+        return Promise.resolve(null);
+    }
+
+    return apiClient.getCurrentUser(false);
 }
 
 // TODO: investigate url prefix support for serverAddress function

@@ -308,6 +308,10 @@ $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
 }).on('pagebeforeshow', '.metadataEditorPage', function () {
     const page = this;
     Dashboard.getCurrentUser().then(function (user) {
+        if (!user) {
+            return;
+        }
+
         const id = getCurrentItemId();
         if (id) {
             ApiClient.getAncestorItems(id, user.Id).then(function (ancestors) {
