@@ -32,7 +32,6 @@ import './elements/emby-button/emby-button';
 // Import auto-running components
 // NOTE: This is an anti-pattern
 import './components/playback/displayMirrorManager';
-import './components/playback/playerSelectionMenu';
 import './components/themeMediaPlayer';
 import './scripts/autoThemes';
 import './scripts/mouseManager';
