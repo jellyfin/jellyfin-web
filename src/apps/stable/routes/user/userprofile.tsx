@@ -54,7 +54,7 @@ const UserProfile: FunctionComponent = () => {
             const userImage = (page.querySelector('#image') as HTMLDivElement);
             userImage.style.backgroundImage = 'url(' + imageUrl + ')';
 
-            Dashboard.getCurrentUser().then(function (loggedInUser: UserDto) {
+            Dashboard.getCurrentUser().then(function (loggedInUser: UserDto | null) {
                 if (!user.Policy) {
                     throw new Error('Unexpected null user.Policy');
                 }
