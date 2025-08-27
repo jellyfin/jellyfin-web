@@ -908,7 +908,7 @@
     "LabelAllowHWTranscoding": "אפשר קידוד חומרה",
     "LabelAlbumArtMaxWidth": "רוחב מירבי של אומנות אלבום",
     "LabelAlbumArtMaxHeight": "גובה מירבי של אומנות אלבום",
-    "LabelAbortedByServerShutdown": "(הופסק על ידי כיבוי השרת)",
+    "LabelAbortedByServerShutdown": "בוטל בגלל כיבוי השרת",
     "KnownProxiesHelp": "רשימה מופרדת באמצעות פסיקים של כתובות IP או שמות מארחים של מתווכים ידועים המשמשים בעת חיבור לשרת ה-Jellyfin שלך. זה נדרש כדי לעשות שימוש נכון בכותרות X-Forwarded-For. דורש אתחול מחדש לאחר השמירה.",
     "ImportFavoriteChannelsHelp": "רק ערוצים המסומנים כחביבים במכשיר המקלט ייובאו .",
     "HttpsRequiresCert": "כדי לאפשר חיבורים מאובטחים, יהיה עליך לספק אישור SSL מהימן, כגון Let's Encrypt. אנא ספק תעודה או השבת חיבורים מאובטחים.",

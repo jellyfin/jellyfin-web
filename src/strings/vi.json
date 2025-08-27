@@ -513,7 +513,7 @@
     "LabelAccessStart": "Thời gian bắt đầu",
     "LabelAccessEnd": "Thời gian kết thúc",
     "LabelAccessDay": "Ngày trong tuần",
-    "LabelAbortedByServerShutdown": "(Bị hủy bỏ do máy chủ ngừng hoạt động)",
+    "LabelAbortedByServerShutdown": "Bị hủy bỏ do máy chủ tắt",
     "Label3DFormat": "Định dạng 3D",
     "Kids": "Trẻ Em",
     "Items": "Mục",
