@@ -89,7 +89,7 @@ class OffsetController {
                 }
             }
 
-            // TODO: TV layout will require special handling for navigation keys. But now field is not focusable
+            // TV layout will require special handling for navigation keys. But now field is not focusable
             event.stopPropagation();
         });
 
