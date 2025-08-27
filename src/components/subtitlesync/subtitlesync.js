@@ -44,7 +44,7 @@ class OffsetController {
 
         if (layoutManager.tv) {
             slider.classList.add('focusable');
-            // TODO: Delay required for Firefox – wait for custom element to attach
+            // Delay required for Firefox – wait for custom element to attach
             setTimeout(() => slider.enableKeyboardDragging(), 0);
         }
 
