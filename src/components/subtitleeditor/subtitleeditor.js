@@ -110,15 +110,15 @@ function fillSubtitleList(context, item) {
             itemHtml += escapeHtml(s.DisplayTitle || '');
             itemHtml += '</div>';
 
-            var downloadUrl = '';
-            var filename = '';
-            var format = '';
+            let downloadUrl = '';
+            let filename = '';
+            let format = '';
             if (s.Path) {
                 itemHtml += '<div class="secondary listItemBodyText">' + escapeHtml(s.Path) + '</div>';
-                var filenameIndex = Math.max(s.Path.lastIndexOf('/'), s.Path.lastIndexOf('\\'));
+                const filenameIndex = Math.max(s.Path.lastIndexOf('/'), s.Path.lastIndexOf('\\'));
                 if (filenameIndex > -1) {
                     filename = escapeHtml(s.Path.substring(filenameIndex + 1));
-                    var formatIndex = filename.lastIndexOf('.');
+                    const formatIndex = filename.lastIndexOf('.');
                     if (formatIndex > -1) {
                         format = filename.substring(formatIndex + 1);
                     }
@@ -133,7 +133,7 @@ function fillSubtitleList(context, item) {
 
             if (!layoutManager.tv && s.Path) {
                 if (downloadUrl) {
-                    itemHtml += '<button data-index="' + s.Index + '" is="paper-icon-button-light" title="' + globalize.translate("Download") + ' ' + filename + '" class="btnDownload listItemButton"><a href="' + downloadUrl + '" download="' + filename + '"><span class="material-icons file_download" aria-hidden="true"></span></a></button>';
+                    itemHtml += '<button data-index="' + s.Index + '" is="paper-icon-button-light" title="' + globalize.translate('Download') + ' ' + filename + '" class="btnDownload listItemButton"><a href="' + downloadUrl + '" download="' + filename + '"><span class="material-icons file_download" aria-hidden="true"></span></a></button>';
                 }
                 itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete" aria-hidden="true"></span></button>';
             }
