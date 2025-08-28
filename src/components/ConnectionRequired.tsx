@@ -31,6 +31,12 @@ type ConnectionRequiredProps = {
     level?: AccessLevelValue
 };
 
+const ERROR_STATES = [
+    ConnectionState.ServerMismatch,
+    ConnectionState.ServerUpdateNeeded,
+    ConnectionState.Unavailable
+];
+
 const fetchPublicSystemInfo = async (apiClient: ApiClient) => {
     const infoResponse = await fetch(
         `${apiClient.serverAddress()}/System/Info/Public`,
@@ -184,7 +190,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
             console.debug('[ConnectionRequired] connection state', firstConnection?.State);
             ServerConnections.firstConnection = true;
 
-            if ([ ConnectionState.ServerUpdateNeeded, ConnectionState.Unavailable ].includes(firstConnection?.State)) {
+            if (ERROR_STATES.includes(firstConnection?.State)) {
                 setErrorState(firstConnection.State);
             } else if (level === AccessLevel.Wizard) {
                 handleWizard(firstConnection)

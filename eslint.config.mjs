@@ -351,13 +351,12 @@ export default tseslint.config(
                     leadingUnderscore: 'allowSingleOrDouble',
                     trailingUnderscore: 'allowSingleOrDouble'
                 },
-                // Ignore numbers, locale strings (en-us), aria/data attributes, CSS selectors,
-                // and api_key parameter
+                // Ignore numbers, locale strings (en-us), aria/data attributes and CSS selectors
                 {
                     selector: [ 'objectLiteralProperty', 'typeProperty' ],
                     format: null,
                     filter: {
-                        regex: '[ &\\-]|^([0-9]+)$|^api_key$',
+                        regex: '[ &\\-]|^([0-9]+)$',
                         match: true
                     }
                 }

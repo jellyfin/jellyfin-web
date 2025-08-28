@@ -19,7 +19,8 @@ const getSystemStorageQuery = (
 ) => queryOptions({
     queryKey: [ 'SystemStorage' ],
     queryFn: ({ signal }) => fetchSystemStorage(api!, { signal }),
-    enabled: !!api
+    enabled: !!api,
+    refetchOnWindowFocus: false
 });
 
 export const useSystemStorage = () => {

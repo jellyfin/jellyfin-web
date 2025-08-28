@@ -23,7 +23,7 @@ export const DEFAULT_COLOR_SCHEME: ColorSystemOptions = {
             main: '#f2b01e' // Yellow color
         },
         error: {
-            main: '#cb272a' // Red color
+            main: '#c62828' // Red color
         }
     }
 };

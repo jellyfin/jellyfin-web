@@ -9,20 +9,22 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 import CardActionArea from '@mui/material/CardActionArea';
 import Stack from '@mui/material/Stack';
+import { Link, To } from 'react-router-dom';
 
-interface IProps {
+interface BaseCardProps {
     title?: string;
     secondaryTitle?: string;
     text?: string;
     image?: string | null;
     icon?: React.ReactNode;
+    to?: To;
     onClick?: () => void;
     action?: boolean;
     actionRef?: React.MutableRefObject<HTMLButtonElement | null>;
     onActionClick?: () => void;
 };
 
-const BaseCard = ({ title, secondaryTitle, text, image, icon, onClick, action, actionRef, onActionClick }: IProps) => {
+const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, action, actionRef, onActionClick }: BaseCardProps) => {
     return (
         <Card
             sx={{
@@ -31,11 +33,18 @@ const BaseCard = ({ title, secondaryTitle, text, image, icon, onClick, action, a
                 height: 240
             }}
         >
-            <CardActionArea onClick={onClick} sx={{
-                display: 'flex',
-                flexGrow: 1,
-                alignItems: 'stretch'
-            }}>
+            <CardActionArea
+                {...(to && {
+                    component: Link,
+                    to: to
+                })}
+                onClick={onClick}
+                sx={{
+                    display: 'flex',
+                    flexGrow: 1,
+                    alignItems: 'stretch'
+                }}
+            >
                 {image ? (
                     <CardMedia
                         sx={{ flexGrow: 1 }}
@@ -55,7 +64,7 @@ const BaseCard = ({ title, secondaryTitle, text, image, icon, onClick, action, a
             </CardActionArea>
             <CardHeader
                 title={
-                    <Stack direction='row' gap={1} alignItems='center'>
+                    <Stack direction='row' spacing={1} alignItems='center'>
                         <Typography sx={{
                             overflow: 'hidden',
                             whiteSpace: 'nowrap',

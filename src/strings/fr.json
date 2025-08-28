@@ -407,7 +407,7 @@
     "Items": "Éléments",
     "Kids": "Jeunesse",
     "Label3DFormat": "Format 3D",
-    "LabelAbortedByServerShutdown": "(Annulé par l'arrêt du serveur)",
+    "LabelAbortedByServerShutdown": "Annulé par l'arrêt du serveur",
     "LabelAccessDay": "Jour de la semaine",
     "LabelAccessEnd": "Heure de fin",
     "LabelAccessStart": "Heure de début",
@@ -1258,7 +1258,7 @@
     "Episode": "Épisode",
     "BoxSet": "Coffret",
     "Artist": "Artiste",
-    "AlbumArtist": "Artistes d'albums",
+    "AlbumArtist": "Albums d'artistes",
     "Album": "Album",
     "OnApplicationStartup": "Au démarrage de l'application",
     "EveryXHours": "Toutes les {0} heures",
@@ -2061,5 +2061,13 @@
     "TranscodingLoadError": "Échec du chargement des paramètres de transcodage",
     "ConfirmDeleteRepository": "Supprimer le dépôt ?",
     "DeleteRepositoryConfirmation": "Êtes-vous sûr de vouloir supprimer ce dépôt ?",
-    "RepositoriesPageLoadError": "Échec du chargement des dépôts"
+    "RepositoriesPageLoadError": "Échec du chargement des dépôts",
+    "LiveTVPageLoadError": "Échec du chargement de la page d'enregistrements",
+    "ConnectAnyway": "Se connecter quand même",
+    "HeaderServerMismatch": "Incompatibilité du serveur",
+    "MessageServerMismatch": "Le serveur auquel vous vous connectez n'est pas le même que celui auquel vous vous êtes précédemment connecté à cette adresse. Si cela est normal, sélectionnez « Se connecter quand même ». Sinon, votre connexion ou le serveur pourrait être compromis.",
+    "LabelAvailable": "Disponible",
+    "LabelBundled": "Groupé",
+    "ManageRepositories": "Gérer les dépôts",
+    "ViewAllPlugins": "Voir tous les plugins"
 }
