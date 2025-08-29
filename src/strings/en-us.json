@@ -1034,7 +1034,7 @@
     "LabelYear": "Year",
     "LabelYoureDone": "You're Done!",
     "LabelZipCode": "Zip Code",
-    "LanNetworksHelp": "Comma separated list of IP addresses or IP/netmask entries for networks that will be considered on local network when enforcing bandwidth and remote access restrictions.If left blank, all RFC1918 addresses are considered local.",
+    "LanNetworksHelp": "Comma separated list of IP addresses or IP/netmask entries for networks that will be considered on local network when enforcing bandwidth and remote access restrictions. If left blank, all RFC1918 addresses are considered local.",
     "Large": "Large",
     "Larger": "Larger",
     "LastActive": "Last active",
