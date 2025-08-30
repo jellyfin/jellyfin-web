@@ -1586,5 +1586,6 @@
     "Editor": "Uređivač",
     "DateModified": "Datum izmjenjivanja",
     "AllowStreamSharingHelp": "Dozvoliti Jellyfinu da udvostruči mpegts stream iz tunera i podijeli novu kopiju streama sa svojim klijentima. Ovo je korisno kada tuner ima ograničen broj stream-ova, no može uzrokovati poteškoće pri reprodukciji.",
-    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Ukomponirati titlove u video stream kada se aktivira transcoding. Ovo osigurava sinkronizaciju titlova nakon transcoding-a, no uz smanjenu brzinu transcoding-a."
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Ukomponirati titlove u video stream kada se aktivira transcoding. Ovo osigurava sinkronizaciju titlova nakon transcoding-a, no uz smanjenu brzinu transcoding-a.",
+    "AndOtherArtists": "{0} i {1} drugih umjetnika."
 }

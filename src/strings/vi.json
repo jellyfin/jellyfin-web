@@ -269,7 +269,7 @@
     "HeaderCastAndCrew": "Diễn Viên & Ê-kíp",
     "HeaderCancelSeries": "Huỷ Loạt Phim",
     "HeaderCancelRecording": "Hủy Ghi Lại",
-    "HeaderBranding": "Thương hiệu",
+    "HeaderBranding": "Nhãn hiệu",
     "HeaderBlockItemsWithNoRating": "Khoá những mục không có thông tin đánh giá hoặc thông tin không đáng tin cậy",
     "HeaderAudioSettings": "Cài Đặt Âm Thanh",
     "HeaderAudioBooks": "Sách Nói",
@@ -513,7 +513,7 @@
     "LabelAccessStart": "Thời gian bắt đầu",
     "LabelAccessEnd": "Thời gian kết thúc",
     "LabelAccessDay": "Ngày trong tuần",
-    "LabelAbortedByServerShutdown": "(Bị hủy bỏ do máy chủ ngừng hoạt động)",
+    "LabelAbortedByServerShutdown": "Bị hủy bỏ do máy chủ tắt",
     "Label3DFormat": "Định dạng 3D",
     "Kids": "Trẻ Em",
     "Items": "Mục",
@@ -1915,7 +1915,7 @@
     "ChannelResolutionFullHD": "Full HD",
     "ChannelResolutionSD": "SD",
     "ChannelResolutionHD": "HD",
-    "AllowTonemappingSoftwareHelp": "Tone-mapping có thể chuyển đổi dải động của video từ HDR sang SDR trong khi vẫn giữ được chi tiết hình ảnh và màu sắc, đây là những thông tin rất quan trọng để thể hiện cảnh gốc. Hiện chỉ hoạt động với video 10bit HDR10, HLG và DoVi.",
+    "AllowTonemappingSoftwareHelp": "Ánh xạ tông màu có thể biến đổi dải động của video từ HDR sang SDR trong khi vẫn giữ được chi tiết hình ảnh và màu sắc, đây là những thông tin rất quan trọng để thể hiện cảnh gốc. Hiện chỉ hoạt động với video 10bit HDR10, HLG và DoVi.",
     "MediaInfoRotation": "Xoay",
     "LabelTrickplayKeyFrameOnlyExtraction": "Chỉ tạo hình ảnh từ các khung hình chính",
     "ForeignPartsOnly": "Chỉ phần Ngoài/Bắt buộc",
@@ -2062,5 +2062,9 @@
     "LiveTVPageLoadError": "Không tải được trang ghi",
     "ConnectAnyway": "Kết Nối Bất Chấp",
     "HeaderServerMismatch": "Máy Chủ Không Phù Hợp",
-    "MessageServerMismatch": "Máy chủ bạn đang kết nối không phải là máy chủ mà trước đây bạn đã kết nối tại địa chỉ này. Nếu điều này được mong đợi, vui lòng chọn \"Kết Nối Bất Chấp\". Nếu không, kết nối của bạn hoặc máy chủ có thể bị xâm phạm."
+    "MessageServerMismatch": "Máy chủ bạn đang kết nối không phải là máy chủ mà trước đây bạn đã kết nối tại địa chỉ này. Nếu điều này được mong đợi, vui lòng chọn \"Kết Nối Bất Chấp\". Nếu không, kết nối của bạn hoặc máy chủ có thể bị xâm phạm.",
+    "LabelAvailable": "Sẵn có",
+    "LabelBundled": "Đi kèm",
+    "ManageRepositories": "Quản Lý Kho Lưu Trữ",
+    "ViewAllPlugins": "Xem tất cả plugins"
 }
