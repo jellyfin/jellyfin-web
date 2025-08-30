@@ -31,7 +31,10 @@ export const getLocationSearch = () => {
  * @param url The url to search (optional).
  * @returns The parameter value.
  */
-export const getParameterByName = (name: string, url?: string | null | undefined) => {
+export const getParameterByName = (
+    name: string,
+    url?: string | null | undefined
+) => {
     if (!url) {
         url = getLocationSearch();
     }

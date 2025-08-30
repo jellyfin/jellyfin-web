@@ -9,14 +9,10 @@ interface DefaultNameProps {
 }
 
 const DefaultName: FC<DefaultNameProps> = ({ item }) => {
-    const defaultName = isUsingLiveTvNaming(item.Type) ?
-        item.Name :
-        itemHelper.getDisplayName(item);
-    return (
-        <Box className='cardText cardDefaultText'>
-            {defaultName}
-        </Box>
-    );
+    const defaultName = isUsingLiveTvNaming(item.Type)
+        ? item.Name
+        : itemHelper.getDisplayName(item);
+    return <Box className='cardText cardDefaultText'>{defaultName}</Box>;
 };
 
 export default DefaultName;

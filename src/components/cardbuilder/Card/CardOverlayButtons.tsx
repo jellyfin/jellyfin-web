@@ -16,12 +16,12 @@ const sholudShowOverlayPlayButton = (
     item: ItemDto
 ) => {
     return (
-        overlayPlayButton
-        && !item.IsPlaceHolder
-        && (item.LocationType !== LocationType.Virtual
-            || !item.MediaType
-            || item.Type === ItemKind.Program)
-        && item.Type !== ItemKind.Person
+        overlayPlayButton &&
+        !item.IsPlaceHolder &&
+        (item.LocationType !== LocationType.Virtual ||
+            !item.MediaType ||
+            item.Type === ItemKind.Program) &&
+        item.Type !== ItemKind.Person
     );
 };
 
@@ -37,10 +37,10 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
     let overlayPlayButton = cardOptions.overlayPlayButton;
 
     if (
-        overlayPlayButton == null
-        && !cardOptions.overlayMoreButton
-        && !cardOptions.overlayInfoButton
-        && !cardOptions.cardLayout
+        overlayPlayButton == null &&
+        !cardOptions.overlayMoreButton &&
+        !cardOptions.overlayInfoButton &&
+        !cardOptions.cardLayout
     ) {
         overlayPlayButton = item.MediaType === ItemMediaKind.Video;
     }
@@ -74,7 +74,6 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
                 borderRadius: '0.2em'
             }}
         >
-
             {cardOptions.centerPlayButton && (
                 <PlayArrowIconButton
                     className={centerPlayButtonClass}
@@ -93,9 +92,7 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
                 )}
 
                 {cardOptions.overlayMoreButton && (
-                    <MoreVertIconButton
-                        className={btnCssClass}
-                    />
+                    <MoreVertIconButton className={btnCssClass} />
                 )}
             </ButtonGroup>
         </a>

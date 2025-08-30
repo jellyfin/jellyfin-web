@@ -20,16 +20,22 @@ describe('calculateTotal()', () => {
 
 describe('calculateUsedPercentage', () => {
     it('should return the percentage used', () => {
-        expect(calculateUsedPercentage({ FreeSpace: 1, UsedSpace: 3 })).toBe(75);
+        expect(calculateUsedPercentage({ FreeSpace: 1, UsedSpace: 3 })).toBe(
+            75
+        );
     });
 
     it('should return 0 for invalid used space values', () => {
         expect(calculateUsedPercentage({ FreeSpace: 1 })).toBe(0);
-        expect(calculateUsedPercentage({ FreeSpace: 1, UsedSpace: -1 })).toBe(0);
+        expect(calculateUsedPercentage({ FreeSpace: 1, UsedSpace: -1 })).toBe(
+            0
+        );
     });
 
     it('should return 100 for invalid free space values', () => {
         expect(calculateUsedPercentage({ UsedSpace: 1 })).toBe(100);
-        expect(calculateUsedPercentage({ FreeSpace: -1, UsedSpace: 1 })).toBe(100);
+        expect(calculateUsedPercentage({ FreeSpace: -1, UsedSpace: 1 })).toBe(
+            100
+        );
     });
 });

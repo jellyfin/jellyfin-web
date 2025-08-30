@@ -13,17 +13,14 @@ type IProps = {
     onConfirm: () => void;
 };
 
-const RestoreConfirmationDialog: FunctionComponent<IProps> = ({ open, onClose, onConfirm }: IProps) => {
+const RestoreConfirmationDialog: FunctionComponent<IProps> = ({
+    open,
+    onClose,
+    onConfirm
+}: IProps) => {
     return (
-        <Dialog
-            open={open}
-            onClose={onClose}
-            maxWidth={'xs'}
-            fullWidth
-        >
-            <DialogTitle>
-                {globalize.translate('LabelRestore')}
-            </DialogTitle>
+        <Dialog open={open} onClose={onClose} maxWidth={'xs'} fullWidth>
+            <DialogTitle>{globalize.translate('LabelRestore')}</DialogTitle>
 
             <DialogContent>
                 <DialogContentText>

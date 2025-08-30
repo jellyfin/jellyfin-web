@@ -21,27 +21,44 @@ function loadData(parent, program) {
     }
 
     if (program.SeriesTimerId) {
-        parent.querySelector('.btnManageSeriesRecording').classList.remove('hide');
-        parent.querySelector('.seriesRecordingButton .recordingIcon').classList.add('recordingIcon-active');
-        parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('CancelSeries');
+        parent
+            .querySelector('.btnManageSeriesRecording')
+            .classList.remove('hide');
+        parent
+            .querySelector('.seriesRecordingButton .recordingIcon')
+            .classList.add('recordingIcon-active');
+        parent.querySelector('.seriesRecordingButton .buttonText').innerHTML =
+            globalize.translate('CancelSeries');
     } else {
         parent.querySelector('.btnManageSeriesRecording').classList.add('hide');
-        parent.querySelector('.seriesRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
-        parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('RecordSeries');
+        parent
+            .querySelector('.seriesRecordingButton .recordingIcon')
+            .classList.remove('recordingIcon-active');
+        parent.querySelector('.seriesRecordingButton .buttonText').innerHTML =
+            globalize.translate('RecordSeries');
     }
 
     if (program.TimerId && program.Status !== 'Cancelled') {
         parent.querySelector('.btnManageRecording').classList.remove('hide');
-        parent.querySelector('.singleRecordingButton .recordingIcon').classList.add('recordingIcon-active');
+        parent
+            .querySelector('.singleRecordingButton .recordingIcon')
+            .classList.add('recordingIcon-active');
         if (program.Status === 'InProgress') {
-            parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('StopRecording');
+            parent.querySelector(
+                '.singleRecordingButton .buttonText'
+            ).innerHTML = globalize.translate('StopRecording');
         } else {
-            parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('DoNotRecord');
+            parent.querySelector(
+                '.singleRecordingButton .buttonText'
+            ).innerHTML = globalize.translate('DoNotRecord');
         }
     } else {
         parent.querySelector('.btnManageRecording').classList.add('hide');
-        parent.querySelector('.singleRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
-        parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('Record');
+        parent
+            .querySelector('.singleRecordingButton .recordingIcon')
+            .classList.remove('recordingIcon-active');
+        parent.querySelector('.singleRecordingButton .buttonText').innerHTML =
+            globalize.translate('Record');
     }
 }
 
@@ -50,19 +67,22 @@ function fetchData(instance) {
     const apiClient = ServerConnections.getApiClient(options.serverId);
 
     options.parent.querySelector('.recordingFields').classList.remove('hide');
-    return apiClient.getLiveTvProgram(options.programId, apiClient.getCurrentUserId()).then(function (program) {
-        instance.TimerId = program.TimerId;
-        instance.Status = program.Status;
-        instance.SeriesTimerId = program.SeriesTimerId;
-        loadData(options.parent, program);
-    });
+    return apiClient
+        .getLiveTvProgram(options.programId, apiClient.getCurrentUserId())
+        .then(function (program) {
+            instance.TimerId = program.TimerId;
+            instance.Status = program.Status;
+            instance.SeriesTimerId = program.SeriesTimerId;
+            loadData(options.parent, program);
+        });
 }
 
 function onTimerChangedExternally(e, apiClient, data) {
     const options = this.options;
 
-    if ((data.Id && this.TimerId === data.Id)
-        || (data.ProgramId && options && options.programId === data.ProgramId)
+    if (
+        (data.Id && this.TimerId === data.Id) ||
+        (data.ProgramId && options && options.programId === data.ProgramId)
     ) {
         this.refresh();
     }
@@ -71,8 +91,9 @@ function onTimerChangedExternally(e, apiClient, data) {
 function onSeriesTimerChangedExternally(e, apiClient, data) {
     const options = this.options;
 
-    if ((data.Id && this.SeriesTimerId === data.Id)
-        || (data.ProgramId && options && options.programId === data.ProgramId)
+    if (
+        (data.Id && this.SeriesTimerId === data.Id) ||
+        (data.ProgramId && options && options.programId === data.ProgramId)
     ) {
         this.refresh();
     }
@@ -89,11 +110,20 @@ class RecordingEditor {
         Events.on(serverNotifications, 'TimerCreated', timerChangedHandler);
         Events.on(serverNotifications, 'TimerCancelled', timerChangedHandler);
 
-        const seriesTimerChangedHandler = onSeriesTimerChangedExternally.bind(this);
+        const seriesTimerChangedHandler =
+            onSeriesTimerChangedExternally.bind(this);
         this.seriesTimerChangedHandler = seriesTimerChangedHandler;
 
-        Events.on(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
-        Events.on(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
+        Events.on(
+            serverNotifications,
+            'SeriesTimerCreated',
+            seriesTimerChangedHandler
+        );
+        Events.on(
+            serverNotifications,
+            'SeriesTimerCancelled',
+            seriesTimerChangedHandler
+        );
     }
 
     embed() {
@@ -103,10 +133,21 @@ class RecordingEditor {
             const context = options.parent;
             context.innerHTML = globalize.translateHtml(template, 'core');
 
-            context.querySelector('.singleRecordingButton').addEventListener('click', onRecordChange.bind(self));
-            context.querySelector('.seriesRecordingButton').addEventListener('click', onRecordSeriesChange.bind(self));
-            context.querySelector('.btnManageRecording').addEventListener('click', onManageRecordingClick.bind(self));
-            context.querySelector('.btnManageSeriesRecording').addEventListener('click', onManageSeriesRecordingClick.bind(self));
+            context
+                .querySelector('.singleRecordingButton')
+                .addEventListener('click', onRecordChange.bind(self));
+            context
+                .querySelector('.seriesRecordingButton')
+                .addEventListener('click', onRecordSeriesChange.bind(self));
+            context
+                .querySelector('.btnManageRecording')
+                .addEventListener('click', onManageRecordingClick.bind(self));
+            context
+                .querySelector('.btnManageSeriesRecording')
+                .addEventListener(
+                    'click',
+                    onManageSeriesRecordingClick.bind(self)
+                );
 
             fetchData(self).then(resolve);
         });
@@ -130,8 +171,16 @@ class RecordingEditor {
         const seriesTimerChangedHandler = this.seriesTimerChangedHandler;
         this.seriesTimerChangedHandler = null;
 
-        Events.off(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
-        Events.off(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
+        Events.off(
+            serverNotifications,
+            'SeriesTimerCreated',
+            seriesTimerChangedHandler
+        );
+        Events.off(
+            serverNotifications,
+            'SeriesTimerCancelled',
+            seriesTimerChangedHandler
+        );
     }
 }
 
@@ -143,11 +192,13 @@ function onManageRecordingClick() {
 
     const self = this;
     import('./recordingeditor').then(({ default: recordingEditor }) => {
-        recordingEditor.show(self.TimerId, options.serverId, {
-            enableCancel: false
-        }).then(function () {
-            self.changed = true;
-        });
+        recordingEditor
+            .show(self.TimerId, options.serverId, {
+                enableCancel: false
+            })
+            .then(function () {
+                self.changed = true;
+            });
     });
 }
 
@@ -160,15 +211,17 @@ function onManageSeriesRecordingClick() {
 
     const self = this;
 
-    import('./seriesrecordingeditor').then(({ default: seriesRecordingEditor }) => {
-        seriesRecordingEditor.show(self.SeriesTimerId, options.serverId, {
-
-            enableCancel: false
-
-        }).then(function () {
-            self.changed = true;
-        });
-    });
+    import('./seriesrecordingeditor').then(
+        ({ default: seriesRecordingEditor }) => {
+            seriesRecordingEditor
+                .show(self.SeriesTimerId, options.serverId, {
+                    enableCancel: false
+                })
+                .then(function () {
+                    self.changed = true;
+                });
+        }
+    );
 }
 
 function onRecordChange(e) {
@@ -179,26 +232,32 @@ function onRecordChange(e) {
     const apiClient = ServerConnections.getApiClient(options.serverId);
 
     const button = dom.parentWithTag(e.target, 'BUTTON');
-    const isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');
+    const isChecked = !button
+        .querySelector('.material-icons')
+        .classList.contains('recordingIcon-active');
 
     const hasEnabledTimer = this.TimerId && this.Status !== 'Cancelled';
 
     if (isChecked) {
         if (!hasEnabledTimer) {
             loading.show();
-            recordingHelper.createRecording(apiClient, options.programId, false).then(function () {
+            recordingHelper
+                .createRecording(apiClient, options.programId, false)
+                .then(function () {
+                    Events.trigger(self, 'recordingchanged');
+                    fetchData(self);
+                    loading.hide();
+                });
+        }
+    } else if (hasEnabledTimer) {
+        loading.show();
+        recordingHelper
+            .cancelTimer(apiClient, this.TimerId, true)
+            .then(function () {
                 Events.trigger(self, 'recordingchanged');
                 fetchData(self);
                 loading.hide();
             });
-        }
-    } else if (hasEnabledTimer) {
-        loading.show();
-        recordingHelper.cancelTimer(apiClient, this.TimerId, true).then(function () {
-            Events.trigger(self, 'recordingchanged');
-            fetchData(self);
-            loading.hide();
-        });
     }
 }
 
@@ -210,14 +269,26 @@ function onRecordSeriesChange(e) {
     const apiClient = ServerConnections.getApiClient(options.serverId);
 
     const button = dom.parentWithTag(e.target, 'BUTTON');
-    const isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');
+    const isChecked = !button
+        .querySelector('.material-icons')
+        .classList.contains('recordingIcon-active');
 
     if (isChecked) {
-        options.parent.querySelector('.recordSeriesContainer').classList.remove('hide');
+        options.parent
+            .querySelector('.recordSeriesContainer')
+            .classList.remove('hide');
         if (!this.SeriesTimerId) {
-            const promise = this.TimerId ?
-                recordingHelper.changeRecordingToSeries(apiClient, this.TimerId, options.programId) :
-                recordingHelper.createRecording(apiClient, options.programId, true);
+            const promise = this.TimerId
+                ? recordingHelper.changeRecordingToSeries(
+                      apiClient,
+                      this.TimerId,
+                      options.programId
+                  )
+                : recordingHelper.createRecording(
+                      apiClient,
+                      options.programId,
+                      true
+                  );
             promise.then(function () {
                 fetchData(self);
             });

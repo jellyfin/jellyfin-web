@@ -1,4 +1,3 @@
-
 export class LazyLoader {
     constructor(options) {
         this.options = options;
@@ -9,14 +8,15 @@ export class LazyLoader {
 
         const newObserver = new IntersectionObserver(
             (entries, observer) => {
-                entries.forEach(entry => {
+                entries.forEach((entry) => {
                     callback(entry, observer);
                 });
             },
             {
                 rootMargin: '50%',
                 threshold: 0
-            });
+            }
+        );
 
         this.observer = newObserver;
     }
@@ -29,7 +29,7 @@ export class LazyLoader {
             observer = this.observer;
         }
 
-        Array.from(elements).forEach(element => {
+        Array.from(elements).forEach((element) => {
             observer.observe(element);
         });
     }

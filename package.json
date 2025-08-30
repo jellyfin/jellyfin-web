@@ -9,6 +9,7 @@
     "@babel/plugin-transform-modules-umd": "7.27.1",
     "@babel/preset-env": "7.27.2",
     "@babel/preset-react": "7.27.1",
+    "@biomejs/biome": "2.2.2",
     "@eslint-community/eslint-plugin-eslint-comments": "4.5.0",
     "@eslint/js": "9.30.1",
     "@stylistic/eslint-plugin": "4.4.1",
@@ -161,7 +162,8 @@
     "build:check": "tsc --noEmit",
     "build:es-check": "npm run build:production && npm run escheck",
     "escheck": "es-check",
-    "lint": "eslint \"./\"",
+    "lint": "npx @biomejs/biome lint --diagnostic-level=error",
+    "format": "npx @biomejs/biome format --write",
     "test": "vitest --watch=false --config vite.config.ts",
     "test:watch": "vitest --config vite.config.ts",
     "stylelint": "stylelint \"src/**/*.{css,scss}\""

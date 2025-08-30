@@ -1,4 +1,8 @@
-import { clearBackdrop, setBackdropImages, setBackdrops } from '../components/backdrop/backdrop';
+import {
+    clearBackdrop,
+    setBackdropImages,
+    setBackdrops
+} from '../components/backdrop/backdrop';
 import * as userSettings from './settings/userSettings';
 import libraryMenu from './libraryMenu';
 import { pageClassOn } from '../utils/dashboard';
@@ -33,29 +37,38 @@ function getBackdropItemIds(apiClient, userId, types, parentId) {
         EnableTotalRecordCount: false,
         MaxOfficialRating: parentId ? '' : 'PG-13'
     };
-    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
-        const images = result.Items.map(function (i) {
-            return {
-                Id: i.Id,
-                tag: i.BackdropImageTags[0],
-                ServerId: i.ServerId
-            };
+    return apiClient
+        .getItems(apiClient.getCurrentUserId(), options)
+        .then(function (result) {
+            const images = result.Items.map(function (i) {
+                return {
+                    Id: i.Id,
+                    tag: i.BackdropImageTags[0],
+                    ServerId: i.ServerId
+                };
+            });
+            cache[key] = JSON.stringify(images);
+            return images;
         });
-        cache[key] = JSON.stringify(images);
-        return images;
-    });
 }
 
 function showBackdrop(type, parentId) {
     const apiClient = ServerConnections.currentApiClient();
 
     if (apiClient) {
-        getBackdropItemIds(apiClient, apiClient.getCurrentUserId(), type, parentId).then(function (images) {
+        getBackdropItemIds(
+            apiClient,
+            apiClient.getCurrentUserId(),
+            type,
+            parentId
+        ).then(function (images) {
             if (images.length) {
-                setBackdrops(images.map(function (i) {
-                    i.BackdropImageTags = [i.tag];
-                    return i;
-                }));
+                setBackdrops(
+                    images.map(function (i) {
+                        i.BackdropImageTags = [i.tag];
+                        return i;
+                    })
+                );
             } else {
                 clearBackdrop();
             }
@@ -65,11 +78,11 @@ function showBackdrop(type, parentId) {
 
 async function showSplashScreen() {
     const api = ServerConnections.getCurrentApi();
-    const brandingOptions = await queryClient.fetchQuery(getBrandingOptionsQuery(api));
+    const brandingOptions = await queryClient.fetchQuery(
+        getBrandingOptionsQuery(api)
+    );
     if (brandingOptions.SplashscreenEnabled) {
-        setBackdropImages([
-            api.getUri(SPLASHSCREEN_URL, { t: Date.now() })
-        ]);
+        setBackdropImages([api.getUri(SPLASHSCREEN_URL, { t: Date.now() })]);
     } else {
         clearBackdrop();
     }
@@ -84,7 +97,9 @@ pageClassOn('pageshow', 'page', function () {
             if (type === 'splashscreen') {
                 showSplashScreen();
             } else if (enabled()) {
-                const parentId = page.classList.contains('globalBackdropPage') ? '' : libraryMenu.getTopParentId();
+                const parentId = page.classList.contains('globalBackdropPage')
+                    ? ''
+                    : libraryMenu.getTopParentId();
                 showBackdrop(type, parentId);
             } else {
                 page.classList.remove('backdropPage');
@@ -95,4 +110,3 @@ pageClassOn('pageshow', 'page', function () {
         }
     }
 });
-

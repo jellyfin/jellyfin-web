@@ -7,8 +7,12 @@ import keyboardNavigation from 'scripts/keyboardNavigation';
 
 export default function (view) {
     function submit(e) {
-        appSettings.enableGamepad(view.querySelector('.chkEnableGamepad').checked);
-        appSettings.enableSmoothScroll(view.querySelector('.chkSmoothScroll').checked);
+        appSettings.enableGamepad(
+            view.querySelector('.chkEnableGamepad').checked
+        );
+        appSettings.enableSmoothScroll(
+            view.querySelector('.chkSmoothScroll').checked
+        );
 
         toast(globalize.translate('SettingsSaved'));
 
@@ -20,17 +24,27 @@ export default function (view) {
     }
 
     view.addEventListener('viewshow', function () {
-        view.querySelector('.enableGamepadContainer').classList.toggle('hide', !keyboardNavigation.canEnableGamepad());
-        view.querySelector('.smoothScrollContainer').classList.toggle('hide', !layoutManager.tv);
+        view.querySelector('.enableGamepadContainer').classList.toggle(
+            'hide',
+            !keyboardNavigation.canEnableGamepad()
+        );
+        view.querySelector('.smoothScrollContainer').classList.toggle(
+            'hide',
+            !layoutManager.tv
+        );
 
-        view.querySelector('.chkEnableGamepad').checked = appSettings.enableGamepad();
-        view.querySelector('.chkSmoothScroll').checked = appSettings.enableSmoothScroll();
+        view.querySelector('.chkEnableGamepad').checked =
+            appSettings.enableGamepad();
+        view.querySelector('.chkSmoothScroll').checked =
+            appSettings.enableSmoothScroll();
 
         view.querySelector('form').addEventListener('submit', submit);
         view.querySelector('.btnSave').classList.remove('hide');
 
-        import('../../../components/autoFocuser').then(({ default: autoFocuser }) => {
-            autoFocuser.autoFocus(view);
-        });
+        import('../../../components/autoFocuser').then(
+            ({ default: autoFocuser }) => {
+                autoFocuser.autoFocus(view);
+            }
+        );
     });
 }

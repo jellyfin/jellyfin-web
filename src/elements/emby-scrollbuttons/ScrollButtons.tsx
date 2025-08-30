@@ -1,4 +1,10 @@
-import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+    type FC,
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import scrollerFactory from 'lib/scroller';
 import globalize from 'lib/globalize';
 import IconButton from '../emby-button/IconButton';
@@ -11,23 +17,35 @@ interface ScrollButtonsProps {
         scrollSize: number;
         scrollPos: number;
         scrollWidth: number;
-    }
+    };
 }
 
-const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState }) => {
+const ScrollButtons: FC<ScrollButtonsProps> = ({
+    scrollerFactoryRef,
+    scrollState
+}) => {
     const [localeScrollPos, setLocaleScrollPos] = useState<number>(0);
     const scrollButtonsRef = useRef<HTMLDivElement>(null);
 
-    const onScrollButtonClick = useCallback((direction: ScrollDirection) => {
-        scrollerItemSlideIntoView({
-            direction,
-            scroller: scrollerFactoryRef.current,
-            scrollState
-        });
-    }, [scrollState, scrollerFactoryRef]);
+    const onScrollButtonClick = useCallback(
+        (direction: ScrollDirection) => {
+            scrollerItemSlideIntoView({
+                direction,
+                scroller: scrollerFactoryRef.current,
+                scrollState
+            });
+        },
+        [scrollState, scrollerFactoryRef]
+    );
 
-    const triggerScrollLeft = useCallback(() => onScrollButtonClick(ScrollDirection.LEFT), [ onScrollButtonClick ]);
-    const triggerScrollRight = useCallback(() => onScrollButtonClick(ScrollDirection.RIGHT), [ onScrollButtonClick ]);
+    const triggerScrollLeft = useCallback(
+        () => onScrollButtonClick(ScrollDirection.LEFT),
+        [onScrollButtonClick]
+    );
+    const triggerScrollRight = useCallback(
+        () => onScrollButtonClick(ScrollDirection.RIGHT),
+        [onScrollButtonClick]
+    );
 
     useEffect(() => {
         const parent = scrollButtonsRef.current?.parentNode as HTMLDivElement;
@@ -42,7 +60,6 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
 
     return (
         <div ref={scrollButtonsRef} className='emby-scrollbuttons padded-right'>
-
             <IconButton
                 type='button'
                 className='emby-scrollbuttons-button btnPrev'
@@ -56,11 +73,14 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
                 className='emby-scrollbuttons-button btnNext'
                 onClick={triggerScrollRight}
                 icon='chevron_right'
-                disabled={scrollState.scrollWidth > 0 && localeScrollPos + scrollState.scrollSize >= scrollState.scrollWidth}
+                disabled={
+                    scrollState.scrollWidth > 0 &&
+                    localeScrollPos + scrollState.scrollSize >=
+                        scrollState.scrollWidth
+                }
             />
         </div>
     );
 };
 
 export default ScrollButtons;
-

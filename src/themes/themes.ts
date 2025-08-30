@@ -1,4 +1,8 @@
-import { type ColorSystemOptions, createTheme, extendTheme } from '@mui/material/styles';
+import {
+    type ColorSystemOptions,
+    createTheme,
+    extendTheme
+} from '@mui/material/styles';
 import merge from 'lodash-es/merge';
 
 import { DEFAULT_COLOR_SCHEME, DEFAULT_THEME_OPTIONS } from './defaults';
@@ -31,12 +35,15 @@ const defaultMuiTheme = extendTheme({
  * Default color schemes ('dark' or 'light') will automatically be merged with MUI's corresponding default color
  * scheme. For custom schemes, we need to merge these manually.
  */
-const buildCustomColorScheme = (options: ColorSystemOptions) => merge(
-    {},
-    options.palette?.mode === 'light' ? defaultMuiTheme.colorSchemes.light : defaultMuiTheme.colorSchemes.dark,
-    DEFAULT_COLOR_SCHEME,
-    options
-);
+const buildCustomColorScheme = (options: ColorSystemOptions) =>
+    merge(
+        {},
+        options.palette?.mode === 'light'
+            ? defaultMuiTheme.colorSchemes.light
+            : defaultMuiTheme.colorSchemes.dark,
+        DEFAULT_COLOR_SCHEME,
+        options
+    );
 
 /** The Apple TV inspired color scheme. */
 const appletv = buildCustomColorScheme({

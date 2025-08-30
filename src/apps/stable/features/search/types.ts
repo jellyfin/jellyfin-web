@@ -2,7 +2,7 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base
 import { CardOptions } from 'types/cardOptions';
 
 export interface Section {
-    title: string
+    title: string;
     items: BaseItemDto[];
     cardOptions?: CardOptions;
-};
+}

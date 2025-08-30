@@ -96,7 +96,15 @@ export const Component = () => {
 
                             <Paper sx={{ mt: 2 }}>
                                 <code>
-                                    <pre style={{ overflow:'auto', margin: 0, padding: '16px' }}>{log}</pre>
+                                    <pre
+                                        style={{
+                                            overflow: 'auto',
+                                            margin: 0,
+                                            padding: '16px'
+                                        }}
+                                    >
+                                        {log}
+                                    </pre>
                                 </code>
                             </Paper>
                         </>

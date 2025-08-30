@@ -31,8 +31,9 @@ function AutoGrow(textarea, maxLines) {
         textarea.rows = 1;
         offset = calculateOffset(textarea);
         self.rows = textarea.rows || 1;
-        self.lineHeight = (textarea.scrollHeight / self.rows) - (offset / self.rows);
-        self.maxAllowedHeight = (self.lineHeight * maxLines) - offset;
+        self.lineHeight =
+            textarea.scrollHeight / self.rows - offset / self.rows;
+        self.maxAllowedHeight = self.lineHeight * maxLines - offset;
     }
 
     function autogrowFn() {
@@ -47,13 +48,13 @@ function AutoGrow(textarea, maxLines) {
         }
         let newHeight = 0;
 
-        if ((textarea.scrollHeight - offset) > self.maxAllowedHeight) {
+        if (textarea.scrollHeight - offset > self.maxAllowedHeight) {
             textarea.style.overflowY = 'scroll';
             newHeight = self.maxAllowedHeight;
         } else {
             textarea.style.overflowY = 'hidden';
             textarea.style.height = 'auto';
-            newHeight = textarea.scrollHeight/* - offset*/;
+            newHeight = textarea.scrollHeight /* - offset*/;
         }
         textarea.style.height = newHeight + 'px';
     }
@@ -71,7 +72,10 @@ const EmbyTextAreaPrototype = Object.create(HTMLTextAreaElement.prototype);
 let elementId = 0;
 
 if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-    const descriptor = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
+    const descriptor = Object.getOwnPropertyDescriptor(
+        HTMLTextAreaElement.prototype,
+        'value'
+    );
 
     // descriptor returning null in webos
     if (descriptor?.configurable) {
@@ -79,13 +83,19 @@ if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
         descriptor.set = function (value) {
             baseSetMethod.call(this, value);
 
-            this.dispatchEvent(new CustomEvent('valueset', {
-                bubbles: false,
-                cancelable: false
-            }));
+            this.dispatchEvent(
+                new CustomEvent('valueset', {
+                    bubbles: false,
+                    cancelable: false
+                })
+            );
         };
 
-        Object.defineProperty(HTMLTextAreaElement.prototype, 'value', descriptor);
+        Object.defineProperty(
+            HTMLTextAreaElement.prototype,
+            'value',
+            descriptor
+        );
     }
 }
 
@@ -132,4 +142,3 @@ document.registerElement('emby-textarea', {
     prototype: EmbyTextAreaPrototype,
     extends: 'textarea'
 });
-

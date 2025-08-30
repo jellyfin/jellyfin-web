@@ -12,7 +12,12 @@ import Stack from '@mui/material/Stack';
 import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
+import {
+    type ActionFunctionArgs,
+    Form,
+    useActionData,
+    useNavigation
+} from 'react-router-dom';
 import { useServerLogs } from 'apps/dashboard/features/logs/api/useServerLogs';
 import { useConfiguration } from 'hooks/useConfiguration';
 import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
@@ -34,8 +39,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         config.SlowResponseThresholdMs = parseInt(responseTime.toString(), 10);
     }
 
-    await getConfigurationApi(api)
-        .updateConfiguration({ serverConfiguration: config });
+    await getConfigurationApi(api).updateConfiguration({
+        serverConfiguration: config
+    });
 
     return {
         isSaved: true
@@ -48,9 +54,10 @@ export const Component = () => {
     const isSubmitting = navigation.state === 'submitting';
 
     const { isPending: isLogEntriesPending, data: logs } = useServerLogs();
-    const { isPending: isConfigurationPending, data: defaultConfiguration } = useConfiguration();
-    const [ loading, setLoading ] = useState(true);
-    const [ configuration, setConfiguration ] = useState<ServerConfiguration>( {} );
+    const { isPending: isConfigurationPending, data: defaultConfiguration } =
+        useConfiguration();
+    const [loading, setLoading] = useState(true);
+    const [configuration, setConfiguration] = useState<ServerConfiguration>({});
 
     useEffect(() => {
         if (!isConfigurationPending && defaultConfiguration) {
@@ -59,19 +66,25 @@ export const Component = () => {
         }
     }, [isConfigurationPending, defaultConfiguration]);
 
-    const setLogWarningMessage = useCallback((_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
-        setConfiguration({
-            ...configuration,
-            EnableSlowResponseWarning: checked
-        });
-    }, [configuration]);
+    const setLogWarningMessage = useCallback(
+        (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
+            setConfiguration({
+                ...configuration,
+                EnableSlowResponseWarning: checked
+            });
+        },
+        [configuration]
+    );
 
-    const onResponseTimeChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
-        setConfiguration({
-            ...configuration,
-            SlowResponseThresholdMs: parseInt(event.target.value, 10)
-        });
-    }, [configuration]);
+    const onResponseTimeChange = useCallback(
+        (event: ChangeEvent<HTMLTextAreaElement>) => {
+            setConfiguration({
+                ...configuration,
+                SlowResponseThresholdMs: parseInt(event.target.value, 10)
+            });
+        },
+        [configuration]
+    );
 
     if (isLogEntriesPending || isConfigurationPending || loading || !logs) {
         return <Loading />;
@@ -99,12 +112,16 @@ export const Component = () => {
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    checked={configuration?.EnableSlowResponseWarning}
+                                    checked={
+                                        configuration?.EnableSlowResponseWarning
+                                    }
                                     onChange={setLogWarningMessage}
                                     name={'EnableWarningMessage'}
                                 />
                             }
-                            label={globalize.translate('LabelSlowResponseEnabled')}
+                            label={globalize.translate(
+                                'LabelSlowResponseEnabled'
+                            )}
                         />
 
                         <TextField
@@ -117,10 +134,7 @@ export const Component = () => {
                             onChange={onResponseTimeChange}
                         />
 
-                        <Button
-                            type='submit'
-                            size='large'
-                        >
+                        <Button type='submit' size='large'>
                             {globalize.translate('Save')}
                         </Button>
                     </Stack>

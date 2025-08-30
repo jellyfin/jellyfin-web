@@ -103,9 +103,19 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
         }
     };
 
-    const displayName = getNameOrIndexWithName(item, showIndexNumber, includeParentInfoInTitle, includeIndexNumber);
+    const displayName = getNameOrIndexWithName(
+        item,
+        showIndexNumber,
+        includeParentInfoInTitle,
+        includeIndexNumber
+    );
 
-    const parentTitle = getParentTitle(item, showParentTitle, parentTitleWithTitle, displayName );
+    const parentTitle = getParentTitle(
+        item,
+        showParentTitle,
+        parentTitleWithTitle,
+        displayName
+    );
 
     const addParentTitle = () => {
         if (parentTitle) {
@@ -134,11 +144,18 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
     };
 
     const addCurrentProgram = () => {
-        if (item.Type === ItemKind.TvChannel && item.CurrentProgram && showCurrentProgram !== false) {
-            const currentProgram = itemHelper.getDisplayName(item.CurrentProgram, {
-                includeParentInfo: includeParentInfoInTitle,
-                includeIndexNumber
-            });
+        if (
+            item.Type === ItemKind.TvChannel &&
+            item.CurrentProgram &&
+            showCurrentProgram !== false
+        ) {
+            const currentProgram = itemHelper.getDisplayName(
+                item.CurrentProgram,
+                {
+                    includeParentInfo: includeParentInfoInTitle,
+                    includeIndexNumber
+                }
+            );
 
             addTextLine({ title: currentProgram });
         }

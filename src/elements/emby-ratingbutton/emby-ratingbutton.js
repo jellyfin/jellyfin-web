@@ -19,7 +19,11 @@ function removeNotificationEvent(instance, name) {
 }
 
 function showPicker(button, apiClient, itemId, likes, isFavorite) {
-    return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), itemId, !isFavorite);
+    return apiClient.updateFavoriteStatus(
+        apiClient.getCurrentUserId(),
+        itemId,
+        !isFavorite
+    );
 }
 
 function onClick() {
@@ -38,9 +42,11 @@ function onClick() {
         likes = null;
     }
 
-    showPicker(button, apiClient, id, likes, isFavorite).then(function (userData) {
-        setState(button, userData.Likes, userData.IsFavorite);
-    });
+    showPicker(button, apiClient, id, likes, isFavorite).then(
+        function (userData) {
+            setState(button, userData.Likes, userData.IsFavorite);
+        }
+    );
 }
 
 function onUserDataChanged(e, apiClient, userData) {
@@ -72,14 +78,16 @@ function setState(button, likes, isFavorite, updateAttribute) {
     if (updateAttribute !== false) {
         button.setAttribute('data-isfavorite', isFavorite);
 
-        button.setAttribute('data-likes', (likes === null ? '' : likes));
+        button.setAttribute('data-likes', likes === null ? '' : likes);
     }
 
     setTitle(button, isFavorite);
 }
 
 function setTitle(button, isFavorite) {
-    button.title = isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites');
+    button.title = isFavorite
+        ? globalize.translate('Favorite')
+        : globalize.translate('AddToFavorites');
 
     const text = button.querySelector('.button-text');
     if (text) {
@@ -164,4 +172,3 @@ document.registerElement('emby-ratingbutton', {
     prototype: EmbyRatingButtonPrototype,
     extends: 'button'
 });
-

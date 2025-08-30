@@ -31,7 +31,10 @@ export function getIntervalOptions(locale: Locale) {
         const durationMs = Math.floor(ticksDuration / 1e4);
         const unit = durationMs < 36e5 ? 'minute' : 'hour';
         options.push({
-            name: formatDistanceStrict(0, durationMs, { locale: locale, unit: unit }),
+            name: formatDistanceStrict(0, durationMs, {
+                locale: locale,
+                unit: unit
+            }),
             value: ticksDuration
         });
     }
@@ -56,7 +59,10 @@ function getIntervalTriggerTime(ticks: number) {
     }
 }
 
-function localizeDayOfWeek(dayOfWeek: string | null | undefined, locale: Locale) {
+function localizeDayOfWeek(
+    dayOfWeek: string | null | undefined,
+    locale: Locale
+) {
     if (!dayOfWeek) return '';
 
     const parsedDayOfWeek = parse(dayOfWeek, 'cccc', new Date());
@@ -64,12 +70,22 @@ function localizeDayOfWeek(dayOfWeek: string | null | undefined, locale: Locale)
     return format(parsedDayOfWeek, 'cccc', { locale: locale });
 }
 
-export function getTriggerFriendlyName(trigger: TaskTriggerInfo, locale: Locale) {
+export function getTriggerFriendlyName(
+    trigger: TaskTriggerInfo,
+    locale: Locale
+) {
     switch (trigger.Type) {
         case 'DailyTrigger':
-            return globalize.translate('DailyAt', getDisplayTime(trigger.TimeOfDayTicks || 0, locale));
+            return globalize.translate(
+                'DailyAt',
+                getDisplayTime(trigger.TimeOfDayTicks || 0, locale)
+            );
         case 'WeeklyTrigger':
-            return globalize.translate('WeeklyAt', localizeDayOfWeek(trigger.DayOfWeek, locale), getDisplayTime(trigger.TimeOfDayTicks || 0, locale));
+            return globalize.translate(
+                'WeeklyAt',
+                localizeDayOfWeek(trigger.DayOfWeek, locale),
+                getDisplayTime(trigger.TimeOfDayTicks || 0, locale)
+            );
         case 'IntervalTrigger':
             return getIntervalTriggerTime(trigger.IntervalTicks || 0);
         case 'StartupTrigger':

@@ -16,10 +16,15 @@ interface LibraryPreferencesProps {
     values: DisplaySettingsValues;
 }
 
-export function LibraryPreferences({ onChange, values }: Readonly<LibraryPreferencesProps>) {
+export function LibraryPreferences({
+    onChange,
+    values
+}: Readonly<LibraryPreferencesProps>) {
     return (
         <Stack spacing={3}>
-            <Typography variant='h2'>{globalize.translate('HeaderLibraries')}</Typography>
+            <Typography variant='h2'>
+                {globalize.translate('HeaderLibraries')}
+            </Typography>
 
             <FormControl fullWidth>
                 <TextField
@@ -105,11 +110,15 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
                             onChange={onChange}
                         />
                     }
-                    label={globalize.translate('DisplayMissingEpisodesWithinSeasons')}
+                    label={globalize.translate(
+                        'DisplayMissingEpisodesWithinSeasons'
+                    )}
                     name='displayMissingEpisodes'
                 />
                 <FormHelperText id='display-settings-show-missing-episodes-description'>
-                    {globalize.translate('DisplayMissingEpisodesWithinSeasonsHelp')}
+                    {globalize.translate(
+                        'DisplayMissingEpisodesWithinSeasonsHelp'
+                    )}
                 </FormHelperText>
             </FormControl>
         </Stack>

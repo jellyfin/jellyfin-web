@@ -12,7 +12,10 @@ interface CardProps {
 }
 
 const Card: FC<CardProps> = ({ item = {}, cardOptions }) => {
-    const { getCardWrapperProps, getCardBoxProps } = useCard({ item, cardOptions } );
+    const { getCardWrapperProps, getCardBoxProps } = useCard({
+        item,
+        cardOptions
+    });
     const cardWrapperProps = getCardWrapperProps();
     const cardBoxProps = getCardBoxProps();
     return (

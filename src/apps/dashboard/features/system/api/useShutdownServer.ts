@@ -7,8 +7,7 @@ const useShutdownServer = () => {
 
     return useMutation({
         mutationFn: () => {
-            return getSystemApi(api!)
-                .shutdownApplication();
+            return getSystemApi(api!).shutdownApplication();
         }
     });
 };

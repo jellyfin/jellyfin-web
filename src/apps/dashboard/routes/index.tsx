@@ -43,24 +43,26 @@ export const Component = () => {
     }, []);
 
     const onScanLibraries = useCallback(() => {
-        const scanLibrariesTask = tasks?.find((value) => value.Key === 'RefreshLibrary');
+        const scanLibrariesTask = tasks?.find(
+            (value) => value.Key === 'RefreshLibrary'
+        );
 
         if (scanLibrariesTask?.Id) {
             startTask.mutate({
                 taskId: scanLibrariesTask.Id
             });
         }
-    }, [ startTask, tasks ]);
+    }, [startTask, tasks]);
 
     const onRestartConfirm = useCallback(() => {
         restartServer.mutate();
         setIsRestartConfirmDialogOpen(false);
-    }, [ restartServer ]);
+    }, [restartServer]);
 
     const onShutdownConfirm = useCallback(() => {
         shutdownServer.mutate();
         setIsShutdownConfirmDialogOpen(false);
-    }, [ shutdownServer ]);
+    }, [shutdownServer]);
 
     return (
         <Page

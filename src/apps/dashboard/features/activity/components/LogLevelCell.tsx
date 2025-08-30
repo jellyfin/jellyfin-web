@@ -6,9 +6,7 @@ import LogLevelChip from './LogLevelChip';
 
 const LogLevelCell: FC<ActivityLogEntryCell> = ({ cell }) => {
     const level = cell.getValue<LogLevel | undefined>();
-    return level ? (
-        <LogLevelChip level={level} />
-    ) : undefined;
+    return level ? <LogLevelChip level={level} /> : undefined;
 };
 
 export default LogLevelCell;

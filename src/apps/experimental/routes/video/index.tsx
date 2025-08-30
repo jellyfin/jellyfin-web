@@ -14,7 +14,7 @@ import Events, { type Event } from 'utils/events';
  */
 const VideoPage: FC = () => {
     const documentRef = useRef<Document>(document);
-    const [ isVisible, setIsVisible ] = useState(true);
+    const [isVisible, setIsVisible] = useState(true);
 
     const onShowVideoOsd = (_e: Event, isShowing: boolean) => {
         setIsVisible(isShowing);
@@ -32,17 +32,16 @@ const VideoPage: FC = () => {
 
     return (
         <>
-            <Fade
-                in={isVisible}
-                easing='fade-out'
-            >
-                <Box sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    color: 'white'
-                }}>
+            <Fade in={isVisible} easing='fade-out'>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        color: 'white'
+                    }}
+                >
                     <AppToolbar
                         isDrawerAvailable={false}
                         isDrawerOpen={false}

@@ -24,24 +24,21 @@ type IProps = {
     onClose: () => void;
 };
 
-const BackupInfoDialog: FunctionComponent<IProps> = ({ backup, open, onClose }: IProps) => {
+const BackupInfoDialog: FunctionComponent<IProps> = ({
+    backup,
+    open,
+    onClose
+}: IProps) => {
     const copyPath = useCallback(async () => {
         if (backup.Path) {
             await copy(backup.Path);
             toast({ text: globalize.translate('Copied') });
         }
-    }, [ backup.Path ]);
+    }, [backup.Path]);
 
     return (
-        <Dialog
-            onClose={onClose}
-            open={open}
-            maxWidth={'sm'}
-            fullWidth
-        >
-            <DialogTitle>
-                {backup.DateCreated}
-            </DialogTitle>
+        <Dialog onClose={onClose} open={open} maxWidth={'sm'} fullWidth>
+            <DialogTitle>{backup.DateCreated}</DialogTitle>
 
             <DialogContent>
                 <Stack spacing={2}>
@@ -52,7 +49,9 @@ const BackupInfoDialog: FunctionComponent<IProps> = ({ backup, open, onClose }: 
                         >
                             <Typography fontWeight='bold'>{globalize.translate('LabelPath')}</Typography>
                             <Stack direction='row'>
-                                <Typography color='text.secondary'>{backup.Path}</Typography>
+                                <Typography color='text.secondary'>
+                                    {backup.Path}
+                                </Typography>
                                 <IconButton size='small' onClick={copyPath}>
                                     <ContentCopy fontSize='small' />
                                 </IconButton>
@@ -86,7 +85,9 @@ const BackupInfoDialog: FunctionComponent<IProps> = ({ backup, open, onClose }: 
                                 control={
                                     <Checkbox
                                         name='Metadata'
-                                        defaultChecked={backup.Options?.Metadata}
+                                        defaultChecked={
+                                            backup.Options?.Metadata
+                                        }
                                         disabled
                                     />
                                 }
@@ -99,7 +100,9 @@ const BackupInfoDialog: FunctionComponent<IProps> = ({ backup, open, onClose }: 
                                 control={
                                     <Checkbox
                                         name='Subtitles'
-                                        defaultChecked={backup.Options?.Subtitles}
+                                        defaultChecked={
+                                            backup.Options?.Subtitles
+                                        }
                                         disabled
                                     />
                                 }
@@ -112,7 +115,9 @@ const BackupInfoDialog: FunctionComponent<IProps> = ({ backup, open, onClose }: 
                                 control={
                                     <Checkbox
                                         name='Trickplay'
-                                        defaultChecked={backup.Options?.Trickplay}
+                                        defaultChecked={
+                                            backup.Options?.Trickplay
+                                        }
                                         disabled
                                     />
                                 }

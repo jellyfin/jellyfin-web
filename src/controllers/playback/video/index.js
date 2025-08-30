@@ -30,7 +30,10 @@ import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
 import { appRouter } from '../../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import LibraryMenu from '../../../scripts/libraryMenu';
-import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
+import {
+    setBackdropTransparency,
+    TRANSPARENCY_LEVEL
+} from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
 
@@ -42,12 +45,14 @@ export default function (view) {
     function getDisplayItem(item) {
         if (item.Type === 'TvChannel') {
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem) {
-                return {
-                    originalItem: refreshedItem,
-                    displayItem: refreshedItem.CurrentProgram
-                };
-            });
+            return apiClient
+                .getItem(apiClient.getCurrentUserId(), item.Id)
+                .then(function (refreshedItem) {
+                    return {
+                        originalItem: refreshedItem,
+                        displayItem: refreshedItem.CurrentProgram
+                    };
+                });
         }
 
         return Promise.resolve({
@@ -66,22 +71,28 @@ export default function (view) {
             return;
         }
 
-        ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
-            if (user.Policy.EnableLiveTvManagement) {
-                import('../../../components/recordingcreator/recordingbutton').then(({ default: RecordingButton }) => {
-                    if (recordingButtonManager) {
-                        recordingButtonManager.refreshItem(item);
-                        return;
-                    }
+        ServerConnections.getApiClient(item.ServerId)
+            .getCurrentUser()
+            .then(function (user) {
+                if (user.Policy.EnableLiveTvManagement) {
+                    import(
+                        '../../../components/recordingcreator/recordingbutton'
+                    ).then(({ default: RecordingButton }) => {
+                        if (recordingButtonManager) {
+                            recordingButtonManager.refreshItem(item);
+                            return;
+                        }
 
-                    recordingButtonManager = new RecordingButton({
-                        item: item,
-                        button: view.querySelector('.btnRecord')
+                        recordingButtonManager = new RecordingButton({
+                            item: item,
+                            button: view.querySelector('.btnRecord')
+                        });
+                        view.querySelector('.btnRecord').classList.remove(
+                            'hide'
+                        );
                     });
-                    view.querySelector('.btnRecord').classList.remove('hide');
-                });
-            }
-        });
+                }
+            });
     }
 
     function updateDisplayItem(itemInfo) {
@@ -98,10 +109,13 @@ export default function (view) {
         setTitle(displayItem, parentName);
 
         const secondaryMediaInfo = view.querySelector('.osdSecondaryMediaInfo');
-        const secondaryMediaInfoHtml = mediaInfo.getSecondaryMediaInfoHtml(displayItem, {
-            startDate: false,
-            programTime: false
-        });
+        const secondaryMediaInfoHtml = mediaInfo.getSecondaryMediaInfoHtml(
+            displayItem,
+            {
+                startDate: false,
+                programTime: false
+            }
+        );
         secondaryMediaInfo.innerHTML = secondaryMediaInfoHtml;
 
         if (secondaryMediaInfoHtml) {
@@ -115,8 +129,12 @@ export default function (view) {
             setDisplayTime(endTimeText, displayItem.EndDate);
             startTimeText.classList.remove('hide');
             endTimeText.classList.remove('hide');
-            programStartDateMs = displayItem.StartDate ? datetime.parseISO8601Date(displayItem.StartDate).getTime() : 0;
-            programEndDateMs = displayItem.EndDate ? datetime.parseISO8601Date(displayItem.EndDate).getTime() : 0;
+            programStartDateMs = displayItem.StartDate
+                ? datetime.parseISO8601Date(displayItem.StartDate).getTime()
+                : 0;
+            programEndDateMs = displayItem.EndDate
+                ? datetime.parseISO8601Date(displayItem.EndDate).getTime()
+                : 0;
         } else {
             startTimeText.classList.add('hide');
             endTimeText.classList.add('hide');
@@ -145,29 +163,43 @@ export default function (view) {
         if (trickplayResolutions) {
             // Prefer highest resolution <= 20% of total screen resolution width
             let bestWidth;
-            const maxWidth = window.screen.width * window.devicePixelRatio * 0.2;
+            const maxWidth =
+                window.screen.width * window.devicePixelRatio * 0.2;
             for (const [, info] of Object.entries(trickplayResolutions)) {
-                if (!bestWidth
-                        || (info.Width < bestWidth && bestWidth > maxWidth) // Objects not guaranteed to be sorted in any order, first width might be > maxWidth.
-                        || (info.Width > bestWidth && info.Width <= maxWidth)) {
+                if (
+                    !bestWidth ||
+                    (info.Width < bestWidth && bestWidth > maxWidth) || // Objects not guaranteed to be sorted in any order, first width might be > maxWidth.
+                    (info.Width > bestWidth && info.Width <= maxWidth)
+                ) {
                     bestWidth = info.Width;
                 }
             }
 
-            if (bestWidth) trickplayResolution = trickplayResolutions[bestWidth];
+            if (bestWidth)
+                trickplayResolution = trickplayResolutions[bestWidth];
         }
     }
 
     function getDisplayTimeWithoutAmPm(date, showSeconds) {
         if (showSeconds) {
-            return datetime.toLocaleTimeString(date, {
-                hour: 'numeric',
-                minute: '2-digit',
-                second: '2-digit'
-            }).toLowerCase().replace('am', '').replace('pm', '').trim();
+            return datetime
+                .toLocaleTimeString(date, {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    second: '2-digit'
+                })
+                .toLowerCase()
+                .replace('am', '')
+                .replace('pm', '')
+                .trim();
         }
 
-        return datetime.getDisplayTime(date).toLowerCase().replace('am', '').replace('pm', '').trim();
+        return datetime
+            .getDisplayTime(date)
+            .toLowerCase()
+            .replace('am', '')
+            .replace('pm', '')
+            .trim();
     }
 
     function setDisplayTime(elem, date) {
@@ -253,7 +285,10 @@ export default function (view) {
             title += ` (${datetime.toLocaleString(item.ProductionYear, { useGrouping: false })})`;
         } else if (item.PremiereDate) {
             try {
-                const year = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
+                const year = datetime.toLocaleString(
+                    datetime.parseISO8601Date(item.PremiereDate).getFullYear(),
+                    { useGrouping: false }
+                );
                 title += ` (${year})`;
             } catch (e) {
                 console.error(e);
@@ -272,14 +307,14 @@ export default function (view) {
     let mouseIsDown = false;
 
     function showOsd(focusElement) {
-        Events.trigger(document, EventType.SHOW_VIDEO_OSD, [ true ]);
+        Events.trigger(document, EventType.SHOW_VIDEO_OSD, [true]);
         slideDownToShow(headerElement);
         showMainOsdControls(focusElement);
         resetIdle();
     }
 
     function hideOsd() {
-        Events.trigger(document, EventType.SHOW_VIDEO_OSD, [ false ]);
+        Events.trigger(document, EventType.SHOW_VIDEO_OSD, [false]);
         slideUpToHide(headerElement);
         hideMainOsdControls();
         mouseManager.hideCursor();
@@ -318,14 +353,20 @@ export default function (view) {
     }
 
     function clearHideAnimationEventListeners(elem) {
-        elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
+        elem.removeEventListener(
+            transitionEndEventName,
+            onHideAnimationComplete
+        );
     }
 
     function onHideAnimationComplete(e) {
         const elem = e.target;
         if (elem !== osdBottomElement && elem !== headerElement) return;
         elem.classList.add('hide');
-        elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
+        elem.removeEventListener(
+            transitionEndEventName,
+            onHideAnimationComplete
+        );
     }
 
     const _focus = function (focusElement) {
@@ -362,13 +403,18 @@ export default function (view) {
             clearHideAnimationEventListeners(elem);
             elem.classList.add('videoOsdBottom-hidden');
 
-            elem.addEventListener(transitionEndEventName, onHideAnimationComplete);
+            elem.addEventListener(
+                transitionEndEventName,
+                onHideAnimationComplete
+            );
             currentVisibleMenu = null;
             toggleSubtitleSync('hide');
 
             // Firefox does not blur by itself
-            if (osdBottomElement.contains(document.activeElement)
-                || headerElement.contains(document.activeElement)) {
+            if (
+                osdBottomElement.contains(document.activeElement) ||
+                headerElement.contains(document.activeElement)
+            ) {
                 document.activeElement.blur();
             }
         }
@@ -386,7 +432,10 @@ export default function (view) {
     }
 
     function onPointerMove(e) {
-        if ((e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse')) === 'mouse') {
+        if (
+            (e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse')) ===
+            'mouse'
+        ) {
             const eventX = e.screenX || e.clientX || 0;
             const eventY = e.screenY || e.clientY || 0;
             const obj = lastPointerMoveData;
@@ -399,7 +448,10 @@ export default function (view) {
                 return;
             }
 
-            if (Math.abs(eventX - obj.x) < 10 && Math.abs(eventY - obj.y) < 10) {
+            if (
+                Math.abs(eventX - obj.x) < 10 &&
+                Math.abs(eventY - obj.y) < 10
+            ) {
                 return;
             }
 
@@ -484,7 +536,10 @@ export default function (view) {
     }
 
     function onFullscreenChanged() {
-        if (currentPlayer.forcedFullscreen && !playbackManager.isFullscreen(currentPlayer)) {
+        if (
+            currentPlayer.forcedFullscreen &&
+            !playbackManager.isFullscreen(currentPlayer)
+        ) {
             appRouter.back();
             return;
         }
@@ -499,10 +554,16 @@ export default function (view) {
         icon.classList.remove('fullscreen_exit', 'fullscreen');
 
         if (playbackManager.isFullscreen(currentPlayer)) {
-            button.setAttribute('title', globalize.translate('ExitFullscreen') + ' (F)');
+            button.setAttribute(
+                'title',
+                globalize.translate('ExitFullscreen') + ' (F)'
+            );
             icon.classList.add('fullscreen_exit');
         } else {
-            button.setAttribute('title', globalize.translate('Fullscreen') + ' (F)');
+            button.setAttribute(
+                'title',
+                globalize.translate('Fullscreen') + ' (F)'
+            );
             icon.classList.add('fullscreen');
         }
     }
@@ -532,7 +593,11 @@ export default function (view) {
     function onVolumeChanged() {
         if (isEnabled) {
             const player = this;
-            updatePlayerVolumeState(player, player.isMuted(), player.getVolume());
+            updatePlayerVolumeState(
+                player,
+                player.isMuted(),
+                player.getVolume()
+            );
         }
     }
 
@@ -567,9 +632,13 @@ export default function (view) {
     function onMediaStreamsChanged() {
         const player = this;
         const state = playbackManager.getPlayerState(player);
-        onStateChanged.call(player, {
-            type: 'init'
-        }, state);
+        onStateChanged.call(
+            player,
+            {
+                type: 'init'
+            },
+            state
+        );
     }
 
     function onBeginFetch() {
@@ -587,9 +656,13 @@ export default function (view) {
             if (!player) return;
         }
         const state = playbackManager.getPlayerState(player);
-        onStateChanged.call(player, {
-            type: 'init'
-        }, state);
+        onStateChanged.call(
+            player,
+            {
+                type: 'init'
+            },
+            state
+        );
         Events.on(player, 'playbackstart', onPlaybackStart);
         Events.on(player, 'playbackstop', onPlaybackStopped);
         Events.on(player, PlayerEvent.PromptSkip, onPromptSkip);
@@ -638,37 +711,68 @@ export default function (view) {
                 const player = this;
                 currentRuntimeTicks = playbackManager.duration(player);
                 const currentTime = playbackManager.currentTime(player) * 10000;
-                updateTimeDisplay(currentTime, currentRuntimeTicks, playbackManager.playbackStartTime(player), playbackManager.getPlaybackRate(player), playbackManager.getBufferedRanges(player));
+                updateTimeDisplay(
+                    currentTime,
+                    currentRuntimeTicks,
+                    playbackManager.playbackStartTime(player),
+                    playbackManager.getPlaybackRate(player),
+                    playbackManager.getBufferedRanges(player)
+                );
                 const item = currentItem;
                 refreshProgramInfoIfNeeded(player, item);
-                showComingUpNextIfNeeded(player, item, currentTime, currentRuntimeTicks);
+                showComingUpNextIfNeeded(
+                    player,
+                    item,
+                    currentTime,
+                    currentRuntimeTicks
+                );
             }
         }
     }
 
     function onPromptSkip(e, mediaSegment) {
         const player = this;
-        if (mediaSegment && player && mediaSegment.EndTicks != null
-            && mediaSegment.EndTicks >= playbackManager.duration(player)
-            && playbackManager.getNextItem()
-            && userSettings.enableNextVideoInfoOverlay()
+        if (
+            mediaSegment &&
+            player &&
+            mediaSegment.EndTicks != null &&
+            mediaSegment.EndTicks >= playbackManager.duration(player) &&
+            playbackManager.getNextItem() &&
+            userSettings.enableNextVideoInfoOverlay()
         ) {
             showComingUpNext(player);
         }
     }
 
-    function showComingUpNextIfNeeded(player, currentItem, currentTimeTicks, runtimeTicks) {
-        if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && currentItem.Type === 'Episode' && userSettings.enableNextVideoInfoOverlay()) {
+    function showComingUpNextIfNeeded(
+        player,
+        currentItem,
+        currentTimeTicks,
+        runtimeTicks
+    ) {
+        if (
+            runtimeTicks &&
+            currentTimeTicks &&
+            !comingUpNextDisplayed &&
+            !currentVisibleMenu &&
+            currentItem.Type === 'Episode' &&
+            userSettings.enableNextVideoInfoOverlay()
+        ) {
             let showAtSecondsLeft = 30;
             if (runtimeTicks >= 50 * TICKS_PER_MINUTE) {
                 showAtSecondsLeft = 40;
             } else if (runtimeTicks >= 40 * TICKS_PER_MINUTE) {
                 showAtSecondsLeft = 35;
             }
-            const showAtTicks = runtimeTicks - showAtSecondsLeft * TICKS_PER_SECOND;
+            const showAtTicks =
+                runtimeTicks - showAtSecondsLeft * TICKS_PER_SECOND;
             const timeRemainingTicks = runtimeTicks - currentTimeTicks;
 
-            if (currentTimeTicks >= showAtTicks && runtimeTicks >= (10 * TICKS_PER_MINUTE) && timeRemainingTicks >= (20 * TICKS_PER_SECOND)) {
+            if (
+                currentTimeTicks >= showAtTicks &&
+                runtimeTicks >= 10 * TICKS_PER_MINUTE &&
+                timeRemainingTicks >= 20 * TICKS_PER_SECOND
+            ) {
                 showComingUpNext(player);
             }
         }
@@ -681,20 +785,22 @@ export default function (view) {
     }
 
     function showComingUpNext(player) {
-        import('../../../components/upnextdialog/upnextdialog').then(({ default: UpNextDialog }) => {
-            if (!(currentVisibleMenu || currentUpNextDialog)) {
-                currentVisibleMenu = 'upnext';
-                comingUpNextDisplayed = true;
-                playbackManager.nextItem(player).then(function (nextItem) {
-                    currentUpNextDialog = new UpNextDialog({
-                        parent: view.querySelector('.upNextContainer'),
-                        player: player,
-                        nextItem: nextItem
-                    });
-                    Events.on(currentUpNextDialog, 'hide', onUpNextHidden);
-                }, onUpNextHidden);
+        import('../../../components/upnextdialog/upnextdialog').then(
+            ({ default: UpNextDialog }) => {
+                if (!(currentVisibleMenu || currentUpNextDialog)) {
+                    currentVisibleMenu = 'upnext';
+                    comingUpNextDisplayed = true;
+                    playbackManager.nextItem(player).then(function (nextItem) {
+                        currentUpNextDialog = new UpNextDialog({
+                            parent: view.querySelector('.upNextContainer'),
+                            player: player,
+                            nextItem: nextItem
+                        });
+                        Events.on(currentUpNextDialog, 'hide', onUpNextHidden);
+                    }, onUpNextHidden);
+                }
             }
-        });
+        );
     }
 
     function refreshProgramInfoIfNeeded(player, item) {
@@ -708,9 +814,13 @@ export default function (view) {
                     if (new Date().getTime() >= endDate.getTime()) {
                         console.debug('program info needs to be refreshed');
                         const state = playbackManager.getPlayerState(player);
-                        onStateChanged.call(player, {
-                            type: 'init'
-                        }, state);
+                        onStateChanged.call(
+                            player,
+                            {
+                                type: 'init'
+                            },
+                            state
+                        );
                     }
                 } catch (e) {
                     console.error('error parsing date: ' + program.EndDate, e);
@@ -745,7 +855,11 @@ export default function (view) {
         updatePlayPauseState(playState.IsPaused);
         const supportedCommands = playbackManager.getSupportedCommands(player);
         currentPlayerSupportedCommands = supportedCommands;
-        updatePlayerVolumeState(player, playState.IsMuted, playState.VolumeLevel);
+        updatePlayerVolumeState(
+            player,
+            playState.IsMuted,
+            playState.VolumeLevel
+        );
 
         if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
             nowPlayingPositionSlider.disabled = !playState.CanSeek;
@@ -755,18 +869,34 @@ export default function (view) {
         btnRewind.disabled = !playState.CanSeek;
         const nowPlayingItem = state.NowPlayingItem || {};
         playbackStartTimeTicks = playState.PlaybackStartTimeTicks;
-        updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.PlaybackRate, playState.BufferedRanges || []);
+        updateTimeDisplay(
+            playState.PositionTicks,
+            nowPlayingItem.RunTimeTicks,
+            playState.PlaybackStartTimeTicks,
+            playState.PlaybackRate,
+            playState.BufferedRanges || []
+        );
         updateNowPlayingInfo(player, state);
 
-        const isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
+        const isProgressClear =
+            state.MediaSource && state.MediaSource.RunTimeTicks == null;
         nowPlayingPositionSlider.setIsClear(isProgressClear);
 
         if (nowPlayingItem.RunTimeTicks) {
-            nowPlayingPositionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / nowPlayingItem.RunTimeTicks,
-                userSettings.skipForwardLength() * 1000000 / nowPlayingItem.RunTimeTicks);
+            nowPlayingPositionSlider.setKeyboardSteps(
+                (userSettings.skipBackLength() * 1000000) /
+                    nowPlayingItem.RunTimeTicks,
+                (userSettings.skipForwardLength() * 1000000) /
+                    nowPlayingItem.RunTimeTicks
+            );
         }
 
-        if (supportedCommands.indexOf('ToggleFullscreen') === -1 || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {
+        if (
+            supportedCommands.indexOf('ToggleFullscreen') === -1 ||
+            (player.isLocalPlayer &&
+                layoutManager.tv &&
+                playbackManager.isFullscreen(player))
+        ) {
             view.querySelector('.btnFullscreen').classList.add('hide');
         } else {
             view.querySelector('.btnFullscreen').classList.remove('hide');
@@ -787,26 +917,60 @@ export default function (view) {
         onFullscreenChanged();
     }
 
-    function getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, currentTimeMs) {
-        return (currentTimeMs - programStartDateMs) / programRuntimeMs * 100;
+    function getDisplayPercentByTimeOfDay(
+        programStartDateMs,
+        programRuntimeMs,
+        currentTimeMs
+    ) {
+        return ((currentTimeMs - programStartDateMs) / programRuntimeMs) * 100;
     }
 
-    function updateTimeDisplay(positionTicks, runtimeTicks, playbackStartTimeTicks, playbackRate, bufferedRanges) {
+    function updateTimeDisplay(
+        positionTicks,
+        runtimeTicks,
+        playbackStartTimeTicks,
+        playbackRate,
+        bufferedRanges
+    ) {
         if (enableProgressByTimeOfDay) {
-            if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
+            if (
+                nowPlayingPositionSlider &&
+                !nowPlayingPositionSlider.dragging
+            ) {
                 if (programStartDateMs && programEndDateMs) {
-                    const currentTimeMs = (playbackStartTimeTicks + (positionTicks || 0)) / 1e4;
-                    const programRuntimeMs = programEndDateMs - programStartDateMs;
+                    const currentTimeMs =
+                        (playbackStartTimeTicks + (positionTicks || 0)) / 1e4;
+                    const programRuntimeMs =
+                        programEndDateMs - programStartDateMs;
 
-                    nowPlayingPositionSlider.value = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, currentTimeMs);
+                    nowPlayingPositionSlider.value =
+                        getDisplayPercentByTimeOfDay(
+                            programStartDateMs,
+                            programRuntimeMs,
+                            currentTimeMs
+                        );
 
                     if (bufferedRanges.length) {
-                        const rangeStart = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, (playbackStartTimeTicks + (bufferedRanges[0].start || 0)) / 1e4);
-                        const rangeEnd = getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, (playbackStartTimeTicks + (bufferedRanges[0].end || 0)) / 1e4);
-                        nowPlayingPositionSlider.setBufferedRanges([{
-                            start: rangeStart,
-                            end: rangeEnd
-                        }]);
+                        const rangeStart = getDisplayPercentByTimeOfDay(
+                            programStartDateMs,
+                            programRuntimeMs,
+                            (playbackStartTimeTicks +
+                                (bufferedRanges[0].start || 0)) /
+                                1e4
+                        );
+                        const rangeEnd = getDisplayPercentByTimeOfDay(
+                            programStartDateMs,
+                            programRuntimeMs,
+                            (playbackStartTimeTicks +
+                                (bufferedRanges[0].end || 0)) /
+                                1e4
+                        );
+                        nowPlayingPositionSlider.setBufferedRanges([
+                            {
+                                start: rangeStart,
+                                end: rangeEnd
+                            }
+                        ]);
                     } else {
                         nowPlayingPositionSlider.setBufferedRanges([]);
                     }
@@ -819,7 +983,10 @@ export default function (view) {
             nowPlayingPositionText.innerHTML = '';
             nowPlayingDurationText.innerHTML = '';
         } else {
-            if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
+            if (
+                nowPlayingPositionSlider &&
+                !nowPlayingPositionSlider.dragging
+            ) {
                 if (runtimeTicks) {
                     let pct = positionTicks / runtimeTicks;
                     pct *= 100;
@@ -828,15 +995,34 @@ export default function (view) {
                     nowPlayingPositionSlider.value = 0;
                 }
 
-                if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording' && playbackRate !== null) {
-                    endsAtText.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, playbackRate, true);
+                if (
+                    runtimeTicks &&
+                    positionTicks != null &&
+                    currentRuntimeTicks &&
+                    !enableProgressByTimeOfDay &&
+                    currentItem.RunTimeTicks &&
+                    currentItem.Type !== 'Recording' &&
+                    playbackRate !== null
+                ) {
+                    endsAtText.innerHTML =
+                        '&nbsp;&nbsp;&nbsp;&nbsp;' +
+                        mediaInfo.getEndsAtFromPosition(
+                            runtimeTicks,
+                            positionTicks,
+                            playbackRate,
+                            true
+                        );
                 } else {
                     endsAtText.innerHTML = '';
                 }
             }
 
             if (nowPlayingPositionSlider) {
-                nowPlayingPositionSlider.setBufferedRanges(bufferedRanges, runtimeTicks, positionTicks);
+                nowPlayingPositionSlider.setBufferedRanges(
+                    bufferedRanges,
+                    runtimeTicks,
+                    positionTicks
+                );
             }
 
             if (positionTicks >= 0) {
@@ -850,7 +1036,8 @@ export default function (view) {
                 const leftTicks = runtimeTicks - positionTicks;
                 if (leftTicks >= 0) {
                     updateTimeText(nowPlayingDurationText, leftTicks);
-                    nowPlayingDurationText.innerHTML = '-' + nowPlayingDurationText.innerHTML;
+                    nowPlayingDurationText.innerHTML =
+                        '-' + nowPlayingDurationText.innerHTML;
                     nowPlayingDurationText.classList.remove('hide');
                 } else {
                     nowPlayingPositionText.classList.add('hide');
@@ -875,7 +1062,10 @@ export default function (view) {
             showVolumeSlider = false;
         }
 
-        if (player.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
+        if (
+            player.isLocalPlayer &&
+            appHost.supports(AppFeature.PhysicalVolumeControl)
+        ) {
             showMuteButton = false;
             showVolumeSlider = false;
         }
@@ -886,10 +1076,16 @@ export default function (view) {
         buttonMuteIcon.classList.remove('volume_off', 'volume_up');
 
         if (isMuted) {
-            buttonMute.setAttribute('title', globalize.translate('Unmute') + ' (M)');
+            buttonMute.setAttribute(
+                'title',
+                globalize.translate('Unmute') + ' (M)'
+            );
             buttonMuteIcon.classList.add('volume_off');
         } else {
-            buttonMute.setAttribute('title', globalize.translate('Mute') + ' (M)');
+            buttonMute.setAttribute(
+                'title',
+                globalize.translate('Mute') + ' (M)'
+            );
             buttonMuteIcon.classList.add('volume_up');
         }
 
@@ -917,7 +1113,8 @@ export default function (view) {
             const playlist = await playbackManager.getPlaylist();
 
             if (playlist && playlist.length > 1) {
-                const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
+                const btnPreviousTrack =
+                    view.querySelector('.btnPreviousTrack');
                 const btnNextTrack = view.querySelector('.btnNextTrack');
                 btnPreviousTrack.classList.remove('hide');
                 btnNextTrack.classList.remove('hide');
@@ -945,42 +1142,57 @@ export default function (view) {
     }
 
     function nowPlayingDurationTextClick() {
-        userSettings.enableVideoRemainingTime(!userSettings.enableVideoRemainingTime());
+        userSettings.enableVideoRemainingTime(
+            !userSettings.enableVideoRemainingTime()
+        );
         // immediately update the text, without waiting for the next tick update or if the player is paused
         const state = playbackManager.getPlayerState(currentPlayer);
         const playState = state.PlayState;
         const nowPlayingItem = state.NowPlayingItem;
-        updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.PlaybackRate, playState.BufferedRanges || []);
+        updateTimeDisplay(
+            playState.PositionTicks,
+            nowPlayingItem.RunTimeTicks,
+            playState.PlaybackStartTimeTicks,
+            playState.PlaybackRate,
+            playState.BufferedRanges || []
+        );
     }
 
     function onSettingsButtonClick() {
         const btn = this;
 
-        import('../../../components/playback/playersettingsmenu').then((playerSettingsMenu) => {
-            const player = currentPlayer;
+        import('../../../components/playback/playersettingsmenu').then(
+            (playerSettingsMenu) => {
+                const player = currentPlayer;
 
-            if (player) {
-                const state = playbackManager.getPlayerState(player);
+                if (player) {
+                    const state = playbackManager.getPlayerState(player);
 
-                // show subtitle offset feature only if player and media support it
-                const showSubOffset = playbackManager.supportSubtitleOffset(player)
-                        && playbackManager.canHandleOffsetOnCurrentSubtitle(player);
+                    // show subtitle offset feature only if player and media support it
+                    const showSubOffset =
+                        playbackManager.supportSubtitleOffset(player) &&
+                        playbackManager.canHandleOffsetOnCurrentSubtitle(
+                            player
+                        );
 
-                playerSettingsMenu.show({
-                    mediaType: 'Video',
-                    player: player,
-                    positionTo: btn,
-                    quality: state.MediaSource?.SupportsTranscoding,
-                    stats: true,
-                    suboffset: showSubOffset,
-                    onOption: onSettingsOption
-                }).finally(() => {
-                    resetIdle();
-                });
+                    playerSettingsMenu
+                        .show({
+                            mediaType: 'Video',
+                            player: player,
+                            positionTo: btn,
+                            quality: state.MediaSource?.SupportsTranscoding,
+                            stats: true,
+                            suboffset: showSubOffset,
+                            onOption: onSettingsOption
+                        })
+                        .finally(() => {
+                            resetIdle();
+                        });
 
-                setTimeout(resetIdle, 0);
+                    setTimeout(resetIdle, 0);
+                }
             }
-        });
+        );
     }
 
     function onSettingsOption(selectedOption) {
@@ -996,19 +1208,21 @@ export default function (view) {
     }
 
     function toggleStats() {
-        import('../../../components/playerstats/playerstats').then(({ default: PlayerStats }) => {
-            const player = currentPlayer;
+        import('../../../components/playerstats/playerstats').then(
+            ({ default: PlayerStats }) => {
+                const player = currentPlayer;
 
-            if (player) {
-                if (statsOverlay) {
-                    statsOverlay.toggle();
-                } else {
-                    statsOverlay = new PlayerStats({
-                        player: player
-                    });
+                if (player) {
+                    if (statsOverlay) {
+                        statsOverlay.toggle();
+                    } else {
+                        statsOverlay = new PlayerStats({
+                            player: player
+                        });
+                    }
                 }
             }
-        });
+        );
     }
 
     function destroyStats() {
@@ -1036,29 +1250,35 @@ export default function (view) {
         });
         const positionTo = this;
 
-        import('../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
-            actionsheet.show({
-                items: menuItems,
-                title: globalize.translate('Audio'),
-                positionTo: positionTo
-            }).then(function (id) {
-                const index = parseInt(id, 10);
+        import('../../../components/actionSheet/actionSheet').then(
+            ({ default: actionsheet }) => {
+                actionsheet
+                    .show({
+                        items: menuItems,
+                        title: globalize.translate('Audio'),
+                        positionTo: positionTo
+                    })
+                    .then(function (id) {
+                        const index = parseInt(id, 10);
 
-                if (index !== currentIndex) {
-                    playbackManager.setAudioStreamIndex(index, player);
-                }
-            }).finally(() => {
-                resetIdle();
-            });
+                        if (index !== currentIndex) {
+                            playbackManager.setAudioStreamIndex(index, player);
+                        }
+                    })
+                    .finally(() => {
+                        resetIdle();
+                    });
 
-            setTimeout(resetIdle, 0);
-        });
+                setTimeout(resetIdle, 0);
+            }
+        );
     }
 
     function showSecondarySubtitlesMenu(actionsheet, positionTo) {
         const player = currentPlayer;
         if (!playbackManager.playerHasSecondarySubtitleSupport(player)) return;
-        let currentIndex = playbackManager.getSecondarySubtitleStreamIndex(player);
+        let currentIndex =
+            playbackManager.getSecondarySubtitleStreamIndex(player);
         const streams = playbackManager.secondarySubtitleTracks(player);
 
         if (currentIndex == null) {
@@ -1083,18 +1303,23 @@ export default function (view) {
             return opt;
         });
 
-        actionsheet.show({
-            title: globalize.translate('SecondarySubtitles'),
-            items: menuItems,
-            positionTo
-        }).then(function (id) {
-            if (id) {
-                const index = parseInt(id, 10);
-                if (index !== currentIndex) {
-                    playbackManager.setSecondarySubtitleStreamIndex(index, player);
+        actionsheet
+            .show({
+                title: globalize.translate('SecondarySubtitles'),
+                items: menuItems,
+                positionTo
+            })
+            .then(function (id) {
+                if (id) {
+                    const index = parseInt(id, 10);
+                    if (index !== currentIndex) {
+                        playbackManager.setSecondarySubtitleStreamIndex(
+                            index,
+                            player
+                        );
+                    }
                 }
-            }
-        })
+            })
             .finally(() => {
                 resetIdle();
             });
@@ -1105,7 +1330,8 @@ export default function (view) {
     function showSubtitleTrackSelection() {
         const player = currentPlayer;
         const streams = playbackManager.subtitleTracks(player);
-        const secondaryStreams = playbackManager.secondarySubtitleTracks(player);
+        const secondaryStreams =
+            playbackManager.secondarySubtitleTracks(player);
         let currentIndex = playbackManager.getSubtitleStreamIndex(player);
 
         if (currentIndex == null) {
@@ -1130,18 +1356,22 @@ export default function (view) {
         });
 
         /**
-            * Only show option if:
-            * - player has support
-            * - has more than 1 subtitle track
-            * - has valid secondary tracks
-            * - primary subtitle is not off
-            * - primary subtitle has support
-            */
-        const currentTrackCanAddSecondarySubtitle = playbackManager.playerHasSecondarySubtitleSupport(player)
-                && streams.length > 1
-                && secondaryStreams.length > 0
-                && currentIndex !== -1
-                && playbackManager.trackHasSecondarySubtitleSupport(playbackManager.getSubtitleStream(player, currentIndex), player);
+         * Only show option if:
+         * - player has support
+         * - has more than 1 subtitle track
+         * - has valid secondary tracks
+         * - primary subtitle is not off
+         * - primary subtitle has support
+         */
+        const currentTrackCanAddSecondarySubtitle =
+            playbackManager.playerHasSecondarySubtitleSupport(player) &&
+            streams.length > 1 &&
+            secondaryStreams.length > 0 &&
+            currentIndex !== -1 &&
+            playbackManager.trackHasSecondarySubtitleSupport(
+                playbackManager.getSubtitleStream(player, currentIndex),
+                player
+            );
 
         if (currentTrackCanAddSecondarySubtitle) {
             const secondarySubtitleMenuItem = {
@@ -1153,33 +1383,44 @@ export default function (view) {
 
         const positionTo = this;
 
-        import('../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
-            actionsheet.show({
-                title: globalize.translate('Subtitles'),
-                items: menuItems,
-                positionTo: positionTo
-            }).then(function (id) {
-                if (id === 'secondarysubtitle') {
-                    try {
-                        showSecondarySubtitlesMenu(actionsheet, positionTo);
-                    } catch (e) {
-                        console.error(e);
-                    }
-                } else {
-                    const index = parseInt(id, 10);
+        import('../../../components/actionSheet/actionSheet').then(
+            ({ default: actionsheet }) => {
+                actionsheet
+                    .show({
+                        title: globalize.translate('Subtitles'),
+                        items: menuItems,
+                        positionTo: positionTo
+                    })
+                    .then(function (id) {
+                        if (id === 'secondarysubtitle') {
+                            try {
+                                showSecondarySubtitlesMenu(
+                                    actionsheet,
+                                    positionTo
+                                );
+                            } catch (e) {
+                                console.error(e);
+                            }
+                        } else {
+                            const index = parseInt(id, 10);
 
-                    if (index !== currentIndex) {
-                        playbackManager.setSubtitleStreamIndex(index, player);
-                    }
-                }
+                            if (index !== currentIndex) {
+                                playbackManager.setSubtitleStreamIndex(
+                                    index,
+                                    player
+                                );
+                            }
+                        }
 
-                toggleSubtitleSync();
-            }).finally(() => {
-                resetIdle();
-            });
+                        toggleSubtitleSync();
+                    })
+                    .finally(() => {
+                        resetIdle();
+                    });
 
-            setTimeout(resetIdle, 0);
-        });
+                setTimeout(resetIdle, 0);
+            }
+        );
     }
 
     function toggleSubtitleSync(action) {
@@ -1199,9 +1440,9 @@ export default function (view) {
     }
 
     /**
-         * Clicked element.
-         * To skip 'click' handling on Firefox/Edge.
-         */
+     * Clicked element.
+     * To skip 'click' handling on Firefox/Edge.
+     */
     let clickedElement;
 
     function onClickCapture(e) {
@@ -1248,7 +1489,9 @@ export default function (view) {
                     if (!e.shiftKey) {
                         e.preventDefault();
                         showOsd(nowPlayingPositionSlider);
-                        nowPlayingPositionSlider.dispatchEvent(new KeyboardEvent(e.type, e));
+                        nowPlayingPositionSlider.dispatchEvent(
+                            new KeyboardEvent(e.type, e)
+                        );
                     }
                     return;
                 case 'Enter':
@@ -1387,7 +1630,8 @@ export default function (view) {
             case '6':
             case '7':
             case '8':
-            case '9': { // no Shift
+            case '9': {
+                // no Shift
                 e.preventDefault();
                 const percent = parseInt(key, 10) * 10;
                 playbackManager.seekPercent(percent, currentPlayer);
@@ -1461,18 +1705,33 @@ export default function (view) {
         resetIdle();
     }
 
-    function updateTrickplayBubbleHtml(apiClient, trickplayInfo, item, mediaSourceId, bubble, positionTicks) {
+    function updateTrickplayBubbleHtml(
+        apiClient,
+        trickplayInfo,
+        item,
+        mediaSourceId,
+        bubble,
+        positionTicks
+    ) {
         let doFullUpdate = false;
-        let chapterThumbContainer = bubble.querySelector('.chapterThumbContainer');
+        let chapterThumbContainer = bubble.querySelector(
+            '.chapterThumbContainer'
+        );
         let chapterThumb;
         let chapterThumbText;
         let chapterThumbName;
 
         // Create bubble elements if they don't already exist
         if (chapterThumbContainer) {
-            chapterThumb = chapterThumbContainer.querySelector('.chapterThumbWrapper');
-            chapterThumbText = chapterThumbContainer.querySelector('h2.chapterThumbText');
-            chapterThumbName = chapterThumbContainer.querySelector('div.chapterThumbText');
+            chapterThumb = chapterThumbContainer.querySelector(
+                '.chapterThumbWrapper'
+            );
+            chapterThumbText = chapterThumbContainer.querySelector(
+                'h2.chapterThumbText'
+            );
+            chapterThumbName = chapterThumbContainer.querySelector(
+                'div.chapterThumbText'
+            );
         } else {
             doFullUpdate = true;
 
@@ -1488,11 +1747,16 @@ export default function (view) {
             chapterThumbContainer.appendChild(chapterThumb);
 
             const chapterThumbTextContainer = document.createElement('div');
-            chapterThumbTextContainer.classList.add('chapterThumbTextContainer');
+            chapterThumbTextContainer.classList.add(
+                'chapterThumbTextContainer'
+            );
             chapterThumbContainer.appendChild(chapterThumbTextContainer);
 
             chapterThumbName = document.createElement('div');
-            chapterThumbName.classList.add('chapterThumbText', 'chapterThumbText-dim');
+            chapterThumbName.classList.add(
+                'chapterThumbText',
+                'chapterThumbText-dim'
+            );
             chapterThumbTextContainer.appendChild(chapterThumbName);
 
             chapterThumbText = document.createElement('h2');
@@ -1522,16 +1786,26 @@ export default function (view) {
         const offsetX = -(tileOffsetX * trickplayInfo.Width);
         const offsetY = -(tileOffsetY * trickplayInfo.Height);
 
-        const imgSrc = apiClient.getUrl('Videos/' + item.Id + '/Trickplay/' + trickplayInfo.Width + '/' + index + '.jpg', {
-            ApiKey: apiClient.accessToken(),
-            MediaSourceId: mediaSourceId
-        });
+        const imgSrc = apiClient.getUrl(
+            'Videos/' +
+                item.Id +
+                '/Trickplay/' +
+                trickplayInfo.Width +
+                '/' +
+                index +
+                '.jpg',
+            {
+                ApiKey: apiClient.accessToken(),
+                MediaSourceId: mediaSourceId
+            }
+        );
 
         chapterThumb.style.backgroundImage = `url('${imgSrc}')`;
         chapterThumb.style.backgroundPositionX = offsetX + 'px';
         chapterThumb.style.backgroundPositionY = offsetY + 'px';
 
-        chapterThumbText.textContent = datetime.getDisplayRunningTime(positionTicks);
+        chapterThumbText.textContent =
+            datetime.getDisplayRunningTime(positionTicks);
         chapterThumbName.textContent = chapter?.Name || '';
 
         // Set bubble innerHTML if container isn't part of DOM
@@ -1643,7 +1917,9 @@ export default function (view) {
     let subtitleSyncOverlay;
     let trickplayResolution = null;
     const nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
-    const nowPlayingVolumeSliderContainer = view.querySelector('.osdVolumeSliderContainer');
+    const nowPlayingVolumeSliderContainer = view.querySelector(
+        '.osdVolumeSliderContainer'
+    );
     const nowPlayingPositionSlider = view.querySelector('.osdPositionSlider');
     const nowPlayingPositionText = view.querySelector('.osdPositionText');
     const nowPlayingDurationText = view.querySelector('.osdDurationText');
@@ -1663,7 +1939,10 @@ export default function (view) {
         nowPlayingPositionSlider.classList.add('focusable');
     }
 
-    nowPlayingDurationText.addEventListener('click', nowPlayingDurationTextClick);
+    nowPlayingDurationText.addEventListener(
+        'click',
+        nowPlayingDurationTextClick
+    );
 
     view.addEventListener('viewbeforeshow', function () {
         headerElement.classList.add('osdHeader');
@@ -1673,10 +1952,15 @@ export default function (view) {
         try {
             Events.on(playbackManager, 'playerchange', onPlayerChange);
             bindToPlayer(playbackManager.getCurrentPlayer());
-            /* eslint-disable-next-line compat/compat */
-            dom.addEventListener(document, window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove, {
-                passive: true
-            });
+            dom.addEventListener(
+                document,
+                // eslint-disable-next-line compat/compat
+                window.PointerEvent ? 'pointermove' : 'mousemove',
+                onPointerMove,
+                {
+                    passive: true
+                }
+            );
             showOsd();
             inputManager.on(window, onInputCommand);
             document.addEventListener('keydown', onKeyDown);
@@ -1685,16 +1969,26 @@ export default function (view) {
                 passive: true
             });
             document.addEventListener('wheel', onWheel);
-            /* eslint-disable-next-line compat/compat */
-            dom.addEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
-                capture: true,
-                passive: true
-            });
-            /* eslint-disable-next-line compat/compat */
-            dom.addEventListener(window, window.PointerEvent ? 'pointerup' : 'mouseup', onWindowMouseUp, {
-                capture: true,
-                passive: true
-            });
+            dom.addEventListener(
+                window,
+                // eslint-disable-next-line compat/compat
+                window.PointerEvent ? 'pointerdown' : 'mousedown',
+                onWindowMouseDown,
+                {
+                    capture: true,
+                    passive: true
+                }
+            );
+            dom.addEventListener(
+                window,
+                // eslint-disable-next-line compat/compat
+                window.PointerEvent ? 'pointerup' : 'mouseup',
+                onWindowMouseUp,
+                {
+                    capture: true,
+                    passive: true
+                }
+            );
             dom.addEventListener(window, 'touchstart', onWindowMouseDown, {
                 capture: true,
                 passive: true
@@ -1710,7 +2004,9 @@ export default function (view) {
                 passive: true
             });
             if (browser.firefox || browser.edge) {
-                dom.addEventListener(document, 'click', onClickCapture, { capture: true });
+                dom.addEventListener(document, 'click', onClickCapture, {
+                    capture: true
+                });
             }
         } catch {
             setBackdropTransparency(TRANSPARENCY_LEVEL.None); // reset state set in viewbeforeshow
@@ -1728,16 +2024,26 @@ export default function (view) {
             passive: true
         });
         document.removeEventListener('wheel', onWheel);
-        /* eslint-disable-next-line compat/compat */
-        dom.removeEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
-            capture: true,
-            passive: true
-        });
-        /* eslint-disable-next-line compat/compat */
-        dom.removeEventListener(window, window.PointerEvent ? 'pointerup' : 'mouseup', onWindowMouseUp, {
-            capture: true,
-            passive: true
-        });
+        dom.removeEventListener(
+            window,
+            // eslint-disable-next-line compat/compat
+            window.PointerEvent ? 'pointerdown' : 'mousedown',
+            onWindowMouseDown,
+            {
+                capture: true,
+                passive: true
+            }
+        );
+        dom.removeEventListener(
+            window,
+            // eslint-disable-next-line compat/compat
+            window.PointerEvent ? 'pointerup' : 'mouseup',
+            onWindowMouseUp,
+            {
+                capture: true,
+                passive: true
+            }
+        );
         dom.removeEventListener(window, 'touchstart', onWindowMouseDown, {
             capture: true,
             passive: true
@@ -1753,15 +2059,23 @@ export default function (view) {
             passive: true
         });
         if (browser.firefox || browser.edge) {
-            dom.removeEventListener(document, 'click', onClickCapture, { capture: true });
+            dom.removeEventListener(document, 'click', onClickCapture, {
+                capture: true
+            });
         }
         stopOsdHideTimer();
         headerElement.classList.remove('osdHeader');
         headerElement.classList.remove('osdHeader-hidden');
-        /* eslint-disable-next-line compat/compat */
-        dom.removeEventListener(document, window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove, {
-            passive: true
-        });
+
+        dom.removeEventListener(
+            document,
+            // eslint-disable-next-line compat/compat
+            window.PointerEvent ? 'pointermove' : 'mousemove',
+            onPointerMove,
+            {
+                passive: true
+            }
+        );
         inputManager.off(window, onInputCommand);
         Events.off(playbackManager, 'playerchange', onPlayerChange);
         releaseCurrentPlayer();
@@ -1775,7 +2089,10 @@ export default function (view) {
     view.querySelector('.btnAirPlay').addEventListener('click', function () {
         playbackManager.toggleAirPlay(currentPlayer);
     });
-    view.querySelector('.btnVideoOsdSettings').addEventListener('click', onSettingsButtonClick);
+    view.querySelector('.btnVideoOsdSettings').addEventListener(
+        'click',
+        onSettingsButtonClick
+    );
     view.addEventListener('viewhide', function () {
         headerElement.classList.remove('hide');
     });
@@ -1794,48 +2111,60 @@ export default function (view) {
         destroySubtitleSync();
     });
     let lastPointerDown = 0;
-    /* eslint-disable-next-line compat/compat */
-    dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', function (e) {
-        if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer'])) {
-            showOsd();
-            return;
-        }
 
-        const pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
-        const now = new Date().getTime();
-
-        switch (pointerType) {
-            case 'touch':
-                if (now - lastPointerDown > 300) {
-                    lastPointerDown = now;
-                    toggleOsd();
-                }
-
-                break;
-
-            case 'mouse':
-                if (!e.button) {
-                    if (playPauseClickTimeout) {
-                        clearTimeout(playPauseClickTimeout);
-                        playPauseClickTimeout = 0;
-                    } else {
-                        playPauseClickTimeout = setTimeout(function() {
-                            playbackManager.playPause(currentPlayer);
-                            showOsd();
-                            playPauseClickTimeout = 0;
-                        }, 300);
-                    }
-                }
-
-                break;
-
-            default:
-                playbackManager.playPause(currentPlayer);
+    dom.addEventListener(
+        view,
+        // eslint-disable-next-line compat/compat
+        window.PointerEvent ? 'pointerdown' : 'click',
+        function (e) {
+            if (
+                dom.parentWithClass(e.target, [
+                    'videoOsdBottom',
+                    'upNextContainer'
+                ])
+            ) {
                 showOsd();
+                return;
+            }
+
+            const pointerType =
+                e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
+            const now = new Date().getTime();
+
+            switch (pointerType) {
+                case 'touch':
+                    if (now - lastPointerDown > 300) {
+                        lastPointerDown = now;
+                        toggleOsd();
+                    }
+
+                    break;
+
+                case 'mouse':
+                    if (!e.button) {
+                        if (playPauseClickTimeout) {
+                            clearTimeout(playPauseClickTimeout);
+                            playPauseClickTimeout = 0;
+                        } else {
+                            playPauseClickTimeout = setTimeout(function () {
+                                playbackManager.playPause(currentPlayer);
+                                showOsd();
+                                playPauseClickTimeout = 0;
+                            }, 300);
+                        }
+                    }
+
+                    break;
+
+                default:
+                    playbackManager.playPause(currentPlayer);
+                    showOsd();
+            }
+        },
+        {
+            passive: true
         }
-    }, {
-        passive: true
-    });
+    );
 
     dom.addEventListener(view, 'dblclick', (e) => {
         if (e.target !== view) return;
@@ -1857,7 +2186,10 @@ export default function (view) {
             const newPercent = parseFloat(this.value);
 
             if (enableProgressByTimeOfDay) {
-                let seekAirTimeTicks = newPercent / 100 * (programEndDateMs - programStartDateMs) * 1e4;
+                let seekAirTimeTicks =
+                    (newPercent / 100) *
+                    (programEndDateMs - programStartDateMs) *
+                    1e4;
                 seekAirTimeTicks += 1e4 * programStartDateMs;
                 seekAirTimeTicks -= playbackStartTimeTicks;
                 playbackManager.seek(seekAirTimeTicks, player);
@@ -1876,11 +2208,11 @@ export default function (view) {
         }
     });
 
-    nowPlayingPositionSlider.updateBubbleHtml = function(bubble, value) {
+    nowPlayingPositionSlider.updateBubbleHtml = function (bubble, value) {
         showOsd();
 
         const item = currentItem;
-        const ticks = currentRuntimeTicks * value / 100;
+        const ticks = (currentRuntimeTicks * value) / 100;
 
         if (trickplayResolution && item?.Trickplay) {
             return updateTrickplayBubbleHtml(
@@ -1889,7 +2221,8 @@ export default function (view) {
                 item,
                 currentPlayer.streamInfo.mediaSource.Id,
                 bubble,
-                ticks);
+                ticks
+            );
         }
 
         return false;
@@ -1903,7 +2236,14 @@ export default function (view) {
                 ms /= 100;
                 ms *= value;
                 ms += programStartDateMs;
-                return '<h1 class="sliderBubbleText">' + getDisplayTimeWithoutAmPm(new Date(parseInt(ms, 10)), true) + '</h1>';
+                return (
+                    '<h1 class="sliderBubbleText">' +
+                    getDisplayTimeWithoutAmPm(
+                        new Date(parseInt(ms, 10)),
+                        true
+                    ) +
+                    '</h1>'
+                );
             }
 
             return '--:--';
@@ -1919,36 +2259,57 @@ export default function (view) {
         const item = currentItem;
 
         if (item?.Chapters?.length && item.Chapters[0].ImageTag) {
-            const html = getChapterBubbleHtml(ServerConnections.getApiClient(item.ServerId), item, item.Chapters, ticks);
+            const html = getChapterBubbleHtml(
+                ServerConnections.getApiClient(item.ServerId),
+                item,
+                item.Chapters,
+                ticks
+            );
 
             if (html) {
                 return html;
             }
         }
 
-        return '<h1 class="sliderBubbleText">' + datetime.getDisplayRunningTime(ticks) + '</h1>';
+        return (
+            '<h1 class="sliderBubbleText">' +
+            datetime.getDisplayRunningTime(ticks) +
+            '</h1>'
+        );
     };
 
     nowPlayingPositionSlider.getMarkerInfo = function () {
         // use markers based on chapters
-        return currentItem?.Chapters?.map(currentChapter => ({
-            name: currentChapter.Name,
-            progress: currentChapter.StartPositionTicks / currentItem.RunTimeTicks
-        })) || [];
+        return (
+            currentItem?.Chapters?.map((currentChapter) => ({
+                name: currentChapter.Name,
+                progress:
+                    currentChapter.StartPositionTicks / currentItem.RunTimeTicks
+            })) || []
+        );
     };
 
-    view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
-        playbackManager.previousTrack(currentPlayer);
-    });
-    view.querySelector('.btnPreviousChapter').addEventListener('click', function () {
-        playbackManager.previousChapter(currentPlayer);
-    });
+    view.querySelector('.btnPreviousTrack').addEventListener(
+        'click',
+        function () {
+            playbackManager.previousTrack(currentPlayer);
+        }
+    );
+    view.querySelector('.btnPreviousChapter').addEventListener(
+        'click',
+        function () {
+            playbackManager.previousChapter(currentPlayer);
+        }
+    );
     view.querySelector('.btnPause').addEventListener('click', function () {
         playbackManager.playPause(currentPlayer);
     });
-    view.querySelector('.btnNextChapter').addEventListener('click', function () {
-        playbackManager.nextChapter(currentPlayer);
-    });
+    view.querySelector('.btnNextChapter').addEventListener(
+        'click',
+        function () {
+            playbackManager.nextChapter(currentPlayer);
+        }
+    );
     view.querySelector('.btnNextTrack').addEventListener('click', function () {
         playbackManager.nextTrack(currentPlayer);
     });
@@ -1958,8 +2319,14 @@ export default function (view) {
     btnFastForward.addEventListener('click', function () {
         playbackManager.fastForward(currentPlayer);
     });
-    view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
-    view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
+    view.querySelector('.btnAudio').addEventListener(
+        'click',
+        showAudioTrackSelection
+    );
+    view.querySelector('.btnSubtitles').addEventListener(
+        'click',
+        showSubtitleTrackSelection
+    );
 
     // HACK: Remove `emby-button` from the rating button to make it look like the other buttons
     view.querySelector('.btnUserRating').classList.remove('emby-button');
@@ -2015,13 +2382,22 @@ export default function (view) {
             }
         }
 
-        syncPlayIcon.setAttribute('class', 'syncPlayIconCircle ' + animationClass);
+        syncPlayIcon.setAttribute(
+            'class',
+            'syncPlayIconCircle ' + animationClass
+        );
 
         const primaryIcon = syncPlayIcon.querySelector('.primary-icon');
-        primaryIcon.setAttribute('class', 'primary-icon material-icons ' + primaryIconName);
+        primaryIcon.setAttribute(
+            'class',
+            'primary-icon material-icons ' + primaryIconName
+        );
 
         const secondaryIcon = syncPlayIcon.querySelector('.secondary-icon');
-        secondaryIcon.setAttribute('class', 'secondary-icon material-icons ' + secondaryIconName);
+        secondaryIcon.setAttribute(
+            'class',
+            'secondary-icon material-icons ' + secondaryIconName
+        );
 
         const clone = syncPlayIcon.cloneNode(true);
         clone.style.visibility = 'visible';
@@ -2049,25 +2425,28 @@ export default function (view) {
             showIcon(action);
         });
 
-        Events.on(SyncPlay.Manager, 'group-state-update', (_event, state, reason) => {
-            if (state === 'Playing' && reason === 'Unpause') {
-                showIcon('schedule-play');
-            } else if (state === 'Playing' && reason === 'Ready') {
-                showIcon('schedule-play');
-            } else if (state === 'Paused' && reason === 'Pause') {
-                showIcon('pause');
-            } else if (state === 'Paused' && reason === 'Ready') {
-                showIcon('clear');
-            } else if (state === 'Waiting' && reason === 'Seek') {
-                showIcon('seek');
-            } else if (state === 'Waiting' && reason === 'Buffer') {
-                showIcon('buffering');
-            } else if (state === 'Waiting' && reason === 'Pause') {
-                showIcon('wait-pause');
-            } else if (state === 'Waiting' && reason === 'Unpause') {
-                showIcon('wait-unpause');
+        Events.on(
+            SyncPlay.Manager,
+            'group-state-update',
+            (_event, state, reason) => {
+                if (state === 'Playing' && reason === 'Unpause') {
+                    showIcon('schedule-play');
+                } else if (state === 'Playing' && reason === 'Ready') {
+                    showIcon('schedule-play');
+                } else if (state === 'Paused' && reason === 'Pause') {
+                    showIcon('pause');
+                } else if (state === 'Paused' && reason === 'Ready') {
+                    showIcon('clear');
+                } else if (state === 'Waiting' && reason === 'Seek') {
+                    showIcon('seek');
+                } else if (state === 'Waiting' && reason === 'Buffer') {
+                    showIcon('buffering');
+                } else if (state === 'Waiting' && reason === 'Pause') {
+                    showIcon('wait-pause');
+                } else if (state === 'Waiting' && reason === 'Unpause') {
+                    showIcon('wait-unpause');
+                }
             }
-        });
+        );
     }
 }
-

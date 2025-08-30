@@ -60,9 +60,11 @@ export default function (view, params, tabContent) {
             userSettings.saveQuerySettings(getSavedQueryKey(), query);
             loading.hide();
 
-            import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-                autoFocuser.autoFocus(context);
-            });
+            import('../../components/autoFocuser').then(
+                ({ default: autoFocuser }) => {
+                    autoFocuser.autoFocus(context);
+                }
+            );
         });
     }
 
@@ -82,4 +84,3 @@ export default function (view, params, tabContent) {
         reloadItems(tabContent, promise);
     };
 }
-

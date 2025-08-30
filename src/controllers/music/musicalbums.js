@@ -14,7 +14,10 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
     function playAll() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        ApiClient.getItem(
+            ApiClient.getCurrentUserId(),
+            params.topParentId
+        ).then(function (item) {
             playbackManager.play({
                 items: [item]
             });
@@ -22,7 +25,10 @@ export default function (view, params, tabContent) {
     }
 
     function shuffle() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        ApiClient.getItem(
+            ApiClient.getCurrentUserId(),
+            params.topParentId
+        ).then(function (item) {
             getQuery();
             playbackManager.shuffle(item);
         });
@@ -86,120 +92,130 @@ export default function (view, params, tabContent) {
         const query = getQuery();
         setFilterStatus(tabContent, query);
 
-        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
-            function onNextPageClick() {
-                if (isLoading) {
-                    return;
+        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(
+            (result) => {
+                function onNextPageClick() {
+                    if (isLoading) {
+                        return;
+                    }
+
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex += query.Limit;
+                    }
+                    reloadItems();
                 }
 
-                if (userSettings.libraryPageSize() > 0) {
-                    query.StartIndex += query.Limit;
-                }
-                reloadItems();
-            }
+                function onPreviousPageClick() {
+                    if (isLoading) {
+                        return;
+                    }
 
-            function onPreviousPageClick() {
-                if (isLoading) {
-                    return;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex = Math.max(
+                            0,
+                            query.StartIndex - query.Limit
+                        );
+                    }
+                    reloadItems();
                 }
 
-                if (userSettings.libraryPageSize() > 0) {
-                    query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
-                }
-                reloadItems();
-            }
-
-            window.scrollTo(0, 0);
-            this.alphaPicker?.updateControls(query);
-            let html;
-            const pagingHtml = libraryBrowser.getQueryPagingHtml({
-                startIndex: query.StartIndex,
-                limit: query.Limit,
-                totalRecordCount: result.TotalRecordCount,
-                showLimit: false,
-                updatePageSizeSetting: false,
-                addLayoutButton: false,
-                sortButton: false,
-                filterButton: false
-            });
-            const viewStyle = this.getCurrentViewStyle();
-            if (viewStyle == 'List') {
-                html = listView.getListViewHtml({
-                    items: result.Items,
-                    context: 'music',
-                    sortBy: query.SortBy,
-                    addToListButton: true
+                window.scrollTo(0, 0);
+                this.alphaPicker?.updateControls(query);
+                let html;
+                const pagingHtml = libraryBrowser.getQueryPagingHtml({
+                    startIndex: query.StartIndex,
+                    limit: query.Limit,
+                    totalRecordCount: result.TotalRecordCount,
+                    showLimit: false,
+                    updatePageSizeSetting: false,
+                    addLayoutButton: false,
+                    sortButton: false,
+                    filterButton: false
                 });
-            } else if (viewStyle == 'PosterCard') {
-                html = cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: 'square',
-                    context: 'music',
-                    showTitle: true,
-                    coverImage: true,
-                    showParentTitle: true,
-                    lazy: true,
-                    cardLayout: true
-                });
-            } else {
-                html = cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: 'square',
-                    context: 'music',
-                    showTitle: true,
-                    showParentTitle: true,
-                    lazy: true,
-                    centerText: true,
-                    overlayPlayButton: true
-                });
+                const viewStyle = this.getCurrentViewStyle();
+                if (viewStyle == 'List') {
+                    html = listView.getListViewHtml({
+                        items: result.Items,
+                        context: 'music',
+                        sortBy: query.SortBy,
+                        addToListButton: true
+                    });
+                } else if (viewStyle == 'PosterCard') {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: 'square',
+                        context: 'music',
+                        showTitle: true,
+                        coverImage: true,
+                        showParentTitle: true,
+                        lazy: true,
+                        cardLayout: true
+                    });
+                } else {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: 'square',
+                        context: 'music',
+                        showTitle: true,
+                        showParentTitle: true,
+                        lazy: true,
+                        centerText: true,
+                        overlayPlayButton: true
+                    });
+                }
+
+                let elems = tabContent.querySelectorAll('.paging');
+
+                for (const elem of elems) {
+                    elem.innerHTML = pagingHtml;
+                }
+
+                elems = tabContent.querySelectorAll('.btnNextPage');
+                for (const elem of elems) {
+                    elem.addEventListener('click', onNextPageClick);
+                }
+
+                elems = tabContent.querySelectorAll('.btnPreviousPage');
+                for (const elem of elems) {
+                    elem.addEventListener('click', onPreviousPageClick);
+                }
+
+                const itemsContainer =
+                    tabContent.querySelector('.itemsContainer');
+                itemsContainer.innerHTML = html;
+                imageLoader.lazyChildren(itemsContainer);
+                userSettings.saveQuerySettings(getSavedQueryKey(), query);
+                loading.hide();
+                isLoading = false;
+
+                import('../../components/autoFocuser').then(
+                    ({ default: autoFocuser }) => {
+                        autoFocuser.autoFocus(tabContent);
+                    }
+                );
             }
-
-            let elems = tabContent.querySelectorAll('.paging');
-
-            for (const elem of elems) {
-                elem.innerHTML = pagingHtml;
-            }
-
-            elems = tabContent.querySelectorAll('.btnNextPage');
-            for (const elem of elems) {
-                elem.addEventListener('click', onNextPageClick);
-            }
-
-            elems = tabContent.querySelectorAll('.btnPreviousPage');
-            for (const elem of elems) {
-                elem.addEventListener('click', onPreviousPageClick);
-            }
-
-            const itemsContainer = tabContent.querySelector('.itemsContainer');
-            itemsContainer.innerHTML = html;
-            imageLoader.lazyChildren(itemsContainer);
-            userSettings.saveQuerySettings(getSavedQueryKey(), query);
-            loading.hide();
-            isLoading = false;
-
-            import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-                autoFocuser.autoFocus(tabContent);
-            });
-        });
+        );
     };
 
     let pageData;
     let isLoading = false;
 
     this.showFilterMenu = function () {
-        import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
-            const filterDialog = new FilterDialog({
-                query: getQuery(),
-                mode: 'albums',
-                serverId: ApiClient.serverId()
-            });
-            Events.on(filterDialog, 'filterchange', function () {
-                getQuery().StartIndex = 0;
-                reloadItems();
-            });
+        import('../../components/filterdialog/filterdialog').then(
+            ({ default: FilterDialog }) => {
+                const filterDialog = new FilterDialog({
+                    query: getQuery(),
+                    mode: 'albums',
+                    serverId: ApiClient.serverId()
+                });
+                Events.on(filterDialog, 'filterchange', function () {
+                    getQuery().StartIndex = 0;
+                    reloadItems();
+                });
 
-            filterDialog.show();
-        });
+                filterDialog.show();
+            }
+        );
     };
 
     this.getCurrentViewStyle = function () {
@@ -229,7 +245,9 @@ export default function (view, params, tabContent) {
             valueChangeEvent: 'click'
         });
 
-        tabElement.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
+        tabElement
+            .querySelector('.alphaPicker')
+            .classList.add('alphabetPicker-right');
         alphaPickerElement.classList.add('alphaPicker-fixed-right');
         itemsContainer.classList.add('padded-right-withalphapicker');
 
@@ -239,28 +257,36 @@ export default function (view, params, tabContent) {
 
         tabElement.querySelector('.btnSort').addEventListener('click', (e) => {
             libraryBrowser.showSortMenu({
-                items: [{
-                    name: globalize.translate('Name'),
-                    id: 'SortName'
-                }, {
-                    name: globalize.translate('AlbumArtist'),
-                    id: 'AlbumArtist,SortName'
-                }, {
-                    name: globalize.translate('OptionCommunityRating'),
-                    id: 'CommunityRating,SortName'
-                }, {
-                    name: globalize.translate('OptionCriticRating'),
-                    id: 'CriticRating,SortName'
-                }, {
-                    name: globalize.translate('OptionDateAdded'),
-                    id: 'DateCreated,SortName'
-                }, {
-                    name: globalize.translate('OptionReleaseDate'),
-                    id: 'ProductionYear,PremiereDate,SortName'
-                }, {
-                    name: globalize.translate('OptionRandom'),
-                    id: 'Random,SortName'
-                }],
+                items: [
+                    {
+                        name: globalize.translate('Name'),
+                        id: 'SortName'
+                    },
+                    {
+                        name: globalize.translate('AlbumArtist'),
+                        id: 'AlbumArtist,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionCommunityRating'),
+                        id: 'CommunityRating,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionCriticRating'),
+                        id: 'CriticRating,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionDateAdded'),
+                        id: 'DateCreated,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionReleaseDate'),
+                        id: 'ProductionYear,PremiereDate,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionRandom'),
+                        id: 'Random,SortName'
+                    }
+                ],
                 callback: function () {
                     getQuery().StartIndex = 0;
                     reloadItems();
@@ -272,7 +298,11 @@ export default function (view, params, tabContent) {
 
         const btnSelectView = tabElement.querySelector('.btnSelectView');
         btnSelectView.addEventListener('click', (e) => {
-            libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
+            libraryBrowser.showLayoutMenu(
+                e.target,
+                this.getCurrentViewStyle(),
+                'List,Poster,PosterCard'.split(',')
+            );
         });
 
         btnSelectView.addEventListener('layoutchange', function (e) {
@@ -284,8 +314,12 @@ export default function (view, params, tabContent) {
             reloadItems();
         });
 
-        tabElement.querySelector('.btnPlayAll').addEventListener('click', playAll);
-        tabElement.querySelector('.btnShuffle').addEventListener('click', shuffle);
+        tabElement
+            .querySelector('.btnPlayAll')
+            .addEventListener('click', playAll);
+        tabElement
+            .querySelector('.btnShuffle')
+            .addEventListener('click', shuffle);
     };
 
     initPage(tabContent);
@@ -296,4 +330,3 @@ export default function (view, params, tabContent) {
         this.alphaPicker?.updateControls(getQuery());
     };
 }
-

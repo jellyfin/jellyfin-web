@@ -37,7 +37,9 @@ class SettingsEditor {
         this.apiClient = apiClient;
         this.timeSyncCore = timeSyncCore;
         this.options = options;
-        this.SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
+        this.SyncPlay = pluginManager.firstOfType(
+            PluginType.SyncPlay
+        )?.instance;
     }
 
     async embed() {
@@ -56,34 +58,49 @@ class SettingsEditor {
         this.context.classList.add('formDialog');
 
         const { default: editorTemplate } = await import('./editor.html');
-        this.context.innerHTML = globalize.translateHtml(editorTemplate, 'core');
+        this.context.innerHTML = globalize.translateHtml(
+            editorTemplate,
+            'core'
+        );
 
         // Set callbacks for form submission
-        this.context.querySelector('form').addEventListener('submit', (event) => {
-            // Disable default form submission
-            if (event) {
-                event.preventDefault();
-            }
-            return false;
-        });
+        this.context
+            .querySelector('form')
+            .addEventListener('submit', (event) => {
+                // Disable default form submission
+                if (event) {
+                    event.preventDefault();
+                }
+                return false;
+            });
 
         this.context.querySelector('.btnSave').addEventListener('click', () => {
             this.onSubmit();
         });
 
-        this.context.querySelector('.btnCancel').addEventListener('click', () => {
-            dialogHelper.close(this.context);
-        });
+        this.context
+            .querySelector('.btnCancel')
+            .addEventListener('click', () => {
+                dialogHelper.close(this.context);
+            });
 
         await this.initEditor();
 
         if (layoutManager.tv) {
-            centerFocus(this.context.querySelector('.formDialogContent'), false, true);
+            centerFocus(
+                this.context.querySelector('.formDialogContent'),
+                false,
+                true
+            );
         }
 
         return dialogHelper.open(this.context).then(() => {
             if (layoutManager.tv) {
-                centerFocus(this.context.querySelector('.formDialogContent'), false, false);
+                centerFocus(
+                    this.context.querySelector('.formDialogContent'),
+                    false,
+                    false
+                );
             }
 
             if (this.context.submitted) {
@@ -97,14 +114,22 @@ class SettingsEditor {
     async initEditor() {
         const { context } = this;
 
-        context.querySelector('#txtExtraTimeOffset').value = this.SyncPlay?.Manager.timeSyncCore.extraTimeOffset;
-        context.querySelector('#chkSyncCorrection').checked = this.SyncPlay?.Manager.playbackCore.enableSyncCorrection;
-        context.querySelector('#txtMinDelaySpeedToSync').value = this.SyncPlay?.Manager.playbackCore.minDelaySpeedToSync;
-        context.querySelector('#txtMaxDelaySpeedToSync').value = this.SyncPlay?.Manager.playbackCore.maxDelaySpeedToSync;
-        context.querySelector('#txtSpeedToSyncDuration').value = this.SyncPlay?.Manager.playbackCore.speedToSyncDuration;
-        context.querySelector('#txtMinDelaySkipToSync').value = this.SyncPlay?.Manager.playbackCore.minDelaySkipToSync;
-        context.querySelector('#chkSpeedToSync').checked = this.SyncPlay?.Manager.playbackCore.useSpeedToSync;
-        context.querySelector('#chkSkipToSync').checked = this.SyncPlay?.Manager.playbackCore.useSkipToSync;
+        context.querySelector('#txtExtraTimeOffset').value =
+            this.SyncPlay?.Manager.timeSyncCore.extraTimeOffset;
+        context.querySelector('#chkSyncCorrection').checked =
+            this.SyncPlay?.Manager.playbackCore.enableSyncCorrection;
+        context.querySelector('#txtMinDelaySpeedToSync').value =
+            this.SyncPlay?.Manager.playbackCore.minDelaySpeedToSync;
+        context.querySelector('#txtMaxDelaySpeedToSync').value =
+            this.SyncPlay?.Manager.playbackCore.maxDelaySpeedToSync;
+        context.querySelector('#txtSpeedToSyncDuration').value =
+            this.SyncPlay?.Manager.playbackCore.speedToSyncDuration;
+        context.querySelector('#txtMinDelaySkipToSync').value =
+            this.SyncPlay?.Manager.playbackCore.minDelaySkipToSync;
+        context.querySelector('#chkSpeedToSync').checked =
+            this.SyncPlay?.Manager.playbackCore.useSpeedToSync;
+        context.querySelector('#chkSkipToSync').checked =
+            this.SyncPlay?.Manager.playbackCore.useSkipToSync;
     }
 
     onSubmit() {
@@ -123,12 +148,23 @@ class SettingsEditor {
     async saveToAppSettings() {
         const { context } = this;
 
-        const extraTimeOffset = context.querySelector('#txtExtraTimeOffset').value;
-        const syncCorrection = context.querySelector('#chkSyncCorrection').checked;
-        const minDelaySpeedToSync = context.querySelector('#txtMinDelaySpeedToSync').value;
-        const maxDelaySpeedToSync = context.querySelector('#txtMaxDelaySpeedToSync').value;
-        const speedToSyncDuration = context.querySelector('#txtSpeedToSyncDuration').value;
-        const minDelaySkipToSync = context.querySelector('#txtMinDelaySkipToSync').value;
+        const extraTimeOffset = context.querySelector(
+            '#txtExtraTimeOffset'
+        ).value;
+        const syncCorrection =
+            context.querySelector('#chkSyncCorrection').checked;
+        const minDelaySpeedToSync = context.querySelector(
+            '#txtMinDelaySpeedToSync'
+        ).value;
+        const maxDelaySpeedToSync = context.querySelector(
+            '#txtMaxDelaySpeedToSync'
+        ).value;
+        const speedToSyncDuration = context.querySelector(
+            '#txtSpeedToSyncDuration'
+        ).value;
+        const minDelaySkipToSync = context.querySelector(
+            '#txtMinDelaySkipToSync'
+        ).value;
         const useSpeedToSync = context.querySelector('#chkSpeedToSync').checked;
         const useSkipToSync = context.querySelector('#chkSkipToSync').checked;
 

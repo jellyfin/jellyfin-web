@@ -10,7 +10,7 @@ import type { ActivityLogEntryCell } from '../types/ActivityLogEntryCell';
 const OverviewCell: FC<ActivityLogEntryCell> = ({ row }) => {
     const { ShortOverview, Overview } = row.original;
     const displayValue = ShortOverview ?? Overview;
-    const [ open, setOpen ] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const onTooltipClose = useCallback(() => {
         setOpen(false);

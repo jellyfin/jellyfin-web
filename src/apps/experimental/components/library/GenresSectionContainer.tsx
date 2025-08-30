@@ -48,7 +48,9 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
         };
     };
 
-    const { isLoading, data: itemsResult } = useGetItems(getParametersOptions());
+    const { isLoading, data: itemsResult } = useGetItems(
+        getParametersOptions()
+    );
 
     const getRouteUrl = (item: ItemDto) => {
         return appRouter.getRouteUrl(item, {
@@ -61,25 +63,30 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
         return <Loading />;
     }
 
-    return <SectionContainer
-        key={genre.Name}
-        sectionHeaderProps={{
-            title: genre.Name || '',
-            url: getRouteUrl(genre)
-        }}
-        items={itemsResult?.Items}
-        cardOptions={{
-            scalable: true,
-            overlayPlayButton: true,
-            showTitle: true,
-            centerText: true,
-            cardLayout: false,
-            shape: collectionType === CollectionType.Music ? CardShape.SquareOverflow : CardShape.PortraitOverflow,
-            showParentTitle: collectionType === CollectionType.Music,
-            showYear: collectionType !== CollectionType.Music,
-            serverId: __legacyApiClient__?.serverId()
-        }}
-    />;
+    return (
+        <SectionContainer
+            key={genre.Name}
+            sectionHeaderProps={{
+                title: genre.Name || '',
+                url: getRouteUrl(genre)
+            }}
+            items={itemsResult?.Items}
+            cardOptions={{
+                scalable: true,
+                overlayPlayButton: true,
+                showTitle: true,
+                centerText: true,
+                cardLayout: false,
+                shape:
+                    collectionType === CollectionType.Music
+                        ? CardShape.SquareOverflow
+                        : CardShape.PortraitOverflow,
+                showParentTitle: collectionType === CollectionType.Music,
+                showYear: collectionType !== CollectionType.Music,
+                serverId: __legacyApiClient__?.serverId()
+            }}
+        />
+    );
 };
 
 export default GenresSectionContainer;

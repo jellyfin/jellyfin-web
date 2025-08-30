@@ -9,35 +9,50 @@ import 'styles/flexstyles.scss';
 import './searchfields.scss';
 
 interface SearchFieldsProps {
-    query: string,
-    onSearch?: (query: string) => void
+    query: string;
+    onSearch?: (query: string) => void;
 }
 
 const SearchFields: FC<SearchFieldsProps> = ({
-    onSearch = () => { /* no-op */ },
+    onSearch = () => {
+        /* no-op */
+    },
     query
 }) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const onAlphaPicked = useCallback((e: Event) => {
-        const value = (e as CustomEvent).detail.value;
-        const inputValue = inputRef.current?.value || '';
+    const onAlphaPicked = useCallback(
+        (e: Event) => {
+            const value = (e as CustomEvent).detail.value;
+            const inputValue = inputRef.current?.value || '';
 
-        if (value === 'backspace') {
-            onSearch(inputValue.length ? inputValue.substring(0, inputValue.length - 1) : '');
-        } else {
-            onSearch(inputValue + value);
-        }
-    }, [onSearch]);
+            if (value === 'backspace') {
+                onSearch(
+                    inputValue.length
+                        ? inputValue.substring(0, inputValue.length - 1)
+                        : ''
+                );
+            } else {
+                onSearch(inputValue + value);
+            }
+        },
+        [onSearch]
+    );
 
-    const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        onSearch(e.target.value);
-    }, [ onSearch ]);
+    const onChange = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => {
+            onSearch(e.target.value);
+        },
+        [onSearch]
+    );
 
     return (
         <div className='padded-left padded-right searchFields'>
             <div className='searchFieldsInner flex align-items-center justify-content-center'>
-                <span className='searchfields-icon material-icons search' aria-hidden='true' />
+                <span
+                    className='searchfields-icon material-icons search'
+                    aria-hidden='true'
+                />
                 <div
                     className='inputContainer flex-grow'
                     style={{ marginBottom: 0 }}
@@ -58,9 +73,9 @@ const SearchFields: FC<SearchFieldsProps> = ({
                     />
                 </div>
             </div>
-            {layoutManager.tv && !browser.tv
-                && <AlphaPicker onAlphaPicked={onAlphaPicked} />
-            }
+            {layoutManager.tv && !browser.tv && (
+                <AlphaPicker onAlphaPicked={onAlphaPicked} />
+            )}
         </div>
     );
 };

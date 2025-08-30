@@ -111,14 +111,14 @@ function getPosition(positionTo: Element, options: Options, dlg: HTMLElement) {
     const overflowY = pos.top + height - windowHeight;
 
     if (overflowX > 0) {
-        pos.left -= (overflowX + 20);
+        pos.left -= overflowX + 20;
     }
     if (overflowY > 0) {
-        pos.top -= (overflowY + 20);
+        pos.top -= overflowY + 20;
     }
 
-    pos.top += (options.offsetTop || 0);
-    pos.left += (options.offsetLeft || 0);
+    pos.top += options.offsetTop || 0;
+    pos.left += options.offsetLeft || 0;
 
     // Do some boundary checking
     pos.top = Math.max(pos.top, 10);
@@ -128,12 +128,14 @@ function getPosition(positionTo: Element, options: Options, dlg: HTMLElement) {
 }
 
 function centerFocus(elem: Element, horiz: boolean, on: boolean) {
-    import('../../scripts/scrollHelper').then((scrollHelper) => {
-        const fn = on ? 'on' : 'off';
-        scrollHelper.centerFocus[fn](elem, horiz);
-    }).catch(e => {
-        console.warn('Error in centerFocus', e);
-    });
+    import('../../scripts/scrollHelper')
+        .then((scrollHelper) => {
+            const fn = on ? 'on' : 'off';
+            scrollHelper.centerFocus[fn](elem, horiz);
+        })
+        .catch((e) => {
+            console.warn('Error in centerFocus', e);
+        });
 }
 
 /* eslint-disable-next-line sonarjs/cognitive-complexity */
@@ -158,8 +160,10 @@ export function show(options: Options) {
         dialogOptions.modal = false;
         dialogOptions.entryAnimation = options.entryAnimation;
         dialogOptions.exitAnimation = options.exitAnimation;
-        dialogOptions.entryAnimationDuration = options.entryAnimationDuration || 140;
-        dialogOptions.exitAnimationDuration = options.exitAnimationDuration || 100;
+        dialogOptions.entryAnimationDuration =
+            options.entryAnimationDuration || 140;
+        dialogOptions.exitAnimationDuration =
+            options.exitAnimationDuration || 100;
         dialogOptions.autoFocus = false;
     }
 
@@ -179,7 +183,9 @@ export function show(options: Options) {
 
     let html = '';
 
-    const scrollClassName = layoutManager.tv ? 'scrollY smoothScrollY hiddenScrollY' : 'scrollY';
+    const scrollClassName = layoutManager.tv
+        ? 'scrollY smoothScrollY hiddenScrollY'
+        : 'scrollY';
     let style = '';
 
     // Admittedly a hack but right now the scrollbar is being factored into the width which is causing truncation
@@ -207,7 +213,9 @@ export function show(options: Options) {
     }
 
     // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
-    const center = options.title && (!renderIcon /*|| itemsWithIcons.length != options.items.length*/);
+    const center =
+        options.title &&
+        !renderIcon /*|| itemsWithIcons.length != options.items.length*/;
 
     if (center || layoutManager.tv) {
         html += '<div class="actionSheetContent actionSheetContent-centered">';
@@ -216,17 +224,29 @@ export function show(options: Options) {
     }
 
     if (options.title) {
-        html += '<h1 class="actionSheetTitle">' + escapeHtml(options.title) + '</h1>';
+        html +=
+            '<h1 class="actionSheetTitle">' +
+            escapeHtml(options.title) +
+            '</h1>';
     }
     if (options.text) {
-        html += '<p class="actionSheetText">' + escapeHtml(options.text) + '</p>';
+        html +=
+            '<p class="actionSheetText">' + escapeHtml(options.text) + '</p>';
     }
 
     let scrollerClassName = 'actionSheetScroller';
     if (layoutManager.tv) {
-        scrollerClassName += ' actionSheetScroller-tv focuscontainer-x focuscontainer-y';
+        scrollerClassName +=
+            ' actionSheetScroller-tv focuscontainer-x focuscontainer-y';
     }
-    html += '<div class="' + scrollerClassName + ' ' + scrollClassName + '" style="' + style + '">';
+    html +=
+        '<div class="' +
+        scrollerClassName +
+        ' ' +
+        scrollClassName +
+        '" style="' +
+        style +
+        '">';
 
     let menuItemClass = 'listItem listItem-button actionSheetMenuItem';
 
@@ -258,15 +278,24 @@ export function show(options: Options) {
         const autoFocus = item.selected && layoutManager.tv ? ' autoFocus' : '';
 
         // Check for null in case int 0 was passed in
-        const optionId = item.id == null || item.id === '' ? item.value : item.id;
-        html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
+        const optionId =
+            item.id == null || item.id === '' ? item.value : item.id;
+        html +=
+            '<button' +
+            autoFocus +
+            ' is="emby-button" type="button" class="' +
+            menuItemClass +
+            '" data-id="' +
+            optionId +
+            '">';
 
         itemIcon = icons[i];
 
         if (itemIcon) {
             html += `<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ${itemIcon}" aria-hidden="true"></span>`;
         } else if (renderIcon && !center) {
-            html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" aria-hidden="true" style="visibility:hidden;"></span>';
+            html +=
+                '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" aria-hidden="true" style="visibility:hidden;"></span>';
         }
 
         html += '<div class="listItemBody actionsheetListItemBody">';
@@ -324,7 +353,10 @@ export function show(options: Options) {
         let isResolved = false;
 
         dlg.addEventListener('click', function (e) {
-            const actionSheetMenuItem = dom.parentWithClass(e.target as HTMLElement, 'actionSheetMenuItem');
+            const actionSheetMenuItem = dom.parentWithClass(
+                e.target as HTMLElement,
+                'actionSheetMenuItem'
+            );
 
             if (actionSheetMenuItem) {
                 selectedId = actionSheetMenuItem.getAttribute('data-id');
@@ -371,11 +403,14 @@ export function show(options: Options) {
             }
         });
 
-        dialogHelper.open(dlg).catch(e => {
+        dialogHelper.open(dlg).catch((e) => {
             console.warn('DialogHelper.open error', e);
         });
 
-        const pos = options.positionTo && dialogOptions.size !== 'fullscreen' ? getPosition(options.positionTo, options, dlg) : null;
+        const pos =
+            options.positionTo && dialogOptions.size !== 'fullscreen'
+                ? getPosition(options.positionTo, options, dlg)
+                : null;
 
         if (pos) {
             dlg.style.position = 'fixed';

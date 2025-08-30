@@ -41,9 +41,10 @@ const enableProgressIndicator = (
     itemMediaType: ItemMediaKind
 ) => {
     return (
-        (itemMediaType === ItemMediaKind.Video && itemType !== ItemKind.TvChannel)
-        || itemType === ItemKind.AudioBook
-        || itemType === ItemKind.AudioPodcast
+        (itemMediaType === ItemMediaKind.Video &&
+            itemType !== ItemKind.TvChannel) ||
+        itemType === ItemKind.AudioBook ||
+        itemType === ItemKind.AudioPodcast
     );
 };
 
@@ -53,11 +54,11 @@ const enableAutoTimeProgressIndicator = (
     itemEndDate: NullableString
 ) => {
     return (
-        (itemType === ItemKind.Program
-            || itemType === ItemKind.Timer
-            || itemType === ItemKind.Recording)
-        && Boolean(itemStartDate)
-        && Boolean(itemEndDate)
+        (itemType === ItemKind.Program ||
+            itemType === ItemKind.Timer ||
+            itemType === ItemKind.Recording) &&
+        Boolean(itemStartDate) &&
+        Boolean(itemEndDate)
     );
 };
 
@@ -73,7 +74,9 @@ const useIndicator = (item: ItemDto) => {
     const getMediaSourceIndicator = () => {
         const mediaSourceCount = item.MediaSourceCount ?? 0;
         if (mediaSourceCount > 1) {
-            return <Box className='mediaSourceIndicator'>{mediaSourceCount}</Box>;
+            return (
+                <Box className='mediaSourceIndicator'>{mediaSourceCount}</Box>
+            );
         }
 
         return null;
@@ -81,8 +84,8 @@ const useIndicator = (item: ItemDto) => {
 
     const getMissingIndicator = () => {
         if (
-            item.Type === ItemKind.Episode
-            && item.LocationType === LocationType.Virtual
+            item.Type === ItemKind.Episode &&
+            item.LocationType === LocationType.Virtual
         ) {
             if (item.PremiereDate) {
                 try {
@@ -121,7 +124,9 @@ const useIndicator = (item: ItemDto) => {
             return (
                 <FiberSmartRecordIcon
                     className={`${indicatorIconClass} ${
-                        status === ItemStatus.Cancelled ? 'timerIndicator-inactive' : ''
+                        status === ItemStatus.Cancelled
+                            ? 'timerIndicator-inactive'
+                            : ''
                     }`}
                 />
             );
@@ -164,9 +169,9 @@ const useIndicator = (item: ItemDto) => {
             }
 
             if (
-                (userData.PlayedPercentage
-                    && userData.PlayedPercentage >= 100)
-                || userData.Played
+                (userData.PlayedPercentage &&
+                    userData.PlayedPercentage >= 100) ||
+                userData.Played
             ) {
                 return (
                     <Box className='playedIndicator indicator'>
@@ -202,12 +207,12 @@ const useIndicator = (item: ItemDto) => {
 
     const getProgressBar = (progressOptions?: ProgressOptions) => {
         if (
-            enableProgressIndicator(item.Type, item.MediaType)
-            && item.Type !== ItemKind.Recording
+            enableProgressIndicator(item.Type, item.MediaType) &&
+            item.Type !== ItemKind.Recording
         ) {
-            const playedPercentage = progressOptions?.userData?.PlayedPercentage ?
-                progressOptions.userData.PlayedPercentage :
-                item?.UserData?.PlayedPercentage;
+            const playedPercentage = progressOptions?.userData?.PlayedPercentage
+                ? progressOptions.userData.PlayedPercentage
+                : item?.UserData?.PlayedPercentage;
             if (playedPercentage && playedPercentage < 100) {
                 return getProgress(playedPercentage);
             }
@@ -236,9 +241,9 @@ const useIndicator = (item: ItemDto) => {
 
             if (pct > 0 && pct < 100) {
                 const isRecording =
-                    item.Type === ItemKind.Timer
-                    || item.Type === ItemKind.Recording
-                    || Boolean(item.TimerId);
+                    item.Type === ItemKind.Timer ||
+                    item.Type === ItemKind.Recording ||
+                    Boolean(item.TimerId);
                 return (
                     <AutoTimeProgressBar
                         pct={pct}

@@ -23,19 +23,27 @@ function initEditor(context, settings) {
     const elems = context.querySelectorAll('.viewSetting-checkboxContainer');
 
     for (const elem of elems) {
-        elem.querySelector('input').checked = settings[elem.getAttribute('data-settingname')] || false;
+        elem.querySelector('input').checked =
+            settings[elem.getAttribute('data-settingname')] || false;
     }
 
-    context.querySelector('.selectImageType').value = settings.imageType || 'primary';
+    context.querySelector('.selectImageType').value =
+        settings.imageType || 'primary';
 }
 
 function saveValues(context, settings, settingsKey) {
     const elems = context.querySelectorAll('.viewSetting-checkboxContainer');
     for (const elem of elems) {
-        userSettings.set(settingsKey + '-' + elem.getAttribute('data-settingname'), elem.querySelector('input').checked);
+        userSettings.set(
+            settingsKey + '-' + elem.getAttribute('data-settingname'),
+            elem.querySelector('input').checked
+        );
     }
 
-    userSettings.set(settingsKey + '-imageType', context.querySelector('.selectImageType').value);
+    userSettings.set(
+        settingsKey + '-imageType',
+        context.querySelector('.selectImageType').value
+    );
 }
 
 function centerFocus(elem, horiz, on) {
@@ -87,7 +95,11 @@ class ViewSettings {
 
             const settingElements = dlg.querySelectorAll('.viewSetting');
             for (const settingElement of settingElements) {
-                if (options.visibleSettings.indexOf(settingElement.getAttribute('data-settingname')) === -1) {
+                if (
+                    options.visibleSettings.indexOf(
+                        settingElement.getAttribute('data-settingname')
+                    ) === -1
+                ) {
                     settingElement.classList.add('hide');
                     settingElement.classList.add('hiddenFromViewSettings');
                 } else {
@@ -98,30 +110,58 @@ class ViewSettings {
 
             initEditor(dlg, options.settings);
 
-            dlg.querySelector('.selectImageType').addEventListener('change', function () {
-                showIfAllowed(dlg, '.chkTitleContainer', this.value !== 'list' && this.value !== 'banner');
-                showIfAllowed(dlg, '.chkYearContainer', this.value !== 'list' && this.value !== 'banner');
-            });
+            dlg.querySelector('.selectImageType').addEventListener(
+                'change',
+                function () {
+                    showIfAllowed(
+                        dlg,
+                        '.chkTitleContainer',
+                        this.value !== 'list' && this.value !== 'banner'
+                    );
+                    showIfAllowed(
+                        dlg,
+                        '.chkYearContainer',
+                        this.value !== 'list' && this.value !== 'banner'
+                    );
+                }
+            );
 
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
-                dialogHelper.close(dlg);
-            });
+            dlg.querySelector('.btnCancel').addEventListener(
+                'click',
+                function () {
+                    dialogHelper.close(dlg);
+                }
+            );
 
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+                centerFocus(
+                    dlg.querySelector('.formDialogContent'),
+                    false,
+                    true
+                );
             }
 
             let submitted;
 
-            dlg.querySelector('.selectImageType').dispatchEvent(new CustomEvent('change', {}));
+            dlg.querySelector('.selectImageType').dispatchEvent(
+                new CustomEvent('change', {})
+            );
 
-            dlg.querySelector('form').addEventListener('change', function () {
-                submitted = true;
-            }, true);
+            dlg.querySelector('form').addEventListener(
+                'change',
+                function () {
+                    submitted = true;
+                },
+                true
+            );
 
             dialogHelper.open(dlg).then(function () {
                 if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                    centerFocus(
+                        dlg.querySelector('.formDialogContent'),
+                        false,
+                        false
+                    );
                 }
 
                 if (submitted) {

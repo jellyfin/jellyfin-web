@@ -107,15 +107,14 @@ export function getTitleFromType(type: BaseItemKind) {
     }
 }
 
-export function getItemTypesFromCollectionType(collectionType: CollectionType | undefined) {
+export function getItemTypesFromCollectionType(
+    collectionType: CollectionType | undefined
+) {
     switch (collectionType) {
         case CollectionType.Movies:
-            return [ BaseItemKind.Movie ];
+            return [BaseItemKind.Movie];
         case CollectionType.Tvshows:
-            return [
-                BaseItemKind.Series,
-                BaseItemKind.Episode
-            ];
+            return [BaseItemKind.Series, BaseItemKind.Episode];
         case CollectionType.Music:
             return [
                 BaseItemKind.Playlist,

@@ -133,7 +133,11 @@ export class PdfPlayer {
         const elem = this.mediaElement;
 
         elem.addEventListener('close', this.onDialogClosed, { once: true });
-        elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
+        elem.querySelector('.btnExit').addEventListener(
+            'click',
+            this.onDialogClosed,
+            { once: true }
+        );
     }
 
     bindEvents() {
@@ -147,7 +151,10 @@ export class PdfPlayer {
         const elem = this.mediaElement;
 
         elem.removeEventListener('close', this.onDialogClosed);
-        elem.querySelector('.btnExit').removeEventListener('click', this.onDialogClosed);
+        elem.querySelector('.btnExit').removeEventListener(
+            'click',
+            this.onDialogClosed
+        );
     }
 
     unbindEvents() {
@@ -179,7 +186,8 @@ export class PdfPlayer {
             let html = '';
             html += '<canvas id="canvas"></canvas>';
             html += '<div class="actionButtons">';
-            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
+            html +=
+                '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
             html += '</div>';
 
             elem.id = 'pdfPlayer';
@@ -208,32 +216,35 @@ export class PdfPlayer {
         const serverId = item.ServerId;
         const apiClient = ServerConnections.getApiClient(serverId);
 
-        return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }) => {
-            const downloadHref = apiClient.getItemDownloadUrl(item.Id);
+        return import('pdfjs-dist').then(
+            ({ GlobalWorkerOptions, getDocument }) => {
+                const downloadHref = apiClient.getItemDownloadUrl(item.Id);
 
-            this.bindEvents();
-            GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';
+                this.bindEvents();
+                GlobalWorkerOptions.workerSrc =
+                    appRouter.baseUrl() + '/libraries/pdf.worker.js';
 
-            const downloadTask = getDocument({
-                url: downloadHref,
-                // Disable for PDF.js XSS vulnerability
-                // https://github.com/mozilla/pdf.js/security/advisories/GHSA-wgrm-67xf-hhpq
-                isEvalSupported: false
-            });
-            return downloadTask.promise.then(book => {
-                if (this.cancellationToken) return;
-                this.book = book;
-                this.loaded = true;
+                const downloadTask = getDocument({
+                    url: downloadHref,
+                    // Disable for PDF.js XSS vulnerability
+                    // https://github.com/mozilla/pdf.js/security/advisories/GHSA-wgrm-67xf-hhpq
+                    isEvalSupported: false
+                });
+                return downloadTask.promise.then((book) => {
+                    if (this.cancellationToken) return;
+                    this.book = book;
+                    this.loaded = true;
 
-                const percentageTicks = options.startPositionTicks / 10000;
-                if (percentageTicks !== 0) {
-                    this.loadPage(percentageTicks + 1);
-                    this.progress = percentageTicks;
-                } else {
-                    this.loadPage(1);
-                }
-            });
-        });
+                    const percentageTicks = options.startPositionTicks / 10000;
+                    if (percentageTicks !== 0) {
+                        this.loadPage(percentageTicks + 1);
+                        this.progress = percentageTicks;
+                    } else {
+                        this.loadPage(1);
+                    }
+                });
+            }
+        );
     }
 
     next() {
@@ -291,9 +302,13 @@ export class PdfPlayer {
 
     renderPage(canvas, number) {
         const devicePixelRatio = window.devicePixelRatio || 1;
-        this.book.getPage(number).then(page => {
+        this.book.getPage(number).then((page) => {
             const original = page.getViewport({ scale: 1 });
-            const scale = Math.min((window.innerHeight / original.height), (window.innerWidth / original.width)) * devicePixelRatio;
+            const scale =
+                Math.min(
+                    window.innerHeight / original.height,
+                    window.innerWidth / original.width
+                ) * devicePixelRatio;
             const viewport = page.getViewport({ scale });
 
             canvas.width = viewport.width;

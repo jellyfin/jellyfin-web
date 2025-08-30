@@ -10,12 +10,12 @@ import { LibraryTab } from 'types/libraryTab';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 interface PlayAllButtonProps {
-    item: ItemDto | undefined
-    items: ItemDto[]
-    viewType: LibraryTab
-    hasFilters: boolean
-    isTextVisible: boolean
-    libraryViewSettings: LibraryViewSettings
+    item: ItemDto | undefined;
+    items: ItemDto[];
+    viewType: LibraryTab;
+    hasFilters: boolean;
+    isTextVisible: boolean;
+    libraryViewSettings: LibraryViewSettings;
 }
 
 const PlayAllButton: FC<PlayAllButtonProps> = ({
@@ -28,29 +28,33 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({
 }) => {
     const play = useCallback(() => {
         if (item && !hasFilters) {
-            playbackManager.play({
-                items: [item],
-                autoplay: true,
-                queryOptions: {
-                    SortBy: [libraryViewSettings.SortBy],
-                    SortOrder: [libraryViewSettings.SortOrder]
-                }
-            }).catch(err => {
-                console.error('[PlayAllButton] failed to play', err);
-            });
+            playbackManager
+                .play({
+                    items: [item],
+                    autoplay: true,
+                    queryOptions: {
+                        SortBy: [libraryViewSettings.SortBy],
+                        SortOrder: [libraryViewSettings.SortOrder]
+                    }
+                })
+                .catch((err) => {
+                    console.error('[PlayAllButton] failed to play', err);
+                });
         } else {
-            playbackManager.play({
-                items,
-                autoplay: true,
-                queryOptions: {
-                    ParentId: item?.Id ?? undefined,
-                    ...getFiltersQuery(viewType, libraryViewSettings),
-                    SortBy: [libraryViewSettings.SortBy],
-                    SortOrder: [libraryViewSettings.SortOrder]
-                }
-            }).catch(err => {
-                console.error('[PlayAllButton] failed to play', err);
-            });
+            playbackManager
+                .play({
+                    items,
+                    autoplay: true,
+                    queryOptions: {
+                        ParentId: item?.Id ?? undefined,
+                        ...getFiltersQuery(viewType, libraryViewSettings),
+                        SortBy: [libraryViewSettings.SortBy],
+                        SortOrder: [libraryViewSettings.SortOrder]
+                    }
+                })
+                .catch((err) => {
+                    console.error('[PlayAllButton] failed to play', err);
+                });
         }
     }, [hasFilters, item, items, libraryViewSettings, viewType]);
 

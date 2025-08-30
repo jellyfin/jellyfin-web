@@ -2,8 +2,8 @@
 
 (function () {
     const vendorProperties = {
-        'transform': ['webkitTransform'],
-        'transition': ['webkitTransition']
+        transform: ['webkitTransform'],
+        transition: ['webkitTransition']
     };
 
     const elem = document.createElement('div');
@@ -15,8 +15,12 @@
                     console.debug(`polyfill '${name}' with '${vendorName}'`);
 
                     Object.defineProperty(CSSStyleDeclaration.prototype, name, {
-                        get: function () { return this[vendorName]; },
-                        set: function (val) { this[vendorName] = val; }
+                        get: function () {
+                            return this[vendorName];
+                        },
+                        set: function (val) {
+                            this[vendorName] = val;
+                        }
                     });
 
                     return false;

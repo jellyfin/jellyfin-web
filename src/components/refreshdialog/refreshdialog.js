@@ -17,26 +17,42 @@ import toast from '../toast/toast';
 function getEditorHtml() {
     let html = '';
 
-    html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
+    html +=
+        '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
     html += '<div class="dialogContentInner dialog-content-centered">';
     html += '<form style="margin:auto;">';
 
     html += '<div class="fldSelectPlaylist selectContainer">';
-    html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
-    html += '<option value="scan" selected>' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
-    html += '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
-    html += '<option value="all">' + globalize.translate('ReplaceAllMetadata') + '</option>';
+    html +=
+        '<select is="emby-select" id="selectMetadataRefreshMode" label="' +
+        globalize.translate('LabelRefreshMode') +
+        '">';
+    html +=
+        '<option value="scan" selected>' +
+        globalize.translate('ScanForNewAndUpdatedFiles') +
+        '</option>';
+    html +=
+        '<option value="missing">' +
+        globalize.translate('SearchForMissingMetadata') +
+        '</option>';
+    html +=
+        '<option value="all">' +
+        globalize.translate('ReplaceAllMetadata') +
+        '</option>';
     html += '</select>';
     html += '</div>';
 
     html += '<label class="checkboxContainer hide fldReplaceExistingImages">';
-    html += '<input type="checkbox" is="emby-checkbox" class="chkReplaceImages" />';
+    html +=
+        '<input type="checkbox" is="emby-checkbox" class="chkReplaceImages" />';
     html += '<span>' + globalize.translate('ReplaceExistingImages') + '</span>';
     html += '</label>';
 
     html += '<label class="checkboxContainer hide fldReplaceTrickplayImages">';
-    html += '<input type="checkbox" is="emby-checkbox" class="chkReplaceTrickplayImages" />';
-    html += '<span>' + globalize.translate('ReplaceTrickplayImages') + '</span>';
+    html +=
+        '<input type="checkbox" is="emby-checkbox" class="chkReplaceTrickplayImages" />';
+    html +=
+        '<span>' + globalize.translate('ReplaceTrickplayImages') + '</span>';
     html += '</label>';
 
     html += '<div class="fieldDescription">';
@@ -47,7 +63,10 @@ function getEditorHtml() {
 
     html += '<br />';
     html += '<div class="formDialogFooter">';
-    html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('Refresh') + '</button>';
+    html +=
+        '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' +
+        globalize.translate('Refresh') +
+        '</button>';
     html += '</div>';
 
     html += '</form>';
@@ -73,11 +92,19 @@ function onSubmit(e) {
 
     const apiClient = ServerConnections.getApiClient(options.serverId);
 
-    const replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
+    const replaceAllMetadata =
+        dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
 
-    const mode = dlg.querySelector('#selectMetadataRefreshMode').value === 'scan' ? 'Default' : 'FullRefresh';
-    const replaceAllImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
-    const replaceTrickplayImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceTrickplayImages').checked;
+    const mode =
+        dlg.querySelector('#selectMetadataRefreshMode').value === 'scan'
+            ? 'Default'
+            : 'FullRefresh';
+    const replaceAllImages =
+        mode === 'FullRefresh' &&
+        dlg.querySelector('.chkReplaceImages').checked;
+    const replaceTrickplayImages =
+        mode === 'FullRefresh' &&
+        dlg.querySelector('.chkReplaceTrickplayImages').checked;
 
     options.itemIds.forEach(function (itemId) {
         apiClient.refreshItem(itemId, {
@@ -136,23 +163,40 @@ class RefreshDialog {
 
         dlg.innerHTML = html;
 
-        dlg.querySelector('form').addEventListener('submit', onSubmit.bind(this));
+        dlg.querySelector('form').addEventListener(
+            'submit',
+            onSubmit.bind(this)
+        );
 
-        dlg.querySelector('#selectMetadataRefreshMode').addEventListener('change', function () {
-            if (this.value === 'scan') {
-                dlg.querySelector('.fldReplaceExistingImages').classList.add('hide');
-                dlg.querySelector('.fldReplaceTrickplayImages').classList.add('hide');
-            } else {
-                dlg.querySelector('.fldReplaceExistingImages').classList.remove('hide');
-                dlg.querySelector('.fldReplaceTrickplayImages').classList.remove('hide');
+        dlg.querySelector('#selectMetadataRefreshMode').addEventListener(
+            'change',
+            function () {
+                if (this.value === 'scan') {
+                    dlg.querySelector(
+                        '.fldReplaceExistingImages'
+                    ).classList.add('hide');
+                    dlg.querySelector(
+                        '.fldReplaceTrickplayImages'
+                    ).classList.add('hide');
+                } else {
+                    dlg.querySelector(
+                        '.fldReplaceExistingImages'
+                    ).classList.remove('hide');
+                    dlg.querySelector(
+                        '.fldReplaceTrickplayImages'
+                    ).classList.remove('hide');
+                }
             }
-        });
+        );
 
         if (this.options.mode) {
-            dlg.querySelector('#selectMetadataRefreshMode').value = this.options.mode;
+            dlg.querySelector('#selectMetadataRefreshMode').value =
+                this.options.mode;
         }
 
-        dlg.querySelector('#selectMetadataRefreshMode').dispatchEvent(new CustomEvent('change'));
+        dlg.querySelector('#selectMetadataRefreshMode').dispatchEvent(
+            new CustomEvent('change')
+        );
 
         dlg.querySelector('.btnCancel').addEventListener('click', function () {
             dialogHelper.close(dlg);
@@ -164,7 +208,11 @@ class RefreshDialog {
 
         return new Promise(function (resolve) {
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                centerFocus(
+                    dlg.querySelector('.formDialogContent'),
+                    false,
+                    false
+                );
             }
 
             dlg.addEventListener('close', resolve);

@@ -10,18 +10,22 @@ import type { SectionOptions } from './section';
 export function loadLibraryTiles(
     elem: HTMLElement,
     userViews: BaseItemDto[],
-    {
-        enableOverflow
-    }: SectionOptions
+    { enableOverflow }: SectionOptions
 ) {
     let html = '';
     if (userViews.length) {
-        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
+        html +=
+            '<h2 class="sectionTitle sectionTitle-cards padded-left">' +
+            globalize.translate('HeaderMyMedia') +
+            '</h2>';
         if (enableOverflow) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+            html +=
+                '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
+            html +=
+                '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right focuscontainer-x vertical-wrap">';
+            html +=
+                '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right focuscontainer-x vertical-wrap">';
         }
 
         html += cardBuilder.getCardsHtml({

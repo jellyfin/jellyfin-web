@@ -29,10 +29,14 @@ export const DASHBOARD_APP_ROUTES: RouteObject[] = [
                             ...LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute),
                             {
                                 path: 'plugins/catalog',
-                                element: <Navigate replace to='/dashboard/plugins' />
+                                element: (
+                                    <Navigate replace to='/dashboard/plugins' />
+                                )
                             }
                         ],
-                        errorElement: <ErrorBoundary pageClasses={[ 'type-interior' ]} />
+                        errorElement: (
+                            <ErrorBoundary pageClasses={['type-interior']} />
+                        )
                     },
 
                     /* NOTE: The metadata editor might deserve a dedicated app in the future */
@@ -46,7 +50,9 @@ export const DASHBOARD_APP_ROUTES: RouteObject[] = [
 
                     {
                         path: DASHBOARD_APP_PATHS.PluginConfig,
-                        element: <ServerContentPage view='/web/configurationpage' />
+                        element: (
+                            <ServerContentPage view='/web/configurationpage' />
+                        )
                     }
                 ]
             }

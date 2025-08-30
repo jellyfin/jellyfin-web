@@ -15,10 +15,15 @@ interface ItemDetailPreferencesProps {
     values: DisplaySettingsValues;
 }
 
-export function ItemDetailPreferences({ onChange, values }: Readonly<ItemDetailPreferencesProps>) {
+export function ItemDetailPreferences({
+    onChange,
+    values
+}: Readonly<ItemDetailPreferencesProps>) {
     return (
         <Stack spacing={2}>
-            <Typography variant='h2'>{globalize.translate('ItemDetails')}</Typography>
+            <Typography variant='h2'>
+                {globalize.translate('ItemDetails')}
+            </Typography>
 
             <FormControl fullWidth>
                 <FormControlLabel

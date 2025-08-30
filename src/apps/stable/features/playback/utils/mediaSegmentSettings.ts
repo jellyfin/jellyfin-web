@@ -12,9 +12,12 @@ const DEFAULT_ACTIONS: Partial<Record<MediaSegmentType, MediaSegmentAction>> = {
 
 export const getId = (type: MediaSegmentType) => `${PREFIX}__${type}`;
 
-export function getMediaSegmentAction(userSettings: UserSettings, type: MediaSegmentType): MediaSegmentAction {
+export function getMediaSegmentAction(
+    userSettings: UserSettings,
+    type: MediaSegmentType
+): MediaSegmentAction {
     const action = userSettings.get(getId(type), false);
     const defaultAction = DEFAULT_ACTIONS[type] || MediaSegmentAction.None;
 
-    return action ? action as MediaSegmentAction : defaultAction;
+    return action ? (action as MediaSegmentAction) : defaultAction;
 }

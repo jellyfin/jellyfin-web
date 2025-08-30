@@ -54,7 +54,9 @@ function itemBlurhashing(target, hash) {
         // Lower values had more visible pixelation
         const width = 20;
         const height = 20;
-        targetDic[hash] = (targetDic[hash] || []).filter(item => item !== target);
+        targetDic[hash] = (targetDic[hash] || []).filter(
+            (item) => item !== target
+        );
         targetDic[hash].push(target);
 
         worker.postMessage({
@@ -95,12 +97,17 @@ function onAnimationEnd(event) {
     const elem = event.target;
     requestAnimationFrame(() => {
         const canvas = elem.previousSibling;
-        if (elem.classList.contains('blurhashed') && canvas?.tagName === 'CANVAS') {
+        if (
+            elem.classList.contains('blurhashed') &&
+            canvas?.tagName === 'CANVAS'
+        ) {
             canvas.classList.add('lazy-hidden');
         }
 
         // HACK: Hide the content of the card padder
-        elem.parentNode?.querySelector('.cardPadder')?.classList.add('lazy-hidden-children');
+        elem.parentNode
+            ?.querySelector('.cardPadder')
+            ?.classList.add('lazy-hidden-children');
     });
     elem.removeEventListener('animationend', onAnimationEnd);
 }
@@ -143,7 +150,9 @@ function emptyImageElement(elem) {
     }
 
     // HACK: Unhide the content of the card padder
-    elem.parentNode?.querySelector('.cardPadder')?.classList.remove('lazy-hidden-children');
+    elem.parentNode
+        ?.querySelector('.cardPadder')
+        ?.classList.remove('lazy-hidden-children');
 
     let url;
 
@@ -164,9 +173,18 @@ export function lazyChildren(elem) {
     if (userSettings.enableBlurhash()) {
         for (const lazyElem of elem.querySelectorAll('.lazy')) {
             const blurhashstr = lazyElem.getAttribute('data-blurhash');
-            if (!lazyElem.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
+            if (
+                !lazyElem.classList.contains(
+                    'blurhashed',
+                    'non-blurhashable'
+                ) &&
+                blurhashstr
+            ) {
                 itemBlurhashing(lazyElem, blurhashstr);
-            } else if (!blurhashstr && !lazyElem.classList.contains('blurhashed')) {
+            } else if (
+                !blurhashstr &&
+                !lazyElem.classList.contains('blurhashed')
+            ) {
                 lazyElem.classList.add('non-blurhashable');
             }
         }

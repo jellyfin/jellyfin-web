@@ -7,22 +7,18 @@ import { useApi } from 'hooks/useApi';
 
 export const QUERY_KEY = 'BrandingOptions';
 
-const fetchBrandingOptions = async (
-    api: Api,
-    options?: AxiosRequestConfig
-) => {
+const fetchBrandingOptions = async (api: Api, options?: AxiosRequestConfig) => {
     return getBrandingApi(api)
         .getBrandingOptions(options)
         .then(({ data }) => data);
 };
 
-export const getBrandingOptionsQuery = (
-    api?: Api
-) => queryOptions({
-    queryKey: [ QUERY_KEY ],
-    queryFn: ({ signal }) => fetchBrandingOptions(api!, { signal }),
-    enabled: !!api
-});
+export const getBrandingOptionsQuery = (api?: Api) =>
+    queryOptions({
+        queryKey: [QUERY_KEY],
+        queryFn: ({ signal }) => fetchBrandingOptions(api!, { signal }),
+        enabled: !!api
+    });
 
 export const useBrandingOptions = () => {
     const { api } = useApi();

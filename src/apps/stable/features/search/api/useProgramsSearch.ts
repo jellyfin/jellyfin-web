@@ -36,15 +36,16 @@ export const useProgramsSearch = (
 
     return useQuery({
         queryKey: ['Search', 'Programs', collectionType, parentId, searchTerm],
-        queryFn: ({ signal }) => fetchPrograms(
-            api!,
-            userId!,
-            {
-                parentId,
-                searchTerm
-            },
-            { signal }
-        ),
+        queryFn: ({ signal }) =>
+            fetchPrograms(
+                api!,
+                userId!,
+                {
+                    parentId,
+                    searchTerm
+                },
+                { signal }
+            ),
         enabled: !!api && !!userId && !collectionType
     });
 };

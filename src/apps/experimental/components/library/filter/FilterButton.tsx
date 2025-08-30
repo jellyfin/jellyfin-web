@@ -57,9 +57,9 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
     />
 ))(({ theme }) => ({
     backgroundColor:
-        theme.palette.mode === 'dark' ?
-            'rgba(255, 255, 255, .05)' :
-            'rgba(0, 0, 0, .03)',
+        theme.palette.mode === 'dark'
+            ? 'rgba(255, 255, 255, .05)'
+            : 'rgba(0, 0, 0, .03)',
     '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
         transform: 'rotate(90deg)'
     },
@@ -102,9 +102,9 @@ const FilterButton: FC<FilterButtonProps> = ({
 
     const handleChange =
         (panel: string) =>
-            (event: React.SyntheticEvent, newExpanded: boolean) => {
-                setExpanded(newExpanded ? panel : false);
-            };
+        (event: React.SyntheticEvent, newExpanded: boolean) => {
+            setExpanded(newExpanded ? panel : false);
+        };
 
     const handleClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -116,35 +116,31 @@ const FilterButton: FC<FilterButtonProps> = ({
 
     const isFiltersLegacyEnabled = () => {
         return (
-            viewType === LibraryTab.Movies
-            || viewType === LibraryTab.Series
-            || viewType === LibraryTab.Albums
-            || viewType === LibraryTab.AlbumArtists
-            || viewType === LibraryTab.Artists
-            || viewType === LibraryTab.Songs
-            || viewType === LibraryTab.Episodes
+            viewType === LibraryTab.Movies ||
+            viewType === LibraryTab.Series ||
+            viewType === LibraryTab.Albums ||
+            viewType === LibraryTab.AlbumArtists ||
+            viewType === LibraryTab.Artists ||
+            viewType === LibraryTab.Songs ||
+            viewType === LibraryTab.Episodes
         );
     };
 
     const isFiltersStudiosEnabled = () => {
-        return (
-            viewType === LibraryTab.Movies
-            || viewType === LibraryTab.Series
-        );
+        return viewType === LibraryTab.Movies || viewType === LibraryTab.Series;
     };
 
     const isFiltersFeaturesEnabled = () => {
         return (
-            viewType === LibraryTab.Movies
-            || viewType === LibraryTab.Series
-            || viewType === LibraryTab.Episodes
+            viewType === LibraryTab.Movies ||
+            viewType === LibraryTab.Series ||
+            viewType === LibraryTab.Episodes
         );
     };
 
     const isFiltersVideoTypesEnabled = () => {
         return (
-            viewType === LibraryTab.Movies
-            || viewType === LibraryTab.Episodes
+            viewType === LibraryTab.Movies || viewType === LibraryTab.Episodes
         );
     };
 
@@ -225,9 +221,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         <AccordionDetails>
                             <FiltersSeriesStatus
                                 libraryViewSettings={libraryViewSettings}
-                                setLibraryViewSettings={
-                                    setLibraryViewSettings
-                                }
+                                setLibraryViewSettings={setLibraryViewSettings}
                             />
                         </AccordionDetails>
                     </Accordion>
@@ -242,17 +236,13 @@ const FilterButton: FC<FilterButtonProps> = ({
                             id='filtersEpisodesStatus-header'
                         >
                             <Typography>
-                                {globalize.translate(
-                                    'HeaderEpisodesStatus'
-                                )}
+                                {globalize.translate('HeaderEpisodesStatus')}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <FiltersEpisodesStatus
                                 libraryViewSettings={libraryViewSettings}
-                                setLibraryViewSettings={
-                                    setLibraryViewSettings
-                                }
+                                setLibraryViewSettings={setLibraryViewSettings}
                             />
                         </AccordionDetails>
                     </Accordion>
@@ -273,9 +263,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         <AccordionDetails>
                             <FiltersFeatures
                                 libraryViewSettings={libraryViewSettings}
-                                setLibraryViewSettings={
-                                    setLibraryViewSettings
-                                }
+                                setLibraryViewSettings={setLibraryViewSettings}
                             />
                         </AccordionDetails>
                     </Accordion>
@@ -297,9 +285,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         <AccordionDetails>
                             <FiltersVideoTypes
                                 libraryViewSettings={libraryViewSettings}
-                                setLibraryViewSettings={
-                                    setLibraryViewSettings
-                                }
+                                setLibraryViewSettings={setLibraryViewSettings}
                             />
                         </AccordionDetails>
                     </Accordion>
@@ -334,39 +320,41 @@ const FilterButton: FC<FilterButtonProps> = ({
                             </Accordion>
                         )}
 
-                        {data?.OfficialRatings
-                            && data?.OfficialRatings?.length > 0 && (
-                            <Accordion
-                                expanded={
-                                    expanded === 'filtersOfficialRatings'
-                                }
-                                onChange={handleChange(
-                                    'filtersOfficialRatings'
-                                )}
-                            >
-                                <AccordionSummary
-                                    aria-controls='filtersOfficialRatings-content'
-                                    id='filtersOfficialRatings-header'
+                        {data?.OfficialRatings &&
+                            data?.OfficialRatings?.length > 0 && (
+                                <Accordion
+                                    expanded={
+                                        expanded === 'filtersOfficialRatings'
+                                    }
+                                    onChange={handleChange(
+                                        'filtersOfficialRatings'
+                                    )}
                                 >
-                                    <Typography>
-                                        {globalize.translate(
-                                            'HeaderParentalRatings'
-                                        )}
-                                    </Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <FiltersOfficialRatings
-                                        OfficialRatingsOptions={data.OfficialRatings}
-                                        libraryViewSettings={
-                                            libraryViewSettings
-                                        }
-                                        setLibraryViewSettings={
-                                            setLibraryViewSettings
-                                        }
-                                    />
-                                </AccordionDetails>
-                            </Accordion>
-                        )}
+                                    <AccordionSummary
+                                        aria-controls='filtersOfficialRatings-content'
+                                        id='filtersOfficialRatings-header'
+                                    >
+                                        <Typography>
+                                            {globalize.translate(
+                                                'HeaderParentalRatings'
+                                            )}
+                                        </Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <FiltersOfficialRatings
+                                            OfficialRatingsOptions={
+                                                data.OfficialRatings
+                                            }
+                                            libraryViewSettings={
+                                                libraryViewSettings
+                                            }
+                                            setLibraryViewSettings={
+                                                setLibraryViewSettings
+                                            }
+                                        />
+                                    </AccordionDetails>
+                                </Accordion>
+                            )}
 
                         {data?.Tags && data?.Tags.length > 0 && (
                             <Accordion
@@ -440,9 +428,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                             <FiltersStudios
                                 studiosOptions={studios}
                                 libraryViewSettings={libraryViewSettings}
-                                setLibraryViewSettings={
-                                    setLibraryViewSettings
-                                }
+                                setLibraryViewSettings={setLibraryViewSettings}
                             />
                         </AccordionDetails>
                     </Accordion>

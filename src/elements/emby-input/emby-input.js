@@ -9,7 +9,10 @@ let inputId = 0;
 let supportsFloatingLabel = false;
 
 if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-    const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+    const descriptor = Object.getOwnPropertyDescriptor(
+        HTMLInputElement.prototype,
+        'value'
+    );
 
     // descriptor returning null in webos
     if (descriptor?.configurable) {
@@ -17,10 +20,12 @@ if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
         descriptor.set = function (value) {
             baseSetMethod.call(this, value);
 
-            this.dispatchEvent(new CustomEvent('valueset', {
-                bubbles: false,
-                cancelable: false
-            }));
+            this.dispatchEvent(
+                new CustomEvent('valueset', {
+                    bubbles: false,
+                    cancelable: false
+                })
+            );
         };
 
         Object.defineProperty(HTMLInputElement.prototype, 'value', descriptor);
@@ -51,27 +56,37 @@ EmbyInputPrototype.createdCallback = function () {
     parentNode.insertBefore(label, this);
     this.labelElement = label;
 
-    dom.addEventListener(this, 'focus', function () {
-        onChange.call(this);
+    dom.addEventListener(
+        this,
+        'focus',
+        function () {
+            onChange.call(this);
 
-        // For Samsung orsay devices
-        if (document.attachIME) {
-            document.attachIME(this);
+            // For Samsung orsay devices
+            if (document.attachIME) {
+                document.attachIME(this);
+            }
+
+            label.classList.add('inputLabelFocused');
+            label.classList.remove('inputLabelUnfocused');
+        },
+        {
+            passive: true
         }
+    );
 
-        label.classList.add('inputLabelFocused');
-        label.classList.remove('inputLabelUnfocused');
-    }, {
-        passive: true
-    });
-
-    dom.addEventListener(this, 'blur', function () {
-        onChange.call(this);
-        label.classList.remove('inputLabelFocused');
-        label.classList.add('inputLabelUnfocused');
-    }, {
-        passive: true
-    });
+    dom.addEventListener(
+        this,
+        'blur',
+        function () {
+            onChange.call(this);
+            label.classList.remove('inputLabelFocused');
+            label.classList.add('inputLabelUnfocused');
+        },
+        {
+            passive: true
+        }
+    );
 
     dom.addEventListener(this, 'change', onChange, {
         passive: true
@@ -84,7 +99,11 @@ EmbyInputPrototype.createdCallback = function () {
     });
 
     //Make sure the IME pops up if this is the first/default element on the page
-    if (browser.orsay && this === document.activeElement && document.attachIME) {
+    if (
+        browser.orsay &&
+        this === document.activeElement &&
+        document.attachIME
+    ) {
         document.attachIME(this);
     }
 };
@@ -94,7 +113,10 @@ function onChange() {
     if (this.value) {
         label.classList.remove('inputLabel-float');
     } else {
-        const instanceSupportsFloat = supportsFloatingLabel && this.type !== 'date' && this.type !== 'time';
+        const instanceSupportsFloat =
+            supportsFloatingLabel &&
+            this.type !== 'date' &&
+            this.type !== 'time';
 
         if (instanceSupportsFloat) {
             label.classList.add('inputLabel-float');
@@ -115,4 +137,3 @@ document.registerElement('emby-input', {
     prototype: EmbyInputPrototype,
     extends: 'input'
 });
-

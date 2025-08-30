@@ -17,7 +17,10 @@
         const KeyboardEvent = function (eventName, options) {
             options = options || {};
 
-            const event = new Event(eventName, { bubbles: !!options.bubbles, cancelable: !!options.cancelable });
+            const event = new Event(eventName, {
+                bubbles: !!options.bubbles,
+                cancelable: !!options.cancelable
+            });
 
             event.view = options.view || document.defaultView;
 
@@ -43,4 +46,4 @@
         KeyboardEvent.prototype = KeyboardEventOriginal.prototype;
         window.KeyboardEvent = KeyboardEvent;
     }
-}(window));
+})(window);

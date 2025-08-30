@@ -14,9 +14,9 @@ const CriticRatingMediaInfo: FC<CriticRatingMediaInfoProps> = ({
     const cssClass = classNames(
         'mediaInfoCriticRating',
         'mediaInfoItem',
-        criticRating >= 60 ?
-            'mediaInfoCriticRatingFresh' :
-            'mediaInfoCriticRatingRotten',
+        criticRating >= 60
+            ? 'mediaInfoCriticRatingFresh'
+            : 'mediaInfoCriticRatingRotten',
         className
     );
     return <Box className={cssClass}>{criticRating}</Box>;

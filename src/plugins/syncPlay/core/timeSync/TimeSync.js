@@ -35,14 +35,23 @@ class Measurement {
      * Time offset from remote entity, in milliseconds.
      */
     getOffset() {
-        return ((this.requestReceived - this.requestSent) + (this.responseSent - this.responseReceived)) / 2;
+        return (
+            (this.requestReceived -
+                this.requestSent +
+                (this.responseSent - this.responseReceived)) /
+            2
+        );
     }
 
     /**
      * Get round-trip delay, in milliseconds.
      */
     getDelay() {
-        return (this.responseReceived - this.requestSent) - (this.responseSent - this.requestReceived);
+        return (
+            this.responseReceived -
+            this.requestSent -
+            (this.responseSent - this.requestReceived)
+        );
     }
 
     /**
@@ -136,8 +145,14 @@ class TimeSync {
      * @param {Object} result The ping result.
      */
     onPingResponseCallback(result) {
-        const { requestSent, requestReceived, responseSent, responseReceived } = result;
-        const measurement = new Measurement(requestSent, requestReceived, responseSent, responseReceived);
+        const { requestSent, requestReceived, responseSent, responseReceived } =
+            result;
+        const measurement = new Measurement(
+            requestSent,
+            requestReceived,
+            responseSent,
+            responseReceived
+        );
         this.updateTimeOffset(measurement);
 
         // Avoid overloading network.
@@ -147,7 +162,11 @@ class TimeSync {
             this.pings++;
         }
 
-        Events.trigger(this, 'update', [null, this.getTimeOffset(), this.getPing()]);
+        Events.trigger(this, 'update', [
+            null,
+            this.getTimeOffset(),
+            this.getPing()
+        ]);
     }
 
     /**

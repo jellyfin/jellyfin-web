@@ -37,7 +37,11 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
         );
     }
 
-    if (currentTab.viewType === LibraryTab.Programs || currentTab.viewType === LibraryTab.Recordings || currentTab.viewType === LibraryTab.Schedule) {
+    if (
+        currentTab.viewType === LibraryTab.Programs ||
+        currentTab.viewType === LibraryTab.Recordings ||
+        currentTab.viewType === LibraryTab.Schedule
+    ) {
         return (
             <>
                 <Box className='padded-top padded-left padded-right padded-bottom'>
@@ -46,10 +50,10 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
 
                 <ProgramsSectionView
                     parentId={parentId}
-                    sectionType={
-                        currentTab.sectionsView?.programSections ?? []
+                    sectionType={currentTab.sectionsView?.programSections ?? []}
+                    isUpcomingRecordingsEnabled={
+                        currentTab.sectionsView?.isLiveTvUpcomingRecordings
                     }
-                    isUpcomingRecordingsEnabled={currentTab.sectionsView?.isLiveTvUpcomingRecordings}
                 />
             </>
         );

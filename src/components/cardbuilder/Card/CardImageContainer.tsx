@@ -33,7 +33,10 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
     const cardImageClass = classNames(
         'cardImageContainer',
         { coveredImage: coveredImage },
-        { 'coveredImage-contain': coveredImage && item.Type === ItemKind.TvChannel }
+        {
+            'coveredImage-contain':
+                coveredImage && item.Type === ItemKind.TvChannel
+        }
     );
 
     return (
@@ -43,25 +46,30 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
                     {indicator.getMediaSourceIndicator()}
 
                     <Box className='cardIndicators'>
-                        {cardOptions.missingIndicator !== false
-                            && indicator.getMissingIndicator()}
+                        {cardOptions.missingIndicator !== false &&
+                            indicator.getMissingIndicator()}
 
                         {indicator.getTimerIndicator()}
                         {indicator.getTypeIndicator()}
 
-                        {cardOptions.showGroupCount ?
-                            indicator.getChildCountIndicator() :
-                            indicator.getPlayedIndicator()}
+                        {cardOptions.showGroupCount
+                            ? indicator.getChildCountIndicator()
+                            : indicator.getPlayedIndicator()}
 
-                        {(item.Type === ItemKind.CollectionFolder
-                            || item.CollectionType) && (
+                        {(item.Type === ItemKind.CollectionFolder ||
+                            item.CollectionType) && (
                             <RefreshIndicator item={item} />
                         )}
                     </Box>
                 </Box>
             )}
 
-            <Media item={item} imgUrl={imgUrl} blurhash={blurhash} imageType={cardOptions.imageType} />
+            <Media
+                item={item}
+                imgUrl={imgUrl}
+                blurhash={blurhash}
+                imageType={cardOptions.imageType}
+            />
 
             {overlayText && (
                 <CardInnerFooter

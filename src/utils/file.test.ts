@@ -8,10 +8,20 @@ describe('getReadableSize()', () => {
         expect(getReadableSize(1024 * 1024)).toBe('1.0 MiB');
         expect(getReadableSize(1024 * 1024 * 1024)).toBe('1.0 GiB');
         expect(getReadableSize(1024 * 1024 * 1024 * 1024)).toBe('1.0 TiB');
-        expect(getReadableSize(1024 * 1024 * 1024 * 1024 * 1024)).toBe('1.0 PiB');
-        expect(getReadableSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toBe('1.0 EiB');
-        expect(getReadableSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toBe('1.0 ZiB');
-        expect(getReadableSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toBe('1.0 YiB');
+        expect(getReadableSize(1024 * 1024 * 1024 * 1024 * 1024)).toBe(
+            '1.0 PiB'
+        );
+        expect(getReadableSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toBe(
+            '1.0 EiB'
+        );
+        expect(
+            getReadableSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024)
+        ).toBe('1.0 ZiB');
+        expect(
+            getReadableSize(
+                1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024
+            )
+        ).toBe('1.0 YiB');
     });
 
     it('should return the correct precision', () => {

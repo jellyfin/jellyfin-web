@@ -22,7 +22,11 @@ const SearchResults: FC<SearchResultsProps> = ({
     collectionType,
     query
 }) => {
-    const { data, isPending } = useSearchItems(parentId, collectionType, query?.trim());
+    const { data, isPending } = useSearchItems(
+        parentId,
+        collectionType,
+        query?.trim()
+    );
 
     if (isPending) return <Loading />;
 
@@ -35,7 +39,9 @@ const SearchResults: FC<SearchResultsProps> = ({
                         <Link
                             className='emby-button'
                             to={`/search?query=${encodeURIComponent(query || '')}`}
-                        >{globalize.translate('RetryWithGlobalSearch')}</Link>
+                        >
+                            {globalize.translate('RetryWithGlobalSearch')}
+                        </Link>
                     </div>
                 )}
             </div>

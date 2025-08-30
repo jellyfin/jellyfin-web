@@ -8,7 +8,12 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
+import {
+    type ActionFunctionArgs,
+    Form,
+    useActionData,
+    useNavigation
+} from 'react-router-dom';
 import { ActionData } from 'types/actionData';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Loading from 'components/loading/LoadingComponent';
@@ -28,17 +33,23 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const maxAudiobookResume = formData.get('MaxAudiobookResume')?.toString();
     const minResumeDuration = formData.get('MinResumeDuration')?.toString();
 
-    if (minResumePercentage) config.MinResumePct = parseInt(minResumePercentage, 10);
-    if (maxResumePercentage) config.MaxResumePct = parseInt(maxResumePercentage, 10);
-    if (minAudiobookResume) config.MinAudiobookResume = parseInt(minAudiobookResume, 10);
-    if (maxAudiobookResume) config.MaxAudiobookResume = parseInt(maxAudiobookResume, 10);
-    if (minResumeDuration) config.MinResumeDurationSeconds = parseInt(minResumeDuration, 10);
+    if (minResumePercentage)
+        config.MinResumePct = parseInt(minResumePercentage, 10);
+    if (maxResumePercentage)
+        config.MaxResumePct = parseInt(maxResumePercentage, 10);
+    if (minAudiobookResume)
+        config.MinAudiobookResume = parseInt(minAudiobookResume, 10);
+    if (maxAudiobookResume)
+        config.MaxAudiobookResume = parseInt(maxAudiobookResume, 10);
+    if (minResumeDuration)
+        config.MinResumeDurationSeconds = parseInt(minResumeDuration, 10);
 
-    await getConfigurationApi(api)
-        .updateConfiguration({ serverConfiguration: config });
+    await getConfigurationApi(api).updateConfiguration({
+        serverConfiguration: config
+    });
 
     void queryClient.invalidateQueries({
-        queryKey: [ QUERY_KEY ]
+        queryKey: [QUERY_KEY]
     });
 
     return {
@@ -51,7 +62,8 @@ export const Component = () => {
     const actionData = useActionData() as ActionData | undefined;
     const isSubmitting = navigation.state === 'submitting';
 
-    const { isPending: isConfigurationPending, data: config } = useConfiguration();
+    const { isPending: isConfigurationPending, data: config } =
+        useConfiguration();
 
     if (isConfigurationPending) {
         return <Loading />;
@@ -77,11 +89,15 @@ export const Component = () => {
                         )}
 
                         <TextField
-                            label={globalize.translate('LabelMinResumePercentage')}
+                            label={globalize.translate(
+                                'LabelMinResumePercentage'
+                            )}
                             name='MinResumePercentage'
                             type='number'
                             defaultValue={config?.MinResumePct}
-                            helperText={globalize.translate('LabelMinResumePercentageHelp')}
+                            helperText={globalize.translate(
+                                'LabelMinResumePercentageHelp'
+                            )}
                             slotProps={{
                                 htmlInput: {
                                     min: 0,
@@ -92,11 +108,15 @@ export const Component = () => {
                         />
 
                         <TextField
-                            label={globalize.translate('LabelMaxResumePercentage')}
+                            label={globalize.translate(
+                                'LabelMaxResumePercentage'
+                            )}
                             name='MaxResumePercentage'
                             type='number'
                             defaultValue={config?.MaxResumePct}
-                            helperText={globalize.translate('LabelMaxResumePercentageHelp')}
+                            helperText={globalize.translate(
+                                'LabelMaxResumePercentageHelp'
+                            )}
                             slotProps={{
                                 htmlInput: {
                                     min: 1,
@@ -107,11 +127,15 @@ export const Component = () => {
                         />
 
                         <TextField
-                            label={globalize.translate('LabelMinAudiobookResume')}
+                            label={globalize.translate(
+                                'LabelMinAudiobookResume'
+                            )}
                             name='MinAudiobookResume'
                             type='number'
                             defaultValue={config?.MinAudiobookResume}
-                            helperText={globalize.translate('LabelMinAudiobookResumeHelp')}
+                            helperText={globalize.translate(
+                                'LabelMinAudiobookResumeHelp'
+                            )}
                             slotProps={{
                                 htmlInput: {
                                     min: 0,
@@ -122,11 +146,15 @@ export const Component = () => {
                         />
 
                         <TextField
-                            label={globalize.translate('LabelMaxAudiobookResume')}
+                            label={globalize.translate(
+                                'LabelMaxAudiobookResume'
+                            )}
                             name='MaxAudiobookResume'
                             type='number'
                             defaultValue={config?.MaxAudiobookResume}
-                            helperText={globalize.translate('LabelMaxAudiobookResumeHelp')}
+                            helperText={globalize.translate(
+                                'LabelMaxAudiobookResumeHelp'
+                            )}
                             slotProps={{
                                 htmlInput: {
                                     min: 1,
@@ -137,11 +165,15 @@ export const Component = () => {
                         />
 
                         <TextField
-                            label={globalize.translate('LabelMinResumeDuration')}
+                            label={globalize.translate(
+                                'LabelMinResumeDuration'
+                            )}
                             name='MinResumeDuration'
                             type='number'
                             defaultValue={config?.MinResumeDurationSeconds}
-                            helperText={globalize.translate('LabelMinResumeDurationHelp')}
+                            helperText={globalize.translate(
+                                'LabelMinResumeDurationHelp'
+                            )}
                             slotProps={{
                                 htmlInput: {
                                     min: 0,
@@ -150,10 +182,7 @@ export const Component = () => {
                             }}
                         />
 
-                        <Button
-                            type='submit'
-                            size='large'
-                        >
+                        <Button type='submit' size='large'>
                             {globalize.translate('Save')}
                         </Button>
                     </Stack>

@@ -4,7 +4,8 @@
  * @param str2 The second string.
  * @returns True if the strings are equal ignoring case.
  */
-export const equalsIgnoreCase = (str1 = '', str2 = '') => str1.toLowerCase() === str2.toLowerCase();
+export const equalsIgnoreCase = (str1 = '', str2 = '') =>
+    str1.toLowerCase() === str2.toLowerCase();
 
 /**
  * Checks if a string is empty or contains only whitespace.
@@ -21,7 +22,10 @@ export function isBlank(value: string | undefined | null) {
  * @param {boolean} defaultValue The default value if the string is invalid.
  * @returns {boolean} The value.
  */
-export function toBoolean(value: string | undefined | null, defaultValue = false) {
+export function toBoolean(
+    value: string | undefined | null,
+    defaultValue = false
+) {
     if (value !== 'true' && value !== 'false') {
         return defaultValue;
     } else {

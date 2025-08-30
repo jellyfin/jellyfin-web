@@ -41,7 +41,9 @@ const SplitVersionsButton: FC<SplitVersionsButtonProps> = ({
                         },
                         onError: (err: unknown) => {
                             loading.hide();
-                            toast(globalize.translate('MessageSplitVersionsError'));
+                            toast(
+                                globalize.translate('MessageSplitVersionsError')
+                            );
                             console.error(
                                 '[splitVersions] failed to split versions',
                                 err

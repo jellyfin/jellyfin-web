@@ -21,7 +21,12 @@ export const TicksPerMillisecond = 10000.0;
  * @param {Array} rejectEventTypes Event names to listen for and abort the waiting.
  * @returns {Promise} A promise that resolves when the event is triggered.
  */
-export function waitForEventOnce(emitter, eventType, timeout, rejectEventTypes) {
+export function waitForEventOnce(
+    emitter,
+    eventType,
+    timeout,
+    rejectEventTypes
+) {
     return new Promise((resolve, reject) => {
         let rejectTimeout;
         if (timeout) {
@@ -38,7 +43,7 @@ export function waitForEventOnce(emitter, eventType, timeout, rejectEventTypes) 
             }
 
             if (Array.isArray(rejectEventTypes)) {
-                rejectEventTypes.forEach(eventName => {
+                rejectEventTypes.forEach((eventName) => {
                     Events.off(emitter, eventName, rejectCallback);
                 });
             }
@@ -57,7 +62,7 @@ export function waitForEventOnce(emitter, eventType, timeout, rejectEventTypes) 
         Events.on(emitter, eventType, callback);
 
         if (Array.isArray(rejectEventTypes)) {
-            rejectEventTypes.forEach(eventName => {
+            rejectEventTypes.forEach((eventName) => {
                 Events.on(emitter, eventName, rejectCallback);
             });
         }
@@ -70,18 +75,23 @@ export function waitForEventOnce(emitter, eventType, timeout, rejectEventTypes) 
  * @returns {string} The Guid string.
  */
 export function stringToGuid(input) {
-    return input.replace(/([0-z]{8})([0-z]{4})([0-z]{4})([0-z]{4})([0-z]{12})/, '$1-$2-$3-$4-$5');
+    return input.replace(
+        /([0-z]{8})([0-z]{4})([0-z]{4})([0-z]{4})([0-z]{12})/,
+        '$1-$2-$3-$4-$5'
+    );
 }
 
 export function getItemsForPlayback(apiClient, query) {
     if (query.Ids && query.Ids.split(',').length === 1) {
         const itemId = query.Ids.split(',');
 
-        return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-            return {
-                Items: [item]
-            };
-        });
+        return apiClient
+            .getItem(apiClient.getCurrentUserId(), itemId)
+            .then(function (item) {
+                return {
+                    Items: [item]
+                };
+            });
     } else {
         query.Limit = query.Limit || 300;
         query.Fields = ['Chapters', 'Trickplay'];
@@ -180,43 +190,57 @@ export function translateItemsForPlayback(apiClient, items, options) {
         } else if (firstItem.Type === 'BoxSet') {
             sortBy = 'SortName';
         }
-        promise = getItemsForPlayback(apiClient, mergePlaybackQueries({
-            ParentId: firstItem.Id,
-            Filters: 'IsNotFolder',
-            Recursive: true,
-            // These are pre-sorted.
-            SortBy: sortBy,
-            MediaTypes: 'Audio,Video'
-        }, queryOptions));
+        promise = getItemsForPlayback(
+            apiClient,
+            mergePlaybackQueries(
+                {
+                    ParentId: firstItem.Id,
+                    Filters: 'IsNotFolder',
+                    Recursive: true,
+                    // These are pre-sorted.
+                    SortBy: sortBy,
+                    MediaTypes: 'Audio,Video'
+                },
+                queryOptions
+            )
+        );
     } else if (firstItem.Type === 'Episode' && items.length === 1) {
         promise = new Promise(function (resolve, reject) {
             apiClient.getCurrentUser().then(function (user) {
-                if (!user.Configuration.EnableNextEpisodeAutoPlay || !firstItem.SeriesId) {
+                if (
+                    !user.Configuration.EnableNextEpisodeAutoPlay ||
+                    !firstItem.SeriesId
+                ) {
                     resolve(null);
                     return;
                 }
 
-                apiClient.getEpisodes(firstItem.SeriesId, {
-                    IsVirtualUnaired: false,
-                    IsMissing: false,
-                    UserId: apiClient.getCurrentUserId(),
-                    Fields: ['Chapters', 'Trickplay']
-                }).then(function (episodesResult) {
-                    let foundItem = false;
-                    episodesResult.Items = episodesResult.Items.filter(function (e) {
-                        if (foundItem) {
-                            return true;
-                        }
-                        if (e.Id === firstItem.Id) {
-                            foundItem = true;
-                            return true;
-                        }
+                apiClient
+                    .getEpisodes(firstItem.SeriesId, {
+                        IsVirtualUnaired: false,
+                        IsMissing: false,
+                        UserId: apiClient.getCurrentUserId(),
+                        Fields: ['Chapters', 'Trickplay']
+                    })
+                    .then(function (episodesResult) {
+                        let foundItem = false;
+                        episodesResult.Items = episodesResult.Items.filter(
+                            function (e) {
+                                if (foundItem) {
+                                    return true;
+                                }
+                                if (e.Id === firstItem.Id) {
+                                    foundItem = true;
+                                    return true;
+                                }
 
-                        return false;
-                    });
-                    episodesResult.TotalRecordCount = episodesResult.Items.length;
-                    resolve(episodesResult);
-                }, reject);
+                                return false;
+                            }
+                        );
+                        episodesResult.TotalRecordCount =
+                            episodesResult.Items.length;
+                        resolve(episodesResult);
+                    }, reject);
             });
         });
     }

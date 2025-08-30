@@ -41,13 +41,17 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         playbackManager.sendCommand = this.sendCommandRequest;
 
         // Save local callbacks.
-        playbackManager._localPlayQueueManager = playbackManager._playQueueManager;
+        playbackManager._localPlayQueueManager =
+            playbackManager._playQueueManager;
 
         playbackManager._localPlay = playbackManager.play;
-        playbackManager._localSetCurrentPlaylistItem = playbackManager.setCurrentPlaylistItem;
+        playbackManager._localSetCurrentPlaylistItem =
+            playbackManager.setCurrentPlaylistItem;
         playbackManager._localClearQueue = playbackManager.clearQueue;
-        playbackManager._localRemoveFromPlaylist = playbackManager.removeFromPlaylist;
-        playbackManager._localMovePlaylistItem = playbackManager.movePlaylistItem;
+        playbackManager._localRemoveFromPlaylist =
+            playbackManager.removeFromPlaylist;
+        playbackManager._localMovePlaylistItem =
+            playbackManager.movePlaylistItem;
         playbackManager._localQueue = playbackManager.queue;
         playbackManager._localQueueNext = playbackManager.queueNext;
 
@@ -55,14 +59,17 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         playbackManager._localPreviousTrack = playbackManager.previousTrack;
 
         playbackManager._localSetRepeatMode = playbackManager.setRepeatMode;
-        playbackManager._localSetQueueShuffleMode = playbackManager.setQueueShuffleMode;
-        playbackManager._localToggleQueueShuffleMode = playbackManager.toggleQueueShuffleMode;
+        playbackManager._localSetQueueShuffleMode =
+            playbackManager.setQueueShuffleMode;
+        playbackManager._localToggleQueueShuffleMode =
+            playbackManager.toggleQueueShuffleMode;
 
         // Override local callbacks.
         playbackManager._playQueueManager = new QueueManager(this.manager);
 
         playbackManager.play = this.playRequest;
-        playbackManager.setCurrentPlaylistItem = this.setCurrentPlaylistItemRequest;
+        playbackManager.setCurrentPlaylistItem =
+            this.setCurrentPlaylistItemRequest;
         playbackManager.clearQueue = this.clearQueueRequest;
         playbackManager.removeFromPlaylist = this.removeFromPlaylistRequest;
         playbackManager.movePlaylistItem = this.movePlaylistItemRequest;
@@ -74,7 +81,8 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
 
         playbackManager.setRepeatMode = this.setRepeatModeRequest;
         playbackManager.setQueueShuffleMode = this.setQueueShuffleModeRequest;
-        playbackManager.toggleQueueShuffleMode = this.toggleQueueShuffleModeRequest;
+        playbackManager.toggleQueueShuffleMode =
+            this.toggleQueueShuffleModeRequest;
 
         playbackManager.syncPlayEnabled = true;
     }
@@ -91,13 +99,17 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         playbackManager.seek = playbackManager._localSeek;
         playbackManager.sendCommand = playbackManager._localSendCommand;
 
-        playbackManager._playQueueManager = playbackManager._localPlayQueueManager; // TODO: should move elsewhere?
+        playbackManager._playQueueManager =
+            playbackManager._localPlayQueueManager; // TODO: should move elsewhere?
 
         playbackManager.play = playbackManager._localPlay;
-        playbackManager.setCurrentPlaylistItem = playbackManager._localSetCurrentPlaylistItem;
+        playbackManager.setCurrentPlaylistItem =
+            playbackManager._localSetCurrentPlaylistItem;
         playbackManager.clearQueue = this._localClearQueue;
-        playbackManager.removeFromPlaylist = playbackManager._localRemoveFromPlaylist;
-        playbackManager.movePlaylistItem = playbackManager._localMovePlaylistItem;
+        playbackManager.removeFromPlaylist =
+            playbackManager._localRemoveFromPlaylist;
+        playbackManager.movePlaylistItem =
+            playbackManager._localMovePlaylistItem;
         playbackManager.queue = playbackManager._localQueue;
         playbackManager.queueNext = playbackManager._localQueueNext;
 
@@ -105,8 +117,10 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         playbackManager.previousTrack = playbackManager._localPreviousTrack;
 
         playbackManager.setRepeatMode = playbackManager._localSetRepeatMode;
-        playbackManager.setQueueShuffleMode = playbackManager._localSetQueueShuffleMode;
-        playbackManager.toggleQueueShuffleMode = playbackManager._localToggleQueueShuffleMode;
+        playbackManager.setQueueShuffleMode =
+            playbackManager._localSetQueueShuffleMode;
+        playbackManager.toggleQueueShuffleMode =
+            playbackManager._localToggleQueueShuffleMode;
 
         playbackManager.syncPlayEnabled = false;
     }
@@ -346,9 +360,15 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
      */
     localSetCurrentPlaylistItem(playlistItemId) {
         if (playbackManager.syncPlayEnabled) {
-            return playbackManager._localSetCurrentPlaylistItem(playlistItemId, this.player);
+            return playbackManager._localSetCurrentPlaylistItem(
+                playlistItemId,
+                this.player
+            );
         } else {
-            return playbackManager.setCurrentPlaylistItem(playlistItemId, this.player);
+            return playbackManager.setCurrentPlaylistItem(
+                playlistItemId,
+                this.player
+            );
         }
     }
 
@@ -357,9 +377,15 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
      */
     localRemoveFromPlaylist(playlistItemIds) {
         if (playbackManager.syncPlayEnabled) {
-            return playbackManager._localRemoveFromPlaylist(playlistItemIds, this.player);
+            return playbackManager._localRemoveFromPlaylist(
+                playlistItemIds,
+                this.player
+            );
         } else {
-            return playbackManager.removeFromPlaylist(playlistItemIds, this.player);
+            return playbackManager.removeFromPlaylist(
+                playlistItemIds,
+                this.player
+            );
         }
     }
 
@@ -368,9 +394,17 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
      */
     localMovePlaylistItem(playlistItemId, newIndex) {
         if (playbackManager.syncPlayEnabled) {
-            return playbackManager._localMovePlaylistItem(playlistItemId, newIndex, this.player);
+            return playbackManager._localMovePlaylistItem(
+                playlistItemId,
+                newIndex,
+                this.player
+            );
         } else {
-            return playbackManager.movePlaylistItem(playlistItemId, newIndex, this.player);
+            return playbackManager.movePlaylistItem(
+                playlistItemId,
+                newIndex,
+                this.player
+            );
         }
     }
 
