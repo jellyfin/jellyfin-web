@@ -1959,7 +1959,6 @@ function renderArtists(page, item) {
         Ids: artistIds.join(','),
         Fields: 'PrimaryImageAspectRatio,ImageTags'
     };
-
     apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
         if (!result.Items.length) {
             page.querySelector('#artistsCollapsible').classList.add('hide');
