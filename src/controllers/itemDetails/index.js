@@ -1954,7 +1954,6 @@ function renderArtists(page, item) {
     // Fetch complete artist data with image fields, similar to renderSimilarItems
     const apiClient = ServerConnections.getApiClient(item.ServerId);
     const artistIds = uniqueArtists.map(artist => artist.Id);
-    
     const query = {
         Ids: artistIds.join(','),
         Fields: 'PrimaryImageAspectRatio,ImageTags'
