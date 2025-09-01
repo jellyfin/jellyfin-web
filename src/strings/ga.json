@@ -1879,5 +1879,7 @@
     "HeaderServerMismatch": "Mí-chomhoiriúnacht Freastalaí",
     "MessageServerMismatch": "Ní hé an freastalaí atá tú ag ceangal leis an bhfreastalaí céanna a raibh tú ceangailte leis roimhe seo ag an seoladh seo. Más rud é go bhfuiltear ag súil leis seo, roghnaigh \"Ceangail ar aon nós\". Seachas sin, d'fhéadfadh do nasc nó an freastalaí a bheith i mbaol.",
     "LabelAvailable": "Ar fáil",
-    "LabelBundled": "Chuachta"
+    "LabelBundled": "Chuachta",
+    "ManageRepositories": "Bainistigh Stórtha",
+    "ViewAllPlugins": "Féach ar na breiseáin uile"
 }
