@@ -1542,7 +1542,7 @@
     "ItemDetails": "Sonraí na Míre",
     "KnownProxiesHelp": "Liosta scartha camóg de sheoltaí IP nó óstainmneacha proxies aitheanta a úsáidtear agus tú ag nascadh le do shampla Jellyfin. Tá sé seo ag teastáil chun úsáid cheart a bhaint as ceanntásca 'X-Forwarded-For'. Éilíonn atosaigh tar éis a shábháil.",
     "Label3DFormat": "Formáid 3T",
-    "LabelAbortedByServerShutdown": "(Tobscortha ag múchadh freastalaí)",
+    "LabelAbortedByServerShutdown": "Scortha de bharr múchadh an fhreastalaí",
     "LabelAccessDay": "Lá na seachtaine",
     "LabelAccessStart": "Am tosaithe",
     "LabelAirsAfterSeason": "Airs tar éis an tséasúir",
@@ -1877,5 +1877,7 @@
     "LiveTVPageLoadError": "Theip ar an leathanach taifeadtaí a lódáil",
     "ConnectAnyway": "Ceangail Ar Aon Slí",
     "HeaderServerMismatch": "Mí-chomhoiriúnacht Freastalaí",
-    "MessageServerMismatch": "Ní hé an freastalaí atá tú ag ceangal leis an bhfreastalaí céanna a raibh tú ceangailte leis roimhe seo ag an seoladh seo. Más rud é go bhfuiltear ag súil leis seo, roghnaigh \"Ceangail ar aon nós\". Seachas sin, d'fhéadfadh do nasc nó an freastalaí a bheith i mbaol."
+    "MessageServerMismatch": "Ní hé an freastalaí atá tú ag ceangal leis an bhfreastalaí céanna a raibh tú ceangailte leis roimhe seo ag an seoladh seo. Más rud é go bhfuiltear ag súil leis seo, roghnaigh \"Ceangail ar aon nós\". Seachas sin, d'fhéadfadh do nasc nó an freastalaí a bheith i mbaol.",
+    "LabelAvailable": "Ar fáil",
+    "LabelBundled": "Chuachta"
 }
