@@ -670,7 +670,7 @@
     "ItemCount": "{0} elem",
     "Items": "Elemek",
     "Kids": "Gyerekek",
-    "LabelAbortedByServerShutdown": "(A kiszolgáló leállítása megszakította)",
+    "LabelAbortedByServerShutdown": "A kiszolgáló leállítása megszakította",
     "LabelAccessDay": "A hét napja",
     "LabelAccessEnd": "Befejezés ideje",
     "LabelAccessStart": "Kezdés ideje",

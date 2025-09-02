@@ -740,7 +740,7 @@
     "LabelAllowHWTranscoding": "Atļaut aparatūras transkodēšanu",
     "LabelAlbumArtMaxWidth": "Albumu vāku maksimālais platums",
     "LabelAlbumArtMaxHeight": "Albumu vāku maksimālais augstums",
-    "LabelAbortedByServerShutdown": "(Atcelts dēļ servera izslēgšanas)",
+    "LabelAbortedByServerShutdown": "Atcelts servera izslēgšanas dēļ",
     "ImportFavoriteChannelsHelp": "Tikai kanāli, kas pievienoti izlasei uztvērēja ierīcē tiks importēti.",
     "HttpsRequiresCert": "Lai iespējotu drošos savienojumus, jums ir jānodrošina uzticams SSL sertifikāts, piemēram, Let's Encrypt. Lūdzu, nodrošiniet sertifikātu vai atspējojiet drošos savienojumus.",
     "HeaderTranscodingProfileHelp": "Pievienojiet transkodēšanas profilus, lai norādītu, kuri formāti jāizmanto, kad nepieciešama transkodēšana.",
