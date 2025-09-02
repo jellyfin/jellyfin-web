@@ -377,7 +377,7 @@
     "Items": "Objekt",
     "Kids": "Barn",
     "Label3DFormat": "3D-format",
-    "LabelAbortedByServerShutdown": "(Avbröts eftersom servern stängdes av)",
+    "LabelAbortedByServerShutdown": "Avbröts eftersom servern stängdes av",
     "LabelAccessDay": "Veckodag",
     "LabelAccessEnd": "Sluttid",
     "LabelAccessStart": "Starttid",
@@ -2060,5 +2060,9 @@
     "LiveTVPageLoadError": "Misslyckades med att ladda inspelningssidan",
     "ConnectAnyway": "Anslut Ändå",
     "ViewAllPlugins": "Visa alla tillägg",
-    "LabelAvailable": "Tillgänglig"
+    "LabelAvailable": "Tillgänglig",
+    "LabelBundled": "Paketerat",
+    "ManageRepositories": "Hantera Lagringsplatser",
+    "HeaderServerMismatch": "Serveravvikelse",
+    "MessageServerMismatch": "Servern du ansluter till är inte samma server som du tidigare anslöt till på denna adress. Om detta är avsiktligt, välj ”Anslut ändå”. Annars kan din anslutning eller servern vara osäker."
 }

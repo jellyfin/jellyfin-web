@@ -586,5 +586,14 @@
     "EnableDetailsBannerHelp": "Shfaqni një imazh baneri në krye të faqes së artikullit.",
     "AirPlay": "AirPlay",
     "AllowContentWithTagsHelp": "Shfaq vetëm median që ka të paktën një nga etiketat e specifikuara.",
-    "AllowSubtitleManagement": "Lejoje këtë përdorues të redaktojë titrat"
+    "AllowSubtitleManagement": "Lejoje këtë përdorues të redaktojë titrat",
+    "AllowAv1Encoding": "Lejo kodimin në formatin AV1",
+    "AiTranslated": "Përkthyer nga AI",
+    "MachineTranslated": "Përkthyer nga makinë",
+    "LabelTrickplayAccel": "Aktivizo dekodimin me harduer",
+    "LabelTrickplayAccelEncoding": "Aktivizo kodimin MJPEG të përshpejtuar me harduer",
+    "ForeignPartsOnly": "Vetëm pjesë të detyruara/në gjuhë të huaj",
+    "LabelTrickplayKeyFrameOnlyExtraction": "Gjeneroni imazhe vetëm nga key frames",
+    "HearingImpairedShort": "HI/SDH",
+    "LabelIsHearingImpaired": "Për personat me dëgjim të kufizuar (SDH)"
 }
