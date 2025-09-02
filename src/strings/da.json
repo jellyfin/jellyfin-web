@@ -948,7 +948,7 @@
     "BoxRear": "Boks (bagside)",
     "BurnSubtitlesHelp": "Afgør om serveren skal indbrænde undertekster. Undlader du dette, så vil ydelsen forbedres. Vælg Automatisk for at brænde billedbaserede formater (VobSub, PGS, SUB, IDX) og bestemte ASS- eller SSA-undertekster.",
     "ButtonInfo": "Information",
-    "ButtonOk": "OK",,
+    "ButtonOk": "Ok",
     "ButtonPause": "Pause",
     "ButtonSend": "Send",
     "ButtonStart": "Start",
