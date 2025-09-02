@@ -1025,7 +1025,7 @@
     "Browse": "Procházet",
     "BurnSubtitlesHelp": "Zda má server vypálit titulky do obrazu. Tato funkce má velký negativní vliv na výkon. Chcete-li vypálit grafické formáty titulků (VobSub, PGS, SUB, IDX, atd.) a některé titulky ASS nebo SSA, vyberte možnost Automaticky.",
     "ButtonInfo": "Info",
-    "ButtonOk": "Ok",
+    "ButtonOk": "OK",,
     "ButtonScanAllLibraries": "Skenovat všechny knihovny",
     "ButtonStart": "Start",
     "ChangingMetadataImageSettingsNewContent": "Změny nastavení metadat nebo stahování médií se budou týkat pouze nového obsahu přidaného do vaší knihovny. Chcete-li aplikovat změny na existující položky, musíte je aktualizovat ručně.",

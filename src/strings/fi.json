@@ -107,7 +107,7 @@
     "ButtonMore": "Lisää",
     "ButtonNetwork": "Verkko",
     "ButtonNextTrack": "Seuraava raita",
-    "ButtonOk": "Ok",
+    "ButtonOk": "OK",,
     "ButtonOpen": "Avaa",
     "BurnSubtitlesHelp": "Määritä polttaako palvelin tekstitykset suoraan videoon. Tämä kasvattaa palvelimen kuormitusta merkittävästi. 'Automaattinen' polttaa kuva- (mm. VobSub, PGS ja SUB/IDX) ja tietyt tekstipohjaiset (ASS/SSA) tekstitykset.",
     "ButtonParentalControl": "Lapsilukko",
