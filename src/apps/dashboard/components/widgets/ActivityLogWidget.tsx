@@ -39,6 +39,7 @@ const ActivityLogWidget = () => {
                             key={entry.Id}
                             item={entry}
                             displayShortOverview={true}
+                            to='/dashboard/activity?useractivity=true'
                         />
                     ))}
                 </List>
