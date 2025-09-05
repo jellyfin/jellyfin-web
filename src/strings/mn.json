@@ -109,5 +109,6 @@
     "HeaderAlbumArtists": "Цомгийн уран бүтээлчид",
     "ValueSpecialEpisodeName": "Тусгай - {0}",
     "Default": "Өгөгдмөл",
-    "AddToCollection": "Цуглуулгад нэмэх"
+    "AddToCollection": "Цуглуулгад нэмэх",
+    "Retry": "Дахин оролдох"
 }

@@ -791,7 +791,7 @@
     "LabelAllowedRemoteAddresses": "Filtro de IP remoto",
     "LabelAllowHWTranscoding": "Permitir transcodificação por hardware",
     "LabelAlbumArtHelp": "PN utilizado para a capa do álbum na propriedade 'dlna:profileID' attribute on 'upnp:albumArtURI'. Alguns dispositivos requerem um valor específico, independentemente do tamanho da imagem.",
-    "LabelAbortedByServerShutdown": "(Abortado - Servidor encerrado)",
+    "LabelAbortedByServerShutdown": "Abortado - Servidor encerrado",
     "Kids": "Crianças",
     "Items": "Itens",
     "InstallingPackage": "A instalar {0} (versão {1})",
