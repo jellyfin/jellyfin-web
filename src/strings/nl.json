@@ -392,7 +392,7 @@
     "InstallingPackage": "Installeren van {0} (versie {1})",
     "Kids": "Kinderen",
     "Label3DFormat": "3D-formaat",
-    "LabelAbortedByServerShutdown": "(Afgebroken door afsluiten van de server)",
+    "LabelAbortedByServerShutdown": "Afgebroken door afsluiten van de server",
     "LabelAccessDay": "Dag van de week",
     "LabelAccessEnd": "Eindtijd",
     "LabelAccessStart": "Starttijd",
@@ -2059,6 +2059,14 @@
     "ButtonLearnMore": "Meer informatie",
     "ConfirmDeleteRepository": "Repository verwijderen?",
     "DeleteRepositoryConfirmation": "Weet je zeker dat je dit repository wilt verwijderen?",
-    "RepositoriesPageLoadError": "Repository's laden mislukt",
-    "TranscodingLoadError": "Laden van transcodeerinstellingen mislukt"
+    "RepositoriesPageLoadError": "Laden van repository's mislukt",
+    "TranscodingLoadError": "Laden van transcodeerinstellingen mislukt",
+    "LiveTVPageLoadError": "Laden van opnamepagina mislukt",
+    "MessageServerMismatch": "De server waarmee je probeert te verbinden, is niet dezelfde als de server waarmee je eerder op dit adres verbonden was. Als dit klopt, kies dan voor \"Toch verbinden\". Is dat niet het geval, dan is je verbinding of de server mogelijk niet veilig.",
+    "ConnectAnyway": "Toch verbinden",
+    "HeaderServerMismatch": "Server komt niet overeen",
+    "ViewAllPlugins": "Alle plug-ins weergeven",
+    "LabelAvailable": "Beschikbaar",
+    "LabelBundled": "Gebundeld",
+    "ManageRepositories": "Repository's beheren"
 }

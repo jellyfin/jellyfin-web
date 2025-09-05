@@ -3,13 +3,6 @@ import { AppType } from 'constants/appType';
 
 export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
     {
-        path: '/dashboard',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'dashboard',
-            view: 'dashboard.html'
-        }
-    }, {
         path: 'networking',
         pageProps: {
             appType: AppType.Dashboard,
@@ -24,25 +17,11 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'library.html'
         }
     }, {
-        path: 'plugins/catalog',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'plugins/available/index',
-            view: 'plugins/available/index.html'
-        }
-    }, {
         path: 'livetv/guide',
         pageProps: {
             appType: AppType.Dashboard,
             controller: 'livetvguideprovider',
             view: 'livetvguideprovider.html'
-        }
-    }, {
-        path: 'recordings',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'livetvsettings',
-            view: 'livetvsettings.html'
         }
     }, {
         path: 'livetv',

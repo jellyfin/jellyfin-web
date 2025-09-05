@@ -10,7 +10,7 @@ import browser from '../../scripts/browser';
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import { appRouter } from '../../components/router/appRouter';
 import {
@@ -453,6 +453,7 @@ export class HtmlVideoPlayer {
                     startPosition: options.playerStartPositionTicks / 10000000,
                     manifestLoadingTimeOut: 20000,
                     maxBufferLength: maxBufferLength,
+                    maxMaxBufferLength: maxBufferLength,
                     videoPreference: { preferHDR: true },
                     xhrSetup(xhr) {
                         xhr.withCredentials = includeCorsCredentials;
@@ -1276,7 +1277,7 @@ export class HtmlVideoPlayer {
             }
         });
         const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
-            api_key: apiClient.accessToken()
+            ApiKey: apiClient.accessToken()
         });
         const htmlVideoPlayer = this;
         import('@jellyfin/libass-wasm').then(({ default: SubtitlesOctopus }) => {
@@ -1326,7 +1327,7 @@ export class HtmlVideoPlayer {
                     apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
                         fontFiles.forEach(font => {
                             const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`, {
-                                api_key: apiClient.accessToken()
+                                ApiKey: apiClient.accessToken()
                             });
                             availableFonts.push(fontUrl);
                         });

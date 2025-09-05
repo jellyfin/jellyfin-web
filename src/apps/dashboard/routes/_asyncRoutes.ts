@@ -2,6 +2,7 @@ import type { AsyncRoute } from 'components/router/AsyncRoute';
 import { AppType } from 'constants/appType';
 
 export const ASYNC_ADMIN_ROUTES: AsyncRoute[] = [
+    { path: '', type: AppType.Dashboard },
     { path: 'activity', type: AppType.Dashboard },
     { path: 'backups', type: AppType.Dashboard },
     { path: 'branding', type: AppType.Dashboard },
@@ -11,6 +12,7 @@ export const ASYNC_ADMIN_ROUTES: AsyncRoute[] = [
     { path: 'libraries/display', type: AppType.Dashboard },
     { path: 'libraries/metadata', type: AppType.Dashboard },
     { path: 'libraries/nfo', type: AppType.Dashboard },
+    { path: 'livetv/recordings', type: AppType.Dashboard },
     { path: 'logs', type: AppType.Dashboard },
     { path: 'logs/:file', page: 'logs/file', type: AppType.Dashboard },
     { path: 'playback/resume', type: AppType.Dashboard },

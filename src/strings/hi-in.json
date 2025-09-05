@@ -215,5 +215,9 @@
     "Conductor": "कंडक्टर",
     "ConfigureDateAdded": "डैशबोर्ड > लाइब्रेरीज़ > डिस्प्ले में 'जोड़ी गई तिथि' के लिए मेटाडेटा निर्धारित करने का तरीका सेट करें",
     "ConfirmDeleteImage": "छवि हटाएँ?",
-    "CopyFailed": "कॉपी नहीं किया जा सका"
+    "CopyFailed": "कॉपी नहीं किया जा सका",
+    "BehindTheScenes": "पर्दे के पीछे",
+    "MachineTranslated": "मशीन द्वारा अनुवादित",
+    "Unknown": "अज्ञात",
+    "AiTranslated": "AI (ऐ. आई.) द्वारा अनुतवादि"
 }

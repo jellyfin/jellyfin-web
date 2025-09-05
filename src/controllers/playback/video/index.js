@@ -7,7 +7,7 @@ import { EventType } from 'types/eventType';
 
 import { playbackManager } from '../../../components/playback/playbackmanager';
 import browser from '../../../scripts/browser';
-import dom from '../../../scripts/dom';
+import dom from '../../../utils/dom';
 import inputManager from '../../../scripts/inputManager';
 import mouseManager from '../../../scripts/mouseManager';
 import datetime from '../../../scripts/datetime';
@@ -1538,7 +1538,7 @@ export default function (view) {
         const offsetY = -(tileOffsetY * trickplayInfo.Height);
 
         const imgSrc = apiClient.getUrl('Videos/' + item.Id + '/Trickplay/' + trickplayInfo.Width + '/' + index + '.jpg', {
-            api_key: apiClient.accessToken(),
+            ApiKey: apiClient.accessToken(),
             MediaSourceId: mediaSourceId
         });
 
