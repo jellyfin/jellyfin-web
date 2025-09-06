@@ -12,12 +12,12 @@ import Button from '../../../../elements/emby-button/Button';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
-import toast from '../../../../components/toast/toast';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
 import prompt from '../../../../components/prompt/prompt';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Toast from 'apps/dashboard/components/Toast';
 
 type NamedItem = {
     name: string;
@@ -69,9 +69,14 @@ const UserParentalControl = () => {
     const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const [ allowedTags, setAllowedTags ] = useState<string[]>([]);
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
+    const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
     const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
+
+    const handleToastClose = useCallback(() => {
+        setIsSettingsSavedToastOpen(false);
+    }, []);
 
     const populateRatings = useCallback((allParentalRatings: ParentalRating[]) => {
         let rating;
@@ -283,7 +288,7 @@ const UserParentalControl = () => {
 
         const onSaveComplete = () => {
             loading.hide();
-            toast(globalize.translate('SettingsSaved'));
+            setIsSettingsSavedToastOpen(true);
         };
 
         const saveUser = handleSaveUser(page, getSchedulesFromPage, getAllowedTagsFromPage, getBlockedTagsFromPage, onSaveComplete);
@@ -370,6 +375,11 @@ const UserParentalControl = () => {
             id='userParentalControlPage'
             className='mainAnimatedPage type-interior'
         >
+            <Toast
+                open={isSettingsSavedToastOpen}
+                onClose={handleToastClose}
+                message={globalize.translate('SettingsSaved')}
+            />
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
