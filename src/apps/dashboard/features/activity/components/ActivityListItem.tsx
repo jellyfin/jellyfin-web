@@ -37,14 +37,28 @@ const ActivityListItem = ({ item, displayShortOverview }: ActivityListItemProps)
                 </ListItemAvatar>
 
                 <ListItemText
-                    primary={<Typography>{item.Name}</Typography>}
+                    primary={<Typography sx={{ whiteSpace: 'pre-wrap' }}>{item.Name}</Typography>}
                     secondary={(
                         <Stack>
-                            <Typography variant='body1' color='text.secondary'>
+                            <Typography
+                                sx={{
+                                    textOverflow: 'ellipsis',
+                                    overflow: 'hidden'
+                                }}
+                                variant='body1'
+                                color='text.secondary'
+                            >
                                 {relativeDate}
                             </Typography>
                             {displayShortOverview && (
-                                <Typography variant='body1' color='text.secondary'>
+                                <Typography
+                                    sx={{
+                                        textOverflow: 'ellipsis',
+                                        overflow: 'hidden'
+                                    }}
+                                    variant='body1'
+                                    color='text.secondary'
+                                >
                                     {item.ShortOverview}
                                 </Typography>
                             )}
