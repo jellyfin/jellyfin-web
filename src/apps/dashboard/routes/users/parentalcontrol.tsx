@@ -190,7 +190,7 @@ const UserParentalControl = () => {
         loading.show();
         const promise1 = window.ApiClient.getUser(userId);
         const promise2 = window.ApiClient.getParentalRatings();
-        Promise.all([promise1, promise2]).then(function (responses) {
+        Promise.all([promise1, promise2]).then((responses) => {
             loadUser(responses[0], responses[1]);
         }).catch(err => {
             console.error('[userparentalcontrol] failed to load data', err);
@@ -207,12 +207,13 @@ const UserParentalControl = () => {
 
         loadData();
 
-        const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
+        const showSchedulePopup = async (schedule: AccessSchedule, index: number) => {
             schedule = schedule || {};
-            import('../../../../components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
+            try {
+                const { default: accessschedule } = await import('../../../../components/accessSchedule/accessSchedule');
                 accessschedule.show({
                     schedule: schedule
-                }).then(function (updatedSchedule) {
+                }).then((updatedSchedule) => {
                     const schedules = getSchedulesFromPage();
 
                     if (index == -1) {
@@ -224,31 +225,27 @@ const UserParentalControl = () => {
                 }).catch(() => {
                     // access schedule closed
                 });
-            }).catch(err => {
+            } catch (err) {
                 console.error('[userparentalcontrol] failed to load access schedule', err);
-            });
+            }
         };
 
         const getSchedulesFromPage = () => {
-            return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), function (elem) {
-                return {
-                    DayOfWeek: elem.getAttribute('data-day'),
-                    StartHour: elem.getAttribute('data-start'),
-                    EndHour: elem.getAttribute('data-end')
-                };
-            }) as AccessSchedule[];
+            return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), (elem) => ({
+                DayOfWeek: elem.getAttribute('data-day'),
+                StartHour: elem.getAttribute('data-start'),
+                EndHour: elem.getAttribute('data-end')
+            })) as AccessSchedule[];
         };
 
         const getAllowedTagsFromPage = () => {
-            return Array.prototype.map.call(page.querySelectorAll('.allowedTag'), function (elem) {
-                return elem.getAttribute('data-tag');
-            }) as string[];
+            return Array.prototype.map.call(page.querySelectorAll('.allowedTag'), (elem) => elem.getAttribute('data-tag')) as string[];
         };
 
         const showAllowedTagPopup = () => {
             prompt({
                 label: globalize.translate('LabelTag')
-            }).then(function (value) {
+            }).then((value) => {
                 const tags = getAllowedTagsFromPage();
 
                 if (tags.indexOf(value) == -1) {
@@ -261,15 +258,13 @@ const UserParentalControl = () => {
         };
 
         const getBlockedTagsFromPage = () => {
-            return Array.prototype.map.call(page.querySelectorAll('.blockedTag'), function (elem) {
-                return elem.getAttribute('data-tag');
-            }) as string[];
+            return Array.prototype.map.call(page.querySelectorAll('.blockedTag'), (elem) => elem.getAttribute('data-tag')) as string[];
         };
 
         const showBlockedTagPopup = () => {
             prompt({
                 label: globalize.translate('LabelTag')
-            }).then(function (value) {
+            }).then((value) => {
                 const tags = getBlockedTagsFromPage();
 
                 if (tags.indexOf(value) == -1) {
@@ -295,7 +290,7 @@ const UserParentalControl = () => {
             }
 
             loading.show();
-            window.ApiClient.getUser(userId).then(function (result) {
+            window.ApiClient.getUser(userId).then((result) => {
                 saveUser(result);
             }).catch(err => {
                 console.error('[userparentalcontrol] failed to fetch user', err);
@@ -306,8 +301,8 @@ const UserParentalControl = () => {
         };
 
         // The following is still hacky and should migrate to pure react implementation for callbacks in the future
-        const accessSchedulesPopupCallback = function () {
-            showSchedulePopup({
+        const accessSchedulesPopupCallback = async() => {
+            await showSchedulePopup({
                 Id: 0,
                 UserId: '',
                 DayOfWeek: DynamicDayOfWeek.Sunday,

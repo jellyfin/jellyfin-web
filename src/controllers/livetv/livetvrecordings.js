@@ -48,7 +48,7 @@ function renderRecordings(elem, recordings, cardOptions, scrollX) {
 }
 
 function renderLatestRecordings(context, promise) {
-    promise.then(function (result) {
+    promise.then((result) => {
         renderRecordings(context.querySelector('#latestRecordings'), result.Items, {
             showYear: true,
             lines: 2
@@ -58,7 +58,7 @@ function renderLatestRecordings(context, promise) {
 }
 
 function renderRecordingFolders(context, promise) {
-    promise.then(function (result) {
+    promise.then((result) => {
         renderRecordings(context.querySelector('#recordingFolders'), result.Items, {
             showYear: false,
             showParentTitle: false
@@ -89,7 +89,7 @@ export default function (view, params, tabContent) {
         moreButtons[i].addEventListener('click', onMoreClick);
     }
 
-    self.preRender = function () {
+    self.preRender = () => {
         if (enableFullRender()) {
             latestPromise = ApiClient.getLiveTvRecordings({
                 UserId: Dashboard.getCurrentUserId(),
@@ -102,7 +102,7 @@ export default function (view, params, tabContent) {
         }
     };
 
-    self.renderTab = function () {
+    self.renderTab = () => {
         if (enableFullRender()) {
             loading.show();
             renderLatestRecordings(tabContent, latestPromise);

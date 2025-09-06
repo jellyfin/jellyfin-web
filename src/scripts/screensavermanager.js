@@ -21,7 +21,7 @@ function getFunctionalEventIdleTime() {
     return new Date().getTime() - lastFunctionalEvent;
 }
 
-Events.on(playbackManager, 'playbackstop', function (_e, stopInfo) {
+Events.on(playbackManager, 'playbackstop', (_e, stopInfo) => {
     const state = stopInfo.state;
     if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
         lastFunctionalEvent = new Date().getTime();
@@ -91,7 +91,7 @@ function ScreenSaverManager() {
         return activeScreenSaver != null;
     };
 
-    this.show = function () {
+    this.show = () => {
         let isLoggedIn;
         const apiClient = ServerConnections.currentApiClient();
 
@@ -106,7 +106,7 @@ function ScreenSaverManager() {
         }
     };
 
-    this.hide = function () {
+    this.hide = () => {
         hide();
     };
 

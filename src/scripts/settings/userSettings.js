@@ -67,7 +67,7 @@ export class UserSettings {
 
         const self = this;
 
-        return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
+        return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then((result) => {
             result.CustomPrefs = result.CustomPrefs || {};
             self.displayPrefs = result;
         });
@@ -133,9 +133,7 @@ export class UserSettings {
             return apiClient.updateUserConfiguration(this.currentUserId, config);
         }
 
-        return apiClient.getUser(this.currentUserId).then(function (user) {
-            return user.Configuration;
-        });
+        return apiClient.getUser(this.currentUserId).then((user) => user.Configuration);
     }
 
     /**

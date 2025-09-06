@@ -40,9 +40,9 @@ function submitServer(page) {
     const host = page.querySelector('#txtServerHost').value.replace(/\/+$/, '');
     ServerConnections.connectToAddress(host, {
         enableAutoLogin: appSettings.enableAutoLogin()
-    }).then(function(result) {
+    }).then((result) => {
         handleConnectionResult(page, result);
-    }, function() {
+    }, () => {
         handleConnectionResult(page, {
             State: ConnectionState.Unavailable
         });

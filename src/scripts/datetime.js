@@ -112,7 +112,7 @@ export function getDisplayRunningTime(ticks) {
     return parts.join(':');
 }
 
-const toLocaleTimeStringSupportsLocales = function () {
+const toLocaleTimeStringSupportsLocales = (() => {
     try {
         // eslint-disable-next-line sonarjs/no-ignored-return
         new Date().toLocaleTimeString('i');
@@ -120,7 +120,7 @@ const toLocaleTimeStringSupportsLocales = function () {
         return e.name === 'RangeError';
     }
     return false;
-}();
+})();
 
 function getOptionList(options) {
     const list = [];
@@ -295,8 +295,6 @@ export default {
     getDisplayTime: getDisplayTime,
     isRelativeDay: isRelativeDay,
     toLocaleTimeString: toLocaleTimeString,
-    supportsLocalization: function () {
-        return toLocaleTimeStringSupportsLocales;
-    }
+    supportsLocalization: () => toLocaleTimeStringSupportsLocales
 };
 

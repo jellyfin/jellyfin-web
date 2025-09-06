@@ -7,7 +7,7 @@
  *   - webOS 4
  */
 
-(function (window) {
+(((window) => {
     'use strict';
 
     if (window.Headers) {
@@ -18,9 +18,7 @@
 
             const _Headers = window.Headers;
 
-            window.Headers = function (init) {
-                return init ? new _Headers(init) : new _Headers();
-            };
+            window.Headers = (init) => init ? new _Headers(init) : new _Headers();
         }
     }
-}(window));
+})(window));
