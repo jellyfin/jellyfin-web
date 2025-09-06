@@ -101,6 +101,7 @@
 - [diegoeche](https://github.com/diegoeche)
 - [Free O'Toole](https://github.com/freeotoole)
 - [TheBosZ](https://github.com/thebosz)
+- [Armanc](https://github.com/armanckeser)
 
 ## Emby Contributors
 
