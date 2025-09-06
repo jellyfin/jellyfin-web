@@ -77,7 +77,7 @@ function renameVirtualFolder(page, virtualFolder) {
             description: globalize.translate('MessageRenameMediaFolder'),
             confirmText: globalize.translate('ButtonRename')
         }).then(function (newName) {
-            if (newName && newName != virtualFolder.Name) {
+            if (newName && newName !== virtualFolder.Name) {
                 const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
                 ApiClient.renameVirtualFolder(virtualFolder.Name, newName, refreshAfterChange).then(function () {
                     reloadLibrary(page);
@@ -326,7 +326,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
 
     html += '</div>';
     let typeName = getCollectionTypeOptions().filter(function (t) {
-        return t.value == virtualFolder.CollectionType;
+        return t.value === virtualFolder.CollectionType;
     })[0];
     typeName = typeName ? typeName.name : globalize.translate('Other');
     html += "<div class='cardText cardText-secondary'>";

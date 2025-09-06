@@ -77,7 +77,7 @@ function renderSelectServerItems(view, servers) {
 }
 
 function updatePageStyle(view, params) {
-    if (params.showuser == '1') {
+    if (params.showuser === '1') {
         view.classList.add('libraryPage');
         view.classList.remove('standalonePage');
         view.classList.add('noSecondaryNavPage');
