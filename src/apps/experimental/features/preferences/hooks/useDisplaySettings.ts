@@ -97,7 +97,8 @@ async function loadDisplaySettings({
         maxDaysForNextUp: settings.maxDaysForNextUp(),
         screensaver: settings.screensaver() || 'none',
         screensaverInterval: settings.backdropScreensaverInterval(),
-        theme: settings.theme()
+        theme: settings.theme(),
+        backdropParentalRatingLimit: Boolean(settings.backdropParentalRatingLimit())
     };
 
     return {
@@ -141,6 +142,7 @@ async function saveDisplaySettings({
     userSettings.screensaver(normalizeValue(newDisplaySettings.screensaver));
     userSettings.backdropScreensaverInterval(newDisplaySettings.screensaverInterval);
     userSettings.theme(newDisplaySettings.theme);
+    userSettings.backdropParentalRatingLimit(newDisplaySettings.backdropParentalRatingLimit);
 
     layoutManager.setLayout(normalizeValue(newDisplaySettings.layout));
 
