@@ -646,7 +646,7 @@ export default function (view) {
         }
     }
 
-    function onPromptSkip(e, mediaSegment) {
+    function onPromptSkip(_e, mediaSegment) {
         const player = this;
         if (mediaSegment && player && mediaSegment.EndTicks != null
             && mediaSegment.EndTicks >= playbackManager.duration(player)
@@ -740,7 +740,7 @@ export default function (view) {
         dom.setElementTitle(btnPlayPause, title + ' (K)', title);
     }
 
-    function updatePlayerStateInternal(event, player, state) {
+    function updatePlayerStateInternal(_event, player, state) {
         const playState = state.PlayState || {};
         updatePlayPauseState(playState.IsPaused);
         const supportedCommands = playbackManager.getSupportedCommands(player);

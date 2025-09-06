@@ -93,7 +93,7 @@ function createRecording(apiClient, programId, isSeries) {
     });
 }
 
-function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId) {
+function showMultiCancellationPrompt(serverId, timerId, timerStatus, seriesTimerId) {
     return new Promise(function (resolve, reject) {
         const items = [];
 
@@ -153,7 +153,7 @@ function toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerI
     const hasTimer = timerId && timerStatus !== 'Cancelled';
     if (seriesTimerId && hasTimer) {
         // cancel
-        return showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId);
+        return showMultiCancellationPrompt(serverId, timerId, timerStatus, seriesTimerId);
     } else if (hasTimer && programId) {
         // change to series recording, if possible
         // otherwise cancel individual recording
