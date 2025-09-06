@@ -11,12 +11,13 @@ import Stack from '@mui/material/Stack';
 interface InputDialogProps extends DialogProps {
     title: string;
     label: string;
+    helperText?: string;
     confirmButtonText?: string;
     onClose: () => void;
     onConfirm: (text: string) => void;
 };
 
-const InputDialog = ({ open, title, label, onClose, confirmButtonText, onConfirm }: InputDialogProps) => {
+const InputDialog = ({ open, title, label, helperText, onClose, confirmButtonText, onConfirm }: InputDialogProps) => {
     const [ text, setText ] = useState('');
 
     const onTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +46,7 @@ const InputDialog = ({ open, title, label, onClose, confirmButtonText, onConfirm
                     <TextField
                         label={label}
                         value={text}
+                        helperText={helperText}
                         onChange={onTextChange}
                         variant='standard'
                     />
