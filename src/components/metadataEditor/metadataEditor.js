@@ -67,6 +67,12 @@ function submitUpdatedItem(form, item) {
         } else {
             afterContentTypeUpdated();
         }
+    })
+    .catch(function (err) {
+        loading.hide();
+        if (err.status == 400)
+            toast("Error, you must specify a type for people");
+
     });
 }
 
