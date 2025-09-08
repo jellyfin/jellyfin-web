@@ -68,12 +68,12 @@ function submitUpdatedItem(form, item) {
             afterContentTypeUpdated();
         }
     })
-    .catch(function (err) {
-        loading.hide();
-        if (err.status == 400)
-            toast("Error, you must specify a type for people");
-
-    });
+        .catch(function (err) {
+            loading.hide();
+            if (err.status == 400) {
+                toast('Error, you must specify a type for people');
+            }
+        });
 }
 
 function getSelectedAirDays(form) {
