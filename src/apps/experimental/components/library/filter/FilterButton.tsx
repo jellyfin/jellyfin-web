@@ -2,6 +2,8 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import React, { FC, useCallback } from 'react';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import FilterAlt from '@mui/icons-material/FilterAlt';
+import Clear from '@mui/icons-material/Clear';
+
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
@@ -109,6 +111,16 @@ const FilterButton: FC<FilterButtonProps> = ({
     const handleClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     }, []);
+
+    const handleResetFiltersClick = useCallback(() => {
+        if (hasFilters) {
+            setLibraryViewSettings((prevState) => ({
+                ...prevState,
+                StartIndex: 0,
+                Filters: {}
+            }));
+        }
+    }, [hasFilters, setLibraryViewSettings]);
 
     const handleClose = useCallback(() => {
         setAnchorEl(null);
@@ -447,6 +459,19 @@ const FilterButton: FC<FilterButtonProps> = ({
                         </AccordionDetails>
                     </Accordion>
                 )}
+                <Button
+                    disabled={!hasFilters}
+                    title={globalize.translate('ResetFilters')}
+                    aria-describedby={id}
+                    onClick={handleResetFiltersClick}
+                    fullWidth={true}
+                    startIcon={<Clear />}
+                    sx={{
+                        justifyContent: 'right'
+                    }}
+                >
+                    {globalize.translate('ResetFilters')}
+                </Button>
             </Popover>
         </>
     );
