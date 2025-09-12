@@ -1,0 +1,23 @@
+<div class="formDialogHeader formDialogHeader-clear justify-content-center">
+    <h1 class="formDialogHeaderTitle" style="margin-top: .5em;padding: 0 1em;"></h1>
+</div>
+
+<div class="formDialogContent smoothScrollY">
+    <div class="dialogContentInner dialog-content-centered" style="padding-top:1em;padding-bottom: 1em;">
+        <div class="versionSelectionContent">
+            <div class="selectContainer">
+                <label for="versionSelect" class="selectLabel">${LabelVersion}</label>
+                <select is="emby-select" class="emby-select" id="versionSelect"></select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="flex justify-content-center">
+    <button is="emby-button" type="button" class="button-flat btnCancel formDialogFooterItem">
+        ${Cancel}
+    </button>
+    <button is="emby-button" type="button" class="raised btnPlay block formDialogFooterItem button-submit">
+        ${Play}
+    </button>
+</div>
