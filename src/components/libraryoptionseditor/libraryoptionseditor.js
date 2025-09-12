@@ -390,7 +390,7 @@ function showImageOptionsForType(type) {
         }
         const availableOptions = getTypeOptions(currentAvailableOptions || {}, type);
         const imageOptionsEditor = new ImageOptionsEditor();
-        imageOptionsEditor.show(type, typeOptions, availableOptions);
+        imageOptionsEditor.show(typeOptions, availableOptions);
     });
 }
 

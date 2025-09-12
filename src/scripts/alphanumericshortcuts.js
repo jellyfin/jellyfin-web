@@ -56,7 +56,7 @@ function resetAlphaNumericShortcutTimeout() {
     alpanumericShortcutTimeout = setTimeout(onAlphanumericShortcutTimeout, 2000);
 }
 
-function onAlphanumericKeyPress(e, chr) {
+function onAlphanumericKeyPress(_e, chr) {
     if (currentDisplayText.length >= 3) {
         return;
     }

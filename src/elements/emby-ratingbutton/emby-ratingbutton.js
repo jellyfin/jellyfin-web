@@ -18,7 +18,7 @@ function removeNotificationEvent(instance, name) {
     }
 }
 
-function showPicker(button, apiClient, itemId, likes, isFavorite) {
+function showPicker(apiClient, itemId, isFavorite) {
     return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), itemId, !isFavorite);
 }
 
@@ -28,22 +28,14 @@ function onClick() {
     const serverId = button.getAttribute('data-serverid');
     const apiClient = ServerConnections.getApiClient(serverId);
 
-    let likes = this.getAttribute('data-likes');
     const isFavorite = this.getAttribute('data-isfavorite') === 'true';
-    if (likes === 'true') {
-        likes = true;
-    } else if (likes === 'false') {
-        likes = false;
-    } else {
-        likes = null;
-    }
 
-    showPicker(button, apiClient, id, likes, isFavorite).then(function (userData) {
+    showPicker(apiClient, id, isFavorite).then(function (userData) {
         setState(button, userData.Likes, userData.IsFavorite);
     });
 }
 
-function onUserDataChanged(e, apiClient, userData) {
+function onUserDataChanged(_e, _apiClient, userData) {
     const button = this;
 
     if (userData.ItemId === button.getAttribute('data-id')) {
