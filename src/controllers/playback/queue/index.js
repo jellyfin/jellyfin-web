@@ -34,7 +34,7 @@ export default function (view) {
         }
     }
 
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         libraryMenu.setTransparentMenu(true);
         bindToPlayer(playbackManager.getCurrentPlayer());
         document.addEventListener('keydown', onKeyDown);
@@ -44,7 +44,7 @@ export default function (view) {
         }
     });
 
-    view.addEventListener('viewbeforehide', function () {
+    view.addEventListener('viewbeforehide', () => {
         libraryMenu.setTransparentMenu(false);
         document.removeEventListener('keydown', onKeyDown);
         releaseCurrentPlayer();

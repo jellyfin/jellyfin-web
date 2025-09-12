@@ -306,7 +306,7 @@ export function show(options: Options) {
 
     const btnCloseActionSheet = dlg.querySelector('.btnCloseActionSheet');
     if (btnCloseActionSheet) {
-        btnCloseActionSheet.addEventListener('click', function () {
+        btnCloseActionSheet.addEventListener('click', () => {
             dialogHelper.close(dlg);
         });
     }
@@ -315,15 +315,15 @@ export function show(options: Options) {
 
     let timeout: ReturnType<typeof setTimeout> | undefined;
     if (options.timeout) {
-        timeout = setTimeout(function () {
+        timeout = setTimeout(() => {
             dialogHelper.close(dlg);
         }, options.timeout);
     }
 
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         let isResolved = false;
 
-        dlg.addEventListener('click', function (e) {
+        dlg.addEventListener('click', (e) => {
             const actionSheetMenuItem = dom.parentWithClass(e.target as HTMLElement, 'actionSheetMenuItem');
 
             if (actionSheetMenuItem) {
@@ -345,7 +345,7 @@ export function show(options: Options) {
             }
         });
 
-        dlg.addEventListener('close', function () {
+        dlg.addEventListener('close', () => {
             if (layoutManager.tv) {
                 const scroller = dlg.querySelector('.actionSheetScroller');
                 if (scroller) {

@@ -33,7 +33,7 @@ function getPromise(context, params) {
 }
 
 function reloadItems(context, params, promise) {
-    promise.then(function (result) {
+    promise.then((result) => {
         const elem = context.querySelector('#items');
         cardBuilder.buildCards(result.Items, {
             itemsContainer: elem,
@@ -59,11 +59,11 @@ export default function (view, params, tabContent) {
     let promise;
     const self = this;
 
-    self.preRender = function () {
+    self.preRender = () => {
         promise = getPromise(view, params);
     };
 
-    self.renderTab = function () {
+    self.renderTab = () => {
         reloadItems(tabContent, params, promise);
     };
 }

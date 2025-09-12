@@ -28,7 +28,7 @@ function renderTimers(context, timers) {
 
 function reload(context, promise) {
     loading.show();
-    promise.then(function (result) {
+    promise.then((result) => {
         renderTimers(context, result.Items);
     });
 }
@@ -42,11 +42,11 @@ export default function (view, params, tabContent) {
     let timersPromise;
     const self = this;
 
-    self.preRender = function () {
+    self.preRender = () => {
         timersPromise = ApiClient.getLiveTvSeriesTimers(query);
     };
 
-    self.renderTab = function () {
+    self.renderTab = () => {
         reload(tabContent, timersPromise);
     };
 }

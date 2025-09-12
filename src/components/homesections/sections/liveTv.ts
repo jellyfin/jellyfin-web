@@ -14,7 +14,7 @@ import type { SectionContainerElement, SectionOptions } from './section';
 function getOnNowFetchFn(
     serverId: string
 ) {
-    return function () {
+    return () => {
         const apiClient = ServerConnections.getApiClient(serverId);
         return apiClient.getLiveTvRecommendedPrograms({
             userId: apiClient.getCurrentUserId(),
@@ -173,7 +173,7 @@ export function loadLiveTV(
         EnableImageTypes: 'Primary,Thumb,Backdrop',
         EnableTotalRecordCount: false,
         Fields: 'ChannelInfo,PrimaryImageAspectRatio'
-    }).then(function (result) {
+    }).then((result) => {
         if (result.Items?.length) {
             buildSection(elem, apiClient.serverId(), options);
         }

@@ -126,7 +126,7 @@ export default function () {
         }
     }
 
-    self.show = function () {
+    self.show = () => {
         import('./style.scss').then(() => {
             let elem = document.querySelector('.logoScreenSaver');
 
@@ -143,14 +143,14 @@ export default function () {
         });
     };
 
-    self.hide = function () {
+    self.hide = () => {
         stopInterval();
 
         const elem = document.querySelector('.logoScreenSaver');
 
         if (elem) {
             return new Promise((resolve) => {
-                const onAnimationFinish = function () {
+                const onAnimationFinish = () => {
                     elem.parentNode.removeChild(elem);
                     resolve();
                 };

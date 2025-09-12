@@ -158,7 +158,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                     ...defaultMenuOptions,
                     positionTo: e.currentTarget
                 })
-                .then(async function (result) {
+                .then(async (result) => {
                     if (result.command === 'playallfromhere') {
                         console.log('handleItemClick', {
                             item,

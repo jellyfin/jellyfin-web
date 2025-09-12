@@ -51,10 +51,10 @@ function resolveUrl(url) {
     return new Promise((resolve) => {
         const xhr = new XMLHttpRequest();
         xhr.open('HEAD', url, true);
-        xhr.onload = function () {
+        xhr.onload = () => {
             resolve(xhr.responseURL || url);
         };
-        xhr.onerror = function (e) {
+        xhr.onerror = (e) => {
             console.error(e);
             resolve(url);
         };
@@ -122,21 +122,15 @@ function requireHlsPlayer(callback) {
 }
 
 function getMediaStreamVideoTracks(mediaSource) {
-    return mediaSource.MediaStreams.filter(function (s) {
-        return s.Type === 'Video';
-    });
+    return mediaSource.MediaStreams.filter((s) => s.Type === 'Video');
 }
 
 function getMediaStreamAudioTracks(mediaSource) {
-    return mediaSource.MediaStreams.filter(function (s) {
-        return s.Type === 'Audio';
-    });
+    return mediaSource.MediaStreams.filter((s) => s.Type === 'Audio');
 }
 
 function getMediaStreamTextTracks(mediaSource) {
-    return mediaSource.MediaStreams.filter(function (s) {
-        return s.Type === 'Subtitle';
-    });
+    return mediaSource.MediaStreams.filter((s) => s.Type === 'Subtitle');
 }
 
 function zoomIn(elem) {
@@ -375,12 +369,12 @@ export class HtmlVideoPlayer {
                 type: 'GET',
                 url: hlsPlaylistUrl
 
-            }).then(function () {
+            }).then(() => {
                 console.debug(`completed prefetching hls playlist: ${hlsPlaylistUrl}`);
 
                 loading.hide();
                 streamInfo.url = hlsPlaylistUrl;
-            }, function () {
+            }, () => {
                 console.error(`error prefetching hls playlist: ${hlsPlaylistUrl}`);
 
                 loading.hide();
@@ -583,7 +577,7 @@ export class HtmlVideoPlayer {
         const videoElement = this.#mediaElement;
         if (videoElement) {
             return Array.from(videoElement.textTracks)
-                .filter(function (trackElement) {
+                .filter((trackElement) => {
                     // get showing .vtt textTack
                     return trackElement.mode === 'showing';
                 });
@@ -700,7 +694,7 @@ export class HtmlVideoPlayer {
             }
 
             Array.from(currentTrack.cues)
-                .forEach(function (cue) {
+                .forEach((cue) => {
                     cue.startTime -= offsetValue;
                     cue.endTime -= offsetValue;
                 });
@@ -720,7 +714,7 @@ export class HtmlVideoPlayer {
             if (offsetValue === 0) {
                 return;
             }
-            trackEvents.forEach(function (trackEvent) {
+            trackEvents.forEach((trackEvent) => {
                 trackEvent.StartPositionTicks -= offsetValue;
                 trackEvent.EndPositionTicks -= offsetValue;
             });
@@ -756,11 +750,9 @@ export class HtmlVideoPlayer {
 
         const profiles = deviceProfile.DirectPlayProfiles || [];
 
-        return profiles.some(function (p) {
-            return p.Type === 'Video'
+        return profiles.some((p) => p.Type === 'Video'
                     && includesAny((p.Container || '').toLowerCase(), container)
-                    && includesAny((p.AudioCodec || '').toLowerCase(), codec);
-        });
+                    && includesAny((p.AudioCodec || '').toLowerCase(), codec));
     }
 
     /**
@@ -1199,11 +1191,7 @@ export class HtmlVideoPlayer {
          * @private
          */
     fetchSubtitlesUwp(track) {
-        return Windows.Storage.StorageFile.getFileFromPathAsync(track.Path).then(function (storageFile) {
-            return Windows.Storage.FileIO.readTextAsync(storageFile);
-        }).then(function (text) {
-            return JSON.parse(text);
-        });
+        return Windows.Storage.StorageFile.getFileFromPathAsync(track.Path).then((storageFile) => Windows.Storage.FileIO.readTextAsync(storageFile)).then((text) => JSON.parse(text));
     }
 
     /**
@@ -1525,7 +1513,7 @@ export class HtmlVideoPlayer {
         }
 
         // download the track json
-        this.fetchSubtitles(track, item).then(function (data) {
+        this.fetchSubtitles(track, item).then((data) => {
             console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
@@ -1594,9 +1582,7 @@ export class HtmlVideoPlayer {
 
         const mediaStreamTextTracks = getMediaStreamTextTracks(this._currentPlayOptions.mediaSource);
 
-        let track = streamIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
-            return t.Index === streamIndex;
-        })[0];
+        let track = streamIndex === -1 ? null : mediaStreamTextTracks.filter((t) => t.Index === streamIndex)[0];
 
         // This play method can only check if it is real direct play, and will mark Remux as Transcode as well
         const isDirectPlay = this._currentPlayOptions.playMethod === 'DirectPlay';
@@ -1607,11 +1593,7 @@ export class HtmlVideoPlayer {
             const apiClient = ServerConnections.getApiClient(this._currentPlayOptions.item.ServerId);
             sessionPromise = apiClient.getSessions({
                 deviceId: apiClient.deviceId()
-            }).then(function (sessions) {
-                return sessions[0] || {};
-            }, function () {
-                return Promise.resolve({});
-            });
+            }).then((sessions) => sessions[0] || {}, () => Promise.resolve({}));
         } else {
             sessionPromise = Promise.resolve({});
         }
@@ -1723,9 +1705,7 @@ export class HtmlVideoPlayer {
 
                     // don't animate on smart tv's, too slow
                     if (!browser.slow && browser.supportsCssAnimation()) {
-                        return zoomIn(playerDlg).then(function () {
-                            return videoElement;
-                        });
+                        return zoomIn(playerDlg).then(() => videoElement);
                     }
                 }
 
@@ -1931,11 +1911,11 @@ export class HtmlVideoPlayer {
         if (document.AirPlayEnabled) {
             if (video) {
                 if (isEnabled) {
-                    video.requestAirPlay().catch(function(err) {
+                    video.requestAirPlay().catch((err) => {
                         console.error('Error requesting AirPlay', err);
                     });
                 } else {
-                    document.exitAirPLay().catch(function(err) {
+                    document.exitAirPLay().catch((err) => {
                         console.error('Error exiting AirPlay', err);
                     });
                 }
