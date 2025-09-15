@@ -1991,5 +1991,9 @@
     "LabelImageCache": "Cache Gambar",
     "Retry": "Coba Lagi",
     "LabelProgramData": "Data Program",
-    "LabelRestore": "Pulihkan"
+    "LabelRestore": "Pulihkan",
+    "LabelDelimiterWhitelistHelp": "Item yang akan dikecualikan dari pemisahan tag. Satu item per baris.",
+    "LabelFallbackMaxStreamingBitrate": "Bitrate aliran maksimum cadangan (Mbps)",
+    "LabelDelimiterWhitelist": "Daftar Putih Pembatas",
+    "LabelMediaSegmentProviders": "Penyedia segmen media"
 }
