@@ -1,19 +1,13 @@
 import { SubtitleStylingOption } from 'apps/stable/features/playback/constants/subtitleStylingOption';
-import _browser from 'scripts/browser';
+import browser from 'scripts/browser';
 import type { UserSettings } from 'scripts/settings/userSettings';
 
-// TODO: These type overrides should be removed when browser and userSettings are properly typed
-type Browser = typeof _browser & {
-    edge?: boolean;
-    firefox?: boolean;
-};
-
+// TODO: This type override should be removed when userSettings are properly typed
 interface SubtitleAppearanceSettings {
-    subtitleStyling: keyof typeof SubtitleStylingOption
+    subtitleStyling: SubtitleStylingOption
 }
 
 export function useCustomSubtitles(userSettings: UserSettings) {
-    const browser = _browser as Browser;
     const subtitleAppearance = userSettings.getSubtitleAppearanceSettings() as SubtitleAppearanceSettings;
     switch (subtitleAppearance.subtitleStyling) {
         case SubtitleStylingOption.Native:
@@ -28,7 +22,7 @@ export function useCustomSubtitles(userSettings: UserSettings) {
             }
 
             // Tizen 5 doesn't support displaying secondary subtitles
-            if (browser.tizenVersion >= 5 || browser.web0s) {
+            if ((browser.tizenVersion && browser.tizenVersion >= 5) || browser.web0s) {
                 return true;
             }
 
