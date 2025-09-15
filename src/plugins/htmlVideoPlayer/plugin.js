@@ -2,6 +2,7 @@ import DOMPurify from 'dompurify';
 import debounce from 'lodash-es/debounce';
 import Screenfull from 'screenfull';
 
+import { useCustomSubtitles } from 'apps/stable/features/playback/utils/subtitleStyles';
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { MediaError } from 'types/mediaError';
@@ -1360,49 +1361,6 @@ export class HtmlVideoPlayer {
     /**
          * @private
          */
-    requiresCustomSubtitlesElement(userSettings) {
-        const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
-        switch (subtitleAppearance.subtitleStyling) {
-            case 'Native':
-                return false;
-            case 'Custom':
-                return true;
-            default:
-                // after a system update, ps4 isn't showing anything when creating a track element dynamically
-                // going to have to do it ourselves
-                if (browser.ps4) {
-                    return true;
-                }
-
-                // Tizen 5 doesn't support displaying secondary subtitles
-                if (browser.tizenVersion >= 5 || browser.web0s) {
-                    return true;
-                }
-
-                if (browser.edge) {
-                    return true;
-                }
-
-                // font-size styling does not seem to work natively in firefox. Switching to custom subtitles element for firefox.
-                if (browser.firefox) {
-                    return true;
-                }
-
-                if (browser.iOS) {
-                    const userAgent = navigator.userAgent.toLowerCase();
-                    // works in the browser but not the native app
-                    if ((userAgent.includes('os 9') || userAgent.includes('os 8')) && !userAgent.includes('safari')) {
-                        return true;
-                    }
-                }
-
-                return false;
-        }
-    }
-
-    /**
-         * @private
-         */
     renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex) {
         Promise.all([import('../../scripts/settings/userSettings'), this.fetchSubtitles(track, item)]).then((results) => {
             const [userSettings, subtitleData] = results;
@@ -1496,7 +1454,7 @@ export class HtmlVideoPlayer {
                 return;
             }
 
-            if (this.requiresCustomSubtitlesElement(userSettings)) {
+            if (useCustomSubtitles(userSettings)) {
                 this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
                 return;
             }
