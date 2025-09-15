@@ -35,6 +35,9 @@ export function useCustomSubtitles(userSettings: UserSettings) {
                 return true;
             }
 
+            // iOS/macOS global caption settings are causing huge font-size and margins
+            if (browser.safari) return true;
+
             return false;
     }
 }
