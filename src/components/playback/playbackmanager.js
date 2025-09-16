@@ -506,7 +506,7 @@ function getOptimalMediaSource(apiClient, item, versions) {
     });
 
     if (!promises.length) {
-        return Promise.reject();
+        return Promise.reject(new Error('GetOptimalMediaSourceError'));
     }
 
     return Promise.all(promises).then(function (results) {
@@ -2286,7 +2286,7 @@ export class PlaybackManager {
             // If it's still null then there's nothing to play
             if (!firstItem) {
                 showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
-                return Promise.reject();
+                return Promise.reject(new Error(MediaError.NO_MEDIA_ERROR));
             }
 
             if (firstItem.MediaType === 'Photo' || firstItem.MediaType === 'Book') {
@@ -2335,7 +2335,7 @@ export class PlaybackManager {
             if (item.IsPlaceHolder) {
                 loading.hide();
                 showPlaybackInfoErrorMessage(self, 'PlaybackErrorPlaceHolder');
-                return Promise.reject();
+                return Promise.reject(new Error('PlaybackInfoError'));
             }
 
             // Normalize defaults to simplfy checks throughout the process
@@ -2384,7 +2384,7 @@ export class PlaybackManager {
         function onInterceptorRejection() {
             cancelPlayback();
 
-            return Promise.reject();
+            return Promise.reject(new Error('InterceptorRejectionError'));
         }
 
         function onPlaybackRejection(e) {
@@ -2402,7 +2402,7 @@ export class PlaybackManager {
 
             showPlaybackInfoErrorMessage(self, displayErrorCode);
 
-            return Promise.reject();
+            return Promise.reject(new Error('PlaybackRejectionError'));
         }
 
         function destroyPlayer(player) {
@@ -2952,11 +2952,11 @@ export class PlaybackManager {
                             }
                         } else {
                             showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
-                            return Promise.reject();
+                            return Promise.reject(new Error('GetOptimalMediaSourceError'));
                         }
                     });
                 } else {
-                    return Promise.reject();
+                    return Promise.reject(new Error('GetPlaybackInfoError'));
                 }
             });
         }
@@ -3737,7 +3737,7 @@ export class PlaybackManager {
         const nextItem = this._playQueueManager.getNextItemInfo();
 
         if (!nextItem?.item) {
-            return Promise.reject();
+            return Promise.reject(new Error('GetNextItemError'));
         }
 
         const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
@@ -3907,7 +3907,7 @@ export class PlaybackManager {
             });
         }
 
-        return Promise.reject();
+        return Promise.reject(new Error('PlayTrailersError'));
     }
 
     getSubtitleUrl(textStream, serverId) {
