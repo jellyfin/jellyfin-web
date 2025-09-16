@@ -31,6 +31,7 @@ const AlertsLogWidget = () => {
                         key={entry.Id}
                         item={entry}
                         displayShortOverview={false}
+                        to='/dashboard/activity?useractivity=false'
                     />
                 ))}
             </List>
