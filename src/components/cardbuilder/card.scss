@@ -871,3 +871,68 @@ button::-moz-focus-inner {
     transform: scale(1.4, 1.4);
     transition: 0.2s;
 }
+
+.cardRatingContainer {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0.3em;
+    padding: 0.3em 0.5em;
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: background-color 200ms ease-out;
+    border-radius: 1em;
+    z-index: 10;
+
+    span {
+        margin: 0 2px;
+    }
+
+    [dir="ltr"] & {
+        left: 0.3em;
+    }
+
+    [dir="rtl"] & {
+        right: 0.3em;
+    }
+}
+
+.card-hoverable:hover .cardRatingContainer {
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color 0;
+}
+
+.cardRatingContainer div:first-of-type ~ div {
+    margin-top: 0.3em;
+}
+
+.cardRating {
+    display: flex;
+    align-items: center;
+}
+
+.cardRatingIcon {
+    max-width: 1.4em;
+    max-height: 1.4em;
+}
+
+.cardCriticRating {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 1.2em;
+    min-height: 1.4em;
+    min-width: 1.4em;
+}
+
+.cardRatingFresh {
+    background-image: url(../../assets/img/fresh.svg);
+}
+
+.cardRatingRotten {
+    background-image: url(../../assets/img/rotten.svg);
+}
+
+.cardCommunityRating {
+    font-size: 1.4em;
+    color: #f2b01e;
+}
