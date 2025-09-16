@@ -148,7 +148,7 @@ const UserLibraryAccess = () => {
         }));
         const promise3 = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
         const promise4 = window.ApiClient.getJSON(window.ApiClient.getUrl('Devices'));
-        Promise.all([promise1, promise2, promise3, promise4]).then(function (responses) {
+        Promise.all([promise1, promise2, promise3, promise4]).then((responses) => {
             loadUser(responses[0], responses[1].Items, responses[2].Items, responses[3].Items);
         }).catch(err => {
             console.error('[userlibraryaccess] failed to load data', err);
@@ -172,7 +172,7 @@ const UserLibraryAccess = () => {
             }
 
             loading.show();
-            window.ApiClient.getUser(userId).then(function (result) {
+            window.ApiClient.getUser(userId).then((result) => {
                 saveUser(result);
             }).catch(err => {
                 console.error('[userlibraryaccess] failed to fetch user', err);
@@ -192,26 +192,14 @@ const UserLibraryAccess = () => {
             }
 
             user.Policy.EnableAllFolders = (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).checked;
-            user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
-                return c.checked;
-            }).map(function (c) {
-                return c.getAttribute('data-id');
-            });
+            user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), (c) => c.checked).map((c) => c.getAttribute('data-id'));
             user.Policy.EnableAllChannels = (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked;
-            user.Policy.EnabledChannels = user.Policy.EnableAllChannels ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (c) {
-                return c.checked;
-            }).map(function (c) {
-                return c.getAttribute('data-id');
-            });
+            user.Policy.EnabledChannels = user.Policy.EnableAllChannels ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), (c) => c.checked).map((c) => c.getAttribute('data-id'));
             user.Policy.EnableAllDevices = (page.querySelector('.chkEnableAllDevices') as HTMLInputElement).checked;
-            user.Policy.EnabledDevices = user.Policy.EnableAllDevices ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkDevice'), function (c) {
-                return c.checked;
-            }).map(function (c) {
-                return c.getAttribute('data-id');
-            });
+            user.Policy.EnabledDevices = user.Policy.EnableAllDevices ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkDevice'), (c) => c.checked).map((c) => c.getAttribute('data-id'));
             user.Policy.BlockedChannels = null;
             user.Policy.BlockedMediaFolders = null;
-            window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
+            window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(() => {
                 onSaveComplete();
             }).catch(err => {
                 console.error('[userlibraryaccess] failed to update user policy', err);

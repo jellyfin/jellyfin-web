@@ -237,7 +237,7 @@ function showMenuForSelectedItems(e) {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: e.target,
-                    callback: function (id) {
+                    callback: (id) => {
                         const items = selectedItems.slice(0);
                         const serverId = apiClient.serverInfo().Id;
 

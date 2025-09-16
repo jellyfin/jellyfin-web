@@ -156,13 +156,13 @@ function bindEvents(elem) {
     volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
     lyricButton = nowPlayingBarElement.querySelector('.openLyricsButton');
 
-    muteButton.addEventListener('click', function () {
+    muteButton.addEventListener('click', () => {
         if (currentPlayer) {
             playbackManager.toggleMute(currentPlayer);
         }
     });
 
-    elem.querySelector('.stopButton').addEventListener('click', function () {
+    elem.querySelector('.stopButton').addEventListener('click', () => {
         if (currentPlayer) {
             playbackManager.stop(currentPlayer);
         }
@@ -172,13 +172,13 @@ function bindEvents(elem) {
         button.addEventListener('click', onPlayPauseClick);
     });
 
-    elem.querySelector('.nextTrackButton').addEventListener('click', function () {
+    elem.querySelector('.nextTrackButton').addEventListener('click', () => {
         if (currentPlayer) {
             playbackManager.nextTrack(currentPlayer);
         }
     });
 
-    elem.querySelector('.previousTrackButton').addEventListener('click', function (e) {
+    elem.querySelector('.previousTrackButton').addEventListener('click', (e) => {
         if (currentPlayer) {
             if (playbackManager.isPlayingAudio(currentPlayer)) {
                 // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
@@ -202,26 +202,26 @@ function bindEvents(elem) {
         }
     });
 
-    elem.querySelector('.previousTrackButton').addEventListener('dblclick', function () {
+    elem.querySelector('.previousTrackButton').addEventListener('dblclick', () => {
         if (currentPlayer) {
             playbackManager.previousTrack(currentPlayer);
         }
     });
 
     toggleAirPlayButton = elem.querySelector('.btnAirPlay');
-    toggleAirPlayButton.addEventListener('click', function () {
+    toggleAirPlayButton.addEventListener('click', () => {
         if (currentPlayer) {
             playbackManager.toggleAirPlay(currentPlayer);
         }
     });
 
-    elem.querySelector('.btnShuffleQueue').addEventListener('click', function () {
+    elem.querySelector('.btnShuffleQueue').addEventListener('click', () => {
         if (currentPlayer) {
             playbackManager.toggleQueueShuffleMode();
         }
     });
 
-    lyricButton.addEventListener('click', function() {
+    lyricButton.addEventListener('click', () => {
         if (isLyricPageActive) {
             appRouter.back();
         } else {
@@ -230,7 +230,7 @@ function bindEvents(elem) {
     });
 
     toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
-    toggleRepeatButton.addEventListener('click', function () {
+    toggleRepeatButton.addEventListener('click', () => {
         switch (playbackManager.getRepeatMode()) {
             case 'RepeatAll':
                 playbackManager.setRepeatMode('RepeatOne');
@@ -261,7 +261,7 @@ function bindEvents(elem) {
         }
     });
 
-    positionSlider.getBubbleText = function (value) {
+    positionSlider.getBubbleText = (value) => {
         const state = lastPlayerState;
 
         if (!state?.NowPlayingItem || !currentRuntimeTicks) {
@@ -275,7 +275,7 @@ function bindEvents(elem) {
         return datetime.getDisplayRunningTime(ticks);
     };
 
-    elem.addEventListener('click', function (e) {
+    elem.addEventListener('click', (e) => {
         if (!dom.parentWithTag(e.target, ['BUTTON', 'INPUT'])) {
             showRemoteControl();
         }
@@ -519,7 +519,7 @@ function updateNowPlayingInfo(state) {
 
     if (nowPlayingItem.Id) {
         const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
-        apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
+        apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then((item) => {
             const userData = item.UserData || {};
             const likes = userData.Likes == null ? '' : userData.Likes;
             if (!layoutManager.mobile) {
@@ -535,8 +535,8 @@ function updateNowPlayingInfo(state) {
                     clearQueue: true,
                     positionTo: contextButton
                 };
-                apiClient.getCurrentUser().then(function (user) {
-                    contextButton.addEventListener('click', function () {
+                apiClient.getCurrentUser().then((user) => {
+                    contextButton.addEventListener('click', () => {
                         itemContextMenu.show(Object.assign({
                             item: item,
                             user: user
@@ -742,13 +742,13 @@ function bindToPlayer(player) {
     Events.on(player, 'timeupdate', onTimeUpdate);
 }
 
-Events.on(playbackManager, 'playerchange', function () {
+Events.on(playbackManager, 'playerchange', () => {
     bindToPlayer(playbackManager.getCurrentPlayer());
 });
 
 bindToPlayer(playbackManager.getCurrentPlayer());
 
-document.addEventListener('viewbeforeshow', function (e) {
+document.addEventListener('viewbeforeshow', (e) => {
     isLyricPageActive = isLyricsPage();
     setLyricButtonActiveStatus();
     if (!e.detail.options.enableMediaControl) {

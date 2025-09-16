@@ -86,7 +86,7 @@ function load(context) {
 }
 
 function showEditor(options) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         let settingsChanged = false;
 
         const dialogOptions = {
@@ -110,11 +110,11 @@ function showEditor(options) {
 
         dlg.innerHTML = html;
 
-        dlg.addEventListener('change', function () {
+        dlg.addEventListener('change', () => {
             settingsChanged = true;
         });
 
-        dlg.addEventListener('close', function () {
+        dlg.addEventListener('close', () => {
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
             }
@@ -129,7 +129,7 @@ function showEditor(options) {
             }
         });
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
             dialogHelper.close(dlg);
         });
 

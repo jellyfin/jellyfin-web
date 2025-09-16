@@ -83,9 +83,7 @@ class Controller {
         } else {
             return Helper.getItemsForPlayback(apiClient, {
                 Ids: options.ids.join(',')
-            }).then(function (result) {
-                return Helper.translateItemsForPlayback(apiClient, result.Items, options).then(sendPlayRequest);
-            });
+            }).then((result) => Helper.translateItemsForPlayback(apiClient, result.Items, options).then(sendPlayRequest));
         }
     }
 
@@ -154,7 +152,7 @@ class Controller {
         } else {
             Helper.getItemsForPlayback(apiClient, {
                 Ids: options.ids.join(',')
-            }).then(function (result) {
+            }).then((result) => {
                 Helper.translateItemsForPlayback(apiClient, result.Items, options).then((items) => {
                     const itemIds = items.map(item => item.Id);
                     apiClient.requestSyncPlayQueue({

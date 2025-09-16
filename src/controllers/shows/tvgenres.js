@@ -82,7 +82,7 @@ export default function (view, params, tabContent) {
             EnableTotalRecordCount: false,
             ParentId: params.topParentId
         };
-        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
+        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
             if (viewStyle == 'Thumb') {
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,
@@ -135,7 +135,7 @@ export default function (view, params, tabContent) {
 
     function reloadItems(context, promise) {
         const query = getQuery();
-        promise.then(function (result) {
+        promise.then((result) => {
             const elem = context.querySelector('#items');
             let html = '';
             const items = result.Items;
@@ -190,15 +190,11 @@ export default function (view, params, tabContent) {
     const self = this;
     const data = {};
 
-    self.getViewStyles = function () {
-        return 'Poster,PosterCard,Thumb,ThumbCard'.split(',');
-    };
+    self.getViewStyles = () => 'Poster,PosterCard,Thumb,ThumbCard'.split(',');
 
-    self.getCurrentViewStyle = function () {
-        return getPageData().view;
-    };
+    self.getCurrentViewStyle = () => getPageData().view;
 
-    self.setCurrentViewStyle = function (viewStyle) {
+    self.setCurrentViewStyle = (viewStyle) => {
         getPageData().view = viewStyle;
         userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);
         fullyReload();
@@ -207,11 +203,11 @@ export default function (view, params, tabContent) {
     self.enableViewSelection = true;
     let promise;
 
-    self.preRender = function () {
+    self.preRender = () => {
         promise = getPromise();
     };
 
-    self.renderTab = function () {
+    self.renderTab = () => {
         reloadItems(tabContent, promise);
     };
 }

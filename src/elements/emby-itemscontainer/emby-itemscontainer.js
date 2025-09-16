@@ -108,9 +108,9 @@ function onDrop(evt, itemsContainer) {
     apiClient.ajax({
         url: apiClient.getUrl('Playlists/' + playlistId + '/Items/' + itemId + '/Move/' + newIndex),
         type: 'POST'
-    }).then(function () {
+    }).then(() => {
         loading.hide();
-    }, function () {
+    }, () => {
         loading.hide();
         itemsContainer.refreshItems();
     });
@@ -136,9 +136,7 @@ ItemsContainerPrototype.enableDragReordering = function (enabled) {
         handle: '.listViewDragHandle',
 
         // dragging ended
-        onEnd: function (evt) {
-            return onDrop(evt, self);
-        }
+        onEnd: (evt) => onDrop(evt, self)
     });
 };
 

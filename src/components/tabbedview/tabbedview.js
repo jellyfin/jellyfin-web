@@ -8,7 +8,7 @@ function onViewDestroy() {
     const tabControllers = this.tabControllers;
 
     if (tabControllers) {
-        tabControllers.forEach(function (t) {
+        tabControllers.forEach((t) => {
             if (t.destroy) {
                 t.destroy();
             }
@@ -39,8 +39,8 @@ class TabbedView {
         }
 
         function loadTab(index, previousIndex) {
-            validateTabLoad(index).then(function () {
-                self.getTabController(index).then(function (controller) {
+            validateTabLoad(index).then(() => {
+                self.getTabController(index).then((controller) => {
                     const refresh = !controller.refreshed;
 
                     controller.onResume({
@@ -74,11 +74,11 @@ class TabbedView {
 
         view.addEventListener('viewbeforehide', this.onPause.bind(this));
 
-        view.addEventListener('viewbeforeshow', function () {
+        view.addEventListener('viewbeforeshow', () => {
             mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, null, onTabChange, false);
         });
 
-        view.addEventListener('viewshow', function (e) {
+        view.addEventListener('viewshow', (e) => {
             self.onResume(e.detail);
         });
 
