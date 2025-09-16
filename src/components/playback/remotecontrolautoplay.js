@@ -26,7 +26,7 @@ function transferPlayback(oldPlayer, newPlayer) {
     });
 }
 
-Events.on(playbackManager, 'playerchange', (e, newPlayer, newTarget, oldPlayer) => {
+Events.on(playbackManager, 'playerchange', (_e, newPlayer, _newTarget, oldPlayer) => {
     if (!oldPlayer || !newPlayer) {
         return;
     }

@@ -11,7 +11,7 @@ import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
-export default function (view, params, tabContent, options) {
+export default function (_view, params, tabContent, options) {
     const onViewStyleChange = () => {
         if (this.getCurrentViewStyle() == 'List') {
             itemsContainer.classList.add('vertical-list');

@@ -67,7 +67,7 @@ function getImageUrl(item, apiClient, imageHeight) {
     return null;
 }
 
-function renderRecording(context, defaultTimer, program, apiClient, refreshRecordingStateOnly) {
+function renderRecording(context, program, apiClient, refreshRecordingStateOnly) {
     if (!refreshRecordingStateOnly) {
         const imgUrl = getImageUrl(program, apiClient, 200);
         const imageContainer = context.querySelector('.recordingDialog-imageContainer');
@@ -113,10 +113,10 @@ function reload(context, programId, serverId, refreshRecordingStateOnly) {
     const promise2 = apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId());
 
     Promise.all([promise1, promise2]).then(function (responses) {
-        const defaults = responses[0];
+        // const defaults = responses[0];
         const program = responses[1];
 
-        renderRecording(context, defaults, program, apiClient, refreshRecordingStateOnly);
+        renderRecording(context, program, apiClient, refreshRecordingStateOnly);
     });
 }
 
