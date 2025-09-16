@@ -203,6 +203,15 @@ class GenericPlayer {
     }
 
     /**
+     * Sets the player playback rate to the specified value.
+     * @param {number} playbackRate The new playback rate.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    localSetPlaybackRate(playbackRate) {
+        // Override
+    }
+
+    /**
      * Stops the player.
      */
     localStop() {
