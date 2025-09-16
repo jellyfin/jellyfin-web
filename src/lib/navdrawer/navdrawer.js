@@ -171,7 +171,7 @@ class NavDrawer {
                 deltaX *= -1;
             }
 
-            if (this.countStart == 1) {
+            if (this.countStart === 1) {
                 this.startPoint = deltaX;
             }
             if (deltaX < 0 && this.dragMode !== 2) {

@@ -15,7 +15,7 @@ function taskbutton(options) {
 
     function updateTasks(tasks) {
         const task = tasks.filter(function (t) {
-            return t.Key == options.taskKey;
+            return t.Key === options.taskKey;
         })[0];
 
         if (options.panel) {
@@ -30,7 +30,7 @@ function taskbutton(options) {
             return;
         }
 
-        if (task.State == 'Idle') {
+        if (task.State === 'Idle') {
             button.removeAttribute('disabled');
         } else {
             button.setAttribute('disabled', 'disabled');
@@ -42,7 +42,7 @@ function taskbutton(options) {
         if (options.progressElem) {
             options.progressElem.value = progress;
 
-            if (task.State == 'Running') {
+            if (task.State === 'Running') {
                 options.progressElem.classList.remove('hide');
             } else {
                 options.progressElem.classList.add('hide');
@@ -52,11 +52,11 @@ function taskbutton(options) {
         if (options.lastResultElem) {
             const lastResult = task.LastExecutionResult ? task.LastExecutionResult.Status : '';
 
-            if (lastResult == 'Failed') {
+            if (lastResult === 'Failed') {
                 options.lastResultElem.html('<span style="color:#FF0000;">(' + globalize.translate('LabelFailed') + ')</span>');
-            } else if (lastResult == 'Cancelled') {
+            } else if (lastResult === 'Cancelled') {
                 options.lastResultElem.html('<span style="color:#0026FF;">(' + globalize.translate('LabelCancelled') + ')</span>');
-            } else if (lastResult == 'Aborted') {
+            } else if (lastResult === 'Aborted') {
                 options.lastResultElem.html('<span style="color:#FF0000;">' + globalize.translate('LabelAbortedByServerShutdown') + '</span>');
             } else {
                 options.lastResultElem.html(lastResult);
@@ -110,7 +110,7 @@ function taskbutton(options) {
         options.panel.classList.add('hide');
     }
 
-    if (options.mode == 'off') {
+    if (options.mode === 'off') {
         button.removeEventListener('click', onButtonClick);
         Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
         stopInterval();
