@@ -1519,7 +1519,7 @@
     "HeaderXmlSettings": "Налады XML",
     "Kids": "Дзеці",
     "KnownProxiesHelp": "Спіс IP-адрасоў або імёнаў хастоў вядомых проксі, падзеленых коскамі, якія выкарыстоўваюцца пры падлучэнні да вашага асобніка Jellyfin. Гэта неабходна для належнага выкарыстання загалоўкаў \"X-Forwarded-For\". Патрабуецца перазагрузка пасля захавання.",
-    "LabelAbortedByServerShutdown": "(Спынена адключэннем сервера)",
+    "LabelAbortedByServerShutdown": "Спынена адключэннем сервера",
     "LabelAccessDay": "Дзень тыдня",
     "LabelAccessStart": "Час пачатку",
     "LabelAirsBeforeEpisode": "Эфір перад эпізодам",
