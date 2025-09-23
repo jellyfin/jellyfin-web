@@ -670,7 +670,7 @@
     "ItemCount": "{0} elem",
     "Items": "Elemek",
     "Kids": "Gyerekek",
-    "LabelAbortedByServerShutdown": "(A kiszolgáló leállítása megszakította)",
+    "LabelAbortedByServerShutdown": "A kiszolgáló leállítása megszakította",
     "LabelAccessDay": "A hét napja",
     "LabelAccessEnd": "Befejezés ideje",
     "LabelAccessStart": "Kezdés ideje",
@@ -2061,5 +2061,9 @@
     "ConnectAnyway": "Kapcsolódás mindenképp",
     "HeaderServerMismatch": "Szerver eltérés",
     "MessageServerMismatch": "A szerver melyre most próbál csatlakozni, nem egyezik meg az előző szerverrel mely ezen a címen volt található. Ha ez várható volt, kattintson a \"Kapcsolódás mindenképp\" gombra. Ellenkező esetben a szerver elérése kompromittálódott.",
-    "LiveTVPageLoadError": "Hiba történt a felvételek oldal betöltésékor"
+    "LiveTVPageLoadError": "Hiba történt a felvételek oldal betöltésékor",
+    "LabelAvailable": "Elérhető",
+    "LabelBundled": "Összekapcsolt",
+    "ManageRepositories": "Tárolók módosítása",
+    "ViewAllPlugins": "Minden plugin megtekintése"
 }
