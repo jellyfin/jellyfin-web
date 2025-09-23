@@ -87,11 +87,11 @@ const UserProfile: FunctionComponent = () => {
 
         const onFileReaderError = (evt: ProgressEvent<FileReader>) => {
             loading.hide();
-            switch (evt.target?.error?.code) {
-                case DOMException.NOT_FOUND_ERR:
+            switch (evt.target?.error?.name) {
+                case 'NotFoundError':
                     toast(globalize.translate('FileNotFound'));
                     break;
-                case DOMException.ABORT_ERR:
+                case 'AbortError':
                     onFileReaderAbort();
                     break;
                 default:
