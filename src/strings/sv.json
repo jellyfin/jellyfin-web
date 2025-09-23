@@ -377,7 +377,7 @@
     "Items": "Objekt",
     "Kids": "Barn",
     "Label3DFormat": "3D-format",
-    "LabelAbortedByServerShutdown": "(Avbröts eftersom servern stängdes av)",
+    "LabelAbortedByServerShutdown": "Avbröts eftersom servern stängdes av",
     "LabelAccessDay": "Veckodag",
     "LabelAccessEnd": "Sluttid",
     "LabelAccessStart": "Starttid",
@@ -1746,7 +1746,7 @@
     "SubtitleYellow": "Gul",
     "EnableAudioNormalizationHelp": "Ljudnormalisering lägger till en konstant förstärkning för att hålla genomsnittet på en önskad nivå (-18 dB).",
     "Select": "Välj",
-    "HeaderPerformance": "Prestation",
+    "HeaderPerformance": "Prestanda",
     "LabelParallelImageEncodingLimit": "Gräns för parallellbildkodning",
     "HeaderConfirmRepositoryInstallation": "Bekräfta tillägarkivets installation",
     "LabelEnableLUFSScan": "Aktivera LUFS-skanning",
@@ -2058,5 +2058,11 @@
     "LabelImageCache": "Bildcache",
     "StorageType.Fixed": "Åtgärdat",
     "LiveTVPageLoadError": "Misslyckades med att ladda inspelningssidan",
-    "ConnectAnyway": "Anslut Ändå"
+    "ConnectAnyway": "Anslut Ändå",
+    "ViewAllPlugins": "Visa alla tillägg",
+    "LabelAvailable": "Tillgänglig",
+    "LabelBundled": "Inkluderat",
+    "ManageRepositories": "Hantera Lagringsplatser",
+    "HeaderServerMismatch": "Serveravvikelse",
+    "MessageServerMismatch": "Servern du ansluter till är inte samma server som du tidigare anslöt till på denna adress. Om detta är avsiktligt, välj ”Anslut ändå”. Annars kan din anslutning eller servern vara osäker."
 }
