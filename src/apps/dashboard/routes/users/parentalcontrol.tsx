@@ -86,7 +86,7 @@ const UserParentalControl = () => {
             if (ratings.length) {
                 const lastRating = ratings[ratings.length - 1];
 
-                if (lastRating.Value === rating.Value) {
+                if (lastRating.RatingScore?.score === rating.RatingScore?.score && lastRating.RatingScore?.subScore == rating.RatingScore?.subScore) {
                     lastRating.Name += '/' + rating.Name;
                     continue;
                 }
