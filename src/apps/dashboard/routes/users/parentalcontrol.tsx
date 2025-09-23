@@ -92,10 +92,7 @@ const UserParentalControl = () => {
                 }
             }
 
-            ratings.push({
-                Name: rating.Name,
-                Value: rating.Value
-            });
+            ratings.push(rating);
         }
 
         setParentalRatings(ratings);
