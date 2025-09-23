@@ -1,4 +1,4 @@
-import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import type { AccessSchedule, ParentalRating, ParentalRatingScore, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
 import escapeHTML from 'escape-html';
@@ -42,8 +42,11 @@ function handleSaveUser(
             throw new Error('Unexpected null user id or policy');
         }
 
-        const parentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value, 10);
-        userPolicy.MaxParentalRating = Number.isNaN(parentalRating) ? null : parentalRating;
+        const parentalRating = page.querySelector('#selectMaxParentalRating') as ParentalRatingScore;
+        const score = parentalRating.score;
+        const subScore = parentalRating.subScore;
+        userPolicy.MaxParentalRating = Number.isNaN(score) ? null : score;
+        userPolicy.MaxParentalSubRating = Number.isNaN(subScore) ? null : subScore;
         userPolicy.BlockUnratedItems = Array.prototype.filter
             .call(page.querySelectorAll('.chkUnratedItem'), i => i.checked)
             .map(i => i.getAttribute('data-itemtype'));
@@ -343,8 +346,8 @@ const UserParentalControl = () => {
         let content = '';
         content += '<option value=\'\'></option>';
         for (const rating of parentalRatings) {
-            if (rating.Value != null) {
-                content += `<option value='${rating.Value}'>${escapeHTML(rating.Name)}</option>`;
+            if (rating.RatingScore != null) {
+                content += `<option value='${rating.RatingScore}'>${escapeHTML(rating.Name)}</option>`;
             }
         }
         return content;
