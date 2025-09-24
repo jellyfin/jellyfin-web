@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
+import { isValidUsername, getUsernameValidationMessage, extractApiErrorMessage } from '../../../../utils/userValidation';
 import Button from '../../../../elements/emby-button/Button';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import LinkButton from '../../../../elements/emby-button/LinkButton';
@@ -199,7 +200,18 @@ const UserEdit = () => {
                 throw new Error('Unexpected null user id or policy');
             }
 
-            user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value.trim();
+            const usernameInput = (page.querySelector('#txtUserName') as HTMLInputElement);
+            const username = usernameInput.value.trim();
+            
+            // Client-side validation
+            if (!isValidUsername(username)) {
+                toast(getUsernameValidationMessage());
+                loading.hide();
+                usernameInput.focus();
+                return;
+            }
+            
+            user.Name = username;
             user.Policy.IsAdministrator = (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked;
             user.Policy.IsHidden = (page.querySelector('.chkIsHidden') as HTMLInputElement).checked;
             user.Policy.IsDisabled = (page.querySelector('.chkDisabled') as HTMLInputElement).checked;
@@ -231,6 +243,23 @@ const UserEdit = () => {
                 onSaveComplete();
             }).catch(err => {
                 console.error('[useredit] failed to update user', err);
+                
+                // Extract specific error message from server response
+                const errorMessage = extractApiErrorMessage(err);
+                
+                // Check if it's a username validation error and provide helpful message
+                if (errorMessage.includes('Usernames can contain') || errorMessage.includes('Parameter \'name\'')) {
+                    toast(getUsernameValidationMessage());
+                    const usernameInput = page.querySelector('#txtUserName') as HTMLInputElement;
+                    if (usernameInput) {
+                        usernameInput.focus();
+                    }
+                } else {
+                    // For other errors, show the specific server message or fallback
+                    toast(errorMessage || globalize.translate('ErrorDefault'));
+                }
+                
+                loading.hide();
             });
         };
 

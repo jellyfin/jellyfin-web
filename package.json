@@ -98,7 +98,7 @@
     "classnames": "2.5.1",
     "core-js": "3.43.0",
     "date-fns": "2.30.0",
-    "dompurify": "2.5.8",
+    "dompurify": "3.2.7",
     "element-closest-polyfill": "1.0.7",
     "epubjs": "0.3.93",
     "escape-html": "1.0.3",

@@ -5,6 +5,7 @@ import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
+import { isValidUsername, getUsernameValidationMessage, extractApiErrorMessage } from '../../../../utils/userValidation';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import Input from '../../../../elements/emby-input/Input';
 import Button from '../../../../elements/emby-button/Button';
@@ -111,8 +112,19 @@ const UserNew = () => {
 
         const saveUser = () => {
             const userInput: UserInput = {};
-            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value.trim();
+            const usernameInput = (page.querySelector('#txtUsername') as HTMLInputElement);
+            const username = usernameInput.value.trim();
+            
+            userInput.Name = username;
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
+
+            // Client-side validation
+            if (!isValidUsername(username)) {
+                toast(getUsernameValidationMessage());
+                loading.hide();
+                usernameInput.focus();
+                return;
+            }
 
             window.ApiClient.createUser(userInput).then(function (user) {
                 if (!user.Id || !user.Policy) {
@@ -149,9 +161,27 @@ const UserNew = () => {
                 }).catch(err => {
                     console.error('[usernew] failed to update user policy', err);
                 });
-            }, function () {
-                toast(globalize.translate('ErrorDefault'));
+            }, function (error) {
+                // Extract specific error message from server response
+                const errorMessage = extractApiErrorMessage(error);
+                
+                // Check if it's a username validation error and provide helpful message
+                if (errorMessage.includes('Usernames can contain') || errorMessage.includes('Parameter \'name\'')) {
+                    toast(getUsernameValidationMessage());
+                } else {
+                    // For other errors, show the specific server message or fallback
+                    toast(errorMessage || globalize.translate('ErrorDefault'));
+                }
+                
                 loading.hide();
+                
+                // Focus back to username field if it's a validation error
+                if (errorMessage.includes('Usernames can contain') || errorMessage.includes('Parameter \'name\'')) {
+                    const usernameInput = page.querySelector('#txtUsername') as HTMLInputElement;
+                    if (usernameInput) {
+                        usernameInput.focus();
+                    }
+                }
             });
         };
 
