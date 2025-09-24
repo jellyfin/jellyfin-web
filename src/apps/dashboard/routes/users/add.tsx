@@ -114,7 +114,7 @@ const UserNew = () => {
             const userInput: UserInput = {};
             const usernameInput = (page.querySelector('#txtUsername') as HTMLInputElement);
             const username = usernameInput.value.trim();
-            
+
             userInput.Name = username;
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
 
