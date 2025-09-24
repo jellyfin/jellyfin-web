@@ -177,7 +177,6 @@ const UserNew = () => {
 
                 // Focus back to username field if it's a validation error
                 if (errorMessage.includes('Usernames can contain') || errorMessage.includes('Parameter \'name\'')) {
-                    const usernameInput = page.querySelector('#txtUsername') as HTMLInputElement;
                     if (usernameInput) {
                         usernameInput.focus();
                     }
