@@ -164,7 +164,7 @@ const UserNew = () => {
             }, function (error) {
                 // Extract specific error message from server response
                 const errorMessage = extractApiErrorMessage(error);
-                
+
                 // Check if it's a username validation error and provide helpful message
                 if (errorMessage.includes('Usernames can contain') || errorMessage.includes('Parameter \'name\'')) {
                     toast(getUsernameValidationMessage());
@@ -172,9 +172,9 @@ const UserNew = () => {
                     // For other errors, show the specific server message or fallback
                     toast(errorMessage || globalize.translate('ErrorDefault'));
                 }
-                
+
                 loading.hide();
-                
+
                 // Focus back to username field if it's a validation error
                 if (errorMessage.includes('Usernames can contain') || errorMessage.includes('Parameter \'name\'')) {
                     const usernameInput = page.querySelector('#txtUsername') as HTMLInputElement;
