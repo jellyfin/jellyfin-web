@@ -202,7 +202,7 @@ const UserEdit = () => {
 
             const usernameInput = (page.querySelector('#txtUserName') as HTMLInputElement);
             const username = usernameInput.value.trim();
-            
+
             // Client-side validation
             if (!isValidUsername(username)) {
                 toast(getUsernameValidationMessage());
@@ -210,7 +210,7 @@ const UserEdit = () => {
                 usernameInput.focus();
                 return;
             }
-            
+
             user.Name = username;
             user.Policy.IsAdministrator = (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked;
             user.Policy.IsHidden = (page.querySelector('.chkIsHidden') as HTMLInputElement).checked;
@@ -243,13 +243,14 @@ const UserEdit = () => {
                 onSaveComplete();
             }).catch(err => {
                 console.error('[useredit] failed to update user', err);
-                
+
                 // Extract specific error message from server response
                 const errorMessage = extractApiErrorMessage(err);
-                
+
                 // Check if it's a username validation error and provide helpful message
                 if (errorMessage.includes('Usernames can contain') || errorMessage.includes('Parameter \'name\'')) {
                     toast(getUsernameValidationMessage());
+                    // eslint-disable-next-line @typescript-eslint/no-shadow
                     const usernameInput = page.querySelector('#txtUserName') as HTMLInputElement;
                     if (usernameInput) {
                         usernameInput.focus();
@@ -258,7 +259,7 @@ const UserEdit = () => {
                     // For other errors, show the specific server message or fallback
                     toast(errorMessage || globalize.translate('ErrorDefault'));
                 }
-                
+
                 loading.hide();
             });
         };
