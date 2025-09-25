@@ -50,7 +50,9 @@ function showBackdrop(type, parentId) {
     const apiClient = ServerConnections.currentApiClient();
 
     if (apiClient) {
-        getBackdropItemIds(apiClient, apiClient.getCurrentUserId(), type, parentId).then(function (images) {
+        // Support all library types with backdrops, not just movies
+        const supportedTypes = type || 'Movie,Series,MusicVideo,Book,Photo,Game,Audio,Video';
+        getBackdropItemIds(apiClient, apiClient.getCurrentUserId(), supportedTypes, parentId).then(function (images) {
             if (images.length) {
                 setBackdrops(images.map(function (i) {
                     i.BackdropImageTags = [i.tag];
