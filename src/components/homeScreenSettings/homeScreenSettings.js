@@ -289,6 +289,7 @@ function renderPerLibrarySettings(context, user, userViews, userSettings) {
 
 function loadForm(context, user, userSettings, apiClient) {
     context.querySelector('.chkHidePlayedFromLatest').checked = user.Configuration.HidePlayedInLatest || false;
+    context.querySelector('.chkEnableResumableInNextUp').checked = userSettings.enableResumableInNextUp();
 
     updateHomeSectionValues(context, userSettings);
 
@@ -354,6 +355,7 @@ function getCheckboxItems(selector, context, isChecked) {
 
 function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.HidePlayedInLatest = context.querySelector('.chkHidePlayedFromLatest').checked;
+    userSettingsInstance.enableResumableInNextUp(context.querySelector('.chkEnableResumableInNextUp').checked);
 
     user.Configuration.LatestItemsExcludes = getCheckboxItems('.chkIncludeInLatest', context, false).map(i => {
         return i.getAttribute('data-folderid');

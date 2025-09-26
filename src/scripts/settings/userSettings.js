@@ -529,6 +529,18 @@ export class UserSettings {
     }
 
     /**
+     * @param {boolean|undefined} [val] - If resumable items should be included in next up.
+     * @returns {boolean} Resumable in next up state.
+     */
+    enableResumableInNextUp(val) {
+        if (val !== undefined) {
+            return this.set('enableResumableInNextUp', val.toString(), false);
+        }
+
+        return toBoolean(this.get('enableResumableInNextUp', false), false);
+    }
+
+    /**
      * Get or set sound effects.
      * @param {string|undefined} val - Sound effects.
      * @return {string} Sound effects.
@@ -709,6 +721,7 @@ export const screensaverTime = currentSettings.screensaverTime.bind(currentSetti
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
 export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);
+export const enableResumableInNextUp = currentSettings.enableResumableInNextUp.bind(currentSettings);
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);
 export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentSettings);
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);
