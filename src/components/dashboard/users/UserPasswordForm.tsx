@@ -104,13 +104,14 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
                 currentPassword = '';
             }
 
-            window.ApiClient.updateUserPassword(userId, currentPassword, newPassword).then(function () {
+            window.ApiClient.updateUserPassword(userId, currentPassword, newPassword).then(async function () {
                 loading.hide();
                 toast(globalize.translate('PasswordSaved'));
-
-                loadUser().catch(err => {
+                try {
+                    await loadUser();
+                } catch (err) {
                     console.error('[UserPasswordForm] failed to load user', err);
-                });
+                }
             }, function () {
                 loading.hide();
                 Dashboard.alert({
@@ -127,20 +128,23 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ userId }: IProps) => {
             }
 
             const msg = globalize.translate('PasswordResetConfirmation');
-            confirm(msg, globalize.translate('ResetPassword')).then(function () {
+            confirm(msg, globalize.translate('ResetPassword')).then(async function () {
                 loading.show();
-                window.ApiClient.resetUserPassword(userId).then(function () {
+                try {
+                    await window.ApiClient.resetUserPassword(userId);
                     loading.hide();
                     Dashboard.alert({
                         message: globalize.translate('PasswordResetComplete'),
                         title: globalize.translate('ResetPassword')
                     });
-                    loadUser().catch(err => {
+                    try {
+                        await loadUser();
+                    } catch (err) {
                         console.error('[UserPasswordForm] failed to load user', err);
-                    });
-                }).catch(err => {
+                    }
+                } catch (err) {
                     console.error('[UserPasswordForm] failed to reset user password', err);
-                });
+                }
             }).catch(() => {
                 // confirm dialog was closed
             });
