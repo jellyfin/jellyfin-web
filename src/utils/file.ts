@@ -7,6 +7,9 @@ export function readFileAsBase64(file: File): Promise<string> {
         reader.onload = (e) => {
             // Split by a comma to remove the url: prefix
             const data = (e.target?.result as string)?.split?.(',')[1];
+            if (!data) {
+                return reject(new Error('No file data'));
+            }
             resolve(data);
         };
         reader.onerror = reject;
