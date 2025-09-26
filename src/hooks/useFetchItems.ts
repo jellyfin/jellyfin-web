@@ -579,7 +579,7 @@ export type GroupsTimers = {
 };
 
 function groupsTimers(timers: ItemDto[], indexByDate?: boolean) {
-    const items = timers.map(function (t) {
+    const items = timers.map((t) => {
         t.Type = ItemKind.Timer;
         return t;
     });

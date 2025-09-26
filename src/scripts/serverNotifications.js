@@ -31,7 +31,7 @@ function displayContent(cmd, apiClient) {
 }
 
 function playTrailers(apiClient, itemId) {
-    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
         playbackManager.playTrailers(item);
     });
 }
@@ -202,7 +202,7 @@ function bindEvents(apiClient) {
 }
 
 ServerConnections.getApiClients().forEach(bindEvents);
-Events.on(ServerConnections, 'apiclientcreated', function (e, newApiClient) {
+Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => {
     bindEvents(newApiClient);
 });
 

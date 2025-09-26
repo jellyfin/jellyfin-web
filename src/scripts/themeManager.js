@@ -25,13 +25,13 @@ function getThemeStylesheetInfo(id) {
 }
 
 function setTheme(id) {
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
         if (currentThemeId && currentThemeId === id) {
             resolve();
             return;
         }
 
-        getThemeStylesheetInfo(id).then(function (info) {
+        getThemeStylesheetInfo(id).then((info) => {
             if (currentThemeId && currentThemeId === info.id) {
                 resolve();
                 return;
