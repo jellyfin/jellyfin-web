@@ -40,7 +40,7 @@ function showAudioMenu(context, player, button) {
             id: s.Index
         };
 
-        if (s.Index == currentIndex) {
+        if (s.Index === currentIndex) {
             menuItem.selected = true;
         }
 
@@ -67,7 +67,7 @@ function showSubtitleMenu(context, player, button) {
             id: s.Index
         };
 
-        if (s.Index == currentIndex) {
+        if (s.Index === currentIndex) {
             menuItem.selected = true;
         }
 
@@ -97,7 +97,7 @@ function updateNowPlayingInfo(context, state, serverId) {
         '';
     if (item) {
         const nowPlayingServerId = (item.ServerId || serverId);
-        if (item.Type == 'AudioBook' || item.Type == 'Audio' || item.MediaStreams[0].Type == 'Audio') {
+        if (item.Type === 'AudioBook' || item.Type === 'Audio' || item.MediaStreams[0].Type === 'Audio') {
             let artistsSeries = '';
             let albumName = '';
             if (item.Artists != null) {
@@ -126,7 +126,7 @@ function updateNowPlayingInfo(context, state, serverId) {
             context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
             context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
             context.querySelector('.nowPlayingSongName').innerText = item.Name;
-        } else if (item.Type == 'Episode') {
+        } else if (item.Type === 'Episode') {
             if (item.SeasonName != null) {
                 const seasonName = item.SeasonName;
                 context.querySelector('.nowPlayingSeason').innerHTML = '<a class="button-link" is="emby-linkbutton" href="#/details?id=' + item.SeasonId + `&serverId=${nowPlayingServerId}">${escapeHtml(seasonName)}</a>`;
@@ -144,7 +144,7 @@ function updateNowPlayingInfo(context, state, serverId) {
             context.querySelector('.nowPlayingPageTitle').innerHTML = displayName;
         }
 
-        if (displayName.length > 0 && item.Type != 'Audio' && item.Type != 'Episode') {
+        if (displayName.length > 0 && item.Type !== 'Audio' && item.Type !== 'Episode') {
             context.querySelector('.nowPlayingPageTitle').classList.remove('hide');
         } else {
             context.querySelector('.nowPlayingPageTitle').classList.add('hide');
@@ -251,7 +251,7 @@ export default function () {
         currentPlayerSupportedCommands = supportedCommands;
         const playState = state.PlayState || {};
         const isSupportedCommands = supportedCommands.includes('DisplayMessage') || supportedCommands.includes('SendString') || supportedCommands.includes('Select');
-        buttonVisible(context.querySelector('.btnToggleFullscreen'), item && item.MediaType == 'Video' && supportedCommands.includes('ToggleFullscreen'));
+        buttonVisible(context.querySelector('.btnToggleFullscreen'), item && item.MediaType === 'Video' && supportedCommands.includes('ToggleFullscreen'));
         updateAudioTracksDisplay(player, context);
         updateSubtitleTracksDisplay(player, context);
 
@@ -286,7 +286,7 @@ export default function () {
         if (layoutManager.mobile) {
             const playingVideo = playbackManager.isPlayingVideo() && item !== null;
             const playingAudio = !playbackManager.isPlayingVideo() && item !== null;
-            const playingAudioBook = playingAudio && item.Type == 'AudioBook';
+            const playingAudioBook = playingAudio && item.Type === 'AudioBook';
             buttonVisible(context.querySelector('.btnRepeat'), playingAudio && !playingAudioBook);
             buttonVisible(context.querySelector('.btnShuffleQueue'), playingAudio && !playingAudioBook);
             buttonVisible(context.querySelector('.btnRewind'), playingVideo || playingAudioBook);
@@ -314,7 +314,7 @@ export default function () {
         updateTimeDisplay(playState.PositionTicks, item ? item.RunTimeTicks : null);
         updatePlayerVolumeState(context, playState.IsMuted, playState.VolumeLevel);
 
-        if (item && item.MediaType == 'Video') {
+        if (item && item.MediaType === 'Video') {
             context.classList.remove('hideVideoButtons');
         } else {
             context.classList.add('hideVideoButtons');
@@ -327,12 +327,12 @@ export default function () {
 
     function updateAudioTracksDisplay(player, context) {
         const supportedCommands = currentPlayerSupportedCommands;
-        buttonVisible(context.querySelector('.btnAudioTracks'), playbackManager.audioTracks(player).length > 1 && supportedCommands.indexOf('SetAudioStreamIndex') != -1);
+        buttonVisible(context.querySelector('.btnAudioTracks'), playbackManager.audioTracks(player).length > 1 && supportedCommands.indexOf('SetAudioStreamIndex') !== -1);
     }
 
     function updateSubtitleTracksDisplay(player, context) {
         const supportedCommands = currentPlayerSupportedCommands;
-        buttonVisible(context.querySelector('.btnSubtitles'), playbackManager.subtitleTracks(player).length && supportedCommands.indexOf('SetSubtitleStreamIndex') != -1);
+        buttonVisible(context.querySelector('.btnSubtitles'), playbackManager.subtitleTracks(player).length && supportedCommands.indexOf('SetSubtitleStreamIndex') !== -1);
     }
 
     function updateRepeatModeDisplay(repeatMode) {

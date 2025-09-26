@@ -15,10 +15,10 @@ type RunningTasksWidgetProps = {
 
 const RunningTasksWidget = ({ tasks }: RunningTasksWidgetProps) => {
     const runningTasks = useMemo(() => {
-        return tasks?.filter(v => v.State == TaskState.Running) || [];
+        return tasks?.filter(v => v.State === TaskState.Running) || [];
     }, [ tasks ]);
 
-    if (runningTasks.length == 0) return null;
+    if (runningTasks.length === 0) return null;
 
     return (
         <Widget

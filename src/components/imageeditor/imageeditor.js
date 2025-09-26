@@ -261,7 +261,7 @@ function showImageDownloader(page, imageType) {
             currentItem.ServerId,
             currentItem.Type,
             imageType,
-            currentItem.Type == 'Season' ? currentItem.ParentId : null
+            currentItem.Type === 'Season' ? currentItem.ParentId : null
         ).then(function () {
             hasChanges = true;
             reload(page);

@@ -36,7 +36,7 @@ export function getTimersHtml(timers, options) {
             }
         }
 
-        if (dateText != currentGroupName) {
+        if (dateText !== currentGroupName) {
             if (currentGroup.length) {
                 groups.push({
                     name: currentGroupName,
