@@ -601,7 +601,7 @@
     "LabelAllowHWTranscoding": "Autoriser le transcodage matériel",
     "LabelAllowedRemoteAddressesMode": "Type de filtre des adresses IP distantes",
     "LabelAllowedRemoteAddresses": "Filtre d'adresse IP distante",
-    "LabelAbortedByServerShutdown": "(Annulé par l'arrêt du serveur)",
+    "LabelAbortedByServerShutdown": "Annulé par l'arrêt du serveur",
     "KnownProxiesHelp": "Liste séparée par des virgules d'adresses IP ou de noms de domaine des proxies connus utilisés pour se connecter à l'instance Jellyfin. Ceci est nécessaire afin de pouvoir utiliser correctement les entêtes 'X-Forwarded-For'. Nécessite un redémarrage après sauvegarde.",
     "LabelDropShadow": "Ombre portée",
     "Raised": "Élevé",

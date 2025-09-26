@@ -392,7 +392,7 @@
     "InstallingPackage": "Installeren van {0} (versie {1})",
     "Kids": "Kinderen",
     "Label3DFormat": "3D-formaat",
-    "LabelAbortedByServerShutdown": "(Afgebroken door afsluiten van de server)",
+    "LabelAbortedByServerShutdown": "Afgebroken door afsluiten van de server",
     "LabelAccessDay": "Dag van de week",
     "LabelAccessEnd": "Eindtijd",
     "LabelAccessStart": "Starttijd",
