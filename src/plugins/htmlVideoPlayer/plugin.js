@@ -1697,6 +1697,15 @@ export class HtmlVideoPlayer {
                 videoElement.addEventListener('playing', this.onPlaying);
                 videoElement.addEventListener('play', this.onPlay);
                 videoElement.addEventListener('click', this.onClick);
+
+                // Disable native subtitle rendering in Safari to prevent double subtitles
+                if (browser.safari && videoElement.textTracks) {
+                    videoElement.addEventListener('loadstart', () => {
+                        for (let i = 0; i < videoElement.textTracks.length; i++) {
+                            videoElement.textTracks[i].mode = 'disabled';
+                        }
+                    });
+                }
                 videoElement.addEventListener('dblclick', this.onDblClick);
                 videoElement.addEventListener('waiting', this.onWaiting);
                 if (options.backdropUrl) {
