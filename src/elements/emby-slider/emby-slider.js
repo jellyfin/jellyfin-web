@@ -388,6 +388,52 @@ EmbySliderPrototype.attachedCallback = function () {
         passive: true
     });
 
+    // Firefox-specific fix for volume slider interaction
+    if (browser.firefox) {
+        dom.addEventListener(this, 'mousedown', function (e) {
+            if (e.button === 0) { // Left mouse button only
+                this.dragging = true;
+                const fraction = mapClientToFraction(this, e.clientX);
+                this.value = mapFractionToValue(this, fraction);
+                
+                this.dispatchEvent(new Event('input', {
+                    bubbles: true,
+                    cancelable: false
+                }));
+                
+                e.preventDefault();
+            }
+        }, {
+            passive: false
+        });
+
+        dom.addEventListener(document, 'mousemove', (e) => {
+            if (this.dragging && e.buttons === 1) {
+                const fraction = mapClientToFraction(this, e.clientX);
+                this.value = mapFractionToValue(this, fraction);
+                
+                this.dispatchEvent(new Event('input', {
+                    bubbles: true,
+                    cancelable: false
+                }));
+            }
+        }, {
+            passive: true
+        });
+
+        dom.addEventListener(document, 'mouseup', () => {
+            if (this.dragging) {
+                this.dragging = false;
+                this.dispatchEvent(new Event('change', {
+                    bubbles: true,
+                    cancelable: false
+                }));
+            }
+        }, {
+            passive: true
+        });
+    }
+
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function () {
         sliderBubble.classList.add('hide');
