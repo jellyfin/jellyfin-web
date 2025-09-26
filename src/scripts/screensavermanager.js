@@ -123,7 +123,8 @@ function ScreenSaverManager() {
             return;
         }
 
-        if (playbackManager.isPlayingVideo()) {
+        // Only prevent screensaver if video is actively playing, not when paused
+        if (playbackManager.isPlayingVideo() && !playbackManager.paused()) {
             return;
         }
 
