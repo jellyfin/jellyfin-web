@@ -1235,6 +1235,24 @@ export class HtmlVideoPlayer {
         if (!track) {
             // Destroy all tracks by passing undefined if there is no valid primary track
             this.destroyCustomTrack(videoElement, this.isSecondaryTrack(targetTextTrackIndex) ? targetTextTrackIndex : undefined);
+            
+            // Ensure all native text tracks are properly disabled when turning off subtitles
+            if (videoElement && videoElement.textTracks) {
+                for (let i = 0; i < videoElement.textTracks.length; i++) {
+                    const textTrack = videoElement.textTracks[i];
+                    if (textTrack.mode === 'showing' || textTrack.mode === 'hidden') {
+                        textTrack.mode = 'disabled';
+                    }
+                }
+            }
+            
+            // Reset custom track indices when disabling subtitles
+            if (this.isSecondaryTrack(targetTextTrackIndex)) {
+                this.#customSecondaryTrackIndex = -1;
+            } else {
+                this.#customTrackIndex = -1;
+            }
+            
             return;
         }
 
