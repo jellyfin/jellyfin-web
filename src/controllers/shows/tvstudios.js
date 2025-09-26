@@ -26,13 +26,13 @@ function getSavedQueryKey(params) {
     return `${params.topParentId}-studios`;
 }
 
-function getPromise(context, params) {
+function getPromise(params) {
     const query = getQuery(params);
     loading.show();
     return ApiClient.getStudios(ApiClient.getCurrentUserId(), query);
 }
 
-function reloadItems(context, params, promise) {
+function reloadItems(context, promise) {
     promise.then(function (result) {
         const elem = context.querySelector('#items');
         cardBuilder.buildCards(result.Items, {
@@ -55,16 +55,16 @@ function reloadItems(context, params, promise) {
 
 const data = {};
 
-export default function (view, params, tabContent) {
+export default function (_view, params, tabContent) {
     let promise;
     const self = this;
 
     self.preRender = function () {
-        promise = getPromise(view, params);
+        promise = getPromise( params);
     };
 
     self.renderTab = function () {
-        reloadItems(tabContent, params, promise);
+        reloadItems(tabContent, promise);
     };
 }
 

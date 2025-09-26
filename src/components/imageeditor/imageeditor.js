@@ -67,8 +67,8 @@ function reloadItem(page, item, apiClient, focusContext) {
         }
 
         apiClient.getItemImageInfos(currentItem.Id).then(function (imageInfos) {
-            renderStandardImages(page, apiClient, item, imageInfos, providers);
-            renderBackdrops(page, apiClient, item, imageInfos, providers);
+            renderStandardImages(page, apiClient, imageInfos, providers);
+            renderBackdrops(page, apiClient, imageInfos, providers);
             loading.hide();
 
             if (layoutManager.tv) {
@@ -209,7 +209,7 @@ function moveImage(context, apiClient, itemId, type, index, newIndex, focusConte
     });
 }
 
-function renderImages(page, item, apiClient, images, imageProviders, elem) {
+function renderImages( apiClient, images, imageProviders, elem) {
     let html = '';
 
     let imageSize = 300;
@@ -231,15 +231,15 @@ function renderImages(page, item, apiClient, images, imageProviders, elem) {
     imageLoader.lazyChildren(elem);
 }
 
-function renderStandardImages(page, apiClient, item, imageInfos, imageProviders) {
+function renderStandardImages(page, apiClient, imageInfos, imageProviders) {
     const images = imageInfos.filter(function (i) {
         return i.ImageType !== 'Backdrop' && i.ImageType !== 'Chapter';
     });
 
-    renderImages(page, item, apiClient, images, imageProviders, page.querySelector('#images'));
+    renderImages( apiClient, images, imageProviders, page.querySelector('#images'));
 }
 
-function renderBackdrops(page, apiClient, item, imageInfos, imageProviders) {
+function renderBackdrops(page, apiClient, imageInfos, imageProviders) {
     const images = imageInfos.filter(function (i) {
         return i.ImageType === 'Backdrop';
     }).sort(function (a, b) {
@@ -248,7 +248,7 @@ function renderBackdrops(page, apiClient, item, imageInfos, imageProviders) {
 
     if (images.length) {
         page.querySelector('#backdropsContainer', page).classList.remove('hide');
-        renderImages(page, item, apiClient, images, imageProviders, page.querySelector('#backdrops'));
+        renderImages( apiClient, images, imageProviders, page.querySelector('#backdrops'));
     } else {
         page.querySelector('#backdropsContainer', page).classList.add('hide');
     }

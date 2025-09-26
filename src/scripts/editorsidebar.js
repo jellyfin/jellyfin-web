@@ -70,7 +70,7 @@ function getNodeInnerHtml(item) {
     return htmlName;
 }
 
-function loadChildrenOfRootNode(page, scope, callback) {
+function loadChildrenOfRootNode( scope, callback) {
     ApiClient.getLiveTvChannels({
         limit: 0
     }).then(function (result) {
@@ -122,7 +122,7 @@ function loadLiveTvChannels(service, openItems, callback) {
     });
 }
 
-function loadMediaFolders(page, scope, openItems, callback) {
+function loadMediaFolders( scope, openItems, callback) {
     ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders')).then(function (result) {
         const nodes = result.Items.map(function (n) {
             const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
@@ -137,10 +137,10 @@ function loadMediaFolders(page, scope, openItems, callback) {
     });
 }
 
-function loadNode(page, scope, node, openItems, selectedId, currentUser, callback) {
+function loadNode( scope, node, openItems, selectedId, callback) {
     const id = node.id;
     if (id == '#') {
-        loadChildrenOfRootNode(page, scope, callback);
+        loadChildrenOfRootNode( scope, callback);
         return;
     }
     if (id == 'livetv') {
@@ -148,7 +148,7 @@ function loadNode(page, scope, node, openItems, selectedId, currentUser, callbac
         return;
     }
     if (id == 'MediaFolders') {
-        loadMediaFolders(page, scope, openItems, callback);
+        loadMediaFolders( scope, openItems, callback);
         return;
     }
     const query = {
@@ -185,16 +185,16 @@ function scrollToNode(id) {
     }
 }
 
-function initializeTree(page, currentUser, openItems, selectedId) {
+function initializeTree(page, openItems, selectedId) {
     Promise.all([
         import('jstree'),
         import('jstree/dist/themes/default/style.css')
     ]).then(() => {
-        initializeTreeInternal(page, currentUser, openItems, selectedId);
+        initializeTreeInternal(page, openItems, selectedId);
     });
 }
 
-function onNodeSelect(event, data) {
+function onNodeSelect(_event, data) {
     const node = data.node;
     const eventData = {
         id: node.id,
@@ -220,7 +220,7 @@ function onNodeOpen(_, data) {
     const page = $(this).parents('.page')[0];
     const node = data.node;
     if (node.children) {
-        loadNodesToLoad(page, node);
+        loadNodesToLoad( node);
     }
     if (node.li_attr && node.id != '#' && !node.li_attr.loadedFromServer) {
         node.li_attr.loadedFromServer = true;
@@ -228,7 +228,7 @@ function onNodeOpen(_, data) {
     }
 }
 
-function initializeTreeInternal(page, currentUser, openItems, selectedId) {
+function initializeTreeInternal(page, openItems, selectedId) {
     nodesToLoad = [];
     selectedNodeId = null;
     $.jstree.destroy();
@@ -237,7 +237,7 @@ function initializeTreeInternal(page, currentUser, openItems, selectedId) {
         core: {
             check_callback: true,
             data: function (node, callback) {
-                loadNode(page, this, node, openItems, selectedId, currentUser, callback);
+                loadNode( this, node, openItems, selectedId, callback);
             },
             themes: {
                 variant: 'large'
@@ -301,7 +301,7 @@ export function getCurrentItemId() {
 
 let nodesToLoad = [];
 let selectedNodeId;
-$(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
+$(document).on('itemsaved', '.metadataEditorPage', function (_e, item) {
     updateEditorNode(this, item);
 }).on('pagebeforeshow', '.metadataEditorPage', function () {
     import('../styles/metadataeditor.scss');
@@ -314,10 +314,10 @@ $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
                 const ids = ancestors.map(function (i) {
                     return i.Id;
                 });
-                initializeTree(page, user, ids, id);
+                initializeTree(page, ids, id);
             });
         } else {
-            initializeTree(page, user, []);
+            initializeTree(page, []);
         }
     });
 }).on('pagebeforehide', '.metadataEditorPage', function () {

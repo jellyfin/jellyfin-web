@@ -557,7 +557,7 @@ function executeCommand(item, id, options) {
                 getResolveFunction(resolve, id)();
                 break;
             case 'delete':
-                deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true, itemId), getResolveFunction(resolve, id));
+                deleteItem(item).then(getResolveFunction(resolve, id, true, true, itemId), getResolveFunction(resolve, id));
                 break;
             case 'share':
                 navigator.share({
@@ -627,10 +627,10 @@ function executeCommand(item, id, options) {
                 });
                 break;
             case 'canceltimer':
-                deleteTimer(apiClient, item, resolve, id);
+                deleteTimer(item, resolve, id);
                 break;
             case 'cancelseriestimer':
-                deleteSeriesTimer(apiClient, item, resolve, id);
+                deleteSeriesTimer(item, resolve, id);
                 break;
             default:
                 reject();
@@ -639,7 +639,7 @@ function executeCommand(item, id, options) {
     });
 }
 
-function deleteTimer(apiClient, item, resolve, command) {
+function deleteTimer(item, resolve, command) {
     import('./recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
         const timerId = item.TimerId || item.Id;
         recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
@@ -648,7 +648,7 @@ function deleteTimer(apiClient, item, resolve, command) {
     });
 }
 
-function deleteSeriesTimer(apiClient, item, resolve, command) {
+function deleteSeriesTimer(item, resolve, command) {
     import('./recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
         recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
             getResolveFunction(resolve, command, true)();
@@ -712,7 +712,7 @@ function editItem(apiClient, item) {
     });
 }
 
-function deleteItem(apiClient, item) {
+function deleteItem(item) {
     return new Promise(function (resolve, reject) {
         import('../scripts/deleteHelper').then((deleteHelper) => {
             deleteHelper.deleteItem({
