@@ -24,6 +24,41 @@ let savedLyrics;
 let isDynamicLyric = false;
 let autoScroll = AutoScroll.Instant;
 
+/**
+ * Fix character encoding issues in lyrics text
+ * @param {string} text - The lyrics text that may have encoding issues
+ * @returns {string} - The corrected text
+ */
+function fixLyricsEncoding(text) {
+    if (!text || typeof text !== 'string') {
+        return text;
+    }
+    
+    // Fix common UTF-8 encoding issues where special characters appear as �
+    try {
+        // Common Nordic/European character fixes for double-encoded UTF-8
+        return text
+            .replace(/Ã¥/g, 'å')  // å character
+            .replace(/Ã¤/g, 'ä')  // ä character  
+            .replace(/Ã¶/g, 'ö')  // ö character
+            .replace(/Ã©/g, 'é')  // é character
+            .replace(/Ã¡/g, 'á')  // á character
+            .replace(/Ã­/g, 'í')  // í character
+            .replace(/Ã³/g, 'ó')  // ó character
+            .replace(/Ãº/g, 'ú')  // ú character
+            .replace(/Ã±/g, 'ñ')  // ñ character
+            .replace(/Ã§/g, 'ç')  // ç character
+            .replace(/â€™/g, "'") // smart apostrophe
+            .replace(/â€œ/g, '"') // smart quote left
+            .replace(/â€/g, '"')  // smart quote right
+            .replace(/â€"/g, '–') // en dash
+            .replace(/â€"/g, '—'); // em dash
+    } catch (error) {
+        console.warn('Error fixing lyrics encoding:', error);
+        return text;
+    }
+}
+
 function lyricHtmlReducer(htmlAccumulator, lyric, index) {
     const elem = layoutManager.tv ? 'button' : 'div';
     const classes = [];
@@ -32,7 +67,7 @@ function lyricHtmlReducer(htmlAccumulator, lyric, index) {
     const lyricTime = typeof lyric.Start !== 'undefined' ? `data-lyrictime="${lyric.Start}"` : '';
 
     htmlAccumulator += `<${elem} class="lyricsLine ${classes.join(' ')}" id="lyricPosition${index}" ${lyricTime}>
-    <bdi>${escapeHtml(lyric.Text)}</bdi>
+    <bdi>${escapeHtml(fixLyricsEncoding(lyric.Text))}</bdi>
 </${elem}>`;
 
     return htmlAccumulator;
