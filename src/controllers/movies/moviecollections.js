@@ -97,8 +97,8 @@ export default function (view, params, tabContent) {
                 showLimit: false,
                 updatePageSizeSetting: false,
                 addLayoutButton: false,
-                sortButton: false,
-                filterButton: false
+                sortButton: true,
+                filterButton: true
             });
             const viewStyle = this.getCurrentViewStyle();
             if (viewStyle == 'Thumb') {
