@@ -476,15 +476,28 @@ function bindEvents(instance, player) {
         renderPlayerStats(instance, player);
     };
 
+    const localOnPlaybackStart = function () {
+        // Force immediate update when playback starts to show correct quality info
+        instance.lastRender = 0;
+        renderPlayerStats(instance, player);
+    };
+
     instance.onTimeUpdate = localOnTimeUpdate;
+    instance.onPlaybackStart = localOnPlaybackStart;
     Events.on(player, 'timeupdate', localOnTimeUpdate);
+    Events.on(player, 'playbackstart', localOnPlaybackStart);
 }
 
 function unbindEvents(instance, player) {
     const localOnTimeUpdate = instance.onTimeUpdate;
+    const localOnPlaybackStart = instance.onPlaybackStart;
 
     if (localOnTimeUpdate) {
         Events.off(player, 'timeupdate', localOnTimeUpdate);
+    }
+
+    if (localOnPlaybackStart) {
+        Events.off(player, 'playbackstart', localOnPlaybackStart);
     }
 }
 
