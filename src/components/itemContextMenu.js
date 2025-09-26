@@ -633,7 +633,7 @@ function executeCommand(item, id, options) {
                 deleteSeriesTimer(apiClient, item, resolve, id);
                 break;
             default:
-                reject();
+                reject(new Error('ExecuteCommandError'));
                 break;
         }
     });
