@@ -604,6 +604,12 @@ export default function (options) {
     if (browser.tizen || browser.web0s) {
         videoAudioCodecs.push('pcm_s16le');
         videoAudioCodecs.push('pcm_s24le');
+        
+        // Add LPCM multichannel support for WebOS eARC passthrough
+        if (browser.web0s) {
+            videoAudioCodecs.push('pcm_s32le');
+            videoAudioCodecs.push('pcm_f32le');
+        }
     }
 
     if (appSettings.enableTrueHd() || options.supportsTrueHd) {
@@ -1030,6 +1036,23 @@ export default function (options) {
             Type: 'VideoAudio',
             Codec: 'flac',
             Conditions: flacConditions
+        });
+
+        // Add LPCM multichannel codec profile for eARC passthrough
+        // Allow up to 8 channels for LPCM formats to support 5.1/7.1 surround
+        const lpcmConditions = [
+            {
+                Condition: 'LessThanEqual',
+                Property: 'AudioChannels',
+                Value: '8',
+                IsRequired: false
+            }
+        ];
+
+        profile.CodecProfiles.push({
+            Type: 'VideoAudio',
+            Codec: 'pcm_s16le,pcm_s24le,pcm_s32le,pcm_f32le',
+            Conditions: lpcmConditions
         });
 
         const flacTranscodingProfiles = [];
