@@ -213,12 +213,15 @@ function testCanPlayMkv(videoTestElement) {
         return true;
     }
 
+    // Test native MKV support first
     if (videoTestElement.canPlayType('video/x-matroska').replace(/no/, '')
             || videoTestElement.canPlayType('video/mkv').replace(/no/, '')) {
         return true;
     }
 
-    if (browser.edgeChromium && browser.windows) {
+    // Chromium-based browsers generally support MKV regardless of platform
+    // This ensures consistent behavior between Windows and Linux
+    if (browser.edgeChromium || browser.chrome) {
         return true;
     }
 
