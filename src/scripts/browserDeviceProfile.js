@@ -109,9 +109,15 @@ function supportsAc3(videoTestElement) {
  * @returns {boolean|null} _true_ if the device supports DTS (DCA). _false_ if the device doesn't support DTS (DCA). _null_ if support status is unknown.
  */
 function canPlayDts(videoTestElement) {
-    // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and LG TV 2020-2022 (webOS 5.0, 6.0 and 22) models
-    if (browser.tizenVersion >= 4 || (browser.web0sVersion >= 5 && browser.web0sVersion < 23)) {
+    // DTS audio is not supported by Samsung TV 2018+ (Tizen 4.0+) and older LG TV models (webOS 5.0, 6.0)
+    // However, newer WebOS versions (23+) and models with eARC support DTS passthrough
+    if (browser.tizenVersion >= 4 || (browser.web0sVersion >= 5 && browser.web0sVersion < 22)) {
         return false;
+    }
+
+    // WebOS 22+ (LG G2, G3, G4, etc.) support DTS passthrough via eARC
+    if (browser.web0sVersion >= 22) {
+        return true;
     }
 
     if (videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '')
@@ -613,6 +619,11 @@ export default function (options) {
     }
 
     if (appSettings.enableTrueHd() || options.supportsTrueHd) {
+        videoAudioCodecs.push('truehd');
+    }
+
+    // WebOS 22+ (LG G2, G3, G4, etc.) support TrueHD passthrough via eARC
+    if (browser.web0s && browser.web0sVersion >= 22) {
         videoAudioCodecs.push('truehd');
     }
 
