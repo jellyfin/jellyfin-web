@@ -1843,7 +1843,7 @@ export class PlaybackManager {
                         ArtistIds: firstItem.Id,
                         Filters: 'IsNotFolder',
                         Recursive: true,
-                        SortBy: options.shuffle ? 'Random' : 'Album,ParentIndexNumber,IndexNumber,SortName',
+                        SortBy: options.shuffle ? 'Random' : 'Album,IndexNumber,SortName',
                         MediaTypes: 'Audio'
                     }, queryOptions));
                 case 'PhotoAlbum':
