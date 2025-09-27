@@ -4,13 +4,8 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from '../../../../../hooks/useApi';
 import { addSection, getCardOptionsFromType, getItemTypesFromCollectionType, getTitleFromType, isLivetv, isMovies, isMusic, isTVShows, sortSections } from '../utils/search';
-import { useArtistsSearch } from './useArtistsSearch';
-import { usePeopleSearch } from './usePeopleSearch';
-import { useVideoSearch } from './useVideoSearch';
 import { Section } from '../types';
-import { useLiveTvSearch } from './useLiveTvSearch';
 import { fetchItemsByType } from './fetchItemsByType';
-import { useProgramsSearch } from './useProgramsSearch';
 import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
 
 export const useSearchItems = (
@@ -18,81 +13,128 @@ export const useSearchItems = (
     collectionType?: CollectionType,
     searchTerm?: string
 ) => {
-    const { data: artists, isPending: isArtistsPending } = useArtistsSearch(parentId, collectionType, searchTerm);
-    const { data: people, isPending: isPeoplePending } = usePeopleSearch(parentId, collectionType, searchTerm);
-    const { data: videos, isPending: isVideosPending } = useVideoSearch(parentId, collectionType, searchTerm);
-    const { data: programs, isPending: isProgramsPending } = useProgramsSearch(parentId, collectionType, searchTerm);
-    const { data: liveTvSections, isPending: isLiveTvPending } = useLiveTvSearch(parentId, collectionType, searchTerm);
     const { api, user } = useApi();
     const userId = user?.Id;
-
-    const isArtistsEnabled = !isArtistsPending || (collectionType && !isMusic(collectionType));
-    const isPeopleEnabled = !isPeoplePending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType));
-    const isVideosEnabled = !isVideosPending || collectionType;
-    const isProgramsEnabled = !isProgramsPending || collectionType;
-    const isLiveTvEnabled = !isLiveTvPending || !collectionType || !isLivetv(collectionType);
 
     return useQuery({
         queryKey: ['Search', 'Items', collectionType, parentId, searchTerm],
         queryFn: async ({ signal }) => {
-            if (liveTvSections && collectionType && isLivetv(collectionType)) {
-                return sortSections(liveTvSections);
+            // Handle LiveTV collection type separately
+            if (collectionType && isLivetv(collectionType)) {
+                // For LiveTV, use specialized search logic
+                const liveTvData = await fetchItemsByType(api!, userId, {
+                    includeItemTypes: [BaseItemKind.LiveTvProgram, BaseItemKind.LiveTvChannel],
+                    parentId,
+                    searchTerm,
+                    limit: 200
+                }, { signal });
+
+                const sections: Section[] = [];
+                if (liveTvData.Items) {
+                    const programs = liveTvData.Items.filter(item => item.Type === BaseItemKind.LiveTvProgram);
+                    const channels = liveTvData.Items.filter(item => item.Type === BaseItemKind.LiveTvChannel);
+                    
+                    addSection(sections, 'Programs', programs, { ...LIVETV_CARD_OPTIONS });
+                    addSection(sections, 'Channels', channels, { ...LIVETV_CARD_OPTIONS });
+                }
+                return sortSections(sections);
             }
 
             const sections: Section[] = [];
 
-            addSection(sections, 'Artists', artists?.Items, {
-                coverImage: true
-            });
+            // Optimize search by making parallel requests instead of sequential ones
+            const searchPromises: Promise<any>[] = [];
 
-            addSection(sections, 'Programs', programs?.Items, {
-                ...LIVETV_CARD_OPTIONS
-            });
+            // Only fetch relevant data based on collection type
+            if (!collectionType || isMusic(collectionType)) {
+                searchPromises.push(
+                    fetchItemsByType(api!, userId, {
+                        includeItemTypes: [BaseItemKind.MusicArtist],
+                        parentId,
+                        searchTerm,
+                        limit: 100
+                    }, { signal }).then(data => ({
+                        type: 'Artists',
+                        items: data.Items,
+                        options: { coverImage: true }
+                    }))
+                );
+            }
 
-            addSection(sections, 'People', people?.Items, {
-                coverImage: true
-            });
+            if (!collectionType || isMovies(collectionType) || isTVShows(collectionType)) {
+                searchPromises.push(
+                    fetchItemsByType(api!, userId, {
+                        includeItemTypes: [BaseItemKind.Person],
+                        parentId,
+                        searchTerm,
+                        limit: 100
+                    }, { signal }).then(data => ({
+                        type: 'People',
+                        items: data.Items,
+                        options: { coverImage: true }
+                    }))
+                );
+            }
 
-            addSection(sections, 'HeaderVideos', videos?.Items, {
-                showParentTitle: true
-            });
+            // Add programs search for LiveTV content
+            if (!collectionType) {
+                searchPromises.push(
+                    fetchItemsByType(api!, userId, {
+                        includeItemTypes: [BaseItemKind.LiveTvProgram],
+                        parentId,
+                        searchTerm,
+                        limit: 100
+                    }, { signal }).then(data => ({
+                        type: 'Programs',
+                        items: data.Items,
+                        options: { ...LIVETV_CARD_OPTIONS }
+                    }))
+                );
+            }
 
+            // Main content search - optimized single query
             const itemTypes: BaseItemKind[] = getItemTypesFromCollectionType(collectionType);
+            if (itemTypes.length > 0) {
+                searchPromises.push(
+                    fetchItemsByType(api!, userId, {
+                        includeItemTypes: itemTypes,
+                        parentId,
+                        searchTerm,
+                        limit: 800
+                    }, { signal }).then(data => ({
+                        type: 'MainContent',
+                        data: data
+                    }))
+                );
+            }
 
-            const searchData = await fetchItemsByType(
-                api!,
-                userId,
-                {
-                    includeItemTypes: itemTypes,
-                    parentId,
-                    searchTerm,
-                    limit: 800
-                },
-                { signal }
-            );
+            // Execute all searches in parallel for better performance
+            const results = await Promise.all(searchPromises);
 
-            if (searchData.Items) {
-                for (const itemType of itemTypes) {
-                    const items: BaseItemDto[] = [];
-                    for (const searchItem of searchData.Items) {
-                        if (searchItem.Type === itemType) {
-                            items.push(searchItem);
+            // Process results
+            for (const result of results) {
+                if (result.type === 'MainContent' && result.data.Items) {
+                    // Group items by type
+                    const itemsByType = new Map<BaseItemKind, BaseItemDto[]>();
+                    
+                    for (const item of result.data.Items) {
+                        if (!itemsByType.has(item.Type!)) {
+                            itemsByType.set(item.Type!, []);
                         }
+                        itemsByType.get(item.Type!)!.push(item);
                     }
-                    addSection(sections, getTitleFromType(itemType), items, getCardOptionsFromType(itemType));
+
+                    // Add sections for each item type
+                    for (const [itemType, items] of itemsByType) {
+                        addSection(sections, getTitleFromType(itemType), items, getCardOptionsFromType(itemType));
+                    }
+                } else if (result.items) {
+                    addSection(sections, result.type, result.items, result.options);
                 }
             }
 
             return sortSections(sections);
         },
-        enabled: (
-            !!api
-            && !!userId
-            && !!isArtistsEnabled
-            && !!isPeopleEnabled
-            && !!isVideosEnabled
-            && !!isLiveTvEnabled
-            && !!isProgramsEnabled
-        )
+        enabled: !!api && !!userId && !!searchTerm?.trim()
     });
 };
