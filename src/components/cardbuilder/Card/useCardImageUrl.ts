@@ -150,6 +150,12 @@ function shouldShowAlbumPrimaryImageTag(item: ItemDto): boolean {
 }
 
 function shouldShowPreferThumb(itemType: ItemKind, cardOptions: CardOptions): boolean {
+    // Don't prefer thumb images for Movies and Series to ensure proper vertical posters are used
+    // This fixes mixed library poster display where horizontal images were incorrectly preferred
+    if (itemType === ItemKind.Movie || itemType === ItemKind.Series) {
+        return false;
+    }
+    
     return Boolean(cardOptions.preferThumb) && !(itemType === ItemKind.Program || itemType === ItemKind.Episode);
 }
 
