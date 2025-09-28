@@ -10,23 +10,38 @@ import type { AttributesOpts, DataAttributes } from 'types/dataAttributes';
 
 export const getVideoBasicFilter = (libraryViewSettings: LibraryViewSettings) => {
     let isHd;
+    let is4K;
+    let is3D;
 
-    if (libraryViewSettings.Filters?.VideoBasicFilter?.includes(VideoBasicFilter.IsHD)) {
+    const videoFilters = libraryViewSettings.Filters?.VideoBasicFilter || [];
+    
+    // Check which video filters are selected
+    const hasHD = videoFilters.includes(VideoBasicFilter.IsHD);
+    const hasSD = videoFilters.includes(VideoBasicFilter.IsSD);
+    const has4K = videoFilters.includes(VideoBasicFilter.Is4K);
+    const has3D = videoFilters.includes(VideoBasicFilter.Is3D);
+
+    // Set filters with proper exclusivity
+    if (hasHD) {
         isHd = true;
-    }
-
-    if (libraryViewSettings.Filters?.VideoBasicFilter?.includes(VideoBasicFilter.IsSD)) {
+        // When HD is selected, explicitly exclude 4K and 3D unless they're also selected
+        is4K = has4K ? true : false;
+        is3D = has3D ? true : false;
+    } else if (hasSD) {
         isHd = false;
+        // When SD is selected, explicitly exclude 4K and 3D unless they're also selected
+        is4K = has4K ? true : false;
+        is3D = has3D ? true : false;
+    } else {
+        // When neither HD nor SD is selected, allow 4K and 3D filters to work independently
+        is4K = has4K ? true : undefined;
+        is3D = has3D ? true : undefined;
     }
 
     return {
         isHd,
-        is4K: libraryViewSettings.Filters?.VideoBasicFilter?.includes(VideoBasicFilter.Is4K) ?
-            true :
-            undefined,
-        is3D: libraryViewSettings.Filters?.VideoBasicFilter?.includes(VideoBasicFilter.Is3D) ?
-            true :
-            undefined
+        is4K,
+        is3D
     };
 };
 
