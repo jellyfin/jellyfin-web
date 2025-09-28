@@ -105,9 +105,32 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
             throw new Error('No ApiClient available');
         }
 
-        const systemInfo = await fetchPublicSystemInfo(apiClient);
-        if (systemInfo?.StartupWizardCompleted) {
-            console.info('[ConnectionRequired] startup wizard is complete, redirecting home');
+        try {
+            const systemInfo = await fetchPublicSystemInfo(apiClient);
+            if (systemInfo?.StartupWizardCompleted) {
+                console.warn('[ConnectionRequired] attempted to access completed wizard, redirecting home');
+                navigate(BounceRoutes.Home);
+                return;
+            }
+        } catch (error) {
+            console.error('[ConnectionRequired] failed to fetch system info for wizard validation', error);
+            // If we can't verify wizard status, redirect to home for security
+            navigate(BounceRoutes.Home);
+            return;
+        }
+
+        // Additional security check: ensure no admin users exist if wizard should be accessible
+        try {
+            const users = await apiClient.getUsers();
+            const adminUsers = users?.filter(user => user.Policy?.IsAdministrator);
+            if (adminUsers && adminUsers.length > 0) {
+                console.warn('[ConnectionRequired] admin users exist, wizard should not be accessible, redirecting home');
+                navigate(BounceRoutes.Home);
+                return;
+            }
+        } catch (error) {
+            console.error('[ConnectionRequired] failed to validate admin users for wizard access', error);
+            // If we can't verify user status, redirect to home for security
             navigate(BounceRoutes.Home);
             return;
         }
