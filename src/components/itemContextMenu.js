@@ -16,6 +16,7 @@ import { AppFeature } from 'constants/appFeature';
 
 /** Item types that support downloading all children. */
 const DOWNLOAD_ALL_TYPES = [
+    BaseItemKind.BoxSet,
     BaseItemKind.MusicAlbum,
     BaseItemKind.Season,
     BaseItemKind.Series
@@ -454,6 +455,7 @@ function executeCommand(item, id, options) {
                 };
 
                 switch (item.Type) {
+                    case BaseItemKind.BoxSet:
                     case BaseItemKind.MusicAlbum:
                         apiClient.getItems(options.user.Id, {
                             ParentId: item.Id,
