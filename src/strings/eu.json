@@ -892,7 +892,7 @@
     "LabelAccessStart": "Hasiera-ordua",
     "LabelAccessEnd": "Amaiera-ordua",
     "LabelAccessDay": "Asteko eguna",
-    "LabelAbortedByServerShutdown": "(Zerbitzaria ixteagatik abortatua)",
+    "LabelAbortedByServerShutdown": "Zerbitzaria ixteagatik abortatua",
     "Label3DFormat": "3D formatua",
     "KnownProxiesHelp": "Jellyfinera konektatzean erabiltzen diren proxien IP helbideen edo hostnameen komaz bereizitako zerrenda. Hori beharrezkoa da X-Forwarded-For goiburuak behar bezala erabiltzeko. Gorde ondoren berriz hasi behar da.",
     "Kids": "Haurrak",
