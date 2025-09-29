@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import Box from '@mui/material/Box';
@@ -16,6 +16,16 @@ import RunningTasksWidget from '../components/widgets/RunningTasksWidget';
 import DevicesWidget from '../components/widgets/DevicesWidget';
 import { useStartTask } from '../features/tasks/api/useStartTask';
 import ItemCountsWidget from '../components/widgets/ItemCountsWidget';
+
+// Global DashboardPage object for backward compatibility with HTML onclick handlers
+declare global {
+    interface Window {
+        DashboardPage?: {
+            restart: (element?: HTMLElement) => void;
+            shutdown: (element?: HTMLElement) => void;
+        };
+    }
+}
 
 export const Component = () => {
     const [ isRestartConfirmDialogOpen, setIsRestartConfirmDialogOpen ] = useState(false);
@@ -61,6 +71,23 @@ export const Component = () => {
         shutdownServer.mutate();
         setIsShutdownConfirmDialogOpen(false);
     }, [ shutdownServer ]);
+
+    // Set up global DashboardPage object for backward compatibility
+    useEffect(() => {
+        window.DashboardPage = {
+            restart: () => {
+                promptRestart();
+            },
+            shutdown: () => {
+                promptShutdown();
+            }
+        };
+
+        // Cleanup on unmount
+        return () => {
+            delete window.DashboardPage;
+        };
+    }, [ promptRestart, promptShutdown ]);
 
     return (
         <Page
