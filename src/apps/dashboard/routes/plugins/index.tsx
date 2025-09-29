@@ -81,7 +81,13 @@ export const Component = () => {
                 }
             }
             return filtered
-                .filter(i => i.name?.toLowerCase().includes(searchQuery.toLowerCase()));
+                .filter(i => {
+                    // Fix search functionality by handling empty/null search queries (Issue #6707)
+                    if (!searchQuery || searchQuery.trim() === '') {
+                        return true; // Show all items when search is empty
+                    }
+                    return i.name?.toLowerCase().includes(searchQuery.toLowerCase());
+                });
         } else {
             return [];
         }
