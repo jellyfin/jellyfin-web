@@ -45,7 +45,7 @@ function loadValues(context, itemType, options, availableOptions) {
     const supportedImageTypes = availableOptions.SupportedImageTypes || [];
     setVisibilityOfBackdrops(context.querySelector('.backdropFields'), supportedImageTypes.includes('Backdrop'));
     Array.prototype.forEach.call(context.querySelectorAll('.imageType'), i => {
-        const imageType = i.getAttribute('data-imagetype');
+        const imageType = i.dataset.imageType;
         const container = dom.parentWithTag(i, 'LABEL');
 
         if (!supportedImageTypes.includes(imageType)) {
@@ -68,7 +68,7 @@ function loadValues(context, itemType, options, availableOptions) {
 function saveValues(context, options) {
     options.ImageOptions = Array.prototype.map.call(context.querySelectorAll('.imageType:not(.hide)'), c => {
         return {
-            Type: c.getAttribute('data-imagetype'),
+            Type: c.dataset.imagetype,
             Limit: c.checked ? 1 : 0,
             MinWidth: 0
         };

@@ -18,7 +18,7 @@ worker.addEventListener(
     }
 );
 
-export function lazyImage(elem, source = elem.getAttribute('data-src')) {
+export function lazyImage(elem, source = elem.dataset.src) {
     if (!source) {
         return;
     }
@@ -43,7 +43,7 @@ function drawBlurhash(target, pixels, width, height) {
 
         target.parentNode.insertBefore(canvas, target);
         target.classList.add('blurhashed');
-        target.removeAttribute('data-blurhash');
+        delete target.dataset.blurhash;
     });
 }
 
@@ -77,7 +77,7 @@ export function fillImage(entry) {
     let source;
 
     if (target) {
-        source = target.getAttribute('data-src');
+        source = target.dataset.src;
     } else {
         source = entry;
     }
@@ -123,7 +123,7 @@ function fillImageElement(elem, url) {
             } else {
                 elem.setAttribute('src', url);
             }
-            elem.removeAttribute('data-src');
+            delete elem.dataset.src;
 
             if (userSettings.enableFastFadein()) {
                 elem.classList.add('lazy-image-fadein-fast');
@@ -151,10 +151,10 @@ function emptyImageElement(elem) {
         url = elem.style.backgroundImage.slice(4, -1).replace(/"/g, '');
         elem.style.backgroundImage = 'none';
     } else {
-        url = elem.getAttribute('src');
-        elem.setAttribute('src', '');
+        url = elem.dataset.src;
+        elem.dataset.src = '';
     }
-    elem.setAttribute('data-src', url);
+    elem.dataset.src = url;
 
     elem.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
     elem.classList.add('lazy-hidden');
@@ -163,7 +163,7 @@ function emptyImageElement(elem) {
 export function lazyChildren(elem) {
     if (userSettings.enableBlurhash()) {
         for (const lazyElem of elem.querySelectorAll('.lazy')) {
-            const blurhashstr = lazyElem.getAttribute('data-blurhash');
+            const blurhashstr = lazyElem.dataset.blurhash;
             if (!lazyElem.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
                 itemBlurhashing(lazyElem, blurhashstr);
             } else if (!blurhashstr && !lazyElem.classList.contains('blurhashed')) {
@@ -242,7 +242,7 @@ export function fillImages(elems) {
 
 export function setLazyImage(element, url) {
     element.classList.add('lazy');
-    element.setAttribute('data-src', url);
+    element.dataset.src = url;
     lazyImage(element);
 }
 

@@ -38,7 +38,7 @@ function onContextMenu(e) {
     const card = dom.parentWithAttribute(target, 'data-id');
 
     // check for serverId, it won't be present on selectserver
-    if (card?.getAttribute('data-serverid')) {
+    if (card?.dataset.serverId) {
         inputManager.handleCommand('menu', {
             sourceElement: card
         });
@@ -83,8 +83,8 @@ function onDrop(evt, itemsContainer) {
     const el = evt.item;
 
     const newIndex = evt.newIndex;
-    const itemId = el.getAttribute('data-playlistitemid');
-    const playlistId = el.getAttribute('data-playlistid');
+    const itemId = el.dataset.playlistitemid;
+    const playlistId = el.dataset.playlistid;
 
     if (!playlistId) {
         const oldIndex = evt.oldIndex;
@@ -100,7 +100,7 @@ function onDrop(evt, itemsContainer) {
         return;
     }
 
-    const serverId = el.getAttribute('data-serverid');
+    const serverId = el.dataset.serverid;
     const apiClient = ServerConnections.getApiClient(serverId);
 
     loading.show();
@@ -160,7 +160,7 @@ function onUserDataChanged(e, apiClient, userData) {
 }
 
 function getEventsToMonitor(itemsContainer) {
-    const monitor = itemsContainer.getAttribute('data-monitor');
+    const monitor = itemsContainer.dataset.monitor;
     if (monitor) {
         return monitor.split(',');
     }
@@ -231,7 +231,7 @@ function onLibraryChanged(e, apiClient, data) {
         return;
     }
 
-    const parentId = itemsContainer.getAttribute('data-parentid');
+    const parentId = itemsContainer.dataset.parentid;
     if (parentId) {
         const foldersAddedTo = data.FoldersAddedTo || [];
         const foldersRemovedFrom = data.FoldersRemovedFrom || [];
@@ -286,11 +286,11 @@ ItemsContainerPrototype.attachedCallback = function () {
 
     if (browser.touch) {
         this.addEventListener('contextmenu', disableEvent);
-    } else if (this.getAttribute('data-contextmenu') !== 'false') {
+    } else if (this.dataset.contextmenu !== 'false') {
         this.addEventListener('contextmenu', onContextMenu);
     }
 
-    if (layoutManager.desktop || layoutManager.mobile && this.getAttribute('data-multiselect') !== 'false') {
+    if (layoutManager.desktop || layoutManager.mobile && this.dataset.multiselect !== 'false') {
         this.enableMultiSelect(true);
     }
 
@@ -308,7 +308,7 @@ ItemsContainerPrototype.attachedCallback = function () {
     addNotificationEvent(this, 'LibraryChanged', onLibraryChanged);
     addNotificationEvent(this, 'playbackstop', onPlaybackStopped, playbackManager);
 
-    if (this.getAttribute('data-dragreorder') === 'true') {
+    if (this.dataset.dragreorder === 'true') {
         this.enableDragReordering(true);
     }
 };
@@ -411,7 +411,7 @@ function resetRefreshInterval(itemsContainer, intervalMs) {
     clearRefreshInterval(itemsContainer);
 
     if (!intervalMs) {
-        intervalMs = parseInt(itemsContainer.getAttribute('data-refreshinterval') || '0', 10);
+        intervalMs = parseInt(itemsContainer.dataset.refreshinterval || '0', 10);
     }
 
     if (intervalMs) {
@@ -438,7 +438,7 @@ function onDataFetched(result) {
 
     if (this.contains(activeElement)) {
         hasActiveElement = true;
-        focusId = activeElement.getAttribute('data-id');
+        focusId = activeElement.dataset.id;
     }
 
     this.innerHTML = this.getItemsHtml(items);

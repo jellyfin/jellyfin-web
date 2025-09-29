@@ -1969,11 +1969,11 @@ export default function (view, params) {
 
     function onPlayClick() {
         let actionElem = this;
-        let action = actionElem.getAttribute('data-action');
+        let action = actionElem.dataset.action;
 
         if (!action) {
             actionElem = actionElem.querySelector('[data-action]') || actionElem;
-            action = actionElem.getAttribute('data-action');
+            action = actionElem.dataset.action;
         }
 
         playCurrentItem(actionElem, action);

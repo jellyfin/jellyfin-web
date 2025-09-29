@@ -183,7 +183,7 @@ function addMediaLocation(page, path, networkSharePath) {
 
 function onRemoveClick(e) {
     const button = dom.parentWithClass(e.target, 'btnRemovePath');
-    const index = parseInt(button.getAttribute('data-index'), 10);
+    const index = parseInt(button.dataset.index, 10);
     const location = pathInfos[index].Path;
     const locationLower = location.toLowerCase();
     pathInfos = pathInfos.filter(p => {

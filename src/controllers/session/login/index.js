@@ -224,9 +224,9 @@ export default function (view, params) {
 
         if (cardContent) {
             const context = view;
-            const id = cardContent.getAttribute('data-userid');
-            const name = cardContent.getAttribute('data-username');
-            const haspw = cardContent.getAttribute('data-haspw');
+            const id = cardContent.dataset.userId;
+            const name = cardContent.dataset.username;
+            const haspw = cardContent.dataset.haspw;
 
             if (id === 'manual') {
                 context.querySelector('#txtManualName').value = '';

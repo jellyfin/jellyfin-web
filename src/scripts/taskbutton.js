@@ -36,7 +36,7 @@ function taskbutton(options) {
             button.setAttribute('disabled', 'disabled');
         }
 
-        button.setAttribute('data-taskid', task.Id);
+        button.dataset.taskid = task.Id;
         const progress = (task.CurrentProgressPercentage || 0).toFixed(1);
 
         if (options.progressElem) {
@@ -69,7 +69,7 @@ function taskbutton(options) {
     }
 
     function onButtonClick() {
-        onScheduledTaskMessageConfirmed(this.getAttribute('data-taskid'));
+        onScheduledTaskMessageConfirmed(this.dataset.taskId);
     }
 
     function onScheduledTasksUpdate(e, apiClient, info) {

@@ -4,8 +4,8 @@ import { appRouter } from './router/appRouter';
 import Dashboard from '../utils/dashboard';
 
 function onGroupedCardClick(e, card) {
-    const itemId = card.getAttribute('data-id');
-    const serverId = card.getAttribute('data-serverid');
+    const itemId = card.dataset.id;
+    const serverId = card.dataset.serverid;
     const apiClient = ServerConnections.getApiClient(serverId);
     const userId = apiClient.getCurrentUserId();
     const playedIndicator = card.querySelector('.playedIndicator');

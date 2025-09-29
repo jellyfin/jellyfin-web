@@ -73,7 +73,7 @@ function submitUpdatedItem(form, item) {
 function getSelectedAirDays(form) {
     const checkedItems = form.querySelectorAll('.chkAirDay:checked') || [];
     return Array.prototype.map.call(checkedItems, function (c) {
-        return c.getAttribute('data-day');
+        return c.dataset.day;
     });
 }
 
@@ -166,7 +166,7 @@ function onSubmit(e) {
         LockedFields: Array.prototype.filter.call(form.querySelectorAll('.selectLockedField'), function (c) {
             return !c.checked;
         }).map(function (c) {
-            return c.getAttribute('data-value');
+            return c.dataset.value;
         })
     };
 
@@ -174,7 +174,7 @@ function onSubmit(e) {
 
     const idElements = form.querySelectorAll('.txtExternalId');
     Array.prototype.map.call(idElements, function (idElem) {
-        const providerKey = idElem.getAttribute('data-providerkey');
+        const providerKey = idElem.dataset.providerkey;
         item.ProviderIds[providerKey] = idElem.value;
     });
 
@@ -384,14 +384,14 @@ function init(context) {
         let index;
         const btnDeletePerson = dom.parentWithClass(e.target, 'btnDeletePerson');
         if (btnDeletePerson) {
-            index = parseInt(btnDeletePerson.getAttribute('data-index'), 10);
+            index = parseInt(btnDeletePerson.dataset.index, 10);
             currentItem.People.splice(index, 1);
             populatePeople(context, currentItem.People);
         }
 
         const btnEditPerson = dom.parentWithClass(e.target, 'btnEditPerson');
         if (btnEditPerson) {
-            index = parseInt(btnEditPerson.getAttribute('data-index'), 10);
+            index = parseInt(btnEditPerson.dataset.index, 10);
             editPerson(context, currentItem.People[index], index);
         }
     });
@@ -764,7 +764,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     context.querySelector('#select3dFormat', context).value = item.Video3DFormat || '';
 
     Array.prototype.forEach.call(context.querySelectorAll('.chkAirDay', context), function (el) {
-        el.checked = (item.AirDays || []).indexOf(el.getAttribute('data-day')) !== -1;
+        el.checked = (item.AirDays || []).indexOf(el.dataset.day) !== -1;
     });
 
     populateListView(context.querySelector('#listGenres'), item.Genres);

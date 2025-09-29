@@ -23,7 +23,7 @@ function initEditor(context, settings) {
     const elems = context.querySelectorAll('.viewSetting-checkboxContainer');
 
     for (const elem of elems) {
-        elem.querySelector('input').checked = settings[elem.getAttribute('data-settingname')] || false;
+        elem.querySelector('input').checked = settings[elem.dataset.settingName] || false;
     }
 
     context.querySelector('.selectImageType').value = settings.imageType || 'primary';
@@ -32,7 +32,7 @@ function initEditor(context, settings) {
 function saveValues(context, settings, settingsKey) {
     const elems = context.querySelectorAll('.viewSetting-checkboxContainer');
     for (const elem of elems) {
-        userSettings.set(settingsKey + '-' + elem.getAttribute('data-settingname'), elem.querySelector('input').checked);
+        userSettings.set(settingsKey + '-' + elem.dataset.settingname, elem.querySelector('input').checked);
     }
 
     userSettings.set(settingsKey + '-imageType', context.querySelector('.selectImageType').value);
@@ -87,7 +87,7 @@ class ViewSettings {
 
             const settingElements = dlg.querySelectorAll('.viewSetting');
             for (const settingElement of settingElements) {
-                if (options.visibleSettings.indexOf(settingElement.getAttribute('data-settingname')) === -1) {
+                if (options.visibleSettings.indexOf(settingElement.dataset.settingname) === -1) {
                     settingElement.classList.add('hide');
                     settingElement.classList.add('hiddenFromViewSettings');
                 } else {

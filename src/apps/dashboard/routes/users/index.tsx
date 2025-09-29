@@ -48,8 +48,8 @@ const UserProfiles = () => {
 
         const showUserMenu = (elem: HTMLElement) => {
             const card = dom.parentWithClass(elem, 'card');
-            const userId = card?.getAttribute('data-userid');
-            const username = card?.getAttribute('data-username');
+            const userId = card?.dataset.userId;
+            const username = card?.dataset.username;
 
             if (!userId) {
                 console.error('Unexpected null user id');

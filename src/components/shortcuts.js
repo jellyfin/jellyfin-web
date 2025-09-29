@@ -31,7 +31,7 @@ function playAllFromHere(card, serverId, queue) {
             startIndex = i;
         }
         if (foundCard || !queue) {
-            ids.push(cards[i].getAttribute('data-id'));
+            ids.push(cards[i].dataset.id);
         }
     }
 
@@ -79,9 +79,9 @@ function showProgramDialog(item) {
 
 function getItem(button) {
     button = dom.parentWithAttribute(button, 'data-id');
-    const serverId = button.getAttribute('data-serverid');
-    const id = button.getAttribute('data-id');
-    const type = button.getAttribute('data-type');
+    const serverId = button.dataset.serverid;
+    const id = button.dataset.id;
+    const type = button.dataset.type;
 
     const apiClient = ServerConnections.getApiClient(serverId);
 
@@ -104,18 +104,18 @@ function notifyRefreshNeeded(childElement, itemsContainer) {
 
 function showContextMenu(card, options = {}) {
     getItem(card).then(item => {
-        const playlistId = card.getAttribute('data-playlistid');
-        const collectionId = card.getAttribute('data-collectionid');
+        const playlistId = card.dataset.playlistid;
+        const collectionId = card.dataset.collectionid;
 
         if (playlistId) {
             const elem = dom.parentWithAttribute(card, 'data-playlistitemid');
-            item.PlaylistItemId = elem ? elem.getAttribute('data-playlistitemid') : null;
+            item.PlaylistItemId = elem ? elem.dataset.playlistitemid : null;
 
             const itemsContainer = dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
             if (itemsContainer) {
                 let index = 0;
                 for (const listItem of itemsContainer.querySelectorAll('.listItem')) {
-                    const playlistItemId = listItem.getAttribute('data-playlistitemid');
+                    const playlistItemId = listItem.dataset.playlistitemid;
                     if (playlistItemId == item.PlaylistItemId) {
                         item.PlaylistIndex = index;
                     }
@@ -180,20 +180,20 @@ function showContextMenu(card, options = {}) {
 
 function getItemInfoFromCard(card) {
     return {
-        Type: card.getAttribute('data-type'),
-        Id: card.getAttribute('data-id'),
-        TimerId: card.getAttribute('data-timerid'),
-        CollectionType: card.getAttribute('data-collectiontype'),
-        ChannelId: card.getAttribute('data-channelid'),
-        SeriesId: card.getAttribute('data-seriesid'),
-        ServerId: card.getAttribute('data-serverid'),
-        MediaType: card.getAttribute('data-mediatype'),
-        Path: card.getAttribute('data-path'),
-        IsFolder: card.getAttribute('data-isfolder') === 'true',
-        StartDate: card.getAttribute('data-startdate'),
-        EndDate: card.getAttribute('data-enddate'),
+        Type: card.dataset.type,
+        Id: card.dataset.id,
+        TimerId: card.dataset.timerid,
+        CollectionType: card.dataset.collectiontype,
+        ChannelId: card.dataset.channelid,
+        SeriesId: card.dataset.seriesid,
+        ServerId: card.dataset.serverid,
+        MediaType: card.dataset.mediatype,
+        Path: card.dataset.path,
+        IsFolder: card.dataset.isfolder === 'true',
+        StartDate: card.dataset.startdate,
+        EndDate: card.dataset.enddate,
         UserData: {
-            PlaybackPositionTicks: parseInt(card.getAttribute('data-positionticks') || '0', 10)
+            PlaybackPositionTicks: parseInt(card.dataset.positionticks || '0', 10)
         }
     };
 }
@@ -213,18 +213,18 @@ function showPlayMenu(card, target) {
 function executeAction(card, target, action) {
     target = target || card;
 
-    let id = card.getAttribute('data-id');
+    let id = card.dataset.id;
 
     if (!id) {
         card = dom.parentWithAttribute(card, 'data-id');
-        id = card.getAttribute('data-id');
+        id = card.dataset.id;
     }
 
     const item = getItemInfoFromCard(card);
 
     const itemsContainer = dom.parentWithClass(card, 'itemsContainer');
 
-    const sortParentId = 'items-' + (item.IsFolder ? item.Id : itemsContainer?.getAttribute('data-parentid')) + '-Folder';
+    const sortParentId = 'items-' + (item.IsFolder ? item.Id : itemsContainer?.dataset.parentid) + '-Folder';
 
     const serverId = item.ServerId;
     const type = item.Type;
@@ -237,8 +237,8 @@ function executeAction(card, target, action) {
 
     if (action === 'link') {
         appRouter.showItem(item, {
-            context: card.getAttribute('data-context'),
-            parentId: card.getAttribute('data-parentid')
+            context: card.dataset.context,
+            parentId: card.dataset.parentid
         });
     } else if (action === 'programdialog') {
         showProgramDialog(item);
@@ -248,7 +248,7 @@ function executeAction(card, target, action) {
             ServerId: serverId
         });
     } else if (action === 'play' || action === 'resume') {
-        const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0', 10);
+        const startPositionTicks = parseInt(card.dataset.positionticks || '0', 10);
         const sortValues = userSettings.getSortValuesLegacy(sortParentId, 'SortName');
 
         if (playbackManager.canPlay(item)) {
@@ -282,11 +282,11 @@ function executeAction(card, target, action) {
     } else if (action === 'queueallfromhere') {
         playAllFromHere(card, serverId, true);
     } else if (action === 'setplaylistindex') {
-        playbackManager.setCurrentPlaylistItem(card.getAttribute('data-playlistitemid'));
+        playbackManager.setCurrentPlaylistItem(card.dataset.playlistitemid);
     } else if (action === 'record') {
-        onRecordCommand(serverId, id, type, card.getAttribute('data-timerid'), card.getAttribute('data-seriestimerid'));
+        onRecordCommand(serverId, id, type, card.dataset.timerid, card.dataset.seriestimerid);
     } else if (action === 'menu') {
-        const options = target.getAttribute('data-playoptions') === 'false' ?
+        const options = target.dataset.playoptions === 'false' ?
             {
                 shuffle: false,
                 instantMix: false,
@@ -311,11 +311,11 @@ function executeAction(card, target, action) {
     } else if (action === 'addtoplaylist') {
         getItem(target).then(addToPlaylist);
     } else if (action === 'custom') {
-        const customAction = target.getAttribute('data-customaction');
+        const customAction = target.dataset.customaction;
 
         card.dispatchEvent(new CustomEvent(`action-${customAction}`, {
             detail: {
-                playlistItemId: card.getAttribute('data-playlistitemid')
+                playlistItemId: card.dataset.playlistitemid
             },
             cancelable: false,
             bubbles: true
@@ -381,12 +381,12 @@ export function onClick(e) {
 
     if (card) {
         let actionElement = card;
-        let action = actionElement.getAttribute('data-action');
+        let action = actionElement.dataset.action;
 
         if (!action) {
             actionElement = dom.parentWithAttribute(actionElement, 'data-action');
             if (actionElement) {
-                action = actionElement.getAttribute('data-action');
+                action = actionElement.dataset.action;
             }
         }
 

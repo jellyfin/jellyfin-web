@@ -126,7 +126,7 @@ const UserNew = () => {
                     user.Policy.EnabledFolders = Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (i) {
                         return i.checked;
                     }).map(function (i) {
-                        return i.getAttribute('data-id');
+                        return i.dataset.id;
                     });
                 }
 
@@ -137,7 +137,7 @@ const UserNew = () => {
                     user.Policy.EnabledChannels = Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (i) {
                         return i.checked;
                     }).map(function (i) {
-                        return i.getAttribute('data-id');
+                        return i.dataset.id;
                     });
                 }
 

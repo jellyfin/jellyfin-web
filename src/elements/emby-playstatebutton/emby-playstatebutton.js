@@ -20,8 +20,8 @@ function removeNotificationEvent(instance, name) {
 
 function onClick() {
     const button = this;
-    const id = button.getAttribute('data-id');
-    const serverId = button.getAttribute('data-serverid');
+    const id = button.dataset.id;
+    const serverId = button.dataset.serverid;
     const apiClient = ServerConnections.getApiClient(serverId);
 
     if (!button.classList.contains('playstatebutton-played')) {
@@ -35,7 +35,7 @@ function onClick() {
 
 function onUserDataChanged(e, apiClient, userData) {
     const button = this;
-    if (userData.ItemId === button.getAttribute('data-id')) {
+    if (userData.ItemId === button.dataset.id) {
         setState(button, userData.Played);
     }
 }
@@ -62,10 +62,10 @@ function setState(button, played, updateAttribute) {
     }
 
     if (updateAttribute !== false) {
-        button.setAttribute('data-played', played);
+        button.dataset.played = played;
     }
 
-    setTitle(button, button.getAttribute('data-type'), played);
+    setTitle(button, button.dataset.type, played);
 }
 
 function setTitle(button, itemType, played) {
@@ -108,10 +108,10 @@ EmbyPlaystateButtonPrototype.attachedCallback = function () {
         EmbyButtonPrototype.attachedCallback.call(this);
     }
 
-    const itemId = this.getAttribute('data-id');
-    const serverId = this.getAttribute('data-serverid');
+    const itemId = this.dataset.id;
+    const serverId = this.dataset.serverid;
     if (itemId && serverId) {
-        setState(this, this.getAttribute('data-played') === 'true', false);
+        setState(this, this.dataset.played === 'true', false);
         bindEvents(this);
     }
 };
@@ -128,18 +128,18 @@ EmbyPlaystateButtonPrototype.detachedCallback = function () {
 
 EmbyPlaystateButtonPrototype.setItem = function (item) {
     if (item) {
-        this.setAttribute('data-id', item.Id);
-        this.setAttribute('data-serverid', item.ServerId);
-        this.setAttribute('data-type', item.Type);
+        this.dataset.id = item.Id;
+        this.dataset.serverid = item.ServerId;
+        this.dataset.type = item.Type;
 
         const played = item.UserData?.Played;
         setState(this, played);
         bindEvents(this);
     } else {
-        this.removeAttribute('data-id');
-        this.removeAttribute('data-serverid');
-        this.removeAttribute('data-type');
-        this.removeAttribute('data-played');
+        delete this.dataset.id;
+        delete this.dataset.serverid;
+        delete this.dataset.type;
+        delete this.dataset.played;
         clearEvents(this);
     }
 };

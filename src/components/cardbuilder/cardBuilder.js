@@ -1270,7 +1270,7 @@ function ensureIndicators(card, indicatorsElem) {
  * @param {Object} userData - User data to apply to the card.
  */
 function updateUserData(card, userData) {
-    const type = card.getAttribute('data-type');
+    const type = card.dataset.type;
     const enableCountIndicator = type === 'Series' || type === 'BoxSet' || type === 'Season';
     let indicatorsElem = null;
     let playedIndicator = null;
@@ -1333,7 +1333,7 @@ function updateUserData(card, userData) {
             innerCardFooter.appendChild(itemProgressBar);
         }
 
-        card.setAttribute('data-positionticks', userData.PlaybackPositionTicks);
+        card.dataset.positionticks = userData.PlaybackPositionTicks;
         itemProgressBar.innerHTML = progressHtml;
     } else {
         itemProgressBar = card.querySelector('.itemProgressBar');
@@ -1372,7 +1372,7 @@ export function onTimerCreated(programId, newTimerId, itemsContainer) {
             const indicatorsElem = ensureIndicators(cell);
             indicatorsElem.insertAdjacentHTML('beforeend', '<span class="material-icons timerIndicator indicatorIcon fiber_manual_record" aria-hidden="true"></span>');
         }
-        cell.setAttribute('data-timerid', newTimerId);
+        cell.dataset.timerid = newTimerId;
     }
 }
 
@@ -1389,7 +1389,7 @@ export function onTimerCancelled(timerId, itemsContainer) {
         if (icon) {
             icon.parentNode.removeChild(icon);
         }
-        cell.removeAttribute('data-timerid');
+        delete cell.dataset.timerid;
     }
 }
 
@@ -1406,7 +1406,7 @@ export function onSeriesTimerCancelled(cancelledTimerId, itemsContainer) {
         if (icon) {
             icon.parentNode.removeChild(icon);
         }
-        cell.removeAttribute('data-seriestimerid');
+        delete cell.dataset.seriestimerid;
     }
 }
 

@@ -89,7 +89,7 @@ EmbyButtonPrototype.attachedCallback = function () {
 
     button.addEventListener('click', onButtonClick);
 
-    if (this.getAttribute('data-expanded') === 'true') {
+    if (this.dataset.expanded === 'true') {
         onButtonClick.call(button);
     }
 };

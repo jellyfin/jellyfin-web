@@ -23,7 +23,7 @@ function onRefreshProgress(e, apiClient, info) {
     const indicator = this;
 
     if (!indicator.itemId) {
-        indicator.itemId = dom.parentWithAttribute(indicator, 'data-id').getAttribute('data-id');
+        indicator.itemId = dom.parentWithAttribute(indicator, 'data-id').dataset.id;
     }
 
     if (info.ItemId === indicator.itemId) {
@@ -35,7 +35,7 @@ function onRefreshProgress(e, apiClient, info) {
             this.classList.add('hide');
         }
 
-        this.setAttribute('data-progress', progress);
+        this.dataset.progress = progress;
     }
 }
 

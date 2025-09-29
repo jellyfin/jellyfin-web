@@ -135,7 +135,7 @@ function DialogHashHandler(dlg, hash, resolve) {
             focusManager.focus(activeElement);
         }
 
-        if (toBoolean(dlg.getAttribute('data-removeonclose'), true)) {
+        if (toBoolean(dlg.dataset.removeOnClose, true)) {
             removeCenterFocus(dlg);
 
             const dialogContainer = dlg.dialogContainer;
@@ -169,7 +169,7 @@ function DialogHashHandler(dlg, hash, resolve) {
         cancelable: false
     }));
 
-    if (dlg.getAttribute('data-lockscroll') === 'true' && !document.body.classList.contains('noScroll')) {
+    if (dlg.dataset.lockscroll === 'true' && !document.body.classList.contains('noScroll')) {
         document.body.classList.add('noScroll');
         removeScrollLockOnClose = true;
     }
@@ -233,7 +233,7 @@ function addBackdropOverlay(dlg) {
 }
 
 function isHistoryEnabled(dlg) {
-    return dlg.getAttribute('data-history') === 'true';
+    return dlg.dataset.history === 'true';
 }
 
 export function open(dlg) {
@@ -291,7 +291,7 @@ function animateDialogOpen(dlg) {
     const onAnimationFinish = () => {
         focusManager.pushScope(dlg);
 
-        if (dlg.getAttribute('data-autofocus') === 'true') {
+        if (dlg.dataset.autofocus === 'true') {
             focusManager.autoFocus(dlg);
         }
 
@@ -415,11 +415,11 @@ export function createDialog(options = {}) {
     dlg.classList.add('hide');
 
     if (shouldLockDocumentScroll(options)) {
-        dlg.setAttribute('data-lockscroll', 'true');
+        dlg.dataset.lockscroll = 'true';
     }
 
     if (options.enableHistory !== false) {
-        dlg.setAttribute('data-history', 'true');
+        dlg.dataset.history = 'true';
     }
 
     // without this safari will scroll the background instead of the dialog contents
@@ -431,7 +431,7 @@ export function createDialog(options = {}) {
     }
 
     if (options.autoFocus !== false) {
-        dlg.setAttribute('data-autofocus', 'true');
+        dlg.dataset.autofocus = 'true';
     }
 
     const defaultEntryAnimation = 'scaleup';
@@ -481,7 +481,7 @@ export function createDialog(options = {}) {
     }
 
     if (options.removeOnClose) {
-        dlg.setAttribute('data-removeonclose', 'true');
+        dlg.dataset.removeonclose = 'true';
     }
 
     if (options.size) {

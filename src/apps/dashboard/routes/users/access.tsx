@@ -195,19 +195,19 @@ const UserLibraryAccess = () => {
             user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (c) {
                 return c.checked;
             }).map(function (c) {
-                return c.getAttribute('data-id');
+                return c.dataset.id;
             });
             user.Policy.EnableAllChannels = (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked;
             user.Policy.EnabledChannels = user.Policy.EnableAllChannels ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (c) {
                 return c.checked;
             }).map(function (c) {
-                return c.getAttribute('data-id');
+                return c.dataset.id;
             });
             user.Policy.EnableAllDevices = (page.querySelector('.chkEnableAllDevices') as HTMLInputElement).checked;
             user.Policy.EnabledDevices = user.Policy.EnableAllDevices ? [] : Array.prototype.filter.call(page.querySelectorAll('.chkDevice'), function (c) {
                 return c.checked;
             }).map(function (c) {
-                return c.getAttribute('data-id');
+                return c.dataset.id;
             });
             user.Policy.BlockedChannels = null;
             user.Policy.BlockedMediaFolders = null;

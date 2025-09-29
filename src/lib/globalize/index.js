@@ -26,7 +26,7 @@ export function getCurrentDateTimeLocale() {
 }
 
 export function getDefaultLanguage() {
-    const culture = document.documentElement.getAttribute('data-culture');
+    const culture = document.documentElement.dataset.culture;
     if (culture) {
         return culture;
     }

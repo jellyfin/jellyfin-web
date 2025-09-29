@@ -65,7 +65,7 @@ function onViewChange(view, options, isRestore) {
 }
 
 function getProperties(view) {
-    const props = view.getAttribute('data-properties');
+    const props = view.dataset.properties;
 
     if (props) {
         return props.split(',');
@@ -78,7 +78,7 @@ function dispatchViewEvent(view, eventInfo, eventName, isCancellable) {
     if (!eventInfo) {
         eventInfo = {
             detail: {
-                type: view.getAttribute('data-type'),
+                type: view.dataset.type,
                 properties: getProperties(view)
             },
             bubbles: true,
@@ -110,7 +110,7 @@ function getViewEventDetail(view, { state, url, options = {} }, isRestored) {
 
     return {
         detail: {
-            type: view.getAttribute('data-type'),
+            type: view.dataset.type,
             properties: getProperties(view),
             params,
             isRestored,

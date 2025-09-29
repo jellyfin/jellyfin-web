@@ -136,7 +136,7 @@ function renderProviders(page, providers) {
         const btnOptionElements = elem.querySelectorAll('.btnOptions');
         btnOptionElements.forEach(function (btn) {
             btn.addEventListener('click', function () {
-                const id = this.getAttribute('data-id');
+                const id = this.dataset.id;
                 showProviderOptions(page, id, btn);
             });
         });
@@ -291,7 +291,7 @@ function onDevicesListClick(e) {
     const card = dom.parentWithClass(e.target, 'card');
 
     if (card) {
-        const id = card.getAttribute('data-id');
+        const id = card.dataset.id;
         const btnCardOptions = dom.parentWithClass(e.target, 'btnCardOptions');
 
         if (btnCardOptions) {

@@ -29,7 +29,7 @@ export default class ChannelMapper {
                 dataType: 'json'
             }).then(mapping => {
                 const listItem = dom.parentWithClass(button, 'listItem');
-                button.setAttribute('data-providerid', mapping.ProviderChannelId);
+                button.providerId = mapping.ProviderChannelId;
                 listItem.querySelector('.secondary').innerText = getMappingSecondaryName(mapping, currentMappingOptions.ProviderName);
                 loading.hide();
             });
@@ -39,8 +39,8 @@ export default class ChannelMapper {
             const btnMap = dom.parentWithClass(e.target, 'btnMap');
 
             if (btnMap) {
-                const channelId = btnMap.getAttribute('data-id');
-                const providerChannelId = btnMap.getAttribute('data-providerid');
+                const channelId = btnMap.dataset.id;
+                const providerChannelId = btnMap.dataset.providerid;
                 const menuItems = currentMappingOptions.ProviderChannels.map(m => {
                     return {
                         name: m.Name,

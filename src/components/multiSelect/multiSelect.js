@@ -54,7 +54,7 @@ function onItemSelectionPanelClick(e, itemSelectionPanel) {
 }
 
 function updateItemSelection(chkItemSelect, selected) {
-    const id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
+    const id = dom.parentWithAttribute(chkItemSelect, 'data-id').dataset.id;
 
     if (selected) {
         const current = selectedItems.filter(i => {

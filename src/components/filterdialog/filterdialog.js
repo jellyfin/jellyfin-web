@@ -81,14 +81,14 @@ function updateFilterControls(context, options) {
     } else {
         for (const elem of context.querySelectorAll('.chkStandardFilter')) {
             const filters = `,${query.Filters || ''}`;
-            const filterName = elem.getAttribute('data-filter');
+            const filterName = elem.dataset.filter;
             elem.checked = filters.includes(`,${filterName}`);
         }
     }
 
     for (const elem of context.querySelectorAll('.chkVideoTypeFilter')) {
         const filters = `,${query.VideoTypes || ''}`;
-        const filterName = elem.getAttribute('data-filter');
+        const filterName = elem.dataset.filter;
         elem.checked = filters.includes(`,${filterName}`);
     }
     context.querySelector('.chk3DFilter').checked = query.Is3D === true;
@@ -105,7 +105,7 @@ function updateFilterControls(context, options) {
     context.querySelector('#chkFutureEpisode').checked = query.IsUnaired === true;
     for (const elem of context.querySelectorAll('.chkStatus')) {
         const filters = `,${query.SeriesStatus || ''}`;
-        const filterName = elem.getAttribute('data-filter');
+        const filterName = elem.dataset.filter;
         elem.checked = filters.includes(`,${filterName}`);
     }
 }
@@ -186,7 +186,7 @@ class FilterDialog {
          */
     onStandardFilterChange(elem) {
         const query = this.options.query;
-        const filterName = elem.getAttribute('data-filter');
+        const filterName = elem.dataset.filter;
         let filters = query.Filters || '';
         filters = (`,${filters}`).replace(`,${filterName}`, '').substring(1);
 
@@ -204,7 +204,7 @@ class FilterDialog {
          */
     onVideoTypeFilterChange(elem) {
         const query = this.options.query;
-        const filterName = elem.getAttribute('data-filter');
+        const filterName = elem.dataset.filter;
         let filters = query.VideoTypes || '';
         filters = (`,${filters}`).replace(`,${filterName}`, '').substring(1);
 
@@ -222,7 +222,7 @@ class FilterDialog {
          */
     onStatusChange(elem) {
         const query = this.options.query;
-        const filterName = elem.getAttribute('data-filter');
+        const filterName = elem.dataset.filter;
         let filters = query.SeriesStatus || '';
         filters = (`,${filters}`).replace(`,${filterName}`, '').substring(1);
 
@@ -348,7 +348,7 @@ class FilterDialog {
         context.addEventListener('change', (e) => {
             const chkGenreFilter = dom.parentWithClass(e.target, 'chkGenreFilter');
             if (chkGenreFilter) {
-                const filterName = chkGenreFilter.getAttribute('data-filter');
+                const filterName = chkGenreFilter.dataset.filter;
                 let filters = query.Genres || '';
                 const delimiter = '|';
                 filters = filters
@@ -365,7 +365,7 @@ class FilterDialog {
             }
             const chkTagFilter = dom.parentWithClass(e.target, 'chkTagFilter');
             if (chkTagFilter) {
-                const filterName = chkTagFilter.getAttribute('data-filter');
+                const filterName = chkTagFilter.dataset.filter;
                 let filters = query.Tags || '';
                 const delimiter = '|';
                 filters = filters
@@ -382,7 +382,7 @@ class FilterDialog {
             }
             const chkYearFilter = dom.parentWithClass(e.target, 'chkYearFilter');
             if (chkYearFilter) {
-                const filterName = chkYearFilter.getAttribute('data-filter');
+                const filterName = chkYearFilter.dataset.filter;
                 let filters = query.Years || '';
                 const delimiter = ',';
                 filters = filters
@@ -399,7 +399,7 @@ class FilterDialog {
             }
             const chkOfficialRatingFilter = dom.parentWithClass(e.target, 'chkOfficialRatingFilter');
             if (chkOfficialRatingFilter) {
-                const filterName = chkOfficialRatingFilter.getAttribute('data-filter');
+                const filterName = chkOfficialRatingFilter.dataset.filter;
                 let filters = query.OfficialRatings || '';
                 const delimiter = '|';
                 filters = filters

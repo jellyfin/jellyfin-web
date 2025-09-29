@@ -19,11 +19,11 @@ function onKeyDown(e) {
 }
 
 EmbyTogglePrototype.attachedCallback = function () {
-    if (this.getAttribute('data-embytoggle') === 'true') {
+    if (this.dataset.embyToggle === 'true') {
         return;
     }
 
-    this.setAttribute('data-embytoggle', 'true');
+    this.dataset.embytoggle = 'true';
 
     this.classList.add('mdl-switch__input');
 

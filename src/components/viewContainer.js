@@ -11,7 +11,7 @@ function setControllerClass(view, options) {
         return Promise.resolve();
     }
 
-    let controllerUrl = view.getAttribute('data-controller');
+    let controllerUrl = view.dataset.controller;
 
     if (controllerUrl) {
         if (controllerUrl.indexOf('__plugin/') === 0) {
@@ -78,7 +78,7 @@ export function loadView(options) {
         }
 
         if (options.type) {
-            view.setAttribute('data-type', options.type);
+            view.dataset.type = options.type;
         }
 
         const properties = [];
@@ -88,7 +88,7 @@ export function loadView(options) {
         }
 
         if (properties.length) {
-            view.setAttribute('data-properties', properties.join(','));
+            view.dataset.properties = properties.join(',');
         }
 
         allPages[pageIndex] = view;

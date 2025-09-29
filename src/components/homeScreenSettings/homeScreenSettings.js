@@ -356,15 +356,15 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.HidePlayedInLatest = context.querySelector('.chkHidePlayedFromLatest').checked;
 
     user.Configuration.LatestItemsExcludes = getCheckboxItems('.chkIncludeInLatest', context, false).map(i => {
-        return i.getAttribute('data-folderid');
+        return i.dataset.folderId;
     });
 
     user.Configuration.MyMediaExcludes = getCheckboxItems('.chkIncludeInMyMedia', context, false).map(i => {
-        return i.getAttribute('data-folderid');
+        return i.dataset.folderid;
     });
 
     user.Configuration.GroupedFolders = getCheckboxItems('.chkGroupFolder', context, true).map(i => {
-        return i.getAttribute('data-folderid');
+        return i.dataset.folderid;
     });
 
     const viewItems = context.querySelectorAll('.viewItem');
@@ -372,7 +372,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     let i;
     let length;
     for (i = 0, length = viewItems.length; i < length; i++) {
-        orderedViews.push(viewItems[i].getAttribute('data-viewid'));
+        orderedViews.push(viewItems[i].dataset.viewid);
     }
 
     user.Configuration.OrderedViews = orderedViews;
@@ -393,7 +393,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     const selectLandings = context.querySelectorAll('.selectLanding');
     for (i = 0, length = selectLandings.length; i < length; i++) {
         const selectLanding = selectLandings[i];
-        userSettingsInstance.set(`landing-${selectLanding.getAttribute('data-folderid')}`, selectLanding.value);
+        userSettingsInstance.set(`landing-${selectLanding.dataset.folderid}`, selectLanding.value);
     }
 
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);

@@ -279,11 +279,11 @@ function updateMarkers(range, currentValue) {
 }
 
 EmbySliderPrototype.attachedCallback = function () {
-    if (this.getAttribute('data-embyslider') === 'true') {
+    if (this.dataset.embySlider === 'true') {
         return;
     }
 
-    this.setAttribute('data-embyslider', 'true');
+    this.dataset.embyslider = 'true';
 
     this.classList.add('mdl-slider');
     this.classList.add('mdl-js-slider');

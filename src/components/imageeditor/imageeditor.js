@@ -272,14 +272,14 @@ function showImageDownloader(page, imageType) {
 }
 
 function showActionSheet(context, imageCard) {
-    const itemId = imageCard.getAttribute('data-id');
-    const serverId = imageCard.getAttribute('data-serverid');
+    const itemId = imageCard.dataset.id;
+    const serverId = imageCard.dataset.serverid;
     const apiClient = ServerConnections.getApiClient(serverId);
 
-    const type = imageCard.getAttribute('data-imagetype');
-    const index = parseInt(imageCard.getAttribute('data-index'), 10);
-    const providerCount = parseInt(imageCard.getAttribute('data-providers'), 10);
-    const numImages = parseInt(imageCard.getAttribute('data-numimages'), 10);
+    const type = imageCard.dataset.imagetype;
+    const index = parseInt(imageCard.dataset.index, 10);
+    const providerCount = parseInt(imageCard.dataset.providers, 10);
+    const numImages = parseInt(imageCard.dataset.numimages, 10);
 
     import('../actionSheet/actionSheet').then(({ default: actionSheet }) => {
         const commands = [];
@@ -350,7 +350,7 @@ function initEditor(context, options) {
     }
 
     addListeners(context, 'btnOpenUploadMenu', 'click', function () {
-        const imageType = this.getAttribute('data-imagetype');
+        const imageType = this.dataset.imagetype;
 
         import('../imageUploader/imageUploader').then(({ default: imageUploader }) => {
             imageUploader.show({
@@ -370,11 +370,11 @@ function initEditor(context, options) {
     });
 
     addListeners(context, 'btnSearchImages', 'click', function () {
-        showImageDownloader(context, this.getAttribute('data-imagetype'));
+        showImageDownloader(context, this.dataset.imagetype);
     });
 
     addListeners(context, 'btnBrowseAllImages', 'click', function () {
-        showImageDownloader(context, this.getAttribute('data-imagetype') || 'Primary');
+        showImageDownloader(context, this.dataset.imagetype || 'Primary');
     });
 
     addListeners(context, 'btnImageCard', 'click', function () {
@@ -382,17 +382,17 @@ function initEditor(context, options) {
     });
 
     addListeners(context, 'btnDeleteImage', 'click', function () {
-        const type = this.getAttribute('data-imagetype');
-        let index = this.getAttribute('data-index');
+        const type = this.dataset.imagetype;
+        let index = this.dataset.index;
         index = index === 'null' ? null : parseInt(index, 10);
         const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
         deleteImage(context, currentItem.Id, type, index, apiClient, true);
     });
 
     addListeners(context, 'btnMoveImage', 'click', function () {
-        const type = this.getAttribute('data-imagetype');
-        const index = this.getAttribute('data-index');
-        const newIndex = this.getAttribute('data-newindex');
+        const type = this.dataset.imagetype;
+        const index = this.dataset.index;
+        const newIndex = this.dataset.newindex;
         const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
         moveImage(context, apiClient, currentItem.Id, type, index, newIndex, dom.parentWithClass(this, 'itemsContainer'));
     });

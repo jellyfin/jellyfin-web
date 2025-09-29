@@ -302,13 +302,13 @@ function initEditor(page, apiClient) {
         const btnDownloadRemoteImage = dom.parentWithClass(e.target, 'btnDownloadRemoteImage');
         if (btnDownloadRemoteImage) {
             const card = dom.parentWithClass(btnDownloadRemoteImage, 'card');
-            downloadRemoteImage(page, apiClient, card.getAttribute('data-imageurl'), card.getAttribute('data-imagetype'), card.getAttribute('data-imageprovider'));
+            downloadRemoteImage(page, apiClient, card.dataset.imageUrl, card.dataset.imagetype, card.dataset.imageprovider);
             return;
         }
 
         const btnImageCard = dom.parentWithClass(e.target, 'btnImageCard');
         if (btnImageCard) {
-            downloadRemoteImage(page, apiClient, btnImageCard.getAttribute('data-imageurl'), btnImageCard.getAttribute('data-imagetype'), btnImageCard.getAttribute('data-imageprovider'));
+            downloadRemoteImage(page, apiClient, btnImageCard.dataset.imageurl, btnImageCard.dataset.imagetype, btnImageCard.dataset.imageprovider);
         }
     });
 }

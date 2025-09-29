@@ -105,15 +105,15 @@ function onProgramGridClick(e) {
 
     const programCell = dom.parentWithClass(e.target, 'programCell');
     if (programCell) {
-        let startDate = programCell.getAttribute('data-startdate');
-        let endDate = programCell.getAttribute('data-enddate');
+        let startDate = programCell.dataset.startDate;
+        let endDate = programCell.dataset.enddate;
         startDate = datetime.parseISO8601Date(startDate, { toLocal: true }).getTime();
         endDate = datetime.parseISO8601Date(endDate, { toLocal: true }).getTime();
 
         const now = new Date().getTime();
         if (now >= startDate && now < endDate) {
-            const channelId = programCell.getAttribute('data-channelid');
-            const serverId = programCell.getAttribute('data-serverid');
+            const channelId = programCell.dataset.channelid;
+            const serverId = programCell.dataset.serverid;
 
             e.preventDefault();
             e.stopPropagation();
@@ -675,12 +675,12 @@ function Guide(options) {
         });
 
         const activeElement = document.activeElement;
-        const itemId = activeElement?.getAttribute ? activeElement.getAttribute('data-id') : null;
+        const itemId = activeElement?.getAttribute ? activeElement.dataset.id : null;
         let channelRowId = null;
 
         if (activeElement) {
             channelRowId = dom.parentWithClass(activeElement, 'channelPrograms');
-            channelRowId = channelRowId?.getAttribute ? channelRowId.getAttribute('data-channelid') : null;
+            channelRowId = channelRowId?.getAttribute ? channelRowId.dataset.channelid : null;
         }
 
         renderChannelHeaders(context, channels, apiClient);
@@ -998,7 +998,7 @@ function Guide(options) {
         if (programCell) {
             const focused = target;
 
-            const id = focused.getAttribute('data-id');
+            const id = focused.dataset.id;
             const item = items[id];
 
             if (item) {
@@ -1052,7 +1052,7 @@ function Guide(options) {
             }
 
             if (newTimerId) {
-                cell.setAttribute('data-timerid', newTimerId);
+                cell.dataset.timerid = newTimerId;
             }
         }
     }
@@ -1069,7 +1069,7 @@ function Guide(options) {
                 icon.parentNode.removeChild(icon);
             }
 
-            cell.removeAttribute('data-timerid');
+            delete cell.dataset.timerid;
         }
     }
 
@@ -1085,7 +1085,7 @@ function Guide(options) {
                 icon.parentNode.removeChild(icon);
             }
 
-            cell.removeAttribute('data-seriestimerid');
+            delete cell.dataset.seriestimerid;
         }
     }
 
@@ -1152,7 +1152,7 @@ function Guide(options) {
             const previousButton = e.detail.previousIndex == null ? null : allTabButtons[parseInt(e.detail.previousIndex, 10)];
 
             const date = new Date();
-            date.setTime(parseInt(tabButton.getAttribute('data-date'), 10));
+            date.setTime(parseInt(tabButton.dataset.date, 10));
 
             const scrollWidth = programGrid.scrollWidth;
             let scrollToTimeMs;
@@ -1164,7 +1164,7 @@ function Guide(options) {
 
             if (previousButton) {
                 const previousDate = new Date();
-                previousDate.setTime(parseInt(previousButton.getAttribute('data-date'), 10));
+                previousDate.setTime(parseInt(previousButton.dataset.date, 10));
 
                 scrollToTimeMs += (previousDate.getHours() * 60 * 60 * 1000);
                 scrollToTimeMs += (previousDate.getMinutes() * 60 * 1000);

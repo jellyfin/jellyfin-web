@@ -209,12 +209,12 @@ export default function (view, params) {
         const card = dom.parentWithClass(e.target, 'card');
 
         if (card) {
-            const url = card.getAttribute('data-url');
+            const url = card.dataset.url;
 
             if (url) {
                 appRouter.show(url);
             } else {
-                const id = card.getAttribute('data-id');
+                const id = card.dataset.id;
                 onServerClick(servers.filter(function (s) {
                     return s.Id === id;
                 })[0]);

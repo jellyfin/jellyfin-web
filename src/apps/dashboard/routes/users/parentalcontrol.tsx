@@ -46,7 +46,7 @@ function handleSaveUser(
         userPolicy.MaxParentalRating = Number.isNaN(parentalRating) ? null : parentalRating;
         userPolicy.BlockUnratedItems = Array.prototype.filter
             .call(page.querySelectorAll('.chkUnratedItem'), i => i.checked)
-            .map(i => i.getAttribute('data-itemtype'));
+            .map(i => i.dataset.itemType);
         userPolicy.AccessSchedules = getSchedulesFromPage();
         userPolicy.AllowedTags = getAllowedTagsFromPage();
         userPolicy.BlockedTags = getBlockedTagsFromPage();
@@ -232,16 +232,16 @@ const UserParentalControl = () => {
         const getSchedulesFromPage = () => {
             return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), function (elem) {
                 return {
-                    DayOfWeek: elem.getAttribute('data-day'),
-                    StartHour: elem.getAttribute('data-start'),
-                    EndHour: elem.getAttribute('data-end')
+                    DayOfWeek: elem.dataset.day,
+                    StartHour: elem.dataset.start,
+                    EndHour: elem.dataset.end
                 };
             }) as AccessSchedule[];
         };
 
         const getAllowedTagsFromPage = () => {
             return Array.prototype.map.call(page.querySelectorAll('.allowedTag'), function (elem) {
-                return elem.getAttribute('data-tag');
+                return elem.dataset.tag;
             }) as string[];
         };
 
@@ -262,7 +262,7 @@ const UserParentalControl = () => {
 
         const getBlockedTagsFromPage = () => {
             return Array.prototype.map.call(page.querySelectorAll('.blockedTag'), function (elem) {
-                return elem.getAttribute('data-tag');
+                return elem.dataset.tag;
             }) as string[];
         };
 

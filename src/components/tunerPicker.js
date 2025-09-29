@@ -152,7 +152,7 @@ function TunerPicker() {
             const tunerCard = dom.parentWithClass(e.target, 'card');
 
             if (tunerCard) {
-                const deviceId = tunerCard.getAttribute('data-id');
+                const deviceId = tunerCard.dataset.id;
                 deviceResult = currentDevices.filter(function (d) {
                     return d.DeviceId === deviceId;
                 })[0];

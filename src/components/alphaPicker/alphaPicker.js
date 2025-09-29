@@ -127,7 +127,7 @@ export class AlphaPicker {
             alphaFocusTimeout = null;
 
             if (document.activeElement === alphaFocusedElement) {
-                const value = alphaFocusedElement.getAttribute('data-value');
+                const value = alphaFocusedElement.dataset.dataValue;
                 self.value(value, true);
             }
         }
@@ -136,7 +136,7 @@ export class AlphaPicker {
             const alphaPickerButton = dom.parentWithClass(e.target, 'alphaPickerButton');
 
             if (alphaPickerButton) {
-                const value = alphaPickerButton.getAttribute('data-value');
+                const value = alphaPickerButton.dataset.value;
 
                 element.dispatchEvent(new CustomEvent('alphavalueclicked', {
                     cancelable: false,
@@ -151,7 +151,7 @@ export class AlphaPicker {
             const alphaPickerButton = dom.parentWithClass(e.target, 'alphaPickerButton');
 
             if (alphaPickerButton) {
-                const value = alphaPickerButton.getAttribute('data-value');
+                const value = alphaPickerButton.dataset.value;
                 if ((this._currentValue || '').toUpperCase() === value.toUpperCase()) {
                     this.value(null, true);
                 } else {
@@ -178,7 +178,7 @@ export class AlphaPicker {
             const item = dom.parentWithClass(e.target, itemClass);
 
             if (item) {
-                const prefix = item.getAttribute('data-prefix');
+                const prefix = item.dataset.prefix;
                 if (prefix?.length) {
                     itemFocusValue = prefix[0];
                     if (itemFocusTimeout) {
@@ -299,7 +299,7 @@ export class AlphaPicker {
         const elems = element.querySelectorAll('.alphaPickerButton');
         const values = [];
         for (let i = 0, length = elems.length; i < length; i++) {
-            values.push(elems[i].getAttribute('data-value'));
+            values.push(elems[i].dataset.value);
         }
 
         return values;

@@ -2,8 +2,8 @@
 const ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
 
 function onAutoTimeProgress() {
-    const start = parseInt(this.getAttribute('data-starttime'), 10);
-    const end = parseInt(this.getAttribute('data-endtime'), 10);
+    const start = parseInt(this.dataset.startTime, 10);
+    const end = parseInt(this.dataset.endtime, 10);
 
     const now = new Date().getTime();
     const total = end - start;
@@ -21,7 +21,7 @@ ProgressBarPrototype.attachedCallback = function () {
         clearInterval(this.timeInterval);
     }
 
-    if (this.getAttribute('data-automode') === 'time') {
+    if (this.dataset.automode === 'time') {
         this.timeInterval = setInterval(onAutoTimeProgress.bind(this), 60000);
     }
 };
