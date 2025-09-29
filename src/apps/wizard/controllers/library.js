@@ -354,7 +354,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
         html += '</div>';
     } else if (virtualFolder.Locations.length && virtualFolder.Locations.length === 1) {
         html += "<div class='cardText cardText-secondary' dir='ltr' style='text-align:left;'>";
-        html += virtualFolder.Locations[0];
+        html += escapeHtml(virtualFolder.Locations[0]);
         html += '</div>';
     } else {
         html += "<div class='cardText cardText-secondary'>";
