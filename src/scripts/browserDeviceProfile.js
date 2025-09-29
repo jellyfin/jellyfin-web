@@ -673,8 +673,9 @@ export default function (options) {
     const hlsInFmp4VideoCodecs = [];
 
     if (canPlayAv1(videoTestElement)
-        && (browser.safari || (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome || browser.opera)))) {
+        && (browser.safari || (!browser.mobile && (browser.edgeChromium || browser.chrome || browser.opera)))) {
         // disable av1 on non-safari mobile browsers since it can be very slow software decoding
+        // disable av1 in Firefox due to audio desync issues (Issue #7020)
         hlsInFmp4VideoCodecs.push('av1');
     }
 
@@ -735,7 +736,9 @@ export default function (options) {
         }
     }
 
-    if (canPlayAv1(videoTestElement)) {
+    if (canPlayAv1(videoTestElement) && !browser.firefox) {
+        // Disable AV1 in Firefox due to audio desync issues (Issue #7020)
+        // Firefox AV1 decoder has timing issues that cause audio to play 1-2 seconds early
         mp4VideoCodecs.push('av1');
         // webm support is unreliable on safari 17
         if (!browser.safari
