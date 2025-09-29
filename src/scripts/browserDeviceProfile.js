@@ -673,10 +673,14 @@ export default function (options) {
     const hlsInFmp4VideoCodecs = [];
 
     if (canPlayAv1(videoTestElement)
-        && (browser.safari || (!browser.mobile && (browser.edgeChromium || browser.chrome || browser.opera)))) {
-        // disable av1 on non-safari mobile browsers since it can be very slow software decoding
-        // disable av1 in Firefox due to audio desync issues (Issue #7020)
-        hlsInFmp4VideoCodecs.push('av1');
+        && (browser.safari || browser.edgeChromium || browser.chrome || browser.opera || 
+            (browser.mobile && (browser.chrome || browser.edgeChromium || browser.opera)))) {
+        // Enable AV1 on modern mobile browsers that support hardware acceleration (Issue #6813)
+        // Still disable av1 in Firefox due to audio desync issues (Issue #7020)
+        // Modern mobile Chrome/Edge/Opera have good AV1 hardware support
+        if (!browser.firefox) {
+            hlsInFmp4VideoCodecs.push('av1');
+        }
     }
 
     if (canPlayHevc(videoTestElement, options)
