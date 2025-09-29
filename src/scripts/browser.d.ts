@@ -1,11 +1,12 @@
-export default browser;
+declare function supportsCssAnimation(allowPrefix?: boolean): boolean;
+let version: string | undefined;
+let versionMajor: number;
+
 /**
  * Browser detection utility.
  */
 declare namespace browser {
-    import version = version;
     export { version };
-    import versionMajor = versionMajor;
     export { versionMajor };
     export let edge: boolean;
     export let edgeChromium: boolean;
@@ -35,11 +36,4 @@ declare namespace browser {
     export let iOSVersion: number | undefined;
 }
 
-declare namespace matched {
-    export { browser };
-    export { version };
-    export let platform: string;
-    export { versionMajor };
-}
-
-declare function supportsCssAnimation(allowPrefix: any): any;
+export default browser;
