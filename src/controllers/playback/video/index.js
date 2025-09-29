@@ -262,7 +262,9 @@ export default function (view) {
 
         LibraryMenu.setTitle(title);
 
-        const documentTitle = parentName || (item ? item.Name : null);
+        // Use item name for tab title instead of parent name (Issue #6811)
+        // This ensures music videos show track name, not album name in browser tab
+        const documentTitle = (item ? item.Name : null) || parentName;
 
         if (documentTitle) {
             document.title = documentTitle;
