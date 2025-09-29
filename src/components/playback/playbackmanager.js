@@ -2570,9 +2570,20 @@ export class PlaybackManager {
                     return apiClient.getEndpointInfo()
                         .then((endpointInfo) => {
                             if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
-                                return apiClient.detectBitrate().then((bitrate) => {
-                                    appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
-                                    return bitrate;
+                                // Always perform actual bandwidth detection, even for LAN connections
+                                // This fixes the issue where LAN connections always assume 120mbps
+                                return apiClient.detectBitrate(true).then((bitrate) => {
+                                    // For LAN connections, ensure we don't go below a reasonable minimum
+                                    // but still respect the actual detected bandwidth
+                                    let finalBitrate = bitrate;
+                                    if (endpointInfo.IsInNetwork && bitrate && bitrate < 10000000) {
+                                        // If detected bandwidth is very low on LAN, it might be due to network issues
+                                        // Set a reasonable minimum of 10 Mbps for LAN, but still much lower than the previous 120 Mbps assumption
+                                        finalBitrate = Math.max(bitrate, 10000000);
+                                    }
+                                    
+                                    appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, finalBitrate);
+                                    return finalBitrate;
                                 });
                             }
 
