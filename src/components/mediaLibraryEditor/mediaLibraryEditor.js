@@ -8,7 +8,7 @@ import escapeHtml from 'escape-html';
 import 'jquery';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
 import globalize from '../../lib/globalize';
 import '../../elements/emby-button/emby-button';

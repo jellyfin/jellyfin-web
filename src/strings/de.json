@@ -388,7 +388,7 @@
     "Items": "Einträge",
     "Kids": "Kinder",
     "Label3DFormat": "3D Format",
-    "LabelAbortedByServerShutdown": "(Durch herunterfahrenden Server abgebrochen)",
+    "LabelAbortedByServerShutdown": "Abgebrochen durch Server-Shutdown",
     "LabelAccessDay": "Wochentag",
     "LabelAccessEnd": "Endzeit",
     "LabelAccessStart": "Startzeit",
@@ -981,7 +981,7 @@
     "SeriesDisplayOrderHelp": "Sortiere Episoden nach Ausstrahlungsdatum, DVD-Reihenfolge oder absoluter Nummerierung.",
     "SeriesRecordingScheduled": "Serienaufnahme geplant.",
     "SeriesSettings": "Serieneinstellungen",
-    "SeriesYearToPresent": "{0}-Heute",
+    "SeriesYearToPresent": "{0} - Heute",
     "ServerNameIsRestarting": "Der Server auf {0} startet neu.",
     "ServerNameIsShuttingDown": "Der Server auf {0} fährt herunter.",
     "ServerRestartNeededAfterPluginInstall": "Jellyfin muss nach der Installation des Plugins neu gestartet werden.",
@@ -1129,7 +1129,7 @@
     "Art": "Transparente Artworks",
     "Name": "Name",
     "Songs": "Lieder",
-    "ValueSpecialEpisodeName": "Extra - {0}",
+    "ValueSpecialEpisodeName": "Extra – {0}",
     "ButtonInfo": "Info",
     "ColorPrimaries": "Primärfarben",
     "ColorTransfer": "Farbtransfer",
@@ -2065,5 +2065,9 @@
     "LiveTVPageLoadError": "Aufzeichnungsseite konnte nicht geladen werden",
     "MessageServerMismatch": "Der Server mit dem Du dich verbindest, ist nicht der selbe, wie der, mit dem Du zuletzt unter dieser Adresse verbunden warst. Wenn das so sein soll, wähle \"Trotzdem verbinden\". Ansonsten könnte es sein, dass Deine Verbindung oder der Server kompromittiert wurde.",
     "ConnectAnyway": "Trotzdem verbinden",
-    "HeaderServerMismatch": "Server nicht übereinstimmend"
+    "HeaderServerMismatch": "Server nicht übereinstimmend",
+    "LabelAvailable": "Verfügbar",
+    "LabelBundled": "Integriert",
+    "ManageRepositories": "Repositories verwalten",
+    "ViewAllPlugins": "Alle Plugins anzeigen"
 }

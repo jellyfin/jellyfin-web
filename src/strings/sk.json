@@ -855,7 +855,7 @@
     "MusicVideo": "Hudobný videoklip",
     "MusicArtist": "Interpret",
     "LabelAirsBeforeEpisode": "Vysielané pred epizódou",
-    "LabelAbortedByServerShutdown": "(Prerušené vypnutím serveru)",
+    "LabelAbortedByServerShutdown": "Prerušené vypnutím serveru",
     "HideWatchedContentFromLatestMedia": "Skryť pozreté položky zo zoznamu nedávno pridaných médií",
     "HeaderTranscodingProfile": "Profil prekódovania",
     "HeaderSeriesOptions": "Nastavenia seriálov",
@@ -2065,5 +2065,9 @@
     "LiveTVPageLoadError": "Nepodarilo sa načítať stránku s nahrávkami",
     "ConnectAnyway": "Napriek tomu pripojiť",
     "HeaderServerMismatch": "Nesúlad so serverom",
-    "MessageServerMismatch": "Server, ku ktorému sa pripájate, nie je ten istý server, ku ktorému ste sa predtým pripojili na tejto adrese. Ak je to očakávané, vyberte možnosť „Napriek tomu pripojiť“. V opačnom prípade môže byť vaše pripojenie alebo server kompromitované."
+    "MessageServerMismatch": "Server, ku ktorému sa pripájate, nie je ten istý server, ku ktorému ste sa predtým pripojili na tejto adrese. Ak je to očakávané, vyberte možnosť „Napriek tomu pripojiť“. V opačnom prípade môže byť vaše pripojenie alebo server kompromitované.",
+    "LabelAvailable": "Dostupné",
+    "LabelBundled": "Súčasťou",
+    "ManageRepositories": "Spravovať repozitáre",
+    "ViewAllPlugins": "Zobraziť všetky zásuvné moduly"
 }

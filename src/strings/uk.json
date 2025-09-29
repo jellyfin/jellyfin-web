@@ -570,7 +570,7 @@
     "LabelAccessStart": "Початок о",
     "LabelAccessEnd": "Кінець о",
     "LabelAccessDay": "День тижня",
-    "LabelAbortedByServerShutdown": "(Скасовано вимкненням сервера)",
+    "LabelAbortedByServerShutdown": "Скасовано вимкненням сервера",
     "Label3DFormat": "3D формат",
     "Kids": "Діти",
     "Items": "Елементи",
@@ -2062,5 +2062,9 @@
     "MessageServerMismatch": "Сервер, до якого ви підключаєтеся, не є тим самим сервером, до якого ви раніше підключалися за цією адресою. Якщо це очікувано, виберіть «Все одно підключитися». В іншому випадку ваше з'єднання або сервер може бути скомпрометовано.",
     "HeaderServerMismatch": "Невідповідність сервера",
     "LiveTVPageLoadError": "Не вдалося завантажити сторінку з записами",
-    "ConnectAnyway": "Все одно підключитися"
+    "ConnectAnyway": "Все одно підключитися",
+    "ViewAllPlugins": "Переглянути всі плагіни",
+    "LabelAvailable": "Доступно",
+    "LabelBundled": "У комплекті",
+    "ManageRepositories": "Керування репозиторіями"
 }

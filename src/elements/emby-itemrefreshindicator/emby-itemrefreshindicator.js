@@ -1,5 +1,5 @@
 import EmbyProgressRing from '../emby-progressring/emby-progressring';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import serverNotifications from '../../scripts/serverNotifications';
 import Events from '../../utils/events.ts';
 

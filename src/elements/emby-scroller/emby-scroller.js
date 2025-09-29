@@ -1,5 +1,5 @@
 import ScrollerFactory from 'lib/scroller';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import layoutManager from '../../components/layoutManager';
 import inputManager from '../../scripts/inputManager';
 import focusManager from '../../components/focusManager';
