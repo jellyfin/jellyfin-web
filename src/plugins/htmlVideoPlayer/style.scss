@@ -64,6 +64,7 @@ video[controls]::-webkit-media-controls {
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 1001; /* Ensure subtitles appear above fullscreen video and other elements (Issue #6728) */
 }
 
 .videoSubtitlesInner {
