@@ -383,10 +383,12 @@ export function getCardImageUrl(item, apiClient, options, shape) {
     }
 
     if (imgTag && imgType) {
-        // TODO: This place is a mess. Could do with a good spring cleaning.
+        // Calculate height based on aspect ratio if not provided
         if (!height && width && uiAspect) {
-            height = width / uiAspect;
+            height = Math.round(width / uiAspect);
         }
+        
+        // Generate scaled image URL with optimized quality settings
         imgUrl = apiClient.getScaledImageUrl(itemId, {
             type: imgType,
             fillHeight: height,
