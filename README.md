@@ -31,7 +31,22 @@
 </a>
 </p>
 
-Jellyfin Web is the frontend used for most of the clients available for end users, such as desktop browsers, Android, and iOS. We welcome all contributions and pull requests! If you have a larger feature in mind please open an issue so we can discuss the implementation before you start. Translations can be improved very easily from our <a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-web">Weblate</a> instance. Look through the following graphic to see if your native language could use some work!
+Jellyfin Web is the frontend used for most of the clients available for end users, such as desktop browsers, Android, and iOS. We welcome all contributions and pull requests! If you have a larger feature in mind please open an issue so we can discuss the implementation before you start.
+
+## 🤝 Contributing
+
+**New to contributing?** Check out our [**Contributing Guide**](CONTRIBUTING.md) for detailed instructions on:
+- Setting up your development environment
+- Understanding the project structure
+- Making your first contribution
+- Code style guidelines
+- Testing your changes
+
+For **good first issues** perfect for beginners, look for the [`good first issue`](https://github.com/jellyfin/jellyfin-web/labels/good%20first%20issue) label.
+
+## 🌍 Translations
+
+Translations can be improved very easily from our <a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-web">Weblate</a> instance. Look through the following graphic to see if your native language could use some work!
 
 <a href="https://translate.jellyfin.org/engage/jellyfin/?utm_source=widget">
 <img src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-web/multi-auto.svg" alt="Detailed Translation Status"/>
