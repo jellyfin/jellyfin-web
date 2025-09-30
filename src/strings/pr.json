@@ -104,5 +104,10 @@
     "AllowCollectionManagement": "Permit this scallywag to handle treasures",
     "Absolute": "Abs'lute",
     "AgeValue": "({0} summers gone by)",
-    "AirPlay": "Spyglass"
+    "AirPlay": "Spyglass",
+    "MusicVideos": "Shanty films",
+    "Movies": "Moving pictures",
+    "Shows": "Sagas",
+    "Playlists": "Lists o’ plunder",
+    "ValueSpecialEpisodeName": "Special Tale – {0}"
 }
