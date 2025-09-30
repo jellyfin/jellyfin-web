@@ -34,7 +34,10 @@
 @media screen
     and (min-device-width: 992px) {
     .splashLogo {
-        background-image: url(@jellyfin/ux-web/banner-light.png);
+        background-image: url('~@jellyfin/ux-web/banner-light.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
     }
 }
 
