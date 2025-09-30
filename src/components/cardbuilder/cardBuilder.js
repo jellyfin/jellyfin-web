@@ -394,6 +394,10 @@ export function getCardImageUrl(item, apiClient, options, shape) {
             quality: 96,
             tag: imgTag
         });
+    } else {
+        // Prevent 404 requests for missing images (Issue #6798)
+        // Return null instead of undefined to avoid unnecessary HTTP requests
+        imgUrl = null;
     }
 
     const blurHashes = options.imageBlurhashes || item.ImageBlurHashes || {};
