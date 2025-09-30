@@ -80,7 +80,7 @@ jobs:
     
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
     
@@ -95,6 +95,6 @@ jobs:
         run: npm ci --no-audit
     
       - name: Run eslint
-        uses: CatChen/eslint-suggestion-action@04af6ad359e691c79287ee21c478e706fb482d1f # v4.1.17
+        uses: CatChen/eslint-suggestion-action@4dda35decf912ab18ea3e071acec2c6c2eda00b6 # v4.1.18
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

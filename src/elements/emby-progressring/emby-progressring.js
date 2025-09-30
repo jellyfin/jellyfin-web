@@ -2,7 +2,7 @@ import './emby-progressring.scss';
 import 'webcomponents.js/webcomponents-lite';
 import template from './emby-progressring.template.html';
 import { getCurrentDateTimeLocale } from '../../lib/globalize';
-import { toPercent } from '../../utils/number.ts';
+import { toPercentString } from '../../utils/number.ts';
 
 const EmbyProgressRing = Object.create(HTMLDivElement.prototype);
 
@@ -71,7 +71,7 @@ EmbyProgressRing.setProgress = function (progress) {
         this.querySelector('.animate-75-100-b').style.transform = 'rotate(' + angle + 'deg)';
     }
 
-    this.querySelector('.progressring-text').innerHTML = toPercent(progress / 100, getCurrentDateTimeLocale());
+    this.querySelector('.progressring-text').innerHTML = toPercentString(progress / 100, getCurrentDateTimeLocale());
 };
 
 EmbyProgressRing.attachedCallback = function () {

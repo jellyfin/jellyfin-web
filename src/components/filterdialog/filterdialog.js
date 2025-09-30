@@ -1,4 +1,4 @@
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';

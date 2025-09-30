@@ -1053,5 +1053,15 @@
     "HeaderOtherItems": "Outros elementos",
     "HeaderMusicQuality": "Calidade de son",
     "HeaderNewPlaylist": "Nova lista de reprodución",
-    "HeaderNextVideo": "Seguinte vídeo"
+    "HeaderNextVideo": "Seguinte vídeo",
+    "BackupsPageLoadError": "Fallou a carga da páxina de copias de seguridade",
+    "ButtonCreateBackup": "Crear copia de seguridade",
+    "ButtonLearnMore": "Saber máis",
+    "ConfirmDeleteRepository": "Eliminar repositorio?",
+    "ConnectAnyway": "Conectar de todas formas",
+    "EnableHi10p": "Activar Perfil H.264 High 10",
+    "DownloadManager": "Descargas",
+    "HeaderAddLyrics": "Engadir Letra",
+    "Create": "Crear",
+    "DeleteRepositoryConfirmation": "Está seguro de querer borrar este repositorio?"
 }

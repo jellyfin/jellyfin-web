@@ -44,11 +44,11 @@ const BackupInfoDialog: FunctionComponent<IProps> = ({ backup, open, onClose }: 
             </DialogTitle>
 
             <DialogContent>
-                <Stack gap={2}>
+                <Stack spacing={2}>
                     <Box>
                         <Stack
                             direction='row'
-                            gap={2}
+                            spacing={2}
                         >
                             <Typography fontWeight='bold'>{globalize.translate('LabelPath')}</Typography>
                             <Stack direction='row'>
@@ -60,7 +60,7 @@ const BackupInfoDialog: FunctionComponent<IProps> = ({ backup, open, onClose }: 
                         </Stack>
                         <Stack
                             direction='row'
-                            gap={2}
+                            spacing={2}
                         >
                             <Typography fontWeight='bold'>{globalize.translate('LabelVersion')}</Typography>
                             <Typography color='text.secondary'>{backup.ServerVersion}</Typography>

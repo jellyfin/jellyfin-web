@@ -8,7 +8,7 @@ import focusManager from '../../../components/focusManager';
 import globalize from '../../../lib/globalize';
 import actionSheet from '../../../components/actionSheet/actionSheet';
 import confirm from '../../../components/confirm/confirm';
-import dom from '../../../scripts/dom';
+import dom from '../../../utils/dom';
 import browser from '../../../scripts/browser';
 import 'material-design-icons-iconfont';
 import '../../../styles/flexstyles.scss';

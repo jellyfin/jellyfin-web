@@ -1746,5 +1746,16 @@
     "DeleteName": "Borrar {0}",
     "EnableDts": "Activar DTS (DCA)",
     "DownloadManager": "Descargas",
-    "EnableLibrary": "Habilitar la librería"
+    "EnableLibrary": "Habilitar la librería",
+    "EnableLibraryHelp": "Deshabilitar la librería ocultará la ayuda de todos las vistas de usuario.",
+    "EnableHi10pHelp": "Activar para evitar transcodificar vídeos a H.264 10-bit. Desactivar esta opción si el video muestra recuadros en blanco.",
+    "ButtonLearnMore": "Aprender Más",
+    "Create": "Crear",
+    "EnableTrueHd": "Activar TrueHD",
+    "BackupsPageLoadError": "Falló al cargar la página de respaldos",
+    "ButtonCreateBackup": "Crear Respaldo",
+    "EnableSmoothScroll": "Activar desplazamiento suavizado",
+    "ConfirmDeleteRepository": "¿Eliminar repositorio?",
+    "DeleteRepositoryConfirmation": "¿Estás seguro de que deseas eliminar este repositorio?",
+    "EnableTrueHdHelp": "Habilítelo solo si su dispositivo es compatible con TrueHD o está conectado a un receptor de audio compatible, de lo contrario, puede provocar fallas en la reproducción."
 }

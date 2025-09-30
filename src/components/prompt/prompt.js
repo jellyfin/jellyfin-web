@@ -3,7 +3,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import scrollHelper from '../../scripts/scrollHelper';
 import globalize from '../../lib/globalize';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';

@@ -1936,5 +1936,18 @@
     "HeaderAddLyrics": "歌詞を追加",
     "HeaderPageNotFound": "ページが見つかりません",
     "AndOtherArtists": "{0}と他のアーティスト{1}人。",
-    "HeaderUpdateRequired": "更新が必要です"
+    "HeaderUpdateRequired": "更新が必要です",
+    "ManageRepositories": "リポジトリ管理",
+    "ButtonCreateBackup": "バックアップの作成",
+    "ReplaceTrickplayImages": "現在のトリックプレイ画像を置き換える",
+    "LabelTrickplayKeyFrameOnlyExtraction": "キーフレームからのみ画像を生成",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "処理速度を大幅に向上させるため、タイミング精度が低下する代わりにキーフレームのみを抽出します。設定されたハードウェアデコーダーがこのモードをサポートしていない場合、代わりにソフトウェアデコーダーを使用します。",
+    "LabelScanBehaviorHelp": "デフォルトの動作はノンブロッキングです。これにより、トリックプレイの生成が完了する前にメディアがライブラリに追加されます。ブロッキングを選択すると、メディアがライブラリに追加される前にトリックプレイファイルが確実に生成されますが、スキャン時間が大幅に長くなります。",
+    "LabelProcessPriorityHelp": "この設定値を低く（または高く）すると、他のプロセスに対するffmpegのトリックプレイ生成プロセスの優先度が変更されます。トリックプレイ画像生成中に遅延が発生していても、生成を完全に停止したくない場合には、この設定値とスレッド数を引き下げてみてください。",
+    "LabelExtractTrickplayDuringLibraryScanHelp": "ライブラリスキャン中に動画がインポートされた際にトリックプレイ画像を生成します。そうでない場合、トリックプレイ画像のスケジュールされたタスク中に抽出されます。生成がノンブロッキングに設定されている場合、ライブラリスキャンの完了時間には影響しません。",
+    "LabelWidthResolutionsHelp": "トリックプレイ画像の生成される幅をカンマ区切りで列挙します（単位はピクセル）。すべての画像はソースのアスペクト比に基づいて生成されるため、16:9の動画の場合、幅が320pxなら、画像のサイズは約320x180pxになります。",
+    "Trickplay": "トリックプレイ",
+    "LabelSaveTrickplayLocally": "メディアと同じ場所にトリックプレイ画像を保存",
+    "LabelSaveTrickplayLocallyHelp": "トリックプレイ画像をメディアファイルと同じ場所に保存することで、移行やアクセスが容易になります。",
+    "LabelJpegQualityHelp": "トリックプレイ画像のJPEG圧縮品質。"
 }

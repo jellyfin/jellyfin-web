@@ -32,7 +32,7 @@ const RestoreConfirmationDialog: FunctionComponent<IProps> = ({ open, onClose, o
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={onClose} color='error'>
+                <Button onClick={onClose} variant='text'>
                     {globalize.translate('ButtonCancel')}
                 </Button>
                 <Button onClick={onConfirm}>

@@ -66,7 +66,8 @@ const StorageListItem: FC<StorageListItemProps> = ({
                         <Typography
                             color='textPrimary'
                             sx={{
-                                paddingBottom: 0.5
+                                paddingBottom: 0.5,
+                                lineBreak: 'anywhere'
                             }}
                         >
                             {folder ? folder.Path : (
