@@ -379,7 +379,7 @@
     "ItemCount": "{0} 项",
     "Kids": "儿童",
     "Label3DFormat": "3D格式",
-    "LabelAbortedByServerShutdown": "(因为服务器关闭被中止)",
+    "LabelAbortedByServerShutdown": "因为服务器关闭被中止",
     "LabelAccessDay": "一周中的何时",
     "LabelAccessEnd": "结束时间",
     "LabelAccessStart": "开始时间",
@@ -715,7 +715,7 @@
     "MarkPlayed": "标为已播放",
     "MarkUnplayed": "标为未播放",
     "MaxParentalRatingHelp": "高级别内容将对此用户隐藏。",
-    "MediaInfoAnamorphic": "畸形",
+    "MediaInfoAnamorphic": "变形（视频）",
     "MediaInfoAspectRatio": "长宽比",
     "MediaInfoBitDepth": "位深度",
     "MediaInfoBitrate": "比特率",
@@ -806,7 +806,7 @@
     "NewEpisodesOnly": "只新集",
     "News": "新闻",
     "Next": "下一个",
-    "NextUp": "继续观看",
+    "NextUp": "接下来",
     "No": "否",
     "NoNewDevicesFound": "找不到新设备。要添加新调谐器, 请关闭此对话框并手动输入设备信息。",
     "MessageNoNextUpItems": "没有发现。开始看你的节目！",
@@ -2065,5 +2065,9 @@
     "LiveTVPageLoadError": "无法加载录制页面",
     "ConnectAnyway": "仍要连接",
     "HeaderServerMismatch": "服务器不匹配",
-    "MessageServerMismatch": "您正在连接的服务器与之前在此地址连接的服务器不同。如果这是预期情况，请选择“仍要连接”。否则，您的连接或该服务器可能已被篡改。"
+    "MessageServerMismatch": "您正在连接的服务器与之前在此地址连接的服务器不同。如果这是预期情况，请选择“仍要连接”。否则，您的连接或该服务器可能已被篡改。",
+    "ViewAllPlugins": "查看所有插件",
+    "LabelBundled": "附赠",
+    "ManageRepositories": "管理存储库",
+    "LabelAvailable": "可用"
 }

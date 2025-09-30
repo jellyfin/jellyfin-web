@@ -1,15 +1,15 @@
 import { PluginStatus } from '@jellyfin/sdk/lib/generated-client/models/plugin-status';
 import type { VersionInfo } from '@jellyfin/sdk/lib/generated-client/models/version-info';
-import Alert from '@mui/material/Alert/Alert';
-import Button from '@mui/material/Button/Button';
-import Container from '@mui/material/Container/Container';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup/FormGroup';
-import Grid from '@mui/material/Grid2/Grid2';
-import Skeleton from '@mui/material/Skeleton/Skeleton';
-import Stack from '@mui/material/Stack/Stack';
-import Switch from '@mui/material/Switch/Switch';
-import Typography from '@mui/material/Typography/Typography';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import Grid from '@mui/material/Grid';
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
+import Switch from '@mui/material/Switch';
+import Typography from '@mui/material/Typography';
 import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
 import Extension from '@mui/icons-material/Extension';
@@ -326,7 +326,7 @@ const PluginPage: FC = () => {
                 ))}
 
                 <Grid container spacing={2} sx={{ marginTop: 0 }}>
-                    <Grid size={{ xs: 12, lg: 8 }}>
+                    <Grid item xs={12} lg={8}>
                         <Stack spacing={2}>
                             <Typography variant='h1'>
                                 {pluginDetails?.name || pluginName}
@@ -342,7 +342,7 @@ const PluginPage: FC = () => {
                         </Stack>
                     </Grid>
 
-                    <Grid size={{ lg: 4 }} sx={{ display: { xs: 'none', lg: 'initial' } }}>
+                    <Grid item lg={4} sx={{ display: { xs: 'none', lg: 'initial' } }}>
                         <Image
                             isLoading={isLoading}
                             alt={pluginDetails?.name}
@@ -351,7 +351,7 @@ const PluginPage: FC = () => {
                         />
                     </Grid>
 
-                    <Grid size={{ xs: 12, lg: 8 }} sx={{ order: { xs: 1, lg: 'initial' } }}>
+                    <Grid item xs={12} lg={8} sx={{ order: { xs: 1, lg: 'initial' } }}>
                         {!!pluginDetails?.versions.length && (
                             <>
                                 <Typography variant='h3' sx={{ marginBottom: 2 }}>
@@ -365,7 +365,7 @@ const PluginPage: FC = () => {
                         )}
                     </Grid>
 
-                    <Grid size={{ xs: 12, lg: 4 }}>
+                    <Grid item xs={12} lg={4}>
                         <Stack spacing={2} direction={{ xs: 'column', sm: 'row-reverse', lg: 'column' }}>
                             <Stack spacing={1} sx={{ flexBasis: '50%' }}>
                                 {!isLoading && !pluginDetails?.status && (

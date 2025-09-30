@@ -512,7 +512,7 @@
     "LabelAccessStart": "Başlangıç zamanı",
     "LabelAccessEnd": "Bitiş zamanı",
     "LabelAccessDay": "Haftanın günü",
-    "LabelAbortedByServerShutdown": "(Sunucu kapanması nedeniyle iptal edildi)",
+    "LabelAbortedByServerShutdown": "Sunucu kapanması nedeniyle iptal edildi",
     "Label3DFormat": "3D biçimi",
     "Kids": "Çocuklar",
     "ItemCount": "{0} öge",
@@ -2057,5 +2057,9 @@
     "MessageServerMismatch": "Bağlandığınız sunucu, daha önce bu adresten bağlandığınız sunucuyla aynı değil. Bu bekleniyorsa, lütfen \"Her Durumda Bağlan\" seçeneğini seçin. Aksi takdirde, bağlantınız veya sunucunuz risk altında olabilir.",
     "HeaderServerMismatch": "Sunucu Uyuşmazlığı",
     "LiveTVPageLoadError": "Kayıtlar sayfası yüklenemedi",
-    "ConnectAnyway": "Her Durumda Bağlan"
+    "ConnectAnyway": "Her Durumda Bağlan",
+    "ManageRepositories": "Depoları Yönet",
+    "ViewAllPlugins": "Tüm eklentileri görüntüle",
+    "LabelAvailable": "Kullanılabilir",
+    "LabelBundled": "Paketlenmiş"
 }
