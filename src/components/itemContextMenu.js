@@ -426,17 +426,19 @@ function executeCommand(item, id, options) {
             case 'downloadall': {
                 const downloadItems = items => {
                     import('../scripts/fileDownloader').then((fileDownloader) => {
-                        const downloads = items.map(item => {
-                            const downloadHref = apiClient.getItemDownloadUrl(item.Id);
-                            return {
-                                url: downloadHref,
-                                item,
-                                itemId: item.Id,
-                                serverId,
-                                title: item.Name,
-                                filename: item.Path.replace(/^.*[\\/]/, '')
-                            };
-                        });
+                        const downloads = items
+                            .filter(i => i.CanDownload)
+                            .map(i => {
+                                const downloadHref = apiClient.getItemDownloadUrl(i.Id);
+                                return {
+                                    url: downloadHref,
+                                    item: i,
+                                    itemId: i.Id,
+                                    serverId,
+                                    title: i.Name,
+                                    filename: i.Path.replace(/^.*[\\/]/, '')
+                                };
+                            });
 
                         fileDownloader.download(downloads);
                     });
