@@ -1,0 +1,71 @@
+/* Accessibility Focus Indicators - Issue #6600 */
+/* Restore keyboard focus indicators for better accessibility */
+
+/* Global focus styles for interactive elements */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible,
+.listItem:focus-visible,
+.cardBox:focus-visible,
+.card:focus-visible,
+.programCell:focus-visible,
+.guide-channelHeaderCell:focus-visible,
+.alphaPickerButton:focus-visible {
+    outline: 2px solid #00a4dc !important;
+    outline-offset: 2px !important;
+}
+
+/* High contrast focus for dark themes */
+@media (prefers-color-scheme: dark) {
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    [role="button"]:focus-visible,
+    [tabindex]:focus-visible,
+    .listItem:focus-visible,
+    .cardBox:focus-visible,
+    .card:focus-visible,
+    .programCell:focus-visible,
+    .guide-channelHeaderCell:focus-visible,
+    .alphaPickerButton:focus-visible {
+        outline: 2px solid #52c7f2 !important;
+        outline-offset: 2px !important;
+    }
+}
+
+/* Ensure focus indicators are visible on all interactive elements */
+/* Override the problematic outline: none !important rules */
+.clearButton:focus-visible,
+.emby-textarea:focus-visible,
+.emby-select:focus-visible,
+.emby-input:focus-visible,
+.emby-button:focus-visible,
+.fab:focus-visible {
+    outline: 2px solid #00a4dc !important;
+    outline-offset: 2px !important;
+}
+
+/* Special handling for circular buttons */
+.fab:focus-visible {
+    outline-offset: 4px !important;
+}
+
+/* Ensure focus is visible in high contrast mode */
+@media (prefers-contrast: high) {
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    [role="button"]:focus-visible,
+    [tabindex]:focus-visible,
+    .listItem:focus-visible,
+    .cardBox:focus-visible,
+    .card:focus-visible {
+        outline: 3px solid currentColor !important;
+        outline-offset: 2px !important;
+    }
+}

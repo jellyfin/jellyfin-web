@@ -1,3 +1,6 @@
+// Import accessibility focus styles (Issue #6600)
+@use 'accessibility-focus';
+
 @mixin fullpage {
     margin: 0;
     padding: 0;
