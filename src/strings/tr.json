@@ -512,7 +512,7 @@
     "LabelAccessStart": "Başlangıç zamanı",
     "LabelAccessEnd": "Bitiş zamanı",
     "LabelAccessDay": "Haftanın günü",
-    "LabelAbortedByServerShutdown": "(Sunucu kapanması nedeniyle iptal edildi)",
+    "LabelAbortedByServerShutdown": "Sunucu kapanması nedeniyle iptal edildi",
     "Label3DFormat": "3D biçimi",
     "Kids": "Çocuklar",
     "ItemCount": "{0} öge",
