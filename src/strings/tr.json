@@ -1262,7 +1262,7 @@
     "LeaveBlankToNotSetAPassword": "Parola belirlemek istemiyorsanız bu alanı boş bırakabilirsiniz.",
     "LearnHowYouCanContribute": "Nasıl katkıda bulunabileceğinizi öğrenin.",
     "Larger": "Daha Büyük",
-    "LanNetworksHelp": "Bant genişliği kısıtlamaları uygulanırken yerel ağda dikkate alınacak ağlar için IP adreslerinin veya IP/ağ maskesi girişlerinin virgülle ayrılmış listesi. Ayarlanırsa, diğer tüm IP adreslerinin harici ağda olduğu kabul edilecek ve harici bant genişliği kısıtlamalarına tabi olacaktır. Boş bırakılırsa, yalnızca sunucunun alt ağının yerel ağda olduğu kabul edilir.",
+    "LanNetworksHelp": "Bant genişliği ve uzaktan erişim kısıtlamaları uygulanırken yerel ağ olarak değerlendirilecek ağlar için IP adreslerinin veya IP/ağ maskesi girişlerinin virgülle ayrılmış listesi. Boş bırakılırsa, tüm RFC1918 adresleri yerel olarak değerlendirilir.",
     "LabelZipCode": "Posta Kodu",
     "LabelXDlnaDocHelp": "'urn:schemas-dlna-org:device-1-0' ad alanındaki 'X_DLNADOC' öğesinin içeriğini belirleyin.",
     "LabelXDlnaDoc": "Cihaz Sınıfı Kimliği",

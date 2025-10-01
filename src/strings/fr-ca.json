@@ -1295,7 +1295,7 @@
     "LabelTonemappingRange": "Plage de mappage de tons",
     "LabelTonemappingThreshold": "Seuil de mappage de tons",
     "LabelTVHomeScreen": "Écran d'accueil du mode télé",
-    "LanNetworksHelp": "Liste d'adresses IP ou d'entrées IP/masque de réseau séparées par des virgules pour les réseaux qui seront prises en compte sur le réseau local lors de l'application des restrictions de bande passante. Si elles sont définies, toutes les autres adresses IP seront considérées comme se trouvant sur le réseau externe et seront soumises aux restrictions de bande passante externe. Si ce champ est laissé vide, seul le sous-réseau du serveur est considéré comme faisant partie du réseau local.",
+    "LanNetworksHelp": "Liste d'adresses IP ou d'entrées IP/masques de réseau séparées par des virgules pour les réseaux qui seront pris en compte sur le réseau local lors de l'application des restrictions de bande passante et d'accès distant. Si ce champ est vide, toutes les adresses RFC1918 sont considérées comme locales.",
     "LearnHowYouCanContribute": "Découvrez comment vous pouvez contribuer.",
     "Localization": "Localisation",
     "LogLevel.Trace": "Trace",
