@@ -41,7 +41,8 @@ export default tseslint.config(
             'coverage',
             'dist',
             '.idea',
-            '.vscode'
+            '.vscode',
+            'src/scripts'
         ]
     },
 
