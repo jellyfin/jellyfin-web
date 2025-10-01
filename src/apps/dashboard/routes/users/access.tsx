@@ -4,13 +4,13 @@ import { useSearchParams } from 'react-router-dom';
 
 import loading from '../../../../components/loading/loading';
 import globalize from '../../../../lib/globalize';
-import toast from '../../../../components/toast/toast';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import Button from '../../../../elements/emby-button/Button';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import Page from '../../../../components/Page';
+import Toast from 'apps/dashboard/components/Toast';
 
 type ItemsArr = {
     Name?: string | null;
@@ -23,6 +23,7 @@ type ItemsArr = {
 const UserLibraryAccess = () => {
     const [ searchParams ] = useSearchParams();
     const userId = searchParams.get('userId');
+    const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
     const [ userName, setUserName ] = useState('');
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
@@ -30,6 +31,10 @@ const UserLibraryAccess = () => {
     const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
+
+    const handleToastClose = useCallback(() => {
+        setIsSettingsSavedToastOpen(false);
+    }, []);
 
     const triggerChange = (select: HTMLInputElement) => {
         const evt = new Event('change', { bubbles: false, cancelable: true });
@@ -208,7 +213,7 @@ const UserLibraryAccess = () => {
 
         const onSaveComplete = () => {
             loading.hide();
-            toast(globalize.translate('SettingsSaved'));
+            setIsSettingsSavedToastOpen(true);
         };
 
         (page.querySelector('.chkEnableAllDevices') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
@@ -231,6 +236,11 @@ const UserLibraryAccess = () => {
             id='userLibraryAccessPage'
             className='mainAnimatedPage type-interior'
         >
+            <Toast
+                open={isSettingsSavedToastOpen}
+                onClose={handleToastClose}
+                message={globalize.translate('SettingsSaved')}
+            />
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
