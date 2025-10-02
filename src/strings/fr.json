@@ -729,7 +729,7 @@
     "LabelZipCode": "Code postal",
     "LabelffmpegPath": "Chemin vers FFmpeg",
     "LabelffmpegPathHelp": "Le chemin d'accès vers l'application FFmpeg ou le dossier la contenant.",
-    "LanNetworksHelp": "Liste séparée par des virgules des adresses IP et masques désignant les réseaux locaux lors de l'application des restrictions de bande passante. Les adresses ne figurant pas dans cette liste sont soumises aux restrictions de bande passante vers les réseaux externes. Une liste vide indique que seul le sous-réseau du serveur se trouve sur le réseau local.",
+    "LanNetworksHelp": "Liste d'adresses IP ou d'entrées IP/masques de réseau séparées par des virgules pour les réseaux qui seront pris en compte sur le réseau local lors de l'application des restrictions de bande passante et d'accès distant. Si ce champ est vide, toutes les adresses RFC1918 sont considérées comme locales.",
     "Large": "Grand",
     "LatestFromLibrary": "{0}, ajouts récents",
     "LearnHowYouCanContribute": "Voir comment vous pouvez contribuer.",
