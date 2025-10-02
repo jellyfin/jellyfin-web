@@ -10,6 +10,12 @@ export default defineConfig({
             include: [ 'src' ]
         },
         environment: 'jsdom',
-        restoreMocks: true
+        restoreMocks: true,
+        exclude: [
+            // e2e tests should be executed separately from the unit tests
+            '**/playwright/**',
+            '**/e2e/**',
+            'node_modules/**'
+        ]
     }
 });

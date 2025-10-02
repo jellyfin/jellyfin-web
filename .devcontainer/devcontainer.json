@@ -6,7 +6,10 @@
 	"image": "mcr.microsoft.com/devcontainers/javascript-node:24-bookworm",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+		// used to start the app in test container for the playwright tests
+		"ghcr.io/devcontainers/features/docker-in-docker:1": {}
+	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],

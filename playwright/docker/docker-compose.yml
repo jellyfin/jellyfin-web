@@ -1,0 +1,19 @@
+services:
+  jellyfin-test:
+    build: 
+      dockerfile: ./playwright/docker/Dockerfile
+      context: ../../
+    container_name: jellyfin-test
+    ports:
+      - "8096:8096"
+    # environment:
+    #   - name=value
+    volumes:
+      # - ./jellyfin/config:/config
+      # - ./jellyfin/cache:/cache
+      - ./media:/media:ro
+    networks:
+      - app-network
+
+networks:
+  app-network:

@@ -235,7 +235,8 @@ export default tseslint.config(
                     ],
                     moduleDirectory: [
                         'node_modules',
-                        'src'
+                        'src',
+                        'playwright/node_modules'
                     ]
                 }
             },
