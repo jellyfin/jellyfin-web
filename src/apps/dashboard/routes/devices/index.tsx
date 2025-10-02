@@ -6,7 +6,7 @@ import Button from '@mui/material/Button/Button';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
 import parseISO from 'date-fns/parseISO';
-import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
+import { type MRT_ColumnDef, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
@@ -21,6 +21,8 @@ import ConfirmDialog from 'components/ConfirmDialog';
 import { useApi } from 'hooks/useApi';
 import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
+import { COLOR_SCHEMES } from 'themes/themes';
+import { useColorScheme, useTheme } from '@mui/material';
 
 const getUserCell = (users: UsersRecords) => function UserCell({ renderedCellValue, row }: DeviceInfoCell) {
     return (
@@ -41,6 +43,8 @@ export const Component = () => {
         data?.Items || []
     ), [ data ]);
     const { usersById: users, names: userNames, isLoading: isUsersLoading } = useUsersDetails();
+    const { colorScheme } = useColorScheme();
+    const theme = useTheme();
 
     const [ isDeleteConfirmOpen, setIsDeleteConfirmOpen ] = useState(false);
     const [ isDeleteAllConfirmOpen, setIsDeleteAllConfirmOpen ] = useState(false);
@@ -137,8 +141,13 @@ export const Component = () => {
         }
     ], [ UserCell, userNames ]);
 
+    const mrtTheme = useMemo<Partial<MRT_Theme>>(() => ({
+        baseBackgroundColor: theme.palette.background.paper
+    }), [ theme ]);
+
     const mrTable = useMaterialReactTable({
         ...DEFAULT_TABLE_OPTIONS,
+        mrtTheme,
 
         columns,
         data: devices,
@@ -190,10 +199,18 @@ export const Component = () => {
         renderRowActions: ({ row, table }) => {
             const isDeletable = api && row.original.Id && api.deviceInfo.id === row.original.Id;
             return (
-                <Box sx={{ display: 'flex', gap: 1 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        gap: 1,
+                        '&&': {
+                            backgroundColor: 'transparent !important'
+                        }
+                    }}
+                >
                     <Tooltip title={globalize.translate('Edit')}>
                         <IconButton
-                        // eslint-disable-next-line react/jsx-no-bind
+                            // eslint-disable-next-line react/jsx-no-bind
                             onClick={() => table.setEditingRow(row)}
                         >
                             <Edit />

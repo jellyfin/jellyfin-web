@@ -1,3 +1,6 @@
+import Events from 'utils/events';
+import { EventType } from 'types/eventType';
+
 import { getDefaultTheme, getThemes as getConfiguredThemes } from './settings/webSettings';
 
 let currentThemeId;
@@ -44,6 +47,8 @@ function setTheme(id) {
 
             // set the meta theme color
             document.getElementById('themeColor').content = info.color;
+
+            Events.trigger(document, EventType.THEME_CHANGE, [ info.id ]);
         });
     });
 }
