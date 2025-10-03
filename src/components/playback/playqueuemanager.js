@@ -1,6 +1,7 @@
-import { randomInt } from '../../utils/number.ts';
+import {randomInt} from '../../utils/number.ts';
 
 let currentId = 0;
+
 function addUniquePlaylistItemId(item) {
     if (!item.PlaylistItemId) {
         item.PlaylistItemId = 'playlistItem' + currentId;
@@ -233,7 +234,7 @@ class PlayQueueManager {
         return this._shuffleMode;
     }
 
-    getNextItemInfo() {
+    getNextItemInfo(manualClick = false) {
         let newIndex;
         const playlist = this.getPlaylist();
         const playlistLength = playlist.length;
@@ -241,6 +242,13 @@ class PlayQueueManager {
         switch (this.getRepeatMode()) {
             case 'RepeatOne':
                 newIndex = this.getCurrentPlaylistIndex();
+                if (manualClick) {
+                    if (newIndex + 1 > playlistLength) {
+                        newIndex = 0;
+                    } else {
+                        newIndex++;
+                    }
+                }
                 break;
             case 'RepeatAll':
                 newIndex = this.getCurrentPlaylistIndex() + 1;
