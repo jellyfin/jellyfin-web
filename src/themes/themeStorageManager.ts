@@ -1,7 +1,7 @@
 import { StorageManager } from '@mui/material/styles';
 
 import Events, { type Event } from 'utils/events';
-import { EventType } from 'types/eventType';
+import { EventType } from 'constants/eventType';
 
 /**
  * A custom MUI StorageManager.
