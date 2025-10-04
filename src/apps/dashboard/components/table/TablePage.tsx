@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box/Box';
 import Stack from '@mui/material/Stack/Stack';
+import type {} from '@mui/material/themeCssVarsAugmentation';
 import Typography from '@mui/material/Typography/Typography';
-import { type MRT_RowData, type MRT_TableInstance, MaterialReactTable } from 'material-react-table';
+import { type MRT_RowData, type MRT_TableInstance, type MRT_TableOptions, MaterialReactTable } from 'material-react-table';
 import React from 'react';
 
 import Page, { type PageProps } from 'components/Page';
@@ -12,7 +13,7 @@ interface TablePageProps<T extends MRT_RowData> extends PageProps {
     table: MRT_TableInstance<T>
 }
 
-export const DEFAULT_TABLE_OPTIONS = {
+export const DEFAULT_TABLE_OPTIONS: Partial<MRT_TableOptions<MRT_RowData>> = {
     // Enable custom features
     enableColumnPinning: true,
     enableColumnResizing: true,

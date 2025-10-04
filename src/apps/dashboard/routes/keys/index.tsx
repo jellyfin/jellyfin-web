@@ -2,11 +2,12 @@ import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/mode
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+import { useTheme } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import parseISO from 'date-fns/parseISO';
-import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
+import { type MRT_ColumnDef, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
 import React, { useCallback, useMemo } from 'react';
 
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
@@ -27,6 +28,7 @@ export const Component = () => {
     ), [ data ]);
     const revokeKey = useRevokeKey();
     const createKey = useCreateKey();
+    const theme = useTheme();
 
     const columns = useMemo<MRT_ColumnDef<AuthenticationInfo>[]>(() => [
         {
@@ -49,8 +51,15 @@ export const Component = () => {
         }
     ], []);
 
+    // NOTE: We need to provide a custom theme due to a MRT bug causing the initial theme to always be used
+    // https://github.com/KevinVandy/material-react-table/issues/1429
+    const mrtTheme = useMemo<Partial<MRT_Theme>>(() => ({
+        baseBackgroundColor: theme.palette.background.paper
+    }), [ theme ]);
+
     const table = useMaterialReactTable({
         ...DEFAULT_TABLE_OPTIONS,
+        mrtTheme,
 
         columns,
         data: keys,

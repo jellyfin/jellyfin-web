@@ -16,6 +16,7 @@ import Backdrop from 'components/Backdrop';
 import BangRedirect from 'components/router/BangRedirect';
 import { createRouterHistory } from 'components/router/routerHistory';
 import appTheme from 'themes/themes';
+import { ThemeStorageManager } from 'themes/themeStorageManager';
 
 const layoutMode = localStorage.getItem('layout');
 const isExperimentalLayout = layoutMode === 'experimental';
@@ -54,8 +55,7 @@ function RootAppLayout() {
         <ThemeProvider
             theme={appTheme}
             defaultMode='dark'
-            // Disable mui's default saving to local storage
-            storageManager={null}
+            storageManager={ThemeStorageManager}
         >
             <Backdrop />
             <AppHeader isHidden={isExperimentalLayout || isNewLayoutPath} />

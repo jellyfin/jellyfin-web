@@ -2,9 +2,10 @@ import parseISO from 'date-fns/parseISO';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
+import { useTheme } from '@mui/material/styles';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
+import { type MRT_ColumnDef, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
 import { useSearchParams } from 'react-router-dom';
 
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
@@ -52,6 +53,8 @@ export const Component = () => {
     });
 
     const { usersById: users, names: userNames, isLoading: isUsersLoading } = useUsersDetails();
+
+    const theme = useTheme();
 
     const UserCell = getUserCell(users);
 
@@ -156,8 +159,15 @@ export const Component = () => {
         }
     }, [ activityView, searchParams, setSearchParams ]);
 
+    // NOTE: We need to provide a custom theme due to a MRT bug causing the initial theme to always be used
+    // https://github.com/KevinVandy/material-react-table/issues/1429
+    const mrtTheme = useMemo<Partial<MRT_Theme>>(() => ({
+        baseBackgroundColor: theme.palette.background.paper
+    }), [ theme ]);
+
     const table = useMaterialReactTable({
         ...DEFAULT_TABLE_OPTIONS,
+        mrtTheme,
 
         columns,
         data: logEntries,
