@@ -102,6 +102,7 @@
 - [Free O'Toole](https://github.com/freeotoole)
 - [TheBosZ](https://github.com/thebosz)
 - [qm3jp](https://github.com/qm3jp)
+- [Lampan-git](https://github.com/Lampan-git)
 
 ## Emby Contributors
 
