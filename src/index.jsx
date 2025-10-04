@@ -9,6 +9,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import { appHost } from './components/apphost';
 import autoFocuser from './components/autoFocuser';
+import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
 import loading from 'components/loading/loading';
 import { pluginManager } from './components/pluginManager';
 import { appRouter } from './components/router/appRouter';
@@ -55,6 +56,7 @@ commit: ${__COMMIT_SHA__}
 build: ${__JF_BUILD_VERSION__}`);
 
     // Register globals used in plugins
+    window.DirectoryBrowser = DirectoryBrowser;
     window.Events = Events;
     window.TaskButton = taskButton;
 
