@@ -26,7 +26,7 @@ const useLiveSessions = () => {
 
             for (const session of newSessions) {
                 const sessionIndex = currentSessions.findIndex((value) => value.DeviceId === session.DeviceId);
-                if (sessionIndex == -1) {
+                if (sessionIndex === -1) {
                     currentSessions.push(session);
                 } else {
                     currentSessions[sessionIndex] = session;

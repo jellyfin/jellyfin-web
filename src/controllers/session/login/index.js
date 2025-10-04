@@ -231,7 +231,7 @@ export default function (view, params) {
             if (id === 'manual') {
                 context.querySelector('#txtManualName').value = '';
                 showManualForm(context, true);
-            } else if (haspw == 'false') {
+            } else if (haspw === 'false') {
                 authenticateUserByName(context, getApiClient(), getTargetUrl(), name, '');
             } else {
                 context.querySelector('#txtManualName').value = name;

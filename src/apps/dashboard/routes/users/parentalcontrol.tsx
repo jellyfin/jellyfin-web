@@ -118,7 +118,7 @@ const UserParentalControl = () => {
         const unratedNamedItem: UnratedNamedItem[] = [];
 
         for (const item of items) {
-            const isChecked = user.Policy?.BlockUnratedItems?.indexOf(item.value) != -1;
+            const isChecked = user.Policy?.BlockUnratedItems?.indexOf(item.value) !== -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             unratedNamedItem.push({
                 value: item.value,
@@ -237,7 +237,7 @@ const UserParentalControl = () => {
                 }).then(function (updatedSchedule) {
                     const schedules = getSchedulesFromPage();
 
-                    if (index == -1) {
+                    if (index === -1) {
                         index = schedules.length;
                     }
 
@@ -273,7 +273,7 @@ const UserParentalControl = () => {
             }).then(function (value) {
                 const tags = getAllowedTagsFromPage();
 
-                if (tags.indexOf(value) == -1) {
+                if (tags.indexOf(value) === -1) {
                     tags.push(value);
                     setAllowedTags(tags);
                 }
@@ -294,7 +294,7 @@ const UserParentalControl = () => {
             }).then(function (value) {
                 const tags = getBlockedTagsFromPage();
 
-                if (tags.indexOf(value) == -1) {
+                if (tags.indexOf(value) === -1) {
                     tags.push(value);
                     setBlockedTags(tags);
                 }
@@ -383,7 +383,7 @@ const UserParentalControl = () => {
     }, [blockedTags, setBlockedTags]);
 
     const removeScheduleCallback = useCallback((index: number) => {
-        const newSchedules = accessSchedules.filter((_e, i) => i != index);
+        const newSchedules = accessSchedules.filter((_e, i) => i !== index);
         setAccessSchedules(newSchedules);
     }, [accessSchedules, setAccessSchedules]);
 

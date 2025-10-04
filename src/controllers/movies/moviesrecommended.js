@@ -309,7 +309,7 @@ export default function (view, params) {
 
                 if (index === suggestionsTabIndex) {
                     controller = this;
-                } else if (index == 0 || index == 2) {
+                } else if (index === 0 || index === 2) {
                     controller = new ControllerFactory(view, params, tabContent, {
                         mode: index ? 'favorites' : 'movies'
                     });
@@ -330,7 +330,7 @@ export default function (view, params) {
 
     function preLoadTab(page, index) {
         getTabController(page, index, function (controller) {
-            if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
+            if (renderedTabs.indexOf(index) === -1 && controller.preRender) {
                 controller.preRender();
             }
         });
@@ -339,7 +339,7 @@ export default function (view, params) {
     function loadTab(page, index) {
         currentTabIndex = index;
         getTabController(page, index, ((controller) => {
-            if (renderedTabs.indexOf(index) == -1) {
+            if (renderedTabs.indexOf(index) === -1) {
                 renderedTabs.push(index);
                 controller.renderTab();
             }
@@ -347,7 +347,7 @@ export default function (view, params) {
     }
 
     function onPlaybackStop(e, state) {
-        if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
+        if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Video') {
             renderedTabs = [];
             mainTabsManager.getTabsElement().triggerTabChange();
         }
