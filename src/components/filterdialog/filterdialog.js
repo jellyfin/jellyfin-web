@@ -27,7 +27,7 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
     }
     let html = '';
     html += '<div class="checkboxList">';
-    html += items.map(function (filter) {
+    html += items.map((filter) => {
         let itemHtml = '';
         const checkedHtml = isCheckedFn(filter) ? 'checked' : '';
         itemHtml += '<label>';
@@ -41,19 +41,19 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 }
 
 function renderFilters(context, result, query) {
-    renderOptions(context, '.genreFilters', 'chkGenreFilter', merge(result.Genres, query.Genres, '|'), function (i) {
+    renderOptions(context, '.genreFilters', 'chkGenreFilter', merge(result.Genres, query.Genres, '|'), (i) => {
         const delimeter = '|';
         return (delimeter + (query.Genres || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', merge(result.OfficialRatings, query.OfficialRatings, '|'), function (i) {
+    renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', merge(result.OfficialRatings, query.OfficialRatings, '|'), (i) => {
         const delimeter = '|';
         return (delimeter + (query.OfficialRatings || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.tagFilters', 'chkTagFilter', merge(result.Tags, query.Tags, '|'), function (i) {
+    renderOptions(context, '.tagFilters', 'chkTagFilter', merge(result.Tags, query.Tags, '|'), (i) => {
         const delimeter = '|';
         return (delimeter + (query.Tags || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years, query.Years, ','), function (i) {
+    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years, query.Years, ','), (i) => {
         const delimeter = ',';
         return (delimeter + (query.Years || '') + delimeter).includes(delimeter + i + delimeter);
     });
@@ -64,7 +64,7 @@ function loadDynamicFilters(context, apiClient, userId, itemQuery) {
         UserId: userId,
         ParentId: itemQuery.ParentId,
         IncludeItemTypes: itemQuery.IncludeItemTypes
-    })).then(function (result) {
+    })).then((result) => {
         renderFilters(context, result, itemQuery);
     });
 }

@@ -83,7 +83,7 @@ function onClick(e) {
         triggerBeforeTabChange(tabs, index, previousIndex);
 
         // If toCenter is called syncronously within the click event, it sometimes ends up canceling it
-        setTimeout(function () {
+        setTimeout(() => {
             tabs.selectedTabIndex = index;
 
             tabs.dispatchEvent(new CustomEvent('tabchange', {

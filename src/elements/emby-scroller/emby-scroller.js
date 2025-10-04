@@ -14,7 +14,7 @@ ScrollerPrototype.createdCallback = function () {
 };
 
 function initCenterFocus(elem, scrollerInstance) {
-    dom.addEventListener(elem, 'focus', function (e) {
+    dom.addEventListener(elem, 'focus', (e) => {
         const focused = focusManager.focusableParent(e.target);
         if (focused) {
             scrollerInstance.toCenter(focused);

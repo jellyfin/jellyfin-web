@@ -136,13 +136,9 @@ class PlayQueueManager {
         const currentPlaylistItemId = this.getCurrentPlaylistItemId();
         const isCurrentIndex = playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
 
-        this._sortedPlaylist = this._sortedPlaylist.filter(function (item) {
-            return !playlistItemIds.includes(item.PlaylistItemId);
-        });
+        this._sortedPlaylist = this._sortedPlaylist.filter((item) => !playlistItemIds.includes(item.PlaylistItemId));
 
-        this._playlist = this._playlist.filter(function (item) {
-            return !playlistItemIds.includes(item.PlaylistItemId);
-        });
+        this._playlist = this._playlist.filter((item) => !playlistItemIds.includes(item.PlaylistItemId));
 
         return {
             result: 'removed',

@@ -5,9 +5,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import qualityoptions from '../qualityOptions';
 
 function showQualityMenu(player, btn) {
-    const videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
-        return stream.Type === 'Video';
-    })[0];
+    const videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter((stream) => stream.Type === 'Video')[0];
 
     const videoCodec = videoStream ? videoStream.Codec : null;
     const videoBitRate = videoStream ? videoStream.BitRate : null;
@@ -20,7 +18,7 @@ function showQualityMenu(player, btn) {
         enableAuto: true
     });
 
-    const menuItems = options.map(function (o) {
+    const menuItems = options.map((o) => {
         const opt = {
             name: o.name,
             id: o.bitrate,
@@ -34,16 +32,14 @@ function showQualityMenu(player, btn) {
         return opt;
     });
 
-    const selectedId = options.filter(function (o) {
-        return o.selected;
-    });
+    const selectedId = options.filter((o) => o.selected);
 
     const selectedBitrate = selectedId.length ? selectedId[0].bitrate : null;
 
     return actionsheet.show({
         items: menuItems,
         positionTo: btn
-    }).then(function (id) {
+    }).then((id) => {
         const bitrate = parseInt(id, 10);
         if (bitrate !== selectedBitrate) {
             playbackManager.setMaxStreamingBitrate({
@@ -79,7 +75,7 @@ function showRepeatModeMenu(player, btn) {
     return actionsheet.show({
         items: menuItems,
         positionTo: btn
-    }).then(function (mode) {
+    }).then((mode) => {
         if (mode) {
             playbackManager.setRepeatMode(mode, player);
         }
@@ -89,9 +85,7 @@ function showRepeatModeMenu(player, btn) {
 function getQualitySecondaryText(player) {
     const state = playbackManager.getPlayerState(player);
 
-    const videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
-        return stream.Type === 'Video';
-    })[0];
+    const videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter((stream) => stream.Type === 'Video')[0];
 
     const videoWidth = videoStream ? videoStream.Width : null;
     const videoHeight = videoStream ? videoStream.Height : null;
@@ -104,9 +98,7 @@ function getQualitySecondaryText(player) {
         enableAuto: true
     });
 
-    let selectedOption = options.filter(function (o) {
-        return o.selected;
-    });
+    let selectedOption = options.filter((o) => o.selected);
 
     if (!selectedOption.length) {
         return null;
@@ -139,7 +131,7 @@ function showAspectRatioMenu(player, btn) {
     return actionsheet.show({
         items: menuItems,
         positionTo: btn
-    }).then(function (id) {
+    }).then((id) => {
         if (id) {
             playbackManager.setAspectRatio(id, player);
             return Promise.resolve();
@@ -161,7 +153,7 @@ function showPlaybackRateMenu(player, btn) {
     return actionsheet.show({
         items: menuItems,
         positionTo: btn
-    }).then(function (id) {
+    }).then((id) => {
         if (id) {
             playbackManager.setPlaybackRate(id, player);
             return Promise.resolve();
@@ -177,9 +169,7 @@ function showWithUser(options, player, user) {
     const menuItems = [];
     if (supportedCommands.indexOf('SetAspectRatio') !== -1) {
         const currentAspectRatioId = playbackManager.getAspectRatio(player);
-        const currentAspectRatio = playbackManager.getSupportedAspectRatios(player).filter(function (i) {
-            return i.id === currentAspectRatioId;
-        })[0];
+        const currentAspectRatio = playbackManager.getSupportedAspectRatios(player).filter((i) => i.id === currentAspectRatioId)[0];
 
         menuItems.push({
             name: globalize.translate('AspectRatio'),
@@ -239,9 +229,7 @@ function showWithUser(options, player, user) {
     return actionsheet.show({
         items: menuItems,
         positionTo: options.positionTo
-    }).then(function (id) {
-        return handleSelectedOption(id, options, player);
-    });
+    }).then((id) => handleSelectedOption(id, options, player));
 }
 
 export function show(options) {
@@ -253,9 +241,7 @@ export function show(options) {
     }
 
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-    return apiClient.getCurrentUser().then(function (user) {
-        return showWithUser(options, player, user);
-    });
+    return apiClient.getCurrentUser().then((user) => showWithUser(options, player, user));
 }
 
 function handleSelectedOption(id, options, player) {

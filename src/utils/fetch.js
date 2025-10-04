@@ -46,19 +46,19 @@ export function getFetchPromise(request) {
 function fetchWithTimeout(url, options, timeoutMs) {
     console.debug(`fetchWithTimeout: timeoutMs: ${timeoutMs}, url: ${url}`);
 
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         const timeout = setTimeout(reject, timeoutMs);
 
         options = options || {};
         options.credentials = 'same-origin';
 
-        fetch(url, options).then(function (response) {
+        fetch(url, options).then((response) => {
             clearTimeout(timeout);
 
             console.debug(`fetchWithTimeout: succeeded connecting to url: ${url}`);
 
             resolve(response);
-        }, function (error) {
+        }, (error) => {
             clearTimeout(timeout);
 
             console.debug(`fetchWithTimeout: timed out connecting to url: ${url}`);
@@ -89,7 +89,7 @@ export function ajax(request) {
 
     console.debug(`requesting url: ${request.url}`);
 
-    return getFetchPromise(request).then(function (response) {
+    return getFetchPromise(request).then((response) => {
         console.debug(`response status: ${response.status}, url: ${request.url}`);
         if (response.status < 400) {
             if (request.dataType === 'json' || request.headers.accept === 'application/json') {
@@ -102,7 +102,7 @@ export function ajax(request) {
         } else {
             return Promise.reject(response);
         }
-    }, function (err) {
+    }, (err) => {
         console.error(`request failed to url: ${request.url}`);
         throw err;
     });

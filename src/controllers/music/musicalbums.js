@@ -14,7 +14,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
     function playAll() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then((item) => {
             playbackManager.play({
                 items: [item]
             });
@@ -22,7 +22,7 @@ export default function (view, params, tabContent) {
     }
 
     function shuffle() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then((item) => {
             getQuery();
             playbackManager.shuffle(item);
         });
@@ -186,14 +186,14 @@ export default function (view, params, tabContent) {
     let pageData;
     let isLoading = false;
 
-    this.showFilterMenu = function () {
+    this.showFilterMenu = () => {
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: 'albums',
                 serverId: ApiClient.serverId()
             });
-            Events.on(filterDialog, 'filterchange', function () {
+            Events.on(filterDialog, 'filterchange', () => {
                 getQuery().StartIndex = 0;
                 reloadItems();
             });
@@ -202,15 +202,13 @@ export default function (view, params, tabContent) {
         });
     };
 
-    this.getCurrentViewStyle = function () {
-        return getPageData().view;
-    };
+    this.getCurrentViewStyle = () => getPageData().view;
 
     const initPage = (tabElement) => {
         const alphaPickerElement = tabElement.querySelector('.alphaPicker');
         const itemsContainer = tabElement.querySelector('.itemsContainer');
 
-        alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
+        alphaPickerElement.addEventListener('alphavaluechanged', (e) => {
             const newValue = e.detail.value;
             const query = getQuery();
             if (newValue === '#') {
@@ -261,7 +259,7 @@ export default function (view, params, tabContent) {
                     name: globalize.translate('OptionRandom'),
                     id: 'Random,SortName'
                 }],
-                callback: function () {
+                callback: () => {
                     getQuery().StartIndex = 0;
                     reloadItems();
                 },
@@ -275,7 +273,7 @@ export default function (view, params, tabContent) {
             libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
         });
 
-        btnSelectView.addEventListener('layoutchange', function (e) {
+        btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;
             getPageData().view = viewStyle;
             userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);

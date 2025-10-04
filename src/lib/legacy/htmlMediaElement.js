@@ -4,7 +4,7 @@
  *   Return a `Promise`.
  */
 
-(function (HTMLMediaElement) {
+(((HTMLMediaElement) => {
     'use strict';
 
     const HTMLMediaElementPrototype = HTMLMediaElement.prototype;
@@ -24,4 +24,4 @@
             return Promise.reject(err);
         }
     };
-}(HTMLMediaElement));
+})(HTMLMediaElement));
