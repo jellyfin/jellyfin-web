@@ -32,7 +32,7 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
             {title}
         </DialogTitle>
         <DialogContent>
-            <DialogContentText>
+            <DialogContentText sx={{ whiteSpace: 'pre-wrap' }}>
                 {text}
             </DialogContentText>
         </DialogContent>

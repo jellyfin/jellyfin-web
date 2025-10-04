@@ -10,13 +10,6 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             view: 'networking.html'
         }
     }, {
-        path: 'libraries',
-        pageProps: {
-            appType: AppType.Dashboard,
-            controller: 'library',
-            view: 'library.html'
-        }
-    }, {
         path: 'livetv/guide',
         pageProps: {
             appType: AppType.Dashboard,
