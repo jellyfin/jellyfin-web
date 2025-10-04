@@ -1,4 +1,5 @@
 import Events from '../../utils/events.ts';
+import { StillWatchingAction } from 'apps/stable/features/playback/constants/stillWatchingAction.ts';
 import { toBoolean } from '../../utils/string.ts';
 import browser from '../browser';
 import appSettings from './appSettings';
@@ -228,6 +229,30 @@ export class UserSettings {
         }
 
         return toBoolean(this.get('enableVideoRemainingTime', false), true);
+    }
+
+    /**
+     * Get or set still watching behavior.
+     * @param {string|undefined} [val] - Still Watching setting.
+     * @return {string} Still Watching setting.
+     */
+    stillWatchingBehavior (val) {
+        if (val !== undefined) {
+            return this.set('stillWatchingBehavior', val.toString(), false);
+        }
+
+        const apiClient = this.currentApiClient;
+
+        if (!apiClient) {
+            // Assume disabled until API client is set.
+            return StillWatchingAction.Disabled;
+        }
+
+        const fallbackValue = apiClient.getUser(this.currentUserId).then(function (user) {
+            return user.Configuration.EnableNextEpisodeAutoPlay ? StillWatchingAction.Default : StillWatchingAction.Disabled;
+        });
+
+        return this.get('stillWatchingBehavior', false) || fallbackValue;
     }
 
     /**
@@ -698,6 +723,7 @@ export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings)
 export const useEpisodeImagesInNextUpAndResume = currentSettings.useEpisodeImagesInNextUpAndResume.bind(currentSettings);
 export const language = currentSettings.language.bind(currentSettings);
 export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
+export const stillWatchingBehavior = currentSettings.stillWatchingBehavior.bind(currentSettings);
 export const skipBackLength = currentSettings.skipBackLength.bind(currentSettings);
 export const skipForwardLength = currentSettings.skipForwardLength.bind(currentSettings);
 export const dashboardTheme = currentSettings.dashboardTheme.bind(currentSettings);
