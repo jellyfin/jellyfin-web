@@ -4,7 +4,6 @@ import Notifications from '@mui/icons-material/Notifications';
 import Avatar from '@mui/material/Avatar';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import formatRelative from 'date-fns/formatRelative';
@@ -12,13 +11,15 @@ import { getLocale } from 'utils/dateFnsLocale';
 import Stack from '@mui/material/Stack';
 import getLogLevelColor from '../utils/getLogLevelColor';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
+import ListItemLink from 'components/ListItemLink';
 
 type ActivityListItemProps = {
     item: ActivityLogEntry;
     displayShortOverview: boolean;
+    to: string;
 };
 
-const ActivityListItem = ({ item, displayShortOverview }: ActivityListItemProps) => {
+const ActivityListItem = ({ item, displayShortOverview, to }: ActivityListItemProps) => {
     const relativeDate = useMemo(() => {
         if (item.Date) {
             return formatRelative(Date.parse(item.Date), Date.now(), { locale: getLocale() });
@@ -29,7 +30,7 @@ const ActivityListItem = ({ item, displayShortOverview }: ActivityListItemProps)
 
     return (
         <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemLink to={to}>
                 <ListItemAvatar>
                     <Avatar sx={{ bgcolor: getLogLevelColor(item.Severity || LogLevel.Information) + '.main' }}>
                         <Notifications sx={{ color: '#fff' }} />
@@ -66,7 +67,7 @@ const ActivityListItem = ({ item, displayShortOverview }: ActivityListItemProps)
                     )}
                     disableTypography
                 />
-            </ListItemButton>
+            </ListItemLink>
         </ListItem>
     );
 };
