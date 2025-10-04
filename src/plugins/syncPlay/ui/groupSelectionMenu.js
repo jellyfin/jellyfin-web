@@ -117,7 +117,7 @@ class GroupSelectionMenu {
      * @param {Object} user - Current user.
      * @param {Object} apiClient - ApiClient.
      */
-    showLeaveGroupSelection(button, user, apiClient) {
+    showLeaveGroupSelection(button, _user, apiClient) {
         const groupInfo = this.SyncPlay?.Manager.getGroupInfo();
         const menuItems = [];
 

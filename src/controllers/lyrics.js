@@ -188,7 +188,7 @@ export default function (view) {
         }
     }
 
-    function onPlaybackStart(event, state) {
+    function onPlaybackStart(_event, state) {
         if (currentItem.Id !== state.NowPlayingItem.Id) {
             onLoad();
         }

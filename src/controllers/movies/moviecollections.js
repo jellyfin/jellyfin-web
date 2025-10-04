@@ -7,7 +7,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
-export default function (view, params, tabContent) {
+export default function (_view, params, tabContent) {
     function getPageData() {
         const key = getSavedQueryKey();
         let pageData = data[key];

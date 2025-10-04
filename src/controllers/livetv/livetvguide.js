@@ -1,6 +1,6 @@
 import Guide from '../../components/guide/guide';
 
-export default function (view, params, tabContent) {
+export default function (_view, _params, tabContent) {
     let guideInstance;
     const self = this;
 

@@ -165,13 +165,13 @@ function showProviderOptions(page, providerId, button) {
                     break;
 
                 case 'map':
-                    mapChannels(page, providerId);
+                    mapChannels(providerId);
             }
         });
     });
 }
 
-function mapChannels(page, providerId) {
+function mapChannels(providerId) {
     import('components/channelMapper/channelMapper').then(({ default: ChannelMapper }) => {
         new ChannelMapper({
             serverId: ApiClient.serverInfo().Id,
