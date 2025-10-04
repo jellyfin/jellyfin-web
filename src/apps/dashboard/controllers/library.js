@@ -89,7 +89,7 @@ function renameVirtualFolder(page, virtualFolder) {
 
 function showCardMenu(page, elem, virtualFolders) {
     const card = dom.parentWithClass(elem, 'card');
-    const index = parseInt(card.getAttribute('data-index'), 10);
+    const index = parseInt(card.dataset.dataIndex, 10);
     const virtualFolder = virtualFolders[index];
     const menuItems = [];
     menuItems.push({
@@ -195,7 +195,7 @@ function reloadVirtualFolders(page, virtualFolders) {
     libraryEditElements.forEach(function (btn) {
         btn.addEventListener('click', function () {
             const card = dom.parentWithClass(btn, 'card');
-            const index = parseInt(card.getAttribute('data-index'), 10);
+            const index = parseInt(card.dataset.index, 10);
             const virtualFolder = virtualFolders[index];
 
             if (virtualFolder.ItemId) {

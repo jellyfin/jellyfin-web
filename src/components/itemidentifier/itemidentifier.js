@@ -54,7 +54,7 @@ function searchForIdentificationResults(page) {
                 value = parseInt(value, 10);
             }
 
-            lookupInfo[identifyField[i].getAttribute('data-lookup')] = value;
+            lookupInfo[identifyField[i].dataset.lookup] = value;
         }
     }
 
@@ -67,7 +67,7 @@ function searchForIdentificationResults(page) {
         if (value) {
             hasId = true;
         }
-        lookupInfo.ProviderIds[txtLookupId[i].getAttribute('data-providerkey')] = value;
+        lookupInfo.ProviderIds[txtLookupId[i].dataset.providerkey] = value;
     }
 
     if (!hasId && !lookupInfo.Name) {
@@ -122,7 +122,7 @@ function showIdentificationSearchResults(page, results) {
     elem.innerHTML = html;
 
     function onSearchImageClick() {
-        const index = parseInt(this.getAttribute('data-index'), 10);
+        const index = parseInt(this.dataset.index, 10);
 
         const currentResult = results[index];
 

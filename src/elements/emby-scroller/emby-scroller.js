@@ -88,26 +88,26 @@ ScrollerPrototype.removeScrollEventListener = function (fn, options) {
 function onInputCommand(e) {
     const cmd = e.detail.command;
     if (cmd === 'end') {
-        focusManager.focusLast(this, '.' + this.getAttribute('data-navcommands'));
+        focusManager.focusLast(this, '.' + this.dataset.navCommands);
         e.preventDefault();
         e.stopPropagation();
     } else if (cmd === 'pageup') {
-        focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), -12);
+        focusManager.moveFocus(e.target, this, '.' + this.dataset.navcommands, -12);
         e.preventDefault();
         e.stopPropagation();
     } else if (cmd === 'pagedown') {
-        focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), 12);
+        focusManager.moveFocus(e.target, this, '.' + this.dataset.navcommands, 12);
         e.preventDefault();
         e.stopPropagation();
     }
 }
 
 ScrollerPrototype.attachedCallback = function () {
-    if (this.getAttribute('data-navcommands')) {
+    if (this.dataset.navcommands) {
         inputManager.on(this, onInputCommand);
     }
 
-    const horizontal = this.getAttribute('data-horizontal') !== 'false';
+    const horizontal = this.dataset.horizontal !== 'false';
 
     const slider = this.querySelector('.scrollSlider');
 
@@ -116,12 +116,12 @@ ScrollerPrototype.attachedCallback = function () {
     }
 
     const scrollFrame = this;
-    const enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
+    const enableScrollButtons = layoutManager.desktop && horizontal && this.dataset.scrollbuttons !== 'false';
 
     const options = {
         horizontal: horizontal,
         mouseDragging: 1,
-        mouseWheel: this.getAttribute('data-mousewheel') !== 'false',
+        mouseWheel: this.dataset.mousewheel !== 'false',
         touchDragging: 1,
         slidee: slider,
         scrollBy: 200,
@@ -129,10 +129,10 @@ ScrollerPrototype.attachedCallback = function () {
         elasticBounds: 1,
         dragHandle: 1,
         autoImmediate: true,
-        skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
-        dispatchScrollEvent: enableScrollButtons || this.getAttribute('data-scrollevent') === 'true',
-        hideScrollbar: enableScrollButtons || this.getAttribute('data-hidescrollbar') === 'true',
-        allowNativeSmoothScroll: this.getAttribute('data-allownativesmoothscroll') === 'true' && !enableScrollButtons,
+        skipSlideToWhenVisible: this.dataset.skipfocuswhenvisible === 'true',
+        dispatchScrollEvent: enableScrollButtons || this.dataset.scrollevent === 'true',
+        hideScrollbar: enableScrollButtons || this.dataset.hidescrollbar === 'true',
+        allowNativeSmoothScroll: this.dataset.allownativesmoothscroll === 'true' && !enableScrollButtons,
         allowNativeScroll: !enableScrollButtons,
         forceHideScrollbars: enableScrollButtons,
         // In edge, with the native scroll, the content jumps around when hovering over the buttons
@@ -144,7 +144,7 @@ ScrollerPrototype.attachedCallback = function () {
     this.scroller.init();
     this.scroller.reload();
 
-    if (layoutManager.tv && this.getAttribute('data-centerfocus')) {
+    if (layoutManager.tv && this.dataset.centerfocus) {
         initCenterFocus(this, this.scroller);
     }
 
@@ -174,7 +174,7 @@ ScrollerPrototype.resume = function () {
 };
 
 ScrollerPrototype.detachedCallback = function () {
-    if (this.getAttribute('data-navcommands')) {
+    if (this.dataset.navcommands) {
         inputManager.off(this, onInputCommand);
     }
 

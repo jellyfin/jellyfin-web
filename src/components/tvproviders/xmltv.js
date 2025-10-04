@@ -136,7 +136,7 @@ export default function (page, providerId, options) {
             info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (tuner) {
                 return tuner.checked;
             }).map(function (tuner) {
-                return tuner.getAttribute('data-id');
+                return tuner.dataset.id;
             });
             ApiClient.ajax({
                 type: 'POST',

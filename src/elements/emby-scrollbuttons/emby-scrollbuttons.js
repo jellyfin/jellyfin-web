@@ -129,7 +129,7 @@ function getScrollSize(elem) {
 }
 
 function onScrollButtonClick() {
-    const direction = this.getAttribute('data-direction');
+    const direction = this.dataset.direction;
     const scroller = this.parentNode.nextSibling;
     const scrollPosition = getScrollPosition(scroller);
     scrollerItemSlideIntoView({

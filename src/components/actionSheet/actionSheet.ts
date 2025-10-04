@@ -311,7 +311,7 @@ export function show(options: Options) {
         });
     }
 
-    let selectedId: string | null = null;
+    let selectedId: string | undefined;
 
     let timeout: ReturnType<typeof setTimeout> | undefined;
     if (options.timeout) {
@@ -327,11 +327,11 @@ export function show(options: Options) {
             const actionSheetMenuItem = dom.parentWithClass(e.target as HTMLElement, 'actionSheetMenuItem');
 
             if (actionSheetMenuItem) {
-                selectedId = actionSheetMenuItem.getAttribute('data-id');
+                selectedId = actionSheetMenuItem.dataset.id;
 
                 if (options.resolveOnClick) {
                     if (Array.isArray(options.resolveOnClick)) {
-                        if (options.resolveOnClick.indexOf(selectedId) !== -1) {
+                        if (options.resolveOnClick.indexOf(selectedId || null) !== -1) {
                             resolve(selectedId);
                             isResolved = true;
                         }

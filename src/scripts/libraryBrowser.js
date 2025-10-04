@@ -5,7 +5,7 @@ export function showLayoutMenu (button, currentLayout, views) {
 
     if (!views) {
         dispatchEvent = false;
-        views = button.getAttribute('data-layouts');
+        views = button.dataset.layouts;
         views = views ? views.split(',') : ['List', 'Poster', 'PosterCard', 'Thumb', 'ThumbCard'];
     }
 

@@ -411,8 +411,8 @@ function afterFill(elem, item, options) {
 }
 
 function onChannelLinkClick(e) {
-    const channelId = this.getAttribute('data-id');
-    const serverId = this.getAttribute('data-serverid');
+    const channelId = this.dataset.id;
+    const serverId = this.dataset.serverId;
 
     appRouter.showItem(channelId, serverId);
 

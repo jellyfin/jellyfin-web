@@ -14,7 +14,7 @@ function saveCategories(context, options) {
 
     const chkCategorys = context.querySelectorAll('.chkCategory');
     for (const chkCategory of chkCategorys) {
-        const type = chkCategory.getAttribute('data-type');
+        const type = chkCategory.dataset.type;
 
         if (chkCategory.checked) {
             categories.push(type);
@@ -35,7 +35,7 @@ function loadCategories(context, options) {
 
     const chkCategorys = context.querySelectorAll('.chkCategory');
     for (const chkCategory of chkCategorys) {
-        const type = chkCategory.getAttribute('data-type');
+        const type = chkCategory.dataset.type;
 
         chkCategory.checked = !selectedCategories.length || selectedCategories.indexOf(type) !== -1;
     }
@@ -45,7 +45,7 @@ function save(context) {
     const chkIndicators = context.querySelectorAll('.chkIndicator');
 
     for (const chkIndicator of chkIndicators) {
-        const type = chkIndicator.getAttribute('data-type');
+        const type = chkIndicator.dataset.type;
         userSettings.set('guide-indicator-' + type, chkIndicator.checked);
     }
 
@@ -65,9 +65,9 @@ function load(context) {
     const chkIndicators = context.querySelectorAll('.chkIndicator');
 
     for (const chkIndicator of chkIndicators) {
-        const type = chkIndicator.getAttribute('data-type');
+        const type = chkIndicator.dataset.type;
 
-        if (chkIndicator.getAttribute('data-default') === 'true') {
+        if (chkIndicator.dataset.default === 'true') {
             chkIndicator.checked = userSettings.get('guide-indicator-' + type) !== 'false';
         } else {
             chkIndicator.checked = userSettings.get('guide-indicator-' + type) === 'true';

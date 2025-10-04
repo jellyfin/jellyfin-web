@@ -26,11 +26,11 @@ function onKeyDown(e) {
 EmbyRadioPrototype.attachedCallback = function () {
     const showFocus = !layoutManager.mobile;
 
-    if (this.getAttribute('data-radio') === 'true') {
+    if (this.dataset.radio === 'true') {
         return;
     }
 
-    this.setAttribute('data-radio', 'true');
+    this.dataset.radio = 'true';
 
     this.classList.add('mdl-radio__button');
 

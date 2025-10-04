@@ -20,7 +20,7 @@ type ResetProvider = BaseItemDto & {
 
 const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
     Array.prototype.filter.call(elements, e => e.checked)
-        .map(e => e.getAttribute('data-id'))
+        .map(e => e.dataset.id)
 );
 
 const UserEdit = () => {

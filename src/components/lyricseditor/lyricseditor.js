@@ -184,7 +184,7 @@ function onLyricsResultsClick(e) {
 
     const btnOptions = dom.parentWithClass(e.target, 'btnOptions');
     if (btnOptions) {
-        lyricsId = btnOptions.getAttribute('data-lyricsid');
+        lyricsId = btnOptions.dataset.lyricsId;
         lyrics = btnOptions.querySelector('.hiddenLyrics');
         context = dom.parentWithClass(btnOptions, 'lyricsEditorDialog');
         showOptions(btnOptions, context, lyricsId, lyrics.innerHTML);
@@ -198,7 +198,7 @@ function onLyricsResultsClick(e) {
 
     const btnDownload = dom.parentWithClass(e.target, 'btnDownload');
     if (btnDownload) {
-        lyricsId = btnDownload.getAttribute('data-lyricsid');
+        lyricsId = btnDownload.dataset.lyricsid;
         context = dom.parentWithClass(btnDownload, 'lyricsEditorDialog');
         downloadRemoteLyrics(context, lyricsId);
     }

@@ -546,7 +546,7 @@ function updateLibraryNavLinks(page) {
 
     for (let i = 0, length = elems.length; i < length; i++) {
         const lnkMediaFolder = elems[i];
-        const itemId = lnkMediaFolder.getAttribute('data-itemid');
+        const itemId = lnkMediaFolder.dataset.itemId;
 
         if (isChannelsPage && itemId === 'channels') {
             lnkMediaFolder.classList.add('navMenuOption-selected');
@@ -615,7 +615,7 @@ function updateMenuForPageType(isDashboardPage, isLibraryPage) {
 }
 
 function updateTitle(page) {
-    const title = page.getAttribute('data-title');
+    const title = page.dataset.title;
 
     if (title) {
         LibraryMenu.setTitle(title);
@@ -626,7 +626,7 @@ function updateTitle(page) {
 
 function updateBackButton(page) {
     if (headerBackButton) {
-        if (page.getAttribute('data-backbutton') !== 'false' && appRouter.canGoBack()) {
+        if (page.dataset.backbutton !== 'false' && appRouter.canGoBack()) {
             headerBackButton.classList.remove('hide');
         } else {
             headerBackButton.classList.add('hide');

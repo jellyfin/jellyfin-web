@@ -37,11 +37,11 @@ function forceRefresh(loading) {
 }
 
 EmbyCheckboxPrototype.attachedCallback = function () {
-    if (this.getAttribute('data-embycheckbox') === 'true') {
+    if (this.dataset.embyCheckbox === 'true') {
         return;
     }
 
-    this.setAttribute('data-embycheckbox', 'true');
+    this.dataset.embycheckbox = 'true';
 
     this.classList.add('emby-checkbox');
 
@@ -52,13 +52,13 @@ EmbyCheckboxPrototype.attachedCallback = function () {
 
     let outlineClass = 'checkboxOutline';
 
-    const customClass = this.getAttribute('data-outlineclass');
+    const customClass = this.dataset.outlineclass;
     if (customClass) {
         outlineClass += ' ' + customClass;
     }
 
-    const checkedIcon = this.getAttribute('data-checkedicon') || 'check';
-    const uncheckedIcon = this.getAttribute('data-uncheckedicon') || '';
+    const checkedIcon = this.dataset.checkedicon || 'check';
+    const uncheckedIcon = this.dataset.uncheckedicon || '';
     const checkHtml = '<span class="material-icons checkboxIcon checkboxIcon-checked ' + checkedIcon + '" aria-hidden="true"></span>';
     const uncheckedHtml = '<span class="material-icons checkboxIcon checkboxIcon-unchecked ' + uncheckedIcon + '" aria-hidden="true"></span>';
     labelElement.insertAdjacentHTML('beforeend', '<span class="' + outlineClass + '">' + checkHtml + uncheckedHtml + '</span>');

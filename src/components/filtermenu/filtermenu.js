@@ -105,9 +105,9 @@ function onInputCommand(e) {
 function saveValues(context, settings, settingsKey) {
     context.querySelectorAll('.simpleFilter').forEach(elem => {
         if (elem.tagName === 'INPUT') {
-            setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem);
+            setBasicFilter(context, settingsKey + '-filter-' + elem.dataset.settingName, elem);
         } else {
-            setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem.querySelector('input'));
+            setBasicFilter(context, settingsKey + '-filter-' + elem.dataset.settingname, elem.querySelector('input'));
         }
     });
 
@@ -115,7 +115,7 @@ function saveValues(context, settings, settingsKey) {
     const videoTypes = [];
     context.querySelectorAll('.chkVideoTypeFilter').forEach(elem => {
         if (elem.checked) {
-            videoTypes.push(elem.getAttribute('data-filter'));
+            videoTypes.push(elem.dataset.filter);
         }
     });
 
@@ -125,7 +125,7 @@ function saveValues(context, settings, settingsKey) {
     const seriesStatuses = [];
     context.querySelectorAll('.chkSeriesStatus').forEach(elem => {
         if (elem.checked) {
-            seriesStatuses.push(elem.getAttribute('data-filter'));
+            seriesStatuses.push(elem.dataset.filter);
         }
     });
 
@@ -135,7 +135,7 @@ function saveValues(context, settings, settingsKey) {
     const genres = [];
     context.querySelectorAll('.chkGenreFilter').forEach(elem => {
         if (elem.checked) {
-            genres.push(elem.getAttribute('data-filter'));
+            genres.push(elem.dataset.filter);
         }
     });
 
@@ -160,9 +160,9 @@ function initEditor(context, settings) {
 
     for (i = 0, length = elems.length; i < length; i++) {
         if (elems[i].tagName === 'INPUT') {
-            elems[i].checked = settings[elems[i].getAttribute('data-settingname')] || false;
+            elems[i].checked = settings[elems[i].dataset.settingname] || false;
         } else {
-            elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
+            elems[i].querySelector('input').checked = settings[elems[i].dataset.settingname] || false;
         }
     }
 
@@ -170,14 +170,14 @@ function initEditor(context, settings) {
     elems = context.querySelectorAll('.chkVideoTypeFilter');
 
     for (i = 0, length = elems.length; i < length; i++) {
-        elems[i].checked = videoTypes.indexOf(elems[i].getAttribute('data-filter')) !== -1;
+        elems[i].checked = videoTypes.indexOf(elems[i].dataset.filter) !== -1;
     }
 
     const seriesStatuses = settings.SeriesStatus ? settings.SeriesStatus.split(',') : [];
     elems = context.querySelectorAll('.chkSeriesStatus');
 
     for (i = 0, length = elems.length; i < length; i++) {
-        elems[i].checked = seriesStatuses.indexOf(elems[i].getAttribute('data-filter')) !== -1;
+        elems[i].checked = seriesStatuses.indexOf(elems[i].dataset.filter) !== -1;
     }
 
     if (context.querySelector('.basicFilterSection .viewSetting:not(.hide)')) {
@@ -237,7 +237,7 @@ class FilterMenu {
 
             const settingElements = dlg.querySelectorAll('.viewSetting');
             for (let i = 0, length = settingElements.length; i < length; i++) {
-                if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
+                if (options.visibleSettings.indexOf(settingElements[i].dataset.settingname) === -1) {
                     settingElements[i].classList.add('hide');
                 } else {
                     settingElements[i].classList.remove('hide');

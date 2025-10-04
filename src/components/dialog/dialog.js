@@ -97,7 +97,7 @@ function showDialog(options = { dialogOptions: {}, buttons: [] }) {
 
     let dialogResult;
     function onButtonClick() {
-        dialogResult = this.getAttribute('data-id');
+        dialogResult = this.id;
         dialogHelper.close(dlg);
     }
 

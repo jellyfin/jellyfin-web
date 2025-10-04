@@ -806,13 +806,13 @@ class ItemsView {
         this.itemsContainer = view.querySelector('.itemsContainer');
 
         if (params.parentId) {
-            this.itemsContainer.setAttribute('data-parentid', params.parentId);
+            this.itemsContainer.dataset.parentId = params.parentId;
         } else if (params.type === 'nextup') {
-            this.itemsContainer.setAttribute('data-monitor', 'videoplayback');
+            this.itemsContainer.dataset.monitor = 'videoplayback';
         } else if (params.type === 'favoritemovies') {
-            this.itemsContainer.setAttribute('data-monitor', 'markfavorite');
+            this.itemsContainer.dataset.monitor = 'markfavorite';
         } else if (params.type === 'Programs') {
-            this.itemsContainer.setAttribute('data-refreshinterval', '300000');
+            this.itemsContainer.dataset.refreshinterval = '300000';
         }
 
         const btnViewSettings = view.querySelectorAll('.btnViewSettings');

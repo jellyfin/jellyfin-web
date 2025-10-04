@@ -92,7 +92,7 @@ function renderItems(page, item) {
     const sectionElems = elem.querySelectorAll('.verticalSection');
 
     for (let i = 0, length = sectionElems.length; i < length; i++) {
-        renderSection(item, sectionElems[i], sectionElems[i].getAttribute('data-type'));
+        renderSection(item, sectionElems[i], sectionElems[i].dataset.type);
     }
 }
 
