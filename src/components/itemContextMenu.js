@@ -1,3 +1,5 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
 import dom from '../utils/dom';
@@ -10,8 +12,15 @@ import itemHelper, { canEditPlaylist } from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { AppFeature } from 'constants/appFeature';
+
+/** Item types that support downloading all children. */
+const DOWNLOAD_ALL_TYPES = [
+    BaseItemKind.BoxSet,
+    BaseItemKind.MusicAlbum,
+    BaseItemKind.Season,
+    BaseItemKind.Series
+];
 
 function getDeleteLabel(type) {
     switch (type) {
@@ -172,7 +181,7 @@ export async function getCommands(options) {
 
     if (appHost.supports(AppFeature.FileDownload)) {
         // CanDownload should probably be updated to return true for these items?
-        if (user.Policy.EnableContentDownloading && (item.Type === 'Season' || item.Type == 'Series')) {
+        if (user.Policy.EnableContentDownloading && DOWNLOAD_ALL_TYPES.includes(item.Type)) {
             commands.push({
                 name: globalize.translate('DownloadAll'),
                 id: 'downloadall',
@@ -415,19 +424,21 @@ function executeCommand(item, id, options) {
                 });
                 break;
             case 'downloadall': {
-                const downloadEpisodes = episodes => {
+                const downloadItems = items => {
                     import('../scripts/fileDownloader').then((fileDownloader) => {
-                        const downloads = episodes.map(episode => {
-                            const downloadHref = apiClient.getItemDownloadUrl(episode.Id);
-                            return {
-                                url: downloadHref,
-                                item: episode,
-                                itemId: episode.Id,
-                                serverId: serverId,
-                                title: episode.Name,
-                                filename: episode.Path.replace(/^.*[\\/]/, '')
-                            };
-                        });
+                        const downloads = items
+                            .filter(i => i.CanDownload)
+                            .map(i => {
+                                const downloadHref = apiClient.getItemDownloadUrl(i.Id);
+                                return {
+                                    url: downloadHref,
+                                    item: i,
+                                    itemId: i.Id,
+                                    serverId,
+                                    title: i.Name,
+                                    filename: i.Path.replace(/^.*[\\/]/, '')
+                                };
+                            });
 
                         fileDownloader.download(downloads);
                     });
@@ -441,17 +452,26 @@ function executeCommand(item, id, options) {
                         });
                     }
                     )).then(seasonData => {
-                        downloadEpisodes(seasonData.flatMap(season => season.Items));
+                        downloadItems(seasonData.flatMap(season => season.Items));
                     });
                 };
 
-                if (item.Type === 'Season') {
-                    downloadSeasons([item]);
-                } else if (item.Type === 'Series') {
-                    apiClient.getSeasons(item.Id, {
-                        userId: options.user.Id,
-                        Fields: 'ItemCounts'
-                    }).then(seasons => downloadSeasons(seasons.Items));
+                switch (item.Type) {
+                    case BaseItemKind.BoxSet:
+                    case BaseItemKind.MusicAlbum:
+                        apiClient.getItems(options.user.Id, {
+                            ParentId: item.Id,
+                            Fields: 'CanDownload,Path'
+                        }).then(({ Items }) => downloadItems(Items));
+                        break;
+                    case BaseItemKind.Season:
+                        downloadSeasons([item]);
+                        break;
+                    case BaseItemKind.Series:
+                        apiClient.getSeasons(item.Id, {
+                            userId: options.user.Id,
+                            Fields: 'ItemCounts'
+                        }).then(seasons => downloadSeasons(seasons.Items));
                 }
 
                 getResolveFunction(getResolveFunction(resolve, id), id)();

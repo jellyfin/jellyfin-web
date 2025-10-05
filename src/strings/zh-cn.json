@@ -703,7 +703,7 @@
     "LabelZipCode": "邮编",
     "LabelffmpegPath": "FFmpeg 路径",
     "LabelffmpegPathHelp": "FFmpeg 应用文件或包含 FFmpeg 的文件夹的路径。",
-    "LanNetworksHelp": "在强制带宽限制时，认作本地网络上的 IP 地址或 IP/网络掩码条目的逗号分隔列表。如果设置此项，所有其它 IP 地址将被视为在外部网络上，并且将受到外部带宽限制。如果保留为空，则只将服务器的子网视为本地网络。",
+    "LanNetworksHelp": "以逗号分隔的网络 IP 地址或 IP/网络掩码条目列表，在强制执行带宽和远程访问限制时，这些网络将被视为本地网络。如果留空，则所有 RFC1918 地址都被视为本地地址。",
     "Large": "大",
     "LatestFromLibrary": "最近添加的 {0}",
     "LearnHowYouCanContribute": "了解如何贡献。",
