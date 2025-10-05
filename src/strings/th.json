@@ -224,5 +224,17 @@
     "AllowHevcEncoding": "อนุญาตการเข้ารหัสในรูปแบบ HEVC",
     "Subtitle": "คำบรรยาย",
     "SubtitleRed": "สีแดง",
-    "SubtitleLightGray": "สีเทาอ่อน"
+    "SubtitleLightGray": "สีเทาอ่อน",
+    "ButtonEditUser": "แก้ไขผู้ใช้",
+    "ButtonResume": "เล่นต่อ",
+    "ButtonGotIt": "ตกลง",
+    "ButtonAudioTracks": "แทร็กเสียง",
+    "ButtonClose": "ปิด",
+    "ButtonBackspace": "ย้อนกลับ",
+    "ButtonNextTrack": "แทร็กถัดไป",
+    "AllowSegmentDeletion": "ลบเซ็กเมนต์",
+    "ButtonPreviousTrack": "แทร็กก่อนหน้า",
+    "Alternate": "ทางเลือก",
+    "AlternateDVD": "ดีวีดีทางเลือก",
+    "ButtonLearnMore": "เรียนรู้เพิ่มเติม"
 }
