@@ -13,7 +13,6 @@ import sonarjs from 'eslint-plugin-sonarjs';
 import stylistic from '@stylistic/eslint-plugin';
 // eslint-disable-next-line import/no-unresolved
 import tseslint from 'typescript-eslint';
-import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 
 export default tseslint.config(
     eslint.configs.recommended,
@@ -49,8 +48,7 @@ export default tseslint.config(
     // Global style rules
     {
         plugins: {
-            '@stylistic': stylistic,
-            unicorn: eslintPluginUnicorn
+            '@stylistic': stylistic
         },
         extends: [ importPlugin.flatConfigs.typescript ],
         rules: {
@@ -109,7 +107,7 @@ export default tseslint.config(
             'sonarjs/no-duplicate-string': 'off',
             'sonarjs/no-nested-functions': 'warn',
 
-            'unicorn/prefer-dom-node-dataset': 'error',
+            // 'unicorn/prefer-dom-node-dataset': 'error',
 
             // TODO: Replace with stylistic.configs.customize()
             '@stylistic/block-spacing': 'error',

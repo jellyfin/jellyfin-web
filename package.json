@@ -41,7 +41,6 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-sonarjs": "3.0.4",
-    "eslint-plugin-unicorn": "61.0.2",
     "expose-loader": "5.0.1",
     "fast-glob": "3.3.3",
     "fork-ts-checker-webpack-plugin": "9.1.0",
@@ -162,7 +161,7 @@
     "build:check": "tsc --noEmit",
     "build:es-check": "npm run build:production && npm run escheck",
     "escheck": "es-check",
-    "lint": "eslint \"./src\"",
+    "lint": "eslint \"./\" --debug",
     "test": "vitest --watch=false --config vite.config.ts",
     "test:watch": "vitest --config vite.config.ts",
     "stylelint": "stylelint \"src/**/*.{css,scss}\""
