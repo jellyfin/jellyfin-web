@@ -8,7 +8,7 @@ import { AppFeature } from 'constants/appFeature';
 import { getUserViewsQuery } from 'hooks/useUserViews';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { EventType } from 'types/eventType';
+import { EventType } from 'constants/eventType';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 

@@ -395,7 +395,7 @@ class ArchiveSource {
         files = files.filter((file) => {
             const name = file.file.name;
             const index = name.lastIndexOf('.');
-            return index !== -1 && IMAGE_FORMATS.includes(name.slice(index + 1));
+            return index !== -1 && IMAGE_FORMATS.includes(name.slice(index + 1).toLowerCase());
         });
         files.sort((a, b) => {
             if (a.file.name < b.file.name) {

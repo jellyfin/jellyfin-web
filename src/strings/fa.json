@@ -1748,7 +1748,7 @@
     "HeaderServerMismatch": "ناهماهنگی سرور",
     "HeaderUpdateRequired": "نیاز به بروزرسانی",
     "LabelDatabase": "پایگاه داده",
-    "ConfirmDeleteRepository": "حذف بخش",
+    "ConfirmDeleteRepository": "حذف بخش؟",
     "Create": "ساخت",
     "LabelIsSynced": "همگام‌سازی شده",
     "LabelEnableLUFSScan": "فعال کردن بررسی LUFS",
@@ -1762,5 +1762,12 @@
     "LabelInstalled": "نصب شده",
     "LabelImageCache": "کش عکس",
     "LabelQsvDevice": "دستگاه QSV",
-    "LabelRestore": "بازیابی"
+    "LabelRestore": "بازیابی",
+    "LabelAvailable": "در دسترس",
+    "HeaderBackupsHelp": "ساخت و بازیابی اسنپ‌شات‌هایی از سرور که می‌توانند شامل پایگاه داده، فراداده، زیرنویس‌ها و Trickplay باشد.",
+    "BackupsPageLoadError": "بارگزاری صفحه نسخه های پشتیبان موفقیت آمیز نبود",
+    "ConnectAnyway": "به هر حال متصل شوید",
+    "LabelBackupsUnavailable": "پشتیبان گیری موجود نمی‌باشد",
+    "DeleteRepositoryConfirmation": "آیا مطمئن هستید که می‌خواهید این بخش را حذف کنید؟",
+    "MessageBackupInProgress": "در حال پشتیبان گیری"
 }

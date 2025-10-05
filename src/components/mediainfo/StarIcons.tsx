@@ -2,7 +2,7 @@ import React, { type FC } from 'react';
 import classNames from 'classnames';
 import StarIcon from '@mui/icons-material/Star';
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material/styles';
+import type {} from '@mui/material/themeCssVarsAugmentation';
 
 interface StarIconsProps {
     className?: string;
@@ -10,7 +10,6 @@ interface StarIconsProps {
 }
 
 const StarIcons: FC<StarIconsProps> = ({ className, communityRating }) => {
-    const theme = useTheme();
     const cssClass = classNames(
         'mediaInfoItem',
         'starRatingContainer',
@@ -21,9 +20,10 @@ const StarIcons: FC<StarIconsProps> = ({ className, communityRating }) => {
         <Box className={cssClass}>
             <StarIcon
                 fontSize={'small'}
-                sx={{
-                    color: theme.palette.starIcon.main
-                }}
+                // eslint-disable-next-line react/jsx-no-bind
+                sx={(theme) => ({
+                    color: theme.vars.palette.starIcon.main
+                })}
             />
             {communityRating.toFixed(1)}
         </Box>
