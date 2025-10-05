@@ -72,7 +72,8 @@
     "webpack-cli": "6.0.1",
     "webpack-dev-server": "5.2.2",
     "webpack-merge": "6.0.1",
-    "worker-loader": "3.0.8"
+    "worker-loader": "3.0.8",
+    "xo": "1.2.2"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

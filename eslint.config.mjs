@@ -11,6 +11,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import restrictedGlobals from 'confusing-browser-globals';
 import sonarjs from 'eslint-plugin-sonarjs';
 import stylistic from '@stylistic/eslint-plugin';
+import unicorn from 'eslint-plugin-unicorn';
 // eslint-disable-next-line import/no-unresolved
 import tseslint from 'typescript-eslint';
 
@@ -48,7 +49,8 @@ export default tseslint.config(
     // Global style rules
     {
         plugins: {
-            '@stylistic': stylistic
+            '@stylistic': stylistic,
+            'unicorn': unicorn
         },
         extends: [ importPlugin.flatConfigs.typescript ],
         rules: {
@@ -107,7 +109,7 @@ export default tseslint.config(
             'sonarjs/no-duplicate-string': 'off',
             'sonarjs/no-nested-functions': 'warn',
 
-            // 'unicorn/prefer-dom-node-dataset': 'error',
+            'unicorn/prefer-dom-node-dataset': 'error',
 
             // TODO: Replace with stylistic.configs.customize()
             '@stylistic/block-spacing': 'error',

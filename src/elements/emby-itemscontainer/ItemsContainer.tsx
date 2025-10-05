@@ -115,7 +115,9 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             const el = evt.item;
 
             const newIndex = evt.newIndex;
+            // eslint-disable-next-line unicorn/prefer-dom-node-dataset
             const itemId = el.getAttribute('data-playlistitemid');
+            // eslint-disable-next-line unicorn/prefer-dom-node-dataset
             const playlistId = el.getAttribute('data-playlistid');
 
             if (!playlistId) {
