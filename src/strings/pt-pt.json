@@ -1097,7 +1097,7 @@
     "LeaveBlankToNotSetAPassword": "Este campo pode ser deixado em branco para não ser definida qualquer palavra-passe.",
     "LearnHowYouCanContribute": "Veja como pode contribuir.",
     "Large": "Grande",
-    "LanNetworksHelp": "Lista separada por vírgulas de endereços IP ou IP/máscara na rede local que serão considerados quando se aplicam restrições de largura de banda. Se deixado em branco, todos os endereços RFC1918 são considerados locais.",
+    "LanNetworksHelp": "Lista de endereços IP separados por vírgulas ou entradas IP/máscara de rede que serão consideradas como rede local ao aplicar restrições de largura de banda e de acesso remoto. Se ficar em branco, todos os endereços RFC1918 são considerados locais.",
     "LabelffmpegPathHelp": "Localização da aplicação ou pasta que contém o FFmpeg.",
     "LabelffmpegPath": "Localização do FFmpeg",
     "LabelYear": "Ano",
