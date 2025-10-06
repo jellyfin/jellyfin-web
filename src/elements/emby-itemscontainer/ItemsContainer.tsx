@@ -85,7 +85,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         const card = dom.parentWithAttribute(target, 'data-id');
 
         // check for serverId, it won't be present on selectserver
-        if (card?.getAttribute('data-serverid')) {
+        if (card?.dataset.serverid) {
             inputManager.handleCommand('menu', {
                 sourceElement: card
             });
@@ -115,10 +115,8 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             const el = evt.item;
 
             const newIndex = evt.newIndex;
-            // eslint-disable-next-line unicorn/prefer-dom-node-dataset
-            const itemId = el.getAttribute('data-playlistitemid');
-            // eslint-disable-next-line unicorn/prefer-dom-node-dataset
-            const playlistId = el.getAttribute('data-playlistid');
+            const itemId = el.dataset.playlistitemid;
+            const playlistId = el.dataset.playlistid;
 
             if (!playlistId) {
                 const oldIndex = evt.oldIndex;
@@ -311,12 +309,12 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             return;
         }
 
-        const activeElement = document.activeElement;
+        const activeElement = document.activeElement as HTMLElement;
         let focusId;
         let hasActiveElement;
         if (itemsContainer?.contains(activeElement)) {
             hasActiveElement = true;
-            focusId = activeElement?.getAttribute('data-id');
+            focusId = activeElement?.dataset.id;
         }
 
         if (getItemsHtml) {

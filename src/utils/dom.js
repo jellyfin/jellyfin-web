@@ -11,10 +11,10 @@
  * @returns {HTMLElement} Parent with specified attribute value.
  */
 export function parentWithAttribute(elem, name, value) {
-    while ((value ? elem.getAttribute(name) !== value : !elem.getAttribute(name))) {
+    while ((value ? elem.dataset.name !== value : !elem.dataset.name)) {
         elem = elem.parentNode;
 
-        if (!elem?.getAttribute) {
+        if (!elem?.dataset) {
             return null;
         }
     }
