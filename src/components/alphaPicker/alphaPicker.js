@@ -127,7 +127,7 @@ export class AlphaPicker {
             alphaFocusTimeout = null;
 
             if (document.activeElement === alphaFocusedElement) {
-                const value = alphaFocusedElement.dataset.dataValue;
+                const value = alphaFocusedElement.dataset.value;
                 self.value(value, true);
             }
         }

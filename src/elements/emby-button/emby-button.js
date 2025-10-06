@@ -15,7 +15,7 @@ const EmbyLinkButtonPrototype = Object.create(HTMLAnchorElement.prototype);
 function onAnchorClick(e) {
     const href = this.dataset.href || '';
     if (href !== '#') {
-        if (this.getAttribute('target')) {
+        if (this.dataset.target) {
             if (!appHost.supports(AppFeature.TargetBlank)) {
                 e.preventDefault();
                 shell.openUrl(href);

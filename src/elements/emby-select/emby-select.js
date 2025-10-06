@@ -116,7 +116,7 @@ EmbySelectPrototype.attachedCallback = function () {
     this.classList.add('emby-select');
 
     const label = this.ownerDocument.createElement('label');
-    label.innerText = this.getAttribute('label') || '';
+    label.innerText = this.dataset.label || '';
     label.classList.add('selectLabel');
     label.htmlFor = this.id;
     this.parentNode?.insertBefore(label, this);

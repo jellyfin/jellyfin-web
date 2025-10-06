@@ -29,7 +29,7 @@ export default class ChannelMapper {
                 dataType: 'json'
             }).then(mapping => {
                 const listItem = dom.parentWithClass(button, 'listItem');
-                button.dataset.providerId = mapping.ProviderChannelId;
+                button.dataset.providerid = mapping.ProviderChannelId;
                 listItem.querySelector('.secondary').innerText = getMappingSecondaryName(mapping, currentMappingOptions.ProviderName);
                 loading.hide();
             });
