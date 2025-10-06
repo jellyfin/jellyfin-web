@@ -224,7 +224,7 @@ export default function (view, params) {
 
         if (cardContent) {
             const context = view;
-            const id = cardContent.dataset.userId;
+            const id = cardContent.dataset.userid;
             const name = cardContent.dataset.username;
             const haspw = cardContent.dataset.haspw;
 

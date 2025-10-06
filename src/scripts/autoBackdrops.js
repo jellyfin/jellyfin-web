@@ -80,7 +80,7 @@ pageClassOn('pageshow', 'page', function () {
 
     if (!page.classList.contains('selfBackdropPage')) {
         if (page.classList.contains('backdropPage')) {
-            const type = page.dataset.backdropType;
+            const type = page.dataset.backdroptype;
             if (type === 'splashscreen') {
                 showSplashScreen();
             } else if (enabled()) {

@@ -105,7 +105,7 @@ function onProgramGridClick(e) {
 
     const programCell = dom.parentWithClass(e.target, 'programCell');
     if (programCell) {
-        let startDate = programCell.dataset.startDate;
+        let startDate = programCell.dataset.startdate;
         let endDate = programCell.dataset.enddate;
         startDate = datetime.parseISO8601Date(startDate, { toLocal: true }).getTime();
         endDate = datetime.parseISO8601Date(endDate, { toLocal: true }).getTime();

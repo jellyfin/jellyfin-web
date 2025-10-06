@@ -45,7 +45,7 @@ function loadValues(context, itemType, options, availableOptions) {
     const supportedImageTypes = availableOptions.SupportedImageTypes || [];
     setVisibilityOfBackdrops(context.querySelector('.backdropFields'), supportedImageTypes.includes('Backdrop'));
     Array.prototype.forEach.call(context.querySelectorAll('.imageType'), i => {
-        const imageType = i.dataset.imageType;
+        const imageType = i.dataset.imagetype;
         const container = dom.parentWithTag(i, 'LABEL');
 
         if (!supportedImageTypes.includes(imageType)) {

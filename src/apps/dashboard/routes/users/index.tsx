@@ -61,7 +61,7 @@ const UserProfiles = () => {
 
         const showUserMenu = (elem: HTMLElement) => {
             const card = dom.parentWithClass(elem, 'card');
-            const userId = card?.dataset.userId;
+            const userId = card?.dataset.userid;
             const username = card?.dataset.username;
 
             if (!userId) {

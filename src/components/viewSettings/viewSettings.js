@@ -23,7 +23,7 @@ function initEditor(context, settings) {
     const elems = context.querySelectorAll('.viewSetting-checkboxContainer');
 
     for (const elem of elems) {
-        elem.querySelector('input').checked = settings[elem.dataset.settingName] || false;
+        elem.querySelector('input').checked = settings[elem.dataset.settingname] || false;
     }
 
     context.querySelector('.selectImageType').value = settings.imageType || 'primary';

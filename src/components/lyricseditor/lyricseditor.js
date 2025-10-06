@@ -184,7 +184,7 @@ function onLyricsResultsClick(e) {
 
     const btnOptions = dom.parentWithClass(e.target, 'btnOptions');
     if (btnOptions) {
-        lyricsId = btnOptions.dataset.lyricsId;
+        lyricsId = btnOptions.dataset.lyricsid;
         lyrics = btnOptions.querySelector('.hiddenLyrics');
         context = dom.parentWithClass(btnOptions, 'lyricsEditorDialog');
         showOptions(btnOptions, context, lyricsId, lyrics.innerHTML);

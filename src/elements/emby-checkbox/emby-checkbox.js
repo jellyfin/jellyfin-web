@@ -37,7 +37,7 @@ function forceRefresh(loading) {
 }
 
 EmbyCheckboxPrototype.attachedCallback = function () {
-    if (this.dataset.embyCheckbox === 'true') {
+    if (this.dataset.embycheckbox === 'true') {
         return;
     }
 

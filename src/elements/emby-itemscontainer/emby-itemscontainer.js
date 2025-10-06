@@ -38,7 +38,7 @@ function onContextMenu(e) {
     const card = dom.parentWithAttribute(target, 'data-id');
 
     // check for serverId, it won't be present on selectserver
-    if (card?.dataset.serverId) {
+    if (card?.dataset.serverid) {
         inputManager.handleCommand('menu', {
             sourceElement: card
         });

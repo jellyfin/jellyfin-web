@@ -69,7 +69,7 @@ function taskbutton(options) {
     }
 
     function onButtonClick() {
-        onScheduledTaskMessageConfirmed(this.dataset.taskId);
+        onScheduledTaskMessageConfirmed(this.dataset.taskid);
     }
 
     function onScheduledTasksUpdate(e, apiClient, info) {

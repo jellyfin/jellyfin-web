@@ -2,7 +2,7 @@
 const ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
 
 function onAutoTimeProgress() {
-    const start = parseInt(this.dataset.startTime, 10);
+    const start = parseInt(this.dataset.starttime, 10);
     const end = parseInt(this.dataset.endtime, 10);
 
     const now = new Date().getTime();

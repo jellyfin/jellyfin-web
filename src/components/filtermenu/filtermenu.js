@@ -105,7 +105,7 @@ function onInputCommand(e) {
 function saveValues(context, settings, settingsKey) {
     context.querySelectorAll('.simpleFilter').forEach(elem => {
         if (elem.tagName === 'INPUT') {
-            setBasicFilter(context, settingsKey + '-filter-' + elem.dataset.settingName, elem);
+            setBasicFilter(context, settingsKey + '-filter-' + elem.dataset.settingname, elem);
         } else {
             setBasicFilter(context, settingsKey + '-filter-' + elem.dataset.settingname, elem.querySelector('input'));
         }

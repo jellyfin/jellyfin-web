@@ -302,7 +302,7 @@ function initEditor(page, apiClient) {
         const btnDownloadRemoteImage = dom.parentWithClass(e.target, 'btnDownloadRemoteImage');
         if (btnDownloadRemoteImage) {
             const card = dom.parentWithClass(btnDownloadRemoteImage, 'card');
-            downloadRemoteImage(page, apiClient, card.dataset.imageUrl, card.dataset.imagetype, card.dataset.imageprovider);
+            downloadRemoteImage(page, apiClient, card.dataset.imageurl, card.dataset.imagetype, card.dataset.imageprovider);
             return;
         }
 

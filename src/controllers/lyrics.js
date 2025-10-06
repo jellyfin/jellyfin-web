@@ -113,7 +113,7 @@ export default function (view) {
 
             // attaches click event listener to change playtime to lyric start
             lyricLineArray.forEach(element => {
-                element.addEventListener('click', () => onLyricClick(element.dataset.lyricTime));
+                element.addEventListener('click', () => onLyricClick(element.dataset.lyrictime));
             });
 
             const currentIndex = getLyricIndex(getCurrentPlayTime(), lyrics);

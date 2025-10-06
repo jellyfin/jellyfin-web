@@ -51,7 +51,7 @@ function handleSaveUser(
         userPolicy.MaxParentalSubRating = Number.isNaN(subScore) ? null : subScore;
         userPolicy.BlockUnratedItems = Array.prototype.filter
             .call(page.querySelectorAll('.chkUnratedItem'), i => i.checked)
-            .map(i => i.dataset.itemType);
+            .map(i => i.dataset.itemtype);
         userPolicy.AccessSchedules = getSchedulesFromPage();
         userPolicy.AllowedTags = getAllowedTagsFromPage();
         userPolicy.BlockedTags = getBlockedTagsFromPage();

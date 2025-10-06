@@ -806,7 +806,7 @@ class ItemsView {
         this.itemsContainer = view.querySelector('.itemsContainer');
 
         if (params.parentId) {
-            this.itemsContainer.dataset.parentId = params.parentId;
+            this.itemsContainer.dataset.parentid = params.parentId;
         } else if (params.type === 'nextup') {
             this.itemsContainer.dataset.monitor = 'videoplayback';
         } else if (params.type === 'favoritemovies') {

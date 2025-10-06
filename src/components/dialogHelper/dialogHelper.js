@@ -135,7 +135,7 @@ function DialogHashHandler(dlg, hash, resolve) {
             focusManager.focus(activeElement);
         }
 
-        if (toBoolean(dlg.dataset.removeOnClose, true)) {
+        if (toBoolean(dlg.dataset.removeonclose, true)) {
             removeCenterFocus(dlg);
 
             const dialogContainer = dlg.dialogContainer;

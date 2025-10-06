@@ -279,7 +279,7 @@ function updateMarkers(range, currentValue) {
 }
 
 EmbySliderPrototype.attachedCallback = function () {
-    if (this.dataset.embySlider === 'true') {
+    if (this.dataset.embyslider === 'true') {
         return;
     }
 

@@ -72,8 +72,7 @@
     "webpack-cli": "6.0.1",
     "webpack-dev-server": "5.2.2",
     "webpack-merge": "6.0.1",
-    "worker-loader": "3.0.8",
-    "xo": "1.2.2"
+    "worker-loader": "3.0.8"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -162,7 +161,7 @@
     "build:check": "tsc --noEmit",
     "build:es-check": "npm run build:production && npm run escheck",
     "escheck": "es-check",
-    "lint": "eslint \"./\" --debug",
+    "lint": "eslint \"./\"",
     "test": "vitest --watch=false --config vite.config.ts",
     "test:watch": "vitest --config vite.config.ts",
     "stylelint": "stylelint \"src/**/*.{css,scss}\""

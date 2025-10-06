@@ -88,7 +88,7 @@ ScrollerPrototype.removeScrollEventListener = function (fn, options) {
 function onInputCommand(e) {
     const cmd = e.detail.command;
     if (cmd === 'end') {
-        focusManager.focusLast(this, '.' + this.dataset.navCommands);
+        focusManager.focusLast(this, '.' + this.dataset.navcommands);
         e.preventDefault();
         e.stopPropagation();
     } else if (cmd === 'pageup') {

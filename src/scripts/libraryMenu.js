@@ -546,7 +546,7 @@ function updateLibraryNavLinks(page) {
 
     for (let i = 0, length = elems.length; i < length; i++) {
         const lnkMediaFolder = elems[i];
-        const itemId = lnkMediaFolder.dataset.itemId;
+        const itemId = lnkMediaFolder.dataset.itemid;
 
         if (isChannelsPage && itemId === 'channels') {
             lnkMediaFolder.classList.add('navMenuOption-selected');

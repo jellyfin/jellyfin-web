@@ -19,7 +19,7 @@ function onKeyDown(e) {
 }
 
 EmbyTogglePrototype.attachedCallback = function () {
-    if (this.dataset.embyToggle === 'true') {
+    if (this.dataset.embytoggle === 'true') {
         return;
     }
 
