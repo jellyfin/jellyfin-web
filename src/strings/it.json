@@ -696,7 +696,7 @@
     "LabelZipCode": "Cap",
     "LabelffmpegPath": "Percorso FFmpeg",
     "LabelffmpegPathHelp": "Il percorso dell'applicazione FFmpeg o della cartella che la contiene.",
-    "LanNetworksHelp": "Elenco separato da virgola di indirizzi IP o voci IP / maschera di rete per reti che saranno considerate sulla rete locale quando si applicano restrizioni di larghezza di banda. Se impostato, tutti gli altri indirizzi IP verranno considerati nella rete esterna e saranno soggetti alle limitazioni della larghezza di banda esterna. Se lasciato vuoto, solo la sottorete del server viene considerata nella rete locale.",
+    "LanNetworksHelp": "Elenco separato da virgola di indirizzi IP o voci IP / maschera di rete per reti che saranno considerate sulla rete locale quando si applicano restrizioni di larghezza di banda e di accesso remoto. Se lasciato vuoto, tutti gli indirizzi RFC1918 vengono considerati locali.",
     "Large": "Grande",
     "LatestFromLibrary": "{0} Recenti",
     "LearnHowYouCanContribute": "Scopri come puoi contribuire.",
