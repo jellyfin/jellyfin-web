@@ -1816,7 +1816,7 @@
     "ListView": "Listivaade",
     "MessageRepositoryInstallDisclaimer": "HOIATUS: Kolmanda osapoole pluginate hoidla paigaldamisega kaasnevad riskid. See võib sisaldada ebastabiilset või pahatahtlikku koodi ning võib igal ajal muutuda. Installige ainult nende autorite repositooriume, keda te usaldate.",
     "LabelMediaDetails": "Meediadetailid",
-    "LabelParallelImageEncodingLimit": "Paralleelne pildi kodeerimise piirang",
+    "LabelParallelImageEncodingLimit": "Paralleelsete pildikodeeringute piirang",
     "LabelParallelImageEncodingLimitHelp": "Maksimaalne arv pildi kodeeringuid, mida on lubatud paralleelselt käivitada. Selle tühjaks jätmine valib limiidi süsteemi tuumade arvu järgi.",
     "Lyrics": "Laulusõnad",
     "Lyric": "Laulusõna",
