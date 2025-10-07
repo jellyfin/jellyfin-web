@@ -193,7 +193,7 @@ function onSubmit(e) {
         item.RunTimeTicks = seriesRuntime ? (seriesRuntime * 600000000) : null;
     }
 
-    if (currentItem.Type === 'Series' && Object.prototype.hasOwnProperty.call(currentItem, 'InvertEpisodeOrder')) {
+    if (currentItem.Type === 'Series' && Object.hasOwn(currentItem, 'InvertEpisodeOrder')) {
         const invertEpisodeOrderCheckbox = form.querySelector('#chkInvertEpisodeOrder');
         item.InvertEpisodeOrder = invertEpisodeOrderCheckbox?.checked || false;
     }
@@ -559,7 +559,7 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldOriginalName', context);
     }
 
-    const supportsInvertEpisodeOrder = item.Type === 'Series' && Object.prototype.hasOwnProperty.call(item, 'InvertEpisodeOrder');
+    const supportsInvertEpisodeOrder = item.Type === 'Series' && Object.hasOwn(item, 'InvertEpisodeOrder');
     if (supportsInvertEpisodeOrder) {
         showElement('#fldInvertEpisodeOrder', context);
     } else {
