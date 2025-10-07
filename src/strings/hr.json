@@ -1500,7 +1500,7 @@
     "HeaderConfirmRepositoryInstallation": "Potvrdite instalaciju repozitorija dodataka",
     "LabelPleaseRestart": "Izmjene će se primijeniti nakon ponovnog ručnog pokretanja web klijenta.",
     "LabelParallelImageEncodingLimit": "Ograničenje broja paralelno enkodiranih slika",
-    "SelectAudioNormalizationHelp": "Pojačanje pjesme - prilagođava glasnoću svake pjesme tako da se reproduciraju istom glasnoćom. Album gain - prilagođava glasnoću svih pjesama samo u albumu, zadržavajući dinamički raspon albuma.",
+    "SelectAudioNormalizationHelp": "Pojačanje trake – prilagođava glasnoću svake trake tako da se reproduciraju istom glasnoćom. Pojačanje albuma – prilagođava glasnoću svih traka samo u albumu, zadržavajući dinamički raspon albuma. Prebacivanje između „Isključeno“ i drugih opcija zahtijeva ponovno pokretanje trenutačne reprodukcije.",
     "LabelAlbumGain": "Pojačanje zvuka albuma",
     "LabelMoviePrefixHelp": "Ukoliko je nazivu filma dodan prefiks, unesite ga ovdje kako bi ga poslužitelj ispravno obradio.",
     "LabelRepositoryUrlHelp": "Lokacija manifesta repozitorija koji želite priključiti.",
@@ -1606,5 +1606,16 @@
     "RenderPgsSubtitleHelp": "Odredite treba li klijent iscrtati PGS titlove umjesto korištenja ugrađenih titlova. To može izbjeći transkodiranje na strani poslužitelja u zamjenu za performanse iscrtavanja na strani klijenta.",
     "SelectPreferredTranscodeVideoCodecHelp": "Odaberite željeni video kodek za transkodiranje. Ako željeni kodek nije podržan, poslužitelj će koristiti sljedeći najbolji dostupni kodek.",
     "TranscodingLoadError": "Neuspjelo učitavanje postavki transkodiranja",
-    "LabelTrickplayAccel": "Aktiviraj hardversko dekodiranje"
+    "LabelTrickplayAccel": "Aktiviraj hardversko dekodiranje",
+    "LabelWidthResolutionsHelp": "Popis širina (px) za koje će se generirati slike za brzo pregledavanje, odvojen zarezima. Sve slike se trebaju generirati proporcionalno izvoru, tako da širina od 320 na videu formata 16:9 na kraju iznosi oko 320 × 180.",
+    "ReplaceTrickplayImages": "Zamijeni postojeće slike brzog pregledavanja",
+    "LabelImageIntervalHelp": "Vremenski interval (ms) između svake nove slike u brzom pregledavanju.",
+    "ExtractTrickplayImagesHelp": "Slike brzog pregledavanja su slične slikama poglavlja, osim što se protežu cijelom dužinom sadržaja i koriste se za prikaz pregleda prilikom pregledavanja videa.",
+    "LabelSaveTrickplayLocally": "Spremi slike brzog pregledavanja pored medija",
+    "LabelJpegQualityHelp": "Kvaliteta JPEG kompresije za slike brzog pregledavanja.",
+    "LabelSaveTrickplayLocallyHelp": "Spremanjem slika brzog pregledavanja u medijske mape smjestit će se pored tvojih medija za jednostavno premještanje i pristup.",
+    "HeaderBackupsHelp": "Stvori i obnovi snimke tvog poslužitelja koje mogu uključivati bazu podataka, metapodatke, titlove i slike brzog pregledavanja.",
+    "OptionExtractTrickplayImage": "Aktiviraj izdvajanje slika brzog pregledavanja",
+    "LabelExtractTrickplayDuringLibraryScan": "Izdvoji slike brzog pregledavanja tijekom pretraživanja biblioteke",
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Generiraj slike brzog pregledavanja kada se videi uvoze tijekom pretraživanja biblioteke. U suprotnom će se izdvojiti tijekom zakazanog zadatka za izradu slika brzog pregledavanja. Ako je generiranje postavljeno na neblokirajuće, to neće utjecati na vrijeme koje je potrebno za završavanje pretraživanja biblioteke."
 }
