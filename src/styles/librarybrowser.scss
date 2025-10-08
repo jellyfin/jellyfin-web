@@ -845,6 +845,7 @@
 
 .detailPageSecondaryContainer {
     padding-top: 1.25em;
+    overflow: hidden;
 
     .layout-desktop & {
         flex-grow: 1;
