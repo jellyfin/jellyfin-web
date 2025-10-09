@@ -1608,13 +1608,11 @@ export class HtmlVideoPlayer {
 
         if (!dlg) {
             return import('./style.scss').then(() => {
-                loading.show();
+                if (options.fullscreen) loading.show();
 
                 const playerDlg = document.createElement('div');
                 playerDlg.setAttribute('dir', 'ltr');
-
                 playerDlg.classList.add('videoPlayerContainer');
-
                 if (options.fullscreen) {
                     playerDlg.classList.add('videoPlayerContainer-onTop');
                 }
