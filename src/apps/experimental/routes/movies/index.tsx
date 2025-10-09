@@ -21,7 +21,6 @@ const collectionsTabContent: LibraryTabContent = {
     collectionType: CollectionType.Movies,
     isBtnFilterEnabled: false,
     isBtnNewCollectionEnabled: true,
-    isAlphabetPickerEnabled: false,
     itemType: [BaseItemKind.BoxSet],
     noItemsMessage: 'MessageNoCollectionsAvailable'
 };
