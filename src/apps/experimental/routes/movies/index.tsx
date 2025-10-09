@@ -11,6 +11,7 @@ import { MovieSuggestionsSectionsView } from 'types/sections';
 const moviesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Movies,
     collectionType: CollectionType.Movies,
+    isBtnPlayAllEnabled: true,
     isBtnShuffleEnabled: true,
     itemType: [BaseItemKind.Movie]
 };
