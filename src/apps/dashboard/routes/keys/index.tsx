@@ -107,7 +107,7 @@ export const Component = () => {
     const onRevokeKey = useCallback((accessToken: string) => {
         if (!api) return;
 
-        confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
+        confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(() => {
             revokeKey.mutate({
                 key: accessToken
             });

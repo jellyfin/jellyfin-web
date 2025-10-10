@@ -31,7 +31,7 @@ function forceRefresh(loading) {
     elem.style.webkitAnimationDuration = '10ms';
     elem.style.webkitAnimationIterationCount = '1';
 
-    setTimeout(function () {
+    setTimeout(() => {
         elem.style.webkitAnimationName = '';
     }, (loading === true ? 520 : 20));
 }

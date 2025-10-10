@@ -220,7 +220,7 @@ class NavDrawer {
     animateToPosition(pos) {
         const options = this.options;
         const languageAwarePos = globalize.getIsRTL() ? -pos : pos;
-        requestAnimationFrame(function () {
+        requestAnimationFrame(() => {
             options.target.style.transform = pos ? 'translateX(' + languageAwarePos + 'px)' : 'none';
         });
     }

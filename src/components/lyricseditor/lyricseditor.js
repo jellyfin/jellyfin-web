@@ -31,7 +31,7 @@ function downloadRemoteLyrics(context, id) {
     lyricsApi.downloadRemoteLyrics({
         itemId: currentItem.Id,
         lyricId: id
-    }).then(function () {
+    }).then(() => {
         hasChanges = true;
 
         toast(globalize.translate('MessageDownloadQueued'));
@@ -132,7 +132,7 @@ function searchForLyrics(context) {
     const lyricsApi = getLyricsApi(api);
     lyricsApi.searchRemoteLyrics({
         itemId: currentItem.Id
-    }).then(function (results) {
+    }).then((results) => {
         renderSearchResults(context, results.data);
     });
 }
@@ -225,7 +225,7 @@ function showLyricsPreview(lyrics) {
 
     dlg.querySelector('.lyricsPreview').innerHTML = lyrics;
 
-    dlg.querySelector('.btnCancel').addEventListener('click', function () {
+    dlg.querySelector('.btnCancel').addEventListener('click', () => {
         dialogHelper.close(dlg);
     });
 
@@ -249,7 +249,7 @@ function showOptions(button, context, lyricsId, lyrics) {
             items: items,
             positionTo: button
 
-        }).then(function (id) {
+        }).then((id) => {
             if (id === 'download') {
                 downloadRemoteLyrics(context, lyricsId);
             }
@@ -275,7 +275,7 @@ function onOpenUploadMenu(e) {
         lyricsUploader.show({
             itemId: currentItem.Id,
             serverId: currentItem.ServerId
-        }).then(function (hasChanged) {
+        }).then((hasChanged) => {
             if (hasChanged) {
                 hasChanges = true;
                 reload(dialog, apiClient, currentItem.Id);
@@ -319,7 +319,7 @@ function fillCurrentLyrics(context, apiClient, item) {
 function showEditorInternal(itemId, serverId) {
     hasChanges = false;
     const apiClient = ServerConnections.getApiClient(serverId);
-    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -358,12 +358,12 @@ function showEditorInternal(itemId, serverId) {
 
         dlg.querySelector('.lyricsResults').addEventListener('click', onLyricsResultsClick);
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
             dialogHelper.close(dlg);
         });
 
-        return new Promise(function (resolve, reject) {
-            dlg.addEventListener('close', function () {
+        return new Promise((resolve, reject) => {
+            dlg.addEventListener('close', () => {
                 if (layoutManager.tv) {
                     centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                 }

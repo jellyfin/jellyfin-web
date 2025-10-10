@@ -25,7 +25,7 @@ class PlayAccessValidation {
             return Promise.resolve();
         }
 
-        return ServerConnections.getApiClient(serverId).getCurrentUser().then(function (user) {
+        return ServerConnections.getApiClient(serverId).getCurrentUser().then((user) => {
             if (user.Policy.EnableMediaPlayback) {
                 return Promise.resolve();
             }

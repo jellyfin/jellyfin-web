@@ -11,7 +11,7 @@ function enableScrollX() {
 export function getTimersHtml(timers, options) {
     options = options || {};
 
-    const items = timers.map(function (t) {
+    const items = timers.map((t) => {
         t.Type = 'Timer';
         return t;
     });
