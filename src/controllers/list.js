@@ -889,7 +889,7 @@ class ItemsView {
                 if ((itemType === 'MusicGenre' || params.type !== 'Programs' && itemType !== 'Channel')
                     // Folder, Playlist views
                     && itemType !== 'UserView'
-                    // Only Photo (homevideos) CollectionFolders are supported
+                    // Only Photo (homevideos) and Music Video CollectionFolders are supported
                     && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos && item?.CollectionType !== CollectionType.Musicvideos)
                 ) {
                     // Show Play All buttons
@@ -902,7 +902,7 @@ class ItemsView {
                 if ((itemType === 'MusicGenre' || params.type !== 'Programs' && params.type !== 'nextup' && itemType !== 'Channel')
                     // Folder, Playlist views
                     && itemType !== 'UserView'
-                    // Only Photo (homevideos) CollectionFolders are supported
+                    // Only Photo (homevideos) and Music Video CollectionFolders are supported
                     && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos && item?.CollectionType !== CollectionType.Musicvideos)
                 ) {
                     // Show Shuffle buttons
