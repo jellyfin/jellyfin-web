@@ -758,7 +758,6 @@ const scrollerFactory = function (frame, options) {
                 }
             }
         } else {
-            frame.style.overflow = 'hidden';
             slideeElement.style['will-change'] = 'transform';
             slideeElement.style.transition = 'transform ' + o.speed + 'ms ease-out';
 
