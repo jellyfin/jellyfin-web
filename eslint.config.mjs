@@ -14,6 +14,7 @@ import sonarjs from 'eslint-plugin-sonarjs';
 import stylistic from '@stylistic/eslint-plugin';
 // eslint-disable-next-line import/no-unresolved
 import tseslint from 'typescript-eslint';
+import unicorn from 'eslint-plugin-unicorn';
 
 export default tseslint.config(
     eslint.configs.recommended,
@@ -60,7 +61,7 @@ export default tseslint.config(
                 'error',
                 {
                     'capIsNewExceptions': ['jQuery.Deferred'],
-                    'newIsCapExceptionPattern': '\\.default$'
+                    'newIsCapExceptionPattern': String.raw`\.default$`
                 }
             ],
             'no-duplicate-imports': 'error',
@@ -356,7 +357,7 @@ export default tseslint.config(
                     selector: [ 'objectLiteralProperty', 'typeProperty' ],
                     format: null,
                     filter: {
-                        regex: '[ &\\-]|^([0-9]+)$',
+                        regex: String.raw`[ &\-]|^([0-9]+)$`,
                         match: true
                     }
                 }
@@ -412,6 +413,16 @@ export default tseslint.config(
             'sonarjs/no-invariant-returns': 'warn',
             'sonarjs/no-nested-functions': 'off',
             'sonarjs/void-use': 'off'
+        }
+    },
+
+    // Unicorn rules
+    {
+        plugins: {
+            unicorn
+        },
+        rules: {
+            'unicorn/no-this-assignment': 'warn'
         }
     }
 );
