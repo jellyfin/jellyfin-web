@@ -4,9 +4,8 @@ import browser from '../browser';
 import appSettings from './appSettings';
 
 function onSaveTimeout() {
-    const self = this;
-    self.saveTimeout = null;
-    self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
+    this.saveTimeout = null;
+    this.currentApiClient.updateDisplayPreferences('usersettings', this.displayPrefs, this.currentUserId, 'emby');
 }
 
 function saveServerPreferences(instance) {
@@ -65,11 +64,9 @@ export class UserSettings {
             return Promise.resolve();
         }
 
-        const self = this;
-
         return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
             result.CustomPrefs = result.CustomPrefs || {};
-            self.displayPrefs = result;
+            this.displayPrefs = result;
         });
     }
 
