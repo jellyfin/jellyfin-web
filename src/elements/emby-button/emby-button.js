@@ -13,9 +13,9 @@ const EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
 const EmbyLinkButtonPrototype = Object.create(HTMLAnchorElement.prototype);
 
 function onAnchorClick(e) {
-    const href = this.getAttribute('href') || '';
+    const href = this.dataset.href || '';
     if (href !== '#') {
-        if (this.getAttribute('target')) {
+        if (this.dataset.target) {
             if (!appHost.supports(AppFeature.TargetBlank)) {
                 e.preventDefault();
                 shell.openUrl(href);
@@ -48,7 +48,7 @@ EmbyButtonPrototype.attachedCallback = function () {
         removeEventListener(this, 'click', onAnchorClick, {});
         addEventListener(this, 'click', onAnchorClick, {});
 
-        if (this.getAttribute('data-autohide') === 'true') {
+        if (this.dataset.autohide === 'true') {
             if (appHost.supports(AppFeature.ExternalLinks)) {
                 this.classList.remove('hide');
             } else {

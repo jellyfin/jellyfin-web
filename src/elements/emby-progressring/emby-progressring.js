@@ -17,7 +17,7 @@ EmbyProgressRing.createdCallback = function () {
         // create an observer instance
         const observer = new MutationObserver(function (mutations) {
             mutations.forEach(function () {
-                instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
+                instance.setProgress(parseFloat(instance.dataset.progress || '0'));
             });
         });
 
@@ -30,7 +30,7 @@ EmbyProgressRing.createdCallback = function () {
         instance.observer = observer;
     }
 
-    instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
+    instance.setProgress(parseFloat(instance.dataset.progress || '0'));
 };
 
 EmbyProgressRing.setProgress = function (progress) {

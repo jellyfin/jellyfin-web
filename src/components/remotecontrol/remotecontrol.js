@@ -224,7 +224,7 @@ function updateSupportedCommands(context, commands) {
     const all = context.querySelectorAll('.btnCommand');
 
     for (let i = 0, length = all.length; i < length; i++) {
-        const enableButton = commands.indexOf(all[i].getAttribute('data-command')) !== -1;
+        const enableButton = commands.indexOf(all[i].dataset.command) !== -1;
         all[i].disabled = !enableButton;
     }
 }
@@ -480,7 +480,7 @@ export default function () {
             let focusedItemPlaylistId = itemsContainer.querySelector('button:focus');
             itemsContainer.innerHTML = html;
             if (focusedItemPlaylistId !== null) {
-                focusedItemPlaylistId = focusedItemPlaylistId.getAttribute('data-playlistitemid');
+                focusedItemPlaylistId = focusedItemPlaylistId.dataset.playlistitemid;
                 const newFocusedItem = itemsContainer.querySelector(`button[data-playlistitemid="${focusedItemPlaylistId}"]`);
                 if (newFocusedItem !== null) {
                     newFocusedItem.focus();
@@ -647,7 +647,7 @@ export default function () {
                 toggleRepeat();
             } else {
                 playbackManager.sendCommand({
-                    Name: this.getAttribute('data-command')
+                    Name: this.dataset.command
                 }, currentPlayer);
             }
         }

@@ -4,7 +4,6 @@ import eslint from '@eslint/js';
 import comments from '@eslint-community/eslint-plugin-eslint-comments/configs';
 import compat from 'eslint-plugin-compat';
 import globals from 'globals';
-// @ts-expect-error Missing type definition
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import reactPlugin from 'eslint-plugin-react';
@@ -12,6 +11,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import restrictedGlobals from 'confusing-browser-globals';
 import sonarjs from 'eslint-plugin-sonarjs';
 import stylistic from '@stylistic/eslint-plugin';
+import unicorn from 'eslint-plugin-unicorn';
 // eslint-disable-next-line import/no-unresolved
 import tseslint from 'typescript-eslint';
 
@@ -48,7 +48,8 @@ export default tseslint.config(
     // Global style rules
     {
         plugins: {
-            '@stylistic': stylistic
+            '@stylistic': stylistic,
+            'unicorn': unicorn
         },
         extends: [ importPlugin.flatConfigs.typescript ],
         rules: {
@@ -106,6 +107,8 @@ export default tseslint.config(
             // TODO: Enable the following sonarjs rules and fix issues
             'sonarjs/no-duplicate-string': 'off',
             'sonarjs/no-nested-functions': 'warn',
+
+            'unicorn/prefer-dom-node-dataset': 'error',
 
             // TODO: Replace with stylistic.configs.customize()
             '@stylistic/block-spacing': 'error',

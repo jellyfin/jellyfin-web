@@ -461,10 +461,10 @@ export default function (options) {
 
             if (slide) {
                 return {
-                    url: slide.getAttribute('data-original'),
-                    shareUrl: slide.getAttribute('data-original'),
-                    itemId: slide.getAttribute('data-itemid'),
-                    serverId: slide.getAttribute('data-serverid')
+                    url: slide.dataset.original,
+                    shareUrl: slide.dataset.original,
+                    itemId: slide.dataset.itemid,
+                    serverId: slide.dataset.serverid
                 };
             }
             return null;

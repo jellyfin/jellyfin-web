@@ -279,11 +279,11 @@ function updateMarkers(range, currentValue) {
 }
 
 EmbySliderPrototype.attachedCallback = function () {
-    if (this.getAttribute('data-embyslider') === 'true') {
+    if (this.dataset.embyslider === 'true') {
         return;
     }
 
-    this.setAttribute('data-embyslider', 'true');
+    this.dataset.embyslider = 'true';
 
     this.classList.add('mdl-slider');
     this.classList.add('mdl-js-slider');
@@ -300,9 +300,9 @@ EmbySliderPrototype.attachedCallback = function () {
 
     const topContainer = dom.parentWithClass(this, 'sliderContainer-settings');
 
-    if (topContainer && this.getAttribute('label')) {
+    if (topContainer && this.dataset.label) {
         const label = this.ownerDocument.createElement('label');
-        label.innerText = this.getAttribute('label');
+        label.innerText = this.dataset.label;
         label.classList.add('sliderLabel');
         label.htmlFor = this.id;
         topContainer.insertBefore(label, topContainer.firstChild);

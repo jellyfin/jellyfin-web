@@ -31,7 +31,7 @@ class Backdrop {
             backdropImage.classList.add('backdropImage');
             backdropImage.classList.add('displayingBackdropImage');
             backdropImage.style.backgroundImage = `url('${url}')`;
-            backdropImage.setAttribute('data-url', url);
+            backdropImage.dataset.url = url;
 
             backdropImage.classList.add('backdropImageFadeIn');
             parent.appendChild(backdropImage);
@@ -151,8 +151,8 @@ function setBackdropImage(url) {
     const elem = getBackdropContainer();
     const existingBackdropImage = elem.querySelector('.displayingBackdropImage');
 
-    if (existingBackdropImage && existingBackdropImage.getAttribute('data-url') === url) {
-        if (existingBackdropImage.getAttribute('data-url') === url) {
+    if (existingBackdropImage && existingBackdropImage.dataset.url === url) {
+        if (existingBackdropImage.dataset.url === url) {
             return;
         }
         existingBackdropImage.classList.remove('displayingBackdropImage');

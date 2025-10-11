@@ -67,7 +67,7 @@ function renderRecordingFolders(context, promise) {
 }
 
 function onMoreClick() {
-    const type = this.getAttribute('data-type');
+    const type = this.dataset.type;
 
     if (type === 'latest') {
         Dashboard.navigate('list?type=Recordings&serverId=' + ApiClient.serverId());

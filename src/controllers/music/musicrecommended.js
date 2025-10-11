@@ -372,16 +372,16 @@ export default function (view, params) {
     const renderedTabs = [];
     view.addEventListener('viewshow', function () {
         initTabs();
-        if (!view.getAttribute('data-title')) {
+        if (!view.dataset.title) {
             const parentId = params.topParentId;
 
             if (parentId) {
                 ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
-                    view.setAttribute('data-title', item.Name);
+                    view.dataset.title = item.Name;
                     libraryMenu.setTitle(item.Name);
                 });
             } else {
-                view.setAttribute('data-title', globalize.translate('TabMusic'));
+                view.dataset.title = globalize.translate('TabMusic');
                 libraryMenu.setTitle(globalize.translate('TabMusic'));
             }
         }
