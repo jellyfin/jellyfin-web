@@ -17,7 +17,7 @@ export function getCategories(tasks: TaskInfo[] | undefined) {
 export function getTasksByCategory(tasks: TaskInfo[] | undefined, category: string) {
     if (!tasks) return [];
 
-    return tasks.filter(task => task.Category == category).sort((a, b) => {
+    return tasks.filter(task => task.Category === category).sort((a, b) => {
         if (a.Name && b.Name) {
             return a.Name?.localeCompare(b.Name);
         } else {
