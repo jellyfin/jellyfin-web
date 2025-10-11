@@ -32,6 +32,16 @@ video[controls]::-webkit-media-controls {
     height: 100%;
 }
 
+.posterOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    max-height: 100vh;
+    object-fit: contain;
+}
+
 .htmlvideoplayer::cue {
     background-color: transparent;
     text-shadow: 0.14em 0.14em 0.14em rgba(0, 0, 0, 1);
