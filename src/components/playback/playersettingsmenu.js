@@ -51,6 +51,9 @@ function showQualityMenu(player, btn) {
                 maxBitrate: bitrate
             }, player);
         }
+    }).catch(function() {
+        // Silently handle the rejection when dialog is closed without selection
+        return Promise.resolve();
     });
 }
 
@@ -83,6 +86,9 @@ function showRepeatModeMenu(player, btn) {
         if (mode) {
             playbackManager.setRepeatMode(mode, player);
         }
+    }).catch(function() {
+        // Silently handle the rejection when dialog is closed without selection
+        return Promise.resolve();
     });
 }
 
@@ -145,7 +151,10 @@ function showAspectRatioMenu(player, btn) {
             return Promise.resolve();
         }
 
-        return Promise.reject();
+        return Promise.resolve(); // Changed from reject to resolve
+    }).catch(function() {
+        // Silently handle the rejection when dialog is closed without selection
+        return Promise.resolve();
     });
 }
 
@@ -167,7 +176,10 @@ function showPlaybackRateMenu(player, btn) {
             return Promise.resolve();
         }
 
-        return Promise.reject();
+        return Promise.resolve(); // Changed from reject to resolve
+    }).catch(function() {
+        // Silently handle the rejection when dialog is closed without selection
+        return Promise.resolve();
     });
 }
 
@@ -241,6 +253,9 @@ function showWithUser(options, player, user) {
         positionTo: options.positionTo
     }).then(function (id) {
         return handleSelectedOption(id, options, player);
+    }).catch(function() {
+        // Silently handle the rejection when dialog is closed without selection
+        return Promise.resolve();
     });
 }
 
@@ -282,7 +297,7 @@ function handleSelectedOption(id, options, player) {
             break;
     }
 
-    return Promise.reject();
+    return Promise.resolve(); // Changed from reject to resolve
 }
 
 export default {
