@@ -160,7 +160,7 @@ class CastPlayer {
     }
 
     // messageListener - receive callback messages from the Cast receiver
-    messageListener(namespace, message) {
+    messageListener(_namespace, message) {
         if (typeof (message) === 'string') {
             message = JSON.parse(message);
         }
@@ -507,7 +507,7 @@ function getItemsForPlayback(apiClient, query) {
  * relay castPlayer events to ChromecastPlayer events and include state info
  */
 function bindEventForRelay(instance, eventName) {
-    Events.on(instance._castPlayer, eventName, function (e, data) {
+    Events.on(instance._castPlayer, eventName, function (_e, data) {
         console.debug('[chromecastPlayer] ' + eventName);
         // skip events without data
         if (data?.ItemId) {
@@ -540,7 +540,7 @@ function initializeChromecast() {
         instance.lastPlayerData = null;
     });
 
-    Events.on(instance._castPlayer, 'playbackstart', function (e, data) {
+    Events.on(instance._castPlayer, 'playbackstart', function (_e, data) {
         console.debug('[chromecastPlayer] playbackstart');
 
         instance._castPlayer.initializeCastPlayer();
@@ -552,7 +552,7 @@ function initializeChromecast() {
         instance._playNextAfterEnded = true;
     });
 
-    Events.on(instance._castPlayer, 'playbackstop', function (e, data) {
+    Events.on(instance._castPlayer, 'playbackstop', function (_e, data) {
         console.debug('[chromecastPlayer] playbackstop');
 
         let state = instance.getPlayerStateInternal(data);
@@ -577,7 +577,7 @@ function initializeChromecast() {
         };
     });
 
-    Events.on(instance._castPlayer, 'playbackprogress', function (e, data) {
+    Events.on(instance._castPlayer, 'playbackprogress', function (_e, data) {
         console.debug('[chromecastPlayer] positionchange');
         const state = instance.getPlayerStateInternal(data);
 
@@ -591,7 +591,7 @@ function initializeChromecast() {
     bindEventForRelay(instance, 'repeatmodechange');
     bindEventForRelay(instance, 'shufflequeuemodechange');
 
-    Events.on(instance._castPlayer, 'playstatechange', function (e, data) {
+    Events.on(instance._castPlayer, 'playstatechange', function (_e, data) {
         console.debug('[chromecastPlayer] playstatechange');
 
         // Updates the player and nowPlayingBar state to the current 'pause' state.
@@ -1110,7 +1110,7 @@ class ChromecastPlayer {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    clearQueue(currentTime) {
+    clearQueue(_currentTime) {
         // not supported yet
     }
 }
