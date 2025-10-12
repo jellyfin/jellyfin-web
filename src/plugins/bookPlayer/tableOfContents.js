@@ -43,7 +43,7 @@ export default class TableOfContents {
         const links = contents.querySelectorAll('a[href]');
 
         links.forEach((link) => {
-            const href = link.dataset.href;
+            const href = link.getAttribute('href');
 
             link.onclick = () => {
                 f(href);

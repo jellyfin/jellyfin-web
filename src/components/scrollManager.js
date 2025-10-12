@@ -176,6 +176,15 @@ class DocumentScroller {
         return Math.min(document.documentElement.clientHeight, document.body.clientHeight);
     }
 
+     /**
+         * Returns attribute value.
+         * @param {string} attributeName - Attibute name.
+         * @return {string} Attibute value.
+         */
+    getAttribute(attributeName) {
+        return document.body.getAttribute(attributeName);
+    }
+
     /**
          * Returns bounding client rect.
          * @return {Rect} Bounding client rect.
@@ -233,7 +242,7 @@ function getScrollableParent(element, vertical) {
         let parent = element.parentElement;
 
         while (parent && parent !== document.body) {
-            const scrollMode = parent.dataset[scrollerHint.nameScrollMode];
+            const scrollMode = parent.getAttribute(scrollerHint.nameScrollMode);
 
             // Stop on self-scrolled containers
             if (scrollMode === 'custom') {
@@ -283,12 +292,12 @@ function getScrollerData(scroller, vertical) {
         data.scrollPos = scroller.scrollLeft;
         data.scrollSize = scroller.scrollWidth;
         data.clientSize = scroller.clientWidth;
-        data.mode = scroller.dataset[scrollerHints.x.nameScrollMode];
+        data.mode = scroller.getAttribute(scrollerHints.x.nameScrollMode);;
     } else {
         data.scrollPos = scroller.scrollTop;
         data.scrollSize = scroller.scrollHeight;
         data.clientSize = scroller.clientHeight;
-        data.mode = scroller.dataset[scrollerHints.y.nameScrollMode];
+        data.mode = scroller.getAttribute(scrollerHints.y.nameScrollMode);;
     }
 
     data.custom = data.mode === 'custom';

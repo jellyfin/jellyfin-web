@@ -102,6 +102,7 @@
 - [Free O'Toole](https://github.com/freeotoole)
 - [TheBosZ](https://github.com/thebosz)
 - [qm3jp](https://github.com/qm3jp)
+- [tacohole](https://github.com/tacohole)
 
 ## Emby Contributors
 
@@ -165,7 +166,6 @@
 - [tikuf](https://github.com/tikuf/)
 - [Tim Hobbs](https://github.com/timhobbs)
 - [SvenVandenbrande](https://github.com/SvenVandenbrande)
-- [tacohole](https://github.com/tacohole)
 <!--
     NOTE: This is the end of the list of past Emby Contributors.
     New Jellyfin contributors should add their name to the end

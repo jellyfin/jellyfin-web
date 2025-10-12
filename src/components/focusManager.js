@@ -98,7 +98,7 @@ function isCurrentlyFocusable(elem) {
             return false;
         }
 
-        if (elem.dataset.tabindex === '-1') {
+        if (elem.getAttribute('tabindex') === '-1') {
             return false;
         }
 

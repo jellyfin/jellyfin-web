@@ -151,10 +151,10 @@ function emptyImageElement(elem) {
         url = elem.style.backgroundImage.slice(4, -1).replace(/"/g, '');
         elem.style.backgroundImage = 'none';
     } else {
-        url = elem.dataset.src;
-        elem.dataset.src = '';
+        url = elem.getAttribute('src');
+        elem.setAttribute('src') = '';
     }
-    elem.dataset.src = url;
+    elem.setAttribute('src') = url;
 
     elem.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
     elem.classList.add('lazy-hidden');

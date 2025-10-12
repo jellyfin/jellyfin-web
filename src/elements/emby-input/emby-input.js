@@ -43,7 +43,7 @@ EmbyInputPrototype.createdCallback = function () {
     const parentNode = this.parentNode;
     const document = this.ownerDocument;
     const label = document.createElement('label');
-    label.innerText = this.dataset.label || '';
+    label.innerText = this.getAttribute('label') || '';
     label.classList.add('inputLabel');
     label.classList.add('inputLabelUnfocused');
 

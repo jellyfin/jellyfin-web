@@ -106,7 +106,7 @@ EmbyTextAreaPrototype.attachedCallback = function () {
 
     const parentNode = this.parentNode;
     const label = this.ownerDocument.createElement('label');
-    label.innerText = this.dataset.label || '';
+    label.innerText = this.getAttribute('label') || '';
     label.classList.add('textareaLabel');
 
     label.htmlFor = this.id;

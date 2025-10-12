@@ -300,9 +300,9 @@ EmbySliderPrototype.attachedCallback = function () {
 
     const topContainer = dom.parentWithClass(this, 'sliderContainer-settings');
 
-    if (topContainer && this.dataset.label) {
+    if (topContainer && this.getAttribute('label')) {
         const label = this.ownerDocument.createElement('label');
-        label.innerText = this.dataset.label;
+        label.innerText = this.getAttribute('label');
         label.classList.add('sliderLabel');
         label.htmlFor = this.id;
         topContainer.insertBefore(label, topContainer.firstChild);

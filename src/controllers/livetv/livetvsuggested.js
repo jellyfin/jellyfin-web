@@ -333,7 +333,7 @@ export default function (view, params) {
     let initialTabIndex = currentTabIndex;
     let lastFullRender = 0;
     [].forEach.call(view.querySelectorAll('.sectionTitleTextButton-programs'), function (link) {
-        const href = link.dataset.href;
+        const href = link.getAttribute('href');
 
         if (href) {
             link.href = href + '&serverId=' + ApiClient.serverId();
