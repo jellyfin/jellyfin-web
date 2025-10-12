@@ -656,7 +656,7 @@
     "LabelZipCode": "Código postal",
     "LabelffmpegPath": "Ruta de ffmpeg",
     "LabelffmpegPathHelp": "Ruta completa de la aplicación FFmpeg, o de la carpeta que la contiene.",
-    "LanNetworksHelp": "Lista de direcciones IP separadas por comas o entradas de dirección IP / máscara de red para redes que se considerarán en la red local al imponer restricciones de ancho de banda. Si se establece, todas las demás direcciones IP se considerarán en la red externa y estarán sujetas a las restricciones de ancho de banda externo. Si se deja en blanco, solo se considera que la subred del servidor está en la red local.",
+    "LanNetworksHelp": "Lista de direcciones IP o entradas de dirección IP/máscara de red separadas por comas para redes que se considerarán en la red local al imponer restricciones de acceso a distancia y de ancho de banda. Si se deja en blanco, todas las direcciones RFC1918 se considerarán en la red local.",
     "Large": "Grande",
     "LatestFromLibrary": "Reciente en {0}",
     "LibraryAccessHelp": "Seleccione las bibliotecas a compartir con este usuario. Los administradores podrán editar todas las carpetas usando el gestor de metadatos.",
