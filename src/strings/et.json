@@ -2045,7 +2045,7 @@
     "ViewAllPlugins": "Kuva kõik pluginad",
     "ReadInputAtNativeFramerateHelp": "Selle valiku lubamine võib lahendada mõningaid probleeme, nt voogesituse enneaegset peatumist.",
     "ReadInputAtNativeFramerate": "Loe sisendit algse kaadrisagedusega",
-    "HeaderBackupsHelp": "Loo ja taasta serveri hetktõmmiseid, mis võivad sisaldada andmebaasi, metaandmeid, subtiitreid ja trickplay tõmmiseid.",
+    "HeaderBackupsHelp": "Loo ja taasta serveri hetktõmmiseid, mis võivad sisaldada andmebaasi, metaandmeid, subtiitreid ja trickplay pilte.",
     "MessageRestoreDisclaimer": "HOIATUS: Oled taastamas eelmist varukoopiat. Server pole taastamise ajal saadaval ja kõik pärast varukoopia tegemist tehtud muudatused lähevad kaotsi.",
     "MessageRestoreInProgress": "Taastamine on pooleli",
     "MessageServerMismatch": "Server, millega ühendud, ei ole sama server, millega varem sellel aadressil ühendusid. Kui see on ootuspärane, vali „Ühendu ikkagi“. Vastasel juhul võib ühendus või server olla ohustatud.",
