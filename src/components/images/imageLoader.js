@@ -152,9 +152,9 @@ function emptyImageElement(elem) {
         elem.style.backgroundImage = 'none';
     } else {
         url = elem.getAttribute('src');
-        elem.setAttribute('src') = '';
+        elem.setAttribute('src', '');
     }
-    elem.setAttribute('src') = url;
+    elem.dataset.src = url;
 
     elem.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
     elem.classList.add('lazy-hidden');
