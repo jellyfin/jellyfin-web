@@ -176,10 +176,10 @@ class DocumentScroller {
         return Math.min(document.documentElement.clientHeight, document.body.clientHeight);
     }
 
-     /**
+    /**
          * Returns attribute value.
-         * @param {string} attributeName - Attibute name.
-         * @return {string} Attibute value.
+         * @param  {string} attributeName - Attribute name.
+         * @return {string} Attribute value.
          */
     getAttribute(attributeName) {
         return document.body.getAttribute(attributeName);
