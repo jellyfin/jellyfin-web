@@ -1194,7 +1194,7 @@ function renderMoreFromArtist(view, item, apiClient) {
         if (item.Type === 'MusicArtist') {
             query.ContributingArtistIds = item.Id;
         } else {
-            query.ContributingArtistIds = item.AlbumArtists.map(artist => artist.Id).join(',');
+            query.AlbumArtistIds = item.AlbumArtists.map(artist => artist.Id).join(',');
         }
 
         apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
