@@ -44,7 +44,10 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
         <Toolbar
             variant='dense'
             sx={{
-                flexWrap: 'wrap',
+                flexWrap: {
+                    xs: 'wrap',
+                    lg: 'nowrap'
+                },
                 pl: {
                     xs: 'max(16px, env(safe-area-inset-left))',
                     sm: 'max(24px, env(safe-area-inset-left))'

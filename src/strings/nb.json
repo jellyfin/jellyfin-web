@@ -318,7 +318,7 @@
     "ItemCount": "{0} elementer",
     "Items": "Elementer",
     "Kids": "Barn",
-    "LabelAbortedByServerShutdown": "(Avbrutt grunnet at server ble avslått)",
+    "LabelAbortedByServerShutdown": "Avbrutt siden serveren ble avslått",
     "LabelAccessDay": "Ukedag",
     "LabelAccessEnd": "Sluttid",
     "LabelAccessStart": "Starttid",
@@ -2047,5 +2047,11 @@
     "LabelBackupsUnavailable": "Ingen backup tilgjengelig",
     "MessageWaitingForServer": "Venter på server…",
     "LabelImageCache": "Bilde cache",
-    "LabelProgramData": "Programdata"
+    "LabelProgramData": "Programdata",
+    "DeleteRepositoryConfirmation": "Er du sikker på at du vil slette dette arkivet?",
+    "BackupsPageLoadError": "Klarte ikke å laste inn backup-siden",
+    "ManageRepositories": "Administrer arkiver",
+    "LabelAvailable": "Tilgjengelig",
+    "LabelBundled": "Inkludert",
+    "ConfirmDeleteRepository": "Slett arkiv?"
 }
