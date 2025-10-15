@@ -554,7 +554,6 @@ function reloadFromItem(instance, page, params, item, user) {
     renderBackdrop(page, item);
 
     // Render the main information for the item
-    page.querySelector('.detailPagePrimaryContainer').classList.add('detailRibbon');
     renderName(item, page.querySelector('.nameContainer'), params.context);
     renderDetails(page, item, apiClient, params.context);
     renderTrackSelections(page, instance, item);
@@ -749,12 +748,15 @@ function renderDetailImage(apiClient, elem, item, loader) {
 }
 
 function renderImage(page, item, apiClient) {
-    renderDetailImage(
-        apiClient,
-        page.querySelector('.detailImageContainer'),
-        item,
-        imageLoader
-    );
+    page.querySelectorAll('.detailImageContainer')
+        .forEach(elem => {
+            renderDetailImage(
+                apiClient,
+                elem,
+                item,
+                imageLoader
+            );
+        });
 }
 
 function setPeopleHeader(page, item) {

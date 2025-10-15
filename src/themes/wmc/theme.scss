@@ -228,6 +228,7 @@ a[data-role=button] {
     background: none;
 }
 
+.noBackdropTransparency .detailPagePrimaryContainer,
 .noBackdropTransparency .detailPageSecondaryContainer {
     background: linear-gradient(to bottom, #0f3562, #1162a4, #03215f);
     background-color: #0f3562;

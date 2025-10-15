@@ -4,150 +4,155 @@
     <div class="detailLogo"></div>
 
     <div class="detailPageWrapperContainer">
-        <div class="detailPagePrimaryContainer padded-left padded-right">
-            <div class="infoWrapper">
-                <div class="detailImageContainer padded-left"></div>
-                <div class="nameContainer"></div>
-                <div class="itemMiscInfo itemMiscInfo-primary" style="margin-bottom: 0.6em;"></div>
-                <div class="itemMiscInfo itemMiscInfo-secondary" style="margin-bottom: 0.6em;"></div>
+        <div class="detailPagePrimaryContainer">
+            <div class="detailImageContainer hide-mobile"></div>
+
+            <div class="detailRibbon padded-left padded-right">
+                <div class="infoWrapper">
+                    <div class="detailImageContainer hide-desktop hide-tv"></div>
+                    <div class="nameContainer"></div>
+                    <div class="itemMiscInfo itemMiscInfo-primary" style="margin-bottom: 0.6em;"></div>
+                    <div class="itemMiscInfo itemMiscInfo-secondary" style="margin-bottom: 0.6em;"></div>
+                </div>
+
+                <div class="mainDetailButtons focuscontainer-x">
+                    <button is="emby-button" type="button" class="button-flat btnPlay hide detailButton" title="${ButtonResume}" data-action="resume">
+                        <div class="detailButton-content">
+                            <span class="material-icons detailButton-icon play_arrow" aria-hidden="true"></span>
+                        </div>
+                    </button>
+
+                    <button is="emby-button" type="button" class="button-flat btnReplay hide detailButton" title="${Play}" data-action="play">
+                        <div class="detailButton-content">
+                            <span class="material-icons detailButton-icon replay" aria-hidden="true"></span>
+                        </div>
+                    </button>
+
+                    <button is="emby-button" type="button" class="button-flat btnDownload hide detailButton" title="${Download}">
+                        <div class="detailButton-content">
+                            <span class="material-icons detailButton-icon get_app" aria-hidden="true"></span>
+                        </div>
+                    </button>
+
+                    <button is="emby-button" type="button" class="button-flat btnPlayTrailer hide detailButton" title="${ButtonTrailer}">
+                        <div class="detailButton-content">
+                            <span class="material-icons detailButton-icon theaters" aria-hidden="true"></span>
+                        </div>
+                    </button>
+
+                    <button is="emby-button" type="button" class="button-flat btnInstantMix hide detailButton" title="${HeaderInstantMix}">
+                        <div class="detailButton-content">
+                            <span class="material-icons detailButton-icon explore" aria-hidden="true"></span>
+                        </div>
+                    </button>
+
+                    <button is="emby-button" type="button" class="button-flat btnShuffle hide detailButton" title="${Shuffle}">
+                        <div class="detailButton-content">
+                            <span class="material-icons detailButton-icon shuffle" aria-hidden="true"></span>
+                        </div>
+                    </button>
+
+                    <button is="emby-button" type="button" class="button-flat btnCancelSeriesTimer hide detailButton" title="${CancelSeries}">
+                        <div class="detailButton-content">
+                            <span class="material-icons detailButton-icon delete" aria-hidden="true"></span>
+                        </div>
+                    </button>
+
+                    <button is="emby-button" type="button" class="button-flat btnCancelTimer hide detailButton" title="${StopRecording}">
+                        <div class="detailButton-content">
+                            <span class="material-icons detailButton-icon stop" aria-hidden="true"></span>
+                        </div>
+                    </button>
+
+                    <button is="emby-playstatebutton" type="button" class="button-flat btnPlaystate hide detailButton" title="">
+                        <div class="detailButton-content">
+                            <span class="material-icons detailButton-icon check" aria-hidden="true"></span>
+                        </div>
+                    </button>
+
+                    <button is="emby-ratingbutton" type="button" class="button-flat btnUserRating hide detailButton" title="${Rate}">
+                        <div class="detailButton-content">
+                            <span class="material-icons detailButton-icon favorite" aria-hidden="true"></span>
+                        </div>
+                    </button>
+
+                    <button is="emby-button" type="button" class="button-flat btnSplitVersions hide detailButton" title="${ButtonSplit}">
+                        <div class="detailButton-content">
+                            <span class="material-icons detailButton-icon call_split" aria-hidden="true"></span>
+                        </div>
+                    </button>
+
+                    <button is="emby-button" type="button" class="button-flat btnMoreCommands hide detailButton" title="${ButtonMore}">
+                        <div class="detailButton-content">
+                            <span class="material-icons detailButton-icon more_vert" aria-hidden="true"></span>
+                        </div>
+                    </button>
+                </div>
             </div>
 
-            <div class="mainDetailButtons focuscontainer-x">
-                <button is="emby-button" type="button" class="button-flat btnPlay hide detailButton" title="${ButtonResume}" data-action="resume">
-                    <div class="detailButton-content">
-                        <span class="material-icons detailButton-icon play_arrow" aria-hidden="true"></span>
+            <div class="detailPagePrimaryContent padded-right">
+                <div class="detailSection">
+                    <form class="trackSelections hide focuscontainer-x">
+                        <div class="selectContainer selectSourceContainer hide trackSelectionFieldContainer flex-shrink-zero">
+                            <select is="emby-select" class="selectSource detailTrackSelect" label=""></select>
+                        </div>
+                        <div class="selectContainer selectVideoContainer hide trackSelectionFieldContainer flex-shrink-zero">
+                            <select is="emby-select" class="selectVideo detailTrackSelect" label=""></select>
+                        </div>
+                        <div class="selectContainer selectAudioContainer hide trackSelectionFieldContainer flex-shrink-zero">
+                            <select is="emby-select" class="selectAudio detailTrackSelect" label=""></select>
+                        </div>
+                        <div class="selectContainer selectSubtitlesContainer hide trackSelectionFieldContainer flex-shrink-zero">
+                            <select is="emby-select" class="selectSubtitles detailTrackSelect" label=""></select>
+                        </div>
+                    </form>
+
+                    <div class="recordingFields hide" style="margin: 0.5em 0 1.5em;"></div>
+
+                    <div class="detailSectionContent">
+                        <p class="itemGenres"></p>
+                        <h3 class="tagline"></h3>
+                        <p class="overview"></p>
+                        <div class="overview-controls">
+                            <a class="overview-expand hide" is="emby-linkbutton" href="#">${ShowMore}</a>
+                        </div>
+                        <p id="itemBirthday"></p>
+                        <p id="itemBirthLocation"></p>
+                        <p id="itemDeathDate"></p>
+                        <p id="seriesAirTime"></p>
+
+                        <div class="itemTags focuscontainer-x hide" style="margin: 0.7em 0; font-size: 92%;"></div>
+                        <div class="itemExternalLinks focuscontainer-x hide" style="margin: 0.7em 0; font-size: 92%;"></div>
+                        <div class="seriesRecordingEditor"></div>
                     </div>
-                </button>
 
-                <button is="emby-button" type="button" class="button-flat btnReplay hide detailButton" title="${Play}" data-action="play">
-                    <div class="detailButton-content">
-                        <span class="material-icons detailButton-icon replay" aria-hidden="true"></span>
-                    </div>
-                </button>
-
-                <button is="emby-button" type="button" class="button-flat btnDownload hide detailButton" title="${Download}">
-                    <div class="detailButton-content">
-                        <span class="material-icons detailButton-icon get_app" aria-hidden="true"></span>
-                    </div>
-                </button>
-
-                <button is="emby-button" type="button" class="button-flat btnPlayTrailer hide detailButton" title="${ButtonTrailer}">
-                    <div class="detailButton-content">
-                        <span class="material-icons detailButton-icon theaters" aria-hidden="true"></span>
-                    </div>
-                </button>
-
-                <button is="emby-button" type="button" class="button-flat btnInstantMix hide detailButton" title="${HeaderInstantMix}">
-                    <div class="detailButton-content">
-                        <span class="material-icons detailButton-icon explore" aria-hidden="true"></span>
-                    </div>
-                </button>
-
-                <button is="emby-button" type="button" class="button-flat btnShuffle hide detailButton" title="${Shuffle}">
-                    <div class="detailButton-content">
-                        <span class="material-icons detailButton-icon shuffle" aria-hidden="true"></span>
-                    </div>
-                </button>
-
-                <button is="emby-button" type="button" class="button-flat btnCancelSeriesTimer hide detailButton" title="${CancelSeries}">
-                    <div class="detailButton-content">
-                        <span class="material-icons detailButton-icon delete" aria-hidden="true"></span>
-                    </div>
-                </button>
-
-                <button is="emby-button" type="button" class="button-flat btnCancelTimer hide detailButton" title="${StopRecording}">
-                    <div class="detailButton-content">
-                        <span class="material-icons detailButton-icon stop" aria-hidden="true"></span>
-                    </div>
-                </button>
-
-                <button is="emby-playstatebutton" type="button" class="button-flat btnPlaystate hide detailButton" title="">
-                    <div class="detailButton-content">
-                        <span class="material-icons detailButton-icon check" aria-hidden="true"></span>
-                    </div>
-                </button>
-
-                <button is="emby-ratingbutton" type="button" class="button-flat btnUserRating hide detailButton" title="${Rate}">
-                    <div class="detailButton-content">
-                        <span class="material-icons detailButton-icon favorite" aria-hidden="true"></span>
-                    </div>
-                </button>
-
-                <button is="emby-button" type="button" class="button-flat btnSplitVersions hide detailButton" title="${ButtonSplit}">
-                    <div class="detailButton-content">
-                        <span class="material-icons detailButton-icon call_split" aria-hidden="true"></span>
-                    </div>
-                </button>
-
-                <button is="emby-button" type="button" class="button-flat btnMoreCommands hide detailButton" title="${ButtonMore}">
-                    <div class="detailButton-content">
-                        <span class="material-icons detailButton-icon more_vert" aria-hidden="true"></span>
-                    </div>
-                </button>
-            </div>
-        </div>
-        <div class="detailPageSecondaryContainer padded-bottom-page">
-            <div class="detailPageContent">
-                <div class="detailPagePrimaryContent padded-right">
-                    <div class="detailSection">
-                        <form class="trackSelections hide focuscontainer-x">
-                            <div class="selectContainer selectSourceContainer hide trackSelectionFieldContainer flex-shrink-zero">
-                                <select is="emby-select" class="selectSource detailTrackSelect" label=""></select>
-                            </div>
-                            <div class="selectContainer selectVideoContainer hide trackSelectionFieldContainer flex-shrink-zero">
-                                <select is="emby-select" class="selectVideo detailTrackSelect" label=""></select>
-                            </div>
-                            <div class="selectContainer selectAudioContainer hide trackSelectionFieldContainer flex-shrink-zero">
-                                <select is="emby-select" class="selectAudio detailTrackSelect" label=""></select>
-                            </div>
-                            <div class="selectContainer selectSubtitlesContainer hide trackSelectionFieldContainer flex-shrink-zero">
-                                <select is="emby-select" class="selectSubtitles detailTrackSelect" label=""></select>
-                            </div>
-                        </form>
-
-                        <div class="recordingFields hide" style="margin: 0.5em 0 1.5em;"></div>
-
-                        <div class="detailSectionContent">
-                            <p class="itemGenres"></p>
-                            <h3 class="tagline"></h3>
-                            <p class="overview"></p>
-                            <div class="overview-controls">
-                                <a class="overview-expand hide" is="emby-linkbutton" href="#">${ShowMore}</a>
-                            </div>
-                            <p id="itemBirthday"></p>
-                            <p id="itemBirthLocation"></p>
-                            <p id="itemDeathDate"></p>
-                            <p id="seriesAirTime"></p>
-
-                            <div class="itemTags focuscontainer-x hide" style="margin: 0.7em 0; font-size: 92%;"></div>
-                            <div class="itemExternalLinks focuscontainer-x hide" style="margin: 0.7em 0; font-size: 92%;"></div>
-                            <div class="seriesRecordingEditor"></div>
+                    <div class="itemDetailsGroup">
+                        <div class="detailsGroupItem genresGroup hide">
+                            <div class="genresLabel label"></div>
+                            <div class="genres content focuscontainer-x"></div>
                         </div>
 
-                        <div class="itemDetailsGroup">
-                            <div class="detailsGroupItem genresGroup hide">
-                                <div class="genresLabel label"></div>
-                                <div class="genres content focuscontainer-x"></div>
-                            </div>
+                        <div class="detailsGroupItem directorsGroup hide">
+                            <div class="directorsLabel label"></div>
+                            <div class="directors content focuscontainer-x"></div>
+                        </div>
 
-                            <div class="detailsGroupItem directorsGroup hide">
-                                <div class="directorsLabel label"></div>
-                                <div class="directors content focuscontainer-x"></div>
-                            </div>
+                        <div class="detailsGroupItem writersGroup hide">
+                            <div class="writersLabel label"></div>
+                            <div class="writers content focuscontainer-x"></div>
+                        </div>
 
-                            <div class="detailsGroupItem writersGroup hide">
-                                <div class="writersLabel label"></div>
-                                <div class="writers content focuscontainer-x"></div>
-                            </div>
-
-                            <div class="detailsGroupItem studiosGroup hide">
-                                <div class="studiosLabel label"></div>
-                                <div class="studios content focuscontainer-x"></div>
-                            </div>
+                        <div class="detailsGroupItem studiosGroup hide">
+                            <div class="studiosLabel label"></div>
+                            <div class="studios content focuscontainer-x"></div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
+        <div class="detailPageSecondaryContainer padded-bottom-page">
+            <div class="detailPageContent">
                 <div id="seriesTimerScheduleSection" class="verticalSection detailVerticalSection hide" style="margin-top: -3em;">
                     <h2 class="sectionTitle">${Schedule}</h2>
                     <div id="seriesTimerSchedule" is="emby-itemscontainer" class="itemsContainer vertical-list padded-right" data-contextmenu="false"></div>
