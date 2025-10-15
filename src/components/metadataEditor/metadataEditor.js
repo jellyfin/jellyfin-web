@@ -970,7 +970,7 @@ function populatePeople(context, people) {
         html += '</div>';
 
         if (person.Role && person.Role !== lastType) {
-            html += '<div class="secondary">' + person.Role + '</div>';
+            html += '<div class="secondary">' + escapeHtml(person.Role) + '</div>';
         } else {
             html += '<div class="secondary">' + globalize.translate(person.Type) + '</div>';
         }
