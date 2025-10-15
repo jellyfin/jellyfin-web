@@ -45,6 +45,13 @@ import 'elements/emby-select/emby-select';
 
 import 'styles/scrollstyles.scss';
 
+/** Item types that use a list view for their children. */
+const LIST_VIEW_TYPES = [
+    BaseItemKind.MusicAlbum,
+    BaseItemKind.Playlist,
+    BaseItemKind.Season
+];
+
 function autoFocus(container) {
     import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
         autoFocuser.autoFocus(container);
@@ -805,18 +812,22 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
     page.querySelector('.collectionItems').innerHTML = '';
 
     if (item.Type == 'Playlist') {
-        page.querySelector('#childrenCollapsible').classList.remove('hide');
+        page.querySelector('#listChildrenCollapsible').classList.remove('hide');
+        page.querySelector('#childrenCollapsible').classList.add('hide');
         renderPlaylistItems(page, item);
     } else if (item.Type == 'Studio' || item.Type == 'Person' || item.Type == 'Genre' || item.Type == 'MusicGenre' || item.Type == 'MusicArtist') {
-        page.querySelector('#childrenCollapsible').classList.remove('hide');
+        page.querySelector('#listChildrenCollapsible').classList.remove('hide');
+        page.querySelector('#childrenCollapsible').classList.add('hide');
         renderItemsByName(page, item);
     } else if (item.IsFolder) {
         if (item.Type == 'BoxSet') {
+            page.querySelector('#listChildrenCollapsible').classList.add('hide');
             page.querySelector('#childrenCollapsible').classList.add('hide');
         }
 
         renderChildren(page, item);
     } else {
+        page.querySelector('#listChildrenCollapsible').classList.add('hide');
         page.querySelector('#childrenCollapsible').classList.add('hide');
     }
 
@@ -1340,6 +1351,9 @@ function renderTags(page, item) {
 }
 
 function renderChildren(page, item) {
+    const childrenCollapsible = page.querySelector(LIST_VIEW_TYPES.includes(item.Type) ? '#listChildrenCollapsible' : '#childrenCollapsible');
+    const childrenItemsContainer = childrenCollapsible.querySelector('.itemsContainer');
+
     let fields = 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount';
     const query = {
         ParentId: item.Id,
@@ -1377,7 +1391,6 @@ function renderChildren(page, item) {
         let html = '';
         let scrollX = false;
         let isList = false;
-        const childrenItemsContainer = page.querySelector('.childrenItemsContainer');
 
         if (item.Type == 'MusicAlbum') {
             let showArtist = false;
@@ -1453,7 +1466,7 @@ function renderChildren(page, item) {
         }
 
         if (item.Type !== 'BoxSet') {
-            page.querySelector('#childrenCollapsible').classList.remove('hide');
+            childrenCollapsible.classList.remove('hide');
         }
         if (scrollX) {
             childrenItemsContainer.classList.add('scrollX');
@@ -1504,21 +1517,23 @@ function renderChildren(page, item) {
         }
     });
 
+    let childrenTitle = globalize.translate('Items');
     if (item.Type == 'Season') {
-        page.querySelector('#childrenTitle').innerHTML = globalize.translate('Episodes');
+        childrenTitle = globalize.translate('Episodes');
     } else if (item.Type == 'Series') {
-        page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderSeasons');
+        childrenTitle = globalize.translate('HeaderSeasons');
     } else if (item.Type == 'MusicAlbum') {
-        page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderTracks');
-    } else {
-        page.querySelector('#childrenTitle').innerHTML = globalize.translate('Items');
+        childrenTitle = globalize.translate('HeaderTracks');
     }
+    childrenCollapsible.querySelectorAll('.sectionTitle > span').forEach(el => {
+        el.innerText = childrenTitle;
+    });
 
     if (item.Type == 'MusicAlbum' || item.Type == 'Season') {
-        page.querySelector('.childrenSectionHeader').classList.add('hide');
-        page.querySelector('#childrenCollapsible').classList.add('verticalSection-extrabottompadding');
+        childrenCollapsible.querySelector('.sectionTitle').classList.add('hide');
+        childrenCollapsible.classList.add('verticalSection-extrabottompadding');
     } else {
-        page.querySelector('.childrenSectionHeader').classList.remove('hide');
+        childrenCollapsible.querySelector('.sectionTitle').classList.remove('hide');
     }
 }
 
