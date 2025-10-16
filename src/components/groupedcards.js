@@ -1,5 +1,5 @@
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import dom from '../scripts/dom';
+import dom from '../utils/dom';
 import { appRouter } from './router/appRouter';
 import Dashboard from '../utils/dashboard';
 

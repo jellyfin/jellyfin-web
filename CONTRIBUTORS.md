@@ -102,6 +102,7 @@
 - [Free O'Toole](https://github.com/freeotoole)
 - [Nicolas Newman](https://github.com/NicolasNewman)
 - [TheBosZ](https://github.com/thebosz)
+- [qm3jp](https://github.com/qm3jp)
 
 ## Emby Contributors
 

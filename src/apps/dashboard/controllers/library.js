@@ -3,7 +3,7 @@ import escapeHtml from 'escape-html';
 import taskButton from 'scripts/taskbutton';
 import loading from 'components/loading/loading';
 import globalize from 'lib/globalize';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import imageHelper from 'utils/image';
 import 'components/cardbuilder/card.scss';
 import 'elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
@@ -345,7 +345,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
         html += '</div>';
     } else if (virtualFolder.Locations.length && virtualFolder.Locations.length === 1) {
         html += "<div class='cardText cardText-secondary' dir='ltr' style='text-align:left;'>";
-        html += virtualFolder.Locations[0];
+        html += escapeHtml(virtualFolder.Locations[0]);
         html += '</div>';
     } else {
         html += "<div class='cardText cardText-secondary'>";

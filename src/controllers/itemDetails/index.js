@@ -26,7 +26,7 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import { download } from 'scripts/fileDownloader';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
@@ -854,7 +854,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#additionalPartsCollapsible').classList.add('hide');
     }
 
-    if (item.Type == 'MusicAlbum' || item.Type == 'MusicArtist') {
+    if (item.Type == BaseItemKind.MusicAlbum) {
         renderMusicVideos(page, item, user);
     } else {
         page.querySelector('#musicVideosCollapsible').classList.add('hide');
@@ -1194,7 +1194,7 @@ function renderMoreFromArtist(view, item, apiClient) {
         if (item.Type === 'MusicArtist') {
             query.ContributingArtistIds = item.Id;
         } else {
-            query.ContributingArtistIds = item.AlbumArtists.map(artist => artist.Id).join(',');
+            query.AlbumArtistIds = item.AlbumArtists.map(artist => artist.Id).join(',');
         }
 
         apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
@@ -1764,14 +1764,9 @@ function renderMusicVideos(page, item, user) {
         SortOrder: 'Ascending',
         IncludeItemTypes: 'MusicVideo',
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
+        Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount',
+        AlbumIds: item.Id
     };
-
-    if (item.Type == 'MusicAlbum') {
-        request.AlbumIds = item.Id;
-    } else {
-        request.ArtistIds = item.Id;
-    }
 
     ServerConnections.getApiClient(item.ServerId).getItems(user.Id, request).then(function (result) {
         if (result.Items.length) {
