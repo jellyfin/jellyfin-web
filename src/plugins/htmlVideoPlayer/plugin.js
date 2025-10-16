@@ -1434,12 +1434,10 @@ export class HtmlVideoPlayer {
      * @private
      */
     setSecondarySubtitleAppearance(elem, innerElem) {
-        Promise.all([import('../../scripts/settings/userSettings'), import('../../components/subtitlesettings/subtitleappearancehelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
-            subtitleAppearanceHelper.applyStyles({
-                text: innerElem,
-                window: elem
-            }, userSettings.getSecondarySubtitleAppearanceSettings());
-        });
+        subtitleAppearanceHelper.applyStyles({
+            text: innerElem,
+            window: elem
+        }, userSettings.getSecondarySubtitleAppearanceSettings());
     }
 
     /**
