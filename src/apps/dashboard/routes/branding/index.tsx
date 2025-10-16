@@ -292,6 +292,7 @@ export const Component = () => {
                             name={BrandingOption.CustomCss}
                             label={globalize.translate('LabelCustomCss')}
                             helperText={globalize.translate('LabelCustomCssHelp')}
+                            spellCheck={false}
                             value={brandingOptions?.CustomCss}
                             onChange={setBrandingOption}
                             slotProps={{

@@ -1,10 +1,10 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
-import dom from '../../../../scripts/dom';
+import dom from '../../../../utils/dom';
 import confirm from '../../../../components/confirm/confirm';
 import UserCardBox from '../../../../components/dashboard/users/UserCardBox';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
@@ -14,6 +14,8 @@ import '../../../../components/cardbuilder/card.scss';
 import '../../../../components/indicators/indicators.scss';
 import '../../../../styles/flexstyles.scss';
 import Page from '../../../../components/Page';
+import { useLocation } from 'react-router-dom';
+import Toast from 'apps/dashboard/components/Toast';
 
 type MenuEntry = {
     name?: string;
@@ -22,9 +24,15 @@ type MenuEntry = {
 };
 
 const UserProfiles = () => {
+    const location = useLocation();
+    const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
     const [ users, setUsers ] = useState<UserDto[]>([]);
 
     const element = useRef<HTMLDivElement>(null);
+
+    const handleToastClose = useCallback(() => {
+        setIsSettingsSavedToastOpen(false);
+    }, []);
 
     const loadData = () => {
         loading.show();
@@ -38,6 +46,11 @@ const UserProfiles = () => {
 
     useEffect(() => {
         const page = element.current;
+
+        if (location.state?.openSavedToast) {
+            setIsSettingsSavedToastOpen(true);
+            window.history.replaceState({}, '');
+        }
 
         if (!page) {
             console.error('Unexpected null reference');
@@ -161,6 +174,11 @@ const UserProfiles = () => {
             className='mainAnimatedPage type-interior userProfilesPage fullWidthContent'
             title={globalize.translate('HeaderUsers')}
         >
+            <Toast
+                open={isSettingsSavedToastOpen}
+                onClose={handleToastClose}
+                message={globalize.translate('SettingsSaved')}
+            />
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
