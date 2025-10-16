@@ -61,7 +61,7 @@
     "YoutubePlaybackError": "Eskatutako bideoa ezin da erreproduzitu.",
     "YoutubeBadRequest": "Eskaera ez da zuzena.",
     "LabelSelectStereo": "Estereoa",
-    "LabelSelectMono": "Tximinoa",
+    "LabelSelectMono": "Monoa (audio-kanal bakarra)",
     "LabelSelectAudioChannels": "Kanalak",
     "LabelAllowedAudioChannels": "Baimendutako gehieneko audio-kanalak",
     "AllowHevcEncoding": "HEVC formatuan kodetzea baimentzea",
