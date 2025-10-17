@@ -147,7 +147,7 @@ const UserProfiles = () => {
             page.removeEventListener('click', onPageClick);
             (page.querySelector('#btnAddUser') as HTMLButtonElement).removeEventListener('click', onAddUserClick);
         };
-    }, [ navigate, deleteUser ]);
+    }, [navigate, deleteUser, location.state?.openSavedToast]);
 
     if (isPending) {
         return <Loading />;
