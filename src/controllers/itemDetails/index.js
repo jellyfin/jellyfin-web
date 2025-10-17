@@ -49,7 +49,8 @@ import 'styles/scrollstyles.scss';
 const LIST_VIEW_TYPES = [
     BaseItemKind.MusicAlbum,
     BaseItemKind.Playlist,
-    BaseItemKind.Season
+    BaseItemKind.Season,
+    BaseItemKind.Series
 ];
 
 function autoFocus(container) {
