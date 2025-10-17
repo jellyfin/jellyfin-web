@@ -248,7 +248,7 @@ function showMenuForSelectedItems(e) {
                                     for (let i = 0, length = elems.length; i < length; i++) {
                                         const chkItemSelect = elems[i].querySelector('.chkItemSelect');
 
-                                        if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked && chkItemSelect.getBoundingClientRect().width != 0) {
+                                        if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked && chkItemSelect.getBoundingClientRect().width !== 0) {
                                             chkItemSelect.checked = true;
                                             updateItemSelection(chkItemSelect, true);
                                         }

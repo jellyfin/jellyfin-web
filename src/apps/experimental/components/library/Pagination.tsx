@@ -73,7 +73,7 @@ const Pagination: FC<PaginationProps> = ({
                     color='inherit'
                     variant='text'
                     title={globalize.translate('Previous')}
-                    disabled={!showControls || startIndex == 0 || isPlaceholderData}
+                    disabled={!showControls || startIndex === 0 || isPlaceholderData}
                     onClick={onPreviousPageClick}
                 >
                     <ArrowBackIcon />
@@ -107,7 +107,7 @@ const Pagination: FC<PaginationProps> = ({
                 >
                     <Button
                         title={globalize.translate('Previous')}
-                        disabled={!showControls || startIndex == 0 || isPlaceholderData}
+                        disabled={!showControls || startIndex === 0 || isPlaceholderData}
                         onClick={onPreviousPageClick}
                     >
                         <ArrowBackIcon />
