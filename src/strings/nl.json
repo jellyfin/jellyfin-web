@@ -1240,7 +1240,7 @@
     "AllowFfmpegThrottlingHelp": "Wanneer een transcodering of remux ver genoeg voorloopt op de huidige afspeelpositie, wordt het proces gepauzeerd om minder systeembronnen te gebruiken. Dit is vooral nuttig als er beperkt terug- of vooruitgespoeld wordt. Schakel deze optie uit bij afspeelproblemen.",
     "AllowFfmpegThrottling": "Transcoderingen afknijpen",
     "LabelPlayerDimensions": "Afmetingen speler",
-    "LabelLibraryPageSizeHelp": "Kies het aantal items dat wordt weergegeven op een bibliotheekpagina. Kies 0 om dit te verbergen.",
+    "LabelLibraryPageSizeHelp": "Kies het aantal items dat wordt weergegeven op een bibliotheekpagina. Een waarde van 0 schakelt paginering uit, maar waarden van 0 of boven 100 kunnen fouten of prestatieproblemen veroorzaken.",
     "LabelLibraryPageSize": "Paginagrootte bibliotheek",
     "LabelDroppedFrames": "Verloren frames",
     "LabelDeinterlaceMethod": "Methode voor de-interliniëring",
