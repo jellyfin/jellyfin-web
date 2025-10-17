@@ -13,7 +13,8 @@ const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
                 display: 'flex',
                 alignItems: 'center',
                 height: '1.2rem',
-                mr: 2, minWidth: '170px'
+                mr: 2,
+                minWidth: '170px'
             }}
         >
             {progress != null ? (

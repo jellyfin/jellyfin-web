@@ -4,7 +4,6 @@ import globalize from 'lib/globalize';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import Icon from '@mui/material/Icon';
 import { useVirtualFolders } from 'apps/dashboard/features/libraries/api/useVirtualFolders';
 import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';
 import { useStartTask } from 'apps/dashboard/features/tasks/api/useStartTask';
@@ -12,24 +11,17 @@ import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress'
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
 import Grid from '@mui/material/Grid';
 import LibraryCard from 'apps/dashboard/features/libraries/components/LibraryCard';
-import BaseCard from 'apps/dashboard/components/BaseCard';
 import Loading from 'components/loading/LoadingComponent';
 import MediaLibraryCreator from 'components/mediaLibraryCreator/mediaLibraryCreator';
 import getCollectionTypeOptions from 'apps/dashboard/features/libraries/utils/collectionTypeOptions';
 import { queryClient } from 'utils/query/queryClient';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import Add from '@mui/icons-material/Add';
 
 export const Component = () => {
     const { data: virtualFolders, isPending: isVirtualFoldersPending } = useVirtualFolders();
     const startTask = useStartTask();
     const { data: tasks, isPending: isLiveTasksPending } = useLiveTasks({ isHidden: false });
-
-    const gridLayout = useMemo(() => ({
-        xs: 12,
-        sm: 6,
-        md: 3,
-        lg: 2.4
-    }), []);
 
     const librariesTask = useMemo(() => (
         tasks?.find((value) => value.Key === 'RefreshLibrary')
@@ -67,14 +59,19 @@ export const Component = () => {
         >
             <Box className='content-primary'>
                 <Stack spacing={3} mt={2}>
-                    <Stack direction='row' alignItems={'center'} spacing={2}>
+                    <Stack direction='row' alignItems={'center'} spacing={1.5}>
+                        <Button
+                            startIcon={<Add />}
+                            onClick={showMediaLibraryCreator}
+                        >
+                            {globalize.translate('ButtonAddMediaLibrary')}
+                        </Button>
                         <Button
                             onClick={onScanLibraries}
                             startIcon={<RefreshIcon />}
-                            sx={{
-                                alignSelf: 'flex-start',
-                                fontWeight: 'bold'
-                            }}
+                            loading={librariesTask && librariesTask.State === TaskState.Running}
+                            loadingPosition='start'
+                            variant='outlined'
                         >
                             {globalize.translate('ButtonScanAllLibraries')}
                         </Button>
@@ -89,21 +86,16 @@ export const Component = () => {
                                 <Grid
                                     key={virtualFolder?.ItemId}
                                     item
-                                    { ...gridLayout }
+                                    xs={12}
+                                    sm={6}
+                                    md={3}
+                                    lg={2.4}
                                 >
                                     <LibraryCard
                                         virtualFolder={virtualFolder}
                                     />
                                 </Grid>
                             ))}
-
-                            <Grid item { ...gridLayout }>
-                                <BaseCard
-                                    title={globalize.translate('ButtonAddMediaLibrary')}
-                                    icon={<Icon sx={{ fontSize: 70 }}>add_circle</Icon>}
-                                    onClick={showMediaLibraryCreator}
-                                />
-                            </Grid>
                         </Grid>
                     </Box>
                 </Stack>
