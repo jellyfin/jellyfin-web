@@ -1632,5 +1632,12 @@
     "VideoBitDepthNotSupported": "Dubina bitova videozapisa nije podržana",
     "AudioBitrateNotSupported": "Brzina prijenosa bitova zvučnog zapisa nije podržana",
     "BackupsPageLoadError": "Nije uspjelo učitavanje stranice sa sigurnosnim kopijama",
-    "AllowAv1Encoding": "Dopusti kodiranje u AV1 formatu"
+    "AllowAv1Encoding": "Dopusti kodiranje u AV1 formatu",
+    "ForeignPartsOnly": "Samo za strani govor i natpise",
+    "HearingImpairedShort": "Za oštećeni sluh",
+    "NonBlockingScan": "Bez blokiranja: skeniranje se stavlja u red čekanja",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Izdvajaju se samo ključne sličice, što omogućuje znatno bržu obradu, ali uz manju preciznost pozicioniranja. Ako odabrani hardverski dekoder ne podržava ovaj način rada, umjesto njega će se koristiti softverski.",
+    "MachineTranslated": "Strojno prevedeno",
+    "AiTranslated": "Prevedeno umjetnom inteligencijom",
+    "LabelIsHearingImpaired": "Za oštećeni sluh (SDH)"
 }
