@@ -92,7 +92,7 @@ function renderUpcomingRecordings(context, promise) {
     });
 }
 
-export default function (view, params, tabContent) {
+export default function (_view, _params, tabContent) {
     let activeRecordingsPromise;
     let upcomingRecordingsPromise;
     const self = this;
