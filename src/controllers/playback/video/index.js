@@ -33,6 +33,7 @@ import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
+import itemContextMenu from 'components/itemContextMenu';
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
@@ -765,6 +766,30 @@ export default function (view) {
             nowPlayingPositionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / nowPlayingItem.RunTimeTicks,
                 userSettings.skipForwardLength() * 1000000 / nowPlayingItem.RunTimeTicks);
         }
+
+        const onContextMenu = (ctxEvent) => {
+            ctxEvent.preventDefault();
+            const apiClient = ServerConnections.getApiClient(state.NowPlayingItem.ServerId);
+
+            apiClient.getCurrentUser().then((user) => {
+                itemContextMenu.show({
+                    item: state.NowPlayingItem,
+                    user: user,
+                    positionTo: ctxEvent.target,
+                    queue: false,
+                    play: false
+                }).catch(() => { /* no-op */ });
+            }).catch((error) => {
+                console.error('failed to get item or current user: ', error);
+            });
+        };
+        const contextMenuButton = view.querySelector('.btnVideoOsdMenu');
+
+        contextMenuButton.removeEventListener('click', onContextMenu);
+        contextMenuButton.addEventListener('click', onContextMenu);
+
+        view.removeEventListener('contextmenu', onContextMenu);
+        view.addEventListener('contextmenu', onContextMenu);
 
         if (supportedCommands.indexOf('ToggleFullscreen') === -1 || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {
             view.querySelector('.btnFullscreen').classList.add('hide');
