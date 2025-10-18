@@ -1276,7 +1276,7 @@
     "LabelDeinterlaceMethod": "Méthode de désentrelacement",
     "DeinterlaceMethodHelp": "Sélectionner la méthode de désentrelacement à utiliser lors du transcodage de contenu entrelacé. Lorsque l'accélération matérielle supportant le désentrelacement matériel est activée, le désentrelaceur matériel sera utilisé à la place de ce paramètre.",
     "LabelLibraryPageSize": "Taille des pages de la médiathèque",
-    "LabelLibraryPageSizeHelp": "Définir le nombre d'éléments à afficher sur une page de médiathèque. Une valeur nulle désactive la pagination.",
+    "LabelLibraryPageSizeHelp": "Définir le nombre d'éléments à afficher sur une page de médiathèque. Une valeur a 0 désactive la pagination. Veuillez prendre note qu'une valeur de 0 ou supérieure à 100 peut produire des bugs ou une baisse des performances.",
     "UnsupportedPlayback": "Jellyfin ne peut pas décoder du contenu protégé par un système de gestion des droits numériques, mais une tentative de lecture sera effectuée sur tout le contenu, y compris les titres protégés. Certains fichiers peuvent apparaître complètement noir du fait de protections ou de fonctionnalités non supportées comme les titres interactifs.",
     "ButtonTogglePlaylist": "Liste de lecture",
     "Filter": "Filtrer",
