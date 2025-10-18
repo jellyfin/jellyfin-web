@@ -1,5 +1,6 @@
 import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
+import { getFilterStatus } from './filterIndicator';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import union from 'lodash-es/union';
@@ -9,6 +10,7 @@ import '../../elements/emby-collapse/emby-collapse';
 import './style.scss';
 import template from './filterdialog.template.html';
 import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
+import { FILTER_SETTINGS } from '../../constants/filterSettings';
 
 function merge(resultItems, queryItems, delimiter) {
     if (!queryItems) {
@@ -59,6 +61,11 @@ function renderFilters(context, result, query) {
     });
 }
 
+function renderResetButton(context, query) {
+    const elem = context.querySelector('.btnResetAllFilters');
+    elem.classList.toggle('hide', !getFilterStatus(query));
+}
+
 function loadDynamicFilters(context, apiClient, userId, itemQuery) {
     return apiClient.getJSON(apiClient.getUrl('Items/Filters', {
         UserId: userId,
@@ -66,6 +73,7 @@ function loadDynamicFilters(context, apiClient, userId, itemQuery) {
         IncludeItemTypes: itemQuery.IncludeItemTypes
     })).then(function (result) {
         renderFilters(context, result, itemQuery);
+        renderResetButton(context, itemQuery);
     });
 }
 
@@ -116,6 +124,8 @@ function updateFilterControls(context, options) {
 function triggerChange(instance) {
     stopMultiSelect();
     Events.trigger(instance, 'filterchange');
+    // show or hide reset filter button on any filter change
+    renderResetButton(document.querySelector('.filterDialog'), instance.options.query);
 }
 
 function setVisibility(context, options) {
@@ -232,6 +242,21 @@ class FilterDialog {
 
         query.SeriesStatus = filters;
         query.StartIndex = 0;
+        triggerChange(this);
+    }
+
+    /**
+         * @private
+         */
+    onResetAllFilters(context) {
+        const query = this.options.query;
+        FILTER_SETTINGS.forEach(setting => {
+            query[setting] = null;
+        });
+        query.StartIndex = 0;
+        for (const elem of context.querySelectorAll('input[type=checkbox]')) {
+            elem.checked = false;
+        }
         triggerChange(this);
     }
 
@@ -414,6 +439,8 @@ class FilterDialog {
                 triggerChange(this);
             }
         });
+        const btnResetAllFilters = context.querySelector('.btnResetAllFilters');
+        btnResetAllFilters.addEventListener('click', () => this.onResetAllFilters(context));
     }
 
     show() {
