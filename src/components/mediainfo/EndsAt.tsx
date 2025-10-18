@@ -16,10 +16,7 @@ const EndsAt: FC<EndsAtProps> = ({ runTimeTicks, positionTicks, className }) => 
         className
     );
 
-    const playbackRate = 1;
-    const includeText = true;
-
-    const displayTime = mediainfo.getEndsAtFromPosition(runTimeTicks, positionTicks, playbackRate, includeText);
+    const displayTime = mediainfo.getEndsAtFromPosition(runTimeTicks, positionTicks, 1, true);
 
     return (
         <Box className={cssClass}>

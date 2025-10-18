@@ -322,9 +322,7 @@ export function getMediaInfoHtml(item, options = {}) {
 export function getEndsAt(item) {
     if (item.MediaType === 'Video' && item.RunTimeTicks && !item.StartDate) {
         const positionTicks = item.UserData?.PlaybackPositionTicks;
-        const playbackRate = 1;
-        const includeText = true;
-        return getEndsAtFromPosition(item.RunTimeTicks, positionTicks, playbackRate, includeText);
+        return getEndsAtFromPosition(item.RunTimeTicks, positionTicks, 1, true);
     }
 
     return null;
