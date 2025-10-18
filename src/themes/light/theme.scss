@@ -257,6 +257,7 @@ a[data-role=button] {
     color: inherit;
 }
 
+.noBackdropTransparency .detailPagePrimaryContainer,
 .noBackdropTransparency .detailPageSecondaryContainer {
     background-color: #f2f2f2;
 }

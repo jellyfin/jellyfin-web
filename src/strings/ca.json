@@ -1074,7 +1074,7 @@
     "LearnHowYouCanContribute": "Apreneu com hi podeu contribuir.",
     "LastSeen": "Última activitat {0}",
     "Large": "Gran",
-    "LanNetworksHelp": "Llista separada per comes d'adreces IP o IP/netmask que seran considerades part de la xarxa local a l'hora de fer complir les restriccions d'amplada de banda. Si s'estableix, totes les altres adreces IP es consideraran part de la xarxa externa i estaran subjectes a les restriccions d'amplada de banda externa. Si es deixa en blanc, només la subxarxa del servidor es considerarà part a la xarxa local.",
+    "LanNetworksHelp": "Llista separada per comes d'adreces IP o IP/netmask que seran considerades part de la xarxa local a l'hora de fer complir les restriccions d'amplada de banda i les restriccions d'accés remot. Si es deixa en blanc, totes les adreces RFC1918 són considerades locals.",
     "LabelZipCode": "Codi ZIP",
     "LabelXDlnaDocHelp": "Determina el contingut de l'element 'X_DLNADOC' al espai de noms 'urn:schemas-dlna-org:device-1-0'.",
     "LabelXDlnaDoc": "Dispositiu Class ID",

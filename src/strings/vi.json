@@ -959,7 +959,7 @@
     "LearnHowYouCanContribute": "Tìm hiểu cách bạn có thể đóng góp.",
     "LatestFromLibrary": "{0} Đã Thêm Vào Gần Đây",
     "Large": "Lớn",
-    "LanNetworksHelp": "Danh sách địa chỉ IP được phân tách bằng dấu phẩy hoặc mục IP / Mặt nạ mạng cho các mạng sẽ được xem xét trên mạng cục bộ khi thực thi các hạn chế về băng thông. Nếu được đặt, tất cả các địa chỉ IP khác sẽ được coi là thuộc mạng bên ngoài và sẽ phải tuân theo các giới hạn băng thông bên ngoài. Nếu để trống, chỉ mạng con của máy chủ được coi là nằm trên mạng cục bộ.",
+    "LanNetworksHelp": "Danh sách các địa chỉ IP hoặc các mục IP/Netmask phân tách cho các mạng sẽ được xem xét trên mạng cục bộ khi thực thi băng thông và hạn chế truy cập từ xa. Nếu để trống, tất cả các địa chỉ RFC1918 được coi là cục bộ.",
     "LabelffmpegPathHelp": "Đường dẫn đến tệp ứng dụng FFmpeg hoặc thư mục chứa FFmpeg.",
     "LabelffmpegPath": "Đường dẫn FFmpeg",
     "LabelZipCode": "Mã Bưu Chính",
