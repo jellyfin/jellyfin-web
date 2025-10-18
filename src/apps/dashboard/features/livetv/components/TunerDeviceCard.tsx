@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import type { TunerHostInfo } from '@jellyfin/sdk/lib/generated-client/models/tuner-host-info';
 import BaseCard from 'apps/dashboard/components/BaseCard';
 import DvrIcon from '@mui/icons-material/Dvr';
-import getProviderName from '../utils/getTunerName';
+import getTunerName from '../utils/getTunerName';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -75,7 +75,7 @@ const TunerDeviceCard = ({ tunerHost }: TunerDeviceCardProps) => {
             />
 
             <BaseCard
-                title={tunerHost.FriendlyName || getProviderName(tunerHost.Type) || ''}
+                title={tunerHost.FriendlyName || getTunerName(tunerHost.Type) || ''}
                 text={tunerHost.Url || ''}
                 icon={<DvrIcon sx={{ fontSize: 70 }} />}
                 width={340}

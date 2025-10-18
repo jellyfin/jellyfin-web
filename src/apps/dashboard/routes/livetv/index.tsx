@@ -122,6 +122,8 @@ export const Component = () => {
                                     startIcon={<RefreshIcon />}
                                     variant='outlined'
                                     onClick={refreshGuideData}
+                                    loading={refreshGuideTask && refreshGuideTask.State === TaskState.Running}
+                                    loadingPosition='start'
                                 >
                                     {globalize.translate('ButtonRefreshGuideData')}
                                 </Button>
