@@ -233,6 +233,12 @@ export default function (view, params) {
                 showManualForm(context, true);
             } else if (haspw == 'false') {
                 authenticateUserByName(context, getApiClient(), getTargetUrl(), name, '');
+                getApiClient().getPublicUsers().then((users) => {
+                    if (users.length >= 2) {
+                        // Disable RememberMe if multiple users exist and no password is used
+                        appSettings.enableAutoLogin(false);
+                    } 
+                });
             } else {
                 context.querySelector('#txtManualName').value = name;
                 context.querySelector('#txtManualPassword').value = '';
