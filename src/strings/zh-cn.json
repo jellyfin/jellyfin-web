@@ -1274,7 +1274,7 @@
     "LabelDeinterlaceMethod": "反交错方法",
     "DeinterlaceMethodHelp": "选择对隔行扫描内容进行软件转码时所用的反交错方法。当启用支持硬件反交错的硬件加速后，将使用硬件反交错滤镜代替此设置。",
     "LabelLibraryPageSize": "媒体库分页阈值",
-    "LabelLibraryPageSizeHelp": "设置媒体库页面每页要显示的最多媒体个数。设置为 0 以禁用分页。",
+    "LabelLibraryPageSizeHelp": "设置媒体库页面每页要显示的最多媒体个数。将值设置为 0 以禁用分页。请注意，将此项设置为0或任何大于100的值可能会导致错误和性能下降。",
     "UnsupportedPlayback": "Jellyfin 无法解密被DRM保护的内容，但仍然会尝试播放包括受保护内容在内的所有内容。某些文件由于被加密或包含不受支持的特性（如互动标题），在播放时可能显示为黑屏。",
     "Filter": "筛选",
     "New": "新建",
