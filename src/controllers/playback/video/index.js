@@ -33,6 +33,7 @@ import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
+import itemContextMenu from 'components/itemContextMenu';
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
@@ -1679,49 +1680,81 @@ export default function (view) {
             });
             showOsd();
             inputManager.on(window, onInputCommand);
-            document.addEventListener('keydown', onKeyDown);
-            dom.addEventListener(document, 'keydown', onKeyDownCapture, {
-                capture: true,
-                passive: true
-            });
-            document.addEventListener('wheel', onWheel);
-            /* eslint-disable-next-line compat/compat */
-            dom.addEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
-                capture: true,
-                passive: true
-            });
-            /* eslint-disable-next-line compat/compat */
-            dom.addEventListener(window, window.PointerEvent ? 'pointerup' : 'mouseup', onWindowMouseUp, {
-                capture: true,
-                passive: true
-            });
-            dom.addEventListener(window, 'touchstart', onWindowMouseDown, {
-                capture: true,
-                passive: true
-            });
-            ['touchend', 'touchcancel'].forEach((event) => {
-                dom.addEventListener(window, event, onWindowMouseUp, {
-                    capture: true,
-                    passive: true
-                });
-            });
-            dom.addEventListener(window, 'dragend', onWindowDragEnd, {
-                capture: true,
-                passive: true
-            });
-            if (browser.firefox || browser.edge) {
-                dom.addEventListener(document, 'click', onClickCapture, { capture: true });
-            }
+            addKeybindings();
+            addContextMenu();
         } catch {
             setBackdropTransparency(TRANSPARENCY_LEVEL.None); // reset state set in viewbeforeshow
             appRouter.goHome();
         }
     });
-    view.addEventListener('viewbeforehide', function () {
-        if (statsOverlay) {
-            statsOverlay.enabled(false);
-        }
 
+    function addContextMenu() {
+        const onContextMenu = (ctxEvent) => {
+            ctxEvent.preventDefault();
+            const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
+
+            apiClient.getCurrentUser().then((user) => {
+                removeKeybindings();
+                itemContextMenu.show({
+                    item: currentItem,
+                    user: user,
+                    positionTo: ctxEvent.target,
+                    queue: false,
+                    play: false,
+                    inVideo: true
+                }).finally(() => {
+                    addKeybindings();
+                }).catch(() => { /* no-op */ });
+            }).catch((error) => {
+                console.error('failed to get item or current user: ', error);
+            });
+        };
+        const contextMenuButton = view.querySelector('.btnVideoOsdMenu');
+
+        contextMenuButton.removeEventListener('click', onContextMenu);
+        contextMenuButton.addEventListener('click', onContextMenu);
+
+        view.removeEventListener('contextmenu', onContextMenu);
+        view.addEventListener('contextmenu', onContextMenu);
+    }
+
+    function addKeybindings() {
+        document.addEventListener('keydown', onKeyDown);
+        dom.addEventListener(document, 'keydown', onKeyDownCapture, {
+            capture: true,
+            passive: true
+        });
+        document.addEventListener('wheel', onWheel);
+        /* eslint-disable-next-line compat/compat */
+        dom.addEventListener(window, window.PointerEvent ? 'pointerdown' : 'mousedown', onWindowMouseDown, {
+            capture: true,
+            passive: true
+        });
+        /* eslint-disable-next-line compat/compat */
+        dom.addEventListener(window, window.PointerEvent ? 'pointerup' : 'mouseup', onWindowMouseUp, {
+            capture: true,
+            passive: true
+        });
+        dom.addEventListener(window, 'touchstart', onWindowMouseDown, {
+            capture: true,
+            passive: true
+        });
+        ['touchend', 'touchcancel'].forEach((event) => {
+            dom.addEventListener(window, event, onWindowMouseUp, {
+                capture: true,
+                passive: true
+            });
+        });
+        dom.addEventListener(window, 'dragend', onWindowDragEnd, {
+            capture: true,
+            passive: true
+        });
+        if (browser.firefox || browser.edge) {
+            dom.addEventListener(document, 'click', onClickCapture, { capture: true });
+        }
+    }
+
+    function removeKeybindings() {
         document.removeEventListener('keydown', onKeyDown);
         dom.removeEventListener(document, 'keydown', onKeyDownCapture, {
             capture: true,
@@ -1755,15 +1788,24 @@ export default function (view) {
         if (browser.firefox || browser.edge) {
             dom.removeEventListener(document, 'click', onClickCapture, { capture: true });
         }
-        stopOsdHideTimer();
-        headerElement.classList.remove('osdHeader');
-        headerElement.classList.remove('osdHeader-hidden');
         /* eslint-disable-next-line compat/compat */
         dom.removeEventListener(document, window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove, {
             passive: true
         });
+    }
+
+    view.addEventListener('viewbeforehide', function () {
+        if (statsOverlay) {
+            statsOverlay.enabled(false);
+        }
+        removeKeybindings();
+
         inputManager.off(window, onInputCommand);
         Events.off(playbackManager, 'playerchange', onPlayerChange);
+        stopOsdHideTimer();
+        headerElement.classList.remove('osdHeader');
+        headerElement.classList.remove('osdHeader-hidden');
+
         releaseCurrentPlayer();
     });
     view.querySelector('.btnFullscreen').addEventListener('click', function () {
