@@ -1249,7 +1249,7 @@
     "Album": "Album",
     "Person": "Osoba",
     "Movie": "Film",
-    "LabelLibraryPageSizeHelp": "Ustaw liczbę pozycji pokazywanych na stronie biblioteki. Ustaw 0, aby wyłączyć podział na strony.",
+    "LabelLibraryPageSizeHelp": "Ustaw liczbę pozycji pokazywanych na stronie biblioteki. Ustawienie wartości 0 spowoduje wyłączenie paginacji. Należy pamiętać, że ustawienie tej wartości na 0 lub dowolną wartość większą niż 100 może prowadzić do błędów i obniżenia wydajności.",
     "LabelLibraryPageSize": "Rozmiar strony biblioteki",
     "LabelDeinterlaceMethod": "Metoda usuwania przeplotu",
     "Episode": "Odcinek",
