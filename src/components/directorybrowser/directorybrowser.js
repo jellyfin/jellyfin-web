@@ -184,7 +184,7 @@ function initEditor(content, options, fileOptions) {
     content.addEventListener('click', e => {
         const lnkPath = dom.parentWithClass(e.target, 'lnkPath');
         if (lnkPath) {
-            const path = lnkPath.getAttribute('data-path');
+            const path = lnkPath.dataset.path;
             if (lnkPath.classList.contains('lnkFile')) {
                 content.querySelector('#txtDirectoryPickerPath').value = path;
             } else {

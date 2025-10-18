@@ -328,7 +328,7 @@ function onSearchSubmit(e) {
 function onSubtitleListClick(e) {
     const btnDelete = dom.parentWithClass(e.target, 'btnDelete');
     if (btnDelete) {
-        const index = btnDelete.getAttribute('data-index');
+        const index = btnDelete.dataset.index;
         const context = dom.parentWithClass(btnDelete, 'subtitleEditorDialog');
         deleteLocalSubtitle(context, index);
     }
@@ -340,14 +340,14 @@ function onSubtitleResultsClick(e) {
 
     const btnOptions = dom.parentWithClass(e.target, 'btnOptions');
     if (btnOptions) {
-        subtitleId = btnOptions.getAttribute('data-subid');
+        subtitleId = btnOptions.dataset.subid;
         context = dom.parentWithClass(btnOptions, 'subtitleEditorDialog');
         showDownloadOptions(btnOptions, context, subtitleId);
     }
 
     const btnDownload = dom.parentWithClass(e.target, 'btnDownload');
     if (btnDownload) {
-        subtitleId = btnDownload.getAttribute('data-subid');
+        subtitleId = btnDownload.dataset.subid;
         context = dom.parentWithClass(btnDownload, 'subtitleEditorDialog');
         downloadRemoteSubtitles(context, subtitleId);
     }

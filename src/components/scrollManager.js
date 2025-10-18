@@ -178,8 +178,8 @@ class DocumentScroller {
 
     /**
          * Returns attribute value.
-         * @param {string} attributeName - Attibute name.
-         * @return {string} Attibute value.
+         * @param  {string} attributeName - Attribute name.
+         * @return {string} Attribute value.
          */
     getAttribute(attributeName) {
         return document.body.getAttribute(attributeName);
@@ -292,12 +292,12 @@ function getScrollerData(scroller, vertical) {
         data.scrollPos = scroller.scrollLeft;
         data.scrollSize = scroller.scrollWidth;
         data.clientSize = scroller.clientWidth;
-        data.mode = scroller.getAttribute(scrollerHints.x.nameScrollMode);
+        data.mode = scroller.getAttribute(scrollerHints.x.nameScrollMode);;
     } else {
         data.scrollPos = scroller.scrollTop;
         data.scrollSize = scroller.scrollHeight;
         data.clientSize = scroller.clientHeight;
-        data.mode = scroller.getAttribute(scrollerHints.y.nameScrollMode);
+        data.mode = scroller.getAttribute(scrollerHints.y.nameScrollMode);;
     }
 
     data.custom = data.mode === 'custom';

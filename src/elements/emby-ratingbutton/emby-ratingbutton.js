@@ -24,12 +24,12 @@ function showPicker(button, apiClient, itemId, likes, isFavorite) {
 
 function onClick() {
     const button = this;
-    const id = button.getAttribute('data-id');
-    const serverId = button.getAttribute('data-serverid');
+    const id = button.dataset.id;
+    const serverId = button.dataset.serverid;
     const apiClient = ServerConnections.getApiClient(serverId);
 
-    let likes = this.getAttribute('data-likes');
-    const isFavorite = this.getAttribute('data-isfavorite') === 'true';
+    let likes = this.dataset.likes;
+    const isFavorite = this.dataset.isfavorite === 'true';
     if (likes === 'true') {
         likes = true;
     } else if (likes === 'false') {
@@ -46,7 +46,7 @@ function onClick() {
 function onUserDataChanged(e, apiClient, userData) {
     const button = this;
 
-    if (userData.ItemId === button.getAttribute('data-id')) {
+    if (userData.ItemId === button.dataset.id) {
         setState(button, userData.Likes, userData.IsFavorite);
     }
 }
@@ -70,9 +70,9 @@ function setState(button, likes, isFavorite, updateAttribute) {
     }
 
     if (updateAttribute !== false) {
-        button.setAttribute('data-isfavorite', isFavorite);
+        button.dataset.isfavorite = isFavorite;
 
-        button.setAttribute('data-likes', (likes === null ? '' : likes));
+        button.dataset.likes = likes === null ? '' : likes;
     }
 
     setTitle(button, isFavorite);
@@ -114,11 +114,11 @@ EmbyRatingButtonPrototype.attachedCallback = function () {
         EmbyButtonPrototype.attachedCallback.call(this);
     }
 
-    const itemId = this.getAttribute('data-id');
-    const serverId = this.getAttribute('data-serverid');
+    const itemId = this.dataset.id;
+    const serverId = this.dataset.serverid;
     if (itemId && serverId) {
-        let likes = this.getAttribute('data-likes');
-        const isFavorite = this.getAttribute('data-isfavorite') === 'true';
+        let likes = this.dataset.likes;
+        const isFavorite = this.dataset.isfavorite === 'true';
         if (likes === 'true') {
             likes = true;
         } else if (likes === 'false') {
@@ -145,17 +145,17 @@ EmbyRatingButtonPrototype.detachedCallback = function () {
 
 EmbyRatingButtonPrototype.setItem = function (item) {
     if (item) {
-        this.setAttribute('data-id', item.Id);
-        this.setAttribute('data-serverid', item.ServerId);
+        this.dataset.id = item.Id;
+        this.dataset.serverid = item.ServerId;
 
         const userData = item.UserData || {};
         setState(this, userData.Likes, userData.IsFavorite);
         bindEvents(this);
     } else {
-        this.removeAttribute('data-id');
-        this.removeAttribute('data-serverid');
-        this.removeAttribute('data-likes');
-        this.removeAttribute('data-isfavorite');
+        delete this.dataset.id;
+        delete this.dataset.serverid;
+        delete this.dataset.likes;
+        delete this.dataset.isfavorite;
         clearEvents(this);
     }
 };

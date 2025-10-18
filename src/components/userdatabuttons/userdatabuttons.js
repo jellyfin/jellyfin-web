@@ -47,7 +47,7 @@ function onContainerClick(e) {
         return;
     }
 
-    const method = btnUserData.getAttribute('data-method');
+    const method = btnUserData.dataset.method;
     userDataMethods[method](btnUserData);
 }
 
@@ -129,8 +129,8 @@ function getIconsHtml(options) {
 }
 
 function markFavorite(link) {
-    const id = link.getAttribute('data-itemid');
-    const serverId = link.getAttribute('data-serverid');
+    const id = link.dataset.itemid;
+    const serverId = link.dataset.serverid;
 
     const markAsFavorite = !link.classList.contains('btnUserDataOn');
 
@@ -144,8 +144,8 @@ function markFavorite(link) {
 }
 
 function markPlayed(link) {
-    const id = link.getAttribute('data-itemid');
-    const serverId = link.getAttribute('data-serverid');
+    const id = link.dataset.itemid;
+    const serverId = link.dataset.serverid;
 
     if (!link.classList.contains('btnUserDataOn')) {
         played(id, serverId, true);

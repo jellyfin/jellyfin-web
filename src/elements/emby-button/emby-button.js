@@ -48,7 +48,7 @@ EmbyButtonPrototype.attachedCallback = function () {
         removeEventListener(this, 'click', onAnchorClick, {});
         addEventListener(this, 'click', onAnchorClick, {});
 
-        if (this.getAttribute('data-autohide') === 'true') {
+        if (this.dataset.autohide === 'true') {
             if (appHost.supports(AppFeature.ExternalLinks)) {
                 this.classList.remove('hide');
             } else {

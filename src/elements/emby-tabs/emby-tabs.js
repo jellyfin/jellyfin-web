@@ -74,11 +74,11 @@ function onClick(e) {
             current.classList.remove(activeButtonClass);
         }
 
-        const previousIndex = current ? parseInt(current.getAttribute('data-index'), 10) : null;
+        const previousIndex = current ? parseInt(current.dataset.index, 10) : null;
 
         setActiveTabButton(tabButton);
 
-        const index = parseInt(tabButton.getAttribute('data-index'), 10);
+        const index = parseInt(tabButton.dataset.index, 10);
 
         triggerBeforeTabChange(tabs, index, previousIndex);
 
@@ -193,7 +193,7 @@ EmbyTabs.attachedCallback = function () {
     initScroller(this);
 
     const current = this.querySelector('.' + activeButtonClass);
-    const currentIndex = current ? parseInt(current.getAttribute('data-index'), 10) : parseInt(this.getAttribute('data-index') || '0', 10);
+    const currentIndex = current ? parseInt(current.dataset.index, 10) : parseInt(this.dataset.index || '0', 10);
 
     if (currentIndex !== -1) {
         this.selectedTabIndex = currentIndex;
