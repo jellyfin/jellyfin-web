@@ -2069,5 +2069,7 @@
     "LabelAvailable": "Dostępne",
     "LabelBundled": "W pakiecie",
     "ViewAllPlugins": "Wyświetl wszystkie wtyczki",
-    "ManageRepositories": "Zarządzaj repozytoriami"
+    "ManageRepositories": "Zarządzaj repozytoriami",
+    "ButtonAddProvider": "Dodaj dostawcę",
+    "ButtonAddTunerDevice": "Dodaj urządzenie tunera"
 }
