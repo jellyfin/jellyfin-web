@@ -1268,7 +1268,7 @@
     "WeeklyAt": "V {0} v {1}",
     "LastSeen": "Poslední aktivita {0}",
     "Yadif": "Yet Another DeInterlacing Filter (YADIF)",
-    "LabelLibraryPageSizeHelp": "Počet položek k zobrazení na stránce knihovny. Nastavte na 0 pro vypnutí stránkování.",
+    "LabelLibraryPageSizeHelp": "Počet položek k zobrazení na stránce knihovny. Nastavením na 0 zakážete stránkování. Upozorňujeme, že nastavení této hodnoty na 0 nebo hodnotu větší než 100 může vést k chybám a sníženému výkonu.",
     "LabelLibraryPageSize": "Velikost stránky knihovny",
     "LabelDeinterlaceMethod": "Metoda odstranění prokládání",
     "DeinterlaceMethodHelp": "Vyberte způsob odstranění prokládání obrazu při softwarovém překódování obsahu. Pokud je povolena hardwarová akcelerace s podporou hardwarového odstranění prokládání, bude použita místo tohoto nastavení.",
