@@ -2068,5 +2068,7 @@
     "ViewAllPlugins": "Alle plug-ins weergeven",
     "LabelAvailable": "Beschikbaar",
     "LabelBundled": "Gebundeld",
-    "ManageRepositories": "Repository's beheren"
+    "ManageRepositories": "Repository's beheren",
+    "ButtonAddProvider": "Provider toevoegen",
+    "ButtonAddTunerDevice": "Tuner-apparaat toevoegen"
 }
