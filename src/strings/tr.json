@@ -820,7 +820,7 @@
     "LabelLocalHttpServerPortNumberHelp": "HTTP sunucusu için TCP bağlantı noktası numarası.",
     "LabelLocalHttpServerPortNumber": "Yerel HTTP bağlantı noktası numarası",
     "LabelLineup": "Sıralanmak",
-    "LabelLibraryPageSizeHelp": "Bir kütüphane sayfasında gösterilecek öge miktarını ayarlayın. Sayfalamayı devre dışı bırakmak için 0'a ayarlayın.",
+    "LabelLibraryPageSizeHelp": "Bir kütüphane sayfasında gösterilecek öge miktarını ayarlayın. 0 değerini ayarlamak sayfalandırmayı devre dışı bırakacaktır. Lütfen bu değeri 0 veya 100'den büyük bir değere ayarlamanın hatalara ve performans düşüklüğüne yol açabileceğini unutmayın.",
     "LabelLibraryPageSize": "Kütüphane sayfa boyutu",
     "LabelLanNetworks": "LAN ağları",
     "LabelKodiMetadataUserHelp": "Diğer uygulamaların kullanması için izleme verilerini NFO dosyalarına kaydedin.",
@@ -2061,5 +2061,7 @@
     "ManageRepositories": "Depoları Yönet",
     "ViewAllPlugins": "Tüm eklentileri görüntüle",
     "LabelAvailable": "Kullanılabilir",
-    "LabelBundled": "Paketlenmiş"
+    "LabelBundled": "Paketlenmiş",
+    "ButtonAddProvider": "Sağlayıcı Ekle",
+    "ButtonAddTunerDevice": "Alıcı Cihazı Ekle"
 }
