@@ -490,19 +490,26 @@ const scrollerFactory = function (frame, options) {
             return;
         }
 
-        // We haven't decided whether this is a drag or not...
         if (!dragging.init) {
-            // If the drag path was very short, maybe it's not a drag?
             if (dragging.path < o.dragThreshold) {
-                // If the pointer was released, the path will not become longer and it's
-                // definitely not a drag. If not released yet, decide on next iteration
                 return dragging.released ? dragEnd() : undefined;
-            } else if (o.horizontal ? Math.abs(dragging.pathX) > Math.abs(dragging.pathY) : Math.abs(dragging.pathX) < Math.abs(dragging.pathY)) {
-                // If dragging path is sufficiently long we can confidently start a drag
-                // if drag is in different direction than scroll, ignore it
-                dragging.init = 1;
             } else {
-                return dragEnd();
+                const absDragX = Math.abs(dragging.pathX);
+                const absDragY = Math.abs(dragging.pathY);
+
+                if (o.horizontal) {
+                    if (absDragX > absDragY * 2.5) {
+                        dragging.init = 1;
+                    } else {
+                        return dragEnd();
+                    }
+                } else {
+                    if (absDragX < absDragY) {
+                        dragging.init = 1;
+                    } else {
+                        return dragEnd();
+                    }
+                }
             }
         }
 
@@ -596,6 +603,16 @@ const scrollerFactory = function (frame, options) {
         if (!o.scrollBy || pos.start === pos.end) {
             return;
         }
+
+        if (o.horizontal) {
+            const absDeltaX = Math.abs(event.deltaX);
+            const absDeltaY = Math.abs(event.deltaY);
+
+            if (absDeltaX < 2 || absDeltaY > absDeltaX * 2) {
+                return;
+            }
+        }
+
         let delta = normalizeWheelDelta(event);
 
         if (transform) {

@@ -177,7 +177,6 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
             allowNativeSmoothScroll: isAllowNativeSmoothScrollEnabled && !enableScrollButtons,
             allowNativeScroll: !enableScrollButtons,
             forceHideScrollbars: enableScrollButtons,
-            // In edge, with the native scroll, the content jumps around when hovering over the buttons
             requireAnimation: enableScrollButtons && browser.edge
         };
 
