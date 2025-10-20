@@ -612,7 +612,7 @@
     "LabelLocalHttpServerPortNumberHelp": "Số cổng TCP cho máy chủ HTTP.",
     "LabelLocalHttpServerPortNumber": "Số cổng HTTP nội bộ",
     "LabelLineup": "Danh sách diễn viên",
-    "LabelLibraryPageSizeHelp": "Đặt số lượng mục để hiển thị trên trang thư viện. Đặt là 0 để tắt phân trang.",
+    "LabelLibraryPageSizeHelp": "Đặt số lượng mục để hiển thị trên trang thư viện. Đặt giá trị 0 sẽ tắt phân trang. Xin lưu ý rằng việc đặt giá trị này thành 0 hoặc bất kỳ giá trị nào lớn hơn 100 có thể dẫn đến lỗi và giảm hiệu suất.",
     "LabelLibraryPageSize": "Kích cỡ trang thư viện",
     "LabelLanNetworks": "Mạng Cục Bộ",
     "LabelKodiMetadataUserHelp": "Lưu dữ liệu xem vào tệp NFO cho các ứng dụng khác sử dụng.",
@@ -959,7 +959,7 @@
     "LearnHowYouCanContribute": "Tìm hiểu cách bạn có thể đóng góp.",
     "LatestFromLibrary": "{0} Đã Thêm Vào Gần Đây",
     "Large": "Lớn",
-    "LanNetworksHelp": "Danh sách địa chỉ IP được phân tách bằng dấu phẩy hoặc mục IP / Mặt nạ mạng cho các mạng sẽ được xem xét trên mạng cục bộ khi thực thi các hạn chế về băng thông. Nếu được đặt, tất cả các địa chỉ IP khác sẽ được coi là thuộc mạng bên ngoài và sẽ phải tuân theo các giới hạn băng thông bên ngoài. Nếu để trống, chỉ mạng con của máy chủ được coi là nằm trên mạng cục bộ.",
+    "LanNetworksHelp": "Danh sách các địa chỉ IP hoặc các mục IP/Netmask phân tách cho các mạng sẽ được xem xét trên mạng cục bộ khi thực thi băng thông và hạn chế truy cập từ xa. Nếu để trống, tất cả các địa chỉ RFC1918 được coi là cục bộ.",
     "LabelffmpegPathHelp": "Đường dẫn đến tệp ứng dụng FFmpeg hoặc thư mục chứa FFmpeg.",
     "LabelffmpegPath": "Đường dẫn FFmpeg",
     "LabelZipCode": "Mã Bưu Chính",
@@ -2066,5 +2066,6 @@
     "LabelAvailable": "Sẵn có",
     "LabelBundled": "Đi kèm",
     "ManageRepositories": "Quản Lý Kho Lưu Trữ",
-    "ViewAllPlugins": "Xem tất cả plugins"
+    "ViewAllPlugins": "Xem tất cả plugins",
+    "ButtonAddProvider": "Thêm Nhà Cung Cấp"
 }

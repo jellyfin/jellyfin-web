@@ -123,7 +123,7 @@ function ScreenSaverManager() {
             return;
         }
 
-        if (playbackManager.isPlayingVideo()) {
+        if (playbackManager.isPlayingVideo() && !playbackManager.paused()) {
             return;
         }
 

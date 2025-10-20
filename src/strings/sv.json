@@ -1221,7 +1221,7 @@
     "ManageLibrary": "Hantera bibliotek",
     "Live": "Direktsänt",
     "LeaveBlankToNotSetAPassword": "Du kan lämna detta fält tomt för att inte ange ett lösenord.",
-    "LanNetworksHelp": "Kommateckenseparerad lista på IP adresser eller IP/nätmaskinlägg för nätverk som anses vara på lokala nätverket för att tvinga fram bandbreddsbegränsningar. Om angett, så kommer alla andra IP adresser anses vara på ett externt nätverk och kommer tilldelas till de externa bandbreddsbegränsningarna. Om det lämnat tomt, anses endast serverns subnet vara på det lokala nätverket.",
+    "LanNetworksHelp": "Kommateckenseparerad lista på IP-adresser eller IP/nätmasker för nätverk som anses vara på det lokala nätverket för att anpassa bandbredds- och fjärrstyrningsbegränsningar. Om lämnat tomt kommer alla RFC1918 adresser anses vara lokala.",
     "LabelXDlnaDoc": "X-DLNA-dokumentation",
     "LabelXDlnaCap": "X-DLNA-begränsning",
     "LabelWeb": "Webb",

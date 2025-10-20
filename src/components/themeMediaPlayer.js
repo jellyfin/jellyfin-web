@@ -36,6 +36,7 @@ function playThemeMedia(items, ownerId) {
 
         playbackManager.play({
             items: currentThemeItems,
+            aspectRatio: 'cover',
             fullscreen: false,
             enableRemotePlayers: false
         }).then(() => {

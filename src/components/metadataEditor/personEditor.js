@@ -62,7 +62,7 @@ function show(person) {
             }
         });
 
-        let selectPersonTypeOptions = '<option value=""></option>';
+        let selectPersonTypeOptions = '';
         for (const type of Object.values(PersonKind)) {
             if (type === PersonKind.Unknown) {
                 continue;

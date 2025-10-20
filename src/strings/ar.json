@@ -2048,5 +2048,12 @@
     "StorageType.Network": "شبكة",
     "StorageType.NoRootDirectory": "لا يوجد دليل الجذر (No Root Directory)",
     "StorageType.Ram": "ذاكرة الوصول العشوائي (RAM)",
-    "LabelImageCache": "ذاكرة التخزين المؤقت للصور"
+    "LabelImageCache": "ذاكرة التخزين المؤقت للصور",
+    "LabelAvailable": "متاح",
+    "ConnectAnyway": "الاتصال على أي حال",
+    "HeaderServerMismatch": "عدم تطابق الخادم",
+    "LabelBundled": "حزمة",
+    "LiveTVPageLoadError": "فشل تحميل صفحة التسجيلات",
+    "MessageServerMismatch": "الخادم الذي تتصل به ليس هو نفسه الخادم الذي اتصلت به سابقًا على هذا العنوان. إذا كان هذا متوقعًا، يُرجى اختيار \"الاتصال على أي حال\". وإلا، فقد يكون اتصالك أو الخادم معرضًا للخطر.",
+    "ViewAllPlugins": "عرض جميع الإضافات"
 }
