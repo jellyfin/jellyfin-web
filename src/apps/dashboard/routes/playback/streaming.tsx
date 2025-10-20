@@ -42,7 +42,7 @@ export const Component = () => {
     const actionData = useActionData() as ActionData | undefined;
     const isSubmitting = navigation.state === 'submitting';
 
-    const { isPending: isConfigurationPending, data: defaultConfiguration } = useConfiguration();
+    const { isPending: isConfigurationPending, isError: isConfigurationError, data: defaultConfiguration } = useConfiguration();
 
     if (isConfigurationPending) {
         return <Loading />;
@@ -56,39 +56,43 @@ export const Component = () => {
         >
             <Box className='content-primary'>
                 <Form method='POST'>
-                    <Stack spacing={3}>
-                        <Typography variant='h1'>
-                            {globalize.translate('TabStreaming')}
-                        </Typography>
+                    {isConfigurationError ? (
+                        <Alert severity='error'>{globalize.translate('StreamingLoadError')}</Alert>
+                    ) : (
+                        <Stack spacing={3}>
+                            <Typography variant='h1'>
+                                {globalize.translate('TabStreaming')}
+                            </Typography>
 
-                        {!isSubmitting && actionData?.isSaved && (
-                            <Alert severity='success'>
-                                {globalize.translate('SettingsSaved')}
-                            </Alert>
-                        )}
+                            {!isSubmitting && actionData?.isSaved && (
+                                <Alert severity='success'>
+                                    {globalize.translate('SettingsSaved')}
+                                </Alert>
+                            )}
 
-                        <TextField
-                            type='number'
-                            inputMode='decimal'
-                            name='StreamingBitrateLimit'
-                            label={globalize.translate('LabelRemoteClientBitrateLimit')}
-                            helperText={globalize.translate('LabelRemoteClientBitrateLimitHelp')}
-                            defaultValue={defaultConfiguration?.RemoteClientBitrateLimit ? defaultConfiguration?.RemoteClientBitrateLimit / 1e6 : ''}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 0,
-                                    max: 2147.25,
-                                    step: 0.25
-                                }
-                            }}
-                        />
-                        <Button
-                            type='submit'
-                            size='large'
-                        >
-                            {globalize.translate('Save')}
-                        </Button>
-                    </Stack>
+                            <TextField
+                                type='number'
+                                inputMode='decimal'
+                                name='StreamingBitrateLimit'
+                                label={globalize.translate('LabelRemoteClientBitrateLimit')}
+                                helperText={globalize.translate('LabelRemoteClientBitrateLimitHelp')}
+                                defaultValue={defaultConfiguration.RemoteClientBitrateLimit ? defaultConfiguration.RemoteClientBitrateLimit / 1e6 : ''}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        step: 0.25,
+                                        max: 2147.25
+                                    }
+                                }}
+                            />
+                            <Button
+                                type='submit'
+                                size='large'
+                            >
+                                {globalize.translate('Save')}
+                            </Button>
+                        </Stack>
+                    )}
                 </Form>
             </Box>
         </Page>
