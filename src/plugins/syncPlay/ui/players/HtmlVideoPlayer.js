@@ -96,8 +96,8 @@ class HtmlVideoPlayer extends NoActivePlayer {
 
         Events.off(this.player, 'playbackstart', this._onPlaybackStart);
         Events.off(this.player, 'playbackstop', this._onPlaybackStop);
-        Events.on(this.player, 'unpause', this._onUnpause);
-        Events.on(this.player, 'pause', this._onPause);
+        Events.off(this.player, 'unpause', this._onUnpause);
+        Events.off(this.player, 'pause', this._onPause);
         Events.off(this.player, 'timeupdate', this._onTimeUpdate);
         Events.off(this.player, 'playing', this._onPlaying);
         Events.off(this.player, 'waiting', this._onWaiting);
