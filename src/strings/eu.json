@@ -2051,5 +2051,6 @@
     "LabelBundled": "Multzokatuta",
     "ManageRepositories": "Kudeatu biltegiak",
     "ViewAllPlugins": "Ikusi plugin guztiak",
-    "ButtonAddProvider": "Gehitu hornitzailea"
+    "ButtonAddProvider": "Gehitu hornitzailea",
+    "ButtonAddTunerDevice": "Gehitu sintonizatzaile gailua"
 }
