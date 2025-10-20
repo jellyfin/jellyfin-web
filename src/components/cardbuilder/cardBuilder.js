@@ -575,7 +575,7 @@ function getCardFooterText(item, options, footerClass, progressHtml, flags, urls
             if (flags.isOuterFooter && item.AlbumArtists?.length) {
                 item.AlbumArtists[0].Type = 'MusicArtist';
                 item.AlbumArtists[0].IsFolder = true;
-                lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
+                lines.push(getTextActionButton(item.AlbumArtists, null, serverId));
             } else {
                 lines.push(escapeHtml(isUsingLiveTvNaming(item.Type) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || '')));
             }

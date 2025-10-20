@@ -598,6 +598,13 @@ const scrollerFactory = function (frame, options) {
         let delta = normalizeWheelDelta(event);
 
         if (transform) {
+            if (o.horizontal && event.deltaX !== 0
+                && (event.deltaY >= -5 && event.deltaY <= 5)
+                && (pos.dest + o.scrollBy * delta > 0)
+                && (pos.dest + o.scrollBy * delta < pos.end)
+            ) {
+                event.preventDefault();
+            }
             self.slideBy(o.scrollBy * delta);
         } else {
             if (isSmoothScrollSupported) {
@@ -629,7 +636,7 @@ const scrollerFactory = function (frame, options) {
         });
 
         dom.removeEventListener(scrollSource, wheelEvent, scrollHandler, {
-            passive: true
+            passive: false
         });
 
         dom.removeEventListener(dragSourceElement, 'touchstart', dragInitSlidee, {
@@ -757,7 +764,6 @@ const scrollerFactory = function (frame, options) {
                 }
             }
         } else {
-            frame.style.overflow = 'hidden';
             slideeElement.style['will-change'] = 'transform';
             slideeElement.style.transition = 'transform ' + o.speed + 'ms ease-out';
 
@@ -793,7 +799,7 @@ const scrollerFactory = function (frame, options) {
             if (o.mouseWheel) {
                 // Scrolling navigation
                 dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
-                    passive: true
+                    passive: false
                 });
             }
         } else if (o.horizontal && o.mouseWheel) {
@@ -801,7 +807,7 @@ const scrollerFactory = function (frame, options) {
 
             // Scrolling navigation
             dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
-                passive: true
+                passive: false
             });
         }
 

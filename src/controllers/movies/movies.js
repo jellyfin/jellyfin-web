@@ -30,6 +30,14 @@ export default function (_view, params, tabContent, options) {
         return ApiClient.getItems(ApiClient.getCurrentUserId(), query);
     }
 
+    function playAll() {
+        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+            playbackManager.play({
+                items: [item]
+            });
+        });
+    }
+
     function shuffle() {
         isLoading = true;
         loading.show();
@@ -94,6 +102,7 @@ export default function (_view, params, tabContent, options) {
             elem.addEventListener('click', onPreviousPageClick);
         }
 
+        tabContent.querySelector('.btnPlayAll')?.classList.toggle('hide', result.TotalRecordCount < 1);
         tabContent.querySelector('.btnShuffle')?.classList.toggle('hide', result.TotalRecordCount < 1);
 
         isLoading = false;
@@ -266,6 +275,7 @@ export default function (_view, params, tabContent, options) {
             itemsContainer.refreshItems();
         });
 
+        tabElement.querySelector('.btnPlayAll').addEventListener('click', playAll);
         tabElement.querySelector('.btnShuffle')?.addEventListener('click', shuffle);
     };
 

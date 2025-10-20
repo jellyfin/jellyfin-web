@@ -402,7 +402,7 @@ export class HtmlVideoPlayer {
         if (options.resetSubtitleOffset !== false) this.resetSubtitleOffset();
 
         const elem = await this.createMediaElement(options);
-        this.#applyAspectRatio();
+        this.#applyAspectRatio(options.aspectRatio || this.getAspectRatio());
 
         await this.updateVideoUrl(options);
         return this.setCurrentSrc(elem, options);
@@ -1608,13 +1608,11 @@ export class HtmlVideoPlayer {
 
         if (!dlg) {
             return import('./style.scss').then(() => {
-                loading.show();
+                if (options.fullscreen) loading.show();
 
                 const playerDlg = document.createElement('div');
                 playerDlg.setAttribute('dir', 'ltr');
-
                 playerDlg.classList.add('videoPlayerContainer');
-
                 if (options.fullscreen) {
                     playerDlg.classList.add('videoPlayerContainer-onTop');
                 }
