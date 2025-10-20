@@ -767,7 +767,7 @@
     "LabelLineup": "Banaketa",
     "LabelMaxDaysForNextUpHelp": "Ezarri gehienez zenbat egunetan egongo den serie bat \"Nobedadeak\" atalean, ikusten ez duzun bitartean.",
     "LabelMaxDaysForNextUp": "Gehieneko egunak \"Nobedadeak\" atalean",
-    "LabelLibraryPageSizeHelp": "Liburutegiko orrialde batean erakutsi beharreko itemen kopurua ezartzen du. Jarri 0an orrikatzea desaktibatzeko.",
+    "LabelLibraryPageSizeHelp": "Liburutegiko orrialde batean erakutsi beharreko itemen kopurua ezartzen du. 0 balioa ezartzeak orrikatzea desgaituko du. Kontuan izan 0 baliora edo 100 baino handiagoa den edozein baliora ezartzeak akatsak eta errendimendua murriztu dezakeela.",
     "LabelLibraryPageSize": "Liburutegiko orriaren tamaina",
     "LabelLanNetworks": "Sare lokalak",
     "LabelLanguage": "Hizkuntza",
