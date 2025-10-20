@@ -1,5 +1,6 @@
 import loading from '../../components/loading/loading';
 import libraryBrowser from '../../scripts/libraryBrowser';
+import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
 import imageLoader from '../../components/images/imageLoader';
 import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
@@ -65,6 +66,7 @@ export default function (view, params, tabContent) {
         loading.show();
         isLoading = true;
         const query = getQuery();
+        this.alphaPicker?.updateControls(query);
         ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
             function onNextPageClick() {
                 if (isLoading) {
@@ -249,6 +251,32 @@ export default function (view, params, tabContent) {
                 });
             });
         });
+
+        const alphaPickerElement = tabElement.querySelector('.alphaPicker');
+
+        if (alphaPickerElement) {
+            alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
+                const newValue = e.detail.value;
+                const query = getQuery();
+                if (newValue === '#') {
+                    query.NameLessThan = 'A';
+                    delete query.NameStartsWith;
+                } else {
+                    query.NameStartsWith = newValue;
+                    delete query.NameLessThan;
+                }
+                query.StartIndex = 0;
+                reloadItems(tabElement);
+            });
+            this.alphaPicker = new AlphaPicker({
+                element: alphaPickerElement,
+                valueChangeEvent: 'click'
+            });
+
+            tabElement.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
+            alphaPickerElement.classList.add('alphaPicker-fixed-right');
+            tabElement.querySelector('.itemsContainer').classList.add('padded-right-withalphapicker');
+        }
     };
 
     initPage(tabContent);
@@ -256,6 +284,7 @@ export default function (view, params, tabContent) {
 
     this.renderTab = function () {
         reloadItems(tabContent);
+        this.alphaPicker?.updateControls(getQuery());
     };
 }
 

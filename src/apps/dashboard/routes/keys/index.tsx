@@ -8,20 +8,21 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import parseISO from 'date-fns/parseISO';
 import { type MRT_ColumnDef, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
 import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
 import { useApiKeys } from 'apps/dashboard/features/keys/api/useApiKeys';
 import { useRevokeKey } from 'apps/dashboard/features/keys/api/useRevokeKey';
 import { useCreateKey } from 'apps/dashboard/features/keys/api/useCreateKey';
-import confirm from 'components/confirm/confirm';
-import prompt from 'components/prompt/prompt';
-import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
+import InputDialog from 'components/InputDialog';
+import ConfirmDialog from 'components/ConfirmDialog';
 
 export const Component = () => {
-    const { api } = useApi();
+    const [ isCreateApiKeyPromptOpen, setIsCreateApiKeyPromptOpen ] = useState(false);
+    const [ isConfirmDeleteOpen, setIsConfirmDeleteOpen ] = useState(false);
+    const [ apiKeyToDelete, setApiKeyToDelete ] = useState('');
     const { data, isLoading } = useApiKeys();
     const keys = useMemo(() => (
         data?.Items || []
@@ -105,41 +106,72 @@ export const Component = () => {
     });
 
     const onRevokeKey = useCallback((accessToken: string) => {
-        if (!api) return;
-
-        confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
-            revokeKey.mutate({
-                key: accessToken
-            });
-        }).catch(err => {
-            console.error('[apikeys] failed to show confirmation dialog', err);
-        });
-    }, [api, revokeKey]);
+        setApiKeyToDelete(accessToken);
+        setIsConfirmDeleteOpen(true);
+    }, []);
 
     const showNewKeyPopup = useCallback(() => {
-        if (!api) return;
+        setIsCreateApiKeyPromptOpen(true);
+    }, []);
 
-        prompt({
-            title: globalize.translate('HeaderNewApiKey'),
-            label: globalize.translate('LabelAppName'),
-            description: globalize.translate('LabelAppNameExample')
-        }).then((value) => {
-            createKey.mutate({
-                app: value
-            });
-        }).catch(() => {
-            // popup closed
+    const onCreateApiKeyPromptClose = useCallback(() => {
+        setIsCreateApiKeyPromptOpen(false);
+    }, []);
+
+    const onConfirmDelete = useCallback(() => {
+        revokeKey.mutate({
+            key: apiKeyToDelete
+        }, {
+            onSettled: () => {
+                setApiKeyToDelete('');
+                setIsConfirmDeleteOpen(false);
+            }
         });
-    }, [api, createKey]);
+    }, [ revokeKey, apiKeyToDelete ]);
+
+    const onConfirmDeleteCancel = useCallback(() => {
+        setApiKeyToDelete('');
+        setIsConfirmDeleteOpen(false);
+    }, []);
+
+    const onConfirmCreate = useCallback((name: string) => {
+        createKey.mutate({
+            app: name
+        }, {
+            onSettled: () => {
+                setIsCreateApiKeyPromptOpen(false);
+            }
+        });
+    }, [ createKey ]);
 
     return (
-        <TablePage
-            id='apiKeysPage'
-            title={globalize.translate('HeaderApiKeys')}
-            subtitle={globalize.translate('HeaderApiKeysHelp')}
-            className='mainAnimatedPage type-interior'
-            table={table}
-        />
+        <>
+            <ConfirmDialog
+                open={isConfirmDeleteOpen}
+                title={globalize.translate('HeaderConfirmRevokeApiKey')}
+                text={globalize.translate('MessageConfirmRevokeApiKey')}
+                confirmButtonColor='error'
+                confirmButtonText={globalize.translate('Delete')}
+                onConfirm={onConfirmDelete}
+                onCancel={onConfirmDeleteCancel}
+            />
+            <InputDialog
+                open={isCreateApiKeyPromptOpen}
+                title={globalize.translate('HeaderNewApiKey')}
+                label={globalize.translate('LabelAppName')}
+                helperText={globalize.translate('LabelAppNameExample')}
+                confirmButtonText={globalize.translate('Create')}
+                onConfirm={onConfirmCreate}
+                onClose={onCreateApiKeyPromptClose}
+            />
+            <TablePage
+                id='apiKeysPage'
+                title={globalize.translate('HeaderApiKeys')}
+                subtitle={globalize.translate('HeaderApiKeysHelp')}
+                className='mainAnimatedPage type-interior'
+                table={table}
+            />
+        </>
     );
 };
 

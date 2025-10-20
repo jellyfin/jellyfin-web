@@ -1,6 +1,6 @@
 {
   "name": "jellyfin-web",
-  "version": "10.11.0",
+  "version": "10.12.0",
   "description": "Web interface for Jellyfin",
   "repository": "https://github.com/jellyfin/jellyfin-web",
   "license": "GPL-2.0-or-later",
@@ -106,7 +106,7 @@
     "flv.js": "1.6.2",
     "headroom.js": "0.12.0",
     "history": "5.3.0",
-    "hls.js": "1.6.9",
+    "hls.js": "1.6.13",
     "intersection-observer": "0.12.2",
     "jellyfin-apiclient": "1.11.0",
     "jquery": "3.7.1",
@@ -168,7 +168,7 @@
   },
   "engines": {
     "node": ">=20.0.0",
-    "npm": ">=9.6.4",
+    "npm": ">=9.6.4 <11.0.0",
     "yarn": "YARN NO LONGER USED - use npm instead."
   }
 }

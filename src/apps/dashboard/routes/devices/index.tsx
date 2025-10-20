@@ -193,7 +193,8 @@ export const Component = () => {
         positionActionsColumn: 'last',
         displayColumnDefOptions: {
             'mrt-row-actions': {
-                header: ''
+                header: '',
+                size: 100
             }
         },
         renderRowActions: ({ row, table }) => {

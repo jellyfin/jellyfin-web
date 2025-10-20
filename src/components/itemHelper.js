@@ -52,6 +52,14 @@ export function getDisplayName(item, options = {}) {
         }
     }
 
+    if (Array.isArray(item)) {
+        if (item.length > 1) {
+            return item.map(i => getDisplayName(i, options)).join(' / ');
+        } else if (item.length === 1) {
+            return item[0].Name;
+        }
+    }
+
     return name;
 }
 
