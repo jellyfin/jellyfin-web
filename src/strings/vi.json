@@ -612,7 +612,7 @@
     "LabelLocalHttpServerPortNumberHelp": "Số cổng TCP cho máy chủ HTTP.",
     "LabelLocalHttpServerPortNumber": "Số cổng HTTP nội bộ",
     "LabelLineup": "Danh sách diễn viên",
-    "LabelLibraryPageSizeHelp": "Đặt số lượng mục để hiển thị trên trang thư viện. Đặt là 0 để tắt phân trang.",
+    "LabelLibraryPageSizeHelp": "Đặt số lượng mục để hiển thị trên trang thư viện. Đặt giá trị 0 sẽ tắt phân trang. Xin lưu ý rằng việc đặt giá trị này thành 0 hoặc bất kỳ giá trị nào lớn hơn 100 có thể dẫn đến lỗi và giảm hiệu suất.",
     "LabelLibraryPageSize": "Kích cỡ trang thư viện",
     "LabelLanNetworks": "Mạng Cục Bộ",
     "LabelKodiMetadataUserHelp": "Lưu dữ liệu xem vào tệp NFO cho các ứng dụng khác sử dụng.",
@@ -2066,5 +2066,6 @@
     "LabelAvailable": "Sẵn có",
     "LabelBundled": "Đi kèm",
     "ManageRepositories": "Quản Lý Kho Lưu Trữ",
-    "ViewAllPlugins": "Xem tất cả plugins"
+    "ViewAllPlugins": "Xem tất cả plugins",
+    "ButtonAddProvider": "Thêm Nhà Cung Cấp"
 }
