@@ -16,8 +16,8 @@
     "MessageBrowsePluginCatalog": "Consulteu el nostre catàleg per a veure els complements disponibles.",
     "ButtonAddMediaLibrary": "Afegiu-hi una mediateca",
     "ButtonAddScheduledTaskTrigger": "Afegiu-hi un detonador",
-    "ButtonAddServer": "Afegiu un servidor",
-    "ButtonAddUser": "Afegeix un usuari",
+    "ButtonAddServer": "Afegiu-hi un servidor",
+    "ButtonAddUser": "Afegiu-hi un usuari",
     "ButtonArrowLeft": "Esquerra",
     "ButtonArrowRight": "Dreta",
     "ButtonBack": "Enrere",
@@ -1234,7 +1234,7 @@
     "LabelLocalHttpServerPortNumberHelp": "El número de port TCP per al servidor HTTP.",
     "LabelLocalCustomCss": "Codi CSS personalitzat per a canvis d'estil que s'apliquen només a aquest client. És possible que vulgueu deshabilitar el servidor personalitzat de codi CSS.",
     "LabelLineup": "Programació",
-    "LabelLibraryPageSizeHelp": "Estableix la quantitat d'elements a mostrar en una pàgina de la mediateca. Es posa a 0 per tal de desactivar la paginació.",
+    "LabelLibraryPageSizeHelp": "Estableix la quantitat d'elements a mostrar en una pàgina de la mediateca. Posar-hi un valor de 0 desactivarà la paginació. Tingueu en compte que posar-hi un 0 o qualsevol valor major de 100 pot comportar errors i una reducció del rendiment.",
     "LabelLibraryPageSize": "Mida de la pàgina de la mediateca",
     "LabelLanNetworks": "Xarxes LAN",
     "LabelKodiMetadataUserHelp": "Desa les dades de visionament en fitxers NFO de manera que d'altres aplicacions les puguin fer servir.",
@@ -1546,7 +1546,7 @@
     "AgeValue": "({0} anys)",
     "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Ajusteu manualment el temps de decalatge amb el dispositiu seleccionat per a la sincronització del temps. Ajusteu-ho amb cura.",
     "LabelSyncPlaySettingsDescription": "Canvia les preferències de SyncPlay",
-    "LabelMaxDaysForNextUp": "Màxim de dies per \"A continuació\"",
+    "LabelMaxDaysForNextUp": "Màxim de dies en \"A continuació\"",
     "LabelHardwareEncoding": "Codificació per maquinari",
     "ErrorPlayerNotFound": "No s'ha trobat cap reproductor per al fitxer multimèdia sol·licitat.",
     "SelectAll": "Selecciona-ho tot",
@@ -2065,5 +2065,7 @@
     "LabelAvailable": "Disponible",
     "LabelBundled": "Inclòs",
     "ManageRepositories": "Administració dels repositoris",
-    "ViewAllPlugins": "Mostra tots els connectors"
+    "ViewAllPlugins": "Mostra tots els connectors",
+    "ButtonAddProvider": "Afegiu-hi un proveïdor",
+    "ButtonAddTunerDevice": "Afegiu-hi un dispositiu sintonitzador"
 }
