@@ -13,6 +13,7 @@ import ServerButton from 'components/toolbar/ServerButton';
 import ElevationScroll from 'components/ElevationScroll';
 import { DRAWER_WIDTH } from 'components/ResponsiveDrawer';
 import { appRouter } from 'components/router/appRouter';
+import CustomCss from 'components/CustomCss';
 import ThemeCss from 'components/ThemeCss';
 import { useApi } from 'hooks/useApi';
 import { useLocale } from 'hooks/useLocale';
@@ -108,6 +109,7 @@ export const Component: FC = () => {
                 </Box>
             </Box>
             <ThemeCss dashboard />
+            <CustomCss />
         </LocalizationProvider>
     );
 };
