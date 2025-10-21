@@ -611,7 +611,7 @@ const scrollerFactory = function (frame, options) {
             }
         }
 
-        let delta = normalizeWheelDelta(event);
+        const delta = normalizeWheelDelta(event);
 
         if (transform) {
             if (o.horizontal && event.deltaX !== 0
@@ -624,14 +624,12 @@ const scrollerFactory = function (frame, options) {
             self.slideBy(o.scrollBy * delta);
         } else {
             // Native scroll mode: manually control scroll for smoothness
-            if (isSmoothScrollSupported) {
-                delta *= 12;
-            }
+            const scrollDelta = isSmoothScrollSupported ? delta * 12 : delta;
 
             if (o.horizontal) {
-                nativeScrollElement.scrollLeft += delta;
+                nativeScrollElement.scrollLeft += scrollDelta;
             } else {
-                nativeScrollElement.scrollTop += delta;
+                nativeScrollElement.scrollTop += scrollDelta;
             }
         }
     }
