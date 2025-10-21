@@ -2069,5 +2069,7 @@
     "ViewAllPlugins": "查看所有插件",
     "LabelBundled": "附赠",
     "ManageRepositories": "管理存储库",
-    "LabelAvailable": "可用"
+    "LabelAvailable": "可用",
+    "ButtonAddProvider": "添加提供者",
+    "ButtonAddTunerDevice": "添加调谐器设备"
 }
