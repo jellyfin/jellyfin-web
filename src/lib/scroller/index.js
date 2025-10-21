@@ -611,7 +611,7 @@ const scrollerFactory = function (frame, options) {
             }
         }
 
-        let delta = normalizeWheelDelta(event);
+        const delta = normalizeWheelDelta(event);
 
         if (transform) {
             if (o.horizontal && event.deltaX !== 0
