@@ -101,8 +101,7 @@ const scrollerFactory = function (frame, options) {
     const isSmoothScrollSupported = 'scrollBehavior' in document.documentElement.style;
 
     // native scroll is a must with touch input
-    // also use native scroll when scrolling vertically in desktop mode - excluding horizontal because the mouse wheel support is choppy at the moment
-    // in cases with firefox, if the smooth scroll api is supported then use that because their implementation is very good
+    // use native smooth scroll when supported for best performance and natural feel
     if (options.allowNativeScroll === false) {
         options.enableNativeScroll = false;
     } else if (isSmoothScrollSupported && ((browser.firefox && !layoutManager.tv) || options.allowNativeSmoothScroll)) {
@@ -623,14 +622,26 @@ const scrollerFactory = function (frame, options) {
             }
             self.slideBy(o.scrollBy * delta);
         } else {
+            // Use native smooth scrolling for better performance
+            event.preventDefault();
+
             if (isSmoothScrollSupported) {
                 delta *= 12;
             }
 
+            const currentScroll = o.horizontal ? nativeScrollElement.scrollLeft : nativeScrollElement.scrollTop;
+            const newScroll = currentScroll + delta;
+
             if (o.horizontal) {
-                nativeScrollElement.scrollLeft += delta;
+                nativeScrollElement.scroll({
+                    left: newScroll,
+                    behavior: 'smooth'
+                });
             } else {
-                nativeScrollElement.scrollTop += delta;
+                nativeScrollElement.scroll({
+                    top: newScroll,
+                    behavior: 'smooth'
+                });
             }
         }
     }
