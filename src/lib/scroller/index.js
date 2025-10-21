@@ -611,7 +611,7 @@ const scrollerFactory = function (frame, options) {
             }
         }
 
-        const delta = normalizeWheelDelta(event);
+        let delta = normalizeWheelDelta(event);
 
         if (transform) {
             if (o.horizontal && event.deltaX !== 0
@@ -622,9 +622,18 @@ const scrollerFactory = function (frame, options) {
                 event.preventDefault();
             }
             self.slideBy(o.scrollBy * delta);
+        } else {
+            // Native scroll mode: manually control scroll for smoothness
+            if (isSmoothScrollSupported) {
+                delta *= 12;
+            }
+
+            if (o.horizontal) {
+                nativeScrollElement.scrollLeft += delta;
+            } else {
+                nativeScrollElement.scrollTop += delta;
+            }
         }
-        // For native scroll mode: intentionality check passed, let browser handle scrolling naturally
-        // No need to manually handle scrolling - CSS overflow will do it smoothly
     }
 
     /**
