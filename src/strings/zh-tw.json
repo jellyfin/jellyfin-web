@@ -1266,7 +1266,7 @@
     "Season": "季",
     "Person": "人物",
     "Movie": "電影",
-    "LabelLibraryPageSizeHelp": "設定媒體庫頁面每頁要顯示的項目數量。設定為 0 來停用分頁。",
+    "LabelLibraryPageSizeHelp": "設定媒體庫頁面每頁要顯示的最多媒體數量。將數值設定為 0 以停用分頁。請注意，將此項設定為 0 或任何大於 100 的數值，可能會導致錯誤及效能下降。",
     "LabelLibraryPageSize": "媒體庫分頁大小",
     "LabelDeinterlaceMethod": "去交錯方法",
     "Episode": "劇集",
@@ -2068,5 +2068,7 @@
     "LabelAvailable": "可用的",
     "LabelBundled": "隨附",
     "ManageRepositories": "管理倉庫",
-    "ViewAllPlugins": "查看所有擴充功能"
+    "ViewAllPlugins": "查看所有擴充功能",
+    "ButtonAddTunerDevice": "新增調諧器設備",
+    "ButtonAddProvider": "新增提供者"
 }
