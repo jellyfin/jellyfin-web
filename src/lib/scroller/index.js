@@ -605,6 +605,7 @@ const scrollerFactory = function (frame, options) {
             const absDeltaX = Math.abs(event.deltaX);
             const absDeltaY = Math.abs(event.deltaY);
 
+            // Intentionality check: only allow horizontal scroll if gesture is clearly horizontal
             if (absDeltaX < 2 || absDeltaY > absDeltaX * 2) {
                 return;
             }
@@ -621,29 +622,9 @@ const scrollerFactory = function (frame, options) {
                 event.preventDefault();
             }
             self.slideBy(o.scrollBy * delta);
-        } else {
-            // Use native smooth scrolling for better performance
-            event.preventDefault();
-
-            if (isSmoothScrollSupported) {
-                delta *= 12;
-            }
-
-            const currentScroll = o.horizontal ? nativeScrollElement.scrollLeft : nativeScrollElement.scrollTop;
-            const newScroll = currentScroll + delta;
-
-            if (o.horizontal) {
-                nativeScrollElement.scroll({
-                    left: newScroll,
-                    behavior: 'smooth'
-                });
-            } else {
-                nativeScrollElement.scroll({
-                    top: newScroll,
-                    behavior: 'smooth'
-                });
-            }
         }
+        // For native scroll mode: intentionality check passed, let browser handle scrolling naturally
+        // No need to manually handle scrolling - CSS overflow will do it smoothly
     }
 
     /**
