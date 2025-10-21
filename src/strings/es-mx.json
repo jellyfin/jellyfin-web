@@ -1272,7 +1272,7 @@
     "DeinterlaceMethodHelp": "Seleccione el método de desentrelazado que se usará al transcodificar contenido entrelazado. Cuando se habilite hardware con soporte de aceleración por hardware, se utilizará este.",
     "Filter": "Filtro",
     "New": "Nuevo",
-    "LabelLibraryPageSizeHelp": "Establece el número de elementos a mostrar por página de la biblioteca. Establece en 0 para deshabilitar el paginado.",
+    "LabelLibraryPageSizeHelp": "Establece el número de elementos a mostrar por página de la biblioteca. Establece en 0 para deshabilitar el paginado. Tenga en cuenta que establecer este valor en 0 o en cualquier número más grande que 100 puede causar errores y disminuir el rendimiento.",
     "LabelLibraryPageSize": "Tamaño de las páginas de las bibliotecas",
     "ButtonTogglePlaylist": "Lista de reproducción",
     "UnsupportedPlayback": "Jellyfin no puede desencriptar contenido protegido por DRM de todas formas todo el contenido será intentado, incluyendo los títulos protegidos. Algunos archivos pueden aparecer completamente en negro debido al encriptado o características no soportadas, como títulos interactivos.",
@@ -2063,5 +2063,7 @@
     "HeaderBackups": "Respaldos",
     "ConfirmDeleteRepository": "¿Eliminar repositorio?",
     "DeleteRepositoryConfirmation": "¿Estás seguro que quieres eliminar este repositorio?",
-    "LabelImageCache": "Caché de imagen"
+    "LabelImageCache": "Caché de imagen",
+    "ButtonAddProvider": "Agregar proveedor",
+    "ButtonAddTunerDevice": "Agregar dispositivo sintonizador"
 }
