@@ -503,12 +503,10 @@ const scrollerFactory = function (frame, options) {
                     } else {
                         return dragEnd();
                     }
+                } else if (absDragX < absDragY) {
+                    dragging.init = 1;
                 } else {
-                    if (absDragX < absDragY) {
-                        dragging.init = 1;
-                    } else {
-                        return dragEnd();
-                    }
+                    return dragEnd();
                 }
             }
         }
