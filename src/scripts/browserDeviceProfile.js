@@ -144,9 +144,9 @@ function supportsAc3InHls(videoTestElement) {
     const enableUseHlsJs = appSettings.useHlsJs();
 
     // only return false to not use ac3 when hls.js is explicitly toggled on
-    if (browser.web0sVersion >= 4 && enableUseHlsJs) { 
-        return false; 
-     }
+    if (browser.web0sVersion >= 4 && enableUseHlsJs) {
+        return false;
+    }
 
     if (browser.tizen || browser.web0s) {
         return true;

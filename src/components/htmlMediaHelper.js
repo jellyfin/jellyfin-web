@@ -52,7 +52,6 @@ export function enableHlsJsPlayer(runTimeTicks, mediaType) {
     // Using hls.js also seems to fix fast forward issues that native HLS has.
     // hls.js is enabled according to settings set by user
     const enableUseHlsJs = appSettings.useHlsJs();
-    
     if (browser.web0sVersion >= 4 && enableUseHlsJs) {
         return true;
     }
