@@ -1059,7 +1059,7 @@
     "OptionAutomaticallyGroupSeriesHelp": "Loạt phim nằm trên nhiều thư mục trong thư viện này sẽ được tự động hợp nhất thành một loạt phim duy nhất.",
     "OptionAutomaticallyGroupSeries": "Tự động gộp các bộ phim được trải dài trên nhiều thư mục",
     "OptionAllowVideoPlaybackTranscoding": "Cho phép phát lại video yêu cầu chuyển mã",
-    "OptionAllowSyncTranscoding": "Cho phép tải xuống và đồng bộ hóa phương tiện yêu cầu chuyển mã",
+    "OptionAllowSyncTranscoding": "Cho phép tải về và đồng bộ phương tiện có yêu cầu chuyển mã",
     "OptionAllowRemoteSharedDevicesHelp": "Các thiết bị DLNA được coi là chia sẻ cho đến khi người dùng bắt đầu kiểm soát chúng.",
     "OptionAllowRemoteSharedDevices": "Cho phép điều khiển từ xa các thiết bị dùng chung",
     "OptionAllowRemoteControlOthers": "Cho phép điều khiển từ xa những người dùng khác",
@@ -1220,7 +1220,7 @@
     "QuickConnectInvalidCode": "Mã Kết Nối Nhanh không hợp lệ",
     "QuickConnectDescription": "Để đăng nhập với Kết Nối Nhanh, hãy chọn nút 'Kết Nối Nhanh' trên thiết bị bạn đang đăng nhập và nhập mã hiển thị bên dưới.",
     "QuickConnectDeactivated": "Kết Nối Nhanh đã bị vô hiệu hóa trước khi yêu cầu đăng nhập được chấp nhận",
-    "QuickConnectAuthorizeFail": "Mã Kết Nối Nhanh không xác định",
+    "QuickConnectAuthorizeFail": "Không biết Mã Kết Nối Nhanh",
     "QuickConnectAuthorizeSuccess": "Bạn đã xác thực thành công thiết bị của mình!",
     "QuickConnectAuthorizeCode": "Nhập mã {0} để đăng nhập",
     "QuickConnectActivationSuccessful": "Kích hoạt thành công",
@@ -1600,7 +1600,7 @@
     "LabelAutomaticallyAddToCollection": "Tự động thêm vào bộ sưu tập",
     "Cursive": "Chữ ẩu",
     "LabelHardwareEncodingOptions": "Tùy chọn mã hóa phần cứng",
-    "IntelLowPowerEncHelp": "Mã hóa công suất thấp có thể giữ đồng bộ CPU-GPU không cần thiết. Trên Linux, chúng phải được tắt nếu firmware i915 HuC không được định cấu hình.",
+    "IntelLowPowerEncHelp": "Mã hóa công suất thấp có thể giữ đồng bộ CPU-GPU không cần thiết. Trên Linux, chúng phải được tắt nếu firmware i915 HuC không được cài cấu hình.",
     "EnableIntelLowPowerHevcHwEncoder": "Bật bộ mã hóa phần cứng Intel HEVC công suất thấp",
     "EnableIntelLowPowerH264HwEncoder": "Bật bộ mã hóa phần cứng H.264 công suất thấp của Intel",
     "PreferSystemNativeHwDecoder": "Ưu tiên bộ giải mã phần cứng DXVA hoặc VA-API gốc của hệ điều hành",
@@ -2067,5 +2067,6 @@
     "LabelBundled": "Đi kèm",
     "ManageRepositories": "Quản Lý Kho Lưu Trữ",
     "ViewAllPlugins": "Xem tất cả plugins",
-    "ButtonAddProvider": "Thêm Nhà Cung Cấp"
+    "ButtonAddProvider": "Thêm Nhà Cung Cấp",
+    "ButtonAddTunerDevice": "Thêm Thiết Bị Dò Kênh"
 }
