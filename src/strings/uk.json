@@ -2066,5 +2066,7 @@
     "ViewAllPlugins": "Переглянути всі плагіни",
     "LabelAvailable": "Доступно",
     "LabelBundled": "У комплекті",
-    "ManageRepositories": "Керування репозиторіями"
+    "ManageRepositories": "Керування репозиторіями",
+    "ButtonAddProvider": "Додати провайдера",
+    "ButtonAddTunerDevice": "Додати тюнер"
 }
