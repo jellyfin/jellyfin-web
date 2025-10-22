@@ -1066,7 +1066,7 @@ export class HtmlVideoPlayer {
 
     onWaiting = () => {
         Events.trigger(this, 'waiting');
-    }
+    };
 
     /**
      * @private
