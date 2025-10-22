@@ -1064,7 +1064,7 @@ export class HtmlVideoPlayer {
         Events.trigger(this, 'pause');
     };
 
-    onWaiting() {
+    onWaiting = () => {
         Events.trigger(this, 'waiting');
     }
 
