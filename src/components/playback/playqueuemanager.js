@@ -268,6 +268,27 @@ class PlayQueueManager {
             index: newIndex
         };
     }
+
+    getNextItemInfoWithoutRepeat() {
+        const playlist = this.getPlaylist();
+        const playlistLength = playlist.length;
+        const newIndex = this.getCurrentPlaylistIndex() + 1;
+
+        if (newIndex < 0 || newIndex >= playlistLength) {
+            return null;
+        }
+
+        const item = playlist[newIndex];
+
+        if (!item) {
+            return null;
+        }
+
+        return {
+            item: item,
+            index: newIndex
+        };
+    }
 }
 
 function arrayInsertAt(destArray, pos, arrayToInsert) {

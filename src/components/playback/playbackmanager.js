@@ -3129,13 +3129,18 @@ export class PlaybackManager {
             };
         }
 
-        self.nextTrack = function (player) {
+        self.nextTrack = function (player, ignoreRepeat) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.nextTrack();
             }
 
-            const newItemInfo = self._playQueueManager.getNextItemInfo();
+            let newItemInfo;
+            if (ignoreRepeat) {
+                newItemInfo = self._playQueueManager.getNextItemInfoWithoutRepeat();
+            } else {
+                newItemInfo = self._playQueueManager.getNextItemInfo();
+            }
 
             if (newItemInfo) {
                 console.debug('playing next track');
