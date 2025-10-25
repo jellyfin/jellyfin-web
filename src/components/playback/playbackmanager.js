@@ -3291,6 +3291,10 @@ export class PlaybackManager {
                 playerData.secondarySubtitleStreamIndex = null;
             }
 
+            if (streamInfo?.item?.Id) {
+                sessionStorage.setItem('lastPlayedItemId', streamInfo.item.Id);
+            }
+
             self._playNextAfterEnded = true;
             const isFirstItem = playOptions.isFirstItem;
             const fullscreen = playOptions.fullscreen;
