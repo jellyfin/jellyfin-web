@@ -42,7 +42,7 @@ export const Component = () => {
     }, []);
 
     const onConfirmDelete = useCallback(() => {
-        const triggersRemaining = task?.Triggers?.filter(trigger => trigger != pendingDeleteTrigger);
+        const triggersRemaining = task?.Triggers?.filter(trigger => trigger !== pendingDeleteTrigger);
 
         if (task?.Id && triggersRemaining) {
             updateTask.mutate({

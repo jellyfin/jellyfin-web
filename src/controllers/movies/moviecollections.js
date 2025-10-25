@@ -51,7 +51,7 @@ export default function (view, params, tabContent) {
         const viewStyle = this.getCurrentViewStyle();
         const itemsContainer = tabContent.querySelector('.itemsContainer');
 
-        if (viewStyle == 'List') {
+        if (viewStyle === 'List') {
             itemsContainer.classList.add('vertical-list');
             itemsContainer.classList.remove('vertical-wrap');
         } else {
@@ -103,7 +103,7 @@ export default function (view, params, tabContent) {
                 filterButton: false
             });
             const viewStyle = this.getCurrentViewStyle();
-            if (viewStyle == 'Thumb') {
+            if (viewStyle === 'Thumb') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: 'backdrop',
@@ -113,7 +113,7 @@ export default function (view, params, tabContent) {
                     centerText: true,
                     showTitle: true
                 });
-            } else if (viewStyle == 'ThumbCard') {
+            } else if (viewStyle === 'ThumbCard') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: 'backdrop',
@@ -123,7 +123,7 @@ export default function (view, params, tabContent) {
                     cardLayout: true,
                     showTitle: true
                 });
-            } else if (viewStyle == 'Banner') {
+            } else if (viewStyle === 'Banner') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: 'banner',
@@ -131,13 +131,13 @@ export default function (view, params, tabContent) {
                     context: 'movies',
                     lazy: true
                 });
-            } else if (viewStyle == 'List') {
+            } else if (viewStyle === 'List') {
                 html = listView.getListViewHtml({
                     items: result.Items,
                     context: 'movies',
                     sortBy: query.SortBy
                 });
-            } else if (viewStyle == 'PosterCard') {
+            } else if (viewStyle === 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: 'auto',

@@ -41,15 +41,15 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
             Type: data.TriggerType.toString() as TaskTriggerInfoType
         };
 
-        if (trigger.Type == TaskTriggerInfoType.WeeklyTrigger) {
+        if (trigger.Type === TaskTriggerInfoType.WeeklyTrigger) {
             trigger.DayOfWeek = data.DayOfWeek.toString() as DayOfWeek;
         }
 
-        if (trigger.Type == TaskTriggerInfoType.DailyTrigger || trigger.Type == TaskTriggerInfoType.WeeklyTrigger) {
+        if (trigger.Type === TaskTriggerInfoType.DailyTrigger || trigger.Type === TaskTriggerInfoType.WeeklyTrigger) {
             trigger.TimeOfDayTicks = parseInt(data.TimeOfDay.toString(), 10);
         }
 
-        if (trigger.Type == TaskTriggerInfoType.IntervalTrigger) {
+        if (trigger.Type === TaskTriggerInfoType.IntervalTrigger) {
             trigger.IntervalTicks = parseInt(data.Interval.toString(), 10);
         }
 
@@ -93,7 +93,7 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                         <MenuItem value={TaskTriggerInfoType.StartupTrigger}>{globalize.translate('OnApplicationStartup')}</MenuItem>
                     </TextField>
 
-                    {triggerType == TaskTriggerInfoType.WeeklyTrigger && (
+                    {triggerType === TaskTriggerInfoType.WeeklyTrigger && (
                         <TextField
                             name='DayOfWeek'
                             select
@@ -111,7 +111,7 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                         </TextField>
                     )}
 
-                    {(triggerType == TaskTriggerInfoType.DailyTrigger || triggerType == TaskTriggerInfoType.WeeklyTrigger) && (
+                    {(triggerType === TaskTriggerInfoType.DailyTrigger || triggerType === TaskTriggerInfoType.WeeklyTrigger) && (
                         <TextField
                             name='TimeOfDay'
                             select
@@ -128,7 +128,7 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                         </TextField>
                     )}
 
-                    {triggerType == TaskTriggerInfoType.IntervalTrigger && (
+                    {triggerType === TaskTriggerInfoType.IntervalTrigger && (
                         <TextField
                             name='Interval'
                             select

@@ -52,7 +52,7 @@ const UserLibraryAccess = () => {
         const itemsArr: ItemsArr[] = [];
 
         for (const folder of mediaFolders) {
-            const isChecked = user.Policy?.EnableAllFolders || user.Policy?.EnabledFolders?.indexOf(folder.Id || '') != -1;
+            const isChecked = user.Policy?.EnableAllFolders || user.Policy?.EnabledFolders?.indexOf(folder.Id || '') !== -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
                 Id: folder.Id,
@@ -79,7 +79,7 @@ const UserLibraryAccess = () => {
         const itemsArr: ItemsArr[] = [];
 
         for (const folder of channels) {
-            const isChecked = user.Policy?.EnableAllChannels || user.Policy?.EnabledChannels?.indexOf(folder.Id || '') != -1;
+            const isChecked = user.Policy?.EnableAllChannels || user.Policy?.EnabledChannels?.indexOf(folder.Id || '') !== -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
                 Id: folder.Id,
@@ -112,7 +112,7 @@ const UserLibraryAccess = () => {
         const itemsArr: ItemsArr[] = [];
 
         for (const device of devices) {
-            const isChecked = user.Policy?.EnableAllDevices || user.Policy?.EnabledDevices?.indexOf(device.Id || '') != -1;
+            const isChecked = user.Policy?.EnableAllDevices || user.Policy?.EnabledDevices?.indexOf(device.Id || '') !== -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
                 Id: device.Id,
