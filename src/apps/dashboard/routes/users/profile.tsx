@@ -146,6 +146,7 @@ const UserEdit = () => {
         (page.querySelector('.chkIsHidden') as HTMLInputElement).checked = !!user.Policy?.IsHidden;
         (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked = !!user.Policy?.EnableCollectionManagement;
         (page.querySelector('.chkEnableSubtitleManagement') as HTMLInputElement).checked = !!user.Policy?.EnableSubtitleManagement;
+        (page.querySelector('.chkEnableNoPassword') as HTMLInputElement).checked = !!user.Policy?.EnableNoPassword;
         (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked = !!user.Policy?.EnableSharedDeviceControl;
         (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked = !!user.Policy?.EnableRemoteControlOfOtherUsers;
         (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked = !!user.Policy?.EnableContentDownloading;
@@ -203,6 +204,7 @@ const UserEdit = () => {
             user.Policy.EnablePlaybackRemuxing = (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked;
             user.Policy.EnableCollectionManagement = (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked;
             user.Policy.EnableSubtitleManagement = (page.querySelector('.chkEnableSubtitleManagement') as HTMLInputElement).checked;
+            user.Policy.EnableNoPassword = (page.querySelector('.chkEnableNoPassword') as HTMLInputElement).checked;
             user.Policy.ForceRemoteSourceTranscoding = (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked;
             user.Policy.EnableContentDownloading = (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked;
             user.Policy.EnableRemoteAccess = (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked;
@@ -499,6 +501,15 @@ const UserEdit = () => {
                         />
                         <div className='fieldDescription checkboxFieldDescription'>
                             {globalize.translate('OptionDisableUserHelp')}
+                        </div>
+                    </div>
+                    <div className='checkboxContainer checkboxContainer-withDescription' id='fldIsEnabled'>
+                        <CheckBoxElement
+                            className='chkEnableNoPassword'
+                            title='AllowNoPassword'
+                        />
+                        <div className='fieldDescription checkboxFieldDescription'>
+                            {globalize.translate('OptionEnableNoPasswordHelp')}
                         </div>
                     </div>
                     <div className='checkboxContainer checkboxContainer-withDescription' id='fldIsHidden'>
