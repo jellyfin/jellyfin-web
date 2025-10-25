@@ -79,7 +79,7 @@ function onSubmit(e) {
     const replaceAllImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
     const replaceTrickplayImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceTrickplayImages').checked;
 
-    options.itemIds.forEach(function (itemId) {
+    options.itemIds.forEach((itemId) => {
         apiClient.refreshItem(itemId, {
             Recursive: true,
             ImageRefreshMode: mode,
@@ -154,7 +154,7 @@ class RefreshDialog {
 
         dlg.querySelector('#selectMetadataRefreshMode').dispatchEvent(new CustomEvent('change'));
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
             dialogHelper.close(dlg);
         });
 
@@ -162,7 +162,7 @@ class RefreshDialog {
             centerFocus(dlg.querySelector('.formDialogContent'), false, true);
         }
 
-        return new Promise(function (resolve) {
+        return new Promise((resolve) => {
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }

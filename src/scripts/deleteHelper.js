@@ -36,23 +36,19 @@ export function deleteItem(options) {
 
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-    return confirm(getDeletionConfirmContent(item)).then(function () {
-        return apiClient.deleteItem(item.Id).then(function () {
-            if (options.navigate) {
-                if (parentId) {
-                    appRouter.showItem(parentId, item.ServerId);
-                } else {
-                    appRouter.goHome();
-                }
+    return confirm(getDeletionConfirmContent(item)).then(() => apiClient.deleteItem(item.Id).then(() => {
+        if (options.navigate) {
+            if (parentId) {
+                appRouter.showItem(parentId, item.ServerId);
+            } else {
+                appRouter.goHome();
             }
-        }, function (err) {
-            const result = function () {
-                return Promise.reject(err);
-            };
+        }
+    }, (err) => {
+        const result = () => Promise.reject(err);
 
-            return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
-        });
-    });
+        return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
+    }));
 }
 
 export function deleteLyrics (item) {
@@ -67,9 +63,7 @@ export function deleteLyrics (item) {
             url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
             type: 'DELETE'
         }).catch((err) => {
-            const result = function () {
-                return Promise.reject(err);
-            };
+            const result = () => Promise.reject(err);
 
             return alertText(globalize.translate('ErrorDeletingLyrics')).then(result, result);
         });

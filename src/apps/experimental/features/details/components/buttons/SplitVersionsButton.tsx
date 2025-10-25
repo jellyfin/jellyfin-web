@@ -26,7 +26,7 @@ const SplitVersionsButton: FC<SplitVersionsButtonProps> = ({
             title: globalize.translate('HeaderSplitMediaApart'),
             text: globalize.translate('MessageConfirmSplitMediaSources')
         })
-            .then(function () {
+            .then(() => {
                 loading.show();
                 deleteAlternateSources.mutate(
                     {

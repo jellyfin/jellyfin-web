@@ -32,7 +32,7 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 
     let html = '';
 
-    html += items.map(function (filter) {
+    html += items.map((filter) => {
         let itemHtml = '';
 
         const checkedHtml = isCheckedFn(filter) ? ' checked' : '';
@@ -48,7 +48,7 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 }
 
 function renderDynamicFilters(context, result, options) {
-    renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
+    renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, (i) => {
         // Switching from | to ,
         const delimeter = (options.settings.GenreIds || '').indexOf('|') === -1 ? ',' : '|';
         return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
@@ -248,7 +248,7 @@ class FilterMenu {
             loadDynamicFilters(dlg, options);
 
             bindCheckboxInput(dlg, true);
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
+            dlg.querySelector('.btnCancel').addEventListener('click', () => {
                 dialogHelper.close(dlg);
             });
 
@@ -258,11 +258,11 @@ class FilterMenu {
 
             let submitted;
 
-            dlg.querySelector('form').addEventListener('change', function () {
+            dlg.querySelector('form').addEventListener('change', () => {
                 submitted = true;
             }, true);
 
-            dialogHelper.open(dlg).then( function() {
+            dialogHelper.open(dlg).then( () => {
                 bindCheckboxInput(dlg, false);
 
                 if (layoutManager.tv) {

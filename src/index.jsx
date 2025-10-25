@@ -59,10 +59,10 @@ build: ${__JF_BUILD_VERSION__}`);
     window.TaskButton = taskButton;
 
     // Register handlers to update header classes
-    pageClassOn('viewshow', 'standalonePage', function () {
+    pageClassOn('viewshow', 'standalonePage', () => {
         document.querySelector('.skinHeader').classList.add('noHeaderRight');
     });
-    pageClassOn('viewhide', 'standalonePage', function () {
+    pageClassOn('viewhide', 'standalonePage', () => {
         document.querySelector('.skinHeader').classList.remove('noHeaderRight');
     });
 
