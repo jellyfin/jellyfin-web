@@ -1,8 +1,8 @@
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const { merge } = require('webpack-merge');
+import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { merge } from 'webpack-merge';
 
-const prod = require('./webpack.prod');
+import prod from './webpack.prod.js';
 
 const smp = new SpeedMeasurePlugin();
 
@@ -25,4 +25,4 @@ const exportedConfig = smp.wrap(config);
 
 exportedConfig.plugins[miniCssPluginIndex] = miniCssPlugin;
 
-module.exports = exportedConfig;
+export default exportedConfig;
