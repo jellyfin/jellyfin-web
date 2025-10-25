@@ -411,7 +411,7 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    setSrcWithFlvJs(elem, options, url) {
+    setSrcWithFlvJs(elem, _options, url) {
         return import('flv.js').then(({ default: flvjs }) => {
             const flvPlayer = flvjs.createPlayer({
                 type: 'flv',

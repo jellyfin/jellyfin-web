@@ -87,7 +87,6 @@ function getLatestItemsHtmlFn(
 function renderLatestSection(
     elem: HTMLElement,
     apiClient: ApiClient,
-    user: UserDto,
     parent: BaseItemDto,
     options: SectionOptions
 ) {
@@ -154,6 +153,6 @@ export function loadRecentlyAdded(
         frag.classList.add('hide');
         elem.appendChild(frag);
 
-        renderLatestSection(frag, apiClient, user, item, options);
+        renderLatestSection(frag, apiClient, item, options);
     });
 }

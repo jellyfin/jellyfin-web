@@ -38,7 +38,7 @@ const query = {
     SortOrder: 'Ascending'
 };
 
-export default function (view, params, tabContent) {
+export default function (_view, _params, tabContent) {
     let timersPromise;
     const self = this;
 
