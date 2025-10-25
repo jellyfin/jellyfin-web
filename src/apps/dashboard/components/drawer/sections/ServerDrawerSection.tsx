@@ -73,7 +73,7 @@ const ServerDrawerSection = () => {
                     <ListItemIcon>
                         <Settings />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('General')} />
+                    <ListItemText primary={globalize.translate('Settings')} />
                 </ListItemLink>
             </ListItem>
             <ListItemLink to='/dashboard/branding'>
