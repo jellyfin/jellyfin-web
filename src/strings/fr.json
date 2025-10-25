@@ -36,6 +36,8 @@
     "AspectRatio": "Format d'image",
     "Backdrop": "Arrière-plan",
     "Backdrops": "Arrière-plans",
+    "BackdropParentalRatingLimit": "Limiter la classification des arrière-plans",
+    "BackdropParentalRatingLimitHelp": "Lorsque activé, seuls les contenus classés PG-13 ou moins seront utilisés pour les arrière-plans globaux. Cela aide à assurer des images d'arrière-plan appropriées dans les environnements familiaux.",
     "Banner": "Bannière",
     "BirthDateValue": "Né(e) le {0}",
     "BirthLocation": "Lieu de naissance",
