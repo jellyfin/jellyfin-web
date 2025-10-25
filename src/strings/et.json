@@ -1348,7 +1348,7 @@
     "LabelSortTitle": "Järjestamise pealkiri",
     "LabelSortOrder": "Järjestus",
     "AudioSampleRateNotSupported": "Heli diskreetimissagedust ei toetata",
-    "ServerNameIsRestarting": "Server seadmes{0} taaskäivitub.",
+    "ServerNameIsRestarting": "Server seadmes {0} taaskäivitub.",
     "SeriesDisplayOrderHelp": "Järjesta episoodid eetrikuupäeva, DVD-järjestuse või absoluutse numeratsiooni järgi.",
     "SendMessage": "Saada sõnum",
     "SelectServer": "Vali server",
