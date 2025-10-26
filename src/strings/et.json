@@ -125,7 +125,7 @@
     "HeaderInstantMix": "Kiirmiks",
     "LabelBindToLocalNetworkAddress": "Seo kohaliku võrgu aadressiga",
     "LabelBaseUrlHelp": "Lisa serveri URL -ile kohandatud alamkataloog. Näiteks: <code>http://example.com/<b>&lt;baseurl&gt;</b></code>",
-    "LabelBaseUrl": "Põhiline URL",
+    "LabelBaseUrl": "Peamine URL",
     "LabelAutomaticDiscoveryHelp": "Luba rakendustel UDP pordi 7359 abil Jellyfin automaatselt tuvastada.",
     "LabelAutomaticDiscovery": "Luba automaatne avastamine",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Värskenda metaandmeid internetist automaatselt",
