@@ -19,6 +19,10 @@ function isTv() {
         return true;
     }
 
+    if (userAgent.indexOf('titanos') !== -1) {
+        return true;
+    }
+
     return isWeb0s();
 }
 
@@ -195,6 +199,7 @@ const uaMatch = function (ua) {
         || /(edga)[ /]([\w.]+)/.exec(ua)
         || /(edgios)[ /]([\w.]+)/.exec(ua)
         || /(edge)[ /]([\w.]+)/.exec(ua)
+        || /(titanos)[ /]([\w.]+)/.exec(ua)
         || /(opera)[ /]([\w.]+)/.exec(ua)
         || /(opr)[ /]([\w.]+)/.exec(ua)
         || /(chrome)[ /]([\w.]+)/.exec(ua)
@@ -209,6 +214,7 @@ const uaMatch = function (ua) {
         || /(iphone)/.exec(ua)
         || /(windows)/.exec(ua)
         || /(android)/.exec(ua)
+        || /(titanos)/.exec(ua)
         || [];
 
     let browser = match[1] || '';
@@ -304,6 +310,10 @@ if (browser.web0s) {
 
     // UserAgent string contains 'Chrome' and 'Safari', but we only want 'tizen' to be true
     delete browser.chrome;
+    delete browser.safari;
+} else if (browser.titanos) {
+    // UserAgent string contains 'Opr' and 'Safari', but we only want 'titanos' to be true
+    delete browser.operaTv;
     delete browser.safari;
 } else {
     browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
