@@ -1267,7 +1267,7 @@
     "Artist": "Előadó",
     "AlbumArtist": "Albumelőadó",
     "Album": "Album",
-    "LabelLibraryPageSizeHelp": "Az oldalnként megmutatott elemek száma. Nullára állítva a lapozási funkció ki lesz kapcsolva.",
+    "LabelLibraryPageSizeHelp": "Az oldalnként megmutatott elemek száma. Nullára állítva a lapozási funkció ki lesz kapcsolva. Vedd figyelembe, hogy 0 vagy 100-nál nagyobb értékre állva problémákat tapasztalhatsz.",
     "LabelLibraryPageSize": "Könyvtár oldalméret",
     "LabelDeinterlaceMethod": "Váltottsorosság-mentesítő mód",
     "DeinterlaceMethodHelp": "Válassza ki a a váltottsoros tartalom szoftveres átkódolásához használt váltottsorosság-mentesítési módot. Ha engedélyezi a hardveres váltottsorosság-mentesítést támogató hardveres gyorsítást, akkor az lesz használva ezen beállítás helyett.",
@@ -2065,5 +2065,7 @@
     "LabelAvailable": "Elérhető",
     "LabelBundled": "Összekapcsolt",
     "ManageRepositories": "Tárolók módosítása",
-    "ViewAllPlugins": "Minden plugin megtekintése"
+    "ViewAllPlugins": "Minden plugin megtekintése",
+    "ButtonAddProvider": "Szolgáltató hozzáadása",
+    "ButtonAddTunerDevice": "Tuner eszköz hozzáadaása"
 }
