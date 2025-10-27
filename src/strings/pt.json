@@ -2062,5 +2062,7 @@
     "MessageWaitingForServer": "Aguardando o servidor...",
     "ConnectAnyway": "Conectar de qualquer maneira",
     "HeaderServerMismatch": "Incompatibilidade do servidor",
-    "MessageServerMismatch": "O servidor ao qual você está se conectando não é o mesmo servidor ao qual você se conectou anteriormente neste endereço. Se isso for esperado, selecione \"Conectar Mesmo Assim\". Caso contrário, sua conexão ou o servidor poderão ser comprometidos."
+    "MessageServerMismatch": "O servidor ao qual você está se conectando não é o mesmo servidor ao qual você se conectou anteriormente neste endereço. Se isso for esperado, selecione \"Conectar Mesmo Assim\". Caso contrário, sua conexão ou o servidor poderão ser comprometidos.",
+    "ButtonAddProvider": "Adicionar Provedor",
+    "ButtonAddTunerDevice": "Adicionar dispositivo sintonizador"
 }
