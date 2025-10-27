@@ -1,4 +1,5 @@
 *               @jellyfin/web
 # Joshua must review all changes to bump_version
 bump_version    @joshuaboniface
-.github/        @joshuaboniface
+# Core must approve all changes within the repo config
+.github/        @jellyfin/core
