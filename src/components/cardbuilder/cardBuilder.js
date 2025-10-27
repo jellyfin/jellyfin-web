@@ -577,10 +577,9 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             if (flags.isOuterFooter && item.AlbumArtists?.length) {
                 const artistText = item.AlbumArtists
                     .map(artist => {
-                        artist.ServerId = serverId;
                         artist.Type = BaseItemKind.MusicArtist;
                         artist.IsFolder = true;
-                        return getTextActionButton(artist);
+                        return getTextActionButton(artist, null, serverId);
                     })
                     .join(' / ');
                 lines.push(artistText);
