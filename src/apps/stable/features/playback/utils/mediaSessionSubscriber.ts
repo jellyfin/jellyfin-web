@@ -54,7 +54,12 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
         /* eslint-disable compat/compat */
         navigator.mediaSession.setActionHandler('pause', this.onMediaSessionAction.bind(this));
         navigator.mediaSession.setActionHandler('play', this.onMediaSessionAction.bind(this));
-        navigator.mediaSession.setActionHandler('stop', this.onMediaSessionAction.bind(this));
+        // NOTE: Some legacy (TV) browsers lack support for the stop action
+        try {
+            navigator.mediaSession.setActionHandler('stop', this.onMediaSessionAction.bind(this));
+        } catch (err) {
+            console.warn('[MediaSessionSubscriber] Failed to add \'stop\' action handler', err);
+        }
         navigator.mediaSession.setActionHandler('previoustrack', this.onMediaSessionAction.bind(this));
         navigator.mediaSession.setActionHandler('nexttrack', this.onMediaSessionAction.bind(this));
         navigator.mediaSession.setActionHandler('seekto', this.onMediaSessionAction.bind(this));
