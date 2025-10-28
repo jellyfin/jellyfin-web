@@ -694,7 +694,7 @@
     "LabelZipCode": "PLZ",
     "LabelffmpegPath": "FFmpeg-Verzeichnis",
     "LabelffmpegPathHelp": "Verzeichnis zur FFmpeg-Applikationsdatei oder zum Ordner, der FFmpeg enthält.",
-    "LanNetworksHelp": "Komma getrennte Liste von IP-Adressen oder IP/Netzmasken die als lokale Netzwerke behandelt werden sollen, um Bandbreitenbegrenzungen umzusetzen. Wenn gesetzt, werden alle anderen IP-Adressen als extern behandelt und unterliegen den Bandbreitenbegrenzungen für externe Verbindungen. Wenn leer, wird nur das Subnetz des Servers als lokales Netzwerk behandelt.",
+    "LanNetworksHelp": "Kommagetrennte Liste von IP-Adressen oder IP-/Netzmaskeneinträgen für Netzwerke, die bei der Durchsetzung von Bandbreiten- und Remotezugriffsbeschränkungen als lokales Netzwerk berücksichtigt werden. Wenn das Feld leer gelassen wird, werden alle RFC1918-Adressen als lokal betrachtet.",
     "Large": "Groß",
     "LatestFromLibrary": "Kürzlich hinzugefügt in {0}",
     "LearnHowYouCanContribute": "Erfahre, wie du dich beteiligen kannst.",
@@ -1096,7 +1096,7 @@
     "Auto": "Auto",
     "Banner": "Banner",
     "Blacklist": "Sperrliste",
-    "ButtonOk": "Ok",
+    "ButtonOk": "OK",
     "ButtonPause": "Pause",
     "ButtonStart": "Start",
     "ButtonTrailer": "Trailer",
@@ -1268,7 +1268,7 @@
     "Album": "Album",
     "BoxSet": "Box Set",
     "Yadif": "Noch ein Zeilenentflechtungsfilter (YADIF)",
-    "LabelLibraryPageSizeHelp": "Setzt die Anzahl der auf einer Seite angezeigten Objekte. Auf 0 setzen, um alle Elemente auf einer Seite anzuzeigen.",
+    "LabelLibraryPageSizeHelp": "Stellt die Anzahl der auf einer Bibliotheksseite anzuzeigenden Elemente ein. Auf 0 stellen, um alle Elemente auf einer Seite anzuzeigen. Bitte beachte, dass 0 oder jeder Wert über 100 zu Fehlern oder Leistungseinbußen führen kann.",
     "LabelLibraryPageSize": "Größe der Bibliotheksseiten",
     "DeinterlaceMethodHelp": "Wähle die Deinterlacing-Methode zum Transkodieren von Inhalten im Zeilensprungverfahren (Interlace). Sofern bei unterstützten Geräten Deinterlacing durch Hardwarebeschleunigung aktiviert ist, wird der Hardware-Deinterlacer anstelle dieser Einstellung verwendet.",
     "LabelDeinterlaceMethod": "Deinterlacing-Methode",
@@ -2069,5 +2069,7 @@
     "LabelAvailable": "Verfügbar",
     "LabelBundled": "Integriert",
     "ManageRepositories": "Repositories verwalten",
-    "ViewAllPlugins": "Alle Plugins anzeigen"
+    "ViewAllPlugins": "Alle Plugins anzeigen",
+    "ButtonAddTunerDevice": "Tuner-Gerät hinzufügen",
+    "ButtonAddProvider": "Provider hinzufügen"
 }

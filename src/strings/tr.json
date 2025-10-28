@@ -512,7 +512,7 @@
     "LabelAccessStart": "Başlangıç zamanı",
     "LabelAccessEnd": "Bitiş zamanı",
     "LabelAccessDay": "Haftanın günü",
-    "LabelAbortedByServerShutdown": "(Sunucu kapanması nedeniyle iptal edildi)",
+    "LabelAbortedByServerShutdown": "Sunucu kapanması nedeniyle iptal edildi",
     "Label3DFormat": "3D biçimi",
     "Kids": "Çocuklar",
     "ItemCount": "{0} öge",
@@ -820,7 +820,7 @@
     "LabelLocalHttpServerPortNumberHelp": "HTTP sunucusu için TCP bağlantı noktası numarası.",
     "LabelLocalHttpServerPortNumber": "Yerel HTTP bağlantı noktası numarası",
     "LabelLineup": "Sıralanmak",
-    "LabelLibraryPageSizeHelp": "Bir kütüphane sayfasında gösterilecek öge miktarını ayarlayın. Sayfalamayı devre dışı bırakmak için 0'a ayarlayın.",
+    "LabelLibraryPageSizeHelp": "Bir kütüphane sayfasında gösterilecek öge miktarını ayarlayın. 0 değerini ayarlamak sayfalandırmayı devre dışı bırakacaktır. Lütfen bu değeri 0 veya 100'den büyük bir değere ayarlamanın hatalara ve performans düşüklüğüne yol açabileceğini unutmayın.",
     "LabelLibraryPageSize": "Kütüphane sayfa boyutu",
     "LabelLanNetworks": "LAN ağları",
     "LabelKodiMetadataUserHelp": "Diğer uygulamaların kullanması için izleme verilerini NFO dosyalarına kaydedin.",
@@ -1262,7 +1262,7 @@
     "LeaveBlankToNotSetAPassword": "Parola belirlemek istemiyorsanız bu alanı boş bırakabilirsiniz.",
     "LearnHowYouCanContribute": "Nasıl katkıda bulunabileceğinizi öğrenin.",
     "Larger": "Daha Büyük",
-    "LanNetworksHelp": "Bant genişliği kısıtlamaları uygulanırken yerel ağda dikkate alınacak ağlar için IP adreslerinin veya IP/ağ maskesi girişlerinin virgülle ayrılmış listesi. Ayarlanırsa, diğer tüm IP adreslerinin harici ağda olduğu kabul edilecek ve harici bant genişliği kısıtlamalarına tabi olacaktır. Boş bırakılırsa, yalnızca sunucunun alt ağının yerel ağda olduğu kabul edilir.",
+    "LanNetworksHelp": "Bant genişliği ve uzaktan erişim kısıtlamaları uygulanırken yerel ağ olarak değerlendirilecek ağlar için IP adreslerinin veya IP/ağ maskesi girişlerinin virgülle ayrılmış listesi. Boş bırakılırsa, tüm RFC1918 adresleri yerel olarak değerlendirilir.",
     "LabelZipCode": "Posta Kodu",
     "LabelXDlnaDocHelp": "'urn:schemas-dlna-org:device-1-0' ad alanındaki 'X_DLNADOC' öğesinin içeriğini belirleyin.",
     "LabelXDlnaDoc": "Cihaz Sınıfı Kimliği",
@@ -2061,5 +2061,7 @@
     "ManageRepositories": "Depoları Yönet",
     "ViewAllPlugins": "Tüm eklentileri görüntüle",
     "LabelAvailable": "Kullanılabilir",
-    "LabelBundled": "Paketlenmiş"
+    "LabelBundled": "Paketlenmiş",
+    "ButtonAddProvider": "Sağlayıcı Ekle",
+    "ButtonAddTunerDevice": "Alıcı Cihazı Ekle"
 }
