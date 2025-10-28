@@ -72,6 +72,29 @@ export const Component = () => {
         }
     }, [log, fileName]);
 
+    const LogButtonGroup = () => (
+        <ButtonGroup variant='contained' sx={{ mt: 2 }}>
+            <Button
+                startIcon={<ContentCopy />}
+                onClick={copyToClipboard}
+            >
+                {globalize.translate('Copy')}
+            </Button>
+            <Button
+                startIcon={<FileDownload />}
+                onClick={downloadFile}
+            >
+                {globalize.translate('Download')}
+            </Button>
+            <Button
+                startIcon={isWatchModeEnabled ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                onClick={toggleWatchMode}
+            >
+                {isWatchModeEnabled ? globalize.translate('Unwatch') : globalize.translate('Watch')}
+            </Button>
+        </ButtonGroup>
+    );
+
     useEffect(() => {
         const watchInterval = setInterval(() => {
             if (isWatchModeEnabled && contentPrimaryRef.current) {
@@ -132,26 +155,7 @@ export const Component = () => {
 
                     {!error && !loading && (
                         <>
-                            <ButtonGroup variant='contained' sx={{ mt: 2 }}>
-                                <Button
-                                    startIcon={<ContentCopy />}
-                                    onClick={copyToClipboard}
-                                >
-                                    {globalize.translate('Copy')}
-                                </Button>
-                                <Button
-                                    startIcon={<FileDownload />}
-                                    onClick={downloadFile}
-                                >
-                                    {globalize.translate('Download')}
-                                </Button>
-                                <Button
-                                    startIcon={isWatchModeEnabled ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                                    onClick={toggleWatchMode}
-                                >
-                                    {isWatchModeEnabled ? globalize.translate('Unwatch') : globalize.translate('Watch')}
-                                </Button>
-                            </ButtonGroup>
+                            <LogButtonGroup />
 
                             <Paper sx={{ mt: 2 }}>
                                 <code>
@@ -165,6 +169,8 @@ export const Component = () => {
                                     </pre>
                                 </code>
                             </Paper>
+
+                            <LogButtonGroup />
                         </>
                     )}
                 </Box>
