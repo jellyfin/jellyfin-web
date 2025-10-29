@@ -43,5 +43,13 @@
     "AllowMediaConversion": "Allow media conversion",
     "AllowMediaConversionHelp": "Grant or deny access to the convert media feature.",
     "AllowOnTheFlySubtitleExtraction": "Allow subtitle extraction on the fly",
-    "AllowOnTheFlySubtitleExtractionHelp": "Embedded subtitles can be extracted from videos and delivered to clients in plain text, in order to help prevent video transcoding. On some systems this can take a long time and cause video playback to stall during the extraction process. Disable this to have embedded subtitles burned in with video transcoding when they are not natively supported by the client device."
+    "AllowOnTheFlySubtitleExtractionHelp": "Embedded subtitles can be extracted from videos and delivered to clients in plain text, in order to help prevent video transcoding. On some systems this can take a long time and cause video playback to stall during the extraction process. Disable this to have embedded subtitles burned in with video transcoding when they are not natively supported by the client device.",
+    "AddToFavorites": "Add to favorites",
+    "AllowRemoteAccess": "Allow remote connections to this server",
+    "AllowRemoteAccessHelp": "If unchecked, all remote connections will be blocked.",
+    "AllowTonemappingHelp": "Tone-mapping can transform the dynamic range of a video from HDR to SDR while maintaining image details and colors, which are very important information for representing the original scene. Currently works only with 10bit HDR10, HLG and DoVi videos. This requires the corresponding GPGPU runtime.",
+    "AlwaysPlaySubtitles": "Always Play",
+    "AlwaysPlaySubtitlesHelp": "Subtitles matching the language preference will be loaded regardless of the audio language.",
+    "AlwaysRemuxFlacAudioFilesHelp": "If you have files that your browser rejects to play or where it inaccurately calculates timestamps, enable this as a workaround.",
+    "AlwaysRemuxMp3AudioFilesHelp": "If you have files that your browser inaccurately calculates timestamps, enable this as a workaround."
 }
