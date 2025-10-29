@@ -1263,7 +1263,7 @@
     "Season": "Temporada",
     "Person": "Pessoa",
     "Movie": "Filme",
-    "LabelLibraryPageSizeHelp": "Selecione a quantidade de itens a aparecer na página da biblioteca. Coloque 0 para desabilitar a paginação.",
+    "LabelLibraryPageSizeHelp": "Define a quantidade de itens exibidos por página na biblioteca. Definir o valor como 0 desativa a paginação. Observe que usar 0 ou valores acima de 100 pode causar erros e reduzir o desempenho.",
     "LabelLibraryPageSize": "Tamanho da página da biblioteca",
     "LabelDeinterlaceMethod": "Método de desentrelaçamento",
     "Episode": "Episódio",
@@ -2064,5 +2064,7 @@
     "LiveTVPageLoadError": "Falha de carregar a página de gravações",
     "ConnectAnyway": "Conectar Mesmo Assim",
     "HeaderServerMismatch": "Incompatibilidade do servidor",
-    "MessageServerMismatch": "O servidor ao qual você está conectando não é o mesmo servidor ao qual você conectou anteriormente neste endereço. Se isso for esperado, selecione \"Conectar Mesmo Assim\". Caso contrário, sua conexão ou o servidor poderão ser comprometidos."
+    "MessageServerMismatch": "O servidor ao qual você está conectando não é o mesmo servidor ao qual você conectou anteriormente neste endereço. Se isso for esperado, selecione \"Conectar Mesmo Assim\". Caso contrário, sua conexão ou o servidor poderão ser comprometidos.",
+    "ButtonAddTunerDevice": "Adicionar dispositivo sintonizador",
+    "ButtonAddProvider": "Adicionar provedor"
 }

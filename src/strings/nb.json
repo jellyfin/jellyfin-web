@@ -35,7 +35,7 @@
     "ButtonAddMediaLibrary": "Legg til bibliotek",
     "ButtonAddScheduledTaskTrigger": "Legg til utløser",
     "ButtonAddServer": "Legg til server",
-    "ButtonAddUser": "Legg til ny bruker",
+    "ButtonAddUser": "Legg Til Bruker",
     "ButtonArrowLeft": "Venstre",
     "ButtonArrowRight": "Høyre",
     "ButtonAudioTracks": "Lydspor",
@@ -2053,5 +2053,13 @@
     "ManageRepositories": "Administrer arkiver",
     "LabelAvailable": "Tilgjengelig",
     "LabelBundled": "Inkludert",
-    "ConfirmDeleteRepository": "Slett arkiv?"
+    "ConfirmDeleteRepository": "Slett arkiv?",
+    "MessageServerMismatch": "Serveren du kobler til er ikke den samme som du tidligere har koblet til på denne adressen. Hvis dette er forventet, velg «Koble til likevel». Hvis ikke, kan tilkoblingen eller serveren være kompromittert.",
+    "PluginsLoadError": "Feil under innlasting av plugins.",
+    "LiveTVPageLoadError": "Feil ved lasting av opptakssiden",
+    "MessageRestoreDisclaimer": "ADVARSEL: Du er i ferd med å gjenopprette fra en tidligere sikkerhetskopi. Serveren vil være utilgjengelig under prosessen, og alle nye data som er opprettet siden sikkerhetskopien, vil gå tapt.",
+    "ButtonAddTunerDevice": "Legg Til Dekoder",
+    "ButtonAddProvider": "Legg til en levreandør",
+    "HeaderBackupsHelp": "Opprett og gjenopprett øyeblikksbilder av serveren, som kan inkludere databasen, metadata, undertekster og trickplay.",
+    "HeaderServerMismatch": "Serveravvik"
 }

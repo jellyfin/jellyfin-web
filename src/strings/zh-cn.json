@@ -1274,7 +1274,7 @@
     "LabelDeinterlaceMethod": "反交错方法",
     "DeinterlaceMethodHelp": "选择对隔行扫描内容进行软件转码时所用的反交错方法。当启用支持硬件反交错的硬件加速后，将使用硬件反交错滤镜代替此设置。",
     "LabelLibraryPageSize": "媒体库分页阈值",
-    "LabelLibraryPageSizeHelp": "设置媒体库页面每页要显示的最多媒体个数。设置为 0 以禁用分页。",
+    "LabelLibraryPageSizeHelp": "设置媒体库页面每页要显示的最多媒体个数。将值设置为 0 以禁用分页。请注意，将此项设置为0或任何大于100的值可能会导致错误和性能下降。",
     "UnsupportedPlayback": "Jellyfin 无法解密被DRM保护的内容，但仍然会尝试播放包括受保护内容在内的所有内容。某些文件由于被加密或包含不受支持的特性（如互动标题），在播放时可能显示为黑屏。",
     "Filter": "筛选",
     "New": "新建",
@@ -1770,7 +1770,7 @@
     "ListView": "列表视图",
     "AiTranslated": "AI翻译",
     "MachineTranslated": "机器翻译",
-    "ForeignPartsOnly": "仅限强制开启/外语部分",
+    "ForeignPartsOnly": "仅限强制开启或外语部分",
     "HearingImpairedShort": "听障/聋哑人士字幕",
     "UnknownError": "发生未知错误。",
     "GoHome": "返回主页",
@@ -1779,7 +1779,7 @@
     "LabelIsHearingImpaired": "用于听障/聋哑人士",
     "SearchResultsEmpty": "抱歉！未找到与\"{0}\"相关的结果",
     "LabelTrackGain": "音轨增益",
-    "SelectAudioNormalizationHelp": "音轨增益 - 调整每个音轨的音量，使它们播放时具有相同的响度。专辑增益 - 只调整专辑中所有音轨的音量，保持专辑的动态范围。在“关闭”和其他选项之间切换后需要重新启动当前播放。",
+    "SelectAudioNormalizationHelp": "音轨增益 - 调整每个音轨的音量，使播放时音量保持一致。专辑增益 - 仅调整整张专辑中所有曲目的整体音量，同时保持专辑的动态范围。在“关闭”和其他选项之间切换后需要重新启动当前播放才能生效。",
     "LabelAlbumGain": "专辑增益",
     "LabelSelectAudioNormalization": "音频标准化",
     "HeaderAllRecordings": "所有录制的节目",
@@ -2069,5 +2069,7 @@
     "ViewAllPlugins": "查看所有插件",
     "LabelBundled": "附赠",
     "ManageRepositories": "管理存储库",
-    "LabelAvailable": "可用"
+    "LabelAvailable": "可用",
+    "ButtonAddProvider": "添加提供者",
+    "ButtonAddTunerDevice": "添加调谐器设备"
 }

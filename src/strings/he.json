@@ -2001,5 +2001,7 @@
     "LabelAvailable": "זמין",
     "LabelBundled": "ארוז",
     "ManageRepositories": "נהל מאגרים",
-    "ViewAllPlugins": "הצגת כל התוספים"
+    "ViewAllPlugins": "הצגת כל התוספים",
+    "ButtonAddProvider": "הוסף יבאוין",
+    "ButtonAddTunerDevice": "הוסף מכוון"
 }
