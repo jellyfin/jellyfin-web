@@ -1345,7 +1345,7 @@
     "MediaInfoVideoRange": "动态范围",
     "MediaInfoColorSpace": "色彩空间",
     "MediaInfoColorTransfer": "色彩转换",
-    "MediaInfoColorPrimaries": "色彩初选",
+    "MediaInfoColorPrimaries": "原色坐標",
     "LabelVideoRange": "动态范围",
     "LabelColorSpace": "色彩空间",
     "LabelColorTransfer": "色彩转换",
