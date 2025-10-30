@@ -1880,5 +1880,7 @@
     "ViewAlbum": "查看專輯",
     "ViewAlbumArtist": "檢視專輯藝人",
     "ViewAllPlugins": "查看所有插件",
-    "ViewLyrics": "查看歌詞"
+    "ViewLyrics": "查看歌詞",
+    "ViewPlaybackInfo": "查看播放訊息",
+    "ViewSettings": "查看設定"
 }
