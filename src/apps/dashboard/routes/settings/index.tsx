@@ -82,7 +82,7 @@ export const Component = () => {
         const picker = new DirectoryBrowser();
 
         picker.show({
-            callback: function (path: string) {
+            callback: (path: string) => {
                 if (path) {
                     setCachePath(path);
                 }
@@ -100,7 +100,7 @@ export const Component = () => {
 
         picker.show({
             path: metadataPath,
-            callback: function (path: string) {
+            callback: (path: string) => {
                 if (path) {
                     setMetadataPath(path);
                 }
