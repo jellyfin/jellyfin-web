@@ -112,7 +112,7 @@ function getMediaSourceHtml(user, item, version) {
         if (stream.CodecTag) {
             attributes.push(createAttribute(globalize.translate('MediaInfoCodecTag'), stream.CodecTag));
         }
-        if (stream.IsAVC != null) {
+        if (stream.Type === 'Video' && stream.IsAVC != null) {
             attributes.push(createAttribute('AVC', (stream.IsAVC ? 'Yes' : 'No')));
         }
         if (stream.Profile) {
