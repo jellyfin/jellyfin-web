@@ -23,7 +23,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
 }) => {
     const handleValue = useCallback(
         (
-            event: React.MouseEvent<HTMLElement>,
+            _event: React.MouseEvent<HTMLElement>,
             newValue: string | null | undefined
         ) => {
             setLibraryViewSettings((prevState) => ({
