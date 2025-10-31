@@ -64,6 +64,16 @@ const blueradiance = buildCustomColorScheme({
     }
 });
 
+/** The default "Dark" color scheme. */
+const dark = merge({}, DEFAULT_COLOR_SCHEME, {
+    palette: {
+        SnackbarContent: {
+            bg: '#303030',
+            color: 'rgba(255, 255, 255, 0.87)'
+        }
+    }
+});
+
 /** The "Light" color scheme. */
 const light = merge({}, DEFAULT_COLOR_SCHEME, {
     palette: {
@@ -115,7 +125,7 @@ const wmc = buildCustomColorScheme({
 export const COLOR_SCHEMES = {
     appletv,
     blueradiance,
-    dark: DEFAULT_COLOR_SCHEME,
+    dark,
     light,
     purplehaze,
     wmc
