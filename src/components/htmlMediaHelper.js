@@ -50,7 +50,9 @@ export function enableHlsJsPlayer(runTimeTicks, mediaType) {
 
     // Native HLS support in WebOS only plays stereo sound. hls.js works better, but works only on WebOS 4 or newer.
     // Using hls.js also seems to fix fast forward issues that native HLS has.
-    if (browser.web0sVersion >= 4) {
+    // hls.js is enabled according to settings set by user
+    const enableUseHlsJs = appSettings.useHlsJs();
+    if (browser.web0sVersion >= 4 && enableUseHlsJs) {
         return true;
     }
 

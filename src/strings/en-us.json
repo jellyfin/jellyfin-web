@@ -1673,6 +1673,8 @@
     "UseDoubleRateDeinterlacingHelp": "This setting uses the field rate when deinterlacing, often referred to as bob deinterlacing, which doubles the frame rate of the video to provide full motion like what you would see when viewing interlaced video on a TV.",
     "UseEpisodeImagesInNextUp": "Use episode images in 'Next Up' and 'Continue Watching' sections",
     "UseEpisodeImagesInNextUpHelp": "'Next Up' and 'Continue Watching' sections will use episode images as thumbnails instead of the primary thumbnail of the show.",
+    "UseHlsJs": "Use hls.js instead of native HLS player",
+    "UseHlsJsHelp": "Enabling this option may help solve bugs with the native player on webOS TVs.",
     "UserAgentHelp": "Supply a custom 'User-Agent' HTTP header.",
     "UserMenu": "User Menu",
     "UserProfilesIntro": "Jellyfin includes support for user profiles with granular display settings, play state, and parental controls.",
