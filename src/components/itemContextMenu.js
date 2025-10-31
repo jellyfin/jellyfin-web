@@ -452,7 +452,7 @@ function executeCommand(item, id, options) {
                         });
                     }
                     )).then(seasonData => {
-                        downloadItems(seasonData.map(season => season.Items).flat());
+                        downloadItems(seasonData.flatMap(season => season.Items));
                     });
                 };
 
