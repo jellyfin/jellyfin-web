@@ -116,10 +116,10 @@ class HtmlAudioPlayer {
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
                 let normalizationGain;
-                if (userSettings.selectAudioNormalization() == 'TrackGain') {
+                if (userSettings.selectAudioNormalization() === 'TrackGain') {
                     normalizationGain = options.item.NormalizationGain
                         ?? options.mediaSource.albumNormalizationGain;
-                } else if (userSettings.selectAudioNormalization() == 'AlbumGain') {
+                } else if (userSettings.selectAudioNormalization() === 'AlbumGain') {
                     normalizationGain =
                         options.mediaSource.albumNormalizationGain
                         ?? options.item.NormalizationGain;

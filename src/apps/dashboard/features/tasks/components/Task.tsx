@@ -35,8 +35,8 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
         <ListItem
             disablePadding
             secondaryAction={
-                <IconButton onClick={task.State == 'Running' ? handleStopTask : handleStartTask}>
-                    {task.State == 'Running' ? <Stop /> : <PlayArrow />}
+                <IconButton onClick={task.State === 'Running' ? handleStopTask : handleStartTask}>
+                    {task.State === 'Running' ? <Stop /> : <PlayArrow />}
                 </IconButton>
             }
         >
@@ -48,7 +48,7 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
                 </ListItemAvatar>
                 <ListItemText
                     primary={<Typography variant='h3'>{task.Name}</Typography>}
-                    secondary={task.State == 'Running' ? <TaskProgress task={task} /> : <TaskLastRan task={task} />}
+                    secondary={task.State === 'Running' ? <TaskProgress task={task} /> : <TaskLastRan task={task} />}
                     disableTypography
                 />
             </ListItemLink>

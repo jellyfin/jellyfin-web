@@ -46,7 +46,7 @@ export default function (view, params, tabContent) {
             let html = '';
             const viewStyle = this.getCurrentViewStyle();
 
-            if (viewStyle == 'Thumb') {
+            if (viewStyle === 'Thumb') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: 'backdrop',
@@ -56,7 +56,7 @@ export default function (view, params, tabContent) {
                     overlayMoreButton: true,
                     showTitle: true
                 });
-            } else if (viewStyle == 'ThumbCard') {
+            } else if (viewStyle === 'ThumbCard') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: 'backdrop',
@@ -65,7 +65,7 @@ export default function (view, params, tabContent) {
                     cardLayout: true,
                     showTitle: true
                 });
-            } else if (viewStyle == 'PosterCard') {
+            } else if (viewStyle === 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: 'auto',
@@ -73,7 +73,7 @@ export default function (view, params, tabContent) {
                     cardLayout: true,
                     showTitle: true
                 });
-            } else if (viewStyle == 'Poster') {
+            } else if (viewStyle === 'Poster') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: 'auto',

@@ -48,7 +48,7 @@ function submit(form) {
 function onSubmit(e) {
     const form = this;
 
-    if (form.querySelector('#txtManualPassword').value != form.querySelector('#txtPasswordConfirm').value) {
+    if (form.querySelector('#txtManualPassword').value !== form.querySelector('#txtPasswordConfirm').value) {
         toast(globalize.translate('PasswordMatchError'));
     } else {
         submit(form);
