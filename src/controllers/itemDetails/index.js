@@ -786,7 +786,7 @@ function renderNextUp(page, item, user) {
     ServerConnections.getApiClient(item.ServerId).getNextUpEpisodes({
         SeriesId: item.Id,
         UserId: user.Id,
-        Fields: 'MediaSourceCount'
+        Fields: 'MediaSourceCount,Overview'
     }).then(function (result) {
         if (result.Items.length) {
             section.classList.remove('hide');
@@ -798,6 +798,7 @@ function renderNextUp(page, item, user) {
             items: result.Items,
             shape: 'overflowBackdrop',
             showTitle: true,
+            showOverview: true,
             displayAsSpecial: item.Type == 'Season' && item.IndexNumber,
             overlayText: false,
             centerText: true,
@@ -1155,7 +1156,7 @@ function renderMoreFromSeason(view, item, apiClient) {
         apiClient.getEpisodes(item.SeriesId, {
             SeasonId: item.SeasonId,
             UserId: userId,
-            Fields: 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
+            Fields: 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount,Overview'
         }).then(function (result) {
             if (result.Items.length < 2) {
                 section.classList.add('hide');
@@ -1172,6 +1173,7 @@ function renderMoreFromSeason(view, item, apiClient) {
                 sectionTitleTagName: 'h2',
                 scalable: true,
                 showTitle: true,
+                showOverview: true,
                 overlayText: false,
                 centerText: true,
                 includeParentInfoInTitle: false,
