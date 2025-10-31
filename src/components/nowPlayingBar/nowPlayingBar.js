@@ -49,66 +49,85 @@ let isVisibilityAllowed = true;
 let isLyricPageActive = false;
 
 function getNowPlayingBarHtml() {
-    let html = '';
+    return `
+    <div class="nowPlayingBar hide nowPlayingBar-hidden">
+      <div class="nowPlayingBarTop">
+        <div class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">
+          <input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0"
+            class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>
+        </div>
 
-    html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
+        <div class="nowPlayingBarInfoContainer">
+          <div class="nowPlayingImage"></div>
+          <div class="nowPlayingBarText"></div>
+        </div>
 
-    html += '<div class="nowPlayingBarTop">';
-    html += '<div class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
-    html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
-    html += '</div>';
+        <div class="nowPlayingBarCenter" dir="ltr">
+          <button is="paper-icon-button-light" class="previousTrackButton mediaButton"
+            title="${globalize.translate('ButtonPreviousTrack')}">
+            <span class="material-icons skip_previous" aria-hidden="true"></span>
+          </button>
+          <button is="paper-icon-button-light" class="playPauseButton mediaButton"
+            title="${globalize.translate('ButtonPause')}">
+            <span class="material-icons pause" aria-hidden="true"></span>
+          </button>
+          <button is="paper-icon-button-light" class="stopButton mediaButton"
+            title="${globalize.translate('ButtonStop')}">
+            <span class="material-icons stop" aria-hidden="true"></span>
+          </button>
+          ${!layoutManager.mobile ?
+                `<button is="paper-icon-button-light" class="nextTrackButton mediaButton"
+                title="${globalize.translate('ButtonNextTrack')}">
+                <span class="material-icons skip_next" aria-hidden="true"></span>
+              </button>` :
+                ''}
+          <div class="nowPlayingBarCurrentTime"></div>
+        </div>
 
-    html += '<div class="nowPlayingBarInfoContainer">';
-    html += '<div class="nowPlayingImage"></div>';
-    html += '<div class="nowPlayingBarText"></div>';
-    html += '</div>';
-
-    // The onclicks are needed due to the return false above
-    html += '<div class="nowPlayingBarCenter" dir="ltr">';
-
-    html += `<button is="paper-icon-button-light" class="previousTrackButton mediaButton" title="${globalize.translate('ButtonPreviousTrack')}"><span class="material-icons skip_previous" aria-hidden="true"></span></button>`;
-
-    html += `<button is="paper-icon-button-light" class="playPauseButton mediaButton" title="${globalize.translate('ButtonPause')}"><span class="material-icons pause" aria-hidden="true"></span></button>`;
-
-    html += `<button is="paper-icon-button-light" class="stopButton mediaButton" title="${globalize.translate('ButtonStop')}"><span class="material-icons stop" aria-hidden="true"></span></button>`;
-    if (!layoutManager.mobile) {
-        html += `<button is="paper-icon-button-light" class="nextTrackButton mediaButton" title="${globalize.translate('ButtonNextTrack')}"><span class="material-icons skip_next" aria-hidden="true"></span></button>`;
-    }
-
-    html += '<div class="nowPlayingBarCurrentTime"></div>';
-    html += '</div>';
-
-    html += '<div class="nowPlayingBarRight">';
-
-    html += `<button is="paper-icon-button-light" class="muteButton mediaButton" title="${globalize.translate('Mute')}"><span class="material-icons volume_up" aria-hidden="true"></span></button>`;
-
-    html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
-    html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
-    html += '</div>';
-
-    html += `<button is="paper-icon-button-light" class="btnAirPlay mediaButton" title="${globalize.translate('AirPlay')}"><span class="material-icons airplay" aria-hidden="true"></span></button>`;
-
-    html += `<button is="paper-icon-button-light" class="openLyricsButton mediaButton hide" title="${globalize.translate('Lyrics')}"><span class="material-icons lyrics" style="top:0.1em" aria-hidden="true"></span></button>`;
-
-    html += `<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton" title="${globalize.translate('Repeat')}"><span class="material-icons repeat" aria-hidden="true"></span></button>`;
-    html += `<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton" title="${globalize.translate('Shuffle')}"><span class="material-icons shuffle" aria-hidden="true"></span></button>`;
-
-    html += '<div class="nowPlayingBarUserDataButtons">';
-    html += '</div>';
-
-    html += `<button is="paper-icon-button-light" class="playPauseButton mediaButton" title="${globalize.translate('ButtonPause')}"><span class="material-icons pause" aria-hidden="true"></span></button>`;
-    if (layoutManager.mobile) {
-        html += `<button is="paper-icon-button-light" class="nextTrackButton mediaButton" title="${globalize.translate('ButtonNextTrack')}"><span class="material-icons skip_next" aria-hidden="true"></span></button>`;
-    } else {
-        html += `<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
-    }
-
-    html += '</div>';
-    html += '</div>';
-
-    html += '</div>';
-
-    return html;
+        <div class="nowPlayingBarRight">
+          <button is="paper-icon-button-light" class="muteButton mediaButton"
+            title="${globalize.translate('Mute')}">
+            <span class="material-icons volume_up" aria-hidden="true"></span>
+          </button>
+          <div class="sliderContainer nowPlayingBarVolumeSliderContainer hide"
+            style="width:9em;vertical-align:middle;display:inline-flex;">
+            <input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0"
+              class="slider-medium-thumb nowPlayingBarVolumeSlider"/>
+          </div>
+          <button is="paper-icon-button-light" class="btnAirPlay mediaButton"
+            title="${globalize.translate('AirPlay')}">
+            <span class="material-icons airplay" aria-hidden="true"></span>
+          </button>
+          <button is="paper-icon-button-light" class="openLyricsButton mediaButton hide"
+            title="${globalize.translate('Lyrics')}">
+            <span class="material-icons lyrics" style="top:0.1em" aria-hidden="true"></span>
+          </button>
+          <button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"
+            title="${globalize.translate('Repeat')}">
+            <span class="material-icons repeat" aria-hidden="true"></span>
+          </button>
+          <button is="paper-icon-button-light" class="btnShuffleQueue mediaButton"
+            title="${globalize.translate('Shuffle')}">
+            <span class="material-icons shuffle" aria-hidden="true"></span>
+          </button>
+          <div class="nowPlayingBarUserDataButtons"></div>
+          <button is="paper-icon-button-light" class="playPauseButton mediaButton"
+            title="${globalize.translate('ButtonPause')}">
+            <span class="material-icons pause" aria-hidden="true"></span>
+          </button>
+          ${layoutManager.mobile ?
+                `<button is="paper-icon-button-light" class="nextTrackButton mediaButton"
+                title="${globalize.translate('ButtonNextTrack')}">
+                <span class="material-icons skip_next" aria-hidden="true"></span>
+              </button>` :
+                `<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton"
+                title="${globalize.translate('ButtonMore')}">
+                <span class="material-icons more_vert" aria-hidden="true"></span>
+              </button>`}
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function onSlideDownComplete() {
@@ -174,7 +193,7 @@ function bindEvents(elem) {
 
     elem.querySelector('.nextTrackButton').addEventListener('click', function () {
         if (currentPlayer) {
-            playbackManager.nextTrack(currentPlayer);
+            playbackManager.nextTrack(currentPlayer,true);
         }
     });
 
