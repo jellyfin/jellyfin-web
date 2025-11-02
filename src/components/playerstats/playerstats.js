@@ -289,13 +289,6 @@ function getMediaSourceStats(session, player) {
         });
     }
 
-    if (videoStream.BitDepth) {
-        sessionStats.push({
-            label: globalize.translate('MediaInfoBitDepth'),
-            value: `${videoStream.BitDepth} bit`
-        });
-    }
-
     if (videoStream.VideoRangeType) {
         sessionStats.push({
             label: globalize.translate('LabelVideoRangeType'),
