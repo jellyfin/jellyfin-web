@@ -299,9 +299,14 @@ function getMediaSourceStats(session, player) {
     if (videoStream.VideoRangeType) {
         sessionStats.push({
             label: globalize.translate('LabelVideoRangeType'),
-            value: videoStream.VideoDoViTitle ?
-                `${videoStream.VideoDoViTitle} [${videoStream.VideoRangeType}]` :
-                videoStream.VideoRangeType
+            value: videoStream.VideoRangeType
+        });
+    }
+
+    if (videoStream.VideoDoViTitle) {
+        sessionStats.push({
+            label: globalize.translate('MediaInfoDoViTitle'),
+            value: videoStream.VideoDoViTitle
         });
     }
 
