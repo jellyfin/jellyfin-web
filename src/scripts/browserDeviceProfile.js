@@ -1188,7 +1188,18 @@ export default function (options) {
         vp9VideoRangeTypes += '|HDR10';
         av1VideoRangeTypes += '|HDR10';
 
-        if (browser.tizenVersion >= 3 || browser.vidaa) {
+        if (browser.tizenVersion >= 3) {
+            hevcVideoRangeTypes += '|HDR10Plus';
+            vp9VideoRangeTypes += '|HDR10Plus';
+            av1VideoRangeTypes += '|HDR10Plus';
+
+            // the player falls back to HDR10[+], no need to strip DoVi metadata
+            hevcVideoRangeTypes += '|DOVIWithHDR10';
+            hevcVideoRangeTypes += '|DOVIWithEL';
+            hevcVideoRangeTypes += '|DOVIWithHDR10Plus';
+            hevcVideoRangeTypes += '|DOVIWithELHDR10Plus';
+            hevcVideoRangeTypes += '|DOVIInvalid';
+        } else if (browser.vidaa) {
             hevcVideoRangeTypes += '|DOVIWithHDR10';
         }
     }
