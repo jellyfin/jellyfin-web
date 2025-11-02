@@ -274,6 +274,14 @@ function getMediaSourceStats(session, player) {
         });
     }
 
+    const frameRate = videoStream.AverageFrameRate || videoStream.RealFrameRate;
+    if (frameRate) {
+        sessionStats.push({
+            label: globalize.translate('Framerate'),
+            value: frameRate
+        });
+    }
+
     if (videoStream.BitRate) {
         sessionStats.push({
             label: globalize.translate('LabelVideoBitrate'),
@@ -281,10 +289,40 @@ function getMediaSourceStats(session, player) {
         });
     }
 
+    if (videoStream.BitDepth) {
+        sessionStats.push({
+            label: globalize.translate('MediaInfoBitDepth'),
+            value: `${videoStream.BitDepth} bit`
+        });
+    }
+
     if (videoStream.VideoRangeType) {
         sessionStats.push({
             label: globalize.translate('LabelVideoRangeType'),
-            value: videoStream.VideoDoViTitle || videoStream.VideoRangeType
+            value: videoStream.VideoDoViTitle ?
+                `${videoStream.VideoDoViTitle} [${videoStream.VideoRangeType}]` :
+                videoStream.VideoRangeType
+        });
+    }
+
+    if (videoStream.ColorSpace) {
+        sessionStats.push({
+            label: globalize.translate('LabelColorSpace'),
+            value: videoStream.ColorSpace
+        });
+    }
+
+    if (videoStream.ColorTransfer) {
+        sessionStats.push({
+            label: globalize.translate('LabelColorTransfer'),
+            value: videoStream.ColorTransfer
+        });
+    }
+
+    if (videoStream.PixelFormat) {
+        sessionStats.push({
+            label: globalize.translate('MediaInfoPixelFormat'),
+            value: videoStream.PixelFormat
         });
     }
 
