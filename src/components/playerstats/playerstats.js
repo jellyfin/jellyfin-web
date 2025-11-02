@@ -324,6 +324,13 @@ function getMediaSourceStats(session, player) {
         });
     }
 
+    if (videoStream.ColorPrimaries) {
+        sessionStats.push({
+            label: globalize.translate('LabelColorPrimaries'),
+            value: videoStream.ColorPrimaries
+        });
+    }
+
     if (videoStream.PixelFormat) {
         sessionStats.push({
             label: globalize.translate('MediaInfoPixelFormat'),
