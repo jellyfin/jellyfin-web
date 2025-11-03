@@ -13,7 +13,6 @@ const BrowserName = {
     tizen: 'Samsung Smart TV',
     web0s: 'LG Smart TV',
     titanos: 'Titan OS',
-    vega: 'Vega OS',
     operaTv: 'Opera TV',
     xboxOne: 'Xbox One',
     ps4: 'Sony PS4',
