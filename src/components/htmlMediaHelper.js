@@ -65,6 +65,12 @@ export function enableHlsJsPlayer(runTimeTicks, mediaType) {
             return true;
         }
 
+        // Chromium 141+ brings native HLS support that does not support switching HDR/SDR playlists.
+        // Always use hls.js to avoid falling back to transcoding from remuxing and client side tone-mapping.
+        if (browser.chrome || browser.edgeChromium || browser.opera) {
+            return true;
+        }
+
         // simple playback should use the native support
         if (runTimeTicks) {
             return false;
