@@ -1255,7 +1255,7 @@
     "LabelRequireHttps": "Exigir HTTPS",
     "LabelStable": "Estável",
     "LabelChromecastVersion": "Versão do Google Cast",
-    "LabelLibraryPageSizeHelp": "Define a quantidade de itens a apresentar na página de uma biblioteca. Para desativares a paginação, introduz o valor 0.",
+    "LabelLibraryPageSizeHelp": "Define a quantidade de itens a apresentar na página de uma biblioteca. Definir o valor como 0 desativa a paginação. Tenha em atenção que colocar a 0 ou qualquer valor maior do que 100 poderá causar erros ou desempenho reduzido.",
     "LabelLibraryPageSize": "Tamanho da página da biblioteca",
     "LabelEnableHttpsHelp": "Escutar na porta HTTPS configurada. Para que esta opção seja ativada, é necessário fornecer um certificado válido.",
     "LabelEnableHttps": "Ativar HTTPS",
@@ -2064,5 +2064,7 @@
     "LabelAvailable": "Disponível",
     "LabelBundled": "Incluído",
     "ManageRepositories": "Gerir repositórios",
-    "ViewAllPlugins": "Ver todas as extensões"
+    "ViewAllPlugins": "Ver todas as extensões",
+    "ButtonAddTunerDevice": "Adicionar um sintonizador",
+    "ButtonAddProvider": "Adicionar um fornecedor"
 }
