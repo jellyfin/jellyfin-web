@@ -9,7 +9,7 @@ import Dashboard from 'utils/dashboard';
 import { getParameterByName } from 'utils/url';
 
 function isM3uVariant(type) {
-    return ['nextpvr'].indexOf(type || '') !== -1;
+    return ['nextpvr'].includes(type || '');
 }
 
 function fillTypes(view, currentId) {
@@ -36,9 +36,7 @@ function reload(view, providerId) {
 
     if (providerId) {
         ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            const info = config.TunerHosts.filter(function (i) {
-                return i.Id === providerId;
-            })[0];
+            const info = config.TunerHosts.find((i) => i.Id === providerId);
             fillTunerHostInfo(view, info);
         });
     }
@@ -78,7 +76,7 @@ function submitForm(page) {
         FriendlyName: page.querySelector('.txtFriendlyName').value || null,
         DeviceId: page.querySelector('.fldDeviceId').value || null,
         TunerCount: page.querySelector('.txtTunerCount').value || 0,
-        FallbackMaxStreamingBitrate: parseInt(1e6 * parseFloat(page.querySelector('.txtFallbackMaxStreamingBitrate').value || '30'), 10),
+        FallbackMaxStreamingBitrate: Number.parseInt(1e6 * Number.parseFloat(page.querySelector('.txtFallbackMaxStreamingBitrate').value || '30'), 10),
         ImportFavoritesOnly: page.querySelector('.chkFavorite').checked,
         AllowHWTranscoding: page.querySelector('.chkTranscode').checked,
         AllowFmp4TranscodingContainer: page.querySelector('.chkFmp4Container').checked,
@@ -124,95 +122,81 @@ function getDetectedDevice() {
 function onTypeChange() {
     const value = this.value;
     const view = dom.parentWithClass(this, 'page');
-    const mayIncludeUnsupportedDrmChannels = value === 'hdhomerun';
-    const supportsTranscoding = value === 'hdhomerun';
-    const supportsFavorites = value === 'hdhomerun';
-    const supportsTunerIpAddress = value === 'hdhomerun';
-    const supportsTunerFileOrUrl = value === 'm3u';
-    const supportsStreamLooping = value === 'm3u';
-    const supportsIgnoreDts = value === 'm3u';
-    const supportsReadInputAtNativeFramerate = value === 'm3u';
-    const supportsTunerCount = value === 'm3u';
-    const supportsUserAgent = value === 'm3u';
-    const supportsFmp4Container = value === 'm3u';
-    const supportsStreamSharing = value === 'm3u';
-    const supportsFallbackBitrate = value === 'm3u' || value === 'hdhomerun';
-    const suppportsSubmit = value !== 'other';
-    const supportsSelectablePath = supportsTunerFileOrUrl;
+
+    const flags = {
+        mayIncludeUnsupportedDrmChannels: value === 'hdhomerun',
+        supportsTranscoding: value === 'hdhomerun',
+        supportsFavorites: value === 'hdhomerun',
+        supportsTunerIpAddress: value === 'hdhomerun',
+        supportsTunerFileOrUrl: value === 'm3u',
+        supportsStreamLooping: value === 'm3u',
+        supportsIgnoreDts: value === 'm3u',
+        supportsReadInputAtNativeFramerate: value === 'm3u',
+        supportsTunerCount: value === 'm3u',
+        supportsUserAgent: value === 'm3u',
+        supportsFmp4Container: value === 'm3u',
+        supportsStreamSharing: value === 'm3u',
+        supportsFallbackBitrate: value === 'm3u' || value === 'hdhomerun',
+        supportsSubmit: value !== 'other'
+    };
+
     const txtDevicePath = view.querySelector('.txtDevicePath');
 
-    if (supportsTunerIpAddress) {
+    // Path label and fldPath visibility
+    const fldPath = view.querySelector('.fldPath');
+    if (flags.supportsTunerIpAddress) {
         txtDevicePath.label(globalize.translate('LabelTunerIpAddress'));
-        view.querySelector('.fldPath').classList.remove('hide');
-    } else if (supportsTunerFileOrUrl) {
+        fldPath.classList.remove('hide');
+    } else if (flags.supportsTunerFileOrUrl) {
         txtDevicePath.label(globalize.translate('LabelFileOrUrl'));
-        view.querySelector('.fldPath').classList.remove('hide');
+        fldPath.classList.remove('hide');
     } else {
-        view.querySelector('.fldPath').classList.add('hide');
+        fldPath.classList.add('hide');
     }
 
-    if (supportsSelectablePath) {
+    // Selectable path button and required attribute
+    if (flags.supportsTunerFileOrUrl) {
         view.querySelector('.btnSelectPath').classList.remove('hide');
-        view.querySelector('.txtDevicePath').setAttribute('required', 'required');
+        txtDevicePath.setAttribute('required', 'required');
     } else {
         view.querySelector('.btnSelectPath').classList.add('hide');
-        view.querySelector('.txtDevicePath').removeAttribute('required');
+        txtDevicePath.removeAttribute('required');
     }
 
-    if (supportsUserAgent) {
-        view.querySelector('.fldUserAgent').classList.remove('hide');
+    // Generic show/hide map for single-flag controlled fields
+    const singleFlagMap = [
+        { selector: '.fldUserAgent', flag: 'supportsUserAgent' },
+        { selector: '.fldFavorites', flag: 'supportsFavorites' },
+        { selector: '.fldTranscode', flag: 'supportsTranscoding' },
+        { selector: '.fldStreamLoop', flag: 'supportsStreamLooping' },
+        { selector: '.fldIgnoreDts', flag: 'supportsIgnoreDts' },
+        { selector: '.drmMessage', flag: 'mayIncludeUnsupportedDrmChannels' },
+        { selector: '.button-submit', flag: 'supportsSubmit' }
+    ];
+
+    singleFlagMap.forEach(({ selector, flag }) => {
+        const element = view.querySelector(selector);
+        if (!element) {
+            return;
+        }
+        element.classList.toggle('hide', !flags[flag]);
+    });
+
+    // Toggle-based fields (use .toggle with boolean)
+    view.querySelector('.fldFmp4Container').classList.toggle('hide', !flags.supportsFmp4Container);
+    view.querySelector('.fldStreamSharing').classList.toggle('hide', !flags.supportsStreamSharing);
+    view.querySelector('.fldFallbackMaxStreamingBitrate').classList.toggle('hide', !flags.supportsFallbackBitrate);
+    view.querySelector('.fldReadInputAtNativeFramerate').classList.toggle('hide', !flags.supportsReadInputAtNativeFramerate);
+
+    // Tuner count visibility & required
+    const tunerCountEl = view.querySelector('.fldTunerCount');
+    const txtTunerCount = view.querySelector('.txtTunerCount');
+    if (flags.supportsTunerCount) {
+        tunerCountEl.classList.remove('hide');
+        txtTunerCount.setAttribute('required', 'required');
     } else {
-        view.querySelector('.fldUserAgent').classList.add('hide');
-    }
-
-    if (supportsFavorites) {
-        view.querySelector('.fldFavorites').classList.remove('hide');
-    } else {
-        view.querySelector('.fldFavorites').classList.add('hide');
-    }
-
-    if (supportsTranscoding) {
-        view.querySelector('.fldTranscode').classList.remove('hide');
-    } else {
-        view.querySelector('.fldTranscode').classList.add('hide');
-    }
-
-    view.querySelector('.fldFmp4Container').classList.toggle('hide', !supportsFmp4Container);
-    view.querySelector('.fldStreamSharing').classList.toggle('hide', !supportsStreamSharing);
-    view.querySelector('.fldFallbackMaxStreamingBitrate').classList.toggle('hide', !supportsFallbackBitrate);
-
-    if (supportsStreamLooping) {
-        view.querySelector('.fldStreamLoop').classList.remove('hide');
-    } else {
-        view.querySelector('.fldStreamLoop').classList.add('hide');
-    }
-
-    if (supportsIgnoreDts) {
-        view.querySelector('.fldIgnoreDts').classList.remove('hide');
-    } else {
-        view.querySelector('.fldIgnoreDts').classList.add('hide');
-    }
-
-    view.querySelector('.fldReadInputAtNativeFramerate').classList.toggle('hide', !supportsReadInputAtNativeFramerate);
-
-    if (supportsTunerCount) {
-        view.querySelector('.fldTunerCount').classList.remove('hide');
-        view.querySelector('.txtTunerCount').setAttribute('required', 'required');
-    } else {
-        view.querySelector('.fldTunerCount').classList.add('hide');
-        view.querySelector('.txtTunerCount').removeAttribute('required');
-    }
-
-    if (mayIncludeUnsupportedDrmChannels) {
-        view.querySelector('.drmMessage').classList.remove('hide');
-    } else {
-        view.querySelector('.drmMessage').classList.add('hide');
-    }
-
-    if (suppportsSubmit) {
-        view.querySelector('.button-submit').classList.remove('hide');
-    } else {
-        view.querySelector('.button-submit').classList.add('hide');
+        tunerCountEl.classList.add('hide');
+        txtTunerCount.removeAttribute('required');
     }
 }
 
