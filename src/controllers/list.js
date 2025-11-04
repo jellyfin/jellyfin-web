@@ -252,6 +252,20 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         return apiClient.getLiveTvPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
     }
 
+    if (params.type === 'Books') {
+        instance.queryRecursive = true;
+
+        return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
+            StartIndex: startIndex,
+            Limit: limit,
+            Recursive: true,
+            IncludeItemTypes: 'Book',
+            ImageTypeLimit: 1,
+            ParentId: item.Id,
+            SortBy: sortBy
+        }));
+    }
+
     if (params.type === 'nextup') {
         return apiClient.getNextUpEpisodes(modifyQueryWithFilters(instance, {
             Limit: limit,
