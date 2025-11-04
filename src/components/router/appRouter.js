@@ -6,6 +6,7 @@ import itemHelper from '../itemHelper';
 import loading from '../loading/loading';
 import alert from '../alert';
 
+import { LayoutMode } from 'constants/layoutMode';
 import { getItemQuery } from 'hooks/useItem';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
@@ -432,7 +433,7 @@ class AppRouter {
 
             const layoutMode = localStorage.getItem('layout');
 
-            if (layoutMode === 'experimental' && item.CollectionType == CollectionType.Homevideos) {
+            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Homevideos) {
                 url = '#/homevideos?topParentId=' + item.Id;
 
                 return url;
