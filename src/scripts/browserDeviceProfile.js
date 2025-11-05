@@ -1191,7 +1191,7 @@ export default function (options) {
 
         if (browser.tizenVersion >= 3 || browser.vidaa) {
             // Tizen TV does not support Dolby Vision at all, but it can safely play the HDR fallback.
-            // Advertising the support so that the server don't have to do the remux.
+            // Advertising the support so that the server doesn't have to remux.
             hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
         }
     }
