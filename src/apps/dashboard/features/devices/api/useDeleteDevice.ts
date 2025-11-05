@@ -14,8 +14,8 @@ export const useDeleteDevice = () => {
             getDevicesApi(api!)
                 .deleteDevice(params)
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ QUERY_KEY ]
             });
         }

@@ -174,13 +174,13 @@ function onTypeChange() {
         { selector: '.button-submit', flag: 'supportsSubmit' }
     ];
 
-    singleFlagMap.forEach(({ selector, flag }) => {
+    for (const { selector, flag } of singleFlagMap) {
         const element = view.querySelector(selector);
         if (!element) {
             return;
         }
         element.classList.toggle('hide', !flags[flag]);
-    });
+    }
 
     // Toggle-based fields (use .toggle with boolean)
     view.querySelector('.fldFmp4Container').classList.toggle('hide', !flags.supportsFmp4Container);
