@@ -259,7 +259,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
             StartIndex: startIndex,
             Limit: limit,
             Recursive: true,
-            IncludeItemTypes: 'Book',
+            IncludeItemTypes: 'Book,AudioBook',
             ImageTypeLimit: 1,
             ParentId: item.Id,
             SortBy: sortBy
