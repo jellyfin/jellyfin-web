@@ -14,8 +14,8 @@ export const useUpdateDevice = () => {
             getDevicesApi(api!)
                 .updateDeviceOptions(params)
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ QUERY_KEY ]
             });
         }

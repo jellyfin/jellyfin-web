@@ -16,8 +16,8 @@ export const useCreateBackup = () => {
                 backupOptionsDto: backupOptions
             })
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ QUERY_KEY ]
             });
         }

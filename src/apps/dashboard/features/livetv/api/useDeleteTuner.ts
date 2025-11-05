@@ -13,8 +13,8 @@ export const useDeleteTuner = () => {
             getLiveTvApi(api!)
                 .deleteTunerHost(params)
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ 'NamedConfiguration', 'livetv' ]
             });
         }

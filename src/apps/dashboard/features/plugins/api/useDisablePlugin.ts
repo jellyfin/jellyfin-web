@@ -14,8 +14,8 @@ export const useDisablePlugin = () => {
             getPluginsApi(api!)
                 .disablePlugin(params)
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ QueryKey.Plugins ]
             });
         }

@@ -12,8 +12,8 @@ export const useRenameVirtualFolder = () => {
             getLibraryStructureApi(api!)
                 .renameVirtualFolder(params)
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ 'VirtualFolders' ]
             });
         }
