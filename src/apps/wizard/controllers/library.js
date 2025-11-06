@@ -95,30 +95,26 @@ function renameVirtualFolder(page, virtualFolder) {
 
 function showCardMenu(page, elem, virtualFolders) {
     const card = dom.parentWithClass(elem, 'card');
-    const index = parseInt(card.getAttribute('data-index'), 10);
+    const index = Number.parseInt(card.dataset.index, 10);
     const virtualFolder = virtualFolders[index];
     const menuItems = [];
     menuItems.push({
         name: globalize.translate('EditImages'),
         id: 'editimages',
         icon: 'photo'
-    });
-    menuItems.push({
+    }, {
         name: globalize.translate('ManageLibrary'),
         id: 'edit',
         icon: 'folder'
-    });
-    menuItems.push({
+    }, {
         name: globalize.translate('ButtonRename'),
         id: 'rename',
         icon: 'mode_edit'
-    });
-    menuItems.push({
+    }, {
         name: globalize.translate('ScanLibrary'),
         id: 'refresh',
         icon: 'refresh'
-    });
-    menuItems.push({
+    }, {
         name: globalize.translate('ButtonRemove'),
         id: 'delete',
         icon: 'delete'
@@ -187,30 +183,29 @@ function reloadVirtualFolders(page, virtualFolders) {
 
     const divVirtualFolders = page.querySelector('#divVirtualFolders');
     divVirtualFolders.innerHTML = html;
-    divVirtualFolders.classList.add('itemsContainer');
-    divVirtualFolders.classList.add('vertical-wrap');
+    divVirtualFolders.classList.add('itemsContainer', 'vertical-wrap');
     const btnCardMenuElements = divVirtualFolders.querySelectorAll('.btnCardMenu');
-    btnCardMenuElements.forEach(function (btn) {
+    for (const btn of btnCardMenuElements) {
         btn.addEventListener('click', function () {
             showCardMenu(page, btn, virtualFolders);
         });
-    });
+    }
     divVirtualFolders.querySelector('#addLibrary').addEventListener('click', function () {
         addVirtualFolder(page);
     });
 
     const libraryEditElements = divVirtualFolders.querySelectorAll('.editLibrary');
-    libraryEditElements.forEach(function (btn) {
+    for (const btn of libraryEditElements) {
         btn.addEventListener('click', function () {
             const card = dom.parentWithClass(btn, 'card');
-            const index = parseInt(card.getAttribute('data-index'), 10);
+            const index = Number.parseInt(card.dataset.index, 10);
             const virtualFolder = virtualFolders[index];
 
             if (virtualFolder.ItemId) {
                 editVirtualFolder(page, virtualFolder);
             }
         });
-    });
+    }
     loading.hide();
 }
 
