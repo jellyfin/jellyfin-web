@@ -1,9 +1,9 @@
-import {BaseItemKind} from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import {ItemFilter} from '@jellyfin/sdk/lib/generated-client/models/item-filter';
-import {ItemSortBy} from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import {MediaType} from '@jellyfin/sdk/lib/generated-client/models/media-type';
-import {PlaybackErrorCode} from '@jellyfin/sdk/lib/generated-client/models/playback-error-code';
-import {getMediaInfoApi} from '@jellyfin/sdk/lib/utils/api/media-info-api';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
+import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code';
+import { getMediaInfoApi } from '@jellyfin/sdk/lib/utils/api/media-info-api';
 import merge from 'lodash-es/merge';
 import Screenfull from 'screenfull';
 
@@ -11,27 +11,27 @@ import Events from '../../utils/events.ts';
 import datetime from '../../scripts/datetime';
 import appSettings from '../../scripts/settings/appSettings';
 import itemHelper from '../itemHelper';
-import {pluginManager} from '../pluginManager';
+import { pluginManager } from '../pluginManager';
 import PlayQueueManager from './playqueuemanager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
-import {appHost} from '../apphost';
+import { appHost } from '../apphost';
 import alert from '../alert';
-import {PluginType} from '../../types/plugin.ts';
-import {includesAny} from '../../utils/container.ts';
-import {getItems} from '../../utils/jellyfin-apiclient/getItems.ts';
-import {getItemBackdropImageUrl} from '../../utils/jellyfin-apiclient/backdropImage';
+import { PluginType } from '../../types/plugin.ts';
+import { includesAny } from '../../utils/container.ts';
+import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
+import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
 
-import {PlayerEvent} from 'apps/stable/features/playback/constants/playerEvent';
-import {bindMediaSegmentManager} from 'apps/stable/features/playback/utils/mediaSegmentManager';
-import {bindMediaSessionSubscriber} from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
-import {AppFeature} from 'constants/appFeature';
-import {ServerConnections} from 'lib/jellyfin-apiclient';
-import {MediaError} from 'types/mediaError';
-import {getMediaError} from 'utils/mediaError';
-import {toApi} from 'utils/jellyfin-apiclient/compat';
-import {bindSkipSegment} from './skipsegment.ts';
+import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
+import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
+import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { MediaError } from 'types/mediaError';
+import { getMediaError } from 'utils/mediaError';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { bindSkipSegment } from './skipsegment.ts';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -349,7 +349,7 @@ function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, api
 
     const maxValues = getAudioMaxValues(deviceProfile);
 
-    return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, {maxBitrate, ...maxValues});
+    return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, { maxBitrate, ...maxValues });
 }
 
 function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
@@ -382,7 +382,7 @@ function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositio
         let streamUrl;
 
         if (item.MediaType === 'Audio' && !itemHelper.isLocalItem(item)) {
-            streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, apiClient, startPosition, {maxBitrate, ...maxValues});
+            streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, apiClient, startPosition, { maxBitrate, ...maxValues });
         }
 
         streamUrls.push(streamUrl || '');
@@ -499,7 +499,7 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
 
     query.DeviceProfile = deviceProfile;
 
-    const res = await mediaInfoApi.getPostedPlaybackInfo({itemId: itemId, playbackInfoDto: query});
+    const res = await mediaInfoApi.getPostedPlaybackInfo({ itemId: itemId, playbackInfoDto: query });
     return res.data;
 }
 
@@ -1330,7 +1330,7 @@ export class PlaybackManager {
             }
 
             if (self.playMethod(player) === 'Transcode' || !player.canSetAudioStreamIndex()) {
-                changeStream(player, getCurrentTicks(player), {AudioStreamIndex: index});
+                changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index });
                 getPlayerData(player).audioStreamIndex = index;
             } else {
                 // See if the player supports the track without transcoding
@@ -1339,7 +1339,7 @@ export class PlaybackManager {
                         player.setAudioStreamIndex(index);
                         getPlayerData(player).audioStreamIndex = index;
                     } else {
-                        changeStream(player, getCurrentTicks(player), {AudioStreamIndex: index});
+                        changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index });
                         getPlayerData(player).audioStreamIndex = index;
                     }
                 });
@@ -1528,7 +1528,7 @@ export class PlaybackManager {
             if (currentStream && !newStream) {
                 if (getDeliveryMethod(currentStream) === 'Encode' || (getDeliveryMethod(currentStream) === 'Embed' && currentPlayMethod === 'Transcode')) {
                     // Need to change the transcoded stream to remove subs
-                    changeStream(player, getCurrentTicks(player), {SubtitleStreamIndex: -1});
+                    changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: -1 });
                 }
             } else if (!currentStream && newStream) {
                 if (getDeliveryMethod(newStream) === 'External') {
@@ -1537,7 +1537,7 @@ export class PlaybackManager {
                     selectedTrackElementIndex = index;
                 } else {
                     // Need to change the transcoded stream to add subs
-                    changeStream(player, getCurrentTicks(player), {SubtitleStreamIndex: index});
+                    changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: index });
                 }
             } else if (currentStream && newStream) {
                 // Switching tracks
@@ -1547,11 +1547,11 @@ export class PlaybackManager {
 
                     // But in order to handle this client side, if the previous track is being added via transcoding, we'll have to remove it
                     if (getDeliveryMethod(currentStream) !== 'External' && getDeliveryMethod(currentStream) !== 'Embed') {
-                        changeStream(player, getCurrentTicks(player), {SubtitleStreamIndex: -1});
+                        changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: -1 });
                     }
                 } else {
                     // Need to change the transcoded stream to add subs
-                    changeStream(player, getCurrentTicks(player), {SubtitleStreamIndex: index});
+                    changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: index });
                 }
             }
 
@@ -2057,7 +2057,7 @@ export class PlaybackManager {
             return new Promise(function (resolve, reject) {
                 const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
-                const {SeriesId, Id} = firstItem;
+                const { SeriesId, Id } = firstItem;
                 if (!SeriesId) {
                     resolve(null);
                     return;
@@ -2111,7 +2111,7 @@ export class PlaybackManager {
                 loading.show();
             }
 
-            let {items} = options;
+            let { items } = options;
             // If items were not passed directly, fetch them by ID
             if (!items) {
                 if (!options.serverId) {
@@ -3728,7 +3728,7 @@ export class PlaybackManager {
         };
 
         if (appHost.supports(AppFeature.RemoteControl)) {
-            import('../../scripts/serverNotifications').then(({default: serverNotifications}) => {
+            import('../../scripts/serverNotifications').then(({ default: serverNotifications }) => {
                 Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
                 Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
             });
@@ -4038,7 +4038,7 @@ export class PlaybackManager {
             return player.shuffle(shuffleItem);
         }
 
-        return this.play({items: [shuffleItem], shuffle: true});
+        return this.play({ items: [shuffleItem], shuffle: true });
     }
 
     audioTracks(player = this._currentPlayer) {
@@ -4074,7 +4074,7 @@ export class PlaybackManager {
     }
 
     getSupportedCommands(player) {
-        player = player || this._currentPlayer || {isLocalPlayer: true};
+        player = player || this._currentPlayer || { isLocalPlayer: true };
 
         if (player.isLocalPlayer) {
             const list = [

@@ -1,4 +1,4 @@
-import {randomInt} from '../../utils/number.ts';
+import { randomInt } from '../../utils/number.ts';
 
 let currentId = 0;
 

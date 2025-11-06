@@ -193,7 +193,7 @@ function bindEvents(elem) {
 
     elem.querySelector('.nextTrackButton').addEventListener('click', function () {
         if (currentPlayer) {
-            playbackManager.nextTrack(currentPlayer,true);
+            playbackManager.nextTrack(currentPlayer, true);
         }
     });
 
