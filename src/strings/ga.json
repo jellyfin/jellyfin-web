@@ -414,7 +414,7 @@
     "EnableSmoothScroll": "Cumasaigh scrollú réidh",
     "EnableStreamLooping": "Sruthanna beo uath-lúb",
     "EnableStreamLoopingHelp": "Cumasaigh é seo mura bhfuil ach cúpla soicind sonraí i sruthanna beo agus is gá iad a iarraidh go leanúnach. D'fhéadfadh fadhbanna a bheith mar thoradh ar é seo a chumasú nuair nach bhfuil gá leis.",
-    "ErrorAddingTunerDevice": "Tharla earráid agus an gléas tiúnóra á chur leis. Cinntigh le do thoil go bhfuil sé inrochtana agus bain triail eile as.",
+    "ErrorAddingTunerDevice": "Tharla earráid agus an gléas tiúnóir á chur leis. Cinntigh le do thoil go bhfuil sé inrochtana agus bain triail eile as.",
     "ErrorAddingXmlTvFile": "Tharla earráid agus an comhad XMLTV á rochtain. Cinntigh go bhfuil an comhad ann agus bain triail eile as.",
     "ErrorDefault": "Tharla earráid agus an t-iarratas á phróiseáil. Bain triail eile as níos déanaí.",
     "ErrorDeletingLyrics": "Tharla earráid agus na liricí á scriosadh ón bhfreastalaí. Seiceáil le do thoil go bhfuil jellyfin scríobh rochtain ar an fillteán meáin agus bain triail eile as.",
@@ -841,7 +841,7 @@
     "LabelKodiMetadataEnablePathSubstitutionHelp": "Cumasaigh ionadú cosán cosáin íomhá ag baint úsáide as socruithe ionadaíochta cosán an fhreastalaí.",
     "LabelKodiMetadataSaveImagePaths": "Sábháil cosáin íomhá laistigh de chomhaid NFO",
     "LabelKodiMetadataSaveImagePathsHelp": "Moltar é seo má tá ainmneacha comhaid íomhá agat nach gcloíonn le treoirlínte Kodi.",
-    "LabelLibraryPageSizeHelp": "Socraigh méid na míreanna atá le taispeáint ar leathanach leabharlainne. Socraigh go 0 chun íomháú a dhíchumasú.",
+    "LabelLibraryPageSizeHelp": "Socraigh líon na míreanna atá le taispeáint ar leathanach leabharlainne. Má shocraítear luach 0, díchumasófar an leathanachú. Tabhair faoi deara, le do thoil, go bhféadfadh fabhtanna agus feidhmíocht laghdaithe a bheith mar thoradh ar é seo a shocrú go 0 nó aon luach níos mó ná 100.",
     "LabelMaxVideoResolution": "Uastaifeach Traschódú Video Ceadaithe",
     "LabelLoginDisclaimer": "Séanadh logála isteach",
     "LabelLoginDisclaimerHelp": "Teachtaireacht a thaispeánfar ag bun an leathanaigh logála isteach.",
@@ -1881,5 +1881,7 @@
     "LabelAvailable": "Ar fáil",
     "LabelBundled": "Chuachta",
     "ManageRepositories": "Bainistigh Stórtha",
-    "ViewAllPlugins": "Féach ar na breiseáin uile"
+    "ViewAllPlugins": "Féach ar na breiseáin uile",
+    "ButtonAddProvider": "Cuir Soláthraí leis",
+    "ButtonAddTunerDevice": "Cuir Gléas Tiúnóir leis"
 }

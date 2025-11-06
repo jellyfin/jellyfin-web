@@ -103,7 +103,7 @@
     "ChannelNameOnly": "Tylko kanał {0}",
     "ChannelNumber": "Numer kanału",
     "Channels": "Kanały",
-    "CinemaModeConfigurationHelp": "Tryb kinowy, wnosi kinowe doświadczenia wprost do Twojego salonu, z możliwością odtwarzania zwiastunów i niestandardowych prezentacji przez seansem.",
+    "CinemaModeConfigurationHelp": "Tryb kinowy, wnosi kinowe doświadczenia wprost do Twojego salonu, z możliwością odtwarzania zwiastunów i niestandardowych prezentacji przed seansem.",
     "Collections": "Kolekcje",
     "ColorPrimaries": "Wzorce kolorów",
     "ColorSpace": "Przestrzeń kolorów",
@@ -1249,7 +1249,7 @@
     "Album": "Album",
     "Person": "Osoba",
     "Movie": "Film",
-    "LabelLibraryPageSizeHelp": "Ustaw liczbę pozycji pokazywanych na stronie biblioteki. Ustaw 0, aby wyłączyć podział na strony.",
+    "LabelLibraryPageSizeHelp": "Ustaw liczbę pozycji pokazywanych na stronie biblioteki. Ustawienie wartości 0 spowoduje wyłączenie paginacji. Należy pamiętać, że ustawienie tej wartości na 0 lub dowolną wartość większą niż 100 może prowadzić do błędów i obniżenia wydajności.",
     "LabelLibraryPageSize": "Rozmiar strony biblioteki",
     "LabelDeinterlaceMethod": "Metoda usuwania przeplotu",
     "Episode": "Odcinek",
@@ -2069,5 +2069,7 @@
     "LabelAvailable": "Dostępne",
     "LabelBundled": "W pakiecie",
     "ViewAllPlugins": "Wyświetl wszystkie wtyczki",
-    "ManageRepositories": "Zarządzaj repozytoriami"
+    "ManageRepositories": "Zarządzaj repozytoriami",
+    "ButtonAddProvider": "Dodaj dostawcę",
+    "ButtonAddTunerDevice": "Dodaj urządzenie tunera"
 }
