@@ -2053,5 +2053,6 @@
     "StorageType.Network": "Võrk",
     "StorageType.Fixed": "Sisemine",
     "HeaderBackups": "Varukoopiad",
-    "Success": "Edu"
+    "Success": "Edu",
+    "ButtonAddTunerDevice": "Lisa tuuner"
 }
