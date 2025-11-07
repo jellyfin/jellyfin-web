@@ -1193,6 +1193,9 @@ export default function (options) {
             // Tizen TV does not support Dolby Vision at all, but it can safely play the HDR fallback.
             // Advertising the support so that the server doesn't have to remux.
             hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
+            // Although no official tools exist to create AV1+DV files yet, some of our users managed to use community tools to create such files.
+            // These files should also be playable on Tizen TVs.
+            av1VideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
         }
     }
 
@@ -1223,6 +1226,11 @@ export default function (options) {
 
         if (supportedDolbyVisionProfileAv1(videoTestElement)) {
             av1VideoRangeTypes += '|DOVI|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR|DOVIWithHDR10Plus';
+            if (browser.web0s) {
+                // For webOS, we should allow direct play of some not fully supported DV profiles to avoid unnecessary remux/transcode
+                // webOS seems to be able to play the fallback of Profile 7 and most invalid profiles
+                av1VideoRangeTypes += '|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
+            }
         }
     }
 
