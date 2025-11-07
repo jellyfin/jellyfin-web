@@ -13,10 +13,14 @@ import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
+import Toast from '../../components/Toast';
+import { validateInput } from '../../../../utils/dashboard';
 
 type ResetProvider = BaseItemDto & {
     checkedAttribute: string
 };
+
+const NAME_REGEX = /^(?!\s)[\w @+.'-]+(?<!\s)$/;
 
 const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
     Array.prototype.filter.call(elements, e => e.checked)
@@ -37,6 +41,17 @@ const UserEdit = () => {
     const [ passwordResetProviderId, setPasswordResetProviderId ] = useState('');
 
     const element = useRef<HTMLDivElement>(null);
+
+    const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
+    const [ errorToastMessage, setErrorToastMessage ] = useState((message?: string) => {
+        return globalize.translate(message ?? 'ErrorDefault');
+    });
+
+    const [invalidUserName, setInvalidUserName] = useState<boolean>(false);
+
+    const handleToastClose = useCallback(() => {
+        setIsErrorToastOpen(false);
+    }, []);
 
     const triggerChange = (select: HTMLInputElement) => {
         const evt = new Event('change', { bubbles: false, cancelable: true });
@@ -189,7 +204,16 @@ const UserEdit = () => {
                 throw new Error('Unexpected null user id or policy');
             }
 
-            user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value.trim();
+            const nameInput = (page.querySelector('#txtUserName') as HTMLInputElement).value.trim();
+
+            if (!validateInput(nameInput, NAME_REGEX)) {
+                setErrorToastMessage('ErrorInvalidUserName');
+                setIsErrorToastOpen(true);
+                loading.hide();
+                return;
+            }
+
+            user.Name = nameInput;
             user.Policy.IsAdministrator = (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked;
             user.Policy.IsHidden = (page.querySelector('.chkIsHidden') as HTMLInputElement).checked;
             user.Policy.IsDisabled = (page.querySelector('.chkDisabled') as HTMLInputElement).checked;
@@ -224,6 +248,8 @@ const UserEdit = () => {
                 loading.hide();
             }).catch(err => {
                 console.error('[useredit] failed to update user', err);
+                setIsErrorToastOpen(true);
+                loading.hide();
             });
         };
 
@@ -274,11 +300,28 @@ const UserEdit = () => {
         return content;
     };
 
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleInputChangeEvent = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        timeoutRef.current = setTimeout(() => {
+            setInvalidUserName(!validateInput(e.target.value, NAME_REGEX));
+        }, 500);
+    }, []);
+
     return (
         <Page
             id='editUserPage'
             className='mainAnimatedPage type-interior'
         >
+            <Toast
+                open={isErrorToastOpen}
+                onClose={handleToastClose}
+                message={errorToastMessage}
+            />
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
@@ -311,6 +354,9 @@ const UserEdit = () => {
                             type='text'
                             id='txtUserName'
                             label={globalize.translate('LabelName')}
+                            onChange={handleInputChangeEvent}
+                            invalid={invalidUserName}
+                            invalidMessage={globalize.translate('LabelUserNameValidation')}
                             required
                         />
                     </div>

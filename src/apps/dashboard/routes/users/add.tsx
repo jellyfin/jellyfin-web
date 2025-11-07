@@ -1,7 +1,7 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 
-import Dashboard from '../../../../utils/dashboard';
+import Dashboard, { validateInput } from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
@@ -22,12 +22,20 @@ type ItemsArr = {
     Id?: string;
 };
 
+const NAME_REGEX = /^(?!\s)[\w @+.'-]+(?<!\s)$/;
+
 const UserNew = () => {
     const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
     const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
-    const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
+
     const element = useRef<HTMLDivElement>(null);
 
+    const [invalidUserName, setInvalidUserName] = useState<boolean>(false);
+
+    const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
+    const [ errorToastMessage, setErrorToastMessage ] = useState((message?: string) => {
+        return globalize.translate(message ?? 'ErrorDefault');
+    });
     const handleToastClose = useCallback(() => {
         setIsErrorToastOpen(false);
     }, []);
@@ -116,7 +124,17 @@ const UserNew = () => {
 
         const saveUser = () => {
             const userInput: UserInput = {};
-            userInput.Name = (page.querySelector('#txtUsername') as HTMLInputElement).value.trim();
+
+            const nameInput = (page.querySelector('#txtUsername') as HTMLInputElement).value.trim();
+
+            if (!validateInput(nameInput, NAME_REGEX)) {
+                setErrorToastMessage('ErrorInvalidUserName');
+                setIsErrorToastOpen(true);
+                loading.hide();
+                return;
+            }
+
+            userInput.Name = nameInput;
             userInput.Password = (page.querySelector('#txtPassword') as HTMLInputElement).value;
 
             window.ApiClient.createUser(userInput).then(function (user) {
@@ -185,6 +203,18 @@ const UserNew = () => {
         });
     }, [loadUser]);
 
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleInputChangeEvent = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        timeoutRef.current = setTimeout(() => {
+            setInvalidUserName(!validateInput(e.target.value, NAME_REGEX));
+        }, 500);
+    }, []);
+
     return (
         <Page
             id='newUserPage'
@@ -193,7 +223,7 @@ const UserNew = () => {
             <Toast
                 open={isErrorToastOpen}
                 onClose={handleToastClose}
-                message={globalize.translate('ErrorDefault')}
+                message={errorToastMessage}
             />
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
@@ -208,6 +238,9 @@ const UserNew = () => {
                             type='text'
                             id='txtUsername'
                             label={globalize.translate('LabelName')}
+                            onChange={handleInputChangeEvent}
+                            invalid={invalidUserName}
+                            invalidMessage={globalize.translate('LabelUserNameValidation')}
                             required
                         />
                     </div>
