@@ -32,7 +32,7 @@ const UserNew = () => {
 
     const [invalidUserName, setInvalidUserName] = useState<boolean>(false);
 
-    const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
+    const [ isErrorToastOpen, setIsErrorToastOpen ] = useState<boolean>(false);
     const [ errorToastMessage, setErrorToastMessage ] = useState((message?: string) => {
         return globalize.translate(message ?? 'ErrorDefault');
     });

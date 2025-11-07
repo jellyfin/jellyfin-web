@@ -42,7 +42,7 @@ const UserEdit = () => {
 
     const element = useRef<HTMLDivElement>(null);
 
-    const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
+    const [ isErrorToastOpen, setIsErrorToastOpen ] = useState<boolean>(false);
     const [ errorToastMessage, setErrorToastMessage ] = useState((message?: string) => {
         return globalize.translate(message ?? 'ErrorDefault');
     });
