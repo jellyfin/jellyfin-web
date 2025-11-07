@@ -22,7 +22,7 @@ type ItemsArr = {
     Id?: string;
 };
 
-const NAME_REGEX = /^(?!\s)[\w @+.'-]+(?<!\s)$/;
+const NAME_REGEX = /^[\w@+.'-](?:[\w @+.'-]*[\w@+.'-])?$/;
 
 const UserNew = () => {
     const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);

@@ -20,7 +20,7 @@ type ResetProvider = BaseItemDto & {
     checkedAttribute: string
 };
 
-const NAME_REGEX = /^(?!\s)[\w @+.'-]+(?<!\s)$/;
+const NAME_REGEX = /^[\w@+.'-](?:[\w @+.'-]*[\w@+.'-])?$/;
 
 const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
     Array.prototype.filter.call(elements, e => e.checked)
