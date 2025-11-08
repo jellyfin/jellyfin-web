@@ -6,29 +6,29 @@ import { useServerLog } from 'apps/dashboard/features/logs/api/useServerLog';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import ContentCopy from '@mui/icons-material/ContentCopy';
-import FileDownload from '@mui/icons-material/FileDownload';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import globalize from 'lib/globalize';
 import { copy } from 'scripts/clipboard';
 import Toast from 'apps/dashboard/components/Toast';
+import LogButtonGroup from 'apps/dashboard/features/logs/components/LogButtonGroup';
 
 export const Component = () => {
     const { file: fileName } = useParams();
+    const contentPrimaryRef = useRef<HTMLDivElement | null>(null);
+    const [ isCopiedToastOpen, setIsCopiedToastOpen ] = useState(false);
+    const [ isWatchModeEnabled, setIsWatchModeEnabled ] = useState(false);
+    const [ wasAtBottom, setWasAtBottom ] = useState<boolean>(false);
     const {
         isError: error,
         isPending: loading,
         data: log,
         refetch
-    } = useServerLog(fileName ?? '');
-    const contentPrimaryRef = useRef<HTMLDivElement | null>(null);
-    const [ isCopiedToastOpen, setIsCopiedToastOpen ] = useState(false);
-    const [ isWatchModeEnabled, setIsWatchModeEnabled ] = useState(false);
+    } = useServerLog(
+        fileName ?? '',
+        isWatchModeEnabled ? 2000 : false
+    );
 
     const retry = useCallback(() => refetch(), [refetch]);
 
@@ -72,46 +72,26 @@ export const Component = () => {
         }
     }, [log, fileName]);
 
-    const LogButtonGroup = () => (
-        <ButtonGroup variant='contained' sx={{ mt: 2 }}>
-            <Button
-                startIcon={<ContentCopy />}
-                onClick={copyToClipboard}
-            >
-                {globalize.translate('Copy')}
-            </Button>
-            <Button
-                startIcon={<FileDownload />}
-                onClick={downloadFile}
-            >
-                {globalize.translate('Download')}
-            </Button>
-            <Button
-                startIcon={isWatchModeEnabled ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                onClick={toggleWatchMode}
-            >
-                {isWatchModeEnabled ? globalize.translate('Unwatch') : globalize.translate('Watch')}
-            </Button>
-        </ButtonGroup>
-    );
-
     useEffect(() => {
-        const watchInterval = setInterval(() => {
-            if (isWatchModeEnabled && contentPrimaryRef.current) {
-                const wasAtBottom = window.innerHeight + Math.round(window.scrollY) >= contentPrimaryRef.current.offsetHeight;
-
-                void refetch().then(() => {
-                    if (wasAtBottom) {
-                        setTimeout(scrollToBottom, 0);
-                    }
-                });
+        const onScroll = () => {
+            if (contentPrimaryRef.current) {
+                const isAtBottom = window.innerHeight + Math.round(window.scrollY) >= contentPrimaryRef.current.offsetHeight;
+                setWasAtBottom(isAtBottom);
             }
-        }, 2000);
+        };
+
+        document.addEventListener('scroll', onScroll);
 
         return () => {
-            clearInterval(watchInterval);
+            document.removeEventListener('scroll', onScroll);
         };
-    }, [ isWatchModeEnabled, refetch, scrollToBottom ]);
+    }, []);
+
+    useEffect(() => {
+        if (wasAtBottom) {
+            scrollToBottom();
+        }
+    }, [ log, scrollToBottom, wasAtBottom ]);
 
     return (
         <Page
@@ -155,7 +135,12 @@ export const Component = () => {
 
                     {!error && !loading && (
                         <>
-                            <LogButtonGroup />
+                            <LogButtonGroup
+                                copyToClipboard={copyToClipboard}
+                                downloadFile={downloadFile}
+                                toggleWatchMode={toggleWatchMode}
+                                isWatchModeEnabled={isWatchModeEnabled}
+                            />
 
                             <Paper sx={{ mt: 2 }}>
                                 <code>
@@ -170,7 +155,12 @@ export const Component = () => {
                                 </code>
                             </Paper>
 
-                            <LogButtonGroup />
+                            <LogButtonGroup
+                                copyToClipboard={copyToClipboard}
+                                downloadFile={downloadFile}
+                                toggleWatchMode={toggleWatchMode}
+                                isWatchModeEnabled={isWatchModeEnabled}
+                            />
                         </>
                     )}
                 </Box>
