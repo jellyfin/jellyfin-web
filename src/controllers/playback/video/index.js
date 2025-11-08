@@ -1313,13 +1313,13 @@ export default function (view) {
             case ',':
                 if (!e.shiftKey) {
                     e.preventDefault();
-                    playbackManager.seekRelative(-1, currentPlayer);
+                    playbackManager.seekRelative(-4e4, currentPlayer);
                 }
                 break;
             case '.':
                 if (!e.shiftKey) {
                     e.preventDefault();
-                    playbackManager.seekRelative(1, currentPlayer);
+                    playbackManager.seekRelative(4e4, currentPlayer);
                 }
                 break;
             case 'j':
