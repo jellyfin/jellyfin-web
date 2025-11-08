@@ -36,10 +36,13 @@ export enum SectionApiMethod {
 export enum SectionType {
     ContinueWatchingMovies = 'continuewatchingmovies',
     LatestMovies = 'latestmovies',
+    RecentlyReleasedMovies = 'recentlyreleasedmovies',
     ContinueWatchingEpisode = 'continuewatchingepisode',
     LatestEpisode = 'latestepisode',
+    RecentlyReleasedEpisode = 'recentlyreleasedepisode',
     NextUp = 'nextUp',
     LatestMusic = 'latestmusic',
+    RecentlyReleasedMusic = 'recentlyreleasedmusic',
     RecentlyPlayedMusic = 'recentlyplayedmusic',
     FrequentlyPlayedMusic = 'frequentlyplayedmusic',
     ActivePrograms = 'ActivePrograms',
