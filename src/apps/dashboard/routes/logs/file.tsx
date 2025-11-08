@@ -62,7 +62,7 @@ export const Component = () => {
                 onClose={handleToastClose}
                 message={globalize.translate('CopyLogSuccess')}
             />
-            <Container className='content-primary'>
+            <Container className='content-primary' maxWidth={false}>
                 <Box>
                     <Typography variant='h1'>{fileName}</Typography>
 
@@ -106,7 +106,14 @@ export const Component = () => {
 
                             <Paper sx={{ mt: 2 }}>
                                 <code>
-                                    <pre style={{ overflow:'auto', margin: 0, padding: '16px' }}>{log}</pre>
+                                    <pre style={{
+                                        overflow:'auto',
+                                        margin: 0,
+                                        padding: '16px',
+                                        whiteSpace: 'pre-wrap'
+                                    }}>
+                                        {log}
+                                    </pre>
                                 </code>
                             </Paper>
                         </>
