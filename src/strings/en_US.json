@@ -77,5 +77,6 @@
     "Banner": "Banner",
     "BirthDateValue": "Born: {0}",
     "BirthLocation": "Birth location",
-    "BirthPlaceValue": "Birth place: {0}"
+    "BirthPlaceValue": "Birth place: {0}",
+    "Anytime": "Anytime"
 }
