@@ -460,6 +460,8 @@
     "HeaderRecentlyReleasedMovies": "Recently Released Movies",
     "HeaderRecentlyReleasedEpisodes": "Recently Released Episodes",
     "HeaderRecentlyReleasedMusic": "Recently Released Music",
+    "HeaderReleasedThenAdded": "Recently Released then Recently Added",
+    "HeaderAddedThenReleased": "Recently Added then Recently Released",
     "RecentlyReleasedFromLibrary": "Recently Released in {0}",
     "HeaderLibraries": "Libraries",
     "HeaderLibraryAccess": "Library Access",
