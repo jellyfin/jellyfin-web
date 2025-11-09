@@ -133,7 +133,9 @@ function renderCombinedSection(
     let html = '';
 
     html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
-    if (!layoutManager.tv) {
+    if (layoutManager.tv) {
+        html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(translationKey, escapeHtml(parent.Name)) + '</h2>';
+    } else {
         html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(parent, {
             section: 'latest'
         }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
@@ -142,8 +144,6 @@ function renderCombinedSection(
         html += '</h2>';
         html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
         html += '</a>';
-    } else {
-        html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(translationKey, escapeHtml(parent.Name)) + '</h2>';
     }
     html += '</div>';
 
@@ -181,32 +181,30 @@ export function loadReleasedThenAdded(
     options: SectionOptions
 ) {
     elem.classList.remove('verticalSection');
-    const excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels', 'folders'];
+    const excludeViewTypes = new Set(['playlists', 'livetv', 'boxsets', 'channels', 'folders']);
     const userExcludeItems = user.Configuration?.LatestItemsExcludes ?? [];
 
-    userViews.forEach(item => {
+    for (const item of userViews) {
         if (!item.Id || userExcludeItems.includes(item.Id)) {
-            return;
+            continue;
         }
 
-        if (item.CollectionType && excludeViewTypes.includes(item.CollectionType)) {
-            return;
+        if (item.CollectionType && excludeViewTypes.has(item.CollectionType)) {
+            continue;
         }
 
         // Recently Released section
         const releasedFrag = document.createElement('div');
-        releasedFrag.classList.add('verticalSection');
-        releasedFrag.classList.add('hide');
+        releasedFrag.classList.add('verticalSection', 'hide');
         elem.appendChild(releasedFrag);
         renderCombinedSection(releasedFrag, apiClient, user, item, options, 'released', 'RecentlyReleasedFromLibrary');
 
         // Recently Added section
         const addedFrag = document.createElement('div');
-        addedFrag.classList.add('verticalSection');
-        addedFrag.classList.add('hide');
+        addedFrag.classList.add('verticalSection', 'hide');
         elem.appendChild(addedFrag);
         renderCombinedSection(addedFrag, apiClient, user, item, options, 'added', 'LatestFromLibrary');
-    });
+    }
 }
 
 export function loadAddedThenReleased(
@@ -217,30 +215,28 @@ export function loadAddedThenReleased(
     options: SectionOptions
 ) {
     elem.classList.remove('verticalSection');
-    const excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels', 'folders'];
+    const excludeViewTypes = new Set(['playlists', 'livetv', 'boxsets', 'channels', 'folders']);
     const userExcludeItems = user.Configuration?.LatestItemsExcludes ?? [];
 
-    userViews.forEach(item => {
+    for (const item of userViews) {
         if (!item.Id || userExcludeItems.includes(item.Id)) {
-            return;
+            continue;
         }
 
-        if (item.CollectionType && excludeViewTypes.includes(item.CollectionType)) {
-            return;
+        if (item.CollectionType && excludeViewTypes.has(item.CollectionType)) {
+            continue;
         }
 
         // Recently Added section
         const addedFrag = document.createElement('div');
-        addedFrag.classList.add('verticalSection');
-        addedFrag.classList.add('hide');
+        addedFrag.classList.add('verticalSection', 'hide');
         elem.appendChild(addedFrag);
         renderCombinedSection(addedFrag, apiClient, user, item, options, 'added', 'LatestFromLibrary');
 
         // Recently Released section
         const releasedFrag = document.createElement('div');
-        releasedFrag.classList.add('verticalSection');
-        releasedFrag.classList.add('hide');
+        releasedFrag.classList.add('verticalSection', 'hide');
         elem.appendChild(releasedFrag);
         renderCombinedSection(releasedFrag, apiClient, user, item, options, 'released', 'RecentlyReleasedFromLibrary');
-    });
+    }
 }
