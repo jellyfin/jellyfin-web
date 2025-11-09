@@ -452,12 +452,38 @@ function onChange(e) {
 }
 
 function embed(options, self) {
-    let workingTemplate = template;
-    for (let i = 1; i <= numConfigurableSections; i++) {
-        workingTemplate = workingTemplate.replace(`{section${i}label}`, globalize.translate('LabelHomeScreenSectionValue', i));
-    }
+    options.element.innerHTML = globalize.translateHtml(template, 'core');
 
-    options.element.innerHTML = globalize.translateHtml(workingTemplate, 'core');
+    // Generate home section select elements dynamically
+    const homeSectionsContainer = options.element.querySelector('.homeSectionsContainer');
+    const sectionOptions = `
+        <option value="smalllibrarytiles">\${HeaderMyMedia}</option>
+        <option value="librarybuttons">\${HeaderMyMediaSmall}</option>
+        <option value="activerecordings">\${HeaderActiveRecordings}</option>
+        <option value="resume">\${HeaderContinueWatching}</option>
+        <option value="resumeaudio">\${HeaderContinueListening}</option>
+        <option value="resumebook">\${HeaderContinueReading}</option>
+        <option value="latestmedia">\${HeaderLatestMedia}</option>
+        <option value="recentlyreleased">\${HeaderRecentlyReleased}</option>
+        <option value="releasedthenadded">\${HeaderReleasedThenAdded}</option>
+        <option value="addedthenreleased">\${HeaderAddedThenReleased}</option>
+        <option value="nextup">\${NextUp}</option>
+        <option value="livetv">\${LiveTV}</option>
+        <option value="none">\${None}</option>
+    `;
+
+    let sectionsHtml = '';
+    for (let i = 1; i <= numConfigurableSections; i++) {
+        const label = globalize.translate('LabelHomeScreenSectionValue', i);
+        sectionsHtml += `
+            <div class="selectContainer">
+                <select is="emby-select" id="selectHomeSection${i}" label="${label}">
+                    ${sectionOptions}
+                </select>
+            </div>
+        `;
+    }
+    homeSectionsContainer.innerHTML = globalize.translateHtml(sectionsHtml, 'core');
 
     options.element.querySelector('.viewOrderList').addEventListener('click', onSectionOrderListClick);
     options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
