@@ -13,6 +13,7 @@ import { loadLiveTV } from './sections/liveTv';
 import { loadNextUp } from './sections/nextUp';
 import { loadRecentlyAdded } from './sections/recentlyAdded';
 import { loadRecentlyReleased } from './sections/recentlyReleased';
+import { loadReleasedThenAdded, loadAddedThenReleased } from './sections/combined';
 import { loadResume } from './sections/resume';
 
 import 'elements/emby-button/paper-icon-button-light';
@@ -155,6 +156,12 @@ function loadSection(page, apiClient, user, userSettings, userViews, allSections
             break;
         case HomeSectionType.RecentlyReleased:
             loadRecentlyReleased(elem, apiClient, user, userViews, options);
+            break;
+        case HomeSectionType.ReleasedThenAdded:
+            loadReleasedThenAdded(elem, apiClient, user, userViews, options);
+            break;
+        case HomeSectionType.AddedThenReleased:
+            loadAddedThenReleased(elem, apiClient, user, userViews, options);
             break;
         case HomeSectionType.LibraryButtons:
             loadLibraryButtons(elem, userViews);
