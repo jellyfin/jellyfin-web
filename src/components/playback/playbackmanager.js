@@ -3889,7 +3889,6 @@ export class PlaybackManager {
         this.seekRelative(offsetTicks, player);
     }
 
-    // tick = ⅒ns, so ticks/frame = 1e10 ns / 1e5 *
     nextFrame(player = this._currentPlayer) {
         const fps = this.getFps(player);
         if (fps != null) {
