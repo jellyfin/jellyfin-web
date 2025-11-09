@@ -1345,6 +1345,10 @@ export class PlaybackManager {
             }
         };
 
+        self.getFps = function (player) {
+            self.currentMediaSource(player).MediaStreams.find(s => s.Type === "Video")?.RealFrameRate
+        }
+
         function getSavedMaxStreamingBitrate(apiClient, mediaType) {
             if (!apiClient) {
                 // This should hopefully never happen
@@ -3883,6 +3887,20 @@ export class PlaybackManager {
         const offsetTicks = 0 - (userSettings.skipBackLength() * 10000);
 
         this.seekRelative(offsetTicks, player);
+    }
+
+    nextFrame(player = this._currentPlayer) {
+        const fps = this.getFps(player);
+        if (fps != null) {
+            this.seekRelative(1e6 / fps, player);
+        }
+    }
+
+    previousFrame(player = this._currentPlayer) {
+        const fps = this.getFps(player);
+        if (fps != null) {
+            this.seekRelative(-1e6 / fps, player);
+        }
     }
 
     seekPercent(percent, player = this._currentPlayer) {
