@@ -3892,14 +3892,14 @@ export class PlaybackManager {
     nextFrame(player = this._currentPlayer) {
         const fps = this.getFps(player);
         if (fps != null) {
-            this.seekRelative(1e6 / fps, player);
+            this.seekRelative(1e5 / fps, player);
         }
     }
 
     previousFrame(player = this._currentPlayer) {
         const fps = this.getFps(player);
         if (fps != null) {
-            this.seekRelative(-1e6 / fps, player);
+            this.seekRelative(-1e5 / fps, player);
         }
     }
 
