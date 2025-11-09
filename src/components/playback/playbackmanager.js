@@ -1346,8 +1346,8 @@ export class PlaybackManager {
         };
 
         self.getFps = function (player) {
-            self.currentMediaSource(player).MediaStreams.find(s => s.Type === "Video")?.RealFrameRate
-        }
+            return self.currentMediaSource(player).MediaStreams.find(s => s.Type === 'Video')?.RealFrameRate;
+        };
 
         function getSavedMaxStreamingBitrate(apiClient, mediaType) {
             if (!apiClient) {
