@@ -136,7 +136,7 @@ export function generateSectionTitleHtml(
     translationKey: string
 ): string {
     let html = '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
-    
+
     if (layoutManager.tv) {
         html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(translationKey, escapeHtml(parent.Name)) + '</h2>';
     } else {
@@ -149,7 +149,7 @@ export function generateSectionTitleHtml(
         html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
         html += '</a>';
     }
-    
+
     html += '</div>';
     return html;
 }
@@ -159,7 +159,7 @@ export function generateSectionTitleHtml(
  */
 export function generateItemsContainerHtml(enableOverflow: boolean): string {
     let html = '';
-    
+
     if (enableOverflow) {
         html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
         html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
@@ -171,6 +171,6 @@ export function generateItemsContainerHtml(enableOverflow: boolean): string {
         html += '</div>';
     }
     html += '</div>';
-    
+
     return html;
 }

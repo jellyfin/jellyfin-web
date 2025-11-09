@@ -3,8 +3,8 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto
 import type { ApiClient } from 'jellyfin-apiclient';
 
 import type { SectionContainerElement, SectionOptions } from './section';
-import { 
-    getFetchRecentlyReleasedItemsFn, 
+import {
+    getFetchRecentlyReleasedItemsFn,
     getItemsHtmlFn,
     generateSectionTitleHtml,
     generateItemsContainerHtml
