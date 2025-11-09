@@ -97,7 +97,9 @@ function renderRecentlyReleasedSection(
     let html = '';
 
     html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
-    if (!layoutManager.tv) {
+    if (layoutManager.tv) {
+        html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('RecentlyReleasedFromLibrary', escapeHtml(parent.Name)) + '</h2>';
+    } else {
         html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(parent, {
             section: 'latest'
         }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
@@ -106,8 +108,6 @@ function renderRecentlyReleasedSection(
         html += '</h2>';
         html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
         html += '</a>';
-    } else {
-        html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('RecentlyReleasedFromLibrary', escapeHtml(parent.Name)) + '</h2>';
     }
     html += '</div>';
 
@@ -140,23 +140,22 @@ export function loadRecentlyReleased(
     options: SectionOptions
 ) {
     elem.classList.remove('verticalSection');
-    const excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels', 'folders'];
+    const excludeViewTypes = new Set(['playlists', 'livetv', 'boxsets', 'channels', 'folders']);
     const userExcludeItems = user.Configuration?.LatestItemsExcludes ?? [];
 
-    userViews.forEach(item => {
+    for (const item of userViews) {
         if (!item.Id || userExcludeItems.includes(item.Id)) {
-            return;
+            continue;
         }
 
-        if (item.CollectionType && excludeViewTypes.includes(item.CollectionType)) {
-            return;
+        if (item.CollectionType && excludeViewTypes.has(item.CollectionType)) {
+            continue;
         }
 
         const frag = document.createElement('div');
-        frag.classList.add('verticalSection');
-        frag.classList.add('hide');
+        frag.classList.add('verticalSection', 'hide');
         elem.appendChild(frag);
 
         renderRecentlyReleasedSection(frag, apiClient, user, item, options);
-    });
+    }
 }
