@@ -304,6 +304,11 @@ function supportedDolbyVisionProfileAv1(videoTestElement) {
     return videoTestElement.canPlayType?.('video/mp4; codecs="dav1.10.06"').replace(/no/, '');
 }
 
+function supportsAnamorphicVideo() {
+    // Tizen applies the aspect ratio correctly
+    return browser.tizenVersion >= 6;
+}
+
 function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
     let supported = false;
     let profileContainer = container;
@@ -1252,12 +1257,6 @@ export default function (options) {
 
     const h264CodecProfileConditions = [
         {
-            Condition: 'NotEquals',
-            Property: 'IsAnamorphic',
-            Value: 'true',
-            IsRequired: false
-        },
-        {
             Condition: 'EqualsAny',
             Property: 'VideoProfile',
             Value: h264Profiles,
@@ -1278,12 +1277,6 @@ export default function (options) {
     ];
 
     const hevcCodecProfileConditions = [
-        {
-            Condition: 'NotEquals',
-            Property: 'IsAnamorphic',
-            Value: 'true',
-            IsRequired: false
-        },
         {
             Condition: 'EqualsAny',
             Property: 'VideoProfile',
@@ -1315,12 +1308,6 @@ export default function (options) {
 
     const av1CodecProfileConditions = [
         {
-            Condition: 'NotEquals',
-            Property: 'IsAnamorphic',
-            Value: 'true',
-            IsRequired: false
-        },
-        {
             Condition: 'EqualsAny',
             Property: 'VideoProfile',
             Value: av1Profiles,
@@ -1339,6 +1326,29 @@ export default function (options) {
             IsRequired: false
         }
     ];
+
+    if (!supportsAnamorphicVideo()) {
+        h264CodecProfileConditions.push({
+            Condition: 'NotEquals',
+            Property: 'IsAnamorphic',
+            Value: 'true',
+            IsRequired: false
+        });
+
+        hevcCodecProfileConditions.push({
+            Condition: 'NotEquals',
+            Property: 'IsAnamorphic',
+            Value: 'true',
+            IsRequired: false
+        });
+
+        av1CodecProfileConditions.push({
+            Condition: 'NotEquals',
+            Property: 'IsAnamorphic',
+            Value: 'true',
+            IsRequired: false
+        });
+    }
 
     if (!browser.edgeUwp && !browser.tizen && !browser.web0s) {
         h264CodecProfileConditions.push({
