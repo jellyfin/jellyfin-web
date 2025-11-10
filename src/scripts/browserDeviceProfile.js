@@ -916,7 +916,7 @@ export default function (options) {
 
     profile.ContainerProfiles = [];
 
-    if (browser.tizen) {
+    if (browser.tizenVersion < 6.5) {
         // Tizen doesn't support more than 32 streams in a single file
         profile.ContainerProfiles.push({
             Type: 'Video',
