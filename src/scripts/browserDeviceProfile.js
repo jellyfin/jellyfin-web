@@ -1500,7 +1500,6 @@ export default function (options) {
         // On WebOS 25 and newer, mp4, ts, and mkv containers are allowed.
         // On WebOS 24 and lower, only mp4 and ts containers are allowed.
         const allowedContainers = browser.web0sVersion >= 10 ? ['mp4', 'ts', 'mkv'] : ['mp4', 'ts'];
-        
         profile.CodecProfiles.push({
             Type: 'Video',
             Container: '-' + allowedContainers.join(','),
