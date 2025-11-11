@@ -70,7 +70,7 @@ export const Component = () => {
                         <Button
                             onClick={onScanLibraries}
                             startIcon={<RefreshIcon />}
-                            loading={librariesTask && librariesTask.State === TaskState.Running}
+                            loading={librariesTask && librariesTask.State !== TaskState.Idle}
                             loadingPosition='start'
                             variant='outlined'
                         >
