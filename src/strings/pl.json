@@ -103,7 +103,7 @@
     "ChannelNameOnly": "Tylko kanał {0}",
     "ChannelNumber": "Numer kanału",
     "Channels": "Kanały",
-    "CinemaModeConfigurationHelp": "Tryb kinowy, wnosi kinowe doświadczenia wprost do Twojego salonu, z możliwością odtwarzania zwiastunów i niestandardowych prezentacji przez seansem.",
+    "CinemaModeConfigurationHelp": "Tryb kinowy, wnosi kinowe doświadczenia wprost do Twojego salonu, z możliwością odtwarzania zwiastunów i niestandardowych prezentacji przed seansem.",
     "Collections": "Kolekcje",
     "ColorPrimaries": "Wzorce kolorów",
     "ColorSpace": "Przestrzeń kolorów",
@@ -2069,5 +2069,7 @@
     "LabelAvailable": "Dostępne",
     "LabelBundled": "W pakiecie",
     "ViewAllPlugins": "Wyświetl wszystkie wtyczki",
-    "ManageRepositories": "Zarządzaj repozytoriami"
+    "ManageRepositories": "Zarządzaj repozytoriami",
+    "ButtonAddProvider": "Dodaj dostawcę",
+    "ButtonAddTunerDevice": "Dodaj urządzenie tunera"
 }

@@ -2069,5 +2069,7 @@
     "LabelAvailable": "Disponible",
     "LabelBundled": "Groupé",
     "ManageRepositories": "Gérer les dépôts",
-    "ViewAllPlugins": "Voir tous les plugins"
+    "ViewAllPlugins": "Voir tous les plugins",
+    "ButtonAddProvider": "Ajouter un fournisseur",
+    "ButtonAddTunerDevice": "Ajouter un tuner"
 }

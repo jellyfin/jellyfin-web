@@ -2013,5 +2013,7 @@
     "LabelAvailable": "Disponible",
     "LabelBundled": "Groupé",
     "ManageRepositories": "Gérer les dépôts",
-    "ViewAllPlugins": "Voir tous les plugiciels"
+    "ViewAllPlugins": "Voir tous les plugiciels",
+    "ButtonAddProvider": "Ajouter Fournisseur",
+    "ButtonAddTunerDevice": "Ajouter un Syntoniseur"
 }

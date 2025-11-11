@@ -1267,7 +1267,7 @@
     "Yadif": "Yet Another DeInterlacing Filter (YADIF)",
     "Season": "Stagione",
     "Movie": "Film",
-    "LabelLibraryPageSizeHelp": "Numero di elementi presenti nella paginazione della libreria. Il valore 0 disabilita la paginazione.",
+    "LabelLibraryPageSizeHelp": "Numero di elementi presenti nella paginazione della libreria. Il valore 0 disabilita la paginazione. Tieni presente che impostare questo valore a 0 o un valore superiore a 100 potrebbe comportare bug o peggiorare la performance.",
     "LabelLibraryPageSize": "Elementi nella paginazione della libreria",
     "Episode": "Episodio",
     "BoxSet": "Cofanetto",
@@ -1989,7 +1989,7 @@
     "MediaSegmentAction.None": "Niente",
     "MediaSegmentAction.Skip": "Salta",
     "MoviesAndShows": "Film e Serie",
-    "HeaderMediaSegmentActions": "Media Segment Actions",
+    "HeaderMediaSegmentActions": "Azioni sui segmenti dei media",
     "HeaderNextEpisode": "Prossimo Episodio",
     "HeaderNextVideo": "Prossimo Video",
     "MediaSegmentProvidersHelp": "Abilita e classifica i tuoi provider di segmenti multimediali preferiti in ordine di priorità.",
@@ -2069,5 +2069,7 @@
     "LabelAvailable": "Disponibile",
     "ManageRepositories": "Gestisci Archivi",
     "ViewAllPlugins": "Visualizza tutti i plugin",
-    "LabelBundled": "Raggruppati"
+    "LabelBundled": "Raggruppati",
+    "ButtonAddProvider": "Aggiungi un fornitore",
+    "ButtonAddTunerDevice": "Aggiungi un dispositivo tuner"
 }
