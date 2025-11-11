@@ -777,7 +777,7 @@
     padding-left: 0; // Reset padding for focused button since 'margin-left' is 0
 }
 
-.detailPagePrimaryContainer {
+.detailRibbon {
     display: flex;
     align-items: center;
     align-content: center;
@@ -791,6 +791,8 @@
 
     .layout-desktop & {
         position: relative;
+        margin-top: -7.2em;
+        height: 7.2em;
     }
 
     .layout-tv & {
@@ -806,16 +808,6 @@
     .layout-tv [dir="ltr"] & {
         padding-left: 32.45vw;
     }
-}
-
-.layout-desktop .detailRibbon {
-    margin-top: -7.2em;
-    height: 7.2em;
-}
-
-.layout-tv .detailRibbon {
-    margin-top: 0;
-    height: inherit;
 }
 
 .infoWrapper {
@@ -843,6 +835,10 @@
     max-width: 100%;
 }
 
+.detailPagePrimaryContainer {
+    position: relative;
+}
+
 .detailPageSecondaryContainer {
     padding-top: 1.25em;
 
@@ -856,9 +852,8 @@
 }
 
 .detailImageContainer .card {
-    // important is needed here to override :focus setting
-    // the position to relative in the tv layout
-    position: absolute !important;
+    position: relative;
+    float: left;
     top: 20%;
     max-width: 25vw;
     max-height: 80vh;
@@ -868,15 +863,9 @@
         margin: 0;
     }
 
-    &.backdropCard {
-        top: 35%;
-    }
-
-    &.squareCard {
-        top: 40%;
-    }
-
     .layout-mobile & {
+        position: absolute;
+        top: auto;
         left: 5%;
         bottom: 1rem;
         max-width: 30vw;
@@ -887,16 +876,16 @@
             bottom: 0;
         }
 
-        &,
-        &.backdropCard,
-        &.squareCard {
-            top: auto;
+        &.backdropCard {
+            top: 1.6em;
         }
     }
 
     .layout-desktop & {
         left: 3.3%;
-        top: -80%;
+        // ribbon height (7.2em) * 1.8
+        top: -12.96em;
+        margin-bottom: -12.96em; // match top offset
         width: 25vw;
         // FIXME: the fixed width + max height cause the card to be cropped this needs a proper fix
         max-height: none;
@@ -904,9 +893,10 @@
 
     .layout-tv & {
         left: 5%;
-        top: 50%;
+        top: 0;
         width: 25vw;
-        transform: translateY(-50%);
+        // match the width
+        margin-right: -25vw;
     }
 
     [dir="rtl"] & {
@@ -925,6 +915,28 @@
 
 .detailPagePrimaryContent {
     position: relative;
+    padding-top: 1.25em;
+
+    [dir="ltr"] & {
+        padding-left: 32.45vw;
+        padding-right: 2%;
+    }
+
+    [dir="rtl"] & {
+        padding-right: 32.45vw;
+        padding-left: 2%;
+    }
+
+    .layout-mobile & {
+        padding-left: 5% !important;
+        padding-right: 5% !important;
+    }
+
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
 }
 
 .layout-mobile,
