@@ -15,9 +15,15 @@ type ServerInfoWidgetProps = {
     onScanLibrariesClick?: () => void;
     onRestartClick?: () => void;
     onShutdownClick?: () => void;
+    isScanning?: boolean;
 };
 
-const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClick }: ServerInfoWidgetProps) => {
+const ServerInfoWidget = ({
+    onScanLibrariesClick,
+    onRestartClick,
+    onShutdownClick,
+    isScanning
+}: ServerInfoWidgetProps) => {
     const { data: systemInfo, isPending } = useSystemInfo();
 
     return (
@@ -63,6 +69,7 @@ const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClic
                         sx={{
                             fontWeight: 'bold'
                         }}
+                        disabled={isScanning}
                     >
                         {globalize.translate('ButtonScanAllLibraries')}
                     </Button>
