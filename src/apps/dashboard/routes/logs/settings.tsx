@@ -13,11 +13,9 @@ import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import { useServerLogs } from 'apps/dashboard/features/logs/api/useServerLogs';
 import { useConfiguration } from 'hooks/useConfiguration';
 import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
 import { ActionData } from 'types/actionData';
-import LogItemList from 'apps/dashboard/features/logs/components/LogItemList';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();
@@ -47,7 +45,6 @@ export const Component = () => {
     const actionData = useActionData() as ActionData | undefined;
     const isSubmitting = navigation.state === 'submitting';
 
-    const { isPending: isLogEntriesPending, data: logs } = useServerLogs();
     const { isPending: isConfigurationPending, data: defaultConfiguration } = useConfiguration();
     const [ loading, setLoading ] = useState(true);
     const [ configuration, setConfiguration ] = useState<ServerConfiguration>( {} );
@@ -73,21 +70,21 @@ export const Component = () => {
         });
     }, [configuration]);
 
-    if (isLogEntriesPending || isConfigurationPending || loading || !logs) {
+    if (isConfigurationPending || loading) {
         return <Loading />;
     }
 
     return (
         <Page
             id='logPage'
-            title={globalize.translate('TabLogs')}
+            title={globalize.translate('TabLogSettings')}
             className='mainAnimatedPage type-interior'
         >
             <Box className='content-primary'>
                 <Form method='POST'>
                     <Stack spacing={3}>
                         <Typography variant='h1'>
-                            {globalize.translate('TabLogs')}
+                            {globalize.translate('TabLogSettings')}
                         </Typography>
 
                         {!isSubmitting && actionData?.isSaved && (
@@ -125,12 +122,9 @@ export const Component = () => {
                         </Button>
                     </Stack>
                 </Form>
-                <Box className='serverLogs readOnlyContent' sx={{ mt: 3 }}>
-                    <LogItemList logs={logs} />
-                </Box>
             </Box>
         </Page>
     );
 };
 
-Component.displayName = 'LogsPage';
+Component.displayName = 'LogsSettingsPage';

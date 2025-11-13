@@ -1618,6 +1618,8 @@
     "TabServer": "Server",
     "TabStreaming": "Streaming",
     "TabUpcoming": "Upcoming",
+    "TabLogSettings": "Settings",
+    "TabLogFiles": "Files",
     "Tags": "Tags",
     "TagsValue": "Tags: {0}",
     "TellUsAboutYourself": "Tell us about yourself",
