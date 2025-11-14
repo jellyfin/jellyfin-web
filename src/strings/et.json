@@ -718,7 +718,7 @@
     "OptionSaveMetadataAsHiddenHelp": "Selle muutmine kehtib edaspidi salvestatud uute metaandmete suhtes. Olemasolevaid metaandmete faile värskendatakse järgmisel korral, kui server need salvestab.",
     "NextUp": "Järgmiseks",
     "MessageNoNextUpItems": "Midagi ei leitud. Hakka oma sarju vaatama!",
-    "LabelLibraryPageSizeHelp": "Määra meediakogu lehel kuvatavate üksuste hulk. Määra 0, et kuvada kõik üksused ühel lehel.",
+    "LabelLibraryPageSizeHelp": "Määra meediakogu lehel kuvatavate üksuste hulk. Määra 0, et kuvada kõik üksused ühel lehel. Arvesta, et määrates väärtuseks 0 või rohkem kui 100, võib põhjustada vigu ja vähendada jõudlust.",
     "LabelLibraryPageSize": "Meediakogu lehe suurus",
     "LabelLanNetworks": "LAN võrgud",
     "LabelLanguage": "Keel",
@@ -2054,5 +2054,6 @@
     "StorageType.Fixed": "Sisemine",
     "HeaderBackups": "Varukoopiad",
     "Success": "Edu",
-    "ButtonAddTunerDevice": "Lisa tuuner"
+    "ButtonAddTunerDevice": "Lisa tuuner",
+    "ButtonAddProvider": "Lisa tarnija"
 }

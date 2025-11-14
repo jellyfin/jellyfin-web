@@ -61,7 +61,7 @@
     "Artist": "Artist",
     "Artists": "Artists",
     "Ascending": "Ascending",
-    "AskAdminToCreateLibrary": "Ask an administrator to create a library.",
+    "AskAdminToCreateLibrary": "Ask an Administrator to create a library.",
     "AsManyAsPossible": "As many as possible",
     "AspectRatio": "Aspect Ratio",
     "Audio": "Audio",
@@ -78,5 +78,18 @@
     "BirthDateValue": "Born: {0}",
     "BirthLocation": "Birth location",
     "BirthPlaceValue": "Birth place: {0}",
-    "Anytime": "Anytime"
+    "Anytime": "Anytime",
+    "Arranger": "Arranger",
+    "Blacklist": "Blacklist",
+    "BlockContentWithTagsHelp": "Hide media with at least one of the specified tags.",
+    "BookLibraryHelp": "Audio and text books are supported. Review the {0} book naming guide {1}.",
+    "Books": "Books",
+    "Box": "Box",
+    "BoxRear": "Box (rear)",
+    "BoxSet": "Box Set",
+    "Browse": "Browse",
+    "BurnSubtitlesHelp": "Determine if the server should burn in subtitles. Avoiding this will greatly improve performance. Select Auto to burn image based formats (VobSub, PGS, SUB, IDX, etc.) and certain ASS or SSA subtitles.",
+    "ButtonActivate": "Activate",
+    "ButtonAddImage": "Add Image",
+    "ButtonAddMediaLibrary": "Add Media Library"
 }
