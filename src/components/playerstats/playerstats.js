@@ -52,7 +52,7 @@ function onCloseButtonClick() {
 }
 
 function renderStats(elem, categories) {
-    elem.querySelector('.playerStats-stats').innerHTML = categories.map(function (category) {
+    elem.querySelector('.playerStats-stats').innerHTML = categories.map((category) => {
         let categoryHtml = '';
 
         const stats = category.stats;
@@ -102,14 +102,12 @@ function getSession(instance, player) {
 
     return apiClient.getSessions({
         deviceId: apiClient.deviceId()
-    }).then(function (sessions) {
+    }).then((sessions) => {
         instance.lastSession = sessions[0] || {};
         instance.lastSessionTime = new Date().getTime();
 
         return Promise.resolve(instance.lastSession);
-    }, function () {
-        return Promise.resolve({});
-    });
+    }, () => Promise.resolve({}));
 }
 
 function translateReason(reason) {
@@ -243,16 +241,12 @@ function getMediaSourceStats(session, player) {
     }
 
     const mediaStreams = mediaSource.MediaStreams || [];
-    const videoStream = mediaStreams.filter(function (s) {
-        return s.Type === 'Video';
-    })[0] || {};
+    const videoStream = mediaStreams.filter((s) => s.Type === 'Video')[0] || {};
 
     const videoCodec = videoStream.Codec;
 
     const audioStreamIndex = playbackManager.getAudioStreamIndex(player);
-    const audioStream = playbackManager.audioTracks(player).filter(function (s) {
-        return s.Type === 'Audio' && s.Index === audioStreamIndex;
-    })[0] || {};
+    const audioStream = playbackManager.audioTracks(player).filter((s) => s.Type === 'Audio' && s.Index === audioStreamIndex)[0] || {};
 
     const audioCodec = audioStream.Codec;
     const audioChannels = audioStream.Channels;
@@ -374,7 +368,7 @@ function getStats(instance, player) {
     const statsPromise = player.getStats ? player.getStats() : Promise.resolve({});
     const sessionPromise = getSession(instance, player);
 
-    return Promise.all([statsPromise, sessionPromise]).then(function (responses) {
+    return Promise.all([statsPromise, sessionPromise]).then((responses) => {
         const playerStatsResult = responses[0];
         const playerStats = playerStatsResult.categories || [];
         const session = responses[1];
@@ -461,7 +455,7 @@ function renderPlayerStats(instance, player) {
 
     instance.lastRender = now;
 
-    getStats(instance, player).then(function (stats) {
+    getStats(instance, player).then((stats) => {
         const elem = instance.element;
         if (!elem) {
             return;
@@ -472,7 +466,7 @@ function renderPlayerStats(instance, player) {
 }
 
 function bindEvents(instance, player) {
-    const localOnTimeUpdate = function () {
+    const localOnTimeUpdate = () => {
         renderPlayerStats(instance, player);
     };
 

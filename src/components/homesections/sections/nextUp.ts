@@ -16,7 +16,7 @@ function getNextUpFetchFn(
     userSettings: UserSettings,
     { enableOverflow }: SectionOptions
 ) {
-    return function () {
+    return () => {
         const apiClient = ServerConnections.getApiClient(serverId);
         const oldestDateForNextUp = new Date();
         oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
@@ -39,7 +39,7 @@ function getNextUpItemsHtmlFn(
     useEpisodeImages: boolean,
     { enableOverflow }: SectionOptions
 ) {
-    return function (items: BaseItemDto[]) {
+    return (items: BaseItemDto[]) => {
         const cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,

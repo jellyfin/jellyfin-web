@@ -38,7 +38,7 @@ function onClick() {
         likes = null;
     }
 
-    showPicker(button, apiClient, id, likes, isFavorite).then(function (userData) {
+    showPicker(button, apiClient, id, likes, isFavorite).then((userData) => {
         setState(button, userData.Likes, userData.IsFavorite);
     });
 }
