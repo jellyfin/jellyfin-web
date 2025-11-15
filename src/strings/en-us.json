@@ -1144,8 +1144,6 @@
     "MessageContactAdminToResetPassword": "Please contact your system administrator to reset your password.",
     "MessageCreateAccountAt": "Create an account at {0}",
     "MessageDeleteTaskTrigger": "Are you sure you wish to delete this task trigger?",
-    "MessageDirectoryPickerBSDInstruction": "For BSD, you may need to set up storage within your 'FreeNAS Jail' so Jellyfin can access your media.",
-    "MessageDirectoryPickerLinuxInstruction": "For Linux on Arch Linux, CentOS, Debian, Fedora, openSUSE, or Ubuntu, you must grant the service user at least read access to your storage locations.",
     "MessageDownloadQueued": "Download queued.",
     "MessageEnablingOptionLongerScans": "Enabling this option may result in significantly longer library scans.",
     "MessageFileReadError": "There was an error reading the file. Please try again.",
