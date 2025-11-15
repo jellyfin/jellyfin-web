@@ -412,7 +412,9 @@ export default function (options) {
         return getSwiperSlideHtmlFromSlide({
             originalImage: getImgUrl(item, currentOptions.user),
             Id: item.Id,
-            ServerId: item.ServerId
+            ServerId: item.ServerId,
+            title: item.Name,
+            description: getSlideDescriptionFromItem(item)
         });
     }
 
@@ -449,6 +451,22 @@ export default function (options) {
         html += '</div>';
 
         return html;
+    }
+
+    /**
+     * Generates the description string of a slide for a slide object.
+     * @param {Object} item - Slide Object used to generate the slide.
+     * @returns Description string
+     */
+    function getSlideDescriptionFromItem(item) {
+        let subtitle = '';
+        let prefix = '';
+        if (item.CommunityRating) {
+            subtitle += '✯ ' + parseFloat(item.CommunityRating).toFixed(1);
+            prefix = '｜';
+        }
+        if (item.ProductionYear) subtitle += prefix + item.ProductionYear;
+        return subtitle;
     }
 
     /**
