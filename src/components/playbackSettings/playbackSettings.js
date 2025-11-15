@@ -192,8 +192,10 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     }
 
     // Show hls segment length setting for webOS only, as the setting only aims to fix an issue on that platform.
+    // Also show option to use hls.js
     if (browser.web0s) {
         context.querySelector('.fldLimitSegmentLength').classList.remove('hide');
+        context.querySelector('.fldUseHlsJs').classList.remove('hide');
     }
 
     context.querySelector('#selectAllowedAudioChannels').value = userSettings.allowedAudioChannels();
@@ -227,6 +229,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
     context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
     context.querySelector('.chkLimitSegmentLength').checked = userSettings.limitSegmentLength();
+    context.querySelector('.chkUseHlsJs').checked = appSettings.useHlsJs();
     context.querySelector('.chkEnableDts').checked = appSettings.enableDts();
     context.querySelector('.chkEnableTrueHd').checked = appSettings.enableTrueHd();
     context.querySelector('.chkEnableHi10p').checked = appSettings.enableHi10p();
@@ -282,9 +285,9 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     appSettings.limitSupportedVideoResolution(context.querySelector('.chkLimitSupportedVideoResolution').checked);
     appSettings.preferredTranscodeVideoCodec(context.querySelector('#selectPreferredTranscodeVideoCodec').value);
     appSettings.preferredTranscodeVideoAudioCodec(context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value);
-
-    appSettings.enableDts(context.querySelector('.chkEnableDts').checked);
     appSettings.enableTrueHd(context.querySelector('.chkEnableTrueHd').checked);
+    appSettings.enableDts(context.querySelector('.chkEnableDts').checked);
+    appSettings.useHlsJs(context.querySelector('.chkUseHlsJs').checked);
 
     appSettings.enableHi10p(context.querySelector('.chkEnableHi10p').checked);
     appSettings.disableVbrAudio(context.querySelector('.chkDisableVbrAudioEncoding').checked);
