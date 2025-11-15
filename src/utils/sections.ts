@@ -157,6 +157,67 @@ export const getSuggestionSections = (): Section[] => {
     ];
 };
 
+export const getRecentlyReleasedSections = (): Section[] => {
+    return [
+        {
+            name: 'HeaderRecentlyReleasedMovies',
+            itemTypes: 'Movie',
+            type: SectionType.RecentlyReleasedMovies,
+            parametersOptions: {
+                sortBy: [ItemSortBy.PremiereDate],
+                sortOrder: [SortOrder.Descending],
+                includeItemTypes: [BaseItemKind.Movie],
+                limit: 16
+            },
+            cardOptions: {
+                overlayPlayButton: true,
+                shape: CardShape.PortraitOverflow,
+                showYear: true,
+                showPremiereDate: true
+            }
+        },
+        {
+            name: 'HeaderRecentlyReleasedEpisodes',
+            itemTypes: 'Episode',
+            type: SectionType.RecentlyReleasedEpisode,
+            parametersOptions: {
+                sortBy: [ItemSortBy.PremiereDate],
+                sortOrder: [SortOrder.Descending],
+                includeItemTypes: [BaseItemKind.Episode],
+                limit: 16
+            },
+            cardOptions: {
+                overlayPlayButton: true,
+                shape: CardShape.BackdropOverflow,
+                preferThumb: true,
+                showSeriesYear: true,
+                showParentTitle: true,
+                showUnplayedIndicator: false,
+                showChildCountIndicator: true,
+                lines: 2
+            }
+        },
+        {
+            name: 'HeaderRecentlyReleasedMusic',
+            itemTypes: 'Audio',
+            type: SectionType.RecentlyReleasedMusic,
+            parametersOptions: {
+                sortBy: [ItemSortBy.PremiereDate],
+                sortOrder: [SortOrder.Descending],
+                includeItemTypes: [BaseItemKind.Audio],
+                limit: 30
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.SquareOverflow,
+                showParentTitle: true,
+                overlayPlayButton: true,
+                coverImage: true
+            }
+        }
+    ];
+};
+
 export const getProgramSections = (): Section[] => {
     const cardOptions = {
         inheritThumb: false,
