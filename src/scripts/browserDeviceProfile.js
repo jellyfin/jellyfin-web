@@ -157,6 +157,19 @@ function supportsAc3InHls(videoTestElement) {
     return false;
 }
 
+function supportsAc4(videoTestElement) {
+    return videoTestElement.canPlayType && videoTestElement.canPlayType('audio/mp4; codecs="ac-4"').replace(/no/, '');
+}
+
+function supportsAc4InHls(videoTestElement) {
+    if (videoTestElement.canPlayType) {
+        return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-4"').replace(/no/, '')
+                || videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-4"').replace(/no/, '');
+    }
+
+    return false;
+}
+
 function supportsMp3InHls(videoTestElement) {
     if (videoTestElement.canPlayType) {
         return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '')
@@ -579,6 +592,15 @@ export default function (options) {
                 hlsInTsVideoAudioCodecs.push('eac3');
                 hlsInFmp4VideoAudioCodecs.push('eac3');
             }
+        }
+    }
+
+    if (supportsAc4(videoTestElement)) {
+        videoAudioCodecs.push('ac4');
+
+        if (supportsAc4InHls(videoTestElement)) {
+            hlsInTsVideoAudioCodecs.push('ac4');
+            hlsInFmp4VideoAudioCodecs.push('ac4');
         }
     }
 
