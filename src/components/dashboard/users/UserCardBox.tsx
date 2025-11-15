@@ -75,7 +75,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
                         <span>{user.Name}</span>
                     </div>
                     <div className='cardText cardText-secondary'>
-                        <span>{lastSeen != '' ? lastSeen : ''}</span>
+                        <span>{lastSeen !== '' ? lastSeen : ''}</span>
                     </div>
                 </div>
             </div>

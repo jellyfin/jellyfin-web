@@ -766,7 +766,7 @@ export default function (options) {
 
     ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
         // Place container overrides before direct profile for remux container override
-        if (audioFormat == 'mp3' && !canPlayMp3VideoAudioInHls) {
+        if (audioFormat === 'mp3' && !canPlayMp3VideoAudioInHls) {
             // mp3 is a special case because it is allowed in hls-fmp4 on the server-side
             // but not really supported in most browsers
             profile.DirectPlayProfiles.push({
@@ -1048,7 +1048,7 @@ export default function (options) {
 
             flacTranscodingProfiles.push(flacTranscodingProfile);
 
-            transcodingProfile.AudioCodec = audioCodecs.filter(codec => codec != 'flac').join(',');
+            transcodingProfile.AudioCodec = audioCodecs.filter(codec => codec !== 'flac').join(',');
         });
 
         profile.TranscodingProfiles.push(...flacTranscodingProfiles);
@@ -1090,7 +1090,7 @@ export default function (options) {
 
             opusTranscodingProfiles.push(opusTranscodingProfile);
 
-            transcodingProfile.AudioCodec = audioCodecs.filter(codec => codec != 'opus').join(',');
+            transcodingProfile.AudioCodec = audioCodecs.filter(codec => codec !== 'opus').join(',');
         });
 
         profile.TranscodingProfiles.push(...opusTranscodingProfiles);
