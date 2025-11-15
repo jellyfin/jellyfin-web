@@ -19,7 +19,7 @@ function removeNotificationEvent(instance, name) {
     }
 }
 
-function onRefreshProgress(e, apiClient, info) {
+function onRefreshProgress(_e, _apiClient, info) {
     const indicator = this;
 
     if (!indicator.itemId) {

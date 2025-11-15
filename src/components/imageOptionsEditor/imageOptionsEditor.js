@@ -12,7 +12,7 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-input/emby-input';
 import template from './imageOptionsEditor.template.html';
 
-function getDefaultImageConfig(itemType, type) {
+function getDefaultImageConfig(type) {
     return {
         Type: type,
         MinWidth: 0,
@@ -26,8 +26,8 @@ function findImageOptions(imageOptions, type) {
     })[0];
 }
 
-function getImageConfig(options, availableOptions, imageType, itemType) {
-    return findImageOptions(options.ImageOptions || [], imageType) || findImageOptions(availableOptions.DefaultImageOptions || [], imageType) || getDefaultImageConfig(itemType, imageType);
+function getImageConfig(options, availableOptions, imageType) {
+    return findImageOptions(options.ImageOptions || [], imageType) || findImageOptions(availableOptions.DefaultImageOptions || [], imageType) || getDefaultImageConfig(imageType);
 }
 
 function setVisibilityOfBackdrops(elem, visible) {
@@ -41,7 +41,7 @@ function setVisibilityOfBackdrops(elem, visible) {
     }
 }
 
-function loadValues(context, itemType, options, availableOptions) {
+function loadValues(context, options, availableOptions) {
     const supportedImageTypes = availableOptions.SupportedImageTypes || [];
     setVisibilityOfBackdrops(context.querySelector('.backdropFields'), supportedImageTypes.includes('Backdrop'));
     Array.prototype.forEach.call(context.querySelectorAll('.imageType'), i => {
@@ -54,13 +54,13 @@ function loadValues(context, itemType, options, availableOptions) {
             container.classList.remove('hide');
         }
 
-        if (getImageConfig(options, availableOptions, imageType, itemType).Limit) {
+        if (getImageConfig(options, availableOptions, imageType).Limit) {
             i.checked = true;
         } else {
             i.checked = false;
         }
     });
-    const backdropConfig = getImageConfig(options, availableOptions, 'Backdrop', itemType);
+    const backdropConfig = getImageConfig(options, availableOptions, 'Backdrop');
     context.querySelector('#txtMaxBackdrops').value = backdropConfig.Limit;
     context.querySelector('#txtMinBackdropDownloadWidth').value = backdropConfig.MinWidth;
 }
@@ -81,7 +81,7 @@ function saveValues(context, options) {
 }
 
 class ImageOptionsEditor {
-    show(itemType, options, availableOptions) {
+    show(options, availableOptions) {
         const dlg = dialogHelper.createDialog({
             size: 'small',
             removeOnClose: true,
@@ -92,7 +92,7 @@ class ImageOptionsEditor {
         dlg.addEventListener('close', function () {
             saveValues(dlg, options);
         });
-        loadValues(dlg, itemType, options, availableOptions);
+        loadValues(dlg, options, availableOptions);
         dialogHelper.open(dlg).then(() => {
             return;
         }).catch(() => {

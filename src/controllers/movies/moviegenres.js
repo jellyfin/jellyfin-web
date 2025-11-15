@@ -11,7 +11,7 @@ import { getBackdropShape, getPortraitShape } from 'utils/card';
 
 import 'elements/emby-button/emby-button';
 
-export default function (view, params, tabContent) {
+export default function (_view, params, tabContent) {
     function getPageData() {
         const key = getSavedQueryKey();
         let pageData = data[key];

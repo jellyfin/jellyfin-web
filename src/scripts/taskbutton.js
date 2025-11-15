@@ -72,7 +72,7 @@ function taskbutton(options) {
         onScheduledTaskMessageConfirmed(this.getAttribute('data-taskid'));
     }
 
-    function onScheduledTasksUpdate(e, apiClient, info) {
+    function onScheduledTasksUpdate(_e, apiClient, info) {
         if (apiClient.serverId() === serverId) {
             updateTasks(info);
         }
