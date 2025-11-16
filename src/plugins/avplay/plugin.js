@@ -1,3 +1,14 @@
+import DOMPurify from 'dompurify';
+import subtitleAppearanceHelper from 'components/subtitlesettings/subtitleappearancehelper';
+import { currentSettings as userSettings } from 'scripts/settings/userSettings';
+import loading from '../../components/loading/loading';
+import { appRouter } from '../../components/router/appRouter';
+import globalize from '../../lib/globalize';
+import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
+import { PluginType } from '../../types/plugin.ts';
+import Events from '../../utils/events.ts';
+
+
 function getMediaStreamAudioTracks(mediaSource) {
     return mediaSource.MediaStreams.filter(function (s) {
         return s.Type === 'Audio';
@@ -20,34 +31,26 @@ function normalizeSubtitleText(text) {
     return result.replace(/\n/gi, '<br>');
 }
 
-function _AvplayVideoPlayer(modules) {
-    console.debug('AVPlay Video Player');
-
-    window['AvplayVideoPlayer'] = this;
-
-    this.appRouter = modules.appRouter;
-    this.Events = modules.events;
-    this.loading = modules.loading;
-
+class AvplayVideoPlayer {
     // playbackManager needs this
-    this.name = "AVPlay Video Player";
-    this.type = 'mediaplayer';
-    this.id = 'avplay-video';
-    this.isLocalPlayer = true;
-    //this.lastPlayerData = {}; // FIXME: need?
+    name = "AVPlay Video Player";
+    type = PluginType.MediaPlayer;
+    id = 'avplay-video';
+    isLocalPlayer = true;
+    //lastPlayerData = {}; // FIXME: need?
 
-    this._currentPlayOptions = {};
-    this._currentTrackOffset = 0;
+    _currentPlayOptions = {};
+    _currentTrackOffset = 0;
 
-    this.canPlayMediaType = function (mediaType) {
+    canPlayMediaType(mediaType) {
         return (mediaType || '').toLowerCase() === 'video';
-    };
+    }
 
-    this.supportsPlayMethod = function (playMethod, item) {
+    supportsPlayMethod(playMethod, item) {
         return true;
-    };
+    }
 
-    this.getDeviceProfile = function (item, options) {
+    getDeviceProfile(item, options) {
         var profile = {
             Name: this.name + ' Profile',
 
@@ -398,7 +401,7 @@ function _AvplayVideoPlayer(modules) {
         return Promise.resolve(profile);
     }
 
-    this.play = function (options) {
+    play(options) {
         var self = this;
 
         return self.createMediaElement(options)
@@ -408,11 +411,11 @@ function _AvplayVideoPlayer(modules) {
             })
             .then(function () {
                 if (options.fullscreen) {
-                    self.appRouter.showVideoOsd().then(function () {
+                    appRouter.showVideoOsd().then(function () {
                         self._videoElement.classList.remove('avplayVideoPlayerOnTop');
                     });
                 } else {
-                    self.appRouter.setTransparency('backdrop');
+                    setBackdropTransparency(TRANSPARENCY_LEVEL.Backdrop);
                     self._videoElement.classList.remove('avplayVideoPlayerOnTop');
                 }
 
@@ -437,8 +440,11 @@ function _AvplayVideoPlayer(modules) {
                     subtitlesElement.classList.add('avplaySubtitlesInner');
                     subtitlesContainer.appendChild(subtitlesElement);
                     self._videoSubtitlesElem = subtitlesElement;
-                    //self.setSubtitleAppearance(subtitlesContainer, self._videoSubtitlesElem);
                     self._videoElement.parentNode.appendChild(subtitlesContainer);
+                    subtitleAppearanceHelper.applyStyles({
+                            text: self._videoSubtitlesElem,
+                            window: subtitlesContainer
+                        }, userSettings.getSubtitleAppearanceSettings());
                 }
 
                 var audioIndex = options.playMethod === 'Transcode' ? null : options.mediaSource.DefaultAudioStreamIndex;
@@ -454,13 +460,13 @@ function _AvplayVideoPlayer(modules) {
                     }
                 }
 
-                self.loading.hide();
+                loading.hide();
 
-                self.Events.trigger(self, 'playing');
+                Events.trigger(self, 'playing');
             });
     }
 
-    this.stop = function (destroyPlayer) {
+    stop(destroyPlayer) {
         var elem = document.querySelector('.avplayVideoPlayer');
 
         if (elem) {
@@ -487,8 +493,8 @@ function _AvplayVideoPlayer(modules) {
         return Promise.resolve();
     }
 
-    this.destroy = function () {
-        this.appRouter.setTransparency('none');
+    destroy() {
+        setBackdropTransparency(TRANSPARENCY_LEVEL.None);
         document.body.classList.remove('hide-scroll');
 
         var elem = document.querySelector('.avplayVideoPlayer');
@@ -508,21 +514,21 @@ function _AvplayVideoPlayer(modules) {
         }
     }
 
-    this.volume = function (val) {
+    volume(val) {
         // Volume is controlled physically
         return 1.0;
     }
 
-    this.isMuted = function () {
+    isMuted() {
         // Volume is controlled physically
         return false;
     }
 
-    this.currentSrc = function () {
+    currentSrc() {
         return this._currentPlayOptions.url;
     }
 
-    this.currentTime = function (val) {
+    currentTime(val) {
         if (val != null) {
             return new Promise(function (resolve, reject) {
                 var successCallback = function () {
@@ -543,29 +549,29 @@ function _AvplayVideoPlayer(modules) {
         return webapis.avplay.getCurrentTime();
     }
 
-    this.duration = function () {
+    duration() {
         return webapis.avplay.getDuration();
     }
 
-    this.seekable = function () {
+    seekable() {
         return this._videoElement && webapis.avplay.getDuration() > 0;
     }
 
-    this.paused = function () {
+    paused() {
         return webapis.avplay.getState() === 'PAUSED';
     }
 
-    this.pause = function () {
+    pause() {
         webapis.avplay.pause();
-        this.Events.trigger(this, 'pause');
+        Events.trigger(this, 'pause');
     }
 
-    this.unpause = function () {
+    unpause() {
         webapis.avplay.play();
-        this.Events.trigger(this, 'unpause');
+        Events.trigger(this, 'unpause');
     }
 
-    this.createMediaElement = function (options) {
+    createMediaElement(options) {
         var elem = document.querySelector('.avplayVideoPlayer');
 
         if (!elem) {
@@ -580,10 +586,10 @@ function _AvplayVideoPlayer(modules) {
             document.body.classList.add('hide-scroll');
         }
 
-        return Promise.resolve(elem);
+        return import('./style.scss').then(() => elem);
     }
 
-    this.setCurrentSrc = function (elem, options) {
+    setCurrentSrc(elem, options) {
         var self = this;
 
         return new Promise(function (resolve, reject) {
@@ -606,7 +612,7 @@ function _AvplayVideoPlayer(modules) {
                 },
 
                 oncurrentplaytime: function (currentTime)  {
-                    self.Events.trigger(self, 'timeupdate');
+                    Events.trigger(self, 'timeupdate');
                 },
 
                 onerror: function (eventType) {
@@ -623,7 +629,7 @@ function _AvplayVideoPlayer(modules) {
                     const e = self._videoSubtitlesElem;
                     if (e) {
                         if (text) {
-                            e.innerHTML = /*DOMPurify.sanitize(*/ normalizeSubtitleText(text);
+                            e.innerHTML = DOMPurify.sanitize(normalizeSubtitleText(text));
                             e.classList.remove('hide');
                         } else {
                             e.classList.add('hide');
@@ -655,19 +661,17 @@ function _AvplayVideoPlayer(modules) {
         });
     }
 
-    this.canSetAudioStreamIndex = function () {
+    canSetAudioStreamIndex() {
         return true;
     }
 
-    this.setAudioStreamIndex = function (streamIndex) {
-        var self = this;
-
+    setAudioStreamIndex(streamIndex) {
         console.debug('setting new audio track index to: ' + streamIndex);
 
         var audioIndex = -1;
 
         if (streamIndex !== -1) {
-            var audioTracks = getMediaStreamAudioTracks(self._currentPlayOptions.mediaSource);
+            var audioTracks = getMediaStreamAudioTracks(this._currentPlayOptions.mediaSource);
 
             console.debug('AudioTracks:', audioTracks);
 
@@ -700,7 +704,7 @@ function _AvplayVideoPlayer(modules) {
         }
     }
 
-    this.setSubtitleStreamIndex = function (streamIndex) {
+    setSubtitleStreamIndex(streamIndex) {
         var self = this;
 
         console.debug('setting new text track index to: ' + streamIndex);
@@ -709,7 +713,7 @@ function _AvplayVideoPlayer(modules) {
         var track = null;
 
         if (streamIndex !== -1) {
-            var textTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
+            var textTracks = getMediaStreamTextTracks(this._currentPlayOptions.mediaSource);
 
             console.debug('TextTracks:', textTracks);
             console.debug(webapis.avplay.getTotalTrackInfo());
@@ -760,36 +764,58 @@ function _AvplayVideoPlayer(modules) {
         }
     }
 
-    this.setSubtitleOffset = function (offset) {
+    setSubtitleOffset(offset) {
         var offsetValue = parseFloat(offset) * 1000;
         // FIXME: Cannot be called if no subtitles
         //webapis.avplay.setSubtitlePosition(offsetValue);
     }
 
-    this.resetSubtitleOffset = function () {
+    resetSubtitleOffset() {
         this._currentTrackOffset = 0;
         this._showTrackOffset = false;
     }
 
-    this.enableShowingSubtitleOffset = function () {
+    enableShowingSubtitleOffset() {
         this._showTrackOffset = true;
     }
 
-    this.disableShowingSubtitleOffset = function () {
+    disableShowingSubtitleOffset() {
         this._showTrackOffset = false;
     }
 
-    this.isShowingSubtitleOffsetEnabled = function () {
+    isShowingSubtitleOffsetEnabled() {
         return this._showTrackOffset;
     }
 
-    this.onEnded = function () {
+    onEnded() {
         var stopInfo = {
             src: this.currentSrc()
         };
 
-        this.Events.trigger(this, 'stopped', [stopInfo]);
+        Events.trigger(this, 'stopped', [stopInfo]);
+    }
+
+    getStats() {
+        const categories = [];
+
+        for (const stream of webapis.avplay.getCurrentStreamInfo()) {
+            if (stream.type === 'VIDEO' && stream.extra_info) {
+                const extraInfo = JSON.parse(stream.extra_info);
+                categories.push({
+                    type: 'video',
+                    stats: [{
+                        label: globalize.translate('LabelPlayerViews'),
+                        value: `${extraInfo.Width}x${extraInfo.Height}`
+                    }]
+                });
+                break;
+            }
+        }
+
+        return Promise.resolve({
+            categories
+        });
     }
 };
 
-window['AvplayVideoPlayer'] = function () { return _AvplayVideoPlayer; };
+export default AvplayVideoPlayer;

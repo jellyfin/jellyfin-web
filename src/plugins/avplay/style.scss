@@ -17,7 +17,6 @@
     left: 0;
     right: 0;
     color: #fff;
-    text-shadow: #000000 0px 0px 7px;
     font-size: 170%;
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
@@ -29,4 +28,5 @@
 
 .avplaySubtitlesInner {
     max-width: 70%;
+    background-color: rgba(0, 0, 0, 0.8);
 }
