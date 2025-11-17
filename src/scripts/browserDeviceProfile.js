@@ -205,6 +205,13 @@ function testCanPlayMkv(videoTestElement) {
         return true;
     }
 
+    if (browser.firefox) {
+        // As of Firefox 145, its mkv support is buggy and causes playback issues because it would force preloading the
+        // whole mkv file before playback starts, which is extremely undesirable for streaming.
+        // See https://github.com/jellyfin/jellyfin/issues/15521
+        return false;
+    }
+
     if (videoTestElement.canPlayType('video/x-matroska').replace(/no/, '')
             || videoTestElement.canPlayType('video/mkv').replace(/no/, '')) {
         return true;
