@@ -89,6 +89,7 @@ function loadForm(context, user, userSettings) {
     }
 
     context.querySelector('.selectDashboardThemeContainer').classList.toggle('hide', !user.Policy.IsAdministrator);
+    context.querySelector('.txtSlideshowIntervalContainer').classList.remove('hide');
 
     if (appHost.supports(AppFeature.Screensaver)) {
         context.querySelector('.selectScreensaverContainer').classList.remove('hide');
@@ -112,6 +113,7 @@ function loadForm(context, user, userSettings) {
     loadScreensavers(context, userSettings);
 
     context.querySelector('#txtBackdropScreensaverInterval').value = userSettings.backdropScreensaverInterval();
+    context.querySelector('#txtSlideshowInterval').value = userSettings.slideshowInterval();
     context.querySelector('#txtScreensaverTime').value = userSettings.screensaverTime();
 
     context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
@@ -157,6 +159,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
     userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
     userSettingsInstance.backdropScreensaverInterval(context.querySelector('#txtBackdropScreensaverInterval').value);
+    userSettingsInstance.slideshowInterval(context.querySelector('#txtSlideshowInterval').value);
     userSettingsInstance.screensaverTime(context.querySelector('#txtScreensaverTime').value);
 
     userSettingsInstance.libraryPageSize(context.querySelector('#txtLibraryPageSize').value);
