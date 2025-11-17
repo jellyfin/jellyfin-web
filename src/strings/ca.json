@@ -1758,7 +1758,7 @@
     "LabelLevel": "Nivell",
     "LabelMediaDetails": "Detalls del contingut multimèdia",
     "LogLevel.Trace": "Rastreig",
-    "SearchResultsEmpty": "Ups! No s'han trobat cap resultat per «{0}»",
+    "SearchResultsEmpty": "Ups! No s'han trobat cap resultat amb «{0}»",
     "Studio": "Estudi",
     "UnknownError": "S'ha produït un error desconegut.",
     "PleaseConfirmRepositoryInstallation": "Si us plau, pitgeu D'acord per a confirmar que heu llegit el text anterior i desitgeu continuar amb la instal·lació del repositori de complements.",
