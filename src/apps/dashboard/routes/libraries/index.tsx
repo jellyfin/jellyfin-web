@@ -29,7 +29,8 @@ export const Component = () => {
 
     const showMediaLibraryCreator = useCallback(() => {
         const mediaLibraryCreator = new MediaLibraryCreator({
-            collectionTypeOptions: getCollectionTypeOptions()
+            collectionTypeOptions: getCollectionTypeOptions(),
+            refresh: true
         }) as Promise<boolean>;
 
         void mediaLibraryCreator.then((hasChanges: boolean) => {
