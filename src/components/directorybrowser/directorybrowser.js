@@ -123,14 +123,6 @@ function getEditorHtml(options, systemInfo) {
     if (!readOnlyAttribute) {
         html += '<div class="results paperList" style="max-height: 200px; overflow-y: auto;"></div>';
     }
-    if (options.enableNetworkSharePath) {
-        html += '<div class="inputContainer" style="margin-top:2em;">';
-        html += `<input is="emby-input" id="txtNetworkPath" type="text" label="${globalize.translate('LabelOptionalNetworkPath')}"/>`;
-        html += '<div class="fieldDescription">';
-        html += globalize.translate('LabelOptionalNetworkPathHelp', '<b>\\\\server</b>', '<b>\\\\192.168.1.101</b>');
-        html += '</div>';
-        html += '</div>';
-    }
     html += '<div class="formDialogFooter">';
     html += `<button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">${globalize.translate('ButtonOk')}</button>`;
     html += '</div>';
@@ -209,12 +201,10 @@ function initEditor(content, options, fileOptions) {
 
     content.querySelector('form').addEventListener('submit', function(e) {
         if (options.callback) {
-            let networkSharePath = this.querySelector('#txtNetworkPath');
-            networkSharePath = networkSharePath ? networkSharePath.value : null;
             const path = this.querySelector('#txtDirectoryPickerPath').value;
-            validatePath(path, options.validateWriteable, ApiClient).then(
-                options.callback(path, networkSharePath)
-            ).catch(() => { /* no-op */ });
+            validatePath(path, options.validateWriteable, ApiClient)
+                .then(options.callback(path))
+                .catch(() => { /* no-op */ });
         }
         e.preventDefault();
         e.stopPropagation();
@@ -282,10 +272,6 @@ class DirectoryBrowser {
                 });
                 this.currentDialog = dlg;
                 dlg.querySelector('#txtDirectoryPickerPath').value = fetchedInitialPath;
-                const txtNetworkPath = dlg.querySelector('#txtNetworkPath');
-                if (txtNetworkPath) {
-                    txtNetworkPath.value = options.networkSharePath || '';
-                }
                 if (!options.pathReadOnly) {
                     refreshDirectoryBrowser(dlg, fetchedInitialPath, fileOptions, true);
                 }
