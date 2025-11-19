@@ -79,7 +79,7 @@ function getEditorHtml(options) {
     html += '<div class="formDialogContent scrollY">';
     html += '<div class="dialogContentInner dialog-content-centered" style="padding-top:2em;">';
     if (!options.pathReadOnly && options.instruction) {
-        const instruction = options.instruction ? `${escapeHtml(options.instruction)}<br/><br/>` : '';
+        const instruction = `${escapeHtml(options.instruction)}<br/><br/>`;
         html += '<div class="infoBanner" style="margin-bottom:1.5em;">';
         html += instruction;
         html += '</div>';
