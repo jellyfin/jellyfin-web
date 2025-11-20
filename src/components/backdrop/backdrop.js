@@ -2,7 +2,7 @@ import isEqual from 'lodash-es/isEqual';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import * as userSettings from '../../scripts/settings/userSettings';
 
 import './backdrop.scss';
@@ -12,9 +12,7 @@ function enableAnimation() {
 }
 
 function enableRotation() {
-    return !browser.tv
-            // Causes high cpu usage
-            && !browser.firefox;
+    return !browser.tv;
 }
 
 class Backdrop {
@@ -236,7 +234,7 @@ export function setBackdropImages(images) {
     currentRotationIndex = -1;
 
     if (images.length > 1 && enableRotation()) {
-        rotationInterval = setInterval(onRotationInterval, 24000);
+        rotationInterval = setInterval(onRotationInterval, 10000);
     }
 
     onRotationInterval();

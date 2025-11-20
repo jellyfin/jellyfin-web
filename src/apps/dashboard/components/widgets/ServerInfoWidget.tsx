@@ -6,15 +6,24 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Skeleton from '@mui/material/Skeleton';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { useSystemInfo } from 'hooks/useSystemInfo';
 
 type ServerInfoWidgetProps = {
     onScanLibrariesClick?: () => void;
     onRestartClick?: () => void;
     onShutdownClick?: () => void;
+    isScanning?: boolean;
 };
 
-const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClick }: ServerInfoWidgetProps) => {
+const ServerInfoWidget = ({
+    onScanLibrariesClick,
+    onRestartClick,
+    onShutdownClick,
+    isScanning
+}: ServerInfoWidgetProps) => {
     const { data: systemInfo, isPending } = useSystemInfo();
 
     return (
@@ -27,13 +36,13 @@ const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClic
                     padding: 2
                 }}>
                     <Stack direction='row'>
-                        <Stack flexGrow={1} gap={1}>
+                        <Stack flexGrow={1} spacing={1}>
                             <Typography fontWeight='bold'>{globalize.translate('LabelServerName')}</Typography>
                             <Typography fontWeight='bold'>{globalize.translate('LabelServerVersion')}</Typography>
                             <Typography fontWeight='bold'>{globalize.translate('LabelWebVersion')}</Typography>
                             <Typography fontWeight='bold'>{globalize.translate('LabelBuildVersion')}</Typography>
                         </Stack>
-                        <Stack flexGrow={5} gap={1}>
+                        <Stack flexGrow={5} spacing={1}>
                             {isPending ? (
                                 <>
                                     <Skeleton />
@@ -53,18 +62,21 @@ const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClic
                     </Stack>
                 </Paper>
 
-                <Stack direction='row' gap={1.5} flexWrap={'wrap'}>
+                <Stack direction='row' spacing={1.5}>
                     <Button
                         onClick={onScanLibrariesClick}
+                        startIcon={<RefreshIcon />}
                         sx={{
                             fontWeight: 'bold'
                         }}
+                        disabled={isScanning}
                     >
                         {globalize.translate('ButtonScanAllLibraries')}
                     </Button>
 
                     <Button
                         onClick={onRestartClick}
+                        startIcon={<RestartAltIcon />}
                         color='error'
                         sx={{
                             fontWeight: 'bold'
@@ -75,6 +87,7 @@ const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClic
 
                     <Button
                         onClick={onShutdownClick}
+                        startIcon={<PowerSettingsNewIcon />}
                         color='error'
                         sx={{
                             fontWeight: 'bold'

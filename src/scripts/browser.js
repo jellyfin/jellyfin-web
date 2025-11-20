@@ -3,19 +3,23 @@ function isTv() {
     const userAgent = navigator.userAgent.toLowerCase();
 
     // The OculusBrowsers userAgent also has the samsungbrowser defined but is not a tv.
-    if (userAgent.indexOf('oculusbrowser') !== -1) {
+    if (userAgent.includes('oculusbrowser')) {
         return false;
     }
 
-    if (userAgent.indexOf('tv') !== -1) {
+    if (userAgent.includes('tv')) {
         return true;
     }
 
-    if (userAgent.indexOf('samsungbrowser') !== -1) {
+    if (userAgent.includes('samsungbrowser')) {
         return true;
     }
 
-    if (userAgent.indexOf('viera') !== -1) {
+    if (userAgent.includes('viera')) {
+        return true;
+    }
+
+    if (userAgent.includes('titanos')) {
         return true;
     }
 
@@ -25,8 +29,8 @@ function isTv() {
 function isWeb0s() {
     const userAgent = navigator.userAgent.toLowerCase();
 
-    return userAgent.indexOf('netcast') !== -1
-        || userAgent.indexOf('web0s') !== -1;
+    return userAgent.includes('netcast')
+        || userAgent.includes('web0s');
 }
 
 function isMobile(userAgent) {
@@ -45,7 +49,7 @@ function isMobile(userAgent) {
     const lower = userAgent.toLowerCase();
 
     for (let i = 0, length = terms.length; i < length; i++) {
-        if (lower.indexOf(terms[i]) !== -1) {
+        if (lower.includes(terms[i])) {
             return true;
         }
     }
@@ -105,7 +109,7 @@ function web0sVersion(browser) {
     if (browser.chrome) {
         const userAgent = navigator.userAgent.toLowerCase();
 
-        if (userAgent.indexOf('netcast') !== -1) {
+        if (userAgent.includes('netcast')) {
             // The built-in browser (NetCast) may have a version that doesn't correspond to the actual web engine
             // Since there is no reliable way to detect webOS version, we return an undefined version
 
@@ -195,12 +199,13 @@ const uaMatch = function (ua) {
         || /(edga)[ /]([\w.]+)/.exec(ua)
         || /(edgios)[ /]([\w.]+)/.exec(ua)
         || /(edge)[ /]([\w.]+)/.exec(ua)
+        || /(titanos)[ /]([\w.]+)/.exec(ua)
         || /(opera)[ /]([\w.]+)/.exec(ua)
         || /(opr)[ /]([\w.]+)/.exec(ua)
         || /(chrome)[ /]([\w.]+)/.exec(ua)
         || /(safari)[ /]([\w.]+)/.exec(ua)
         || /(firefox)[ /]([\w.]+)/.exec(ua)
-        || ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua)
+        || !ua.includes('compatible') && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua)
         || [];
 
     const versionMatch = /(version)[ /]([\w.]+)/.exec(ua);
@@ -209,6 +214,7 @@ const uaMatch = function (ua) {
         || /(iphone)/.exec(ua)
         || /(windows)/.exec(ua)
         || /(android)/.exec(ua)
+        || /(titanos)/.exec(ua)
         || [];
 
     let browser = match[1] || '';
@@ -259,11 +265,11 @@ if (matched.platform) {
 
 browser.edgeChromium = browser.edg || browser.edga || browser.edgios;
 
-if (!browser.chrome && !browser.edgeChromium && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf('webkit') !== -1) {
+if (!browser.chrome && !browser.edgeChromium && !browser.edge && !browser.opera && userAgent.toLowerCase().includes('webkit')) {
     browser.safari = true;
 }
 
-browser.osx = userAgent.toLowerCase().indexOf('mac os x') !== -1;
+browser.osx = userAgent.toLowerCase().includes('mac os x');
 
 // This is a workaround to detect iPads on iOS 13+ that report as desktop Safari
 // This may break in the future if Apple releases a touchscreen Mac
@@ -272,7 +278,7 @@ if (browser.osx && !browser.iphone && !browser.ipod && !browser.ipad && navigato
     browser.ipad = true;
 }
 
-if (userAgent.toLowerCase().indexOf('playstation 4') !== -1) {
+if (userAgent.toLowerCase().includes('playstation 4')) {
     browser.ps4 = true;
     browser.tv = true;
 }
@@ -281,16 +287,16 @@ if (isMobile(userAgent)) {
     browser.mobile = true;
 }
 
-if (userAgent.toLowerCase().indexOf('xbox') !== -1) {
+if (userAgent.toLowerCase().includes('xbox')) {
     browser.xboxOne = true;
     browser.tv = true;
 }
 browser.animate = typeof document !== 'undefined' && document.documentElement.animate != null;
 browser.hisense = userAgent.toLowerCase().includes('hisense');
-browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || window.tizen != null;
+browser.tizen = userAgent.toLowerCase().includes('tizen') || window.tizen != null;
 browser.vidaa = userAgent.toLowerCase().includes('vidaa');
 browser.web0s = isWeb0s();
-browser.edgeUwp = (browser.edge || browser.edgeChromium) && (userAgent.toLowerCase().indexOf('msapphost') !== -1 || userAgent.toLowerCase().indexOf('webview') !== -1);
+browser.edgeUwp = (browser.edge || browser.edgeChromium) && (userAgent.toLowerCase().includes('msapphost') || userAgent.toLowerCase().includes('webview'));
 
 if (browser.web0s) {
     browser.web0sVersion = web0sVersion(browser);
@@ -305,16 +311,16 @@ if (browser.web0s) {
     // UserAgent string contains 'Chrome' and 'Safari', but we only want 'tizen' to be true
     delete browser.chrome;
     delete browser.safari;
+} else if (browser.titanos) {
+    // UserAgent string contains 'Opr' and 'Safari', but we only want 'titanos' to be true
+    delete browser.operaTv;
+    delete browser.safari;
 } else {
-    browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
-}
-
-if (browser.edgeUwp) {
-    browser.edge = true;
+    browser.orsay = userAgent.toLowerCase().includes('smarthub');
 }
 
 browser.tv = isTv();
-browser.operaTv = browser.tv && userAgent.toLowerCase().indexOf('opr/') !== -1;
+browser.operaTv = browser.tv && userAgent.toLowerCase().includes('opr/');
 
 if (browser.mobile || browser.tv) {
     browser.slow = true;

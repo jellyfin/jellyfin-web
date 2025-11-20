@@ -740,7 +740,7 @@
     "LabelAllowHWTranscoding": "Atļaut aparatūras transkodēšanu",
     "LabelAlbumArtMaxWidth": "Albumu vāku maksimālais platums",
     "LabelAlbumArtMaxHeight": "Albumu vāku maksimālais augstums",
-    "LabelAbortedByServerShutdown": "(Atcelts dēļ servera izslēgšanas)",
+    "LabelAbortedByServerShutdown": "Atcelts servera izslēgšanas dēļ",
     "ImportFavoriteChannelsHelp": "Tikai kanāli, kas pievienoti izlasei uztvērēja ierīcē tiks importēti.",
     "HttpsRequiresCert": "Lai iespējotu drošos savienojumus, jums ir jānodrošina uzticams SSL sertifikāts, piemēram, Let's Encrypt. Lūdzu, nodrošiniet sertifikātu vai atspējojiet drošos savienojumus.",
     "HeaderTranscodingProfileHelp": "Pievienojiet transkodēšanas profilus, lai norādītu, kuri formāti jāizmanto, kad nepieciešama transkodēšana.",
@@ -902,7 +902,7 @@
     "MediaInfoForced": "Piespiedu",
     "LabelPublicHttpPortHelp": "Publiskā porta numurs, kas tiks kartēts uz vietējo HTTP portu.",
     "LabelOptionalNetworkPath": "Koplietota tīkla mape",
-    "LabelLibraryPageSizeHelp": "Iestatiet vienumu skaitu, ko rādīt bibliotēkas lapā. Iestatiet 0, lai atspējotu lapošanu.",
+    "LabelLibraryPageSizeHelp": "Iestatiet vienumu skaitu, ko rādīt bibliotēkas lapā. Ierakstot 0 (nulli) lapošana tiks atspējota. Ņemiet vērā ka 0 vai skaitlis lielāks par 100 var paildzināt lapas parādīšanas laiku vai beigties ar kļūdu.",
     "LabelLibraryPageSize": "Bibliotēkas lapu lielums",
     "LabelKodiMetadataUserHelp": "Saglabāt skatīšanās datus NFO failos, lai tos varētu izmantot citas lietotnes.",
     "LabelKodiMetadataDateFormatHelp": "Visi NFO failos esošie datumi tiks parsēti ar šo formātu.",
@@ -2035,5 +2035,11 @@
     "LabelTrackGain": "Skaņas celiņa līmeņošana",
     "InterlacedVideoNotSupported": "\"Interlaced\" video nav atbalsīts.",
     "RefFramesNotSupported": "Atsauces kadri nav atbalstīti",
-    "ConnectAnyway": "Pieslegties tik un tā"
+    "ConnectAnyway": "Pieslegties tik un tā",
+    "LabelBundled": "Komplektā",
+    "LabelAvailable": "Pieejams",
+    "ManageRepositories": "Pārvaldīt repozitorijus",
+    "ViewAllPlugins": "Skatīt visus spraudņus",
+    "ButtonAddTunerDevice": "Pievienot uztvērēja ierīci",
+    "ButtonAddProvider": "Pievienot pakalpojuma sniedzēju"
 }

@@ -10,7 +10,7 @@ import escapeHtml from 'escape-html';
 
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
@@ -575,9 +575,14 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
     if (showOtherText) {
         if (options.showParentTitle && parentTitleUnderneath) {
             if (flags.isOuterFooter && item.AlbumArtists?.length) {
-                item.AlbumArtists[0].Type = 'MusicArtist';
-                item.AlbumArtists[0].IsFolder = true;
-                lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
+                const artistText = item.AlbumArtists
+                    .map(artist => {
+                        artist.Type = BaseItemKind.MusicArtist;
+                        artist.IsFolder = true;
+                        return getTextActionButton(artist, null, serverId);
+                    })
+                    .join(' / ');
+                lines.push(artistText);
             } else {
                 lines.push(escapeHtml(isUsingLiveTvNaming(item.Type) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || '')));
             }

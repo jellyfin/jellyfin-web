@@ -39,5 +39,7 @@ export default function (view) {
     }
 
     view.querySelector('form').addEventListener('submit', onSubmit);
+
+    view.querySelector('#txtPin').focus();
 }
 

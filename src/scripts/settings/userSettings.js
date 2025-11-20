@@ -613,7 +613,7 @@ export class UserSettings {
 
     /**
      * Get subtitle appearance settings.
-     * @param {string|undefined} key - Settings key.
+     * @param {string|undefined} [key] - Settings key.
      * @return {Object} Subtitle appearance settings.
      */
     getSubtitleAppearanceSettings(key) {
