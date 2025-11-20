@@ -1985,28 +1985,18 @@ export class PlaybackManager {
             const startSeasonId = firstItem.Type === 'Season' ? items[options.startIndex || 0].Id : undefined;
 
             const seasonId = (startSeasonId && items.length === 1) ? startSeasonId : undefined;
-            const seriesId = firstItem.SeriesId || firstItem.Id;
+            const SeriesId = firstItem.SeriesId || firstItem.Id;
             const UserId = apiClient.getCurrentUserId();
 
             let startItemId;
 
             // Start from a specific (the next unwatched) episode if we want to watch in order and have not chosen a specific season
             if (!options.shuffle && !seasonId) {
-                const initialUnplayedEpisode = await getItems(apiClient, UserId, {
-                    SortBy: 'SeriesSortName,SortName',
-                    SortOrder: 'Ascending',
-                    IncludeItemTypes: 'Episode',
-                    Recursive: true,
-                    IsMissing: false,
-                    ParentId: seriesId,
-                    limit: 1,
-                    Filters: 'IsUnplayed'
-                });
-
-                startItemId = initialUnplayedEpisode?.Items?.at(0)?.Id;
+                const nextUp = await apiClient.getNextUpEpisodes({ SeriesId, UserId });
+                startItemId = nextUp?.Items?.[0]?.Id;
             }
 
-            const episodesResult = await apiClient.getEpisodes(seriesId, {
+            const episodesResult = await apiClient.getEpisodes(SeriesId, {
                 IsVirtualUnaired: false,
                 IsMissing: false,
                 SeasonId: seasonId,
