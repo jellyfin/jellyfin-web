@@ -50,7 +50,7 @@
     "ButtonArrowLeft": "बाएं",
     "ButtonAddUser": "उपयोगकर्ता जोड़ें",
     "ButtonAddServer": "सर्वर जोड़े",
-    "ButtonAddScheduledTaskTrigger": "ट्रिगर जोड़ें",
+    "ButtonAddScheduledTaskTrigger": "सक्रियक जोड़ें",
     "ButtonAddMediaLibrary": "मीडिया लाइब्रेरी जोड़ें",
     "ButtonAddImage": "छवि जोड़ें",
     "UnsupportedPlayback": "Jellyfin DRM द्वारा संरक्षित सामग्री को डिक्रिप्ट नहीं कर सकता है, लेकिन सभी सामग्री की परवाह किए बिना, संरक्षित शीर्षकों सहित प्रयास किया जाएगा। एन्क्रिप्शन या अन्य असमर्थित सुविधाओं जैसे इंटरेक्टिव शीर्षक के कारण कुछ फाइलें पूरी तरह से काली दिखाई दे सकती हैं।",
@@ -252,5 +252,6 @@
     "ConnectAnyway": "फिर भी कनेक्ट करें",
     "CustomSubtitleStylingHelp": "सबटाइटल स्टाइलिंग अधिकांश डिवाइसों पर काम करेगी, लेकिन इसके साथ अतिरिक्त परफॉरमेंस ओवरहेड भी आएगा।",
     "Delete": "डिलीट",
-    "ConfirmDeleteRepository": "रिपोजिटरी हटाएँ?"
+    "ConfirmDeleteRepository": "रिपोजिटरी हटाएँ?",
+    "ButtonAddProvider": "प्रदाता जोड़े"
 }
