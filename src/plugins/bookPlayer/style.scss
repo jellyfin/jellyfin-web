@@ -22,12 +22,12 @@
 
     #btnBookplayerToc {
         float: left;
-        margin-left: 2vw;
+        margin: 0.5vh 0.5vh 0.5vh 2vw;
     }
 
     #btnBookplayerExit {
         float: right;
-        margin-right: 2vw;
+        margin: 0.5vh 2vw 0.5vh 0.5vh;
     }
 
     .bookplayerErrorMsg {
@@ -78,5 +78,12 @@
             color: #00a4dc;
             text-decoration: none;
         }
+    }
+}
+
+@media (max-width: 60em) {
+    #dialogToc {
+        max-width: 100%;
+        max-height: 100%;
     }
 }
