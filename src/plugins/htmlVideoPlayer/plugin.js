@@ -1367,33 +1367,74 @@ export class HtmlVideoPlayer {
         this.fetchSubtitles(track, item).then((subtitleData) => {
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
             const subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
+            const isSecondary = this.isSecondaryTrack(targetTextTrackIndex);
 
-            if (!this.#videoSubtitlesElem && !this.isSecondaryTrack(targetTextTrackIndex)) {
-                let subtitlesContainer = document.querySelector('.videoSubtitles');
-                if (!subtitlesContainer) {
-                    subtitlesContainer = document.createElement('div');
-                    subtitlesContainer.classList.add('videoSubtitles');
+            // If the requested track is no longer the active one for this player instance,
+            // don't create DOM for a stale async response (prevents duplicate overlays).
+            const expectedIndex = isSecondary ? this.#customSecondaryTrackIndex : this.#customTrackIndex;
+            if (expectedIndex !== track.Index) {
+                return; // stale response, ignore
+            }
+
+            let subtitlesContainer = document.querySelector('.videoSubtitles');
+
+            if (!isSecondary) {
+                // Primary track
+                if (!this.#videoSubtitlesElem) {
+                    if (!subtitlesContainer) {
+                        subtitlesContainer = document.createElement('div');
+                        subtitlesContainer.classList.add('videoSubtitles');
+                    }
+
+                    // Reuse existing inner element if one already exists to avoid creating duplicates
+                    const existingInner = subtitlesContainer ? subtitlesContainer.querySelector('.videoSubtitlesInner') : null;
+                    if (existingInner) {
+                        this.#videoSubtitlesElem = existingInner;
+                    } else {
+                        const subtitlesElement = document.createElement('div');
+                        subtitlesElement.classList.add('videoSubtitlesInner');
+                        subtitlesContainer.appendChild(subtitlesElement);
+                        this.#videoSubtitlesElem = subtitlesElement;
+                    }
+
+                    // Ensure container is attached to the video parent
+                    if (subtitlesContainer && subtitlesContainer.parentNode !== videoElement.parentNode) {
+                        videoElement.parentNode.appendChild(subtitlesContainer);
+                    }
+
+                    this.setSubtitleAppearance(subtitlesContainer, this.#videoSubtitlesElem);
                 }
-                const subtitlesElement = document.createElement('div');
-                subtitlesElement.classList.add('videoSubtitlesInner');
-                subtitlesContainer.appendChild(subtitlesElement);
-                this.#videoSubtitlesElem = subtitlesElement;
-                this.setSubtitleAppearance(subtitlesContainer, this.#videoSubtitlesElem);
-                videoElement.parentNode.appendChild(subtitlesContainer);
+
                 this.#currentTrackEvents = subtitleData.TrackEvents;
-            } else if (!this.#videoSecondarySubtitlesElem && this.isSecondaryTrack(targetTextTrackIndex)) {
-                const subtitlesContainer = document.querySelector('.videoSubtitles');
-                if (!subtitlesContainer) return;
-                const secondarySubtitlesElement = document.createElement('div');
-                secondarySubtitlesElement.classList.add('videoSecondarySubtitlesInner');
-                // determine the order of the subtitles
-                if (subtitleVerticalPosition < 0) {
-                    subtitlesContainer.insertBefore(secondarySubtitlesElement, subtitlesContainer.firstChild);
-                } else {
-                    subtitlesContainer.appendChild(secondarySubtitlesElement);
+            } else {
+                // Secondary track
+                if (!this.#videoSecondarySubtitlesElem) {
+                    if (!subtitlesContainer) return;
+
+                    // Reuse existing secondary inner element if present
+                    const existingSecondary = subtitlesContainer.querySelector('.videoSecondarySubtitlesInner');
+                    if (existingSecondary) {
+                        this.#videoSecondarySubtitlesElem = existingSecondary;
+                    } else {
+                        const secondarySubtitlesElement = document.createElement('div');
+                        secondarySubtitlesElement.classList.add('videoSecondarySubtitlesInner');
+                        // determine the order of the subtitles
+                        if (subtitleVerticalPosition < 0) {
+                            subtitlesContainer.insertBefore(secondarySubtitlesElement, subtitlesContainer.firstChild);
+                        } else {
+                            subtitlesContainer.appendChild(secondarySubtitlesElement);
+                        }
+                        this.#videoSecondarySubtitlesElem = secondarySubtitlesElement;
+                    }
+
+                    // Ensure container is attached to the video parent
+                    if (subtitlesContainer && subtitlesContainer.parentNode !== videoElement.parentNode) {
+                        videoElement.parentNode.appendChild(subtitlesContainer);
+                    }
+
+                    this.setSubtitleAppearance(subtitlesContainer, this.#videoSecondarySubtitlesElem);
                 }
-                this.#videoSecondarySubtitlesElem = secondarySubtitlesElement;
-                this.setSubtitleAppearance(subtitlesContainer, this.#videoSecondarySubtitlesElem);
+
                 this.#currentSecondaryTrackEvents = subtitleData.TrackEvents;
             }
         });
