@@ -841,8 +841,6 @@
     "LabelNumberOfGuideDaysHelp": "Downloading more days worth of guide data provides the ability to schedule out further in advance and view more listings, but it will also take longer to download. Auto will pick based on the number of channels.",
     "LabelOpenclDevice": "OpenCL Device",
     "LabelOpenclDeviceHelp": "This is the OpenCL device that is used for tone mapping. The left side of the dot is the platform number, and the right side is the device number on the platform. The default value is 0.0. The FFmpeg application file containing the OpenCL hardware acceleration method is required.",
-    "LabelOptionalNetworkPath": "Shared network folder",
-    "LabelOptionalNetworkPathHelp": "If this folder is shared on your network, supplying the network share path can allow clients on other devices to access media files directly. For example, {0} or {1}.",
     "LabelOriginalAspectRatio": "Original aspect ratio",
     "LabelOriginalName": "Original name",
     "LabelOriginalTitle": "Original title",
