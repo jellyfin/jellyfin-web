@@ -16,9 +16,7 @@ let currentOwnerId;
 let currentThemeIds = [];
 
 function playThemeMedia(items, ownerId) {
-    const currentThemeItems = items.filter(function (i) {
-        return enabled(i.MediaType);
-    });
+    const currentThemeItems = items.filter((i) => enabled(i.MediaType));
 
     if (currentThemeItems.length) {
         // Stop if a theme song from another ownerId
@@ -27,9 +25,7 @@ function playThemeMedia(items, ownerId) {
             return;
         }
 
-        currentThemeIds = currentThemeItems.map(function (i) {
-            return i.Id;
-        });
+        currentThemeIds = currentThemeItems.map((i) => i.Id);
 
         currentThemeItems.forEach((i) => {
             i.playOptions = {
@@ -43,7 +39,7 @@ function playThemeMedia(items, ownerId) {
             aspectRatio: 'cover',
             fullscreen: false,
             enableRemotePlayers: false
-        }).then(function () {
+        }).then(() => {
             currentOwnerId = ownerId;
         });
     } else {

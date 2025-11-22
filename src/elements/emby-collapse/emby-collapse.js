@@ -17,7 +17,7 @@ function slideDownToShow(button, elem) {
         const newHeight = elem.offsetHeight;
         elem.style.height = height;
 
-        setTimeout(function () {
+        setTimeout(() => {
             if (elem.classList.contains('expanded')) {
                 elem.classList.remove('hide');
             } else {
@@ -41,7 +41,7 @@ function slideUpToHide(button, elem) {
         elem.classList.remove('expanded');
         elem.style.height = '0';
 
-        setTimeout(function () {
+        setTimeout(() => {
             if (elem.classList.contains('expanded')) {
                 elem.classList.remove('hide');
             } else {

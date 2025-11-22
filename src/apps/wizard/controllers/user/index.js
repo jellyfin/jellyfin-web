@@ -62,7 +62,7 @@ function onViewShow() {
     loading.show();
     const page = this;
     const apiClient = ServerConnections.currentApiClient();
-    apiClient.getJSON(apiClient.getUrl('Startup/User')).then(function (user) {
+    apiClient.getJSON(apiClient.getUrl('Startup/User')).then((user) => {
         page.querySelector('#txtUsername').value = user.Name || '';
         page.querySelector('#txtManualPassword').value = user.Password || '';
         loading.hide();
@@ -71,10 +71,10 @@ function onViewShow() {
 
 export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
     });
-    view.addEventListener('viewhide', function () {
+    view.addEventListener('viewhide', () => {
         document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
     });
     view.addEventListener('viewshow', onViewShow);

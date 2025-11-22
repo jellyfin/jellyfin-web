@@ -239,7 +239,7 @@ class UpNextDialog {
         elem.classList.remove('upNextDialog-hidden');
 
         if (layoutManager.tv) {
-            setTimeout(function () {
+            setTimeout(() => {
                 focusManager.focus(elem.querySelector('.btnStartNow'));
             }, 50);
         }

@@ -19,7 +19,7 @@ export default function (view) {
         return false;
     }
 
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         view.querySelector('.enableGamepadContainer').classList.toggle('hide', !keyboardNavigation.canEnableGamepad());
         view.querySelector('.smoothScrollContainer').classList.toggle('hide', !layoutManager.tv);
 

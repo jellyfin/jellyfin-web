@@ -364,7 +364,7 @@ function showViewSettingsMenu() {
             settingsKey: instance.getSettingsKey(),
             settings: instance.getViewSettings(),
             visibleSettings: instance.getVisibleViewSettings()
-        }).then(function () {
+        }).then(() => {
             updateItemsContainerForViewType(instance);
             instance.itemsContainer.refreshItems();
         });
@@ -384,7 +384,7 @@ function showFilterMenu() {
             itemTypes: instance.getItemTypes(),
             serverId: instance.params.serverId,
             filterMenuOptions: instance.getFilterMenuOptions()
-        }).then(function () {
+        }).then(() => {
             instance.itemsContainer.refreshItems();
         });
     });
@@ -400,7 +400,7 @@ function showSortMenu() {
             onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
             serverId: instance.params.serverId,
             sortOptions: instance.getSortMenuOptions()
-        }).then(function () {
+        }).then(() => {
             updateSortText(instance);
             updateAlphaPickerState(instance);
             instance.itemsContainer.refreshItems();
@@ -501,7 +501,7 @@ class ItemsView {
         function fetchData() {
             isLoading = true;
 
-            return getItems(self, params, self.currentItem, null, query.StartIndex, query.Limit).then(function (result) {
+            return getItems(self, params, self.currentItem, null, query.StartIndex, query.Limit).then((result) => {
                 if (self.totalItemCount == null) {
                     self.totalItemCount = result.Items ? result.Items.length : result.length;
                 }
@@ -755,7 +755,7 @@ class ItemsView {
                     autoplay: true
                 });
             } else {
-                getItems(self, self.params, currentItem, null, 0, 300).then(function (result) {
+                getItems(self, self.params, currentItem, null, 0, 300).then((result) => {
                     playbackManager.play({
                         items: result.Items,
                         autoplay: true
@@ -772,7 +772,7 @@ class ItemsView {
                     items: [currentItem]
                 });
             } else {
-                getItems(self, self.params, currentItem, null, 0, 300).then(function (result) {
+                getItems(self, self.params, currentItem, null, 0, 300).then((result) => {
                     playbackManager.queue({
                         items: result.Items
                     });
@@ -786,7 +786,7 @@ class ItemsView {
             if (currentItem && !self.hasFilters) {
                 playbackManager.shuffle(currentItem);
             } else {
-                getItems(self, self.params, currentItem, 'Random', 0, 300).then(function (result) {
+                getItems(self, self.params, currentItem, 'Random', 0, 300).then((result) => {
                     playbackManager.play({
                         items: result.Items,
                         autoplay: true
@@ -852,7 +852,7 @@ class ItemsView {
         this.alphaPickerElement = view.querySelector('.alphaPicker');
         self.itemsContainer.fetchData = fetchData;
         self.itemsContainer.getItemsHtml = getItemsHtml;
-        view.addEventListener('viewshow', function (e) {
+        view.addEventListener('viewshow', (e) => {
             const isRestored = e.detail.isRestored;
 
             if (!isRestored) {
@@ -862,7 +862,7 @@ class ItemsView {
             }
 
             setTitle(null);
-            getItem(params).then(function (item) {
+            getItem(params).then((item) => {
                 setTitle(item);
                 if (item && item.Type == 'Genre') {
                     item.ParentId = params.parentId;
@@ -872,7 +872,7 @@ class ItemsView {
                 const refresh = !isRestored;
                 self.itemsContainer.resume({
                     refresh: refresh
-                }).then(function () {
+                }).then(() => {
                     loading.hide();
 
                     if (refresh) {
@@ -931,7 +931,7 @@ class ItemsView {
                 itemsContainer: self.itemsContainer
             });
         });
-        view.addEventListener('viewhide', function () {
+        view.addEventListener('viewhide', () => {
             const itemsContainer = self.itemsContainer;
 
             if (itemsContainer) {
@@ -945,7 +945,7 @@ class ItemsView {
                 self.alphaNumericShortcuts = null;
             }
         });
-        view.addEventListener('viewdestroy', function () {
+        view.addEventListener('viewdestroy', () => {
             if (self.listController) {
                 self.listController.destroy();
             }

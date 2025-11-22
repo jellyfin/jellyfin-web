@@ -12,7 +12,7 @@ export default function (view, params) {
     const userId = params.userId || ApiClient.getCurrentUserId();
     const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
 
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         if (homescreenSettingsInstance) {
             homescreenSettingsInstance.loadData();
         } else {
@@ -28,7 +28,7 @@ export default function (view, params) {
         }
     });
 
-    view.addEventListener('viewdestroy', function () {
+    view.addEventListener('viewdestroy', () => {
         if (homescreenSettingsInstance) {
             homescreenSettingsInstance.destroy();
             homescreenSettingsInstance = null;
