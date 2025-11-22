@@ -28,11 +28,9 @@ const getStatusColor = (percent: number) => {
 
 const getStorageTypeText = (type?: string | null) => {
     if (!type) return undefined;
-
     if (Object.keys(StorageType).includes(type)) {
         return globalize.translate(`StorageType.${type}`);
     }
-
     return type;
 };
 
@@ -46,6 +44,12 @@ const StorageListItem: FC<StorageListItemProps> = ({
     const readableTotalSpace = (totalSpace < 0) ? '?' : getReadableSize(totalSpace);
     const usedPercentage = calculateUsedPercentage(folder);
     const statusColor = folder ? getStatusColor(usedPercentage) : 'primary';
+
+    const folderSize = (folder as any)?.FolderSizeBytes ?? (folder as any)?.SizeBytes ?? (folder as any)?.Size;
+    const hasFolderSize = typeof folderSize === 'number' && folderSize >= 0;
+    const driveTotal = (folder as any)?.DriveTotalBytes ?? (folder as any)?.DriveCapacity;
+    const readableFolderSize = hasFolderSize ? getReadableSize(folderSize) : undefined;
+    const readableDriveTotal = typeof driveTotal === 'number' && driveTotal >= 0 ? getReadableSize(driveTotal) : undefined;
 
     return (
         <ListItem>
@@ -70,24 +74,33 @@ const StorageListItem: FC<StorageListItemProps> = ({
                                 lineBreak: 'anywhere'
                             }}
                         >
-                            {folder ? folder.Path : (
-                                <Skeleton />
-                            )}
+                            {folder ? folder.Path : <Skeleton />}
                         </Typography>
-                        <LinearProgress
-                            variant={folder ? 'determinate' : 'indeterminate'}
-                            color={statusColor}
-                            value={usedPercentage}
-                        />
-                        <Typography
-                            variant='body2'
-                            color='textSecondary'
-                            sx={{
-                                textAlign: 'end'
-                            }}
-                        >
-                            {`${readableUsedSpace} / ${readableTotalSpace}`}
-                        </Typography>
+
+                        {hasFolderSize ? (
+                            <>
+                                <LinearProgress
+                                    variant='determinate'
+                                    color={statusColor}
+                                    value={usedPercentage}
+                                />
+                                <Typography
+                                    variant='body2'
+                                    color='textSecondary'
+                                    sx={{ textAlign: 'end' }}
+                                >
+                                    {`${readableFolderSize}${readableDriveTotal ? ` / ${readableDriveTotal}` : ''}`}
+                                </Typography>
+                            </>
+                        ) : (
+                            <Typography
+                                variant='body2'
+                                color='textSecondary'
+                                sx={{ textAlign: 'end' }}
+                            >
+                                {readableUsedSpace === '?' ? '' : `${readableUsedSpace}`}
+                            </Typography>
+                        )}
                     </>
                 }
                 slots={{
