@@ -49,7 +49,7 @@ export class LazyLoader {
     }
 }
 
-function unveilElements(elements, root, callback) {
+function unveilElements(elements, callback) {
     if (!elements.length) {
         return;
     }
@@ -60,7 +60,7 @@ function unveilElements(elements, root, callback) {
 }
 
 export function lazyChildren(elem, callback) {
-    unveilElements(elem.getElementsByClassName('lazy'), elem, callback);
+    unveilElements(elem.getElementsByClassName('lazy'), callback);
 }
 
 export default {

@@ -31,7 +31,7 @@ import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
 let showMuteButton = true;
 let showVolumeSlider = true;
 
-function showAudioMenu(context, player, button) {
+function showAudioMenu(player, button) {
     const currentIndex = playbackManager.getAudioStreamIndex(player);
     const streams = playbackManager.audioTracks(player);
     const menuItems = streams.map(function (s) {
@@ -58,7 +58,7 @@ function showAudioMenu(context, player, button) {
     });
 }
 
-function showSubtitleMenu(context, player, button) {
+function showSubtitleMenu( player, button) {
     const currentIndex = playbackManager.getSubtitleStreamIndex(player);
     const streams = playbackManager.subtitleTracks(player);
     const menuItems = streams.map(function (s) {
@@ -540,7 +540,7 @@ export default function () {
         loadPlaylist(dlg, this);
     }
 
-    function onPlaylistItemRemoved(e, info) {
+    function onPlaylistItemRemoved(_e, info) {
         const context = dlg;
         if (info !== undefined) {
             const playlistItemIds = info.playlistItemIds;
@@ -571,7 +571,7 @@ export default function () {
         updatePlayPauseState(this.paused(), true);
     }
 
-    function onStateChanged(event, state) {
+    function onStateChanged(_event, state) {
         const player = this;
         updatePlayerState(player, dlg, state);
         onPlaylistUpdate();
@@ -697,12 +697,12 @@ export default function () {
         });
         context.querySelector('.btnAudioTracks').addEventListener('click', function (e) {
             if (currentPlayer && lastPlayerState?.NowPlayingItem) {
-                showAudioMenu(context, currentPlayer, e.target);
+                showAudioMenu(currentPlayer, e.target);
             }
         });
         context.querySelector('.btnSubtitles').addEventListener('click', function (e) {
             if (currentPlayer && lastPlayerState?.NowPlayingItem) {
-                showSubtitleMenu(context, currentPlayer, e.target);
+                showSubtitleMenu( currentPlayer, e.target);
             }
         });
         context.querySelector('.btnStop').addEventListener('click', function () {
@@ -870,7 +870,7 @@ export default function () {
         return false;
     }
 
-    function init(ownerView, context) {
+    function init(context) {
         let volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
         volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up" aria-hidden="true"></span></button>`;
         volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
@@ -921,9 +921,9 @@ export default function () {
     let currentRuntimeTicks = 0;
     const self = this;
 
-    self.init = function (ownerView, context) {
+    self.init = function (_ownerView, context) {
         dlg = context;
-        init(ownerView, dlg);
+        init(dlg);
     };
 
     self.onShow = function () {
