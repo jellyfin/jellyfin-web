@@ -1083,6 +1083,7 @@ function renderTagline(page, item) {
 }
 
 function renderDetails(page, item, apiClient, context) {
+    renderItemCollections(page, item, apiClient, context);
     renderSimilarItems(page, item, context);
     renderMoreFromSeason(page, item, apiClient);
     renderMoreFromArtist(page, item, apiClient);
@@ -1241,6 +1242,47 @@ function renderMoreFromArtist(view, item, apiClient) {
             });
         });
     }
+}
+
+function renderItemCollections(page, item, apiClient, context) {
+    const section = page.querySelector('#collectionsCollapsible');
+
+    if (!section) {
+        return;
+    }
+
+    const query = {
+        userId: apiClient.getCurrentUserId(),
+        fields: 'PrimaryImageAspectRatio'
+    };
+
+    apiClient.getJSON(apiClient.getUrl(`Items/${item.Id}/Collections`, query)).then((result) => {
+        const items = result?.Items || [];
+
+        if (!items.length) {
+            section.classList.add('hide');
+            return;
+        }
+
+        section.classList.remove('hide');
+        cardBuilder.buildCards(items, {
+            parentContainer: section,
+            itemsContainer: section.querySelector('.includedInContent'),
+            shape: 'overflowPortrait',
+            sectionTitleTagName: 'h2',
+            scalable: true,
+            centerText: true,
+            showTitle: true,
+            showParentTitle: false,
+            overlayText: false,
+            overlayPlayButton: false,
+            coverImage: true,
+            showYear: false,
+            context
+        });
+    }).catch(() => {
+        section.classList.add('hide');
+    });
 }
 
 function renderSimilarItems(page, item, context) {
