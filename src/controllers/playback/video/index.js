@@ -1744,7 +1744,7 @@ export default function (view) {
 
         // Clean up page title click listener
         const pageTitleElement = document.querySelector('.pageTitle');
-        if (pageTitleElement && pageTitleElement._videoDetailClickListener) {
+        if (pageTitleElement?._videoDetailClickListener) {
             pageTitleElement.removeEventListener('click', pageTitleElement._videoDetailClickListener);
             pageTitleElement._videoDetailClickListener = null;
             pageTitleElement.style.cursor = '';
