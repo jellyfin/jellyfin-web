@@ -369,9 +369,8 @@ export async function getCommands(options) {
         });
     }
 
-    // Add "View Details" option for video items in playlists
-    if (options.openItemDetails !== false
-        && (item.Type === 'Movie' || item.Type === 'Episode' || item.Type === 'Video' || item.Type === 'MusicVideo')) {
+    // Add "View Details" option for all items
+    if (options.openItemDetails !== false) {
         commands.push({
             name: globalize.translate('ViewItemDetails'),
             id: 'itemdetails',

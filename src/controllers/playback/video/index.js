@@ -55,6 +55,13 @@ export default function (view) {
         });
     }
 
+    function showItemDetails() {
+        if (currentItem) {
+            const detailUrl = appRouter.getRouteUrl(currentItem);
+            appRouter.show(detailUrl);
+        }
+    }
+
     function updateRecordingButton(item) {
         if (!item || item.Type !== 'Program') {
             if (recordingButtonManager) {
@@ -265,21 +272,10 @@ export default function (view) {
         // Make the page title clickable to navigate to the item detail page
         const pageTitleElement = document.querySelector('.pageTitle');
         if (pageTitleElement && item) {
+            pageTitleElement.classList.add('focusable');
             pageTitleElement.style.cursor = 'pointer';
-
-            // Remove any existing click listener
-            const oldListener = pageTitleElement._videoDetailClickListener;
-            if (oldListener) {
-                pageTitleElement.removeEventListener('click', oldListener);
-            }
-
-            // Add new click listener
-            const clickListener = function() {
-                const detailUrl = appRouter.getRouteUrl(item);
-                appRouter.show(detailUrl);
-            };
-            pageTitleElement._videoDetailClickListener = clickListener;
-            pageTitleElement.addEventListener('click', clickListener);
+            pageTitleElement.removeEventListener('click', showItemDetails);
+            pageTitleElement.addEventListener('click', showItemDetails);
         }
 
         const documentTitle = parentName || (item ? item.Name : null);
@@ -1744,9 +1740,9 @@ export default function (view) {
 
         // Clean up page title click listener
         const pageTitleElement = document.querySelector('.pageTitle');
-        if (pageTitleElement?._videoDetailClickListener) {
-            pageTitleElement.removeEventListener('click', pageTitleElement._videoDetailClickListener);
-            pageTitleElement._videoDetailClickListener = null;
+        if (pageTitleElement) {
+            pageTitleElement.classList.remove('focusable');
+            pageTitleElement.removeEventListener('click', showItemDetails);
             pageTitleElement.style.cursor = '';
         }
 
