@@ -369,6 +369,16 @@ export async function getCommands(options) {
         });
     }
 
+    // Add "View Details" option for video items in playlists
+    if (options.openItemDetails !== false &&
+        (item.Type === 'Movie' || item.Type === 'Episode' || item.Type === 'Video' || item.Type === 'MusicVideo')) {
+        commands.push({
+            name: globalize.translate('ViewItemDetails'),
+            id: 'itemdetails',
+            icon: 'info'
+        });
+    }
+
     return commands;
 }
 
@@ -592,6 +602,10 @@ function executeCommand(item, id, options) {
                 break;
             case 'artist':
                 appRouter.showItem(item.AlbumArtists[0].Id, item.ServerId);
+                getResolveFunction(resolve, id)();
+                break;
+            case 'itemdetails':
+                appRouter.showItem(item.Id, item.ServerId);
                 getResolveFunction(resolve, id)();
                 break;
             case 'lyrics': {

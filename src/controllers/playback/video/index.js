@@ -262,6 +262,26 @@ export default function (view) {
 
         LibraryMenu.setTitle(title);
 
+        // Make the page title clickable to navigate to the item detail page
+        const pageTitleElement = document.querySelector('.pageTitle');
+        if (pageTitleElement && item) {
+            pageTitleElement.style.cursor = 'pointer';
+
+            // Remove any existing click listener
+            const oldListener = pageTitleElement._videoDetailClickListener;
+            if (oldListener) {
+                pageTitleElement.removeEventListener('click', oldListener);
+            }
+
+            // Add new click listener
+            const clickListener = function() {
+                const detailUrl = appRouter.getRouteUrl(item);
+                appRouter.show(detailUrl);
+            };
+            pageTitleElement._videoDetailClickListener = clickListener;
+            pageTitleElement.addEventListener('click', clickListener);
+        }
+
         const documentTitle = parentName || (item ? item.Name : null);
 
         if (documentTitle) {
@@ -1720,6 +1740,14 @@ export default function (view) {
     view.addEventListener('viewbeforehide', function () {
         if (statsOverlay) {
             statsOverlay.enabled(false);
+        }
+
+        // Clean up page title click listener
+        const pageTitleElement = document.querySelector('.pageTitle');
+        if (pageTitleElement && pageTitleElement._videoDetailClickListener) {
+            pageTitleElement.removeEventListener('click', pageTitleElement._videoDetailClickListener);
+            pageTitleElement._videoDetailClickListener = null;
+            pageTitleElement.style.cursor = '';
         }
 
         document.removeEventListener('keydown', onKeyDown);
