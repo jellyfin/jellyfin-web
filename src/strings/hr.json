@@ -883,7 +883,7 @@
     "AspectRatio": "Omjer",
     "Ascending": "Uzlazno",
     "Art": "Prozirne slike",
-    "Absolute": "Apsolutno",
+    "Absolute": "Potpuno",
     "CopyStreamURLSuccess": "URL uspješno kopiran.",
     "CopyStreamURL": "Kopiraj URL stream",
     "ContinueWatching": "Nastavi gledati",
@@ -1451,7 +1451,7 @@
     "LabelKodiMetadataUser": "Spremi stanje gledanja u NFO datoteke za",
     "PersonRole": "kao {0}",
     "LabelTonemappingThresholdHelp": "Parametri algoritma mapiranja tonova su fino podešeni za svaku scenu. A prag se koristi za otkrivanje je li se scena promijenila ili ne. Ako udaljenost između trenutne prosječne svjetline okvira i trenutnog tekućeg prosjeka premašuje vrijednost praga, ponovno bismo izračunali prosjek scene i vršnu svjetlinu. Preporučene i zadane vrijednosti su 0.8 i 0.2.",
-    "LabelLibraryPageSizeHelp": "Postavite količinu stavki za prikaz na stranici knjižnice. Postavite na 0 kako biste onemogućili kreiranje stranica.",
+    "LabelLibraryPageSizeHelp": "Postavite količinu stavki za prikaz na stranici knjižnice. Postavite na 0 kako biste onemogućili kreiranje stranica. Imajte na umu da postavljanje vrijednosti na 0 ili na bilo koju vrijedost veću od 100 može dovesti do greški i smanjenu performansi.",
     "ShowTitle": "Prikaži naslov",
     "LabelTonemappingThreshold": "Prag tonskog preslikavanja",
     "OnlyImageFormats": "Samo formati slika (VobSub, PGS, SUB)",
@@ -1694,5 +1694,7 @@
     "LabelScanBehaviorHelp": "Zadani način je bez blokiranja, koji dodaje medije u biblioteku prije završetka stvaranja sličica za brzi pregled. Blokirajući način osigurava da su sličice stvorene prije dodavanja medija, ali će značajno produžiti trajanje skeniranja.",
     "LabelProcessPriorityHelp": "Ova postavka određuje prioritet koji će procesor (CPU) dodijeliti procesu stvaranja sličica za brzi pregled (ffmpeg) u odnosu na ostale procese na sustavu. Ako primijetite usporavanje sustava tijekom ovog procesa, a ne želite ga u potpunosti isključiti, pokušajte sniziti ovu postavku i broj dretvi.",
     "LabelJpegQuality": "Kvaliteta JPEG-a",
-    "LogLoadFailure": "Nije uspjelo učitavanje datoteke dnevnika. Moguće je da se u nju još uvijek upisuju podaci."
+    "LogLoadFailure": "Nije uspjelo učitavanje datoteke dnevnika. Moguće je da se u nju još uvijek upisuju podaci.",
+    "ButtonAddProvider": "Dodaj pružatelja usluga",
+    "ButtonAddTunerDevice": "Dodaj Tuner uređaj"
 }
