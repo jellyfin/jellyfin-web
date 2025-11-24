@@ -55,13 +55,6 @@ export default function (view) {
         });
     }
 
-    function showItemDetails() {
-        if (currentItem) {
-            const detailUrl = appRouter.getRouteUrl(currentItem);
-            appRouter.show(detailUrl);
-        }
-    }
-
     function updateRecordingButton(item) {
         if (!item || item.Type !== 'Program') {
             if (recordingButtonManager) {
