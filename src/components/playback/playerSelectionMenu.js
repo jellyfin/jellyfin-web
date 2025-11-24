@@ -66,8 +66,8 @@ export function show(button) {
 
     loading.show();
 
-    playbackManager.getTargets().then(function (targets) {
-        const menuItems = targets.map(function (t) {
+    playbackManager.getTargets().then((targets) => {
+        const menuItems = targets.map((t) => {
             let name = t.name;
 
             if (t.appName && t.appName !== t.name) {
@@ -108,10 +108,8 @@ export function show(button) {
                 menuOptions.text = `(${globalize.translate('GoogleCastUnsupported')})`;
             }
 
-            actionsheet.show(menuOptions).then(function (id) {
-                const target = targets.filter(function (t) {
-                    return t.id === id;
-                })[0];
+            actionsheet.show(menuOptions).then((id) => {
+                const target = targets.filter((t) => t.id === id)[0];
 
                 playbackManager.trySetActivePlayer(target.playerName, target);
             }).catch(() => {
@@ -146,7 +144,7 @@ function disconnectFromPlayer(currentDeviceName) {
             buttons: menuItems,
             text: globalize.translate('ConfirmEndPlayerSession', currentDeviceName)
 
-        }).then(function (id) {
+        }).then((id) => {
             switch (id) {
                 case 'yes':
                     playbackManager.getCurrentPlayer().endSession();
@@ -233,22 +231,22 @@ function showActivePlayerMenuInternal(playerInfo) {
 
     const btnRemoteControl = dlg.querySelector('.btnRemoteControl');
     if (btnRemoteControl) {
-        btnRemoteControl.addEventListener('click', function () {
+        btnRemoteControl.addEventListener('click', () => {
             destination = 'nowplaying';
             dialogHelper.close(dlg);
         });
     }
 
-    dlg.querySelector('.btnDisconnect').addEventListener('click', function () {
+    dlg.querySelector('.btnDisconnect').addEventListener('click', () => {
         destination = 'disconnectFromPlayer';
         dialogHelper.close(dlg);
     });
 
-    dlg.querySelector('.btnCancel').addEventListener('click', function () {
+    dlg.querySelector('.btnCancel').addEventListener('click', () => {
         dialogHelper.close(dlg);
     });
 
-    dialogHelper.open(dlg).then(function () {
+    dialogHelper.open(dlg).then(() => {
         if (destination === 'nowplaying') {
             return appRouter.showNowPlaying();
         } else if (destination === 'disconnectFromPlayer') {
@@ -267,15 +265,15 @@ function onAutoCastChange() {
     enable(this.checked);
 }
 
-Events.on(playbackManager, 'pairing', function () {
+Events.on(playbackManager, 'pairing', () => {
     loading.show();
 });
 
-Events.on(playbackManager, 'paired', function () {
+Events.on(playbackManager, 'paired', () => {
     loading.hide();
 });
 
-Events.on(playbackManager, 'pairerror', function () {
+Events.on(playbackManager, 'pairerror', () => {
     loading.hide();
 });
 

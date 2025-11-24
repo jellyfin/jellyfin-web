@@ -25,7 +25,7 @@ function getUpcomingPromise(context, params) {
 }
 
 function loadUpcoming(context, params, promise) {
-    promise.then(function (result) {
+    promise.then((result) => {
         const items = result.Items;
 
         if (items.length) {
@@ -127,11 +127,11 @@ export default function (view, params, tabContent) {
     let upcomingPromise;
     const self = this;
 
-    self.preRender = function () {
+    self.preRender = () => {
         upcomingPromise = getUpcomingPromise(view, params);
     };
 
-    self.renderTab = function () {
+    self.renderTab = () => {
         loadUpcoming(tabContent, params, upcomingPromise);
     };
 }

@@ -319,7 +319,7 @@ class FavoritesTab {
             promises.push(elem.resume(options));
         }
 
-        Promise.all(promises).then(function () {
+        Promise.all(promises).then(() => {
             if (options.autoFocus) {
                 focusManager.autoFocus(view);
             }

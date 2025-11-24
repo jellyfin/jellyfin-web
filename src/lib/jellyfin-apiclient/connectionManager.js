@@ -376,7 +376,7 @@ export default class ConnectionManager {
 
         function findServers() {
             return new Promise((resolve) => {
-                const onFinish = function (foundServers) {
+                const onFinish = (foundServers) => {
                     const servers = foundServers.map((foundServer) => {
                         const info = {
                             Id: foundServer.Id,
@@ -390,7 +390,7 @@ export default class ConnectionManager {
                 };
 
                 if (window && window.NativeShell && typeof window.NativeShell.findServers === 'function') {
-                    window.NativeShell.findServers(1e3).then(onFinish, function () {
+                    window.NativeShell.findServers(1e3).then(onFinish, () => {
                         onFinish([]);
                     });
                 } else {
@@ -573,7 +573,7 @@ export default class ConnectionManager {
                 server.UserId = null;
                 server.AccessToken = null;
             } else if (server.AccessToken && verifyLocalAuthentication) {
-                void validateAuthentication(server, serverUrl).then(function () {
+                void validateAuthentication(server, serverUrl).then(() => {
                     onSuccessfulConnection(server, systemInfo, connectionMode, serverUrl, false, resolve, options);
                 });
                 return;
@@ -608,7 +608,7 @@ export default class ConnectionManager {
             result.ApiClient.updateServerInfo(server, serverUrl);
             result.ApiClient.setAuthenticationInfo(server.AccessToken, server.UserId);
 
-            const resolveActions = function () {
+            const resolveActions = () => {
                 resolve(result);
 
                 events.trigger(self, 'connected', [result]);
@@ -654,7 +654,7 @@ export default class ConnectionManager {
             });
         }
 
-        self.connectToAddress = function (address, options) {
+        self.connectToAddress = (address, options) => {
             if (!address) {
                 return Promise.reject();
             }

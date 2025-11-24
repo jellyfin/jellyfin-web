@@ -53,7 +53,7 @@ function onSelectPathClick(e) {
         const picker = new DirectoryBrowser();
         picker.show({
             includeFiles: true,
-            callback: function (path) {
+            callback: (path) => {
                 if (path) {
                     const txtPath = page.querySelector('.txtPath');
                     txtPath.value = path;
@@ -68,9 +68,7 @@ function onSelectPathClick(e) {
 export default function (page, providerId, options) {
     function getListingProvider(config, id) {
         if (config && id) {
-            const result = config.ListingProviders.filter(function (provider) {
-                return provider.Id === id;
-            })[0];
+            const result = config.ListingProviders.filter((provider) => provider.Id === id)[0];
 
             if (result) {
                 return Promise.resolve(result);
@@ -84,8 +82,8 @@ export default function (page, providerId, options) {
 
     function reload() {
         loading.show();
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            getListingProvider(config, providerId).then(function (info) {
+        ApiClient.getNamedConfiguration('livetv').then((config) => {
+            getListingProvider(config, providerId).then((info) => {
                 page.querySelector('.txtPath').value = info.Path || '';
                 page.querySelector('.txtKids').value = (info.KidsCategories || []).join('|');
                 page.querySelector('.txtNews').value = (info.NewsCategories || []).join('|');
@@ -120,10 +118,8 @@ export default function (page, providerId, options) {
     function submitListingsForm() {
         loading.show();
         const id = providerId;
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            const info = config.ListingProviders.filter(function (provider) {
-                return provider.Id === id;
-            })[0] || {};
+        ApiClient.getNamedConfiguration('livetv').then((config) => {
+            const info = config.ListingProviders.filter((provider) => provider.Id === id)[0] || {};
             info.Type = 'xmltv';
             info.Path = page.querySelector('.txtPath').value;
             info.MoviePrefix = page.querySelector('.txtMoviePrefix').value || null;
@@ -133,11 +129,7 @@ export default function (page, providerId, options) {
             info.NewsCategories = getCategories(page.querySelector('.txtNews'));
             info.SportsCategories = getCategories(page.querySelector('.txtSports'));
             info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
-            info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (tuner) {
-                return tuner.checked;
-            }).map(function (tuner) {
-                return tuner.getAttribute('data-id');
-            });
+            info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter((tuner) => tuner.checked).map((tuner) => tuner.getAttribute('data-id'));
             ApiClient.ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('LiveTv/ListingProviders', {
@@ -145,7 +137,7 @@ export default function (page, providerId, options) {
                 }),
                 data: JSON.stringify(info),
                 contentType: 'application/json'
-            }).then(function () {
+            }).then(() => {
                 loading.hide();
 
                 if (options.showConfirmation !== false) {
@@ -153,7 +145,7 @@ export default function (page, providerId, options) {
                 }
 
                 Events.trigger(self, 'submitted');
-            }, function () {
+            }, () => {
                 loading.hide();
                 Dashboard.alert({
                     message: globalize.translate('ErrorAddingXmlTvFile')
@@ -164,11 +156,11 @@ export default function (page, providerId, options) {
 
     const self = this;
 
-    self.submit = function () {
+    self.submit = () => {
         page.querySelector('.btnSubmitListings').click();
     };
 
-    self.init = function () {
+    self.init = () => {
         options = options || {};
 
         // Only hide the buttons if explicitly set to false; default to showing if undefined or null
@@ -179,12 +171,12 @@ export default function (page, providerId, options) {
         const hideSubmitButton = options.showSubmitButton === false;
         page.querySelector('.btnSubmitListings').classList.toggle('hide', hideSubmitButton);
 
-        $('form', page).on('submit', function () {
+        $('form', page).on('submit', () => {
             submitListingsForm();
             return false;
         });
         page.querySelector('#btnSelectPath').addEventListener('click', onSelectPathClick);
-        page.querySelector('.chkAllTuners').addEventListener('change', function (evt) {
+        page.querySelector('.chkAllTuners').addEventListener('change', (evt) => {
             if (evt.target.checked) {
                 page.querySelector('.selectTunersSection').classList.add('hide');
             } else {
