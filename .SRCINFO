@@ -1,0 +1,15 @@
+pkgbase = jellyfin-web
+        pkgdesc = Web client for Jellyfin
+        pkgver = 10.11.3
+        pkgrel = 1
+        url = https://jellyfin.org
+        arch = any
+        license = GPL-2.0-or-later
+        makedepends = git
+        makedepends = nodejs
+        source = jellyfin-web::git+https://github.com/fatexs/jellyfin-web#branch=release-10.11.z"
+        sha512sums = SKIP
+        b2sums = SKIP
+
+
+pkgname = jellyfin-web
