@@ -233,6 +233,18 @@ export const pageIdOn = function(eventName, id, fn) {
     });
 };
 
+/**
+ * Validates an input string against a regular expression pattern.
+ *
+ * @param {string} input - The input string to validate.
+ * @param {string|RegExp} pattern - The regular expression pattern to test against.
+ * @returns {boolean} True if the input matches the pattern, false otherwise.
+ */
+export const validateInput = function(input, pattern) {
+    const regex = pattern instanceof RegExp ? pattern : new RegExp(pattern);
+    return regex.test(input);
+};
+
 const Dashboard = {
     alert,
     capabilities,
@@ -255,7 +267,8 @@ const Dashboard = {
     DirectoryBrowser,
     dialogHelper,
     itemIdentifier,
-    setBackdropTransparency
+    setBackdropTransparency,
+    validateInput
 };
 
 // This is used in plugins and templates, so keep it defined for now.

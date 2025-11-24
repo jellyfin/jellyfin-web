@@ -16,10 +16,12 @@ interface InputProps
     > {
     id: string;
     label?: string;
+    invalid?: boolean;
+    invalidMessage?: string;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-    ({ id, label, className, onBlur, onFocus, ...props }, ref) => {
+    ({ id, label, className, onBlur, onFocus, invalid, invalidMessage, ...props }, ref) => {
         const [isFocused, setIsFocused] = useState(false);
 
         const onBlurInternal = useCallback(
@@ -55,8 +57,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                     className={classNames('emby-input', className)}
                     onBlur={onBlurInternal}
                     onFocus={onFocusInternal}
+                    aria-invalid={invalid}
+                    {...invalid && invalidMessage ? { 'aria-describedby': `${id}-error` } : {}}
                     {...props}
                 />
+                {invalid && invalidMessage && (
+                    <span id={`${id}-error`} role='alert' aria-live='polite'>
+                        {invalidMessage}
+                    </span>
+                )}
             </>
         );
     }
