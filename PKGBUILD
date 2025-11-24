@@ -14,13 +14,10 @@ makedepends=(
   npm
 )
 source=(
-  "$pkgname::git+https://github.com/fatexs/jellyfin-web/tree/release-10.11.z"
-  remove-npm-version-constraint.patch
+  "$pkgname::git+https://github.com/fatexs/jellyfin-web#branch=release-10.11.z"
 )
-sha512sums=('SKIP'
-            '63b57be505e31bb91469db84b96d6bb2d363324c4a4cde7a1e5f476a5aa6a6fb4d962871a307317ea81dce7cbac6864982a39aeb470dc632492d332a9e8dbd11')
-b2sums=('SKIP'
-        'f7c3d837a0d33b9d6ef4a52d43111258795dd411627d5fad050d06247ea29d08625fb13bf1953063ba46e56f85d097b1edea316510c7b0a564f90f1d66d1a3cc')
+sha512sums=('SKIP')
+b2sums=('SKIP')
 
 prepare() {
   cd "$pkgname"
