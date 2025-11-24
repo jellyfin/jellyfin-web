@@ -718,7 +718,7 @@
     "OptionSaveMetadataAsHiddenHelp": "Selle muutmine kehtib edaspidi salvestatud uute metaandmete suhtes. Olemasolevaid metaandmete faile värskendatakse järgmisel korral, kui server need salvestab.",
     "NextUp": "Järgmiseks",
     "MessageNoNextUpItems": "Midagi ei leitud. Hakka oma sarju vaatama!",
-    "LabelLibraryPageSizeHelp": "Määra meediakogu lehel kuvatavate üksuste hulk. Määra 0, et kuvada kõik üksused ühel lehel.",
+    "LabelLibraryPageSizeHelp": "Määra meediakogu lehel kuvatavate üksuste hulk. Määra 0, et kuvada kõik üksused ühel lehel. Arvesta, et määrates väärtuseks 0 või rohkem kui 100, võib põhjustada vigu ja vähendada jõudlust.",
     "LabelLibraryPageSize": "Meediakogu lehe suurus",
     "LabelLanNetworks": "LAN võrgud",
     "LabelLanguage": "Keel",
@@ -1866,7 +1866,7 @@
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Vali videofailide transkoodimiseks eelistatud audiokoodek. Kui eelisatud koodek pole toetatud kasutab server järgmist saadaolevat koodekit.",
     "Studio": "Stuudio",
     "SubtitleRed": "Punane",
-    "UseDoubleRateDeinterlacingHelp": "See seadistus kasutab lahti põimimise puhul välissagedust, mida sageli nimetatakse \"bob deinterlacing'iks\", mis kahekordistab video kaadrisageduse, et pakkuda täielikku liikumist, nagu seda näeksite põimitud video vaatamisel telerist.",
+    "UseDoubleRateDeinterlacingHelp": "See säte kasutab ülarealaotuse eemaldamiseks väljasagedust, mida sageli nimetatakse ka bob deinterlacinguks. See kahekordistab video kaadrisagedust, pakkudes täielikku liikumisefekti, mis on võrdne ülarealaotusega video vaatamisega teleris.",
     "HearingImpairedShort": "HI/SDH",
     "LabelTrickplayAccel": "Luba riistvaraline dekodeerimine",
     "LabelTrickplayKeyFrameOnlyExtraction": "Loo pilte ainult võtmekaadritest",
@@ -2053,5 +2053,7 @@
     "StorageType.Network": "Võrk",
     "StorageType.Fixed": "Sisemine",
     "HeaderBackups": "Varukoopiad",
-    "Success": "Edu"
+    "Success": "Edu",
+    "ButtonAddTunerDevice": "Lisa tuuner",
+    "ButtonAddProvider": "Lisa tarnija"
 }

@@ -637,7 +637,7 @@
     "LabelLocalHttpServerPortNumberHelp": "HTTP சேவையகத்திற்கான TCP போர்ட் எண்.",
     "LabelLocalHttpServerPortNumber": "உள்ளூர் HTTP போர்ட் எண்",
     "LabelLineup": "வரிசை",
-    "LabelLibraryPageSizeHelp": "நூலகப் பக்கத்தில் காட்ட வேண்டிய உருப்படிகளின் அளவை அமைக்கவும். பேஜிங்கை முடக்க 0 என அமைக்கவும்.",
+    "LabelLibraryPageSizeHelp": "நூலகப் பக்கத்தில் காண்பிக்க வேண்டிய உருப்படிகளின் அளவை அமைக்கவும். 0 மதிப்பை அமைப்பது பக்கமாக்கலை முடக்கும். இதை 0 அல்லது 100 ஐ விட அதிகமான மதிப்பாக அமைப்பது பிழைகள் மற்றும் குறைந்த செயல்திறனுக்கு வழிவகுக்கும் என்பதை நினைவில் கொள்ளவும்.",
     "LabelLibraryPageSize": "நூலக பக்க அளவு",
     "LabelLanguage": "மொழி",
     "LabelLanNetworks": "LAN நெட்வொர்க்குகள்",
@@ -2078,5 +2078,7 @@
     "LabelAvailable": "உள்ளது",
     "ManageRepositories": "களஞ்சியங்களை நிர்வகிக்கவும்",
     "ViewAllPlugins": "அனைத்து செருகுநிரல்களையும் காண்க",
-    "LabelBundled": "தொகுக்கப்பட்டது"
+    "LabelBundled": "தொகுக்கப்பட்டது",
+    "ButtonAddProvider": "வழங்குநரைச் சேர்",
+    "ButtonAddTunerDevice": "ட்யூனர் சாதனத்தைச் சேர்"
 }

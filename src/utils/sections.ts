@@ -196,7 +196,6 @@ export const getProgramSections = (): Section[] => {
             apiMethod: SectionApiMethod.LiveTvPrograms,
             type: SectionType.UpcomingEpisodes,
             parametersOptions: {
-                isAiring: false,
                 hasAired: false,
                 isMovie: false,
                 isSports: false,
@@ -221,7 +220,6 @@ export const getProgramSections = (): Section[] => {
             apiMethod: SectionApiMethod.LiveTvPrograms,
             type: SectionType.UpcomingMovies,
             parametersOptions: {
-                isAiring: false,
                 hasAired: false,
                 isMovie: true
             },
@@ -242,7 +240,6 @@ export const getProgramSections = (): Section[] => {
             apiMethod: SectionApiMethod.LiveTvPrograms,
             type: SectionType.UpcomingSports,
             parametersOptions: {
-                isAiring: false,
                 hasAired: false,
                 isSports: true
             },
@@ -263,7 +260,6 @@ export const getProgramSections = (): Section[] => {
             apiMethod: SectionApiMethod.LiveTvPrograms,
             type: SectionType.UpcomingKids,
             parametersOptions: {
-                isAiring: false,
                 hasAired: false,
                 isKids: true
             },
@@ -284,7 +280,6 @@ export const getProgramSections = (): Section[] => {
             apiMethod: SectionApiMethod.LiveTvPrograms,
             type: SectionType.UpcomingNews,
             parametersOptions: {
-                isAiring: false,
                 hasAired: false,
                 isNews: true
             },

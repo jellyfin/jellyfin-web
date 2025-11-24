@@ -1066,7 +1066,7 @@
     "LabelSkipBackLength": "Lengde for tilbakehopp",
     "LabelSkipForwardLength": "Lengde for fremoverhopp",
     "LabelTriggerType": "Utløsertype",
-    "LanNetworksHelp": "Kommaseparert liste over IP-adresser eller IP/nettmaske-oppføringer for nettverk som skal anses som lokale når båndbreddebegrensninger håndheves. Hvis satt, vil alle andre IP-adresser anses å være på det eksterne nettverket og vil være underlagt de eksterne båndbreddebegrensningene. Hvis dette feltet er tomt, anses kun serverens subnet å være på det lokale nettverket.",
+    "LanNetworksHelp": "Kommaseparert liste over IP-adresser eller IP/nettmaske-oppføringer for nettverk som skal anses som lokale når båndbredde- og fjerntilgangsbegrensninger håndheves. Hvis dette feltet er tomt, anses alle RFC1918 adresser å være på det lokale nettverket.",
     "LearnHowYouCanContribute": "Finn ut hvordan du kan bidra.",
     "SeriesYearToPresent": "{0} - Nå",
     "LabelBaseUrlHelp": "Legg til en egendefinert undermappe til serverens nettadresse. For eksempel: <code>http://eksempel.no/<b>&lt;baseurl&gt;</b></code>",
@@ -1250,7 +1250,7 @@
     "Artist": "Artist",
     "AlbumArtist": "Albumartist",
     "Album": "Album",
-    "LabelLibraryPageSizeHelp": "Angi hvor mange elementer som vises på en bibliotekside. Velg 0 for å deaktivere oppdeling i sider.",
+    "LabelLibraryPageSizeHelp": "Angi hvor mange elementer som vises på en bibliotekside. Velg 0 for å deaktivere oppdeling i sider. Vær oppmerksom på at å velge verdien 0, eller en verdi større enn 100 kan føre til problemer og redusert ytelse.",
     "LabelLibraryPageSize": "Størrelse på bibliotekside",
     "LabelDeinterlaceMethod": "Metode for fjerning av linjefletting",
     "DeinterlaceMethodHelp": "Velg hvilken metode som skal brukes for å fjerne linjefletting når omkoding skjer i programvaren. Når maskinvareakselerasjon er aktivert så bruker maskinvaren sin egen metode for å fjerne linjefletting.",
@@ -2061,5 +2061,10 @@
     "ButtonAddTunerDevice": "Legg Til Dekoder",
     "ButtonAddProvider": "Legg til en levreandør",
     "HeaderBackupsHelp": "Opprett og gjenopprett øyeblikksbilder av serveren, som kan inkludere databasen, metadata, undertekster og trickplay.",
-    "HeaderServerMismatch": "Serveravvik"
+    "HeaderServerMismatch": "Serveravvik",
+    "RepositoriesPageLoadError": "Klarte ikke å laste repositories",
+    "StorageType.NoRootDirectory": "Ingen Root katalog",
+    "StorageType.Removable": "Flyttbar",
+    "TranscodingLoadError": "Klarte ikke å laste innstillinger for transkoding",
+    "ViewAllPlugins": "Vis alle tilleggsprogam"
 }

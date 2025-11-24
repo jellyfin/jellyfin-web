@@ -1,4 +1,3 @@
-import browser from '../../scripts/browser';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import scrollHelper from '../../scripts/scrollHelper';
@@ -92,33 +91,13 @@ export default (() => {
         });
     }
 
-    if ((browser.tv || browser.xboxOne) && window.confirm) {
-        return options => {
-            if (typeof options === 'string') {
-                options = {
-                    label: '',
-                    text: options
-                };
-            }
-
-            const label = (options.label || '').replaceAll('<br/>', '\n');
-            const result = prompt(label, options.text || '');
-
-            if (result) {
-                return Promise.resolve(result);
-            } else {
-                return Promise.reject(result);
-            }
-        };
-    } else {
-        return options => {
-            if (typeof options === 'string') {
-                options = {
-                    title: '',
-                    text: options
-                };
-            }
-            return showDialog(options);
-        };
-    }
+    return options => {
+        if (typeof options === 'string') {
+            options = {
+                title: '',
+                text: options
+            };
+        }
+        return showDialog(options);
+    };
 })();
