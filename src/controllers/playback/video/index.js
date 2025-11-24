@@ -267,16 +267,8 @@ export default function (view) {
             }
         }
 
-        LibraryMenu.setTitle(title);
-
-        // Make the page title clickable to navigate to the item detail page
-        const pageTitleElement = document.querySelector('.pageTitle');
-        if (pageTitleElement && item) {
-            pageTitleElement.classList.add('focusable');
-            pageTitleElement.style.cursor = 'pointer';
-            pageTitleElement.removeEventListener('click', showItemDetails);
-            pageTitleElement.addEventListener('click', showItemDetails);
-        }
+        const detailUrl = item ? appRouter.getRouteUrl(item) : '';
+        LibraryMenu.setTitle(title, detailUrl);
 
         const documentTitle = parentName || (item ? item.Name : null);
 
@@ -1736,14 +1728,6 @@ export default function (view) {
     view.addEventListener('viewbeforehide', function () {
         if (statsOverlay) {
             statsOverlay.enabled(false);
-        }
-
-        // Clean up page title click listener
-        const pageTitleElement = document.querySelector('.pageTitle');
-        if (pageTitleElement) {
-            pageTitleElement.classList.remove('focusable');
-            pageTitleElement.removeEventListener('click', showItemDetails);
-            pageTitleElement.style.cursor = '';
         }
 
         document.removeEventListener('keydown', onKeyDown);
