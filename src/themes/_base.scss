@@ -111,6 +111,7 @@ html {
     @include var(color, --jf-palette-primary-main, $primary-main);
 }
 
+a[data-role=button],
 .fab,
 .raised {
     @include var(background, --jf-palette-Button-inheritContainedBg, $button-inheritContainedBg);
@@ -126,8 +127,9 @@ html {
     @include var(background, --jf-palette-primary-main, $primary-main);
     @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
 
-    &:focus {
-        @include var(background, --jf-palette-primary-light, $primary-light);
+    &:focus,
+    &:hover {
+        @include var(background, --jf-palette-primary-dark, $primary-dark);
     }
 }
 
@@ -279,11 +281,14 @@ html {
 }
 
 .emby-select-withcolor {
-    @include var(background, --jf-palette-FilledInput-bg, $filledInput-bg);
+    // NOTE: This should use `FilledInput-bg` to match other form elements,
+    // but that will break the native dropdown styling
+    @include var(background, --jf-palette-background-paper, $background-paper);
     @include var(border-color, --jf-palette-FilledInput-bg, $filledInput-bg);
     color: inherit;
-    border-width: 0.07em;
+    border-width: 0.16em;
     border-style: solid;
+    border-radius: 0.2em;
 }
 
 .emby-select-withcolor > option {
