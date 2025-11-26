@@ -39,6 +39,32 @@ export const getSuggestionSections = (): Section[] => {
             }
         },
         {
+            name: 'HeaderContinueReading',
+            apiMethod: SectionApiMethod.ResumeItems,
+            itemTypes: 'Book',
+            type: SectionType.ContinueReading,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Book]
+            },
+            cardOptions: {
+                overlayPlayButton: true,
+                shape: CardShape.PortraitOverflow
+            }
+        },
+        {
+            name: 'HeaderLatestBooks',
+            apiMethod: SectionApiMethod.LatestMedia,
+            itemTypes: 'Book',
+            type: SectionType.LatestBooks,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Book]
+            },
+            cardOptions: {
+                overlayPlayButton: true,
+                shape: CardShape.PortraitOverflow
+            }
+        },
+        {
             name: 'HeaderLatestMovies',
             apiMethod: SectionApiMethod.LatestMedia,
             itemTypes: 'Movie',
