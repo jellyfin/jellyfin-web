@@ -37,7 +37,7 @@ export function createStudiosController(itemType, context, keySuffix) {
 
     function reloadItems(tabContent, params, promise) {
         promise.then(function (result) {
-            const elem = tabContent.querySelector('#items');
+            const elem = tabContent.querySelector('#studioItems');
             cardBuilder.buildCards(result.Items, {
                 itemsContainer: elem,
                 shape: 'backdrop',
@@ -56,17 +56,18 @@ export function createStudiosController(itemType, context, keySuffix) {
         });
     }
 
-    return function (view, params, tabContent) {
+    function StudiosController(view, params, tabContent) {
         let promise;
-        const self = this;
 
-        self.preRender = function () {
+        this.preRender = function () {
             promise = getPromise(view, params);
         };
 
-        self.renderTab = function () {
+        this.renderTab = function () {
             reloadItems(tabContent, params, promise);
         };
-    };
+    }
+
+    return StudiosController;
 }
 

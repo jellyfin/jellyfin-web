@@ -148,7 +148,7 @@ function updateFilterControls(context, options) {
     }
     for (const elem of context.querySelectorAll('.chkStudioFilter')) {
         const studioIds = `,${query.StudioIds || ''}`;
-        const filterName = elem.getAttribute('data-filter');
+        const filterName = elem.dataset.filter;
         elem.checked = studioIds.includes(`,${filterName}`);
     }
 }
@@ -463,7 +463,7 @@ class FilterDialog {
             }
             const chkStudioFilter = dom.parentWithClass(e.target, 'chkStudioFilter');
             if (chkStudioFilter) {
-                const filterName = chkStudioFilter.getAttribute('data-filter');
+                const filterName = chkStudioFilter.dataset.filter;
                 let filters = query.StudioIds || '';
                 const delimiter = ',';
                 filters = filters
