@@ -237,6 +237,8 @@ function getTabs() {
         name: globalize.translate('Collections')
     }, {
         name: globalize.translate('Genres')
+    }, {
+        name: globalize.translate('Studios')
     }];
 }
 
@@ -253,6 +255,9 @@ function getDefaultTabIndex(folderId) {
 
         case LibraryTab.Genres:
             return 4;
+
+        case LibraryTab.Studios:
+            return 5;
 
         default:
             return 0;
@@ -291,6 +296,10 @@ export default function (view, params) {
 
             case 4:
                 depends = 'moviegenres';
+                break;
+
+            case 5:
+                depends = 'moviestudios';
                 break;
         }
 
