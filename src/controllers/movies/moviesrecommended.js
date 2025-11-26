@@ -264,6 +264,9 @@ function getDefaultTabIndex(folderId) {
     }
 }
 
+// Tab management code shares structure with tvrecommended.js but has different
+// tab indices and controller handling, making extraction difficult without
+// reducing code clarity. This duplication is acceptable.
 export default function (view, params) {
     function onBeforeTabChange(e) {
         preLoadTab(view, parseInt(e.detail.selectedTabIndex, 10));
