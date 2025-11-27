@@ -57,7 +57,7 @@ export default class TableOfContents {
 
         // remove parent directory reference from href to fix certain books
         const link = chapter.href.startsWith('../') ? chapter.href.slice(3) : chapter.href;
-        itemHtml += `<a href="${escapeHTML(book.path.directory + link)}">${escapeHTML(chapter.label)}</a>`;
+        itemHtml += `<a style="color: ${this.bookPlayer.THEMES[this.bookPlayer.theme].body.color}" href="${escapeHTML(book.path.directory + link)}">${escapeHTML(chapter.label)}</a>`;
 
         if (chapter.subitems?.length) {
             const subHtml = chapter.subitems
@@ -85,7 +85,7 @@ export default class TableOfContents {
         let tocHtml = '<div class="topRightActionButtons">';
         tocHtml += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerTocClose hide-mouse-idle-tv" tabindex="-1"><span class="material-icons bookplayerButtonIcon close" aria-hidden="true"></span></button>';
         tocHtml += '</div>';
-        tocHtml += '<ul class="toc">';
+        tocHtml += `<ul style="background-color: ${this.bookPlayer.THEMES[this.bookPlayer.theme].body.background}" class="toc">`;
         rendition.book.navigation.forEach((chapter) => {
             tocHtml += this.chapterTocItem(rendition.book, chapter);
         });

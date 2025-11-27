@@ -46,11 +46,18 @@
     width: fit-content;
     max-height: 80%;
     max-width: 60%;
-    padding-right: 50px;
-    padding-bottom: 15px;
 
     .bookplayerButtonIcon {
         color: black;
+    }
+
+    .bookplayerButton {
+        margin: 0.5vh;
+    }
+
+    .toc {
+        margin: 0;
+        padding: 30px;
     }
 
     .toc li {
