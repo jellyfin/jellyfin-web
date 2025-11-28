@@ -155,7 +155,7 @@ function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
     });
 }
 
-function renderTimerEditor(page, item, apiClient, user) {
+function renderTimerEditor(page, item, user) {
     if (item.Type !== 'Recording' || !user.Policy.EnableLiveTvManagement || !item.TimerId || item.Status !== 'InProgress') {
         hideAll(page, 'btnCancelTimer');
         return;
@@ -567,7 +567,7 @@ function reloadFromItem(instance, page, params, item, user) {
     renderTrackSelections(page, instance, item);
 
     renderSeriesTimerEditor(page, item, apiClient, user);
-    renderTimerEditor(page, item, apiClient, user);
+    renderTimerEditor(page, item, user);
     setInitialCollapsibleState(page, item, apiClient, params.context, user);
     const canPlay = reloadPlayButtons(page, item);
 
@@ -809,7 +809,7 @@ function renderNextUp(page, item, user) {
     });
 }
 
-function setInitialCollapsibleState(page, item, apiClient, context, user) {
+function setInitialCollapsibleState(page, item, _apiClient, _context, user) {
     page.querySelector('.collectionItems').innerHTML = '';
 
     if (item.Type == 'Playlist') {
@@ -1969,7 +1969,7 @@ export default function (view, params) {
         playbackManager.playTrailers(currentItem);
     }
 
-    function playCurrentItem(button, mode) {
+    function playCurrentItem(mode) {
         const item = currentItem;
 
         if (item.Type === 'Program') {
@@ -1994,7 +1994,7 @@ export default function (view, params) {
             action = actionElem.getAttribute('data-action');
         }
 
-        playCurrentItem(actionElem, action);
+        playCurrentItem(action);
     }
 
     function onInstantMixClick() {
@@ -2071,7 +2071,7 @@ export default function (view, params) {
         setTrailerButtonVisibility(view, currentItem);
     }
 
-    function onWebSocketMessage(e, data) {
+    function onWebSocketMessage(_e, data) {
         const msg = data;
         const apiClient = getApiClient();
 
