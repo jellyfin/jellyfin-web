@@ -7,6 +7,7 @@ import browser from './browser';
 import inputManager from './inputManager';
 import layoutManager from '../components/layoutManager';
 import appSettings from './settings/appSettings';
+import { stopMultiSelect } from '../components/multiSelect/multiSelect';
 
 /**
  * Key name mapping.
@@ -226,6 +227,7 @@ export function enable() {
                 break;
 
             case 'Escape':
+                stopMultiSelect();
                 if (layoutManager.tv) {
                     inputManager.handleCommand('back');
                 } else {
