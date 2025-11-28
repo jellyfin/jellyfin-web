@@ -396,7 +396,8 @@ function executeCommand(item, id, options) {
                     const collectionEditor = new CollectionEditor();
                     collectionEditor.show({
                         items: [itemId],
-                        serverId: serverId
+                        serverId: serverId,
+                        inVideo: options.inVideo
                     }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                 });
                 break;
@@ -405,7 +406,8 @@ function executeCommand(item, id, options) {
                     const playlistEditor = new PlaylistEditor();
                     playlistEditor.show({
                         items: [itemId],
-                        serverId: serverId
+                        serverId: serverId,
+                        inVideo: options.inVideo
                     }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                 });
                 break;
@@ -764,7 +766,8 @@ export async function show(options) {
     const id = await actionsheet.show({
         items: commands,
         positionTo: options.positionTo,
-        resolveOnClick: ['share']
+        resolveOnClick: ['share'],
+        inVideo: options.inVideo
     });
 
     return executeCommand(options.item, id, options);
