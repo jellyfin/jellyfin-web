@@ -31,7 +31,7 @@ const defaultMuiTheme = extendTheme({
  * Default color schemes ('dark' or 'light') will automatically be merged with MUI's corresponding default color
  * scheme. For custom schemes, we need to merge these manually.
  */
-const buildCustomColorScheme = (options: ColorSystemOptions) => merge(
+const buildCustomColorScheme = (options: ColorSystemOptions) => merge<ColorSystemOptions, ColorSystemOptions | undefined, ColorSystemOptions, ColorSystemOptions>(
     {},
     options.palette?.mode === 'light' ? defaultMuiTheme.colorSchemes.light : defaultMuiTheme.colorSchemes.dark,
     DEFAULT_COLOR_SCHEME,
@@ -75,18 +75,31 @@ const dark = merge({}, DEFAULT_COLOR_SCHEME, {
 });
 
 /** The "Light" color scheme. */
-const light = merge({}, DEFAULT_COLOR_SCHEME, {
+const light = merge<ColorSystemOptions, ColorSystemOptions, ColorSystemOptions>({}, DEFAULT_COLOR_SCHEME, {
     palette: {
         mode: 'light',
         background: {
             default: '#f2f2f2',
-            // NOTE: The original theme uses #303030 for the drawer and app bar but we would need the drawer to use
-            // dark mode for a color that dark to work properly which would require a separate ThemeProvider just for
-            // the drawer... which is not worth the trouble in my opinion
             paper: '#e8e8e8'
+        },
+        text: {
+            primary: '#000',
+            secondary: 'rgba(0, 0, 0, 0.87)'
+        },
+        action: {
+            focus: '#bbb',
+            hover: '#ddd'
+        },
+        Alert: {
+            infoFilledBg: '#fff3a5',
+            infoFilledColor: '#000'
         },
         AppBar: {
             defaultBg: '#e8e8e8'
+        },
+        Button: {
+            inheritContainedBg: '#d8d8d8',
+            inheritContainedHoverBg: '#ccc'
         }
     }
 });
