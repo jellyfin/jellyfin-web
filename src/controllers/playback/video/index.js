@@ -260,7 +260,8 @@ export default function (view) {
             }
         }
 
-        LibraryMenu.setTitle(title);
+        const detailUrl = item ? appRouter.getRouteUrl(item) : '';
+        LibraryMenu.setTitle(title, detailUrl);
 
         const documentTitle = parentName || (item ? item.Name : null);
 
