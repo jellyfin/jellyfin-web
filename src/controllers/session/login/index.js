@@ -24,6 +24,26 @@ import './login.scss';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
+function getErrorMessageKey(response) {
+    if (!response) {
+        return 'ErrorDefault';
+    }
+
+    console.log(`response status: ${response.status}`, response, response.body, JSON.stringify(response.body), response.message, JSON.stringify(response.message));
+
+    switch (response.status) {
+        case 401:
+            return 'MessageInvalidUser';
+        case 403: {
+            // TODO: Differentiate between disabled user and unauthorized user due to max sessions or any other reason
+
+            return 'MessageUnauthorizedUser';
+        }
+        default:
+            return 'ErrorDefault';
+    }
+}
+
 function authenticateUserByName(page, apiClient, url, username, password) {
     loading.show();
     apiClient.authenticateUserByName(username, password).then(function (result) {
@@ -37,7 +57,7 @@ function authenticateUserByName(page, apiClient, url, username, password) {
 
         const UnauthorizedOrForbidden = [401, 403];
         if (UnauthorizedOrForbidden.includes(response.status)) {
-            const messageKey = response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
+            const messageKey = getErrorMessageKey(response);
             toast(globalize.translate(messageKey));
         } else {
             Dashboard.alert({
