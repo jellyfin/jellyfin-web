@@ -51,12 +51,21 @@ export class BookPlayer {
 
     play(options) {
         this.progress = 0;
+        this.progressState = null; // CFI string for precise EPUB location
         this.cancellationToken = false;
         this.loaded = false;
 
         loading.show();
         const elem = this.createMediaElement();
         return this.setCurrentSrc(elem, options);
+    }
+
+    /**
+     * Gets the current progress state (CFI) for EPUB files.
+     * @returns {string|null} The CFI string or null if not available.
+     */
+    getProgressState() {
+        return this.progressState;
     }
 
     stop() {
@@ -362,15 +371,26 @@ export class BookPlayer {
                     return this.rendition.book.locations.generate(1024).then(async () => {
                         if (this.cancellationToken) reject();
 
-                        const percentageTicks = options.startPositionTicks / 10000000;
-                        if (percentageTicks !== 0.0) {
-                            const resumeLocation = book.locations.cfiFromPercentage(percentageTicks);
-                            await rendition.display(resumeLocation);
+                        // Check for ProgressState (CFI) first for precise EPUB location
+                        const progressState = item.UserData?.ProgressState;
+                        if (progressState) {
+                            // Use the stored CFI for precise location
+                            await rendition.display(progressState);
+                        } else {
+                            // Fallback to percentage-based resume for backward compatibility
+                            const percentageTicks = options.startPositionTicks / 10000000;
+                            if (percentageTicks !== 0.0) {
+                                const resumeLocation = book.locations.cfiFromPercentage(percentageTicks);
+                                await rendition.display(resumeLocation);
+                            }
                         }
 
                         this.loaded = true;
                         epubElem.style.opacity = '';
                         rendition.on('relocated', (locations) => {
+                            // Store the CFI for precise location tracking
+                            this.progressState = locations.start.cfi;
+                            // Also calculate percentage for backward compatibility
                             this.progress = book.locations.percentageFromCfi(locations.start.cfi);
                             Events.trigger(this, 'pause');
                         });
