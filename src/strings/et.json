@@ -1952,7 +1952,7 @@
     "PreferNonstandardArtistsTagHelp": "Kasuta ARTIST sildi asemel ebastandartset ARTISTS silti kui see saadaval on.",
     "UseCustomTagDelimiters": "Kasuta kohandatud siltide eraldajat",
     "UseCustomTagDelimitersHelp": "Kasuta siltideks jagamisel kohandatud tähemärke.",
-    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Põleta kõik subtiitrid sisse transkoodimise käivitumisel. See tagab, et subtiitrid on pärast transkoodimist sünkroonis, kuid teeb selle aeglasemaks.",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Põleta kõik subtiitrid sisse transkoodimise käivitumisel. See tagab, et subtiitrid on pärast transkoodimist sünkroonis, kuid teeb transkoodimise aeglasemaks.",
     "AlwaysBurnInSubtitleWhenTranscoding": "Transkoodimisel põleta alati subtiitrid sisse",
     "LabelScreensaverTime": "Ekraanisäästja aeg",
     "LabelScreensaverTimeHelp": "Tegevusetuse aeg sekundites mille järel käivitatakse ekraanisäästja.",
