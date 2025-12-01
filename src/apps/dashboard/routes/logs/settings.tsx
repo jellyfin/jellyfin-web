@@ -25,12 +25,17 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const { data: config } = await getConfigurationApi(api).getConfiguration();
 
     const enableWarningMessage = formData.get('EnableWarningMessage');
+    const activityLogRetentionDays = formData.get('ActivityLogRetentionDays')?.toString();
+
     config.EnableSlowResponseWarning = enableWarningMessage === 'on';
 
     const responseTime = formData.get('SlowResponseTime');
     if (responseTime) {
         config.SlowResponseThresholdMs = parseInt(responseTime.toString(), 10);
     }
+
+
+    if (activityLogRetentionDays) config.ActivityLogRetentionDays = parseInt(activityLogRetentionDays, 10);
 
     await getConfigurationApi(api)
         .updateConfiguration({ serverConfiguration: config });
@@ -70,6 +75,13 @@ export const Component = () => {
         });
     }, [configuration]);
 
+    const onActivityLogRetentionDaysChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+        setConfiguration({
+            ...configuration,
+            ActivityLogRetentionDays: parseInt(event.target.value, 10)
+        });
+    }, [configuration]);
+
     if (isConfigurationPending || loading) {
         return <Loading />;
     }
@@ -92,6 +104,22 @@ export const Component = () => {
                                 {globalize.translate('SettingsSaved')}
                             </Alert>
                         )}
+
+                        <TextField
+                            type='number'
+                            name='ActivityLogRetentionDays'
+                            label={globalize.translate('LabelActivityLogRetentionDays')}
+                            value={configuration?.ActivityLogRetentionDays}
+                            helperText={globalize.translate('LabelActivityLogRetentionDaysHelp')}
+                            onChange={onActivityLogRetentionDaysChange}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 0,
+                                    max: 3650,
+                                    required: true
+                                }
+                            }}
+                        />
 
                         <FormControlLabel
                             control={
