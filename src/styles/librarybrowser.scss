@@ -501,6 +501,20 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
+
+    [dir="rtl"] & {
+        left: 25vw;
+        right: unset;
+    }
+
+    .layout-mobile &,
+    .layout-tv & {
+        display: none;
+    }
+
+    @media all and (max-width: 68.75em) {
+        display: none;
+    }
 }
 
 .criticReview:first-child {
@@ -901,6 +915,7 @@
 
     [dir="rtl"] & {
         left: unset;
+        float: right;
 
         .layout-mobile &,
         .layout-tv & {
@@ -936,19 +951,6 @@
         content: "";
         display: table;
         clear: both;
-    }
-}
-
-.layout-mobile,
-.layout-tv {
-    .detailLogo {
-        display: none;
-    }
-}
-
-@media all and (max-width: 68.75em) {
-    .detailLogo {
-        display: none;
     }
 }
 
