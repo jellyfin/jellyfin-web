@@ -101,9 +101,8 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
             return resetMediaSession();
         }
 
-        const player = this.player ?? this.playbackManager.getCurrentPlayer();
         const isVideo = item.MediaType === MediaType.Video;
-        const isLocalPlayer = !!player?.isLocalPlayer;
+        const isLocalPlayer = !!this.player?.isLocalPlayer;
 
         // Local players do their own notifications
         if (isLocalPlayer && isVideo) {
@@ -150,8 +149,6 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
     }
 
     onPlayerChange() {
-        // Player change events can fire before bindPlayerEvents updates this.player
-        this.player = this.playbackManager.getCurrentPlayer();
         this.onMediaSessionUpdate({ type: 'timeupdate' });
     }
 
