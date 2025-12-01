@@ -1872,4 +1872,6 @@
     "LogLoadFailure": "Failed to load the log file. It may still be actively written to.",
     "LabelActivityLogRetentionDays": "Activity log retention days",
     "LabelActivityLogRetentionDaysHelp": "The number of days to retain activity log entries.",
+    "LabelInactiveSessionThreshold": "Inactive session threshold (minutes)",
+    "LabelInactiveSessionThresholdHelp": "The number of minutes of inactivity before a session is considered inactive, at which point the session is stopped. Set to 0 to disable."
 }
