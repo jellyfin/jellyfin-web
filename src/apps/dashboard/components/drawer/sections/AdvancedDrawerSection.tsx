@@ -5,7 +5,6 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import Lan from '@mui/icons-material/Lan';
 import Schedule from '@mui/icons-material/Schedule';
-import Settings from '@mui/icons-material/Settings';
 import VpnKey from '@mui/icons-material/VpnKey';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -13,7 +12,7 @@ import ListItemButton from '@mui/material/ListItemButton/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import React, {type MouseEvent, useState, useCallback } from 'react';
+import React, { type MouseEvent, useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import ListItemLink from 'components/ListItemLink';
@@ -21,7 +20,7 @@ import globalize from 'lib/globalize';
 
 const LOG_PATHS = [
     '/dashboard/logs/settings',
-    '/dashboard/logs/files',
+    '/dashboard/logs/files'
 ];
 
 const AdvancedDrawerSection = () => {

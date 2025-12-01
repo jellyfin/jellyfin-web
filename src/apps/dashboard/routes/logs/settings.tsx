@@ -34,7 +34,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         config.SlowResponseThresholdMs = parseInt(responseTime.toString(), 10);
     }
 
-
     if (activityLogRetentionDays) config.ActivityLogRetentionDays = parseInt(activityLogRetentionDays, 10);
 
     await getConfigurationApi(api)
