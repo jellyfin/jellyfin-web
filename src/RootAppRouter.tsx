@@ -18,7 +18,7 @@ import BangRedirect from 'components/router/BangRedirect';
 import { createRouterHistory } from 'components/router/routerHistory';
 import { LayoutMode } from 'constants/layoutMode';
 import browser from 'scripts/browser';
-import appTheme from 'themes/themes';
+import appTheme from 'themes';
 import { ThemeStorageManager } from 'themes/themeStorageManager';
 
 const layoutMode = browser.tv ? LayoutMode.Tv : localStorage.getItem(LAYOUT_SETTING_KEY);
