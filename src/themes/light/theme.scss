@@ -1,8 +1,8 @@
 @use '../../styles/mixins' as *;
-@use '../palette' as palette;
+@use '../_base/palette' as palette;
 
 /* Import the base theme with overrides */
-@use '../base' with (
+@use '../_base/theme' with (
     // Theme options
     $dark: false,
 
