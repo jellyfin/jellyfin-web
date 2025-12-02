@@ -558,7 +558,7 @@
     "OptionAllowRemoteControlOthers": "السماح بالتحكم في المستخدمين الآخرين عن بعد",
     "OptionAllowRemoteSharedDevices": "السماح بالتحكم في الأجهزة المشاركة عن بعد",
     "OptionAllowRemoteSharedDevicesHelp": "أجهزة Dlna ستعتبر مشاركة إلى أن يبدأ مستخدم ما بالتحكم بها.",
-    "OptionAllowUserToManageServer": "إسمح لهذا المستخدم بالتحكم بالخادم",
+    "OptionAllowUserToManageServer": "اسمح لهذا المستخدم بالتحكم بالخادم",
     "OptionAllowVideoPlaybackRemuxing": "تمكين تشغيل الفيديو الذي يحتاج إلى التحويل من غير تشفير",
     "OptionAllowVideoPlaybackTranscoding": "تمكين تشغيل الفيديو الذي يحتاج تشفيراً بينياً",
     "OptionAutomaticallyGroupSeries": "إدمج الحلقات الموزعة بين عدة مجلدات إلى مجلد واحد تلقائياً",
