@@ -15,7 +15,7 @@ import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
 import BangRedirect from 'components/router/BangRedirect';
 import { createRouterHistory } from 'components/router/routerHistory';
-import appTheme from 'themes/themes';
+import appTheme from 'themes';
 import { ThemeStorageManager } from 'themes/themeStorageManager';
 
 const layoutMode = localStorage.getItem('layout');
