@@ -1,28 +1,52 @@
-<div class="topButtons">
-    <button is="paper-icon-button-light" id="btnBookplayerToc" class="autoSize bookplayerButton hide-mouse-idle-tv" tabindex="-1">
-        <span class="material-icons bookplayerButtonIcon toc" aria-hidden="true"></span>
-    </button>
-    <button is="paper-icon-button-light" id="btnBookplayerPrev" class="autoSize bookplayerButton hide-mouse-idle-tv" tabindex="-1">
-        <span class="material-icons bookplayerButtonIcon navigate_before" aria-hidden="true"></span>
-    </button>
-    <button is="paper-icon-button-light" id="btnBookplayerNext" class="autoSize bookplayerButton hide-mouse-idle-tv" tabindex="-1">
-        <span class="material-icons bookplayerButtonIcon navigate_next" aria-hidden="true"></span>
-    </button>
-    <button is="paper-icon-button-light" id="btnBookplayerExit" class="autoSize bookplayerButton hide-mouse-idle-tv" tabindex="-1">
-        <span class="material-icons bookplayerButtonIcon close" aria-hidden="true"></span>
-    </button>
-    <button is="paper-icon-button-light" id="btnBookplayerRotateTheme" class="autoSize bookplayerButton hide-mouse-idle-tv" tabindex="-1">
-        <span class="material-icons bookplayerButtonIcon remove_red_eye" aria-hidden="true"></span>
-    </button>
-    <button is="paper-icon-button-light" id="btnBookplayerDecreaseFontSize" class="autoSize bookplayerButton hide-mouse-idle-tv" tabindex="-1">
-        <span class="material-icons bookplayerButtonIcon text_decrease" aria-hidden="true"></span>
-    </button>
-    <button is="paper-icon-button-light" id="btnBookplayerIncreaseFontSize" class="autoSize bookplayerButton hide-mouse-idle-tv" tabindex="-1">
-        <span class="material-icons bookplayerButtonIcon text_increase" aria-hidden="true"></span>
-    </button>
-    <button is="paper-icon-button-light" id="btnBookplayerFullscreen" class="autoSize bookplayerButton hide-mouse-idle-tv" tabindex="-1">
-        <span class="material-icons bookplayerButtonIcon fullscreen" aria-hidden="true"></span>
-    </button>
+<div class="epubPlayerHeader w-100 skinHeader-withBackground">
+    <div class="flex align-items-center headerTop">
+        <div class="headerLeft">
+            <button is="paper-icon-button-light" class="headerBackButton headerButton headerButtonLeft paper-icon-button-light" title="${Previous}">
+                <span class="material-icons arrow_back" aria-hidden="true"></span>
+            </button>
+            <h3 class="pageTitle" aria-hidden="true"></h3>
+        </div>
+        <div class="headerRight">
+            <button is="paper-icon-button-light" class="headerFullscreenButton headerButton headerButtonRight paper-icon-button-light" title="${Fullscreen}">
+                <span class="material-icons fullscreen" aria-hidden="true"></span>
+            </button>
+            <button is="paper-icon-button-light" class="headerSearchButton headerButton headerButtonRight paper-icon-button-light" title="${Search}">
+                <span class="material-icons search" aria-hidden="true"></span>
+            </button>
+            <button is="paper-icon-button-light" class="headerTextformatButton headerButton headerButtonRight paper-icon-button-light" title="${LabelFont}">
+                <span class="material-icons text_format" aria-hidden="true"></span>
+            </button>
+            <button is="paper-icon-button-light" class="headerTocButton headerButton headerButtonRight paper-icon-button-light" title="${Toc}">
+                <span class="material-icons toc" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
 </div>
 
-<div id="bookPlayerContainer" class="bookPlayerContainer"></div>
+<div class="epubPlayerWrapper flex-grow">
+    <div class="epubPlayer"></div>
+</div>
+
+<div class="epubPlayerFooter flex align-items-center flex-direction-column w-100">
+    <div class="epubMediaStatus w-100 hide">
+        <div class="epubMediaStatusWrapper flex justify-content-center w-100">
+            <div class="flex align-items-center">
+                <span class="material-icons animate autorenew" aria-hidden="true"></span>
+                <span class="epubMediaStatusText"></span>
+            </div>
+        </div>
+    </div>
+    <div class="flex align-items-center w-100">
+        <div class="sliderContainer flex-grow" style="margin: .5em 0 .25em;">
+            <div class="sliderMarkerContainer"></div>
+            <input type="range" step=".01" min="0" max="100" value="0" is="emby-slider" class="epubPositionSlider" data-slider-keep-progress="true" disabled>
+        </div>
+        <button is="paper-icon-button-light" class="footerPrevButton headerButton headerButtonRight paper-icon-button-light" title="${Previous}" disabled>
+            <span class="material-icons keyboard_arrow_left" aria-hidden="true"></span>
+        </button>
+        <div class="epubPositionText"></div>
+        <button is="paper-icon-button-light" class="footerNextButton headerButton headerButtonRight paper-icon-button-light" title="${Next}" disabled>
+            <span class="material-icons keyboard_arrow_right" aria-hidden="true"></span>
+        </button>
+    </div>
+</div>
