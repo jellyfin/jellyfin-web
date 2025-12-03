@@ -55,8 +55,9 @@ function onItemSelectionPanelClick(e, itemSelectionPanel) {
 
 function updateItemSelection(chkItemSelect, selected) {
     const id = dom.parentWithAttribute(chkItemSelect, 'data-id')?.getAttribute('data-id');
-    if (!id)
+    if (!id) {
         return;
+    }
 
     if (selected) {
         const current = selectedItems.filter(i => {
@@ -207,14 +208,14 @@ function showMenuForSelectedItems(e) {
                 // Disabled because there is no callback for this item
             }
 
-            if (user.Policy.IsAdministrator && type != "Audio" && type != "Episode") {
+            if (user.Policy.IsAdministrator && type != 'Audio' && type != 'Episode') {
                 menuItems.push({
                     name: globalize.translate('GroupVersions'),
                     id: 'groupvideos',
                     icon: 'call_merge'
                 });
             }
-            if (type != "Audio") {
+            if (type != 'Audio') {
                 menuItems.push({
                     name: globalize.translate('MarkPlayed'),
                     id: 'markplayed',
@@ -247,7 +248,7 @@ function showMenuForSelectedItems(e) {
                         const serverId = apiClient.serverInfo().Id;
 
                         switch (id) {
-                        case 'selectall': {
+                            case 'selectall': {
                                 const elems = document.querySelectorAll('.itemSelectionPanel');
                                 for (let i = 0, length = elems.length; i < length; i++) {
                                     const chkItemSelect = elems[i].querySelector('.chkItemSelect');
@@ -258,76 +259,76 @@ function showMenuForSelectedItems(e) {
                                     }
                                 }
                             }
-                            break;
-                        case 'addtocollection':
-                            import('../collectionEditor/collectionEditor').then(({
-                                default:
+                                break;
+                            case 'addtocollection':
+                                import('../collectionEditor/collectionEditor').then(({
+                                    default:
                                     CollectionEditor
                                 }) => {
-                                const collectionEditor = new CollectionEditor();
-                                collectionEditor.show({
-                                    items: items,
-                                    serverId: serverId
+                                    const collectionEditor = new CollectionEditor();
+                                    collectionEditor.show({
+                                        items: items,
+                                        serverId: serverId
+                                    });
                                 });
-                            });
-                            hideSelections();
-                            dispatchNeedsRefresh();
-                            break;
-                        case 'playlist':
-                            import('../playlisteditor/playlisteditor').then(({
-                                default:
+                                hideSelections();
+                                dispatchNeedsRefresh();
+                                break;
+                            case 'playlist':
+                                import('../playlisteditor/playlisteditor').then(({
+                                    default:
                                     PlaylistEditor
                                 }) => {
-                                const playlistEditor = new PlaylistEditor();
-                                playlistEditor.show({
-                                    items: items,
-                                    serverId: serverId
-                                }).catch(() => {
+                                    const playlistEditor = new PlaylistEditor();
+                                    playlistEditor.show({
+                                        items: items,
+                                        serverId: serverId
+                                    }).catch(() => {
                                     // Dialog closed
+                                    });
+                                }).catch(err => {
+                                    console.error('[AddToPlaylist] failed to load playlist editor', err);
                                 });
-                            }).catch(err => {
-                                console.error('[AddToPlaylist] failed to load playlist editor', err);
-                            });
-                            hideSelections();
-                            dispatchNeedsRefresh();
-                            break;
-                        case 'delete':
-                            deleteItems(apiClient, items).then(dispatchNeedsRefresh);
-                            hideSelections();
-                            dispatchNeedsRefresh();
-                            break;
-                        case 'groupvideos':
-                            combineVersions(apiClient, items);
-                            break;
-                        case 'markplayed':
-                            items.forEach(itemId => {
-                                apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
-                            });
-                            hideSelections();
-                            dispatchNeedsRefresh();
-                            break;
-                        case 'markunplayed':
-                            items.forEach(itemId => {
-                                apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
-                            });
-                            hideSelections();
-                            dispatchNeedsRefresh();
-                            break;
-                        case 'refresh':
-                            import('../refreshdialog/refreshdialog').then(({
-                                default:
+                                hideSelections();
+                                dispatchNeedsRefresh();
+                                break;
+                            case 'delete':
+                                deleteItems(apiClient, items).then(dispatchNeedsRefresh);
+                                hideSelections();
+                                dispatchNeedsRefresh();
+                                break;
+                            case 'groupvideos':
+                                combineVersions(apiClient, items);
+                                break;
+                            case 'markplayed':
+                                items.forEach(itemId => {
+                                    apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
+                                });
+                                hideSelections();
+                                dispatchNeedsRefresh();
+                                break;
+                            case 'markunplayed':
+                                items.forEach(itemId => {
+                                    apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
+                                });
+                                hideSelections();
+                                dispatchNeedsRefresh();
+                                break;
+                            case 'refresh':
+                                import('../refreshdialog/refreshdialog').then(({
+                                    default:
                                     RefreshDialog
                                 }) => {
-                                new RefreshDialog({
-                                    itemIds: items,
-                                    serverId: serverId
-                                }).show();
-                            });
-                            hideSelections();
-                            dispatchNeedsRefresh();
-                            break;
-                        default:
-                            break;
+                                    new RefreshDialog({
+                                        itemIds: items,
+                                        serverId: serverId
+                                    }).show();
+                                });
+                                hideSelections();
+                                dispatchNeedsRefresh();
+                                break;
+                            default:
+                                break;
                         }
                     }
                 });

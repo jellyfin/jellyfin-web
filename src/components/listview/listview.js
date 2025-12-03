@@ -235,9 +235,8 @@ export function getListViewHtml(options) {
             cssClass += ' listItem-largeImage';
             downloadWidth = 500;
         }
-        if (options.isMultiselectable){
+        if (options.isMultiselectable) {
             cssClass += ' multiselectable';
-
         }
 
         const playlistItemId = item.PlaylistItemId ? (` data-playlistitemid="${item.PlaylistItemId}"`) : '';
@@ -257,8 +256,7 @@ export function getListViewHtml(options) {
 
         if (enableContentWrapper) {
             html += `<div class="listItem-content ${options.isMultiselectable ? 'multiselect-container' : ''}">`;
-        }
-        else{
+        } else {
             html += `<div style='align-self: flex-start;' class="${options.isMultiselectable ? 'multiselect-container' : ''}"> </div>`;
         }
 

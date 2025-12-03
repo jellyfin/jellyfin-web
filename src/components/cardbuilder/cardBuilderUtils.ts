@@ -97,7 +97,7 @@ export const resolveCardCssClasses = (opts: CardCssClassOpts): string => {
         'groupedCard': opts.showChildCountIndicator && opts.childCount,
         'card-withuserdata': !['MusicAlbum', 'MusicArtist', 'Audio'].includes(opts.itemType),
         'itemAction': opts.tagName === 'button',
-        'multiselectable': opts.isMultiselectable || false,
+        'multiselectable': opts.isMultiselectable || false
     });
 };
 
@@ -123,7 +123,7 @@ export const resolveCardBoxCssClasses = (opts: { cardLayout: boolean, hasOuterCa
         'cardBox': true,
         'visualCardBox': opts.cardLayout,
         'cardBox-bottompadded': opts.hasOuterCardFooter && !opts.cardLayout,
-        'multiselect-container': true,
+        'multiselect-container': true
     });
 };
 
