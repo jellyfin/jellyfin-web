@@ -54,7 +54,9 @@ function onItemSelectionPanelClick(e, itemSelectionPanel) {
 }
 
 function updateItemSelection(chkItemSelect, selected) {
-    const id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
+    const id = dom.parentWithAttribute(chkItemSelect, 'data-id')?.getAttribute('data-id');
+    if (!id)
+        return;
 
     if (selected) {
         const current = selectedItems.filter(i => {
@@ -95,7 +97,7 @@ function showSelection(item, isChecked, addInitialCheck) {
         itemSelectionPanel = document.createElement('div');
         itemSelectionPanel.classList.add('itemSelectionPanel');
 
-        const parent = item.querySelector('.cardBox') || item.querySelector('.cardContent');
+        const parent = item.querySelector('.multiselect-container');
         parent.classList.add('withMultiSelect');
         parent.appendChild(itemSelectionPanel);
 
@@ -134,7 +136,9 @@ function showSelectionCommands() {
 
         const btnSelectionPanelOptions = selectionCommandsPanel.querySelector('.btnSelectionPanelOptions');
 
-        dom.addEventListener(btnSelectionPanelOptions, 'click', showMenuForSelectedItems, { passive: true });
+        dom.addEventListener(btnSelectionPanelOptions, 'click', showMenuForSelectedItems, {
+            passive: true
+        });
     }
 }
 
@@ -171,7 +175,7 @@ function showMenuForSelectedItems(e) {
         // get first selected item to perform metadata refresh permission check
         apiClient.getItem(apiClient.getCurrentUserId(), selectedItems[0]).then(firstItem => {
             const menuItems = [];
-
+            const type = firstItem.Type;
             menuItems.push({
                 name: globalize.translate('SelectAll'),
                 id: 'selectall',
@@ -203,25 +207,26 @@ function showMenuForSelectedItems(e) {
                 // Disabled because there is no callback for this item
             }
 
-            if (user.Policy.IsAdministrator) {
+            if (user.Policy.IsAdministrator && type != "Audio" && type != "Episode") {
                 menuItems.push({
                     name: globalize.translate('GroupVersions'),
                     id: 'groupvideos',
                     icon: 'call_merge'
                 });
             }
+            if (type != "Audio") {
+                menuItems.push({
+                    name: globalize.translate('MarkPlayed'),
+                    id: 'markplayed',
+                    icon: 'check_box'
+                });
 
-            menuItems.push({
-                name: globalize.translate('MarkPlayed'),
-                id: 'markplayed',
-                icon: 'check_box'
-            });
-
-            menuItems.push({
-                name: globalize.translate('MarkUnplayed'),
-                id: 'markunplayed',
-                icon: 'check_box_outline_blank'
-            });
+                menuItems.push({
+                    name: globalize.translate('MarkUnplayed'),
+                    id: 'markunplayed',
+                    icon: 'check_box_outline_blank'
+                });
+            }
 
             // this assures that if the user can refresh metadata for the first item
             // they can refresh metadata for all items
@@ -242,79 +247,87 @@ function showMenuForSelectedItems(e) {
                         const serverId = apiClient.serverInfo().Id;
 
                         switch (id) {
-                            case 'selectall':
-                                {
-                                    const elems = document.querySelectorAll('.itemSelectionPanel');
-                                    for (let i = 0, length = elems.length; i < length; i++) {
-                                        const chkItemSelect = elems[i].querySelector('.chkItemSelect');
+                        case 'selectall': {
+                                const elems = document.querySelectorAll('.itemSelectionPanel');
+                                for (let i = 0, length = elems.length; i < length; i++) {
+                                    const chkItemSelect = elems[i].querySelector('.chkItemSelect');
 
-                                        if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked && chkItemSelect.getBoundingClientRect().width != 0) {
-                                            chkItemSelect.checked = true;
-                                            updateItemSelection(chkItemSelect, true);
-                                        }
+                                    if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked && chkItemSelect.getBoundingClientRect().width != 0) {
+                                        chkItemSelect.checked = true;
+                                        updateItemSelection(chkItemSelect, true);
                                     }
                                 }
-                                break;
-                            case 'addtocollection':
-                                import('../collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
-                                    const collectionEditor = new CollectionEditor();
-                                    collectionEditor.show({
-                                        items: items,
-                                        serverId: serverId
-                                    });
+                            }
+                            break;
+                        case 'addtocollection':
+                            import('../collectionEditor/collectionEditor').then(({
+                                default:
+                                    CollectionEditor
+                                }) => {
+                                const collectionEditor = new CollectionEditor();
+                                collectionEditor.show({
+                                    items: items,
+                                    serverId: serverId
                                 });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'playlist':
-                                import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-                                    const playlistEditor = new PlaylistEditor();
-                                    playlistEditor.show({
-                                        items: items,
-                                        serverId: serverId
-                                    }).catch(() => {
-                                        // Dialog closed
-                                    });
-                                }).catch(err => {
-                                    console.error('[AddToPlaylist] failed to load playlist editor', err);
+                            });
+                            hideSelections();
+                            dispatchNeedsRefresh();
+                            break;
+                        case 'playlist':
+                            import('../playlisteditor/playlisteditor').then(({
+                                default:
+                                    PlaylistEditor
+                                }) => {
+                                const playlistEditor = new PlaylistEditor();
+                                playlistEditor.show({
+                                    items: items,
+                                    serverId: serverId
+                                }).catch(() => {
+                                    // Dialog closed
                                 });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'delete':
-                                deleteItems(apiClient, items).then(dispatchNeedsRefresh);
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'groupvideos':
-                                combineVersions(apiClient, items);
-                                break;
-                            case 'markplayed':
-                                items.forEach(itemId => {
-                                    apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'markunplayed':
-                                items.forEach(itemId => {
-                                    apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'refresh':
-                                import('../refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
-                                    new RefreshDialog({
-                                        itemIds: items,
-                                        serverId: serverId
-                                    }).show();
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            default:
-                                break;
+                            }).catch(err => {
+                                console.error('[AddToPlaylist] failed to load playlist editor', err);
+                            });
+                            hideSelections();
+                            dispatchNeedsRefresh();
+                            break;
+                        case 'delete':
+                            deleteItems(apiClient, items).then(dispatchNeedsRefresh);
+                            hideSelections();
+                            dispatchNeedsRefresh();
+                            break;
+                        case 'groupvideos':
+                            combineVersions(apiClient, items);
+                            break;
+                        case 'markplayed':
+                            items.forEach(itemId => {
+                                apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
+                            });
+                            hideSelections();
+                            dispatchNeedsRefresh();
+                            break;
+                        case 'markunplayed':
+                            items.forEach(itemId => {
+                                apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
+                            });
+                            hideSelections();
+                            dispatchNeedsRefresh();
+                            break;
+                        case 'refresh':
+                            import('../refreshdialog/refreshdialog').then(({
+                                default:
+                                    RefreshDialog
+                                }) => {
+                                new RefreshDialog({
+                                    itemIds: items,
+                                    serverId: serverId
+                                }).show();
+                            });
+                            hideSelections();
+                            dispatchNeedsRefresh();
+                            break;
+                        default:
+                            break;
                         }
                     }
                 });
@@ -353,7 +366,9 @@ function combineVersions(apiClient, selection) {
     apiClient.ajax({
 
         type: 'POST',
-        url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
+        url: apiClient.getUrl('Videos/MergeVersions', {
+            Ids: selection.join(',')
+        })
 
     }).then(() => {
         loading.hide();
@@ -364,7 +379,7 @@ function combineVersions(apiClient, selection) {
 
 function showSelections(initialCard, addInitialCheck) {
     import('../../elements/emby-checkbox/emby-checkbox').then(() => {
-        const cards = document.querySelectorAll('.card');
+        const cards = document.querySelectorAll('.multiselectable');
         for (let i = 0, length = cards.length; i < length; i++) {
             showSelection(cards[i], initialCard === cards[i], addInitialCheck);
         }
@@ -378,7 +393,7 @@ function onContainerClick(e) {
     const target = e.target;
 
     if (selectedItems.length) {
-        const card = dom.parentWithClass(target, 'card');
+        const card = dom.parentWithClass(target, 'multiselectable') || dom.parentWithClass(target, 'multiselectable');
         if (card) {
             const itemSelectionPanel = card.querySelector('.itemSelectionPanel');
             if (itemSelectionPanel) {
@@ -400,7 +415,7 @@ export default function (options) {
     const container = options.container;
 
     function onTapHold(e) {
-        const card = dom.parentWithClass(e.target, 'card');
+        const card = dom.parentWithClass(e.target, 'multiselectable');
 
         if (card) {
             showSelections(card, true);
@@ -434,7 +449,7 @@ export default function (options) {
             const element = touch.target;
 
             if (element) {
-                const card = dom.parentWithClass(element, 'card');
+                const card = dom.parentWithClass(element, 'multiselectable');
 
                 if (card) {
                     if (touchStartTimeout) {
@@ -497,7 +512,7 @@ export default function (options) {
             return;
         }
 
-        const card = dom.parentWithClass(touchTarget, 'card');
+        const card = dom.parentWithClass(touchTarget, 'multiselectable');
         touchTarget = null;
 
         if (card) {
