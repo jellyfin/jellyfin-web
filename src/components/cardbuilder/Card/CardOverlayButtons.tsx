@@ -2,14 +2,16 @@ import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location
 import React, { type FC } from 'react';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import classNames from 'classnames';
-import { appRouter } from 'components/router/appRouter';
-import PlayArrowIconButton from '../../common/PlayArrowIconButton';
-import MoreVertIconButton from '../../common/MoreVertIconButton';
 
+import { appRouter } from 'components/router/appRouter';
+import { ItemAction } from 'constants/itemAction';
 import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
+
+import PlayArrowIconButton from '../../common/PlayArrowIconButton';
+import MoreVertIconButton from '../../common/MoreVertIconButton';
 
 const sholudShowOverlayPlayButton = (
     overlayPlayButton: boolean | undefined,
@@ -78,7 +80,7 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
             {cardOptions.centerPlayButton && (
                 <PlayArrowIconButton
                     className={centerPlayButtonClass}
-                    action='play'
+                    action={ItemAction.Play}
                     title='Play'
                 />
             )}
@@ -87,7 +89,7 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
                 {sholudShowOverlayPlayButton(overlayPlayButton, item) && (
                     <PlayArrowIconButton
                         className={btnCssClass}
-                        action='play'
+                        action={ItemAction.Play}
                         title='Play'
                     />
                 )}

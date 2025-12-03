@@ -4,9 +4,11 @@ import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filte
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
+
+import { ItemAction } from 'constants/itemAction';
 import * as userSettings from 'scripts/settings/userSettings';
-import { CardShape } from 'utils/card';
 import { type Section, SectionType, SectionApiMethod } from 'types/sections';
+import { CardShape } from 'utils/card';
 
 export const getSuggestionSections = (): Section[] => {
     const parametersOptions = {
@@ -130,7 +132,7 @@ export const getSuggestionSections = (): Section[] => {
                 showUnplayedIndicator: false,
                 shape: CardShape.SquareOverflow,
                 showParentTitle: true,
-                action: 'instantmix',
+                action: ItemAction.InstantMix,
                 overlayMoreButton: true,
                 coverImage: true
             }
@@ -149,7 +151,7 @@ export const getSuggestionSections = (): Section[] => {
                 showUnplayedIndicator: false,
                 shape: CardShape.SquareOverflow,
                 showParentTitle: true,
-                action: 'instantmix',
+                action: ItemAction.InstantMix,
                 overlayMoreButton: true,
                 coverImage: true
             }
