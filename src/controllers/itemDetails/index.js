@@ -1453,7 +1453,7 @@ function renderChildren(page, item) {
                     overlayPlayButton: true,
                     allowBottomPadding: !scrollX,
                     includeParentInfoInTitle: false,
-                isMultiselectable: true
+                    isMultiselectable: true
                 });
             } else if (item.Type === 'Season') {
                 html = listView.getListViewHtml({

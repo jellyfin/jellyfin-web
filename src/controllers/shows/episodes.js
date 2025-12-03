@@ -114,7 +114,7 @@ export default function (view, params, tabContent) {
                     items: result.Items,
                     sortBy: query.SortBy,
                     showParentTitle: true,
-                    isMultiselectable: true,
+                    isMultiselectable: true
                 });
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
@@ -124,7 +124,7 @@ export default function (view, params, tabContent) {
                     showParentTitle: true,
                     scalable: true,
                     cardLayout: true,
-                    isMultiselectable: true,
+                    isMultiselectable: true
                 });
             } else {
                 html = cardBuilder.getCardsHtml({
@@ -136,7 +136,7 @@ export default function (view, params, tabContent) {
                     centerText: true,
                     scalable: true,
                     overlayPlayButton: true,
-                    isMultiselectable: true,
+                    isMultiselectable: true
                 });
             }
             let elems;
