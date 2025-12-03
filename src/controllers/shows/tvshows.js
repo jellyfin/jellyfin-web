@@ -116,7 +116,8 @@ export default function (view, params, tabContent) {
                     context: 'tvshows',
                     overlayMoreButton: true,
                     showTitle: true,
-                    centerText: true
+                    centerText: true,
+                    isMultiselectable: true,
                 });
             } else if (viewStyle == 'ThumbCard') {
                 html = cardBuilder.getCardsHtml({
@@ -127,20 +128,23 @@ export default function (view, params, tabContent) {
                     cardLayout: true,
                     showTitle: true,
                     showYear: true,
-                    centerText: true
+                    centerText: true,
+                    isMultiselectable: true,
                 });
             } else if (viewStyle == 'Banner') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: 'banner',
                     preferBanner: true,
-                    context: 'tvshows'
+                    context: 'tvshows',
+                    isMultiselectable: true,
                 });
             } else if (viewStyle == 'List') {
                 html = listView.getListViewHtml({
                     items: result.Items,
                     context: 'tvshows',
-                    sortBy: query.SortBy
+                    sortBy: query.SortBy,
+                    isMultiselectable: true,
                 });
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
@@ -150,7 +154,8 @@ export default function (view, params, tabContent) {
                     showTitle: true,
                     showYear: true,
                     centerText: true,
-                    cardLayout: true
+                    cardLayout: true,
+                    isMultiselectable: true,
                 });
             } else {
                 html = cardBuilder.getCardsHtml({
@@ -161,7 +166,8 @@ export default function (view, params, tabContent) {
                     lazy: true,
                     overlayMoreButton: true,
                     showTitle: true,
-                    showYear: true
+                    showYear: true,
+                    isMultiselectable: true,
                 });
             }
 

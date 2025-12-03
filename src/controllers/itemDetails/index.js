@@ -1324,7 +1324,8 @@ function renderChildren(page, item) {
                 action: 'playallfromhere',
                 image: false,
                 artist: showArtist,
-                containerAlbumArtists: item.AlbumArtists
+                containerAlbumArtists: item.AlbumArtists,
+                isMultiselectable: true
             });
             isList = true;
         } else if (item.Type == 'Series') {
@@ -1336,7 +1337,8 @@ function renderChildren(page, item) {
                 centerText: true,
                 lazy: true,
                 overlayPlayButton: true,
-                allowBottomPadding: !scrollX
+                allowBottomPadding: !scrollX,
+                isMultiselectable: true
             });
         } else if (item.Type == 'Season' || item.Type == 'Episode') {
             if (item.Type !== 'Episode') {
@@ -1359,7 +1361,8 @@ function renderChildren(page, item) {
                     showDetailsMenu: true,
                     overlayPlayButton: true,
                     allowBottomPadding: !scrollX,
-                    includeParentInfoInTitle: false
+                    includeParentInfoInTitle: false,
+                isMultiselectable: true
                 });
             } else if (item.Type === 'Season') {
                 html = listView.getListViewHtml({
@@ -1373,7 +1376,8 @@ function renderChildren(page, item) {
                     highlight: false,
                     action: !layoutManager.desktop ? 'link' : 'none',
                     imagePlayButton: true,
-                    includeParentInfoInTitle: false
+                    includeParentInfoInTitle: false,
+                    isMultiselectable: true
                 });
             }
         }
@@ -1679,7 +1683,8 @@ function renderCollectionItemType(page, parentItem, type, items) {
         overlayMoreButton: true,
         showAddToCollection: false,
         showRemoveFromCollection: true,
-        collectionId: parentItem.Id
+        collectionId: parentItem.Id,
+        isMultiselectable: true
     });
     html += '</div>';
     html += '</div>';
@@ -1755,7 +1760,8 @@ function getVideosHtml(items) {
         action: 'play',
         overlayText: false,
         centerText: true,
-        showRuntime: true
+        showRuntime: true,
+        isMultiselectable: true
     });
 }
 

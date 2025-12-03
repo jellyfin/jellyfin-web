@@ -566,6 +566,7 @@ class ItemsView {
                 overlayMoreButton: true,
                 overlayText: !settings.showTitle,
                 defaultShape: defaultShape,
+                isMultiselectable: true,
                 action: params.type === 'Audio' ? 'playallfromhere' : null
             };
 

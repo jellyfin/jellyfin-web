@@ -80,7 +80,8 @@ type CardCssClassOpts = {
     showChildCountIndicator: boolean,
     isTV: boolean,
     enableFocusTransform: boolean,
-    isDesktop: boolean
+    isDesktop: boolean,
+    isMultiselectable?: boolean,
 };
 
 /**
@@ -98,7 +99,8 @@ export const resolveCardCssClasses = (opts: CardCssClassOpts): string => {
         'show-animation': opts.isTV && opts.enableFocusTransform,
         'groupedCard': opts.showChildCountIndicator && opts.childCount,
         'card-withuserdata': !['MusicAlbum', 'MusicArtist', 'Audio'].includes(opts.itemType),
-        'itemAction': opts.tagName === 'button'
+        'itemAction': opts.tagName === 'button',
+        'multiselectable': opts.isMultiselectable || false,
     });
 };
 
@@ -123,7 +125,8 @@ export const resolveCardBoxCssClasses = (opts: { cardLayout: boolean, hasOuterCa
     return classNames({
         'cardBox': true,
         'visualCardBox': opts.cardLayout,
-        'cardBox-bottompadded': opts.hasOuterCardFooter && !opts.cardLayout
+        'cardBox-bottompadded': opts.hasOuterCardFooter && !opts.cardLayout,
+        'multiselect-container': true,
     });
 };
 
