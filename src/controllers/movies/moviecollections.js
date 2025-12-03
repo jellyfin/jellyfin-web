@@ -139,7 +139,7 @@ export default function (view, params, tabContent) {
                     items: result.Items,
                     context: 'movies',
                     sortBy: query.SortBy,
-                    isMultiselectable: true,
+                    isMultiselectable: true
                 });
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({

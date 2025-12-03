@@ -129,7 +129,7 @@ export default function (view, params, tabContent) {
                     context: 'music',
                     sortBy: query.SortBy,
                     addToListButton: true,
-                    isMultiselectable: true,
+                    isMultiselectable: true
                 });
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
@@ -141,7 +141,7 @@ export default function (view, params, tabContent) {
                     showParentTitle: true,
                     lazy: true,
                     cardLayout: true,
-                    isMultiselectable: true,
+                    isMultiselectable: true
                 });
             } else {
                 html = cardBuilder.getCardsHtml({
@@ -153,7 +153,7 @@ export default function (view, params, tabContent) {
                     lazy: true,
                     centerText: true,
                     overlayPlayButton: true,
-                    isMultiselectable: true,
+                    isMultiselectable: true
                 });
             }
 

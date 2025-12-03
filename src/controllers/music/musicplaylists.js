@@ -53,7 +53,7 @@ export default function (view, params, tabContent) {
                 overlayPlayButton: true,
                 allowBottomPadding: true,
                 cardLayout: false,
-                isMultiselectable: true,
+                isMultiselectable: true
             });
             const elem = context.querySelector('#items');
             elem.innerHTML = html;
