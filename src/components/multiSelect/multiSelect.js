@@ -393,7 +393,7 @@ function onContainerClick(e) {
     const target = e.target;
 
     if (selectedItems.length) {
-        const card = dom.parentWithClass(target, 'multiselectable') || dom.parentWithClass(target, 'multiselectable');
+        const card = dom.parentWithClass(target, 'multiselectable');
         if (card) {
             const itemSelectionPanel = card.querySelector('.itemSelectionPanel');
             if (itemSelectionPanel) {
