@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import classNames from 'classnames';
+import { ItemAction } from 'constants/itemAction';
 import { useToggleFavoriteMutation } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';
 
@@ -45,24 +45,17 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
         }
     }, [isFavorite, itemId, queryClient, queryKey, toggleFavoriteMutation]);
 
-    const btnClass = classNames(
-        className,
-        { 'ratingbutton-withrating': isFavorite }
-    );
-
-    const iconClass = classNames(
-        { 'ratingbutton-icon-withrating': isFavorite }
-    );
-
     return (
         <IconButton
-            data-action='none'
+            data-action={ItemAction.None}
+            className={className}
             title={isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites')}
-            className={btnClass}
             size='small'
             onClick={onClick}
         >
-            <FavoriteIcon className={iconClass} />
+            <FavoriteIcon
+                color={isFavorite ? 'error' : undefined}
+            />
         </IconButton>
     );
 };
