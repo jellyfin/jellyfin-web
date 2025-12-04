@@ -137,14 +137,6 @@ function supportsEac3(videoTestElement) {
 }
 
 function supportsAc3InHls(videoTestElement) {
-    // We use hls.js on WebOS 4 and newer and hls.js uses Media Sources Extensions (MSE) API.
-    // On WebOS MSE does support AC-3 and EAC-3 only on audio mp4 file but not on audiovideo mp4
-    // therefore until audio and video is not separated when generating stream and m3u8 this should
-    // return false.
-    if (browser.web0sVersion >= 4) {
-        return false;
-    }
-
     if (browser.tizen || browser.web0s) {
         return true;
     }
@@ -211,6 +203,13 @@ function testCanPlayMkv(videoTestElement) {
 
     if (browser.tizen || browser.web0s) {
         return true;
+    }
+
+    if (browser.firefox) {
+        // As of Firefox 145, its mkv support is buggy and causes playback issues because it would force preloading the
+        // whole mkv file before playback starts, which is extremely undesirable for streaming.
+        // See https://github.com/jellyfin/jellyfin/issues/15521
+        return false;
     }
 
     if (videoTestElement.canPlayType('video/x-matroska').replace(/no/, '')
@@ -924,7 +923,7 @@ export default function (options) {
 
     profile.ContainerProfiles = [];
 
-    if (browser.tizen) {
+    if (browser.tizenVersion < 6.5) {
         // Tizen doesn't support more than 32 streams in a single file
         profile.ContainerProfiles.push({
             Type: 'Video',
@@ -1184,12 +1183,18 @@ export default function (options) {
     }
 
     if (supportsHdr10(options)) {
-        hevcVideoRangeTypes += '|HDR10';
-        vp9VideoRangeTypes += '|HDR10';
-        av1VideoRangeTypes += '|HDR10';
+        // HDR10+ videos can be safely played on all HDR10 capable devices, just without the dynamic metadata.
+        hevcVideoRangeTypes += '|HDR10|HDR10Plus';
+        vp9VideoRangeTypes += '|HDR10|HDR10Plus';
+        av1VideoRangeTypes += '|HDR10|HDR10Plus';
 
         if (browser.tizenVersion >= 3 || browser.vidaa) {
-            hevcVideoRangeTypes += '|DOVIWithHDR10';
+            // Tizen TV does not support Dolby Vision at all, but it can safely play the HDR fallback.
+            // Advertising the support so that the server doesn't have to remux.
+            hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
+            // Although no official tools exist to create AV1+DV files yet, some of our users managed to use community tools to create such files.
+            // These files should also be playable on Tizen TVs.
+            av1VideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
         }
     }
 
@@ -1209,11 +1214,22 @@ export default function (options) {
             hevcVideoRangeTypes += '|DOVI';
         }
         if (profiles.includes(8)) {
-            hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR';
+            hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR|DOVIWithHDR10Plus';
+        }
+
+        if (browser.web0s) {
+            // For webOS, we should allow direct play of some not fully supported DV profiles to avoid unnecessary remux/transcode
+            // webOS seems to be able to play the fallback of Profile 7 and most invalid profiles
+            hevcVideoRangeTypes += '|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
         }
 
         if (supportedDolbyVisionProfileAv1(videoTestElement)) {
-            av1VideoRangeTypes += '|DOVI|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR';
+            av1VideoRangeTypes += '|DOVI|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR|DOVIWithHDR10Plus';
+            if (browser.web0s) {
+                // For webOS, we should allow direct play of some not fully supported DV profiles to avoid unnecessary remux/transcode
+                // webOS seems to be able to play the fallback of Profile 7 and most invalid profiles
+                av1VideoRangeTypes += '|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
+            }
         }
     }
 

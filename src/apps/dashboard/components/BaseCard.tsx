@@ -94,7 +94,13 @@ const BaseCard = ({
                             {title}
                         </Typography>
                         {text && (
-                            <Typography variant='body2' color='text.secondary'>
+                            <Typography
+                                variant='body2'
+                                color='text.secondary'
+                                sx={{
+                                    lineBreak: 'anywhere'
+                                }}
+                            >
                                 {text}
                             </Typography>
                         )}

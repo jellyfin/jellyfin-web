@@ -566,7 +566,7 @@
     "TabDirectPlay": "Muuntamaton toisto",
     "TabDashboard": "Hallintapaneeli",
     "TabCatalog": "Luettelo",
-    "TabAdvanced": "Edistynyt",
+    "TabAdvanced": "Lisäasetukset",
     "TV": "Televisio",
     "Sunday": "Sunnuntai",
     "Subtitles": "Tekstitykset",
@@ -578,7 +578,7 @@
     "Shuffle": "Satunnaistoisto",
     "ShowTitle": "Näytä nimi",
     "ShowYear": "Näytä vuosi",
-    "ShowAdvancedSettings": "Näytä edistyneet asetukset",
+    "ShowAdvancedSettings": "Näytä lisäasetukset",
     "Share": "Jaa",
     "Settings": "Asetukset",
     "ServerRestartNeededAfterPluginInstall": "Jellyfin on käynnistettävä lisäosan asennuksen jälkeen uudelleen.",
@@ -2067,5 +2067,7 @@
     "ViewAllPlugins": "Näytä kaikki laajennukset",
     "ConnectAnyway": "Yhdistä joka tapauksessa",
     "HeaderServerMismatch": "Palvelimen ristiriita",
-    "MessageServerMismatch": "Palvelin, johon olet muodostamassa yhteyttä, ei ole sama kuin aiemmin tähän osoitteeseen yhdistämäsi palvelin. Jos tämä on odotettua, valitse 'Yhdistä joka tapauksessa'. Muussa tapauksessa yhteytesi tai palvelin saattaa olla vaarantunut."
+    "MessageServerMismatch": "Palvelin, johon olet muodostamassa yhteyttä, ei ole sama kuin aiemmin tähän osoitteeseen yhdistämäsi palvelin. Jos tämä on odotettua, valitse 'Yhdistä joka tapauksessa'. Muussa tapauksessa yhteytesi tai palvelin saattaa olla vaarantunut.",
+    "ButtonAddTunerDevice": "Lisää viritin",
+    "ButtonAddProvider": "Lisää tarjoaja"
 }

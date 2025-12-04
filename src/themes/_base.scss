@@ -1,0 +1,498 @@
+@use '../styles/mixins' as *;
+@use './palette' as palette;
+
+// Theme options
+$dark: true !default;
+
+// Color palette
+$common-white: palette.$common-white !default;
+$background-default: palette.$background-default !default;
+$background-paper: palette.$background-paper !default;
+$primary-main: palette.$primary-main !default;
+$primary-dark: palette.$primary-dark !default;
+$primary-light: palette.$primary-light !default;
+$primary-hover: palette.$primary-hover !default;
+$primary-contrastText: palette.$primary-contrastText !default;
+$error-main: palette.$error-main !default;
+$error-dark: palette.$error-dark !default;
+$error-light: palette.$error-light !default;
+$error-contrastText: palette.$error-contrastText !default;
+$text-primary: palette.$text-primary !default;
+$text-secondary: palette.$text-secondary !default;
+$action-focus: palette.$action-focus !default;
+$action-hover: palette.$action-hover !default;
+$divider: palette.$divider !default;
+
+// Components
+$appBar-defaultBg: #202020 !default;
+// NOTE: This color is not part of the MUI theme
+$appBar-transparentBg: rgba(0, 0, 0, 0.4) !default;
+$filledInput-bg: rgba(255, 255, 255, 0.09) !default;
+$alert-infoFilledBg: #0288d1 !default;
+$alert-infoFilledColor: #fff !default;
+$button-inheritContainedBg: #424242 !default;
+$button-inheritContainedHoverBg: #616161 !default;
+$snackbarContent-bg: #303030 !default;
+$snackbarContent-color: rgba(255, 255, 255, 0.87) !default;
+
+// Assign custom css variables not part of the MUI theme palette
+:root {
+    --jf-palette-AppBar-transparentBg: #{$appBar-transparentBg};
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #3b3b3b #202020;
+}
+
+.skinHeader,
+html {
+    @include var(color, --jf-palette-text-secondary, $text-secondary);
+}
+
+.wizardStartForm,
+.ui-corner-all,
+.ui-shadow {
+    @include var(background-color, --jf-palette-background-default, $background-default);
+}
+
+.emby-collapsible-button {
+    @include var(border-color, --jf-palette-divider, $divider);
+}
+
+.skinHeader-withBackground {
+    @include var(background-color, --jf-palette-AppBar-defaultBg, $appBar-defaultBg);
+}
+
+.skinHeader.semiTransparent {
+    @include var(background-color, --jf-palette-AppBar-transparentBg, $appBar-transparentBg);
+    backdrop-filter: none !important;
+
+    .layout-tv & {
+        background: none;
+    }
+}
+
+.pageTitleWithDefaultLogo {
+    background-image: if($dark, url(@jellyfin/ux-web/banner-light.png), url(@jellyfin/ux-web/banner-dark.png));
+
+    .layout-tv & {
+        background-image: url(@jellyfin/ux-web/icon-transparent.png);
+    }
+}
+
+.backgroundContainer,
+.dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu,
+html {
+    @include var(background-color, --jf-palette-background-default, $background-default);
+}
+
+.backgroundContainer.withBackdrop {
+    opacity: 0.86;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:hover:not(:disabled) {
+        @include var(color, --jf-palette-primary-main, $primary-main);
+        background-color: $primary-hover;
+        background-color: rgba(var(--jf-palette-primary-mainChannel) / var(--jf-palette-action-selectedOpacity));
+    }
+}
+
+.paper-icon-button-light:active:not(:disabled) {
+    @include var(color, --jf-palette-primary-main, $primary-main);
+    background-color: $primary-hover;
+    background-color: rgba(var(--jf-palette-primary-mainChannel) / var(--jf-palette-action-selectedOpacity));
+}
+
+.paper-icon-button-light.show-focus:focus {
+    @include var(color, --jf-palette-primary-main, $primary-main);
+}
+
+a[data-role=button],
+.fab,
+.raised {
+    @include var(background, --jf-palette-Button-inheritContainedBg, $button-inheritContainedBg);
+    @include var(color, --jf-palette-text-secondary, $text-secondary);
+
+    &:focus,
+    &:hover {
+        @include var(background, --jf-palette-Button-inheritContainedHoverBg, $button-inheritContainedHoverBg);
+    }
+}
+
+.button-submit {
+    @include var(background, --jf-palette-primary-main, $primary-main);
+    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+
+    &:focus,
+    &:hover {
+        @include var(background, --jf-palette-primary-dark, $primary-dark);
+    }
+}
+
+.button-delete {
+    @include var(background, --jf-palette-error-main, $error-main);
+    @include var(color, --jf-palette-error-contrastText, $error-contrastText);
+}
+
+.checkboxLabel {
+    color: inherit;
+}
+
+.checkboxListLabel,
+.inputLabel,
+.inputLabelUnfocused,
+.paperListLabel,
+.textareaLabelUnfocused {
+    @include var(color, --jf-palette-text-secondary, $text-secondary);
+}
+
+.inputLabelFocused,
+.selectLabelFocused,
+.textareaLabelFocused {
+    @include var(color, --jf-palette-primary-main, $primary-main);
+}
+
+.checkboxOutline {
+    border-color: currentColor;
+}
+
+.collapseContent,
+.formDialogFooter:not(.formDialogFooter-clear),
+.formDialogHeader:not(.formDialogHeader-clear),
+.paperList,
+.visualCardBox {
+    @include var(background-color, --jf-palette-background-paper, $background-paper);
+}
+
+.layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
+    background-color: transparent;
+}
+
+.cardText-secondary,
+.fieldDescription,
+.guide-programNameCaret,
+.listItem .secondary,
+.nowPlayingBarSecondaryText,
+.programSecondaryTitle,
+.secondaryText {
+    @include var(color, --jf-palette-text-secondary, $text-secondary);
+}
+
+.actionsheetDivider {
+    @include var(background, --jf-palette-divider, $divider);
+}
+
+.cardFooter-vibrant .cardText-secondary {
+    color: inherit;
+    opacity: 0.5;
+}
+
+.toast {
+    @include var(background, --jf-palette-SnackbarContent-bg, $snackbarContent-bg);
+    @include var(color, --jf-palette-SnackbarContent-color, $snackbarContent-color);
+}
+
+.appfooter,
+.playlistSectionButton {
+    @include var(background, --jf-palette-background-paper, $background-paper);
+    @include var(color, --jf-palette-text-secondary, $text-secondary);
+}
+
+.itemSelectionPanel {
+    @include var(border-color, --jf-palette-primary-main, $primary-main);
+    border-width: 1px;
+    border-style: solid;
+}
+
+.selectionCommandsPanel {
+    @include var(background, --jf-palette-primary-main, $primary-main);
+    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+}
+
+.upNextDialog-countdownText {
+    @include var(color, --jf-palette-primary-main, $primary-main);
+}
+
+.alphaPickerButton {
+    @include var(color, --jf-palette-text-secondary, $text-secondary);
+    background-color: transparent;
+
+    &-selected {
+        @include var(color, --jf-palette-text-primary, $text-primary);
+    }
+
+    &-tv:focus {
+        @include var(background-color, --jf-palette-primary-main, $primary-main);
+        @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+    }
+}
+
+.noBackdropTransparency .detailPagePrimaryContainer,
+.noBackdropTransparency .detailPageSecondaryContainer {
+    @include var(background-color, --jf-palette-background-default, $background-default);
+}
+
+.listItem-border {
+    @include var(border-color, --jf-palette-divider, $divider);
+}
+
+.listItem:focus {
+    @include var(background-color, --jf-palette-action-focus, $action-focus);
+}
+
+.listItem:hover {
+    @include var(background-color, --jf-palette-action-hover, $action-hover);
+}
+
+.progressring-spiner {
+    @include var(border-color, --jf-palette-primary-main, $primary-main);
+}
+
+.button-flat:hover {
+    @include var(color, --jf-palette-primary-main, $primary-main);
+}
+
+.button-link {
+    @include var(color, --jf-palette-primary-main, $primary-main);
+}
+
+.mediaInfoText {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.emby-input,
+.emby-textarea {
+    @include var(background, --jf-palette-FilledInput-bg, $filledInput-bg);
+    @include var(border-color, --jf-palette-FilledInput-bg, $filledInput-bg);
+    color: inherit;
+    border-width: 0.16em;
+    border-style: solid;
+    border-radius: 0.2em;
+
+    &:focus {
+        @include var(border-color, --jf-palette-primary-main, $primary-main);
+    }
+}
+
+.emby-select-withcolor {
+    // NOTE: This should use `FilledInput-bg` to match other form elements,
+    // but that will break the native dropdown styling
+    @include var(background, --jf-palette-background-paper, $background-paper);
+    @include var(border-color, --jf-palette-FilledInput-bg, $filledInput-bg);
+    color: inherit;
+    border-width: 0.16em;
+    border-style: solid;
+    border-radius: 0.2em;
+}
+
+.emby-select-withcolor > option {
+    @include var(background, --jf-palette-background-paper, $background-paper);
+    color: inherit;
+}
+
+.emby-select-withcolor:focus {
+    @include var(border-color, --jf-palette-primary-main, $primary-main, true);
+}
+
+.emby-select-tv-withcolor:focus {
+    @include var(background-color, --jf-palette-primary-main, $primary-main, true);
+    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText, true);
+}
+
+.emby-checkbox:checked + span + .checkboxOutline {
+    @include var(border-color, --jf-palette-primary-main, $primary-main);
+}
+
+.emby-checkbox:focus + span + .checkboxOutline {
+    @include var(border-color, --jf-palette-common-white, $common-white);
+}
+
+.emby-checkbox:checked + span + .checkboxOutline,
+.itemProgressBarForeground {
+    @include var(background-color, --jf-palette-primary-main, $primary-main);
+}
+
+.emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
+    @include var(border-color, --jf-palette-primary-main, $primary-main);
+}
+
+.itemProgressBarForeground-recording {
+    @include var(background-color, --jf-palette-error-light, $error-light);
+}
+
+.countIndicator,
+.fullSyncIndicator,
+.mediaSourceIndicator,
+.playedIndicator {
+    @include var(background, --jf-palette-primary-main, $primary-main);
+    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+}
+
+.mainDrawer,
+.drawer-open {
+    @include var(background-color, --jf-palette-background-default, $background-default);
+}
+
+.navMenuOption:hover {
+    @include var(background, --jf-palette-action-hover, $action-hover);
+}
+
+.navMenuOption-selected {
+    @include var(background, --jf-palette-primary-main, $primary-main, true);
+    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+}
+
+.emby-button.show-focus:focus {
+    @include var(background, --jf-palette-primary-main, $primary-main);
+    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+}
+
+.emby-tab-button {
+    @include var(color, --jf-palette-text-secondary, $text-secondary);
+}
+
+.emby-tab-button-active {
+    @include var(color, --jf-palette-text-primary, $text-primary);
+}
+
+.emby-tab-button.show-focus:focus,
+.emby-tab-button:hover {
+    @include var(color, --jf-palette-primary-main, $primary-main);
+}
+
+.channelPrograms,
+.guide-channelHeaderCell,
+.programCell {
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.programCell-sports {
+    background: #3949ab !important;
+}
+
+.programCell-movie {
+    background: #5e35b1 !important;
+}
+
+.programCell-kids {
+    background: #039be5 !important;
+}
+
+.programCell-news {
+    background: #43a047 !important;
+}
+
+.programCell-active {
+    background: #1e1e1e !important;
+}
+
+.guide-channelHeaderCell:focus,
+.programCell:focus {
+    @include var(background-color, --jf-palette-primary-main, $primary-main, true);
+    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText, true);
+}
+
+.guide-programTextIcon {
+    color: #1e1e1e;
+    background: #555;
+}
+
+.guide-headerTimeslots {
+    color: inherit;
+}
+
+.guide-date-tab-button.emby-tab-button-active,
+.guide-date-tab-button:focus {
+    @include var(color, --jf-palette-primary-main, $primary-main);
+}
+
+.guide-date-tab-button.show-focus:focus {
+    @include var(background-color, --jf-palette-primary-main, $primary-main);
+    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+}
+
+.infoBanner {
+    @include var(background, --jf-palette-Alert-infoFilledBg, $alert-infoFilledBg);
+    @include var(color, --jf-palette-Alert-infoFilledColor, $alert-infoFilledColor);
+    padding: 1em;
+    border-radius: 0.25em;
+}
+
+.ratingbutton-icon-withrating,
+.playstatebutton-icon-played {
+    @include var(color, --jf-palette-error-light, $error-light);
+}
+
+.buttonActive {
+    @include var(color, --jf-palette-primary-main, $primary-main, true);
+}
+
+.card:focus .cardBox.visualCardBox,
+.card:focus .cardBox:not(.visualCardBox) .cardScalable {
+    @include var(border-color, --jf-palette-primary-main, $primary-main, true);
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: #3b3b3b;
+}
+
+.layout-desktop ::-webkit-scrollbar,
+.layout-tv ::-webkit-scrollbar {
+    width: 0.4em;
+    height: 0.4em;
+}
+
+::-webkit-scrollbar-thumb:horizontal,
+::-webkit-scrollbar-thumb:vertical {
+    border-radius: 2px;
+    background: center no-repeat #888;
+}
+
+.timeslotHeaders-desktop::-webkit-scrollbar {
+    height: 0.7em;
+}
+
+.metadataSidebarIcon {
+    @include var(color, --jf-palette-primary-main, $primary-main);
+}
+
+#comicsPlayer,
+#bookPlayer,
+#pdfPlayer {
+    @include var(background-color, --jf-palette-background-default, $background-default);
+}
+
+#comicsPlayer .swiper-pagination {
+    @include var(background-color, --jf-palette-background-default, $background-default);
+    @include var(color, --jf-palette-text-primary, $text-primary);
+}
+
+#bookPlayer .topButtons,
+#comicsPlayer .actionButtonIcon,
+#pdfPlayer .actionButtonIcon {
+    @include var(color, --jf-palette-text-primary, $text-primary);
+}
+
+#dialogToc {
+    @include var(background-color, --jf-palette-background-default, $background-default);
+}
+
+#dialogToc .toc li a,
+#dialogToc .bookplayerButtonIcon {
+    @include var(color, --jf-palette-text-secondary, $text-secondary);
+
+    &:active,
+    &:hover {
+        @include var(color, --jf-palette-primary-main, $primary-main);
+    }
+}
