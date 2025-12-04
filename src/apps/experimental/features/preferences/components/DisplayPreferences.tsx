@@ -170,6 +170,30 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
             ) }
 
             <FormControl fullWidth>
+                <TextField
+                    aria-describedby='display-settings-slideshow-interval-description'
+                    value={values.slideshowInterval}
+                    label={globalize.translate('LabelSlideshowInterval')}
+                    name='slideshowInterval'
+                    onChange={onChange}
+                    slotProps={{
+                        htmlInput: {
+                            inputMode: 'numeric',
+                            max: '3600',
+                            min: '1',
+                            pattern: '[0-9]',
+                            required: true,
+                            step: '1',
+                            type: 'number'
+                        }
+                    }}
+                />
+                <FormHelperText id='display-settings-slideshow-interval-description'>
+                    {globalize.translate('LabelSlideshowIntervalHelp')}
+                </FormHelperText>
+            </FormControl>
+
+            <FormControl fullWidth>
                 <FormControlLabel
                     aria-describedby='display-settings-faster-animations-description'
                     control={
