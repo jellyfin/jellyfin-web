@@ -2070,5 +2070,7 @@
     "LabelBundled": "Gebundeld",
     "ManageRepositories": "Repository's beheren",
     "ButtonAddProvider": "Provider toevoegen",
-    "ButtonAddTunerDevice": "Tuner-apparaat toevoegen"
+    "ButtonAddTunerDevice": "Tuner-apparaat toevoegen",
+    "LabelSlideshowIntervalHelp": "De weergavetijd per foto in diavoorstellingen (in seconden).",
+    "LabelSlideshowInterval": "Interval diavoorstelling"
 }
