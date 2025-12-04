@@ -285,7 +285,6 @@ const scrollerFactory = function (frame, options) {
         }
 
         // Update the animation object
-        const from = pos.cur;
         immediate = immediate || dragging.init || !o.speed;
 
         const now = new Date().getTime();
@@ -301,7 +300,7 @@ const scrollerFactory = function (frame, options) {
         // Start animation rendering
         // NOTE the dependency was modified here to fix a scrollbutton issue
         pos.dest = newPos;
-        renderAnimateWithTransform(from, newPos, immediate);
+        renderAnimateWithTransform( newPos, immediate);
         lastAnimate = now;
     };
 
@@ -326,7 +325,7 @@ const scrollerFactory = function (frame, options) {
         }
     }
 
-    function renderAnimateWithTransform(fromPosition, toPosition, immediate) {
+    function renderAnimateWithTransform( toPosition, immediate) {
         let speed = o.speed;
 
         if (immediate) {

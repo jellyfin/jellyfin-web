@@ -39,7 +39,7 @@ function notifySeriesTimerRefresh() {
     }
 }
 
-function onLibraryChanged(e, apiClient, data) {
+function onLibraryChanged(_e, _apiClient, data) {
     const instance = this;
     const eventsToMonitor = getEventsToMonitor(instance);
     if (eventsToMonitor.indexOf('seriestimers') !== -1 || eventsToMonitor.indexOf('timers') !== -1) {
@@ -68,7 +68,7 @@ function onLibraryChanged(e, apiClient, data) {
     instance.notifyRefreshNeeded();
 }
 
-function onPlaybackStopped(e, stopInfo) {
+function onPlaybackStopped(_e, stopInfo) {
     const instance = this;
 
     const state = stopInfo.state;

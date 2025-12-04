@@ -198,7 +198,7 @@ export class BookPlayer {
             const player = document.getElementById('bookPlayerContainer');
             this.addSwipeGestures(player);
         } else {
-            this.rendition?.on('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));
+            this.rendition?.on('rendered', (_e, i) => this.addSwipeGestures(i.document.documentElement));
         }
     }
 
@@ -225,7 +225,7 @@ export class BookPlayer {
         this.rendition?.off('keydown', this.onWindowKeyDown);
 
         if (!browser.safari) {
-            this.rendition?.off('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));
+            this.rendition?.off('rendered', (_e, i) => this.addSwipeGestures(i.document.documentElement));
         }
 
         this.touchHelper?.destroy();
@@ -312,7 +312,7 @@ export class BookPlayer {
         return elem;
     }
 
-    setCurrentSrc(elem, options) {
+    setCurrentSrc(_elem, options) {
         const item = options.items[0];
         this.item = item;
         this.streamInfo = {

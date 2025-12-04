@@ -51,7 +51,7 @@ export function initialize() {
         Events.on(apiClient, 'websocketopen', onOpen);
     });
 
-    Events.on(ServerConnections, 'apiclientcreated', (e, apiClient) => {
+    Events.on(ServerConnections, 'apiclientcreated', (_e, apiClient) => {
         Events.off(apiClient, 'websocketopen', onOpen);
         Events.on(apiClient, 'websocketopen', onOpen);
     });

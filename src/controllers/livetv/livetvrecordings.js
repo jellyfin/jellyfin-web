@@ -74,7 +74,7 @@ function onMoreClick() {
     }
 }
 
-export default function (view, params, tabContent) {
+export default function (_view, _params, tabContent) {
     function enableFullRender() {
         return new Date().getTime() - lastFullRender > 300000;
     }
