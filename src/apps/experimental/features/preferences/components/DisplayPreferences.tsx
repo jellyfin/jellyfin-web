@@ -47,7 +47,6 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                         value={values.layout}
                     >
                         <MenuItem value={LayoutMode.Auto}>{globalize.translate('Auto')}</MenuItem>
-                        <MenuItem value={LayoutMode.Experimental}>{globalize.translate('Experimental')}</MenuItem>
                         <MenuItem value={LayoutMode.Desktop}>{globalize.translate('Desktop')}</MenuItem>
                         <MenuItem value={LayoutMode.Mobile}>{globalize.translate('Mobile')}</MenuItem>
                         <MenuItem value={LayoutMode.Tv}>{globalize.translate('TV')}</MenuItem>
