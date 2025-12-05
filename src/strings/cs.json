@@ -2071,5 +2071,7 @@
     "ManageRepositories": "Spravovat repozitáře",
     "ViewAllPlugins": "Zobrazit všechny zásuvné moduly",
     "ButtonAddProvider": "Přidat poskytovatele",
-    "ButtonAddTunerDevice": "Přidat tuner"
+    "ButtonAddTunerDevice": "Přidat tuner",
+    "LabelSlideshowInterval": "Interval mezi fotkami slideshow",
+    "LabelSlideshowIntervalHelp": "Doba v sekundách po jakou je zobrazena každá fotka při slideshow."
 }
