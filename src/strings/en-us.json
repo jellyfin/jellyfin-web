@@ -633,6 +633,8 @@
     "LabelBaseUrlHelp": "Add a custom subdirectory to the server URL. For example: <code>http://example.com/<b>&lt;baseurl&gt;</b></code>",
     "LabelBackdropScreensaverInterval": "Backdrop Screensaver Interval",
     "LabelBackdropScreensaverIntervalHelp": "The time in seconds between different backdrops when using the backdrop screensaver.",
+    "LabelSlideshowInterval": "Photo Slideshow Interval",
+    "LabelSlideshowIntervalHelp": "The time in seconds each photo is displayed in slideshows.",
     "LabelBindToLocalNetworkAddress": "Bind to local network address",
     "LabelBindToLocalNetworkAddressHelp": "Override the local IP address for the HTTP server. If left empty, the server will bind to all available addresses. Changing this value requires a restart.",
     "LabelBirthDate": "Birth date",

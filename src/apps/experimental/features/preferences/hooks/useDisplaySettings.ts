@@ -103,6 +103,7 @@ async function loadDisplaySettings({
         maxDaysForNextUp: settings.maxDaysForNextUp(),
         screensaver: settings.screensaver() || 'none',
         screensaverInterval: settings.backdropScreensaverInterval(),
+        slideshowInterval: settings.slideshowInterval(),
         theme: settings.theme() || defaultTheme?.id || FALLBACK_THEME_ID
     };
 

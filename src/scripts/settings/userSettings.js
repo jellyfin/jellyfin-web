@@ -465,6 +465,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set the interval between slides when using the slideshow.
+     * @param {number|undefined} [val] - The interval between slides in seconds.
+     * @return {number} The interval between slides in seconds.
+     */
+    slideshowInterval(val) {
+        if (val !== undefined) {
+            return this.set('slideshowInterval', val.toString(), false);
+        }
+
+        return parseInt(this.get('slideshowInterval', false), 10) || 5;
+    }
+
+    /**
      * Get or set the amount of time it takes to activate the screensaver in seconds. Default 3 minutes.
      * @param {number|undefined} [val] - The amount of time it takes to activate the screensaver in seconds.
      * @return {number} The amount of time it takes to activate the screensaver in seconds.
@@ -705,6 +718,7 @@ export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);
 export const screensaver = currentSettings.screensaver.bind(currentSettings);
 export const backdropScreensaverInterval = currentSettings.backdropScreensaverInterval.bind(currentSettings);
+export const slideshowInterval = currentSettings.slideshowInterval.bind(currentSettings);
 export const screensaverTime = currentSettings.screensaverTime.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);

@@ -31,30 +31,3 @@
         background: none;
     }
 }
-
-/* Live TV guide */
-.channelPrograms,
-.guide-channelHeaderCell,
-.programCell {
-    border-color: rgba(255, 255, 255, 0.05);
-}
-
-.programCell-sports {
-    background: #3949ab !important;
-}
-
-.programCell-movie {
-    background: #5e35b1 !important;
-}
-
-.programCell-kids {
-    background: #039be5 !important;
-}
-
-.programCell-news {
-    background: #43a047 !important;
-}
-
-.programCell-active {
-    background: #1e1e1e !important;
-}

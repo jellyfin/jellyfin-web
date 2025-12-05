@@ -1,26 +1,27 @@
 @use '../styles/mixins' as *;
+@use './palette' as palette;
 
 // Theme options
 $dark: true !default;
 
 // Color palette
-$common-white: #fff !default;
-$background-default: #101010 !default;
-$background-paper: #202020 !default;
-$primary-main: #00a4dc !default;
-$primary-dark: #00729a !default;
-$primary-light: #33b6e3 !default;
-$primary-hover: rgba(0, 164, 220, 0.2) !default;
-$primary-contrastText: rgba(0, 0, 0, 0.87) !default;
-$error-main: #c62828 !default;
-$error-dark: #8a1c1c !default;
-$error-light: #d15353 !default;
-$error-contrastText: #fff !default;
-$text-primary: #fff !default;
-$text-secondary: rgba(255, 255, 255, 0.7) !default;
-$action-focus: rgba(255, 255, 255, 0.12) !default;
-$action-hover: rgba(255, 255, 255, 0.08) !default;
-$divider: rgba(255, 255, 255, 0.12) !default;
+$common-white: palette.$common-white !default;
+$background-default: palette.$background-default !default;
+$background-paper: palette.$background-paper !default;
+$primary-main: palette.$primary-main !default;
+$primary-dark: palette.$primary-dark !default;
+$primary-light: palette.$primary-light !default;
+$primary-hover: palette.$primary-hover !default;
+$primary-contrastText: palette.$primary-contrastText !default;
+$error-main: palette.$error-main !default;
+$error-dark: palette.$error-dark !default;
+$error-light: palette.$error-light !default;
+$error-contrastText: palette.$error-contrastText !default;
+$text-primary: palette.$text-primary !default;
+$text-secondary: palette.$text-secondary !default;
+$action-focus: palette.$action-focus !default;
+$action-hover: palette.$action-hover !default;
+$divider: palette.$divider !default;
 
 // Components
 $appBar-defaultBg: #202020 !default;
@@ -33,6 +34,11 @@ $button-inheritContainedBg: #424242 !default;
 $button-inheritContainedHoverBg: #616161 !default;
 $snackbarContent-bg: #303030 !default;
 $snackbarContent-color: rgba(255, 255, 255, 0.87) !default;
+
+// Assign custom css variables not part of the MUI theme palette
+:root {
+    --jf-palette-AppBar-transparentBg: #{$appBar-transparentBg};
+}
 
 * {
     scrollbar-width: thin;
@@ -105,6 +111,7 @@ html {
     @include var(color, --jf-palette-primary-main, $primary-main);
 }
 
+a[data-role=button],
 .fab,
 .raised {
     @include var(background, --jf-palette-Button-inheritContainedBg, $button-inheritContainedBg);
@@ -120,8 +127,9 @@ html {
     @include var(background, --jf-palette-primary-main, $primary-main);
     @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
 
-    &:focus {
-        @include var(background, --jf-palette-primary-light, $primary-light);
+    &:focus,
+    &:hover {
+        @include var(background, --jf-palette-primary-dark, $primary-dark);
     }
 }
 
@@ -253,7 +261,7 @@ html {
 }
 
 .mediaInfoText {
-    @include var(border-color, --jf-palette-text-secondary, $text-secondary);
+    border-color: inherit;
     border-style: solid;
     border-width: 1px;
 }
@@ -273,11 +281,14 @@ html {
 }
 
 .emby-select-withcolor {
-    @include var(background, --jf-palette-FilledInput-bg, $filledInput-bg);
+    // NOTE: This should use `FilledInput-bg` to match other form elements,
+    // but that will break the native dropdown styling
+    @include var(background, --jf-palette-background-paper, $background-paper);
     @include var(border-color, --jf-palette-FilledInput-bg, $filledInput-bg);
     color: inherit;
-    border-width: 0.07em;
+    border-width: 0.16em;
     border-style: solid;
+    border-radius: 0.2em;
 }
 
 .emby-select-withcolor > option {
@@ -361,6 +372,26 @@ html {
     border-color: rgba(255, 255, 255, 0.05);
 }
 
+.programCell-sports {
+    background: #3949ab !important;
+}
+
+.programCell-movie {
+    background: #5e35b1 !important;
+}
+
+.programCell-kids {
+    background: #039be5 !important;
+}
+
+.programCell-news {
+    background: #43a047 !important;
+}
+
+.programCell-active {
+    background: #1e1e1e !important;
+}
+
 .guide-channelHeaderCell:focus,
 .programCell:focus {
     @include var(background-color, --jf-palette-primary-main, $primary-main, true);
@@ -395,7 +426,7 @@ html {
 
 .ratingbutton-icon-withrating,
 .playstatebutton-icon-played {
-    @include var(background-color, --jf-palette-error-light, $error-light);
+    @include var(color, --jf-palette-error-light, $error-light);
 }
 
 .buttonActive {
