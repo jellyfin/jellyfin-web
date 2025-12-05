@@ -402,6 +402,12 @@ class AppRouter {
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
+            const layoutMode = localStorage.getItem('layout');
+
+            if (layoutMode === 'experimental' && item.CollectionType == CollectionType.Books) {
+                return `#/books?topParentId=${item.Id}`;
+            }
+
             if (item.CollectionType == CollectionType.Movies) {
                 url = `#/movies?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
@@ -431,8 +437,6 @@ class AppRouter {
 
                 return url;
             }
-
-            const layoutMode = localStorage.getItem('layout');
 
             if (layoutMode === 'experimental' && item.CollectionType == CollectionType.Homevideos) {
                 url = '#/homevideos?topParentId=' + item.Id;
