@@ -35,8 +35,11 @@ class Backdrop {
             parent.appendChild(backdropImage);
 
             if (!enableAnimation()) {
-                if (existingBackdropImage?.parentNode) {
-                    existingBackdropImage.parentNode.removeChild(existingBackdropImage);
+                if (existingBackdropImage) {
+                    const backdropContainer = getBackdropContainer();
+                    while (backdropContainer.childNodes.length > 1) {
+                        backdropContainer.removeChild(backdropContainer.firstChild);
+                    }
                 }
                 internalBackdrop(true);
                 return;
@@ -49,8 +52,11 @@ class Backdrop {
                 if (backdropImage === self.currentAnimatingElement) {
                     self.currentAnimatingElement = null;
                 }
-                if (existingBackdropImage?.parentNode) {
-                    existingBackdropImage.parentNode.removeChild(existingBackdropImage);
+                if (existingBackdropImage) {
+                    const backdropContainer = getBackdropContainer();
+                    while (backdropContainer.childNodes.length > 1) {
+                        backdropContainer.removeChild(backdropContainer.firstChild);
+                    }
                 }
             };
 
