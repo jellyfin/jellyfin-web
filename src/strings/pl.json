@@ -2071,5 +2071,7 @@
     "ViewAllPlugins": "Wyświetl wszystkie wtyczki",
     "ManageRepositories": "Zarządzaj repozytoriami",
     "ButtonAddProvider": "Dodaj dostawcę",
-    "ButtonAddTunerDevice": "Dodaj urządzenie tunera"
+    "ButtonAddTunerDevice": "Dodaj urządzenie tunera",
+    "LabelSlideshowInterval": "Interwał pokazu slajdów ze zdjęciami",
+    "LabelSlideshowIntervalHelp": "Czas wyświetlania każdego zdjęcia w pokazie slajdów (w sekundach)."
 }
