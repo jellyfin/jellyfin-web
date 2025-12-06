@@ -251,19 +251,38 @@ function executeAction(card, target, action) {
         const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0', 10);
         const sortValues = userSettings.getSortValuesLegacy(sortParentId, 'SortName');
 
-        if (playbackManager.canPlay(item)) {
-            playbackManager.play({
-                ids: [playableItemId],
-                startPositionTicks: startPositionTicks,
-                serverId: serverId,
-                queryOptions: {
-                    SortBy: sortValues.sortBy,
-                    SortOrder: sortValues.sortOrder
+        import('./itemHelper').then(itemHelper => {
+            getItem(card).then(fullItem => {
+                if (itemHelper.supportsMediaSourceSelection(fullItem)) {
+                    import('../components/versionSelectionModal/versionSelectionModal').then(({ default: versionSelectionModal }) => {
+                        versionSelectionModal.show(fullItem, function (selectedMediaSourceId) {
+                            playbackManager.play({
+                                ids: [playableItemId],
+                                startPositionTicks: startPositionTicks,
+                                serverId: serverId,
+                                mediaSourceId: selectedMediaSourceId,
+                                queryOptions: {
+                                    SortBy: sortValues.sortBy,
+                                    SortOrder: sortValues.sortOrder
+                                }
+                            });
+                        }).catch(() => { /* user cancelled */ });
+                    });
+                } else if (playbackManager.canPlay(fullItem)) {
+                    playbackManager.play({
+                        ids: [playableItemId],
+                        startPositionTicks: startPositionTicks,
+                        serverId: serverId,
+                        queryOptions: {
+                            SortBy: sortValues.sortBy,
+                            SortOrder: sortValues.sortOrder
+                        }
+                    });
+                } else {
+                    console.warn('Unable to play item', fullItem);
                 }
             });
-        } else {
-            console.warn('Unable to play item', item);
-        }
+        });
     } else if (action === 'queue') {
         if (playbackManager.isPlaying()) {
             playbackManager.queue({
