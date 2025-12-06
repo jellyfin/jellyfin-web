@@ -2071,5 +2071,7 @@
     "ManageRepositories": "Управление репозиториями",
     "ViewAllPlugins": "Просмотреть все плагины",
     "ButtonAddProvider": "Добавить поставщика",
-    "ButtonAddTunerDevice": "Добавить устройство тюнера"
+    "ButtonAddTunerDevice": "Добавить устройство тюнера",
+    "LabelSlideshowIntervalHelp": "Время в секундах, которое каждая фотография показывается в слайд-шоу.",
+    "LabelSlideshowInterval": "Интервал слайд-шоу с фотографиями"
 }
