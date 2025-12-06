@@ -56,10 +56,10 @@ function onEditLibrary() {
     return false;
 }
 
-function addMediaLocation(page, path, networkSharePath) {
+function addMediaLocation(page, path) {
     const virtualFolder = currentOptions.library;
     const refreshAfterChange = currentOptions.refresh;
-    ApiClient.addMediaPath(virtualFolder.Name, path, networkSharePath, refreshAfterChange).then(() => {
+    ApiClient.addMediaPath(virtualFolder.Name, path, null, refreshAfterChange).then(() => {
         hasChanges = true;
         refreshLibraryFromServer(page);
     }, () => {
@@ -67,11 +67,10 @@ function addMediaLocation(page, path, networkSharePath) {
     });
 }
 
-function updateMediaLocation(page, path, networkSharePath) {
+function updateMediaLocation(page, path) {
     const virtualFolder = currentOptions.library;
     ApiClient.updateMediaPath(virtualFolder.Name, {
-        Path: path,
-        NetworkPath: networkSharePath
+        Path: path
     }).then(() => {
         hasChanges = true;
         refreshLibraryFromServer(page);
@@ -115,7 +114,7 @@ function onListItemClick(e) {
             return;
         }
 
-        showDirectoryBrowser(dom.parentWithClass(listItem, 'dlg-libraryeditor'), originalPath, pathInfo.NetworkPath);
+        showDirectoryBrowser(dom.parentWithClass(listItem, 'dlg-libraryeditor'), originalPath);
     }
 }
 
@@ -174,19 +173,18 @@ function onAddButtonClick() {
     showDirectoryBrowser(dom.parentWithClass(this, 'dlg-libraryeditor'));
 }
 
-function showDirectoryBrowser(context, originalPath, networkPath) {
+function showDirectoryBrowser(context, originalPath) {
     import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
         const picker = new DirectoryBrowser();
         picker.show({
             pathReadOnly: originalPath != null,
             path: originalPath,
-            networkSharePath: networkPath,
-            callback: function (path, networkSharePath) {
+            callback: function (path) {
                 if (path) {
                     if (originalPath) {
-                        updateMediaLocation(context, originalPath, networkSharePath);
+                        updateMediaLocation(context, originalPath);
                     } else {
-                        addMediaLocation(context, path, networkSharePath);
+                        addMediaLocation(context, path);
                     }
                 }
 
