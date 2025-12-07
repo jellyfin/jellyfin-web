@@ -706,7 +706,7 @@
     "MetadataSettingChangeHelp": "Změna nastavení metadat bude mít vliv na obsah, který bude nově přidán v budoucnu. Chcete-li aktualizovat stávající obsah, otevřete obrazovku s podrobnostmi a klikněte na tlačítko 'Aktualizovat', nebo proveďte hromadnou aktualizaci pomocí Správce metadat.",
     "MinutesAfter": "minut po",
     "MinutesBefore": "minut předem",
-    "Mobile": "Mobilní",
+    "Mobile": "Mobilní (zastaralý)",
     "Monday": "Pondělí",
     "MoreFromValue": "Více od {0}",
     "MoreUsersCanBeAddedLater": "Další uživatele můžete přidat později na nástěnce serveru.",
