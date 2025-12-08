@@ -166,7 +166,8 @@ class AppSettings {
             return this.set('alwaysBurnInSubtitleWhenTranscoding', val.toString());
         }
 
-        return toBoolean(this.get('alwaysBurnInSubtitleWhenTranscoding'), false);
+        //return toBoolean(this.get('alwaysBurnInSubtitleWhenTranscoding'), false);
+        return true;
     }
 
     /**
