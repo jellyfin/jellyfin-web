@@ -24,28 +24,25 @@
         width: fit-content;
     }
 }
-    
+
 #divUsers button .cardContent {
-border-radius: 6px; //minimal round border for profiles pictures, less agressive than hard edges 
+    border-radius: 6px; //minimal round border for profiles pictures, less agressive than hard edges
 }
 
 @media (hover: hover) and (pointer: fine) {
     /* Hover-only devices (mouse, trackpad), prevent touch screens or other kind of devices where this style is not intended */
     #divUsers {
-    gap: 20px; // necessary gap to prevent users clicking into wrong profile when using pointer:fine devices
+        gap: 20px; // necessary gap to prevent users clicking into wrong profile when using pointer:fine devices
     }
 
     #divUsers button .cardContent {
-    transition: 
-        box-shadow 0.35s ease,
+        transition: box-shadow 0.35s ease;
     }
 
-    #divUsers button:hover  {
+    #divUsers button:hover {
         .cardContent {
-            box-shadow: // Jellyfin gradient glow
-            0 0 10px 4px rgba(153, 16, 198, 0.5),    // gradient start glow (#AA5CC3)
-            0 0 18px 10px rgba(0, 164, 220, 0.45);   // gradient end glow (#00A4DC)
-            background: linear-gradient(135deg, #AA5CC3, #00A4DC); // if profile picture can't be loaded fill the background with official gradient
+            box-shadow: 0 0 10px 4px rgba(153, 16, 198, 0.5), 0 0 18px 10px rgba(0, 164, 220, 0.45);   // gradient start glow (#AA5CC3), gradient end glow (#00A4DC)
+            background: linear-gradient(135deg, #aa5cc3, #00a4dc); // if profile picture can't be loaded fill the background with official gradient
         }
     }
 }
