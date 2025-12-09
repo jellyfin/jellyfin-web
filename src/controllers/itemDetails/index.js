@@ -1,5 +1,6 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
@@ -35,6 +36,7 @@ import { getPortraitShape, getSquareShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -2027,9 +2029,10 @@ export default function (view, params) {
     }
 
     function onDownloadClick() {
-        const downloadHref = getApiClient().getItemDownloadUrl(currentItem.Id);
+        const api = toApi(getApiClient());
+        const url = getLibraryApi(api).getDownloadUrl({ itemId: currentItem.Id });
         download([{
-            url: downloadHref,
+            url,
             item: currentItem,
             itemId: currentItem.Id,
             serverId: currentItem.ServerId,
