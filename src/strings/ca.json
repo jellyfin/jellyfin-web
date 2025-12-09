@@ -62,7 +62,7 @@
     "DeleteImageConfirmation": "N'esteu segur, que voleu suprimir aquesta imatge?",
     "DeleteMedia": "Elimina el contingut",
     "DeleteUser": "Esborra l'usuari",
-    "Desktop": "Escriptori",
+    "Desktop": "Escriptori (antic)",
     "DeviceAccessHelp": "Això només s'aplica a dispositius que poden ser identificats i no previndrà l'accés des del navegador. Filtrant l'accés de dispositius a l'usuari previndrà l'ús de nous dispositius fins que hagin estat aprovats aquí.",
     "Disconnect": "Desconnecta",
     "DisplayMissingEpisodesWithinSeasons": "Mostra també els episodis que no tingui a les temporades",
@@ -399,7 +399,7 @@
     "MetadataManager": "Gestor de metadades",
     "MinutesAfter": "minuts després",
     "MinutesBefore": "minuts abans",
-    "Mobile": "Mòbil",
+    "Mobile": "Mòbil (antic)",
     "Monday": "Dilluns",
     "MoreFromValue": "Més de {0}",
     "MoreUsersCanBeAddedLater": "Es poden afegir més usuaris des del tauler de control.",
@@ -2067,5 +2067,7 @@
     "ManageRepositories": "Administració dels repositoris",
     "ViewAllPlugins": "Mostra tots els connectors",
     "ButtonAddProvider": "Afegiu-hi un proveïdor",
-    "ButtonAddTunerDevice": "Afegiu-hi un dispositiu sintonitzador"
+    "ButtonAddTunerDevice": "Afegiu-hi un dispositiu sintonitzador",
+    "LabelSlideshowIntervalHelp": "El temps en segons que es mostra cada foto en les presentacions de diapositives.",
+    "LabelSlideshowInterval": "Interval de les presentacions de diapositives"
 }
