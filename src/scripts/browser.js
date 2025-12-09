@@ -283,7 +283,6 @@ browser.xboxOne = normalizedUA.includes('xbox');
 
 browser.animate = typeof document !== 'undefined' && document.documentElement.animate != null;
 browser.hisense = normalizedUA.includes('hisense');
-browser.operaTv = browser.tv && normalizedUA.includes('opr/');
 browser.tizen = normalizedUA.includes('tizen') || window.tizen != null;
 browser.vidaa = normalizedUA.includes('vidaa');
 browser.web0s = isWeb0s(normalizedUA);
@@ -311,6 +310,7 @@ if (browser.web0s) {
 }
 
 browser.tv = browser.ps4 || browser.xboxOne || isTv(normalizedUA);
+browser.operaTv = browser.tv && !browser.titanos && normalizedUA.includes('opr/');
 
 if (browser.mobile || browser.tv) {
     browser.slow = true;
