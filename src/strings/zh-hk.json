@@ -1274,7 +1274,7 @@
     "LabelDevice": "裝置",
     "LastActive": "最後活躍",
     "DeleteServerConfirmation": "你確定要刪除此伺服器？",
-    "LibraryScanFanoutConcurrency": "平衡掃描媒體庫的數量限制",
+    "LibraryScanFanoutConcurrency": "并行掃描媒體庫的數量限制",
     "Retry": "重試",
     "LogLoadFailure": "無法載入日誌檔。其他程序可能仍在寫入中。",
     "CoverArtist": "翻唱藝人",

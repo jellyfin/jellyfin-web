@@ -108,7 +108,7 @@
     "DeleteMedia": "Odstranit média",
     "DeleteUser": "Odstranit uživatele",
     "DeleteUserConfirmation": "Jste si jist, že chcete smazat tohoto uživatele?",
-    "Desktop": "PC",
+    "Desktop": "Počítač (původní)",
     "DeviceAccessHelp": "Platí pouze pro zařízení, která mohou být jednoznačně identifikována. Těmto zařízením nebude bráněno v přístupu. Filtrování přístupu uživatelských zařízení bude bránit v užívání nových zařízení, dokud nebudou schváleny.",
     "DirectPlaying": "Přímé přehrání",
     "DirectStreamHelp1": "Video stopa je se zařízením kompatibilní, ale audio stopa je v nekompatibilním formátu (DTS, Dolby TrueHD atp.) nebo má nekompatibilní počet kanálů. Video bude před odesláním do zařízení za běhu bezztrátově přebaleno a pouze audio bude překódováno.",
@@ -706,7 +706,7 @@
     "MetadataSettingChangeHelp": "Změna nastavení metadat bude mít vliv na obsah, který bude nově přidán v budoucnu. Chcete-li aktualizovat stávající obsah, otevřete obrazovku s podrobnostmi a klikněte na tlačítko 'Aktualizovat', nebo proveďte hromadnou aktualizaci pomocí Správce metadat.",
     "MinutesAfter": "minut po",
     "MinutesBefore": "minut předem",
-    "Mobile": "Mobilní",
+    "Mobile": "Mobilní (zastaralý)",
     "Monday": "Pondělí",
     "MoreFromValue": "Více od {0}",
     "MoreUsersCanBeAddedLater": "Další uživatele můžete přidat později na nástěnce serveru.",
@@ -2071,5 +2071,7 @@
     "ManageRepositories": "Spravovat repozitáře",
     "ViewAllPlugins": "Zobrazit všechny zásuvné moduly",
     "ButtonAddProvider": "Přidat poskytovatele",
-    "ButtonAddTunerDevice": "Přidat tuner"
+    "ButtonAddTunerDevice": "Přidat tuner",
+    "LabelSlideshowInterval": "Interval mezi fotkami slideshow",
+    "LabelSlideshowIntervalHelp": "Doba v sekundách po jakou je zobrazena každá fotka při slideshow."
 }

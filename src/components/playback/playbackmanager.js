@@ -1024,7 +1024,7 @@ export class PlaybackManager {
         self.canPlay = function (item) {
             const itemType = item.Type;
 
-            if (itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
+            if (itemType === 'Book' || itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
                 return true;
             }
 
@@ -3483,7 +3483,7 @@ export class PlaybackManager {
             const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
             const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
-            if (newPlayer !== player) {
+            if (!newPlayer) {
                 data.streamInfo = null;
                 destroyPlayer(player);
                 removeCurrentPlayer(player);
@@ -3491,12 +3491,21 @@ export class PlaybackManager {
 
             if (errorOccurred) {
                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
-            } else if (nextItem) {
+            } else if (newPlayer) {
                 const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
 
                 apiClient.getCurrentUser().then(function (user) {
                     if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
                         self.nextTrack();
+
+                        if (newPlayer !== player) {
+                            Events.trigger(self, 'playbackstop', [{
+                                player,
+                                state,
+                                nextItem,
+                                nextMediaType
+                            }]);
+                        }
                     }
                 });
             }

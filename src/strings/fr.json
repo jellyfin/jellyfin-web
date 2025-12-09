@@ -2071,5 +2071,7 @@
     "ManageRepositories": "Gérer les dépôts",
     "ViewAllPlugins": "Voir tous les plugins",
     "ButtonAddProvider": "Ajouter un fournisseur",
-    "ButtonAddTunerDevice": "Ajouter un tuner"
+    "ButtonAddTunerDevice": "Ajouter un tuner",
+    "LabelSlideshowInterval": "Intervalle du Diaporama",
+    "LabelSlideshowIntervalHelp": "Le temps en secondes entre l'affichage de chaque photo dans le diaporama."
 }

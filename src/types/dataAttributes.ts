@@ -1,5 +1,8 @@
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import type { UserItemDataDto } from '@jellyfin/sdk/lib/generated-client/models/user-item-data-dto';
+
+import { ItemAction } from 'constants/itemAction';
+
 import type { NullableBoolean, NullableNumber, NullableString } from './base/common/shared/types';
 
 export type AttributesOpts = {
@@ -8,7 +11,7 @@ export type AttributesOpts = {
     collectionId?: NullableString,
     playlistId?: NullableString,
     prefix?: NullableString,
-    action?: NullableString,
+    action?: ItemAction | null,
     itemServerId?: NullableString,
     itemId?: NullableString,
     itemTimerId?: NullableString,
@@ -43,7 +46,7 @@ export type DataAttributes = {
     'data-startdate'?: NullableString;
     'data-enddate'?: NullableString;
     'data-prefix'?: NullableString;
-    'data-action'?: NullableString;
+    'data-action'?: ItemAction | null;
     'data-positionticks'?: NullableNumber;
     'data-isfolder'?: NullableBoolean;
 };
