@@ -1,279 +1,83 @@
-.mdl-spinner {
-    position: relative;
-    width: 1.95em;
-    height: 1.95em;
-    display: none;
-}
-
-.mdlSpinnerActive {
-    display: inline-block;
-    animation: mdl-spinner__container-rotate 1568.23529412ms linear infinite;
-}
-
-@keyframes mdl-spinner__container-rotate {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.mdl-spinner__layer {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-}
-
-.mdl-spinner__layer-1 {
-    border-color: #00a4dc;
-}
-
-.mdlSpinnerActive .mdl-spinner__layer-1 {
-    animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-1-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
-}
-
-.mdl-spinner__layer-2 {
-    border-color: #00a4dc;
-}
-
-.mdlSpinnerActive .mdl-spinner__layer-2 {
-    animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-2-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
-}
-
-.mdl-spinner__layer-3 {
-    border-color: #00a4dc;
-}
-
-.mdlSpinnerActive .mdl-spinner__layer-3 {
-    animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-3-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
-}
-
-.mdl-spinner__layer-4 {
-    border-color: #00a4dc;
-}
-
-.mdlSpinnerActive .mdl-spinner__layer-4 {
-    animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-4-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
-}
-
-@keyframes mdl-spinner__fill-unfill-rotate {
-    12.5% {
-        transform: rotate(135deg);
-    }
-
-    25% {
-        transform: rotate(270deg);
-    }
-
-    37.5% {
-        transform: rotate(405deg);
-    }
-
-    50% {
-        transform: rotate(540deg);
-    }
-
-    62.5% {
-        transform: rotate(675deg);
-    }
-
-    75% {
-        transform: rotate(810deg);
-    }
-
-    87.5% {
-        transform: rotate(945deg);
-    }
-
-    to {
-        transform: rotate(1080deg);
-    }
-}
-
-/**
-* HACK: Even though the intention is to have the current .mdl-spinner__layer-N
-* at `opacity: 1`, we set it to `opacity: 0.99` instead since this forces Chrome
-* to do proper subpixel rendering for the elements being animated. This is
-* especially visible in Chrome 39 on Ubuntu 14.04. See:
-*
-* - https://github.com/Polymer/paper-spinner/issues/9
-* - https://code.google.com/p/chromium/issues/detail?id=436255
-*/
-@keyframes mdl-spinner__layer-1-fade-in-out {
-    from {
-        opacity: 0.99;
-    }
-
-    25% {
-        opacity: 0.99;
-    }
-
-    26% {
-        opacity: 0;
-    }
-
-    89% {
-        opacity: 0;
-    }
-
-    90% {
-        opacity: 0.99;
-    }
-
-    100% {
-        opacity: 0.99;
-    }
-}
-
-@keyframes mdl-spinner__layer-2-fade-in-out {
-    from {
-        opacity: 0;
-    }
-
-    15% {
-        opacity: 0;
-    }
-
-    25% {
-        opacity: 0.99;
-    }
-
-    50% {
-        opacity: 0.99;
-    }
-
-    51% {
-        opacity: 0;
-    }
-}
-
-@keyframes mdl-spinner__layer-3-fade-in-out {
-    from {
-        opacity: 0;
-    }
-
-    40% {
-        opacity: 0;
-    }
-
-    50% {
-        opacity: 0.99;
-    }
-
-    75% {
-        opacity: 0.99;
-    }
-
-    76% {
-        opacity: 0;
-    }
-}
-
-@keyframes mdl-spinner__layer-4-fade-in-out {
-    from {
-        opacity: 0;
-    }
-
-    65% {
-        opacity: 0;
-    }
-
-    75% {
-        opacity: 0.99;
-    }
-
-    90% {
-        opacity: 0.99;
-    }
-
-    100% {
-        opacity: 0;
-    }
-}
-
-.mdl-spinner__circle {
-    box-sizing: border-box;
-    height: 100%;
-    border-width: 0.21em;
-    border-style: solid;
-    border-color: inherit;
-    border-bottom-color: transparent !important;
-    border-radius: 50%;
-    animation: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-.mdl-spinner__circle-clipper {
-    display: inline-block;
-    position: relative;
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-    border-color: inherit;
-}
-
-.mdl-spinner__circle-clipper .mdl-spinner__circle {
-    width: 200%;
-}
-
-.mdl-spinner__circleLeft {
-    border-right-color: transparent !important;
-    transform: rotate(129deg);
-}
-
-.mdlSpinnerActive .mdl-spinner__circleLeft {
-    animation: mdl-spinner__left-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
-}
-
-.mdl-spinner__circleRight {
-    left: -100%;
-    border-left-color: transparent !important;
-    transform: rotate(-129deg);
-}
-
-.mdlSpinnerActive .mdl-spinner__circleRight {
-    animation: mdl-spinner__right-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
-}
-
-@keyframes mdl-spinner__left-spin {
-    from {
-        transform: rotate(130deg);
-    }
-
-    50% {
-        transform: rotate(-5deg);
-    }
-
-    to {
-        transform: rotate(130deg);
-    }
-}
-
-@keyframes mdl-spinner__right-spin {
-    from {
-        transform: rotate(-130deg);
-    }
-
-    50% {
-        transform: rotate(5deg);
-    }
-
-    to {
-        transform: rotate(-130deg);
-    }
-}
-
-.docspinner {
-    margin-top: -5vh;
-    margin-left: -5vh;
-    width: 10vh;
-    height: 10vh;
+.spinner-container {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 9999999;
-    contain: layout style size;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+
+    display: none;
+    // IMPORTANT
+    // It seems counter-intuitive to define Flexbox rules (align-items, justify-content) on an element
+    // that is simultaneously set to display: none.
+    // However, these centering rules **must** exist on the base .spinner-container
+    // to prevent the spinner from abruptly jumping to the top-left corner (top:0, left:0) during the fade-out.
+
+    // By placing align-items and justify-content on the base container, we ensure the rules are
+    // **parsed and ready** by the browser. When the transition occurs (from display: flex to display: none),
+    // the element temporarily loses the active 'display: flex' setting (from the active class).
+    // Keeping the centering rules on the base container guarantees they are immediately reapplied
+    // the moment 'display: flex' is briefly active during the transition's lifespan.
+
+    // This configuration, combined with transition-behavior: allow-discrete and the step-end timing,
+    // allows the container to maintain its centered position and fade out gracefully before finally switching to display: none.
+    // Works on all Chromium Browsers.
+
+    // TODO: Firefox doesn't apply the fade out properly and ends without fading
+    align-items: center;
+    justify-content: center;
+
+    // Initial State (Opacity & Pointer-Events)
+    opacity: 0;
+    pointer-events: none; // We allow users to click other UI elements
+
+    transition-property: opacity, display, overlay;
+    transition-duration: 0.5s; // Duration matches the fade time
+    transition-behavior: allow-discrete; // Enables smooth display/none transition
+
+    &.spinner-is-active {
+        display: flex; // Instantly enables flex (discrete transition happens here)
+        opacity: 1; // Smoothly fades in over 0.5s
+        pointer-events: none; // We allow users to click other UI elements, we could use auto for blocking which is the common practice, but as the spinner is used in a lot of places like music libraries we don't want to prevent users from clicking other UI elements
+        align-items: center;
+        justify-content: center;
+    }
+
+    &.is-hiding {
+        opacity: 0;
+        pointer-events: none; // We allow users to click other UI elements
+
+        // Delay the display: none change until the END of the 0.5s transition.
+        transition: opacity 0.5s ease, display 0.8s step-end;
+        display: none;
+    }
+
+    &.custom-jellyfin-logo-spinner {
+        svg {
+            width: 120px;
+            height: 120px;
+            overflow: visible; // Prevents clipping when rotating
+
+            .spinner-outer-triangle {
+                transform-origin: 36px 43.33px; // Ensure we spin the geometric center
+                animation: spin-outer 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            }
+
+            .spinner-inner-triangle {
+                transform-origin: 36px 39.93px; // Ensure we spin the geometric center
+                animation: pulse-inner 2s cubic-bezier(0.2, 0, 0, 1) infinite; // Emphasized bezier curve for responsive, material 3-like feel
+            }
+        }
+    }
+}
+
+@keyframes spin-outer {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-inner {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(-180deg) scale(0.6); }
+    100% { transform: rotate(-360deg) scale(1); }
 }
