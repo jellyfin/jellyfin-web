@@ -1039,7 +1039,7 @@
     "ButtonSyncPlay": "Sinkronizirana reprodukcija (SyncPlay)",
     "DirectStreaming": "Direktno strujanje",
     "DirectStreamHelp2": "Snaga koji koristi direktan prijenos ovisi o profilu zvuka. Samo je video zapis bez gubitaka.",
-    "Desktop": "Stolno računalo",
+    "Desktop": "Računalo (staro)",
     "ColorTransfer": "Prijenos boje",
     "ColorSpace": "Spektar boja",
     "ColorPrimaries": "Primarne boje",
@@ -1696,5 +1696,9 @@
     "LabelJpegQuality": "Kvaliteta JPEG-a",
     "LogLoadFailure": "Nije uspjelo učitavanje datoteke dnevnika. Moguće je da se u nju još uvijek upisuju podaci.",
     "ButtonAddProvider": "Dodaj pružatelja usluga",
-    "ButtonAddTunerDevice": "Dodaj Tuner uređaj"
+    "ButtonAddTunerDevice": "Dodaj Tuner uređaj",
+    "LabelSlideshowIntervalHelp": "Vrijeme u sekundama za prikaz svake fotografije u prezentaciji.",
+    "LabelSlideshowInterval": "Interval prikaza fotografija",
+    "LabelAvailable": "Dostupno",
+    "LabelBackupsUnavailable": "Nema dostupnih sigurnosnih kopija"
 }
