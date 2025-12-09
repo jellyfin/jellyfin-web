@@ -286,6 +286,10 @@ browser.hisense = normalizedUA.includes('hisense');
 browser.tizen = normalizedUA.includes('tizen') || window.tizen != null;
 browser.vidaa = normalizedUA.includes('vidaa');
 browser.web0s = isWeb0s(normalizedUA);
+
+browser.tv = browser.ps4 || browser.xboxOne || isTv(normalizedUA);
+browser.operaTv = browser.tv && normalizedUA.includes('opr/');
+
 browser.edgeUwp = (browser.edge || browser.edgeChromium) && (normalizedUA.includes('msapphost') || normalizedUA.includes('webview'));
 
 if (browser.web0s) {
@@ -308,9 +312,6 @@ if (browser.web0s) {
 } else {
     browser.orsay = normalizedUA.includes('smarthub');
 }
-
-browser.tv = browser.ps4 || browser.xboxOne || isTv(normalizedUA);
-browser.operaTv = browser.tv && !browser.titanos && normalizedUA.includes('opr/');
 
 if (browser.mobile || browser.tv) {
     browser.slow = true;
