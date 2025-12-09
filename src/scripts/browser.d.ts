@@ -37,4 +37,6 @@ declare namespace browser {
     export let iOSVersion: number | undefined;
 }
 
+export function detectBrowser(userAgent?: string): browser;
+
 export default browser;
