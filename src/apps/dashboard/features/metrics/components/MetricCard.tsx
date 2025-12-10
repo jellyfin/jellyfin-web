@@ -39,7 +39,8 @@ const MetricCard: FC<MetricCardProps> = ({
                     width: '100%',
                     padding: 2,
                     justifyContent: 'space-between',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    gap: '20px'
                 }}
             >
                 {metrics.map(({ label, value }) => (
