@@ -1515,9 +1515,8 @@ export class HtmlVideoPlayer {
             trackElement = videoElement.addTextTrack('subtitles', 'manualTrack', 'und');
         }
 
-        const player = this;
         // download the track json
-        this.fetchSubtitles(track, item).then(function (data) {
+        this.fetchSubtitles(track, item).then(data => {
             console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
@@ -1540,12 +1539,12 @@ export class HtmlVideoPlayer {
                 }
 
                 //Applying the base offset to counteract the stream shift
-                cue.startTime -= player.#hlsStreamTimeShift;
-                cue.endTime -= player.#hlsStreamTimeShift;
+                cue.startTime -= this.#hlsStreamTimeShift;
+                cue.endTime -= this.#hlsStreamTimeShift;
 
                 trackElement.addCue(cue);
             }
-            player.#currentSubtitleCorrectionOffset = player.#hlsStreamTimeShift;
+            this.#currentSubtitleCorrectionOffset = this.#hlsStreamTimeShift;
 
             trackElement.mode = 'showing';
         });
