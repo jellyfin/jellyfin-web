@@ -492,10 +492,10 @@ export class HtmlVideoPlayer {
                             this.hideTextTrackWithActiveCues(textTrack);
                         }
 
-                        Array.from(cues).forEach(cue => {
+                        for (const cue of Array.from(cues)) {
                             cue.startTime -= offsetToApply;
                             cue.endTime -= offsetToApply;
-                        });
+                        }
 
                         if (shouldClearActiveCues) {
                             this.forceClearTextTrackActiveCues(textTrack);
