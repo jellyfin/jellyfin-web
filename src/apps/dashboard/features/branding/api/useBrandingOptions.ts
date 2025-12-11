@@ -8,14 +8,9 @@ import { useApi } from 'hooks/useApi';
 export const QUERY_KEY = 'BrandingOptions';
 
 const fetchBrandingOptions = async (
-    api?: Api,
+    api: Api,
     options?: AxiosRequestConfig
 ) => {
-    if (!api) {
-        console.error('[fetchBrandingOptions] no Api instance provided');
-        throw new Error('No Api instance provided to fetchBrandingOptions');
-    }
-
     return getBrandingApi(api)
         .getBrandingOptions(options)
         .then(({ data }) => data);
@@ -25,7 +20,7 @@ export const getBrandingOptionsQuery = (
     api?: Api
 ) => queryOptions({
     queryKey: [ QUERY_KEY ],
-    queryFn: ({ signal }) => fetchBrandingOptions(api, { signal }),
+    queryFn: ({ signal }) => fetchBrandingOptions(api!, { signal }),
     enabled: !!api
 });
 

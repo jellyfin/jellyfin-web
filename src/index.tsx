@@ -12,12 +12,12 @@ import autoFocuser from '@/components/autoFocuser';
 import loading from '@/components/loading/loading';
 import { pluginManager } from '@/components/pluginManager';
 import { appRouter } from '@/components/router/appRouter';
+import { AppFeature } from '@/constants/appFeature';
 import globalize from '@/lib/globalize';
 import { loadCoreDictionary } from '@/lib/globalize/loader';
 import { initialize as initializeAutoCast } from '@/scripts/autocast';
 import browser from '@/scripts/browser';
 import keyboardNavigation from '@/scripts/keyboardNavigation';
-import { currentSettings } from '@/scripts/settings/userSettings';
 import { getPlugins } from '@/scripts/settings/webSettings';
 import taskButton from '@/scripts/taskbutton';
 import { pageClassOn, serverAddress } from '@/utils/dashboard';
@@ -60,16 +60,10 @@ build: ${__JF_BUILD_VERSION__}`);
 
     // Register handlers to update header classes
     pageClassOn('viewshow', 'standalonePage', function () {
-        const skinHeaderElement = document.querySelector('.skinHeader');
-        if (skinHeaderElement) {
-            skinHeaderElement.classList.add('noHeaderRight');
-        }
+        document.querySelector('.skinHeader').classList.add('noHeaderRight');
     });
     pageClassOn('viewhide', 'standalonePage', function () {
-        const skinHeaderElement = document.querySelector('.skinHeader');
-        if (skinHeaderElement) {
-            skinHeaderElement.classList.remove('noHeaderRight');
-        }
+        document.querySelector('.skinHeader').classList.remove('noHeaderRight');
     });
 
     // Initialize the api client
@@ -86,15 +80,13 @@ build: ${__JF_BUILD_VERSION__}`);
     // Update localization on user changes
     Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
     Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
-    // Localize the document title
-    document.title = globalize.translateHtml(document.title, 'core');
 
     // Load the font styles
-    await loadFonts();
+    loadFonts();
 
     // Load iOS specific styles
     if (browser.iOS) {
-        await import('./styles/ios.scss');
+        import('./styles/ios.scss');
     }
 
     // Load frontend plugins
@@ -115,34 +107,28 @@ build: ${__JF_BUILD_VERSION__}`);
         Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
     });
 
-    // Connect to server
-    ServerConnections.firstConnection = await ServerConnections.connect();
-
     // Render the app
     await renderApp();
 
     // Load platform specific features
-    await loadPlatformFeatures();
-
-    // Load custom CSS styles
-    await loadCustomCss();
+    loadPlatformFeatures();
 
     // Enable navigation controls
     keyboardNavigation.enable();
     autoFocuser.enable();
 }
 
-async function loadFonts() {
+function loadFonts() {
     if (browser.tv && !browser.android) {
         console.debug('using system fonts with explicit sizes');
-        await import('./styles/fonts.sized.scss');
+        import('./styles/fonts.sized.scss');
     } else if (__USE_SYSTEM_FONTS__) {
         console.debug('using system fonts');
-        await import('./styles/fonts.scss');
+        import('./styles/fonts.scss');
     } else {
         console.debug('using default fonts');
-        await import('./styles/fonts.scss');
-        await import('./styles/fonts.noto.scss');
+        import('./styles/fonts.scss');
+        import('./styles/fonts.noto.scss');
     }
 }
 
@@ -151,13 +137,13 @@ async function loadPlugins() {
     console.dir(pluginManager);
 
     let list = await getPlugins();
-    if (!appHost.supports('remotecontrol')) {
+    if (!appHost.supports(AppFeature.RemoteControl)) {
         // Disable remote player plugins if not supported
-        list = list.filter((plugin: string) => !plugin.startsWith('sessionPlayer')
+        list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
             && !plugin.startsWith('chromecastPlayer'));
     } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
         // Disable chromecast player in unsupported browsers
-        list = list.filter((plugin: string) => !plugin.startsWith('chromecastPlayer'));
+        list = list.filter(plugin => !plugin.startsWith('chromecastPlayer'));
     }
 
     // add any native plugins
@@ -166,87 +152,40 @@ async function loadPlugins() {
     }
 
     try {
-        await Promise.all(list.map((plugin: unknown) => pluginManager.loadPlugin(plugin)));
+        await Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)));
         console.debug('finished loading plugins');
     } catch (e) {
         console.warn('failed loading plugins', e);
     }
 
-    console.groupEnd();
+    console.groupEnd('loading installed plugins');
 }
 
-async function loadPlatformFeatures() {
+function loadPlatformFeatures() {
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-        await import('./components/nowPlayingBar/nowPlayingBar');
+        import('./components/nowPlayingBar/nowPlayingBar');
     }
 
-    if (appHost.supports('remotecontrol')) {
-        await import('./components/playback/playerSelectionMenu');
-        await import('./components/playback/remotecontrolautoplay');
+    if (appHost.supports(AppFeature.RemoteControl)) {
+        import('./components/playback/playerSelectionMenu');
+        import('./components/playback/remotecontrolautoplay');
     }
 
-    if (!appHost.supports('physicalvolumecontrol') || browser.touch) {
-        await import('./components/playback/volumeosd');
+    if (!appHost.supports(AppFeature.PhysicalVolumeControl) || browser.touch) {
+        import('./components/playback/volumeosd');
     }
 
     if (!browser.tv && !browser.xboxOne) {
-        await import('./components/playback/playbackorientation');
+        import('./components/playback/playbackorientation');
         registerServiceWorker();
 
         if (window.Notification) {
-            await import('./components/notifications/notifications');
+            import('./components/notifications/notifications');
         }
     }
 }
 
-function loadCustomCss() {
-    // Apply custom CSS
-    const apiClient = ServerConnections.currentApiClient();
-    if (apiClient) {
-        const brandingCss = fetch(apiClient.getUrl('Branding/Css'))
-            .then(function (response) {
-                if (!response.ok) {
-                    throw new Error(response.status + ' ' + response.statusText);
-                }
-                return response.text();
-            })
-            .catch(function (err) {
-                console.warn('Error applying custom css', err);
-            });
-
-        const handleStyleChange = async () => {
-            let style = document.querySelector('#cssBranding');
-            if (!style) {
-                // Inject the branding css as a dom element in body so it will take
-                // precedence over other stylesheets
-                style = document.createElement('style');
-                style.id = 'cssBranding';
-                document.body.appendChild(style);
-            }
-
-            const css = [];
-            // Only add branding CSS when enabled
-            if (!currentSettings.disableCustomCss()) css.push(await brandingCss);
-            // Always add user CSS
-            css.push(currentSettings.customCss());
-
-            style.textContent = css.join('\n');
-        };
-
-        Events.on(ServerConnections, 'localusersignedin', handleStyleChange);
-        Events.on(ServerConnections, 'localusersignedout', handleStyleChange);
-        Events.on(currentSettings, 'change', async (e, prop) => {
-            if (prop == 'disableCustomCss' || prop == 'customCss') {
-                await handleStyleChange();
-            }
-        });
-
-        return handleStyleChange();
-    }
-}
-
 function registerServiceWorker() {
-    /* eslint-disable compat/compat */
     if (navigator.serviceWorker && window.appMode !== 'cordova' && window.appMode !== 'android') {
         navigator.serviceWorker.register('serviceworker.js').then(() =>
             console.log('serviceWorker registered')
@@ -256,14 +195,10 @@ function registerServiceWorker() {
     } else {
         console.warn('serviceWorker unsupported');
     }
-    /* eslint-enable compat/compat */
 }
 
 async function renderApp() {
     const container = document.getElementById('reactRoot');
-
-    if (container === null) throw new Error('Container not available');
-
     // Remove the splash logo
     container.innerHTML = '';
 
@@ -271,10 +206,8 @@ async function renderApp() {
 
     const root = createRoot(container);
     root.render(
-        <RootApp/>
+        <RootApp />
     );
 }
 
-init()
-    .then(()=>console.log('Initialized'))
-    .catch((error)=>console.error('Error:', error));
+init();

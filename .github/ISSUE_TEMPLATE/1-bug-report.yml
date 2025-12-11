@@ -1,0 +1,122 @@
+name: Bug Report
+description: You have noticed a general issue or regression, and would like to report it
+labels:
+  - bug
+body:
+  - type: checkboxes
+    id: before-posting
+    attributes:
+      label: "This issue respects the following points:"
+      description: All conditions are **required**.
+      options:
+        - label: This issue is **not** already reported on [GitHub](https://github.com/jellyfin/jellyfin-web/issues?q=is%3Aissue) _(I've searched it)_.
+          required: true
+        - label: I agree to follow Jellyfin's [Code of Conduct](https://jellyfin.org/docs/general/community-standards.html#code-of-conduct).
+          required: true
+        - label: This report addresses only a single issue; If you encounter multiple issues, kindly create separate reports for each one.
+          required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug information  
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: |
+        A clear and concise description of the bug.
+        You can also attach screenshots or screen recordings here to help explain your issue.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction Steps
+      description: |
+        Steps to reproduce the behavior:
+      placeholder: |
+        1. Go to …
+        2. Click on …
+        3. Scroll down to …
+        4. See error / the app crashes
+    validations:
+      required: true
+  - type: textarea
+    id: behaviour
+    attributes:
+      label: Expected/Actual behaviour
+      description: |
+        Describe the behavior you were expecting versus what actually occurred.
+      placeholder: |
+        I expected the app to... However, the actual behavior was that...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Please paste any log errors.
+      placeholder: Paste logs…
+  - type: markdown
+    attributes:
+      value: |
+        ## Environment
+  - type: markdown
+    attributes:
+      value: |
+        ### Server
+        You will find these values in your Admin Dashboard
+  - type: input
+    id: server-version
+    attributes:
+      label: Server version
+      placeholder: 10.10.2
+    validations:
+      required: true
+  - type: input
+    id: web-version
+    attributes:
+      label: Web version
+      placeholder: 10.10.2
+    validations:
+      required: true
+  - type: input
+    id: build-version
+    attributes:
+      label: Build version
+      placeholder: 10.10.2
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ### Client
+        Information about the device you are seeing the issue on
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      description: Specify the operating system or device where the issue occurs. If relevant, include details like version or model.
+      placeholder: e.g. Linux, Windows, iPhone, Tizen
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      description: Indicate which browser you're using when encountering the issue. If possible, mention the browser version as well.
+      placeholder: e.g. Firefox, Chrome, Safari
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Additional
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: Include any relevant details, resources, or screenshots that might help in understanding or implementing the request.
+      placeholder: Add any additional context here.
+    validations:
+      required: false

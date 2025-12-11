@@ -16,3 +16,8 @@ config.json
 # vim
 *.sw?
 
+# direnv
+.direnv/
+
+# environment related
+.envrc

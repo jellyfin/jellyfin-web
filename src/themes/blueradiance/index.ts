@@ -1,16 +1,15 @@
-import createTheme, { type ThemeOptions } from '@mui/material/styles/createTheme';
-import merge from 'lodash-es/merge';
+import { buildCustomColorScheme } from 'themes/utils';
 
-import { DEFAULT_THEME_OPTIONS } from 'themes/defaults';
-
-const options: ThemeOptions = {
+/** The "Blue Radiance" color scheme. */
+const theme = buildCustomColorScheme({
     palette: {
         background: {
             paper: '#011432'
+        },
+        AppBar: {
+            defaultBg: '#011432'
         }
     }
-};
-
-const theme = createTheme(merge({}, DEFAULT_THEME_OPTIONS, options));
+});
 
 export default theme;

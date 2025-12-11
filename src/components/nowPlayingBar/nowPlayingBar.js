@@ -1,23 +1,25 @@
+import { getImageUrl } from 'apps/stable/features/playback/utils/image';
+import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { appRouter, isLyricsPage } from 'components/router/appRouter';
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
-import nowPlayingHelper from '../playback/nowplayinghelper';
 import { appHost } from '../apphost';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import globalize from 'lib/globalize';
 import itemContextMenu from '../itemContextMenu';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
-import ServerConnections from '../ServerConnections';
 import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
 import '../../elements/emby-slider/emby-slider';
-import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 
 let currentPlayer;
 let currentPlayerSupportedCommands = [];
@@ -243,7 +245,7 @@ function bindEvents(elem) {
 
     toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
 
-    volumeSliderContainer.classList.toggle('hide', appHost.supports('physicalvolumecontrol'));
+    volumeSliderContainer.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
 
     volumeSlider.addEventListener('input', (e) => {
         if (currentPlayer) {
@@ -440,7 +442,7 @@ function updatePlayerVolumeState(isMuted, volumeLevel) {
         showVolumeSlider = false;
     }
 
-    if (currentPlayer.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
+    if (currentPlayer.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
         showMuteButton = false;
         showVolumeSlider = false;
     }
@@ -474,24 +476,21 @@ function setLyricButtonActiveStatus() {
 function updateNowPlayingInfo(state) {
     const nowPlayingItem = state.NowPlayingItem;
 
-    const textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
+    const textLines = nowPlayingItem ? getItemTextLines(nowPlayingItem) : undefined;
     nowPlayingTextElement.innerHTML = '';
     if (textLines) {
         const itemText = document.createElement('div');
         const secondaryText = document.createElement('div');
         secondaryText.classList.add('nowPlayingBarSecondaryText');
-        if (textLines.length > 1) {
-            textLines[1].secondary = true;
-            if (textLines[1].text) {
-                const text = document.createElement('a');
-                text.innerText = textLines[1].text;
-                secondaryText.appendChild(text);
-            }
+        if (textLines.length > 1 && textLines[1]) {
+            const text = document.createElement('a');
+            text.innerText = textLines[1];
+            secondaryText.appendChild(text);
         }
 
-        if (textLines[0].text) {
+        if (textLines[0]) {
             const text = document.createElement('a');
-            text.innerText = textLines[0].text;
+            text.innerText = textLines[0];
             itemText.appendChild(text);
         }
         nowPlayingTextElement.appendChild(itemText);

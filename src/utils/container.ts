@@ -33,7 +33,6 @@ export function includesAny(list: string | string[] | null | undefined, search: 
 
     search = search.filter(i => i);
 
-    /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
     if (search.some(s => list!.includes(s))) {
         return !inverseMatch;
     }

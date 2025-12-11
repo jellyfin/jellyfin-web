@@ -1,3 +1,5 @@
+@use '../../styles/mixins' as *;
+
 .nowPlayingPage {
     padding: 5em 0 0 0 !important;
 }
@@ -184,11 +186,10 @@
     left: 0;
     height: 4.2em;
     right: 0;
-    padding-left: 7.3%;
-    padding-left: max(env(safe-area-inset-left), 7.3%);
-    padding-right: 7.3%;
-    padding-right: max(env(safe-area-inset-right), 7.3%);
     padding-bottom: env(safe-area-inset-bottom);
+
+    @include conditional-max(padding-left, 7.3%, env(safe-area-inset-left));
+    @include conditional-max(padding-right, 7.3%, env(safe-area-inset-right));
 }
 
 .layout-desktop .playlistSectionButton,

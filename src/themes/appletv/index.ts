@@ -1,27 +1,17 @@
-import createTheme, { type ThemeOptions } from '@mui/material/styles/createTheme';
-import merge from 'lodash-es/merge';
+import { buildCustomColorScheme } from 'themes/utils';
 
-import { DEFAULT_THEME_OPTIONS } from 'themes/defaults';
-
-const themeOptions: ThemeOptions = {
+/** The Apple TV inspired color scheme. */
+const theme = buildCustomColorScheme({
     palette: {
         mode: 'light',
         background: {
             default: '#d5e9f2',
             paper: '#fff'
-        }
-    },
-    components: {
-        MuiAppBar: {
-            styleOverrides: {
-                colorPrimary: {
-                    backgroundColor: '#bcbcbc'
-                }
-            }
+        },
+        AppBar: {
+            defaultBg: '#bcbcbc'
         }
     }
-};
-
-const theme = createTheme(merge({}, DEFAULT_THEME_OPTIONS, themeOptions));
+});
 
 export default theme;

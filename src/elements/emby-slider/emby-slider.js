@@ -1,7 +1,7 @@
 import isEqual from 'lodash-es/isEqual';
 
 import browser from '../../scripts/browser';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import layoutManager from '../../components/layoutManager';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import './emby-slider.scss';
@@ -161,6 +161,7 @@ function updateValues(isValueSet) {
     if (!!isValueSet && !supportsValueAutoSnap) {
         const value = snapValue(this, parseFloat(this.value)).toString();
 
+        // eslint-disable-next-line sonarjs/different-types-comparison
         if (this.value !== value) {
             this.value = value;
 

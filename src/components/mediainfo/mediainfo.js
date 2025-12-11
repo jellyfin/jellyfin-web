@@ -60,7 +60,7 @@ function getProgramInfoHtml(item, options) {
 
             miscInfo.push(text);
         } catch (e) {
-            console.error('error parsing date:', item.StartDate);
+            console.error('error parsing date:', item.StartDate, e);
         }
     }
 
@@ -140,7 +140,7 @@ export function getMediaInfoHtml(item, options = {}) {
             text = datetime.toLocaleDateString(date);
             miscInfo.push(text);
         } catch (e) {
-            console.error('error parsing date:', item.PremiereDate);
+            console.error('error parsing date:', item.PremiereDate, e);
         }
     }
 
@@ -170,7 +170,7 @@ export function getMediaInfoHtml(item, options = {}) {
                 miscInfo.push(text);
             }
         } catch (e) {
-            console.error('error parsing date:', item.StartDate);
+            console.error('error parsing date:', item.StartDate, e);
         }
     }
 
@@ -188,7 +188,7 @@ export function getMediaInfoHtml(item, options = {}) {
                         text += ` - ${endYear}`;
                     }
                 } catch (e) {
-                    console.error('error parsing date:', item.EndDate);
+                    console.error('error parsing date:', item.EndDate, e);
                 }
             }
 
@@ -238,7 +238,7 @@ export function getMediaInfoHtml(item, options = {}) {
                 text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
                 miscInfo.push(text);
             } catch (e) {
-                console.error('error parsing date:', program.PremiereDate);
+                console.error('error parsing date:', program.PremiereDate, e);
             }
         } else if (program.ProductionYear && options.year !== false ) {
             miscInfo.push(program.ProductionYear);
@@ -255,7 +255,7 @@ export function getMediaInfoHtml(item, options = {}) {
                 text = datetime.toLocaleString(datetime.parseISO8601Date(item.PremiereDate).getFullYear(), { useGrouping: false });
                 miscInfo.push(text);
             } catch (e) {
-                console.error('error parsing date:', item.PremiereDate);
+                console.error('error parsing date:', item.PremiereDate, e);
             }
         }
     }
@@ -321,11 +321,8 @@ export function getMediaInfoHtml(item, options = {}) {
 
 export function getEndsAt(item) {
     if (item.MediaType === 'Video' && item.RunTimeTicks && !item.StartDate) {
-        let endDate = new Date().getTime() + (item.RunTimeTicks / 10000);
-        endDate = new Date(endDate);
-
-        const displayTime = datetime.getDisplayTime(endDate);
-        return globalize.translate('EndsAtValue', displayTime);
+        const positionTicks = item.UserData?.PlaybackPositionTicks;
+        return getEndsAtFromPosition(item.RunTimeTicks, positionTicks, 1, true);
     }
 
     return null;

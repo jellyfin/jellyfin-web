@@ -6,7 +6,7 @@ import RemotePlayButton from 'apps/experimental/components/AppToolbar/RemotePlay
 import SyncPlayButton from 'apps/experimental/components/AppToolbar/SyncPlayButton';
 import AppToolbar from 'components/toolbar/AppToolbar';
 import ViewManagerPage from 'components/viewManager/ViewManagerPage';
-import { EventType } from 'types/eventType';
+import { EventType } from 'constants/eventType';
 import Events, { type Event } from 'utils/events';
 
 /**
@@ -46,6 +46,7 @@ const VideoPage: FC = () => {
                     <AppToolbar
                         isDrawerAvailable={false}
                         isDrawerOpen={false}
+                        isBackButtonAvailable
                         isUserMenuAvailable={false}
                         buttons={
                             <>

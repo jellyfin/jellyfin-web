@@ -1,23 +1,53 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import type { ConnectResponse } from 'jellyfin-apiclient';
+import type { ApiClient, ConnectResponse } from 'jellyfin-apiclient';
 
-import alert from './alert';
+import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
+
+import ConnectionErrorPage from './ConnectionErrorPage';
 import Loading from './loading/LoadingComponent';
-import ServerConnections from './ServerConnections';
-import globalize from '../lib/globalize';
-import { ConnectionState } from '../utils/jellyfin-apiclient/ConnectionState';
+
+enum AccessLevel {
+    /** Requires a user with administrator access */
+    Admin = 'admin',
+    /** No access restrictions */
+    Public = 'public',
+    /** Requires a valid user session */
+    User = 'user',
+    /** Requires the startup wizard to NOT be completed */
+    Wizard = 'wizard'
+};
+
+type AccessLevelValue = `${AccessLevel}`;
 
 enum BounceRoutes {
-    Home = '/home.html',
-    Login = '/login.html',
-    SelectServer = '/selectserver.html',
-    StartWizard = '/wizardstart.html'
+    Home = '/home',
+    Login = '/login',
+    SelectServer = '/selectserver',
+    StartWizard = '/wizard/start'
 }
 
 type ConnectionRequiredProps = {
-    isAdminRequired?: boolean,
-    isUserRequired?: boolean
+    level?: AccessLevelValue
+};
+
+const ERROR_STATES = [
+    ConnectionState.ServerMismatch,
+    ConnectionState.ServerUpdateNeeded,
+    ConnectionState.Unavailable
+];
+
+const fetchPublicSystemInfo = async (apiClient: ApiClient) => {
+    const infoResponse = await fetch(
+        `${apiClient.serverAddress()}/System/Info/Public`,
+        { cache: 'no-cache' }
+    );
+
+    if (!infoResponse.ok) {
+        throw new Error('Public system info request failed');
+    }
+
+    return infoResponse.json();
 };
 
 /**
@@ -26,13 +56,20 @@ type ConnectionRequiredProps = {
  * If a condition fails, this component will navigate to the appropriate page.
  */
 const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
-    isAdminRequired = false,
-    isUserRequired = true
+    level = 'user'
 }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [ errorState, setErrorState ] = useState<ConnectionState>();
     const [ isLoading, setIsLoading ] = useState(true);
+
+    const navigateIfNotThere = useCallback((route: BounceRoutes) => {
+        // If we try to navigate to the current route, just set isLoading = false
+        if (location.pathname === route) setIsLoading(false);
+        // Otherwise navigate to the route
+        else navigate(route);
+    }, [ location.pathname, navigate ]);
 
     const bounce = useCallback(async (connectionResponse: ConnectResponse) => {
         switch (connectionResponse.State) {
@@ -53,40 +90,38 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                 return;
             case ConnectionState.ServerSelection:
                 // Bounce to select server page
-                if (location.pathname === BounceRoutes.SelectServer) {
-                    setIsLoading(false);
-                } else {
-                    console.debug('[ConnectionRequired] redirecting to select server page');
-                    navigate(BounceRoutes.SelectServer);
-                }
-                return;
-            case ConnectionState.ServerUpdateNeeded:
-                // Show update needed message and bounce to select server page
-                try {
-                    await alert({
-                        text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
-                        html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
-                    });
-                } catch (ex) {
-                    console.warn('[ConnectionRequired] failed to show alert', ex);
-                }
-                console.debug('[ConnectionRequired] server update required, redirecting to select server page');
-                navigate(BounceRoutes.SelectServer);
+                console.debug('[ConnectionRequired] redirecting to select server page');
+                navigateIfNotThere(BounceRoutes.SelectServer);
                 return;
         }
 
         console.warn('[ConnectionRequired] unhandled connection state', connectionResponse.State);
-    }, [location.pathname, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ navigateIfNotThere, location.pathname, navigate ]);
+
+    const handleWizard = useCallback(async (firstConnection: ConnectResponse | null) => {
+        const apiClient = firstConnection?.ApiClient || ServerConnections.currentApiClient();
+        if (!apiClient) {
+            throw new Error('No ApiClient available');
+        }
+
+        const systemInfo = await fetchPublicSystemInfo(apiClient);
+        if (systemInfo?.StartupWizardCompleted) {
+            console.info('[ConnectionRequired] startup wizard is complete, redirecting home');
+            navigate(BounceRoutes.Home);
+            return;
+        }
+
+        // Update the current ApiClient
+        ServerConnections.setLocalApiClient(apiClient);
+        setIsLoading(false);
+    }, [ navigate ]);
 
     const handleIncompleteWizard = useCallback(async (firstConnection: ConnectResponse) => {
         if (firstConnection.State === ConnectionState.ServerSignIn) {
             // Verify the wizard is complete
             try {
-                const infoResponse = await fetch(`${firstConnection.ApiClient.serverAddress()}/System/Info/Public`, { cache: 'no-cache' });
-                if (!infoResponse.ok) {
-                    throw new Error('Public system info request failed');
-                }
-                const systemInfo = await infoResponse.json();
+                const systemInfo = await fetchPublicSystemInfo(firstConnection.ApiClient);
                 if (!systemInfo?.StartupWizardCompleted) {
                     // Update the current ApiClient
                     // TODO: Is there a better place to handle this?
@@ -113,7 +148,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         const client = ServerConnections.currentApiClient();
 
         // If this is a user route, ensure a user is logged in
-        if ((isAdminRequired || isUserRequired) && !client?.isLoggedIn()) {
+        if ((level === AccessLevel.Admin || level === AccessLevel.User) && !client?.isLoggedIn()) {
             try {
                 console.warn('[ConnectionRequired] unauthenticated user attempted to access user route');
                 bounce(await ServerConnections.connect())
@@ -127,7 +162,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         }
 
         // If this is an admin route, ensure the user has access
-        if (isAdminRequired) {
+        if (level === AccessLevel.Admin) {
             try {
                 const user = await client?.getCurrentUser();
                 if (!user?.Policy?.IsAdministrator) {
@@ -145,27 +180,44 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         }
 
         setIsLoading(false);
-    }, [bounce, isAdminRequired, isUserRequired]);
+    }, [bounce, level]);
 
     useEffect(() => {
         // Check connection status on initial page load
         const apiClient = ServerConnections.currentApiClient();
-        const firstConnection = ServerConnections.firstConnection;
-        console.debug('[ConnectionRequired] connection state', firstConnection?.State);
-        ServerConnections.firstConnection = null;
+        const connection = Promise.resolve(ServerConnections.firstConnection ? null : ServerConnections.connect());
+        connection.then(firstConnection => {
+            console.debug('[ConnectionRequired] connection state', firstConnection?.State);
+            ServerConnections.firstConnection = true;
 
-        if (firstConnection && firstConnection.State !== ConnectionState.SignedIn && !apiClient?.isLoggedIn()) {
-            handleIncompleteWizard(firstConnection)
-                .catch(err => {
-                    console.error('[ConnectionRequired] could not start wizard', err);
-                });
-        } else {
-            validateUserAccess()
-                .catch(err => {
-                    console.error('[ConnectionRequired] could not validate user access', err);
-                });
-        }
-    }, [handleIncompleteWizard, validateUserAccess]);
+            if (ERROR_STATES.includes(firstConnection?.State)) {
+                setErrorState(firstConnection.State);
+            } else if (level === AccessLevel.Wizard) {
+                handleWizard(firstConnection)
+                    .catch(err => {
+                        console.error('[ConnectionRequired] could not validate wizard status', err);
+                    });
+            } else if (
+                firstConnection && firstConnection.State !== ConnectionState.SignedIn && !apiClient?.isLoggedIn()
+            ) {
+                handleIncompleteWizard(firstConnection)
+                    .catch(err => {
+                        console.error('[ConnectionRequired] could not start wizard', err);
+                    });
+            } else {
+                validateUserAccess()
+                    .catch(err => {
+                        console.error('[ConnectionRequired] could not validate user access', err);
+                    });
+            }
+        }).catch(err => {
+            console.error('[ConnectionRequired] failed to connect', err);
+        });
+    }, [handleIncompleteWizard, handleWizard, level, validateUserAccess]);
+
+    if (errorState) {
+        return <ConnectionErrorPage state={errorState} />;
+    }
 
     if (isLoading) {
         return <Loading />;

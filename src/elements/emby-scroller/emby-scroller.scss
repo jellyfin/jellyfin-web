@@ -1,12 +1,12 @@
+@use '../../styles/mixins' as *;
+
 .emby-scroller-container {
     position: relative;
 }
 
 .emby-scroller {
-    padding-left: 3.3%;
-    padding-left: max(env(safe-area-inset-left), 3.3%);
-    padding-right: 3.3%;
-    padding-right: max(env(safe-area-inset-right), 3.3%);
+    @include conditional-max(padding-left, 3.3%, env(safe-area-inset-left));
+    @include conditional-max(padding-right, 3.3%, env(safe-area-inset-right));
 }
 
 .servers > .card > .cardBox {

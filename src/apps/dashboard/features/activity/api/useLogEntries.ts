@@ -7,15 +7,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
 
 const fetchLogEntries = async (
-    api?: Api,
+    api: Api,
     requestParams?: ActivityLogApiGetLogEntriesRequest,
     options?: AxiosRequestConfig
 ) => {
-    if (!api) {
-        console.warn('[fetchLogEntries] No API instance available');
-        return;
-    }
-
     const response = await getActivityLogApi(api).getLogEntries(requestParams, {
         signal: options?.signal
     });
@@ -23,14 +18,15 @@ const fetchLogEntries = async (
     return response.data;
 };
 
-export const useLogEntires = (
+export const useLogEntries = (
     requestParams: ActivityLogApiGetLogEntriesRequest
 ) => {
     const { api } = useApi();
     return useQuery({
-        queryKey: ['LogEntries', requestParams],
+        queryKey: ['ActivityLogEntries', requestParams],
         queryFn: ({ signal }) =>
-            fetchLogEntries(api, requestParams, { signal }),
-        enabled: !!api
+            fetchLogEntries(api!, requestParams, { signal }),
+        enabled: !!api,
+        refetchOnMount: false
     });
 };

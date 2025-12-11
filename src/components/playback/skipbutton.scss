@@ -1,26 +1,29 @@
+.skip-button-container {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 8rem;
+    pointer-events: none;
+    z-index: 10000;
+}
+
 .skip-button {
     display: flex;
     align-items: center;
-    position: fixed;
-    bottom: 18%;
-    right: 16%;
+    margin-left: auto;
+    margin-right: 6rem;
     z-index: 10000;
     padding: 12px 20px;
-    color: black;
+    background-color: #303030;
+    color: rgba(255, 255, 255, 0.87);
     border: none;
-    border-radius: 100px;
+    border-radius: 0.2em;
     font-weight: bold;
     font-size: 1.2em;
     transition: opacity 200ms ease-out;
     gap: 3px;
-    box-shadow: 7px 6px 15px -14px rgba(0, 0, 0, 0.65);
     cursor: pointer;
-}
-
-@media (orientation: landscape) and (max-height: 500px) {
-    .skip-button {
-        bottom: 27%;
-    }
+    pointer-events: auto;
 }
 
 .no-transition {

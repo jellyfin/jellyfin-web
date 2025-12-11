@@ -152,8 +152,8 @@ export class UserSettings {
     }
 
     /**
-     * Get or set 'Perfer fMP4-HLS Container' state.
-     * @param {boolean|undefined} val - Flag to enable 'Perfer fMP4-HLS Container' or undefined.
+     * Get or set 'Prefer fMP4-HLS Container' state.
+     * @param {boolean|undefined} val - Flag to enable 'Prefer fMP4-HLS Container' or undefined.
      * @return {boolean} 'Prefer fMP4-HLS Container' state.
      */
     preferFmp4HlsContainer(val) {
@@ -163,6 +163,19 @@ export class UserSettings {
 
         // Enable it by default only for the platforms that play fMP4 for sure.
         return toBoolean(this.get('preferFmp4HlsContainer', false), browser.safari || browser.firefox || browser.chrome || browser.edgeChromium);
+    }
+
+    /**
+     * Get or set 'Limit Segment Length' state.
+     * @param {boolean|undefined} val - Flag to enable 'Limit Segment Length' or undefined.
+     * @returns {boolean} 'Limit Segment Length' state.
+     */
+    limitSegmentLength(val) {
+        if (val !== undefined) {
+            return this.set('limitSegmentLength', val.toString(), false);
+        }
+
+        return toBoolean(this.get('limitSegmentLength', false), false);
     }
 
     /**
@@ -452,6 +465,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set the interval between slides when using the slideshow.
+     * @param {number|undefined} [val] - The interval between slides in seconds.
+     * @return {number} The interval between slides in seconds.
+     */
+    slideshowInterval(val) {
+        if (val !== undefined) {
+            return this.set('slideshowInterval', val.toString(), false);
+        }
+
+        return parseInt(this.get('slideshowInterval', false), 10) || 5;
+    }
+
+    /**
      * Get or set the amount of time it takes to activate the screensaver in seconds. Default 3 minutes.
      * @param {number|undefined} [val] - The amount of time it takes to activate the screensaver in seconds.
      * @return {number} The amount of time it takes to activate the screensaver in seconds.
@@ -587,7 +613,7 @@ export class UserSettings {
 
     /**
      * Get subtitle appearance settings.
-     * @param {string|undefined} key - Settings key.
+     * @param {string|undefined} [key] - Settings key.
      * @return {Object} Subtitle appearance settings.
      */
     getSubtitleAppearanceSettings(key) {
@@ -671,6 +697,7 @@ export const get = currentSettings.get.bind(currentSettings);
 export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
 export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(currentSettings);
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
+export const limitSegmentLength = currentSettings.limitSegmentLength.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
@@ -691,6 +718,7 @@ export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);
 export const screensaver = currentSettings.screensaver.bind(currentSettings);
 export const backdropScreensaverInterval = currentSettings.backdropScreensaverInterval.bind(currentSettings);
+export const slideshowInterval = currentSettings.slideshowInterval.bind(currentSettings);
 export const screensaverTime = currentSettings.screensaverTime.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);

@@ -1,8 +1,13 @@
 import escapeHtml from 'escape-html';
-import debounce from 'lodash-es/debounce';
+
+import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
+import { AppFeature } from 'constants/appFeature';
+import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
+import { EventType } from 'constants/eventType';
+
 import { playbackManager } from '../../../components/playback/playbackmanager';
 import browser from '../../../scripts/browser';
-import dom from '../../../scripts/dom';
+import dom from '../../../utils/dom';
 import inputManager from '../../../scripts/inputManager';
 import mouseManager from '../../../scripts/mouseManager';
 import datetime from '../../../scripts/datetime';
@@ -20,17 +25,14 @@ import '../../../elements/emby-slider/emby-slider';
 import '../../../elements/emby-button/paper-icon-button-light';
 import '../../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../../styles/videoosd.scss';
-import ServerConnections from '../../../components/ServerConnections';
 import shell from '../../../scripts/shell';
 import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
 import { appRouter } from '../../../components/router/appRouter';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
-import { EventType } from 'types/eventType';
-import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
-import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
@@ -304,11 +306,15 @@ export default function (view) {
     }
 
     function slideDownToShow(elem) {
+        clearHideAnimationEventListeners(elem);
+        elem.classList.remove('hide');
         elem.classList.remove('osdHeader-hidden');
     }
 
     function slideUpToHide(elem) {
+        clearHideAnimationEventListeners(elem);
         elem.classList.add('osdHeader-hidden');
+        elem.addEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
     function clearHideAnimationEventListeners(elem) {
@@ -317,12 +323,21 @@ export default function (view) {
 
     function onHideAnimationComplete(e) {
         const elem = e.target;
-        if (elem != osdBottomElement) return;
+        if (elem !== osdBottomElement && elem !== headerElement) return;
         elem.classList.add('hide');
         elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
-    const _focus = debounce((focusElement) => focusManager.focus(focusElement), 50);
+    const _focus = function (focusElement) {
+        // If no focus element is provided, try to keep current focus if it's valid,
+        // otherwise default to pause button
+        const currentFocus = focusElement || document.activeElement;
+        if (!currentFocus || !focusManager.isCurrentlyFocusable(currentFocus)) {
+            focusElement = osdBottomElement.querySelector('.btnPause');
+        }
+
+        if (focusElement) focusManager.focus(focusElement);
+    };
 
     function showMainOsdControls(focusElement) {
         if (!currentVisibleMenu) {
@@ -332,13 +347,11 @@ export default function (view) {
             elem.classList.remove('hide');
             elem.classList.remove('videoOsdBottom-hidden');
 
-            focusElement ||= elem.querySelector('.btnPause');
-
             if (!layoutManager.mobile) {
                 _focus(focusElement);
             }
             toggleSubtitleSync();
-        } else if (currentVisibleMenu === 'osd' && focusElement && !layoutManager.mobile) {
+        } else if (currentVisibleMenu === 'osd' && !layoutManager.mobile) {
             _focus(focusElement);
         }
     }
@@ -354,7 +367,8 @@ export default function (view) {
             toggleSubtitleSync('hide');
 
             // Firefox does not blur by itself
-            if (document.activeElement) {
+            if (osdBottomElement.contains(document.activeElement)
+                || headerElement.contains(document.activeElement)) {
                 document.activeElement.blur();
             }
         }
@@ -699,7 +713,7 @@ export default function (view) {
                         }, state);
                     }
                 } catch (e) {
-                    console.error('error parsing date: ' + program.EndDate);
+                    console.error('error parsing date: ' + program.EndDate, e);
                 }
             }
         }
@@ -861,7 +875,7 @@ export default function (view) {
             showVolumeSlider = false;
         }
 
-        if (player.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
+        if (player.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
             showMuteButton = false;
             showVolumeSlider = false;
         }
@@ -1232,13 +1246,17 @@ export default function (view) {
                 case 'ArrowLeft':
                 case 'ArrowRight':
                     if (!e.shiftKey) {
+                        e.preventDefault();
                         showOsd(nowPlayingPositionSlider);
                         nowPlayingPositionSlider.dispatchEvent(new KeyboardEvent(e.type, e));
                     }
                     return;
                 case 'Enter':
-                    playbackManager.playPause(currentPlayer);
-                    showOsd(btnPlayPause);
+                    if (e.target.tagName !== 'BUTTON') {
+                        e.preventDefault();
+                        playbackManager.playPause(currentPlayer);
+                        showOsd(btnPlayPause);
+                    }
                     return;
             }
         }
@@ -1334,7 +1352,7 @@ export default function (view) {
             case 'GamepadDPadLeft':
             case 'GamepadLeftThumbstickLeft':
                 // Ignores gamepad events that are always triggered, even when not focused.
-                if (document.hasFocus()) { /* eslint-disable-line compat/compat */
+                if (document.hasFocus()) {
                     playbackManager.rewind(currentPlayer);
                     showOsd(btnRewind);
                 }
@@ -1343,7 +1361,7 @@ export default function (view) {
             case 'GamepadDPadRight':
             case 'GamepadLeftThumbstickRight':
                 // Ignores gamepad events that are always triggered, even when not focused.
-                if (document.hasFocus()) { /* eslint-disable-line compat/compat */
+                if (document.hasFocus()) {
                     playbackManager.fastForward(currentPlayer);
                     showOsd(btnFastForward);
                 }
@@ -1505,7 +1523,7 @@ export default function (view) {
         const offsetY = -(tileOffsetY * trickplayInfo.Height);
 
         const imgSrc = apiClient.getUrl('Videos/' + item.Id + '/Trickplay/' + trickplayInfo.Width + '/' + index + '.jpg', {
-            api_key: apiClient.accessToken(),
+            ApiKey: apiClient.accessToken(),
             MediaSourceId: mediaSourceId
         });
 
@@ -1694,7 +1712,7 @@ export default function (view) {
             if (browser.firefox || browser.edge) {
                 dom.addEventListener(document, 'click', onClickCapture, { capture: true });
             }
-        } catch (e) {
+        } catch {
             setBackdropTransparency(TRANSPARENCY_LEVEL.None); // reset state set in viewbeforeshow
             appRouter.goHome();
         }

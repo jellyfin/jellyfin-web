@@ -1,8 +1,8 @@
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 
 import { getImageUrl } from 'apps/stable/features/playback/utils/image';
+import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { PlaybackSubscriber } from 'apps/stable/features/playback/utils/playbackSubscriber';
-import { getNowPlayingNames } from 'components/playback/nowplayinghelper';
 import type { PlaybackManager } from 'components/playback/playbackmanager';
 import { MILLISECONDS_PER_SECOND, TICKS_PER_MILLISECOND } from 'constants/time';
 import browser from 'scripts/browser';
@@ -51,19 +51,20 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
     }
 
     private bindNavigatorSession() {
-        /* eslint-disable compat/compat */
-        navigator.mediaSession.setActionHandler('pause', this.onMediaSessionAction.bind(this));
-        navigator.mediaSession.setActionHandler('play', this.onMediaSessionAction.bind(this));
-        navigator.mediaSession.setActionHandler('stop', this.onMediaSessionAction.bind(this));
-        navigator.mediaSession.setActionHandler('previoustrack', this.onMediaSessionAction.bind(this));
-        navigator.mediaSession.setActionHandler('nexttrack', this.onMediaSessionAction.bind(this));
-        navigator.mediaSession.setActionHandler('seekto', this.onMediaSessionAction.bind(this));
+        const actions: MediaSessionAction[] = ['pause', 'play', 'previoustrack', 'nexttrack', 'stop', 'seekto'];
+
         // iOS will only show next/prev track controls or seek controls
-        if (!browser.iOS) {
-            navigator.mediaSession.setActionHandler('seekbackward', this.onMediaSessionAction.bind(this));
-            navigator.mediaSession.setActionHandler('seekforward', this.onMediaSessionAction.bind(this));
+        if (!browser.iOS) actions.push('seekbackward', 'seekforward');
+
+        for (const action of actions) {
+            try {
+                /* eslint-disable-next-line compat/compat */
+                navigator.mediaSession.setActionHandler(action, this.onMediaSessionAction.bind(this));
+            } catch (err) {
+                // NOTE: Some legacy (TV) browsers lack support for the stop and seekto actions
+                console.warn(`[MediaSessionSubscriber] Failed to add "${action}" action handler`, err);
+            }
         }
-        /* eslint-enable compat/compat */
     }
 
     private onMediaSessionAction(details: MediaSessionActionDetails) {
@@ -110,11 +111,11 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
         }
 
         const album = item.Album || undefined;
-        const [ line1, line2 ] = getNowPlayingNames(item, false) || [];
+        const [ line1, line2 ] = getItemTextLines(item, false) || [];
         // The artist will be the second line if present or the first line otherwise
-        const artist = (line2 || line1)?.text;
+        const artist = line2 || line1;
         // The title will be the first line if there are two lines
-        const title = (line2 && line1)?.text;
+        const title = line2 && line1;
 
         if (hasNavigatorSession) {
             if (

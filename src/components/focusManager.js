@@ -1,4 +1,4 @@
-import dom from '../scripts/dom';
+import dom from '../utils/dom';
 import scrollManager from './scrollManager';
 
 const scopes = [];
@@ -93,21 +93,23 @@ function isCurrentlyFocusableInternal(elem) {
 
 // Determines if a focusable element can be focused at a given point in time
 function isCurrentlyFocusable(elem) {
-    if (elem.disabled) {
-        return false;
-    }
-
-    if (elem.getAttribute('tabindex') === '-1') {
-        return false;
-    }
-
-    if (elem.tagName === 'INPUT') {
-        const type = elem.type;
-        if (type === 'range') {
+    if (!elem.classList?.contains('focusable')) {
+        if (elem.disabled) {
             return false;
         }
-        if (type === 'file') {
+
+        if (elem.getAttribute('tabindex') === '-1') {
             return false;
+        }
+
+        if (elem.tagName === 'INPUT') {
+            const type = elem.type;
+            if (type === 'range') {
+                return false;
+            }
+            if (type === 'file') {
+                return false;
+            }
         }
     }
 
@@ -237,7 +239,7 @@ function nav(activeElement, direction, container, focusableElements) {
 
     container = container || (activeElement ? getFocusContainer(activeElement, direction) : getDefaultScope());
 
-    if (!activeElement) {
+    if (!activeElement || activeElement == document.body) {
         autoFocus(container, true, false);
         return;
     }
@@ -387,6 +389,7 @@ function intersectsInternal(a1, a2, b1, b2) {
 }
 
 function intersects(a1, a2, b1, b2) {
+    // eslint-disable-next-line sonarjs/arguments-order
     return intersectsInternal(a1, a2, b1, b2) || intersectsInternal(b1, b2, a1, a2);
 }
 

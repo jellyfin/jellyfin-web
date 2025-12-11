@@ -5,6 +5,8 @@ import globalize from '../../../lib/globalize';
 import { clearBackdrop } from '../../../components/backdrop/backdrop';
 import layoutManager from '../../../components/layoutManager';
 import Page from '../../../components/Page';
+import { EventType } from 'constants/eventType';
+import Events from 'utils/events';
 
 import '../../../elements/emby-tabs/emby-tabs';
 import '../../../elements/emby-button/emby-button';
@@ -32,6 +34,8 @@ const Home = () => {
     const mainTabsManager = useMemo(() => import('../../../components/maintabsmanager'), []);
     const tabController = useRef<ControllerProps | null>();
     const tabControllers = useMemo<ControllerProps[]>(() => [], []);
+
+    const documentRef = useRef<Document>(document);
     const element = useRef<HTMLDivElement>(null);
 
     const setTitle = async () => {
@@ -122,7 +126,7 @@ const Home = () => {
         } else if (currentTabController?.onResume) {
             currentTabController.onResume({});
         }
-        (document.querySelector('.skinHeader') as HTMLDivElement).classList.add('noHomeButtonHeader');
+        (documentRef.current.querySelector('.skinHeader') as HTMLDivElement).classList.add('noHomeButtonHeader');
     }, [ initialTabIndex, mainTabsManager ]);
 
     const onPause = useCallback(() => {
@@ -130,17 +134,32 @@ const Home = () => {
         if (currentTabController?.onPause) {
             currentTabController.onPause();
         }
-        (document.querySelector('.skinHeader') as HTMLDivElement).classList.remove('noHomeButtonHeader');
+        (documentRef.current.querySelector('.skinHeader') as HTMLDivElement).classList.remove('noHomeButtonHeader');
     }, []);
 
-    useEffect(() => {
+    const renderHome = useCallback(() => {
         void onSetTabs();
-
         void onResume();
+    }, [ onResume, onSetTabs ]);
+
+    useEffect(() => {
+        if (documentRef.current?.querySelector('.headerTabs')) {
+            renderHome();
+        }
+
         return () => {
             onPause();
         };
-    }, [ onPause, onResume, onSetTabs ]);
+    }, [onPause, renderHome]);
+
+    useEffect(() => {
+        const doc = documentRef.current;
+        if (doc) Events.on(doc, EventType.HEADER_RENDERED, renderHome);
+
+        return () => {
+            if (doc) Events.off(doc, EventType.HEADER_RENDERED, renderHome);
+        };
+    }, [ renderHome ]);
 
     return (
         <div ref={element}>

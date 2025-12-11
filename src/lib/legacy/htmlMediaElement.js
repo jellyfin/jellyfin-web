@@ -11,6 +11,7 @@
     const realPlay = HTMLMediaElementPrototype.play;
 
     HTMLMediaElementPrototype.play = function () {
+        // eslint-disable-next-line sonarjs/no-try-promise
         try {
             const promise = realPlay.apply(this, arguments);
 

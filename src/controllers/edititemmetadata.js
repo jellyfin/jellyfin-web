@@ -1,5 +1,5 @@
-import loading from '../components/loading/loading';
-import '../scripts/editorsidebar';
+import loading from 'components/loading/loading';
+import { getCurrentItemId, setCurrentItemId } from 'scripts/editorsidebar';
 
 function reload(context, itemId) {
     loading.show();
@@ -16,14 +16,16 @@ function reload(context, itemId) {
 
 export default function (view) {
     view.addEventListener('viewshow', function () {
-        reload(this, MetadataEditor.getCurrentItemId());
+        reload(this, getCurrentItemId());
     });
-    MetadataEditor.setCurrentItemId(null);
+
+    setCurrentItemId(null);
+
     view.querySelector('.libraryTree').addEventListener('itemclicked', function (event) {
         const data = event.detail;
 
-        if (data.id != MetadataEditor.getCurrentItemId()) {
-            MetadataEditor.setCurrentItemId(data.id);
+        if (data.id != getCurrentItemId()) {
+            setCurrentItemId(data.id);
             reload(view, data.id);
         }
     });

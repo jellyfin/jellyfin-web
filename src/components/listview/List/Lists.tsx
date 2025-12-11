@@ -1,5 +1,5 @@
 import React, { type FC } from 'react';
-import { groupBy } from 'lodash-es';
+import groupBy from 'lodash-es/groupBy';
 import Box from '@mui/material/Box';
 import { getIndex } from './listHelper';
 import ListGroupHeaderWrapper from './ListGroupHeaderWrapper';
@@ -25,7 +25,6 @@ const Lists: FC<ListsProps> = ({ items = [], listOptions = {} }) => {
     const renderListItem = (item: ItemDto, index: number) => {
         return (
             <List
-                // eslint-disable-next-line react/no-array-index-key
                 key={`${item.Id}-${index}`}
                 index={index}
                 item={item}

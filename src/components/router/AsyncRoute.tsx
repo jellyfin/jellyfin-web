@@ -1,10 +1,6 @@
 import type { RouteObject } from 'react-router-dom';
 
-export enum AsyncRouteType {
-    Stable,
-    Experimental,
-    Dashboard
-}
+import { AppType } from 'constants/appType';
 
 export interface AsyncRoute {
     /** The URL path for this route. */
@@ -14,17 +10,17 @@ export interface AsyncRoute {
      * Will fallback to using the `path` value if not specified.
      */
     page?: string
-    /** The page type used to load the correct page element. */
-    type?: AsyncRouteType
+    /** The app that this page is part of. */
+    type?: AppType
 }
 
-const importRoute = (page: string, type: AsyncRouteType) => {
+const importRoute = (page: string, type: AppType) => {
     switch (type) {
-        case AsyncRouteType.Dashboard:
+        case AppType.Dashboard:
             return import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${page}`);
-        case AsyncRouteType.Experimental:
+        case AppType.Experimental:
             return import(/* webpackChunkName: "[request]" */ `../../apps/experimental/routes/${page}`);
-        case AsyncRouteType.Stable:
+        case AppType.Stable:
             return import(/* webpackChunkName: "[request]" */ `../../apps/stable/routes/${page}`);
     }
 };
@@ -32,7 +28,7 @@ const importRoute = (page: string, type: AsyncRouteType) => {
 export const toAsyncPageRoute = ({
     path,
     page,
-    type = AsyncRouteType.Stable
+    type = AppType.Stable
 }: AsyncRoute): RouteObject => {
     return {
         path,

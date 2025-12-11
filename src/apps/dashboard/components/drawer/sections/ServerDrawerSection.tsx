@@ -1,5 +1,11 @@
-import { Dashboard, ExpandLess, ExpandMore, LibraryAdd, People, PlayCircle, Settings } from '@mui/icons-material';
+import Dashboard from '@mui/icons-material/Dashboard';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import LibraryAdd from '@mui/icons-material/LibraryAdd';
 import Palette from '@mui/icons-material/Palette';
+import People from '@mui/icons-material/People';
+import PlayCircle from '@mui/icons-material/PlayCircle';
+import Settings from '@mui/icons-material/Settings';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -7,7 +13,7 @@ import ListItemButton from '@mui/material/ListItemButton/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import React, { useCallback, useState } from 'react';
+import React, { type MouseEvent, useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import ListItemLink from 'components/ListItemLink';
@@ -33,11 +39,15 @@ const ServerDrawerSection = () => {
     const [ isLibrarySectionOpen, setIsLibrarySectionOpen ] = useState(LIBRARY_PATHS.includes(location.pathname));
     const [ isPlaybackSectionOpen, setIsPlaybackSectionOpen ] = useState(PLAYBACK_PATHS.includes(location.pathname));
 
-    const onLibrarySectionClick = useCallback(() => {
+    const onLibrarySectionClick = useCallback((e: MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
         setIsLibrarySectionOpen(isOpen => !isOpen);
     }, []);
 
-    const onPlaybackSectionClick = useCallback(() => {
+    const onPlaybackSectionClick = useCallback((e: MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
         setIsPlaybackSectionOpen(isOpen => !isOpen);
     }, []);
 

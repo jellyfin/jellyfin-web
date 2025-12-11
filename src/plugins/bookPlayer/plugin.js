@@ -1,18 +1,21 @@
-import 'material-design-icons-iconfont';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import Screenfull from 'screenfull';
+
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import browser from 'scripts/browser';
+import TouchHelper from 'scripts/touchHelper';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import ServerConnections from '../../components/ServerConnections';
-import Screenfull from 'screenfull';
 import TableOfContents from './tableOfContents';
 import { translateHtml } from '../../lib/globalize';
-import browser from 'scripts/browser';
 import * as userSettings from '../../scripts/settings/userSettings';
-import TouchHelper from 'scripts/touchHelper';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
+import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
 
 import html from './template.html';
@@ -32,6 +35,7 @@ export class BookPlayer {
         this.type = PluginType.MediaPlayer;
         this.id = 'bookplayer';
         this.priority = 1;
+        this.THEMES = THEMES;
         if (!userSettings.theme() || userSettings.theme() === 'dark') {
             this.theme = 'dark';
         } else {
@@ -323,16 +327,14 @@ export class BookPlayer {
             }
         };
 
-        const serverId = item.ServerId;
-        const apiClient = ServerConnections.getApiClient(serverId);
-
         if (!Screenfull.isEnabled) {
             document.getElementById('btnBookplayerFullscreen').display = 'none';
         }
 
         return new Promise((resolve, reject) => {
             import('epubjs').then(({ default: epubjs }) => {
-                const downloadHref = apiClient.getItemDownloadUrl(item.Id);
+                const api = toApi(ServerConnections.getApiClient(item));
+                const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
                 const book = epubjs(downloadHref, { openAs: 'epub' });
 
                 // We need to calculate the height of the window beforehand because using 100% is not accurate when the dialog is opening.

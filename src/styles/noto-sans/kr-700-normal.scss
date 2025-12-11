@@ -1,7 +1,9 @@
+@use "../font";
+
 $krFamily: "Noto Sans KR";
 
 /* noto-sans-kr-[0]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-0-700-normal.woff2",
@@ -9,7 +11,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[1]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-1-700-normal.woff2",
@@ -17,7 +19,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[2]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-2-700-normal.woff2",
@@ -25,7 +27,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[3]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-3-700-normal.woff2",
@@ -33,7 +35,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[4]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-4-700-normal.woff2",
@@ -41,7 +43,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[5]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-5-700-normal.woff2",
@@ -49,7 +51,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[6]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-6-700-normal.woff2",
@@ -57,7 +59,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[7]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-7-700-normal.woff2",
@@ -65,7 +67,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[8]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-8-700-normal.woff2",
@@ -73,7 +75,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[9]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-9-700-normal.woff2",
@@ -81,7 +83,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[10]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-10-700-normal.woff2",
@@ -89,7 +91,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[11]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-11-700-normal.woff2",
@@ -97,7 +99,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[12]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-12-700-normal.woff2",
@@ -105,7 +107,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[13]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-13-700-normal.woff2",
@@ -113,7 +115,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[14]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-14-700-normal.woff2",
@@ -121,7 +123,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[15]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-15-700-normal.woff2",
@@ -129,7 +131,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[16]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-16-700-normal.woff2",
@@ -137,7 +139,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[17]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-17-700-normal.woff2",
@@ -145,7 +147,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[18]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-18-700-normal.woff2",
@@ -153,7 +155,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[19]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-19-700-normal.woff2",
@@ -161,7 +163,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[20]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-20-700-normal.woff2",
@@ -169,7 +171,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[21]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-21-700-normal.woff2",
@@ -177,7 +179,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[22]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-22-700-normal.woff2",
@@ -185,7 +187,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[23]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-23-700-normal.woff2",
@@ -193,7 +195,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[24]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-24-700-normal.woff2",
@@ -201,7 +203,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[25]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-25-700-normal.woff2",
@@ -209,7 +211,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[26]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-26-700-normal.woff2",
@@ -217,7 +219,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[27]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-27-700-normal.woff2",
@@ -225,7 +227,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[28]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-28-700-normal.woff2",
@@ -233,7 +235,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[29]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-29-700-normal.woff2",
@@ -241,7 +243,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[30]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-30-700-normal.woff2",
@@ -249,7 +251,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[31]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-31-700-normal.woff2",
@@ -257,7 +259,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[32]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-32-700-normal.woff2",
@@ -265,7 +267,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[33]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-33-700-normal.woff2",
@@ -273,7 +275,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[34]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-34-700-normal.woff2",
@@ -281,7 +283,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[35]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-35-700-normal.woff2",
@@ -289,7 +291,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[36]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-36-700-normal.woff2",
@@ -297,7 +299,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[37]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-37-700-normal.woff2",
@@ -305,7 +307,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[38]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-38-700-normal.woff2",
@@ -313,7 +315,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[39]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-39-700-normal.woff2",
@@ -321,7 +323,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[40]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-40-700-normal.woff2",
@@ -329,7 +331,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[41]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-41-700-normal.woff2",
@@ -337,7 +339,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[42]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-42-700-normal.woff2",
@@ -345,7 +347,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[43]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-43-700-normal.woff2",
@@ -353,7 +355,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[44]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-44-700-normal.woff2",
@@ -361,7 +363,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[45]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-45-700-normal.woff2",
@@ -369,7 +371,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[46]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-46-700-normal.woff2",
@@ -377,7 +379,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[47]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-47-700-normal.woff2",
@@ -385,7 +387,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[48]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-48-700-normal.woff2",
@@ -393,7 +395,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[49]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-49-700-normal.woff2",
@@ -401,7 +403,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[50]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-50-700-normal.woff2",
@@ -409,7 +411,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[51]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-51-700-normal.woff2",
@@ -417,7 +419,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[52]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-52-700-normal.woff2",
@@ -425,7 +427,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[53]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-53-700-normal.woff2",
@@ -433,7 +435,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[54]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-54-700-normal.woff2",
@@ -441,7 +443,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[55]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-55-700-normal.woff2",
@@ -449,7 +451,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[56]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-56-700-normal.woff2",
@@ -457,7 +459,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[57]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-57-700-normal.woff2",
@@ -465,7 +467,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[58]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-58-700-normal.woff2",
@@ -473,7 +475,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[59]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-59-700-normal.woff2",
@@ -481,7 +483,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[60]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-60-700-normal.woff2",
@@ -489,7 +491,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[61]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-61-700-normal.woff2",
@@ -497,7 +499,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[62]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-62-700-normal.woff2",
@@ -505,7 +507,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[63]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-63-700-normal.woff2",
@@ -513,7 +515,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[64]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-64-700-normal.woff2",
@@ -521,7 +523,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[65]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-65-700-normal.woff2",
@@ -529,7 +531,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[66]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-66-700-normal.woff2",
@@ -537,7 +539,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[67]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-67-700-normal.woff2",
@@ -545,7 +547,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[68]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-68-700-normal.woff2",
@@ -553,7 +555,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[69]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-69-700-normal.woff2",
@@ -561,7 +563,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[70]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-70-700-normal.woff2",
@@ -569,7 +571,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[71]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-71-700-normal.woff2",
@@ -577,7 +579,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[72]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-72-700-normal.woff2",
@@ -585,7 +587,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[73]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-73-700-normal.woff2",
@@ -593,7 +595,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[74]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-74-700-normal.woff2",
@@ -601,7 +603,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[75]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-75-700-normal.woff2",
@@ -609,7 +611,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[76]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-76-700-normal.woff2",
@@ -617,7 +619,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[77]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-77-700-normal.woff2",
@@ -625,7 +627,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[78]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-78-700-normal.woff2",
@@ -633,7 +635,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[79]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-79-700-normal.woff2",
@@ -641,7 +643,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[80]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-80-700-normal.woff2",
@@ -649,7 +651,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[81]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-81-700-normal.woff2",
@@ -657,7 +659,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[82]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-82-700-normal.woff2",
@@ -665,7 +667,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[83]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-83-700-normal.woff2",
@@ -673,7 +675,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[84]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-84-700-normal.woff2",
@@ -681,7 +683,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[85]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-85-700-normal.woff2",
@@ -689,7 +691,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[86]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-86-700-normal.woff2",
@@ -697,7 +699,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[87]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-87-700-normal.woff2",
@@ -705,7 +707,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[88]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-88-700-normal.woff2",
@@ -713,7 +715,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[89]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-89-700-normal.woff2",
@@ -721,7 +723,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[90]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-90-700-normal.woff2",
@@ -729,7 +731,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[91]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-91-700-normal.woff2",
@@ -737,7 +739,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[92]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-92-700-normal.woff2",
@@ -745,7 +747,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[93]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-93-700-normal.woff2",
@@ -753,7 +755,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[94]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-94-700-normal.woff2",
@@ -761,7 +763,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[95]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-95-700-normal.woff2",
@@ -769,7 +771,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[96]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-96-700-normal.woff2",
@@ -777,7 +779,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[97]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-97-700-normal.woff2",
@@ -785,7 +787,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[98]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-98-700-normal.woff2",
@@ -793,7 +795,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[99]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-99-700-normal.woff2",
@@ -801,7 +803,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[100]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-100-700-normal.woff2",
@@ -809,7 +811,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[101]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-101-700-normal.woff2",
@@ -817,7 +819,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[102]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-102-700-normal.woff2",
@@ -825,7 +827,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[103]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-103-700-normal.woff2",
@@ -833,7 +835,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[104]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-104-700-normal.woff2",
@@ -841,7 +843,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[105]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-105-700-normal.woff2",
@@ -849,7 +851,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[106]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-106-700-normal.woff2",
@@ -857,7 +859,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[107]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-107-700-normal.woff2",
@@ -865,7 +867,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[108]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-108-700-normal.woff2",
@@ -873,7 +875,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[109]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-109-700-normal.woff2",
@@ -881,7 +883,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[110]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-110-700-normal.woff2",
@@ -889,7 +891,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[111]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-111-700-normal.woff2",
@@ -897,7 +899,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[112]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-112-700-normal.woff2",
@@ -905,7 +907,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[113]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-113-700-normal.woff2",
@@ -913,7 +915,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[114]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-114-700-normal.woff2",
@@ -921,7 +923,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[115]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-115-700-normal.woff2",
@@ -929,7 +931,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[116]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-116-700-normal.woff2",
@@ -937,7 +939,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[117]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-117-700-normal.woff2",
@@ -945,7 +947,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[118]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-118-700-normal.woff2",
@@ -953,7 +955,7 @@ $krFamily: "Noto Sans KR";
 );
 
 /* noto-sans-kr-[119]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $krFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-kr/files/noto-sans-kr-119-700-normal.woff2",

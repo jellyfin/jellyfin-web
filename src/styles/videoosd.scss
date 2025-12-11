@@ -1,3 +1,5 @@
+@use 'mixins' as *;
+
 .chapterThumbTextContainer,
 .videoOsdBottom {
     user-select: none;
@@ -12,8 +14,6 @@
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
     padding-top: 7.5em;
-    padding-bottom: 1.75em;
-    padding-bottom: max(env(safe-area-inset-bottom), 1.75em);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -23,6 +23,8 @@
     user-select: none;
     -webkit-touch-callout: none;
     pointer-events: none;
+
+    @include conditional-max(padding-bottom, 1.75em, env(safe-area-inset-bottom));
 }
 
 .skinHeader-withBackground.osdHeader {
@@ -83,7 +85,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: none;
     padding: 0.25em 0.5em;
     user-select: none;
 }
@@ -92,10 +94,12 @@
     padding: 0.25em 0;
     margin: 0;
     opacity: 1;
+    color: #fff;
+    text-shadow: 0 0 25px #000, 0 0 6px #000;
 }
 
 .chapterThumbText-dim {
-    opacity: 0.6;
+    opacity: 0.9;
 }
 
 .videoOsdBottom-hidden {
@@ -170,16 +174,16 @@
 
 .osdMediaStatus {
     margin-left: auto;
+    display: flex;
+    align-items: center;
 }
 
-@keyframes spin {
-    100% {
-        transform: rotate(360deg);
-    }
+.osdMediaStatus span:first-child {
+    margin-right: 0.125rem;
 }
 
 .osdMediaStatus .animate {
-    animation: spin 4s linear infinite;
+    animation: spin-clockwise 4s linear infinite;
 }
 
 @media all and (max-width: 30em) {
@@ -236,7 +240,7 @@
 
 .primary-icon.spin {
     font-size: 76px !important;
-    animation: spin 2s linear infinite;
+    animation: spin-counterclockwise 2s linear infinite;
 }
 
 .secondary-icon {
@@ -326,8 +330,14 @@
     }
 }
 
-@keyframes spin {
+@keyframes spin-counterclockwise {
     100% {
         transform: rotate(-360deg);
+    }
+}
+
+@keyframes spin-clockwise {
+    100% {
+        transform: rotate(360deg);
     }
 }

@@ -24,19 +24,21 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
             <FormControl fullWidth>
                 <TextField
                     aria-describedby='display-settings-lib-pagesize-description'
-                    inputProps={{
-                        type: 'number',
-                        inputMode: 'numeric',
-                        max: '1000',
-                        min: '0',
-                        pattern: '[0-9]',
-                        required: true,
-                        step: '1'
-                    }}
                     value={values.libraryPageSize}
                     label={globalize.translate('LabelLibraryPageSize')}
                     name='libraryPageSize'
                     onChange={onChange}
+                    slotProps={{
+                        htmlInput: {
+                            type: 'number',
+                            inputMode: 'numeric',
+                            max: '1000',
+                            min: '0',
+                            pattern: '[0-9]',
+                            required: true,
+                            step: '1'
+                        }
+                    }}
                 />
                 <FormHelperText id='display-settings-lib-pagesize-description'>
                     {globalize.translate('LabelLibraryPageSizeHelp')}

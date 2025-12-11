@@ -2,7 +2,7 @@ import Worker from './blurhash.worker.ts'; // eslint-disable-line import/default
 import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
 import * as userSettings from '../../scripts/settings/userSettings';
 import './style.scss';
-// eslint-disable-next-line compat/compat
+
 const worker = new Worker();
 const targetDic = {};
 worker.addEventListener(

@@ -80,12 +80,12 @@ jobs:
     
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           ref: ${{ github.event.pull_request.head.sha }}
     
       - name: Setup node environment
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
           cache: npm
@@ -95,6 +95,6 @@ jobs:
         run: npm ci --no-audit
     
       - name: Run eslint
-        uses: CatChen/eslint-suggestion-action@9c12109c4943f26f0676b71c9c10e456748872cf # v4.1.7
+        uses: CatChen/eslint-suggestion-action@4ee415529307a8ca0260b4a3775484802523e5af # v4.1.19
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

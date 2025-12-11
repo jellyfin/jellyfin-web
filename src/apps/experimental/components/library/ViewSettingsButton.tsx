@@ -1,25 +1,28 @@
-import { ImageType } from '@jellyfin/sdk/lib/generated-client';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import React, { FC, useCallback } from 'react';
 
-import IconButton from '@mui/material/IconButton';
-import MenuItem from '@mui/material/MenuItem';
+import Check from '@mui/icons-material/Check';
+import MoreVert from '@mui/icons-material/MoreVert';
+import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
 import Popover from '@mui/material/Popover';
-import ViewComfyIcon from '@mui/icons-material/ViewComfy';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 
 import globalize from 'lib/globalize';
-import { LibraryViewSettings } from 'types/library';
+import { LibraryViewSettings, ViewMode } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 
-const excludedViewType = [
+const IMAGE_TYPE_EXCLUDED_VIEWS = [
     LibraryTab.Episodes,
     LibraryTab.Artists,
     LibraryTab.AlbumArtists,
@@ -71,6 +74,20 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
         [setLibraryViewSettings]
     );
 
+    const onGridViewClick = useCallback(() => {
+        setLibraryViewSettings(prevState => ({
+            ...prevState,
+            ViewMode: ViewMode.GridView
+        }));
+    }, [ setLibraryViewSettings ]);
+
+    const onListViewClick = useCallback(() => {
+        setLibraryViewSettings(prevState => ({
+            ...prevState,
+            ViewMode: ViewMode.ListView
+        }));
+    }, [ setLibraryViewSettings ]);
+
     const onSelectChange = useCallback(
         (event: SelectChangeEvent) => {
             setLibraryViewSettings((prevState) => ({
@@ -81,19 +98,18 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
         [setLibraryViewSettings]
     );
 
-    const isVisible = !excludedViewType.includes(viewType);
+    const isGridView = libraryViewSettings.ViewMode === ViewMode.GridView;
+    const isImageTypeVisible = !IMAGE_TYPE_EXCLUDED_VIEWS.includes(viewType);
 
     return (
-        <Box>
-            <IconButton
-                title={globalize.translate('ButtonSelectView')}
-                sx={{ ml: 2 }}
+        <>
+            <Button
+                title={globalize.translate('ViewSettings')}
                 aria-describedby={id}
-                className='paper-icon-button-light btnSelectView autoSize'
                 onClick={handleClick}
             >
-                <ViewComfyIcon />
-            </IconButton>
+                <MoreVert />
+            </Button>
             <Popover
                 id={id}
                 open={open}
@@ -111,70 +127,101 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
                     '& .MuiFormControl-root': { m: 1, width: 220 }
                 }}
             >
-                {isVisible && (
-                    <FormControl>
-                        <InputLabel id='select-sort-label'>
-                            <Typography component='span'>
-                                {globalize.translate('LabelImageType')}
-                            </Typography>
-                        </InputLabel>
-                        <Select
-                            value={libraryViewSettings.ImageType}
-                            label={globalize.translate('LabelImageType')}
-                            onChange={onSelectChange}
-                        >
-                            {imageTypesOptions.map((imageType) => (
-                                <MenuItem
-                                    key={imageType.value}
-                                    value={imageType.value}
-                                >
-                                    <Typography component='span'>
-                                        {globalize.translate(imageType.label)}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                )}
-                <Divider />
-                <FormControl>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={libraryViewSettings.ShowTitle}
-                                    onChange={handleChange}
-                                    name='ShowTitle'
-                                />
-                            }
-                            label={globalize.translate('ShowTitle')}
-                        />
-                        {isVisible && (
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={libraryViewSettings.ShowYear}
-                                        onChange={handleChange}
-                                        name='ShowYear'
-                                    />
-                                }
-                                label={globalize.translate('ShowYear')}
-                            />
+                <MenuList>
+
+                    <MenuItem
+                        onClick={onGridViewClick}
+                    >
+                        {isGridView && (
+                            <ListItemIcon><Check /></ListItemIcon>
                         )}
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={libraryViewSettings.CardLayout}
-                                    onChange={handleChange}
-                                    name='CardLayout'
-                                />
-                            }
-                            label={globalize.translate('EnableCardLayout')}
-                        />
-                    </FormGroup>
-                </FormControl>
+                        <ListItemText inset={!isGridView}>
+                            {globalize.translate('GridView')}
+                        </ListItemText>
+                    </MenuItem>
+                    <MenuItem
+                        onClick={onListViewClick}
+                    >
+                        {!isGridView && (
+                            <ListItemIcon><Check /></ListItemIcon>
+                        )}
+                        <ListItemText inset={isGridView}>
+                            {globalize.translate('ListView')}
+                        </ListItemText>
+                    </MenuItem>
+
+                    {isGridView && (
+                        <>
+                            <Divider />
+                            {isImageTypeVisible && (
+                                <>
+                                    <FormControl>
+                                        <InputLabel>
+                                            <Typography component='span'>
+                                                {globalize.translate('LabelImageType')}
+                                            </Typography>
+                                        </InputLabel>
+                                        <Select
+                                            value={libraryViewSettings.ImageType}
+                                            label={globalize.translate('LabelImageType')}
+                                            onChange={onSelectChange}
+                                        >
+                                            {imageTypesOptions.map((imageType) => (
+                                                <MenuItem
+                                                    key={imageType.value}
+                                                    value={imageType.value}
+                                                >
+                                                    <Typography component='span'>
+                                                        {globalize.translate(imageType.label)}
+                                                    </Typography>
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                    <Divider />
+                                </>
+                            )}
+                            <FormControl>
+                                <FormGroup>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={libraryViewSettings.ShowTitle}
+                                                onChange={handleChange}
+                                                name='ShowTitle'
+                                            />
+                                        }
+                                        label={globalize.translate('ShowTitle')}
+                                    />
+                                    {isImageTypeVisible && (
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={libraryViewSettings.ShowYear}
+                                                    onChange={handleChange}
+                                                    name='ShowYear'
+                                                />
+                                            }
+                                            label={globalize.translate('ShowYear')}
+                                        />
+                                    )}
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={libraryViewSettings.CardLayout}
+                                                onChange={handleChange}
+                                                name='CardLayout'
+                                            />
+                                        }
+                                        label={globalize.translate('EnableCardLayout')}
+                                    />
+                                </FormGroup>
+                            </FormControl>
+                        </>
+                    )}
+                </MenuList>
             </Popover>
-        </Box>
+        </>
     );
 };
 

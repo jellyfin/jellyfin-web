@@ -1,4 +1,3 @@
-// TODO: Move to jellyfin-apiclient
 /* eslint-disable @typescript-eslint/no-explicit-any */
 declare module 'jellyfin-apiclient' {
     import type {
@@ -68,7 +67,7 @@ declare module 'jellyfin-apiclient' {
         UtcTimeResponse,
         VirtualFolderInfo
     } from '@jellyfin/sdk/lib/generated-client';
-    import { ConnectionState } from './utils/jellyfin-apiclient/ConnectionState';
+    import type { ConnectionState } from 'lib/jellyfin-apiclient';
 
     class ApiClient {
         constructor(serverAddress: string, appName: string, appVersion: string, deviceName: string, deviceId: string);
@@ -137,6 +136,7 @@ declare module 'jellyfin-apiclient' {
         getInstantMixFromItem(itemId: string, options?: any): Promise<BaseItemDtoQueryResult>;
         getIntros(itemId: string): Promise<BaseItemDtoQueryResult>;
         getItemCounts(userId?: string): Promise<ItemCounts>;
+        /** @deprecated This function returns a URL with a legacy auth parameter.*/
         getItemDownloadUrl(itemId: string): string;
         getItemImageInfos(itemId: string): Promise<ImageInfo[]>;
         getItems(userId: string, options?: any): Promise<BaseItemDtoQueryResult>;
@@ -337,6 +337,7 @@ declare module 'jellyfin-apiclient' {
         handleMessageReceived(msg: any): void;
         logout(): Promise<void>;
         minServerVersion(val?: string): string;
+        updateSavedServerId(server: any): Promise<void>;
         user(apiClient: ApiClient): Promise<any>;
     }
 

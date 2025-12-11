@@ -1,13 +1,14 @@
-import { appHost } from 'components/apphost';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import focusManager from 'components/focusManager';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
-import ServerConnections from 'components/ServerConnections';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
-import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-scroller/emby-scroller';
@@ -36,6 +37,15 @@ function getSections() {
         overlayText: false,
         centerText: true
     }, {
+        name: 'HeaderSeasons',
+        types: BaseItemKind.Season,
+        shape: getPortraitShape(enableScrollX()),
+        showTitle: true,
+        showParentTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
+    }, {
         name: 'Episodes',
         types: 'Episode',
         shape: getBackdropShape(enableScrollX()),
@@ -46,8 +56,17 @@ function getSections() {
         overlayText: false,
         centerText: true
     }, {
-        name: 'Videos',
+        name: 'HeaderVideos',
         types: 'Video',
+        shape: getBackdropShape(enableScrollX()),
+        preferThumb: true,
+        showTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
+    }, {
+        name: 'MusicVideos',
+        types: 'MusicVideo',
         shape: getBackdropShape(enableScrollX()),
         preferThumb: true,
         showTitle: true,
@@ -127,6 +146,30 @@ function getSections() {
         overlayPlayButton: true,
         overlayText: false,
         centerText: true
+    }, {
+        name: 'Channels',
+        types: 'LiveTVChannel',
+        shape: getBackdropShape(enableScrollX()),
+        showTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
+    }, {
+        name: 'HeaderPhotoAlbums',
+        types: 'PhotoAlbum',
+        shape: getBackdropShape(enableScrollX()),
+        showTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
+    }, {
+        name: 'Photos',
+        types: 'Photo',
+        shape: getBackdropShape(enableScrollX()),
+        showTitle: true,
+        overlayPlayButton: true,
+        overlayText: false,
+        centerText: true
     }];
 }
 
@@ -169,8 +212,9 @@ function getRouteUrl(section, serverId) {
 
 function getItemsHtmlFn(section) {
     return function (items) {
-        let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
-        cardLayout = false;
+        // NOTE: Why is card layout always disabled?
+        // let cardLayout = appHost.preferVisualCards && section.autoCardLayout && section.showTitle;
+        const cardLayout = false;
         const serverId = this.apiClient.serverId();
         const leadingButtons = layoutManager.tv ? [{
             name: globalize.translate('All'),
