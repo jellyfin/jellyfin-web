@@ -44,7 +44,7 @@ const config = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
     entry: {
-        'main.jellyfin': './index.jsx',
+        'main.jellyfin': './index.tsx',
         ...THEMES_BY_ID
     },
     resolve: {
