@@ -774,8 +774,9 @@ function setTitle (title, url = '') {
 
         if (url) {
             // Create a link element when URL is provided
-            const linkElement = document.createElement('a');
-            linkElement.classList.add('pageTitleLink');
+            const linkElement = document.createElement('a', 'emby-linkbutton');
+            linkElement.classList.add('button-link');
+            linkElement.style.color = 'inherit';
             linkElement.href = url;
             linkElement.innerText = html || '';
 
