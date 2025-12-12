@@ -7,12 +7,12 @@
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import escapeHtml from 'escape-html';
 
-import globalize from '../../lib/globalize';
-import dom from '../../utils/dom';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-textarea/emby-textarea';
+import globalize from '@/lib/globalize';
+import dom from '@/utils/dom';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-select/emby-select';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-textarea/emby-textarea';
 import './style.scss';
 import template from './libraryoptionseditor.template.html';
 

@@ -2,8 +2,8 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { ApiClient } from 'jellyfin-apiclient';
 
-import type { CardOptions } from 'types/cardOptions';
-import { CardShape } from 'utils/card';
+import type { CardOptions } from '@/types/cardOptions';
+import { CardShape } from '@/utils/card';
 
 import { getCardImageUrl, getDefaultText } from './cardBuilder';
 

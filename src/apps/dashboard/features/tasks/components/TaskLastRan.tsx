@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useMemo } from 'react';
-import { TaskProps } from '../types/taskProps';
-import { useLocale } from 'hooks/useLocale';
+import { TaskProps } from '@/apps/dashboard/features/tasks/types/taskProps';
+import { useLocale } from '@/hooks/useLocale';
 import { formatDistance, formatDistanceToNow, parseISO } from 'date-fns';
 import Typography from '@mui/material/Typography';
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
 const TaskLastRan: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const { dateFnsLocale } = useLocale();

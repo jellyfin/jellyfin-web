@@ -6,13 +6,13 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import classNames from 'classnames';
 import ItemsContainer, {
     type ItemsContainerProps
-} from 'elements/emby-itemscontainer/ItemsContainer';
-import Scroller, { type ScrollerProps } from 'elements/emby-scroller/Scroller';
-import Cards from 'components/cardbuilder/Card/Cards';
-import Lists from 'components/listview/List/Lists';
-import type { CardOptions } from 'types/cardOptions';
-import type { ListOptions } from 'types/listOptions';
-import type { ItemDto } from 'types/base/models/item-dto';
+} from '@/elements/emby-itemscontainer/ItemsContainer';
+import Scroller, { type ScrollerProps } from '@/elements/emby-scroller/Scroller';
+import Cards from '@/components/cardbuilder/Card/Cards';
+import Lists from '@/components/listview/List/Lists';
+import type { CardOptions } from '@/types/cardOptions';
+import type { ListOptions } from '@/types/listOptions';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 interface SectionHeaderProps {
     className?: string;

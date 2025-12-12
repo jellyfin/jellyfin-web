@@ -1,15 +1,15 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { Archive } from 'libarchive.js';
 
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
 
-import loading from '../../components/loading/loading';
-import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import keyboardnavigation from '../../scripts/keyboardNavigation';
-import { appRouter } from '../../components/router/appRouter';
-import * as userSettings from '../../scripts/settings/userSettings';
-import { PluginType } from '../../types/plugin.ts';
+import loading from '@/components/loading/loading';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import keyboardnavigation from '@/scripts/keyboardNavigation';
+import { appRouter } from '@/components/router/appRouter';
+import * as userSettings from '@/scripts/settings/userSettings';
+import { PluginType } from '@/types/plugin.ts';
 
 import './style.scss';
 
@@ -299,11 +299,10 @@ export class ComicsPlayer {
         const downloadUrl = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
         this.archiveSource = new ArchiveSource(downloadUrl);
 
-        //eslint-disable-next-line import/no-unresolved
         import('swiper/css/bundle');
 
         return this.archiveSource.load()
-            // eslint-disable-next-line import/no-unresolved
+
             .then(() => import('swiper/bundle'))
             .then(({ Swiper }) => {
                 loading.hide();

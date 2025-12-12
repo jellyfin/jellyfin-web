@@ -2,9 +2,9 @@ import ExtensionIcon from '@mui/icons-material/Extension';
 import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import BaseCard from 'apps/dashboard/components/BaseCard';
+import BaseCard from '@/apps/dashboard/components/BaseCard';
 
-import { PluginDetails } from '../types/PluginDetails';
+import { PluginDetails } from '@/apps/dashboard/features/plugins/types/PluginDetails';
 
 interface PluginCardProps {
     plugin: PluginDetails;

@@ -4,14 +4,14 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { ItemAction } from 'constants/itemAction';
-import { useApi } from 'hooks/useApi';
-import { getChannelQuery } from 'hooks/api/liveTvHooks/useGetChannel';
-import globalize from 'lib/globalize';
-import { playbackManager } from 'components/playback/playbackmanager';
-import type { ItemDto } from 'types/base/models/item-dto';
-import { ItemKind } from 'types/base/models/item-kind';
-import itemHelper from 'components/itemHelper';
+import { ItemAction } from '@/constants/itemAction';
+import { useApi } from '@/hooks/useApi';
+import { getChannelQuery } from '@/hooks/api/liveTvHooks/useGetChannel';
+import globalize from '@/lib/globalize';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import { ItemKind } from '@/types/base/models/item-kind';
+import itemHelper from '@/components/itemHelper';
 
 interface PlayOrResumeButtonProps {
     item: ItemDto;

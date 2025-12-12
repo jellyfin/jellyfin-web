@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { useApi } from 'hooks/useApi';
-import { queryClient } from 'utils/query/queryClient';
+import { useApi } from '@/hooks/useApi';
+import { queryClient } from '@/utils/query/queryClient';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { LiveTvApiDeleteListingProviderRequest } from '@jellyfin/sdk/lib/generated-client/api/live-tv-api';
 

@@ -1,13 +1,13 @@
-import alert from 'components/alert';
-import focusManager from 'components/focusManager';
-import { playbackManager } from 'components/playback/playbackmanager';
-import { pluginManager } from 'components/pluginManager';
-import { appRouter } from 'components/router/appRouter';
-import toast from 'components/toast/toast';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import inputManager from 'scripts/inputManager';
-import Events from 'utils/events.ts';
-import { PluginType } from 'types/plugin.ts';
+import alert from '@/components/alert';
+import focusManager from '@/components/focusManager';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import { pluginManager } from '@/components/pluginManager';
+import { appRouter } from '@/components/router/appRouter';
+import toast from '@/components/toast/toast';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import inputManager from '@/scripts/inputManager';
+import Events from '@/utils/events.ts';
+import { PluginType } from '@/types/plugin.ts';
 
 const serverNotifications = {};
 

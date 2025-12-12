@@ -1,20 +1,20 @@
-import globalize from '../lib/globalize';
-import listView from '../components/listview/listview';
-import * as userSettings from '../scripts/settings/userSettings';
-import focusManager from '../components/focusManager';
-import cardBuilder from '../components/cardbuilder/cardBuilder';
-import loading from '../components/loading/loading';
-import AlphaNumericShortcuts from '../scripts/alphanumericshortcuts';
-import libraryBrowser from '../scripts/libraryBrowser';
-import { playbackManager } from '../components/playback/playbackmanager';
-import AlphaPicker from '../components/alphaPicker/alphaPicker';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
-import '../elements/emby-scroller/emby-scroller';
-import LibraryMenu from '../scripts/libraryMenu';
+import globalize from '@/lib/globalize';
+import listView from '@/components/listview/listview';
+import * as userSettings from '@/scripts/settings/userSettings';
+import focusManager from '@/components/focusManager';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
+import loading from '@/components/loading/loading';
+import AlphaNumericShortcuts from '@/scripts/alphanumericshortcuts';
+import libraryBrowser from '@/scripts/libraryBrowser';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import AlphaPicker from '@/components/alphaPicker/alphaPicker';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
+import '@/elements/emby-scroller/emby-scroller';
+import LibraryMenu from '@/scripts/libraryMenu';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import { stopMultiSelect } from 'components/multiSelect/multiSelect';
+import { stopMultiSelect } from '@/components/multiSelect/multiSelect';
 
 function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
     const query = {

@@ -1,9 +1,9 @@
 import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
-import itemHelper from 'components/itemHelper';
+import itemHelper from '@/components/itemHelper';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getLocaleWithSuffix } from 'utils/dateFnsLocale';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { getLocaleWithSuffix } from '@/utils/dateFnsLocale';
 
 type NowPlayingInfo = {
     topText?: string;

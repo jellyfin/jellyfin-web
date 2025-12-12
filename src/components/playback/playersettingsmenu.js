@@ -1,8 +1,8 @@
-import actionsheet from '../actionSheet/actionSheet';
-import { playbackManager } from '../playback/playbackmanager';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import qualityoptions from '../qualityOptions';
+import actionsheet from '@/components/actionSheet/actionSheet';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import qualityoptions from '@/components/qualityOptions';
 
 function showQualityMenu(player, btn) {
     const videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {

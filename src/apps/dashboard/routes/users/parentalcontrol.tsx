@@ -5,19 +5,19 @@ import escapeHTML from 'escape-html';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import globalize from '../../../../lib/globalize';
-import AccessScheduleList from '../../../../components/dashboard/users/AccessScheduleList';
-import TagList from '../../../../components/dashboard/users/TagList';
-import Button from '../../../../elements/emby-button/Button';
-import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
-import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
-import loading from '../../../../components/loading/loading';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
-import SelectElement from '../../../../elements/SelectElement';
-import Page from '../../../../components/Page';
-import prompt from '../../../../components/prompt/prompt';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Toast from 'apps/dashboard/components/Toast';
+import globalize from '@/lib/globalize';
+import AccessScheduleList from '@/components/dashboard/users/AccessScheduleList';
+import TagList from '@/components/dashboard/users/TagList';
+import Button from '@/elements/emby-button/Button';
+import SectionTitleContainer from '@/elements/SectionTitleContainer';
+import SectionTabs from '@/components/dashboard/users/SectionTabs';
+import loading from '@/components/loading/loading';
+import CheckBoxElement from '@/elements/CheckBoxElement';
+import SelectElement from '@/elements/SelectElement';
+import Page from '@/components/Page';
+import prompt from '@/components/prompt/prompt';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import Toast from '@/apps/dashboard/components/Toast';
 
 type NamedItem = {
     name: string;
@@ -75,7 +75,7 @@ const UserParentalControl = () => {
     const [ allowedTags, setAllowedTags ] = useState<string[]>([]);
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
     const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
-    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
+    const libraryMenu = useMemo(async () => ((await import('@/scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
     const parentalRatingsRef = useRef<ParentalRating[]>([]);
@@ -231,7 +231,7 @@ const UserParentalControl = () => {
 
         const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
             schedule = schedule || {};
-            import('../../../../components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
+            import('@/components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
                 accessschedule.show({
                     schedule: schedule
                 }).then(function (updatedSchedule) {

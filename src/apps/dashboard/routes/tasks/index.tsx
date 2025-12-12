@@ -1,12 +1,12 @@
 import React from 'react';
-import Page from 'components/Page';
-import globalize from 'lib/globalize';
+import Page from '@/components/Page';
+import globalize from '@/lib/globalize';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { getCategories, getTasksByCategory } from '../../features/tasks/utils/tasks';
-import Loading from 'components/loading/LoadingComponent';
-import Tasks from '../../features/tasks/components/Tasks';
-import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';
+import { getCategories, getTasksByCategory } from '@/apps/dashboard/features/tasks/utils/tasks';
+import Loading from '@/components/loading/LoadingComponent';
+import Tasks from '@/apps/dashboard/features/tasks/components/Tasks';
+import useLiveTasks from '@/apps/dashboard/features/tasks/hooks/useLiveTasks';
 
 export const Component = () => {
     const { data: tasks, isPending } = useLiveTasks({ isHidden: false });

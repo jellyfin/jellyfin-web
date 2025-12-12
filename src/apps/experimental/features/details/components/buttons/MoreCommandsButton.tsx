@@ -3,16 +3,16 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { useApi } from 'hooks/useApi';
-import { useGetItemByType } from '../../hooks/api/useGetItemByType';
-import globalize from 'lib/globalize';
-import itemContextMenu from 'components/itemContextMenu';
-import { playbackManager } from 'components/playback/playbackmanager';
-import { appRouter } from 'components/router/appRouter';
+import { useApi } from '@/hooks/useApi';
+import { useGetItemByType } from '@/apps/experimental/features/details/hooks/api/useGetItemByType';
+import globalize from '@/lib/globalize';
+import itemContextMenu from '@/components/itemContextMenu';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import { appRouter } from '@/components/router/appRouter';
 
-import { ItemKind } from 'types/base/models/item-kind';
-import type { NullableString } from 'types/base/common/shared/types';
-import type { ItemDto } from 'types/base/models/item-dto';
+import { ItemKind } from '@/types/base/models/item-kind';
+import type { NullableString } from '@/types/base/common/shared/types';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 interface PlayAllFromHereOptions {
     item: ItemDto;

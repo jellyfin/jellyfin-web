@@ -4,37 +4,37 @@ import Headroom from 'headroom.js';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ApiClient } from 'jellyfin-apiclient';
 
-import { AppFeature } from 'constants/appFeature';
-import { getUserViewsQuery } from 'hooks/useUserViews';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { EventType } from 'constants/eventType';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { queryClient } from 'utils/query/queryClient';
+import { AppFeature } from '@/constants/appFeature';
+import { getUserViewsQuery } from '@/hooks/useUserViews';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { EventType } from '@/constants/eventType';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
+import { queryClient } from '@/utils/query/queryClient';
 
-import dom from '../utils/dom';
-import layoutManager from '../components/layoutManager';
+import dom from '@/utils/dom';
+import layoutManager from '@/components/layoutManager';
 import inputManager from './inputManager';
-import viewManager from '../components/viewManager/viewManager';
-import { appRouter } from '../components/router/appRouter';
-import { appHost } from '../components/apphost';
-import { playbackManager } from '../components/playback/playbackmanager';
-import { pluginManager } from '../components/pluginManager';
-import groupSelectionMenu from '../plugins/syncPlay/ui/groupSelectionMenu';
+import viewManager from '@/components/viewManager/viewManager';
+import { appRouter } from '@/components/router/appRouter';
+import { appHost } from '@/components/apphost';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import { pluginManager } from '@/components/pluginManager';
+import groupSelectionMenu from '@/plugins/syncPlay/ui/groupSelectionMenu';
 import browser from './browser';
-import imageHelper from '../utils/image';
-import { getMenuLinks } from '../scripts/settings/webSettings';
-import Dashboard, { pageClassOn } from '../utils/dashboard';
-import { PluginType } from '../types/plugin.ts';
-import Events from '../utils/events.ts';
-import { getParameterByName } from '../utils/url.ts';
-import datetime from '../scripts/datetime';
+import imageHelper from '@/utils/image';
+import { getMenuLinks } from '@/scripts/settings/webSettings';
+import Dashboard, { pageClassOn } from '@/utils/dashboard';
+import { PluginType } from '@/types/plugin.ts';
+import Events from '@/utils/events.ts';
+import { getParameterByName } from '@/utils/url.ts';
+import datetime from '@/scripts/datetime';
 
-import '../elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-button/paper-icon-button-light';
 
 import 'material-design-icons-iconfont';
-import '../styles/scrollstyles.scss';
-import '../styles/flexstyles.scss';
+import '@/styles/scrollstyles.scss';
+import '@/styles/flexstyles.scss';
 
 function renderHeader() {
     let html = '';

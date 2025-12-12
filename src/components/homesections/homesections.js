@@ -1,10 +1,10 @@
-import layoutManager from 'components/layoutManager';
-import { getUserViewsQuery } from 'hooks/useUserViews';
-import globalize from 'lib/globalize';
-import { DEFAULT_SECTIONS, HomeSectionType } from 'types/homeSectionType';
-import Dashboard from 'utils/dashboard';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { queryClient } from 'utils/query/queryClient';
+import layoutManager from '@/components/layoutManager';
+import { getUserViewsQuery } from '@/hooks/useUserViews';
+import globalize from '@/lib/globalize';
+import { DEFAULT_SECTIONS, HomeSectionType } from '@/types/homeSectionType';
+import Dashboard from '@/utils/dashboard';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
+import { queryClient } from '@/utils/query/queryClient';
 
 import { loadRecordings } from './sections/activeRecordings';
 import { loadLibraryButtons } from './sections/libraryButtons';
@@ -14,10 +14,10 @@ import { loadNextUp } from './sections/nextUp';
 import { loadRecentlyAdded } from './sections/recentlyAdded';
 import { loadResume } from './sections/resume';
 
-import 'elements/emby-button/paper-icon-button-light';
-import 'elements/emby-itemscontainer/emby-itemscontainer';
-import 'elements/emby-scroller/emby-scroller';
-import 'elements/emby-button/emby-button';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
+import '@/elements/emby-scroller/emby-scroller';
+import '@/elements/emby-button/emby-button';
 
 import './homesections.scss';
 

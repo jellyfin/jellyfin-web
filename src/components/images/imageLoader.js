@@ -1,6 +1,6 @@
 import Worker from './blurhash.worker.ts'; // eslint-disable-line import/default
-import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
-import * as userSettings from '../../scripts/settings/userSettings';
+import * as lazyLoader from '@/components/lazyLoader/lazyLoaderIntersectionObserver';
+import * as userSettings from '@/scripts/settings/userSettings';
 import './style.scss';
 
 const worker = new Worker();

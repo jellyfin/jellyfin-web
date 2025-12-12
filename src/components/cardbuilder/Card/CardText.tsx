@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 
-import { ensureArray } from 'utils/array';
+import { ensureArray } from '@/utils/array';
 
 import type { TextLine } from './cardHelper';
 

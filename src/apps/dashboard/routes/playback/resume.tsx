@@ -1,7 +1,7 @@
 import React from 'react';
-import Page from 'components/Page';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Page from '@/components/Page';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -9,11 +9,11 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import { ActionData } from 'types/actionData';
-import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
-import Loading from 'components/loading/LoadingComponent';
+import { ActionData } from '@/types/actionData';
+import { QUERY_KEY, useConfiguration } from '@/hooks/useConfiguration';
+import Loading from '@/components/loading/LoadingComponent';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import { queryClient } from 'utils/query/queryClient';
+import { queryClient } from '@/utils/query/queryClient';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();

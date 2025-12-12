@@ -9,17 +9,17 @@ import Typography from '@mui/material/Typography';
 import React, { useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
-import SearchInput from 'apps/dashboard/components/SearchInput';
-import { usePluginDetails } from 'apps/dashboard/features/plugins/api/usePluginDetails';
-import NoPluginResults from 'apps/dashboard/features/plugins/components/NoPluginResults';
-import PluginCard from 'apps/dashboard/features/plugins/components/PluginCard';
-import { CATEGORY_LABELS } from 'apps/dashboard/features/plugins/constants/categoryLabels';
-import { PluginCategory } from 'apps/dashboard/features/plugins/constants/pluginCategory';
-import { PluginStatusOption } from 'apps/dashboard/features/plugins/constants/pluginStatusOption';
-import Loading from 'components/loading/LoadingComponent';
-import Page from 'components/Page';
-import useSearchParam from 'hooks/useSearchParam';
-import globalize from 'lib/globalize';
+import SearchInput from '@/apps/dashboard/components/SearchInput';
+import { usePluginDetails } from '@/apps/dashboard/features/plugins/api/usePluginDetails';
+import NoPluginResults from '@/apps/dashboard/features/plugins/components/NoPluginResults';
+import PluginCard from '@/apps/dashboard/features/plugins/components/PluginCard';
+import { CATEGORY_LABELS } from '@/apps/dashboard/features/plugins/constants/categoryLabels';
+import { PluginCategory } from '@/apps/dashboard/features/plugins/constants/pluginCategory';
+import { PluginStatusOption } from '@/apps/dashboard/features/plugins/constants/pluginStatusOption';
+import Loading from '@/components/loading/LoadingComponent';
+import Page from '@/components/Page';
+import useSearchParam from '@/hooks/useSearchParam';
+import globalize from '@/lib/globalize';
 
 /**
  * The list of primary/main categories.

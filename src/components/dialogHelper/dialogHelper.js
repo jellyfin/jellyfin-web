@@ -1,15 +1,15 @@
-import focusManager from '../focusManager';
-import browser from '../../scripts/browser';
-import layoutManager from '../layoutManager';
-import inputManager from '../../scripts/inputManager';
-import { toBoolean } from '../../utils/string.ts';
-import { hide } from '../loading/loading.ts';
-import dom from '../../utils/dom';
+import focusManager from '@/components/focusManager';
+import browser from '@/scripts/browser';
+import layoutManager from '@/components/layoutManager';
+import inputManager from '@/scripts/inputManager';
+import { toBoolean } from '@/utils/string.ts';
+import { hide } from '@/components/loading/loading.ts';
+import dom from '@/utils/dom';
 
-import { history } from 'RootAppRouter';
+import { history } from '@/RootAppRouter';
 
 import './dialoghelper.scss';
-import '../../styles/scrollstyles.scss';
+import '@/styles/scrollstyles.scss';
 
 let globalOnOpenCallback;
 

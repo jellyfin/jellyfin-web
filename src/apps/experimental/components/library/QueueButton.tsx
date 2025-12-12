@@ -2,9 +2,9 @@ import React, { FC, useCallback } from 'react';
 import Button from '@mui/material/Button';
 import Queue from '@mui/icons-material/Queue';
 
-import { playbackManager } from 'components/playback/playbackmanager';
-import globalize from 'lib/globalize';
-import type { ItemDto } from 'types/base/models/item-dto';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import globalize from '@/lib/globalize';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 interface QueueButtonProps {
     item: ItemDto | undefined

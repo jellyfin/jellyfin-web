@@ -3,7 +3,7 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto
 import Avatar from '@mui/material/Avatar';
 import type {} from '@mui/material/themeCssVarsAugmentation';
 
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 
 interface UserAvatarProps {
     user?: UserDto

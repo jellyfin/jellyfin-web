@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 
-import ResponsiveDrawer, { ResponsiveDrawerProps } from 'components/ResponsiveDrawer';
+import ResponsiveDrawer, { ResponsiveDrawerProps } from '@/components/ResponsiveDrawer';
 
-import { ASYNC_USER_ROUTES } from '../../routes/asyncRoutes';
-import { LEGACY_USER_ROUTES } from '../../routes/legacyRoutes';
+import { ASYNC_USER_ROUTES } from '@/apps/experimental/routes/asyncRoutes';
+import { LEGACY_USER_ROUTES } from '@/apps/experimental/routes/legacyRoutes';
 
 import MainDrawerContent from './MainDrawerContent';
 

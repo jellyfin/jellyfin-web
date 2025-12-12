@@ -1,6 +1,6 @@
-import cardBuilder from 'components/cardbuilder/cardBuilder';
-import layoutManager from 'components/layoutManager';
-import { getBackdropShape } from 'utils/card';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
+import layoutManager from '@/components/layoutManager';
+import { getBackdropShape } from '@/utils/card';
 
 import datetime from './datetime';
 

@@ -17,25 +17,25 @@ import Settings from '@mui/icons-material/Settings';
 import React, { type FC, useState, useCallback, useMemo } from 'react';
 import { useSearchParams, Link as RouterLink, useParams } from 'react-router-dom';
 
-import { findBestConfigurationPage } from 'apps/dashboard/features/plugins/api/configurationPage';
-import { findBestPluginInfo } from 'apps/dashboard/features/plugins/api/pluginInfo';
-import { useConfigurationPages } from 'apps/dashboard/features/plugins/api/useConfigurationPages';
-import { useDisablePlugin } from 'apps/dashboard/features/plugins/api/useDisablePlugin';
-import { useEnablePlugin } from 'apps/dashboard/features/plugins/api/useEnablePlugin';
-import { useInstallPackage } from 'apps/dashboard/features/plugins/api/useInstallPackage';
-import { usePackageInfo } from 'apps/dashboard/features/plugins/api/usePackageInfo';
-import { usePlugins } from 'apps/dashboard/features/plugins/api/usePlugins';
-import { useUninstallPlugin } from 'apps/dashboard/features/plugins/api/useUninstallPlugin';
-import PluginDetailsTable from 'apps/dashboard/features/plugins/components/PluginDetailsTable';
-import PluginRevisions from 'apps/dashboard/features/plugins/components/PluginRevisions';
-import type { PluginDetails } from 'apps/dashboard/features/plugins/types/PluginDetails';
+import { findBestConfigurationPage } from '@/apps/dashboard/features/plugins/api/configurationPage';
+import { findBestPluginInfo } from '@/apps/dashboard/features/plugins/api/pluginInfo';
+import { useConfigurationPages } from '@/apps/dashboard/features/plugins/api/useConfigurationPages';
+import { useDisablePlugin } from '@/apps/dashboard/features/plugins/api/useDisablePlugin';
+import { useEnablePlugin } from '@/apps/dashboard/features/plugins/api/useEnablePlugin';
+import { useInstallPackage } from '@/apps/dashboard/features/plugins/api/useInstallPackage';
+import { usePackageInfo } from '@/apps/dashboard/features/plugins/api/usePackageInfo';
+import { usePlugins } from '@/apps/dashboard/features/plugins/api/usePlugins';
+import { useUninstallPlugin } from '@/apps/dashboard/features/plugins/api/useUninstallPlugin';
+import PluginDetailsTable from '@/apps/dashboard/features/plugins/components/PluginDetailsTable';
+import PluginRevisions from '@/apps/dashboard/features/plugins/components/PluginRevisions';
+import type { PluginDetails } from '@/apps/dashboard/features/plugins/types/PluginDetails';
 
-import ConfirmDialog from 'components/ConfirmDialog';
-import Image from 'components/Image';
-import Page from 'components/Page';
-import { useApi } from 'hooks/useApi';
-import globalize from 'lib/globalize';
-import { getPluginUrl } from 'utils/dashboard';
+import ConfirmDialog from '@/components/ConfirmDialog';
+import Image from '@/components/Image';
+import Page from '@/components/Page';
+import { useApi } from '@/hooks/useApi';
+import globalize from '@/lib/globalize';
+import { getPluginUrl } from '@/utils/dashboard';
 
 interface AlertMessage {
     severity?: 'success' | 'info' | 'warning' | 'error'

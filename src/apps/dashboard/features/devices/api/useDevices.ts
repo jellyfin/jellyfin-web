@@ -4,7 +4,7 @@ import type { Api } from '@jellyfin/sdk';
 import { getDevicesApi } from '@jellyfin/sdk/lib/utils/api/devices-api';
 import { useQuery } from '@tanstack/react-query';
 
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 
 export const QUERY_KEY = 'Devices';
 

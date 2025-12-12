@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 
-import layoutManager from 'components/layoutManager';
-import { ItemAction } from 'constants/itemAction';
-import { getDataAttributes } from 'utils/items';
+import layoutManager from '@/components/layoutManager';
+import { ItemAction } from '@/constants/itemAction';
+import { getDataAttributes } from '@/utils/items';
 
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { ListOptions } from 'types/listOptions';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { ListOptions } from '@/types/listOptions';
 
 interface UseListProps {
     item: ItemDto;

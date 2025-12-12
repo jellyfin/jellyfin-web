@@ -1,6 +1,6 @@
 import { importModule } from '@uupaa/dynamic-import-polyfill';
 import './viewManager/viewContainer.scss';
-import Dashboard from '../utils/dashboard';
+import Dashboard from '@/utils/dashboard';
 
 const getMainAnimatedPages = () => {
     return document.querySelector('.mainAnimatedPages');

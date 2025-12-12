@@ -5,7 +5,7 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { useQuery } from '@tanstack/react-query';
 
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 
 const fetchGetItems = async (
     api: Api,

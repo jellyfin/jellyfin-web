@@ -1,6 +1,6 @@
-import { LibraryTab } from 'types/libraryTab';
+import { LibraryTab } from '@/types/libraryTab';
 
-import { LibraryRoute } from '../types/LibraryRoute';
+import { LibraryRoute } from '@/apps/experimental/features/libraries/types/LibraryRoute';
 
 export const LibraryRoutes: LibraryRoute[] = [
     {

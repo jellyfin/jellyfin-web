@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 import React, { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent, useCallback } from 'react';
 
-import { appHost } from 'components/apphost';
-import layoutManager from 'components/layoutManager';
-import { appRouter } from 'components/router/appRouter';
-import { AppFeature } from 'constants/appFeature';
-import shell from 'scripts/shell';
+import { appHost } from '@/components/apphost';
+import layoutManager from '@/components/layoutManager';
+import { appRouter } from '@/components/router/appRouter';
+import { AppFeature } from '@/constants/appFeature';
+import shell from '@/scripts/shell';
 
 import './emby-button.scss';
 

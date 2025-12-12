@@ -3,27 +3,27 @@
  * @module components/syncPlay/settings/SettingsEditor
  */
 
-import { setSetting } from '../../core/Settings';
-import dialogHelper from '../../../../components/dialogHelper/dialogHelper';
-import layoutManager from '../../../../components/layoutManager';
-import { pluginManager } from '../../../../components/pluginManager';
-import loading from '../../../../components/loading/loading';
-import toast from '../../../../components/toast/toast';
-import globalize from '../../../../lib/globalize';
-import { PluginType } from '../../../../types/plugin.ts';
-import Events from '../../../../utils/events.ts';
+import { setSetting } from '@/plugins/syncPlay/core/Settings';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import layoutManager from '@/components/layoutManager';
+import { pluginManager } from '@/components/pluginManager';
+import loading from '@/components/loading/loading';
+import toast from '@/components/toast/toast';
+import globalize from '@/lib/globalize';
+import { PluginType } from '@/types/plugin.ts';
+import Events from '@/utils/events.ts';
 
 import 'material-design-icons-iconfont';
-import '../../../../elements/emby-input/emby-input';
-import '../../../../elements/emby-select/emby-select';
-import '../../../../elements/emby-button/emby-button';
-import '../../../../elements/emby-button/paper-icon-button-light';
-import '../../../../elements/emby-checkbox/emby-checkbox';
-import '../../../../components/listview/listview.scss';
-import '../../../../components/formdialog.scss';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-select/emby-select';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/components/listview/listview.scss';
+import '@/components/formdialog.scss';
 
 function centerFocus(elem, horiz, on) {
-    import('../../../../scripts/scrollHelper').then((scrollHelper) => {
+    import('@/scripts/scrollHelper').then((scrollHelper) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });

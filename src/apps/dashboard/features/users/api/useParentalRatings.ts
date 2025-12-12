@@ -1,7 +1,7 @@
 import { Api } from '@jellyfin/sdk';
 import { getLocalizationApi } from '@jellyfin/sdk/lib/utils/api/localization-api';
 import { useQuery } from '@tanstack/react-query';
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 import type { AxiosRequestConfig } from 'axios';
 
 const fetchParentalRatings = async (api: Api, options?: AxiosRequestConfig) => {

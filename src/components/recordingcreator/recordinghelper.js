@@ -1,9 +1,9 @@
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import loading from '../loading/loading';
-import toast from '../toast/toast';
-import confirm from '../confirm/confirm';
-import dialog from '../dialog/dialog';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import loading from '@/components/loading/loading';
+import toast from '@/components/toast/toast';
+import confirm from '@/components/confirm/confirm';
+import dialog from '@/components/dialog/dialog';
 
 function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCancellation) {
     loading.show();

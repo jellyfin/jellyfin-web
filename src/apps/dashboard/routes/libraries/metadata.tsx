@@ -7,18 +7,18 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useCountries } from 'apps/dashboard/features/libraries/api/useCountries';
-import { useCultures } from 'apps/dashboard/features/libraries/api/useCultures';
-import { getImageResolutionOptions } from 'apps/dashboard/features/libraries/utils/metadataOptions';
-import Loading from 'components/loading/LoadingComponent';
-import Page from 'components/Page';
-import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { useCountries } from '@/apps/dashboard/features/libraries/api/useCountries';
+import { useCultures } from '@/apps/dashboard/features/libraries/api/useCultures';
+import { getImageResolutionOptions } from '@/apps/dashboard/features/libraries/utils/metadataOptions';
+import Loading from '@/components/loading/LoadingComponent';
+import Page from '@/components/Page';
+import { QUERY_KEY, useConfiguration } from '@/hooks/useConfiguration';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 import React from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import { ActionData } from 'types/actionData';
-import { queryClient } from 'utils/query/queryClient';
+import { ActionData } from '@/types/actionData';
+import { queryClient } from '@/utils/query/queryClient';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();

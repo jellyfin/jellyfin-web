@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import globalize from '../../../lib/globalize';
-import { clearBackdrop } from '../../../components/backdrop/backdrop';
-import layoutManager from '../../../components/layoutManager';
-import Page from '../../../components/Page';
-import { EventType } from 'constants/eventType';
-import Events from 'utils/events';
+import globalize from '@/lib/globalize';
+import { clearBackdrop } from '@/components/backdrop/backdrop';
+import layoutManager from '@/components/layoutManager';
+import Page from '@/components/Page';
+import { EventType } from '@/constants/eventType';
+import Events from '@/utils/events';
 
-import '../../../elements/emby-tabs/emby-tabs';
-import '../../../elements/emby-button/emby-button';
-import '../../../elements/emby-scroller/emby-scroller';
+import '@/elements/emby-tabs/emby-tabs';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-scroller/emby-scroller';
 
 type OnResumeOptions = {
     autoFocus?: boolean;

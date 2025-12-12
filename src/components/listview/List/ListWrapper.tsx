@@ -3,10 +3,10 @@ import React, { type FC, type PropsWithChildren } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-import { ItemAction } from 'constants/itemAction';
-import type { DataAttributes } from 'types/dataAttributes';
+import { ItemAction } from '@/constants/itemAction';
+import type { DataAttributes } from '@/types/dataAttributes';
 
-import layoutManager from '../../layoutManager';
+import layoutManager from '@/components/layoutManager';
 
 interface ListWrapperProps {
     index: number | undefined;

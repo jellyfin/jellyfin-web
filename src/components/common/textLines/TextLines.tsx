@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import useTextLines from './useTextLines';
 
-import type { ItemDto } from 'types/base/models/item-dto';
+import type { ItemDto } from '@/types/base/models/item-dto';
 import type { TextLine, TextLineOpts } from './types';
 
 interface TextWrapperProps {

@@ -1,8 +1,8 @@
 import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
-import itemHelper from 'components/itemHelper';
-import { isUsingLiveTvNaming } from '../cardbuilder/cardBuilderUtils';
-import type { ItemDto } from 'types/base/models/item-dto';
+import itemHelper from '@/components/itemHelper';
+import { isUsingLiveTvNaming } from '@/components/cardbuilder/cardBuilderUtils';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 interface DefaultNameProps {
     item: ItemDto;

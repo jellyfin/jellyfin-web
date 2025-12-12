@@ -1,13 +1,13 @@
 import type { SessionInfoDto } from '@jellyfin/sdk/lib/generated-client/models/session-info-dto';
 import { SessionMessageType } from '@jellyfin/sdk/lib/generated-client/models/session-message-type';
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 import { ApiClient } from 'jellyfin-apiclient';
 import { useCallback, useEffect } from 'react';
-import serverNotifications from 'scripts/serverNotifications';
-import Events, { Event } from 'utils/events';
-import { QUERY_KEY, useSessions } from '../api/useSessions';
-import { queryClient } from 'utils/query/queryClient';
-import filterSessions from '../utils/filterSessions';
+import serverNotifications from '@/scripts/serverNotifications';
+import Events, { Event } from '@/utils/events';
+import { QUERY_KEY, useSessions } from '@/apps/dashboard/features/sessions/api/useSessions';
+import { queryClient } from '@/utils/query/queryClient';
+import filterSessions from '@/apps/dashboard/features/sessions/utils/filterSessions';
 
 const QUERY_PARAMS = {
     activeWithinSeconds: 960

@@ -1,6 +1,6 @@
 import type { RouteObject } from 'react-router-dom';
 
-import { AppType } from 'constants/appType';
+import { AppType } from '@/constants/appType';
 
 export interface AsyncRoute {
     /** The URL path for this route. */

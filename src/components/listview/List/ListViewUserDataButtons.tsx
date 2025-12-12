@@ -1,16 +1,16 @@
 import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 
-import itemHelper from '../../itemHelper';
-import PlayedButton from 'elements/emby-playstatebutton/PlayedButton';
-import FavoriteButton from 'elements/emby-ratingbutton/FavoriteButton';
-import PlaylistAddIconButton from '../../common/PlaylistAddIconButton';
-import InfoIconButton from '../../common/InfoIconButton';
-import RightIconButtons from '../../common/RightIconButtons';
-import MoreVertIconButton from '../../common/MoreVertIconButton';
+import itemHelper from '@/components/itemHelper';
+import PlayedButton from '@/elements/emby-playstatebutton/PlayedButton';
+import FavoriteButton from '@/elements/emby-ratingbutton/FavoriteButton';
+import PlaylistAddIconButton from '@/components/common/PlaylistAddIconButton';
+import InfoIconButton from '@/components/common/InfoIconButton';
+import RightIconButtons from '@/components/common/RightIconButtons';
+import MoreVertIconButton from '@/components/common/MoreVertIconButton';
 
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { ListOptions } from 'types/listOptions';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { ListOptions } from '@/types/listOptions';
 
 interface ListViewUserDataButtonsProps {
     item: ItemDto;

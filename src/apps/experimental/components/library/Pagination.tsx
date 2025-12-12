@@ -9,9 +9,9 @@ import type { Theme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import globalize from 'lib/globalize';
-import * as userSettings from 'scripts/settings/userSettings';
-import { LibraryViewSettings } from 'types/library';
+import globalize from '@/lib/globalize';
+import * as userSettings from '@/scripts/settings/userSettings';
+import { LibraryViewSettings } from '@/types/library';
 
 interface PaginationProps {
     libraryViewSettings: LibraryViewSettings;

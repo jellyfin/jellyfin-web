@@ -2,7 +2,7 @@ import type { AxiosRequestConfig } from 'axios';
 import type { LiveTvApiGetTimerRequest } from '@jellyfin/sdk/lib/generated-client';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { queryOptions, useQuery } from '@tanstack/react-query';
-import { type JellyfinApiContext, useApi } from 'hooks/useApi';
+import { type JellyfinApiContext, useApi } from '@/hooks/useApi';
 
 const getTimer = async (
     currentApi: JellyfinApiContext,

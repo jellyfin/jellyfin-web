@@ -1,6 +1,6 @@
-import DisplaySettings from '../../../components/displaySettings/displaySettings';
-import * as userSettings from '../../../scripts/settings/userSettings';
-import autoFocuser from '../../../components/autoFocuser';
+import DisplaySettings from '@/components/displaySettings/displaySettings';
+import * as userSettings from '@/scripts/settings/userSettings';
+import autoFocuser from '@/components/autoFocuser';
 
 // Shortcuts
 const UserSettings = userSettings.UserSettings;

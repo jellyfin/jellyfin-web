@@ -1,8 +1,8 @@
-import itemHelper from '../../itemHelper';
-import datetime from 'scripts/datetime';
-import type { ItemDto } from 'types/base/models/item-dto';
+import itemHelper from '@/components/itemHelper';
+import datetime from '@/scripts/datetime';
+import type { ItemDto } from '@/types/base/models/item-dto';
 import type { TextLine, TextLineOpts } from './types';
-import { ItemKind } from 'types/base/models/item-kind';
+import { ItemKind } from '@/types/base/models/item-kind';
 
 function getParentTitle(
     item: ItemDto,

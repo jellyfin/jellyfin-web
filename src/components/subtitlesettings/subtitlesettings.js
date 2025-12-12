@@ -1,24 +1,24 @@
-import { AppFeature } from 'constants/appFeature';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { appHost } from '../apphost';
-import appSettings from '../../scripts/settings/appSettings';
-import focusManager from '../focusManager';
-import layoutManager from '../layoutManager';
-import loading from '../loading/loading';
+import { AppFeature } from '@/constants/appFeature';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { appHost } from '@/components/apphost';
+import appSettings from '@/scripts/settings/appSettings';
+import focusManager from '@/components/focusManager';
+import layoutManager from '@/components/layoutManager';
+import loading from '@/components/loading/loading';
 import subtitleAppearanceHelper from './subtitleappearancehelper';
-import settingsHelper from '../settingshelper';
-import dom from '../../utils/dom';
-import Events from '../../utils/events.ts';
+import settingsHelper from '@/components/settingshelper';
+import dom from '@/utils/dom';
+import Events from '@/utils/events.ts';
 
-import '../listview/listview.scss';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-slider/emby-slider';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../styles/flexstyles.scss';
+import '@/components/listview/listview.scss';
+import '@/elements/emby-select/emby-select';
+import '@/elements/emby-slider/emby-slider';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/styles/flexstyles.scss';
 import './subtitlesettings.scss';
-import toast from '../toast/toast';
+import toast from '@/components/toast/toast';
 import template from './subtitlesettings.template.html';
 
 /**

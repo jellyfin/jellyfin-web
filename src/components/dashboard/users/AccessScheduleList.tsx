@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback } from 'react';
-import datetime from '../../../scripts/datetime';
-import globalize from '../../../lib/globalize';
-import IconButtonElement from '../../../elements/IconButtonElement';
+import datetime from '@/scripts/datetime';
+import globalize from '@/lib/globalize';
+import IconButtonElement from '@/elements/IconButtonElement';
 
 type AccessScheduleListProps = {
     index?: number;

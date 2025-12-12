@@ -1,17 +1,17 @@
 import { PlaybackManager } from './playbackmanager';
-import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
+import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from '@/constants/time';
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
-import type { PlaybackStopInfo } from 'types/playbackStopInfo';
-import { PlaybackSubscriber } from 'apps/stable/features/playback/utils/playbackSubscriber';
-import { isInSegment } from 'apps/stable/features/playback/utils/mediaSegments';
-import Events, { type Event } from 'utils/events';
-import { EventType } from 'constants/eventType';
+import type { PlaybackStopInfo } from '@/types/playbackStopInfo';
+import { PlaybackSubscriber } from '@/apps/stable/features/playback/utils/playbackSubscriber';
+import { isInSegment } from '@/apps/stable/features/playback/utils/mediaSegments';
+import Events, { type Event } from '@/utils/events';
+import { EventType } from '@/constants/eventType';
 import './skipbutton.scss';
-import dom from 'utils/dom';
-import globalize from 'lib/globalize';
-import * as userSettings from 'scripts/settings/userSettings';
-import focusManager from 'components/focusManager';
-import layoutManager from 'components/layoutManager';
+import dom from '@/utils/dom';
+import globalize from '@/lib/globalize';
+import * as userSettings from '@/scripts/settings/userSettings';
+import focusManager from '@/components/focusManager';
+import layoutManager from '@/components/layoutManager';
 
 interface ShowOptions {
     animate?: boolean;

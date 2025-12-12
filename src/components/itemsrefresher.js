@@ -1,6 +1,6 @@
 import { playbackManager } from './playback/playbackmanager';
-import serverNotifications from '../scripts/serverNotifications';
-import Events from '../utils/events.ts';
+import serverNotifications from '@/scripts/serverNotifications';
+import Events from '@/utils/events.ts';
 
 function onUserDataChanged() {
     const instance = this;

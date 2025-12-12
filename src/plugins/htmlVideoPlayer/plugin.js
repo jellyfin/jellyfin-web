@@ -2,20 +2,20 @@ import DOMPurify from 'dompurify';
 import debounce from 'lodash-es/debounce';
 import Screenfull from 'screenfull';
 
-import { useCustomSubtitles } from 'apps/stable/features/playback/utils/subtitleStyles';
-import subtitleAppearanceHelper from 'components/subtitlesettings/subtitleappearancehelper';
-import { AppFeature } from 'constants/appFeature';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { currentSettings as userSettings } from 'scripts/settings/userSettings';
-import { MediaError } from 'types/mediaError';
+import { useCustomSubtitles } from '@/apps/stable/features/playback/utils/subtitleStyles';
+import subtitleAppearanceHelper from '@/components/subtitlesettings/subtitleappearancehelper';
+import { AppFeature } from '@/constants/appFeature';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { currentSettings as userSettings } from '@/scripts/settings/userSettings';
+import { MediaError } from '@/types/mediaError';
 
-import browser from '../../scripts/browser';
-import appSettings from '../../scripts/settings/appSettings';
-import { appHost } from '../../components/apphost';
-import loading from '../../components/loading/loading';
-import dom from '../../utils/dom';
-import { playbackManager } from '../../components/playback/playbackmanager';
-import { appRouter } from '../../components/router/appRouter';
+import browser from '@/scripts/browser';
+import appSettings from '@/scripts/settings/appSettings';
+import { appHost } from '@/components/apphost';
+import loading from '@/components/loading/loading';
+import dom from '@/utils/dom';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import { appRouter } from '@/components/router/appRouter';
 import {
     bindEventsToHlsPlayer,
     destroyHlsPlayer,
@@ -34,16 +34,16 @@ import {
     getSavedVolume,
     isValidDuration,
     getBufferedRanges
-} from '../../components/htmlMediaHelper';
-import itemHelper from '../../components/itemHelper';
-import globalize from '../../lib/globalize';
-import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
-import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
-import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
-import { PluginType } from '../../types/plugin.ts';
-import Events from '../../utils/events.ts';
-import { includesAny } from '../../utils/container.ts';
-import { isHls } from '../../utils/mediaSource.ts';
+} from '@/components/htmlMediaHelper';
+import itemHelper from '@/components/itemHelper';
+import globalize from '@/lib/globalize';
+import profileBuilder, { canPlaySecondaryAudio } from '@/scripts/browserDeviceProfile';
+import { getIncludeCorsCredentials } from '@/scripts/settings/webSettings';
+import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '@/components/backdrop/backdrop';
+import { PluginType } from '@/types/plugin.ts';
+import Events from '@/utils/events.ts';
+import { includesAny } from '@/utils/container.ts';
+import { isHls } from '@/utils/mediaSource.ts';
 
 /**
  * Returns resolved URL.

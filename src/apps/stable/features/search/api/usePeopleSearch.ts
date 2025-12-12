@@ -2,9 +2,9 @@ import { Api } from '@jellyfin/sdk';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosRequestConfig } from 'axios';
-import { useApi } from 'hooks/useApi';
-import { QUERY_OPTIONS } from '../constants/queryOptions';
-import { isMovies, isTVShows } from '../utils/search';
+import { useApi } from '@/hooks/useApi';
+import { QUERY_OPTIONS } from '@/apps/stable/features/search/constants/queryOptions';
+import { isMovies, isTVShows } from '@/apps/stable/features/search/utils/search';
 import { PersonsApiGetPersonsRequest } from '@jellyfin/sdk/lib/generated-client/api/persons-api';
 import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 

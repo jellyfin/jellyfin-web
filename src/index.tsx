@@ -1,5 +1,5 @@
 // Import legacy browser polyfills
-import 'lib/legacy';
+import '@/lib/legacy';
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -23,7 +23,7 @@ import taskButton from '@/scripts/taskbutton';
 import { pageClassOn, serverAddress } from '@/utils/dashboard';
 import Events from '@/utils/events';
 
-import RootApp from 'RootApp';
+import RootApp from '@/RootApp';
 
 // Import the button webcomponent for use throughout the site
 // NOTE: This is a bit of a hack, files should ensure the component is imported before use

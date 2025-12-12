@@ -1,18 +1,18 @@
 import React, { useCallback, useRef, useState } from 'react';
 import type { TunerHostInfo } from '@jellyfin/sdk/lib/generated-client/models/tuner-host-info';
-import BaseCard from 'apps/dashboard/components/BaseCard';
+import BaseCard from '@/apps/dashboard/components/BaseCard';
 import DvrIcon from '@mui/icons-material/Dvr';
-import getTunerName from '../utils/getTunerName';
+import getTunerName from '@/apps/dashboard/features/livetv/utils/getTunerName';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import ListItemText from '@mui/material/ListItemText';
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 import { useNavigate } from 'react-router-dom';
-import ConfirmDialog from 'components/ConfirmDialog';
-import { useDeleteTuner } from '../api/useDeleteTuner';
+import ConfirmDialog from '@/components/ConfirmDialog';
+import { useDeleteTuner } from '@/apps/dashboard/features/livetv/api/useDeleteTuner';
 
 interface TunerDeviceCardProps {
     tunerHost: TunerHostInfo;

@@ -1,8 +1,8 @@
 import isEmpty from 'lodash-es/isEmpty';
 
-import { currentSettings as userSettings } from 'scripts/settings/userSettings';
-import Events from 'utils/events';
-import { updateLocale } from 'utils/dateFnsLocale';
+import { currentSettings as userSettings } from '@/scripts/settings/userSettings';
+import Events from '@/utils/events';
+import { updateLocale } from '@/utils/dateFnsLocale';
 
 const Direction = {
     rtl: 'rtl',

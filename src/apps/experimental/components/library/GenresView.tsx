@@ -2,7 +2,7 @@ import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/bas
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import React, { FC } from 'react';
 import GenresItemsContainer from './GenresItemsContainer';
-import type { ParentId } from 'types/library';
+import type { ParentId } from '@/types/library';
 
 interface GenresViewProps {
     parentId: ParentId;

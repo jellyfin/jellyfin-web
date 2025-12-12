@@ -1,4 +1,4 @@
-import { buildCustomColorScheme } from 'themes/utils';
+import { buildCustomColorScheme } from '@/themes/utils';
 
 /** The Apple TV inspired color scheme. */
 const theme = buildCustomColorScheme({

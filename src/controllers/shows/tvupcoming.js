@@ -1,14 +1,14 @@
-import cardBuilder from 'components/cardbuilder/cardBuilder';
-import imageLoader from 'components/images/imageLoader';
-import layoutManager from 'components/layoutManager';
-import loading from 'components/loading/loading';
-import datetime from 'scripts/datetime';
-import globalize from 'lib/globalize';
-import { getBackdropShape } from 'utils/card';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
+import imageLoader from '@/components/images/imageLoader';
+import layoutManager from '@/components/layoutManager';
+import loading from '@/components/loading/loading';
+import datetime from '@/scripts/datetime';
+import globalize from '@/lib/globalize';
+import { getBackdropShape } from '@/utils/card';
 
-import 'elements/emby-itemscontainer/emby-itemscontainer';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
 
-import 'styles/scrollstyles.scss';
+import '@/styles/scrollstyles.scss';
 
 function getUpcomingPromise(context, params) {
     loading.show();

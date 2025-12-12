@@ -1,8 +1,8 @@
-import { playbackManager } from '../../components/playback/playbackmanager';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import serverNotifications from '../../scripts/serverNotifications';
-import { PluginType } from '../../types/plugin.ts';
-import Events from '../../utils/events.ts';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import serverNotifications from '@/scripts/serverNotifications';
+import { PluginType } from '@/types/plugin.ts';
+import Events from '@/utils/events.ts';
 import isEqual from 'lodash-es/isEqual';
 
 function getActivePlayerId() {

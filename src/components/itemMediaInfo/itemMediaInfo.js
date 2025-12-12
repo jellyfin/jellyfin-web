@@ -6,25 +6,25 @@
 
 import escapeHtml from 'escape-html';
 
-import dialogHelper from 'components/dialogHelper/dialogHelper';
-import itemHelper from 'components/itemHelper';
-import layoutManager from 'components/layoutManager';
-import loading from 'components/loading/loading';
-import toast from 'components/toast/toast';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { copy } from 'scripts/clipboard';
-import dom from 'utils/dom';
-import { getReadableSize } from 'utils/file';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import itemHelper from '@/components/itemHelper';
+import layoutManager from '@/components/layoutManager';
+import loading from '@/components/loading/loading';
+import toast from '@/components/toast/toast';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { copy } from '@/scripts/clipboard';
+import dom from '@/utils/dom';
+import { getReadableSize } from '@/utils/file';
 
-import 'components/formdialog.scss';
-import 'components/listview/listview.scss';
-import 'elements/emby-button/emby-button';
-import 'elements/emby-button/paper-icon-button-light';
-import 'elements/emby-select/emby-select';
+import '@/components/formdialog.scss';
+import '@/components/listview/listview.scss';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 
-import 'styles/flexstyles.scss';
+import '@/styles/flexstyles.scss';
 
 import template from './itemMediaInfo.template.html';
 

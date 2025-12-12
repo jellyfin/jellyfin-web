@@ -2,7 +2,7 @@
 import type { Router, RouterState } from '@remix-run/router';
 import type { History, Listener, To } from 'history';
 
-import Events, { type Event } from 'utils/events';
+import Events, { type Event } from '@/utils/events';
 
 const HISTORY_UPDATE_EVENT = 'HISTORY_UPDATE';
 

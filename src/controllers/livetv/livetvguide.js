@@ -1,4 +1,4 @@
-import Guide from '../../components/guide/guide';
+import Guide from '@/components/guide/guide';
 
 export default function (view, params, tabContent) {
     let guideInstance;

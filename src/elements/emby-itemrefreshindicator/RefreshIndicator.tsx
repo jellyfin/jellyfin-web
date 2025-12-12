@@ -1,7 +1,7 @@
 import { ApiClient } from 'jellyfin-apiclient';
 import React, { type FC, useCallback, useEffect, useState } from 'react';
-import Events, { Event } from 'utils/events';
-import serverNotifications from 'scripts/serverNotifications';
+import Events, { Event } from '@/utils/events';
+import serverNotifications from '@/scripts/serverNotifications';
 import classNames from 'classnames';
 
 import CircularProgress, {
@@ -9,9 +9,9 @@ import CircularProgress, {
 } from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { toPercentString } from 'utils/number';
-import { getCurrentDateTimeLocale } from 'lib/globalize';
-import type { ItemDto } from 'types/base/models/item-dto';
+import { toPercentString } from '@/utils/number';
+import { getCurrentDateTimeLocale } from '@/lib/globalize';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 function CircularProgressWithLabel(
     props: CircularProgressProps & { value: number }

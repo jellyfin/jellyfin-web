@@ -2,11 +2,11 @@ import { Action } from 'history';
 import { FunctionComponent, useEffect } from 'react';
 import { useLocation, useNavigationType } from 'react-router-dom';
 
-import globalize from 'lib/globalize';
-import type { RestoreViewFailResponse } from 'types/viewManager';
+import globalize from '@/lib/globalize';
+import type { RestoreViewFailResponse } from '@/types/viewManager';
 
 import viewManager from './viewManager';
-import { AppType } from 'constants/appType';
+import { AppType } from '@/constants/appType';
 
 export interface ViewManagerPageProps {
     appType?: AppType

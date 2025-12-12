@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useCallback } from 'react';
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 import type { BackupOptionsDto } from '@jellyfin/sdk/lib/generated-client/models/backup-options-dto';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';

@@ -3,7 +3,7 @@ import { getBrandingApi } from '@jellyfin/sdk/lib/utils/api/branding-api';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 
 export const QUERY_KEY = 'BrandingOptions';
 

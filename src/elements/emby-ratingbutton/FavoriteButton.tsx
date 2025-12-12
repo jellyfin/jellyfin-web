@@ -3,9 +3,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import { ItemAction } from 'constants/itemAction';
-import { useToggleFavoriteMutation } from 'hooks/useFetchItems';
-import globalize from 'lib/globalize';
+import { ItemAction } from '@/constants/itemAction';
+import { useToggleFavoriteMutation } from '@/hooks/useFetchItems';
+import globalize from '@/lib/globalize';
 
 interface FavoriteButtonProps {
     className?: string;

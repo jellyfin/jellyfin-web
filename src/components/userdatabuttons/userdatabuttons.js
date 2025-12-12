@@ -1,11 +1,11 @@
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import dom from '../../utils/dom';
-import itemHelper from '../itemHelper';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import dom from '@/utils/dom';
+import itemHelper from '@/components/itemHelper';
 
-import '../../elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
-import '../../elements/emby-button/emby-button';
+import '@/elements/emby-button/emby-button';
 import './userdatabuttons.scss';
 
 const userDataMethods = {

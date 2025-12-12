@@ -1,5 +1,5 @@
-import dom from '../utils/dom';
-import focusManager from '../components/focusManager';
+import dom from '@/utils/dom';
+import focusManager from '@/components/focusManager';
 
 let inputDisplayElement;
 let currentDisplayText = '';
