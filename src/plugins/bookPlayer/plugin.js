@@ -139,13 +139,13 @@ export class BookPlayer {
 
         if (!this.loaded) return;
         switch (key) {
-            case 'l':
+            case 'KeyL':
             case 'ArrowRight':
             case 'Right':
                 e.preventDefault();
                 this.next();
                 break;
-            case 'j':
+            case 'KeyJ':
             case 'ArrowLeft':
             case 'Left':
                 e.preventDefault();
