@@ -121,7 +121,7 @@
     "DeleteUser": "Ta bort användare",
     "DeleteUserConfirmation": "Är du säker på att du vill radera denna användare?",
     "Depressed": "Nedsänkt",
-    "Desktop": "Skrivbord",
+    "Desktop": "Skrivbord (Förlegad)",
     "DetectingDevices": "Söker efter enheter",
     "DeviceAccessHelp": "Detta tillämpas endast för enheter som kan bli unikt identifierade och som inte förhindrar åtkomst till browsern. Filtering av användarenheter kommer att blockera dom från att använda nya enheter tills dom har blivit godkända här.",
     "DirectPlaying": "Direktuppspelning",
