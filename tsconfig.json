@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
+    "baseUrl": ".",
     "target": "ES5",
     "lib": ["DOM", "DOM.Iterable", "ES2015"],
     "allowJs": true,
@@ -18,7 +18,7 @@
     "jsx": "react-jsx",
     "downlevelIteration": true,
     "paths": {
-      "@/*": ["./*"],
+      "@/*": ["src/*"],
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "src/**/*.js", "src/**/*.jsx"],

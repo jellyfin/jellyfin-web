@@ -39,6 +39,7 @@
     "eslint-plugin-compat": "6.0.2",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-paths": "1.1.0",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-sonarjs": "3.0.4",
@@ -77,6 +78,7 @@
     "worker-loader": "3.0.8"
   },
   "dependencies": {
+    "@dword-design/eslint-plugin-import-alias": "6.0.3",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
     "@fontsource/noto-sans": "5.2.7",

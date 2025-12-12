@@ -12,8 +12,11 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import restrictedGlobals from 'confusing-browser-globals';
 import sonarjs from 'eslint-plugin-sonarjs';
 import stylistic from '@stylistic/eslint-plugin';
+import importAlias from '@dword-design/eslint-plugin-import-alias';
 
 import tseslint from 'typescript-eslint';
+
+const importAliasRecommended = importAlias.configs.recommended;
 
 export default tseslint.config(
     eslint.configs.recommended,
@@ -420,6 +423,18 @@ export default tseslint.config(
             'sonarjs/no-invariant-returns': 'warn',
             'sonarjs/no-nested-functions': 'off',
             'sonarjs/void-use': 'off'
+        }
+    },
+    {
+        ...importAliasRecommended,
+        rules: {
+            ...importAliasRecommended.rules,
+            '@dword-design/import-alias/prefer-alias': ['error', {
+                'alias': {
+                    '@': './src'
+                },
+                'aliasForSubpaths': true
+            }]
         }
     }
 );
