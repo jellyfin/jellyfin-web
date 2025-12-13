@@ -11,9 +11,9 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 
-import globalize from 'lib/globalize';
-import { LibraryViewSettings } from 'types/library';
-import { LibraryTab } from 'types/libraryTab';
+import globalize from '@/lib/globalize';
+import { LibraryViewSettings } from '@/types/library';
+import { LibraryTab } from '@/types/libraryTab';
 
 type SortOption = {
     label: string;

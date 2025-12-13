@@ -6,7 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Box from '@mui/material/Box';
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import FormGroup from '@mui/material/FormGroup';
@@ -15,8 +15,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import IconButton from '@mui/material/IconButton';
-import { copy } from 'scripts/clipboard';
-import Toast from 'apps/dashboard/components/Toast';
+import { copy } from '@/scripts/clipboard';
+import Toast from '@/apps/dashboard/components/Toast';
 
 type IProps = {
     backup: BackupManifestDto;

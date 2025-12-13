@@ -3,18 +3,18 @@ import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/
 import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
 import { getMediaSegmentsApi } from '@jellyfin/sdk/lib/utils/api/media-segments-api';
 
-import type { PlaybackManager } from 'components/playback/playbackmanager';
-import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { currentSettings as userSettings } from 'scripts/settings/userSettings';
-import type { PlayerState } from 'types/playbackStopInfo';
-import type { Event } from 'utils/events';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+import type { PlaybackManager } from '@/components/playback/playbackmanager';
+import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from '@/constants/time';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { currentSettings as userSettings } from '@/scripts/settings/userSettings';
+import type { PlayerState } from '@/types/playbackStopInfo';
+import type { Event } from '@/utils/events';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
 
 import { getMediaSegmentAction } from './mediaSegmentSettings';
 import { findCurrentSegment } from './mediaSegments';
 import { PlaybackSubscriber } from './playbackSubscriber';
-import { MediaSegmentAction } from '../constants/mediaSegmentAction';
+import { MediaSegmentAction } from '@/apps/stable/features/playback/constants/mediaSegmentAction';
 
 class MediaSegmentManager extends PlaybackSubscriber {
     private hasSegments = false;

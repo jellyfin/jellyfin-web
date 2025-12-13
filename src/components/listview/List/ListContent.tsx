@@ -3,17 +3,17 @@ import React, { type FC } from 'react';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import Box from '@mui/material/Box';
 
-import useIndicator from 'components/indicators/useIndicator';
-import { ItemAction } from 'constants/itemAction';
+import useIndicator from '@/components/indicators/useIndicator';
+import { ItemAction } from '@/constants/itemAction';
 
-import PrimaryMediaInfo from '../../mediainfo/PrimaryMediaInfo';
+import PrimaryMediaInfo from '@/components/mediainfo/PrimaryMediaInfo';
 import ListContentWrapper from './ListContentWrapper';
 import ListItemBody from './ListItemBody';
 import ListImageContainer from './ListImageContainer';
 import ListViewUserDataButtons from './ListViewUserDataButtons';
 
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { ListOptions } from 'types/listOptions';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { ListOptions } from '@/types/listOptions';
 
 interface ListContentProps {
     item: ItemDto;

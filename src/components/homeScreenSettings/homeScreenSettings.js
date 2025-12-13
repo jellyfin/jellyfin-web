@@ -1,24 +1,24 @@
 
 import escapeHtml from 'escape-html';
 
-import { getUserViewsQuery } from 'hooks/useUserViews';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { queryClient } from 'utils/query/queryClient';
+import { getUserViewsQuery } from '@/hooks/useUserViews';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
+import { queryClient } from '@/utils/query/queryClient';
 
-import layoutManager from '../layoutManager';
-import focusManager from '../focusManager';
-import globalize from '../../lib/globalize';
-import loading from '../loading/loading';
-import Events from '../../utils/events.ts';
-import homeSections from '../homesections/homesections';
-import dom from '../../utils/dom';
-import '../listview/listview.scss';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-checkbox/emby-checkbox';
-import toast from '../toast/toast';
+import layoutManager from '@/components/layoutManager';
+import focusManager from '@/components/focusManager';
+import globalize from '@/lib/globalize';
+import loading from '@/components/loading/loading';
+import Events from '@/utils/events.ts';
+import homeSections from '@/components/homesections/homesections';
+import dom from '@/utils/dom';
+import '@/components/listview/listview.scss';
+import '@/elements/emby-select/emby-select';
+import '@/elements/emby-checkbox/emby-checkbox';
+import toast from '@/components/toast/toast';
 import template from './homeScreenSettings.template.html';
-import { LibraryTab } from '../../types/libraryTab.ts';
+import { LibraryTab } from '@/types/libraryTab.ts';
 
 const numConfigurableSections = 10;
 

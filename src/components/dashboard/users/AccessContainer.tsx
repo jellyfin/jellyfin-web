@@ -1,6 +1,6 @@
 import React, { type FC, type PropsWithChildren } from 'react';
-import globalize from '../../../lib/globalize';
-import CheckBoxElement from '../../../elements/CheckBoxElement';
+import globalize from '@/lib/globalize';
+import CheckBoxElement from '@/elements/CheckBoxElement';
 
 interface AccessContainerProps {
     containerClassName?: string;

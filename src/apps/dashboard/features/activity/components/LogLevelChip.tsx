@@ -2,8 +2,8 @@ import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import Chip from '@mui/material/Chip';
 import React, { useMemo } from 'react';
 
-import globalize from 'lib/globalize';
-import getLogLevelColor from '../utils/getLogLevelColor';
+import globalize from '@/lib/globalize';
+import getLogLevelColor from '@/apps/dashboard/features/activity/utils/getLogLevelColor';
 
 const LogLevelChip = ({ level }: { level: LogLevel }) => {
     const levelText = useMemo(() => globalize.translate(`LogLevel.${level}`), [level]);

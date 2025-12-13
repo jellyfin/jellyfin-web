@@ -6,8 +6,8 @@ import MenuItem from '@mui/material/MenuItem/MenuItem';
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import LibraryIcon from 'apps/experimental/components/LibraryIcon';
-import { appRouter } from 'components/router/appRouter';
+import LibraryIcon from '@/apps/experimental/components/LibraryIcon';
+import { appRouter } from '@/components/router/appRouter';
 
 interface UserViewsMenuProps extends MenuProps {
     userViews: BaseItemDto[]

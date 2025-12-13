@@ -1,20 +1,20 @@
-import cardBuilder from 'components/cardbuilder/cardBuilder';
-import imageLoader from 'components/images/imageLoader';
-import layoutManager from 'components/layoutManager';
-import loading from 'components/loading/loading';
-import * as mainTabsManager from 'components/maintabsmanager';
-import globalize from 'lib/globalize';
-import inputManager from 'scripts/inputManager';
-import * as userSettings from 'scripts/settings/userSettings';
-import { LibraryTab } from 'types/libraryTab';
-import Dashboard from 'utils/dashboard';
-import { getBackdropShape, getPortraitShape } from 'utils/card';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
+import imageLoader from '@/components/images/imageLoader';
+import layoutManager from '@/components/layoutManager';
+import loading from '@/components/loading/loading';
+import * as mainTabsManager from '@/components/maintabsmanager';
+import globalize from '@/lib/globalize';
+import inputManager from '@/scripts/inputManager';
+import * as userSettings from '@/scripts/settings/userSettings';
+import { LibraryTab } from '@/types/libraryTab';
+import Dashboard from '@/utils/dashboard';
+import { getBackdropShape, getPortraitShape } from '@/utils/card';
 
-import 'elements/emby-itemscontainer/emby-itemscontainer';
-import 'elements/emby-tabs/emby-tabs';
-import 'elements/emby-button/emby-button';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
+import '@/elements/emby-tabs/emby-tabs';
+import '@/elements/emby-button/emby-button';
 
-import 'styles/scrollstyles.scss';
+import '@/styles/scrollstyles.scss';
 
 function enableScrollX() {
     return !layoutManager.desktop;

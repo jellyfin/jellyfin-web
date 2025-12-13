@@ -11,14 +11,14 @@ import ListSubheader from '@mui/material/ListSubheader';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-import ListItemLink from 'components/ListItemLink';
-import { appRouter } from 'components/router/appRouter';
-import { useApi } from 'hooks/useApi';
-import { useUserViews } from 'hooks/useUserViews';
-import { useWebConfig } from 'hooks/useWebConfig';
-import globalize from 'lib/globalize';
+import ListItemLink from '@/components/ListItemLink';
+import { appRouter } from '@/components/router/appRouter';
+import { useApi } from '@/hooks/useApi';
+import { useUserViews } from '@/hooks/useUserViews';
+import { useWebConfig } from '@/hooks/useWebConfig';
+import globalize from '@/lib/globalize';
 
-import LibraryIcon from '../LibraryIcon';
+import LibraryIcon from '@/apps/experimental/components/LibraryIcon';
 import DrawerHeaderLink from './DrawerHeaderLink';
 
 const MainDrawerContent = () => {

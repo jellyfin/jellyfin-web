@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 
-import { useUserSettings } from 'hooks/useUserSettings';
-import { useBrandingOptions } from 'apps/dashboard/features/branding/api/useBrandingOptions';
+import { useUserSettings } from '@/hooks/useUserSettings';
+import { useBrandingOptions } from '@/apps/dashboard/features/branding/api/useBrandingOptions';
 
 const CustomCss: FC = () => {
     const { data: brandingOptions } = useBrandingOptions();

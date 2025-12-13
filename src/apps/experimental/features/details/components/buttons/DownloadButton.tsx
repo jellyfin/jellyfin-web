@@ -2,10 +2,10 @@ import React, { FC, useCallback } from 'react';
 import IconButton from '@mui/material/IconButton';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
-import { useGetDownload } from 'hooks/api/libraryHooks';
-import globalize from 'lib/globalize';
-import { download } from 'scripts/fileDownloader';
-import type { NullableString } from 'types/base/common/shared/types';
+import { useGetDownload } from '@/hooks/api/libraryHooks';
+import globalize from '@/lib/globalize';
+import { download } from '@/scripts/fileDownloader';
+import type { NullableString } from '@/types/base/common/shared/types';
 
 interface DownloadButtonProps {
     itemId: string;

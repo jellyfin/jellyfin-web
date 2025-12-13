@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 import React from 'react';
 
 interface SimpleAlertDialog extends DialogProps {

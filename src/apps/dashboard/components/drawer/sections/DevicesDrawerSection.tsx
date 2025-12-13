@@ -7,8 +7,8 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import React from 'react';
 
-import ListItemLink from 'components/ListItemLink';
-import globalize from 'lib/globalize';
+import ListItemLink from '@/components/ListItemLink';
+import globalize from '@/lib/globalize';
 
 const DevicesDrawerSection = () => {
     return (

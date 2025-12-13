@@ -1,15 +1,15 @@
 import escapeHtml from 'escape-html';
 
-import cardBuilder from 'components/cardbuilder/cardBuilder';
-import lazyLoader from 'components/lazyLoader/lazyLoaderIntersectionObserver';
-import layoutManager from 'components/layoutManager';
-import loading from 'components/loading/loading';
-import { appRouter } from 'components/router/appRouter';
-import globalize from 'lib/globalize';
-import * as userSettings from 'scripts/settings/userSettings';
-import { getBackdropShape, getPortraitShape } from 'utils/card';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
+import lazyLoader from '@/components/lazyLoader/lazyLoaderIntersectionObserver';
+import layoutManager from '@/components/layoutManager';
+import loading from '@/components/loading/loading';
+import { appRouter } from '@/components/router/appRouter';
+import globalize from '@/lib/globalize';
+import * as userSettings from '@/scripts/settings/userSettings';
+import { getBackdropShape, getPortraitShape } from '@/utils/card';
 
-import 'elements/emby-button/emby-button';
+import '@/elements/emby-button/emby-button';
 
 export default function (view, params, tabContent) {
     function getPageData() {

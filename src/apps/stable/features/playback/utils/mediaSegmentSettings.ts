@@ -1,8 +1,8 @@
 import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
 
-import { UserSettings } from 'scripts/settings/userSettings';
+import { UserSettings } from '@/scripts/settings/userSettings';
 
-import { MediaSegmentAction } from '../constants/mediaSegmentAction';
+import { MediaSegmentAction } from '@/apps/stable/features/playback/constants/mediaSegmentAction';
 
 const PREFIX = 'segmentTypeAction';
 const DEFAULT_ACTIONS: Partial<Record<MediaSegmentType, MediaSegmentAction>> = {

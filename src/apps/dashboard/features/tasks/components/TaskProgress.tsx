@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { TaskProps } from '../types/taskProps';
+import { TaskProps } from '@/apps/dashboard/features/tasks/types/taskProps';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';

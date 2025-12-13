@@ -7,9 +7,9 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
-import type { DisplaySettingsValues } from '../types/displaySettingsValues';
+import type { DisplaySettingsValues } from '@/apps/experimental/features/preferences/types/displaySettingsValues';
 
 interface LibraryPreferencesProps {
     onChange: (event: React.SyntheticEvent) => void;

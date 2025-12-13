@@ -16,13 +16,13 @@ import MenuItem from '@mui/material/MenuItem';
 import React, { FC, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-import { appHost } from 'components/apphost';
-import { AppFeature } from 'constants/appFeature';
-import { useApi } from 'hooks/useApi';
-import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
-import globalize from 'lib/globalize';
-import shell from 'scripts/shell';
-import Dashboard from 'utils/dashboard';
+import { appHost } from '@/components/apphost';
+import { AppFeature } from '@/constants/appFeature';
+import { useApi } from '@/hooks/useApi';
+import { useQuickConnectEnabled } from '@/hooks/useQuickConnect';
+import globalize from '@/lib/globalize';
+import shell from '@/scripts/shell';
+import Dashboard from '@/utils/dashboard';
 
 export const ID = 'app-user-menu';
 

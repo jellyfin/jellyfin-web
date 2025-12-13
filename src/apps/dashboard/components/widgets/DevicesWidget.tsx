@@ -1,9 +1,9 @@
 import React from 'react';
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 import Widget from './Widget';
-import DeviceCard from 'apps/dashboard/features/devices/components/DeviceCard';
+import DeviceCard from '@/apps/dashboard/features/devices/components/DeviceCard';
 import Stack from '@mui/material/Stack';
-import useLiveSessions from 'apps/dashboard/features/sessions/hooks/useLiveSessions';
+import useLiveSessions from '@/apps/dashboard/features/sessions/hooks/useLiveSessions';
 
 const DevicesWidget = () => {
     const { data: devices } = useLiveSessions();

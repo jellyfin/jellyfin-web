@@ -1,12 +1,12 @@
-import cardBuilder from 'components/cardbuilder/cardBuilder';
-import imageLoader from 'components/images/imageLoader';
-import loading from 'components/loading/loading';
-import { getBackdropShape } from 'utils/card';
-import Dashboard from 'utils/dashboard';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
+import imageLoader from '@/components/images/imageLoader';
+import loading from '@/components/loading/loading';
+import { getBackdropShape } from '@/utils/card';
+import Dashboard from '@/utils/dashboard';
 
-import 'scripts/livetvcomponents';
-import 'components/listview/listview.scss';
-import 'elements/emby-itemscontainer/emby-itemscontainer';
+import '@/scripts/livetvcomponents';
+import '@/components/listview/listview.scss';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
 
 function renderRecordings(elem, recordings, cardOptions, scrollX) {
     if (!elem) {

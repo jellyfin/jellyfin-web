@@ -2,18 +2,18 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
-import Page from 'components/Page';
-import globalize from 'lib/globalize';
+import Page from '@/components/Page';
+import globalize from '@/lib/globalize';
 import React, { useCallback, useState } from 'react';
 import Stack from '@mui/material/Stack';
-import { useRepositories } from 'apps/dashboard/features/plugins/api/useRepositories';
-import Loading from 'components/loading/LoadingComponent';
+import { useRepositories } from '@/apps/dashboard/features/plugins/api/useRepositories';
+import Loading from '@/components/loading/LoadingComponent';
 import Alert from '@mui/material/Alert';
 import List from '@mui/material/List';
-import RepositoryListItem from 'apps/dashboard/features/plugins/components/RepositoryListItem';
+import RepositoryListItem from '@/apps/dashboard/features/plugins/components/RepositoryListItem';
 import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/repository-info';
-import { useSetRepositories } from 'apps/dashboard/features/plugins/api/useSetRepositories';
-import NewRepositoryForm from 'apps/dashboard/features/plugins/components/NewRepositoryForm';
+import { useSetRepositories } from '@/apps/dashboard/features/plugins/api/useSetRepositories';
+import NewRepositoryForm from '@/apps/dashboard/features/plugins/components/NewRepositoryForm';
 
 export const Component = () => {
     const { data: repositories, isPending, isError } = useRepositories();

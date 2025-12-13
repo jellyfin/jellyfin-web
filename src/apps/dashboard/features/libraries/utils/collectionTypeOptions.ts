@@ -1,4 +1,4 @@
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
 const getCollectionTypeOptions = () => {
     return [{

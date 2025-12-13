@@ -1,17 +1,17 @@
 import React from 'react';
 
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
-import Page from 'components/Page';
+import { QUERY_KEY, useConfiguration } from '@/hooks/useConfiguration';
+import Page from '@/components/Page';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Checkbox from '@mui/material/Checkbox';
-import Loading from 'components/loading/LoadingComponent';
+import Loading from '@/components/loading/LoadingComponent';
 import FormHelperText from '@mui/material/FormHelperText';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
@@ -20,8 +20,8 @@ import Alert from '@mui/material/Alert';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models/trickplay-scan-behavior';
 import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';
-import { ActionData } from 'types/actionData';
-import { queryClient } from 'utils/query/queryClient';
+import { ActionData } from '@/types/actionData';
+import { queryClient } from '@/utils/query/queryClient';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();

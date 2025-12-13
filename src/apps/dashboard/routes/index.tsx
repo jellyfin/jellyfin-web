@@ -1,21 +1,21 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import Page from 'components/Page';
-import globalize from 'lib/globalize';
+import Page from '@/components/Page';
+import globalize from '@/lib/globalize';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import ServerPathWidget from '../components/widgets/ServerPathWidget';
-import ServerInfoWidget from '../components/widgets/ServerInfoWidget';
-import ActivityLogWidget from '../components/widgets/ActivityLogWidget';
-import AlertsLogWidget from '../components/widgets/AlertsLogWidget';
+import ServerPathWidget from '@/apps/dashboard/components/widgets/ServerPathWidget';
+import ServerInfoWidget from '@/apps/dashboard/components/widgets/ServerInfoWidget';
+import ActivityLogWidget from '@/apps/dashboard/components/widgets/ActivityLogWidget';
+import AlertsLogWidget from '@/apps/dashboard/components/widgets/AlertsLogWidget';
 import Stack from '@mui/material/Stack';
-import useShutdownServer from '../features/system/api/useShutdownServer';
-import useRestartServer from '../features/system/api/useRestartServer';
-import ConfirmDialog from 'components/ConfirmDialog';
-import useLiveTasks from '../features/tasks/hooks/useLiveTasks';
-import RunningTasksWidget from '../components/widgets/RunningTasksWidget';
-import DevicesWidget from '../components/widgets/DevicesWidget';
-import { useStartTask } from '../features/tasks/api/useStartTask';
-import ItemCountsWidget from '../components/widgets/ItemCountsWidget';
+import useShutdownServer from '@/apps/dashboard/features/system/api/useShutdownServer';
+import useRestartServer from '@/apps/dashboard/features/system/api/useRestartServer';
+import ConfirmDialog from '@/components/ConfirmDialog';
+import useLiveTasks from '@/apps/dashboard/features/tasks/hooks/useLiveTasks';
+import RunningTasksWidget from '@/apps/dashboard/components/widgets/RunningTasksWidget';
+import DevicesWidget from '@/apps/dashboard/components/widgets/DevicesWidget';
+import { useStartTask } from '@/apps/dashboard/features/tasks/api/useStartTask';
+import ItemCountsWidget from '@/apps/dashboard/components/widgets/ItemCountsWidget';
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
 
 export const Component = () => {

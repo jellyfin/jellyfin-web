@@ -1,4 +1,4 @@
-import dom from '../utils/dom';
+import dom from '@/utils/dom';
 import scrollManager from './scrollManager';
 
 const scopes = [];

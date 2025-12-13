@@ -5,15 +5,15 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import { TaskProps } from '../types/taskProps';
+import { TaskProps } from '@/apps/dashboard/features/tasks/types/taskProps';
 import TaskProgress from './TaskProgress';
 import TaskLastRan from './TaskLastRan';
 import IconButton from '@mui/material/IconButton';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import Stop from '@mui/icons-material/Stop';
-import { useStartTask } from '../api/useStartTask';
-import { useStopTask } from '../api/useStopTask';
-import ListItemLink from 'components/ListItemLink';
+import { useStartTask } from '@/apps/dashboard/features/tasks/api/useStartTask';
+import { useStopTask } from '@/apps/dashboard/features/tasks/api/useStopTask';
+import ListItemLink from '@/components/ListItemLink';
 
 const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const startTask = useStartTask();

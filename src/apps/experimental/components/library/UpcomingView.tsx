@@ -1,14 +1,13 @@
 import React, { type FC } from 'react';
 
-import { useApi } from 'hooks/useApi';
-import { useGetGroupsUpcomingEpisodes } from 'hooks/useFetchItems';
-import Loading from 'components/loading/LoadingComponent';
-import NoItemsMessage from 'components/common/NoItemsMessage';
-import SectionContainer from 'components/common/SectionContainer';
-import { CardShape } from 'utils/card';
-import type { LibraryViewProps } from 'types/library';
+import { useApi } from '@/hooks/useApi';
+import { useGetGroupsUpcomingEpisodes } from '@/hooks/useFetchItems';
+import Loading from '@/components/loading/LoadingComponent';
+import NoItemsMessage from '@/components/common/NoItemsMessage';
+import SectionContainer from '@/components/common/SectionContainer';
+import { CardShape } from '@/utils/card';
+import type { LibraryViewProps } from '@/types/library';
 
-// eslint-disable-next-line sonarjs/function-return-type
 const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
     const { __legacyApiClient__ } = useApi();
     const { isLoading, data: groupsUpcomingEpisodes } =

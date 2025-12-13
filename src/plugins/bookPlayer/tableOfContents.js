@@ -1,6 +1,6 @@
 import escapeHTML from 'escape-html';
-import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import layoutManager from 'components/layoutManager';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import layoutManager from '@/components/layoutManager';
 
 export default class TableOfContents {
     constructor(bookPlayer) {

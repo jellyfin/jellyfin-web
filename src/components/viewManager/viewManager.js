@@ -1,6 +1,6 @@
-import viewContainer from '../viewContainer';
-import focusManager from '../focusManager';
-import layoutManager from '../layoutManager';
+import viewContainer from '@/components/viewContainer';
+import focusManager from '@/components/focusManager';
+import layoutManager from '@/components/layoutManager';
 
 let currentView;
 let dispatchPageEvents;

@@ -2,11 +2,11 @@ import { getQuickConnectApi } from '@jellyfin/sdk/lib/utils/api/quick-connect-ap
 import React, { FC, FormEvent, useCallback, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import Page from 'components/Page';
-import globalize from 'lib/globalize';
-import Input from 'elements/emby-input/Input';
-import Button from 'elements/emby-button/Button';
-import { useApi } from 'hooks/useApi';
+import Page from '@/components/Page';
+import globalize from '@/lib/globalize';
+import Input from '@/elements/emby-input/Input';
+import Button from '@/elements/emby-button/Button';
+import { useApi } from '@/hooks/useApi';
 
 import './quickConnect.scss';
 

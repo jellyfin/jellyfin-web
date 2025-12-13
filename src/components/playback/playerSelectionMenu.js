@@ -1,17 +1,17 @@
-import { AppFeature } from 'constants/appFeature';
-import Events from '../../utils/events.ts';
-import browser from '../../scripts/browser';
-import loading from '../loading/loading';
-import { playbackManager } from '../playback/playbackmanager';
-import { pluginManager } from '../pluginManager';
-import { appRouter } from '../router/appRouter';
-import globalize from '../../lib/globalize';
-import { appHost } from '../apphost';
-import { enable, isEnabled } from '../../scripts/autocast';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-button/emby-button';
-import dialog from '../dialog/dialog';
-import dialogHelper from '../dialogHelper/dialogHelper';
+import { AppFeature } from '@/constants/appFeature';
+import Events from '@/utils/events.ts';
+import browser from '@/scripts/browser';
+import loading from '@/components/loading/loading';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import { pluginManager } from '@/components/pluginManager';
+import { appRouter } from '@/components/router/appRouter';
+import globalize from '@/lib/globalize';
+import { appHost } from '@/components/apphost';
+import { enable, isEnabled } from '@/scripts/autocast';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-button/emby-button';
+import dialog from '@/components/dialog/dialog';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
 
 function getTargetSecondaryText(target) {
     if (target.user) {

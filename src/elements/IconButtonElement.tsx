@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
 type IProps = {
     is?: string;

@@ -1,14 +1,14 @@
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
-import { useApi } from 'hooks/useApi';
-import { getDesiredAspect } from '../cardBuilderUtils';
-import { CardShape } from 'utils/card';
+import { useApi } from '@/hooks/useApi';
+import { getDesiredAspect } from '@/components/cardbuilder/cardBuilderUtils';
+import { CardShape } from '@/utils/card';
 
-import { ItemKind } from 'types/base/models/item-kind';
-import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { CardOptions } from 'types/cardOptions';
+import { ItemKind } from '@/types/base/models/item-kind';
+import { ItemMediaKind } from '@/types/base/models/item-media-kind';
+import type { NullableNumber, NullableString } from '@/types/base/common/shared/types';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { CardOptions } from '@/types/cardOptions';
 
 function getPreferThumbInfo(item: ItemDto, cardOptions: CardOptions) {
     let imgType;

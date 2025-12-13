@@ -2,8 +2,8 @@ import type { PluginsApiUninstallPluginByVersionRequest } from '@jellyfin/sdk/li
 import { getPluginsApi } from '@jellyfin/sdk/lib/utils/api/plugins-api';
 import { useMutation } from '@tanstack/react-query';
 
-import { useApi } from 'hooks/useApi';
-import { queryClient } from 'utils/query/queryClient';
+import { useApi } from '@/hooks/useApi';
+import { queryClient } from '@/utils/query/queryClient';
 
 import { QueryKey } from './queryKey';
 

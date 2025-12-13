@@ -1,12 +1,12 @@
-import loading from 'components/loading/loading';
-import toast from 'components/toast/toast';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Dashboard from 'utils/dashboard';
+import loading from '@/components/loading/loading';
+import toast from '@/components/toast/toast';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import Dashboard from '@/utils/dashboard';
 
-import 'styles/dashboard.scss';
-import 'elements/emby-input/emby-input';
-import 'elements/emby-button/emby-button';
+import '@/styles/dashboard.scss';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-button/emby-button';
 
 function nextWizardPage() {
     Dashboard.navigate('wizard/library')

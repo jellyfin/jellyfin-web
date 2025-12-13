@@ -1,5 +1,5 @@
-import { appHost } from 'components/apphost';
-import { AppFeature } from 'constants/appFeature';
+import { appHost } from '@/components/apphost';
+import { AppFeature } from '@/constants/appFeature';
 
 /**
  * Creates an audio element that plays a silent sound.

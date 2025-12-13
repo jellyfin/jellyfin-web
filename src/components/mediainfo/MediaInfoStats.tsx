@@ -4,8 +4,8 @@ import Box from '@mui/material/Box';
 import useMediaInfoStats from './useMediaInfoStats';
 
 import MediaInfoItem from './MediaInfoItem';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { MiscInfo } from 'types/mediaInfoItem';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { MiscInfo } from '@/types/mediaInfoItem';
 import type { MediaInfoStatsOpts } from './type';
 
 interface MediaInfoStatsProps extends MediaInfoStatsOpts {

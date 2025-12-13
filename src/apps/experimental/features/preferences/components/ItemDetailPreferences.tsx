@@ -6,9 +6,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
-import type { DisplaySettingsValues } from '../types/displaySettingsValues';
+import type { DisplaySettingsValues } from '@/apps/experimental/features/preferences/types/displaySettingsValues';
 
 interface ItemDetailPreferencesProps {
     onChange: (event: React.SyntheticEvent) => void;

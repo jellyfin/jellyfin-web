@@ -1,7 +1,7 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import type { ApiClient } from 'jellyfin-apiclient';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import { randomInt } from '../number';
+import { randomInt } from '@/utils/number';
 
 export interface ScaleImageOptions {
     maxWidth?: number;
