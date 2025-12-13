@@ -81,7 +81,7 @@ function renameVirtualFolder(page, virtualFolder) {
             description: globalize.translate('MessageRenameMediaFolder'),
             confirmText: globalize.translate('ButtonRename')
         }).then(function (newName) {
-            if (newName && newName != virtualFolder.Name) {
+            if (newName && newName !== virtualFolder.Name) {
                 const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
                 ServerConnections.currentApiClient()
                     .renameVirtualFolder(virtualFolder.Name, newName, refreshAfterChange)
@@ -95,30 +95,26 @@ function renameVirtualFolder(page, virtualFolder) {
 
 function showCardMenu(page, elem, virtualFolders) {
     const card = dom.parentWithClass(elem, 'card');
-    const index = parseInt(card.getAttribute('data-index'), 10);
+    const index = Number.parseInt(card.dataset.index, 10);
     const virtualFolder = virtualFolders[index];
     const menuItems = [];
     menuItems.push({
         name: globalize.translate('EditImages'),
         id: 'editimages',
         icon: 'photo'
-    });
-    menuItems.push({
+    }, {
         name: globalize.translate('ManageLibrary'),
         id: 'edit',
         icon: 'folder'
-    });
-    menuItems.push({
+    }, {
         name: globalize.translate('ButtonRename'),
         id: 'rename',
         icon: 'mode_edit'
-    });
-    menuItems.push({
+    }, {
         name: globalize.translate('ScanLibrary'),
         id: 'refresh',
         icon: 'refresh'
-    });
-    menuItems.push({
+    }, {
         name: globalize.translate('ButtonRemove'),
         id: 'delete',
         icon: 'delete'
@@ -187,30 +183,29 @@ function reloadVirtualFolders(page, virtualFolders) {
 
     const divVirtualFolders = page.querySelector('#divVirtualFolders');
     divVirtualFolders.innerHTML = html;
-    divVirtualFolders.classList.add('itemsContainer');
-    divVirtualFolders.classList.add('vertical-wrap');
+    divVirtualFolders.classList.add('itemsContainer', 'vertical-wrap');
     const btnCardMenuElements = divVirtualFolders.querySelectorAll('.btnCardMenu');
-    btnCardMenuElements.forEach(function (btn) {
+    for (const btn of btnCardMenuElements) {
         btn.addEventListener('click', function () {
             showCardMenu(page, btn, virtualFolders);
         });
-    });
+    }
     divVirtualFolders.querySelector('#addLibrary').addEventListener('click', function () {
         addVirtualFolder(page);
     });
 
     const libraryEditElements = divVirtualFolders.querySelectorAll('.editLibrary');
-    libraryEditElements.forEach(function (btn) {
+    for (const btn of libraryEditElements) {
         btn.addEventListener('click', function () {
             const card = dom.parentWithClass(btn, 'card');
-            const index = parseInt(card.getAttribute('data-index'), 10);
+            const index = Number.parseInt(card.dataset.index, 10);
             const virtualFolder = virtualFolders[index];
 
             if (virtualFolder.ItemId) {
                 editVirtualFolder(page, virtualFolder);
             }
         });
-    });
+    }
     loading.hide();
 }
 
@@ -262,110 +257,143 @@ function getCollectionTypeOptions() {
     }];
 }
 
-function getVirtualFolderHtml(page, virtualFolder, index) {
-    let html = '';
+function createImageUrl(virtualFolder) {
+    if (!virtualFolder.PrimaryImageItemId) return '';
 
-    const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}" ` : '';
-    html += '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" style="min-width:33.3%;" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
-
-    html += '<div class="cardBox visualCardBox">';
-    html += '<div class="cardScalable visualCardBox-cardScalable">';
-    html += '<div class="cardPadder cardPadder-backdrop"></div>';
-    html += '<div class="cardContent">';
-    let imgUrl = '';
-
-    if (virtualFolder.PrimaryImageItemId) {
-        imgUrl = ServerConnections.currentApiClient()
-            .getScaledImageUrl(virtualFolder.PrimaryImageItemId, {
-                maxWidth: Math.round(dom.getScreenWidth() * 0.40),
-                type: 'Primary'
-            });
-    }
-
-    let hasCardImageContainer;
-
-    if (imgUrl) {
-        html += `<div class="cardImageContainer editLibrary ${imgUrl ? '' : getDefaultBackgroundClass()}" style="cursor:pointer">`;
-        html += `<img src="${imgUrl}" style="width:100%" />`;
-        hasCardImageContainer = true;
-    } else if (!virtualFolder.showNameWithIcon) {
-        html += `<div class="cardImageContainer editLibrary ${getDefaultBackgroundClass()}" style="cursor:pointer;">`;
-        html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '" aria-hidden="true"></span>';
-        hasCardImageContainer = true;
-    }
-
-    if (hasCardImageContainer) {
-        html += '<div class="cardIndicators backdropCardIndicators">';
-        html += '<div is="emby-itemrefreshindicator"' + (virtualFolder.RefreshProgress || virtualFolder.RefreshStatus && virtualFolder.RefreshStatus !== 'Idle' ? '' : ' class="hide"') + ' data-progress="' + (virtualFolder.RefreshProgress || 0) + '" data-status="' + virtualFolder.RefreshStatus + '"></div>';
-        html += '</div>';
-        html += '</div>';
-    }
-
-    if (!imgUrl && virtualFolder.showNameWithIcon) {
-        html += '<h3 class="cardImageContainer addLibrary" style="position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;flex-direction:column;">';
-        html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '" aria-hidden="true"></span>';
-
-        if (virtualFolder.showNameWithIcon) {
-            html += '<div style="margin:1em 0;position:width:100%;">';
-            html += escapeHtml(virtualFolder.Name);
-            html += '</div>';
+    return ServerConnections.currentApiClient().getScaledImageUrl(
+        virtualFolder.PrimaryImageItemId,
+        {
+            maxWidth: Math.round(dom.getScreenWidth() * 0.40),
+            type: 'Primary'
         }
+    );
+}
 
-        html += '</h3>';
+function getCardImageContainerHtml(virtualFolder, imgUrl) {
+    if (imgUrl) {
+        return `
+            <div class="cardImageContainer editLibrary" style="cursor:pointer">
+                                                                <img src="${imgUrl}" style="width:100%" alt="${escapeHtml(virtualFolder.Name)}" />
+            </div>
+        `;
     }
 
-    html += '</div>';
-    html += '</div>';
-    html += '<div class="cardFooter visualCardBox-cardFooter">'; // always show menu unless explicitly hidden
-
-    if (virtualFolder.showMenu !== false) {
-        const dirTextAlign = globalize.getIsRTL() ? 'left' : 'right';
-        html += '<div style="text-align:' + dirTextAlign + '; float:' + dirTextAlign + ';padding-top:5px;">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
-        html += '</div>';
+    if (!virtualFolder.showNameWithIcon) {
+        const iconClass = virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType);
+        return `
+            <div class="cardImageContainer editLibrary ${getDefaultBackgroundClass()}" style="cursor:pointer;">
+                <span class="cardImageIcon material-icons ${iconClass}" aria-hidden="true"></span>
+            </div>
+        `;
     }
 
-    html += "<div class='cardText'>";
+    return '';
+}
 
-    if (virtualFolder.showNameWithIcon) {
-        html += '&nbsp;';
-    } else {
-        html += escapeHtml(virtualFolder.Name);
+function getRefreshIndicatorHtml(virtualFolder) {
+    const isRefreshing = virtualFolder.RefreshProgress
+                        || (virtualFolder.RefreshStatus && virtualFolder.RefreshStatus !== 'Idle');
+    const hideClass = isRefreshing ? '' : ' class="hide"';
+
+    return `
+        <div class="cardIndicators backdropCardIndicators">
+            <div is="emby-itemrefreshindicator"${hideClass}
+                 data-progress="${virtualFolder.RefreshProgress || 0}"
+                                                   data-status="${escapeHtml(virtualFolder.RefreshStatus || '')}"></div>
+        </div>
+    `;
+}
+
+function getNameWithIconHtml(virtualFolder) {
+    if (!virtualFolder.showNameWithIcon) return '';
+
+    const iconClass = virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType);
+    return `
+        <h3 class="cardImageContainer addLibrary"
+            style="position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;flex-direction:column;">
+            <span class="cardImageIcon material-icons ${iconClass}" aria-hidden="true"></span>
+            <div style="margin:1em 0;width:100%;">
+                ${escapeHtml(virtualFolder.Name)}
+            </div>
+        </h3>
+    `;
+}
+
+function getCardMenuHtml(virtualFolder) {
+    if (virtualFolder.showMenu === false) return '';
+
+    const dirTextAlign = globalize.getIsRTL() ? 'left' : 'right';
+    return `
+        <div style="text-align:${dirTextAlign}; float:${dirTextAlign};padding-top:5px;">
+            <button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize">
+                <span class="material-icons more_vert" aria-hidden="true"></span>
+            </button>
+        </div>
+    `;
+}
+
+function getCollectionTypeName(collectionType) {
+    const typeOption = getCollectionTypeOptions().find(t => t.value === collectionType);
+    return typeOption ? typeOption.name : globalize.translate('Other');
+}
+
+function getLocationHtml(locations, showLocations) {
+    if (showLocations === false) {
+        return '<div class="cardText cardText-secondary">&nbsp;</div>';
     }
 
-    html += '</div>';
-    let typeName = getCollectionTypeOptions().filter(function (t) {
-        return t.value == virtualFolder.CollectionType;
-    })[0];
-    typeName = typeName ? typeName.name : globalize.translate('Other');
-    html += "<div class='cardText cardText-secondary'>";
-
-    if (virtualFolder.showType === false) {
-        html += '&nbsp;';
-    } else {
-        html += typeName;
+    if (locations.length === 1) {
+        return `
+            <div class="cardText cardText-secondary" dir="ltr" style="text-align:left;">
+                ${escapeHtml(locations[0])}
+            </div>
+        `;
     }
 
-    html += '</div>';
+    return `
+        <div class="cardText cardText-secondary">
+            ${globalize.translate('NumLocationsValue', locations.length)}
+        </div>
+    `;
+}
 
-    if (virtualFolder.showLocations === false) {
-        html += "<div class='cardText cardText-secondary'>";
-        html += '&nbsp;';
-        html += '</div>';
-    } else if (virtualFolder.Locations.length && virtualFolder.Locations.length === 1) {
-        html += "<div class='cardText cardText-secondary' dir='ltr' style='text-align:left;'>";
-        html += escapeHtml(virtualFolder.Locations[0]);
-        html += '</div>';
-    } else {
-        html += "<div class='cardText cardText-secondary'>";
-        html += globalize.translate('NumLocationsValue', virtualFolder.Locations.length);
-        html += '</div>';
-    }
+function getVirtualFolderHtml(page, virtualFolder, index) {
+    const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}" ` : '';
+    const imgUrl = createImageUrl(virtualFolder);
+    const hasCardImageContainer = imgUrl || !virtualFolder.showNameWithIcon;
 
-    html += '</div>';
-    html += '</div>';
-    html += '</div>';
-    return html;
+    const cardImageHtml = getCardImageContainerHtml(virtualFolder, imgUrl);
+    const refreshIndicatorHtml = hasCardImageContainer ? getRefreshIndicatorHtml(virtualFolder) : '';
+    const nameWithIconHtml = (!imgUrl && virtualFolder.showNameWithIcon) ? getNameWithIconHtml(virtualFolder) : '';
+    const cardMenuHtml = getCardMenuHtml(virtualFolder);
+    const typeName = getCollectionTypeName(virtualFolder.CollectionType);
+    const nameText = virtualFolder.showNameWithIcon ? '&nbsp;' : escapeHtml(virtualFolder.Name);
+    const typeText = virtualFolder.showType === false ? '&nbsp;' : typeName;
+    const locationHtml = getLocationHtml(virtualFolder.Locations, virtualFolder.showLocations);
+
+    return `
+        <div ${elementId} class="card backdropCard scalableCard backdropCard-scalable"
+             style="min-width:33.3%;"
+             data-index="${index}"
+                                                    data-id="${virtualFolder.ItemId ? virtualFolder.ItemId : ''}">
+            <div class="cardBox visualCardBox">
+                <div class="cardScalable visualCardBox-cardScalable">
+                    <div class="cardPadder cardPadder-backdrop"></div>
+                    <div class="cardContent">
+                        ${cardImageHtml}
+                        ${refreshIndicatorHtml}
+                        ${nameWithIconHtml}
+                    </div>
+                </div>
+                <div class="cardFooter visualCardBox-cardFooter">
+                    ${cardMenuHtml}
+                    <div class="cardText">${nameText}</div>
+                    <div class="cardText cardText-secondary">${typeText}</div>
+                    ${locationHtml}
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 window.WizardLibraryPage = {
