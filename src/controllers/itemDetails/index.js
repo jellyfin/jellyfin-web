@@ -509,6 +509,109 @@ function setTrailerButtonVisibility(page, item) {
     }
 }
 
+function addIndicatorImage(childrenItemsContainer) {
+    childrenItemsContainer ??= document.querySelector('#itemDetailPage:not(.hide) .childrenItemsContainer');
+    let playerState;
+
+    try {
+        playerState = playbackManager.getPlayerState();
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const id = playerState.MediaSource.Id;
+        const listIndex = childrenItemsContainer.querySelector(`.listItem[data-id="${id}"]:not([data-playlistitemid]) > .listItem-indexnumberleft`);
+
+        if (listIndex) {
+            import('components/remotecontrol/remotecontrol.scss');
+
+            const listBody = listIndex.nextElementSibling;
+            listBody.classList.remove('listItemBody-noleftpadding');
+
+            const img = document.createElement('div');
+            img.className = 'listItemImage playlistIndexIndicatorImage';
+            img.classList.toggle('playlistIndexIndicatorPausedImage', playbackManager.paused());
+
+            img.appendChild(listIndex);
+            listBody.parentElement.insertBefore(img, listBody);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function removeIndicatorImage(childrenItemsContainer) {
+    try {
+        childrenItemsContainer ??= document.querySelector('#itemDetailPage:not(.hide) .childrenItemsContainer');
+        const img = childrenItemsContainer.querySelector('.listItem:not([data-playlistitemid]) > .listItemImage');
+        const listIndex = img?.firstElementChild;
+
+        if (!img || !listIndex) return;
+
+        img.parentElement.insertBefore(listIndex, img);
+        img.remove();
+
+        listIndex.nextElementSibling.classList.add('listItemBody-noleftpadding');
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+/**
+ * @param { { type: 'pause' | 'unpause'| 'playbackstart' | 'playbackstop' | 'playbackcancelled' } } evtType
+ * @returns {void}
+ */
+function onPlayerStateChange(evtType) {
+    const { type } = evtType;
+
+    if (type === 'playbackstop' || type === 'playbackcancelled') {
+        removeIndicatorImage();
+        return;
+    }
+
+    if (type === 'pause' || type === 'unpause') {
+        const img = document.querySelector('#itemDetailPage:not(.hide) .childrenItemsContainer .listItem:not([data-playlistitemid]) > .listItemImage');
+        if (!img) return;
+
+        img.classList.toggle('playlistIndexIndicatorPausedImage', playbackManager.paused());
+        return;
+    }
+
+    if (type === 'playbackstart') {
+        removeIndicatorImage();
+        addIndicatorImage();
+    }
+}
+
+function addIndicatorImageEventListener(player) {
+    ['pause', 'unpause', 'playbackstart', 'playbackstop', 'playbackcancelled'].forEach((evtType)=>{
+        Events.on(player, evtType, onPlayerStateChange);
+    });
+}
+
+function removeIndicatorImageEventListener(player) {
+    ['pause', 'unpause', 'playbackstart', 'playbackstop', 'playbackcancelled'].forEach((evtType)=>{
+        Events.off(player, evtType, onPlayerStateChange);
+    });
+}
+
+/**
+ * @param { {} | null } newPlayer
+ * @param { {} | undefined | null } previousPlayer
+ */
+function updateIndicatorImageEventListener(newPlayer, previousPlayer) {
+    console.log('Debug:updateIndicatorImageEventListener', !!newPlayer, !!previousPlayer);
+
+    if (newPlayer && newPlayer.id === 'htmlaudioplayer') {
+        addIndicatorImageEventListener(newPlayer);
+    }
+
+    if (previousPlayer && previousPlayer.id === 'htmlaudioplayer') {
+        removeIndicatorImageEventListener(previousPlayer);
+    }
+}
+
 function renderBackdrop(page, item) {
     if (!layoutManager.mobile && dom.getWindowSize().innerWidth >= 1000) {
         const isBannerEnabled = !layoutManager.tv && userSettings.detailsBanner();
@@ -1519,6 +1622,10 @@ function renderChildren(page, item) {
             }];
             renderCollectionItems(page, item, collectionItemTypes, result.Items);
         }
+
+        if (item.Type === 'MusicAlbum') {
+            addIndicatorImage(childrenItemsContainer);
+        }
     });
 
     let childrenTitle = globalize.translate('Items');
@@ -2070,9 +2177,10 @@ export default function (view, params) {
         });
     }
 
-    function onPlayerChange() {
+    function onPlayerChange(evtType, newPlayer, newTarget, previousPlayer) {
         renderTrackSelections(view, self, currentItem);
         setTrailerButtonVisibility(view, currentItem);
+        updateIndicatorImageEventListener(newPlayer, previousPlayer);
     }
 
     function onWebSocketMessage(e, data) {
@@ -2137,12 +2245,24 @@ export default function (view, params) {
             Events.on(playbackManager, 'playerchange', onPlayerChange);
 
             itemShortcuts.on(view.querySelector('.nameContainer'));
+
+            let player;
+            if ((player = playbackManager.getCurrentPlayer()) && player.id === 'htmlaudioplayer') {
+                addIndicatorImage(view); // when view is hidden once but not destroyed.
+                addIndicatorImageEventListener(player);
+            }
         });
         view.addEventListener('viewbeforehide', function () {
             itemShortcuts.off(view.querySelector('.nameContainer'));
             Events.off(apiClient, 'message', onWebSocketMessage);
             Events.off(playbackManager, 'playerchange', onPlayerChange);
             libraryMenu.setTransparentMenu(false);
+
+            let player;
+            if ((player = playbackManager.getCurrentPlayer()) && player.id === 'htmlaudioplayer') {
+                removeIndicatorImage(view);
+                removeIndicatorImageEventListener(player);
+            }
         });
         view.addEventListener('viewdestroy', function () {
             currentItem = null;
