@@ -1066,7 +1066,7 @@ function renderMiscInfo(page, item) {
             interactive: true
         });
 
-        if (miscInfo.innerHTML && item.Type !== 'SeriesTimer') {
+        if ((miscInfo.innerHTML && item.Type !== 'SeriesTimer') || item.Type === 'BoxSet') {
             miscInfo.classList.remove('hide');
         } else {
             miscInfo.classList.add('hide');
@@ -1700,6 +1700,43 @@ function canPlaySomeItemInCollection(items) {
     return false;
 }
 
+function renderTotalChildrenDuration(children) {
+    let shouldRender = true;
+    let totBoxSetTicks = 0;
+    children.forEach(function (item) {
+        // Avoid rendering if at least one of the children does not have RunTimeTicks (i.e. with boxset in boxset)
+        if (isNaN(item.RunTimeTicks)) return shouldRender = false;
+        totBoxSetTicks += item.RunTimeTicks;
+    });
+
+    if (shouldRender) {
+        const totalDuration = datetime.getDisplayDuration(totBoxSetTicks);
+        const secondaryItemMiscInfo = document.querySelectorAll('.itemMiscInfo-secondary');
+
+        for (const miscInfo of secondaryItemMiscInfo) {
+            if (miscInfo.classList.contains('hide')) miscInfo.classList.remove('hide');
+        }
+
+        const textNode = document.createElement('div');
+        textNode.append(document.createTextNode(totalDuration));
+
+        requestAnimationFrame(function() {
+            textNode.style.transition = 'opacity 0.5s, height 0.2s ease-in';
+            textNode.style.opacity = '0';
+            textNode.style.height = '0px';
+
+            for (const miscInfo of secondaryItemMiscInfo) {
+                miscInfo.appendChild(textNode);
+            }
+
+            requestAnimationFrame(function() {
+                textNode.style.opacity = '1';
+                textNode.style.height = '20.09px';
+            });
+        });
+    }
+}
+
 function renderCollectionItems(page, parentItem, types, items) {
     page.querySelector('.collectionItems').classList.remove('hide');
     page.querySelector('.collectionItems').innerHTML = '';
@@ -1743,6 +1780,8 @@ function renderCollectionItems(page, parentItem, types, items) {
         hideAll(page, 'btnPlay', false);
         hideAll(page, 'btnShuffle', false);
     }
+
+    renderTotalChildrenDuration(items);
 
     // HACK: Call autoFocuser again because btnPlay may be hidden, but focused by reloadFromItem
     // FIXME: Sometimes focus does not move until all (?) sections are loaded
