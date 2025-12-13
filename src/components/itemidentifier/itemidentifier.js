@@ -97,8 +97,15 @@ function searchForIdentificationResults(page) {
         dataType: 'json'
 
     }).then(results => {
-        loading.hide();
-        showIdentificationSearchResults(page, results);
+        if (results.length > 0) {
+            //Ensure we have results
+            loading.hide();
+            showIdentificationSearchResults(page, results);
+        } else {
+            // Show not found message
+            loading.hide();
+            page.querySelector('#identifyNotFoundMessage').classList.remove('hide');
+        }
     });
 }
 

@@ -1866,5 +1866,6 @@
     "ExtractTrickplayImagesHelp": "Trickplay images are similar to chapter images, except they span the entire length of the content and are used to show a preview when scrubbing through videos.",
     "LabelExtractTrickplayDuringLibraryScan": "Extract trickplay images during the library scan",
     "LabelExtractTrickplayDuringLibraryScanHelp": "Generate trickplay images when videos are imported during the library scan. Otherwise, they will be extracted during the trickplay images scheduled task. If generation is set to non-blocking this will not affect the time a library scan takes to complete.",
-    "LogLoadFailure": "Failed to load the log file. It may still be actively written to."
+    "LogLoadFailure": "Failed to load the log file. It may still be actively written to.",
+    "IdentifyResultNotFound": "No results found. Try different parameters."
 }
