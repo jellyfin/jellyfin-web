@@ -24,13 +24,13 @@ import './login.scss';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
-function authenticateUserByName(page, apiClient, url, username, password) {
+function authenticateUserByName(page, apiClient, url, username, password, enableAutoSignIn) {
     loading.show();
     apiClient.authenticateUserByName(username, password).then(function (result) {
         const user = result.User;
         loading.hide();
 
-        onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
+        onLoginSuccessful(user.Id, result.AccessToken, apiClient, url, enableAutoSignIn);
     }, function (response) {
         page.querySelector('#txtManualPassword').value = '';
         loading.hide();
@@ -112,13 +112,29 @@ function authenticateQuickConnect(apiClient, targetUrl) {
     });
 }
 
-function onLoginSuccessful(id, accessToken, apiClient, url) {
+function onLoginSuccessful(id, accessToken, apiClient, url, enableAutoSignIn) {
+    // Multi-account auto-login logic
+    const serverId = apiClient.serverInfo().Id;
+    if (enableAutoSignIn) {
+        ServerConnections.setAutoLoginUser(serverId, id);
+    } else {
+        const currentAutoLoginUser = ServerConnections.getAutoLoginUser(serverId);
+        if (currentAutoLoginUser === id) {
+            ServerConnections.setAutoLoginUser(serverId, null);
+        }
+    }
+
     Dashboard.onServerChanged(id, accessToken, apiClient);
     Dashboard.navigate(url || 'home');
 }
 
 function showManualForm(context, showCancel, focusPassword) {
-    context.querySelector('.chkRememberLogin').checked = appSettings.enableAutoLogin();
+    const rememberMe = appSettings.enableRememberMe();
+    context.querySelector('.chkRememberLogin').checked = rememberMe;
+    const autoSignIn = context.querySelector('.chkAutoSignIn');
+    if (!rememberMe) {
+        autoSignIn.checked = false;
+    }
     context.querySelector('.manualLoginForm').classList.remove('hide');
     context.querySelector('.visualLoginForm').classList.add('hide');
     context.querySelector('.btnManual').classList.add('hide');
@@ -234,17 +250,47 @@ export default function (view, params) {
             } else if (haspw == 'false') {
                 authenticateUserByName(context, getApiClient(), getTargetUrl(), name, '');
             } else {
-                context.querySelector('#txtManualName').value = name;
-                context.querySelector('#txtManualPassword').value = '';
-                showManualForm(context, true, true);
+                const apiClient = getApiClient();
+                const serverId = apiClient.serverInfo().Id;
+
+                loading.show();
+                ServerConnections.loginWithSavedCredentials(serverId, id).then(function (result) {
+                    loading.hide();
+                    if (result.ApiClient && result.ApiClient.accessToken()) {
+                        onLoginSuccessful(id, result.ApiClient.accessToken(), result.ApiClient, getTargetUrl(), false);
+                    } else {
+                        context.querySelector('#txtManualName').value = name;
+                        context.querySelector('#txtManualPassword').value = '';
+                        showManualForm(context, true, true);
+                    }
+                });
             }
         }
     });
     view.querySelector('.manualLoginForm').addEventListener('submit', function (e) {
-        appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
-        authenticateUserByName(view, getApiClient(), getTargetUrl(), view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
+        appSettings.enableRememberMe(view.querySelector('.chkRememberLogin').checked);
+        authenticateUserByName(
+            view,
+            getApiClient(),
+            getTargetUrl(),
+            view.querySelector('#txtManualName').value,
+            view.querySelector('#txtManualPassword').value,
+            view.querySelector('.chkAutoSignIn').checked
+        );
         e.preventDefault();
         return false;
+    });
+
+    view.querySelector('.chkRememberLogin').addEventListener('change', function () {
+        if (!this.checked) {
+            view.querySelector('.chkAutoSignIn').checked = false;
+        }
+    });
+
+    view.querySelector('.chkAutoSignIn').addEventListener('change', function () {
+        if (this.checked) {
+            view.querySelector('.chkRememberLogin').checked = true;
+        }
     });
     view.querySelector('.btnForgotPassword').addEventListener('click', function () {
         Dashboard.navigate('forgotpassword');
