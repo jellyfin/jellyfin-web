@@ -22,6 +22,7 @@ import '../cardbuilder/card.scss';
 import toast from '../toast/toast';
 import template from './itemidentifier.template.html';
 import datetime from '../../scripts/datetime';
+import './itemidentifier.scss';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -97,14 +98,13 @@ function searchForIdentificationResults(page) {
         dataType: 'json'
 
     }).then(results => {
+        loading.hide();
         if (results.length > 0) {
             //Ensure we have results
-            loading.hide();
             showIdentificationSearchResults(page, results);
         } else {
             // Show not found message
-            loading.hide();
-            page.querySelector('#identifyNotFoundMessage').classList.remove('hide');
+            page.querySelector('#messageIdentifyResultNotFound').classList.remove('hide');
         }
     });
 }
