@@ -311,7 +311,7 @@
     "DefaultMetadataLangaugeDescription": "Bunlar varsayılan ayarlarınızdır ve kütüphane bazında özelleştirilebilir.",
     "DeleteUserConfirmation": "Bu kullanıcıyı silmek istediğinizden emin misiniz?",
     "Depressed": "Bunalımlı",
-    "Desktop": "Masaüstü",
+    "Desktop": "Masaüstü (Eski)",
     "BookLibraryHelp": "Sesli ve yazılı kitaplar desteklenir. {0} Kitap adlandırma rehberini {1} gözden geçirin.",
     "EnableDisplayMirroring": "Ekran yansıtma",
     "EnableExternalVideoPlayers": "Harici video oynatıcılar",
@@ -1402,7 +1402,7 @@
     "Mute": "Sessiz",
     "MoveRight": "Sağa taşı",
     "MoveLeft": "Sola taşı",
-    "Mobile": "Mobil",
+    "Mobile": "Mobil (Eski)",
     "MediaInfoTimestamp": "Zaman damgası",
     "MediaInfoResolution": "Çözünürlük",
     "MediaInfoLevel": "Düzey",
@@ -2063,5 +2063,7 @@
     "LabelAvailable": "Kullanılabilir",
     "LabelBundled": "Paketlenmiş",
     "ButtonAddProvider": "Sağlayıcı Ekle",
-    "ButtonAddTunerDevice": "Alıcı Cihazı Ekle"
+    "ButtonAddTunerDevice": "Alıcı Cihazı Ekle",
+    "LabelSlideshowInterval": "Fotoğraf Slayt Gösterisi Aralığı",
+    "LabelSlideshowIntervalHelp": "Her fotoğrafın slayt gösterisinde görüntülenme süresi (saniye cinsinden)."
 }
