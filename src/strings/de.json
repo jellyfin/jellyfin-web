@@ -2016,7 +2016,7 @@
     "StreamCountExceedsLimit": "Die Anzahl der Streams überschreitet das Limit",
     "RetryWithGlobalSearch": "Erneuter Versuch mit einer globalen Suche",
     "CustomSplashScreenSize": "Benutzerdefinierte Bilder sollten das Seitenverhältnis 16x9 und eine Mindestgröße von 1920x1080 haben.",
-    "DeleteCustomImage": "Benutzerdefiniertes Bild gelöscht",
+    "DeleteCustomImage": "Benutzerdefiniertes Bild löschen",
     "LabelGroupShowsIntoCollectionsHelp": "Serien in einer Sammlung werden bei der Anzeige von Serienlisten als ein gruppiertes Element dargestellt.",
     "ImageDeleteFailed": "Bild konnte nicht gelöscht werden",
     "LabelGroupShowsIntoCollections": "Serien in Kollektionen gruppieren",
