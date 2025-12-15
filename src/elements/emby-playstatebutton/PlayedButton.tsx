@@ -69,6 +69,7 @@ const PlayedButton: FC<PlayedButtonProps> = ({
     );
     return (
         <IconButton
+            data-action='none'
             title={getTitle()}
             className={btnClass}
             size='small'

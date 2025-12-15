@@ -53,7 +53,7 @@ function renderFilters(context, result, query) {
         const delimeter = '|';
         return (delimeter + (query.Tags || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years, query.Years, ','), function (i) {
+    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years.map(String), query.Years, ','), function (i) {
         const delimeter = ',';
         return (delimeter + (query.Years || '') + delimeter).includes(delimeter + i + delimeter);
     });

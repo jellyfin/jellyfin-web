@@ -56,6 +56,7 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
 
     return (
         <IconButton
+            data-action='none'
             title={isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites')}
             className={btnClass}
             size='small'

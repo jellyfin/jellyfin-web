@@ -390,7 +390,7 @@ export function onClick(e) {
             }
         }
 
-        if (action) {
+        if (action && action !== 'none') {
             executeAction(card, actionElement, action);
 
             e.preventDefault();
