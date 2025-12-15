@@ -780,11 +780,6 @@ function setTitle (title, url = '') {
             linkElement.href = url;
             linkElement.innerText = html || '';
 
-            // Add show-focus class for TV mode to enable focus indicator
-            if (layoutManager.tv) {
-                linkElement.classList.add('show-focus');
-            }
-
             pageTitleElement.innerHTML = '';
             pageTitleElement.appendChild(linkElement);
         } else {
