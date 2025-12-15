@@ -681,5 +681,7 @@
     "AccessRestrictedTryAgainLater": "सध्या प्रवेश मर्यादित आहे. कृपया नंतर पुन्हा प्रयत्न करा.",
     "Alternate": "पर्यायी",
     "AllowContentWithTagsHelp": "फक्त निर्दिष्ट टॅगपैकी किमान एक असलेले मीडिया दाखवा.",
-    "AllowSubtitleManagement": "या वापरकर्त्याला सबटायटल संपादित करण्याची परवानगी द्या"
+    "AllowSubtitleManagement": "या वापरकर्त्याला सबटायटल संपादित करण्याची परवानगी द्या",
+    "Anime": "आनिमे",
+    "Author": "लेखक"
 }
