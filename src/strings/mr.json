@@ -683,5 +683,13 @@
     "AllowContentWithTagsHelp": "फक्त निर्दिष्ट टॅगपैकी किमान एक असलेले मीडिया दाखवा.",
     "AllowSubtitleManagement": "या वापरकर्त्याला सबटायटल संपादित करण्याची परवानगी द्या",
     "Anime": "आनिमे",
-    "Author": "लेखक"
+    "Author": "लेखक",
+    "ButtonBackspace": "बॅकस्पेस",
+    "ButtonCreateBackup": "बॅकअप तयार करा",
+    "ButtonLearnMore": "अजून जाणून घ्या",
+    "ChannelResolutionSD": "एस.डी.",
+    "ChannelResolutionSDPAL": "एस.डी. (पॅल)",
+    "ChannelResolutionHD": "एच.डी.",
+    "ChannelResolutionFullHD": "फुल एच.डी.",
+    "ChannelResolutionUHD4K": "यू.एच.डी. (4K)"
 }
