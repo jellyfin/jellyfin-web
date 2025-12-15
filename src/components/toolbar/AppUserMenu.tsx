@@ -6,6 +6,7 @@ import Download from '@mui/icons-material/Download';
 import Edit from '@mui/icons-material/Edit';
 import Logout from '@mui/icons-material/Logout';
 import PhonelinkLock from '@mui/icons-material/PhonelinkLock';
+import SwitchAccount from '@mui/icons-material/SwitchAccount';
 import Settings from '@mui/icons-material/Settings';
 import Storage from '@mui/icons-material/Storage';
 import Divider from '@mui/material/Divider';
@@ -60,6 +61,11 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
 
     const onSelectServerClick = useCallback(() => {
         Dashboard.selectServer();
+        onMenuClose();
+    }, [ onMenuClose ]);
+
+    const onSwitchUserClick = useCallback(() => {
+        Dashboard.switchUser();
         onMenuClose();
     }, [ onMenuClose ]);
 
@@ -190,6 +196,17 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     </ListItemText>
                 </MenuItem>
             )}
+
+            <MenuItem
+                onClick={onSwitchUserClick}
+            >
+                <ListItemIcon>
+                    <SwitchAccount />
+                </ListItemIcon>
+                <ListItemText>
+                    {globalize.translate('ButtonSwitchUser')}
+                </ListItemText>
+            </MenuItem>
 
             <MenuItem
                 onClick={onLogoutClick}

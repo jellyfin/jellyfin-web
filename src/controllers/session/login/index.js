@@ -209,7 +209,7 @@ export default function (view, params) {
             return ServerConnections.getOrCreateApiClient(serverId);
         }
 
-        return ApiClient;
+        return ServerConnections.currentApiClient();
     }
 
     function getTargetUrl() {
@@ -317,6 +317,12 @@ export default function (view, params) {
         }
 
         const apiClient = getApiClient();
+
+        if (!apiClient) {
+            loading.hide();
+            Dashboard.selectServer();
+            return;
+        }
 
         apiClient.getQuickConnect('Enabled')
             .then(enabled => {

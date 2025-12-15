@@ -338,6 +338,25 @@ const UserSettingsPage: FC = () => {
                             )}
 
                             <LinkButton
+                                onClick={Dashboard.switchUser}
+                                className='btnSwitchUser listItem-border'
+                                style={{
+                                    display: 'block',
+                                    margin: 0,
+                                    padding: 0
+                                }}
+                            >
+                                <div className='listItem'>
+                                    <span className='material-icons listItemIcon listItemIcon-transparent switch_account' aria-hidden='true' />
+                                    <div className='listItemBody'>
+                                        <div className='listItemBodyText'>
+                                            {globalize.translate('ButtonSwitchUser')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </LinkButton>
+
+                            <LinkButton
                                 onClick={Dashboard.logout}
                                 className='btnLogout listItem-border'
                                 style={{
