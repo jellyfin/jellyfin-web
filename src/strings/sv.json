@@ -2066,5 +2066,6 @@
     "HeaderServerMismatch": "Serveravvikelse",
     "MessageServerMismatch": "Servern du ansluter till är inte samma server som du tidigare anslöt till på denna adress. Om detta är avsiktligt, välj ”Anslut ändå”. Annars kan din anslutning eller servern vara osäker.",
     "ButtonAddProvider": "Lägg till leverantör",
-    "ButtonAddTunerDevice": "Lägg till mottagarenhet"
+    "ButtonAddTunerDevice": "Lägg till mottagarenhet",
+    "LabelSlideshowIntervalHelp": "Tiden i sekunder som varje bild visas i bildspel."
 }
