@@ -1,14 +1,11 @@
 import parseISO from 'date-fns/parseISO';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
+import React, { useCallback, useMemo, useState } from 'react';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import { useTheme } from '@mui/material/styles';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { type MRT_ColumnDef, type MRT_Theme, type MRT_ColumnFiltersState, type MRT_SortingState, useMaterialReactTable } from 'material-react-table';
-import { useSearchParams } from 'react-router-dom';
-
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
 import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
@@ -19,11 +16,11 @@ import UserAvatarButton from 'apps/dashboard/components/UserAvatarButton';
 import type { ActivityLogEntryCell } from 'apps/dashboard/features/activity/types/ActivityLogEntryCell';
 import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
-import { toBoolean } from 'utils/string';
+import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
 import { ActivityLogSortBy } from '@jellyfin/sdk/lib/generated-client/models/activity-log-sort-by';
 
 const DEFAULT_PAGE_SIZE = 25;
-const VIEW_PARAM = 'useractivity';
+// const VIEW_PARAM = 'useractivity';
 
 const enum ActivityView {
     All = 'All',
@@ -31,11 +28,11 @@ const enum ActivityView {
     System = 'System'
 }
 
-const getActivityView = (param: string | null) => {
-    if (param === null) return ActivityView.All;
-    if (toBoolean(param)) return ActivityView.User;
-    return ActivityView.System;
-};
+// const getActivityView = (param: string | null) => {
+//     if (param === null) return ActivityView.All;
+//     if (toBoolean(param)) return ActivityView.User;
+//     return ActivityView.System;
+// };
 
 const getUserCell = (users: UsersRecords) => function UserCell({ row }: ActivityLogEntryCell) {
     return (
@@ -44,10 +41,9 @@ const getUserCell = (users: UsersRecords) => function UserCell({ row }: Activity
 };
 
 export const Component = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
     const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
     const [activityView, setActivityView] = useState(
-        getActivityView(searchParams.get(VIEW_PARAM)));
+        'All');
 
     const [sorting, setSorting] = useState<MRT_SortingState>([{ id: 'Date', desc: true }]);
 
@@ -98,7 +94,7 @@ export const Component = () => {
             shortOverview: getFilter('Overview') as string || undefined,
             username: getFilter('User') as string || undefined,
             severity: getFilter('Severity') as LogLevel || undefined,
-            minDate: (getFilter('Date') as string[] | undefined)?.[0] ?? undefined,
+            minDate: getFilter('Date') as string || undefined,
             sortBy: sortFields,
             sortOrder: sortOrders
         };
@@ -136,7 +132,7 @@ export const Component = () => {
             header: globalize.translate('LabelTime'),
             size: 160,
             Cell: DateTimeCell,
-            filterVariant: 'datetime-range'
+            filterVariant: 'datetime'
         },
         {
             accessorKey: 'Severity',
@@ -190,17 +186,17 @@ export const Component = () => {
         }
     }, []);
 
-    useEffect(() => {
-        const currentViewParam = getActivityView(searchParams.get(VIEW_PARAM));
-        if (currentViewParam !== activityView) {
-            if (activityView === ActivityView.All) {
-                searchParams.delete(VIEW_PARAM);
-            } else {
-                searchParams.set(VIEW_PARAM, `${activityView === ActivityView.User}`);
-            }
-            setSearchParams(searchParams);
-        }
-    }, [activityView, searchParams, setSearchParams]);
+    // useEffect(() => {
+    //     const currentViewParam = getActivityView(searchParams.get(VIEW_PARAM));
+    //     if (currentViewParam !== activityView) {
+    //         if (activityView === ActivityView.All) {
+    //             searchParams.delete(VIEW_PARAM);
+    //         } else {
+    //             searchParams.set(VIEW_PARAM, `${activityView === ActivityView.User}`);
+    //         }
+    //         setSearchParams(searchParams);
+    //     }
+    // }, [activityView, searchParams, setSearchParams]);
 
     // NOTE: We need to provide a custom theme due to a MRT bug causing the initial theme to always be used
     // https://github.com/KevinVandy/material-react-table/issues/1429
@@ -231,6 +227,7 @@ export const Component = () => {
         onColumnFiltersChange: setColumnFilters,
         onSortingChange: setSorting,
         enableMultiSort: true,
+        enableGlobalFilter: false,
 
         // Server pagination
         manualPagination: true,
