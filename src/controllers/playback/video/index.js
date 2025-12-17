@@ -913,20 +913,8 @@ export default function (view) {
     }
 
     async function updatePlaylist() {
-        try {
-            const playlist = await playbackManager.getPlaylist();
-
-            if (playlist && playlist.length > 1) {
-                const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
-                const btnNextTrack = view.querySelector('.btnNextTrack');
-                btnPreviousTrack.classList.remove('hide');
-                btnNextTrack.classList.remove('hide');
-                btnPreviousTrack.disabled = false;
-                btnNextTrack.disabled = false;
-            }
-        } catch (err) {
-            console.error('[VideoPlayer] failed to get playlist', err);
-        }
+        const currentPlaylist = await playbackManager.getPlaylist();
+        updateTrackButtonsState(currentPlaylist);
     }
 
     function updateTimeText(elem, ticks, divider) {
@@ -1214,7 +1202,7 @@ export default function (view) {
         }
     }
 
-    function onKeyDown(e) {
+    async function onKeyDown(e) {
         clickedElement = e.target;
 
         const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
@@ -1339,6 +1327,9 @@ export default function (view) {
                 if (e.shiftKey) {
                     e.preventDefault();
                     playbackManager.previousTrack(currentPlayer);
+
+                    const currentPlaylist = await playbackManager.getPlaylist();
+                    updateTrackButtonsState(currentPlaylist);
                 }
                 break;
             case 'n':
@@ -1346,6 +1337,9 @@ export default function (view) {
                 if (e.shiftKey) {
                     e.preventDefault();
                     playbackManager.nextTrack(currentPlayer);
+
+                    const currentPlaylist = await playbackManager.getPlaylist();
+                    updateTrackButtonsState(currentPlaylist);
                 }
                 break;
             case 'NavigationLeft':
@@ -1617,6 +1611,47 @@ export default function (view) {
         const playbackRateSpeed = sessionStorage.getItem('playbackRateSpeed');
         if (playbackRateSpeed !== null) {
             player.setPlaybackRate(playbackRateSpeed);
+        }
+    }
+
+    function updateTrackButtonsState(currentPlaylist) {
+        try {
+            const currentPlaylistItemId = playbackManager.getCurrentPlaylistIndex() + 1;
+
+            const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
+            const btnNextTrack = view.querySelector('.btnNextTrack');
+
+            if (currentPlaylist && currentPlaylistItemId !== currentPlaylist.length) {
+                if (btnPreviousTrack) {
+                    btnPreviousTrack.classList.remove('hide');
+                    btnPreviousTrack.disabled = false;
+                } else {
+                    console.error('[VideoPlayer] failed to get "btnPreviousTrack"', btnPreviousTrack);
+                }
+
+                if (btnNextTrack) {
+                    btnNextTrack.classList.remove('hide');
+                    btnNextTrack.disabled = false;
+                } else {
+                    console.error('[VideoPlayer] failed to get "btnNextTrack"', btnNextTrack);
+                }
+            } else {
+                if (btnPreviousTrack) {
+                    btnPreviousTrack.classList.add('hide');
+                    btnPreviousTrack.disabled = true;
+                } else {
+                    console.error('[VideoPlayer] failed to get "btnPreviousTrack"', btnPreviousTrack);
+                }
+
+                if (btnNextTrack) {
+                    btnNextTrack.classList.add('hide');
+                    btnNextTrack.disabled = true;
+                } else {
+                    console.error('[VideoPlayer] failed to get "btnNextTrack"', btnNextTrack);
+                }
+            }
+        } catch (err) {
+            console.error('[VideoPlayer] failed to get playlist', err);
         }
     }
 
@@ -1937,8 +1972,11 @@ export default function (view) {
         })) || [];
     };
 
-    view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
+    view.querySelector('.btnPreviousTrack').addEventListener('click', async function () {
         playbackManager.previousTrack(currentPlayer);
+
+        const currentPlaylist = await playbackManager.getPlaylist();
+        updateTrackButtonsState(currentPlaylist);
     });
     view.querySelector('.btnPreviousChapter').addEventListener('click', function () {
         playbackManager.previousChapter(currentPlayer);
@@ -1949,8 +1987,11 @@ export default function (view) {
     view.querySelector('.btnNextChapter').addEventListener('click', function () {
         playbackManager.nextChapter(currentPlayer);
     });
-    view.querySelector('.btnNextTrack').addEventListener('click', function () {
+    view.querySelector('.btnNextTrack').addEventListener('click', async function () {
         playbackManager.nextTrack(currentPlayer);
+
+        const currentPlaylist = await playbackManager.getPlaylist();
+        updateTrackButtonsState(currentPlaylist);
     });
     btnRewind.addEventListener('click', function () {
         playbackManager.rewind(currentPlayer);
