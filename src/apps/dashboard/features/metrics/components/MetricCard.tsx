@@ -35,12 +35,12 @@ const MetricCard: FC<MetricCardProps> = ({
         >
             <Stack
                 direction='row'
+                spacing={2}
                 sx={{
                     width: '100%',
                     padding: 2,
                     justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap: '20px'
+                    alignItems: 'center'
                 }}
             >
                 {metrics.map(({ label, value }) => (
