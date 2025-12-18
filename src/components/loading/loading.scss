@@ -64,7 +64,7 @@
             }
 
             .spinner-inner-triangle {
-                transform-origin: 36px 39.93px; // Ensure we spin the geometric center
+                transform-origin: 36px 40.93px; // Ensure we spin the geometric center
                 animation: pulse-inner 2s cubic-bezier(0.2, 0, 0, 1) infinite; // Emphasized bezier curve for responsive, material 3-like feel
             }
         }
