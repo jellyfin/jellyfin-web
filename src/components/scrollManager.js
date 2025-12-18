@@ -41,7 +41,7 @@ try {
     const opts = Object.defineProperty({}, 'behavior', {
         get: function () {
             supportsScrollToOptions = true;
-            return null;
+            return 'auto';
         }
     });
 

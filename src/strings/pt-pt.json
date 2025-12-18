@@ -2066,5 +2066,7 @@
     "ManageRepositories": "Gerir repositórios",
     "ViewAllPlugins": "Ver todas as extensões",
     "ButtonAddTunerDevice": "Adicionar um sintonizador",
-    "ButtonAddProvider": "Adicionar um fornecedor"
+    "ButtonAddProvider": "Adicionar um fornecedor",
+    "LabelSlideshowInterval": "Intervalo de Apresentação de Fotos",
+    "LabelSlideshowIntervalHelp": "O tempo de exibição de cada foto em apresentações, em segundos."
 }
