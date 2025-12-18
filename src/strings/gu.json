@@ -111,5 +111,6 @@
     "ButtonInfo": "માહિતી",
     "ButtonAddImage": "છબી ઉમેરો",
     "ButtonLibraryAccess": "લાઇબ્રેરી એક્સેસ",
-    "ButtonManualLogin": "મેન્યુઅલ લોગિન"
+    "ButtonManualLogin": "મેન્યુઅલ લોગિન",
+    "BackupsPageLoadError": "બેકઅપ પેજ લોડ કરવામાં નિષ્ફળ થયાં"
 }
