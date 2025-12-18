@@ -1700,5 +1700,15 @@
     "LabelSlideshowIntervalHelp": "Vrijeme u sekundama za prikaz svake fotografije u prezentaciji.",
     "LabelSlideshowInterval": "Interval prikaza fotografija",
     "LabelAvailable": "Dostupno",
-    "LabelBackupsUnavailable": "Nema dostupnih sigurnosnih kopija"
+    "LabelBackupsUnavailable": "Nema dostupnih sigurnosnih kopija",
+    "Illustrator": "Ilustrator",
+    "ImageDeleteFailed": "Brisanje slike nije uspjelo",
+    "ImageUploadCancelled": "Prijenos slike je otkazan",
+    "ImageUploadFailed": "Prijenos slike nije uspio",
+    "LabelAlwaysRemuxFlacAudioFiles": "Uvijek remuksiraj FLAC audio datoteke",
+    "LabelAlwaysRemuxMp3AudioFiles": "Uvijek remuksiraj MP3 audio datoteke",
+    "LabelAudioTagSettings": "Postavke zvučnih oznaka",
+    "LabelBundled": "U paketu",
+    "LabelCustomTagDelimiters": "Prilagođeni razdjelnik oznaka",
+    "LabelCustomTagDelimitersHelp": "Znakovi koji se tretiraju kao razdjelnici za odvajanje oznaka."
 }
