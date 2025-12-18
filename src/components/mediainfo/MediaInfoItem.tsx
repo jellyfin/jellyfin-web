@@ -13,22 +13,17 @@ interface MediaInfoItemProps {
 const MediaInfoItem: FC<MediaInfoItemProps> = ({ className, miscInfo }) => {
     const { text, textAction, cssClass, type } = miscInfo;
 
-    const renderText = () => {
-        if (textAction) {
-            return (
-                <Link
-                    className={classNames(textAction.cssClass, className)}
-                    href={textAction.url}
-                    title={textAction.title}
-                    color='inherit'
-                >
-                    {textAction.title}
-                </Link>
-            );
-        } else {
-            return text;
-        }
-    };
+    const renderText = (): React.ReactNode =>
+        textAction ? (
+            <Link
+                className={classNames(textAction.cssClass, className)}
+                href={textAction.url}
+                title={textAction.title}
+                color='inherit'
+            >
+                {textAction.title}
+            </Link>
+        ) : (text);
 
     return (
         <Box className={classNames('mediaInfoItem', cssClass, type, className)}>

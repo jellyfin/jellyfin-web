@@ -21,23 +21,25 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
 }) => {
     const { isLoading, data: genresResult } = useGetGenres(itemType, parentId);
 
+    let content: React.ReactNode = null;
+
     if (isLoading) {
-        return <Loading />;
+        content = <Loading />;
+    } else if (!genresResult?.Items?.length) {
+        content = <NoItemsMessage message='MessageNoGenresAvailable' />;
+    } else {
+        content = genresResult.Items.map((genre) => (
+            <GenresSectionContainer
+                key={genre.Id}
+                collectionType={collectionType}
+                parentId={parentId}
+                itemType={itemType}
+                genre={genre}
+            />
+        ));
     }
 
-    if (!genresResult?.Items?.length) {
-        return <NoItemsMessage message='MessageNoGenresAvailable' />;
-    }
-
-    return genresResult.Items.map((genre) => (
-        <GenresSectionContainer
-            key={genre.Id}
-            collectionType={collectionType}
-            parentId={parentId}
-            itemType={itemType}
-            genre={genre}
-        />
-    ));
+    return content;
 };
 
 export default GenresItemsContainer;

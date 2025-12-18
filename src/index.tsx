@@ -86,7 +86,7 @@ build: ${__JF_BUILD_VERSION__}`);
 
     // Load iOS specific styles
     if (browser.iOS) {
-        await import('/styles/ios.scss');
+        await import('@/styles/ios.scss');
     }
 
     // Load frontend plugins

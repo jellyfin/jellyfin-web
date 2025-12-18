@@ -13,36 +13,40 @@ const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
     const { isLoading, data: groupsUpcomingEpisodes } =
         useGetGroupsUpcomingEpisodes(parentId);
 
-    if (isLoading) return <Loading />;
+    let content: React.ReactNode = null;
 
-    if (!groupsUpcomingEpisodes?.length) {
-        return <NoItemsMessage message='MessagePleaseEnsureInternetMetadata' />;
+    if (isLoading) {
+        content = <Loading />;
+    } else if (!groupsUpcomingEpisodes?.length) {
+        content = <NoItemsMessage message='MessagePleaseEnsureInternetMetadata' />;
+    } else {
+        content = groupsUpcomingEpisodes.map((group) => (
+            <SectionContainer
+                key={group.name}
+                sectionHeaderProps={{
+                    title: group.name
+                }}
+                itemsContainerProps={{
+                    queryKey: ['GroupsUpcomingEpisodes']
+                }}
+                items={group.items}
+                cardOptions={{
+                    shape: CardShape.BackdropOverflow,
+                    showLocationTypeIndicator: false,
+                    showParentTitle: true,
+                    preferThumb: true,
+                    lazy: true,
+                    showDetailsMenu: true,
+                    missingIndicator: false,
+                    cardLayout: false,
+                    queryKey: ['GroupsUpcomingEpisodes'],
+                    serverId: __legacyApiClient__?.serverId()
+                }}
+            />
+        ));
     }
 
-    return groupsUpcomingEpisodes?.map((group) => (
-        <SectionContainer
-            key={group.name}
-            sectionHeaderProps={{
-                title: group.name
-            }}
-            itemsContainerProps={{
-                queryKey: ['GroupsUpcomingEpisodes']
-            }}
-            items={group.items}
-            cardOptions={{
-                shape: CardShape.BackdropOverflow,
-                showLocationTypeIndicator: false,
-                showParentTitle: true,
-                preferThumb: true,
-                lazy: true,
-                showDetailsMenu: true,
-                missingIndicator: false,
-                cardLayout: false,
-                queryKey: ['GroupsUpcomingEpisodes'],
-                serverId: __legacyApiClient__?.serverId()
-            }}
-        />
-    ));
+    return content;
 };
 
 export default UpcomingView;
