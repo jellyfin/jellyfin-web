@@ -20,19 +20,12 @@ import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models
 import { ActivityLogSortBy } from '@jellyfin/sdk/lib/generated-client/models/activity-log-sort-by';
 
 const DEFAULT_PAGE_SIZE = 25;
-// const VIEW_PARAM = 'useractivity';
 
 const enum ActivityView {
     All = 'All',
     User = 'User',
     System = 'System'
 }
-
-// const getActivityView = (param: string | null) => {
-//     if (param === null) return ActivityView.All;
-//     if (toBoolean(param)) return ActivityView.User;
-//     return ActivityView.System;
-// };
 
 const getUserCell = (users: UsersRecords) => function UserCell({ row }: ActivityLogEntryCell) {
     return (
@@ -94,7 +87,8 @@ export const Component = () => {
             shortOverview: getFilter('Overview') as string || undefined,
             username: getFilter('User') as string || undefined,
             severity: getFilter('Severity') as LogLevel || undefined,
-            minDate: getFilter('Date') as string || undefined,
+            minDate: (getFilter('Date') as string[] | undefined)?.[0] ?? undefined,
+            maxDate: (getFilter('Date') as string[] | undefined)?.[1] ?? undefined,
             sortBy: sortFields,
             sortOrder: sortOrders
         };
@@ -115,7 +109,7 @@ export const Component = () => {
             id: 'User',
             accessorFn: row => row.UserId && users[row.UserId]?.Name,
             header: globalize.translate('LabelUser'),
-            size: 75,
+            size: 100,
             Cell: UserCell,
             enableResizing: false,
             muiTableBodyCellProps: {
@@ -132,7 +126,9 @@ export const Component = () => {
             header: globalize.translate('LabelTime'),
             size: 160,
             Cell: DateTimeCell,
-            filterVariant: 'datetime'
+            filterVariant: 'datetime-range',
+            grow: true,
+            maxSize: 320
         },
         {
             accessorKey: 'Severity',
@@ -153,19 +149,24 @@ export const Component = () => {
         {
             accessorKey: 'Name',
             header: globalize.translate('LabelName'),
-            size: 270
+            size: 270,
+            grow: true
         },
         {
             id: 'Overview',
             accessorFn: row => row.ShortOverview || row.Overview,
             header: globalize.translate('LabelOverview'),
             size: 170,
-            Cell: OverviewCell
+            Cell: OverviewCell,
+            grow: true,
+            maxSize: 220
         },
         {
             accessorKey: 'Type',
             header: globalize.translate('LabelType'),
-            size: 150
+            size: 150,
+            grow: true,
+            maxSize: 220
         },
         {
             id: 'Actions',
@@ -185,18 +186,6 @@ export const Component = () => {
             setActivityView(newView);
         }
     }, []);
-
-    // useEffect(() => {
-    //     const currentViewParam = getActivityView(searchParams.get(VIEW_PARAM));
-    //     if (currentViewParam !== activityView) {
-    //         if (activityView === ActivityView.All) {
-    //             searchParams.delete(VIEW_PARAM);
-    //         } else {
-    //             searchParams.set(VIEW_PARAM, `${activityView === ActivityView.User}`);
-    //         }
-    //         setSearchParams(searchParams);
-    //     }
-    // }, [activityView, searchParams, setSearchParams]);
 
     // NOTE: We need to provide a custom theme due to a MRT bug causing the initial theme to always be used
     // https://github.com/KevinVandy/material-react-table/issues/1429
