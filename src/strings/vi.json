@@ -227,7 +227,7 @@
     "DirectPlaying": "Phát trực tiếp",
     "DeviceAccessHelp": "Điều này chỉ áp dụng cho các thiết bị có thể được nhận dạng duy nhất và sẽ không chặn trình duyệt truy cập. Lọc thiết bị người dùng truy cập sẽ chặn họ sử dụng thiết bị mới cho đến khi chúng được phê duyệt tại đây.",
     "DetectingDevices": "Đang tìm kiếm thiết bị",
-    "Desktop": "Máy tính",
+    "Desktop": "Máy tính để bản (Truyền thống)",
     "Descending": "Giảm dần",
     "Depressed": "Hạ xuống",
     "DeleteUserConfirmation": "Bạn có chắc chắn muốn xoá người dùng này?",
@@ -1115,7 +1115,7 @@
     "MoreMediaInfo": "Thông Tin Phương Tiện",
     "MoreUsersCanBeAddedLater": "Có thể thêm nhiều người dùng hơn sau đó trong Trang Tổng Quan.",
     "MoreFromValue": "Thêm từ {0}",
-    "Mobile": "Di động",
+    "Mobile": "Di động (Truyền thống)",
     "MinutesBefore": "phút trước",
     "MinutesAfter": "phút sau",
     "MetadataSettingChangeHelp": "Thay đổi cài đặt dữ liệu mô tả sẽ ảnh hưởng nội dung mới thêm vào trong tương lai. Để làm mới nội dung hiện có, hãy mở màn hình chi tiết và bấm nút làm mới hoặc làm mới hàng loạt trong 'Quản Lý Dữ Liệu Mô Tả'.",
@@ -2068,5 +2068,7 @@
     "ManageRepositories": "Quản Lý Kho Lưu Trữ",
     "ViewAllPlugins": "Xem tất cả plugins",
     "ButtonAddProvider": "Thêm Nhà Cung Cấp",
-    "ButtonAddTunerDevice": "Thêm Thiết Bị Dò Kênh"
+    "ButtonAddTunerDevice": "Thêm Thiết Bị Dò Kênh",
+    "LabelSlideshowInterval": "Khoảng Thời Gian Trình Chiếu Ảnh",
+    "LabelSlideshowIntervalHelp": "Thời gian tính bằng giây mỗi bức ảnh được hiển thị trong trình chiếu."
 }
