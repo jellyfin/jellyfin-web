@@ -1616,36 +1616,32 @@ export default function (view) {
 
     function updateTrackButtonsState(currentPlaylist) {
         try {
-            const currentPlaylistItemId = playbackManager.getCurrentPlaylistIndex() + 1;
+            if (currentPlaylist) {
+                const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
+                const btnNextTrack = view.querySelector('.btnNextTrack');
 
-            const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
-            const btnNextTrack = view.querySelector('.btnNextTrack');
+                const currentPlaylistIndex = playbackManager.getCurrentPlaylistIndex() + 1;
 
-            if (currentPlaylist && currentPlaylistItemId !== currentPlaylist.length) {
                 if (btnPreviousTrack) {
-                    btnPreviousTrack.classList.remove('hide');
-                    btnPreviousTrack.disabled = false;
+                    if (currentPlaylistIndex === 1) {
+                        btnPreviousTrack.classList.add('hide');
+                        btnPreviousTrack.disabled = true;
+                    } else {
+                        btnPreviousTrack.classList.remove('hide');
+                        btnPreviousTrack.disabled = false;
+                    }
                 } else {
                     console.error('[VideoPlayer] failed to get "btnPreviousTrack"', btnPreviousTrack);
                 }
 
                 if (btnNextTrack) {
-                    btnNextTrack.classList.remove('hide');
-                    btnNextTrack.disabled = false;
-                } else {
-                    console.error('[VideoPlayer] failed to get "btnNextTrack"', btnNextTrack);
-                }
-            } else {
-                if (btnPreviousTrack) {
-                    btnPreviousTrack.classList.add('hide');
-                    btnPreviousTrack.disabled = true;
-                } else {
-                    console.error('[VideoPlayer] failed to get "btnPreviousTrack"', btnPreviousTrack);
-                }
-
-                if (btnNextTrack) {
-                    btnNextTrack.classList.add('hide');
-                    btnNextTrack.disabled = true;
+                    if (currentPlaylist.length === currentPlaylistIndex) {
+                        btnNextTrack.classList.add('hide');
+                        btnNextTrack.disabled = true;
+                    } else {
+                        btnNextTrack.classList.remove('hide');
+                        btnNextTrack.disabled = false;
+                    }
                 } else {
                     console.error('[VideoPlayer] failed to get "btnNextTrack"', btnNextTrack);
                 }
