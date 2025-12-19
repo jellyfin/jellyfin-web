@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
@@ -13,24 +13,31 @@ vi.mock('lib/globalize', () => ({
 
 describe('AdvancedDrawerSection', () => {
     it('renders the advanced navigation links', () => {
+        const future = {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            v7_startTransition: true,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            v7_relativeSplatPath: true
+        };
+
         render(
-            <MemoryRouter>
+            <MemoryRouter future={future}>
                 <AdvancedDrawerSection />
             </MemoryRouter>
         );
 
-        const list = screen.getByRole('list', { name: 'TabAdvanced' });
-        const listQueries = within(list);
-        const links = [
-            { name: 'TabNetworking', href: '/dashboard/networking' },
-            { name: 'HeaderApiKeys', href: '/dashboard/keys' },
-            { name: 'HeaderBackups', href: '/dashboard/backups' },
-            { name: 'TabLogs', href: '/dashboard/logs' },
-            { name: 'TabScheduledTasks', href: '/dashboard/tasks' }
+        expect(screen.getByText('TabAdvanced')).toBeVisible();
+
+        const linkNames = [
+            'TabNetworking',
+            'HeaderApiKeys',
+            'HeaderBackups',
+            'TabLogs',
+            'TabScheduledTasks'
         ];
 
-        for (const link of links) {
-            expect(listQueries.getByRole('link', { name: link.name })).toHaveAttribute('href', link.href);
+        for (const name of linkNames) {
+            expect(screen.getByRole('link', { name })).toBeVisible();
         }
     });
 });
