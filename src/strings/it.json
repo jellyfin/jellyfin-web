@@ -2071,5 +2071,7 @@
     "ViewAllPlugins": "Visualizza tutti i plugin",
     "LabelBundled": "Raggruppati",
     "ButtonAddProvider": "Aggiungi un fornitore",
-    "ButtonAddTunerDevice": "Aggiungi un dispositivo tuner"
+    "ButtonAddTunerDevice": "Aggiungi un dispositivo tuner",
+    "LabelSlideshowInterval": "Intervallo tra le diapositive",
+    "LabelSlideshowIntervalHelp": "Durata di visualizzazione di ogni foto (in secondi) nella presentazione."
 }
