@@ -1371,18 +1371,12 @@ export default function (view) {
                 if (e.shiftKey) {
                     e.preventDefault();
                     playbackManager.previousTrack(currentPlayer);
-
-                    const currentPlaylist = await playbackManager.getPlaylist();
-                    updateTrackButtonsState(currentPlaylist);
                 }
                 break;
             case 'KeyN':
                 if (e.shiftKey) {
                     e.preventDefault();
                     playbackManager.nextTrack(currentPlayer);
-
-                    const currentPlaylist = await playbackManager.getPlaylist();
-                    updateTrackButtonsState(currentPlaylist);
                 }
                 break;
             case 'NavigationLeft':
@@ -1995,9 +1989,6 @@ export default function (view) {
 
     view.querySelector('.btnPreviousTrack').addEventListener('click', async function () {
         playbackManager.previousTrack(currentPlayer);
-
-        const currentPlaylist = await playbackManager.getPlaylist();
-        updateTrackButtonsState(currentPlaylist);
     });
     view.querySelector('.btnPreviousChapter').addEventListener('click', function () {
         playbackManager.previousChapter(currentPlayer);
@@ -2010,9 +2001,6 @@ export default function (view) {
     });
     view.querySelector('.btnNextTrack').addEventListener('click', async function () {
         playbackManager.nextTrack(currentPlayer);
-
-        const currentPlaylist = await playbackManager.getPlaylist();
-        updateTrackButtonsState(currentPlaylist);
     });
     btnRewind.addEventListener('click', function () {
         playbackManager.rewind(currentPlayer);
