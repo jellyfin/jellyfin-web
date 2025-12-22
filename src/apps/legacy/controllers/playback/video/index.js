@@ -1371,12 +1371,14 @@ export default function (view) {
                 if (e.shiftKey) {
                     e.preventDefault();
                     playbackManager.previousTrack(currentPlayer);
+                    showOsd(btnPreviousTrack);
                 }
                 break;
             case 'KeyN':
                 if (e.shiftKey) {
                     e.preventDefault();
                     playbackManager.nextTrack(currentPlayer);
+                    showOsd(btnNextTrack);
                 }
                 break;
             case 'NavigationLeft':
@@ -1635,9 +1637,6 @@ export default function (view) {
     function updateTrackButtonsState(currentPlaylist) {
         try {
             if (currentPlaylist) {
-                const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
-                const btnNextTrack = view.querySelector('.btnNextTrack');
-
                 const currentPlaylistIndex = playbackManager.getCurrentPlaylistIndex() + 1;
 
                 if (btnPreviousTrack) {
@@ -1662,6 +1661,10 @@ export default function (view) {
                     }
                 } else {
                     console.error('[VideoPlayer] failed to get "btnNextTrack"', btnNextTrack);
+                }
+
+                if (currentPlaylist.length === 1 || currentPlaylistIndex === currentPlaylistIndex) {
+                    showOsd();
                 }
             }
         } catch (err) {
@@ -1699,6 +1702,8 @@ export default function (view) {
     const startTimeText = view.querySelector('.startTimeText');
     const endTimeText = view.querySelector('.endTimeText');
     const endsAtText = view.querySelector('.endsAtText');
+    const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
+    const btnNextTrack = view.querySelector('.btnNextTrack');
     const btnRewind = view.querySelector('.btnRewind');
     const btnFastForward = view.querySelector('.btnFastForward');
     const transitionEndEventName = dom.whichTransitionEvent();
