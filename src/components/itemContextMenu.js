@@ -596,7 +596,7 @@ function executeCommand(item, id, options) {
                 }).then(function () {
                     getResolveFunction(resolve, id, true)();
                 }).catch(function () {
-                    apiClient.post(apiClient.getUrl('Users/' + apiClient.getCurrentUserId() + '/PlayedItems/' + Item.Id, {
+                    apiClient.post(apiClient.getUrl('Users/' + apiClient.getCurrentUserId() + '/PlayedItems/' + item.Id, {
                         Id: item.Id
                     })).then(function() {
                         getResolveFunction(resolve, id, true)();
