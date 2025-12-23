@@ -588,6 +588,7 @@ function executeCommand(item, id, options) {
             case 'instantmix':
                 playbackManager.instantMix(item);
                 getResolveFunction(resolve, id)();
+                break;
             case 'remove-resume':
                 apiClient.ajax({
                     type: 'DELETE',
