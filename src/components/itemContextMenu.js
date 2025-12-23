@@ -130,6 +130,15 @@ export async function getCommands(options) {
         });
     }
 
+    // Button for Removing Movies/Series from the "Continue Watching" Section
+    if (item.UserData && item.UserData.PlaybackPositionTicks > 0) {
+        commands.push({
+            name: globalize.translate('RemoveFromResume'),
+            id: 'remove-resume',
+            icon: 'close'
+        });
+    }
+
     if (!browser.tv) {
         // Multiselect is currrently only ran on long clicks of card components
         // This disables Select on any context menu not originating from a card i.e songs
@@ -579,6 +588,19 @@ function executeCommand(item, id, options) {
             case 'instantmix':
                 playbackManager.instantMix(item);
                 getResolveFunction(resolve, id)();
+            case 'remove-resume':
+                apiClient.ajax({
+                    type: 'DELETE',
+                    url: apiClient.getUrl('Users/' + apiClient.getCurrentUserId() + '/PlayedItems/' + itemId)
+                }).then(function () {
+                    getResolveFunction(resolve, id, true)();
+                }).catch(function () {
+                    apiClient.post(apiClient.getUrl('Users/' + apiClient.getCurrentUserId() + '/PlayedItems/' + Item.Id, {
+                        Id: item.Id
+                    })).then(function() {
+                        getResolveFunction(resolve, id, true)();
+                    });
+                });
                 break;
             case 'delete':
                 deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true, itemId), getResolveFunction(resolve, id));
