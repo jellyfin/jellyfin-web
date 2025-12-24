@@ -165,5 +165,7 @@
     "Channels": "Channels",
     "CinemaModeConfigurationHelp": "Cinema mode brings the theater experience straight to your living room with the ability to play trailers and custom intros before the main feature.",
     "SelectAudioNormalizationHelp": "Track gain: adjusts the volume of each track so they playback with the same loudness. \nAlbum gain: adjusts the volume of all the tracks in an album only, keeping the album's dynamic range. Switching between \"Off\" and other options requires restarting the current playback.",
-    "ClearQueue": "Clear queue"
+    "ClearQueue": "Clear queue",
+    "SubtitleSearchTimeout": "Subtitle search timed out. The provider may be slow - please try again.",
+    "SubtitleSearchError": "An error occurred while searching for subtitles."
 }
