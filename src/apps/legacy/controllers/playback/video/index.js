@@ -1240,7 +1240,7 @@ export default function (view) {
         }
     }
 
-    async function onKeyDown(e) {
+    function onKeyDown(e) {
         clickedElement = e.target;
 
         const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
@@ -2008,7 +2008,7 @@ export default function (view) {
         })) || [];
     };
 
-    view.querySelector('.btnPreviousTrack').addEventListener('click', async function () {
+    view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
         playbackManager.previousTrack(currentPlayer);
     });
     view.querySelector('.btnPreviousChapter').addEventListener('click', function () {
@@ -2020,7 +2020,7 @@ export default function (view) {
     view.querySelector('.btnNextChapter').addEventListener('click', function () {
         playbackManager.nextChapter(currentPlayer);
     });
-    view.querySelector('.btnNextTrack').addEventListener('click', async function () {
+    view.querySelector('.btnNextTrack').addEventListener('click', function () {
         playbackManager.nextTrack(currentPlayer);
     });
     btnRewind.addEventListener('click', function () {
