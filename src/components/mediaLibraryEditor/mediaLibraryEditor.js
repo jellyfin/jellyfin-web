@@ -59,6 +59,13 @@ function onEditLibrary() {
 function addMediaLocation(page, path, networkSharePath) {
     const virtualFolder = currentOptions.library;
     const refreshAfterChange = currentOptions.refresh;
+    const pathLower = path.toLowerCase();
+    const pathFilter = virtualFolder.Locations.filter(p => {
+        return p.toLowerCase() == pathLower;
+    });
+    if (pathFilter.length) {
+        return;
+    }
     ApiClient.addMediaPath(virtualFolder.Name, path, networkSharePath, refreshAfterChange).then(() => {
         hasChanges = true;
         refreshLibraryFromServer(page);
