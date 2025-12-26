@@ -332,7 +332,7 @@
     "EveryXHours": "Every {0} hours",
     "EveryXMinutes": "Every {0} minutes",
     "ExitFullscreen": "Exit full screen",
-    "ExtractChapterImagesHelp": "Extracting chapter images will allow clients to display graphical scene selection menus. The process can be slow, resource intensive, and may require several gigabytes of space. It runs when videos are discovered, and also as a nightly scheduled task. The schedule is configurable in the scheduled tasks area. It is not recommended to run this task during peak usage hours.",
+    "ExtractChapterImagesHelp": "Extracting chapter images will allow clients to display graphical scene selection menus. It runs when videos are discovered, and also as a nightly scheduled task. The schedule is configurable in the scheduled tasks area.",
     "ExtraLarge": "Extra Large",
     "Extras": "Extras",
     "FallbackMaxStreamingBitrateHelp": "The maximum streaming bitrate is used as a fallback when ffprobe is unable to determine the source stream bitrate. This helps prevent clients from requesting an excessively high transcoding bitrate, which could cause the player to fail and overload the encoder.",
@@ -1863,7 +1863,7 @@
     "LabelTrickplayThreads": "FFmpeg Threads",
     "LabelTrickplayThreadsHelp": "The number of threads to pass to the '-threads' argument of ffmpeg.",
     "OptionExtractTrickplayImage": "Enable trickplay image extraction",
-    "ExtractTrickplayImagesHelp": "Trickplay images are similar to chapter images, except they span the entire length of the content and are used to show a preview when scrubbing through videos.",
+    "ExtractTrickplayImagesHelp": "Trickplay images are similar to chapter images, except they span the entire length of the content and are used to show a preview when scrubbing through videos. The process can be slow, resource intensive, and may require several gigabytes of space. It is not recommended to run this task during peak usage hours.",
     "LabelExtractTrickplayDuringLibraryScan": "Extract trickplay images during the library scan",
     "LabelExtractTrickplayDuringLibraryScanHelp": "Generate trickplay images when videos are imported during the library scan. Otherwise, they will be extracted during the trickplay images scheduled task. If generation is set to non-blocking this will not affect the time a library scan takes to complete.",
     "LogLoadFailure": "Failed to load the log file. It may still be actively written to."
