@@ -124,7 +124,7 @@
     "DeleteUser": "删除用户",
     "DeleteUserConfirmation": "你确定要删除此用户？",
     "Descending": "降序",
-    "Desktop": "桌面",
+    "Desktop": "桌面 (Legacy)",
     "DetectingDevices": "正在侦测设备",
     "DeviceAccessHelp": "这仅适用于可以唯一标识的设备，而不会阻止浏览器访问。限制用户设备访问会阻止使用未在此被批准的新增设备。",
     "DirectPlaying": "直接播放",
@@ -786,7 +786,7 @@
     "MetadataSettingChangeHelp": "更改元数据设置将影响未来添加的新内容。 要刷新现有内容，请打开详细信息屏幕并单击“刷新”按钮，或使用“元数据管理器”进行批量刷新。",
     "MinutesAfter": "分钟后",
     "MinutesBefore": "分钟前",
-    "Mobile": "移动设备",
+    "Mobile": "移动设备 (Legacy)",
     "Monday": "星期一",
     "MoreFromValue": "更多来自 {0}",
     "MoreUsersCanBeAddedLater": "稍后可以在控制台中添加更多用户。",
@@ -2071,5 +2071,7 @@
     "ManageRepositories": "管理存储库",
     "LabelAvailable": "可用",
     "ButtonAddProvider": "添加提供者",
-    "ButtonAddTunerDevice": "添加调谐器设备"
+    "ButtonAddTunerDevice": "添加调谐器设备",
+    "LabelSlideshowInterval": "照片幻灯片播放间隔",
+    "LabelSlideshowIntervalHelp": "幻灯片中会显示每张照片的间隔时间（以秒为单位）。"
 }
