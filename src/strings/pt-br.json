@@ -2066,5 +2066,7 @@
     "HeaderServerMismatch": "Incompatibilidade do servidor",
     "MessageServerMismatch": "O servidor ao qual você está conectando não é o mesmo servidor ao qual você conectou anteriormente neste endereço. Se isso for esperado, selecione \"Conectar Mesmo Assim\". Caso contrário, sua conexão ou o servidor poderão ser comprometidos.",
     "ButtonAddTunerDevice": "Adicionar dispositivo sintonizador",
-    "ButtonAddProvider": "Adicionar provedor"
+    "ButtonAddProvider": "Adicionar provedor",
+    "LabelSlideshowInterval": "Intervalo de Slideshow de Fotos",
+    "LabelSlideshowIntervalHelp": "O tempo em segundos em cada foto é exibido em slides."
 }
