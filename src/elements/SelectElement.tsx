@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
 const createSelectElement = ({ name, id, required, label, option }: { name?: string, id?: string, required?: string, label?: string, option?: React.ReactNode }) => ({
     __html: `<select

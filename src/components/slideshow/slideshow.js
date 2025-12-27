@@ -5,22 +5,22 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import screenfull from 'screenfull';
 
-import { AppFeature } from 'constants/appFeature';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { randomInt } from 'utils/number';
+import { AppFeature } from '@/constants/appFeature';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
+import { randomInt } from '@/utils/number';
 
-import dialogHelper from '../dialogHelper/dialogHelper';
-import inputManager from '../../scripts/inputManager';
-import layoutManager from '../layoutManager';
-import focusManager from '../focusManager';
-import browser from '../../scripts/browser';
-import { appHost } from '../apphost';
-import dom from '../../utils/dom';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import inputManager from '@/scripts/inputManager';
+import layoutManager from '@/components/layoutManager';
+import focusManager from '@/components/focusManager';
+import browser from '@/scripts/browser';
+import { appHost } from '@/components/apphost';
+import dom from '@/utils/dom';
 
 import './style.scss';
 import 'material-design-icons-iconfont';
-import '../../elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-button/paper-icon-button-light';
 
 /**
  * Name of transition event.
@@ -348,10 +348,8 @@ export default function (options) {
             slides = currentOptions.items;
         }
 
-        //eslint-disable-next-line import/no-unresolved
         import('swiper/css/bundle');
 
-        // eslint-disable-next-line import/no-unresolved
         import('swiper/bundle').then(({ Swiper }) => {
             swiperInstance = new Swiper(dialogElement.querySelector('.slideshowSwiperContainer'), {
                 direction: 'horizontal',

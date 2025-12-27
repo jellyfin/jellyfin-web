@@ -8,21 +8,21 @@ import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
 import markdownIt from 'markdown-it';
 
-import { ItemAction } from 'constants/itemAction';
+import { ItemAction } from '@/constants/itemAction';
 
-import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
-import itemHelper from '../itemHelper';
-import mediaInfo from '../mediainfo/mediainfo';
-import indicators from '../indicators/indicators';
-import layoutManager from '../layoutManager';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import datetime from '../../scripts/datetime';
-import cardBuilder from '../cardbuilder/cardBuilder';
+import { getDefaultBackgroundClass } from '@/components/cardbuilder/cardBuilderUtils';
+import itemHelper from '@/components/itemHelper';
+import mediaInfo from '@/components/mediainfo/mediainfo';
+import indicators from '@/components/indicators/indicators';
+import layoutManager from '@/components/layoutManager';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import datetime from '@/scripts/datetime';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
 
 import './listview.scss';
-import '../../elements/emby-ratingbutton/emby-ratingbutton';
-import '../../elements/emby-playstatebutton/emby-playstatebutton';
+import '@/elements/emby-ratingbutton/emby-ratingbutton';
+import '@/elements/emby-playstatebutton/emby-playstatebutton';
 
 function getIndex(item, options) {
     if (options.index === 'disc') {

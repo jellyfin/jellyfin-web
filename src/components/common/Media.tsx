@@ -4,7 +4,7 @@ import React, { type FC } from 'react';
 
 import Image from './Image';
 import DefaultIconText from './DefaultIconText';
-import type { ItemDto } from 'types/base/models/item-dto';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 interface MediaProps {
     item: ItemDto;

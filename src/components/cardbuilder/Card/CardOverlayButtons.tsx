@@ -3,15 +3,15 @@ import React, { type FC } from 'react';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import classNames from 'classnames';
 
-import { appRouter } from 'components/router/appRouter';
-import { ItemAction } from 'constants/itemAction';
-import { ItemKind } from 'types/base/models/item-kind';
-import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { CardOptions } from 'types/cardOptions';
+import { appRouter } from '@/components/router/appRouter';
+import { ItemAction } from '@/constants/itemAction';
+import { ItemKind } from '@/types/base/models/item-kind';
+import { ItemMediaKind } from '@/types/base/models/item-media-kind';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { CardOptions } from '@/types/cardOptions';
 
-import PlayArrowIconButton from '../../common/PlayArrowIconButton';
-import MoreVertIconButton from '../../common/MoreVertIconButton';
+import PlayArrowIconButton from '@/components/common/PlayArrowIconButton';
+import MoreVertIconButton from '@/components/common/MoreVertIconButton';
 
 const sholudShowOverlayPlayButton = (
     overlayPlayButton: boolean | undefined,

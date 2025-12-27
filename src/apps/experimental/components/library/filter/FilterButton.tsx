@@ -13,8 +13,8 @@ import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-import { useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
-import globalize from 'lib/globalize';
+import { useGetQueryFiltersLegacy, useGetStudios } from '@/hooks/useFetchItems';
+import globalize from '@/lib/globalize';
 
 import FiltersFeatures from './FiltersFeatures';
 import FiltersGenres from './FiltersGenres';
@@ -27,8 +27,8 @@ import FiltersTags from './FiltersTags';
 import FiltersVideoTypes from './FiltersVideoTypes';
 import FiltersYears from './FiltersYears';
 
-import { LibraryViewSettings, ParentId } from 'types/library';
-import { LibraryTab } from 'types/libraryTab';
+import { LibraryViewSettings, ParentId } from '@/types/library';
+import { LibraryTab } from '@/types/libraryTab';
 
 const Accordion = styled((props: AccordionProps) => (
     <MuiAccordion

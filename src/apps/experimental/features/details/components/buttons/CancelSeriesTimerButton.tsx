@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { useCancelSeriesTimer } from 'hooks/api/liveTvHooks';
-import globalize from 'lib/globalize';
-import loading from 'components/loading/loading';
-import toast from 'components/toast/toast';
-import confirm from 'components/confirm/confirm';
+import { useCancelSeriesTimer } from '@/hooks/api/liveTvHooks';
+import globalize from '@/lib/globalize';
+import loading from '@/components/loading/loading';
+import toast from '@/components/toast/toast';
+import confirm from '@/components/confirm/confirm';
 
 interface CancelSeriesTimerButtonProps {
     itemId: string;

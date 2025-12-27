@@ -4,10 +4,10 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import React, { useCallback, useState } from 'react';
 
-import { pluginManager } from 'components/pluginManager';
-import { useApi } from 'hooks/useApi';
-import globalize from 'lib/globalize';
-import { PluginType } from 'types/plugin';
+import { pluginManager } from '@/components/pluginManager';
+import { useApi } from '@/hooks/useApi';
+import globalize from '@/lib/globalize';
+import { PluginType } from '@/types/plugin';
 
 import AppSyncPlayMenu, { ID } from './menus/SyncPlayMenu';
 

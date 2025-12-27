@@ -1,7 +1,7 @@
 import type { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import React, { type FC } from 'react';
 
-import { ActivityLogEntryCell } from '../types/ActivityLogEntryCell';
+import { ActivityLogEntryCell } from '@/apps/dashboard/features/activity/types/ActivityLogEntryCell';
 import LogLevelChip from './LogLevelChip';
 
 const LogLevelCell: FC<ActivityLogEntryCell> = ({ cell }) => {

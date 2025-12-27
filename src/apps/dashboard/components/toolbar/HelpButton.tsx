@@ -4,8 +4,8 @@ import Tooltip from '@mui/material/Tooltip/Tooltip';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { HelpLinks } from 'apps/dashboard/constants/helpLinks';
-import globalize from 'lib/globalize';
+import { HelpLinks } from '@/apps/dashboard/constants/helpLinks';
+import globalize from '@/lib/globalize';
 
 const HelpButton = () => (
     <Routes>

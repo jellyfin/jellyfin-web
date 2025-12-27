@@ -3,23 +3,23 @@ import type { ListingsProviderInfo } from '@jellyfin/sdk/lib/generated-client/mo
 import Avatar from '@mui/material/Avatar';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemLink from 'components/ListItemLink';
+import ListItemLink from '@/components/ListItemLink';
 import DvrIcon from '@mui/icons-material/Dvr';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import getProviderConfigurationUrl from '../utils/getProviderConfigurationUrl';
+import getProviderConfigurationUrl from '@/apps/dashboard/features/livetv/utils/getProviderConfigurationUrl';
 import ListItemText from '@mui/material/ListItemText';
-import getProviderName from '../utils/getProviderName';
+import getProviderName from '@/apps/dashboard/features/livetv/utils/getProviderName';
 import IconButton from '@mui/material/IconButton';
-import ConfirmDialog from 'components/ConfirmDialog';
-import globalize from 'lib/globalize';
+import ConfirmDialog from '@/components/ConfirmDialog';
+import globalize from '@/lib/globalize';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ChannelMapper from 'components/channelMapper/channelMapper';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { useDeleteProvider } from '../api/useDeleteProvider';
+import ChannelMapper from '@/components/channelMapper/channelMapper';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { useDeleteProvider } from '@/apps/dashboard/features/livetv/api/useDeleteProvider';
 
 interface ProviderProps {
     provider: ListingsProviderInfo

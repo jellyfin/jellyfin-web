@@ -11,7 +11,7 @@ import {
     resolveCardImageContainerCssClasses,
     resolveMixedShapeByAspectRatio
 } from './cardBuilderUtils';
-import { ItemAction } from 'constants/itemAction';
+import { ItemAction } from '@/constants/itemAction';
 
 describe('getDesiredAspect', () => {
     test('"portrait" (case insensitive)', () => {

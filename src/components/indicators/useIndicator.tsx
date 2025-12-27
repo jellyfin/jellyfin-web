@@ -13,17 +13,17 @@ import PhotoAlbumIcon from '@mui/icons-material/PhotoAlbum';
 import PhotoIcon from '@mui/icons-material/Photo';
 import classNames from 'classnames';
 
-import datetime from 'scripts/datetime';
-import itemHelper from 'components/itemHelper';
-import AutoTimeProgressBar from 'elements/emby-progressbar/AutoTimeProgressBar';
+import datetime from '@/scripts/datetime';
+import itemHelper from '@/components/itemHelper';
+import AutoTimeProgressBar from '@/elements/emby-progressbar/AutoTimeProgressBar';
 
-import { ItemKind } from 'types/base/models/item-kind';
-import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import { ItemStatus } from 'types/base/models/item-status';
+import { ItemKind } from '@/types/base/models/item-kind';
+import { ItemMediaKind } from '@/types/base/models/item-media-kind';
+import { ItemStatus } from '@/types/base/models/item-status';
 
-import type { NullableString } from 'types/base/common/shared/types';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { ProgressOptions } from 'types/progressOptions';
+import type { NullableString } from '@/types/base/common/shared/types';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { ProgressOptions } from '@/types/progressOptions';
 
 const TypeIcon = {
     Video: <VideocamIcon className='indicatorIcon' />,

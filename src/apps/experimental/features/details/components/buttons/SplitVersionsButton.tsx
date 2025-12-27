@@ -3,11 +3,11 @@ import IconButton from '@mui/material/IconButton';
 import CallSplitIcon from '@mui/icons-material/CallSplit';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { useDeleteAlternateSources } from 'hooks/api/videosHooks';
-import globalize from 'lib/globalize';
-import confirm from 'components/confirm/confirm';
-import loading from 'components/loading/loading';
-import toast from 'components/toast/toast';
+import { useDeleteAlternateSources } from '@/hooks/api/videosHooks';
+import globalize from '@/lib/globalize';
+import confirm from '@/components/confirm/confirm';
+import loading from '@/components/loading/loading';
+import toast from '@/components/toast/toast';
 
 interface SplitVersionsButtonProps {
     paramId: string;

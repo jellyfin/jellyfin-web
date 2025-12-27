@@ -8,9 +8,9 @@ import TimeSyncCore from './timeSync/TimeSyncCore';
 import PlaybackCore from './PlaybackCore';
 import QueueCore from './QueueCore';
 import Controller from './Controller';
-import toast from '../../../components/toast/toast';
-import globalize from '../../../lib/globalize';
-import Events from '../../../utils/events.ts';
+import toast from '@/components/toast/toast';
+import globalize from '@/lib/globalize';
+import Events from '@/utils/events.ts';
 
 /**
  * Class that manages the SyncPlay feature.

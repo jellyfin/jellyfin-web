@@ -1,13 +1,13 @@
-import dialogHelper from '../dialogHelper/dialogHelper';
-import layoutManager from '../layoutManager';
-import scrollHelper from '../../scripts/scrollHelper';
-import globalize from '../../lib/globalize';
-import dom from '../../utils/dom';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import layoutManager from '@/components/layoutManager';
+import scrollHelper from '@/scripts/scrollHelper';
+import globalize from '@/lib/globalize';
+import dom from '@/utils/dom';
 import 'material-design-icons-iconfont';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-input/emby-input';
-import '../formdialog.scss';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-input/emby-input';
+import '@/components/formdialog.scss';
 import template from './prompt.template.html';
 
 export default (() => {

@@ -5,7 +5,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import LinearProgress from '@mui/material/LinearProgress';
 import DialogContentText from '@mui/material/DialogContentText';
 import Stack from '@mui/material/Stack';
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
 type IProps = {
     open: boolean

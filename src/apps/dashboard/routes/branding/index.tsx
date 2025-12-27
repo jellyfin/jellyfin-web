@@ -14,16 +14,16 @@ import Typography from '@mui/material/Typography';
 import React, { useCallback, useEffect, useState } from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 
-import { getBrandingOptionsQuery, QUERY_KEY, useBrandingOptions } from 'apps/dashboard/features/branding/api/useBrandingOptions';
-import Loading from 'components/loading/LoadingComponent';
-import Image from 'components/Image';
-import Page from 'components/Page';
-import { SPLASHSCREEN_URL } from 'constants/branding';
-import { useApi } from 'hooks/useApi';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { queryClient } from 'utils/query/queryClient';
-import { ActionData } from 'types/actionData';
+import { getBrandingOptionsQuery, QUERY_KEY, useBrandingOptions } from '@/apps/dashboard/features/branding/api/useBrandingOptions';
+import Loading from '@/components/loading/LoadingComponent';
+import Image from '@/components/Image';
+import Page from '@/components/Page';
+import { SPLASHSCREEN_URL } from '@/constants/branding';
+import { useApi } from '@/hooks/useApi';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { queryClient } from '@/utils/query/queryClient';
+import { ActionData } from '@/types/actionData';
 
 const BRANDING_CONFIG_KEY = 'branding';
 const BrandingOption = {

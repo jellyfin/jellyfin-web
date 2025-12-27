@@ -1,17 +1,17 @@
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
-import { setBackdropTransparency } from '../backdrop/backdrop';
-import globalize from '../../lib/globalize';
-import itemHelper from '../itemHelper';
-import loading from '../loading/loading';
-import alert from '../alert';
+import { setBackdropTransparency } from '@/components/backdrop/backdrop';
+import globalize from '@/lib/globalize';
+import itemHelper from '@/components/itemHelper';
+import loading from '@/components/loading/loading';
+import alert from '@/components/alert';
 
-import { LayoutMode } from 'constants/layoutMode';
-import { getItemQuery } from 'hooks/useItem';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { queryClient } from 'utils/query/queryClient';
-import { history } from 'RootAppRouter';
+import { LayoutMode } from '@/constants/layoutMode';
+import { getItemQuery } from '@/hooks/useItem';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
+import { queryClient } from '@/utils/query/queryClient';
+import { history } from '@/RootAppRouter';
 
 /** Pages of "no return" (when "Go back" should behave differently, probably quitting the application). */
 const START_PAGE_PATHS = ['/home', '/login', '/selectserver'];

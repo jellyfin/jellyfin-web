@@ -1,6 +1,6 @@
 import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
-import playmethodhelper from 'components/playback/playmethodhelper';
-import globalize from 'lib/globalize';
+import playmethodhelper from '@/components/playback/playmethodhelper';
+import globalize from '@/lib/globalize';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const getSessionNowPlayingStreamInfo = (session: SessionInfo): string => {

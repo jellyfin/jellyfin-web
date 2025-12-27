@@ -1,6 +1,6 @@
-import { SubtitleStylingOption } from 'apps/stable/features/playback/constants/subtitleStylingOption';
-import browser from 'scripts/browser';
-import type { UserSettings } from 'scripts/settings/userSettings';
+import { SubtitleStylingOption } from '@/apps/stable/features/playback/constants/subtitleStylingOption';
+import browser from '@/scripts/browser.js';
+import type { UserSettings } from '@/scripts/settings/userSettings';
 
 // TODO: This type override should be removed when userSettings are properly typed
 interface SubtitleAppearanceSettings {

@@ -2,16 +2,16 @@ import React, { type FC } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 
-import Media from 'components/common/Media';
-import PlayArrowIconButton from 'components/common/PlayArrowIconButton';
-import { ItemAction } from 'constants/itemAction';
-import { useApi } from 'hooks/useApi';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { ListOptions } from 'types/listOptions';
+import Media from '@/components/common/Media';
+import PlayArrowIconButton from '@/components/common/PlayArrowIconButton';
+import { ItemAction } from '@/constants/itemAction';
+import { useApi } from '@/hooks/useApi';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { ListOptions } from '@/types/listOptions';
 
-import useIndicator from '../../indicators/useIndicator';
-import layoutManager from '../../layoutManager';
-import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
+import useIndicator from '@/components/indicators/useIndicator';
+import layoutManager from '@/components/layoutManager';
+import { getDefaultBackgroundClass } from '@/components/cardbuilder/cardBuilderUtils';
 import {
     canResume,
     getChannelImageUrl,

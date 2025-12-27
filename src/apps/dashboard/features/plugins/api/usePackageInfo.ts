@@ -4,10 +4,10 @@ import type { PackageApiGetPackageInfoRequest } from '@jellyfin/sdk/lib/generate
 import { getPackageApi } from '@jellyfin/sdk/lib/utils/api/package-api';
 import type { AxiosRequestConfig } from 'axios';
 
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 
 import { QueryKey } from './queryKey';
-import { queryClient } from 'utils/query/queryClient';
+import { queryClient } from '@/utils/query/queryClient';
 import type { PackageInfo } from '@jellyfin/sdk/lib/generated-client/models/package-info';
 
 const fetchPackageInfo = async (

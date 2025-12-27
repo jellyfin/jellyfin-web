@@ -1,6 +1,6 @@
 import { Api } from '@jellyfin/sdk';
 import { useQuery } from '@tanstack/react-query';
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 import { getChannelsApi } from '@jellyfin/sdk/lib/utils/api/channels-api';
 import { ChannelsApiGetChannelsRequest } from '@jellyfin/sdk/lib/generated-client/api/channels-api';
 import type { AxiosRequestConfig } from 'axios';

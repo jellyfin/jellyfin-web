@@ -9,7 +9,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
 const getUrlParams = (searchParams: URLSearchParams) => {
     const parentId =

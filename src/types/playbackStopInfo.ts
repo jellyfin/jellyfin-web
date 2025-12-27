@@ -6,7 +6,7 @@ import type {
     PlayerStateInfo
 } from '@jellyfin/sdk/lib/generated-client';
 
-import type { ItemDto } from 'types/base/models/item-dto';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 export interface BufferedRange {
     start?: number;

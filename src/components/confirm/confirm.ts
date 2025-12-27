@@ -1,6 +1,6 @@
-import dialog from 'components/dialog/dialog';
-import { appRouter } from 'components/router/appRouter';
-import globalize from 'lib/globalize';
+import dialog from '@/components/dialog/dialog';
+import { appRouter } from '@/components/router/appRouter';
+import globalize from '@/lib/globalize';
 
 interface OptionItem {
     id: string,

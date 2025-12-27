@@ -1,15 +1,15 @@
-import loading from '../../components/loading/loading';
-import * as userSettings from '../../scripts/settings/userSettings';
-import libraryBrowser from '../../scripts/libraryBrowser';
-import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
-import listView from '../../components/listview/listview';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import globalize from '../../lib/globalize';
-import Events from '../../utils/events.ts';
-import { playbackManager } from '../../components/playback/playbackmanager';
-import { setFilterStatus } from 'components/filterdialog/filterIndicator';
+import loading from '@/components/loading/loading';
+import * as userSettings from '@/scripts/settings/userSettings';
+import libraryBrowser from '@/scripts/libraryBrowser';
+import { AlphaPicker } from '@/components/alphaPicker/alphaPicker';
+import listView from '@/components/listview/listview';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
+import globalize from '@/lib/globalize';
+import Events from '@/utils/events.ts';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import { setFilterStatus } from '@/components/filterdialog/filterIndicator';
 
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent, options) {
     const onViewStyleChange = () => {

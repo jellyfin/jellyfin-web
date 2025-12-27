@@ -5,29 +5,29 @@ import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
 import escapeHtml from 'escape-html';
 
-import toast from 'components/toast/toast';
-import dom from 'utils/dom';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { currentSettings as userSettings } from 'scripts/settings/userSettings';
-import { PluginType } from 'types/plugin';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { isBlank } from 'utils/string';
+import toast from '@/components/toast/toast';
+import dom from '@/utils/dom';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { currentSettings as userSettings } from '@/scripts/settings/userSettings';
+import { PluginType } from '@/types/plugin';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
+import { isBlank } from '@/utils/string';
 
-import dialogHelper from '../dialogHelper/dialogHelper';
-import loading from '../loading/loading';
-import layoutManager from '../layoutManager';
-import { playbackManager } from '../playback/playbackmanager';
-import { pluginManager } from '../pluginManager';
-import { appRouter } from '../router/appRouter';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import loading from '@/components/loading/loading';
+import layoutManager from '@/components/layoutManager';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import { pluginManager } from '@/components/pluginManager';
+import { appRouter } from '@/components/router/appRouter';
 
-import 'elements/emby-button/emby-button';
-import 'elements/emby-input/emby-input';
-import 'elements/emby-button/paper-icon-button-light';
-import 'elements/emby-select/emby-select';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-select/emby-select';
 
 import 'material-design-icons-iconfont';
-import '../formdialog.scss';
+import '@/components/formdialog.scss';
 
 interface DialogElement extends HTMLDivElement {
     playlistId?: string

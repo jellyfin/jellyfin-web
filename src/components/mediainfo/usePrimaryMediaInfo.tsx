@@ -1,17 +1,17 @@
-import * as userSettings from 'scripts/settings/userSettings';
-import datetime from 'scripts/datetime';
-import globalize from 'lib/globalize';
-import itemHelper from '../itemHelper';
+import * as userSettings from '@/scripts/settings/userSettings';
+import datetime from '@/scripts/datetime';
+import globalize from '@/lib/globalize';
+import itemHelper from '@/components/itemHelper';
 
-import { ItemKind } from 'types/base/models/item-kind';
-import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import { ItemStatus } from 'types/base/models/item-status';
+import { ItemKind } from '@/types/base/models/item-kind';
+import { ItemMediaKind } from '@/types/base/models/item-media-kind';
+import { ItemStatus } from '@/types/base/models/item-status';
 import type {
     NullableNumber,
     NullableString
-} from 'types/base/common/shared/types';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { MiscInfo } from 'types/mediaInfoItem';
+} from '@/types/base/common/shared/types';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { MiscInfo } from '@/types/mediaInfoItem';
 import { PrimaryInfoOpts } from './type';
 
 function shouldShowFolderRuntime(

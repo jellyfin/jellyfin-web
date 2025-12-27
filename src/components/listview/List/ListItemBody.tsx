@@ -2,12 +2,12 @@ import React, { type FC } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 
-import TextLines from 'components/common/textLines/TextLines';
-import { ItemAction } from 'constants/itemAction';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { ListOptions } from 'types/listOptions';
+import TextLines from '@/components/common/textLines/TextLines';
+import { ItemAction } from '@/constants/itemAction';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { ListOptions } from '@/types/listOptions';
 
-import PrimaryMediaInfo from '../../mediainfo/PrimaryMediaInfo';
+import PrimaryMediaInfo from '@/components/mediainfo/PrimaryMediaInfo';
 
 interface ListItemBodyProps {
     item: ItemDto;

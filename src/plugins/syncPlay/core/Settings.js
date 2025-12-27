@@ -2,7 +2,7 @@
  * Module that manages SyncPlay settings.
  * @module components/syncPlay/core/Settings
  */
-import appSettings from '../../../scripts/settings/appSettings';
+import appSettings from '@/scripts/settings/appSettings';
 
 /**
  * Prefix used when saving SyncPlay settings.

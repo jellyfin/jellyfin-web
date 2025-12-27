@@ -1,11 +1,11 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 import { getCardLogoUrl } from './cardHelper';
 import CardFooterText from './CardFooterText';
 
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { CardOptions } from 'types/cardOptions';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { CardOptions } from '@/types/cardOptions';
 
 interface CardOuterFooterProps {
     item: ItemDto

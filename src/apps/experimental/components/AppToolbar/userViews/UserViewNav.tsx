@@ -9,15 +9,15 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
-import LibraryIcon from 'apps/experimental/components/LibraryIcon';
-import { MetaView } from 'apps/experimental/constants/metaView';
-import { isLibraryPath } from 'apps/experimental/features/libraries/utils/path';
-import { appRouter } from 'components/router/appRouter';
-import { useApi } from 'hooks/useApi';
-import useCurrentTab from 'hooks/useCurrentTab';
-import { useUserViews } from 'hooks/useUserViews';
-import { useWebConfig } from 'hooks/useWebConfig';
-import globalize from 'lib/globalize';
+import LibraryIcon from '@/apps/experimental/components/LibraryIcon';
+import { MetaView } from '@/apps/experimental/constants/metaView';
+import { isLibraryPath } from '@/apps/experimental/features/libraries/utils/path';
+import { appRouter } from '@/components/router/appRouter';
+import { useApi } from '@/hooks/useApi';
+import useCurrentTab from '@/hooks/useCurrentTab';
+import { useUserViews } from '@/hooks/useUserViews';
+import { useWebConfig } from '@/hooks/useWebConfig';
+import globalize from '@/lib/globalize';
 
 import UserViewsMenu from './UserViewsMenu';
 

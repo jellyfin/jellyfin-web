@@ -1,9 +1,9 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import type { ApiClient } from 'jellyfin-apiclient';
 
-import cardBuilder from 'components/cardbuilder/cardBuilder';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 
 import type { SectionContainerElement, SectionOptions } from './section';
 

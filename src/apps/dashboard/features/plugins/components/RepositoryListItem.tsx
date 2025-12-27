@@ -3,7 +3,7 @@ import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/r
 import ListItem from '@mui/material/ListItem';
 import Tooltip from '@mui/material/Tooltip';
 import Delete from '@mui/icons-material/Delete';
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -11,7 +11,7 @@ import OpenInNew from '@mui/icons-material/OpenInNew';
 import Avatar from '@mui/material/Avatar';
 import ListItemButton from '@mui/material/ListItemButton';
 import Link from '@mui/material/Link';
-import ConfirmDialog from 'components/ConfirmDialog';
+import ConfirmDialog from '@/components/ConfirmDialog';
 
 type IProps = {
     repository: RepositoryInfo;

@@ -1,14 +1,14 @@
 import isEqual from 'lodash-es/isEqual';
 
-import browser from '../../scripts/browser';
-import dom from '../../utils/dom';
-import layoutManager from '../../components/layoutManager';
-import keyboardnavigation from '../../scripts/keyboardNavigation';
+import browser from '@/scripts/browser';
+import dom from '@/utils/dom';
+import layoutManager from '@/components/layoutManager';
+import keyboardnavigation from '@/scripts/keyboardNavigation';
 import './emby-slider.scss';
 import 'webcomponents.js/webcomponents-lite';
-import '../emby-input/emby-input';
-import globalize from '../../lib/globalize';
-import { decimalCount } from '../../utils/number';
+import '@/elements/emby-input/emby-input';
+import globalize from '@/lib/globalize';
+import { decimalCount } from '@/utils/number';
 
 const EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
 

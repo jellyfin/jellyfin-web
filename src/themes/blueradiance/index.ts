@@ -1,4 +1,4 @@
-import { buildCustomColorScheme } from 'themes/utils';
+import { buildCustomColorScheme } from '@/themes/utils';
 
 /** The "Blue Radiance" color scheme. */
 const theme = buildCustomColorScheme({

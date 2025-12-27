@@ -10,9 +10,9 @@ import TextField from '@mui/material/TextField';
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
 import { TaskTriggerInfoType } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info-type';
 import { DayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/day-of-week';
-import globalize from 'lib/globalize';
-import { getIntervalOptions, getTimeOfDayOptions } from '../utils/edit';
-import { useLocale } from 'hooks/useLocale';
+import globalize from '@/lib/globalize';
+import { getIntervalOptions, getTimeOfDayOptions } from '@/apps/dashboard/features/tasks/utils/edit';
+import { useLocale } from '@/hooks/useLocale';
 
 type IProps = {
     open: boolean,

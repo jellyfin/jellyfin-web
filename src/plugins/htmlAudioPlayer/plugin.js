@@ -1,13 +1,13 @@
-import { AppFeature } from 'constants/appFeature';
-import { MediaError } from 'types/mediaError';
+import { AppFeature } from '@/constants/appFeature';
+import { MediaError } from '@/types/mediaError';
 
-import browser from '../../scripts/browser';
-import { appHost } from '../../components/apphost';
-import * as htmlMediaHelper from '../../components/htmlMediaHelper';
-import profileBuilder from '../../scripts/browserDeviceProfile';
-import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
-import { PluginType } from '../../types/plugin.ts';
-import Events from '../../utils/events.ts';
+import browser from '@/scripts/browser';
+import { appHost } from '@/components/apphost';
+import * as htmlMediaHelper from '@/components/htmlMediaHelper';
+import profileBuilder from '@/scripts/browserDeviceProfile';
+import { getIncludeCorsCredentials } from '@/scripts/settings/webSettings';
+import { PluginType } from '@/types/plugin.ts';
+import Events from '@/utils/events.ts';
 
 function getDefaultProfile() {
     return profileBuilder({});

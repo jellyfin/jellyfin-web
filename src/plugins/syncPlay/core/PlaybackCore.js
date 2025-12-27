@@ -3,8 +3,8 @@
  * @module components/syncPlay/core/PlaybackCore
  */
 
-import Events from '../../../utils/events.ts';
-import { toBoolean, toFloat } from '../../../utils/string.ts';
+import Events from '@/utils/events.ts';
+import { toBoolean, toFloat } from '@/utils/string.ts';
 import * as Helper from './Helper';
 import { getSetting } from './Settings';
 

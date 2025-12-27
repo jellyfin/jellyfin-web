@@ -2,10 +2,10 @@ import React, { type FC } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import useSecondaryMediaInfo from './useSecondaryMediaInfo';
-import useIndicator from 'components/indicators/useIndicator';
+import useIndicator from '@/components/indicators/useIndicator';
 import MediaInfoItem from './MediaInfoItem';
-import type { ItemDto } from 'types/base/models/item-dto';
-import { MiscInfo } from 'types/mediaInfoItem';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import { MiscInfo } from '@/types/mediaInfoItem';
 import type { SecondaryInfoOpts } from './type';
 
 interface SecondaryMediaInfoProps extends SecondaryInfoOpts {

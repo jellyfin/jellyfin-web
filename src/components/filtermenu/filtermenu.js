@@ -1,20 +1,20 @@
 import escapeHtml from 'escape-html';
-import dom from '../../utils/dom';
-import focusManager from '../focusManager';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import inputManager from '../../scripts/inputManager';
-import layoutManager from '../layoutManager';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import * as userSettings from '../../scripts/settings/userSettings';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-select/emby-select';
+import dom from '@/utils/dom';
+import focusManager from '@/components/focusManager';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import inputManager from '@/scripts/inputManager';
+import layoutManager from '@/components/layoutManager';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import * as userSettings from '@/scripts/settings/userSettings';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
-import '../formdialog.scss';
-import '../../styles/flexstyles.scss';
+import '@/components/formdialog.scss';
+import '@/styles/flexstyles.scss';
 import template from './filtermenu.template.html';
 
 function onSubmit(e) {

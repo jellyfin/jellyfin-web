@@ -1,13 +1,13 @@
 import DOMPurify from 'dompurify';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
-import { appHost } from 'components/apphost';
-import Page from 'components/Page';
-import toast from 'components/toast/toast';
-import { AppFeature } from 'constants/appFeature';
-import LinkButton from 'elements/emby-button/LinkButton';
-import globalize from 'lib/globalize';
-import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
+import { appHost } from '@/components/apphost';
+import Page from '@/components/Page';
+import toast from '@/components/toast/toast';
+import { AppFeature } from '@/constants/appFeature';
+import LinkButton from '@/elements/emby-button/LinkButton';
+import globalize from '@/lib/globalize';
+import { ConnectionState, ServerConnections } from '@/lib/jellyfin-apiclient';
 
 interface ConnectionErrorPageProps {
     state: ConnectionState

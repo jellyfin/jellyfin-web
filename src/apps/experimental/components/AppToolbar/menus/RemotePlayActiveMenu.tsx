@@ -7,13 +7,13 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import dialog from 'components/dialog/dialog';
-import { playbackManager } from 'components/playback/playbackmanager';
+import dialog from '@/components/dialog/dialog';
+import { playbackManager } from '@/components/playback/playbackmanager';
 import React, { FC, useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { enable, isEnabled } from 'scripts/autocast';
-import globalize from 'lib/globalize';
+import { enable, isEnabled } from '@/scripts/autocast';
+import globalize from '@/lib/globalize';
 
 interface RemotePlayActiveMenuProps extends MenuProps {
     onMenuClose: () => void

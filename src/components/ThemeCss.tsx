@@ -1,7 +1,7 @@
 import React, { type FC, useEffect, useState } from 'react';
 
-import { useUserTheme } from 'hooks/useUserTheme';
-import { getDefaultTheme } from 'scripts/settings/webSettings';
+import { useUserTheme } from '@/hooks/useUserTheme';
+import { getDefaultTheme } from '@/scripts/settings/webSettings.js';
 
 interface ThemeCssProps {
     dashboard?: boolean

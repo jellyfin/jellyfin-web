@@ -1,33 +1,33 @@
 import escapeHtml from 'escape-html';
 
-import { getImageUrl } from 'apps/stable/features/playback/utils/image';
-import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
-import { AppFeature } from 'constants/appFeature';
-import { ItemAction } from 'constants/itemAction';
+import { getImageUrl } from '@/apps/stable/features/playback/utils/image';
+import { getItemTextLines } from '@/apps/stable/features/playback/utils/itemText';
+import { AppFeature } from '@/constants/appFeature';
+import { ItemAction } from '@/constants/itemAction';
 
-import datetime from '../../scripts/datetime';
-import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
-import listView from '../listview/listview';
-import imageLoader from '../images/imageLoader';
-import { playbackManager } from '../playback/playbackmanager';
-import Events from '../../utils/events.ts';
-import { appHost } from '../apphost';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import layoutManager from '../layoutManager';
-import * as userSettings from '../../scripts/settings/userSettings';
-import itemContextMenu from '../itemContextMenu';
-import toast from '../toast/toast';
-import { appRouter } from '../router/appRouter';
-import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import datetime from '@/scripts/datetime';
+import { clearBackdrop, setBackdrops } from '@/components/backdrop/backdrop';
+import listView from '@/components/listview/listview';
+import imageLoader from '@/components/images/imageLoader';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import Events from '@/utils/events.ts';
+import { appHost } from '@/components/apphost';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import layoutManager from '@/components/layoutManager';
+import * as userSettings from '@/scripts/settings/userSettings';
+import itemContextMenu from '@/components/itemContextMenu';
+import toast from '@/components/toast/toast';
+import { appRouter } from '@/components/router/appRouter';
+import { getDefaultBackgroundClass } from '@/components/cardbuilder/cardBuilderUtils';
 
-import '../cardbuilder/card.scss';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import '@/components/cardbuilder/card.scss';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
 import './remotecontrol.scss';
-import '../../elements/emby-ratingbutton/emby-ratingbutton';
-import '../../elements/emby-slider/emby-slider';
+import '@/elements/emby-ratingbutton/emby-ratingbutton';
+import '@/elements/emby-slider/emby-slider';
 
 let showMuteButton = true;
 let showVolumeSlider = true;

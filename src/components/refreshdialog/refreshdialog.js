@@ -1,18 +1,18 @@
-import dom from '../../utils/dom';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import loading from '../loading/loading';
-import layoutManager from '../layoutManager';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import dom from '@/utils/dom';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import loading from '@/components/loading/loading';
+import layoutManager from '@/components/layoutManager';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-select/emby-select';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
-import '../formdialog.scss';
-import toast from '../toast/toast';
+import '@/components/formdialog.scss';
+import toast from '@/components/toast/toast';
 
 function getEditorHtml() {
     let html = '';

@@ -2,8 +2,8 @@ import React, { type FC } from 'react';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-import { ItemAction } from 'constants/itemAction';
-import globalize from 'lib/globalize';
+import { ItemAction } from '@/constants/itemAction';
+import globalize from '@/lib/globalize';
 
 interface MoreVertIconButtonProps {
     className?: string;

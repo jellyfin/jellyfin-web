@@ -1,7 +1,7 @@
 import React, { type FC, type PropsWithChildren, type HTMLAttributes, useEffect, useRef, StrictMode } from 'react';
 
-import autoFocuser from 'components/autoFocuser';
-import viewManager from 'components/viewManager/viewManager';
+import autoFocuser from '@/components/autoFocuser';
+import viewManager from '@/components/viewManager/viewManager';
 
 type CustomPageProps = {
     id: string, // id is required for libraryMenu

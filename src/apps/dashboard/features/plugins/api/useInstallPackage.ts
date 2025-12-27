@@ -2,8 +2,8 @@ import type { PackageApiInstallPackageRequest } from '@jellyfin/sdk/lib/generate
 import { getPackageApi } from '@jellyfin/sdk/lib/utils/api/package-api';
 import { useMutation } from '@tanstack/react-query';
 
-import { useApi } from 'hooks/useApi';
-import { queryClient } from 'utils/query/queryClient';
+import { useApi } from '@/hooks/useApi';
+import { queryClient } from '@/utils/query/queryClient';
 
 import { QueryKey } from './queryKey';
 

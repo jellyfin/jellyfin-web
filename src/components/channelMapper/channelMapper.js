@@ -1,16 +1,16 @@
 import escapeHtml from 'escape-html';
-import dom from '../../utils/dom';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import loading from '../loading/loading';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import actionsheet from '../actionSheet/actionSheet';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-button/emby-button';
-import '../listview/listview.scss';
+import dom from '@/utils/dom';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import loading from '@/components/loading/loading';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import actionsheet from '@/components/actionSheet/actionSheet';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-button/emby-button';
+import '@/components/listview/listview.scss';
 import 'material-design-icons-iconfont';
-import '../formdialog.scss';
+import '@/components/formdialog.scss';
 
 export default class ChannelMapper {
     constructor(options) {
