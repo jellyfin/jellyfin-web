@@ -58,7 +58,7 @@ function show(person) {
             if (submitted) {
                 resolve(person);
             } else {
-                reject();
+                reject(new Error('PersonEditorError'));
             }
         });
 
