@@ -12,8 +12,8 @@ export const useRemoveVirtualFolder = () => {
             getLibraryStructureApi(api!)
                 .removeVirtualFolder(params)
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ 'VirtualFolders' ]
             });
         }
