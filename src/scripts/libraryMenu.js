@@ -751,7 +751,7 @@ function setDefaultTitle () {
     document.title = documentTitle;
 }
 
-function setTitle (title) {
+function setTitle (title, url = '') {
     if (title == null) {
         LibraryMenu.setDefaultTitle();
         return;
@@ -771,7 +771,20 @@ function setTitle (title) {
         pageTitleElement.classList.remove('pageTitleWithLogo');
         pageTitleElement.classList.remove('pageTitleWithDefaultLogo');
         pageTitleElement.style.backgroundImage = null;
-        pageTitleElement.innerText = html || '';
+
+        if (url) {
+            // Create a link element when URL is provided
+            const linkElement = document.createElement('a', 'emby-linkbutton');
+            linkElement.classList.add('button-link');
+            linkElement.style.color = 'inherit';
+            linkElement.href = url;
+            linkElement.innerText = html || '';
+
+            pageTitleElement.innerHTML = '';
+            pageTitleElement.appendChild(linkElement);
+        } else {
+            pageTitleElement.innerText = html || '';
+        }
     }
 
     document.title = title || documentTitle;

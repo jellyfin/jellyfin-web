@@ -102,6 +102,7 @@ function getContextMenuOptions(item, user, button) {
     return {
         item: item,
         open: false,
+        openItemDetails: false,
         play: false,
         playAllFromHere: false,
         queueAllFromHere: false,
