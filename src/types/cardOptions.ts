@@ -3,7 +3,10 @@ import type { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-
 import type { UserItemDataDto } from '@jellyfin/sdk/lib/generated-client/models/user-item-data-dto';
 import type { BaseItemDtoImageBlurHashes } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto-image-blur-hashes';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+
+import { ItemAction } from 'constants/itemAction';
 import { CardShape } from 'utils/card';
+
 import type { NullableString } from './base/common/shared/types';
 import type { ItemDto } from './base/models/item-dto';
 import type { ParentId } from './library';
@@ -44,7 +47,7 @@ export interface CardOptions {
     showChildCountIndicator?: boolean;
     lines?: number;
     context?: CollectionType;
-    action?: string | null;
+    action?: ItemAction | null;
     indexBy?: string;
     parentId?: ParentId;
     showMenu?: boolean;

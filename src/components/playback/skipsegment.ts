@@ -1,12 +1,13 @@
 import { PlaybackManager } from './playbackmanager';
 import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
+import type { PlaybackStopInfo } from 'types/playbackStopInfo';
 import { PlaybackSubscriber } from 'apps/stable/features/playback/utils/playbackSubscriber';
 import { isInSegment } from 'apps/stable/features/playback/utils/mediaSegments';
 import Events, { type Event } from 'utils/events';
-import { EventType } from 'types/eventType';
+import { EventType } from 'constants/eventType';
 import './skipbutton.scss';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
 import focusManager from 'components/focusManager';
@@ -188,10 +189,12 @@ class SkipSegment extends PlaybackSubscriber {
         }
     }
 
-    onPlaybackStop() {
+    onPlaybackStop(_e: Event, playbackStopInfo: PlaybackStopInfo) {
         this.currentSegment = null;
         this.hideSkipButton();
-        Events.off(document, EventType.SHOW_VIDEO_OSD, this.onOsdChanged);
+        if (!playbackStopInfo.nextItem) {
+            Events.off(document, EventType.SHOW_VIDEO_OSD, this.onOsdChanged);
+        }
     }
 }
 

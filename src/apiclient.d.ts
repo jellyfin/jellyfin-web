@@ -136,6 +136,7 @@ declare module 'jellyfin-apiclient' {
         getInstantMixFromItem(itemId: string, options?: any): Promise<BaseItemDtoQueryResult>;
         getIntros(itemId: string): Promise<BaseItemDtoQueryResult>;
         getItemCounts(userId?: string): Promise<ItemCounts>;
+        /** @deprecated This function returns a URL with a legacy auth parameter.*/
         getItemDownloadUrl(itemId: string): string;
         getItemImageInfos(itemId: string): Promise<ImageInfo[]>;
         getItems(userId: string, options?: any): Promise<BaseItemDtoQueryResult>;

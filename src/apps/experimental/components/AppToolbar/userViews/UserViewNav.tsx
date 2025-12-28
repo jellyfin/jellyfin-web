@@ -3,6 +3,7 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import Favorite from '@mui/icons-material/Favorite';
 import Button from '@mui/material/Button/Button';
+import Icon from '@mui/material/Icon';
 import { Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -15,6 +16,7 @@ import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import useCurrentTab from 'hooks/useCurrentTab';
 import { useUserViews } from 'hooks/useUserViews';
+import { useWebConfig } from 'hooks/useWebConfig';
 import globalize from 'lib/globalize';
 
 import UserViewsMenu from './UserViewsMenu';
@@ -56,14 +58,19 @@ const UserViewNav = () => {
     const libraryId = searchParams.get('topParentId') || searchParams.get('parentId');
     const collectionType = searchParams.get('collectionType');
     const { activeTab } = useCurrentTab();
+    const webConfig = useWebConfig();
 
     const isExtraLargeScreen = useMediaQuery((t: Theme) => t.breakpoints.up('xl'));
     const isLargeScreen = useMediaQuery((t: Theme) => t.breakpoints.up('lg'));
     const maxViews = useMemo(() => {
-        if (isExtraLargeScreen) return MAX_USER_VIEWS_XL;
-        if (isLargeScreen) return MAX_USER_VIEWS_LG;
-        return MAX_USER_VIEWS_MD;
-    }, [ isExtraLargeScreen, isLargeScreen ]);
+        let _maxViews = MAX_USER_VIEWS_MD;
+        if (isExtraLargeScreen) _maxViews = MAX_USER_VIEWS_XL;
+        else if (isLargeScreen) _maxViews = MAX_USER_VIEWS_LG;
+
+        const customLinks = (webConfig.menuLinks || []).length;
+
+        return _maxViews - customLinks;
+    }, [ isExtraLargeScreen, isLargeScreen, webConfig.menuLinks ]);
 
     const { user } = useApi();
     const {
@@ -107,6 +114,21 @@ const UserViewNav = () => {
             >
                 {globalize.translate(MetaView.Favorites.Name)}
             </Button>
+
+            {webConfig.menuLinks?.map(link => (
+                <Button
+                    key={link.name}
+                    variant='text'
+                    color='inherit'
+                    startIcon={<Icon>{link.icon || 'link'}</Icon>}
+                    component='a'
+                    href={link.url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                >
+                    {link.name}
+                </Button>
+            ))}
 
             {primaryViews?.map(view => (
                 <Button

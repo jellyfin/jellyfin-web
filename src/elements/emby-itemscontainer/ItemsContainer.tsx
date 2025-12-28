@@ -11,7 +11,7 @@ import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
 import Events, { type Event } from 'utils/events';
 import serverNotifications from 'scripts/serverNotifications';
 import inputManager from 'scripts/inputManager';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import browser from 'scripts/browser';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';

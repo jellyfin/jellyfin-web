@@ -9,6 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import classNames from 'classnames';
 import React, { type FC, useCallback } from 'react';
 
+import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { useGetItemsViewByType } from 'hooks/useFetchItems';
@@ -99,7 +100,7 @@ const ItemsView: FC<ItemsViewProps> = ({
 
         if (viewType === LibraryTab.Songs) {
             listOptions.showParentTitle = true;
-            listOptions.action = 'playallfromhere';
+            listOptions.action = ItemAction.PlayAllFromHere;
             listOptions.smallIcon = true;
             listOptions.showArtist = true;
             listOptions.addToListButton = true;
@@ -300,7 +301,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                             xs: 1,
                             sm: 0
                         },
-                        justifyContent: 'end'
+                        justifyContent: 'flex-end'
                     }}
                 >
                     {!isPending && (

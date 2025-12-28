@@ -2,7 +2,7 @@ import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef,
 import classNames from 'classnames';
 import useElementSize from 'hooks/useElementSize';
 import layoutManager from '../../components/layoutManager';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
 import ScrollerFactory from 'lib/scroller';

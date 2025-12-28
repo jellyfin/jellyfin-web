@@ -1,10 +1,5 @@
-import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { useEffect, useState, useRef } from 'react';
-
-import Dashboard from '../../../../utils/dashboard';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import globalize from '../../../../lib/globalize';
-import loading from '../../../../components/loading/loading';
-import dom from '../../../../scripts/dom';
 import confirm from '../../../../components/confirm/confirm';
 import UserCardBox from '../../../../components/dashboard/users/UserCardBox';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
@@ -14,6 +9,12 @@ import '../../../../components/cardbuilder/card.scss';
 import '../../../../components/indicators/indicators.scss';
 import '../../../../styles/flexstyles.scss';
 import Page from '../../../../components/Page';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Toast from 'apps/dashboard/components/Toast';
+import { useUsers } from 'hooks/useUsers';
+import Loading from 'components/loading/LoadingComponent';
+import { useDeleteUser } from 'apps/dashboard/features/users/api/useDeleteUser';
+import dom from 'utils/dom';
 
 type MenuEntry = {
     name?: string;
@@ -22,29 +23,29 @@ type MenuEntry = {
 };
 
 const UserProfiles = () => {
-    const [ users, setUsers ] = useState<UserDto[]>([]);
-
+    const location = useLocation();
+    const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
     const element = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate();
+    const { data: users, isPending } = useUsers();
+    const deleteUser = useDeleteUser();
 
-    const loadData = () => {
-        loading.show();
-        window.ApiClient.getUsers().then(function (result) {
-            setUsers(result);
-            loading.hide();
-        }).catch(err => {
-            console.error('[userprofiles] failed to fetch users', err);
-        });
-    };
+    const handleToastClose = useCallback(() => {
+        setIsSettingsSavedToastOpen(false);
+    }, []);
 
     useEffect(() => {
         const page = element.current;
+
+        if (location.state?.openSavedToast) {
+            setIsSettingsSavedToastOpen(true);
+            window.history.replaceState({}, '');
+        }
 
         if (!page) {
             console.error('Unexpected null reference');
             return;
         }
-
-        loadData();
 
         const showUserMenu = (elem: HTMLElement) => {
             const card = dom.parentWithClass(elem, 'card');
@@ -86,28 +87,19 @@ const UserProfiles = () => {
                     callback: function (id: string) {
                         switch (id) {
                             case 'open':
-                                Dashboard.navigate('/dashboard/users/profile?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to user edit page', err);
-                                    });
+                                navigate(`/dashboard/users/profile?userId=${userId}`);
                                 break;
 
                             case 'access':
-                                Dashboard.navigate('/dashboard/users/access?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to user library page', err);
-                                    });
+                                navigate(`/dashboard/users/access?userId=${userId}`);
                                 break;
 
                             case 'parentalcontrol':
-                                Dashboard.navigate('/dashboard/users/parentalcontrol?userId=' + userId)
-                                    .catch(err => {
-                                        console.error('[userprofiles] failed to navigate to parental control page', err);
-                                    });
+                                navigate(`/dashboard/users/parentalcontrol?userId=${userId}`);
                                 break;
 
                             case 'delete':
-                                deleteUser(userId, username);
+                                confirmDeleteUser(userId, username);
                         }
                     }
                 }).catch(() => {
@@ -118,7 +110,7 @@ const UserProfiles = () => {
             });
         };
 
-        const deleteUser = (id: string, username?: string | null) => {
+        const confirmDeleteUser = (id: string, username?: string | null) => {
             const title = username ? globalize.translate('DeleteName', username) : globalize.translate('DeleteUser');
             const text = globalize.translate('DeleteUserConfirmation');
 
@@ -128,32 +120,38 @@ const UserProfiles = () => {
                 confirmText: globalize.translate('Delete'),
                 primary: 'delete'
             }).then(function () {
-                loading.show();
-                window.ApiClient.deleteUser(id).then(function () {
-                    loadData();
-                }).catch(err => {
-                    console.error('[userprofiles] failed to delete user', err);
+                deleteUser.mutate({
+                    userId: id
                 });
             }).catch(() => {
                 // confirm dialog closed
             });
         };
 
-        page.addEventListener('click', function (e) {
+        const onPageClick = function (e: MouseEvent) {
             const btnUserMenu = dom.parentWithClass(e.target as HTMLElement, 'btnUserMenu');
 
             if (btnUserMenu) {
                 showUserMenu(btnUserMenu);
             }
-        });
+        };
 
-        (page.querySelector('#btnAddUser') as HTMLButtonElement).addEventListener('click', function() {
-            Dashboard.navigate('/dashboard/users/add')
-                .catch(err => {
-                    console.error('[userprofiles] failed to navigate to new user page', err);
-                });
-        });
-    }, []);
+        const onAddUserClick = function() {
+            navigate('/dashboard/users/add');
+        };
+
+        page.addEventListener('click', onPageClick);
+        (page.querySelector('#btnAddUser') as HTMLButtonElement).addEventListener('click', onAddUserClick);
+
+        return () => {
+            page.removeEventListener('click', onPageClick);
+            (page.querySelector('#btnAddUser') as HTMLButtonElement).removeEventListener('click', onAddUserClick);
+        };
+    }, [navigate, deleteUser, location.state?.openSavedToast]);
+
+    if (isPending) {
+        return <Loading />;
+    }
 
     return (
         <Page
@@ -161,6 +159,11 @@ const UserProfiles = () => {
             className='mainAnimatedPage type-interior userProfilesPage fullWidthContent'
             title={globalize.translate('HeaderUsers')}
         >
+            <Toast
+                open={isSettingsSavedToastOpen}
+                onClose={handleToastClose}
+                message={globalize.translate('SettingsSaved')}
+            />
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
@@ -174,7 +177,7 @@ const UserProfiles = () => {
                 </div>
 
                 <div className='localUsers itemsContainer vertical-wrap'>
-                    {users.map(user => {
+                    {users?.map(user => {
                         return <UserCardBox key={user.Id} user={user} />;
                     })}
                 </div>

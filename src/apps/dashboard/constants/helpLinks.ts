@@ -22,10 +22,7 @@ export const HelpLinks = [
         paths: ['/dashboard/playback/transcoding'],
         url: 'https://jellyfin.org/docs/general/server/transcoding'
     }, {
-        paths: [
-            '/dashboard/plugins',
-            '/dashboard/plugins/catalog'
-        ],
+        paths: ['/dashboard/plugins'],
         url: 'https://jellyfin.org/docs/general/server/plugins/'
     }, {
         paths: ['/dashboard/plugins/repositories'],
@@ -50,5 +47,8 @@ export const HelpLinks = [
             '/dashboard/users/profile'
         ],
         url: 'https://jellyfin.org/docs/general/server/users/'
+    }, {
+        paths: ['/dashboard/backups'],
+        url: 'https://jellyfin.org/docs/general/administration/backup-and-restore/'
     }
 ];

@@ -125,7 +125,7 @@
     "ButtonMore": "Več",
     "ButtonNetwork": "Omrežje",
     "ButtonNextTrack": "Naslednja skladba",
-    "ButtonOk": "Ok",
+    "ButtonOk": "V redu",
     "ButtonOpen": "Odpri",
     "ButtonParentalControl": "Starševski nadzor",
     "ButtonPause": "Premor",
@@ -715,7 +715,7 @@
     "LabelOptionalNetworkPath": "Omrežna mapa v skupni rabi",
     "LabelOptionalNetworkPathHelp": "V primeru, da je ta mapa deljena v vašem omrežju, lahko Jellyfin deli omrežno pot z ostalimi napravami in jim omogoči neposreden dostop do vsebin. Na primer {0} ali {1}.",
     "LabelRemoteClientBitrateLimitHelp": "Neobvezna omejitev bitne hitrosti na posamezno predvajanje za vse naprave izven domačega omrežja. S tem lahko preprečite, da bi naprave zahtevale višjo bitno hitrost predvajanja, kot jo lahko prenese vaše omrežje. To lahko poveča obremenitev CPU-ja, saj bo morda potrebno sprotno prekodiranje za zmanjšanje bitne hitrosti.",
-    "LanNetworksHelp": "Z vejico ločen seznam IP naslovov ali IP/maska omrežji, ki bodo upoštevana kot lokalna pri uveljavljanju omejitev pasovne širine. Če nastavite, se bodo vsi ostali naslovi upoštevali kot zunanji in bodo predmet omejitve pasovne širine. Če pustite prazno, bo kot lokalno omrežje upoštevano zgolj omrežje strežnika.",
+    "LanNetworksHelp": "Seznam naslovov IP ali vnosov IP/omrežne maske, ločenih z vejicami, za omrežja, ki bodo upoštevana v lokalnem omrežju pri uveljavljanju omejitev pasovne širine in oddaljenega dostopa. Če pustite prazno, se vsi naslovi RFC1918 štejejo za lokalne.",
     "MessageForgotPasswordInNetworkRequired": "Za začetek ponastavitve gesla prosimo poskusite znova v vašem domačem omrežju.",
     "OptionReportByteRangeSeekingWhenTranscodingHelp": "To je potrebno za nekatere naprave, ki slabo iščejo po času.",
     "OptionRequirePerfectSubtitleMatch": "Prenesi zgolj podnapise, ki se popolnoma ujemajo z video datotekami",
@@ -2057,5 +2057,9 @@
     "ViewSettings": "Ogled nastavitev",
     "TranscodingLoadError": "Napaka pri nalaganju nastavitev prekodiranja",
     "UploadCustomImage": "Naloži sliko po meri",
-    "LogLoadFailure": "Nalaganje dnevniške datoteke ni uspelo. Morda se vanjo še vedno aktivno zapisuje."
+    "LogLoadFailure": "Nalaganje dnevniške datoteke ni uspelo. Morda se vanjo še vedno aktivno zapisuje.",
+    "LabelAvailable": "Na voljo",
+    "LabelBundled": "V paketu",
+    "ManageRepositories": "Upravljanje repozitorijev",
+    "ViewAllPlugins": "Ogled vseh vtičnikov"
 }
