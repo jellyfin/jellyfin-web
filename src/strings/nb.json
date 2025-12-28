@@ -939,7 +939,7 @@
     "Yes": "Ja",
     "Yesterday": "Igår",
     "DirectPlaying": "Direkteavspilling",
-    "Desktop": "Skrivebord",
+    "Desktop": "Skrivebord (Utdatert)",
     "Descending": "Fallende",
     "Default": "Standard",
     "DatePlayed": "Sist spillt",
@@ -1001,7 +1001,7 @@
     "LabelSortBy": "Sorter etter",
     "LabelSortOrder": "Sorteringsrekkefølge",
     "LabelUserAgent": "Brukeragent",
-    "Mobile": "Mobil",
+    "Mobile": "Mobil (Utdatert)",
     "Off": "Av",
     "Premiere": "Premiere",
     "Label3DFormat": "3D-format",
@@ -2066,5 +2066,7 @@
     "StorageType.NoRootDirectory": "Ingen Root katalog",
     "StorageType.Removable": "Flyttbar",
     "TranscodingLoadError": "Klarte ikke å laste innstillinger for transkoding",
-    "ViewAllPlugins": "Vis alle tilleggsprogam"
+    "ViewAllPlugins": "Vis alle tilleggsprogam",
+    "LabelSlideshowInterval": "Intevall på bildeslideshow",
+    "LabelSlideshowIntervalHelp": "Hvor mange sekunder mellom hvert bilde i slideshow modus."
 }
