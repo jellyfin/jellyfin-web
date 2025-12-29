@@ -440,15 +440,13 @@ export class HtmlVideoPlayer {
     setSrcWithHlsJs(elem, options, url) {
         return new Promise((resolve, reject) => {
             requireHlsPlayer(async () => {
-                let maxBufferLength = 30;
-
-                // Some browsers cannot handle huge fragments in high bitrate.
-                // This issue usually happens when using HWA encoders with a high bitrate setting.
-                // Limit the BufferLength to 6s, it works fine when playing 4k 120Mbps over HLS on chrome.
-                // https://github.com/video-dev/hls.js/issues/876
-                if ((browser.chrome || browser.edgeChromium || browser.firefox) && playbackManager.getMaxStreamingBitrate(this) >= 25000000) {
-                    maxBufferLength = 6;
-                }
+                // Dynamic buffer length based on bitrate
+                // Limit max buffer size to 50MB (50 * 1024 * 1024 * 8 bits = 419430400 bits)
+                const maxBufferSizeBits = 50 * 1024 * 1024 * 8;
+                const bitrate = playbackManager.getMaxStreamingBitrate(this) || 8000000; // Default 8Mbps
+                let maxBufferLength = Math.floor(maxBufferSizeBits / bitrate);
+                // Clamp buffer length between 6s and 60s
+                maxBufferLength = Math.max(6, Math.min(60, maxBufferLength));
 
                 const includeCorsCredentials = await getIncludeCorsCredentials();
 
