@@ -20,7 +20,7 @@
     "ParentalRating": "Parental Rating",
     "TabAccess": "Akses",
     "TellUsAboutYourself": "Beritahu kami tentang anda",
-    "ThisWizardWillGuideYou": "Panduan ini akan memandu Anda melalui proses setup. Untuk memulai, silahkan pilih bahasa yang Anda gunakan.",
+    "ThisWizardWillGuideYou": "Panduan ini akan memandu Anda melalui proses setup. Untuk memulai, silahkan masukan nama server dan pilih bahasa yang Anda gunakan.",
     "UserProfilesIntro": "Jellyfin mencakup dukungan untuk profil pengguna dengan pengaturan tampilan granular, status bermain, dan kontrol orang tua.",
     "WelcomeToProject": "Selamat datang di Jellyfin!",
     "WizardCompleted": "Hanya itu yang kami butuhkan untuk saat ini. Jellyfin mulai mengumpulkan informasi tentang perpustakaan media Anda. Lihat beberapa aplikasi kami, lalu klik <b>Selesai</b> untuk melihat <b>Dasbor</b>.",
@@ -2006,5 +2006,6 @@
     "MediaSegmentType.Outro": "Penutup (Outro)",
     "MessageBackupDisclaimer": "Tergantung dari besar perpustakaan anda, proses backup akan memakan beberapa waktu.",
     "MessageBackupInProgress": "Backup dalam proses",
-    "MessageForgotPasswordPinReset": "Masukan PIN disini untuk menyelesaikan reset Password"
+    "MessageForgotPasswordPinReset": "Masukan PIN disini untuk menyelesaikan reset Password",
+    "PluginLoadConfigError": "Terjadi kesalah ketika mencoba mendapatkan halaman konfigurasi plugin."
 }
