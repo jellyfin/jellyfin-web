@@ -607,7 +607,6 @@ export class HtmlVideoPlayer {
         if (this.#currentAssRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
             this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
-            this.#currentAssRenderer.resetRenderAheadCache(false);
         } else if (this.#currentPgsRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
             this.#currentPgsRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
