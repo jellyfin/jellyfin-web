@@ -1178,7 +1178,7 @@
     "DirectPlaying": "Reproducción directa",
     "DeviceAccessHelp": "Esto solo se aplica a los dispositivos que pueden ser identificados de manera única y no impedirá el acceso desde navegadores. Filtrar el acceso a los dispositivos de los usuarios les impedirá usar nuevos dispositivos hasta que hayan sido aprobados aquí.",
     "DetectingDevices": "Detectando dispositivos",
-    "Desktop": "Escritorio",
+    "Desktop": "Escritorio (Heredado)",
     "Descending": "Descendente",
     "DeleteUserConfirmation": "¿Estás seguro de querer eliminar este usuario?",
     "DeleteUser": "Eliminar usuario",
@@ -1759,5 +1759,7 @@
     "DeleteRepositoryConfirmation": "¿Estás seguro de que deseas eliminar este repositorio?",
     "EnableTrueHdHelp": "Habilítelo solo si su dispositivo es compatible con TrueHD o está conectado a un receptor de audio compatible, de lo contrario, puede provocar fallas en la reproducción.",
     "ButtonAddProvider": "Agregar proveedor",
-    "ConnectAnyway": "Conectar igual"
+    "ConnectAnyway": "Conectar igual",
+    "ButtonAddTunerDevice": "Agregar dispositivo sintonizador",
+    "ErrorDeletingLyrics": "Se ha producido un error al eliminar la letra de la canción del servidor. Por favor, verifica que Jellyfin tenga acceso de escritura a la carpeta de medios e intenta de nuevo."
 }
