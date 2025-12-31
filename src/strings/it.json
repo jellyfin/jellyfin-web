@@ -124,11 +124,11 @@
     "DeleteUserConfirmation": "Sei sicuro di voler eliminare questo utente?",
     "Depressed": "Depresso",
     "Descending": "Decrescente",
-    "Desktop": "PC Fisso",
+    "Desktop": "Desktop (Obsoleto)",
     "DetectingDevices": "Rilevamento dispositivi",
-    "DeviceAccessHelp": "Si applica solo ai dispositivi che possono essere identificati univocamente e non impedirà l'accesso dal browser. Filtrare l'accesso ai dispositivi dell'utente impedirà di usare nuovi dispositivi fino a quando non saranno stati approvati qui.",
+    "DeviceAccessHelp": "Si applica solo ai dispositivi che possono essere identificati univocamente e ciò non impedirà l'accesso dal browser. Filtrare l'accesso ai dispositivi dell'utente impedirà di usare nuovi dispositivi fino a quando non saranno stati approvati qui.",
     "DirectPlaying": "Riproduzione Diretta",
-    "DirectStreamHelp1": "La traccia video è compatibile con il dispositivo ma non quella audio (DTS, Dolby TrueHD, ecc) o il numero di canali audio. Il video sarà quindi reimpacchettato al volo senza perdita di dati prima dell'invio al dispositivo. Solo lo stream audio sarà ricodificato.",
+    "DirectStreamHelp1": "La traccia video è compatibile con il dispositivo ma quella audio (DTS, Dolby TrueHD, ecc) o il numero di canali audio, no. Il video sarà quindi reimpacchettato al volo senza perdita di dati prima dell'invio al dispositivo. Solo lo stream audio sarà ricodificato.",
     "DirectStreamHelp2": "La potenza di calcolo utilizzata dal direct streaming dipende dal profilo audio. Solo la traccia video è senza perdita di dati.",
     "DirectStreaming": "Streaming Diretto",
     "Director": "Regista",
@@ -1199,7 +1199,7 @@
     "LabelWeb": "Web",
     "LeaveBlankToNotSetAPassword": "Puoi lasciare questo campo vuoto per non impostare alcuna password.",
     "MediaInfoTimestamp": "Orario",
-    "Mobile": "Mobile",
+    "Mobile": "Mobile (Obsoleto)",
     "MoreMediaInfo": "Informazioni sui Media",
     "MusicAlbum": "Album Musicale",
     "MusicArtist": "Artista Musicale",
@@ -2071,5 +2071,7 @@
     "ViewAllPlugins": "Visualizza tutti i plugin",
     "LabelBundled": "Raggruppati",
     "ButtonAddProvider": "Aggiungi un fornitore",
-    "ButtonAddTunerDevice": "Aggiungi un dispositivo tuner"
+    "ButtonAddTunerDevice": "Aggiungi un dispositivo tuner",
+    "LabelSlideshowInterval": "Intervallo tra le diapositive",
+    "LabelSlideshowIntervalHelp": "Durata di visualizzazione di ogni foto (in secondi) nella presentazione."
 }

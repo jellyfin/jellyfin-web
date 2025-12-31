@@ -176,7 +176,7 @@
     "DeleteUserConfirmation": "Are you sure you wish to delete this user?",
     "Depressed": "Depressed",
     "Descending": "Descending",
-    "Desktop": "Desktop",
+    "Desktop": "Desktop (Legacy)",
     "DetectingDevices": "Detecting devices",
     "DeviceAccessHelp": "This only applies to devices that can be uniquely identified and will not prevent browser access. Filtering user device access will prevent them from using new devices until they've been approved here.",
     "DirectPlaying": "Direct playing",
@@ -720,7 +720,7 @@
     "HeaderYears": "Years",
     "HeaderVideos": "Videos",
     "HeaderVideoTypes": "Video Types",
-    "Series": "Programme",
+    "Series": "Programmes",
     "NewEpisodes": "New episodes",
     "NewCollectionNameExample": "Example: Star Wars Collection",
     "MinutesAfter": "minutes after",
@@ -1172,7 +1172,7 @@
     "News": "News",
     "MusicVideo": "Music Video",
     "MusicArtist": "Music Artist",
-    "Mobile": "Mobile",
+    "Mobile": "Mobile (Legacy)",
     "MessageYouHaveVersionInstalled": "You currently have version {0} installed.",
     "MessageUnableToConnectToServer": "We're unable to connect to the selected server right now. Please ensure it is running and try again.",
     "MessageTheFollowingLocationWillBeRemovedFromLibrary": "The following media locations will be removed from your library",
@@ -2071,5 +2071,7 @@
     "ConfirmDeleteRepository": "Delete repository?",
     "DeleteRepositoryConfirmation": "Are you sure you want to delete this repository?",
     "ButtonAddProvider": "Add Provider",
-    "ButtonAddTunerDevice": "Add Tuner Device"
+    "ButtonAddTunerDevice": "Add Tuner Device",
+    "LabelSlideshowInterval": "Photo Slideshow Interval",
+    "LabelSlideshowIntervalHelp": "The time in seconds each photo is displayed in slideshows."
 }

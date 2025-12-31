@@ -774,7 +774,7 @@
     "MetadataSettingChangeHelp": "Das Verändern der Metadateneinstellungen hat nur Einfluss auf neu hinzugefügte Inhalte. Um eine Aktualisierung bereits hinzugefügter Inhalte durchzuführen, öffne bitte die Detailansicht und klicke die Aktualisieren-Schaltfläche. Die Massenaktualisierung kann im Metadaten-Manager durchgeführt werden.",
     "MinutesAfter": "Minuten nach",
     "MinutesBefore": "Minuten vor",
-    "Mobile": "Smartphone",
+    "Mobile": "Mobil (Legacy)",
     "Monday": "Montag",
     "MoreFromValue": "Mehr von {0}",
     "MoreUsersCanBeAddedLater": "Weitere Benutzer können später über das Dashboard hinzugefügt werden.",
@@ -1104,7 +1104,7 @@
     "ChangingMetadataImageSettingsNewContent": "Änderungen an Metadaten- und Artwork-Einstellungen betreffen nur der Bibliothek neu hinzugefügte Inhalte. Um diese Änderungen auf existierende Medien anzuwenden, müssen die Metadaten manuell aktualisiert werden.",
     "CopyStreamURL": "Link zum Stream kopieren",
     "CopyStreamURLSuccess": "Link erfolgreich kopiert.",
-    "Desktop": "Desktop",
+    "Desktop": "Desktop (Legacy)",
     "Download": "Download",
     "Extras": "Extras",
     "FormatValue": "Format: {0}",
@@ -2016,7 +2016,7 @@
     "StreamCountExceedsLimit": "Die Anzahl der Streams überschreitet das Limit",
     "RetryWithGlobalSearch": "Erneuter Versuch mit einer globalen Suche",
     "CustomSplashScreenSize": "Benutzerdefinierte Bilder sollten das Seitenverhältnis 16x9 und eine Mindestgröße von 1920x1080 haben.",
-    "DeleteCustomImage": "Benutzerdefiniertes Bild gelöscht",
+    "DeleteCustomImage": "Benutzerdefiniertes Bild löschen",
     "LabelGroupShowsIntoCollectionsHelp": "Serien in einer Sammlung werden bei der Anzeige von Serienlisten als ein gruppiertes Element dargestellt.",
     "ImageDeleteFailed": "Bild konnte nicht gelöscht werden",
     "LabelGroupShowsIntoCollections": "Serien in Kollektionen gruppieren",
@@ -2071,5 +2071,7 @@
     "ManageRepositories": "Repositories verwalten",
     "ViewAllPlugins": "Alle Plugins anzeigen",
     "ButtonAddTunerDevice": "Tuner-Gerät hinzufügen",
-    "ButtonAddProvider": "Provider hinzufügen"
+    "ButtonAddProvider": "Provider hinzufügen",
+    "LabelSlideshowInterval": "Photo Diashow Intervall",
+    "LabelSlideshowIntervalHelp": "Die Zeit in Sekunden die jedes Foto in Diashows angezeigt wird."
 }

@@ -2055,5 +2055,7 @@
     "HeaderBackups": "Varukoopiad",
     "Success": "Edu",
     "ButtonAddTunerDevice": "Lisa tuuner",
-    "ButtonAddProvider": "Lisa tarnija"
+    "ButtonAddProvider": "Lisa tarnija",
+    "LabelSlideshowInterval": "Fotode slaidiseansi intervall",
+    "LabelSlideshowIntervalHelp": "Iga foto kuvamise aeg slaidiseanssides (sek)."
 }

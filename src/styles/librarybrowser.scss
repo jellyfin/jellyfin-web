@@ -601,39 +601,6 @@
     }
 }
 
-.detailPageContent {
-    display: flex;
-    flex-direction: column;
-
-    .layout-desktop &,
-    .layout-tv & {
-        .emby-scroller {
-            [dir="ltr"] & {
-                margin-left: 0;
-            }
-
-            [dir="rtl"] & {
-                margin-right: 0;
-            }
-        }
-    }
-
-    [dir="ltr"] & {
-        padding-left: 32.45vw;
-        padding-right: 2%;
-    }
-
-    [dir="rtl"] & {
-        padding-right: 32.45vw;
-        padding-left: 2%;
-    }
-
-    .layout-mobile & {
-        padding-left: 5%;
-        padding-right: 5%;
-    }
-}
-
 .detailSectionContent a {
     color: inherit;
 }
@@ -934,12 +901,10 @@
 
     [dir="ltr"] & {
         padding-left: 32.45vw;
-        padding-right: 2%;
     }
 
     [dir="rtl"] & {
         padding-right: 32.45vw;
-        padding-left: 2%;
     }
 
     .layout-mobile & {

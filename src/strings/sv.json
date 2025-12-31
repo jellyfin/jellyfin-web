@@ -121,7 +121,7 @@
     "DeleteUser": "Ta bort användare",
     "DeleteUserConfirmation": "Är du säker på att du vill radera denna användare?",
     "Depressed": "Nedsänkt",
-    "Desktop": "Skrivbord",
+    "Desktop": "Skrivbord (Förlegad)",
     "DetectingDevices": "Söker efter enheter",
     "DeviceAccessHelp": "Detta tillämpas endast för enheter som kan bli unikt identifierade och som inte förhindrar åtkomst till browsern. Filtering av användarenheter kommer att blockera dom från att använda nya enheter tills dom har blivit godkända här.",
     "DirectPlaying": "Direktuppspelning",
@@ -763,7 +763,7 @@
     "MetadataManager": "Metadatahanteraren",
     "MinutesAfter": "minuter efter",
     "MinutesBefore": "minuter före",
-    "Mobile": "Mobil",
+    "Mobile": "Mobil (Föråldrad)",
     "Monday": "Måndag",
     "MoreFromValue": "Mer från {0}",
     "MoreUsersCanBeAddedLater": "Flera användare kan skapas senare i kontrollpanelen.",
@@ -2066,5 +2066,6 @@
     "HeaderServerMismatch": "Serveravvikelse",
     "MessageServerMismatch": "Servern du ansluter till är inte samma server som du tidigare anslöt till på denna adress. Om detta är avsiktligt, välj ”Anslut ändå”. Annars kan din anslutning eller servern vara osäker.",
     "ButtonAddProvider": "Lägg till leverantör",
-    "ButtonAddTunerDevice": "Lägg till mottagarenhet"
+    "ButtonAddTunerDevice": "Lägg till mottagarenhet",
+    "LabelSlideshowIntervalHelp": "Tiden i sekunder som varje bild visas i bildspel."
 }

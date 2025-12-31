@@ -1,9 +1,13 @@
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { Archive } from 'libarchive.js';
+
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+
 import loading from '../../components/loading/loading';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import { appRouter } from '../../components/router/appRouter';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { PluginType } from '../../types/plugin.ts';
 
@@ -287,14 +291,12 @@ export class ComicsPlayer {
 
         loading.show();
 
-        const serverId = item.ServerId;
-        const apiClient = ServerConnections.getApiClient(serverId);
-
         Archive.init({
             workerUrl: appRouter.baseUrl() + '/libraries/worker-bundle.js'
         });
 
-        const downloadUrl = apiClient.getItemDownloadUrl(item.Id);
+        const api = toApi(ServerConnections.getApiClient(item));
+        const downloadUrl = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
         this.archiveSource = new ArchiveSource(downloadUrl);
 
         //eslint-disable-next-line import/no-unresolved
