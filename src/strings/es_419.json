@@ -1178,7 +1178,7 @@
     "DirectPlaying": "Reproducción directa",
     "DeviceAccessHelp": "Esto solo se aplica a los dispositivos que pueden ser identificados de manera única y no impedirá el acceso desde navegadores. Filtrar el acceso a los dispositivos de los usuarios les impedirá usar nuevos dispositivos hasta que hayan sido aprobados aquí.",
     "DetectingDevices": "Detectando dispositivos",
-    "Desktop": "Escritorio",
+    "Desktop": "Escritorio (Heredado)",
     "Descending": "Descendente",
     "DeleteUserConfirmation": "¿Estás seguro de querer eliminar este usuario?",
     "DeleteUser": "Eliminar usuario",
@@ -1210,8 +1210,8 @@
     "HeaderSendMessage": "Enviar mensaje",
     "HeaderSelectTranscodingPathHelp": "Explora o introduce la ruta para los archivos de transcodificación. Se debe tener permisos de escritura en esa carpeta.",
     "HeaderSelectTranscodingPath": "Selecciona la ruta para los archivos temporales de transcodificación",
-    "ConfirmDeleteItems": "Eliminar estos elementos los eliminará tanto del sistema como de tu biblioteca de medios. ¿Estás seguro de querer continuar?",
-    "ConfirmDeleteItem": "Eliminar este elemento lo eliminará tanto del sistema como de tu biblioteca de medios. ¿Estás seguro de querer continuar?",
+    "ConfirmDeleteItems": "Al Eliminar estos elementos los borrará tanto del sistema como de tu biblioteca de medios. ¿Estás seguro de querer continuar?",
+    "ConfirmDeleteItem": "Al eliminar este elemento se borrará tanto del sistema como de tu biblioteca de medios. ¿Estás seguro de querer continuar?",
     "ConfirmDeleteImage": "¿Eliminar imagen?",
     "ConfigureDateAdded": "Configure cómo los metadatos para 'Fecha de adición' se determinan en el Panel de control > Bibliotecas > Configuración de NFO",
     "Composer": "Compositor",
@@ -1758,5 +1758,11 @@
     "ConfirmDeleteRepository": "¿Eliminar repositorio?",
     "DeleteRepositoryConfirmation": "¿Estás seguro de que deseas eliminar este repositorio?",
     "EnableTrueHdHelp": "Habilítelo solo si su dispositivo es compatible con TrueHD o está conectado a un receptor de audio compatible, de lo contrario, puede provocar fallas en la reproducción.",
-    "ButtonAddProvider": "Agregar proveedor"
+    "ButtonAddProvider": "Agregar proveedor",
+    "ConnectAnyway": "Conectar igual",
+    "ButtonAddTunerDevice": "Agregar dispositivo sintonizador",
+    "ErrorDeletingLyrics": "Se ha producido un error al eliminar la letra de la canción del servidor. Por favor, verifica que Jellyfin tenga acceso de escritura a la carpeta de medios e intenta de nuevo.",
+    "HeaderBackupsHelp": "Cree y restaure instantáneas de su servidor que pueden incluir la base de datos, los metadatos, los subtítulos y el trickplay.",
+    "HeaderDeleteSeries": "Eliminar Serie",
+    "HeaderDeleteLyrics": "Eliminar letras"
 }

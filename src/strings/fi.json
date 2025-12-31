@@ -164,7 +164,7 @@
     "DeleteDeviceConfirmation": "Oletko varma, että haluat poistaa tämän laitteen? Se ilmaantuu uudelleen seuraavan kerran, kun jokin käyttäjä kirjautuu sillä.",
     "DeleteMedia": "Poista media",
     "Descending": "Laskeva",
-    "Desktop": "Työpöytä",
+    "Desktop": "Työpöytä (Vanhentunut)",
     "DetectingDevices": "Tunnistetaan laitteita",
     "DeviceAccessHelp": "Tämä pätee ainoastaan uniikkina tunnistettaviin laitteisiin, jotka eivät estä selainpääsyä. Käyttäjien uusien laitteiden suodattaminen estää käytön ennen hyväksyntää täältä.",
     "DirectPlaying": "Toistetaan ilman muuntoa",
@@ -642,7 +642,7 @@
     "MusicVideo": "Musiikkivideo",
     "MoveRight": "Siirry oikealle",
     "MoveLeft": "Siirry vasemmalle",
-    "Mobile": "Mobiili",
+    "Mobile": "Mobiili (Vanhentunut)",
     "EveryXHours": "{0} tunnin välein",
     "EveryXMinutes": "{0} minuutin välein",
     "EveryHour": "Tunnin välein",
@@ -2069,5 +2069,7 @@
     "HeaderServerMismatch": "Palvelimen ristiriita",
     "MessageServerMismatch": "Palvelin, johon olet muodostamassa yhteyttä, ei ole sama kuin aiemmin tähän osoitteeseen yhdistämäsi palvelin. Jos tämä on odotettua, valitse 'Yhdistä joka tapauksessa'. Muussa tapauksessa yhteytesi tai palvelin saattaa olla vaarantunut.",
     "ButtonAddTunerDevice": "Lisää viritin",
-    "ButtonAddProvider": "Lisää tarjoaja"
+    "ButtonAddProvider": "Lisää tarjoaja",
+    "LabelSlideshowInterval": "Kuva diaesitys aikaväli",
+    "LabelSlideshowIntervalHelp": "Diaesitysten kunkin valokuvan näyttöaika sekunteina."
 }
