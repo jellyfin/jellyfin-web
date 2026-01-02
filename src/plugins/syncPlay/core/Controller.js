@@ -61,7 +61,7 @@ class Controller {
             setPlaybackSpeedRequestDto: {
                 PlaybackSpeed: speed
             }
-        })
+        });
     }
 
     /**
