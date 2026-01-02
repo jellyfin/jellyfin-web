@@ -1157,7 +1157,8 @@ function getHoverMenuHtml(item, action) {
     const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
     if (playbackManager.canPlay(item)) {
-        html += `<button is="paper-icon-button-light" class="${btnCssClass} cardOverlayFab-primary" data-action="${ItemAction.Resume}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>`;
+        const isResumable = item.UserData && item.UserData.PlaybackPositionTicks > 0;
+        html += `<button is="paper-icon-button-light" class="${btnCssClass} cardOverlayFab-primary" data-action="${ItemAction.Resume}" title="${globalize.translate(isResumable ? 'ButtonResume' : 'Play')}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>`;
     }
 
     html += '<div class="cardOverlayButton-br flex">';
