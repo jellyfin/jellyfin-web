@@ -1,3 +1,5 @@
+import escapeHtml from 'escape-html';
+
 import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { appRouter, isLyricsPage } from 'components/router/appRouter';
@@ -495,6 +497,9 @@ function updateNowPlayingInfo(state) {
         }
         nowPlayingTextElement.appendChild(itemText);
         nowPlayingTextElement.appendChild(secondaryText);
+
+        //  Set the page's title to that of the item playing.
+        document.title = escapeHtml(itemText.textContent + " - " + secondaryText.textContent);
     }
 
     const imgHeight = 70;
