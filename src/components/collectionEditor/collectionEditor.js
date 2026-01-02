@@ -17,6 +17,7 @@ import '../../styles/flexstyles.scss';
 import toast from '../toast/toast';
 
 let currentServerId;
+let inVideo;
 
 function onSubmit(e) {
     loading.show();
@@ -57,7 +58,9 @@ function createCollection(apiClient, dlg) {
 
         dlg.submitted = true;
         dialogHelper.close(dlg);
-        redirectToCollection(apiClient, id);
+        if (!inVideo) {
+            redirectToCollection(apiClient, id);
+        }
     });
 }
 
@@ -208,6 +211,7 @@ class CollectionEditor {
     show(options) {
         const items = options.items || {};
         currentServerId = options.serverId;
+        inVideo = options.inVideo;
 
         const dialogOptions = {
             removeOnClose: true,
