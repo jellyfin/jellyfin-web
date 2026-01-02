@@ -172,6 +172,15 @@ class GenericPlayer {
     }
 
     /**
+     * Sets the playback rate locally.
+     * @param {number} value The playback rate.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    localSetPlaybackRate(value) {
+        // Override
+    }
+
+    /**
      * Checks if player is remotely self-managed.
      * @returns {boolean} _true_ if the player is remotely self-managed, _false_ otherwise.
      */

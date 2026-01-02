@@ -53,6 +53,18 @@ class Controller {
     }
 
     /**
+     * Sets the playback speed in SyncPlay group.
+     * @param {number} speed The playback speed.
+     */
+    setPlaybackSpeed(speed) {
+        this.manager.getSyncPlayApi()?.syncPlaySetPlaybackSpeed({
+            setPlaybackSpeedRequestDto: {
+                PlaybackSpeed: speed
+            }
+        })
+    }
+
+    /**
      * Seeks playback to specified position in SyncPlay group.
      * @param {number} positionTicks The position.
      */
