@@ -1,36 +1,57 @@
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useServerLog } from 'apps/dashboard/features/logs/api/useServerLog';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import ContentCopy from '@mui/icons-material/ContentCopy';
-import FileDownload from '@mui/icons-material/FileDownload';
 import globalize from 'lib/globalize';
 import { copy } from 'scripts/clipboard';
 import Toast from 'apps/dashboard/components/Toast';
+import LogButtonGroup from 'apps/dashboard/features/logs/components/LogButtonGroup';
 
 export const Component = () => {
     const { file: fileName } = useParams();
+    const contentPrimaryRef = useRef<HTMLDivElement | null>(null);
+    const [ isCopiedToastOpen, setIsCopiedToastOpen ] = useState(false);
+    const [ isWatchModeEnabled, setIsWatchModeEnabled ] = useState(false);
+    const [ wasAtBottom, setWasAtBottom ] = useState<boolean>(false);
     const {
         isError: error,
         isPending: loading,
         data: log,
         refetch
-    } = useServerLog(fileName ?? '');
-    const [ isCopiedToastOpen, setIsCopiedToastOpen ] = useState(false);
+    } = useServerLog(
+        fileName ?? '',
+        isWatchModeEnabled ? 2000 : false
+    );
 
     const retry = useCallback(() => refetch(), [refetch]);
 
     const handleToastClose = useCallback(() => {
         setIsCopiedToastOpen(false);
     }, []);
+
+    const scrollToBottom = useCallback(() => {
+        const bottomHeight = contentPrimaryRef.current?.scrollHeight;
+
+        if (bottomHeight) {
+            window.scrollTo(0, bottomHeight);
+        }
+    }, []);
+
+    const toggleWatchMode = useCallback(() => {
+        const newWatchMode = !isWatchModeEnabled;
+        setIsWatchModeEnabled(newWatchMode);
+
+        if (newWatchMode) {
+            scrollToBottom();
+        }
+    }, [isWatchModeEnabled, scrollToBottom]);
 
     const copyToClipboard = useCallback(async () => {
         if (log) {
@@ -51,6 +72,27 @@ export const Component = () => {
         }
     }, [log, fileName]);
 
+    useEffect(() => {
+        const onScroll = () => {
+            if (contentPrimaryRef.current) {
+                const isAtBottom = window.innerHeight + Math.round(window.scrollY) >= contentPrimaryRef.current.offsetHeight;
+                setWasAtBottom(isAtBottom);
+            }
+        };
+
+        document.addEventListener('scroll', onScroll);
+
+        return () => {
+            document.removeEventListener('scroll', onScroll);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (wasAtBottom) {
+            scrollToBottom();
+        }
+    }, [ log, scrollToBottom, wasAtBottom ]);
+
     return (
         <Page
             id='logPage'
@@ -62,7 +104,11 @@ export const Component = () => {
                 onClose={handleToastClose}
                 message={globalize.translate('CopyLogSuccess')}
             />
-            <Container className='content-primary' maxWidth={false}>
+            <Container
+                className='content-primary'
+                maxWidth={false}
+                ref={contentPrimaryRef}
+            >
                 <Box>
                     <Typography variant='h1'>{fileName}</Typography>
 
@@ -89,20 +135,12 @@ export const Component = () => {
 
                     {!error && !loading && (
                         <>
-                            <ButtonGroup variant='contained' sx={{ mt: 2 }}>
-                                <Button
-                                    startIcon={<ContentCopy />}
-                                    onClick={copyToClipboard}
-                                >
-                                    {globalize.translate('Copy')}
-                                </Button>
-                                <Button
-                                    startIcon={<FileDownload />}
-                                    onClick={downloadFile}
-                                >
-                                    {globalize.translate('Download')}
-                                </Button>
-                            </ButtonGroup>
+                            <LogButtonGroup
+                                copyToClipboard={copyToClipboard}
+                                downloadFile={downloadFile}
+                                toggleWatchMode={toggleWatchMode}
+                                isWatchModeEnabled={isWatchModeEnabled}
+                            />
 
                             <Paper sx={{ mt: 2 }}>
                                 <code>
@@ -116,6 +154,13 @@ export const Component = () => {
                                     </pre>
                                 </code>
                             </Paper>
+
+                            <LogButtonGroup
+                                copyToClipboard={copyToClipboard}
+                                downloadFile={downloadFile}
+                                toggleWatchMode={toggleWatchMode}
+                                isWatchModeEnabled={isWatchModeEnabled}
+                            />
                         </>
                     )}
                 </Box>
