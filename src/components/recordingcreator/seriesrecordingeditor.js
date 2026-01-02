@@ -1,21 +1,21 @@
-import dialogHelper from '../dialogHelper/dialogHelper';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import layoutManager from '../layoutManager';
-import loading from '../loading/loading';
-import scrollHelper from '../../scripts/scrollHelper';
-import datetime from '../../scripts/datetime';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import layoutManager from '@/components/layoutManager';
+import loading from '@/components/loading/loading';
+import scrollHelper from '@/scripts/scrollHelper';
+import datetime from '@/scripts/datetime';
 
-import '../../styles/scrollstyles.scss';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../formdialog.scss';
+import '@/styles/scrollstyles.scss';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-select/emby-select';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/components/formdialog.scss';
 import './recordingcreator.scss';
 import 'material-design-icons-iconfont';
-import '../../styles/flexstyles.scss';
+import '@/styles/flexstyles.scss';
 import template from './seriesrecordingeditor.template.html';
 
 let currentDialog;

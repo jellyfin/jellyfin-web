@@ -1,5 +1,5 @@
-import type { LegacyRoute } from 'components/router/LegacyRoute';
-import { AppType } from 'constants/appType';
+import type { LegacyRoute } from '@/components/router/LegacyRoute';
+import { AppType } from '@/constants/appType';
 
 export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
     {

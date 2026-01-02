@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 import IconButton from '@mui/material/IconButton';
 
-import { ItemAction } from 'constants/itemAction';
+import { ItemAction } from '@/constants/itemAction';
 
 interface RightIconButtonsProps {
     className?: string;

@@ -2,7 +2,7 @@ import { Api } from '@jellyfin/sdk';
 import { UserApiGetUserByIdRequest } from '@jellyfin/sdk/lib/generated-client/api/user-api';
 import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import { useQuery } from '@tanstack/react-query';
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 import type { AxiosRequestConfig } from 'axios';
 
 export const QUERY_KEY = 'User';

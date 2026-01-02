@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
-import Page from 'components/Page';
-import globalize from 'lib/globalize';
-import LinkButton from 'elements/emby-button/LinkButton';
+import Page from '@/components/Page';
+import globalize from '@/lib/globalize';
+import LinkButton from '@/elements/emby-button/LinkButton';
 
 const FallbackRoute = () => {
     const location = useLocation();

@@ -6,11 +6,11 @@
 
 import escapeHtml from 'escape-html';
 
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import datetime from '../../scripts/datetime';
-import imageLoader from '../images/imageLoader';
-import layoutManager from '../layoutManager';
-import browser from '../../scripts/browser';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import datetime from '@/scripts/datetime';
+import imageLoader from '@/components/images/imageLoader';
+import layoutManager from '@/components/layoutManager';
+import browser from '@/scripts/browser';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 

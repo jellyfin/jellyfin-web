@@ -2,15 +2,15 @@ import type { BaseItemDto, DeviceInfoDto, UserDto } from '@jellyfin/sdk/lib/gene
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import loading from '../../../../components/loading/loading';
-import globalize from '../../../../lib/globalize';
-import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
-import Button from '../../../../elements/emby-button/Button';
-import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
-import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
-import Page from '../../../../components/Page';
-import Toast from 'apps/dashboard/components/Toast';
+import loading from '@/components/loading/loading';
+import globalize from '@/lib/globalize';
+import SectionTabs from '@/components/dashboard/users/SectionTabs';
+import Button from '@/elements/emby-button/Button';
+import SectionTitleContainer from '@/elements/SectionTitleContainer';
+import AccessContainer from '@/components/dashboard/users/AccessContainer';
+import CheckBoxElement from '@/elements/CheckBoxElement';
+import Page from '@/components/Page';
+import Toast from '@/apps/dashboard/components/Toast';
 
 type ItemsArr = {
     Name?: string | null;
@@ -28,7 +28,7 @@ const UserLibraryAccess = () => {
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
     const [devicesItems, setDevicesItems] = useState<ItemsArr[]>([]);
-    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
+    const libraryMenu = useMemo(async () => ((await import('@/scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 

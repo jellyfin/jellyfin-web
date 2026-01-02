@@ -4,12 +4,12 @@ import { useMutation } from '@tanstack/react-query';
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import alert from 'components/alert';
-import Page from 'components/Page';
-import Button from 'elements/emby-button/Button';
-import Input from 'elements/emby-input/Input';
-import globalize from 'lib/globalize';
-import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import alert from '@/components/alert';
+import Page from '@/components/Page';
+import Button from '@/elements/emby-button/Button';
+import Input from '@/elements/emby-input/Input';
+import globalize from '@/lib/globalize';
+import ServerConnections from '@/lib/jellyfin-apiclient/ServerConnections';
 
 export const ForgotPasswordPage = () => {
     const navigate = useNavigate();

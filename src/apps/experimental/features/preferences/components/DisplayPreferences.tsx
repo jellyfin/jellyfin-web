@@ -10,15 +10,15 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import React, { Fragment } from 'react';
 
-import { appHost } from 'components/apphost';
-import { AppFeature } from 'constants/appFeature';
-import { LayoutMode } from 'constants/layoutMode';
-import { useApi } from 'hooks/useApi';
-import { useThemes } from 'hooks/useThemes';
-import globalize from 'lib/globalize';
+import { appHost } from '@/components/apphost';
+import { AppFeature } from '@/constants/appFeature';
+import { LayoutMode } from '@/constants/layoutMode';
+import { useApi } from '@/hooks/useApi';
+import { useThemes } from '@/hooks/useThemes';
+import globalize from '@/lib/globalize';
 
-import { useScreensavers } from '../hooks/useScreensavers';
-import type { DisplaySettingsValues } from '../types/displaySettingsValues';
+import { useScreensavers } from '@/apps/experimental/features/preferences/hooks/useScreensavers';
+import type { DisplaySettingsValues } from '@/apps/experimental/features/preferences/types/displaySettingsValues';
 
 interface DisplayPreferencesProps {
     onChange: (event: SelectChangeEvent | React.SyntheticEvent) => void;

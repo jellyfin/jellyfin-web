@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import toast from 'components/toast/toast';
-import globalize from 'lib/globalize';
+import toast from '@/components/toast/toast';
+import globalize from '@/lib/globalize';
 
-import type { DisplaySettingsValues } from '../types/displaySettingsValues';
+import type { DisplaySettingsValues } from '@/apps/experimental/features/preferences/types/displaySettingsValues';
 import { useDisplaySettings } from './useDisplaySettings';
 
 type UpdateField = {

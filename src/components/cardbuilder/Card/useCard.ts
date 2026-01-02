@@ -1,19 +1,19 @@
 import classNames from 'classnames';
 
-import layoutManager from 'components/layoutManager';
-import { ItemAction } from 'constants/itemAction';
-import { ItemKind } from 'types/base/models/item-kind';
-import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { CardOptions } from 'types/cardOptions';
-import { CardShape } from 'utils/card';
-import { getDataAttributes } from 'utils/items';
+import layoutManager from '@/components/layoutManager';
+import { ItemAction } from '@/constants/itemAction';
+import { ItemKind } from '@/types/base/models/item-kind';
+import { ItemMediaKind } from '@/types/base/models/item-media-kind';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { CardOptions } from '@/types/cardOptions';
+import { CardShape } from '@/utils/card';
+import { getDataAttributes } from '@/utils/items';
 
 import useCardImageUrl from './useCardImageUrl';
 import {
     resolveAction,
     resolveMixedShapeByAspectRatio
-} from '../cardBuilderUtils';
+} from '@/components/cardbuilder/cardBuilderUtils';
 
 interface UseCardProps {
     item: ItemDto;

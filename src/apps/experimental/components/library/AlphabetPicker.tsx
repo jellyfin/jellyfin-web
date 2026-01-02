@@ -5,8 +5,8 @@ import Box from '@mui/material/Box';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
-import { LibraryViewSettings } from 'types/library';
-import 'components/alphaPicker/style.scss';
+import { LibraryViewSettings } from '@/types/library';
+import '@/components/alphaPicker/style.scss';
 
 interface AlphabetPickerProps {
     className?: string;

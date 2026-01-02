@@ -3,24 +3,24 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import React, { FunctionComponent, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../lib/globalize';
-import { appHost } from '../../../../components/apphost';
-import confirm from '../../../../components/confirm/confirm';
-import toast from '../../../../components/toast/toast';
-import { useUser } from 'apps/dashboard/features/users/api/useUser';
-import loading from 'components/loading/loading';
-import { queryClient } from 'utils/query/queryClient';
-import UserPasswordForm from 'components/dashboard/users/UserPasswordForm';
-import Page from 'components/Page';
-import Loading from 'components/loading/LoadingComponent';
-import Button from 'elements/emby-button/Button';
+import Dashboard from '@/utils/dashboard';
+import globalize from '@/lib/globalize';
+import { appHost } from '@/components/apphost';
+import confirm from '@/components/confirm/confirm';
+import toast from '@/components/toast/toast';
+import { useUser } from '@/apps/dashboard/features/users/api/useUser';
+import loading from '@/components/loading/loading';
+import { queryClient } from '@/utils/query/queryClient';
+import UserPasswordForm from '@/components/dashboard/users/UserPasswordForm';
+import Page from '@/components/Page';
+import Loading from '@/components/loading/LoadingComponent';
+import Button from '@/elements/emby-button/Button';
 
 const UserProfile: FunctionComponent = () => {
     const [ searchParams ] = useSearchParams();
     const userId = searchParams.get('userId');
     const { data: user, isPending: isUserPending } = useUser(userId ? { userId: userId } : undefined);
-    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
+    const libraryMenu = useMemo(async () => ((await import('@/scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 

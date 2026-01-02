@@ -16,8 +16,8 @@ import ListSubheader from '@mui/material/ListSubheader';
 import React, { type MouseEvent, useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import ListItemLink from 'components/ListItemLink';
-import globalize from 'lib/globalize';
+import ListItemLink from '@/components/ListItemLink';
+import globalize from '@/lib/globalize';
 
 const LIBRARY_PATHS = [
     '/dashboard/libraries',

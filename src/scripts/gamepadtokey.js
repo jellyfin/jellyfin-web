@@ -20,7 +20,7 @@
 // #      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // #      THE SOFTWARE.
 
-import { appHost } from '../components/apphost';
+import { appHost } from '@/components/apphost';
 
 const _GAMEPAD_A_BUTTON_INDEX = 0;
 const _GAMEPAD_B_BUTTON_INDEX = 1;

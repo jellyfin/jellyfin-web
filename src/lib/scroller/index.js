@@ -3,13 +3,13 @@
  * It is a legacy library that should be replaced at some point.
  */
 
-import browser from '../../scripts/browser';
-import layoutManager from '../../components/layoutManager';
-import dom from '../../utils/dom';
-import focusManager from '../../components/focusManager';
+import browser from '@/scripts/browser';
+import layoutManager from '@/components/layoutManager';
+import dom from '@/utils/dom';
+import focusManager from '@/components/focusManager';
 import ResizeObserver from 'resize-observer-polyfill';
-import '../../styles/scrollstyles.scss';
-import globalize from '../globalize';
+import '@/styles/scrollstyles.scss';
+import globalize from '@/lib/globalize';
 
 /**
 * Return type of the value.

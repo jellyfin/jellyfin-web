@@ -2,7 +2,7 @@ import { Api } from '@jellyfin/sdk/lib/api';
 import { ItemsApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/items-api';
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { AxiosRequestConfig } from 'axios';
-import { QUERY_OPTIONS } from '../constants/queryOptions';
+import { QUERY_OPTIONS } from '@/apps/stable/features/search/constants/queryOptions';
 
 export const fetchItemsByType = async (
     api: Api,

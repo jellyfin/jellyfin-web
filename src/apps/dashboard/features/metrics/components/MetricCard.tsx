@@ -6,8 +6,8 @@ import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
 import React, { type FC } from 'react';
 
-import { useLocale } from 'hooks/useLocale';
-import { toDecimalString } from 'utils/number';
+import { useLocale } from '@/hooks/useLocale';
+import { toDecimalString } from '@/utils/number';
 
 interface Metric {
     label: string

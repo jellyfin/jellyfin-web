@@ -1,26 +1,26 @@
 import escapeHtml from 'escape-html';
 
-import { AppFeature } from 'constants/appFeature';
-import { appHost } from '../apphost';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import layoutManager from '../layoutManager';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import * as userSettings from '../../scripts/settings/userSettings';
-import loading from '../loading/loading';
-import focusManager from '../focusManager';
-import dom from '../../utils/dom';
+import { AppFeature } from '@/constants/appFeature';
+import { appHost } from '@/components/apphost';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import layoutManager from '@/components/layoutManager';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import * as userSettings from '@/scripts/settings/userSettings';
+import loading from '@/components/loading/loading';
+import focusManager from '@/components/focusManager';
+import dom from '@/utils/dom';
 
-import '../../elements/emby-select/emby-select';
-import '../listview/listview.scss';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../formdialog.scss';
+import '@/elements/emby-select/emby-select';
+import '@/components/listview/listview.scss';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/components/formdialog.scss';
 import 'material-design-icons-iconfont';
 import './subtitleeditor.scss';
-import '../../elements/emby-button/emby-button';
-import '../../styles/flexstyles.scss';
-import toast from '../toast/toast';
-import confirm from '../confirm/confirm';
+import '@/elements/emby-button/emby-button';
+import '@/styles/flexstyles.scss';
+import toast from '@/components/toast/toast';
+import confirm from '@/components/confirm/confirm';
 import template from './subtitleeditor.template.html';
 
 let currentItem;

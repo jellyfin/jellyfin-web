@@ -1,6 +1,6 @@
-import * as userSettings from 'scripts/settings/userSettings';
+import * as userSettings from '@/scripts/settings/userSettings';
 
-import { LibraryRoutes } from '../constants/libraryRoutes';
+import { LibraryRoutes } from '@/apps/experimental/features/libraries/constants/libraryRoutes';
 
 /**
  * Utility function to check if a path is a library path.

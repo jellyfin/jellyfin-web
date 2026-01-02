@@ -4,19 +4,19 @@
  * @module components/imageUploader/imageUploader
  */
 
-import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../utils/dom';
-import loading from '../loading/loading';
-import scrollHelper from '../../scripts/scrollHelper';
-import layoutManager from '../layoutManager';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import dom from '@/utils/dom';
+import loading from '@/components/loading/loading';
+import scrollHelper from '@/scripts/scrollHelper';
+import layoutManager from '@/components/layoutManager';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-select/emby-select';
-import '../formdialog.scss';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-select/emby-select';
+import '@/components/formdialog.scss';
 import './style.scss';
-import toast from '../toast/toast';
+import toast from '@/components/toast/toast';
 import template from './imageUploader.template.html';
 
 let currentItemId;

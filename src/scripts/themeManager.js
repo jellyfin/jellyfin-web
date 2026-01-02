@@ -1,5 +1,5 @@
-import Events from 'utils/events';
-import { EventType } from 'constants/eventType';
+import Events from '@/utils/events';
+import { EventType } from '@/constants/eventType';
 
 import { getDefaultTheme, getThemes as getConfiguredThemes } from './settings/webSettings';
 

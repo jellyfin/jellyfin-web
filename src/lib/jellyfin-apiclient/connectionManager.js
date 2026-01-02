@@ -3,9 +3,9 @@ import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { ApiClient } from 'jellyfin-apiclient';
 
-import events from 'utils/events';
-import { ajax } from 'utils/fetch';
-import { equalsIgnoreCase } from 'utils/string';
+import events from '@/utils/events';
+import { ajax } from '@/utils/fetch';
+import { equalsIgnoreCase } from '@/utils/string';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';

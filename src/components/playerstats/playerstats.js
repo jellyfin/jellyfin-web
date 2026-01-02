@@ -1,15 +1,15 @@
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from 'types/plugin';
-import Events from 'utils/events';
-import { getReadableSize } from 'utils/file';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { PluginType } from '@/types/plugin';
+import Events from '@/utils/events';
+import { getReadableSize } from '@/utils/file';
 
-import layoutManager from '../layoutManager';
-import { playbackManager } from '../playback/playbackmanager';
-import playMethodHelper from '../playback/playmethodhelper';
-import { pluginManager } from '../pluginManager';
+import layoutManager from '@/components/layoutManager';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import playMethodHelper from '@/components/playback/playmethodhelper';
+import { pluginManager } from '@/components/pluginManager';
 
-import 'elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-button/paper-icon-button-light';
 
 import './playerstats.scss';
 

@@ -1,13 +1,13 @@
 import escapeHtml from 'escape-html';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import layoutManager from '../layoutManager';
-import globalize from '../../lib/globalize';
-import dom from '../../utils/dom';
-import '../../elements/emby-button/emby-button';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import layoutManager from '@/components/layoutManager';
+import globalize from '@/lib/globalize';
+import dom from '@/utils/dom';
+import '@/elements/emby-button/emby-button';
 import './actionSheet.scss';
 import 'material-design-icons-iconfont';
-import '../../styles/scrollstyles.scss';
-import '../../components/listview/listview.scss';
+import '@/styles/scrollstyles.scss';
+import '@/components/listview/listview.scss';
 
 interface OptionItem {
     asideText?: string;

@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 import Widget from './Widget';
 import List from '@mui/material/List';
-import ActivityListItem from 'apps/dashboard/features/activity/components/ActivityListItem';
+import ActivityListItem from '@/apps/dashboard/features/activity/components/ActivityListItem';
 import subSeconds from 'date-fns/subSeconds';
-import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
+import { useLogEntries } from '@/apps/dashboard/features/activity/api/useLogEntries';
 
 const AlertsLogWidget = () => {
     const weekBefore = useMemo(() => (

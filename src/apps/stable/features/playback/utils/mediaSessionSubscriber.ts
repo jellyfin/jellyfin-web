@@ -1,15 +1,15 @@
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 
-import { getImageUrl } from 'apps/stable/features/playback/utils/image';
-import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
-import { PlaybackSubscriber } from 'apps/stable/features/playback/utils/playbackSubscriber';
-import type { PlaybackManager } from 'components/playback/playbackmanager';
-import { MILLISECONDS_PER_SECOND, TICKS_PER_MILLISECOND } from 'constants/time';
-import browser from 'scripts/browser';
-import shell from 'scripts/shell';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { PlayerState } from 'types/playbackStopInfo';
-import type { Event } from 'utils/events';
+import { getImageUrl } from '@/apps/stable/features/playback/utils/image';
+import { getItemTextLines } from '@/apps/stable/features/playback/utils/itemText';
+import { PlaybackSubscriber } from '@/apps/stable/features/playback/utils/playbackSubscriber';
+import type { PlaybackManager } from '@/components/playback/playbackmanager';
+import { MILLISECONDS_PER_SECOND, TICKS_PER_MILLISECOND } from '@/constants/time';
+import browser from '@/scripts/browser';
+import shell from '@/scripts/shell';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { PlayerState } from '@/types/playbackStopInfo';
+import type { Event } from '@/utils/events';
 
 /** The default image resolutions to provide to the media session */
 const DEFAULT_IMAGE_SIZES = [96, 128, 192, 256, 384, 512];

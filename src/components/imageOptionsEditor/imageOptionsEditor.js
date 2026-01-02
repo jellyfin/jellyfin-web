@@ -4,12 +4,12 @@
  * @module components/imageOptionsEditor/imageOptionsEditor
  */
 
-import globalize from '../../lib/globalize';
-import dom from '../../utils/dom';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-input/emby-input';
+import globalize from '@/lib/globalize';
+import dom from '@/utils/dom';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-select/emby-select';
+import '@/elements/emby-input/emby-input';
 import template from './imageOptionsEditor.template.html';
 
 function getDefaultImageConfig(itemType, type) {

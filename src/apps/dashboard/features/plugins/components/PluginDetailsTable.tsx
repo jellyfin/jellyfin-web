@@ -9,9 +9,9 @@ import TableRow from '@mui/material/TableRow/TableRow';
 import React, { FC } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
-import type { PluginDetails } from '../types/PluginDetails';
+import type { PluginDetails } from '@/apps/dashboard/features/plugins/types/PluginDetails';
 
 interface PluginDetailsTableProps extends PaperProps {
     isPluginLoading: boolean

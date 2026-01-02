@@ -18,19 +18,19 @@ import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { getPlaystateApi } from '@jellyfin/sdk/lib/utils/api/playstate-api';
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
-import datetime from 'scripts/datetime';
-import globalize from 'lib/globalize';
+import datetime from '@/scripts/datetime';
+import globalize from '@/lib/globalize';
 
 import { type JellyfinApiContext, useApi } from './useApi';
-import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
-import { getProgramSections, getSuggestionSections } from 'utils/sections';
+import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from '@/utils/items';
+import { getProgramSections, getSuggestionSections } from '@/utils/sections';
 
-import type { LibraryViewSettings, ParentId } from 'types/library';
-import { type Section, type SectionType, SectionApiMethod } from 'types/sections';
-import { LibraryTab } from 'types/libraryTab';
-import { ItemKind } from 'types/base/models/item-kind';
-import type { ItemDtoQueryResult } from 'types/base/models/item-dto-query-result';
-import type { ItemDto } from 'types/base/models/item-dto';
+import type { LibraryViewSettings, ParentId } from '@/types/library';
+import { type Section, type SectionType, SectionApiMethod } from '@/types/sections';
+import { LibraryTab } from '@/types/libraryTab';
+import { ItemKind } from '@/types/base/models/item-kind';
+import type { ItemDtoQueryResult } from '@/types/base/models/item-dto-query-result';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 const fetchGetItems = async (
     currentApi: JellyfinApiContext,

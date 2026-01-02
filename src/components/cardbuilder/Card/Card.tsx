@@ -3,8 +3,8 @@ import useCard from './useCard';
 import CardWrapper from './CardWrapper';
 import CardBox from './CardBox';
 
-import type { CardOptions } from 'types/cardOptions';
-import type { ItemDto } from 'types/base/models/item-dto';
+import type { CardOptions } from '@/types/cardOptions';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 interface CardProps {
     item?: ItemDto;

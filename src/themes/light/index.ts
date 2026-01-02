@@ -1,7 +1,7 @@
 import type { ColorSystemOptions } from '@mui/material/styles';
 import merge from 'lodash-es/merge';
 
-import { DEFAULT_COLOR_SCHEME } from '../_base/theme';
+import { DEFAULT_COLOR_SCHEME } from '@/themes/_base/theme';
 
 /** The "Light" color scheme. */
 const theme = merge<ColorSystemOptions, ColorSystemOptions, ColorSystemOptions>(

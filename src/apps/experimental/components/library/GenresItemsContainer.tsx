@@ -1,11 +1,11 @@
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import React, { FC } from 'react';
-import { useGetGenres } from 'hooks/useFetchItems';
-import NoItemsMessage from 'components/common/NoItemsMessage';
-import Loading from 'components/loading/LoadingComponent';
+import { useGetGenres } from '@/hooks/useFetchItems';
+import NoItemsMessage from '@/components/common/NoItemsMessage';
+import Loading from '@/components/loading/LoadingComponent';
 import GenresSectionContainer from './GenresSectionContainer';
-import type { ParentId } from 'types/library';
+import type { ParentId } from '@/types/library';
 
 interface GenresItemsContainerProps {
     parentId: ParentId;
@@ -17,27 +17,29 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
     parentId,
     collectionType,
     itemType
-// eslint-disable-next-line sonarjs/function-return-type
+
 }) => {
     const { isLoading, data: genresResult } = useGetGenres(itemType, parentId);
 
+    let content: React.ReactNode = null;
+
     if (isLoading) {
-        return <Loading />;
+        content = <Loading />;
+    } else if (!genresResult?.Items?.length) {
+        content = <NoItemsMessage message='MessageNoGenresAvailable' />;
+    } else {
+        content = genresResult.Items.map((genre) => (
+            <GenresSectionContainer
+                key={genre.Id}
+                collectionType={collectionType}
+                parentId={parentId}
+                itemType={itemType}
+                genre={genre}
+            />
+        ));
     }
 
-    if (!genresResult?.Items?.length) {
-        return <NoItemsMessage message='MessageNoGenresAvailable' />;
-    }
-
-    return genresResult.Items.map((genre) => (
-        <GenresSectionContainer
-            key={genre.Id}
-            collectionType={collectionType}
-            parentId={parentId}
-            itemType={itemType}
-            genre={genre}
-        />
-    ));
+    return content;
 };
 
 export default GenresItemsContainer;

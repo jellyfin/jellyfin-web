@@ -1,12 +1,12 @@
-import globalize from 'lib/globalize';
-import loading from 'components/loading/loading';
-import dom from 'utils/dom';
-import 'elements/emby-input/emby-input';
-import 'elements/emby-button/emby-button';
-import 'elements/emby-checkbox/emby-checkbox';
-import 'elements/emby-select/emby-select';
-import Dashboard from 'utils/dashboard';
-import { getParameterByName } from 'utils/url';
+import globalize from '@/lib/globalize';
+import loading from '@/components/loading/loading';
+import dom from '@/utils/dom';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-select/emby-select';
+import Dashboard from '@/utils/dashboard';
+import { getParameterByName } from '@/utils/url';
 
 function isM3uVariant(type) {
     return ['nextpvr'].indexOf(type || '') !== -1;
@@ -114,7 +114,7 @@ function submitForm(page) {
 }
 
 function getDetectedDevice() {
-    return import('components/tunerPicker').then(({ default: TunerPicker }) => {
+    return import('@/components/tunerPicker').then(({ default: TunerPicker }) => {
         return new TunerPicker().show({
             serverId: ApiClient.serverId()
         });
@@ -240,7 +240,7 @@ export default function (view, params) {
         });
     });
     view.querySelector('.btnSelectPath').addEventListener('click', function () {
-        import('components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
+        import('@/components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 includeFiles: true,

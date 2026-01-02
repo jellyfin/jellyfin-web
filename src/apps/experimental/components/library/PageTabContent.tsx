@@ -6,9 +6,9 @@ import GenresView from './GenresView';
 import ItemsView from './ItemsView';
 import GuideView from './GuideView';
 import ProgramsSectionView from './ProgramsSectionView';
-import { LibraryTab } from 'types/libraryTab';
-import type { ParentId } from 'types/library';
-import type { LibraryTabContent } from 'types/libraryTabContent';
+import { LibraryTab } from '@/types/libraryTab';
+import type { ParentId } from '@/types/library';
+import type { LibraryTabContent } from '@/types/libraryTabContent';
 import LibraryViewMenu from './LibraryViewMenu';
 
 interface PageTabContentProps {

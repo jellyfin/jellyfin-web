@@ -1,24 +1,24 @@
-import cardBuilder from 'components/cardbuilder/cardBuilder';
-import imageLoader from 'components/images/imageLoader';
-import layoutManager from 'components/layoutManager';
-import loading from 'components/loading/loading';
-import * as mainTabsManager from 'components/maintabsmanager';
-import browser from 'scripts/browser';
-import dom from 'utils/dom';
-import globalize from 'lib/globalize';
-import inputManager from 'scripts/inputManager';
-import libraryMenu from 'scripts/libraryMenu';
-import * as userSettings from 'scripts/settings/userSettings';
-import { LibraryTab } from 'types/libraryTab';
-import Dashboard from 'utils/dashboard';
-import { getSquareShape } from 'utils/card';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
+import imageLoader from '@/components/images/imageLoader';
+import layoutManager from '@/components/layoutManager';
+import loading from '@/components/loading/loading';
+import * as mainTabsManager from '@/components/maintabsmanager';
+import browser from '@/scripts/browser';
+import dom from '@/utils/dom';
+import globalize from '@/lib/globalize';
+import inputManager from '@/scripts/inputManager';
+import libraryMenu from '@/scripts/libraryMenu';
+import * as userSettings from '@/scripts/settings/userSettings';
+import { LibraryTab } from '@/types/libraryTab';
+import Dashboard from '@/utils/dashboard';
+import { getSquareShape } from '@/utils/card';
 
-import 'elements/emby-itemscontainer/emby-itemscontainer';
-import 'elements/emby-tabs/emby-tabs';
-import 'elements/emby-button/emby-button';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
+import '@/elements/emby-tabs/emby-tabs';
+import '@/elements/emby-button/emby-button';
 
-import 'styles/flexstyles.scss';
-import 'styles/scrollstyles.scss';
+import '@/styles/flexstyles.scss';
+import '@/styles/scrollstyles.scss';
 
 function itemsPerRow() {
     const screenWidth = dom.getWindowSize().innerWidth;

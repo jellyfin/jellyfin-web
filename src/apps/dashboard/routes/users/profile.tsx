@@ -3,24 +3,24 @@ import escapeHTML from 'escape-html';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import globalize from '../../../../lib/globalize';
-import Button from '../../../../elements/emby-button/Button';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
-import LinkButton from '../../../../elements/emby-button/LinkButton';
-import Input from '../../../../elements/emby-input/Input';
-import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
-import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
-import loading from '../../../../components/loading/loading';
-import SelectElement from '../../../../elements/SelectElement';
-import Page from '../../../../components/Page';
-import { useUser } from 'apps/dashboard/features/users/api/useUser';
-import { useAuthProviders } from 'apps/dashboard/features/users/api/useAuthProviders';
-import { usePasswordResetProviders } from 'apps/dashboard/features/users/api/usePasswordResetProviders';
-import { useLibraryMediaFolders } from 'apps/dashboard/features/users/api/useLibraryMediaFolders';
-import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
-import { useUpdateUser } from 'apps/dashboard/features/users/api/useUpdateUser';
-import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
-import { useNetworkConfig } from 'apps/dashboard/features/users/api/useNetworkConfig';
+import globalize from '@/lib/globalize';
+import Button from '@/elements/emby-button/Button';
+import CheckBoxElement from '@/elements/CheckBoxElement';
+import LinkButton from '@/elements/emby-button/LinkButton';
+import Input from '@/elements/emby-input/Input';
+import SectionTitleContainer from '@/elements/SectionTitleContainer';
+import SectionTabs from '@/components/dashboard/users/SectionTabs';
+import loading from '@/components/loading/loading';
+import SelectElement from '@/elements/SelectElement';
+import Page from '@/components/Page';
+import { useUser } from '@/apps/dashboard/features/users/api/useUser';
+import { useAuthProviders } from '@/apps/dashboard/features/users/api/useAuthProviders';
+import { usePasswordResetProviders } from '@/apps/dashboard/features/users/api/usePasswordResetProviders';
+import { useLibraryMediaFolders } from '@/apps/dashboard/features/users/api/useLibraryMediaFolders';
+import { useChannels } from '@/apps/dashboard/features/users/api/useChannels';
+import { useUpdateUser } from '@/apps/dashboard/features/users/api/useUpdateUser';
+import { useUpdateUserPolicy } from '@/apps/dashboard/features/users/api/useUpdateUserPolicy';
+import { useNetworkConfig } from '@/apps/dashboard/features/users/api/useNetworkConfig';
 
 type ResetProvider = BaseItemDto & {
     checkedAttribute: string
@@ -36,7 +36,7 @@ const UserEdit = () => {
     const [ searchParams ] = useSearchParams();
     const userId = searchParams.get('userId');
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
-    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
+    const libraryMenu = useMemo(async () => ((await import('@/scripts/libraryMenu')).default), []);
 
     const [ authenticationProviderId, setAuthenticationProviderId ] = useState('');
     const [ passwordResetProviderId, setPasswordResetProviderId ] = useState('');

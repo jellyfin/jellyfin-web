@@ -2,8 +2,8 @@ import Stack from '@mui/material/Stack';
 import React, { type FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import AppToolbar from 'components/toolbar/AppToolbar';
-import ServerButton from 'components/toolbar/ServerButton';
+import AppToolbar from '@/components/toolbar/AppToolbar';
+import ServerButton from '@/components/toolbar/ServerButton';
 
 import RemotePlayButton from './RemotePlayButton';
 import SyncPlayButton from './SyncPlayButton';

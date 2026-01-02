@@ -9,9 +9,9 @@ import Grid from '@mui/material/Grid';
 import SvgIcon from '@mui/material/SvgIcon';
 import React, { useMemo } from 'react';
 
-import { useItemCounts } from 'apps/dashboard/features/metrics/api/useItemCounts';
-import MetricCard, { type MetricCardProps } from 'apps/dashboard/features/metrics/components/MetricCard';
-import globalize from 'lib/globalize';
+import { useItemCounts } from '@/apps/dashboard/features/metrics/api/useItemCounts';
+import MetricCard, { type MetricCardProps } from '@/apps/dashboard/features/metrics/components/MetricCard';
+import globalize from '@/lib/globalize';
 import Box from '@mui/material/Box';
 
 interface MetricDefinition {

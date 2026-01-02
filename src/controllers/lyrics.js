@@ -1,21 +1,21 @@
 import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
 import escapeHtml from 'escape-html';
 
-import { AutoScroll } from 'apps/stable/features/lyrics/constants/autoScroll';
-import autoFocuser from 'components/autoFocuser';
-import { appRouter } from 'components/router/appRouter';
-import layoutManager from 'components/layoutManager';
-import { playbackManager } from 'components/playback/playbackmanager';
-import scrollManager from 'components/scrollManager';
-import focusManager from 'components/focusManager';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import keyboardNavigation from 'scripts/keyboardNavigation';
-import LibraryMenu from 'scripts/libraryMenu';
-import Events from 'utils/events';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { AutoScroll } from '@/apps/stable/features/lyrics/constants/autoScroll';
+import autoFocuser from '@/components/autoFocuser';
+import { appRouter } from '@/components/router/appRouter';
+import layoutManager from '@/components/layoutManager';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import scrollManager from '@/components/scrollManager';
+import focusManager from '@/components/focusManager';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import keyboardNavigation from '@/scripts/keyboardNavigation';
+import LibraryMenu from '@/scripts/libraryMenu';
+import Events from '@/utils/events';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
 
-import '../styles/lyrics.scss';
+import '@/styles/lyrics.scss';
 
 let currentPlayer;
 let currentItem;

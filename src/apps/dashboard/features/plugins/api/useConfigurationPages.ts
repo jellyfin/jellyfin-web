@@ -4,7 +4,7 @@ import { getDashboardApi } from '@jellyfin/sdk/lib/utils/api/dashboard-api';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 
 import { QueryKey } from './queryKey';
 

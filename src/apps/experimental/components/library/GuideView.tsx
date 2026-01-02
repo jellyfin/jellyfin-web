@@ -1,16 +1,16 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
-import Guide from 'components/guide/guide';
+import Guide from '@/components/guide/guide';
 import 'material-design-icons-iconfont';
-import 'elements/emby-programcell/emby-programcell';
-import 'elements/emby-button/emby-button';
-import 'elements/emby-button/paper-icon-button-light';
-import 'elements/emby-tabs/emby-tabs';
-import 'elements/emby-scroller/emby-scroller';
-import 'components/guide/guide.scss';
-import 'components/guide/programs.scss';
-import 'styles/scrollstyles.scss';
-import 'styles/flexstyles.scss';
+import '@/elements/emby-programcell/emby-programcell';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-tabs/emby-tabs';
+import '@/elements/emby-scroller/emby-scroller';
+import '@/components/guide/guide.scss';
+import '@/components/guide/programs.scss';
+import '@/styles/scrollstyles.scss';
+import '@/styles/flexstyles.scss';
 
 const GuideView: FC = () => {
     const guideInstance = useRef<Guide | null>();

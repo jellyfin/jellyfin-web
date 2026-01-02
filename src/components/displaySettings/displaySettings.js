@@ -1,23 +1,23 @@
 import escapeHtml from 'escape-html';
 
-import { AppFeature } from 'constants/appFeature';
-import browser from '../../scripts/browser';
-import layoutManager from '../layoutManager';
-import { pluginManager } from '../pluginManager';
-import { appHost } from '../apphost';
-import focusManager from '../focusManager';
-import datetime from '../../scripts/datetime';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import loading from '../loading/loading';
-import skinManager from '../../scripts/themeManager';
-import { PluginType } from '../../types/plugin.ts';
-import Events from '../../utils/events.ts';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-textarea/emby-textarea';
-import toast from '../toast/toast';
+import { AppFeature } from '@/constants/appFeature';
+import browser from '@/scripts/browser';
+import layoutManager from '@/components/layoutManager';
+import { pluginManager } from '@/components/pluginManager';
+import { appHost } from '@/components/apphost';
+import focusManager from '@/components/focusManager';
+import datetime from '@/scripts/datetime';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import loading from '@/components/loading/loading';
+import skinManager from '@/scripts/themeManager';
+import { PluginType } from '@/types/plugin.ts';
+import Events from '@/utils/events.ts';
+import '@/elements/emby-select/emby-select';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-textarea/emby-textarea';
+import toast from '@/components/toast/toast';
 import template from './displaySettings.template.html';
 
 function fillThemes(select, selectedTheme) {

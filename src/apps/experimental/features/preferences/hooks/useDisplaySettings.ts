@@ -2,17 +2,17 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ApiClient } from 'jellyfin-apiclient';
 import { useCallback, useEffect, useState } from 'react';
 
-import { appHost } from 'components/apphost';
-import layoutManager from 'components/layoutManager';
-import { AppFeature } from 'constants/appFeature';
-import { useApi } from 'hooks/useApi';
-import themeManager from 'scripts/themeManager';
-import { currentSettings, UserSettings } from 'scripts/settings/userSettings';
+import { appHost } from '@/components/apphost';
+import layoutManager from '@/components/layoutManager';
+import { AppFeature } from '@/constants/appFeature';
+import { useApi } from '@/hooks/useApi';
+import themeManager from '@/scripts/themeManager';
+import { currentSettings, UserSettings } from '@/scripts/settings/userSettings';
 
-import type { DisplaySettingsValues } from '../types/displaySettingsValues';
-import { useThemes } from 'hooks/useThemes';
-import { Theme } from 'types/webConfig';
-import { FALLBACK_THEME_ID } from 'hooks/useUserTheme';
+import type { DisplaySettingsValues } from '@/apps/experimental/features/preferences/types/displaySettingsValues';
+import { useThemes } from '@/hooks/useThemes';
+import { Theme } from '@/types/webConfig';
+import { FALLBACK_THEME_ID } from '@/hooks/useUserTheme';
 
 interface UseDisplaySettingsParams {
     userId?: string | null;

@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import Loading from 'components/loading/LoadingComponent';
-import Page from 'components/Page';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Loading from '@/components/loading/LoadingComponent';
+import Page from '@/components/Page';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -13,11 +13,11 @@ import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import { useServerLogs } from 'apps/dashboard/features/logs/api/useServerLogs';
-import { useConfiguration } from 'hooks/useConfiguration';
+import { useServerLogs } from '@/apps/dashboard/features/logs/api/useServerLogs';
+import { useConfiguration } from '@/hooks/useConfiguration';
 import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
-import { ActionData } from 'types/actionData';
-import LogItemList from 'apps/dashboard/features/logs/components/LogItemList';
+import { ActionData } from '@/types/actionData';
+import LogItemList from '@/apps/dashboard/features/logs/components/LogItemList';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();

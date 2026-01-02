@@ -7,8 +7,8 @@ import isEqual from 'lodash-es/isEqual';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { EventType } from 'constants/eventType';
-import Events, { type Event } from 'utils/events';
+import { EventType } from '@/constants/eventType';
+import Events, { type Event } from '@/utils/events';
 
 interface AppTabsParams {
     isDrawerOpen: boolean

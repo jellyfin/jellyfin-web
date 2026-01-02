@@ -1,4 +1,4 @@
-import { buildCustomColorScheme } from 'themes/utils';
+import { buildCustomColorScheme } from '@/themes/utils';
 
 /** The "Purple Haze" color scheme. */
 const theme = buildCustomColorScheme({

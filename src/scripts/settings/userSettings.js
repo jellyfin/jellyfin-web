@@ -1,6 +1,6 @@
-import Events from '../../utils/events.ts';
-import { toBoolean } from '../../utils/string.ts';
-import browser from '../browser';
+import Events from '@/utils/events.ts';
+import { toBoolean } from '@/utils/string.ts';
+import browser from '@/scripts/browser';
 import appSettings from './appSettings';
 
 function onSaveTimeout() {

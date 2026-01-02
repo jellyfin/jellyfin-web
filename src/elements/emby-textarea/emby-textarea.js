@@ -1,6 +1,6 @@
 import './emby-textarea.scss';
 import 'webcomponents.js/webcomponents-lite';
-import '../emby-input/emby-input';
+import '@/elements/emby-input/emby-input';
 
 /**
  * Calculates the vertical padding of the element

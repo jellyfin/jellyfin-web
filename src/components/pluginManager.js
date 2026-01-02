@@ -1,15 +1,15 @@
-import Events from '../utils/events.ts';
-import globalize from '../lib/globalize';
+import Events from '@/utils/events.ts';
+import globalize from '@/lib/globalize';
 import loading from './loading/loading';
-import appSettings from '../scripts/settings/appSettings';
+import appSettings from '@/scripts/settings/appSettings';
 import { playbackManager } from './playback/playbackmanager';
-import { appHost } from '../components/apphost';
+import { appHost } from '@/components/apphost';
 import { appRouter } from './router/appRouter';
-import * as inputManager from '../scripts/inputManager';
-import toast from '../components/toast/toast';
-import confirm from '../components/confirm/confirm';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import * as dashboard from '../utils/dashboard';
+import * as inputManager from '@/scripts/inputManager';
+import toast from '@/components/toast/toast';
+import confirm from '@/components/confirm/confirm';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import * as dashboard from '@/utils/dashboard';
 
 // TODO: replace with each plugin version
 const cacheParam = new Date().getTime();

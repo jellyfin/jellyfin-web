@@ -1,12 +1,12 @@
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 
-import dialogHelper from '../dialogHelper/dialogHelper';
-import layoutManager from '../layoutManager';
-import globalize from '../../lib/globalize';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-select/emby-select';
-import '../formdialog.scss';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import layoutManager from '@/components/layoutManager';
+import globalize from '@/lib/globalize';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-select/emby-select';
+import '@/components/formdialog.scss';
 import template from './personEditor.template.html';
 
 function centerFocus(elem, horiz, on) {

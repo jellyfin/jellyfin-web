@@ -1,4 +1,4 @@
-import { MediaError } from 'types/mediaError';
+import { MediaError } from '@/types/mediaError';
 
 /**
  * Maps a DOMException name to an equivalent {@link MediaError}.

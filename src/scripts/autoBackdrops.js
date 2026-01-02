@@ -1,11 +1,11 @@
-import { clearBackdrop, setBackdropImages, setBackdrops } from '../components/backdrop/backdrop';
+import { clearBackdrop, setBackdropImages, setBackdrops } from '@/components/backdrop/backdrop';
 import * as userSettings from './settings/userSettings';
 import libraryMenu from './libraryMenu';
-import { pageClassOn } from '../utils/dashboard';
-import { queryClient } from 'utils/query/queryClient';
-import { getBrandingOptionsQuery } from 'apps/dashboard/features/branding/api/useBrandingOptions';
-import { SPLASHSCREEN_URL } from 'constants/branding';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { pageClassOn } from '@/utils/dashboard';
+import { queryClient } from '@/utils/query/queryClient';
+import { getBrandingOptionsQuery } from '@/apps/dashboard/features/branding/api/useBrandingOptions';
+import { SPLASHSCREEN_URL } from '@/constants/branding';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 
 const cache = {};
 

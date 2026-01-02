@@ -1,6 +1,6 @@
 import { BackupApi } from '@jellyfin/sdk/lib/generated-client/api/backup-api';
 import { useMutation } from '@tanstack/react-query';
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 
 export const useRestoreBackup = () => {
     const { api } = useApi();

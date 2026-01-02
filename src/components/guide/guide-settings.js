@@ -1,11 +1,11 @@
-import dialogHelper from '../dialogHelper/dialogHelper';
-import globalize from '../../lib/globalize';
-import * as userSettings from '../../scripts/settings/userSettings';
-import layoutManager from '../layoutManager';
-import scrollHelper from '../../scripts/scrollHelper';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-radio/emby-radio';
-import '../formdialog.scss';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import globalize from '@/lib/globalize';
+import * as userSettings from '@/scripts/settings/userSettings';
+import layoutManager from '@/components/layoutManager';
+import scrollHelper from '@/scripts/scrollHelper';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-radio/emby-radio';
+import '@/components/formdialog.scss';
 import 'material-design-icons-iconfont';
 import template from './guide-settings.template.html';
 

@@ -1,6 +1,6 @@
-import focusManager from '../components/focusManager';
-import dom from '../utils/dom';
-import '../styles/scrollstyles.scss';
+import focusManager from '@/components/focusManager';
+import dom from '@/utils/dom';
+import '@/styles/scrollstyles.scss';
 
 function getBoundingClientRect(elem: Element) {
     // Support: BlackBerry 5, iOS 3 (original iPhone)

@@ -6,12 +6,12 @@ import Menu, { type MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import React, { FC, useEffect, useState } from 'react';
 
-import globalize from 'lib/globalize';
-import { playbackManager } from 'components/playback/playbackmanager';
-import { pluginManager } from 'components/pluginManager';
-import type { PlayTarget } from 'types/playTarget';
+import globalize from '@/lib/globalize';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import { pluginManager } from '@/components/pluginManager';
+import type { PlayTarget } from '@/types/playTarget';
 
-import PlayTargetIcon from '../../PlayTargetIcon';
+import PlayTargetIcon from '@/apps/experimental/components/PlayTargetIcon';
 
 interface RemotePlayMenuProps extends MenuProps {
     onMenuClose: () => void

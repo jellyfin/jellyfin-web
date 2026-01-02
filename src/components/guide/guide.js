@@ -1,34 +1,34 @@
 import escapeHtml from 'escape-html';
 
-import { ItemAction } from 'constants/itemAction';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { ItemAction } from '@/constants/itemAction';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 
-import inputManager from '../../scripts/inputManager';
-import browser from '../../scripts/browser';
-import globalize from '../../lib/globalize';
-import Events from '../../utils/events.ts';
-import scrollHelper from '../../scripts/scrollHelper';
-import serverNotifications from '../../scripts/serverNotifications';
-import loading from '../loading/loading';
-import datetime from '../../scripts/datetime';
-import focusManager from '../focusManager';
-import { playbackManager } from '../playback/playbackmanager';
-import * as userSettings from '../../scripts/settings/userSettings';
-import imageLoader from '../images/imageLoader';
-import layoutManager from '../layoutManager';
-import itemShortcuts from '../shortcuts';
-import dom from '../../utils/dom';
+import inputManager from '@/scripts/inputManager';
+import browser from '@/scripts/browser';
+import globalize from '@/lib/globalize';
+import Events from '@/utils/events.ts';
+import scrollHelper from '@/scripts/scrollHelper';
+import serverNotifications from '@/scripts/serverNotifications';
+import loading from '@/components/loading/loading';
+import datetime from '@/scripts/datetime';
+import focusManager from '@/components/focusManager';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import * as userSettings from '@/scripts/settings/userSettings';
+import imageLoader from '@/components/images/imageLoader';
+import layoutManager from '@/components/layoutManager';
+import itemShortcuts from '@/components/shortcuts';
+import dom from '@/utils/dom';
 
 import './guide.scss';
 import './programs.scss';
 import 'material-design-icons-iconfont';
-import '../../styles/scrollstyles.scss';
-import '../../elements/emby-programcell/emby-programcell';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-tabs/emby-tabs';
-import '../../elements/emby-scroller/emby-scroller';
-import '../../styles/flexstyles.scss';
+import '@/styles/scrollstyles.scss';
+import '@/elements/emby-programcell/emby-programcell';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-tabs/emby-tabs';
+import '@/elements/emby-scroller/emby-scroller';
+import '@/styles/flexstyles.scss';
 import 'webcomponents.js/webcomponents-lite';
 
 import template from './tvguide.template.html';

@@ -1,11 +1,11 @@
 import 'webcomponents.js/webcomponents-lite';
-import dom from '../../utils/dom';
-import ScrollerFactory from 'lib/scroller';
-import browser from '../../scripts/browser';
-import focusManager from '../../components/focusManager';
-import layoutManager from '../../components/layoutManager';
+import dom from '@/utils/dom';
+import ScrollerFactory from '@/lib/scroller';
+import browser from '@/scripts/browser';
+import focusManager from '@/components/focusManager';
+import layoutManager from '@/components/layoutManager';
 import './emby-tabs.scss';
-import '../../styles/scrollstyles.scss';
+import '@/styles/scrollstyles.scss';
 
 const EmbyTabs = Object.create(HTMLDivElement.prototype);
 const buttonClass = 'emby-tab-button';

@@ -1,5 +1,5 @@
-import ScrollerFactory from 'lib/scroller';
-import globalize from 'lib/globalize';
+import ScrollerFactory from '@/lib/scroller';
+import globalize from '@/lib/globalize';
 
 export enum ScrollDirection {
     RIGHT = 'right',
