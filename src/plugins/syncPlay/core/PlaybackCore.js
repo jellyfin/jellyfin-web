@@ -304,7 +304,6 @@ class PlaybackCore {
             this.scheduledCommandTimeout = setTimeout(() => {
                 this.localUnpause();
 
-                const playerWrapper = this.manager.getPlayerWrapper();
                 if (playerWrapper.hasPlaybackRate() && playerWrapper.getPlaybackRate() !== playbackSpeed) {
                     this.localSetPlaybackSpeed(playbackSpeed);
                 }
