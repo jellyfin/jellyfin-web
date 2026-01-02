@@ -232,7 +232,6 @@ class PlaybackCore {
                         break;
                     case 'SetPlaybackSpeed':
                         // Check if current playback speed matches requested speed.
-                        const playerWrapper = this.manager.getPlayerWrapper();
                         if (playerWrapper.hasPlaybackRate() && playerWrapper.getPlaybackRate() !== command.PlaybackSpeed) {
                             this.scheduleSetPlaybackSpeed(command.When, command.PlaybackSpeed);
                         }
@@ -283,7 +282,7 @@ class PlaybackCore {
      * @param {number} positionTicks The PositionTicks from where to resume.
      * @param {number} playbackSpeed The playback speed to set.
      */
-    async scheduleUnpause(playAtTime, positionTicks, playbackSpeed = 1.0) {
+    async scheduleUnpause(playAtTime, positionTicks, playbackSpeed) {
         this.clearScheduledCommand();
         const enableSyncTimeout = this.maxDelaySpeedToSync / 2.0;
         const currentTime = new Date();
@@ -447,7 +446,7 @@ class PlaybackCore {
             const changeTimeout = changeAtTimeLocal - currentTime;
             this.scheduledCommandTimeout = setTimeout(callback, changeTimeout);
 
-            console.debug('Scheduled playback speed change to', playbackSpeed, 'in', changeTimeout / 1000.0, 'seconds.');
+            console.debug('Scheduled playback speed change to', playbackSpeed, 'in', changeTimeout / 1000, 'seconds.');
         } else {
             callback();
             console.debug('SyncPlay scheduleSetPlaybackSpeed: now to', playbackSpeed);
