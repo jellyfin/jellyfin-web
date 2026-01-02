@@ -13,6 +13,8 @@
     "@eslint/js": "9.30.1",
     "@stylistic/eslint-plugin": "4.4.1",
     "@stylistic/stylelint-plugin": "3.1.3",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.1",
     "@types/dompurify": "3.0.5",
     "@types/escape-html": "1.0.4",
     "@types/loadable__component": "5.13.9",
@@ -164,6 +166,7 @@
     "escheck": "es-check",
     "lint": "eslint",
     "test": "vitest --watch=false --config vite.config.ts",
+    "test:coverage": "vitest --watch=false --config vite.config.ts --coverage",
     "test:watch": "vitest --config vite.config.ts",
     "stylelint": "stylelint \"src/**/*.{css,scss}\""
   },
