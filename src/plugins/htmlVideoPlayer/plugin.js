@@ -443,7 +443,7 @@ export class HtmlVideoPlayer {
                 // Dynamic buffer length based on bitrate
                 // Limit max buffer size to 50MB (50 * 1024 * 1024 * 8 bits = 419430400 bits)
                 const maxBufferSizeBits = 50 * 1024 * 1024 * 8;
-                const bitrate = playbackManager.getMaxStreamingBitrate(this) || 8000000; // Default 8Mbps
+                const bitrate = options.mediaSource?.MediaStreams?.find(s => s.Type === 'Video')?.BitRate || 8000000; // Default 8Mbps
                 let maxBufferLength = Math.floor(maxBufferSizeBits / bitrate);
                 // Clamp buffer length between 6s and 60s
                 maxBufferLength = Math.max(6, Math.min(60, maxBufferLength));
