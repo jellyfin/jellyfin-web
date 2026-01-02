@@ -704,7 +704,7 @@
     "DirectStreaming": "다이렉트 스트리밍",
     "DirectStreamHelp2": "다이렉트 스트리밍에 소비되는 전력은 오디오 프로파일에 따라 다릅니다.",
     "DetectingDevices": "장치 감지",
-    "Desktop": "데스크탑",
+    "Desktop": "데스크탑 (레거시)",
     "Default": "기본 설정",
     "DatePlayed": "재생된 날짜",
     "DateAdded": "추가된 날짜",
@@ -1108,7 +1108,7 @@
     "MediaInfoPixelFormat": "픽셀 형식",
     "MapChannels": "채널 매핑",
     "Large": "크게",
-    "LanNetworksHelp": "대역폭을 강제로 제한할 때 로컬 네트워크로 간주되는 쉼표로 구분된 IP 주소 및 IP/서브넷 마스크 목록입니다. 지정될 경우 모든 다른 IP 주소는 외부 네트워크로 간주되며 외부 대역폭 제한이 적용됩니다. 공백일 경우 서버의 서브넷만이 로컬 네트워크로 간주됩니다.",
+    "LanNetworksHelp": "대역폭 및 원격 액세스 제한을 적용할 때 로컬 네트워크로 간주할 네트워크의 IP 주소 또는 IP/넷마스크 항목을 쉼표로 구분하여 나열합니다. 비워 두면 모든 RFC1918 주소가 로컬로 간주됩니다.",
     "LabelffmpegPathHelp": "FFmpeg를 포함하는 FFmpeg 응용 프로그램 파일 또는 폴더의 경로입니다.",
     "LabelXDlnaDocHelp": "urn:schemas-dlna-org:device-1-0 네임스페이스에 포함된 X_DLNADOC 요소의 내용을 결정합니다.",
     "LabelXDlnaDoc": "X-DLNA 문서",
@@ -2016,5 +2016,10 @@
     "LabelDatabase": "데이터베이스",
     "LabelImageCache": "이미지 캐시",
     "LabelProgramData": "프로그램 데이터",
-    "LabelRestore": "복원"
+    "LabelRestore": "복원",
+    "BackupsPageLoadError": "백업 페이지를 불러오는 데 실패했습니다",
+    "LabelSlideshowInterval": "사진 슬라이드쇼 간격",
+    "LabelSlideshowIntervalHelp": "슬라이드쇼에서 각 사진이 표시되는 시간(초).",
+    "LabelBundled": "번들",
+    "LabelGroupShowsIntoCollectionsHelp": "컬렉션에 포함된 프로그램들은 프로그램 목록을 표시할 때 하나의 그룹 항목으로 표시됩니다."
 }
