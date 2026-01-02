@@ -223,50 +223,69 @@ export class AlphaPicker {
 
     value(value, applyValue) {
         const element = this.options.element;
-        let btn;
-        let selected;
 
         if (value !== undefined) {
-            if (value != null) {
-                value = value.toUpperCase();
-                this._currentValue = value;
-
-                if (this.options.mode !== 'keyboard') {
-                    selected = element.querySelector(`.${selectedButtonClass}`);
-
-                    try {
-                        btn = element.querySelector(`.alphaPickerButton[data-value='${value}']`);
-                    } catch (err) {
-                        console.error('error in querySelector:', err);
-                    }
-
-                    if (btn && btn !== selected) {
-                        btn.classList.add(selectedButtonClass);
-                    }
-                    if (selected && selected !== btn) {
-                        selected.classList.remove(selectedButtonClass);
-                    }
-                }
-            } else {
-                this._currentValue = value;
-
-                selected = element.querySelector(`.${selectedButtonClass}`);
-                if (selected) {
-                    selected.classList.remove(selectedButtonClass);
-                }
-            }
+            this._handleSelectedButtonState(element, value);
         }
 
         if (applyValue) {
-            element.dispatchEvent(new CustomEvent('alphavaluechanged', {
-                cancelable: false,
-                detail: {
-                    value
-                }
-            }));
+            this._dispatchValueChangeEvent(element, value);
         }
 
         return this._currentValue;
+    }
+
+    _handleSelectedButtonState(element, value) {
+        if (value == null) {
+            this._currentValue = value;
+            this._clearSelection(element);
+            return;
+        }
+
+        const normalizedValue = value.toUpperCase();
+        this._currentValue = normalizedValue;
+
+        if (this.options.mode === 'keyboard') {
+            return;
+        }
+
+        const currentSelected = element.querySelector(`.${selectedButtonClass}`);
+        const targetButton = this._findButtonByValue(element, normalizedValue);
+
+        this._updateButtonSelection(currentSelected, targetButton);
+    }
+
+    _findButtonByValue(element, value) {
+        try {
+            return element.querySelector(`.alphaPickerButton[data-value='${value}']`);
+        } catch (err) {
+            console.error('error in querySelector:', err);
+            return null;
+        }
+    }
+
+    _updateButtonSelection(currentSelected, targetButton) {
+        if (targetButton && targetButton !== currentSelected) {
+            targetButton.classList.add(selectedButtonClass);
+        }
+
+        if (currentSelected && currentSelected !== targetButton) {
+            currentSelected.classList.remove(selectedButtonClass);
+        }
+    }
+
+    _clearSelection(element) {
+        const selected = element.querySelector(`.${selectedButtonClass}`);
+        if (selected) {
+            selected.classList.remove(selectedButtonClass);
+        }
+    }
+
+    _dispatchValueChangeEvent(element, value) {
+        element.dispatchEvent(new CustomEvent('alphavaluechanged', {
+            cancelable: false,
+            detail: { value }
+        }));
     }
 
     on(name, fn) {

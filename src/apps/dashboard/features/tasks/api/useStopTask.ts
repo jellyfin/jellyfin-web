@@ -13,8 +13,8 @@ export const useStopTask = () => {
             getScheduledTasksApi(api!)
                 .stopTask(params)
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ QUERY_KEY ]
             });
         }
