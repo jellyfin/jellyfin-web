@@ -200,7 +200,7 @@ class PlaybackCore {
                     case 'Unpause':
                         // Check playback state only, as position ticks will be corrected by sync.
                         if (!isPlaying) {
-                            this.scheduleUnpause(command.When, command.PositionTicks);
+                            this.scheduleUnpause(command.When, command.PositionTicks, command.PlaybackSpeed);
                         }
                         break;
                     case 'Pause':
@@ -230,6 +230,12 @@ class PlaybackCore {
                             this.sendBufferingRequest(false);
                         }
                         break;
+                    case 'SetPlaybackSpeed':
+                        // Check if current playback speed matches requested speed.
+                        if (playerWrapper.hasPlaybackRate() && playerWrapper.getPlaybackRate() !== command.PlaybackSpeed) {
+                            this.scheduleSetPlaybackSpeed(command.When, command.PlaybackSpeed);
+                        }
+                        break;
                     default:
                         console.error('SyncPlay applyCommand: command is not recognised:', command);
                         break;
@@ -250,7 +256,7 @@ class PlaybackCore {
 
         switch (command.Command) {
             case 'Unpause':
-                this.scheduleUnpause(command.When, command.PositionTicks);
+                this.scheduleUnpause(command.When, command.PositionTicks, command.PlaybackSpeed);
                 break;
             case 'Pause':
                 this.schedulePause(command.When, command.PositionTicks);
@@ -260,6 +266,9 @@ class PlaybackCore {
                 break;
             case 'Seek':
                 this.scheduleSeek(command.When, command.PositionTicks);
+                break;
+            case 'SetPlaybackSpeed':
+                this.scheduleSetPlaybackSpeed(command.When, command.PlaybackSpeed);
                 break;
             default:
                 console.error('SyncPlay applyCommand: command is not recognised:', command);
@@ -271,8 +280,9 @@ class PlaybackCore {
      * Schedules a resume playback on the player at the specified clock time.
      * @param {Date} playAtTime The server's UTC time at which to resume playback.
      * @param {number} positionTicks The PositionTicks from where to resume.
+     * @param {number} playbackSpeed The playback speed to set.
      */
-    async scheduleUnpause(playAtTime, positionTicks) {
+    async scheduleUnpause(playAtTime, positionTicks, playbackSpeed) {
         this.clearScheduledCommand();
         const enableSyncTimeout = this.maxDelaySpeedToSync / 2.0;
         const currentTime = new Date();
@@ -293,6 +303,10 @@ class PlaybackCore {
 
             this.scheduledCommandTimeout = setTimeout(() => {
                 this.localUnpause();
+
+                if (playerWrapper.hasPlaybackRate() && playerWrapper.getPlaybackRate() !== playbackSpeed) {
+                    this.localSetPlaybackSpeed(playbackSpeed);
+                }
                 Events.trigger(this.manager, 'notify-osd', ['unpause']);
 
                 this.syncTimeout = setTimeout(() => {
@@ -308,6 +322,9 @@ class PlaybackCore {
                 this.localSeek(serverPositionTicks);
             });
             this.localUnpause();
+            if (playerWrapper.hasPlaybackRate() && playerWrapper.getPlaybackRate() !== playbackSpeed) {
+                this.localSetPlaybackSpeed(playbackSpeed);
+            }
             setTimeout(() => {
                 Events.trigger(this.manager, 'notify-osd', ['unpause']);
             }, 100);
@@ -410,6 +427,32 @@ class PlaybackCore {
     }
 
     /**
+     * Schedules a playback speed change on the player at the specified clock time.
+     * @param {Date} changeAtTime The server's UTC time at which to change playback speed.
+     * @param {number} playbackSpeed The playback speed to set.
+     */
+    scheduleSetPlaybackSpeed(changeAtTime, playbackSpeed) {
+        this.clearScheduledCommand();
+        const currentTime = new Date();
+        const changeAtTimeLocal = this.timeSyncCore.remoteDateToLocal(changeAtTime);
+
+        const callback = () => {
+            this.localSetPlaybackSpeed(playbackSpeed);
+            Events.trigger(this.manager, 'notify-osd', ['playbackspeed', playbackSpeed]);
+        };
+
+        if (changeAtTimeLocal > currentTime) {
+            const changeTimeout = changeAtTimeLocal - currentTime;
+            this.scheduledCommandTimeout = setTimeout(callback, changeTimeout);
+
+            console.debug('Scheduled playback speed change to', playbackSpeed, 'in', changeTimeout / 1000, 'seconds.');
+        } else {
+            callback();
+            console.debug('SyncPlay scheduleSetPlaybackSpeed: now to', playbackSpeed);
+        }
+    }
+
+    /**
      * Clears the current scheduled command.
      */
     clearScheduledCommand() {
@@ -479,6 +522,25 @@ class PlaybackCore {
 
         const playerWrapper = this.manager.getPlayerWrapper();
         return playerWrapper.localStop();
+    }
+
+    /**
+     * Sets the playback speed of the local player.
+     * @param {number} playbackSpeed The playback speed to set.
+     */
+    localSetPlaybackSpeed(playbackSpeed) {
+        // Ignore command when no player is active.
+        if (!this.manager.isPlaybackActive()) {
+            console.debug('SyncPlay localSetPlaybackSpeed: no active player!');
+            return;
+        }
+
+        const playerWrapper = this.manager.getPlayerWrapper();
+        if (playerWrapper.hasPlaybackRate()) {
+            return playerWrapper.localSetPlaybackRate(playbackSpeed);
+        } else {
+            console.debug('SyncPlay localSetPlaybackSpeed: player does not support playback rate changes.');
+        }
     }
 
     /**
