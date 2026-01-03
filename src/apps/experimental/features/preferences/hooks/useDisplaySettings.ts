@@ -85,7 +85,7 @@ async function loadDisplaySettings({
 
     const displaySettings = {
         customCss: settings.customCss(),
-        cardRatings: settings.cardRatings() || 'none',
+        cardRatings: Boolean(settings.cardRatings()),
         dashboardTheme: settings.dashboardTheme() || defaultTheme?.id || FALLBACK_THEME_ID,
         dateTimeLocale: settings.dateTimeLocale() || 'auto',
         disableCustomCss: Boolean(settings.disableCustomCss()),
