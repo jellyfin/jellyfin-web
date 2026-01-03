@@ -85,7 +85,7 @@ const BaseCard = ({
                     }
                 }}>
                 <Stack flexGrow={1} direction='row'>
-                    <Stack flexGrow={1}>
+                    <Stack flexGrow={1} sx={{ overflow: 'hidden' }}>
                         <Typography gutterBottom sx={{
                             overflow: 'hidden',
                             whiteSpace: 'nowrap',
