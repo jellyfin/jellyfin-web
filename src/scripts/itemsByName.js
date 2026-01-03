@@ -5,6 +5,7 @@ import cardBuilder from 'components/cardbuilder/cardBuilder';
 import imageLoader from 'components/images/imageLoader';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import * as userSettings from 'scripts/settings/userSettings';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-button/emby-button';
@@ -289,7 +290,7 @@ function loadItems(element, item, type, query, listOptions) {
         const itemsContainer = element.querySelector('.itemsContainer');
 
         if (type === 'Audio') {
-            html = listView.getListViewHtml(listOptions);
+            html = listView.getListViewHtml(listOptions, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription());
             itemsContainer.classList.remove('vertical-wrap');
             itemsContainer.classList.add('vertical-list');
         } else {

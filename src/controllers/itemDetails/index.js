@@ -129,7 +129,7 @@ function getProgramScheduleHtml(items, action = 'none') {
         action,
         moreButton: false,
         recordButton: false
-    });
+    }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription());
 }
 
 function getSelectedMediaSource(page, mediaSources) {
@@ -804,7 +804,9 @@ function renderNextUp(page, item, user) {
             displayAsSpecial: item.Type == 'Season' && item.IndexNumber,
             overlayText: false,
             centerText: true,
-            overlayPlayButton: true
+            overlayPlayButton: true,
+            enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+            enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
         });
         const itemsContainer = section.querySelector('.nextUpItems');
         itemsContainer.innerHTML = html;
@@ -1416,7 +1418,7 @@ function renderChildren(page, item) {
                 image: false,
                 artist: showArtist,
                 containerAlbumArtists: item.AlbumArtists
-            });
+            }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription());
             isList = true;
         } else if (item.Type == 'Series') {
             scrollX = enableScrollX();
@@ -1465,7 +1467,7 @@ function renderChildren(page, item) {
                     action: !layoutManager.desktop ? 'link' : 'none',
                     imagePlayButton: true,
                     includeParentInfoInTitle: false
-                });
+                }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription());
             }
         }
 
@@ -1578,7 +1580,7 @@ function renderProgramsForChannel(page, result) {
                     showProgramTime: true,
                     mediaInfo: false,
                     parentTitleWithTitle: true
-                }) + '</div></div>';
+                }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription()) + '</div></div>';
             }
 
             currentStartDate = itemStartDate;
@@ -1603,7 +1605,7 @@ function renderProgramsForChannel(page, result) {
             showProgramTime: true,
             mediaInfo: false,
             parentTitleWithTitle: true
-        }) + '</div></div>';
+        }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription()) + '</div></div>';
     }
 
     page.querySelector('.programGuide').innerHTML = html;
