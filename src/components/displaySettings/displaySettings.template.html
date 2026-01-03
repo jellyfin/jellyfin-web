@@ -304,15 +304,13 @@
         ${ItemCard}
     </h2>
 
-    <div class="selectContainer">
-        <select id="selectCardRatings" is="emby-select" class="selectLayout" label="${LabelCardRatings}">
-            <option value="none">${None}</option>
-            <option value="critic">${CriticRating}</option>
-            <option value="community">${CommunityRating}</option>
-            <option value="all">${All}</option>
-        </select>
-        <div class="fieldDescription">${CardRatingsHelp}</div>
-    </div>
+	<div class="checkboxContainer checkboxContainer-withDescription">
+		<label>
+			<input type="checkbox" is="emby-checkbox" id="chkCardRatings" />
+			<span>${ShowRatingsOnCards}</span>
+		</label>
+		<div class="fieldDescription checkboxFieldDescription">${ShowRatingsOnCardsHelp}</div>
+	</div>
 
     <h2 class="sectionTitle">
         ${ItemDetails}
