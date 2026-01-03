@@ -226,6 +226,24 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                     {globalize.translate('EnableBlurHashHelp')}
                 </FormHelperText>
             </FormControl>
+            <Typography variant='h2'>{globalize.translate('ItemCard')}</Typography>
+
+            <FormControl fullWidth>
+                <FormControlLabel
+                    aria-describedby='display-settings-card-ratings-description'
+                    control={
+                        <Checkbox
+                            checked={values.cardRatings}
+                            onChange={onChange}
+                        />
+                    }
+                    label={globalize.translate('LabelCardRatings')}
+                    name='cardRatings'
+                />
+                <FormHelperText id='display-settings-card-ratings-description'>
+                    {globalize.translate('CardRatingsHelp')}
+                </FormHelperText>
+            </FormControl>
         </Stack>
     );
 }
