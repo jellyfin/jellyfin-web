@@ -1148,22 +1148,21 @@ function buildCard(index, item, apiClient, options) {
  * @returns {string} HTML markup of the card rating.
  */
 function getRatingHtml(item) {
-    const ratingsSetting = userSettings.cardRatings();
-    if (!ratingsSetting || ratingsSetting === "none") {
-        return "";
+    const showRatings = userSettings.cardRatings();
+    if (!showRatings) {
+        return '';
     }
 
-    let cardRatingHtml = "";
-    if (item.CriticRating && ["critic", "all"].includes(ratingsSetting)) {
-        const backgroundImageClass = item.CriticRating >= 60 ? "cardRatingFresh" : "cardRatingRotten";
-        cardRatingHtml += `<div class="cardCriticRating ${backgroundImageClass}">${item.CriticRating}</div>`;
+    let cardRatingHtml = '';
+    if (item.CommunityRating) {
+        cardRatingHtml += `<div class="cardRating"><span class="material-icons star cardRatingIcon cardCommunityRating" aria-hidden="true"></span><span>${item.CommunityRating.toFixed(1)}</span></div>`;
     }
-    if (item.CommunityRating && ["community", "all"].includes(ratingsSetting)) {
-        const starIconHtml = '<span class="material-icons cardStarIcon star" aria-hidden="true"></span>'
-        cardRatingHtml += `<div class="cardRating cardCommunityRating">${starIconHtml}${item.CommunityRating.toFixed(1)}</div>`;
+    if (item.CriticRating) {
+        const backgroundImageClass = item.CriticRating >= 60 ? 'cardRatingFresh' : 'cardRatingRotten';
+        cardRatingHtml += `<div class="cardRating"><span class="cardRatingIcon cardCriticRating ${backgroundImageClass}"></span><span>${item.CriticRating}</span></div>`;
     }
 
-    return cardRatingHtml ? `<div class="cardRatingContainer">${cardRatingHtml}</div>` : "";
+    return cardRatingHtml ? `<div class="cardRatingContainer">${cardRatingHtml}</div>` : '';
 }
 
 /**
