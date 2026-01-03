@@ -313,26 +313,26 @@ export class UserSettings {
      * @param {string|undefined} [val] - 'customCss' state.
      * @return {string} 'customCss' state.
      */
-    customCss(val) {
-        if (val !== undefined) {
-            return this.set('customCss', val.toString(), false);
-        }
+	customCss(val) {
+		if (val !== undefined) {
+			return this.set('customCss', val ? val.toString() : '', false);
+		}
+		
+		return this.get('customCss', false) || '';
+	}
 
-        return this.get('customCss', false);
-    }
-
-    /**
-     * Get or set 'cardRatings' state.
-     * @param {string|undefined} [val] - 'cardRatings' state.
-     * @return {string} 'cardRatings' state.
-     */
-    cardRatings(val) {
-        if (val !== undefined) {
-            return this.set('cardRatings', val.toString(), false);
-        }
-
-        return this.get('cardRatings', false);
-    }
+	/**
+	* Get or set 'cardRatings' state.
+	* @param {boolean|undefined} [val] - Whether to show ratings on cards.
+	* @return {boolean} Whether ratings are shown on cards.
+	*/
+	cardRatings(val) {
+		if (val !== undefined) {
+			return this.set('cardRatings', val.toString(), false);
+		}
+	
+		return this.get('cardRatings', false) === 'true';
+	}
 
     /**
      * Get or set 'Details Banner' state.
