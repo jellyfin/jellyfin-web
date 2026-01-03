@@ -50,6 +50,7 @@ function getNextUpFetchFn(
 
 function getNextUpItemsHtmlFn(
     useEpisodeImages: boolean,
+    enableBlurUnplayedTitle: boolean,
     { enableOverflow }: SectionOptions
 ) {
     return function (items: BaseItemDto[]) {
@@ -62,6 +63,7 @@ function getNextUpItemsHtmlFn(
             overlayText: false,
             showTitle: true,
             showParentTitle: true,
+            enableBlurUnplayedTitle,
             lazy: true,
             overlayPlayButton: true,
             context: 'home',
@@ -115,6 +117,6 @@ export function loadNextUp(
     const itemsContainer: SectionContainerElement | null = elem.querySelector('.itemsContainer');
     if (!itemsContainer) return;
     itemsContainer.fetchData = getNextUpFetchFn(apiClient, userSettings, options);
-    itemsContainer.getItemsHtml = getNextUpItemsHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume(), options);
+    itemsContainer.getItemsHtml = getNextUpItemsHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume(), userSettings.enableBlurUnplayedTitle(), options);
     itemsContainer.parentContainer = elem;
 }

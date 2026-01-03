@@ -130,7 +130,7 @@ function getChannelImageUrl(item, size) {
     }
 }
 
-function getTextLinesHtml(textlines, isLargeStyle) {
+function getTextLinesHtml(textlines, isLargeStyle, blurUnplayed) {
     let html = '';
 
     const largeTitleTagName = layoutManager.tv ? 'h2' : 'div';
@@ -155,6 +155,10 @@ function getTextLinesHtml(textlines, isLargeStyle) {
 
         elem.classList.add('listItemBodyText');
 
+        if (blurUnplayed) {
+            elem.classList.add('listItemBodyText-blurred');
+        }
+
         elem.innerHTML = '<bdi>' + escapeHtml(text) + '</bdi>';
 
         html += elem.outerHTML;
@@ -175,7 +179,7 @@ function getRightButtonsHtml(options) {
     return html;
 }
 
-export function getListViewHtml(options) {
+export function getListViewHtml(options, enableBlurUnplayedTitle, enableBlurUnplayedDescription) {
     const items = options.items;
 
     let groupTitle = '';
@@ -405,7 +409,11 @@ export function getListViewHtml(options) {
 
         html += `<div class="${cssClass}">`;
 
-        html += getTextLinesHtml(textlines, isLargeStyle);
+        const isPlayed = Boolean(item.UserData?.Played);
+        const blurUnplayedTitle = enableBlurUnplayedTitle && !isPlayed;
+        const blurUnplayedDescription = enableBlurUnplayedDescription && !isPlayed;
+
+        html += getTextLinesHtml(textlines, isLargeStyle, blurUnplayedTitle);
 
         if (options.mediaInfo !== false && !enableSideMediaInfo) {
             const mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';
@@ -423,7 +431,11 @@ export function getListViewHtml(options) {
         if (enableOverview && item.Overview) {
             // eslint-disable-next-line sonarjs/disabled-auto-escaping
             const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
-            html += '<div class="secondary listItem-overview listItemBodyText">';
+            html += '<div class="secondary listItem-overview listItemBodyText';
+            if (blurUnplayedDescription) {
+                html += ' listItemBodyText-blurred';
+            }
+            html += '">';
             html += '<bdi>' + overview + '</bdi>';
             html += '</div>';
         }

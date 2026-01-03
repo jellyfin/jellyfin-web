@@ -141,7 +141,7 @@ export default function (view, params, tabContent) {
                     items: result.Items,
                     context: 'tvshows',
                     sortBy: query.SortBy
-                });
+                }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription());
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
@@ -302,4 +302,3 @@ export default function (view, params, tabContent) {
         this.alphaPicker?.updateControls(getQuery());
     };
 }
-

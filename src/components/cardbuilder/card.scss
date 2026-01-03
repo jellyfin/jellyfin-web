@@ -379,6 +379,15 @@ button::-moz-focus-inner {
     margin-right: 2em;
 }
 
+.cardText-blurred {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+}
+
+.card:hover .cardText-blurred {
+    filter: blur(0);
+}
+
 .cardImageContainer > .cardDefaultText {
     white-space: normal;
     text-align: center;
