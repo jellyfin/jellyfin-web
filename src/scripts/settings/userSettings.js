@@ -313,13 +313,13 @@ export class UserSettings {
      * @param {string|undefined} [val] - 'customCss' state.
      * @return {string} 'customCss' state.
      */
-	customCss(val) {
-		if (val !== undefined) {
-			return this.set('customCss', val.toString(), false);
-		}
-		
-		return this.get('customCss', false);
-	}
+    customCss(val) {
+    	if (val !== undefined) {
+    		return this.set('customCss', val.toString(), false);
+    	}
+    	
+    	return this.get('customCss', false);
+    }
 
 	/**
 	* Get or set 'cardRatings' state.
