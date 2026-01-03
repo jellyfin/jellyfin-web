@@ -475,7 +475,10 @@ export default function () {
                     id: 'remove'
                 }],
                 dragHandle: true
-            });
+            },
+            userSettings.enableBlurUnplayedTitle(),
+            userSettings.enableBlurUnplayedDescription()
+            );
 
             const itemsContainer = context.querySelector('.playlist');
             let focusedItemPlaylistId = itemsContainer.querySelector('button:focus');

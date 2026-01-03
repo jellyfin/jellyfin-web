@@ -114,7 +114,7 @@ export default function (view, params, tabContent) {
                     items: result.Items,
                     sortBy: query.SortBy,
                     showParentTitle: true
-                });
+                }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription());
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
@@ -245,4 +245,3 @@ export default function (view, params, tabContent) {
         reloadItems(tabContent);
     };
 }
-
