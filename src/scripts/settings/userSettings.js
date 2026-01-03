@@ -309,16 +309,16 @@ export class UserSettings {
     }
 
     /**
-     * Get or set 'customCss'.
-     * @param {string|undefined} [val] - 'customCss' state.
-     * @return {string} 'customCss' state.
+     * Get or set customCss.
+     * @param {string|undefined} [val] - Language.
+     * @return {string} Language.
      */
     customCss(val) {
-    	if (val !== undefined) {
-    		return this.set('customCss', val.toString(), false);
-    	}
-    	
-    	return this.get('customCss', false);
+        if (val !== undefined) {
+            return this.set('customCss', val.toString(), false);
+        }
+
+        return this.get('customCss', false);
     }
 
     /**
