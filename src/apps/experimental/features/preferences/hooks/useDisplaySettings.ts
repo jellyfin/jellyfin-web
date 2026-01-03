@@ -84,7 +84,7 @@ async function loadDisplaySettings({
     await settings.setUserInfo(userId, api);
 
     const displaySettings = {
-        customCss: settings.customCss(),
+        customCss: settings.customCss() || '',
         cardRatings: Boolean(settings.cardRatings()),
         dashboardTheme: settings.dashboardTheme() || defaultTheme?.id || FALLBACK_THEME_ID,
         dateTimeLocale: settings.dateTimeLocale() || 'auto',

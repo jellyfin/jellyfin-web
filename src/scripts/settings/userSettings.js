@@ -315,10 +315,10 @@ export class UserSettings {
      */
 	customCss(val) {
 		if (val !== undefined) {
-			return this.set('customCss', val ? val.toString() : '', false);
+			return this.set('customCss', val.toString(), false);
 		}
 		
-		return this.get('customCss', false) || '';
+		return this.get('customCss', false);
 	}
 
 	/**
