@@ -5,28 +5,31 @@
 
 function getTextStyles(settings, preview) {
     const list = [];
+    let size = 0;
+    const defaultSize = 3;
 
     switch (settings.textSize || '') {
         case 'smaller':
-            list.push({ name: 'font-size', value: '.8em' });
+            size = defaultSize * 0.8;
             break;
         case 'small':
-            list.push({ name: 'font-size', value: 'inherit' });
+            size = defaultSize * 1;
             break;
         case 'larger':
-            list.push({ name: 'font-size', value: '2em' });
+            size = defaultSize * 2;
             break;
         case 'extralarge':
-            list.push({ name: 'font-size', value: '2.2em' });
+            size = defaultSize * 2.2;
             break;
         case 'large':
-            list.push({ name: 'font-size', value: '1.72em' });
+            size = defaultSize * 1.72;
             break;
         case 'medium':
         default:
-            list.push({ name: 'font-size', value: '1.36em' });
+            size = defaultSize * 1.36;
             break;
-    }
+        }
+    list.push({ name: 'font-size', value: 'min( ' + size + 'vh, ' + size + 'vw)' });
 
     switch (settings.textWeight || '') {
         case 'bold':
