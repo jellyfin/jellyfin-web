@@ -480,7 +480,11 @@ function renderName(item, container, context) {
 
     if (html && !parentNameLast) {
         if (tvSeasonHtml) {
-            html += '<h3 class="itemName infoText subtitle focuscontainer-x"><bdi>' + tvSeasonHtml + ' - ' + name + '</bdi></h3>';
+            html += '<h3 class="itemName infoText subtitle focuscontainer-x';
+            if (!item.UserData.Played && userSettings.enableBlurUnplayedTitle()) {
+                html += ' listItemBodyText-blurred';
+            }
+            html += '"><bdi>' + tvSeasonHtml + ' - ' + name + '</bdi></h3>';
         } else {
             html += '<h3 class="itemName infoText subtitle"><bdi>' + name + '</bdi></h3>';
         }
@@ -924,6 +928,10 @@ function renderOverview(page, item) {
                 for (const anchor of overviewElemnt.querySelectorAll('a')) {
                     anchor.setAttribute('target', '_blank');
                 }
+
+                if (item.Type === 'Episode' && !item.UserData.Played && userSettings.enableBlurUnplayedDescription()) {
+                    overviewElemnt.classList.add('listItemBodyText-blurred');
+                }
             }
         } else {
             for (const overviewElemnt of overviewElements) {
@@ -1182,7 +1190,8 @@ function renderMoreFromSeason(view, item, apiClient) {
                 overlayText: false,
                 centerText: true,
                 includeParentInfoInTitle: false,
-                allowBottomPadding: false
+                allowBottomPadding: false,
+                enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle()
             });
             const card = itemsContainer.querySelector('.card[data-id="' + item.Id + '"]');
 
@@ -1419,9 +1428,7 @@ function renderChildren(page, item) {
                 action: 'playallfromhere',
                 image: false,
                 artist: showArtist,
-                containerAlbumArtists: item.AlbumArtists,
-                enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
-                enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
+                containerAlbumArtists: item.AlbumArtists
             });
             isList = true;
         } else if (item.Type == 'Series') {
@@ -1565,6 +1572,8 @@ function renderProgramsForChannel(page, result) {
     let html = '';
     let currentItems = [];
     let currentStartDate = null;
+    const enableBlurUnplayedTitle = userSettings.enableBlurUnplayedTitle();
+    const enableBlurUnplayedDescription = userSettings.enableBlurUnplayedDescription();
 
     for (let i = 0, length = result.Items.length; i < length; i++) {
         const item = result.Items[i];
@@ -1586,8 +1595,8 @@ function renderProgramsForChannel(page, result) {
                     showProgramTime: true,
                     mediaInfo: false,
                     parentTitleWithTitle: true,
-                    enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
-                    enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
+                    enableBlurUnplayedTitle: enableBlurUnplayedTitle,
+                    enableBlurUnplayedDescription: enableBlurUnplayedDescription
                 }) + '</div></div>';
             }
 
@@ -1613,8 +1622,8 @@ function renderProgramsForChannel(page, result) {
             showProgramTime: true,
             mediaInfo: false,
             parentTitleWithTitle: true,
-            enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
-            enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
+            enableBlurUnplayedTitle: enableBlurUnplayedTitle,
+            enableBlurUnplayedDescription: enableBlurUnplayedDescription
         }) + '</div></div>';
     }
 
