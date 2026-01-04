@@ -28,7 +28,7 @@ function getTextStyles(settings, preview) {
         default:
             size = defaultSize * 1.36;
             break;
-        }
+    }
     list.push({ name: 'font-size', value: 'min( ' + size + 'vh, ' + size + 'vw)' });
 
     switch (settings.textWeight || '') {
