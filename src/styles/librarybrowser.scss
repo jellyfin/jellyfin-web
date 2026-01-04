@@ -1507,11 +1507,11 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     width: fit-content;
 }
 
-.listItemBodyText-blurred{
+.listItemBodyText-blurred {
     filter: blur(5px);
     transition: filter 0.3s ease;
 }
 
-.listItemBodyText-blurred:hover{
+.listItemBodyText-blurred:hover {
     filter: blur(0);
 }
