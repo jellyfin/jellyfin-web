@@ -17,6 +17,7 @@ interface ListItemBodyProps {
     clickEntireItem?: boolean;
     enableContentWrapper?: boolean;
     enableOverview?: boolean;
+    enableBlurUnplayedDescription?: boolean;
     enableSideMediaInfo?: boolean;
     getMissingIndicator: () => React.JSX.Element | null
 }
@@ -29,6 +30,7 @@ const ListItemBody: FC<ListItemBodyProps> = ({
     clickEntireItem,
     enableContentWrapper,
     enableOverview,
+    enableBlurUnplayedDescription,
     enableSideMediaInfo,
     getMissingIndicator
 }) => {
@@ -72,7 +74,12 @@ const ListItemBody: FC<ListItemBodyProps> = ({
             )}
 
             {!enableContentWrapper && enableOverview && item.Overview && (
-                <Box className='secondary listItem-overview listItemBodyText'>
+                <Box
+                    className={classNames(
+                        'secondary listItem-overview listItemBodyText',
+                        enableBlurUnplayedDescription && 'listItemBodyText-blurred'
+                    )}
+                >
                     <bdi>{item.Overview}</bdi>
                 </Box>
             )}

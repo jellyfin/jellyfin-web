@@ -226,6 +226,40 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                     {globalize.translate('EnableBlurHashHelp')}
                 </FormHelperText>
             </FormControl>
+
+            <FormControl fullWidth>
+                <FormControlLabel
+                    aria-describedby='display-settings-blurUnplayed-title'
+                    control={
+                        <Checkbox
+                            checked={values.enableBlurUnplayedTitle}
+                            onChange={onChange}
+                        />
+                    }
+                    label={globalize.translate('EnableBlurUnplayedTitle')}
+                    name='enableBlurUnplayedTitle'
+                />
+                <FormHelperText id='display-settings-unplayed-title'>
+                    {globalize.translate('EnableBlurUnplayedTitleHelp')}
+                </FormHelperText>
+            </FormControl>
+
+            <FormControl fullWidth>
+                <FormControlLabel
+                    aria-describedby='display-settings-blurUnplayed-description'
+                    control={
+                        <Checkbox
+                            checked={values.enableBlurUnplayedDescription}
+                            onChange={onChange}
+                        />
+                    }
+                    label={globalize.translate('EnableBlurUnplayedDescription')}
+                    name='enableBlurUnplayedDescription'
+                />
+                <FormHelperText id='display-settings-unplayed-description'>
+                    {globalize.translate('EnableBlurUnplayedDescriptionHelp')}
+                </FormHelperText>
+            </FormControl>
         </Stack>
     );
 }

@@ -128,7 +128,9 @@ function getProgramScheduleHtml(items, action = 'none') {
         runtime: false,
         action,
         moreButton: false,
-        recordButton: false
+        recordButton: false,
+        enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+        enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
     });
 }
 
@@ -804,7 +806,9 @@ function renderNextUp(page, item, user) {
             displayAsSpecial: item.Type == 'Season' && item.IndexNumber,
             overlayText: false,
             centerText: true,
-            overlayPlayButton: true
+            overlayPlayButton: true,
+            enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+            enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
         });
         const itemsContainer = section.querySelector('.nextUpItems');
         itemsContainer.innerHTML = html;
@@ -1415,7 +1419,9 @@ function renderChildren(page, item) {
                 action: 'playallfromhere',
                 image: false,
                 artist: showArtist,
-                containerAlbumArtists: item.AlbumArtists
+                containerAlbumArtists: item.AlbumArtists,
+                enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+                enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
             });
             isList = true;
         } else if (item.Type == 'Series') {
@@ -1464,7 +1470,9 @@ function renderChildren(page, item) {
                     highlight: false,
                     action: !layoutManager.desktop ? 'link' : 'none',
                     imagePlayButton: true,
-                    includeParentInfoInTitle: false
+                    includeParentInfoInTitle: false,
+                    enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+                    enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
                 });
             }
         }
@@ -1577,7 +1585,9 @@ function renderProgramsForChannel(page, result) {
                     image: false,
                     showProgramTime: true,
                     mediaInfo: false,
-                    parentTitleWithTitle: true
+                    parentTitleWithTitle: true,
+                    enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+                    enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
                 }) + '</div></div>';
             }
 
@@ -1602,7 +1612,9 @@ function renderProgramsForChannel(page, result) {
             image: false,
             showProgramTime: true,
             mediaInfo: false,
-            parentTitleWithTitle: true
+            parentTitleWithTitle: true,
+            enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+            enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
         }) + '</div></div>';
     }
 

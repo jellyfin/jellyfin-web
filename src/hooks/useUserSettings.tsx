@@ -13,6 +13,8 @@ interface UserSettings {
     dashboardTheme?: string
     dateTimeLocale?: string
     language?: string
+    enableBlurUnplayedTitle?: boolean;
+    enableBlurUnplayedDescription?: boolean;
 }
 
 // NOTE: This is an incomplete list of only the settings that are currently being used
@@ -25,7 +27,10 @@ const UserSettingField = {
     DashboardTheme: 'dashboardTheme',
     // Locale settings
     DateTimeLocale: 'datetimelocale',
-    Language: 'language'
+    Language: 'language',
+    // Display
+    enableBlurUnplayedTitle: 'BlurUnplayedTitle',
+    enableBlurUnplayedDescription: 'BlurUnplayedDescription'
 };
 
 const UserSettingsContext = createContext<UserSettings>({
@@ -41,6 +46,8 @@ export const UserSettingsProvider: FC<PropsWithChildren<unknown>> = ({ children 
     const [ dashboardTheme, setDashboardTheme ] = useState<string>();
     const [ dateTimeLocale, setDateTimeLocale ] = useState<string>();
     const [ language, setLanguage ] = useState<string | undefined>(FALLBACK_CULTURE);
+    const [ enableBlurUnplayedTitle, setEnableBlurUnplayedTitle ] = useState<boolean>();
+    const [ enableBlurUnplayedDescription, setEnableBlurUnplayedDescription ] = useState<boolean>();
 
     const { user } = useApi();
 
@@ -50,14 +57,18 @@ export const UserSettingsProvider: FC<PropsWithChildren<unknown>> = ({ children 
         theme,
         dashboardTheme,
         dateTimeLocale,
-        locale: language
+        language,
+        enableBlurUnplayedTitle,
+        enableBlurUnplayedDescription
     }), [
         customCss,
         disableCustomCss,
         theme,
         dashboardTheme,
         dateTimeLocale,
-        language
+        language,
+        enableBlurUnplayedTitle,
+        enableBlurUnplayedDescription
     ]);
 
     // Update the values of the user settings
@@ -68,6 +79,8 @@ export const UserSettingsProvider: FC<PropsWithChildren<unknown>> = ({ children 
         setDashboardTheme(userSettings.dashboardTheme());
         setDateTimeLocale(userSettings.dateTimeLocale());
         setLanguage(userSettings.language());
+        setEnableBlurUnplayedTitle(userSettings.enableBlurUnplayedTitle());
+        setEnableBlurUnplayedDescription(userSettings.enableBlurUnplayedDescription());
     }, []);
 
     const onUserSettingsChange = useCallback((_e: Event, name?: string) => {

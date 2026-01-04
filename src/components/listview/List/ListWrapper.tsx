@@ -14,6 +14,7 @@ interface ListWrapperProps {
     action?: ItemAction | null;
     dataAttributes?: DataAttributes;
     className?: string;
+    enableBlurUnplayedTitle?: boolean;
 }
 
 const ListWrapper: FC<PropsWithChildren<ListWrapperProps>> = ({
@@ -22,14 +23,20 @@ const ListWrapper: FC<PropsWithChildren<ListWrapperProps>> = ({
     title,
     className,
     dataAttributes,
+    enableBlurUnplayedTitle,
     children
 }) => {
+    const wrapperClassName = classNames(
+        className,
+        enableBlurUnplayedTitle && 'listItemBodyText-blurred'
+    );
+
     if (layoutManager.tv) {
         return (
             <Button
                 data-index={index}
                 className={classNames(
-                    className,
+                    wrapperClassName,
                     'itemAction listItem-button listItem-focusscale'
                 )}
                 data-action={action}
@@ -41,7 +48,7 @@ const ListWrapper: FC<PropsWithChildren<ListWrapperProps>> = ({
         );
     } else {
         return (
-            <Box data-index={index} className={className} {...dataAttributes}>
+            <Box data-index={index} className={wrapperClassName} {...dataAttributes}>
                 {children}
             </Box>
         );

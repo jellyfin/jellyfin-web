@@ -113,7 +113,9 @@ export default function (view, params, tabContent) {
                 html = listView.getListViewHtml({
                     items: result.Items,
                     sortBy: query.SortBy,
-                    showParentTitle: true
+                    showParentTitle: true,
+                    enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+                    enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
                 });
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
@@ -245,4 +247,3 @@ export default function (view, params, tabContent) {
         reloadItems(tabContent);
     };
 }
-

@@ -122,6 +122,8 @@ function loadForm(context, user, userSettings) {
     context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
     context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
     context.querySelector('#chkBlurhash').checked = userSettings.enableBlurhash();
+    context.querySelector('#chkBlurUnplayedTitle').checked = userSettings.enableBlurUnplayedTitle();
+    context.querySelector('chkBlurUnplayedDescription').checked = userSettings.enableBlurUnplayedDescription();
     context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
     context.querySelector('#chkDetailsBanner').checked = userSettings.detailsBanner();
 
@@ -170,6 +172,8 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
 
     userSettingsInstance.enableFastFadein(context.querySelector('#chkFadein').checked);
     userSettingsInstance.enableBlurhash(context.querySelector('#chkBlurhash').checked);
+    userSettingsInstance.enableBlurUnplayedTitle(context.querySelector('#chkBlurUnplayedTitle').checked);
+    userSettingsInstance.enableBlurUnplayedDescription(context.querySelector('#chkBlurUnplayedDescription').checked);
     userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
     userSettingsInstance.detailsBanner(context.querySelector('#chkDetailsBanner').checked);
 
