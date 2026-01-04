@@ -474,11 +474,10 @@ export default function () {
                     title: globalize.translate('ButtonRemove'),
                     id: 'remove'
                 }],
-                dragHandle: true
-            },
-            userSettings.enableBlurUnplayedTitle(),
-            userSettings.enableBlurUnplayedDescription()
-            );
+                dragHandle: true,
+                enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+                enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
+            });
 
             const itemsContainer = context.querySelector('.playlist');
             let focusedItemPlaylistId = itemsContainer.querySelector('button:focus');

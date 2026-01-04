@@ -525,8 +525,10 @@ class ItemsView {
 
             if (settings.imageType === 'list') {
                 return listView.getListViewHtml({
-                    items: items
-                }, enableBlurUnplayedTitle, enableBlurUnplayedDescription);
+                    items: items,
+                    enableBlurUnplayedTitle,
+                    enableBlurUnplayedDescription
+                });
             }
 
             let shape;
