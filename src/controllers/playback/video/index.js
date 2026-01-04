@@ -1222,6 +1222,9 @@ export default function (view) {
         // Skip modified keys
         if (isKeyModified) return;
 
+        // Suspend video controls when clicked into input element
+        if (document.activeElement instanceof HTMLInputElement) return;
+
         const key = keyboardnavigation.getKeyName(e);
 
         const btnPlayPause = osdBottomElement.querySelector('.btnPause');
