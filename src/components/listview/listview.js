@@ -179,7 +179,7 @@ function getRightButtonsHtml(options) {
     return html;
 }
 
-export function getListViewHtml(options, enableBlurUnplayedTitle, enableBlurUnplayedDescription) {
+export function getListViewHtml(options) {
     const items = options.items;
 
     let groupTitle = '';
@@ -410,8 +410,8 @@ export function getListViewHtml(options, enableBlurUnplayedTitle, enableBlurUnpl
         html += `<div class="${cssClass}">`;
 
         const isPlayed = Boolean(item.UserData?.Played);
-        const blurUnplayedTitle = enableBlurUnplayedTitle && !isPlayed;
-        const blurUnplayedDescription = enableBlurUnplayedDescription && !isPlayed;
+        const blurUnplayedTitle = options.enableBlurUnplayedTitle && !isPlayed;
+        const blurUnplayedDescription = options.enableBlurUnplayedDescription && !isPlayed;
 
         html += getTextLinesHtml(textlines, isLargeStyle, blurUnplayedTitle);
 

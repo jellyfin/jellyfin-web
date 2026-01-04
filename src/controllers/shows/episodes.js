@@ -113,8 +113,10 @@ export default function (view, params, tabContent) {
                 html = listView.getListViewHtml({
                     items: result.Items,
                     sortBy: query.SortBy,
-                    showParentTitle: true
-                }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription());
+                    showParentTitle: true,
+                    enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+                    enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
+                });
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,

@@ -130,8 +130,10 @@ function getProgramScheduleHtml(items, action = 'none') {
         runtime: false,
         action,
         moreButton: false,
-        recordButton: false
-    }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription());
+        recordButton: false,
+        enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+        enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
+    });
 }
 
 function getSelectedMediaSource(page, mediaSources) {
@@ -1326,8 +1328,10 @@ function renderChildren(page, item) {
                 action: 'playallfromhere',
                 image: false,
                 artist: showArtist,
-                containerAlbumArtists: item.AlbumArtists
-            }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription());
+                containerAlbumArtists: item.AlbumArtists,
+                enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+                enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
+            });
             isList = true;
         } else if (item.Type == 'Series') {
             scrollX = enableScrollX();
@@ -1375,8 +1379,10 @@ function renderChildren(page, item) {
                     highlight: false,
                     action: !layoutManager.desktop ? 'link' : 'none',
                     imagePlayButton: true,
-                    includeParentInfoInTitle: false
-                }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription());
+                    includeParentInfoInTitle: false,
+                    enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+                    enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
+                });
             }
         }
 
@@ -1488,8 +1494,10 @@ function renderProgramsForChannel(page, result) {
                     image: false,
                     showProgramTime: true,
                     mediaInfo: false,
-                    parentTitleWithTitle: true
-                }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription()) + '</div></div>';
+                    parentTitleWithTitle: true,
+                    enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+                    enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
+                }) + '</div></div>';
             }
 
             currentStartDate = itemStartDate;
@@ -1513,8 +1521,10 @@ function renderProgramsForChannel(page, result) {
             image: false,
             showProgramTime: true,
             mediaInfo: false,
-            parentTitleWithTitle: true
-        }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription()) + '</div></div>';
+            parentTitleWithTitle: true,
+            enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+            enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
+        }) + '</div></div>';
     }
 
     page.querySelector('.programGuide').innerHTML = html;
