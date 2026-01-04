@@ -2,7 +2,6 @@ import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 
 import listView from 'components/listview/listview';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import * as userSettings from 'scripts/settings/userSettings';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 function getFetchPlaylistItemsFn(apiClient, itemId) {
@@ -27,7 +26,7 @@ function getItemsHtmlFn(playlistId, isEditable = false) {
             dragHandle: isEditable,
             playlistId,
             showParentTitle: true
-        }, userSettings.enableBlurUnplayedTitle(), userSettings.enableBlurUnplayedDescription());
+        });
     };
 }
 
