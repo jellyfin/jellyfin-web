@@ -42,6 +42,18 @@ const getChannelNumber = (channel: ItemDto): number | null => {
     return Number.isFinite(n) ? n : null;
 };
 
+const getErrorMessage = (err: unknown): string => {
+    if (typeof err === 'string') return err;
+    if (err instanceof Error) return err.message;
+
+    if (typeof err === 'object' && err !== null && 'message' in err) {
+        const message = (err as { message?: unknown }).message;
+        if (typeof message === 'string') return message;
+    }
+
+    return String(err);
+};
+
 /* ---------- Sidebar item ---------- */
 
 const GroupItem: FC<{
@@ -95,7 +107,7 @@ const LiveTvView: FC = () => {
         error
     } = useGetItemsViewByType(LibraryTab.Channels, 'livetv', [], libraryViewSettings);
 
-    const channels = itemsResult?.Items ?? [];
+    const channels = useMemo(() => itemsResult?.Items ?? [], [itemsResult?.Items]);
 
     /* ---------- Restore persisted group ---------- */
 
@@ -197,12 +209,7 @@ const LiveTvView: FC = () => {
         serverId: __legacyApiClient__?.serverId()
     }), [libraryViewSettings, __legacyApiClient__]);
 
-    const errorMessage =
-        isError && error
-            ? typeof error === 'object' && 'message' in error
-                ? (error as any).message :
-                String(error) :
-            null;
+    const errorMessage = isError ? getErrorMessage(error) : null;
 
     return (
         <Box className='absolutePageTabContent' sx={{ pt: 0, pb: 0 }}>
