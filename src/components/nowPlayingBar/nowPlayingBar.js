@@ -3,7 +3,6 @@ import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { appRouter, isLyricsPage } from 'components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { uiTweaksEnabled } from '../../scripts/settings/userSettings';
 
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';

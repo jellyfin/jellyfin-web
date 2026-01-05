@@ -502,7 +502,8 @@ export default function () {
                         const listItem = itemsContainer.querySelector(`.listItem[data-playlistItemId="${playlistItemId}"]`);
                         if (listItem) {
                             const itemRect = listItem.getBoundingClientRect();
-                            let visibleTop; let visibleBottom;
+                            let visibleTop; 
+                            let visibleBottom;
 
                             if (layoutManager.mobile) {
                                 const containerRect = itemsContainer.getBoundingClientRect();
