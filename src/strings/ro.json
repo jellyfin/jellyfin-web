@@ -201,7 +201,7 @@
     "Disc": "Placă",
     "CopyStreamURL": "Copiază Stream URL",
     "CriticRating": "Evaluarea criticilor",
-    "Desktop": "Birou",
+    "Desktop": "Desktop",
     "Director": "Regizor",
     "AllowOnTheFlySubtitleExtractionHelp": "Subtitrările încorporate pot fi extrase din video și transmise către client în mod text pentru a preveni transcodarea videoului. Pe unele sisteme acest lucru poate dura mult timp și poate cauza oprirea redării video în timpul procesului de extragere. Dezactivează opțiunea pentru a avea subtitrările încorporate incluse în videoul transcodat atunci când nu sunt nativ suportate de către dispozitivul client.",
     "BirthLocation": "Locul nașterii",
@@ -861,7 +861,7 @@
     "MoveLeft": "Mută la stânga",
     "MoreMediaInfo": "Informații media",
     "MoreFromValue": "Mai multe din {0}",
-    "Mobile": "Mobil",
+    "Mobile": "Mobil (vechi)",
     "MetadataSettingChangeHelp": "Modificarea setărilor de metadate va afecta conținutul nou adăugat de acum înainte. Pentru a reîmprospăta conținutul existent, deschideți ecranul de detalii și faceți clic pe butonul de actualizare sau efectuați actualizări în mare folosind Managerul de Metadate.",
     "MetadataManager": "Manager metadata",
     "Metadata": "Metadată",
@@ -2071,5 +2071,7 @@
     "ManageRepositories": "Gestionați depozitele",
     "ViewAllPlugins": "Vedeti toate pluginurile",
     "ButtonAddProvider": "Adaugă Furnizor",
-    "ButtonAddTunerDevice": "Adaugă dispozitiv de tuner"
+    "ButtonAddTunerDevice": "Adaugă dispozitiv de tuner",
+    "LabelSlideshowInterval": "Interval de slideshow fotografic",
+    "LabelSlideshowIntervalHelp": "Timp in secunde pentru care o poza este prezentata."
 }
