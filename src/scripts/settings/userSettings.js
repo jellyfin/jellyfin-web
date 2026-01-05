@@ -529,6 +529,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'UI Tweaks Enabled' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'UI Tweaks' or undefined.
+     * @returns {boolean} 'UI Tweaks Enabled' state.
+     */
+    uiTweaksEnabled(val) {
+        if (val !== undefined) {
+            return this.set('uiTweaksEnabled', val.toString(), false);
+        }
+
+        return toBoolean(this.get('uiTweaksEnabled', false), true);
+    }
+
+    /**
      * Get or set rewatching in next up.
      * @param {boolean|undefined} [val] - If rewatching items should be included in next up.
      * @returns {boolean} Rewatching in next up state.
@@ -726,6 +739,7 @@ export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);
 export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentSettings);
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);
+export const uiTweaksEnabled = currentSettings.uiTweaksEnabled.bind(currentSettings);
 export const getSubtitleAppearanceSettings = currentSettings.getSubtitleAppearanceSettings.bind(currentSettings);
 export const setSubtitleAppearanceSettings = currentSettings.setSubtitleAppearanceSettings.bind(currentSettings);
 export const getComicsPlayerSettings = currentSettings.getComicsPlayerSettings.bind(currentSettings);

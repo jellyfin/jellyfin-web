@@ -20,8 +20,12 @@
     transform: translate3d(0, 100%, 0);
 }
 
-.nowPlayingBarTop {
+.nowPlayingBarTop.stickyHeader {
     display: flex;
+  position: sticky;
+  top: var(--header-height, 60px);
+  z-index: 100;
+  background: rgba(0,0,0,0.95);
     flex-direction: row;
     align-items: center;
     height: 4.2em;
