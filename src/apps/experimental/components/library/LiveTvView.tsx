@@ -1,28 +1,58 @@
-import React, { FC, useState, useMemo, useEffect } from 'react';
+import React, { FC, useState, useMemo, useEffect, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Loading from 'components/loading/LoadingComponent';
 import Cards from 'components/cardbuilder/Card/Cards';
 import classNames from 'classnames';
 import { useApi } from 'hooks/useApi';
 import ItemsContainer from 'elements/emby-itemscontainer/ItemsContainer';
-import { ViewMode } from 'types/library';
+import { ViewMode, type Filters, type LibraryViewSettings } from 'types/library';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { useGetItemsViewByType } from 'hooks/useFetchItems';
 import { getDefaultLibraryViewSettings, getSettingsKey } from 'utils/items';
 import { LibraryTab } from 'types/libraryTab';
-import type { LibraryViewSettings } from 'types/library';
+import type { ItemDto } from 'types/base/models/item-dto';
 import 'styles/scrollstyles.scss';
 import 'styles/flexstyles.scss';
+
+type LiveTvFilters = Filters & {
+    ChannelGroupId?: string;
+};
+
+type ChannelGroup = {
+    Id?: string | null;
+    Name?: string | null;
+};
+
+type LiveTvChannelItem = ItemDto & {
+    ChannelGroups?: ChannelGroup[];
+    ChannelNumber?: string | null;
+    Number?: string | null;
+};
+
+const getChannelGroups = (channel: ItemDto): ChannelGroup[] => {
+    const groups = (channel as LiveTvChannelItem).ChannelGroups;
+    return Array.isArray(groups) ? groups : [];
+};
+
+const getChannelNumber = (channel: ItemDto): number | null => {
+    const c = channel as LiveTvChannelItem;
+    const raw = c.ChannelNumber ?? c.Number;
+    if (!raw) return null;
+    const n = Number(raw);
+    return Number.isFinite(n) ? n : null;
+};
 
 /* ---------- Sidebar item ---------- */
 
 const GroupItem: FC<{
     active?: boolean;
-    onClick: () => void;
+    groupId: string;
+    onClick: React.MouseEventHandler<HTMLElement>;
     children: React.ReactNode;
-}> = ({ active, onClick, children }) => (
+}> = ({ active, groupId, onClick, children }) => (
     <Box
         onClick={onClick}
+        data-groupid={groupId}
         sx={{
             cursor: 'pointer',
             px: 1.5,
@@ -46,6 +76,11 @@ const GroupItem: FC<{
 const LiveTvView: FC = () => {
     const [selectedGroup, setSelectedGroup] = useState<string>('');
 
+    const onGroupClick = useCallback<React.MouseEventHandler<HTMLElement>>((e) => {
+        const groupId = (e.currentTarget as HTMLElement).dataset.groupid || '';
+        setSelectedGroup(groupId);
+    }, []);
+
     const [libraryViewSettings, setLibraryViewSettings] =
         useLocalStorage<LibraryViewSettings>(
             getSettingsKey(LibraryTab.Channels, 'livetv'),
@@ -65,7 +100,7 @@ const LiveTvView: FC = () => {
     /* ---------- Restore persisted group ---------- */
 
     useEffect(() => {
-        const persisted = (libraryViewSettings?.Filters as any)?.ChannelGroupId;
+        const persisted = (libraryViewSettings?.Filters as LiveTvFilters | undefined)?.ChannelGroupId;
         if (persisted && persisted !== selectedGroup) {
             setSelectedGroup(persisted);
         }
@@ -75,14 +110,15 @@ const LiveTvView: FC = () => {
     /* ---------- Group extraction ---------- */
 
     const { groupsMap, groupsList } = useMemo(() => {
-        const map: Record<string, { id: string; name: string; count: number; channels: any[] }> = {};
+        const map: Record<string, { id: string; name: string; count: number; channels: ItemDto[] }> = {};
 
         for (const ch of channels) {
-            const groups = (ch as any).ChannelGroups;
-            if (!Array.isArray(groups)) continue;
+            const groups = getChannelGroups(ch);
+            if (!groups.length) continue;
 
             for (const g of groups) {
-                const id = String(g.Id);
+                const id = String(g.Id ?? '');
+                if (!id) continue;
                 const name = g.Name || id;
 
                 if (!map[id]) map[id] = { id, name, count: 0, channels: [] };
@@ -92,10 +128,12 @@ const LiveTvView: FC = () => {
         }
 
         for (const id in map) {
-            map[id].channels.sort((a: any, b: any) => {
-                const na = Number(a.ChannelNumber ?? a.Number) || Infinity;
-                const nb = Number(b.ChannelNumber ?? b.Number) || Infinity;
-                if (na !== nb) return na - nb;
+            map[id].channels.sort((a, b) => {
+                const na = getChannelNumber(a);
+                const nb = getChannelNumber(b);
+                if (na != null && nb != null && na !== nb) return na - nb;
+                if (na == null && nb != null) return 1;
+                if (na != null && nb == null) return -1;
                 return String(a.Name || '').localeCompare(String(b.Name || ''));
             });
         }
@@ -111,10 +149,12 @@ const LiveTvView: FC = () => {
 
     const filteredChannels = useMemo(() => {
         if (!selectedGroup) {
-            return channels.slice().sort((a: any, b: any) => {
-                const na = Number(a.ChannelNumber ?? a.Number) || Infinity;
-                const nb = Number(b.ChannelNumber ?? b.Number) || Infinity;
-                if (na !== nb) return na - nb;
+            return channels.slice().sort((a, b) => {
+                const na = getChannelNumber(a);
+                const nb = getChannelNumber(b);
+                if (na != null && nb != null && na !== nb) return na - nb;
+                if (na == null && nb != null) return 1;
+                if (na != null && nb == null) return -1;
                 return String(a.Name || '').localeCompare(String(b.Name || ''));
             });
         }
@@ -125,12 +165,15 @@ const LiveTvView: FC = () => {
 
     useEffect(() => {
         setLibraryViewSettings(prev => {
-            const filters = prev?.Filters ? { ...prev.Filters } : {};
+            const filters: LiveTvFilters = prev?.Filters ? { ...(prev.Filters as LiveTvFilters) } : {};
 
-            if (!selectedGroup) delete (filters as any).ChannelGroupId;
-            else (filters as any).ChannelGroupId = selectedGroup;
+            if (!selectedGroup) {
+                delete filters.ChannelGroupId;
+            } else {
+                filters.ChannelGroupId = selectedGroup;
+            }
 
-            return { ...(prev || {}), Filters: filters } as any;
+            return { ...(prev || {}), Filters: filters };
         });
     }, [selectedGroup, setLibraryViewSettings]);
 
@@ -157,9 +200,9 @@ const LiveTvView: FC = () => {
     const errorMessage =
         isError && error
             ? typeof error === 'object' && 'message' in error
-                ? (error as any).message
-                : String(error)
-            : null;
+                ? (error as any).message :
+                String(error) :
+            null;
 
     return (
         <Box className='absolutePageTabContent' sx={{ pt: 0, pb: 0 }}>
@@ -188,15 +231,16 @@ const LiveTvView: FC = () => {
                         Channel groups
                     </h3>
 
-                    <GroupItem active={!selectedGroup} onClick={() => setSelectedGroup('')}>
+                    <GroupItem active={!selectedGroup} groupId='' onClick={onGroupClick}>
                         All <span style={{ opacity: 0.6 }}>({channels.length})</span>
                     </GroupItem>
 
                     {groupsList.map(g => (
                         <GroupItem
                             key={g.id}
+                            groupId={g.id}
                             active={selectedGroup === g.id}
-                            onClick={() => setSelectedGroup(g.id)}
+                            onClick={onGroupClick}
                         >
                             {g.name} <span style={{ opacity: 0.6 }}>({g.count})</span>
                         </GroupItem>
@@ -211,7 +255,7 @@ const LiveTvView: FC = () => {
                         reloadItems={refetch}
                         queryKey={['ItemsViewByType']}
                     >
-                        {/* @ts-ignore */}
+                        {/* @ts-expect-error Cards has a narrower prop type than our filtered channel list */}
                         <Cards items={filteredChannels} cardOptions={cardOptions} />
                     </ItemsContainer>
                 </Box>
