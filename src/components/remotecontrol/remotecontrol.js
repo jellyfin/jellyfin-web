@@ -502,7 +502,7 @@ export default function () {
                         const listItem = itemsContainer.querySelector(`.listItem[data-playlistItemId="${playlistItemId}"]`);
                         if (listItem) {
                             const itemRect = listItem.getBoundingClientRect();
-                            let visibleTop, visibleBottom;
+                            let visibleTop; let visibleBottom;
 
                             if (layoutManager.mobile) {
                                 const containerRect = itemsContainer.getBoundingClientRect();
@@ -921,7 +921,7 @@ export default function () {
         Events.on(playbackManager, 'playerchange', onPlayerChange);
 
         if (userSettings.uiTweaksEnabled()) {
-             context.querySelector('.nowPlayingInfoContainer').classList.add('stickyHeader');
+            context.querySelector('.nowPlayingInfoContainer').classList.add('stickyHeader');
         }
 
         if (layoutManager.tv) {
