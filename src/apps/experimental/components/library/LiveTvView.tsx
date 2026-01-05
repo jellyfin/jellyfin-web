@@ -11,77 +11,86 @@ import { useGetItemsViewByType } from 'hooks/useFetchItems';
 import { getDefaultLibraryViewSettings, getSettingsKey } from 'utils/items';
 import { LibraryTab } from 'types/libraryTab';
 import type { LibraryViewSettings } from 'types/library';
-import 'material-design-icons-iconfont';
-import 'elements/emby-programcell/emby-programcell';
-import 'elements/emby-button/emby-button';
-import 'elements/emby-button/paper-icon-button-light';
-import 'elements/emby-tabs/emby-tabs';
-import 'elements/emby-scroller/emby-scroller';
-// guide styles removed; LiveTvView uses standard library styles
 import 'styles/scrollstyles.scss';
 import 'styles/flexstyles.scss';
+
+/* ---------- Sidebar item ---------- */
+
+const GroupItem: FC<{
+    active?: boolean;
+    onClick: () => void;
+    children: React.ReactNode;
+}> = ({ active, onClick, children }) => (
+    <Box
+        onClick={onClick}
+        sx={{
+            cursor: 'pointer',
+            px: 1.5,
+            py: 0.75,
+            borderRadius: 1,
+            fontSize: '0.875rem',
+            fontWeight: active ? 600 : 400,
+            color: active ? 'var(--primary-text-color)' : 'var(--secondary-text-color)',
+            backgroundColor: active ? 'rgba(255,255,255,0.08)' : 'transparent',
+            '&:hover': {
+                backgroundColor: 'rgba(255,255,255,0.06)'
+            }
+        }}
+    >
+        {children}
+    </Box>
+);
+
+/* ---------- Main view ---------- */
 
 const LiveTvView: FC = () => {
     const [selectedGroup, setSelectedGroup] = useState<string>('');
 
-    // Persist view settings like the other library views
-    const [libraryViewSettings, setLibraryViewSettings] = useLocalStorage<LibraryViewSettings>(
-        getSettingsKey(LibraryTab.Channels, 'livetv'),
-        getDefaultLibraryViewSettings(LibraryTab.Channels)
-    );
+    const [libraryViewSettings, setLibraryViewSettings] =
+        useLocalStorage<LibraryViewSettings>(
+            getSettingsKey(LibraryTab.Channels, 'livetv'),
+            getDefaultLibraryViewSettings(LibraryTab.Channels)
+        );
 
-    // Use the shared items fetch hook so Channels behave like other library views
     const {
         isPending: isLoading,
         data: itemsResult,
-        isPlaceholderData,
         refetch,
         isError,
         error
     } = useGetItemsViewByType(LibraryTab.Channels, 'livetv', [], libraryViewSettings);
 
     const channels = itemsResult?.Items ?? [];
-    console.log('LiveTvView channels loaded', channels);
 
-    // Initialize selectedGroup from persisted view settings (if present)
+    /* ---------- Restore persisted group ---------- */
+
     useEffect(() => {
-        try {
-            const persisted = (libraryViewSettings?.Filters as any)?.ChannelGroupId;
-            if (persisted && persisted !== selectedGroup) {
-                setSelectedGroup(persisted);
-            }
-        } catch (e) {
-            // ignore
+        const persisted = (libraryViewSettings?.Filters as any)?.ChannelGroupId;
+        if (persisted && persisted !== selectedGroup) {
+            setSelectedGroup(persisted);
         }
-        // Intentionally exclude selectedGroup and setLibraryViewSettings from deps
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [libraryViewSettings]);
 
-    // If the query encountered an error, extract a message
-    const errorMessage = isError ? (error && typeof error === 'object' && 'message' in error ? (error as any).message : String(error)) : null;
+    /* ---------- Group extraction ---------- */
 
-    // Build groups keyed by ChannelGroup.Id when available.
     const { groupsMap, groupsList } = useMemo(() => {
         const map: Record<string, { id: string; name: string; count: number; channels: any[] }> = {};
 
         for (const ch of channels) {
-            const chAny = ch as any;
-            const channelGroups = Array.isArray(chAny.ChannelGroups) && chAny.ChannelGroups.length
-                ? chAny.ChannelGroups
-                : null;
+            const groups = (ch as any).ChannelGroups;
+            if (!Array.isArray(groups)) continue;
 
-            if (channelGroups) {
-                for (const g of channelGroups) {
-                    const id = String(g.Id);
-                    const name = g.Name || id;
-                    if (!map[id]) map[id] = { id, name, count: 0, channels: [] };
-                    map[id].count += 1;
-                    map[id].channels.push(ch);
-                }
+            for (const g of groups) {
+                const id = String(g.Id);
+                const name = g.Name || id;
+
+                if (!map[id]) map[id] = { id, name, count: 0, channels: [] };
+                map[id].count += 1;
+                map[id].channels.push(ch);
             }
         }
 
-        // Sort channels within each group by ChannelNumber (if present) then Name.
         for (const id in map) {
             map[id].channels.sort((a: any, b: any) => {
                 const na = Number(a.ChannelNumber ?? a.Number) || Infinity;
@@ -91,13 +100,17 @@ const LiveTvView: FC = () => {
             });
         }
 
-        const list = Object.values(map).sort((a, b) => a.name.localeCompare(b.name)).map(({ id, name, count }) => ({ id, name, count }));
+        const list = Object.values(map)
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map(({ id, name, count }) => ({ id, name, count }));
+
         return { groupsMap: map, groupsList: list };
     }, [channels]);
 
+    /* ---------- Filtered channels ---------- */
+
     const filteredChannels = useMemo(() => {
         if (!selectedGroup) {
-            // Return all channels sorted by ChannelNumber then Name for consistent ordering
             return channels.slice().sort((a: any, b: any) => {
                 const na = Number(a.ChannelNumber ?? a.Number) || Infinity;
                 const nb = Number(b.ChannelNumber ?? b.Number) || Infinity;
@@ -105,30 +118,20 @@ const LiveTvView: FC = () => {
                 return String(a.Name || '').localeCompare(String(b.Name || ''));
             });
         }
-        const group = groupsMap[selectedGroup];
-        return group ? group.channels : [];
+        return groupsMap[selectedGroup]?.channels ?? [];
     }, [channels, selectedGroup, groupsMap]);
 
-    // Persist selectedGroup into libraryViewSettings.Filters.ChannelGroupId
+    /* ---------- Persist selection ---------- */
+
     useEffect(() => {
         setLibraryViewSettings(prev => {
-            const prevFilters: any = (prev && prev.Filters) ? { ...prev.Filters } : {};
+            const filters = prev?.Filters ? { ...prev.Filters } : {};
 
-            if (!selectedGroup) {
-                // remove filter when selecting All
-                if ('ChannelGroupId' in prevFilters) {
-                    delete prevFilters.ChannelGroupId;
-                }
-            } else {
-                prevFilters.ChannelGroupId = selectedGroup;
-            }
+            if (!selectedGroup) delete (filters as any).ChannelGroupId;
+            else (filters as any).ChannelGroupId = selectedGroup;
 
-            return {
-                ...(prev || {}),
-                Filters: prevFilters
-            } as any;
+            return { ...(prev || {}), Filters: filters } as any;
         });
-        // only run when selectedGroup changes
     }, [selectedGroup, setLibraryViewSettings]);
 
     const { __legacyApiClient__ } = useApi();
@@ -140,63 +143,77 @@ const LiveTvView: FC = () => {
 
     const cardOptions = useMemo(() => ({
         shape: 'square',
-        showTitle: libraryViewSettings.ShowTitle,
-        showYear: libraryViewSettings.ShowYear,
-        cardLayout: libraryViewSettings.CardLayout,
-        centerText: true,
-        context: 'livetv',
-        coverImage: true,
-        preferThumb: false,
-        preferDisc: false,
+        centerText: false,
+        overlayText: true,
         preferLogo: true,
-        overlayText: !libraryViewSettings.ShowTitle,
+        showTitle: libraryViewSettings.ShowTitle,
+        cardLayout: libraryViewSettings.CardLayout,
         imageType: libraryViewSettings.ImageType,
+        context: 'livetv',
         queryKey: ['ItemsViewByType'],
         serverId: __legacyApiClient__?.serverId()
     }), [libraryViewSettings, __legacyApiClient__]);
 
+    const errorMessage =
+        isError && error
+            ? typeof error === 'object' && 'message' in error
+                ? (error as any).message
+                : String(error)
+            : null;
+
     return (
-        <Box className='absolutePageTabContent' sx={{ paddingTop: 0, paddingBottom: 0 }}>
+        <Box className='absolutePageTabContent' sx={{ pt: 0, pb: 0 }}>
             {isLoading && <Loading />}
             {errorMessage && <div style={{ color: 'var(--error-color)' }}>Error: {errorMessage}</div>}
-            <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
-                <Box sx={{ minWidth: 220 }}>
-                    <h3 style={{ marginTop: 0 }}>Channel groups</h3>
-                    <div>
-                        <button
-                            onClick={() => setSelectedGroup('')}
-                            style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', background: selectedGroup === '' ? '#e0e0e0' : 'transparent', border: 'none', color: '#ffffff' }}
-                        >All ({channels.length})</button>
-                        {groupsList.map(g => (
-                            <button
-                                key={g.id}
-                                onClick={() => setSelectedGroup(g.id)}
-                                style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', background: selectedGroup === g.id ? '#e0e0e0' : 'transparent', border: 'none', color: '#ffffff' }}
-                            >{g.name} ({g.count})</button>
-                        ))}
-                    </div>
+
+            <Box sx={{ display: 'flex', gap: 3, alignItems: 'stretch' }}>
+                {/* ---------- Sidebar ---------- */}
+                <Box
+                    sx={{
+                        minWidth: 220,
+                        maxWidth: 260,
+                        pr: 1,
+                        borderRight: '1px solid var(--divider-color)'
+                    }}
+                >
+                    <h3
+                        style={{
+                            marginTop: 0,
+                            marginBottom: 8,
+                            fontSize: '0.9rem',
+                            fontWeight: 600,
+                            opacity: 0.85
+                        }}
+                    >
+                        Channel groups
+                    </h3>
+
+                    <GroupItem active={!selectedGroup} onClick={() => setSelectedGroup('')}>
+                        All <span style={{ opacity: 0.6 }}>({channels.length})</span>
+                    </GroupItem>
+
+                    {groupsList.map(g => (
+                        <GroupItem
+                            key={g.id}
+                            active={selectedGroup === g.id}
+                            onClick={() => setSelectedGroup(g.id)}
+                        >
+                            {g.name} <span style={{ opacity: 0.6 }}>({g.count})</span>
+                        </GroupItem>
+                    ))}
                 </Box>
 
-                <Box sx={{ flex: 1 }}>
-                    <h3 style={{ marginTop: 0 }}>Channels</h3>
-                    {/* Use Cards component if available, otherwise fallback to simple list */}
-                    {typeof (Cards) === 'function' ? (
-                        <ItemsContainer
-                            className={itemsContainerClass}
-                            parentId={'livetv'}
-                            reloadItems={refetch}
-                            queryKey={['ItemsViewByType']}
-                        >
-                            {/* @ts-ignore - Cards expects specific props in the project; pass minimal set */}
-                            <Cards items={filteredChannels} cardOptions={cardOptions} />
-                        </ItemsContainer>
-                    ) : (
-                        <div>
-                            {filteredChannels.map(ch => (
-                                <div key={ch.Id} style={{ padding: '8px 0', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>{ch.Name}</div>
-                            ))}
-                        </div>
-                    )}
+                {/* ---------- Channels ---------- */}
+                <Box sx={{ flex: 1, pl: 1 }}>
+                    <ItemsContainer
+                        className={itemsContainerClass}
+                        parentId='livetv'
+                        reloadItems={refetch}
+                        queryKey={['ItemsViewByType']}
+                    >
+                        {/* @ts-ignore */}
+                        <Cards items={filteredChannels} cardOptions={cardOptions} />
+                    </ItemsContainer>
                 </Box>
             </Box>
         </Box>
