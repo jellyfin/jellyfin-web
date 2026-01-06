@@ -97,6 +97,16 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'OptionRandom', value: ItemSortBy.Random }
     ],
     [LibraryTab.Books]: [
+        { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
+        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'Folders', value: ItemSortBy.IsFolder },
+        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
+        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
+        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+        { label: 'Runtime', value: ItemSortBy.Runtime },
         { label: 'IndexNumber', value: ItemSortBy.IndexNumber }
     ]
 };
