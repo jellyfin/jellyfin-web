@@ -21,7 +21,6 @@ import baseAlert from '../../../components/alert';
 import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
 
 import './login.scss';
-import { add } from 'date-fns';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -220,7 +219,7 @@ export default function (view, params) {
     }
 
     view.querySelectorAll('.showAdditionalServerInfo').forEach(query => {
-        query.addEventListener('click', function (e) {
+        query.addEventListener('click', function () {
             const apiClient = getApiClient();
             apiClient.getPublicSystemInfo()
                 .then(systemInfo => {
@@ -232,12 +231,12 @@ export default function (view, params) {
                             apiClient.serverAddress(),
                             systemInfo.Id
                         ].join('<br>')
-                    }).catch(() => {});
+                    }).catch(() => { /* no-op */ });
                 })
                 .catch(() => {
                     console.debug('Failed to get server information');
                 });
-        })
+        });
     });
 
     view.querySelector('#divUsers').addEventListener('click', function (e) {
@@ -298,7 +297,7 @@ export default function (view, params) {
             .then(systemInfo => {
                 view.querySelectorAll('.serverName').forEach(query => {
                     query.innerHTML = systemInfo.ServerName;
-                })
+                });
             })
             .catch(() => {
                 console.debug('Failed to get server name');
