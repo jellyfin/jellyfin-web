@@ -28,6 +28,7 @@ import '../../../styles/videoosd.scss';
 import shell from '../../../scripts/shell';
 import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
 import { appRouter } from '../../../components/router/appRouter';
+import loading from '../../../components/loading/loading';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
@@ -580,6 +581,14 @@ export default function (view) {
         view.querySelector('.osdMediaStatus').classList.add('hide');
     }
 
+    function onWaiting() {
+        loading.show();
+    }
+
+    function onCanPlay() {
+        loading.hide();
+    }
+
     function bindToPlayer(player) {
         if (player !== currentPlayer) {
             releaseCurrentPlayer();
@@ -601,6 +610,8 @@ export default function (view) {
         Events.on(player, 'mediastreamschange', onMediaStreamsChanged);
         Events.on(player, 'beginFetch', onBeginFetch);
         Events.on(player, 'endFetch', onEndFetch);
+        Events.on(player, 'waiting', onWaiting);
+        Events.on(player, 'canplay', onCanPlay);
         resetUpNextDialog();
 
         if (player.isFetching) {
@@ -624,6 +635,10 @@ export default function (view) {
             Events.off(player, 'timeupdate', onTimeUpdate);
             Events.off(player, 'fullscreenchange', onFullscreenChanged);
             Events.off(player, 'mediastreamschange', onMediaStreamsChanged);
+            Events.off(player, 'beginFetch', onBeginFetch);
+            Events.off(player, 'endFetch', onEndFetch);
+            Events.off(player, 'waiting', onWaiting);
+            Events.off(player, 'canplay', onCanPlay);
             currentPlayer = null;
         }
     }
