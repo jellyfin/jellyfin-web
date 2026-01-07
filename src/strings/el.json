@@ -1201,7 +1201,7 @@
     "LabelAutomaticallyAddToCollection": "Αυτόματη προσθήκη στη συλλογή",
     "LabelAutomaticallyAddToCollectionHelp": "Όταν το λιγότερο 2 ταινίες έχουν το ίδιο όνομα συλλογής, θα προστεθούν αυτόματα στη συλλογή.",
     "DirectPlayError": "Υπήρξε ένα σφάλμα ξεκινώντας την απευθείας αναπαραγωγή",
-    "LabelAirsBeforeEpisode": "Προβάλλεται μετά το επεισόδιο",
+    "LabelAirsBeforeEpisode": "Προβάλλεται πριν το επεισόδιο",
     "LabelAudioCodec": "Κωδικοποιητής ήχου",
     "LabelCreateHttpPortMap": "Ενεργοποίηση αυτόματης χαρτογράφησης πόρτας για κίνηση HTTP όπως και HTTPS.",
     "LabelAudioSampleRate": "Ρυθμός δειγματοληψίας ήχου",
