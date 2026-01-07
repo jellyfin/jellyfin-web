@@ -202,7 +202,8 @@ export const Component = () => {
 
         // State
         initialState: {
-            density: 'compact'
+            density: 'compact',
+            showColumnFilters: true
         },
         state: {
             isLoading,
