@@ -775,7 +775,7 @@ function getTextActionButton(item, text, serverId) {
         return text;
     }
 
-    const url = appRouter.getRouteUrl(item);
+    const url = appRouter.getRouteUrl(item, { serverId });
     let html = '<a href="' + url + '" ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' class="itemAction textActionButton" title="' + text + '" data-action="link">';
     html += text;
     html += '</a>';
