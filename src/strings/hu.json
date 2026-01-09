@@ -904,7 +904,7 @@
     "MessageYouHaveVersionInstalled": "Jelenleg a(z) {0} verzió van telepítve.",
     "MinutesAfter": "perccel ezelőtt",
     "MinutesBefore": "perccel korábban",
-    "Mobile": "Mobil",
+    "Mobile": "Mobil (Régi)",
     "MoveLeft": "Mozgás balra",
     "MoveRight": "Mozgás jobbra",
     "MovieLibraryHelp": "Tekintsd át a {0} film elnevezési útmutatót {1}.",
@@ -1161,7 +1161,7 @@
     "FetchingData": "További adatok lekérése",
     "LabelBaseUrl": "Alap URL",
     "Depressed": "Nyomott",
-    "Desktop": "Asztal",
+    "Desktop": "Asztal (Régi)",
     "LabelTrackNumber": "Sáv száma",
     "LabelSize": "Méret",
     "LabelSimultaneousConnectionLimit": "Egyidejű streamek maximális száma",
@@ -2067,5 +2067,7 @@
     "ManageRepositories": "Tárolók módosítása",
     "ViewAllPlugins": "Minden plugin megtekintése",
     "ButtonAddProvider": "Szolgáltató hozzáadása",
-    "ButtonAddTunerDevice": "Tuner eszköz hozzáadaása"
+    "ButtonAddTunerDevice": "Tuner eszköz hozzáadaása",
+    "LabelSlideshowInterval": "Diavetítés időköze",
+    "LabelSlideshowIntervalHelp": "Az az idő másodpercben megadva, ameddig egy fénykép megjelenik a diavetítés során."
 }
