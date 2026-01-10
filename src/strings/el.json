@@ -391,7 +391,7 @@
     "LabelCurrentPassword": "Τρέχον κωδικός πρόσβασης",
     "LabelCustomCertificatePath": "Προσαρμοσμένη διαδρομή πιστοποιητικού SSL",
     "LabelCustomCertificatePathHelp": "Προσθέστε το δικό σας αρχείο .pfx πιστοποιητικού ssl.",
-    "LabelCustomCss": "Προσαρμοσμένο κωδικός CSS",
+    "LabelCustomCss": "Προσαρμοσμένος κώδικας CSS",
     "LabelCustomCssHelp": "Εφαρμόστε τον δικό σας CSS κώδικα για την εξατομίκευση του διαδικτυακού περιβάλλοντος.",
     "LabelCustomRating": "Προσαρμοσμένη αξιολόγηση",
     "LabelDashboardTheme": "Θέμα Εμφάνισης Πίνακα Ελέγχου Server",
