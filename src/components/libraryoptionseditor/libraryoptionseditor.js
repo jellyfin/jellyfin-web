@@ -68,8 +68,14 @@ function renderPreferredImageLanguages(parent, selectedLanguages = []) {
     let html = '';
     for (let i = 0; i < selectedLanguages.length; i++) {
         const langCode = selectedLanguages[i];
-        const language = languages.find(l => l.TwoLetterISOLanguageName.toLowerCase() === langCode.toLowerCase());
-        const displayName = language ? language.DisplayName : langCode;
+        let displayName;
+
+        if (langCode === 'nolang') {
+            displayName = globalize.translate('LabelNoLanguage');
+        } else {
+            const language = languages.find(l => l.TwoLetterISOLanguageName.toLowerCase() === langCode.toLowerCase());
+            displayName = language ? language.DisplayName : langCode;
+        }
 
         html += `<div class="listItem preferredImageLanguageItem sortableOption" data-lang="${escapeHtml(langCode)}">`;
         html += '<span class="listItemIcon material-icons language" aria-hidden="true"></span>';
@@ -108,6 +114,14 @@ function showAddImageLanguageDialog(parent) {
             id: l.TwoLetterISOLanguageName
         };
     });
+
+    // Add "No Language" option if not already selected
+    if (!currentLanguages.includes('nolang')) {
+        items.unshift({
+            name: globalize.translate('LabelNoLanguage'),
+            id: 'nolang'
+        });
+    }
 
     import('../actionSheet/actionSheet').then((actionsheet) => {
         actionsheet.show({
