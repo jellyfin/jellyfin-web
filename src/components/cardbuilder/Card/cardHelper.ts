@@ -217,7 +217,7 @@ function getParentTitle(
             .map(artist => {
                 const artistItem: ItemDto = {
                     ...artist,
-                    Key: artist.Id ?? "",
+                    Key: artist.Id ?? '',
                     Type: BaseItemKind.MusicArtist,
                     IsFolder: true
                 };
@@ -600,7 +600,7 @@ function getMediaTitle(cardOptions: CardOptions, item: ItemDto): TextLine {
             });
 
     return getTextActionButton({
-        Key: item.Id ?? "",
+        Key: item.Id ?? '',
         Id: item.Id,
         ServerId: item.ServerId,
         Name: name,
