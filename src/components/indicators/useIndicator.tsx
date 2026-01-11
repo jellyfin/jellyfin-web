@@ -154,8 +154,8 @@ const useIndicator = (item: ItemDto) => {
 
     const getPlayedIndicator = () => {
         if (enablePlayedIndicator(item)) {
-            const userData = item.UserData || {};
-            if (userData.UnplayedItemCount) {
+            const userData = item.UserData;
+            if (userData?.UnplayedItemCount) {
                 return (
                     <Box className='countIndicator indicator unplayedItemCount'>
                         {formatCountIndicator(userData.UnplayedItemCount)}
@@ -164,9 +164,9 @@ const useIndicator = (item: ItemDto) => {
             }
 
             if (
-                (userData.PlayedPercentage
-                    && userData.PlayedPercentage >= 100)
-                || userData.Played
+                (userData?.PlayedPercentage
+                    && userData?.PlayedPercentage >= 100)
+                || userData?.Played
             ) {
                 return (
                     <Box className='playedIndicator indicator'>

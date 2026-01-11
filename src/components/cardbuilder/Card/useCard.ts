@@ -39,7 +39,7 @@ function useCard({ item, cardOptions }: UseCardProps) {
         shape
     });
     const imgUrl = imgInfo.imgUrl;
-    const blurhash = imgInfo.blurhash;
+    const blurhash = imgInfo.blurhash ?? undefined;
     const forceName = imgInfo.forceName;
     const coveredImage = cardOptions.coverImage ?? imgInfo.coverImage;
     const overlayText = cardOptions.overlayText;

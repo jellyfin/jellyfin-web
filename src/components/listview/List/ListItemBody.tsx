@@ -23,7 +23,7 @@ interface ListItemBodyProps {
 }
 
 const ListItemBody: FC<ListItemBodyProps> = ({
-    item = {},
+    item,
     listOptions = {},
     action,
     isLargeStyle,
