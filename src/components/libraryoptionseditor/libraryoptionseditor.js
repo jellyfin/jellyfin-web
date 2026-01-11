@@ -18,6 +18,7 @@ import template from './libraryoptionseditor.template.html';
 
 function populateLanguages(parent) {
     return ApiClient.getCultures().then(languages => {
+        parent.availableLanguages = languages;
         populateLanguagesIntoSelect(parent.querySelector('#selectLanguage'), languages);
         populateLanguagesIntoList(parent.querySelector('.subtitleDownloadLanguages'), languages);
     });
@@ -58,6 +59,70 @@ function populateRefreshInterval(select) {
         return `<option value='${val}'>${globalize.translate('EveryNDays', val)}</option>`;
     }).join('');
     select.innerHTML = html;
+}
+
+function renderPreferredImageLanguages(parent, selectedLanguages = []) {
+    const list = parent.querySelector('.preferredImageLanguagesList');
+    const languages = parent.availableLanguages || [];
+
+    let html = '';
+    for (let i = 0; i < selectedLanguages.length; i++) {
+        const langCode = selectedLanguages[i];
+        const language = languages.find(l => l.TwoLetterISOLanguageName.toLowerCase() === langCode.toLowerCase());
+        const displayName = language ? language.DisplayName : langCode;
+
+        html += `<div class="listItem preferredImageLanguageItem sortableOption" data-lang="${escapeHtml(langCode)}">`;
+        html += '<span class="listItemIcon material-icons language" aria-hidden="true"></span>';
+        html += '<div class="listItemBody">';
+        html += '<h3 class="listItemBodyText">';
+        html += escapeHtml(displayName);
+        html += '</h3>';
+        html += '</div>';
+
+        if (i > 0) {
+            html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Up')}" class="btnSortableMoveUp btnSortable" data-index="${i}"><span class="material-icons keyboard_arrow_up" aria-hidden="true"></span></button>`;
+        } else if (selectedLanguages.length > 1) {
+            html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Down')}" class="btnSortableMoveDown btnSortable" data-index="${i}"><span class="material-icons keyboard_arrow_down" aria-hidden="true"></span></button>`;
+        }
+
+        html += `<button type="button" is="paper-icon-button-light" class="btnRemoveImageLanguage" data-lang="${escapeHtml(langCode)}"><span class="material-icons remove_circle" aria-hidden="true"></span></button>`;
+        html += '</div>';
+    }
+
+    list.innerHTML = html;
+}
+
+function showAddImageLanguageDialog(parent) {
+    const languages = parent.availableLanguages || [];
+    const currentLanguages = Array.prototype.map.call(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
+        return elem.getAttribute('data-lang').toLowerCase();
+    });
+
+    const availableLanguages = languages.filter(l => {
+        return !currentLanguages.includes(l.TwoLetterISOLanguageName.toLowerCase());
+    });
+
+    const items = availableLanguages.map(l => {
+        return {
+            name: l.DisplayName,
+            id: l.TwoLetterISOLanguageName
+        };
+    });
+
+    import('../actionSheet/actionSheet').then((actionsheet) => {
+        actionsheet.show({
+            title: globalize.translate('LabelSelectLanguage'),
+            items: items
+        }).then((langCode) => {
+            if (langCode) {
+                const selectedLanguages = Array.prototype.map.call(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
+                    return elem.getAttribute('data-lang');
+                });
+                selectedLanguages.push(langCode);
+                renderPreferredImageLanguages(parent, selectedLanguages);
+            }
+        });
+    });
 }
 
 function renderMetadataReaders(page, plugins) {
@@ -174,11 +239,13 @@ function renderMetadataFetchers(page, availableOptions, libraryOptions) {
         page.querySelector('.fldAutoRefreshInterval').classList.remove('hide');
         page.querySelector('.fldMetadataLanguage').classList.remove('hide');
         page.querySelector('.fldMetadataCountry').classList.remove('hide');
+        page.querySelector('.fldPreferredImageLanguages').classList.remove('hide');
     } else {
         elem.classList.add('hide');
         page.querySelector('.fldAutoRefreshInterval').classList.add('hide');
         page.querySelector('.fldMetadataLanguage').classList.add('hide');
         page.querySelector('.fldMetadataCountry').classList.add('hide');
+        page.querySelector('.fldPreferredImageLanguages').classList.add('hide');
     }
     return true;
 }
@@ -425,6 +492,20 @@ function onSortableContainerClick(e) {
     }
 }
 
+function onPreferredImageLanguagesClick(e) {
+    const btnRemove = dom.parentWithClass(e.target, 'btnRemoveImageLanguage');
+    if (btnRemove) {
+        const li = dom.parentWithClass(btnRemove, 'preferredImageLanguageItem');
+        li.parentNode.removeChild(li);
+
+        const list = dom.parentWithClass(li, 'paperList');
+        Array.prototype.forEach.call(list.querySelectorAll('.sortableOption'), adjustSortableListElement);
+        return;
+    }
+
+    onSortableContainerClick.call(this, e);
+}
+
 function bindEvents(parent) {
     parent.querySelector('.metadataReaders').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.subtitleFetchers').addEventListener('click', onSortableContainerClick);
@@ -432,9 +513,14 @@ function bindEvents(parent) {
     parent.querySelector('.lyricFetchers').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.mediaSegmentProviders').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.imageFetchers').addEventListener('click', onImageFetchersContainerClick);
+    parent.querySelector('.preferredImageLanguagesList').addEventListener('click', onPreferredImageLanguagesClick);
 
     parent.querySelector('#chkEnableEmbeddedTitles').addEventListener('change', (e) => {
         parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !e.currentTarget.checked);
+    });
+
+    parent.querySelector('.btnAddImageLanguage').addEventListener('click', () => {
+        showAddImageLanguageDialog(parent);
     });
 }
 
@@ -637,6 +723,9 @@ export function getLibraryOptions(parent) {
         EnableAutomaticSeriesGrouping: parent.querySelector('.chkAutomaticallyGroupSeries').checked,
         PreferredMetadataLanguage: parent.querySelector('#selectLanguage').value,
         MetadataCountryCode: parent.querySelector('#selectCountry').value,
+        PreferredImageLanguages: Array.prototype.map.call(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
+            return elem.getAttribute('data-lang');
+        }),
         SeasonZeroDisplayName: parent.querySelector('#txtSeasonZeroName').value,
         AutomaticRefreshIntervalDays: parseInt(parent.querySelector('#selectAutoRefreshInterval').value, 10),
         EnableEmbeddedTitles: parent.querySelector('#chkEnableEmbeddedTitles').checked,
@@ -728,6 +817,8 @@ export function setLibraryOptions(parent, options) {
     });
     parent.querySelector('#customTagDelimitersInput').value = options.CustomTagDelimiters.join('');
     parent.querySelector('#tagDelimiterWhitelist').value = options.DelimiterWhitelist.filter(item => item.trim()).join('\n');
+    const imageLanguages = Array.isArray(options.PreferredImageLanguages) ? options.PreferredImageLanguages : [];
+    renderPreferredImageLanguages(parent, imageLanguages);
     renderMetadataReaders(parent, getOrderedPlugins(parent.availableOptions.MetadataReaders, options.LocalMetadataReaderOrder || []));
     renderMetadataFetchers(parent, parent.availableOptions, options);
     renderImageFetchers(parent, parent.availableOptions, options);
