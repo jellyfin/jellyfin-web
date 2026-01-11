@@ -15,7 +15,7 @@ import type { NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 interface PlayAllFromHereOptions {
-    item: ItemDto;
+    item?: ItemDto;
     items: ItemDto[];
     serverId: NullableString;
     queue?: boolean;
@@ -166,7 +166,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                             serverId: item?.ServerId
                         });
                         playAllFromHere({
-                            item: item || {},
+                            item: item,
                             items: items || [],
                             serverId: item?.ServerId
                         }).catch(err => {
@@ -174,7 +174,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                         });
                     } else if (result.command === 'queueallfromhere') {
                         playAllFromHere({
-                            item: item || {},
+                            item: item,
                             items: items || [],
                             serverId: item?.ServerId,
                             queue: true
