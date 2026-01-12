@@ -442,8 +442,19 @@ function populateMetadataSettings(parent, contentType) {
     });
 }
 
-function adjustSortableListElement(elem) {
+function adjustSortableListElement(elem, index, allElements) {
     const btnSortable = elem.querySelector('.btnSortable');
+
+    if (!btnSortable) {
+        return;
+    }
+
+    // If there's only one element in the list, remove the sortable button
+    if (allElements.length <= 1) {
+        btnSortable.remove();
+        return;
+    }
+
     const inner = btnSortable.querySelector('.material-icons');
     if (elem.previousSibling) {
         btnSortable.title = globalize.translate('Up');
@@ -510,9 +521,9 @@ function onPreferredImageLanguagesClick(e) {
     const btnRemove = dom.parentWithClass(e.target, 'btnRemoveImageLanguage');
     if (btnRemove) {
         const li = dom.parentWithClass(btnRemove, 'preferredImageLanguageItem');
+        const list = dom.parentWithClass(li, 'preferredImageLanguagesList');
         li.parentNode.removeChild(li);
 
-        const list = dom.parentWithClass(li, 'paperList');
         Array.prototype.forEach.call(list.querySelectorAll('.sortableOption'), adjustSortableListElement);
         return;
     }
