@@ -108,6 +108,7 @@
 - [lmaotrigine](https://github.com/lmaotrigine)
 - [bjorntp](https://github.com/bjorntp)
 - [austinhardaway](https://github.com/austinhardaway)
+- [MarcoCoreDuo](https://github.com/MarcoCoreDuo)
 
 ## Emby Contributors
 
