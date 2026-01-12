@@ -100,7 +100,7 @@ function renderPreferredImageLanguages(parent, selectedLanguages = []) {
 function showAddImageLanguageDialog(parent) {
     const languages = parent.availableLanguages || [];
     const currentLanguages = Array.prototype.map.call(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
-        return elem.getAttribute('data-lang').toLowerCase();
+        return elem.dataset.lang.toLowerCase();
     });
 
     const availableLanguages = languages.filter(l => {
@@ -129,7 +129,7 @@ function showAddImageLanguageDialog(parent) {
         }).then((langCode) => {
             if (langCode) {
                 const selectedLanguages = Array.prototype.map.call(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
-                    return elem.getAttribute('data-lang');
+                    return elem.dataset.lang;
                 });
                 selectedLanguages.push(langCode);
                 renderPreferredImageLanguages(parent, selectedLanguages);
@@ -523,7 +523,7 @@ function onPreferredImageLanguagesClick(e) {
     if (btnRemove) {
         const li = dom.parentWithClass(btnRemove, 'preferredImageLanguageItem');
         const list = dom.parentWithClass(li, 'preferredImageLanguagesList');
-        li.parentNode.removeChild(li);
+        li.remove();
 
         Array.prototype.forEach.call(list.querySelectorAll('.sortableOption'), adjustSortableListElement);
         return;
@@ -750,7 +750,7 @@ export function getLibraryOptions(parent) {
         PreferredMetadataLanguage: parent.querySelector('#selectLanguage').value,
         MetadataCountryCode: parent.querySelector('#selectCountry').value,
         PreferredImageLanguages: Array.prototype.map.call(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
-            return elem.getAttribute('data-lang');
+            return elem.dataset.lang;
         }),
         SeasonZeroDisplayName: parent.querySelector('#txtSeasonZeroName').value,
         AutomaticRefreshIntervalDays: parseInt(parent.querySelector('#selectAutoRefreshInterval').value, 10),
