@@ -1,10 +1,9 @@
-
 /**
  * Module for library options editor.
  * @module components/libraryoptionseditor/libraryoptionseditor
  */
 
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import {CollectionType} from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import escapeHtml from 'escape-html';
 
 import globalize from '../../lib/globalize';
@@ -135,6 +134,8 @@ function showAddImageLanguageDialog(parent) {
                 selectedLanguages.push(langCode);
                 renderPreferredImageLanguages(parent, selectedLanguages);
             }
+        }).catch(() => {
+            // User closed the action sheet without selecting anything
         });
     });
 }
@@ -472,7 +473,7 @@ function adjustSortableListElement(elem, index, allElements) {
 }
 
 function showImageOptionsForType(type) {
-    import('../imageOptionsEditor/imageOptionsEditor').then(({ default: ImageOptionsEditor }) => {
+    import('../imageOptionsEditor/imageOptionsEditor').then(({default: ImageOptionsEditor}) => {
         let typeOptions = getTypeOptions(currentLibraryOptions, type);
         if (!typeOptions) {
             typeOptions = {
@@ -560,8 +561,8 @@ export async function embed(parent, contentType, libraryOptions) {
     parent.innerHTML = globalize.translateHtml(template);
     populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
     const promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];
-    Promise.all(promises).then(function() {
-        return setContentType(parent, contentType).then(function() {
+    Promise.all(promises).then(function () {
+        return setContentType(parent, contentType).then(function () {
             libraryOptions && setLibraryOptions(parent, libraryOptions);
             bindEvents(parent);
         });
