@@ -390,7 +390,7 @@
     "LabelContentType": "Inhaltstyp",
     "LabelCountry": "Land/Region",
     "LabelPreferredImageLanguages": "Bevorzugte Sprachen für Bilder",
-    "LabelPreferredImageLanguagesHelp": "Wähle die bevorzugten Sprachen für Bilder in der gewünschten Reihenfolge aus. Wenn keine Sprachen ausgewählt sind, wird die bevorzugte Sprache für Downloads verwendet. Bei keiner Übereinstimmung wird auf textlose Bilder zurückgegriffen.",
+    "LabelPreferredImageLanguagesHelp": "Wähle die bevorzugten Sprachen für Bilder in der gewünschten Reihenfolge aus. Wenn keine Sprachen ausgewählt sind, wird die bevorzugte Sprache für Downloads verwendet.",
     "LabelNoLanguage": "Keine Sprache",
     "LabelCriticRating": "Kritikerbewertung",
     "LabelCurrentPassword": "Aktuelles Passwort",

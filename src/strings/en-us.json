@@ -663,7 +663,7 @@
     "LabelCorruptedFrames": "Corrupted frames",
     "LabelCountry": "Country/Region",
     "LabelPreferredImageLanguages": "Preferred image languages",
-    "LabelPreferredImageLanguagesHelp": "Select preferred image languages in order of priority. If no languages are selected, the preferred download language will be used. Falls back to textless posters if no match is found.",
+    "LabelPreferredImageLanguagesHelp": "Select preferred image languages in order of priority. If no languages are selected, the preferred download language will be used.",
     "LabelNoLanguage": "No Language",
     "LabelCreateHttpPortMap": "Enable automatic port mapping for HTTP traffic as well as HTTPS.",
     "LabelCreateHttpPortMapHelp": "Permit automatic port mapping to create a rule for HTTP traffic in addition to HTTPS traffic.",
