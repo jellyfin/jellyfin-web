@@ -3,7 +3,7 @@
  * @module components/libraryoptionseditor/libraryoptionseditor
  */
 
-import {CollectionType} from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import escapeHtml from 'escape-html';
 
 import globalize from '../../lib/globalize';
@@ -473,7 +473,7 @@ function adjustSortableListElement(elem, index, allElements) {
 }
 
 function showImageOptionsForType(type) {
-    import('../imageOptionsEditor/imageOptionsEditor').then(({default: ImageOptionsEditor}) => {
+    import('../imageOptionsEditor/imageOptionsEditor').then(({ default: ImageOptionsEditor }) => {
         let typeOptions = getTypeOptions(currentLibraryOptions, type);
         if (!typeOptions) {
             typeOptions = {
