@@ -529,16 +529,16 @@ export class UserSettings {
     }
 
     /**
-     * Get or set 'UI Tweaks Enabled' state.
-     * @param {boolean|undefined} [val] - Flag to enable 'UI Tweaks' or undefined.
-     * @returns {boolean} 'UI Tweaks Enabled' state.
+     * Get or set 'Sticky Header' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'Sticky Header' or undefined.
+     * @returns {boolean} 'Sticky Header' state.
      */
-    uiTweaksEnabled(val) {
+    enableStickyHeader(val) {
         if (val !== undefined) {
-            return this.set('uiTweaksEnabled', val.toString(), false);
+            return this.set('enableStickyHeader', val.toString(), false);
         }
 
-        return toBoolean(this.get('uiTweaksEnabled', false), true);
+        return toBoolean(this.get('enableStickyHeader', false), true);
     }
 
     /**
@@ -739,7 +739,7 @@ export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);
 export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentSettings);
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);
-export const uiTweaksEnabled = currentSettings.uiTweaksEnabled.bind(currentSettings);
+export const enableStickyHeader = currentSettings.enableStickyHeader.bind(currentSettings);
 export const getSubtitleAppearanceSettings = currentSettings.getSubtitleAppearanceSettings.bind(currentSettings);
 export const setSubtitleAppearanceSettings = currentSettings.setSubtitleAppearanceSettings.bind(currentSettings);
 export const getComicsPlayerSettings = currentSettings.getComicsPlayerSettings.bind(currentSettings);

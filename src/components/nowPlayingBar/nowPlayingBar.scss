@@ -20,6 +20,15 @@
     transform: translate3d(0, 100%, 0);
 }
 
+.nowPlayingBarTop {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 4.2em;
+    position: relative;
+    justify-content: center;
+}
+
 .mediaButton,
 .nowPlayingBarUserDataButtons .btnUserItemRating {
     vertical-align: middle;

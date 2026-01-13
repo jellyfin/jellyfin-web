@@ -498,7 +498,7 @@ export default function () {
                     img.classList.add('playlistIndexIndicatorImage');
                     img.classList.toggle('playlistIndexIndicatorPausedImage', playbackManager.paused());
 
-                    if (userSettings.uiTweaksEnabled()) {
+                    if (userSettings.enableStickyHeader()) {
                         const listItem = itemsContainer.querySelector(`.listItem[data-playlistItemId="${playlistItemId}"]`);
                         if (listItem) {
                             const itemRect = listItem.getBoundingClientRect();
@@ -921,7 +921,7 @@ export default function () {
         context.querySelector('.typeTextForm').addEventListener('submit', onSendStringSubmit);
         Events.on(playbackManager, 'playerchange', onPlayerChange);
 
-        if (userSettings.uiTweaksEnabled()) {
+        if (userSettings.enableStickyHeader()) {
             context.querySelector('.nowPlayingInfoContainer').classList.add('stickyHeader');
         }
 

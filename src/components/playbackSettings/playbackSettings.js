@@ -242,7 +242,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkDisableVbrAudioEncoding').checked = appSettings.disableVbrAudio();
     context.querySelector('.chkAlwaysRemuxFlac').checked = appSettings.alwaysRemuxFlac();
     context.querySelector('.chkAlwaysRemuxMp3').checked = appSettings.alwaysRemuxMp3();
-    context.querySelector('.chkUiTweaksEnabled').checked = userSettings.uiTweaksEnabled();
+    context.querySelector('.chkEnableStickyHeader').checked = userSettings.enableStickyHeader();
 
     setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -310,7 +310,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.CastReceiverId = context.querySelector('.selectChromecastVersion').value;
     userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
     userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
-    userSettingsInstance.uiTweaksEnabled(context.querySelector('.chkUiTweaksEnabled').checked);
+    userSettingsInstance.enableStickyHeader(context.querySelector('.chkEnableStickyHeader').checked);
 
     const segmentTypeActions = context.querySelectorAll('.segmentTypeAction') || [];
     Array.prototype.forEach.call(segmentTypeActions, actionEl => {
