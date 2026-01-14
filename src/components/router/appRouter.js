@@ -261,15 +261,15 @@ class AppRouter {
         }
 
         if (item === 'recordedtv') {
-            return '#/livetv?tab=3&serverId=' + options.serverId;
+            return '#/livetv?tab=3&serverId=' + serverId;
         }
 
         if (item === 'nextup') {
-            return '#/list?type=nextup&serverId=' + options.serverId;
+            return '#/list?type=nextup&serverId=' + serverId;
         }
 
         if (item === 'list') {
-            let urlForList = '#/list?serverId=' + options.serverId + '&type=' + options.itemTypes;
+            let urlForList = '#/list?serverId=' + serverId + '&type=' + options.itemTypes;
 
             if (options.isFavorite) {
                 urlForList += '&IsFavorite=true';
@@ -304,49 +304,49 @@ class AppRouter {
 
         if (item === 'livetv') {
             if (options.section === 'programs') {
-                return '#/livetv?tab=0&serverId=' + options.serverId;
+                return '#/livetv?tab=0&serverId=' + serverId;
             }
             if (options.section === 'guide') {
-                return '#/livetv?tab=1&serverId=' + options.serverId;
+                return '#/livetv?tab=1&serverId=' + serverId;
             }
 
             if (options.section === 'movies') {
-                return '#/list?type=Programs&IsMovie=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsMovie=true&serverId=' + serverId;
             }
 
             if (options.section === 'shows') {
-                return '#/list?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + serverId;
             }
 
             if (options.section === 'sports') {
-                return '#/list?type=Programs&IsSports=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsSports=true&serverId=' + serverId;
             }
 
             if (options.section === 'kids') {
-                return '#/list?type=Programs&IsKids=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsKids=true&serverId=' + serverId;
             }
 
             if (options.section === 'news') {
-                return '#/list?type=Programs&IsNews=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsNews=true&serverId=' + serverId;
             }
 
             if (options.section === 'onnow') {
-                return '#/list?type=Programs&IsAiring=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsAiring=true&serverId=' + serverId;
             }
 
             if (options.section === 'channels') {
-                return '#/livetv?tab=2&serverId=' + options.serverId;
+                return '#/livetv?tab=2&serverId=' + serverId;
             }
 
             if (options.section === 'dvrschedule') {
-                return '#/livetv?tab=4&serverId=' + options.serverId;
+                return '#/livetv?tab=4&serverId=' + serverId;
             }
 
             if (options.section === 'seriesrecording') {
-                return '#/livetv?tab=5&serverId=' + options.serverId;
+                return '#/livetv?tab=5&serverId=' + serverId;
             }
 
-            return '#/livetv?serverId=' + options.serverId;
+            return '#/livetv?serverId=' + serverId;
         }
 
         if (itemType == 'SeriesTimer') {
