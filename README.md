@@ -33,6 +33,10 @@
 
 Jellyfin Web is the frontend used for most of the clients available for end users, such as desktop browsers, Android, and iOS. We welcome all contributions and pull requests! If you have a larger feature in mind please open an issue so we can discuss the implementation before you start. Translations can be improved very easily from our <a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-web">Weblate</a> instance. Look through the following graphic to see if your native language could use some work!
 
+## Music Visualizer Branch
+
+This fork includes a music-visualizer branch with a focused music playback experience: Web Audio output with crossfade, multiple visualizers, and Sit Back Mode enhancements. See `MUSIC_VISUALIZER.md` for a short overview and configuration notes.
+
 <a href="https://translate.jellyfin.org/engage/jellyfin/?utm_source=widget">
 <img src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-web/multi-auto.svg" alt="Detailed Translation Status"/>
 </a>
