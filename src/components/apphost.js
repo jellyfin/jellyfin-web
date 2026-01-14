@@ -358,7 +358,7 @@ export const appHost = {
         }
     },
     supports: function (command) {
-        if (window.NativeShell) {
+        if (window.NativeShell?.AppHost?.supports) {
             return window.NativeShell.AppHost.supports(command);
         }
 
@@ -366,7 +366,7 @@ export const appHost = {
     },
     preferVisualCards: browser.android || browser.chrome,
     getDefaultLayout: function () {
-        if (window.NativeShell) {
+        if (window.NativeShell?.AppHost?.getDefaultLayout) {
             return window.NativeShell.AppHost.getDefaultLayout();
         }
 
@@ -374,7 +374,7 @@ export const appHost = {
     },
     getDeviceProfile,
     init: function () {
-        if (window.NativeShell) {
+        if (window.NativeShell?.AppHost?.init) {
             return window.NativeShell.AppHost.init();
         }
 

@@ -8,7 +8,7 @@
     "id": "Jellyfin",
     "background_color": "#101010",
     "display_override": [
-        "fullscreen",
+        "fullscreen"
     ],
     "display": "standalone",
     "icons": [
