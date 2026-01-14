@@ -1,17 +1,5 @@
 import escapeHtml from 'escape-html';
 
-<<<<<<<< HEAD:src/apps/dashboard/controllers/library.js
-import taskButton from 'scripts/taskbutton';
-import loading from 'components/loading/loading';
-import globalize from 'lib/globalize';
-import dom from 'utils/dom';
-import imageHelper from 'utils/image';
-import 'components/cardbuilder/card.scss';
-import 'elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
-import { pageClassOn, pageIdOn } from 'utils/dashboard';
-import confirm from 'components/confirm/confirm';
-import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
-========
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 import confirm from 'components/confirm/confirm';
 import loading from 'components/loading/loading';
@@ -24,7 +12,6 @@ import imageHelper from 'utils/image';
 
 import 'components/cardbuilder/card.scss';
 import 'elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
->>>>>>>> master:src/apps/wizard/controllers/library.js
 
 function addVirtualFolder(page) {
     import('components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }) => {
@@ -279,11 +266,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     let html = '';
 
     const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}" ` : '';
-<<<<<<<< HEAD:src/apps/dashboard/controllers/library.js
-    html += '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
-========
     html += '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" style="min-width:33.3%;" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
->>>>>>>> master:src/apps/wizard/controllers/library.js
 
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable visualCardBox-cardScalable">';
@@ -385,14 +368,11 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     return html;
 }
 
-<<<<<<<< HEAD:src/apps/dashboard/controllers/library.js
-========
 window.WizardLibraryPage = {
     next: function () {
         Dashboard.navigate('wizard/settings');
     }
 };
->>>>>>>> master:src/apps/wizard/controllers/library.js
 pageClassOn('pageshow', 'mediaLibraryPage', function () {
     reloadLibrary(this);
 });

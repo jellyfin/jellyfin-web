@@ -1,8 +1,4 @@
 import type { ColorSystemOptions, ThemeOptions } from '@mui/material/styles';
-<<<<<<<< HEAD:src/themes/defaults.ts
-========
-import type {} from '@mui/material/themeCssVarsAugmentation';
->>>>>>>> master:src/themes/_base/theme.ts
 
 const LIST_ICON_WIDTH = 36;
 
@@ -28,12 +24,6 @@ export const DEFAULT_COLOR_SCHEME: ColorSystemOptions = {
         },
         error: {
             main: '#c62828' // Red color
-<<<<<<<< HEAD:src/themes/defaults.ts
-========
-        },
-        AppBar: {
-            defaultBg: '#202020'
->>>>>>>> master:src/themes/_base/theme.ts
         }
     }
 };
@@ -64,16 +54,6 @@ export const DEFAULT_THEME_OPTIONS: ThemeOptions = {
                 }
             }
         },
-<<<<<<<< HEAD:src/themes/defaults.ts
-========
-        MuiAppBar: {
-            styleOverrides: {
-                colorTransparent: ({ theme }) => ({
-                    color: theme.vars.palette.text.primary
-                })
-            }
-        },
->>>>>>>> master:src/themes/_base/theme.ts
         MuiButton: {
             defaultProps: {
                 variant: 'contained'
