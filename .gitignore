@@ -1,23 +1,12 @@
-# npm
-dist
-web
-node_modules
+# Local AI agent guidance and drafts (keep out of commits)
+AGENTS.md
+AUDIO_HIJACKING_REVIEW.md
+CROSSFADE_SAFETY_IMPROVEMENTS.md
+DOCUMENTATION_IMPROVEMENTS.md
+DOCUMENTATION_SUMMARY.md
+SETTINGS_PERSISTENCE_GUIDE.md
+TEST_EXECUTION_REPORT.md
+TEST_PLAN.md
+src/components/playbackSettings/COLOR_PICKER_GUIDE.md
+src/components/visualizer/VISUALIZER_INTEGRATION_GUIDE.md
 
-# test coverage
-coverage
-
-# config
-config.json
-
-# ide
-.idea
-.vs
-
-# vim
-*.sw?
-
-# direnv
-.direnv/
-
-# environment related
-.envrc
