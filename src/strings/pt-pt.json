@@ -34,11 +34,7 @@
     "ButtonResume": "Retomar",
     "ButtonRevoke": "Revogar",
     "ButtonScanAllLibraries": "Analisar todas as bibliotecas",
-<<<<<<< HEAD
-    "ButtonSelectDirectory": "Selecione a Pasta",
-=======
     "ButtonSelectDirectory": "Selecionar pasta",
->>>>>>> master
     "ButtonSelectView": "Selecionar visualização",
     "ButtonSend": "Enviar",
     "ButtonShutdown": "Encerrar",
@@ -363,11 +359,7 @@
     "LabelPreferredDisplayLanguage": "Idioma de visualização preferido",
     "LabelProfileAudioCodecs": "Codecs de áudio",
     "LabelProfileCodecsHelp": "Separados por vírgula. Pode ser deixado em branco para usar com todos os codecs.",
-<<<<<<< HEAD
-    "LabelProfileContainer": "Container",
-=======
     "LabelProfileContainer": "Arquivo recipiente",
->>>>>>> master
     "LabelProfileContainersHelp": "Separados por vírgula. Pode ser deixado em branco para ser aplicado a todos os contentores.",
     "LabelProfileVideoCodecs": "Codecs de vídeo",
     "LabelProtocol": "Protocolo",
@@ -1084,11 +1076,7 @@
     "MoveRight": "Mover para a direita",
     "MoveLeft": "Mover para a esquerda",
     "MoreFromValue": "Mais de {0}",
-<<<<<<< HEAD
-    "Mobile": "Telemóvel",
-=======
     "Mobile": "Telemóvel (Versão antiga)",
->>>>>>> master
     "MetadataSettingChangeHelp": "Alterar as definições de metadados irá afetar apenas conteúdo adicionado no futuro. Para atualizar conteúdo já existente, abre o painel de detalhes e clica no botão 'Recarregar metadados' ou executa uma atualização em massa utilizando o Gestor de metadados.",
     "MetadataManager": "Gestor de metadados",
     "Metadata": "Metadados",
@@ -1267,11 +1255,7 @@
     "LabelRequireHttps": "Exigir HTTPS",
     "LabelStable": "Estável",
     "LabelChromecastVersion": "Versão do Google Cast",
-<<<<<<< HEAD
-    "LabelLibraryPageSizeHelp": "Define a quantidade de itens a apresentar na página de uma biblioteca. Para desativares a paginação, introduz o valor 0.",
-=======
     "LabelLibraryPageSizeHelp": "Define a quantidade de itens a apresentar na página de uma biblioteca. Definir o valor como 0 desativa a paginação. Tenha em atenção que colocar a 0 ou qualquer valor maior do que 100 poderá causar erros ou desempenho reduzido.",
->>>>>>> master
     "LabelLibraryPageSize": "Tamanho da página da biblioteca",
     "LabelEnableHttpsHelp": "Escutar na porta HTTPS configurada. Para que esta opção seja ativada, é necessário fornecer um certificado válido.",
     "LabelEnableHttps": "Ativar HTTPS",
@@ -1691,11 +1675,7 @@
     "Interview": "Entrevista",
     "DeletedScene": "Cenas removidas",
     "BehindTheScenes": "Bastidores",
-<<<<<<< HEAD
-    "DownloadAll": "Transferir tudo",
-=======
     "DownloadAll": "Transferir Todas",
->>>>>>> master
     "MessageNoItemsAvailable": "Nenhum item disponível atualmente.",
     "MessageNoFavoritesAvailable": "Não existem favoritos atualmente disponíveis.",
     "SubtitleBlack": "Preto",
@@ -2084,13 +2064,9 @@
     "LabelAvailable": "Disponível",
     "LabelBundled": "Incluído",
     "ManageRepositories": "Gerir repositórios",
-<<<<<<< HEAD
-    "ViewAllPlugins": "Ver todas as extensões"
-=======
     "ViewAllPlugins": "Ver todas as extensões",
     "ButtonAddTunerDevice": "Adicionar um sintonizador",
     "ButtonAddProvider": "Adicionar um fornecedor",
     "LabelSlideshowInterval": "Intervalo de Apresentação de Fotos",
     "LabelSlideshowIntervalHelp": "O tempo de exibição de cada foto em apresentações, em segundos."
->>>>>>> master
 }

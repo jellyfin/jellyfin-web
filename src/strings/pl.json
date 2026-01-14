@@ -1941,15 +1941,9 @@
     "LabelAlwaysRemuxFlacAudioFiles": "Zawsze remuksuj pliki audio FLAC",
     "LabelAlwaysRemuxMp3AudioFiles": "Zawsze remuksuj pliki audio MP3",
     "LabelDisableVbrAudioEncoding": "Wyłącz kodowanie dźwięku VBR",
-<<<<<<< HEAD
-    "LabelSaveTrickplayLocally": "Zapisz obrazy trickplay obok mediów",
-    "LabelSaveTrickplayLocallyHelp": "Zapisywanie obrazów trickplay w folderach mediów spowoduje umieszczenie ich obok mediów, co ułatwi migrację i dostęp do nich.",
-    "ReplaceTrickplayImages": "Zastąp istniejące obrazy trickplay",
-=======
     "LabelSaveTrickplayLocally": "Zapisz obrazy Trickplay obok mediów",
     "LabelSaveTrickplayLocallyHelp": "Zapisywanie obrazów Trickplay w folderach mediów spowoduje umieszczenie ich obok mediów, co ułatwi migrację i dostęp do nich.",
     "ReplaceTrickplayImages": "Zastąp istniejące obrazy Trickplay",
->>>>>>> master
     "AllowFmp4TranscodingContainerHelp": "Zezwalaj na kontener transkodowania fMP4 dla tego tunera, aby włączyć treści HEVC i HDR. Nie wszystkie tunery są zgodne z tym kontenerem. Wyłącz to, jeśli występują problemy z odtwarzaniem.",
     "AllowStreamSharingHelp": "Zezwól Jellyfin na duplikowanie strumienia mpegts z tunera i udostępnianie tego zduplikowanego strumienia swoim klientom. Jest to przydatne, gdy tuner ma całkowity limit liczby strumieni, ale może również powodować problemy z odtwarzaniem.",
     "FallbackMaxStreamingBitrateHelp": "Maksymalna szybkość transmisji strumieniowej jest używana jako zapas, gdy ffprobe nie jest w stanie określić szybkości transmisji strumienia źródłowego. Pomaga to zapobiec żądaniu przez klienty nadmiernie wysokiej szybkości transmisji transkodowania, co mogłoby spowodować awarię odtwarzacza i przeciążenie kodera.",
@@ -2059,11 +2053,7 @@
     "StorageType.Removable": "Wymienny",
     "StorageType.Unknown": "Nieznany",
     "Success": "Powodzenie",
-<<<<<<< HEAD
-    "HeaderBackupsHelp": "Twórz i przywracaj migawki swojego serwera, które mogą zawierać bazę danych, metadane, napisy i trickplay.",
-=======
     "HeaderBackupsHelp": "Twórz i przywracaj migawki swojego serwera, które mogą zawierać bazę danych, metadane, napisy i podglądy Trickplay.",
->>>>>>> master
     "LabelImageCache": "Pamięć podręczna obrazów",
     "MessageRestoreDisclaimer": "OSTRZEŻENIE: zamierzasz przywrócić dane z poprzedniej kopii zapasowej. Twój serwer będzie bezużyteczny przez cały czas trwania procesu, a wszelkie nowe dane utworzone od czasu utworzenia kopii zapasowej zostaną utracone.",
     "ConfirmDeleteRepository": "Usunąć repozytorium?",
@@ -2079,13 +2069,9 @@
     "LabelAvailable": "Dostępne",
     "LabelBundled": "W pakiecie",
     "ViewAllPlugins": "Wyświetl wszystkie wtyczki",
-<<<<<<< HEAD
-    "ManageRepositories": "Zarządzaj repozytoriami"
-=======
     "ManageRepositories": "Zarządzaj repozytoriami",
     "ButtonAddProvider": "Dodaj dostawcę",
     "ButtonAddTunerDevice": "Dodaj urządzenie tunera",
     "LabelSlideshowInterval": "Interwał pokazu slajdów ze zdjęciami",
     "LabelSlideshowIntervalHelp": "Czas wyświetlania każdego zdjęcia w pokazie slajdów (w sekundach)."
->>>>>>> master
 }

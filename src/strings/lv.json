@@ -2039,11 +2039,7 @@
     "LabelBundled": "Komplektā",
     "LabelAvailable": "Pieejams",
     "ManageRepositories": "Pārvaldīt repozitorijus",
-<<<<<<< HEAD
-    "ViewAllPlugins": "Skatīt visus spraudņus"
-=======
     "ViewAllPlugins": "Skatīt visus spraudņus",
     "ButtonAddTunerDevice": "Pievienot uztvērēja ierīci",
     "ButtonAddProvider": "Pievienot pakalpojuma sniedzēju"
->>>>>>> master
 }

@@ -1908,11 +1908,7 @@
     "PlaylistError.CreateFailed": "エラーにより、プレイリストの作成が失敗しました",
     "LabelQsvDevice": "QSVデバイス",
     "NoLyricsSearchResultsFound": "歌詞が見つかりません。",
-<<<<<<< HEAD
-    "Inker": "",
-=======
     "Inker": "ペン入れ担当",
->>>>>>> master
     "LabelDuration": "長さ",
     "LabelNoChangelog": "こちらのリリースに変更ログがありません。",
     "LabelRepository": "リポジトリ",
@@ -1942,9 +1938,6 @@
     "AndOtherArtists": "{0}と他のアーティスト{1}人。",
     "HeaderUpdateRequired": "更新が必要です",
     "ManageRepositories": "リポジトリ管理",
-<<<<<<< HEAD
-    "ButtonCreateBackup": "バックアップの作成"
-=======
     "ButtonCreateBackup": "バックアップの作成",
     "ReplaceTrickplayImages": "現在のトリックプレイ画像を置き換える",
     "LabelTrickplayKeyFrameOnlyExtraction": "キーフレームからのみ画像を生成",
@@ -2072,5 +2065,4 @@
     "ButtonAddTunerDevice": "チューナー機器を追加",
     "LabelSlideshowInterval": "写真のスライドショー間隔",
     "LabelSlideshowIntervalHelp": "スライドショーで各写真が表示される秒数。"
->>>>>>> master
 }

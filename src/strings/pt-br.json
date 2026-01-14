@@ -1378,11 +1378,7 @@
     "QuickConnectAuthorizeSuccess": "Você autorizou o dispositivo com sucesso!",
     "QuickConnectAuthorizeCode": "Inserir código {0} para entrar",
     "QuickConnectActivationSuccessful": "Ativado com sucesso",
-<<<<<<< HEAD
-    "QuickConnect": "Quick Connect",
-=======
     "QuickConnect": "Conexão rápida",
->>>>>>> master
     "PosterCard": "Poster Cartão",
     "LabelCurrentStatus": "Status atual",
     "EnableQuickConnect": "Habilitar Quick Connect nesse servidor",
@@ -1996,11 +1992,7 @@
     "CustomSubtitleStylingHelp": "A personalização das legendas funcionará na maioria dos dispositivos, mas pode acarretar um custo adicional de desempenho.",
     "CustomSplashScreenSize": "Imagens personalizadas devem ter uma proporção de 16x9 com um tamanho mínimo de 1920x1080.",
     "DeleteCustomImage": "Excluir Imagem Personalizada",
-<<<<<<< HEAD
-    "CopyLogSuccess": "Conteúdo do log copiado com sucesso.",
-=======
     "CopyLogSuccess": "Conteúdo dos registros copiado com sucesso.",
->>>>>>> master
     "AutoSubtitleStylingHelp": "Este modo alternará automaticamente entre os mecanismos de estilo de legenda nativo e personalizado com base no tipo do seu dispositivo.",
     "Custom": "Personalizado",
     "DeleteServerConfirmation": "Você tem certeza que deseja excluir este servidor?",
@@ -2072,13 +2064,9 @@
     "LiveTVPageLoadError": "Falha de carregar a página de gravações",
     "ConnectAnyway": "Conectar Mesmo Assim",
     "HeaderServerMismatch": "Incompatibilidade do servidor",
-<<<<<<< HEAD
-    "MessageServerMismatch": "O servidor ao qual você está conectando não é o mesmo servidor ao qual você conectou anteriormente neste endereço. Se isso for esperado, selecione \"Conectar Mesmo Assim\". Caso contrário, sua conexão ou o servidor poderão ser comprometidos."
-=======
     "MessageServerMismatch": "O servidor ao qual você está conectando não é o mesmo servidor ao qual você conectou anteriormente neste endereço. Se isso for esperado, selecione \"Conectar Mesmo Assim\". Caso contrário, sua conexão ou o servidor poderão ser comprometidos.",
     "ButtonAddTunerDevice": "Adicionar dispositivo sintonizador",
     "ButtonAddProvider": "Adicionar provedor",
     "LabelSlideshowInterval": "Intervalo de Slideshow de Fotos",
     "LabelSlideshowIntervalHelp": "O tempo em segundos em cada foto é exibido em slides."
->>>>>>> master
 }
