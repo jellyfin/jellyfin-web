@@ -32,6 +32,11 @@ import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { bindSkipSegment } from './skipsegment.ts';
+import { initializeMasterAudio } from '../audioEngine/master.logic';
+import { preloadNextTrack, resetPreloadedTrack, startCrossfade } from '../audioEngine/crossfadeController';
+import { timeRunningOut, hijackMediaElementForCrossfade, xDuration } from '../audioEngine/crossfader.logic';
+import { setXDuration } from '../audioEngine/crossfader.logic';
+import * as htmlMediaHelper from '../htmlMediaHelper';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -3263,6 +3268,7 @@ export class PlaybackManager {
                 throw new Error('player cannot be null');
             }
 
+            resetCrossfadeState();
             setCurrentPlayerInternal(player);
 
             const playerData = getPlayerData(player);
@@ -3302,6 +3308,7 @@ export class PlaybackManager {
 
         function onPlaybackStartedFromSelfManagingPlayer(e, item, mediaSource) {
             const player = this;
+            resetCrossfadeState();
             setCurrentPlayerInternal(player);
 
             const playOptions = item.playOptions || getDefaultPlayOptions();
@@ -3339,6 +3346,7 @@ export class PlaybackManager {
 
             const nextItem = playerStopInfo.nextItem;
             const nextMediaType = playerStopInfo.nextMediaType;
+            resetCrossfadeState(crossfadeActive && !!nextItem);
 
             const playbackStopInfo = {
                 player: player,
@@ -3448,6 +3456,7 @@ export class PlaybackManager {
             const errorOccurred = displayErrorCode && typeof (displayErrorCode) === 'string';
 
             const nextItem = self._playNextAfterEnded && !errorOccurred ? self._playQueueManager.getNextItemInfo() : null;
+            resetCrossfadeState(crossfadeActive && !!nextItem);
 
             const nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
@@ -3513,6 +3522,7 @@ export class PlaybackManager {
 
         function onPlaybackChanging(activePlayer, newPlayer, newItem) {
             const state = self.getPlayerState(activePlayer);
+            resetCrossfadeState();
 
             const serverId = self.currentItem(activePlayer).ServerId;
 
@@ -3556,8 +3566,124 @@ export class PlaybackManager {
             }
         }
 
+        let crossfadeAttemptInFlight = false;
+        let crossfadeActive = false;
+
+        function resetCrossfadeState(keepPreloaded = false) {
+            crossfadeAttemptInFlight = false;
+            crossfadeActive = false;
+            if (!keepPreloaded) {
+                resetPreloadedTrack();
+            }
+        }
+
+        function getNormalizationGainForItem(item, mediaSource) {
+            const normalizationMode = userSettings.selectAudioNormalization();
+            if (normalizationMode === 'TrackGain') {
+                return item.NormalizationGain ?? mediaSource?.albumNormalizationGain;
+            }
+            if (normalizationMode === 'AlbumGain') {
+                return mediaSource?.albumNormalizationGain ?? item.NormalizationGain;
+            }
+            return undefined;
+        }
+
+        function isDirectPlayStreamInfo(streamInfo) {
+            if (!streamInfo?.url) {
+                return false;
+            }
+            if (streamInfo.playMethod === 'Transcode') {
+                return false;
+            }
+            if (streamInfo.url.toLowerCase().includes('.m3u8')) {
+                return false;
+            }
+            return true;
+        }
+
+        function getActiveMediaElement(player) {
+            if (player && typeof player.getMediaElement === 'function') {
+                return player.getMediaElement();
+            }
+            return null;
+        }
+
+        function attemptWebAudioCrossfade(player) {
+            if (crossfadeActive || crossfadeAttemptInFlight) {
+                return;
+            }
+
+            const currentItem = self.currentItem(player);
+            if (!currentItem || currentItem.MediaType !== 'Audio') {
+                return;
+            }
+
+            const nextItemInfo = self._playQueueManager.getNextItemInfo();
+            if (!nextItemInfo?.item) {
+                hijackMediaElementForCrossfade();
+                return;
+            }
+
+            const activeElement = getActiveMediaElement(player);
+            if (!activeElement) {
+                hijackMediaElementForCrossfade();
+                return;
+            }
+
+            crossfadeAttemptInFlight = true;
+
+            self.getPlaybackInfo(nextItemInfo.item).then((streamInfo) => {
+                if (!isDirectPlayStreamInfo(streamInfo)) {
+                    return false;
+                }
+
+                const normalizationGain = getNormalizationGainForItem(nextItemInfo.item, streamInfo.mediaSource);
+                const crossOrigin = htmlMediaHelper.getCrossOriginValue(streamInfo.mediaSource);
+                const fadeDuration = xDuration.disableFade ? 0 : xDuration.fadeOut;
+                const timeoutMs = Math.max(1000, xDuration.fadeOut * 1000);
+
+                return preloadNextTrack({
+                    itemId: nextItemInfo.item.Id,
+                    url: streamInfo.url,
+                    crossOrigin,
+                    volume: activeElement.volume ?? 1,
+                    muted: activeElement.muted,
+                    normalizationGainDb: normalizationGain,
+                    timeoutMs
+                }).then((ready) => {
+                    if (!ready) {
+                        return false;
+                    }
+
+                    return startCrossfade({
+                        fromElement: activeElement,
+                        durationSeconds: fadeDuration
+                    }).then((started) => {
+                        if (started) {
+                            crossfadeActive = true;
+                        }
+                        return started;
+                    });
+                });
+            }).then((started) => {
+                if (!started) {
+                    hijackMediaElementForCrossfade();
+                }
+            }).catch(() => {
+                hijackMediaElementForCrossfade();
+            }).finally(() => {
+                crossfadeAttemptInFlight = false;
+            });
+        }
+
         function onPlaybackTimeUpdate() {
             const player = this;
+
+            // Check if it's time to trigger crossfade to next track
+            if (timeRunningOut(player)) {
+                attemptWebAudioCrossfade(player);
+            }
+
             sendProgressUpdate(player, 'timeupdate');
         }
 
@@ -3628,6 +3754,17 @@ export class PlaybackManager {
 
             if (!player.getVolume || !player.setVolume) {
                 initLegacyVolumeMethods(player);
+            }
+
+            // Initialize audio engine with cleanup callback
+            if (player.isLocalPlayer) {
+                initializeMasterAudio(() => {
+                    // Cleanup callback on player stop
+                    console.debug('Audio engine cleanup');
+                });
+
+                // Initialize crossfade duration from settings
+                setXDuration(userSettings.crossfadeDuration());
             }
 
             if (enableLocalPlaylistManagement(player)) {

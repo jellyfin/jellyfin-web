@@ -1,8 +1,10 @@
 import layoutManager from '../layoutManager';
 import inputManager from '../../scripts/inputManager';
+import { visualizerSettings } from '../visualizer/visualizers.logic';
 
-const sitbackSettings = {
-    songInfoDisplayDurationInSeconds: 5
+const defaultSitbackSettings = {
+    trackInfoDuration: 5,
+    autoHideTimer: 5
 };
 
 let activePlaylistItem: HTMLElement | null;
@@ -84,12 +86,11 @@ export function triggerSongInfoDisplay() {
 
     setTimeout(()=>{
         endTransition();
-    }, (sitbackSettings.songInfoDisplayDurationInSeconds * 1000));
+    }, ((visualizerSettings.sitback?.trackInfoDuration ?? defaultSitbackSettings.trackInfoDuration) * 1000));
 }
 
 // Enable mouse idle tracking on mobile to ease Butterchurn blur
 if (layoutManager.mobile) {
-    const idleDelay = 5000;
     let lastInput = Date.now();
     let isIdle = false;
 
@@ -124,9 +125,14 @@ if (layoutManager.mobile) {
     document.addEventListener(hasPointerEvent ? 'pointermove' : 'mousemove', pointerActivity, { passive: true });
     document.addEventListener(hasPointerEvent ? 'pointerdown' : 'mousedown', pointerActivity, { passive: true });
 
+    const getIdleDelayMs = () => {
+        const seconds = visualizerSettings.sitback?.autoHideTimer ?? defaultSitbackSettings.autoHideTimer;
+        return Math.max(1, seconds) * 1000;
+    };
+
     setInterval(() => {
-        if (!isIdle && Date.now() - lastInput >= idleDelay) {
+        if (!isIdle && Date.now() - lastInput >= getIdleDelayMs()) {
             hideCursor();
         }
-    }, idleDelay);
+    }, 1000);
 }

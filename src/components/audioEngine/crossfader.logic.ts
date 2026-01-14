@@ -54,7 +54,35 @@ function getCrossfadeDuration() {
 }
 
 /**
- * Hijacks the media element for crossfade.
+ * Stores original media element properties for restoration.
+ * @type {Object}
+ */
+const hijackState = {
+    originalPause: null as ((this: HTMLMediaElement) => void) | null,
+    originalSrcDescriptor: null as PropertyDescriptor | undefined | null,
+    hijackedElement: null as HTMLMediaElement | null,
+    stateRecoveryTimeout: null as ReturnType<typeof setTimeout> | null
+};
+
+/**
+ * Clears hijack state (called after successful cleanup).
+ */
+function clearHijackState() {
+    hijackState.originalPause = null;
+    hijackState.originalSrcDescriptor = null;
+    hijackState.hijackedElement = null;
+    if (hijackState.stateRecoveryTimeout) {
+        clearTimeout(hijackState.stateRecoveryTimeout);
+        hijackState.stateRecoveryTimeout = null;
+    }
+}
+
+/**
+ * Hijacks the media element for crossfade with improved safety.
+ * - Issue 1 Fix: Explicit error handling for missing element
+ * - Issue 2 Fix: Store and restore original pause method
+ * - Issue 3 Fix: Preserve src property getter
+ * - Issue 6 Fix: State recovery timeout prevents permanent busy state
  */
 export function hijackMediaElementForCrossfade() {
     xDuration.t0 = performance.now(); // Record the start time
@@ -67,29 +95,69 @@ export function hijackMediaElementForCrossfade() {
 
     const hijackedPlayer = document.getElementById('currentMediaElement') as HTMLMediaElement;
 
-    if (!hijackedPlayer || hijackedPlayer.paused || hijackedPlayer.src === '') {
+    // FIX Issue 1: Explicit error handling for missing element
+    if (!hijackedPlayer) {
+        console.error('[Crossfade] currentMediaElement not found - crossfade aborted');
+        xDuration.busy = false;
+        return triggerSongInfoDisplay();
+    }
+
+    if (hijackedPlayer.paused || hijackedPlayer.src === '') {
         setXDuration(0);
     }
 
-    if (!hijackedPlayer || !masterAudioOutput.audioContext) return triggerSongInfoDisplay();
+    if (!masterAudioOutput.audioContext) {
+        console.warn('[Crossfade] AudioContext not initialized');
+        xDuration.busy = false;
+        return triggerSongInfoDisplay();
+    }
 
+    // Clean up any previous hijacked element
     const disposeElement = document.getElementById('crossFadeMediaElement');
     if (disposeElement) {
         destroyWaveSurferInstance();
     }
+
     prevNextDisable(true);
     hijackedPlayer.classList.remove('mediaPlayerAudio');
     hijackedPlayer.id = 'crossFadeMediaElement';
 
+    // Store reference for cleanup
+    hijackState.hijackedElement = hijackedPlayer;
+
+    // FIX Issue 2: Store original pause method for restoration
+    hijackState.originalPause = hijackedPlayer.pause;
     hijackedPlayer.pause = () => {
-        // Do nothing
+        // Do nothing during crossfade
     };
 
+    // FIX Issue 3: Preserve src property getter when overriding setter
+    hijackState.originalSrcDescriptor = Object.getOwnPropertyDescriptor(
+        HTMLMediaElement.prototype,
+        'src'
+    );
     Object.defineProperty(hijackedPlayer, 'src', {
+        get: hijackState.originalSrcDescriptor?.get,
         set: () => {
-            // Do nothing
+            // Do nothing - prevent source replacement during crossfade
         }
     });
+
+    // FIX Issue 6: Setup state recovery timeout (prevents permanent busy state if crossfade interrupted)
+    if (hijackState.stateRecoveryTimeout) {
+        clearTimeout(hijackState.stateRecoveryTimeout);
+    }
+    hijackState.stateRecoveryTimeout = setTimeout(() => {
+        if (xDuration.busy) {
+            console.warn('[Crossfade] Crossfade timeout (20s), forcing state reset');
+            xDuration.busy = false;
+            // Clean up orphaned elements
+            const orphanedElement = document.getElementById('crossFadeMediaElement');
+            if (orphanedElement && orphanedElement.parentNode) {
+                orphanedElement.remove();
+            }
+        }
+    }, 20000); // 20 second timeout
 
     if (!xDuration.disableFade && audioNodeBus[0] && masterAudioOutput.audioContext) {
         // Schedule the fadeout crossfade curve
@@ -97,26 +165,69 @@ export function hijackMediaElementForCrossfade() {
         audioNodeBus[0].gain.exponentialRampToValueAtTime(0.01, masterAudioOutput.audioContext.currentTime + xDuration.fadeOut);
     }
 
-    setTimeout(() => {
-        // This destroys the wavesurfer on the fade out track when the new track starts
-        destroyWaveSurferInstance();
-        prevNextDisable(false);
+    let sustain1Timeout: ReturnType<typeof setTimeout> | null = null;
+    let fadeOut1Timeout: ReturnType<typeof setTimeout> | null = null;
+    let finalCleanupTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    sustain1Timeout = setTimeout(() => {
+        try {
+            // This destroys the wavesurfer on the fade out track when the new track starts
+            destroyWaveSurferInstance();
+            prevNextDisable(false);
+        } catch (error) {
+            console.error('[Crossfade] Error during sustain cleanup:', error);
+        }
     }, (xDuration.sustain * 1000) - 15);
 
-    setTimeout(() => {
-        const xfadeGainNode = audioNodeBus.pop();
-        const delayNode = delayNodeBus.pop();
+    fadeOut1Timeout = setTimeout(() => {
+        try {
+            const xfadeGainNode = audioNodeBus.pop();
+            const delayNode = delayNodeBus.pop();
 
-        if (!masterAudioOutput.audioContext || !xfadeGainNode || !delayNode) return;
-        xfadeGainNode.gain.linearRampToValueAtTime(0, masterAudioOutput.audioContext.currentTime + 1);
-        setTimeout(() => {
-            // Clean up and destroy the xfade MediaElement here
-            unbindCallback();
-            xfadeGainNode.disconnect();
-            delayNode.disconnect();
-            hijackedPlayer.remove();
+            if (!masterAudioOutput.audioContext || !xfadeGainNode || !delayNode) {
+                console.warn('[Crossfade] Missing audio nodes during cleanup');
+                xDuration.busy = false;
+                clearHijackState();
+                return;
+            }
+
+            xfadeGainNode.gain.linearRampToValueAtTime(0, masterAudioOutput.audioContext.currentTime + 1);
+
+            finalCleanupTimeout = setTimeout(() => {
+                try {
+                    // Clean up and destroy the xfade MediaElement
+                    unbindCallback();
+                    xfadeGainNode.disconnect();
+                    delayNode.disconnect();
+
+                    // Restore original properties before removing element
+                    if (hijackState.hijackedElement && hijackState.originalPause) {
+                        hijackState.hijackedElement.pause = hijackState.originalPause;
+                    }
+                    if (hijackState.hijackedElement && hijackState.originalSrcDescriptor) {
+                        Object.defineProperty(hijackState.hijackedElement, 'src', hijackState.originalSrcDescriptor);
+                    }
+
+                    hijackedPlayer.remove();
+                    xDuration.busy = false;
+                    clearHijackState();
+
+                    // Clear recovery timeout since crossfade completed successfully
+                    if (hijackState.stateRecoveryTimeout) {
+                        clearTimeout(hijackState.stateRecoveryTimeout);
+                        hijackState.stateRecoveryTimeout = null;
+                    }
+                } catch (error) {
+                    console.error('[Crossfade] Error during final cleanup:', error);
+                    xDuration.busy = false;
+                    clearHijackState();
+                }
+            }, 1010);
+        } catch (error) {
+            console.error('[Crossfade] Error during fadeOut cleanup:', error);
             xDuration.busy = false;
-        }, 1010);
+            clearHijackState();
+        }
     }, xDuration.fadeOut * 1000);
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
+import { visualizerSettings } from './visualizers.logic';
 
 type FrequencyAnalyzersProps = {
     audioContext?: AudioContext;
@@ -73,7 +74,14 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
                     alpha,
                     width: canvas.clientWidth,
                     height: canvas.clientHeight,
-                    dpr: window.devicePixelRatio || 1
+                    dpr: window.devicePixelRatio || 1,
+                    colorScheme: visualizerSettings.frequencyAnalyzer.colorScheme,
+                    colors: {
+                        low: visualizerSettings.frequencyAnalyzer.colors.gradient.low,
+                        mid: visualizerSettings.frequencyAnalyzer.colors.gradient.mid,
+                        high: visualizerSettings.frequencyAnalyzer.colors.gradient.high,
+                        solid: visualizerSettings.frequencyAnalyzer.colors.solid
+                    }
                 },
                 [offscreenCanvas]
             );
@@ -96,7 +104,9 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
         minDecibels,
         maxDecibels,
         draw,
-        alpha
+        alpha,
+        visualizerSettings.frequencyAnalyzer.colorScheme,
+        visualizerSettings.frequencyAnalyzer.colors
     ]);
 
     useEffect(() => {

@@ -47,8 +47,8 @@ async function extractColorsFromAlbumArt(): Promise<WaveSurferColorScheme> {
     const artElem = document.querySelector('.nowPlayingImage') as HTMLElement | null;
     if (!artElem) return DEFAULT_WAVESURFER_COLORS;
 
-    const match = artElem.style.backgroundImage.match(/url\("?(.*)"?\)/);
-    const url = match?.[1];
+    const urlMatch = /url\("?(.*)"?\)/.exec(artElem.style.backgroundImage);
+    const url = urlMatch?.[1];
     if (!url) return DEFAULT_WAVESURFER_COLORS;
 
     return new Promise(resolve => {

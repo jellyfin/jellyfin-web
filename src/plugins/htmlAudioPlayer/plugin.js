@@ -8,6 +8,8 @@ import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
+import { consumePreloadedTrack } from '../../components/audioEngine/crossfadeController';
+import { createGainNode, ensureAudioNodeBundle, rampPlaybackGain } from '../../components/audioEngine/master.logic';
 
 function getDefaultProfile() {
     return profileBuilder({});
@@ -103,17 +105,21 @@ class HtmlAudioPlayer {
             self._timeUpdated = false;
             self._currentTime = null;
 
+            const preloaded = consumePreloadedTrack({
+                itemId: options?.item?.Id,
+                url: options?.url
+            });
+
+            if (preloaded) {
+                return adoptPreloadedElement(preloaded, options);
+            }
+
             const elem = createMediaElement();
 
             return setCurrentSrc(elem, options);
         };
 
-        function setCurrentSrc(elem, options) {
-            unBindEvents(elem);
-            bindEvents(elem);
-
-            let val = options.url;
-            console.debug('playing url: ' + val);
+        function applyNormalization(elem, options, shouldRamp) {
             import('../../scripts/settings/userSettings').then((userSettings) => {
                 let normalizationGain;
                 if (userSettings.selectAudioNormalization() == 'TrackGain') {
@@ -133,21 +139,54 @@ class HtmlAudioPlayer {
                     if (!self.gainNode) return;
                 }
 
+                // Store normalization gain for reference
                 if (normalizationGain) {
-                    self.normalizationGain = Math.pow(10, normalizationGain / 20);
-                    self.gainNode.gain.value = self.normalizationGain;
+                    self.normalizationGain = normalizationGain;
                 } else {
-                    self.gainNode.gain.value = 1;
-                    self.normalizationGain = 1;
+                    self.normalizationGain = 0;
                 }
+
+                if (shouldRamp) {
+                    // Use audio engine's ramp function for smooth gain transitions
+                    rampPlaybackGain(normalizationGain);
+                }
+
                 if (browser.safari) {
-                    // Gain value is absolute in Safari. Add volume from the slider
-                    self.gainNode.gain.value *= elem.volume;
+                    // Safari volume adjustment (handled by system volume integration)
+                    console.debug('Safari volume integration enabled');
                 }
                 console.debug('gain: ' + self.normalizationGain);
             }).catch((err) => {
                 console.error('Failed to add/change gainNode', err);
             });
+        }
+
+        function adoptPreloadedElement(elem, options) {
+            unBindEvents(elem);
+            bindEvents(elem);
+
+            self._mediaElement = elem;
+            self._currentPlayOptions = options;
+            self._currentSrc = options.url;
+            self._started = true;
+
+            const bundle = ensureAudioNodeBundle(elem, { registerInBus: true });
+            if (bundle) {
+                self.gainNode = bundle.gainNode;
+            }
+
+            applyNormalization(elem, options, false);
+
+            return Promise.resolve();
+        }
+
+        function setCurrentSrc(elem, options) {
+            unBindEvents(elem);
+            bindEvents(elem);
+
+            let val = options.url;
+            console.debug('playing url: ' + val);
+            applyNormalization(elem, options, true);
 
             // Convert to seconds
             const seconds = (options.playerStartPositionTicks || 0) / 10000000;
@@ -291,19 +330,10 @@ class HtmlAudioPlayer {
 
         function addGainElement(elem) {
             try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext; /* eslint-disable-line compat/compat */
-
-                const audioCtx = new AudioContext();
-                const source = audioCtx.createMediaElementSource(elem);
-
-                const gainNode = audioCtx.createGain();
-
-                source.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-
-                self.gainNode = gainNode;
+                // Use audio engine's createGainNode instead of creating independent AudioContext
+                self.gainNode = createGainNode(elem);
             } catch (e) {
-                console.error('Web Audio API is not supported in this browser', e);
+                console.error('Failed to initialize audio engine gain node', e);
             }
         }
 
@@ -395,6 +425,10 @@ class HtmlAudioPlayer {
 
     currentSrc() {
         return this._currentSrc;
+    }
+
+    getMediaElement() {
+        return this._mediaElement;
     }
 
     canPlayMediaType(mediaType) {

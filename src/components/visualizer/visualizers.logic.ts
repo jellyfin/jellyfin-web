@@ -1,33 +1,49 @@
 import * as userSettings from '../../scripts/settings/userSettings';
 
 export const visualizerSettings = {
-    butterchurn: {
-        enabled: false,
-        opacity: 0.6, // slider value from 0 - 1
-        smoothingTime: 0, // value from 0 - 10
-        presetInterval: 60 // slider value from 0 - 120
-    },
     frequencyAnalyzer: {
         enabled: false,
-        opacity: 0.6, // value from 0 - 1
-        smoothingTime: 0, // value from 0 - 10
-        color: 'rgb(30, 210, 75)'
+        smoothing: 0.3,           // 0-0.9
+        opacity: 1.0,             // 0.1-1.0
+        colorScheme: 'spectrum',  // 'spectrum' | 'solid' | 'albumArt' | 'gradient'
+        colors: {
+            solid: '#1ED24B',
+            gradient: {
+                low: '#1ED24B',   // Bass
+                mid: '#FFD700',   // Mids
+                high: '#FF3232'   // Treble
+            }
+        }
     },
     waveSurfer: {
         enabled: false,
-        opacity: 0, // value from 0 - 1
-        smoothingTime: 0, // value from 0 - 10
-        color: {
-            left: 'rgb(1, 1, 1)',
-            right: 'rgb(1, 1, 1)',
-            cursor: 'rgb(1, 1, 1)'
+        opacity: 0.7,             // 0.1-1.0
+        colorScheme: 'albumArt',  // 'albumArt' | 'monochrome' | 'stereo'
+        colors: {
+            monochrome: {
+                wave: '#1ED24B',
+                cursor: '#FFFFFF'
+            },
+            stereo: {
+                left: '#1ED24B',
+                right: '#FF3232',
+                cursor: '#FFFFFF'
+            }
         }
     },
-    sitBack: {
+    butterchurn: {
         enabled: false,
-        fullscreenCoverArt: false,
-        playlist: true,
-        backdropOpacity: 0 // value from 0 - 1
+        opacity: 0.6,             // 0.1-1.0
+        presetInterval: 60,       // seconds, 0 = manual only
+        transitionSpeed: 2.7      // seconds
+    },
+    sitback: {
+        trackInfoDuration: 5,     // seconds
+        autoHideTimer: 5          // seconds (mobile/TV only)
+    },
+    advanced: {
+        fftSize: 4096,            // 512 | 1024 | 2048 | 4096 | 8192
+        limiterThreshold: -1      // dB, -6 to -0.5
     }
 };
 
@@ -38,10 +54,13 @@ export function getVisualizerSettings () {
 export function setVisualizerSettings (savedSettings: typeof visualizerSettings) {
     if (!savedSettings) return;
 
-    visualizerSettings.butterchurn = savedSettings?.butterchurn;
-    visualizerSettings.frequencyAnalyzer = savedSettings?.frequencyAnalyzer;
-    visualizerSettings.sitBack = savedSettings?.sitBack;
-    visualizerSettings.waveSurfer = savedSettings?.waveSurfer;
+    const legacySitback = savedSettings?.sitback || savedSettings?.sitBack;
+
+    visualizerSettings.butterchurn = { ...visualizerSettings.butterchurn, ...savedSettings?.butterchurn };
+    visualizerSettings.frequencyAnalyzer = { ...visualizerSettings.frequencyAnalyzer, ...savedSettings?.frequencyAnalyzer };
+    visualizerSettings.waveSurfer = { ...visualizerSettings.waveSurfer, ...savedSettings?.waveSurfer };
+    visualizerSettings.sitback = { ...visualizerSettings.sitback, ...legacySitback };
+    visualizerSettings.advanced = { ...visualizerSettings.advanced, ...savedSettings?.advanced };
 }
 
 export function getSavedVisualizerSettings() {

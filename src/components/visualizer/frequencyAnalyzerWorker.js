@@ -9,6 +9,36 @@ let alpha;
 let width;
 let height;
 let dpr;
+let colorScheme = 'spectrum';
+let colorSolid = '#1ED24B';
+let colorLow = '#1ED24B';
+let colorMid = '#FFD700';
+let colorHigh = '#FF3232';
+
+/**
+ * Interpolates between two colors based on ratio
+ * @param {string} color1 - Hex color start
+ * @param {string} color2 - Hex color end
+ * @param {number} ratio - Interpolation ratio (0-1)
+ * @returns {string} RGB color string
+ */
+function interpolateColor(color1, color2, ratio) {
+    const hex2rgb = (hex) => {
+        const r = parseInt(hex.substring(1, 3), 16);
+        const g = parseInt(hex.substring(3, 5), 16);
+        const b = parseInt(hex.substring(5, 7), 16);
+        return [r, g, b];
+    };
+
+    const [r1, g1, b1] = hex2rgb(color1);
+    const [r2, g2, b2] = hex2rgb(color2);
+
+    const r = Math.round(r1 + (r2 - r1) * ratio);
+    const g = Math.round(g1 + (g2 - g1) * ratio);
+    const b = Math.round(b1 + (b2 - b1) * ratio);
+
+    return `rgb(${r}, ${g}, ${b})`;
+}
 
 globalThis.onmessage = function (event) {
     if (event.data.type === 'resize') {
@@ -19,7 +49,14 @@ globalThis.onmessage = function (event) {
         return;
     }
 
-    ({ canvas, fftSize, minDecibels, maxDecibels, alpha, width, height, dpr } = event.data);
+    ({ canvas, fftSize, minDecibels, maxDecibels, alpha, width, height, dpr, colorScheme: scheme, colors } = event.data);
+    if (scheme) colorScheme = scheme;
+    if (colors) {
+        colorSolid = colors.solid || colorSolid;
+        colorLow = colors.low || colorLow;
+        colorMid = colors.mid || colorMid;
+        colorHigh = colors.high || colorHigh;
+    }
     ctx = canvas.getContext('2d');
     canvas.width = width * dpr;
     canvas.height = height * dpr;
@@ -104,16 +141,36 @@ globalThis.onmessage = function (event) {
             const actualDecibel = minDecibels + (value / 255) * (maxDecibels - minDecibels);
             let fillColor = '';
 
-            if (actualDecibel <= nearClippingLevel) {
-                const ratio = (actualDecibel - minDecibels) / (nearClippingLevel - minDecibels);
-                const saturation = 30 + ratio * 70;
-                fillColor = `hsl(120, ${saturation}%, 50%)`;
-            } else if (actualDecibel > nearClippingLevel && actualDecibel < clippingLevel) {
-                const ratio = (actualDecibel - nearClippingLevel) / (clippingLevel - nearClippingLevel);
-                const hue = 120 - 120 * Math.min(ratio, 1);
-                fillColor = `hsl(${hue}, 100%, 50%)`;
+            if (colorScheme === 'spectrum') {
+                // Dynamic spectrum: Green → Yellow → Red based on intensity
+                if (actualDecibel <= nearClippingLevel) {
+                    const ratio = (actualDecibel - minDecibels) / (nearClippingLevel - minDecibels);
+                    const saturation = 30 + ratio * 70;
+                    fillColor = `hsl(120, ${saturation}%, 50%)`;
+                } else if (actualDecibel > nearClippingLevel && actualDecibel < clippingLevel) {
+                    const ratio = (actualDecibel - nearClippingLevel) / (clippingLevel - nearClippingLevel);
+                    const hue = 120 - 120 * Math.min(ratio, 1);
+                    fillColor = `hsl(${hue}, 100%, 50%)`;
+                } else {
+                    fillColor = 'hsl(0, 100%, 50%)';
+                }
+            } else if (colorScheme === 'gradient') {
+                // Custom gradient: interpolate between low/mid/high colors
+                const ratio = (actualDecibel - minDecibels) / (maxDecibels - minDecibels);
+                const clamped = Math.min(Math.max(ratio, 0), 1);
+                if (clamped < 0.5) {
+                    // Low to Mid (0-50%)
+                    fillColor = interpolateColor(colorLow, colorMid, clamped * 2);
+                } else {
+                    // Mid to High (50-100%)
+                    fillColor = interpolateColor(colorMid, colorHigh, (clamped - 0.5) * 2);
+                }
+            } else if (colorScheme === 'solid' || colorScheme === 'albumArt') {
+                // Solid or album art fallback
+                fillColor = colorSolid;
             } else {
-                fillColor = 'hsl(0, 100%, 50%)';
+                // Fallback to solid color
+                fillColor = colorSolid;
             }
 
             ctx.fillStyle = fillColor;

@@ -16,6 +16,14 @@ import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
 import toast from '../toast/toast';
 import template from './playbackSettings.template.html';
+import layoutManager from '../layoutManager';
+import {
+    initializeColorPickers,
+    setupAdvancedToggle,
+    setupResetButton,
+    setColorSettingsUI
+} from './colorPicker';
+import './colorPicker.scss';
 
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -271,7 +279,144 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     const mediaSegmentContainer = context.querySelector('.mediaSegmentActionContainer');
     populateMediaSegments(mediaSegmentContainer, userSettings);
 
+    // Hide UI Auto-Hide Timer on non-mobile platforms
+    if (!layoutManager.mobile) {
+        const autoHideField = context.querySelector('#fldAutoHideTimer');
+        if (autoHideField) autoHideField.classList.add('hide');
+    }
+
+    // Load visualizer and crossfade settings
+    try {
+        context.querySelector('#selectCrossfadeDuration').value = userSettings.crossfadeDuration();
+    } catch (err) {
+        console.warn('Failed to load crossfade duration', err);
+        context.querySelector('#selectCrossfadeDuration').value = 3;
+    }
+
+    let config;
+    try {
+        config = userSettings.visualizerConfiguration();
+        if (typeof config === 'string') {
+            config = JSON.parse(config);
+        }
+    } catch (err) {
+        console.warn('Failed to load visualizer configuration', err);
+        config = null;
+    }
+
+    if (config) {
+        // Visualizer toggles
+        context.querySelector('#chkFrequencyAnalyzer').checked = config.frequencyAnalyzer?.enabled || false;
+        context.querySelector('#chkWaveform').checked = config.waveSurfer?.enabled || false;
+        context.querySelector('#chkButterchurn').checked = config.butterchurn?.enabled || false;
+
+        // Frequency Analyzer settings
+        context.querySelector('#selectFreqAnalyzerSmoothing').value = config.frequencyAnalyzer?.smoothing || 0.3;
+        context.querySelector('#selectFreqAnalyzerColorScheme').value = config.frequencyAnalyzer?.colorScheme || 'spectrum';
+        context.querySelector('#sliderFreqAnalyzerOpacity').value = (config.frequencyAnalyzer?.opacity || 1) * 100;
+
+        // Waveform settings
+        context.querySelector('#selectWaveformColorScheme').value = config.waveSurfer?.colorScheme || 'albumArt';
+        context.querySelector('#sliderWaveformOpacity').value = (config.waveSurfer?.opacity || 0.7) * 100;
+
+        // Butterchurn settings
+        context.querySelector('#selectButterchurnInterval').value = config.butterchurn?.presetInterval || 60;
+        context.querySelector('#selectButterchurnTransition').value = config.butterchurn?.transitionSpeed || 2.7;
+        context.querySelector('#sliderButterchurnOpacity').value = (config.butterchurn?.opacity || 0.6) * 100;
+
+        // Advanced settings
+        context.querySelector('#selectFFTSize').value = config.advanced?.fftSize || 4096;
+        context.querySelector('#selectLimiterThreshold').value = config.advanced?.limiterThreshold || -1;
+
+        // Sit Back Mode settings
+        context.querySelector('#selectTrackInfoDuration').value = config.sitback?.trackInfoDuration || 5;
+        context.querySelector('#selectAutoHideTimer').value = config.sitback?.autoHideTimer || 5;
+
+        // Load color settings
+        if (config.frequencyAnalyzer?.colors) {
+            setColorSettingsUI(context, {
+                FreqAnalyzerSolid: config.frequencyAnalyzer.colors.solid || '#1ED24B',
+                FreqAnalyzerLow: config.frequencyAnalyzer.colors.gradient?.low || '#1ED24B',
+                FreqAnalyzerMid: config.frequencyAnalyzer.colors.gradient?.mid || '#FFD700',
+                FreqAnalyzerHigh: config.frequencyAnalyzer.colors.gradient?.high || '#FF3232'
+            });
+        }
+
+        if (config.waveSurfer?.colors) {
+            setColorSettingsUI(context, {
+                WaveformWave: config.waveSurfer.colors.monochrome?.wave || '#1ED24B',
+                WaveformCursor: config.waveSurfer.colors.monochrome?.cursor || '#FFFFFF',
+                WaveformLeft: config.waveSurfer.colors.stereo?.left || '#1ED24B',
+                WaveformRight: config.waveSurfer.colors.stereo?.right || '#FF3232',
+                WaveformCursorStereo: config.waveSurfer.colors.stereo?.cursor || '#FFFFFF'
+            });
+        }
+    } else {
+        // Set defaults
+        context.querySelector('#chkFrequencyAnalyzer').checked = false;
+        context.querySelector('#chkWaveform').checked = false;
+        context.querySelector('#chkButterchurn').checked = false;
+        context.querySelector('#selectFreqAnalyzerSmoothing').value = 0.3;
+        context.querySelector('#selectFreqAnalyzerColorScheme').value = 'spectrum';
+        context.querySelector('#sliderFreqAnalyzerOpacity').value = 100;
+        context.querySelector('#selectWaveformColorScheme').value = 'albumArt';
+        context.querySelector('#sliderWaveformOpacity').value = 70;
+        context.querySelector('#selectButterchurnInterval').value = 60;
+        context.querySelector('#selectButterchurnTransition').value = 2.7;
+        context.querySelector('#sliderButterchurnOpacity').value = 60;
+        context.querySelector('#selectFFTSize').value = 4096;
+        context.querySelector('#selectLimiterThreshold').value = -1;
+        context.querySelector('#selectTrackInfoDuration').value = 5;
+        context.querySelector('#selectAutoHideTimer').value = 5;
+    }
+
+    // Initialize color pickers and advanced toggle
+    initializeColorPickers(context);
+    setupAdvancedToggle(
+        context.querySelector('#btnToggleAdvancedVisualizer'),
+        context.querySelector('#advancedVisualizerPanel')
+    );
+    setupResetButton(context, 'freqAnalyzer');
+    setupResetButton(context, 'waveform');
+
+    // Setup color scheme conditional visibility
+    setupColorSchemeVisibility(context);
+
     loading.hide();
+}
+
+/**
+ * Setup conditional visibility of color pickers based on selected scheme
+ */
+function setupColorSchemeVisibility(context) {
+    const freqColorScheme = context.querySelector('#selectFreqAnalyzerColorScheme');
+    const freqSolidContainer = context.querySelector('#freqAnalyzerSolidColor');
+    const freqGradientContainer = context.querySelector('#freqAnalyzerGradient');
+
+    const waveColorScheme = context.querySelector('#selectWaveformColorScheme');
+    const waveMonoContainer = context.querySelector('#waveformMonochrome');
+    const waveStereoContainer = context.querySelector('#waveformStereo');
+
+    // Frequency Analyzer color scheme toggle
+    function updateFreqColorVisibility() {
+        const scheme = freqColorScheme.value;
+        freqSolidContainer.classList.toggle('hide', scheme !== 'solid');
+        freqGradientContainer.classList.toggle('hide', scheme !== 'gradient');
+    }
+
+    // Waveform color scheme toggle
+    function updateWaveColorVisibility() {
+        const scheme = waveColorScheme.value;
+        waveMonoContainer.classList.toggle('hide', scheme !== 'monochrome');
+        waveStereoContainer.classList.toggle('hide', scheme !== 'stereo');
+    }
+
+    freqColorScheme.addEventListener('change', updateFreqColorVisibility);
+    waveColorScheme.addEventListener('change', updateWaveColorVisibility);
+
+    // Initial visibility
+    updateFreqColorVisibility();
+    updateWaveColorVisibility();
 }
 
 function saveUser(context, user, userSettingsInstance, apiClient) {
@@ -314,6 +459,63 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     Array.prototype.forEach.call(segmentTypeActions, actionEl => {
         userSettingsInstance.set(actionEl.id, actionEl.value, false);
     });
+
+    // Save crossfade duration
+    const crossfadeDuration = parseFloat(context.querySelector('#selectCrossfadeDuration').value);
+    userSettingsInstance.crossfadeDuration(crossfadeDuration);
+
+    const trackInfoDuration = parseInt(context.querySelector('#selectTrackInfoDuration').value, 10);
+    const idleTimeout = parseInt(context.querySelector('#selectAutoHideTimer').value, 10);
+
+    // Build comprehensive visualizer config
+    const visualizerConfig = {
+        frequencyAnalyzer: {
+            enabled: context.querySelector('#chkFrequencyAnalyzer').checked,
+            smoothing: parseFloat(context.querySelector('#selectFreqAnalyzerSmoothing').value),
+            opacity: parseInt(context.querySelector('#sliderFreqAnalyzerOpacity').value, 10) / 100,
+            colorScheme: context.querySelector('#selectFreqAnalyzerColorScheme').value,
+            colors: {
+                solid: context.querySelector('#colorFreqAnalyzerSolid').value,
+                gradient: {
+                    low: context.querySelector('#colorFreqAnalyzerLow').value,
+                    mid: context.querySelector('#colorFreqAnalyzerMid').value,
+                    high: context.querySelector('#colorFreqAnalyzerHigh').value
+                }
+            }
+        },
+        waveSurfer: {
+            enabled: context.querySelector('#chkWaveform').checked,
+            opacity: parseInt(context.querySelector('#sliderWaveformOpacity').value, 10) / 100,
+            colorScheme: context.querySelector('#selectWaveformColorScheme').value,
+            colors: {
+                monochrome: {
+                    wave: context.querySelector('#colorWaveformWave').value,
+                    cursor: context.querySelector('#colorWaveformCursor').value
+                },
+                stereo: {
+                    left: context.querySelector('#colorWaveformLeft').value,
+                    right: context.querySelector('#colorWaveformRight').value,
+                    cursor: context.querySelector('#colorWaveformCursorStereo').value
+                }
+            }
+        },
+        butterchurn: {
+            enabled: context.querySelector('#chkButterchurn').checked,
+            opacity: parseInt(context.querySelector('#sliderButterchurnOpacity').value, 10) / 100,
+            presetInterval: parseInt(context.querySelector('#selectButterchurnInterval').value, 10),
+            transitionSpeed: parseFloat(context.querySelector('#selectButterchurnTransition').value)
+        },
+        sitback: {
+            trackInfoDuration: trackInfoDuration,
+            autoHideTimer: idleTimeout
+        },
+        advanced: {
+            fftSize: parseInt(context.querySelector('#selectFFTSize').value, 10),
+            limiterThreshold: parseFloat(context.querySelector('#selectLimiterThreshold').value)
+        }
+    };
+
+    userSettingsInstance.visualizerConfiguration(visualizerConfig);
 
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);
 }

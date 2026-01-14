@@ -11,6 +11,13 @@ type MasterAudioTypes = {
     volume: number;
 };
 
+type AudioNodeBundle = {
+    sourceNode: MediaElementAudioSourceNode;
+    gainNode: GainNode;
+    delayNode?: DelayNode;
+    busRegistered: boolean;
+};
+
 const dbBoost = 2;
 
 /**
@@ -101,43 +108,102 @@ type DelayNodes = DelayNode[];
 
 export const audioNodeBus: GainNodes = [];
 export const delayNodeBus: DelayNodes = [];
+const elementNodeMap = new WeakMap<HTMLMediaElement, AudioNodeBundle>();
 
-/**
- * Creates a buffer for the audio nodes.
- * @param {MediaElementAudioSourceNode} input - The input audio source node.
- * @param {GainNode} output - The output gain node.
- */
-function createBuffer(input: MediaElementAudioSourceNode, output: GainNode) {
-    if (!masterAudioOutput.audioContext) return;
-    const delayedAudible = masterAudioOutput.audioContext.createDelay(1);
-
-    if (visualizerSettings.waveSurfer.enabled) {
-        delayedAudible.delayTime.value = 0.1;
-    }
-
-    delayNodeBus.unshift(delayedAudible);
-
-    input.connect(delayNodeBus[0]);
-    delayNodeBus[0].connect(output);
-}
-
-/**
- * Creates a gain node for the media element.
- * @param {HTMLMediaElement} elem - The media element.
- */
-export function createGainNode(elem: HTMLMediaElement) {
+function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initialGain?: number) {
     if (!masterAudioOutput.audioContext || !masterAudioOutput.mixerNode) {
         console.log('MasterAudio is not initialized');
         return;
     }
 
-    const gainNode = masterAudioOutput.audioContext.createGain();
-    gainNode.gain.setValueAtTime(0, masterAudioOutput.audioContext.currentTime);
-    audioNodeBus.unshift(gainNode);
+    const existing = elementNodeMap.get(elem);
+    if (existing) {
+        if (initialGain !== undefined) {
+            existing.gainNode.gain.setValueAtTime(initialGain, masterAudioOutput.audioContext.currentTime);
+        }
+        if (registerInBus && !existing.busRegistered) {
+            audioNodeBus.unshift(existing.gainNode);
+            existing.busRegistered = true;
+        }
+        return existing;
+    }
 
-    const source = masterAudioOutput.audioContext.createMediaElementSource(elem);
-    createBuffer(source, audioNodeBus[0]);
-    audioNodeBus[0].connect(masterAudioOutput.mixerNode);
+    const gainNode = masterAudioOutput.audioContext.createGain();
+    const gainValue = initialGain !== undefined ? initialGain : 0;
+    gainNode.gain.setValueAtTime(gainValue, masterAudioOutput.audioContext.currentTime);
+
+    const sourceNode = masterAudioOutput.audioContext.createMediaElementSource(elem);
+    let delayNode: DelayNode | undefined;
+    const shouldDelay = visualizerSettings.waveSurfer.enabled;
+
+    if (registerInBus || shouldDelay) {
+        delayNode = masterAudioOutput.audioContext.createDelay(1);
+        delayNode.delayTime.value = shouldDelay ? 0.1 : 0;
+        sourceNode.connect(delayNode);
+        delayNode.connect(gainNode);
+        if (registerInBus) {
+            delayNodeBus.unshift(delayNode);
+        }
+    } else {
+        sourceNode.connect(gainNode);
+    }
+
+    gainNode.connect(masterAudioOutput.mixerNode);
+
+    const bundle = {
+        sourceNode,
+        gainNode,
+        delayNode,
+        busRegistered: false
+    };
+    elementNodeMap.set(elem, bundle);
+
+    if (registerInBus) {
+        audioNodeBus.unshift(gainNode);
+        bundle.busRegistered = true;
+    }
+
+    return bundle;
+}
+
+export function ensureAudioNodeBundle(elem: HTMLMediaElement, options?: { initialGain?: number; registerInBus?: boolean }) {
+    return createNodeBundle(elem, options?.registerInBus ?? false, options?.initialGain);
+}
+
+/**
+ * Creates a gain node for the media element.
+ * @param {HTMLMediaElement} elem - The media element.
+ * @returns {GainNode|undefined} The created gain node, or undefined if not initialized.
+ */
+export function createGainNode(elem: HTMLMediaElement) {
+    const bundle = createNodeBundle(elem, true);
+    return bundle?.gainNode;
+}
+
+export function getAudioNodeBundle(elem: HTMLMediaElement) {
+    return elementNodeMap.get(elem);
+}
+
+export function removeAudioNodeBundle(elem: HTMLMediaElement) {
+    const bundle = elementNodeMap.get(elem);
+    if (!bundle) return;
+
+    const gainIndex = audioNodeBus.indexOf(bundle.gainNode);
+    if (gainIndex !== -1) {
+        audioNodeBus.splice(gainIndex, 1);
+    }
+
+    if (bundle.delayNode) {
+        const delayIndex = delayNodeBus.indexOf(bundle.delayNode);
+        if (delayIndex !== -1) {
+            delayNodeBus.splice(delayIndex, 1);
+        }
+    }
+
+    bundle.gainNode.disconnect();
+    bundle.sourceNode.disconnect();
+    bundle.delayNode?.disconnect();
+    elementNodeMap.delete(elem);
 }
 
 /**
@@ -158,4 +224,3 @@ export function rampPlaybackGain(normalizationGain?: number) {
         audioCtx.currentTime + (xDuration.sustain / 24)
     );
 }
-
