@@ -15,7 +15,6 @@ import AppToolbar from './components/AppToolbar';
 import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
 
 import './AppOverrides.scss';
-import Visualizers from 'components/visualizer/Visualizers';
 
 export const Component = () => {
     const [ isDrawerActive, setIsDrawerActive ] = useState(false);
@@ -68,7 +67,6 @@ export const Component = () => {
                         flexGrow: 1
                     }}
                 >
-                    <Visualizers />
                     <AppBody>
                         <Outlet />
                     </AppBody>

@@ -32,6 +32,7 @@ import './elements/emby-button/emby-button';
 // Import auto-running components
 // NOTE: This is an anti-pattern
 import './components/playback/displayMirrorManager';
+import './components/playback/playerSelectionMenu';
 import './components/themeMediaPlayer';
 import './scripts/autoThemes';
 import './scripts/mouseManager';
@@ -59,16 +60,10 @@ build: ${__JF_BUILD_VERSION__}`);
 
     // Register handlers to update header classes
     pageClassOn('viewshow', 'standalonePage', function () {
-        const header = document.querySelector('.skinHeader');
-        if (header) {
-            header.classList.add('noHeaderRight');
-        }
+        document.querySelector('.skinHeader').classList.add('noHeaderRight');
     });
     pageClassOn('viewhide', 'standalonePage', function () {
-        const header = document.querySelector('.skinHeader');
-        if (header) {
-            header.classList.remove('noHeaderRight');
-        }
+        document.querySelector('.skinHeader').classList.remove('noHeaderRight');
     });
 
     // Initialize the api client

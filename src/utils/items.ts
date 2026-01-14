@@ -156,11 +156,11 @@ export const getDefaultSortBy = (viewType: LibraryTab) => {
 
 export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryViewSettings => {
     return {
-        ShowTitle: false,
+        ShowTitle: true,
         ShowYear: true,
         ViewMode: viewType === LibraryTab.Songs ? ViewMode.ListView : ViewMode.GridView,
         ImageType: viewType === LibraryTab.Networks ? ImageType.Thumb : ImageType.Primary,
-        CardLayout: true,
+        CardLayout: false,
         SortBy: getDefaultSortBy(viewType),
         SortOrder: SortOrder.Ascending,
         StartIndex: 0

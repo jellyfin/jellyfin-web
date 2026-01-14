@@ -31,6 +31,8 @@ function getWebDeviceIcon(browser: string | null | undefined) {
             return BASE_DEVICE_IMAGE_URL + 'edge.svg';
         case 'Internet Explorer':
             return BASE_DEVICE_IMAGE_URL + 'msie.svg';
+        case 'Titan OS':
+            return BASE_DEVICE_IMAGE_URL + 'titanos.svg';
         default:
             return BASE_DEVICE_IMAGE_URL + 'html5.svg';
     }

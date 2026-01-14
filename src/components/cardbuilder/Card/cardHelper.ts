@@ -1,4 +1,5 @@
 import { Api } from '@jellyfin/sdk';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { BaseItemPerson } from '@jellyfin/sdk/lib/generated-client/models/base-item-person';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
@@ -6,12 +7,14 @@ import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { appRouter } from 'components/router/appRouter';
 import layoutManager from 'components/layoutManager';
 import itemHelper from 'components/itemHelper';
+import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 import datetime from 'scripts/datetime';
 import { isUsingLiveTvNaming } from '../cardBuilderUtils';
 import { getDataAttributes } from 'utils/items';
 import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
+import { ensureArray } from 'utils/array';
 
 import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
@@ -65,8 +68,8 @@ interface TextAction {
 }
 
 export interface TextLine {
-    title?: NullableString;
-    titleAction?: TextAction;
+    title?: NullableString | string[];
+    titleAction?: TextAction | TextAction[];
 }
 
 export function getTextActionButton(
@@ -86,7 +89,7 @@ export function getTextActionButton(
 
     const dataAttributes = getDataAttributes(
         {
-            action: 'link',
+            action: ItemAction.Link,
             itemServerId: serverId ?? item.ServerId,
             itemId: item.Id,
             itemChannelId: item.ChannelId,
@@ -210,9 +213,25 @@ function getParentTitle(
     item: ItemDto
 ) {
     if (isOuterFooter && item.AlbumArtists?.length) {
-        (item.AlbumArtists[0] as ItemDto).Type = ItemKind.MusicArtist;
-        (item.AlbumArtists[0] as ItemDto).IsFolder = true;
-        return getTextActionButton(item.AlbumArtists[0], null, serverId);
+        return item.AlbumArtists
+            .map(artist => {
+                const artistItem: ItemDto = {
+                    ...artist,
+                    Type: BaseItemKind.MusicArtist,
+                    IsFolder: true
+                };
+                return getTextActionButton(artistItem, null, serverId);
+            })
+            .reduce((acc, line) => ({
+                title: [
+                    ...ensureArray(acc.title),
+                    ...ensureArray(line.title)
+                ],
+                titleAction: [
+                    ...ensureArray(acc.titleAction),
+                    ...ensureArray(line.titleAction)
+                ]
+            }), {});
     } else {
         return {
             title: isUsingLiveTvNaming(item.Type) ?

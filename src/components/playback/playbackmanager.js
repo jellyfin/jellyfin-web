@@ -1,9 +1,12 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind.js';
-import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
-import { getMediaInfoApi } from '@jellyfin/sdk/lib/utils/api/media-info-api';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
+import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code';
+import { getMediaInfoApi } from '@jellyfin/sdk/lib/utils/api/media-info-api';
 import merge from 'lodash-es/merge';
 import Screenfull from 'screenfull';
+
 import Events from '../../utils/events.ts';
 import datetime from '../../scripts/datetime';
 import appSettings from '../../scripts/settings/appSettings';
@@ -27,8 +30,6 @@ import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
-import { destroyWaveSurferInstance } from 'components/visualizer/WaveSurfer';
-import { hijackMediaElementForCrossfade, timeRunningOut, xDuration } from 'components/audioEngine/crossfader.logic';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { bindSkipSegment } from './skipsegment.ts';
 
@@ -167,9 +168,9 @@ function createStreamInfoFromUrlItem(item) {
 function mergePlaybackQueries(obj1, obj2) {
     const query = merge({}, obj1, obj2);
 
-    const filters = query.Filters ? query.Filters.split(',') : [];
-    if (filters.indexOf('IsNotFolder') === -1) {
-        filters.push('IsNotFolder');
+    const filters = query.Filters?.split(',') || [];
+    if (!filters.includes(ItemFilter.IsNotFolder)) {
+        filters.push(ItemFilter.IsNotFolder);
     }
     query.Filters = filters.join(',');
     return query;
@@ -648,6 +649,7 @@ function normalizePlayOptions(playOptions) {
 
 function truncatePlayOptions(playOptions) {
     return {
+        aspectRatio: playOptions.aspectRatio,
         fullscreen: playOptions.fullscreen,
         mediaSourceId: playOptions.mediaSourceId,
         audioStreamIndex: playOptions.audioStreamIndex,
@@ -1022,7 +1024,7 @@ export class PlaybackManager {
         self.canPlay = function (item) {
             const itemType = item.Type;
 
-            if (itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
+            if (itemType === 'Book' || itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
                 return true;
             }
 
@@ -1829,64 +1831,75 @@ export class PlaybackManager {
         }
 
         function getPlaybackPromise(firstItem, serverId, options, queryOptions, items) {
+            const SortBy = options.shuffle ? ItemSortBy.Random : ItemSortBy.SortName;
+
             switch (firstItem.Type) {
-                case 'Program':
+                case BaseItemKind.Program:
                     return getItemsForPlayback(serverId, {
                         Ids: firstItem.ChannelId
                     });
-                case 'Playlist':
+                case BaseItemKind.Playlist:
                     return getItemsForPlayback(serverId, {
                         ParentId: firstItem.Id,
-                        SortBy: options.shuffle ? 'Random' : null
+                        SortBy: options.shuffle ? SortBy : undefined
                     });
-                case 'MusicArtist':
+                case BaseItemKind.MusicArtist:
+
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
                         ArtistIds: firstItem.Id,
-                        Filters: 'IsNotFolder',
                         Recursive: true,
-                        SortBy: options.shuffle ? 'Random' : 'Album,ParentIndexNumber,IndexNumber,SortName',
-                        MediaTypes: 'Audio'
+                        SortBy: options.shuffle ? SortBy : [
+                            ItemSortBy.Album,
+                            ItemSortBy.ParentIndexNumber,
+                            ItemSortBy.IndexNumber,
+                            ItemSortBy.SortName
+                        ].join(','),
+                        MediaTypes: MediaType.Audio
                     }, queryOptions));
-                case 'PhotoAlbum':
+                case BaseItemKind.PhotoAlbum:
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
                         ParentId: firstItem.Id,
-                        Filters: 'IsNotFolder',
                         // Setting this to true may cause some incorrect sorting
                         Recursive: false,
-                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        SortBy,
                         // Only include Photos because we do not handle mixed queues currently
-                        MediaTypes: 'Photo',
+                        MediaTypes: MediaType.Photo,
                         Limit: UNLIMITED_ITEMS
                     }, queryOptions));
-                case 'MusicGenre':
+                case BaseItemKind.MusicGenre:
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
                         GenreIds: firstItem.Id,
-                        Filters: 'IsNotFolder',
                         Recursive: true,
-                        SortBy: options.shuffle ? 'Random' : 'SortName',
-                        MediaTypes: 'Audio'
+                        SortBy,
+                        MediaTypes: MediaType.Audio
                     }, queryOptions));
-                case 'Genre':
+                case BaseItemKind.Genre:
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
                         GenreIds: firstItem.Id,
                         ParentId: firstItem.ParentId,
-                        Filters: 'IsNotFolder',
                         Recursive: true,
-                        SortBy: options.shuffle ? 'Random' : 'SortName',
-                        MediaTypes: 'Video'
+                        SortBy,
+                        MediaTypes: MediaType.Video
                     }, queryOptions));
-                case 'Studio':
+                case BaseItemKind.Studio:
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
                         StudioIds: firstItem.Id,
-                        Filters: 'IsNotFolder',
                         Recursive: true,
-                        SortBy: options.shuffle ? 'Random' : 'SortName',
-                        MediaTypes: 'Video'
+                        SortBy,
+                        MediaTypes: MediaType.Video
                     }, queryOptions));
-                case 'Series':
-                case 'Season':
+                case BaseItemKind.Person:
+                    return getItemsForPlayback(serverId, mergePlaybackQueries({
+                        PersonIds: firstItem.Id,
+                        ParentId: firstItem.ParentId,
+                        Recursive: true,
+                        SortBy,
+                        MediaTypes: MediaType.Video
+                    }, queryOptions));
+                case BaseItemKind.Series:
+                case BaseItemKind.Season:
                     return getSeriesOrSeasonPlaybackPromise(firstItem, options, items);
-                case 'Episode':
+                case BaseItemKind.Episode:
                     return getEpisodePlaybackPromise(firstItem, options, items);
             }
 
@@ -1928,6 +1941,15 @@ export class PlaybackManager {
                     MediaTypes: 'Photo',
                     Limit: UNLIMITED_ITEMS
                 }, queryOptions));
+            } else if (firstItem.IsFolder && firstItem.CollectionType === 'musicvideos') {
+                return getItemsForPlayback(serverId, mergePlaybackQueries({
+                    ParentId: firstItem.Id,
+                    Filters: 'IsFolder',
+                    Recursive: true,
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    MediaTypes: 'Video',
+                    Limit: UNLIMITED_ITEMS
+                }, queryOptions));
             } else if (firstItem.IsFolder) {
                 let sortBy = null;
                 if (options.shuffle) {
@@ -1958,28 +1980,18 @@ export class PlaybackManager {
             const startSeasonId = firstItem.Type === 'Season' ? items[options.startIndex || 0].Id : undefined;
 
             const seasonId = (startSeasonId && items.length === 1) ? startSeasonId : undefined;
-            const seriesId = firstItem.SeriesId || firstItem.Id;
+            const SeriesId = firstItem.SeriesId || firstItem.Id;
             const UserId = apiClient.getCurrentUserId();
 
             let startItemId;
 
             // Start from a specific (the next unwatched) episode if we want to watch in order and have not chosen a specific season
             if (!options.shuffle && !seasonId) {
-                const initialUnplayedEpisode = await getItems(apiClient, UserId, {
-                    SortBy: 'SeriesSortName,SortName',
-                    SortOrder: 'Ascending',
-                    IncludeItemTypes: 'Episode',
-                    Recursive: true,
-                    IsMissing: false,
-                    ParentId: seriesId,
-                    limit: 1,
-                    Filters: 'IsUnplayed'
-                });
-
-                startItemId = initialUnplayedEpisode?.Items?.at(0)?.Id;
+                const nextUp = await apiClient.getNextUpEpisodes({ SeriesId, UserId });
+                startItemId = nextUp?.Items?.[0]?.Id;
             }
 
-            const episodesResult = await apiClient.getEpisodes(seriesId, {
+            const episodesResult = await apiClient.getEpisodes(SeriesId, {
                 IsVirtualUnaired: false,
                 IsMissing: false,
                 SeasonId: seasonId,
@@ -2072,8 +2084,6 @@ export class PlaybackManager {
         self.getItemsForPlayback = getItemsForPlayback;
 
         self.play = async function (options) {
-            hijackMediaElementForCrossfade();
-
             normalizePlayOptions(options);
 
             if (self._currentPlayer) {
@@ -2318,14 +2328,12 @@ export class PlaybackManager {
                 introPlayOptions.items = items;
                 introPlayOptions.startIndex = playStartIndex;
 
-                setTimeout(() => {
-                    return playInternal(items[playStartIndex], introPlayOptions, function () {
-                        self._playQueueManager.setPlaylist(items);
+                return playInternal(items[playStartIndex], introPlayOptions, function () {
+                    self._playQueueManager.setPlaylist(items);
 
-                        setPlaylistState(items[playStartIndex].PlaylistItemId, playStartIndex);
-                        loading.hide();
-                    });
-                }, Math.max(xDuration.sustain * 1000), 1);
+                    setPlaylistState(items[playStartIndex].PlaylistItemId, playStartIndex);
+                    loading.hide();
+                });
             });
         }
 
@@ -2365,11 +2373,8 @@ export class PlaybackManager {
                 .catch(onInterceptorRejection)
                 .then(() => detectBitrate(apiClient, item, mediaType))
                 .then((bitrate) => {
-                    const elapsedTime = performance.now() - xDuration.t0; // Calculate the elapsed time
-                    setTimeout(() => {
-                        return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource)
-                            .catch(onPlaybackRejection);
-                    }, Math.max(1, xDuration.sustain * 1000 - elapsedTime));
+                    return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource)
+                        .catch(onPlaybackRejection);
                 })
                 .catch(() => {
                     if (playOptions.fullscreen) {
@@ -2649,6 +2654,7 @@ export class PlaybackManager {
                 const audioStreamIndex = playOptions.audioStreamIndex;
                 const subtitleStreamIndex = playOptions.subtitleStreamIndex;
                 const options = {
+                    aspectRatio: playOptions.aspectRatio,
                     maxBitrate,
                     startPosition,
                     isPlayback: null,
@@ -2706,7 +2712,7 @@ export class PlaybackManager {
                     }
 
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
-
+                    streamInfo.aspectRatio = playOptions.aspectRatio;
                     streamInfo.fullscreen = playOptions.fullscreen;
 
                     const playerData = getPlayerData(player);
@@ -2891,22 +2897,6 @@ export class PlaybackManager {
                 title: item.Name
             };
 
-            // This inserts a header link to preload the next audio track in accordance with browser availability
-            if (type === "Audio") {
-              let link = document.getElementById("next-audio-prefetch");
-
-              if (!link) {
-                link = document.createElement("link");
-                link.id = "next-audio-prefetch";
-                link.rel = "prefetch";
-                link.as = "audio";
-                document.head.appendChild(link);
-              }
-
-              // Update to point to the new upcoming track
-              link.href = mediaUrl;
-            }
-
             const backdropUrl = getItemBackdropImageUrl(apiClient, item, {}, true);
             if (backdropUrl) {
                 resultInfo.backdropUrl = backdropUrl;
@@ -3023,8 +3013,6 @@ export class PlaybackManager {
         };
 
         self.setCurrentPlaylistItem = function (playlistItemId, player) {
-            hijackMediaElementForCrossfade();
-
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.setCurrentPlaylistItem(playlistItemId);
@@ -3132,8 +3120,6 @@ export class PlaybackManager {
         }
 
         self.nextTrack = function (player) {
-            hijackMediaElementForCrossfade();
-
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.nextTrack();
@@ -3408,7 +3394,6 @@ export class PlaybackManager {
          * @param {MediaError} error.type
          */
         function onPlaybackError(e, error) {
-            destroyWaveSurferInstance();
             const player = this;
             error = error || {};
 
@@ -3498,7 +3483,7 @@ export class PlaybackManager {
             const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
             const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
-            if (newPlayer !== player) {
+            if (!newPlayer) {
                 data.streamInfo = null;
                 destroyPlayer(player);
                 removeCurrentPlayer(player);
@@ -3506,12 +3491,21 @@ export class PlaybackManager {
 
             if (errorOccurred) {
                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
-            } else if (nextItem) {
+            } else if (newPlayer) {
                 const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
 
                 apiClient.getCurrentUser().then(function (user) {
                     if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
                         self.nextTrack();
+
+                        if (newPlayer !== player) {
+                            Events.trigger(self, 'playbackstop', [{
+                                player,
+                                state,
+                                nextItem,
+                                nextMediaType
+                            }]);
+                        }
                     }
                 });
             }
@@ -3564,10 +3558,6 @@ export class PlaybackManager {
 
         function onPlaybackTimeUpdate() {
             const player = this;
-            if (timeRunningOut(player)) {
-                self.nextTrack();
-            }
-
             sendProgressUpdate(player, 'timeupdate');
         }
 

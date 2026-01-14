@@ -902,7 +902,7 @@
     "MediaInfoForced": "Piespiedu",
     "LabelPublicHttpPortHelp": "Publiskā porta numurs, kas tiks kartēts uz vietējo HTTP portu.",
     "LabelOptionalNetworkPath": "Koplietota tīkla mape",
-    "LabelLibraryPageSizeHelp": "Iestatiet vienumu skaitu, ko rādīt bibliotēkas lapā. Iestatiet 0, lai atspējotu lapošanu.",
+    "LabelLibraryPageSizeHelp": "Iestatiet vienumu skaitu, ko rādīt bibliotēkas lapā. Ierakstot 0 (nulli) lapošana tiks atspējota. Ņemiet vērā ka 0 vai skaitlis lielāks par 100 var paildzināt lapas parādīšanas laiku vai beigties ar kļūdu.",
     "LabelLibraryPageSize": "Bibliotēkas lapu lielums",
     "LabelKodiMetadataUserHelp": "Saglabāt skatīšanās datus NFO failos, lai tos varētu izmantot citas lietotnes.",
     "LabelKodiMetadataDateFormatHelp": "Visi NFO failos esošie datumi tiks parsēti ar šo formātu.",
@@ -2039,5 +2039,11 @@
     "LabelBundled": "Komplektā",
     "LabelAvailable": "Pieejams",
     "ManageRepositories": "Pārvaldīt repozitorijus",
+<<<<<<< HEAD
     "ViewAllPlugins": "Skatīt visus spraudņus"
+=======
+    "ViewAllPlugins": "Skatīt visus spraudņus",
+    "ButtonAddTunerDevice": "Pievienot uztvērēja ierīci",
+    "ButtonAddProvider": "Pievienot pakalpojuma sniedzēju"
+>>>>>>> master
 }

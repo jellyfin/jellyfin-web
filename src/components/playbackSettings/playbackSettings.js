@@ -14,11 +14,9 @@ import qualityoptions from '../qualityOptions';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
-import { getVisualizerInputValues, setVisualizerSettings } from 'components/visualizer/visualizers.logic';
 import toast from '../toast/toast';
 import template from './playbackSettings.template.html';
 
-import '../../elements/emby-slider/emby-slider';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 
@@ -234,7 +232,6 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkEnableHi10p').checked = appSettings.enableHi10p();
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
-    context.querySelector('#sliderCrossfadeDuration').value = userSettings.crossfadeDuration();
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
     context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
@@ -245,12 +242,6 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkDisableVbrAudioEncoding').checked = appSettings.disableVbrAudio();
     context.querySelector('.chkAlwaysRemuxFlac').checked = appSettings.alwaysRemuxFlac();
     context.querySelector('.chkAlwaysRemuxMp3').checked = appSettings.alwaysRemuxMp3();
-
-    context.querySelector('.chkEnableButterchurn').checked = userSettings.visualizerConfiguration().butterchurn.enabled;
-    context.querySelector('#sliderButterchurnPresetInterval').value = userSettings.visualizerConfiguration().butterchurn.presetInterval;
-    context.querySelector('.chkEnableFrequencyAnalyzer').checked = userSettings.visualizerConfiguration().frequencyAnalyzer.enabled;
-    context.querySelector('.chkEnableWavesurfer').checked = userSettings.visualizerConfiguration().waveSurfer.enabled;
-    setVisualizerSettings(userSettings.visualizerConfiguration());
 
     setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -312,8 +303,6 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.limitSegmentLength(context.querySelector('.chkLimitSegmentLength').checked);
     userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
     userSettingsInstance.selectAudioNormalization(context.querySelector('#selectAudioNormalization').value);
-    userSettingsInstance.crossfadeDuration(context.querySelector('#sliderCrossfadeDuration').value);
-    userSettingsInstance.visualizerConfiguration(getVisualizerInputValues(context));
     userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
     user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
     user.Configuration.RememberSubtitleSelections = context.querySelector('.chkRememberSubtitleSelections').checked;

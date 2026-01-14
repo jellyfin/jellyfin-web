@@ -80,11 +80,12 @@ function setFiles(page, files) {
 }
 
 async function onSubmit(e) {
+    e.preventDefault();
+
     const file = currentFile;
 
     if (!isValidSubtitleFile(file)) {
         toast(globalize.translate('MessageSubtitleFileTypeAllowed'));
-        e.preventDefault();
         return;
     }
 
@@ -109,8 +110,6 @@ async function onSubmit(e) {
         hasChanges = true;
         dialogHelper.close(dlg);
     });
-
-    e.preventDefault();
 }
 
 function initEditor(page) {

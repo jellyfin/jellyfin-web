@@ -34,7 +34,11 @@
     "ButtonResume": "Retomar",
     "ButtonRevoke": "Revogar",
     "ButtonScanAllLibraries": "Analisar todas as bibliotecas",
+<<<<<<< HEAD
     "ButtonSelectDirectory": "Selecione a Pasta",
+=======
+    "ButtonSelectDirectory": "Selecionar pasta",
+>>>>>>> master
     "ButtonSelectView": "Selecionar visualização",
     "ButtonSend": "Enviar",
     "ButtonShutdown": "Encerrar",
@@ -53,7 +57,7 @@
     "Connect": "Ligar",
     "Continuing": "A continuar",
     "CustomDlnaProfilesHelp": "Crie um perfil personalizado para um novo dispositivo ou para sobrepor a um perfil de sistema.",
-    "Delete": "Remover",
+    "Delete": "Eliminar",
     "DeleteDeviceConfirmation": "Tem a certeza que deseja remover este dispositivo? O dispositivo reaparecerá da próxima vez que um utilizador inicie sessão a partir dele.",
     "DeleteImage": "Eliminar imagem",
     "DeleteImageConfirmation": "Tens a certeza de que pretendes eliminar esta imagem?",
@@ -359,7 +363,11 @@
     "LabelPreferredDisplayLanguage": "Idioma de visualização preferido",
     "LabelProfileAudioCodecs": "Codecs de áudio",
     "LabelProfileCodecsHelp": "Separados por vírgula. Pode ser deixado em branco para usar com todos os codecs.",
+<<<<<<< HEAD
     "LabelProfileContainer": "Container",
+=======
+    "LabelProfileContainer": "Arquivo recipiente",
+>>>>>>> master
     "LabelProfileContainersHelp": "Separados por vírgula. Pode ser deixado em branco para ser aplicado a todos os contentores.",
     "LabelProfileVideoCodecs": "Codecs de vídeo",
     "LabelProtocol": "Protocolo",
@@ -528,7 +536,7 @@
     "ParentalRating": "Classificação parental",
     "PasswordMatchError": "A palavra-passe e a confirmação devem coincidir.",
     "PasswordResetComplete": "A palavra-passe foi redefinida.",
-    "PasswordResetConfirmation": "Tem a certeza de que deseja redefinir a palavra-passe?",
+    "PasswordResetConfirmation": "Tens a certeza de que desejas redefinir a palavra-passe?",
     "PasswordSaved": "Palavra-passe guardada.",
     "PinCodeResetComplete": "O código Easy PIN foi redefinido.",
     "PinCodeResetConfirmation": "Tem a certeza de que pretende repor o código Easy PIN?",
@@ -791,7 +799,7 @@
     "LabelAllowedRemoteAddresses": "Filtro de IP remoto",
     "LabelAllowHWTranscoding": "Permitir transcodificação por hardware",
     "LabelAlbumArtHelp": "PN utilizado para a capa do álbum na propriedade 'dlna:profileID' attribute on 'upnp:albumArtURI'. Alguns dispositivos requerem um valor específico, independentemente do tamanho da imagem.",
-    "LabelAbortedByServerShutdown": "(Abortado - Servidor encerrado)",
+    "LabelAbortedByServerShutdown": "Abortado - Servidor encerrado",
     "Kids": "Crianças",
     "Items": "Itens",
     "InstallingPackage": "A instalar {0} (versão {1})",
@@ -845,7 +853,7 @@
     "PlayAllFromHere": "Reproduzir todos a partir daqui",
     "PerfectMatch": "Correspondência perfeita",
     "People": "Pessoas",
-    "PasswordResetProviderHelp": "Selecione um fornecedor de redefinição de palavra-passe a ser utilizado quando um utilizador solicitar uma redefinição de palavra-passe.",
+    "PasswordResetProviderHelp": "Seleciona um fornecedor de redefinição de palavra-passe a ser utilizado quando um utilizador solicitar uma redefinição de palavra-passe.",
     "PackageInstallFailed": "Instalação de {0} (version {1}) falhou.",
     "PackageInstallCompleted": "Instalação de {0} (version {1}) terminada.",
     "PackageInstallCancelled": "Instalação de {0} (version {1}) cancelada.",
@@ -990,7 +998,7 @@
     "MediaInfoPath": "Caminho",
     "MediaInfoLevel": "Nível",
     "Banner": "Faixa",
-    "Desktop": "Desktop",
+    "Desktop": "Ambiente de trabalho (Versão antiga)",
     "DetectingDevices": "A procurar dispositivos",
     "CopyStreamURL": "Copiar URL da transmissão",
     "Disc": "Disco",
@@ -1076,7 +1084,11 @@
     "MoveRight": "Mover para a direita",
     "MoveLeft": "Mover para a esquerda",
     "MoreFromValue": "Mais de {0}",
+<<<<<<< HEAD
     "Mobile": "Telemóvel",
+=======
+    "Mobile": "Telemóvel (Versão antiga)",
+>>>>>>> master
     "MetadataSettingChangeHelp": "Alterar as definições de metadados irá afetar apenas conteúdo adicionado no futuro. Para atualizar conteúdo já existente, abre o painel de detalhes e clica no botão 'Recarregar metadados' ou executa uma atualização em massa utilizando o Gestor de metadados.",
     "MetadataManager": "Gestor de metadados",
     "Metadata": "Metadados",
@@ -1097,7 +1109,7 @@
     "LeaveBlankToNotSetAPassword": "Este campo pode ser deixado em branco para não ser definida qualquer palavra-passe.",
     "LearnHowYouCanContribute": "Veja como pode contribuir.",
     "Large": "Grande",
-    "LanNetworksHelp": "Lista separada por vírgulas de endereços IP ou IP/máscara que serão considerados como locais quando se aplicam restrições de largura de banda. Se preenchido, todos os outros endereços serão considerados externos e estarão sujeitos às restrições de largura de banda para dispositivos externos. Se deixado em branco, apenas serão consideradas locais as sub-redes do servidor.",
+    "LanNetworksHelp": "Lista de endereços IP separados por vírgulas ou entradas IP/máscara de rede que serão consideradas como rede local ao aplicar restrições de largura de banda e de acesso remoto. Se ficar em branco, todos os endereços RFC1918 são considerados locais.",
     "LabelffmpegPathHelp": "Localização da aplicação ou pasta que contém o FFmpeg.",
     "LabelffmpegPath": "Localização do FFmpeg",
     "LabelYear": "Ano",
@@ -1255,7 +1267,11 @@
     "LabelRequireHttps": "Exigir HTTPS",
     "LabelStable": "Estável",
     "LabelChromecastVersion": "Versão do Google Cast",
+<<<<<<< HEAD
     "LabelLibraryPageSizeHelp": "Define a quantidade de itens a apresentar na página de uma biblioteca. Para desativares a paginação, introduz o valor 0.",
+=======
+    "LabelLibraryPageSizeHelp": "Define a quantidade de itens a apresentar na página de uma biblioteca. Definir o valor como 0 desativa a paginação. Tenha em atenção que colocar a 0 ou qualquer valor maior do que 100 poderá causar erros ou desempenho reduzido.",
+>>>>>>> master
     "LabelLibraryPageSize": "Tamanho da página da biblioteca",
     "LabelEnableHttpsHelp": "Escutar na porta HTTPS configurada. Para que esta opção seja ativada, é necessário fornecer um certificado válido.",
     "LabelEnableHttps": "Ativar HTTPS",
@@ -1675,7 +1691,11 @@
     "Interview": "Entrevista",
     "DeletedScene": "Cenas removidas",
     "BehindTheScenes": "Bastidores",
+<<<<<<< HEAD
     "DownloadAll": "Transferir tudo",
+=======
+    "DownloadAll": "Transferir Todas",
+>>>>>>> master
     "MessageNoItemsAvailable": "Nenhum item disponível atualmente.",
     "MessageNoFavoritesAvailable": "Não existem favoritos atualmente disponíveis.",
     "SubtitleBlack": "Preto",
@@ -2064,5 +2084,13 @@
     "LabelAvailable": "Disponível",
     "LabelBundled": "Incluído",
     "ManageRepositories": "Gerir repositórios",
+<<<<<<< HEAD
     "ViewAllPlugins": "Ver todas as extensões"
+=======
+    "ViewAllPlugins": "Ver todas as extensões",
+    "ButtonAddTunerDevice": "Adicionar um sintonizador",
+    "ButtonAddProvider": "Adicionar um fornecedor",
+    "LabelSlideshowInterval": "Intervalo de Apresentação de Fotos",
+    "LabelSlideshowIntervalHelp": "O tempo de exibição de cada foto em apresentações, em segundos."
+>>>>>>> master
 }

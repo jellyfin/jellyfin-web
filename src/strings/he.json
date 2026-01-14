@@ -564,7 +564,7 @@
     "ButtonSubmit": "שלח",
     "ButtonStart": "התחל",
     "ButtonScanAllLibraries": "סרוק את כל הספריות",
-    "ButtonRevoke": "בטל",
+    "ButtonRevoke": "שלול",
     "TabScheduledTasks": "משימות מתוזמנות",
     "ButtonResume": "המשך",
     "ButtonOpen": "פתח",
@@ -1151,7 +1151,7 @@
     "Poster": "כרזה",
     "Trailers": "קדימונים",
     "LabelMovieCategories": "קטגוריות סרטים",
-    "LabelLibraryPageSizeHelp": "הגדרת כמות הפריטים להצגה בעמוד ספרייה. 0 משבית דפדוף.",
+    "LabelLibraryPageSizeHelp": "הגדרת כמות הפריטים להצגה בעמוד ספרייה. הגדרת 0 תשבית דפדוף. שימו לב כי הגדרת 0 או כל ערך מעל 100 עלולים לגרור באגים וביצועים נחותים.",
     "TabContainers": "מכולות",
     "Transcoding": "התמרה",
     "LabelMoviePrefixHelp": "אם חלה קידומת על כותרות סרטים, יש למלא אותה כאן כדי שהשרת יטפל בה כראוי.",
@@ -1456,7 +1456,7 @@
     "LabelVideoBitrate": "קצב הביטים של הוידיאו",
     "LabelTypeMetadataDownloaders": "תוכנות הורדת מטא-דאטה ({0})",
     "LyricDownloadersHelp": "הפעלת ודירוג מורידי מילות השיר המועדפים עליך בסדר עדיפות.",
-    "LanNetworksHelp": "רשימה מופרדת בפסיקים של כתובות IP או רשומות IP/netmask לרשתות שייחשבו מקומיות באכיפת הגבלות רוחב פס. אם הוגדר, כל שאר הכתובות ייחשבו כרשת חיצונית ויחולו עליהן הגבלות רוחב הפס לרשתות חיצוניות. אם השדה נשאר ריק, רק תת-הרשת של השרת תיחשב כרשת מקומית.",
+    "LanNetworksHelp": "רשימה מופרדת בפסיקים של כתובות IP או רשומות IP/netmask לרשתות שייחשבו מקומיות באכיפת הגבלות רוחב פס וחסימות רשתות מרוחקות. אם השדה נשאר ריק, כל רקשתות RFC1918 ייחשבו מקומיות.",
     "LimitSupportedVideoResolutionHelp": "השתמש ב-'רזולוציה מותרת מירבית להמרת קידוד וידיאו' כרזולוציית וידיאו נתמכת מירבית.",
     "ListView": "תצוגת רשימה",
     "Lyric": "ליריקה",
@@ -2001,5 +2001,7 @@
     "LabelAvailable": "זמין",
     "LabelBundled": "ארוז",
     "ManageRepositories": "נהל מאגרים",
-    "ViewAllPlugins": "הצגת כל התוספים"
+    "ViewAllPlugins": "הצגת כל התוספים",
+    "ButtonAddProvider": "הוסף יבאוין",
+    "ButtonAddTunerDevice": "הוסף מכוון"
 }

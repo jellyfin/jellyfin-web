@@ -124,11 +124,11 @@
     "DeleteUserConfirmation": "Sei sicuro di voler eliminare questo utente?",
     "Depressed": "Depresso",
     "Descending": "Decrescente",
-    "Desktop": "PC Fisso",
+    "Desktop": "Desktop (Obsoleto)",
     "DetectingDevices": "Rilevamento dispositivi",
-    "DeviceAccessHelp": "Si applica solo ai dispositivi che possono essere identificati univocamente e non impedirà l'accesso dal browser. Filtrare l'accesso ai dispositivi dell'utente impedirà di usare nuovi dispositivi fino a quando non saranno stati approvati qui.",
+    "DeviceAccessHelp": "Si applica solo ai dispositivi che possono essere identificati univocamente e ciò non impedirà l'accesso dal browser. Filtrare l'accesso ai dispositivi dell'utente impedirà di usare nuovi dispositivi fino a quando non saranno stati approvati qui.",
     "DirectPlaying": "Riproduzione Diretta",
-    "DirectStreamHelp1": "La traccia video è compatibile con il dispositivo ma non quella audio (DTS, Dolby TrueHD, ecc) o il numero di canali audio. Il video sarà quindi reimpacchettato al volo senza perdita di dati prima dell'invio al dispositivo. Solo lo stream audio sarà ricodificato.",
+    "DirectStreamHelp1": "La traccia video è compatibile con il dispositivo ma quella audio (DTS, Dolby TrueHD, ecc) o il numero di canali audio, no. Il video sarà quindi reimpacchettato al volo senza perdita di dati prima dell'invio al dispositivo. Solo lo stream audio sarà ricodificato.",
     "DirectStreamHelp2": "La potenza di calcolo utilizzata dal direct streaming dipende dal profilo audio. Solo la traccia video è senza perdita di dati.",
     "DirectStreaming": "Streaming Diretto",
     "Director": "Regista",
@@ -696,7 +696,7 @@
     "LabelZipCode": "Cap",
     "LabelffmpegPath": "Percorso FFmpeg",
     "LabelffmpegPathHelp": "Il percorso dell'applicazione FFmpeg o della cartella che la contiene.",
-    "LanNetworksHelp": "Elenco separato da virgola di indirizzi IP o voci IP / maschera di rete per reti che saranno considerate sulla rete locale quando si applicano restrizioni di larghezza di banda. Se impostato, tutti gli altri indirizzi IP verranno considerati nella rete esterna e saranno soggetti alle limitazioni della larghezza di banda esterna. Se lasciato vuoto, solo la sottorete del server viene considerata nella rete locale.",
+    "LanNetworksHelp": "Elenco separato da virgola di indirizzi IP o voci IP / maschera di rete per reti che saranno considerate sulla rete locale quando si applicano restrizioni di larghezza di banda e di accesso remoto. Se lasciato vuoto, tutti gli indirizzi RFC1918 vengono considerati locali.",
     "Large": "Grande",
     "LatestFromLibrary": "{0} Recenti",
     "LearnHowYouCanContribute": "Scopri come puoi contribuire.",
@@ -1113,7 +1113,7 @@
     "Blacklist": "Lista Nera",
     "Box": "Scatola",
     "ButtonInfo": "Info",
-    "ButtonOk": "Ok",
+    "ButtonOk": "OK",
     "ButtonStop": "Ferma",
     "ButtonTrailer": "Trailer",
     "ChangingMetadataImageSettingsNewContent": "I cambiamenti alle impostazioni dei download dei metadati verranno applicati solamente ai nuovi contenuti aggiunti alla libreria. Per applicare i cambiamenti ai titoli già esistenti devi ricaricare i metadati manualmente.",
@@ -1199,7 +1199,7 @@
     "LabelWeb": "Web",
     "LeaveBlankToNotSetAPassword": "Puoi lasciare questo campo vuoto per non impostare alcuna password.",
     "MediaInfoTimestamp": "Orario",
-    "Mobile": "Mobile",
+    "Mobile": "Mobile (Obsoleto)",
     "MoreMediaInfo": "Informazioni sui Media",
     "MusicAlbum": "Album Musicale",
     "MusicArtist": "Artista Musicale",
@@ -1267,7 +1267,7 @@
     "Yadif": "Yet Another DeInterlacing Filter (YADIF)",
     "Season": "Stagione",
     "Movie": "Film",
-    "LabelLibraryPageSizeHelp": "Numero di elementi presenti nella paginazione della libreria. Il valore 0 disabilita la paginazione.",
+    "LabelLibraryPageSizeHelp": "Numero di elementi presenti nella paginazione della libreria. Il valore 0 disabilita la paginazione. Tieni presente che impostare questo valore a 0 o un valore superiore a 100 potrebbe comportare bug o peggiorare la performance.",
     "LabelLibraryPageSize": "Elementi nella paginazione della libreria",
     "Episode": "Episodio",
     "BoxSet": "Cofanetto",
@@ -1846,7 +1846,11 @@
     "LabelImageInterval": "Intervallo di immagine",
     "ExtractTrickplayImagesHelp": "Le immagini Trickplay sono simili alle immagini dei capitoli, ma coprono l'intera lunghezza del contenuto e vengono utilizzate per mostrare un'anteprima durante lo scorrimento dei video.",
     "LabelTrickplayThreadsHelp": "Numero di thread da passare all'argomento '-threads' di ffmpeg.",
+<<<<<<< HEAD
     "LabelExtractTrickplayDuringLibraryScanHelp": "Genera le immagini Trickplay quando i video vengono importati durante la scansione della libreria. Altrimenti, verranno estratte durante l'attività programmata . Se la generazione è impostata su non bloccante, questo non influirà sul tempo di completamento della scansione della libreria.",
+=======
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Genera le immagini Trickplay quando i video vengono importati durante la scansione della libreria. Altrimenti, verranno estratte durante l'attività Trickplay programmata. Se la generazione è impostata su Senza Blocco, questo non influirà sul tempo di completamento della scansione della libreria.",
+>>>>>>> master
     "LabelImageIntervalHelp": "Intervallo di tempo (ms) tra ogni nuova immagine di Trickplay.",
     "LabelJpegQuality": "Qualità JPEG",
     "LabelExtractTrickplayDuringLibraryScan": "Estrai le immagini Trickplay durante la scansione della libreria",
@@ -1989,7 +1993,11 @@
     "MediaSegmentAction.None": "Niente",
     "MediaSegmentAction.Skip": "Salta",
     "MoviesAndShows": "Film e Serie",
+<<<<<<< HEAD
     "HeaderMediaSegmentActions": "Media Segment Actions",
+=======
+    "HeaderMediaSegmentActions": "Azioni sui segmenti dei media",
+>>>>>>> master
     "HeaderNextEpisode": "Prossimo Episodio",
     "HeaderNextVideo": "Prossimo Video",
     "MediaSegmentProvidersHelp": "Abilita e classifica i tuoi provider di segmenti multimediali preferiti in ordine di priorità.",
@@ -2006,7 +2014,11 @@
     "LibraryNameInvalid": "Il nome della libreria non può essere vuoto.",
     "CopyLogSuccess": "Contenuti dei log copiati con successo.",
     "Retry": "Riprova",
+<<<<<<< HEAD
     "LogLoadFailure": "Non sono riuscito a caricare il file di log. Potrebbe essere tutt'ora in fase di scrittura.",
+=======
+    "LogLoadFailure": "Caricamento del file di log fallito. Potrebbe essere ancora in fase di scrittura.",
+>>>>>>> master
     "DisplayLoadError": "Errore durante il caricamento dei dati di configurazione del display.",
     "MetadataImagesLoadError": "Caricamento metadati delle immagini fallito",
     "MetadataNfoLoadError": "Errore nel caricamento dei metadati NFO",
@@ -2069,5 +2081,13 @@
     "LabelAvailable": "Disponibile",
     "ManageRepositories": "Gestisci Archivi",
     "ViewAllPlugins": "Visualizza tutti i plugin",
+<<<<<<< HEAD
     "LabelBundled": "Raggruppati"
+=======
+    "LabelBundled": "Raggruppati",
+    "ButtonAddProvider": "Aggiungi un fornitore",
+    "ButtonAddTunerDevice": "Aggiungi un dispositivo tuner",
+    "LabelSlideshowInterval": "Intervallo tra le diapositive",
+    "LabelSlideshowIntervalHelp": "Durata di visualizzazione di ogni foto (in secondi) nella presentazione."
+>>>>>>> master
 }

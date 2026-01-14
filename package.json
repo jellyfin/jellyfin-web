@@ -1,6 +1,6 @@
 {
   "name": "jellyfin-web",
-  "version": "10.11.0",
+  "version": "10.12.0",
   "description": "Web interface for Jellyfin",
   "repository": "https://github.com/jellyfin/jellyfin-web",
   "license": "GPL-2.0-or-later",
@@ -66,6 +66,7 @@
     "ts-loader": "9.5.2",
     "typescript": "5.8.3",
     "typescript-eslint": "8.35.1",
+    "vite-tsconfig-paths": "5.1.4",
     "vitest": "3.2.4",
     "webpack": "5.99.9",
     "webpack-bundle-analyzer": "4.10.2",
@@ -84,7 +85,7 @@
     "@fontsource/noto-sans-sc": "5.2.6",
     "@fontsource/noto-sans-tc": "5.2.6",
     "@jellyfin/libass-wasm": "4.2.3",
-    "@jellyfin/sdk": "0.0.0-unstable.202508141352",
+    "@jellyfin/sdk": "0.0.0-unstable.202512091852",
     "@jellyfin/ux-web": "1.0.0",
     "@mui/icons-material": "6.4.12",
     "@mui/material": "6.4.12",
@@ -108,7 +109,7 @@
     "flv.js": "1.6.2",
     "headroom.js": "0.12.0",
     "history": "5.3.0",
-    "hls.js": "1.6.9",
+    "hls.js": "1.6.13",
     "intersection-observer": "0.12.2",
     "jellyfin-apiclient": "1.11.0",
     "jquery": "3.7.1",
@@ -164,14 +165,14 @@
     "build:check": "tsc --noEmit",
     "build:es-check": "npm run build:production && npm run escheck",
     "escheck": "es-check",
-    "lint": "eslint \"./\"",
+    "lint": "eslint",
     "test": "vitest --watch=false --config vite.config.ts",
     "test:watch": "vitest --config vite.config.ts",
     "stylelint": "stylelint \"src/**/*.{css,scss}\""
   },
   "engines": {
     "node": ">=20.0.0",
-    "npm": ">=9.6.4",
+    "npm": ">=9.6.4 <11.0.0",
     "yarn": "YARN NO LONGER USED - use npm instead."
   }
 }

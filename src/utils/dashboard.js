@@ -16,17 +16,10 @@ import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
 import dialogHelper from '../components/dialogHelper/dialogHelper';
 import itemIdentifier from '../components/itemidentifier/itemidentifier';
 import { getLocationSearch } from './url.ts';
-import capabilities from './appCapabilities.ts';
 import { queryClient } from './query/queryClient';
 
 export function getCurrentUser() {
-    const apiClient = window.ApiClient;
-
-    if (!apiClient) {
-        return Promise.resolve(null);
-    }
-
-    return apiClient.getCurrentUser(false);
+    return window.ApiClient.getCurrentUser(false);
 }
 
 // TODO: investigate url prefix support for serverAddress function
@@ -187,7 +180,14 @@ export function alert(options) {
     }
 }
 
-export { capabilities };
+export function capabilities(host) {
+    return Object.assign({
+        PlayableMediaTypes: ['Audio', 'Video'],
+        SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
+        SupportsPersistentIdentifier: window.appMode === 'cordova' || window.appMode === 'android',
+        SupportsMediaControl: true
+    }, host.getPushTokenInfo());
+}
 
 export function selectServer() {
     if (window.NativeShell && typeof window.NativeShell.selectServer === 'function') {

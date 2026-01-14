@@ -23,101 +23,19 @@
             <span>${LabelPlayDefaultAudioTrack}</span>
         </label>
 
-        <div class="sliderContainer-settings sliderContainer-withDescription">
-            <div class="sliderContainer">
-                <input is="emby-slider" id="sliderCrossfadeDuration" label="${CrossfadeDuration}" type="range"
-                    step="0.01" min="0" max="6" />
-            </div>
-            <div class="fieldDescription">${CrossfadeDurationHelp}</div>
-        </div>
-
-        <div>
-            <label class="checkboxContainer">
-                <input type="checkbox" is="emby-checkbox" class="chkEnableButterchurn" />
-                <span>${EnableButterchurn}</span>
+        <div class="checkboxContainer checkboxContainer-withDescription">
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkDisableVbrAudioEncoding" />
+                <span>${LabelDisableVbrAudioEncoding}</span>
             </label>
+            <div class="fieldDescription checkboxFieldDescription">${DisableVbrAudioEncodingHelp}</div>
         </div>
-        <div class="sliderContainer-settings sliderContainer-withDescription">
-            <div class="sliderContainer">
-                <input is="emby-slider" id="sliderButterchurnPresetInterval" label="${ButterchurnPresetInterval}"
-                    type="range" step="1" min="10" max="120" />
-            </div>
-            <div class="fieldDescription">${ButterchurnPresetIntervalHelp}</div>
-        </div>
-        <label class="checkboxContainer">
-            <input type="checkbox" is="emby-checkbox" class="chkEnableFrequencyAnalyzer" />
-            <span>${EnableFrequencyAnalyzer}</span>
-        </label>
-        <label class="checkboxContainer">
-            <input type="checkbox" is="emby-checkbox" class="chkEnableWavesurfer" />
-            <span>${EnableWavesurfer}</span>
-        </label>
     </div>
-    <div class="checkboxContainer checkboxContainer-withDescription">
-        <label>
-            <input type="checkbox" is="emby-checkbox" class="chkDisableVbrAudioEncoding" />
-            <span>${LabelDisableVbrAudioEncoding}</span>
-        </label>
-        <div class="fieldDescription checkboxFieldDescription">${DisableVbrAudioEncodingHelp}</div>
-    </div>
-        <div class="qualitySections hide">
-            <div class="verticalSection verticalSection-extrabottompadding videoQualitySection hide">
-                <h2 class="sectionTitle">
-                    ${HeaderVideoQuality}
-                </h2>
 
-                <div class="selectContainer fldVideoInNetworkQuality hide">
-                    <select is="emby-select" class="selectVideoInNetworkQuality"
-                        label="${LabelHomeNetworkQuality}"></select>
-                </div>
-
-                <div class="selectContainer fldVideoInternetQuality hide">
-                    <select is="emby-select" class="selectVideoInternetQuality"
-                        label="${LabelInternetQuality}"></select>
-                </div>
-
-                <div class="selectContainer fldChromecastQuality hide">
-                    <select is="emby-select" class="selectChromecastVideoQuality"
-                        label="${LabelMaxChromecastBitrate}"></select>
-                </div>
-
-                <div class="selectContainer">
-                    <select is="emby-select" class="selectMaxVideoWidth" label="${LabelMaxVideoResolution}">
-                        <option value="0">${Auto}</option>
-                        <option value="-1">${ScreenResolution}</option>
-                        <option value="640">360p</option>
-                        <option value="852">480p</option>
-                        <option value="1280">720p</option>
-                        <option value="1920">1080p</option>
-                        <option value="3840">4K</option>
-                        <option value="7680">8K</option>
-                    </select>
-                </div>
-
-                <div class="checkboxContainer checkboxContainer-withDescription">
-                    <label>
-                        <input type="checkbox" is="emby-checkbox" class="chkLimitSupportedVideoResolution" />
-                        <span>${LimitSupportedVideoResolution}</span>
-                    </label>
-                    <div class="fieldDescription checkboxFieldDescription">${LimitSupportedVideoResolutionHelp}</div>
-                </div>
-            </div>
-
-            <div class="verticalSection verticalSection-extrabottompadding musicQualitySection hide">
-                <h2>
-                    ${HeaderMusicQuality}
-                </h2>
-
-                <div class="selectContainer">
-                    <select is="emby-select" class="selectMusicInternetQuality"
-                        label="${LabelInternetQuality}"></select>
-                </div>
-            </div>
-        </div>
-
-        <div class="verticalSection verticalSection-extrabottompadding">
+    <div class="qualitySections hide">
+        <div class="verticalSection verticalSection-extrabottompadding videoQualitySection hide">
             <h2 class="sectionTitle">
-                ${TabAdvanced}
+                ${HeaderVideoQuality}
             </h2>
 
             <div class="selectContainer fldVideoInNetworkQuality hide">
@@ -133,74 +51,37 @@
             </div>
 
             <div class="selectContainer">
-                <select is="emby-select" id="selectAudioNormalization" label="${LabelSelectAudioNormalization}">
-                    <option value="Off">${Off}</option>
-                    <option value="TrackGain">${LabelTrackGain}</option>
-                    <option value="AlbumGain">${LabelAlbumGain}</option>
+                <select is="emby-select" class="selectMaxVideoWidth" label="${LabelMaxVideoResolution}">
+                    <option value="0">${Auto}</option>
+                    <option value="-1">${ScreenResolution}</option>
+                    <option value="640">360p</option>
+                    <option value="852">480p</option>
+                    <option value="1280">720p</option>
+                    <option value="1920">1080p</option>
+                    <option value="3840">4K</option>
+                    <option value="7680">8K</option>
                 </select>
-                <div class="fieldDescription">${SelectAudioNormalizationHelp}</div>
             </div>
 
             <div class="checkboxContainer checkboxContainer-withDescription">
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkPreferFmp4HlsContainer" />
-                    <span>${PreferFmp4HlsContainer}</span>
+                    <input type="checkbox" is="emby-checkbox" class="chkLimitSupportedVideoResolution" />
+                    <span>${LimitSupportedVideoResolution}</span>
                 </label>
-                <div class="fieldDescription checkboxFieldDescription">${PreferFmp4HlsContainerHelp}</div>
+                <div class="fieldDescription checkboxFieldDescription">${LimitSupportedVideoResolutionHelp}</div>
             </div>
+        </div>
 
-            <div class="checkboxContainer checkboxContainer-withDescription cinemaModeOptions">
-                <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkEnableCinemaMode" />
-                    <span>${EnableCinemaMode}</span>
-                </label>
-                <div class="fieldDescription checkboxFieldDescription">${CinemaModeConfigurationHelp}</div>
-            </div>
-
-            <div class="checkboxContainer fldEpisodeAutoPlay">
-                <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkEpisodeAutoPlay" />
-                    <span>${PlayNextEpisodeAutomatically}</span>
-                </label>
-            </div>
-
-            <div class="checkboxContainer checkboxContainer-withDescription">
-                <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkRememberAudioSelections" />
-                    <span>${RememberAudioSelections}</span>
-                </label>
-                <div class="fieldDescription checkboxFieldDescription">${RememberAudioSelectionsHelp}</div>
-            </div>
-
-            <div class="checkboxContainer checkboxContainer-withDescription">
-                <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkRememberSubtitleSelections" />
-                    <span>${RememberSubtitleSelections}</span>
-                </label>
-                <div class="fieldDescription checkboxFieldDescription">${RememberSubtitleSelectionsHelp}</div>
-            </div>
-
-            <div class="checkboxContainer checkboxContainer-withDescription fldEnableNextVideoOverlay">
-                <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkEnableNextVideoOverlay" />
-                    <span>${EnableNextVideoInfoOverlay}</span>
-                </label>
-                <div class="fieldDescription checkboxFieldDescription">${EnableNextVideoInfoOverlayHelp}</div>
-            </div>
-
-            <div class="checkboxContainer fldExternalPlayer checkboxContainer-withDescription hide">
-                <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkExternalVideoPlayer" />
-                    <span>${EnableExternalVideoPlayers}</span>
-                </label>
-                <div class="fieldDescription checkboxFieldDescription">
-                    <div class="labelNativeExternalPlayers">${EnableExternalVideoPlayersHelp}</div>
-                </div>
-            </div>
+        <div class="verticalSection verticalSection-extrabottompadding musicQualitySection hide">
+            <h2>
+                ${HeaderMusicQuality}
+            </h2>
 
             <div class="selectContainer">
-                <select is="emby-select" class="selectChromecastVersion" label="${LabelChromecastVersion}"></select>
+                <select is="emby-select" class="selectMusicInternetQuality" label="${LabelInternetQuality}"></select>
             </div>
+        </div>
+    </div>
 
     <div class="verticalSection verticalSection-extrabottompadding">
         <h2 class="sectionTitle">
@@ -262,6 +143,7 @@
             <div class="fieldDescription checkboxFieldDescription">
                 <div class="labelNativeExternalPlayers">${EnableExternalVideoPlayersHelp}</div>
             </div>
+        </div>
 
         <div class="selectContainer">
             <select is="emby-select" class="selectChromecastVersion" label="${LabelChromecastVersion}"></select>
