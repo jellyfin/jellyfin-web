@@ -31,7 +31,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
         const url = href || '';
         if (url !== '#') {
             if (target) {
-                if (!appHost.supports(AppFeature.TargetBlank)) {
+                if (appHost && !appHost.supports(AppFeature.TargetBlank)) {
                     e.preventDefault();
                     shell.openUrl(url);
                 }
@@ -48,7 +48,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
         onClick?.(e);
     }, [ href, target, onClick ]);
 
-    if (isAutoHideEnabled === true && !appHost.supports(AppFeature.ExternalLinks)) {
+    if (isAutoHideEnabled === true && appHost && !appHost.supports(AppFeature.ExternalLinks)) {
         return null;
     }
 

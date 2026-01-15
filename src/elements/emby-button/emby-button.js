@@ -16,7 +16,7 @@ function onAnchorClick(e) {
     const href = this.getAttribute('href') || '';
     if (href !== '#') {
         if (this.getAttribute('target')) {
-            if (!appHost.supports(AppFeature.TargetBlank)) {
+            if (appHost && !appHost.supports(AppFeature.TargetBlank)) {
                 e.preventDefault();
                 shell.openUrl(href);
             }
@@ -49,7 +49,7 @@ EmbyButtonPrototype.attachedCallback = function () {
         addEventListener(this, 'click', onAnchorClick, {});
 
         if (this.getAttribute('data-autohide') === 'true') {
-            if (appHost.supports(AppFeature.ExternalLinks)) {
+            if (appHost && appHost.supports(AppFeature.ExternalLinks)) {
                 this.classList.remove('hide');
             } else {
                 this.classList.add('hide');
