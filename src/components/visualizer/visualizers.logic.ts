@@ -51,7 +51,7 @@ export function getVisualizerSettings () {
     return JSON.stringify(visualizerSettings);
 }
 
-export function setVisualizerSettings (savedSettings: typeof visualizerSettings) {
+export function setVisualizerSettings (savedSettings: any) {
     if (!savedSettings) return;
 
     const legacySitback = savedSettings?.sitback || savedSettings?.sitBack;

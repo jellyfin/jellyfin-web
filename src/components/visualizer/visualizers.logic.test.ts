@@ -23,7 +23,7 @@ describe('visualizers.logic', () => {
                 trackInfoDuration: 7,
                 autoHideTimer: 12
             }
-        } as typeof visualizerSettings);
+        } as any);
 
         expect(visualizerSettings.sitback.trackInfoDuration).toBe(7);
         expect(visualizerSettings.sitback.autoHideTimer).toBe(12);
@@ -39,7 +39,7 @@ describe('visualizers.logic', () => {
                 trackInfoDuration: 9,
                 autoHideTimer: 15
             }
-        } as typeof visualizerSettings);
+        } as any);
 
         expect(visualizerSettings.sitback.trackInfoDuration).toBe(9);
         expect(visualizerSettings.sitback.autoHideTimer).toBe(15);

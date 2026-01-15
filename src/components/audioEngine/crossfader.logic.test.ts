@@ -360,7 +360,7 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
         });
 
         it('should reset busy flag when AudioContext not available', () => {
-            mocks.masterAudioOutput.audioContext = null;
+            mocks.masterAudioOutput.audioContext = null as any;
             xDuration.busy = false;
             hijackMediaElementForCrossfade();
             expect(xDuration.busy).toBe(false);
@@ -513,7 +513,7 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
 
     describe('edge cases', () => {
         it('should handle call when AudioContext not initialized', () => {
-            mocks.masterAudioOutput.audioContext = null;
+            mocks.masterAudioOutput.audioContext = null as any;
             hijackMediaElementForCrossfade();
             // Function still runs, returns early due to null audioContext
             // but busy flag is reset
@@ -521,7 +521,7 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
         });
 
         it('should handle rapid successive calls', () => {
-            mocks.masterAudioOutput.audioContext = null;
+            mocks.masterAudioOutput.audioContext = null as any;
             hijackMediaElementForCrossfade();
             const firstBusy = xDuration.busy;
 

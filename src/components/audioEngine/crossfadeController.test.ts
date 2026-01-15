@@ -27,14 +27,14 @@ const mocks = vi.hoisted(() => {
 });
 
 vi.mock('../htmlMediaHelper', () => ({
-    playWithPromise: (...args: any[]) => mocks.playWithPromise(...args)
+    playWithPromise: mocks.playWithPromise
 }));
 
 vi.mock('./master.logic', () => ({
     masterAudioOutput: mocks.masterAudioOutput,
-    ensureAudioNodeBundle: (...args: any[]) => mocks.ensureAudioNodeBundle(...args),
-    getAudioNodeBundle: (...args: any[]) => mocks.getAudioNodeBundle(...args),
-    removeAudioNodeBundle: (...args: any[]) => mocks.removeAudioNodeBundle(...args)
+    ensureAudioNodeBundle: mocks.ensureAudioNodeBundle,
+    getAudioNodeBundle: mocks.getAudioNodeBundle,
+    removeAudioNodeBundle: mocks.removeAudioNodeBundle
 }));
 
 import {

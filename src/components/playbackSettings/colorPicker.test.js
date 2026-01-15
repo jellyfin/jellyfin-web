@@ -89,12 +89,15 @@ describe('colorPicker - Color Picker UI', () => {
         it('should update color picker when valid hex entered in text', () => {
             const { colorInput, textInput } = setupColorPicker('Test');
 
+            // Attach listeners
+            syncColorInputs(colorInput, textInput);
+
             // Simulate text input with valid hex
             textInput.value = '#FF0000';
             textInput.dispatchEvent(new Event('input', { bubbles: true }));
 
-            // Color picker should reflect the value (in lowercase)
-            expect(colorInput.value.toLowerCase()).toMatch(/^#[0-9a-f]{6}$/);
+            // Color picker should reflect the value
+            expect(colorInput.value).toBe('#ff0000');
         });
 
         it('should add invalid class for non-hex text', () => {
@@ -126,15 +129,17 @@ describe('colorPicker - Color Picker UI', () => {
         });
 
         it('should trim whitespace before validation', () => {
-            const { textInput } = setupColorPicker('Test');
+            const { colorInput, textInput } = setupColorPicker('Test');
+
+            // Attach listeners
+            syncColorInputs(colorInput, textInput);
 
             // Set with whitespace
             textInput.value = '  #1ED24B  ';
             textInput.dispatchEvent(new Event('input', { bubbles: true }));
 
-            // Should be trimmed and valid
-            const isValid = /^#[0-9A-Fa-f]{6}$/.test(textInput.value.trim());
-            expect(isValid).toBe(true);
+            // Should be recognized as valid (trimming happens in input handler)
+            expect(textInput.classList.contains('invalid')).toBe(false);
         });
     });
 

@@ -55,7 +55,7 @@ const createMockAudioParam = () => ({
 
 const createMockGainNode = () => ({
     gain: createMockAudioParam(),
-    connect: vi.fn(function() { return this; }),
+    connect: vi.fn(function(this: any) { return this; }),
     disconnect: vi.fn()
 });
 
@@ -65,18 +65,18 @@ const createMockDynamicsCompressor = () => ({
     ratio: createMockAudioParam(),
     attack: createMockAudioParam(),
     release: createMockAudioParam(),
-    connect: vi.fn(function() { return this; }),
+    connect: vi.fn(function(this: any) { return this; }),
     disconnect: vi.fn()
 });
 
 const createMockDelayNode = () => ({
     delayTime: createMockAudioParam(),
-    connect: vi.fn(function() { return this; }),
+    connect: vi.fn(function(this: any) { return this; }),
     disconnect: vi.fn()
 });
 
 const createMockMediaElementSource = () => ({
-    connect: vi.fn(function() { return this; }),
+    connect: vi.fn(function(this: any) { return this; }),
     disconnect: vi.fn()
 });
 
@@ -216,7 +216,7 @@ describe('master.logic - Audio Engine', () => {
         it('should not reinitialize mixer if already exists', () => {
             const unbind = vi.fn();
             const firstMixer = createMockGainNode();
-            masterAudioOutput.mixerNode = firstMixer;
+            masterAudioOutput.mixerNode = firstMixer as any;
 
             initializeMasterAudio(unbind);
 
@@ -549,7 +549,7 @@ describe('master.logic - Audio Engine', () => {
         it('should use default gain of 1 when normalizationGain undefined', () => {
             rampPlaybackGain(undefined);
 
-            const gainNode = audioNodeBus[0]?.gain;
+            const gainNode = audioNodeBus[0]?.gain as any;
             const calls = gainNode?.exponentialRampToValueAtTime.mock.calls || [];
             const lastCall = calls[calls.length - 1];
 
@@ -559,7 +559,7 @@ describe('master.logic - Audio Engine', () => {
         it('should use xDuration.sustain for ramp duration', () => {
             rampPlaybackGain();
 
-            const gainNode = audioNodeBus[0]?.gain;
+            const gainNode = audioNodeBus[0]?.gain as any;
             const calls = gainNode?.exponentialRampToValueAtTime.mock.calls || [];
             const lastCall = calls[calls.length - 1];
             const expectedDuration = 0.45 / 24; // xDuration.sustain = 0.45
