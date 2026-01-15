@@ -162,12 +162,23 @@ export function hijackMediaElementForCrossfade() {
         HTMLMediaElement.prototype,
         'src'
     );
-    Object.defineProperty(hijackedPlayer, 'src', {
-        get: hijackState.originalSrcDescriptor?.get,
-        set: () => {
-            // Do nothing - prevent source replacement during crossfade
+    if (hijackState.originalSrcDescriptor?.configurable) {
+        try {
+            Object.defineProperty(hijackedPlayer, 'src', {
+                get: hijackState.originalSrcDescriptor.get,
+                set: () => {
+                    // Do nothing - prevent source replacement during crossfade
+                },
+                configurable: true
+            });
+        } catch (err) {
+            console.warn('[Crossfade] Failed to override src setter', err);
+            hijackState.originalSrcDescriptor = null;
         }
-    });
+    } else {
+        console.warn('[Crossfade] src descriptor not configurable; skipping override');
+        hijackState.originalSrcDescriptor = null;
+    }
 
     // FIX Issue 6: Setup state recovery timeout (prevents permanent busy state if crossfade interrupted)
     if (hijackState.stateRecoveryTimeout) {
@@ -232,8 +243,16 @@ export function hijackMediaElementForCrossfade() {
                     if (hijackState.hijackedElement && hijackState.originalPause) {
                         hijackState.hijackedElement.pause = hijackState.originalPause;
                     }
-                    if (hijackState.hijackedElement && hijackState.originalSrcDescriptor) {
-                        Object.defineProperty(hijackState.hijackedElement, 'src', hijackState.originalSrcDescriptor);
+                    if (
+                        hijackState.hijackedElement
+                        && hijackState.originalSrcDescriptor
+                        && hijackState.originalSrcDescriptor.configurable
+                    ) {
+                        try {
+                            Object.defineProperty(hijackState.hijackedElement, 'src', hijackState.originalSrcDescriptor);
+                        } catch (err) {
+                            // Avoid blocking cleanup if src can't be restored.
+                        }
                     }
 
                     hijackedPlayer.remove();

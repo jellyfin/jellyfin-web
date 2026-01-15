@@ -434,6 +434,39 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
         });
     });
 
+    describe('src override safety', () => {
+        it('should continue when src descriptor is not configurable', () => {
+            const originalGetDescriptor = Object.getOwnPropertyDescriptor;
+            vi.spyOn(Object, 'getOwnPropertyDescriptor').mockImplementation((obj, prop) => {
+                if (obj === HTMLMediaElement.prototype && prop === 'src') {
+                    return {
+                        configurable: false,
+                        enumerable: true,
+                        get: () => mockMediaElement.src,
+                        set: () => {}
+                    };
+                }
+                return originalGetDescriptor(obj, prop);
+            });
+
+            expect(() => hijackMediaElementForCrossfade()).not.toThrow();
+            expect(xDuration.busy).toBe(true);
+        });
+
+        it('should not throw when src override fails', () => {
+            const originalDefineProperty = Object.defineProperty;
+            vi.spyOn(Object, 'defineProperty').mockImplementation((obj, prop, desc) => {
+                if (obj === mockMediaElement && prop === 'src') {
+                    throw new Error('No redefine');
+                }
+                return originalDefineProperty(obj, prop, desc);
+            });
+
+            expect(() => hijackMediaElementForCrossfade()).not.toThrow();
+            expect(xDuration.busy).toBe(true);
+        });
+    });
+
     describe('timeout mechanisms', () => {
         it('should initialize without errors', () => {
             hijackMediaElementForCrossfade();
