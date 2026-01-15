@@ -57,7 +57,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
                     <div className='cardPadder cardPadder-square'></div>
                     <LinkButton
                         className='cardContent'
-                        href={`#/dashboard/users/profile?userId=${user.Id}`}>
+                        href={`#/dashboard/users/edit?userId=${user.Id}`}>
                         {renderImgUrl}
                     </LinkButton>
                 </div>
