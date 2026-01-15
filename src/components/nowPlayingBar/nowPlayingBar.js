@@ -20,6 +20,7 @@ import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
 import '../../elements/emby-slider/emby-slider';
+import { destroyWaveSurferInstance, waveSurferInitialization } from 'components/visualizer/WaveSurfer';
 
 let currentPlayer;
 let currentPlayerSupportedCommands = [];
@@ -54,8 +55,8 @@ function getNowPlayingBarHtml() {
     html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
 
     html += '<div class="nowPlayingBarTop">';
-    html += '<div class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
-    html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
+    html += '<div id="barSurfer" class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
+    html += '<input id="barSlider" type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
     html += '</div>';
 
     html += '<div class="nowPlayingBarInfoContainer">';
@@ -124,6 +125,11 @@ function slideDown(elem) {
     dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
         once: true
     });
+
+    const legacy = destroyWaveSurferInstance();
+    if (!currentPlayer?.isLocalPlayer) return;
+
+    waveSurferInitialization('#inputSurfer', legacy, playbackManager.duration());
 }
 
 function slideUp(elem) {
@@ -137,6 +143,11 @@ function slideUp(elem) {
     void elem.offsetWidth;
 
     elem.classList.remove('nowPlayingBar-hidden');
+
+    const legacy = destroyWaveSurferInstance();
+    if (!currentPlayer?.isLocalPlayer) return;
+
+    waveSurferInitialization('#barSurfer', legacy, playbackManager.duration());
 }
 
 function onPlayPauseClick() {
