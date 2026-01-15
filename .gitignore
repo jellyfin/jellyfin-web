@@ -9,4 +9,8 @@ TEST_EXECUTION_REPORT.md
 TEST_PLAN.md
 src/components/playbackSettings/COLOR_PICKER_GUIDE.md
 src/components/visualizer/VISUALIZER_INTEGRATION_GUIDE.md
+# Node artifacts
+node_modules/
 
+# AI tooling notes
+CLAUDE.md
