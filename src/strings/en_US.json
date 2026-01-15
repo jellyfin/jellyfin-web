@@ -168,5 +168,15 @@
     "ClearQueue": "Clear queue",
     "ClientSettings": "Client side settings",
     "Collections": "Collections",
-    "Colorist": "Colorist"
+    "Colorist": "Colorist",
+    "ColorPrimaries": "Primary colors",
+    "ColorSpace": "Color space",
+    "ColorTransfer": "Transfer colors",
+    "CommunityRating": "Community rating",
+    "Composer": "Composer",
+    "Conductor": "Conductor",
+    "ConfigureDateAdded": "Setting up how metadata for 'Date added' is determined in the Dashboard >Libraries>Display",
+    "ConfirmDeleteImage": "Do you want to delete this image?",
+    "ConfirmDeleteItem": "Deleting this item will delete it from both the file system and the media library. Are you sure you wish to continue?",
+    "ConfirmDeleteSeries": "Deleting this series will delete All{0} episodes from both the file system and your media library. Are you sure you wish to continue?"
 }
