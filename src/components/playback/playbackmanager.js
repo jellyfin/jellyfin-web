@@ -8,10 +8,10 @@ import itemHelper from '../itemHelper';
 import { pluginManager } from '../pluginManager';
 import PlayQueueManager from './playqueuemanager';
 import * as userSettings from '../../scripts/settings/userSettings';
-import globalize from '../../scripts/globalize';
+import globalize from 'lib/globalize';
 import loading from '../loading/loading';
-import { appHost } from '../apphost';
-import ServerConnections from '../ServerConnections';
+import { safeAppHost } from '../apphost';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
@@ -22,8 +22,20 @@ import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { destroyWaveSurferInstance } from 'components/visualizer/WaveSurfer';
 import { hijackMediaElementForCrossfade, timeRunningOut, xDuration } from 'components/audioEngine/crossfader.logic';
+import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
+import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
+import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
+import { bindSkipSegment } from './skipsegment.ts';
 
 const UNLIMITED_ITEMS = -1;
+
+const supportsAppFeature = (feature) => {
+    if (safeAppHost && typeof safeAppHost.supports === 'function') {
+        return safeAppHost.supports(feature);
+    }
+
+    return false;
+};
 
 function enableLocalPlaylistManagement(player) {
     if (player.getPlaylist) {
@@ -78,8 +90,31 @@ function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, 
     }
 
     const apiClient = ServerConnections.getApiClient(serverId);
+    const endpoint = method === 'reportPlaybackProgress'
+        ? 'Sessions/Playing/Progress'
+        : (method === 'reportPlaybackStopped' ? 'Sessions/Playing/Stopped' : 'Sessions/Playing');
+    const reportUrl = apiClient.getUrl(endpoint, {
+        api_key: apiClient.accessToken()
+    });
+    if (isCrossOriginRequestUrl(reportUrl)) {
+        fetch(reportUrl, {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'omit',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            keepalive: true,
+            body: JSON.stringify(info)
+        }).then(() => {
+            Events.trigger(playbackManagerInstance, 'reportplayback', [true]);
+        }).catch(() => {
+            Events.trigger(playbackManagerInstance, 'reportplayback', [false]);
+        });
+        return;
+    }
+
     const reportPlaybackPromise = apiClient[method](info);
-    // Notify that report has been sent
     reportPlaybackPromise.then(() => {
         Events.trigger(playbackManagerInstance, 'reportplayback', [true]);
     });
@@ -287,11 +322,18 @@ function getAudioMaxValues(deviceProfile) {
 }
 
 let startingPlaySession = new Date().getTime();
+const isLocalhostDev = () => {
+    if (typeof window === 'undefined' || !window.location) {
+        return false;
+    }
+
+    return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+};
+
 function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues) {
     const url = 'Audio/' + item.Id + '/universal';
-
     startingPlaySession++;
-    return apiClient.getUrl(url, {
+    const streamUrl = apiClient.getUrl(url, {
         UserId: apiClient.getCurrentUserId(),
         DeviceId: apiClient.deviceId(),
         MaxStreamingBitrate: maxValues.maxAudioBitrate || maxValues.maxBitrate,
@@ -305,14 +347,53 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
         PlaySessionId: startingPlaySession,
         StartTimeTicks: startPosition || 0,
         EnableRedirection: true,
-        EnableRemoteMedia: appHost.supports('remoteaudio')
+        EnableRemoteMedia: supportsAppFeature('remoteaudio') || isLocalhostDev()
     });
+
+    return streamUrl;
+}
+
+function isCrossOriginServer(apiClient) {
+    if (typeof window === 'undefined' || !window.location) {
+        return false;
+    }
+    try {
+        const probeUrl = apiClient?.getUrl ? apiClient.getUrl('System/Info/Public') : null;
+        if (probeUrl && probeUrl.indexOf('://') !== -1) {
+            return new URL(probeUrl).origin !== window.location.origin;
+        }
+        const serverAddress = apiClient?.serverAddress ? apiClient.serverAddress() : null;
+        if (!serverAddress) {
+            return false;
+        }
+        return new URL(serverAddress, window.location.href).origin !== window.location.origin;
+    } catch (err) {
+        return false;
+    }
+}
+
+function isCrossOriginRequestUrl(url) {
+    if (typeof window === 'undefined' || !window.location) {
+        return false;
+    }
+    try {
+        return new URL(url, window.location.href).origin !== window.location.origin;
+    } catch (err) {
+        return false;
+    }
 }
 
 function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition) {
-    const transcodingProfile = deviceProfile.TranscodingProfiles.filter(function (p) {
+    const audioProfiles = deviceProfile.TranscodingProfiles.filter(function (p) {
         return p.Type === 'Audio' && p.Context === 'Streaming';
-    })[0];
+    });
+    let transcodingProfile = audioProfiles[0];
+    if (isCrossOriginServer(apiClient)) {
+        const nonHlsProfile = audioProfiles.find(p => p.Protocol !== 'hls');
+        if (nonHlsProfile) {
+            transcodingProfile = nonHlsProfile;
+        }
+    }
 
     let directPlayContainers = '';
 
@@ -577,7 +658,7 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
     const isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
 
     if (mediaSource.SupportsDirectPlay || isFolderRip) {
-        if (mediaSource.IsRemote && !appHost.supports('remotevideo')) {
+        if (mediaSource.IsRemote && !supportsAppFeature('remotevideo')) {
             return Promise.resolve(false);
         }
 
@@ -682,7 +763,7 @@ function sortPlayerTargets(a, b) {
     return aVal.localeCompare(bVal);
 }
 
-class PlaybackManager {
+export class PlaybackManager {
     constructor() {
         const self = this;
 
@@ -2255,7 +2336,7 @@ class PlaybackManager {
 
                         setPlaylistState(items[playStartIndex].PlaylistItemId, playStartIndex);
                         loading.hide();
-                    });
+                    }).catch(onPlaybackRejection);
                 }, Math.max(xDuration.sustain * 1000), 1);
             });
         }
@@ -2322,6 +2403,24 @@ class PlaybackManager {
         }
 
         function onInterceptorRejection(e) {
+            cancelPlayback();
+
+            let displayErrorCode = 'ErrorDefault';
+
+            if (e instanceof Response) {
+                if (e.status >= 500) {
+                    displayErrorCode = `PlaybackError.${MediaError.SERVER_ERROR}`;
+                } else if (e.status >= 400) {
+                    displayErrorCode = `PlaybackError.${MediaError.NO_MEDIA_ERROR}`;
+                }
+            }
+
+            showPlaybackInfoErrorMessage(self, displayErrorCode);
+
+            return Promise.reject();
+        }
+
+        function onPlaybackRejection(e) {
             cancelPlayback();
 
             let displayErrorCode = 'ErrorDefault';
@@ -3052,11 +3151,11 @@ class PlaybackManager {
         };
 
         self.queue = function (options, player = this._currentPlayer) {
-            queue(options, '', player);
+            return queue(options, '', player);
         };
 
         self.queueNext = function (options, player = this._currentPlayer) {
-            queue(options, 'next', player);
+            return queue(options, 'next', player);
         };
 
         function queue(options, mode, player) {
@@ -3069,7 +3168,7 @@ class PlaybackManager {
             if (options.items) {
                 return translateItemsForPlayback(options.items, options).then(function (items) {
                     // TODO: Handle options.startIndex for photos
-                    queueAll(items, mode, player);
+                    return queueAll(items, mode, player);
                 });
             } else {
                 if (!options.serverId) {
@@ -3081,7 +3180,7 @@ class PlaybackManager {
                 }).then(function (result) {
                     return translateItemsForPlayback(result.Items, options).then(function (items) {
                         // TODO: Handle options.startIndex for photos
-                        queueAll(items, mode, player);
+                        return queueAll(items, mode, player);
                     });
                 });
             }
@@ -3089,7 +3188,7 @@ class PlaybackManager {
 
         function queueAll(items, mode, player) {
             if (!items.length) {
-                return;
+                return Promise.resolve();
             }
 
             if (!player.isLocalPlayer) {
@@ -3102,7 +3201,7 @@ class PlaybackManager {
                         items: items
                     });
                 }
-                return;
+                return Promise.resolve();
             }
 
             const queueDirectToPlayer = player && !enableLocalPlaylistManagement(player);
@@ -3120,7 +3219,7 @@ class PlaybackManager {
                     });
                 });
 
-                return;
+                return Promise.resolve();
             }
 
             if (mode === 'next') {
@@ -3129,6 +3228,7 @@ class PlaybackManager {
                 self._playQueueManager.queue(items);
             }
             Events.trigger(player, 'playlistitemadd');
+            return Promise.resolve();
         }
 
         function onPlayerProgressInterval() {
@@ -3609,12 +3709,16 @@ class PlaybackManager {
             return streamInfo ? streamInfo.playbackStartTimeTicks : null;
         };
 
-        if (appHost.supports('remotecontrol')) {
+        if (supportsAppFeature('remotecontrol')) {
             import('../../scripts/serverNotifications').then(({ default: serverNotifications }) => {
                 Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
                 Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
             });
         }
+
+        bindMediaSegmentManager(self);
+        bindMediaSessionSubscriber(self);
+        this._skipSegment = bindSkipSegment(self);
     }
 
     getCurrentPlayer() {
@@ -3627,6 +3731,10 @@ class PlaybackManager {
         }
 
         return this.getCurrentTicks(player) / 10000;
+    }
+
+    getNextItem() {
+        return this._playQueueManager.getNextItemInfo();
     }
 
     nextItem(player = this._currentPlayer) {
@@ -3642,6 +3750,12 @@ class PlaybackManager {
 
         const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
         return apiClient.getItem(apiClient.getCurrentUserId(), nextItem.item.Id);
+    }
+
+    promptToSkip(mediaSegment, player = this._currentPlayer) {
+        if (mediaSegment && this._skipSegment) {
+            Events.trigger(player, PlayerEvent.PromptSkip, [mediaSegment]);
+        }
     }
 
     canQueue(item) {
@@ -3973,7 +4087,7 @@ class PlaybackManager {
                 'PlayTrailers'
             ];
 
-            if (appHost.supports('fullscreenchange')) {
+            if (supportsAppFeature('fullscreenchange')) {
                 list.push('ToggleFullscreen');
             }
 

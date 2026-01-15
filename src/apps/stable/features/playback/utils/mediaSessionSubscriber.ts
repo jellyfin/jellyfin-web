@@ -92,8 +92,17 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
 
     private onMediaSessionUpdate(
         { type: action }: Event,
-        state: PlayerState = this.playbackManager.getPlayerState(this.player)
+        state?: PlayerState
     ) {
+        if (!this.player) {
+            resetMediaSession();
+            return;
+        }
+        state = state || this.playbackManager.getPlayerState(this.player);
+        if (!state) {
+            resetMediaSession();
+            return;
+        }
         const item = state.NowPlayingItem;
 
         if (!item) {

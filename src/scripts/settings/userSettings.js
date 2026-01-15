@@ -5,9 +5,29 @@ import browser from '../browser';
 import appSettings from './appSettings';
 import { getVisualizerSettings, setVisualizerSettings } from 'components/visualizer/visualizers.logic';
 
+let displayPrefsBeaconWarningShown = false;
+
 function onSaveTimeout() {
     const self = this;
     self.saveTimeout = null;
+    const apiClient = self.currentApiClient;
+    if (!apiClient || !self.displayPrefs) {
+        return;
+    }
+    const prefsUrl = apiClient.getUrl('DisplayPreferences/usersettings', {
+        userId: self.currentUserId,
+        client: 'emby',
+        api_key: apiClient.accessToken()
+    });
+    if (isCrossOriginUrl(prefsUrl)) {
+        const payload = new Blob([JSON.stringify(self.displayPrefs)], { type: 'application/json' });
+        const sent = navigator?.sendBeacon?.(prefsUrl, payload);
+        if (!sent && !displayPrefsBeaconWarningShown) {
+            displayPrefsBeaconWarningShown = true;
+            console.warn('[UserSettings] failed to send display preferences to cross-origin server');
+        }
+        return;
+    }
     self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
 }
 
@@ -47,6 +67,36 @@ const defaultComicsPlayerSettings = {
     langDir: 'ltr',
     pagesPerView: 1
 };
+
+function isCrossOriginServer(apiClient) {
+    if (typeof window === 'undefined' || !window.location) {
+        return false;
+    }
+    try {
+        const probeUrl = apiClient?.getUrl ? apiClient.getUrl('System/Info/Public') : null;
+        if (probeUrl && probeUrl.indexOf('://') !== -1) {
+            return new URL(probeUrl).origin !== window.location.origin;
+        }
+        const serverAddress = apiClient?.serverAddress ? apiClient.serverAddress() : null;
+        if (!serverAddress) {
+            return false;
+        }
+        return new URL(serverAddress, window.location.href).origin !== window.location.origin;
+    } catch (err) {
+        return false;
+    }
+}
+
+function isCrossOriginUrl(url) {
+    if (typeof window === 'undefined' || !window.location) {
+        return false;
+    }
+    try {
+        return new URL(url, window.location.href).origin !== window.location.origin;
+    } catch (err) {
+        return false;
+    }
+}
 
 export class UserSettings {
     /**
@@ -217,7 +267,12 @@ export class UserSettings {
             return this.set('crossfadeDuration', val.toString(), true);
         }
 
-        return parseFloat(this.get('crossfadeDuration', true) || 0);
+        const stored = this.get('crossfadeDuration', true);
+        const parsed = parseFloat(stored);
+        if (Number.isNaN(parsed)) {
+            return 3;
+        }
+        return parsed;
     }
 
     /**
@@ -231,7 +286,17 @@ export class UserSettings {
             return this.set('visualizerConfiguration', getVisualizerSettings(), true);
         }
 
-        return JSON.parse(this.get('visualizerConfiguration', true)) || getVisualizerSettings();
+        const raw = this.get('visualizerConfiguration', true);
+        if (!raw) {
+            return JSON.parse(getVisualizerSettings());
+        }
+
+        try {
+            const parsed = JSON.parse(raw);
+            return parsed || JSON.parse(getVisualizerSettings());
+        } catch (error) {
+            return JSON.parse(getVisualizerSettings());
+        }
     }
 
     /**

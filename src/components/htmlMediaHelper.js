@@ -277,6 +277,26 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
 
     hls.on(Hls.Events.ERROR, function (event, data) {
         console.error('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
+        const isLoadFailure = [
+            'manifestLoadError',
+            'levelLoadError',
+            'audioTrackLoadError',
+            'fragLoadError',
+            'keyLoadError'
+        ].includes(data.details);
+        const isNetworkDown = data.type === Hls.ErrorTypes.NETWORK_ERROR
+            && (!data.response || data.response.code === 0);
+
+        if (data.fatal && isNetworkDown && isLoadFailure) {
+            hls.destroy();
+            if (reject) {
+                reject(MediaError.NETWORK_ERROR);
+                reject = null;
+            } else {
+                onErrorInternal(instance, MediaError.NETWORK_ERROR);
+            }
+            return;
+        }
 
         // try to recover network error
         if (data.type === Hls.ErrorTypes.NETWORK_ERROR
