@@ -20,15 +20,15 @@ export const Component = () => {
     const [ searchParams, setSearchParams ] = useSearchParams();
     const userId = searchParams.get('userId');
     const { data: user, isPending, isError } = useUser(userId ? { userId: userId } : undefined);
-    const [ value, setValue ] = useState(parseInt(searchParams.get('index') || '0', 10) || TabIndex.Profile);
+    const [ index, setIndex ] = useState(parseInt(searchParams.get('index') || '0', 10));
 
     const handleTabChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
+        setIndex(newValue);
         setSearchParams((params) => {
-            params.set('index', value.toString());
+            params.set('index', index.toString());
             return params;
         });
-    }, [ value, setSearchParams ]);
+    }, [ index, setSearchParams ]);
 
     if (isPending) return <Loading />;
 
@@ -47,24 +47,24 @@ export const Component = () => {
                     </Alert>
                 ) : (
                     <Stack spacing={2}>
-                        <Typography variant='h1'>{user?.Name}</Typography>
-                        <Tabs value={value} onChange={handleTabChange}>
+                        <Typography variant='h1'>{user.Name}</Typography>
+                        <Tabs value={index} onChange={handleTabChange}>
                             <Tab label={globalize.translate('Profile')} />
                             <Tab label={globalize.translate('TabAccess')} />
                             <Tab label={globalize.translate('TabParentalControl')} />
                             <Tab label={globalize.translate('HeaderPassword')} />
                         </Tabs>
 
-                        {value == TabIndex.Profile && (
+                        {index == TabIndex.Profile && (
                             <Profile userDto={user} />
                         )}
-                        {value == TabIndex.Access && (
+                        {index == TabIndex.Access && (
                             <Access userId={user.Id || ''} />
                         )}
-                        {value == TabIndex.ParentalControl && (
+                        {index == TabIndex.ParentalControl && (
                             <ParentalControl userId={user.Id || ''} />
                         )}
-                        {value == TabIndex.Password && (
+                        {index == TabIndex.Password && (
                             <Password user={user} />
                         )}
                     </Stack>
