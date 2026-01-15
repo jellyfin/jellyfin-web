@@ -1,12 +1,6 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
-import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
-import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code';
-import { getMediaInfoApi } from '@jellyfin/sdk/lib/utils/api/media-info-api';
+import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
 import merge from 'lodash-es/merge';
 import Screenfull from 'screenfull';
-
 import Events from '../../utils/events.ts';
 import datetime from '../../scripts/datetime';
 import appSettings from '../../scripts/settings/appSettings';
@@ -14,39 +8,22 @@ import itemHelper from '../itemHelper';
 import { pluginManager } from '../pluginManager';
 import PlayQueueManager from './playqueuemanager';
 import * as userSettings from '../../scripts/settings/userSettings';
-import globalize from '../../lib/globalize';
+import globalize from '../../scripts/globalize';
 import loading from '../loading/loading';
-import { safeAppHost } from '../apphost';
+import { appHost } from '../apphost';
+import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
-
-import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
-import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
-import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
-import { AppFeature } from 'constants/appFeature';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { bindSkipSegment } from './skipsegment.ts';
-import { initializeMasterAudio } from '../audioEngine/master.logic';
-import { preloadNextTrack, resetPreloadedTrack, startCrossfade } from '../audioEngine/crossfadeController';
-import { timeRunningOut, hijackMediaElementForCrossfade, xDuration } from '../audioEngine/crossfader.logic';
-import { setXDuration } from '../audioEngine/crossfader.logic';
-import * as htmlMediaHelper from '../htmlMediaHelper';
+import { destroyWaveSurferInstance } from 'components/visualizer/WaveSurfer';
+import { hijackMediaElementForCrossfade, timeRunningOut, xDuration } from 'components/audioEngine/crossfader.logic';
 
 const UNLIMITED_ITEMS = -1;
-
-const supportsAppFeature = (feature) => {
-    if (safeAppHost && typeof safeAppHost.supports === 'function') {
-        return safeAppHost.supports(feature);
-    }
-
-    return false;
-};
 
 function enableLocalPlaylistManagement(player) {
     if (player.getPlaylist) {
@@ -54,10 +31,6 @@ function enableLocalPlaylistManagement(player) {
     }
 
     return player.isLocalPlayer;
-}
-
-function supportsPhysicalVolumeControl(player) {
-    return player.isLocalPlayer && supportsAppFeature(AppFeature.PhysicalVolumeControl);
 }
 
 function bindToFullscreenChange(player) {
@@ -181,9 +154,9 @@ function createStreamInfoFromUrlItem(item) {
 function mergePlaybackQueries(obj1, obj2) {
     const query = merge({}, obj1, obj2);
 
-    const filters = query.Filters?.split(',') || [];
-    if (!filters.includes(ItemFilter.IsNotFolder)) {
-        filters.push(ItemFilter.IsNotFolder);
+    const filters = query.Filters ? query.Filters.split(',') : [];
+    if (filters.indexOf('IsNotFolder') === -1) {
+        filters.push('IsNotFolder');
     }
     query.Filters = filters.join(',');
     return query;
@@ -224,7 +197,6 @@ function getMimeType(type, container) {
 }
 
 function getParam(name, url) {
-    // eslint-disable-next-line sonarjs/single-char-in-character-classes
     name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
     const regexS = '[\\?&]' + name + '=([^&#]*)';
     const regex = new RegExp(regexS, 'i');
@@ -329,12 +301,11 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
         AudioCodec: transcodingProfile.AudioCodec,
         MaxAudioSampleRate: maxValues.maxAudioSampleRate,
         MaxAudioBitDepth: maxValues.maxAudioBitDepth,
-        ApiKey: apiClient.accessToken(),
+        api_key: apiClient.accessToken(),
         PlaySessionId: startingPlaySession,
         StartTimeTicks: startPosition || 0,
         EnableRedirection: true,
-        EnableRemoteMedia: supportsAppFeature(AppFeature.RemoteAudio),
-        EnableAudioVbrEncoding: transcodingProfile.EnableAudioVbrEncoding
+        EnableRemoteMedia: appHost.supports('remoteaudio')
     });
 }
 
@@ -425,9 +396,9 @@ function setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositio
     });
 }
 
-async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, liveStreamId, options) {
+function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, liveStreamId, options) {
     if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && !player.useServerPlaybackInfoForAudio) {
-        return {
+        return Promise.resolve({
             MediaSources: [
                 {
                     StreamUrl: getAudioStreamUrlFromDeviceProfile(item, deviceProfile, options.maxBitrate, apiClient, options.startPosition),
@@ -435,13 +406,13 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
                     MediaStreams: [],
                     RunTimeTicks: item.RunTimeTicks
                 }]
-        };
+        });
     }
 
     if (item.PresetMediaSource) {
-        return {
+        return Promise.resolve({
             MediaSources: [item.PresetMediaSource]
-        };
+        });
     }
 
     const itemId = item.Id;
@@ -450,9 +421,6 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
         UserId: apiClient.getCurrentUserId(),
         StartTimeTicks: options.startPosition || 0
     };
-
-    const api = toApi(apiClient);
-    const mediaInfoApi = getMediaInfoApi(api);
 
     if (options.isPlayback) {
         query.IsPlayback = true;
@@ -507,12 +475,7 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
         query.DirectPlayProtocols = player.getDirectPlayProtocols();
     }
 
-    query.AlwaysBurnInSubtitleWhenTranscoding = appSettings.alwaysBurnInSubtitleWhenTranscoding();
-
-    query.DeviceProfile = deviceProfile;
-
-    const res = await mediaInfoApi.getPostedPlaybackInfo({ itemId: itemId, playbackInfoDto: query });
-    return res.data;
+    return apiClient.getPlaybackInfo(itemId, query, deviceProfile);
 }
 
 function getOptimalMediaSource(apiClient, item, versions) {
@@ -614,7 +577,7 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
     const isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
 
     if (mediaSource.SupportsDirectPlay || isFolderRip) {
-        if (mediaSource.IsRemote && !supportsAppFeature(AppFeature.RemoteVideo)) {
+        if (mediaSource.IsRemote && !appHost.supports('remotevideo')) {
             return Promise.resolve(false);
         }
 
@@ -662,7 +625,6 @@ function normalizePlayOptions(playOptions) {
 
 function truncatePlayOptions(playOptions) {
     return {
-        aspectRatio: playOptions.aspectRatio,
         fullscreen: playOptions.fullscreen,
         mediaSourceId: playOptions.mediaSourceId,
         audioStreamIndex: playOptions.audioStreamIndex,
@@ -720,7 +682,7 @@ function sortPlayerTargets(a, b) {
     return aVal.localeCompare(bVal);
 }
 
-export class PlaybackManager {
+class PlaybackManager {
     constructor() {
         const self = this;
 
@@ -870,8 +832,31 @@ export class PlaybackManager {
         self.getTargets = function () {
             const promises = players.filter(displayPlayerIndividually).map(getPlayerTargets);
 
-            return Promise.all(promises)
-                .then(responses => responses.flat().sort(sortPlayerTargets));
+            return Promise.all(promises).then(function (responses) {
+                return ServerConnections.currentApiClient().getCurrentUser().then(function (user) {
+                    const targets = [];
+
+                    targets.push({
+                        name: globalize.translate('HeaderMyDevice'),
+                        id: 'localplayer',
+                        playerName: 'localplayer',
+                        playableMediaTypes: ['Audio', 'Video', 'Photo', 'Book'],
+                        isLocalPlayer: true,
+                        supportedCommands: self.getSupportedCommands({
+                            isLocalPlayer: true
+                        }),
+                        user: user
+                    });
+
+                    for (const subTargets of responses) {
+                        for (const subTarget of subTargets) {
+                            targets.push(subTarget);
+                        }
+                    }
+
+                    return targets.sort(sortPlayerTargets);
+                });
+            });
         };
 
         self.playerHasSecondarySubtitleSupport = function (player = self._currentPlayer) {
@@ -929,14 +914,6 @@ export class PlaybackManager {
             }
 
             return Promise.resolve(self._playQueueManager.getPlaylist());
-        };
-
-        self.promptToSkip = function (mediaSegment, player) {
-            player = player || self._currentPlayer;
-
-            if (mediaSegment && this._skipSegment) {
-                Events.trigger(player, PlayerEvent.PromptSkip, [mediaSegment]);
-            }
         };
 
         function removeCurrentPlayer(player) {
@@ -1037,7 +1014,7 @@ export class PlaybackManager {
         self.canPlay = function (item) {
             const itemType = item.Type;
 
-            if (itemType === 'Book' || itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
+            if (itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
                 return true;
             }
 
@@ -1180,7 +1157,7 @@ export class PlaybackManager {
         self.setVolume = function (val, player) {
             player = player || self._currentPlayer;
 
-            if (player && !supportsPhysicalVolumeControl(player)) {
+            if (player) {
                 player.setVolume(val);
             }
         };
@@ -1188,17 +1165,15 @@ export class PlaybackManager {
         self.getVolume = function (player) {
             player = player || self._currentPlayer;
 
-            if (player && !supportsPhysicalVolumeControl(player)) {
+            if (player) {
                 return player.getVolume();
             }
-
-            return 1;
         };
 
         self.volumeUp = function (player) {
             player = player || self._currentPlayer;
 
-            if (player && !supportsPhysicalVolumeControl(player)) {
+            if (player) {
                 player.volumeUp();
             }
         };
@@ -1206,7 +1181,7 @@ export class PlaybackManager {
         self.volumeDown = function (player) {
             player = player || self._currentPlayer;
 
-            if (player && !supportsPhysicalVolumeControl(player)) {
+            if (player) {
                 player.volumeDown();
             }
         };
@@ -1844,75 +1819,47 @@ export class PlaybackManager {
         }
 
         function getPlaybackPromise(firstItem, serverId, options, queryOptions, items) {
-            const SortBy = options.shuffle ? ItemSortBy.Random : ItemSortBy.SortName;
-
             switch (firstItem.Type) {
-                case BaseItemKind.Program:
+                case 'Program':
                     return getItemsForPlayback(serverId, {
                         Ids: firstItem.ChannelId
                     });
-                case BaseItemKind.Playlist:
+                case 'Playlist':
                     return getItemsForPlayback(serverId, {
                         ParentId: firstItem.Id,
-                        SortBy: options.shuffle ? SortBy : undefined
+                        SortBy: options.shuffle ? 'Random' : null
                     });
-                case BaseItemKind.MusicArtist:
-
+                case 'MusicArtist':
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
                         ArtistIds: firstItem.Id,
+                        Filters: 'IsNotFolder',
                         Recursive: true,
-                        SortBy: options.shuffle ? SortBy : [
-                            ItemSortBy.Album,
-                            ItemSortBy.ParentIndexNumber,
-                            ItemSortBy.IndexNumber,
-                            ItemSortBy.SortName
-                        ].join(','),
-                        MediaTypes: MediaType.Audio
+                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        MediaTypes: 'Audio'
                     }, queryOptions));
-                case BaseItemKind.PhotoAlbum:
+                case 'PhotoAlbum':
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
                         ParentId: firstItem.Id,
+                        Filters: 'IsNotFolder',
                         // Setting this to true may cause some incorrect sorting
                         Recursive: false,
-                        SortBy,
+                        SortBy: options.shuffle ? 'Random' : 'SortName',
                         // Only include Photos because we do not handle mixed queues currently
-                        MediaTypes: MediaType.Photo,
+                        MediaTypes: 'Photo',
                         Limit: UNLIMITED_ITEMS
                     }, queryOptions));
-                case BaseItemKind.MusicGenre:
+                case 'MusicGenre':
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
                         GenreIds: firstItem.Id,
+                        Filters: 'IsNotFolder',
                         Recursive: true,
-                        SortBy,
-                        MediaTypes: MediaType.Audio
+                        SortBy: options.shuffle ? 'Random' : 'SortName',
+                        MediaTypes: 'Audio'
                     }, queryOptions));
-                case BaseItemKind.Genre:
-                    return getItemsForPlayback(serverId, mergePlaybackQueries({
-                        GenreIds: firstItem.Id,
-                        ParentId: firstItem.ParentId,
-                        Recursive: true,
-                        SortBy,
-                        MediaTypes: MediaType.Video
-                    }, queryOptions));
-                case BaseItemKind.Studio:
-                    return getItemsForPlayback(serverId, mergePlaybackQueries({
-                        StudioIds: firstItem.Id,
-                        Recursive: true,
-                        SortBy,
-                        MediaTypes: MediaType.Video
-                    }, queryOptions));
-                case BaseItemKind.Person:
-                    return getItemsForPlayback(serverId, mergePlaybackQueries({
-                        PersonIds: firstItem.Id,
-                        ParentId: firstItem.ParentId,
-                        Recursive: true,
-                        SortBy,
-                        MediaTypes: MediaType.Video
-                    }, queryOptions));
-                case BaseItemKind.Series:
-                case BaseItemKind.Season:
+                case 'Series':
+                case 'Season':
                     return getSeriesOrSeasonPlaybackPromise(firstItem, options, items);
-                case BaseItemKind.Episode:
+                case 'Episode':
                     return getEpisodePlaybackPromise(firstItem, options, items);
             }
 
@@ -1954,25 +1901,12 @@ export class PlaybackManager {
                     MediaTypes: 'Photo',
                     Limit: UNLIMITED_ITEMS
                 }, queryOptions));
-            } else if (firstItem.IsFolder && firstItem.CollectionType === 'musicvideos') {
-                return getItemsForPlayback(serverId, mergePlaybackQueries({
-                    ParentId: firstItem.Id,
-                    Filters: 'IsFolder',
-                    Recursive: true,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: 'Video',
-                    Limit: UNLIMITED_ITEMS
-                }, queryOptions));
             } else if (firstItem.IsFolder) {
                 let sortBy = null;
                 if (options.shuffle) {
                     sortBy = 'Random';
                 } else if (firstItem.Type !== 'BoxSet') {
-                    if (firstItem.CollectionType === 'music' || firstItem.MediaType === 'Audio') {
-                        sortBy = 'Album,ParentIndexNumber,IndexNumber,SortName';
-                    } else {
-                        sortBy = 'SortName';
-                    }
+                    sortBy = 'SortName';
                 }
 
                 return getItemsForPlayback(serverId, mergePlaybackQueries({
@@ -1992,28 +1926,13 @@ export class PlaybackManager {
             const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
             const startSeasonId = firstItem.Type === 'Season' ? items[options.startIndex || 0].Id : undefined;
 
-            const seasonId = (startSeasonId && items.length === 1) ? startSeasonId : undefined;
-            const SeriesId = firstItem.SeriesId || firstItem.Id;
-            const UserId = apiClient.getCurrentUserId();
-
-            let startItemId;
-
-            // Start from a specific (the next unwatched) episode if we want to watch in order and have not chosen a specific season
-            if (!options.shuffle && !seasonId) {
-                const nextUp = await apiClient.getNextUpEpisodes({ SeriesId, UserId });
-                startItemId = nextUp?.Items?.[0]?.Id;
-            }
-
-            const episodesResult = await apiClient.getEpisodes(SeriesId, {
+            const episodesResult = await apiClient.getEpisodes(firstItem.SeriesId || firstItem.Id, {
                 IsVirtualUnaired: false,
                 IsMissing: false,
-                SeasonId: seasonId,
-                // default to first 100 episodes if no season was specified to avoid loading too large payloads
-                limit: seasonId ? undefined : 100,
+                SeasonId: (startSeasonId && items.length === 1) ? startSeasonId : undefined,
                 SortBy: options.shuffle ? 'Random' : undefined,
-                UserId,
-                Fields: ['Chapters', 'Trickplay'],
-                startItemId
+                UserId: apiClient.getCurrentUserId(),
+                Fields: ['Chapters', 'Trickplay']
             });
 
             if (options.shuffle) {
@@ -2022,7 +1941,7 @@ export class PlaybackManager {
                 episodesResult.StartIndex = undefined;
                 let seasonStartIndex;
                 for (const [index, e] of episodesResult.Items.entries()) {
-                    if (startSeasonId && items.length != 1) {
+                    if (startSeasonId) {
                         if (e.SeasonId == startSeasonId) {
                             if (seasonStartIndex === undefined) {
                                 seasonStartIndex = index;
@@ -2059,20 +1978,16 @@ export class PlaybackManager {
             return new Promise(function (resolve, reject) {
                 const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
-                const { SeriesId, Id } = firstItem;
-                if (!SeriesId) {
+                if (!firstItem.SeriesId) {
                     resolve(null);
                     return;
                 }
 
-                apiClient.getEpisodes(SeriesId, {
+                apiClient.getEpisodes(firstItem.SeriesId, {
                     IsVirtualUnaired: false,
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
-                    Fields: ['Chapters', 'Trickplay'],
-                    // limit to loading 100 episodes to avoid loading too large payload
-                    limit: 100,
-                    startItemId: Id
+                    Fields: ['Chapters', 'Trickplay']
                 }).then(function (episodesResult) {
                     resolve(filterEpisodes(episodesResult, firstItem, options));
                 }, reject);
@@ -2096,12 +2011,14 @@ export class PlaybackManager {
         self.translateItemsForPlayback = translateItemsForPlayback;
         self.getItemsForPlayback = getItemsForPlayback;
 
-        self.play = async function (options) {
+        self.play = function (options) {
+            hijackMediaElementForCrossfade();
+
             normalizePlayOptions(options);
 
             if (self._currentPlayer) {
                 if (options.enableRemotePlayers === false && !self._currentPlayer.isLocalPlayer) {
-                    throw new Error('Remote players are disabled');
+                    return Promise.reject();
                 }
 
                 if (!self._currentPlayer.isLocalPlayer) {
@@ -2113,35 +2030,29 @@ export class PlaybackManager {
                 loading.show();
             }
 
-            let { items } = options;
-            // If items were not passed directly, fetch them by ID
-            if (!items) {
+            if (options.items) {
+                return translateItemsForPlayback(options.items, options)
+                    .then((items) => getAdditionalParts(items))
+                    .then(function (allItems) {
+                        const flattened = allItems.flatMap(i => i);
+                        return playWithIntros(flattened, options);
+                    });
+            } else {
                 if (!options.serverId) {
                     throw new Error('serverId required!');
                 }
 
-                items = (await getItemsForPlayback(options.serverId, {
+                return getItemsForPlayback(options.serverId, {
                     Ids: options.ids.join(',')
-                })).Items;
+                }).then(function (result) {
+                    return translateItemsForPlayback(result.Items, options)
+                        .then((items) => getAdditionalParts(items))
+                        .then(function (allItems) {
+                            const flattened = allItems.flatMap(i => i);
+                            return playWithIntros(flattened, options);
+                        });
+                });
             }
-
-            // Prepare the list of items
-            items = await translateItemsForPlayback(items, options);
-            // Add any additional parts for movies or episodes
-            items = await getAdditionalParts(items);
-            // Adjust the start index for additional parts added to the queue
-            if (options.startIndex) {
-                let adjustedStartIndex = 0;
-                for (let i = 0; i < options.startIndex; i++) {
-                    adjustedStartIndex += items[i].length;
-                }
-
-                options.startIndex = adjustedStartIndex;
-            }
-            // getAdditionalParts returns an array of arrays of items, so flatten it
-            items = items.flat();
-
-            return playWithIntros(items, options);
         };
 
         function getPlayerData(player) {
@@ -2155,7 +2066,6 @@ export class PlaybackManager {
 
             if (!state) {
                 playerStates[player.name] = {};
-                // eslint-disable-next-line sonarjs/no-dead-store
                 state = playerStates[player.name];
             }
 
@@ -2281,22 +2191,20 @@ export class PlaybackManager {
         }
 
         const getAdditionalParts = async (items) => {
-            const getItemAndParts = async function (item) {
-                if (
-                    item.PartCount && item.PartCount > 1
-                    && [ BaseItemKind.Episode, BaseItemKind.Movie ].includes(item.Type)
-                ) {
+            const getOneAdditionalPart = async function (item) {
+                let retVal = [item];
+                if (item.PartCount && item.PartCount > 1 && (item.Type === 'Movie' || item.Type === 'Episode')) {
                     const client = ServerConnections.getApiClient(item.ServerId);
                     const user = await client.getCurrentUser();
                     const additionalParts = await client.getAdditionalVideoParts(user.Id, item.Id);
                     if (additionalParts.Items.length) {
-                        return [ item, ...additionalParts.Items ];
+                        retVal = [item, ...additionalParts.Items];
                     }
                 }
-                return [ item ];
+                return retVal;
             };
 
-            return Promise.all(items.map(getItemAndParts));
+            return Promise.all(items.flatMap(async (item) => getOneAdditionalPart(item)));
         };
 
         function playWithIntros(items, options) {
@@ -2341,12 +2249,14 @@ export class PlaybackManager {
                 introPlayOptions.items = items;
                 introPlayOptions.startIndex = playStartIndex;
 
-                return playInternal(items[playStartIndex], introPlayOptions, function () {
-                    self._playQueueManager.setPlaylist(items);
+                setTimeout(() => {
+                    return playInternal(items[playStartIndex], introPlayOptions, function () {
+                        self._playQueueManager.setPlaylist(items);
 
-                    setPlaylistState(items[playStartIndex].PlaylistItemId, playStartIndex);
-                    loading.hide();
-                });
+                        setPlaylistState(items[playStartIndex].PlaylistItemId, playStartIndex);
+                        loading.hide();
+                    });
+                }, Math.max(xDuration.sustain * 1000), 1);
             });
         }
 
@@ -2378,18 +2288,22 @@ export class PlaybackManager {
             // TODO: This should be the media type requested, not the original media type
             const mediaType = item.MediaType;
 
-            if (playOptions.fullscreen) {
-                loading.show();
-            }
-
             return runInterceptors(item, playOptions)
                 .catch(onInterceptorRejection)
                 .then(() => detectBitrate(apiClient, item, mediaType))
                 .then((bitrate) => {
-                    return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource)
-                        .catch(onPlaybackRejection);
+                    const elapsedTime = performance.now() - xDuration.t0; // Calculate the elapsed time
+                    setTimeout(() => {
+                        return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource)
+                            .catch(onPlaybackRejection);
+                    }, Math.max(1, xDuration.sustain * 1000 - elapsedTime));
                 })
-                .catch(() => {
+                .catch(() => getSavedMaxStreamingBitrate(apiClient, mediaType))
+                .then((bitrate) => {
+                    return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource);
+                })
+                .catch(onInterceptorRejection)
+                .finally(() => {
                     if (playOptions.fullscreen) {
                         loading.hide();
                     }
@@ -2407,13 +2321,7 @@ export class PlaybackManager {
             Events.trigger(self, 'playbackcancelled');
         }
 
-        function onInterceptorRejection() {
-            cancelPlayback();
-
-            return Promise.reject();
-        }
-
-        function onPlaybackRejection(e) {
+        function onInterceptorRejection(e) {
             cancelPlayback();
 
             let displayErrorCode = 'ErrorDefault';
@@ -2447,6 +2355,8 @@ export class PlaybackManager {
                     resolve();
                     return;
                 }
+
+                loading.hide();
 
                 const options = Object.assign({}, playOptions);
 
@@ -2485,20 +2395,20 @@ export class PlaybackManager {
             });
         }
 
-        function rankStreamType(prevIndex, prevSource, mediaStreams, trackOptions, streamType, isSecondarySubtitle) {
+        function rankStreamType(prevIndex, prevSource, mediaSource, streamType, isSecondarySubtitle) {
             if (prevIndex == -1) {
                 console.debug(`AutoSet ${streamType} - No Stream Set`);
                 if (streamType == 'Subtitle') {
                     if (isSecondarySubtitle) {
-                        trackOptions.DefaultSecondarySubtitleStreamIndex = -1;
+                        mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
                     } else {
-                        trackOptions.DefaultSubtitleStreamIndex = -1;
+                        mediaSource.DefaultSubtitleStreamIndex = -1;
                     }
                 }
                 return;
             }
 
-            if (!prevSource.MediaStreams || !mediaStreams) {
+            if (!prevSource.MediaStreams || !mediaSource.MediaStreams) {
                 console.debug(`AutoSet ${streamType} - No MediaStreams`);
                 return;
             }
@@ -2524,7 +2434,7 @@ export class PlaybackManager {
             }
 
             let newRelIndex = 0;
-            for (const stream of mediaStreams) {
+            for (const stream of mediaSource.MediaStreams) {
                 if (stream.Type != streamType) continue;
 
                 let score = 0;
@@ -2547,65 +2457,42 @@ export class PlaybackManager {
                 console.debug(`AutoSet ${streamType} - Using ${bestStreamIndex} score ${bestStreamScore}.`);
                 if (streamType == 'Subtitle') {
                     if (isSecondarySubtitle) {
-                        trackOptions.DefaultSecondarySubtitleStreamIndex = bestStreamIndex;
+                        mediaSource.DefaultSecondarySubtitleStreamIndex = bestStreamIndex;
                     } else {
-                        trackOptions.DefaultSubtitleStreamIndex = bestStreamIndex;
+                        mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
                     }
                 }
                 if (streamType == 'Audio') {
-                    trackOptions.DefaultAudioStreamIndex = bestStreamIndex;
+                    mediaSource.DefaultAudioStreamIndex = bestStreamIndex;
                 }
             } else {
                 console.debug(`AutoSet ${streamType} - Threshold not met. Using default.`);
             }
         }
 
-        function autoSetNextTracks(prevSource, mediaStreams, trackOptions, audio, subtitle) {
+        function autoSetNextTracks(prevSource, mediaSource, audio, subtitle) {
             try {
                 if (!prevSource) return;
 
-                if (!mediaStreams) {
-                    console.warn('AutoSet - No mediaStreams');
+                if (!mediaSource) {
+                    console.warn('AutoSet - No mediaSource');
                     return;
                 }
 
                 if (audio && typeof prevSource.DefaultAudioStreamIndex == 'number') {
-                    rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaStreams, trackOptions, 'Audio');
+                    rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaSource, 'Audio');
                 }
 
                 if (subtitle && typeof prevSource.DefaultSubtitleStreamIndex == 'number') {
-                    rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaStreams, trackOptions, 'Subtitle');
+                    rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
                 }
 
                 if (subtitle && typeof prevSource.DefaultSecondarySubtitleStreamIndex == 'number') {
-                    rankStreamType(prevSource.DefaultSecondarySubtitleStreamIndex, prevSource, mediaStreams, trackOptions, 'Subtitle', true);
+                    rankStreamType(prevSource.DefaultSecondarySubtitleStreamIndex, prevSource, mediaSource, 'Subtitle', true);
                 }
             } catch (e) {
                 console.error(`AutoSet - Caught unexpected error: ${e}`);
             }
-        }
-
-        function detectBitrate(apiClient, item, mediaType) {
-            // FIXME: This is gnarly, but don't want to change too much here in a bugfix
-            return Promise.resolve()
-                .then(() => {
-                    if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
-                        return Promise.reject(new Error('skip bitrate detection'));
-                    }
-
-                    return apiClient.getEndpointInfo()
-                        .then((endpointInfo) => {
-                            if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
-                                return apiClient.detectBitrate().then((bitrate) => {
-                                    appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
-                                    return bitrate;
-                                });
-                            }
-
-                            return Promise.reject(new Error('skip bitrate detection'));
-                        });
-                })
-                .catch(() => getSavedMaxStreamingBitrate(apiClient, mediaType));
         }
 
         function playAfterBitrateDetect(maxBitrate, item, playOptions, onPlaybackStartedFn, prevSource) {
@@ -2650,24 +2537,15 @@ export class PlaybackManager {
                 });
             }
 
-            let mediaSourceId = playOptions.mediaSourceId;
-
-            const apiClient = ServerConnections.getApiClient(item.ServerId);
-            const isLiveTv = [BaseItemKind.TvChannel, BaseItemKind.LiveTvChannel].includes(item.Type);
-            const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id)
-                .then(fullItem => {
-                    return fullItem.MediaStreams;
-                });
-
-            return Promise.all([promise, player.getDeviceProfile(item), apiClient.getCurrentUser(), getMediaStreams]).then(function (responses) {
+            return Promise.all([promise, player.getDeviceProfile(item)]).then(function (responses) {
                 const deviceProfile = responses[1];
-                const user = responses[2];
-                const mediaStreams = responses[3];
 
+                const apiClient = ServerConnections.getApiClient(item.ServerId);
+
+                const mediaSourceId = playOptions.mediaSourceId;
                 const audioStreamIndex = playOptions.audioStreamIndex;
                 const subtitleStreamIndex = playOptions.subtitleStreamIndex;
                 const options = {
-                    aspectRatio: playOptions.aspectRatio,
                     maxBitrate,
                     startPosition,
                     isPlayback: null,
@@ -2687,32 +2565,12 @@ export class PlaybackManager {
                 // this reference was only needed by sendPlaybackListToPlayer
                 playOptions.items = null;
 
-                const trackOptions = {};
-                let isIdFallbackNeeded = false;
-
-                autoSetNextTracks(prevSource, mediaStreams, trackOptions, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
-                if (trackOptions.DefaultAudioStreamIndex != null) {
-                    options.audioStreamIndex = trackOptions.DefaultAudioStreamIndex;
-                    isIdFallbackNeeded = true;
-                }
-                if (trackOptions.DefaultSubtitleStreamIndex != null) {
-                    options.subtitleStreamIndex = trackOptions.DefaultSubtitleStreamIndex;
-                    isIdFallbackNeeded = true;
-                }
-
-                if (isIdFallbackNeeded) {
-                    mediaSourceId ||= item.Id;
-                }
-
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options).then(async (mediaSource) => {
-                    if (trackOptions.DefaultSecondarySubtitleStreamIndex != null) {
-                        mediaSource.DefaultSecondarySubtitleStreamIndex = trackOptions.DefaultSecondarySubtitleStreamIndex;
-                    }
+                    const user = await apiClient.getCurrentUser();
+                    autoSetNextTracks(prevSource, mediaSource, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
 
                     if (mediaSource.DefaultSubtitleStreamIndex == null || mediaSource.DefaultSubtitleStreamIndex < 0) {
-                        if (mediaSource.DefaultSecondarySubtitleStreamIndex != null) {
-                            mediaSource.DefaultSubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
-                        }
+                        mediaSource.DefaultSubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
                         mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
                     }
 
@@ -2725,7 +2583,7 @@ export class PlaybackManager {
                     }
 
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
-                    streamInfo.aspectRatio = playOptions.aspectRatio;
+
                     streamInfo.fullscreen = playOptions.fullscreen;
 
                     const playerData = getPlayerData(player);
@@ -2853,7 +2711,7 @@ export class PlaybackManager {
                         Static: true,
                         mediaSourceId: mediaSource.Id,
                         deviceId: apiClient.deviceId(),
-                        ApiKey: apiClient.accessToken()
+                        api_key: apiClient.accessToken()
                     };
 
                     if (mediaSource.ETag) {
@@ -2909,6 +2767,22 @@ export class PlaybackManager {
                 playSessionId: getParam('playSessionId', mediaUrl),
                 title: item.Name
             };
+
+            // This inserts a header link to preload the next audio track in accordance with browser availability
+            if (type === "Audio") {
+              let link = document.getElementById("next-audio-prefetch");
+
+              if (!link) {
+                link = document.createElement("link");
+                link.id = "next-audio-prefetch";
+                link.rel = "prefetch";
+                link.as = "audio";
+                document.head.appendChild(link);
+              }
+
+              // Update to point to the new upcoming track
+              link.href = mediaUrl;
+            }
 
             const backdropUrl = getItemBackdropImageUrl(apiClient, item, {}, true);
             if (backdropUrl) {
@@ -3026,6 +2900,8 @@ export class PlaybackManager {
         };
 
         self.setCurrentPlaylistItem = function (playlistItemId, player) {
+            hijackMediaElementForCrossfade();
+
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.setCurrentPlaylistItem(playlistItemId);
@@ -3133,6 +3009,8 @@ export class PlaybackManager {
         }
 
         self.nextTrack = function (player) {
+            hijackMediaElementForCrossfade();
+
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.nextTrack();
@@ -3174,11 +3052,11 @@ export class PlaybackManager {
         };
 
         self.queue = function (options, player = this._currentPlayer) {
-            return queue(options, '', player);
+            queue(options, '', player);
         };
 
         self.queueNext = function (options, player = this._currentPlayer) {
-            return queue(options, 'next', player);
+            queue(options, 'next', player);
         };
 
         function queue(options, mode, player) {
@@ -3276,7 +3154,6 @@ export class PlaybackManager {
                 throw new Error('player cannot be null');
             }
 
-            resetCrossfadeState();
             setCurrentPlayerInternal(player);
 
             const playerData = getPlayerData(player);
@@ -3316,7 +3193,6 @@ export class PlaybackManager {
 
         function onPlaybackStartedFromSelfManagingPlayer(e, item, mediaSource) {
             const player = this;
-            resetCrossfadeState();
             setCurrentPlayerInternal(player);
 
             const playOptions = item.playOptions || getDefaultPlayOptions();
@@ -3354,7 +3230,6 @@ export class PlaybackManager {
 
             const nextItem = playerStopInfo.nextItem;
             const nextMediaType = playerStopInfo.nextMediaType;
-            resetCrossfadeState(crossfadeActive && !!nextItem);
 
             const playbackStopInfo = {
                 player: player,
@@ -3410,6 +3285,7 @@ export class PlaybackManager {
          * @param {MediaError} error.type
          */
         function onPlaybackError(e, error) {
+            destroyWaveSurferInstance();
             const player = this;
             error = error || {};
 
@@ -3420,21 +3296,18 @@ export class PlaybackManager {
             const streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
 
             if (streamInfo?.url) {
-                const isAlreadyFallbacking = streamInfo.url.toLowerCase().includes('transcodereasons');
                 const currentlyPreventsVideoStreamCopy = streamInfo.url.toLowerCase().indexOf('allowvideostreamcopy=false') !== -1;
                 const currentlyPreventsAudioStreamCopy = streamInfo.url.toLowerCase().indexOf('allowaudiostreamcopy=false') !== -1;
 
                 // Auto switch to transcoding
                 if (enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy)) {
                     const startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
-                    const isRemoteSource = streamInfo.item.LocationType === 'Remote';
-                    // force transcoding and only allow remuxing for remote source like liveTV, but only for initial trial
-                    const tryVideoStreamCopy = isRemoteSource && !isAlreadyFallbacking;
 
                     changeStream(player, startTime, {
+                        // force transcoding
                         EnableDirectPlay: false,
-                        EnableDirectStream: tryVideoStreamCopy,
-                        AllowVideoStreamCopy: tryVideoStreamCopy,
+                        EnableDirectStream: false,
+                        AllowVideoStreamCopy: false,
                         AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
                     });
 
@@ -3464,7 +3337,6 @@ export class PlaybackManager {
             const errorOccurred = displayErrorCode && typeof (displayErrorCode) === 'string';
 
             const nextItem = self._playNextAfterEnded && !errorOccurred ? self._playQueueManager.getNextItemInfo() : null;
-            resetCrossfadeState(crossfadeActive && !!nextItem);
 
             const nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
@@ -3500,7 +3372,7 @@ export class PlaybackManager {
             const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
             const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
-            if (!newPlayer) {
+            if (newPlayer !== player) {
                 data.streamInfo = null;
                 destroyPlayer(player);
                 removeCurrentPlayer(player);
@@ -3508,21 +3380,12 @@ export class PlaybackManager {
 
             if (errorOccurred) {
                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
-            } else if (newPlayer) {
+            } else if (nextItem) {
                 const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
 
                 apiClient.getCurrentUser().then(function (user) {
                     if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
                         self.nextTrack();
-
-                        if (newPlayer !== player) {
-                            Events.trigger(self, 'playbackstop', [{
-                                player,
-                                state,
-                                nextItem,
-                                nextMediaType
-                            }]);
-                        }
                     }
                 });
             }
@@ -3530,7 +3393,6 @@ export class PlaybackManager {
 
         function onPlaybackChanging(activePlayer, newPlayer, newItem) {
             const state = self.getPlayerState(activePlayer);
-            resetCrossfadeState();
 
             const serverId = self.currentItem(activePlayer).ServerId;
 
@@ -3574,122 +3436,10 @@ export class PlaybackManager {
             }
         }
 
-        let crossfadeAttemptInFlight = false;
-        let crossfadeActive = false;
-
-        function resetCrossfadeState(keepPreloaded = false) {
-            crossfadeAttemptInFlight = false;
-            crossfadeActive = false;
-            if (!keepPreloaded) {
-                resetPreloadedTrack();
-            }
-        }
-
-        function getNormalizationGainForItem(item, mediaSource) {
-            const normalizationMode = userSettings.selectAudioNormalization();
-            if (normalizationMode === 'TrackGain') {
-                return item.NormalizationGain ?? mediaSource?.albumNormalizationGain;
-            }
-            if (normalizationMode === 'AlbumGain') {
-                return mediaSource?.albumNormalizationGain ?? item.NormalizationGain;
-            }
-            return undefined;
-        }
-
-        function isDirectPlayStreamInfo(streamInfo) {
-            if (!streamInfo?.url) {
-                return false;
-            }
-            if (streamInfo.playMethod === 'Transcode') {
-                return false;
-            }
-            if (streamInfo.url.toLowerCase().includes('.m3u8')) {
-                return false;
-            }
-            return true;
-        }
-
-        function getActiveMediaElement(player) {
-            if (player && typeof player.getMediaElement === 'function') {
-                return player.getMediaElement();
-            }
-            return null;
-        }
-
-        function attemptWebAudioCrossfade(player) {
-            if (crossfadeActive || crossfadeAttemptInFlight) {
-                return;
-            }
-
-            const currentItem = self.currentItem(player);
-            if (!currentItem || currentItem.MediaType !== 'Audio') {
-                return;
-            }
-
-            const nextItemInfo = self._playQueueManager.getNextItemInfo();
-            if (!nextItemInfo?.item) {
-                hijackMediaElementForCrossfade();
-                return;
-            }
-
-            const activeElement = getActiveMediaElement(player);
-            if (!activeElement) {
-                hijackMediaElementForCrossfade();
-                return;
-            }
-
-            crossfadeAttemptInFlight = true;
-
-            self.getPlaybackInfo(nextItemInfo.item).then((streamInfo) => {
-                if (!isDirectPlayStreamInfo(streamInfo)) {
-                    return false;
-                }
-
-                const normalizationGain = getNormalizationGainForItem(nextItemInfo.item, streamInfo.mediaSource);
-                const crossOrigin = htmlMediaHelper.getCrossOriginValue(streamInfo.mediaSource);
-                const fadeDuration = xDuration.disableFade ? 0 : xDuration.fadeOut;
-                const timeoutMs = Math.max(1000, xDuration.fadeOut * 1000);
-
-                return preloadNextTrack({
-                    itemId: nextItemInfo.item.Id,
-                    url: streamInfo.url,
-                    crossOrigin,
-                    volume: activeElement.volume ?? 1,
-                    muted: activeElement.muted,
-                    normalizationGainDb: normalizationGain,
-                    timeoutMs
-                }).then((ready) => {
-                    if (!ready) {
-                        return false;
-                    }
-
-                    return startCrossfade({
-                        fromElement: activeElement,
-                        durationSeconds: fadeDuration
-                    }).then((started) => {
-                        if (started) {
-                            crossfadeActive = true;
-                        }
-                        return started;
-                    });
-                });
-            }).then((started) => {
-                if (!started) {
-                    hijackMediaElementForCrossfade();
-                }
-            }).catch(() => {
-                hijackMediaElementForCrossfade();
-            }).finally(() => {
-                crossfadeAttemptInFlight = false;
-            });
-        }
-
         function onPlaybackTimeUpdate() {
             const player = this;
-
-            // Check if it's time to trigger crossfade to next track
             if (timeRunningOut(player)) {
-                attemptWebAudioCrossfade(player);
+                self.nextTrack();
             }
 
             sendProgressUpdate(player, 'timeupdate');
@@ -3762,17 +3512,6 @@ export class PlaybackManager {
 
             if (!player.getVolume || !player.setVolume) {
                 initLegacyVolumeMethods(player);
-            }
-
-            // Initialize audio engine with cleanup callback
-            if (player.isLocalPlayer) {
-                initializeMasterAudio(() => {
-                    // Cleanup callback on player stop
-                    console.debug('Audio engine cleanup');
-                });
-
-                // Initialize crossfade duration from settings
-                setXDuration(userSettings.crossfadeDuration());
             }
 
             if (enableLocalPlaylistManagement(player)) {
@@ -3870,15 +3609,12 @@ export class PlaybackManager {
             return streamInfo ? streamInfo.playbackStartTimeTicks : null;
         };
 
-        if (supportsAppFeature(AppFeature.RemoteControl)) {
+        if (appHost.supports('remotecontrol')) {
             import('../../scripts/serverNotifications').then(({ default: serverNotifications }) => {
                 Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
                 Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
             });
         }
-
-        bindMediaSegmentManager(self);
-        this._skipSegment = bindSkipSegment(self);
     }
 
     getCurrentPlayer() {
@@ -3891,10 +3627,6 @@ export class PlaybackManager {
         }
 
         return this.getCurrentTicks(player) / 10000;
-    }
-
-    getNextItem() {
-        return this._playQueueManager.getNextItemInfo();
     }
 
     nextItem(player = this._currentPlayer) {
@@ -4241,7 +3973,7 @@ export class PlaybackManager {
                 'PlayTrailers'
             ];
 
-            if (supportsAppFeature(AppFeature.Fullscreen)) {
+            if (appHost.supports('fullscreenchange')) {
                 list.push('ToggleFullscreen');
             }
 
@@ -4442,8 +4174,6 @@ export class PlaybackManager {
 }
 
 export const playbackManager = new PlaybackManager();
-bindMediaSegmentManager(playbackManager);
-bindMediaSessionSubscriber(playbackManager);
 
 window.addEventListener('beforeunload', function () {
     try {
