@@ -7,7 +7,7 @@ import escapeHtml from 'escape-html';
 import markdownIt from 'markdown-it';
 import isEqual from 'lodash-es/isEqual';
 
-import { appHost } from 'components/apphost';
+import { safeAppHost } from 'components/apphost';
 import { clearBackdrop, setBackdrops } from 'components/backdrop/backdrop';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { buildCardImage } from 'components/cardbuilder/cardImage';
@@ -647,7 +647,7 @@ function reloadFromItem(instance, page, params, item, user) {
 
     if (item.Type == 'Person' && item.ProductionLocations && item.ProductionLocations.length) {
         let location = item.ProductionLocations[0];
-        if (!layoutManager.tv && appHost.supports(AppFeature.ExternalLinks)) {
+        if (!layoutManager.tv && safeAppHost.supports(AppFeature.ExternalLinks)) {
             location = `<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://www.openstreetmap.org/search?query=${encodeURIComponent(location)}">${escapeHtml(location)}</a>`;
         } else {
             location = escapeHtml(location);
@@ -661,7 +661,7 @@ function reloadFromItem(instance, page, params, item, user) {
     setPeopleHeader(page, item);
     loading.hide();
 
-    if (item.Type === 'Book' && item.CanDownload && appHost.supports(AppFeature.FileDownload)) {
+    if (item.Type === 'Book' && item.CanDownload && safeAppHost.supports(AppFeature.FileDownload)) {
         hideAll(page, 'btnDownload', true);
     }
 
@@ -1101,7 +1101,7 @@ function renderDetails(page, item, apiClient, context) {
     renderLyricsContainer(page, item, apiClient);
 
     // Don't allow redirection to other websites from the TV layout
-    if (!layoutManager.tv && appHost.supports(AppFeature.ExternalLinks)) {
+    if (!layoutManager.tv && safeAppHost.supports(AppFeature.ExternalLinks)) {
         renderLinks(page, item);
     }
 

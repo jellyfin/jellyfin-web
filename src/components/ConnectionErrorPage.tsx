@@ -1,7 +1,7 @@
 import DOMPurify from 'dompurify';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
-import { appHost } from 'components/apphost';
+import { safeAppHost } from 'components/apphost';
 import Page from 'components/Page';
 import toast from 'components/toast/toast';
 import { AppFeature } from 'constants/appFeature';
@@ -79,7 +79,7 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                     </p>
                 )}
 
-                {appHost.supports(AppFeature.MultiServer) && (
+                {safeAppHost.supports(AppFeature.MultiServer) && (
                     <LinkButton
                         className='raised'
                         href='/selectserver'

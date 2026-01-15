@@ -1,4 +1,4 @@
-import { appHost } from 'components/apphost';
+import { safeAppHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';
 
 /**
@@ -36,7 +36,7 @@ class PlaybackPermissionManager {
      * @returns {Promise} Promise that resolves succesfully if playback permission is allowed.
      */
     check () {
-        if (appHost.supports(AppFeature.HtmlAudioAutoplay)) {
+        if (safeAppHost.supports(AppFeature.HtmlAudioAutoplay)) {
             return Promise.resolve(true);
         }
 

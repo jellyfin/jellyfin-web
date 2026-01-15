@@ -16,7 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import React, { FC, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-import { appHost } from 'components/apphost';
+import { safeAppHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';
 import { useApi } from 'hooks/useApi';
 import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
@@ -49,7 +49,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
     }, [ onMenuClose ]);
 
     const onExitAppClick = useCallback(() => {
-        appHost.exit();
+        safeAppHost.exit();
         onMenuClose();
     }, [ onMenuClose ]);
 
@@ -104,11 +104,11 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </ListItemText>
             </MenuItem>
 
-            {(appHost.supports(AppFeature.DownloadManagement) || appHost.supports(AppFeature.ClientSettings)) && (
+            {(safeAppHost.supports(AppFeature.DownloadManagement) || safeAppHost.supports(AppFeature.ClientSettings)) && (
                 <Divider />
             )}
 
-            {appHost.supports(AppFeature.DownloadManagement) && (
+            {safeAppHost.supports(AppFeature.DownloadManagement) && (
                 <MenuItem
                     onClick={onDownloadManagerClick}
                 >
@@ -121,7 +121,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </MenuItem>
             )}
 
-            {appHost.supports(AppFeature.ClientSettings) && (
+            {safeAppHost.supports(AppFeature.ClientSettings) && (
                 <MenuItem
                     onClick={onClientSettingsClick}
                 >
@@ -178,7 +178,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </MenuItem>
             )}
 
-            {appHost.supports(AppFeature.MultiServer) && (
+            {safeAppHost.supports(AppFeature.MultiServer) && (
                 <MenuItem
                     onClick={onSelectServerClick}
                 >
@@ -202,7 +202,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </ListItemText>
             </MenuItem>
 
-            {appHost.supports(AppFeature.ExitMenu) && ([
+            {safeAppHost.supports(AppFeature.ExitMenu) && ([
                 <Divider key='exit-menu-divider' />,
                 <MenuItem
                     key='exit-menu-button'

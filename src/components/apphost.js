@@ -431,6 +431,70 @@ export const appHost = {
     }
 };
 
+export const safeAppHost = {
+    supports: (feature) => {
+        if (appHost && typeof appHost.supports === 'function') {
+            return appHost.supports(feature);
+        }
+
+        return false;
+    },
+    getDefaultLayout: () => {
+        if (appHost && typeof appHost.getDefaultLayout === 'function') {
+            return appHost.getDefaultLayout();
+        }
+
+        return LayoutMode.Experimental;
+    },
+    appName: () => {
+        if (appHost && typeof appHost.appName === 'function') {
+            return appHost.appName();
+        }
+
+        return appName;
+    },
+    appVersion: () => {
+        if (appHost && typeof appHost.appVersion === 'function') {
+            return appHost.appVersion();
+        }
+
+        return __PACKAGE_JSON_VERSION__;
+    },
+    deviceName: () => {
+        if (appHost && typeof appHost.deviceName === 'function') {
+            return appHost.deviceName();
+        }
+
+        return getDeviceName();
+    },
+    deviceId: () => {
+        if (appHost && typeof appHost.deviceId === 'function') {
+            return appHost.deviceId();
+        }
+
+        return getDeviceId();
+    },
+    getPushTokenInfo: () => {
+        if (appHost && typeof appHost.getPushTokenInfo === 'function') {
+            return appHost.getPushTokenInfo();
+        }
+
+        return {};
+    },
+    exit: () => {
+        if (appHost && typeof appHost.exit === 'function') {
+            return appHost.exit();
+        }
+    },
+    getWindowState: () => {
+        if (appHost && typeof appHost.getWindowState === 'function') {
+            return appHost.getWindowState();
+        }
+
+        return 'Normal';
+    }
+};
+
 let isHidden = false;
 let hidden;
 let visibilityChange;
@@ -457,4 +521,8 @@ if (window.addEventListener) {
 }
 
 // load app host on module load
-appHost.init();
+try {
+    appHost.init();
+} catch (err) {
+    console.error('appHost init failed', err);
+}

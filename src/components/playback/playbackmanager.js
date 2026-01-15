@@ -16,7 +16,7 @@ import PlayQueueManager from './playqueuemanager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
-import { appHost } from '../apphost';
+import { safeAppHost } from '../apphost';
 import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
@@ -49,7 +49,7 @@ function enableLocalPlaylistManagement(player) {
 }
 
 function supportsPhysicalVolumeControl(player) {
-    return player.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl);
+    return player.isLocalPlayer && safeAppHost.supports(AppFeature.PhysicalVolumeControl);
 }
 
 function bindToFullscreenChange(player) {
@@ -325,7 +325,7 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
         PlaySessionId: startingPlaySession,
         StartTimeTicks: startPosition || 0,
         EnableRedirection: true,
-        EnableRemoteMedia: appHost.supports(AppFeature.RemoteAudio),
+        EnableRemoteMedia: safeAppHost.supports(AppFeature.RemoteAudio),
         EnableAudioVbrEncoding: transcodingProfile.EnableAudioVbrEncoding
     });
 }
@@ -606,7 +606,7 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
     const isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
 
     if (mediaSource.SupportsDirectPlay || isFolderRip) {
-        if (mediaSource.IsRemote && !appHost.supports(AppFeature.RemoteVideo)) {
+        if (mediaSource.IsRemote && !safeAppHost.supports(AppFeature.RemoteVideo)) {
             return Promise.resolve(false);
         }
 
@@ -3862,7 +3862,7 @@ export class PlaybackManager {
             return streamInfo ? streamInfo.playbackStartTimeTicks : null;
         };
 
-        if (appHost.supports(AppFeature.RemoteControl)) {
+        if (safeAppHost.supports(AppFeature.RemoteControl)) {
             import('../../scripts/serverNotifications').then(({ default: serverNotifications }) => {
                 Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
                 Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
@@ -4233,7 +4233,7 @@ export class PlaybackManager {
                 'PlayTrailers'
             ];
 
-            if (appHost.supports(AppFeature.Fullscreen)) {
+            if (safeAppHost.supports(AppFeature.Fullscreen)) {
                 list.push('ToggleFullscreen');
             }
 

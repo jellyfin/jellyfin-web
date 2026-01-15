@@ -1,7 +1,7 @@
 import { AppFeature } from 'constants/appFeature';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { appHost } from '../apphost';
+import { safeAppHost } from '../apphost';
 import appSettings from '../../scripts/settings/appSettings';
 import focusManager from '../focusManager';
 import layoutManager from '../layoutManager';
@@ -41,7 +41,7 @@ function getSubtitleAppearanceObject(context) {
 
 function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
     apiClient.getCultures().then(function (allCultures) {
-        if (appHost.supports(AppFeature.SubtitleBurnIn) && user.Policy.EnableVideoPlaybackTranscoding) {
+        if (safeAppHost.supports(AppFeature.SubtitleBurnIn) && user.Policy.EnableVideoPlaybackTranscoding) {
             context.querySelector('.fldBurnIn').classList.remove('hide');
         }
 
@@ -209,7 +209,7 @@ function embed(options, self) {
         options.element.querySelector('.btnSave').classList.remove('hide');
     }
 
-    if (appHost.supports(AppFeature.SubtitleAppearance)) {
+    if (safeAppHost.supports(AppFeature.SubtitleAppearance)) {
         options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
 
         self._fullPreview = options.element.querySelector('.subtitleappearance-fullpreview');

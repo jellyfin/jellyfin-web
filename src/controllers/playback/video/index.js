@@ -16,7 +16,7 @@ import mediaInfo from '../../../components/mediainfo/mediainfo';
 import focusManager from '../../../components/focusManager';
 import Events from '../../../utils/events.ts';
 import globalize from '../../../lib/globalize';
-import { appHost } from '../../../components/apphost';
+import { safeAppHost } from '../../../components/apphost';
 import layoutManager from '../../../components/layoutManager';
 import * as userSettings from '../../../scripts/settings/userSettings';
 import keyboardnavigation from '../../../scripts/keyboardNavigation';
@@ -875,7 +875,7 @@ export default function (view) {
             showVolumeSlider = false;
         }
 
-        if (player.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
+        if (player.isLocalPlayer && safeAppHost.supports(AppFeature.PhysicalVolumeControl)) {
             showMuteButton = false;
             showVolumeSlider = false;
         }
@@ -2070,4 +2070,3 @@ export default function (view) {
         });
     }
 }
-

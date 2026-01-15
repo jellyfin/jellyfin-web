@@ -4,7 +4,7 @@ import markdownIt from 'markdown-it';
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
-import { appHost } from '../../../components/apphost';
+import { safeAppHost } from '../../../components/apphost';
 import appSettings from '../../../scripts/settings/appSettings';
 import dom from '../../../utils/dom';
 import loading from '../../../components/loading/loading';
@@ -266,7 +266,7 @@ export default function (view, params) {
         loading.show();
         libraryMenu.setTransparentMenu(true);
 
-        if (!appHost.supports(AppFeature.MultiServer)) {
+        if (!safeAppHost.supports(AppFeature.MultiServer)) {
             view.querySelector('.btnSelectServer').classList.add('hide');
         }
 
@@ -316,4 +316,3 @@ export default function (view, params) {
         libraryMenu.setTransparentMenu(false);
     });
 }
-

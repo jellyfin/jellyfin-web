@@ -2,7 +2,7 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ApiClient } from 'jellyfin-apiclient';
 import { useCallback, useEffect, useState } from 'react';
 
-import { appHost } from 'components/apphost';
+import { safeAppHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';
 import { AppFeature } from 'constants/appFeature';
 import { useApi } from 'hooks/useApi';
@@ -128,7 +128,7 @@ async function saveDisplaySettings({
 }: SaveDisplaySettingsParams) {
     const user = await api.getUser(userId);
 
-    if (appHost.supports(AppFeature.DisplayLanguage)) {
+    if (safeAppHost.supports(AppFeature.DisplayLanguage)) {
         userSettings.language(normalizeValue(newDisplaySettings.language));
     }
     userSettings.customCss(normalizeValue(newDisplaySettings.customCss));

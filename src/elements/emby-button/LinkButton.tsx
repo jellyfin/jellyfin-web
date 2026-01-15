@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent, useCallback } from 'react';
 
-import { appHost } from 'components/apphost';
+import { safeAppHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
@@ -31,7 +31,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
         const url = href || '';
         if (url !== '#') {
             if (target) {
-                if (appHost && !appHost.supports(AppFeature.TargetBlank)) {
+                if (!safeAppHost.supports(AppFeature.TargetBlank)) {
                     e.preventDefault();
                     shell.openUrl(url);
                 }
@@ -48,7 +48,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
         onClick?.(e);
     }, [ href, target, onClick ]);
 
-    if (isAutoHideEnabled === true && appHost && !appHost.supports(AppFeature.ExternalLinks)) {
+    if (isAutoHideEnabled === true && !safeAppHost.supports(AppFeature.ExternalLinks)) {
         return null;
     }
 

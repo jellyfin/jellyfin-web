@@ -10,7 +10,7 @@ import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
-import { appHost } from '../apphost';
+import { safeAppHost } from '../apphost';
 import dom from '../../utils/dom';
 import globalize from 'lib/globalize';
 import itemContextMenu from '../itemContextMenu';
@@ -245,7 +245,7 @@ function bindEvents(elem) {
 
     toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
 
-    volumeSliderContainer.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
+    volumeSliderContainer.classList.toggle('hide', safeAppHost.supports(AppFeature.PhysicalVolumeControl));
 
     volumeSlider.addEventListener('input', (e) => {
         if (currentPlayer) {
@@ -442,7 +442,7 @@ function updatePlayerVolumeState(isMuted, volumeLevel) {
         showVolumeSlider = false;
     }
 
-    if (currentPlayer.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
+    if (currentPlayer.isLocalPlayer && safeAppHost.supports(AppFeature.PhysicalVolumeControl)) {
         showMuteButton = false;
         showVolumeSlider = false;
     }

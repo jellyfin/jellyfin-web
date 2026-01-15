@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import React, { Fragment } from 'react';
 
-import { appHost } from 'components/apphost';
+import { safeAppHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';
 import { LayoutMode } from 'constants/layoutMode';
 import { useApi } from 'hooks/useApi';
@@ -34,7 +34,7 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
         <Stack spacing={3}>
             <Typography variant='h2'>{globalize.translate('Display')}</Typography>
 
-            { appHost.supports(AppFeature.DisplayMode) && (
+            { safeAppHost.supports(AppFeature.DisplayMode) && (
                 <FormControl fullWidth>
                     <InputLabel id='display-settings-layout-label'>{globalize.translate('LabelDisplayMode')}</InputLabel>
                     <Select
@@ -125,7 +125,7 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                 </FormControl>
             ) }
 
-            { screensavers.length > 0 && appHost.supports(AppFeature.Screensaver) && (
+            { screensavers.length > 0 && safeAppHost.supports(AppFeature.Screensaver) && (
                 <Fragment>
                     <FormControl fullWidth>
                         <InputLabel id='display-settings-screensaver-label'>{globalize.translate('LabelScreensaver')}</InputLabel>

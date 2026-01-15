@@ -7,7 +7,7 @@ import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import appSettings from '../../scripts/settings/appSettings';
-import { appHost } from '../apphost';
+import { safeAppHost } from '../apphost';
 import browser from '../../scripts/browser';
 import focusManager from '../focusManager';
 import qualityoptions from '../qualityOptions';
@@ -156,7 +156,7 @@ function showHideQualityFields(context, user, apiClient) {
         context.querySelector('.videoQualitySection').classList.add('hide');
     }
 
-    if (appHost.supports(AppFeature.MultiServer)) {
+    if (safeAppHost.supports(AppFeature.MultiServer)) {
         context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
         context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
 
@@ -213,7 +213,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
         context.querySelector('.chkEpisodeAutoPlay').checked = user.Configuration.EnableNextEpisodeAutoPlay || false;
     });
 
-    if (appHost.supports(AppFeature.ExternalPlayerIntent) && userId === loggedInUserId) {
+    if (safeAppHost.supports(AppFeature.ExternalPlayerIntent) && userId === loggedInUserId) {
         context.querySelector('.fldExternalPlayer').classList.remove('hide');
     } else {
         context.querySelector('.fldExternalPlayer').classList.add('hide');
@@ -222,7 +222,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     if (userId === loggedInUserId && (user.Policy.EnableVideoPlaybackTranscoding || user.Policy.EnableAudioPlaybackTranscoding)) {
         context.querySelector('.qualitySections').classList.remove('hide');
 
-        if (appHost.supports(AppFeature.Chromecast) && user.Policy.EnableVideoPlaybackTranscoding) {
+        if (safeAppHost.supports(AppFeature.Chromecast) && user.Policy.EnableVideoPlaybackTranscoding) {
             context.querySelector('.fldChromecastQuality').classList.remove('hide');
         } else {
             context.querySelector('.fldChromecastQuality').classList.add('hide');

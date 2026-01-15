@@ -2,7 +2,7 @@ import { AppFeature } from 'constants/appFeature';
 import { MediaError } from 'types/mediaError';
 
 import browser from '../../scripts/browser';
-import { appHost } from '../../components/apphost';
+import { appHost, safeAppHost } from '../../components/apphost';
 import * as htmlMediaHelper from '../../components/htmlMediaHelper';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
@@ -323,7 +323,7 @@ class HtmlAudioPlayer {
 
             elem.id = 'currentMediaElement';
             // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
-            if (!appHost.supports(AppFeature.PhysicalVolumeControl)) {
+            if (!safeAppHost.supports(AppFeature.PhysicalVolumeControl)) {
                 elem.volume = htmlMediaHelper.getSavedVolume();
             }
 
@@ -440,7 +440,7 @@ class HtmlAudioPlayer {
     }
 
     getDeviceProfile(item) {
-        if (appHost.getDeviceProfile) {
+        if (appHost && appHost.getDeviceProfile) {
             return appHost.getDeviceProfile(item);
         }
 

@@ -15,7 +15,7 @@ import inputManager from '../../scripts/inputManager';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
-import { appHost } from '../apphost';
+import { appHost, safeAppHost } from '../apphost';
 import dom from '../../utils/dom';
 
 import './style.scss';
@@ -178,10 +178,10 @@ export default function (options) {
             if (actionButtonsOnTop) {
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true);
 
-                if (appHost.supports(AppFeature.FileDownload) && slideshowOptions.user?.Policy.EnableContentDownloading) {
+                if (safeAppHost.supports(AppFeature.FileDownload) && slideshowOptions.user?.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
-                if (appHost.supports(AppFeature.Sharing)) {
+                if (safeAppHost.supports(AppFeature.Sharing)) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
                 }
                 if (screenfull.isEnabled) {
@@ -196,10 +196,10 @@ export default function (options) {
                 html += '<div class="slideshowBottomBar hide">';
 
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
-                if (appHost.supports(AppFeature.FileDownload) && slideshowOptions?.user.Policy.EnableContentDownloading) {
+                if (safeAppHost.supports(AppFeature.FileDownload) && slideshowOptions?.user.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
-                if (appHost.supports(AppFeature.Sharing)) {
+                if (safeAppHost.supports(AppFeature.Sharing)) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
                 }
                 if (screenfull.isEnabled) {

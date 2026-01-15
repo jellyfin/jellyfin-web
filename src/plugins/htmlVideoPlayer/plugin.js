@@ -11,7 +11,7 @@ import { MediaError } from 'types/mediaError';
 
 import browser from '../../scripts/browser';
 import appSettings from '../../scripts/settings/appSettings';
-import { appHost } from '../../components/apphost';
+import { appHost, safeAppHost } from '../../components/apphost';
 import loading from '../../components/loading/loading';
 import dom from '../../utils/dom';
 import { playbackManager } from '../../components/playback/playbackmanager';
@@ -1621,7 +1621,7 @@ export class HtmlVideoPlayer {
                 const cssClass = 'htmlvideoplayer';
 
                 // Can't autoplay in these browsers so we need to use the full controls, at least until playback starts
-                if (!appHost.supports(AppFeature.HtmlVideoAutoplay)) {
+                if (!safeAppHost.supports(AppFeature.HtmlVideoAutoplay)) {
                     html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
                 } else if (browser.web0s) {
                     // in webOS, setting preload auto allows resuming videos
@@ -1637,7 +1637,7 @@ export class HtmlVideoPlayer {
                 const videoElement = playerDlg.querySelector('video');
 
                 // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
-                if (!appHost.supports(AppFeature.PhysicalVolumeControl)) {
+                if (!safeAppHost.supports(AppFeature.PhysicalVolumeControl)) {
                     videoElement.volume = getSavedVolume();
                 }
 
@@ -1716,7 +1716,7 @@ export class HtmlVideoPlayer {
      * @private
      */
     supportsPlayMethod(playMethod, item) {
-        if (appHost.supportsPlayMethod) {
+        if (appHost && appHost.supportsPlayMethod) {
             return appHost.supportsPlayMethod(playMethod, item);
         }
 
@@ -1737,7 +1737,7 @@ export class HtmlVideoPlayer {
      * @private
      */
     static getDeviceProfileInternal(item, options) {
-        if (appHost.getDeviceProfile) {
+        if (appHost && appHost.getDeviceProfile) {
             return appHost.getDeviceProfile(item, options);
         }
 

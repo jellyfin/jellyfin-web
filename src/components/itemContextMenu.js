@@ -10,7 +10,7 @@ import dom from '../utils/dom';
 import globalize from '../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import actionsheet from './actionSheet/actionSheet';
-import { appHost } from './apphost';
+import { safeAppHost } from './apphost';
 import { appRouter } from './router/appRouter';
 import itemHelper, { canEditPlaylist } from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
@@ -182,7 +182,7 @@ export async function getCommands(options) {
         });
     }
 
-    if (appHost.supports(AppFeature.FileDownload)) {
+    if (safeAppHost.supports(AppFeature.FileDownload)) {
         // CanDownload should probably be updated to return true for these items?
         if (user.Policy.EnableContentDownloading && DOWNLOAD_ALL_TYPES.includes(item.Type)) {
             commands.push({

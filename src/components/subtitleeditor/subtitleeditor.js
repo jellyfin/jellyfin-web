@@ -1,7 +1,7 @@
 import escapeHtml from 'escape-html';
 
 import { AppFeature } from 'constants/appFeature';
-import { appHost } from '../apphost';
+import { safeAppHost } from '../apphost';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
@@ -442,7 +442,7 @@ function showEditorInternal(itemId, serverId) {
         }
 
         // Don't allow redirection to other websites from the TV layout
-        if (layoutManager.tv || !appHost.supports(AppFeature.ExternalLinks)) {
+        if (layoutManager.tv || !safeAppHost.supports(AppFeature.ExternalLinks)) {
             dlg.querySelector('.btnHelp').remove();
         }
 

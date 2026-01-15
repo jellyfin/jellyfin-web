@@ -3,7 +3,7 @@
 import { Api } from '@jellyfin/sdk';
 import { Credentials, ApiClient } from 'jellyfin-apiclient';
 
-import { appHost } from 'components/apphost';
+import { appHost, safeAppHost } from 'components/apphost';
 import appSettings from 'scripts/settings/appSettings';
 import { setUserInfo } from 'scripts/settings/userSettings';
 import Dashboard from 'utils/dashboard';
@@ -59,10 +59,10 @@ class ServerConnections extends ConnectionManager {
 
         const apiClient = new ApiClient(
             server,
-            appHost.appName(),
-            appHost.appVersion(),
-            appHost.deviceName(),
-            appHost.deviceId()
+            safeAppHost.appName(),
+            safeAppHost.appVersion(),
+            safeAppHost.deviceName(),
+            safeAppHost.deviceId()
         );
 
         apiClient.enableAutomaticNetworking = false;
@@ -148,12 +148,12 @@ class ServerConnections extends ConnectionManager {
 
 const credentialProvider = new Credentials();
 
-const capabilities = Dashboard.capabilities(appHost);
+const capabilities = Dashboard.capabilities(appHost || safeAppHost);
 
 export default new ServerConnections(
     credentialProvider,
-    appHost.appName(),
-    appHost.appVersion(),
-    appHost.deviceName(),
-    appHost.deviceId(),
+    safeAppHost.appName(),
+    safeAppHost.appVersion(),
+    safeAppHost.deviceName(),
+    safeAppHost.deviceId(),
     capabilities);

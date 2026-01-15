@@ -1,7 +1,7 @@
 import { AppFeature } from 'constants/appFeature';
 import dom from '../../utils/dom';
 import loading from '../loading/loading';
-import { appHost } from '../apphost';
+import { safeAppHost } from '../apphost';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import imageLoader from '../images/imageLoader';
 import browser from '../../scripts/browser';
@@ -206,7 +206,7 @@ function getRemoteImageHtml(image, imageType) {
     html += '<div class="cardPadder-' + shape + '"></div>';
     html += '<div class="cardContent">';
 
-    if (layoutManager.tv || !appHost.supports(AppFeature.ExternalLinks)) {
+    if (layoutManager.tv || !safeAppHost.supports(AppFeature.ExternalLinks)) {
         html += '<div class="cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain;"></div>';
     } else {
         html += '<a is="emby-linkbutton" target="_blank" href="' + image.Url + '" class="button-link cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain"></a>';
@@ -389,4 +389,3 @@ export function show(itemId, serverId, itemType, imageType, parentId) {
 export default {
     show: show
 };
-

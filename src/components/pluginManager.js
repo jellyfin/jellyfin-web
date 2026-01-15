@@ -3,7 +3,7 @@ import globalize from '../lib/globalize';
 import loading from './loading/loading';
 import appSettings from '../scripts/settings/appSettings';
 import { playbackManager } from './playback/playbackmanager';
-import { appHost } from '../components/apphost';
+import { safeAppHost } from '../components/apphost';
 import { appRouter } from './router/appRouter';
 import * as inputManager from '../scripts/inputManager';
 import toast from '../components/toast/toast';
@@ -84,7 +84,7 @@ class PluginManager {
                     appSettings,
                     playbackManager,
                     globalize,
-                    appHost,
+                    appHost: safeAppHost,
                     appRouter,
                     inputManager,
                     toast,

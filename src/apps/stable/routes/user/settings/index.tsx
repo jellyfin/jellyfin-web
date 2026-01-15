@@ -2,7 +2,7 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto
 import React, { useEffect, useMemo, useState, type FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { appHost } from 'components/apphost';
+import { safeAppHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
@@ -190,7 +190,7 @@ const UserSettingsPage: FC = () => {
                             </div>
                         </LinkButton>
 
-                        {appHost.supports(AppFeature.DownloadManagement) && (
+                        {safeAppHost.supports(AppFeature.DownloadManagement) && (
                             <LinkButton
                                 onClick={shell.openDownloadManager}
                                 className='downloadManager listItem-border'
@@ -211,7 +211,7 @@ const UserSettingsPage: FC = () => {
                             </LinkButton>
                         )}
 
-                        {appHost.supports(AppFeature.ClientSettings) && (
+                        {safeAppHost.supports(AppFeature.ClientSettings) && (
                             <LinkButton
                                 onClick={shell.openClientSettings}
                                 className='clientSettings listItem-border'
@@ -316,7 +316,7 @@ const UserSettingsPage: FC = () => {
                                 {globalize.translate('HeaderUser')}
                             </h2>
 
-                            {appHost.supports(AppFeature.MultiServer) && (
+                            {safeAppHost.supports(AppFeature.MultiServer) && (
                                 <LinkButton
                                     onClick={Dashboard.selectServer}
                                     className='selectServer listItem-border'
@@ -356,9 +356,9 @@ const UserSettingsPage: FC = () => {
                                 </div>
                             </LinkButton>
 
-                            {appHost.supports(AppFeature.ExitMenu) && (
+                            {safeAppHost.supports(AppFeature.ExitMenu) && (
                                 <LinkButton
-                                    onClick={appHost.exit}
+                                    onClick={safeAppHost.exit}
                                     className='exitApp listItem-border'
                                     style={{
                                         display: 'block',

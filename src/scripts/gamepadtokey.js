@@ -20,7 +20,7 @@
 // #      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // #      THE SOFTWARE.
 
-import { appHost } from '../components/apphost';
+import { safeAppHost } from '../components/apphost';
 
 const _GAMEPAD_A_BUTTON_INDEX = 0;
 const _GAMEPAD_B_BUTTON_INDEX = 1;
@@ -190,7 +190,7 @@ function allowInput() {
         return false;
     }
 
-    return appHost.getWindowState() !== 'Minimized';
+    return safeAppHost.getWindowState() !== 'Minimized';
 }
 
 function raiseEvent(name, key, keyCode) {

@@ -6,7 +6,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import { pluginManager } from '../pluginManager';
 import { appRouter } from '../router/appRouter';
 import globalize from '../../lib/globalize';
-import { appHost } from '../apphost';
+import { safeAppHost } from '../apphost';
 import { enable, isEnabled } from '../../scripts/autocast';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
@@ -97,7 +97,7 @@ export function show(button) {
 
             // Unfortunately we can't allow the url to change or chromecast will throw a security error
             // Might be able to solve this in the future by moving the dialogs to hashbangs
-            if (!(!browser.chrome && !browser.edgeChromium || appHost.supports(AppFeature.CastMenuHashChange))) {
+            if (!(!browser.chrome && !browser.edgeChromium || safeAppHost.supports(AppFeature.CastMenuHashChange))) {
                 menuOptions.enableHistory = false;
             }
 

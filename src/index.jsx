@@ -7,7 +7,7 @@ import { createRoot } from 'react-dom/client';
 // NOTE: We need to import this first to initialize the connection
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
-import { appHost } from './components/apphost';
+import { appHost, safeAppHost } from './components/apphost';
 import autoFocuser from './components/autoFocuser';
 import loading from 'components/loading/loading';
 import { pluginManager } from './components/pluginManager';
@@ -24,6 +24,8 @@ import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
 
 import RootApp from './RootApp';
+
+const supportsFeature = (feature) => safeAppHost.supports(feature);
 
 // Import the button webcomponent for use throughout the site
 // NOTE: This is a bit of a hack, files should ensure the component is imported before use
@@ -137,7 +139,7 @@ async function loadPlugins() {
     console.dir(pluginManager);
 
     let list = await getPlugins();
-    if (!appHost.supports(AppFeature.RemoteControl)) {
+    if (!supportsFeature(AppFeature.RemoteControl)) {
         // Disable remote player plugins if not supported
         list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
             && !plugin.startsWith('chromecastPlayer'));
@@ -166,12 +168,12 @@ function loadPlatformFeatures() {
         import('./components/nowPlayingBar/nowPlayingBar');
     }
 
-    if (appHost.supports(AppFeature.RemoteControl)) {
+    if (supportsFeature(AppFeature.RemoteControl)) {
         import('./components/playback/playerSelectionMenu');
         import('./components/playback/remotecontrolautoplay');
     }
 
-    if (!appHost.supports(AppFeature.PhysicalVolumeControl) || browser.touch) {
+    if (!supportsFeature(AppFeature.PhysicalVolumeControl) || browser.touch) {
         import('./components/playback/volumeosd');
     }
 

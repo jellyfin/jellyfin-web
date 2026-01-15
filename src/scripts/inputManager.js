@@ -1,4 +1,4 @@
-import { appHost } from 'components/apphost';
+import { safeAppHost } from 'components/apphost';
 import focusManager from 'components/focusManager';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
@@ -112,8 +112,8 @@ export function handleCommand(commandName, options) {
         'back': () => {
             if (appRouter.canGoBack()) {
                 appRouter.back();
-            } else if (appHost.supports(AppFeature.Exit)) {
-                appHost.exit();
+        } else if (safeAppHost.supports(AppFeature.Exit)) {
+                safeAppHost.exit();
             }
         },
         'select': () => {

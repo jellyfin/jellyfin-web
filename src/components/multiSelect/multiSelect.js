@@ -1,6 +1,6 @@
 import { AppFeature } from 'constants/appFeature';
 import browser from '../../scripts/browser';
-import { appHost } from '../apphost';
+import { safeAppHost } from '../apphost';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -199,7 +199,7 @@ function showMenuForSelectedItems(e) {
                 });
             }
 
-            if (user.Policy.EnableContentDownloading && appHost.supports(AppFeature.FileDownload)) {
+            if (user.Policy.EnableContentDownloading && safeAppHost.supports(AppFeature.FileDownload)) {
                 // Disabled because there is no callback for this item
             }
 

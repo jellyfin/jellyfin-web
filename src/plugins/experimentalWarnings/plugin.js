@@ -1,6 +1,6 @@
 import globalize from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { appHost } from '../../components/apphost';
+import { safeAppHost } from '../../components/apphost';
 import alert from '../../components/alert';
 import { PluginType } from '../../types/plugin.ts';
 
@@ -15,7 +15,7 @@ function getWeek(date) {
 }
 
 function showMessage(text, userSettingsKey, appHostFeature) {
-    if (appHost.supports(appHostFeature)) {
+    if (safeAppHost.supports(appHostFeature)) {
         return Promise.resolve();
     }
 

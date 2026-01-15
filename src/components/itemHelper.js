@@ -5,7 +5,7 @@ import { RecordingStatus } from '@jellyfin/sdk/lib/generated-client/models/recor
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 
-import { appHost } from './apphost';
+import { safeAppHost } from './apphost';
 import { AppFeature } from 'constants/appFeature';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -239,7 +239,7 @@ export function canShare (item, user) {
     if (isLocalItem(item)) {
         return false;
     }
-    return user.Policy.EnablePublicSharing && appHost.supports(AppFeature.Sharing);
+    return user.Policy.EnablePublicSharing && safeAppHost.supports(AppFeature.Sharing);
 }
 
 export function enableDateAddedDisplay (item) {

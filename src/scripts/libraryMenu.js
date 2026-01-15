@@ -17,7 +17,7 @@ import layoutManager from '../components/layoutManager';
 import inputManager from './inputManager';
 import viewManager from '../components/viewManager/viewManager';
 import { appRouter } from '../components/router/appRouter';
-import { appHost } from '../components/apphost';
+import { safeAppHost } from '../components/apphost';
 import { playbackManager } from '../components/playback/playbackmanager';
 import { pluginManager } from '../components/pluginManager';
 import groupSelectionMenu from '../plugins/syncPlay/ui/groupSelectionMenu';
@@ -349,14 +349,14 @@ function refreshLibraryInfoInDrawer(user) {
         html += globalize.translate('HeaderUser');
         html += '</h3>';
 
-        if (appHost.supports(AppFeature.MultiServer)) {
+        if (safeAppHost.supports(AppFeature.MultiServer)) {
             html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSelectServer" data-itemid="selectserver" href="#"><span class="material-icons navMenuOptionIcon storage" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('SelectServer')}</span></a>`;
         }
 
         html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Settings')}</span></a>`;
         html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><span class="material-icons navMenuOptionIcon exit_to_app" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('ButtonSignOut')}</span></a>`;
 
-        if (appHost.supports(AppFeature.ExitMenu)) {
+        if (safeAppHost.supports(AppFeature.ExitMenu)) {
             html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder exitApp" data-itemid="exitapp" href="#"><span class="material-icons navMenuOptionIcon close" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('ButtonExitApp')}</span></a>`;
         }
 
@@ -511,7 +511,7 @@ function onSettingsClick() {
 }
 
 function onExitAppClick() {
-    appHost.exit();
+    safeAppHost.exit();
 }
 
 function onLogoutClick() {

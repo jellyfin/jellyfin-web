@@ -9,7 +9,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import scrollHelper from '../../scripts/scrollHelper';
 import imageLoader from '../images/imageLoader';
 import browser from '../../scripts/browser';
-import { appHost } from '../apphost';
+import { safeAppHost } from '../apphost';
 import '../cardbuilder/card.scss';
 import '../formdialog.scss';
 import '../../elements/emby-button/emby-button';
@@ -340,7 +340,7 @@ function showActionSheet(context, imageCard) {
 
 function initEditor(context, options) {
     const uploadButtons = context.querySelectorAll('.btnOpenUploadMenu');
-    const isFileInputSupported = appHost.supports(AppFeature.FileInput);
+    const isFileInputSupported = safeAppHost.supports(AppFeature.FileInput);
     for (let i = 0, length = uploadButtons.length; i < length; i++) {
         if (isFileInputSupported) {
             uploadButtons[i].classList.remove('hide');
@@ -463,4 +463,3 @@ export function show (options) {
 export default {
     show
 };
-

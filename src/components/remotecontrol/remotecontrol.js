@@ -11,7 +11,7 @@ import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
 import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
-import { appHost } from '../apphost';
+import { safeAppHost } from '../apphost';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import layoutManager from '../layoutManager';
@@ -373,7 +373,7 @@ export default function () {
             showVolumeSlider = false;
         }
 
-        if (currentPlayer.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
+        if (currentPlayer.isLocalPlayer && safeAppHost.supports(AppFeature.PhysicalVolumeControl)) {
             showMuteButton = false;
             showVolumeSlider = false;
         }

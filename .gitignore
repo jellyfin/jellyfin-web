@@ -11,6 +11,7 @@ src/components/playbackSettings/COLOR_PICKER_GUIDE.md
 src/components/visualizer/VISUALIZER_INTEGRATION_GUIDE.md
 # Node artifacts
 node_modules/
+dist/
 
 # AI tooling notes
 CLAUDE.md

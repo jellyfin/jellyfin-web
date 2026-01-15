@@ -8,5 +8,5 @@ export default function capabilities(host: any) {
             'PlayMediaSource', 'PlayTrailers'],
         SupportsPersistentIdentifier: (window as any).appMode === 'cordova' || (window as any).appMode === 'android',
         SupportsMediaControl: true
-    }, host.getPushTokenInfo());
+    }, host?.getPushTokenInfo ? host.getPushTokenInfo() : {});
 }

@@ -4,7 +4,7 @@ import { AppFeature } from 'constants/appFeature';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import { pluginManager } from '../pluginManager';
-import { appHost } from '../apphost';
+import { safeAppHost } from '../apphost';
 import focusManager from '../focusManager';
 import datetime from '../../scripts/datetime';
 import globalize from '../../lib/globalize';
@@ -70,19 +70,19 @@ function showOrHideMissingEpisodesField(context) {
 }
 
 function loadForm(context, user, userSettings) {
-    if (appHost.supports(AppFeature.DisplayLanguage)) {
+    if (safeAppHost.supports(AppFeature.DisplayLanguage)) {
         context.querySelector('.languageSection').classList.remove('hide');
     } else {
         context.querySelector('.languageSection').classList.add('hide');
     }
 
-    if (appHost.supports(AppFeature.DisplayMode)) {
+    if (safeAppHost.supports(AppFeature.DisplayMode)) {
         context.querySelector('.fldDisplayMode').classList.remove('hide');
     } else {
         context.querySelector('.fldDisplayMode').classList.add('hide');
     }
 
-    if (appHost.supports(AppFeature.ExternalLinks)) {
+    if (safeAppHost.supports(AppFeature.ExternalLinks)) {
         context.querySelector('.learnHowToContributeContainer').classList.remove('hide');
     } else {
         context.querySelector('.learnHowToContributeContainer').classList.add('hide');
@@ -91,7 +91,7 @@ function loadForm(context, user, userSettings) {
     context.querySelector('.selectDashboardThemeContainer').classList.toggle('hide', !user.Policy.IsAdministrator);
     context.querySelector('.txtSlideshowIntervalContainer').classList.remove('hide');
 
-    if (appHost.supports(AppFeature.Screensaver)) {
+    if (safeAppHost.supports(AppFeature.Screensaver)) {
         context.querySelector('.selectScreensaverContainer').classList.remove('hide');
         context.querySelector('.txtBackdropScreensaverIntervalContainer').classList.remove('hide');
         context.querySelector('.txtScreensaverTimeContainer').classList.remove('hide');
@@ -147,7 +147,7 @@ function loadForm(context, user, userSettings) {
 function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.DisplayMissingEpisodes = context.querySelector('.chkDisplayMissingEpisodes').checked;
 
-    if (appHost.supports(AppFeature.DisplayLanguage)) {
+    if (safeAppHost.supports(AppFeature.DisplayLanguage)) {
         userSettingsInstance.language(context.querySelector('#selectLanguage').value);
     }
 
