@@ -65,12 +65,6 @@ $hkFamily: "Noto Sans HK";
     $range: (U+21076-21078, U+2107b, U+21088, U+21096, U+2109d, U+210b4, U+210bf-210c1, U+210c7-210c9, U+210cf, U+210d3, U+210e4, U+210f4-210f6, U+2112f, U+2113b, U+2113d, U+21145, U+21148, U+2114f, U+21180, U+21187, U+211d9, U+2123c, U+2124f, U+2127c, U+212a8-212a9, U+212b0, U+212e3, U+212fe, U+21302-21305, U+21336, U+2133a, U+21375-21376, U+2138e, U+21398, U+2139c, U+213c5-213c6, U+213ed, U+213fe, U+21413, U+21416, U+21424, U+2143f, U+21452, U+21454-21455, U+2148a, U+21497, U+214b6, U+214e8, U+214fd, U+21577, U+21582, U+21596, U+2160a, U+21613, U+21619, U+2163e, U+21661, U+21692, U+216b8, U+216ba, U+216c0-216c2, U+216d3, U+216d5, U+216df, U+216e6-216e8, U+216fa-216fc, U+216fe, U+2170d, U+21710, U+21726, U+2173a-2173c, U+21757, U+2176c-21771, U+21773-21774, U+217ab, U+217b0-217b5, U+217c3, U+217c7, U+217d9-217dc, U+217df, U+217ef, U+217f5-217f6, U+217f8-217fc, U+21820, U+21828-2182a, U+2182d, U+21839-2183b, U+21840, U+21845, U+21852, U+2185e, U+21861-21864, U+21877, U+2187b, U+21883-21885, U+2189e-218a2, U+218be-218bf, U+218d1, U+218d6-218d9, U+218fa, U+21903-21905, U+21910-21912, U+21915, U+2191c, U+21922)
 );
 
-/* noto-sans-hk-[9]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-9-400-normal.woff2",
-    $range: (U+2048e, U+20491-20492, U+204a3, U+204d7, U+204fc, U+204fe, U+20547, U+2058e, U+205a5, U+205b3, U+205c3, U+205ca, U+205d0, U+205d5, U+205df-205e0, U+205eb, U+20611, U+20615, U+20619-2061a, U+20630, U+20656, U+20676, U+2070e, U+20731, U+20779, U+2082c, U+20873, U+208d5, U+20916, U+20923, U+20954, U+20979, U+209e7, U+20a11, U+20a50, U+20a6f, U+20a8a, U+20ab4, U+20ac2, U+20acd, U+20b0d, U+20b8f, U+20b9f, U+20ba8-20ba9, U+20bbf, U+20bc6, U+20bcb, U+20be2, U+20beb, U+20bfb, U+20bff, U+20c0b, U+20c0d, U+20c20, U+20c34, U+20c3a-20c3b, U+20c41-20c43, U+20c53, U+20c65, U+20c77-20c78, U+20c7c, U+20c8d, U+20c96, U+20c9c, U+20cb5, U+20cb8, U+20ccf, U+20cd3-20cd6, U+20cdd, U+20ced, U+20cff, U+20d15, U+20d28, U+20d31-20d32, U+20d46-20d49, U+20d4c-20d4e, U+20d6f, U+20d71, U+20d74, U+20d7c, U+20d7e-20d7f, U+20d96, U+20d9c, U+20da7, U+20db2, U+20dc8, U+20e04, U+20e09-20e0a, U+20e0d-20e11, U+20e16, U+20e1d, U+20e4c, U+20e6d, U+20e73, U+20e75-20e7b, U+20e8c, U+20e96, U+20e98, U+20e9d, U+20ea2, U+20eaa-20eac, U+20eb6, U+20ed7-20ed8, U+20edd, U+20ef8-20efb, U+20f1d, U+20f26, U+20f2d-20f2e, U+20f30-20f31, U+20f3b, U+20f4c, U+20f64, U+20f8d, U+20f90, U+20fad, U+20fb4-20fb6, U+20fbc, U+20fdf, U+20fea-20fed, U+21014, U+2101d-2101e, U+2104f, U+2105c, U+2106f, U+21075)
-);
 
 /* noto-sans-hk-[10]-400-normal */
 @include font.face(
@@ -506,96 +500,18 @@ $hkFamily: "Noto Sans HK";
     $range: (U+505d-5060, U+5063, U+5066, U+506a, U+506c, U+506f-5072, U+5078, U+507a-507b, U+507f-5081, U+5088-5089, U+508b-508c, U+508e, U+5090, U+5092, U+5095-5096, U+509a-509d, U+50a3, U+50a5-50a6, U+50a8, U+50af, U+50b1, U+50b4, U+50ba, U+50bc, U+50c2, U+50c6-50ca, U+50cd-50ce, U+50d0, U+50d6, U+50d9, U+50dd-50df, U+50e1, U+50e3, U+50e5-50e6, U+50e8-50ea, U+50ec-50f0, U+50f3-50f4, U+50fb-50fc, U+50fe, U+5101-5102, U+5105-5109, U+510b-510e, U+5110, U+5113-5115, U+5117, U+511a-511c, U+511e, U+5120-5121, U+5125, U+512b, U+5131, U+5134-5135, U+5138-513c, U+5140, U+514e, U+5150-5151, U+5155-5157, U+515a, U+515f-5160, U+5162, U+516a, U+516e, U+5172, U+5174, U+5179, U+517b, U+517d, U+5182, U+5186, U+5188-5189, U+518b, U+518f, U+5191, U+5193, U+5195-5197, U+519a-519c, U+519e, U+51a2, U+51a6-51a9, U+51ab, U+51ad-51af, U+51b1-51b6, U+51b8, U+51ba-51c0, U+51c3-51c5, U+51c7, U+51c9-51cb, U+51ce-51cf)
 );
 
-/* noto-sans-hk-[83]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-83-400-normal.woff2",
-    $range: (U+4f22, U+4f24, U+4f28-4f2b, U+4f2d, U+4f31-4f32, U+4f35, U+4f37, U+4f39, U+4f3b, U+4f3e, U+4f41-4f43, U+4f45, U+4f47, U+4f49, U+4f4b-4f4c, U+4f52, U+4f57-4f58, U+4f5a, U+4f5d-4f5f, U+4f61, U+4f63-4f64, U+4f67, U+4f6a, U+4f6e-4f6f, U+4f72, U+4f74, U+4f76-4f7b, U+4f7d-4f7e, U+4f80-4f82, U+4f84, U+4f89-4f8a, U+4f8e-4f94, U+4f96-4f98, U+4f9a, U+4f9e, U+4fa0-4fa3, U+4fa5-4fa8, U+4faa-4fac, U+4fb0, U+4fb2-4fb4, U+4fb7-4fba, U+4fbd, U+4fc0-4fc1, U+4fc5-4fc8, U+4fcb-4fce, U+4fd1, U+4fd3-4fd4, U+4fd8-4fdc, U+4fdf, U+4fe2-4fe5, U+4fe8-4fea, U+4fec-4fed, U+4ff0, U+4ff2-4ff6, U+4ff8-4ffa, U+4ffd, U+5000, U+5002-5003, U+5005, U+5008, U+500c, U+500f, U+5013-5015, U+501b-501c, U+501e, U+5022-5025, U+5027-5028, U+502c-502e, U+5030-5032, U+5034, U+5036, U+503a-503b, U+503e, U+5040-5041, U+5043, U+5045-5046, U+5048, U+504a-504e, U+5051-5053, U+5056, U+5058)
-);
 
-/* noto-sans-hk-[84]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-84-400-normal.woff2",
-    $range: (U+4ad1, U+4ae4, U+4aff, U+4b10, U+4b19, U+4b20, U+4b2c, U+4b37, U+4b6f-4b70, U+4b72, U+4b7b, U+4b7e, U+4b8e, U+4b90, U+4b93, U+4b96-4b97, U+4b9d, U+4bbd-4bbe, U+4bc0, U+4c04, U+4c07, U+4c0e, U+4c32, U+4c3b, U+4c3e, U+4c40, U+4c47, U+4c57, U+4c5b, U+4c6d, U+4c77, U+4c7b, U+4c7d, U+4c81, U+4c85, U+4ca4, U+4cae, U+4cb0, U+4cb7, U+4ccd, U+4ce1-4ce2, U+4ced, U+4d07, U+4d09, U+4d10, U+4d34, U+4d76-4d77, U+4d89, U+4d91, U+4d9c, U+4e02, U+4e04-4e05, U+4e0c, U+4e0f-4e10, U+4e15, U+4e17, U+4e1b, U+4e21-4e22, U+4e25, U+4e27, U+4e2c, U+4e2f, U+4e31, U+4e34, U+4e36-4e37, U+4e3d, U+4e3f-4e42, U+4e44, U+4e47, U+4e49, U+4e4c, U+4e52-4e54, U+4e57, U+4e5a-4e5b, U+4e60-4e61, U+4e69-4e6a, U+4e6d, U+4e78, U+4e80-4e81, U+4e85, U+4e87, U+4e89-4e8a, U+4e8d, U+4e8f, U+4e93, U+4e96, U+4e98-4e99, U+4e9c, U+4e9f-4ea0, U+4ea2-4ea3, U+4ea5, U+4ea9, U+4eb0, U+4eb2-4eb3, U+4eb5-4eb7, U+4eb9, U+4ebb-4ebc, U+4ebf, U+4ec2-4ec6, U+4ec8-4ec9, U+4ecf, U+4ed1, U+4ed3, U+4edc-4ee1, U+4ee7-4eeb, U+4eee-4eef, U+4ef1, U+4ef3-4ef5, U+4ef8, U+4efa, U+4efc, U+4f00, U+4f02-4f03, U+4f05, U+4f07-4f09, U+4f0b, U+4f0e, U+4f15, U+4f17, U+4f1d-4f1f)
-);
 
-/* noto-sans-hk-[85]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-85-400-normal.woff2",
-    $range: (U+41db, U+41ed, U+41ef, U+41f9, U+4211, U+4223, U+4240, U+4260, U+426a, U+4276, U+427a, U+428c, U+4294, U+42a2, U+42b5, U+42b9, U+42bc, U+42f4, U+42fb-42fc, U+430a, U+432b, U+436e, U+4397, U+439a, U+43ba, U+43c1, U+43c8, U+43d9, U+43df, U+43ed, U+43f0, U+43f2, U+4401-4402, U+4413, U+4425, U+442d, U+447a, U+448f, U+4491, U+449f-44a0, U+44a2, U+44b0, U+44b7, U+44bd, U+44c0, U+44c3, U+44c5, U+44ce, U+44dd-44df, U+44e1, U+44e4, U+44e9-44ec, U+44f4, U+4503-4504, U+4509, U+450b, U+4516, U+451b, U+451d, U+4527, U+452e, U+4533, U+4536, U+453b, U+453d, U+453f, U+4543, U+4551-4552, U+4555, U+4558, U+455c, U+4561-4562, U+456a, U+456d, U+4576-4578, U+4585, U+45a6, U+45b3, U+45da, U+45e9-45ea, U+4603, U+4606, U+460f, U+4615, U+4617, U+465b, U+467a, U+4680, U+46a1, U+46ae, U+46bb, U+46cf-46d0, U+46e5, U+46f5, U+46f7, U+4713, U+4718, U+4736, U+4744, U+474e-474f, U+477c, U+4798, U+47a6, U+47d5, U+47ed, U+47f4, U+4800, U+480b, U+4837, U+485d, U+4871, U+489b, U+48ad-48ae, U+48d0, U+48dd, U+48ed, U+48f3, U+48fa, U+4906, U+4911, U+491e, U+4925, U+492a, U+492d, U+492f-4930, U+4935, U+493c-493e, U+4945, U+4951, U+4953, U+4965, U+496a, U+4972, U+4989, U+49a1, U+49a7, U+49df, U+49e5, U+49e7, U+4a0f, U+4a1d, U+4a24, U+4a35, U+4a3b, U+4a96, U+4aa4, U+4ab4, U+4ab8)
-);
 
-/* noto-sans-hk-[86]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-86-400-normal.woff2",
-    $range: (U+3b95-3b96, U+3b99, U+3ba1, U+3bbc, U+3bbe, U+3bc2, U+3bc4, U+3bd7, U+3bdd, U+3bec, U+3bf2-3bf4, U+3bff, U+3c0d, U+3c11, U+3c15, U+3c18, U+3c54, U+3c8b, U+3ca5, U+3ccb, U+3ccd, U+3cd1, U+3cd6, U+3cdc, U+3ceb, U+3cef, U+3d12-3d13, U+3d1d, U+3d32, U+3d3b, U+3d46, U+3d4c, U+3d4e, U+3d51, U+3d5f, U+3d62, U+3d68-3d6a, U+3d6f, U+3d75, U+3d7d, U+3d85, U+3d88, U+3d8a, U+3d8f, U+3d91, U+3da5, U+3dad, U+3db4, U+3dbf, U+3dc6-3dc7, U+3dc9, U+3dcc-3dcd, U+3dd3, U+3ddb, U+3de7-3de8, U+3deb, U+3df3-3df4, U+3df7, U+3dfc-3dfd, U+3e03, U+3e06, U+3e40, U+3e43, U+3e48, U+3e55, U+3e74, U+3ea8-3eaa, U+3ead, U+3eb1, U+3eb8, U+3ebf, U+3ec2, U+3ec7, U+3eca, U+3ecc, U+3ed0-3ed1, U+3ed6-3ed7, U+3eda-3edb, U+3ede, U+3ee1-3ee2, U+3ee7, U+3ee9, U+3eeb-3eec, U+3ef0, U+3ef3-3ef4, U+3efa, U+3efc, U+3eff-3f00, U+3f04, U+3f06-3f08, U+3f0e, U+3f21, U+3f53, U+3f58-3f59, U+3f63, U+3f7c, U+3f93, U+3f97, U+3fc0, U+3fc8, U+3fd7, U+3fdc, U+3fe5, U+3fed, U+3ff9-3ffa, U+4004, U+4009, U+401d, U+4039, U+4045, U+4053, U+4057, U+4062, U+4065, U+406a, U+406f, U+4071, U+40a8, U+40b4, U+40bb, U+40bf, U+40c8, U+40d8, U+40df, U+40f8, U+40fa, U+4102-4104, U+4109, U+410e, U+411b, U+4131-4132, U+4167, U+416c, U+416e, U+417c, U+417f, U+4181, U+4190, U+41b2, U+41c4, U+41ca, U+41cf)
-);
 
-/* noto-sans-hk-[87]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-87-400-normal.woff2",
-    $range: (U+3572, U+3577-3578, U+3584, U+3597-3598, U+35a1, U+35a5, U+35ad, U+35bf, U+35c1, U+35c5, U+35c7, U+35ca, U+35ce, U+35d2, U+35d6, U+35db, U+35dd, U+35f1-35f3, U+35fb, U+35fe, U+3609, U+3618, U+361a, U+3623, U+3625, U+362d, U+3635, U+3639, U+363e, U+3647-3649, U+364e, U+365f, U+3661, U+367a, U+3681, U+369a, U+36a5, U+36aa, U+36ac, U+36b0-36b1, U+36b5, U+36b9, U+36bc, U+36c1, U+36c3-36c5, U+36c7-36c8, U+36d3-36d4, U+36d6, U+36dd, U+36e1-36e2, U+36e5-36e6, U+36f5, U+3701, U+3703, U+3708, U+370a, U+370d, U+371c, U+3722-3723, U+3725, U+372c-372d, U+3730, U+3732-3733, U+373a, U+3740, U+3743, U+3762, U+376f, U+3797, U+37a0, U+37b9, U+37be, U+37d6, U+37f2, U+37f8, U+37fb, U+380f, U+3819, U+3820, U+382d, U+3836, U+3838, U+3863, U+3875, U+38a0, U+38c3, U+38cc, U+38d1, U+38d4, U+38ec, U+38fa, U+3908, U+3914, U+3927, U+3932, U+393f, U+394d, U+3963, U+3978, U+3980, U+3989-398a, U+3992, U+3999, U+399b, U+39a1, U+39a4, U+39b8, U+39dc, U+39e2, U+39e5, U+39ec, U+39f8, U+39fb, U+39fe, U+3a01-3a03, U+3a06, U+3a17-3a18, U+3a29-3a2a, U+3a34, U+3a4b, U+3a52, U+3a57, U+3a5c, U+3a5e, U+3a66-3a67, U+3a97, U+3aab, U+3abd, U+3ade, U+3ae0, U+3af0, U+3af2, U+3af5, U+3afb, U+3b0e, U+3b19, U+3b22, U+3b2b, U+3b39, U+3b42, U+3b58, U+3b60, U+3b71-3b72, U+3b7b-3b7c, U+3b80)
-);
 
-/* noto-sans-hk-[88]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-88-400-normal.woff2",
-    $range: (U+2f3f, U+2f42, U+2f45, U+2f63-2f64, U+2f83, U+2f8f, U+3003-3007, U+3012-3013, U+3016-3019, U+3020-3025, U+3030, U+303d, U+3041, U+3043, U+3045, U+3047, U+3049, U+3052, U+305c, U+3062, U+306d, U+307a, U+307c, U+3080, U+308e, U+3090-3091, U+3099-309e, U+30a5, U+30c2, U+30c5, U+30ee, U+30f0-30f2, U+30f4-30f6, U+30fd-30fe, U+3105-3106, U+3108, U+310a-310b, U+310d-3112, U+3115-3117, U+3119, U+3131, U+3134, U+3137, U+3139, U+3141-3142, U+3145, U+3147-3148, U+314b, U+314d-314f, U+3153, U+315c, U+3160-3161, U+3163-3164, U+3181, U+318d, U+3192-3193, U+3196-3198, U+319d-319f, U+3220-3226, U+3231, U+3268, U+3281, U+328b, U+3291-3292, U+3295-3297, U+3299, U+329d, U+329f, U+32a3-32a4, U+32d6, U+32e1, U+3314, U+3322, U+337f, U+338e-338f, U+339c-339e, U+33a1, U+33c4, U+33d1-33d2, U+3435, U+3440, U+3449-344a, U+344c, U+3464, U+3473, U+3479-347a, U+347d-347e, U+3493, U+3496, U+34a5, U+34af, U+34bc, U+34c1, U+34c8, U+34df, U+34e4, U+34e6, U+34fb, U+3506, U+353e, U+3551, U+3553, U+3559, U+3561, U+3569, U+356d, U+3570)
-);
 
-/* noto-sans-hk-[89]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-89-400-normal.woff2",
-    $range: (U+26fd, U+2701-2702, U+2704-2706, U+2708, U+270a-2712, U+2714, U+2716-2727, U+2729-273e, U+2740-274f, U+2752-275b, U+275d-275e, U+2761, U+2763, U+2765-2769, U+276e-276f, U+2771, U+2776-277e, U+2780-2782, U+278a-278c, U+2794-2796, U+2798-2799, U+279c-27a6, U+27a8-27ab, U+27ad, U+27af-27b0, U+27b2-27b3, U+27b7-27b9, U+27bc-27bd, U+27bf, U+27e9-27eb, U+27f5-27f6, U+2800, U+28ec, U+2922, U+2934-2935, U+29bf, U+2a2f, U+2b05-2b07, U+2b1b, U+2b50, U+2b55, U+2cf5, U+2e1c-2e1d, U+2f00, U+2f08, U+2f12, U+2f24, U+2f29, U+2f2f, U+2f3c)
-);
 
-/* noto-sans-hk-[90]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-90-400-normal.woff2",
-    $range: (U+25a1, U+25a3-25a4, U+25a6-25ac, U+25b0, U+25b4, U+25b7-25b9, U+25bb, U+25bd, U+25bf-25c2, U+25c7-25ca, U+25cc-25cd, U+25d0-25d9, U+25dc-25e6, U+25ea-25eb, U+25ef, U+25fb-25fe, U+2600-2604, U+2607, U+2609-260b, U+260d-2615, U+2618, U+261a-2623, U+262a, U+262d-2630, U+2638-263e, U+2641-2642, U+2648-2656, U+2658-265c, U+265e-2660, U+2662-2664, U+2666-2669, U+266b-266f, U+267b, U+2692-2696, U+2698, U+269b-269c, U+26a0-26a1, U+26a3-26a5, U+26aa-26ac, U+26bd-26be, U+26c4-26c5, U+26c8, U+26d1, U+26d3-26d4, U+26e4, U+26e9-26ea, U+26f0-26f5, U+26f9-26fa)
-);
 
-/* noto-sans-hk-[91]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-91-400-normal.woff2",
-    $range: (U+2477-2481, U+2488-2491, U+24b6-24c5, U+24c7-24ca, U+24cc, U+24ce, U+24d0-24df, U+24e1-24ea, U+24f5, U+24ff, U+2501, U+2503-250d, U+250f-2511, U+2513-2515, U+2517-2518, U+251b-251d, U+2520, U+2523-2524, U+2528, U+252b-252c, U+252f, U+2533-2534, U+2537, U+253b-253c, U+2541, U+2543-2545, U+254b, U+2550-2570, U+2572, U+2574, U+2579, U+2580-258a, U+258c-2595, U+2597)
-);
 
-/* noto-sans-hk-[92]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-92-400-normal.woff2",
-    $range: (U+208d-208e, U+20a1, U+20a4, U+20a6, U+20a8-20ab, U+20ad-20ae, U+20b1-20b3, U+20b5, U+20b8-20ba, U+20bd, U+20dd, U+20e3, U+2105, U+2109, U+2112-2113, U+2115-2117, U+2120-2121, U+2126, U+212b, U+2139, U+2153, U+2194-2197, U+2199, U+219d-219e, U+21a0, U+21a9-21aa, U+21ac, U+21af-21b1, U+21b3-21b5, U+21ba-21bb, U+21c4, U+21ca, U+21cc, U+21d0, U+21d2-21d4, U+21d8, U+21dd, U+21e2-21e9, U+2200, U+2202, U+2205-2208, U+220e-220f, U+2211-2212, U+2215, U+2217-221a, U+221d-2220, U+2225, U+2227-222b, U+222e, U+2234-2237, U+223c-223d, U+2248, U+2256, U+2260-2261, U+2264-2265, U+226a-226b, U+226e-226f, U+2282-2283, U+2295-2296, U+2299, U+22a5, U+22b0-22b1, U+22b9, U+22bf, U+22c5-22c6, U+22c8, U+22d0-22d1, U+22ee, U+2312-2313, U+2318, U+231a-231b, U+2323, U+2328, U+239d, U+23a0, U+23af, U+23e4, U+23e9-23ea, U+23ec, U+23f0-23f3, U+23fa, U+2445, U+2460-2471, U+2474-2476)
-);
 
-/* noto-sans-hk-[93]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-93-400-normal.woff2",
-    $range: (U+1d0a-1d0b, U+1d0d, U+1d0f, U+1d17-1d18, U+1d1b-1d1c, U+1d20-1d22, U+1d25, U+1d2c, U+1d2e, U+1d30-1d31, U+1d33-1d3a, U+1d3c, U+1d3e-1d42, U+1d52, U+1d55, U+1d5b, U+1d5e, U+1d9c, U+1da0, U+1dc4-1dc5, U+1e3b, U+1e43, U+1e45, U+1e47, U+1e63, U+1e6d, U+1e73, U+1ea0, U+1ea2, U+1ea4-1ea9, U+1eab-1eaf, U+1eb1, U+1eb3, U+1eb5, U+1eb7, U+1eb9, U+1ebb, U+1ebd-1ebe, U+1ec0-1ec3, U+1ec5-1ec6, U+1ec9, U+1ecb-1ecd, U+1ecf-1ed1, U+1ed3-1ed5, U+1ed7-1edd, U+1edf, U+1ee1, U+1ee3-1ee7, U+1ee9, U+1eeb, U+1eed, U+1eef-1ef1, U+1ef3, U+1ef7, U+1ef9, U+1f62, U+1fa2, U+2001-2006, U+2009-200a, U+200c-200d, U+200f-2012, U+2015-2016, U+201a, U+201e, U+2020-2021, U+2023-2025, U+2028, U+202a-202d, U+202f-2030, U+2032-2033, U+2035, U+2038, U+203e-203f, U+2042-2044, U+2049, U+204d-204e, U+2060-2061, U+2063, U+2070, U+2074-207b, U+207d-2083, U+208a)
-);
 
-/* noto-sans-hk-[98]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-98-400-normal.woff2",
-    $range: (U+1fb-1ff, U+219, U+221, U+225-226, U+228-22b, U+22e-22f, U+231-235, U+239, U+23b, U+23e, U+250-252, U+254-255, U+259-25e, U+261-263, U+268-26b, U+26d, U+26f-277, U+279-27a, U+27d-281, U+283, U+28a-28c, U+28f, U+292, U+294-296, U+298-29a, U+29c, U+29f, U+2a1-2a2, U+2a4-2a7, U+2a9-2aa, U+2ae-2b3, U+2b5-2b7, U+2b9-2bf, U+2c2-2c4, U+2c6-2c9, U+2cc-2cd, U+2d0, U+2d8, U+2da, U+2dc, U+2e1-2e3, U+2e7, U+2eb, U+2ee, U+2f1-2ff, U+302-304, U+306-309, U+30c-30d, U+311, U+31b, U+321, U+323-325, U+328-329, U+32b-32c, U+32e-32f, U+331-33a, U+33c-33f, U+348, U+353, U+358-359)
-);
 
-/* noto-sans-hk-[99]-400-normal */
-@include font.face(
-    $family: $hkFamily,
-    $url: "~@fontsource/noto-sans-hk/files/noto-sans-hk-99-400-normal.woff2",
-    $range: (U+a1-a2, U+a4, U+a6-a8, U+aa, U+ac, U+af, U+b1, U+b5-b6, U+b8-ba, U+bc-be, U+c0-c8, U+ca-cc, U+ce-d5, U+d8-df, U+f0, U+f5, U+f8, U+fb, U+fe-100, U+102, U+105, U+107, U+109-10b, U+10f, U+112, U+115, U+117, U+119, U+11b, U+11f, U+121, U+123-124, U+127, U+129, U+12c-12d, U+130-13f, U+141-142, U+144, U+148, U+14b-14c, U+14f-153, U+159-15b, U+15e-160, U+163-166, U+169-16a, U+16d-171, U+173-17e, U+192, U+1a0, U+1a4, U+1aa, U+1ac-1ad, U+1af, U+1b1, U+1b4-1be, U+1d0, U+1d2, U+1d4, U+1da, U+1dc-1dd, U+1e1, U+1e3-1e4, U+1e7, U+1e9, U+1eb-1ec, U+1f0-1f1, U+1f3-1f5, U+1f7, U+1f9-1fa)
-);
 
 /* noto-sans-hk-[100]-400-normal */
 @include font.face(

@@ -11,7 +11,7 @@ import { getItemQuery } from 'hooks/useItem';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
-import { history } from 'RootAppRouter';
+import { getAppHistory } from './appHistory';
 
 /** Pages of "no return" (when "Go back" should behave differently, probably quitting the application). */
 const START_PAGE_PATHS = ['/home', '/login', '/selectserver'];
@@ -36,12 +36,11 @@ class AppRouter {
     msgTimeout;
     promiseShow;
     resolveOnNextShow;
+    _history;
 
     constructor() {
         document.addEventListener('viewshow', () => this.onViewShow());
-
-        this.lastPath = history.location.pathname + history.location.search;
-        this.listen();
+        this._history = null;
 
         // TODO: Can this baseRoute logic be simplified?
         this.baseRoute = window.location.href.split('?')[0].replace(this.#getRequestFile(), '');
@@ -52,12 +51,34 @@ class AppRouter {
         }
     }
 
+    _getHistory() {
+        if (this._history) {
+            return this._history;
+        }
+
+        const history = getAppHistory();
+        if (!history) {
+            return null;
+        }
+
+        this._history = history;
+        this.lastPath = history.location.pathname + history.location.search;
+        this.listen();
+        return history;
+    }
+
     ready() {
         return this.promiseShow || Promise.resolve();
     }
 
     async back() {
         if (this.promiseShow) await this.promiseShow;
+
+        const history = this._getHistory();
+        if (!history) {
+            console.warn('[appRouter] history is not ready');
+            return Promise.resolve();
+        }
 
         this.promiseShow = new Promise((resolve) => {
             const unlisten = history.listen(() => {
@@ -73,6 +94,13 @@ class AppRouter {
 
     async show(path, options) {
         if (this.promiseShow) await this.promiseShow;
+
+        const history = this._getHistory();
+        if (!history) {
+            console.warn('[appRouter] history is not ready');
+            loading.hide();
+            return Promise.resolve();
+        }
 
         // ensure the path does not start with '#' since the router adds this
         if (path.startsWith('#')) {
@@ -105,6 +133,11 @@ class AppRouter {
     }
 
     listen() {
+        const history = this._history;
+        if (!history) {
+            return;
+        }
+
         history.listen(({ location }) => {
             const normalizedPath = location.pathname.replace(/^!/, '');
             const fullPath = normalizedPath + location.search;
@@ -123,7 +156,8 @@ class AppRouter {
     }
 
     canGoBack() {
-        const path = history.location.pathname;
+        const history = this._getHistory();
+        const path = history ? history.location.pathname : window.location.pathname;
 
         if (
             !document.querySelector('.dialogContainer')
@@ -201,7 +235,9 @@ class AppRouter {
         const apiClient = this;
 
         if (data.status === 403 && data.errorCode === 'ParentalControl') {
-            const isPublicPage = PUBLIC_PATHS.includes(history.location.pathname);
+            const history = this._getHistory();
+            const pathname = history ? history.location.pathname : window.location.pathname;
+            const isPublicPage = PUBLIC_PATHS.includes(pathname);
 
             // Bounce to the login screen, but not if a password entry fails, obviously
             if (!isPublicPage) {
@@ -512,7 +548,11 @@ class AppRouter {
 
 export const appRouter = new AppRouter();
 
-export const isLyricsPage = () => history.location.pathname.toLowerCase() === '/lyrics';
+export const isLyricsPage = () => {
+    const history = appRouter._getHistory();
+    const pathname = history ? history.location.pathname : window.location.pathname;
+    return pathname.toLowerCase() === '/lyrics';
+};
 
 window.Emby = window.Emby || {};
 window.Emby.Page = appRouter;

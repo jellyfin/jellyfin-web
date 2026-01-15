@@ -51,7 +51,7 @@ function getDeviceProfile(item) {
     return new Promise(function (resolve) {
         let profile;
 
-        if (window.NativeShell) {
+        if (window.NativeShell?.AppHost?.getDeviceProfile) {
             profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder, __PACKAGE_JSON_VERSION__);
         } else {
             const builderOpts = getBaseProfileOptions(item);
@@ -195,6 +195,9 @@ function supportsHtmlMediaAutoplay() {
 
 function supportsCue() {
     try {
+        if (typeof document === 'undefined' || !document.body) {
+            return false;
+        }
         const video = document.createElement('video');
         const style = document.createElement('style');
 
@@ -495,6 +498,10 @@ export const safeAppHost = {
     }
 };
 
+if (typeof window !== 'undefined') {
+    window.appHost = safeAppHost;
+}
+
 let isHidden = false;
 let hidden;
 let visibilityChange;
@@ -507,15 +514,17 @@ if (typeof document.hidden !== 'undefined') {
     visibilityChange = 'webkitvisibilitychange';
 }
 
-document.addEventListener(visibilityChange, function () {
-    if (document[hidden]) {
-        onAppHidden();
-    } else {
-        onAppVisible();
-    }
-}, false);
+if (typeof document !== 'undefined' && visibilityChange) {
+    document.addEventListener(visibilityChange, function () {
+        if (document[hidden]) {
+            onAppHidden();
+        } else {
+            onAppVisible();
+        }
+    }, false);
+}
 
-if (window.addEventListener) {
+if (typeof window !== 'undefined' && window.addEventListener) {
     window.addEventListener('focus', onAppVisible);
     window.addEventListener('blur', onAppHidden);
 }

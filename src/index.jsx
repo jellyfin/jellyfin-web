@@ -188,6 +188,11 @@ function loadPlatformFeatures() {
 }
 
 function registerServiceWorker() {
+    if (__WEBPACK_SERVE__) {
+        console.debug('serviceWorker disabled for webpack dev server');
+        return;
+    }
+
     if (navigator.serviceWorker && window.appMode !== 'cordova' && window.appMode !== 'android') {
         navigator.serviceWorker.register('serviceworker.js').then(() =>
             console.log('serviceWorker registered')

@@ -40,6 +40,14 @@ import * as htmlMediaHelper from '../htmlMediaHelper';
 
 const UNLIMITED_ITEMS = -1;
 
+const supportsAppFeature = (feature) => {
+    if (safeAppHost && typeof safeAppHost.supports === 'function') {
+        return safeAppHost.supports(feature);
+    }
+
+    return false;
+};
+
 function enableLocalPlaylistManagement(player) {
     if (player.getPlaylist) {
         return false;
@@ -49,7 +57,7 @@ function enableLocalPlaylistManagement(player) {
 }
 
 function supportsPhysicalVolumeControl(player) {
-    return player.isLocalPlayer && safeAppHost.supports(AppFeature.PhysicalVolumeControl);
+    return player.isLocalPlayer && supportsAppFeature(AppFeature.PhysicalVolumeControl);
 }
 
 function bindToFullscreenChange(player) {
@@ -325,7 +333,7 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
         PlaySessionId: startingPlaySession,
         StartTimeTicks: startPosition || 0,
         EnableRedirection: true,
-        EnableRemoteMedia: safeAppHost.supports(AppFeature.RemoteAudio),
+        EnableRemoteMedia: supportsAppFeature(AppFeature.RemoteAudio),
         EnableAudioVbrEncoding: transcodingProfile.EnableAudioVbrEncoding
     });
 }
@@ -606,7 +614,7 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
     const isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
 
     if (mediaSource.SupportsDirectPlay || isFolderRip) {
-        if (mediaSource.IsRemote && !safeAppHost.supports(AppFeature.RemoteVideo)) {
+        if (mediaSource.IsRemote && !supportsAppFeature(AppFeature.RemoteVideo)) {
             return Promise.resolve(false);
         }
 
@@ -3862,7 +3870,7 @@ export class PlaybackManager {
             return streamInfo ? streamInfo.playbackStartTimeTicks : null;
         };
 
-        if (safeAppHost.supports(AppFeature.RemoteControl)) {
+        if (supportsAppFeature(AppFeature.RemoteControl)) {
             import('../../scripts/serverNotifications').then(({ default: serverNotifications }) => {
                 Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
                 Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
@@ -4233,7 +4241,7 @@ export class PlaybackManager {
                 'PlayTrailers'
             ];
 
-            if (safeAppHost.supports(AppFeature.Fullscreen)) {
+            if (supportsAppFeature(AppFeature.Fullscreen)) {
                 list.push('ToggleFullscreen');
             }
 

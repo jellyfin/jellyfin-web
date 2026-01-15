@@ -6,7 +6,7 @@ import { toBoolean } from '../../utils/string.ts';
 import { hide } from '../loading/loading.ts';
 import dom from '../../utils/dom';
 
-import { history } from 'RootAppRouter';
+import { getAppHistory } from '../router/appHistory';
 
 import './dialoghelper.scss';
 import '../../styles/scrollstyles.scss';
@@ -46,6 +46,8 @@ function tryRemoveElement(elem) {
 
 function DialogHashHandler(dlg, hash, resolve) {
     const self = this;
+    const history = getAppHistory();
+    const historyEnabled = Boolean(history) && isHistoryEnabled(dlg);
     self.originalUrl = window.location.href;
     const activeElement = document.activeElement;
     let removeScrollLockOnClose = false;
@@ -90,7 +92,7 @@ function DialogHashHandler(dlg, hash, resolve) {
     }
 
     function onDialogClosed() {
-        if (!isHistoryEnabled(dlg)) {
+        if (!historyEnabled) {
             inputManager.off(dlg, onBackCommand);
         }
 
@@ -108,7 +110,7 @@ function DialogHashHandler(dlg, hash, resolve) {
             document.body.classList.remove('noScroll');
         }
 
-        if (isHistoryEnabled(dlg)) {
+        if (historyEnabled) {
             const state = history.location.state || {};
             if (state.dialogs?.length > 0) {
                 if (state.dialogs[state.dialogs.length - 1] === hash) {
@@ -176,11 +178,11 @@ function DialogHashHandler(dlg, hash, resolve) {
 
     animateDialogOpen(dlg);
 
-    if (isHistoryEnabled(dlg)) {
-        const state = history.location.state || {};
-        const dialogs = state.dialogs || [];
-        // Add new dialog to the list of open dialogs
-        dialogs.push(hash);
+        if (historyEnabled) {
+            const state = history.location.state || {};
+            const dialogs = state.dialogs || [];
+            // Add new dialog to the list of open dialogs
+            dialogs.push(hash);
 
         history.push(
             `${history.location.pathname}${history.location.search}`,

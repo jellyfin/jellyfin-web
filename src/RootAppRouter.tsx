@@ -15,6 +15,7 @@ import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
 import { SETTING_KEY as LAYOUT_SETTING_KEY } from 'components/layoutManager';
 import BangRedirect from 'components/router/BangRedirect';
+import { setAppHistory } from 'components/router/appHistory';
 import { createRouterHistory } from 'components/router/routerHistory';
 import Visualizers from 'components/visualizer/Visualizers';
 import { LayoutMode } from 'constants/layoutMode';
@@ -41,6 +42,7 @@ const router = createHashRouter([
 ]);
 
 export const history = createRouterHistory(router);
+setAppHistory(history);
 
 export default function RootAppRouter() {
     return <RouterProvider router={router} />;
