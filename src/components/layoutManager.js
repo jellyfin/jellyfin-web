@@ -70,8 +70,10 @@ class LayoutManager {
 
 const layoutManager = new LayoutManager();
 
-if (appHost.getDefaultLayout) {
+if (appHost && typeof appHost.getDefaultLayout === 'function') {
     layoutManager.defaultLayout = appHost.getDefaultLayout();
+} else {
+    layoutManager.defaultLayout = LayoutMode.Experimental;
 }
 
 layoutManager.init();
