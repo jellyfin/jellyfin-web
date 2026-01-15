@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 import Widget from './Widget';
 import List from '@mui/material/List';
-import ActivityListItem from 'apps/dashboard/features/activity/components/ActivityListItem';
-import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
+import ActivityListItem from '@/apps/dashboard/features/activity/components/ActivityListItem';
+import { useLogEntries } from '@/apps/dashboard/features/activity/api/useLogEntries';
 import subSeconds from 'date-fns/subSeconds';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';

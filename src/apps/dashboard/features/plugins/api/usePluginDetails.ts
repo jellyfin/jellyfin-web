@@ -1,10 +1,10 @@
 import { PluginStatus } from '@jellyfin/sdk/lib/generated-client/models/plugin-status';
 import { useMemo } from 'react';
 
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 
-import { PluginCategory } from '../constants/pluginCategory';
-import type { PluginDetails } from '../types/PluginDetails';
+import { PluginCategory } from '@/apps/dashboard/features/plugins/constants/pluginCategory';
+import type { PluginDetails } from '@/apps/dashboard/features/plugins/types/PluginDetails';
 
 import { findBestConfigurationPage } from './configurationPage';
 import { findBestPluginInfo } from './pluginInfo';

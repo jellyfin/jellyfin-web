@@ -1,14 +1,14 @@
 import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
-import useIndicator from 'components/indicators/useIndicator';
-import RefreshIndicator from 'elements/emby-itemrefreshindicator/RefreshIndicator';
-import Media from '../../common/Media';
+import useIndicator from '@/components/indicators/useIndicator';
+import RefreshIndicator from '@/elements/emby-itemrefreshindicator/RefreshIndicator';
+import Media from '@/components/common/Media';
 import CardInnerFooter from './CardInnerFooter';
 
-import { ItemKind } from 'types/base/models/item-kind';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { CardOptions } from 'types/cardOptions';
+import { ItemKind } from '@/types/base/models/item-kind';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { CardOptions } from '@/types/cardOptions';
 
 interface CardImageContainerProps {
     item: ItemDto;

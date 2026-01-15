@@ -1,4 +1,4 @@
-import { buildCustomColorScheme } from 'themes/utils';
+import { buildCustomColorScheme } from '@/themes/utils';
 
 /** The Windows Media Center inspired color scheme. */
 const theme = buildCustomColorScheme({

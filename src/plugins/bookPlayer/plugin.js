@@ -1,22 +1,22 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import Screenfull from 'screenfull';
 
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import browser from 'scripts/browser';
-import TouchHelper from 'scripts/touchHelper';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import browser from '@/scripts/browser';
+import TouchHelper from '@/scripts/touchHelper';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
 
-import loading from '../../components/loading/loading';
-import keyboardnavigation from '../../scripts/keyboardNavigation';
-import dialogHelper from '../../components/dialogHelper/dialogHelper';
+import loading from '@/components/loading/loading';
+import keyboardnavigation from '@/scripts/keyboardNavigation';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
 import TableOfContents from './tableOfContents';
-import { translateHtml } from '../../lib/globalize';
-import * as userSettings from '../../scripts/settings/userSettings';
-import { PluginType } from '../../types/plugin.ts';
-import Events from '../../utils/events.ts';
+import { translateHtml } from '@/lib/globalize';
+import * as userSettings from '@/scripts/settings/userSettings';
+import { PluginType } from '@/types/plugin.ts';
+import Events from '@/utils/events.ts';
 
 import 'material-design-icons-iconfont';
-import '../../elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-button/paper-icon-button-light';
 
 import html from './template.html';
 import './style.scss';

@@ -9,9 +9,9 @@ import CaptionMediaInfo from './CaptionMediaInfo';
 import CriticRatingMediaInfo from './CriticRatingMediaInfo';
 import EndsAt from './EndsAt';
 
-import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { MiscInfo } from 'types/mediaInfoItem';
+import { ItemMediaKind } from '@/types/base/models/item-media-kind';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { MiscInfo } from '@/types/mediaInfoItem';
 import type { PrimaryInfoOpts } from './type';
 
 interface PrimaryMediaInfoProps extends PrimaryInfoOpts {

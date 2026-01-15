@@ -3,12 +3,12 @@
  * @module components/alphaPicker/alphaPicker
  */
 
-import focusManager from '../focusManager';
-import layoutManager from '../layoutManager';
-import dom from '../../utils/dom';
-import globalize from '../../lib/globalize';
+import focusManager from '@/components/focusManager';
+import layoutManager from '@/components/layoutManager';
+import dom from '@/utils/dom';
+import globalize from '@/lib/globalize';
 import './style.scss';
-import '../../elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-button/paper-icon-button-light';
 import 'material-design-icons-iconfont';
 
 const selectedButtonClass = 'alphaPickerButton-selected';

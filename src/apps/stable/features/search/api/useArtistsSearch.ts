@@ -4,9 +4,9 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 import { getArtistsApi } from '@jellyfin/sdk/lib/utils/api/artists-api';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosRequestConfig } from 'axios';
-import { useApi } from 'hooks/useApi';
-import { QUERY_OPTIONS } from '../constants/queryOptions';
-import { isMusic } from '../utils/search';
+import { useApi } from '@/hooks/useApi';
+import { QUERY_OPTIONS } from '@/apps/stable/features/search/constants/queryOptions';
+import { isMusic } from '@/apps/stable/features/search/utils/search';
 
 const fetchArtists = async (
     api: Api,

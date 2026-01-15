@@ -10,18 +10,18 @@ import parseISO from 'date-fns/parseISO';
 import { type MRT_ColumnDef, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
-import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
-import UserAvatarButton from 'apps/dashboard/components/UserAvatarButton';
-import { useDeleteDevice } from 'apps/dashboard/features/devices/api/useDeleteDevice';
-import { useDevices } from 'apps/dashboard/features/devices/api/useDevices';
-import { useUpdateDevice } from 'apps/dashboard/features/devices/api/useUpdateDevice';
-import DeviceNameCell from 'apps/dashboard/features/devices/components/DeviceNameCell';
-import type { DeviceInfoCell } from 'apps/dashboard/features/devices/types/deviceInfoCell';
-import ConfirmDialog from 'components/ConfirmDialog';
-import { useApi } from 'hooks/useApi';
-import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
-import globalize from 'lib/globalize';
+import DateTimeCell from '@/apps/dashboard/components/table/DateTimeCell';
+import TablePage, { DEFAULT_TABLE_OPTIONS } from '@/apps/dashboard/components/table/TablePage';
+import UserAvatarButton from '@/apps/dashboard/components/UserAvatarButton';
+import { useDeleteDevice } from '@/apps/dashboard/features/devices/api/useDeleteDevice';
+import { useDevices } from '@/apps/dashboard/features/devices/api/useDevices';
+import { useUpdateDevice } from '@/apps/dashboard/features/devices/api/useUpdateDevice';
+import DeviceNameCell from '@/apps/dashboard/features/devices/components/DeviceNameCell';
+import type { DeviceInfoCell } from '@/apps/dashboard/features/devices/types/deviceInfoCell';
+import ConfirmDialog from '@/components/ConfirmDialog';
+import { useApi } from '@/hooks/useApi';
+import { type UsersRecords, useUsersDetails } from '@/hooks/useUsers';
+import globalize from '@/lib/globalize';
 
 const getUserCell = (users: UsersRecords) => function UserCell({ renderedCellValue, row }: DeviceInfoCell) {
     return (

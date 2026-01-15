@@ -1,8 +1,8 @@
-import { playbackManager } from 'components/playback/playbackmanager';
-import { pluginManager } from 'components/pluginManager';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from 'types/plugin.ts';
-import Events from 'utils/events.ts';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import { pluginManager } from '@/components/pluginManager';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { PluginType } from '@/types/plugin.ts';
+import Events from '@/utils/events.ts';
 
 import inputManager from './inputManager';
 import * as userSettings from './settings/userSettings';

@@ -5,22 +5,22 @@
  */
 
 import escapeHtml from 'escape-html';
-import loading from '../loading/loading';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../utils/dom';
-import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
-import globalize from '../../lib/globalize';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-toggle/emby-toggle';
-import '../listview/listview.scss';
-import '../formdialog.scss';
-import '../../styles/flexstyles.scss';
+import loading from '@/components/loading/loading';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import dom from '@/utils/dom';
+import libraryoptionseditor from '@/components/libraryoptionseditor/libraryoptionseditor';
+import globalize from '@/lib/globalize';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-select/emby-select';
+import '@/elements/emby-toggle/emby-toggle';
+import '@/components/listview/listview.scss';
+import '@/components/formdialog.scss';
+import '@/styles/flexstyles.scss';
 import './style.scss';
-import toast from '../toast/toast';
-import alert from '../alert';
+import toast from '@/components/toast/toast';
+import alert from '@/components/alert';
 import template from './mediaLibraryCreator.template.html';
 
 function onAddLibrary(e) {

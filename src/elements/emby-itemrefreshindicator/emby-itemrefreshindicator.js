@@ -1,7 +1,7 @@
-import EmbyProgressRing from '../emby-progressring/emby-progressring';
-import dom from '../../utils/dom';
-import serverNotifications from '../../scripts/serverNotifications';
-import Events from '../../utils/events.ts';
+import EmbyProgressRing from '@/elements/emby-progressring/emby-progressring';
+import dom from '@/utils/dom';
+import serverNotifications from '@/scripts/serverNotifications';
+import Events from '@/utils/events.ts';
 
 import 'webcomponents.js/webcomponents-lite';
 

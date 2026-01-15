@@ -1,14 +1,14 @@
-import dom from '../../utils/dom';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import dom from '@/utils/dom';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 import union from 'lodash-es/union';
-import Events from '../../utils/events.ts';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-collapse/emby-collapse';
+import Events from '@/utils/events.ts';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-collapse/emby-collapse';
 import './style.scss';
 import template from './filterdialog.template.html';
-import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
+import { stopMultiSelect } from '@/components/multiSelect/multiSelect';
 
 function merge(resultItems, queryItems, delimiter) {
     if (!queryItems) {

@@ -4,7 +4,7 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
 import { useApi } from './useApi';
-import type { ItemDto } from 'types/base/models/item-dto';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 const fetchItem = async (
     api: Api,

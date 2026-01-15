@@ -1,5 +1,5 @@
 import React from 'react';
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 import Widget from './Widget';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -9,7 +9,7 @@ import Skeleton from '@mui/material/Skeleton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import { useSystemInfo } from 'hooks/useSystemInfo';
+import { useSystemInfo } from '@/hooks/useSystemInfo';
 
 type ServerInfoWidgetProps = {
     onScanLibrariesClick?: () => void;

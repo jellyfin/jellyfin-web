@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import type {} from '@mui/material/themeCssVarsAugmentation';
 
-import type { ProgressOptions } from 'types/progressOptions';
+import type { ProgressOptions } from '@/types/progressOptions';
 
 interface AutoTimeProgressBarProps {
     pct: number;

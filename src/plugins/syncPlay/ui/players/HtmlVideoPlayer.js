@@ -4,7 +4,7 @@
  */
 
 import NoActivePlayer from './NoActivePlayer';
-import Events from '../../../../utils/events.ts';
+import Events from '@/utils/events.ts';
 
 /**
  * Class that manages the HtmlVideoPlayer for SyncPlay.

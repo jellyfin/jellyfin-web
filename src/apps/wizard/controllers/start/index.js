@@ -1,10 +1,10 @@
-import loading from 'components/loading/loading';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Dashboard from 'utils/dashboard';
-import dom from 'utils/dom';
+import loading from '@/components/loading/loading';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import Dashboard from '@/utils/dashboard';
+import dom from '@/utils/dom';
 
-import 'elements/emby-button/emby-button';
-import 'elements/emby-select/emby-select';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-select/emby-select';
 
 function loadPage(page, systemInfo, config, languageOptions) {
     const serverNameElem = page.querySelector('#txtServerName');

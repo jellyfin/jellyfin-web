@@ -1,16 +1,16 @@
 import 'jquery';
-import loading from '../loading/loading';
-import globalize from '../../lib/globalize';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-input/emby-input';
-import '../listview/listview.scss';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-button/emby-button';
-import '../../styles/flexstyles.scss';
+import loading from '@/components/loading/loading';
+import globalize from '@/lib/globalize';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-input/emby-input';
+import '@/components/listview/listview.scss';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-select/emby-select';
+import '@/elements/emby-button/emby-button';
+import '@/styles/flexstyles.scss';
 import './style.scss';
-import Dashboard from '../../utils/dashboard';
-import Events from '../../utils/events.ts';
+import Dashboard from '@/utils/dashboard';
+import Events from '@/utils/events.ts';
 
 function getTunerName(providerId) {
     switch (providerId.toLowerCase()) {

@@ -4,22 +4,22 @@ import type { BaseItemPerson } from '@jellyfin/sdk/lib/generated-client/models/b
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 
-import { appRouter } from 'components/router/appRouter';
-import layoutManager from 'components/layoutManager';
-import itemHelper from 'components/itemHelper';
-import { ItemAction } from 'constants/itemAction';
-import globalize from 'lib/globalize';
-import datetime from 'scripts/datetime';
-import { isUsingLiveTvNaming } from '../cardBuilderUtils';
-import { getDataAttributes } from 'utils/items';
-import { ItemKind } from 'types/base/models/item-kind';
-import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import { ensureArray } from 'utils/array';
+import { appRouter } from '@/components/router/appRouter';
+import layoutManager from '@/components/layoutManager';
+import itemHelper from '@/components/itemHelper';
+import { ItemAction } from '@/constants/itemAction';
+import globalize from '@/lib/globalize';
+import datetime from '@/scripts/datetime';
+import { isUsingLiveTvNaming } from '@/components/cardbuilder/cardBuilderUtils';
+import { getDataAttributes } from '@/utils/items';
+import { ItemKind } from '@/types/base/models/item-kind';
+import { ItemMediaKind } from '@/types/base/models/item-media-kind';
+import { ensureArray } from '@/utils/array';
 
-import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { CardOptions } from 'types/cardOptions';
-import type { DataAttributes } from 'types/dataAttributes';
+import type { NullableNumber, NullableString } from '@/types/base/common/shared/types';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { CardOptions } from '@/types/cardOptions';
+import type { DataAttributes } from '@/types/dataAttributes';
 
 export function getCardLogoUrl(
     item: ItemDto,

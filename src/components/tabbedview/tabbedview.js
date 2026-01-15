@@ -1,8 +1,8 @@
-import { clearBackdrop } from '../backdrop/backdrop';
-import * as mainTabsManager from '../maintabsmanager';
-import layoutManager from '../layoutManager';
-import '../../elements/emby-tabs/emby-tabs';
-import LibraryMenu from '../../scripts/libraryMenu';
+import { clearBackdrop } from '@/components/backdrop/backdrop';
+import * as mainTabsManager from '@/components/maintabsmanager';
+import layoutManager from '@/components/layoutManager';
+import '@/elements/emby-tabs/emby-tabs';
+import LibraryMenu from '@/scripts/libraryMenu';
 
 function onViewDestroy() {
     const tabControllers = this.tabControllers;

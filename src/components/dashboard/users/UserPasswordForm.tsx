@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import Dashboard from '../../../utils/dashboard';
-import globalize from '../../../lib/globalize';
-import confirm from '../../confirm/confirm';
-import loading from '../../loading/loading';
-import toast from '../../toast/toast';
-import Button from '../../../elements/emby-button/Button';
-import Input from '../../../elements/emby-input/Input';
+import Dashboard from '@/utils/dashboard';
+import globalize from '@/lib/globalize';
+import confirm from '@/components/confirm/confirm';
+import loading from '@/components/loading/loading';
+import toast from '@/components/toast/toast';
+import Button from '@/elements/emby-button/Button';
+import Input from '@/elements/emby-input/Input';
 
 type IProps = {
     user: UserDto

@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 import classNames from 'classnames';
-import layoutManager from '../../components/layoutManager';
+import layoutManager from '@/components/layoutManager';
 import './emby-button.scss';
 
 interface IconButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>,

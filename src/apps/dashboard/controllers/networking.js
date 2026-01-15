@@ -1,9 +1,9 @@
-import loading from 'components/loading/loading';
-import globalize from 'lib/globalize';
-import 'elements/emby-checkbox/emby-checkbox';
-import 'elements/emby-select/emby-select';
-import Dashboard from 'utils/dashboard';
-import alert from 'components/alert';
+import loading from '@/components/loading/loading';
+import globalize from '@/lib/globalize';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-select/emby-select';
+import Dashboard from '@/utils/dashboard';
+import alert from '@/components/alert';
 
 function onSubmit(e) {
     const form = this;
@@ -159,7 +159,7 @@ export default function (view) {
         }
     });
     view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
-        import('components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
+        import('@/components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
                 includeFiles: true,

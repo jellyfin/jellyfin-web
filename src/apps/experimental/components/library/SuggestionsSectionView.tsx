@@ -2,20 +2,20 @@ import type { RecommendationDto } from '@jellyfin/sdk/lib/generated-client/model
 import { RecommendationType } from '@jellyfin/sdk/lib/generated-client/models/recommendation-type';
 import React, { type FC } from 'react';
 
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 import {
     useGetMovieRecommendations,
     useGetSuggestionSectionsWithItems
-} from 'hooks/useFetchItems';
-import { appRouter } from 'components/router/appRouter';
-import globalize from 'lib/globalize';
-import Loading from 'components/loading/LoadingComponent';
-import NoItemsMessage from 'components/common/NoItemsMessage';
-import SectionContainer from '../../../../components/common/SectionContainer';
-import { CardShape } from 'utils/card';
-import type { ParentId } from 'types/library';
-import type { Section, SectionType } from 'types/sections';
-import type { ItemDto } from 'types/base/models/item-dto';
+} from '@/hooks/useFetchItems';
+import { appRouter } from '@/components/router/appRouter';
+import globalize from '@/lib/globalize';
+import Loading from '@/components/loading/LoadingComponent';
+import NoItemsMessage from '@/components/common/NoItemsMessage';
+import SectionContainer from '@/components/common/SectionContainer';
+import { CardShape } from '@/utils/card';
+import type { ParentId } from '@/types/library';
+import type { Section, SectionType } from '@/types/sections';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 interface SuggestionsSectionViewProps {
     parentId: ParentId;

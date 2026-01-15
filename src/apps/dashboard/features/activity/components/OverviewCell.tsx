@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import React, { type FC, useCallback, useState } from 'react';
 
-import type { ActivityLogEntryCell } from '../types/ActivityLogEntryCell';
+import type { ActivityLogEntryCell } from '@/apps/dashboard/features/activity/types/ActivityLogEntryCell';
 
 const OverviewCell: FC<ActivityLogEntryCell> = ({ row }) => {
     const { ShortOverview, Overview } = row.original;

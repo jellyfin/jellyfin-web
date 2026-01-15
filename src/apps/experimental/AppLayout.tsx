@@ -5,11 +5,11 @@ import { type Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import AppBody from 'components/AppBody';
-import CustomCss from 'components/CustomCss';
-import ElevationScroll from 'components/ElevationScroll';
-import ThemeCss from 'components/ThemeCss';
-import { useApi } from 'hooks/useApi';
+import AppBody from '@/components/AppBody';
+import CustomCss from '@/components/CustomCss';
+import ElevationScroll from '@/components/ElevationScroll';
+import ThemeCss from '@/components/ThemeCss';
+import { useApi } from '@/hooks/useApi';
 
 import AppToolbar from './components/AppToolbar';
 import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';

@@ -1,5 +1,5 @@
-import loading from '../../components/loading/loading';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import loading from '@/components/loading/loading';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
 
 function getQuery(params) {
     const key = getSavedQueryKey(params);

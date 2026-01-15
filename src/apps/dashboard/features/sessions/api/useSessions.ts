@@ -4,7 +4,7 @@ import type { Api } from '@jellyfin/sdk';
 import { getSessionApi } from '@jellyfin/sdk/lib/utils/api/session-api';
 import { useQuery } from '@tanstack/react-query';
 
-import { useApi } from 'hooks/useApi';
+import { useApi } from '@/hooks/useApi';
 
 export const QUERY_KEY = 'Sessions';
 

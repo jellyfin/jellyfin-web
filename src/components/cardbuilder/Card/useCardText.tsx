@@ -1,12 +1,12 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
-import layoutManager from 'components/layoutManager';
+import layoutManager from '@/components/layoutManager';
 import CardText from './CardText';
 import { getCardTextLines } from './cardHelper';
 
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { CardOptions } from 'types/cardOptions';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { CardOptions } from '@/types/cardOptions';
 
 const enableRightMargin = (
     isOuterFooter: boolean,

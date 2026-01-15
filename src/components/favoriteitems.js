@@ -1,16 +1,16 @@
-import dom from 'utils/dom';
-import globalize from 'lib/globalize';
-import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
-import { getParameterByName } from 'utils/url';
+import dom from '@/utils/dom';
+import globalize from '@/lib/globalize';
+import { getBackdropShape, getPortraitShape, getSquareShape } from '@/utils/card';
+import { getParameterByName } from '@/utils/url';
 
 import cardBuilder from './cardbuilder/cardBuilder';
 import imageLoader from './images/imageLoader';
 import layoutManager from './layoutManager';
 import loading from './loading/loading';
 
-import 'elements/emby-itemscontainer/emby-itemscontainer';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
 
-import 'styles/scrollstyles.scss';
+import '@/styles/scrollstyles.scss';
 
 function enableScrollX() {
     return !layoutManager.desktop;

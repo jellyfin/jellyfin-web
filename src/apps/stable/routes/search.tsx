@@ -3,12 +3,12 @@ import React, { type FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDebounceValue } from 'usehooks-ts';
 
-import SearchFields from 'apps/stable/features/search/components/SearchFields';
-import SearchResults from 'apps/stable/features/search/components/SearchResults';
-import SearchSuggestions from 'apps/stable/features/search/components/SearchSuggestions';
-import Page from 'components/Page';
-import useSearchParam from 'hooks/useSearchParam';
-import globalize from 'lib/globalize';
+import SearchFields from '@/apps/stable/features/search/components/SearchFields';
+import SearchResults from '@/apps/stable/features/search/components/SearchResults';
+import SearchSuggestions from '@/apps/stable/features/search/components/SearchSuggestions';
+import Page from '@/components/Page';
+import useSearchParam from '@/hooks/useSearchParam';
+import globalize from '@/lib/globalize';
 
 const COLLECTION_TYPE_PARAM = 'collectionType';
 const PARENT_ID_PARAM = 'parentId';

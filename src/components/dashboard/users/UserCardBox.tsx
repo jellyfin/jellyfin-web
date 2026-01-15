@@ -1,11 +1,11 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
-import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
-import globalize from '../../../lib/globalize';
-import IconButtonElement from '../../../elements/IconButtonElement';
-import LinkButton from '../../../elements/emby-button/LinkButton';
-import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
+import { getLocaleWithSuffix } from '@/utils/dateFnsLocale';
+import globalize from '@/lib/globalize';
+import IconButtonElement from '@/elements/IconButtonElement';
+import LinkButton from '@/elements/emby-button/LinkButton';
+import { getDefaultBackgroundClass } from '@/components/cardbuilder/cardBuilderUtils';
 
 type IProps = {
     user?: UserDto;

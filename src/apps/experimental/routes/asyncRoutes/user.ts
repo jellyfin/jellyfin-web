@@ -1,5 +1,5 @@
-import { AsyncRoute } from 'components/router/AsyncRoute';
-import { AppType } from 'constants/appType';
+import { AsyncRoute } from '@/components/router/AsyncRoute';
+import { AppType } from '@/constants/appType';
 
 export const ASYNC_USER_ROUTES: AsyncRoute[] = [
     { path: 'home', type: AppType.Experimental },

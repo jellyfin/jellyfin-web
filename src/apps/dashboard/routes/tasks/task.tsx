@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import Page from 'components/Page';
+import Page from '@/components/Page';
 import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -10,15 +10,15 @@ import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import Loading from 'components/loading/LoadingComponent';
+import Loading from '@/components/loading/LoadingComponent';
 import { type MRT_ColumnDef, MRT_Table, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
-import globalize from '../../../../lib/globalize';
-import { useTask } from 'apps/dashboard/features/tasks/api/useTask';
-import { useUpdateTask } from 'apps/dashboard/features/tasks/api/useUpdateTask';
-import ConfirmDialog from 'components/ConfirmDialog';
-import TaskTriggerCell from 'apps/dashboard/features/tasks/components/TaskTriggerCell';
-import NewTriggerForm from 'apps/dashboard/features/tasks/components/NewTriggerForm';
+import globalize from '@/lib/globalize';
+import { useTask } from '@/apps/dashboard/features/tasks/api/useTask';
+import { useUpdateTask } from '@/apps/dashboard/features/tasks/api/useUpdateTask';
+import ConfirmDialog from '@/components/ConfirmDialog';
+import TaskTriggerCell from '@/apps/dashboard/features/tasks/components/TaskTriggerCell';
+import NewTriggerForm from '@/apps/dashboard/features/tasks/components/NewTriggerForm';
 
 export const Component = () => {
     const { id: taskId } = useParams();

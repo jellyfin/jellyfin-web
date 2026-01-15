@@ -3,10 +3,10 @@
  * @module components/syncPlay/core/timeSync/TimeSyncCore
  */
 
-import appSettings from '../../../../scripts/settings/appSettings';
-import Events from '../../../../utils/events.ts';
-import { toFloat } from '../../../../utils/string.ts';
-import { getSetting } from '../Settings';
+import appSettings from '@/scripts/settings/appSettings';
+import Events from '@/utils/events.ts';
+import { toFloat } from '@/utils/string.ts';
+import { getSetting } from '@/plugins/syncPlay/core/Settings';
 import TimeSyncServer from './TimeSyncServer';
 
 /**

@@ -5,7 +5,7 @@ import Storage from '@mui/icons-material/Storage';
 import Usb from '@mui/icons-material/Usb';
 import React, { type FC } from 'react';
 
-import { StorageType } from '../constants/StorageType';
+import { StorageType } from '@/apps/dashboard/features/storage/constants/StorageType';
 
 interface StorageTypeIconProps {
     type?: string | null

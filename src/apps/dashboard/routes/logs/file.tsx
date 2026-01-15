@@ -1,8 +1,8 @@
-import Loading from 'components/loading/LoadingComponent';
-import Page from 'components/Page';
+import Loading from '@/components/loading/LoadingComponent';
+import Page from '@/components/Page';
 import React, { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useServerLog } from 'apps/dashboard/features/logs/api/useServerLog';
+import { useServerLog } from '@/apps/dashboard/features/logs/api/useServerLog';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -12,9 +12,9 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import FileDownload from '@mui/icons-material/FileDownload';
-import globalize from 'lib/globalize';
-import { copy } from 'scripts/clipboard';
-import Toast from 'apps/dashboard/components/Toast';
+import globalize from '@/lib/globalize';
+import { copy } from '@/scripts/clipboard';
+import Toast from '@/apps/dashboard/components/Toast';
 
 export const Component = () => {
     const { file: fileName } = useParams();

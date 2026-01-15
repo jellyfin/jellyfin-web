@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
 
-import Loading from 'components/loading/LoadingComponent';
-import { appRouter } from 'components/router/appRouter';
-import { useSearchSuggestions } from '../api/useSearchSuggestions';
-import globalize from 'lib/globalize';
-import LinkButton from 'elements/emby-button/LinkButton';
+import Loading from '@/components/loading/LoadingComponent';
+import { appRouter } from '@/components/router/appRouter';
+import { useSearchSuggestions } from '@/apps/stable/features/search/api/useSearchSuggestions';
+import globalize from '@/lib/globalize';
+import LinkButton from '@/elements/emby-button/LinkButton';
 
-import 'elements/emby-button/emby-button';
+import '@/elements/emby-button/emby-button';
 
 type SearchSuggestionsProps = {
     parentId?: string | null;

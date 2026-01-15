@@ -9,11 +9,11 @@ import Button from '@mui/material/Button/Button';
 import Stack from '@mui/material/Stack/Stack';
 import React, { type FC } from 'react';
 
-import MarkdownBox from 'components/MarkdownBox';
-import { getDisplayDateTime } from 'scripts/datetime';
-import globalize from 'lib/globalize';
+import MarkdownBox from '@/components/MarkdownBox';
+import { getDisplayDateTime } from '@/scripts/datetime';
+import globalize from '@/lib/globalize';
 
-import type { PluginDetails } from '../types/PluginDetails';
+import type { PluginDetails } from '@/apps/dashboard/features/plugins/types/PluginDetails';
 
 interface PluginRevisionsProps {
     pluginDetails?: PluginDetails,

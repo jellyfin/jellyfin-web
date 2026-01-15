@@ -3,12 +3,12 @@
  * @module components/accessSchedule/accessSchedule
  */
 
-import dialogHelper from '../dialogHelper/dialogHelper';
-import datetime from '../../scripts/datetime';
-import globalize from '../../lib/globalize';
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../formdialog.scss';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import datetime from '@/scripts/datetime';
+import globalize from '@/lib/globalize';
+import '@/elements/emby-select/emby-select';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/components/formdialog.scss';
 import template from './accessSchedule.template.html';
 
 function getDisplayTime(hours) {

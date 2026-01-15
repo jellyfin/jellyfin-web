@@ -1,6 +1,6 @@
-import datetime from '../../scripts/datetime';
-import itemHelper from '../itemHelper';
-import '../../elements/emby-progressbar/emby-progressbar';
+import datetime from '@/scripts/datetime';
+import itemHelper from '@/components/itemHelper';
+import '@/elements/emby-progressbar/emby-progressbar';
 import './indicators.scss';
 import 'material-design-icons-iconfont';
 

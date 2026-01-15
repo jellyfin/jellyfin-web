@@ -1,4 +1,4 @@
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
 export function showLayoutMenu (button, currentLayout, views) {
     let dispatchEvent = true;

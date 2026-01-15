@@ -1,12 +1,12 @@
-import loading from '../../components/loading/loading';
-import libraryBrowser from '../../scripts/libraryBrowser';
-import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
-import imageLoader from '../../components/images/imageLoader';
-import listView from '../../components/listview/listview';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import * as userSettings from '../../scripts/settings/userSettings';
-import globalize from '../../lib/globalize';
-import '../../elements/emby-itemscontainer/emby-itemscontainer';
+import loading from '@/components/loading/loading';
+import libraryBrowser from '@/scripts/libraryBrowser';
+import { AlphaPicker } from '@/components/alphaPicker/alphaPicker';
+import imageLoader from '@/components/images/imageLoader';
+import listView from '@/components/listview/listview';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
+import * as userSettings from '@/scripts/settings/userSettings';
+import globalize from '@/lib/globalize';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
     function getPageData() {

@@ -1,15 +1,15 @@
-import { AppFeature } from 'constants/appFeature';
-import browser from '../../scripts/browser';
-import { appHost } from '../apphost';
-import loading from '../loading/loading';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import dom from '../../utils/dom';
+import { AppFeature } from '@/constants/appFeature';
+import browser from '@/scripts/browser';
+import { appHost } from '@/components/apphost';
+import loading from '@/components/loading/loading';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import dom from '@/utils/dom';
 import './multiSelect.scss';
-import alert from '../alert';
-import confirm from '../confirm/confirm';
-import itemHelper from '../itemHelper';
-import datetime from '../../scripts/datetime';
+import alert from '@/components/alert';
+import confirm from '@/components/confirm/confirm';
+import itemHelper from '@/components/itemHelper';
+import datetime from '@/scripts/datetime';
 
 let selectedItems = [];
 let selectedElements = [];

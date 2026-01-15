@@ -2,9 +2,9 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import React, { useCallback, useState } from 'react';
 
-import UserAvatar from 'components/UserAvatar';
-import { useApi } from 'hooks/useApi';
-import globalize from 'lib/globalize';
+import UserAvatar from '@/components/UserAvatar';
+import { useApi } from '@/hooks/useApi';
+import globalize from '@/lib/globalize';
 
 import AppUserMenu, { ID } from './AppUserMenu';
 

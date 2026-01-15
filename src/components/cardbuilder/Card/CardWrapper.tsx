@@ -1,6 +1,6 @@
 import React, { type FC, type PropsWithChildren } from 'react';
-import layoutManager from 'components/layoutManager';
-import type { DataAttributes } from 'types/dataAttributes';
+import layoutManager from '@/components/layoutManager';
+import type { DataAttributes } from '@/types/dataAttributes';
 
 interface CardWrapperProps {
     className: string;

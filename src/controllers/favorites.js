@@ -1,17 +1,17 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 
-import cardBuilder from 'components/cardbuilder/cardBuilder';
-import focusManager from 'components/focusManager';
-import layoutManager from 'components/layoutManager';
-import { appRouter } from 'components/router/appRouter';
-import dom from 'utils/dom';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
+import focusManager from '@/components/focusManager';
+import layoutManager from '@/components/layoutManager';
+import { appRouter } from '@/components/router/appRouter';
+import dom from '@/utils/dom';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { getBackdropShape, getPortraitShape, getSquareShape } from '@/utils/card';
 
-import 'elements/emby-itemscontainer/emby-itemscontainer';
-import 'elements/emby-scroller/emby-scroller';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
+import '@/elements/emby-scroller/emby-scroller';
 
 function enableScrollX() {
     return true;

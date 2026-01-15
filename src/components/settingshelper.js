@@ -1,4 +1,4 @@
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
 /**
  * Helper for handling settings.

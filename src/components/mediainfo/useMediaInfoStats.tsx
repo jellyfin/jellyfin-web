@@ -1,13 +1,13 @@
 import { MediaStreamType } from '@jellyfin/sdk/lib/generated-client/models/media-stream-type';
 import { VideoType } from '@jellyfin/sdk/lib/generated-client/models/video-type';
 import type { MediaStream } from '@jellyfin/sdk/lib/generated-client/models/media-stream';
-import itemHelper from 'components/itemHelper';
-import datetime from 'scripts/datetime';
-import globalize from 'lib/globalize';
+import itemHelper from '@/components/itemHelper';
+import datetime from '@/scripts/datetime';
+import globalize from '@/lib/globalize';
 
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { MiscInfo } from 'types/mediaInfoItem';
-import type { NullableString } from 'types/base/common/shared/types';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { MiscInfo } from '@/types/mediaInfoItem';
+import type { NullableString } from '@/types/base/common/shared/types';
 import type { MediaInfoStatsOpts } from './type';
 
 const getResolution = (label: string, isInterlaced?: boolean) =>

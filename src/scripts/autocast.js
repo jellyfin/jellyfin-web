@@ -1,6 +1,6 @@
-import { playbackManager } from 'components/playback/playbackmanager';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Events from 'utils/events.ts';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import Events from '@/utils/events.ts';
 
 export function enable(enabled) {
     console.debug('[autocast] %s cast player', enabled ? 'enabling' : 'disabling');

@@ -1,16 +1,16 @@
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../utils/dom';
-import layoutManager from '../layoutManager';
-import scrollHelper from '../../scripts/scrollHelper';
-import globalize from '../../lib/globalize';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import dom from '@/utils/dom';
+import layoutManager from '@/components/layoutManager';
+import scrollHelper from '@/scripts/scrollHelper';
+import globalize from '@/lib/globalize';
 import 'material-design-icons-iconfont';
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../../elements/emby-input/emby-input';
-import '../formdialog.scss';
-import '../../styles/flexstyles.scss';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/elements/emby-input/emby-input';
+import '@/components/formdialog.scss';
+import '@/styles/flexstyles.scss';
 import template from './dialog.template.html';
 
 function showDialog(options = { dialogOptions: {}, buttons: [] }) {

@@ -6,7 +6,7 @@ import DialogContentText from '@mui/material/DialogContentText/DialogContentText
 import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
 import React, { type FC } from 'react';
 
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
 interface ConfirmDialogProps extends DialogProps {
     confirmButtonColor?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'

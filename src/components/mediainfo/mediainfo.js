@@ -1,14 +1,14 @@
 import escapeHtml from 'escape-html';
-import datetime from '../../scripts/datetime';
-import globalize from '../../lib/globalize';
-import { appRouter } from '../router/appRouter';
-import itemHelper from '../itemHelper';
-import indicators from '../indicators/indicators';
+import datetime from '@/scripts/datetime';
+import globalize from '@/lib/globalize';
+import { appRouter } from '@/components/router/appRouter';
+import itemHelper from '@/components/itemHelper';
+import indicators from '@/components/indicators/indicators';
 import 'material-design-icons-iconfont';
 import './mediainfo.scss';
-import '../guide/programs.scss';
-import '../../elements/emby-button/emby-button';
-import * as userSettings from '../../scripts/settings/userSettings';
+import '@/components/guide/programs.scss';
+import '@/elements/emby-button/emby-button';
+import * as userSettings from '@/scripts/settings/userSettings';
 
 function getTimerIndicator(item) {
     let status;

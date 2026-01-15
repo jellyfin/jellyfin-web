@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import React, { type FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import UserAvatar from 'components/UserAvatar';
+import UserAvatar from '@/components/UserAvatar';
 
 interface UserAvatarButtonProps {
     user?: UserDto

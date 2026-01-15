@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 
-import globalize from 'lib/globalize';
-import { navigate } from '../../../utils/dashboard';
-import LinkButton from '../../../elements/emby-button/LinkButton';
+import globalize from '@/lib/globalize';
+import { navigate } from '@/utils/dashboard';
+import LinkButton from '@/elements/emby-button/LinkButton';
 
 type IProps = {
     activeTab: string;

@@ -1,9 +1,9 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React, { type FC } from 'react';
 import Icon from '@mui/material/Icon';
-import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
+import { getItemTypeIcon, getLibraryIcon } from '@/utils/image';
 import DefaultName from './DefaultName';
-import type { ItemDto } from 'types/base/models/item-dto';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 interface DefaultIconTextProps {
     item: ItemDto;

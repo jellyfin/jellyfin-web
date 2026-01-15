@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography/Typography';
 import { type MRT_RowData, type MRT_TableInstance, type MRT_TableOptions, MaterialReactTable } from 'material-react-table';
 import React from 'react';
 
-import Page, { type PageProps } from 'components/Page';
+import Page, { type PageProps } from '@/components/Page';
 
 interface TablePageProps<T extends MRT_RowData> extends PageProps {
     title: string

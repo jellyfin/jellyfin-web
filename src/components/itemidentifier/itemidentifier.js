@@ -5,23 +5,23 @@
  */
 
 import escapeHtml from 'escape-html';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import loading from '../loading/loading';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import scrollHelper from '../../scripts/scrollHelper';
-import layoutManager from '../layoutManager';
-import focusManager from '../focusManager';
-import browser from '../../scripts/browser';
-import '../../elements/emby-input/emby-input';
-import '../../elements/emby-checkbox/emby-checkbox';
-import '../../elements/emby-button/paper-icon-button-light';
-import '../formdialog.scss';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import loading from '@/components/loading/loading';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import scrollHelper from '@/scripts/scrollHelper';
+import layoutManager from '@/components/layoutManager';
+import focusManager from '@/components/focusManager';
+import browser from '@/scripts/browser';
+import '@/elements/emby-input/emby-input';
+import '@/elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-button/paper-icon-button-light';
+import '@/components/formdialog.scss';
 import 'material-design-icons-iconfont';
-import '../cardbuilder/card.scss';
-import toast from '../toast/toast';
+import '@/components/cardbuilder/card.scss';
+import toast from '@/components/toast/toast';
 import template from './itemidentifier.template.html';
-import datetime from '../../scripts/datetime';
+import datetime from '@/scripts/datetime';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 

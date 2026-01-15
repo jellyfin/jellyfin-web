@@ -6,9 +6,9 @@ import MenuItem from '@mui/material/MenuItem/MenuItem';
 import React, { FC, useCallback, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
-import { LibraryRoutes } from 'apps/experimental/features/libraries/constants/libraryRoutes';
-import useCurrentTab from 'hooks/useCurrentTab';
-import globalize from 'lib/globalize';
+import { LibraryRoutes } from '@/apps/experimental/features/libraries/constants/libraryRoutes';
+import useCurrentTab from '@/hooks/useCurrentTab';
+import globalize from '@/lib/globalize';
 
 const LIBRARY_VIEW_MENU_ID = 'library-view-menu';
 

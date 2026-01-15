@@ -1,21 +1,21 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 
-import { AppFeature } from 'constants/appFeature';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { AppFeature } from '@/constants/appFeature';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
 
-import browser from '../scripts/browser';
-import { copy } from '../scripts/clipboard';
-import dom from '../utils/dom';
-import globalize from '../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import browser from '@/scripts/browser';
+import { copy } from '@/scripts/clipboard';
+import dom from '@/utils/dom';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 import actionsheet from './actionSheet/actionSheet';
 import { appHost } from './apphost';
 import { appRouter } from './router/appRouter';
 import itemHelper, { canEditPlaylist } from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
 import toast from './toast/toast';
-import * as userSettings from '../scripts/settings/userSettings';
+import * as userSettings from '@/scripts/settings/userSettings';
 
 /** Item types that support downloading all children. */
 const DOWNLOAD_ALL_TYPES = [

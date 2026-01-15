@@ -7,11 +7,11 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import formatRelative from 'date-fns/formatRelative';
-import { getLocale } from 'utils/dateFnsLocale';
+import { getLocale } from '@/utils/dateFnsLocale';
 import Stack from '@mui/material/Stack';
-import getLogLevelColor from '../utils/getLogLevelColor';
+import getLogLevelColor from '@/apps/dashboard/features/activity/utils/getLogLevelColor';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
-import ListItemLink from 'components/ListItemLink';
+import ListItemLink from '@/components/ListItemLink';
 
 type ActivityListItemProps = {
     item: ActivityLogEntry;

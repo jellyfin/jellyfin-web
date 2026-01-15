@@ -3,18 +3,18 @@
  */
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 
-import { ItemAction } from 'constants/itemAction';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { ItemAction } from '@/constants/itemAction';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
 
 import { playbackManager } from './playback/playbackmanager';
-import inputManager from '../scripts/inputManager';
+import inputManager from '@/scripts/inputManager';
 import { appRouter } from './router/appRouter';
-import globalize from '../lib/globalize';
-import dom from '../utils/dom';
+import globalize from '@/lib/globalize';
+import dom from '@/utils/dom';
 import recordingHelper from './recordingcreator/recordinghelper';
 import toast from './toast/toast';
-import * as userSettings from '../scripts/settings/userSettings';
+import * as userSettings from '@/scripts/settings/userSettings';
 
 function playAllFromHere(card, serverId, queue) {
     const parent = card.parentNode;

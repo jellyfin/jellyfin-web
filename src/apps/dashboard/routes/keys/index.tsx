@@ -10,14 +10,14 @@ import parseISO from 'date-fns/parseISO';
 import { type MRT_ColumnDef, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
-import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
-import { useApiKeys } from 'apps/dashboard/features/keys/api/useApiKeys';
-import { useRevokeKey } from 'apps/dashboard/features/keys/api/useRevokeKey';
-import { useCreateKey } from 'apps/dashboard/features/keys/api/useCreateKey';
-import globalize from 'lib/globalize';
-import InputDialog from 'components/InputDialog';
-import ConfirmDialog from 'components/ConfirmDialog';
+import DateTimeCell from '@/apps/dashboard/components/table/DateTimeCell';
+import TablePage, { DEFAULT_TABLE_OPTIONS } from '@/apps/dashboard/components/table/TablePage';
+import { useApiKeys } from '@/apps/dashboard/features/keys/api/useApiKeys';
+import { useRevokeKey } from '@/apps/dashboard/features/keys/api/useRevokeKey';
+import { useCreateKey } from '@/apps/dashboard/features/keys/api/useCreateKey';
+import globalize from '@/lib/globalize';
+import InputDialog from '@/components/InputDialog';
+import ConfirmDialog from '@/components/ConfirmDialog';
 
 export const Component = () => {
     const [ isCreateApiKeyPromptOpen, setIsCreateApiKeyPromptOpen ] = useState(false);

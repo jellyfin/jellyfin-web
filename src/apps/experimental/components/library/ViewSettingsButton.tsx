@@ -18,9 +18,9 @@ import Popover from '@mui/material/Popover';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 
-import globalize from 'lib/globalize';
-import { LibraryViewSettings, ViewMode } from 'types/library';
-import { LibraryTab } from 'types/libraryTab';
+import globalize from '@/lib/globalize';
+import { LibraryViewSettings, ViewMode } from '@/types/library';
+import { LibraryTab } from '@/types/libraryTab';
 
 const IMAGE_TYPE_EXCLUDED_VIEWS = [
     LibraryTab.Episodes,

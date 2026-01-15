@@ -2,9 +2,9 @@ import escapeHtml from 'escape-html';
 import 'jquery';
 import 'material-design-icons-iconfont';
 
-import globalize from 'lib/globalize';
-import Dashboard from 'utils/dashboard';
-import { getParameterByName } from 'utils/url';
+import globalize from '@/lib/globalize';
+import Dashboard from '@/utils/dashboard';
+import { getParameterByName } from '@/utils/url';
 
 // Disable the naming rules since jstree requires snake_case variables
 /* eslint-disable @typescript-eslint/naming-convention */

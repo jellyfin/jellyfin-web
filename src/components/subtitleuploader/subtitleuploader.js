@@ -1,22 +1,22 @@
 import escapeHtml from 'escape-html';
 
 import { getSubtitleApi } from '@jellyfin/sdk/lib/utils/api/subtitle-api';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import dom from '../../utils/dom';
-import loading from '../../components/loading/loading';
-import scrollHelper from '../../scripts/scrollHelper';
-import layoutManager from '../layoutManager';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
+import dialogHelper from '@/components/dialogHelper/dialogHelper';
+import dom from '@/utils/dom';
+import loading from '@/components/loading/loading';
+import scrollHelper from '@/scripts/scrollHelper';
+import layoutManager from '@/components/layoutManager';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 import template from './subtitleuploader.template.html';
-import toast from '../toast/toast';
+import toast from '@/components/toast/toast';
 
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-select/emby-select';
-import '../formdialog.scss';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-select/emby-select';
+import '@/components/formdialog.scss';
 import './style.scss';
-import { readFileAsBase64 } from 'utils/file';
+import { readFileAsBase64 } from '@/utils/file';
 
 let currentItemId;
 let currentServerId;

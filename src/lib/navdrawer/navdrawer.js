@@ -3,11 +3,11 @@
  * It is a legacy library that should be replaced at some point.
  */
 
-import browser from '../../scripts/browser';
-import dom from '../../utils/dom';
+import browser from '@/scripts/browser';
+import dom from '@/utils/dom';
 import './navdrawer.scss';
-import '../../styles/scrollstyles.scss';
-import globalize from '../globalize';
+import '@/styles/scrollstyles.scss';
+import globalize from '@/lib/globalize';
 
 function getTouches(e) {
     return e.changedTouches || e.targetTouches || e.touches;

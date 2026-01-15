@@ -1,13 +1,13 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 
-import listView from 'components/listview/listview';
-import cardBuilder from 'components/cardbuilder/cardBuilder';
-import imageLoader from 'components/images/imageLoader';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import listView from '@/components/listview/listview';
+import cardBuilder from '@/components/cardbuilder/cardBuilder';
+import imageLoader from '@/components/images/imageLoader';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 
-import 'elements/emby-itemscontainer/emby-itemscontainer';
-import 'elements/emby-button/emby-button';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
+import '@/elements/emby-button/emby-button';
 
 function renderItems(page, item) {
     const sections = [];

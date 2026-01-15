@@ -3,9 +3,9 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 
-import globalize from 'lib/globalize';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { ListOptions } from 'types/listOptions';
+import globalize from '@/lib/globalize';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { ListOptions } from '@/types/listOptions';
 
 const sortBySortName = (item: ItemDto): string => {
     if (item.Type === BaseItemKind.Episode) {

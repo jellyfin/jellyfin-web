@@ -3,7 +3,7 @@
  * @module components/syncPlay/core/players/GenericPlayer
  */
 
-import Events from '../../../../utils/events.ts';
+import Events from '@/utils/events.ts';
 
 /**
  * Class that translates events from a player to SyncPlay events.

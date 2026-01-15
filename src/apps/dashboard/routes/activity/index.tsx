@@ -8,17 +8,17 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { type MRT_ColumnDef, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
 import { useSearchParams } from 'react-router-dom';
 
-import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
-import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
-import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
-import ActionsCell from 'apps/dashboard/features/activity/components/ActionsCell';
-import LogLevelCell from 'apps/dashboard/features/activity/components/LogLevelCell';
-import OverviewCell from 'apps/dashboard/features/activity/components/OverviewCell';
-import UserAvatarButton from 'apps/dashboard/components/UserAvatarButton';
-import type { ActivityLogEntryCell } from 'apps/dashboard/features/activity/types/ActivityLogEntryCell';
-import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
-import globalize from 'lib/globalize';
-import { toBoolean } from 'utils/string';
+import DateTimeCell from '@/apps/dashboard/components/table/DateTimeCell';
+import TablePage, { DEFAULT_TABLE_OPTIONS } from '@/apps/dashboard/components/table/TablePage';
+import { useLogEntries } from '@/apps/dashboard/features/activity/api/useLogEntries';
+import ActionsCell from '@/apps/dashboard/features/activity/components/ActionsCell';
+import LogLevelCell from '@/apps/dashboard/features/activity/components/LogLevelCell';
+import OverviewCell from '@/apps/dashboard/features/activity/components/OverviewCell';
+import UserAvatarButton from '@/apps/dashboard/components/UserAvatarButton';
+import type { ActivityLogEntryCell } from '@/apps/dashboard/features/activity/types/ActivityLogEntryCell';
+import { type UsersRecords, useUsersDetails } from '@/hooks/useUsers';
+import globalize from '@/lib/globalize';
+import { toBoolean } from '@/utils/string';
 
 const DEFAULT_PAGE_SIZE = 25;
 const VIEW_PARAM = 'useractivity';

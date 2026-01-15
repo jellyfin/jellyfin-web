@@ -1,10 +1,10 @@
-import * as userSettings from '../scripts/settings/userSettings';
-import loading from '../components/loading/loading';
-import focusManager from '../components/focusManager';
-import homeSections from '../components/homesections/homesections';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import * as userSettings from '@/scripts/settings/userSettings';
+import loading from '@/components/loading/loading';
+import focusManager from '@/components/focusManager';
+import homeSections from '@/components/homesections/homesections';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 
-import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
 
 class HomeTab {
     constructor(view, params) {

@@ -1,16 +1,16 @@
 import React, { type FC } from 'react';
 
-import NoItemsMessage from 'components/common/NoItemsMessage';
-import SectionContainer from 'components/common/SectionContainer';
-import Loading from 'components/loading/LoadingComponent';
-import { appRouter } from 'components/router/appRouter';
-import { ItemAction } from 'constants/itemAction';
-import { useApi } from 'hooks/useApi';
-import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
-import globalize from 'lib/globalize';
-import type { ParentId } from 'types/library';
-import type { Section, SectionType } from 'types/sections';
-import { CardShape } from 'utils/card';
+import NoItemsMessage from '@/components/common/NoItemsMessage';
+import SectionContainer from '@/components/common/SectionContainer';
+import Loading from '@/components/loading/LoadingComponent';
+import { appRouter } from '@/components/router/appRouter';
+import { ItemAction } from '@/constants/itemAction';
+import { useApi } from '@/hooks/useApi';
+import { useGetProgramsSectionsWithItems, useGetTimers } from '@/hooks/useFetchItems';
+import globalize from '@/lib/globalize';
+import type { ParentId } from '@/types/library';
+import type { Section, SectionType } from '@/types/sections';
+import { CardShape } from '@/utils/card';
 
 interface ProgramsSectionViewProps {
     parentId: ParentId;

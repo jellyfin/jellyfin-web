@@ -1,20 +1,20 @@
 import escapeHtml from 'escape-html';
 
-import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
-import confirm from 'components/confirm/confirm';
-import loading from 'components/loading/loading';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import dom from 'utils/dom';
-import taskButton from 'scripts/taskbutton';
-import Dashboard, { pageClassOn, pageIdOn } from 'utils/dashboard';
-import imageHelper from 'utils/image';
+import { getDefaultBackgroundClass } from '@/components/cardbuilder/cardBuilderUtils';
+import confirm from '@/components/confirm/confirm';
+import loading from '@/components/loading/loading';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import dom from '@/utils/dom';
+import taskButton from '@/scripts/taskbutton';
+import Dashboard, { pageClassOn, pageIdOn } from '@/utils/dashboard';
+import imageHelper from '@/utils/image';
 
-import 'components/cardbuilder/card.scss';
-import 'elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
+import '@/components/cardbuilder/card.scss';
+import '@/elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
 
 function addVirtualFolder(page) {
-    import('components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }) => {
+    import('@/components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }) => {
         new MediaLibraryCreator({
             collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
                 return !f.hidden;
@@ -29,7 +29,7 @@ function addVirtualFolder(page) {
 }
 
 function editVirtualFolder(page, virtualFolder) {
-    import('components/mediaLibraryEditor/mediaLibraryEditor').then(({ default: MediaLibraryEditor }) => {
+    import('@/components/mediaLibraryEditor/mediaLibraryEditor').then(({ default: MediaLibraryEditor }) => {
         new MediaLibraryEditor({
             refresh: shouldRefreshLibraryAfterChanges(page),
             library: virtualFolder
@@ -65,7 +65,7 @@ function deleteVirtualFolder(page, virtualFolder) {
 }
 
 function refreshVirtualFolder(page, virtualFolder) {
-    import('components/refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
+    import('@/components/refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
         new RefreshDialog({
             itemIds: [virtualFolder.ItemId],
             serverId: ServerConnections.currentApiClient().serverId(),
@@ -75,7 +75,7 @@ function refreshVirtualFolder(page, virtualFolder) {
 }
 
 function renameVirtualFolder(page, virtualFolder) {
-    import('components/prompt/prompt').then(({ default: prompt }) => {
+    import('@/components/prompt/prompt').then(({ default: prompt }) => {
         prompt({
             label: globalize.translate('LabelNewName'),
             description: globalize.translate('MessageRenameMediaFolder'),
@@ -124,7 +124,7 @@ function showCardMenu(page, elem, virtualFolders) {
         icon: 'delete'
     });
 
-    import('components/actionSheet/actionSheet').then((actionsheet) => {
+    import('@/components/actionSheet/actionSheet').then((actionsheet) => {
         actionsheet.show({
             items: menuItems,
             positionTo: elem,
@@ -215,7 +215,7 @@ function reloadVirtualFolders(page, virtualFolders) {
 }
 
 function editImages(page, virtualFolder) {
-    import('components/imageeditor/imageeditor').then((imageEditor) => {
+    import('@/components/imageeditor/imageeditor').then((imageEditor) => {
         imageEditor.show({
             itemId: virtualFolder.ItemId,
             serverId: ServerConnections.currentApiClient().serverId()

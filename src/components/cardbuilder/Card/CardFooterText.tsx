@@ -1,12 +1,12 @@
 import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 import useCardText from './useCardText';
-import layoutManager from 'components/layoutManager';
-import MoreVertIconButton from 'components/common/MoreVertIconButton';
-import Image from 'components/common/Image';
+import layoutManager from '@/components/layoutManager';
+import MoreVertIconButton from '@/components/common/MoreVertIconButton';
+import Image from '@/components/common/Image';
 
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { CardOptions } from 'types/cardOptions';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { CardOptions } from '@/types/cardOptions';
 
 const shouldShowDetailsMenu = (
     cardOptions: CardOptions,

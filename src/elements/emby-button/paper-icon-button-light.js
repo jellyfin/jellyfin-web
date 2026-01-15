@@ -1,4 +1,4 @@
-import layoutManager from '../../components/layoutManager';
+import layoutManager from '@/components/layoutManager';
 import './emby-button.scss';
 import 'webcomponents.js/webcomponents-lite';
 

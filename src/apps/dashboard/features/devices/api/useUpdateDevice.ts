@@ -2,8 +2,8 @@ import type { DevicesApiUpdateDeviceOptionsRequest } from '@jellyfin/sdk/lib/gen
 import { getDevicesApi } from '@jellyfin/sdk/lib/utils/api/devices-api';
 import { useMutation } from '@tanstack/react-query';
 
-import { useApi } from 'hooks/useApi';
-import { queryClient } from 'utils/query/queryClient';
+import { useApi } from '@/hooks/useApi';
+import { queryClient } from '@/utils/query/queryClient';
 import { QUERY_KEY } from './useDevices';
 
 export const useUpdateDevice = () => {

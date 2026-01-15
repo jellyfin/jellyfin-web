@@ -1,12 +1,12 @@
-import appSettings from '../scripts/settings/appSettings';
-import browser from '../scripts/browser';
-import Events from '../utils/events.ts';
-import * as htmlMediaHelper from '../components/htmlMediaHelper';
-import * as webSettings from '../scripts/settings/webSettings';
-import globalize from '../lib/globalize';
-import profileBuilder from '../scripts/browserDeviceProfile';
-import { AppFeature } from 'constants/appFeature';
-import { LayoutMode } from 'constants/layoutMode';
+import appSettings from '@/scripts/settings/appSettings';
+import browser from '@/scripts/browser';
+import Events from '@/utils/events.ts';
+import * as htmlMediaHelper from '@/components/htmlMediaHelper';
+import * as webSettings from '@/scripts/settings/webSettings';
+import globalize from '@/lib/globalize';
+import profileBuilder from '@/scripts/browserDeviceProfile';
+import { AppFeature } from '@/constants/appFeature';
+import { LayoutMode } from '@/constants/layoutMode';
 
 const appName = 'Jellyfin Web';
 

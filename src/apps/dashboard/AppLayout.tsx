@@ -7,15 +7,15 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import React, { FC, StrictMode, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import AppBody from 'components/AppBody';
-import AppToolbar from 'components/toolbar/AppToolbar';
-import ServerButton from 'components/toolbar/ServerButton';
-import ElevationScroll from 'components/ElevationScroll';
-import { DRAWER_WIDTH } from 'components/ResponsiveDrawer';
-import { appRouter } from 'components/router/appRouter';
-import ThemeCss from 'components/ThemeCss';
-import { useApi } from 'hooks/useApi';
-import { useLocale } from 'hooks/useLocale';
+import AppBody from '@/components/AppBody';
+import AppToolbar from '@/components/toolbar/AppToolbar';
+import ServerButton from '@/components/toolbar/ServerButton';
+import ElevationScroll from '@/components/ElevationScroll';
+import { DRAWER_WIDTH } from '@/components/ResponsiveDrawer';
+import { appRouter } from '@/components/router/appRouter';
+import ThemeCss from '@/components/ThemeCss';
+import { useApi } from '@/hooks/useApi';
+import { useLocale } from '@/hooks/useLocale';
 
 import AppTabs from './components/AppTabs';
 import AppDrawer from './components/drawer/AppDrawer';

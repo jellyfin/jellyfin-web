@@ -7,8 +7,8 @@ import classNames from 'classnames';
 import React, { type FC, useEffect } from 'react';
 import { useRouteError } from 'react-router-dom';
 
-import loading from 'components/loading/loading';
-import Page from 'components/Page';
+import loading from '@/components/loading/loading';
+import Page from '@/components/Page';
 
 interface ErrorBoundaryParams {
     pageClasses?: string[]

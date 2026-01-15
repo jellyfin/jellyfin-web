@@ -1,24 +1,24 @@
 import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
 import escapeHTML from 'escape-html';
 
-import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
-import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
-import { AppFeature } from 'constants/appFeature';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { MediaSegmentAction } from '@/apps/stable/features/playback/constants/mediaSegmentAction';
+import { getId, getMediaSegmentAction } from '@/apps/stable/features/playback/utils/mediaSegmentSettings';
+import { AppFeature } from '@/constants/appFeature';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 
-import appSettings from '../../scripts/settings/appSettings';
-import { appHost } from '../apphost';
-import browser from '../../scripts/browser';
-import focusManager from '../focusManager';
-import qualityoptions from '../qualityOptions';
-import globalize from '../../lib/globalize';
-import loading from '../loading/loading';
-import Events from '../../utils/events.ts';
-import toast from '../toast/toast';
+import appSettings from '@/scripts/settings/appSettings';
+import { appHost } from '@/components/apphost';
+import browser from '@/scripts/browser';
+import focusManager from '@/components/focusManager';
+import qualityoptions from '@/components/qualityOptions';
+import globalize from '@/lib/globalize';
+import loading from '@/components/loading/loading';
+import Events from '@/utils/events.ts';
+import toast from '@/components/toast/toast';
 import template from './playbackSettings.template.html';
 
-import '../../elements/emby-select/emby-select';
-import '../../elements/emby-checkbox/emby-checkbox';
+import '@/elements/emby-select/emby-select';
+import '@/elements/emby-checkbox/emby-checkbox';
 
 function fillSkipLengths(select) {
     const options = [5, 10, 15, 20, 25, 30];

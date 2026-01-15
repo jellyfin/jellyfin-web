@@ -1,9 +1,9 @@
-import ScrollerFactory from 'lib/scroller';
-import dom from '../../utils/dom';
-import layoutManager from '../../components/layoutManager';
-import inputManager from '../../scripts/inputManager';
-import focusManager from '../../components/focusManager';
-import browser from '../../scripts/browser';
+import ScrollerFactory from '@/lib/scroller';
+import dom from '@/utils/dom';
+import layoutManager from '@/components/layoutManager';
+import inputManager from '@/scripts/inputManager';
+import focusManager from '@/components/focusManager';
+import browser from '@/scripts/browser';
 import 'webcomponents.js/webcomponents-lite';
 import './emby-scroller.scss';
 

@@ -3,11 +3,11 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { ApiProvider } from 'hooks/useApi';
-import { UserSettingsProvider } from 'hooks/useUserSettings';
-import { WebConfigProvider } from 'hooks/useWebConfig';
-import appTheme from 'themes';
-import { queryClient } from 'utils/query/queryClient';
+import { ApiProvider } from '@/hooks/useApi';
+import { UserSettingsProvider } from '@/hooks/useUserSettings';
+import { WebConfigProvider } from '@/hooks/useWebConfig';
+import appTheme from '@/themes';
+import { queryClient } from '@/utils/query/queryClient';
 
 export const renderComponent = <P extends object> (
     Component: React.FC<P>,

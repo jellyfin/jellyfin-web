@@ -1,9 +1,9 @@
 import inputManager from './inputManager';
-import focusManager from '../components/focusManager';
+import focusManager from '@/components/focusManager';
 import browser from './browser';
-import layoutManager from '../components/layoutManager';
-import dom from '../utils/dom';
-import Events from '../utils/events.ts';
+import layoutManager from '@/components/layoutManager';
+import dom from '@/utils/dom';
+import Events from '@/utils/events.ts';
 
 const self = {};
 

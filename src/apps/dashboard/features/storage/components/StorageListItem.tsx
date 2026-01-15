@@ -7,11 +7,11 @@ import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import React, { type FC } from 'react';
 
-import globalize from 'lib/globalize';
-import { getReadableSize } from 'utils/file';
+import globalize from '@/lib/globalize';
+import { getReadableSize } from '@/utils/file';
 
-import { StorageType } from '../constants/StorageType';
-import { calculateTotal, calculateUsedPercentage } from '../utils/space';
+import { StorageType } from '@/apps/dashboard/features/storage/constants/StorageType';
+import { calculateTotal, calculateUsedPercentage } from '@/apps/dashboard/features/storage/utils/space';
 
 import StorageTypeIcon from './StorageTypeIcon';
 

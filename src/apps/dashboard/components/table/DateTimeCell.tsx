@@ -2,7 +2,7 @@ import format from 'date-fns/format';
 import type { MRT_Cell, MRT_RowData } from 'material-react-table';
 import { FC } from 'react';
 
-import { useLocale } from 'hooks/useLocale';
+import { useLocale } from '@/hooks/useLocale';
 
 interface CellProps {
     cell: MRT_Cell<MRT_RowData>

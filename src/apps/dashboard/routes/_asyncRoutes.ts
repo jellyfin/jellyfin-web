@@ -1,5 +1,5 @@
-import type { AsyncRoute } from 'components/router/AsyncRoute';
-import { AppType } from 'constants/appType';
+import type { AsyncRoute } from '@/components/router/AsyncRoute';
+import { AppType } from '@/constants/appType';
 
 export const ASYNC_ADMIN_ROUTES: AsyncRoute[] = [
     { path: '', type: AppType.Dashboard },

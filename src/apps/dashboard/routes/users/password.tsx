@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
-import UserPasswordForm from '../../../../components/dashboard/users/UserPasswordForm';
-import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
-import Page from '../../../../components/Page';
-import { useUser } from 'apps/dashboard/features/users/api/useUser';
-import Loading from 'components/loading/LoadingComponent';
+import SectionTabs from '@/components/dashboard/users/SectionTabs';
+import UserPasswordForm from '@/components/dashboard/users/UserPasswordForm';
+import SectionTitleContainer from '@/elements/SectionTitleContainer';
+import Page from '@/components/Page';
+import { useUser } from '@/apps/dashboard/features/users/api/useUser';
+import Loading from '@/components/loading/LoadingComponent';
 
 const UserPassword = () => {
     const [ searchParams ] = useSearchParams();

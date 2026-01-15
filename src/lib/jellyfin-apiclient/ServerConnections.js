@@ -3,12 +3,12 @@
 import { Api } from '@jellyfin/sdk';
 import { Credentials, ApiClient } from 'jellyfin-apiclient';
 
-import { appHost } from 'components/apphost';
-import appSettings from 'scripts/settings/appSettings';
-import { setUserInfo } from 'scripts/settings/userSettings';
-import Dashboard from 'utils/dashboard';
-import Events from 'utils/events.ts';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { appHost } from '@/components/apphost';
+import appSettings from '@/scripts/settings/appSettings';
+import { setUserInfo } from '@/scripts/settings/userSettings';
+import Dashboard from '@/utils/dashboard';
+import Events from '@/utils/events.ts';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
 
 import ConnectionManager from './connectionManager';
 

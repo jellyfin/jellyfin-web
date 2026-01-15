@@ -6,14 +6,14 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { type FC } from 'react';
 
-import { useApi } from 'hooks/useApi';
-import { useGetItems } from 'hooks/useFetchItems';
-import Loading from 'components/loading/LoadingComponent';
-import { appRouter } from 'components/router/appRouter';
-import SectionContainer from 'components/common/SectionContainer';
-import { CardShape } from 'utils/card';
-import type { ParentId } from 'types/library';
-import type { ItemDto } from 'types/base/models/item-dto';
+import { useApi } from '@/hooks/useApi';
+import { useGetItems } from '@/hooks/useFetchItems';
+import Loading from '@/components/loading/LoadingComponent';
+import { appRouter } from '@/components/router/appRouter';
+import SectionContainer from '@/components/common/SectionContainer';
+import { CardShape } from '@/utils/card';
+import type { ParentId } from '@/types/library';
+import type { ItemDto } from '@/types/base/models/item-dto';
 
 interface GenresSectionContainerProps {
     parentId: ParentId;

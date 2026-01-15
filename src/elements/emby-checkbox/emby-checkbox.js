@@ -1,5 +1,5 @@
-import browser from '../../scripts/browser';
-import dom from '../../utils/dom';
+import browser from '@/scripts/browser';
+import dom from '@/utils/dom';
 import './emby-checkbox.scss';
 import 'webcomponents.js/webcomponents-lite';
 

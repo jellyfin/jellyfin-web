@@ -1,15 +1,15 @@
 import dialogHelper from './dialogHelper/dialogHelper';
-import dom from '../utils/dom';
+import dom from '@/utils/dom';
 import layoutManager from './layoutManager';
-import globalize from '../lib/globalize';
+import globalize from '@/lib/globalize';
 import loading from './loading/loading';
-import browser from '../scripts/browser';
+import browser from '@/scripts/browser';
 import focusManager from './focusManager';
-import scrollHelper from '../scripts/scrollHelper';
+import scrollHelper from '@/scripts/scrollHelper';
 import 'material-design-icons-iconfont';
 import './formdialog.scss';
-import '../elements/emby-button/emby-button';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
+import '@/elements/emby-button/emby-button';
+import '@/elements/emby-itemscontainer/emby-itemscontainer';
 import './cardbuilder/card.scss';
 
 const enableFocusTransform = !browser.slow && !browser.edge;

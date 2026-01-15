@@ -1,9 +1,9 @@
-import datetime from 'scripts/datetime';
-import { appRouter } from 'components/router/appRouter';
-import type { NullableString } from 'types/base/common/shared/types';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { MiscInfo } from 'types/mediaInfoItem';
-import { ItemKind } from 'types/base/models/item-kind';
+import datetime from '@/scripts/datetime';
+import { appRouter } from '@/components/router/appRouter';
+import type { NullableString } from '@/types/base/common/shared/types';
+import type { ItemDto } from '@/types/base/models/item-dto';
+import type { MiscInfo } from '@/types/mediaInfoItem';
+import { ItemKind } from '@/types/base/models/item-kind';
 import type { SecondaryInfoOpts } from './type';
 
 function addProgramTime(

@@ -1,9 +1,9 @@
-import { LayoutMode } from 'constants/layoutMode';
+import { LayoutMode } from '@/constants/layoutMode';
 
 import { appHost } from './apphost';
-import browser from '../scripts/browser';
-import appSettings from '../scripts/settings/appSettings';
-import Events from '../utils/events.ts';
+import browser from '@/scripts/browser';
+import appSettings from '@/scripts/settings/appSettings';
+import Events from '@/utils/events.ts';
 
 function setLayout(instance, layout, selectedLayout) {
     if (layout === selectedLayout) {

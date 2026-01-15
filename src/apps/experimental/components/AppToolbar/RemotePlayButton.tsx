@@ -7,9 +7,9 @@ import IconButton from '@mui/material/IconButton';
 import type {} from '@mui/material/themeCssVarsAugmentation';
 import Tooltip from '@mui/material/Tooltip';
 
-import { playbackManager } from 'components/playback/playbackmanager';
-import globalize from 'lib/globalize';
-import Events from 'utils/events';
+import { playbackManager } from '@/components/playback/playbackmanager';
+import globalize from '@/lib/globalize';
+import Events from '@/utils/events';
 
 import RemotePlayMenu, { ID } from './menus/RemotePlayMenu';
 import RemotePlayActiveMenu, { ID as ACTIVE_ID } from './menus/RemotePlayActiveMenu';

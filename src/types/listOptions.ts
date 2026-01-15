@@ -1,8 +1,8 @@
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import type { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 
-import type { TextLineOpts } from 'components/common/textLines/types';
-import { ItemAction } from 'constants/itemAction';
+import type { TextLineOpts } from '@/components/common/textLines/types';
+import { ItemAction } from '@/constants/itemAction';
 
 import type { ItemDto } from './base/models/item-dto';
 

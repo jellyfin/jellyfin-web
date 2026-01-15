@@ -1,4 +1,4 @@
-import { AsyncRoute } from '../../../../components/router/AsyncRoute';
+import { AsyncRoute } from '@/components/router/AsyncRoute';
 
 export const ASYNC_USER_ROUTES: AsyncRoute[] = [
     { path: 'mypreferencesmenu', page: 'user/settings' },

@@ -6,10 +6,10 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 
 import { appHost } from './apphost';
-import { AppFeature } from 'constants/appFeature';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { AppFeature } from '@/constants/appFeature';
+import globalize from '@/lib/globalize';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { toApi } from '@/utils/jellyfin-apiclient/compat';
 
 export function getDisplayName(item, options = {}) {
     if (!item) {

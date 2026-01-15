@@ -1,4 +1,4 @@
-import globalize from 'lib/globalize';
+import globalize from '@/lib/globalize';
 
 export function parseISO8601Date(s, toLocal) {
     // parenthese matches:

@@ -3,8 +3,8 @@
  * @module components/syncPlay/core/QueueCore
  */
 
-import globalize from '../../../lib/globalize';
-import toast from '../../../components/toast/toast';
+import globalize from '@/lib/globalize';
+import toast from '@/components/toast/toast';
 import * as Helper from './Helper';
 
 /**

@@ -2,8 +2,8 @@ import { getLibraryStructureApi } from '@jellyfin/sdk/lib/utils/api/library-stru
 import { LibraryStructureApiRenameVirtualFolderRequest } from '@jellyfin/sdk/lib/generated-client/api/library-structure-api';
 import { useMutation } from '@tanstack/react-query';
 
-import { useApi } from 'hooks/useApi';
-import { queryClient } from 'utils/query/queryClient';
+import { useApi } from '@/hooks/useApi';
+import { queryClient } from '@/utils/query/queryClient';
 
 export const useRenameVirtualFolder = () => {
     const { api } = useApi();

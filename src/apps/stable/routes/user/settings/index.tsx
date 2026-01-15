@@ -2,20 +2,20 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto
 import React, { useEffect, useMemo, useState, type FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { appHost } from 'components/apphost';
-import layoutManager from 'components/layoutManager';
-import Loading from 'components/loading/LoadingComponent';
-import Page from 'components/Page';
-import { AppFeature } from 'constants/appFeature';
-import LinkButton from 'elements/emby-button/LinkButton';
-import { useApi } from 'hooks/useApi';
-import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
-import { useUsers } from 'hooks/useUsers';
-import globalize from 'lib/globalize';
-import browser from 'scripts/browser';
-import Dashboard from 'utils/dashboard';
-import shell from 'scripts/shell';
-import keyboardNavigation from 'scripts/keyboardNavigation';
+import { appHost } from '@/components/apphost';
+import layoutManager from '@/components/layoutManager';
+import Loading from '@/components/loading/LoadingComponent';
+import Page from '@/components/Page';
+import { AppFeature } from '@/constants/appFeature';
+import LinkButton from '@/elements/emby-button/LinkButton';
+import { useApi } from '@/hooks/useApi';
+import { useQuickConnectEnabled } from '@/hooks/useQuickConnect';
+import { useUsers } from '@/hooks/useUsers';
+import globalize from '@/lib/globalize';
+import browser from '@/scripts/browser';
+import Dashboard from '@/utils/dashboard';
+import shell from '@/scripts/shell';
+import keyboardNavigation from '@/scripts/keyboardNavigation';
 
 const UserSettingsPage: FC = () => {
     const { user: currentUser } = useApi();
