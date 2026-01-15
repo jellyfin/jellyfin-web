@@ -77,6 +77,32 @@ function clearHijackState() {
     }
 }
 
+function restoreHijackedElement() {
+    const element = hijackState.hijackedElement;
+    if (!element) return;
+
+    if (hijackState.originalPause) {
+        element.pause = hijackState.originalPause;
+    }
+    if (hijackState.originalSrcDescriptor) {
+        if (hijackState.originalSrcDescriptor.configurable) {
+            try {
+                Object.defineProperty(element, 'src', hijackState.originalSrcDescriptor);
+            } catch (err) {
+                // Avoid throwing during cleanup in test environments.
+            }
+        }
+    }
+
+    const existingCurrent = document.getElementById('currentMediaElement');
+    if (!existingCurrent || existingCurrent === element) {
+        element.id = 'currentMediaElement';
+    } else {
+        element.removeAttribute('id');
+    }
+    element.classList.add('mediaPlayerAudio');
+}
+
 /**
  * Hijacks the media element for crossfade with improved safety.
  * - Issue 1 Fix: Explicit error handling for missing element
@@ -187,6 +213,8 @@ export function hijackMediaElementForCrossfade() {
             if (!masterAudioOutput.audioContext || !xfadeGainNode || !delayNode) {
                 console.warn('[Crossfade] Missing audio nodes during cleanup');
                 xDuration.busy = false;
+                restoreHijackedElement();
+                prevNextDisable(false);
                 clearHijackState();
                 return;
             }
@@ -263,4 +291,3 @@ export function timeRunningOut(player: any) {
     if (!masterAudioOutput.audioContext || !xDuration.enabled || xDuration.busy || currentTime < xDuration.fadeOut * 1000) return false;
     return (player.duration() - currentTime) <= (xDuration.fadeOut * 1500);
 }
-

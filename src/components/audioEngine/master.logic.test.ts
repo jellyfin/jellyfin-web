@@ -117,6 +117,7 @@ describe('master.logic - Audio Engine', () => {
     beforeEach(() => {
         // Clear mocks
         vi.clearAllMocks();
+        vi.spyOn(console, 'log').mockImplementation(() => {});
 
         // Reset buses
         audioNodeBus.length = 0;
@@ -150,6 +151,7 @@ describe('master.logic - Audio Engine', () => {
             configurable: true
         });
         (window as any).webkitAudioContext = originalWebkitAudioContext;
+        vi.restoreAllMocks();
     });
 
     // ========================================================================

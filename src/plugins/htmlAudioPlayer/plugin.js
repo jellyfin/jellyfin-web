@@ -121,17 +121,14 @@ class HtmlAudioPlayer {
 
         function applyNormalization(elem, options, shouldRamp) {
             import('../../scripts/settings/userSettings').then((userSettings) => {
-                let normalizationGain;
+                let normalizationGainDb;
                 if (userSettings.selectAudioNormalization() == 'TrackGain') {
-                    normalizationGain = options.item.NormalizationGain
+                    normalizationGainDb = options.item.NormalizationGain
                         ?? options.mediaSource.albumNormalizationGain;
                 } else if (userSettings.selectAudioNormalization() == 'AlbumGain') {
-                    normalizationGain =
+                    normalizationGainDb =
                         options.mediaSource.albumNormalizationGain
                         ?? options.item.NormalizationGain;
-                } else {
-                    console.debug('normalization disabled');
-                    return;
                 }
 
                 if (!self.gainNode) {
@@ -139,16 +136,14 @@ class HtmlAudioPlayer {
                     if (!self.gainNode) return;
                 }
 
-                // Store normalization gain for reference
-                if (normalizationGain) {
-                    self.normalizationGain = normalizationGain;
-                } else {
-                    self.normalizationGain = 0;
-                }
+                const normalizationGainLinear = normalizationGainDb !== undefined
+                    ? Math.pow(10, normalizationGainDb / 20)
+                    : 1;
+                self.normalizationGain = normalizationGainLinear;
 
                 if (shouldRamp) {
                     // Use audio engine's ramp function for smooth gain transitions
-                    rampPlaybackGain(normalizationGain);
+                    rampPlaybackGain(normalizationGainDb);
                 }
 
                 if (browser.safari) {
@@ -169,6 +164,14 @@ class HtmlAudioPlayer {
             self._currentPlayOptions = options;
             self._currentSrc = options.url;
             self._started = true;
+
+            const existingCurrent = document.getElementById('currentMediaElement');
+            if (existingCurrent && existingCurrent !== elem) {
+                existingCurrent.removeAttribute('id');
+            }
+            elem.id = 'currentMediaElement';
+            elem.classList.add('mediaPlayerAudio');
+            elem.removeAttribute('data-crossfade-preload');
 
             const bundle = ensureAudioNodeBundle(elem, { registerInBus: true });
             if (bundle) {
@@ -318,6 +321,7 @@ class HtmlAudioPlayer {
                 document.body.appendChild(elem);
             }
 
+            elem.id = 'currentMediaElement';
             // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
             if (!appHost.supports(AppFeature.PhysicalVolumeControl)) {
                 elem.volume = htmlMediaHelper.getSavedVolume();

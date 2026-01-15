@@ -34,13 +34,17 @@ vi.mock('../../scripts/settings/userSettings', () => ({
     crossfadeDuration: vi.fn(() => 5)
 }));
 
+const mocks = vi.hoisted(() => ({
+    masterAudioOutput: {
+        audioContext: { currentTime: 0 },
+        mixerNode: null
+    }
+}));
+
 vi.mock('./master.logic', () => ({
     audioNodeBus: [],
     delayNodeBus: [],
-    masterAudioOutput: {
-        audioContext: null,
-        mixerNode: null
-    },
+    masterAudioOutput: mocks.masterAudioOutput,
     unbindCallback: null
 }));
 
@@ -60,12 +64,15 @@ beforeEach(() => {
     xDuration.disableFade = false;
     xDuration.fadeOut = 1;
     xDuration.sustain = 0.45;
+    mocks.masterAudioOutput.audioContext = { currentTime: 0 };
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
 });
 
 afterEach(() => {
     vi.runAllTimers();
     vi.useRealTimers();
     vi.clearAllMocks();
+    vi.restoreAllMocks();
 });
 
 describe('crossfader.logic - setXDuration', () => {
@@ -278,6 +285,7 @@ describe('crossfader.logic - timeRunningOut', () => {
 
 describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
     let mockMediaElement: any;
+    let consoleErrorSpy: ReturnType<typeof vi.spyOn>;
 
     beforeEach(() => {
         // Setup mock media element
@@ -291,6 +299,9 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
             configurable: true
         });
         document.body.appendChild(mockMediaElement);
+
+        mocks.masterAudioOutput.audioContext = { currentTime: 0 };
+        consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     });
 
     afterEach(() => {
@@ -298,6 +309,7 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
         if (element) element.remove();
         const crossfadeElement = document.getElementById('crossFadeMediaElement');
         if (crossfadeElement) crossfadeElement.remove();
+        consoleErrorSpy.mockRestore();
     });
 
     describe('error handling and state management', () => {
@@ -314,15 +326,11 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
             const element = document.getElementById('currentMediaElement');
             if (element) element.remove();
 
-            const consoleSpy = vi.spyOn(console, 'error');
-
             hijackMediaElementForCrossfade();
 
-            expect(consoleSpy).toHaveBeenCalledWith(
+            expect(consoleErrorSpy).toHaveBeenCalledWith(
                 expect.stringContaining('[Crossfade] currentMediaElement not found')
             );
-
-            consoleSpy.mockRestore();
         });
 
         it('should reset busy flag when element missing', () => {
@@ -337,7 +345,6 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
 
         it('should set busy flag to true on successful hijack', () => {
             hijackMediaElementForCrossfade();
-            // Even though it will fail due to no AudioContext, it starts with busy=true
             expect(xDuration.busy).toBe(true);
         });
 
@@ -351,10 +358,11 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
             expect(xDuration.busy).toBe(false);
         });
 
-        it('should set busy flag even when AudioContext not available', () => {
+        it('should reset busy flag when AudioContext not available', () => {
+            mocks.masterAudioOutput.audioContext = null;
             xDuration.busy = false;
             hijackMediaElementForCrossfade();
-            expect(xDuration.busy).toBe(true);
+            expect(xDuration.busy).toBe(false);
         });
     });
 
@@ -368,7 +376,11 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
         });
 
         it('should detect empty src and disable crossfade', () => {
-            mockMediaElement.src = '';
+            Object.defineProperty(mockMediaElement, 'src', {
+                value: '',
+                writable: true,
+                configurable: true
+            });
 
             hijackMediaElementForCrossfade();
 
@@ -454,6 +466,7 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
 
     describe('edge cases', () => {
         it('should handle call when AudioContext not initialized', () => {
+            mocks.masterAudioOutput.audioContext = null;
             hijackMediaElementForCrossfade();
             // Function still runs, returns early due to null audioContext
             // but busy flag is reset
@@ -461,6 +474,7 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
         });
 
         it('should handle rapid successive calls', () => {
+            mocks.masterAudioOutput.audioContext = null;
             hijackMediaElementForCrossfade();
             const firstBusy = xDuration.busy;
 

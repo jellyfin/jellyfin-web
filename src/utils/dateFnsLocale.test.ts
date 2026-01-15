@@ -1,7 +1,15 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 import * as dateFnsLocale from './dateFnsLocale';
 
 describe('Utils: dateFnsLocale', () => {
+    beforeEach(() => {
+        vi.spyOn(console, 'log').mockImplementation(() => {});
+        vi.spyOn(console, 'debug').mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
     describe('Function: getLocale', () => {
         it('Should return "en-US" by default', () => {
             const { code } = dateFnsLocale.getLocale();

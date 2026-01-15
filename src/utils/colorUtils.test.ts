@@ -3,7 +3,7 @@
  * Tests hex/rgb conversion, validation, and WCAG accessibility checks
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
     hexToRgb,
     rgbToHex,
@@ -15,6 +15,14 @@ import {
     getColorBlindPalette,
     RGBColor
 } from './colorUtils';
+
+beforeEach(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+});
+
+afterEach(() => {
+    vi.restoreAllMocks();
+});
 
 describe('colorUtils - Color Conversion', () => {
     describe('hexToRgb', () => {
