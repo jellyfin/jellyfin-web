@@ -222,9 +222,7 @@ const ItemsView: FC<ItemsViewProps> = ({
     const hasFilters = Object.values(libraryViewSettings.Filters ?? {}).some(
         (filter) => !!filter
     );
-    const hasSortName = libraryViewSettings.SortBy.includes(
-        ItemSortBy.SortName
-    );
+    const hasSortName = libraryViewSettings.SortBy !== ItemSortBy.Random;
 
     const itemsContainerClass = classNames(
         'padded-left padded-right padded-right-withalphapicker',
