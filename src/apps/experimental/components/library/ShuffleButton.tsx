@@ -39,7 +39,7 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
                     ...getFiltersQuery(viewType, libraryViewSettings),
                     SortBy: [ItemSortBy.Random]
                 }
-            }).catch(err => {
+            }).catch((err: unknown) => {
                 console.error('[ShuffleButton] failed to play', err);
             });
         }

@@ -145,7 +145,7 @@ function addToPlaylist(dlg: DialogElement, id: string) {
         playbackManager.queue({
             serverId: currentServerId,
             ids: itemIds.split(',')
-        }).catch(err => {
+        }).catch((err: unknown) => {
             console.error('[PlaylistEditor] failed to add to queue', err);
         });
         dlg.submitted = true;

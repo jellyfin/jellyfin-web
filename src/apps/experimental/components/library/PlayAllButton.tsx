@@ -35,7 +35,7 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({
                     SortBy: [libraryViewSettings.SortBy],
                     SortOrder: [libraryViewSettings.SortOrder]
                 }
-            }).catch(err => {
+            }).catch((err: unknown) => {
                 console.error('[PlayAllButton] failed to play', err);
             });
         } else {
@@ -48,7 +48,7 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({
                     SortBy: [libraryViewSettings.SortBy],
                     SortOrder: [libraryViewSettings.SortOrder]
                 }
-            }).catch(err => {
+            }).catch((err: unknown) => {
                 console.error('[PlayAllButton] failed to play', err);
             });
         }

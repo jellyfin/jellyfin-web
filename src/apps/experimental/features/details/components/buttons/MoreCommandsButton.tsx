@@ -169,7 +169,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                             item: item || {},
                             items: items || [],
                             serverId: item?.ServerId
-                        }).catch(err => {
+                        }).catch((err: unknown) => {
                             console.error('[MoreCommandsButton] failed to play', err);
                         });
                     } else if (result.command === 'queueallfromhere') {
@@ -178,7 +178,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                             items: items || [],
                             serverId: item?.ServerId,
                             queue: true
-                        }).catch(err => {
+                        }).catch((err: unknown) => {
                             console.error('[MoreCommandsButton] failed to play', err);
                         });
                     } else if (result.deleted) {
