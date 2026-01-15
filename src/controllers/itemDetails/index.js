@@ -685,7 +685,7 @@ function logoImageUrl(item, apiClient, options) {
     return null;
 }
 
-function renderLogo(page, item, apiClient) {
+export function renderLogo(page, item, apiClient) {
     const detailLogo = page.querySelector('.detailLogo');
 
     const url = logoImageUrl(item, apiClient, {});
@@ -696,6 +696,57 @@ function renderLogo(page, item, apiClient) {
     } else {
         detailLogo.classList.add('hide');
     }
+}
+
+export function renderYear(page, item) {
+    const productionYearElement = page.querySelector('.productionYear');
+    if (!productionYearElement) return;
+    if (!item.PremiereDate && !item.ProductionYear) {
+        productionYearElement.innerText = '';
+        return;
+    }
+    const extractedYear = new Date(item.PremiereDate || item.ProductionYear);
+    productionYearElement.innerText = extractedYear.getFullYear();
+}
+
+function discImageUrl(item, apiClient, options) {
+    options = options || {};
+    options.type = 'Disc';
+    options.maxWidth = window.innerHeight * 0.8;
+    const itemId = options.itemId || item.AlbumId || item.Id;
+    return itemId ? apiClient.getScaledImageUrl(itemId, options) : null;
+}
+
+export function renderDiscImage(page, item, apiClient) {
+    const discImageElement = page.querySelector('.discImage');
+    if (!discImageElement) return;
+
+    if (item?.ImageTags?.Disc) {
+        const url = discImageUrl(item, apiClient, { tag: item.ImageTags.Disc, itemId: item.Id });
+        discImageElement.classList.remove('hide');
+        imageLoader.setLazyImage(discImageElement, url);
+        return;
+    }
+
+    if (!item?.AlbumId) {
+        discImageElement.classList.add('hide');
+        return;
+    }
+
+    const userId = apiClient.getCurrentUserId();
+    apiClient.getItem(userId, item.AlbumId).then((albumItem) => {
+        const discTag = albumItem?.ImageTags?.Disc;
+        if (!discTag) {
+            discImageElement.classList.add('hide');
+            return;
+        }
+
+        const url = discImageUrl(albumItem, apiClient, { tag: discTag, itemId: albumItem.Id });
+        discImageElement.classList.remove('hide');
+        imageLoader.setLazyImage(discImageElement, url);
+    }).catch(() => {
+        discImageElement.classList.add('hide');
+    });
 }
 
 function showRecordingFields(instance, page, item, user) {

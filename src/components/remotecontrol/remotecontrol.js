@@ -20,6 +20,7 @@ import itemContextMenu from '../itemContextMenu';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import { renderDiscImage, renderLogo, renderYear } from 'controllers/itemDetails';
 
 import '../cardbuilder/card.scss';
 import '../../elements/emby-button/emby-button';
@@ -186,6 +187,9 @@ function updateNowPlayingInfo(context, state, serverId) {
             });
         });
         setImageUrl(context, state, url);
+        renderLogo(document.querySelector('#nowPlayingPage'), item, apiClient);
+        renderYear(document.querySelector('#nowPlayingPage'), item, apiClient);
+        renderDiscImage(document.querySelector('#nowPlayingPage'), item, apiClient);
         setBackdrops([item]);
         apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
             const userData = fullItem.UserData || {};
