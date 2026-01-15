@@ -23,6 +23,36 @@
             <span>${LabelPlayDefaultAudioTrack}</span>
         </label>
 
+        <div class="sliderContainer-settings sliderContainer-withDescription">
+            <div class="sliderContainer">
+                <input is="emby-slider" id="sliderCrossfadeDuration" label="${CrossfadeDuration}" type="range"
+                    step="0.01" min="0" max="6" />
+            </div>
+            <div class="fieldDescription">${CrossfadeDurationHelp}</div>
+        </div>
+
+        <div>
+            <label class="checkboxContainer">
+                <input type="checkbox" is="emby-checkbox" class="chkEnableButterchurn" />
+                <span>${EnableButterchurn}</span>
+            </label>
+        </div>
+        <div class="sliderContainer-settings sliderContainer-withDescription">
+            <div class="sliderContainer">
+                <input is="emby-slider" id="sliderButterchurnPresetInterval" label="${ButterchurnPresetInterval}"
+                    type="range" step="1" min="10" max="120" />
+            </div>
+            <div class="fieldDescription">${ButterchurnPresetIntervalHelp}</div>
+        </div>
+        <label class="checkboxContainer">
+            <input type="checkbox" is="emby-checkbox" class="chkEnableFrequencyAnalyzer" />
+            <span>${EnableFrequencyAnalyzer}</span>
+        </label>
+        <label class="checkboxContainer">
+            <input type="checkbox" is="emby-checkbox" class="chkEnableWavesurfer" />
+            <span>${EnableWavesurfer}</span>
+        </label>
+
         <div class="checkboxContainer checkboxContainer-withDescription">
             <label>
                 <input type="checkbox" is="emby-checkbox" class="chkDisableVbrAudioEncoding" />
@@ -253,306 +283,7 @@
         </div>
     </div>
 
-    <div class="verticalSection verticalSection-extrabottompadding">
-        <h2 class="sectionTitle">Music Visualizer</h2>
-
-        <!-- Display Settings -->
-        <div class="selectContainer">
-            <label for="selectTrackInfoDuration">Track Info Duration</label>
-            <select is="emby-select" id="selectTrackInfoDuration">
-                <option value="1">Very Brief (1s)</option>
-                <option value="3">Brief (3s)</option>
-                <option value="5" selected>Normal (5s)</option>
-                <option value="7">Extended (7s)</option>
-                <option value="10">Long (10s)</option>
-            </select>
-            <div class="fieldDescription">How long to show track details when songs change</div>
-        </div>
-
-        <div class="selectContainer" id="fldAutoHideTimer">
-            <label for="selectAutoHideTimer">UI Auto-Hide Timer</label>
-            <select is="emby-select" id="selectAutoHideTimer">
-                <option value="3">Very Quick (3s)</option>
-                <option value="5" selected>Quick (5s)</option>
-                <option value="10">Normal (10s)</option>
-                <option value="15">Relaxed (15s)</option>
-                <option value="30">Extended (30s)</option>
-            </select>
-            <div class="fieldDescription">Inactivity time before controls fade out</div>
-        </div>
-
-        <!-- Crossfade Audio -->
-        <div class="selectContainer">
-            <label for="selectCrossfadeDuration">Crossfade Duration</label>
-            <select is="emby-select" id="selectCrossfadeDuration">
-                <option value="0">Disabled (Instant Switch)</option>
-                <option value="0.1">Very Quick (0.1s)</option>
-                <option value="0.5">Quick (0.5s)</option>
-                <option value="1">Short (1s)</option>
-                <option value="2">Normal (2s)</option>
-                <option value="3" selected>Extended (3s)</option>
-                <option value="4">Long (4s)</option>
-            </select>
-            <div class="fieldDescription">Overlap time when blending between tracks</div>
-        </div>
-
-        <!-- Frequency Analyzer Settings -->
-        <h3 class="settingsSubtitle">Frequency Analyzer</h3>
-
-        <label class="checkboxContainer">
-            <input type="checkbox" is="emby-checkbox" id="chkFrequencyAnalyzer" />
-            <span>Frequency Analyzer</span>
-        </label>
-        <div class="fieldDescription checkboxFieldDescription">Real-time spectrum bars showing bass, mids, and treble</div>
-
-        <div class="selectContainer">
-            <label for="selectFreqAnalyzerSmoothing">Animation Smoothness</label>
-            <select is="emby-select" id="selectFreqAnalyzerSmoothing">
-                <option value="0">Instant (No smoothing)</option>
-                <option value="0.15">Very Responsive</option>
-                <option value="0.3" selected>Balanced</option>
-                <option value="0.5">Smooth</option>
-                <option value="0.7">Very Smooth</option>
-                <option value="0.85">Ultra Smooth</option>
-            </select>
-            <div class="fieldDescription">Lower = reacts instantly to beats, Higher = fluid motion</div>
-        </div>
-
-        <div class="selectContainer">
-            <label for="selectFreqAnalyzerColorScheme">Color Scheme</label>
-            <select is="emby-select" id="selectFreqAnalyzerColorScheme">
-                <option value="spectrum" selected>Dynamic Spectrum (Green → Yellow → Red)</option>
-                <option value="solid">Solid Color</option>
-                <option value="albumArt">Match Album Art</option>
-                <option value="gradient">Custom Gradient</option>
-            </select>
-            <div class="fieldDescription">Color style for frequency bars</div>
-        </div>
-
-        <!-- Frequency Analyzer Solid Color -->
-        <div class="colorPickerContainer" id="freqAnalyzerSolidColor">
-            <label for="colorFreqAnalyzerSolid">Bar Color</label>
-            <div class="colorPickerGroup">
-                <input type="color" id="colorFreqAnalyzerSolid" value="#1ED24B" class="colorInput" aria-label="Choose frequency analyzer bar color" />
-                <input type="text" id="textFreqAnalyzerSolid" value="#1ED24B" pattern="^#[0-9A-Fa-f]{6}$" maxlength="7" class="colorText" aria-label="Hex color code" />
-            </div>
-            <div class="fieldDescription">Click to choose your preferred color</div>
-        </div>
-
-        <!-- Frequency Analyzer Gradient Colors -->
-        <div class="colorPickerContainer" id="freqAnalyzerGradient">
-            <h4 class="colorPickerSectionTitle">Custom Gradient Colors</h4>
-
-            <div class="colorPickerRow">
-                <label for="colorFreqAnalyzerLow">Bass</label>
-                <div class="colorPickerGroup">
-                    <input type="color" id="colorFreqAnalyzerLow" value="#1ED24B" class="colorInput" />
-                    <input type="text" id="textFreqAnalyzerLow" value="#1ED24B" pattern="^#[0-9A-Fa-f]{6}$" maxlength="7" class="colorText" />
-                </div>
-                <div class="fieldDescription">Low frequencies (20-250 Hz)</div>
-            </div>
-
-            <div class="colorPickerRow">
-                <label for="colorFreqAnalyzerMid">Mids</label>
-                <div class="colorPickerGroup">
-                    <input type="color" id="colorFreqAnalyzerMid" value="#FFD700" class="colorInput" />
-                    <input type="text" id="textFreqAnalyzerMid" value="#FFD700" pattern="^#[0-9A-Fa-f]{6}$" maxlength="7" class="colorText" />
-                </div>
-                <div class="fieldDescription">Mid frequencies (250-4000 Hz)</div>
-            </div>
-
-            <div class="colorPickerRow">
-                <label for="colorFreqAnalyzerHigh">Treble</label>
-                <div class="colorPickerGroup">
-                    <input type="color" id="colorFreqAnalyzerHigh" value="#FF3232" class="colorInput" />
-                    <input type="text" id="textFreqAnalyzerHigh" value="#FF3232" pattern="^#[0-9A-Fa-f]{6}$" maxlength="7" class="colorText" />
-                </div>
-                <div class="fieldDescription">High frequencies (4000-20000 Hz)</div>
-            </div>
-
-            <button is="emby-button" class="btnResetColors" data-target="freqAnalyzer">
-                <span>Reset to Default Colors</span>
-            </button>
-        </div>
-
-        <div class="sliderContainer">
-            <label for="sliderFreqAnalyzerOpacity">Opacity</label>
-            <input type="range" is="emby-slider" id="sliderFreqAnalyzerOpacity" min="10" max="100" value="100" step="5" data-display-format="{0}%" />
-            <div class="fieldDescription">Transparency level (lower = more see-through)</div>
-        </div>
-
-        <!-- Waveform Visualizer Settings -->
-        <h3 class="settingsSubtitle">Waveform Visualizer</h3>
-
-        <label class="checkboxContainer">
-            <input type="checkbox" is="emby-checkbox" id="chkWaveform" />
-            <span>Waveform Visualizer</span>
-        </label>
-        <div class="fieldDescription checkboxFieldDescription">Shows audio waveform with cursor tracking playback position</div>
-
-        <div class="selectContainer">
-            <label for="selectWaveformColorScheme">Color Scheme</label>
-            <select is="emby-select" id="selectWaveformColorScheme">
-                <option value="albumArt" selected>Match Album Art (Auto)</option>
-                <option value="monochrome">Monochrome (Single Color)</option>
-                <option value="stereo">Stereo (Left/Right Channels)</option>
-            </select>
-            <div class="fieldDescription">How waveform colors are chosen</div>
-        </div>
-
-        <!-- Waveform Monochrome Colors -->
-        <div class="colorPickerContainer" id="waveformMonochrome">
-            <h4 class="colorPickerSectionTitle">Monochrome Colors</h4>
-
-            <div class="colorPickerRow">
-                <label for="colorWaveformWave">Waveform</label>
-                <div class="colorPickerGroup">
-                    <input type="color" id="colorWaveformWave" value="#1ED24B" class="colorInput" />
-                    <input type="text" id="textWaveformWave" value="#1ED24B" pattern="^#[0-9A-Fa-f]{6}$" maxlength="7" class="colorText" />
-                </div>
-                <div class="fieldDescription">Main waveform color</div>
-            </div>
-
-            <div class="colorPickerRow">
-                <label for="colorWaveformCursor">Playback Cursor</label>
-                <div class="colorPickerGroup">
-                    <input type="color" id="colorWaveformCursor" value="#FFFFFF" class="colorInput" />
-                    <input type="text" id="textWaveformCursor" value="#FFFFFF" pattern="^#[0-9A-Fa-f]{6}$" maxlength="7" class="colorText" />
-                </div>
-                <div class="fieldDescription">Progress indicator line</div>
-            </div>
-
-            <button is="emby-button" class="btnResetColors" data-target="waveform">
-                <span>Reset to Default Colors</span>
-            </button>
-        </div>
-
-        <!-- Waveform Stereo Colors -->
-        <div class="colorPickerContainer" id="waveformStereo">
-            <h4 class="colorPickerSectionTitle">Stereo Channel Colors</h4>
-
-            <div class="colorPickerRow">
-                <label for="colorWaveformLeft">Left Channel</label>
-                <div class="colorPickerGroup">
-                    <input type="color" id="colorWaveformLeft" value="#1ED24B" class="colorInput" />
-                    <input type="text" id="textWaveformLeft" value="#1ED24B" pattern="^#[0-9A-Fa-f]{6}$" maxlength="7" class="colorText" />
-                </div>
-                <div class="fieldDescription">Left audio channel waveform</div>
-            </div>
-
-            <div class="colorPickerRow">
-                <label for="colorWaveformRight">Right Channel</label>
-                <div class="colorPickerGroup">
-                    <input type="color" id="colorWaveformRight" value="#FF3232" class="colorInput" />
-                    <input type="text" id="textWaveformRight" value="#FF3232" pattern="^#[0-9A-Fa-f]{6}$" maxlength="7" class="colorText" />
-                </div>
-                <div class="fieldDescription">Right audio channel waveform</div>
-            </div>
-
-            <div class="colorPickerRow">
-                <label for="colorWaveformCursorStereo">Playback Cursor</label>
-                <div class="colorPickerGroup">
-                    <input type="color" id="colorWaveformCursorStereo" value="#FFFFFF" class="colorInput" />
-                    <input type="text" id="textWaveformCursorStereo" value="#FFFFFF" pattern="^#[0-9A-Fa-f]{6}$" maxlength="7" class="colorText" />
-                </div>
-                <div class="fieldDescription">Progress indicator line</div>
-            </div>
-
-            <button is="emby-button" class="btnResetColors" data-target="waveform">
-                <span>Reset to Default Colors</span>
-            </button>
-        </div>
-
-        <div class="sliderContainer">
-            <label for="sliderWaveformOpacity">Opacity</label>
-            <input type="range" is="emby-slider" id="sliderWaveformOpacity" min="10" max="100" value="70" step="5" data-display-format="{0}%" />
-            <div class="fieldDescription">Transparency level (lower = more see-through)</div>
-        </div>
-
-        <!-- MilkDrop Visualizer Settings -->
-        <h3 class="settingsSubtitle">MilkDrop Visualizer</h3>
-
-        <label class="checkboxContainer">
-            <input type="checkbox" is="emby-checkbox" id="chkButterchurn" />
-            <span>MilkDrop Visualizer</span>
-        </label>
-        <div class="fieldDescription checkboxFieldDescription">Psychedelic animated visuals that react to music</div>
-
-        <div class="selectContainer">
-            <label for="selectButterchurnInterval">Preset Change Interval</label>
-            <select is="emby-select" id="selectButterchurnInterval">
-                <option value="0">Manual Only (No Auto-Change)</option>
-                <option value="10">Very Fast (10s)</option>
-                <option value="30">Fast (30s)</option>
-                <option value="60" selected>Normal (1 min)</option>
-                <option value="120">Slow (2 min)</option>
-                <option value="300">Very Slow (5 min)</option>
-            </select>
-            <div class="fieldDescription">How often visual presets automatically change</div>
-        </div>
-
-        <div class="selectContainer">
-            <label for="selectButterchurnTransition">Transition Speed</label>
-            <select is="emby-select" id="selectButterchurnTransition">
-                <option value="0">Instant (No Blend)</option>
-                <option value="1">Very Fast (1s)</option>
-                <option value="2.7" selected>Normal (2.7s)</option>
-                <option value="5">Slow (5s)</option>
-                <option value="10">Very Slow (10s)</option>
-            </select>
-            <div class="fieldDescription">Blend time when switching between presets</div>
-        </div>
-
-        <div class="sliderContainer">
-            <label for="sliderButterchurnOpacity">Opacity</label>
-            <input type="range" is="emby-slider" id="sliderButterchurnOpacity" min="10" max="100" value="60" step="5" data-display-format="{0}%" />
-            <div class="fieldDescription">Transparency level (lower = more see-through)</div>
-        </div>
-
-        <!-- Advanced Settings -->
-        <button is="emby-button" class="btnToggleAdvanced" id="btnToggleAdvancedVisualizer">
-            <span class="btnText">Advanced Settings</span>
-            <span class="material-icons">expand_more</span>
-        </button>
-
-        <div class="advancedSettingsPanel hide" id="advancedVisualizerPanel">
-            <div class="warningBox">
-                <span class="material-icons">warning</span>
-                <div class="warningText">
-                    These settings affect performance and audio quality. Only change if you understand the implications.
-                </div>
-            </div>
-
-            <div class="selectContainer">
-                <label for="selectFFTSize">FFT Analysis Size</label>
-                <select is="emby-select" id="selectFFTSize">
-                    <option value="512">512 - Lowest CPU (Basic Detail)</option>
-                    <option value="1024">1024 - Low CPU</option>
-                    <option value="2048">2048 - Balanced (Mobile Recommended)</option>
-                    <option value="4096" selected>4096 - High Detail (Desktop Default)</option>
-                    <option value="8192">8192 - Maximum Detail (High-End Only)</option>
-                </select>
-                <div class="fieldDescription">Frequency analysis resolution. Higher = more detail but uses more CPU.</div>
-            </div>
-
-            <div class="selectContainer">
-                <label for="selectLimiterThreshold">
-                    <span class="material-icons warningIcon">volume_up</span>
-                    Audio Limiter Threshold
-                </label>
-                <select is="emby-select" id="selectLimiterThreshold" class="dangerousSetting">
-                    <option value="-6">-6 dB (Maximum Protection)</option>
-                    <option value="-3">-3 dB (High Protection)</option>
-                    <option value="-1" selected>-1 dB (Standard - Recommended)</option>
-                    <option value="-0.5">-0.5 dB (Minimal Protection)</option>
-                </select>
-                <div class="fieldDescription dangerDescription">
-                    <strong style="color: #ff5555;">⚠️ HEARING SAFETY:</strong>
-                    Prevents audio from exceeding this volume. Values above -1 dB may cause speaker damage or hearing loss. Leave at -1 dB unless you have a specific reason.
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
         <span>${Save}</span>
