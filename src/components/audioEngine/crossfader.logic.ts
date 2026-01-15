@@ -3,6 +3,7 @@ import { audioNodeBus, delayNodeBus, masterAudioOutput, unbindCallback } from '.
 import { butterchurnInstance } from 'components/visualizer/butterchurn.logic';
 import { getSavedVisualizerSettings, setVisualizerSettings, visualizerSettings } from 'components/visualizer/visualizers.logic';
 import { endSong, triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
+import toast from '../toast/toast';
 import * as userSettings from '../../scripts/settings/userSettings';
 
 /**
@@ -103,6 +104,21 @@ function restoreHijackedElement() {
     element.classList.add('mediaPlayerAudio');
 }
 
+function forceCrossfadeCleanup(message?: string) {
+    const orphanedElement = document.getElementById('crossFadeMediaElement');
+    restoreHijackedElement();
+    if (orphanedElement && orphanedElement !== document.getElementById('currentMediaElement')) {
+        orphanedElement.remove();
+    }
+    destroyWaveSurferInstance();
+    prevNextDisable(false);
+    xDuration.busy = false;
+    clearHijackState();
+    if (message) {
+        toast(message);
+    }
+}
+
 /**
  * Hijacks the media element for crossfade with improved safety.
  * - Issue 1 Fix: Explicit error handling for missing element
@@ -180,6 +196,11 @@ export function hijackMediaElementForCrossfade() {
         hijackState.originalSrcDescriptor = null;
     }
 
+    if (!xDuration.enabled) {
+        forceCrossfadeCleanup();
+        return triggerSongInfoDisplay();
+    }
+
     // FIX Issue 6: Setup state recovery timeout (prevents permanent busy state if crossfade interrupted)
     if (hijackState.stateRecoveryTimeout) {
         clearTimeout(hijackState.stateRecoveryTimeout);
@@ -187,12 +208,7 @@ export function hijackMediaElementForCrossfade() {
     hijackState.stateRecoveryTimeout = setTimeout(() => {
         if (xDuration.busy) {
             console.warn('[Crossfade] Crossfade timeout (20s), forcing state reset');
-            xDuration.busy = false;
-            // Clean up orphaned elements
-            const orphanedElement = document.getElementById('crossFadeMediaElement');
-            if (orphanedElement && orphanedElement.parentNode) {
-                orphanedElement.remove();
-            }
+            forceCrossfadeCleanup('Crossfade interrupted. Continuing playback.');
         }
     }, 20000); // 20 second timeout
 
@@ -206,6 +222,7 @@ export function hijackMediaElementForCrossfade() {
     let fadeOut1Timeout: ReturnType<typeof setTimeout> | null = null;
     let finalCleanupTimeout: ReturnType<typeof setTimeout> | null = null;
 
+    const sustainDelay = Math.max((xDuration.sustain * 1000) - 15, 0);
     sustain1Timeout = setTimeout(() => {
         try {
             // This destroys the wavesurfer on the fade out track when the new track starts
@@ -214,7 +231,7 @@ export function hijackMediaElementForCrossfade() {
         } catch (error) {
             console.error('[Crossfade] Error during sustain cleanup:', error);
         }
-    }, (xDuration.sustain * 1000) - 15);
+    }, sustainDelay);
 
     fadeOut1Timeout = setTimeout(() => {
         try {

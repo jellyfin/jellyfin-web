@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import * as userSettings from '../../scripts/settings/userSettings';
 
 // Mock all dependencies
 vi.mock('components/visualizer/WaveSurfer', () => ({
@@ -482,6 +483,19 @@ describe('crossfader.logic - hijackMediaElementForCrossfade', () => {
             // Verify setTimeout was called (at minimum for recovery)
             // Note: may return early if AudioContext unavailable
             setTimeoutSpy.mockRestore();
+        });
+
+        it('should restore state after recovery timeout', () => {
+            vi.mocked(userSettings.crossfadeDuration).mockReturnValueOnce(30);
+
+            hijackMediaElementForCrossfade();
+            expect(document.getElementById('crossFadeMediaElement')).not.toBeNull();
+
+            vi.advanceTimersByTime(20000);
+
+            expect(xDuration.busy).toBe(false);
+            expect(document.getElementById('crossFadeMediaElement')).toBeNull();
+            expect(document.getElementById('currentMediaElement')).not.toBeNull();
         });
 
         it('should have recovery timeout mechanism in place', () => {
