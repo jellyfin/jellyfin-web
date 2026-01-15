@@ -25,6 +25,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
     const animationFrameId = useRef<number>();
     const analyserRef = useRef<AnalyserNode>();
     const workerRef = useRef<Worker>();
+    const hasTransferredRef = useRef(false);
 
     const draw = useCallback(
         (analyser: AnalyserNode) => {
@@ -59,33 +60,40 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
         if (mixerNode) mixerNode.connect(analyser);
 
         const canvas = canvasRef.current;
-        if (canvas) {
-            const offscreenCanvas = canvas.transferControlToOffscreen();
-            const worker = new Worker(new URL('./frequencyAnalyzerWorker.js', import.meta.url));
-            workerRef.current = worker;
+        if (canvas && !hasTransferredRef.current) {
+            try {
+                const offscreenCanvas = canvas.transferControlToOffscreen();
+                const worker = new Worker(new URL('./frequencyAnalyzerWorker.js', import.meta.url));
+                workerRef.current = worker;
+                hasTransferredRef.current = true;
 
-            worker.postMessage(
-                {
-                    canvas: offscreenCanvas,
-                    fftSize,
-                    smoothingTimeConstant,
-                    minDecibels,
-                    maxDecibels,
-                    alpha,
-                    width: canvas.clientWidth,
-                    height: canvas.clientHeight,
-                    dpr: window.devicePixelRatio || 1,
-                    colorScheme: visualizerSettings.frequencyAnalyzer.colorScheme,
-                    colors: {
-                        low: visualizerSettings.frequencyAnalyzer.colors.gradient.low,
-                        mid: visualizerSettings.frequencyAnalyzer.colors.gradient.mid,
-                        high: visualizerSettings.frequencyAnalyzer.colors.gradient.high,
-                        solid: visualizerSettings.frequencyAnalyzer.colors.solid
-                    }
-                },
-                [offscreenCanvas]
-            );
+                worker.postMessage(
+                    {
+                        canvas: offscreenCanvas,
+                        fftSize,
+                        smoothingTimeConstant,
+                        minDecibels,
+                        maxDecibels,
+                        alpha,
+                        width: canvas.clientWidth,
+                        height: canvas.clientHeight,
+                        dpr: window.devicePixelRatio || 1,
+                        colorScheme: visualizerSettings.frequencyAnalyzer.colorScheme,
+                        colors: {
+                            low: visualizerSettings.frequencyAnalyzer.colors.gradient.low,
+                            mid: visualizerSettings.frequencyAnalyzer.colors.gradient.mid,
+                            high: visualizerSettings.frequencyAnalyzer.colors.gradient.high,
+                            solid: visualizerSettings.frequencyAnalyzer.colors.solid
+                        }
+                    },
+                    [offscreenCanvas]
+                );
+            } catch (error) {
+                console.error('Failed to transfer canvas to OffscreenCanvas', error);
+            }
+        }
 
+        if (workerRef.current) {
             draw(analyser);
         }
 
@@ -94,7 +102,9 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
             if (animationFrameId.current) {
                 cancelAnimationFrame(animationFrameId.current);
             }
-            workerRef.current?.terminate();
+            if (process.env.NODE_ENV === 'production') {
+                workerRef.current?.terminate();
+            }
         };
     }, [
         audioContext,
