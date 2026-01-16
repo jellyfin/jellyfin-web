@@ -46,12 +46,21 @@ export const masterAudioOutput: MasterAudioTypes = {
     volume: 1
 };
 
-// Load AudioWorklet for limiter
-async function loadLimiterWorklet(audioContext: AudioContext) {
-    try {
-        await audioContext.audioWorklet.addModule(new URL('./limiterWorklet.js', import.meta.url));
-    } catch (error) {
-        console.warn('AudioWorklet not supported or failed to load:', error);
+// Load AudioWorklets for audio processing
+async function loadAudioWorklets(audioContext: AudioContext) {
+    const worklets = [
+        './limiterWorklet.js',
+        './gainWorklet.js',
+        './delayWorklet.js',
+        './biquadWorklet.js'
+    ];
+
+    for (const worklet of worklets) {
+        try {
+            await audioContext.audioWorklet.addModule(new URL(worklet, import.meta.url));
+        } catch (error) {
+            console.warn(`AudioWorklet ${worklet} not supported or failed to load:`, error);
+        }
     }
 }
 
@@ -98,7 +107,7 @@ export function initializeMasterAudio(unbind: () => void) {
         masterAudioOutput.mixerNode = audioCtx.createGain();
 
         // Attempt to load and use worklet limiter for multithreading
-        loadLimiterWorklet(audioCtx).catch(() => {}); // Load asynchronously
+        loadAudioWorklets(audioCtx).catch(() => {}); // Load asynchronously
 
         let limiter: AudioNode;
         try {
