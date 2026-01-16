@@ -25,7 +25,7 @@ function displayMessage(cmd) {
 }
 
 function displayContent(cmd, apiClient) {
-    if (!playbackManager.isPlayingLocally(['Video', 'Book'])) {
+    if (!playbackManager.isPlayingLocally(['Video', 'Book', 'Audio'])) {
         appRouter.showItem(cmd.Arguments.ItemId, apiClient.serverId());
     }
 }
