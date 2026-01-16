@@ -275,9 +275,9 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
 
     // Load visualizer and crossfade settings
     const crossfadeDuration = userSettings.crossfadeDuration();
-    context.querySelector('#sliderCrossfadeDuration').value = Number.isFinite(crossfadeDuration)
-        ? crossfadeDuration
-        : 3;
+    context.querySelector('#sliderCrossfadeDuration').value = Number.isFinite(crossfadeDuration) ?
+        crossfadeDuration :
+        3;
 
     let visualizerConfig;
     try {

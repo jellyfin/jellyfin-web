@@ -229,9 +229,9 @@ describe('colorUtils - WCAG Accessibility', () => {
 
         it('should handle various valid color pairs', () => {
             const pairs = [
-                ['#FFD700', '#101010'],  // Gold vs dark
-                ['#FF3232', '#FFFFFF'],  // Red vs white
-                ['#1ED24B', '#202020']   // Green vs dark gray
+                ['#FFD700', '#101010'], // Gold vs dark
+                ['#FF3232', '#FFFFFF'], // Red vs white
+                ['#1ED24B', '#202020'] // Green vs dark gray
             ];
 
             pairs.forEach(([color1, color2]) => {
@@ -260,8 +260,8 @@ describe('colorUtils - WCAG Accessibility', () => {
         });
 
         it('should accept custom ratio threshold', () => {
-            expect(hasGoodContrast('#1ED24B', '#101010', 10)).toBe(false);  // Custom high threshold
-            expect(hasGoodContrast('#1ED24B', '#101010', 7)).toBe(true);    // Passes AAA
+            expect(hasGoodContrast('#1ED24B', '#101010', 10)).toBe(false); // Custom high threshold
+            expect(hasGoodContrast('#1ED24B', '#101010', 7)).toBe(true); // Passes AAA
         });
 
         it('should fail for identical colors with high threshold', () => {
@@ -335,8 +335,8 @@ describe('colorUtils - Color-Blind Palettes', () => {
 
         it('should provide high contrast palette with maximum saturation', () => {
             const highContrast = getColorBlindPalette('highContrast');
-            expect(highContrast.low).toBe('#00ff00');  // Pure green
-            expect(highContrast.mid).toBe('#ffff00');  // Pure yellow
+            expect(highContrast.low).toBe('#00ff00'); // Pure green
+            expect(highContrast.mid).toBe('#ffff00'); // Pure yellow
             expect(highContrast.high).toBe('#ff0000'); // Pure red
         });
     });
@@ -373,7 +373,7 @@ describe('colorUtils - Integration Tests', () => {
 
     it('should ensure high contrast palette colors have good contrast', () => {
         const highContrast = getColorBlindPalette('highContrast');
-        const backgroundColor = '#101010';  // Jellyfin dark background
+        const backgroundColor = '#101010'; // Jellyfin dark background
 
         expect(hasGoodContrast(highContrast.low, backgroundColor)).toBe(true);
         expect(hasGoodContrast(highContrast.mid, backgroundColor)).toBe(true);

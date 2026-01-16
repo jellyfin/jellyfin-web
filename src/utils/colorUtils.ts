@@ -169,9 +169,9 @@ function getLuminance(hex: string): number {
     const rgb = hexToRgb(hex);
     const [r, g, b] = [rgb.r, rgb.g, rgb.b].map(val => {
         const normalized = val / 255;
-        return normalized <= 0.03928
-            ? normalized / 12.92
-            : Math.pow((normalized + 0.055) / 1.055, 2.4);
+        return normalized <= 0.03928 ?
+            normalized / 12.92 :
+            Math.pow((normalized + 0.055) / 1.055, 2.4);
     });
 
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
@@ -271,24 +271,24 @@ export function hasGoodContrast(foreground: string, background: string, ratio = 
  */
 export const colorBlindPalettes = {
     protanopia: {
-        low: '#0077bb',     // Blue
-        mid: '#ffaa00',     // Orange/Yellow
-        high: '#aa3377'     // Magenta
+        low: '#0077bb', // Blue
+        mid: '#ffaa00', // Orange/Yellow
+        high: '#aa3377' // Magenta
     },
     deuteranopia: {
-        low: '#0077bb',     // Blue
-        mid: '#ee7733',     // Orange
-        high: '#cc3311'     // Red
+        low: '#0077bb', // Blue
+        mid: '#ee7733', // Orange
+        high: '#cc3311' // Red
     },
     tritanopia: {
-        low: '#dd3377',     // Magenta
-        mid: '#ee7733',     // Orange
-        high: '#117733'     // Green
+        low: '#dd3377', // Magenta
+        mid: '#ee7733', // Orange
+        high: '#117733' // Green
     },
     highContrast: {
-        low: '#00ff00',     // Bright Green
-        mid: '#ffff00',     // Bright Yellow
-        high: '#ff0000'     // Bright Red
+        low: '#00ff00', // Bright Green
+        mid: '#ffff00', // Bright Yellow
+        high: '#ff0000' // Bright Red
     }
 } as const;
 

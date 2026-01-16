@@ -14,8 +14,8 @@ vi.mock('../../utils/colorUtils', () => ({
     isValidHex: vi.fn((hex) => /^#[0-9A-Fa-f]{6}$/.test(hex)),
     hasGoodContrast: vi.fn((fg, bg) => {
         // Simulate contrast checking
-        if (fg === '#1ED24B') return true;   // Good contrast
-        if (fg === '#333333') return false;  // Poor contrast
+        if (fg === '#1ED24B') return true; // Good contrast
+        if (fg === '#333333') return false; // Poor contrast
         return true; // Default to good for other values
     })
 }));

@@ -20,6 +20,9 @@ type AudioNodeBundle = {
 
 const dbBoost = 2;
 
+/** Divisor for fade-in ramp duration (smaller = faster ramp) */
+const FADE_IN_RAMP_DIVISOR = 24;
+
 /**
  * Applies a decibel reduction to the original volume.
  * @param {number} originalVolume - The original volume.
@@ -221,6 +224,6 @@ export function rampPlaybackGain(normalizationGain?: number) {
     gainNode.linearRampToValueAtTime(0.01, audioCtx.currentTime);
     gainNode.exponentialRampToValueAtTime(
         gainValue,
-        audioCtx.currentTime + (xDuration.sustain / 24)
+        audioCtx.currentTime + (xDuration.sustain / FADE_IN_RAMP_DIVISOR)
     );
 }

@@ -167,13 +167,21 @@ export function startCrossfade(options: { fromElement: HTMLMediaElement; duratio
     const preloaded = preloadState;
     const duration = Math.max(options.durationSeconds, 0);
 
-    return audioCtx.resume().catch(() => {
-        return Promise.resolve();
+    return audioCtx.resume().catch((err: unknown) => {
+        console.warn('[Crossfade] AudioContext.resume() failed:', err);
+        clearPreloadedElement();
+        return Promise.reject(err);
     }).then(() => {
+        if (audioCtx.state !== 'running') {
+            console.warn('[Crossfade] AudioContext not running after resume, state:', audioCtx.state);
+            clearPreloadedElement();
+            return Promise.reject(new Error('AudioContext not running'));
+        }
         return htmlMediaHelper.playWithPromise(preloaded.element, () => {
             // no-op error handler; fallback handled by paused check
-        }).catch(() => {
-            return Promise.reject();
+        }).catch((err: unknown) => {
+            console.error('[Crossfade] playWithPromise failed:', err);
+            return Promise.reject(err);
         });
     }).then(() => {
         if (preloaded.element.paused) {

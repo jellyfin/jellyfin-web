@@ -629,12 +629,16 @@ export class UserSettings {
             return this.set('libraryPageSize', val.toString(), false);
         }
 
-        const libraryPageSize = parseInt(this.get('libraryPageSize', false), 10);
-        if (!libraryPageSize) {
-            // Explicitly return 0 to avoid returning 100 because 0 is falsy.
-            return 0;
+        const stored = this.get('libraryPageSize', null);
+        if (stored === null) {
+            return 20;
         } else {
-            return libraryPageSize || 90;
+            const libraryPageSize = parseInt(stored, 10);
+            if (isNaN(libraryPageSize)) {
+                return 20;
+            } else {
+                return libraryPageSize;
+            }
         }
     }
 

@@ -90,9 +90,9 @@ function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, 
     }
 
     const apiClient = ServerConnections.getApiClient(serverId);
-    const endpoint = method === 'reportPlaybackProgress'
-        ? 'Sessions/Playing/Progress'
-        : (method === 'reportPlaybackStopped' ? 'Sessions/Playing/Stopped' : 'Sessions/Playing');
+    const endpoint = method === 'reportPlaybackProgress' ?
+        'Sessions/Playing/Progress' :
+        (method === 'reportPlaybackStopped' ? 'Sessions/Playing/Stopped' : 'Sessions/Playing');
     const reportPlaybackPromise = apiClient[method](info);
     reportPlaybackPromise.then(() => {
         Events.trigger(playbackManagerInstance, 'reportplayback', [true]);
@@ -2849,19 +2849,19 @@ export class PlaybackManager {
             };
 
             // This inserts a header link to preload the next audio track in accordance with browser availability
-            if (type === "Audio") {
-              let link = document.getElementById("next-audio-prefetch");
+            if (type === 'Audio') {
+                let link = document.getElementById('next-audio-prefetch');
 
-              if (!link) {
-                link = document.createElement("link");
-                link.id = "next-audio-prefetch";
-                link.rel = "prefetch";
-                link.as = "audio";
-                document.head.appendChild(link);
-              }
+                if (!link) {
+                    link = document.createElement('link');
+                    link.id = 'next-audio-prefetch';
+                    link.rel = 'prefetch';
+                    link.as = 'audio';
+                    document.head.appendChild(link);
+                }
 
-              // Update to point to the new upcoming track
-              link.href = mediaUrl;
+                // Update to point to the new upcoming track
+                link.href = mediaUrl;
             }
 
             const backdropUrl = getItemBackdropImageUrl(apiClient, item, {}, true);

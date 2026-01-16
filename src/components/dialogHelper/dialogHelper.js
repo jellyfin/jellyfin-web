@@ -178,11 +178,11 @@ function DialogHashHandler(dlg, hash, resolve) {
 
     animateDialogOpen(dlg);
 
-        if (historyEnabled) {
-            const state = history.location.state || {};
-            const dialogs = state.dialogs || [];
-            // Add new dialog to the list of open dialogs
-            dialogs.push(hash);
+    if (historyEnabled) {
+        const state = history.location.state || {};
+        const dialogs = state.dialogs || [];
+        // Add new dialog to the list of open dialogs
+        dialogs.push(hash);
 
         history.push(
             `${history.location.pathname}${history.location.search}`,

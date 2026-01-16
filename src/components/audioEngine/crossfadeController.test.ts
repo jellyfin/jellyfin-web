@@ -11,6 +11,7 @@ const mocks = vi.hoisted(() => {
     const masterAudioOutput = {
         audioContext: {
             currentTime: 0,
+            state: 'running',
             resume: vi.fn(() => Promise.resolve())
         },
         mixerNode: {}
@@ -74,6 +75,7 @@ describe('crossfadeController', () => {
         expect(result).toBe(false);
         mocks.masterAudioOutput.audioContext = {
             currentTime: 0,
+            state: 'running',
             resume: vi.fn(() => Promise.resolve())
         };
     });

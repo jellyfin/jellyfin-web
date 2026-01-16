@@ -112,7 +112,7 @@ export function handleCommand(commandName, options) {
         'back': () => {
             if (appRouter.canGoBack()) {
                 appRouter.back();
-        } else if (safeAppHost.supports(AppFeature.Exit)) {
+            } else if (safeAppHost.supports(AppFeature.Exit)) {
                 safeAppHost.exit();
             }
         },

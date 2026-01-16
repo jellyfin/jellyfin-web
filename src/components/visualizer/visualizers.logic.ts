@@ -3,22 +3,22 @@ import * as userSettings from '../../scripts/settings/userSettings';
 const defaultVisualizerSettings = {
     frequencyAnalyzer: {
         enabled: false,
-        smoothing: 0.3,           // 0-0.9
-        opacity: 1.0,             // 0.1-1.0
-        colorScheme: 'spectrum',  // 'spectrum' | 'solid' | 'albumArt' | 'gradient'
+        smoothing: 0.3, // 0-0.9
+        opacity: 1.0, // 0.1-1.0
+        colorScheme: 'spectrum', // 'spectrum' | 'solid' | 'albumArt' | 'gradient'
         colors: {
             solid: '#1ED24B',
             gradient: {
-                low: '#1ED24B',   // Bass
-                mid: '#FFD700',   // Mids
-                high: '#FF3232'   // Treble
+                low: '#1ED24B', // Bass
+                mid: '#FFD700', // Mids
+                high: '#FF3232' // Treble
             }
         }
     },
     waveSurfer: {
         enabled: false,
-        opacity: 0.7,             // 0.1-1.0
-        colorScheme: 'albumArt',  // 'albumArt' | 'monochrome' | 'stereo'
+        opacity: 0.7, // 0.1-1.0
+        colorScheme: 'albumArt', // 'albumArt' | 'monochrome' | 'stereo'
         colors: {
             monochrome: {
                 wave: '#1ED24B',
@@ -33,17 +33,17 @@ const defaultVisualizerSettings = {
     },
     butterchurn: {
         enabled: false,
-        opacity: 0.6,             // 0.1-1.0
-        presetInterval: 60,       // seconds, 0 = manual only
-        transitionSpeed: 2.7      // seconds
+        opacity: 0.6, // 0.1-1.0
+        presetInterval: 60, // seconds, 0 = manual only
+        transitionSpeed: 2.7 // seconds
     },
     sitback: {
-        trackInfoDuration: 5,     // seconds
-        autoHideTimer: 5          // seconds (mobile/TV only)
+        trackInfoDuration: 5, // seconds
+        autoHideTimer: 5 // seconds (mobile/TV only)
     },
     advanced: {
-        fftSize: 4096,            // 512 | 1024 | 2048 | 4096 | 8192
-        limiterThreshold: -1      // dB, -6 to -0.5
+        fftSize: 4096, // 512 | 1024 | 2048 | 4096 | 8192
+        limiterThreshold: -1 // dB, -6 to -0.5
     }
 };
 

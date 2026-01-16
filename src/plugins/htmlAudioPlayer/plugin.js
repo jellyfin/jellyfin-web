@@ -7,7 +7,7 @@ import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
 import { MediaError } from 'types/mediaError';
 import { audioNodeBus, createGainNode, initializeMasterAudio, masterAudioOutput, rampPlaybackGain } from 'components/audioEngine/master.logic';
-import { hijackMediaElementForCrossfade, xDuration } from 'components/audioEngine/crossfader.logic';
+import { hijackMediaElementForCrossfade, xDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
 import { scrollToActivePlaylistItem, triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
 
 function getDefaultProfile() {
@@ -54,6 +54,7 @@ function cancelFadeTimeout() {
         clearTimeout(timeout);
         fadeTimeout = null;
     }
+    cancelCrossfadeTimeouts(); // Also cancel crossfade timeouts
 }
 
 function supportsFade() {

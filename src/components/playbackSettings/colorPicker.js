@@ -129,10 +129,8 @@ function validateColorContrast(colorInput) {
             }
         }
         warning.classList.remove('hide');
-    } else {
-        if (warning) {
-            warning.classList.add('hide');
-        }
+    } else if (warning) {
+        warning.classList.add('hide');
     }
 }
 
