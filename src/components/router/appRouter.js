@@ -16,7 +16,7 @@ import { history } from 'RootAppRouter';
 const START_PAGE_PATHS = ['/home', '/login', '/selectserver'];
 
 /** Pages that do not require a user to be logged in to view. */
-const PUBLIC_PATHS = [
+export const PUBLIC_PATHS = [
     '/addserver',
     '/selectserver',
     '/login',
@@ -121,9 +121,7 @@ class AppRouter {
         return this.baseRoute;
     }
 
-    canGoBack() {
-        const path = history.location.pathname;
-
+    canGoBack(path = history.location.pathname) {
         if (
             !document.querySelector('.dialogContainer')
             && START_PAGE_PATHS.includes(path)
