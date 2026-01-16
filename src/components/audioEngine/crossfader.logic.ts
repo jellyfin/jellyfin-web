@@ -21,6 +21,84 @@ let fadeOutTimer: ReturnType<typeof setTimeout> | null = null;
 let disconnectTimer: ReturnType<typeof setTimeout> | null = null;
 
 /**
+ * Global Sync Manager for MediaElement timing alignment.
+ */
+class SyncManager {
+    private elements: Map<HTMLMediaElement, number> = new Map();
+    private masterTime: number = 0;
+    private syncInterval: ReturnType<typeof setInterval> | null = null;
+
+    registerElement(element: HTMLMediaElement, startTime: number = 0): void {
+        this.elements.set(element, startTime);
+        element.preload = 'auto'; // Prioritize buffering
+    }
+
+    unregisterElement(element: HTMLMediaElement): void {
+        this.elements.delete(element);
+    }
+
+    startSync(): void {
+        if (this.syncInterval) return;
+        this.syncInterval = setInterval(() => this.checkSync(), 100); // Check every 100ms
+    }
+
+    stopSync(): void {
+        if (this.syncInterval) {
+            clearInterval(this.syncInterval);
+            this.syncInterval = null;
+        }
+    }
+
+    private checkSync(): void {
+        if (this.elements.size === 0) return;
+
+        // Calculate average time as master reference
+        let totalTime = 0;
+        let activeCount = 0;
+        this.elements.forEach((startTime, element) => {
+            if (!element.paused && element.readyState >= 2) {
+                totalTime += element.currentTime - startTime;
+                activeCount++;
+            }
+        });
+        if (activeCount > 0) {
+            this.masterTime = totalTime / activeCount;
+        }
+
+        // Apply corrections
+        for (const [element, startTime] of Array.from(this.elements.entries())) {
+            if (!element.paused && element.readyState >= 2) {
+                const elementTime = element.currentTime - startTime;
+                const drift = elementTime - this.masterTime;
+
+                if (Math.abs(drift) > 0.1) { // 100ms threshold
+                    // Adjust playback rate or seek
+                    if (Math.abs(drift) > 0.5) {
+                        // Large drift: seek
+                        // eslint-disable-next-line no-cond-assign
+                        element.currentTime = this.masterTime + startTime;
+                    } else {
+                        // Small drift: adjust rate
+                        // eslint-disable-next-line no-cond-assign
+                        element.playbackRate = drift > 0 ? 0.99 : 1.01;
+                        setTimeout(() => { element.playbackRate = 1.0; }, 500); // Reset after 500ms
+                    }
+                }
+            }
+        }
+    }
+
+    getBufferedAhead(element: HTMLMediaElement): number {
+        if (element.buffered.length > 0) {
+            return element.buffered.end(element.buffered.length - 1) - element.currentTime;
+        }
+        return 0;
+    }
+}
+
+export const syncManager = new SyncManager();
+
+/**
  * Cancels all active crossfade timeouts.
  * Call when aborting a crossfade (manual skip, stop).
  */
@@ -37,6 +115,7 @@ export function cancelCrossfadeTimeouts(): void {
         clearTimeout(disconnectTimer);
         disconnectTimer = null;
     }
+    syncManager.stopSync();
 }
 
 /**
@@ -113,6 +192,9 @@ export function hijackMediaElementForCrossfade() {
     endSong();
     if (visualizerSettings.butterchurn.enabled) butterchurnInstance.nextPreset();
 
+    // Start global sync for timing alignment
+    syncManager.startSync();
+
     const hijackedPlayer = document.getElementById('currentMediaElement') as HTMLMediaElement;
 
     if (!hijackedPlayer || hijackedPlayer.paused || hijackedPlayer.src === '') {
@@ -120,6 +202,22 @@ export function hijackMediaElementForCrossfade() {
     }
 
     if (!hijackedPlayer || !masterAudioOutput.audioContext) return triggerSongInfoDisplay();
+
+    // Register for sync
+    syncManager.registerElement(hijackedPlayer, 0);
+
+    // Prioritize buffering: delay crossfade if less than 2s buffered
+    const bufferedAhead = syncManager.getBufferedAhead(hijackedPlayer);
+    if (bufferedAhead < 2 && xDuration.fadeOut > 0) {
+        // Delay crossfade start by up to 1s to allow buffering
+        const delayMs = Math.min(1000, (2 - bufferedAhead) * 1000);
+        setTimeout(() => {
+            if (!xDuration.triggered) {
+                hijackMediaElementForCrossfade(); // Restart with buffer check
+            }
+        }, delayMs);
+        return;
+    }
 
     const disposeElement = document.getElementById('crossFadeMediaElement');
     if (disposeElement) {
@@ -187,6 +285,7 @@ export function hijackMediaElementForCrossfade() {
             disconnectTimer = null;
             safeDisconnect(xfadeGainNode, 'xfadeGainNode');
             safeDisconnect(delayNode, 'delayNode');
+            syncManager.unregisterElement(hijackedPlayer);
             hijackedPlayer.remove();
         }, crossfadeTiming.nodeDisconnectDelayMs);
     }, xDuration.fadeOut * 1000);
