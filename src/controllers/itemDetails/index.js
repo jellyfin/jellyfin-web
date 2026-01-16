@@ -724,7 +724,13 @@ export function renderDiscImage(page, item, apiClient) {
     if (item?.ImageTags?.Disc) {
         const url = discImageUrl(item, apiClient, { tag: item.ImageTags.Disc, itemId: item.Id });
         discImageElement.classList.remove('hide');
-        imageLoader.setLazyImage(discImageElement, url);
+        imageLoader.lazyImage(discImageElement, url);
+        // Preload for better performance
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = url;
+        document.head.appendChild(link);
         return;
     }
 
