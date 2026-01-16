@@ -34,8 +34,11 @@ let barSurfer: HTMLElement | null;
 let mediaElement: HTMLMediaElement | null;
 let activeMediaElement: HTMLMediaElement | null = null;
 let mediaSyncHandler: (() => void) | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let timelinePlugin: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let zoomPlugin: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let minimapPlugin: any;
 let lastPluginContainer: string | null = null;
 let lastPluginColorKey: string | null = null;
@@ -65,16 +68,20 @@ function getBackgroundImageUrl(elem: HTMLElement): string | null {
     const backgroundImage = elem.style.backgroundImage || getComputedStyle(elem).backgroundImage;
     if (!backgroundImage || backgroundImage === 'none') return null;
 
+    // eslint-disable-next-line sonarjs/slow-regex
     const match = /url\(([^)]+)\)/i.exec(backgroundImage);
     if (!match) return null;
 
+    // eslint-disable-next-line sonarjs/slow-regex, sonarjs/anchor-precedence
     return match[1].trim().replace(/^['"]+|['"]+$/g, '');
 }
 
 function isCrossOriginUrl(url: string): boolean {
     try {
+        // eslint-disable-next-line compat/compat
         return new URL(url, window.location.href).origin !== window.location.origin;
     } catch (err) {
+        // eslint-disable-next-line sonarjs/no-ignored-exceptions, @typescript-eslint/no-unused-vars
         return true;
     }
 }
@@ -91,6 +98,7 @@ function loadImageElement(url: string, useCrossOrigin: boolean): Promise<HTMLIma
     });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function extractColorsFromAlbumArt(_apiClient: ApiClient): Promise<WaveSurferColorScheme> {
     const artElem = document.querySelector('.nowPlayingImage') as HTMLElement | null;
     if (!artElem) return DEFAULT_WAVESURFER_COLORS;
@@ -149,6 +157,7 @@ function normalizeStreamUrl(streamUrl: string | null | undefined): string | null
 
     const trimmed = streamUrl.split('#')[0];
     try {
+        // eslint-disable-next-line compat/compat
         const url = new URL(trimmed, window.location.href);
         if (url.protocol !== 'http:' && url.protocol !== 'https:') return null;
 
@@ -158,6 +167,7 @@ function normalizeStreamUrl(streamUrl: string | null | undefined): string | null
 
         return url.toString();
     } catch (err) {
+        // eslint-disable-next-line sonarjs/no-ignored-exceptions, @typescript-eslint/no-unused-vars
         return null;
     }
 }

@@ -1,4 +1,5 @@
 /* frequencyAnalyzerWorker.js — Off-screen-canvas worker */
+/* global scheme, colors */
 
 let canvas;
 let ctx;
