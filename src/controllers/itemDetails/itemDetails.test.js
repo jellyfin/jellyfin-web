@@ -31,7 +31,6 @@ describe('itemDetails - image preloading', () => {
             querySelector: vi.fn(() => ({ classList: { remove: vi.fn(), add: vi.fn() } }))
         };
         const mockItem = { ImageTags: { Disc: 'tag123' }, Id: 'item123' };
-        const mockApiClient = { getScaledImageUrl: vi.fn(() => 'disc-url') };
 
         // Simulate renderDiscImage logic
         const discImageElement = mockPage.querySelector('.discImage');
@@ -39,6 +38,7 @@ describe('itemDetails - image preloading', () => {
             const url = 'disc-url'; // discImageUrl logic
             discImageElement.classList.remove('hide');
             // imageLoader.lazyImage(discImageElement, url); // mocked
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
             const link = document.createElement('link');
             link.rel = 'preload';
             link.as = 'image';
@@ -55,8 +55,6 @@ describe('itemDetails - image preloading', () => {
         const mockPage = {
             querySelector: vi.fn(() => ({ classList: { remove: vi.fn(), add: vi.fn() } }))
         };
-        const mockItem = {}; // Assume logo exists
-        const mockApiClient = {};
 
         // Simulate renderLogo logic
         const detailLogo = mockPage.querySelector('.detailLogo');
@@ -64,6 +62,7 @@ describe('itemDetails - image preloading', () => {
         if (url) {
             detailLogo.classList.remove('hide');
             // imageLoader.lazyImage(detailLogo, url); // mocked
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
             const link = document.createElement('link');
             link.rel = 'preload';
             link.as = 'image';
