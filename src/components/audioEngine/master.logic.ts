@@ -48,6 +48,23 @@ export const masterAudioOutput: MasterAudioTypes = {
 
 // Load AudioWorklets for audio processing
 async function loadAudioWorklets(audioContext: AudioContext) {
+    // Skip AudioWorklet loading in environments where it might fail
+    const isDevelopment = typeof import.meta.url === 'string' && (
+        import.meta.url.startsWith('file://') ||
+        import.meta.url.includes('localhost') ||
+        import.meta.url.includes('127.0.0.1') ||
+        window.location.protocol === 'file:'
+    );
+
+    // Also skip if AudioWorklet is not supported
+    if (isDevelopment || !audioContext.audioWorklet) {
+        const reason = isDevelopment
+            ? 'development/local environment'
+            : 'AudioWorklet not supported in this browser';
+        console.info(`AudioWorklet: Skipping loading (${reason}). Using Web Audio API fallbacks.`);
+        return;
+    }
+
     const worklets = [
         './limiterWorklet.js',
         './gainWorklet.js',
@@ -55,12 +72,24 @@ async function loadAudioWorklets(audioContext: AudioContext) {
         './biquadWorklet.js'
     ];
 
+    let loadedCount = 0;
     for (const worklet of worklets) {
         try {
-            await audioContext.audioWorklet.addModule(new URL(worklet, import.meta.url));
+            const workletUrl = new URL(worklet, import.meta.url);
+            console.debug(`AudioWorklet: Loading ${worklet} from ${workletUrl.href}`);
+            await audioContext.audioWorklet.addModule(workletUrl);
+            console.debug(`AudioWorklet: Successfully loaded ${worklet}`);
+            loadedCount++;
         } catch (error) {
-            console.warn(`AudioWorklet ${worklet} not supported or failed to load:`, error);
+            // Log at debug level since fallbacks work fine
+            console.debug(`AudioWorklet ${worklet} not loaded:`, error instanceof Error ? error.message : String(error));
         }
+    }
+
+    if (loadedCount > 0) {
+        console.info(`AudioWorklet: Successfully loaded ${loadedCount}/${worklets.length} worklets`);
+    } else {
+        console.info('AudioWorklet: No worklets loaded, using Web Audio API fallbacks');
     }
 }
 

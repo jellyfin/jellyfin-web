@@ -62,7 +62,7 @@ class AppRouter {
         }
 
         this._history = history;
-        this.lastPath = history.location.pathname + history.location.search;
+        this.lastPath = (history.location?.pathname || '') + (history.location?.search || '');
         this.listen();
         return history;
     }
@@ -118,7 +118,7 @@ class AppRouter {
         path = path.replace(this.baseUrl(), '');
 
         // can't use this with home right now due to the back menu
-        if (history.location.pathname === path && path !== '/home') {
+        if (history.location?.pathname === path && path !== '/home') {
             loading.hide();
             return Promise.resolve();
         }
@@ -155,7 +155,12 @@ class AppRouter {
         return this.baseRoute;
     }
 
-    canGoBack(path = history.location.pathname) {
+    canGoBack(path) {
+        const history = this._getHistory();
+        if (!path) {
+            path = history ? history.location.pathname : window.location.pathname;
+        }
+
         if (
             !document.querySelector('.dialogContainer')
             && START_PAGE_PATHS.includes(path)

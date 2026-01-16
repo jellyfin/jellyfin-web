@@ -42,20 +42,43 @@ export const butterchurnInstance: {
 };
 
 export function initializeButterChurn(canvas: HTMLCanvasElement) {
-    if (!masterAudioOutput.audioContext || !isButterchurnSupported()) {
+    console.log('[Butterchurn] Starting initialization...');
+
+    if (!masterAudioOutput.audioContext) {
+        console.warn('[Butterchurn] AudioContext not available - cannot initialize');
         return;
     }
+
+    if (!isButterchurnSupported()) {
+        console.warn('[Butterchurn] Butterchurn not supported in this browser - cannot initialize');
+        return;
+    }
+
+    // Skip in development environments where AudioWorklets fail to load
+    const isDevelopment = typeof import.meta.url === 'string' && (
+        import.meta.url.startsWith('file://') ||
+        import.meta.url.includes('localhost') ||
+        import.meta.url.includes('127.0.0.1') ||
+        window.location.protocol === 'file:'
+    );
+
+    if (isDevelopment) {
+        console.info('[Butterchurn] Skipping AudioWorklet loading in development environment. Using fallback rendering.');
+    }
+
+    console.log('[Butterchurn] AudioContext and support check passed, proceeding with initialization');
+
+    const options = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        pixelRatio: window.devicePixelRatio * 2 || 1,
+        textureRatio: 2
+    };
 
     if (isOffscreenCanvasSupported()) {
         try {
             console.log('[Butterchurn] Attempting OffscreenCanvas for improved performance');
             // Set canvas size before transferring control
-            const options = {
-                width: window.innerWidth,
-                height: window.innerHeight,
-                pixelRatio: window.devicePixelRatio * 2 || 1,
-                textureRatio: 2
-            };
             canvas.width = options.width * options.pixelRatio;
             canvas.height = options.height * options.pixelRatio;
             const offscreenCanvas = (canvas as any).transferControlToOffscreen();
@@ -63,22 +86,14 @@ export function initializeButterChurn(canvas: HTMLCanvasElement) {
             console.log('[Butterchurn] OffscreenCanvas initialized successfully');
         } catch (error) {
             console.warn('[Butterchurn] OffscreenCanvas failed, falling back to regular canvas:', error);
-            butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, {
-                width: window.innerWidth,
-                height: window.innerHeight,
-                pixelRatio: window.devicePixelRatio * 2 || 1,
-                textureRatio: 2
-            });
+            butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, options);
         }
     } else {
         console.log('[Butterchurn] OffscreenCanvas not supported, using regular canvas');
-        butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, {
-            width: window.innerWidth,
-            height: window.innerHeight,
-            pixelRatio: window.devicePixelRatio * 2 || 1,
-            textureRatio: 2
-        });
+        butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, options);
     }
+
+    console.log('[Butterchurn] Visualizer created successfully:', !!butterchurnInstance.visualizer);
 
     // Connect your audio source (e.g., mixerNode) to the visualizer
     butterchurnInstance.visualizer.connectAudio(masterAudioOutput.mixerNode);

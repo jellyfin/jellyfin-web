@@ -5,7 +5,13 @@ const ButterchurnVisualizer: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
-        if (canvasRef.current) initializeButterChurn(canvasRef.current);
+        if (canvasRef.current) {
+            try {
+                initializeButterChurn(canvasRef.current);
+            } catch (error) {
+                console.error('[Butterchurn] Failed to initialize:', error);
+            }
+        }
 
         const resizeCanvas = () => {
             if (canvasRef.current) {
@@ -13,7 +19,14 @@ const ButterchurnVisualizer: React.FC = () => {
                 const height = window.innerHeight;
                 canvasRef.current.width = width;
                 canvasRef.current.height = height;
-                butterchurnInstance.visualizer.setRendererSize(width, height);
+                // Only call setRendererSize if visualizer is initialized
+                if (butterchurnInstance.visualizer && typeof butterchurnInstance.visualizer.setRendererSize === 'function') {
+                    try {
+                        butterchurnInstance.visualizer.setRendererSize(width, height);
+                    } catch (error) {
+                        console.warn('[Butterchurn] Failed to resize visualizer:', error);
+                    }
+                }
             }
         };
 
@@ -22,7 +35,13 @@ const ButterchurnVisualizer: React.FC = () => {
 
         return () => {
             window.removeEventListener('resize', resizeCanvas);
-            butterchurnInstance.destroy();
+            if (butterchurnInstance.destroy) {
+                try {
+                    butterchurnInstance.destroy();
+                } catch (error) {
+                    console.warn('[Butterchurn] Failed to destroy visualizer:', error);
+                }
+            }
         };
     }, []);
 

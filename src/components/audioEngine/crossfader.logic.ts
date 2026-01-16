@@ -73,14 +73,23 @@ class SyncManager {
                     const drift = elementTime - this.masterTime;
 
                     if (Math.abs(drift) > 0.1) { // 100ms threshold
-                        // Adjust playback rate or seek
-                        if (Math.abs(drift) > 0.5) {
-                            // Large drift: seek
-                            element.currentTime = this.masterTime + startTime;
-                        } else {
-                            // Small drift: adjust rate
-                            element.playbackRate = drift > 0 ? 0.99 : 1.01;
-                            setTimeout(() => { element.playbackRate = 1.0; }, 500); // Reset after 500ms
+                        const targetTime = this.masterTime + startTime;
+
+                        // Only seek if target position is buffered, not during crossfade, and has sufficient buffer ahead
+                        const bufferedAhead = this.getBufferedAhead(element);
+                        if (Math.abs(drift) > 0.5 && this.isPositionBuffered(element, targetTime) && !xDuration.busy && bufferedAhead > 2.0) {
+                            console.debug(`[SyncManager] Seeking ${element.id || 'element'} from ${element.currentTime.toFixed(2)}s to ${targetTime.toFixed(2)}s`);
+                            element.currentTime = targetTime;
+                        } else if (Math.abs(drift) <= 0.5 && !xDuration.busy) {
+                            // Small drift: adjust rate (only if not already adjusting and not during crossfade)
+                            if (element.playbackRate === 1.0) {
+                                element.playbackRate = drift > 0 ? 0.99 : 1.01;
+                                setTimeout(() => {
+                                    if (element.playbackRate !== 1.0) {
+                                        element.playbackRate = 1.0;
+                                    }
+                                }, 500); // Reset after 500ms
+                            }
                         }
                     }
                 }
@@ -95,6 +104,17 @@ class SyncManager {
             return element.buffered.end(element.buffered.length - 1) - element.currentTime;
         }
         return 0;
+    }
+
+    private isPositionBuffered(element: HTMLMediaElement, targetTime: number): boolean {
+        if (element.buffered.length === 0) return false;
+
+        for (let i = 0; i < element.buffered.length; i++) {
+            if (targetTime >= element.buffered.start(i) && targetTime <= element.buffered.end(i)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
@@ -117,6 +137,15 @@ export function cancelCrossfadeTimeouts(): void {
         clearTimeout(disconnectTimer);
         disconnectTimer = null;
     }
+
+    // Reset crossfade state when cancelled
+    if (xDuration.busy) {
+        console.debug('[Crossfader] Crossfade cancelled, resetting state and re-enabling controls');
+        xDuration.busy = false;
+        xDuration.triggered = false;
+        prevNextDisable(false);
+    }
+
     syncManager.stopSync();
 }
 
@@ -187,9 +216,18 @@ function getCrossfadeDuration() {
  * Hijacks the media element for crossfade.
  */
 export function hijackMediaElementForCrossfade() {
+    // Prevent overlapping crossfades
+    if (xDuration.busy) {
+        console.warn('[Crossfader] Crossfade already in progress, skipping');
+        return;
+    }
+
+    const crossfadeDuration = getCrossfadeDuration();
+    console.debug(`[Crossfader] Starting crossfade with duration: ${crossfadeDuration}s`);
+
     xDuration.t0 = performance.now(); // Record the start time
     xDuration.busy = true;
-    setXDuration(getCrossfadeDuration());
+    setXDuration(crossfadeDuration);
     setVisualizerSettings(getSavedVisualizerSettings());
 
     endSong();
@@ -261,15 +299,37 @@ export function hijackMediaElementForCrossfade() {
     sustainTimer = setTimeout(() => {
         sustainTimer = null;
 
-        if (typeof unbindCallback === 'function') {
-            unbindCallback();
+        try {
+            if (typeof unbindCallback === 'function') {
+                unbindCallback();
+            }
+            // This destroys the wavesurfer on the fade out track when the new track starts
+            destroyWaveSurferInstance();
+            prevNextDisable(false);
+            xDuration.busy = false; // Reset busy flag after new track can start
+            xDuration.triggered = false; // Reset trigger flag for new track
+
+            console.debug(`[Crossfader] Crossfade completed, controls re-enabled after ${sustainDelayMs}ms`);
+        } catch (error) {
+            console.error('[Crossfader] Error during sustain timer cleanup:', error);
+            // Ensure state is always reset even on error
+            xDuration.busy = false;
+            xDuration.triggered = false;
+            prevNextDisable(false);
         }
-        // This destroys the wavesurfer on the fade out track when the new track starts
-        destroyWaveSurferInstance();
-        prevNextDisable(false);
-        xDuration.busy = false; // Reset busy flag after new track can start
-        xDuration.triggered = false; // Reset trigger flag for new track
     }, sustainDelayMs);
+
+    // Safety timeout: Force reset controls after maximum crossfade duration + buffer
+    const safetyTimeoutMs = Math.max(5000, (xDuration.fadeOut + xDuration.sustain) * 1000 + 2000);
+    setTimeout(() => {
+        if (xDuration.busy) {
+            console.warn('[Crossfader] Safety timeout triggered - resetting busy state and controls');
+            xDuration.busy = false;
+            xDuration.triggered = false;
+            prevNextDisable(false);
+            cancelCrossfadeTimeouts();
+        }
+    }, safetyTimeoutMs);
 
     // Timer 2: Audio node cleanup (after fade completes)
     fadeOutTimer = setTimeout(() => {

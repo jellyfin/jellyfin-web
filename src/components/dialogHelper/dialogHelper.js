@@ -123,7 +123,7 @@ function DialogHashHandler(dlg, hash, resolve) {
 
                     // Remove the closed dialog hash from the history state
                     history.replace(
-                        `${history.location.pathname}${history.location.search}`,
+                        `${history.location?.pathname || ''}${history.location?.search || ''}`,
                         {
                             ...state,
                             dialogs: state.dialogs.filter(dialog => dialog !== hash)
@@ -185,7 +185,7 @@ function DialogHashHandler(dlg, hash, resolve) {
         dialogs.push(hash);
 
         history.push(
-            `${history.location.pathname}${history.location.search}`,
+            `${history.location?.pathname || ''}${history.location?.search || ''}`,
             {
                 ...state,
                 dialogs
