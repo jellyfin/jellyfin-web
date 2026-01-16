@@ -49,13 +49,17 @@ export function initializeButterChurn(canvas: HTMLCanvasElement) {
     if (isOffscreenCanvasSupported()) {
         try {
             console.log('[Butterchurn] Attempting OffscreenCanvas for improved performance');
-            const offscreenCanvas = (canvas as any).transferControlToOffscreen();
-            butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, offscreenCanvas, {
+            // Set canvas size before transferring control
+            const options = {
                 width: window.innerWidth,
                 height: window.innerHeight,
                 pixelRatio: window.devicePixelRatio * 2 || 1,
                 textureRatio: 2
-            });
+            };
+            canvas.width = options.width * options.pixelRatio;
+            canvas.height = options.height * options.pixelRatio;
+            const offscreenCanvas = (canvas as any).transferControlToOffscreen();
+            butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, offscreenCanvas, options);
             console.log('[Butterchurn] OffscreenCanvas initialized successfully');
         } catch (error) {
             console.warn('[Butterchurn] OffscreenCanvas failed, falling back to regular canvas:', error);
