@@ -189,6 +189,11 @@ class AppRouter {
                 options = arguments[1];
             }
 
+            // Don't navigate away from queue view when playing items
+            if (window.location.hash === '#/queue') {
+                return;
+            }
+
             const url = this.getRouteUrl(item, options);
             this.show(url);
         }
