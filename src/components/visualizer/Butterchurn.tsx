@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { butterchurnInstance, initializeButterChurn, isCanvasTransferred, setCanvasTransferred } from './butterchurn.logic';
+import { butterchurnInstance, initializeButterChurn, setCanvasTransferred } from './butterchurn.logic';
 
 const ButterchurnVisualizer: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -17,11 +17,15 @@ const ButterchurnVisualizer: React.FC = () => {
             const width = window.innerWidth;
             const height = window.innerHeight;
 
-            // Only resize the HTMLCanvasElement if it hasn't been transferred to OffscreenCanvas
-            // After transferControlToOffscreen(), setting width/height throws an error
-            if (canvasRef.current && !isCanvasTransferred()) {
-                canvasRef.current.width = width;
-                canvasRef.current.height = height;
+            // Try to resize the HTMLCanvasElement - this may fail after OffscreenCanvas transfer
+            if (canvasRef.current) {
+                try {
+                    canvasRef.current.width = width;
+                    canvasRef.current.height = height;
+                } catch (error) {
+                    // This is expected after transferControlToOffscreen() - ignore the error
+                    console.debug('[Butterchurn] Canvas resize failed (likely OffscreenCanvas transfer):', error instanceof Error ? error.message : String(error));
+                }
             }
 
             // Always try to resize the visualizer renderer (works for both regular and OffscreenCanvas)
