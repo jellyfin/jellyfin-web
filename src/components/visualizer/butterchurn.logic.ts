@@ -23,7 +23,11 @@ export const butterchurnInstance: {
         // empty
     },
     destroy: () => {
-        // empty
+        if (butterchurnInstance.visualizer) {
+            butterchurnInstance.visualizer.disconnectAudio(masterAudioOutput.mixerNode);
+            butterchurnInstance.visualizer = null;
+        }
+        clearInterval(presetSwitchInterval);
     }
 
     /* eslint-enable @typescript-eslint/ban-ts-comment */
@@ -34,12 +38,24 @@ export function initializeButterChurn(canvas: HTMLCanvasElement) {
         return;
     }
 
-    butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        pixelRatio: window.devicePixelRatio * 2 || 1,
-        textureRatio: 2
-    });
+    try {
+        // Try to use OffscreenCanvas for better performance
+        const offscreenCanvas = (canvas as any).transferControlToOffscreen();
+        butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, offscreenCanvas, {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            pixelRatio: window.devicePixelRatio * 2 || 1,
+            textureRatio: 2
+        });
+    } catch {
+        // Fallback to regular canvas
+        butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            pixelRatio: window.devicePixelRatio * 2 || 1,
+            textureRatio: 2
+        });
+    }
 
     // Connect your audio source (e.g., mixerNode) to the visualizer
     butterchurnInstance.visualizer.connectAudio(masterAudioOutput.mixerNode);
