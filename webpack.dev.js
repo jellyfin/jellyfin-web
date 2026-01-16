@@ -1,29 +1,26 @@
 const { merge } = require('webpack-merge');
+const https = require('https');
 
 const common = require('./webpack.common');
 
 const proxyTarget = process.env.JELLYFIN_SERVER;
-const proxyUrl = proxyTarget ? new URL(proxyTarget) : null;
-const proxyOrigin = proxyUrl ? proxyUrl.origin : null;
-const proxyHost = proxyUrl ? proxyUrl.host : null;
-const assetPattern = /\.(js|css|map|png|jpe?g|svg|gif|webp|ico|woff2?|ttf|eot)$/i;
-const wsPattern = /^\/(socket|embywebsocket)/i;
-const setProxyHeaders = (proxyReq, req) => {
-    if (!proxyReq || !proxyOrigin) return;
-    proxyReq.setHeader('origin', proxyOrigin);
-    if (proxyHost) {
-        proxyReq.setHeader('host', proxyHost);
+
+// Check if path is a webpack dev asset that should NOT be proxied
+const isWebpackAsset = (pathname) => {
+    if (pathname.startsWith('/sockjs-node')) return true;
+    if (pathname.startsWith('/ws')) return true;
+    if (pathname.startsWith('/webpack-dev-server')) return true;
+    if (pathname.startsWith('/__webpack')) return true;
+    if (pathname.startsWith('/hot-update')) return true;
+    if (pathname.endsWith('.hot-update.json')) return true;
+    if (pathname.endsWith('.hot-update.js')) return true;
+    if (/\.(js|css|map|png|jpe?g|svg|gif|webp|ico|woff2?|ttf|eot)$/.test(pathname)) {
+        // Only exclude if it's in /assets/, /static/, or root-level static files
+        if (pathname.startsWith('/assets/') || pathname.startsWith('/static/') || pathname.match(/^\/[^/]+\.(js|css|map|png|jpe?g|svg|gif|webp|ico)$/)) {
+            return true;
+        }
     }
-    // Forward Jellyfin auth headers if present
-    if (req.headers.authorization) {
-        proxyReq.setHeader('authorization', req.headers.authorization);
-    }
-    if (req.headers['x-emby-authorization']) {
-        proxyReq.setHeader('x-emby-authorization', req.headers['x-emby-authorization']);
-    }
-    if (req.headers['x-mediabrowser-token']) {
-        proxyReq.setHeader('x-mediabrowser-token', req.headers['x-mediabrowser-token']);
-    }
+    return false;
 };
 
 module.exports = merge(common, {
@@ -55,37 +52,36 @@ module.exports = merge(common, {
         ...(proxyTarget ? {
             proxy: [
                 {
+                    context: (pathname, req) => !isWebpackAsset(pathname),
                     target: proxyTarget,
                     changeOrigin: true,
                     secure: true,
                     ws: true,
-                    timeout: 30000,
-                    proxyTimeout: 30000,
-                    logLevel: 'debug',
-                    context: (pathname) => wsPattern.test(pathname),
-                    onProxyReqWs: setProxyHeaders
-                },
-                {
-                    target: proxyTarget,
-                    changeOrigin: true,
-                    secure: true,
-                    ws: false,
-                    timeout: 30000,
-                    proxyTimeout: 30000,
-                    logLevel: 'debug',
-                    context: (pathname) => {
-                        if (wsPattern.test(pathname)) return false;
-                        if (pathname.startsWith('/sockjs-node')) return false;
-                        if (pathname.startsWith('/ws')) return false;
-                        if (pathname.startsWith('/webpack-dev-server')) return false;
-                        if (assetPattern.test(pathname)) return false;
-                        return true;
+                    agent: new https.Agent({
+                        keepAlive: true,
+                        keepAliveMsecs: 30000,
+                        maxSockets: 50
+                    }),
+                    onProxyReq(proxyReq, req) {
+                        // Forward Jellyfin auth headers
+                        if (req.headers.authorization) {
+                            proxyReq.setHeader('authorization', req.headers.authorization);
+                        }
+                        if (req.headers['x-emby-authorization']) {
+                            proxyReq.setHeader('x-emby-authorization', req.headers['x-emby-authorization']);
+                        }
+                        if (req.headers['x-mediabrowser-token']) {
+                            proxyReq.setHeader('x-mediabrowser-token', req.headers['x-mediabrowser-token']);
+                        }
+                        // Set origin/referer to match target
+                        proxyReq.setHeader('origin', proxyTarget);
+                        proxyReq.setHeader('referer', proxyTarget + '/');
                     },
-                    onProxyReq: setProxyHeaders,
-                    onProxyRes: (proxyRes) => {
-                        // Prevent caching weirdness during dev
+                    onProxyRes(proxyRes) {
+                        // Prevent caching during dev
                         proxyRes.headers['cache-control'] = 'no-store';
-                    }
+                    },
+                    logLevel: 'warn'
                 }
             ]
         } : {})
