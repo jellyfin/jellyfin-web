@@ -692,7 +692,13 @@ export function renderLogo(page, item, apiClient) {
 
     if (url) {
         detailLogo.classList.remove('hide');
-        imageLoader.setLazyImage(detailLogo, url);
+        imageLoader.lazyImage(detailLogo, url);
+        // Preload for better performance
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = url;
+        document.head.appendChild(link);
     } else {
         detailLogo.classList.add('hide');
     }
