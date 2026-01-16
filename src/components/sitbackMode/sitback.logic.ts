@@ -125,6 +125,14 @@ if (layoutManager.mobile) {
     document.addEventListener(hasPointerEvent ? 'pointermove' : 'mousemove', pointerActivity, { passive: true });
     document.addEventListener(hasPointerEvent ? 'pointerdown' : 'mousedown', pointerActivity, { passive: true });
 
+    // Reset idle timer when tab becomes visible to prevent immediate hiding on return
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            lastInput = Date.now();
+            showCursor();
+        }
+    });
+
     const getIdleDelayMs = () => {
         const seconds = visualizerSettings.sitback?.autoHideTimer ?? defaultSitbackSettings.autoHideTimer;
         return Math.max(1, seconds) * 1000;
