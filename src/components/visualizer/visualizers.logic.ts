@@ -58,7 +58,7 @@ export function getVisualizerSettings () {
 }
 
 export function setVisualizerSettings (savedSettings: any) {
-    if (!savedSettings) {
+    if (!savedSettings || typeof savedSettings !== 'object') {
         const defaults = getDefaultVisualizerSettings();
         visualizerSettings.butterchurn = defaults.butterchurn;
         visualizerSettings.frequencyAnalyzer = defaults.frequencyAnalyzer;
