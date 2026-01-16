@@ -216,8 +216,8 @@ function getCrossfadeDuration() {
  * Hijacks the media element for crossfade.
  */
 export function hijackMediaElementForCrossfade() {
-    // Prevent overlapping crossfades
-    if (xDuration.busy) {
+    // Prevent overlapping crossfades (but allow buffer delay retries)
+    if (xDuration.busy && !xDuration.bufferDelayApplied) {
         console.warn('[Crossfader] Crossfade already in progress, skipping');
         return;
     }
@@ -251,6 +251,8 @@ export function hijackMediaElementForCrossfade() {
     const bufferedAhead = syncManager.getBufferedAhead(hijackedPlayer);
     if (bufferedAhead < 2 && xDuration.fadeOut > 0 && !xDuration.bufferDelayApplied) {
         xDuration.bufferDelayApplied = true;
+        // Reset busy to allow the delayed retry to proceed
+        xDuration.busy = false;
         // Delay crossfade start by up to 1s to allow buffering (prevent recursion)
         const delayMs = Math.min(1000, (2 - bufferedAhead) * 1000);
         setTimeout(() => {

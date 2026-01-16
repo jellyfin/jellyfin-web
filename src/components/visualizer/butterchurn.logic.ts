@@ -134,9 +134,7 @@ export function initializeButterChurn(canvas: HTMLCanvasElement) {
         butterchurnInstance.visualizer.disconnectAudio(masterAudioOutput.mixerNode);
     };
 
-    if (visualizerSettings.butterchurn.presetInterval > 10) {
-    // Switch presets every predetermined interval in seconds
-        presetSwitchInterval = setInterval(loadNextPreset, visualizerSettings.butterchurn.presetInterval * 1000);
-    }
+    // Note: setInterval is already set up inside loadNextPreset() when called at line 119
+    // Do NOT add another setInterval here - it would cause presets to change twice as fast
 }
 

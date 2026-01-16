@@ -45,10 +45,14 @@ class LimiterProcessor extends AudioWorkletProcessor {
                     this.envelope += (absSample - this.envelope) * release;
                 }
 
-                // Limiting
+                // Limiting - apply gain reduction when envelope exceeds threshold
+                // Formula: gain = (threshold/envelope)^(1 - 1/ratio)
+                // This ensures output stays closer to threshold as ratio increases
                 let gain = 1;
                 if (this.envelope > threshold) {
-                    gain = Math.pow(this.envelope / threshold, 1 / ratio - 1);
+                    // Equivalent to (threshold/envelope)^(1 - 1/ratio)
+                    const exponent = 1 - (1 / ratio);
+                    gain = Math.pow(threshold / this.envelope, exponent);
                 }
 
                 outputChannel[i] = sample * gain;

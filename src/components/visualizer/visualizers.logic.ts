@@ -1,5 +1,41 @@
 import * as userSettings from '../../scripts/settings/userSettings';
 
+/**
+ * Deep merge utility for nested objects
+ * Recursively merges source into target, preserving nested structure
+ */
+function deepMerge<T extends Record<string, unknown>>(target: T, source: Partial<T> | undefined): T {
+    if (!source || typeof source !== 'object') {
+        return target;
+    }
+
+    const result = { ...target };
+
+    for (const key of Object.keys(source) as (keyof T)[]) {
+        const sourceValue = source[key];
+        const targetValue = target[key];
+
+        if (
+            sourceValue !== null &&
+            typeof sourceValue === 'object' &&
+            !Array.isArray(sourceValue) &&
+            targetValue !== null &&
+            typeof targetValue === 'object' &&
+            !Array.isArray(targetValue)
+        ) {
+            // Recursively merge nested objects
+            result[key] = deepMerge(
+                targetValue as Record<string, unknown>,
+                sourceValue as Record<string, unknown>
+            ) as T[keyof T];
+        } else if (sourceValue !== undefined) {
+            result[key] = sourceValue as T[keyof T];
+        }
+    }
+
+    return result;
+}
+
 const defaultVisualizerSettings = {
     frequencyAnalyzer: {
         enabled: false,
@@ -70,11 +106,12 @@ export function setVisualizerSettings (savedSettings: any) {
 
     const legacySitback = savedSettings?.sitback || savedSettings?.sitBack;
 
-    visualizerSettings.butterchurn = { ...defaultVisualizerSettings.butterchurn, ...savedSettings?.butterchurn };
-    visualizerSettings.frequencyAnalyzer = { ...defaultVisualizerSettings.frequencyAnalyzer, ...savedSettings?.frequencyAnalyzer };
-    visualizerSettings.waveSurfer = { ...defaultVisualizerSettings.waveSurfer, ...savedSettings?.waveSurfer };
-    visualizerSettings.sitback = { ...defaultVisualizerSettings.sitback, ...legacySitback };
-    visualizerSettings.advanced = { ...defaultVisualizerSettings.advanced, ...savedSettings?.advanced };
+    // Use deepMerge to properly handle nested objects like colors.gradient
+    visualizerSettings.butterchurn = deepMerge(defaultVisualizerSettings.butterchurn, savedSettings?.butterchurn);
+    visualizerSettings.frequencyAnalyzer = deepMerge(defaultVisualizerSettings.frequencyAnalyzer, savedSettings?.frequencyAnalyzer);
+    visualizerSettings.waveSurfer = deepMerge(defaultVisualizerSettings.waveSurfer, savedSettings?.waveSurfer);
+    visualizerSettings.sitback = deepMerge(defaultVisualizerSettings.sitback, legacySitback);
+    visualizerSettings.advanced = deepMerge(defaultVisualizerSettings.advanced, savedSettings?.advanced);
 }
 
 export function getSavedVisualizerSettings() {
@@ -83,16 +120,28 @@ export function getSavedVisualizerSettings() {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getVisualizerInputValues(context: any) {
-    visualizerSettings.butterchurn.enabled = context.querySelector('.chkEnableButterchurn').checked;
-    const presetInterval = parseInt(
-        context.querySelector('#sliderButterchurnPresetInterval').value,
-        10
-    );
-    if (!Number.isNaN(presetInterval)) {
-        visualizerSettings.butterchurn.presetInterval = presetInterval;
+    const butterchurnCheckbox = context.querySelector('.chkEnableButterchurn');
+    if (butterchurnCheckbox) {
+        visualizerSettings.butterchurn.enabled = butterchurnCheckbox.checked;
     }
-    visualizerSettings.frequencyAnalyzer.enabled = context.querySelector('.chkEnableFrequencyAnalyzer').checked;
-    visualizerSettings.waveSurfer.enabled = context.querySelector('.chkEnableWavesurfer').checked;
+
+    const presetIntervalSlider = context.querySelector('#sliderButterchurnPresetInterval');
+    if (presetIntervalSlider) {
+        const presetInterval = parseInt(presetIntervalSlider.value, 10);
+        if (!Number.isNaN(presetInterval)) {
+            visualizerSettings.butterchurn.presetInterval = presetInterval;
+        }
+    }
+
+    const freqAnalyzerCheckbox = context.querySelector('.chkEnableFrequencyAnalyzer');
+    if (freqAnalyzerCheckbox) {
+        visualizerSettings.frequencyAnalyzer.enabled = freqAnalyzerCheckbox.checked;
+    }
+
+    const waveSurferCheckbox = context.querySelector('.chkEnableWavesurfer');
+    if (waveSurferCheckbox) {
+        visualizerSettings.waveSurfer.enabled = waveSurferCheckbox.checked;
+    }
 
     return visualizerSettings;
 }

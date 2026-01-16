@@ -7,7 +7,8 @@ class DelayProcessor extends AudioWorkletProcessor {
         this.feedback = 0.0;
         this.wet = 0.5;
         this.dry = 0.5;
-        this.bufferSize = 44100; // 1 second at 44.1kHz
+        // Use actual sample rate from AudioWorkletGlobalScope (sampleRate is globally available)
+        this.bufferSize = sampleRate; // 1 second buffer at actual sample rate
         this.buffer = new Float32Array(this.bufferSize);
         this.writeIndex = 0;
     }
@@ -32,7 +33,7 @@ class DelayProcessor extends AudioWorkletProcessor {
         const wet = parameters.wet[0] || this.wet;
         const dry = parameters.dry[0] || this.dry;
 
-        const sampleRate = 44100; // Assume 44.1kHz
+        // sampleRate is globally available in AudioWorkletGlobalScope
         const delaySamples = Math.floor(delayTime * sampleRate);
 
         for (let channel = 0; channel < input.length; ++channel) {
