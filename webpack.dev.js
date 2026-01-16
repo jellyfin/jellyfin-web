@@ -8,11 +8,21 @@ const proxyOrigin = proxyUrl ? proxyUrl.origin : null;
 const proxyHost = proxyUrl ? proxyUrl.host : null;
 const assetPattern = /\.(js|css|map|png|jpe?g|svg|gif|webp|ico|woff2?|ttf|eot)$/i;
 const wsPattern = /^\/(socket|embywebsocket)/i;
-const setProxyHeaders = proxyReq => {
+const setProxyHeaders = (proxyReq, req) => {
     if (!proxyReq || !proxyOrigin) return;
     proxyReq.setHeader('origin', proxyOrigin);
     if (proxyHost) {
         proxyReq.setHeader('host', proxyHost);
+    }
+    // Forward Jellyfin auth headers if present
+    if (req.headers.authorization) {
+        proxyReq.setHeader('authorization', req.headers.authorization);
+    }
+    if (req.headers['x-emby-authorization']) {
+        proxyReq.setHeader('x-emby-authorization', req.headers['x-emby-authorization']);
+    }
+    if (req.headers['x-mediabrowser-token']) {
+        proxyReq.setHeader('x-mediabrowser-token', req.headers['x-mediabrowser-token']);
     }
 };
 
@@ -33,6 +43,9 @@ module.exports = merge(common, {
     },
     devServer: {
         compress: true,
+        host: '0.0.0.0',
+        port: 8080,
+        allowedHosts: 'all',
         client: {
             overlay: {
                 errors: true,
@@ -44,22 +57,22 @@ module.exports = merge(common, {
                 {
                     target: proxyTarget,
                     changeOrigin: true,
-                    secure: false,
+                    secure: true,
                     ws: true,
-                    timeout: 120000,
-                    proxyTimeout: 120000,
-                    logLevel: 'warn',
+                    timeout: 30000,
+                    proxyTimeout: 30000,
+                    logLevel: 'debug',
                     context: (pathname) => wsPattern.test(pathname),
                     onProxyReqWs: setProxyHeaders
                 },
                 {
                     target: proxyTarget,
                     changeOrigin: true,
-                    secure: false,
+                    secure: true,
                     ws: false,
-                    timeout: 120000,
-                    proxyTimeout: 120000,
-                    logLevel: 'warn',
+                    timeout: 30000,
+                    proxyTimeout: 30000,
+                    logLevel: 'debug',
                     context: (pathname) => {
                         if (wsPattern.test(pathname)) return false;
                         if (pathname.startsWith('/sockjs-node')) return false;
@@ -68,7 +81,11 @@ module.exports = merge(common, {
                         if (assetPattern.test(pathname)) return false;
                         return true;
                     },
-                    onProxyReq: setProxyHeaders
+                    onProxyReq: setProxyHeaders,
+                    onProxyRes: (proxyRes) => {
+                        // Prevent caching weirdness during dev
+                        proxyRes.headers['cache-control'] = 'no-store';
+                    }
                 }
             ]
         } : {})
