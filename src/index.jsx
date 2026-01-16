@@ -27,6 +27,18 @@ import RootApp from './RootApp';
 
 const supportsFeature = (feature) => safeAppHost.supports(feature);
 
+// Cleanup audio contexts on page unload to prevent leaks
+window.addEventListener('beforeunload', () => {
+    try {
+        const { masterAudioOutput } = require('./components/audioEngine/master.logic');
+        if (masterAudioOutput.audioContext && masterAudioOutput.audioContext.state !== 'closed') {
+            masterAudioOutput.audioContext.close();
+        }
+    } catch {
+        // Ignore if not loaded
+    }
+});
+
 // Import the button webcomponent for use throughout the site
 // NOTE: This is a bit of a hack, files should ensure the component is imported before use
 import './elements/emby-button/emby-button';
