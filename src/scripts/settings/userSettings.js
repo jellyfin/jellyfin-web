@@ -704,10 +704,20 @@ export class UserSettings {
         let filterSettings = this.get(key + filterSettingsPostfix, false);
 
         if (sortSettings) {
-            sortSettings = filterQuerySettings(JSON.parse(sortSettings), allowedSortSettings);
+            try {
+                sortSettings = filterQuerySettings(JSON.parse(sortSettings), allowedSortSettings);
+            } catch (e) {
+                console.warn('Failed to parse sort settings for', key, e);
+                sortSettings = null;
+            }
         }
         if (filterSettings) {
-            filterSettings = filterQuerySettings(JSON.parse(filterSettings), allowedFilterSettings);
+            try {
+                filterSettings = filterQuerySettings(JSON.parse(filterSettings), allowedFilterSettings);
+            } catch (e) {
+                console.warn('Failed to parse filter settings for', key, e);
+                filterSettings = null;
+            }
         }
 
         return Object.assign(query, sortSettings, filterSettings);

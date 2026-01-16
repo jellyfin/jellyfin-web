@@ -54,7 +54,7 @@ export function getDefaultVisualizerSettings() {
 }
 
 export function getVisualizerSettings () {
-    return JSON.stringify(visualizerSettings);
+    return visualizerSettings;
 }
 
 export function setVisualizerSettings (savedSettings: any) {
