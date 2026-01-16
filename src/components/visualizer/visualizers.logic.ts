@@ -1,6 +1,6 @@
 import * as userSettings from '../../scripts/settings/userSettings';
 
-export const visualizerSettings = {
+const defaultVisualizerSettings = {
     frequencyAnalyzer: {
         enabled: false,
         smoothing: 0.3,           // 0-0.9
@@ -47,20 +47,34 @@ export const visualizerSettings = {
     }
 };
 
+export const visualizerSettings = JSON.parse(JSON.stringify(defaultVisualizerSettings));
+
+export function getDefaultVisualizerSettings() {
+    return JSON.parse(JSON.stringify(defaultVisualizerSettings));
+}
+
 export function getVisualizerSettings () {
     return JSON.stringify(visualizerSettings);
 }
 
 export function setVisualizerSettings (savedSettings: any) {
-    if (!savedSettings) return;
+    if (!savedSettings) {
+        const defaults = getDefaultVisualizerSettings();
+        visualizerSettings.butterchurn = defaults.butterchurn;
+        visualizerSettings.frequencyAnalyzer = defaults.frequencyAnalyzer;
+        visualizerSettings.waveSurfer = defaults.waveSurfer;
+        visualizerSettings.sitback = defaults.sitback;
+        visualizerSettings.advanced = defaults.advanced;
+        return;
+    }
 
     const legacySitback = savedSettings?.sitback || savedSettings?.sitBack;
 
-    visualizerSettings.butterchurn = { ...visualizerSettings.butterchurn, ...savedSettings?.butterchurn };
-    visualizerSettings.frequencyAnalyzer = { ...visualizerSettings.frequencyAnalyzer, ...savedSettings?.frequencyAnalyzer };
-    visualizerSettings.waveSurfer = { ...visualizerSettings.waveSurfer, ...savedSettings?.waveSurfer };
-    visualizerSettings.sitback = { ...visualizerSettings.sitback, ...legacySitback };
-    visualizerSettings.advanced = { ...visualizerSettings.advanced, ...savedSettings?.advanced };
+    visualizerSettings.butterchurn = { ...defaultVisualizerSettings.butterchurn, ...savedSettings?.butterchurn };
+    visualizerSettings.frequencyAnalyzer = { ...defaultVisualizerSettings.frequencyAnalyzer, ...savedSettings?.frequencyAnalyzer };
+    visualizerSettings.waveSurfer = { ...defaultVisualizerSettings.waveSurfer, ...savedSettings?.waveSurfer };
+    visualizerSettings.sitback = { ...defaultVisualizerSettings.sitback, ...legacySitback };
+    visualizerSettings.advanced = { ...defaultVisualizerSettings.advanced, ...savedSettings?.advanced };
 }
 
 export function getSavedVisualizerSettings() {
@@ -70,7 +84,13 @@ export function getSavedVisualizerSettings() {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getVisualizerInputValues(context: any) {
     visualizerSettings.butterchurn.enabled = context.querySelector('.chkEnableButterchurn').checked;
-    visualizerSettings.butterchurn.presetInterval = context.querySelector('#sliderButterchurnPresetInterval').value;
+    const presetInterval = parseInt(
+        context.querySelector('#sliderButterchurnPresetInterval').value,
+        10
+    );
+    if (!Number.isNaN(presetInterval)) {
+        visualizerSettings.butterchurn.presetInterval = presetInterval;
+    }
     visualizerSettings.frequencyAnalyzer.enabled = context.querySelector('.chkEnableFrequencyAnalyzer').checked;
     visualizerSettings.waveSurfer.enabled = context.querySelector('.chkEnableWavesurfer').checked;
 

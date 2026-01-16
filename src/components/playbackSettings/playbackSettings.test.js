@@ -54,7 +54,7 @@ describe('playbackSettings - simplified visualizer inputs', () => {
         const result = getVisualizerInputValues(form);
 
         expect(result.butterchurn.enabled).toBe(true);
-        expect(result.butterchurn.presetInterval).toBe('45');
+        expect(result.butterchurn.presetInterval).toBe(45);
         expect(result.frequencyAnalyzer.enabled).toBe(true);
         expect(result.waveSurfer.enabled).toBe(false);
     });
@@ -64,7 +64,7 @@ describe('playbackSettings - simplified visualizer inputs', () => {
         const result = getVisualizerInputValues(form);
 
         expect(result.butterchurn.enabled).toBe(false);
-        expect(result.butterchurn.presetInterval).toBe('60');
+        expect(result.butterchurn.presetInterval).toBe(60);
         expect(result.frequencyAnalyzer.enabled).toBe(false);
         expect(result.waveSurfer.enabled).toBe(false);
     });

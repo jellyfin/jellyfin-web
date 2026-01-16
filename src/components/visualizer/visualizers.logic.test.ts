@@ -4,9 +4,9 @@ vi.mock('../../scripts/settings/userSettings', () => ({
     visualizerConfiguration: vi.fn(() => ({}))
 }));
 
-import { setVisualizerSettings, visualizerSettings } from './visualizers.logic';
+import { getDefaultVisualizerSettings, setVisualizerSettings, visualizerSettings } from './visualizers.logic';
 
-const defaultSettings = JSON.parse(JSON.stringify(visualizerSettings));
+const defaultSettings = getDefaultVisualizerSettings();
 
 function resetSettings() {
     setVisualizerSettings(defaultSettings);

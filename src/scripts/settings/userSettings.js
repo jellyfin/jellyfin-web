@@ -3,9 +3,29 @@ import { toBoolean } from '../../utils/string.ts';
 import { setXDuration } from 'components/audioEngine/crossfader.logic';
 import browser from '../browser';
 import appSettings from './appSettings';
-import { getVisualizerSettings, setVisualizerSettings } from 'components/visualizer/visualizers.logic';
+import { getDefaultVisualizerSettings, getVisualizerSettings, setVisualizerSettings } from 'components/visualizer/visualizers.logic';
 
 let displayPrefsBeaconWarningShown = false;
+
+function getDevServerAddress() {
+    if (typeof __WEBPACK_SERVE__ === 'undefined' || typeof __DEV_SERVER_PROXY_TARGET__ === 'undefined') {
+        return null;
+    }
+    if (!__WEBPACK_SERVE__ || !__DEV_SERVER_PROXY_TARGET__) {
+        return null;
+    }
+    return typeof window !== 'undefined' && window.location ? window.location.origin : null;
+}
+
+function applyDevServerAddress(apiClient) {
+    const devAddress = getDevServerAddress();
+    if (!devAddress || !apiClient || typeof apiClient.serverAddress !== 'function') {
+        return;
+    }
+    if (apiClient.serverAddress() !== devAddress) {
+        apiClient.serverAddress(devAddress);
+    }
+}
 
 function onSaveTimeout() {
     const self = this;
@@ -14,6 +34,7 @@ function onSaveTimeout() {
     if (!apiClient || !self.displayPrefs) {
         return;
     }
+    applyDevServerAddress(apiClient);
     const prefsUrl = apiClient.getUrl('DisplayPreferences/usersettings', {
         userId: self.currentUserId,
         client: 'emby',
@@ -119,6 +140,7 @@ export class UserSettings {
 
         const self = this;
 
+        applyDevServerAddress(apiClient);
         return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
             result.CustomPrefs = result.CustomPrefs || {};
             self.displayPrefs = result;
@@ -168,7 +190,10 @@ export class UserSettings {
     get(name, enableOnServer) {
         const userId = this.currentUserId;
         if (enableOnServer !== false && this.displayPrefs) {
-            return this.displayPrefs.CustomPrefs[name];
+            const serverValue = this.displayPrefs.CustomPrefs[name];
+            if (serverValue !== undefined) {
+                return serverValue;
+            }
         }
 
         return appSettings.get(name, userId);
@@ -267,7 +292,10 @@ export class UserSettings {
             return this.set('crossfadeDuration', val.toString(), true);
         }
 
-        const stored = this.get('crossfadeDuration', true);
+        let stored = this.get('crossfadeDuration', true);
+        if (stored == null && this.displayPrefs) {
+            stored = appSettings.get('crossfadeDuration', this.currentUserId);
+        }
         const parsed = parseFloat(stored);
         if (Number.isNaN(parsed)) {
             return 3;
@@ -286,15 +314,21 @@ export class UserSettings {
             return this.set('visualizerConfiguration', getVisualizerSettings(), true);
         }
 
-        const raw = this.get('visualizerConfiguration', true);
+        let raw = this.get('visualizerConfiguration', true);
+        if (!raw && this.displayPrefs) {
+            raw = appSettings.get('visualizerConfiguration', this.currentUserId);
+        }
         if (!raw) {
+            setVisualizerSettings(null);
             return JSON.parse(getVisualizerSettings());
         }
 
         try {
             const parsed = JSON.parse(raw);
-            return parsed || JSON.parse(getVisualizerSettings());
+            setVisualizerSettings(parsed);
+            return JSON.parse(getVisualizerSettings());
         } catch (error) {
+            setVisualizerSettings(null);
             return JSON.parse(getVisualizerSettings());
         }
     }

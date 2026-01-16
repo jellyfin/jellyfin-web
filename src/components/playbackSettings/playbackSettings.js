@@ -16,7 +16,7 @@ import loading from '../loading/loading';
 import Events from '../../utils/events.ts';
 import toast from '../toast/toast';
 import template from './playbackSettings.template.html';
-import { getVisualizerInputValues, setVisualizerSettings } from 'components/visualizer/visualizers.logic';
+import { getVisualizerInputValues, setVisualizerSettings, visualizerSettings } from 'components/visualizer/visualizers.logic';
 
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -274,12 +274,10 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     populateMediaSegments(mediaSegmentContainer, userSettings);
 
     // Load visualizer and crossfade settings
-    try {
-        context.querySelector('#sliderCrossfadeDuration').value = userSettings.crossfadeDuration();
-    } catch (err) {
-        console.warn('Failed to load crossfade duration', err);
-        context.querySelector('#sliderCrossfadeDuration').value = 3;
-    }
+    const crossfadeDuration = userSettings.crossfadeDuration();
+    context.querySelector('#sliderCrossfadeDuration').value = Number.isFinite(crossfadeDuration)
+        ? crossfadeDuration
+        : 3;
 
     let visualizerConfig;
     try {
@@ -294,10 +292,10 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
 
     setVisualizerSettings(visualizerConfig);
 
-    context.querySelector('.chkEnableButterchurn').checked = !!visualizerConfig?.butterchurn?.enabled;
-    context.querySelector('#sliderButterchurnPresetInterval').value = visualizerConfig?.butterchurn?.presetInterval || 60;
-    context.querySelector('.chkEnableFrequencyAnalyzer').checked = !!visualizerConfig?.frequencyAnalyzer?.enabled;
-    context.querySelector('.chkEnableWavesurfer').checked = !!visualizerConfig?.waveSurfer?.enabled;
+    context.querySelector('.chkEnableButterchurn').checked = !!visualizerSettings?.butterchurn?.enabled;
+    context.querySelector('#sliderButterchurnPresetInterval').value = visualizerSettings?.butterchurn?.presetInterval || 60;
+    context.querySelector('.chkEnableFrequencyAnalyzer').checked = !!visualizerSettings?.frequencyAnalyzer?.enabled;
+    context.querySelector('.chkEnableWavesurfer').checked = !!visualizerSettings?.waveSurfer?.enabled;
 
     loading.hide();
 }
