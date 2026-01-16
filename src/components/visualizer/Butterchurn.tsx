@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { butterchurnInstance, initializeButterChurn } from './butterchurn.logic';
+import { butterchurnInstance, initializeButterChurn, isCanvasTransferred, setCanvasTransferred } from './butterchurn.logic';
 
 const ButterchurnVisualizer: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -14,18 +14,22 @@ const ButterchurnVisualizer: React.FC = () => {
         }
 
         const resizeCanvas = () => {
-            if (canvasRef.current) {
-                const width = window.innerWidth;
-                const height = window.innerHeight;
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            // Only resize the HTMLCanvasElement if it hasn't been transferred to OffscreenCanvas
+            // After transferControlToOffscreen(), setting width/height throws an error
+            if (canvasRef.current && !isCanvasTransferred()) {
                 canvasRef.current.width = width;
                 canvasRef.current.height = height;
-                // Only call setRendererSize if visualizer is initialized
-                if (butterchurnInstance.visualizer && typeof butterchurnInstance.visualizer.setRendererSize === 'function') {
-                    try {
-                        butterchurnInstance.visualizer.setRendererSize(width, height);
-                    } catch (error) {
-                        console.warn('[Butterchurn] Failed to resize visualizer:', error);
-                    }
+            }
+
+            // Always try to resize the visualizer renderer (works for both regular and OffscreenCanvas)
+            if (butterchurnInstance.visualizer && typeof butterchurnInstance.visualizer.setRendererSize === 'function') {
+                try {
+                    butterchurnInstance.visualizer.setRendererSize(width, height);
+                } catch (error) {
+                    console.warn('[Butterchurn] Failed to resize visualizer:', error);
                 }
             }
         };
@@ -38,6 +42,7 @@ const ButterchurnVisualizer: React.FC = () => {
             if (butterchurnInstance.destroy) {
                 try {
                     butterchurnInstance.destroy();
+                    setCanvasTransferred(false); // Reset on unmount
                 } catch (error) {
                     console.warn('[Butterchurn] Failed to destroy visualizer:', error);
                 }

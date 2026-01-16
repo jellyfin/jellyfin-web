@@ -187,7 +187,9 @@ function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initial
     }
 
     const gainNode = masterAudioOutput.audioContext.createGain();
-    const gainValue = initialGain !== undefined ? initialGain : 0;
+    // Default to 1 (full volume) if no initial gain specified
+    // Previous value of 0 caused audio to start muted
+    const gainValue = initialGain !== undefined ? initialGain : 1;
     gainNode.gain.setValueAtTime(gainValue, masterAudioOutput.audioContext.currentTime);
 
     const sourceNode = masterAudioOutput.audioContext.createMediaElementSource(elem);

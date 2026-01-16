@@ -11,6 +11,21 @@ import isButterchurnSupported from 'butterchurn/lib/isSupported.min';
 import { isVisible } from '../../utils/visibility';
 
 let presetSwitchInterval: NodeJS.Timeout;
+let canvasTransferred = false;
+
+/**
+ * Check if the canvas has been transferred to OffscreenCanvas
+ */
+export function isCanvasTransferred(): boolean {
+    return canvasTransferred;
+}
+
+/**
+ * Set the canvas transferred state
+ */
+export function setCanvasTransferred(value: boolean): void {
+    canvasTransferred = value;
+}
 
 /**
  * Checks if OffscreenCanvas is supported and can be used with WebGL
@@ -75,22 +90,27 @@ export function initializeButterChurn(canvas: HTMLCanvasElement) {
         textureRatio: 2
     };
 
-    if (isOffscreenCanvasSupported()) {
+    if (isOffscreenCanvasSupported() && !canvasTransferred) {
         try {
             console.log('[Butterchurn] Attempting OffscreenCanvas for improved performance');
             // Set canvas size before transferring control
             canvas.width = options.width * options.pixelRatio;
             canvas.height = options.height * options.pixelRatio;
             const offscreenCanvas = (canvas as any).transferControlToOffscreen();
+            canvasTransferred = true; // Mark canvas as transferred BEFORE creating visualizer
             butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, offscreenCanvas, options);
             console.log('[Butterchurn] OffscreenCanvas initialized successfully');
         } catch (error) {
+            canvasTransferred = false; // Reset on failure
             console.warn('[Butterchurn] OffscreenCanvas failed, falling back to regular canvas:', error);
             butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, options);
         }
-    } else {
+    } else if (!canvasTransferred) {
         console.log('[Butterchurn] OffscreenCanvas not supported, using regular canvas');
         butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, options);
+    } else {
+        console.log('[Butterchurn] Canvas already transferred, skipping re-initialization');
+        return;
     }
 
     console.log('[Butterchurn] Visualizer created successfully:', !!butterchurnInstance.visualizer);
