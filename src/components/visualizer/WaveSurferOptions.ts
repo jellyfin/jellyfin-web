@@ -126,7 +126,7 @@ const surferOptions = {
     dragToSeek: false,
     interact: true,
     normalize: false,
-    autoplay: true,
+    autoplay: false,
     // backend: 'WebAudio',
     backend: 'MediaElement',
     hideScrollbar: true,
@@ -153,4 +153,3 @@ const waveSurferPluginOptions = {
 };
 
 export { surferOptions, waveSurferPluginOptions };
-
