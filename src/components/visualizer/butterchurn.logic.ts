@@ -12,6 +12,14 @@ import { isVisible } from '../../utils/visibility';
 
 let presetSwitchInterval: NodeJS.Timeout;
 
+/**
+ * Checks if OffscreenCanvas is supported and can be used with WebGL
+ */
+export function isOffscreenCanvasSupported(): boolean {
+    return typeof OffscreenCanvas !== 'undefined' &&
+           'transferControlToOffscreen' in HTMLCanvasElement.prototype;
+}
+
 export const butterchurnInstance: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     visualizer: any;
@@ -38,17 +46,28 @@ export function initializeButterChurn(canvas: HTMLCanvasElement) {
         return;
     }
 
-    try {
-        // Try to use OffscreenCanvas for better performance
-        const offscreenCanvas = (canvas as any).transferControlToOffscreen();
-        butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, offscreenCanvas, {
-            width: window.innerWidth,
-            height: window.innerHeight,
-            pixelRatio: window.devicePixelRatio * 2 || 1,
-            textureRatio: 2
-        });
-    } catch {
-        // Fallback to regular canvas
+    if (isOffscreenCanvasSupported()) {
+        try {
+            console.log('[Butterchurn] Attempting OffscreenCanvas for improved performance');
+            const offscreenCanvas = (canvas as any).transferControlToOffscreen();
+            butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, offscreenCanvas, {
+                width: window.innerWidth,
+                height: window.innerHeight,
+                pixelRatio: window.devicePixelRatio * 2 || 1,
+                textureRatio: 2
+            });
+            console.log('[Butterchurn] OffscreenCanvas initialized successfully');
+        } catch (error) {
+            console.warn('[Butterchurn] OffscreenCanvas failed, falling back to regular canvas:', error);
+            butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, {
+                width: window.innerWidth,
+                height: window.innerHeight,
+                pixelRatio: window.devicePixelRatio * 2 || 1,
+                textureRatio: 2
+            });
+        }
+    } else {
+        console.log('[Butterchurn] OffscreenCanvas not supported, using regular canvas');
         butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, {
             width: window.innerWidth,
             height: window.innerHeight,
