@@ -42,7 +42,8 @@ export const xDuration = {
     fadeOut: 1,
     enabled: true,
     t0: performance.now(),
-    busy: false
+    busy: false,
+    triggered: false
 };
 
 /**
@@ -105,6 +106,7 @@ export function hijackMediaElementForCrossfade() {
         destroyWaveSurferInstance();
         prevNextDisable(false);
         xDuration.busy = false;  // Reset busy flag after new track can start
+        xDuration.triggered = false;  // Reset trigger flag for new track
     }, (xDuration.sustain * 1000) - 15);
 
     setTimeout(() => {
@@ -153,9 +155,19 @@ export function timeRunningOut(player: any) {
     const durationMs = player.duration() * 1000;
     const fadeOutMs = xDuration.fadeOut * 1000;
 
-    if (!masterAudioOutput.audioContext || !xDuration.enabled || xDuration.busy || currentTimeMs < fadeOutMs) {
+    // Guard against invalid duration (0, NaN, Infinity)
+    if (!isFinite(durationMs) || durationMs <= 0) {
         return false;
     }
 
-    return durationMs - currentTimeMs <= fadeOutMs * 1.5;
+    // Check all blocking conditions including triggered flag
+    if (!masterAudioOutput.audioContext || !xDuration.enabled || xDuration.busy || xDuration.triggered || currentTimeMs < fadeOutMs) {
+        return false;
+    }
+
+    const shouldTrigger = durationMs - currentTimeMs <= fadeOutMs * 1.5;
+    if (shouldTrigger) {
+        xDuration.triggered = true;  // Set flag immediately to prevent re-trigger
+    }
+    return shouldTrigger;
 }
