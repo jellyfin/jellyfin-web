@@ -93,30 +93,11 @@ function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, 
     const endpoint = method === 'reportPlaybackProgress'
         ? 'Sessions/Playing/Progress'
         : (method === 'reportPlaybackStopped' ? 'Sessions/Playing/Stopped' : 'Sessions/Playing');
-    const reportUrl = apiClient.getUrl(endpoint, {
-        api_key: apiClient.accessToken()
-    });
-    if (isCrossOriginRequestUrl(reportUrl)) {
-        fetch(reportUrl, {
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'omit',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            keepalive: true,
-            body: JSON.stringify(info)
-        }).then(() => {
-            Events.trigger(playbackManagerInstance, 'reportplayback', [true]);
-        }).catch(() => {
-            Events.trigger(playbackManagerInstance, 'reportplayback', [false]);
-        });
-        return;
-    }
-
     const reportPlaybackPromise = apiClient[method](info);
     reportPlaybackPromise.then(() => {
         Events.trigger(playbackManagerInstance, 'reportplayback', [true]);
+    }).catch(() => {
+        Events.trigger(playbackManagerInstance, 'reportplayback', [false]);
     });
 }
 

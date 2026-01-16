@@ -109,6 +109,9 @@ function fillImageElement(elem, url) {
     if (url === undefined) {
         throw new TypeError('url cannot be undefined');
     }
+    if (typeof url === 'string') {
+        url = url.replace(/^['"]+|['"]+$/g, '');
+    }
 
     const preloaderImg = new Image();
     preloaderImg.src = url;
@@ -148,7 +151,7 @@ function emptyImageElement(elem) {
     let url;
 
     if (elem.tagName !== 'IMG') {
-        url = elem.style.backgroundImage.slice(4, -1).replace(/"/g, '');
+        url = elem.style.backgroundImage.slice(4, -1).replace(/['"]/g, '');
         elem.style.backgroundImage = 'none';
     } else {
         url = elem.getAttribute('src');

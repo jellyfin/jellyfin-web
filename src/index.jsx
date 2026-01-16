@@ -69,7 +69,12 @@ build: ${__JF_BUILD_VERSION__}`);
     });
 
     // Initialize the api client
-    const serverUrl = await serverAddress();
+    let serverUrl = await serverAddress();
+    if (__WEBPACK_SERVE__ && __DEV_SERVER_PROXY_TARGET__) {
+        const devServerUrl = window.location.origin;
+        ServerConnections.setDevServerAddress(devServerUrl);
+        serverUrl = devServerUrl;
+    }
     if (serverUrl) {
         ServerConnections.initApiClient(serverUrl);
     }

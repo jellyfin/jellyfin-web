@@ -11,6 +11,7 @@ import Events from 'utils/events.ts';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import ConnectionManager from './connectionManager';
+import { ConnectionMode } from './connectionMode';
 
 const normalizeImageOptions = options => {
     if (!options.quality && (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight)) {
@@ -37,6 +38,7 @@ class ServerConnections extends ConnectionManager {
         super(...arguments);
         this.localApiClient = null;
         this.firstConnection = null;
+        this.devServerAddress = null;
 
         Events.on(this, 'localusersignedout', (_e, logoutInfo) => {
             setUserInfo(null, null);
@@ -51,6 +53,25 @@ class ServerConnections extends ConnectionManager {
         Events.on(this, 'apiclientcreated', (_e, apiClient) => {
             apiClient.getMaxBandwidth = getMaxBandwidth;
             apiClient.normalizeImageOptions = normalizeImageOptions;
+
+            if (this.devServerAddress) {
+                apiClient.enableAutomaticNetworking = false;
+                apiClient.manualAddressOnly = true;
+                apiClient.serverAddress(this.devServerAddress);
+                const serverInfo = apiClient.serverInfo() || {};
+                serverInfo.ManualAddress = this.devServerAddress;
+                serverInfo.LocalAddress = this.devServerAddress;
+                serverInfo.RemoteAddress = null;
+                serverInfo.LastConnectionMode = ConnectionMode.Manual;
+                serverInfo.manualAddressOnly = true;
+                apiClient.serverInfo(serverInfo);
+            }
+        });
+
+        Events.on(this, 'connected', () => {
+            if (this.devServerAddress) {
+                this.applyDevServerAddress();
+            }
         });
     }
 
@@ -142,6 +163,44 @@ class ServerConnections extends ConnectionManager {
                 return window.NativeShell.onLocalUserSignedIn(user, apiClient.accessToken());
             }
             return Promise.resolve();
+        });
+    }
+
+    setDevServerAddress(address) {
+        if (!address) return;
+
+        this.devServerAddress = address;
+        this.applyDevServerAddress();
+    }
+
+    applyDevServerAddress() {
+        if (!this.devServerAddress) return;
+
+        const credentials = credentialProvider.credentials();
+        const servers = credentials?.Servers || [];
+        if (!servers.length) return;
+
+        servers.forEach(server => {
+            server.ManualAddress = this.devServerAddress;
+            server.LocalAddress = this.devServerAddress;
+            server.RemoteAddress = null;
+            server.LastConnectionMode = ConnectionMode.Manual;
+            server.manualAddressOnly = true;
+        });
+
+        credentialProvider.credentials(credentials);
+
+        this.getApiClients().forEach(apiClient => {
+            apiClient.enableAutomaticNetworking = false;
+            apiClient.manualAddressOnly = true;
+            apiClient.serverAddress(this.devServerAddress);
+            const serverInfo = apiClient.serverInfo() || {};
+            serverInfo.ManualAddress = this.devServerAddress;
+            serverInfo.LocalAddress = this.devServerAddress;
+            serverInfo.RemoteAddress = null;
+            serverInfo.LastConnectionMode = ConnectionMode.Manual;
+            serverInfo.manualAddressOnly = true;
+            apiClient.serverInfo(serverInfo);
         });
     }
 }
