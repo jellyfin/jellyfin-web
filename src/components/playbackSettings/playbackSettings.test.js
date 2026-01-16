@@ -1,6 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 
+import { vi } from 'vitest';
 import { getVisualizerInputValues, visualizerSettings } from 'components/visualizer/visualizers.logic';
+
+// Mock userSettings to prevent globalize from failing
+vi.mock('../../scripts/settings/userSettings', () => ({}));
 
 function resetVisualizerDefaults() {
     visualizerSettings.butterchurn.enabled = false;
