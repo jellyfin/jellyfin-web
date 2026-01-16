@@ -9,6 +9,7 @@ import { visualizerSettings } from './visualizers.logic';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { ApiClient } from 'jellyfin-apiclient';
+import { isVisible } from '../../utils/visibility';
 
 type WaveSurferLegacy = {
     peaks: number[][] | undefined
@@ -493,9 +494,8 @@ async function waveSurferInitialization(container: string, _legacy: WaveSurferLe
         return;
     }
     // Don't update if the tab is not in focus or the screen is off
-    if (document.hidden
-        || document.visibilityState !== 'visible'
-        || ( !inputSurfer && !barSurfer)
+    if (!isVisible()
+        || (!inputSurfer && !barSurfer)
         || !mediaElement) {
         return;
     }

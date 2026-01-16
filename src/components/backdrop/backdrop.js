@@ -4,6 +4,7 @@ import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
 import dom from '../../utils/dom';
 import * as userSettings from '../../scripts/settings/userSettings';
+import { isVisible } from '../../utils/visibility';
 
 import './backdrop.scss';
 
@@ -241,7 +242,7 @@ export function setBackdropImages(images) {
 }
 
 function onRotationInterval() {
-    if (playbackManager.isPlayingLocally(['Video'])) {
+    if (playbackManager.isPlayingLocally(['Video']) || !isVisible()) {
         return;
     }
 

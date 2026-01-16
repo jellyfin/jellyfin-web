@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
 import { visualizerSettings } from './visualizers.logic';
+import { isVisible } from '../../utils/visibility';
 
 type FrequencyAnalyzersProps = {
     audioContext?: AudioContext;
@@ -29,7 +30,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
 
     const draw = useCallback(
         (analyser: AnalyserNode) => {
-            if (document.visibilityState === 'hidden') return;
+            if (!isVisible()) return;
             const frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
             const renderFrame = () => {

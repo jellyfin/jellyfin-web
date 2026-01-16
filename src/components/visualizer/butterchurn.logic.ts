@@ -8,6 +8,7 @@ import { masterAudioOutput } from 'components/audioEngine/master.logic';
 import { visualizerSettings } from './visualizers.logic';
 // @ts-ignore
 import isButterchurnSupported from 'butterchurn/lib/isSupported.min';
+import { isVisible } from '../../utils/visibility';
 
 let presetSwitchInterval: NodeJS.Timeout;
 
@@ -66,7 +67,7 @@ export function initializeButterChurn(canvas: HTMLCanvasElement) {
 
     // Custom animation loop using requestAnimationFrame
     const animate = () => {
-        if (document.hidden || document.visibilityState !== 'visible') {
+        if (!isVisible()) {
             return;
         }
         butterchurnInstance.visualizer.render();
