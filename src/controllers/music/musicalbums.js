@@ -9,6 +9,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
+import { getPaginatedRandomItems, getCachedRandomItems } from '../../utils/randomSortCache';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
@@ -88,7 +89,33 @@ export default function (view, params, tabContent) {
         const query = getQuery();
         setFilterStatus(tabContent, query);
 
-        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
+        const isRandomSort = query.SortBy === 'Random,SortName';
+        let itemPromise;
+
+        if (isRandomSort) {
+            const cacheKey = `${params.topParentId}-albums-random`;
+            const fetchAllItems = () => {
+                const allQuery = { ...query };
+                allQuery.SortBy = 'SortName';
+                allQuery.SortOrder = 'Ascending';
+                allQuery.Fields = 'PrimaryImageAspectRatio';
+                allQuery.ImageTypeLimit = 1;
+                allQuery.EnableImageTypes = 'Primary';
+                allQuery.Limit = 10000; // Reasonable limit for large libraries
+                return ApiClient.getItems(ApiClient.getCurrentUserId(), allQuery).then(r => r.Items);
+            };
+            itemPromise = Promise.all([
+                getPaginatedRandomItems(cacheKey, fetchAllItems, query.StartIndex || 0, query.Limit || 100),
+                getCachedRandomItems(cacheKey, fetchAllItems).then(items => items.length)
+            ]).then(([paginatedItems, totalCount]) => ({
+                Items: paginatedItems,
+                TotalRecordCount: totalCount
+            }));
+        } else {
+            itemPromise = ApiClient.getItems(ApiClient.getCurrentUserId(), query);
+        }
+
+        itemPromise.then((result) => {
             function onNextPageClick() {
                 if (isLoading) {
                     return;

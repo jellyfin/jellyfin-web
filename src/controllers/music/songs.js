@@ -9,6 +9,7 @@ import globalize from '../../lib/globalize';
 import Dashboard from '../../utils/dashboard';
 import Events from '../../utils/events.ts';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
+import { getPaginatedRandomItems, getCachedRandomItems } from '../../utils/randomSortCache';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
@@ -58,7 +59,9 @@ export default function (view, params, tabContent) {
         const query = getQuery();
         setFilterStatus(tabContent, query);
 
-        ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
+        const isRandomSort = query.SortBy === 'Random,SortName';
+
+        function handleResult(result) {
             function onNextPageClick() {
                 if (isLoading) {
                     return;
@@ -127,7 +130,32 @@ export default function (view, params, tabContent) {
             import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
                 autoFocuser.autoFocus(page);
             });
-        });
+        }
+
+        if (isRandomSort) {
+            const cacheKey = `${params.topParentId}-songs-random`;
+            const fetchAllItems = () => {
+                const allQuery = { ...query };
+                allQuery.SortBy = 'SortName';
+                allQuery.SortOrder = 'Ascending';
+                allQuery.Fields = 'ParentId';
+                allQuery.ImageTypeLimit = 1;
+                allQuery.EnableImageTypes = 'Primary';
+                allQuery.Limit = 10000; // Reasonable limit for large libraries
+                return ApiClient.getItems(Dashboard.getCurrentUserId(), allQuery).then(r => r.Items);
+            };
+            Promise.all([
+                getPaginatedRandomItems(cacheKey, fetchAllItems, query.StartIndex || 0, query.Limit || 100),
+                getCachedRandomItems(cacheKey, fetchAllItems).then(items => items.length)
+            ]).then(([paginatedItems, totalCount]) => {
+                handleResult({
+                    Items: paginatedItems,
+                    TotalRecordCount: totalCount
+                });
+            });
+        } else {
+            ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(handleResult);
+        }
     }
 
     const self = this;
