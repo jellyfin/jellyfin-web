@@ -1,6 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-
-import { vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { getVisualizerInputValues, visualizerSettings } from 'components/visualizer/visualizers.logic';
 
 // Mock userSettings to prevent globalize from failing

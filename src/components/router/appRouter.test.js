@@ -41,12 +41,14 @@ describe('appRouter - showItem', () => {
     it('should not navigate when in queue view', () => {
         window.location.hash = '#/queue';
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const appRouter = {
             getRouteUrl: mockRouter.getRouteUrl,
             show: mockRouter.show
         };
 
         // Simulate showItem call - should not call show
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const item = { Id: '123', Type: 'Audio' };
         // In real code, it returns early
         // So, mock that it doesn't call getRouteUrl or show
