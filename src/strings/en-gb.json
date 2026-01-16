@@ -2073,5 +2073,12 @@
     "ButtonAddProvider": "Add Provider",
     "ButtonAddTunerDevice": "Add Tuner Device",
     "LabelSlideshowInterval": "Photo Slideshow Interval",
-    "LabelSlideshowIntervalHelp": "The time in seconds each photo is displayed in slideshows."
+    "LabelSlideshowIntervalHelp": "The time in seconds each photo is displayed in slideshows.",
+    "ButterchurnPresetInterval": "Butterchurn preset interval",
+    "ButterchurnPresetIntervalHelp": "Seconds between automatic preset changes. Set to 0 to disable.",
+    "CrossfadeDuration": "Cross-fade duration",
+    "CrossfadeDurationHelp": "Duration in seconds to fade between tracks.",
+    "EnableButterchurn": "Enable Butterchurn visualizer",
+    "EnableFrequencyAnalyzer": "Enable frequency analyzer",
+    "EnableWavesurfer": "Enable WaveSurfer waveform"
 }
