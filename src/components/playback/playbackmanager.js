@@ -3520,6 +3520,9 @@ export class PlaybackManager {
         function onPlaybackTimeUpdate() {
             const player = this;
             if (timeRunningOut(player)) {
+                // Crossfade is triggering the next track, so prevent onPlaybackStopped
+                // from auto-advancing again when the old track ends
+                self._playNextAfterEnded = false;
                 self.nextTrack();
             }
 
