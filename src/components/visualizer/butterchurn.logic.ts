@@ -59,6 +59,17 @@ export const butterchurnInstance: {
 export function initializeButterChurn(canvas: HTMLCanvasElement) {
     console.log('[Butterchurn] Starting initialization...');
 
+    // Check if butterchurn library is available
+    if (!butterchurn) {
+        console.error('[Butterchurn] Butterchurn library not loaded');
+        return;
+    }
+
+    if (!butterchurnPresets) {
+        console.error('[Butterchurn] Butterchurn presets not loaded');
+        return;
+    }
+
     if (!masterAudioOutput.audioContext) {
         console.warn('[Butterchurn] AudioContext not available - cannot initialize');
         return;
@@ -90,62 +101,121 @@ export function initializeButterChurn(canvas: HTMLCanvasElement) {
         textureRatio: 2
     };
 
+    try {
+        // Always try regular canvas first for reliability
+        console.log('[Butterchurn] Initializing with regular canvas');
+        butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, options);
+        console.log('[Butterchurn] Regular canvas initialized successfully');
+    } catch (error) {
+        console.error('[Butterchurn] Failed to create visualizer with regular canvas:', error);
+        butterchurnInstance.visualizer = null;
+        return;
+    }
+
+    // Optionally try OffscreenCanvas if supported (but don't fail if it doesn't work)
     if (isOffscreenCanvasSupported() && !canvasTransferred) {
         try {
-            console.log('[Butterchurn] Attempting OffscreenCanvas for improved performance');
+            console.log('[Butterchurn] Attempting OffscreenCanvas upgrade for improved performance');
             // Set canvas size before transferring control
             canvas.width = options.width * options.pixelRatio;
             canvas.height = options.height * options.pixelRatio;
             const offscreenCanvas = (canvas as any).transferControlToOffscreen();
-            canvasTransferred = true; // Mark canvas as transferred BEFORE creating visualizer
-            butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, offscreenCanvas, options);
-            console.log('[Butterchurn] OffscreenCanvas initialized successfully');
+            canvasTransferred = true; // Mark canvas as transferred
+
+            // Create new visualizer with OffscreenCanvas
+            const newVisualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, offscreenCanvas, options);
+
+            // Transfer audio connection and presets
+            newVisualizer.connectAudio(masterAudioOutput.mixerNode);
+            try {
+                const currentPreset = butterchurnInstance.visualizer.getCurrentPreset();
+                if (currentPreset) {
+                    newVisualizer.loadPreset(currentPreset, 0);
+                }
+            } catch (presetError) {
+                console.warn('[Butterchurn] Could not transfer preset to OffscreenCanvas:', presetError);
+            }
+
+            // Replace the old visualizer
+            butterchurnInstance.visualizer = newVisualizer;
+            console.log('[Butterchurn] OffscreenCanvas upgrade successful');
         } catch (error) {
-            canvasTransferred = false; // Reset on failure
-            console.warn('[Butterchurn] OffscreenCanvas failed, falling back to regular canvas:', error);
-            butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, options);
+            console.warn('[Butterchurn] OffscreenCanvas upgrade failed, keeping regular canvas:', error);
+            // Keep the regular canvas visualizer
         }
-    } else if (!canvasTransferred) {
-        console.log('[Butterchurn] OffscreenCanvas not supported, using regular canvas');
-        butterchurnInstance.visualizer = butterchurn.createVisualizer(masterAudioOutput.audioContext, canvas, options);
-    } else {
-        console.log('[Butterchurn] Canvas already transferred, skipping re-initialization');
+    }
+
+    if (!butterchurnInstance.visualizer) {
+        console.error('[Butterchurn] Visualizer creation failed');
         return;
     }
 
-    console.log('[Butterchurn] Visualizer created successfully:', !!butterchurnInstance.visualizer);
+    console.log('[Butterchurn] Visualizer created successfully');
 
     // Connect your audio source (e.g., mixerNode) to the visualizer
-    butterchurnInstance.visualizer.connectAudio(masterAudioOutput.mixerNode);
+    try {
+        butterchurnInstance.visualizer.connectAudio(masterAudioOutput.mixerNode);
+        console.log('[Butterchurn] Audio connection established');
+    } catch (error) {
+        console.error('[Butterchurn] Failed to connect audio:', error);
+        return;
+    }
 
-    const presets = butterchurnPresets.getPresets();
-    const presetNames = Object.keys(presets);
+    let presets: any;
+    let presetNames: string[];
+
+    try {
+        presets = butterchurnPresets.getPresets();
+        presetNames = Object.keys(presets);
+        console.log(`[Butterchurn] Loaded ${presetNames.length} presets`);
+    } catch (error) {
+        console.error('[Butterchurn] Failed to load presets:', error);
+        return;
+    }
 
     const loadNextPreset = () => {
+        if (!butterchurnInstance.visualizer) return;
+
         clearInterval(presetSwitchInterval);
 
-        const randomIndex = Math.floor(Math.random() * presetNames.length);
-        const nextPresetName = presetNames[randomIndex];
-        const nextPreset = presets[nextPresetName];
-        if (nextPreset) {
-            butterchurnInstance.visualizer.loadPreset(nextPreset, xDuration.fadeOut); // Blend presets over 0 seconds
+        try {
+            const randomIndex = Math.floor(Math.random() * presetNames.length);
+            const nextPresetName = presetNames[randomIndex];
+            const nextPreset = presets[nextPresetName];
+            if (nextPreset) {
+                butterchurnInstance.visualizer.loadPreset(nextPreset, xDuration.fadeOut || 0);
+                console.debug(`[Butterchurn] Loaded preset: ${nextPresetName}`);
+            }
+        } catch (error) {
+            console.error('[Butterchurn] Failed to load preset:', error);
         }
 
         if (visualizerSettings.butterchurn.presetInterval > 10) {
             presetSwitchInterval = setInterval(loadNextPreset, visualizerSettings.butterchurn.presetInterval * 1000);
         }
     };
+
     // Load the initial preset
     loadNextPreset();
     butterchurnInstance.nextPreset = loadNextPreset;
 
     // Custom animation loop using requestAnimationFrame
+    let frameCount = 0;
     const animate = () => {
         if (!isVisible()) {
             return;
         }
-        butterchurnInstance.visualizer.render();
-        requestAnimationFrame(animate);
+        try {
+            butterchurnInstance.visualizer.render();
+            frameCount++;
+            if (frameCount % 300 === 0) { // Log every 300 frames (~5 seconds at 60fps)
+                console.debug(`[Butterchurn] Rendered ${frameCount} frames`);
+            }
+            requestAnimationFrame(animate);
+        } catch (error) {
+            console.error('[Butterchurn] Render error:', error);
+            // Stop animation loop on error
+        }
     };
     animate();
 

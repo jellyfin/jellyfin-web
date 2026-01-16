@@ -68,9 +68,9 @@ const defaultVisualizerSettings = {
         }
     },
     butterchurn: {
-        enabled: false,
+        enabled: true, // Enable by default for testing
         opacity: 0.6, // 0.1-1.0
-        presetInterval: 60, // seconds, 0 = manual only
+        presetInterval: 30, // seconds, 0 = manual only (shorter for testing)
         transitionSpeed: 2.7 // seconds
     },
     sitback: {
