@@ -236,6 +236,9 @@ export function hijackMediaElementForCrossfade() {
     // Start global sync for timing alignment
     syncManager.startSync();
 
+    // Synchronize volume UI with Web Audio gain level
+    synchronizeVolumeUI();
+
     const hijackedPlayer = document.getElementById('currentMediaElement') as HTMLMediaElement;
 
     if (!hijackedPlayer || hijackedPlayer.paused || hijackedPlayer.src === '') {
@@ -266,7 +269,7 @@ export function hijackMediaElementForCrossfade() {
 
     const disposeElement = document.getElementById('crossFadeMediaElement');
     if (disposeElement) {
-        destroyWaveSurferInstance(false);
+        destroyWaveSurferInstance();
     }
     prevNextDisable(true);
     hijackedPlayer.classList.remove('mediaPlayerAudio');
@@ -306,7 +309,7 @@ export function hijackMediaElementForCrossfade() {
                 unbindCallback();
             }
             // Reset visibility on fade out track, but keep WaveSurfer instance for reuse
-            destroyWaveSurferInstance(false);
+            destroyWaveSurferInstance();
             prevNextDisable(false);
             xDuration.busy = false; // Reset busy flag after new track can start
             xDuration.triggered = false; // Reset trigger flag for new track
@@ -379,16 +382,26 @@ function prevNextDisable(disable = false) {
 }
 
 /**
+ * Synchronizes the volume UI controls with the Web Audio gain level
+ */
+export function synchronizeVolumeUI(): void {
+    // Update volume slider to reflect Web Audio gain level
+    const volumeSlider = document.querySelector('.nowPlayingVolumeSlider') as HTMLInputElement;
+    if (volumeSlider && masterAudioOutput.volume !== undefined) {
+        volumeSlider.value = masterAudioOutput.volume.toString();
+        // Trigger change event if needed
+        volumeSlider.dispatchEvent(new Event('input', { bubbles: true }));
+
+        console.debug(`[VolumeSync] Updated UI slider to ${masterAudioOutput.volume}`);
+    }
+}
+
+/**
  * Checks if the time is running out for the current track.
  * @param {any} player - The player instance.
  * @returns {boolean} Whether the time is running out.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function timeRunningOut(player: any): boolean {
-    // Check triggered flag FIRST (atomic early exit)
-    if (xDuration.triggered) {
-        return false;
-    }
 
     const currentTimeMs = player.currentTime() * 1000;
     const durationMs = player.duration() * 1000;

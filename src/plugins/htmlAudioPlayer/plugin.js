@@ -7,6 +7,7 @@ import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
 import { MediaError } from 'types/mediaError';
 import { audioNodeBus, createGainNode, initializeMasterAudio, masterAudioOutput, rampPlaybackGain } from 'components/audioEngine/master.logic';
+import { synchronizeVolumeUI } from 'components/audioEngine/crossfader.logic';
 import { hijackMediaElementForCrossfade, xDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
 import { scrollToActivePlaylistItem, triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
 
@@ -547,6 +548,9 @@ class HtmlAudioPlayer {
                 volumeSlider.level = masterAudioOutput.volume;
             }
             masterAudioOutput.muted = false;
+
+            // Synchronize volume UI
+            synchronizeVolumeUI();
         } else if (mediaElement) {
             mediaElement.volume = Math.pow(val / 100, 3);
         }
