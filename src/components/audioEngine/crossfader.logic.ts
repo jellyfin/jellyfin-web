@@ -264,7 +264,7 @@ export function hijackMediaElementForCrossfade() {
 
     const disposeElement = document.getElementById('crossFadeMediaElement');
     if (disposeElement) {
-        destroyWaveSurferInstance();
+        destroyWaveSurferInstance(false);
     }
     prevNextDisable(true);
     hijackedPlayer.classList.remove('mediaPlayerAudio');
@@ -303,8 +303,8 @@ export function hijackMediaElementForCrossfade() {
             if (typeof unbindCallback === 'function') {
                 unbindCallback();
             }
-            // This destroys the wavesurfer on the fade out track when the new track starts
-            destroyWaveSurferInstance();
+            // Reset visibility on fade out track, but keep WaveSurfer instance for reuse
+            destroyWaveSurferInstance(false);
             prevNextDisable(false);
             xDuration.busy = false; // Reset busy flag after new track can start
             xDuration.triggered = false; // Reset trigger flag for new track

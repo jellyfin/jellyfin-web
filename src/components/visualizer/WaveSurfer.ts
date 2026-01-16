@@ -11,6 +11,59 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { ApiClient } from 'jellyfin-apiclient';
 import { isVisible } from '../../utils/visibility';
 
+/** LRU cache for WaveSurfer peak data */
+interface PeakCacheEntry {
+    peaks: number[][];
+    duration: number;
+    timestamp: number;
+}
+
+const PEAK_CACHE_MAX_SIZE = 10;
+const peakCache = new Map<string, PeakCacheEntry>();
+
+function getCacheKey(itemId: string | null, streamUrl: string | null): string | null {
+    if (itemId) return `item:${itemId}`;
+    if (streamUrl) return `url:${streamUrl}`;
+    return null;
+}
+
+function getCachedPeaks(itemId: string | null, streamUrl: string | null): PeakCacheEntry | null {
+    const key = getCacheKey(itemId, streamUrl);
+    if (!key) return null;
+
+    const entry = peakCache.get(key);
+    if (entry) {
+        // Update timestamp for LRU
+        entry.timestamp = Date.now();
+        return entry;
+    }
+    return null;
+}
+
+function setCachedPeaks(itemId: string | null, streamUrl: string | null, peaks: number[][], duration: number): void {
+    const key = getCacheKey(itemId, streamUrl);
+    if (!key) return;
+
+    // Evict oldest entry if at capacity
+    if (peakCache.size >= PEAK_CACHE_MAX_SIZE) {
+        let oldestKey: string | null = null;
+        let oldestTime = Infinity;
+        peakCache.forEach((entry, k) => {
+            if (entry.timestamp < oldestTime) {
+                oldestTime = entry.timestamp;
+                oldestKey = k;
+            }
+        });
+        if (oldestKey) peakCache.delete(oldestKey);
+    }
+
+    peakCache.set(key, { peaks, duration, timestamp: Date.now() });
+}
+
+export function clearPeakCache(): void {
+    peakCache.clear();
+}
+
 type WaveSurferLegacy = {
     peaks: number[][] | undefined
     duration: number
@@ -431,6 +484,11 @@ function ensureWaveSurferInstance(container: string) {
             savedDuration = duration;
             savedPeaks = waveSurferInstance?.exportPeaks();
 
+            // Cache peaks for reuse
+            if (savedPeaks && (lastLoadedItemId || lastLoadedStreamUrl)) {
+                setCachedPeaks(lastLoadedItemId, lastLoadedStreamUrl, savedPeaks, duration);
+            }
+
             if (waveSurferContainer) {
                 applyWaveSurferContainerOptions(waveSurferContainer);
                 applyWaveSurferPlugins(waveSurferContainer);
@@ -462,6 +520,19 @@ function ensureWaveSurferInstance(container: string) {
 
 async function loadWaveSurferAudio(apiClient: ApiClient, streamUrl: string, itemId: string | null) {
     if (!waveSurferInstance || !streamUrl) return;
+
+    // Check cache first
+    const cached = getCachedPeaks(itemId, streamUrl);
+    if (cached) {
+        console.debug('[WaveSurfer] Using cached peaks for', itemId || streamUrl);
+        waveSurferReady = false;
+        lastLoadedItemId = itemId;
+        lastLoadedStreamUrl = streamUrl;
+
+        // Load from cached peaks (much faster than re-fetching audio)
+        waveSurferInstance.load('', cached.peaks, cached.duration);
+        return;
+    }
 
     waveSurferReady = false;
     lastLoadedItemId = itemId;
@@ -541,11 +612,7 @@ async function waveSurferInitialization(container: string, _legacy: WaveSurferLe
     syncWaveSurferTime();
 }
 
-function destroyWaveSurferInstance(): WaveSurferLegacy {
-    if (!waveSurferInstance) {
-        resetVisibility();
-    }
-
+function destroyWaveSurferInstance(fullDestroy = false): WaveSurferLegacy {
     const legacy = {
         peaks: savedPeaks,
         duration: savedDuration,
@@ -557,6 +624,14 @@ function destroyWaveSurferInstance(): WaveSurferLegacy {
     resetVisibility();
     bindMediaSync(null);
     unbindTouchHandlers();
+
+    if (fullDestroy && waveSurferInstance) {
+        clearWaveSurferPlugins();
+        waveSurferInstance.destroy();
+        waveSurferInstance = null;
+        waveSurferContainer = null;
+        waveSurferReady = false;
+    }
 
     return legacy;
 }
@@ -579,3 +654,5 @@ export {
     destroyWaveSurferInstance,
     currentZoom
 };
+
+// clearPeakCache is already exported at definition

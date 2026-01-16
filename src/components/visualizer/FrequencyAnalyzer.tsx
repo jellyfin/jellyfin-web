@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
 import { visualizerSettings } from './visualizers.logic';
-import { isVisible } from '../../utils/visibility';
+import { isVisible, onVisibilityChange } from '../../utils/visibility';
 
 type FrequencyAnalyzersProps = {
     audioContext?: AudioContext;
@@ -12,6 +12,10 @@ type FrequencyAnalyzersProps = {
     maxDecibels?: number;
     alpha?: number; // Parameter for mapping adjustment
 };
+
+// Module-level singleton to preserve AnalyserNode across mounts
+let sharedAnalyser: AnalyserNode | null = null;
+let sharedAnalyserContext: AudioContext | null = null;
 
 const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
     audioContext = masterAudioOutput.audioContext,
@@ -24,26 +28,36 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
 }) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const animationFrameId = useRef<number>();
-    const analyserRef = useRef<AnalyserNode>();
     const workerRef = useRef<Worker>();
     const hasTransferredRef = useRef(false);
+    const isRunningRef = useRef(false);
 
-    const draw = useCallback(
-        (analyser: AnalyserNode) => {
-            if (!isVisible()) return;
-            const frequencyData = new Uint8Array(analyser.frequencyBinCount);
+    const stopLoop = useCallback(() => {
+        if (animationFrameId.current) {
+            cancelAnimationFrame(animationFrameId.current);
+            animationFrameId.current = undefined;
+        }
+        isRunningRef.current = false;
+    }, []);
 
-            const renderFrame = () => {
-                analyser.getByteFrequencyData(frequencyData);
-                workerRef.current?.postMessage({ frequencyData });
+    const startLoop = useCallback((analyser: AnalyserNode) => {
+        if (isRunningRef.current) return;
+        isRunningRef.current = true;
 
-                animationFrameId.current = requestAnimationFrame(renderFrame);
-            };
+        const frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
-            renderFrame();
-        },
-        []
-    );
+        const renderFrame = () => {
+            if (!isRunningRef.current || !isVisible()) {
+                isRunningRef.current = false;
+                return;
+            }
+            analyser.getByteFrequencyData(frequencyData);
+            workerRef.current?.postMessage({ frequencyData });
+            animationFrameId.current = requestAnimationFrame(renderFrame);
+        };
+
+        renderFrame();
+    }, []);
 
     useEffect(() => {
         if (!audioContext) {
@@ -51,14 +65,28 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
             return;
         }
 
-        const analyser = audioContext.createAnalyser();
+        // Reuse or create AnalyserNode
+        if (sharedAnalyserContext !== audioContext || !sharedAnalyser) {
+            if (sharedAnalyser && sharedAnalyserContext) {
+                try {
+                    sharedAnalyser.disconnect();
+                } catch { /* already disconnected */ }
+            }
+            sharedAnalyser = audioContext.createAnalyser();
+            sharedAnalyserContext = audioContext;
+        }
+
+        const analyser = sharedAnalyser;
         analyser.fftSize = fftSize;
         analyser.smoothingTimeConstant = smoothingTimeConstant;
         analyser.minDecibels = minDecibels;
         analyser.maxDecibels = maxDecibels;
-        analyserRef.current = analyser;
 
-        if (mixerNode) mixerNode.connect(analyser);
+        if (mixerNode) {
+            try {
+                mixerNode.connect(analyser);
+            } catch { /* already connected */ }
+        }
 
         const canvas = canvasRef.current;
         if (canvas && !hasTransferredRef.current) {
@@ -94,18 +122,25 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
             }
         }
 
-        if (workerRef.current) {
-            draw(analyser);
+        // Start loop if visible
+        if (workerRef.current && isVisible()) {
+            startLoop(analyser);
         }
 
+        // Subscribe to visibility changes
+        const unsubscribe = onVisibilityChange((visible) => {
+            if (visible && workerRef.current) {
+                startLoop(analyser);
+            } else {
+                stopLoop();
+            }
+        });
+
         return () => {
-            if (mixerNode) mixerNode.disconnect(analyser);
-            if (animationFrameId.current) {
-                cancelAnimationFrame(animationFrameId.current);
-            }
-            if (process.env.NODE_ENV === 'production') {
-                workerRef.current?.terminate();
-            }
+            stopLoop();
+            unsubscribe();
+            // Don't disconnect analyser - it's shared
+            // Don't terminate worker - preserve for remount
         };
     }, [
         audioContext,
@@ -114,10 +149,9 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
         smoothingTimeConstant,
         minDecibels,
         maxDecibels,
-        draw,
-        alpha,
-        visualizerSettings.frequencyAnalyzer.colorScheme,
-        visualizerSettings.frequencyAnalyzer.colors
+        startLoop,
+        stopLoop,
+        alpha
     ]);
 
     useEffect(() => {
