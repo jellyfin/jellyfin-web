@@ -55,7 +55,8 @@ import {
     xDuration,
     hijackMediaElementForCrossfade,
     timeRunningOut,
-    cancelCrossfadeTimeouts
+    cancelCrossfadeTimeouts,
+    syncManager
 } from './crossfader.logic';
 
 // Setup fake timers
@@ -699,5 +700,112 @@ describe('crossfader.logic - negative timeout prevention', () => {
         });
 
         setTimeoutSpy.mockRestore();
+    });
+});
+
+describe('crossfader.logic - SyncManager', () => {
+    let mockElement1: HTMLAudioElement;
+    let mockElement2: HTMLAudioElement;
+    let setIntervalSpy: any;
+    let clearIntervalSpy: ReturnType<typeof vi.spyOn>;
+
+    beforeEach(() => {
+        vi.useFakeTimers();
+        // Create mock elements
+        mockElement1 = document.createElement('audio');
+        mockElement2 = document.createElement('audio');
+
+        // Setup element properties
+        Object.defineProperty(mockElement1, 'currentTime', { value: 10, writable: true, configurable: true });
+        Object.defineProperty(mockElement1, 'paused', { value: false, writable: true, configurable: true });
+        Object.defineProperty(mockElement1, 'readyState', { value: 4, writable: true, configurable: true });
+        Object.defineProperty(mockElement1, 'playbackRate', { value: 1.0, writable: true, configurable: true });
+        Object.defineProperty(mockElement1, 'buffered', {
+            value: {
+                length: 1,
+                end: vi.fn(() => 15)
+            },
+            writable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(mockElement2, 'currentTime', { value: 12, writable: true, configurable: true });
+        Object.defineProperty(mockElement2, 'paused', { value: false, writable: true, configurable: true });
+        Object.defineProperty(mockElement2, 'readyState', { value: 4, writable: true, configurable: true });
+        Object.defineProperty(mockElement2, 'playbackRate', { value: 1.0, writable: true, configurable: true });
+        Object.defineProperty(mockElement2, 'buffered', {
+            value: {
+                length: 1,
+                end: vi.fn(() => 18)
+            },
+            writable: true,
+            configurable: true
+        });
+
+        setIntervalSpy = vi.spyOn(global, 'setInterval');
+        clearIntervalSpy = vi.spyOn(global, 'clearInterval');
+    });
+
+    afterEach(() => {
+        vi.runAllTimers();
+        vi.useRealTimers();
+        setIntervalSpy.mockRestore();
+        clearIntervalSpy.mockRestore();
+    });
+
+    describe('registerElement and unregisterElement', () => {
+        it('should register an element with start time', () => {
+            syncManager.registerElement(mockElement1, 5);
+            expect(mockElement1.preload).toBe('auto');
+        });
+
+        it('should unregister an element', () => {
+            syncManager.registerElement(mockElement1, 5);
+            syncManager.unregisterElement(mockElement1);
+            // No direct way to test internal map, but no errors should occur
+        });
+    });
+
+    describe('startSync and stopSync', () => {
+        it('should start sync interval', () => {
+            syncManager.startSync();
+            expect(setIntervalSpy).toHaveBeenCalledWith(expect.any(Function), 100);
+        });
+
+        it('should not start multiple intervals', () => {
+            syncManager.startSync();
+            syncManager.startSync();
+            expect(setIntervalSpy).toHaveBeenCalledTimes(1);
+        });
+
+        it('should stop sync interval', () => {
+            syncManager.startSync();
+            syncManager.stopSync();
+            expect(clearIntervalSpy).toHaveBeenCalled();
+        });
+
+        it('should handle stopSync when no interval', () => {
+            syncManager.stopSync();
+            expect(clearIntervalSpy).not.toHaveBeenCalled();
+        });
+    });
+
+    // Note: checkSync is private, so we test it indirectly through startSync/stopSync
+
+    describe('getBufferedAhead', () => {
+        it('should return buffered ahead time', () => {
+            const bufferedAhead = syncManager.getBufferedAhead(mockElement1);
+            expect(bufferedAhead).toBe(5); // 15 - 10
+        });
+
+        it('should return 0 for no buffered ranges', () => {
+            Object.defineProperty(mockElement1, 'buffered', {
+                value: { length: 0, end: vi.fn(() => 0) },
+                writable: true,
+                configurable: true
+            });
+            const bufferedAhead = syncManager.getBufferedAhead(mockElement1);
+            expect(bufferedAhead).toBe(0);
+        });
     });
 });

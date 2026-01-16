@@ -52,39 +52,41 @@ class SyncManager {
     private checkSync(): void {
         if (this.elements.size === 0) return;
 
-        // Calculate average time as master reference
-        let totalTime = 0;
-        let activeCount = 0;
-        this.elements.forEach((startTime, element) => {
-            if (!element.paused && element.readyState >= 2) {
-                totalTime += element.currentTime - startTime;
-                activeCount++;
+        try {
+            // Calculate average time as master reference
+            let totalTime = 0;
+            let activeCount = 0;
+            this.elements.forEach((startTime, element) => {
+                if (!element.paused && element.readyState >= 2) {
+                    totalTime += element.currentTime - startTime;
+                    activeCount++;
+                }
+            });
+            if (activeCount > 0) {
+                this.masterTime = totalTime / activeCount;
             }
-        });
-        if (activeCount > 0) {
-            this.masterTime = totalTime / activeCount;
-        }
 
-        // Apply corrections
-        for (const [element, startTime] of Array.from(this.elements.entries())) {
-            if (!element.paused && element.readyState >= 2) {
-                const elementTime = element.currentTime - startTime;
-                const drift = elementTime - this.masterTime;
+            // Apply corrections
+            for (const [element, startTime] of Array.from(this.elements.entries())) {
+                if (!element.paused && element.readyState >= 2) {
+                    const elementTime = element.currentTime - startTime;
+                    const drift = elementTime - this.masterTime;
 
-                if (Math.abs(drift) > 0.1) { // 100ms threshold
-                    // Adjust playback rate or seek
-                    if (Math.abs(drift) > 0.5) {
-                        // Large drift: seek
-                        // eslint-disable-next-line no-cond-assign
-                        element.currentTime = this.masterTime + startTime;
-                    } else {
-                        // Small drift: adjust rate
-                        // eslint-disable-next-line no-cond-assign
-                        element.playbackRate = drift > 0 ? 0.99 : 1.01;
-                        setTimeout(() => { element.playbackRate = 1.0; }, 500); // Reset after 500ms
+                    if (Math.abs(drift) > 0.1) { // 100ms threshold
+                        // Adjust playback rate or seek
+                        if (Math.abs(drift) > 0.5) {
+                            // Large drift: seek
+                            element.currentTime = this.masterTime + startTime;
+                        } else {
+                            // Small drift: adjust rate
+                            element.playbackRate = drift > 0 ? 0.99 : 1.01;
+                            setTimeout(() => { element.playbackRate = 1.0; }, 500); // Reset after 500ms
+                        }
                     }
                 }
             }
+        } catch (error) {
+            console.warn('[SyncManager] Error in checkSync:', error);
         }
     }
 
@@ -169,7 +171,8 @@ export const xDuration = {
     enabled: true,
     t0: performance.now(),
     busy: false,
-    triggered: false
+    triggered: false,
+    bufferDelayApplied: false
 };
 
 /**
@@ -208,10 +211,12 @@ export function hijackMediaElementForCrossfade() {
 
     // Prioritize buffering: delay crossfade if less than 2s buffered
     const bufferedAhead = syncManager.getBufferedAhead(hijackedPlayer);
-    if (bufferedAhead < 2 && xDuration.fadeOut > 0) {
-        // Delay crossfade start by up to 1s to allow buffering
+    if (bufferedAhead < 2 && xDuration.fadeOut > 0 && !xDuration.bufferDelayApplied) {
+        xDuration.bufferDelayApplied = true;
+        // Delay crossfade start by up to 1s to allow buffering (prevent recursion)
         const delayMs = Math.min(1000, (2 - bufferedAhead) * 1000);
         setTimeout(() => {
+            xDuration.bufferDelayApplied = false;
             if (!xDuration.triggered) {
                 hijackMediaElementForCrossfade(); // Restart with buffer check
             }

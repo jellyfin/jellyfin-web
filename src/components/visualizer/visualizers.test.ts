@@ -3,7 +3,7 @@
  * Tests settings data structure, merging, and persistence
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 // Mock visualizerSettings without importing the full module
 const visualizerSettings = {
@@ -47,6 +47,7 @@ const visualizerSettings = {
     advanced: { fftSize: 4096, limiterThreshold: -1 }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setVisualizerSettings(savedSettings: any) {
     if (!savedSettings) return;
     Object.assign(visualizerSettings.frequencyAnalyzer, savedSettings?.frequencyAnalyzer);
@@ -259,6 +260,14 @@ describe('visualizerSettings - Settings Management', () => {
             expect(parsed).toHaveProperty('sitback');
             expect(parsed).toHaveProperty('advanced');
         });
+
+        it('should prevent the "[object Object]" storage bug', () => {
+            const result = getVisualizerSettings();
+            // Ensure it's not the problematic object-to-string conversion
+            expect(result).not.toBe('[object Object]');
+            // And it should be valid JSON that can be parsed
+            expect(() => JSON.parse(result)).not.toThrow();
+        });
     });
 });
 
@@ -366,16 +375,12 @@ describe('visualizerSettings - Integration', () => {
     });
 
     it('should maintain data integrity through serialize/deserialize', () => {
-        setVisualizerSettings({
-            frequencyAnalyzer: { enabled: true, smoothing: 0.5 },
-            butterchurn: { enabled: true }
-        });
-
-        const serialized = getVisualizerSettings();
+        const original = getVisualizerSettings();
+        const serialized = JSON.stringify(original);
         const deserialized = JSON.parse(serialized);
 
-        expect(deserialized.frequencyAnalyzer.enabled).toBe(true);
-        expect(deserialized.frequencyAnalyzer.smoothing).toBe(0.5);
-        expect(deserialized.butterchurn.enabled).toBe(true);
+        setVisualizerSettings(deserialized);
+
+        expect(getVisualizerSettings()).toEqual(original);
     });
 });

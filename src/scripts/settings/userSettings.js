@@ -3,7 +3,7 @@ import { toBoolean } from '../../utils/string.ts';
 import { setXDuration } from 'components/audioEngine/crossfader.logic';
 import browser from '../browser';
 import appSettings from './appSettings';
-import { getDefaultVisualizerSettings, getVisualizerSettings, setVisualizerSettings } from 'components/visualizer/visualizers.logic';
+import { getDefaultVisualizerSettings, getVisualizerSettings, setVisualizerSettings, visualizerSettings } from 'components/visualizer/visualizers.logic';
 
 let displayPrefsBeaconWarningShown = false;
 
@@ -222,7 +222,7 @@ export class UserSettings {
      */
     allowedAudioChannels(val) {
         if (val !== undefined) {
-            return this.set('allowedAudioChannels', val, false);
+            return this.set('allowedAudioChannels', val.toString(), false);
         }
 
         return this.get('allowedAudioChannels', false) || '-1';
@@ -320,16 +320,16 @@ export class UserSettings {
         }
         if (!raw) {
             setVisualizerSettings(null);
-            return JSON.parse(getVisualizerSettings());
+            return visualizerSettings;
         }
 
         try {
             const parsed = JSON.parse(raw);
             setVisualizerSettings(parsed);
-            return JSON.parse(getVisualizerSettings());
+            return visualizerSettings;
         } catch (error) {
             setVisualizerSettings(null);
-            return JSON.parse(getVisualizerSettings());
+            return visualizerSettings;
         }
     }
 
@@ -548,10 +548,10 @@ export class UserSettings {
      */
     skin(val) {
         if (val !== undefined) {
-            return this.set('skin', val, false);
+            return this.set('skin', val.toString(), false);
         }
 
-        return this.get('skin', false);
+        return this.get('skin', false) || 'default';
     }
 
     /**
@@ -561,7 +561,7 @@ export class UserSettings {
      */
     theme(val) {
         if (val !== undefined) {
-            return this.set('appTheme', val, false);
+            return this.set('appTheme', val.toString(), false);
         }
 
         return this.get('appTheme', false);
@@ -574,7 +574,7 @@ export class UserSettings {
      */
     screensaver(val) {
         if (val !== undefined) {
-            return this.set('screensaver', val, false);
+            return this.set('screensaver', val.toString(), false);
         }
 
         return this.get('screensaver', false);
@@ -681,7 +681,7 @@ export class UserSettings {
      */
     soundEffects(val) {
         if (val !== undefined) {
-            return this.set('soundeffects', val, false);
+            return this.set('soundeffects', val.toString(), false);
         }
 
         return this.get('soundeffects', false);

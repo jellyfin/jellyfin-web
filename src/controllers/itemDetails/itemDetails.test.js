@@ -38,7 +38,7 @@ describe('itemDetails - image preloading', () => {
             const url = 'disc-url'; // discImageUrl logic
             discImageElement.classList.remove('hide');
             // imageLoader.lazyImage(discImageElement, url); // mocked
-            // eslint-disable-next-line @typescript-eslint/no-deprecated
+
             const link = document.createElement('link');
             link.rel = 'preload';
             link.as = 'image';
@@ -62,7 +62,7 @@ describe('itemDetails - image preloading', () => {
         if (url) {
             detailLogo.classList.remove('hide');
             // imageLoader.lazyImage(detailLogo, url); // mocked
-            // eslint-disable-next-line @typescript-eslint/no-deprecated
+
             const link = document.createElement('link');
             link.rel = 'preload';
             link.as = 'image';
