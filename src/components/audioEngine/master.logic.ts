@@ -41,10 +41,19 @@ function applyDbReduction(originalVolume: number, reductionDb: number) {
  * @type {Object}
  */
 export const masterAudioOutput: MasterAudioTypes = {
-    makeupGain: Math.pow(10, dbBoost / 20),
+    makeupGain: 1,
     muted: false,
-    volume: applyDbReduction(100, dbBoost)
+    volume: 1
 };
+
+// Load AudioWorklet for limiter
+async function loadLimiterWorklet(audioContext: AudioContext) {
+    try {
+        await audioContext.audioWorklet.addModule(new URL('./limiterWorklet.js', import.meta.url));
+    } catch (error) {
+        console.warn('AudioWorklet not supported or failed to load:', error);
+    }
+}
 
 /**
  * Unbind callback function.
@@ -88,21 +97,29 @@ export function initializeMasterAudio(unbind: () => void) {
     if (!masterAudioOutput.mixerNode) {
         masterAudioOutput.mixerNode = audioCtx.createGain();
 
-        // insert a  “brick-wall” limiter before destination
-        const limiter = audioCtx.createDynamicsCompressor();
-        // peaks above –1 dB will be instantly limited
-        limiter.threshold.setValueAtTime(-1, audioCtx.currentTime);
-        limiter.knee.setValueAtTime(0, audioCtx.currentTime);
-        limiter.ratio.setValueAtTime(20, audioCtx.currentTime);
-        limiter.attack.setValueAtTime(0.003, audioCtx.currentTime);
-        limiter.release.setValueAtTime(0.25, audioCtx.currentTime);
+        // Attempt to load and use worklet limiter for multithreading
+        loadLimiterWorklet(audioCtx).catch(() => {}); // Load asynchronously
 
-        // route: mixer → limiter → speakers
+        let limiter: AudioNode;
+        try {
+            limiter = new AudioWorkletNode(audioCtx, 'limiter-processor');
+            // Set parameters equivalent to DynamicsCompressor
+            (limiter as AudioWorkletNode).parameters.get('threshold')?.setValueAtTime(0.8, audioCtx.currentTime);
+            (limiter as AudioWorkletNode).parameters.get('ratio')?.setValueAtTime(20, audioCtx.currentTime);
+            (limiter as AudioWorkletNode).parameters.get('attack')?.setValueAtTime(0.003, audioCtx.currentTime);
+            (limiter as AudioWorkletNode).parameters.get('release')?.setValueAtTime(0.25, audioCtx.currentTime);
+        } catch {
+            // Fallback to DynamicsCompressor
+            limiter = audioCtx.createDynamicsCompressor();
+            (limiter as DynamicsCompressorNode).threshold.setValueAtTime(-1, audioCtx.currentTime);
+            (limiter as DynamicsCompressorNode).knee.setValueAtTime(0, audioCtx.currentTime);
+            (limiter as DynamicsCompressorNode).ratio.setValueAtTime(20, audioCtx.currentTime);
+            (limiter as DynamicsCompressorNode).attack.setValueAtTime(0.003, audioCtx.currentTime);
+            (limiter as DynamicsCompressorNode).release.setValueAtTime(0.25, audioCtx.currentTime);
+        }
+
         masterAudioOutput.mixerNode.connect(limiter);
         limiter.connect(audioCtx.destination);
-
-        masterAudioOutput.mixerNode.gain
-            .setValueAtTime((masterAudioOutput.volume / 100) * masterAudioOutput.makeupGain, audioCtx.currentTime);
     }
 }
 
