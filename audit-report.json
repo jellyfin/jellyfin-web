@@ -1,0 +1,1249 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "@eslint/plugin-kit": {
+      "name": "@eslint/plugin-kit",
+      "severity": "low",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1106734,
+          "name": "@eslint/plugin-kit",
+          "dependency": "@eslint/plugin-kit",
+          "title": "@eslint/plugin-kit is vulnerable to Regular Expression Denial of Service attacks through ConfigCommentParser",
+          "url": "https://github.com/advisories/GHSA-xffm-g5w8-qvg7",
+          "severity": "low",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<0.3.4"
+        }
+      ],
+      "effects": [],
+      "range": "<0.3.4",
+      "nodes": [
+        "node_modules/@eslint/plugin-kit"
+      ],
+      "fixAvailable": true
+    },
+    "@mapbox/node-pre-gyp": {
+      "name": "@mapbox/node-pre-gyp",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "tar"
+      ],
+      "effects": [
+        "canvas"
+      ],
+      "range": "<=1.0.11",
+      "nodes": [
+        "node_modules/@mapbox/node-pre-gyp"
+      ],
+      "fixAvailable": {
+        "name": "pdfjs-dist",
+        "version": "5.4.530",
+        "isSemVerMajor": true
+      }
+    },
+    "@remix-run/router": {
+      "name": "@remix-run/router",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1112052,
+          "name": "@remix-run/router",
+          "dependency": "@remix-run/router",
+          "title": "React Router vulnerable to XSS via Open Redirects",
+          "url": "https://github.com/advisories/GHSA-2w69-qvjg-hvjx",
+          "severity": "high",
+          "cwe": [
+            "CWE-79"
+          ],
+          "cvss": {
+            "score": 8,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:N"
+          },
+          "range": "<=1.23.1"
+        }
+      ],
+      "effects": [
+        "react-router",
+        "react-router-dom"
+      ],
+      "range": "<=1.23.1",
+      "nodes": [
+        "node_modules/@remix-run/router"
+      ],
+      "fixAvailable": {
+        "name": "react-router-dom",
+        "version": "6.30.3",
+        "isSemVerMajor": false
+      }
+    },
+    "autoprefixer": {
+      "name": "autoprefixer",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "postcss"
+      ],
+      "effects": [
+        "stylelint"
+      ],
+      "range": "1.0.20131222 - 9.8.8",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order/node_modules/stylelint/node_modules/autoprefixer"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "body-parser": {
+      "name": "body-parser",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "qs"
+      ],
+      "effects": [
+        "express"
+      ],
+      "range": "<=1.20.3 || 2.0.0-beta.1 - 2.0.2",
+      "nodes": [
+        "node_modules/body-parser"
+      ],
+      "fixAvailable": true
+    },
+    "brace-expansion": {
+      "name": "brace-expansion",
+      "severity": "low",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1105443,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion Regular Expression Denial of Service vulnerability",
+          "url": "https://github.com/advisories/GHSA-v6h2-p8h4-qcjw",
+          "severity": "low",
+          "cwe": [
+            "CWE-400"
+          ],
+          "cvss": {
+            "score": 3.1,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": ">=1.0.0 <=1.1.11"
+        },
+        {
+          "source": 1105444,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion Regular Expression Denial of Service vulnerability",
+          "url": "https://github.com/advisories/GHSA-v6h2-p8h4-qcjw",
+          "severity": "low",
+          "cwe": [
+            "CWE-400"
+          ],
+          "cvss": {
+            "score": 3.1,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": ">=2.0.0 <=2.0.1"
+        }
+      ],
+      "effects": [],
+      "range": "1.0.0 - 1.1.11 || 2.0.0 - 2.0.1",
+      "nodes": [
+        "node_modules/brace-expansion",
+        "node_modules/test-exclude/node_modules/brace-expansion"
+      ],
+      "fixAvailable": true
+    },
+    "braces": {
+      "name": "braces",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1098094,
+          "name": "braces",
+          "dependency": "braces",
+          "title": "Uncontrolled resource consumption in braces",
+          "url": "https://github.com/advisories/GHSA-grv7-fg5c-xmjg",
+          "severity": "high",
+          "cwe": [
+            "CWE-400",
+            "CWE-1050"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<3.0.3"
+        }
+      ],
+      "effects": [
+        "micromatch"
+      ],
+      "range": "<3.0.3",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order/node_modules/braces"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "canvas": {
+      "name": "canvas",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@mapbox/node-pre-gyp"
+      ],
+      "effects": [
+        "pdfjs-dist"
+      ],
+      "range": "2.8.0 - 2.11.2",
+      "nodes": [
+        "node_modules/pdfjs-dist/node_modules/canvas"
+      ],
+      "fixAvailable": {
+        "name": "pdfjs-dist",
+        "version": "5.4.530",
+        "isSemVerMajor": true
+      }
+    },
+    "compression": {
+      "name": "compression",
+      "severity": "low",
+      "isDirect": false,
+      "via": [
+        "on-headers"
+      ],
+      "effects": [],
+      "range": "1.0.3 - 1.8.0",
+      "nodes": [
+        "node_modules/compression"
+      ],
+      "fixAvailable": true
+    },
+    "dompurify": {
+      "name": "dompurify",
+      "severity": "moderate",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 1105772,
+          "name": "dompurify",
+          "dependency": "dompurify",
+          "title": "DOMPurify allows Cross-site Scripting (XSS)",
+          "url": "https://github.com/advisories/GHSA-vhxf-7vqr-mrjg",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-79"
+          ],
+          "cvss": {
+            "score": 4.5,
+            "vectorString": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N"
+          },
+          "range": "<3.2.4"
+        }
+      ],
+      "effects": [],
+      "range": "<3.2.4",
+      "nodes": [
+        "node_modules/dompurify"
+      ],
+      "fixAvailable": {
+        "name": "dompurify",
+        "version": "3.3.1",
+        "isSemVerMajor": true
+      }
+    },
+    "es5-ext": {
+      "name": "es5-ext",
+      "severity": "low",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1096592,
+          "name": "es5-ext",
+          "dependency": "es5-ext",
+          "title": "es5-ext vulnerable to Regular Expression Denial of Service in `function#copy` and `function#toStringTokens`",
+          "url": "https://github.com/advisories/GHSA-4gmj-3p3h-gm8h",
+          "severity": "low",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=0.10.0 <0.10.63"
+        }
+      ],
+      "effects": [],
+      "range": "0.10.1 - 0.10.62",
+      "nodes": [
+        "node_modules/es5-ext"
+      ],
+      "fixAvailable": true
+    },
+    "express": {
+      "name": "express",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "body-parser",
+        "qs"
+      ],
+      "effects": [],
+      "range": "2.5.8 - 2.5.11 || 3.2.1 - 3.2.3 || 4.0.0-rc1 - 4.21.2 || 5.0.0-alpha.1 - 5.0.1",
+      "nodes": [
+        "node_modules/express"
+      ],
+      "fixAvailable": true
+    },
+    "fast-glob": {
+      "name": "fast-glob",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "micromatch"
+      ],
+      "effects": [
+        "globby"
+      ],
+      "range": "<=2.2.7",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order/node_modules/fast-glob"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "glob": {
+      "name": "glob",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1109842,
+          "name": "glob",
+          "dependency": "glob",
+          "title": "glob CLI: Command injection via -c/--cmd executes matches with shell:true",
+          "url": "https://github.com/advisories/GHSA-5j98-mcp5-4vw2",
+          "severity": "high",
+          "cwe": [
+            "CWE-78"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
+          },
+          "range": ">=10.2.0 <10.5.0"
+        }
+      ],
+      "effects": [],
+      "range": "10.2.0 - 10.4.5",
+      "nodes": [
+        "node_modules/test-exclude/node_modules/glob"
+      ],
+      "fixAvailable": true
+    },
+    "globby": {
+      "name": "globby",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "fast-glob"
+      ],
+      "effects": [
+        "stylelint"
+      ],
+      "range": "8.0.0 - 9.2.0",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order/node_modules/globby"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "js-yaml": {
+      "name": "js-yaml",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1109801,
+          "name": "js-yaml",
+          "dependency": "js-yaml",
+          "title": "js-yaml has prototype pollution in merge (<<)",
+          "url": "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+          },
+          "range": "<3.14.2"
+        },
+        {
+          "source": 1109802,
+          "name": "js-yaml",
+          "dependency": "js-yaml",
+          "title": "js-yaml has prototype pollution in merge (<<)",
+          "url": "https://github.com/advisories/GHSA-mh29-5h37-fv8m",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+          },
+          "range": ">=4.0.0 <4.1.1"
+        }
+      ],
+      "effects": [],
+      "range": "<3.14.2 || >=4.0.0 <4.1.1",
+      "nodes": [
+        "node_modules/@eslint/eslintrc/node_modules/js-yaml",
+        "node_modules/fork-ts-checker-webpack-plugin/node_modules/js-yaml",
+        "node_modules/js-yaml",
+        "node_modules/postcss-loader/node_modules/js-yaml",
+        "node_modules/stylelint/node_modules/js-yaml"
+      ],
+      "fixAvailable": true
+    },
+    "meow": {
+      "name": "meow",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "trim-newlines",
+        "yargs-parser"
+      ],
+      "effects": [
+        "stylelint"
+      ],
+      "range": "3.4.0 - 5.0.0",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order/node_modules/meow"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "micromatch": {
+      "name": "micromatch",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1098681,
+          "name": "micromatch",
+          "dependency": "micromatch",
+          "title": "Regular Expression Denial of Service (ReDoS) in micromatch",
+          "url": "https://github.com/advisories/GHSA-952p-6rrq-rcjv",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-1333"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": "<4.0.8"
+        },
+        "braces"
+      ],
+      "effects": [
+        "fast-glob",
+        "stylelint"
+      ],
+      "range": "<=4.0.7",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order/node_modules/micromatch"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "node-forge": {
+      "name": "node-forge",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1110996,
+          "name": "node-forge",
+          "dependency": "node-forge",
+          "title": "node-forge has ASN.1 Unbounded Recursion",
+          "url": "https://github.com/advisories/GHSA-554w-wpv2-vw27",
+          "severity": "high",
+          "cwe": [
+            "CWE-674"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<1.3.2"
+        },
+        {
+          "source": 1110998,
+          "name": "node-forge",
+          "dependency": "node-forge",
+          "title": "node-forge has an Interpretation Conflict vulnerability via its ASN.1 Validator Desynchronization",
+          "url": "https://github.com/advisories/GHSA-5gfm-wpxj-wjgq",
+          "severity": "high",
+          "cwe": [
+            "CWE-436"
+          ],
+          "cvss": {
+            "score": 8.6,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:H/A:N"
+          },
+          "range": "<1.3.2"
+        },
+        {
+          "source": 1111068,
+          "name": "node-forge",
+          "dependency": "node-forge",
+          "title": "node-forge is vulnerable to ASN.1 OID Integer Truncation",
+          "url": "https://github.com/advisories/GHSA-65ch-62r8-g69g",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-190"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<1.3.2"
+        }
+      ],
+      "effects": [],
+      "range": "<=1.3.1",
+      "nodes": [
+        "node_modules/node-forge"
+      ],
+      "fixAvailable": true
+    },
+    "on-headers": {
+      "name": "on-headers",
+      "severity": "low",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1106812,
+          "name": "on-headers",
+          "dependency": "on-headers",
+          "title": "on-headers is vulnerable to http response header manipulation",
+          "url": "https://github.com/advisories/GHSA-76c9-3jph-rj3q",
+          "severity": "low",
+          "cwe": [
+            "CWE-241"
+          ],
+          "cvss": {
+            "score": 3.4,
+            "vectorString": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:N"
+          },
+          "range": "<1.1.0"
+        }
+      ],
+      "effects": [
+        "compression"
+      ],
+      "range": "<1.1.0",
+      "nodes": [
+        "node_modules/on-headers"
+      ],
+      "fixAvailable": true
+    },
+    "pdfjs-dist": {
+      "name": "pdfjs-dist",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 1104044,
+          "name": "pdfjs-dist",
+          "dependency": "pdfjs-dist",
+          "title": "PDF.js vulnerable to arbitrary JavaScript execution upon opening a malicious PDF",
+          "url": "https://github.com/advisories/GHSA-wgrm-67xf-hhpq",
+          "severity": "high",
+          "cwe": [
+            "CWE-754"
+          ],
+          "cvss": {
+            "score": 8.8,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+          },
+          "range": "<=4.1.392"
+        },
+        "canvas"
+      ],
+      "effects": [],
+      "range": "<=4.7.76",
+      "nodes": [
+        "node_modules/pdfjs-dist"
+      ],
+      "fixAvailable": {
+        "name": "pdfjs-dist",
+        "version": "5.4.530",
+        "isSemVerMajor": true
+      }
+    },
+    "postcss": {
+      "name": "postcss",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1109574,
+          "name": "postcss",
+          "dependency": "postcss",
+          "title": "PostCSS line return parsing error",
+          "url": "https://github.com/advisories/GHSA-7fh5-64p2-3v2j",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-74",
+            "CWE-144"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+          },
+          "range": "<8.4.31"
+        }
+      ],
+      "effects": [
+        "autoprefixer",
+        "postcss-less",
+        "postcss-reporter",
+        "postcss-safe-parser",
+        "postcss-sass",
+        "postcss-scss",
+        "postcss-sorting",
+        "stylelint",
+        "stylelint-order",
+        "sugarss"
+      ],
+      "range": "<8.4.31",
+      "nodes": [
+        "node_modules/postcss-less/node_modules/postcss",
+        "node_modules/postcss-reporter/node_modules/postcss",
+        "node_modules/postcss-safe-parser/node_modules/postcss",
+        "node_modules/postcss-sorting/node_modules/postcss",
+        "node_modules/stylelint-config-rational-order/node_modules/postcss-sass/node_modules/postcss",
+        "node_modules/stylelint-config-rational-order/node_modules/stylelint-order/node_modules/postcss",
+        "node_modules/stylelint-config-rational-order/node_modules/stylelint/node_modules/postcss",
+        "node_modules/sugarss/node_modules/postcss"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "postcss-less": {
+      "name": "postcss-less",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "postcss"
+      ],
+      "effects": [],
+      "range": "<=3.1.4",
+      "nodes": [
+        "node_modules/postcss-less"
+      ],
+      "fixAvailable": true
+    },
+    "postcss-markdown": {
+      "name": "postcss-markdown",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "remark"
+      ],
+      "effects": [
+        "stylelint"
+      ],
+      "range": "<=0.36.0",
+      "nodes": [
+        "node_modules/postcss-markdown"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "postcss-reporter": {
+      "name": "postcss-reporter",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "postcss"
+      ],
+      "effects": [
+        "stylelint"
+      ],
+      "range": "<=6.0.1",
+      "nodes": [
+        "node_modules/postcss-reporter"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "postcss-safe-parser": {
+      "name": "postcss-safe-parser",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "postcss"
+      ],
+      "effects": [
+        "stylelint"
+      ],
+      "range": "<=4.0.2",
+      "nodes": [
+        "node_modules/postcss-safe-parser"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "postcss-sass": {
+      "name": "postcss-sass",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "postcss"
+      ],
+      "effects": [
+        "stylelint"
+      ],
+      "range": "<=0.4.4",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order/node_modules/postcss-sass"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "postcss-scss": {
+      "name": "postcss-scss",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "postcss"
+      ],
+      "effects": [
+        "stylelint"
+      ],
+      "range": "<=2.1.1",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order/node_modules/stylelint/node_modules/postcss-scss"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "postcss-sorting": {
+      "name": "postcss-sorting",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "postcss"
+      ],
+      "effects": [
+        "stylelint-order"
+      ],
+      "range": "<=5.0.1",
+      "nodes": [
+        "node_modules/postcss-sorting"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "qs": {
+      "name": "qs",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1111755,
+          "name": "qs",
+          "dependency": "qs",
+          "title": "qs's arrayLimit bypass in its bracket notation allows DoS via memory exhaustion",
+          "url": "https://github.com/advisories/GHSA-6rw7-vpxm-498p",
+          "severity": "high",
+          "cwe": [
+            "CWE-20"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<6.14.1"
+        }
+      ],
+      "effects": [
+        "body-parser",
+        "express"
+      ],
+      "range": "<6.14.1",
+      "nodes": [
+        "node_modules/qs"
+      ],
+      "fixAvailable": true
+    },
+    "react-router": {
+      "name": "react-router",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@remix-run/router",
+        {
+          "source": 1112057,
+          "name": "react-router",
+          "dependency": "react-router",
+          "title": "React Router has unexpected external redirect via untrusted paths",
+          "url": "https://github.com/advisories/GHSA-9jcx-v3wj-wh4m",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-601"
+          ],
+          "cvss": {
+            "score": 6.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+          },
+          "range": ">=6.0.0 <6.30.2"
+        }
+      ],
+      "effects": [
+        "react-router-dom"
+      ],
+      "range": "6.0.0 - 6.30.2",
+      "nodes": [
+        "node_modules/react-router"
+      ],
+      "fixAvailable": {
+        "name": "react-router-dom",
+        "version": "6.30.3",
+        "isSemVerMajor": false
+      }
+    },
+    "react-router-dom": {
+      "name": "react-router-dom",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@remix-run/router",
+        "react-router"
+      ],
+      "effects": [],
+      "range": "6.0.0-alpha.0 - 6.30.2",
+      "nodes": [
+        "node_modules/react-router-dom"
+      ],
+      "fixAvailable": {
+        "name": "react-router-dom",
+        "version": "6.30.3",
+        "isSemVerMajor": false
+      }
+    },
+    "remark": {
+      "name": "remark",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "remark-parse"
+      ],
+      "effects": [
+        "postcss-markdown"
+      ],
+      "range": "5.0.0 - 12.0.1",
+      "nodes": [
+        "node_modules/postcss-markdown/node_modules/remark"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "remark-parse": {
+      "name": "remark-parse",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "trim"
+      ],
+      "effects": [
+        "remark"
+      ],
+      "range": "<=8.0.3",
+      "nodes": [
+        "node_modules/postcss-markdown/node_modules/remark-parse"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "stylelint": {
+      "name": "stylelint",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "autoprefixer",
+        "globby",
+        "meow",
+        "micromatch",
+        "postcss",
+        "postcss-less",
+        "postcss-markdown",
+        "postcss-reporter",
+        "postcss-safe-parser",
+        "postcss-sass",
+        "postcss-scss",
+        "sugarss"
+      ],
+      "effects": [
+        "stylelint-config-rational-order"
+      ],
+      "range": "0.1.0 - 13.13.1",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order/node_modules/stylelint"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "stylelint-config-rational-order": {
+      "name": "stylelint-config-rational-order",
+      "severity": "moderate",
+      "isDirect": true,
+      "via": [
+        "stylelint",
+        "stylelint-order"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "stylelint-order": {
+      "name": "stylelint-order",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "postcss",
+        "postcss-sorting"
+      ],
+      "effects": [
+        "stylelint-config-rational-order"
+      ],
+      "range": "<=4.1.0",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order/node_modules/stylelint-order"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "sugarss": {
+      "name": "sugarss",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "postcss"
+      ],
+      "effects": [
+        "stylelint"
+      ],
+      "range": "<=2.0.0",
+      "nodes": [
+        "node_modules/sugarss"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "tar": {
+      "name": "tar",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1112255,
+          "name": "tar",
+          "dependency": "tar",
+          "title": "node-tar is Vulnerable to Arbitrary File Overwrite and Symlink Poisoning via Insufficient Path Sanitization",
+          "url": "https://github.com/advisories/GHSA-8qq5-rm4j-mr97",
+          "severity": "high",
+          "cwe": [
+            "CWE-22"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<=7.5.2"
+        }
+      ],
+      "effects": [
+        "@mapbox/node-pre-gyp"
+      ],
+      "range": "<=7.5.2",
+      "nodes": [
+        "node_modules/tar"
+      ],
+      "fixAvailable": {
+        "name": "pdfjs-dist",
+        "version": "5.4.530",
+        "isSemVerMajor": true
+      }
+    },
+    "trim": {
+      "name": "trim",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1089867,
+          "name": "trim",
+          "dependency": "trim",
+          "title": "Regular Expression Denial of Service in trim",
+          "url": "https://github.com/advisories/GHSA-w5p7-h5w8-2hfq",
+          "severity": "high",
+          "cwe": [
+            "CWE-400"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<0.0.3"
+        }
+      ],
+      "effects": [
+        "remark-parse"
+      ],
+      "range": "<0.0.3",
+      "nodes": [
+        "node_modules/trim"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "trim-newlines": {
+      "name": "trim-newlines",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1095100,
+          "name": "trim-newlines",
+          "dependency": "trim-newlines",
+          "title": "Uncontrolled Resource Consumption in trim-newlines",
+          "url": "https://github.com/advisories/GHSA-7p7h-4mm5-852v",
+          "severity": "high",
+          "cwe": [
+            "CWE-400"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<3.0.1"
+        }
+      ],
+      "effects": [
+        "meow"
+      ],
+      "range": "<3.0.1",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order/node_modules/trim-newlines"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    },
+    "vite": {
+      "name": "vite",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1107324,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "Vite middleware may serve files starting with the same name with the public directory",
+          "url": "https://github.com/advisories/GHSA-g4jq-h2w9-997c",
+          "severity": "low",
+          "cwe": [
+            "CWE-22",
+            "CWE-200",
+            "CWE-284"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=6.0.0 <=6.3.5"
+        },
+        {
+          "source": 1107328,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "Vite's `server.fs` settings were not applied to HTML files",
+          "url": "https://github.com/advisories/GHSA-jqfw-vq24-v9c3",
+          "severity": "low",
+          "cwe": [
+            "CWE-23",
+            "CWE-200",
+            "CWE-284"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=6.0.0 <=6.3.5"
+        },
+        {
+          "source": 1109135,
+          "name": "vite",
+          "dependency": "vite",
+          "title": "vite allows server.fs.deny bypass via backslash on Windows",
+          "url": "https://github.com/advisories/GHSA-93m4-6634-74q7",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-22"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=6.0.0 <=6.4.0"
+        }
+      ],
+      "effects": [],
+      "range": "6.0.0 - 6.4.0",
+      "nodes": [
+        "node_modules/vite"
+      ],
+      "fixAvailable": true
+    },
+    "yargs-parser": {
+      "name": "yargs-parser",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1088811,
+          "name": "yargs-parser",
+          "dependency": "yargs-parser",
+          "title": "yargs-parser Vulnerable to Prototype Pollution",
+          "url": "https://github.com/advisories/GHSA-p9pc-299p-vxgp",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-915",
+            "CWE-1321"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+          },
+          "range": ">=6.0.0 <13.1.2"
+        }
+      ],
+      "effects": [
+        "meow"
+      ],
+      "range": "6.0.0 - 13.1.1",
+      "nodes": [
+        "node_modules/stylelint-config-rational-order/node_modules/yargs-parser"
+      ],
+      "fixAvailable": {
+        "name": "stylelint-config-rational-order",
+        "version": "0.0.4",
+        "isSemVerMajor": true
+      }
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 5,
+      "moderate": 17,
+      "high": 21,
+      "critical": 0,
+      "total": 43
+    },
+    "dependencies": {
+      "prod": 232,
+      "dev": 1537,
+      "optional": 128,
+      "peer": 6,
+      "peerOptional": 0,
+      "total": 1840
+    }
+  }
+}
