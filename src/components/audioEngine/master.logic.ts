@@ -43,7 +43,7 @@ function applyDbReduction(originalVolume: number, reductionDb: number) {
 export const masterAudioOutput: MasterAudioTypes = {
     makeupGain: 1,
     muted: false,
-    volume: 1
+    volume: 100
 };
 
 // Load AudioWorklets for audio processing

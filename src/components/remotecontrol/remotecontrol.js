@@ -29,6 +29,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import './remotecontrol.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-slider/emby-slider';
+import { synchronizeVolumeUI } from 'components/audioEngine/crossfader.logic';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -897,6 +898,7 @@ export default function () {
         }
 
         bindEvents(context);
+        synchronizeVolumeUI();
         context.querySelector('.sendMessageForm').addEventListener('submit', onMessageSubmit);
         context.querySelector('.typeTextForm').addEventListener('submit', onSendStringSubmit);
         Events.on(playbackManager, 'playerchange', onPlayerChange);

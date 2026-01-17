@@ -89,23 +89,18 @@ div.appfooter>div.nowPlayingBar {
     pointer-events: none;
 }
 
-.nowPlayingButtonsContainer {
-    position: relative;
-    bottom: 8rem;
-}
-
 .nowPlayingSecondaryButtons {
     position: fixed;
     bottom: 1.5rem;
 }
 
 #playlist {
-    background-color: rgba(7, 7, 7, 0.936);
+    background-color: rgb(7 7 7 / 0.936);
     z-index: 4;
 }
 
-div.infoContainer>.nowPlayingInfoContainerMedia>div,
-div.infoContainer>.nowPlayingInfoContainerMedia>div>a {
+.infoContainer .nowPlayingInfoContainerMedia > div,
+.infoContainer .nowPlayingInfoContainerMedia > div > a {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -118,7 +113,7 @@ div.nowPlayingPageImageContainer {
     opacity: 0;
     pointer-events: none;
     transition: opacity 1s ease-in-out;
-    transition-delay: 0s;
+    will-change: opacity;
     width: 30rem;
     position: fixed;
     max-width: 92vw;
@@ -170,6 +165,7 @@ button.button-submit.btnSave {
 
 .backdropContainer {
     z-index: -3;
+    will-change: filter;
 }
 
 body:not(.transition).mouseIdle .backdropContainer {
@@ -185,19 +181,19 @@ body.songEnd .backdropContainer {
     transition: filter 1s ease-in-out;
 }
 
-body.transition canvas#butterchurn,
 canvas#butterchurn {
     z-index: 0;
     position: fixed;
     filter: contrast(0.8) saturate(0.3) brightness(0.4) opacity(0.6) blur(12px);
     transition: filter 1.4s ease-in-out;
+    will-change: filter;
 }
 
-body.transition canvas#frequency-analyzer,
 canvas#frequency-analyzer {
     // mix-blend-mode: difference;
     filter: saturate(0.8) brightness(0.5) contrast(0.4) opacity(0.2) blur(2px);
     transition: filter 1.4s ease-in-out;
+    will-change: filter;
     z-index: 0;
 }
 
@@ -205,6 +201,7 @@ body:not(.transition).mouseIdle canvas#butterchurn {
     filter: contrast(0.8) saturate(0.3) brightness(0.5) opacity(0.5) blur(6px);
     transition: filter 6s ease-in-out;
     transition-delay: 5s;
+    will-change: filter;
 }
 
 body:not(.transition).mouseIdle canvas#frequency-analyzer {
@@ -212,6 +209,7 @@ body:not(.transition).mouseIdle canvas#frequency-analyzer {
     filter: saturate(0.8) brightness(0.5) contrast(0.4) opacity(0.2) blur(2px);
     transition: filter 6s ease-in-out;
     transition-delay: 5s;
+    will-change: filter;
 }
 
 #nowPlayingPage .detailLogo {
@@ -225,6 +223,8 @@ body:not(.transition).mouseIdle canvas#frequency-analyzer {
     z-index: 2;
     display: block;
     pointer-events: none;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    will-change: opacity, transform;
 }
 
 .productionYear {
@@ -238,7 +238,8 @@ body:not(.transition).mouseIdle canvas#frequency-analyzer {
     rotate: -90deg;
     letter-spacing: -4px;
     z-index: -1;
-    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1)
+    transition: transform 1s ease-in-out;
+    will-change: transform;
 }
 
 body.songEnd .productionYear {
@@ -257,7 +258,7 @@ body.songEnd .productionYear {
     background-size: 42vh;
     transform: translateX(0) rotate(-3turn);
     transition: transform 2.4s cubic-bezier(.22, .61, .36, 1);
-    transition-delay: 0s;
+    will-change: transform;
     z-index: 0;
 }
 
@@ -269,14 +270,12 @@ body:not(.transition).mouseIdle .discImage {
 
 body.songEnd .discImage {
     transform: translateX(0vh) rotate(-4turn);
-    transition-duration: 3s;
-    transition-delay: 0s;
+    transition: transform 3s;
 }
 
 body.transition .discImage {
     transform: translateX(0vh) rotate(-3turn);
-    transition-duration: 3s;
-    transition-delay: 0s;
+    transition: transform 3s;
 }
 
 @media (min-width: 690px) {
@@ -305,7 +304,7 @@ body.transition .discImage {
         max-width: unset;
     }
 
-    canvas#butterchurn body:not(.transition).mouseIdle {
+    body:not(.transition).mouseIdle canvas#butterchurn {
         filter: contrast(0.8) saturate(0.3) brightness(0.5) opacity(0.6) blur(6px);
         transition: filter 6s ease-in-out;
         transition-delay: 5s;
@@ -410,6 +409,7 @@ body.transition .discImage {
         width: unset;
         min-width: 25.4rem;
         max-width: 31.4rem;
+        will-change: transform;
     }
 
     .nowPlayingSongName {
@@ -427,7 +427,7 @@ body.transition .discImage {
     body.transition .nowPlayingInfoControls>.infoContainer,
     body:not(.mouseIdle) .nowPlayingInfoControls>.infoContainer {
         transform: translateX(0);
-        transition-delay: 0s;
+
         transition: transform 2s ease-in-out;
         /* Ensures immediate transition when user becomes active */
     }
@@ -440,7 +440,7 @@ body.transition .discImage {
     body.songEnd .nowPlayingInfoControls>.infoContainer {
         transform: translateX(calc(-100vw));
         transition: transform 1s ease-in-out;
-        transition-delay: 0s;
+
     }
 
     header,
@@ -457,6 +457,7 @@ body.transition .discImage {
         opacity: 1;
         transition: opacity 400ms ease-in-out;
         transition-delay: 100ms;
+        will-change: opacity;
     }
 
     body.mouseIdle header,
@@ -468,6 +469,7 @@ body.transition .discImage {
     body.mouseIdle .nowPlayingButtonsContainer {
         opacity: 0;
         transition: opacity 500ms ease-out;
+        will-change: opacity;
     }
 
     // body:not(.transition).mouseIdle div#itemDetailPage,
@@ -477,11 +479,13 @@ body.transition .discImage {
         opacity: 0;
         transition: opacity 500ms ease-out;
         transition-delay: 5s;
+        will-change: opacity;
     }
 
     body.songEnd .nowPlayingInfoContainer>.nowPlayingPageImageContainer {
         opacity: 0;
         transition-delay: 1.5s;
+        will-change: opacity;
     }
 
     body:not(.transition).mouseIdle .backgroundContainer.withBackdrop {
@@ -500,6 +504,8 @@ body.transition .discImage {
         top: auto;
         width: auto;
         filter: brightness(0.75);
+        transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        will-change: opacity, transform;
     }
 
     .discImage {
@@ -550,6 +556,7 @@ body.transition .discImage {
         position: fixed;
         right: 50vw;
         width: 38vw;
+        will-change: opacity;
         z-index: 1;
     }
 

@@ -21,6 +21,7 @@ import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
 import '../../elements/emby-slider/emby-slider';
 import { destroyWaveSurferInstance, waveSurferInitialization } from 'components/visualizer/WaveSurfer';
+import { synchronizeVolumeUI } from 'components/audioEngine/crossfader.logic';
 
 let currentPlayer;
 let currentPlayerSupportedCommands = [];
@@ -328,6 +329,8 @@ function getNowPlayingBar() {
     itemShortcuts.on(nowPlayingBarElement);
 
     bindEvents(nowPlayingBarElement);
+
+    synchronizeVolumeUI();
 
     return nowPlayingBarElement;
 }
