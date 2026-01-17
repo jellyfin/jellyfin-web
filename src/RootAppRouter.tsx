@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material/styles';
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import {
     RouterProvider,
     createHashRouter,
@@ -17,11 +17,13 @@ import { SETTING_KEY as LAYOUT_SETTING_KEY } from 'components/layoutManager';
 import BangRedirect from 'components/router/BangRedirect';
 import { setAppHistory } from 'components/router/appHistory';
 import { createRouterHistory } from 'components/router/routerHistory';
-import Visualizers from 'components/visualizer/Visualizers';
 import { LayoutMode } from 'constants/layoutMode';
 import browser from 'scripts/browser';
 import appTheme from 'themes';
 import { ThemeStorageManager } from 'themes/themeStorageManager';
+
+// Lazy load heavy components
+const Visualizers = lazy(() => import('components/visualizer/Visualizers'));
 
 const layoutMode = browser.tv ? LayoutMode.Tv : localStorage.getItem(LAYOUT_SETTING_KEY);
 const isExperimentalLayout = !layoutMode || layoutMode === LayoutMode.Experimental;
@@ -63,7 +65,9 @@ function RootAppLayout() {
             defaultMode='dark'
             storageManager={ThemeStorageManager}
         >
-            <Visualizers />
+            <Suspense fallback={null}>
+                <Visualizers />
+            </Suspense>
             <Backdrop />
             <AppHeader isHidden={isExperimentalLayout || isNewLayoutPath} />
 

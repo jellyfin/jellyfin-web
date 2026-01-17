@@ -143,8 +143,38 @@ const config = {
         removeEmptyChunks: false,
         splitChunks: {
             chunks: 'all',
-            maxInitialRequests: Infinity,
+            maxInitialRequests: 20,
+            maxAsyncRequests: 30,
             cacheGroups: {
+                // Separate heavy visualization libraries
+                butterchurn: {
+                    test: /[\\/]node_modules[\\/]butterchurn/,
+                    name: 'butterchurn',
+                    priority: 20
+                },
+                butterchurnPresets: {
+                    test: /[\\/]node_modules[\\/]butterchurn-presets/,
+                    name: 'butterchurn-presets',
+                    priority: 20
+                },
+                wavesurfer: {
+                    test: /[\\/]node_modules[\\/]wavesurfer\.js/,
+                    name: 'wavesurfer',
+                    priority: 20
+                },
+                // Large UI libraries
+                mui: {
+                    test: /[\\/]node_modules[\\/]@mui/,
+                    name: 'mui',
+                    priority: 15
+                },
+                // Media libraries
+                videojs: {
+                    test: /[\\/]node_modules[\\/](flv\.js|hls\.js)/,
+                    name: 'video-libraries',
+                    priority: 15
+                },
+                // General node_modules splitting with size-based chunks
                 node_modules: {
                     test(module) {
                         return NODE_MODULES_REGEX.test(module.context);
@@ -179,7 +209,28 @@ const config = {
                         }
 
                         return `node_modules.${packageName}`;
-                    }
+                    },
+                    priority: 10,
+                    minSize: 20000 // 20KB minimum
+                },
+                // Large application chunks
+                app: {
+                    test: /[\\/]src[\\/]/,
+                    name(module, chunks) {
+                        const modulePath = module.identifier();
+                        if (modulePath.includes('visualizer')) {
+                            return 'visualizers';
+                        }
+                        if (modulePath.includes('audioEngine')) {
+                            return 'audio-engine';
+                        }
+                        if (modulePath.includes('experimental')) {
+                            return 'experimental-features';
+                        }
+                        return 'app-main';
+                    },
+                    priority: 5,
+                    minSize: 50000 // 50KB minimum
                 }
             }
         }
