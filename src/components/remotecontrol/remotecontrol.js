@@ -799,7 +799,7 @@ export default function () {
             return datetime.getDisplayRunningTime(ticks);
         };
 
-        context.querySelector('.nowPlayingVolumeSlider').addEventListener('input', (e) => {
+        context.querySelector('.nowPlayingVolumeSlider').addEventListener('change', (e) => {
             playbackManager.setVolume(e.target.value, currentPlayer);
         });
 

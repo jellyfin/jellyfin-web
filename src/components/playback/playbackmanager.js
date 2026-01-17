@@ -3459,16 +3459,20 @@ export class PlaybackManager {
                 removeCurrentPlayer(player);
             }
 
-            if (errorOccurred) {
-                showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
-            } else if (nextItem) {
-                const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
+             if (errorOccurred) {
+                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
+             } else if (nextItem) {
+                 if (nextMediaType !== MediaType.Video) {
+                     self.nextTrack();
+                 } else {
+                     const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
 
-                apiClient.getCurrentUser().then(function (user) {
-                    if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
-                        self.nextTrack();
-                    }
-                });
+                     apiClient.getCurrentUser().then(function (user) {
+                         if (user.Configuration.EnableNextEpisodeAutoPlay) {
+                             self.nextTrack();
+                         }
+                     });
+                 }
             }
         }
 

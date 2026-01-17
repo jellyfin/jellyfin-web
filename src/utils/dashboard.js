@@ -49,6 +49,11 @@ export async function serverAddress() {
             return Promise.resolve();
         }
 
+        // Don't use the current origin as server URL since that's where the client is hosted
+        if (url === window.location.origin) {
+            return Promise.resolve();
+        }
+
         urls.push(url);
     }
 
