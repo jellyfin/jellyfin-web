@@ -3105,6 +3105,10 @@ export class PlaybackManager {
 
                 // For manual skips, we want immediate crossfading
                 xDuration.t0 = performance.now();
+
+                // Set a flag to indicate we're doing a manual crossfade
+                // This will prevent the normal playback stopping in onPlaybackChanging
+                player._isManualCrossfading = true;
             }
 
             if (player && !enableLocalPlaylistManagement(player)) {
@@ -3120,6 +3124,10 @@ export class PlaybackManager {
 
                 playInternal(newItemInfo.item, newItemPlayOptions, function () {
                     setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
+                    // Clear the manual crossfade flag after starting the new track
+                    if (player) {
+                        delete player._isManualCrossfading;
+                    }
                 }, getPreviousSource(player));
             }
         };
@@ -3137,6 +3145,9 @@ export class PlaybackManager {
 
                 // For manual skips, we want immediate crossfading
                 xDuration.t0 = performance.now();
+
+                // Set a flag to indicate we're doing a manual crossfade
+                player._isManualCrossfading = true;
             }
 
             if (player && !enableLocalPlaylistManagement(player)) {
@@ -3152,6 +3163,10 @@ export class PlaybackManager {
 
                 playInternal(newItemInfo.item, newItemPlayOptions, function () {
                     setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
+                    // Clear the manual crossfade flag after starting the new track
+                    if (player) {
+                        delete player._isManualCrossfading;
+                    }
                 }, getPreviousSource(player));
             }
         };
@@ -3512,7 +3527,12 @@ export class PlaybackManager {
             stopPlaybackProgressTimer(activePlayer);
             unbindStopped(activePlayer);
 
-            if (activePlayer === newPlayer) {
+            // If this is a manual crossfade, don't stop the current player
+            // Let the crossfade complete naturally
+            if (activePlayer._isManualCrossfading) {
+                console.debug('Manual crossfade in progress, skipping player stop');
+                promise = Promise.resolve();
+            } else if (activePlayer === newPlayer) {
                 // If we're staying with the same player, stop it
                 promise = activePlayer.stop(false);
             } else {
