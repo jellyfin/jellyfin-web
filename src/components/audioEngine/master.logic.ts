@@ -169,6 +169,9 @@ export const audioNodeBus: GainNodes = [];
 export const delayNodeBus: DelayNodes = [];
 const elementNodeMap = new WeakMap<HTMLMediaElement, AudioNodeBundle>();
 
+// Track active normalization nodes for rampPlaybackGain targeting
+const normalizationNodeMap = new WeakMap<GainNode, GainNode>();
+
 function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initialNormalizationGain?: number) {
     if (!masterAudioOutput.audioContext || !masterAudioOutput.mixerNode) {
         console.log('MasterAudio is not initialized');
@@ -226,6 +229,9 @@ function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initial
     };
     elementNodeMap.set(elem, bundle);
 
+    // Track normalization node for crossfade gain node targeting
+    normalizationNodeMap.set(crossfadeGainNode, normalizationGainNode);
+
     if (registerInBus) {
         audioNodeBus.unshift(crossfadeGainNode);
         bundle.busRegistered = true;
@@ -268,6 +274,9 @@ export function removeAudioNodeBundle(elem: HTMLMediaElement) {
         }
     }
 
+    // Clean up normalization node mapping
+    normalizationNodeMap.delete(bundle.crossfadeGainNode);
+
     bundle.normalizationGainNode.disconnect();
     bundle.crossfadeGainNode.disconnect();
     bundle.sourceNode.disconnect();
@@ -282,17 +291,21 @@ export function removeAudioNodeBundle(elem: HTMLMediaElement) {
 export function rampPlaybackGain(normalizationGain?: number) {
     if (!masterAudioOutput.audioContext || !audioNodeBus[0]) return;
 
-    // For now, apply normalization to the crossfade gain node
-    // TODO: In the future, we could track which element is currently playing
-    // and apply normalization to its normalizationGainNode specifically
+    // Get the normalization node for the currently playing crossfade gain node
+    const targetNormalizationNode = normalizationNodeMap.get(audioNodeBus[0]);
+
+    if (!targetNormalizationNode) {
+        console.warn('[RampPlaybackGain] Could not find normalization node for current playback');
+        return;
+    }
+
     const audioCtx = masterAudioOutput.audioContext;
-    const gainNode = audioNodeBus[0];
     const gainValue = normalizationGain ? Math.pow(10, normalizationGain / 20) : 1;
 
-    gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+    targetNormalizationNode.gain.cancelScheduledValues(audioCtx.currentTime);
 
-    gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(
+    targetNormalizationNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime);
+    targetNormalizationNode.gain.exponentialRampToValueAtTime(
         gainValue,
         audioCtx.currentTime + (xDuration.sustain / FADE_IN_RAMP_DIVISOR)
     );
