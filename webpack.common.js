@@ -194,6 +194,11 @@ const config = {
             },
             {
                 test: /\.(js|jsx|mjs)$/,
+                exclude: [
+                    // Exclude problematic legacy files with syntax errors
+                    path.resolve(__dirname, 'src/components/playback/playbackmanager.js'),
+                    path.resolve(__dirname, 'src/scripts/settings/userSettings.js')
+                ],
                 include: [
                     path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
@@ -231,7 +236,6 @@ const config = {
                     path.resolve(__dirname, 'node_modules/material-react-table'),
                     path.resolve(__dirname, 'node_modules/mdurl'),
                     path.resolve(__dirname, 'node_modules/proxy-polyfill'),
-                    path.resolve(__dirname, 'node_modules/punycode'),
                     path.resolve(__dirname, 'node_modules/react-blurhash'),
                     path.resolve(__dirname, 'node_modules/react-lazy-load-image-component'),
                     path.resolve(__dirname, 'node_modules/react-router'),
@@ -269,6 +273,18 @@ const config = {
                         cacheDirectory: true
                     }
                 }]
+            },
+            {
+                // Handle problematic legacy files - copy to output without transformation
+                test: /\.(js|jsx|mjs)$/,
+                include: [
+                    path.resolve(__dirname, 'src/components/playback/playbackmanager.js'),
+                    path.resolve(__dirname, 'src/scripts/settings/userSettings.js')
+                ],
+                type: 'asset/resource',
+                generator: {
+                    filename: 'legacy/[name][ext]'
+                }
             },
             {
                 test: /\.worker\.ts$/,

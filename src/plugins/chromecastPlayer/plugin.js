@@ -5,9 +5,9 @@ import globalize from '../../lib/globalize';
 import CastSenderApi from './castSenderApi';
 import alert from '../../components/alert';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from '../../types/plugin.ts';
-import Events from '../../utils/events.ts';
-import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
+import { PluginType } from '../../types/plugin';
+import Events from '../../utils/events';
+import { getItems } from '../../utils/jellyfin-apiclient/getItems';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
 

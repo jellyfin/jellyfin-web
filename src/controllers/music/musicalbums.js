@@ -7,7 +7,7 @@ import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 import { getPaginatedRandomItems, getCachedRandomItems } from '../../utils/randomSortCache';
 

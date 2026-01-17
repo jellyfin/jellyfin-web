@@ -2,7 +2,7 @@ import globalize from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { safeAppHost } from '../../components/apphost';
 import alert from '../../components/alert';
-import { PluginType } from '../../types/plugin.ts';
+import { PluginType } from '../../types/plugin';
 
 // TODO: Replace with date-fns
 // https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php

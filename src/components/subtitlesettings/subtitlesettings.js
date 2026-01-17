@@ -9,7 +9,7 @@ import loading from '../loading/loading';
 import subtitleAppearanceHelper from './subtitleappearancehelper';
 import settingsHelper from '../settingshelper';
 import dom from '../../utils/dom';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 
 import '../listview/listview.scss';
 import '../../elements/emby-select/emby-select';

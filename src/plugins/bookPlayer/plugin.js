@@ -12,8 +12,8 @@ import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import TableOfContents from './tableOfContents';
 import { translateHtml } from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { PluginType } from '../../types/plugin.ts';
-import Events from '../../utils/events.ts';
+import { PluginType } from '../../types/plugin';
+import Events from '../../utils/events';
 
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';

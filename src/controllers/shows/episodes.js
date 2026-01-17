@@ -6,7 +6,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import Dashboard from '../../utils/dashboard';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';

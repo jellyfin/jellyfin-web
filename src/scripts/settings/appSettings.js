@@ -1,6 +1,6 @@
 import browser from 'scripts/browser';
-import Events from '../../utils/events.ts';
-import { toBoolean } from '../../utils/string.ts';
+import Events from '../../utils/events';
+import { toBoolean } from '../../utils/string';
 
 class AppSettings {
     #getKey(name, userId) {

@@ -1,5 +1,5 @@
 import { AppFeature } from 'constants/appFeature';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 import browser from '../../scripts/browser';
 import loading from '../loading/loading';
 import { playbackManager } from '../playback/playbackmanager';

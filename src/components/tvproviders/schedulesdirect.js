@@ -10,7 +10,7 @@ import '../../elements/emby-button/emby-button';
 import '../../styles/flexstyles.scss';
 import './style.scss';
 import Dashboard from '../../utils/dashboard';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 
 function getTunerName(providerId) {
     switch (providerId.toLowerCase()) {

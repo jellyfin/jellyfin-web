@@ -1,7 +1,7 @@
 import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
 import merge from 'lodash-es/merge';
 import Screenfull from 'screenfull';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 import datetime from '../../scripts/datetime';
 import appSettings from '../../scripts/settings/appSettings';
 import itemHelper from '../itemHelper';
@@ -13,9 +13,9 @@ import loading from '../loading/loading';
 import { safeAppHost } from '../apphost';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import alert from '../alert';
-import { PluginType } from '../../types/plugin.ts';
-import { includesAny } from '../../utils/container.ts';
-import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
+import { PluginType } from '../../types/plugin';
+import { includesAny } from '../../utils/container';
+import { getItems } from '../../utils/jellyfin-apiclient/getItems';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import { MediaError } from 'types/mediaError';
@@ -25,7 +25,7 @@ import { hijackMediaElementForCrossfade, timeRunningOut, xDuration, getCrossfade
 import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
-import { bindSkipSegment } from './skipsegment.ts';
+import { bindSkipSegment } from './skipsegment';
 
 const UNLIMITED_ITEMS = -1;
 

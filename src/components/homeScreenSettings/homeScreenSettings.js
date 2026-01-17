@@ -10,7 +10,7 @@ import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 import homeSections from '../homesections/homesections';
 import dom from '../../utils/dom';
 import '../listview/listview.scss';
@@ -18,7 +18,7 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import toast from '../toast/toast';
 import template from './homeScreenSettings.template.html';
-import { LibraryTab } from '../../types/libraryTab.ts';
+import { LibraryTab } from '../../types/libraryTab';
 
 const numConfigurableSections = 10;
 

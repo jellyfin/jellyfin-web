@@ -3,7 +3,7 @@ import imageLoader from '../../components/images/imageLoader';
 import libraryBrowser from '../../scripts/libraryBrowser';
 import loading from '../../components/loading/loading';
 import * as userSettings from '../../scripts/settings/userSettings';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';

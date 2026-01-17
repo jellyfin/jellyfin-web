@@ -1,5 +1,5 @@
 import DefaultConfig from '../../config.json';
-import fetchLocal from '../../utils/fetchLocal.ts';
+import fetchLocal from '../../utils/fetchLocal';
 
 let data;
 

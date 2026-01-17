@@ -1,7 +1,7 @@
 import icon from '@jellyfin/ux-web/icon-transparent.png';
 
-import { PluginType } from '../../types/plugin.ts';
-import { randomInt } from '../../utils/number.ts';
+import { PluginType } from '../../types/plugin';
+import { randomInt } from '../../utils/number';
 
 export default function () {
     const self = this;

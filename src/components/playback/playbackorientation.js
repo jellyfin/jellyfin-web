@@ -1,6 +1,6 @@
 import { playbackManager } from './playbackmanager';
 import layoutManager from '../layoutManager';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 
 let orientationLocked;
 

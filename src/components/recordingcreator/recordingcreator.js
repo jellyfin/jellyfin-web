@@ -8,7 +8,7 @@ import scrollHelper from '../../scripts/scrollHelper';
 import datetime from '../../scripts/datetime';
 import imageLoader from '../images/imageLoader';
 import RecordingFields from './recordingfields';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';

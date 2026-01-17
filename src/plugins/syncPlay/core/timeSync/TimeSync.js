@@ -3,7 +3,7 @@
  * @module components/syncPlay/core/timeSync/TimeSync
  */
 
-import Events from '../../../../utils/events.ts';
+import Events from '../../../../utils/events';
 
 /**
  * Time estimation.

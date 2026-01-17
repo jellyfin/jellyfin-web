@@ -2,7 +2,7 @@
 import { playbackManager } from './playbackmanager';
 import dom from '../../utils/dom';
 import browser from '../../scripts/browser';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 
 import './iconosd.scss';
 import 'material-design-icons-iconfont';

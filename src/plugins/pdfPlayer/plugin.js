@@ -8,8 +8,8 @@ import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
 import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from '../../types/plugin.ts';
-import Events from '../../utils/events.ts';
+import { PluginType } from '../../types/plugin';
+import Events from '../../utils/events';
 
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';

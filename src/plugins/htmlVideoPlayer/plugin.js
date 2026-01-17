@@ -40,10 +40,10 @@ import globalize from '../../lib/globalize';
 import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
-import { PluginType } from '../../types/plugin.ts';
-import Events from '../../utils/events.ts';
-import { includesAny } from '../../utils/container.ts';
-import { isHls } from '../../utils/mediaSource.ts';
+import { PluginType } from '../../types/plugin';
+import Events from '../../utils/events';
+import { includesAny } from '../../utils/container';
+import { isHls } from '../../utils/mediaSource';
 
 /**
  * Returns resolved URL.

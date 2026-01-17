@@ -12,7 +12,7 @@ import loading from '../../components/loading/loading';
 import focusManager from '../../components/focusManager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import serverNotifications from '../../scripts/serverNotifications';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 
 const ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
 

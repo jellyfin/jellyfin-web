@@ -10,7 +10,7 @@ import QueueCore from './QueueCore';
 import Controller from './Controller';
 import toast from '../../../components/toast/toast';
 import globalize from '../../../lib/globalize';
-import Events from '../../../utils/events.ts';
+import Events from '../../../utils/events';
 
 /**
  * Class that manages the SyncPlay feature.
