@@ -13,7 +13,8 @@ type MasterAudioTypes = {
 
 type AudioNodeBundle = {
     sourceNode: MediaElementAudioSourceNode;
-    gainNode: GainNode;
+    normalizationGainNode: GainNode; // For track/album normalization
+    crossfadeGainNode: GainNode;     // For crossfading automation
     delayNode?: DelayNode;
     busRegistered: boolean;
 };
@@ -168,7 +169,7 @@ export const audioNodeBus: GainNodes = [];
 export const delayNodeBus: DelayNodes = [];
 const elementNodeMap = new WeakMap<HTMLMediaElement, AudioNodeBundle>();
 
-function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initialGain?: number) {
+function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initialNormalizationGain?: number) {
     if (!masterAudioOutput.audioContext || !masterAudioOutput.mixerNode) {
         console.log('MasterAudio is not initialized');
         return;
@@ -176,21 +177,25 @@ function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initial
 
     const existing = elementNodeMap.get(elem);
     if (existing) {
-        if (initialGain !== undefined) {
-            existing.gainNode.gain.setValueAtTime(initialGain, masterAudioOutput.audioContext.currentTime);
+        if (initialNormalizationGain !== undefined) {
+            existing.normalizationGainNode.gain.setValueAtTime(initialNormalizationGain, masterAudioOutput.audioContext.currentTime);
         }
         if (registerInBus && !existing.busRegistered) {
-            audioNodeBus.unshift(existing.gainNode);
+            audioNodeBus.unshift(existing.crossfadeGainNode);
             existing.busRegistered = true;
         }
         return existing;
     }
 
-    const gainNode = masterAudioOutput.audioContext.createGain();
-    // Default to 1 (full volume) if no initial gain specified
-    // Previous value of 0 caused audio to start muted
-    const gainValue = initialGain !== undefined ? initialGain : 1;
-    gainNode.gain.setValueAtTime(gainValue, masterAudioOutput.audioContext.currentTime);
+    // Create separate gain nodes for normalization and crossfading
+    const normalizationGainNode = masterAudioOutput.audioContext.createGain();
+    const crossfadeGainNode = masterAudioOutput.audioContext.createGain();
+
+    // Default normalization to 1 (no change) if not specified
+    const normalizationGainValue = initialNormalizationGain !== undefined ? initialNormalizationGain : 1;
+    normalizationGainNode.gain.setValueAtTime(normalizationGainValue, masterAudioOutput.audioContext.currentTime);
+    // Crossfade gain always starts at 1 (full volume)
+    crossfadeGainNode.gain.setValueAtTime(1, masterAudioOutput.audioContext.currentTime);
 
     const sourceNode = masterAudioOutput.audioContext.createMediaElementSource(elem);
     let delayNode: DelayNode | undefined;
@@ -200,34 +205,37 @@ function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initial
         delayNode = masterAudioOutput.audioContext.createDelay(1);
         delayNode.delayTime.value = shouldDelay ? 0.1 : 0;
         sourceNode.connect(delayNode);
-        delayNode.connect(gainNode);
+        delayNode.connect(normalizationGainNode);
         if (registerInBus) {
             delayNodeBus.unshift(delayNode);
         }
     } else {
-        sourceNode.connect(gainNode);
+        sourceNode.connect(normalizationGainNode);
     }
 
-    gainNode.connect(masterAudioOutput.mixerNode);
+    // Chain: normalizationGainNode → crossfadeGainNode → masterMixer
+    normalizationGainNode.connect(crossfadeGainNode);
+    crossfadeGainNode.connect(masterAudioOutput.mixerNode);
 
     const bundle = {
         sourceNode,
-        gainNode,
+        normalizationGainNode,
+        crossfadeGainNode,
         delayNode,
         busRegistered: false
     };
     elementNodeMap.set(elem, bundle);
 
     if (registerInBus) {
-        audioNodeBus.unshift(gainNode);
+        audioNodeBus.unshift(crossfadeGainNode);
         bundle.busRegistered = true;
     }
 
     return bundle;
 }
 
-export function ensureAudioNodeBundle(elem: HTMLMediaElement, options?: { initialGain?: number; registerInBus?: boolean }) {
-    return createNodeBundle(elem, options?.registerInBus ?? false, options?.initialGain);
+export function ensureAudioNodeBundle(elem: HTMLMediaElement, options?: { initialNormalizationGain?: number; registerInBus?: boolean }) {
+    return createNodeBundle(elem, options?.registerInBus ?? false, options?.initialNormalizationGain);
 }
 
 /**
@@ -237,7 +245,7 @@ export function ensureAudioNodeBundle(elem: HTMLMediaElement, options?: { initia
  */
 export function createGainNode(elem: HTMLMediaElement) {
     const bundle = createNodeBundle(elem, true);
-    return bundle?.gainNode;
+    return bundle?.crossfadeGainNode;
 }
 
 export function getAudioNodeBundle(elem: HTMLMediaElement) {
@@ -248,7 +256,7 @@ export function removeAudioNodeBundle(elem: HTMLMediaElement) {
     const bundle = elementNodeMap.get(elem);
     if (!bundle) return;
 
-    const gainIndex = audioNodeBus.indexOf(bundle.gainNode);
+    const gainIndex = audioNodeBus.indexOf(bundle.crossfadeGainNode);
     if (gainIndex !== -1) {
         audioNodeBus.splice(gainIndex, 1);
     }
@@ -260,7 +268,8 @@ export function removeAudioNodeBundle(elem: HTMLMediaElement) {
         }
     }
 
-    bundle.gainNode.disconnect();
+    bundle.normalizationGainNode.disconnect();
+    bundle.crossfadeGainNode.disconnect();
     bundle.sourceNode.disconnect();
     bundle.delayNode?.disconnect();
     elementNodeMap.delete(elem);
@@ -273,13 +282,17 @@ export function removeAudioNodeBundle(elem: HTMLMediaElement) {
 export function rampPlaybackGain(normalizationGain?: number) {
     if (!masterAudioOutput.audioContext || !audioNodeBus[0]) return;
 
+    // For now, apply normalization to the crossfade gain node
+    // TODO: In the future, we could track which element is currently playing
+    // and apply normalization to its normalizationGainNode specifically
     const audioCtx = masterAudioOutput.audioContext;
-    const gainNode = audioNodeBus[0].gain;
+    const gainNode = audioNodeBus[0];
     const gainValue = normalizationGain ? Math.pow(10, normalizationGain / 20) : 1;
 
-    gainNode.cancelScheduledValues(audioCtx.currentTime);
-    gainNode.linearRampToValueAtTime(0.01, audioCtx.currentTime);
-    gainNode.exponentialRampToValueAtTime(
+    gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+
+    gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(
         gainValue,
         audioCtx.currentTime + (xDuration.sustain / FADE_IN_RAMP_DIVISOR)
     );
