@@ -31,6 +31,12 @@ import { LibraryTab } from 'types/libraryTab';
 import { ItemKind } from 'types/base/models/item-kind';
 import type { ItemDtoQueryResult } from 'types/base/models/item-dto-query-result';
 import type { ItemDto } from 'types/base/models/item-dto';
+import type { QueryFiltersLegacy } from '@jellyfin/sdk/lib/generated-client/models/query-filters-legacy';
+
+// Extended QueryFiltersLegacy type that includes AudioLanguages (added in custom backend)
+export interface QueryFiltersLegacyExtended extends QueryFiltersLegacy {
+    AudioLanguages?: string[];
+}
 
 const fetchGetItems = async (
     currentApi: JellyfinApiContext,
@@ -182,7 +188,7 @@ const fetchGetQueryFiltersLegacy = async (
     parentId: ParentId,
     itemType: BaseItemKind[],
     options?: AxiosRequestConfig
-) => {
+): Promise<QueryFiltersLegacyExtended | undefined> => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
         const response = await getFilterApi(api).getQueryFiltersLegacy(
@@ -195,7 +201,8 @@ const fetchGetQueryFiltersLegacy = async (
                 signal: options?.signal
             }
         );
-        return response.data;
+        // Cast to extended type that includes AudioLanguages
+        return response.data as QueryFiltersLegacyExtended;
     }
 };
 
@@ -313,6 +320,8 @@ const fetchGetItemsViewByType = async (
                 );
                 break;
             default: {
+                // Get audioLanguages separately since SDK doesn't support it natively
+                const audioLanguages = libraryViewSettings?.Filters?.AudioLanguages;
                 response = await getItemsApi(api).getItems(
                     {
                         userId: user.Id,
@@ -331,7 +340,9 @@ const fetchGetItemsViewByType = async (
                         startIndex: libraryViewSettings.StartIndex
                     },
                     {
-                        signal: options?.signal
+                        signal: options?.signal,
+                        // Pass audioLanguages as custom query param (SDK doesn't support it yet)
+                        params: audioLanguages?.length ? { audioLanguages: audioLanguages.join(',') } : undefined
                     }
                 );
                 break;

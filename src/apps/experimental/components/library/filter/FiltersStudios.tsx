@@ -40,7 +40,7 @@ const FiltersStudios: FC<FiltersStudiosProps> = ({
 
     return (
         <FormGroup>
-            {studiosOptions?.map((filter) => (
+            {studiosOptions.map((filter) => (
                 <FormControlLabel
                     key={filter.Id}
                     control={

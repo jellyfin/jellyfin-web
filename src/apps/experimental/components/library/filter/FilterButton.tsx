@@ -2,6 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import React, { FC, useCallback } from 'react';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import FilterAlt from '@mui/icons-material/FilterAlt';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
@@ -16,6 +17,7 @@ import Typography from '@mui/material/Typography';
 import { useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';
 
+import FiltersAudioLanguages from './FiltersAudioLanguages';
 import FiltersFeatures from './FiltersFeatures';
 import FiltersGenres from './FiltersGenres';
 import FiltersOfficialRatings from './FiltersOfficialRatings';
@@ -27,7 +29,7 @@ import FiltersTags from './FiltersTags';
 import FiltersVideoTypes from './FiltersVideoTypes';
 import FiltersYears from './FiltersYears';
 
-import { LibraryViewSettings, ParentId } from 'types/library';
+import { Filters, LibraryViewSettings, ParentId } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 
 const Accordion = styled((props: AccordionProps) => (
@@ -114,6 +116,25 @@ const FilterButton: FC<FilterButtonProps> = ({
         setAnchorEl(null);
     }, []);
 
+    const handleClearAllFilters = useCallback(() => {
+        setLibraryViewSettings((prevState) => ({
+            ...prevState,
+            StartIndex: 0,
+            Filters: undefined
+        }));
+    }, [setLibraryViewSettings]);
+
+    const getFilterCount = useCallback((filterKey: keyof Filters): number => {
+        const filter = libraryViewSettings?.Filters?.[filterKey];
+        if (!filter) return 0;
+        return Array.isArray(filter) ? filter.length : 0;
+    }, [libraryViewSettings?.Filters]);
+
+    const getVideoTypesCount = useCallback((): number => {
+        return (libraryViewSettings?.Filters?.VideoBasicFilter?.length ?? 0)
+            + (libraryViewSettings?.Filters?.VideoTypes?.length ?? 0);
+    }, [libraryViewSettings?.Filters]);
+
     const isFiltersLegacyEnabled = () => {
         return (
             viewType === LibraryTab.Movies
@@ -156,6 +177,12 @@ const FilterButton: FC<FilterButtonProps> = ({
         return viewType === LibraryTab.Episodes;
     };
 
+    // Audio language filter - uses same view types as features filter (Movies, Series, Episodes)
+    const isFiltersAudioLanguagesEnabled = isFiltersFeaturesEnabled;
+
+    // Audio languages are returned from the QueryFiltersLegacy endpoint
+    const audioLanguageOptions: string[] = data?.AudioLanguages ?? [];
+
     return (
         <>
             <Button
@@ -189,6 +216,17 @@ const FilterButton: FC<FilterButtonProps> = ({
                     }
                 }}
             >
+                {hasFilters && (
+                    <Box sx={{ p: 1, borderBottom: 1, borderColor: 'divider' }}>
+                        <Button
+                            fullWidth
+                            variant='text'
+                            onClick={handleClearAllFilters}
+                        >
+                            {globalize.translate('ClearAllFilters')}
+                        </Button>
+                    </Box>
+                )}
                 <Accordion
                     expanded={expanded === 'filtersStatus'}
                     onChange={handleChange('filtersStatus')}
@@ -199,6 +237,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                     >
                         <Typography>
                             {globalize.translate('Filters')}
+                            {getFilterCount('Status') > 0 && ` (${getFilterCount('Status')})`}
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -220,6 +259,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         >
                             <Typography>
                                 {globalize.translate('HeaderSeriesStatus')}
+                                {getFilterCount('SeriesStatus') > 0 && ` (${getFilterCount('SeriesStatus')})`}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -242,9 +282,8 @@ const FilterButton: FC<FilterButtonProps> = ({
                             id='filtersEpisodesStatus-header'
                         >
                             <Typography>
-                                {globalize.translate(
-                                    'HeaderEpisodesStatus'
-                                )}
+                                {globalize.translate('HeaderEpisodesStatus')}
+                                {getFilterCount('EpisodeFilter') > 0 && ` (${getFilterCount('EpisodeFilter')})`}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -268,6 +307,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         >
                             <Typography>
                                 {globalize.translate('Features')}
+                                {getFilterCount('Features') > 0 && ` (${getFilterCount('Features')})`}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -292,6 +332,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         >
                             <Typography>
                                 {globalize.translate('HeaderVideoType')}
+                                {getVideoTypesCount() > 0 && ` (${getVideoTypesCount()})`}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -318,6 +359,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 >
                                     <Typography>
                                         {globalize.translate('Genres')}
+                                        {getFilterCount('Genres') > 0 && ` (${getFilterCount('Genres')})`}
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
@@ -349,9 +391,8 @@ const FilterButton: FC<FilterButtonProps> = ({
                                     id='filtersOfficialRatings-header'
                                 >
                                     <Typography>
-                                        {globalize.translate(
-                                            'HeaderParentalRatings'
-                                        )}
+                                        {globalize.translate('HeaderParentalRatings')}
+                                        {getFilterCount('OfficialRatings') > 0 && ` (${getFilterCount('OfficialRatings')})`}
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
@@ -379,6 +420,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 >
                                     <Typography>
                                         {globalize.translate('Tags')}
+                                        {getFilterCount('Tags') > 0 && ` (${getFilterCount('Tags')})`}
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
@@ -406,6 +448,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 >
                                     <Typography>
                                         {globalize.translate('HeaderYears')}
+                                        {getFilterCount('Years') > 0 && ` (${getFilterCount('Years')})`}
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
@@ -434,6 +477,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         >
                             <Typography>
                                 {globalize.translate('Studios')}
+                                {getFilterCount('StudioIds') > 0 && ` (${getFilterCount('StudioIds')})`}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -443,6 +487,29 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 setLibraryViewSettings={
                                     setLibraryViewSettings
                                 }
+                            />
+                        </AccordionDetails>
+                    </Accordion>
+                )}
+                {isFiltersAudioLanguagesEnabled() && audioLanguageOptions.length > 0 && (
+                    <Accordion
+                        expanded={expanded === 'filtersAudioLanguages'}
+                        onChange={handleChange('filtersAudioLanguages')}
+                    >
+                        <AccordionSummary
+                            aria-controls='filtersAudioLanguages-content'
+                            id='filtersAudioLanguages-header'
+                        >
+                            <Typography>
+                                {globalize.translate('HeaderAudioLanguages')}
+                                {getFilterCount('AudioLanguages') > 0 && ` (${getFilterCount('AudioLanguages')})`}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <FiltersAudioLanguages
+                                audioLanguageOptions={audioLanguageOptions}
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={setLibraryViewSettings}
                             />
                         </AccordionDetails>
                     </Accordion>
