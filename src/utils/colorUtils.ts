@@ -117,7 +117,8 @@ export function rgbToString(r: number, g: number, b: number): string {
  * parseRgbString("rgb(255,0,0)")    // {r: 255, g: 0, b: 0} (no spaces ok)
  */
 export function parseRgbString(rgbString: string): RGBColor {
-    const match = rgbString.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    const regex = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/;
+    const match = regex.exec(rgbString);
     if (!match) {
         console.error('Invalid RGB string:', rgbString);
         return { r: 0, g: 0, b: 0 };

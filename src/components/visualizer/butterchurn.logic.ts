@@ -9,6 +9,7 @@ import { visualizerSettings } from './visualizers.logic';
 // @ts-ignore
 import isButterchurnSupported from 'butterchurn/lib/isSupported.min';
 import { isVisible } from '../../utils/visibility';
+import audioCapabilities from 'components/audioEngine/audioCapabilities';
 
 let presetSwitchInterval: NodeJS.Timeout;
 
@@ -36,7 +37,7 @@ export const butterchurnInstance: {
 /**
  * Validates initialization prerequisites for Butterchurn
  */
-function validateButterchurnPrerequisites(): boolean {
+async function validateButterchurnPrerequisites(): Promise<boolean> {
     if (!butterchurn) {
         console.error('[Butterchurn] Butterchurn library not loaded');
         return false;
@@ -54,6 +55,13 @@ function validateButterchurnPrerequisites(): boolean {
 
     if (!isButterchurnSupported()) {
         console.warn('[Butterchurn] Butterchurn not supported in this browser - cannot initialize');
+        return false;
+    }
+
+    // Additional check using centralized capabilities
+    const capabilities = await audioCapabilities.getCapabilities();
+    if (!capabilities.visualizers.butterchurn) {
+        console.warn('[Butterchurn] Butterchurn disabled by capabilities check - cannot initialize');
         return false;
     }
 
@@ -156,10 +164,10 @@ function setupPresetsAndAnimation() {
     };
 }
 
-export function initializeButterChurn(canvas: HTMLCanvasElement) {
+export async function initializeButterChurn(canvas: HTMLCanvasElement) {
     console.log('[Butterchurn] Starting initialization...');
 
-    if (!validateButterchurnPrerequisites()) {
+    if (!(await validateButterchurnPrerequisites())) {
         return;
     }
 

@@ -6,10 +6,12 @@ import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
 import { MediaError } from 'types/mediaError';
-import { audioNodeBus, createGainNode, initializeMasterAudio, masterAudioOutput, rampPlaybackGain } from 'components/audioEngine/master.logic';
-import { synchronizeVolumeUI } from 'components/audioEngine/crossfader.logic';
-import { hijackMediaElementForCrossfade, xDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
+import { createGainNode, initializeMasterAudio, masterAudioOutput, rampPlaybackGain } from 'components/audioEngine/master.logic';
+import { synchronizeVolumeUI, hijackMediaElementForCrossfade, xDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
 import { scrollToActivePlaylistItem, triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
+import audioCapabilities from 'components/audioEngine/audioCapabilities';
+import audioErrorHandler, { AudioErrorType, AudioErrorSeverity } from 'components/audioEngine/audioErrorHandler';
+import { dBToLinear, normalizeVolume, isMediaElementPlayable } from 'components/audioEngine/audioUtils';
 
 function getDefaultProfile() {
     return profileBuilder({});
@@ -17,7 +19,7 @@ function getDefaultProfile() {
 
 let fadeTimeout;
 function fade(instance, elem, startingVolume) {
-    if (masterAudioOutput.mixerNode && xDuration.enabled) {
+    if (instance._hasWebAudio && masterAudioOutput.mixerNode && xDuration.enabled) {
         return new Promise(function (resolve) {
             instance._isFadingOut = true;
 
@@ -64,11 +66,41 @@ function supportsFade() {
     return !browser.tv;
 }
 
+function detectAudioCapabilities() {
+    let hasWebAudio = false;
+    let supportsCrossfade = false;
+    let supportsNormalization = false;
+
+    try {
+        // eslint-disable-next-line compat/compat
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+            const audioCtx = new AudioContextClass();
+            if (audioCtx) {
+                hasWebAudio = true;
+                // Test basic node creation
+                const gainNode = audioCtx.createGain();
+                if (gainNode) {
+                    supportsCrossfade = true; // Capability exists, but may be disabled for TVs
+                    supportsNormalization = true;
+                }
+                // Clean up test context
+                audioCtx.close().catch(console.debug);
+            }
+        }
+    } catch (e) {
+        console.debug('Web Audio API not supported or failed to initialize:', e.message);
+    }
+
+    console.debug(`Audio capabilities detected: Web Audio: ${hasWebAudio}, Crossfade: ${supportsCrossfade}, Normalization: ${supportsNormalization}`);
+    return { hasWebAudio, supportsCrossfade, supportsNormalization };
+}
+
 function requireHlsPlayer(callback) {
     import('hls.js/dist/hls.js').then(({ default: hls }) => {
         hls.DefaultConfig.lowLatencyMode = false;
         hls.DefaultConfig.backBufferLength = Infinity;
-        hls.DefaultConfig.liveBackBufferLength = 90;
+        hls.DefaultConfig.backBufferLength = 90;
         window.Hls = hls;
         callback();
     });
@@ -120,6 +152,28 @@ class HtmlAudioPlayer {
         // Let any players created by plugins take priority
         self.priority = 1;
 
+        // Detect audio capabilities early using centralized service
+        audioCapabilities.getCapabilities().then(capabilities => {
+            self._hasWebAudio = capabilities.webAudio;
+            self._supportsCrossfade = capabilities.crossfade;
+            self._supportsNormalization = capabilities.normalization;
+        }).catch(error => {
+            audioErrorHandler.handleError(
+                audioErrorHandler.createError(
+                    AudioErrorType.CAPABILITY_DETECTION_FAILED,
+                    AudioErrorSeverity.MEDIUM,
+                    'HtmlAudioPlayer',
+                    'Failed to detect audio capabilities',
+                    error,
+                    {}
+                )
+            );
+            // Fallback to minimal capabilities
+            self._hasWebAudio = false;
+            self._supportsCrossfade = false;
+            self._supportsNormalization = false;
+        });
+
         self.play = function (options) {
             self._started = false;
             self._timeUpdated = false;
@@ -139,16 +193,18 @@ class HtmlAudioPlayer {
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
                 let normalizationGain;
-                if (userSettings.selectAudioNormalization() == 'TrackGain') {
+                if (userSettings.selectAudioNormalization() === 'TrackGain') {
                     normalizationGain = options.item.NormalizationGain
                         ?? options.mediaSource.albumNormalizationGain;
-                } else if (userSettings.selectAudioNormalization() == 'AlbumGain') {
+                } else if (userSettings.selectAudioNormalization() === 'AlbumGain') {
                     normalizationGain =
                         options.mediaSource.albumNormalizationGain
                         ?? options.item.NormalizationGain;
                 }
 
-                rampPlaybackGain(normalizationGain);
+                if (self._hasWebAudio && self._supportsNormalization) {
+                    rampPlaybackGain(normalizationGain);
+                }
             }).catch((err) => {
                 console.error('Failed to apply normalization gain', err);
             });
@@ -297,11 +353,22 @@ class HtmlAudioPlayer {
         }
 
         function addGainElement(elem) {
-            try {
-                initializeMasterAudio(self.destroy);
-                createGainNode(elem);
-            } catch (e) {
-                console.error('Web Audio API is not supported in this browser', e);
+            if (self._hasWebAudio) {
+                try {
+                    initializeMasterAudio(self.destroy);
+                    createGainNode(elem);
+                } catch (e) {
+                    audioErrorHandler.handleError(
+                        audioErrorHandler.createError(
+                            AudioErrorType.AUDIO_CONTEXT_FAILED,
+                            AudioErrorSeverity.HIGH,
+                            'HtmlAudioPlayer',
+                            'Web Audio API initialization failed',
+                            e,
+                            { mediaElement: elem }
+                        )
+                    );
+                }
             }
         }
 
@@ -525,7 +592,7 @@ class HtmlAudioPlayer {
         const audioCtx = masterAudioOutput.audioContext;
         const mediaElement = this._mediaElement;
 
-        if (masterAudioOutput.mixerNode && audioCtx) {
+        if (this._hasWebAudio && masterAudioOutput.mixerNode && audioCtx) {
             // Apply the makeup gain
             const gainValue = (val / 100);
 
@@ -552,14 +619,14 @@ class HtmlAudioPlayer {
             // Synchronize volume UI
             synchronizeVolumeUI();
         } else if (mediaElement) {
-            mediaElement.volume = Math.pow(val / 100, 3);
+            mediaElement.volume = normalizeVolume(val, 'user');
         }
     }
 
     getVolume() {
         const audioCtx = masterAudioOutput.audioContext;
 
-        if (masterAudioOutput.mixerNode && audioCtx) {
+        if (this._hasWebAudio && masterAudioOutput.mixerNode && audioCtx) {
             return Math.min(Math.round(masterAudioOutput.volume), 100);
         }
 
@@ -572,7 +639,7 @@ class HtmlAudioPlayer {
     volumeUp() {
         const audioCtx = masterAudioOutput.audioContext;
 
-        if (masterAudioOutput.mixerNode && audioCtx) {
+        if (this._hasWebAudio && masterAudioOutput.mixerNode && audioCtx) {
             masterAudioOutput.mixerNode.gain.exponentialRampToValueAtTime(
                 this.getVolume() + 0.05,
                 audioCtx.currentTime + 0.3
@@ -585,7 +652,7 @@ class HtmlAudioPlayer {
     volumeDown() {
         const audioCtx = masterAudioOutput.audioContext;
 
-        if (masterAudioOutput.mixerNode && audioCtx) {
+        if (this._hasWebAudio && masterAudioOutput.mixerNode && audioCtx) {
             masterAudioOutput.mixerNode.gain.exponentialRampToValueAtTime(
                 this.getVolume() - 0.05,
                 audioCtx.currentTime + 0.3
@@ -597,7 +664,7 @@ class HtmlAudioPlayer {
 
     setMute(mute) {
         const audioCtx = masterAudioOutput.audioContext;
-        if (masterAudioOutput.mixerNode && audioCtx) {
+        if (this._hasWebAudio && masterAudioOutput.mixerNode && audioCtx) {
             masterAudioOutput.mixerNode.gain.value = 0;
             masterAudioOutput.mixerNode.gain.cancelScheduledValues(audioCtx.currentTime);
             if (mute) {
@@ -637,7 +704,7 @@ class HtmlAudioPlayer {
     isMuted() {
         const audioCtx = masterAudioOutput.audioContext;
 
-        if (masterAudioOutput.mixerNode && audioCtx) {
+        if (this._hasWebAudio && masterAudioOutput.mixerNode && audioCtx) {
             return masterAudioOutput.muted;
         }
         const mediaElement = this._mediaElement;

@@ -5,13 +5,17 @@ const ButterchurnVisualizer: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
-        if (canvasRef.current) {
-            try {
-                initializeButterChurn(canvasRef.current);
-            } catch (error) {
-                console.error('[Butterchurn] Failed to initialize:', error);
+        const initialize = async () => {
+            if (canvasRef.current) {
+                try {
+                    await initializeButterChurn(canvasRef.current);
+                } catch (error) {
+                    console.error('[Butterchurn] Failed to initialize:', error);
+                }
             }
-        }
+        };
+
+        initialize();
 
         const resizeCanvas = () => {
             const width = window.innerWidth;

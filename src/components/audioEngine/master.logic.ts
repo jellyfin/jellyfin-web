@@ -1,6 +1,8 @@
 import { getSavedVisualizerSettings, setVisualizerSettings, visualizerSettings } from 'components/visualizer/visualizers.logic';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { setXDuration, xDuration } from './crossfader.logic';
+import audioErrorHandler, { AudioErrorType, AudioErrorSeverity } from './audioErrorHandler';
+import { safeConnect, dBToLinear } from './audioUtils';
 
 type MasterAudioTypes = {
     mixerNode?: GainNode;
@@ -82,8 +84,17 @@ async function loadAudioWorklets(audioContext: AudioContext) {
             console.debug(`AudioWorklet: Successfully loaded ${worklet}`);
             loadedCount++;
         } catch (error) {
-            // Log at debug level since fallbacks work fine
-            console.debug(`AudioWorklet ${worklet} not loaded:`, error instanceof Error ? error.message : String(error));
+            // Use centralized error handler
+            audioErrorHandler.handleError(
+                audioErrorHandler.createError(
+                    AudioErrorType.AUDIO_WORKLET_LOAD_FAILED,
+                    AudioErrorSeverity.LOW,
+                    'AudioWorkletLoader',
+                    `Failed to load ${worklet}`,
+                    error instanceof Error ? error : undefined,
+                    { worklet, workletUrl: new URL(worklet, import.meta.url).href }
+                )
+            );
         }
     }
 
@@ -157,7 +168,7 @@ export function initializeMasterAudio(unbind: () => void) {
             (limiter as DynamicsCompressorNode).release.setValueAtTime(0.25, audioCtx.currentTime);
         }
 
-        masterAudioOutput.mixerNode.connect(limiter);
+        safeConnect(masterAudioOutput.mixerNode, limiter);
         limiter.connect(audioCtx.destination);
     }
 }
@@ -300,7 +311,7 @@ export function rampPlaybackGain(normalizationGain?: number) {
     }
 
     const audioCtx = masterAudioOutput.audioContext;
-    const gainValue = normalizationGain ? Math.pow(10, normalizationGain / 20) : 1;
+    const gainValue = normalizationGain ? dBToLinear(normalizationGain) : 1;
 
     targetNormalizationNode.gain.cancelScheduledValues(audioCtx.currentTime);
 

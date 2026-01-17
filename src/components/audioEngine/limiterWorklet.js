@@ -1,4 +1,4 @@
-// limiterWorklet.js - AudioWorkletProcessor for limiting
+// limiterWorklet.ts - AudioWorkletProcessor for limiting
 
 class LimiterProcessor extends AudioWorkletProcessor {
     constructor() {

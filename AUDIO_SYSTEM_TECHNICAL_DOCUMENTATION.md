@@ -293,6 +293,64 @@ function cancelCrossfadeTimeouts() {
 }
 ```
 
+## Current Limitations & Fallback Gaps
+
+### Web Audio API Dependency Issues
+
+**Crossfading Limitations:**
+- Crossfading requires Web Audio API; no HTML5-only fallback implemented
+- Browsers without Web Audio (older TVs, limited mobile) cannot use crossfading
+- Users get no visual indication when crossfading is unavailable
+
+**Visualizer Limitations:**
+- Frequency Analyzer and WaveSurfer require Web Audio API
+- No static/fallback visualizations for unsupported browsers
+- Butterchurn has prerequisite checks but lacks user notification
+
+**Audio Processing Gaps:**
+- Normalization depends on Web Audio gain nodes
+- No volume leveling fallback for HTML5 audio
+- Limiter worklet falls back to DynamicsCompressor, but may not be available
+
+### Browser Compatibility Gaps
+
+**Smart TV Support:**
+- Many smart TVs lack Web Audio API despite modern webviews
+- LG webOS and Samsung Tizen have inconsistent support
+- No runtime detection beyond `browser.tv` flag
+
+**Mobile Limitations:**
+- iOS Safari has Web Audio but with restrictions
+- Some Android WebViews lack full Web Audio support
+
+### Recommended Improvements
+
+**Enhanced Detection:**
+```javascript
+// Add to detectAudioCapabilities()
+function hasFullWebAudioSupport() {
+    try {
+        const ctx = new AudioContext();
+        const gain = ctx.createGain();
+        const source = ctx.createMediaElementSource(document.createElement('audio'));
+        ctx.close();
+        return true;
+    } catch {
+        return false;
+    }
+}
+```
+
+**Fallback Implementations:**
+- HTML5 crossfading using element volume manipulation
+- Static visualizer placeholders for unsupported browsers
+- Basic normalization via server-side transcoding
+
+**User Communication:**
+- Add UI indicators for unavailable features
+- Console diagnostics for troubleshooting
+- Settings page warnings for limited functionality
+
 ## Performance Considerations
 
 ### Memory Management
