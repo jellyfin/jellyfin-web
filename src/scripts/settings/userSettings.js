@@ -293,7 +293,7 @@ export class UserSettings {
         }
 
         let stored = this.get('crossfadeDuration', true);
-        if (stored == null && this.displayPrefs) {
+        if (stored == null) {
             stored = appSettings.get('crossfadeDuration', this.currentUserId);
         }
         const parsed = parseFloat(stored);
@@ -315,7 +315,7 @@ export class UserSettings {
         }
 
         let raw = this.get('visualizerConfiguration', true);
-        if (!raw && this.displayPrefs) {
+        if (!raw) {
             raw = appSettings.get('visualizerConfiguration', this.currentUserId);
         }
         if (!raw) {

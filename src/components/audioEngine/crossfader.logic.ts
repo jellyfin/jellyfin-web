@@ -143,6 +143,7 @@ export function cancelCrossfadeTimeouts(): void {
         console.debug('[Crossfader] Crossfade cancelled, resetting state and re-enabling controls');
         xDuration.busy = false;
         xDuration.triggered = false;
+        xDuration.bufferDelayApplied = false; // Reset buffer delay flag
         prevNextDisable(false);
     }
 
@@ -216,36 +217,48 @@ function getCrossfadeDuration() {
  * Hijacks the media element for crossfade.
  */
 export function hijackMediaElementForCrossfade() {
-    // Prevent overlapping crossfades (but allow buffer delay retries)
-    if (xDuration.busy && !xDuration.bufferDelayApplied) {
-        console.warn('[Crossfader] Crossfade already in progress, skipping');
-        return;
-    }
+    try {
+        // Prevent overlapping crossfades (but allow buffer delay retries)
+        if (xDuration.busy && !xDuration.bufferDelayApplied) {
+            console.warn('[Crossfader] Crossfade already in progress, skipping');
+            return;
+        }
 
-    const crossfadeDuration = getCrossfadeDuration();
-    console.debug(`[Crossfader] Starting crossfade with duration: ${crossfadeDuration}s`);
+        const crossfadeDuration = getCrossfadeDuration();
+        console.debug(`[Crossfader] Starting crossfade with duration: ${crossfadeDuration}s`);
 
-    xDuration.t0 = performance.now(); // Record the start time
-    xDuration.busy = true;
-    setXDuration(crossfadeDuration);
-    setVisualizerSettings(getSavedVisualizerSettings());
+        xDuration.t0 = performance.now(); // Record the start time
+        xDuration.busy = true;
+        setXDuration(crossfadeDuration);
+        setVisualizerSettings(getSavedVisualizerSettings());
 
-    endSong();
-    if (visualizerSettings.butterchurn.enabled) butterchurnInstance.nextPreset();
+        endSong();
+        if (visualizerSettings.butterchurn.enabled) butterchurnInstance.nextPreset();
 
-    // Start global sync for timing alignment
-    syncManager.startSync();
+        // Start global sync for timing alignment
+        syncManager.startSync();
 
-    // Synchronize volume UI with Web Audio gain level
-    synchronizeVolumeUI();
+        // Synchronize volume UI with Web Audio gain level
+        synchronizeVolumeUI();
 
-    const hijackedPlayer = document.getElementById('currentMediaElement') as HTMLMediaElement;
+        const hijackedPlayer = document.getElementById('currentMediaElement') as HTMLMediaElement;
 
-    if (!hijackedPlayer || hijackedPlayer.paused || hijackedPlayer.src === '') {
-        setXDuration(0);
-    }
+        if (!hijackedPlayer || hijackedPlayer.paused || hijackedPlayer.src === '') {
+            console.warn('[Crossfader] Invalid media element state, disabling crossfade');
+            setXDuration(0);
+            xDuration.busy = false;
+            xDuration.triggered = false;
+            return triggerSongInfoDisplay();
+        }
 
-    if (!hijackedPlayer || !masterAudioOutput.audioContext) return triggerSongInfoDisplay();
+        if (!masterAudioOutput.audioContext) {
+            console.error('[Crossfader] No AudioContext available');
+            xDuration.busy = false;
+            xDuration.triggered = false;
+            return triggerSongInfoDisplay();
+        }
+
+        // Continue with crossfade setup...
 
     // Register for sync
     syncManager.registerElement(hijackedPlayer, 0);
@@ -269,7 +282,31 @@ export function hijackMediaElementForCrossfade() {
 
     const disposeElement = document.getElementById('crossFadeMediaElement');
     if (disposeElement) {
+        // Prevent double-disposal
+        if (disposeElement.id !== 'crossFadeMediaElement') return;
+
         destroyWaveSurferInstance();
+
+        // Clean up any audio nodes that belong to this disposed element
+        // We use a more conservative approach - only clean nodes if we're definitely interrupting
+        const hasActiveCrossfade = xDuration.busy && document.querySelector('#crossFadeMediaElement') !== null;
+        if (hasActiveCrossfade) {
+            // Only clean up nodes if we're interrupting an active crossfade
+            while (audioNodeBus.length > 0) {
+                const gainNode = audioNodeBus.pop();
+                safeDisconnect(gainNode, 'interrupted xfadeGainNode');
+            }
+            while (delayNodeBus.length > 0) {
+                const delayNode = delayNodeBus.pop();
+                safeDisconnect(delayNode, 'interrupted delayNode');
+            }
+        }
+
+        disposeElement.remove();
+
+        // Stop sync for the disposed element
+        syncManager.unregisterElement(disposeElement as HTMLMediaElement);
+        syncManager.stopSync();
     }
     prevNextDisable(true);
     hijackedPlayer.classList.remove('mediaPlayerAudio');
@@ -359,6 +396,14 @@ export function hijackMediaElementForCrossfade() {
             hijackedPlayer.remove();
         }, crossfadeTiming.nodeDisconnectDelayMs);
     }, xDuration.fadeOut * 1000);
+    } catch (error) {
+        console.error('[Crossfader] Error during hijack setup:', error);
+        // Ensure state is reset on error
+        xDuration.busy = false;
+        xDuration.triggered = false;
+        cancelCrossfadeTimeouts();
+        triggerSongInfoDisplay();
+    }
 }
 
 /**
@@ -402,7 +447,6 @@ export function synchronizeVolumeUI(): void {
  * @returns {boolean} Whether the time is running out.
  */
 export function timeRunningOut(player: any): boolean {
-
     const currentTimeMs = player.currentTime() * 1000;
     const durationMs = player.duration() * 1000;
     const fadeOutMs = xDuration.fadeOut * 1000;
