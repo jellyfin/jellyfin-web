@@ -3588,6 +3588,12 @@ export class PlaybackManager {
             sendProgressUpdate(player, 'unpause');
         }
 
+        function onPlaybackSeeked() {
+            const player = this;
+            // Immediately update progress after seeking to fix UI synchronization
+            sendProgressUpdate(player, 'seeked');
+        }
+
         function onPlaybackVolumeChange() {
             const player = this;
             sendProgressUpdate(player, 'volumechange');
@@ -3650,6 +3656,7 @@ export class PlaybackManager {
             if (enableLocalPlaylistManagement(player)) {
                 Events.on(player, 'error', onPlaybackError);
                 Events.on(player, 'timeupdate', onPlaybackTimeUpdate);
+                Events.on(player, 'seeked', onPlaybackSeeked);
                 Events.on(player, 'pause', onPlaybackPause);
                 Events.on(player, 'unpause', onPlaybackUnpause);
                 Events.on(player, 'volumechange', onPlaybackVolumeChange);
@@ -3662,6 +3669,7 @@ export class PlaybackManager {
                 Events.on(player, 'itemstarted', onPlaybackStartedFromSelfManagingPlayer);
                 Events.on(player, 'itemstopped', onPlaybackStoppedFromSelfManagingPlayer);
                 Events.on(player, 'timeupdate', onPlaybackTimeUpdate);
+                Events.on(player, 'seeked', onPlaybackSeeked);
                 Events.on(player, 'pause', onPlaybackPause);
                 Events.on(player, 'unpause', onPlaybackUnpause);
                 Events.on(player, 'volumechange', onPlaybackVolumeChange);
