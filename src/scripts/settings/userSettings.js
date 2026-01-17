@@ -298,7 +298,7 @@ export class UserSettings {
         }
         const parsed = parseFloat(stored);
         if (Number.isNaN(parsed)) {
-            return 3;
+            return 5;
         }
         return parsed;
     }

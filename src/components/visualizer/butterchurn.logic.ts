@@ -31,8 +31,8 @@ export function setCanvasTransferred(value: boolean): void {
  * Checks if OffscreenCanvas is supported and can be used with WebGL
  */
 export function isOffscreenCanvasSupported(): boolean {
-    return typeof OffscreenCanvas !== 'undefined' &&
-           'transferControlToOffscreen' in HTMLCanvasElement.prototype;
+    return typeof OffscreenCanvas !== 'undefined'
+           && 'transferControlToOffscreen' in HTMLCanvasElement.prototype;
 }
 
 export const butterchurnInstance: {
@@ -82,10 +82,10 @@ export function initializeButterChurn(canvas: HTMLCanvasElement) {
 
     // Skip in development environments where AudioWorklets fail to load
     const isDevelopment = typeof import.meta.url === 'string' && (
-        import.meta.url.startsWith('file://') ||
-        import.meta.url.includes('localhost') ||
-        import.meta.url.includes('127.0.0.1') ||
-        window.location.protocol === 'file:'
+        import.meta.url.startsWith('file://')
+        || import.meta.url.includes('localhost')
+        || import.meta.url.includes('127.0.0.1')
+        || window.location.protocol === 'file:'
     );
 
     if (isDevelopment) {

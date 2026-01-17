@@ -29,7 +29,7 @@ class BiquadProcessor extends AudioWorkletProcessor {
         const omega = 2 * Math.PI * f0 / sampleRate;
         const alpha = Math.sin(omega) / (2 * Q);
 
-        let b0, b1, b2, a0, a1, a2;
+        let b0; let b1; let b2; let a0; let a1; let a2;
 
         switch (this.type) {
             case 'lowpass':
@@ -84,7 +84,7 @@ class BiquadProcessor extends AudioWorkletProcessor {
             const inputChannel = input[channel];
             const outputChannel = output[channel];
 
-            let x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+            let x1 = 0; let x2 = 0; let y1 = 0; let y2 = 0;
 
             for (let i = 0; i < inputChannel.length; ++i) {
                 const x0 = inputChannel[i];

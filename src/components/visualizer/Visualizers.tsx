@@ -20,9 +20,9 @@ const Visualizers: React.FC = () => {
 
         // Also poll for settings changes
         const settingsInterval = setInterval(() => {
-            if (settingsRef.current !== visualizerSettings ||
-                settingsRef.current.butterchurn?.enabled !== visualizerSettings.butterchurn?.enabled ||
-                settingsRef.current.frequencyAnalyzer?.enabled !== visualizerSettings.frequencyAnalyzer?.enabled) {
+            if (settingsRef.current !== visualizerSettings
+                || settingsRef.current.butterchurn?.enabled !== visualizerSettings.butterchurn?.enabled
+                || settingsRef.current.frequencyAnalyzer?.enabled !== visualizerSettings.frequencyAnalyzer?.enabled) {
                 settingsRef.current = visualizerSettings;
                 forceUpdate(prev => prev + 1);
             }

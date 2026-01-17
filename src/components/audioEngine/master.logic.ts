@@ -50,17 +50,17 @@ export const masterAudioOutput: MasterAudioTypes = {
 async function loadAudioWorklets(audioContext: AudioContext) {
     // Skip AudioWorklet loading in environments where it might fail
     const isDevelopment = typeof import.meta.url === 'string' && (
-        import.meta.url.startsWith('file://') ||
-        import.meta.url.includes('localhost') ||
-        import.meta.url.includes('127.0.0.1') ||
-        window.location.protocol === 'file:'
+        import.meta.url.startsWith('file://')
+        || import.meta.url.includes('localhost')
+        || import.meta.url.includes('127.0.0.1')
+        || window.location.protocol === 'file:'
     );
 
     // Also skip if AudioWorklet is not supported
     if (isDevelopment || !audioContext.audioWorklet) {
-        const reason = isDevelopment
-            ? 'development/local environment'
-            : 'AudioWorklet not supported in this browser';
+        const reason = isDevelopment ?
+            'development/local environment' :
+            'AudioWorklet not supported in this browser';
         console.info(`AudioWorklet: Skipping loading (${reason}). Using Web Audio API fallbacks.`);
         return;
     }

@@ -121,7 +121,6 @@ function getBackgroundImageUrl(elem: HTMLElement): string | null {
     const backgroundImage = elem.style.backgroundImage || getComputedStyle(elem).backgroundImage;
     if (!backgroundImage || backgroundImage === 'none') return null;
 
-    // eslint-disable-next-line sonarjs/slow-regex
     const match = /url\(([^)]+)\)/i.exec(backgroundImage);
     if (!match) return null;
 
@@ -134,7 +133,6 @@ function isCrossOriginUrl(url: string): boolean {
         // eslint-disable-next-line compat/compat
         return new URL(url, window.location.href).origin !== window.location.origin;
     } catch (err) {
-        // eslint-disable-next-line sonarjs/no-ignored-exceptions, @typescript-eslint/no-unused-vars
         return true;
     }
 }
@@ -220,7 +218,6 @@ function normalizeStreamUrl(streamUrl: string | null | undefined): string | null
 
         return url.toString();
     } catch (err) {
-        // eslint-disable-next-line sonarjs/no-ignored-exceptions, @typescript-eslint/no-unused-vars
         return null;
     }
 }

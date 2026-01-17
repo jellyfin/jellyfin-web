@@ -16,12 +16,12 @@ function deepMerge<T extends Record<string, unknown>>(target: T, source: Partial
         const targetValue = target[key];
 
         if (
-            sourceValue !== null &&
-            typeof sourceValue === 'object' &&
-            !Array.isArray(sourceValue) &&
-            targetValue !== null &&
-            typeof targetValue === 'object' &&
-            !Array.isArray(targetValue)
+            sourceValue !== null
+            && typeof sourceValue === 'object'
+            && !Array.isArray(sourceValue)
+            && targetValue !== null
+            && typeof targetValue === 'object'
+            && !Array.isArray(targetValue)
         ) {
             // Recursively merge nested objects
             result[key] = deepMerge(
