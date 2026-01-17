@@ -21,7 +21,7 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { destroyWaveSurferInstance } from 'components/visualizer/WaveSurfer';
-import { hijackMediaElementForCrossfade, timeRunningOut, xDuration, getCrossfadeDuration } from 'components/audioEngine/crossfader.logic';
+import { hijackMediaElementForCrossfade, timeRunningOut, xDuration, getCrossfadeDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
 import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
@@ -1695,14 +1695,20 @@ export class PlaybackManager {
         };
 
         self.seek = function (ticks, player) {
-            ticks = Math.max(0, ticks);
+            if (typeof ticks !== 'number' || isNaN(ticks)) {
+                return Promise.reject(new Error('Invalid seek position'));
+            }
 
+            ticks = Math.max(0, ticks);
             player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
+
+            validatePlayerOperation(player, 'seek');
+
+            if (!enableLocalPlaylistManagement(player)) {
                 return player.seek(ticks);
             }
 
-            changeStream(player, ticks);
+            return changeStream(player, ticks);
         };
 
         self.seekRelative = function (offsetTicks, player) {
@@ -2074,13 +2080,17 @@ export class PlaybackManager {
         self.getItemsForPlayback = getItemsForPlayback;
 
         self.play = function (options) {
+            if (!options || typeof options !== 'object') {
+                return Promise.reject(new Error('Invalid play options'));
+            }
+
             hijackMediaElementForCrossfade();
 
             normalizePlayOptions(options);
 
             if (self._currentPlayer) {
                 if (options.enableRemotePlayers === false && !self._currentPlayer.isLocalPlayer) {
-                    return Promise.reject();
+                    return Promise.reject(new Error('Remote players disabled'));
                 }
 
                 if (!self._currentPlayer.isLocalPlayer) {
@@ -3588,9 +3598,20 @@ export class PlaybackManager {
             sendProgressUpdate(player, 'unpause');
         }
 
+        function validatePlayerOperation(player, operation) {
+            if (!player) {
+                throw new Error(`Cannot ${operation}: No active player`);
+            }
+            if (!player.isLocalPlayer && !enableLocalPlaylistManagement(player)) {
+                // For remote players, just log a warning but allow the operation
+                console.warn(`[PlaybackManager] ${operation} on remote player may have limited functionality`);
+            }
+        }
+
         function onPlaybackSeeked() {
             const player = this;
             // Immediately update progress after seeking to fix UI synchronization
+            // Also ensures remote sync for multi-device scenarios
             sendProgressUpdate(player, 'seeked');
         }
 
@@ -3973,16 +3994,24 @@ export class PlaybackManager {
 
     stop(player) {
         player = player || this._currentPlayer;
-        if (player) {
+        if (!player) {
+            return Promise.resolve();
+        }
+
+        try {
+            // Cancel any pending crossfade operations
+            cancelCrossfadeTimeouts();
+
             if (enableLocalPlaylistManagement(player)) {
                 this._playNextAfterEnded = false;
             }
 
             // TODO: remove second param
             return player.stop(true, true);
+        } catch (error) {
+            console.error('[PlaybackManager] Error stopping playback:', error);
+            return Promise.reject(error);
         }
-
-        return Promise.resolve();
     }
 
     getBufferedRanges(player = this._currentPlayer) {
@@ -4014,8 +4043,17 @@ export class PlaybackManager {
     }
 
     pause(player = this._currentPlayer) {
-        if (player) {
-            player.pause();
+        if (!player) {
+            return Promise.resolve();
+        }
+
+        validatePlayerOperation(player, 'pause');
+
+        try {
+            return player.pause();
+        } catch (error) {
+            console.error('[PlaybackManager] Error pausing playback:', error);
+            return Promise.reject(error);
         }
     }
 
