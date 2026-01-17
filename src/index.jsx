@@ -22,6 +22,7 @@ import { getPlugins } from './scripts/settings/webSettings';
 import taskButton from './scripts/taskbutton';
 import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
+import { cleanupExpiredCache } from './utils/randomSortCache';
 
 import RootApp from './RootApp';
 
@@ -71,6 +72,9 @@ build: ${__JF_BUILD_VERSION__}`);
     // Register globals used in plugins
     window.Events = Events;
     window.TaskButton = taskButton;
+
+    // Clean up expired random sort cache entries
+    cleanupExpiredCache();
 
     // Register handlers to update header classes
     pageClassOn('viewshow', 'standalonePage', function () {

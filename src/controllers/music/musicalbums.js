@@ -101,7 +101,7 @@ export default function (view, params, tabContent) {
                 allQuery.Fields = 'PrimaryImageAspectRatio';
                 allQuery.ImageTypeLimit = 1;
                 allQuery.EnableImageTypes = 'Primary';
-                allQuery.Limit = 10000; // Reasonable limit for large libraries
+                allQuery.Limit = 5000; // Conservative limit to avoid memory issues
                 return ApiClient.getItems(ApiClient.getCurrentUserId(), allQuery).then(r => r.Items);
             };
             itemPromise = Promise.all([

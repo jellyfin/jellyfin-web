@@ -1,15 +1,23 @@
 /**
  * Random Sort Cache Utility
  * Caches randomized item orders for consistent library sorting.
+ *
+ * Key Features:
+ * - Uses sessionStorage for cross-page consistency
+ * - Preserves random order across pagination requests
+ * - Handles storage quota gracefully
+ * - 1-hour expiration to allow library updates
  */
 
 interface CachedRandomSort {
     items: any[];
     timestamp: number;
+    totalCount: number;
 }
 
 const CACHE_KEY_PREFIX = 'randomSortCache-';
 const DEFAULT_EXPIRATION_MS = 60 * 60 * 1000; // 1 hour
+const MAX_CACHE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB limit to be safe
 
 /**
  * Gets cached random items or fetches and caches them.
@@ -27,12 +35,17 @@ export async function getCachedRandomItems(
     const cached = loadFromCache(fullKey);
 
     if (cached && !isExpired(cached.timestamp, expirationMs)) {
+        console.debug(`[RandomSortCache] Using cached random order for ${cacheKey} (${cached.totalCount} items)`);
         return cached.items;
     }
 
+    console.debug(`[RandomSortCache] Fetching and randomizing items for ${cacheKey}`);
     const items = await fetchAllItems();
     const randomized = shuffleArray(items);
-    saveToCache(fullKey, { items: randomized, timestamp: Date.now() });
+
+    console.debug(`[RandomSortCache] Randomized ${randomized.length} items for ${cacheKey}`);
+    saveToCache(fullKey, { items: randomized, timestamp: Date.now(), totalCount: randomized.length });
+
     return randomized;
 }
 
@@ -53,7 +66,90 @@ export async function getPaginatedRandomItems(
     expirationMs: number = DEFAULT_EXPIRATION_MS
 ): Promise<any[]> {
     const allItems = await getCachedRandomItems(cacheKey, fetchAllItems, expirationMs);
-    return allItems.slice(startIndex, startIndex + limit);
+
+    // Validate pagination parameters
+    const safeStartIndex = Math.max(0, startIndex || 0);
+    const safeLimit = Math.max(1, limit || 100);
+    const endIndex = Math.min(safeStartIndex + safeLimit, allItems.length);
+
+    const paginatedItems = allItems.slice(safeStartIndex, endIndex);
+
+    console.debug(`[RandomSortCache] Returning ${paginatedItems.length} items (${safeStartIndex}-${endIndex-1}) from cache ${cacheKey}`);
+
+    return paginatedItems;
+}
+
+/**
+ * Clears expired cache entries to free up storage space.
+ * @param maxAgeMs Maximum age of cache entries to keep.
+ */
+export function cleanupExpiredCache(maxAgeMs: number = DEFAULT_EXPIRATION_MS): void {
+    try {
+        const keysToRemove: string[] = [];
+        const now = Date.now();
+
+        for (let i = 0; i < sessionStorage.length; i++) {
+            const key = sessionStorage.key(i);
+            if (key?.startsWith(CACHE_KEY_PREFIX)) {
+                try {
+                    const data = JSON.parse(sessionStorage.getItem(key) || '{}');
+                    if (data.timestamp && (now - data.timestamp) > maxAgeMs) {
+                        keysToRemove.push(key);
+                    }
+                } catch {
+                    // Invalid cache entry, remove it
+                    keysToRemove.push(key);
+                }
+            }
+        }
+
+        keysToRemove.forEach(key => {
+            sessionStorage.removeItem(key);
+        });
+
+        if (keysToRemove.length > 0) {
+            console.debug(`[RandomSortCache] Cleaned up ${keysToRemove.length} expired cache entries`);
+        }
+    } catch (error) {
+        console.warn('[RandomSortCache] Failed to cleanup cache:', error);
+    }
+}
+
+/**
+ * Gets cache statistics for monitoring.
+ * @returns Object with cache statistics.
+ */
+export function getCacheStats(): { totalEntries: number; totalSizeBytes: number; oldestEntry?: number; newestEntry?: number } {
+    let totalEntries = 0;
+    let totalSizeBytes = 0;
+    let oldestEntry: number | undefined;
+    let newestEntry: number | undefined;
+
+    try {
+        for (let i = 0; i < sessionStorage.length; i++) {
+            const key = sessionStorage.key(i);
+            if (key?.startsWith(CACHE_KEY_PREFIX)) {
+                totalEntries++;
+                const value = sessionStorage.getItem(key);
+                if (value) {
+                    totalSizeBytes += value.length;
+                    try {
+                        const data = JSON.parse(value);
+                        if (data.timestamp) {
+                            oldestEntry = oldestEntry ? Math.min(oldestEntry, data.timestamp) : data.timestamp;
+                            newestEntry = newestEntry ? Math.max(newestEntry, data.timestamp) : data.timestamp;
+                        }
+                    } catch {
+                        // Ignore parse errors
+                    }
+                }
+            }
+        }
+    } catch (error) {
+        console.warn('[RandomSortCache] Failed to get cache stats:', error);
+    }
+
+    return { totalEntries, totalSizeBytes, oldestEntry, newestEntry };
 }
 
 function loadFromCache(key: string): CachedRandomSort | null {
@@ -67,9 +163,33 @@ function loadFromCache(key: string): CachedRandomSort | null {
 
 function saveToCache(key: string, data: CachedRandomSort): void {
     try {
-        sessionStorage.setItem(key, JSON.stringify(data));
-    } catch {
-        // Ignore storage errors
+        const serialized = JSON.stringify(data);
+
+        // Check if data exceeds size limit
+        if (serialized.length > MAX_CACHE_SIZE_BYTES) {
+            console.warn(`[RandomSortCache] Cache data too large (${serialized.length} bytes), skipping cache`);
+            return;
+        }
+
+        // Check available storage space (rough estimate)
+        const usedSpace = Object.keys(sessionStorage).reduce((total, key) => {
+            return total + (sessionStorage.getItem(key)?.length || 0);
+        }, 0);
+
+        if (usedSpace + serialized.length > MAX_CACHE_SIZE_BYTES) {
+            console.warn(`[RandomSortCache] Insufficient storage space, skipping cache`);
+            return;
+        }
+
+        sessionStorage.setItem(key, serialized);
+    } catch (error) {
+        console.warn('[RandomSortCache] Failed to save to cache:', error);
+        // Try to clean up any partial writes
+        try {
+            sessionStorage.removeItem(key);
+        } catch {
+            // Ignore cleanup errors
+        }
     }
 }
 

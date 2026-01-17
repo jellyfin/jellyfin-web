@@ -52,7 +52,7 @@ describe('randomSortCache', () => {
             const cachedItems = [{ id: '3' }, { id: '1' }, { id: '2' }];
             const fetchAllItems = vi.fn();
 
-            const cacheData = { items: cachedItems, timestamp: Date.now() };
+            const cacheData = { items: cachedItems, timestamp: Date.now(), totalCount: cachedItems.length };
             mockSessionStorage.getItem.mockReturnValue(JSON.stringify(cacheData));
 
             const result = await getCachedRandomItems(cacheKey, fetchAllItems);
@@ -68,7 +68,7 @@ describe('randomSortCache', () => {
             const fetchAllItems = vi.fn().mockResolvedValue(newItems);
 
             const expiredTimestamp = Date.now() - 2 * 60 * 60 * 1000; // 2 hours ago
-            const cacheData = { items: oldItems, timestamp: expiredTimestamp };
+            const cacheData = { items: oldItems, timestamp: expiredTimestamp, totalCount: oldItems.length };
             mockSessionStorage.getItem.mockReturnValue(JSON.stringify(cacheData));
 
             const result = await getCachedRandomItems(cacheKey, fetchAllItems);

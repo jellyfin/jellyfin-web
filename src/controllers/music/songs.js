@@ -141,7 +141,7 @@ export default function (view, params, tabContent) {
                 allQuery.Fields = 'ParentId';
                 allQuery.ImageTypeLimit = 1;
                 allQuery.EnableImageTypes = 'Primary';
-                allQuery.Limit = 10000; // Reasonable limit for large libraries
+                allQuery.Limit = 5000; // Conservative limit to avoid memory issues
                 return ApiClient.getItems(Dashboard.getCurrentUserId(), allQuery).then(r => r.Items);
             };
             Promise.all([
