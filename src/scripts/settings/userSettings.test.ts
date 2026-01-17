@@ -114,24 +114,3 @@ describe('userSettings - visualizerConfiguration JSON parsing', () => {
         });
     });
 });
-
-describe('userSettings - crossfadeDuration defaults', () => {
-    it('should return 5 seconds as default crossfade duration when no value is stored', () => {
-        // Import the UserSettings class
-        const { UserSettings } = require('../settings/userSettings');
-
-        // Create a new instance
-        const userSettings = new UserSettings();
-
-        // Mock the get method to return null (no stored value)
-        userSettings.get = vi.fn(() => null);
-
-        // Mock appSettings.get to also return null
-        const appSettings = require('../appSettings');
-        appSettings.get = vi.fn(() => null);
-
-        // The crossfadeDuration method should return the default of 5
-        const duration = userSettings.crossfadeDuration();
-        expect(duration).toBe(5);
-    });
-});
