@@ -9,8 +9,8 @@
  * - 1-hour expiration to allow library updates
  */
 
-interface CachedRandomSort {
-    items: any[];
+interface CachedRandomSort<T = unknown> {
+    items: T[];
     timestamp: number;
     totalCount: number;
 }
@@ -26,17 +26,17 @@ const MAX_CACHE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB limit to be safe
  * @param expirationMs Cache expiration time in milliseconds.
  * @returns Promise resolving to all items in random order.
  */
-export async function getCachedRandomItems(
+export async function getCachedRandomItems<T = unknown>(
     cacheKey: string,
-    fetchAllItems: () => Promise<any[]>,
+    fetchAllItems: () => Promise<T[]>,
     expirationMs: number = DEFAULT_EXPIRATION_MS
-): Promise<any[]> {
+): Promise<T[]> {
     const fullKey = CACHE_KEY_PREFIX + cacheKey;
     const cached = loadFromCache(fullKey);
 
     if (cached && !isExpired(cached.timestamp, expirationMs)) {
         console.debug(`[RandomSortCache] Using cached random order for ${cacheKey} (${cached.totalCount} items)`);
-        return cached.items;
+        return cached.items as T[];
     }
 
     console.debug(`[RandomSortCache] Fetching and randomizing items for ${cacheKey}`);
@@ -152,16 +152,16 @@ export function getCacheStats(): { totalEntries: number; totalSizeBytes: number;
     return { totalEntries, totalSizeBytes, oldestEntry, newestEntry };
 }
 
-function loadFromCache(key: string): CachedRandomSort | null {
+function loadFromCache<T = unknown>(key: string): CachedRandomSort<T> | null {
     try {
         const data = sessionStorage.getItem(key);
-        return data ? JSON.parse(data) : null;
+        return data ? JSON.parse(data) as CachedRandomSort<T> : null;
     } catch {
         return null;
     }
 }
 
-function saveToCache(key: string, data: CachedRandomSort): void {
+function saveToCache<T = unknown>(key: string, data: CachedRandomSort<T>): void {
     try {
         const serialized = JSON.stringify(data);
 

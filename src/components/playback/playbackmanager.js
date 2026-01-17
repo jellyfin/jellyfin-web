@@ -218,7 +218,7 @@ function getParam(name, url) {
     const regex = new RegExp(regexS, 'i');
 
     const results = regex.exec(url);
-    if (results == null) {
+    if (results === null) {
         return '';
     } else {
         return decodeURIComponent(results[1].replace(/\+/g, ' '));
@@ -492,25 +492,25 @@ function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, 
         query.AutoOpenLiveStream = false;
     }
 
-    if (options.audioStreamIndex != null) {
+    if (options.audioStreamIndex !== null) {
         query.AudioStreamIndex = options.audioStreamIndex;
     }
-    if (options.subtitleStreamIndex != null) {
+    if (options.subtitleStreamIndex !== null) {
         query.SubtitleStreamIndex = options.subtitleStreamIndex;
     }
-    if (options.secondarySubtitleStreamIndex != null) {
+    if (options.secondarySubtitleStreamIndex !== null) {
         query.SecondarySubtitleStreamIndex = options.secondarySubtitleStreamIndex;
     }
-    if (options.enableDirectPlay != null) {
+    if (options.enableDirectPlay !== null) {
         query.EnableDirectPlay = options.enableDirectPlay;
     }
-    if (options.enableDirectStream != null) {
+    if (options.enableDirectStream !== null) {
         query.EnableDirectStream = options.enableDirectStream;
     }
-    if (options.allowVideoStreamCopy != null) {
+    if (options.allowVideoStreamCopy !== null) {
         query.AllowVideoStreamCopy = options.allowVideoStreamCopy;
     }
-    if (options.allowAudioStreamCopy != null) {
+    if (options.allowAudioStreamCopy !== null) {
         query.AllowAudioStreamCopy = options.allowAudioStreamCopy;
     }
     if (mediaSourceId) {
@@ -587,10 +587,10 @@ function getLiveStream(player, apiClient, item, playSessionId, deviceProfile, me
     if (options.maxBitrate) {
         query.MaxStreamingBitrate = options.maxBitrate;
     }
-    if (options.audioStreamIndex != null) {
+    if (options.audioStreamIndex !== null) {
         query.AudioStreamIndex = options.audioStreamIndex;
     }
-    if (options.subtitleStreamIndex != null) {
+    if (options.subtitleStreamIndex !== null) {
         query.SubtitleStreamIndex = options.subtitleStreamIndex;
     }
 
@@ -952,7 +952,7 @@ export class PlaybackManager {
 
             const index = isSecondaryStream ? getPlayerData(player).secondarySubtitleStreamIndex : getPlayerData(player).subtitleStreamIndex;
 
-            if (index == null || index === -1) {
+            if (index === null || index === -1) {
                 return null;
             }
 
@@ -1024,7 +1024,7 @@ export class PlaybackManager {
                 return player.isPlaying();
             }
 
-            return player?.currentSrc() != null;
+            return player?.currentSrc() !== null;
         };
 
         self.isPlayingMediaType = function (mediaType, player) {
@@ -1094,7 +1094,7 @@ export class PlaybackManager {
                 }
             }
 
-            return getPlayer(item, getDefaultPlayOptions()) != null;
+            return getPlayer(item, getDefaultPlayOptions()) !== null;
         };
 
         self.toggleAspectRatio = function (player) {
@@ -1694,6 +1694,12 @@ export class PlaybackManager {
             return index !== -1 && self.isSubtitleStreamExternal(index, player);
         };
 
+        /**
+         * Seek to a specific position in the current media
+         * @param {number} ticks - Position to seek to in ticks (10000 ticks = 1 second)
+         * @param {Object} [player] - Player instance, defaults to current player
+         * @returns {Promise} Promise that resolves when seek completes
+         */
         self.seek = function (ticks, player) {
             if (typeof ticks !== 'number' || isNaN(ticks)) {
                 return Promise.reject(new Error('Invalid seek position'));
@@ -1721,11 +1727,20 @@ export class PlaybackManager {
             return this.seek(ticks, player);
         };
 
-        // Returns true if the player can seek using native client-side seeking functions
+        /**
+         * Returns true if the player can seek using native client-side seeking functions
+         */
         function canPlayerSeek(player) {
             if (!player) {
                 throw new Error('player cannot be null');
             }
+
+            if (player.seekable) {
+                return player.seekable();
+            }
+
+            return false;
+        }
 
             const playerData = getPlayerData(player);
 
@@ -1749,7 +1764,7 @@ export class PlaybackManager {
         }
 
         function changeStream(player, ticks, params) {
-            if (canPlayerSeek(player) && params == null) {
+            if (canPlayerSeek(player) && params === null) {
                 player.currentTime(parseInt(ticks / 10000, 10));
                 return;
             }
@@ -1766,9 +1781,9 @@ export class PlaybackManager {
             player.getDeviceProfile(currentItem, {
                 isRetry: params.EnableDirectPlay === false
             }).then(function (deviceProfile) {
-                const audioStreamIndex = params.AudioStreamIndex == null ? getPlayerData(player).audioStreamIndex : params.AudioStreamIndex;
-                const subtitleStreamIndex = params.SubtitleStreamIndex == null ? getPlayerData(player).subtitleStreamIndex : params.SubtitleStreamIndex;
-                const secondarySubtitleStreamIndex = params.SecondarySubtitleStreamIndex == null ? getPlayerData(player).secondarySubtitleStreamIndex : params.SecondarySubtitleStreamIndex;
+                const audioStreamIndex = params.AudioStreamIndex === null ? getPlayerData(player).audioStreamIndex : params.AudioStreamIndex;
+                const subtitleStreamIndex = params.SubtitleStreamIndex === null ? getPlayerData(player).subtitleStreamIndex : params.SubtitleStreamIndex;
+                const secondarySubtitleStreamIndex = params.SecondarySubtitleStreamIndex === null ? getPlayerData(player).secondarySubtitleStreamIndex : params.SecondarySubtitleStreamIndex;
 
                 let currentMediaSource = self.currentMediaSource(player);
                 const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
@@ -2010,7 +2025,7 @@ export class PlaybackManager {
                 let seasonStartIndex;
                 for (const [index, e] of episodesResult.Items.entries()) {
                     if (startSeasonId) {
-                        if (e.SeasonId == startSeasonId) {
+                        if (e.SeasonId === startSeasonId) {
                             if (seasonStartIndex === undefined) {
                                 seasonStartIndex = index;
                             }
@@ -2079,6 +2094,11 @@ export class PlaybackManager {
         self.translateItemsForPlayback = translateItemsForPlayback;
         self.getItemsForPlayback = getItemsForPlayback;
 
+        /**
+         * Start playback with the given options
+         * @param {Object} options - Playback options
+         * @returns {Promise} Promise that resolves when playback starts
+         */
         self.play = function (options) {
             if (!options || typeof options !== 'object') {
                 return Promise.reject(new Error('Invalid play options'));
@@ -2490,9 +2510,9 @@ export class PlaybackManager {
         }
 
         function rankStreamType(prevIndex, prevSource, mediaSource, streamType, isSecondarySubtitle) {
-            if (prevIndex == -1) {
+            if (prevIndex === -1) {
                 console.debug(`AutoSet ${streamType} - No Stream Set`);
-                if (streamType == 'Subtitle') {
+                if (streamType === 'Subtitle') {
                     if (isSecondarySubtitle) {
                         mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
                     } else {
@@ -2520,23 +2540,23 @@ export class PlaybackManager {
 
             let prevRelIndex = 0;
             for (const stream of prevSource.MediaStreams) {
-                if (stream.Type != streamType) continue;
+                if (stream.Type !== streamType) continue;
 
-                if (stream.Index == prevIndex) break;
+                if (stream.Index === prevIndex) break;
 
                 prevRelIndex += 1;
             }
 
             let newRelIndex = 0;
             for (const stream of mediaSource.MediaStreams) {
-                if (stream.Type != streamType) continue;
+                if (stream.Type !== streamType) continue;
 
                 let score = 0;
 
-                if (prevStream.Codec == stream.Codec) score += 1;
-                if (prevRelIndex == newRelIndex) score += 1;
-                if (prevStream.DisplayTitle && prevStream.DisplayTitle == stream.DisplayTitle) score += 2;
-                if (prevStream.Language && prevStream.Language != 'und' && prevStream.Language == stream.Language) score += 2;
+                if (prevStream.Codec === stream.Codec) score += 1;
+                if (prevRelIndex === newRelIndex) score += 1;
+                if (prevStream.DisplayTitle && prevStream.DisplayTitle === stream.DisplayTitle) score += 2;
+                if (prevStream.Language && prevStream.Language !== 'und' && prevStream.Language === stream.Language) score += 2;
 
                 console.debug(`AutoSet ${streamType} - Score ${score} for ${stream.Index} - ${stream.DisplayTitle}`);
                 if (score > bestStreamScore && score >= 3) {
@@ -2547,16 +2567,16 @@ export class PlaybackManager {
                 newRelIndex += 1;
             }
 
-            if (bestStreamIndex != null) {
+            if (bestStreamIndex !== null) {
                 console.debug(`AutoSet ${streamType} - Using ${bestStreamIndex} score ${bestStreamScore}.`);
-                if (streamType == 'Subtitle') {
+                if (streamType === 'Subtitle') {
                     if (isSecondarySubtitle) {
                         mediaSource.DefaultSecondarySubtitleStreamIndex = bestStreamIndex;
                     } else {
                         mediaSource.DefaultSubtitleStreamIndex = bestStreamIndex;
                     }
                 }
-                if (streamType == 'Audio') {
+                if (streamType === 'Audio') {
                     mediaSource.DefaultAudioStreamIndex = bestStreamIndex;
                 }
             } else {
@@ -2573,15 +2593,15 @@ export class PlaybackManager {
                     return;
                 }
 
-                if (audio && typeof prevSource.DefaultAudioStreamIndex == 'number') {
+                if (audio && typeof prevSource.DefaultAudioStreamIndex === 'number') {
                     rankStreamType(prevSource.DefaultAudioStreamIndex, prevSource, mediaSource, 'Audio');
                 }
 
-                if (subtitle && typeof prevSource.DefaultSubtitleStreamIndex == 'number') {
+                if (subtitle && typeof prevSource.DefaultSubtitleStreamIndex === 'number') {
                     rankStreamType(prevSource.DefaultSubtitleStreamIndex, prevSource, mediaSource, 'Subtitle');
                 }
 
-                if (subtitle && typeof prevSource.DefaultSecondarySubtitleStreamIndex == 'number') {
+                if (subtitle && typeof prevSource.DefaultSecondarySubtitleStreamIndex === 'number') {
                     rankStreamType(prevSource.DefaultSecondarySubtitleStreamIndex, prevSource, mediaSource, 'Subtitle', true);
                 }
             } catch (e) {
@@ -2663,7 +2683,7 @@ export class PlaybackManager {
                     const user = await apiClient.getCurrentUser();
                     autoSetNextTracks(prevSource, mediaSource, user.Configuration.RememberAudioSelections, user.Configuration.RememberSubtitleSelections);
 
-                    if (mediaSource.DefaultSubtitleStreamIndex == null || mediaSource.DefaultSubtitleStreamIndex < 0) {
+                    if (mediaSource.DefaultSubtitleStreamIndex === null || mediaSource.DefaultSubtitleStreamIndex < 0) {
                         mediaSource.DefaultSubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
                         mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
                     }
@@ -2937,7 +2957,7 @@ export class PlaybackManager {
                                     });
                                 });
                             } else {
-                                if (item.AlbumId != null) {
+                                if (item.AlbumId !== null) {
                                     return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function(result) {
                                         mediaSource.albumNormalizationGain = result.NormalizationGain;
                                         return mediaSource;
@@ -3864,7 +3884,7 @@ export class PlaybackManager {
     }
 
     enableDisplayMirroring(enabled) {
-        if (enabled != null) {
+        if (enabled !== null) {
             const val = enabled ? '1' : '0';
             appSettings.set('displaymirror', val);
             return;
@@ -3914,7 +3934,7 @@ export class PlaybackManager {
     }
 
     fastForward(player = this._currentPlayer) {
-        if (player.fastForward != null) {
+        if (player.fastForward !== null) {
             player.fastForward(userSettings.skipForwardLength());
             return;
         }
@@ -3926,7 +3946,7 @@ export class PlaybackManager {
     }
 
     rewind(player = this._currentPlayer) {
-        if (player.rewind != null) {
+        if (player.rewind !== null) {
             player.rewind(userSettings.skipBackLength());
             return;
         }

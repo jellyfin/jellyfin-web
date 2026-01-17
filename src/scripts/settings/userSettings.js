@@ -286,6 +286,11 @@ export class UserSettings {
      * @param {number|undefined} val - Flag to set duration for crossfade or disable with a negative value
      * @return {number} crossfade duration in seconds
      */
+    /**
+     * Get or set crossfade duration in seconds
+     * @param {number|undefined} val - Duration to set, or undefined to get current value
+     * @returns {number} Current crossfade duration
+     */
     crossfadeDuration(val) {
         if (val !== undefined) {
             setXDuration(val);
