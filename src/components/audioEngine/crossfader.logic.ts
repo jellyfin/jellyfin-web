@@ -144,6 +144,7 @@ export function cancelCrossfadeTimeouts(): void {
         xDuration.busy = false;
         xDuration.triggered = false;
         xDuration.bufferDelayApplied = false; // Reset buffer delay flag
+        xDuration.manualTrigger = false; // Reset manual trigger flag
         prevNextDisable(false);
     }
 
@@ -202,7 +203,8 @@ export const xDuration = {
     t0: performance.now(),
     busy: false,
     triggered: false,
-    bufferDelayApplied: false
+    bufferDelayApplied: false,
+    manualTrigger: false // Flag to distinguish manual vs automatic crossfades
 };
 
 /**
@@ -215,8 +217,9 @@ export function getCrossfadeDuration() {
 
 /**
  * Hijacks the media element for crossfade.
+ * @param {boolean} [isManual=false] - Whether this is a manual trigger (skip button)
  */
-export function hijackMediaElementForCrossfade() {
+export function hijackMediaElementForCrossfade(isManual = false) {
     try {
         // Prevent overlapping crossfades (but allow buffer delay retries)
         if (xDuration.busy && !xDuration.bufferDelayApplied) {
@@ -225,9 +228,10 @@ export function hijackMediaElementForCrossfade() {
         }
 
         const crossfadeDuration = getCrossfadeDuration();
-        console.debug(`[Crossfader] Starting crossfade with duration: ${crossfadeDuration}s`);
+        console.debug(`[Crossfader] Starting crossfade (manual: ${isManual}) with duration: ${crossfadeDuration}s`);
 
         xDuration.t0 = performance.now(); // Record the start time
+        xDuration.manualTrigger = isManual;
         xDuration.busy = true;
         setXDuration(crossfadeDuration);
         setVisualizerSettings(getSavedVisualizerSettings());
@@ -248,6 +252,7 @@ export function hijackMediaElementForCrossfade() {
             setXDuration(0);
             xDuration.busy = false;
             xDuration.triggered = false;
+            xDuration.manualTrigger = false;
             return triggerSongInfoDisplay();
         }
 
@@ -255,6 +260,7 @@ export function hijackMediaElementForCrossfade() {
             console.error('[Crossfader] No AudioContext available');
             xDuration.busy = false;
             xDuration.triggered = false;
+            xDuration.manualTrigger = false;
             return triggerSongInfoDisplay();
         }
 
@@ -401,6 +407,7 @@ export function hijackMediaElementForCrossfade() {
         // Ensure state is reset on error
         xDuration.busy = false;
         xDuration.triggered = false;
+        xDuration.manualTrigger = false;
         cancelCrossfadeTimeouts();
         triggerSongInfoDisplay();
     }

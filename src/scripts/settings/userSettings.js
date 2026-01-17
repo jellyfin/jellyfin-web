@@ -292,15 +292,10 @@ export class UserSettings {
             return this.set('crossfadeDuration', val.toString(), true);
         }
 
-        let stored = this.get('crossfadeDuration', true);
-        if (stored == null) {
-            stored = appSettings.get('crossfadeDuration', this.currentUserId);
-        }
-        const parsed = parseFloat(stored);
-        if (Number.isNaN(parsed)) {
-            return 5;
-        }
-        return parsed;
+        // this.get() already handles server → local fallback, so we just need to parse
+        const stored = this.get('crossfadeDuration', true);
+        const parsed = parseFloat(stored || '5'); // Default to 5 if null/undefined
+        return Number.isNaN(parsed) ? 5 : parsed;
     }
 
     /**

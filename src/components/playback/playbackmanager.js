@@ -2354,11 +2354,15 @@ export class PlaybackManager {
                 .catch(onInterceptorRejection)
                 .then(() => detectBitrate(apiClient, item, mediaType))
                 .then((bitrate) => {
-                    const elapsedTime = performance.now() - xDuration.t0; // Calculate the elapsed time
+                    // For manual crossfade triggers, start immediately
+                    // For automatic triggers, delay based on crossfade timing
+                    const delay = xDuration.manualTrigger ? 1 :
+                        Math.max(1, xDuration.sustain * 1000 - (performance.now() - xDuration.t0));
+
                     setTimeout(() => {
                         return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource)
                             .catch(onPlaybackRejection);
-                    }, Math.max(1, xDuration.sustain * 1000 - elapsedTime));
+                    }, delay);
                 })
                 .catch(() => getSavedMaxStreamingBitrate(apiClient, mediaType))
                 .then((bitrate) => {
@@ -3097,9 +3101,9 @@ export class PlaybackManager {
 
             if (shouldCrossfade) {
                 console.debug('Manual next track with crossfading enabled');
-                hijackMediaElementForCrossfade();
+                hijackMediaElementForCrossfade(true); // Mark as manual trigger
 
-                // For manual skips, reset t0 to current time so playInternal doesn't delay
+                // For manual skips, we want immediate crossfading
                 xDuration.t0 = performance.now();
             }
 
@@ -3129,9 +3133,9 @@ export class PlaybackManager {
 
             if (shouldCrossfade) {
                 console.debug('Manual previous track with crossfading enabled');
-                hijackMediaElementForCrossfade();
+                hijackMediaElementForCrossfade(true); // Mark as manual trigger
 
-                // For manual skips, reset t0 to current time so playInternal doesn't delay
+                // For manual skips, we want immediate crossfading
                 xDuration.t0 = performance.now();
             }
 

@@ -372,6 +372,7 @@ describe('Audio Engine Integration', () => {
             expect(xDuration.enabled).toBe(true);
             expect(xDuration.fadeOut).toBe(6); // 3 * 2 for long duration
             expect(xDuration.sustain).toBe(3 / 12); // 3/12 = 0.25s
+            expect(xDuration.manualTrigger).toBe(false); // Should start as false
 
             // Phase 2: Detection - Track should trigger crossfade when time running out
             const mockPlayer = {
