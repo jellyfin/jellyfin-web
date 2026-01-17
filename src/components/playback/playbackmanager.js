@@ -21,7 +21,7 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { destroyWaveSurferInstance } from 'components/visualizer/WaveSurfer';
-import { hijackMediaElementForCrossfade, timeRunningOut, xDuration } from 'components/audioEngine/crossfader.logic';
+import { hijackMediaElementForCrossfade, timeRunningOut, xDuration, getCrossfadeDuration } from 'components/audioEngine/crossfader.logic';
 import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
@@ -3089,9 +3089,20 @@ export class PlaybackManager {
         }
 
         self.nextTrack = function (player) {
-            hijackMediaElementForCrossfade();
-
             player = player || self._currentPlayer;
+
+            // Check if crossfading is enabled for manual track changes
+            const crossfadeDuration = getCrossfadeDuration();
+            const shouldCrossfade = crossfadeDuration > 0 && !xDuration.busy;
+
+            if (shouldCrossfade) {
+                console.debug('Manual next track with crossfading enabled');
+                hijackMediaElementForCrossfade();
+
+                // For manual skips, reset t0 to current time so playInternal doesn't delay
+                xDuration.t0 = performance.now();
+            }
+
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.nextTrack();
             }
@@ -3111,23 +3122,33 @@ export class PlaybackManager {
 
         self.previousTrack = function (player) {
             player = player || self._currentPlayer;
+
+            // Check if crossfading is enabled for manual track changes
+            const crossfadeDuration = getCrossfadeDuration();
+            const shouldCrossfade = crossfadeDuration > 0 && !xDuration.busy;
+
+            if (shouldCrossfade) {
+                console.debug('Manual previous track with crossfading enabled');
+                hijackMediaElementForCrossfade();
+
+                // For manual skips, reset t0 to current time so playInternal doesn't delay
+                xDuration.t0 = performance.now();
+            }
+
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.previousTrack();
             }
 
-            const newIndex = self.getCurrentPlaylistIndex(player) - 1;
-            if (newIndex >= 0) {
-                const playlist = self._playQueueManager.getPlaylist();
-                const newItem = playlist[newIndex];
+            const newItemInfo = self._playQueueManager.getPreviousItemInfo();
 
-                if (newItem) {
-                    const newItemPlayOptions = newItem.playOptions || getDefaultPlayOptions();
-                    newItemPlayOptions.startPositionTicks = 0;
+            if (newItemInfo) {
+                console.debug('playing previous track');
 
-                    playInternal(newItem, newItemPlayOptions, function () {
-                        setPlaylistState(newItem.PlaylistItemId, newIndex);
-                    }, getPreviousSource(player));
-                }
+                const newItemPlayOptions = newItemInfo.item.playOptions || getDefaultPlayOptions();
+
+                playInternal(newItemInfo.item, newItemPlayOptions, function () {
+                    setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
+                }, getPreviousSource(player));
             }
         };
 
@@ -3459,20 +3480,20 @@ export class PlaybackManager {
                 removeCurrentPlayer(player);
             }
 
-             if (errorOccurred) {
-                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
-             } else if (nextItem) {
-                 if (nextMediaType !== MediaType.Video) {
-                     self.nextTrack();
-                 } else {
-                     const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
+            if (errorOccurred) {
+                showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
+            } else if (nextItem) {
+                if (nextMediaType !== MediaType.Video) {
+                    self.nextTrack();
+                } else {
+                    const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
 
-                     apiClient.getCurrentUser().then(function (user) {
-                         if (user.Configuration.EnableNextEpisodeAutoPlay) {
-                             self.nextTrack();
-                         }
-                     });
-                 }
+                    apiClient.getCurrentUser().then(function (user) {
+                        if (user.Configuration.EnableNextEpisodeAutoPlay) {
+                            self.nextTrack();
+                        }
+                    });
+                }
             }
         }
 

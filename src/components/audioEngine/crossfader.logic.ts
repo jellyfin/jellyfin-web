@@ -209,7 +209,7 @@ export const xDuration = {
  * Gets the crossfade duration from user settings.
  * @returns {number} The crossfade duration.
  */
-function getCrossfadeDuration() {
+export function getCrossfadeDuration() {
     return userSettings.crossfadeDuration(undefined);
 }
 
