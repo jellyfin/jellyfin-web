@@ -41,11 +41,26 @@ function onSaveTimeout() {
         api_key: apiClient.accessToken()
     });
     if (isCrossOriginUrl(prefsUrl)) {
+        // Try sendBeacon first (better for page unload)
         const payload = new Blob([JSON.stringify(self.displayPrefs)], { type: 'application/json' });
         const sent = navigator?.sendBeacon?.(prefsUrl, payload);
-        if (!sent && !displayPrefsBeaconWarningShown) {
-            displayPrefsBeaconWarningShown = true;
-            console.warn('[UserSettings] failed to send display preferences to cross-origin server');
+
+        if (!sent) {
+            // Fallback to fetch for cross-origin requests
+            console.debug('[UserSettings] sendBeacon not available, using fetch fallback');
+            fetch(prefsUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Emby-Authorization': `MediaBrowser Client="Jellyfin Web", Device="Browser", DeviceId="", Version="1.0.0", Token="${self.currentApiClient.accessToken()}"`
+                },
+                body: JSON.stringify(self.displayPrefs)
+            }).catch(error => {
+                if (!displayPrefsBeaconWarningShown) {
+                    displayPrefsBeaconWarningShown = true;
+                    console.warn('[UserSettings] Failed to save cross-origin preferences:', error);
+                }
+            });
         }
         return;
     }
@@ -144,6 +159,10 @@ export class UserSettings {
         return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
             result.CustomPrefs = result.CustomPrefs || {};
             self.displayPrefs = result;
+        }).catch(function (error) {
+            console.warn('[UserSettings] Failed to load server preferences:', error);
+            // Continue with local settings only
+            self.displayPrefs = { CustomPrefs: {} };
         });
     }
 
@@ -157,6 +176,18 @@ export class UserSettings {
         this.displayPrefs = instance.getData();
     }
 
+    /**
+     * Cleanup method to clear any pending timeouts
+     */
+    destroy() {
+        if (this.saveTimeout) {
+            clearTimeout(this.saveTimeout);
+            this.saveTimeout = null;
+        }
+        // Remove all event listeners
+        Events.offAll(this);
+    }
+
     // FIXME: 'appSettings.set' doesn't return any value
     /**
      * Set value of setting.
@@ -165,12 +196,23 @@ export class UserSettings {
      * @param {boolean} [enableOnServer] - Flag to save preferences on server.
      */
     set(name, value, enableOnServer) {
+        if (typeof name !== 'string' || name.trim() === '') {
+            throw new Error('Setting name must be a non-empty string');
+        }
+
         const userId = this.currentUserId;
         const currentValue = this.get(name, enableOnServer);
-        const result = appSettings.set(name, value, userId);
+
+        let result;
+        try {
+            result = appSettings.set(name, value, userId);
+        } catch (error) {
+            console.error('[UserSettings] Failed to save to local storage:', error);
+            throw error;
+        }
 
         if (enableOnServer !== false && this.displayPrefs) {
-            this.displayPrefs.CustomPrefs[name] = value == null ? value : value.toString();
+            this.displayPrefs.CustomPrefs[name] = value === null ? value : value.toString();
             saveServerPreferences(this);
         }
 
@@ -310,6 +352,10 @@ export class UserSettings {
      */
     visualizerConfiguration(val) {
         if (val !== undefined) {
+            // Validate input is a valid object
+            if (val !== null && typeof val !== 'object') {
+                throw new Error('Visualizer configuration must be an object or null');
+            }
             setVisualizerSettings(val);
             return this.set('visualizerConfiguration', getVisualizerSettings(), true);
         }
@@ -638,7 +684,6 @@ export class UserSettings {
                 return 20;
             } else {
                 return libraryPageSize;
-            }
         }
     }
 

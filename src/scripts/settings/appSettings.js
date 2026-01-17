@@ -261,8 +261,18 @@ class AppSettings {
     }
 
     set(name, value, userId) {
+        if (typeof name !== 'string' || name.trim() === '') {
+            throw new Error('Setting name must be a non-empty string');
+        }
+
         const currentValue = this.get(name, userId);
-        localStorage.setItem(this.#getKey(name, userId), value);
+
+        try {
+            localStorage.setItem(this.#getKey(name, userId), value);
+        } catch (error) {
+            console.error('[AppSettings] Failed to save to localStorage:', error);
+            throw error;
+        }
 
         if (currentValue !== value) {
             Events.trigger(this, 'change', [name]);
@@ -270,7 +280,16 @@ class AppSettings {
     }
 
     get(name, userId) {
-        return localStorage.getItem(this.#getKey(name, userId));
+        if (typeof name !== 'string' || name.trim() === '') {
+            return null;
+        }
+
+        try {
+            return localStorage.getItem(this.#getKey(name, userId));
+        } catch (error) {
+            console.error('[AppSettings] Failed to read from localStorage:', error);
+            return null;
+        }
     }
 }
 
