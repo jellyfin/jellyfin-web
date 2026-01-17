@@ -1,5 +1,5 @@
-import Events from '../../utils/events.ts';
-import { toBoolean } from '../../utils/string.ts';
+import Events from '../../utils/events';
+import { toBoolean } from '../../utils/string';
 import { setXDuration } from 'components/audioEngine/crossfader.logic';
 import browser from '../browser';
 import appSettings from './appSettings';

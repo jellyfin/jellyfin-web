@@ -1,6 +1,6 @@
 import dom from '../utils/dom';
 import browser from '../scripts/browser';
-import Events from '../utils/events.ts';
+import Events from '../utils/events';
 import '../elements/emby-tabs/emby-tabs';
 import '../elements/emby-button/emby-button';
 

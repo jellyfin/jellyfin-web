@@ -6,8 +6,8 @@ import { appRouter } from 'components/router/appRouter';
 import toast from 'components/toast/toast';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from 'scripts/inputManager';
-import Events from 'utils/events.ts';
-import { PluginType } from 'types/plugin.ts';
+import Events from 'utils/events';
+import { PluginType } from 'types/plugin';
 
 const serverNotifications = {};
 

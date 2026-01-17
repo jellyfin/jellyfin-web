@@ -1,5 +1,5 @@
 import { playbackManager } from '../playback/playbackmanager';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 
 function transferPlayback(oldPlayer, newPlayer) {
     const state = playbackManager.getPlayerState(oldPlayer);

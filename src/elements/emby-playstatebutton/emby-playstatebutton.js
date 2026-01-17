@@ -1,7 +1,7 @@
 import serverNotifications from '../../scripts/serverNotifications';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 import EmbyButtonPrototype from '../../elements/emby-button/emby-button';
 
 function addNotificationEvent(instance, name, handler) {

@@ -2,7 +2,7 @@ import layoutManager from 'components/layoutManager';
 import toast from '../../../components/toast/toast';
 import globalize from '../../../lib/globalize';
 import appSettings from '../../../scripts/settings/appSettings';
-import Events from '../../../utils/events.ts';
+import Events from '../../../utils/events';
 import keyboardNavigation from 'scripts/keyboardNavigation';
 
 export default function (view) {

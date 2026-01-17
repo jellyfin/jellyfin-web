@@ -1,6 +1,6 @@
 import appSettings from '../scripts/settings/appSettings';
 import browser from '../scripts/browser';
-import Events from '../utils/events.ts';
+import Events from '../utils/events';
 import * as htmlMediaHelper from '../components/htmlMediaHelper';
 import * as webSettings from '../scripts/settings/webSettings';
 import globalize from '../lib/globalize';

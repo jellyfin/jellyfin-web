@@ -1,6 +1,6 @@
 import dom from '../../utils/dom';
 import { playbackManager } from '../playback/playbackmanager';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 import mediaInfo from '../mediainfo/mediainfo';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';

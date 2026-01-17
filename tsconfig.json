@@ -20,5 +20,9 @@
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "src/components/playback/playbackmanager.js",
+    "src/scripts/settings/userSettings.js"
   ]
 }

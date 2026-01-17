@@ -218,6 +218,7 @@ export function getCrossfadeDuration() {
 /**
  * Hijacks the media element for crossfade.
  * @param {boolean} [isManual=false] - Whether this is a manual trigger (skip button)
+ * @returns {void}
  */
 export function hijackMediaElementForCrossfade(isManual = false) {
     try {

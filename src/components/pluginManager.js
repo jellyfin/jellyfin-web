@@ -1,4 +1,4 @@
-import Events from '../utils/events.ts';
+import Events from '../utils/events';
 import globalize from '../lib/globalize';
 import loading from './loading/loading';
 import appSettings from '../scripts/settings/appSettings';

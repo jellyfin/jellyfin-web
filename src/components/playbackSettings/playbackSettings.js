@@ -13,7 +13,7 @@ import focusManager from '../focusManager';
 import qualityoptions from '../qualityOptions';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 import toast from '../toast/toast';
 import template from './playbackSettings.template.html';
 import { getVisualizerInputValues, setVisualizerSettings, visualizerSettings } from 'components/visualizer/visualizers.logic';

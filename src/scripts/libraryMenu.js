@@ -25,9 +25,9 @@ import browser from './browser';
 import imageHelper from '../utils/image';
 import { getMenuLinks } from '../scripts/settings/webSettings';
 import Dashboard, { pageClassOn } from '../utils/dashboard';
-import { PluginType } from '../types/plugin.ts';
-import Events from '../utils/events.ts';
-import { getParameterByName } from '../utils/url.ts';
+import { PluginType } from '../types/plugin';
+import Events from '../utils/events';
+import { getParameterByName } from '../utils/url';
 import datetime from '../scripts/datetime';
 
 import '../elements/emby-button/paper-icon-button-light';

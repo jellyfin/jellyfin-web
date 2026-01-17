@@ -6,8 +6,8 @@ import globalize from '../../../lib/globalize';
 import playbackPermissionManager from './playbackPermissionManager';
 import { pluginManager } from '../../../components/pluginManager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from '../../../types/plugin.ts';
-import Events from '../../../utils/events.ts';
+import { PluginType } from '../../../types/plugin';
+import Events from '../../../utils/events';
 
 import './groupSelectionMenu.scss';
 

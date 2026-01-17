@@ -5,7 +5,7 @@ import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
 import listView from '../../components/listview/listview';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import globalize from '../../lib/globalize';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 

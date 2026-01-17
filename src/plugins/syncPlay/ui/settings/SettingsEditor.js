@@ -10,8 +10,8 @@ import { pluginManager } from '../../../../components/pluginManager';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import globalize from '../../../../lib/globalize';
-import { PluginType } from '../../../../types/plugin.ts';
-import Events from '../../../../utils/events.ts';
+import { PluginType } from '../../../../types/plugin';
+import Events from '../../../../utils/events';
 
 import 'material-design-icons-iconfont';
 import '../../../../elements/emby-input/emby-input';

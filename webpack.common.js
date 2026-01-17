@@ -143,8 +143,38 @@ const config = {
         removeEmptyChunks: false,
         splitChunks: {
             chunks: 'all',
-            maxInitialRequests: Infinity,
+            maxInitialRequests: 20,
+            maxAsyncRequests: 30,
             cacheGroups: {
+                // Separate heavy visualization libraries
+                butterchurn: {
+                    test: /[\\/]node_modules[\\/]butterchurn/,
+                    name: 'butterchurn',
+                    priority: 20
+                },
+                butterchurnPresets: {
+                    test: /[\\/]node_modules[\\/]butterchurn-presets/,
+                    name: 'butterchurn-presets',
+                    priority: 20
+                },
+                wavesurfer: {
+                    test: /[\\/]node_modules[\\/]wavesurfer\.js/,
+                    name: 'wavesurfer',
+                    priority: 20
+                },
+                // Large UI libraries
+                mui: {
+                    test: /[\\/]node_modules[\\/]@mui/,
+                    name: 'mui',
+                    priority: 15
+                },
+                // Media libraries
+                videojs: {
+                    test: /[\\/]node_modules[\\/](flv\.js|hls\.js)/,
+                    name: 'video-libraries',
+                    priority: 15
+                },
+                // General node_modules splitting with size-based chunks
                 node_modules: {
                     test(module) {
                         return NODE_MODULES_REGEX.test(module.context);
@@ -179,7 +209,28 @@ const config = {
                         }
 
                         return `node_modules.${packageName}`;
-                    }
+                    },
+                    priority: 10,
+                    minSize: 20000 // 20KB minimum
+                },
+                // Large application chunks
+                app: {
+                    test: /[\\/]src[\\/]/,
+                    name(module, chunks) {
+                        const modulePath = module.identifier();
+                        if (modulePath.includes('visualizer')) {
+                            return 'visualizers';
+                        }
+                        if (modulePath.includes('audioEngine')) {
+                            return 'audio-engine';
+                        }
+                        if (modulePath.includes('experimental')) {
+                            return 'experimental-features';
+                        }
+                        return 'app-main';
+                    },
+                    priority: 5,
+                    minSize: 50000 // 50KB minimum
                 }
             }
         }
@@ -194,6 +245,11 @@ const config = {
             },
             {
                 test: /\.(js|jsx|mjs)$/,
+                exclude: [
+                    // Exclude problematic legacy files with syntax errors
+                    path.resolve(__dirname, 'src/components/playback/playbackmanager.js'),
+                    path.resolve(__dirname, 'src/scripts/settings/userSettings.js')
+                ],
                 include: [
                     path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
@@ -231,7 +287,6 @@ const config = {
                     path.resolve(__dirname, 'node_modules/material-react-table'),
                     path.resolve(__dirname, 'node_modules/mdurl'),
                     path.resolve(__dirname, 'node_modules/proxy-polyfill'),
-                    path.resolve(__dirname, 'node_modules/punycode'),
                     path.resolve(__dirname, 'node_modules/react-blurhash'),
                     path.resolve(__dirname, 'node_modules/react-lazy-load-image-component'),
                     path.resolve(__dirname, 'node_modules/react-router'),
@@ -269,6 +324,18 @@ const config = {
                         cacheDirectory: true
                     }
                 }]
+            },
+            {
+                // Handle problematic legacy files - copy to output without transformation
+                test: /\.(js|jsx|mjs)$/,
+                include: [
+                    path.resolve(__dirname, 'src/components/playback/playbackmanager.js'),
+                    path.resolve(__dirname, 'src/scripts/settings/userSettings.js')
+                ],
+                type: 'asset/resource',
+                generator: {
+                    filename: 'legacy/[name][ext]'
+                }
             },
             {
                 test: /\.worker\.ts$/,

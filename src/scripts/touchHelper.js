@@ -1,5 +1,5 @@
 import dom from '../utils/dom';
-import Events from '../utils/events.ts';
+import Events from '../utils/events';
 
 function getTouches(e) {
     return e.changedTouches || e.targetTouches || e.touches;

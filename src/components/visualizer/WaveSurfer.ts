@@ -132,7 +132,7 @@ function isCrossOriginUrl(url: string): boolean {
     try {
         // eslint-disable-next-line compat/compat
         return new URL(url, window.location.href).origin !== window.location.origin;
-    } catch (err) {
+    } catch {
         return true;
     }
 }
@@ -217,7 +217,7 @@ function normalizeStreamUrl(streamUrl: string | null | undefined): string | null
         url.searchParams.delete('StartTimeTicks');
 
         return url.toString();
-    } catch (err) {
+    } catch {
         return null;
     }
 }
@@ -527,7 +527,7 @@ async function loadWaveSurferAudio(apiClient: ApiClient, streamUrl: string, item
         lastLoadedStreamUrl = streamUrl;
 
         // Load from cached peaks (much faster than re-fetching audio)
-        waveSurferInstance.load('', cached.peaks, cached.duration);
+        void waveSurferInstance.load('', cached.peaks, cached.duration);
         return;
     }
 

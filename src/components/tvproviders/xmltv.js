@@ -6,7 +6,7 @@ import '../../elements/emby-input/emby-input';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import Dashboard from '../../utils/dashboard';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 import dom from 'utils/dom';
 
 function getTunerName(providerId) {

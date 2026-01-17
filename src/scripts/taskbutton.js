@@ -2,7 +2,7 @@
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import serverNotifications from 'scripts/serverNotifications';
-import Events from 'utils/events.ts';
+import Events from 'utils/events';
 
 import 'elements/emby-button/emby-button';
 

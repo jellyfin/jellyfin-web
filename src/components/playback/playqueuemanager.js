@@ -1,4 +1,4 @@
-import { randomInt } from '../../utils/number.ts';
+import { randomInt } from '../../utils/number';
 
 let currentId = 0;
 function addUniquePlaylistItemId(item) {

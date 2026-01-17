@@ -6,7 +6,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from '../../scripts/inputManager';
 import browser from '../../scripts/browser';
 import globalize from '../../lib/globalize';
-import Events from '../../utils/events.ts';
+import Events from '../../utils/events';
 import scrollHelper from '../../scripts/scrollHelper';
 import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';

@@ -14,7 +14,7 @@ import datetime from '../../../scripts/datetime';
 import itemHelper from '../../../components/itemHelper';
 import mediaInfo from '../../../components/mediainfo/mediainfo';
 import focusManager from '../../../components/focusManager';
-import Events from '../../../utils/events.ts';
+import Events from '../../../utils/events';
 import globalize from '../../../lib/globalize';
 import { safeAppHost } from '../../../components/apphost';
 import layoutManager from '../../../components/layoutManager';
@@ -32,7 +32,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
-import { PluginType } from '../../../types/plugin.ts';
+import { PluginType } from '../../../types/plugin';
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');

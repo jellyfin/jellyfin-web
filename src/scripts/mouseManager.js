@@ -3,7 +3,7 @@ import focusManager from '../components/focusManager';
 import browser from './browser';
 import layoutManager from '../components/layoutManager';
 import dom from '../utils/dom';
-import Events from '../utils/events.ts';
+import Events from '../utils/events';
 import { scrollToActivePlaylistItem } from 'components/sitbackMode/sitback.logic';
 
 const self = {};
