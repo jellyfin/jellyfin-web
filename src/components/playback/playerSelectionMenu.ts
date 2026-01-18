@@ -137,8 +137,9 @@ export function show(button: HTMLElement): void {
 
             // Add message when Google Cast is not supported
             const isChromecastPluginLoaded = !!pluginManager.plugins.find((plugin: any) => plugin.id === 'chromecast');
-            // TODO: Add other checks for support (Android app, secure context, etc)
-            if (!isChromecastPluginLoaded) {
+            const isSecureContext = window.isSecureContext;
+            const isAndroidApp = navigator.userAgent.includes('Android') && !!(window as any).Android;
+            if (!isChromecastPluginLoaded || !isSecureContext || !isAndroidApp) {
                 (menuOptions as any).text = `(${globalize.translate('GoogleCastUnsupported')})`;
             }
 

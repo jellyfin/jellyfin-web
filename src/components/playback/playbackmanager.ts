@@ -943,7 +943,7 @@ export class PlaybackManager {
             return;
         }
 
-        // hijackMediaElementForCrossfade(); // TODO: fix LSP error
+        hijackMediaElementForCrossfade();
 
         normalizePlayOptions(options);
 
@@ -958,7 +958,7 @@ export class PlaybackManager {
         }
 
         if (options.fullscreen) {
-            // loading.show(); // TODO: implement loading
+            loading.show();
         }
 
         if (options.items) {
@@ -971,14 +971,13 @@ export class PlaybackManager {
                 throw new Error('serverId required!');
             }
 
-            // TODO: implement getItemsForPlayback
-            // const result = await getItemsForPlayback(options.serverId, { Ids: options.ids.join(',') });
-            // const items = await this.translateItemsForPlayback(result.Items, options);
-            // const allItems = await this.getAdditionalParts(items);
-            // const flattened = allItems.flat();
-            // return this.playWithIntros(flattened, options);
-
-            throw new Error('Playing by IDs not yet implemented');
+            const apiClient = ServerConnections.getApiClient(options.serverId);
+            const user = await apiClient.getCurrentUser();
+            const result = await getItems(apiClient, (user as any).Id, { Ids: options.ids.join(',') });
+            const items = await this.translateItemsForPlayback(result.Items || [], options);
+            const allItems = await this.getAdditionalParts(items);
+            const flattened = allItems.flat();
+            return this.playWithIntros(flattened, options);
         }
     }
 
@@ -1109,8 +1108,7 @@ export class PlaybackManager {
     // Queue and playlist management methods
     getCurrentPlaylistIndex(): number {
         if (!this._currentPlaylistItemId) return -1;
-        // Find index in playlist - implementation needed
-        return 0;
+        return this._playlist.findIndex(item => item.Id === this._currentPlaylistItemId);
     }
 
     getCurrentPlaylistItemId(): string | null {
@@ -1127,11 +1125,18 @@ export class PlaybackManager {
     }
 
     removeFromPlaylist(playlistItemIds: string[]): void {
-        // Remove items from playlist - implementation needed
+        this._playlist = this._playlist.filter(item => !playlistItemIds.includes(item.Id));
+        if (this._currentPlaylistItemId && playlistItemIds.includes(this._currentPlaylistItemId)) {
+            this._currentPlaylistItemId = null;
+        }
     }
 
     movePlaylistItem(playlistItemId: string, newIndex: number): void {
-        // Move item to new position - implementation needed
+        const index = this._playlist.findIndex(item => item.Id === playlistItemId);
+        if (index !== -1 && index !== newIndex) {
+            const item = this._playlist.splice(index, 1)[0];
+            this._playlist.splice(newIndex, 0, item);
+        }
     }
 
     // Repeat and shuffle controls
@@ -1143,7 +1148,10 @@ export class PlaybackManager {
     }
 
     getRepeatMode(): string {
-        // Would need to store repeat state
+        // Check player first, then stored state
+        if (this._currentPlayer?.getRepeatMode) {
+            return this._currentPlayer.getRepeatMode();
+        }
         return this._repeatMode || 'RepeatNone';
     }
 
@@ -1152,6 +1160,11 @@ export class PlaybackManager {
         // Apply to player/queue as needed
         if (this._currentPlayer?.setRepeatMode) {
             this._currentPlayer.setRepeatMode(mode);
+        }
+        // Also apply to playQueueManager if available
+        if (this._playQueueManager) {
+            // Assuming playQueueManager has setRepeatMode
+            (this._playQueueManager as any).setRepeatMode?.(mode);
         }
     }
 

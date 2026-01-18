@@ -146,7 +146,6 @@ export function getNowPlayingBarHtml(): string {
 }
 
 function onSlideDownComplete(): void {
-    // ... existing code
 }
 
 function slideDown(elem: HTMLElement): void {
@@ -184,7 +183,6 @@ function slideUp(elem: HTMLElement): void {
 }
 
 export function onPlayPauseClick(): void {
-    // ... existing code
 }
 
 export function bindEvents(elem: HTMLElement): void {
@@ -326,7 +324,6 @@ export function bindEvents(elem: HTMLElement): void {
 }
 
 function showRemoteControl(): void {
-    // ... existing code
 }
 
 function getNowPlayingBar(): HTMLElement | null {
@@ -365,83 +362,63 @@ function getNowPlayingBar(): HTMLElement | null {
 }
 
 export function updatePlayPauseState(isPaused: boolean): void {
-    // ... existing code
 }
 
 function updatePlayerStateInternal(event: any, state: PlayerState, player: Player): void {
-    // ... existing code
 }
 
 export function updateRepeatModeDisplay(repeatMode: string): void {
-    // ... existing code
 }
 
 export function updateTimeDisplay(positionTicks: number, runtimeTicks: number, bufferedRanges: any): void {
-    // ... existing code
 }
 
 export function updatePlayerVolumeState(isMuted: boolean, volumeLevel: number): void {
-    // ... existing code
 }
 
 export function updateLyricButton(item: any): void {
-    // ... existing code
 }
 
 function setLyricButtonActiveStatus(): void {
-    // ... existing code
 }
 
 export function updateNowPlayingInfo(state: PlayerState): void {
-    // ... existing code
 }
 
 function onPlaybackStart(e: any, state: PlayerState): void {
-    // ... existing code
 }
 
 function onRepeatModeChange(): void {
-    // ... existing code
 }
 
 function onQueueShuffleModeChange(): void {
-    // ... existing code
 }
 
 export function showNowPlayingBar(): void {
-    // ... existing code
 }
 
 export function hideNowPlayingBar(): void {
-    // ... existing code
 }
 
 function onPlaybackStopped(e: any, state: PlayerState): void {
-    // ... existing code
 }
 
 function onPlayPauseStateChanged(): void {
-    // ... existing code
 }
 
 export function onStateChanged(event: any, state: PlayerState): void {
-    // ... existing code
 }
 
 function onTimeUpdate(): void {
-    // ... existing code
 }
 
 function releaseCurrentPlayer(): void {
-    // ... existing code
 }
 
 function onVolumeChanged(): void {
-    // ... existing code
 }
 
 function refreshFromPlayer(player: Player, type: string): void {
-    // ... existing code
 }
 
 function bindToPlayer(player: Player | null): void {
