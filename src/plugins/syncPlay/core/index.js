@@ -6,13 +6,11 @@ import GenericPlayer from './players/GenericPlayer';
 const PlayerFactory = new PlayerFactoryClass();
 const Manager = new ManagerClass(PlayerFactory);
 
-export {
-    Helper,
-    Manager,
-    PlayerFactory,
-    Players: {
-        GenericPlayer
-    }
+export { Helper };
+export { Manager };
+export { PlayerFactory };
+export const Players = {
+    GenericPlayer
 };
 
 // Keep default export for backward compatibility
@@ -20,7 +18,5 @@ export default {
     Helper,
     Manager,
     PlayerFactory,
-    Players: {
-        GenericPlayer
-    }
+    Players
 };
