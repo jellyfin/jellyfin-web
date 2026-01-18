@@ -1,3 +1,5 @@
+console.log('nowPlayingBar loaded');
+
 import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { appRouter, isLyricsPage } from 'components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
@@ -82,7 +84,7 @@ let isLyricPageActive = false;
 function getNowPlayingBarHtml(): string {
     let html = '';
 
-    html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
+    html += '<div class="nowPlayingBar nowPlayingBar-hidden">';
 
     html += '<div class="nowPlayingBarTop">';
     html += '<div id="barSurfer" class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
