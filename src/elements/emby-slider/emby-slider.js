@@ -1,4 +1,4 @@
-import isEqual from 'lodash-es/isEqual';
+import { isEqual } from '../../utils/lodashUtils';
 
 import browser from '../../scripts/browser';
 import dom from '../../utils/dom';

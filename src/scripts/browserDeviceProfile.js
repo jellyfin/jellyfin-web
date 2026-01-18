@@ -482,7 +482,7 @@ export function canPlaySecondaryAudio(videoTestElement) {
         && (browser.web0sVersion >= 4.0 || !browser.web0sVersion);
 }
 
-export default function (options) {
+export function browserDeviceProfile(options) {
     options = options || {};
 
     const bitrateSetting = getMaxBitrate();
@@ -1597,3 +1597,6 @@ export default function (options) {
 
     return profile;
 }
+
+// Keep default export for backward compatibility
+export default browserDeviceProfile;

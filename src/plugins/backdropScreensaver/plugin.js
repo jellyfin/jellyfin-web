@@ -52,4 +52,5 @@ class BackdropScreensaver {
     }
 }
 
+export { BackdropScreensaver };
 export default BackdropScreensaver;

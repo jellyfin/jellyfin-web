@@ -39,17 +39,17 @@ const JELLYFIN_DARK_BG = '#101010';
  * Validation happens on every change using WCAG contrast checking.
  * Invalid hex input shows red border via .invalid CSS class.
  *
- * @param {HTMLInputElement} colorInput - Color picker input element
- * @param {HTMLInputElement} textInput - Hex text input element (must be in DOM)
- * @returns {void}
+ * @param colorInput - Color picker input element
+ * @param textInput - Hex text input element (must be in DOM)
+ * @returns void
  *
  * @example
- * const color = document.getElementById('colorPicker');
- * const text = document.getElementById('hexInput');
+ * const color = document.getElementById('colorPicker') as HTMLInputElement;
+ * const text = document.getElementById('hexInput') as HTMLInputElement;
  * syncColorInputs(color, text);
  * // Now user can edit either input and they stay in sync
  */
-export function syncColorInputs(colorInput, textInput) {
+export function syncColorInputs(colorInput: HTMLInputElement, textInput: HTMLInputElement): void {
     if (!colorInput || !textInput) return;
 
     // Color picker changed -> update text
@@ -97,15 +97,15 @@ export function syncColorInputs(colorInput, textInput) {
  *     Low contrast: May be hard to see
  * </div>
  *
- * @param {HTMLInputElement} colorInput - Color picker input (must have id attribute)
- * @returns {void}
+ * @param colorInput - Color picker input (must have id attribute)
+ * @returns void
  *
  * @example
- * const colorInput = document.getElementById('colorFreqAnalyzerLow');
+ * const colorInput = document.getElementById('colorFreqAnalyzerLow') as HTMLInputElement;
  * validateColorContrast(colorInput);
  * // Shows warning if '#333333' is selected because it has low contrast
  */
-function validateColorContrast(colorInput) {
+function validateColorContrast(colorInput: HTMLInputElement): void {
     if (!colorInput || !colorInput.id) return;
 
     const selectedColor = colorInput.value;
@@ -151,22 +151,22 @@ function validateColorContrast(colorInput) {
  *
  * This function is called once per settings load to activate all pickers.
  *
- * @param {HTMLElement} container - Parent container element
- * @returns {void}
+ * @param container - Parent container element
+ * @returns void
  *
  * @example
- * const form = document.getElementById('settingsForm');
+ * const form = document.getElementById('settingsForm') as HTMLElement;
  * initializeColorPickers(form);
  * // Now all .colorPickerGroup elements in form have active pickers
  */
-export function initializeColorPickers(container) {
+export function initializeColorPickers(container: HTMLElement | null): void {
     if (!container) return;
 
     const colorGroups = container.querySelectorAll('.colorPickerGroup');
 
     colorGroups.forEach(group => {
-        const colorInput = group.querySelector('input[type="color"]');
-        const textInput = group.querySelector('input[type="text"]');
+        const colorInput = group.querySelector('input[type="color"]') as HTMLInputElement | null;
+        const textInput = group.querySelector('input[type="text"]') as HTMLInputElement | null;
 
         if (colorInput && textInput) {
             syncColorInputs(colorInput, textInput);
@@ -192,15 +192,16 @@ export function initializeColorPickers(container) {
  * - freqAnalyzer gradient: low=#1ED24B, mid=#FFD700, high=#FF3232
  * - waveform: wave=#1ED24B, cursor=#FFFFFF, left=#1ED24B, right=#FF3232
  *
- * @param {string} target - Visualizer type ('freqAnalyzer', 'waveform')
- * @returns {void}
+ * @param target - Visualizer type ('freqAnalyzer', 'waveform')
+ * @param container - Container to search for inputs (defaults to document)
+ * @returns void
  *
  * @example
  * resetColorsToDefault('freqAnalyzer');
  * // Updates colorFreqAnalyzerSolid, colorFreqAnalyzerLow, etc. to defaults
  */
-export function resetColorsToDefault(target, container = document) {
-    const defaults = {
+export function resetColorsToDefault(target: string, container: HTMLElement | Document = document): void {
+    const defaults: Record<string, Record<string, string>> = {
         freqAnalyzer: {
             solid: '#1ED24B',
             low: '#1ED24B',
@@ -224,8 +225,8 @@ export function resetColorsToDefault(target, container = document) {
         const colorInputId = `color${capitalize(target)}${capitalize(key)}`;
         const textInputId = `text${capitalize(target)}${capitalize(key)}`;
 
-        const colorInput = container.querySelector(`#${colorInputId}`);
-        const textInput = container.querySelector(`#${textInputId}`);
+        const colorInput = container.querySelector(`#${colorInputId}`) as HTMLInputElement | null;
+        const textInput = container.querySelector(`#${textInputId}`) as HTMLInputElement | null;
 
         if (colorInput && textInput) {
             colorInput.value = value;
@@ -242,13 +243,13 @@ export function resetColorsToDefault(target, container = document) {
  * Example: 'freqAnalyzer' → 'FreqAnalyzer' (for colorFreqAnalyzer)
  *
  * @private
- * @param {string} str - Input string
- * @returns {string} String with first character uppercased
+ * @param str - Input string
+ * @returns String with first character uppercased
  *
  * @example
  * capitalize('freqAnalyzer') // 'FreqAnalyzer'
  */
-function capitalize(str) {
+function capitalize(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
@@ -261,20 +262,20 @@ function capitalize(str) {
  *
  * Smooth CSS transition handled by `.advancedSettingsPanel` in colorPicker.scss.
  *
- * @param {HTMLElement} button - Expand/collapse toggle button
- * @param {HTMLElement} panel - Panel element to toggle (advanced settings)
- * @returns {void}
+ * @param button - Expand/collapse toggle button
+ * @param panel - Panel element to toggle (advanced settings)
+ * @returns void
  *
  * @example
- * const btn = document.getElementById('toggleAdvanced');
- * const panel = document.getElementById('advancedPanel');
+ * const btn = document.getElementById('toggleAdvanced') as HTMLElement;
+ * const panel = document.getElementById('advancedPanel') as HTMLElement;
  * setupAdvancedToggle(btn, panel);
  * // User can now click button to expand/collapse
  */
-export function setupAdvancedToggle(button, panel) {
+export function setupAdvancedToggle(button: HTMLElement, panel: HTMLElement): void {
     if (!button || !panel) return;
 
-    button.addEventListener('click', (e) => {
+    button.addEventListener('click', (e: Event) => {
         e.preventDefault();
         const isHidden = panel.classList.contains('hide');
 
@@ -301,21 +302,21 @@ export function setupAdvancedToggle(button, panel) {
  * </button>
  * ```
  *
- * @param {HTMLElement} container - Parent container to search within
- * @param {string} target - Visualizer target ('freqAnalyzer', 'waveform')
- * @returns {void}
+ * @param container - Parent container to search within
+ * @param target - Visualizer target ('freqAnalyzer', 'waveform')
+ * @returns void
  *
  * @example
  * setupResetButton(settingsForm, 'freqAnalyzer');
  * // Now the button[data-target="freqAnalyzer"] resets freq analyzer colors
  */
-export function setupResetButton(container, target) {
+export function setupResetButton(container: HTMLElement, target: string): void {
     if (!container) return;
 
-    const resetBtn = container.querySelector(`[data-target="${target}"]`);
+    const resetBtn = container.querySelector(`[data-target="${target}"]`) as HTMLElement | null;
     if (!resetBtn) return;
 
-    resetBtn.addEventListener('click', (e) => {
+    resetBtn.addEventListener('click', (e: Event) => {
         e.preventDefault();
         resetColorsToDefault(target, container);
     });
@@ -332,8 +333,8 @@ export function setupResetButton(container, target) {
  *
  * Used in playbackSettings.js saveUser() to serialize current UI state.
  *
- * @param {HTMLElement} container - Parent container to search
- * @returns {Object|null} Object with color ID keys and hex values, or null if no container
+ * @param container - Parent container to search
+ * @returns Object with color ID keys and hex values, or null if no container
  *
  * @example
  * const colors = getColorSettingsFromUI(settingsForm);
@@ -344,15 +345,16 @@ export function setupResetButton(container, target) {
  * //   ...
  * // }
  */
-export function getColorSettingsFromUI(container) {
+export function getColorSettingsFromUI(container: HTMLElement): Record<string, string> | null {
     if (!container) return null;
 
-    const colors = {};
+    const colors: Record<string, string> = {};
     const colorInputs = container.querySelectorAll('input[type="color"]');
 
     colorInputs.forEach(input => {
-        const id = input.id.replace('color', '');
-        colors[id] = input.value.toUpperCase();
+        const htmlInput = input as HTMLInputElement;
+        const id = htmlInput.id.replace('color', '');
+        colors[id] = htmlInput.value.toUpperCase();
     });
 
     return colors;
@@ -371,9 +373,9 @@ export function getColorSettingsFromUI(container) {
  * Invalid colors are skipped with console warning.
  * Used in playbackSettings.js loadForm() to restore saved settings.
  *
- * @param {HTMLElement} container - Parent container to find inputs
- * @param {Object} colors - Color settings object (ID: hex value pairs)
- * @returns {void}
+ * @param container - Parent container to find inputs
+ * @param colors - Color settings object (ID: hex value pairs)
+ * @returns void
  *
  * @example
  * const savedColors = {
@@ -384,7 +386,7 @@ export function getColorSettingsFromUI(container) {
  * setColorSettingsUI(settingsForm, savedColors);
  * // Now all color pickers show the saved colors
  */
-export function setColorSettingsUI(container, colors) {
+export function setColorSettingsUI(container: HTMLElement, colors: Record<string, string>): void {
     if (!container || !colors) return;
 
     Object.entries(colors).forEach(([key, value]) => {
@@ -393,8 +395,8 @@ export function setColorSettingsUI(container, colors) {
             return;
         }
 
-        const colorInput = container.querySelector(`#color${key}`);
-        const textInput = container.querySelector(`#text${key}`);
+        const colorInput = container.querySelector(`#color${key}`) as HTMLInputElement | null;
+        const textInput = container.querySelector(`#text${key}`) as HTMLInputElement | null;
 
         if (colorInput && textInput) {
             colorInput.value = value;

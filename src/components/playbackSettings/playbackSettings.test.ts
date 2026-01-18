@@ -1,17 +1,16 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { getVisualizerInputValues, visualizerSettings } from 'components/visualizer/visualizers.logic';
 
 // Mock userSettings to prevent globalize from failing
 vi.mock('../../scripts/settings/userSettings', () => ({}));
 
-function resetVisualizerDefaults() {
+function resetVisualizerDefaults(): void {
     visualizerSettings.butterchurn.enabled = false;
     visualizerSettings.butterchurn.presetInterval = 60;
     visualizerSettings.frequencyAnalyzer.enabled = false;
     visualizerSettings.waveSurfer.enabled = false;
 }
 
-function setupForm() {
+function setupForm(): HTMLFormElement {
     const form = document.createElement('form');
 
     const chkButterchurn = document.createElement('input');
@@ -48,21 +47,22 @@ describe('playbackSettings - simplified visualizer inputs', () => {
     it('collects visualizer toggles and preset interval from the form', () => {
         const form = setupForm();
 
-        form.querySelector('.chkEnableButterchurn').checked = true;
-        form.querySelector('#sliderButterchurnPresetInterval').value = '45';
-        form.querySelector('.chkEnableFrequencyAnalyzer').checked = true;
-        form.querySelector('.chkEnableWavesurfer').checked = false;
+        (form.querySelector('.chkEnableButterchurn') as HTMLInputElement).checked = true;
+        (form.querySelector('#sliderButterchurnPresetInterval') as HTMLInputElement).value = '30';
+        (form.querySelector('.chkEnableFrequencyAnalyzer') as HTMLInputElement).checked = true;
+        (form.querySelector('.chkEnableWavesurfer') as HTMLInputElement).checked = true;
 
         const result = getVisualizerInputValues(form);
 
         expect(result.butterchurn.enabled).toBe(true);
-        expect(result.butterchurn.presetInterval).toBe(45);
+        expect(result.butterchurn.presetInterval).toBe(30);
         expect(result.frequencyAnalyzer.enabled).toBe(true);
-        expect(result.waveSurfer.enabled).toBe(false);
+        expect(result.waveSurfer.enabled).toBe(true);
     });
 
-    it('keeps defaults when the form does not change values', () => {
+    it('returns default values when form elements are not checked', () => {
         const form = setupForm();
+
         const result = getVisualizerInputValues(form);
 
         expect(result.butterchurn.enabled).toBe(false);

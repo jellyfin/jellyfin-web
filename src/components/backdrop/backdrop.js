@@ -1,4 +1,4 @@
-import isEqual from 'lodash-es/isEqual';
+import { isEqual } from '../../utils/lodashUtils';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';

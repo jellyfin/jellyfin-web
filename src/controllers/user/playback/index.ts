@@ -1,4 +1,3 @@
-
 import PlaybackSettings from '../../../components/playbackSettings/playbackSettings';
 import * as userSettings from '../../../scripts/settings/userSettings';
 import autoFocuser from '../../../components/autoFocuser';
@@ -7,20 +6,29 @@ import '../../../components/listview/listview.scss';
 // Shortcuts
 const UserSettings = userSettings.UserSettings;
 
-export default function (view, params) {
-    let settingsInstance;
+interface ViewParams {
+    userId?: string;
+}
 
-    const userId = params.userId || ApiClient.getCurrentUserId();
-    const currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
+interface ViewElement extends HTMLElement {
+    addEventListener(type: string, listener: EventListener): void;
+    querySelector(selector: string): Element | null;
+}
+
+export default function (view: ViewElement, params: ViewParams): void {
+    let settingsInstance: PlaybackSettings | null = null;
+
+    const userId = params.userId || (globalThis as any).ApiClient.getCurrentUserId();
+    const currentSettings = userId === (globalThis as any).ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
 
     view.addEventListener('viewshow', function () {
         if (settingsInstance) {
             settingsInstance.loadData();
         } else {
             settingsInstance = new PlaybackSettings({
-                serverId: ApiClient.serverId(),
+                serverId: (globalThis as any).ApiClient.serverId(),
                 userId,
-                element: view.querySelector('.settingsContainer'),
+                element: view.querySelector('.settingsContainer') as HTMLElement,
                 userSettings: currentSettings,
                 enableSaveButton: true,
                 enableSaveConfirmation: true,
@@ -36,4 +44,3 @@ export default function (view, params) {
         }
     });
 }
-

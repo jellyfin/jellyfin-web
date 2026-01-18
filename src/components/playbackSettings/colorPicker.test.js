@@ -7,7 +7,7 @@ import {
     setupResetButton,
     getColorSettingsFromUI,
     setColorSettingsUI
-} from './colorPicker.js';
+} from './colorPicker';
 
 // Mock colorUtils dependency
 vi.mock('../../utils/colorUtils', () => ({

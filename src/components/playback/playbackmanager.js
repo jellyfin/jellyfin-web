@@ -1,5 +1,5 @@
 import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
-import merge from 'lodash-es/merge';
+import { merge } from '../../utils/lodashUtils';
 import Screenfull from 'screenfull';
 import Events from '../../utils/events';
 import datetime from '../../scripts/datetime';
@@ -20,7 +20,7 @@ import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdrop
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
-import { destroyWaveSurferInstance } from 'components/visualizer/WaveSurfer';
+import { destroyWaveSurferInstance } from 'components/visualizer/lazyWaveSurfer';
 import { hijackMediaElementForCrossfade, timeRunningOut, xDuration, getCrossfadeDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
 import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
@@ -1730,7 +1730,7 @@ export class PlaybackManager {
         /**
          * Returns true if the player can seek using native client-side seeking functions
          */
-        function canPlayerSeek(player) {
+        canPlayerSeek(player) {
             if (!player) {
                 throw new Error('player cannot be null');
             }
@@ -1754,17 +1754,19 @@ export class PlaybackManager {
                 return player.seekable();
             }
 
-            const isPlayMethodTranscode = self.playMethod(player) === 'Transcode';
+            const isPlayMethodTranscode = this.playMethod(player) === 'Transcode';
 
             if (isPlayMethodTranscode) {
                 return false;
             }
 
             return player.duration();
-        }
+        };
 
-        function changeStream(player, ticks, params) {
-            if (canPlayerSeek(player) && params === null) {
+        self.canPlayerSeek = self.canPlayerSeek;
+
+        changeStream(player, ticks, params) {
+            if (this.canPlayerSeek(player) && params === null) {
                 player.currentTime(parseInt(ticks / 10000, 10));
                 return;
             }
@@ -1774,9 +1776,9 @@ export class PlaybackManager {
             const liveStreamId = getPlayerData(player).streamInfo.liveStreamId;
             const lastMediaInfoQuery = getPlayerData(player).streamInfo.lastMediaInfoQuery;
 
-            const playSessionId = self.playSessionId(player);
+            const playSessionId = this.playSessionId(player);
 
-            const currentItem = self.currentItem(player);
+            const currentItem = this.currentItem(player);
 
             player.getDeviceProfile(currentItem, {
                 isRetry: params.EnableDirectPlay === false
@@ -1873,7 +1875,67 @@ export class PlaybackManager {
             });
         }
 
-        async function translateItemsForPlayback(items, options) {
+        async translateItemsForPlayback(items, options) {
+            const sortItemsIfNeeded = function (items, options) {
+                if (items.length > 1 && options?.ids) {
+                    // Use the original request id array for sorting the result in the proper order
+                    items.sort(function (a, b) {
+                        return options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id);
+                    });
+                }
+            };
+
+            const getPlaybackPromise = function (firstItem, serverId, options, queryOptions, items) {
+                switch (firstItem.Type) {
+                    case 'Program':
+                        return getItemsForPlayback(serverId, {
+                            Ids: firstItem.ChannelId
+                        });
+                    case 'Playlist':
+                        return getItemsForPlayback(serverId, {
+                            ParentId: firstItem.Id,
+                            SortBy: options.shuffle ? 'Random' : null
+                        });
+                    case 'MusicArtist':
+                        return getItemsForPlayback(serverId, mergePlaybackQueries({
+                            ArtistIds: firstItem.Id,
+                            Filters: 'IsNotFolder',
+                            Recursive: true,
+                            SortBy: options.shuffle ? 'Random' : 'SortName',
+                            MediaTypes: 'Audio'
+                        }, queryOptions));
+                    case 'PhotoAlbum':
+                        return getItemsForPlayback(serverId, mergePlaybackQueries({
+                            ParentId: firstItem.Id,
+                            Filters: 'IsNotFolder',
+                            Recursive: true,
+                            SortBy: options.shuffle ? 'Random' : 'SortName',
+                            IncludeItemTypes: 'Photo'
+                        }, queryOptions));
+                    case 'MusicAlbum':
+                        return getItemsForPlayback(serverId, mergePlaybackQueries({
+                            ParentId: firstItem.Id,
+                            Filters: 'IsNotFolder',
+                            Recursive: true,
+                            SortBy: options.shuffle ? 'Random' : 'SortName',
+                            MediaTypes: 'Audio'
+                        }, queryOptions));
+                    case 'MusicGenre':
+                        return getItemsForPlayback(serverId, mergePlaybackQueries({
+                            GenreIds: firstItem.Id,
+                            Filters: 'IsNotFolder',
+                            Recursive: true,
+                            SortBy: options.shuffle ? 'Random' : 'SortName',
+                            MediaTypes: 'Audio'
+                        }, queryOptions));
+                    case 'Series':
+                    case 'Season':
+                        return getSeriesOrSeasonPlaybackPromise(firstItem, serverId, options, items);
+                    default:
+                        return null;
+                }
+            };
+
             if (!items.length) return [];
 
             sortItemsIfNeeded(items, options);
@@ -1892,7 +1954,7 @@ export class PlaybackManager {
             }
         }
 
-        function sortItemsIfNeeded(items, options) {
+        const sortItemsIfNeeded = function (items, options) {
             if (items.length > 1 && options?.ids) {
                 // Use the original request id array for sorting the result in the proper order
                 items.sort(function (a, b) {
@@ -1901,7 +1963,7 @@ export class PlaybackManager {
             }
         }
 
-        function getPlaybackPromise(firstItem, serverId, options, queryOptions, items) {
+        const getPlaybackPromise = function (firstItem, serverId, options, queryOptions, items) {
             switch (firstItem.Type) {
                 case 'Program':
                     return getItemsForPlayback(serverId, {
@@ -3436,7 +3498,7 @@ export class PlaybackManager {
          * @param {MediaError} error.type
          */
         function onPlaybackError(e, error) {
-            destroyWaveSurferInstance();
+            destroyWaveSurferInstance().catch(console.error);
             const player = this;
             error = error || {};
 

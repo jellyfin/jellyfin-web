@@ -3,7 +3,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import serverNotifications from '../../scripts/serverNotifications';
 import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
-import isEqual from 'lodash-es/isEqual';
+import { isEqual } from '../../utils/lodashUtils';
 
 function getActivePlayerId() {
     const info = playbackManager.getPlayerInfo();

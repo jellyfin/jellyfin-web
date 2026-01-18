@@ -2,7 +2,7 @@ import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import union from 'lodash-es/union';
+import { union } from '../../utils/lodashUtils';
 import Events from '../../utils/events';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';

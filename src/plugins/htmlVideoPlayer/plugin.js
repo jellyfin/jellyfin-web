@@ -1,5 +1,5 @@
 import DOMPurify from 'dompurify';
-import debounce from 'lodash-es/debounce';
+import { debounce } from '../../utils/lodashUtils';
 import Screenfull from 'screenfull';
 
 import { useCustomSubtitles } from 'apps/stable/features/playback/utils/subtitleStyles';
