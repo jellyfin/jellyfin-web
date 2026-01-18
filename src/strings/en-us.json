@@ -1705,7 +1705,7 @@
     "WeeklyAt": "{0}s at {1}",
     "WelcomeToProject": "Welcome to Jellyfin!",
     "Whitelist": "Whitelist",
-    "WizardCompleted": "That's all we need for now. Jellyfin has begun collecting information about your media library. Check out some of our apps, and then click \"Finish\" to view the \"Dashboard\".",
+    "WizardCompleted": "That's all we need for now. Jellyfin has begun collecting information about your media library. Check out some of our apps, and then click \"Finish\" to view the Dashboard.",
     "WizardPageLoadError": "Failed to load wizard page",
     "WriteAccessRequired": "Jellyfin requires write access to this folder. Please ensure write access and try again.",
     "Writer": "Writer",
