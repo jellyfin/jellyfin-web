@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import WizardPage from 'apps/wizard/components/WizardPage';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import globalize from 'lib/globalize';
@@ -14,6 +14,7 @@ import LibraryCard from 'apps/dashboard/features/libraries/components/LibraryCar
 import MediaLibraryCreator from 'components/mediaLibraryCreator/mediaLibraryCreator';
 import getCollectionTypeOptions from 'apps/dashboard/features/libraries/utils/collectionTypeOptions';
 import { queryClient } from 'utils/query/queryClient';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 export const Component = () => {
     const { data: virtualFolders, isPending: isVirtualFoldersPending } = useVirtualFolders();
@@ -51,7 +52,18 @@ export const Component = () => {
             onNext={onNext}
         >
             <Stack spacing={3}>
-                <Typography variant='h1'>{globalize.translate('HeaderSetupLibrary')}</Typography>
+                <Stack direction='row' justifyContent={'space-between'} alignItems={'center'}>
+                    <Typography variant='h1'>{globalize.translate('HeaderSetupLibrary')}</Typography>
+                    <Button
+                        startIcon={<HelpOutlineIcon />}
+                        variant='outlined'
+                        component={RouterLink}
+                        to='https://jellyfin.org/docs/general/server/libraries/'
+                        target='_blank'
+                    >
+                        {globalize.translate('Help')}
+                    </Button>
+                </Stack>
 
                 <Button
                     startIcon={<Add />}

@@ -13,6 +13,7 @@ import Alert from '@mui/material/Alert';
 import { useStartupConfiguration } from 'apps/wizard/api/useStartupConfiguration';
 import type { StartupConfigurationDto } from '@jellyfin/sdk/lib/generated-client/models/startup-configuration-dto';
 import { useUpdateInitialConfiguration } from 'apps/wizard/api/useUpdateInitialConfiguration';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 export const Component = () => {
     const {
@@ -55,6 +56,7 @@ export const Component = () => {
                 <Stack direction='row' justifyContent={'space-between'} alignItems={'center'}>
                     <Typography variant='h1'>{globalize.translate('WelcomeToProject')}</Typography>
                     <Button
+                        startIcon={<HelpOutlineIcon />}
                         variant='outlined'
                         component={RouterLink}
                         to='https://jellyfin.org/docs/general/post-install/setup-wizard/'
