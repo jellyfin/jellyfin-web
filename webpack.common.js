@@ -29,7 +29,7 @@ try {
         .toString()
         .trim();
 } catch (err) {
-    console.warn('Failed to get commit sha. Is git installed?', err);
+    // Silently ignore if git is not available
 }
 
 const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
@@ -99,12 +99,21 @@ const config = {
                 },
                 'config.json',
                 'robots.txt',
-                'offline.html',
-                {
-                    from: 'touchicon*.png',
-                    context: path.resolve(__dirname, 'node_modules/@jellyfin/ux-web/favicons'),
-                    to: 'favicons'
-                },
+                 'offline.html',
+                 {
+                     from: 'serviceworker.backup.js',
+                     to: 'serviceworker.js'
+                 },
+                 {
+                     from: 'touchicon*.png',
+                     context: path.resolve(__dirname, 'node_modules/@jellyfin/ux-web/favicons'),
+                     to: 'favicons'
+                 },
+                 {
+                     from: 'banner-light.png',
+                     context: path.resolve(__dirname, 'node_modules/@jellyfin/ux-web'),
+                     to: 'favicons'
+                 },
                 ...Assets.map(asset => {
                     return {
                         from: path.resolve(__dirname, `node_modules/${asset}`),

@@ -287,10 +287,20 @@ function executeAction(card, target, action) {
             }
             break;
         case ItemAction.PlayAllFromHere:
-            playAllFromHere(card, serverId);
+            playAllFromHere(card, serverId).catch((error) => {
+                import('../utils/logger').then(({ logger }) => {
+                    logger.error(
+                        'Play all from here failed',
+                        { component: 'Shortcuts', error: error.message || String(error) },
+                        error
+                    );
+                });
+            });
             break;
         case ItemAction.QueueAllFromHere:
-            playAllFromHere(card, serverId, true);
+            playAllFromHere(card, serverId, true).catch((error) => {
+                console.error('Queue all from here failed:', error);
+            });
             break;
         case ItemAction.SetPlaylistIndex:
             playbackManager.setCurrentPlaylistItem(card.getAttribute('data-playlistitemid'));

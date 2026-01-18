@@ -1,5 +1,3 @@
-console.log('nowPlayingBar loaded');
-
 import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { appRouter, isLyricsPage } from 'components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
@@ -23,7 +21,8 @@ import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
 import '../../elements/emby-slider/emby-slider';
 
-import { synchronizeVolumeUI } from 'components/audioEngine/crossfader.logic';
+import { synchronizeVolumeUI } from 'components/audioEngine/audioUtils';
+import { logger } from 'utils/logger';
 
 interface PlayerState {
     NowPlayingItem?: any;
@@ -183,6 +182,15 @@ function slideUp(elem: HTMLElement): void {
 }
 
 export function onPlayPauseClick(): void {
+    if (currentPlayer) {
+        (playbackManager as any).playPause(currentPlayer).catch((error: any) => {
+            logger.error(
+                'Unable to play media',
+                { component: 'nowPlayingBar', error: error.message },
+                error
+            );
+        });
+    }
 }
 
 export function bindEvents(elem: HTMLElement): void {
@@ -253,7 +261,8 @@ export function bindEvents(elem: HTMLElement): void {
     toggleAirPlayButton = elem.querySelector('.btnAirPlay') as HTMLElement;
     toggleAirPlayButton.addEventListener('click', function () {
         if (currentPlayer) {
-            // playbackManager.toggleAirPlay(currentPlayer); // Not implemented
+            // AirPlay functionality would be implemented here
+            console.log('AirPlay toggle requested');
         }
     });
 
@@ -338,7 +347,9 @@ function getNowPlayingBar(): HTMLElement | null {
     }
 
     document.body.insertAdjacentHTML('beforeend', getNowPlayingBarHtml());
-    (window as any).customElements.upgradeSubtree(document.body);
+    if ((window as any).customElements?.upgradeSubtree) {
+        (window as any).customElements.upgradeSubtree(document.body);
+    }
 
     nowPlayingBarElement = document.body.querySelector('.nowPlayingBar');
 

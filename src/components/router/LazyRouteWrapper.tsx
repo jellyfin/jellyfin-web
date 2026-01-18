@@ -2,9 +2,8 @@ import React, { Component, ReactNode, Suspense } from 'react';
 import Box from '@mui/material/Box/Box';
 import Typography from '@mui/material/Typography/Typography';
 import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
-import Button from '@mui/material/Button/Button';
-import Alert from '@mui/material/Alert/Alert';
-import AlertTitle from '@mui/material/AlertTitle/AlertTitle';
+
+import { logger } from 'utils/logger';
 
 /**
  * Loading fallback component for lazy-loaded routes
@@ -30,7 +29,6 @@ const LoadingFallback: React.FC = () => (
  */
 interface ErrorBoundaryState {
     hasError: boolean;
-    error?: Error;
 }
 
 class LazyRouteErrorBoundary extends Component<
@@ -42,34 +40,20 @@ class LazyRouteErrorBoundary extends Component<
         this.state = { hasError: false };
     }
 
-    static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-        return { hasError: true, error };
+    static getDerivedStateFromError(): ErrorBoundaryState {
+        return { hasError: true };
     }
 
     componentDidCatch(error: Error, errorInfo: any) {
-        console.error('Lazy route error:', error, errorInfo);
+        logger.errorFromCatch(error, {
+            component: 'LazyRouteErrorBoundary',
+            errorInfo
+        });
     }
 
     render() {
         if (this.state.hasError) {
-            return this.props.fallback || (
-                <Box p={3}>
-                    <Alert severity='error'>
-                        <AlertTitle>Failed to load page</AlertTitle>
-                        <Typography variant='body2' sx={{ mt: 1 }}>
-                            There was an error loading this page. Please try refreshing.
-                        </Typography>
-                        <Button
-                            variant='outlined'
-                            size='small'
-                            sx={{ mt: 2 }}
-                            onClick={() => window.location.reload()}
-                        >
-                            Refresh Page
-                        </Button>
-                    </Alert>
-                </Box>
-            );
+            return this.props.fallback || null;
         }
 
         return this.props.children;

@@ -3,10 +3,8 @@ import viewContainer from 'components/viewContainer';
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
-import toast from '../components/toast/toast';
 import loading from '../components/loading/loading';
 import { appRouter } from '../components/router/appRouter';
-import baseAlert from '../components/alert';
 import baseConfirm from '../components/confirm/confirm';
 import globalize from '../lib/globalize';
 import * as webSettings from '../scripts/settings/webSettings';
@@ -17,6 +15,7 @@ import dialogHelper from '../components/dialogHelper/dialogHelper';
 import itemIdentifier from '../components/itemidentifier/itemidentifier';
 import { getLocationSearch } from './url';
 import { queryClient } from './query/queryClient';
+import { logger } from './logger';
 
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
@@ -149,12 +148,12 @@ export function navigate(url, preserveQueryString) {
 
 export function processPluginConfigurationUpdateResult() {
     loading.hide();
-    toast(globalize.translate('SettingsSaved'));
+    logger.info('Plugin configuration saved', { component: 'Dashboard' });
 }
 
 export function processServerConfigurationUpdateResult() {
     loading.hide();
-    toast(globalize.translate('SettingsSaved'));
+    logger.info('Server configuration saved', { component: 'Dashboard' });
 }
 
 export function processErrorResponse(response) {
@@ -166,22 +165,31 @@ export function processErrorResponse(response) {
         status = response.statusText;
     }
 
-    baseAlert({
-        title: status,
-        text: response.headers ? response.headers.get('X-Application-Error-Code') : null
-    });
+    logger.error(
+        `Server error: ${status}`,
+        {
+            component: 'Dashboard',
+            statusCode: response.status,
+            errorCode: response.headers ? response.headers.get('X-Application-Error-Code') : null,
+            url: response.url
+        }
+    );
 }
 
 export function alert(options) {
     if (typeof options == 'string') {
-        toast({
-            text: options
-        });
+        logger.info(options, { component: 'Dashboard' });
     } else {
-        baseAlert({
-            title: options.title || globalize.translate('HeaderAlert'),
-            text: options.message
-        }).then(options.callback || (() => { /* no-op */ }));
+        if (options.callback) {
+            options.callback();
+        }
+        logger.warn(
+            options.message || options.title || globalize.translate('HeaderAlert'),
+            {
+                component: 'Dashboard',
+                title: options.title || globalize.translate('HeaderAlert')
+            }
+        );
     }
 }
 

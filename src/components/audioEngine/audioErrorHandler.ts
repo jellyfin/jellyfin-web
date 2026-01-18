@@ -1,5 +1,7 @@
 // AudioErrorHandler.ts - Centralized error handling for audio components
 
+import { logger, LogLevel } from 'utils/logger';
+
 export enum AudioErrorType {
     WEB_AUDIO_NOT_SUPPORTED = 'WEB_AUDIO_NOT_SUPPORTED',
     AUDIO_CONTEXT_FAILED = 'AUDIO_CONTEXT_FAILED',
@@ -28,7 +30,6 @@ export interface AudioError {
     originalError?: Error;
     context?: Record<string, any>;
     recoverable: boolean;
-    userMessage?: string;
 }
 
 export class AudioErrorHandler {
@@ -62,7 +63,7 @@ export class AudioErrorHandler {
             this.errorHistory = this.errorHistory.slice(-this.maxHistorySize);
         }
 
-        // Log based on severity
+        // Log based on severity using unified logger
         this.logError(error);
 
         // Attempt recovery if possible
@@ -93,8 +94,7 @@ export class AudioErrorHandler {
             component,
             originalError,
             context,
-            recoverable,
-            userMessage: this.getUserMessage(type, severity)
+            recoverable
         };
     }
 
@@ -169,27 +169,27 @@ export class AudioErrorHandler {
     }
 
     private logError(error: AudioError): void {
-        const logData = {
+        const message = `${error.type}: ${error.message}`;
+        const context = {
+            ...error.context,
             type: error.type,
             severity: error.severity,
             component: error.component,
-            message: error.message,
-            recoverable: error.recoverable,
-            context: error.context
+            recoverable: error.recoverable
         };
 
         switch (error.severity) {
             case AudioErrorSeverity.LOW:
-                console.debug(`[Audio:${error.component}] ${error.message}`, logData);
+                logger.debug(message, context);
                 break;
             case AudioErrorSeverity.MEDIUM:
-                console.warn(`[Audio:${error.component}] ${error.message}`, logData);
+                logger.warn(message, context, error.originalError);
                 break;
             case AudioErrorSeverity.HIGH:
-                console.error(`[Audio:${error.component}] ${error.message}`, logData);
+                logger.error(message, context, error.originalError);
                 break;
             case AudioErrorSeverity.CRITICAL:
-                console.error(`[Audio:${error.component}] CRITICAL: ${error.message}`, logData);
+                logger.error(`CRITICAL: ${message}`, context, error.originalError);
                 break;
         }
     }
@@ -199,14 +199,23 @@ export class AudioErrorHandler {
         switch (error.type) {
             case AudioErrorType.AUDIO_WORKLET_LOAD_FAILED:
                 // Retry worklet loading or fall back to native nodes
-                console.debug('[AudioErrorHandler] Attempting worklet recovery');
+                logger.debug('[AudioErrorHandler] Attempting worklet recovery', {
+                    component: 'AudioErrorHandler',
+                    errorType: error.type
+                });
                 break;
             case AudioErrorType.VISUALIZER_INIT_FAILED:
                 // Try alternative visualizer or disable visualization
-                console.debug('[AudioErrorHandler] Attempting visualizer recovery');
+                logger.debug('[AudioErrorHandler] Attempting visualizer recovery', {
+                    component: 'AudioErrorHandler',
+                    errorType: error.type
+                });
                 break;
             default:
-                console.debug('[AudioErrorHandler] No specific recovery for error type:', error.type);
+                logger.debug('[AudioErrorHandler] No specific recovery for error type', {
+                    component: 'AudioErrorHandler',
+                    errorType: error.type
+                });
         }
     }
 
@@ -217,23 +226,6 @@ export class AudioErrorHandler {
                 detail: error
             });
             window.dispatchEvent(event);
-        }
-    }
-
-    private getUserMessage(type: AudioErrorType, severity: AudioErrorSeverity): string {
-        if (severity === AudioErrorSeverity.LOW) {
-            return ''; // No user notification for low severity
-        }
-
-        switch (type) {
-            case AudioErrorType.WEB_AUDIO_NOT_SUPPORTED:
-                return 'Audio features are limited in this browser. Some advanced playback options may not be available.';
-            case AudioErrorType.VISUALIZER_INIT_FAILED:
-                return 'Music visualizer could not be loaded. Audio playback will continue normally.';
-            case AudioErrorType.CROSSFADE_FAILED:
-                return 'Gapless playback is not available. Tracks may have brief pauses between songs.';
-            default:
-                return 'An audio error occurred. Playback may be affected.';
         }
     }
 }

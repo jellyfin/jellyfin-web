@@ -8,6 +8,7 @@ import { createRoot } from 'react-dom/client';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import { appHost, safeAppHost } from './components/apphost';
+import { logger } from './utils/logger';
 import autoFocuser from './components/autoFocuser';
 import loading from 'components/loading/loading';
 import { pluginManager } from './components/pluginManager';
@@ -40,62 +41,45 @@ const supportsFeature = (feature) => safeAppHost.supports(feature);
 
 async function initializeAudioContextEarly() {
     try {
-        console.debug('Initializing audio context early');
+        logger.debug('Initializing audio context early', { component: 'index' });
         const { initializeMasterAudio } = await import('./components/audioEngine/master.logic');
         initializeMasterAudio(() => {
-            console.debug('Early audio context cleanup called');
+            logger.debug('Early audio context cleanup called', { component: 'index' });
         });
-        console.debug('Audio context initialized early');
+        logger.debug('Audio context initialized early', { component: 'index' });
     } catch (error) {
-        console.warn('Failed to initialize audio context early:', error);
+        logger.warn('Failed to initialize audio context early', { component: 'index' }, error);
     }
 }
 
 function setupAudioContextResume() {
     // Resume audio context on user interaction to comply with browser autoplay policies
     const resumeAudioContext = async () => {
-        console.debug('Attempting to resume AudioContext on user interaction');
+        logger.debug('Attempting to resume AudioContext on user interaction', { component: 'index' });
         try {
             const { masterAudioOutput } = await import('./components/audioEngine/master.logic');
             const { safeResumeAudioContext } = await import('./components/audioEngine/audioUtils');
 
-            console.debug('AudioContext state before resume:', masterAudioOutput.audioContext?.state);
+            logger.debug('AudioContext state before resume', { component: 'index', state: masterAudioOutput.audioContext?.state });
             if (masterAudioOutput.audioContext) {
                 const resumed = await safeResumeAudioContext(masterAudioOutput.audioContext);
-                console.debug('AudioContext state after resume:', masterAudioOutput.audioContext.state);
+                logger.debug('AudioContext state after resume', { component: 'index', state: masterAudioOutput.audioContext.state });
                 if (resumed) {
-                    console.debug('AudioContext resumed on user interaction');
+                    logger.debug('AudioContext resumed on user interaction', { component: 'index' });
                 } else {
-                    console.warn('Failed to resume AudioContext - already running or error occurred');
+                    logger.warn('Failed to resume AudioContext - already running or error occurred', { component: 'index' });
                 }
             } else {
-                console.warn('AudioContext not available for resume - may not be initialized yet');
+                logger.warn('AudioContext not available for resume - may not be initialized yet', { component: 'index' });
             }
         } catch (error) {
-            console.error('Failed to resume AudioContext:', error);
+            logger.error('Failed to resume AudioContext', { component: 'index' }, error);
         }
     };
 
-    // Listen for user interactions that indicate intent to play audio
-    const userInteractionEvents = ['click', 'touchstart', 'keydown', 'scroll'];
-    let hasResumed = false;
-
-    const handleUserInteraction = () => {
-        if (!hasResumed) {
-            hasResumed = true;
-            resumeAudioContext();
-
-            // Remove listeners after first interaction
-            userInteractionEvents.forEach(event => {
-                document.removeEventListener(event, handleUserInteraction, { passive: true });
-            });
-        }
-    };
-
-    // Add passive listeners for user interactions
-    userInteractionEvents.forEach(event => {
-        document.addEventListener(event, handleUserInteraction, { passive: true });
-    });
+    document.addEventListener('click', resumeAudioContext, { once: true });
+    document.addEventListener('keydown', resumeAudioContext, { once: true });
+    document.addEventListener('touchstart', resumeAudioContext, { once: true });
 }
 
 // Cleanup audio contexts on page unload to prevent leaks
@@ -226,13 +210,13 @@ build: ${__JF_BUILD_VERSION__}`);
 
 function loadFonts() {
     if (browser.tv && !browser.android) {
-        console.debug('using system fonts with explicit sizes');
+        logger.debug('using system fonts with explicit sizes', { component: 'index' });
         import('./styles/fonts.sized.scss');
     } else if (__USE_SYSTEM_FONTS__) {
-        console.debug('using system fonts');
+        logger.debug('using system fonts', { component: 'index' });
         import('./styles/fonts.scss');
     } else {
-        console.debug('using default fonts');
+        logger.debug('using default fonts', { component: 'index' });
         import('./styles/fonts.scss');
         import('./styles/fonts.noto.scss');
     }

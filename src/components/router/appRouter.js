@@ -225,7 +225,9 @@ class AppRouter {
         this.forcedLogoutMsg = null;
 
         if (msg) {
-            alert(msg);
+            import('../../utils/logger').then(({ logger }) => {
+                logger.warn(msg, { component: 'AppRouter' });
+            });
         }
     }
 
