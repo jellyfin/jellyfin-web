@@ -1,6 +1,6 @@
-import Box from '@mui/material/Box';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import Box from '@mui/material/Box/Box';
+import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
 import React from 'react';
 
 import { useSystemInfo } from 'hooks/useSystemInfo';

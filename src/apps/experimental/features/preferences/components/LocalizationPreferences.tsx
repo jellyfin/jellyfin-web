@@ -1,11 +1,11 @@
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
-import InputLabel from '@mui/material/InputLabel';
-import Link from '@mui/material/Link';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import FormControl from '@mui/material/FormControl/FormControl';
+import FormHelperText from '@mui/material/FormHelperText/FormHelperText';
+import InputLabel from '@mui/material/InputLabel/InputLabel';
+import Link from '@mui/material/Link/Link';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select/Select';
+import Stack from '@mui/material/Stack/Stack';
+import Typography from '@mui/material/Typography/Typography';
 import React from 'react';
 
 import { DATE_LOCALE_OPTIONS, LANGUAGE_OPTIONS } from 'apps/experimental/features/preferences/constants/locales';

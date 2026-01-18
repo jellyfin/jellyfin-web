@@ -1,9 +1,9 @@
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 import Card from '@mui/material/Card';
 import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
+import Stack from '@mui/material/Stack/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
-import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography/Typography';
 import React, { type FC } from 'react';
 
 import { useLocale } from 'hooks/useLocale';

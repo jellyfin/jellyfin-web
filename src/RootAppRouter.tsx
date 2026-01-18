@@ -46,9 +46,12 @@ const router = createHashRouter([
 export const history = createRouterHistory(router);
 setAppHistory(history);
 
-export default function RootAppRouter() {
+export function RootAppRouter() {
     return <RouterProvider router={router} />;
 }
+
+// Keep default export for backward compatibility
+export default RootAppRouter;
 
 /**
  * Layout component that renders legacy components required on all pages.

@@ -1,12 +1,12 @@
 import React, { FC, useCallback } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box/Box';
+import Button from '@mui/material/Button/Button';
+import ButtonGroup from '@mui/material/ButtonGroup/ButtonGroup';
+import Stack from '@mui/material/Stack/Stack';
 import type { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import globalize from 'lib/globalize';

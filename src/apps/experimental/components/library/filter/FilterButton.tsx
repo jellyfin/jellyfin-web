@@ -2,8 +2,8 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import React, { FC, useCallback } from 'react';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import FilterAlt from '@mui/icons-material/FilterAlt';
-import Button from '@mui/material/Button';
-import Popover from '@mui/material/Popover';
+import Button from '@mui/material/Button/Button';
+import Popover from '@mui/material/Popover/Popover';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MuiAccordionSummary, {
@@ -11,7 +11,7 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography/Typography';
 
 import { useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';

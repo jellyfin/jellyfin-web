@@ -2,8 +2,8 @@ import Analytics from '@mui/icons-material/Analytics';
 import Devices from '@mui/icons-material/Devices';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import React from 'react';
 

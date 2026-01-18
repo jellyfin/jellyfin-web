@@ -1,8 +1,8 @@
 import Extension from '@mui/icons-material/Extension';
 import Folder from '@mui/icons-material/Folder';
 import List from '@mui/material/List';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import React, { useEffect } from 'react';
 

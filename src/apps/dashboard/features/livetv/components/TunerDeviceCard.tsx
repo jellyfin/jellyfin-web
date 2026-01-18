@@ -3,12 +3,12 @@ import type { TunerHostInfo } from '@jellyfin/sdk/lib/generated-client/models/tu
 import BaseCard from 'apps/dashboard/components/BaseCard';
 import DvrIcon from '@mui/icons-material/Dvr';
 import getTunerName from '../utils/getTunerName';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import Menu from '@mui/material/Menu/Menu';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import ListItemText from '@mui/material/ListItemText';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
 import globalize from 'lib/globalize';
 import { useNavigate } from 'react-router-dom';
 import ConfirmDialog from 'components/ConfirmDialog';

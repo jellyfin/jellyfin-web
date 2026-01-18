@@ -23,6 +23,16 @@ import taskButton from './scripts/taskbutton';
 import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
 import { cleanupExpiredCache } from './utils/randomSortCache';
+import './utils/performanceMonitor';
+import './utils/pwaInstall';
+import './utils/pwaUpdate';
+import './utils/pwaOffline';
+import './utils/pwaStatus';
+import './utils/pwaAudit';
+import './utils/bundleAnalyzer';
+import './utils/bundleOptimizationReport';
+import './utils/lazyLoadingAnalysis';
+import './utils/bundleOptimizationAnalysis';
 
 import RootApp from './RootApp';
 
@@ -45,14 +55,18 @@ window.addEventListener('beforeunload', () => {
 import './elements/emby-button/emby-button';
 
 // Import auto-running components
-// NOTE: This is an anti-pattern
+// NOTE: This is an anti-pattern - deferring non-critical components
 import './components/playback/displayMirrorManager';
 import './components/playback/playerSelectionMenu';
-import './components/themeMediaPlayer';
 import './scripts/autoThemes';
 import './scripts/mouseManager';
-import './scripts/screensavermanager';
 import './scripts/serverNotifications';
+
+// Defer loading of non-critical components
+setTimeout(() => {
+    import('./components/themeMediaPlayer');
+    import('./scripts/screensavermanager');
+}, 2000);
 
 // Import site styles
 import './styles/site.scss';

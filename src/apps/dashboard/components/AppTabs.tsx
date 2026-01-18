@@ -1,9 +1,8 @@
 import { Theme } from '@mui/material/styles';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab/Tab';
+import Tabs from '@mui/material/Tabs/Tabs';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import debounce from 'lodash-es/debounce';
-import isEqual from 'lodash-es/isEqual';
+import { debounce, isEqual } from '../../../utils/lodashUtils';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 

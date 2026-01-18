@@ -1,14 +1,14 @@
 import React from 'react';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton/IconButton';
+import Typography from '@mui/material/Typography/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 import CardActionArea from '@mui/material/CardActionArea';
-import Stack from '@mui/material/Stack';
+import Stack from '@mui/material/Stack/Stack';
 import { Link, To } from 'react-router-dom';
 
 interface BaseCardProps {

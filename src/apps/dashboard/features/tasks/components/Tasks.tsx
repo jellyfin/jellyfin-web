@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import type { TaskInfo } from '@jellyfin/sdk/lib/generated-client/models/task-info';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography/Typography';
+import Stack from '@mui/material/Stack/Stack';
 import Task from './Task';
 
 type TasksProps = {

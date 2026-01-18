@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import type { MRT_Cell, MRT_RowData } from 'material-react-table';
 import { useLocale } from 'hooks/useLocale';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box/Box';
+import Typography from '@mui/material/Typography/Typography';
 import { getTriggerFriendlyName } from '../utils/edit';
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
 import globalize from 'lib/globalize';

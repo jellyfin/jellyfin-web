@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
 import ClosedCaptionIcon from '@mui/icons-material/ClosedCaption';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 
 interface CaptionMediaInfoProps {
     className?: string;

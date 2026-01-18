@@ -1,5 +1,5 @@
 import React, { type FC } from 'react';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 import itemHelper from 'components/itemHelper';
 import { isUsingLiveTvNaming } from '../cardbuilder/cardBuilderUtils';
 import type { ItemDto } from 'types/base/models/item-dto';

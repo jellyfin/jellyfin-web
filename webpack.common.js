@@ -43,6 +43,16 @@ const THEMES_BY_ID = THEMES.reduce((acc, theme) => {
 const config = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
+    cache: {
+        type: 'filesystem',
+        version: `${COMMIT_SHA || 'dev'}-${process.env.NODE_ENV || 'production'}`,
+        buildDependencies: {
+            config: [__filename],
+            // Include package.json for dependency changes
+            package: [path.resolve(__dirname, 'package.json')]
+        },
+        name: `${process.env.NODE_ENV || 'production'}-cache`
+    },
     entry: {
         'main.jellyfin': './index.jsx',
         ...THEMES_BY_ID
@@ -69,15 +79,19 @@ const config = {
         }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: 'index.html',
-            // Append file hashes to bundle urls for cache busting
-            hash: true,
-            chunks: [
-                'main.jellyfin',
-                'serviceworker'
-            ]
-        }),
+             filename: 'index.html',
+             template: 'index.html',
+             // Append file hashes to bundle urls for cache busting
+             hash: true,
+             chunks: [
+                 'main.jellyfin',
+                 'serviceworker'
+             ],
+             // Exclude CSS from being injected automatically since we inline critical CSS
+             inject: 'body',
+             // Don't inject CSS files automatically
+             excludeChunks: []
+         }),
         new CopyPlugin({
             patterns: [
                 {
@@ -86,6 +100,7 @@ const config = {
                 },
                 'config.json',
                 'robots.txt',
+                'offline.html',
                 {
                     from: 'touchicon*.png',
                     context: path.resolve(__dirname, 'node_modules/@jellyfin/ux-web/favicons'),
@@ -143,8 +158,10 @@ const config = {
         removeEmptyChunks: false,
         splitChunks: {
             chunks: 'all',
-            maxInitialRequests: 20,
-            maxAsyncRequests: 30,
+            maxInitialRequests: 10, // Reduced to force more async loading
+            maxAsyncRequests: 20,  // Reduced to optimize loading
+            minSize: 20000, // 20KB minimum chunk size
+            maxSize: 244000, // 244KB maximum chunk size
             cacheGroups: {
                 // Separate heavy visualization libraries
                 butterchurn: {
@@ -173,6 +190,35 @@ const config = {
                     test: /[\\/]node_modules[\\/](flv\.js|hls\.js)/,
                     name: 'video-libraries',
                     priority: 15
+                },
+                // Jellyfin SDK and API libraries
+                jellyfinSdk: {
+                    test: /[\\/]node_modules[\\/]@jellyfin[\\/]sdk/,
+                    name: 'jellyfin-sdk',
+                    priority: 15
+                },
+                jellyfinApiclient: {
+                    test: /[\\/]node_modules[\\/]jellyfin-apiclient/,
+                    name: 'jellyfin-apiclient',
+                    priority: 15
+                },
+                // React ecosystem
+                reactVendor: {
+                    test: /[\\/]node_modules[\\/](react|react-dom|react-router)/,
+                    name: 'react-vendor',
+                    priority: 15
+                },
+                // UI component libraries
+                uiLibraries: {
+                    test: /[\\/]node_modules[\\/](@emotion|@mui|material-design-icons)/,
+                    name: 'ui-libraries',
+                    priority: 10
+                },
+                // Utility libraries
+                utils: {
+                    test: /[\\/]node_modules[\\/](lodash|date-fns|dompurify)/,
+                    name: 'utils',
+                    priority: 10
                 },
                 // General node_modules splitting with size-based chunks
                 node_modules: {
@@ -298,32 +344,42 @@ const config = {
                     path.resolve(__dirname, 'node_modules/wavesurfer.js'),
                     path.resolve(__dirname, 'node_modules/butterchurn'),
                     path.resolve(__dirname, 'node_modules/butterchurn-presets'),
-                    path.resolve(__dirname, 'src')
-                ],
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        cacheCompression: false,
-                        cacheDirectory: true
-                    }
-                }]
-            },
+                     path.resolve(__dirname, 'src')
+                 ],
+                 use: [{
+                     loader: 'thread-loader',
+                     options: {
+                         workers: 2
+                     }
+                 }, {
+                     loader: 'esbuild-loader',
+                     options: {
+                         target: 'es2015',
+                         loader: 'jsx'
+                     }
+                 }]
+             },
             // Strict EcmaScript modules require additional flags
             {
                 test: /\.(js|jsx|mjs)$/,
                 include: [
                     path.resolve(__dirname, 'node_modules/@tanstack/query-devtools')
                 ],
-                resolve: {
-                    fullySpecified: false
-                },
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        cacheCompression: false,
-                        cacheDirectory: true
-                    }
-                }]
+                 resolve: {
+                     fullySpecified: false
+                 },
+                 use: [{
+                     loader: 'thread-loader',
+                     options: {
+                         workers: 1
+                     }
+                 }, {
+                     loader: 'esbuild-loader',
+                     options: {
+                         target: 'es2015',
+                         loader: 'jsx'
+                     }
+                 }]
             },
             {
                 // Handle problematic legacy files - copy to output without transformation
@@ -343,9 +399,16 @@ const config = {
                 use: [
                     'worker-loader',
                     {
-                        loader: 'ts-loader',
+                        loader: 'thread-loader',
                         options: {
-                            transpileOnly: true
+                            workers: 1
+                        }
+                    },
+                    {
+                        loader: 'esbuild-loader',
+                        options: {
+                            target: 'es2015',
+                            loader: 'ts'
                         }
                     }
                 ]
@@ -354,9 +417,15 @@ const config = {
                 test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
                 use: [{
-                    loader: 'ts-loader',
+                    loader: 'thread-loader',
                     options: {
-                        transpileOnly: true
+                        workers: 2
+                    }
+                }, {
+                    loader: 'esbuild-loader',
+                    options: {
+                        target: 'es2015',
+                        loader: 'tsx'
                     }
                 }]
             },
@@ -434,13 +503,7 @@ const config = {
                 test: /\.(mp3)$/i,
                 type: 'asset/resource'
             },
-            {
-                test: require.resolve('jquery'),
-                loader: 'expose-loader',
-                options: {
-                    exposes: ['$', 'jQuery']
-                }
-            }
+
         ]
     }
 };

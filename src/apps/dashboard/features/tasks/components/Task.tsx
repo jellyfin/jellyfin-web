@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useCallback } from 'react';
 import ListItem from '@mui/material/ListItem';
-import Avatar from '@mui/material/Avatar';
+import Avatar from '@mui/material/Avatar/Avatar';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
+import Typography from '@mui/material/Typography/Typography';
 import { TaskProps } from '../types/taskProps';
 import TaskProgress from './TaskProgress';
 import TaskLastRan from './TaskLastRan';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import Stop from '@mui/icons-material/Stop';
 import { useStartTask } from '../api/useStartTask';

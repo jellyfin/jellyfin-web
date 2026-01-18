@@ -1,17 +1,17 @@
 import React, { FunctionComponent, useCallback } from 'react';
 import globalize from 'lib/globalize';
 import type { BackupOptionsDto } from '@jellyfin/sdk/lib/generated-client/models/backup-options-dto';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import Stack from '@mui/material/Stack';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import Dialog from '@mui/material/Dialog/Dialog';
+import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
+import DialogContent from '@mui/material/DialogContent/DialogContent';
+import Stack from '@mui/material/Stack/Stack';
+import DialogActions from '@mui/material/DialogActions/DialogActions';
+import Button from '@mui/material/Button/Button';
+import FormControl from '@mui/material/FormControl/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
-import DialogContentText from '@mui/material/DialogContentText';
+import DialogContentText from '@mui/material/DialogContentText/DialogContentText';
 
 type IProps = {
     open: boolean,

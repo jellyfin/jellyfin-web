@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import Button from '@mui/material/Button';
+import Button from '@mui/material/Button/Button';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 
 import { playbackManager } from 'components/playback/playbackmanager';

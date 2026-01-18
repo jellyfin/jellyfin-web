@@ -1,7 +1,7 @@
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import React, { FC, useCallback } from 'react';
 import Shuffle from '@mui/icons-material/Shuffle';
-import Button from '@mui/material/Button';
+import Button from '@mui/material/Button/Button';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';

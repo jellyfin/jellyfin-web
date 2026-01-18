@@ -1,5 +1,5 @@
 import React, { type FC, type PropsWithChildren } from 'react';
-import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography/Typography';
 
 interface ListGroupHeaderWrapperProps {
     index?: number;

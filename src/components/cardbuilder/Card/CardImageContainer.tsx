@@ -1,5 +1,5 @@
 import React, { type FC } from 'react';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 import classNames from 'classnames';
 import useIndicator from 'components/indicators/useIndicator';
 import RefreshIndicator from 'elements/emby-itemrefreshindicator/RefreshIndicator';

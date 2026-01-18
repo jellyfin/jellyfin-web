@@ -1,6 +1,6 @@
 import React, { StrictMode, useCallback, useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar/AppBar';
+import Box from '@mui/material/Box/Box';
 import { type Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Outlet, useLocation } from 'react-router-dom';

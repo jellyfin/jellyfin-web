@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 import Guide from 'components/guide/guide';
 import 'material-design-icons-iconfont';
 import 'elements/emby-programcell/emby-programcell';

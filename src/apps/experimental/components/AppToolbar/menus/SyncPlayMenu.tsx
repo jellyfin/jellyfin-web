@@ -8,12 +8,12 @@ import PersonRemove from '@mui/icons-material/PersonRemove';
 import PlayCircle from '@mui/icons-material/PlayCircle';
 import StopCircle from '@mui/icons-material/StopCircle';
 import Tune from '@mui/icons-material/Tune';
-import Divider from '@mui/material/Divider';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider/Divider';
+import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import Menu, { MenuProps } from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Menu, { MenuProps } from '@mui/material/Menu/Menu';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
 import type { ApiClient } from 'jellyfin-apiclient';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 

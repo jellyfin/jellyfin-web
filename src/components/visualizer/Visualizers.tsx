@@ -1,8 +1,44 @@
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
-import React, { useState, useEffect, useRef } from 'react';
-import ButterchurnVisualizer from './Butterchurn';
-import FrequencyAnalyzer from './FrequencyAnalyzer';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { visualizerSettings } from './visualizers.logic';
+
+// Lazy load visualizer components to reduce initial bundle size
+const ButterchurnVisualizer = lazy(() =>
+    import('./Butterchurn').catch(error => {
+        console.error('[Visualizers] Failed to load Butterchurn visualizer:', error);
+        // Return a fallback component
+        return { default: () => <div>Visualizer unavailable</div> };
+    })
+);
+
+const FrequencyAnalyzer = lazy(() =>
+    import('./FrequencyAnalyzer').catch(error => {
+        console.error('[Visualizers] Failed to load Frequency Analyzer:', error);
+        // Return a fallback component
+        return { default: () => <div>Frequency analyzer unavailable</div> };
+    })
+);
+
+// Loading fallback component
+const VisualizerLoading = () => (
+    <div
+        style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            zIndex: 9999
+        }}
+    >
+        Loading visualizer...
+    </div>
+);
 
 const Visualizers: React.FC = () => {
     const [isInitialized, setIsInitialized] = useState(!!masterAudioOutput.audioContext);
@@ -42,10 +78,10 @@ const Visualizers: React.FC = () => {
     const { butterchurn, frequencyAnalyzer } = visualizerSettings;
 
     return (
-        <>
+        <Suspense fallback={<VisualizerLoading />}>
             {frequencyAnalyzer.enabled && (<FrequencyAnalyzer />)}
             {butterchurn.enabled && (<ButterchurnVisualizer />)}
-        </>
+        </Suspense>
     );
 };
 

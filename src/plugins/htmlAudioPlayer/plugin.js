@@ -9,9 +9,43 @@ import { MediaError } from 'types/mediaError';
 import { createGainNode, initializeMasterAudio, masterAudioOutput, rampPlaybackGain } from 'components/audioEngine/master.logic';
 import { synchronizeVolumeUI, hijackMediaElementForCrossfade, xDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
 import { scrollToActivePlaylistItem, triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
-import audioCapabilities from 'components/audioEngine/audioCapabilities';
-import audioErrorHandler, { AudioErrorType, AudioErrorSeverity } from 'components/audioEngine/audioErrorHandler';
-import { dBToLinear, normalizeVolume, isMediaElementPlayable } from 'components/audioEngine/audioUtils';
+// Lazy load audio utilities and error handling for better bundle splitting
+let audioCapabilities, audioErrorHandler, audioUtils;
+let audioCapabilitiesLoaded = false;
+let audioErrorHandlerLoaded = false;
+let audioUtilsLoaded = false;
+
+// Lazy loading functions for audio components
+async function loadAudioCapabilities() {
+    if (!audioCapabilitiesLoaded) {
+        const module = await import('components/audioEngine/audioCapabilities');
+        audioCapabilities = module.default;
+        audioCapabilitiesLoaded = true;
+    }
+    return audioCapabilities;
+}
+
+async function loadAudioErrorHandler() {
+    if (!audioErrorHandlerLoaded) {
+        const module = await import('components/audioEngine/audioErrorHandler');
+        audioErrorHandler = module.default;
+        // Load named exports
+        const { AudioErrorType, AudioErrorSeverity } = await import('components/audioEngine/audioErrorHandler');
+        audioErrorHandler.AudioErrorType = AudioErrorType;
+        audioErrorHandler.AudioErrorSeverity = AudioErrorSeverity;
+        audioErrorHandlerLoaded = true;
+    }
+    return audioErrorHandler;
+}
+
+async function loadAudioUtils() {
+    if (!audioUtilsLoaded) {
+        const module = await import('components/audioEngine/audioUtils');
+        audioUtils = module;
+        audioUtilsLoaded = true;
+    }
+    return audioUtils;
+}
 
 function getDefaultProfile() {
     return profileBuilder({});
@@ -152,22 +186,29 @@ class HtmlAudioPlayer {
         // Let any players created by plugins take priority
         self.priority = 1;
 
-        // Detect audio capabilities early using centralized service
-        audioCapabilities.getCapabilities().then(capabilities => {
+        // Detect audio capabilities early using centralized service (lazy loaded)
+        loadAudioCapabilities().then(audioCaps => {
+            return audioCaps.getCapabilities();
+        }).then(capabilities => {
             self._hasWebAudio = capabilities.webAudio;
             self._supportsCrossfade = capabilities.crossfade;
             self._supportsNormalization = capabilities.normalization;
         }).catch(error => {
-            audioErrorHandler.handleError(
-                audioErrorHandler.createError(
-                    AudioErrorType.CAPABILITY_DETECTION_FAILED,
-                    AudioErrorSeverity.MEDIUM,
-                    'HtmlAudioPlayer',
-                    'Failed to detect audio capabilities',
-                    error,
-                    {}
-                )
-            );
+            loadAudioErrorHandler().then(audioErr => {
+                audioErr.handleError(
+                    audioErr.createError(
+                        audioErr.AudioErrorType.CAPABILITY_DETECTION_FAILED,
+                        audioErr.AudioErrorSeverity.MEDIUM,
+                        'HtmlAudioPlayer',
+                        'Failed to detect audio capabilities',
+                        error,
+                        {}
+                    )
+                );
+            }).catch(() => {
+                // Fallback to minimal capabilities if error handler fails to load
+                console.warn('Failed to load audio error handler, using minimal capabilities');
+            });
             // Fallback to minimal capabilities
             self._hasWebAudio = false;
             self._supportsCrossfade = false;
@@ -358,16 +399,20 @@ class HtmlAudioPlayer {
                     initializeMasterAudio(self.destroy);
                     createGainNode(elem);
                 } catch (e) {
-                    audioErrorHandler.handleError(
-                        audioErrorHandler.createError(
-                            AudioErrorType.AUDIO_CONTEXT_FAILED,
-                            AudioErrorSeverity.HIGH,
-                            'HtmlAudioPlayer',
-                            'Web Audio API initialization failed',
-                            e,
-                            { mediaElement: elem }
-                        )
-                    );
+                    loadAudioErrorHandler().then(audioErr => {
+                        audioErr.handleError(
+                            audioErr.createError(
+                                audioErr.AudioErrorType.AUDIO_CONTEXT_FAILED,
+                                audioErr.AudioErrorSeverity.HIGH,
+                                'HtmlAudioPlayer',
+                                'Web Audio API initialization failed',
+                                e,
+                                { mediaElement: elem }
+                            )
+                        );
+                    }).catch(() => {
+                        console.error('Failed to load audio error handler for audio context error');
+                    });
                 }
             }
         }
@@ -619,7 +664,12 @@ class HtmlAudioPlayer {
             // Synchronize volume UI
             synchronizeVolumeUI();
         } else if (mediaElement) {
-            mediaElement.volume = normalizeVolume(val, 'user');
+            loadAudioUtils().then(utils => {
+                mediaElement.volume = utils.normalizeVolume(val, 'user');
+            }).catch(() => {
+                // Fallback to direct assignment if utils fail to load
+                mediaElement.volume = Math.max(0, Math.min(1, val / 100));
+            });
         }
     }
 

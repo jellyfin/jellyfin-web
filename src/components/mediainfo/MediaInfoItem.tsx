@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
+import Box from '@mui/material/Box/Box';
+import Link from '@mui/material/Link/Link';
 import classNames from 'classnames';
 import type { MiscInfo } from 'types/mediaInfoItem';
 

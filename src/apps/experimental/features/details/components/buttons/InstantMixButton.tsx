@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import ExploreIcon from '@mui/icons-material/Explore';
 
 import { playbackManager } from 'components/playback/playbackmanager';

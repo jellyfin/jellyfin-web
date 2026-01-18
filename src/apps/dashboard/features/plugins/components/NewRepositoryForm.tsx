@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/repository-info';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog/Dialog';
+import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
 import globalize from 'lib/globalize';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
+import DialogActions from '@mui/material/DialogActions/DialogActions';
+import DialogContent from '@mui/material/DialogContent/DialogContent';
+import Button from '@mui/material/Button/Button';
+import Stack from '@mui/material/Stack/Stack';
+import TextField from '@mui/material/TextField/TextField';
 
 type IProps = {
     open: boolean;

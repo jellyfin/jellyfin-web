@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
-import Box from '@mui/material/Box';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import Box from '@mui/material/Box/Box';
+import ButtonGroup from '@mui/material/ButtonGroup/ButtonGroup';
 import classNames from 'classnames';
 
 import { appRouter } from 'components/router/appRouter';

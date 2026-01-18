@@ -3,7 +3,7 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 import { ApiClient } from 'jellyfin-apiclient';
 import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 import Sortable from 'sortablejs';
 import { useQueryClient } from '@tanstack/react-query';
 

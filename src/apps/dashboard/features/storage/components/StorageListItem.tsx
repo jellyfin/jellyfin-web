@@ -1,10 +1,10 @@
 import type { FolderStorageDto } from '@jellyfin/sdk/lib/generated-client';
 import LinearProgress from '@mui/material/LinearProgress';
 import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
 import Skeleton from '@mui/material/Skeleton';
-import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography/Typography';
 import React, { type FC } from 'react';
 
 import globalize from 'lib/globalize';

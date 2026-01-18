@@ -1,6 +1,8 @@
 import type { RouteObject } from 'react-router-dom';
+import React from 'react';
 
 import { AppType } from 'constants/appType';
+import { LazyRouteWrapper } from './LazyRouteWrapper';
 
 export interface AsyncRoute {
     /** The URL path for this route. */
@@ -39,8 +41,15 @@ export const toAsyncPageRoute = ({
                 ...route
             } = await importRoute(page ?? path, type);
 
+            // Wrap with Suspense and Error boundaries for better UX
+            const WrappedComponent = () => (
+                <LazyRouteWrapper>
+                    <Component />
+                </LazyRouteWrapper>
+            );
+
             return {
-                Component,
+                Component: WrappedComponent,
                 ...route
             };
         }

@@ -1,11 +1,11 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
-import { intervalToDuration } from 'date-fns';
+import { intervalToDuration } from 'date-fns';;
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
 import markdownIt from 'markdown-it';
-import isEqual from 'lodash-es/isEqual';
+import { isEqual } from '../../utils/lodashUtils';
 
 import { safeAppHost } from 'components/apphost';
 import { clearBackdrop, setBackdrops } from 'components/backdrop/backdrop';

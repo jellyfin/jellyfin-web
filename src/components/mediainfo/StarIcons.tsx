@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
 import StarIcon from '@mui/icons-material/Star';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 import type {} from '@mui/material/themeCssVarsAugmentation';
 
 interface StarIconsProps {

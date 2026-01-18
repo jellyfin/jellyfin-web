@@ -1,9 +1,9 @@
 import Warning from '@mui/icons-material/Warning';
-import Divider from '@mui/material/Divider';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Menu, { type MenuProps } from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Divider from '@mui/material/Divider/Divider';
+import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
+import Menu, { type MenuProps } from '@mui/material/Menu/Menu';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
 import React, { FC, useEffect, useState } from 'react';
 
 import globalize from 'lib/globalize';

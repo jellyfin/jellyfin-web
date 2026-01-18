@@ -267,4 +267,5 @@ const Dashboard = {
 // TODO: Remove once plugins don't need it
 window.Dashboard = Dashboard;
 
+export { Dashboard };
 export default Dashboard;

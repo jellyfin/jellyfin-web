@@ -1,5 +1,5 @@
 import React from 'react';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 import classNames from 'classnames';
 import layoutManager from 'components/layoutManager';
 import CardText from './CardText';

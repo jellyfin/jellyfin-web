@@ -1,5 +1,5 @@
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
-import { format, formatDistanceStrict, Locale, parse } from 'date-fns';
+import { format, formatDistanceStrict, Locale, parse } from 'date-fns';;
 import globalize from 'lib/globalize';
 import { INTERVAL_DURATIONS } from '../constants/intervalDurations';
 

@@ -2,8 +2,8 @@ import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/bas
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import Box from '@mui/material/Box';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import Box from '@mui/material/Box/Box';
+import ButtonGroup from '@mui/material/ButtonGroup/ButtonGroup';
 import type { Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import classNames from 'classnames';

@@ -9,6 +9,9 @@ const smp = new SpeedMeasurePlugin();
 const config = merge(prod, {
     plugins: [
         new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: 'bundle-report.html',
+            openAnalyzer: false,
             excludeAssets: /-json\..*\.chunk\.js$/
         })
     ]

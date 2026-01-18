@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import type { LogFile } from '@jellyfin/sdk/lib/generated-client/models/log-file';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
 import datetime from 'scripts/datetime';
 import ListItemLink from 'components/ListItemLink';
 

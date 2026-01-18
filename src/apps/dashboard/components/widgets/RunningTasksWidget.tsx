@@ -4,10 +4,10 @@ import Widget from './Widget';
 import type { TaskInfo } from '@jellyfin/sdk/lib/generated-client/models/task-info';
 import Paper from '@mui/material/Paper';
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
-import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography/Typography';
 import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box/Box';
+import Stack from '@mui/material/Stack/Stack';
 
 type RunningTasksWidgetProps = {
     tasks?: TaskInfo[];

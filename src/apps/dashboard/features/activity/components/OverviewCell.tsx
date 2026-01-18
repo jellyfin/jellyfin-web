@@ -1,7 +1,7 @@
 import Info from '@mui/icons-material/Info';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import React, { type FC, useCallback, useState } from 'react';
 

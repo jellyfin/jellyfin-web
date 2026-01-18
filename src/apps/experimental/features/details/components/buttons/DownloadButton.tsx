@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import { useGetDownload } from 'hooks/api/libraryHooks';

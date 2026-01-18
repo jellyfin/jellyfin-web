@@ -3,14 +3,14 @@ import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-a
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import Delete from '@mui/icons-material/Delete';
 import Upload from '@mui/icons-material/Upload';
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert/Alert';
+import Box from '@mui/material/Box/Box';
+import Button from '@mui/material/Button/Button';
+import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
+import Stack from '@mui/material/Stack/Stack';
 import Switch from '@mui/material/Switch';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField/TextField';
+import Typography from '@mui/material/Typography/Typography';
 import React, { useCallback, useEffect, useState } from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 

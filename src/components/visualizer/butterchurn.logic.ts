@@ -9,7 +9,18 @@ import { visualizerSettings } from './visualizers.logic';
 // @ts-ignore
 import isButterchurnSupported from 'butterchurn/lib/isSupported.min';
 import { isVisible } from '../../utils/visibility';
-import audioCapabilities from 'components/audioEngine/audioCapabilities';
+// Lazy load audio capabilities for better bundle splitting
+let audioCapabilities: any;
+let audioCapabilitiesLoaded = false;
+
+async function loadAudioCapabilities() {
+    if (!audioCapabilitiesLoaded) {
+        const module = await import('components/audioEngine/audioCapabilities');
+        audioCapabilities = module.default;
+        audioCapabilitiesLoaded = true;
+    }
+    return audioCapabilities;
+}
 
 let presetSwitchInterval: NodeJS.Timeout;
 
@@ -58,8 +69,9 @@ async function validateButterchurnPrerequisites(): Promise<boolean> {
         return false;
     }
 
-    // Additional check using centralized capabilities
-    const capabilities = await audioCapabilities.getCapabilities();
+    // Additional check using centralized capabilities (lazy loaded)
+    const audioCaps = await loadAudioCapabilities();
+    const capabilities = await audioCaps.getCapabilities();
     if (!capabilities.visualizers.butterchurn) {
         console.warn('[Butterchurn] Butterchurn disabled by capabilities check - cannot initialize');
         return false;

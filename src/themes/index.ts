@@ -27,4 +27,5 @@ const DEFAULT_THEME = createTheme({
     }
 });
 
+export { DEFAULT_THEME };
 export default DEFAULT_THEME;

@@ -1,14 +1,14 @@
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { FC, useCallback } from 'react';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Button from '@mui/material/Button/Button';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
+import Popover from '@mui/material/Popover/Popover';
+import Typography from '@mui/material/Typography/Typography';
+import Divider from '@mui/material/Divider/Divider';
+import InputLabel from '@mui/material/InputLabel/InputLabel';
+import FormControl from '@mui/material/FormControl/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select/Select';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 
 import globalize from 'lib/globalize';

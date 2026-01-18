@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useQueryClient } from '@tanstack/react-query';
 

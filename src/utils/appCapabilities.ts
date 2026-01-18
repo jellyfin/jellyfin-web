@@ -1,4 +1,4 @@
-export default function capabilities(host: any) {
+export function capabilities(host: any) {
     return Object.assign({
         PlayableMediaTypes: ['Audio', 'Video'],
         SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter',
@@ -10,3 +10,6 @@ export default function capabilities(host: any) {
         SupportsMediaControl: true
     }, host?.getPushTokenInfo ? host.getPushTokenInfo() : {});
 }
+
+// Keep default export for backward compatibility
+export default capabilities;

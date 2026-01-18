@@ -1,9 +1,9 @@
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import Checkbox from '@mui/material/Checkbox/Checkbox';
+import FormControl from '@mui/material/FormControl/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText/FormHelperText';
+import Stack from '@mui/material/Stack/Stack';
+import Typography from '@mui/material/Typography/Typography';
 import React from 'react';
 
 import globalize from 'lib/globalize';

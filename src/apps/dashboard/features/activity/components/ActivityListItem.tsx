@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
 import Notifications from '@mui/icons-material/Notifications';
-import Avatar from '@mui/material/Avatar';
+import Avatar from '@mui/material/Avatar/Avatar';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
+import Typography from '@mui/material/Typography/Typography';
 import formatRelative from 'date-fns/formatRelative';
 import { getLocale } from 'utils/dateFnsLocale';
-import Stack from '@mui/material/Stack';
+import Stack from '@mui/material/Stack/Stack';
 import getLogLevelColor from '../utils/getLogLevelColor';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import ListItemLink from 'components/ListItemLink';

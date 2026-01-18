@@ -1,6 +1,6 @@
 import { destroyWaveSurferInstance } from 'components/visualizer/WaveSurfer';
 import { audioNodeBus, delayNodeBus, masterAudioOutput, unbindCallback } from './master.logic';
-import { butterchurnInstance } from 'components/visualizer/butterchurn.logic';
+import { getButterchurnInstance } from 'components/visualizer/lazyButterchurn';
 import { getSavedVisualizerSettings, setVisualizerSettings, visualizerSettings } from 'components/visualizer/visualizers.logic';
 import { endSong, triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
 import * as userSettings from '../../scripts/settings/userSettings';
@@ -238,7 +238,7 @@ export function hijackMediaElementForCrossfade(isManual = false) {
         setVisualizerSettings(getSavedVisualizerSettings());
 
         endSong();
-        if (visualizerSettings.butterchurn.enabled) butterchurnInstance.nextPreset();
+        if (visualizerSettings.butterchurn.enabled) getButterchurnInstance().then(inst => inst.nextPreset()).catch(console.error);
 
         // Start global sync for timing alignment
         syncManager.startSync();
@@ -292,7 +292,7 @@ export function hijackMediaElementForCrossfade(isManual = false) {
         // Prevent double-disposal
         if (disposeElement.id !== 'crossFadeMediaElement') return;
 
-        destroyWaveSurferInstance();
+        destroyWaveSurferInstance().catch(console.error);
 
         // Clean up any audio nodes that belong to this disposed element
         // We use a more conservative approach - only clean nodes if we're definitely interrupting
@@ -353,7 +353,7 @@ export function hijackMediaElementForCrossfade(isManual = false) {
                 unbindCallback();
             }
             // Reset visibility on fade out track, but keep WaveSurfer instance for reuse
-            destroyWaveSurferInstance();
+            destroyWaveSurferInstance().catch(console.error);
             prevNextDisable(false);
             xDuration.busy = false; // Reset busy flag after new track can start
             xDuration.triggered = false; // Reset trigger flag for new track

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import Snackbar, { SnackbarProps } from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 const Toast = (props: SnackbarProps) => {

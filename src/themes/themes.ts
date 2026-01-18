@@ -133,4 +133,5 @@ const DEFAULT_THEME = createTheme({
     colorSchemes: COLOR_SCHEMES
 });
 
+export { DEFAULT_THEME };
 export default DEFAULT_THEME;

@@ -1,4 +1,4 @@
-import Stack from '@mui/material/Stack';
+import Stack from '@mui/material/Stack/Stack';
 import React, { type FC } from 'react';
 import { useLocation } from 'react-router-dom';
 

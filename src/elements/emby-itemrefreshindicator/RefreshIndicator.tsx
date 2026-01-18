@@ -7,8 +7,8 @@ import classNames from 'classnames';
 import CircularProgress, {
     CircularProgressProps
 } from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography/Typography';
+import Box from '@mui/material/Box/Box';
 import { toPercentString } from 'utils/number';
 import { getCurrentDateTimeLocale } from 'lib/globalize';
 import type { ItemDto } from 'types/base/models/item-dto';

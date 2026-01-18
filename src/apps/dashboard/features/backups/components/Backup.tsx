@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import type { BackupManifestDto } from '@jellyfin/sdk/lib/generated-client/models/backup-manifest-dto';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import ListItem from '@mui/material/ListItem';
 import Restore from '@mui/icons-material/Restore';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
 import Tooltip from '@mui/material/Tooltip';
 import globalize from 'lib/globalize';
 import BackupInfoDialog from './BackupInfoDialog';

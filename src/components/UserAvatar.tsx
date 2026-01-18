@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
-import Avatar from '@mui/material/Avatar';
+import Avatar from '@mui/material/Avatar/Avatar';
 import type {} from '@mui/material/themeCssVarsAugmentation';
 
 import { useApi } from 'hooks/useApi';

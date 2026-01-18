@@ -1,12 +1,12 @@
 import Check from '@mui/icons-material/Check';
 import Close from '@mui/icons-material/Close';
 import SettingsRemote from '@mui/icons-material/SettingsRemote';
-import Divider from '@mui/material/Divider';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider/Divider';
+import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import Menu, { MenuProps } from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Menu, { MenuProps } from '@mui/material/Menu/Menu';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
 import dialog from 'components/dialog/dialog';
 import { playbackManager } from 'components/playback/playbackmanager';
 import React, { FC, useCallback, useState } from 'react';

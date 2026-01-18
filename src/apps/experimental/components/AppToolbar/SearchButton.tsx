@@ -7,7 +7,7 @@ import {
     useSearchParams
 } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import globalize from 'lib/globalize';
 

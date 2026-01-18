@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { type FC, type PropsWithChildren } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box/Box';
+import Button from '@mui/material/Button/Button';
 
 import { ItemAction } from 'constants/itemAction';
 import type { DataAttributes } from 'types/dataAttributes';

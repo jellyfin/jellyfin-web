@@ -1,7 +1,7 @@
 import React, { type FC, type PropsWithChildren } from 'react';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box/Box';
+import Link from '@mui/material/Link/Link';
+import Typography from '@mui/material/Typography/Typography';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import classNames from 'classnames';
 import ItemsContainer, {

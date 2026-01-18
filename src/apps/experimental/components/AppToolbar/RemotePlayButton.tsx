@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import CastConnected from '@mui/icons-material/CastConnected';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box/Box';
+import Button from '@mui/material/Button/Button';
 import Cast from '@mui/icons-material/Cast';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import type {} from '@mui/material/themeCssVarsAugmentation';
 import Tooltip from '@mui/material/Tooltip';
 

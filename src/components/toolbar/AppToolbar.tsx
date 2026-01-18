@@ -1,7 +1,7 @@
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import MenuIcon from '@mui/icons-material/Menu';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box/Box';
+import IconButton from '@mui/material/IconButton/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import React, { type FC, type PropsWithChildren, ReactNode } from 'react';

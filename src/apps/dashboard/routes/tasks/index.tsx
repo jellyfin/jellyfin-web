@@ -1,8 +1,8 @@
 import React from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box/Box';
+import Stack from '@mui/material/Stack/Stack';
 import { getCategories, getTasksByCategory } from '../../features/tasks/utils/tasks';
 import Loading from 'components/loading/LoadingComponent';
 import Tasks from '../../features/tasks/components/Tasks';

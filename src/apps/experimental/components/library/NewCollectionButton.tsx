@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
 import Add from '@mui/icons-material/Add';
-import Button from '@mui/material/Button';
+import Button from '@mui/material/Button/Button';
 
 import globalize from 'lib/globalize';
 

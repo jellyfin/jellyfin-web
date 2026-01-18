@@ -1,5 +1,5 @@
 import React, { type FC } from 'react';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 
 import { ItemAction } from 'constants/itemAction';
 

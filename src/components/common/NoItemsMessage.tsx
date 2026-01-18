@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box/Box';
+import Typography from '@mui/material/Typography/Typography';
 import globalize from 'lib/globalize';
 
 interface NoItemsMessageProps {

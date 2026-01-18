@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jellyfin - Offline</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #101010;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .offline-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .offline-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .offline-message {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+        .retry-button {
+            background-color: #00a4dc;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .retry-button:hover {
+            background-color: #0084b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-icon">📱</div>
+    <h1 class="offline-title">You're Offline</h1>
+    <p class="offline-message">
+        It looks like you're not connected to the internet.<br>
+        Please check your connection and try again.
+    </p>
+    <button class="retry-button" onclick="window.location.reload()">Try Again</button>
+</body>
+</html>

@@ -8,7 +8,7 @@ const URL_RESOLVER = document.createElement('a');
 // Recent browsers seem to support `file` protocol under some conditions.
 // Based on https://github.com/github/fetch/pull/92#issuecomment-174730593
 //          https://github.com/github/fetch/pull/92#issuecomment-512187452
-export default async function fetchLocal(url: string, options?: FetchOptions) {
+export async function fetchLocal(url: string, options?: FetchOptions) {
     URL_RESOLVER.href = url;
 
     const requestURL = URL_RESOLVER.href;
@@ -40,3 +40,6 @@ export default async function fetchLocal(url: string, options?: FetchOptions) {
         xhr.send(null);
     });
 }
+
+// Keep default export for backward compatibility
+export default fetchLocal;

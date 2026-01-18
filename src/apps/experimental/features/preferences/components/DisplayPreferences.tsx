@@ -1,13 +1,14 @@
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import Checkbox from '@mui/material/Checkbox/Checkbox';
+import FormControl from '@mui/material/FormControl/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText/FormHelperText';
+import InputLabel from '@mui/material/InputLabel/InputLabel';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
+import Select from '@mui/material/Select/Select';
+import { type SelectChangeEvent } from '@mui/material/Select';
+import Stack from '@mui/material/Stack/Stack';
+import TextField from '@mui/material/TextField/TextField';
+import Typography from '@mui/material/Typography/Typography';
 import React, { Fragment } from 'react';
 
 import { safeAppHost } from 'components/apphost';

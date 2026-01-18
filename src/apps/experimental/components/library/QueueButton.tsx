@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import Button from '@mui/material/Button';
+import Button from '@mui/material/Button/Button';
 import Queue from '@mui/icons-material/Queue';
 
 import { playbackManager } from 'components/playback/playbackmanager';

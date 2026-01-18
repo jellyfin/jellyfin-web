@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog/Dialog';
+import DialogContent from '@mui/material/DialogContent/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
 import LinearProgress from '@mui/material/LinearProgress';
 import globalize from 'lib/globalize';
 

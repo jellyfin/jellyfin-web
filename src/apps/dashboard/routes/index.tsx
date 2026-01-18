@@ -1,13 +1,13 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box/Box';
+import Grid from '@mui/material/Grid/Grid';
 import ServerPathWidget from '../components/widgets/ServerPathWidget';
 import ServerInfoWidget from '../components/widgets/ServerInfoWidget';
 import ActivityLogWidget from '../components/widgets/ActivityLogWidget';
 import AlertsLogWidget from '../components/widgets/AlertsLogWidget';
-import Stack from '@mui/material/Stack';
+import Stack from '@mui/material/Stack/Stack';
 import useShutdownServer from '../features/system/api/useShutdownServer';
 import useRestartServer from '../features/system/api/useRestartServer';
 import ConfirmDialog from 'components/ConfirmDialog';

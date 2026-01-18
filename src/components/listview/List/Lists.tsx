@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
-import groupBy from 'lodash-es/groupBy';
-import Box from '@mui/material/Box';
+import { groupBy } from '../../../utils/lodashUtils';
+import Box from '@mui/material/Box/Box';
 import { getIndex } from './listHelper';
 import ListGroupHeaderWrapper from './ListGroupHeaderWrapper';
 import List from './List';

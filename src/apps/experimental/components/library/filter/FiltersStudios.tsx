@@ -1,8 +1,8 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FC, useCallback } from 'react';
 import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox/Checkbox';
 import { LibraryViewSettings } from 'types/library';
 
 interface FiltersStudiosProps {

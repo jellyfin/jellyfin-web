@@ -1,4 +1,4 @@
-import isEmpty from 'lodash-es/isEmpty';
+import { isEmpty } from '../../utils/lodashUtils';
 
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import Events from 'utils/events';

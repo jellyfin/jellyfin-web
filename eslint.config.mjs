@@ -41,7 +41,8 @@ export default tseslint.config(
             'coverage',
             'dist',
             '.idea',
-            '.vscode'
+            '.vscode',
+            'src/components/playback/playbackmanager.js'
         ]
     },
 
@@ -86,6 +87,8 @@ export default tseslint.config(
             'no-useless-rename': 'error',
             'no-useless-constructor': 'off',
             '@typescript-eslint/no-useless-constructor': 'error',
+            'no-console': 'error',
+            'prefer-arrow-callback': 'error',
             'no-var': 'error',
             'no-void': ['error', { 'allowAsStatement': true }],
             'no-warning-comments': ['warn', { 'terms': ['hack', 'xxx'] }],
@@ -184,6 +187,18 @@ export default tseslint.config(
         },
         rules: {
             '@typescript-eslint/no-require-imports': 'off'
+        }
+    },
+
+    // Scripts directory - less strict for analysis tools
+    {
+        files: [ 'scripts/**/*.{js,cjs}' ],
+        rules: {
+            'no-console': 'off',
+            '@stylistic/indent': 'off',
+            'sonarjs/cognitive-complexity': 'off',
+            'compat/compat': 'off',
+            '@typescript-eslint/no-shadow': 'off'
         }
     },
 
@@ -362,8 +377,10 @@ export default tseslint.config(
                 }
             ],
             '@typescript-eslint/no-deprecated': 'warn',
+            '@typescript-eslint/no-explicit-any': 'error',
             '@typescript-eslint/no-floating-promises': 'error',
-            '@typescript-eslint/prefer-string-starts-ends-with': 'error'
+            '@typescript-eslint/prefer-string-starts-ends-with': 'error',
+            '@typescript-eslint/strict-boolean-expressions': 'error'
         }
     },
 

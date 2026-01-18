@@ -1,28 +1,28 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 import Page from 'components/Page';
 import { useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import type { LiveTvOptions } from '@jellyfin/sdk/lib/generated-client/models/live-tv-options';
 import globalize from 'lib/globalize';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack/Stack';
+import Typography from '@mui/material/Typography/Typography';
 import Loading from 'components/loading/LoadingComponent';
 import TunerDeviceCard from 'apps/dashboard/features/livetv/components/TunerDeviceCard';
 import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';
-import Button from '@mui/material/Button';
+import Button from '@mui/material/Button/Button';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import AddIcon from '@mui/icons-material/Add';
 import { Link, useNavigate } from 'react-router-dom';
 import { useStartTask } from 'apps/dashboard/features/tasks/api/useStartTask';
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
 import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemText from '@mui/material/ListItemText';
-import Alert from '@mui/material/Alert';
+import Menu from '@mui/material/Menu/Menu';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
+import Alert from '@mui/material/Alert/Alert';
 import List from '@mui/material/List';
 import Provider from 'apps/dashboard/features/livetv/components/Provider';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid/Grid';
 
 const CONFIG_KEY = 'livetv';
 

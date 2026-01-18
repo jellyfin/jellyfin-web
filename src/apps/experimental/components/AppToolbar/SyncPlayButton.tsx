@@ -1,6 +1,6 @@
 import { SyncPlayUserAccessType } from '@jellyfin/sdk/lib/generated-client/models/sync-play-user-access-type';
 import Groups from '@mui/icons-material/Groups';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import React, { useCallback, useState } from 'react';
 

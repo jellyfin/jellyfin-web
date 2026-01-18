@@ -1,5 +1,5 @@
 import type { SessionInfoDto } from '@jellyfin/sdk/lib/generated-client/models/session-info-dto';
-import { parseISO, subSeconds } from 'date-fns';
+import { parseISO, subSeconds } from 'date-fns';;
 
 const MIN_SESSION_ACTIVE_TIME = 95;
 

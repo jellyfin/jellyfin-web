@@ -5,14 +5,14 @@ import MusicNote from '@mui/icons-material/MusicNote';
 import MusicVideo from '@mui/icons-material/MusicVideo';
 import Tv from '@mui/icons-material/Tv';
 import VideoLibrary from '@mui/icons-material/VideoLibrary';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid/Grid';
 import SvgIcon from '@mui/material/SvgIcon';
 import React, { useMemo } from 'react';
 
 import { useItemCounts } from 'apps/dashboard/features/metrics/api/useItemCounts';
 import MetricCard, { type MetricCardProps } from 'apps/dashboard/features/metrics/components/MetricCard';
 import globalize from 'lib/globalize';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 
 interface MetricDefinition {
     key: keyof ItemCounts

@@ -1,12 +1,12 @@
 import Favorite from '@mui/icons-material/Favorite';
 import Home from '@mui/icons-material/Home';
-import Divider from '@mui/material/Divider';
+import Divider from '@mui/material/Divider/Divider';
 import Icon from '@mui/material/Icon';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import React from 'react';
 import { useLocation } from 'react-router-dom';

@@ -1,6 +1,6 @@
 import React, { type FC, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { ItemAction } from 'constants/itemAction';

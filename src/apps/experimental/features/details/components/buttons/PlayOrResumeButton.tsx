@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useMemo } from 'react';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { useQueryClient } from '@tanstack/react-query';

@@ -4,13 +4,13 @@ import ListItem from '@mui/material/ListItem';
 import Tooltip from '@mui/material/Tooltip';
 import Delete from '@mui/icons-material/Delete';
 import globalize from 'lib/globalize';
-import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
+import IconButton from '@mui/material/IconButton/IconButton';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import OpenInNew from '@mui/icons-material/OpenInNew';
-import Avatar from '@mui/material/Avatar';
+import Avatar from '@mui/material/Avatar/Avatar';
 import ListItemButton from '@mui/material/ListItemButton';
-import Link from '@mui/material/Link';
+import Link from '@mui/material/Link/Link';
 import ConfirmDialog from 'components/ConfirmDialog';
 
 type IProps = {

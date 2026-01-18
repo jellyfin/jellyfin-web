@@ -1,5 +1,6 @@
 const { merge } = require('webpack-merge');
 const https = require('https');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const common = require('./webpack.common');
 
@@ -28,13 +29,31 @@ module.exports = merge(common, {
     target: process.env.WEBPACK_SERVE ? 'web' : 'browserslist',
     mode: 'development',
     devtool: 'eval-cheap-module-source-map',
+    watchOptions: {
+        ignored: [
+            '**/node_modules/**',
+            '**/.git/**',
+            '**/dist/**',
+            '**/*.log'
+        ],
+        aggregateTimeout: 300,
+        poll: false
+    },
+    plugins: [
+        new ReactRefreshWebpackPlugin()
+    ],
     module: {
         rules: [
             {
                 test: /\.(js|jsx|ts|tsx)$/,
                 exclude: /node_modules/,
                 enforce: 'pre',
-                use: ['source-map-loader']
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        plugins: ['react-refresh/babel']
+                    }
+                }, 'source-map-loader']
             }
         ]
     },
@@ -43,6 +62,16 @@ module.exports = merge(common, {
         host: '0.0.0.0',
         port: 8080,
         allowedHosts: 'all',
+        hot: true,
+        liveReload: false,
+        devMiddleware: {
+            writeToDisk: false,
+            // Improve performance with larger in-memory cache
+            maxAge: 86400000, // 1 day
+        },
+        static: {
+            cacheControl: false, // Disable caching for static assets during dev
+        },
         client: {
             overlay: {
                 errors: true,

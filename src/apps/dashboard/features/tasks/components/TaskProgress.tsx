@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { TaskProps } from '../types/taskProps';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box/Box';
 import LinearProgress from '@mui/material/LinearProgress';
-import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography/Typography';
 
 const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const progress = task.CurrentProgressPercentage;

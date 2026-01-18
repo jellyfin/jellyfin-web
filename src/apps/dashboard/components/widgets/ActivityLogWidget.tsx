@@ -6,7 +6,7 @@ import ActivityListItem from 'apps/dashboard/features/activity/components/Activi
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
 import subSeconds from 'date-fns/subSeconds';
 import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
+import Stack from '@mui/material/Stack/Stack';
 
 const ActivityLogWidget = () => {
     const dayBefore = useMemo(() => (

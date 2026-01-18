@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import Page from 'components/Page';
 import { useParams } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box/Box';
+import Button from '@mui/material/Button/Button';
+import Stack from '@mui/material/Stack/Stack';
+import Typography from '@mui/material/Typography/Typography';
 import AddIcon from '@mui/icons-material/Add';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton/IconButton';
 import { useTheme } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';

@@ -1,6 +1,6 @@
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
 import React, { type FC } from 'react';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import ButtonGroup from '@mui/material/ButtonGroup/ButtonGroup';
 import classNames from 'classnames';
 
 import { appRouter } from 'components/router/appRouter';
