@@ -332,5 +332,4 @@ export class PdfPlayer {
     }
 }
 
-export { PdfPlayer };
 export default PdfPlayer;

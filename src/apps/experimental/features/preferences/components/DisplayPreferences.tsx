@@ -70,7 +70,7 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                         onChange={onChange}
                         value={values.theme}
                     >
-                        { ...themes.map(({ id, name }) => (
+                        {themes.map(({ id, name }) => (
                             <MenuItem key={id} value={id}>{name}</MenuItem>
                         ))}
                     </Select>

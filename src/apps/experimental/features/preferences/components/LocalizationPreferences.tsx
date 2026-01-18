@@ -41,7 +41,7 @@ export function LocalizationPreferences({ onChange, values }: Readonly<Localizat
                         onChange={onChange}
                         value={values.language}
                     >
-                        { ...LANGUAGE_OPTIONS.map(({ value, label }) => (
+                        {LANGUAGE_OPTIONS.map(({ value, label }) => (
                             <MenuItem key={value } value={value}>{ label }</MenuItem>
                         ))}
                     </Select>

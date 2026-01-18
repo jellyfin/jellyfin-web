@@ -397,5 +397,4 @@ export class BookPlayer {
     }
 }
 
-export { BookPlayer };
 export default BookPlayer;
