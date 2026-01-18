@@ -9,11 +9,19 @@
 /* Now playing bar */
 .nowPlayingBar {
     /* Above everything, except for the video player and popup overlays */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
     text-align: center;
     will-change: transform;
     contain: layout style;
     transition: transform 200ms ease-out;
     cursor: pointer;
+    height: 4.2em;
 }
 
 .nowPlayingBar-hidden {

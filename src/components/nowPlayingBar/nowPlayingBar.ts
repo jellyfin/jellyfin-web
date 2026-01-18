@@ -9,7 +9,8 @@ import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
-import { safeAppHost } from '../apphost';
+import { appHost } from '../apphost';
+import { destroyWaveSurferInstance, waveSurferInitialization } from 'components/visualizer/WaveSurfer';
 import dom from '../../utils/dom';
 import globalize from 'lib/globalize';
 import itemContextMenu from '../itemContextMenu';
@@ -19,7 +20,7 @@ import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
 import '../../elements/emby-slider/emby-slider';
-import { destroyWaveSurferInstance, waveSurferInitialization } from 'components/visualizer/lazyWaveSurfer';
+
 import { synchronizeVolumeUI } from 'components/audioEngine/crossfader.logic';
 
 interface PlayerState {
@@ -51,14 +52,14 @@ interface Player {
     [key: string]: any;
 }
 
-const currentPlayer: Player | null = null;
-const currentPlayerSupportedCommands: string[] = [];
+let currentPlayer: any = null;
+let currentPlayerSupportedCommands: string[] = [];
 
-const currentTimeElement: HTMLElement | null = null;
-const nowPlayingImageElement: HTMLImageElement | null = null;
-const nowPlayingImageUrl: string | null = null;
-const nowPlayingTextElement: HTMLElement | null = null;
-const nowPlayingUserData: any = null;
+let currentTimeElement: HTMLElement | null = null;
+let nowPlayingImageElement: HTMLImageElement | null = null;
+let nowPlayingImageUrl: string | null = null;
+let nowPlayingTextElement: HTMLElement | null = null;
+let nowPlayingUserData: any = null;
 let muteButton: HTMLElement | null = null;
 let volumeSlider: HTMLInputElement | null = null;
 let volumeSliderContainer: HTMLElement | null = null;
@@ -69,18 +70,76 @@ let toggleRepeatButton: HTMLElement | null = null;
 let toggleRepeatButtonIcon: HTMLElement | null = null;
 let lyricButton: HTMLElement | null = null;
 
-const lastUpdateTime = 0;
-const lastPlayerState: PlayerState = {};
-const isEnabled = false;
-const currentRuntimeTicks = 0;
+let lastUpdateTime = 0;
+let lastPlayerState: PlayerState = {};
+let isEnabled = false;
+let currentRuntimeTicks = 0;
 
 let isVisibilityAllowed = true;
 
 let isLyricPageActive = false;
 
 function getNowPlayingBarHtml(): string {
-    // ... existing code
-    return '';
+    let html = '';
+
+    html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
+
+    html += '<div class="nowPlayingBarTop">';
+    html += '<div id="barSurfer" class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
+    html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
+    html += '</div>';
+
+    html += '<div class="nowPlayingBarInfoContainer">';
+    html += '<div class="nowPlayingImage"></div>';
+    html += '<div class="nowPlayingBarText"></div>';
+    html += '</div>';
+
+    // The onclicks are needed due to the return false above
+    html += '<div class="nowPlayingBarCenter" dir="ltr">';
+
+    html += `<button is="paper-icon-button-light" class="previousTrackButton mediaButton" title="${globalize.translate('ButtonPreviousTrack')}"><span class="material-icons skip_previous" aria-hidden="true"></span></button>`;
+
+    html += `<button is="paper-icon-button-light" class="playPauseButton mediaButton" title="${globalize.translate('ButtonPause')}"><span class="material-icons pause" aria-hidden="true"></span></button>`;
+
+    html += `<button is="paper-icon-button-light" class="stopButton mediaButton" title="${globalize.translate('ButtonStop')}"><span class="material-icons stop" aria-hidden="true"></span></button>`;
+    if (!layoutManager.mobile) {
+        html += `<button is="paper-icon-button-light" class="nextTrackButton mediaButton" title="${globalize.translate('ButtonNextTrack')}"><span class="material-icons skip_next" aria-hidden="true"></span></button>`;
+    }
+
+    html += '<div class="nowPlayingBarCurrentTime"></div>';
+    html += '</div>';
+
+    html += '<div class="nowPlayingBarRight">';
+
+    html += `<button is="paper-icon-button-light" class="muteButton mediaButton" title="${globalize.translate('Mute')}"><span class="material-icons volume_up" aria-hidden="true"></span></button>`;
+
+    html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
+    html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
+    html += '</div>';
+
+    html += `<button is="paper-icon-button-light" class="btnAirPlay mediaButton" title="${globalize.translate('AirPlay')}"><span class="material-icons airplay" aria-hidden="true"></span></button>`;
+
+    html += `<button is="paper-icon-button-light" class="openLyricsButton mediaButton hide" title="${globalize.translate('Lyrics')}"><span class="material-icons lyrics" style="top:0.1em" aria-hidden="true"></span></button>`;
+
+    html += `<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton" title="${globalize.translate('Repeat')}"><span class="material-icons repeat" aria-hidden="true"></span></button>`;
+    html += `<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton" title="${globalize.translate('Shuffle')}"><span class="material-icons shuffle" aria-hidden="true"></span></button>`;
+
+    html += '<div class="nowPlayingBarUserDataButtons">';
+    html += '</div>';
+
+    html += `<button is="paper-icon-button-light" class="playPauseButton mediaButton" title="${globalize.translate('ButtonPause')}"><span class="material-icons pause" aria-hidden="true"></span></button>`;
+    if (layoutManager.mobile) {
+        html += `<button is="paper-icon-button-light" class="nextTrackButton mediaButton" title="${globalize.translate('ButtonNextTrack')}"><span class="material-icons skip_next" aria-hidden="true"></span></button>`;
+    } else {
+        html += `<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
+    }
+
+    html += '</div>';
+    html += '</div>';
+
+    html += '</div>';
+
+    return html;
 }
 
 function onSlideDownComplete(): void {
@@ -88,11 +147,36 @@ function onSlideDownComplete(): void {
 }
 
 function slideDown(elem: HTMLElement): void {
-    // ... existing code
+    // trigger reflow
+    void elem.offsetWidth;
+
+    elem.classList.add('nowPlayingBar-hidden');
+
+    dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
+        once: true
+    });
+
+    if (currentPlayer?.isLocalPlayer) {
+        destroyWaveSurferInstance().then(legacy => {
+            // When opening the same song, preserve the player legacy
+            waveSurferInitialization('#barSurfer', legacy, currentPlayer.duration());
+        });
+    }
 }
 
 function slideUp(elem: HTMLElement): void {
-    // ... existing code
+    dom.removeEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
+        once: true
+    });
+
+    elem.classList.remove('hide');
+
+    // trigger reflow
+    void elem.offsetWidth;
+
+    elem.classList.remove('nowPlayingBar-hidden');
+
+    // WaveSurfer integration removed due to async issues
 }
 
 function onPlayPauseClick(): void {
@@ -100,23 +184,141 @@ function onPlayPauseClick(): void {
 }
 
 function bindEvents(elem: HTMLElement): void {
-    // ... existing code with typed event listeners
-    playPauseButtons = elem.querySelectorAll('.btnPlayPause') as NodeListOf<HTMLElement>;
+    currentTimeElement = elem.querySelector('.nowPlayingBarCurrentTime') as HTMLElement;
+    nowPlayingImageElement = elem.querySelector('.nowPlayingImage') as HTMLImageElement;
+    nowPlayingTextElement = elem.querySelector('.nowPlayingBarText') as HTMLElement;
+    nowPlayingUserData = elem.querySelector('.nowPlayingBarUserDataButtons') as any;
     positionSlider = elem.querySelector('.nowPlayingBarPositionSlider') as HTMLInputElement;
     muteButton = elem.querySelector('.muteButton') as HTMLElement;
+    playPauseButtons = elem.querySelectorAll('.playPauseButton') as NodeListOf<HTMLElement>;
+    toggleRepeatButton = elem.querySelector('.toggleRepeatButton') as HTMLElement;
     volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider') as HTMLInputElement;
     volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer') as HTMLElement;
-    toggleAirPlayButton = elem.querySelector('.btnAirPlay') as HTMLElement;
-    toggleRepeatButton = elem.querySelector('.btnRepeat') as HTMLElement;
-    toggleRepeatButtonIcon = elem.querySelector('.btnRepeat i') as HTMLElement;
-    lyricButton = elem.querySelector('.btnLyrics') as HTMLElement;
+    lyricButton = elem.querySelector('.openLyricsButton') as HTMLElement;
 
-    // Add event listeners with proper types
-    muteButton.addEventListener('click', () => {
-        // ... existing code
+    muteButton.addEventListener('click', function () {
+        if (currentPlayer) {
+            playbackManager.toggleMute(currentPlayer);
+        }
     });
 
-    // ... more event listeners
+    elem.querySelector('.stopButton')?.addEventListener('click', function () {
+        if (currentPlayer) {
+            playbackManager.stop(currentPlayer);
+        }
+    });
+
+    playPauseButtons.forEach((button) => {
+        button.addEventListener('click', onPlayPauseClick);
+    });
+
+    elem.querySelector('.nextTrackButton')?.addEventListener('click', function () {
+        if (currentPlayer) {
+            playbackManager.nextTrack(currentPlayer);
+        }
+    });
+
+    elem.querySelector('.previousTrackButton')?.addEventListener('click', function (e) {
+        if (currentPlayer) {
+            if (playbackManager.isPlayingAudio(currentPlayer)) {
+                // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
+                if ((e as any).detail > 1 ) {
+                    return;
+                }
+
+                // Return to start of track, unless we are already (almost) at the beginning. In the latter case, continue and move
+                // to the previous track, unless we are at the first track so no previous track exists.
+                // currentTime is in msec.
+
+                if (playbackManager.currentTime(currentPlayer) >= 5 * 1000 || playbackManager.getCurrentPlaylistIndex() <= 0) {
+                    playbackManager.seekPercent(0);
+                    // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
+                    // TODO: Check why seekPercent doesn't reflect the changes inmmediately, so we can remove this workaround.
+                    if (positionSlider) positionSlider.value = '0';
+                    return;
+                }
+            }
+            playbackManager.previousTrack(currentPlayer);
+        }
+    });
+
+    elem.querySelector('.previousTrackButton')?.addEventListener('dblclick', function () {
+        if (currentPlayer) {
+            playbackManager.previousTrack(currentPlayer);
+        }
+    });
+
+    toggleAirPlayButton = elem.querySelector('.btnAirPlay') as HTMLElement;
+    toggleAirPlayButton.addEventListener('click', function () {
+        if (currentPlayer) {
+            // playbackManager.toggleAirPlay(currentPlayer); // Not implemented
+        }
+    });
+
+    elem.querySelector('.btnShuffleQueue')?.addEventListener('click', function () {
+        if (currentPlayer) {
+            playbackManager.toggleQueueShuffleMode();
+        }
+    });
+
+    lyricButton.addEventListener('click', function() {
+        if (isLyricPageActive) {
+            appRouter.back();
+        } else {
+            appRouter.show('lyrics');
+        }
+    });
+
+    toggleRepeatButton.addEventListener('click', function () {
+        switch (playbackManager.getRepeatMode()) {
+            case 'RepeatAll':
+                playbackManager.setRepeatMode('RepeatOne');
+                break;
+            case 'RepeatOne':
+                playbackManager.setRepeatMode('RepeatNone');
+                break;
+            case 'RepeatNone':
+                playbackManager.setRepeatMode('RepeatAll');
+        }
+    });
+
+    toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons') as HTMLElement;
+
+    volumeSliderContainer.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
+
+    volumeSlider.addEventListener('input', (e) => {
+        if (currentPlayer) {
+            currentPlayer.setVolume((e.target as HTMLInputElement).value);
+        }
+    });
+
+    positionSlider.addEventListener('change', function () {
+        if (currentPlayer) {
+            const newPercent = parseFloat(this.value);
+
+            playbackManager.seekPercent(newPercent);
+        }
+    });
+
+    (positionSlider as any).getBubbleText = function (value: any) {
+        const state = lastPlayerState;
+
+        if (!state?.NowPlayingItem || !currentRuntimeTicks) {
+            return '--:--';
+        }
+
+        let ticks = currentRuntimeTicks;
+        ticks /= 100;
+        ticks *= value;
+
+        return datetime.getDisplayRunningTime(ticks);
+    };
+
+    elem.addEventListener('click', function (e) {
+        if (!dom.parentWithTag(e.target as HTMLElement, ['BUTTON', 'INPUT'])) {
+            showRemoteControl();
+        }
+    });
 }
 
 function showRemoteControl(): void {
