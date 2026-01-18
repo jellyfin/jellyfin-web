@@ -80,7 +80,7 @@ class PWAOfflineManager {
         banner.innerHTML = `
             <div style="
                 position: fixed;
-                top: 0;
+                top: 50px;
                 left: 0;
                 right: 0;
                 background: #ff6b35;
@@ -97,16 +97,12 @@ class PWAOfflineManager {
         `;
 
         document.body.appendChild(banner);
-
-        // Adjust body padding to account for banner
-        document.body.style.paddingTop = '40px';
     }
 
     static hideOfflineBanner() {
         const banner = document.getElementById('pwa-offline-banner');
         if (banner) {
             banner.remove();
-            document.body.style.paddingTop = '';
         }
     }
 
