@@ -94,6 +94,22 @@ describe('ImagePreloader', () => {
 
         expect(mockFetch).toHaveBeenCalledTimes(4);
       });
+
+      it('should preload disc images', async () => {
+        const queueItems = [
+          { itemId: 'track-1', imageUrl: 'https://example.com/image1.jpg', discImageUrl: 'https://example.com/disc1.png' },
+          { itemId: 'track-2', imageUrl: 'https://example.com/image2.jpg', discImageUrl: 'https://example.com/disc2.png' }
+        ];
+
+        mockFetch.mockResolvedValue({
+          type: 'opaque',
+          ok: true
+        });
+
+        await imagePreloader.preloadQueueImages(queueItems);
+
+        expect(mockFetch).toHaveBeenCalledTimes(4);
+      });
     });
 
     describe('Backdrop Image Preloading', () => {

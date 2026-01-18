@@ -10,6 +10,7 @@ Features:
 - Queue image preloading (next 5 tracks)
 - Backdrop image preloading (all rotating images)
 - Artist logo image preloading (track transitions)
+- Disc art image preloading (vinyl record/disc art)
 - Cache status tracking (unknown/cached/loading/error)
 - Deduplication of concurrent requests
 - Network timeout handling
@@ -29,7 +30,7 @@ Changes:
 Features:
 - Coordinates audio and image preloading
 - Single method preloads both track and associated images
-- Preloads album art, backdrop, and artist logo
+- Preloads album art, backdrop, artist logo, and disc art
 - Integrates with existing `crossfadeController`
 - Provides status monitoring for debugging
 

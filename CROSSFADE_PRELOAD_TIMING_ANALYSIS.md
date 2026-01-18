@@ -104,10 +104,10 @@ From `AUDIO_SYSTEM_TECHNICAL_DOCUMENTATION.md`:
 
 | Connection Type | Image Size | Fetch Time | Images Needed | Total Time |
 |---------------|------------|-------------|---------------|------------|
-| **Fast (WiFi/5G)** | 200KB | 100ms | 3 (art + backdrop + logo) | 300ms |
-| **Average (4G)** | 200KB | 500ms | 3 | 1.5s |
-| **Slow (3G)** | 200KB | 2s | 3 | 6s |
-| **Very Slow** | 200KB | 5s | 3 | 15s |
+| **Fast (WiFi/5G)** | 200KB | 100ms | 4 (art + backdrop + logo + disc) | 400ms |
+| **Average (4G)** | 200KB | 500ms | 4 | 2s |
+| **Slow (3G)** | 200KB | 2s | 4 | 8s |
+| **Very Slow** | 200KB | 5s | 4 | 20s |
 
 ### Recommended Preload Strategy: Immediate + Fallback
 
@@ -125,7 +125,7 @@ From `AUDIO_SYSTEM_TECHNICAL_DOCUMENTATION.md`:
 **Cons:**
 - ⚠️ Preloads images that may never be displayed (if user doesn't skip)
 - ⚠️ Slightly higher memory usage (2-4 additional images cached)
-- ⚠️ More bandwidth usage (negligible: ~450KB per track)
+- ⚠️ More bandwidth usage (negligible: ~550KB per track)
 
 **Example:**
 ```
@@ -173,17 +173,18 @@ Second chance to load before crossfade
 - Album art: ~200KB
 - Backdrop: ~200KB
 - Artist logo: ~50KB
-- **Total: ~450KB per track**
+- Disc art: ~100KB
+- **Total: ~550KB per track**
 
 **For 100 tracks in queue:**
-- Immediate: ~45MB (all next track arts)
-- 50% strategy: ~22.5MB (only when reached 50%)
+- Immediate: ~55MB (all next track arts)
+- 50% strategy: ~27.5MB (only when reached 50%)
 - No strategy: ~0MB
 
 **Comparison:**
 - **Audio streaming:** ~100MB per hour (128kbps)
-- **Image preloading:** ~0.45MB per track
-- **Ratio:** Images = 0.45% of audio bandwidth
+- **Image preloading:** ~0.55MB per track
+- **Ratio:** Images = 0.55% of audio bandwidth
 
 **Conclusion:** Image bandwidth cost negligible compared to audio streaming.
 
@@ -196,7 +197,7 @@ Second chance to load before crossfade
 
 **Cache capacity:**
 ```
-450KB per track × 200 entries (SW max) = 80MB
+550KB per track × 200 entries (SW max) = 80MB
 ```
 
 **Real-world usage:**
@@ -374,15 +375,15 @@ function shouldPreloadImmediately(
 - ✅ Simple to implement and understand
 - ✅ Fallback ensures success even if immediate fails
 - ✅ Excellent UX - instant display always
-- ✅ Bandwidth cost negligible (0.45% of audio)
+- ✅ Bandwidth cost negligible (0.55% of audio)
 
 **Cons:**
-- ⚠️ Slightly higher bandwidth usage (~450KB per track)
+- ⚠️ Slightly higher bandwidth usage (~550KB per track)
 - ⚠️ Slightly higher memory usage (2-4 additional images cached)
 - ⚠️ May preload images user never sees (if they don't skip)
 
 **Tradeoff Assessment:**
-- Bandwidth cost: **Negligible** (0.45% of audio)
+- Bandwidth cost: **Negligible** (0.55% of audio)
 - Memory impact: **Acceptable** (6-10MB typical)
 - UX improvement: **Significant** (instant display vs spinners)
 - Complexity: **Low** (simple implementation)

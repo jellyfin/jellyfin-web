@@ -45,6 +45,7 @@ export class QueueViewExample {
         imageUrl: nextTrack.imageUrl,
         backdropUrl: nextTrack.backdropUrl,
         artistLogoUrl: nextTrack.artistLogoUrl,
+        discImageUrl: nextTrack.discImageUrl,
         crossOrigin: 'anonymous',
         volume: 100,
         muted: false,
@@ -62,6 +63,7 @@ export class QueueViewExample {
       this.updateNowPlayingImage(newTrack.imageUrl);
       this.updateBackdrop(newTrack.backdropUrl);
       this.updateArtistLogo(newTrack.artistLogoUrl);
+      this.updateDiscImage(newTrack.discImageUrl);
     }
 
     private startCrossfade(currentTrack: any, nextTrack: any) {
@@ -86,6 +88,16 @@ export class QueueViewExample {
       const logoElement = document.querySelector('.artist-logo') as HTMLImageElement;
       if (logoElement && logoUrl) {
         logoElement.src = logoUrl;
+      }
+    }
+
+    private updateDiscImage(discUrl: string) {
+      const discElement = document.querySelector('.discImage') as HTMLImageElement;
+      if (discElement && discUrl) {
+        discElement.src = discUrl;
+        discElement.classList.remove('hide');
+      } else if (discElement && !discUrl) {
+        discElement.classList.add('hide');
       }
     }
   }

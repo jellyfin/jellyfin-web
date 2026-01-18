@@ -18,6 +18,7 @@ type TrackInfo = {
     imageUrl?: string;
     backdropUrl?: string;
     artistLogoUrl?: string;
+    discImageUrl?: string;
     crossOrigin?: string | null;
     volume: number;
     muted: boolean;
@@ -30,6 +31,7 @@ interface PreloadOptions {
     imageUrl?: string;
     backdropUrl?: string;
     artistLogoUrl?: string;
+    discImageUrl?: string;
     crossOrigin?: string | null;
     volume: number;
     muted: boolean;
