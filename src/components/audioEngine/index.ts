@@ -10,6 +10,10 @@ export { masterAudioOutput, initializeMasterAudio, rampPlaybackGain } from './ma
 export { xDuration, getCrossfadeDuration, cancelCrossfadeTimeouts, timeRunningOut, syncManager } from './crossfader.logic';
 export { synchronizeVolumeUI } from './audioUtils';
 
+// Image preloading (ALWAYS loaded - critical for UX)
+export { handleTrackStart, handlePlaybackTimeUpdate, handleManualSkip } from './crossfadePreloadManager';
+export { initializeCrossfadePreloadHandler, destroyCrossfadePreloadHandler } from './crossfadePreloadHandler';
+
 // AudioWorklets (LAZY loaded - only when advanced audio features needed)
 export const loadAudioWorklets = () => import('./audioWorklets');
 
@@ -24,6 +28,7 @@ export const loadAudioCapabilities = () => import('./audioCapabilities');
 
 // Advanced crossfading (LAZY loaded - only for complex crossfade scenarios)
 export const loadCrossfadeController = () => import('./crossfadeController');
+export const loadCrossfadeImageIntegration = () => import('./crossfadeImageIntegration');
 
 // Bundle all worklets together for efficient loading
 export const audioWorklets = {

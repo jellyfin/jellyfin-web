@@ -12,12 +12,19 @@ import IconButton from '@mui/material/IconButton/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import globalize from 'lib/globalize';
+import { imagePreloader } from '../../../components/audioEngine';
 
 /**
  * Lazy-loaded Playback Queue Page
- * Replaces the legacy queue controller
+ * Replaces legacy queue controller
  * Fullscreen playback queue interface
+ *
+ * Image Preloading:
+ * Queue items' album art, backdrop, artist logo, and disc art are preloaded
+ * when queue data is fetched via imagePreloader.preloadQueueImages().
+ * This ensures smooth scrolling through the queue with no loading spinners.
  */
+
 const QueuePage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [queueData, setQueueData] = useState<any[]>([]);
