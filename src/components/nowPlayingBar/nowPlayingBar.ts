@@ -446,6 +446,8 @@ bindToPlayer((playbackManager as any).getCurrentPlayer());
 
 // Create the bar element immediately
 getNowPlayingBar();
+// Force show for debugging
+showNowPlayingBar();
 });
 
 bindToPlayer((playbackManager as any).getCurrentPlayer());
