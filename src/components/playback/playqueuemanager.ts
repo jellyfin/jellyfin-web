@@ -200,6 +200,14 @@ class PlayQueueManager {
 
         return null;
     }
+
+    reset(): void {
+        this._playlist = [];
+        this._sortedPlaylist = [];
+        this._currentPlaylistItemId = null;
+        this._repeatMode = 'RepeatNone';
+        this._shuffleMode = 'Sorted';
+    }
 }
 
 export default PlayQueueManager;

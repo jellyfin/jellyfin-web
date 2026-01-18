@@ -7,6 +7,7 @@ export default class PhotoPlayer {
         this.name = 'Photo Player';
         this.type = PluginType.MediaPlayer;
         this.id = 'photoplayer';
+        this.isLocalPlayer = true;
         this.priority = 1;
     }
 

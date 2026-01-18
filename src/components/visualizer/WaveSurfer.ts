@@ -165,25 +165,32 @@ async function extractColorsFromAlbumArt(_apiClient: ApiClient): Promise<WaveSur
     const img = await loadImageElement(url, false);
     if (!img) return DEFAULT_WAVESURFER_COLORS;
 
+    // Optimize by using smaller canvas size for faster processing
+    const sampleSize = 100;
     const canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
+    canvas.width = sampleSize;
+    canvas.height = sampleSize;
     const ctx = canvas.getContext('2d');
     if (!ctx) {
         return DEFAULT_WAVESURFER_COLORS;
     }
-    ctx.drawImage(img, 0, 0, img.width, img.height);
+    ctx.drawImage(img, 0, 0, sampleSize, sampleSize);
     const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
     let r = 0;
     let g = 0;
     let b = 0;
     let count = 0;
-    for (let i = 0; i < data.length; i += 4) {
+
+    // Use stride to skip pixels for faster processing
+    const stride = 4;
+    for (let i = 0; i < data.length; i += stride * 4) {
         r += data[i];
         g += data[i + 1];
         b += data[i + 2];
         count++;
     }
+
     r = Math.round(r / count);
     g = Math.round(g / count);
     b = Math.round(b / count);

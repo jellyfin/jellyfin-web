@@ -200,6 +200,7 @@ class YoutubePlayer {
         this.name = 'Youtube Player';
         this.type = PluginType.MediaPlayer;
         this.id = 'youtubeplayer';
+        this.isLocalPlayer = false;
 
         // Let any players created by plugins take priority
         this.priority = 1;

@@ -1,1 +1,1 @@
-export * from './useDeleteAlternateSources';
+export { useDeleteAlternateSources } from './useDeleteAlternateSources';

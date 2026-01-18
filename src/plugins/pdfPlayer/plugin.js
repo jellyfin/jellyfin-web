@@ -19,6 +19,7 @@ export class PdfPlayer {
         this.name = 'PDF Player';
         this.type = PluginType.MediaPlayer;
         this.id = 'pdfplayer';
+        this.isLocalPlayer = true;
         this.priority = 1;
 
         this.onDialogClosed = this.onDialogClosed.bind(this);

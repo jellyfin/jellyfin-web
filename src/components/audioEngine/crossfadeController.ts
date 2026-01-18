@@ -25,17 +25,32 @@ let preloadState: PreloadedTrack | null = null;
 let preloadToken = 0;
 let preloadPromise: Promise<boolean> | null = null;
 
+// Track elements being cleaned up to prevent double-cleanup
+const cleanupGuard = new WeakSet<HTMLMediaElement>();
+
 function clearPreloadedElement() {
     if (!preloadState) return;
 
     const element = preloadState.element;
-    removeAudioNodeBundle(element);
-    element.remove();
+    safeCleanupElement(element);
     preloadState = null;
     preloadPromise = null;
 }
 
-function waitForReady(element: HTMLMediaElement, timeoutMs: number, token: number) {
+function safeCleanupElement(element: HTMLMediaElement): void {
+    if (!element || cleanupGuard.has(element)) return;
+    
+    cleanupGuard.add(element);
+    
+    try {
+        removeAudioNodeBundle(element);
+        element.remove();
+    } catch (error) {
+        console.warn('[Crossfade] Error during element cleanup:', error);
+    }
+}
+
+function waitForReady(element: HTMLMediaElement, timeoutMs: number, token: number, abortSignal?: AbortSignal) {
     return new Promise<boolean>((resolve) => {
         let settled = false;
         let timeoutId: ReturnType<typeof setTimeout>;
@@ -46,6 +61,7 @@ function waitForReady(element: HTMLMediaElement, timeoutMs: number, token: numbe
             element.removeEventListener('canplay', onReady);
             element.removeEventListener('canplaythrough', onReady);
             element.removeEventListener('error', onError);
+            abortSignal?.removeEventListener('abort', onAbort);
         };
 
         const onReady = () => {
@@ -58,6 +74,11 @@ function waitForReady(element: HTMLMediaElement, timeoutMs: number, token: numbe
             resolve(false);
         };
 
+        const onAbort = () => {
+            cleanup();
+            resolve(false);
+        };
+
         timeoutId = setTimeout(() => {
             cleanup();
             resolve(false);
@@ -66,6 +87,14 @@ function waitForReady(element: HTMLMediaElement, timeoutMs: number, token: numbe
         element.addEventListener('canplay', onReady, { once: true });
         element.addEventListener('canplaythrough', onReady, { once: true });
         element.addEventListener('error', onError, { once: true });
+
+        if (abortSignal?.aborted) {
+            cleanup();
+            resolve(false);
+            return;
+        }
+
+        abortSignal?.addEventListener('abort', onAbort);
 
         if (timeoutMs <= 0) {
             onError();
@@ -99,6 +128,10 @@ export function preloadNextTrack(options: PreloadOptions) {
     preloadToken += 1;
     const token = preloadToken;
 
+    // Create abort controller for network timeout
+    const abortController = new AbortController();
+    const networkTimeoutMs = options.timeoutMs || 15000; // 15 second default
+
     const element = document.createElement('audio');
     element.preload = 'auto';
     element.classList.add('hide');
@@ -121,6 +154,18 @@ export function preloadNextTrack(options: PreloadOptions) {
         return Promise.resolve(false);
     }
 
+    // Set up network timeout
+    const networkTimeoutId = setTimeout(() => {
+        if (preloadState?.token === token) {
+            console.warn('[Crossfade] Network timeout for preload:', options.itemId);
+            abortController.abort();
+            clearPreloadedElement();
+        }
+    }, networkTimeoutMs);
+
+    // Clear timeout when element is ready or error occurs
+    const clearNetworkTimeout = () => clearTimeout(networkTimeoutId);
+
     preloadState = {
         itemId: options.itemId,
         url: options.url,
@@ -133,7 +178,8 @@ export function preloadNextTrack(options: PreloadOptions) {
 
     element.load();
 
-    preloadPromise = waitForReady(element, options.timeoutMs, token).then((ready) => {
+    preloadPromise = waitForReady(element, options.timeoutMs, token, abortController.signal).then((ready) => {
+        clearNetworkTimeout();
         if (!preloadState || preloadState.token !== token) {
             return false;
         }
@@ -142,6 +188,18 @@ export function preloadNextTrack(options: PreloadOptions) {
             clearPreloadedElement();
         }
         return ready;
+    }).catch((err) => {
+        clearNetworkTimeout();
+        if (abortController.signal.aborted) {
+            console.warn('[Crossfade] Preload aborted due to timeout:', options.itemId);
+        }
+        clearPreloadedElement();
+        return false;
+    });
+
+    // Start loading the media (trigger network fetch)
+    element.play().catch(() => {
+        // Ignore play errors - we just want to start loading
     });
 
     return preloadPromise;
@@ -209,8 +267,7 @@ export function startCrossfade(options: { fromElement: HTMLMediaElement; duratio
         }
 
         options.fromElement.addEventListener('ended', () => {
-            removeAudioNodeBundle(options.fromElement);
-            options.fromElement.remove();
+            safeCleanupElement(options.fromElement);
         }, { once: true });
 
         return Promise.resolve(true);

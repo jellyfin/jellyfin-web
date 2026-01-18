@@ -62,6 +62,14 @@ function isMobile(userAgent: string): boolean {
 
 const userAgent = navigator.userAgent.toLowerCase();
 
+function supportsCssAnimation(): boolean {
+    const element = document.createElement('div');
+    return 'animationName' in element.style ||
+           'webkitAnimationName' in element.style ||
+           'mozAnimationName' in element.style ||
+           'oAnimationName' in element.style;
+}
+
 const browser = {
     tv: isTv(userAgent),
     web0s: isWeb0s(userAgent),
@@ -80,7 +88,8 @@ const browser = {
     titanos: userAgent.includes('titanos'),
     operaTv: userAgent.includes('opr/') || userAgent.includes('opera'),
     vega: userAgent.includes('vega'),
-    xboxOne: userAgent.includes('xbox')
+    xboxOne: userAgent.includes('xbox'),
+    supportsCssAnimation: supportsCssAnimation
 };
 
 export const detectBrowser = (userAgent: string) => {

@@ -27,18 +27,13 @@
      <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-     <!-- Preload critical fonts for better text rendering -->
-     <link rel="preload" href="../node_modules/@fontsource/roboto/400.css" as="style">
-     <link rel="preload" href="../node_modules/@fontsource/roboto/500.css" as="style">
-     <link rel="preload" href="../node_modules/@fontsource/roboto/700.css" as="style">
+      <!-- Preload critical fonts for better text rendering -->
+      <link rel="preload" href="../node_modules/@fontsource/roboto/400.css" as="style">
+      <link rel="preload" href="../node_modules/@fontsource/roboto/500.css" as="style">
+      <link rel="preload" href="../node_modules/@fontsource/roboto/700.css" as="style">
 
-     <!-- Preload critical JavaScript modules -->
-     <link rel="modulepreload" href="jellyfin-apiclient.bundle.js">
-     <link rel="modulepreload" href="jellyfin-sdk.bundle.js">
-
-     <!-- Preload critical CSS for better performance -->
-     <link rel="preload" href="main.jellyfin.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-     <noscript><link rel="stylesheet" href="main.jellyfin.css"></noscript>
+      <!-- Preload critical JavaScript modules -->
+      <link rel="modulepreload" href="jellyfin-apiclient.bundle.js">
 
      <style>
          /* Critical CSS - Inline styles for initial load performance */
@@ -103,12 +98,12 @@
              display: none !important;
          }
 
-         /* Basic responsive design */
-         @media screen and (min-device-width: 992px) {
-             .splashLogo {
-                 background-image: url("../node_modules/@jellyfin/ux-web/favicons/banner-light.png");
-             }
-         }
+          /* Basic responsive design */
+          @media screen and (min-device-width: 992px) {
+              .splashLogo {
+                  background-image: url("favicons/banner-light.png");
+              }
+          }
 
          /* Theme color for PWA */
          .themeBg {

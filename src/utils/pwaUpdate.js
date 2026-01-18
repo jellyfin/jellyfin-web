@@ -4,10 +4,7 @@ class PWAUpdateManager {
         this.registration = null;
         this.updateAvailable = false;
 
-        if (__WEBPACK_SERVE__) {
-            console.debug('serviceWorker disabled for webpack dev server');
-            return;
-        }
+        // Enable service worker in dev for testing
 
         if ('serviceWorker' in navigator && window.appMode !== 'cordova' && window.appMode !== 'android') {
             navigator.serviceWorker.register('/serviceworker.js')

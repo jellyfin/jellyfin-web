@@ -23,6 +23,10 @@ async function loadAudioCapabilities() {
 }
 
 let presetSwitchInterval: NodeJS.Timeout;
+let animationFrameId: number | null = null;
+let isAnimationRunning = false;
+let visibilityHandler: (() => void) | null = null;
+let animateFrame: (() => void) | null = null;
 
 export const butterchurnInstance: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -40,6 +44,11 @@ export const butterchurnInstance: {
             butterchurnInstance.visualizer = null;
         }
         clearInterval(presetSwitchInterval);
+        if (animationFrameId !== null) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+        isAnimationRunning = false;
     }
 
     /* eslint-enable @typescript-eslint/ban-ts-comment */
@@ -113,6 +122,7 @@ function createInitialVisualizer(audioContext: AudioContext, canvas: HTMLCanvasE
 function setupPresetsAndAnimation() {
     let presets: Record<string, unknown>;
     let presetNames: string[];
+    let frameCount = 0;
 
     try {
         presets = butterchurnPresets.getPresets();
@@ -151,29 +161,55 @@ function setupPresetsAndAnimation() {
     butterchurnInstance.nextPreset = loadNextPreset;
 
     // Custom animation loop using requestAnimationFrame
-    let frameCount = 0;
-    const animate = () => {
+    animateFrame = () => {
         if (!isVisible()) {
+            isAnimationRunning = false;
+            animationFrameId = null;
             return;
         }
+
         try {
             butterchurnInstance.visualizer.render();
             frameCount++;
-            if (frameCount % 300 === 0) { // Log every 300 frames (~5 seconds at 60fps)
+            if (frameCount % 300 === 0) {
                 console.debug(`[Butterchurn] Rendered ${frameCount} frames`);
             }
-            requestAnimationFrame(animate);
+            animationFrameId = requestAnimationFrame(animateFrame!);
         } catch (error) {
             console.error('[Butterchurn] Render error:', error);
-            // Stop animation loop on error
+            isAnimationRunning = false;
+            animationFrameId = null;
         }
     };
-    animate();
 
     butterchurnInstance.destroy = () => {
         clearInterval(presetSwitchInterval);
+        if (animationFrameId !== null) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+        isAnimationRunning = false;
+        if (visibilityHandler) {
+            document.removeEventListener('visibilitychange', visibilityHandler);
+            visibilityHandler = null;
+        }
         butterchurnInstance.visualizer.disconnectAudio(masterAudioOutput.mixerNode);
     };
+
+    // Handle visibility changes to pause/resume rendering
+    visibilityHandler = () => {
+        if (isVisible() && !isAnimationRunning && butterchurnInstance.visualizer && animateFrame) {
+            isAnimationRunning = true;
+            animationFrameId = requestAnimationFrame(animateFrame);
+        }
+    };
+
+    document.addEventListener('visibilitychange', visibilityHandler);
+
+    if (!isAnimationRunning && animateFrame) {
+        isAnimationRunning = true;
+        animationFrameId = requestAnimationFrame(animateFrame);
+    }
 }
 
 export async function initializeButterChurn(canvas: HTMLCanvasElement) {
@@ -217,6 +253,12 @@ export async function initializeButterChurn(canvas: HTMLCanvasElement) {
     }
 
     setupPresetsAndAnimation();
+
+    // Start animation if visible
+    if (isVisible() && !isAnimationRunning && butterchurnInstance.visualizer && animateFrame) {
+        isAnimationRunning = true;
+        animationFrameId = requestAnimationFrame(animateFrame);
+    }
 
     // Note: setInterval is already set up inside loadNextPreset() when called at line 119
     // Do NOT add another setInterval here - it would cause presets to change twice as fast

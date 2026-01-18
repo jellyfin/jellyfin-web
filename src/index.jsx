@@ -37,7 +37,7 @@ import './utils/bundleOptimizationAnalysis';
 
 import RootApp from './RootApp';
 
-const supportsFeature = (feature) => safeAppHost.supports(feature);
+const supportsFeature = (feature) => Boolean(safeAppHost.supports(feature));
 
 async function initializeAudioContextEarly() {
     try {
@@ -84,14 +84,13 @@ function setupAudioContextResume() {
 
 // Cleanup audio contexts on page unload to prevent leaks
 window.addEventListener('beforeunload', () => {
-    try {
-        const { masterAudioOutput } = require('./components/audioEngine/master.logic');
+    import('./components/audioEngine/master.logic').then(({ masterAudioOutput }) => {
         if (masterAudioOutput.audioContext && masterAudioOutput.audioContext.state !== 'closed') {
             masterAudioOutput.audioContext.close();
         }
-    } catch {
-        // Ignore if not loaded
-    }
+    // eslint-disable-next-line no-empty-function
+    }).catch(() => {
+    });
 });
 
 // Import the button webcomponent for use throughout the site
@@ -124,6 +123,7 @@ import './styles/librarybrowser.scss';
 
 async function init() {
     // Log current version to console to help out with issue triage and debugging
+    // eslint-disable-next-line no-console
     console.info(
         `[${__PACKAGE_JSON_NAME__}]
 version: ${__PACKAGE_JSON_VERSION__}
@@ -147,11 +147,14 @@ build: ${__JF_BUILD_VERSION__}`);
 
     // Initialize the api client
     let serverUrl = await serverAddress();
+    // eslint-disable-next-line no-undef
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (__WEBPACK_SERVE__ && __DEV_SERVER_PROXY_TARGET__) {
         const devServerUrl = window.location.origin;
         ServerConnections.setDevServerAddress(devServerUrl);
         serverUrl = devServerUrl;
     }
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (serverUrl) {
         ServerConnections.initApiClient(serverUrl);
     }
@@ -209,6 +212,7 @@ build: ${__JF_BUILD_VERSION__}`);
 }
 
 function loadFonts() {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (browser.tv && !browser.android) {
         logger.debug('using system fonts with explicit sizes', { component: 'index' });
         import('./styles/fonts.sized.scss');
@@ -223,31 +227,43 @@ function loadFonts() {
 }
 
 async function loadPlugins() {
+    // eslint-disable-next-line no-console
     console.groupCollapsed('loading installed plugins');
+    // eslint-disable-next-line no-console
     console.dir(pluginManager);
 
     let list = await getPlugins();
     if (!supportsFeature(AppFeature.RemoteControl)) {
         // Disable remote player plugins if not supported
-        list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
-            && !plugin.startsWith('chromecastPlayer'));
+        list = list.filter(plugin => {
+            const name = typeof plugin === 'string' ? plugin : '';
+            return !name.startsWith('sessionPlayer')
+                && !name.startsWith('chromecastPlayer');
+        });
     } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
         // Disable chromecast player in unsupported browsers
-        list = list.filter(plugin => !plugin.startsWith('chromecastPlayer'));
+        list = list.filter(plugin => {
+            const name = typeof plugin === 'string' ? plugin : '';
+            return !name.startsWith('chromecastPlayer');
+        });
     }
 
     // add any native plugins
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (window.NativeShell) {
         list = list.concat(window.NativeShell.getPlugins());
     }
 
     try {
         await Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)));
+        // eslint-disable-next-line no-console
         console.debug('finished loading plugins');
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.warn('failed loading plugins', e);
     }
 
+    // eslint-disable-next-line no-console
     console.groupEnd('loading installed plugins');
 }
 
@@ -268,6 +284,7 @@ function loadPlatformFeatures() {
     if (!browser.tv && !browser.xboxOne) {
         import('./components/playback/playbackorientation');
 
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (window.Notification) {
             import('./components/notifications/notifications');
         }

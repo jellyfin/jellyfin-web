@@ -44,15 +44,25 @@ const Visualizers: React.FC = () => {
     const [isInitialized, setIsInitialized] = useState(!!masterAudioOutput.audioContext);
     const [, forceUpdate] = useState(0);
     const settingsRef = useRef(visualizerSettings);
+    const checkTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         // Poll for audio engine initialization with a 100ms interval
+        // Add a 10 second timeout to prevent infinite polling
         const checkInterval = setInterval(() => {
             if (masterAudioOutput.audioContext && masterAudioOutput.mixerNode) {
                 setIsInitialized(true);
                 clearInterval(checkInterval);
+                if (checkTimeoutRef.current) {
+                    clearTimeout(checkTimeoutRef.current);
+                }
             }
         }, 100);
+
+        // Timeout to stop checking after 10 seconds
+        checkTimeoutRef.current = setTimeout(() => {
+            clearInterval(checkInterval);
+        }, 10000);
 
         // Also poll for settings changes
         const settingsInterval = setInterval(() => {
@@ -67,6 +77,9 @@ const Visualizers: React.FC = () => {
         // Cleanup intervals on unmount
         return () => {
             clearInterval(checkInterval);
+            if (checkTimeoutRef.current) {
+                clearTimeout(checkTimeoutRef.current);
+            }
             clearInterval(settingsInterval);
         };
     }, []);

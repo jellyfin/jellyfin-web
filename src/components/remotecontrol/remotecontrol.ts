@@ -27,7 +27,7 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import './remotecontrol.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-slider/emby-slider';
-import { synchronizeVolumeUI } from 'components/audioEngine/crossfader.logic';
+import { synchronizeVolumeUI } from 'components/audioEngine/audioUtils';
 
 interface PlayerState {
     NowPlayingItem?: any;

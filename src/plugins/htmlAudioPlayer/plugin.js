@@ -7,7 +7,8 @@ import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
 import { MediaError } from 'types/mediaError';
 import { createGainNode, initializeMasterAudio, masterAudioOutput, rampPlaybackGain } from 'components/audioEngine/master.logic';
-import { synchronizeVolumeUI, hijackMediaElementForCrossfade, xDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
+import { xDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
+import { synchronizeVolumeUI } from 'components/audioEngine/audioUtils';
 import { scrollToActivePlaylistItem, triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
 // Lazy load audio utilities and error handling for better bundle splitting
 let audioCapabilities; let audioErrorHandler; let audioUtils;
@@ -56,8 +57,6 @@ function fade(instance, elem, startingVolume) {
     if (instance._hasWebAudio && masterAudioOutput.mixerNode && xDuration.enabled) {
         return new Promise((resolve) => {
             instance._isFadingOut = true;
-
-            hijackMediaElementForCrossfade();
 
             setTimeout(() => {
                 instance._isFadingOut = false;
@@ -157,6 +156,21 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
         return Promise.reject();
     }
 
+    // Check for direct audio file URLs by extension
+    const directAudioExtensions = ['.flac', '.mp3', '.wav', '.ogg', '.aac', '.m4a', '.webm', '.opus'];
+    const isDirectAudioUrl = directAudioExtensions.some(ext => normalizedUrl.endsWith(ext));
+
+    // Check for direct audio stream URLs (e.g., /Audio/{id}/stream)
+    const isDirectAudioStream = normalizedUrl.includes('/audio/') && normalizedUrl.includes('/stream');
+
+    // Check container type from mediaSource
+    const container = mediaSource?.Container?.toLowerCase() || '';
+    const isDirectAudioContainer = ['flac', 'mp3', 'wav', 'ogg', 'aac', 'm4a', 'webm', 'opus'].includes(container);
+
+    if (isDirectAudioUrl || isDirectAudioStream || isDirectAudioContainer) {
+        return Promise.reject();
+    }
+
     // issue head request to get content type
     return new Promise((resolve, reject) => {
         import('../../utils/fetch').then((fetchHelper) => {
@@ -170,7 +184,9 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
                 } else {
                     reject();
                 }
-            }, reject);
+            }, () => {
+                reject();
+            });
         });
     });
 }
@@ -182,6 +198,7 @@ class HtmlAudioPlayer {
         self.name = 'Html Audio Player';
         self.type = PluginType.MediaPlayer;
         self.id = 'htmlaudioplayer';
+        self.isLocalPlayer = true;
 
         // Let any players created by plugins take priority
         self.priority = 1;
@@ -235,12 +252,12 @@ class HtmlAudioPlayer {
             import('../../scripts/settings/userSettings').then((userSettings) => {
                 let normalizationGain;
                 if (userSettings.selectAudioNormalization() === 'TrackGain') {
-                    normalizationGain = options.item.NormalizationGain
-                        ?? options.mediaSource.albumNormalizationGain;
+                    normalizationGain = options.item?.NormalizationGain
+                        ?? options.mediaSource?.albumNormalizationGain;
                 } else if (userSettings.selectAudioNormalization() === 'AlbumGain') {
                     normalizationGain =
-                        options.mediaSource.albumNormalizationGain
-                        ?? options.item.NormalizationGain;
+                        options.mediaSource?.albumNormalizationGain
+                        ?? options.item?.NormalizationGain;
                 }
 
                 if (self._hasWebAudio && self._supportsNormalization) {
@@ -366,7 +383,10 @@ class HtmlAudioPlayer {
         function createMediaElement() {
             let elem = self._mediaElement;
 
-            if (elem && elem.id === 'currentMediaElement') {
+            if (elem && elem.id === 'currentMediaElement' && document.body.contains(elem)) {
+                // Valid existing element, ensure it's registered
+                self._mediaElement = elem;
+                addGainElement(elem);
                 return elem;
             }
 
@@ -386,6 +406,7 @@ class HtmlAudioPlayer {
                 elem.volume = htmlMediaHelper.getSavedVolume();
             }
 
+            // Always set _mediaElement to ensure crossfade system can access it
             self._mediaElement = elem;
 
             addGainElement(elem);

@@ -36,7 +36,7 @@ vi.mock('../../scripts/settings/userSettings', () => ({
 
 // Import internal audio modules (NOT mocked, so we test real coordination)
 import { initializeMasterAudio, createGainNode, removeAudioNodeBundle, audioNodeBus, delayNodeBus, masterAudioOutput } from './master.logic';
-import { hijackMediaElementForCrossfade, setXDuration, xDuration, timeRunningOut } from './crossfader.logic';
+import { setXDuration, xDuration, timeRunningOut, syncManager } from './crossfader.logic';
 
 const createMockAudioContext = () => {
     const createMockAudioParam = () => ({
@@ -101,13 +101,13 @@ describe('Audio Engine Integration', () => {
         xDuration.enabled = true;
         xDuration.fadeOut = 2;
         xDuration.sustain = 0.5;
-        xDuration.disableFade = false;
         // Mock unbind callback
         mockUnbind = vi.fn();
     });
 
     afterEach(() => {
-        vi.runAllTimers();
+        syncManager.stopSync();
+        vi.advanceTimersByTime(200);
         vi.useRealTimers();
         document.body.innerHTML = '';
         (window as any).AudioContext = originalAudioContext;

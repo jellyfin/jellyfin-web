@@ -105,25 +105,25 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
                 }
             }}
         >
-            {isDisplayMirrorSupported && (
+            {isDisplayMirrorSupported ? (
                 <MenuItem onClick={toggleDisplayMirror}>
-                    {isDisplayMirrorEnabled && (
+                    {isDisplayMirrorEnabled ? (
                         <ListItemIcon>
                             <Check />
                         </ListItemIcon>
-                    )}
+                    ) : null}
                     <ListItemText inset={!isDisplayMirrorEnabled}>
                         {globalize.translate('EnableDisplayMirroring')}
                     </ListItemText>
                 </MenuItem>
-            )}
+            ) : null}
 
             <MenuItem onClick={toggleAutoCast}>
-                {isAutoCastEnabled && (
+                {isAutoCastEnabled ? (
                     <ListItemIcon>
                         <Check />
                     </ListItemIcon>
-                )}
+                ) : null}
                 <ListItemText inset={!isAutoCastEnabled}>
                     {globalize.translate('EnableAutoCast')}
                 </ListItemText>

@@ -35,7 +35,7 @@ export function hideAll(page, className, show) {
 }
 
 export function autoFocus(container) {
-    import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
+    import('../../../components/autoFocuser').then(({ default: autoFocuser }) => {
         autoFocuser.autoFocus(container);
     });
 }

@@ -34,6 +34,7 @@ export class BookPlayer {
         this.name = 'Book Player';
         this.type = PluginType.MediaPlayer;
         this.id = 'bookplayer';
+        this.isLocalPlayer = true;
         this.priority = 1;
         this.THEMES = THEMES;
         if (!userSettings.theme() || userSettings.theme() === 'dark') {

@@ -307,3 +307,19 @@ export function smoothFFTData(
 
     return smoothed;
 }
+
+/**
+ * Synchronizes the volume UI controls with the Web Audio gain level.
+ */
+export function synchronizeVolumeUI(): void {
+    const volumeSlider = document.querySelector('.nowPlayingVolumeSlider') as HTMLInputElement;
+    if (volumeSlider) {
+        import('./master.logic').then(({ masterAudioOutput }) => {
+            if (masterAudioOutput.volume !== undefined) {
+                volumeSlider.value = masterAudioOutput.volume.toString();
+                volumeSlider.dispatchEvent(new Event('input', { bubbles: true }));
+                console.debug(`[VolumeSync] Updated UI slider to ${masterAudioOutput.volume}`);
+            }
+        }).catch(() => {});
+    }
+}

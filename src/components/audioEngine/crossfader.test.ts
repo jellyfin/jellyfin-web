@@ -45,15 +45,27 @@ describe('crossfader - sync manager', () => {
     beforeEach(() => {
         vi.clearAllTimers();
         vi.useFakeTimers();
+        syncManager.stopSync();
+        syncManager['elements'].clear();
+        syncManager['observers'].clear();
+        document.body.innerHTML = '';
     });
 
     afterEach(() => {
         vi.useRealTimers();
         syncManager.stopSync();
+        syncManager['elements'].clear();
+        syncManager['observers'].clear();
+        document.body.innerHTML = '';
     });
 
     it('should register and unregister elements', () => {
-        const mockElement = { paused: false, readyState: 3, currentTime: 1 } as HTMLMediaElement;
+        const mockElement = document.createElement('audio');
+        mockElement.src = 'http://example.com/song.mp3';
+        document.body.appendChild(mockElement);
+
+        // Verify element is in DOM
+        expect(mockElement.parentNode).not.toBeNull();
 
         syncManager.registerElement(mockElement, 0);
         expect(syncManager['elements'].has(mockElement)).toBe(true);

@@ -19,7 +19,7 @@ function enableAnimation() {
         return false;
     }
 
-    return browser.supportsCssAnimation();
+    return browser.supportsCssAnimation && browser.supportsCssAnimation();
 }
 
 function removeCenterFocus(dlg) {

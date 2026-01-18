@@ -7,7 +7,8 @@
 
 // Core audio engine (ALWAYS loaded - critical for playback)
 export { masterAudioOutput, initializeMasterAudio, rampPlaybackGain } from './master.logic';
-export { hijackMediaElementForCrossfade, synchronizeVolumeUI, xDuration, getCrossfadeDuration, cancelCrossfadeTimeouts } from './crossfader.logic';
+export { xDuration, getCrossfadeDuration, cancelCrossfadeTimeouts, timeRunningOut, syncManager } from './crossfader.logic';
+export { synchronizeVolumeUI } from './audioUtils';
 
 // AudioWorklets (LAZY loaded - only when advanced audio features needed)
 export const loadAudioWorklets = () => import('./audioWorklets');

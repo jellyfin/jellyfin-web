@@ -23,6 +23,7 @@ export class ComicsPlayer {
         this.name = 'Comics Player';
         this.type = PluginType.MediaPlayer;
         this.id = 'comicsplayer';
+        this.isLocalPlayer = true;
         this.priority = 1;
         this.imageMap = new Map();
 

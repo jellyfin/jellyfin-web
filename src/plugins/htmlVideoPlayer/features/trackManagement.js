@@ -1,4 +1,4 @@
-import { includesAny } from '../../../components/image/imageHelper';
+import { includesAny } from '../../../utils/container';
 
 export function isAudioStreamSupported(stream, deviceProfile, container) {
     const codec = (stream.Codec || '').toLowerCase();

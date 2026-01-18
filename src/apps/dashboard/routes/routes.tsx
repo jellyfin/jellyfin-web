@@ -32,7 +32,7 @@ export const DASHBOARD_APP_ROUTES: RouteObject[] = [
                                 element: <Navigate replace to='/dashboard/plugins' />
                             }
                         ],
-                        errorElement: <ErrorBoundary pageClasses={[ 'type-interior' ]} />
+                        errorElement: <ErrorBoundary />
                     },
 
                     /* NOTE: The metadata editor might deserve a dedicated app in the future */

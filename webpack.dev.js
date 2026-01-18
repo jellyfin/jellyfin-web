@@ -15,7 +15,8 @@ const isWebpackAsset = (pathname) => {
     if (pathname.startsWith('/hot-update')) return true;
     if (pathname.endsWith('.hot-update.json')) return true;
     if (pathname.endsWith('.hot-update.js')) return true;
-    if (/\.(js|css|map|png|jpe?g|svg|gif|webp|ico|woff2?|ttf|eot)$/.test(pathname)) {
+    if (pathname.startsWith('/favicons/')) return true; // Serve favicons as webpack assets
+    if (/\.(js|css|map|png|jpe?g|svg|gif|webp|ico|woff2?|ttf|eot|html)$/.test(pathname)) {
         // Only exclude if it's in /assets/, /static/, or root-level static files
         if (pathname.startsWith('/assets/') || pathname.startsWith('/static/') || pathname.match(/^\/[^/]+\.(js|css|map|png|jpe?g|svg|gif|webp|ico)$/)) {
             return true;

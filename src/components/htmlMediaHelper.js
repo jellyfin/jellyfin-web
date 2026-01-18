@@ -14,7 +14,7 @@ export function saveVolume(value) {
 }
 
 export function getCrossOriginValue(mediaSource) {
-    if (mediaSource.IsRemote) {
+    if (!mediaSource || mediaSource.IsRemote) {
         return null;
     }
 

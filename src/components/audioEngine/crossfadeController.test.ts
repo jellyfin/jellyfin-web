@@ -97,6 +97,9 @@ describe('crossfadeController', () => {
     it('preloads and consumes a track when ready', async () => {
         mocks.ensureAudioNodeBundle.mockReturnValue({ gainNode: { gain: mocks.audioParam } });
 
+        // Mock play() since jsdom doesn't implement it
+        Object.defineProperty(HTMLAudioElement.prototype, 'play', { value: vi.fn().mockReturnValue(Promise.resolve()), writable: true });
+
         const preloadPromise = preloadNextTrack({
             itemId: '1',
             url: 'https://example.com/test.mp3',
@@ -136,6 +139,11 @@ describe('crossfadeController', () => {
 
         // Preload a track first
         mocks.ensureAudioNodeBundle.mockReturnValue({ gainNode: { gain: mocks.audioParam }, crossfadeGainNode: { gain: mocks.audioParam } });
+        
+        // Mock play() since jsdom doesn't implement it
+        const mockPlay = vi.fn().mockReturnValue(Promise.resolve());
+        Object.defineProperty(HTMLAudioElement.prototype, 'play', { value: mockPlay, writable: true });
+        
         const preloadPromise = preloadNextTrack({
             itemId: '1',
             url: 'https://example.com/test.mp3',
