@@ -222,12 +222,10 @@ const ItemsView: FC<ItemsViewProps> = ({
     const hasFilters = Object.values(libraryViewSettings.Filters ?? {}).some(
         (filter) => !!filter
     );
-    const hasSortName = libraryViewSettings.SortBy.includes(
-        ItemSortBy.SortName
-    );
+    const hasSortName = libraryViewSettings.SortBy !== ItemSortBy.Random;
 
     const itemsContainerClass = classNames(
-        'centered padded-left padded-right padded-right-withalphapicker',
+        'padded-left padded-right padded-right-withalphapicker',
         libraryViewSettings.ViewMode === ViewMode.ListView ?
             'vertical-list' :
             'vertical-wrap'
