@@ -100,7 +100,7 @@ interface PreloadState {
 - ✅ Easy to debug
 
 ### Resource Usage
-- ✅ Bandwidth: ~400KB per track (negligible vs audio)
+- ✅ Bandwidth: ~450KB per track (negligible vs audio)
 - ✅ Memory: 6-10MB typical (well within limits)
 - ✅ Cache: SW handles eviction automatically
 
@@ -149,10 +149,10 @@ import { xDuration, timeRunningOut } from 'crossfader.logic';
 
 ### Bandwidth
 ```
-Per track: ~400KB (art + backdrop)
+Per track: ~450KB (art + backdrop)
 100 tracks: ~40MB
 Audio streaming: ~100MB per hour
-Ratio: 0.4% (negligible)
+Ratio: 0.45% (negligible)
 ```
 
 ### Memory

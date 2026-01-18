@@ -17,10 +17,24 @@ type TrackInfo = {
     url: string;
     imageUrl?: string;
     backdropUrl?: string;
+    artistLogoUrl?: string;
     crossOrigin?: string | null;
     volume: number;
     muted: boolean;
     normalizationGainDb?: number;
+};
+
+interface PreloadOptions {
+    itemId: string;
+    url: string;
+    imageUrl?: string;
+    backdropUrl?: string;
+    artistLogoUrl?: string;
+    crossOrigin?: string | null;
+    volume: number;
+    muted: boolean;
+    normalizationGainDb?: number;
+    timeoutMs?: number;
 };
 
 interface PreloadOptions {

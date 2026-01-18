@@ -9,6 +9,7 @@ Features:
 - Service Worker integration for seamless caching
 - Queue image preloading (next 5 tracks)
 - Backdrop image preloading (all rotating images)
+- Artist logo image preloading (track transitions)
 - Cache status tracking (unknown/cached/loading/error)
 - Deduplication of concurrent requests
 - Network timeout handling
@@ -28,6 +29,7 @@ Changes:
 Features:
 - Coordinates audio and image preloading
 - Single method preloads both track and associated images
+- Preloads album art, backdrop, and artist logo
 - Integrates with existing `crossfadeController`
 - Provides status monitoring for debugging
 

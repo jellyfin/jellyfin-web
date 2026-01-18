@@ -2,6 +2,7 @@ interface QueueItem {
     itemId: string;
     imageUrl?: string;
     backdropUrl?: string;
+    artistLogoUrl?: string;
 }
 
 type CacheStatus = 'unknown' | 'cached' | 'loading' | 'error';

@@ -78,6 +78,22 @@ describe('ImagePreloader', () => {
 
         expect(mockFetch).toHaveBeenCalledTimes(1);
       });
+
+      it('should preload artist logo images', async () => {
+        const queueItems = [
+          { itemId: 'track-1', imageUrl: 'https://example.com/image1.jpg', artistLogoUrl: 'https://example.com/logo1.png' },
+          { itemId: 'track-2', imageUrl: 'https://example.com/image2.jpg', artistLogoUrl: 'https://example.com/logo2.png' }
+        ];
+
+        mockFetch.mockResolvedValue({
+          type: 'opaque',
+          ok: true
+        });
+
+        await imagePreloader.preloadQueueImages(queueItems);
+
+        expect(mockFetch).toHaveBeenCalledTimes(4);
+      });
     });
 
     describe('Backdrop Image Preloading', () => {

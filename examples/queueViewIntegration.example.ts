@@ -44,6 +44,7 @@ export class QueueViewExample {
         url: nextTrack.audioUrl,
         imageUrl: nextTrack.imageUrl,
         backdropUrl: nextTrack.backdropUrl,
+        artistLogoUrl: nextTrack.artistLogoUrl,
         crossOrigin: 'anonymous',
         volume: 100,
         muted: false,
@@ -60,6 +61,7 @@ export class QueueViewExample {
     onCrossfadeComplete(newTrack: any) {
       this.updateNowPlayingImage(newTrack.imageUrl);
       this.updateBackdrop(newTrack.backdropUrl);
+      this.updateArtistLogo(newTrack.artistLogoUrl);
     }
 
     private startCrossfade(currentTrack: any, nextTrack: any) {
@@ -79,4 +81,11 @@ export class QueueViewExample {
         backdropElement.style.backgroundImage = `url('${backdropUrl}')`;
       }
     }
-}
+
+    private updateArtistLogo(logoUrl: string) {
+      const logoElement = document.querySelector('.artist-logo') as HTMLImageElement;
+      if (logoElement && logoUrl) {
+        logoElement.src = logoUrl;
+      }
+    }
+  }

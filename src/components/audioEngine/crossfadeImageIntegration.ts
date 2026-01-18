@@ -6,6 +6,7 @@ type CrossfadePreloadOptions = {
     url: string;
     imageUrl?: string;
     backdropUrl?: string;
+    artistLogoUrl?: string;
     crossOrigin?: string | null;
     volume: number;
     muted: boolean;
@@ -28,7 +29,7 @@ class CrossfadeImageIntegration {
         await this.init();
       }
 
-      const { itemId, url, imageUrl, backdropUrl, crossOrigin, volume, muted, normalizationGainDb, timeoutMs } = options;
+      const { itemId, url, imageUrl, backdropUrl, artistLogoUrl, crossOrigin, volume, muted, normalizationGainDb, timeoutMs } = options;
 
       const audioPreload = preloadNextTrack({
         itemId,
@@ -51,6 +52,12 @@ class CrossfadeImageIntegration {
       if (backdropUrl) {
         imagePromises.push(
           imagePreloader.preloadImage(backdropUrl).then(() => {})
+        );
+      }
+
+      if (artistLogoUrl) {
+        imagePromises.push(
+          imagePreloader.preloadImage(artistLogoUrl).then(() => {})
         );
       }
 
