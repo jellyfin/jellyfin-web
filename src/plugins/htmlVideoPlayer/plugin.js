@@ -204,6 +204,10 @@ export class HtmlVideoPlayer {
     /**
      * @type {boolean}
      */
+    isLocalPlayer = true;
+    /**
+     * @type {boolean}
+     */
     isFetching = false;
     /**
      * @type {HTMLDivElement | null | undefined}
