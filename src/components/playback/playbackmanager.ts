@@ -933,13 +933,53 @@ export class PlaybackManager {
 
     // Core playback methods - demonstrating full functionality implementation
 
-    play(options?: any): Promise<void> {
-        // Complex play logic would go here
-        // - Validate options
-        // - Select appropriate player
-        // - Handle queuing and playback start
-        // - Trigger events
-        return Promise.resolve();
+    async play(options?: any): Promise<void> {
+        if (!options || typeof options !== 'object') {
+            // Resume playback if no options provided
+            const player = this._currentPlayer;
+            if (player?.unpause) {
+                player.unpause();
+            }
+            return;
+        }
+
+        // hijackMediaElementForCrossfade(); // TODO: fix LSP error
+
+        normalizePlayOptions(options);
+
+        if (this._currentPlayer) {
+            if (options.enableRemotePlayers === false && !this._currentPlayer.isLocalPlayer) {
+                throw new Error('Remote players disabled');
+            }
+
+            if (!this._currentPlayer.isLocalPlayer) {
+                return this._currentPlayer.play(options);
+            }
+        }
+
+        if (options.fullscreen) {
+            // loading.show(); // TODO: implement loading
+        }
+
+        if (options.items) {
+            const items = await this.translateItemsForPlayback(options.items, options);
+            const allItems = await this.getAdditionalParts(items);
+            const flattened = allItems.flat();
+            return this.playWithIntros(flattened, options);
+        } else {
+            if (!options.serverId) {
+                throw new Error('serverId required!');
+            }
+
+            // TODO: implement getItemsForPlayback
+            // const result = await getItemsForPlayback(options.serverId, { Ids: options.ids.join(',') });
+            // const items = await this.translateItemsForPlayback(result.Items, options);
+            // const allItems = await this.getAdditionalParts(items);
+            // const flattened = allItems.flat();
+            // return this.playWithIntros(flattened, options);
+
+            throw new Error('Playing by IDs not yet implemented');
+        }
     }
 
     pause(player?: Player): void {
@@ -1094,6 +1134,29 @@ export class PlaybackManager {
         // Move item to new position - implementation needed
     }
 
+    // Repeat and shuffle controls
+    toggleQueueShuffleMode(): void {
+        if (this._playQueueManager) {
+            const currentShuffle = this._playQueueManager.isShuffled();
+            this._playQueueManager.setShuffle(!currentShuffle);
+        }
+    }
+
+    getRepeatMode(): string {
+        // Would need to store repeat state
+        return this._repeatMode || 'RepeatNone';
+    }
+
+    setRepeatMode(mode: string): void {
+        this._repeatMode = mode;
+        // Apply to player/queue as needed
+        if (this._currentPlayer?.setRepeatMode) {
+            this._currentPlayer.setRepeatMode(mode);
+        }
+    }
+
+    private _repeatMode: string = 'RepeatNone';
+
     // Volume controls
     getVolume(player?: Player): number {
         const targetPlayer = player || this._currentPlayer;
@@ -1111,6 +1174,163 @@ export class PlaybackManager {
     }
 
     // Implementing final batch of methods for comprehensive functionality
+
+    getMaxStreamingBitrate(player?: Player): number {
+        // Return default max bitrate
+        return 10000000; // 10 Mbps
+    }
+
+    private async translateItemsForPlayback(items: any[], options: any): Promise<any[]> {
+        if (!items || items.length === 0) return [];
+
+        // Sort items if needed based on options.ids
+        if (items.length > 1 && options?.ids) {
+            items.sort((a: any, b: any) => {
+                return options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id);
+            });
+        }
+
+        // Expand folders to their audio children
+        const expandedItems: any[] = [];
+        for (const item of items) {
+            if (item.IsFolder) {
+                // For folders, fetch children - simplified version
+                // In full implementation, would call API to get children
+                expandedItems.push(item); // For now, just add the folder
+            } else {
+                expandedItems.push(item);
+            }
+        }
+
+        return expandedItems;
+    }
+
+    private async getAdditionalParts(items: any[]): Promise<any[][]> {
+        const result: any[][] = [];
+        for (const item of items) {
+            let parts = [item];
+            // Fetch additional parts for multi-part items
+            if (item.PartCount && item.PartCount > 1 && (item.Type === 'Movie' || item.Type === 'Episode')) {
+                try {
+                    const apiClient = ServerConnections.getApiClient(item.ServerId);
+                    // Would need user ID - simplified
+                    // const additionalParts = await apiClient.getAdditionalVideoParts(userId, item.Id);
+                    // if (additionalParts.Items.length) {
+                    //     parts = [item, ...additionalParts.Items];
+                    // }
+                } catch (error) {
+                    console.warn('Failed to fetch additional parts:', error);
+                }
+            }
+            result.push(parts);
+        }
+        return result;
+    }
+
+    private async playWithIntros(items: any[], options: any): Promise<void> {
+        let playStartIndex = options.startIndex || 0;
+        let firstItem = items[playStartIndex];
+
+        if (!firstItem) {
+            playStartIndex = 0;
+            firstItem = items[0];
+        }
+
+        if (!firstItem) {
+            throw new Error('No items to play');
+        }
+
+        // Simplified - no intros for now
+        await this.playInternal(firstItem, options);
+        this._playQueueManager?.setPlaylist(items);
+    }
+
+    private async playInternal(item: any, options: any): Promise<void> {
+        if (!item) {
+            throw new Error('No item to play');
+        }
+
+        // Normalize options
+        normalizePlayOptions(options);
+
+        // Get player
+        const player = this.getPlayer(item, options);
+        if (!player) {
+            throw new Error('No player found for the requested media');
+        }
+
+        // Set as current player if different
+        if (player !== this._currentPlayer) {
+            this.setCurrentPlayerInternal(player, { id: player.id || player.name });
+        }
+
+        // For non-server items or books, play directly
+        if (!this.isServerItem(item) || item.MediaType === 'Book') {
+            const streamInfo = this.createStreamInfoFromUrlItem(item);
+            streamInfo.fullscreen = options.fullscreen;
+            return player.play(streamInfo);
+        }
+
+        // For server items, need to get device profile and playback info
+        const deviceProfile = await player.getDeviceProfile(item);
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
+
+        const playbackOptions = {
+            mediaSourceId: options.mediaSourceId,
+            audioStreamIndex: options.audioStreamIndex,
+            subtitleStreamIndex: options.subtitleStreamIndex,
+            startPositionTicks: options.startPositionTicks,
+            maxBitrate: options.maxBitrate || this.getMaxStreamingBitrate(player),
+            fullscreen: options.fullscreen
+        };
+
+        const playbackInfo = await this.getPlaybackInfo(player, apiClient, item, deviceProfile, playbackOptions);
+        const streamInfo = await this.createStreamInfo(item, playbackInfo, playbackOptions);
+
+        return player.play(streamInfo);
+    }
+
+    private getPlayer(item: any, options: any): Player | null {
+        let player = this._currentPlayer;
+        if (!player || !player.canPlayMediaType?.(item.MediaType)) {
+            player = this.players.find(p => p.canPlayMediaType?.(item.MediaType));
+        }
+        return player || null;
+    }
+
+    private isServerItem(item: any): boolean {
+        return !!(item.ServerId && item.Id);
+    }
+
+    private createStreamInfoFromUrlItem(item: any): any {
+        return {
+            url: item.Url,
+            mediaType: item.MediaType,
+            title: item.Name,
+            fullscreen: false
+        };
+    }
+
+    private async getPlaybackInfo(player: Player, apiClient: any, item: any, deviceProfile: any, options: any): Promise<any> {
+        // Simplified - would need full implementation
+        return {
+            MediaSources: [item],
+            PlaySessionId: 'session-' + Date.now()
+        };
+    }
+
+    private async createStreamInfo(item: any, playbackInfo: any, options: any): Promise<any> {
+        // Simplified stream info creation
+        const mediaSource = playbackInfo.MediaSources[0];
+        return {
+            url: mediaSource.Path || mediaSource.DirectStreamUrl,
+            mediaType: item.MediaType,
+            title: item.Name,
+            fullscreen: options.fullscreen,
+            playSessionId: playbackInfo.PlaySessionId,
+            startPositionTicks: options.startPositionTicks
+        };
+    }
 
     isPlaying(player?: Player): boolean {
         const targetPlayer = player || this._currentPlayer;

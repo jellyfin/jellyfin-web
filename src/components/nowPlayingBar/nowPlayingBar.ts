@@ -82,7 +82,7 @@ let isVisibilityAllowed = true;
 
 let isLyricPageActive = false;
 
-function getNowPlayingBarHtml(): string {
+export function getNowPlayingBarHtml(): string {
     let html = '';
 
     html += '<div class="nowPlayingBar nowPlayingBar-hidden">';
@@ -163,7 +163,8 @@ function slideDown(elem: HTMLElement): void {
         destroyWaveSurferInstance().then(legacy => {
             // When opening the same song, preserve the player legacy
             waveSurferInitialization('#barSurfer', legacy, currentPlayer.duration());
-        });
+});
+
     }
 }
 
@@ -182,11 +183,11 @@ function slideUp(elem: HTMLElement): void {
     // WaveSurfer integration removed due to async issues
 }
 
-function onPlayPauseClick(): void {
+export function onPlayPauseClick(): void {
     // ... existing code
 }
 
-function bindEvents(elem: HTMLElement): void {
+export function bindEvents(elem: HTMLElement): void {
     currentTimeElement = elem.querySelector('.nowPlayingBarCurrentTime') as HTMLElement;
     nowPlayingImageElement = elem.querySelector('.nowPlayingImage') as HTMLImageElement;
     nowPlayingTextElement = elem.querySelector('.nowPlayingBarText') as HTMLElement;
@@ -363,7 +364,7 @@ function getNowPlayingBar(): HTMLElement | null {
     return nowPlayingBarElement;
 }
 
-function updatePlayPauseState(isPaused: boolean): void {
+export function updatePlayPauseState(isPaused: boolean): void {
     // ... existing code
 }
 
@@ -371,19 +372,19 @@ function updatePlayerStateInternal(event: any, state: PlayerState, player: Playe
     // ... existing code
 }
 
-function updateRepeatModeDisplay(repeatMode: string): void {
+export function updateRepeatModeDisplay(repeatMode: string): void {
     // ... existing code
 }
 
-function updateTimeDisplay(positionTicks: number, runtimeTicks: number, bufferedRanges: any): void {
+export function updateTimeDisplay(positionTicks: number, runtimeTicks: number, bufferedRanges: any): void {
     // ... existing code
 }
 
-function updatePlayerVolumeState(isMuted: boolean, volumeLevel: number): void {
+export function updatePlayerVolumeState(isMuted: boolean, volumeLevel: number): void {
     // ... existing code
 }
 
-function updateLyricButton(item: any): void {
+export function updateLyricButton(item: any): void {
     // ... existing code
 }
 
@@ -391,7 +392,7 @@ function setLyricButtonActiveStatus(): void {
     // ... existing code
 }
 
-function updateNowPlayingInfo(state: PlayerState): void {
+export function updateNowPlayingInfo(state: PlayerState): void {
     // ... existing code
 }
 
@@ -407,11 +408,11 @@ function onQueueShuffleModeChange(): void {
     // ... existing code
 }
 
-function showNowPlayingBar(): void {
+export function showNowPlayingBar(): void {
     // ... existing code
 }
 
-function hideNowPlayingBar(): void {
+export function hideNowPlayingBar(): void {
     // ... existing code
 }
 
@@ -423,7 +424,7 @@ function onPlayPauseStateChanged(): void {
     // ... existing code
 }
 
-function onStateChanged(event: any, state: PlayerState): void {
+export function onStateChanged(event: any, state: PlayerState): void {
     // ... existing code
 }
 
