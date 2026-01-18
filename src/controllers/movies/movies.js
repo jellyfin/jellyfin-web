@@ -31,7 +31,7 @@ export default function (view, params, tabContent, options) {
     }
 
     function playAll() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then((item) => {
             playbackManager.play({
                 items: [item]
             });
@@ -187,7 +187,7 @@ export default function (view, params, tabContent, options) {
         const alphaPickerElement = tabElement.querySelector('.alphaPicker');
 
         if (alphaPickerElement) {
-            alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
+            alphaPickerElement.addEventListener('alphavaluechanged', (e) => {
                 const newValue = e.detail.value;
                 if (newValue === '#') {
                     query.NameLessThan = 'A';
@@ -219,7 +219,7 @@ export default function (view, params, tabContent, options) {
         const btnSort = tabElement.querySelector('.btnSort');
 
         if (btnSort) {
-            btnSort.addEventListener('click', function (e) {
+            btnSort.addEventListener('click', (e) => {
                 libraryBrowser.showSortMenu({
                     items: [{
                         name: globalize.translate('Name'),
@@ -266,7 +266,7 @@ export default function (view, params, tabContent, options) {
         btnSelectView.addEventListener('click', (e) => {
             libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
         });
-        btnSelectView.addEventListener('layoutchange', function (e) {
+        btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;
             userSettings.set(savedViewKey, viewStyle);
             query.StartIndex = 0;

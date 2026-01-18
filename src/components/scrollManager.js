@@ -591,8 +591,8 @@ export function scrollToElement(element, smooth) {
 }
 
 if (isEnabled()) {
-    dom.addEventListener(window, 'focusin', function(e) {
-        setTimeout(function() {
+    dom.addEventListener(window, 'focusin', (e) => {
+        setTimeout(() => {
             scrollToElement(e.target, useSmoothScroll());
         }, 0);
     }, { capture: true });

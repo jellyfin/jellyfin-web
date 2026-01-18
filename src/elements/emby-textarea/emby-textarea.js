@@ -112,11 +112,11 @@ EmbyTextAreaPrototype.attachedCallback = function () {
     label.htmlFor = this.id;
     parentNode.insertBefore(label, this);
 
-    this.addEventListener('focus', function () {
+    this.addEventListener('focus', () => {
         label.classList.add('textareaLabelFocused');
         label.classList.remove('textareaLabelUnfocused');
     });
-    this.addEventListener('blur', function () {
+    this.addEventListener('blur', () => {
         label.classList.remove('textareaLabelFocused');
         label.classList.add('textareaLabelUnfocused');
     });

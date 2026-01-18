@@ -51,10 +51,10 @@ const HomePage: React.FC = () => {
     if (isLoading) {
         return (
             <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="200px"
+                display='flex'
+                justifyContent='center'
+                alignItems='center'
+                minHeight='200px'
             >
                 <CircularProgress />
             </Box>
@@ -63,13 +63,13 @@ const HomePage: React.FC = () => {
 
     return (
         <Box sx={{ p: 3 }}>
-            <Typography variant="h4" component="h1" gutterBottom sx={{ mb: 4 }}>
+            <Typography variant='h4' component='h1' gutterBottom sx={{ mb: 4 }}>
                 {globalize.translate('Home')}
             </Typography>
 
             {homeData.map((section) => (
                 <Box key={section.id} sx={{ mb: 4 }}>
-                    <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 2 }}>
+                    <Typography variant='h5' component='h2' gutterBottom sx={{ mb: 2 }}>
                         {section.name}
                     </Typography>
 
@@ -89,7 +89,7 @@ const HomePage: React.FC = () => {
                                 >
                                     <Card sx={{ height: '100%', cursor: 'pointer', transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.02)' } }}>
                                         <CardMedia
-                                            component="div"
+                                            component='div'
                                             sx={{
                                                 height: 120,
                                                 backgroundColor: 'grey.300',
@@ -98,14 +98,14 @@ const HomePage: React.FC = () => {
                                                 justifyContent: 'center'
                                             }}
                                         >
-                                            <Typography variant="h6" color="text.secondary">
+                                            <Typography variant='h6' color='text.secondary'>
                                                 {section.route?.includes('music') ? '🎵' :
-                                                 section.route?.includes('movies') ? '🎬' :
-                                                 section.route?.includes('tv') ? '📺' : '📺'}
+                                                    section.route?.includes('movies') ? '🎬' :
+                                                        section.route?.includes('tv') ? '📺' : '📺'}
                                             </Typography>
                                         </CardMedia>
                                         <CardContent sx={{ p: 1 }}>
-                                            <Typography variant="body2" noWrap>
+                                            <Typography variant='body2' noWrap>
                                                 Media Item {i + 1}
                                             </Typography>
                                         </CardContent>

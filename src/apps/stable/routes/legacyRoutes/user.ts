@@ -1,19 +1,19 @@
 import { LegacyRoute } from '../../../../components/router/LegacyRoute';
 
 export const LEGACY_USER_ROUTES: LegacyRoute[] = [
-     {
+    {
         path: 'livetv',
         pageProps: {
             controller: 'livetv/livetvsuggested',
             view: 'livetv.html'
         }
-     }, {
-         path: 'lyrics',
-         pageProps: {
-             controller: 'lyrics',
-             view: 'lyrics.html'
-         }
-     }, {
+    }, {
+        path: 'lyrics',
+        pageProps: {
+            controller: 'lyrics',
+            view: 'lyrics.html'
+        }
+    }, {
         path: 'mypreferencescontrols',
         pageProps: {
             controller: 'user/controls/index',
@@ -43,5 +43,5 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             controller: 'user/subtitles/index',
             view: 'user/subtitles/index.html'
         }
-     }
+    }
 ];

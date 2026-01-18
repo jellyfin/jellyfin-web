@@ -23,7 +23,7 @@ function init(instance) {
     if (layoutManager.tv) {
         subtitleSyncSlider.classList.add('focusable');
         // HACK: Delay to give time for registered element attach (Firefox)
-        setTimeout(function () {
+        setTimeout(() => {
             subtitleSyncSlider.enableKeyboardDragging();
         }, 0);
     }
@@ -95,7 +95,7 @@ function init(instance) {
             + '</h1>';
     };
 
-    subtitleSyncCloseButton.addEventListener('click', function () {
+    subtitleSyncCloseButton.addEventListener('click', () => {
         playbackManager.disableShowingSubtitleOffset(player);
         SubtitleSync.prototype.toggle('forceToHide');
     });

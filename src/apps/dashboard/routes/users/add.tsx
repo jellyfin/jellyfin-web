@@ -137,9 +137,9 @@ const UserNew = () => {
                     user.Policy.EnabledFolders = [];
 
                     if (!user.Policy.EnableAllFolders) {
-                        user.Policy.EnabledFolders = Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (i) {
+                        user.Policy.EnabledFolders = Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), (i) => {
                             return i.checked;
-                        }).map(function (i) {
+                        }).map((i) => {
                             return i.getAttribute('data-id');
                         });
                     }
@@ -148,9 +148,9 @@ const UserNew = () => {
                     user.Policy.EnabledChannels = [];
 
                     if (!user.Policy.EnableAllChannels) {
-                        user.Policy.EnabledChannels = Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (i) {
+                        user.Policy.EnabledChannels = Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), (i) => {
                             return i.checked;
-                        }).map(function (i) {
+                        }).map((i) => {
                             return i.getAttribute('data-id');
                         });
                     }

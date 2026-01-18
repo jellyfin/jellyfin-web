@@ -130,7 +130,7 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
         promise = ApiClient.getItems(userId, options);
     }
 
-    return promise.then(function (result) {
+    return promise.then((result) => {
         let html = '';
 
         if (result.Items.length) {
@@ -192,13 +192,13 @@ export function loadSections(page, userId, topParentId, types) {
     const sectionid = getParameterByName('sectionid');
 
     if (sectionid) {
-        sections = sections.filter(function (s) {
+        sections = sections.filter((s) => {
             return s.id === sectionid;
         });
     }
 
     if (types) {
-        sections = sections.filter(function (s) {
+        sections = sections.filter((s) => {
             return types.indexOf(s.id) !== -1;
         });
     }
@@ -223,7 +223,7 @@ export function loadSections(page, userId, topParentId, types) {
         promises.push(loadSection(elem, userId, topParentId, section, sections.length === 1));
     }
 
-    Promise.all(promises).then(function () {
+    Promise.all(promises).then(() => {
         loading.hide();
     });
 }

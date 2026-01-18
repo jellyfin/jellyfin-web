@@ -8,7 +8,6 @@
  */
 
 const fs = require('fs');
-const path = require('path');
 const { glob } = require('glob');
 
 class AudioEngineOptimizer {
@@ -66,8 +65,8 @@ class AudioEngineOptimizer {
     console.log('   🔄 LAZY LOAD: AudioWorklets (delay, biquad, limiter, gain)');
     console.log('   🔄 LAZY LOAD: crossfadeController (advanced features)');
 
-    const totalLazyCandidates = audioImports.audioCapabilities + audioImports.audioErrorHandler +
-                               audioImports.audioUtils + audioImports.audioWorklets + audioImports.crossfadeController;
+    const totalLazyCandidates = audioImports.audioCapabilities + audioImports.audioErrorHandler
+                               + audioImports.audioUtils + audioImports.audioWorklets + audioImports.crossfadeController;
 
     console.log(`\n💾 Estimated Bundle Impact: ${totalLazyCandidates} lazy-loaded components`);
     console.log('   Expected reduction: 2-4MB from initial bundle');

@@ -1,4 +1,5 @@
 /* Critical CSS - Inline styles for initial load performance */
+
 /* Extracted from site.scss and other critical styles */
 
 * {
@@ -24,6 +25,7 @@ body {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }

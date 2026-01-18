@@ -25,7 +25,7 @@ function getUpcomingPromise(context, params) {
 }
 
 function loadUpcoming(context, params, promise) {
-    promise.then(function (result) {
+    promise.then((result) => {
         const items = result.Items;
 
         if (items.length) {

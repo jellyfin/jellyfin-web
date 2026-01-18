@@ -455,13 +455,13 @@ const scrollerFactory = function (frame, options) {
         // Bind dragging events
         if (transform) {
             if (isTouch) {
-                dragTouchEvents.forEach(function (eventName) {
+                dragTouchEvents.forEach((eventName) => {
                     dom.addEventListener(document, eventName, dragHandler, {
                         passive: true
                     });
                 });
             } else {
-                dragMouseEvents.forEach(function (eventName) {
+                dragMouseEvents.forEach((eventName) => {
                     dom.addEventListener(document, eventName, dragHandler, {
                         passive: true
                     });
@@ -528,20 +528,20 @@ const scrollerFactory = function (frame, options) {
     function dragEnd() {
         dragging.released = true;
 
-        dragTouchEvents.forEach(function (eventName) {
+        dragTouchEvents.forEach((eventName) => {
             dom.removeEventListener(document, eventName, dragHandler, {
                 passive: true
             });
         });
 
-        dragMouseEvents.forEach(function (eventName) {
+        dragMouseEvents.forEach((eventName) => {
             dom.removeEventListener(document, eventName, dragHandler, {
                 passive: true
             });
         });
 
         // Make sure that disableOneEvent is not active in next tick.
-        setTimeout(function () {
+        setTimeout(() => {
             dragging.source.removeEventListener('click', disableOneEvent);
         });
 

@@ -13,10 +13,10 @@ function isM3uVariant(type) {
 }
 
 function fillTypes(view, currentId) {
-    return ApiClient.getJSON(ApiClient.getUrl('LiveTv/TunerHosts/Types')).then(function (types) {
+    return ApiClient.getJSON(ApiClient.getUrl('LiveTv/TunerHosts/Types')).then((types) => {
         const selectType = view.querySelector('.selectType');
         let html = '';
-        html += types.map(function (tuner) {
+        html += types.map((tuner) => {
             return '<option value="' + tuner.Id + '">' + tuner.Name + '</option>';
         }).join('');
         html += '<option value="other">';
@@ -35,8 +35,8 @@ function reload(view, providerId) {
     view.querySelector('.txtDevicePath').value = '';
 
     if (providerId) {
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            const info = config.TunerHosts.filter(function (i) {
+        ApiClient.getNamedConfiguration('livetv').then((config) => {
+            const info = config.TunerHosts.filter((i) => {
                 return i.Id === providerId;
             })[0];
             fillTunerHostInfo(view, info);
@@ -102,10 +102,10 @@ function submitForm(page) {
         url: ApiClient.getUrl('LiveTv/TunerHosts'),
         data: JSON.stringify(info),
         contentType: 'application/json'
-    }).then(function () {
+    }).then(() => {
         Dashboard.processServerConfigurationUpdateResult();
         Dashboard.navigate('dashboard/livetv');
-    }, function () {
+    }, () => {
         loading.hide();
         Dashboard.alert({
             message: globalize.translate('ErrorSavingTvProvider')
@@ -221,25 +221,25 @@ export default function (view, params) {
         view.querySelector('.btnDetect').classList.remove('hide');
     }
 
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         const currentId = params.id;
-        fillTypes(view, currentId).then(function () {
+        fillTypes(view, currentId).then(() => {
             reload(view, currentId);
         });
     });
-    view.querySelector('form').addEventListener('submit', function (e) {
+    view.querySelector('form').addEventListener('submit', (e) => {
         submitForm(view);
         e.preventDefault();
         e.stopPropagation();
         return false;
     });
     view.querySelector('.selectType').addEventListener('change', onTypeChange);
-    view.querySelector('.btnDetect').addEventListener('click', function () {
-        getDetectedDevice().then(function (info) {
+    view.querySelector('.btnDetect').addEventListener('click', () => {
+        getDetectedDevice().then((info) => {
             fillTunerHostInfo(view, info);
         });
     });
-    view.querySelector('.btnSelectPath').addEventListener('click', function () {
+    view.querySelector('.btnSelectPath').addEventListener('click', () => {
         import('components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({

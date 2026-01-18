@@ -11,7 +11,7 @@ import './components/visualizer/visualizers.scss';
 
 import RootAppRouter from 'RootAppRouter';
 
-const useReactQueryDevtools = window.Proxy // '@tanstack/query-devtools' requires 'Proxy', which cannot be polyfilled for legacy browsers
+const useReactQueryDevtools = typeof window.Proxy !== 'undefined' // '@tanstack/query-devtools' requires 'Proxy', which cannot be polyfilled for legacy browsers
     && !browser.tv; // Don't use devtools on the TV as the navigation is weird
 
 const RootApp = () => (

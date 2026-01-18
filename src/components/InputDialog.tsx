@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
 import TextField from '@mui/material/TextField/TextField';
 import Stack from '@mui/material/Stack/Stack';
+import globalize from 'lib/globalize';
 
 interface InputDialogProps extends DialogProps {
     title: string;

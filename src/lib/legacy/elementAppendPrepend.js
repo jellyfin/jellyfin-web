@@ -26,7 +26,7 @@
 
 // Source: https://github.com/jserz/js_piece/blob/master/DOM/ParentNode/append()/append().md
 (function (arr) {
-    arr.forEach(function (item) {
+    arr.forEach((item) => {
         if (Object.prototype.hasOwnProperty.call(item, 'append')) {
             return;
         }
@@ -38,7 +38,7 @@
                 const argArr = Array.prototype.slice.call(arguments);
                 const docFrag = document.createDocumentFragment();
 
-                argArr.forEach(function (argItem) {
+                argArr.forEach((argItem) => {
                     const isNode = argItem instanceof Node;
                     docFrag.appendChild(isNode ? argItem : document.createTextNode(String(argItem)));
                 });
@@ -51,7 +51,7 @@
 
 // Source: https://github.com/jserz/js_piece/blob/master/DOM/ParentNode/prepend()/prepend().md
 (function (arr) {
-    arr.forEach(function (item) {
+    arr.forEach((item) => {
         if (Object.prototype.hasOwnProperty.call(item, 'prepend')) {
             return;
         }
@@ -63,7 +63,7 @@
                 const argArr = Array.prototype.slice.call(arguments);
                 const docFrag = document.createDocumentFragment();
 
-                argArr.forEach(function (argItem) {
+                argArr.forEach((argItem) => {
                     const isNode = argItem instanceof Node;
                     docFrag.appendChild(isNode ? argItem : document.createTextNode(String(argItem)));
                 });

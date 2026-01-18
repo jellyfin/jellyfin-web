@@ -173,7 +173,7 @@ export function loadLiveTV(
         EnableImageTypes: 'Primary,Thumb,Backdrop',
         EnableTotalRecordCount: false,
         Fields: 'ChannelInfo,PrimaryImageAspectRatio'
-    }).then(function (result) {
+    }).then((result) => {
         if (result.Items?.length) {
             buildSection(elem, apiClient.serverId(), options);
         }

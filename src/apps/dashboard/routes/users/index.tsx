@@ -119,7 +119,7 @@ const UserProfiles = () => {
                 text,
                 confirmText: globalize.translate('Delete'),
                 primary: 'delete'
-            }).then(function () {
+            }).then(() => {
                 deleteUser.mutate({
                     userId: id
                 });

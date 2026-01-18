@@ -198,10 +198,10 @@ export class UserSettings implements UserSettingsInstance {
         }
 
         applyDevServerAddress(apiClient);
-        return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result: any) {
+        return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then((result: any) => {
             result.CustomPrefs = result.CustomPrefs || {};
             self.displayPrefs = result;
-        }).catch(function (error: any) {
+        }).catch((error: any) => {
             console.warn('[UserSettings] Failed to load server preferences:', error);
             self.displayPrefs = { CustomPrefs: {} };
         });
@@ -232,7 +232,7 @@ export class UserSettings implements UserSettingsInstance {
 
         let result;
         try {
-            result = appSettings.set(name, value, userId);
+            result = appSettings.set(name, value || undefined, userId || undefined);
         } catch (error) {
             console.error('[UserSettings] Failed to save to local storage:', error);
             throw error;
@@ -259,7 +259,7 @@ export class UserSettings implements UserSettingsInstance {
             }
         }
 
-        return appSettings.get(name, userId);
+        return appSettings.get(name, userId || undefined);
     }
 
     serverConfig(config?: any): any | Promise<any> {
@@ -268,7 +268,7 @@ export class UserSettings implements UserSettingsInstance {
             return apiClient!.updateUserConfiguration(this.currentUserId!, config);
         }
 
-        return apiClient!.getUser(this.currentUserId!).then(function (user: any): any {
+        return apiClient!.getUser(this.currentUserId!).then((user: any): any => {
             return user.Configuration;
         });
     }
@@ -342,7 +342,7 @@ export class UserSettings implements UserSettingsInstance {
 
         let raw = this.get('visualizerConfiguration', true);
         if (!raw) {
-            raw = appSettings.get('visualizerConfiguration', this.currentUserId);
+            raw = appSettings.get('visualizerConfiguration', this.currentUserId || undefined);
         }
         if (!raw) {
             setVisualizerSettings(null);

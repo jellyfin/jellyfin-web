@@ -449,8 +449,8 @@ export async function embed(parent, contentType, libraryOptions) {
     parent.innerHTML = globalize.translateHtml(template);
     populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
     const promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];
-    Promise.all(promises).then(function() {
-        return setContentType(parent, contentType).then(function() {
+    Promise.all(promises).then(() => {
+        return setContentType(parent, contentType).then(() => {
             libraryOptions && setLibraryOptions(parent, libraryOptions);
             bindEvents(parent);
         });

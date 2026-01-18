@@ -9,8 +9,8 @@ const IMAGE_CACHE = `jellyfin-images-${CACHE_VERSION}`;
 // Cache size limits (in MB)
 const CACHE_LIMITS = {
     [STATIC_CACHE]: 50, // 50MB for static assets
-    [API_CACHE]: 20,    // 20MB for API responses
-    [IMAGE_CACHE]: 100  // 100MB for images
+    [API_CACHE]: 20, // 20MB for API responses
+    [IMAGE_CACHE]: 100 // 100MB for images
 };
 
 // Static assets to cache on install - dynamically generated based on webpack output
@@ -60,9 +60,9 @@ self.addEventListener('activate', (event) => {
             caches.keys().then((cacheNames) => {
                 return Promise.all(
                     cacheNames.map((cacheName) => {
-                        if (cacheName !== STATIC_CACHE &&
-                            cacheName !== API_CACHE &&
-                            cacheName !== IMAGE_CACHE) {
+                        if (cacheName !== STATIC_CACHE
+                            && cacheName !== API_CACHE
+                            && cacheName !== IMAGE_CACHE) {
                             console.log('[ServiceWorker] Deleting old cache:', cacheName);
                             return caches.delete(cacheName);
                         }
@@ -124,23 +124,23 @@ function isStaticAsset(url) {
 
 function isApiRequest(url) {
     const path = url.pathname;
-    return path.includes('/emby/') ||
-           path.includes('/jellyfin/') ||
-           path.includes('/api/') ||
-           path.includes('/Items/') ||
-           path.includes('/Users/') ||
-           path.includes('/System/');
+    return path.includes('/emby/')
+           || path.includes('/jellyfin/')
+           || path.includes('/api/')
+           || path.includes('/Items/')
+           || path.includes('/Users/')
+           || path.includes('/System/');
 }
 
 function isImageRequest(url) {
     const path = url.pathname;
     const imageExtensions = /\.(png|jpg|jpeg|gif|svg|webp|ico|bmp|tiff?)$/i;
 
-    return imageExtensions.test(path) ||
-           path.includes('/images/') ||
-           path.includes('/thumbnails/') ||
-           path.includes('/logos/') ||
-           path.includes('/backdrop/');
+    return imageExtensions.test(path)
+           || path.includes('/images/')
+           || path.includes('/thumbnails/')
+           || path.includes('/logos/')
+           || path.includes('/backdrop/');
 }
 
 // Cache size management
@@ -261,7 +261,7 @@ function getApiClient(serverId) {
 }
 
 function executeAction(action, data, serverId) {
-    return getApiClient(serverId).then(function (apiClient) {
+    return getApiClient(serverId).then((apiClient) => {
         switch (action) {
             case 'cancel-install':
                 return apiClient.cancelPackageInstallation(data.id);
@@ -367,7 +367,7 @@ async function estimateCacheSize(cache) {
 }
 
 /* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
-self.addEventListener('notificationclick', function (event) {
+self.addEventListener('notificationclick', (event) => {
     const notification = event.notification;
     notification.close();
 

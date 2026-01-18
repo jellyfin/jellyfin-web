@@ -82,7 +82,7 @@ export default function (view, params, tabContent) {
             EnableTotalRecordCount: false,
             ParentId: params.topParentId
         };
-        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
+        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
             if (viewStyle == 'Thumb') {
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,
@@ -135,7 +135,7 @@ export default function (view, params, tabContent) {
 
     function reloadItems(context, promise) {
         const query = getQuery();
-        promise.then(function (result) {
+        promise.then((result) => {
             const elem = context.querySelector('#items');
             let html = '';
             const items = result.Items;

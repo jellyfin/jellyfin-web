@@ -51,14 +51,14 @@ interface Player {
     [key: string]: any;
 }
 
-let currentPlayer: Player | null = null;
-let currentPlayerSupportedCommands: string[] = [];
+const currentPlayer: Player | null = null;
+const currentPlayerSupportedCommands: string[] = [];
 
-let currentTimeElement: HTMLElement | null = null;
-let nowPlayingImageElement: HTMLImageElement | null = null;
-let nowPlayingImageUrl: string | null = null;
-let nowPlayingTextElement: HTMLElement | null = null;
-let nowPlayingUserData: any = null;
+const currentTimeElement: HTMLElement | null = null;
+const nowPlayingImageElement: HTMLImageElement | null = null;
+const nowPlayingImageUrl: string | null = null;
+const nowPlayingTextElement: HTMLElement | null = null;
+const nowPlayingUserData: any = null;
 let muteButton: HTMLElement | null = null;
 let volumeSlider: HTMLInputElement | null = null;
 let volumeSliderContainer: HTMLElement | null = null;
@@ -69,10 +69,10 @@ let toggleRepeatButton: HTMLElement | null = null;
 let toggleRepeatButtonIcon: HTMLElement | null = null;
 let lyricButton: HTMLElement | null = null;
 
-let lastUpdateTime = 0;
-let lastPlayerState: PlayerState = {};
-let isEnabled = false;
-let currentRuntimeTicks = 0;
+const lastUpdateTime = 0;
+const lastPlayerState: PlayerState = {};
+const isEnabled = false;
+const currentRuntimeTicks = 0;
 
 let isVisibilityAllowed = true;
 
@@ -112,7 +112,7 @@ function bindEvents(elem: HTMLElement): void {
     lyricButton = elem.querySelector('.btnLyrics') as HTMLElement;
 
     // Add event listeners with proper types
-    muteButton.addEventListener('click', function () {
+    muteButton.addEventListener('click', () => {
         // ... existing code
     });
 
@@ -213,13 +213,13 @@ function bindToPlayer(player: Player | null): void {
 }
 
 // Event listeners
-Events.on(playbackManager, 'playerchange', function () {
+Events.on(playbackManager, 'playerchange', () => {
     bindToPlayer((playbackManager as any).getCurrentPlayer());
 });
 
 bindToPlayer((playbackManager as any).getCurrentPlayer());
 
-document.addEventListener('viewbeforeshow', function (e: any) {
+document.addEventListener('viewbeforeshow', (e: any) => {
     isLyricPageActive = isLyricsPage();
     setLyricButtonActiveStatus();
     if (!e.detail.options.enableMediaControl) {

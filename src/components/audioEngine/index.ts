@@ -26,8 +26,8 @@ export const loadCrossfadeController = () => import('./crossfadeController');
 
 // Bundle all worklets together for efficient loading
 export const audioWorklets = {
-  delayWorklet: () => import('./delayWorklet'),
-  biquadWorklet: () => import('./biquadWorklet'),
-  limiterWorklet: () => import('./limiterWorklet'),
-  gainWorklet: () => import('./gainWorklet')
+    delayWorklet: () => import('./delayWorklet'),
+    biquadWorklet: () => import('./biquadWorklet'),
+    limiterWorklet: () => import('./limiterWorklet'),
+    gainWorklet: () => import('./gainWorklet')
 } as const;

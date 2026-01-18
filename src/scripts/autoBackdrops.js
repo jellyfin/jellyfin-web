@@ -33,8 +33,8 @@ function getBackdropItemIds(apiClient, userId, types, parentId) {
         EnableTotalRecordCount: false,
         MaxOfficialRating: parentId ? '' : 'PG-13'
     };
-    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
-        const images = result.Items.map(function (i) {
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then((result) => {
+        const images = result.Items.map((i) => {
             return {
                 Id: i.Id,
                 tag: i.BackdropImageTags[0],
@@ -50,9 +50,9 @@ function showBackdrop(type, parentId) {
     const apiClient = ServerConnections.currentApiClient();
 
     if (apiClient) {
-        getBackdropItemIds(apiClient, apiClient.getCurrentUserId(), type, parentId).then(function (images) {
+        getBackdropItemIds(apiClient, apiClient.getCurrentUserId(), type, parentId).then((images) => {
             if (images.length) {
-                setBackdrops(images.map(function (i) {
+                setBackdrops(images.map((i) => {
                     i.BackdropImageTags = [i.tag];
                     return i;
                 }));

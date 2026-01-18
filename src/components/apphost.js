@@ -49,7 +49,7 @@ function getBaseProfileOptions(item) {
 }
 
 function getDeviceProfile(item) {
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
         let profile;
 
         if (window.NativeShell?.AppHost?.getDeviceProfile) {
@@ -334,11 +334,11 @@ function askForExit() {
                 { id: 'yes', name: globalize.translate('Yes') },
                 { id: 'no', name: globalize.translate('No') }
             ]
-        }).then(function (value) {
+        }).then((value) => {
             if (value === 'yes') {
                 doExit();
             }
-        }).finally(function () {
+        }).finally(() => {
             exitPromise = null;
         });
     });
@@ -516,7 +516,7 @@ if (typeof document.hidden !== 'undefined') {
 }
 
 if (typeof document !== 'undefined' && visibilityChange) {
-    document.addEventListener(visibilityChange, function () {
+    document.addEventListener(visibilityChange, () => {
         if (document[hidden]) {
             onAppHidden();
         } else {

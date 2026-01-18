@@ -103,7 +103,7 @@ export default function (view, params, tabContent) {
                 mode: 'livetvchannels',
                 serverId: ApiClient.serverId()
             });
-            Events.on(filterDialog, 'filterchange', function () {
+            Events.on(filterDialog, 'filterchange', () => {
                 reloadItems(context);
             });
             filterDialog.show();
@@ -118,7 +118,7 @@ export default function (view, params, tabContent) {
 
         const apiClient = ApiClient;
         query.UserId = apiClient.getCurrentUserId();
-        return apiClient.getLiveTvChannels(query).then(function (result) {
+        return apiClient.getLiveTvChannels(query).then((result) => {
             renderChannels(context, result);
             loading.hide();
             isLoading = false;
@@ -132,7 +132,7 @@ export default function (view, params, tabContent) {
     let pageData;
     const self = this;
     let isLoading = false;
-    tabContent.querySelector('.btnFilter').addEventListener('click', function () {
+    tabContent.querySelector('.btnFilter').addEventListener('click', () => {
         showFilterMenu(tabContent);
     });
 

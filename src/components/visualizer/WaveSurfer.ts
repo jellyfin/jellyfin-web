@@ -609,7 +609,7 @@ async function waveSurferInitialization(container: string, _legacy: WaveSurferLe
     syncWaveSurferTime();
 }
 
-function destroyWaveSurferInstance(fullDestroy = false): WaveSurferLegacy {
+async function destroyWaveSurferInstance(fullDestroy = false): Promise<WaveSurferLegacy> {
     const legacy = {
         peaks: savedPeaks,
         duration: savedDuration,

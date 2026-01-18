@@ -16,7 +16,7 @@ let currentOwnerId;
 let currentThemeIds = [];
 
 function playThemeMedia(items, ownerId) {
-    const currentThemeItems = items.filter(function (i) {
+    const currentThemeItems = items.filter((i) => {
         return enabled(i.MediaType);
     });
 
@@ -27,7 +27,7 @@ function playThemeMedia(items, ownerId) {
             return;
         }
 
-        currentThemeIds = currentThemeItems.map(function (i) {
+        currentThemeIds = currentThemeItems.map((i) => {
             return i.Id;
         });
 
@@ -43,7 +43,7 @@ function playThemeMedia(items, ownerId) {
             aspectRatio: 'cover',
             fullscreen: false,
             enableRemotePlayers: false
-        }).then(function () {
+        }).then(() => {
             currentOwnerId = ownerId;
         });
     } else {

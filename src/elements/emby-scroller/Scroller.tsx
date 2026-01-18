@@ -127,7 +127,7 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
     }, [getScrollPosition, getScrollSize, getScrollWidth]);
 
     const initCenterFocus = useCallback((elem: HTMLElement, scrollerInstance: ScrollerFactory) => {
-        dom.addEventListener(elem, 'focus', function (e: FocusEvent) {
+        dom.addEventListener(elem, 'focus', (e: FocusEvent) => {
             const focused = focusManager.focusableParent(e.target);
             if (focused) {
                 scrollerInstance.toCenter(focused, false);

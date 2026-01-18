@@ -14,9 +14,9 @@ export enum AudioErrorType {
 }
 
 export enum AudioErrorSeverity {
-    LOW = 'low',       // Non-critical, fallback available
+    LOW = 'low', // Non-critical, fallback available
     MEDIUM = 'medium', // Affects functionality but not critical
-    HIGH = 'high',     // Critical functionality broken
+    HIGH = 'high', // Critical functionality broken
     CRITICAL = 'critical' // System unusable
 }
 
@@ -163,8 +163,8 @@ export class AudioErrorHandler {
     hasRecentError(type: AudioErrorType, withinMs = 30000): boolean {
         const now = Date.now();
         return this.errorHistory.some(error =>
-            error.type === type &&
-            now - new Date(error.context?.timestamp || 0).getTime() < withinMs
+            error.type === type
+            && now - new Date(error.context?.timestamp || 0).getTime() < withinMs
         );
     }
 

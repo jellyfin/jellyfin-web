@@ -18,7 +18,7 @@ function save(page) {
         data: JSON.stringify(config),
         url: apiClient.getUrl('Startup/RemoteAccess'),
         contentType: 'application/json'
-    }).then(function () {
+    }).then(() => {
         loading.hide();
         navigateToNextPage();
     });
@@ -36,10 +36,10 @@ function onSubmit(e) {
 
 export default function (view) {
     view.querySelector('.wizardSettingsForm').addEventListener('submit', onSubmit);
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
     });
-    view.addEventListener('viewhide', function () {
+    view.addEventListener('viewhide', () => {
         document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
     });
 }

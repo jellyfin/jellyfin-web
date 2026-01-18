@@ -390,7 +390,7 @@ export default class ConnectionManager {
                 };
 
                 if (window && window.NativeShell && typeof window.NativeShell.findServers === 'function') {
-                    window.NativeShell.findServers(1e3).then(onFinish, function () {
+                    window.NativeShell.findServers(1e3).then(onFinish, () => {
                         onFinish([]);
                     });
                 } else {
@@ -573,7 +573,7 @@ export default class ConnectionManager {
                 server.UserId = null;
                 server.AccessToken = null;
             } else if (server.AccessToken && verifyLocalAuthentication) {
-                void validateAuthentication(server, serverUrl).then(function () {
+                void validateAuthentication(server, serverUrl).then(() => {
                     onSuccessfulConnection(server, systemInfo, connectionMode, serverUrl, false, resolve, options);
                 });
                 return;

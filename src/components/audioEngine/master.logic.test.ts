@@ -200,9 +200,10 @@ describe('master.logic - Audio Engine', () => {
             initializeMasterAudio(unbind);
 
             const mixer = masterAudioOutput.mixerNode!;
-            const limiter = mockAudioContext.createDynamicsCompressor();
+            // find limiter
+            const limiter = mockAudioContext.createDynamicsCompressor.mock.results[0].value;
 
-            expect(mixer.connect).toHaveBeenCalledWith(limiter);
+            expect(mixer.connect).toHaveBeenCalledWith(limiter, 0, 0);
             expect(limiter.connect).toHaveBeenCalledWith(mockAudioContext.destination);
         });
 
@@ -328,7 +329,7 @@ describe('master.logic - Audio Engine', () => {
             }
         });
 
-        it('should set initial gain value to 0', () => {
+        it('should set initial gain value to 1', () => {
             // Reset mock to see calls from createGainNode
             mockAudioContext.createGain.mockClear();
 
@@ -337,7 +338,7 @@ describe('master.logic - Audio Engine', () => {
             // Get the created gain node (should be the first from createGainNode)
             const gainNodeCreated = mockAudioContext.createGain.mock.results[0]?.value;
             if (gainNodeCreated) {
-                expect(gainNodeCreated.gain.setValueAtTime).toHaveBeenCalledWith(0, mockAudioContext.currentTime);
+                expect(gainNodeCreated.gain.setValueAtTime).toHaveBeenCalledWith(1, mockAudioContext.currentTime);
             }
         });
 
@@ -382,20 +383,20 @@ describe('master.logic - Audio Engine', () => {
             const bundle = ensureAudioNodeBundle(mockMediaElement, { registerInBus: true });
 
             expect(bundle).toBeDefined();
-            expect(bundle?.gainNode).toBeDefined();
+            expect(bundle?.crossfadeGainNode).toBeDefined();
             expect(bundle?.sourceNode).toBeDefined();
         });
 
         it('should register bundle in audioNodeBus when requested', () => {
             const bundle = ensureAudioNodeBundle(mockMediaElement, { registerInBus: true });
 
-            expect(audioNodeBus).toContain(bundle?.gainNode);
+            expect(audioNodeBus).toContain(bundle?.crossfadeGainNode);
         });
 
         it('should not register in bus when registerInBus=false', () => {
             const bundle = ensureAudioNodeBundle(mockMediaElement, { registerInBus: false });
 
-            expect(audioNodeBus).not.toContain(bundle?.gainNode);
+            expect(audioNodeBus).not.toContain(bundle?.crossfadeGainNode);
         });
 
         it('should return existing bundle without creating duplicate', () => {
@@ -403,15 +404,15 @@ describe('master.logic - Audio Engine', () => {
             const bundle2 = ensureAudioNodeBundle(mockMediaElement);
 
             expect(bundle1).toBe(bundle2);
-            expect(audioNodeBus.filter(n => n === bundle1?.gainNode)).toHaveLength(1);
+            expect(audioNodeBus.filter(n => n === bundle1?.crossfadeGainNode)).toHaveLength(1);
         });
 
         it('should apply initialGain when provided', () => {
-            const initialGain = 0.5;
-            const bundle = ensureAudioNodeBundle(mockMediaElement, { initialGain });
+            const initialNormalizationGain = 0.5;
+            const bundle = ensureAudioNodeBundle(mockMediaElement, { initialNormalizationGain });
 
-            expect(bundle?.gainNode.gain.setValueAtTime).toHaveBeenCalledWith(
-                initialGain,
+            expect(bundle?.normalizationGainNode.gain.setValueAtTime).toHaveBeenCalledWith(
+                initialNormalizationGain,
                 mockAudioContext.currentTime
             );
         });
@@ -522,25 +523,25 @@ describe('master.logic - Audio Engine', () => {
         it('should cancel scheduled values before ramping', () => {
             rampPlaybackGain();
 
-            const gainNode = audioNodeBus[0]?.gain;
-            expect(gainNode?.cancelScheduledValues).toHaveBeenCalledWith(mockAudioContext.currentTime);
+            const bundle = getAudioNodeBundle(mockMediaElement);
+            expect(bundle?.normalizationGainNode.gain.cancelScheduledValues).toHaveBeenCalledWith(mockAudioContext.currentTime);
         });
 
         it('should ramp linearly to 0.01 first', () => {
             rampPlaybackGain();
 
-            const gainNode = audioNodeBus[0]?.gain;
-            expect(gainNode?.linearRampToValueAtTime).toHaveBeenCalledWith(0.01, mockAudioContext.currentTime);
+            const bundle = getAudioNodeBundle(mockMediaElement);
+            expect(bundle?.normalizationGainNode.gain.linearRampToValueAtTime).toHaveBeenCalledWith(0.01, mockAudioContext.currentTime);
         });
 
         it('should apply normalization gain (dB to linear)', () => {
             const normalizationGain = 6; // +6dB
             rampPlaybackGain(normalizationGain);
 
-            const gainNode = audioNodeBus[0]?.gain;
+            const bundle = getAudioNodeBundle(mockMediaElement);
             const expectedLinear = Math.pow(10, normalizationGain / 20);
 
-            expect(gainNode?.exponentialRampToValueAtTime).toHaveBeenCalledWith(
+            expect(bundle?.normalizationGainNode.gain.exponentialRampToValueAtTime).toHaveBeenCalledWith(
                 expect.closeTo(expectedLinear, 3),
                 expect.any(Number)
             );
@@ -549,8 +550,8 @@ describe('master.logic - Audio Engine', () => {
         it('should use default gain of 1 when normalizationGain undefined', () => {
             rampPlaybackGain(undefined);
 
-            const gainNode = audioNodeBus[0]?.gain as any;
-            const calls = gainNode?.exponentialRampToValueAtTime.mock.calls || [];
+            const bundle = getAudioNodeBundle(mockMediaElement);
+            const calls = (bundle?.normalizationGainNode.gain.exponentialRampToValueAtTime as any).mock.calls || [];
             const lastCall = calls[calls.length - 1];
 
             expect(lastCall[0]).toBeCloseTo(1, 3);
@@ -559,8 +560,8 @@ describe('master.logic - Audio Engine', () => {
         it('should use xDuration.sustain for ramp duration', () => {
             rampPlaybackGain();
 
-            const gainNode = audioNodeBus[0]?.gain as any;
-            const calls = gainNode?.exponentialRampToValueAtTime.mock.calls || [];
+            const bundle = getAudioNodeBundle(mockMediaElement);
+            const calls = (bundle?.normalizationGainNode.gain.exponentialRampToValueAtTime as any).mock.calls || [];
             const lastCall = calls[calls.length - 1];
             const expectedDuration = 0.45 / 24; // xDuration.sustain = 0.45
 
@@ -603,7 +604,7 @@ describe('master.logic - Audio Engine', () => {
             const bundle = getAudioNodeBundle(mockMediaElement);
             removeAudioNodeBundle(mockMediaElement);
 
-            expect(bundle?.gainNode.disconnect).toHaveBeenCalled();
+            expect(bundle?.crossfadeGainNode.disconnect).toHaveBeenCalled();
         });
 
         it('should disconnect source node', () => {
@@ -698,7 +699,8 @@ describe('master.logic - Audio Engine', () => {
 
             // Apply normalization
             rampPlaybackGain(3);
-            expect(gainNode?.gain.exponentialRampToValueAtTime).toHaveBeenCalled();
+            const bundle = getAudioNodeBundle(mockMediaElement);
+            expect(bundle?.normalizationGainNode.gain.exponentialRampToValueAtTime).toHaveBeenCalled();
 
             // Cleanup
             removeAudioNodeBundle(mockMediaElement);
@@ -731,14 +733,15 @@ describe('master.logic - Audio Engine', () => {
             rampPlaybackGain(-3);
             rampPlaybackGain(0);
 
-            expect(audioNodeBus[0]?.gain.cancelScheduledValues).toHaveBeenCalled();
+            const bundle = getAudioNodeBundle(mockMediaElement);
+            expect(bundle?.normalizationGainNode.gain.cancelScheduledValues).toHaveBeenCalled();
         });
 
         it('should maintain signal integrity through entire chain', () => {
             const bundle = ensureAudioNodeBundle(mockMediaElement, { registerInBus: true });
 
             expect(bundle?.sourceNode.connect).toHaveBeenCalled();
-            expect(bundle?.gainNode.connect).toHaveBeenCalledWith(masterAudioOutput.mixerNode);
+            expect(bundle?.crossfadeGainNode.connect).toHaveBeenCalledWith(masterAudioOutput.mixerNode);
             expect(masterAudioOutput.mixerNode?.connect).toHaveBeenCalled();
         });
     });

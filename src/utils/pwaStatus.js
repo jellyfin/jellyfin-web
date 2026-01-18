@@ -159,20 +159,20 @@ class PWAStatusDashboard {
 
                 <h3>Cache Status</h3>
                 ${Object.keys(status.cache).length > 0 && !status.cache.error ?
-                    Object.entries(status.cache).map(([cache, info]) =>
-                        `<li><strong>${cache}:</strong> ${info.entries} entries, ${info.size}, limit: ${info.limit}</li>`
-                    ).join('') :
-                    '<li>No cache information available</li>'
+                        Object.entries(status.cache).map(([cache, info]) =>
+                            `<li><strong>${cache}:</strong> ${info.entries} entries, ${info.size}, limit: ${info.limit}</li>`
+                        ).join('') :
+                        '<li>No cache information available</li>'
                 }
 
                 <h3>Network Status</h3>
                 <ul>
                     <li><strong>Online:</strong> ${status.network.online ? '✅ Yes' : '❌ No'}</li>
                     ${status.network.connection ?
-                        `<li><strong>Connection:</strong> ${status.network.connection.effectiveType}, ${status.network.connection.downlink} Mbps</li>
+                            `<li><strong>Connection:</strong> ${status.network.connection.effectiveType}, ${status.network.connection.downlink} Mbps</li>
                          <li><strong>RTT:</strong> ${status.network.connection.rtt}ms</li>
                          <li><strong>Save Data:</strong> ${status.network.connection.saveData ? 'On' : 'Off'}</li>` :
-                        '<li>No connection information available</li>'
+                            '<li>No connection information available</li>'
                     }
                 </ul>
 

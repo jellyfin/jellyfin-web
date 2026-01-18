@@ -267,142 +267,142 @@ export function hijackMediaElementForCrossfade(isManual = false) {
 
         // Continue with crossfade setup...
 
-    // Register for sync
-    syncManager.registerElement(hijackedPlayer, 0);
+        // Register for sync
+        syncManager.registerElement(hijackedPlayer, 0);
 
-    // Prioritize buffering: delay crossfade if less than 2s buffered
-    const bufferedAhead = syncManager.getBufferedAhead(hijackedPlayer);
-    if (bufferedAhead < 2 && xDuration.fadeOut > 0 && !xDuration.bufferDelayApplied) {
-        xDuration.bufferDelayApplied = true;
-        // Reset busy to allow the delayed retry to proceed
-        xDuration.busy = false;
-        // Delay crossfade start by up to 1s to allow buffering (prevent recursion)
-        const delayMs = Math.min(1000, (2 - bufferedAhead) * 1000);
-        setTimeout(() => {
-            xDuration.bufferDelayApplied = false;
-            if (!xDuration.triggered) {
-                hijackMediaElementForCrossfade(); // Restart with buffer check
-            }
-        }, delayMs);
-        return;
-    }
-
-    const disposeElement = document.getElementById('crossFadeMediaElement');
-    if (disposeElement) {
-        // Prevent double-disposal
-        if (disposeElement.id !== 'crossFadeMediaElement') return;
-
-        destroyWaveSurferInstance().catch(console.error);
-
-        // Clean up any audio nodes that belong to this disposed element
-        // We use a more conservative approach - only clean nodes if we're definitely interrupting
-        const hasActiveCrossfade = xDuration.busy && document.querySelector('#crossFadeMediaElement') !== null;
-        if (hasActiveCrossfade) {
-            // Only clean up nodes if we're interrupting an active crossfade
-            while (audioNodeBus.length > 0) {
-                const gainNode = audioNodeBus.pop();
-                safeDisconnect(gainNode, 'interrupted xfadeGainNode');
-            }
-            while (delayNodeBus.length > 0) {
-                const delayNode = delayNodeBus.pop();
-                safeDisconnect(delayNode, 'interrupted delayNode');
-            }
-        }
-
-        disposeElement.remove();
-
-        // Stop sync for the disposed element
-        syncManager.unregisterElement(disposeElement as HTMLMediaElement);
-        syncManager.stopSync();
-    }
-    prevNextDisable(true);
-    hijackedPlayer.classList.remove('mediaPlayerAudio');
-    hijackedPlayer.id = 'crossFadeMediaElement';
-
-    hijackedPlayer.pause = ()=>{
-        // Do nothing
-    };
-
-    Object.defineProperty(hijackedPlayer, 'src', {
-        set: () => {
-            // Do nothing
-        }
-    });
-
-    if (!xDuration.disableFade && audioNodeBus[0] && masterAudioOutput.audioContext) {
-        // Schedule the fadeout crossfade curve
-        audioNodeBus[0].gain.linearRampToValueAtTime(audioNodeBus[0].gain.value, masterAudioOutput.audioContext.currentTime);
-        audioNodeBus[0].gain.exponentialRampToValueAtTime(0.01, masterAudioOutput.audioContext.currentTime + xDuration.fadeOut);
-    }
-
-    // Cancel any existing timeouts from previous crossfade
-    cancelCrossfadeTimeouts();
-
-    // Calculate UI unlock delay with minimum bound to prevent negative timeout
-    const sustainDelayMs = Math.max(
-        crossfadeTiming.minTimeoutMs,
-        (xDuration.sustain * 1000) - crossfadeTiming.sustainOffsetMs
-    );
-
-    // Timer 1: UI cleanup and state reset
-    sustainTimer = setTimeout(() => {
-        sustainTimer = null;
-
-        try {
-            if (typeof unbindCallback === 'function') {
-                unbindCallback();
-            }
-            // Reset visibility on fade out track, but keep WaveSurfer instance for reuse
-            destroyWaveSurferInstance().catch(console.error);
-            prevNextDisable(false);
-            xDuration.busy = false; // Reset busy flag after new track can start
-            xDuration.triggered = false; // Reset trigger flag for new track
-
-            console.debug(`[Crossfader] Crossfade completed, controls re-enabled after ${sustainDelayMs}ms`);
-        } catch (error) {
-            console.error('[Crossfader] Error during sustain timer cleanup:', error);
-            // Ensure state is always reset even on error
+        // Prioritize buffering: delay crossfade if less than 2s buffered
+        const bufferedAhead = syncManager.getBufferedAhead(hijackedPlayer);
+        if (bufferedAhead < 2 && xDuration.fadeOut > 0 && !xDuration.bufferDelayApplied && !isManual) {
+            xDuration.bufferDelayApplied = true;
+            // Reset busy to allow the delayed retry to proceed
             xDuration.busy = false;
-            xDuration.triggered = false;
-            prevNextDisable(false);
-        }
-    }, sustainDelayMs);
-
-    // Safety timeout: Force reset controls after maximum crossfade duration + buffer
-    const safetyTimeoutMs = Math.max(5000, (xDuration.fadeOut + xDuration.sustain) * 1000 + 2000);
-    setTimeout(() => {
-        if (xDuration.busy) {
-            console.warn('[Crossfader] Safety timeout triggered - resetting busy state and controls');
-            xDuration.busy = false;
-            xDuration.triggered = false;
-            prevNextDisable(false);
-            cancelCrossfadeTimeouts();
-        }
-    }, safetyTimeoutMs);
-
-    // Timer 2: Audio node cleanup (after fade completes)
-    fadeOutTimer = setTimeout(() => {
-        fadeOutTimer = null;
-
-        const xfadeGainNode = audioNodeBus.pop();
-        const delayNode = delayNodeBus.pop();
-
-        if (!masterAudioOutput.audioContext || !xfadeGainNode || !delayNode) {
-            hijackedPlayer.remove();
+            // Delay crossfade start by up to 1s to allow buffering (prevent recursion)
+            const delayMs = Math.min(1000, (2 - bufferedAhead) * 1000);
+            setTimeout(() => {
+                xDuration.bufferDelayApplied = false;
+                if (!xDuration.triggered) {
+                    hijackMediaElementForCrossfade(); // Restart with buffer check
+                }
+            }, delayMs);
             return;
         }
 
-        xfadeGainNode.gain.linearRampToValueAtTime(0, masterAudioOutput.audioContext.currentTime + 1);
+        const disposeElement = document.getElementById('crossFadeMediaElement');
+        if (disposeElement) {
+        // Prevent double-disposal
+            if (disposeElement.id !== 'crossFadeMediaElement') return;
 
-        // Timer 3: Disconnect nodes after ramp completes
-        disconnectTimer = setTimeout(() => {
-            disconnectTimer = null;
-            safeDisconnect(xfadeGainNode, 'xfadeGainNode');
-            safeDisconnect(delayNode, 'delayNode');
-            syncManager.unregisterElement(hijackedPlayer);
-            hijackedPlayer.remove();
-        }, crossfadeTiming.nodeDisconnectDelayMs);
-    }, xDuration.fadeOut * 1000);
+            destroyWaveSurferInstance().catch(console.error);
+
+            // Clean up any audio nodes that belong to this disposed element
+            // We use a more conservative approach - only clean nodes if we're definitely interrupting
+            const hasActiveCrossfade = xDuration.busy && document.querySelector('#crossFadeMediaElement') !== null;
+            if (hasActiveCrossfade) {
+            // Only clean up nodes if we're interrupting an active crossfade
+                while (audioNodeBus.length > 0) {
+                    const gainNode = audioNodeBus.pop();
+                    safeDisconnect(gainNode, 'interrupted xfadeGainNode');
+                }
+                while (delayNodeBus.length > 0) {
+                    const delayNode = delayNodeBus.pop();
+                    safeDisconnect(delayNode, 'interrupted delayNode');
+                }
+            }
+
+            disposeElement.remove();
+
+            // Stop sync for the disposed element
+            syncManager.unregisterElement(disposeElement as HTMLMediaElement);
+            syncManager.stopSync();
+        }
+        prevNextDisable(true);
+        hijackedPlayer.classList.remove('mediaPlayerAudio');
+        hijackedPlayer.id = 'crossFadeMediaElement';
+
+        hijackedPlayer.pause = ()=>{
+        // Do nothing
+        };
+
+        Object.defineProperty(hijackedPlayer, 'src', {
+            set: () => {
+            // Do nothing
+            }
+        });
+
+        if (!xDuration.disableFade && audioNodeBus[0] && masterAudioOutput.audioContext) {
+        // Schedule the fadeout crossfade curve
+            audioNodeBus[0].gain.linearRampToValueAtTime(audioNodeBus[0].gain.value, masterAudioOutput.audioContext.currentTime);
+            audioNodeBus[0].gain.exponentialRampToValueAtTime(0.01, masterAudioOutput.audioContext.currentTime + xDuration.fadeOut);
+        }
+
+        // Cancel any existing timeouts from previous crossfade
+        cancelCrossfadeTimeouts();
+
+        // Calculate UI unlock delay with minimum bound to prevent negative timeout
+        const sustainDelayMs = Math.max(
+            crossfadeTiming.minTimeoutMs,
+            (xDuration.sustain * 1000) - crossfadeTiming.sustainOffsetMs
+        );
+
+        // Timer 1: UI cleanup and state reset
+        sustainTimer = setTimeout(() => {
+            sustainTimer = null;
+
+            try {
+                if (typeof unbindCallback === 'function') {
+                    unbindCallback();
+                }
+                // Reset visibility on fade out track, but keep WaveSurfer instance for reuse
+                destroyWaveSurferInstance().catch(console.error);
+                prevNextDisable(false);
+                xDuration.busy = false; // Reset busy flag after new track can start
+                xDuration.triggered = false; // Reset trigger flag for new track
+
+                console.debug(`[Crossfader] Crossfade completed, controls re-enabled after ${sustainDelayMs}ms`);
+            } catch (error) {
+                console.error('[Crossfader] Error during sustain timer cleanup:', error);
+                // Ensure state is always reset even on error
+                xDuration.busy = false;
+                xDuration.triggered = false;
+                prevNextDisable(false);
+            }
+        }, sustainDelayMs);
+
+        // Safety timeout: Force reset controls after maximum crossfade duration + buffer
+        const safetyTimeoutMs = Math.max(5000, (xDuration.fadeOut + xDuration.sustain) * 1000 + 2000);
+        setTimeout(() => {
+            if (xDuration.busy) {
+                console.warn('[Crossfader] Safety timeout triggered - resetting busy state and controls');
+                xDuration.busy = false;
+                xDuration.triggered = false;
+                prevNextDisable(false);
+                cancelCrossfadeTimeouts();
+            }
+        }, safetyTimeoutMs);
+
+        // Timer 2: Audio node cleanup (after fade completes)
+        fadeOutTimer = setTimeout(() => {
+            fadeOutTimer = null;
+
+            const xfadeGainNode = audioNodeBus.pop();
+            const delayNode = delayNodeBus.pop();
+
+            if (!masterAudioOutput.audioContext || !xfadeGainNode || !delayNode) {
+                hijackedPlayer.remove();
+                return;
+            }
+
+            xfadeGainNode.gain.linearRampToValueAtTime(0, masterAudioOutput.audioContext.currentTime + 1);
+
+            // Timer 3: Disconnect nodes after ramp completes
+            disconnectTimer = setTimeout(() => {
+                disconnectTimer = null;
+                safeDisconnect(xfadeGainNode, 'xfadeGainNode');
+                safeDisconnect(delayNode, 'delayNode');
+                syncManager.unregisterElement(hijackedPlayer);
+                hijackedPlayer.remove();
+            }, crossfadeTiming.nodeDisconnectDelayMs);
+        }, xDuration.fadeOut * 1000);
     } catch (error) {
         console.error('[Crossfader] Error during hijack setup:', error);
         // Ensure state is reset on error

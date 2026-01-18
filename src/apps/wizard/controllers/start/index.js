@@ -11,7 +11,7 @@ function loadPage(page, systemInfo, config, languageOptions) {
     serverNameElem.value = config.ServerName || systemInfo.ServerName;
 
     const languageElem = page.querySelector('#selectLocalizationLanguage');
-    languageElem.innerHTML = languageOptions.map(function (l) {
+    languageElem.innerHTML = languageOptions.map((l) => {
         return '<option value="' + l.Value + '">' + l.Name + '</option>';
     }).join('');
     languageElem.value = config.UICulture;
@@ -22,7 +22,7 @@ function loadPage(page, systemInfo, config, languageOptions) {
 function save(page) {
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
-    apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
+    apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then((config) => {
         config.ServerName = page.querySelector('#txtServerName').value;
         config.UICulture = page.querySelector('#selectLocalizationLanguage').value;
 
@@ -31,7 +31,7 @@ function save(page) {
             data: JSON.stringify(config),
             url: apiClient.getUrl('Startup/Configuration'),
             contentType: 'application/json'
-        }).then(function () {
+        }).then(() => {
             Dashboard.navigate('wizard/user');
         });
     });
@@ -60,7 +60,7 @@ export default function (view) {
         });
     });
 
-    view.addEventListener('viewhide', function () {
+    view.addEventListener('viewhide', () => {
         document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
     });
 }

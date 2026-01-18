@@ -48,7 +48,7 @@ function renderRecordings(elem, recordings, cardOptions, scrollX) {
 }
 
 function renderLatestRecordings(context, promise) {
-    promise.then(function (result) {
+    promise.then((result) => {
         renderRecordings(context.querySelector('#latestRecordings'), result.Items, {
             showYear: true,
             lines: 2
@@ -58,7 +58,7 @@ function renderLatestRecordings(context, promise) {
 }
 
 function renderRecordingFolders(context, promise) {
-    promise.then(function (result) {
+    promise.then((result) => {
         renderRecordings(context.querySelector('#recordingFolders'), result.Items, {
             showYear: false,
             showParentTitle: false

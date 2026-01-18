@@ -3,7 +3,7 @@ import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/
 import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
 import { getMediaSegmentsApi } from '@jellyfin/sdk/lib/utils/api/media-segments-api';
 
-import type { PlaybackManager } from 'components/playback/playbackmanager';
+import type { PlaybackManager, Player } from 'components/playback/playbackmanager';
 import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
@@ -49,11 +49,11 @@ class MediaSegmentManager extends PlaybackSubscriber {
                 return;
             }
             console.debug('[MediaSegmentManager] skipping to %s ms', mediaSegment.EndTicks / TICKS_PER_MILLISECOND);
-            this.playbackManager.seek(mediaSegment.EndTicks, this.player);
+            this.playbackManager.seek(mediaSegment.EndTicks, this.player as unknown as Player);
         } else {
             // If there is no end time, skip to the next track
             console.debug('[MediaSegmentManager] skipping to next item in queue');
-            this.playbackManager.nextTrack(this.player);
+            this.playbackManager.nextTrack(this.player as unknown as Player);
         }
     }
 
@@ -118,7 +118,7 @@ class MediaSegmentManager extends PlaybackSubscriber {
 
     onPlayerTimeUpdate() {
         if (this.hasSegments && this.mediaSegments.length) {
-            const time = this.playbackManager.currentTime(this.player) * TICKS_PER_MILLISECOND;
+            const time = this.playbackManager.currentTime(this.player as unknown as Player) * TICKS_PER_MILLISECOND;
             const currentSegmentDetails = findCurrentSegment(this.mediaSegments, time, this.lastSegmentIndex);
             if (
                 // The current time falls within a segment

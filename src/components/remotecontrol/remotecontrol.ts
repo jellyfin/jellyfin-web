@@ -66,8 +66,8 @@ interface RemoteControlContext {
     [key: string]: any;
 }
 
-let showMuteButton = true;
-let showVolumeSlider = true;
+const showMuteButton = true;
+const showVolumeSlider = true;
 
 function showAudioMenu(context: RemoteControlContext, player: Player, button: HTMLElement): void {
     // ... existing code with types
@@ -100,8 +100,8 @@ interface RemoteControlInstance {
 }
 
 export default function (): RemoteControlInstance {
-    let currentPlayer: Player | null = null;
-    let currentPlayerSupportedCommands: string[] = [];
+    const currentPlayer: Player | null = null;
+    const currentPlayerSupportedCommands: string[] = [];
 
     function toggleRepeat(): void {
         // ... existing code

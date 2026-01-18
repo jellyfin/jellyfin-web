@@ -112,7 +112,7 @@ function discoverDevices(view) {
     view.querySelector('.loadingContent').classList.remove('hide');
     return ApiClient.getJSON(ApiClient.getUrl('LiveTv/Tuners/Discover', {
         NewDevicesOnly: true
-    })).then(function (devices) {
+    })).then((devices) => {
         currentDevices = devices;
         renderDevices(view, devices);
         view.querySelector('.loadingContent').classList.add('hide');
@@ -144,16 +144,16 @@ function TunerPicker() {
         html += '</div>';
         html += getEditorHtml();
         dlg.innerHTML = html;
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
             dialogHelper.close(dlg);
         });
         let deviceResult;
-        dlg.querySelector('.results').addEventListener('click', function (e) {
+        dlg.querySelector('.results').addEventListener('click', (e) => {
             const tunerCard = dom.parentWithClass(e.target, 'card');
 
             if (tunerCard) {
                 const deviceId = tunerCard.getAttribute('data-id');
-                deviceResult = currentDevices.filter(function (d) {
+                deviceResult = currentDevices.filter((d) => {
                     return d.DeviceId === deviceId;
                 })[0];
                 dialogHelper.close(dlg);
@@ -170,7 +170,7 @@ function TunerPicker() {
             scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
         }
 
-        return dialogHelper.open(dlg).then(function () {
+        return dialogHelper.open(dlg).then(() => {
             if (deviceResult) {
                 return Promise.resolve(deviceResult);
             }

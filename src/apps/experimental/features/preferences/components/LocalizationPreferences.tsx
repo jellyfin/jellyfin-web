@@ -71,7 +71,7 @@ export function LocalizationPreferences({ onChange, values }: Readonly<Localizat
                         onChange={onChange}
                         value={values.dateTimeLocale}
                     >
-                        {...DATE_LOCALE_OPTIONS.map(({ value, label }) => (
+                        {DATE_LOCALE_OPTIONS.map(({ value, label }) => (
                             <MenuItem key={value} value={value}>{label}</MenuItem>
                         ))}
                     </Select>

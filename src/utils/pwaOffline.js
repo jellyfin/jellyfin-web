@@ -48,16 +48,16 @@ class PWAOfflineManager {
             method: 'HEAD',
             cache: 'no-cache'
         })
-        .then(() => {
-            if (!this.online) {
-                this.handleOnline();
-            }
-        })
-        .catch(() => {
-            if (this.online) {
-                this.handleOffline();
-            }
-        });
+            .then(() => {
+                if (!this.online) {
+                    this.handleOnline();
+                }
+            })
+            .catch(() => {
+                if (this.online) {
+                    this.handleOffline();
+                }
+            });
     }
 
     static updateOnlineStatus() {

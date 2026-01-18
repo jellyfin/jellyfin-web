@@ -14,4 +14,5 @@ const Loading: FunctionComponent = () => {
     return null;
 };
 
+export { Loading };
 export default Loading;

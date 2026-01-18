@@ -42,7 +42,7 @@ export default function (view, params, tabContent) {
 
     function reloadItems(context, promise) {
         const query = getQuery();
-        promise.then(function (result) {
+        promise.then((result) => {
             let html = '';
             html = cardBuilder.getCardsHtml({
                 items: result.Items,

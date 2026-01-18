@@ -22,7 +22,6 @@ class PWAAudit {
             results.shortcuts = this.auditShortcuts();
 
             this.displayResults(results);
-
         } catch (error) {
             console.error('PWA Audit failed:', error);
         }
@@ -73,7 +72,6 @@ class PWAAudit {
                 if (hasMaskable) result.score += 10;
                 if (hasLargeIcon) result.score += 10;
             }
-
         } catch (error) {
             result.issues.push(`Manifest fetch failed: ${error.message}`);
         }
@@ -103,7 +101,6 @@ class PWAAudit {
                     registration.addEventListener('updatefound', () => {
                         result.score += 10;
                     });
-
                 } else {
                     result.issues.push('No service worker registration found');
                 }
@@ -217,7 +214,6 @@ class PWAAudit {
                     }
                 }
             }
-
         } catch (error) {
             result.issues.push(`Offline check failed: ${error.message}`);
         }

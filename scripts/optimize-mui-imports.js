@@ -67,7 +67,6 @@ class MUIImportOptimizer {
 
     for (const file of files) {
       const content = fs.readFileSync(file, 'utf8');
-      const originalContent = content;
 
       // Check if file contains MUI imports
       if (!content.includes('@mui/material')) {
@@ -111,7 +110,7 @@ class MUIImportOptimizer {
       }
     }
 
-    console.log(`\n📊 MUI Import Optimization Complete:`);
+    console.log('\n📊 MUI Import Optimization Complete:');
     console.log(`   • Files optimized: ${totalFilesOptimized}`);
     console.log(`   • Total optimizations: ${totalOptimizations}`);
     console.log(`   • Estimated bundle reduction: ${Math.round(totalOptimizations * 5)}KB - ${Math.round(totalOptimizations * 15)}KB`);

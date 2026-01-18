@@ -17,13 +17,13 @@ function getToastContainer() {
 }
 
 function remove(elem: HTMLElement) {
-    setTimeout(function () {
+    setTimeout(() => {
         elem.parentNode?.removeChild(elem);
     }, 300);
 }
 
 function animateRemove(elem: HTMLElement) {
-    setTimeout(function () {
+    setTimeout(() => {
         elem.classList.add('toastHide');
         remove(elem);
     }, 3300);
@@ -42,7 +42,7 @@ export default function (options: string | Toast) {
 
     getToastContainer().appendChild(elem);
 
-    setTimeout(function () {
+    setTimeout(() => {
         elem.classList.add('toastVisible');
 
         animateRemove(elem);

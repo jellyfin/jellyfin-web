@@ -60,12 +60,12 @@ function reloadBrowsableImages(page, apiClient) {
         options.ProviderName = provider;
     }
 
-    apiClient.getAvailableRemoteImages(options).then(function (result) {
+    apiClient.getAvailableRemoteImages(options).then((result) => {
         renderRemoteImages(page, apiClient, result, browsableImageType, options.startIndex, options.limit);
 
         page.querySelector('#selectBrowsableImageType').value = browsableImageType;
 
-        const providersHtml = result.Providers.map(function (p) {
+        const providersHtml = result.Providers.map((p) => {
             return '<option value="' + p + '">' + p + '</option>';
         });
 
@@ -94,14 +94,14 @@ function renderRemoteImages(page, apiClient, imagesResult, imageType, startIndex
     const btnPreviousPage = page.querySelector('.btnPreviousPage');
 
     if (btnNextPage) {
-        btnNextPage.addEventListener('click', function () {
+        btnNextPage.addEventListener('click', () => {
             browsableImageStartIndex += browsableImagePageSize;
             reloadBrowsableImages(page, apiClient);
         });
     }
 
     if (btnPreviousPage) {
-        btnPreviousPage.addEventListener('click', function () {
+        btnPreviousPage.addEventListener('click', () => {
             browsableImageStartIndex -= browsableImagePageSize;
             reloadBrowsableImages(page, apiClient);
         });
@@ -147,7 +147,7 @@ function downloadRemoteImage(page, apiClient, url, type, provider) {
 
     loading.show();
 
-    apiClient.downloadRemoteImage(options).then(function () {
+    apiClient.downloadRemoteImage(options).then(() => {
         hasChanges = true;
         const dlg = dom.parentWithClass(page, 'dialog');
         dialogHelper.close(dlg);
@@ -290,15 +290,15 @@ function initEditor(page, apiClient) {
         reloadBrowsableImagesFirstPage(page, apiClient);
     });
 
-    page.querySelector('#chkAllLanguages').addEventListener('change', function () {
+    page.querySelector('#chkAllLanguages').addEventListener('change', () => {
         reloadBrowsableImagesFirstPage(page, apiClient);
     });
 
-    page.querySelector('#chkShowParentImages').addEventListener('change', function () {
+    page.querySelector('#chkShowParentImages').addEventListener('change', () => {
         reloadBrowsableImagesFirstPage(page, apiClient);
     });
 
-    page.addEventListener('click', function (e) {
+    page.addEventListener('click', (e) => {
         const btnDownloadRemoteImage = dom.parentWithClass(e.target, 'btnDownloadRemoteImage');
         if (btnDownloadRemoteImage) {
             const card = dom.parentWithClass(btnDownloadRemoteImage, 'card');
@@ -351,7 +351,7 @@ function showEditor(itemId, serverId, itemType) {
     const editorContent = dlg.querySelector('.formDialogContent');
     initEditor(editorContent, apiClient);
 
-    dlg.querySelector('.btnCancel').addEventListener('click', function () {
+    dlg.querySelector('.btnCancel').addEventListener('click', () => {
         dialogHelper.close(dlg);
     });
 
@@ -374,7 +374,7 @@ function onDialogClosed() {
 }
 
 export function show(itemId, serverId, itemType, imageType, parentId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         currentResolve = resolve;
         currentReject = reject;
         hasChanges = false;

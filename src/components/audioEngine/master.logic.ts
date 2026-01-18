@@ -16,9 +16,11 @@ type MasterAudioTypes = {
 type AudioNodeBundle = {
     sourceNode: MediaElementAudioSourceNode;
     normalizationGainNode: GainNode; // For track/album normalization
-    crossfadeGainNode: GainNode;     // For crossfading automation
+    crossfadeGainNode: GainNode; // For crossfading automation
     delayNode?: DelayNode;
     busRegistered: boolean;
+    id?: string;
+    isLocalPlayer?: boolean;
 };
 
 const dbBoost = 2;
@@ -146,6 +148,7 @@ export function initializeMasterAudio(unbind: () => void) {
 
     if (!masterAudioOutput.mixerNode) {
         masterAudioOutput.mixerNode = audioCtx.createGain();
+        masterAudioOutput.mixerNode.gain.setValueAtTime((masterAudioOutput.volume / 100) * masterAudioOutput.makeupGain, audioCtx.currentTime);
 
         // Attempt to load and use worklet limiter for multithreading
         loadAudioWorklets(audioCtx).catch(() => {}); // Load asynchronously
@@ -311,7 +314,7 @@ export function rampPlaybackGain(normalizationGain?: number) {
     }
 
     const audioCtx = masterAudioOutput.audioContext;
-    const gainValue = normalizationGain ? dBToLinear(normalizationGain) : 1;
+    const gainValue = (normalizationGain !== undefined) ? dBToLinear(normalizationGain) : 1;
 
     targetNormalizationNode.gain.cancelScheduledValues(audioCtx.currentTime);
 

@@ -20,7 +20,7 @@ class PerformanceMonitor {
 
     static measureCLS() {
         let clsValue = 0;
-        let clsEntries = [];
+        const clsEntries = [];
 
         new PerformanceObserver((entryList) => {
             for (const entry of entryList.getEntries()) {

@@ -16,7 +16,7 @@ import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
 
 export default function (view, params, tabContent) {
     function playAll() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then((item) => {
             playbackManager.play({
                 items: [item]
             });
@@ -24,7 +24,7 @@ export default function (view, params, tabContent) {
     }
 
     function shuffle() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then((item) => {
             getQuery();
             playbackManager.shuffle(item);
         });
@@ -221,7 +221,7 @@ export default function (view, params, tabContent) {
                 mode: 'albums',
                 serverId: ApiClient.serverId()
             });
-            Events.on(filterDialog, 'filterchange', function () {
+            Events.on(filterDialog, 'filterchange', () => {
                 getQuery().StartIndex = 0;
                 reloadItems();
             });
@@ -238,7 +238,7 @@ export default function (view, params, tabContent) {
         const alphaPickerElement = tabElement.querySelector('.alphaPicker');
         const itemsContainer = tabElement.querySelector('.itemsContainer');
 
-        alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
+        alphaPickerElement.addEventListener('alphavaluechanged', (e) => {
             const newValue = e.detail.value;
             const query = getQuery();
             if (newValue === '#') {
@@ -303,7 +303,7 @@ export default function (view, params, tabContent) {
             libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
         });
 
-        btnSelectView.addEventListener('layoutchange', function (e) {
+        btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;
             getPageData().view = viewStyle;
             userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);

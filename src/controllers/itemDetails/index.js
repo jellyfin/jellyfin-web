@@ -146,7 +146,7 @@ function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
         EnableUserData: false,
         SeriesTimerId: seriesTimerId,
         Fields: 'ChannelInfo,ChannelImage'
-    }).then(function (result) {
+    }).then((result) => {
         if (result.Items.length && result.Items[0].SeriesTimerId != seriesTimerId) {
             result.Items = [];
         }
@@ -211,7 +211,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
     const currentValue = select.value;
 
     const selectedId = mediaSources[0].Id;
-    select.innerHTML = mediaSources.map(function (v) {
+    select.innerHTML = mediaSources.map((v) => {
         const selected = v.Id === selectedId ? ' selected' : '';
         return '<option value="' + v.Id + '"' + selected + '>' + escapeHtml(v.Name) + '</option>';
     }).join('');
@@ -232,14 +232,14 @@ function renderTrackSelections(page, instance, item, forceReload) {
 function renderVideoSelections(page, mediaSources) {
     const mediaSource = getSelectedMediaSource(page, mediaSources);
 
-    const tracks = mediaSource.MediaStreams.filter(function (m) {
+    const tracks = mediaSource.MediaStreams.filter((m) => {
         return m.Type === 'Video';
     });
 
     const select = page.querySelector('.selectVideo');
     select.setLabel(globalize.translate('Video'));
     const selectedId = tracks.length ? tracks[0].Index : -1;
-    select.innerHTML = tracks.map(function (v) {
+    select.innerHTML = tracks.map((v) => {
         const selected = v.Index === selectedId ? ' selected' : '';
         const titleParts = [];
         const resolutionText = mediaInfo.getResolutionText(v);
@@ -266,14 +266,14 @@ function renderVideoSelections(page, mediaSources) {
 function renderAudioSelections(page, mediaSources) {
     const mediaSource = getSelectedMediaSource(page, mediaSources);
 
-    const tracks = mediaSource.MediaStreams.filter(function (m) {
+    const tracks = mediaSource.MediaStreams.filter((m) => {
         return m.Type === 'Audio';
     });
     tracks.sort(itemHelper.sortTracks);
     const select = page.querySelector('.selectAudio');
     select.setLabel(globalize.translate('Audio'));
     const selectedId = mediaSource.DefaultAudioStreamIndex;
-    select.innerHTML = tracks.map(function (v) {
+    select.innerHTML = tracks.map((v) => {
         const selected = v.Index === selectedId ? ' selected' : '';
         return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
     }).join('');
@@ -294,7 +294,7 @@ function renderAudioSelections(page, mediaSources) {
 function renderSubtitleSelections(page, mediaSources) {
     const mediaSource = getSelectedMediaSource(page, mediaSources);
 
-    const tracks = mediaSource.MediaStreams.filter(function (m) {
+    const tracks = mediaSource.MediaStreams.filter((m) => {
         return m.Type === 'Subtitle';
     });
     tracks.sort(itemHelper.sortTracks);
@@ -303,7 +303,7 @@ function renderSubtitleSelections(page, mediaSources) {
     const selectedId = mediaSource.DefaultSubtitleStreamIndex == null ? -1 : mediaSource.DefaultSubtitleStreamIndex;
 
     let selected = selectedId === -1 ? ' selected' : '';
-    select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
+    select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map((v) => {
         selected = v.Index === selectedId ? ' selected' : '';
         return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
     }).join('');
@@ -583,7 +583,7 @@ function reloadFromItem(instance, page, params, item, user) {
     }
 
     showRecordingFields(instance, page, item, user);
-    const groupedVersions = (item.MediaSources || []).filter(function (g) {
+    const groupedVersions = (item.MediaSources || []).filter((g) => {
         return g.Type == 'Grouping';
     });
 
@@ -853,7 +853,7 @@ function renderNextUp(page, item, user) {
         SeriesId: item.Id,
         UserId: user.Id,
         Fields: 'MediaSourceCount'
-    }).then(function (result) {
+    }).then((result) => {
         if (result.Items.length) {
             section.classList.remove('hide');
         } else {
@@ -997,7 +997,7 @@ function renderGenres(page, item, context = inferContext(item)) {
     const genres = item.GenreItems || [];
     const type = context === 'music' ? 'MusicGenre' : 'Genre';
 
-    const html = genres.map(function (p) {
+    const html = genres.map((p) => {
         return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
             Name: p.Name,
             Type: type,
@@ -1022,11 +1022,11 @@ function renderGenres(page, item, context = inferContext(item)) {
 }
 
 function renderWriter(page, item, context) {
-    const writers = (item.People || []).filter(function (person) {
+    const writers = (item.People || []).filter((person) => {
         return person.Type === 'Writer';
     });
 
-    const html = writers.map(function (person) {
+    const html = writers.map((person) => {
         return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
             Name: person.Name,
             Type: 'Person',
@@ -1051,11 +1051,11 @@ function renderWriter(page, item, context) {
 }
 
 function renderDirector(page, item, context) {
-    const directors = (item.People || []).filter(function (person) {
+    const directors = (item.People || []).filter((person) => {
         return person.Type === 'Director';
     });
 
-    const html = directors.map(function (person) {
+    const html = directors.map((person) => {
         return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
             Name: person.Name,
             Type: 'Person',
@@ -1085,7 +1085,7 @@ function renderStudio(page, item, context) {
 
     const studios = item.Studios || [];
 
-    const html = studios.map(function (studio) {
+    const html = studios.map((studio) => {
         return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
             Name: studio.Name,
             Type: 'Studio',
@@ -1222,7 +1222,7 @@ function renderMoreFromSeason(view, item, apiClient) {
             SeasonId: item.SeasonId,
             UserId: userId,
             Fields: 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
-        }).then(function (result) {
+        }).then((result) => {
             if (result.Items.length < 2) {
                 section.classList.add('hide');
                 return;
@@ -1246,7 +1246,7 @@ function renderMoreFromSeason(view, item, apiClient) {
             const card = itemsContainer.querySelector('.card[data-id="' + item.Id + '"]');
 
             if (card) {
-                setTimeout(function () {
+                setTimeout(() => {
                     section.querySelector('.emby-scroller').toStart(card.previousSibling || card, true);
                 }, 100);
             }
@@ -1277,7 +1277,7 @@ function renderMoreFromArtist(view, item, apiClient) {
             query.AlbumArtistIds = item.AlbumArtists.map(artist => artist.Id).join(',');
         }
 
-        apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
+        apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
             if (!result.Items.length) {
                 section.classList.add('hide');
                 return;
@@ -1330,7 +1330,7 @@ function renderSimilarItems(page, item, context) {
             options.ExcludeArtistIds = item.AlbumArtists[0].Id;
         }
 
-        apiClient.getSimilarItems(item.Id, options).then(function (result) {
+        apiClient.getSimilarItems(item.Id, options).then((result) => {
             if (!result.Items.length) {
                 similarCollapsible.classList.add('hide');
                 return;
@@ -1370,7 +1370,7 @@ function renderSeriesAirTime(page, item) {
         if (item.AirDays.length == 7) {
             html += 'daily';
         } else {
-            html += item.AirDays.map(function (a) {
+            html += item.AirDays.map((a) => {
                 return a + 's';
             }).join(',');
         }
@@ -1454,7 +1454,7 @@ function renderChildren(page, item) {
     }
 
     promise = promise || apiClient.getItems(apiClient.getCurrentUserId(), query);
-    promise.then(function (result) {
+    promise.then((result) => {
         let html = '';
         let scrollX = false;
         let isList = false;
@@ -1684,7 +1684,7 @@ function renderChannelGuide(page, apiClient, item) {
             EnableImages: false,
             ImageTypeLimit: 0,
             EnableUserData: false
-        }).then(function (result) {
+        }).then((result) => {
             renderProgramsForChannel(page, result);
         });
     }
@@ -1702,7 +1702,7 @@ function renderSeriesSchedule(page, item) {
         EnableUserData: false,
         Fields: 'ChannelInfo,ChannelImage',
         LibrarySeriesId: item.Id
-    }).then(function (result) {
+    }).then((result) => {
         if (result.Items.length) {
             page.querySelector('#seriesScheduleSection').classList.remove('hide');
         } else {
@@ -1741,7 +1741,7 @@ function inferContext(item) {
 function filterItemsByCollectionItemType(items, typeInfo) {
     const filteredItems = [];
     const leftoverItems = [];
-    items.forEach(function(item) {
+    items.forEach((item) => {
         if ((typeInfo.mediaType && item.MediaType == typeInfo.mediaType) || (item.Type == typeInfo.type)) {
             filteredItems.push(item);
         } else {
@@ -1852,7 +1852,7 @@ function renderMusicVideos(page, item, user) {
         AlbumIds: item.Id
     };
 
-    ServerConnections.getApiClient(item.ServerId).getItems(user.Id, request).then(function (result) {
+    ServerConnections.getApiClient(item.ServerId).getItems(user.Id, request).then((result) => {
         if (result.Items.length) {
             page.querySelector('#musicVideosCollapsible').classList.remove('hide');
             const musicVideosContent = page.querySelector('#musicVideosContent');
@@ -1865,7 +1865,7 @@ function renderMusicVideos(page, item, user) {
 }
 
 function renderAdditionalParts(page, item, user) {
-    ServerConnections.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then(function (result) {
+    ServerConnections.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then((result) => {
         if (result.Items.length) {
             page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
             const additionalPartsContent = page.querySelector('#additionalPartsContent');
@@ -1914,7 +1914,7 @@ function getVideosHtml(items) {
 }
 
 function renderSpecials(page, item, user) {
-    ServerConnections.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
+    ServerConnections.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then((specials) => {
         const specialsContent = page.querySelector('#specialsContent');
         specialsContent.innerHTML = getVideosHtml(specials);
         imageLoader.lazyChildren(specialsContent);
@@ -2003,12 +2003,12 @@ export default function (view, params) {
     }
 
     function splitVersions(instance, page, apiClient, pageParams) {
-        confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
+        confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(() => {
             loading.show();
             apiClient.ajax({
                 type: 'DELETE',
                 url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
-            }).then(function () {
+            }).then(() => {
                 loading.hide();
                 reload(instance, page, pageParams);
             });
@@ -2040,7 +2040,7 @@ export default function (view, params) {
 
         if (item.Type === 'Program') {
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function (channel) {
+            apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then((channel) => {
                 playbackManager.play({
                     items: [channel]
                 });
@@ -2073,7 +2073,7 @@ export default function (view, params) {
 
     function onCancelSeriesTimerClick() {
         import('../../components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-            recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(function () {
+            recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(() => {
                 Dashboard.navigate('livetv');
             });
         });
@@ -2081,7 +2081,7 @@ export default function (view, params) {
 
     function onCancelTimerClick() {
         import('../../components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-            recordingHelper.cancelTimer(ServerConnections.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
+            recordingHelper.cancelTimer(ServerConnections.getApiClient(currentItem.ServerId), currentItem.TimerId).then(() => {
                 reload(self, view, params);
             });
         });
@@ -2110,12 +2110,12 @@ export default function (view, params) {
 
         const apiClient = getApiClient();
 
-        apiClient.getItem(apiClient.getCurrentUserId(), selectedItem).then(function (item) {
+        apiClient.getItem(apiClient.getCurrentUserId(), selectedItem).then((item) => {
             selectedItem = item;
 
-            apiClient.getCurrentUser().then(function (user) {
+            apiClient.getCurrentUser().then((user) => {
                 itemContextMenu.show(getContextMenuOptions(selectedItem, user, button))
-                    .then(function (result) {
+                    .then((result) => {
                         if (result.deleted) {
                             const parentId = selectedItem.SeasonId || selectedItem.SeriesId || selectedItem.ParentId;
 
@@ -2144,7 +2144,7 @@ export default function (view, params) {
 
         if (msg.MessageType === 'UserDataChanged' && currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
             const key = currentItem.UserData.Key;
-            const userData = msg.Data.UserDataList.filter(function (u) {
+            const userData = msg.Data.UserDataList.filter((u) => {
                 return u.Key == key;
             })[0];
 
@@ -2171,11 +2171,11 @@ export default function (view, params) {
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
-        view.querySelector('.btnSplitVersions').addEventListener('click', function () {
+        view.querySelector('.btnSplitVersions').addEventListener('click', () => {
             splitVersions(self, view, apiClient, params);
         });
         bindAll(view, '.btnMoreCommands', 'click', onMoreCommandsClick);
-        view.querySelector('.selectSource').addEventListener('change', function () {
+        view.querySelector('.selectSource').addEventListener('change', () => {
             renderVideoSelections(view, self._currentPlaybackMediaSources);
             renderAudioSelections(view, self._currentPlaybackMediaSources);
             renderSubtitleSelections(view, self._currentPlaybackMediaSources);
@@ -2201,13 +2201,13 @@ export default function (view, params) {
 
             itemShortcuts.on(view.querySelector('.nameContainer'));
         });
-        view.addEventListener('viewbeforehide', function () {
+        view.addEventListener('viewbeforehide', () => {
             itemShortcuts.off(view.querySelector('.nameContainer'));
             Events.off(apiClient, 'message', onWebSocketMessage);
             Events.off(playbackManager, 'playerchange', onPlayerChange);
             libraryMenu.setTransparentMenu(false);
         });
-        view.addEventListener('viewdestroy', function () {
+        view.addEventListener('viewdestroy', () => {
             currentItem = null;
             self._currentPlaybackMediaSources = null;
             self.currentRecordingFields = null;

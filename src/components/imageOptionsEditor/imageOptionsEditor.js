@@ -89,7 +89,7 @@ class ImageOptionsEditor {
         });
         dlg.classList.add('formDialog');
         dlg.innerHTML = globalize.translateHtml(template);
-        dlg.addEventListener('close', function () {
+        dlg.addEventListener('close', () => {
             saveValues(dlg, options);
         });
         loadValues(dlg, itemType, options, availableOptions);
@@ -98,7 +98,7 @@ class ImageOptionsEditor {
         }).catch(() => {
             return;
         });
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
             dialogHelper.close(dlg);
         });
     }

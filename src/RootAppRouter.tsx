@@ -26,7 +26,7 @@ import { ThemeStorageManager } from 'themes/themeStorageManager';
 const Visualizers = lazy(() => import('components/visualizer/Visualizers'));
 
 const layoutMode = browser.tv ? LayoutMode.Tv : localStorage.getItem(LAYOUT_SETTING_KEY);
-const isExperimentalLayout = !layoutMode || layoutMode === LayoutMode.Experimental;
+const isExperimentalLayout = layoutMode == null || layoutMode === '' || layoutMode === LayoutMode.Experimental;
 
 const router = createHashRouter([
     {

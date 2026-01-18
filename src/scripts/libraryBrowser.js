@@ -9,7 +9,7 @@ export function showLayoutMenu (button, currentLayout, views) {
         views = views ? views.split(',') : ['List', 'Poster', 'PosterCard', 'Thumb', 'ThumbCard'];
     }
 
-    const menuItems = views.map(function (v) {
+    const menuItems = views.map((v) => {
         return {
             name: globalize.translate(v),
             id: v,

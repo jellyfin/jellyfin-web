@@ -5,6 +5,7 @@ import type { PlaybackStopInfo } from 'types/playbackStopInfo';
 import { PlaybackSubscriber } from 'apps/stable/features/playback/utils/playbackSubscriber';
 import { isInSegment } from 'apps/stable/features/playback/utils/mediaSegments';
 import Events, { type Event } from 'utils/events';
+import type { Player } from './playbackmanager';
 import { EventType } from 'constants/eventType';
 import './skipbutton.scss';
 import dom from 'utils/dom';
@@ -58,7 +59,7 @@ class SkipSegment extends PlaybackSubscriber {
             this.skipElement = document.body.querySelector('.skip-button');
             if (this.skipElement) {
                 this.skipElement.addEventListener('click', () => {
-                    const time = this.playbackManager.currentTime() * TICKS_PER_MILLISECOND;
+                    const time = this.playbackManager.currentTime(this.player as unknown as Player) * TICKS_PER_MILLISECOND;
                     if (this.currentSegment?.EndTicks) {
                         if (time < this.currentSegment.EndTicks - TICKS_PER_SECOND) {
                             this.playbackManager.seek(this.currentSegment.EndTicks);
@@ -150,7 +151,7 @@ class SkipSegment extends PlaybackSubscriber {
 
     onPromptSkip(e: Event, segment: MediaSegmentDto) {
         if (this.player && segment.EndTicks != null
-            && segment.EndTicks >= this.playbackManager.currentItem(this.player).RunTimeTicks
+            && segment.EndTicks >= this.playbackManager.currentItem(this.player as unknown as Player).RunTimeTicks
             && this.playbackManager.getNextItem()
             && userSettings.enableNextVideoInfoOverlay()
         ) {
@@ -173,7 +174,7 @@ class SkipSegment extends PlaybackSubscriber {
 
     onPlayerTimeUpdate() {
         if (this.currentSegment) {
-            const time = this.playbackManager.currentTime(this.player) * TICKS_PER_MILLISECOND;
+            const time = this.playbackManager.currentTime(this.player as unknown as Player) * TICKS_PER_MILLISECOND;
 
             if (!isInSegment(this.currentSegment, time)) {
                 this.currentSegment = null;

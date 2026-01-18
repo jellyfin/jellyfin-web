@@ -61,58 +61,18 @@ module.exports = merge(common, {
         compress: true,
         host: '0.0.0.0',
         port: 8080,
-        allowedHosts: 'all',
+        allowedHosts: ['all'],
         hot: true,
-        liveReload: false,
         devMiddleware: {
-            writeToDisk: false,
-            // Improve performance with larger in-memory cache
-            maxAge: 86400000, // 1 day
+            writeToDisk: false
         },
-        static: {
-            cacheControl: false, // Disable caching for static assets during dev
-        },
-        client: {
-            overlay: {
-                errors: true,
-                warnings: false
+        proxy: [
+            {
+                context: (pathname) => !isWebpackAsset(pathname),
+                target: proxyTarget || 'https://2activedesign.com',
+                changeOrigin: true,
+                secure: false
             }
-        },
-        ...(proxyTarget ? {
-            proxy: [
-                {
-                    context: (pathname, req) => !isWebpackAsset(pathname),
-                    target: proxyTarget,
-                    changeOrigin: true,
-                    secure: true,
-                    ws: true,
-                    agent: new https.Agent({
-                        keepAlive: true,
-                        keepAliveMsecs: 30000,
-                        maxSockets: 50
-                    }),
-                    onProxyReq(proxyReq, req) {
-                        // Forward Jellyfin auth headers
-                        if (req.headers.authorization) {
-                            proxyReq.setHeader('authorization', req.headers.authorization);
-                        }
-                        if (req.headers['x-emby-authorization']) {
-                            proxyReq.setHeader('x-emby-authorization', req.headers['x-emby-authorization']);
-                        }
-                        if (req.headers['x-mediabrowser-token']) {
-                            proxyReq.setHeader('x-mediabrowser-token', req.headers['x-mediabrowser-token']);
-                        }
-                        // Set origin/referer to match target
-                        proxyReq.setHeader('origin', proxyTarget);
-                        proxyReq.setHeader('referer', proxyTarget + '/');
-                    },
-                    onProxyRes(proxyRes) {
-                        // Prevent caching during dev
-                        proxyRes.headers['cache-control'] = 'no-store';
-                    },
-                    logLevel: 'warn'
-                }
-            ]
-        } : {})
+        ]
     }
 });

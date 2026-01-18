@@ -45,10 +45,10 @@ const AppTabs: FC<AppTabsParams> = ({
     useEffect(() => {
         const doc = documentRef.current;
 
-        if (doc) Events.on(doc, EventType.SET_TABS, onTabsUpdate);
+        if (doc !== null) Events.on(doc, EventType.SET_TABS, onTabsUpdate);
 
         return () => {
-            if (doc) Events.off(doc, EventType.SET_TABS, onTabsUpdate);
+            if (doc !== null) Events.off(doc, EventType.SET_TABS, onTabsUpdate);
         };
     }, [ onTabsUpdate ]);
 

@@ -15,8 +15,8 @@ EmbyProgressRing.createdCallback = function () {
 
     if (window.MutationObserver) {
         // create an observer instance
-        const observer = new MutationObserver(function (mutations) {
-            mutations.forEach(function () {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach(() => {
                 instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
             });
         });

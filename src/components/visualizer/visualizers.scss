@@ -1,13 +1,13 @@
-#barSurfer>div.mdl-slider-background-flex-container,
-#barSurfer>input.nowPlayingBarPositionSlider,
-#barSurfer>div.sliderBubbleTrack #inputSurfer[hidden],
+#barSurfer > div.mdl-slider-background-flex-container,
+#barSurfer > input.nowPlayingBarPositionSlider,
+#barSurfer > div.sliderBubbleTrack #inputSurfer[hidden],
 #barSurfer[hidden] ::part(wrapper) {
     display: none;
 }
 
-#barSurfer[hidden]>div.mdl-slider-background-flex-container,
-#barSurfer[hidden]>input.nowPlayingBarPositionSlider,
-#barSurfer[hidden]>div.sliderBubbleTrack {
+#barSurfer[hidden] > div.mdl-slider-background-flex-container,
+#barSurfer[hidden] > input.nowPlayingBarPositionSlider,
+#barSurfer[hidden] > div.sliderBubbleTrack {
     display: unset;
 }
 
@@ -37,19 +37,19 @@ div#barSurfer,
 div#inputSurfer,
 div#inputSurfer ::part(wrapper),
 div#barSurfer ::part(wrapper),
-div.appfooter>div.nowPlayingBar {
+div.appfooter > div.nowPlayingBar {
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    user-select: none;
+    user-select: none;
+    user-select: none;
     user-select: none;
 }
 
 #inputSurfer ::part(minimap) {
     bottom: 14.6rem;
     height: 1.5rem;
-    opacity: .9;
+    opacity: 0.9;
     user-select: none;
     z-index: 3;
     left: 0;
@@ -137,7 +137,7 @@ div.nowPlayingButtonsContainer {
     width: 85%;
 }
 
-div>form>div>button,
+div > form > div > button,
 button.button-submit.btnSave {
     position: fixed !important;
     bottom: 9rem;
@@ -247,7 +247,7 @@ body.songEnd .productionYear {
 }
 
 .discImage {
-    filter: brightness(.85) contrast(1.05);
+    filter: brightness(0.85) contrast(1.05);
     background-position-x: center;
     background-position-y: center;
     position: fixed;
@@ -257,7 +257,7 @@ body.songEnd .productionYear {
     width: 42vh;
     background-size: 42vh;
     transform: translateX(0) rotate(-3turn);
-    transition: transform 2.4s cubic-bezier(.22, .61, .36, 1);
+    transition: transform 2.4s cubic-bezier(0.22, 0.61, 0.36, 1);
     will-change: transform;
     z-index: 0;
 }
@@ -269,12 +269,12 @@ body:not(.transition).mouseIdle .discImage {
 }
 
 body.songEnd .discImage {
-    transform: translateX(0vh) rotate(-4turn);
+    transform: translateX(0) rotate(-4turn);
     transition: transform 3s;
 }
 
 body.transition .discImage {
-    transform: translateX(0vh) rotate(-3turn);
+    transform: translateX(0) rotate(-3turn);
     transition: transform 3s;
 }
 
@@ -335,7 +335,7 @@ body.transition .discImage {
         right: 31%;
         width: 38%;
 
-        &>.nowPlayingPositionSliderContainer {
+        & > .nowPlayingPositionSliderContainer {
             margin-left: 2vw;
             margin-right: 2vw;
         }
@@ -357,22 +357,22 @@ body.transition .discImage {
         transition: filter 1.4s ease-in-out;
     }
 
-    #playlist div>div.listViewUserDataButtons,
+    #playlist div > div.listViewUserDataButtons,
     #nowPlayingPage div.playlistSection div.playlistSectionButton,
     #playlist button div.listItemImage.lazy,
-    #playlist div.listItem>div.listItemImage.itemAction,
-    #playlist div>span {
+    #playlist div.listItem > div.listItemImage.itemAction,
+    #playlist div > span {
         opacity: 0;
         animation: none;
     }
 
     #playlist div.listItem:hover div.listViewUserDataButtons,
     #playlist button:hover div.listItemImage,
-    #playlist div.listItem:hover>div.listItemImage.itemAction,
-    #playlist div.listItem>div.listItemImage.itemAction.playlistIndexIndicatorImage,
+    #playlist div.listItem:hover > div.listItemImage.itemAction,
+    #playlist div.listItem > div.listItemImage.itemAction.playlistIndexIndicatorImage,
     #playlist button div.playlistIndexIndicatorImage,
     #nowPlayingPage div.playlistSection div:hover.playlistSectionButton,
-    #playlist div.listItem:hover>span {
+    #playlist div.listItem:hover > span {
         opacity: 1;
     }
 
@@ -387,7 +387,7 @@ body.transition .discImage {
 
     div.nowPlayingButtonsContainer {
         bottom: 4.5rem;
-        height: 0rem;
+        height: 0;
         margin: 0;
         position: fixed;
         right: 9vw;
@@ -395,7 +395,7 @@ body.transition .discImage {
         align-items: center;
     }
 
-    .nowPlayingInfoControls>.infoContainer {
+    .nowPlayingInfoControls > .infoContainer {
         z-index: -1;
         position: fixed;
         background-color: black;
@@ -404,7 +404,7 @@ body.transition .discImage {
         left: -0.2em;
         padding-bottom: 4.7rem;
         padding-left: 69vw;
-        padding-right: 0vw;
+        padding-right: 0;
         padding-top: 6rem;
         width: unset;
         min-width: 25.4rem;
@@ -418,29 +418,29 @@ body.transition .discImage {
     }
 
     /* Base state: element is off-screen */
-    body.mouseIdle .nowPlayingInfoControls>.infoContainer {
+    body.mouseIdle .nowPlayingInfoControls > .infoContainer {
         transform: translateX(calc(-100vw - 6rem));
         transition: transform 2s ease-in-out;
     }
 
     /* Slide in when the page loads or when the user is active */
-    body.transition .nowPlayingInfoControls>.infoContainer,
-    body:not(.mouseIdle) .nowPlayingInfoControls>.infoContainer {
+    body.transition .nowPlayingInfoControls > .infoContainer,
+    body:not(.mouseIdle) .nowPlayingInfoControls > .infoContainer {
         transform: translateX(0);
 
         transition: transform 2s ease-in-out;
+
         /* Ensures immediate transition when user becomes active */
     }
 
     /* Slide out after seconds of mouse idle */
-    body:not(.transition).mouseIdle .nowPlayingInfoControls>.infoContainer {
+    body:not(.transition).mouseIdle .nowPlayingInfoControls > .infoContainer {
         transition-delay: 2s;
     }
 
-    body.songEnd .nowPlayingInfoControls>.infoContainer {
+    body.songEnd .nowPlayingInfoControls > .infoContainer {
         transform: translateX(calc(-100vw));
         transition: transform 1s ease-in-out;
-
     }
 
     header,
@@ -452,8 +452,8 @@ body.transition .discImage {
     #simpleSlider .nowPlayingButtonsContainer,
     div.positionTime,
     div.runtime,
-    body.transition .nowPlayingInfoContainer>.nowPlayingPageImageContainer,
-    .nowPlayingInfoContainer>.nowPlayingPageImageContainer {
+    body.transition .nowPlayingInfoContainer > .nowPlayingPageImageContainer,
+    .nowPlayingInfoContainer > .nowPlayingPageImageContainer {
         opacity: 1;
         transition: opacity 400ms ease-in-out;
         transition-delay: 100ms;
@@ -475,14 +475,14 @@ body.transition .discImage {
     // body:not(.transition).mouseIdle div#itemDetailPage,
     // body:not(.transition).mouseIdle div#musicPage,
     // body:not(.transition).mouseIdle div#indexPage,
-    body:not(.transition).mouseIdle .nowPlayingInfoContainer>.nowPlayingPageImageContainer {
+    body:not(.transition).mouseIdle .nowPlayingInfoContainer > .nowPlayingPageImageContainer {
         opacity: 0;
         transition: opacity 500ms ease-out;
         transition-delay: 5s;
         will-change: opacity;
     }
 
-    body.songEnd .nowPlayingInfoContainer>.nowPlayingPageImageContainer {
+    body.songEnd .nowPlayingInfoContainer > .nowPlayingPageImageContainer {
         opacity: 0;
         transition-delay: 1.5s;
         will-change: opacity;
@@ -529,14 +529,14 @@ body.transition .discImage {
         display: flex;
     }
 
-    .itemsContainer-tv>.squareCard,
-    .itemsContainer>.squareCard {
+    .itemsContainer-tv > .squareCard,
+    .itemsContainer > .squareCard {
         width: calc(100%/5);
     }
 
     div.playlistSection {
         bottom: 8rem;
-        font-size: .75em;
+        font-size: 0.75em;
         max-height: 13rem;
         overflow: auto;
         padding: 0;
@@ -550,7 +550,7 @@ body.transition .discImage {
         width: 24rem;
     }
 
-    .nowPlayingInfoContainer>.nowPlayingPageImageContainer {
+    .nowPlayingInfoContainer > .nowPlayingPageImageContainer {
         bottom: 10rem;
         left: auto;
         position: fixed;
@@ -607,7 +607,7 @@ body.transition .discImage {
     .listItemBodyText {
         margin: 0;
         overflow: hidden;
-        padding: .1em 0;
+        padding: 0.1em 0;
         text-overflow: ellipsis;
         white-space: pre;
         direction: ltr;

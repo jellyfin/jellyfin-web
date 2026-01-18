@@ -43,7 +43,7 @@ class PluginManager {
     async #preparePlugin(pluginSpec, plugin) {
         if (typeof pluginSpec === 'string') {
             // See if it's already installed
-            const existing = this.plugins.filter(function (p) {
+            const existing = this.plugins.filter((p) => {
                 return p.id === plugin.id;
             })[0];
 

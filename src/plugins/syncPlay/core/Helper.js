@@ -77,7 +77,7 @@ export function getItemsForPlayback(apiClient, query) {
     if (query.Ids && query.Ids.split(',').length === 1) {
         const itemId = query.Ids.split(',');
 
-        return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+        return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
             return {
                 Items: [item]
             };
@@ -107,7 +107,7 @@ function mergePlaybackQueries(obj1, obj2) {
 export function translateItemsForPlayback(apiClient, items, options) {
     if (items.length > 1 && options?.ids) {
         // Use the original request id array for sorting the result in the proper order.
-        items.sort(function (a, b) {
+        items.sort((a, b) => {
             return options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id);
         });
     }
@@ -142,8 +142,8 @@ export function translateItemsForPlayback(apiClient, items, options) {
             Recursive: false,
             SortBy: options.shuffle ? 'Random' : 'SortName',
             MediaTypes: 'Photo,Video'
-        }).then(function (result) {
-            let index = result.Items.map(function (i) {
+        }).then((result) => {
+            let index = result.Items.map((i) => {
                 return i.Id;
             }).indexOf(firstItem.Id);
 
@@ -189,8 +189,8 @@ export function translateItemsForPlayback(apiClient, items, options) {
             MediaTypes: 'Audio,Video'
         }, queryOptions));
     } else if (firstItem.Type === 'Episode' && items.length === 1) {
-        promise = new Promise(function (resolve, reject) {
-            apiClient.getCurrentUser().then(function (user) {
+        promise = new Promise((resolve, reject) => {
+            apiClient.getCurrentUser().then((user) => {
                 if (!user.Configuration.EnableNextEpisodeAutoPlay || !firstItem.SeriesId) {
                     resolve(null);
                     return;
@@ -201,9 +201,9 @@ export function translateItemsForPlayback(apiClient, items, options) {
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
                     Fields: ['Chapters', 'Trickplay']
-                }).then(function (episodesResult) {
+                }).then((episodesResult) => {
                     let foundItem = false;
-                    episodesResult.Items = episodesResult.Items.filter(function (e) {
+                    episodesResult.Items = episodesResult.Items.filter((e) => {
                         if (foundItem) {
                             return true;
                         }
@@ -222,7 +222,7 @@ export function translateItemsForPlayback(apiClient, items, options) {
     }
 
     if (promise) {
-        return promise.then(function (result) {
+        return promise.then((result) => {
             return result ? result.Items : items;
         });
     } else {

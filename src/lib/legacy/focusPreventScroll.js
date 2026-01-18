@@ -6,7 +6,7 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
         try {
             const focusElem = document.createElement('div');
 
-            focusElem.addEventListener('focus', function(event) {
+            focusElem.addEventListener('focus', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
             }, true);

@@ -109,7 +109,7 @@ function loadResume(view, userId, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getItems(userId, options).then(function (result) {
+    ApiClient.getItems(userId, options).then((result) => {
         if (result.Items.length) {
             view.querySelector('#resumableSection').classList.remove('hide');
         } else {
@@ -147,7 +147,7 @@ function loadLatest(view, userId, parentId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
     };
-    ApiClient.getLatestItems(options).then(function (items) {
+    ApiClient.getLatestItems(options).then((items) => {
         const section = view.querySelector('#latestItemsSection');
         const allowBottomPadding = !enableScrollX();
         const container = section.querySelector('#latestEpisodesItems');
@@ -187,7 +187,7 @@ function loadNextUp(view, userId, parentId) {
         EnableTotalRecordCount: false
     };
     query.ParentId = libraryMenu.getTopParentId();
-    ApiClient.getNextUpEpisodes(query).then(function (result) {
+    ApiClient.getNextUpEpisodes(query).then((result) => {
         if (result.Items.length) {
             view.querySelector('.noNextUpItems').classList.add('hide');
         } else {
@@ -298,7 +298,7 @@ export default function (view, params) {
     }
 
     function preLoadTab(page, index) {
-        getTabController(page, index, function (controller) {
+        getTabController(page, index, (controller) => {
             if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
                 controller.preRender();
             }
@@ -307,7 +307,7 @@ export default function (view, params) {
 
     function loadTab(page, index) {
         currentTabIndex = index;
-        getTabController(page, index, function (controller) {
+        getTabController(page, index, (controller) => {
             if (renderedTabs.indexOf(index) == -1) {
                 renderedTabs.push(index);
                 controller.renderTab();
@@ -353,13 +353,13 @@ export default function (view, params) {
 
     const tabControllers = [];
     let renderedTabs = [];
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         initTabs();
         if (!view.getAttribute('data-title')) {
             const parentId = params.topParentId;
 
             if (parentId) {
-                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
+                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then((item) => {
                     view.setAttribute('data-title', item.Name);
                     libraryMenu.setTitle(item.Name);
                 });
@@ -373,13 +373,13 @@ export default function (view, params) {
         Events.on(ApiClient, 'message', onWebSocketMessage);
         inputManager.on(window, onInputCommand);
     });
-    view.addEventListener('viewbeforehide', function () {
+    view.addEventListener('viewbeforehide', () => {
         inputManager.off(window, onInputCommand);
         Events.off(playbackManager, 'playbackstop', onPlaybackStop);
         Events.off(ApiClient, 'message', onWebSocketMessage);
     });
-    view.addEventListener('viewdestroy', function () {
-        tabControllers.forEach(function (t) {
+    view.addEventListener('viewdestroy', () => {
+        tabControllers.forEach((t) => {
             if (t.destroy) {
                 t.destroy();
             }

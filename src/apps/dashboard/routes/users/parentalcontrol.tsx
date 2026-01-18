@@ -212,7 +212,7 @@ const UserParentalControl = () => {
         loading.show();
         const promise1 = window.ApiClient.getUser(userId);
         const promise2 = window.ApiClient.getParentalRatings();
-        Promise.all([promise1, promise2]).then(function (responses) {
+        Promise.all([promise1, promise2]).then((responses) => {
             loadUser(responses[0], responses[1]);
         }).catch(err => {
             console.error('[userparentalcontrol] failed to load data', err);
@@ -234,7 +234,7 @@ const UserParentalControl = () => {
             import('../../../../components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
                 accessschedule.show({
                     schedule: schedule
-                }).then(function (updatedSchedule) {
+                }).then((updatedSchedule) => {
                     const schedules = getSchedulesFromPage();
 
                     if (index == -1) {
@@ -252,7 +252,7 @@ const UserParentalControl = () => {
         };
 
         const getSchedulesFromPage = () => {
-            return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), function (elem) {
+            return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), (elem) => {
                 return {
                     DayOfWeek: elem.getAttribute('data-day'),
                     StartHour: elem.getAttribute('data-start'),
@@ -262,7 +262,7 @@ const UserParentalControl = () => {
         };
 
         const getAllowedTagsFromPage = () => {
-            return Array.prototype.map.call(page.querySelectorAll('.allowedTag'), function (elem) {
+            return Array.prototype.map.call(page.querySelectorAll('.allowedTag'), (elem) => {
                 return elem.getAttribute('data-tag');
             }) as string[];
         };
@@ -270,7 +270,7 @@ const UserParentalControl = () => {
         const showAllowedTagPopup = () => {
             prompt({
                 label: globalize.translate('LabelTag')
-            }).then(function (value) {
+            }).then((value) => {
                 const tags = getAllowedTagsFromPage();
 
                 if (tags.indexOf(value) == -1) {
@@ -283,7 +283,7 @@ const UserParentalControl = () => {
         };
 
         const getBlockedTagsFromPage = () => {
-            return Array.prototype.map.call(page.querySelectorAll('.blockedTag'), function (elem) {
+            return Array.prototype.map.call(page.querySelectorAll('.blockedTag'), (elem) => {
                 return elem.getAttribute('data-tag');
             }) as string[];
         };
@@ -291,7 +291,7 @@ const UserParentalControl = () => {
         const showBlockedTagPopup = () => {
             prompt({
                 label: globalize.translate('LabelTag')
-            }).then(function (value) {
+            }).then((value) => {
                 const tags = getBlockedTagsFromPage();
 
                 if (tags.indexOf(value) == -1) {
@@ -317,7 +317,7 @@ const UserParentalControl = () => {
             }
 
             loading.show();
-            window.ApiClient.getUser(userId).then(function (result) {
+            window.ApiClient.getUser(userId).then((result) => {
                 saveUser(result);
             }).catch(err => {
                 console.error('[userparentalcontrol] failed to fetch user', err);

@@ -175,7 +175,7 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
 
 export function applySrc(elem, src, options) {
     if (window.Windows && options.mediaSource?.IsLocal) {
-        return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
+        return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then((file) => {
             const playlist = new Windows.Media.Playback.MediaPlaybackList();
 
             const source1 = Windows.Media.Core.MediaSource.createFromStorageFile(file);
@@ -266,8 +266,8 @@ export function destroyFlvPlayer(instance) {
 }
 
 export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, reject) {
-    hls.on(Hls.Events.MANIFEST_PARSED, function () {
-        playWithPromise(elem, onErrorFn).then(resolve, function () {
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        playWithPromise(elem, onErrorFn).then(resolve, () => {
             if (reject) {
                 reject();
                 reject = null;
@@ -275,7 +275,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
         });
     });
 
-    hls.on(Hls.Events.ERROR, function (event, data) {
+    hls.on(Hls.Events.ERROR, (event, data) => {
         console.error('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
         const isLoadFailure = [
             'manifestLoadError',

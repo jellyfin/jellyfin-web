@@ -26,7 +26,7 @@ function zoomIn(elem, iterations) {
 }
 
 function createMediaElement(instance, options) {
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
         const dlg = document.querySelector('.youtubePlayerContainer');
 
         if (!dlg) {
@@ -125,7 +125,7 @@ function onPlaying(instance, playOptions, resolve) {
         instance.timeUpdateInterval = setInterval(onTimeUpdate.bind(instance), 500);
 
         if (playOptions.fullscreen) {
-            appRouter.showVideoOsd().then(function () {
+            appRouter.showVideoOsd().then(() => {
                 instance.videoDialog.classList.remove('onTop');
             });
         } else {
@@ -138,7 +138,7 @@ function onPlaying(instance, playOptions, resolve) {
 }
 
 function setCurrentSrc(instance, elem, options) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         instance._currentSrc = options.url;
         const params = new URLSearchParams(options.url.split('?')[1]); /* eslint-disable-line compat/compat */
         // 3. This function creates an <iframe> (and YouTube player)
@@ -208,7 +208,7 @@ class YoutubePlayer {
         this.started = false;
         const instance = this;
 
-        return createMediaElement(this, options).then(function (elem) {
+        return createMediaElement(this, options).then((elem) => {
             return setCurrentSrc(instance, elem, options);
         });
     }
@@ -296,7 +296,7 @@ class YoutubePlayer {
             const instance = this;
 
             // This needs a delay before the youtube player will report the correct player state
-            setTimeout(function () {
+            setTimeout(() => {
                 Events.trigger(instance, 'pause');
             }, 200);
         }
@@ -310,7 +310,7 @@ class YoutubePlayer {
             const instance = this;
 
             // This needs a delay before the youtube player will report the correct player state
-            setTimeout(function () {
+            setTimeout(() => {
                 Events.trigger(instance, 'unpause');
             }, 200);
         }

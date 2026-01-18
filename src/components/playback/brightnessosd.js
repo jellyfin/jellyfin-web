@@ -62,7 +62,7 @@ function showOsd() {
     // trigger reflow
     void elem.offsetWidth;
 
-    requestAnimationFrame(function () {
+    requestAnimationFrame(() => {
         elem.classList.remove('iconOsd-hidden');
 
         hideTimeout = setTimeout(hideOsd, 3000);
@@ -85,7 +85,7 @@ function hideOsd() {
             // trigger reflow
             void elem.offsetWidth;
 
-            requestAnimationFrame(function () {
+            requestAnimationFrame(() => {
                 elem.classList.add('iconOsd-hidden');
 
                 dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
@@ -156,7 +156,7 @@ function bindToPlayer(player) {
     Events.on(player, 'playbackstop', hideOsd);
 }
 
-Events.on(playbackManager, 'playerchange', function () {
+Events.on(playbackManager, 'playerchange', () => {
     bindToPlayer(playbackManager.getCurrentPlayer());
 });
 

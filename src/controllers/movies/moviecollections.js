@@ -202,7 +202,7 @@ export default function (view, params, tabContent) {
     };
 
     const initPage = (tabElement) => {
-        tabElement.querySelector('.btnSort').addEventListener('click', function (e) {
+        tabElement.querySelector('.btnSort').addEventListener('click', (e) => {
             libraryBrowser.showSortMenu({
                 items: [{
                     name: globalize.translate('Name'),
@@ -232,7 +232,7 @@ export default function (view, params, tabContent) {
         btnSelectView.addEventListener('click', (e) => {
             libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
         });
-        btnSelectView.addEventListener('layoutchange', function (e) {
+        btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;
             getPageData().view = viewStyle;
             userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);
@@ -254,7 +254,7 @@ export default function (view, params, tabContent) {
         const alphaPickerElement = tabElement.querySelector('.alphaPicker');
 
         if (alphaPickerElement) {
-            alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
+            alphaPickerElement.addEventListener('alphavaluechanged', (e) => {
                 const newValue = e.detail.value;
                 const query = getQuery();
                 if (newValue === '#') {

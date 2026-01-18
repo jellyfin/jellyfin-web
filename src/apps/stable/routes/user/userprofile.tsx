@@ -48,7 +48,7 @@ const UserProfile: FunctionComponent = () => {
         const userImage = (page.querySelector('#image') as HTMLDivElement);
         userImage.style.backgroundImage = 'url(' + imageUrl + ')';
 
-        Dashboard.getCurrentUser().then(function (loggedInUser: UserDto) {
+        Dashboard.getCurrentUser().then((loggedInUser: UserDto) => {
             if (!user.Policy) {
                 throw new Error('Unexpected null user.Policy');
             }
@@ -113,7 +113,7 @@ const UserProfile: FunctionComponent = () => {
                 }
 
                 userImage.style.backgroundImage = 'url(' + reader.result + ')';
-                window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(function () {
+                window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(() => {
                     loading.hide();
                     void queryClient.invalidateQueries({
                         queryKey: ['User']
@@ -135,9 +135,9 @@ const UserProfile: FunctionComponent = () => {
             confirm(
                 globalize.translate('DeleteImageConfirmation'),
                 globalize.translate('DeleteImage')
-            ).then(function () {
+            ).then(() => {
                 loading.show();
-                window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(function () {
+                window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(() => {
                     loading.hide();
                     void queryClient.invalidateQueries({
                         queryKey: ['User']

@@ -16,11 +16,11 @@ import 'elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
 function addVirtualFolder(page) {
     import('components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }) => {
         new MediaLibraryCreator({
-            collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
+            collectionTypeOptions: getCollectionTypeOptions().filter((f) => {
                 return !f.hidden;
             }),
             refresh: shouldRefreshLibraryAfterChanges(page)
-        }).then(function (hasChanges) {
+        }).then((hasChanges) => {
             if (hasChanges) {
                 reloadLibrary(page);
             }
@@ -33,7 +33,7 @@ function editVirtualFolder(page, virtualFolder) {
         new MediaLibraryEditor({
             refresh: shouldRefreshLibraryAfterChanges(page),
             library: virtualFolder
-        }).then(function (hasChanges) {
+        }).then((hasChanges) => {
             if (hasChanges) {
                 reloadLibrary(page);
             }
@@ -54,11 +54,11 @@ function deleteVirtualFolder(page, virtualFolder) {
         title: globalize.translate('HeaderRemoveMediaFolder'),
         confirmText: globalize.translate('Delete'),
         primary: 'delete'
-    }).then(function () {
+    }).then(() => {
         const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
         ServerConnections.currentApiClient()
             .removeVirtualFolder(virtualFolder.Name, refreshAfterChange)
-            .then(function () {
+            .then(() => {
                 reloadLibrary(page);
             });
     });
@@ -80,12 +80,12 @@ function renameVirtualFolder(page, virtualFolder) {
             label: globalize.translate('LabelNewName'),
             description: globalize.translate('MessageRenameMediaFolder'),
             confirmText: globalize.translate('ButtonRename')
-        }).then(function (newName) {
+        }).then((newName) => {
             if (newName && newName != virtualFolder.Name) {
                 const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
                 ServerConnections.currentApiClient()
                     .renameVirtualFolder(virtualFolder.Name, newName, refreshAfterChange)
-                    .then(function () {
+                    .then(() => {
                         reloadLibrary(page);
                     });
             }
@@ -158,7 +158,7 @@ function reloadLibrary(page) {
     loading.show();
     ServerConnections.currentApiClient()
         .getVirtualFolders()
-        .then(function (result) {
+        .then((result) => {
             reloadVirtualFolders(page, result);
         });
 }
@@ -190,18 +190,18 @@ function reloadVirtualFolders(page, virtualFolders) {
     divVirtualFolders.classList.add('itemsContainer');
     divVirtualFolders.classList.add('vertical-wrap');
     const btnCardMenuElements = divVirtualFolders.querySelectorAll('.btnCardMenu');
-    btnCardMenuElements.forEach(function (btn) {
-        btn.addEventListener('click', function () {
+    btnCardMenuElements.forEach((btn) => {
+        btn.addEventListener('click', () => {
             showCardMenu(page, btn, virtualFolders);
         });
     });
-    divVirtualFolders.querySelector('#addLibrary').addEventListener('click', function () {
+    divVirtualFolders.querySelector('#addLibrary').addEventListener('click', () => {
         addVirtualFolder(page);
     });
 
     const libraryEditElements = divVirtualFolders.querySelectorAll('.editLibrary');
-    libraryEditElements.forEach(function (btn) {
-        btn.addEventListener('click', function () {
+    libraryEditElements.forEach((btn) => {
+        btn.addEventListener('click', () => {
             const card = dom.parentWithClass(btn, 'card');
             const index = parseInt(card.getAttribute('data-index'), 10);
             const virtualFolder = virtualFolders[index];
@@ -219,7 +219,7 @@ function editImages(page, virtualFolder) {
         imageEditor.show({
             itemId: virtualFolder.ItemId,
             serverId: ServerConnections.currentApiClient().serverId()
-        }).then(function () {
+        }).then(() => {
             reloadLibrary(page);
         });
     });
@@ -334,7 +334,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     }
 
     html += '</div>';
-    let typeName = getCollectionTypeOptions().filter(function (t) {
+    let typeName = getCollectionTypeOptions().filter((t) => {
         return t.value == virtualFolder.CollectionType;
     })[0];
     typeName = typeName ? typeName.name : globalize.translate('Other');

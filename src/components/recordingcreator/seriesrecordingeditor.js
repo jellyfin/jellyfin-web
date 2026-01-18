@@ -25,7 +25,7 @@ let currentItemId;
 let currentServerId;
 
 function deleteTimer(apiClient, timerId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         import('./recordinghelper').then(({ default: recordingHelper }) => {
             recordingHelper.cancelSeriesTimerWithConfirmation(timerId, apiClient.serverId()).then(resolve, reject);
         });
@@ -66,7 +66,7 @@ function onSubmit(e) {
 
     const apiClient = ServerConnections.getApiClient(currentServerId);
 
-    apiClient.getLiveTvSeriesTimer(currentItemId).then(function (item) {
+    apiClient.getLiveTvSeriesTimer(currentItemId).then((item) => {
         item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
         item.PostPaddingSeconds = form.querySelector('#txtPostPaddingMinutes').value * 60;
         item.RecordAnyChannel = form.querySelector('.selectChannels').value === 'all';
@@ -87,13 +87,13 @@ function onSubmit(e) {
 function init(context) {
     fillKeepUpTo(context);
 
-    context.querySelector('.btnCancel').addEventListener('click', function () {
+    context.querySelector('.btnCancel').addEventListener('click', () => {
         closeDialog(false);
     });
 
-    context.querySelector('.btnCancelRecording').addEventListener('click', function () {
+    context.querySelector('.btnCancelRecording').addEventListener('click', () => {
         const apiClient = ServerConnections.getApiClient(currentServerId);
-        deleteTimer(apiClient, currentItemId).then(function () {
+        deleteTimer(apiClient, currentItemId).then(() => {
             closeDialog(true);
         });
     });
@@ -108,7 +108,7 @@ function reload(context, id) {
     if (typeof id === 'string') {
         currentItemId = id;
 
-        apiClient.getLiveTvSeriesTimer(id).then(function (result) {
+        apiClient.getLiveTvSeriesTimer(id).then((result) => {
             renderTimer(context, result);
             loading.hide();
         });
@@ -184,7 +184,7 @@ function embed(itemId, serverId, options) {
 }
 
 function showEditor(itemId, serverId, options) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         recordingUpdated = false;
         recordingDeleted = false;
         currentServerId = serverId;
@@ -229,7 +229,7 @@ function showEditor(itemId, serverId, options) {
             }
         });
 
-        dlg.addEventListener('close', function () {
+        dlg.addEventListener('close', () => {
             if (recordingUpdated) {
                 resolve({
                     updated: true,

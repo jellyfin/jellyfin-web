@@ -169,7 +169,7 @@ export default function (view, params, tabContent) {
                 mode: 'songs',
                 serverId: ApiClient.serverId()
             });
-            Events.on(filterDialog, 'filterchange', function () {
+            Events.on(filterDialog, 'filterchange', () => {
                 getQuery().StartIndex = 0;
                 reloadItems();
             });
@@ -178,7 +178,7 @@ export default function (view, params, tabContent) {
     };
 
     function shuffle() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then((item) => {
             playbackManager.shuffle(item);
         });
     }
@@ -188,10 +188,10 @@ export default function (view, params, tabContent) {
     };
 
     function initPage(tabElement) {
-        tabElement.querySelector('.btnFilter').addEventListener('click', function () {
+        tabElement.querySelector('.btnFilter').addEventListener('click', () => {
             self.showFilterMenu();
         });
-        tabElement.querySelector('.btnSort').addEventListener('click', function (e) {
+        tabElement.querySelector('.btnSort').addEventListener('click', (e) => {
             libraryBrowser.showSortMenu({
                 items: [{
                     name: globalize.translate('OptionTrackName'),

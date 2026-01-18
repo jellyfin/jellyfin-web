@@ -8,7 +8,6 @@
  */
 
 const fs = require('fs');
-const path = require('path');
 const { glob } = require('glob');
 
 class VideoPlayerAnalyzer {
@@ -43,20 +42,20 @@ class VideoPlayerAnalyzer {
 
       if (content.includes('video') || content.includes('Video')) {
         // Count video controller usage
-        if (filePath.includes('controllers/playback/video') ||
-            content.includes('playback/video/index')) {
+        if (filePath.includes('controllers/playback/video')
+            || content.includes('playback/video/index')) {
           videoComponents.videoController++;
         }
 
         // Count OSD and UI components
-        if (content.includes('emby-slider') || content.includes('emby-ratingbutton') ||
-            content.includes('paper-icon-button') || content.includes('videoosd.scss')) {
+        if (content.includes('emby-slider') || content.includes('emby-ratingbutton')
+            || content.includes('paper-icon-button') || content.includes('videoosd.scss')) {
           videoComponents.videoOSD++;
         }
 
         // Count video utilities
-        if (content.includes('mediaInfo') || content.includes('itemHelper') ||
-            content.includes('focusManager') || content.includes('SubtitleSync')) {
+        if (content.includes('mediaInfo') || content.includes('itemHelper')
+            || content.includes('focusManager') || content.includes('SubtitleSync')) {
           videoComponents.videoUtils++;
         }
 
@@ -106,10 +105,10 @@ class VideoPlayerAnalyzer {
     console.log('   🔄 LAZY LOAD: Advanced controls (loaded for complex video UI)');
     console.log('   🔄 LAZY LOAD: Video plugins (loaded for HTML5 video playback)');
 
-    const totalLazyComponents = videoComponents.videoOSD + videoComponents.videoUtils +
-                               videoComponents.subtitleComponents + videoComponents.videoSync +
-                               videoComponents.advancedControls + videoComponents.videoPlugins +
-                               videoComponents.videoExperimental;
+    const totalLazyComponents = videoComponents.videoOSD + videoComponents.videoUtils
+                               + videoComponents.subtitleComponents + videoComponents.videoSync
+                               + videoComponents.advancedControls + videoComponents.videoPlugins
+                               + videoComponents.videoExperimental;
 
     console.log(`\n💾 Estimated Bundle Impact: ${totalLazyComponents} lazy-loaded video components`);
     console.log('   Expected reduction: 3-5MB from initial bundle');

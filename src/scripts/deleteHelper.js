@@ -36,8 +36,8 @@ export function deleteItem(options) {
 
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-    return confirm(getDeletionConfirmContent(item)).then(function () {
-        return apiClient.deleteItem(item.Id).then(function () {
+    return confirm(getDeletionConfirmContent(item)).then(() => {
+        return apiClient.deleteItem(item.Id).then(() => {
             if (options.navigate) {
                 if (parentId) {
                     appRouter.showItem(parentId, item.ServerId);
@@ -45,7 +45,7 @@ export function deleteItem(options) {
                     appRouter.goHome();
                 }
             }
-        }, function (err) {
+        }, (err) => {
             const result = function () {
                 return Promise.reject(err);
             };

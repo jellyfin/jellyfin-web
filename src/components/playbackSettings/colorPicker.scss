@@ -105,7 +105,7 @@
     }
 
     &.invalid {
-        border-color: #ff5555;
+        border-color: #f55;
         background: rgba(255, 85, 85, 0.1);
     }
 
@@ -196,6 +196,7 @@
         opacity: 0;
         max-height: 0;
     }
+
     to {
         opacity: 1;
         max-height: 1000px;
@@ -230,7 +231,7 @@
     border: 2px solid rgba(255, 85, 85, 0.3) !important;
 
     &:focus {
-        border-color: #ff5555 !important;
+        border-color: #f55 !important;
     }
 }
 

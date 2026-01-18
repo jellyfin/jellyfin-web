@@ -69,7 +69,7 @@ function configureSwipeTabs(view, currentElement) {
         Events.on(touchHelper, 'swipeleft', onSwipeLeft);
         Events.on(touchHelper, 'swiperight', onSwipeRight);
 
-        view.addEventListener('viewdestroy', function () {
+        view.addEventListener('viewdestroy', () => {
             touchHelper.destroy();
         });
     });
@@ -103,7 +103,7 @@ export function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBe
         let index = 0;
 
         const indexAttribute = selectedIndex == null ? '' : (' data-index="' + selectedIndex + '"');
-        const tabsHtml = '<div is="emby-tabs"' + indexAttribute + ' class="tabs-viewmenubar"><div class="emby-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map(function (t) {
+        const tabsHtml = '<div is="emby-tabs"' + indexAttribute + ' class="tabs-viewmenubar"><div class="emby-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map((t) => {
             let tabClass = 'emby-tab-button';
 
             if (t.enabled === false) {
@@ -137,7 +137,7 @@ export function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBe
         configureSwipeTabs(view, tabsElem);
 
         if (getTabContainersFn) {
-            tabsElem.addEventListener('beforetabchange', function (e) {
+            tabsElem.addEventListener('beforetabchange', (e) => {
                 const tabContainers = getTabContainersFn();
                 if (e.detail.previousIndex != null) {
                     const previousPanel = tabContainers[e.detail.previousIndex];

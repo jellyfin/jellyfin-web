@@ -11,15 +11,15 @@ import AlertTitle from '@mui/material/AlertTitle/AlertTitle';
  */
 const LoadingFallback: React.FC = () => (
     <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        minHeight="300px"
+        display='flex'
+        flexDirection='column'
+        alignItems='center'
+        justifyContent='center'
+        minHeight='300px'
         p={3}
     >
         <CircularProgress size={48} sx={{ mb: 2 }} />
-        <Typography variant="h6" color="text.secondary">
+        <Typography variant='h6' color='text.secondary'>
             Loading...
         </Typography>
     </Box>
@@ -54,14 +54,14 @@ class LazyRouteErrorBoundary extends Component<
         if (this.state.hasError) {
             return this.props.fallback || (
                 <Box p={3}>
-                    <Alert severity="error">
+                    <Alert severity='error'>
                         <AlertTitle>Failed to load page</AlertTitle>
-                        <Typography variant="body2" sx={{ mt: 1 }}>
+                        <Typography variant='body2' sx={{ mt: 1 }}>
                             There was an error loading this page. Please try refreshing.
                         </Typography>
                         <Button
-                            variant="outlined"
-                            size="small"
+                            variant='outlined'
+                            size='small'
                             sx={{ mt: 2 }}
                             onClick={() => window.location.reload()}
                         >

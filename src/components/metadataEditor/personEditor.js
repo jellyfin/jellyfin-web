@@ -17,7 +17,7 @@ function centerFocus(elem, horiz, on) {
 }
 
 function show(person) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -50,7 +50,7 @@ function show(person) {
 
         dialogHelper.open(dlg);
 
-        dlg.addEventListener('close', function () {
+        dlg.addEventListener('close', () => {
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }
@@ -78,11 +78,11 @@ function show(person) {
                 ![ PersonKind.Actor, PersonKind.GuestStar ].includes(this.value));
         });
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
             dialogHelper.close(dlg);
         });
 
-        dlg.querySelector('form').addEventListener('submit', function (e) {
+        dlg.querySelector('form').addEventListener('submit', (e) => {
             submitted = true;
 
             person.Name = dlg.querySelector('.txtPersonName', dlg).value;

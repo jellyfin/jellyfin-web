@@ -78,23 +78,16 @@ class DateFnsOptimizer {
         // Create individual import statements for optimized functions
         const results = [];
         const keepAsNamed = [];
-        let hasOptimizations = false;
 
         optimizedImports.forEach((imp, index) => {
           const originalImp = importList[index];
-          if (imp !== originalImp) {
-            // This was optimized - create specific import
-            const [funcName] = originalImp.split(/\s+as\s+/);
-            const cleanFuncName = funcName.trim();
-            const optimization = DATE_FNS_OPTIMIZATIONS[cleanFuncName];
-            const alias = imp.includes(' as ') ? imp.split(' as ')[1] : '';
-
-            if (alias) {
-              results.push(`import ${cleanFuncName} as ${alias} from '${optimization}';`);
-            } else {
-              results.push(`import ${cleanFuncName} from '${optimization}';`);
-            }
-            hasOptimizations = true;
+            if (imp !== originalImp) {
+                // This was optimized - create specific import
+                const [funcName] = originalImp.split(/\s+as\s+/);
+                const cleanFuncName = funcName.trim();
+                const optimization = DATE_FNS_OPTIMIZATIONS[cleanFuncName];
+                const alias = imp.includes(' as ') ? imp.split(' as ')[1] : '';
+                results.push(`import { ${cleanFuncName} } from '${optimization}';`);
           } else {
             // Keep in named import
             keepAsNamed.push(originalImp);
@@ -117,7 +110,7 @@ class DateFnsOptimizer {
 
         // Look for function usage that could be optimized
         const funcUsageRegex = new RegExp(`\\b${funcName}\\b`, 'g');
-        if (content.match(funcUsageRegex) && content.includes(`from 'date-fns'`)) {
+        if (content.match(funcUsageRegex) && content.includes('from \'date-fns\'')) {
           // If function is used and we have full import, this should have been caught above
           // This is a fallback for edge cases
         }
@@ -130,13 +123,13 @@ class DateFnsOptimizer {
       }
     }
 
-    console.log(`\n🎉 Date-fns optimization complete!`);
+    console.log('\n🎉 Date-fns optimization complete!');
     console.log(`📊 Files optimized: ${filesOptimized}`);
     console.log(`🔧 Total optimizations: ${totalOptimizations}`);
-    console.log(`💾 Estimated bundle reduction: 100-500KB`);
+    console.log('💾 Estimated bundle reduction: 100-500KB');
 
     if (filesOptimized > 0) {
-      console.log(`\n🔄 Run 'npm run build' to see the bundle size reduction!`);
+      console.log('\n🔄 Run \'npm run build\' to see the bundle size reduction!');
     }
   }
 }

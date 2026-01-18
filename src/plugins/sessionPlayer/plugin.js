@@ -13,7 +13,7 @@ function getActivePlayerId() {
 function sendPlayCommand(apiClient, options, playType) {
     const sessionId = getActivePlayerId();
 
-    const ids = options.ids || options.items.map(function (i) {
+    const ids = options.ids || options.items.map((i) => {
         return i.Id;
     });
 
@@ -148,7 +148,7 @@ function processUpdatedSessions(instance, sessions, apiClient) {
 
     const currentTargetId = getActivePlayerId();
 
-    const session = sessions.filter(function (s) {
+    const session = sessions.filter((s) => {
         return s.Id === currentTargetId;
     })[0];
 
@@ -235,7 +235,7 @@ function onPollIntervalFired() {
     const instance = this;
     const apiClient = getCurrentApiClient(instance);
     if (!apiClient.isMessageChannelOpen()) {
-        apiClient.getSessions().then(function (sessions) {
+        apiClient.getSessions().then((sessions) => {
             processUpdatedSessions(instance, sessions, apiClient);
         });
     }
@@ -289,7 +289,7 @@ class SessionPlayer {
         this.isPlaylistRendered = true;
         this.isUpdatingPlaylist = false;
 
-        Events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
+        Events.on(serverNotifications, 'Sessions', (e, apiClient, data) => {
             processUpdatedSessions(self, data, apiClient);
         });
     }
@@ -330,10 +330,10 @@ class SessionPlayer {
         if (apiClient) {
             const name = this.name;
 
-            return apiClient.getSessions(sessionQuery).then(function (sessions) {
-                return sessions.filter(function (s) {
+            return apiClient.getSessions(sessionQuery).then((sessions) => {
+                return sessions.filter((s) => {
                     return s.DeviceId !== apiClient.deviceId();
-                }).map(function (s) {
+                }).map((s) => {
                     return {
                         name: s.DeviceName,
                         deviceName: s.DeviceName,
@@ -368,7 +368,7 @@ class SessionPlayer {
         options = Object.assign({}, options);
 
         if (options.items) {
-            options.ids = options.items.map(function (i) {
+            options.ids = options.items.map((i) => {
                 return i.Id;
             });
 
@@ -502,7 +502,7 @@ class SessionPlayer {
         let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
         const streams = state.MediaStreams || [];
-        return streams.filter(function (s) {
+        return streams.filter((s) => {
             return s.Type === 'Audio';
         });
     }
@@ -529,7 +529,7 @@ class SessionPlayer {
         let state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};
         const streams = state.MediaStreams || [];
-        return streams.filter(function (s) {
+        return streams.filter((s) => {
             return s.Type === 'Subtitle';
         });
     }

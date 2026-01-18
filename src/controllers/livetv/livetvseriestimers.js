@@ -28,7 +28,7 @@ function renderTimers(context, timers) {
 
 function reload(context, promise) {
     loading.show();
-    promise.then(function (result) {
+    promise.then((result) => {
         renderTimers(context, result.Items);
     });
 }

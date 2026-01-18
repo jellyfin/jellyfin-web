@@ -16,7 +16,7 @@ const Assets = [
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
-    'pdfjs-dist/build/pdf.worker.js',
+    'pdfjs-dist/build/pdf.worker.mjs',
     'libpgs/dist/libpgs.worker.js'
 ];
 
@@ -79,19 +79,18 @@ const config = {
         }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-             filename: 'index.html',
-             template: 'index.html',
-             // Append file hashes to bundle urls for cache busting
-             hash: true,
-             chunks: [
-                 'main.jellyfin',
-                 'serviceworker'
-             ],
-             // Exclude CSS from being injected automatically since we inline critical CSS
-             inject: 'body',
-             // Don't inject CSS files automatically
-             excludeChunks: []
-         }),
+            filename: 'index.html',
+            template: 'index.html',
+            // Append file hashes to bundle urls for cache busting
+            hash: true,
+            chunks: [
+                'main.jellyfin'
+            ],
+            // Exclude CSS from being injected automatically since we inline critical CSS
+            inject: 'body',
+            // Don't inject CSS files automatically
+            excludeChunks: []
+        }),
         new CopyPlugin({
             patterns: [
                 {
@@ -159,7 +158,7 @@ const config = {
         splitChunks: {
             chunks: 'all',
             maxInitialRequests: 10, // Reduced to force more async loading
-            maxAsyncRequests: 20,  // Reduced to optimize loading
+            maxAsyncRequests: 20, // Reduced to optimize loading
             minSize: 20000, // 20KB minimum chunk size
             maxSize: 244000, // 244KB maximum chunk size
             cacheGroups: {
@@ -290,11 +289,9 @@ const config = {
                 }
             },
             {
-                test: /\.(js|jsx|mjs)$/,
+                test: /\.(js|jsx|mjs|ts|tsx)$/,
                 exclude: [
-                    // Exclude problematic legacy files with syntax errors
-                    path.resolve(__dirname, 'src/components/playback/playbackmanager.js'),
-                    path.resolve(__dirname, 'src/scripts/settings/userSettings.js')
+                    /\.worker\.ts$/
                 ],
                 include: [
                     path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
@@ -344,42 +341,45 @@ const config = {
                     path.resolve(__dirname, 'node_modules/wavesurfer.js'),
                     path.resolve(__dirname, 'node_modules/butterchurn'),
                     path.resolve(__dirname, 'node_modules/butterchurn-presets'),
-                     path.resolve(__dirname, 'src')
-                 ],
-                 use: [{
-                     loader: 'thread-loader',
-                     options: {
-                         workers: 2
-                     }
-                 }, {
-                     loader: 'esbuild-loader',
-                     options: {
-                         target: 'es2015',
-                         loader: 'jsx'
-                     }
-                 }]
-             },
+                    path.resolve(__dirname, 'src')
+                ],
+                use: [{
+                    loader: 'thread-loader',
+                    options: {
+                        workers: 2
+                    }
+                }, {
+                    loader: 'esbuild-loader',
+                    options: {
+                        target: 'es2015',
+                        loader: 'jsx'
+                    }
+                }]
+            },
             // Strict EcmaScript modules require additional flags
             {
-                test: /\.(js|jsx|mjs)$/,
+                test: /\.(js|jsx|mjs|ts|tsx)$/,
+                exclude: [
+                    /\.worker\.ts$/
+                ],
                 include: [
                     path.resolve(__dirname, 'node_modules/@tanstack/query-devtools')
                 ],
-                 resolve: {
-                     fullySpecified: false
-                 },
-                 use: [{
-                     loader: 'thread-loader',
-                     options: {
-                         workers: 1
-                     }
-                 }, {
-                     loader: 'esbuild-loader',
-                     options: {
-                         target: 'es2015',
-                         loader: 'jsx'
-                     }
-                 }]
+                resolve: {
+                    fullySpecified: false
+                },
+                use: [{
+                    loader: 'thread-loader',
+                    options: {
+                        workers: 1
+                    }
+                }, {
+                    loader: 'esbuild-loader',
+                    options: {
+                        target: 'es2015',
+                        loader: 'jsx'
+                    }
+                }]
             },
             {
                 // Handle problematic legacy files - copy to output without transformation
@@ -399,12 +399,6 @@ const config = {
                 use: [
                     'worker-loader',
                     {
-                        loader: 'thread-loader',
-                        options: {
-                            workers: 1
-                        }
-                    },
-                    {
                         loader: 'esbuild-loader',
                         options: {
                             target: 'es2015',
@@ -415,7 +409,10 @@ const config = {
             },
             {
                 test: /\.(ts|tsx)$/,
-                exclude: /node_modules/,
+                exclude: [
+                    /node_modules/,
+                    /\.worker\.ts$/
+                ],
                 use: [{
                     loader: 'thread-loader',
                     options: {
@@ -502,7 +499,7 @@ const config = {
             {
                 test: /\.(mp3)$/i,
                 type: 'asset/resource'
-            },
+            }
 
         ]
     }

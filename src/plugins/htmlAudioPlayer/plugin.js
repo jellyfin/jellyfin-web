@@ -10,7 +10,7 @@ import { createGainNode, initializeMasterAudio, masterAudioOutput, rampPlaybackG
 import { synchronizeVolumeUI, hijackMediaElementForCrossfade, xDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
 import { scrollToActivePlaylistItem, triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
 // Lazy load audio utilities and error handling for better bundle splitting
-let audioCapabilities, audioErrorHandler, audioUtils;
+let audioCapabilities; let audioErrorHandler; let audioUtils;
 let audioCapabilitiesLoaded = false;
 let audioErrorHandlerLoaded = false;
 let audioUtilsLoaded = false;
@@ -54,7 +54,7 @@ function getDefaultProfile() {
 let fadeTimeout;
 function fade(instance, elem, startingVolume) {
     if (instance._hasWebAudio && masterAudioOutput.mixerNode && xDuration.enabled) {
-        return new Promise(function (resolve) {
+        return new Promise((resolve) => {
             instance._isFadingOut = true;
 
             hijackMediaElementForCrossfade();
@@ -77,9 +77,9 @@ function fade(instance, elem, startingVolume) {
         return Promise.resolve();
     }
 
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         cancelFadeTimeout();
-        fadeTimeout = setTimeout(function () {
+        fadeTimeout = setTimeout(() => {
             fade(instance, elem, newVolume).then(resolve, reject);
         }, 100);
     });
@@ -158,12 +158,12 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
     }
 
     // issue head request to get content type
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         import('../../utils/fetch').then((fetchHelper) => {
             fetchHelper.ajax({
                 url: url,
                 type: 'HEAD'
-            }).then(function (response) {
+            }).then((response) => {
                 const contentType = (response.headers.get('Content-Type') || '').toLowerCase();
                 if (contentType === 'application/vnd.apple.mpegurl' || contentType === 'application/x-mpegurl') {
                     resolve();
@@ -265,8 +265,8 @@ class HtmlAudioPlayer {
                 elem.crossOrigin = crossOrigin;
             }
 
-            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
-                return new Promise(function (resolve, reject) {
+            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(() => {
+                return new Promise((resolve, reject) => {
                     requireHlsPlayer(async () => {
                         const includeCorsCredentials = await getIncludeCorsCredentials();
 
@@ -295,7 +295,7 @@ class HtmlAudioPlayer {
                     elem.crossOrigin = 'use-credentials';
                 }
 
-                return htmlMediaHelper.applySrc(elem, val, options).then(function () {
+                return htmlMediaHelper.applySrc(elem, val, options).then(() => {
                     self._currentSrc = val;
 
                     return htmlMediaHelper.playWithPromise(elem, onError);
@@ -344,7 +344,7 @@ class HtmlAudioPlayer {
 
                 const originalVolume = elem.volume;
 
-                return fade(self, elem, elem.volume).then(function () {
+                return fade(self, elem, elem.volume).then(() => {
                     elem.pause();
                     elem.volume = originalVolume;
 
@@ -777,11 +777,11 @@ class HtmlAudioPlayer {
         if (mediaElement) {
             if (document.AirPlayEnabled) {
                 if (isEnabled) {
-                    mediaElement.requestAirPlay().catch(function (err) {
+                    mediaElement.requestAirPlay().catch((err) => {
                         console.error('Error requesting AirPlay', err);
                     });
                 } else {
-                    document.exitAirPLay().catch(function (err) {
+                    document.exitAirPLay().catch((err) => {
                         console.error('Error exiting AirPlay', err);
                     });
                 }

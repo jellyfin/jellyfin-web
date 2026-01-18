@@ -16,7 +16,8 @@
     "checkJs": false,
     "strictNullChecks": true,
     "jsx": "react-jsx",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "types": ["vitest/globals"]
   },
   "include": [
     "src"

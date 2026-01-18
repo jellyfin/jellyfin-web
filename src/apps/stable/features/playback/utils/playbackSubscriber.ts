@@ -2,7 +2,7 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 import type { MediaSourceInfo } from '@jellyfin/sdk/lib/generated-client/models/media-source-info';
 import type { ManagedPlayerStopInfo, MovedItem, PlayerError, PlayerErrorCode, PlayerStopInfo, RemovedItems } from 'apps/stable/features/playback/types/callbacks';
-import type { PlaybackManager } from 'components/playback/playbackmanager';
+import type { PlaybackManager, Player } from 'components/playback/playbackmanager';
 import type { MediaError } from 'types/mediaError';
 import type { PlayTarget } from 'types/playTarget';
 import type { PlaybackStopInfo, PlayerState } from 'types/playbackStopInfo';
@@ -90,7 +90,7 @@ export abstract class PlaybackSubscriber {
 
     private bindPlayerEvents() {
         const newPlayer = this.playbackManager.getCurrentPlayer();
-        if (this.player === newPlayer) return;
+        if (this.player === (newPlayer as unknown as PlayerPlugin)) return;
 
         if (this.player) {
             Object.entries(this.playerEvents).forEach(([event, handler]) => {
@@ -98,7 +98,7 @@ export abstract class PlaybackSubscriber {
             });
         }
 
-        this.player = newPlayer;
+        this.player = newPlayer ? (newPlayer as unknown as PlayerPlugin) : undefined;
         if (!this.player) return;
 
         Object.entries(this.playerEvents).forEach(([event, handler]) => {

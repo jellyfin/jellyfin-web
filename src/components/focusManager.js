@@ -46,7 +46,7 @@ function focus(element) {
 
 const focusableTagNames = ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'];
 const focusableContainerTagNames = ['BODY', 'DIALOG'];
-const focusableQuery = focusableTagNames.map(function (t) {
+const focusableQuery = focusableTagNames.map((t) => {
     if (t === 'INPUT') {
         t += ':not([type="range"]):not([type="file"])';
     }

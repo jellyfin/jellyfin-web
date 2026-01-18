@@ -24,7 +24,7 @@ async function mirrorIfEnabled(serverId: string, itemId: string) {
                     ItemName: item.Name,
                     ItemId: item.Id,
                     ItemType: item.Type
-                }, playbackManager.getCurrentPlayer());
+                });
             } catch (err) {
                 console.error('[DisplayMirrorManager] failed to mirror item', err);
             }

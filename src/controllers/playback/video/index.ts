@@ -45,19 +45,19 @@ interface ViewElement extends HTMLElement {
 
 export default function (view: ViewElement): void {
     let recordingButtonManager: any = null;
-    let currentVisibleMenu: string | null = null;
-    let statsOverlay: any = null;
-    let subtitleSync: SubtitleSync | null = null;
-    let currentPlayer: any = null;
-    let currentItem: any = null;
-    let comingUpNextDisplayed: boolean = false;
-    let isViewDestroyed: boolean = false;
-    let currentVideoAspectRatio: number | null = null;
+    const currentVisibleMenu: string | null = null;
+    const statsOverlay: any = null;
+    const subtitleSync: SubtitleSync | null = null;
+    const currentPlayer: any = null;
+    const currentItem: any = null;
+    const comingUpNextDisplayed: boolean = false;
+    const isViewDestroyed: boolean = false;
+    const currentVideoAspectRatio: number | null = null;
 
     function getDisplayItem(item: any): Promise<DisplayItemResult> {
         if (item.Type === 'TvChannel') {
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem: any): DisplayItemResult {
+            return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then((refreshedItem: any): DisplayItemResult => {
                 return {
                     originalItem: refreshedItem,
                     displayItem: refreshedItem.CurrentProgram
@@ -81,7 +81,7 @@ export default function (view: ViewElement): void {
             return;
         }
 
-        ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user: any) {
+        ServerConnections.getApiClient(item.ServerId).getCurrentUser().then((user: any) => {
             if (user.Policy.EnableLiveTvManagement) {
                 import('../../../components/recordingcreator/recordingbutton').then(({ default: RecordingButton }) => {
                     if (recordingButtonManager) {

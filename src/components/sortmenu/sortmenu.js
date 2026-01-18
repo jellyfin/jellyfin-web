@@ -32,7 +32,7 @@ function centerFocus(elem, horiz, on) {
 function fillSortBy(context, options) {
     const selectSortBy = context.querySelector('.selectSortBy');
 
-    selectSortBy.innerHTML = options.map(function (o) {
+    selectSortBy.innerHTML = options.map((o) => {
         return '<option value="' + o.value + '">' + o.name + '</option>';
     }).join('');
 }
@@ -44,7 +44,7 @@ function saveValues(context, settingsKey) {
 
 class SortMenu {
     show(options) {
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -75,7 +75,7 @@ class SortMenu {
             fillSortBy(dlg, options.sortOptions);
             initEditor(dlg, options.settings);
 
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
+            dlg.querySelector('.btnCancel').addEventListener('click', () => {
                 dialogHelper.close(dlg);
             });
 
@@ -85,11 +85,11 @@ class SortMenu {
 
             let submitted;
 
-            dlg.querySelector('form').addEventListener('change', function () {
+            dlg.querySelector('form').addEventListener('change', () => {
                 submitted = true;
             }, true);
 
-            dialogHelper.open(dlg).then(function () {
+            dialogHelper.open(dlg).then(() => {
                 if (layoutManager.tv) {
                     centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                 }

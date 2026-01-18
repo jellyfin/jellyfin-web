@@ -8,7 +8,7 @@ import alert from 'components/alert';
 function onSubmit(e) {
     const form = this;
     const localAddress = form.querySelector('#txtLocalAddress').value;
-    confirmSelections(localAddress, function () {
+    confirmSelections(localAddress, () => {
         const validationResult = getValidationAlert(form);
 
         if (validationResult) {
@@ -16,33 +16,33 @@ function onSubmit(e) {
             return;
         }
 
-        validateHttps(form).then(function () {
+        validateHttps(form).then(() => {
             loading.show();
-            ApiClient.getNamedConfiguration('network').then(function (config) {
-                config.LocalNetworkSubnets = form.querySelector('#txtLanNetworks').value.split(',').map(function (s) {
+            ApiClient.getNamedConfiguration('network').then((config) => {
+                config.LocalNetworkSubnets = form.querySelector('#txtLanNetworks').value.split(',').map((s) => {
                     return s.trim();
-                }).filter(function (s) {
+                }).filter((s) => {
                     return s.length > 0;
                 });
-                config.RemoteIPFilter = form.querySelector('#txtExternalAddressFilter').value.split(',').map(function (s) {
+                config.RemoteIPFilter = form.querySelector('#txtExternalAddressFilter').value.split(',').map((s) => {
                     return s.trim();
-                }).filter(function (s) {
+                }).filter((s) => {
                     return s.length > 0;
                 });
-                config.KnownProxies = form.querySelector('#txtKnownProxies').value.split(',').map(function (s) {
+                config.KnownProxies = form.querySelector('#txtKnownProxies').value.split(',').map((s) => {
                     return s.trim();
-                }).filter(function (s) {
+                }).filter((s) => {
                     return s.length > 0;
                 });
-                config.LocalNetworkAddresses = form.querySelector('#txtLocalAddress').value.split(',').map(function (s) {
+                config.LocalNetworkAddresses = form.querySelector('#txtLocalAddress').value.split(',').map((s) => {
                     return s.trim();
-                }).filter(function (s) {
+                }).filter((s) => {
                     return s.length > 0;
                 });
 
-                config.PublishedServerUriBySubnet = form.querySelector('#txtPublishedServer').value.split(',').map(function (s) {
+                config.PublishedServerUriBySubnet = form.querySelector('#txtPublishedServer').value.split(',').map((s) => {
                     return s.trim();
-                }).filter(function (s) {
+                }).filter((s) => {
                     return s.length > 0;
                 });
 
@@ -103,7 +103,7 @@ function validateHttps(form) {
 }
 
 function showAlertText(options) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         alert(options).then(resolve, reject);
     });
 }
@@ -158,7 +158,7 @@ export default function (view) {
             view.querySelector('.fldPublicHttpsPort').classList.add('hide');
         }
     });
-    view.querySelector('#btnSelectCertPath').addEventListener('click', function () {
+    view.querySelector('#btnSelectCertPath').addEventListener('click', () => {
         import('components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
             const picker = new DirectoryBrowser();
             picker.show({
@@ -176,9 +176,9 @@ export default function (view) {
         });
     });
     view.querySelector('.dashboardHostingForm').addEventListener('submit', onSubmit);
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         loading.show();
-        ApiClient.getNamedConfiguration('network').then(function (config) {
+        ApiClient.getNamedConfiguration('network').then((config) => {
             loadPage(view, config);
         });
     });

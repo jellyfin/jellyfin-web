@@ -81,7 +81,7 @@ async function loadDisplaySettings({
     const settings = (!userId || userId === currentUser?.Id) ? currentSettings : new UserSettings();
     const user = (!userId || userId === currentUser?.Id) ? currentUser : await api.getUser(userId);
 
-    await settings.setUserInfo(userId, api);
+    await settings.setUserInfo(userId ?? null, api);
 
     const displaySettings = {
         customCss: settings.customCss() || '',

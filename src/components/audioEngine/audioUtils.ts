@@ -85,7 +85,7 @@ export function safeConnect(
 /**
  * Check if an audio context is in a running state
  */
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+
 export function isAudioContextRunning(audioContext: AudioContext | null | undefined): boolean {
     return Boolean(audioContext && audioContext.state === 'running');
 }
@@ -94,12 +94,11 @@ export function isAudioContextRunning(audioContext: AudioContext | null | undefi
  * Safely resume an audio context
  */
 export async function safeResumeAudioContext(audioContext: AudioContext): Promise<boolean> {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (audioContext.state === 'running') return true;
 
     try {
         await audioContext.resume();
-        return audioContext.state === 'running';
+        return (audioContext.state as string) === 'running';
     } catch (error) {
         audioErrorHandler.handleError(
             audioErrorHandler.createError(
@@ -123,7 +122,7 @@ export async function safeSuspendAudioContext(audioContext: AudioContext): Promi
 
     try {
         await audioContext.suspend();
-        return audioContext.state === 'suspended';
+        return (audioContext.state as string) === 'suspended';
     } catch (error) {
         audioErrorHandler.handleError(
             audioErrorHandler.createError(
@@ -202,9 +201,9 @@ export function formatDuration(seconds: number): string {
  * Check if a media element is in a playable state
  */
 export function isMediaElementPlayable(element: HTMLMediaElement | null | undefined): boolean {
-    return Boolean(element &&
-           element.src &&
-           element.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA);
+    return Boolean(element
+           && element.src
+           && element.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA);
 }
 
 /**

@@ -11,7 +11,7 @@ import globalize from 'lib/globalize';
 const TVStudiosPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState<any[]>([]);
-    
+
     useEffect(() => {
         const loadData = async () => {
             try {
@@ -30,30 +30,30 @@ const TVStudiosPage: React.FC = () => {
         };
         loadData();
     }, []);
-    
+
     if (isLoading) {
         return (
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+            <Box display='flex' justifyContent='center' alignItems='center' minHeight='200px'>
                 <CircularProgress />
             </Box>
         );
     }
-    
+
     return (
         <Box sx={{ p: 3 }}>
-            <Typography variant="h4" component="h1" gutterBottom>
+            <Typography variant='h4' component='h1' gutterBottom>
                 {globalize.translate('T V Studios')}
             </Typography>
             <Grid container spacing={3}>
                 {data.map((item) => (
                     <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
                         <Card sx={{ height: '100%' }}>
-                            <CardMedia component="div" sx={{ height: 140, backgroundColor: 'grey.300', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <Typography variant="h6" color="text.secondary">📺</Typography>
+                            <CardMedia component='div' sx={{ height: 140, backgroundColor: 'grey.300', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Typography variant='h6' color='text.secondary'>📺</Typography>
                             </CardMedia>
                             <CardContent>
-                                <Typography variant="h6" component="div">{item.name}</Typography>
-                                <Typography variant="body2" color="text.secondary">{item.count} items</Typography>
+                                <Typography variant='h6' component='div'>{item.name}</Typography>
+                                <Typography variant='body2' color='text.secondary'>{item.count} items</Typography>
                             </CardContent>
                         </Card>
                     </Grid>

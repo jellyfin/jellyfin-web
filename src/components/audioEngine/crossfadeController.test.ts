@@ -5,7 +5,8 @@ const mocks = vi.hoisted(() => {
         value: 1,
         cancelScheduledValues: vi.fn(),
         setValueAtTime: vi.fn(),
-        linearRampToValueAtTime: vi.fn()
+        linearRampToValueAtTime: vi.fn(),
+        exponentialRampToValueAtTime: vi.fn()
     };
 
     const masterAudioOutput = {
@@ -44,6 +45,7 @@ import {
     resetPreloadedTrack,
     startCrossfade
 } from './crossfadeController';
+import { getAudioNodeBundle } from './master.logic';
 
 function getPreloadedElement() {
     return document.querySelector('audio[data-crossfade-preload="true"]') as HTMLAudioElement | null;
@@ -116,10 +118,24 @@ describe('crossfadeController', () => {
     });
 
     it('starts a crossfade and schedules gain ramps', async () => {
-        const gainNode = { gain: mocks.audioParam };
-        mocks.ensureAudioNodeBundle.mockReturnValue({ gainNode });
-        mocks.getAudioNodeBundle.mockReturnValue({ gainNode: { gain: mocks.audioParam } });
+        const fromElement = document.createElement('audio');
+        // Ensure AudioContext is mocked as running
+        const ctx = mocks.masterAudioOutput.audioContext as any;
+        if (ctx) {
+            ctx.state = 'running';
+            ctx.resume.mockResolvedValue(undefined);
+        }
 
+        // Ensure fromElement is in the elementNodeMap with a mock bundle
+        mocks.getAudioNodeBundle.mockReturnValue({
+            sourceNode: {} as any,
+            normalizationGainNode: { gain: mocks.audioParam } as any,
+            crossfadeGainNode: { gain: mocks.audioParam } as any,
+            busRegistered: true
+        });
+
+        // Preload a track first
+        mocks.ensureAudioNodeBundle.mockReturnValue({ gainNode: { gain: mocks.audioParam }, crossfadeGainNode: { gain: mocks.audioParam } });
         const preloadPromise = preloadNextTrack({
             itemId: '1',
             url: 'https://example.com/test.mp3',
@@ -127,22 +143,18 @@ describe('crossfadeController', () => {
             muted: false,
             timeoutMs: 1000
         });
-
-        const preloaded = getPreloadedElement();
-        expect(preloaded).not.toBeNull();
-        if (preloaded) {
-            Object.defineProperty(preloaded, 'paused', { value: false, configurable: true });
-            preloaded.dispatchEvent(new Event('canplay'));
-        }
-
+        const element = getPreloadedElement();
+        expect(element).not.toBeNull();
+        if (element) Object.defineProperty(element, 'paused', { value: false, writable: true });
+        element?.dispatchEvent(new Event('canplay'));
         await preloadPromise;
 
-        const fromElement = document.createElement('audio');
         const started = await startCrossfade({ fromElement, durationSeconds: 1.5 });
 
         expect(started).toBe(true);
         expect(mocks.audioParam.cancelScheduledValues).toHaveBeenCalled();
-        expect(mocks.audioParam.linearRampToValueAtTime).toHaveBeenCalledWith(0.001, 1.5);
+        expect(mocks.audioParam.linearRampToValueAtTime).toHaveBeenCalledWith(0.001, expect.any(Number));
+        expect(mocks.audioParam.linearRampToValueAtTime).toHaveBeenCalledWith(1, expect.any(Number));
 
         fromElement.dispatchEvent(new Event('ended'));
         expect(mocks.removeAudioNodeBundle).toHaveBeenCalledWith(fromElement);

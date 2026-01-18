@@ -121,7 +121,9 @@ class AudioCapabilitiesService {
                 }
 
                 // Clean up test context
-                await audioContext.close().catch(() => {});
+                if (audioContext && typeof audioContext.close === 'function') {
+                    await audioContext.close().catch(() => {});
+                }
             }
         } catch (error) {
             console.debug('Web Audio API not supported:', error);
@@ -147,9 +149,9 @@ class AudioCapabilitiesService {
 
     private detectButterchurnSupport(capabilities: AudioCapabilities): boolean {
         // Butterchurn requires Web Audio and canvas support
-        return capabilities.webAudio &&
-               typeof document.createElement('canvas').getContext === 'function' &&
-               !browser.tv; // Often too slow on TVs
+        return capabilities.webAudio
+               && typeof document.createElement('canvas').getContext === 'function'
+               && !browser.tv; // Often too slow on TVs
     }
 
     private detectWaveSurferSupport(capabilities: AudioCapabilities): boolean {
@@ -159,8 +161,8 @@ class AudioCapabilitiesService {
 
     private detectFrequencyAnalyzerSupport(capabilities: AudioCapabilities): boolean {
         // Requires Web Audio API for analyzer nodes
-        return capabilities.webAudio &&
-               typeof document.createElement('canvas').getContext === 'function';
+        return capabilities.webAudio
+               && typeof document.createElement('canvas').getContext === 'function';
     }
 }
 

@@ -49,4 +49,5 @@ const ListItemLink: FC<ListItemLinkProps> = ({
     );
 };
 
+export { ListItemLink };
 export default ListItemLink;

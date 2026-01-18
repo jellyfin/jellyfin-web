@@ -4,7 +4,12 @@ class PWAUpdateManager {
         this.registration = null;
         this.updateAvailable = false;
 
-        if ('serviceWorker' in navigator) {
+        if (__WEBPACK_SERVE__) {
+            console.debug('serviceWorker disabled for webpack dev server');
+            return;
+        }
+
+        if ('serviceWorker' in navigator && window.appMode !== 'cordova' && window.appMode !== 'android') {
             navigator.serviceWorker.register('/serviceworker.js')
                 .then((registration) => {
                     this.registration = registration;

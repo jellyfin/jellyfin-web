@@ -11,12 +11,12 @@ export default class PhotoPlayer {
     }
 
     play(options) {
-        return new Promise(function (resolve) {
+        return new Promise((resolve) => {
             import('../../components/slideshow/slideshow').then(({ default: Slideshow }) => {
                 const index = options.startIndex || 0;
 
                 const apiClient = ServerConnections.currentApiClient();
-                apiClient.getCurrentUser().then(function(result) {
+                apiClient.getCurrentUser().then((result) => {
                     const newSlideShow = new Slideshow({
                         showTitle: false,
                         cover: false,

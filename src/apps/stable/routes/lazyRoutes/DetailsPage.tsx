@@ -56,10 +56,10 @@ const DetailsPage: React.FC = () => {
     if (isLoading) {
         return (
             <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="400px"
+                display='flex'
+                justifyContent='center'
+                alignItems='center'
+                minHeight='400px'
             >
                 <CircularProgress size={60} />
             </Box>
@@ -69,7 +69,7 @@ const DetailsPage: React.FC = () => {
     if (!itemData) {
         return (
             <Box p={3}>
-                <Typography variant="h6" color="error">
+                <Typography variant='h6' color='error'>
                     Failed to load item details
                 </Typography>
             </Box>
@@ -83,7 +83,7 @@ const DetailsPage: React.FC = () => {
                 <Grid item xs={12} md={4}>
                     <Card sx={{ maxWidth: 300, mx: 'auto' }}>
                         <CardMedia
-                            component="div"
+                            component='div'
                             sx={{
                                 height: 450,
                                 backgroundColor: 'grey.300',
@@ -92,7 +92,7 @@ const DetailsPage: React.FC = () => {
                                 justifyContent: 'center'
                             }}
                         >
-                            <Typography variant="h4" color="text.secondary">
+                            <Typography variant='h4' color='text.secondary'>
                                 🎬
                             </Typography>
                         </CardMedia>
@@ -103,24 +103,24 @@ const DetailsPage: React.FC = () => {
                 <Grid item xs={12} md={8}>
                     <Box>
                         {/* Title and Year */}
-                        <Typography variant="h3" component="h1" gutterBottom>
+                        <Typography variant='h3' component='h1' gutterBottom>
                             {itemData.title}
                         </Typography>
 
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-                            <Typography variant="h6" color="text.secondary">
+                            <Typography variant='h6' color='text.secondary'>
                                 {itemData.year}
                             </Typography>
-                            <Typography variant="body1">
+                            <Typography variant='body1'>
                                 {itemData.runtime}
                             </Typography>
-                            <Chip label={itemData.parentalRating} size="small" />
+                            <Chip label={itemData.parentalRating} size='small' />
                         </Box>
 
                         {/* Rating */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                             <Rating value={itemData.rating} readOnly precision={0.5} />
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography variant='body2' color='text.secondary'>
                                 ({itemData.communityRating}/10)
                             </Typography>
                         </Box>
@@ -132,7 +132,7 @@ const DetailsPage: React.FC = () => {
                                     key={genre}
                                     label={genre}
                                     sx={{ mr: 1, mb: 1 }}
-                                    variant="outlined"
+                                    variant='outlined'
                                 />
                             ))}
                         </Box>
@@ -140,23 +140,23 @@ const DetailsPage: React.FC = () => {
                         {/* Action Buttons */}
                         <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
                             <Button
-                                variant="contained"
-                                size="large"
+                                variant='contained'
+                                size='large'
                                 startIcon={<PlayArrowIcon />}
                                 sx={{ minWidth: 140 }}
                             >
                                 Play
                             </Button>
                             <Button
-                                variant="outlined"
-                                size="large"
+                                variant='outlined'
+                                size='large'
                                 startIcon={<QueueIcon />}
                             >
                                 Add to Queue
                             </Button>
                             <Button
-                                variant="outlined"
-                                size="large"
+                                variant='outlined'
+                                size='large'
                                 startIcon={<FavoriteIcon />}
                             >
                                 Favorite
@@ -166,37 +166,37 @@ const DetailsPage: React.FC = () => {
                         <Divider sx={{ my: 3 }} />
 
                         {/* Description */}
-                        <Typography variant="h6" gutterBottom>
+                        <Typography variant='h6' gutterBottom>
                             Overview
                         </Typography>
-                        <Typography variant="body1" paragraph sx={{ lineHeight: 1.6 }}>
+                        <Typography variant='body1' paragraph sx={{ lineHeight: 1.6 }}>
                             {itemData.description}
                         </Typography>
 
                         {/* Cast & Crew */}
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={6}>
-                                <Typography variant="h6" gutterBottom>
+                                <Typography variant='h6' gutterBottom>
                                     Cast
                                 </Typography>
                                 {itemData.cast.map((actor: string) => (
-                                    <Typography key={actor} variant="body2" paragraph>
+                                    <Typography key={actor} variant='body2' paragraph>
                                         {actor}
                                     </Typography>
                                 ))}
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <Typography variant="h6" gutterBottom>
+                                <Typography variant='h6' gutterBottom>
                                     Director
                                 </Typography>
-                                <Typography variant="body2" paragraph>
+                                <Typography variant='body2' paragraph>
                                     {itemData.director}
                                 </Typography>
 
-                                <Typography variant="h6" gutterBottom>
+                                <Typography variant='h6' gutterBottom>
                                     Studio
                                 </Typography>
-                                <Typography variant="body2" paragraph>
+                                <Typography variant='body2' paragraph>
                                     {itemData.studio}
                                 </Typography>
                             </Grid>

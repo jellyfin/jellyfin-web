@@ -33,7 +33,7 @@ function onFileReaderError(evt) {
 
 function isValidLyricsFile(file) {
     return file && ['.lrc', '.txt']
-        .some(function(ext) {
+        .some((ext) => {
             return file.name.endsWith(ext);
         });
 }
@@ -96,7 +96,7 @@ async function onSubmit(e) {
 
     lyricsApi.uploadLyrics({
         itemId: currentItemId, fileName: file.name, body: data
-    }).then(function () {
+    }).then(() => {
         dlg.querySelector('#uploadLyrics').value = '';
         loading.hide();
         hasChanges = true;
@@ -109,7 +109,7 @@ function initEditor(page) {
     page.querySelector('#uploadLyrics').addEventListener('change', function () {
         setFiles(page, this.files);
     });
-    page.querySelector('.btnBrowse').addEventListener('click', function () {
+    page.querySelector('.btnBrowse').addEventListener('click', () => {
         page.querySelector('#uploadLyrics').click();
     });
 }
@@ -142,7 +142,7 @@ function showEditor(options, resolve) {
     }
 
     // Has to be assigned a z-index after the call to .open()
-    dlg.addEventListener('close', function () {
+    dlg.addEventListener('close', () => {
         if (layoutManager.tv) {
             scrollHelper.centerFocus.off(dlg, false);
         }
@@ -154,13 +154,13 @@ function showEditor(options, resolve) {
 
     initEditor(dlg);
 
-    dlg.querySelector('.btnCancel').addEventListener('click', function () {
+    dlg.querySelector('.btnCancel').addEventListener('click', () => {
         dialogHelper.close(dlg);
     });
 }
 
 export function show(options) {
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
         hasChanges = false;
         showEditor(options, resolve);
     });

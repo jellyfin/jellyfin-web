@@ -164,7 +164,7 @@ function setMaxBitrateIntoField(select: HTMLSelectElement, isInNetwork: boolean,
     if (appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype)) {
         select.value = '';
     } else {
-        select.value = appSettings.maxStreamingBitrate(isInNetwork, mediatype);
+        select.value = appSettings.maxStreamingBitrate(isInNetwork, mediatype) || '';
     }
 }
 
@@ -214,7 +214,7 @@ function showHideQualityFields(context: HTMLElement, user: User, apiClient: ApiC
         return;
     }
 
-    apiClient.getEndpointInfo().then(endpointInfo => {
+    apiClient.getEndpointInfo().then((endpointInfo: any) => {
         if (endpointInfo.IsInNetwork) {
             context.querySelector('.fldVideoInNetworkQuality')?.classList.remove('hide');
 
@@ -234,7 +234,7 @@ function showHideQualityFields(context: HTMLElement, user: User, apiClient: ApiC
     });
 }
 
-function loadForm(context: HTMLElement, user: User, userSettings: any, systemInfo: SystemInfo, apiClient: ApiClient): void {
+function loadForm(context: HTMLElement, user: User, userSettings: any, systemInfo: any, apiClient: any): void {
     const loggedInUserId = apiClient.getCurrentUserId();
     const userId = user.Id;
 
@@ -251,7 +251,7 @@ function loadForm(context: HTMLElement, user: User, userSettings: any, systemInf
 
     (context.querySelector('#selectAllowedAudioChannels') as HTMLSelectElement).value = userSettings.allowedAudioChannels();
 
-    apiClient.getCultures().then(allCultures => {
+    apiClient.getCultures().then((allCultures: any[]) => {
         populateLanguages(context.querySelector('#selectAudioLanguage') as HTMLSelectElement, allCultures);
 
         (context.querySelector('#selectAudioLanguage') as HTMLSelectElement).value = user.Configuration.AudioLanguagePreference || '';
@@ -290,8 +290,8 @@ function loadForm(context: HTMLElement, user: User, userSettings: any, systemInf
     (context.querySelector('.chkRememberSubtitleSelections') as HTMLInputElement).checked = user.Configuration.RememberSubtitleSelections || false;
     (context.querySelector('.chkExternalVideoPlayer') as HTMLInputElement).checked = appSettings.enableSystemExternalPlayers();
     (context.querySelector('.chkLimitSupportedVideoResolution') as HTMLInputElement).checked = appSettings.limitSupportedVideoResolution();
-    (context.querySelector('#selectPreferredTranscodeVideoCodec') as HTMLSelectElement).value = appSettings.preferredTranscodeVideoCodec();
-    (context.querySelector('#selectPreferredTranscodeVideoAudioCodec') as HTMLSelectElement).value = appSettings.preferredTranscodeVideoAudioCodec();
+    (context.querySelector('#selectPreferredTranscodeVideoCodec') as HTMLSelectElement).value = appSettings.preferredTranscodeVideoCodec() || '';
+    (context.querySelector('#selectPreferredTranscodeVideoAudioCodec') as HTMLSelectElement).value = appSettings.preferredTranscodeVideoAudioCodec() || '';
     (context.querySelector('.chkDisableVbrAudioEncoding') as HTMLInputElement).checked = appSettings.disableVbrAudio();
     (context.querySelector('.chkAlwaysRemuxFlac') as HTMLInputElement).checked = appSettings.alwaysRemuxFlac();
     (context.querySelector('.chkAlwaysRemuxMp3') as HTMLInputElement).checked = appSettings.alwaysRemuxMp3();
@@ -351,7 +351,7 @@ function loadForm(context: HTMLElement, user: User, userSettings: any, systemInf
     loading.hide();
 }
 
-function saveUser(context: HTMLElement, user: User, userSettingsInstance: any, apiClient: ApiClient): Promise<any> {
+function saveUser(context: HTMLElement, user: User, userSettingsInstance: any, apiClient: any): Promise<any> {
     appSettings.enableSystemExternalPlayers((context.querySelector('.chkExternalVideoPlayer') as HTMLInputElement).checked);
 
     appSettings.maxChromecastBitrate((context.querySelector('.selectChromecastVideoQuality') as HTMLSelectElement).value);
@@ -401,8 +401,8 @@ function saveUser(context: HTMLElement, user: User, userSettingsInstance: any, a
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);
 }
 
-function onSubmit(): Promise<any> {
-    const self = this as PlaybackSettings;
+function onSubmit(this: PlaybackSettings): Promise<any> {
+    const self = this;
     const context = self.options.element;
     const userId = self.options.userId;
     const apiClient = ServerConnections.getApiClient(self.options.serverId);
@@ -411,7 +411,7 @@ function onSubmit(): Promise<any> {
     loading.show();
 
     return apiClient.getUser(userId).then(user => {
-        return saveUser(context, user, userSettingsInstance, apiClient);
+        return saveUser(context, user as User, userSettingsInstance, apiClient);
     }).then(() => {
         loading.hide();
         toast(globalize.translate('SettingsSaved'));
@@ -446,7 +446,7 @@ class PlaybackSettings {
                 userSettings.setUserInfo(userId, apiClient).then(() => {
                     self.dataLoaded = true;
 
-                    loadForm(context, user, userSettings, systemInfo, apiClient);
+                    loadForm(context, user as User, userSettings, systemInfo, apiClient);
                 });
             });
         });

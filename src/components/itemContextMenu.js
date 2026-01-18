@@ -392,7 +392,7 @@ function executeCommand(item, id, options) {
     const apiClient = ServerConnections.getApiClient(serverId);
     const api = toApi(apiClient);
 
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         // eslint-disable-next-line sonarjs/max-switch-cases
         switch (id) {
             case 'addtocollection':
@@ -619,7 +619,7 @@ function executeCommand(item, id, options) {
                         EntryIds: [item.PlaylistItemId].join(',')
                     }),
                     type: 'DELETE'
-                }).then(function () {
+                }).then(() => {
                     getResolveFunction(resolve, id, true)();
                 });
                 break;
@@ -627,7 +627,7 @@ function executeCommand(item, id, options) {
                 apiClient.ajax({
                     url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items/' + item.PlaylistItemId + '/Move/0'),
                     type: 'POST'
-                }).then(function () {
+                }).then(() => {
                     getResolveFunction(resolve, id, true)();
                 });
                 break;
@@ -635,7 +635,7 @@ function executeCommand(item, id, options) {
                 apiClient.ajax({
                     url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items/' + item.PlaylistItemId + '/Move/' + (item.PlaylistItemCount - 1)),
                     type: 'POST'
-                }).then(function () {
+                }).then(() => {
                     getResolveFunction(resolve, id, true)();
                 });
                 break;
@@ -646,7 +646,7 @@ function executeCommand(item, id, options) {
 
                         Ids: [item.Id].join(',')
                     })
-                }).then(function () {
+                }).then(() => {
                     getResolveFunction(resolve, id, true)();
                 });
                 break;
@@ -666,7 +666,7 @@ function executeCommand(item, id, options) {
 function deleteTimer(apiClient, item, resolve, command) {
     import('./recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
         const timerId = item.TimerId || item.Id;
-        recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
+        recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(() => {
             getResolveFunction(resolve, command, true)();
         });
     });
@@ -674,7 +674,7 @@ function deleteTimer(apiClient, item, resolve, command) {
 
 function deleteSeriesTimer(apiClient, item, resolve, command) {
     import('./recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-        recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
+        recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(() => {
             getResolveFunction(resolve, command, true)();
         });
     });
@@ -717,7 +717,7 @@ function play(item, resume, queue, queueNext) {
 }
 
 function editItem(apiClient, item) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         const serverId = apiClient.serverInfo().Id;
 
         if (item.Type === 'Timer') {
@@ -737,12 +737,12 @@ function editItem(apiClient, item) {
 }
 
 function deleteItem(apiClient, item) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         import('../scripts/deleteHelper').then((deleteHelper) => {
             deleteHelper.deleteItem({
                 item: item,
                 navigate: false
-            }).then(function () {
+            }).then(() => {
                 resolve(true);
             }, reject);
         });

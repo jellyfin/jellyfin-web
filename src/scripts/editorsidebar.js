@@ -73,7 +73,7 @@ function getNodeInnerHtml(item) {
 function loadChildrenOfRootNode(page, scope, callback) {
     ApiClient.getLiveTvChannels({
         limit: 0
-    }).then(function (result) {
+    }).then((result) => {
         const nodes = [];
         nodes.push({
             id: 'MediaFolders',
@@ -113,8 +113,8 @@ function loadLiveTvChannels(service, openItems, callback) {
     ApiClient.getLiveTvChannels({
         ServiceName: service,
         AddCurrentProgram: false
-    }).then(function (result) {
-        const nodes = result.Items.map(function (i) {
+    }).then((result) => {
+        const nodes = result.Items.map((i) => {
             const state = openItems.indexOf(i.Id) == -1 ? 'closed' : 'open';
             return getNode(i, state, false);
         });
@@ -123,8 +123,8 @@ function loadLiveTvChannels(service, openItems, callback) {
 }
 
 function loadMediaFolders(page, scope, openItems, callback) {
-    ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders')).then(function (result) {
-        const nodes = result.Items.map(function (n) {
+    ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders')).then((result) => {
+        const nodes = result.Items.map((n) => {
             const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
             return getNode(n, state, false);
         });
@@ -164,8 +164,8 @@ function loadNode(page, scope, node, openItems, selectedId, currentUser, callbac
     if (itemtype != 'Season' && itemtype != 'Series') {
         query.SortBy = 'SortName';
     }
-    ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
-        const nodes = result.Items.map(function (n) {
+    ApiClient.getItems(Dashboard.getCurrentUserId(), query).then((result) => {
+        const nodes = result.Items.map((n) => {
             const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
             return getNode(n, state, n.Id == selectedId);
         });
@@ -257,7 +257,7 @@ function loadNodesToLoad(page, node) {
     for (let i = 0, length = children.length; i < length; i++) {
         const child = children[i];
         if (nodesToLoad.indexOf(child) != -1) {
-            nodesToLoad = nodesToLoad.filter(function (n) {
+            nodesToLoad = nodesToLoad.filter((n) => {
                 return n != child;
             });
             $.jstree.reference('.libraryTree', page).load_node(child, loadNodeCallback);
@@ -267,7 +267,7 @@ function loadNodesToLoad(page, node) {
 
 function loadNodeCallback(node) {
     if (selectedNodeId && node.children && node.children.indexOf(selectedNodeId) != -1) {
-        setTimeout(function () {
+        setTimeout(() => {
             scrollToNode(selectedNodeId);
         }, 500);
     }
@@ -303,19 +303,19 @@ let nodesToLoad = [];
 let selectedNodeId;
 $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
     updateEditorNode(this, item);
-}).on('pagebeforeshow', '.metadataEditorPage', function () {
+}).on('pagebeforeshow', '.metadataEditorPage', () => {
     import('../styles/metadataeditor.scss');
 }).on('pagebeforeshow', '.metadataEditorPage', function () {
     const page = this;
-    Dashboard.getCurrentUser().then(function (user) {
+    Dashboard.getCurrentUser().then((user) => {
         if (!user) {
             return;
         }
 
         const id = getCurrentItemId();
         if (id) {
-            ApiClient.getAncestorItems(id, user.Id).then(function (ancestors) {
-                const ids = ancestors.map(function (i) {
+            ApiClient.getAncestorItems(id, user.Id).then((ancestors) => {
+                const ids = ancestors.map((i) => {
                     return i.Id;
                 });
                 initializeTree(page, user, ids, id);

@@ -35,7 +35,7 @@ function downloadRemoteSubtitles(context, id) {
         type: 'POST',
         url: apiClient.getUrl(url)
 
-    }).then(function () {
+    }).then(() => {
         hasChanges = true;
 
         toast(globalize.translate('MessageDownloadQueued'));
@@ -54,7 +54,7 @@ function deleteLocalSubtitle(context, index) {
         confirmText: globalize.translate('Delete'),
         primary: 'delete'
 
-    }).then(function () {
+    }).then(() => {
         loading.show();
 
         const itemId = currentItem.Id;
@@ -67,7 +67,7 @@ function deleteLocalSubtitle(context, index) {
             type: 'DELETE',
             url: apiClient.getUrl(url)
 
-        }).then(function () {
+        }).then(() => {
             hasChanges = true;
             reload(context, apiClient, itemId);
         });
@@ -77,7 +77,7 @@ function deleteLocalSubtitle(context, index) {
 function fillSubtitleList(context, item) {
     const streams = item.MediaStreams || [];
 
-    const subs = streams.filter(function (s) {
+    const subs = streams.filter((s) => {
         return s.Type === 'Subtitle';
     });
 
@@ -88,7 +88,7 @@ function fillSubtitleList(context, item) {
 
         html += '<div>';
 
-        html += subs.map(function (s) {
+        html += subs.map((s) => {
             let itemHtml = '';
 
             const tagName = layoutManager.tv ? 'button' : 'div';
@@ -142,7 +142,7 @@ function fillSubtitleList(context, item) {
 function fillLanguages(context, apiClient, languages) {
     const selectLanguage = context.querySelector('#selectLanguage');
 
-    selectLanguage.innerHTML = languages.map(function (l) {
+    selectLanguage.innerHTML = languages.map((l) => {
         return '<option value="' + l.ThreeLetterISOLanguageName + '">' + l.DisplayName + '</option>';
     });
 
@@ -150,7 +150,7 @@ function fillLanguages(context, apiClient, languages) {
     if (lastLanguage) {
         selectLanguage.value = lastLanguage;
     } else {
-        apiClient.getCurrentUser().then(function (user) {
+        apiClient.getCurrentUser().then((user) => {
             const lang = user.Configuration.SubtitleLanguagePreference;
 
             if (lang) {
@@ -278,7 +278,7 @@ function searchForSubtitles(context, language) {
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
     const url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
 
-    apiClient.getJSON(url).then(function (results) {
+    apiClient.getJSON(url).then((results) => {
         renderSearchResults(context, results);
     });
 }
@@ -366,7 +366,7 @@ function showDownloadOptions(button, context, subtitleId) {
             items: items,
             positionTo: button
 
-        }).then(function (id) {
+        }).then((id) => {
             if (id === 'download') {
                 downloadRemoteSubtitles(context, subtitleId);
             }
@@ -394,7 +394,7 @@ function onOpenUploadMenu(e) {
             },
             itemId: currentItem.Id,
             serverId: currentItem.ServerId
-        }).then(function (hasChanged) {
+        }).then((hasChanged) => {
             if (hasChanged) {
                 hasChanges = true;
                 reload(dialog, apiClient, currentItem.Id);
@@ -407,7 +407,7 @@ function showEditorInternal(itemId, serverId) {
     hasChanges = false;
 
     const apiClient = ServerConnections.getApiClient(serverId);
-    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -451,16 +451,16 @@ function showEditorInternal(itemId, serverId) {
         dlg.querySelector('.subtitleList').addEventListener('click', onSubtitleListClick);
         dlg.querySelector('.subtitleResults').addEventListener('click', onSubtitleResultsClick);
 
-        apiClient.getCultures().then(function (languages) {
+        apiClient.getCultures().then((languages) => {
             fillLanguages(editorContent, apiClient, languages);
         });
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+        dlg.querySelector('.btnCancel').addEventListener('click', () => {
             dialogHelper.close(dlg);
         });
 
-        return new Promise(function (resolve, reject) {
-            dlg.addEventListener('close', function () {
+        return new Promise((resolve, reject) => {
+            dlg.addEventListener('close', () => {
                 if (layoutManager.tv) {
                     centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                 }

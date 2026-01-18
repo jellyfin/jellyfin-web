@@ -122,7 +122,7 @@ function ensureTranslation(translationInfo, culture) {
         return Promise.resolve();
     }
 
-    return loadTranslation(translationInfo.translations, culture).then(function (dictionary) {
+    return loadTranslation(translationInfo.translations, culture).then((dictionary) => {
         translationInfo.dictionaries[culture] = dictionary;
     });
 }
@@ -169,25 +169,25 @@ export function loadStrings(options) {
 function loadTranslation(translations, lang) {
     lang = normalizeLocaleName(lang);
 
-    let filtered = translations.filter(function (t) {
+    let filtered = translations.filter((t) => {
         return normalizeLocaleName(t.lang) === lang;
     });
 
     if (!filtered.length) {
         lang = lang.replace(/-.*/, '');
 
-        filtered = translations.filter(function (t) {
+        filtered = translations.filter((t) => {
             return normalizeLocaleName(t.lang) === lang;
         });
 
         if (!filtered.length) {
-            filtered = translations.filter(function (t) {
+            filtered = translations.filter((t) => {
                 return normalizeLocaleName(t.lang) === FALLBACK_CULTURE;
             });
         }
     }
 
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
         if (!filtered.length) {
             resolve();
             return;
@@ -281,7 +281,7 @@ export function defaultModule(val) {
 
 updateCurrentCulture();
 
-Events.on(userSettings, 'change', function (e, name) {
+Events.on(userSettings, 'change', (e, name) => {
     if (name === 'language' || name === 'datetimelocale') {
         updateCurrentCulture();
     }

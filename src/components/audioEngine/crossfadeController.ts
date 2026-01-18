@@ -115,7 +115,7 @@ export function preloadNextTrack(options: PreloadOptions) {
     document.body.appendChild(element);
 
     const targetGain = options.normalizationGainDb ? Math.pow(10, options.normalizationGainDb / 20) : 1;
-    const bundle = ensureAudioNodeBundle(element, { initialGain: 0 });
+    const bundle = ensureAudioNodeBundle(element, { initialNormalizationGain: 0 });
     if (!bundle) {
         element.remove();
         return Promise.resolve(false);
@@ -125,7 +125,7 @@ export function preloadNextTrack(options: PreloadOptions) {
         itemId: options.itemId,
         url: options.url,
         element,
-        gainNode: bundle.gainNode,
+        gainNode: bundle.crossfadeGainNode,
         targetGain,
         ready: false,
         token
@@ -190,7 +190,7 @@ export function startCrossfade(options: { fromElement: HTMLMediaElement; duratio
         }
 
         const now = audioCtx.currentTime;
-        const fromGain = fromBundle.gainNode.gain;
+        const fromGain = fromBundle.crossfadeGainNode.gain;
         const toGain = preloaded.gainNode.gain;
         const targetGain = preloaded.targetGain;
 
@@ -213,8 +213,9 @@ export function startCrossfade(options: { fromElement: HTMLMediaElement; duratio
             options.fromElement.remove();
         }, { once: true });
 
-        return true;
-    }).catch(() => {
+        return Promise.resolve(true);
+    }).catch((err) => {
+        console.error('[Crossfade] crossfade error:', err);
         clearPreloadedElement();
         return false;
     });

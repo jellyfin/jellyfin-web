@@ -51,7 +51,7 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
         }
     }, [ api, virtualFolder ]);
 
-    const typeName = getCollectionTypeOptions().filter(function (t) {
+    const typeName = getCollectionTypeOptions().filter((t) => {
         return t.value == virtualFolder.CollectionType;
     })[0]?.name || globalize.translate('Other');
 

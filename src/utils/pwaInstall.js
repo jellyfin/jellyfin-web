@@ -31,8 +31,8 @@ class PWAInstallManager {
 
     static isInstalled() {
         // Check if running in standalone mode
-        return window.matchMedia('(display-mode: standalone)').matches ||
-               window.navigator.standalone === true;
+        return window.matchMedia('(display-mode: standalone)').matches
+               || window.navigator.standalone === true;
     }
 
     static setupAutoPrompt() {

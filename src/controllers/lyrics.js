@@ -242,7 +242,7 @@ export default function (view) {
         }
     }
 
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         Events.on(playbackManager, 'playerchange', onPlayerChange);
         autoScroll = AutoScroll.Instant;
         document.addEventListener('wheel', onWheelOrTouchMove);
@@ -255,7 +255,7 @@ export default function (view) {
         }
     });
 
-    view.addEventListener('viewbeforehide', function () {
+    view.addEventListener('viewbeforehide', () => {
         Events.off(playbackManager, 'playerchange', onPlayerChange);
         document.removeEventListener('wheel', onWheelOrTouchMove);
         document.removeEventListener('touchmove', onWheelOrTouchMove);

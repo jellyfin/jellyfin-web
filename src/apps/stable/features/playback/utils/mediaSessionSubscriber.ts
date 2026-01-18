@@ -3,7 +3,7 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { PlaybackSubscriber } from 'apps/stable/features/playback/utils/playbackSubscriber';
-import type { PlaybackManager } from 'components/playback/playbackmanager';
+import type { PlaybackManager, Player } from 'components/playback/playbackmanager';
 import { MILLISECONDS_PER_SECOND, TICKS_PER_MILLISECOND } from 'constants/time';
 import browser from 'scripts/browser';
 import shell from 'scripts/shell';
@@ -70,21 +70,21 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
     private onMediaSessionAction(details: MediaSessionActionDetails) {
         switch (details.action) {
             case 'pause':
-                return this.playbackManager.pause(this.player);
+                return this.playbackManager.pause(this.player as unknown as Player);
             case 'play':
-                return this.playbackManager.unpause(this.player);
+                return this.playbackManager.unpause(this.player as unknown as Player);
             case 'stop':
-                return this.playbackManager.stop(this.player);
+                return this.playbackManager.stop(this.player as unknown as Player);
             case 'seekbackward':
-                return this.playbackManager.rewind(this.player);
+                return this.playbackManager.rewind(this.player as unknown as Player);
             case 'seekforward':
-                return this.playbackManager.fastForward(this.player);
+                return this.playbackManager.fastForward(this.player as unknown as Player);
             case 'seekto':
-                return this.playbackManager.seekMs((details.seekTime || 0) * MILLISECONDS_PER_SECOND, this.player);
+                return this.playbackManager.seekMs((details.seekTime || 0) * MILLISECONDS_PER_SECOND, this.player as unknown as Player);
             case 'previoustrack':
-                return this.playbackManager.previousTrack(this.player);
+                return this.playbackManager.previousTrack(this.player as unknown as Player);
             case 'nexttrack':
-                return this.playbackManager.nextTrack(this.player);
+                return this.playbackManager.nextTrack(this.player as unknown as Player);
             default:
                 console.info('[MediaSessionSubscriber] Unhandled media session action', details);
         }
@@ -98,7 +98,7 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
             resetMediaSession();
             return;
         }
-        state = state || this.playbackManager.getPlayerState(this.player);
+        state = state || this.playbackManager.getPlayerState(this.player as unknown as Player);
         if (!state) {
             resetMediaSession();
             return;

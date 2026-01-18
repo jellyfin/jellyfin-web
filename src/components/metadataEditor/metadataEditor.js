@@ -49,7 +49,7 @@ function submitUpdatedItem(form, item) {
 
     const apiClient = getApiClient();
 
-    apiClient.updateItem(item).then(function () {
+    apiClient.updateItem(item).then(() => {
         const newContentType = form.querySelector('#selectContentType').value || '';
 
         if ((metadataEditorInfo.ContentType || '') !== newContentType) {
@@ -61,7 +61,7 @@ function submitUpdatedItem(form, item) {
 
                 type: 'POST'
 
-            }).then(function () {
+            }).then(() => {
                 afterContentTypeUpdated();
             });
         } else {
@@ -72,15 +72,15 @@ function submitUpdatedItem(form, item) {
 
 function getSelectedAirDays(form) {
     const checkedItems = form.querySelectorAll('.chkAirDay:checked') || [];
-    return Array.prototype.map.call(checkedItems, function (c) {
+    return Array.prototype.map.call(checkedItems, (c) => {
         return c.getAttribute('data-day');
     });
 }
 
 function getAlbumArtists(form) {
-    return form.querySelector('#txtAlbumArtist').value.trim().split(';').filter(function (s) {
+    return form.querySelector('#txtAlbumArtist').value.trim().split(';').filter((s) => {
         return s.length > 0;
-    }).map(function (a) {
+    }).map((a) => {
         return {
             Name: a
         };
@@ -88,9 +88,9 @@ function getAlbumArtists(form) {
 }
 
 function getArtists(form) {
-    return form.querySelector('#txtArtist').value.trim().split(';').filter(function (s) {
+    return form.querySelector('#txtArtist').value.trim().split(';').filter((s) => {
         return s.length > 0;
-    }).map(function (a) {
+    }).map((a) => {
         return {
             Name: a
         };
@@ -147,7 +147,7 @@ function onSubmit(e) {
         AirTime: form.querySelector('#txtAirTime').value,
         Genres: getListValues(form.querySelector('#listGenres')),
         Tags: getListValues(form.querySelector('#listTags')),
-        Studios: getListValues(form.querySelector('#listStudios')).map(function (element) {
+        Studios: getListValues(form.querySelector('#listStudios')).map((element) => {
             return { Name: element };
         }),
 
@@ -163,9 +163,9 @@ function onSubmit(e) {
         CustomRating: form.querySelector('#selectCustomRating').value,
         People: currentItem.People,
         LockData: form.querySelector('#chkLockData').checked,
-        LockedFields: Array.prototype.filter.call(form.querySelectorAll('.selectLockedField'), function (c) {
+        LockedFields: Array.prototype.filter.call(form.querySelectorAll('.selectLockedField'), (c) => {
             return !c.checked;
-        }).map(function (c) {
+        }).map((c) => {
             return c.getAttribute('data-value');
         })
     };
@@ -173,7 +173,7 @@ function onSubmit(e) {
     item.ProviderIds = { ...currentItem.ProviderIds };
 
     const idElements = form.querySelectorAll('.txtExternalId');
-    Array.prototype.map.call(idElements, function (idElem) {
+    Array.prototype.map.call(idElements, (idElem) => {
         const providerKey = idElem.getAttribute('data-providerkey');
         item.ProviderIds[providerKey] = idElem.value;
     });
@@ -206,7 +206,7 @@ function onSubmit(e) {
 }
 
 function getListValues(list) {
-    return Array.prototype.map.call(list.querySelectorAll('.textValue'), function (el) {
+    return Array.prototype.map.call(list.querySelectorAll('.textValue'), (el) => {
         return el.textContent;
     });
 }
@@ -215,7 +215,7 @@ function addElementToList(source, sortCallback) {
     import('../prompt/prompt').then(({ default: prompt }) => {
         prompt({
             label: 'Value:'
-        }).then(function (text) {
+        }).then((text) => {
             const list = dom.parentWithClass(source, 'editableListviewContainer').querySelector('.paperList');
             const items = getListValues(list);
             items.push(text);
@@ -231,7 +231,7 @@ function removeElementFromList(source) {
 
 function editPerson(context, person, index) {
     import('./personEditor').then(({ default: personEditor }) => {
-        personEditor.show(person).then(function (updatedPerson) {
+        personEditor.show(person).then((updatedPerson) => {
             const isNew = index === -1;
 
             if (isNew) {
@@ -267,7 +267,7 @@ function showMoreMenu(context, button, user) {
             play: false,
             queue: false,
             user: user
-        }).then(function (result) {
+        }).then((result) => {
             if (result.deleted) {
                 afterDeleted(context, item);
             } else if (result.updated) {
@@ -307,7 +307,7 @@ function onResetClick() {
         '#txtProductionYear', '#selectHeight', '#txtOriginalAspectRatio', '#select3dFormat', '#selectOfficialRating', '#selectCustomRating',
         '#txtSeriesRuntime', '#txtTagline'];
     const form = currentContext?.querySelector('form');
-    resetElementId.forEach(function (id) {
+    resetElementId.forEach((id) => {
         form.querySelector(id).value = null;
     });
     form.querySelector('#selectDisplayOrder').value = '';
@@ -320,12 +320,12 @@ function onResetClick() {
     currentItem.People = [];
 
     const checkedItems = form.querySelectorAll('.chkAirDay:checked') || [];
-    checkedItems.forEach(function (checkbox) {
+    checkedItems.forEach((checkbox) => {
         checkbox.checked = false;
     });
 
     const idElements = form.querySelectorAll('.txtExternalId');
-    idElements.forEach(function (idElem) {
+    idElements.forEach((idElem) => {
         idElem.value = null;
     });
 
@@ -333,7 +333,7 @@ function onResetClick() {
     showElement('.providerSettingsContainer');
 
     const lockedFields = form.querySelectorAll('.selectLockedField');
-    lockedFields.forEach(function (checkbox) {
+    lockedFields.forEach((checkbox) => {
         checkbox.checked = true;
     });
 }
@@ -344,22 +344,22 @@ function init(context) {
         context.querySelector('.btnClose').classList.add('hide');
     }
 
-    bindAll(context.querySelectorAll('.btnCancel'), 'click', function (event) {
+    bindAll(context.querySelectorAll('.btnCancel'), 'click', (event) => {
         event.preventDefault();
         closeDialog();
     });
 
-    context.querySelector('.btnMore').addEventListener('click', function (e) {
-        getApiClient().getCurrentUser().then(function (user) {
+    context.querySelector('.btnMore').addEventListener('click', (e) => {
+        getApiClient().getCurrentUser().then((user) => {
             showMoreMenu(context, e.target, user);
         });
     });
 
-    context.querySelector('.btnHeaderSave').addEventListener('click', function () {
+    context.querySelector('.btnHeaderSave').addEventListener('click', () => {
         context.querySelector('.btnSave').click();
     });
 
-    context.querySelector('#chkLockData').addEventListener('click', function (e) {
+    context.querySelector('#chkLockData').addEventListener('click', (e) => {
         if (!e.target.checked) {
             showElement('.providerSettingsContainer');
         } else {
@@ -376,11 +376,11 @@ function init(context) {
 
     context.querySelector('.btnReset').addEventListener('click', onResetClick);
 
-    context.querySelector('#btnAddPerson').addEventListener('click', function () {
+    context.querySelector('#btnAddPerson').addEventListener('click', () => {
         editPerson(context, {}, -1);
     });
 
-    context.querySelector('#peopleList').addEventListener('click', function (e) {
+    context.querySelector('#peopleList').addEventListener('click', (e) => {
         let index;
         const btnDeletePerson = dom.parentWithClass(e.target, 'btnDeletePerson');
         if (btnDeletePerson) {
@@ -452,7 +452,7 @@ function renderContentTypeOptions(context, metadataInfo) {
         showElement('#fldContentType', context);
     }
 
-    const html = metadataInfo.ContentTypeOptions.map(function (i) {
+    const html = metadataInfo.ContentTypeOptions.map((i) => {
         return '<option value="' + i.Value + '">' + i.Name + '</option>';
     }).join('');
 
@@ -508,7 +508,7 @@ function hideElement(selector, context, multiple) {
     if (typeof selector === 'string') {
         const elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
 
-        Array.prototype.forEach.call(elements, function (el) {
+        Array.prototype.forEach.call(elements, (el) => {
             if (el) {
                 el.classList.add('hide');
             }
@@ -526,7 +526,7 @@ function showElement(selector, context, multiple) {
     if (typeof selector === 'string') {
         const elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
 
-        Array.prototype.forEach.call(elements, function (el) {
+        Array.prototype.forEach.call(elements, (el) => {
             if (el) {
                 el.classList.remove('hide');
             }
@@ -763,14 +763,14 @@ function fillItemInfo(context, item, parentalRatingOptions) {
 
     context.querySelector('#select3dFormat', context).value = item.Video3DFormat || '';
 
-    Array.prototype.forEach.call(context.querySelectorAll('.chkAirDay', context), function (el) {
+    Array.prototype.forEach.call(context.querySelectorAll('.chkAirDay', context), (el) => {
         el.checked = (item.AirDays || []).indexOf(el.getAttribute('data-day')) !== -1;
     });
 
     populateListView(context.querySelector('#listGenres'), item.Genres);
     populatePeople(context, item.People || []);
 
-    populateListView(context.querySelector('#listStudios'), (item.Studios || []).map(function (element) {
+    populateListView(context.querySelector('#listStudios'), (item.Studios || []).map((element) => {
         return element.Name || '';
     }));
 
@@ -805,13 +805,13 @@ function fillItemInfo(context, item, parentalRatingOptions) {
 
     context.querySelector('#txtAlbum').value = item.Album || '';
 
-    context.querySelector('#txtAlbumArtist').value = (item.AlbumArtists || []).map(function (a) {
+    context.querySelector('#txtAlbumArtist').value = (item.AlbumArtists || []).map((a) => {
         return a.Name;
     }).join(';');
 
     context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
 
-    context.querySelector('#txtArtist').value = (item.ArtistItems || []).map(function (a) {
+    context.querySelector('#txtArtist').value = (item.ArtistItems || []).map((a) => {
         return a.Name;
     }).join(';');
 
@@ -921,7 +921,7 @@ function populateStatus(select) {
 function populateListView(list, items, sortCallback) {
     items = items || [];
     if (typeof (sortCallback) === 'undefined') {
-        items.sort(function (a, b) {
+        items.sort((a, b) => {
             return a.toLowerCase().localeCompare(b.toLowerCase());
         });
     } else {
@@ -1036,7 +1036,7 @@ function fillMetadataSettings(context, item, lockedFields) {
 function reload(context, itemId, serverId) {
     loading.show();
 
-    Promise.all([getItem(itemId, serverId), getEditorConfig(itemId, serverId)]).then(function (responses) {
+    Promise.all([getItem(itemId, serverId), getEditorConfig(itemId, serverId)]).then((responses) => {
         const item = responses[0];
         metadataEditorInfo = responses[1];
 
@@ -1102,7 +1102,7 @@ function show(itemId, serverId, resolve) {
 
     dialogHelper.open(dlg);
 
-    dlg.addEventListener('close', function () {
+    dlg.addEventListener('close', () => {
         if (layoutManager.tv) {
             centerFocus(dlg.querySelector('.formDialogContent'), false, false);
         }
@@ -1123,7 +1123,7 @@ export default {
     },
 
     embed: function (elem, itemId, serverId) {
-        return new Promise(function () {
+        return new Promise(() => {
             loading.show();
 
             elem.innerHTML = globalize.translateHtml(template, 'core');

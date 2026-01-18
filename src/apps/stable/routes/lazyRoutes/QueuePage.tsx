@@ -75,15 +75,15 @@ const QueuePage: React.FC = () => {
     if (isLoading) {
         return (
             <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                minHeight="400px"
+                display='flex'
+                flexDirection='column'
+                alignItems='center'
+                justifyContent='center'
+                minHeight='400px'
                 sx={{ backgroundColor: '#111', color: 'white' }}
             >
                 <CircularProgress size={60} sx={{ color: 'white', mb: 2 }} />
-                <Typography variant="h6">
+                <Typography variant='h6'>
                     Loading Playback Queue...
                 </Typography>
             </Box>
@@ -101,10 +101,10 @@ const QueuePage: React.FC = () => {
         >
             {/* Header */}
             <Box sx={{ p: 3, pb: 2 }}>
-                <Typography variant="h4" component="h1">
+                <Typography variant='h4' component='h1'>
                     {globalize.translate('Playback Queue')}
                 </Typography>
-                <Typography variant="body1" sx={{ color: 'grey.400', mt: 1 }}>
+                <Typography variant='body1' sx={{ color: 'grey.400', mt: 1 }}>
                     {queueData.length} items in queue
                 </Typography>
             </Box>
@@ -131,7 +131,7 @@ const QueuePage: React.FC = () => {
                                     {item.isPlaying ? (
                                         <PlayArrowIcon sx={{ color: 'white' }} />
                                     ) : (
-                                        <Typography variant="h6" sx={{ color: 'white' }}>
+                                        <Typography variant='h6' sx={{ color: 'white' }}>
                                             {index + 1}
                                         </Typography>
                                     )}
@@ -140,16 +140,16 @@ const QueuePage: React.FC = () => {
 
                             <ListItemText
                                 primary={
-                                    <Typography variant="h6" sx={{ color: 'white' }}>
+                                    <Typography variant='h6' sx={{ color: 'white' }}>
                                         {item.title}
                                     </Typography>
                                 }
                                 secondary={
                                     <Box>
-                                        <Typography variant="body2" sx={{ color: 'grey.300' }}>
+                                        <Typography variant='body2' sx={{ color: 'grey.300' }}>
                                             {item.artist} • {item.album}
                                         </Typography>
-                                        <Typography variant="body2" sx={{ color: 'grey.500' }}>
+                                        <Typography variant='body2' sx={{ color: 'grey.500' }}>
                                             {item.duration}
                                         </Typography>
                                     </Box>

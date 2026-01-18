@@ -180,7 +180,7 @@ function updateValues(isValueSet) {
     // put this on a callback. Doing it within the event sometimes causes the slider to get hung up and not respond
     // Keep only one per slider frame request
     cancelAnimationFrame(range.updateValuesFrame);
-    range.updateValuesFrame = requestAnimationFrame(function () {
+    range.updateValuesFrame = requestAnimationFrame(() => {
         const backgroundLower = range.backgroundLower;
 
         if (backgroundLower) {
@@ -197,7 +197,7 @@ function updateValues(isValueSet) {
 }
 
 function updateBubble(range, percent, value, bubble) {
-    requestAnimationFrame(function () {
+    requestAnimationFrame(() => {
         const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
         const bubbleRect = bubble.getBoundingClientRect();
 
@@ -231,7 +231,7 @@ function updateBubble(range, percent, value, bubble) {
 }
 
 function setMarker(range, valueMarker, marker, valueProgress) {
-    requestAnimationFrame(function () {
+    requestAnimationFrame(() => {
         const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
         const markerRect = marker.getBoundingClientRect();
 
@@ -389,7 +389,7 @@ EmbySliderPrototype.attachedCallback = function () {
     });
 
     /* eslint-disable-next-line compat/compat */
-    dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function () {
+    dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), () => {
         sliderBubble.classList.add('hide');
         hasHideBubbleClass = true;
     }, {
@@ -439,7 +439,7 @@ EmbySliderPrototype.attachedCallback = function () {
         dom.addEventListener(this, 'touchend', function () {
             const range = this;
 
-            setTimeout(function () {
+            setTimeout(() => {
                 range.touched = false;
 
                 range.dispatchEvent(new Event('change', {
@@ -481,7 +481,7 @@ function startKeyboardDragging(elem) {
     elem.keyboardDragging = true;
 
     clearTimeout(keyboardDraggingTimer);
-    keyboardDraggingTimer = setTimeout(function () {
+    keyboardDraggingTimer = setTimeout(() => {
         finishKeyboardDragging(elem);
     }, KeyboardDraggingTimeout);
 }
@@ -587,7 +587,7 @@ function mapRangesFromRuntimeToPercent(ranges, runtime) {
         return [];
     }
 
-    return ranges.map(function (r) {
+    return ranges.map((r) => {
         return {
             start: (r.start / runtime) * 100,
             end: (r.end / runtime) * 100

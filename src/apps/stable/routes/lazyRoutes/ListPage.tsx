@@ -64,10 +64,10 @@ const ListPage: React.FC = () => {
     if (isLoading) {
         return (
             <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="400px"
+                display='flex'
+                justifyContent='center'
+                alignItems='center'
+                minHeight='400px'
             >
                 <CircularProgress size={60} />
             </Box>
@@ -78,27 +78,27 @@ const ListPage: React.FC = () => {
         <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
             {/* Header */}
             <Box sx={{ mb: 4 }}>
-                <Typography variant="h4" component="h1" gutterBottom>
+                <Typography variant='h4' component='h1' gutterBottom>
                     {globalize.translate('Media Library')}
                 </Typography>
 
                 {/* Controls */}
                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mt: 2 }}>
-                    <FormControl size="small" sx={{ minWidth: 120 }}>
+                    <FormControl size='small' sx={{ minWidth: 120 }}>
                         <InputLabel>Sort By</InputLabel>
                         <Select
                             value={sortBy}
-                            label="Sort By"
+                            label='Sort By'
                             onChange={handleSortChange}
                         >
-                            <MenuItem value="name">Name</MenuItem>
-                            <MenuItem value="year">Year</MenuItem>
-                            <MenuItem value="rating">Rating</MenuItem>
-                            <MenuItem value="dateAdded">Date Added</MenuItem>
+                            <MenuItem value='name'>Name</MenuItem>
+                            <MenuItem value='year'>Year</MenuItem>
+                            <MenuItem value='rating'>Rating</MenuItem>
+                            <MenuItem value='dateAdded'>Date Added</MenuItem>
                         </Select>
                     </FormControl>
 
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant='body2' color='text.secondary'>
                         {listData.length} items • Page {currentPage} of {totalPages}
                     </Typography>
                 </Box>
@@ -110,7 +110,7 @@ const ListPage: React.FC = () => {
                     <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
                         <Card sx={{ height: '100%', cursor: 'pointer', '&:hover': { transform: 'scale(1.02)', transition: 'transform 0.2s' } }}>
                             <CardMedia
-                                component="div"
+                                component='div'
                                 sx={{
                                     height: 200,
                                     backgroundColor: 'grey.300',
@@ -120,7 +120,7 @@ const ListPage: React.FC = () => {
                                     position: 'relative'
                                 }}
                             >
-                                <Typography variant="h6" color="text.secondary">
+                                <Typography variant='h6' color='text.secondary'>
                                     {item.type === 'Movie' ? '🎬' : item.type === 'TV Show' ? '📺' : '🎵'}
                                 </Typography>
 
@@ -144,15 +144,15 @@ const ListPage: React.FC = () => {
                             </CardMedia>
 
                             <CardContent>
-                                <Typography variant="h6" component="div" noWrap gutterBottom>
+                                <Typography variant='h6' component='div' noWrap gutterBottom>
                                     {item.title}
                                 </Typography>
 
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Typography variant="body2" color="text.secondary">
+                                    <Typography variant='body2' color='text.secondary'>
                                         {item.year}
                                     </Typography>
-                                    <Typography variant="body2" color="text.secondary">
+                                    <Typography variant='body2' color='text.secondary'>
                                         {item.type}
                                     </Typography>
                                 </Box>
@@ -168,8 +168,8 @@ const ListPage: React.FC = () => {
                     count={totalPages}
                     page={currentPage}
                     onChange={handlePageChange}
-                    color="primary"
-                    size="large"
+                    color='primary'
+                    size='large'
                 />
             </Box>
         </Box>

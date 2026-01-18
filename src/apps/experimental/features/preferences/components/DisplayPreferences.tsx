@@ -119,7 +119,7 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                         onChange={ onChange }
                         value={ values.dashboardTheme }
                     >
-                        { ...themes.map(({ id, name }) => (
+                        { themes.map(({ id, name }) => (
                             <MenuItem key={ id } value={ id }>{ name }</MenuItem>
                         )) }
                     </Select>
@@ -138,7 +138,7 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                             onChange={onChange}
                             value={values.screensaver}
                         >
-                            { ...screensavers.map(({ id, name }) => (
+                            { screensavers.map(({ id, name }) => (
                                 <MenuItem key={id} value={id}>{name}</MenuItem>
                             ))}
                         </Select>

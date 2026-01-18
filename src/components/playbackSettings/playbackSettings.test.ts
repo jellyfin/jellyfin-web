@@ -1,5 +1,7 @@
 import { getVisualizerInputValues, visualizerSettings } from 'components/visualizer/visualizers.logic';
 
+/// <reference types="vitest/globals" />
+
 // Mock userSettings to prevent globalize from failing
 vi.mock('../../scripts/settings/userSettings', () => ({}));
 

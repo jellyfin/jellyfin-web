@@ -62,12 +62,12 @@ export const UserSettingsProvider: FC<PropsWithChildren<unknown>> = ({ children 
 
     // Update the values of the user settings
     const updateUserSettings = useCallback(() => {
-        setCustomCss(userSettings.customCss());
-        setDisableCustomCss(userSettings.disableCustomCss());
-        setTheme(userSettings.theme());
-        setDashboardTheme(userSettings.dashboardTheme());
-        setDateTimeLocale(userSettings.dateTimeLocale());
-        setLanguage(userSettings.language());
+        setCustomCss(userSettings.customCss() || undefined);
+        setDisableCustomCss(Boolean(userSettings.disableCustomCss()));
+        setTheme(userSettings.theme() || undefined);
+        setDashboardTheme(userSettings.dashboardTheme() || undefined);
+        setDateTimeLocale(userSettings.dateTimeLocale() || undefined);
+        setLanguage(userSettings.language() || undefined);
     }, []);
 
     const onUserSettingsChange = useCallback((_e: Event, name?: string) => {

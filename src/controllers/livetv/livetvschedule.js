@@ -53,7 +53,7 @@ function renderRecordings(elem, recordings, cardOptions) {
 }
 
 function renderActiveRecordings(context, promise) {
-    promise.then(function (result) {
+    promise.then((result) => {
         renderRecordings(context.querySelector('#activeRecordings'), result.Items, {
             shape: enableScrollX() ? 'autooverflow' : 'auto',
             defaultShape: getBackdropShape(enableScrollX()),
@@ -71,7 +71,7 @@ function renderActiveRecordings(context, promise) {
 }
 
 function renderTimers(context, timers, options) {
-    getTimersHtml(timers, options).then(function (html) {
+    getTimersHtml(timers, options).then((html) => {
         const elem = context;
 
         if (html) {
@@ -86,7 +86,7 @@ function renderTimers(context, timers, options) {
 }
 
 function renderUpcomingRecordings(context, promise) {
-    promise.then(function (result) {
+    promise.then((result) => {
         renderTimers(context.querySelector('#upcomingRecordings'), result.Items);
         loading.hide();
     });
@@ -96,7 +96,7 @@ export default function (view, params, tabContent) {
     let activeRecordingsPromise;
     let upcomingRecordingsPromise;
     const self = this;
-    tabContent.querySelector('#upcomingRecordings .recordingItems').addEventListener('timercancelled', function () {
+    tabContent.querySelector('#upcomingRecordings .recordingItems').addEventListener('timercancelled', () => {
         self.preRender();
         self.renderTab();
     });

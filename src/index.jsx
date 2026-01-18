@@ -91,10 +91,10 @@ build: ${__JF_BUILD_VERSION__}`);
     cleanupExpiredCache();
 
     // Register handlers to update header classes
-    pageClassOn('viewshow', 'standalonePage', function () {
+    pageClassOn('viewshow', 'standalonePage', () => {
         document.querySelector('.skinHeader').classList.add('noHeaderRight');
     });
-    pageClassOn('viewhide', 'standalonePage', function () {
+    pageClassOn('viewhide', 'standalonePage', () => {
         document.querySelector('.skinHeader').classList.remove('noHeaderRight');
     });
 
@@ -214,28 +214,10 @@ function loadPlatformFeatures() {
 
     if (!browser.tv && !browser.xboxOne) {
         import('./components/playback/playbackorientation');
-        registerServiceWorker();
 
         if (window.Notification) {
             import('./components/notifications/notifications');
         }
-    }
-}
-
-function registerServiceWorker() {
-    if (__WEBPACK_SERVE__) {
-        console.debug('serviceWorker disabled for webpack dev server');
-        return;
-    }
-
-    if (navigator.serviceWorker && window.appMode !== 'cordova' && window.appMode !== 'android') {
-        navigator.serviceWorker.register('serviceworker.js').then(() =>
-            console.log('serviceWorker registered')
-        ).catch(error =>
-            console.log('error registering serviceWorker: ' + error)
-        );
-    } else {
-        console.warn('serviceWorker unsupported');
     }
 }
 

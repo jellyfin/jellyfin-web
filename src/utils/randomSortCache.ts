@@ -74,7 +74,7 @@ export async function getPaginatedRandomItems(
 
     const paginatedItems = allItems.slice(safeStartIndex, endIndex);
 
-    console.debug(`[RandomSortCache] Returning ${paginatedItems.length} items (${safeStartIndex}-${endIndex-1}) from cache ${cacheKey}`);
+    console.debug(`[RandomSortCache] Returning ${paginatedItems.length} items (${safeStartIndex}-${endIndex - 1}) from cache ${cacheKey}`);
 
     return paginatedItems;
 }
@@ -177,7 +177,7 @@ function saveToCache<T = unknown>(key: string, data: CachedRandomSort<T>): void 
         }, 0);
 
         if (usedSpace + serialized.length > MAX_CACHE_SIZE_BYTES) {
-            console.warn(`[RandomSortCache] Insufficient storage space, skipping cache`);
+            console.warn('[RandomSortCache] Insufficient storage space, skipping cache');
             return;
         }
 

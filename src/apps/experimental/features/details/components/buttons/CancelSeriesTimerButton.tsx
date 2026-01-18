@@ -26,7 +26,7 @@ const CancelSeriesTimerButton: FC<CancelSeriesTimerButtonProps> = ({
             confirmText: globalize.translate('HeaderCancelSeries'),
             cancelText: globalize.translate('HeaderKeepSeries')
         })
-            .then(function () {
+            .then(() => {
                 loading.show();
                 cancelSeriesTimer.mutate(
                     {

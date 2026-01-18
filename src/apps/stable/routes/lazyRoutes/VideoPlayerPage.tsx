@@ -18,42 +18,42 @@ let videoPluginsLoaded = false;
 // Lazy loading functions for video components
 async function loadVideoOSD() {
     if (!videoOSDLoaded) {
-        await import('../../../components/video/videoOSD');
+        await import('../../../../components/video/videoOSD');
         videoOSDLoaded = true;
     }
 }
 
 async function loadVideoUtils() {
     if (!videoUtilsLoaded) {
-        await import('../../../components/video/videoUtils');
+        await import('../../../../components/video/videoUtils');
         videoUtilsLoaded = true;
     }
 }
 
 async function loadSubtitleComponents() {
     if (!subtitleComponentsLoaded) {
-        await import('../../../components/video/subtitleComponents');
+        await import('../../../../components/video/subtitleComponents');
         subtitleComponentsLoaded = true;
     }
 }
 
 async function loadVideoSync() {
     if (!videoSyncLoaded) {
-        await import('../../../components/video/videoSync');
+        await import('../../../../components/video/videoSync');
         videoSyncLoaded = true;
     }
 }
 
 async function loadAdvancedVideoControls() {
     if (!advancedControlsLoaded) {
-        await import('../../../components/video/advancedVideoControls');
+        await import('../../../../components/video/advancedVideoControls');
         advancedControlsLoaded = true;
     }
 }
 
 async function loadVideoPlugins() {
     if (!videoPluginsLoaded) {
-        await import('../../../components/video/videoPlugins');
+        await import('../../../../components/video/videoPlugins');
         videoPluginsLoaded = true;
     }
 }
@@ -75,9 +75,9 @@ const VideoPlayerPage: React.FC = () => {
 
                 // Load essential video components in parallel
                 await Promise.all([
-                    loadVideoOSD(),        // Video controls and OSD
-                    loadVideoUtils(),      // Video utilities and helpers
-                    loadVideoPlugins()     // HTML video player plugin
+                    loadVideoOSD(), // Video controls and OSD
+                    loadVideoUtils(), // Video utilities and helpers
+                    loadVideoPlugins() // HTML video player plugin
                 ]);
 
                 console.log('✅ Video OSD components loaded');
@@ -87,9 +87,9 @@ const VideoPlayerPage: React.FC = () => {
                 // Load advanced features when needed
                 setTimeout(async () => {
                     await Promise.all([
-                        loadSubtitleComponents(),     // Subtitle support
-                        loadVideoSync(),             // Sync play features
-                        loadAdvancedVideoControls()  // Advanced controls
+                        loadSubtitleComponents(), // Subtitle support
+                        loadVideoSync(), // Sync play features
+                        loadAdvancedVideoControls() // Advanced controls
                     ]);
 
                     console.log('✅ Advanced video features loaded');
@@ -104,7 +104,6 @@ const VideoPlayerPage: React.FC = () => {
                     });
                     setIsLoading(false);
                 }, 800);
-
             } catch (error) {
                 console.error('Failed to load video player:', error);
                 setVideoData({
@@ -122,15 +121,15 @@ const VideoPlayerPage: React.FC = () => {
     if (isLoading) {
         return (
             <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                minHeight="400px"
+                display='flex'
+                flexDirection='column'
+                alignItems='center'
+                justifyContent='center'
+                minHeight='400px'
                 sx={{ backgroundColor: 'black', color: 'white' }}
             >
                 <CircularProgress size={60} sx={{ color: 'white', mb: 2 }} />
-                <Typography variant="h6">
+                <Typography variant='h6'>
                     Loading Video Player...
                 </Typography>
             </Box>
@@ -146,14 +145,14 @@ const VideoPlayerPage: React.FC = () => {
                 p: 2
             }}
         >
-            <Typography variant="h4" component="h1" gutterBottom>
+            <Typography variant='h4' component='h1' gutterBottom>
                 {globalize.translate('Video Player')}
             </Typography>
 
             {/* Video player container - in real implementation this would be the actual video element */}
             <Card sx={{ maxWidth: 800, mx: 'auto', backgroundColor: '#333' }}>
                 <CardMedia
-                    component="div"
+                    component='div'
                     sx={{
                         height: 450,
                         backgroundColor: '#222',
@@ -175,7 +174,7 @@ const VideoPlayerPage: React.FC = () => {
                             backgroundSize: '40px 40px'
                         }}
                     >
-                        <Typography variant="h5" sx={{ color: 'white', opacity: 0.7 }}>
+                        <Typography variant='h5' sx={{ color: 'white', opacity: 0.7 }}>
                             🎬 Video Player
                         </Typography>
                     </Box>
@@ -200,20 +199,20 @@ const VideoPlayerPage: React.FC = () => {
                             }
                         }}
                     >
-                        <Typography variant="h3" sx={{ color: 'white' }}>
+                        <Typography variant='h3' sx={{ color: 'white' }}>
                             ▶️
                         </Typography>
                     </Box>
                 </CardMedia>
 
                 <CardContent sx={{ backgroundColor: '#333', color: 'white' }}>
-                    <Typography variant="h6" component="div" gutterBottom>
+                    <Typography variant='h6' component='div' gutterBottom>
                         {videoData?.title || 'Video Title'}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'grey.300' }}>
+                    <Typography variant='body2' sx={{ color: 'grey.300' }}>
                         Duration: {videoData?.duration || '00:00:00'}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'grey.400', mt: 1 }}>
+                    <Typography variant='body2' sx={{ color: 'grey.400', mt: 1 }}>
                         {videoData?.status || 'Ready to play'}
                     </Typography>
                 </CardContent>

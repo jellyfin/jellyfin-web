@@ -639,15 +639,15 @@ export function browserDeviceProfile(options) {
         hlsInFmp4VideoAudioCodecs.push('alac');
     }
 
-    videoAudioCodecs = videoAudioCodecs.filter(function (c) {
+    videoAudioCodecs = videoAudioCodecs.filter((c) => {
         return (options.disableVideoAudioCodecs || []).indexOf(c) === -1;
     });
 
-    hlsInTsVideoAudioCodecs = hlsInTsVideoAudioCodecs.filter(function (c) {
+    hlsInTsVideoAudioCodecs = hlsInTsVideoAudioCodecs.filter((c) => {
         return (options.disableHlsVideoAudioCodecs || []).indexOf(c) === -1;
     });
 
-    hlsInFmp4VideoAudioCodecs = hlsInFmp4VideoAudioCodecs.filter(function (c) {
+    hlsInFmp4VideoAudioCodecs = hlsInFmp4VideoAudioCodecs.filter((c) => {
         return (options.disableHlsVideoAudioCodecs || []).indexOf(c) === -1;
     });
 
@@ -760,15 +760,15 @@ export function browserDeviceProfile(options) {
     }
 
     // These are formats we can't test for but some devices will support
-    ['m2ts', 'wmv', 'ts', 'asf', 'avi', 'mpg', 'mpeg', 'flv', '3gp', 'mts', 'trp', 'vob', 'vro', 'mov'].map(function (container) {
+    ['m2ts', 'wmv', 'ts', 'asf', 'avi', 'mpg', 'mpeg', 'flv', '3gp', 'mts', 'trp', 'vob', 'vro', 'mov'].map((container) => {
         return getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options);
-    }).filter(function (i) {
+    }).filter((i) => {
         return i != null;
-    }).forEach(function (i) {
+    }).forEach((i) => {
         profile.DirectPlayProfiles.push(i);
     });
 
-    ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
+    ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach((audioFormat) => {
         // Place container overrides before direct profile for remux container override
         if (audioFormat == 'mp3' && !canPlayMp3VideoAudioInHls) {
             // mp3 is a special case because it is allowed in hls-fmp4 on the server-side
@@ -853,7 +853,7 @@ export function browserDeviceProfile(options) {
     // For streaming, prioritize opus transcoding after mp3/aac. It is too problematic with random failures
     // But for static (offline sync), it will be just fine.
     // Prioritize aac higher because the encoder can accept more channels than mp3
-    ['aac', 'mp3', 'opus', 'wav'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
+    ['aac', 'mp3', 'opus', 'wav'].filter(canPlayAudioFormat).forEach((audioFormat) => {
         profile.TranscodingProfiles.push({
             Container: audioFormat,
             Type: 'Audio',
@@ -864,7 +864,7 @@ export function browserDeviceProfile(options) {
         });
     });
 
-    ['opus', 'mp3', 'aac', 'wav'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
+    ['opus', 'mp3', 'aac', 'wav'].filter(canPlayAudioFormat).forEach((audioFormat) => {
         profile.TranscodingProfiles.push({
             Container: audioFormat,
             Type: 'Audio',

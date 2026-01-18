@@ -21,7 +21,7 @@ export default function (view: ViewElement, params: ViewParams): void {
     const userId = params.userId || (globalThis as any).ApiClient.getCurrentUserId();
     const currentSettings = userId === (globalThis as any).ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
 
-    view.addEventListener('viewshow', function () {
+    view.addEventListener('viewshow', () => {
         if (settingsInstance) {
             settingsInstance.loadData();
         } else {
@@ -37,7 +37,7 @@ export default function (view: ViewElement, params: ViewParams): void {
         }
     });
 
-    view.addEventListener('viewdestroy', function () {
+    view.addEventListener('viewdestroy', () => {
         if (settingsInstance) {
             settingsInstance.destroy();
             settingsInstance = null;
