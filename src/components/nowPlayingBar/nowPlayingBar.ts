@@ -71,6 +71,7 @@ let toggleAirPlayButton: HTMLElement | null = null;
 let toggleRepeatButton: HTMLElement | null = null;
 let toggleRepeatButtonIcon: HTMLElement | null = null;
 let lyricButton: HTMLElement | null = null;
+let nowPlayingBarElement: HTMLElement | null = null;
 
 let lastUpdateTime = 0;
 let lastPlayerState: PlayerState = {};
@@ -328,8 +329,38 @@ function showRemoteControl(): void {
 }
 
 function getNowPlayingBar(): HTMLElement | null {
-    // ... existing code
-    return null;
+    if (nowPlayingBarElement) {
+        return nowPlayingBarElement;
+    }
+
+    nowPlayingBarElement = document.body.querySelector('.nowPlayingBar');
+
+    if (nowPlayingBarElement) {
+        return nowPlayingBarElement;
+    }
+
+    document.body.insertAdjacentHTML('beforeend', getNowPlayingBarHtml());
+    (window as any).customElements.upgradeSubtree(document.body);
+
+    nowPlayingBarElement = document.body.querySelector('.nowPlayingBar');
+
+    if (nowPlayingBarElement) {
+        if (layoutManager.mobile) {
+            nowPlayingBarElement.querySelector('.btnShuffleQueue')?.classList.add('hide');
+            nowPlayingBarElement.querySelector('.nowPlayingBarCenter')?.classList.add('hide');
+        }
+
+        if (browser.safari) {
+            // Not handled well here. The wrong elements receive events, bar doesn't update quickly enough, etc.
+            nowPlayingBarElement.classList.add('noMediaProgress');
+        }
+
+        itemShortcuts.on(nowPlayingBarElement);
+
+        bindEvents(nowPlayingBarElement);
+    }
+
+    return nowPlayingBarElement;
 }
 
 function updatePlayPauseState(isPaused: boolean): void {
