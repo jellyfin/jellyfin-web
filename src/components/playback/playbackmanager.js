@@ -945,7 +945,8 @@ export class PlaybackManager {
             return streams.filter((stream) => this.trackHasSecondarySubtitleSupport(stream, player));
         };
 
-        getCurrentSubtitleStream(player, isSecondaryStream = false) {
+        getCurrentSubtitleStream(player, isSecondaryStream) {
+            if (isSecondaryStream === undefined) isSecondaryStream = false;
             if (!player) {
                 throw new Error('player cannot be null');
             }

@@ -868,4 +868,5 @@ const LibraryMenu = {
 window.LibraryMenu = LibraryMenu;
 renderHeader();
 
+export { LibraryMenu };
 export default LibraryMenu;

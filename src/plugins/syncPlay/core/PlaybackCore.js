@@ -605,4 +605,5 @@ class PlaybackCore {
     }
 }
 
+export { PlaybackCore };
 export default PlaybackCore;

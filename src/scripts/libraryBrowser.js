@@ -173,4 +173,5 @@ const libraryBrowser = {
 
 window.LibraryBrowser = libraryBrowser;
 
+export { libraryBrowser };
 export default libraryBrowser;

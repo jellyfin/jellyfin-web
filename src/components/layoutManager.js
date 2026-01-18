@@ -78,4 +78,5 @@ if (appHost && typeof appHost.getDefaultLayout === 'function') {
 
 layoutManager.init();
 
+export { layoutManager };
 export default layoutManager;

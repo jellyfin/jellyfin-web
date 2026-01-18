@@ -145,4 +145,5 @@ class SettingsEditor {
     }
 }
 
+export { SettingsEditor };
 export default SettingsEditor;

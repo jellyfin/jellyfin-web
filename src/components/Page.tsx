@@ -85,4 +85,5 @@ const Page: FC<PropsWithChildren<PageProps>> = ({
     );
 };
 
+export { Page };
 export default Page;

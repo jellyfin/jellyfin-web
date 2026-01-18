@@ -13,7 +13,42 @@ import '../../elements/emby-button/emby-button';
 import dialog from '../dialog/dialog';
 import dialogHelper from '../dialogHelper/dialogHelper';
 
-function getTargetSecondaryText(target) {
+interface PlaybackTarget {
+    id: string;
+    name: string;
+    appName?: string;
+    deviceType?: string;
+    isLocalPlayer?: boolean;
+    user?: {
+        Name: string;
+    };
+    playerName?: string;
+    playableMediaTypes?: string[];
+    supportedCommands?: string[];
+}
+
+interface PlayerInfo {
+    id?: string;
+    name?: string;
+    deviceName?: string;
+    isLocalPlayer?: boolean;
+    supportedCommands?: string[];
+}
+
+interface MenuItem {
+    name: string;
+    id: string;
+    selected?: boolean;
+    secondaryText?: string | null;
+    icon?: string;
+}
+
+interface DialogItem {
+    name: string;
+    id: string;
+}
+
+function getTargetSecondaryText(target: PlaybackTarget): string | null {
     if (target.user) {
         return target.user.Name;
     }
@@ -21,7 +56,7 @@ function getTargetSecondaryText(target) {
     return null;
 }
 
-function getIcon(target) {
+function getIcon(target: PlaybackTarget): string {
     let deviceType = target.deviceType;
 
     if (!deviceType && target.isLocalPlayer) {
@@ -54,7 +89,7 @@ function getIcon(target) {
     }
 }
 
-export function show(button) {
+export function show(button: HTMLElement): void {
     const currentPlayerInfo = playbackManager.getPlayerInfo();
 
     if (currentPlayerInfo && !currentPlayerInfo.isLocalPlayer) {
@@ -66,8 +101,8 @@ export function show(button) {
 
     loading.show();
 
-    playbackManager.getTargets().then(function (targets) {
-        const menuItems = targets.map(function (t) {
+    playbackManager.getTargets().then(function (targets: PlaybackTarget[]) {
+        const menuItems: MenuItem[] = targets.map(function (t: PlaybackTarget) {
             let name = t.name;
 
             if (t.appName && t.appName !== t.name) {
@@ -90,7 +125,6 @@ export function show(button) {
                 title: globalize.translate('HeaderPlayOn'),
                 items: menuItems,
                 positionTo: button,
-
                 resolveOnClick: true,
                 border: true
             };
@@ -98,40 +132,40 @@ export function show(button) {
             // Unfortunately we can't allow the url to change or chromecast will throw a security error
             // Might be able to solve this in the future by moving the dialogs to hashbangs
             if (!(!browser.chrome && !browser.edgeChromium || safeAppHost.supports(AppFeature.CastMenuHashChange))) {
-                menuOptions.enableHistory = false;
+                (menuOptions as any).enableHistory = false;
             }
 
             // Add message when Google Cast is not supported
-            const isChromecastPluginLoaded = !!pluginManager.plugins.find(plugin => plugin.id === 'chromecast');
+            const isChromecastPluginLoaded = !!pluginManager.plugins.find((plugin: any) => plugin.id === 'chromecast');
             // TODO: Add other checks for support (Android app, secure context, etc)
             if (!isChromecastPluginLoaded) {
-                menuOptions.text = `(${globalize.translate('GoogleCastUnsupported')})`;
+                (menuOptions as any).text = `(${globalize.translate('GoogleCastUnsupported')})`;
             }
 
-            actionsheet.show(menuOptions).then(function (id) {
-                const target = targets.filter(function (t) {
+            (actionsheet as any).show(menuOptions).then(function (id: string) {
+                const target = targets.filter(function (t: PlaybackTarget) {
                     return t.id === id;
                 })[0];
 
-                playbackManager.trySetActivePlayer(target.playerName, target);
+                playbackManager.trySetActivePlayer(target.playerName!, target);
             }).catch(() => {
                 // action sheet closed
             });
-        }).catch(err => {
+        }).catch((err: any) => {
             console.error('[playerSelectionMenu] failed to import action sheet', err);
         });
-    }).catch(err => {
+    }).catch((err: any) => {
         console.error('[playerSelectionMenu] failed to get playback targets', err);
     });
 }
 
-function showActivePlayerMenu(playerInfo) {
+function showActivePlayerMenu(playerInfo: PlayerInfo): void {
     showActivePlayerMenuInternal(playerInfo);
 }
 
-function disconnectFromPlayer(currentDeviceName) {
+function disconnectFromPlayer(currentDeviceName: string): void {
     if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
-        const menuItems = [];
+        const menuItems: DialogItem[] = [];
 
         menuItems.push({
             name: globalize.translate('Yes'),
@@ -146,14 +180,14 @@ function disconnectFromPlayer(currentDeviceName) {
             buttons: menuItems,
             text: globalize.translate('ConfirmEndPlayerSession', currentDeviceName)
 
-        }).then(function (id) {
+        }).then(function (id: string) {
             switch (id) {
                 case 'yes':
-                    playbackManager.getCurrentPlayer().endSession();
-                    playbackManager.setDefaultPlayerActive();
+                    (playbackManager.getCurrentPlayer() as any).endSession();
+                    (playbackManager as any).setDefaultPlayerActive();
                     break;
                 case 'no':
-                    playbackManager.setDefaultPlayerActive();
+                    (playbackManager as any).setDefaultPlayerActive();
                     break;
                 default:
                     break;
@@ -162,21 +196,21 @@ function disconnectFromPlayer(currentDeviceName) {
             // dialog closed
         });
     } else {
-        playbackManager.setDefaultPlayerActive();
+        (playbackManager as any).setDefaultPlayerActive();
     }
 }
 
-function showActivePlayerMenuInternal(playerInfo) {
+function showActivePlayerMenuInternal(playerInfo: PlayerInfo): void {
     let html = '';
 
     const dialogOptions = {
         removeOnClose: true
     };
 
-    dialogOptions.modal = false;
-    dialogOptions.entryAnimationDuration = 160;
-    dialogOptions.exitAnimationDuration = 160;
-    dialogOptions.autoFocus = false;
+    (dialogOptions as any).modal = false;
+    (dialogOptions as any).entryAnimationDuration = 160;
+    (dialogOptions as any).exitAnimationDuration = 160;
+    (dialogOptions as any).autoFocus = false;
 
     const dlg = dialogHelper.createDialog(dialogOptions);
 
@@ -191,9 +225,9 @@ function showActivePlayerMenuInternal(playerInfo) {
 
     html += '<div>';
 
-    if (playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
+    if (playerInfo.supportedCommands && playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
         html += '<label class="checkboxContainer">';
-        const checkedHtml = playbackManager.enableDisplayMirroring() ? ' checked' : '';
+        const checkedHtml = (playbackManager as any).enableDisplayMirroring() ? ' checked' : '';
         html += '<input type="checkbox" is="emby-checkbox" class="chkMirror"' + checkedHtml + '/>';
         html += '<span>' + globalize.translate('EnableDisplayMirroring') + '</span>';
         html += '</label>';
@@ -217,13 +251,13 @@ function showActivePlayerMenuInternal(playerInfo) {
     html += '</div>';
     dlg.innerHTML = html;
 
-    const chkMirror = dlg.querySelector('.chkMirror');
+    const chkMirror = dlg.querySelector('.chkMirror') as HTMLInputElement | null;
 
     if (chkMirror) {
         chkMirror.addEventListener('change', onMirrorChange);
     }
 
-    const chkAutoCast = dlg.querySelector('.chkAutoCast');
+    const chkAutoCast = dlg.querySelector('.chkAutoCast') as HTMLInputElement | null;
 
     if (chkAutoCast) {
         chkAutoCast.addEventListener('change', onAutoCastChange);
@@ -231,7 +265,7 @@ function showActivePlayerMenuInternal(playerInfo) {
 
     let destination = '';
 
-    const btnRemoteControl = dlg.querySelector('.btnRemoteControl');
+    const btnRemoteControl = dlg.querySelector('.btnRemoteControl') as HTMLButtonElement | null;
     if (btnRemoteControl) {
         btnRemoteControl.addEventListener('click', function () {
             destination = 'nowplaying';
@@ -239,12 +273,12 @@ function showActivePlayerMenuInternal(playerInfo) {
         });
     }
 
-    dlg.querySelector('.btnDisconnect').addEventListener('click', function () {
+    dlg.querySelector('.btnDisconnect')!.addEventListener('click', function () {
         destination = 'disconnectFromPlayer';
         dialogHelper.close(dlg);
     });
 
-    dlg.querySelector('.btnCancel').addEventListener('click', function () {
+    dlg.querySelector('.btnCancel')!.addEventListener('click', function () {
         dialogHelper.close(dlg);
     });
 
@@ -252,18 +286,18 @@ function showActivePlayerMenuInternal(playerInfo) {
         if (destination === 'nowplaying') {
             return appRouter.showNowPlaying();
         } else if (destination === 'disconnectFromPlayer') {
-            disconnectFromPlayer(currentDeviceName);
+            disconnectFromPlayer(currentDeviceName!);
         }
     }).catch(() => {
         // dialog closed
     });
 }
 
-function onMirrorChange() {
-    playbackManager.enableDisplayMirroring(this.checked);
+function onMirrorChange(this: HTMLInputElement): void {
+    (playbackManager as any).enableDisplayMirroring(this.checked);
 }
 
-function onAutoCastChange() {
+function onAutoCastChange(this: HTMLInputElement): void {
     enable(this.checked);
 }
 
