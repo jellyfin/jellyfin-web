@@ -119,11 +119,25 @@ import { canPlayH264 } from './scripts/browserDeviceProfile';
   - `utils/` - cardLayout, itemCounts
 
 #### 5. playbackmanager.ts (1,699 lines)
-- **Target Modules**:
-  - `stream/` - streamUrlBuilder, streamFetcher
-  - `reporting/` - playbackReporter, progressTracker
-  - `players/` - playerSelector, playerTargetManager
-  - `utils/` - playbackOptions, playbackHelpers
+- **Status**: 🔄 Phase 1 Complete, Phase 2 Planned
+- **Commit**: c49ca0e588
+- **Completed (Phase 1)**:
+  - `utils/nameUtils.ts` - Name normalization (normalizeName)
+  - `utils/itemQuery.ts` - Item/query management (getItemsForPlayback)
+  - `utils/streamInfoBuilder.ts` - Stream info creation (createStreamInfoFromUrlItem)
+  - `utils/queryUtils.ts` - Query merging (mergePlaybackQueries)
+  - `indexModules.js` - Re-exports for backward compatibility
+
+**Benefits**:
+- Utility functions can be imported independently
+- Reduces size of main playbackManager class
+- Makes utility functions tree-shakeable
+
+**Planned (Phase 2)**:
+- Stream URL building and media source handling
+- Playback reporting and progress tracking
+- Player selection and management
+- Event handlers and state management
 
 ## Commit Message Format
 
