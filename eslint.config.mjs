@@ -41,8 +41,7 @@ export default tseslint.config(
             'coverage',
             'dist',
             '.idea',
-            '.vscode',
-            'src/components/playback/playbackmanager.js'
+            '.vscode'
         ]
     },
 
