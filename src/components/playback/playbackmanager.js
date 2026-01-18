@@ -2067,7 +2067,7 @@ export class PlaybackManager {
             return null;
         }
 
-        async function getSeriesOrSeasonPlaybackPromise(firstItem, options, items) {
+        async getSeriesOrSeasonPlaybackPromise(firstItem, options, items) {
             const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
             const startSeasonId = firstItem.Type === 'Season' ? items[options.startIndex || 0].Id : undefined;
 
