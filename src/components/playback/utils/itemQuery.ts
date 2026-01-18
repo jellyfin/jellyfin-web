@@ -1,5 +1,7 @@
-import { getItems } from 'lib/jellyfin-apiclient/legacy';
-import { UNLIMITED_ITEMS } from './nameUtils';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { getItems } from 'utils/jellyfin-apiclient/getItems';
+
+const UNLIMITED_ITEMS = -1;
 
 export async function getItemsForPlayback(serverId: string, query: any) {
     const apiClient = ServerConnections.getApiClient(serverId);
