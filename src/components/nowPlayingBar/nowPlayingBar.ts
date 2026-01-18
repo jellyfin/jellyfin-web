@@ -413,12 +413,39 @@ function refreshFromPlayer(player: Player, type: string): void {
 }
 
 function bindToPlayer(player: Player | null): void {
-    // ... existing code
+    console.log('bindToPlayer called', player);
+    isLyricPageActive = isLyricsPage();
+    if (player === currentPlayer) {
+        return;
+    }
+
+    releaseCurrentPlayer();
+
+    currentPlayer = player;
+
+    if (!player) {
+        return;
+    }
+
+    refreshFromPlayer(player, 'init');
+
+    Events.on(player, 'playbackstart', onPlaybackStart);
+    Events.on(player, 'statechange', onStateChanged);
+    Events.on(player, 'repeatmodechange', onRepeatModeChange);
+    Events.on(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
+    Events.on(player, 'playbackstop', onPlaybackStopped);
+    Events.on(player, 'volumechange', onVolumeChanged);
+    Events.on(player, 'pause', onPlayPauseStateChanged);
+    Events.on(player, 'unpause', onPlayPauseStateChanged);
+    Events.on(player, 'timeupdate', onTimeUpdate);
 }
 
 // Event listeners
 Events.on(playbackManager, 'playerchange', () => {
-    bindToPlayer((playbackManager as any).getCurrentPlayer());
+bindToPlayer((playbackManager as any).getCurrentPlayer());
+
+// Create the bar element immediately
+getNowPlayingBar();
 });
 
 bindToPlayer((playbackManager as any).getCurrentPlayer());
