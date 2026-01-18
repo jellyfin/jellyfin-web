@@ -77,16 +77,21 @@ import { canPlayH264 } from './scripts/browserDeviceProfile';
 ### In Progress
 
 #### 2. itemDetails/index.js (2,227 lines)
-- **Status**: 🔄 Planned
-- **Target Modules**:
-  - `renderers/` - backdropRenderer, headerRenderer, mediaSelectionRenderer
-  - `actions/` - playbackActions, navigationActions, contextMenuActions
-  - `utils/` - itemFetchers, viewHelpers
+- **Status**: 🔄 Phase 1 Complete, Phase 2 Planned
+- **Commit**: d0441459a6
+- **Completed (Phase 1)**:
+  - `renderers/backdropRenderer.js` - Backdrop rendering
+  - `renderers/headerRenderer.js` - Header backdrop rendering
+  - `renderers/imageRenderer.js` - Logo and year rendering
+  - `actions/playbackActions.js` - Playback, shuffle, instant mix actions
+  - `utils/viewHelpers.js` - getPromise, hideAll, autoFocus
+  - `utils/trackHelpers.js` - Track selection helpers
 
 **Expected Benefits**:
 - Other controllers can reuse rendering logic
 - Reduces initial load for non-item-detail views
 - Separates UI concerns from business logic
+- Playback actions can be imported independently
 
 ### Planned
 
