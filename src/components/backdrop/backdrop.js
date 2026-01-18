@@ -5,6 +5,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import dom from '../../utils/dom';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { isVisible } from '../../utils/visibility';
+import { imagePreloader } from '../../utils/imagePreloader';
 
 import './backdrop.scss';
 
@@ -238,6 +239,7 @@ export function setBackdropImages(images) {
         rotationInterval = setInterval(onRotationInterval, 10000);
     }
 
+    imagePreloader.preloadBackdropImages(images);
     onRotationInterval();
 }
 
