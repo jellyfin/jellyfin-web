@@ -721,7 +721,7 @@ export interface Player {
     playMethod?(): string;
     getSupportedCommands(): string[];
     getPlayerState(): any;
-    play(): void;
+    play(options: any): Promise<any>;
     pause(): void;
     stop(): void;
     nextTrack(): void;
@@ -733,7 +733,7 @@ export interface Player {
     setShuffleQueueMode(mode: string): void;
     setAudioStreamIndex(index: number): void;
     setSubtitleStreamIndex(index: number): void;
-    getDeviceProfile(item: any, options: any): Promise<any>;
+    getDeviceProfile(item: any): Promise<any>;
     currentTime(ticks?: number): number | void;
     duration(): number;
     [key: string]: any;
