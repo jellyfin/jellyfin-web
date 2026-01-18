@@ -421,14 +421,22 @@ function onSubmit(this: PlaybackSettings): Promise<any> {
     });
 }
 
+function embed(options: PlaybackSettingsOptions, self: PlaybackSettings): void {
+    options.element.innerHTML = globalize.translateHtml(template, 'core');
+    options.element.querySelector('form')?.addEventListener('submit', onSubmit.bind(self));
+    if (options.enableSaveButton) {
+        options.element.querySelector('.btnSave')?.classList.remove('hide');
+    }
+    self.loadData();
+}
+
 class PlaybackSettings {
     options: PlaybackSettingsOptions;
     dataLoaded: boolean = false;
 
     constructor(options: PlaybackSettingsOptions) {
         this.options = options;
-        // Assuming embed is defined elsewhere
-        (globalThis as any).embed(options, this);
+        embed(options, this);
     }
 
     loadData(): void {

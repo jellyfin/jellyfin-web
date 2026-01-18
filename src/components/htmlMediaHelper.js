@@ -201,8 +201,20 @@ function onSuccessfulPlay(elem, onErrorFn) {
     elem.addEventListener('error', onErrorFn);
 }
 
-export function playWithPromise(elem, onErrorFn) {
+export async function playWithPromise(elem, onErrorFn) {
     try {
+        // Ensure AudioContext is running before attempting to play
+        try {
+            const { masterAudioOutput } = await import('./audioEngine/master.logic');
+            const { safeResumeAudioContext } = await import('./audioEngine/audioUtils');
+            if (masterAudioOutput.audioContext && masterAudioOutput.audioContext.state === 'suspended') {
+                console.debug('Resuming AudioContext before playback');
+                await safeResumeAudioContext(masterAudioOutput.audioContext);
+            }
+        } catch (audioErr) {
+            console.warn('Failed to resume AudioContext before playback:', audioErr);
+        }
+
         return elem.play()
             .catch((e) => {
                 const errorName = (e.name || '').toLowerCase();

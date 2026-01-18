@@ -410,8 +410,6 @@ class HtmlAudioPlayer {
                                 { mediaElement: elem }
                             )
                         );
-                    }).catch(() => {
-                        console.error('Failed to load audio error handler for audio context error');
                     });
                 }
             }

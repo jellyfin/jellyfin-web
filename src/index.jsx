@@ -38,6 +38,66 @@ import RootApp from './RootApp';
 
 const supportsFeature = (feature) => safeAppHost.supports(feature);
 
+async function initializeAudioContextEarly() {
+    try {
+        console.debug('Initializing audio context early');
+        const { initializeMasterAudio } = await import('./components/audioEngine/master.logic');
+        initializeMasterAudio(() => {
+            console.debug('Early audio context cleanup called');
+        });
+        console.debug('Audio context initialized early');
+    } catch (error) {
+        console.warn('Failed to initialize audio context early:', error);
+    }
+}
+
+function setupAudioContextResume() {
+    // Resume audio context on user interaction to comply with browser autoplay policies
+    const resumeAudioContext = async () => {
+        console.debug('Attempting to resume AudioContext on user interaction');
+        try {
+            const { masterAudioOutput } = await import('./components/audioEngine/master.logic');
+            const { safeResumeAudioContext } = await import('./components/audioEngine/audioUtils');
+
+            console.debug('AudioContext state before resume:', masterAudioOutput.audioContext?.state);
+            if (masterAudioOutput.audioContext) {
+                const resumed = await safeResumeAudioContext(masterAudioOutput.audioContext);
+                console.debug('AudioContext state after resume:', masterAudioOutput.audioContext.state);
+                if (resumed) {
+                    console.debug('AudioContext resumed on user interaction');
+                } else {
+                    console.warn('Failed to resume AudioContext - already running or error occurred');
+                }
+            } else {
+                console.warn('AudioContext not available for resume - may not be initialized yet');
+            }
+        } catch (error) {
+            console.error('Failed to resume AudioContext:', error);
+        }
+    };
+
+    // Listen for user interactions that indicate intent to play audio
+    const userInteractionEvents = ['click', 'touchstart', 'keydown', 'scroll'];
+    let hasResumed = false;
+
+    const handleUserInteraction = () => {
+        if (!hasResumed) {
+            hasResumed = true;
+            resumeAudioContext();
+
+            // Remove listeners after first interaction
+            userInteractionEvents.forEach(event => {
+                document.removeEventListener(event, handleUserInteraction, { passive: true });
+            });
+        }
+    };
+
+    // Add passive listeners for user interactions
+    userInteractionEvents.forEach(event => {
+        document.addEventListener(event, handleUserInteraction, { passive: true });
+    });
+}
+
 // Cleanup audio contexts on page unload to prevent leaks
 window.addEventListener('beforeunload', () => {
     try {
@@ -61,6 +121,9 @@ import './components/playback/playerSelectionMenu';
 import './scripts/autoThemes';
 import './scripts/mouseManager';
 import './scripts/serverNotifications';
+
+// Import audio engine early to ensure AudioContext is available for resume
+import './components/audioEngine/master.logic';
 
 // Defer loading of non-critical components
 setTimeout(() => {
@@ -129,6 +192,9 @@ build: ${__JF_BUILD_VERSION__}`);
     // Load frontend plugins
     await loadPlugins();
 
+    // Set up audio context resume on user interaction (after plugins are loaded)
+    setupAudioContextResume();
+
     // Establish the websocket connection
     Events.on(appHost, 'resume', () => {
         ServerConnections.currentApiClient()?.ensureWebSocket();
@@ -146,6 +212,9 @@ build: ${__JF_BUILD_VERSION__}`);
 
     // Render the app
     await renderApp();
+
+    // Initialize audio context early
+    initializeAudioContextEarly();
 
     // Load platform specific features
     loadPlatformFeatures();
