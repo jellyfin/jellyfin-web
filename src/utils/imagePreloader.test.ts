@@ -5,337 +5,337 @@ const mockFetch = vi.fn();
 
 describe('ImagePreloader', () => {
     beforeEach(() => {
-      vi.useFakeTimers();
-      imagePreloader.clearCacheStatus();
-      global.fetch = mockFetch as any;
-      mockFetch.mockClear();
+        vi.useFakeTimers();
+        imagePreloader.clearCacheStatus();
+        global.fetch = mockFetch as any;
+        mockFetch.mockClear();
     });
 
     afterEach(() => {
-      vi.useRealTimers();
+        vi.useRealTimers();
     });
 
     describe('Initialization', () => {
-      it('should initialize successfully when Service Worker is available', async () => {
-        const mockRegistration = { ready: Promise.resolve({}) } as any;
-        Object.defineProperty(navigator, 'serviceWorker', {
-          value: { ready: Promise.resolve(mockRegistration) },
-          writable: true
+        it('should initialize successfully when Service Worker is available', async () => {
+            const mockRegistration = { ready: Promise.resolve({}) } as any;
+            Object.defineProperty(navigator, 'serviceWorker', {
+                value: { ready: Promise.resolve(mockRegistration) },
+                writable: true
+            });
+
+            await imagePreloader.init();
+
+            expect(true).toBe(true);
         });
 
-        await imagePreloader.init();
+        it('should handle missing Service Worker gracefully', async () => {
+            Object.defineProperty(navigator, 'serviceWorker', {
+                value: undefined,
+                writable: true
+            });
 
-        expect(true).toBe(true);
-      });
+            await imagePreloader.init();
 
-      it('should handle missing Service Worker gracefully', async () => {
-        Object.defineProperty(navigator, 'serviceWorker', {
-          value: undefined,
-          writable: true
+            expect(true).toBe(true);
         });
-
-        await imagePreloader.init();
-
-        expect(true).toBe(true);
-      });
     });
 
     describe('Queue Image Preloading', () => {
-      it('should preload queue images', async () => {
-        const queueItems = [
-          { itemId: 'track-1', imageUrl: 'https://example.com/image1.jpg' },
-          { itemId: 'track-2', imageUrl: 'https://example.com/image2.jpg' },
-          { itemId: 'track-3', imageUrl: 'https://example.com/image3.jpg' }
-        ];
+        it('should preload queue images', async () => {
+            const queueItems = [
+                { itemId: 'track-1', imageUrl: 'https://example.com/image1.jpg' },
+                { itemId: 'track-2', imageUrl: 'https://example.com/image2.jpg' },
+                { itemId: 'track-3', imageUrl: 'https://example.com/image3.jpg' }
+            ];
 
-        mockFetch.mockResolvedValue({
-          type: 'opaque',
-          ok: true
+            (global as any).fetch.mockResolvedValue({
+                type: 'opaque',
+                ok: true
+            });
+
+            await imagePreloader.preloadQueueImages(queueItems);
+
+            expect((global as any).fetch).toHaveBeenCalledTimes(3);
         });
 
-        await imagePreloader.preloadQueueImages(queueItems);
-
-        expect(mockFetch).toHaveBeenCalledTimes(3);
-      });
-
-      it('should handle empty queue', async () => {
-        const result = await imagePreloader.preloadQueueImages([]);
-        expect(result).toBeUndefined();
-      });
-
-      it('should handle queue items without imageUrl', async () => {
-        const queueItems = [
-          { itemId: 'track-1', imageUrl: 'https://example.com/image1.jpg' },
-          { itemId: 'track-2' }
-        ];
-
-        mockFetch.mockResolvedValue({
-          type: 'opaque',
-          ok: true
+        it('should handle empty queue', async () => {
+            const result = await imagePreloader.preloadQueueImages([]);
+            expect(result).toBeUndefined();
         });
 
-        await imagePreloader.preloadQueueImages(queueItems);
+        it('should handle queue items without imageUrl', async () => {
+            const queueItems = [
+                { itemId: 'track-1', imageUrl: 'https://example.com/image1.jpg' },
+                { itemId: 'track-2' }
+            ];
 
-        expect(mockFetch).toHaveBeenCalledTimes(1);
-      });
+            (global as any).fetch.mockResolvedValue({
+                type: 'opaque',
+                ok: true
+            });
 
-      it('should preload artist logo images', async () => {
-        const queueItems = [
-          { itemId: 'track-1', imageUrl: 'https://example.com/image1.jpg', artistLogoUrl: 'https://example.com/logo1.png' },
-          { itemId: 'track-2', imageUrl: 'https://example.com/image2.jpg', artistLogoUrl: 'https://example.com/logo2.png' }
-        ];
+            await imagePreloader.preloadQueueImages(queueItems);
 
-        mockFetch.mockResolvedValue({
-          type: 'opaque',
-          ok: true
+            expect((global as any).fetch).toHaveBeenCalledTimes(1);
         });
 
-        await imagePreloader.preloadQueueImages(queueItems);
+        it('should preload all image types for queue items', async () => {
+            const queueItems = [
+                { itemId: 'track-1', imageUrl: 'https://example.com/image1.jpg', backdropUrl: 'https://example.com/backdrop1.jpg', artistLogoUrl: 'https://example.com/logo1.png', discImageUrl: 'https://example.com/disc1.png' },
+                { itemId: 'track-2', imageUrl: 'https://example.com/image2.jpg', backdropUrl: 'https://example.com/backdrop2.jpg', artistLogoUrl: 'https://example.com/logo2.png', discImageUrl: 'https://example.com/disc2.png' }
+            ];
 
-        expect(mockFetch).toHaveBeenCalledTimes(4);
-      });
+            (global as any).fetch.mockResolvedValue({
+                type: 'opaque',
+                ok: true
+            });
 
-      it('should preload disc images', async () => {
-        const queueItems = [
-          { itemId: 'track-1', imageUrl: 'https://example.com/image1.jpg', discImageUrl: 'https://example.com/disc1.png' },
-          { itemId: 'track-2', imageUrl: 'https://example.com/image2.jpg', discImageUrl: 'https://example.com/disc2.png' }
-        ];
+            await imagePreloader.preloadQueueImages(queueItems);
 
-        mockFetch.mockResolvedValue({
-          type: 'opaque',
-          ok: true
+            expect((global as any).fetch).toHaveBeenCalledTimes(8);
         });
 
-        await imagePreloader.preloadQueueImages(queueItems);
+        it('should preload only available image types', async () => {
+            const queueItems = [
+                { itemId: 'track-1', imageUrl: 'https://example.com/image1.jpg', discImageUrl: 'https://example.com/disc1.png' },
+                { itemId: 'track-2', artistLogoUrl: 'https://example.com/logo2.png' }
+            ];
 
-        expect(mockFetch).toHaveBeenCalledTimes(4);
-      });
+            (global as any).fetch.mockResolvedValue({
+                type: 'opaque',
+                ok: true
+            });
+
+            await imagePreloader.preloadQueueImages(queueItems);
+
+            expect((global as any).fetch).toHaveBeenCalledTimes(3);
+        });
     });
 
     describe('Backdrop Image Preloading', () => {
-      it('should preload backdrop images', async () => {
-        const backdropUrls = [
-          'https://example.com/backdrop1.jpg',
-          'https://example.com/backdrop2.jpg',
-          'https://example.com/backdrop3.jpg'
-        ];
+        it('should preload backdrop images', async () => {
+            const backdropUrls = [
+                'https://example.com/backdrop1.jpg',
+                'https://example.com/backdrop2.jpg',
+                'https://example.com/backdrop3.jpg'
+            ];
 
-        mockFetch.mockResolvedValue({
-          type: 'opaque',
-          ok: true
+            mockFetch.mockResolvedValue({
+                type: 'opaque',
+                ok: true
+            });
+
+            await imagePreloader.preloadBackdropImages(backdropUrls);
+
+            expect(mockFetch).toHaveBeenCalledTimes(3);
         });
 
-        await imagePreloader.preloadBackdropImages(backdropUrls);
-
-        expect(mockFetch).toHaveBeenCalledTimes(3);
-      });
-
-      it('should handle empty backdrop array', async () => {
-        const result = await imagePreloader.preloadBackdropImages([]);
-        expect(result).toBeUndefined();
-      });
+        it('should handle empty backdrop array', async () => {
+            const result = await imagePreloader.preloadBackdropImages([]);
+            expect(result).toBeUndefined();
+        });
     });
 
     describe('Single Image Preloading', () => {
-      it('should cache status as loading initially', async () => {
-        mockFetch.mockReturnValue(new Promise(() => {}));
+        it('should cache status as loading initially', async () => {
+            mockFetch.mockReturnValue(new Promise(() => {}));
 
-        const preloadPromise = imagePreloader.preloadImage('https://example.com/image.jpg');
+            const preloadPromise = imagePreloader.preloadImage('https://example.com/image.jpg');
 
-        expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('loading');
+            expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('loading');
 
-        preloadPromise.catch(() => {});
-      });
-
-      it('should update status to cached on success', async () => {
-        mockFetch.mockResolvedValue({
-          type: 'opaque',
-          ok: true
+            preloadPromise.catch(() => {});
         });
 
-        await imagePreloader.preloadImage('https://example.com/image.jpg');
+        it('should update status to cached on success', async () => {
+            mockFetch.mockResolvedValue({
+                type: 'opaque',
+                ok: true
+            });
 
-        expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('cached');
-      });
+            await imagePreloader.preloadImage('https://example.com/image.jpg');
 
-      it('should update status to error on failure', async () => {
-        mockFetch.mockRejectedValue(new Error('Network error'));
-
-        await imagePreloader.preloadImage('https://example.com/image.jpg');
-
-        expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('error');
-      });
-
-      it('should handle undefined URL', async () => {
-        const result = await imagePreloader.preloadImage(undefined);
-        expect(result).toBe('error');
-      });
-
-      it('should deduplicate concurrent requests', async () => {
-        mockFetch.mockResolvedValue({
-          type: 'opaque',
-          ok: true
+            expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('cached');
         });
 
-        const url = 'https://example.com/image.jpg';
-        const [result1, result2, result3] = await Promise.all([
-          imagePreloader.preloadImage(url),
-          imagePreloader.preloadImage(url),
-          imagePreloader.preloadImage(url)
-        ]);
+        it('should update status to error on failure', async () => {
+            mockFetch.mockRejectedValue(new Error('Network error'));
 
-        expect(mockFetch).toHaveBeenCalledTimes(1);
-        expect(result1).toBe('cached');
-        expect(result2).toBe('cached');
-        expect(result3).toBe('cached');
-      });
+            await imagePreloader.preloadImage('https://example.com/image.jpg');
 
-      it('should reuse cached results', async () => {
-        mockFetch.mockResolvedValue({
-          type: 'opaque',
-          ok: true
+            expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('error');
         });
 
-        const url = 'https://example.com/image.jpg';
+        it('should handle undefined URL', async () => {
+            const result = await imagePreloader.preloadImage(undefined);
+            expect(result).toBe('error');
+        });
 
-        await imagePreloader.preloadImage(url);
-        const result1 = imagePreloader.getCacheStatus(url);
+        it('should deduplicate concurrent requests', async () => {
+            mockFetch.mockResolvedValue({
+                type: 'opaque',
+                ok: true
+            });
 
-        await imagePreloader.preloadImage(url);
-        const result2 = imagePreloader.getCacheStatus(url);
+            const url = 'https://example.com/image.jpg';
+            const [result1, result2, result3] = await Promise.all([
+                imagePreloader.preloadImage(url),
+                imagePreloader.preloadImage(url),
+                imagePreloader.preloadImage(url)
+            ]);
 
-        expect(mockFetch).toHaveBeenCalledTimes(1);
-        expect(result1).toBe('cached');
-        expect(result2).toBe('cached');
-      });
+            expect(mockFetch).toHaveBeenCalledTimes(1);
+            expect(result1).toBe('cached');
+            expect(result2).toBe('cached');
+            expect(result3).toBe('cached');
+        });
+
+        it('should reuse cached results', async () => {
+            mockFetch.mockResolvedValue({
+                type: 'opaque',
+                ok: true
+            });
+
+            const url = 'https://example.com/image.jpg';
+
+            await imagePreloader.preloadImage(url);
+            const result1 = imagePreloader.getCacheStatus(url);
+
+            await imagePreloader.preloadImage(url);
+            const result2 = imagePreloader.getCacheStatus(url);
+
+            expect(mockFetch).toHaveBeenCalledTimes(1);
+            expect(result1).toBe('cached');
+            expect(result2).toBe('cached');
+        });
     });
 
     describe('Cache Status Tracking', () => {
-      it('should return unknown for untracked URLs', () => {
-        const status = imagePreloader.getCacheStatus('https://example.com/unknown.jpg');
-        expect(status).toBe('unknown');
-      });
-
-      it('should track loading status', () => {
-        mockFetch.mockReturnValue(new Promise(() => {}));
-        imagePreloader.preloadImage('https://example.com/image.jpg').catch(() => {});
-        expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('loading');
-      });
-
-      it('should track cached status', async () => {
-        mockFetch.mockResolvedValue({
-          type: 'opaque',
-          ok: true
+        it('should return unknown for untracked URLs', () => {
+            const status = imagePreloader.getCacheStatus('https://example.com/unknown.jpg');
+            expect(status).toBe('unknown');
         });
 
-        await imagePreloader.preloadImage('https://example.com/image.jpg');
-        expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('cached');
-      });
+        it('should track loading status', () => {
+            mockFetch.mockReturnValue(new Promise(() => {}));
+            imagePreloader.preloadImage('https://example.com/image.jpg').catch(() => {});
+            expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('loading');
+        });
 
-      it('should track error status', async () => {
-        mockFetch.mockRejectedValue(new Error('Network error'));
+        it('should track cached status', async () => {
+            mockFetch.mockResolvedValue({
+                type: 'opaque',
+                ok: true
+            });
 
-        await imagePreloader.preloadImage('https://example.com/image.jpg');
-        expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('error');
-      });
+            await imagePreloader.preloadImage('https://example.com/image.jpg');
+            expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('cached');
+        });
+
+        it('should track error status', async () => {
+            mockFetch.mockRejectedValue(new Error('Network error'));
+
+            await imagePreloader.preloadImage('https://example.com/image.jpg');
+            expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('error');
+        });
     });
 
     describe('Service Worker Cache Checking', () => {
-      it('should check cache status when Service Worker is available', async () => {
-        const mockCache = {
-          match: vi.fn().mockResolvedValue(new Response())
-        };
-        const mockCaches = {
-          open: vi.fn().mockResolvedValue(mockCache)
-        };
+        it('should check cache status when Service Worker is available', async () => {
+            const mockCache = {
+                match: vi.fn().mockResolvedValue(new Response())
+            };
+            const mockCaches = {
+                open: vi.fn().mockResolvedValue(mockCache)
+            };
 
-        global.caches = mockCaches as any;
+            global.caches = mockCaches as any;
 
-        const isCached = await imagePreloader.checkCacheStatus('https://example.com/image.jpg');
-        expect(isCached).toBe(true);
-        expect(mockCaches.open).toHaveBeenCalledWith('jellyfin-images-v1');
-      });
+            const isCached = await imagePreloader.checkCacheStatus('https://example.com/image.jpg');
+            expect(isCached).toBe(true);
+            expect(mockCaches.open).toHaveBeenCalledWith('jellyfin-images-v1');
+        });
 
-      it('should return false when Service Worker is unavailable', async () => {
-        global.caches = undefined as any;
+        it('should return false when Service Worker is unavailable', async () => {
+            global.caches = undefined as any;
 
-        const isCached = await imagePreloader.checkCacheStatus('https://example.com/image.jpg');
-        expect(isCached).toBe(false);
-      });
+            const isCached = await imagePreloader.checkCacheStatus('https://example.com/image.jpg');
+            expect(isCached).toBe(false);
+        });
 
-      it('should handle cache errors gracefully', async () => {
-        const mockCaches = {
-          open: vi.fn().mockRejectedValue(new Error('Cache error'))
-        };
+        it('should handle cache errors gracefully', async () => {
+            const mockCaches = {
+                open: vi.fn().mockRejectedValue(new Error('Cache error'))
+            };
 
-        global.caches = mockCaches as any;
+            global.caches = mockCaches as any;
 
-        const isCached = await imagePreloader.checkCacheStatus('https://example.com/image.jpg');
-        expect(isCached).toBe(false);
-      });
+            const isCached = await imagePreloader.checkCacheStatus('https://example.com/image.jpg');
+            expect(isCached).toBe(false);
+        });
     });
 
     describe('Cache Management', () => {
-      it('should clear all cache status', async () => {
-        mockFetch.mockResolvedValue({
-          type: 'opaque',
-          ok: true
+        it('should clear all cache status', async () => {
+            mockFetch.mockResolvedValue({
+                type: 'opaque',
+                ok: true
+            });
+
+            await imagePreloader.preloadImage('https://example.com/image1.jpg');
+            await imagePreloader.preloadImage('https://example.com/image2.jpg');
+
+            expect(imagePreloader.getCacheStatus('https://example.com/image1.jpg')).toBe('cached');
+            expect(imagePreloader.getCacheStatus('https://example.com/image2.jpg')).toBe('cached');
+
+            imagePreloader.clearCacheStatus();
+
+            expect(imagePreloader.getCacheStatus('https://example.com/image1.jpg')).toBe('unknown');
+            expect(imagePreloader.getCacheStatus('https://example.com/image2.jpg')).toBe('unknown');
         });
 
-        await imagePreloader.preloadImage('https://example.com/image1.jpg');
-        await imagePreloader.preloadImage('https://example.com/image2.jpg');
+        it('should clear status for specific URLs', async () => {
+            mockFetch.mockResolvedValue({
+                type: 'opaque',
+                ok: true
+            });
 
-        expect(imagePreloader.getCacheStatus('https://example.com/image1.jpg')).toBe('cached');
-        expect(imagePreloader.getCacheStatus('https://example.com/image2.jpg')).toBe('cached');
+            await imagePreloader.preloadImage('https://example.com/image1.jpg');
+            await imagePreloader.preloadImage('https://example.com/image2.jpg');
 
-        imagePreloader.clearCacheStatus();
+            imagePreloader.clearStatusForUrls(['https://example.com/image1.jpg']);
 
-        expect(imagePreloader.getCacheStatus('https://example.com/image1.jpg')).toBe('unknown');
-        expect(imagePreloader.getCacheStatus('https://example.com/image2.jpg')).toBe('unknown');
-      });
-
-      it('should clear status for specific URLs', async () => {
-        mockFetch.mockResolvedValue({
-          type: 'opaque',
-          ok: true
+            expect(imagePreloader.getCacheStatus('https://example.com/image1.jpg')).toBe('unknown');
+            expect(imagePreloader.getCacheStatus('https://example.com/image2.jpg')).toBe('cached');
         });
-
-        await imagePreloader.preloadImage('https://example.com/image1.jpg');
-        await imagePreloader.preloadImage('https://example.com/image2.jpg');
-
-        imagePreloader.clearStatusForUrls(['https://example.com/image1.jpg']);
-
-        expect(imagePreloader.getCacheStatus('https://example.com/image1.jpg')).toBe('unknown');
-        expect(imagePreloader.getCacheStatus('https://example.com/image2.jpg')).toBe('cached');
-      });
     });
 
     describe('Error Handling', () => {
-      it('should handle network errors', async () => {
-        mockFetch.mockRejectedValue(new Error('Network error'));
+        it('should handle network errors', async () => {
+            mockFetch.mockRejectedValue(new Error('Network error'));
 
-        const result = await imagePreloader.preloadImage('https://example.com/image.jpg');
-        expect(result).toBe('error');
-      });
+            const result = await imagePreloader.preloadImage('https://example.com/image.jpg');
+            expect(result).toBe('error');
+        });
     });
 
     describe('Performance', () => {
-      it('should handle large batch preloads efficiently', async () => {
-        const images = Array.from({ length: 50 }, (_, i) => ({
-          itemId: `track-${i}`,
-          imageUrl: `https://example.com/image${i}.jpg`
-        }));
+        it('should handle large batch preloads efficiently', async () => {
+            const images = Array.from({ length: 50 }, (_, i) => ({
+                itemId: `track-${i}`,
+                imageUrl: `https://example.com/image${i}.jpg`
+            }));
 
-        mockFetch.mockResolvedValue({
-          type: 'opaque',
-          ok: true
+            mockFetch.mockResolvedValue({
+                type: 'opaque',
+                ok: true
+            });
+
+            const startTime = Date.now();
+            await imagePreloader.preloadQueueImages(images);
+            const endTime = Date.now();
+
+            expect(endTime - startTime).toBeLessThan(5000);
         });
-
-        const startTime = Date.now();
-        await imagePreloader.preloadQueueImages(images);
-        const endTime = Date.now();
-
-        expect(endTime - startTime).toBeLessThan(5000);
-      });
     });
 });

@@ -16,6 +16,12 @@ Features:
 - Network timeout handling
 - Graceful error handling
 
+**Queue View Coverage:**
+- Album art (imageUrl) ✅
+- Backdrop (backdropUrl) ✅
+- Artist logo (artistLogoUrl) ✅
+- Disc art (discImageUrl) ✅
+
 ### 2. Backdrop Integration
 **File:** `src/components/backdrop/backdrop.js` (Modified)
 

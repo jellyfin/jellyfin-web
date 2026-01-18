@@ -25,8 +25,17 @@ class ImagePreloader {
 
       const upcomingItems = queueItems.slice(0, 5);
 
+      const imageUrls: string[] = [];
+
+      for (const item of upcomingItems) {
+        if (item.imageUrl) imageUrls.push(item.imageUrl);
+        if (item.backdropUrl) imageUrls.push(item.backdropUrl);
+        if (item.artistLogoUrl) imageUrls.push(item.artistLogoUrl);
+        if (item.discImageUrl) imageUrls.push(item.discImageUrl);
+      }
+
       await Promise.allSettled(
-        upcomingItems.map(item => this.preloadImage(item.imageUrl))
+        imageUrls.map(url => this.preloadImage(url))
       );
     }
 
