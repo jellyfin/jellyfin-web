@@ -12,6 +12,22 @@ export {
 } from './renderers/imageRenderer';
 
 export {
+    renderVideoSelections,
+    renderAudioSelections,
+    renderSubtitleSelections,
+    reloadPlayButtons
+} from './renderers/mediaSelectionRenderer';
+
+export {
+    renderOverview,
+    renderGenres,
+    renderWriter,
+    renderDirector,
+    renderStudio,
+    renderTagline
+} from './renderers/metadataRenderer';
+
+export {
     getPromise,
     hideAll,
     autoFocus,
