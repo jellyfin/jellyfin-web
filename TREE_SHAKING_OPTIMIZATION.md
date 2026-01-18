@@ -93,14 +93,24 @@ import { canPlayH264 } from './scripts/browserDeviceProfile';
 - Separates UI concerns from business logic
 - Playback actions can be imported independently
 
-### Planned
+### In Progress
 
 #### 3. htmlVideoPlayer/plugin.js (2,234 lines)
-- **Target Modules**:
-  - `HtmlVideoPlayer.js` (~500 lines)
-  - `mediaSourceHandler.js` (~400 lines)
-  - `features/` - subtitleSupport, trackManagement
-  - `utils/` - urlResolver, domHelpers
+- **Status**: 🔄 Phase 1 Complete, Phase 2 Planned
+- **Commit**: af6a7a5ecf
+- **Completed (Phase 1)**:
+  - `utils/domHelpers.js` - URL resolution, element removal, zoom animation
+  - `features/trackSupport.js` - HLS detection, native track support, media stream helpers
+  - `stream/profileHelper.js` - Device profile helper
+
+**Expected Benefits**:
+- Track support functions can be reused by other players
+- DOM helpers are tree-shakeable
+- Media stream utilities are modular and testable
+
+**Planned (Phase 2)**:
+- Subtitle/track rendering
+- Media source handling
 
 #### 4. cardbuilder/cardBuilder.js (1,428 lines)
 - **Target Modules**:
