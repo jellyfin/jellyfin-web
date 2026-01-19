@@ -5,7 +5,6 @@
  */
 
 import escapeHtml from 'escape-html';
-import 'jquery';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
@@ -203,14 +202,15 @@ function initEditor(dlg, options) {
 }
 
 function onDialogClosed() {
-    currentDeferred.resolveWith(null, [hasChanges]);
+    if (currentResolve !== null) {
+        currentResolve(hasChanges);
+        currentResolve = null;
+    }
 }
 
 export class MediaLibraryEditor {
     constructor(options) {
-        const deferred = jQuery.Deferred();
         currentOptions = options;
-        currentDeferred = deferred;
         hasChanges = false;
         const dlg = dialogHelper.createDialog({
             size: 'small',
@@ -231,11 +231,14 @@ export class MediaLibraryEditor {
             dialogHelper.close(dlg);
         });
         refreshLibraryFromServer(dlg);
-        return deferred.promise();
+
+        return new Promise((resolve) => {
+            currentResolve = resolve;
+        });
     }
 }
 
-let currentDeferred;
+let currentResolve = null;
 let currentOptions;
 let hasChanges = false;
 let isCreating = false;

@@ -1,4 +1,3 @@
-import 'jquery';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -133,11 +132,9 @@ export default function (page, providerId, options) {
             info.NewsCategories = getCategories(page.querySelector('.txtNews'));
             info.SportsCategories = getCategories(page.querySelector('.txtSports'));
             info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
-            info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter((tuner) => {
-                return tuner.checked;
-            }).map((tuner) => {
-                return tuner.getAttribute('data-id');
-            });
+            info.EnabledTuners = info.EnableAllTuners ? [] : Array.from(page.querySelectorAll('.chkTuner'))
+                .filter((tuner) => tuner.checked)
+                .map((tuner) => tuner.getAttribute('data-id'));
             ApiClient.ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('LiveTv/ListingProviders', {
@@ -179,9 +176,9 @@ export default function (page, providerId, options) {
         const hideSubmitButton = options.showSubmitButton === false;
         page.querySelector('.btnSubmitListings').classList.toggle('hide', hideSubmitButton);
 
-        $('form', page).on('submit', () => {
+        page.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
             submitListingsForm();
-            return false;
         });
         page.querySelector('#btnSelectPath').addEventListener('click', onSelectPathClick);
         page.querySelector('.chkAllTuners').addEventListener('change', (evt) => {

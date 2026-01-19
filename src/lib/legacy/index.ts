@@ -7,9 +7,8 @@
  * - IntersectionObserver, ResizeObserver
  * - TextEncoder, Proxy, classList, Element.closest()
  *
- * jQuery is retained temporarily for legacy component compatibility.
+ * jQuery has been removed. Use native DOM APIs or utils/domQuery.ts helpers.
  */
-import 'jquery';
 
 // Legacy DOM patches (still needed for some edge cases)
 import './domParserTextHtml';
