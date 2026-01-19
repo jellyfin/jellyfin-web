@@ -154,48 +154,60 @@ class PlayQueueManager {
     }
 
     getNextItem(): PlaylistItem | null {
-        const currentIndex = this.getCurrentPlaylistIndex();
+        // Use the appropriate playlist based on shuffle mode
+        const activePlaylist = this._shuffleMode === 'Shuffle' ? this._sortedPlaylist : this._playlist;
+
+        // Find current item's index in the active playlist
+        const currentIndex = this._currentPlaylistItemId
+            ? findPlaylistIndex(this._currentPlaylistItemId, activePlaylist)
+            : -1;
 
         if (currentIndex === -1) {
-            return this._playlist.length > 0 ? this._playlist[0] : null;
+            return activePlaylist.length > 0 ? activePlaylist[0] : null;
         }
 
         if (this._repeatMode === 'RepeatOne') {
-            return this._playlist[currentIndex];
+            return activePlaylist[currentIndex];
         }
 
         const nextIndex = currentIndex + 1;
 
-        if (nextIndex < this._playlist.length) {
-            return this._playlist[nextIndex];
+        if (nextIndex < activePlaylist.length) {
+            return activePlaylist[nextIndex];
         }
 
         if (this._repeatMode === 'RepeatAll') {
-            return this._playlist[0];
+            return activePlaylist[0];
         }
 
         return null;
     }
 
     getPreviousItem(): PlaylistItem | null {
-        const currentIndex = this.getCurrentPlaylistIndex();
+        // Use the appropriate playlist based on shuffle mode
+        const activePlaylist = this._shuffleMode === 'Shuffle' ? this._sortedPlaylist : this._playlist;
+
+        // Find current item's index in the active playlist
+        const currentIndex = this._currentPlaylistItemId
+            ? findPlaylistIndex(this._currentPlaylistItemId, activePlaylist)
+            : -1;
 
         if (currentIndex === -1) {
-            return this._playlist.length > 0 ? this._playlist[this._playlist.length - 1] : null;
+            return activePlaylist.length > 0 ? activePlaylist[activePlaylist.length - 1] : null;
         }
 
         if (this._repeatMode === 'RepeatOne') {
-            return this._playlist[currentIndex];
+            return activePlaylist[currentIndex];
         }
 
         const prevIndex = currentIndex - 1;
 
         if (prevIndex >= 0) {
-            return this._playlist[prevIndex];
+            return activePlaylist[prevIndex];
         }
 
         if (this._repeatMode === 'RepeatAll') {
-            return this._playlist[this._playlist.length - 1];
+            return activePlaylist[activePlaylist.length - 1];
         }
 
         return null;

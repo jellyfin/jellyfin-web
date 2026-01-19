@@ -122,17 +122,39 @@ export class SyncManager {
         element.addEventListener('ended', cleanup, { once: true });
 
         // Use MutationObserver to detect element removal from DOM
-        if (element.parentNode && element.parentNode.nodeName) {
+        // Observer setup: watch the parent node for child list changes
+        const setupObserver = () => {
+            if (!element.parentNode) {
+                return; // Parent not available yet
+            }
+
             try {
                 const observer = new MutationObserver((mutations) => {
                     try {
+                        // Check each mutation for removed nodes
                         for (const mutation of mutations) {
-                            const removedNodes = Array.from(mutation.removedNodes);
-                            if (removedNodes.includes(element)) {
-                                observer.disconnect();
-                                this.observers.delete(element);
-                                cleanup();
-                                break;
+                            if (mutation.type === 'childList') {
+                                const removedNodes = Array.from(mutation.removedNodes);
+                                // Check if our element is in the removed nodes
+                                if (removedNodes.some(node => node === element)) {
+                                    observer.disconnect();
+                                    this.observers.delete(element);
+                                    cleanup();
+                                    return;
+                                }
+                                // Also check if a parent of our element was removed
+                                if (removedNodes.some(node => {
+                                    try {
+                                        return node.contains?.(element);
+                                    } catch {
+                                        return false;
+                                    }
+                                })) {
+                                    observer.disconnect();
+                                    this.observers.delete(element);
+                                    cleanup();
+                                    return;
+                                }
                             }
                         }
                     } catch (innerError) {
@@ -140,11 +162,21 @@ export class SyncManager {
                     }
                 });
 
-                observer.observe(element.parentNode, { childList: true });
+                // Observe the element's parent for child list mutations
+                observer.observe(element.parentNode, { childList: true, subtree: false });
                 this.observers.set(element, observer);
             } catch (error) {
-                console.debug('[SyncManager] MutationObserver not supported or failed:', error);
+                console.debug('[SyncManager] MutationObserver setup failed:', error);
+                // MutationObserver will be handled by checkSync fallback
             }
+        };
+
+        // Try to set up observer immediately
+        setupObserver();
+
+        // Also try again in a microtask in case parent isn't ready yet
+        if (!this.observers.has(element)) {
+            Promise.resolve().then(() => setupObserver());
         }
     }
 
@@ -166,7 +198,9 @@ export class SyncManager {
 
     startSync(): void {
         if (this.syncInterval) return;
-        this.currentInterval = this.activeElementCount > 0 ? this.activeInterval : this.idleInterval;
+        // Start with active interval by default - elements will be or already are registered
+        // The updateSyncInterval() method will adjust to idle if needed during checkSync()
+        this.currentInterval = this.activeInterval;
         this.syncInterval = setInterval(() => this.checkSync(), this.currentInterval);
     }
 

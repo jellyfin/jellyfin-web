@@ -6,7 +6,16 @@
  */
 
 // Core audio engine (ALWAYS loaded - critical for playback)
-export { masterAudioOutput, initializeMasterAudio, rampPlaybackGain } from './master.logic';
+export {
+    masterAudioOutput,
+    initializeMasterAudio,
+    rampPlaybackGain,
+    createGainNode,
+    ensureAudioNodeBundle,
+    removeAudioNodeBundle,
+    audioNodeBus,
+    delayNodeBus
+} from './master.logic';
 export { xDuration, getCrossfadeDuration, cancelCrossfadeTimeouts, timeRunningOut, syncManager } from './crossfader.logic';
 export { synchronizeVolumeUI } from './audioUtils';
 

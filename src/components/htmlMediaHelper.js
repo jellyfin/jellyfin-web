@@ -204,26 +204,42 @@ function onSuccessfulPlay(elem, onErrorFn) {
 export async function playWithPromise(elem, onErrorFn) {
     try {
         // Ensure AudioContext is running before attempting to play
+        // This is critical for browser autoplay policies which require user interaction
+        let audioContextResumed = false;
         try {
             const { masterAudioOutput } = await import('./audioEngine/master.logic');
             const { safeResumeAudioContext } = await import('./audioEngine/audioUtils');
-            if (masterAudioOutput.audioContext && masterAudioOutput.audioContext.state === 'suspended') {
-                console.debug('Resuming AudioContext before playback');
-                await safeResumeAudioContext(masterAudioOutput.audioContext);
+
+            // Always attempt resume to handle race conditions with state changes
+            // safeResumeAudioContext returns true immediately if already running
+            if (masterAudioOutput.audioContext) {
+                audioContextResumed = await safeResumeAudioContext(masterAudioOutput.audioContext);
+                if (audioContextResumed) {
+                    console.debug('AudioContext ready for playback', {
+                        state: masterAudioOutput.audioContext.state
+                    });
+                } else {
+                    console.warn('AudioContext failed to resume before playback');
+                }
             }
         } catch (audioErr) {
-            console.warn('Failed to resume AudioContext before playback:', audioErr);
+            console.warn('Failed to prepare AudioContext before playback:', audioErr);
+            // Continue with playback anyway - the browser may allow it
         }
 
+        // Now attempt to play the media element
         return elem.play()
             .catch((e) => {
                 const errorName = (e.name || '').toLowerCase();
-                // safari uses aborterror
-                if (errorName === 'notallowederror'
-                        || errorName === 'aborterror') {
-                    // swallow this error because the user can still click the play button on the video element
+                // safari uses aborterror, chrome uses notallowederror for autoplay violations
+                if (errorName === 'notallowederror' || errorName === 'aborterror') {
+                    // Swallow this error because the user can still click the play button on the video element
+                    // This often happens due to autoplay policies
+                    console.debug('Playback was interrupted (likely autoplay policy):', errorName);
                     return Promise.resolve();
                 }
+                // Other errors should be reported
+                console.error('Media playback failed:', errorName, e);
                 return Promise.reject(e);
             })
             .then(() => {
@@ -231,8 +247,8 @@ export async function playWithPromise(elem, onErrorFn) {
                 return Promise.resolve();
             });
     } catch (err) {
-        console.error('error calling video.play: ' + err);
-        return Promise.reject();
+        console.error('error calling elem.play():', err);
+        return Promise.reject(err);
     }
 }
 
