@@ -174,11 +174,10 @@
   ],
   "scripts": {
     "start": "npm run serve",
-    "serve": "webpack serve --config webpack.dev.js",
-    "serve:vite": "vite",
+    "serve": "vite",
     "build:analyze": "cross-env NODE_ENV=\"production\" webpack --config webpack.analyze.js",
     "build:development": "webpack --config webpack.dev.js",
-    "build:production": "cross-env NODE_ENV=\"production\" webpack --config webpack.prod.js",
+    "build:production": "vite build",
     "build:vite": "vite build",
     "build:check": "tsc --noEmit",
     "build:es-check": "npm run build:production && npm run escheck",
