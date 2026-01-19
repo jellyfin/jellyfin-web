@@ -1,144 +1,192 @@
 // Import legacy browser polyfills
-import 'lib/legacy';
+import "lib/legacy";
 
-import React from 'react';
-import { createRoot } from 'react-dom/client';
+import React from "react";
+import { createRoot } from "react-dom/client";
 
 // NOTE: We need to import this first to initialize the connection
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { ServerConnections } from "lib/jellyfin-apiclient";
 
-import { appHost, safeAppHost } from './components/apphost';
-import { logger } from './utils/logger';
-import autoFocuser from './components/autoFocuser';
-import loading from 'components/loading/loading';
-import { pluginManager } from './components/pluginManager';
-import { appRouter } from './components/router/appRouter';
-import { AppFeature } from 'constants/appFeature';
-import globalize from './lib/globalize';
-import { loadCoreDictionary } from 'lib/globalize/loader';
-import { initialize as initializeAutoCast } from 'scripts/autocast';
-import browser from './scripts/browser';
-import keyboardNavigation from './scripts/keyboardNavigation';
-import { getPlugins } from './scripts/settings/webSettings';
-import taskButton from './scripts/taskbutton';
-import { pageClassOn, serverAddress } from './utils/dashboard';
-import Events from './utils/events';
-import { cleanupExpiredCache } from './utils/randomSortCache';
-import './utils/performanceMonitor';
-import './utils/pwaInstall';
-import './utils/pwaUpdate';
-import './utils/pwaOffline';
-import './utils/pwaStatus';
-import './utils/pwaAudit';
-import './utils/bundleAnalyzer';
-import './utils/bundleOptimizationReport';
-import './utils/lazyLoadingAnalysis';
-import './utils/bundleOptimizationAnalysis';
+import { appHost, safeAppHost } from "./components/apphost";
+import { logger } from "./utils/logger";
+import autoFocuser from "./components/autoFocuser";
+import loading from "components/loading/loading";
+import { pluginManager } from "./components/pluginManager";
+import { appRouter } from "./components/router/appRouter";
+import { AppFeature } from "constants/appFeature";
+import globalize from "./lib/globalize";
+import { loadCoreDictionary } from "lib/globalize/loader";
+import { initialize as initializeAutoCast } from "scripts/autocast";
+import browser from "./scripts/browser";
+import keyboardNavigation from "./scripts/keyboardNavigation";
+import { getPlugins } from "./scripts/settings/webSettings";
+import taskButton from "./scripts/taskbutton";
+import { pageClassOn, serverAddress } from "./utils/dashboard";
+import Events from "./utils/events";
+import { cleanupExpiredCache } from "./utils/randomSortCache";
+import "./utils/performanceMonitor";
+import "./utils/pwaInstall";
+import "./utils/pwaUpdate";
+import "./utils/pwaOffline";
+import "./utils/pwaStatus";
+import "./utils/pwaAudit";
+import "./utils/bundleAnalyzer";
+import "./utils/bundleOptimizationReport";
+import "./utils/lazyLoadingAnalysis";
+import "./utils/bundleOptimizationAnalysis";
 
-import RootApp from './RootApp';
+import RootApp from "./RootApp";
 
 const supportsFeature = (feature) => Boolean(safeAppHost.supports(feature));
 
 async function initializeAudioContextEarly() {
     try {
-        logger.debug('Initializing audio context early', { component: 'index' });
-        const { initializeMasterAudio } = await import('./components/audioEngine/master.logic');
-        initializeMasterAudio(() => {
-            logger.debug('Early audio context cleanup called', { component: 'index' });
+        logger.debug("Initializing audio context early", {
+            component: "index",
         });
-        logger.debug('Audio context initialized early', { component: 'index' });
+        const { initializeMasterAudio } =
+            await import("./components/audioEngine/master.logic");
+        initializeMasterAudio(() => {
+            logger.debug("Early audio context cleanup called", {
+                component: "index",
+            });
+        });
+        logger.debug("Audio context initialized early", { component: "index" });
     } catch (error) {
-        logger.warn('Failed to initialize audio context early', { component: 'index' }, error);
+        logger.warn(
+            "Failed to initialize audio context early",
+            { component: "index" },
+            error,
+        );
     }
 }
 
 async function initializeCrossfadePreloader() {
     try {
-        logger.debug('Initializing crossfade preloader', { component: 'index' });
-        const { initializeCrossfadePreloadHandler, destroyCrossfadePreloadHandler } = await import('./components/audioEngine');
+        logger.debug("Initializing crossfade preloader", {
+            component: "index",
+        });
+        const {
+            initializeCrossfadePreloadHandler,
+            destroyCrossfadePreloadHandler,
+        } = await import("./components/audioEngine");
 
         // Initialize the preload handler to listen for playback events
         initializeCrossfadePreloadHandler();
-        logger.debug('Crossfade preloader initialized', { component: 'index' });
+        logger.debug("Crossfade preloader initialized", { component: "index" });
 
         // Clean up on page unload
-        window.addEventListener('beforeunload', () => {
+        window.addEventListener("beforeunload", () => {
             destroyCrossfadePreloadHandler();
-            logger.debug('Crossfade preloader destroyed on unload', { component: 'index' });
+            logger.debug("Crossfade preloader destroyed on unload", {
+                component: "index",
+            });
         });
     } catch (error) {
-        logger.warn('Failed to initialize crossfade preloader', { component: 'index' }, error);
+        logger.warn(
+            "Failed to initialize crossfade preloader",
+            { component: "index" },
+            error,
+        );
     }
 }
 
 function setupAudioContextResume() {
     // Resume audio context on user interaction to comply with browser autoplay policies
     const resumeAudioContext = async () => {
-        logger.debug('Attempting to resume AudioContext on user interaction', { component: 'index' });
+        logger.debug("Attempting to resume AudioContext on user interaction", {
+            component: "index",
+        });
         try {
-            const { masterAudioOutput } = await import('./components/audioEngine/master.logic');
-            const { safeResumeAudioContext } = await import('./components/audioEngine/audioUtils');
+            const { masterAudioOutput } =
+                await import("./components/audioEngine/master.logic");
+            const { safeResumeAudioContext } =
+                await import("./components/audioEngine/audioUtils");
 
-            logger.debug('AudioContext state before resume', { component: 'index', state: masterAudioOutput.audioContext?.state });
+            logger.debug("AudioContext state before resume", {
+                component: "index",
+                state: masterAudioOutput.audioContext?.state,
+            });
             if (masterAudioOutput.audioContext) {
-                const resumed = await safeResumeAudioContext(masterAudioOutput.audioContext);
-                logger.debug('AudioContext state after resume', { component: 'index', state: masterAudioOutput.audioContext.state });
+                const resumed = await safeResumeAudioContext(
+                    masterAudioOutput.audioContext,
+                );
+                logger.debug("AudioContext state after resume", {
+                    component: "index",
+                    state: masterAudioOutput.audioContext.state,
+                });
                 if (resumed) {
-                    logger.debug('AudioContext resumed on user interaction', { component: 'index' });
+                    logger.debug("AudioContext resumed on user interaction", {
+                        component: "index",
+                    });
                 } else {
-                    logger.warn('Failed to resume AudioContext - already running or error occurred', { component: 'index' });
+                    logger.warn(
+                        "Failed to resume AudioContext - already running or error occurred",
+                        { component: "index" },
+                    );
                 }
             } else {
-                logger.warn('AudioContext not available for resume - may not be initialized yet', { component: 'index' });
+                logger.warn(
+                    "AudioContext not available for resume - may not be initialized yet",
+                    { component: "index" },
+                );
             }
         } catch (error) {
-            logger.error('Failed to resume AudioContext', { component: 'index' }, error);
+            logger.error(
+                "Failed to resume AudioContext",
+                { component: "index" },
+                error,
+            );
         }
     };
 
-    document.addEventListener('click', resumeAudioContext, { once: true });
-    document.addEventListener('keydown', resumeAudioContext, { once: true });
-    document.addEventListener('touchstart', resumeAudioContext, { once: true });
+    document.addEventListener("click", resumeAudioContext, { once: true });
+    document.addEventListener("keydown", resumeAudioContext, { once: true });
+    document.addEventListener("touchstart", resumeAudioContext, { once: true });
 }
 
 // Cleanup audio contexts on page unload to prevent leaks
-window.addEventListener('beforeunload', () => {
-    import('./components/audioEngine/master.logic').then(({ masterAudioOutput }) => {
-        if (masterAudioOutput.audioContext && masterAudioOutput.audioContext.state !== 'closed') {
-            masterAudioOutput.audioContext.close();
-        }
-    // eslint-disable-next-line no-empty-function
-    }).catch(() => {
-    });
+window.addEventListener("beforeunload", () => {
+    import("./components/audioEngine/master.logic")
+        .then(({ masterAudioOutput }) => {
+            if (
+                masterAudioOutput.audioContext &&
+                masterAudioOutput.audioContext.state !== "closed"
+            ) {
+                masterAudioOutput.audioContext.close();
+            }
+            // eslint-disable-next-line no-empty-function
+        })
+        .catch(() => {});
 });
 
 // Import the button webcomponent for use throughout the site
 // NOTE: This is a bit of a hack, files should ensure the component is imported before use
-import './elements/emby-button/emby-button';
+import "./elements/emby-button/emby-button";
 
 // Import auto-running components
 // NOTE: This is an anti-pattern - deferring non-critical components
-import './components/playback/displayMirrorManager';
-import './components/playback/playerSelectionMenu';
-import './scripts/autoThemes';
-import './scripts/mouseManager';
-import './scripts/serverNotifications';
+import "./components/playback/displayMirrorManager";
+import "./components/playback/playerSelectionMenu";
+import "./scripts/autoThemes";
+import "./scripts/mouseManager";
+import "./scripts/serverNotifications";
 
 // Import audio engine early to ensure AudioContext is available for resume
-import './components/audioEngine/master.logic';
+import "./components/audioEngine/master.logic";
 
 // Defer loading of non-critical components
 setTimeout(() => {
-    import('./components/themeMediaPlayer');
-    import('./scripts/screensavermanager');
+    import("./components/themeMediaPlayer");
+    import("./scripts/screensavermanager");
 }, 2000);
 
 // Import site styles
-import './styles/site.scss';
-import './styles/livetv.scss';
-import './styles/dashboard.scss';
-import './styles/detailtable.scss';
-import './styles/librarybrowser.scss';
+import "./styles/site.scss";
+import "./styles/livetv.scss";
+import "./styles/dashboard.scss";
+import "./styles/detailtable.scss";
+import "./styles/librarybrowser.scss";
 
 async function init() {
     // Log current version to console to help out with issue triage and debugging
@@ -147,7 +195,8 @@ async function init() {
         `[${__PACKAGE_JSON_NAME__}]
 version: ${__PACKAGE_JSON_VERSION__}
 commit: ${__COMMIT_SHA__}
-build: ${__JF_BUILD_VERSION__}`);
+build: ${__JF_BUILD_VERSION__}`,
+    );
 
     // Register globals used in plugins
     window.Events = Events;
@@ -157,11 +206,11 @@ build: ${__JF_BUILD_VERSION__}`);
     cleanupExpiredCache();
 
     // Register handlers to update header classes
-    pageClassOn('viewshow', 'standalonePage', () => {
-        document.querySelector('.skinHeader').classList.add('noHeaderRight');
+    pageClassOn("viewshow", "standalonePage", () => {
+        document.querySelector(".skinHeader").classList.add("noHeaderRight");
     });
-    pageClassOn('viewhide', 'standalonePage', () => {
-        document.querySelector('.skinHeader').classList.remove('noHeaderRight');
+    pageClassOn("viewhide", "standalonePage", () => {
+        document.querySelector(".skinHeader").classList.remove("noHeaderRight");
     });
 
     // Initialize the api client
@@ -184,15 +233,23 @@ build: ${__JF_BUILD_VERSION__}`);
     // Load the translation dictionary
     await loadCoreDictionary();
     // Update localization on user changes
-    Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
-    Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
+    Events.on(
+        ServerConnections,
+        "localusersignedin",
+        globalize.updateCurrentCulture,
+    );
+    Events.on(
+        ServerConnections,
+        "localusersignedout",
+        globalize.updateCurrentCulture,
+    );
 
     // Load the font styles
     loadFonts();
 
     // Load iOS specific styles
     if (browser.iOS) {
-        import('./styles/ios.scss');
+        import("./styles/ios.scss");
     }
 
     // Load frontend plugins
@@ -202,18 +259,18 @@ build: ${__JF_BUILD_VERSION__}`);
     setupAudioContextResume();
 
     // Establish the websocket connection
-    Events.on(appHost, 'resume', () => {
+    Events.on(appHost, "resume", () => {
         ServerConnections.currentApiClient()?.ensureWebSocket();
     });
 
     // Register API request error handlers
-    ServerConnections.getApiClients().forEach(apiClient => {
-        Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
-        Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
+    ServerConnections.getApiClients().forEach((apiClient) => {
+        Events.off(apiClient, "requestfail", appRouter.onRequestFail);
+        Events.on(apiClient, "requestfail", appRouter.onRequestFail);
     });
-    Events.on(ServerConnections, 'apiclientcreated', (_e, apiClient) => {
-        Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
-        Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
+    Events.on(ServerConnections, "apiclientcreated", (_e, apiClient) => {
+        Events.off(apiClient, "requestfail", appRouter.onRequestFail);
+        Events.on(apiClient, "requestfail", appRouter.onRequestFail);
     });
 
     // Render the app
@@ -236,37 +293,40 @@ build: ${__JF_BUILD_VERSION__}`);
 function loadFonts() {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (browser.tv && !browser.android) {
-        logger.debug('using system fonts with explicit sizes', { component: 'index' });
-        import('./styles/fonts.sized.scss');
+        logger.debug("using system fonts with explicit sizes", {
+            component: "index",
+        });
+        import("./styles/fonts.sized.scss");
     } else if (__USE_SYSTEM_FONTS__) {
-        logger.debug('using system fonts', { component: 'index' });
-        import('./styles/fonts.scss');
+        logger.debug("using system fonts", { component: "index" });
+        import("./styles/fonts.scss");
     } else {
-        logger.debug('using default fonts', { component: 'index' });
-        import('./styles/fonts.scss');
-        import('./styles/fonts.noto.scss');
+        logger.debug("using default fonts", { component: "index" });
+        import("./styles/fonts.scss");
     }
 }
 
 async function loadPlugins() {
     // eslint-disable-next-line no-console
-    console.groupCollapsed('loading installed plugins');
+    console.groupCollapsed("loading installed plugins");
     // eslint-disable-next-line no-console
     console.dir(pluginManager);
 
     let list = await getPlugins();
     if (!supportsFeature(AppFeature.RemoteControl)) {
         // Disable remote player plugins if not supported
-        list = list.filter(plugin => {
-            const name = typeof plugin === 'string' ? plugin : '';
-            return !name.startsWith('sessionPlayer')
-                && !name.startsWith('chromecastPlayer');
+        list = list.filter((plugin) => {
+            const name = typeof plugin === "string" ? plugin : "";
+            return (
+                !name.startsWith("sessionPlayer") &&
+                !name.startsWith("chromecastPlayer")
+            );
         });
     } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
         // Disable chromecast player in unsupported browsers
-        list = list.filter(plugin => {
-            const name = typeof plugin === 'string' ? plugin : '';
-            return !name.startsWith('chromecastPlayer');
+        list = list.filter((plugin) => {
+            const name = typeof plugin === "string" ? plugin : "";
+            return !name.startsWith("chromecastPlayer");
         });
     }
 
@@ -277,55 +337,57 @@ async function loadPlugins() {
     }
 
     try {
-        await Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)));
+        await Promise.all(
+            list.map((plugin) => pluginManager.loadPlugin(plugin)),
+        );
         // eslint-disable-next-line no-console
-        console.debug('finished loading plugins');
+        console.debug("finished loading plugins");
     } catch (e) {
         // eslint-disable-next-line no-console
-        console.warn('failed loading plugins', e);
+        console.warn("failed loading plugins", e);
     }
 
     // eslint-disable-next-line no-console
-    console.groupEnd('loading installed plugins');
+    console.groupEnd("loading installed plugins");
 }
 
 function loadPlatformFeatures() {
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-        import('./components/nowPlayingBar/mountNowPlayingBar').then(({ mountNowPlayingBar }) => {
-            mountNowPlayingBar(document.body);
-        });
+        import("./components/nowPlayingBar/mountNowPlayingBar").then(
+            ({ mountNowPlayingBar }) => {
+                mountNowPlayingBar(document.body);
+            },
+        );
     }
 
     if (supportsFeature(AppFeature.RemoteControl)) {
-        import('./components/playback/playerSelectionMenu');
-        import('./components/playback/remotecontrolautoplay');
+        import("./components/playback/playerSelectionMenu");
+        import("./components/playback/remotecontrolautoplay");
     }
 
     if (!supportsFeature(AppFeature.PhysicalVolumeControl) || browser.touch) {
-        import('./components/playback/volumeosd');
+        import("./components/playback/volumeosd");
     }
 
     if (!browser.tv && !browser.xboxOne) {
-        import('./components/playback/playbackorientation');
+        import("./components/playback/playbackorientation");
 
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (window.Notification) {
-            import('./components/notifications/notifications');
+            import("./components/notifications/notifications");
         }
     }
 }
 
 async function renderApp() {
-    const container = document.getElementById('reactRoot');
+    const container = document.getElementById("reactRoot");
     // Remove the splash logo
-    container.innerHTML = '';
+    container.innerHTML = "";
 
     loading.show();
 
     const root = createRoot(container);
-    root.render(
-        <RootApp />
-    );
+    root.render(<RootApp />);
 }
 
 init();

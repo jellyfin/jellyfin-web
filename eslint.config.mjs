@@ -1,7 +1,7 @@
 // @ts-check
 
 import eslint from '@eslint/js';
-import eslintComments from '@eslint-community/eslint-plugin-eslint-comments';
+import comments from '@eslint-community/eslint-plugin-eslint-comments/configs';
 import compat from 'eslint-plugin-compat';
 import globals from 'globals';
 import importPlugin from 'eslint-plugin-import';
@@ -16,7 +16,8 @@ import tseslint from 'typescript-eslint';
 export default tseslint.config(
     eslint.configs.recommended,
     tseslint.configs.recommended,
-    eslintComments.configs.recommended,
+    // @ts-expect-error Harmless type mismatch in dependency
+    comments.recommended,
     compat.configs['flat/recommended'],
     importPlugin.flatConfigs.errors,
     sonarjs.configs.recommended,
@@ -87,7 +88,7 @@ export default tseslint.config(
             '@typescript-eslint/no-unused-vars': ['error', {
                 'argsIgnorePattern': '^_',
                 'varsIgnorePattern': '^_',
-                'destructuredIgnorePattern': '^_'
+                'destructuredArrayIgnorePattern': '^_'
             }],
             'no-useless-rename': 'error',
             'no-useless-constructor': 'off',
@@ -111,7 +112,7 @@ export default tseslint.config(
             'sonarjs/no-selector-parameter': 'off',
             'sonarjs/pseudo-random': 'warn',
             'sonarjs/no-duplicate-string': 'off',
-            'sonarjs/no-nested-functions': ['error', { 'maxDepth': 2 }],
+            'sonarjs/no-nested-functions': ['error', { 'threshold': 4 }],
 
             '@stylistic/block-spacing': 'error',
             '@stylistic/brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
@@ -144,7 +145,6 @@ export default tseslint.config(
             '@stylistic/space-before-blocks': 'error',
             '@stylistic/space-infix-ops': 'error',
             '@stylistic/type-generic-spacing': 'error',
-            '@stylistic/type-named-tuple': 'error',
 
             '@typescript-eslint/no-restricted-imports': [
                 'error',
@@ -326,9 +326,12 @@ export default tseslint.config(
                 'error',
                 {
                     allowAny: false,
-                    allowUnknown: false,
                     allowNumber: false,
-                    allowString: false
+                    allowString: false,
+                    allowNullableBoolean: false,
+                    allowNullableNumber: false,
+                    allowNullableString: false,
+                    allowNullableObject: false
                 }
             ],
             '@typescript-eslint/consistent-type-imports': ['error', {

@@ -78,6 +78,23 @@
     }
 }
 
+.nowPlayingBarTitle {
+    font-weight: 500;
+}
+
+.nowPlayingBarSecondaryText {
+    opacity: 0.7;
+    font-size: 90%;
+}
+
+.buttonActive {
+    opacity: 1;
+}
+
+.mediaButton.buttonActive {
+    color: var(--theme-primary-color, #00a4dc) !important;
+}
+
 .nowPlayingBarCenter {
     vertical-align: middle;
     text-align: center;
@@ -134,6 +151,10 @@
 }
 
 .nowPlayingBarVolumeSliderContainer {
+    width: 9em;
+    vertical-align: middle;
+    display: inline-flex;
+
     [dir="ltr"] & {
         margin-right: 2em;
     }

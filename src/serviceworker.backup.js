@@ -91,7 +91,11 @@ self.addEventListener('fetch', (event) => {
     if (url.origin !== self.location.origin) return;
 
     // Handle different types of requests
-    if (isStaticAsset(url)) {
+    if (isViteDevServer(url)) {
+        // Network-first for Vite dev server URLs (development mode)
+        // This prevents caching stale optimized deps that cause 504 errors
+        event.respondWith(networkFirst(request));
+    } else if (isStaticAsset(url)) {
         // Cache-first strategy for static assets
         event.respondWith(cacheFirst(request, STATIC_CACHE));
     } else if (isApiRequest(url)) {
@@ -105,6 +109,15 @@ self.addEventListener('fetch', (event) => {
         event.respondWith(networkFirst(request));
     }
 });
+
+// Helper functions
+function isViteDevServer(url) {
+    const path = url.pathname;
+    // Detect Vite optimized deps URLs that cause 504 errors in development
+    return path.includes('/node_modules/.vite/deps/')
+           || path.includes('@fs/')
+           || url.port === '5173'; // Default Vite dev server port
+}
 
 // Helper functions
 function isStaticAsset(url) {
@@ -189,6 +202,12 @@ function cacheFirst(request, cacheName) {
         }
 
         return fetch(request).then((response) => {
+            // Handle Vite dev server 504 errors gracefully
+            if (response.status === 504) {
+                console.warn(`[ServiceWorker] Vite dev server timeout for: ${request.url}, letting browser retry`);
+                throw new Error('HTTP 504: Outdated Optimize Dep');
+            }
+
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
@@ -220,6 +239,19 @@ function cacheFirst(request, cacheName) {
 
 function networkFirst(request, cacheName) {
     return fetch(request).then((response) => {
+        // Handle Vite dev server 504 errors - try to return cached version if available
+        if (response.status === 504) {
+            console.warn(`[ServiceWorker] Vite dev server timeout for: ${request.url}, checking cache...`);
+            return caches.match(request).then((cachedResponse) => {
+                if (cachedResponse) {
+                    console.log(`[ServiceWorker] Cache fallback for Vite 504: ${request.url}`);
+                    return cachedResponse;
+                }
+                // No cache, rethrow to trigger error handling
+                throw new Error('HTTP 504: Outdated Optimize Dep');
+            });
+        }
+
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }

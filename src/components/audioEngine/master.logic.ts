@@ -206,7 +206,13 @@ export function initializeMasterAudio(unbind: () => void) {
         try {
             masterAudioOutput.biquadNode = new AudioWorkletNode(audioCtx, 'biquad-processor');
         } catch {
-            masterAudioOutput.biquadNode = audioCtx.createBiquadFilter();
+            // Fallback to BiquadFilter - set to pass-through mode
+            // Default BiquadFilter is lowpass at 350Hz which would cut high frequencies
+            const biquad = audioCtx.createBiquadFilter();
+            biquad.type = 'lowpass';
+            biquad.frequency.setValueAtTime(22050, audioCtx.currentTime); // Nyquist frequency - effectively bypassed
+            biquad.Q.setValueAtTime(0.0001, audioCtx.currentTime); // Minimal resonance
+            masterAudioOutput.biquadNode = biquad;
         }
 
         let limiter: AudioNode;

@@ -4,7 +4,11 @@ class PWAUpdateManager {
         this.registration = null;
         this.updateAvailable = false;
 
-        // Enable service worker in dev for testing
+        // Skip service worker in development to avoid issues with dev server
+        if (import.meta.env.DEV) {
+            console.log('[PWA] Service worker registration skipped in development');
+            return;
+        }
 
         if ('serviceWorker' in navigator && window.appMode !== 'cordova' && window.appMode !== 'android') {
             navigator.serviceWorker.register('/serviceworker.js')

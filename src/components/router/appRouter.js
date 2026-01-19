@@ -527,7 +527,7 @@ class AppRouter {
     }
 
     showNowPlaying() {
-        return this.show('queue');
+        return this.show('nowplaying');
     }
 
     showGuide() {
