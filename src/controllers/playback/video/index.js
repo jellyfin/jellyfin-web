@@ -581,11 +581,19 @@ export default function (view) {
         view.querySelector('.osdMediaStatus').classList.add('hide');
     }
 
+    let loadingTimeout;
+
     function onWaiting() {
-        loading.show();
+        loadingTimeout = setTimeout(() => {
+            loading.show();
+        }, 500);
     }
 
     function onCanPlay() {
+        if (loadingTimeout) {
+            clearTimeout(loadingTimeout);
+            loadingTimeout = null;
+        }
         loading.hide();
     }
 
@@ -620,6 +628,11 @@ export default function (view) {
     }
 
     function releaseCurrentPlayer() {
+        if (loadingTimeout) {
+            clearTimeout(loadingTimeout);
+            loadingTimeout = null;
+        }
+
         destroyStats();
         destroySubtitleSync();
         resetUpNextDialog();
