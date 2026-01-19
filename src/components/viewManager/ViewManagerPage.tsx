@@ -71,7 +71,7 @@ const importController = (
     return Promise.all([
         resolveModule(`../../${folder}/${controller}`),
         resolveModule(`../../${folder}/${view}`)
-            .then((html: any) => globalize.translateHtml(html))
+            .then((html: any) => globalize.translateHtml(html as string))
     ]);
 };
 

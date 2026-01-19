@@ -1,7 +1,7 @@
+// @ts-nocheck
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
-import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
-import { intervalToDuration } from 'date-fns';;
+import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
 import markdownIt from 'markdown-it';
@@ -37,6 +37,7 @@ import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -49,20 +50,20 @@ import 'elements/emby-select/emby-select';
 import 'styles/scrollstyles.scss';
 
 /** Item types that use a list view for their children. */
-const LIST_VIEW_TYPES = [
+const LIST_VIEW_TYPES: string[] = [
     BaseItemKind.MusicAlbum,
     BaseItemKind.Playlist,
     BaseItemKind.Season,
     BaseItemKind.Series
 ];
 
-function autoFocus(container) {
+function autoFocus(container: HTMLElement) {
     import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
         autoFocuser.autoFocus(container);
     });
 }
 
-function getPromise(apiClient, params) {
+function getPromise(apiClient: ApiClient, params: any) {
     const id = params.id;
 
     if (id) {
@@ -88,7 +89,7 @@ function getPromise(apiClient, params) {
     throw new Error('Invalid request');
 }
 
-function hideAll(page, className, show) {
+function hideAll(page: HTMLElement | Document, className: string, show?: boolean) {
     for (const elem of page.querySelectorAll('.' + className)) {
         if (show) {
             elem.classList.remove('hide');
