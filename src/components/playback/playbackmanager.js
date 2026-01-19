@@ -16,6 +16,7 @@ import PlayQueueManager from './playqueuemanager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
+import dialog from '../dialog/dialog';
 import { appHost } from '../apphost';
 import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
@@ -302,6 +303,7 @@ function getAudioMaxValues(deviceProfile) {
 }
 
 let startingPlaySession = new Date().getTime();
+const STILL_WATCHING_THRESHOLD = 3;
 function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues) {
     const url = 'Audio/' + item.Id + '/universal';
 
@@ -716,6 +718,8 @@ export class PlaybackManager {
         let currentPairingId = null;
 
         this._playNextAfterEnded = true;
+        this._autoPlayCount = 0;
+        this._suppressStillWatching = false; 
         const playerStates = {};
 
         this._playQueueManager = new PlayQueueManager();
@@ -2084,6 +2088,10 @@ export class PlaybackManager {
         self.getItemsForPlayback = getItemsForPlayback;
 
         self.play = async function (options) {
+            
+            self._suppressStillWatching = false;
+            self._autoPlayCount = 0;
+
             normalizePlayOptions(options);
 
             if (self._currentPlayer) {
@@ -3119,7 +3127,11 @@ export class PlaybackManager {
             };
         }
 
-        self.nextTrack = function (player) {
+        self.nextTrack = function (player,isAutoPlay = false) {
+            if (!isAutoPlay) {
+            self._autoPlayCount = 0;
+            }
+
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.nextTrack();
@@ -3139,6 +3151,7 @@ export class PlaybackManager {
         };
 
         self.previousTrack = function (player) {
+            self._autoPlayCount = 0;
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.previousTrack();
@@ -3496,15 +3509,48 @@ export class PlaybackManager {
 
                 apiClient.getCurrentUser().then(function (user) {
                     if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
-                        self.nextTrack();
+                        const stillWatchingEnabled = userSettings.enableStillWatchingPrompt && userSettings.enableStillWatchingPrompt();
 
-                        if (newPlayer !== player) {
-                            Events.trigger(self, 'playbackstop', [{
-                                player,
-                                state,
-                                nextItem,
-                                nextMediaType
-                            }]);
+                        function triggerExtraEvent() {
+                            if (newPlayer !== player) {
+                                Events.trigger(self, 'playbackstop', [{
+                                    player,
+                                    state,
+                                    nextItem,
+                                    nextMediaType
+                                }]);
+                            }
+                        }
+
+                        if (stillWatchingEnabled && !self._suppressStillWatching && self._autoPlayCount >= STILL_WATCHING_THRESHOLD - 1) {
+                            dialog.show({
+                                title: globalize.translate('AreYouStillWatchingTitle'),
+                                text: globalize.translate('AreYouStillWatchingText'),
+                                buttons: [
+                                    { name: globalize.translate('ButtonKeepWatchingAskLater'), id: 'keep', type: 'submit' },
+                                    { name: globalize.translate('ButtonDontAskAgain'), id: 'dontask', type: 'none' }
+                                ]
+                            }).then(function (result) {
+                                if (result === 'keep') {
+                                    // Ask again later: reset counter and resume autoplay
+                                    self._autoPlayCount = 0;
+                                    self.nextTrack(undefined,true);
+                                    triggerExtraEvent();
+                                } else if (result === 'dontask') {
+                                    // Don't ask again until user starts a new playback session
+                                    self._suppressStillWatching = true;
+                                    self.nextTrack(undefined,true);
+                                    triggerExtraEvent();
+                                } else {
+                                    self._playNextAfterEnded = false;
+                                }
+                            }).catch(function () {
+                                self._playNextAfterEnded = false;
+                            });
+                        } else {
+                            self._autoPlayCount++;
+                            self.nextTrack(undefined,true);
+                            triggerExtraEvent();
                         }
                     }
                 });
@@ -3518,6 +3564,7 @@ export class PlaybackManager {
 
             // User started playing something new while existing content is playing
             let promise;
+
 
             stopPlaybackProgressTimer(activePlayer);
             unbindStopped(activePlayer);
