@@ -724,6 +724,23 @@ export class PlaybackManager {
 
         this._playQueueManager = new PlayQueueManager();
 
+        self.resetAutoPlayCounter = function () {
+            self._autoPlayCount = 0;
+        }
+        self.resetStillWatchingSuppressor = function () {
+            self._suppressStillWatching = false;
+        }
+        self.incrementAutoPlayCounter = function () {
+            self._autoPlayCount++;
+        }
+        self.getAutoPlayCount = function () {
+            return self._autoPlayCount;
+        }
+
+        self.suppressStillWatching = function () {
+            self._suppressStillWatching = true;
+        }
+
         self.currentItem = function (player) {
             if (!player) {
                 throw new Error('player cannot be null');
@@ -2089,8 +2106,8 @@ export class PlaybackManager {
 
         self.play = async function (options) {
             
-            self._suppressStillWatching = false;
-            self._autoPlayCount = 0;
+            self.resetAutoPlayCounter();
+            self.resetStillWatchingSuppressor();
 
             normalizePlayOptions(options);
 
@@ -3129,7 +3146,7 @@ export class PlaybackManager {
 
         self.nextTrack = function (player,isAutoPlay = false) {
             if (!isAutoPlay) {
-            self._autoPlayCount = 0;
+                self.resetAutoPlayCounter()
             }
 
             player = player || self._currentPlayer;
@@ -3151,7 +3168,7 @@ export class PlaybackManager {
         };
 
         self.previousTrack = function (player) {
-            self._autoPlayCount = 0;
+            self.resetAutoPlayCounter();
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.previousTrack();
@@ -3522,7 +3539,7 @@ export class PlaybackManager {
                             }
                         }
 
-                        if (stillWatchingEnabled && !self._suppressStillWatching && self._autoPlayCount >= STILL_WATCHING_THRESHOLD - 1) {
+                        if (stillWatchingEnabled && !self._suppressStillWatching && self.getAutoPlayCount() >= STILL_WATCHING_THRESHOLD - 1) {
                             dialog.show({
                                 title: globalize.translate('AreYouStillWatchingTitle'),
                                 text: globalize.translate('AreYouStillWatchingText'),
@@ -3533,12 +3550,12 @@ export class PlaybackManager {
                             }).then(function (result) {
                                 if (result === 'keep') {
                                     // Ask again later: reset counter and resume autoplay
-                                    self._autoPlayCount = 0;
+                                    self.resetAutoPlayCounter();
                                     self.nextTrack(undefined,true);
                                     triggerExtraEvent();
                                 } else if (result === 'dontask') {
                                     // Don't ask again until user starts a new playback session
-                                    self._suppressStillWatching = true;
+                                    self.suppressStillWatching();
                                     self.nextTrack(undefined,true);
                                     triggerExtraEvent();
                                 } else {
@@ -3548,7 +3565,7 @@ export class PlaybackManager {
                                 self._playNextAfterEnded = false;
                             });
                         } else {
-                            self._autoPlayCount++;
+                            self.incrementAutoPlayCount();
                             self.nextTrack(undefined,true);
                             triggerExtraEvent();
                         }
