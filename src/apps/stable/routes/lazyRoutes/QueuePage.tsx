@@ -12,7 +12,6 @@ import IconButton from '@mui/material/IconButton/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import globalize from 'lib/globalize';
-import { imagePreloader } from '../../../components/audioEngine';
 
 /**
  * Lazy-loaded Playback Queue Page

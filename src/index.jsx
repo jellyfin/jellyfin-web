@@ -52,6 +52,25 @@ async function initializeAudioContextEarly() {
     }
 }
 
+async function initializeCrossfadePreloader() {
+    try {
+        logger.debug('Initializing crossfade preloader', { component: 'index' });
+        const { initializeCrossfadePreloadHandler, destroyCrossfadePreloadHandler } = await import('./components/audioEngine');
+
+        // Initialize the preload handler to listen for playback events
+        initializeCrossfadePreloadHandler();
+        logger.debug('Crossfade preloader initialized', { component: 'index' });
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            destroyCrossfadePreloadHandler();
+            logger.debug('Crossfade preloader destroyed on unload', { component: 'index' });
+        });
+    } catch (error) {
+        logger.warn('Failed to initialize crossfade preloader', { component: 'index' }, error);
+    }
+}
+
 function setupAudioContextResume() {
     // Resume audio context on user interaction to comply with browser autoplay policies
     const resumeAudioContext = async () => {
@@ -202,6 +221,9 @@ build: ${__JF_BUILD_VERSION__}`);
 
     // Initialize audio context early
     initializeAudioContextEarly();
+
+    // Initialize crossfade preloader for track preloading and smooth transitions
+    await initializeCrossfadePreloader();
 
     // Load platform specific features
     loadPlatformFeatures();

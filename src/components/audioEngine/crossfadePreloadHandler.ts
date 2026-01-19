@@ -21,13 +21,18 @@ type TrackInfo = {
 let currentTrackId: string | null = null;
 
 function getNextTrackInfo(): TrackInfo | null {
-    const currentItem = playbackManager.currentItem();
-    const currentMediaSource = playbackManager.currentMediaSource();
-    
+    const player = playbackManager.getCurrentPlayer();
+    if (!player) {
+        return null;
+    }
+
+    const currentItem = playbackManager.currentItem(player);
+    const currentMediaSource = playbackManager.currentMediaSource(player);
+
     if (!currentItem || !currentMediaSource) {
         return null;
     }
-    
+
     return {
         itemId: currentItem.Id,
         url: currentMediaSource.Url,
@@ -42,13 +47,18 @@ function getNextTrackInfo(): TrackInfo | null {
 }
 
 function getCurrentTrackInfo(): TrackInfo | null {
-    const currentItem = playbackManager.currentItem();
-    const currentMediaSource = playbackManager.currentMediaSource();
-    
+    const player = playbackManager.getCurrentPlayer();
+    if (!player) {
+        return null;
+    }
+
+    const currentItem = playbackManager.currentItem(player);
+    const currentMediaSource = playbackManager.currentMediaSource(player);
+
     if (!currentItem || !currentMediaSource) {
         return null;
     }
-    
+
     return {
         itemId: currentItem.Id,
         url: currentMediaSource.Url,
@@ -64,7 +74,7 @@ function getCurrentTrackInfo(): TrackInfo | null {
 
 function getTrackImageUrl(item: any): string | undefined {
     if (item?.ImageTags?.Primary) {
-        const apiClient = global.ApiClient(item.ServerId);
+        const apiClient = (global as any).ApiClient(item.ServerId);
         return apiClient.getScaledImageUrl(item.Id, {
             type: 'Primary',
             tag: item.ImageTags.Primary,
@@ -76,7 +86,7 @@ function getTrackImageUrl(item: any): string | undefined {
 
 function getTrackBackdropUrl(item: any): string | undefined {
     if (item?.BackdropImageTags?.length) {
-        const apiClient = global.ApiClient(item.ServerId);
+        const apiClient = (global as any).ApiClient(item.ServerId);
         return apiClient.getScaledImageUrl(item.Id, {
             type: 'Backdrop',
             tag: item.BackdropImageTags[0],
@@ -88,7 +98,7 @@ function getTrackBackdropUrl(item: any): string | undefined {
 
 function getTrackArtistLogoUrl(item: any): string | undefined {
     if (item?.ParentLogoImageTag) {
-        const apiClient = global.ApiClient(item.ServerId);
+        const apiClient = (global as any).ApiClient(item.ServerId);
         return apiClient.getScaledImageUrl(item.ParentLogoItemId, {
             type: 'Logo',
             tag: item.ParentLogoImageTag,
@@ -100,7 +110,7 @@ function getTrackArtistLogoUrl(item: any): string | undefined {
 
 function getTrackDiscImageUrl(item: any): string | undefined {
     if (item?.ImageTags?.Disc) {
-        const apiClient = global.ApiClient(item.ServerId);
+        const apiClient = (global as any).ApiClient(item.ServerId);
         return apiClient.getScaledImageUrl(item.Id, {
             type: 'Disc',
             tag: item.ImageTags.Disc,
