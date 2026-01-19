@@ -730,7 +730,7 @@ export class PlaybackManager {
         self.resetStillWatchingSuppressor = function () {
             self._suppressStillWatching = false;
         }
-        self.incrementAutoPlayCounter = function () {
+        self.incrementAutoPlayCount = function () {
             self._autoPlayCount++;
         }
         self.getAutoPlayCount = function () {
@@ -740,6 +740,9 @@ export class PlaybackManager {
         self.suppressStillWatching = function () {
             self._suppressStillWatching = true;
         }
+        self.isStillWatchingSuppressed = function () {
+            return self._suppressStillWatching;
+        };
 
         self.currentItem = function (player) {
             if (!player) {
@@ -3539,7 +3542,7 @@ export class PlaybackManager {
                             }
                         }
 
-                        if (stillWatchingEnabled && !self._suppressStillWatching && self.getAutoPlayCount() >= STILL_WATCHING_THRESHOLD - 1) {
+                        if (stillWatchingEnabled && !self.isStillWatchingSuppressed() && self.getAutoPlayCount() >= STILL_WATCHING_THRESHOLD - 1) {
                             dialog.show({
                                 title: globalize.translate('AreYouStillWatchingTitle'),
                                 text: globalize.translate('AreYouStillWatchingText'),
