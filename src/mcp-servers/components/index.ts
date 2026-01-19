@@ -330,11 +330,11 @@ createTool(
             content: [{
                 type: 'text',
                 text: JSON.stringify({
-                    purpose: 'MUI + TanStack Table implementation for playback queue with drag-and-drop',
+                    purpose: 'Joy UI + TanStack Table implementation for playback queue with drag-and-drop',
                     file: 'src/apps/stable/routes/lazyRoutes/QueueTable.tsx',
                     keyFeatures: [
                         'TanStack Table with drag-and-drop reordering (@dnd-kit)',
-                        'MUI Table components (Table, TableCell, TableRow)',
+                        'Hybrid UI: Joy UI styling (Box, Typography, Menu, IconButton) + MUI Table components',
                         'Virtualization for large playlists (100+ items) using @tanstack/react-virtual',
                         'Per-row WaveformCell for current/next tracks',
                         'Scroll position persistence (localStorage)',
@@ -342,6 +342,11 @@ createTool(
                         'Context menu for CRUD operations',
                         'Playback time sync for waveform progress'
                     ],
+                    uiApproach: {
+                        joyUI: ['Box', 'IconButton', 'Typography', 'Menu', 'MenuItem'],
+                        muiTable: ['Table', 'TableBody', 'TableCell', 'TableContainer', 'TableHead', 'TableRow', 'Avatar'],
+                        rationale: 'Joy UI provides better styling primitives; MUI Table for complex table structure'
+                    },
                     columns: [
                         { id: 'drag', header: '', purpose: 'Drag handle for reordering' },
                         { id: 'index', header: '#', purpose: 'Track number with avatar' },
@@ -367,7 +372,8 @@ createTool(
                         '@dnd-kit/core',
                         '@dnd-kit/sortable',
                         '@dnd-kit/utilities',
-                        '@mui/material'
+                        '@mui/material',
+                        '@mui/joy'
                     ]
                 }, null, 2)
             }]
@@ -424,96 +430,6 @@ createTool(
                         '@mui/material',
                         'zod',
                         '@tanstack/react-query (useCreateUser, useUpdateUserPolicy)'
-                    ]
-                }, null, 2)
-            }]
-        };
-    }
-);
-
-createTool(
-    'get_form_patterns',
-    'Understand form patterns in Jellyfin (TanStack Forms + Zod)',
-    { _dummy: z.literal(0).optional() },
-    async () => {
-        return {
-            content: [{
-                type: 'text',
-                text: JSON.stringify({
-                    purpose: 'Form handling patterns with Zod validation and MUI components',
-                    installedLibraries: [
-                        {
-                            name: '@tanstack/react-form',
-                            version: '1.27.7',
-                            purpose: 'Headless form state management',
-                            features: [
-                                'Type-safe form state',
-                                'Field-level validation',
-                                'Async submission support',
-                                'Integration with any UI library'
-                            ]
-                        },
-                        {
-                            name: 'zod',
-                            version: '4.3.5',
-                            purpose: 'Schema validation and type inference',
-                            features: [
-                                'Type inference from schemas',
-                                'Custom validation rules',
-                                'Error message customization'
-                            ]
-                        }
-                    ],
-                    components: [
-                        {
-                            name: 'SettingsForm',
-                            file: 'src/components/forms/SettingsForm.tsx',
-                            purpose: 'Example form with Zod validation and MUI components',
-                            features: [
-                                'Zod schema-based validation',
-                                'Real-time field validation on blur',
-                                'MUI TextField, Switch, Button integration',
-                                'Submit/Reset handling',
-                                'Loading state management'
-                            ]
-                        },
-                        {
-                            name: 'UserNew (modernized)',
-                            file: 'src/apps/dashboard/routes/users/add.tsx',
-                            purpose: 'User creation form with MUI + React state',
-                            features: [
-                                'Type-safe form fields',
-                                'Zod schema for validation',
-                                'Async mutation handling',
-                                'Loading/error states'
-                            ]
-                        }
-                    ],
-                    migrationOpportunities: [
-                        {
-                            file: 'src/apps/dashboard/routes/users/parentalcontrol.tsx',
-                            issue: 'window.ApiClient + manual validation',
-                            benefit: 'TanStack Query integration, async validation'
-                        },
-                        {
-                            file: 'src/apps/dashboard/routes/playback/transcoding.tsx',
-                            issue: '40+ fields with useState',
-                            benefit: 'Centralized state, validation, easier maintenance'
-                        }
-                    ],
-                    formPattern: {
-                        schema: 'Zod schema with field validation',
-                        state: 'useState for field values',
-                        validation: 'Zod parse on blur/change',
-                        submission: 'async handler with error handling',
-                        ui: 'MUI components (TextField, Switch, Select)'
-                    },
-                    recommendedMigrationOrder: [
-                        '1. users/add.tsx ✅ DONE',
-                        '2. users/parentalcontrol.tsx',
-                        '3. playback/transcoding.tsx',
-                        '4. users/access.tsx',
-                        '5. users/profile.tsx'
                     ]
                 }, null, 2)
             }]

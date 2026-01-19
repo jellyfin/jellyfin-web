@@ -1,31 +1,29 @@
 import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react';
-import Box from '@mui/material/Box/Box';
-import Table from '@mui/material/Table/Table';
-import TableBody from '@mui/material/TableBody/TableBody';
-import TableCell from '@mui/material/TableCell/TableCell';
-import TableContainer from '@mui/material/TableContainer/TableContainer';
-import TableHead from '@mui/material/TableHead/TableHead';
-import TableRow from '@mui/material/TableRow/TableRow';
-import Avatar from '@mui/material/Avatar/Avatar';
-import IconButton from '@mui/material/IconButton/IconButton';
-import Menu from '@mui/material/Menu/Menu';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import Typography from '@mui/material/Typography/Typography';
+import Box from '@mui/joy/Box';
+import IconButton from '@mui/joy/IconButton';
+import Typography from '@mui/joy/Typography';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Avatar from '@mui/material/Avatar';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText/ListItemText';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import {
     useReactTable,
     getCoreRowModel,
-    getSortedRowModel,
     ColumnDef,
     flexRender,
-    Row,
-    SortingState
+    Row
 } from '@tanstack/react-table';
 import {
     DndContext,
@@ -37,7 +35,6 @@ import {
     DragEndEvent
 } from '@dnd-kit/core';
 import {
-    arrayMove,
     SortableContext,
     sortableKeyboardCoordinates,
     useSortable,
@@ -51,7 +48,6 @@ import { getCachedPeaks } from 'components/visualizer/WaveSurfer';
 import Events from 'utils/events';
 
 const SCROLL_POSITION_KEY = 'jellyfin-queue-scroll-position';
-const SCROLL_DEBOUNCE_MS = 150;
 
 interface QueueItem {
     Id: string;
@@ -63,7 +59,6 @@ interface QueueItem {
     ImageTags?: { Primary?: string };
     ServerId?: string;
     PlaylistItemId?: string;
-    sortableProps?: Record<string, unknown>;
 }
 
 interface QueueTableProps {
@@ -82,8 +77,6 @@ const SortableRow = ({
     children: React.ReactNode
 }) => {
     const {
-        attributes,
-        listeners,
         setNodeRef,
         transform,
         transition,
@@ -96,34 +89,18 @@ const SortableRow = ({
         transform: CSS.Transform.toString(transform),
         transition,
         opacity: isDragging ? 0.5 : 1,
-        backgroundColor: isDragging ? 'rgba(0, 164, 220, 0.2)' : 'transparent'
-    };
+        '--Table-row-hover-bg': 'rgba(0, 164, 220, 0.08)'
+    } as React.CSSProperties;
 
     return (
         <TableRow
             ref={setNodeRef}
             style={style}
-            sx={{
-                '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.05)' },
-                cursor: 'pointer'
-            }}
+            hover
+            sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgba(0, 164, 220, 0.08)' } }}
         >
             {children}
         </TableRow>
-    );
-};
-
-const DraggableCell: React.FC<{
-    children: React.ReactNode;
-    dragHandleProps?: Record<string, unknown>;
-}> = ({ children, dragHandleProps }) => {
-    return (
-        <TableCell
-            sx={{ width: 40, p: 1, verticalAlign: 'middle' }}
-            {...dragHandleProps}
-        >
-            {children}
-        </TableCell>
     );
 };
 
@@ -134,14 +111,11 @@ export const QueueTable: React.FC<QueueTableProps> = ({
     onRemove,
     onPlay
 }) => {
-    const [sorting, setSorting] = useState<SortingState>([]);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedItem, setSelectedItem] = useState<QueueItem | null>(null);
     const [playbackTime, setPlaybackTime] = useState(0);
     const parentRef = React.useRef<HTMLDivElement>(null);
-    const scrollTimeoutRef = React.useRef<number | null>(null);
     const previousIndexRef = React.useRef(currentIndex);
-    const rowVirtualizerRef = useRef<any>(null);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -237,11 +211,11 @@ export const QueueTable: React.FC<QueueTableProps> = ({
             header: '',
             cell: ({ row }) => (
                 <IconButton
-                    size='small'
-                    sx={{ color: 'grey.600', cursor: 'grab' }}
-                    {...row.original.sortableProps}
+                    size='sm'
+                    variant='plain'
+                    sx={{ color: 'neutral.600', cursor: 'grab' }}
                 >
-                    <DragIndicatorIcon fontSize='small' />
+                    <DragIndicatorIcon />
                 </IconButton>
             ),
             size: 40
@@ -251,21 +225,23 @@ export const QueueTable: React.FC<QueueTableProps> = ({
             header: '#',
             cell: ({ row }) => {
                 const index = parseInt(row.id, 10);
-                const isCurrent = index === currentIndex;
+                const isCurrentTrack = index === currentIndex;
                 return (
                     <Avatar
                         src={getImageUrl(row.original)}
                         sx={{
-                            bgcolor: isCurrent ? '#00a4dc' : '#444',
-                            width: 40,
-                            height: 40,
-                            fontSize: '0.875rem'
+                            bgcolor: isCurrentTrack ? '#00a4dc' : 'neutral.600',
+                            width: 36,
+                            height: 36,
+                            fontSize: '0.75rem'
                         }}
                     >
-                        {isCurrent ? (
-                            <PlayArrowIcon sx={{ color: 'white', fontSize: 20 }} />
+                        {isCurrentTrack ? (
+                            <PlayArrowIcon sx={{ color: 'white', fontSize: 16 }} />
                         ) : (
-                            <Typography sx={{ color: 'white' }}>{index + 1}</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '0.75rem' }}>
+                                {index + 1}
+                            </Typography>
                         )}
                     </Avatar>
                 );
@@ -282,9 +258,9 @@ export const QueueTable: React.FC<QueueTableProps> = ({
                 return (
                     <Box>
                         <Typography
-                            variant='body1'
+                            level='body-md'
                             sx={{
-                                color: isCurrent ? '#00a4dc' : 'white',
+                                color: isCurrent ? 'var(--joy-palette-primary-500)' : 'text.primary',
                                 fontWeight: isCurrent ? 600 : 400,
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
@@ -295,9 +271,9 @@ export const QueueTable: React.FC<QueueTableProps> = ({
                             {row.original.Name}
                         </Typography>
                         <Typography
-                            variant='body2'
+                            level='body-xs'
                             sx={{
-                                color: 'grey.400',
+                                color: 'text.secondary',
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
                                 whiteSpace: 'nowrap',
@@ -337,7 +313,7 @@ export const QueueTable: React.FC<QueueTableProps> = ({
             accessorKey: 'RunTimeTicks',
             header: 'Duration',
             cell: ({ row }) => (
-                <Typography variant='body2' sx={{ color: 'grey.500', width: 50 }}>
+                <Typography level='body-sm' sx={{ color: 'text.secondary', width: 50 }}>
                     {formatDuration(row.original.RunTimeTicks)}
                 </Typography>
             ),
@@ -348,11 +324,12 @@ export const QueueTable: React.FC<QueueTableProps> = ({
             header: '',
             cell: ({ row }) => (
                 <IconButton
-                    size='small'
+                    size='sm'
+                    variant='plain'
                     onClick={(e) => handleContextMenu(e, row.original)}
-                    sx={{ color: 'grey.500', '&:hover': { color: 'error.main' } }}
+                    sx={{ color: 'neutral.500', '&:hover': { color: 'danger.main' } }}
                 >
-                    <MoreVertIcon fontSize='small' />
+                    <MoreVertIcon />
                 </IconButton>
             ),
             size: 40
@@ -362,13 +339,7 @@ export const QueueTable: React.FC<QueueTableProps> = ({
     const table = useReactTable({
         data: queueData,
         columns,
-        state: {
-            sorting
-        },
-        onSortingChange: setSorting,
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        enableSorting: false
+        getCoreRowModel: getCoreRowModel()
     });
 
     const { rows } = table.getRowModel();
@@ -379,8 +350,6 @@ export const QueueTable: React.FC<QueueTableProps> = ({
         estimateSize: () => 70,
         overscan: 5
     });
-
-    rowVirtualizerRef.current = rowVirtualizer;
 
     useEffect(() => {
         if (currentIndex !== previousIndexRef.current && currentIndex >= 0) {
@@ -404,6 +373,20 @@ export const QueueTable: React.FC<QueueTableProps> = ({
             previousIndexRef.current = currentIndex;
         }
     }, [currentIndex, rows, rowVirtualizer]);
+
+    useEffect(() => {
+        const container = parentRef.current;
+        if (!container) return;
+
+        const handleScroll = () => {
+            localStorage.setItem(SCROLL_POSITION_KEY, container.scrollTop.toString());
+        };
+
+        container.addEventListener('scroll', handleScroll, { passive: true });
+        return () => {
+            container.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     return (
         <Box sx={{ width: '100%', height: '100%' }}>
@@ -429,7 +412,7 @@ export const QueueTable: React.FC<QueueTableProps> = ({
                                             key={header.id}
                                             sx={{
                                                 bgcolor: 'rgba(0, 0, 0, 0.8)',
-                                                color: 'grey.400',
+                                                color: 'text.secondary',
                                                 fontSize: '0.75rem',
                                                 py: 1,
                                                 borderBottom: 'none'
@@ -445,9 +428,9 @@ export const QueueTable: React.FC<QueueTableProps> = ({
                             ))}
                         </TableHead>
                         <TableBody
-                            style={{
-                                height: `${rowVirtualizer.getTotalSize()}px`,
-                                position: 'relative'
+                            sx={{
+                                position: 'relative',
+                                height: `${rowVirtualizer.getTotalSize()}px`
                             }}
                         >
                             <SortableContext
@@ -457,9 +440,9 @@ export const QueueTable: React.FC<QueueTableProps> = ({
                                 {rowVirtualizer.getVirtualItems().map((virtualRow) => {
                                     const row = rows[virtualRow.index];
                                     return (
-                                        <div
+                                        <Box
                                             key={row.id}
-                                            style={{
+                                            sx={{
                                                 position: 'absolute',
                                                 top: 0,
                                                 left: 0,
@@ -486,7 +469,7 @@ export const QueueTable: React.FC<QueueTableProps> = ({
                                                     </TableCell>
                                                 ))}
                                             </SortableRow>
-                                        </div>
+                                        </Box>
                                     );
                                 })}
                             </SortableContext>
@@ -499,19 +482,16 @@ export const QueueTable: React.FC<QueueTableProps> = ({
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleCloseMenu}
-                PaperProps={{
-                    sx: { bgcolor: 'grey.900', color: 'white' }
-                }}
             >
                 <MenuItem onClick={handleMenuPlay}>
                     <ListItemIcon>
-                        <PlayArrowIcon fontSize='small' sx={{ color: 'grey.400' }} />
+                        <PlayArrowIcon />
                     </ListItemIcon>
                     <ListItemText>Play</ListItemText>
                 </MenuItem>
                 <MenuItem onClick={handleMenuRemove} sx={{ color: 'error.main' }}>
                     <ListItemIcon>
-                        <DeleteIcon fontSize='small' sx={{ color: 'error.main' }} />
+                        <DeleteIcon />
                     </ListItemIcon>
                     <ListItemText>Remove</ListItemText>
                 </MenuItem>
