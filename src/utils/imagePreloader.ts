@@ -50,13 +50,24 @@ class ImagePreloader {
     async preloadImage(url?: string): Promise<CacheStatus> {
       if (!url) return 'error';
 
+      // Return cached result if already determined
       if (this.cacheStatus.has(url)) {
-        return this.cacheStatus.get(url)!;
+        const status = this.cacheStatus.get(url)!;
+        // If it's still loading, return the pending promise instead
+        if (status === 'loading' && this.imageCache.has(url)) {
+          return this.imageCache.get(url)!;
+        }
+        return status;
       }
 
+      // Return pending promise if already loading
       if (this.imageCache.has(url)) {
         return this.imageCache.get(url)!;
       }
+
+      // Set status to loading BEFORE creating the promise chain
+      // This ensures getCacheStatus() returns 'loading' immediately
+      this.cacheStatus.set(url, 'loading');
 
       const loadPromise = this.triggerCacheRequest(url);
       this.imageCache.set(url, loadPromise);
@@ -74,18 +85,15 @@ class ImagePreloader {
     }
 
     private async triggerCacheRequest(url: string): Promise<CacheStatus> {
-      this.cacheStatus.set(url, 'loading');
-
+      // Status is already set to 'loading' in preloadImage()
+      // This function just performs the actual fetch
       try {
         const response = await fetch(url, { mode: 'no-cors' });
         if (response.type === 'opaque' || response.ok) {
-          this.cacheStatus.set(url, 'cached');
           return 'cached';
         }
-        this.cacheStatus.set(url, 'error');
         return 'error';
       } catch (error) {
-        this.cacheStatus.set(url, 'error');
         return 'error';
       }
     }

@@ -284,26 +284,37 @@ class HtmlAudioPlayer {
 
             return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(() => {
                 return new Promise((resolve, reject) => {
-                    requireHlsPlayer(async () => {
-                        const includeCorsCredentials = await getIncludeCorsCredentials();
+                    try {
+                        requireHlsPlayer(async () => {
+                            try {
+                                const includeCorsCredentials = await getIncludeCorsCredentials();
 
-                        const hls = new Hls({
-                            manifestLoadingTimeOut: 20000,
-                            xhrSetup: function (xhr) {
-                                xhr.withCredentials = includeCorsCredentials;
+                                const hls = new Hls({
+                                    manifestLoadingTimeOut: 20000,
+                                    xhrSetup: function (xhr) {
+                                        xhr.withCredentials = includeCorsCredentials;
+                                    }
+                                });
+
+                                // Bind error handler BEFORE loading source
+                                htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
+
+                                hls.loadSource(val);
+                                hls.attachMedia(elem);
+
+                                self._hlsPlayer = hls;
+                                self._currentSrc = val;
+                            } catch (error) {
+                                console.error('Error setting up HLS player:', error);
+                                reject(error);
                             }
                         });
-                        hls.loadSource(val);
-                        hls.attachMedia(elem);
-
-                        htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
-
-                        self._hlsPlayer = hls;
-
-                        self._currentSrc = val;
-                    });
+                    } catch (error) {
+                        console.error('Error in HLS setup:', error);
+                        reject(error);
+                    }
                 });
-            }, async () => {
+            }, async (error) => {
                 elem.autoplay = true;
 
                 const includeCorsCredentials = await getIncludeCorsCredentials();

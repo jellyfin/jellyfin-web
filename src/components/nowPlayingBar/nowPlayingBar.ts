@@ -148,21 +148,31 @@ function onSlideDownComplete(): void {
 }
 
 function slideDown(elem: HTMLElement): void {
-    // trigger reflow
-    void elem.offsetWidth;
+    try {
+        if (!elem) {
+            console.warn('[nowPlayingBar] slideDown called with null element');
+            return;
+        }
 
-    elem.classList.add('nowPlayingBar-hidden');
+        // trigger reflow
+        void elem.offsetWidth;
 
-    dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
-        once: true
-    });
+        elem.classList.add('nowPlayingBar-hidden');
 
-    if (currentPlayer?.isLocalPlayer) {
-        destroyWaveSurferInstance().then(legacy => {
-            // When opening the same song, preserve the player legacy
-            waveSurferInitialization('#barSurfer', legacy, currentPlayer.duration());
-});
+        dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
+            once: true
+        });
 
+        if (currentPlayer?.isLocalPlayer) {
+            destroyWaveSurferInstance().then(legacy => {
+                // When opening the same song, preserve the player legacy
+                waveSurferInitialization('#barSurfer', legacy, currentPlayer.duration());
+            }).catch(error => {
+                console.error('[nowPlayingBar] WaveSurfer initialization failed:', error);
+            });
+        }
+    } catch (error) {
+        console.error('[nowPlayingBar] Error in slideDown:', error);
     }
 }
 
@@ -194,23 +204,26 @@ export function onPlayPauseClick(): void {
 }
 
 export function bindEvents(elem: HTMLElement): void {
-    currentTimeElement = elem.querySelector('.nowPlayingBarCurrentTime') as HTMLElement;
-    nowPlayingImageElement = elem.querySelector('.nowPlayingImage') as HTMLImageElement;
-    nowPlayingTextElement = elem.querySelector('.nowPlayingBarText') as HTMLElement;
-    nowPlayingUserData = elem.querySelector('.nowPlayingBarUserDataButtons') as any;
-    positionSlider = elem.querySelector('.nowPlayingBarPositionSlider') as HTMLInputElement;
-    muteButton = elem.querySelector('.muteButton') as HTMLElement;
-    playPauseButtons = elem.querySelectorAll('.playPauseButton') as NodeListOf<HTMLElement>;
-    toggleRepeatButton = elem.querySelector('.toggleRepeatButton') as HTMLElement;
-    volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider') as HTMLInputElement;
-    volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer') as HTMLElement;
-    lyricButton = elem.querySelector('.openLyricsButton') as HTMLElement;
+    try {
+        currentTimeElement = elem.querySelector('.nowPlayingBarCurrentTime') as HTMLElement;
+        nowPlayingImageElement = elem.querySelector('.nowPlayingImage') as HTMLImageElement;
+        nowPlayingTextElement = elem.querySelector('.nowPlayingBarText') as HTMLElement;
+        nowPlayingUserData = elem.querySelector('.nowPlayingBarUserDataButtons') as any;
+        positionSlider = elem.querySelector('.nowPlayingBarPositionSlider') as HTMLInputElement;
+        muteButton = elem.querySelector('.muteButton') as HTMLElement;
+        playPauseButtons = elem.querySelectorAll('.playPauseButton') as NodeListOf<HTMLElement>;
+        toggleRepeatButton = elem.querySelector('.toggleRepeatButton') as HTMLElement;
+        volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider') as HTMLInputElement;
+        volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer') as HTMLElement;
+        lyricButton = elem.querySelector('.openLyricsButton') as HTMLElement;
 
-    muteButton.addEventListener('click', function () {
-        if (currentPlayer) {
-            playbackManager.toggleMute(currentPlayer);
+        if (muteButton) {
+            muteButton.addEventListener('click', function () {
+                if (currentPlayer) {
+                    playbackManager.toggleMute(currentPlayer);
+                }
+            });
         }
-    });
 
     elem.querySelector('.stopButton')?.addEventListener('click', function () {
         if (currentPlayer) {
@@ -218,9 +231,11 @@ export function bindEvents(elem: HTMLElement): void {
         }
     });
 
-    playPauseButtons.forEach((button) => {
-        button.addEventListener('click', onPlayPauseClick);
-    });
+    if (playPauseButtons) {
+        playPauseButtons.forEach((button) => {
+            button.addEventListener('click', onPlayPauseClick);
+        });
+    }
 
     elem.querySelector('.nextTrackButton')?.addEventListener('click', function () {
         if (currentPlayer) {
@@ -258,118 +273,140 @@ export function bindEvents(elem: HTMLElement): void {
         }
     });
 
-    toggleAirPlayButton = elem.querySelector('.btnAirPlay') as HTMLElement;
-    toggleAirPlayButton.addEventListener('click', function () {
-        if (currentPlayer) {
-            // AirPlay functionality would be implemented here
-            console.log('AirPlay toggle requested');
-        }
-    });
-
-    elem.querySelector('.btnShuffleQueue')?.addEventListener('click', function () {
-        if (currentPlayer) {
-            playbackManager.toggleQueueShuffleMode();
-        }
-    });
-
-    lyricButton.addEventListener('click', function() {
-        if (isLyricPageActive) {
-            appRouter.back();
-        } else {
-            appRouter.show('lyrics');
-        }
-    });
-
-    toggleRepeatButton.addEventListener('click', function () {
-        switch (playbackManager.getRepeatMode()) {
-            case 'RepeatAll':
-                playbackManager.setRepeatMode('RepeatOne');
-                break;
-            case 'RepeatOne':
-                playbackManager.setRepeatMode('RepeatNone');
-                break;
-            case 'RepeatNone':
-                playbackManager.setRepeatMode('RepeatAll');
-        }
-    });
-
-    toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons') as HTMLElement;
-
-    volumeSliderContainer.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
-
-    volumeSlider.addEventListener('input', (e) => {
-        if (currentPlayer) {
-            currentPlayer.setVolume((e.target as HTMLInputElement).value);
-        }
-    });
-
-    positionSlider.addEventListener('change', function () {
-        if (currentPlayer) {
-            const newPercent = parseFloat(this.value);
-
-            playbackManager.seekPercent(newPercent);
-        }
-    });
-
-    (positionSlider as any).getBubbleText = function (value: any) {
-        const state = lastPlayerState;
-
-        if (!state?.NowPlayingItem || !currentRuntimeTicks) {
-            return '--:--';
+        toggleAirPlayButton = elem.querySelector('.btnAirPlay') as HTMLElement;
+        if (toggleAirPlayButton) {
+            toggleAirPlayButton.addEventListener('click', function () {
+                if (currentPlayer) {
+                    // AirPlay functionality would be implemented here
+                    console.log('AirPlay toggle requested');
+                }
+            });
         }
 
-        let ticks = currentRuntimeTicks;
-        ticks /= 100;
-        ticks *= value;
+        elem.querySelector('.btnShuffleQueue')?.addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.toggleQueueShuffleMode();
+            }
+        });
 
-        return datetime.getDisplayRunningTime(ticks);
-    };
-
-    elem.addEventListener('click', function (e) {
-        if (!dom.parentWithTag(e.target as HTMLElement, ['BUTTON', 'INPUT'])) {
-            showRemoteControl();
+        if (lyricButton) {
+            lyricButton.addEventListener('click', function() {
+                if (isLyricPageActive) {
+                    appRouter.back();
+                } else {
+                    appRouter.show('lyrics');
+                }
+            });
         }
-    });
+
+        if (toggleRepeatButton) {
+            toggleRepeatButton.addEventListener('click', function () {
+                switch (playbackManager.getRepeatMode()) {
+                    case 'RepeatAll':
+                        playbackManager.setRepeatMode('RepeatOne');
+                        break;
+                    case 'RepeatOne':
+                        playbackManager.setRepeatMode('RepeatNone');
+                        break;
+                    case 'RepeatNone':
+                        playbackManager.setRepeatMode('RepeatAll');
+                }
+            });
+
+            toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons') as HTMLElement;
+        }
+
+        if (volumeSliderContainer) {
+            volumeSliderContainer.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
+        }
+
+        if (volumeSlider) {
+            volumeSlider.addEventListener('input', (e) => {
+                if (currentPlayer) {
+                    currentPlayer.setVolume((e.target as HTMLInputElement).value);
+                }
+            });
+        }
+
+        if (positionSlider) {
+            positionSlider.addEventListener('change', function () {
+                if (currentPlayer) {
+                    const newPercent = parseFloat(this.value);
+
+                    playbackManager.seekPercent(newPercent);
+                }
+            });
+
+            (positionSlider as any).getBubbleText = function (value: any) {
+                const state = lastPlayerState;
+
+                if (!state?.NowPlayingItem || !currentRuntimeTicks) {
+                    return '--:--';
+                }
+
+                let ticks = currentRuntimeTicks;
+                ticks /= 100;
+                ticks *= value;
+
+                return datetime.getDisplayRunningTime(ticks);
+            };
+        }
+
+        elem.addEventListener('click', function (e) {
+            if (!dom.parentWithTag(e.target as HTMLElement, ['BUTTON', 'INPUT'])) {
+                showRemoteControl();
+            }
+        });
+    } catch (error) {
+        console.error('[nowPlayingBar] Error in bindEvents:', error);
+    }
 }
 
 function showRemoteControl(): void {
 }
 
 function getNowPlayingBar(): HTMLElement | null {
-    if (nowPlayingBarElement) {
-        return nowPlayingBarElement;
-    }
-
-    nowPlayingBarElement = document.body.querySelector('.nowPlayingBar');
-
-    if (nowPlayingBarElement) {
-        return nowPlayingBarElement;
-    }
-
-    document.body.insertAdjacentHTML('beforeend', getNowPlayingBarHtml());
-    if ((window as any).customElements?.upgradeSubtree) {
-        (window as any).customElements.upgradeSubtree(document.body);
-    }
-
-    nowPlayingBarElement = document.body.querySelector('.nowPlayingBar');
-
-    if (nowPlayingBarElement) {
-        if (layoutManager.mobile) {
-            nowPlayingBarElement.querySelector('.btnShuffleQueue')?.classList.add('hide');
-            nowPlayingBarElement.querySelector('.nowPlayingBarCenter')?.classList.add('hide');
+    try {
+        if (nowPlayingBarElement) {
+            return nowPlayingBarElement;
         }
 
-        if (browser.safari) {
-            // Not handled well here. The wrong elements receive events, bar doesn't update quickly enough, etc.
-            nowPlayingBarElement.classList.add('noMediaProgress');
+        nowPlayingBarElement = document.body.querySelector('.nowPlayingBar');
+
+        if (nowPlayingBarElement) {
+            return nowPlayingBarElement;
         }
 
-        itemShortcuts.on(nowPlayingBarElement);
+        document.body.insertAdjacentHTML('beforeend', getNowPlayingBarHtml());
+        if ((window as any).customElements?.upgradeSubtree) {
+            (window as any).customElements.upgradeSubtree(document.body);
+        }
 
-        bindEvents(nowPlayingBarElement);
+        nowPlayingBarElement = document.body.querySelector('.nowPlayingBar');
+
+        if (nowPlayingBarElement) {
+            if (layoutManager.mobile) {
+                nowPlayingBarElement.querySelector('.btnShuffleQueue')?.classList.add('hide');
+                nowPlayingBarElement.querySelector('.nowPlayingBarCenter')?.classList.add('hide');
+            }
+
+            if (browser.safari) {
+                // Not handled well here. The wrong elements receive events, bar doesn't update quickly enough, etc.
+                nowPlayingBarElement.classList.add('noMediaProgress');
+            }
+
+            itemShortcuts.on(nowPlayingBarElement);
+
+            bindEvents(nowPlayingBarElement);
+        } else {
+            console.warn('[nowPlayingBar] Failed to create or find nowPlayingBar element');
+        }
+
+        return nowPlayingBarElement;
+    } catch (error) {
+        console.error('[nowPlayingBar] Error in getNowPlayingBar:', error);
+        return null;
     }
-
-    return nowPlayingBarElement;
 }
 
 export function updatePlayPauseState(isPaused: boolean): void {

@@ -217,8 +217,19 @@ export class SyncManager {
         const targetInterval = this.activeElementCount > 0 ? this.activeInterval : this.idleInterval;
         if (targetInterval !== this.currentInterval) {
             this.currentInterval = targetInterval;
+            // Restart interval with new timing
+            // To minimize the gap between clearing and setting a new interval,
+            // we do both atomically without additional async operations
             clearInterval(this.syncInterval);
+            // Schedule next sync immediately with the new interval
             this.syncInterval = setInterval(() => this.checkSync(), this.currentInterval);
+            // Run checkSync immediately to ensure we don't lose sync during the interval change
+            // Use setImmediate (if available) or setTimeout(0) to run after current frame
+            if (typeof setImmediate !== 'undefined') {
+                setImmediate(() => this.checkSync());
+            } else {
+                setTimeout(() => this.checkSync(), 0);
+            }
         }
     }
 

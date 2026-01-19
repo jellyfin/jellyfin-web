@@ -376,13 +376,18 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                     break;
                 default:
 
-                    console.debug('Cannot recover from hls error - destroy and trigger error');
+                    console.debug('Cannot recover from hls error - destroy and trigger error', {
+                        type: data.type,
+                        details: data.details,
+                        error: data.error
+                    });
                     // cannot recover
                     // Trigger failure differently depending on whether this is prior to start of playback, or after
                     hls.destroy();
 
                     if (reject) {
-                        reject();
+                        const error = new Error(`Fatal HLS error: ${data.type} - ${data.details || 'unknown'}`);
+                        reject(error);
                         reject = null;
                     } else {
                         onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);

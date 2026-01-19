@@ -111,6 +111,19 @@ class PlayQueueManager {
     }
 
     setCurrentPlaylistItem(playlistItemId: string): void {
+        // Validate input
+        if (!playlistItemId || typeof playlistItemId !== 'string') {
+            console.warn('[PlayQueueManager] Invalid playlistItemId provided:', playlistItemId);
+            return;
+        }
+
+        // Verify item exists in playlist
+        const index = findPlaylistIndex(playlistItemId, this._playlist);
+        if (index === -1) {
+            console.warn('[PlayQueueManager] Playlist item not found:', playlistItemId);
+            return;
+        }
+
         this._currentPlaylistItemId = playlistItemId;
     }
 

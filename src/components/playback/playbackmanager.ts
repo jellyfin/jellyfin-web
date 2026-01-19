@@ -724,6 +724,7 @@ export interface Player {
     play(options: any): Promise<any>;
     pause(): void;
     stop(): void;
+    endSession?(): void;
     nextTrack(): void;
     previousTrack(): void;
     setVolume(volume: number): void;
@@ -1482,6 +1483,15 @@ export class PlaybackManager {
             targetPlayer.unpause();
         } else {
             this.play();
+        }
+    }
+
+    playPause(player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.isPlaying?.()) {
+            this.pause(targetPlayer);
+        } else {
+            this.unpause(targetPlayer);
         }
     }
 
