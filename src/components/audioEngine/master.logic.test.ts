@@ -48,6 +48,7 @@ vi.mock('./crossfader.logic', () => ({
 const createMockAudioParam = () => ({
     value: 1,
     setValueAtTime: vi.fn(),
+    setTargetAtTime: vi.fn(),
     linearRampToValueAtTime: vi.fn(),
     exponentialRampToValueAtTime: vi.fn(),
     cancelScheduledValues: vi.fn()

@@ -63,7 +63,7 @@ export const useGetItems = (parametersOptions: ItemsApiGetItemsRequest) => {
         ],
         queryFn: ({ signal }) =>
             fetchGetItems(currentApi, parametersOptions, { signal }),
-        gcTime: parametersOptions.sortBy?.includes(ItemSortBy.Random) ? 0 : undefined,
+        staleTime: parametersOptions.sortBy?.includes(ItemSortBy.Random) ? 300000 : 0,
         enabled: !!currentApi.api && !!currentApi.user?.Id
     });
 };
@@ -367,6 +367,7 @@ export const useGetItemsViewByType = (
                 libraryViewSettings,
                 { signal }
             ),
+        staleTime: libraryViewSettings.SortBy === ItemSortBy.Random ? 300000 : 0,
         refetchOnWindowFocus: false,
         placeholderData : keepPreviousData,
         enabled: !!currentApi.api && !!currentApi.user?.Id

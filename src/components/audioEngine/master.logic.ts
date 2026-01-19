@@ -4,6 +4,8 @@ import { setXDuration, xDuration } from './crossfader.logic';
 import audioErrorHandler, { AudioErrorType, AudioErrorSeverity } from './audioErrorHandler';
 import { safeConnect, dBToLinear } from './audioUtils';
 
+import { useAudioStore } from '../../store/audioStore';
+
 type MasterAudioTypes = {
     mixerNode?: GainNode;
     buffered?: DelayNode
@@ -41,15 +43,39 @@ function applyDbReduction(originalVolume: number, reductionDb: number) {
     return newLinear * 100; // Convert back to a scale of 0 to 100
 }
 
+const _masterAudioState = {
+    mixerNode: undefined as GainNode | undefined,
+    audioContext: undefined as AudioContext | undefined,
+    buffered: undefined as DelayNode | undefined,
+};
+
 /**
  * Master audio output settings.
+ * Proxy object backed by Zustand store for reactive state.
  * @type {Object}
  */
-export const masterAudioOutput: MasterAudioTypes = {
-    makeupGain: 1,
-    muted: false,
-    volume: 100
-};
+export const masterAudioOutput = {
+    get mixerNode() { return _masterAudioState.mixerNode; },
+    set mixerNode(v: GainNode | undefined) { _masterAudioState.mixerNode = v; },
+
+    get audioContext() { return _masterAudioState.audioContext; },
+    set audioContext(v: AudioContext | undefined) {
+        _masterAudioState.audioContext = v;
+        useAudioStore.getState().setIsReady(!!v);
+    },
+
+    get buffered() { return _masterAudioState.buffered; },
+    set buffered(v: DelayNode | undefined) { _masterAudioState.buffered = v; },
+
+    get volume() { return useAudioStore.getState().volume; },
+    set volume(v: number) { useAudioStore.getState().setVolume(v); },
+
+    get muted() { return useAudioStore.getState().muted; },
+    set muted(v: boolean) { useAudioStore.getState().setMuted(v); },
+
+    get makeupGain() { return useAudioStore.getState().makeupGain; },
+    set makeupGain(v: number) { useAudioStore.getState().setMakeupGain(v); }
+} as MasterAudioTypes;
 
 // Load AudioWorklets for audio processing
 async function loadAudioWorklets(audioContext: AudioContext) {
@@ -133,6 +159,25 @@ export function initializeMasterAudio(unbind: () => void) {
     setVisualizerSettings(getSavedVisualizerSettings());
 
     unbindCallback = unbind;
+
+    // Subscribe to store changes to update audio engine
+    useAudioStore.subscribe(
+        (state) => ({ volume: state.volume, muted: state.muted, makeupGain: state.makeupGain }),
+        ({ volume, muted, makeupGain }) => {
+            if (!masterAudioOutput.mixerNode || !masterAudioOutput.audioContext) return;
+            
+            const targetVolume = muted ? 0 : volume;
+            const linearVolume = (targetVolume / 100) * makeupGain;
+            
+            // Smooth transition to prevent clicks
+            masterAudioOutput.mixerNode.gain.cancelScheduledValues(masterAudioOutput.audioContext.currentTime);
+            masterAudioOutput.mixerNode.gain.setTargetAtTime(
+                linearVolume, 
+                masterAudioOutput.audioContext.currentTime, 
+                0.05 // 50ms time constant
+            );
+        }
+    );
 
     const webAudioSupported = ('AudioContext' in window || 'webkitAudioContext' in window);
 

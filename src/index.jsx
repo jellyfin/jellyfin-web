@@ -291,7 +291,9 @@ async function loadPlugins() {
 
 function loadPlatformFeatures() {
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-        import('./components/nowPlayingBar/nowPlayingBar');
+        import('./components/nowPlayingBar/mountNowPlayingBar').then(({ mountNowPlayingBar }) => {
+            mountNowPlayingBar(document.body);
+        });
     }
 
     if (supportsFeature(AppFeature.RemoteControl)) {

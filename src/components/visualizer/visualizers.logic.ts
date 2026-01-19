@@ -73,6 +73,10 @@ const defaultVisualizerSettings = {
         presetInterval: 60, // seconds, 0 = manual only
         transitionSpeed: 2.7 // seconds
     },
+    threeJs: {
+        enabled: false,
+        renderer: 'sphere' // 'sphere' | 'particles'
+    },
     sitback: {
         trackInfoDuration: 5, // seconds
         autoHideTimer: 5 // seconds (mobile/TV only)
@@ -97,6 +101,7 @@ export function setVisualizerSettings (savedSettings: any) {
     if (!savedSettings || typeof savedSettings !== 'object') {
         const defaults = getDefaultVisualizerSettings();
         visualizerSettings.butterchurn = defaults.butterchurn;
+        visualizerSettings.threeJs = defaults.threeJs;
         visualizerSettings.frequencyAnalyzer = defaults.frequencyAnalyzer;
         visualizerSettings.waveSurfer = defaults.waveSurfer;
         visualizerSettings.sitback = defaults.sitback;
@@ -108,6 +113,7 @@ export function setVisualizerSettings (savedSettings: any) {
 
     // Use deepMerge to properly handle nested objects like colors.gradient
     visualizerSettings.butterchurn = deepMerge(defaultVisualizerSettings.butterchurn, savedSettings?.butterchurn);
+    visualizerSettings.threeJs = deepMerge(defaultVisualizerSettings.threeJs, savedSettings?.threeJs);
     visualizerSettings.frequencyAnalyzer = deepMerge(defaultVisualizerSettings.frequencyAnalyzer, savedSettings?.frequencyAnalyzer);
     visualizerSettings.waveSurfer = deepMerge(defaultVisualizerSettings.waveSurfer, savedSettings?.waveSurfer);
     visualizerSettings.sitback = deepMerge(defaultVisualizerSettings.sitback, legacySitback);
@@ -123,6 +129,11 @@ export function getVisualizerInputValues(context: any) {
     const butterchurnCheckbox = context.querySelector('.chkEnableButterchurn');
     if (butterchurnCheckbox) {
         visualizerSettings.butterchurn.enabled = butterchurnCheckbox.checked;
+    }
+
+    const threeJsCheckbox = context.querySelector('.chkEnableThreeJs');
+    if (threeJsCheckbox) {
+        visualizerSettings.threeJs.enabled = threeJsCheckbox.checked;
     }
 
     const presetIntervalSlider = context.querySelector('#sliderButterchurnPresetInterval');

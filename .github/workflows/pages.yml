@@ -32,11 +32,9 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=4096
           # If served at https://<user>.github.io/<repo>/
-          PUBLIC_URL: /${{ github.event.repository.name }}/
-          # If you use Vite instead, swap for:
-          # VITE_BASE: /${{ github.event.repository.name }}/
+          VITE_BASE: /${{ github.event.repository.name }}/
         run: |
-          if npm run | grep -q "build:production"; then npm run build:production; else npm run build; fi
+          npm run build:vite
           cp dist/index.html dist/404.html
           touch dist/.nojekyll
 

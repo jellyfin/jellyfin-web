@@ -344,6 +344,7 @@ function loadForm(context: HTMLElement, user: User, userSettings: any, systemInf
     setVisualizerSettings(visualizerConfig);
 
     (context.querySelector('.chkEnableButterchurn') as HTMLInputElement).checked = !!visualizerSettings?.butterchurn?.enabled;
+    (context.querySelector('.chkEnableThreeJs') as HTMLInputElement).checked = !!visualizerSettings?.threeJs?.enabled;
     (context.querySelector('#sliderButterchurnPresetInterval') as HTMLInputElement).value = String(visualizerSettings?.butterchurn?.presetInterval || 60);
     (context.querySelector('.chkEnableFrequencyAnalyzer') as HTMLInputElement).checked = !!visualizerSettings?.frequencyAnalyzer?.enabled;
     (context.querySelector('.chkEnableWavesurfer') as HTMLInputElement).checked = !!visualizerSettings?.waveSurfer?.enabled;

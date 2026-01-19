@@ -27,6 +27,7 @@ import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
 import { bindSkipSegment } from './skipsegment';
+import { useAudioStore } from '../../store/audioStore';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -774,6 +775,62 @@ export class PlaybackManager {
     constructor() {
         this._playQueueManager = new PlayQueueManager();
         this._skipSegment = bindSkipSegment(this);
+        this.bindToAudioStore();
+    }
+
+    private bindToAudioStore() {
+        const updateCurrentTrack = (player: Player) => {
+            if (!player) return;
+            const item = this.currentItem(player);
+            if (!item) return;
+
+            // Only update if it's an audio track
+            if (item.MediaType !== 'Audio') return;
+
+            useAudioStore.getState().setCurrentTrack({
+                id: item.Id,
+                name: item.Name,
+                artist: item.Artists ? item.Artists[0] : (item.AlbumArtist || ''),
+                imageUrl: (item.ImageTags && item.ImageTags.Primary) ? 
+                    ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.Id, { type: 'Primary', maxWidth: 400 }) : 
+                    undefined,
+                runtimeTicks: item.RunTimeTicks
+            });
+            
+            useAudioStore.getState().setDuration(item.RunTimeTicks ? item.RunTimeTicks / 10000000 : 0);
+        };
+
+        Events.on(this, 'playbackstart', (e: any, player: Player) => {
+            updateCurrentTrack(player);
+            useAudioStore.getState().setIsPlaying(true);
+        });
+
+        Events.on(this, 'playbackstop', () => {
+            useAudioStore.getState().setIsPlaying(false);
+            useAudioStore.getState().setCurrentTrack(null);
+            useAudioStore.getState().setCurrentTime(0);
+        });
+
+        Events.on(this, 'pause', () => {
+            useAudioStore.getState().setIsPlaying(false);
+        });
+
+        Events.on(this, 'unpause', () => {
+            useAudioStore.getState().setIsPlaying(true);
+        });
+
+        Events.on(this, 'timeupdate', (e: any, player: Player) => {
+             // We can get time update from the event or the player
+             const time = player ? (player.currentTime() as number) / 1000 : 0;
+             useAudioStore.getState().setCurrentTime(time);
+        });
+        
+        Events.on(this, 'playerchange', (e: any, newPlayer: Player) => {
+             if (newPlayer) {
+                 updateCurrentTrack(newPlayer);
+                 useAudioStore.getState().setIsPlaying(!newPlayer.paused());
+             }
+        });
     }
 
     getSupportedCommands(player?: Player): string[] {

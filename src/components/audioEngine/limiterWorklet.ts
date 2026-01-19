@@ -1,24 +1,50 @@
-// limiterWorklet.ts - AudioWorkletProcessor for limiting
-
-interface AudioWorkletParameters {
-    threshold: Float32Array;
-    ratio: Float32Array;
-    attack: Float32Array;
-    release: Float32Array;
-}
-
-interface AudioWorkletInputs extends Array<Float32Array[]> {}
-interface AudioWorkletOutputs extends Array<Float32Array[]> {}
+// limiterWorklet.ts - Wasm-powered AudioWorkletProcessor for high-performance limiting
 
 class LimiterProcessor extends AudioWorkletProcessor {
-    private threshold: number = 0.8; // dB
+    private threshold: number = 0.8;
     private ratio: number = 10;
-    private attack: number = 0.003; // seconds
-    private release: number = 0.25; // seconds
+    private attack: number = 0.003;
+    private release: number = 0.25;
     private envelope: number = 0;
+
+    // Wasm state
+    private wasmInstance: WebAssembly.Instance | null = null;
+    private wasmMemory: WebAssembly.Memory | null = null;
+    private inputPtr: number = 0;
+    private outputPtr: number = 0;
+    private bufferSize: number = 0;
+    private wasmReady: boolean = false;
 
     constructor() {
         super();
+        void this.loadWasm();
+    }
+
+    private async loadWasm() {
+        try {
+            // Note: In a real environment, the URL might need to be resolved correctly.
+            // Since this runs in a Worklet, we fetch from the origin assets.
+            const response = await fetch('/assets/audio/limiter.wasm');
+            if (!response.ok) throw new Error('Failed to fetch Wasm');
+
+            const bytes = await response.arrayBuffer();
+            const { instance } = await WebAssembly.instantiate(bytes);
+
+            this.wasmInstance = instance;
+            this.wasmMemory = (instance.exports.memory as WebAssembly.Memory);
+
+            // Standard AudioWorklet block size is 128 samples
+            this.bufferSize = 128;
+
+            // Allocate memory in Wasm for input and output buffers
+            const allocate = this.wasmInstance.exports.allocate as (size: number) => number;
+            this.inputPtr = allocate(this.bufferSize);
+            this.outputPtr = allocate(this.bufferSize);
+
+            this.wasmReady = true;
+        } catch {
+            // Silently fall back to JS
+        }
     }
 
     static get parameterDescriptors(): AudioParamDescriptor[] {
@@ -30,21 +56,7 @@ class LimiterProcessor extends AudioWorkletProcessor {
         ];
     }
 
-    process(
-        inputs: Float32Array[][],
-        outputs: Float32Array[][],
-        parameters: Record<string, Float32Array>
-    ): boolean {
-        const input = inputs[0];
-        const output = outputs[0];
-
-        if (!input || !output) return true;
-
-        const threshold = parameters.threshold[0] ?? this.threshold;
-        const ratio = parameters.ratio[0] ?? this.ratio;
-        const attack = parameters.attack[0] ?? this.attack;
-        const release = parameters.release[0] ?? this.release;
-
+    private processJsFallback(input: Float32Array[], output: Float32Array[], threshold: number, ratio: number, attack: number, release: number) {
         for (let channel = 0; channel < input.length; ++channel) {
             const inputChannel = input[channel];
             const outputChannel = output[channel];
@@ -53,25 +65,77 @@ class LimiterProcessor extends AudioWorkletProcessor {
                 const sample = inputChannel[i];
                 const absSample = Math.abs(sample);
 
-                // Simple envelope follower
                 if (absSample > this.envelope) {
                     this.envelope += (absSample - this.envelope) * attack;
                 } else {
                     this.envelope += (absSample - this.envelope) * release;
                 }
 
-                // Limiting - apply gain reduction when envelope exceeds threshold
-                // Formula: gain = (threshold/envelope)^(1 - 1/ratio)
-                // This ensures output stays closer to threshold as ratio increases
                 let gain = 1;
                 if (this.envelope > threshold) {
-                    // Equivalent to (threshold/envelope)^(1 - 1/ratio)
                     const exponent = 1 - (1 / ratio);
                     gain = Math.pow(threshold / this.envelope, exponent);
                 }
 
                 outputChannel[i] = sample * gain;
             }
+        }
+    }
+
+    process(
+        inputs: Float32Array[][],
+        outputs: Float32Array[][],
+        parameters: Record<string, Float32Array>
+    ): boolean {
+        const input = inputs[0];
+        const output = outputs[0];
+
+        if (!input || !output || input.length === 0) return true;
+
+        const threshold = parameters.threshold[0] ?? this.threshold;
+        const ratio = parameters.ratio[0] ?? this.ratio;
+        const attack = parameters.attack[0] ?? this.attack;
+        const release = parameters.release[0] ?? this.release;
+
+        // Use Wasm if ready
+        if (this.wasmReady && this.wasmInstance && this.wasmMemory) {
+            const processFn = this.wasmInstance.exports.process_limiter as (
+                inPtr: number,
+                outPtr: number,
+                len: number,
+                t: number,
+                r: number,
+                a: number,
+                rel: number,
+                env: number
+            ) => number;
+            const memoryBuffer = new Float32Array(this.wasmMemory.buffer);
+
+            for (let channel = 0; channel < input.length; ++channel) {
+                const inputChannel = input[channel];
+                const outputChannel = output[channel];
+
+                // Copy JS input to Wasm memory
+                memoryBuffer.set(inputChannel, this.inputPtr / 4);
+
+                // Process in Wasm
+                this.envelope = processFn(
+                    this.inputPtr,
+                    this.outputPtr,
+                    inputChannel.length,
+                    threshold,
+                    ratio,
+                    attack,
+                    release,
+                    this.envelope
+                );
+
+                // Copy Wasm output back to JS
+                const result = memoryBuffer.subarray(this.outputPtr / 4, (this.outputPtr / 4) + inputChannel.length);
+                outputChannel.set(result);
+            }
+        } else {
+            this.processJsFallback(input, output, threshold, ratio, attack, release);
         }
 
         return true;

@@ -19,6 +19,13 @@ const FrequencyAnalyzer = lazy(() =>
     })
 );
 
+const ThreeDimensionVisualizer = lazy(() =>
+    import('./ThreeDimensionVisualizer').catch(error => {
+        console.error('[Visualizers] Failed to load 3D Visualizer:', error);
+        return { default: () => <div>3D Visualizer unavailable</div> };
+    })
+);
+
 // Loading fallback component
 const VisualizerLoading = () => (
     <div
@@ -68,6 +75,7 @@ const Visualizers: React.FC = () => {
         const settingsInterval = setInterval(() => {
             if (settingsRef.current !== visualizerSettings
                 || settingsRef.current.butterchurn?.enabled !== visualizerSettings.butterchurn?.enabled
+                || settingsRef.current.threeJs?.enabled !== visualizerSettings.threeJs?.enabled
                 || settingsRef.current.frequencyAnalyzer?.enabled !== visualizerSettings.frequencyAnalyzer?.enabled) {
                 settingsRef.current = visualizerSettings;
                 forceUpdate(prev => prev + 1);
@@ -88,12 +96,13 @@ const Visualizers: React.FC = () => {
         return null;
     }
 
-    const { butterchurn, frequencyAnalyzer } = visualizerSettings;
+    const { butterchurn, frequencyAnalyzer, threeJs } = visualizerSettings;
 
     return (
         <Suspense fallback={<VisualizerLoading />}>
             {frequencyAnalyzer.enabled && (<FrequencyAnalyzer />)}
             {butterchurn.enabled && (<ButterchurnVisualizer />)}
+            {threeJs?.enabled && (<ThreeDimensionVisualizer />)}
         </Suspense>
     );
 };
