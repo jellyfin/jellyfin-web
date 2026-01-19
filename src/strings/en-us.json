@@ -304,6 +304,8 @@
     "AreYouStillWatchingSettingTitle": "Ask if user is still watching after several auto plays?",
     "AreYouStillWatchingText": "You've been watching several episodes. Do you want to keep watching?",
     "AreYouStillWatchingSettingDescription": "If user is not active ask if the user is still watching",
+    "LabelAreYouStillWatchingCount": "Auto plays before prompting",
+    "LabelAreYouStillWatchingCountHelp": "Number of consecutive auto plays allowed before asking if you're still watching (default 5).",
     "ButtonKeepWatchingAskLater": "Keep watching and ask me again later",
     "ButtonDontAskAgain": "Don't ask me again",
     "ButtonKeepWatching": "Keep watching",

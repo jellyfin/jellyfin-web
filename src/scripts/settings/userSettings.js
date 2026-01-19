@@ -231,6 +231,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Still Watching Prompt Max Count'.
+     * @param {number|undefined} val - Max number of auto plays before prompting.
+     * @return {number} Max count.
+     */
+    stillWatchingPromptMaxCount(val) {
+        if (val !== undefined) {
+            return this.set('stillWatchingPromptMaxCount', val.toString());
+        }
+
+        return parseInt(this.get('stillWatchingPromptMaxCount', false) || '5', 10);
+    }
+
+    /**
      * Get or set 'Video Remaining/Total Time' state.
      * @param {boolean|undefined} val - Flag to enable 'Video Remaining/Total Time' or undefined.
      * @return {boolean} 'Video Remaining/Total Time' state.
@@ -737,6 +750,7 @@ export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSetti
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
 export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);
 export const enableStillWatchingPrompt = currentSettings.enableStillWatchingPrompt.bind(currentSettings);
+export const stillWatchingPromptMaxCount = currentSettings.stillWatchingPromptMaxCount.bind(currentSettings);
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);
 export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentSettings);
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);

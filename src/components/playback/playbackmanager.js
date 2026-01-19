@@ -303,7 +303,10 @@ function getAudioMaxValues(deviceProfile) {
 }
 
 let startingPlaySession = new Date().getTime();
-const STILL_WATCHING_THRESHOLD = 3;
+
+function stillWatchingThreshold() {
+    return (userSettings.stillWatchingPromptMaxCount && userSettings.stillWatchingPromptMaxCount());
+}
 function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues) {
     const url = 'Audio/' + item.Id + '/universal';
 
@@ -3542,7 +3545,7 @@ export class PlaybackManager {
                             }
                         }
 
-                        if (stillWatchingEnabled && !self.isStillWatchingSuppressed() && self.getAutoPlayCount() >= STILL_WATCHING_THRESHOLD - 1) {
+                        if (stillWatchingEnabled && !self.isStillWatchingSuppressed() && self.getAutoPlayCount() >= stillWatchingThreshold() - 1) {
                             dialog.show({
                                 title: globalize.translate('AreYouStillWatchingTitle'),
                                 text: globalize.translate('AreYouStillWatchingText'),
