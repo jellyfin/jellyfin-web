@@ -1546,15 +1546,15 @@ export class PlaybackManager {
         // Placeholder implementation
     }
 
-    seekMs(ms: number, player?: Player): void {
-        this.seek(ms * 10000, player);
+    async seekMs(ms: number, player?: Player): Promise<void> {
+        await this.seek(ms * 10000, player);
     }
 
-    seekPercent(percent: number, player?: Player): void {
+    async seekPercent(percent: number, player?: Player): Promise<void> {
         const item = this.currentItem(player || this._currentPlayer!);
         if (item && item.RunTimeTicks) {
             const ticks = (percent / 100) * item.RunTimeTicks;
-            this.seek(ticks, player);
+            await this.seek(ticks, player);
         }
     }
 
@@ -1603,10 +1603,27 @@ export class PlaybackManager {
         }
     }
 
-    seek(ticks: number, player?: Player): void {
+    async seek(ticks: number, player?: Player): Promise<void> {
         const targetPlayer = player || this._currentPlayer;
         if (targetPlayer?.setPositionTicks) {
-            targetPlayer.setPositionTicks(ticks);
+            // Brief fade out before seeking to prevent audio artifacts
+            try {
+                const { fadeMixerVolume } = await import('../audioEngine/audioUtils');
+                const { masterAudioOutput } = await import('../audioEngine/master.logic');
+
+                if (masterAudioOutput.mixerNode) {
+                    const currentGain = masterAudioOutput.mixerNode.gain.value;
+                    await fadeMixerVolume(0, 0.05);
+                    targetPlayer.setPositionTicks(ticks);
+                    // Restore gain immediately after seek
+                    await fadeMixerVolume(currentGain, 0.05);
+                } else {
+                    targetPlayer.setPositionTicks(ticks);
+                }
+            } catch (error) {
+                console.warn('[PlaybackManager] Fade failed, seeking without crossfade:', error);
+                targetPlayer.setPositionTicks(ticks);
+            }
         }
     }
 
