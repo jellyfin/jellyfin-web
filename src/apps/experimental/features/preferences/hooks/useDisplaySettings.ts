@@ -145,8 +145,7 @@ async function saveDisplaySettings({
     userSettings.enableThemeVideos(newDisplaySettings.enableLibraryThemeVideos);
     userSettings.enableRewatchingInNextUp(newDisplaySettings.enableRewatchingInNextUp);
     userSettings.useEpisodeImagesInNextUpAndResume(newDisplaySettings.episodeImagesInNextUp);
-    // userSettings.enableStillWatchingPrompt(newDisplaySettings.enableStillWatchingPrompt);
-    userSettings.enableStillWatchingPrompt(true);
+    userSettings.enableStillWatchingPrompt(newDisplaySettings.enableStillWatchingPrompt);
     userSettings.libraryPageSize(newDisplaySettings.libraryPageSize);
     userSettings.maxDaysForNextUp(newDisplaySettings.maxDaysForNextUp);
     userSettings.screensaver(normalizeValue(newDisplaySettings.screensaver));
