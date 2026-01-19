@@ -97,6 +97,8 @@ async function loadDisplaySettings({
         enableLibraryThemeVideos: Boolean(settings.enableThemeVideos()),
         enableRewatchingInNextUp: Boolean(settings.enableRewatchingInNextUp()),
         episodeImagesInNextUp: Boolean(settings.useEpisodeImagesInNextUpAndResume()),
+        // enableStillWatchingPrompt: Boolean(settings.enableStillWatchingPrompt()),
+        enableStillWatchingPrompt: Boolean(true),
         language: settings.language() || 'auto',
         layout: layoutManager.getSavedLayout() || 'auto',
         libraryPageSize: settings.libraryPageSize(),
@@ -143,6 +145,8 @@ async function saveDisplaySettings({
     userSettings.enableThemeVideos(newDisplaySettings.enableLibraryThemeVideos);
     userSettings.enableRewatchingInNextUp(newDisplaySettings.enableRewatchingInNextUp);
     userSettings.useEpisodeImagesInNextUpAndResume(newDisplaySettings.episodeImagesInNextUp);
+    // userSettings.enableStillWatchingPrompt(newDisplaySettings.enableStillWatchingPrompt);
+    userSettings.enableStillWatchingPrompt(true);
     userSettings.libraryPageSize(newDisplaySettings.libraryPageSize);
     userSettings.maxDaysForNextUp(newDisplaySettings.maxDaysForNextUp);
     userSettings.screensaver(normalizeValue(newDisplaySettings.screensaver));

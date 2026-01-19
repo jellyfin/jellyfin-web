@@ -218,6 +218,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Still Watching Prompt' state.
+     * @param {boolean|undefined} val - Flag to enable the "Are you still watching?" prompt.
+     * @return {boolean} 'Still Watching Prompt' state.
+     */
+    enableStillWatchingPrompt(val) {
+        if (val !== undefined) {
+            return this.set('enableStillWatchingPrompt', val.toString());
+        }
+
+        return toBoolean(this.get('enableStillWatchingPrompt', false), true);
+    }
+
+    /**
      * Get or set 'Video Remaining/Total Time' state.
      * @param {boolean|undefined} val - Flag to enable 'Video Remaining/Total Time' or undefined.
      * @return {boolean} 'Video Remaining/Total Time' state.
@@ -723,6 +736,7 @@ export const screensaverTime = currentSettings.screensaverTime.bind(currentSetti
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
 export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);
+export const enableStillWatchingPrompt = currentSettings.enableStillWatchingPrompt.bind(currentSettings);
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);
 export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentSettings);
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);

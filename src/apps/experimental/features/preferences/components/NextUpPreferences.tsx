@@ -78,6 +78,23 @@ export function NextUpPreferences({ onChange, values }: Readonly<NextUpPreferenc
                     {globalize.translate('UseEpisodeImagesInNextUpHelp')}
                 </FormHelperText>
             </FormControl>
+
+            <FormControl fullWidth>
+                <FormControlLabel
+                    aria-describedby='display-settings-still-watching-description'
+                    control={
+                        <Checkbox
+                            checked={Boolean(values.enableStillWatchingPrompt)}
+                            onChange={onChange}
+                        />
+                    }
+                    label={globalize.translate('AreYouStillWatchingTitle')}
+                    name='enableStillWatchingPrompt'
+                />
+                <FormHelperText id='display-settings-still-watching-description'>
+                    {globalize.translate('AreYouStillWatchingText')}
+                </FormHelperText>
+            </FormControl>
         </Stack>
     );
 }
