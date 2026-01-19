@@ -120,7 +120,6 @@ const themeDevPlugin: Plugin = {
 };
 
 const Assets = [
-    "native-promise-only/npo.js",
     "libarchive.js/dist/worker-bundle.js",
     "libarchive.js/dist/libarchive.wasm",
     "@jellyfin/libass-wasm/dist/js/default.woff2",
@@ -360,6 +359,88 @@ export default defineConfig(({ mode }) => {
             escapeHtmlPlugin,
             scssTildePlugin,
             themeDevPlugin,
+            ...(mode === "development" ? [{
+                name: 'error-monitor',
+                configureServer(server) {
+                    let errorLog: Array<{id: number; message: string; stack?: string; timestamp: string; type: string}> = [];
+                    let errorCount = 0;
+
+                    server.middlewares.use('/__error-monitor/api/errors', (req, res) => {
+                        res.setHeader('Content-Type', 'application/json');
+                        res.setHeader('Access-Control-Allow-Origin', '*');
+                        res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+                        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+                        if (req.method === 'OPTIONS') {
+                            res.writeHead(204);
+                            res.end();
+                            return;
+                        }
+
+                        const url = new URL(req.url || '', `http://${req.headers.host}`);
+                        const action = url.searchParams.get('action');
+
+                        if (action === 'clear') {
+                            errorLog = [];
+                            errorCount = 0;
+                            res.writeHead(200);
+                            res.end(JSON.stringify({ success: true }));
+                            return;
+                        }
+
+                        const since = url.searchParams.get('since');
+                        let errors = errorLog;
+                        if (since) {
+                            const sinceTime = parseInt(since);
+                            errors = errorLog.filter(e => new Date(e.timestamp).getTime() > sinceTime);
+                        }
+
+                        res.writeHead(200);
+                        res.end(JSON.stringify({ count: errorCount, errors }));
+                    });
+
+                    server.middlewares.use('/__error-monitor/event', (req, res) => {
+                        res.setHeader('Content-Type', 'text/event-stream');
+                        res.setHeader('Cache-Control', 'no-cache');
+                        res.setHeader('Connection', 'keep-alive');
+                        res.setHeader('Access-Control-Allow-Origin', '*');
+
+                        res.write('retry: 1000\n\n');
+
+                        const sendEvent = (data) => {
+                            res.write(`event: error\ndata: ${JSON.stringify(data)}\n\n`);
+                        };
+
+                        const originalUrl = req.url;
+                        const since = new URL(originalUrl || '', `http://${req.headers.host}`).searchParams.get('since');
+                        const sinceTime = since ? parseInt(since) : 0;
+
+                        const recentErrors = errorLog.filter(e => new Date(e.timestamp).getTime() > sinceTime);
+                        recentErrors.forEach(sendEvent);
+
+                        const captureError = (error, type) => {
+                            const entry = {
+                                id: ++errorCount,
+                                message: error instanceof Error ? error.message : String(error),
+                                stack: error instanceof Error ? error.stack : undefined,
+                                timestamp: new Date().toISOString(),
+                                type
+                            };
+                            errorLog.push(entry);
+                            if (errorLog.length > 1000) errorLog.shift();
+                            sendEvent(entry);
+                        };
+
+                        global.__errorMonitorListeners = global.__errorMonitorListeners || new Set();
+                        const listener = (event) => captureError(event.detail?.error || event.detail?.message, event.detail?.type || 'ERROR');
+                        global.__errorMonitorListeners.add(listener);
+
+                        req.on('close', () => {
+                            global.__errorMonitorListeners?.delete(listener);
+                        });
+                    });
+                }
+            }] : []),
             viteStaticCopy({
                 targets: [
                     { src: "assets", dest: "." },
@@ -394,6 +475,7 @@ export default defineConfig(({ mode }) => {
             globals: true,
             environment: "jsdom",
             restoreMocks: true,
+            setupFiles: ["./src/vitest.setup.ts"],
         },
     };
 });

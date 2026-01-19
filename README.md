@@ -131,6 +131,19 @@ The `audioStore` (Zustand) serves as the single source of truth for playback sta
 
 The `playbackManager` emits events that sync to the store, and React components subscribe reactively.
 
+### Documentation
+
+See the following guides for detailed architecture information:
+
+| Document | Purpose |
+|----------|---------|
+| [INITIALIZATION.md](./INITIALIZATION.md) | Startup sequence and initialization order |
+| [PLAYBACK_EVENTS.md](./PLAYBACK_EVENTS.md) | Complete event catalog for playback system |
+| [STATE_MANAGEMENT.md](./STATE_MANAGEMENT.md) | Dual-state system (playbackManager + Zustand) |
+| [CHUNK_STRATEGY.md](./CHUNK_STRATEGY.md) | Bundle splitting and code organization |
+| [AUDIO_SYSTEM_TECHNICAL_DOCUMENTATION.md](./AUDIO_SYSTEM_TECHNICAL_DOCUMENTATION.md) | Audio chain architecture |
+| [CLAUDE.md](./CLAUDE.md) | AI-assisted development guidelines |
+
 ---
 
 ## Branches

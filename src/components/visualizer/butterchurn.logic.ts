@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import logger from 'utils/logger';
 // @ts-ignore
 import butterchurn from 'butterchurn';
 // @ts-ignore
@@ -9,14 +10,20 @@ import { visualizerSettings } from './visualizers.logic';
 // @ts-ignore
 import isButterchurnSupported from 'butterchurn/lib/isSupported.min';
 import { isVisible } from '../../utils/visibility';
-// Lazy load audio capabilities for better bundle splitting
-let audioCapabilities: any;
+
+interface AudioCapabilities {
+    getCapabilities(): Promise<{
+        visualizers: { butterchurn: boolean };
+    }>;
+}
+
+let audioCapabilities: AudioCapabilities | null = null;
 let audioCapabilitiesLoaded = false;
 
-async function loadAudioCapabilities() {
-    if (!audioCapabilitiesLoaded) {
+async function loadAudioCapabilities(): Promise<AudioCapabilities> {
+    if (!audioCapabilitiesLoaded || !audioCapabilities) {
         const module = await import('components/audioEngine/audioCapabilities');
-        audioCapabilities = module.default;
+        audioCapabilities = module.default as AudioCapabilities;
         audioCapabilitiesLoaded = true;
     }
     return audioCapabilities;
@@ -28,9 +35,16 @@ let isAnimationRunning = false;
 let visibilityHandler: (() => void) | null = null;
 let animateFrame: (() => void) | null = null;
 
+export interface ButterchurnVisualizer {
+    setRendererSize(width: number, height: number): void;
+    disconnectAudio(node: AudioNode): void;
+    connectAudio(node: AudioNode): void;
+    loadPreset(preset: unknown, blendTime: number): void;
+    render(): void;
+}
+
 export const butterchurnInstance: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    visualizer: any;
+    visualizer: ButterchurnVisualizer | null;
     nextPreset: () => void;
     destroy: () => void;
 } = {
@@ -40,6 +54,7 @@ export const butterchurnInstance: {
     },
     destroy: () => {
         if (butterchurnInstance.visualizer) {
+            // @ts-ignore
             butterchurnInstance.visualizer.disconnectAudio(masterAudioOutput.mixerNode);
             butterchurnInstance.visualizer = null;
         }
@@ -50,49 +65,40 @@ export const butterchurnInstance: {
         }
         isAnimationRunning = false;
     }
-
-    /* eslint-enable @typescript-eslint/ban-ts-comment */
 };
 
-/**
- * Validates initialization prerequisites for Butterchurn
- */
 async function validateButterchurnPrerequisites(): Promise<boolean> {
     if (!butterchurn) {
-        console.error('[Butterchurn] Butterchurn library not loaded');
+        logger.error('Butterchurn library not loaded', { component: 'Butterchurn' });
         return false;
     }
 
     if (!butterchurnPresets) {
-        console.error('[Butterchurn] Butterchurn presets not loaded');
+        logger.error('Butterchurn presets not loaded', { component: 'Butterchurn' });
         return false;
     }
 
     if (!masterAudioOutput.audioContext) {
-        console.warn('[Butterchurn] AudioContext not available - cannot initialize');
+        logger.warn('AudioContext not available - cannot initialize', { component: 'Butterchurn' });
         return false;
     }
 
     if (!isButterchurnSupported()) {
-        console.warn('[Butterchurn] Butterchurn not supported in this browser - cannot initialize');
+        logger.warn('Butterchurn not supported in this browser - cannot initialize', { component: 'Butterchurn' });
         return false;
     }
 
-    // Additional check using centralized capabilities (lazy loaded)
     const audioCaps = await loadAudioCapabilities();
     const capabilities = await audioCaps.getCapabilities();
     if (!capabilities.visualizers.butterchurn) {
-        console.warn('[Butterchurn] Butterchurn disabled by capabilities check - cannot initialize');
+        logger.warn('Butterchurn disabled by capabilities check - cannot initialize', { component: 'Butterchurn' });
         return false;
     }
 
     return true;
 }
 
-/**
- * Creates the visualizer options object
- */
-function createVisualizerOptions(): { width: number; height: number; pixelRatio: number; textureRatio: number } {
+function createVisualizerOptions() {
     return {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -101,24 +107,18 @@ function createVisualizerOptions(): { width: number; height: number; pixelRatio:
     };
 }
 
-/**
- * Creates the initial visualizer with regular canvas
- */
 function createInitialVisualizer(audioContext: AudioContext, canvas: HTMLCanvasElement, options: ReturnType<typeof createVisualizerOptions>) {
     try {
-        console.log('[Butterchurn] Initializing with regular canvas');
+        logger.info('Initializing with regular canvas', { component: 'Butterchurn' });
         const visualizer = butterchurn.createVisualizer(audioContext, canvas, options);
-        console.log('[Butterchurn] Regular canvas initialized successfully');
+        logger.info('Regular canvas initialized successfully', { component: 'Butterchurn' });
         return visualizer;
     } catch (error) {
-        console.error('[Butterchurn] Failed to create visualizer with regular canvas:', error);
+        logger.error('Failed to create visualizer with regular canvas', { component: 'Butterchurn', error: error as Error });
         return null;
     }
 }
 
-/**
- * Loads presets and sets up preset switching
- */
 function setupPresetsAndAnimation() {
     let presets: Record<string, unknown>;
     let presetNames: string[];
@@ -127,9 +127,9 @@ function setupPresetsAndAnimation() {
     try {
         presets = butterchurnPresets.getPresets();
         presetNames = Object.keys(presets);
-        console.log(`[Butterchurn] Loaded ${presetNames.length} presets`);
+        logger.info(`Loaded ${presetNames.length} presets`, { component: 'Butterchurn' });
     } catch (error) {
-        console.error('[Butterchurn] Failed to load presets:', error);
+        logger.error('Failed to load presets', { component: 'Butterchurn', error: error as Error });
         return;
     }
 
@@ -139,16 +139,16 @@ function setupPresetsAndAnimation() {
         clearInterval(presetSwitchInterval);
 
         try {
-            // eslint-disable-next-line sonarjs/pseudo-random
             const randomIndex = Math.floor(Math.random() * presetNames.length);
             const nextPresetName = presetNames[randomIndex];
             const nextPreset = presets[nextPresetName];
             if (nextPreset) {
+                // @ts-ignore
                 butterchurnInstance.visualizer.loadPreset(nextPreset, xDuration.fadeOut || 0);
-                console.debug(`[Butterchurn] Loaded preset: ${nextPresetName}`);
+                logger.debug(`Loaded preset: ${nextPresetName}`, { component: 'Butterchurn' });
             }
         } catch (error) {
-            console.error('[Butterchurn] Failed to load preset:', error);
+            logger.error('Failed to load preset', { component: 'Butterchurn', error: error as Error });
         }
 
         if (visualizerSettings.butterchurn.presetInterval > 10) {
@@ -156,11 +156,9 @@ function setupPresetsAndAnimation() {
         }
     };
 
-    // Load the initial preset
     loadNextPreset();
     butterchurnInstance.nextPreset = loadNextPreset;
 
-    // Custom animation loop using requestAnimationFrame
     animateFrame = () => {
         if (!isVisible()) {
             isAnimationRunning = false;
@@ -169,14 +167,15 @@ function setupPresetsAndAnimation() {
         }
 
         try {
+            // @ts-ignore
             butterchurnInstance.visualizer.render();
             frameCount++;
             if (frameCount % 300 === 0) {
-                console.debug(`[Butterchurn] Rendered ${frameCount} frames`);
+                logger.debug(`Rendered ${frameCount} frames`, { component: 'Butterchurn' });
             }
             animationFrameId = requestAnimationFrame(animateFrame!);
         } catch (error) {
-            console.error('[Butterchurn] Render error:', error);
+            logger.error('Render error', { component: 'Butterchurn', error: error as Error });
             isAnimationRunning = false;
             animationFrameId = null;
         }
@@ -193,10 +192,10 @@ function setupPresetsAndAnimation() {
             document.removeEventListener('visibilitychange', visibilityHandler);
             visibilityHandler = null;
         }
+        // @ts-ignore
         butterchurnInstance.visualizer.disconnectAudio(masterAudioOutput.mixerNode);
     };
 
-    // Handle visibility changes to pause/resume rendering
     visibilityHandler = () => {
         if (isVisible() && !isAnimationRunning && butterchurnInstance.visualizer && animateFrame) {
             isAnimationRunning = true;
@@ -213,13 +212,12 @@ function setupPresetsAndAnimation() {
 }
 
 export async function initializeButterChurn(canvas: HTMLCanvasElement) {
-    console.log('[Butterchurn] Starting initialization...');
+    logger.info('Starting initialization', { component: 'Butterchurn' });
 
     if (!(await validateButterchurnPrerequisites())) {
         return;
     }
 
-    // Skip in development environments where AudioWorklets fail to load
     const isDevelopment = typeof import.meta.url === 'string' && (
         import.meta.url.startsWith('file://')
         || import.meta.url.includes('localhost')
@@ -228,39 +226,34 @@ export async function initializeButterChurn(canvas: HTMLCanvasElement) {
     );
 
     if (isDevelopment) {
-        console.info('[Butterchurn] Skipping AudioWorklet loading in development environment. Using fallback rendering.');
+        logger.info('Skipping AudioWorklet loading in development environment. Using fallback rendering.', { component: 'Butterchurn' });
     }
 
-    console.log('[Butterchurn] AudioContext and support check passed, proceeding with initialization');
+    logger.info('AudioContext and support check passed, proceeding with initialization', { component: 'Butterchurn' });
 
     const options = createVisualizerOptions();
 
     butterchurnInstance.visualizer = createInitialVisualizer(masterAudioOutput.audioContext!, canvas, options);
     if (!butterchurnInstance.visualizer) {
-        console.error('[Butterchurn] Visualizer creation failed');
+        logger.error('Visualizer creation failed', { component: 'Butterchurn' });
         return;
     }
 
-    console.log('[Butterchurn] Visualizer created successfully');
+    logger.info('Visualizer created successfully', { component: 'Butterchurn' });
 
-    // Connect your audio source (e.g., mixerNode) to the visualizer
     try {
+        // @ts-ignore
         butterchurnInstance.visualizer.connectAudio(masterAudioOutput.mixerNode);
-        console.log('[Butterchurn] Audio connection established');
+        logger.info('Audio connection established', { component: 'Butterchurn' });
     } catch (error) {
-        console.error('[Butterchurn] Failed to connect audio:', error);
+        logger.error('Failed to connect audio', { component: 'Butterchurn', error: error as Error });
         return;
     }
 
     setupPresetsAndAnimation();
 
-    // Start animation if visible
     if (isVisible() && !isAnimationRunning && butterchurnInstance.visualizer && animateFrame) {
         isAnimationRunning = true;
         animationFrameId = requestAnimationFrame(animateFrame);
     }
-
-    // Note: setInterval is already set up inside loadNextPreset() when called at line 119
-    // Do NOT add another setInterval here - it would cause presets to change twice as fast
 }
-

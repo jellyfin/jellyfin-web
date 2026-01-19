@@ -15,6 +15,11 @@ export class PredictivePreloader {
     private preloadHistory: string[] = [];
     private userBehaviorPatterns: Map<string, string[]> = new Map();
     private contentRelationships: Map<string, string[]> = new Map();
+    private readonly MAX_CONCURRENT = 3;
+    private readonly activePreloads = new Set<string>();
+    private readonly preloadRequestQueue: Array<{resource: string; promise: Promise<void>}> = [];
+    private readonly MIN_PRELOAD_INTERVAL = 2000;
+    private lastPreloadTime = 0;
 
     private constructor() {
         this.initializePatterns();
@@ -56,15 +61,59 @@ export class PredictivePreloader {
         this.contentRelationships.set('dashboard', ['userManagement', 'serverSettings']);
     }
 
+    private canPreload(): boolean {
+        const now = Date.now();
+        if (now - this.lastPreloadTime < this.MIN_PRELOAD_INTERVAL) {
+            return false;
+        }
+        if (this.activePreloads.size >= this.MAX_CONCURRENT) {
+            return false;
+        }
+        return true;
+    }
+
+    private queuePreload(resource: string, preloadFn: () => Promise<void>): Promise<void> {
+        return new Promise((resolve) => {
+            this.preloadRequestQueue.push({
+                resource,
+                promise: preloadFn().finally(() => {
+                    this.activePreloads.delete(resource);
+                    this.lastPreloadTime = Date.now();
+                    this.processQueue();
+                })
+            });
+            this.processQueue();
+        });
+    }
+
+    private processQueue(): void {
+        while (
+            this.preloadRequestQueue.length > 0 &&
+            this.activePreloads.size < this.MAX_CONCURRENT &&
+            this.canPreload()
+        ) {
+            const next = this.preloadRequestQueue.shift();
+            if (next) {
+                this.activePreloads.add(next.resource);
+                next.promise.then(() => {
+                    this.preloadQueue.add(next.resource);
+                }).catch(() => {});
+            }
+        }
+    }
+
     /**
    * Main predictive preloading method
    */
     async preload(currentPath: string, userContext?: any) {
         const startTime = performance.now();
-        console.log(`🎯 Predictive preloading for: ${currentPath}`);
 
-        // Clear old queue
-        this.preloadQueue.clear();
+        if (!this.canPreload()) {
+            console.log(`⏭️ Skipping predictive preloading for ${currentPath} - rate limited`);
+            return;
+        }
+
+        console.log(`🎯 Predictive preloading for: ${currentPath}`);
 
         // Update navigation history
         this.preloadHistory.push(currentPath);
@@ -76,7 +125,7 @@ export class PredictivePreloader {
         const predictedPaths = this.predictNextPaths(currentPath, userContext);
         const predictedComponents = this.predictComponents(currentPath);
 
-        // Start preloading in parallel
+        // Start preloading in parallel with rate limiting
         await Promise.all([
             this.preloadRoutes(predictedPaths),
             this.preloadComponents(predictedComponents),
@@ -148,12 +197,16 @@ export class PredictivePreloader {
     async preloadRoutes(paths: string[]): Promise<void> {
         const preloadPromises = paths.map(async (path) => {
             try {
-                // Map route paths to their lazy import functions
                 const importFunction = this.getRouteImportFunction(path);
                 if (importFunction) {
+                    const resourceId = `route:${path}`;
+                    if (this.preloadQueue.has(resourceId)) {
+                        console.log(`⏭️ Route already preloaded: ${path}`);
+                        return;
+                    }
                     console.log(`🔄 Preloading route: ${path}`);
-                    await importFunction();
-                    this.preloadQueue.add(`route:${path}`);
+                    await this.queuePreload(resourceId, importFunction);
+                    this.preloadQueue.add(resourceId);
                 }
             } catch (error) {
                 console.warn(`Failed to preload route ${path}:`, error);
@@ -171,9 +224,14 @@ export class PredictivePreloader {
             try {
                 const importFunction = this.getComponentImportFunction(component);
                 if (importFunction) {
+                    const resourceId = `component:${component}`;
+                    if (this.preloadQueue.has(resourceId)) {
+                        console.log(`⏭️ Component already preloaded: ${component}`);
+                        return;
+                    }
                     console.log(`🔄 Preloading component: ${component}`);
-                    await importFunction();
-                    this.preloadQueue.add(`component:${component}`);
+                    await this.queuePreload(resourceId, importFunction);
+                    this.preloadQueue.add(resourceId);
                 }
             } catch (error) {
                 console.warn(`Failed to preload component ${component}:`, error);
@@ -345,7 +403,9 @@ export class PredictivePreloader {
             queueSize: this.preloadQueue.size,
             historySize: this.preloadHistory.length,
             patternsCount: this.userBehaviorPatterns.size,
-            relationshipsCount: this.contentRelationships.size
+            relationshipsCount: this.contentRelationships.size,
+            activePreloads: this.activePreloads.size,
+            queuedPreloads: this.preloadRequestQueue.length
         };
     }
 }

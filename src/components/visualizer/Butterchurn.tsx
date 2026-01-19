@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { butterchurnInstance, initializeButterChurn } from './butterchurn.logic';
+import { logger } from 'utils/logger';
 
 const ButterchurnVisualizer: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -10,12 +11,12 @@ const ButterchurnVisualizer: React.FC = () => {
                 try {
                     await initializeButterChurn(canvasRef.current);
                 } catch (error) {
-                    console.error('[Butterchurn] Failed to initialize:', error);
+                    logger.error('Failed to initialize', { component: 'Butterchurn' }, error as Error);
                 }
             }
         };
 
-        initialize();
+        void initialize();
 
         const resizeCanvas = () => {
             const width = window.innerWidth;
@@ -28,11 +29,11 @@ const ButterchurnVisualizer: React.FC = () => {
             }
 
             // Resize the visualizer renderer
-            if (butterchurnInstance.visualizer && typeof butterchurnInstance.visualizer.setRendererSize === 'function') {
+            if (butterchurnInstance.visualizer) {
                 try {
                     butterchurnInstance.visualizer.setRendererSize(width, height);
                 } catch (error) {
-                    console.warn('[Butterchurn] Failed to resize visualizer:', error);
+                    logger.warn('Failed to resize visualizer', { component: 'Butterchurn' }, error as Error);
                 }
             }
         };
@@ -42,12 +43,10 @@ const ButterchurnVisualizer: React.FC = () => {
 
         return () => {
             window.removeEventListener('resize', resizeCanvas);
-            if (butterchurnInstance.destroy) {
-                try {
-                    butterchurnInstance.destroy();
-                } catch (error) {
-                    console.warn('[Butterchurn] Failed to destroy visualizer:', error);
-                }
+            try {
+                butterchurnInstance.destroy();
+            } catch (error) {
+                logger.warn('Failed to destroy visualizer', { component: 'Butterchurn' }, error as Error);
             }
         };
     }, []);

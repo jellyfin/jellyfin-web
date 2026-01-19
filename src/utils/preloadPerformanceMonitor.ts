@@ -1,8 +1,4 @@
-/**
- * Performance monitoring for predictive preloading
- * Tracks preload effectiveness and user experience metrics
- */
-
+import logger from './logger';
 import { predictivePreloader } from './predictivePreloader';
 
 interface PreloadMetrics {
@@ -29,12 +25,8 @@ export class PreloadPerformanceMonitor {
         return PreloadPerformanceMonitor.instance;
     }
 
-    /**
-   * Setup performance observer to track navigation and resource loading
-   */
     private setupPerformanceObserver() {
         if (typeof PerformanceObserver !== 'undefined') {
-            // Track navigation timing
             const navObserver = new PerformanceObserver((list) => {
                 list.getEntries().forEach((entry: any) => {
                     if (entry.entryType === 'navigation') {
@@ -44,7 +36,6 @@ export class PreloadPerformanceMonitor {
             });
             navObserver.observe({ entryTypes: ['navigation'] });
 
-            // Track resource loading
             const resourceObserver = new PerformanceObserver((list) => {
                 list.getEntries().forEach((entry: any) => {
                     if (entry.name.includes('lazyRoutes') || entry.name.includes('components')) {
@@ -56,13 +47,9 @@ export class PreloadPerformanceMonitor {
         }
     }
 
-    /**
-   * Track when a route is accessed
-   */
     trackRouteAccess(route: string, accessTime: number) {
         this.routeAccessTimes.set(route, accessTime);
 
-        // Find corresponding preload metric
         const metric = this.metrics.find(m => m.route === route);
         if (metric) {
             metric.accessTime = accessTime;
@@ -70,16 +57,10 @@ export class PreloadPerformanceMonitor {
         }
     }
 
-    /**
-   * Track resource loading times
-   */
     trackResourceLoad(resource: string, loadTime: number) {
-        console.log(`📊 Resource loaded: ${resource} in ${loadTime}ms`);
+        logger.debug('Resource loaded', { component: 'PreloadMonitor', resource, loadTimeMs: loadTime });
     }
 
-    /**
-   * Record preload event
-   */
     recordPreload(route: string, preloadTime: number) {
         const metric: PreloadMetrics = {
             route,
@@ -89,15 +70,11 @@ export class PreloadPerformanceMonitor {
 
         this.metrics.push(metric);
 
-        // Keep only last 50 metrics
         if (this.metrics.length > 50) {
             this.metrics.shift();
         }
     }
 
-    /**
-   * Get performance statistics
-   */
     getStats() {
         const preloadedRoutes = this.metrics.filter(m => m.wasPreloaded);
         const accessedRoutes = this.metrics.filter(m => m.accessTime);
@@ -125,32 +102,25 @@ export class PreloadPerformanceMonitor {
         };
     }
 
-    /**
-   * Log performance report
-   */
     logPerformanceReport() {
         const stats = this.getStats();
-
-        console.group('🚀 Predictive Preloading Performance Report');
-        console.log(`📊 Total preloads attempted: ${stats.totalPreloads}`);
-        console.log(`✅ Routes successfully preloaded: ${stats.preloadedRoutes}`);
-        console.log(`🎯 Routes accessed after preload: ${stats.accessedRoutes}`);
-        console.log(`⚡ Average preload time: ${stats.averagePreloadTime}ms`);
-        console.log(`🎪 Average time to interactive: ${stats.averageTimeToInteractive}ms`);
-        console.log(`🎯 Preload hit rate: ${stats.preloadHitRate}%`);
-        console.log(`📈 Preloader queue size: ${stats.preloaderStats.queueSize}`);
-        console.log(`🗂️  Navigation patterns: ${stats.preloaderStats.patternsCount}`);
-        console.groupEnd();
+        logger.info('Predictive Preloading Performance Report', {
+            component: 'PreloadMonitor',
+            totalPreloads: stats.totalPreloads,
+            preloadedRoutes: stats.preloadedRoutes,
+            accessedRoutes: stats.accessedRoutes,
+            averagePreloadTimeMs: stats.averagePreloadTime,
+            averageTimeToInteractiveMs: stats.averageTimeToInteractive,
+            preloadHitRate: stats.preloadHitRate,
+            preloaderQueueSize: stats.preloaderStats.queueSize,
+            navigationPatternsCount: stats.preloaderStats.patternsCount
+        });
     }
 
-    /**
-   * Reset metrics (useful for testing)
-   */
     reset() {
         this.metrics = [];
         this.routeAccessTimes.clear();
     }
 }
 
-// Export singleton instance
 export const preloadPerformanceMonitor = PreloadPerformanceMonitor.getInstance();

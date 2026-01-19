@@ -185,13 +185,18 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
     useEffect(() => {
         // Check connection status on initial page load
         const apiClient = ServerConnections.currentApiClient();
-        const connection = Promise.resolve(ServerConnections.firstConnection ? null : ServerConnections.connect());
+        const hasFirstConnection = ServerConnections.firstConnection !== null;
+        const connection = Promise.resolve(hasFirstConnection ? null : ServerConnections.connect());
         connection.then(firstConnection => {
             console.debug('[ConnectionRequired] connection state', firstConnection?.State);
-            ServerConnections.firstConnection = true;
+            // Mark that we've attempted first connection (using a resolved promise as marker)
+            if (!hasFirstConnection) {
+                ServerConnections.firstConnection = Promise.resolve();
+            }
 
-            if (ERROR_STATES.includes(firstConnection?.State)) {
-                setErrorState(firstConnection.State);
+            const state = firstConnection?.State;
+            if (state !== undefined && ERROR_STATES.includes(state)) {
+                setErrorState(state);
             } else if (level === AccessLevel.Wizard) {
                 handleWizard(firstConnection)
                     .catch(err => {

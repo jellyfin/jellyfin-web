@@ -44,6 +44,7 @@ import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
 import { includesAny } from '../../utils/container';
 import { isHls } from '../../utils/mediaSource';
+import logger from '../../utils/logger';
 
 /**
  * Returns resolved URL.
@@ -58,7 +59,7 @@ function resolveUrl(url) {
             resolve(xhr.responseURL || url);
         };
         xhr.onerror = function (e) {
-            console.error(e);
+            logger.error('Failed to resolve URL', { component: 'HtmlVideoPlayer', error: e.message, url });
             resolve(url);
         };
         xhr.send(null);
@@ -72,7 +73,7 @@ function tryRemoveElement(elem) {
         try {
             parentNode.removeChild(elem);
         } catch (err) {
-            console.error(`error removing dialog element: ${err}`);
+            logger.error('Error removing dialog element', { component: 'HtmlVideoPlayer', error: err.message });
         }
     }
 }
@@ -375,7 +376,7 @@ export class HtmlVideoPlayer {
 
             loading.show();
 
-            console.debug(`prefetching hls playlist: ${hlsPlaylistUrl}`);
+            logger.debug('HtmlVideoPlayer prefetching HLS playlist', { component: 'HtmlVideoPlayer', url: hlsPlaylistUrl });
 
             return ServerConnections.getApiClient(item.ServerId).ajax({
 
@@ -383,12 +384,12 @@ export class HtmlVideoPlayer {
                 url: hlsPlaylistUrl
 
             }).then(() => {
-                console.debug(`completed prefetching hls playlist: ${hlsPlaylistUrl}`);
+                logger.debug('HtmlVideoPlayer completed prefetching HLS playlist', { component: 'HtmlVideoPlayer', url: hlsPlaylistUrl });
 
                 loading.hide();
                 streamInfo.url = hlsPlaylistUrl;
             }, () => {
-                console.error(`error prefetching hls playlist: ${hlsPlaylistUrl}`);
+                logger.error('HtmlVideoPlayer error prefetching HLS playlist', { component: 'HtmlVideoPlayer', url: hlsPlaylistUrl });
 
                 loading.hide();
             });
@@ -486,7 +487,7 @@ export class HtmlVideoPlayer {
         elem.removeEventListener('error', this.onError);
 
         let val = options.url;
-        console.debug(`playing url: ${val}`);
+        logger.debug('HtmlVideoPlayer playing URL', { component: 'HtmlVideoPlayer', url: val });
 
         // Convert to seconds
         const seconds = (options.playerStartPositionTicks || 0) / 10000000;
@@ -625,7 +626,7 @@ export class HtmlVideoPlayer {
                 this.#currentTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentTrackEvents, offsetValue, PRIMARY_TEXT_TRACK_INDEX);
                 this.#currentSecondaryTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentSecondaryTrackEvents, offsetValue, SECONDARY_TEXT_TRACK_INDEX);
             } else {
-                console.debug('No available track, cannot apply offset: ', offsetValue);
+                logger.debug('HtmlVideoPlayer: No available track, cannot apply offset', { component: 'HtmlVideoPlayer', offset: offsetValue });
             }
         }
     }
@@ -817,14 +818,14 @@ export class HtmlVideoPlayer {
          * @type {ArrayLike<any>|any[]}
          */
         const elemAudioTracks = elem.audioTracks || [];
-        console.debug(`found ${elemAudioTracks.length} audio tracks`);
+        logger.debug('HtmlVideoPlayer found audio tracks', { component: 'HtmlVideoPlayer', count: elemAudioTracks.length });
 
         for (const [i, audioTrack] of Array.from(elemAudioTracks).entries()) {
             if (audioIndex === i) {
-                console.debug(`setting audio track ${i} to enabled`);
+                logger.debug('HtmlVideoPlayer setting audio track to enabled', { component: 'HtmlVideoPlayer', trackIndex: i });
                 audioTrack.enabled = true;
             } else {
-                console.debug(`setting audio track ${i} to disabled`);
+                logger.debug('HtmlVideoPlayer setting audio track to disabled', { component: 'HtmlVideoPlayer', trackIndex: i });
                 audioTrack.enabled = false;
             }
         }
@@ -1083,7 +1084,7 @@ export class HtmlVideoPlayer {
         const elem = e.target;
         const errorCode = elem.error ? (elem.error.code || 0) : 0;
         const errorMessage = elem.error ? (elem.error.message || '') : '';
-        console.error(`media element error: ${errorCode} ${errorMessage}`);
+        logger.error('HtmlVideoPlayer media element error', { component: 'HtmlVideoPlayer', errorCode, errorMessage });
 
         let type;
 
@@ -1471,7 +1472,7 @@ export class HtmlVideoPlayer {
                     trackElement.removeCue(trackElement.cues[0]);
                 }
             } catch (e) {
-                console.error('error removing cue from textTrack', e);
+                logger.error('HtmlVideoPlayer error removing cue from textTrack', { component: 'HtmlVideoPlayer', error: e.message });
             }
 
             trackElement.mode = 'disabled';
@@ -1483,7 +1484,7 @@ export class HtmlVideoPlayer {
 
         // download the track json
         this.fetchSubtitles(track, item).then((data) => {
-            console.debug(`downloaded ${data.TrackEvents.length} track events`);
+            logger.debug('HtmlVideoPlayer downloaded track events', { component: 'HtmlVideoPlayer', count: data.TrackEvents.length });
 
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
             const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
@@ -1547,7 +1548,7 @@ export class HtmlVideoPlayer {
      * @private
      */
     setCurrentTrackElement(streamIndex, targetTextTrackIndex) {
-        console.debug(`setting new text track index to: ${streamIndex}`);
+        logger.debug('HtmlVideoPlayer setting new text track index', { component: 'HtmlVideoPlayer', streamIndex });
 
         const mediaStreamTextTracks = getMediaStreamTextTracks(this._currentPlayOptions.mediaSource);
 
@@ -1831,7 +1832,7 @@ export class HtmlVideoPlayer {
     }
 
     static onPictureInPictureError(err) {
-        console.error(`Picture in picture error: ${err}`);
+        logger.error('HtmlVideoPlayer Picture in picture error', { component: 'HtmlVideoPlayer', error: err.message });
     }
 
     setPictureInPictureEnabled(isEnabled) {
@@ -1887,11 +1888,11 @@ export class HtmlVideoPlayer {
             if (video) {
                 if (isEnabled) {
                     video.requestAirPlay().catch((err) => {
-                        console.error('Error requesting AirPlay', err);
+                        logger.error('HtmlVideoPlayer error requesting AirPlay', { component: 'HtmlVideoPlayer', error: err.message });
                     });
                 } else {
                     document.exitAirPLay().catch((err) => {
-                        console.error('Error exiting AirPlay', err);
+                        logger.error('HtmlVideoPlayer error exiting AirPlay', { component: 'HtmlVideoPlayer', error: err.message });
                     });
                 }
             }

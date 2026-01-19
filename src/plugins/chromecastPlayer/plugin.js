@@ -8,6 +8,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems';
+import logger from '../../utils/logger';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
 
@@ -96,7 +97,7 @@ class CastPlayer {
     initializeCastPlayer() {
         const chrome = window.chrome;
         if (!chrome) {
-            console.warn('Not initializing chromecast: chrome object is missing');
+            logger.warn('Not initializing chromecast: chrome object is missing', { component: 'ChromecastPlayer' });
             return;
         }
 
@@ -111,7 +112,7 @@ class CastPlayer {
         apiClient.getUser(userId).then(user => {
             const applicationID = user.Configuration.CastReceiverId;
             if (!applicationID) {
-                console.warn(`Not initializing chromecast: CastReceiverId is ${applicationID}`);
+                logger.warn(`Not initializing chromecast: CastReceiverId is ${applicationID}`, { component: 'ChromecastPlayer' });
                 return;
             }
 
@@ -121,7 +122,7 @@ class CastPlayer {
                 this.sessionListener.bind(this),
                 this.receiverListener.bind(this));
 
-            console.debug(`chromecast.initialize (applicationId=${applicationID})`);
+            logger.debug('chromecast.initialize', { component: 'ChromecastPlayer', applicationId: applicationID });
             chrome.cast.initialize(apiConfig, this.onInitSuccess.bind(this), this.errorHandler);
         });
     }
@@ -131,14 +132,14 @@ class CastPlayer {
      */
     onInitSuccess() {
         this.isInitialized = true;
-        console.debug('[chromecastPlayer] init success');
+        logger.debug('ChromecastPlayer init success', { component: 'ChromecastPlayer' });
     }
 
     /**
      * Generic error callback function
      */
     onError() {
-        console.debug('[chromecastPlayer] error');
+        logger.debug('ChromecastPlayer error', { component: 'ChromecastPlayer' });
     }
 
     /**
@@ -186,10 +187,10 @@ class CastPlayer {
      */
     receiverListener(e) {
         if (e === 'available') {
-            console.debug('[chromecastPlayer] receiver found');
+            logger.debug('ChromecastPlayer receiver found', { component: 'ChromecastPlayer' });
             this.hasReceivers = true;
         } else {
-            console.debug('[chromecastPlayer] receiver list empty');
+            logger.debug('ChromecastPlayer receiver list empty', { component: 'ChromecastPlayer' });
             this.hasReceivers = false;
         }
     }
@@ -199,7 +200,7 @@ class CastPlayer {
      */
     sessionUpdateListener(isAlive) {
         if (isAlive) {
-            console.debug('[chromecastPlayer] sessionUpdateListener: already alive');
+            logger.debug('ChromecastPlayer sessionUpdateListener: already alive', { component: 'ChromecastPlayer' });
         } else {
             this.session = null;
             this.deviceState = DEVICE_STATE.IDLE;
@@ -207,7 +208,7 @@ class CastPlayer {
             document.removeEventListener('volumeupbutton', onVolumeUpKeyDown, false);
             document.removeEventListener('volumedownbutton', onVolumeDownKeyDown, false);
 
-            console.debug('[chromecastPlayer] sessionUpdateListener: setting currentMediaSession to null');
+            logger.debug('ChromecastPlayer sessionUpdateListener: setting currentMediaSession to null', { component: 'ChromecastPlayer' });
             this.currentMediaSession = null;
 
             sendConnectionResult(false);
@@ -220,7 +221,7 @@ class CastPlayer {
      * session request in opt_sessionRequest.
      */
     launchApp() {
-        console.debug('[chromecastPlayer] launching app...');
+        logger.debug('ChromecastPlayer launching app', { component: 'ChromecastPlayer' });
         chrome.cast.requestSession(this.onRequestSessionSuccess.bind(this), this.onLaunchError.bind(this));
     }
 
@@ -229,7 +230,7 @@ class CastPlayer {
      * @param {Object} e A chrome.cast.Session object
      */
     onRequestSessionSuccess(e) {
-        console.debug('[chromecastPlayer] session success: ' + e.sessionId);
+        logger.debug('ChromecastPlayer session success', { component: 'ChromecastPlayer', sessionId: e.sessionId });
         this.onSessionConnected(e);
     }
 
@@ -263,7 +264,7 @@ class CastPlayer {
      * Callback function for launch error
      */
     onLaunchError() {
-        console.debug('[chromecastPlayer] launch error');
+        logger.debug('ChromecastPlayer launch error', { component: 'ChromecastPlayer' });
         this.deviceState = DEVICE_STATE.ERROR;
         sendConnectionResult(false);
     }
@@ -281,7 +282,7 @@ class CastPlayer {
      * Callback function for stop app success
      */
     onStopAppSuccess(message) {
-        console.debug(message);
+        logger.debug(message, { component: 'ChromecastPlayer' });
 
         this.deviceState = DEVICE_STATE.IDLE;
         this.castPlayerState = PLAYER_STATE.IDLE;
@@ -298,7 +299,7 @@ class CastPlayer {
      */
     loadMedia(options, command) {
         if (!this.session) {
-            console.debug('[chromecastPlayer] no session');
+            logger.debug('ChromecastPlayer: no session', { component: 'ChromecastPlayer' });
             return Promise.reject(new Error('no session'));
         }
 
@@ -359,7 +360,7 @@ class CastPlayer {
             receiverName: receiverName
         });
 
-        console.debug('[chromecastPlayer] message{' + message.command + '; ' + serverAddress + ' -> ' + serverLocalAddress + '}');
+        logger.debug('ChromecastPlayer message', { component: 'ChromecastPlayer', command: message.command, serverAddress, serverLocalAddress });
 
         const bitrateSetting = appSettings.maxChromecastBitrate();
         if (bitrateSetting) {
@@ -382,7 +383,7 @@ class CastPlayer {
     }
 
     onPlayCommandSuccess() {
-        console.debug('Message was sent to receiver ok.');
+        logger.debug('Message was sent to receiver', { component: 'ChromecastPlayer' });
     }
 
     /**
@@ -390,7 +391,7 @@ class CastPlayer {
      * @param {Object} mediaSession A new media object.
      */
     onMediaDiscovered(how, mediaSession) {
-        console.debug('[chromecastPlayer] new media session ID:' + mediaSession.mediaSessionId + ' (' + how + ')');
+        logger.debug('ChromecastPlayer new media session', { component: 'ChromecastPlayer', mediaSessionId: mediaSession.mediaSessionId, how });
         this.currentMediaSession = mediaSession;
 
         if (how === 'loadMedia') {
@@ -409,7 +410,7 @@ class CastPlayer {
      * @param {!Boolean} e true/false
      */
     onMediaStatusUpdate(e) {
-        console.debug('[chromecastPlayer] updating media: ' + e);
+        logger.debug('ChromecastPlayer updating media', { component: 'ChromecastPlayer', status: e });
         if (e === false) {
             this.castPlayerState = PLAYER_STATE.IDLE;
         }
@@ -421,7 +422,7 @@ class CastPlayer {
      */
     setReceiverVolume(mute, vol) {
         if (!this.currentMediaSession) {
-            console.debug('this.currentMediaSession is null');
+            logger.debug('ChromecastPlayer: currentMediaSession is null', { component: 'ChromecastPlayer' });
             return;
         }
 
@@ -447,7 +448,7 @@ class CastPlayer {
      * Callback function for media command success
      */
     mediaCommandSuccessCallback(info) {
-        console.debug(info);
+        logger.debug(info, { component: 'ChromecastPlayer' });
     }
 }
 
@@ -508,7 +509,7 @@ function getItemsForPlayback(apiClient, query) {
  */
 function bindEventForRelay(instance, eventName) {
     Events.on(instance._castPlayer, eventName, (e, data) => {
-        console.debug('[chromecastPlayer] ' + eventName);
+        logger.debug('ChromecastPlayer event', { component: 'ChromecastPlayer', eventName });
         // skip events without data
         if (data?.ItemId) {
             const state = instance.getPlayerStateInternal(data);
@@ -535,13 +536,13 @@ function initializeChromecast() {
             playbackManager.setActivePlayer(PlayerName, instance.getCurrentTargetInfo());
         }
 
-        console.debug('[chromecastPlayer] connect');
+        logger.debug('ChromecastPlayer connect', { component: 'ChromecastPlayer' });
         // Reset this so that statechange will fire
         instance.lastPlayerData = null;
     });
 
     Events.on(instance._castPlayer, 'playbackstart', (e, data) => {
-        console.debug('[chromecastPlayer] playbackstart');
+        logger.debug('ChromecastPlayer playbackstart', { component: 'ChromecastPlayer' });
 
         instance._castPlayer.initializeCastPlayer();
 
@@ -553,7 +554,7 @@ function initializeChromecast() {
     });
 
     Events.on(instance._castPlayer, 'playbackstop', (e, data) => {
-        console.debug('[chromecastPlayer] playbackstop');
+        logger.debug('ChromecastPlayer playbackstop', { component: 'ChromecastPlayer' });
 
         let state = instance.getPlayerStateInternal(data);
 
@@ -578,7 +579,7 @@ function initializeChromecast() {
     });
 
     Events.on(instance._castPlayer, 'playbackprogress', (e, data) => {
-        console.debug('[chromecastPlayer] positionchange');
+        logger.debug('ChromecastPlayer positionchange', { component: 'ChromecastPlayer' });
         const state = instance.getPlayerStateInternal(data);
 
         Events.trigger(instance, 'timeupdate', [state]);
@@ -592,7 +593,7 @@ function initializeChromecast() {
     bindEventForRelay(instance, 'shufflequeuemodechange');
 
     Events.on(instance._castPlayer, 'playstatechange', (e, data) => {
-        console.debug('[chromecastPlayer] playstatechange');
+        logger.debug('ChromecastPlayer playstatechange', { component: 'ChromecastPlayer' });
 
         // Updates the player and nowPlayingBar state to the current 'pause' state.
         const state = instance.getPlayerStateInternal(data);
@@ -886,7 +887,7 @@ class ChromecastPlayer {
     }
 
     playTrailers() {
-        console.warn('[chromecastPlayer] Playing trailers is not supported.');
+        logger.warn('ChromecastPlayer: Playing trailers is not supported', { component: 'ChromecastPlayer' });
     }
 
     setRepeatMode(mode) {
@@ -899,7 +900,7 @@ class ChromecastPlayer {
     }
 
     setQueueShuffleMode() {
-        console.warn('[chromecastPlayer] Setting shuffle queue mode is not supported.');
+        logger.warn('ChromecastPlayer: Setting shuffle queue mode is not supported', { component: 'ChromecastPlayer' });
     }
 
     toggleMute() {

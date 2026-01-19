@@ -10,6 +10,7 @@ import { createGainNode, initializeMasterAudio, masterAudioOutput, rampPlaybackG
 import { xDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
 import { synchronizeVolumeUI } from 'components/audioEngine/audioUtils';
 import { scrollToActivePlaylistItem, triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
+import logger from '../../utils/logger';
 
 /**
  * Type definitions for HtmlAudioPlayer plugin
@@ -127,7 +128,7 @@ async function fade(instance: HtmlAudioPlayer, elem: HTMLAudioElement, startingV
     }
 
     const newVolume = Math.max(0, startingVolume - 0.15);
-    console.debug('fading volume to ' + newVolume);
+    logger.debug('HtmlAudioPlayer fading volume', { component: 'HtmlAudioPlayer', newVolume });
     elem.volume = newVolume;
 
     if (newVolume <= 0) {
@@ -252,7 +253,7 @@ class HtmlAudioPlayer {
                     )
                 );
             }).catch(() => {
-                console.warn('Failed to load audio error handler, using minimal capabilities');
+                logger.warn('HtmlAudioPlayer failed to load audio error handler, using minimal capabilities', { component: 'HtmlAudioPlayer' });
             });
             self._hasWebAudio = false;
             self._supportsCrossfade = false;
@@ -276,7 +277,7 @@ class HtmlAudioPlayer {
         this.bindEvents(elem);
 
         let val = options.url;
-        console.debug('playing url: ' + val);
+        logger.debug('HtmlAudioPlayer playing URL', { component: 'HtmlAudioPlayer', url: val });
 
         try {
             const userSettings = await import('../../scripts/settings/userSettings');
@@ -294,7 +295,7 @@ class HtmlAudioPlayer {
                 rampPlaybackGain(normalizationGain);
             }
         } catch (err) {
-            console.error('Failed to apply normalization gain', err);
+            logger.error('HtmlAudioPlayer failed to apply normalization gain', { component: 'HtmlAudioPlayer', error: (err as Error).message });
         }
 
         const seconds = (options.playerStartPositionTicks || 0) / 10000000;
@@ -334,12 +335,12 @@ class HtmlAudioPlayer {
                             this._hlsPlayer = hls;
                             this._currentSrc = val;
                         } catch (error) {
-                            console.error('Error setting up HLS player:', error);
+                            logger.error('HtmlAudioPlayer error setting up HLS player', { component: 'HtmlAudioPlayer', error: (error as Error).message });
                             reject(error);
                         }
                     });
                 } catch (error) {
-                    console.error('Error in HLS setup:', error);
+                    logger.error('HtmlAudioPlayer error in HLS setup', { component: 'HtmlAudioPlayer', error: (error as Error).message });
                     reject(error);
                 }
             });
@@ -510,7 +511,7 @@ class HtmlAudioPlayer {
         const elapsedTime = performance.now() - xDurationT0;
         const gapSeconds = (elapsedTime / 1000) - xDurationSustain;
         if (elapsedTime < 10000) {
-            console.log('crossfade audio gap in seconds: ', gapSeconds);
+            logger.debug('HtmlAudioPlayer crossfade audio gap', { component: 'HtmlAudioPlayer', gapSeconds });
         }
     };
 
@@ -529,7 +530,7 @@ class HtmlAudioPlayer {
     private onError = (): void => {
         const errorCode = this._mediaElement?.error?.code || 0;
         const errorMessage = this._mediaElement?.error?.message || '';
-        console.error('media element error: ' + errorCode.toString() + ' ' + errorMessage);
+        logger.error('HtmlAudioPlayer media element error', { component: 'HtmlAudioPlayer', errorCode, errorMessage });
 
         let type: string | undefined;
 
@@ -831,11 +832,11 @@ class HtmlAudioPlayer {
             if (docWithAirPlay.AirPlayEnabled) {
                 if (isEnabled) {
                     mediaElement.requestAirPlay?.().catch((err) => {
-                        console.error('Error requesting AirPlay', err);
+                        logger.error('HtmlAudioPlayer error requesting AirPlay', { component: 'HtmlAudioPlayer', error: (err as Error).message });
                     });
                 } else {
                     docWithAirPlay.exitAirPLay?.().catch((err) => {
-                        console.error('Error exiting AirPlay', err);
+                        logger.error('HtmlAudioPlayer error exiting AirPlay', { component: 'HtmlAudioPlayer', error: (err as Error).message });
                     });
                 }
             } else {

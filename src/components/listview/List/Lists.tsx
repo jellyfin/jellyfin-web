@@ -22,29 +22,24 @@ const Lists: FC<ListsProps> = ({ items = [], listOptions = {} }) => {
         return '';
     });
 
-    const renderListItem = (item: ItemDto, index: number) => {
-        return (
-            <List
-                key={`${item.Id}-${index}`}
-                index={index}
-                item={item}
-                listOptions={listOptions}
-            />
-        );
-    };
-
     return (
         <>
             {Object.entries(groupedData).map(
-                ([itemGroupTitle, getItems], index) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <Box key={index}>
+                ([itemGroupTitle, groupItems], groupIndex) => (
+                    <Box key={itemGroupTitle || `group-${groupIndex}`}>
                         {itemGroupTitle && (
-                            <ListGroupHeaderWrapper index={index}>
+                            <ListGroupHeaderWrapper index={groupIndex}>
                                 {itemGroupTitle}
                             </ListGroupHeaderWrapper>
                         )}
-                        {getItems.map((item) => renderListItem(item, index))}
+                        {groupItems.map((item, itemIndex) => (
+                            <List
+                                key={item.Id ?? `item-${groupIndex}-${itemIndex}`}
+                                index={itemIndex}
+                                item={item}
+                                listOptions={listOptions}
+                            />
+                        ))}
                     </Box>
                 )
             )}

@@ -6,6 +6,7 @@
 import globalize from '../../../lib/globalize';
 import toast from '../../../components/toast/toast';
 import * as Helper from './Helper';
+import logger from '../../../utils/logger';
 
 /**
  * Class that manages the queue of SyncPlay.
@@ -34,23 +35,23 @@ class QueueCore {
         newPlayQueue.LastUpdate = new Date(newPlayQueue.LastUpdate);
 
         if (newPlayQueue.LastUpdate.getTime() <= this.getLastUpdateTime()) {
-            console.debug('SyncPlay updatePlayQueue: ignoring old update', newPlayQueue);
+            logger.debug('SyncPlay updatePlayQueue: ignoring old update', { component: 'SyncPlay', newPlayQueue });
             return;
         }
 
-        console.debug('SyncPlay updatePlayQueue:', newPlayQueue);
+        logger.debug('SyncPlay updatePlayQueue', { component: 'SyncPlay', newPlayQueue });
 
         const serverId = apiClient.serverInfo().Id;
 
         this.onPlayQueueUpdate(apiClient, newPlayQueue, serverId).then((previous) => {
             if (newPlayQueue.LastUpdate.getTime() < this.getLastUpdateTime()) {
-                console.warn('SyncPlay updatePlayQueue: trying to apply old update.', newPlayQueue);
+                logger.warn('SyncPlay updatePlayQueue: trying to apply old update', { component: 'SyncPlay', newPlayQueue });
                 throw new Error('Trying to apply old update');
             }
 
             // Ignore if remote player is self-managed (has own SyncPlay manager running).
             if (this.manager.isRemote()) {
-                console.warn('SyncPlay updatePlayQueue: remote player has own SyncPlay manager.');
+                logger.warn('SyncPlay updatePlayQueue: remote player has own SyncPlay manager', { component: 'SyncPlay' });
                 return;
             }
 
@@ -100,11 +101,11 @@ class QueueCore {
                     playerWrapper.localSetQueueShuffleMode(this.getShuffleMode());
                     break;
                 default:
-                    console.error('SyncPlay updatePlayQueue: unknown reason for update:', newPlayQueue.Reason);
+                    logger.error('SyncPlay updatePlayQueue: unknown reason for update', { component: 'SyncPlay', reason: newPlayQueue.Reason });
                     break;
             }
         }).catch((error) => {
-            console.warn('SyncPlay updatePlayQueue:', error);
+            logger.warn('SyncPlay updatePlayQueue', { component: 'SyncPlay', error: error.message });
         });
     }
 
@@ -168,7 +169,7 @@ class QueueCore {
      */
     scheduleReadyRequestOnPlaybackStart(apiClient, origin) {
         Helper.waitForEventOnce(this.manager, 'playbackstart', Helper.WaitForEventDefaultTimeout, ['playbackerror']).then(async () => {
-            console.debug('SyncPlay scheduleReadyRequestOnPlaybackStart: local pause and notify server.');
+            logger.debug('SyncPlay scheduleReadyRequestOnPlaybackStart: local pause and notify server', { component: 'SyncPlay' });
             const playerWrapper = this.manager.getPlayerWrapper();
             playerWrapper.localPause();
 
@@ -187,7 +188,7 @@ class QueueCore {
                 PlaylistItemId: this.getCurrentPlaylistItemId()
             });
         }).catch((error) => {
-            console.error('Error while waiting for `playbackstart` event!', origin, error);
+            logger.error('Error while waiting for playbackstart event', { component: 'SyncPlay', origin, error: error.message });
             if (!this.manager.isSyncPlayEnabled()) {
                 toast(globalize.translate('MessageSyncPlayErrorMedia'));
             }
@@ -202,12 +203,12 @@ class QueueCore {
      */
     startPlayback(apiClient) {
         if (!this.manager.isFollowingGroupPlayback()) {
-            console.debug('SyncPlay startPlayback: ignoring, not following playback.');
+            logger.debug('SyncPlay startPlayback: ignoring, not following playback', { component: 'SyncPlay' });
             return Promise.reject();
         }
 
         if (this.isPlaylistEmpty()) {
-            console.debug('SyncPlay startPlayback: empty playlist.');
+            logger.debug('SyncPlay startPlayback: empty playlist', { component: 'SyncPlay' });
             return;
         }
 
@@ -236,7 +237,7 @@ class QueueCore {
             startIndex: this.getCurrentPlaylistIndex(),
             serverId: serverId
         }).catch((error) => {
-            console.error(error);
+            logger.error('SyncPlay startPlayback', { component: 'SyncPlay', error: error.message });
             toast(globalize.translate('MessageSyncPlayErrorMedia'));
         });
     }
@@ -248,7 +249,7 @@ class QueueCore {
      */
     setCurrentPlaylistItem(apiClient, playlistItemId) {
         if (!this.manager.isFollowingGroupPlayback()) {
-            console.debug('SyncPlay setCurrentPlaylistItem: ignoring, not following playback.');
+            logger.debug('SyncPlay setCurrentPlaylistItem: ignoring, not following playback', { component: 'SyncPlay' });
             return;
         }
 

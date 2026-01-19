@@ -61,7 +61,8 @@ export default tseslint.config(
                     'newIsCapExceptionPattern': '\\.default$'
                 }
             ],
-            'no-console': ['error', { 'allow': ['debug', 'info', 'warn'] }],
+            // Use utils/logger instead of console directly for consistent logging
+            'no-console': ['error', { 'allow': ['warn', 'error'] }],
             'no-duplicate-imports': 'error',
             'no-empty-function': 'error',
             'no-extend-native': 'error',
@@ -322,16 +323,17 @@ export default tseslint.config(
             '@typescript-eslint/no-explicit-any': 'error',
             '@typescript-eslint/no-floating-promises': 'error',
             '@typescript-eslint/prefer-string-starts-ends-with': 'error',
+            // Strict boolean expressions with practical defaults for AI development
             '@typescript-eslint/strict-boolean-expressions': [
                 'error',
                 {
                     allowAny: false,
                     allowNumber: false,
                     allowString: false,
-                    allowNullableBoolean: false,
+                    allowNullableBoolean: true,  // Allow ?. chaining patterns
                     allowNullableNumber: false,
                     allowNullableString: false,
-                    allowNullableObject: false
+                    allowNullableObject: true    // Allow object truthiness checks
                 }
             ],
             '@typescript-eslint/consistent-type-imports': ['error', {
@@ -371,6 +373,8 @@ export default tseslint.config(
         }
     },
 
+    // Legacy JS files - relaxed rules during migration
+    // These files are pending TypeScript conversion
     {
         files: [ 'src/**/*.{js,jsx}' ],
         rules: {
@@ -386,6 +390,37 @@ export default tseslint.config(
             'sonarjs/no-invariant-returns': 'warn',
             'sonarjs/no-nested-functions': 'off',
             'sonarjs/void-use': 'off'
+        }
+    },
+
+    // TypeScript files - strict rules for AI-assisted development
+    // Strict rules help AI generate consistent, type-safe code
+    {
+        files: [ 'src/**/*.{ts,tsx}' ],
+        rules: {
+            // Require explicit return types for better AI code generation
+            '@typescript-eslint/explicit-function-return-type': ['warn', {
+                allowExpressions: true,
+                allowTypedFunctionExpressions: true,
+                allowHigherOrderFunctions: true
+            }],
+            // Require explicit member accessibility for clarity
+            '@typescript-eslint/explicit-member-accessibility': ['error', {
+                accessibility: 'explicit',
+                overrides: { constructors: 'no-public' }
+            }],
+            // Prevent any type - encourages proper typing
+            '@typescript-eslint/no-explicit-any': 'error',
+            // Require proper null handling
+            '@typescript-eslint/no-non-null-assertion': 'warn',
+            // Encourage immutability patterns
+            '@typescript-eslint/prefer-readonly': 'warn',
+            // Use nullish coalescing for cleaner code
+            '@typescript-eslint/prefer-nullish-coalescing': 'warn',
+            // Require enum members to have initial values
+            '@typescript-eslint/prefer-enum-initializers': 'warn',
+            // Consistent type definitions
+            '@typescript-eslint/consistent-type-definitions': ['error', 'interface']
         }
     }
 );

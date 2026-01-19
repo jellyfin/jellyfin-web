@@ -35,13 +35,22 @@ const MediaInfoStats: FC<MediaInfoStatsProps> = ({
 
     const cssClass = classNames(className);
 
-    const renderMediaInfo = (info: MiscInfo, index: number) => (
-        <MediaInfoItem key={index} className={infoclass} miscInfo={info} />
-    );
+    // Create stable key from content - use type + text + index as fallback
+    const getInfoKey = (info: MiscInfo, index: number): string => {
+        const type = info.type ?? 'info';
+        const text = String(info.text ?? '');
+        return `${type}-${text}-${index}`;
+    };
 
     return (
         <Box className={cssClass}>
-            {mediaInfoStats.map((info, index) => renderMediaInfo(info, index))}
+            {mediaInfoStats.map((info, index) => (
+                <MediaInfoItem
+                    key={getInfoKey(info, index)}
+                    className={infoclass}
+                    miscInfo={info}
+                />
+            ))}
         </Box>
     );
 };

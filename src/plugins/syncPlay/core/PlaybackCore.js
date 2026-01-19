@@ -7,6 +7,7 @@ import Events from '../../../utils/events';
 import { toBoolean, toFloat } from '../../../utils/string';
 import * as Helper from './Helper';
 import { getSetting } from './Settings';
+import logger from '../../../utils/logger';
 
 /**
  * Class that manages the playback of SyncPlay.
@@ -178,7 +179,7 @@ class PlaybackCore {
             && this.lastCommand.PlaylistItemId === command.PlaylistItemId
         ) {
             // Duplicate command found, check playback state and correct if needed.
-            console.debug('SyncPlay applyCommand: duplicate command received!', command);
+            logger.debug('SyncPlay applyCommand: duplicate command received', { component: 'SyncPlay', command });
 
             // Determine if past command or future one.
             const currentTime = new Date();
@@ -186,7 +187,7 @@ class PlaybackCore {
             if (whenLocal > currentTime) {
                 // Command should be already scheduled, not much we can do.
                 // TODO: should re-apply or just drop?
-                console.debug('SyncPlay applyCommand: command already scheduled.', command);
+                logger.debug('SyncPlay applyCommand: command already scheduled', { component: 'SyncPlay', command });
                 return;
             } else {
                 // Check if playback state matches requested command.
@@ -224,14 +225,14 @@ class PlaybackCore {
                             // eslint-disable-next-line sonarjs/pseudo-random
                             const randomOffsetTicks = Math.round((Math.random() - 0.5) * rangeWidth) * Helper.TicksPerMillisecond;
                             this.scheduleSeek(command.When, command.PositionTicks + randomOffsetTicks);
-                            console.debug('SyncPlay applyCommand: adding random offset to force seek:', randomOffsetTicks, command);
+                            logger.debug('SyncPlay applyCommand: adding random offset to force seek', { component: 'SyncPlay', randomOffsetTicks, command });
                         } else {
                             // All done, I guess?
                             this.sendBufferingRequest(false);
                         }
                         break;
                     default:
-                        console.error('SyncPlay applyCommand: command is not recognised:', command);
+                        logger.error('SyncPlay applyCommand: command not recognised', { component: 'SyncPlay', command });
                         break;
                 }
 
@@ -262,7 +263,7 @@ class PlaybackCore {
                 this.scheduleSeek(command.When, command.PositionTicks);
                 break;
             default:
-                console.error('SyncPlay applyCommand: command is not recognised:', command);
+                logger.error('SyncPlay applyCommand: command not recognised', { component: 'SyncPlay', command });
                 break;
         }
     }
@@ -300,7 +301,7 @@ class PlaybackCore {
                 }, enableSyncTimeout);
             }, playTimeout);
 
-            console.debug('Scheduled unpause in', playTimeout / 1000.0, 'seconds.');
+            logger.debug('SyncPlay scheduled unpause', { component: 'SyncPlay', timeoutSeconds: playTimeout / 1000.0 });
         } else {
             // Group playback already started.
             const serverPositionTicks = this.estimateCurrentTicks(positionTicks, playAtTime);
@@ -316,7 +317,7 @@ class PlaybackCore {
                 this.syncEnabled = true;
             }, enableSyncTimeout);
 
-            console.debug(`SyncPlay scheduleUnpause: unpause now from ${serverPositionTicks} (was at ${currentPositionTicks}).`);
+            logger.debug('SyncPlay scheduleUnpause: unpause now', { component: 'SyncPlay', serverPositionTicks, currentPositionTicks });
         }
     }
 
@@ -344,10 +345,10 @@ class PlaybackCore {
             const pauseTimeout = pauseAtTimeLocal - currentTime;
             this.scheduledCommandTimeout = setTimeout(callback, pauseTimeout);
 
-            console.debug('Scheduled pause in', pauseTimeout / 1000.0, 'seconds.');
+            logger.debug('SyncPlay scheduled pause', { component: 'SyncPlay', timeoutSeconds: pauseTimeout / 1000.0 });
         } else {
             callback();
-            console.debug('SyncPlay schedulePause: now.');
+            logger.debug('SyncPlay schedulePause: now', { component: 'SyncPlay' });
         }
     }
 
@@ -368,10 +369,10 @@ class PlaybackCore {
             const stopTimeout = stopAtTimeLocal - currentTime;
             this.scheduledCommandTimeout = setTimeout(callback, stopTimeout);
 
-            console.debug('Scheduled stop in', stopTimeout / 1000.0, 'seconds.');
+            logger.debug('SyncPlay scheduled stop', { component: 'SyncPlay', timeoutSeconds: stopTimeout / 1000.0 });
         } else {
             callback();
-            console.debug('SyncPlay scheduleStop: now.');
+            logger.debug('SyncPlay scheduleStop: now', { component: 'SyncPlay' });
         }
     }
 
@@ -393,7 +394,7 @@ class PlaybackCore {
                 this.localPause();
                 this.sendBufferingRequest(false);
             }).catch((error) => {
-                console.error(`Timed out while waiting for 'ready' event! Seeking to ${positionTicks}.`, error);
+                logger.error("SyncPlay: timed out waiting for 'ready' event", { component: 'SyncPlay', positionTicks, error: error.message });
                 this.localSeek(positionTicks);
             });
         };
@@ -402,10 +403,10 @@ class PlaybackCore {
             const seekTimeout = seekAtTimeLocal - currentTime;
             this.scheduledCommandTimeout = setTimeout(callback, seekTimeout);
 
-            console.debug('Scheduled seek in', seekTimeout / 1000.0, 'seconds.');
+            logger.debug('SyncPlay scheduled seek', { component: 'SyncPlay', timeoutSeconds: seekTimeout / 1000.0 });
         } else {
             callback();
-            console.debug('SyncPlay scheduleSeek: now.');
+            logger.debug('SyncPlay scheduleSeek: now', { component: 'SyncPlay' });
         }
     }
 
@@ -431,7 +432,7 @@ class PlaybackCore {
     localUnpause() {
         // Ignore command when no player is active.
         if (!this.manager.isPlaybackActive()) {
-            console.debug('SyncPlay localUnpause: no active player!');
+            logger.debug('SyncPlay localUnpause: no active player', { component: 'SyncPlay' });
             return;
         }
 
@@ -445,7 +446,7 @@ class PlaybackCore {
     localPause() {
         // Ignore command when no player is active.
         if (!this.manager.isPlaybackActive()) {
-            console.debug('SyncPlay localPause: no active player!');
+            logger.debug('SyncPlay localPause: no active player', { component: 'SyncPlay' });
             return;
         }
 
@@ -459,7 +460,7 @@ class PlaybackCore {
     localSeek(positionTicks) {
         // Ignore command when no player is active.
         if (!this.manager.isPlaybackActive()) {
-            console.debug('SyncPlay localSeek: no active player!');
+            logger.debug('SyncPlay localSeek: no active player', { component: 'SyncPlay' });
             return;
         }
 
@@ -473,7 +474,7 @@ class PlaybackCore {
     localStop() {
         // Ignore command when no player is active.
         if (!this.manager.isPlaybackActive()) {
-            console.debug('SyncPlay localStop: no active player!');
+            logger.debug('SyncPlay localStop: no active player', { component: 'SyncPlay' });
             return;
         }
 
@@ -512,7 +513,7 @@ class PlaybackCore {
 
         // Ignore sync when no player is active.
         if (!this.manager.isPlaybackActive()) {
-            console.debug('SyncPlay syncPlaybackTime: no active player!');
+            logger.debug('SyncPlay syncPlaybackTime: no active player', { component: 'SyncPlay' });
             return;
         }
 
@@ -566,7 +567,7 @@ class PlaybackCore {
                 const speed = 1 + diffMillis / speedToSyncTime;
 
                 if (speed <= 0) {
-                    console.error('SyncPlay error: speed should not be negative!', speed, diffMillis, speedToSyncTime);
+                    logger.error('SyncPlay: speed should not be negative', { component: 'SyncPlay', speed, diffMillis, speedToSyncTime });
                 }
 
                 playerWrapper.setPlaybackRate(speed);
@@ -580,7 +581,7 @@ class PlaybackCore {
                     this.manager.clearSyncIcon();
                 }, speedToSyncTime);
 
-                console.log('SyncPlay SpeedToSync', speed);
+                logger.info('SyncPlay SpeedToSync', { component: 'SyncPlay', speed });
             } else if (this.useSkipToSync && absDiffMillis >= this.minDelaySkipToSync) {
                 // SkipToSync strategy.
                 this.localSeek(serverPositionTicks);
@@ -593,11 +594,11 @@ class PlaybackCore {
                     this.manager.clearSyncIcon();
                 }, syncMethodThreshold / 2);
 
-                console.log('SyncPlay SkipToSync', serverPositionTicks);
+                logger.info('SyncPlay SkipToSync', { component: 'SyncPlay', serverPositionTicks });
             } else {
                 // Playback is synced.
                 if (this.syncAttempts > 0) {
-                    console.debug('Playback has been synced after', this.syncAttempts, 'attempts.');
+                    logger.debug('Playback synced after attempts', { component: 'SyncPlay', attempts: this.syncAttempts });
                 }
                 this.syncAttempts = 0;
             }

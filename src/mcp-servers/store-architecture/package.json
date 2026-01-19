@@ -1,0 +1,19 @@
+{
+  "name": "jellyfin-store-architecture",
+  "version": "1.0.0",
+  "description": "MCP server for understanding Jellyfin's Zustand store architecture and relationships",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

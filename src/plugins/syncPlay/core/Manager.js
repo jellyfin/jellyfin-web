@@ -11,6 +11,7 @@ import Controller from './Controller';
 import toast from '../../../components/toast/toast';
 import globalize from '../../../lib/globalize';
 import Events from '../../../utils/events';
+import logger from '../../../utils/logger';
 
 /**
  * Class that manages the SyncPlay feature.
@@ -224,7 +225,7 @@ class Manager {
                 break;
             case 'StateUpdate':
                 Events.trigger(this, 'group-state-update', [cmd.Data.State, cmd.Data.Reason]);
-                console.debug(`SyncPlay processGroupUpdate: state changed to ${cmd.Data.State} because ${cmd.Data.Reason}.`);
+                logger.debug('SyncPlay group state changed', { component: 'SyncPlay', state: cmd.Data.State, reason: cmd.Data.Reason });
                 break;
             case 'GroupDoesNotExist':
                 toast(globalize.translate('MessageSyncPlayGroupDoesNotExist'));
@@ -239,7 +240,7 @@ class Manager {
                 toast(globalize.translate('MessageSyncPlayLibraryAccessDenied'));
                 break;
             default:
-                console.error(`SyncPlay processGroupUpdate: command ${cmd.Type} not recognised.`);
+                logger.error('SyncPlay processGroupUpdate: command not recognised', { component: 'SyncPlay', commandType: cmd.Type });
                 break;
         }
     }
@@ -258,17 +259,17 @@ class Manager {
         }
 
         if (!this.isSyncPlayEnabled()) {
-            console.debug('SyncPlay processCommand: SyncPlay not enabled, ignoring command.', cmd);
+            logger.debug('SyncPlay processCommand: SyncPlay not enabled, ignoring command', { component: 'SyncPlay', command: cmd });
             return;
         }
 
         if (cmd.EmittedAt.getTime() < this.syncPlayEnabledAt.getTime()) {
-            console.debug('SyncPlay processCommand: ignoring old command.', cmd);
+            logger.debug('SyncPlay processCommand: ignoring old command', { component: 'SyncPlay', command: cmd });
             return;
         }
 
         if (!this.syncPlayReady) {
-            console.debug('SyncPlay processCommand: SyncPlay not ready, queued command.', cmd);
+            logger.debug('SyncPlay processCommand: SyncPlay not ready, queued command', { component: 'SyncPlay', command: cmd });
             this.queuedCommand = cmd;
             return;
         }
@@ -276,18 +277,18 @@ class Manager {
         this.lastPlaybackCommand = cmd;
 
         if (!this.isPlaybackActive()) {
-            console.debug('SyncPlay processCommand: no active player!');
+            logger.debug('SyncPlay processCommand: no active player', { component: 'SyncPlay' });
             return;
         }
 
         // Make sure command matches playing item in playlist.
         const playlistItemId = this.queueCore.getCurrentPlaylistItemId();
         if (cmd.PlaylistItemId !== playlistItemId && cmd.Command !== 'Stop') {
-            console.error('SyncPlay processCommand: playlist item does not match!', cmd);
+            logger.error('SyncPlay processCommand: playlist item does not match', { component: 'SyncPlay', command: cmd });
             return;
         }
 
-        console.log(`SyncPlay will ${cmd.Command} at ${cmd.When} (in ${cmd.When.getTime() - Date.now()} ms)${cmd.PositionTicks ? '' : ' from ' + cmd.PositionTicks}.`);
+        logger.info('SyncPlay processing command', { component: 'SyncPlay', command: cmd.Command, when: cmd.When, delayMs: cmd.When.getTime() - Date.now() });
 
         this.playbackCore.applyCommand(cmd);
     }
@@ -300,7 +301,7 @@ class Manager {
         if (update === null || update.State === null || update.Reason === null) return;
 
         if (!this.isSyncPlayEnabled()) {
-            console.debug('SyncPlay processStateChange: SyncPlay not enabled, ignoring group state update.', update);
+            logger.debug('SyncPlay processStateChange: SyncPlay not enabled, ignoring group state update', { component: 'SyncPlay', update });
             return;
         }
 
@@ -360,10 +361,10 @@ class Manager {
     enableSyncPlay(apiClient, groupInfo, showMessage = false) {
         if (this.isSyncPlayEnabled()) {
             if (groupInfo.GroupId === this.groupInfo.GroupId) {
-                console.debug(`SyncPlay enableSyncPlay: group ${this.groupInfo.GroupId} already joined.`);
+                logger.debug('SyncPlay enableSyncPlay: group already joined', { component: 'SyncPlay', groupId: this.groupInfo.GroupId });
                 return;
             } else {
-                console.warn(`SyncPlay enableSyncPlay: switching from group ${this.groupInfo.GroupId} to group ${groupInfo.GroupId}.`);
+                logger.warn('SyncPlay enableSyncPlay: switching groups', { component: 'SyncPlay', fromGroupId: this.groupInfo.GroupId, toGroupId: groupInfo.GroupId });
                 this.disableSyncPlay(false);
             }
 

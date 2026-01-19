@@ -360,3 +360,60 @@ declare module 'jellyfin-apiclient' {
     };
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
+
+/**
+ * Type declarations for the internal lib/jellyfin-apiclient module
+ */
+declare module 'lib/jellyfin-apiclient' {
+    import type { Api } from '@jellyfin/sdk';
+    import { ApiClient, ConnectionManager } from 'jellyfin-apiclient';
+
+    export const ConnectionMode: {
+        Local: number;
+        Remote: number;
+        Manual: number;
+    };
+
+    export const enum ConnectionState {
+        SignedIn = 'SignedIn',
+        ServerMismatch = 'ServerMismatch',
+        ServerSignIn = 'ServerSignIn',
+        ServerSelection = 'ServerSelection',
+        ServerUpdateNeeded = 'ServerUpdateNeeded',
+        Unavailable = 'Unavailable'
+    }
+
+    /**
+     * Server info object returned by getLastUsedServer
+     */
+    interface ServerInfo {
+        Id: string;
+        Name?: string;
+        ManualAddress?: string;
+        LocalAddress?: string;
+        RemoteAddress?: string;
+        LastConnectionMode?: number;
+        manualAddressOnly?: boolean;
+    }
+
+    /**
+     * ServerConnections singleton - extends ConnectionManager with additional methods
+     */
+    export const ServerConnections: ConnectionManager & {
+        localApiClient: ApiClient | null;
+        firstConnection: Promise<unknown> | null;
+        devServerAddress: string | null;
+
+        initApiClient(server: string): void;
+        setLocalApiClient(apiClient: ApiClient): void;
+        getLocalApiClient(): ApiClient | null;
+        currentApiClient(): ApiClient | undefined;
+        getCurrentApi(): Api | undefined;
+        getCurrentApiClientAsync(): Promise<ApiClient>;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onLocalUserSignedIn(user: any): Promise<void>;
+        setDevServerAddress(address: string): void;
+        applyDevServerAddress(): void;
+        getLastUsedServer(): ServerInfo | undefined;
+    };
+}

@@ -6,6 +6,7 @@ import { ApiClient } from 'jellyfin-apiclient';
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
 import { equalsIgnoreCase } from 'utils/string';
+import logger from '../../utils/logger';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
@@ -55,7 +56,7 @@ function sortByAccess(a, b) {
 
 export default class ConnectionManager {
     constructor(credentialProvider, appName, appVersion, deviceName, deviceId, capabilities) {
-        console.log('Begin ConnectionManager constructor');
+        logger.info('ConnectionManager constructor starting', { component: 'ConnectionManager' });
 
         const self = this;
         this._apiClients = [];
@@ -126,7 +127,7 @@ export default class ConnectionManager {
         };
 
         self.clearData = () => {
-            console.log('connection manager clearing data');
+            logger.info('ConnectionManager clearing data', { component: 'ConnectionManager' });
 
             const credentials = credentialProvider.credentials();
             credentials.Servers = [];
@@ -150,7 +151,7 @@ export default class ConnectionManager {
                 events.trigger(self, 'apiclientcreated', [apiClient]);
             }
 
-            console.log('returning instance from getOrAddApiClient');
+            logger.debug('ConnectionManager returning instance from getOrAddApiClient', { component: 'ConnectionManager' });
             return apiClient;
         };
 
@@ -206,7 +207,7 @@ export default class ConnectionManager {
             apiClient.enableAutomaticBitrateDetection = options.enableAutomaticBitrateDetection;
 
             if (options.enableWebSocket !== false) {
-                console.log('calling apiClient.ensureWebSocket');
+                logger.debug('ConnectionManager calling ensureWebSocket', { component: 'ConnectionManager' });
 
                 apiClient.ensureWebSocket();
             }
@@ -355,7 +356,7 @@ export default class ConnectionManager {
         };
 
         self.getAvailableServers = () => {
-            console.debug('[ConnectionManager] Begin getAvailableServers');
+            logger.debug('ConnectionManager getAvailableServers starting', { component: 'ConnectionManager' });
 
             // Clone the array
             const credentials = credentialProvider.credentials();
@@ -420,13 +421,13 @@ export default class ConnectionManager {
         }
 
         self.connectToServers = (servers, options) => {
-            console.log(`Begin connectToServers, with ${servers.length} servers`);
+            logger.info('ConnectionManager connectToServers starting', { component: 'ConnectionManager', serverCount: servers.length });
 
             const firstServer = servers.length ? servers[0] : null;
             // See if we have any saved credentials and can auto sign in
             if (firstServer) {
                 return self.connectToServer(firstServer, options).then((result) => {
-                    console.log('resolving connectToServers with result.State: ' + result.State);
+                    logger.debug('ConnectionManager connectToServers resolved', { component: 'ConnectionManager', state: result.State });
                     return result;
                 });
             }
@@ -438,7 +439,7 @@ export default class ConnectionManager {
         };
 
         function getTryConnectPromise(url, connectionMode, state, resolve, reject) {
-            console.log('getTryConnectPromise ' + url);
+            logger.debug('ConnectionManager getTryConnectPromise', { component: 'ConnectionManager', url });
 
             ajax({
                 url: `${url}/System/Info/Public`,
@@ -450,7 +451,7 @@ export default class ConnectionManager {
                     if (!state.resolved) {
                         state.resolved = true;
 
-                        console.log('Reconnect succeeded to ' + url);
+                        logger.debug('ConnectionManager reconnect succeeded', { component: 'ConnectionManager', url });
                         resolve({
                             url: url,
                             connectionMode: connectionMode,
@@ -459,7 +460,7 @@ export default class ConnectionManager {
                     }
                 },
                 () => {
-                    console.log('Reconnect failed to ' + url);
+                    logger.debug('ConnectionManager reconnect failed', { component: 'ConnectionManager', url });
 
                     if (!state.resolved) {
                         state.rejects++;
@@ -508,10 +509,10 @@ export default class ConnectionManager {
                     mode: ConnectionMode.Remote,
                     timeout: 200
                 });
-                addressesStrings.push(addresses[addresses.length - 1].url);
-            }
+            addressesStrings.push(addresses[addresses.length - 1].url);
+        }
 
-            console.info('[ConnectionManager] tryReconnect addresses', addressesStrings);
+        logger.info('ConnectionManager tryReconnect addresses', { component: 'ConnectionManager', addresses: addressesStrings });
 
             return new Promise((resolve, reject) => {
                 const state = {};
@@ -529,7 +530,7 @@ export default class ConnectionManager {
         };
 
         self.connectToServer = (server, options) => {
-            console.debug('[ConnectionManager] begin connectToServer');
+            logger.debug('ConnectionManager connectToServer starting', { component: 'ConnectionManager' });
 
             return new Promise((resolve) => {
                 options = options || {};
@@ -541,15 +542,13 @@ export default class ConnectionManager {
                         result = result.data;
 
                         if (compareVersions(self.minServerVersion(), result.Version) === 1) {
-                            console.warn('[ConnectionManager] minServerVersion requirement not met. Server version:', result.Version);
+                            logger.warn('ConnectionManager minServerVersion requirement not met', { component: 'ConnectionManager', serverVersion: result.Version });
                             resolve({
                                 State: ConnectionState.ServerUpdateNeeded,
                                 Servers: [server]
                             });
                         } else if (server.Id && result.Id !== server.Id) {
-                            console.warn(
-                                '[ConnectionManager] http request succeeded, but found a different server Id than what was expected'
-                            );
+                            logger.warn('ConnectionManager server mismatch', { component: 'ConnectionManager' });
                             resolve({
                                 State: ConnectionState.ServerMismatch
                             });
@@ -674,7 +673,7 @@ export default class ConnectionManager {
             let i = 0;
 
             function onFail() {
-                console.log(`connectToAddress ${urls[i]} failed`);
+                logger.warn('ConnectionManager connectToAddress failed', { component: 'ConnectionManager', url: urls[i] });
 
                 if (++i < urls.length) {
                     return tryConnectToAddress(urls[i], options).catch(onFail);
@@ -714,7 +713,7 @@ export default class ConnectionManager {
     }
 
     connect(options) {
-        console.log('Begin connect');
+        logger.info('ConnectionManager connect starting', { component: 'ConnectionManager' });
 
         return this.getAvailableServers().then((servers) => {
             return this.connectToServers(servers, options);
@@ -730,7 +729,7 @@ export default class ConnectionManager {
                     try {
                         msg.Data = JSON.parse(msg.Data);
                     } catch (err) {
-                        console.log('unable to parse json content: ' + err);
+                        logger.warn('ConnectionManager unable to parse JSON content', { component: 'ConnectionManager', error: err.message });
                     }
                 }
 

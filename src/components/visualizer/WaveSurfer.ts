@@ -656,7 +656,9 @@ export {
     waveSurferInitialization,
     waveSurferInstance,
     destroyWaveSurferInstance,
-    currentZoom
+    currentZoom,
+    getCachedPeaks,
+    setCachedPeaks
 };
 
 // clearPeakCache is already exported at definition

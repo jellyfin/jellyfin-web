@@ -1,0 +1,133 @@
+# Jellyfin Web Development Rules
+
+## Project Context
+Modernized fork of Jellyfin Web focused on premium audio playback with WASM processing, React/TypeScript architecture, and Vite build system.
+
+## Key Commands
+```bash
+npm start              # Dev server (http://localhost:5173)
+npm run build:check    # TypeScript validation
+npm run lint           # ESLint + Stylelint
+npm test               # Vitest tests
+```
+
+## Architecture Patterns
+
+### State Management
+- **Zustand** (`src/store/`) - Reactive global state
+- **playbackManager** - Legacy event-based playback control
+- **TanStack Query** - Server state (useFetchItems, useUsers, etc.)
+- **React useState** - Local component state
+
+### TanStack Libraries Used
+| Library | Purpose |
+|---------|--------|
+| @tanstack/react-table | Data tables (QueueTable) |
+| @tanstack/react-virtual | Virtualization for large lists |
+| @tanstack/react-query | Data fetching (extensive) |
+| @tanstack/react-form | Form state management |
+| @dnd-kit/* | Drag-and-drop (QueueTable reordering) |
+
+### Modernization Pattern: Forms
+```typescript
+// ✅ DO: React state + Zod + MUI
+const [formData, setFormData] = useState({ username: '', password: '' });
+const userSchema = z.object({
+    username: z.string().min(1, 'Required'),
+    password: z.string().optional()
+});
+<TextField value={formData.username} onChange={(e) => setFormData(...)} />
+
+// ❌ DON'T: querySelector
+const username = (page.querySelector('#txtUsername') as HTMLInputElement).value;
+```
+
+### Modernization Pattern: Tables
+```typescript
+// ✅ DO: TanStack Table + Virtual + DnD-Kit
+import { useReactTable } from '@tanstack/react-table';
+import { useVirtualizer } from '@tanstack/react-virtual';
+import { DndContext } from '@dnd-kit/core';
+
+// ❌ DON'T: Legacy HTML tables with manual DOM
+```
+
+## MCP Tools Available
+
+Run: `npx tsx src/mcp-servers/components/index.ts`
+
+**Useful tools:**
+- `get_queue_table` - Understand QueueTable with drag-and-drop
+- `get_user_new_form` - Modern user creation form pattern
+- `get_form_patterns` - Form patterns with Zod + MUI
+- `get_visualizer_components` - WaveformCell, WaveSurfer docs
+
+## File Structure
+```
+src/
+├── components/
+│   ├── audioEngine/    # WASM audio processing
+│   ├── playback/       # playbackManager
+│   ├── visualizer/     # WaveformCell, WaveSurfer
+│   └── forms/          # NEW: Form components
+├── apps/
+│   ├── stable/routes/lazyRoutes/
+│   │   ├── QueueTable.tsx  # TanStack Table example
+│   │   └── QueuePage.tsx   # Queue view
+│   └── dashboard/routes/users/
+│       └── add.tsx         # Modernized user form
+├── store/              # Zustand stores
+├── hooks/              # Custom hooks
+└── mcp-servers/        # MCP tool implementations
+```
+
+## Code Conventions
+
+### TypeScript
+- Target: ES2022
+- Strict mode enabled
+- Use `type` imports for types only
+
+### React
+- Functional components with hooks
+- Zustand for global state
+- MUI for UI components
+- No querySelector - use React state
+
+### File Naming
+- React components: `PascalCase.tsx`
+- Utilities: `camelCase.ts`
+- Tests: `*.test.ts` or `*.test.tsx`
+- No barrel exports (use direct imports)
+
+## Important Paths
+```
+src/components/audioEngine/   # WASM audio, crossfade
+src/components/playback/      # playbackManager (core)
+src/components/nowPlayingBar/ # React controls
+src/store/audioStore.ts       # Zustand state
+src/plugins/htmlAudioPlayer/  # Audio player
+src/apps/stable/routes/       # React routes
+```
+
+## Common Tasks
+
+### Adding a New Route
+1. Create component in `src/apps/stable/routes/lazyRoutes/`
+2. Register in `src/apps/stable/routes/asyncRoutes/user.ts`
+3. Add navigation in `src/components/router/appRouter.js`
+
+### Modifying Playback
+1. Core logic: `src/components/playback/playbackmanager.ts`
+2. Audio routing: `src/components/audioEngine/master.logic.ts`
+3. State sync: Events → `audioStore` → React
+
+## Dependencies for New Features
+```bash
+npm install @tanstack/react-table @tanstack/react-virtual @tanstack/react-query @tanstack/react-form @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities zod
+```
+
+## Linting
+Run `npm run build:check` before committing. Common issues:
+- `strict-boolean-expressions`: Use explicit checks
+- `no-explicit-any`: Add proper types

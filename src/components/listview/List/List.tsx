@@ -20,7 +20,6 @@ const List: FC<ListProps> = ({ index, item, listOptions = {} }) => {
 
     return (
         <ListWrapper
-            key={index}
             index={index}
             {...listWrapperProps}
         >

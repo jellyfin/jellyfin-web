@@ -1,20 +1,14 @@
-// Performance monitoring for PWA optimization
+import logger from './logger';
+
 class PerformanceMonitor {
     static init() {
-        // Core Web Vitals
         this.measureCLS();
         this.measureFID();
         this.measureLCP();
         this.measureTTFB();
-
-        // PWA-specific metrics
         this.measurePWAMetrics();
-
-        // Custom metrics
         this.measureBundleLoad();
         this.measureServiceWorker();
-
-        // Report metrics
         this.reportMetrics();
     }
 
@@ -30,14 +24,15 @@ class PerformanceMonitor {
                 }
             }
 
-            console.log('[Performance] CLS:', clsValue);
+            logger.debug('CLS metric', { component: 'PerformanceMonitor', value: clsValue });
         }).observe({ entryTypes: ['layout-shift'] });
     }
 
     static measureFID() {
         new PerformanceObserver((entryList) => {
             for (const entry of entryList.getEntries()) {
-                console.log('[Performance] FID:', entry.processingStart - entry.startTime, 'ms');
+                const fid = entry.processingStart - entry.startTime;
+                logger.debug('FID metric', { component: 'PerformanceMonitor', value: fid, unit: 'ms' });
             }
         }).observe({ entryTypes: ['first-input'] });
     }
@@ -46,14 +41,15 @@ class PerformanceMonitor {
         new PerformanceObserver((entryList) => {
             const entries = entryList.getEntries();
             const lastEntry = entries[entries.length - 1];
-            console.log('[Performance] LCP:', lastEntry.startTime, 'ms');
+            logger.debug('LCP metric', { component: 'PerformanceMonitor', value: lastEntry.startTime, unit: 'ms' });
         }).observe({ entryTypes: ['largest-contentful-paint'] });
     }
 
     static measureTTFB() {
         new PerformanceObserver((entryList) => {
             for (const entry of entryList.getEntries()) {
-                console.log('[Performance] TTFB:', entry.responseStart - entry.requestStart, 'ms');
+                const ttfb = entry.responseStart - entry.requestStart;
+                logger.debug('TTFB metric', { component: 'PerformanceMonitor', value: ttfb, unit: 'ms' });
             }
         }).observe({ entryTypes: ['navigation'] });
     }
@@ -66,44 +62,40 @@ class PerformanceMonitor {
                     r.name.includes('.js') && !r.name.includes('libraries/')
                 );
 
-                console.log('[Performance] Bundle loads:', bundles.length);
-                bundles.forEach(bundle => {
-                    console.log(`  ${bundle.name}: ${bundle.duration.toFixed(1)}ms`);
-                });
+                const bundleInfo = bundles.map(bundle => ({
+                    name: bundle.name,
+                    duration: bundle.duration.toFixed(1)
+                }));
+                logger.debug('Bundle loads', { component: 'PerformanceMonitor', count: bundles.length, bundles: bundleInfo });
 
                 const totalBundleSize = bundles.reduce((sum, b) =>
                     sum + (b.transferSize || 0), 0
                 );
-                console.log('[Performance] Total bundle size:',
-                    (totalBundleSize / 1024 / 1024).toFixed(2), 'MB'
-                );
+                logger.info('Total bundle size', { component: 'PerformanceMonitor', sizeMB: (totalBundleSize / 1024 / 1024).toFixed(2) });
             }, 1000);
         });
     }
 
     static measurePWAMetrics() {
-        // PWA install status
         if ('getInstalledRelatedApps' in navigator) {
             navigator.getInstalledRelatedApps().then((apps) => {
-                console.log('[Performance] Related apps installed:', apps.length);
+                logger.debug('Related apps installed', { component: 'PerformanceMonitor', count: apps.length });
             });
         }
 
-        // Display mode detection
         const displayMode = this.getDisplayMode();
-        console.log('[Performance] Display mode:', displayMode);
+        logger.debug('Display mode', { component: 'PerformanceMonitor', mode: displayMode });
 
-        // Connection status
         if ('connection' in navigator) {
             const connection = navigator.connection;
-            console.log('[Performance] Connection:', {
+            logger.debug('Connection info', {
+                component: 'PerformanceMonitor',
                 effectiveType: connection.effectiveType,
                 downlink: connection.downlink,
                 rtt: connection.rtt
             });
         }
 
-        // Web App Manifest validation
         this.validateManifest();
     }
 
@@ -115,35 +107,35 @@ class PerformanceMonitor {
     }
 
     static validateManifest() {
-        // Basic manifest validation
         if ('manifest' in document.createElement('link')) {
-            console.log('[Performance] Web App Manifest supported');
+            logger.debug('Web App Manifest supported', { component: 'PerformanceMonitor' });
         } else {
-            console.warn('[Performance] Web App Manifest not supported');
+            logger.warn('Web App Manifest not supported', { component: 'PerformanceMonitor' });
         }
     }
 
     static measureServiceWorker() {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.ready.then((registration) => {
-                console.log('[Performance] Service Worker ready:', {
+                logger.debug('Service Worker ready', {
+                    component: 'PerformanceMonitor',
                     state: registration.active?.state,
                     scope: registration.scope,
                     updateViaCache: registration.updateViaCache
                 });
 
-                // Check cache status
                 if (window.ServiceWorkerCacheManager) {
                     window.ServiceWorkerCacheManager.getCacheStatus().then((status) => {
-                        console.log('[Performance] Cache status:', status);
-                    }).catch(console.error);
+                        logger.debug('Cache status', { component: 'PerformanceMonitor', status });
+                    }).catch((error) => {
+                        logger.error('Cache status check failed', { component: 'PerformanceMonitor', error: error.message });
+                    });
                 }
             });
         }
     }
 
     static reportMetrics() {
-        // Send metrics to analytics if available
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const navigation = performance.getEntriesByType('navigation')[0];
@@ -156,16 +148,12 @@ class PerformanceMonitor {
                         .find(p => p.name === 'first-contentful-paint')?.startTime || 0
                 };
 
-                console.log('[Performance] Page metrics:', metrics);
-
-                // Could send to analytics service here
-                // this.sendToAnalytics(metrics);
+                logger.info('Page metrics', { component: 'PerformanceMonitor', ...metrics });
             }, 2000);
         });
     }
 
     static sendToAnalytics(metrics) {
-        // Placeholder for analytics integration
         if (window.gtag) {
             window.gtag('event', 'web_vitals', {
                 event_category: 'Web Vitals',
@@ -176,5 +164,4 @@ class PerformanceMonitor {
     }
 }
 
-// Initialize performance monitoring
-PerformanceMonitor.init();
+export default PerformanceMonitor;

@@ -28,6 +28,7 @@ import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/med
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
 import { bindSkipSegment } from './skipsegment';
 import { useAudioStore } from '../../store/audioStore';
+import logger from '../../utils/logger';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -1048,7 +1049,7 @@ export class PlaybackManager {
         this.currentTargetInfo = targetInfo;
 
         if (targetInfo) {
-            console.debug('Active player: ' + JSON.stringify(targetInfo));
+            logger.debug('Active player', { component: 'PlaybackManager', targetInfo });
         }
 
         if (previousPlayer) {
@@ -1064,7 +1065,7 @@ export class PlaybackManager {
             try {
                 (player as any).stop();
             } catch (e) {
-                console.error('Error stopping previous player:', e);
+                logger.error('Error stopping previous player', { component: 'PlaybackManager', error: e as Error });
             }
         }
     }
@@ -1077,11 +1078,11 @@ export class PlaybackManager {
 
         // Just log for debugging, don't throw
         if (playerAny.name === 'Html Audio Player' || playerAny.id === 'htmlaudioplayer') {
-            console.debug(`[PlaybackManager] Audio player ready: ${playerAny.name}`);
+            logger.debug(`Audio player ready: ${playerAny.name}`, { component: 'PlaybackManager' });
         }
 
         if (playerAny.name === 'Html Video Player' || playerAny.id === 'htmlvideoplayer') {
-            console.debug(`[PlaybackManager] Video player ready: ${playerAny.name}`);
+            logger.debug(`Video player ready: ${playerAny.name}`, { component: 'PlaybackManager' });
         }
     }
 
@@ -1114,7 +1115,7 @@ export class PlaybackManager {
         // Get player
         const player = this.getPlayer(item, options);
         if (!player) {
-            console.error(`No player found for the requested media: ${item.Url || item.Name}`);
+            logger.error('No player found for the requested media', { component: 'PlaybackManager', item: item.Url || item.Name });
             throw new Error('No player found for the requested media');
         }
 
@@ -1191,7 +1192,7 @@ export class PlaybackManager {
             this.onPlaybackStarted(player, options, streamInfo, mediaSource);
         }).catch((err: any) => {
             loading.hide();
-            console.error('Playback failed:', err);
+            logger.error('Playback failed', { component: 'PlaybackManager', error: err });
             throw err;
         });
     }
@@ -1462,7 +1463,7 @@ export class PlaybackManager {
                     targetPlayer.pause();
                 }
             } catch (error) {
-                console.warn('[PlaybackManager] Fade failed, pausing without crossfade:', error);
+                logger.warn('Fade failed, pausing without crossfade', { component: 'PlaybackManager', error: error as Error });
                 targetPlayer.pause();
             }
         }
@@ -1477,7 +1478,7 @@ export class PlaybackManager {
                 await fadeMixerVolume(0, 0.15);
                 targetPlayer.stop();
             } catch (error) {
-                console.warn('[PlaybackManager] Fade failed, stopping without crossfade:', error);
+                logger.warn('Fade failed, stopping without crossfade', { component: 'PlaybackManager', error: error as Error });
                 targetPlayer.stop();
             }
         }
@@ -1493,7 +1494,7 @@ export class PlaybackManager {
                 targetPlayer.nextTrack();
                 // New track will fade in automatically via crossfade system
             } catch (error) {
-                console.warn('[PlaybackManager] Fade failed, switching without crossfade:', error);
+                logger.warn('Fade failed, switching without crossfade', { component: 'PlaybackManager', error: error as Error });
                 targetPlayer.nextTrack();
             }
         }
@@ -1509,7 +1510,7 @@ export class PlaybackManager {
                 targetPlayer.previousTrack();
                 // New track will fade in automatically via crossfade system
             } catch (error) {
-                console.warn('[PlaybackManager] Fade failed, switching without crossfade:', error);
+                logger.warn('Fade failed, switching without crossfade', { component: 'PlaybackManager', error: error as Error });
                 targetPlayer.previousTrack();
             }
         }
@@ -1700,7 +1701,7 @@ export class PlaybackManager {
                     targetPlayer.setPositionTicks(ticks);
                 }
             } catch (error) {
-                console.warn('[PlaybackManager] Fade failed, seeking without crossfade:', error);
+                logger.warn('Fade failed, seeking without crossfade', { component: 'PlaybackManager', error: error as Error });
                 targetPlayer.setPositionTicks(ticks);
             }
         }
@@ -1833,7 +1834,7 @@ export const playbackManager = new PlaybackManager();
 const registerMediaPlayerPlugin = (plugin: any) => {
     if (plugin.type === PluginType.MediaPlayer && !playbackManager['players'].includes(plugin)) {
         playbackManager['players'].push(plugin);
-        console.log(`Registered media player: ${plugin.name} (${plugin.id}). Total players:`, playbackManager['players'].length);
+        logger.info(`Registered media player: ${plugin.name} (${plugin.id})`, { component: 'PlaybackManager', count: playbackManager['players'].length });
     }
 };
 

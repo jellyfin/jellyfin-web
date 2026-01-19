@@ -39,13 +39,22 @@ const SecondaryMediaInfo: FC<SecondaryMediaInfoProps> = ({
 
     const cssClass = classNames(className);
 
-    const renderMediaInfo = (info: MiscInfo, index: number) => (
-        <MediaInfoItem key={index} className={infoclass} miscInfo={info} />
-    );
+    // Create stable key from content
+    const getInfoKey = (info: MiscInfo, index: number): string => {
+        const type = info.type ?? 'info';
+        const text = String(info.text ?? '');
+        return `${type}-${text}-${index}`;
+    };
 
     return (
         <Box className={cssClass}>
-            {miscInfo.map((info, index) => renderMediaInfo(info, index))}
+            {miscInfo.map((info, index) => (
+                <MediaInfoItem
+                    key={getInfoKey(info, index)}
+                    className={infoclass}
+                    miscInfo={info}
+                />
+            ))}
 
             {showTimerIndicatorInfo !== false && indicator.getTimerIndicator()}
         </Box>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { type FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import Dashboard from '../../../utils/dashboard';
 import globalize from '../../../lib/globalize';
@@ -7,20 +7,35 @@ import loading from '../../loading/loading';
 import toast from '../../toast/toast';
 import Button from '../../../elements/emby-button/Button';
 import Input from '../../../elements/emby-input/Input';
+import { logger } from '../../../utils/logger';
 
-type IProps = {
-    user: UserDto
-};
+interface UserPasswordFormProps {
+    user: UserDto;
+}
 
-const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
+const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) => {
     const element = useRef<HTMLDivElement>(null);
     const libraryMenu = useMemo(async () => ((await import('../../../scripts/libraryMenu')).default), []);
+
+    // React state instead of DOM manipulation
+    const [showResetButton, setShowResetButton] = useState(false);
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showPasswordSection, setShowPasswordSection] = useState(false);
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
+
+    const clearForm = useCallback(() => {
+        setCurrentPassword('');
+        setNewPassword('');
+        setNewPasswordConfirm('');
+    }, []);
 
     const loadUser = useCallback(async () => {
         const page = element.current;
 
         if (!page) {
-            console.error('[UserPasswordForm] Unexpected null page reference');
+            logger.error('Unexpected null page reference', { component: 'UserPasswordForm' });
             return;
         }
 
@@ -32,132 +47,110 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
 
         (await libraryMenu).setTitle(user.Name);
 
+        // Update visibility states based on user configuration
         if (user.HasConfiguredPassword) {
-            if (!user.Policy?.IsAdministrator) {
-                (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
-            }
-            (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
+            setShowResetButton(!user.Policy?.IsAdministrator);
+            setShowCurrentPassword(true);
         } else {
-            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.add('hide');
-            (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
+            setShowResetButton(false);
+            setShowCurrentPassword(false);
         }
 
         const canChangePassword = loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess;
-        (page.querySelector('.passwordSection') as HTMLDivElement).classList.toggle('hide', !canChangePassword);
+        setShowPasswordSection(Boolean(canChangePassword));
 
+        // Auto-focus
         import('../../autoFocuser').then(({ default: autoFocuser }) => {
             autoFocuser.autoFocus(page);
         }).catch(err => {
-            console.error('[UserPasswordForm] failed to load autofocuser', err);
+            logger.error('Failed to load autofocuser', { component: 'UserPasswordForm' }, err as Error);
         });
 
-        (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value = '';
-        (page.querySelector('#txtNewPassword') as HTMLInputElement).value = '';
-        (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value = '';
-    }, [user, libraryMenu]);
+        clearForm();
+    }, [user, libraryMenu, clearForm]);
 
     useEffect(() => {
-        const page = element.current;
+        loadUser().catch(err => {
+            logger.error('Failed to load user', { component: 'UserPasswordForm' }, err as Error);
+        });
+    }, [loadUser]);
 
-        if (!page) {
-            console.error('[UserPasswordForm] Unexpected null page reference');
+    const savePassword = useCallback(() => {
+        if (!user.Id) {
+            logger.error('Missing user id', { component: 'UserPasswordForm.savePassword' });
             return;
         }
 
-        loadUser().catch(err => {
-            console.error('[UserPasswordForm] failed to load user', err);
+        // If current password field is hidden, don't send it
+        const passwordToSend = showCurrentPassword ? currentPassword : '';
+
+        window.ApiClient.updateUserPassword(user.Id, passwordToSend, newPassword).then(() => {
+            loading.hide();
+            toast(globalize.translate('PasswordSaved'));
+            loadUser().catch(err => {
+                logger.error('Failed to load user', { component: 'UserPasswordForm' }, err as Error);
+            });
+        }, () => {
+            loading.hide();
+            Dashboard.alert({
+                title: globalize.translate('HeaderLoginFailure'),
+                message: globalize.translate('MessageInvalidUser')
+            });
         });
+    }, [user.Id, showCurrentPassword, currentPassword, newPassword, loadUser]);
 
-        const onSubmit = (e: Event) => {
-            if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value != (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value) {
-                toast(globalize.translate('PasswordMatchError'));
-            } else if ((page.querySelector('#txtNewPassword') as HTMLInputElement).value == '' && user?.Policy?.IsAdministrator) {
-                toast(globalize.translate('PasswordMissingSaveError'));
-            } else {
-                loading.show();
-                savePassword();
-            }
+    const handleSubmit = useCallback((e: React.FormEvent) => {
+        e.preventDefault();
 
-            e.preventDefault();
-            return false;
-        };
+        if (newPassword !== newPasswordConfirm) {
+            toast(globalize.translate('PasswordMatchError'));
+        } else if (newPassword === '' && user?.Policy?.IsAdministrator) {
+            toast(globalize.translate('PasswordMissingSaveError'));
+        } else {
+            loading.show();
+            savePassword();
+        }
+    }, [newPassword, newPasswordConfirm, user?.Policy?.IsAdministrator, savePassword]);
 
-        const savePassword = () => {
-            if (!user.Id) {
-                console.error('[UserPasswordForm.savePassword] missing user id');
-                return;
-            }
-
-            let currentPassword = (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value;
-            const newPassword = (page.querySelector('#txtNewPassword') as HTMLInputElement).value;
-
-            if ((page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.contains('hide')) {
-                // Firefox does not respect autocomplete=off, so clear it if the field is supposed to be hidden (and blank)
-                // This should only happen when user.HasConfiguredPassword is false, but this information is not passed on
-                currentPassword = '';
-            }
-
-            window.ApiClient.updateUserPassword(user.Id, currentPassword, newPassword).then(() => {
-                loading.hide();
-                toast(globalize.translate('PasswordSaved'));
-
-                loadUser().catch(err => {
-                    console.error('[UserPasswordForm] failed to load user', err);
-                });
-            }, () => {
-                loading.hide();
-                Dashboard.alert({
-                    title: globalize.translate('HeaderLoginFailure'),
-                    message: globalize.translate('MessageInvalidUser')
-                });
-            });
-        };
-
-        const resetPassword = () => {
-            const msg = globalize.translate('PasswordResetConfirmation');
-            confirm(msg, globalize.translate('ResetPassword')).then(() => {
-                loading.show();
-                if (user.Id) {
-                    window.ApiClient.resetUserPassword(user.Id).then(() => {
-                        loading.hide();
-                        Dashboard.alert({
-                            message: globalize.translate('PasswordResetComplete'),
-                            title: globalize.translate('ResetPassword')
-                        });
-                        loadUser().catch(err => {
-                            console.error('[UserPasswordForm] failed to load user', err);
-                        });
-                    }).catch(err => {
-                        console.error('[UserPasswordForm] failed to reset user password', err);
+    const handleResetPassword = useCallback(() => {
+        const msg = globalize.translate('PasswordResetConfirmation');
+        confirm(msg, globalize.translate('ResetPassword')).then(() => {
+            loading.show();
+            if (user.Id) {
+                window.ApiClient.resetUserPassword(user.Id).then(() => {
+                    loading.hide();
+                    Dashboard.alert({
+                        message: globalize.translate('PasswordResetComplete'),
+                        title: globalize.translate('ResetPassword')
                     });
-                }
-            }).catch(() => {
-                // confirm dialog was closed
-            });
-        };
-
-        (page.querySelector('.updatePasswordForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-        (page.querySelector('#btnResetPassword') as HTMLButtonElement).addEventListener('click', resetPassword);
-
-        return () => {
-            (page.querySelector('.updatePasswordForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
-            (page.querySelector('#btnResetPassword') as HTMLButtonElement).removeEventListener('click', resetPassword);
-        };
-    }, [loadUser, user]);
+                    loadUser().catch(err => {
+                        logger.error('Failed to load user', { component: 'UserPasswordForm' }, err as Error);
+                    });
+                }).catch(err => {
+                    logger.error('Failed to reset user password', { component: 'UserPasswordForm' }, err as Error);
+                });
+            }
+        }).catch(() => {
+            // confirm dialog was closed
+        });
+    }, [user.Id, loadUser]);
 
     return (
         <div ref={element}>
             <form
-                className='updatePasswordForm passwordSection hide'
+                className={`updatePasswordForm passwordSection${showPasswordSection ? '' : ' hide'}`}
                 style={{ margin: '0 auto 2em' }}
+                onSubmit={handleSubmit}
             >
                 <div className='detailSection'>
-                    <div id='fldCurrentPassword' className='inputContainer hide'>
+                    <div className={`inputContainer${showCurrentPassword ? '' : ' hide'}`}>
                         <Input
                             type='password'
                             id='txtCurrentPassword'
                             label={globalize.translate('LabelCurrentPassword')}
                             autoComplete='off'
+                            value={currentPassword}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrentPassword(e.target.value)}
                         />
                     </div>
                     <div className='inputContainer'>
@@ -166,6 +159,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
                             id='txtNewPassword'
                             label={globalize.translate('LabelNewPassword')}
                             autoComplete='off'
+                            value={newPassword}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPassword(e.target.value)}
                         />
                     </div>
                     <div className='inputContainer'>
@@ -174,6 +169,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
                             id='txtNewPasswordConfirm'
                             label={globalize.translate('LabelNewPasswordConfirm')}
                             autoComplete='off'
+                            value={newPasswordConfirm}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPasswordConfirm(e.target.value)}
                         />
                     </div>
                     <br />
@@ -186,8 +183,9 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
                         <Button
                             type='button'
                             id='btnResetPassword'
-                            className='raised button-cancel block hide'
+                            className={`raised button-cancel block${showResetButton ? '' : ' hide'}`}
                             title={globalize.translate('ResetPassword')}
+                            onClick={handleResetPassword}
                         />
                     </div>
                 </div>

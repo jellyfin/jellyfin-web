@@ -1,3 +1,4 @@
+import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { appRouter, isLyricsPage } from 'components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
@@ -24,48 +25,63 @@ import '../../elements/emby-slider/emby-slider';
 import { synchronizeVolumeUI } from 'components/audioEngine/audioUtils';
 import { logger } from 'utils/logger';
 
+// Store imports for migration
+import { usePlaybackActions, useQueueActions, useVolume, useIsMuted, usePlaybackStatus, useProgress, useCurrentTime, useDuration, useRepeatMode, useShuffleMode, useIsShuffled, useCurrentItem, useCurrentQueueIndex } from 'store';
+
 interface PlayerState {
-    NowPlayingItem?: any;
+    NowPlayingItem?: NowPlayingItem;
+    MediaSource?: { RunTimeTicks?: number };
+    PlayState?: PlayState;
+    IsFullscreen?: boolean;
+    NextMediaType?: string;
+}
+
+interface NowPlayingItem {
+    Id?: string;
+    ServerId?: string;
+    Name?: string;
+    Type?: string;
+    MediaType?: string;
+    RunTimeTicks?: number;
+    HasLyrics?: boolean;
+    [key: string]: unknown;
+}
+
+interface PlayState {
+    IsPaused?: boolean;
+    CanSeek?: boolean;
+    IsMuted?: boolean;
+    VolumeLevel?: number;
     PositionTicks?: number;
-    PlayState?: {
-        IsPaused?: boolean;
-        RepeatMode?: string;
-        IsMuted?: boolean;
-        VolumeLevel?: number;
-        ShuffleMode?: string;
-    };
-    [key: string]: any;
 }
 
 interface Player {
-    getSupportedCommands(): string[];
-    getPlayerState(): PlayerState;
-    play(): void;
-    pause(): void;
-    stop(): void;
-    nextTrack(): void;
-    previousTrack(): void;
+    isLocalPlayer?: boolean;
+    paused(): boolean;
+    isMuted(): boolean;
+    getVolume(): number;
     setVolume(volume: number): void;
-    toggleMute(): void;
-    setPositionTicks(position: number): void;
-    setRepeatMode(mode: string): void;
-    setShuffleQueueMode(mode: string): void;
-    [key: string]: any;
+    duration?(): number;
 }
 
-let currentPlayer: any = null;
+interface BufferedRange {
+    start: number;
+    end: number;
+}
+
+let currentPlayer: Player | null = null;
 let currentPlayerSupportedCommands: string[] = [];
 
 let currentTimeElement: HTMLElement | null = null;
-let nowPlayingImageElement: HTMLImageElement | null = null;
+let nowPlayingImageElement: HTMLElement | null = null;
 let nowPlayingImageUrl: string | null = null;
 let nowPlayingTextElement: HTMLElement | null = null;
-let nowPlayingUserData: any = null;
+let nowPlayingUserData: HTMLElement | null = null;
 let muteButton: HTMLElement | null = null;
-let volumeSlider: HTMLInputElement | null = null;
+let volumeSlider: (HTMLInputElement & { dragging?: boolean }) | null = null;
 let volumeSliderContainer: HTMLElement | null = null;
 let playPauseButtons: NodeListOf<HTMLElement> | null = null;
-let positionSlider: HTMLInputElement | null = null;
+let positionSlider: (HTMLInputElement & { dragging?: boolean; disabled?: boolean; setIsClear?(clear: boolean): void; setBufferedRanges?(ranges: BufferedRange[], runtime: number, position: number): void }) | null = null;
 let toggleAirPlayButton: HTMLElement | null = null;
 let toggleRepeatButton: HTMLElement | null = null;
 let toggleRepeatButtonIcon: HTMLElement | null = null;
@@ -81,10 +97,53 @@ let isVisibilityAllowed = true;
 
 let isLyricPageActive = false;
 
+// Store-backed control functions (migration layer)
+function getStoreDuration(): number {
+    const duration = useDuration();
+    return duration || 0;
+}
+
+function getStoreCurrentTime(): number {
+    return useCurrentTime();
+}
+
+function getStoreIsPlaying(): boolean {
+    return usePlaybackStatus() === 'playing';
+}
+
+function getStoreIsPaused(): boolean {
+    const status = usePlaybackStatus();
+    return status === 'paused' || status === 'idle';
+}
+
+function getStoreVolume(): number {
+    return useVolume();
+}
+
+function getStoreIsMuted(): boolean {
+    return useIsMuted();
+}
+
+function getStoreRepeatMode(): string {
+    return useRepeatMode();
+}
+
+function getStoreShuffleMode(): string {
+    return useShuffleMode();
+}
+
+function getStoreIsShuffled(): boolean {
+    return useIsShuffled();
+}
+
+function getStoreCurrentItem(): ReturnType<typeof useCurrentItem> {
+    return useCurrentItem();
+}
+
 export function getNowPlayingBarHtml(): string {
     let html = '';
 
-    html += '<div class="nowPlayingBar nowPlayingBar-hidden">';
+    html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
 
     html += '<div class="nowPlayingBarTop">';
     html += '<div id="barSurfer" class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
@@ -96,7 +155,6 @@ export function getNowPlayingBarHtml(): string {
     html += '<div class="nowPlayingBarText"></div>';
     html += '</div>';
 
-    // The onclicks are needed due to the return false above
     html += '<div class="nowPlayingBarCenter" dir="ltr">';
 
     html += `<button is="paper-icon-button-light" class="previousTrackButton mediaButton" title="${globalize.translate('ButtonPreviousTrack')}"><span class="material-icons skip_previous" aria-hidden="true"></span></button>`;
@@ -144,36 +202,24 @@ export function getNowPlayingBarHtml(): string {
     return html;
 }
 
-function onSlideDownComplete(): void {
+function onSlideDownComplete(this: HTMLElement): void {
+    this.classList.add('hide');
 }
 
 function slideDown(elem: HTMLElement): void {
-    try {
-        if (!elem) {
-            console.warn('[nowPlayingBar] slideDown called with null element');
-            return;
-        }
+    // trigger reflow
+    void elem.offsetWidth;
 
-        // trigger reflow
-        void elem.offsetWidth;
+    elem.classList.add('nowPlayingBar-hidden');
 
-        elem.classList.add('nowPlayingBar-hidden');
+    dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
+        once: true
+    });
 
-        dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
-            once: true
-        });
-
-        if (currentPlayer?.isLocalPlayer) {
-            destroyWaveSurferInstance().then(legacy => {
-                // When opening the same song, preserve the player legacy
-                waveSurferInitialization('#barSurfer', legacy, currentPlayer.duration());
-            }).catch(error => {
-                console.error('[nowPlayingBar] WaveSurfer initialization failed:', error);
-            });
-        }
-    } catch (error) {
-        console.error('[nowPlayingBar] Error in slideDown:', error);
-    }
+    void destroyWaveSurferInstance().then(legacy => {
+        if (!currentPlayer?.isLocalPlayer) return;
+        waveSurferInitialization('#inputSurfer', legacy, getStoreDuration());
+    });
 }
 
 function slideUp(elem: HTMLElement): void {
@@ -188,201 +234,155 @@ function slideUp(elem: HTMLElement): void {
 
     elem.classList.remove('nowPlayingBar-hidden');
 
-    // WaveSurfer integration removed due to async issues
+    void destroyWaveSurferInstance().then(legacy => {
+        if (!currentPlayer?.isLocalPlayer) return;
+        waveSurferInitialization('#barSurfer', legacy, getStoreDuration());
+    });
 }
 
 export function onPlayPauseClick(): void {
-    if (currentPlayer) {
-        (playbackManager as any).playPause(currentPlayer).catch((error: any) => {
-            logger.error(
-                'Unable to play media',
-                { component: 'nowPlayingBar', error: error.message },
-                error
-            );
-        });
-    }
+    const { togglePlayPause } = usePlaybackActions();
+    togglePlayPause();
 }
 
 export function bindEvents(elem: HTMLElement): void {
-    try {
-        currentTimeElement = elem.querySelector('.nowPlayingBarCurrentTime') as HTMLElement;
-        nowPlayingImageElement = elem.querySelector('.nowPlayingImage') as HTMLImageElement;
-        nowPlayingTextElement = elem.querySelector('.nowPlayingBarText') as HTMLElement;
-        nowPlayingUserData = elem.querySelector('.nowPlayingBarUserDataButtons') as any;
-        positionSlider = elem.querySelector('.nowPlayingBarPositionSlider') as HTMLInputElement;
-        muteButton = elem.querySelector('.muteButton') as HTMLElement;
-        playPauseButtons = elem.querySelectorAll('.playPauseButton') as NodeListOf<HTMLElement>;
-        toggleRepeatButton = elem.querySelector('.toggleRepeatButton') as HTMLElement;
-        volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider') as HTMLInputElement;
-        volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer') as HTMLElement;
-        lyricButton = elem.querySelector('.openLyricsButton') as HTMLElement;
+    currentTimeElement = elem.querySelector('.nowPlayingBarCurrentTime');
+    nowPlayingImageElement = elem.querySelector('.nowPlayingImage');
+    nowPlayingTextElement = elem.querySelector('.nowPlayingBarText');
+    nowPlayingUserData = elem.querySelector('.nowPlayingBarUserDataButtons');
+    positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
+    muteButton = elem.querySelector('.muteButton');
+    playPauseButtons = elem.querySelectorAll('.playPauseButton');
+    toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
+    volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
+    volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
+    lyricButton = elem.querySelector('.openLyricsButton');
 
-        if (muteButton) {
-            muteButton.addEventListener('click', function () {
-                if (currentPlayer) {
-                    playbackManager.toggleMute(currentPlayer);
-                }
-            });
+    muteButton?.addEventListener('click', () => {
+        const { toggleMute } = usePlaybackActions();
+        toggleMute();
+    });
+
+    elem.querySelector('.stopButton')?.addEventListener('click', () => {
+        const { stop } = usePlaybackActions();
+        stop();
+    });
+
+    playPauseButtons?.forEach((button) => {
+        button.addEventListener('click', onPlayPauseClick);
+    });
+
+    elem.querySelector('.nextTrackButton')?.addEventListener('click', () => {
+        const { next } = useQueueActions();
+        next();
+    });
+
+    elem.querySelector('.previousTrackButton')?.addEventListener('click', (e: Event) => {
+        if (getStoreIsPlaying()) {
+            if ((e as MouseEvent).detail > 1) {
+                return;
+            }
+            if (getStoreCurrentTime() >= 5 || useCurrentQueueIndex() <= 0) {
+                const { seek } = usePlaybackActions();
+                seek(0);
+                if (positionSlider) positionSlider.value = '0';
+                return;
+            }
         }
+        const { previous } = useQueueActions();
+        previous();
+    });
 
-    elem.querySelector('.stopButton')?.addEventListener('click', function () {
+    elem.querySelector('.previousTrackButton')?.addEventListener('dblclick', () => {
+        const { previous } = useQueueActions();
+        previous();
+    });
+
+    toggleAirPlayButton = elem.querySelector('.btnAirPlay');
+    toggleAirPlayButton?.addEventListener('click', () => {
         if (currentPlayer) {
-            playbackManager.stop(currentPlayer);
+            playbackManager.toggleAirPlay(currentPlayer);
         }
     });
 
-    if (playPauseButtons) {
-        playPauseButtons.forEach((button) => {
-            button.addEventListener('click', onPlayPauseClick);
-        });
+    elem.querySelector('.btnShuffleQueue')?.addEventListener('click', () => {
+        const { toggleShuffleMode } = useQueueActions();
+        toggleShuffleMode();
+    });
+
+    lyricButton?.addEventListener('click', () => {
+        if (isLyricPageActive) {
+            appRouter.back();
+        } else {
+            appRouter.show('lyrics');
+        }
+    });
+
+    toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
+    toggleRepeatButton?.addEventListener('click', () => {
+        const { toggleRepeatMode } = useQueueActions();
+        toggleRepeatMode();
+    });
+
+    toggleRepeatButtonIcon = toggleRepeatButton?.querySelector('.material-icons') ?? null;
+
+    volumeSliderContainer?.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
+
+    volumeSlider?.addEventListener('input', (e) => {
+        const { setVolume } = usePlaybackActions();
+        setVolume(parseInt((e.target as HTMLInputElement).value, 10));
+    });
+
+    positionSlider?.addEventListener('change', function(this: HTMLInputElement) {
+        const { seekPercent } = usePlaybackActions();
+        const newPercent = parseFloat(this.value);
+        seekPercent(newPercent);
+    });
+
+    if (positionSlider) {
+        (positionSlider as HTMLInputElement & { getBubbleText?: (value: number) => string }).getBubbleText = (value: number): string => {
+            const state = lastPlayerState;
+
+            if (!state?.NowPlayingItem || !currentRuntimeTicks) {
+                return '--:--';
+            }
+
+            let ticks = currentRuntimeTicks;
+            ticks /= 100;
+            ticks *= value;
+
+            return datetime.getDisplayRunningTime(ticks);
+        };
     }
 
-    elem.querySelector('.nextTrackButton')?.addEventListener('click', function () {
-        if (currentPlayer) {
-            playbackManager.nextTrack(currentPlayer);
+    elem.addEventListener('click', (e) => {
+        if (!dom.parentWithTag(e.target as HTMLElement, ['BUTTON', 'INPUT'])) {
+            showRemoteControl();
         }
     });
-
-    elem.querySelector('.previousTrackButton')?.addEventListener('click', function (e) {
-        if (currentPlayer) {
-            if (playbackManager.isPlayingAudio(currentPlayer)) {
-                // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
-                if ((e as any).detail > 1 ) {
-                    return;
-                }
-
-                // Return to start of track, unless we are already (almost) at the beginning. In the latter case, continue and move
-                // to the previous track, unless we are at the first track so no previous track exists.
-                // currentTime is in msec.
-
-                if (playbackManager.currentTime(currentPlayer) >= 5 * 1000 || playbackManager.getCurrentPlaylistIndex() <= 0) {
-                    playbackManager.seekPercent(0);
-                    // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
-                    // TODO: Check why seekPercent doesn't reflect the changes inmmediately, so we can remove this workaround.
-                    if (positionSlider) positionSlider.value = '0';
-                    return;
-                }
-            }
-            playbackManager.previousTrack(currentPlayer);
-        }
-    });
-
-    elem.querySelector('.previousTrackButton')?.addEventListener('dblclick', function () {
-        if (currentPlayer) {
-            playbackManager.previousTrack(currentPlayer);
-        }
-    });
-
-        toggleAirPlayButton = elem.querySelector('.btnAirPlay') as HTMLElement;
-        if (toggleAirPlayButton) {
-            toggleAirPlayButton.addEventListener('click', function () {
-                if (currentPlayer) {
-                    // AirPlay functionality would be implemented here
-                    console.log('AirPlay toggle requested');
-                }
-            });
-        }
-
-        elem.querySelector('.btnShuffleQueue')?.addEventListener('click', function () {
-            if (currentPlayer) {
-                playbackManager.toggleQueueShuffleMode();
-            }
-        });
-
-        if (lyricButton) {
-            lyricButton.addEventListener('click', function() {
-                if (isLyricPageActive) {
-                    appRouter.back();
-                } else {
-                    appRouter.show('lyrics');
-                }
-            });
-        }
-
-        if (toggleRepeatButton) {
-            toggleRepeatButton.addEventListener('click', function () {
-                switch (playbackManager.getRepeatMode()) {
-                    case 'RepeatAll':
-                        playbackManager.setRepeatMode('RepeatOne');
-                        break;
-                    case 'RepeatOne':
-                        playbackManager.setRepeatMode('RepeatNone');
-                        break;
-                    case 'RepeatNone':
-                        playbackManager.setRepeatMode('RepeatAll');
-                }
-            });
-
-            toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons') as HTMLElement;
-        }
-
-        if (volumeSliderContainer) {
-            volumeSliderContainer.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
-        }
-
-        if (volumeSlider) {
-            volumeSlider.addEventListener('input', (e) => {
-                if (currentPlayer) {
-                    currentPlayer.setVolume((e.target as HTMLInputElement).value);
-                }
-            });
-        }
-
-        if (positionSlider) {
-            positionSlider.addEventListener('change', function () {
-                if (currentPlayer) {
-                    const newPercent = parseFloat(this.value);
-
-                    playbackManager.seekPercent(newPercent);
-                }
-            });
-
-            (positionSlider as any).getBubbleText = function (value: any) {
-                const state = lastPlayerState;
-
-                if (!state?.NowPlayingItem || !currentRuntimeTicks) {
-                    return '--:--';
-                }
-
-                let ticks = currentRuntimeTicks;
-                ticks /= 100;
-                ticks *= value;
-
-                return datetime.getDisplayRunningTime(ticks);
-            };
-        }
-
-        elem.addEventListener('click', function (e) {
-            if (!dom.parentWithTag(e.target as HTMLElement, ['BUTTON', 'INPUT'])) {
-                showRemoteControl();
-            }
-        });
-    } catch (error) {
-        console.error('[nowPlayingBar] Error in bindEvents:', error);
-    }
 }
 
 function showRemoteControl(): void {
+    appRouter.showNowPlaying();
 }
 
 function getNowPlayingBar(): HTMLElement | null {
-    try {
-        if (nowPlayingBarElement) {
-            return nowPlayingBarElement;
-        }
+    if (nowPlayingBarElement) {
+        return nowPlayingBarElement;
+    }
 
-        nowPlayingBarElement = document.body.querySelector('.nowPlayingBar');
+    const parentContainer = appFooter.element;
+    nowPlayingBarElement = parentContainer?.querySelector('.nowPlayingBar') ?? null;
 
-        if (nowPlayingBarElement) {
-            return nowPlayingBarElement;
-        }
+    if (nowPlayingBarElement) {
+        return nowPlayingBarElement;
+    }
 
-        document.body.insertAdjacentHTML('beforeend', getNowPlayingBarHtml());
-        if ((window as any).customElements?.upgradeSubtree) {
-            (window as any).customElements.upgradeSubtree(document.body);
-        }
+    if (parentContainer) {
+        parentContainer.insertAdjacentHTML('afterbegin', getNowPlayingBarHtml());
+        (window as Window & { CustomElements?: { upgradeSubtree(elem: Element): void } }).CustomElements?.upgradeSubtree(parentContainer);
 
-        nowPlayingBarElement = document.body.querySelector('.nowPlayingBar');
+        nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
         if (nowPlayingBarElement) {
             if (layoutManager.mobile) {
@@ -390,88 +390,413 @@ function getNowPlayingBar(): HTMLElement | null {
                 nowPlayingBarElement.querySelector('.nowPlayingBarCenter')?.classList.add('hide');
             }
 
-            if (browser.safari) {
-                // Not handled well here. The wrong elements receive events, bar doesn't update quickly enough, etc.
+            if (browser.safari && browser.slow) {
                 nowPlayingBarElement.classList.add('noMediaProgress');
             }
 
             itemShortcuts.on(nowPlayingBarElement);
-
             bindEvents(nowPlayingBarElement);
-        } else {
-            console.warn('[nowPlayingBar] Failed to create or find nowPlayingBar element');
+            synchronizeVolumeUI();
         }
-
-        return nowPlayingBarElement;
-    } catch (error) {
-        console.error('[nowPlayingBar] Error in getNowPlayingBar:', error);
-        return null;
     }
+
+    return nowPlayingBarElement;
 }
 
 export function updatePlayPauseState(isPaused: boolean): void {
+    if (playPauseButtons) {
+        playPauseButtons.forEach((button) => {
+            const icon = button.querySelector('.material-icons');
+            if (icon) {
+                icon.classList.remove('play_arrow', 'pause');
+                icon.classList.add(isPaused ? 'play_arrow' : 'pause');
+            }
+            button.title = globalize.translate(isPaused ? 'Play' : 'ButtonPause');
+        });
+    }
 }
 
-function updatePlayerStateInternal(event: any, state: PlayerState, player: Player): void {
+function updatePlayerStateInternal(event: Event, state: PlayerState, player: Player): void {
+    showNowPlayingBar();
+
+    lastPlayerState = state;
+
+    const playerInfo = playbackManager.getPlayerInfo();
+    const playState = state.PlayState || {};
+
+    updatePlayPauseState(playState.IsPaused ?? false);
+
+    const supportedCommands = playerInfo?.supportedCommands ?? [];
+    currentPlayerSupportedCommands = supportedCommands;
+
+    if (supportedCommands.indexOf('SetRepeatMode') === -1) {
+        toggleRepeatButton?.classList.add('hide');
+    } else {
+        toggleRepeatButton?.classList.remove('hide');
+    }
+
+    const hideAirPlayButton = supportedCommands.indexOf('AirPlay') === -1;
+    toggleAirPlayButton?.classList.toggle('hide', hideAirPlayButton);
+
+    updateRepeatModeDisplay(playbackManager.getRepeatMode());
+    onQueueShuffleModeChange();
+
+    updatePlayerVolumeState(playState.IsMuted ?? false, playState.VolumeLevel ?? 0);
+
+    if (positionSlider && !positionSlider.dragging) {
+        positionSlider.disabled = !playState.CanSeek;
+
+        // determines if both forward and backward buffer progress will be visible
+        const isProgressClear = state.MediaSource?.RunTimeTicks == null;
+        positionSlider.setIsClear?.(isProgressClear);
+    }
+
+    const nowPlayingItem = state.NowPlayingItem || {};
+    updateTimeDisplay(
+        playState.PositionTicks ?? 0,
+        nowPlayingItem.RunTimeTicks ?? 0,
+        playbackManager.getBufferedRanges(player)
+    );
+
+    updateNowPlayingInfo(state);
+    updateLyricButton(nowPlayingItem);
 }
 
 export function updateRepeatModeDisplay(repeatMode: string): void {
+    if (!toggleRepeatButtonIcon) return;
+
+    toggleRepeatButtonIcon.classList.remove('repeat', 'repeat_one');
+    const cssClass = 'buttonActive';
+
+    switch (repeatMode) {
+        case 'RepeatAll':
+            toggleRepeatButtonIcon.classList.add('repeat');
+            toggleRepeatButton?.classList.add(cssClass);
+            break;
+        case 'RepeatOne':
+            toggleRepeatButtonIcon.classList.add('repeat_one');
+            toggleRepeatButton?.classList.add(cssClass);
+            break;
+        case 'RepeatNone':
+        default:
+            toggleRepeatButtonIcon.classList.add('repeat');
+            toggleRepeatButton?.classList.remove(cssClass);
+            break;
+    }
 }
 
-export function updateTimeDisplay(positionTicks: number, runtimeTicks: number, bufferedRanges: any): void {
+export function updateTimeDisplay(positionTicks: number, runtimeTicks: number, bufferedRanges: BufferedRange[]): void {
+    // See bindEvents for why this is necessary
+    if (positionSlider && !positionSlider.dragging) {
+        if (runtimeTicks) {
+            let pct = positionTicks / runtimeTicks;
+            pct *= 100;
+            positionSlider.value = String(pct);
+        } else {
+            positionSlider.value = '0';
+        }
+    }
+
+    positionSlider?.setBufferedRanges?.(bufferedRanges, runtimeTicks, positionTicks);
+
+    if (currentTimeElement) {
+        let timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
+        if (runtimeTicks) {
+            timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
+        }
+        currentTimeElement.innerHTML = timeText;
+    }
 }
 
 export function updatePlayerVolumeState(isMuted: boolean, volumeLevel: number): void {
+    const supportedCommands = currentPlayerSupportedCommands;
+
+    let showMuteButton = true;
+    let showVolumeSlider = true;
+
+    if (supportedCommands.indexOf('ToggleMute') === -1) {
+        showMuteButton = false;
+    }
+
+    if (muteButton) {
+        const muteButtonIcon = muteButton.querySelector('.material-icons');
+        if (muteButtonIcon) {
+            muteButtonIcon.classList.remove('volume_off', 'volume_up');
+            muteButtonIcon.classList.add(isMuted ? 'volume_off' : 'volume_up');
+        }
+        muteButton.title = globalize.translate(isMuted ? 'Unmute' : 'Mute');
+    }
+
+    if (supportedCommands.indexOf('SetVolume') === -1) {
+        showVolumeSlider = false;
+    }
+
+    if (currentPlayer?.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
+        showMuteButton = false;
+        showVolumeSlider = false;
+    }
+
+    muteButton?.classList.toggle('hide', !showMuteButton);
+
+    if (volumeSlider) {
+        volumeSliderContainer?.classList.toggle('hide', !showVolumeSlider);
+
+        if (!volumeSlider.dragging) {
+            volumeSlider.value = String(volumeLevel || 0);
+        }
+    }
 }
 
-export function updateLyricButton(item: any): void {
+export function updateLyricButton(item: NowPlayingItem): void {
+    if (!isEnabled || !lyricButton) return;
+
+    const hasLyrics = item?.Type === 'Audio' && item.HasLyrics;
+    lyricButton.classList.toggle('hide', !hasLyrics);
+    setLyricButtonActiveStatus();
 }
 
 function setLyricButtonActiveStatus(): void {
+    if (!isEnabled || !lyricButton) return;
+
+    lyricButton.classList.toggle('buttonActive', isLyricPageActive);
 }
 
 export function updateNowPlayingInfo(state: PlayerState): void {
+    const nowPlayingItem = state.NowPlayingItem;
+
+    const textLines = nowPlayingItem ? getItemTextLines(nowPlayingItem) : undefined;
+    if (nowPlayingTextElement) {
+        nowPlayingTextElement.innerHTML = '';
+        if (textLines) {
+            const itemText = document.createElement('div');
+            const secondaryText = document.createElement('div');
+            secondaryText.classList.add('nowPlayingBarSecondaryText');
+
+            if (textLines.length > 1 && textLines[1]) {
+                const text = document.createElement('a');
+                text.innerText = textLines[1];
+                secondaryText.appendChild(text);
+            }
+
+            if (textLines[0]) {
+                const text = document.createElement('a');
+                text.innerText = textLines[0];
+                itemText.appendChild(text);
+            }
+
+            nowPlayingTextElement.appendChild(itemText);
+            nowPlayingTextElement.appendChild(secondaryText);
+        }
+    }
+
+    const imgHeight = 70;
+
+    const url = nowPlayingItem ? getImageUrl(nowPlayingItem, { height: imgHeight }) : null;
+
+    if (url !== nowPlayingImageUrl && nowPlayingImageElement) {
+        if (url) {
+            nowPlayingImageUrl = url;
+            imageLoader.lazyImage(nowPlayingImageElement, nowPlayingImageUrl);
+            nowPlayingImageElement.style.display = '';
+            if (nowPlayingTextElement) nowPlayingTextElement.style.marginLeft = '';
+        } else {
+            nowPlayingImageUrl = null;
+            (nowPlayingImageElement as HTMLElement).style.backgroundImage = '';
+            nowPlayingImageElement.style.display = 'none';
+            if (nowPlayingTextElement) nowPlayingTextElement.style.marginLeft = '1em';
+        }
+    }
+
+    if (nowPlayingItem?.Id && nowPlayingItem.ServerId && nowPlayingUserData && nowPlayingBarElement) {
+        const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
+        apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then((item: { UserData?: { Likes?: boolean; IsFavorite?: boolean }; Id: string; ServerId: string; Type: string }) => {
+            const userData = item.UserData || {};
+            const likes = userData.Likes == null ? '' : userData.Likes;
+
+            if (!layoutManager.mobile && nowPlayingBarElement) {
+                let contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
+                if (contextButton) {
+                    // We remove the previous event listener by replacing the item in each update event
+                    const contextButtonClone = contextButton.cloneNode(true);
+                    contextButton.parentNode?.replaceChild(contextButtonClone, contextButton);
+                    contextButton = nowPlayingBarElement.querySelector('.btnToggleContextMenu');
+
+                    const options = {
+                        play: false,
+                        queue: false,
+                        stopPlayback: true,
+                        clearQueue: true,
+                        positionTo: contextButton
+                    };
+
+                    apiClient.getCurrentUser().then((user: unknown) => {
+                        contextButton?.addEventListener('click', () => {
+                            itemContextMenu.show(Object.assign({
+                                item: item,
+                                user: user
+                            }, options))
+                                .catch(() => { /* no-op */ });
+                        });
+                    });
+                }
+            }
+
+            if (nowPlayingUserData) {
+                nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
+            }
+        });
+    } else if (nowPlayingUserData) {
+        nowPlayingUserData.innerHTML = '';
+    }
 }
 
-function onPlaybackStart(e: any, state: PlayerState): void {
+function onPlaybackStart(this: Player, e: Event, state: PlayerState): void {
+    logger.debug('nowplaying event: ' + e.type, { component: 'nowPlayingBar' });
+    onStateChanged.call(this, e, state);
 }
 
 function onRepeatModeChange(): void {
+    if (!isEnabled) return;
+    updateRepeatModeDisplay(playbackManager.getRepeatMode());
 }
 
 function onQueueShuffleModeChange(): void {
+    if (!isEnabled || !nowPlayingBarElement) return;
+
+    const shuffleMode = playbackManager.getQueueShuffleMode();
+    const cssClass = 'buttonActive';
+    const toggleShuffleButton = nowPlayingBarElement.querySelector('.btnShuffleQueue');
+
+    switch (shuffleMode) {
+        case 'Shuffle':
+            toggleShuffleButton?.classList.add(cssClass);
+            break;
+        case 'Sorted':
+        default:
+            toggleShuffleButton?.classList.remove(cssClass);
+            break;
+    }
 }
 
 export function showNowPlayingBar(): void {
+    if (!isVisibilityAllowed) {
+        hideNowPlayingBar();
+        return;
+    }
+
+    const elem = getNowPlayingBar();
+    if (elem) {
+        slideUp(elem);
+    }
 }
 
 export function hideNowPlayingBar(): void {
+    isEnabled = false;
+
+    // Don't call getNowPlayingBar here because we don't want to end up creating it just to hide it
+    const elem = document.querySelector('.nowPlayingBar') as HTMLElement | null;
+    if (elem) {
+        slideDown(elem);
+    }
 }
 
-function onPlaybackStopped(e: any, state: PlayerState): void {
+function onPlaybackStopped(this: Player, e: Event, state: PlayerState): void {
+    logger.debug('[nowPlayingBar:onPlaybackStopped] event: ' + e.type, { component: 'nowPlayingBar' });
+
+    if (this.isLocalPlayer) {
+        if (state.NextMediaType !== 'Audio') {
+            hideNowPlayingBar();
+        }
+    } else if (!state.NextMediaType) {
+        hideNowPlayingBar();
+    }
 }
 
-function onPlayPauseStateChanged(): void {
+function onPlayPauseStateChanged(this: Player): void {
+    if (!isEnabled) return;
+    updatePlayPauseState(this.paused());
 }
 
-export function onStateChanged(event: any, state: PlayerState): void {
+export function onStateChanged(this: Player, event: Event, state: PlayerState): void {
+    if (event.type === 'init') {
+        // skip non-ready state
+        return;
+    }
+
+    logger.debug('[nowPlayingBar:onStateChanged] event: ' + event.type, { component: 'nowPlayingBar' });
+
+    if (!state.NowPlayingItem || layoutManager.tv || state.IsFullscreen === false) {
+        hideNowPlayingBar();
+        return;
+    }
+
+    if (this.isLocalPlayer && state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Video') {
+        hideNowPlayingBar();
+        return;
+    }
+
+    isEnabled = true;
+
+    if (nowPlayingBarElement) {
+        updatePlayerStateInternal(event, state, this);
+        return;
+    }
+
+    getNowPlayingBar();
+    updateLyricButton(state.NowPlayingItem);
+    updatePlayerStateInternal(event, state, this);
 }
 
-function onTimeUpdate(): void {
+function onTimeUpdate(this: Player): void {
+    if (!isEnabled) return;
+
+    // Try to avoid hammering the document with changes
+    const now = new Date().getTime();
+    if ((now - lastUpdateTime) < 700) {
+        return;
+    }
+    lastUpdateTime = now;
+
+    currentRuntimeTicks = playbackManager.duration(this);
+    updateTimeDisplay(
+        playbackManager.currentTime(this) * 10000,
+        currentRuntimeTicks,
+        playbackManager.getBufferedRanges(this)
+    );
 }
 
 function releaseCurrentPlayer(): void {
+    const player = currentPlayer;
+
+    if (player) {
+        Events.off(player, 'playbackstart', onPlaybackStart);
+        Events.off(player, 'statechange', onPlaybackStart);
+        Events.off(player, 'repeatmodechange', onRepeatModeChange);
+        Events.off(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
+        Events.off(player, 'playbackstop', onPlaybackStopped);
+        Events.off(player, 'volumechange', onVolumeChanged);
+        Events.off(player, 'pause', onPlayPauseStateChanged);
+        Events.off(player, 'unpause', onPlayPauseStateChanged);
+        Events.off(player, 'timeupdate', onTimeUpdate);
+
+        currentPlayer = null;
+        hideNowPlayingBar();
+    }
 }
 
-function onVolumeChanged(): void {
+function onVolumeChanged(this: Player): void {
+    if (!isEnabled) return;
+    updatePlayerVolumeState(this.isMuted(), this.getVolume());
 }
 
 function refreshFromPlayer(player: Player, type: string): void {
+    const state = playbackManager.getPlayerState(player);
+    onStateChanged.call(player, { type } as unknown as Event, state);
 }
 
 function bindToPlayer(player: Player | null): void {
-    console.log('bindToPlayer called', player);
     isLyricPageActive = isLyricsPage();
+
     if (player === currentPlayer) {
         return;
     }
@@ -487,7 +812,7 @@ function bindToPlayer(player: Player | null): void {
     refreshFromPlayer(player, 'init');
 
     Events.on(player, 'playbackstart', onPlaybackStart);
-    Events.on(player, 'statechange', onStateChanged);
+    Events.on(player, 'statechange', onPlaybackStart);
     Events.on(player, 'repeatmodechange', onRepeatModeChange);
     Events.on(player, 'shufflequeuemodechange', onQueueShuffleModeChange);
     Events.on(player, 'playbackstop', onPlaybackStopped);
@@ -499,20 +824,17 @@ function bindToPlayer(player: Player | null): void {
 
 // Event listeners
 Events.on(playbackManager, 'playerchange', () => {
-bindToPlayer((playbackManager as any).getCurrentPlayer());
-
-// Create the bar element immediately
-getNowPlayingBar();
-// Force show for debugging
-showNowPlayingBar();
+    bindToPlayer(playbackManager.getCurrentPlayer());
 });
 
-bindToPlayer((playbackManager as any).getCurrentPlayer());
+bindToPlayer(playbackManager.getCurrentPlayer());
 
-document.addEventListener('viewbeforeshow', (e: any) => {
+document.addEventListener('viewbeforeshow', (e: Event) => {
+    const detail = (e as CustomEvent<{ options?: { enableMediaControl?: boolean } }>).detail;
     isLyricPageActive = isLyricsPage();
     setLyricButtonActiveStatus();
-    if (!e.detail.options.enableMediaControl) {
+
+    if (!detail?.options?.enableMediaControl) {
         if (isVisibilityAllowed) {
             isVisibilityAllowed = false;
             hideNowPlayingBar();

@@ -84,7 +84,8 @@ export function fillImage(entry) {
 
     if (entry.isIntersecting) {
         if (source) {
-            fillImageElement(target, source);
+            const isPriority = target.getAttribute('data-priority') === 'true';
+            fillImageElement(target, source, isPriority);
         }
     } else if (!source) {
         emptyImageElement(target);
@@ -105,7 +106,7 @@ function onAnimationEnd(event) {
     elem.removeEventListener('animationend', onAnimationEnd);
 }
 
-function fillImageElement(elem, url) {
+function fillImageElement(elem, url, priority = false) {
     if (url === undefined) {
         throw new TypeError('url cannot be undefined');
     }
@@ -115,6 +116,9 @@ function fillImageElement(elem, url) {
 
     const preloaderImg = new Image();
     preloaderImg.src = url;
+    if (priority) {
+        preloaderImg.fetchPriority = 'high';
+    }
 
     elem.classList.add('lazy-hidden');
     elem.addEventListener('animationend', onAnimationEnd);
@@ -125,6 +129,9 @@ function fillImageElement(elem, url) {
                 elem.style.backgroundImage = "url('" + url + "')";
             } else {
                 elem.setAttribute('src', url);
+                if (priority) {
+                    elem.setAttribute('fetchpriority', 'high');
+                }
             }
             elem.removeAttribute('data-src');
 
@@ -243,9 +250,10 @@ export function fillImages(elems) {
     }
 }
 
-export function setLazyImage(element, url) {
+export function setLazyImage(element, url, priority = false) {
     element.classList.add('lazy');
     element.setAttribute('data-src', url);
+    element.setAttribute('data-priority', priority ? 'true' : 'false');
     lazyImage(element);
 }
 

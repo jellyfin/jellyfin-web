@@ -1,13 +1,9 @@
 import type { BaseItemDto, CreateUserByName } from '@jellyfin/sdk/lib/generated-client';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
-import Input from '../../../../elements/emby-input/Input';
-import Button from '../../../../elements/emby-button/Button';
-import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import Page from '../../../../components/Page';
 import Toast from 'apps/dashboard/components/Toast';
 
@@ -17,194 +13,159 @@ import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdate
 import { useCreateUser } from 'apps/dashboard/features/users/api/useCreateUser';
 import { useNavigate } from 'react-router-dom';
 
+import TextField from '@mui/material/TextField/TextField';
+import Button from '@mui/material/Button/Button';
+import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
+import Switch from '@mui/material/Switch/Switch';
+import Box from '@mui/material/Box/Box';
+import Typography from '@mui/material/Typography/Typography';
+import Divider from '@mui/material/Divider/Divider';
+import Checkbox from '@mui/material/Checkbox/Checkbox';
+import FormControl from '@mui/material/FormControl/FormControl';
+import FormHelperText from '@mui/material/FormHelperText/FormHelperText';
+import { z } from 'zod';
+
 type ItemsArr = {
     Name?: string | null;
     Id?: string;
 };
 
+const userSchema = z.object({
+    username: z.string().min(1, 'Username is required'),
+    password: z.string().optional(),
+    enableAllFolders: z.boolean(),
+    enableAllChannels: z.boolean(),
+    enabledFolders: z.array(z.string()),
+    enabledChannels: z.array(z.string()),
+});
+
+type UserFormData = z.infer<typeof userSchema>;
+
 const UserNew = () => {
     const navigate = useNavigate();
-    const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
-    const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
-    const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
-    const element = useRef<HTMLDivElement>(null);
+    const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
+    const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
+    const [isErrorToastOpen, setIsErrorToastOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleToastClose = useCallback(() => {
-        setIsErrorToastOpen(false);
-    }, []);
+    const [formData, setFormData] = useState<UserFormData>({
+        username: '',
+        password: '',
+        enableAllFolders: false,
+        enableAllChannels: false,
+        enabledFolders: [],
+        enabledChannels: [],
+    });
+
+    const [errors, setErrors] = useState<Record<string, string>>({});
+
     const { data: mediaFolders, isSuccess: isMediaFoldersSuccess } = useLibraryMediaFolders();
     const { data: channels, isSuccess: isChannelsSuccess } = useChannels();
 
     const createUser = useCreateUser();
     const updateUserPolicy = useUpdateUserPolicy();
 
-    const getItemsResult = (items: BaseItemDto[]) => {
-        return items.map(item =>
-            ({
+    const handleToastClose = useCallback(() => {
+        setIsErrorToastOpen(false);
+    }, []);
+
+    useEffect(() => {
+        if (isMediaFoldersSuccess && mediaFolders?.Items) {
+            setMediaFoldersItems(mediaFolders.Items.map(item => ({
                 Id: item.Id,
                 Name: item.Name
-            })
-        );
+            })));
+        }
+    }, [isMediaFoldersSuccess, mediaFolders]);
+
+    useEffect(() => {
+        if (isChannelsSuccess && channels?.Items) {
+            setChannelsItems(channels.Items.map(item => ({
+                Id: item.Id,
+                Name: item.Name
+            })));
+        }
+    }, [isChannelsSuccess, channels]);
+
+    const validateForm = useCallback((): boolean => {
+        const newErrors: Record<string, string> = {};
+
+        if (!formData.username.trim()) {
+            newErrors.username = 'Username is required';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    }, [formData]);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        loading.show();
+
+        if (!validateForm()) {
+            loading.hide();
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        try {
+            const userInput: CreateUserByName = {
+                Name: formData.username,
+                Password: formData.password || undefined
+            };
+
+            const userResponse = await createUser.mutateAsync({ createUserByName: userInput });
+            const user = userResponse.data;
+
+            if (!user.Id || !user.Policy) {
+                throw new Error('Unexpected null user id or policy');
+            }
+
+            const updatedPolicy = {
+                ...user.Policy,
+                EnableAllFolders: formData.enableAllFolders,
+                EnabledFolders: formData.enableAllFolders ? [] : formData.enabledFolders,
+                EnableAllChannels: formData.enableAllChannels,
+                EnabledChannels: formData.enableAllChannels ? [] : formData.enabledChannels,
+            };
+
+            await updateUserPolicy.mutateAsync({
+                userId: user.Id,
+                userPolicy: updatedPolicy
+            });
+
+            navigate(`/dashboard/users/profile?userId=${user.Id}`);
+        } catch (error) {
+            console.error('[usernew] failed to create user:', error);
+            setIsErrorToastOpen(true);
+        } finally {
+            setIsSubmitting(false);
+            loading.hide();
+        }
     };
 
-    const loadMediaFolders = useCallback((result: BaseItemDto[]) => {
-        const page = element.current;
+    const handleCancel = () => {
+        window.history.back();
+    };
 
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
+    const handleFolderToggle = (folderId: string) => {
+        setFormData(prev => ({
+            ...prev,
+            enabledFolders: prev.enabledFolders.includes(folderId)
+                ? prev.enabledFolders.filter(id => id !== folderId)
+                : [...prev.enabledFolders, folderId]
+        }));
+    };
 
-        setMediaFoldersItems(getItemsResult(result));
-
-        const folderAccess = page.querySelector('.folderAccess') as HTMLDivElement;
-        folderAccess.dispatchEvent(new CustomEvent('create'));
-
-        (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).checked = false;
-    }, []);
-
-    const loadChannels = useCallback((result: BaseItemDto[]) => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
-        const channelItems = getItemsResult(result);
-
-        setChannelsItems(channelItems);
-
-        const channelAccess = page.querySelector('.channelAccess') as HTMLDivElement;
-        channelAccess.dispatchEvent(new CustomEvent('create'));
-
-        const channelAccessContainer = page.querySelector('.channelAccessContainer') as HTMLDivElement;
-        channelItems.length ? channelAccessContainer.classList.remove('hide') : channelAccessContainer.classList.add('hide');
-
-        (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked = false;
-    }, []);
-
-    const loadUser = useCallback(() => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-        if (!mediaFolders?.Items) {
-            console.error('[add] mediaFolders not available');
-            return;
-        }
-        if (!channels?.Items) {
-            console.error('[add] channels not available');
-            return;
-        }
-
-        loadMediaFolders(mediaFolders?.Items);
-        loadChannels(channels?.Items);
-        loading.hide();
-    }, [loadChannels, loadMediaFolders, mediaFolders, channels]);
-
-    useEffect(() => {
-        loading.show();
-        if (isMediaFoldersSuccess && isChannelsSuccess) {
-            loadUser();
-        }
-    }, [loadUser, isMediaFoldersSuccess, isChannelsSuccess]);
-
-    useEffect(() => {
-        const page = element.current;
-
-        if (!page) {
-            console.error('Unexpected null reference');
-            return;
-        }
-
-        const saveUser = () => {
-            const userInput: CreateUserByName = {
-                Name: (page.querySelector('#txtUsername') as HTMLInputElement).value,
-                Password: (page.querySelector('#txtPassword') as HTMLInputElement).value
-            };
-            createUser.mutate({ createUserByName: userInput }, {
-                onSuccess: (response) => {
-                    const user = response.data;
-
-                    if (!user.Id || !user.Policy) {
-                        throw new Error('Unexpected null user id or policy');
-                    }
-
-                    user.Policy.EnableAllFolders = (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).checked;
-                    user.Policy.EnabledFolders = [];
-
-                    if (!user.Policy.EnableAllFolders) {
-                        user.Policy.EnabledFolders = Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), (i) => {
-                            return i.checked;
-                        }).map((i) => {
-                            return i.getAttribute('data-id');
-                        });
-                    }
-
-                    user.Policy.EnableAllChannels = (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked;
-                    user.Policy.EnabledChannels = [];
-
-                    if (!user.Policy.EnableAllChannels) {
-                        user.Policy.EnabledChannels = Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), (i) => {
-                            return i.checked;
-                        }).map((i) => {
-                            return i.getAttribute('data-id');
-                        });
-                    }
-
-                    updateUserPolicy.mutate({
-                        userId: user.Id,
-                        userPolicy: user.Policy
-                    }, {
-                        onSuccess: () => {
-                            navigate(`/dashboard/users/profile?userId=${user.Id}`);
-                        },
-                        onError: () => {
-                            console.error('[usernew] failed to update user policy');
-                            setIsErrorToastOpen(true);
-                        }
-                    });
-                }
-            });
-        };
-
-        const onSubmit = (e: Event) => {
-            loading.show();
-            saveUser();
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        };
-
-        const enableAllChannelsChange = function (this: HTMLInputElement) {
-            const channelAccessListContainer = page.querySelector('.channelAccessListContainer') as HTMLDivElement;
-            this.checked ? channelAccessListContainer.classList.add('hide') : channelAccessListContainer.classList.remove('hide');
-        };
-
-        const enableAllFoldersChange = function (this: HTMLInputElement) {
-            const folderAccessListContainer = page.querySelector('.folderAccessListContainer') as HTMLDivElement;
-            this.checked ? folderAccessListContainer.classList.add('hide') : folderAccessListContainer.classList.remove('hide');
-        };
-
-        const onCancelClick = () => {
-            window.history.back();
-        };
-
-        (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).addEventListener('change', enableAllChannelsChange);
-        (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).addEventListener('change', enableAllFoldersChange);
-        (page.querySelector('.newUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', onCancelClick);
-
-        return () => {
-            (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).removeEventListener('change', enableAllChannelsChange);
-            (page.querySelector('.chkEnableAllFolders') as HTMLInputElement).removeEventListener('change', enableAllFoldersChange);
-            (page.querySelector('.newUserProfileForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
-            (page.querySelector('#btnCancel') as HTMLButtonElement).removeEventListener('click', onCancelClick);
-        };
-    }, [loadUser, createUser, updateUserPolicy, navigate]);
+    const handleChannelToggle = (channelId: string) => {
+        setFormData(prev => ({
+            ...prev,
+            enabledChannels: prev.enabledChannels.includes(channelId)
+                ? prev.enabledChannels.filter(id => id !== channelId)
+                : [...prev.enabledChannels, channelId]
+        }));
+    };
 
     return (
         <Page
@@ -216,85 +177,147 @@ const UserNew = () => {
                 onClose={handleToastClose}
                 message={globalize.translate('ErrorDefault')}
             />
-            <div ref={element} className='content-primary'>
-                <div className='verticalSection'>
-                    <SectionTitleContainer
-                        title={globalize.translate('HeaderAddUser')}
-                    />
-                </div>
+            <Box className='content-primary' sx={{ p: 3 }}>
+                <Box className='verticalSection' sx={{ mb: 3 }}>
+                    <Typography variant='h4' component='h1'>
+                        {globalize.translate('HeaderAddUser')}
+                    </Typography>
+                </Box>
 
-                <form className='newUserProfileForm'>
-                    <div className='inputContainer'>
-                        <Input
-                            type='text'
-                            id='txtUsername'
+                <Box component='form' onSubmit={handleSubmit} sx={{ maxWidth: 600 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                        <TextField
                             label={globalize.translate('LabelName')}
+                            value={formData.username}
+                            onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
+                            onBlur={() => {
+                                if (!formData.username.trim()) {
+                                    setErrors(prev => ({ ...prev, username: 'Username is required' }));
+                                } else {
+                                    setErrors(prev => ({ ...prev, username: '' }));
+                                }
+                            }}
+                            error={!!errors.username}
+                            helperText={errors.username}
                             required
+                            fullWidth
+                            disabled={isSubmitting}
                         />
-                    </div>
-                    <div className='inputContainer'>
-                        <Input
+
+                        <TextField
                             type='password'
-                            id='txtPassword'
                             label={globalize.translate('LabelPassword')}
+                            value={formData.password}
+                            onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                            fullWidth
+                            disabled={isSubmitting}
                         />
-                    </div>
-                    <AccessContainer
-                        containerClassName='folderAccessContainer'
-                        headerTitle='HeaderLibraryAccess'
-                        checkBoxClassName='chkEnableAllFolders'
-                        checkBoxTitle='OptionEnableAccessToAllLibraries'
-                        listContainerClassName='folderAccessListContainer'
-                        accessClassName='folderAccess'
-                        listTitle='HeaderLibraries'
-                        description='LibraryAccessHelp'
-                    >
-                        {mediaFoldersItems.map(Item => (
-                            <CheckBoxElement
-                                key={Item.Id}
-                                className='chkFolder'
-                                itemId={Item.Id}
-                                itemName={Item.Name}
-                            />
-                        ))}
-                    </AccessContainer>
 
-                    <AccessContainer
-                        containerClassName='channelAccessContainer verticalSection-extrabottompadding hide'
-                        headerTitle='HeaderChannelAccess'
-                        checkBoxClassName='chkEnableAllChannels'
-                        checkBoxTitle='OptionEnableAccessToAllChannels'
-                        listContainerClassName='channelAccessListContainer'
-                        accessClassName='channelAccess'
-                        listTitle='Channels'
-                        description='ChannelAccessHelp'
-                    >
-                        {channelsItems.map(Item => (
-                            <CheckBoxElement
-                                key={Item.Id}
-                                className='chkChannel'
-                                itemId={Item.Id}
-                                itemName={Item.Name}
-                            />
-                        ))}
-                    </AccessContainer>
-                    <div>
-                        <Button
-                            type='submit'
-                            className='raised button-submit block'
-                            title={globalize.translate('Save')}
+                        <Divider sx={{ my: 1 }} />
+
+                        <Typography variant='h6'>
+                            {globalize.translate('HeaderLibraryAccess')}
+                        </Typography>
+
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={formData.enableAllFolders}
+                                    onChange={(e) => setFormData(prev => ({
+                                        ...prev,
+                                        enableAllFolders: e.target.checked,
+                                        enabledFolders: e.target.checked ? [] : prev.enabledFolders
+                                    }))}
+                                />
+                            }
+                            label={globalize.translate('OptionEnableAccessToAllLibraries')}
                         />
-                        <Button
-                            type='button'
-                            id='btnCancel'
-                            className='raised button-cancel block'
-                            title={globalize.translate('ButtonCancel')}
+
+                        {!formData.enableAllFolders && (
+                            <Box sx={{ ml: 2 }}>
+                                <Typography variant='body2' color='text.secondary' sx={{ mb: 1 }}>
+                                    {globalize.translate('HeaderLibraries')}
+                                </Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                                    {mediaFoldersItems.map(Item => (
+                                        <FormControlLabel
+                                            key={Item.Id}
+                                            control={
+                                                <Checkbox
+                                                    checked={formData.enabledFolders.includes(Item.Id || '')}
+                                                    onChange={() => Item.Id && handleFolderToggle(Item.Id)}
+                                                />
+                                            }
+                                            label={Item.Name}
+                                        />
+                                    ))}
+                                </Box>
+                            </Box>
+                        )}
+
+                        <Divider sx={{ my: 1 }} />
+
+                        <Typography variant='h6'>
+                            {globalize.translate('HeaderChannelAccess')}
+                        </Typography>
+
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={formData.enableAllChannels}
+                                    onChange={(e) => setFormData(prev => ({
+                                        ...prev,
+                                        enableAllChannels: e.target.checked,
+                                        enabledChannels: e.target.checked ? [] : prev.enabledChannels
+                                    }))}
+                                />
+                            }
+                            label={globalize.translate('OptionEnableAccessToAllChannels')}
                         />
-                    </div>
-                </form>
-            </div>
+
+                        {!formData.enableAllChannels && (
+                            <Box sx={{ ml: 2 }}>
+                                <Typography variant='body2' color='text.secondary' sx={{ mb: 1 }}>
+                                    {globalize.translate('Channels')}
+                                </Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                                    {channelsItems.map(Item => (
+                                        <FormControlLabel
+                                            key={Item.Id}
+                                            control={
+                                                <Checkbox
+                                                    checked={formData.enabledChannels.includes(Item.Id || '')}
+                                                    onChange={() => Item.Id && handleChannelToggle(Item.Id)}
+                                                />
+                                            }
+                                            label={Item.Name}
+                                        />
+                                    ))}
+                                </Box>
+                            </Box>
+                        )}
+
+                        <Box sx={{ mt: 2, display: 'flex', gap: 2 }}>
+                            <Button
+                                type='submit'
+                                variant='contained'
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? globalize.translate('Loading') + '...' : globalize.translate('Save')}
+                            </Button>
+                            <Button
+                                type='button'
+                                variant='outlined'
+                                onClick={handleCancel}
+                                disabled={isSubmitting}
+                            >
+                                {globalize.translate('ButtonCancel')}
+                            </Button>
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
         </Page>
-
     );
 };
 

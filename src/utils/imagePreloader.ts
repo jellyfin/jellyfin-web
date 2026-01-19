@@ -13,11 +13,46 @@ class ImagePreloader {
     private imageCache = new Map<string, Promise<CacheStatus>>();
     private cacheStatus = new Map<string, CacheStatus>();
     private readonly IMAGE_CACHE_NAME = 'jellyfin-images-v1';
+    private readonly MAX_CONCURRENT = 6;
+    private readonly activeRequests = new Set<string>();
+    private readonly requestQueue: Array<{url: string; resolve: (status: CacheStatus) => void}> = [];
 
     async init(): Promise<void> {
       if ('serviceWorker' in navigator) {
         this.swRegistration = await navigator.serviceWorker.ready;
       }
+    }
+
+    private tryProcessQueue(): void {
+        while (this.requestQueue.length > 0 && this.activeRequests.size < this.MAX_CONCURRENT) {
+            const next = this.requestQueue.shift();
+            if (next) {
+                this.processImage(next.url).then(next.resolve);
+            }
+        }
+    }
+
+    private async processImage(url: string): Promise<CacheStatus> {
+        this.activeRequests.add(url);
+        try {
+            const response = await fetch(url, { mode: 'no-cors' });
+            if (response.type === 'opaque' || response.ok) {
+                return 'cached';
+            }
+            return 'error';
+        } catch {
+            return 'error';
+        } finally {
+            this.activeRequests.delete(url);
+            this.tryProcessQueue();
+        }
+    }
+
+    private queueImage(url: string): Promise<CacheStatus> {
+        return new Promise((resolve) => {
+            this.requestQueue.push({ url, resolve });
+            this.tryProcessQueue();
+        });
     }
 
     async preloadQueueImages(queueItems: QueueItem[]): Promise<void> {
@@ -34,7 +69,7 @@ class ImagePreloader {
         if (item.discImageUrl) imageUrls.push(item.discImageUrl);
       }
 
-      await Promise.allSettled(
+      await Promise.all(
         imageUrls.map(url => this.preloadImage(url))
       );
     }
@@ -42,58 +77,47 @@ class ImagePreloader {
     async preloadBackdropImages(imageUrls: string[]): Promise<void> {
       if (!imageUrls.length) return;
 
-      await Promise.allSettled(
+      await Promise.all(
         imageUrls.map(url => this.preloadImage(url))
       );
     }
 
-    async preloadImage(url?: string): Promise<CacheStatus> {
+    async preloadImage(url?: string, priority: 'high' | 'low' = 'low'): Promise<CacheStatus> {
       if (!url) return 'error';
 
-      // Return cached result if already determined
       if (this.cacheStatus.has(url)) {
         const status = this.cacheStatus.get(url)!;
-        // If it's still loading, return the pending promise instead
         if (status === 'loading' && this.imageCache.has(url)) {
           return this.imageCache.get(url)!;
         }
         return status;
       }
 
-      // Return pending promise if already loading
       if (this.imageCache.has(url)) {
         return this.imageCache.get(url)!;
       }
 
-      // Set status to loading BEFORE creating the promise chain
-      // This ensures getCacheStatus() returns 'loading' immediately
       this.cacheStatus.set(url, 'loading');
 
-      const loadPromise = this.triggerCacheRequest(url);
-      this.imageCache.set(url, loadPromise);
-
-      try {
-        const result = await loadPromise;
-        this.cacheStatus.set(url, result);
-        this.imageCache.delete(url);
-        return result;
-      } catch (error) {
-        this.cacheStatus.set(url, 'error');
-        this.imageCache.delete(url);
-        return 'error';
+      let result: CacheStatus;
+      if (priority === 'high' && this.activeRequests.size >= this.MAX_CONCURRENT) {
+        result = await this.queueImage(url);
+      } else {
+        result = await this.processImage(url);
       }
+
+      this.cacheStatus.set(url, result);
+      return result;
     }
 
     private async triggerCacheRequest(url: string): Promise<CacheStatus> {
-      // Status is already set to 'loading' in preloadImage()
-      // This function just performs the actual fetch
       try {
         const response = await fetch(url, { mode: 'no-cors' });
         if (response.type === 'opaque' || response.ok) {
           return 'cached';
         }
         return 'error';
-      } catch (error) {
+      } catch {
         return 'error';
       }
     }

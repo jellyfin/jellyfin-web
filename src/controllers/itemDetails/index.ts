@@ -686,6 +686,31 @@ function logoImageUrl(item, apiClient, options) {
     return null;
 }
 
+const PRELOAD_LINK_PREFIX = 'pwa-preload-';
+const MAX_PRELOAD_LINKS = 10;
+
+function cleanupOldPreloadLinks() {
+    const existingLinks = document.querySelectorAll(`link[rel="preload"][id^="${PRELOAD_LINK_PREFIX}"]`);
+    if (existingLinks.length >= MAX_PRELOAD_LINKS) {
+        const linksToRemove = Array.from(existingLinks).slice(0, existingLinks.length - MAX_PRELOAD_LINKS + 1);
+        linksToRemove.forEach(link => link.remove());
+    }
+}
+
+function createPreloadLink(id: string, url: string) {
+    cleanupOldPreloadLinks();
+    const existingLink = document.getElementById(`${PRELOAD_LINK_PREFIX}${id}`);
+    if (existingLink) {
+        existingLink.remove();
+    }
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = url;
+    link.id = `${PRELOAD_LINK_PREFIX}${id}`;
+    document.head.appendChild(link);
+}
+
 export function renderLogo(page, item, apiClient) {
     const detailLogo = page.querySelector('.detailLogo');
 
@@ -694,12 +719,7 @@ export function renderLogo(page, item, apiClient) {
     if (url) {
         detailLogo.classList.remove('hide');
         imageLoader.lazyImage(detailLogo, url);
-        // Preload for better performance
-        const link = document.createElement('link');
-        link.rel = 'preload';
-        link.as = 'image';
-        link.href = url;
-        document.head.appendChild(link);
+        createPreloadLink('logo', url);
     } else {
         detailLogo.classList.add('hide');
     }
@@ -732,12 +752,7 @@ export function renderDiscImage(page, item, apiClient) {
         const url = discImageUrl(item, apiClient, { tag: item.ImageTags.Disc, itemId: item.Id });
         discImageElement.classList.remove('hide');
         imageLoader.lazyImage(discImageElement, url);
-        // Preload for better performance
-        const link = document.createElement('link');
-        link.rel = 'preload';
-        link.as = 'image';
-        link.href = url;
-        document.head.appendChild(link);
+        createPreloadLink('disc', url);
         return;
     }
 
